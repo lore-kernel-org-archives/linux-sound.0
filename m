@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A513313A25E
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6576513DB8E
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710619; cv=none; b=kzgrBSAWWP0ie34sE6nrKNc644q/GkiyL95kMF/8ScUXwe/bo7eI/eASFuMWM1CA9Y3Sjf5w3jiWjKTVm7HkmvEbs/rNWrWvI9FPdOln5MQYwz+CX9E/yMUDwrTt8ZTHtyZM6VAoGFsvfcEFR0vA/SQVTm//28NIzYKTmoXCREE=
+	t=1708710619; cv=none; b=SQKxGL5LtLrZ820sOjd8pOx56/nyrfBdK0nEl5rbN5mqjira2514OmkBW9/NElTGZ1ywKUoh041d5xyeepaka4svczysG1QZMZjKsMbxI2Wq2ZkIa3ojquNjCVQptA8zFlzjZfWdzlT7OHxztweU5VW6lAp8srd9fmphMB5+Qk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708710619; c=relaxed/simple;
-	bh=w7hNUNEnY9VrUz+1kDKwGD9biperR+4V99fIctMhK2M=;
+	bh=ehQP5n7yMq9UtGNNT4B9nvfwy1mOriAp7dStedDtIkY=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bUKVnr3oSAeF/NzOCvYufQJaolloow8GOuPuJDUzlAcBlff33ZdH+90aOdiIXSlfmpA61Wjte5iLYZ4R9VUh6roLon77HsnsZxuRQgrld28HvDsUj5lJe7pxvDEBGVJx72Qv1BUFYrVNKbn5mSRJrykAYTDMkXK1mHg29rmu3FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uBf0Zyg2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ous1wDwc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uBf0Zyg2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ous1wDwc; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=blXkOVC+LxozskO1NlAmE781JAK79PSZ0lOCVqw6EsihOENxfhQkvc01hYKIVFp035+JyGuy6TdJcNjnO8/EsNg/O8n7ikdXDDVHg40XTtaGYo27R7xe1p/+WgH4xke7Jcikxnd/eIcP0tkw10nB2Fwr0CN1zMne0UxeDQJURMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vdcgQKZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xwL307+o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vdcgQKZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xwL307+o; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uBf0Zyg2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ous1wDwc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uBf0Zyg2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ous1wDwc"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vdcgQKZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xwL307+o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vdcgQKZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xwL307+o"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF64C1FCD9;
-	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 18C8A1FD3D;
+	Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
-	b=uBf0Zyg2tfWkN8GC+G2FfHbx+bETOOgcF0Ggkb03tOK/1UtkOf/GnDPyU6Q0iMNdnmGW13
-	nWXYa/T/UOeM8H8y3z7lhwprZbdn54pN4QTsxcAZow0jEB21V8DzrTBjqHm98rL5MKOtig
-	VyRSbspmflr4ym6sfkmjOpGByOfTwgs=
+	bh=d6ZYxLlnH3LMa8ZKB2N0hFmPXXuhDG8YQzlA3lYJiGE=;
+	b=vdcgQKZdKcok5AdSkS/Ejj9h3BMXC1YaOxyMMDlT5+tRLHeYDQdI/7gBZWpDwv5mFzhdlX
+	7ZkTookETfdcjHlgB4UpRQhsK9v/QiN1kq7YSHhSwAM0j6n2sUc5sNm+Z3YtM+t1UtuT9H
+	OhSWIo0peDloGEDrK/SD9tFJXGGW3GI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710611;
+	s=susede2_ed25519; t=1708710613;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
-	b=ous1wDwc+Rx/xqFpuAfV1KO6H3zsDCixva9x3tP9QGA8nK0TnACzFXFjJB/6o0ClBnIaMT
-	2FsJNekvzTHdvVCg==
+	bh=d6ZYxLlnH3LMa8ZKB2N0hFmPXXuhDG8YQzlA3lYJiGE=;
+	b=xwL307+oTijV5ROBScWYrFHpYFOGzFU8SYgVAPYh9X8y4bj2JODc3b5tyCgW5wugcYUTTL
+	xOv5wIErnsePZ5AA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
-	b=uBf0Zyg2tfWkN8GC+G2FfHbx+bETOOgcF0Ggkb03tOK/1UtkOf/GnDPyU6Q0iMNdnmGW13
-	nWXYa/T/UOeM8H8y3z7lhwprZbdn54pN4QTsxcAZow0jEB21V8DzrTBjqHm98rL5MKOtig
-	VyRSbspmflr4ym6sfkmjOpGByOfTwgs=
+	bh=d6ZYxLlnH3LMa8ZKB2N0hFmPXXuhDG8YQzlA3lYJiGE=;
+	b=vdcgQKZdKcok5AdSkS/Ejj9h3BMXC1YaOxyMMDlT5+tRLHeYDQdI/7gBZWpDwv5mFzhdlX
+	7ZkTookETfdcjHlgB4UpRQhsK9v/QiN1kq7YSHhSwAM0j6n2sUc5sNm+Z3YtM+t1UtuT9H
+	OhSWIo0peDloGEDrK/SD9tFJXGGW3GI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710611;
+	s=susede2_ed25519; t=1708710613;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4Zg81hcYntHnfpQJkvVxJq6iesDg+3qjt1H4fNYIkSA=;
-	b=ous1wDwc+Rx/xqFpuAfV1KO6H3zsDCixva9x3tP9QGA8nK0TnACzFXFjJB/6o0ClBnIaMT
-	2FsJNekvzTHdvVCg==
+	bh=d6ZYxLlnH3LMa8ZKB2N0hFmPXXuhDG8YQzlA3lYJiGE=;
+	b=xwL307+oTijV5ROBScWYrFHpYFOGzFU8SYgVAPYh9X8y4bj2JODc3b5tyCgW5wugcYUTTL
+	xOv5wIErnsePZ5AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5FC013AC1;
-	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDD0013AC1;
+	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QE/wKtPa2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:11 +0000
+	id OBWYONTa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:12 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 08/24] ALSA: control: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:45 +0100
-Message-Id: <20240223175001.24375-9-tiwai@suse.de>
+Subject: [PATCH v2 15/24] ALSA: seq: queue: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:52 +0100
+Message-Id: <20240223175001.24375-16-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
 References: <20240223175001.24375-1-tiwai@suse.de>
@@ -89,8 +89,8 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Bar: /
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uBf0Zyg2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ous1wDwc
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vdcgQKZd;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xwL307+o
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [0.49 / 50.00];
 	 ARC_NA(0.00)[];
@@ -118,914 +118,221 @@ X-Spamd-Result: default: False [0.49 / 50.00];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
 X-Spam-Score: 0.49
-X-Rspamd-Queue-Id: DF64C1FCD9
+X-Rspamd-Queue-Id: 18C8A1FD3D
 X-Spam-Flag: NO
 
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
 
-The lops calls under multiple rwsems are factored out as a simple
-macro, so that it can be called easily from snd_ctl_dev_register()
-and snd_ctl_dev_disconnect().
-
-There are a few remaining explicit rwsem and spinlock calls, and those
-are the places where the lock downgrade happens or where the temporary
-unlock/relocking happens -- which guard() doens't cover well yet.
-
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/control.c        | 431 ++++++++++++++----------------------
- sound/core/control_compat.c |  18 +-
- 2 files changed, 176 insertions(+), 273 deletions(-)
+ sound/core/seq/seq_queue.c | 78 ++++++++++++++------------------------
+ 1 file changed, 28 insertions(+), 50 deletions(-)
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index c8cd70aed6af..8367fd485371 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -44,7 +44,6 @@ static int snd_ctl_remove_locked(struct snd_card *card,
- 
- static int snd_ctl_open(struct inode *inode, struct file *file)
+diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
+index bc933104c3ee..500ee6b19c71 100644
+--- a/sound/core/seq/seq_queue.c
++++ b/sound/core/seq/seq_queue.c
+@@ -50,43 +50,35 @@ int snd_seq_queue_get_cur_queues(void)
+ static int queue_list_add(struct snd_seq_queue *q)
  {
+ 	int i;
 -	unsigned long flags;
- 	struct snd_card *card;
- 	struct snd_ctl_file *ctl;
- 	int i, err;
-@@ -80,9 +79,8 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
- 		ctl->preferred_subdevice[i] = -1;
- 	ctl->pid = get_pid(task_pid(current));
- 	file->private_data = ctl;
--	write_lock_irqsave(&card->ctl_files_rwlock, flags);
--	list_add_tail(&ctl->list, &card->ctl_files);
--	write_unlock_irqrestore(&card->ctl_files_rwlock, flags);
-+	scoped_guard(write_lock_irqsave, &card->ctl_files_rwlock)
-+		list_add_tail(&ctl->list, &card->ctl_files);
- 	snd_card_unref(card);
- 	return 0;
  
-@@ -98,21 +96,18 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
- 
- static void snd_ctl_empty_read_queue(struct snd_ctl_file * ctl)
- {
--	unsigned long flags;
- 	struct snd_kctl_event *cread;
- 
--	spin_lock_irqsave(&ctl->read_lock, flags);
-+	guard(spinlock_irqsave)(&ctl->read_lock);
- 	while (!list_empty(&ctl->events)) {
- 		cread = snd_kctl_event(ctl->events.next);
- 		list_del(&cread->list);
- 		kfree(cread);
- 	}
--	spin_unlock_irqrestore(&ctl->read_lock, flags);
- }
- 
- static int snd_ctl_release(struct inode *inode, struct file *file)
- {
--	unsigned long flags;
- 	struct snd_card *card;
- 	struct snd_ctl_file *ctl;
- 	struct snd_kcontrol *control;
-@@ -121,15 +116,17 @@ static int snd_ctl_release(struct inode *inode, struct file *file)
- 	ctl = file->private_data;
- 	file->private_data = NULL;
- 	card = ctl->card;
--	write_lock_irqsave(&card->ctl_files_rwlock, flags);
--	list_del(&ctl->list);
--	write_unlock_irqrestore(&card->ctl_files_rwlock, flags);
--	down_write(&card->controls_rwsem);
--	list_for_each_entry(control, &card->controls, list)
--		for (idx = 0; idx < control->count; idx++)
--			if (control->vd[idx].owner == ctl)
--				control->vd[idx].owner = NULL;
--	up_write(&card->controls_rwsem);
-+
-+	scoped_guard(write_lock_irqsave, &card->ctl_files_rwlock)
-+		list_del(&ctl->list);
-+
-+	scoped_guard(rwsem_write, &card->controls_rwsem) {
-+		list_for_each_entry(control, &card->controls, list)
-+			for (idx = 0; idx < control->count; idx++)
-+				if (control->vd[idx].owner == ctl)
-+					control->vd[idx].owner = NULL;
-+	}
-+
- 	snd_fasync_free(ctl->fasync);
- 	snd_ctl_empty_read_queue(ctl);
- 	put_pid(ctl->pid);
-@@ -152,7 +149,6 @@ static int snd_ctl_release(struct inode *inode, struct file *file)
- void snd_ctl_notify(struct snd_card *card, unsigned int mask,
- 		    struct snd_ctl_elem_id *id)
- {
--	unsigned long flags;
- 	struct snd_ctl_file *ctl;
- 	struct snd_kctl_event *ev;
- 
-@@ -160,34 +156,34 @@ void snd_ctl_notify(struct snd_card *card, unsigned int mask,
- 		return;
- 	if (card->shutdown)
- 		return;
--	read_lock_irqsave(&card->ctl_files_rwlock, flags);
-+
-+	guard(read_lock_irqsave)(&card->ctl_files_rwlock);
- #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
- 	card->mixer_oss_change_count++;
- #endif
- 	list_for_each_entry(ctl, &card->ctl_files, list) {
- 		if (!ctl->subscribed)
- 			continue;
--		spin_lock(&ctl->read_lock);
--		list_for_each_entry(ev, &ctl->events, list) {
--			if (ev->id.numid == id->numid) {
--				ev->mask |= mask;
--				goto _found;
-+		scoped_guard(spinlock, &ctl->read_lock) {
-+			list_for_each_entry(ev, &ctl->events, list) {
-+				if (ev->id.numid == id->numid) {
-+					ev->mask |= mask;
-+					goto _found;
-+				}
- 			}
-+			ev = kzalloc(sizeof(*ev), GFP_ATOMIC);
-+			if (ev) {
-+				ev->id = *id;
-+				ev->mask = mask;
-+				list_add_tail(&ev->list, &ctl->events);
-+			} else {
-+				dev_err(card->dev, "No memory available to allocate event\n");
-+			}
-+_found:
-+			wake_up(&ctl->change_sleep);
+-	spin_lock_irqsave(&queue_list_lock, flags);
++	guard(spinlock_irqsave)(&queue_list_lock);
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+ 		if (! queue_list[i]) {
+ 			queue_list[i] = q;
+ 			q->queue = i;
+ 			num_queues++;
+-			spin_unlock_irqrestore(&queue_list_lock, flags);
+ 			return i;
  		}
--		ev = kzalloc(sizeof(*ev), GFP_ATOMIC);
--		if (ev) {
--			ev->id = *id;
--			ev->mask = mask;
--			list_add_tail(&ev->list, &ctl->events);
--		} else {
--			dev_err(card->dev, "No memory available to allocate event\n");
--		}
--	_found:
--		wake_up(&ctl->change_sleep);
--		spin_unlock(&ctl->read_lock);
- 		snd_kill_fasync(ctl->fasync, SIGIO, POLL_IN);
  	}
--	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
+-	spin_unlock_irqrestore(&queue_list_lock, flags);
+ 	return -1;
  }
- EXPORT_SYMBOL(snd_ctl_notify);
  
-@@ -210,10 +206,9 @@ void snd_ctl_notify_one(struct snd_card *card, unsigned int mask,
- 	id.index += ioff;
- 	id.numid += ioff;
- 	snd_ctl_notify(card, mask, &id);
--	down_read(&snd_ctl_layer_rwsem);
-+	guard(rwsem_read)(&snd_ctl_layer_rwsem);
- 	for (lops = snd_ctl_layer; lops; lops = lops->next)
- 		lops->lnotify(card, mask, kctl, ioff);
--	up_read(&snd_ctl_layer_rwsem);
- }
- EXPORT_SYMBOL(snd_ctl_notify_one);
- 
-@@ -520,9 +515,9 @@ static int snd_ctl_add_replace(struct snd_card *card,
- 	if (snd_BUG_ON(!card || !kcontrol->info))
- 		goto error;
- 
--	down_write(&card->controls_rwsem);
--	err = __snd_ctl_add_replace(card, kcontrol, mode);
--	up_write(&card->controls_rwsem);
-+	scoped_guard(rwsem_write, &card->controls_rwsem)
-+		err = __snd_ctl_add_replace(card, kcontrol, mode);
-+
- 	if (err < 0)
- 		goto error;
- 	return 0;
-@@ -616,12 +611,8 @@ static inline int snd_ctl_remove_locked(struct snd_card *card,
-  */
- int snd_ctl_remove(struct snd_card *card, struct snd_kcontrol *kcontrol)
+ static struct snd_seq_queue *queue_list_remove(int id, int client)
  {
--	int ret;
--
--	down_write(&card->controls_rwsem);
--	ret = snd_ctl_remove_locked(card, kcontrol);
--	up_write(&card->controls_rwsem);
--	return ret;
-+	guard(rwsem_write)(&card->controls_rwsem);
-+	return snd_ctl_remove_locked(card, kcontrol);
- }
- EXPORT_SYMBOL(snd_ctl_remove);
+ 	struct snd_seq_queue *q;
+-	unsigned long flags;
  
-@@ -638,17 +629,12 @@ EXPORT_SYMBOL(snd_ctl_remove);
- int snd_ctl_remove_id(struct snd_card *card, struct snd_ctl_elem_id *id)
- {
- 	struct snd_kcontrol *kctl;
--	int ret;
- 
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, id);
--	if (kctl == NULL) {
--		up_write(&card->controls_rwsem);
-+	if (kctl == NULL)
- 		return -ENOENT;
--	}
--	ret = snd_ctl_remove_locked(card, kctl);
--	up_write(&card->controls_rwsem);
--	return ret;
-+	return snd_ctl_remove_locked(card, kctl);
- }
- EXPORT_SYMBOL(snd_ctl_remove_id);
- 
-@@ -667,27 +653,18 @@ static int snd_ctl_remove_user_ctl(struct snd_ctl_file * file,
- {
- 	struct snd_card *card = file->card;
- 	struct snd_kcontrol *kctl;
--	int idx, ret;
-+	int idx;
- 
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, id);
--	if (kctl == NULL) {
--		ret = -ENOENT;
--		goto error;
--	}
--	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_USER)) {
--		ret = -EINVAL;
--		goto error;
--	}
-+	if (kctl == NULL)
-+		return -ENOENT;
-+	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_USER))
-+		return -EINVAL;
- 	for (idx = 0; idx < kctl->count; idx++)
--		if (kctl->vd[idx].owner != NULL && kctl->vd[idx].owner != file) {
--			ret = -EBUSY;
--			goto error;
--		}
--	ret = snd_ctl_remove_locked(card, kctl);
--error:
--	up_write(&card->controls_rwsem);
--	return ret;
-+		if (kctl->vd[idx].owner != NULL && kctl->vd[idx].owner != file)
-+			return -EBUSY;
-+	return snd_ctl_remove_locked(card, kctl);
- }
- 
- /**
-@@ -764,18 +741,15 @@ int snd_ctl_rename_id(struct snd_card *card, struct snd_ctl_elem_id *src_id,
- 	struct snd_kcontrol *kctl;
- 	int saved_numid;
- 
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, src_id);
--	if (kctl == NULL) {
--		up_write(&card->controls_rwsem);
-+	if (kctl == NULL)
- 		return -ENOENT;
--	}
- 	saved_numid = kctl->id.numid;
- 	remove_hash_entries(card, kctl);
- 	kctl->id = *dst_id;
- 	kctl->id.numid = saved_numid;
- 	add_hash_entries(card, kctl);
--	up_write(&card->controls_rwsem);
- 	return 0;
- }
- EXPORT_SYMBOL(snd_ctl_rename_id);
-@@ -793,7 +767,7 @@ EXPORT_SYMBOL(snd_ctl_rename_id);
- void snd_ctl_rename(struct snd_card *card, struct snd_kcontrol *kctl,
- 		    const char *name)
- {
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	remove_hash_entries(card, kctl);
- 
- 	if (strscpy(kctl->id.name, name, sizeof(kctl->id.name)) < 0)
-@@ -801,7 +775,6 @@ void snd_ctl_rename(struct snd_card *card, struct snd_kcontrol *kctl,
- 			name, kctl->id.name);
- 
- 	add_hash_entries(card, kctl);
--	up_write(&card->controls_rwsem);
- }
- EXPORT_SYMBOL(snd_ctl_rename);
- 
-@@ -859,12 +832,8 @@ EXPORT_SYMBOL(snd_ctl_find_numid_locked);
- struct snd_kcontrol *snd_ctl_find_numid(struct snd_card *card,
- 					unsigned int numid)
- {
--	struct snd_kcontrol *kctl;
--
--	down_read(&card->controls_rwsem);
--	kctl = snd_ctl_find_numid_locked(card, numid);
--	up_read(&card->controls_rwsem);
--	return kctl;
-+	guard(rwsem_read)(&card->controls_rwsem);
-+	return snd_ctl_find_numid_locked(card, numid);
- }
- EXPORT_SYMBOL(snd_ctl_find_numid);
- 
-@@ -920,12 +889,8 @@ EXPORT_SYMBOL(snd_ctl_find_id_locked);
- struct snd_kcontrol *snd_ctl_find_id(struct snd_card *card,
- 				     const struct snd_ctl_elem_id *id)
- {
--	struct snd_kcontrol *kctl;
--
--	down_read(&card->controls_rwsem);
--	kctl = snd_ctl_find_id_locked(card, id);
--	up_read(&card->controls_rwsem);
--	return kctl;
-+	guard(rwsem_read)(&card->controls_rwsem);
-+	return snd_ctl_find_id_locked(card, id);
- }
- EXPORT_SYMBOL(snd_ctl_find_id);
- 
-@@ -937,15 +902,15 @@ static int snd_ctl_card_info(struct snd_card *card, struct snd_ctl_file * ctl,
- 	info = kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (! info)
- 		return -ENOMEM;
--	down_read(&snd_ioctl_rwsem);
--	info->card = card->number;
--	strscpy(info->id, card->id, sizeof(info->id));
--	strscpy(info->driver, card->driver, sizeof(info->driver));
--	strscpy(info->name, card->shortname, sizeof(info->name));
--	strscpy(info->longname, card->longname, sizeof(info->longname));
--	strscpy(info->mixername, card->mixername, sizeof(info->mixername));
--	strscpy(info->components, card->components, sizeof(info->components));
--	up_read(&snd_ioctl_rwsem);
-+	scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
-+		info->card = card->number;
-+		strscpy(info->id, card->id, sizeof(info->id));
-+		strscpy(info->driver, card->driver, sizeof(info->driver));
-+		strscpy(info->name, card->shortname, sizeof(info->name));
-+		strscpy(info->longname, card->longname, sizeof(info->longname));
-+		strscpy(info->mixername, card->mixername, sizeof(info->mixername));
-+		strscpy(info->components, card->components, sizeof(info->components));
-+	}
- 	if (copy_to_user(arg, info, sizeof(struct snd_ctl_card_info)))
- 		return -EFAULT;
- 	return 0;
-@@ -957,37 +922,31 @@ static int snd_ctl_elem_list(struct snd_card *card,
- 	struct snd_kcontrol *kctl;
- 	struct snd_ctl_elem_id id;
- 	unsigned int offset, space, jidx;
--	int err = 0;
- 
- 	offset = list->offset;
- 	space = list->space;
- 
--	down_read(&card->controls_rwsem);
-+	guard(rwsem_read)(&card->controls_rwsem);
- 	list->count = card->controls_count;
- 	list->used = 0;
--	if (space > 0) {
--		list_for_each_entry(kctl, &card->controls, list) {
--			if (offset >= kctl->count) {
--				offset -= kctl->count;
--				continue;
--			}
--			for (jidx = offset; jidx < kctl->count; jidx++) {
--				snd_ctl_build_ioff(&id, kctl, jidx);
--				if (copy_to_user(list->pids + list->used, &id,
--						 sizeof(id))) {
--					err = -EFAULT;
--					goto out;
--				}
--				list->used++;
--				if (!--space)
--					goto out;
--			}
--			offset = 0;
-+	if (!space)
-+		return 0;
-+	list_for_each_entry(kctl, &card->controls, list) {
-+		if (offset >= kctl->count) {
-+			offset -= kctl->count;
-+			continue;
+-	spin_lock_irqsave(&queue_list_lock, flags);
++	guard(spinlock_irqsave)(&queue_list_lock);
+ 	q = queue_list[id];
+ 	if (q) {
+-		spin_lock(&q->owner_lock);
++		guard(spinlock)(&q->owner_lock);
+ 		if (q->owner == client) {
+ 			/* found */
+ 			q->klocked = 1;
+-			spin_unlock(&q->owner_lock);
+ 			queue_list[id] = NULL;
+ 			num_queues--;
+-			spin_unlock_irqrestore(&queue_list_lock, flags);
+ 			return q;
  		}
-+		for (jidx = offset; jidx < kctl->count; jidx++) {
-+			snd_ctl_build_ioff(&id, kctl, jidx);
-+			if (copy_to_user(list->pids + list->used, &id, sizeof(id)))
-+				return -EFAULT;
-+			list->used++;
-+			if (!--space)
-+				return 0;
+-		spin_unlock(&q->owner_lock);
+ 	}
+-	spin_unlock_irqrestore(&queue_list_lock, flags);
+ 	return NULL;
+ }
+ 
+@@ -203,15 +195,13 @@ int snd_seq_queue_delete(int client, int queueid)
+ struct snd_seq_queue *queueptr(int queueid)
+ {
+ 	struct snd_seq_queue *q;
+-	unsigned long flags;
+ 
+ 	if (queueid < 0 || queueid >= SNDRV_SEQ_MAX_QUEUES)
+ 		return NULL;
+-	spin_lock_irqsave(&queue_list_lock, flags);
++	guard(spinlock_irqsave)(&queue_list_lock);
+ 	q = queue_list[queueid];
+ 	if (q)
+ 		snd_use_lock_use(&q->use_lock);
+-	spin_unlock_irqrestore(&queue_list_lock, flags);
+ 	return q;
+ }
+ 
+@@ -239,7 +229,6 @@ struct snd_seq_queue *snd_seq_queue_find_name(char *name)
+ 
+ void snd_seq_check_queue(struct snd_seq_queue *q, int atomic, int hop)
+ {
+-	unsigned long flags;
+ 	struct snd_seq_event_cell *cell;
+ 	snd_seq_tick_time_t cur_tick;
+ 	snd_seq_real_time_t cur_time;
+@@ -249,14 +238,13 @@ void snd_seq_check_queue(struct snd_seq_queue *q, int atomic, int hop)
+ 		return;
+ 
+ 	/* make this function non-reentrant */
+-	spin_lock_irqsave(&q->check_lock, flags);
+-	if (q->check_blocked) {
+-		q->check_again = 1;
+-		spin_unlock_irqrestore(&q->check_lock, flags);
+-		return;		/* other thread is already checking queues */
++	scoped_guard(spinlock_irqsave, &q->check_lock) {
++		if (q->check_blocked) {
++			q->check_again = 1;
++			return;	/* other thread is already checking queues */
 +		}
-+		offset = 0;
++		q->check_blocked = 1;
  	}
-- out:
--	up_read(&card->controls_rwsem);
--	return err;
-+	return 0;
- }
+-	q->check_blocked = 1;
+-	spin_unlock_irqrestore(&q->check_lock, flags);
  
- static int snd_ctl_elem_list_user(struct snd_card *card,
-@@ -1235,16 +1194,12 @@ static int snd_ctl_elem_info(struct snd_ctl_file *ctl,
- {
- 	struct snd_card *card = ctl->card;
- 	struct snd_kcontrol *kctl;
--	int result;
+       __again:
+ 	/* Process tick queue... */
+@@ -283,16 +271,14 @@ void snd_seq_check_queue(struct snd_seq_queue *q, int atomic, int hop)
  
--	down_read(&card->controls_rwsem);
-+	guard(rwsem_read)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, &info->id);
--	if (kctl == NULL)
--		result = -ENOENT;
--	else
--		result = __snd_ctl_elem_info(card, kctl, info, ctl);
--	up_read(&card->controls_rwsem);
--	return result;
-+	if (!kctl)
-+		return -ENOENT;
-+	return __snd_ctl_elem_info(card, kctl, info, ctl);
- }
- 
- static int snd_ctl_elem_info_user(struct snd_ctl_file *ctl,
-@@ -1276,19 +1231,15 @@ static int snd_ctl_elem_read(struct snd_card *card,
- 	const u32 pattern = 0xdeadbeef;
- 	int ret;
- 
--	down_read(&card->controls_rwsem);
-+	guard(rwsem_read)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, &control->id);
--	if (kctl == NULL) {
--		ret = -ENOENT;
--		goto unlock;
--	}
-+	if (!kctl)
-+		return -ENOENT;
- 
- 	index_offset = snd_ctl_get_ioff(kctl, &control->id);
- 	vd = &kctl->vd[index_offset];
--	if (!(vd->access & SNDRV_CTL_ELEM_ACCESS_READ) || kctl->get == NULL) {
--		ret = -EPERM;
--		goto unlock;
--	}
-+	if (!(vd->access & SNDRV_CTL_ELEM_ACCESS_READ) || !kctl->get)
-+		return -EPERM;
- 
- 	snd_ctl_build_ioff(&control->id, kctl, index_offset);
- 
-@@ -1298,7 +1249,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
- 	info.id = control->id;
- 	ret = __snd_ctl_elem_info(card, kctl, &info, NULL);
- 	if (ret < 0)
--		goto unlock;
-+		return ret;
- #endif
- 
- 	if (!snd_ctl_skip_validation(&info))
-@@ -1308,7 +1259,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
- 		ret = kctl->get(kctl, control);
- 	snd_power_unref(card);
- 	if (ret < 0)
--		goto unlock;
-+		return ret;
- 	if (!snd_ctl_skip_validation(&info) &&
- 	    sanity_check_elem_value(card, control, &info, pattern) < 0) {
- 		dev_err(card->dev,
-@@ -1316,12 +1267,9 @@ static int snd_ctl_elem_read(struct snd_card *card,
- 			control->id.iface, control->id.device,
- 			control->id.subdevice, control->id.name,
- 			control->id.index);
--		ret = -EINVAL;
--		goto unlock;
-+		return -EINVAL;
- 	}
--unlock:
--	up_read(&card->controls_rwsem);
--	return ret;
-+	return 0;
- }
- 
- static int snd_ctl_elem_read_user(struct snd_card *card,
-@@ -1426,25 +1374,18 @@ static int snd_ctl_elem_lock(struct snd_ctl_file *file,
- 	struct snd_ctl_elem_id id;
- 	struct snd_kcontrol *kctl;
- 	struct snd_kcontrol_volatile *vd;
--	int result;
- 
- 	if (copy_from_user(&id, _id, sizeof(id)))
- 		return -EFAULT;
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, &id);
--	if (kctl == NULL) {
--		result = -ENOENT;
--	} else {
--		vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
--		if (vd->owner != NULL)
--			result = -EBUSY;
--		else {
--			vd->owner = file;
--			result = 0;
--		}
--	}
--	up_write(&card->controls_rwsem);
--	return result;
-+	if (!kctl)
-+		return -ENOENT;
-+	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
-+	if (vd->owner)
-+		return -EBUSY;
-+	vd->owner = file;
-+	return 0;
- }
- 
- static int snd_ctl_elem_unlock(struct snd_ctl_file *file,
-@@ -1454,27 +1395,20 @@ static int snd_ctl_elem_unlock(struct snd_ctl_file *file,
- 	struct snd_ctl_elem_id id;
- 	struct snd_kcontrol *kctl;
- 	struct snd_kcontrol_volatile *vd;
--	int result;
- 
- 	if (copy_from_user(&id, _id, sizeof(id)))
- 		return -EFAULT;
--	down_write(&card->controls_rwsem);
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, &id);
--	if (kctl == NULL) {
--		result = -ENOENT;
--	} else {
--		vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
--		if (vd->owner == NULL)
--			result = -EINVAL;
--		else if (vd->owner != file)
--			result = -EPERM;
--		else {
--			vd->owner = NULL;
--			result = 0;
--		}
--	}
--	up_write(&card->controls_rwsem);
--	return result;
-+	if (!kctl)
-+		return -ENOENT;
-+	vd = &kctl->vd[snd_ctl_get_ioff(kctl, &id)];
-+	if (!vd->owner)
-+		return -EINVAL;
-+	if (vd->owner != file)
-+		return -EPERM;
-+	vd->owner = NULL;
-+	return 0;
- }
- 
- struct user_element {
-@@ -1756,11 +1690,9 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
- 	private_size = value_sizes[info->type] * info->count;
- 	alloc_size = compute_user_elem_size(private_size, count);
- 
--	down_write(&card->controls_rwsem);
--	if (check_user_elem_overflow(card, alloc_size)) {
--		err = -ENOMEM;
--		goto unlock;
--	}
-+	guard(rwsem_write)(&card->controls_rwsem);
-+	if (check_user_elem_overflow(card, alloc_size))
-+		return -ENOMEM;
- 
- 	/*
- 	 * Keep memory object for this userspace control. After passing this
-@@ -1770,13 +1702,12 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
- 	 */
- 	err = snd_ctl_new(&kctl, count, access, file);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 	memcpy(&kctl->id, &info->id, sizeof(kctl->id));
- 	ue = kzalloc(alloc_size, GFP_KERNEL);
- 	if (!ue) {
- 		kfree(kctl);
--		err = -ENOMEM;
--		goto unlock;
-+		return -ENOMEM;
- 	}
- 	kctl->private_data = ue;
- 	kctl->private_free = snd_ctl_elem_user_free;
-@@ -1794,7 +1725,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
- 		err = snd_ctl_elem_init_enum_names(ue);
- 		if (err < 0) {
- 			snd_ctl_free_one(kctl);
--			goto unlock;
-+			return err;
+  out:
+ 	/* free lock */
+-	spin_lock_irqsave(&q->check_lock, flags);
+-	if (q->check_again) {
+-		q->check_again = 0;
+-		if (processed < MAX_CELL_PROCESSES_IN_QUEUE) {
+-			spin_unlock_irqrestore(&q->check_lock, flags);
+-			goto __again;
++	scoped_guard(spinlock_irqsave, &q->check_lock) {
++		if (q->check_again) {
++			q->check_again = 0;
++			if (processed < MAX_CELL_PROCESSES_IN_QUEUE)
++				goto __again;
  		}
++		q->check_blocked = 0;
  	}
- 
-@@ -1814,7 +1745,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
- 	err = __snd_ctl_add_replace(card, kctl, CTL_ADD_EXCLUSIVE);
- 	if (err < 0) {
- 		snd_ctl_free_one(kctl);
--		goto unlock;
-+		return err;
- 	}
- 	offset = snd_ctl_get_ioff(kctl, &info->id);
- 	snd_ctl_build_ioff(&info->id, kctl, offset);
-@@ -1825,9 +1756,7 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
- 	 * applications because the field originally means PID of a process
- 	 * which locks the element.
- 	 */
-- unlock:
--	up_write(&card->controls_rwsem);
--	return err;
-+	return 0;
+-	q->check_blocked = 0;
+-	spin_unlock_irqrestore(&q->check_lock, flags);
  }
  
- static int snd_ctl_elem_add_user(struct snd_ctl_file *file,
-@@ -2029,34 +1958,29 @@ static long snd_ctl_ioctl(struct file *file, unsigned int cmd, unsigned long arg
- 	case SNDRV_CTL_IOCTL_SUBSCRIBE_EVENTS:
- 		return snd_ctl_subscribe_events(ctl, ip);
- 	case SNDRV_CTL_IOCTL_TLV_READ:
--		down_read(&ctl->card->controls_rwsem);
--		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_READ);
--		up_read(&ctl->card->controls_rwsem);
-+		scoped_guard(rwsem_read, &ctl->card->controls_rwsem)
-+			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_READ);
- 		return err;
- 	case SNDRV_CTL_IOCTL_TLV_WRITE:
--		down_write(&ctl->card->controls_rwsem);
--		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_WRITE);
--		up_write(&ctl->card->controls_rwsem);
-+		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
-+			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_WRITE);
- 		return err;
- 	case SNDRV_CTL_IOCTL_TLV_COMMAND:
--		down_write(&ctl->card->controls_rwsem);
--		err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_CMD);
--		up_write(&ctl->card->controls_rwsem);
-+		scoped_guard(rwsem_write, &ctl->card->controls_rwsem)
-+			err = snd_ctl_tlv_ioctl(ctl, argp, SNDRV_CTL_TLV_OP_CMD);
- 		return err;
- 	case SNDRV_CTL_IOCTL_POWER:
- 		return -ENOPROTOOPT;
- 	case SNDRV_CTL_IOCTL_POWER_STATE:
- 		return put_user(SNDRV_CTL_POWER_D0, ip) ? -EFAULT : 0;
- 	}
--	down_read(&snd_ioctl_rwsem);
-+
-+	guard(rwsem_read)(&snd_ioctl_rwsem);
- 	list_for_each_entry(p, &snd_control_ioctls, list) {
- 		err = p->fioctl(card, ctl, cmd, arg);
--		if (err != -ENOIOCTLCMD) {
--			up_read(&snd_ioctl_rwsem);
-+		if (err != -ENOIOCTLCMD)
- 			return err;
--		}
- 	}
--	up_read(&snd_ioctl_rwsem);
- 	dev_dbg(card->dev, "unknown ioctl = 0x%x\n", cmd);
- 	return -ENOTTY;
- }
-@@ -2148,9 +2072,8 @@ static int _snd_ctl_register_ioctl(snd_kctl_ioctl_func_t fcn, struct list_head *
- 	if (pn == NULL)
- 		return -ENOMEM;
- 	pn->fioctl = fcn;
--	down_write(&snd_ioctl_rwsem);
-+	guard(rwsem_write)(&snd_ioctl_rwsem);
- 	list_add_tail(&pn->list, lists);
--	up_write(&snd_ioctl_rwsem);
- 	return 0;
- }
  
-@@ -2193,16 +2116,14 @@ static int _snd_ctl_unregister_ioctl(snd_kctl_ioctl_func_t fcn,
- 
- 	if (snd_BUG_ON(!fcn))
- 		return -EINVAL;
--	down_write(&snd_ioctl_rwsem);
-+	guard(rwsem_write)(&snd_ioctl_rwsem);
- 	list_for_each_entry(p, lists, list) {
- 		if (p->fioctl == fcn) {
- 			list_del(&p->list);
--			up_write(&snd_ioctl_rwsem);
- 			kfree(p);
- 			return 0;
- 		}
- 	}
--	up_write(&snd_ioctl_rwsem);
- 	snd_BUG();
- 	return -EINVAL;
- }
-@@ -2249,9 +2170,8 @@ int snd_ctl_get_preferred_subdevice(struct snd_card *card, int type)
+@@ -361,25 +347,20 @@ static inline int check_access(struct snd_seq_queue *q, int client)
+  */
+ static int queue_access_lock(struct snd_seq_queue *q, int client)
  {
- 	struct snd_ctl_file *kctl;
- 	int subdevice = -1;
+-	unsigned long flags;
+ 	int access_ok;
+ 	
+-	spin_lock_irqsave(&q->owner_lock, flags);
++	guard(spinlock_irqsave)(&q->owner_lock);
+ 	access_ok = check_access(q, client);
+ 	if (access_ok)
+ 		q->klocked = 1;
+-	spin_unlock_irqrestore(&q->owner_lock, flags);
+ 	return access_ok;
+ }
+ 
+ /* unlock the queue */
+ static inline void queue_access_unlock(struct snd_seq_queue *q)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&q->owner_lock, flags);
++	guard(spinlock_irqsave)(&q->owner_lock);
+ 	q->klocked = 0;
+-	spin_unlock_irqrestore(&q->owner_lock, flags);
+ }
+ 
+ /* exported - only checking permission */
+@@ -387,13 +368,11 @@ int snd_seq_queue_check_access(int queueid, int client)
+ {
+ 	struct snd_seq_queue *q = queueptr(queueid);
+ 	int access_ok;
 -	unsigned long flags;
  
--	read_lock_irqsave(&card->ctl_files_rwlock, flags);
-+	guard(read_lock_irqsave)(&card->ctl_files_rwlock);
- 	list_for_each_entry(kctl, &card->ctl_files, list) {
- 		if (kctl->pid == task_pid(current)) {
- 			subdevice = kctl->preferred_subdevice[type];
-@@ -2259,7 +2179,6 @@ int snd_ctl_get_preferred_subdevice(struct snd_card *card, int type)
- 				break;
- 		}
- 	}
--	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
- 	return subdevice;
- }
- EXPORT_SYMBOL_GPL(snd_ctl_get_preferred_subdevice);
-@@ -2289,13 +2208,11 @@ int snd_ctl_request_layer(const char *module_name)
- 
- 	if (module_name == NULL)
+ 	if (! q)
  		return 0;
--	down_read(&snd_ctl_layer_rwsem);
--	for (lops = snd_ctl_layer; lops; lops = lops->next)
--		if (strcmp(lops->module_name, module_name) == 0)
--			break;
--	up_read(&snd_ctl_layer_rwsem);
--	if (lops)
--		return 0;
-+	scoped_guard(rwsem_read, &snd_ctl_layer_rwsem) {
-+		for (lops = snd_ctl_layer; lops; lops = lops->next)
-+			if (strcmp(lops->module_name, module_name) == 0)
-+				return 0;
-+	}
- 	return request_module(module_name);
+-	spin_lock_irqsave(&q->owner_lock, flags);
+-	access_ok = check_access(q, client);
+-	spin_unlock_irqrestore(&q->owner_lock, flags);
++	scoped_guard(spinlock_irqsave, &q->owner_lock)
++		access_ok = check_access(q, client);
+ 	queuefree(q);
+ 	return access_ok;
  }
- EXPORT_SYMBOL_GPL(snd_ctl_request_layer);
-@@ -2312,16 +2229,15 @@ void snd_ctl_register_layer(struct snd_ctl_layer_ops *lops)
- 	struct snd_card *card;
- 	int card_number;
- 
--	down_write(&snd_ctl_layer_rwsem);
--	lops->next = snd_ctl_layer;
--	snd_ctl_layer = lops;
--	up_write(&snd_ctl_layer_rwsem);
-+	scoped_guard(rwsem_write, &snd_ctl_layer_rwsem) {
-+		lops->next = snd_ctl_layer;
-+		snd_ctl_layer = lops;
-+	}
- 	for (card_number = 0; card_number < SNDRV_CARDS; card_number++) {
- 		card = snd_card_ref(card_number);
- 		if (card) {
--			down_read(&card->controls_rwsem);
--			lops->lregister(card);
--			up_read(&card->controls_rwsem);
-+			scoped_guard(rwsem_read, &card->controls_rwsem)
-+				lops->lregister(card);
- 			snd_card_unref(card);
- 		}
- 	}
-@@ -2340,7 +2256,7 @@ void snd_ctl_disconnect_layer(struct snd_ctl_layer_ops *lops)
+@@ -406,7 +385,6 @@ int snd_seq_queue_check_access(int queueid, int client)
+ int snd_seq_queue_set_owner(int queueid, int client, int locked)
  {
- 	struct snd_ctl_layer_ops *lops2, *prev_lops2;
- 
--	down_write(&snd_ctl_layer_rwsem);
-+	guard(rwsem_write)(&snd_ctl_layer_rwsem);
- 	for (lops2 = snd_ctl_layer, prev_lops2 = NULL; lops2; lops2 = lops2->next) {
- 		if (lops2 == lops) {
- 			if (!prev_lops2)
-@@ -2351,7 +2267,6 @@ void snd_ctl_disconnect_layer(struct snd_ctl_layer_ops *lops)
- 		}
- 		prev_lops2 = lops2;
- 	}
--	up_write(&snd_ctl_layer_rwsem);
- }
- EXPORT_SYMBOL_GPL(snd_ctl_disconnect_layer);
- 
-@@ -2372,25 +2287,29 @@ static const struct file_operations snd_ctl_f_ops =
- 	.fasync =	snd_ctl_fasync,
- };
- 
-+/* call lops under rwsems; called from snd_ctl_dev_*() below() */
-+#define call_snd_ctl_lops(_card, _op)				    \
-+	do {							    \
-+		struct snd_ctl_layer_ops *lops;			    \
-+		guard(rwsem_read)(&(_card)->controls_rwsem);	    \
-+		guard(rwsem_read)(&snd_ctl_layer_rwsem);	    \
-+		for (lops = snd_ctl_layer; lops; lops = lops->next) \
-+			lops->_op(_card);			    \
-+	} while (0)
-+
- /*
-  * registration of the control device
-  */
- static int snd_ctl_dev_register(struct snd_device *device)
- {
- 	struct snd_card *card = device->device_data;
--	struct snd_ctl_layer_ops *lops;
- 	int err;
- 
- 	err = snd_register_device(SNDRV_DEVICE_TYPE_CONTROL, card, -1,
- 				  &snd_ctl_f_ops, card, card->ctl_dev);
- 	if (err < 0)
- 		return err;
--	down_read(&card->controls_rwsem);
--	down_read(&snd_ctl_layer_rwsem);
--	for (lops = snd_ctl_layer; lops; lops = lops->next)
--		lops->lregister(card);
--	up_read(&snd_ctl_layer_rwsem);
--	up_read(&card->controls_rwsem);
-+	call_snd_ctl_lops(card, lregister);
- 	return 0;
- }
- 
-@@ -2401,23 +2320,15 @@ static int snd_ctl_dev_disconnect(struct snd_device *device)
- {
- 	struct snd_card *card = device->device_data;
- 	struct snd_ctl_file *ctl;
--	struct snd_ctl_layer_ops *lops;
+ 	struct snd_seq_queue *q = queueptr(queueid);
 -	unsigned long flags;
  
--	read_lock_irqsave(&card->ctl_files_rwlock, flags);
--	list_for_each_entry(ctl, &card->ctl_files, list) {
--		wake_up(&ctl->change_sleep);
--		snd_kill_fasync(ctl->fasync, SIGIO, POLL_ERR);
-+	scoped_guard(read_lock_irqsave, &card->ctl_files_rwlock) {
-+		list_for_each_entry(ctl, &card->ctl_files, list) {
-+			wake_up(&ctl->change_sleep);
-+			snd_kill_fasync(ctl->fasync, SIGIO, POLL_ERR);
-+		}
+ 	if (q == NULL)
+ 		return -EINVAL;
+@@ -416,10 +394,10 @@ int snd_seq_queue_set_owner(int queueid, int client, int locked)
+ 		return -EPERM;
  	}
--	read_unlock_irqrestore(&card->ctl_files_rwlock, flags);
--
--	down_read(&card->controls_rwsem);
--	down_read(&snd_ctl_layer_rwsem);
--	for (lops = snd_ctl_layer; lops; lops = lops->next)
--		lops->ldisconnect(card);
--	up_read(&snd_ctl_layer_rwsem);
--	up_read(&card->controls_rwsem);
  
-+	call_snd_ctl_lops(card, ldisconnect);
- 	return snd_unregister_device(card->ctl_dev);
- }
- 
-@@ -2429,17 +2340,17 @@ static int snd_ctl_dev_free(struct snd_device *device)
- 	struct snd_card *card = device->device_data;
- 	struct snd_kcontrol *control;
- 
--	down_write(&card->controls_rwsem);
--	while (!list_empty(&card->controls)) {
--		control = snd_kcontrol(card->controls.next);
--		__snd_ctl_remove(card, control, false);
--	}
-+	scoped_guard(rwsem_write, &card->controls_rwsem) {
-+		while (!list_empty(&card->controls)) {
-+			control = snd_kcontrol(card->controls.next);
-+			__snd_ctl_remove(card, control, false);
-+		}
- 
- #ifdef CONFIG_SND_CTL_FAST_LOOKUP
--	xa_destroy(&card->ctl_numids);
--	xa_destroy(&card->ctl_hash);
-+		xa_destroy(&card->ctl_numids);
-+		xa_destroy(&card->ctl_hash);
- #endif
--	up_write(&card->controls_rwsem);
+-	spin_lock_irqsave(&q->owner_lock, flags);
+-	q->locked = locked ? 1 : 0;
+-	q->owner = client;
+-	spin_unlock_irqrestore(&q->owner_lock, flags);
++	scoped_guard(spinlock_irqsave, &q->owner_lock) {
++		q->locked = locked ? 1 : 0;
++		q->owner = client;
 +	}
- 	put_device(card->ctl_dev);
- 	return 0;
- }
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 8392183c77ed..934bb945e702 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -167,23 +167,18 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	struct snd_ctl_elem_info *info __free(kfree) = NULL;
- 	int err;
+ 	queue_access_unlock(q);
+ 	queuefree(q);
  
--	down_read(&card->controls_rwsem);
-+	guard(rwsem_read)(&card->controls_rwsem);
- 	kctl = snd_ctl_find_id_locked(card, id);
--	if (! kctl) {
--		up_read(&card->controls_rwsem);
-+	if (!kctl)
- 		return -ENOENT;
--	}
- 	info = kzalloc(sizeof(*info), GFP_KERNEL);
--	if (info == NULL) {
--		up_read(&card->controls_rwsem);
-+	if (info == NULL)
- 		return -ENOMEM;
--	}
- 	info->id = *id;
- 	err = snd_power_ref_and_wait(card);
- 	if (!err)
- 		err = kctl->info(kctl, info);
- 	snd_power_unref(card);
--	up_read(&card->controls_rwsem);
- 	if (err >= 0) {
- 		err = info->type;
- 		*countp = info->count;
-@@ -451,16 +446,13 @@ static inline long snd_ctl_ioctl_compat(struct file *file, unsigned int cmd, uns
- #endif /* CONFIG_X86_X32_ABI */
- 	}
+@@ -750,10 +728,10 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
+ 		else
+ 			bpm = 0;
  
--	down_read(&snd_ioctl_rwsem);
-+	guard(rwsem_read)(&snd_ioctl_rwsem);
- 	list_for_each_entry(p, &snd_control_compat_ioctls, list) {
- 		if (p->fioctl) {
- 			err = p->fioctl(ctl->card, ctl, cmd, arg);
--			if (err != -ENOIOCTLCMD) {
--				up_read(&snd_ioctl_rwsem);
-+			if (err != -ENOIOCTLCMD)
- 				return err;
--			}
- 		}
- 	}
--	up_read(&snd_ioctl_rwsem);
- 	return -ENOIOCTLCMD;
- }
+-		spin_lock_irq(&q->owner_lock);
+-		locked = q->locked;
+-		owner = q->owner;
+-		spin_unlock_irq(&q->owner_lock);
++		scoped_guard(spinlock_irq, &q->owner_lock) {
++			locked = q->locked;
++			owner = q->owner;
++		}
+ 
+ 		snd_iprintf(buffer, "queue %d: [%s]\n", q->queue, q->name);
+ 		snd_iprintf(buffer, "owned by client    : %d\n", owner);
 -- 
 2.35.3
 
