@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2067018C38
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 08:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C183518E10
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 08:42:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708677780; cv=none; b=po1YlDHeUVEOS5kp87sBEZg3y/8/Y0ZcvTNIqAZqerYUAu84DKsamPnH4Ai75C4VACAIqCp5VQcVwEGTkC+vKtCb6rfYtp3Jqe5Z3I8UF12vQF9i95kgZ7YUKdJpS923rHhZF/zkNeUHutqnJYYIFaxRs7G7FFal8475lLJHywg=
+	t=1708677781; cv=none; b=BNHAtgufb++auC05KjDS+pl+j9fzHbbWcUviotqF7rjHoqS8r0L9EIx5EpmJqQpa7lidhY9Tvo7t5cK5Dy4UXLM43Ss8hNtKZEkTMKXuaftxnqx8Yd7LeiSe3JuKdWnhbz96e5fcGitsQO5lu/TghCINQNLr/dLvSApIc6yLgYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708677780; c=relaxed/simple;
-	bh=cSoFf778q+A34BWVKcXpC15cj5nZVT9vGcg2+yMHjqY=;
+	s=arc-20240116; t=1708677781; c=relaxed/simple;
+	bh=OkwThAcMsyERVGM1muOQWBefp9/abmD7oU2JD6R1wnI=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B65lHPfmRKkPTaw0NxlnHKA2wsTrxrd+5U2tNDKT8qZbjD/LVIZar28BBXD3uGk38Yr1ZZfZq7hRAu7wuw/4Q+kG6BHzXU1SlAAsCPjqDzUKcwIWxF96MBuhHP0e4Dn85JR3ps3lRgKq2ZBUpJ1vnMbKo07uZwwdMxpbRyPqKbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IyYJKe39; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K8LvuSI5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IyYJKe39; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K8LvuSI5; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=tGS8ODF3LBQ8URdxU/rc2d1zpCU3c/jpPiSMRxBFuEKDcIblOM9GH+KVDG6WjdvwMRcewe4ZLR4lSCyTTPAKRFBexHLndZm44yfJpJ0KSQQnq+qftuYduUAvPHbD+k6lMeUdZZF4QvVY4linhCDVq+WI/+PsdXGPDbKRUkhP9H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o4VqhAx3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+FRgmXFJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DUnf4pcN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NohGFxNQ; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IyYJKe39";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K8LvuSI5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IyYJKe39";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K8LvuSI5"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o4VqhAx3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+FRgmXFJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DUnf4pcN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NohGFxNQ"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A26DE1F802;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C3C241FBB1;
 	Fri, 23 Feb 2024 08:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708677770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708677771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kV+aUqBZy3gI4t9PCP6+S3GRAKdo3R5Kv7MOm4aiDa0=;
-	b=IyYJKe39CPdagpY3yW8Uu6JazOY5uw4nuUuWizqZc+Mfi6Y77Jz2VjVltsaVOcda8GMOyc
-	0ybhoOpC+RkGJeifBJ6eZnnbk6FeV0aPmQBkEQldmGlSE9H92l9Q/7lf9yUgLHxmiAWqof
-	xIaCk6L1rHr0kxY0PY9ppbo1wi0GlvQ=
+	bh=p61NkeyC/C+I9Q8SVKkzroJKnN5CP+BAtk5okRy4CQo=;
+	b=o4VqhAx3dHvRw1NTzGD6AvEFWZhm3XAZYo6HgPFM0kbX+k+doa9iY9nBZsWB1z0owvx2Ab
+	JPcHkgJ1VYZ4jLLJc5vqQH7P0iOlDW+4zfNzABGtVXg7SPu5gaR6xLAubvoi2a4flUrxra
+	oJUJzZq8KqVmYlslqaSJ+0tXy2VS91M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708677770;
+	s=susede2_ed25519; t=1708677771;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kV+aUqBZy3gI4t9PCP6+S3GRAKdo3R5Kv7MOm4aiDa0=;
-	b=K8LvuSI5DWBO9dfBMlm2cpKLvGYApwWbP4XUVZ6z6H6H6cc9f/pfJUOPfs7RnC82M0rj1y
-	ikkFj9cOrjL580BQ==
+	bh=p61NkeyC/C+I9Q8SVKkzroJKnN5CP+BAtk5okRy4CQo=;
+	b=+FRgmXFJudNXRYb8iYUz+sdvV/OPICs6Y68biDKhEawqmwZ5PPS50M3pR9PjLi5KNMaR4p
+	wmg/o6SIqDWkbHCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1708677770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kV+aUqBZy3gI4t9PCP6+S3GRAKdo3R5Kv7MOm4aiDa0=;
-	b=IyYJKe39CPdagpY3yW8Uu6JazOY5uw4nuUuWizqZc+Mfi6Y77Jz2VjVltsaVOcda8GMOyc
-	0ybhoOpC+RkGJeifBJ6eZnnbk6FeV0aPmQBkEQldmGlSE9H92l9Q/7lf9yUgLHxmiAWqof
-	xIaCk6L1rHr0kxY0PY9ppbo1wi0GlvQ=
+	bh=p61NkeyC/C+I9Q8SVKkzroJKnN5CP+BAtk5okRy4CQo=;
+	b=DUnf4pcN59wAM05n+Zedi6BWV1JwlawjrxxElliYzg64KhQwudmKHdagoSuD2s8puKHcnO
+	1PS7HkEUkzz84jbXlJ2nRykJZoH2pQvkLaHA+h4TTVzdYaFGhX53jHQ8c5ZCfnrchbLgfy
+	nn85mvmjaZf2U4+25pq4Ix2bjQFIbjc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1708677770;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kV+aUqBZy3gI4t9PCP6+S3GRAKdo3R5Kv7MOm4aiDa0=;
-	b=K8LvuSI5DWBO9dfBMlm2cpKLvGYApwWbP4XUVZ6z6H6H6cc9f/pfJUOPfs7RnC82M0rj1y
-	ikkFj9cOrjL580BQ==
+	bh=p61NkeyC/C+I9Q8SVKkzroJKnN5CP+BAtk5okRy4CQo=;
+	b=NohGFxNQfSUQ1Ha4Ytv7X4zU4N4dzULGuWfCeBOzi7Lw7QBaBo/rrDBZ5e0FFEzefnrfUf
+	wYDawtlgwmUTavAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82EDE13AB6;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A624613AB8;
 	Fri, 23 Feb 2024 08:42:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8M6aHopa2GVDOwAAD6G6ig
+	id OJwsJ4pa2GVDOwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 08:42:50 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 1/3] ALSA: pcm: Use CLASS() for fdget()/fdput()
-Date: Fri, 23 Feb 2024 09:42:38 +0100
-Message-Id: <20240223084241.3361-2-tiwai@suse.de>
+Subject: [PATCH] ALSA: seq: prioq: Unify cell removal functions
+Date: Fri, 23 Feb 2024 09:42:39 +0100
+Message-Id: <20240223084241.3361-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223084241.3361-1-tiwai@suse.de>
 References: <20240223084241.3361-1-tiwai@suse.de>
@@ -86,13 +86,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: **
-X-Spamd-Bar: ++
+X-Spam-Level: 
+X-Spamd-Bar: /
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IyYJKe39;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K8LvuSI5
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DUnf4pcN;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NohGFxNQ
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [2.88 / 50.00];
+X-Spamd-Result: default: False [0.49 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -115,70 +115,294 @@ X-Spamd-Result: default: False [2.88 / 50.00];
 	 MIME_TRACE(0.00)[0:+];
 	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.61)[81.97%]
-X-Spam-Score: 2.88
-X-Rspamd-Queue-Id: A26DE1F802
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Score: 0.49
+X-Rspamd-Queue-Id: C3C241FBB1
 X-Spam-Flag: NO
 
-Now we have a nice definition of CLASS(fd) that can be applied as a
-clean up for the fdget/fdput pairs in snd_pcm_link().
+Both snd_seq_prioq_remove_events() and snd_seq_prioq_leave() have a
+very similar loop for removing events.  Unify them with a callback for
+code simplification.
 
-No functional changes, only code refactoring.
+Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/pcm_native.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ sound/core/seq/seq_prioq.c | 197 ++++++++++++++++---------------------
+ 1 file changed, 84 insertions(+), 113 deletions(-)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index beee5249dae1..0e84de4b484d 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2265,28 +2265,22 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
- 	struct snd_pcm_group *group __free(kfree) = NULL;
- 	struct snd_pcm_group *target_group;
- 	bool nonatomic = substream->pcm->nonatomic;
--	struct fd f = fdget(fd);
-+	CLASS(fd, f)(fd);
- 
- 	if (!f.file)
- 		return -EBADFD;
--	if (!is_pcm_file(f.file)) {
--		res = -EBADFD;
--		goto _badf;
--	}
-+	if (!is_pcm_file(f.file))
-+		return -EBADFD;
- 
- 	pcm_file = f.file->private_data;
- 	substream1 = pcm_file->substream;
- 
--	if (substream == substream1) {
--		res = -EINVAL;
--		goto _badf;
--	}
-+	if (substream == substream1)
-+		return -EINVAL;
- 
- 	group = kzalloc(sizeof(*group), GFP_KERNEL);
--	if (!group) {
--		res = -ENOMEM;
--		goto _badf;
--	}
-+	if (!group)
-+		return -ENOMEM;
- 
- 	snd_pcm_group_init(group);
- 
-@@ -2318,8 +2312,6 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
- 	snd_pcm_group_unlock_irq(target_group, nonatomic);
-  _end:
- 	up_write(&snd_pcm_link_rwsem);
-- _badf:
--	fdput(f);
- 	return res;
+diff --git a/sound/core/seq/seq_prioq.c b/sound/core/seq/seq_prioq.c
+index 1d857981e876..e062df7610e1 100644
+--- a/sound/core/seq/seq_prioq.c
++++ b/sound/core/seq/seq_prioq.c
+@@ -249,30 +249,11 @@ int snd_seq_prioq_avail(struct snd_seq_prioq * f)
+ 	return f->cells;
  }
  
+-static inline int prioq_match(struct snd_seq_event_cell *cell,
+-			      int client, int timestamp)
+-{
+-	if (cell->event.source.client == client ||
+-	    cell->event.dest.client == client)
+-		return 1;
+-	if (!timestamp)
+-		return 0;
+-	switch (cell->event.flags & SNDRV_SEQ_TIME_STAMP_MASK) {
+-	case SNDRV_SEQ_TIME_STAMP_TICK:
+-		if (cell->event.time.tick)
+-			return 1;
+-		break;
+-	case SNDRV_SEQ_TIME_STAMP_REAL:
+-		if (cell->event.time.time.tv_sec ||
+-		    cell->event.time.time.tv_nsec)
+-			return 1;
+-		break;
+-	}
+-	return 0;
+-}
+-
+-/* remove cells for left client */
+-void snd_seq_prioq_leave(struct snd_seq_prioq * f, int client, int timestamp)
++/* remove cells matching with the condition */
++static void prioq_remove_cells(struct snd_seq_prioq *f,
++			       bool (*match)(struct snd_seq_event_cell *cell,
++					     void *arg),
++			       void *arg)
+ {
+ 	register struct snd_seq_event_cell *cell, *next;
+ 	unsigned long flags;
+@@ -281,39 +262,29 @@ void snd_seq_prioq_leave(struct snd_seq_prioq * f, int client, int timestamp)
+ 
+ 	/* collect all removed cells */
+ 	spin_lock_irqsave(&f->lock, flags);
+-	cell = f->head;
+-	while (cell) {
++	for (cell = f->head; cell; cell = next) {
+ 		next = cell->next;
+-		if (prioq_match(cell, client, timestamp)) {
+-			/* remove cell from prioq */
+-			if (cell == f->head) {
+-				f->head = cell->next;
+-			} else {
+-				prev->next = cell->next;
+-			}
+-			if (cell == f->tail)
+-				f->tail = cell->next;
+-			f->cells--;
+-			/* add cell to free list */
+-			cell->next = NULL;
+-			if (freefirst == NULL) {
+-				freefirst = cell;
+-			} else {
+-				freeprev->next = cell;
+-			}
+-			freeprev = cell;
+-		} else {
+-#if 0
+-			pr_debug("ALSA: seq: type = %i, source = %i, dest = %i, "
+-			       "client = %i\n",
+-				cell->event.type,
+-				cell->event.source.client,
+-				cell->event.dest.client,
+-				client);
+-#endif
++		if (!match(cell, arg)) {
+ 			prev = cell;
++			continue;
+ 		}
+-		cell = next;		
++
++		/* remove cell from prioq */
++		if (cell == f->head)
++			f->head = cell->next;
++		else
++			prev->next = cell->next;
++		if (cell == f->tail)
++			f->tail = cell->next;
++		f->cells--;
++
++		/* add cell to free list */
++		cell->next = NULL;
++		if (freefirst == NULL)
++			freefirst = cell;
++		else
++			freeprev->next = cell;
++		freeprev = cell;
+ 	}
+ 	spin_unlock_irqrestore(&f->lock, flags);	
+ 
+@@ -325,22 +296,68 @@ void snd_seq_prioq_leave(struct snd_seq_prioq * f, int client, int timestamp)
+ 	}
+ }
+ 
+-static int prioq_remove_match(struct snd_seq_remove_events *info,
+-			      struct snd_seq_event *ev)
++struct prioq_match_arg {
++	int client;
++	int timestamp;
++};
++
++static inline bool prioq_match(struct snd_seq_event_cell *cell, void *arg)
+ {
++	struct prioq_match_arg *v = arg;
++
++	if (cell->event.source.client == v->client ||
++	    cell->event.dest.client == v->client)
++		return true;
++	if (!v->timestamp)
++		return false;
++	switch (cell->event.flags & SNDRV_SEQ_TIME_STAMP_MASK) {
++	case SNDRV_SEQ_TIME_STAMP_TICK:
++		if (cell->event.time.tick)
++			return true;
++		break;
++	case SNDRV_SEQ_TIME_STAMP_REAL:
++		if (cell->event.time.time.tv_sec ||
++		    cell->event.time.time.tv_nsec)
++			return true;
++		break;
++	}
++	return false;
++}
++
++/* remove cells for left client */
++void snd_seq_prioq_leave(struct snd_seq_prioq *f, int client, int timestamp)
++{
++	struct prioq_match_arg arg = { client, timestamp };
++
++	return prioq_remove_cells(f, prioq_match, &arg);
++}
++
++struct prioq_remove_match_arg {
++	int client;
++	struct snd_seq_remove_events *info;
++};
++
++static bool prioq_remove_match(struct snd_seq_event_cell *cell, void *arg)
++{
++	struct prioq_remove_match_arg *v = arg;
++	struct snd_seq_event *ev = &cell->event;
++	struct snd_seq_remove_events *info = v->info;
+ 	int res;
+ 
++	if (ev->source.client != v->client)
++		return false;
++
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_DEST) {
+ 		if (ev->dest.client != info->dest.client ||
+ 				ev->dest.port != info->dest.port)
+-			return 0;
++			return false;
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_DEST_CHANNEL) {
+ 		if (! snd_seq_ev_is_channel_type(ev))
+-			return 0;
++			return false;
+ 		/* data.note.channel and data.control.channel are identical */
+ 		if (ev->data.note.channel != info->channel)
+-			return 0;
++			return false;
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_TIME_AFTER) {
+ 		if (info->remove_mode & SNDRV_SEQ_REMOVE_TIME_TICK)
+@@ -348,7 +365,7 @@ static int prioq_remove_match(struct snd_seq_remove_events *info,
+ 		else
+ 			res = snd_seq_compare_real_time(&ev->time.time, &info->time.time);
+ 		if (!res)
+-			return 0;
++			return false;
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_TIME_BEFORE) {
+ 		if (info->remove_mode & SNDRV_SEQ_REMOVE_TIME_TICK)
+@@ -356,81 +373,35 @@ static int prioq_remove_match(struct snd_seq_remove_events *info,
+ 		else
+ 			res = snd_seq_compare_real_time(&ev->time.time, &info->time.time);
+ 		if (res)
+-			return 0;
++			return false;
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_EVENT_TYPE) {
+ 		if (ev->type != info->type)
+-			return 0;
++			return false;
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_IGNORE_OFF) {
+ 		/* Do not remove off events */
+ 		switch (ev->type) {
+ 		case SNDRV_SEQ_EVENT_NOTEOFF:
+ 		/* case SNDRV_SEQ_EVENT_SAMPLE_STOP: */
+-			return 0;
++			return false;
+ 		default:
+ 			break;
+ 		}
+ 	}
+ 	if (info->remove_mode & SNDRV_SEQ_REMOVE_TAG_MATCH) {
+ 		if (info->tag != ev->tag)
+-			return 0;
++			return false;
+ 	}
+ 
+-	return 1;
++	return true;
+ }
+ 
+ /* remove cells matching remove criteria */
+ void snd_seq_prioq_remove_events(struct snd_seq_prioq * f, int client,
+ 				 struct snd_seq_remove_events *info)
+ {
+-	struct snd_seq_event_cell *cell, *next;
+-	unsigned long flags;
+-	struct snd_seq_event_cell *prev = NULL;
+-	struct snd_seq_event_cell *freefirst = NULL, *freeprev = NULL, *freenext;
++	struct prioq_remove_match_arg arg = { client, info };
+ 
+-	/* collect all removed cells */
+-	spin_lock_irqsave(&f->lock, flags);
+-	cell = f->head;
+-
+-	while (cell) {
+-		next = cell->next;
+-		if (cell->event.source.client == client &&
+-			prioq_remove_match(info, &cell->event)) {
+-
+-			/* remove cell from prioq */
+-			if (cell == f->head) {
+-				f->head = cell->next;
+-			} else {
+-				prev->next = cell->next;
+-			}
+-
+-			if (cell == f->tail)
+-				f->tail = cell->next;
+-			f->cells--;
+-
+-			/* add cell to free list */
+-			cell->next = NULL;
+-			if (freefirst == NULL) {
+-				freefirst = cell;
+-			} else {
+-				freeprev->next = cell;
+-			}
+-
+-			freeprev = cell;
+-		} else {
+-			prev = cell;
+-		}
+-		cell = next;		
+-	}
+-	spin_unlock_irqrestore(&f->lock, flags);	
+-
+-	/* remove selected cells */
+-	while (freefirst) {
+-		freenext = freefirst->next;
+-		snd_seq_cell_free(freefirst);
+-		freefirst = freenext;
+-	}
++	return prioq_remove_cells(f, prioq_remove_match, &arg);
+ }
+-
+-
 -- 
 2.35.3
 
