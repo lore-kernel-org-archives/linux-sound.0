@@ -1,151 +1,127 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A4D1E508
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 22:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD17C1419B3;
+	Fri, 23 Feb 2024 23:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708727672; cv=none; b=DL2tw6ouplwNusZNmkRV5cHDhc3vZm9sSLL9T2y/Tt6CVlpzl/ksHoeqlHJ+JScKtyiRJWOR5Q9lxq00ZgTMelky0utg1SjSuwsgc45guHOn8PNOC7NuV22+CmzAKGBmNF2qdOO1TgAZ6sgTvNUBiC1cl10p9AfdiB5UqKG46ls=
+	t=1708730609; cv=none; b=kNAliC4IjqI5/yqZQkLqZyOuBQ0UZHg/4QKcSofiQcY5UB0I3GQ9UC+9EUwOCE2xgz7UuM8y1GVAUxeTZQya05tL+nUPQt81ixGW3TnUaIUlxTZjPtntbdYaWgl3rHvdA/drX5DruBjZFcaEV8gD1OI+GHuJ2klHzdoxQpCqzfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708727672; c=relaxed/simple;
-	bh=OjImI9nqJ8TO8TDyZt96kFcK0C88oOP70tesV0S+yBY=;
+	s=arc-20240116; t=1708730609; c=relaxed/simple;
+	bh=N6kOf4nA1kfeVKu4bUDVNAmyfanJ9PZTJlYfgdcivVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j6/7yBvM9Y5hS/vUO6OH5pg7MlmTkoWl4k0ML46YR8z9zzMb3KzdaxfZGAw65U61EFq4XqjqUHMHoSPXDN+IVVNgoKOq+9EqLOL3DZ2CesLzV8+yuauysbSrjFrJV4CnrrxO58q8gVBR3DUm5i5ON9xknfcgqSzgrh/RunjEVCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WNubgYoW; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fmVvCP8wFMlIQ22PPGJ25RikNhTOVEdl6EmqLWWpTAW2YH2grGguEx+Mt/WxQzLxmV7mNfXkSmepbwqHfvt9zDKfEssKfpLOtWEU3GAz5lprwK8timZnNoNFhE+8Rbqwdw/FANjM7g+CKBuHDpkstyR47bIoRQ1oRjxooOu4dug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql8tm/gY; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WNubgYoW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=2Wfh
-	FQ80HGIyU4EysZndPKnOpYN/Nd/vyMAbdv2H1oE=; b=WNubgYoWQFi11xP0oDRe
-	z/4cvJH7rLAtEdS7XwEDVqmGY3B/gf0rxuPUCi8SUmKE5NbqOBWwE3iLQxBm9z/Y
-	GEhlSWf36eGtjPd7KjFexqs64aymQbsRPCwOZcBC/7+QRUd4K/1mIjQ6nEUMx9JP
-	AeZM/fNoXKdT96q0u3GhKaPjI1i7SzrnuBKBsjMY7PuqTkzMIFucYW2sTxJNgjBh
-	kSBN6dzu658AL9eQEIOvM/8tXMt79XIyRdZtZrZXHw1xf+F5Z9tYhCEkfE1IKoFx
-	RAyhlfXSm1iJv2YG1wkKEE87gA9pf/lj9V9PaSZ4GoezXe+222K7unYyAizoWy0i
-	lg==
-Received: (qmail 380856 invoked from network); 23 Feb 2024 23:34:20 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Feb 2024 23:34:20 +0100
-X-UD-Smtp-Session: l3s3148p1@CUgsKRQS0JEujnsZ
-Date: Fri, 23 Feb 2024 23:34:19 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: Remove obsolete i2c.txt
-Message-ID: <Zdkda5jf072mENvK@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Rob Herring <robh@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
-	linux-sound@vger.kernel.org
-References: <20240222174343.3482354-2-robh@kernel.org>
- <ZdemsdGQE0RtilCd@shikoro>
- <CAL_JsqKpn6jqktRLQUx7HMrJG0PZeiOZ=hQnHpZK6AHcM22CLQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql8tm/gY"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dc1ff58fe4so8462275ad.1;
+        Fri, 23 Feb 2024 15:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708730607; x=1709335407; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FiqHwwDIFlgu953RnTsKDugOiVMOZzq+GWo/eDFLupM=;
+        b=Ql8tm/gYPjFLmsgDQXaHY+9gOmkOpsyd3Xrp8HNpKrvgAACMy33uLGcMkq1wH40tfw
+         ttDzePz1YRCtrEfB0lEbPvHXqKZ3xORqlk4nctFgDcSrej9DRuoVPWvCF8ZlBE+PhpWw
+         kEdEqn/R8BPIeSPZrc396yTWbjgUi/gExWifHynQCv1+NIlucTJ6KRolybCeQn4FV/pR
+         38//KeGty4ioKzhsp3dKukLtEsuwxQ0RhfJFcQhT7wkUJQvJ2j6dZLEgx4rLOnZIrBKn
+         wfvgj/1BN7o+1sKbkS+y175fob/Ne5dEj+Nmketg3CuoS28fAKUB9sODPRWVqwyiQd7a
+         MvoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708730607; x=1709335407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FiqHwwDIFlgu953RnTsKDugOiVMOZzq+GWo/eDFLupM=;
+        b=Dr3L/jDmut/4GgH7SfLhcYzaCGaBnEmnrTgjxNyrTLbmLhP7hD072+zqRHxSroI2lU
+         Y2h19gsQcytEC0GQ6XUBFThxJN2U1iiMvgXSHOsBNeKoZ8XmF3Kq8QhSDkG/GFII0UEo
+         gpKtMLqhPWNzST/ox857WXsvWmW/Wm74pZL6J3Mldz1tYRWmR9sl8twdlNqXGvJg7jTm
+         JQqwZFqVJhaqw6mesowqF1cN9i8CdxYFYyPWTthO1zEr5d3UvpAFwGxmkQX+0fGeEODH
+         Lj81+zPp5MM2SyTX5GCkU3mZ0hk+EuVgSVmTJ26nKBF38Z5q8+5HObe0U2LPNrZJVTFQ
+         Rgpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHOq5kTseoTgxRP/gM/QYeciCszSmx+Bi6j6N4NUdiQiO9U1KxlHdj16dt3arHeY6Ymhf11AgUZcLTdBgW5Oqp6bNHkuFZqEr54pn45F2qwZ7hFuJuxdHqDgoL7/yywaDG8MWXQCrqsQnufxBeZxc92Ge/D+jP8ftLicZRVWwY1/EcqYWPZANzb3e1zMDj0EJUsXP9ptNU3pUQhFkuf1aa
+X-Gm-Message-State: AOJu0Yx1MeiOOzuJ/bGAit3iYOH3H1w18gacsz7ZgbRz0HpjC+1iCOmW
+	HHJKKqImBV76NAodh710PzHDlv+63uC6nkLZ0/uD2LIjZN3FfRxr
+X-Google-Smtp-Source: AGHT+IFEAfawHMf5nBlmAJcBqwc+dhP+Td4J3SQO4+9ntTDwOu1ddqXWhazOMBAKnIl7MU/frKuiLA==
+X-Received: by 2002:a17:902:ec8b:b0:1db:2ad9:9393 with SMTP id x11-20020a170902ec8b00b001db2ad99393mr1556242plg.48.1708730606848;
+        Fri, 23 Feb 2024 15:23:26 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:f0c6:1cdc:5abd:78b8])
+        by smtp.gmail.com with ESMTPSA id kr7-20020a170903080700b001d74502d261sm12194960plb.115.2024.02.23.15.23.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 15:23:26 -0800 (PST)
+Date: Fri, 23 Feb 2024 15:23:24 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 3/4] Input: leds: Prepare for removal of config option
+ LEDS_AUDIO_TRIGGER
+Message-ID: <Zdko7JAFw_TBV-63@google.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+ <e5ef576b-70ee-4781-88e3-e728c1e7cb9c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fF2R2D/X283ptnYJ"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqKpn6jqktRLQUx7HMrJG0PZeiOZ=hQnHpZK6AHcM22CLQ@mail.gmail.com>
-
-
---fF2R2D/X283ptnYJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e5ef576b-70ee-4781-88e3-e728c1e7cb9c@gmail.com>
 
-Hi Rob,
+On Tue, Feb 13, 2024 at 08:33:24AM +0100, Heiner Kallweit wrote:
+> In a follow-up patch handling of the LED audio trigger will be changed,
+> including removal of config symbol LEDS_AUDIO_TRIGGER. Therefore set
+> the default trigger unconditionally to "audio-mute". It does no harm
+> if a default trigger doesn't exist.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+>  drivers/input/input-leds.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> index b16fc8194..176f1da7f 100644
+> --- a/drivers/input/input-leds.c
+> +++ b/drivers/input/input-leds.c
+> @@ -18,12 +18,6 @@
+>  #define VT_TRIGGER(_name)	.trigger = NULL
+>  #endif
+>  
+> -#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
 
-> > * In the schema, "clock-frequency" has a minimum of 1kHz and a maximum
-> >   of 3MHz. Why? The specs do not say anything about a minimum freq and
-> >   fastest speed mentioned in the docs is 5Mhz (Ultra fast mode).
->=20
-> IIRC, the high speed mode originally topped out at 3MHz. I guess
-> that's been revised.
+Should it be simply changed to CONFIG_SND_CTL_LED?
 
-Hs-mode has a max of 3.4MHz...
+> -#define AUDIO_TRIGGER(_name)	.trigger = _name
+> -#else
+> -#define AUDIO_TRIGGER(_name)	.trigger = NULL
+> -#endif
+> -
+>  static const struct {
+>  	const char *name;
+>  	const char *trigger;
+> @@ -35,7 +29,7 @@ static const struct {
+>  	[LED_KANA]	= { "kana", VT_TRIGGER("kbd-kanalock") },
+>  	[LED_SLEEP]	= { "sleep" } ,
+>  	[LED_SUSPEND]	= { "suspend" },
+> -	[LED_MUTE]	= { "mute", AUDIO_TRIGGER("audio-mute") },
+> +	[LED_MUTE]	= { "mute", "audio-mute" },
+>  	[LED_MISC]	= { "misc" },
+>  	[LED_MAIL]	= { "mail" },
+>  	[LED_CHARGING]	= { "charging" },
+> -- 
+> 2.43.1
+> 
+> 
 
->=20
-> We can drop the minimum.
+Thanks.
 
-=2E.. but I see you changed min/max now to 1/5000000. That's what I would
-have suggested as well.
-
-
-> > * new binding "i2c-scl-clk-low-timeout-us" has a description which I do
-> >   not understand. What is a waiting state?
->=20
-> Shrug. May have to look at the MPC h/w that uses the property.
-
-I will also have another look. My gut feeling is that the binding is
-okay, only the description might need an update.
-
-> >
-> > * new binding "no-detect" is broken. At the least, it should be named
-> >   something like "bus-fully-described" and then the OS can decide to
-> >   leave out auto-detection mechanisms. If you are interested in the
-> >   latter, you can simply disable class based instantiation on the host
-> >   controller. No need to describe this in DT.
->=20
-> I've reverted the property now.
-
-Cool, thanks!
-
-Kind regards,
-
-   Wolfram
-
-
---fF2R2D/X283ptnYJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXZHWcACgkQFA3kzBSg
-KbYzig//S6LN1IJcbov4tQYqc0ld204PZ2cFEc0wE9p1z2ACiq71IoYiaESHLfjF
-8BndHnuZnCc4LsHNTnDVquUsM54mxypBiXdnBvmmKCrJUlnpDrwlVmRi1yQ0VuFP
-V2/zW4mOesb56puXSfua8Hsyp9M2qEGyjwJSdMMEozyQcBkLausobHQKbphvFhc6
-OAjp1HJvGb9kjrYRGpH6dbDPrk6efXcwKy3n63//ILBcmSloVfFbWgn8n3j7nk1I
-0EDdgRx4MDdz0leMRTlROjl7VtF+EdWeZ0OqIuZPGNxTuk5xXa3XII0bT9+tOBCA
-/c4eLMLua8keQnLJanHxIpcVYv982KNjJMfOaIOI6u0F7UsV6ZRLEQbmzuYE9QpG
-2mK37DgB4b8V85n6HwpXzZaiqOnzEFIJ70ZEDPkVhtEfcNjz5etDvwWomgiotfKO
-QajwbDm9F3R4FcO3EA8WgDR/dDv8cqCXjOfgFyUV9jjbbeDO5rVUMBGLoLSlv1+D
-ysOnVR1JSK6d4wtN6gbCMnzK6aAQPmgdZWq09P5sarNEfGJ3tv6ztUdcfDkoKsiJ
-xfRUrch+VMkrIMbshoICqlRyjtOPMSNpme1eClzMQgd6CDi0mBXJC6fWPmLYV6kS
-Spc1IA87hY7oYQH5LXdd0PwZs/2ulfzTdJ/m90bdPzfIifiVxn4=
-=ITPf
------END PGP SIGNATURE-----
-
---fF2R2D/X283ptnYJ--
+-- 
+Dmitry
