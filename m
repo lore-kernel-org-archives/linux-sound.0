@@ -1,59 +1,59 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824D812F5B5;
-	Fri, 23 Feb 2024 17:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A27813DB94;
+	Fri, 23 Feb 2024 17:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708709190; cv=none; b=FDJp+M1h4xnmhPzdxTHVjcdiQKGQUOe/M0q5w+IDSRg1PJI4zLN5VNgUzLqvIkAOZHKfh7slXmZfAwqyRoz4E1Z2UMJyfAQvkpNgWq0nyf0sgm7G4QW6VEqXuPnsDFddfRE726qW+4iRyrQKYMA1aXvdbhd9wuwzRfLwKEaQ6No=
+	t=1708709235; cv=none; b=trEUg4MPcjd4fIoXuZ6SX3MAQDceR07+9zc52jBJUs0nysVZ3SK8cIYUKl2uA3ZPAgWHekxIXz/SuDRaS8cAyUlpjUIsT15Nqy/J7RzBUuyV9iFaOYCDfKaD1kcX8yoVGDOlVvMdevwwRh/s8ZKMoW80wix3odZqgmUpVpK6kpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708709190; c=relaxed/simple;
-	bh=Zuw2kUsXk1o2lkzNgp948IBHTt7y/pU6Q3zzvW0bjQo=;
+	s=arc-20240116; t=1708709235; c=relaxed/simple;
+	bh=W5BmSshd0oXFwwOasjjhvcfbUwIqu6xmPd/ui1WyGEQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EOWAhfTtQRJjNYI/aMSHiU1rm8dCtdKGW3+D3z929Xcbs7HeEM2fsVM4Wyb162PYnNbFCYpjsPhXFHb4XL4MAOOw3YqoQoDw/LdeMIXqgjs5wd8Gpjr9pjrmht1O8H+jQCXTVnKSpNwon1HBc5/kCODep9GM2gYYDrEbqRZKB9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=IWmPmoYo; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=ndD06Nlf0KyMW44iShKk2via0ansYIyK8tyEJ8+guLCsjHuNBh8qsCGCUtRlIllj9D+1OZUsDpvLmNHuAHquA5wq37oapcBFq3bFR4QQFnhv3JkjaWClmJ0eBygD9IeZT02uNtbnLQktffRvcq+z4B4njB8+hlM6SK39ZDIuysU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=RYnC3Tz8; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="IWmPmoYo"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="RYnC3Tz8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1708709189; x=1740245189;
+  t=1708709234; x=1740245234;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Zuw2kUsXk1o2lkzNgp948IBHTt7y/pU6Q3zzvW0bjQo=;
-  b=IWmPmoYoElk0op8OC4HaMFP7mr9wLdEp/dnl2B1qlTU4lgv37jSZl35c
-   83tYuIO+t4Up6yzR9p9xpJ16usyjq9+FOjOzN0hRs7VBoK3rlSM2C2HYj
-   evQ0cwMfdNCm5J6fmOkMPWf/3LU04eHtdMeDs3TmKIlK5+z6bHma2Ht7z
-   chs/4ZYj8QNxwQpbJgreqJwd3UiGDSuMHGdwDxamVDjDyFoPTLi5HKe2K
-   xQZ5nfkVPrnzxBH+fmHjTigJz7EURDzGapR/evAUjNzWIjXnxUp8YlUxP
-   tw8DkvtKs3Q1bgFDcb4FmqivsuNDZz7f0f8pqymEhE+H+67Sze+jN6aJs
+  bh=W5BmSshd0oXFwwOasjjhvcfbUwIqu6xmPd/ui1WyGEQ=;
+  b=RYnC3Tz8YMlbxxIqaiqERWZNxpveLsY3yfsrW2EEPrWUaDcuFC1VW+Ga
+   Y4eCPTwYzypQcRwfg9XuIXKELXWyWnJcj5q60+DJY7Hsm9ye2A+zWeASr
+   3lA7ZuNT+1NHu4KOKA9lp9atON4QDugOX5TkrSO21PagRw/QtwPTaJ3KU
+   5eFCn4U5ggRtODTFVoOkky4+t7QfsKbixkTPaaBZZVzd0lhQitV9zVHHo
+   0TGaou0RYpADxNf4QE9Be1CPJH0JbTVBpYSBDyTRMwmkx9+SMDTbDtlAH
+   usXB5uFjSLrUm8hna/GtOiVLProHyJDuqKxkn4Tn2z87GqSXAcrCVGMAS
    g==;
-X-CSE-ConnectionGUID: t18HA6KHT7+gZ8BIMsEZ6A==
-X-CSE-MsgGUID: IB6QRYiQRsut+YfRq1SLEA==
+X-CSE-ConnectionGUID: WGdUDJySTO6s5AHkHy7fsA==
+X-CSE-MsgGUID: kYk6deLtTtCG69UPyi3Npw==
 X-IronPort-AV: E=Sophos;i="6.06,180,1705388400"; 
-   d="scan'208";a="16734497"
+   d="scan'208";a="18276155"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Feb 2024 10:26:28 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Feb 2024 10:27:13 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 23 Feb 2024 10:26:18 -0700
+ 15.1.2507.35; Fri, 23 Feb 2024 10:27:04 -0700
 Received: from che-lt-i67070.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 10:26:14 -0700
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 10:27:00 -0700
 From: Varshini Rajendran <varshini.rajendran@microchip.com>
 To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
 	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-	<conor+dt@kernel.org>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-CC: <varshini.rajendran@microchip.com>
-Subject: [PATCH v4 13/39] ASoC: dt-bindings: atmel-classd: add sam9x7 compatible
-Date: Fri, 23 Feb 2024 22:56:08 +0530
-Message-ID: <20240223172608.672190-1-varshini.rajendran@microchip.com>
+	<conor+dt@kernel.org>, <codrin.ciubotariu@microchip.com>,
+	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <varshini.rajendran@microchip.com>, Conor Dooley
+	<conor.dooley@microchip.com>
+Subject: [PATCH v4 17/39] ASoC: dt-bindings: microchip: add sam9x7
+Date: Fri, 23 Feb 2024 22:56:57 +0530
+Message-ID: <20240223172657.672439-1-varshini.rajendran@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240223171342.669133-1-varshini.rajendran@microchip.com>
 References: <20240223171342.669133-1-varshini.rajendran@microchip.com>
@@ -66,32 +66,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Add sam9x7 compatible to DT bindings documentation.
+Add sam9x7 compatible in the DT documentation.
 
 Signed-off-by: Varshini Rajendran <varshini.rajendran@microchip.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 Changes in v4:
-- Changed the subject prefix matching the subsystem
-- Removed unwanted '-items' from the syntax
+- Updated Acked-by tag
 ---
- .../devicetree/bindings/sound/atmel,sama5d2-classd.yaml    | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ .../bindings/sound/microchip,sama7g5-i2smcc.yaml      | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/atmel,sama5d2-classd.yaml b/Documentation/devicetree/bindings/sound/atmel,sama5d2-classd.yaml
-index 43d04702ac2d..ae3162fcfe02 100644
---- a/Documentation/devicetree/bindings/sound/atmel,sama5d2-classd.yaml
-+++ b/Documentation/devicetree/bindings/sound/atmel,sama5d2-classd.yaml
-@@ -18,7 +18,12 @@ description:
+diff --git a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
+index 651f61c7c25a..fb630a184350 100644
+--- a/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
++++ b/Documentation/devicetree/bindings/sound/microchip,sama7g5-i2smcc.yaml
+@@ -24,9 +24,14 @@ properties:
+     const: 0
  
- properties:
    compatible:
--    const: atmel,sama5d2-classd
+-    enum:
+-      - microchip,sam9x60-i2smcc
+-      - microchip,sama7g5-i2smcc
 +    oneOf:
++      - enum:
++          - microchip,sam9x60-i2smcc
++          - microchip,sama7g5-i2smcc
 +      - items:
-+          - const: atmel,sama5d2-classd
-+      - items:
-+          - const: microchip,sam9x7-classd
-+          - const: atmel,sama5d2-classd
++          - enum:
++              - microchip,sam9x7-i2smcc
++          - const: microchip,sam9x60-i2smcc
  
    reg:
      maxItems: 1
