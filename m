@@ -1,136 +1,90 @@
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03D012839B
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 16:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.241.18.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57603FF1;
+	Fri, 23 Feb 2024 16:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708706543; cv=none; b=TfYeR1sFYt4ri1FsyYN/RMnjZjUsMhmsPiqH5Ldwb3RmYRhFcgtTRaCdIhc3hr09WeLJ3okj7md4yhSNZEGriIkJ5OVqGvKGiXVb1gDulwlb6fqbhSKLiOdQXSsRRuRNXocNNzg9L+OJEyGk78QLn4zhRcvq+pvFspntU2MRJLA=
+	t=1708706824; cv=none; b=ewI/C7tYjacCcc5TNC8dqLadwlsR23ODPIePYjczOCWOevrm6DHxmhsEf6RwYrbFzrUFqOnmhV4GYYHF+OarjpfXDbXY4mllJyNArtmGH6w5jqiCVUeBbiGmBR3MMFhJJmI6+2+8IamwFlDzsGwsXrXzo4ygPtZpeoZiPSRuTSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708706543; c=relaxed/simple;
-	bh=hpx+0xkdNJ+QyIWWbZyIDpvRcNEED+/AANsFP6fJDfU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=al5eYIFbzm0LqDefKBpjQKpH0HiF5LY7LHRXbBmCyC2XmCAl6c+iIlPCkrvnqc8aJ4unOtknb7Oj5uXTkLE8pyOihcjLRKLczpRVxuV+HTKRaJZejsedogZbWmPlgJOn1tzky2d7r7qziA+Gqroyou8V6hEvKP4u2/rrUuhIBf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=de.adit-jv.com; spf=pass smtp.mailfrom=de.adit-jv.com; arc=none smtp.client-ip=93.241.18.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=de.adit-jv.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=de.adit-jv.com
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-	by hi1smtp01.de.adit-jv.com (Postfix) with ESMTP id 6DD34520480;
-	Fri, 23 Feb 2024 17:35:49 +0100 (CET)
-Received: from localhost.localdomain (10.72.94.1) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Fri, 23 Feb
- 2024 17:35:49 +0100
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, Takashi Iwai <tiwai@suse.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav
- Kysela <perex@perex.cz>, <linux-sound@vger.kernel.org>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>, Charles Keepax
-	<ckeepax@opensource.cirrus.com>, Vincenzo De Michele
-	<vincenzo.michele@davinci.de>
-CC: Eugeniu Rosca <erosca@de.adit-jv.com>, Eugeniu Rosca
-	<eugeniu.rosca@bosch.com>, Andreas Pape <Andreas.Pape4@bosch.com>, Yeswanth
- Rayapati <yeswanth.rayapati@in.bosch.com>
-Subject: [PATCH] ASoC: rcar: adg: correct TIMSEL setting for SSI9
-Date: Fri, 23 Feb 2024 17:35:02 +0100
-Message-ID: <20240223163502.11619-1-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.43.2
+	s=arc-20240116; t=1708706824; c=relaxed/simple;
+	bh=BesFWAtuTprjWylLkXSgMFyYOvsUukjAQwbOy9l/KHM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fACDoh/dPGoUa/3R+8xKQY8sdBJ91boWcsBEhjgBx+xE4NKqYcVxSwtO521Po0Yf5VCKfZd8FUox8Cw5x/l8PrjhiY8jM9HVMrxMD8Iob9Y0SVRSWJHr451Jy5mwj+j1PI4kkbeUzoFFe3T0q/CwsWVt7+hPP6VB/scl50Kr2Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/ldrGtS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/ldrGtS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36D1C43390;
+	Fri, 23 Feb 2024 16:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708706824;
+	bh=BesFWAtuTprjWylLkXSgMFyYOvsUukjAQwbOy9l/KHM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=a/ldrGtSSfN/5ylfj5KLaM0svgwwTwG7L3iT1TvCMv+me9j8uswywGNPKVtvDO/pv
+	 jvHa9sxagoBw0mc5TWkO3GCU9qxBMj1D5cBTiPNGowEox60TSujga1DTrdunar2KFh
+	 6HjqrLlVB/V7tQqQwBFkTnUZiABawY79VDb0j4FFGN8tj5kH+dgST9txDFV5xag2PJ
+	 c8Kk/SyrNrcFP5S29sD8T/HzhlALn4tcF+scn0J8bHTQq1B2ycE9HBRRpj9GeGQlwk
+	 Rv/BaMwFdAz49QF9s/ys7R2s8i/rPG3mpJfMkNtYfM/qI3iyb5qGtCKPlvrFip0StD
+	 QSWEMbQo16JLA==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20240221123710.690224-1-rf@opensource.cirrus.com>
+References: <20240221123710.690224-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: soc-card: Fix missing locking in
+ snd_soc_card_get_kcontrol()
+Message-Id: <170870682233.2835191.8056467761867046237.b4-ty@kernel.org>
+Date: Fri, 23 Feb 2024 16:47:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-From: Andreas Pape <Andreas.Pape4@bosch.com>
+On Wed, 21 Feb 2024 12:37:10 +0000, Richard Fitzgerald wrote:
+> snd_soc_card_get_kcontrol() must be holding a read lock on
+> card->controls_rwsem while walking the controls list.
+> 
+> Compare with snd_ctl_find_numid().
+> 
+> The existing function is renamed snd_soc_card_get_kcontrol_locked()
+> so that it can be called from contexts that are already holding
+> card->controls_rwsem (for example, control get/put functions).
+> 
+> [...]
 
-Timing select register for SRC and CMD is by default
-referring to the corresponding SSI word select.
-The calculation rule from HW spec skips SSI8, which has
-no clock connection.
+Applied to
 
-0110: ssi_ws0
-0111: ssi_ws1
-1000: ssi_ws2
-1001: ssi_ws3
-1010: ssi_ws4
-1011: ssi_ws5
-1100: ssi_ws6
-1101: ssi_ws7
-<GAP>
-1110: ssi_ws9
-1111: Setting prohibited
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-The driver does not currently reflect that GAP, leading to
-prohibited timsel value 1111 (0xf) for SSI9:
+Thanks!
 
-[21.695055] rcar_sound ec500000.sound: b adg[0]-CMDOUT_TIMSEL (32):00000f00/00000f1f
+[1/1] ASoC: soc-card: Fix missing locking in snd_soc_card_get_kcontrol()
+      commit: eba2eb2495f47690400331c722868902784e59de
 
-Correct the timsel assignment.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Fixes: 629509c5bc478c ("ASoC: rsnd: add Gen2 SRC and DMAEngine support")
-Signed-off-by: Andreas Pape <Andreas.Pape4@bosch.com>
-Signed-off-by: Yeswanth Rayapati <yeswanth.rayapati@in.bosch.com>
-[erosca: minor improvements in commit description]
-Signed-off-by: Eugeniu Rosca <eugeniu.rosca@bosch.com>
----
- sound/soc/sh/rcar/adg.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-diff --git a/sound/soc/sh/rcar/adg.c b/sound/soc/sh/rcar/adg.c
-index 230c48648af359..137db9feab495e 100644
---- a/sound/soc/sh/rcar/adg.c
-+++ b/sound/soc/sh/rcar/adg.c
-@@ -95,25 +95,40 @@ static u32 rsnd_adg_ssi_ws_timing_gen2(struct rsnd_dai_stream *io)
- {
- 	struct rsnd_mod *ssi_mod = rsnd_io_to_mod_ssi(io);
- 	int id = rsnd_mod_id(ssi_mod);
--	int ws = id;
-+
-+	u8 ssi_ws[] = {
-+		0x6, /* ssi0 */
-+		0x7, /* ssi1 */
-+		0x8, /* ssi2 */
-+		0x9, /* ssi3 */
-+		0xa, /* ssi4 */
-+		0xb, /* ssi5 */
-+		0xc, /* ssi6 */
-+		0xd, /* ssi7 */
-+		0xf, /* INVALID */
-+		0xe, /* ssi9 */
-+	};
- 
- 	if (rsnd_ssi_is_pin_sharing(io)) {
- 		switch (id) {
- 		case 1:
- 		case 2:
- 		case 9:
--			ws = 0;
-+			id = 0;
- 			break;
- 		case 4:
--			ws = 3;
-+			id = 3;
- 			break;
- 		case 8:
--			ws = 7;
-+			id = 7;
- 			break;
- 		}
- 	}
- 
--	return (0x6 + ws) << 8;
-+	if (id > 9)
-+		return 0xf << 8;
-+	else
-+		return ssi_ws[id] << 8;
- }
- 
- static void __rsnd_adg_get_timesel_ratio(struct rsnd_priv *priv,
--- 
-2.43.2
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
