@@ -1,81 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E292613DB98
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5696813DBB8
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710616; cv=none; b=Op0X+qSvHlK9cNaYTTj0AIWxbJkPNUp4j/RnZRcRdp5euASLy/6BQB+akWySyGZ2vZYqvdfFL4JJXXeQ6EyEHWx5RYf/LgrVGe2apPqEsOJKoeUdde2a+8sMlQOhjqO3nVWQ8WaW5DFxIIN4WcvE1JOOtrFjMXmkfgyfcTjlrqA=
+	t=1708710616; cv=none; b=cxGv6IetDsZqQtcZTaCKJJUWggDnbCii/2Ugz1phYx3PBGZZD3tfMmj1f2XJ22jfI+jLkufDukqZF9qCopB/OZMot/V3i+YAPoE+2gM7a24niLimTMe0IaDQ2h8/QokiuhSRE4+e4dk64IpSOvljENZg2Y0l/h1olfBgnHdB1tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708710616; c=relaxed/simple;
-	bh=WPbU7/rWGtQree8/vDb+Slj6Fib1k9efj2DoWTgrn1M=;
+	bh=tbGyeoK7+fVhd1jjUNOkEVdpOD93vHovUKv+xnfZUGs=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IhPjs4JAbr2QsidVEQ++Yp50M44PGa/tEUlPzXEUYnHwdDwjKiCvsHKMn4p7EBxi0SHYB1EAFlzv17zrfz27yhv8m4xEIxHIYdhZT3sjqAOqzGtGSVSI/SST6YWjiFZuXdPY1Mp9eLQpZw7LvC6Mg45oc4U5bArR4BT5faTf3uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0mNrEwWc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zOJK8WC+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0mNrEwWc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zOJK8WC+; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=TveefIXq5WYvJjlzSHEpMOrEcVocg2crzKRtRk3LUYAFPbdt7cdMXf+Sbs95lf0jW2RD+N7QoBuYCJ5NGA6ajq6obMFkvvJ9rZ/lktr80s+TOvzIlRan4IyHI2c/E6x6SDzKBb2sOo1txMEvG6ws0MV5vR6Kaoc40kSfAX/Q7tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RUw9qUG5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UKNA8XYW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RUw9qUG5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UKNA8XYW; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0mNrEwWc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zOJK8WC+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0mNrEwWc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zOJK8WC+"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RUw9qUG5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKNA8XYW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RUw9qUG5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UKNA8XYW"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0CE8F1FCA1;
-	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9905C221CD;
+	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jXyPdq0OGCGKF1PE94rzaQ5KASUzIX2siD8wQJoJtMs=;
-	b=0mNrEwWcuU9VecvCDQFTc5EKYnT9OQXbLOX7eSzd8i18BlTV3nhKkW5gS6ypzs0XrKOp53
-	7+BSaJ6q0femhQdZHtcQMqpzIyUOy+Lia4z3F4ieqbEf3ipt4ft9c1O4tCJCb9K46hVXSB
-	OsbLzJR1ZL4Ihhp9zetj+gR33UziJzs=
+	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
+	b=RUw9qUG5I9iujMrEXP++wPXWOK9gcwOo8izgUqxZq14NjmwSO52mPSE/JJcnEnGVu3T78K
+	Y4B/YGUHeZZn+Ie6Q3TDiudfwA4dlJsAHIqQ9OK4Rg/JuVENyk/QigDlUTOGO0s2LB1/Vn
+	NBmDJKeIYS9r3doEe4blE4d4fEmzHvA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710611;
+	s=susede2_ed25519; t=1708710612;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jXyPdq0OGCGKF1PE94rzaQ5KASUzIX2siD8wQJoJtMs=;
-	b=zOJK8WC+VtgC4mbC3tnp6lVkTsRQ96N7fOMCeNg99anm4sI7o8Zo5ZvPI7SVws5lRSV2hi
-	OzmRgLkLJoy/LTBg==
+	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
+	b=UKNA8XYWfFnl+1vUSVAQgW5uvQ710mpXLV2bB8Y4+G1tffxw4RIPGeJJZ5u2ZHtK/O7kV/
+	DWft6U7opMw3vkBg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jXyPdq0OGCGKF1PE94rzaQ5KASUzIX2siD8wQJoJtMs=;
-	b=0mNrEwWcuU9VecvCDQFTc5EKYnT9OQXbLOX7eSzd8i18BlTV3nhKkW5gS6ypzs0XrKOp53
-	7+BSaJ6q0femhQdZHtcQMqpzIyUOy+Lia4z3F4ieqbEf3ipt4ft9c1O4tCJCb9K46hVXSB
-	OsbLzJR1ZL4Ihhp9zetj+gR33UziJzs=
+	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
+	b=RUw9qUG5I9iujMrEXP++wPXWOK9gcwOo8izgUqxZq14NjmwSO52mPSE/JJcnEnGVu3T78K
+	Y4B/YGUHeZZn+Ie6Q3TDiudfwA4dlJsAHIqQ9OK4Rg/JuVENyk/QigDlUTOGO0s2LB1/Vn
+	NBmDJKeIYS9r3doEe4blE4d4fEmzHvA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710611;
+	s=susede2_ed25519; t=1708710612;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jXyPdq0OGCGKF1PE94rzaQ5KASUzIX2siD8wQJoJtMs=;
-	b=zOJK8WC+VtgC4mbC3tnp6lVkTsRQ96N7fOMCeNg99anm4sI7o8Zo5ZvPI7SVws5lRSV2hi
-	OzmRgLkLJoy/LTBg==
+	bh=LZ3i5Wmg0ThAZTjaTnOLCJLI2pL63XkiPFVUkDwcsts=;
+	b=UKNA8XYWfFnl+1vUSVAQgW5uvQ710mpXLV2bB8Y4+G1tffxw4RIPGeJJZ5u2ZHtK/O7kV/
+	DWft6U7opMw3vkBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE3AE132C7;
-	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67F8B13AC7;
+	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CArINNLa2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:10 +0000
+	id aDfaF9Ta2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:12 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 03/24] ALSA: timer: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:40 +0100
-Message-Id: <20240223175001.24375-4-tiwai@suse.de>
+Subject: [PATCH v2 12/24] ALSA: seq: fifo: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:49 +0100
+Message-Id: <20240223175001.24375-13-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
 References: <20240223175001.24375-1-tiwai@suse.de>
@@ -86,22 +86,25 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0mNrEwWc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zOJK8WC+
-X-Spamd-Result: default: False [-0.31 / 50.00];
+X-Spam-Level: 
+X-Spamd-Bar: /
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RUw9qUG5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UKNA8XYW
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.49 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
 	 TO_DN_NONE(0.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_ONE(0.00)[1];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
@@ -111,913 +114,139 @@ X-Spamd-Result: default: False [-0.31 / 50.00];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -0.31
-X-Rspamd-Queue-Id: 0CE8F1FCA1
-X-Spam-Level: 
+X-Spam-Score: 0.49
+X-Rspamd-Queue-Id: 9905C221CD
 X-Spam-Flag: NO
-X-Spamd-Bar: /
 
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
-
-For making changes easier, some functions widen the application of
-register_mutex, but those shouldn't influence on any actual
-performance.
-
-Also, one code block was factored out as a function so that guard()
-can be applied cleanly without much indentation.
-
-There are still a few remaining explicit spin_lock/unlock calls, and
-those are for the places where we do temporary unlock/relock, which
-doesn't fit well with the guard(), so far.
 
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/timer.c        | 429 ++++++++++++++++----------------------
- sound/core/timer_compat.c |   7 +-
- 2 files changed, 177 insertions(+), 259 deletions(-)
+ sound/core/seq/seq_fifo.c | 55 +++++++++++++++++----------------------
+ 1 file changed, 24 insertions(+), 31 deletions(-)
 
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index a595c4fb4b2a..15b07d09c4b7 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -224,14 +224,12 @@ static int check_matching_master_slave(struct snd_timer_instance *master,
- 		return -EBUSY;
- 	list_move_tail(&slave->open_list, &master->slave_list_head);
- 	master->timer->num_instances++;
--	spin_lock_irq(&slave_active_lock);
--	spin_lock(&master->timer->lock);
-+	guard(spinlock_irq)(&slave_active_lock);
-+	guard(spinlock)(&master->timer->lock);
- 	slave->master = master;
- 	slave->timer = master->timer;
- 	if (slave->flags & SNDRV_TIMER_IFLG_RUNNING)
- 		list_add_tail(&slave->active_list, &master->slave_active_head);
--	spin_unlock(&master->timer->lock);
--	spin_unlock_irq(&slave_active_lock);
- 	return 1;
+diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
+index f8e02e98709a..3a10b081f129 100644
+--- a/sound/core/seq/seq_fifo.c
++++ b/sound/core/seq/seq_fifo.c
+@@ -88,12 +88,11 @@ void snd_seq_fifo_clear(struct snd_seq_fifo *f)
+ 	atomic_set(&f->overflow, 0);
+ 
+ 	snd_use_lock_sync(&f->use_lock);
+-	spin_lock_irq(&f->lock);
++	guard(spinlock_irq)(&f->lock);
+ 	/* drain the fifo */
+ 	while ((cell = fifo_cell_out(f)) != NULL) {
+ 		snd_seq_cell_free(cell);
+ 	}
+-	spin_unlock_irq(&f->lock);
  }
  
-@@ -382,6 +380,25 @@ int snd_timer_open(struct snd_timer_instance *timeri,
- }
- EXPORT_SYMBOL(snd_timer_open);
  
-+/* remove slave links, called from snd_timer_close_locked() below */
-+static void remove_slave_links(struct snd_timer_instance *timeri,
-+			       struct snd_timer *timer)
-+{
-+	struct snd_timer_instance *slave, *tmp;
-+
-+	guard(spinlock_irq)(&slave_active_lock);
-+	guard(spinlock)(&timer->lock);
-+	timeri->timer = NULL;
-+	list_for_each_entry_safe(slave, tmp, &timeri->slave_list_head, open_list) {
-+		list_move_tail(&slave->open_list, &snd_timer_slave_list);
-+		timer->num_instances--;
-+		slave->master = NULL;
-+		slave->timer = NULL;
-+		list_del_init(&slave->ack_list);
-+		list_del_init(&slave->active_list);
+@@ -102,7 +101,6 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
+ 			  struct snd_seq_event *event)
+ {
+ 	struct snd_seq_event_cell *cell;
+-	unsigned long flags;
+ 	int err;
+ 
+ 	if (snd_BUG_ON(!f))
+@@ -118,15 +116,15 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
+ 	}
+ 		
+ 	/* append new cells to fifo */
+-	spin_lock_irqsave(&f->lock, flags);
+-	if (f->tail != NULL)
+-		f->tail->next = cell;
+-	f->tail = cell;
+-	if (f->head == NULL)
+-		f->head = cell;
+-	cell->next = NULL;
+-	f->cells++;
+-	spin_unlock_irqrestore(&f->lock, flags);
++	scoped_guard(spinlock_irqsave, &f->lock) {
++		if (f->tail != NULL)
++			f->tail->next = cell;
++		f->tail = cell;
++		if (f->head == NULL)
++			f->head = cell;
++		cell->next = NULL;
++		f->cells++;
 +	}
-+}
-+
- /*
-  * close a timer instance
-  * call this with register_mutex down.
-@@ -390,12 +407,10 @@ static void snd_timer_close_locked(struct snd_timer_instance *timeri,
- 				   struct device **card_devp_to_put)
- {
- 	struct snd_timer *timer = timeri->timer;
--	struct snd_timer_instance *slave, *tmp;
  
- 	if (timer) {
--		spin_lock_irq(&timer->lock);
-+		guard(spinlock)(&timer->lock);
- 		timeri->flags |= SNDRV_TIMER_IFLG_DEAD;
--		spin_unlock_irq(&timer->lock);
- 	}
- 
- 	if (!list_empty(&timeri->open_list)) {
-@@ -418,21 +433,7 @@ static void snd_timer_close_locked(struct snd_timer_instance *timeri,
- 		}
- 		spin_unlock_irq(&timer->lock);
- 
--		/* remove slave links */
--		spin_lock_irq(&slave_active_lock);
--		spin_lock(&timer->lock);
--		timeri->timer = NULL;
--		list_for_each_entry_safe(slave, tmp, &timeri->slave_list_head,
--					 open_list) {
--			list_move_tail(&slave->open_list, &snd_timer_slave_list);
--			timer->num_instances--;
--			slave->master = NULL;
--			slave->timer = NULL;
--			list_del_init(&slave->ack_list);
--			list_del_init(&slave->active_list);
--		}
--		spin_unlock(&timer->lock);
--		spin_unlock_irq(&slave_active_lock);
-+		remove_slave_links(timeri, timer);
- 
- 		/* slave doesn't need to release timer resources below */
- 		if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE)
-@@ -459,9 +460,8 @@ void snd_timer_close(struct snd_timer_instance *timeri)
- 	if (snd_BUG_ON(!timeri))
- 		return;
- 
--	mutex_lock(&register_mutex);
--	snd_timer_close_locked(timeri, &card_dev_to_put);
--	mutex_unlock(&register_mutex);
-+	scoped_guard(mutex, &register_mutex)
-+		snd_timer_close_locked(timeri, &card_dev_to_put);
- 	/* put_device() is called after unlock for avoiding deadlock */
- 	if (card_dev_to_put)
- 		put_device(card_dev_to_put);
-@@ -480,15 +480,13 @@ unsigned long snd_timer_resolution(struct snd_timer_instance *timeri)
- {
- 	struct snd_timer * timer;
- 	unsigned long ret = 0;
--	unsigned long flags;
- 
- 	if (timeri == NULL)
- 		return 0;
- 	timer = timeri->timer;
- 	if (timer) {
--		spin_lock_irqsave(&timer->lock, flags);
-+		guard(spinlock_irqsave)(&timer->lock);
- 		ret = snd_timer_hw_resolution(timer);
--		spin_unlock_irqrestore(&timer->lock, flags);
- 	}
- 	return ret;
- }
-@@ -532,26 +530,19 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
- {
- 	struct snd_timer *timer;
- 	int result;
--	unsigned long flags;
- 
- 	timer = timeri->timer;
- 	if (!timer)
- 		return -EINVAL;
- 
--	spin_lock_irqsave(&timer->lock, flags);
--	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD) {
--		result = -EINVAL;
--		goto unlock;
--	}
--	if (timer->card && timer->card->shutdown) {
--		result = -ENODEV;
--		goto unlock;
--	}
-+	guard(spinlock_irqsave)(&timer->lock);
-+	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD)
-+		return -EINVAL;
-+	if (timer->card && timer->card->shutdown)
-+		return -ENODEV;
- 	if (timeri->flags & (SNDRV_TIMER_IFLG_RUNNING |
--			     SNDRV_TIMER_IFLG_START)) {
--		result = -EBUSY;
--		goto unlock;
--	}
-+			     SNDRV_TIMER_IFLG_START))
-+		return -EBUSY;
- 
- 	if (start)
- 		timeri->ticks = timeri->cticks = ticks;
-@@ -577,8 +568,6 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
- 	}
- 	snd_timer_notify1(timeri, start ? SNDRV_TIMER_EVENT_START :
- 			  SNDRV_TIMER_EVENT_CONTINUE);
-- unlock:
--	spin_unlock_irqrestore(&timer->lock, flags);
- 	return result;
- }
- 
-@@ -586,53 +575,38 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
- static int snd_timer_start_slave(struct snd_timer_instance *timeri,
- 				 bool start)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&slave_active_lock, flags);
--	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD) {
--		err = -EINVAL;
--		goto unlock;
--	}
--	if (timeri->flags & SNDRV_TIMER_IFLG_RUNNING) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	guard(spinlock_irqsave)(&slave_active_lock);
-+	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD)
-+		return -EINVAL;
-+	if (timeri->flags & SNDRV_TIMER_IFLG_RUNNING)
-+		return -EBUSY;
- 	timeri->flags |= SNDRV_TIMER_IFLG_RUNNING;
- 	if (timeri->master && timeri->timer) {
--		spin_lock(&timeri->timer->lock);
-+		guard(spinlock)(&timeri->timer->lock);
- 		list_add_tail(&timeri->active_list,
- 			      &timeri->master->slave_active_head);
- 		snd_timer_notify1(timeri, start ? SNDRV_TIMER_EVENT_START :
- 				  SNDRV_TIMER_EVENT_CONTINUE);
--		spin_unlock(&timeri->timer->lock);
- 	}
--	err = 1; /* delayed start */
-- unlock:
--	spin_unlock_irqrestore(&slave_active_lock, flags);
--	return err;
-+	return 1; /* delayed start */
- }
- 
- /* stop/pause a master timer */
- static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
- {
- 	struct snd_timer *timer;
--	int result = 0;
--	unsigned long flags;
- 
- 	timer = timeri->timer;
- 	if (!timer)
- 		return -EINVAL;
--	spin_lock_irqsave(&timer->lock, flags);
-+	guard(spinlock_irqsave)(&timer->lock);
- 	list_del_init(&timeri->ack_list);
- 	list_del_init(&timeri->active_list);
- 	if (!(timeri->flags & (SNDRV_TIMER_IFLG_RUNNING |
--			       SNDRV_TIMER_IFLG_START))) {
--		result = -EBUSY;
--		goto unlock;
--	}
-+			       SNDRV_TIMER_IFLG_START)))
-+		return -EBUSY;
- 	if (timer->card && timer->card->shutdown)
--		goto unlock;
-+		return 0;
- 	if (stop) {
- 		timeri->cticks = timeri->ticks;
- 		timeri->pticks = 0;
-@@ -656,30 +630,25 @@ static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
- 		timeri->flags |= SNDRV_TIMER_IFLG_PAUSED;
- 	snd_timer_notify1(timeri, stop ? SNDRV_TIMER_EVENT_STOP :
- 			  SNDRV_TIMER_EVENT_PAUSE);
-- unlock:
--	spin_unlock_irqrestore(&timer->lock, flags);
--	return result;
-+	return 0;
- }
- 
- /* stop/pause a slave timer */
- static int snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
- {
--	unsigned long flags;
- 	bool running;
- 
--	spin_lock_irqsave(&slave_active_lock, flags);
-+	guard(spinlock_irqsave)(&slave_active_lock);
- 	running = timeri->flags & SNDRV_TIMER_IFLG_RUNNING;
- 	timeri->flags &= ~SNDRV_TIMER_IFLG_RUNNING;
- 	if (timeri->timer) {
--		spin_lock(&timeri->timer->lock);
-+		guard(spinlock)(&timeri->timer->lock);
- 		list_del_init(&timeri->ack_list);
- 		list_del_init(&timeri->active_list);
- 		if (running)
- 			snd_timer_notify1(timeri, stop ? SNDRV_TIMER_EVENT_STOP :
- 					  SNDRV_TIMER_EVENT_PAUSE);
--		spin_unlock(&timeri->timer->lock);
- 	}
--	spin_unlock_irqrestore(&slave_active_lock, flags);
- 	return running ? 0 : -EBUSY;
- }
- 
-@@ -804,12 +773,9 @@ static void snd_timer_process_callbacks(struct snd_timer *timer,
- static void snd_timer_clear_callbacks(struct snd_timer *timer,
- 				      struct list_head *head)
+ 	/* wakeup client */
+ 	if (waitqueue_active(&f->input_sleep))
+@@ -199,16 +197,13 @@ int snd_seq_fifo_cell_out(struct snd_seq_fifo *f,
+ void snd_seq_fifo_cell_putback(struct snd_seq_fifo *f,
+ 			       struct snd_seq_event_cell *cell)
  {
 -	unsigned long flags;
 -
--	spin_lock_irqsave(&timer->lock, flags);
-+	guard(spinlock_irqsave)(&timer->lock);
- 	while (!list_empty(head))
- 		list_del_init(head->next);
--	spin_unlock_irqrestore(&timer->lock, flags);
+ 	if (cell) {
+-		spin_lock_irqsave(&f->lock, flags);
++		guard(spinlock_irqsave)(&f->lock);
+ 		cell->next = f->head;
+ 		f->head = cell;
+ 		if (!f->tail)
+ 			f->tail = cell;
+ 		f->cells++;
+-		spin_unlock_irqrestore(&f->lock, flags);
+ 	}
  }
  
- /*
-@@ -819,16 +785,14 @@ static void snd_timer_clear_callbacks(struct snd_timer *timer,
- static void snd_timer_work(struct work_struct *work)
+@@ -239,17 +234,17 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
+ 		return -ENOMEM;
+ 	}
+ 
+-	spin_lock_irq(&f->lock);
+-	/* remember old pool */
+-	oldpool = f->pool;
+-	oldhead = f->head;
+-	/* exchange pools */
+-	f->pool = newpool;
+-	f->head = NULL;
+-	f->tail = NULL;
+-	f->cells = 0;
+-	/* NOTE: overflow flag is not cleared */
+-	spin_unlock_irq(&f->lock);
++	scoped_guard(spinlock_irq, &f->lock) {
++		/* remember old pool */
++		oldpool = f->pool;
++		oldhead = f->head;
++		/* exchange pools */
++		f->pool = newpool;
++		f->head = NULL;
++		f->tail = NULL;
++		f->cells = 0;
++		/* NOTE: overflow flag is not cleared */
++	}
+ 
+ 	/* close the old pool and wait until all users are gone */
+ 	snd_seq_pool_mark_closing(oldpool);
+@@ -268,16 +263,14 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
+ /* get the number of unused cells safely */
+ int snd_seq_fifo_unused_cells(struct snd_seq_fifo *f)
  {
- 	struct snd_timer *timer = container_of(work, struct snd_timer, task_work);
 -	unsigned long flags;
+ 	int cells;
  
- 	if (timer->card && timer->card->shutdown) {
- 		snd_timer_clear_callbacks(timer, &timer->sack_list_head);
- 		return;
- 	}
- 
--	spin_lock_irqsave(&timer->lock, flags);
-+	guard(spinlock_irqsave)(&timer->lock);
- 	snd_timer_process_callbacks(timer, &timer->sack_list_head);
--	spin_unlock_irqrestore(&timer->lock, flags);
- }
- 
- /*
-@@ -842,8 +806,6 @@ void snd_timer_interrupt(struct snd_timer * timer, unsigned long ticks_left)
- 	struct snd_timer_instance *ti, *ts, *tmp;
- 	unsigned long resolution;
- 	struct list_head *ack_list_head;
--	unsigned long flags;
--	bool use_work = false;
- 
- 	if (timer == NULL)
- 		return;
-@@ -853,7 +815,7 @@ void snd_timer_interrupt(struct snd_timer * timer, unsigned long ticks_left)
- 		return;
- 	}
- 
--	spin_lock_irqsave(&timer->lock, flags);
-+	guard(spinlock_irqsave)(&timer->lock);
- 
- 	/* remember the current resolution */
- 	resolution = snd_timer_hw_resolution(timer);
-@@ -919,10 +881,7 @@ void snd_timer_interrupt(struct snd_timer * timer, unsigned long ticks_left)
- 	snd_timer_process_callbacks(timer, &timer->ack_list_head);
- 
- 	/* do we have any slow callbacks? */
--	use_work = !list_empty(&timer->sack_list_head);
--	spin_unlock_irqrestore(&timer->lock, flags);
--
--	if (use_work)
-+	if (!list_empty(&timer->sack_list_head))
- 		queue_work(system_highpri_wq, &timer->task_work);
- }
- EXPORT_SYMBOL(snd_timer_interrupt);
-@@ -988,7 +947,7 @@ static int snd_timer_free(struct snd_timer *timer)
- 	if (!timer)
+ 	if (!f)
  		return 0;
  
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	if (! list_empty(&timer->open_list_head)) {
- 		struct list_head *p, *n;
- 		struct snd_timer_instance *ti;
-@@ -1000,7 +959,6 @@ static int snd_timer_free(struct snd_timer *timer)
- 		}
- 	}
- 	list_del(&timer->device_list);
--	mutex_unlock(&register_mutex);
- 
- 	if (timer->private_free)
- 		timer->private_free(timer);
-@@ -1025,7 +983,7 @@ static int snd_timer_dev_register(struct snd_device *dev)
- 	    !timer->hw.resolution && timer->hw.c_resolution == NULL)
- 	    	return -EINVAL;
- 
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	list_for_each_entry(timer1, &snd_timer_list, device_list) {
- 		if (timer1->tmr_class > timer->tmr_class)
- 			break;
-@@ -1046,11 +1004,9 @@ static int snd_timer_dev_register(struct snd_device *dev)
- 		if (timer1->tmr_subdevice < timer->tmr_subdevice)
- 			continue;
- 		/* conflicts.. */
--		mutex_unlock(&register_mutex);
- 		return -EBUSY;
- 	}
- 	list_add_tail(&timer->device_list, &timer1->device_list);
--	mutex_unlock(&register_mutex);
- 	return 0;
- }
- 
-@@ -1059,20 +1015,18 @@ static int snd_timer_dev_disconnect(struct snd_device *device)
- 	struct snd_timer *timer = device->device_data;
- 	struct snd_timer_instance *ti;
- 
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	list_del_init(&timer->device_list);
- 	/* wake up pending sleepers */
- 	list_for_each_entry(ti, &timer->open_list_head, open_list) {
- 		if (ti->disconnect)
- 			ti->disconnect(ti);
- 	}
--	mutex_unlock(&register_mutex);
- 	return 0;
- }
- 
- void snd_timer_notify(struct snd_timer *timer, int event, struct timespec64 *tstamp)
- {
--	unsigned long flags;
- 	unsigned long resolution = 0;
- 	struct snd_timer_instance *ti, *ts;
- 
-@@ -1083,7 +1037,7 @@ void snd_timer_notify(struct snd_timer *timer, int event, struct timespec64 *tst
- 	if (snd_BUG_ON(event < SNDRV_TIMER_EVENT_MSTART ||
- 		       event > SNDRV_TIMER_EVENT_MRESUME))
- 		return;
--	spin_lock_irqsave(&timer->lock, flags);
-+	guard(spinlock_irqsave)(&timer->lock);
- 	if (event == SNDRV_TIMER_EVENT_MSTART ||
- 	    event == SNDRV_TIMER_EVENT_MCONTINUE ||
- 	    event == SNDRV_TIMER_EVENT_MRESUME)
-@@ -1095,7 +1049,6 @@ void snd_timer_notify(struct snd_timer *timer, int event, struct timespec64 *tst
- 			if (ts->ccallback)
- 				ts->ccallback(ts, event, tstamp, resolution);
- 	}
--	spin_unlock_irqrestore(&timer->lock, flags);
- }
- EXPORT_SYMBOL(snd_timer_notify);
- 
-@@ -1248,7 +1201,7 @@ static void snd_timer_proc_read(struct snd_info_entry *entry,
- 	struct snd_timer_instance *ti;
- 	unsigned long resolution;
- 
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	list_for_each_entry(timer, &snd_timer_list, device_list) {
- 		if (timer->card && timer->card->shutdown)
- 			continue;
-@@ -1270,9 +1223,8 @@ static void snd_timer_proc_read(struct snd_info_entry *entry,
- 				    timer->tmr_device, timer->tmr_subdevice);
- 		}
- 		snd_iprintf(buffer, "%s :", timer->name);
--		spin_lock_irq(&timer->lock);
--		resolution = snd_timer_hw_resolution(timer);
--		spin_unlock_irq(&timer->lock);
-+		scoped_guard(spinlock_irq, &timer->lock)
-+			resolution = snd_timer_hw_resolution(timer);
- 		if (resolution)
- 			snd_iprintf(buffer, " %lu.%03luus (%lu ticks)",
- 				    resolution / 1000,
-@@ -1288,7 +1240,6 @@ static void snd_timer_proc_read(struct snd_info_entry *entry,
- 						  SNDRV_TIMER_IFLG_RUNNING))
- 				    ? "running" : "stopped");
- 	}
--	mutex_unlock(&register_mutex);
- }
- 
- static struct snd_info_entry *snd_timer_proc_entry;
-@@ -1329,7 +1280,7 @@ static void snd_timer_user_interrupt(struct snd_timer_instance *timeri,
- 	struct snd_timer_read *r;
- 	int prev;
- 
--	spin_lock(&tu->qlock);
-+	guard(spinlock)(&tu->qlock);
- 	if (tu->qused > 0) {
- 		prev = tu->qtail == 0 ? tu->queue_size - 1 : tu->qtail - 1;
- 		r = &tu->queue[prev];
-@@ -1348,7 +1299,6 @@ static void snd_timer_user_interrupt(struct snd_timer_instance *timeri,
- 		tu->qused++;
- 	}
-       __wake:
--	spin_unlock(&tu->qlock);
- 	snd_kill_fasync(tu->fasync, SIGIO, POLL_IN);
- 	wake_up(&tu->qchange_sleep);
- }
-@@ -1372,7 +1322,6 @@ static void snd_timer_user_ccallback(struct snd_timer_instance *timeri,
- {
- 	struct snd_timer_user *tu = timeri->callback_data;
- 	struct snd_timer_tread64 r1;
--	unsigned long flags;
- 
- 	if (event >= SNDRV_TIMER_EVENT_START &&
- 	    event <= SNDRV_TIMER_EVENT_PAUSE)
-@@ -1384,9 +1333,8 @@ static void snd_timer_user_ccallback(struct snd_timer_instance *timeri,
- 	r1.tstamp_sec = tstamp->tv_sec;
- 	r1.tstamp_nsec = tstamp->tv_nsec;
- 	r1.val = resolution;
--	spin_lock_irqsave(&tu->qlock, flags);
--	snd_timer_user_append_to_tqueue(tu, &r1);
--	spin_unlock_irqrestore(&tu->qlock, flags);
-+	scoped_guard(spinlock_irqsave, &tu->qlock)
-+		snd_timer_user_append_to_tqueue(tu, &r1);
- 	snd_kill_fasync(tu->fasync, SIGIO, POLL_IN);
- 	wake_up(&tu->qchange_sleep);
- }
-@@ -1410,51 +1358,48 @@ static void snd_timer_user_tinterrupt(struct snd_timer_instance *timeri,
- 
- 	memset(&r1, 0, sizeof(r1));
- 	memset(&tstamp, 0, sizeof(tstamp));
--	spin_lock(&tu->qlock);
--	if ((tu->filter & ((1 << SNDRV_TIMER_EVENT_RESOLUTION) |
--			   (1 << SNDRV_TIMER_EVENT_TICK))) == 0) {
--		spin_unlock(&tu->qlock);
--		return;
--	}
--	if (tu->last_resolution != resolution || ticks > 0) {
--		if (timer_tstamp_monotonic)
--			ktime_get_ts64(&tstamp);
--		else
--			ktime_get_real_ts64(&tstamp);
--	}
--	if ((tu->filter & (1 << SNDRV_TIMER_EVENT_RESOLUTION)) &&
--	    tu->last_resolution != resolution) {
--		r1.event = SNDRV_TIMER_EVENT_RESOLUTION;
-+	scoped_guard(spinlock, &tu->qlock) {
-+		if ((tu->filter & ((1 << SNDRV_TIMER_EVENT_RESOLUTION) |
-+				   (1 << SNDRV_TIMER_EVENT_TICK))) == 0)
-+			return;
-+		if (tu->last_resolution != resolution || ticks > 0) {
-+			if (timer_tstamp_monotonic)
-+				ktime_get_ts64(&tstamp);
-+			else
-+				ktime_get_real_ts64(&tstamp);
-+		}
-+		if ((tu->filter & (1 << SNDRV_TIMER_EVENT_RESOLUTION)) &&
-+		    tu->last_resolution != resolution) {
-+			r1.event = SNDRV_TIMER_EVENT_RESOLUTION;
-+			r1.tstamp_sec = tstamp.tv_sec;
-+			r1.tstamp_nsec = tstamp.tv_nsec;
-+			r1.val = resolution;
-+			snd_timer_user_append_to_tqueue(tu, &r1);
-+			tu->last_resolution = resolution;
-+			append++;
-+		}
-+		if ((tu->filter & (1 << SNDRV_TIMER_EVENT_TICK)) == 0)
-+			break;
-+		if (ticks == 0)
-+			break;
-+		if (tu->qused > 0) {
-+			prev = tu->qtail == 0 ? tu->queue_size - 1 : tu->qtail - 1;
-+			r = &tu->tqueue[prev];
-+			if (r->event == SNDRV_TIMER_EVENT_TICK) {
-+				r->tstamp_sec = tstamp.tv_sec;
-+				r->tstamp_nsec = tstamp.tv_nsec;
-+				r->val += ticks;
-+				append++;
-+				break;
-+			}
-+		}
-+		r1.event = SNDRV_TIMER_EVENT_TICK;
- 		r1.tstamp_sec = tstamp.tv_sec;
- 		r1.tstamp_nsec = tstamp.tv_nsec;
--		r1.val = resolution;
-+		r1.val = ticks;
- 		snd_timer_user_append_to_tqueue(tu, &r1);
--		tu->last_resolution = resolution;
- 		append++;
- 	}
--	if ((tu->filter & (1 << SNDRV_TIMER_EVENT_TICK)) == 0)
--		goto __wake;
--	if (ticks == 0)
--		goto __wake;
--	if (tu->qused > 0) {
--		prev = tu->qtail == 0 ? tu->queue_size - 1 : tu->qtail - 1;
--		r = &tu->tqueue[prev];
--		if (r->event == SNDRV_TIMER_EVENT_TICK) {
--			r->tstamp_sec = tstamp.tv_sec;
--			r->tstamp_nsec = tstamp.tv_nsec;
--			r->val += ticks;
--			append++;
--			goto __wake;
--		}
--	}
--	r1.event = SNDRV_TIMER_EVENT_TICK;
--	r1.tstamp_sec = tstamp.tv_sec;
--	r1.tstamp_nsec = tstamp.tv_nsec;
--	r1.val = ticks;
--	snd_timer_user_append_to_tqueue(tu, &r1);
--	append++;
--      __wake:
--	spin_unlock(&tu->qlock);
- 	if (append == 0)
- 		return;
- 	snd_kill_fasync(tu->fasync, SIGIO, POLL_IN);
-@@ -1476,14 +1421,13 @@ static int realloc_user_queue(struct snd_timer_user *tu, int size)
- 			return -ENOMEM;
- 	}
- 
--	spin_lock_irq(&tu->qlock);
-+	guard(spinlock_irq)(&tu->qlock);
- 	kfree(tu->queue);
- 	kfree(tu->tqueue);
- 	tu->queue_size = size;
- 	tu->queue = queue;
- 	tu->tqueue = tqueue;
- 	tu->qhead = tu->qtail = tu->qused = 0;
--	spin_unlock_irq(&tu->qlock);
- 
- 	return 0;
- }
-@@ -1519,12 +1463,12 @@ static int snd_timer_user_release(struct inode *inode, struct file *file)
- 	if (file->private_data) {
- 		tu = file->private_data;
- 		file->private_data = NULL;
--		mutex_lock(&tu->ioctl_lock);
--		if (tu->timeri) {
--			snd_timer_close(tu->timeri);
--			snd_timer_instance_free(tu->timeri);
-+		scoped_guard(mutex, &tu->ioctl_lock) {
-+			if (tu->timeri) {
-+				snd_timer_close(tu->timeri);
-+				snd_timer_instance_free(tu->timeri);
-+			}
- 		}
--		mutex_unlock(&tu->ioctl_lock);
- 		snd_fasync_free(tu->fasync);
- 		kfree(tu->queue);
- 		kfree(tu->tqueue);
-@@ -1559,7 +1503,7 @@ static int snd_timer_user_next_device(struct snd_timer_id __user *_tid)
- 
- 	if (copy_from_user(&id, _tid, sizeof(id)))
- 		return -EFAULT;
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	if (id.dev_class < 0) {		/* first item */
- 		if (list_empty(&snd_timer_list))
- 			snd_timer_user_zero_id(&id);
-@@ -1636,7 +1580,6 @@ static int snd_timer_user_next_device(struct snd_timer_id __user *_tid)
- 			snd_timer_user_zero_id(&id);
- 		}
- 	}
--	mutex_unlock(&register_mutex);
- 	if (copy_to_user(_tid, &id, sizeof(*_tid)))
- 		return -EFAULT;
- 	return 0;
-@@ -1649,7 +1592,6 @@ static int snd_timer_user_ginfo(struct file *file,
- 	struct snd_timer_id tid;
- 	struct snd_timer *t;
- 	struct list_head *p;
--	int err = 0;
- 
- 	ginfo = memdup_user(_ginfo, sizeof(*ginfo));
- 	if (IS_ERR(ginfo))
-@@ -1658,56 +1600,42 @@ static int snd_timer_user_ginfo(struct file *file,
- 	tid = ginfo->tid;
- 	memset(ginfo, 0, sizeof(*ginfo));
- 	ginfo->tid = tid;
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	t = snd_timer_find(&tid);
--	if (t != NULL) {
--		ginfo->card = t->card ? t->card->number : -1;
--		if (t->hw.flags & SNDRV_TIMER_HW_SLAVE)
--			ginfo->flags |= SNDRV_TIMER_FLG_SLAVE;
--		strscpy(ginfo->id, t->id, sizeof(ginfo->id));
--		strscpy(ginfo->name, t->name, sizeof(ginfo->name));
--		spin_lock_irq(&t->lock);
-+	if (!t)
-+		return -ENODEV;
-+	ginfo->card = t->card ? t->card->number : -1;
-+	if (t->hw.flags & SNDRV_TIMER_HW_SLAVE)
-+		ginfo->flags |= SNDRV_TIMER_FLG_SLAVE;
-+	strscpy(ginfo->id, t->id, sizeof(ginfo->id));
-+	strscpy(ginfo->name, t->name, sizeof(ginfo->name));
-+	scoped_guard(spinlock_irq, &t->lock)
- 		ginfo->resolution = snd_timer_hw_resolution(t);
--		spin_unlock_irq(&t->lock);
--		if (t->hw.resolution_min > 0) {
--			ginfo->resolution_min = t->hw.resolution_min;
--			ginfo->resolution_max = t->hw.resolution_max;
--		}
--		list_for_each(p, &t->open_list_head) {
--			ginfo->clients++;
--		}
--	} else {
--		err = -ENODEV;
-+	if (t->hw.resolution_min > 0) {
-+		ginfo->resolution_min = t->hw.resolution_min;
-+		ginfo->resolution_max = t->hw.resolution_max;
- 	}
--	mutex_unlock(&register_mutex);
--	if (err >= 0 && copy_to_user(_ginfo, ginfo, sizeof(*ginfo)))
--		err = -EFAULT;
--	return err;
-+	list_for_each(p, &t->open_list_head) {
-+		ginfo->clients++;
-+	}
-+	if (copy_to_user(_ginfo, ginfo, sizeof(*ginfo)))
-+		return -EFAULT;
-+	return 0;
- }
- 
- static int timer_set_gparams(struct snd_timer_gparams *gparams)
- {
- 	struct snd_timer *t;
--	int err;
- 
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	t = snd_timer_find(&gparams->tid);
--	if (!t) {
--		err = -ENODEV;
--		goto _error;
--	}
--	if (!list_empty(&t->open_list_head)) {
--		err = -EBUSY;
--		goto _error;
--	}
--	if (!t->hw.set_period) {
--		err = -ENOSYS;
--		goto _error;
--	}
--	err = t->hw.set_period(t, gparams->period_num, gparams->period_den);
--_error:
--	mutex_unlock(&register_mutex);
--	return err;
-+	if (!t)
-+		return -ENODEV;
-+	if (!list_empty(&t->open_list_head))
-+		return -EBUSY;
-+	if (!t->hw.set_period)
-+		return -ENOSYS;
-+	return t->hw.set_period(t, gparams->period_num, gparams->period_den);
- }
- 
- static int snd_timer_user_gparams(struct file *file,
-@@ -1733,10 +1661,10 @@ static int snd_timer_user_gstatus(struct file *file,
- 	tid = gstatus.tid;
- 	memset(&gstatus, 0, sizeof(gstatus));
- 	gstatus.tid = tid;
--	mutex_lock(&register_mutex);
-+	guard(mutex)(&register_mutex);
- 	t = snd_timer_find(&tid);
- 	if (t != NULL) {
--		spin_lock_irq(&t->lock);
-+		guard(spinlock_irq)(&t->lock);
- 		gstatus.resolution = snd_timer_hw_resolution(t);
- 		if (t->hw.precise_resolution) {
- 			t->hw.precise_resolution(t, &gstatus.resolution_num,
-@@ -1745,11 +1673,9 @@ static int snd_timer_user_gstatus(struct file *file,
- 			gstatus.resolution_num = gstatus.resolution;
- 			gstatus.resolution_den = 1000000000uL;
- 		}
--		spin_unlock_irq(&t->lock);
- 	} else {
- 		err = -ENODEV;
- 	}
--	mutex_unlock(&register_mutex);
- 	if (err >= 0 && copy_to_user(_gstatus, &gstatus, sizeof(gstatus)))
- 		err = -EFAULT;
- 	return err;
-@@ -1821,9 +1747,8 @@ static int snd_timer_user_info(struct file *file,
- 		info->flags |= SNDRV_TIMER_FLG_SLAVE;
- 	strscpy(info->id, t->id, sizeof(info->id));
- 	strscpy(info->name, t->name, sizeof(info->name));
--	spin_lock_irq(&t->lock);
--	info->resolution = snd_timer_hw_resolution(t);
--	spin_unlock_irq(&t->lock);
-+	scoped_guard(spinlock_irq, &t->lock)
-+		info->resolution = snd_timer_hw_resolution(t);
- 	if (copy_to_user(_info, info, sizeof(*_info)))
- 		return -EFAULT;
- 	return 0;
-@@ -1884,45 +1809,47 @@ static int snd_timer_user_params(struct file *file,
- 		goto _end;
- 	}
- 	snd_timer_stop(tu->timeri);
--	spin_lock_irq(&t->lock);
--	tu->timeri->flags &= ~(SNDRV_TIMER_IFLG_AUTO|
--			       SNDRV_TIMER_IFLG_EXCLUSIVE|
--			       SNDRV_TIMER_IFLG_EARLY_EVENT);
--	if (params.flags & SNDRV_TIMER_PSFLG_AUTO)
--		tu->timeri->flags |= SNDRV_TIMER_IFLG_AUTO;
--	if (params.flags & SNDRV_TIMER_PSFLG_EXCLUSIVE)
--		tu->timeri->flags |= SNDRV_TIMER_IFLG_EXCLUSIVE;
--	if (params.flags & SNDRV_TIMER_PSFLG_EARLY_EVENT)
--		tu->timeri->flags |= SNDRV_TIMER_IFLG_EARLY_EVENT;
--	spin_unlock_irq(&t->lock);
-+	scoped_guard(spinlock_irq, &t->lock) {
-+		tu->timeri->flags &= ~(SNDRV_TIMER_IFLG_AUTO|
-+				       SNDRV_TIMER_IFLG_EXCLUSIVE|
-+				       SNDRV_TIMER_IFLG_EARLY_EVENT);
-+		if (params.flags & SNDRV_TIMER_PSFLG_AUTO)
-+			tu->timeri->flags |= SNDRV_TIMER_IFLG_AUTO;
-+		if (params.flags & SNDRV_TIMER_PSFLG_EXCLUSIVE)
-+			tu->timeri->flags |= SNDRV_TIMER_IFLG_EXCLUSIVE;
-+		if (params.flags & SNDRV_TIMER_PSFLG_EARLY_EVENT)
-+			tu->timeri->flags |= SNDRV_TIMER_IFLG_EARLY_EVENT;
-+	}
- 	if (params.queue_size > 0 &&
- 	    (unsigned int)tu->queue_size != params.queue_size) {
- 		err = realloc_user_queue(tu, params.queue_size);
- 		if (err < 0)
- 			goto _end;
- 	}
--	spin_lock_irq(&tu->qlock);
--	tu->qhead = tu->qtail = tu->qused = 0;
--	if (tu->timeri->flags & SNDRV_TIMER_IFLG_EARLY_EVENT) {
--		if (tu->tread) {
--			struct snd_timer_tread64 tread;
--			memset(&tread, 0, sizeof(tread));
--			tread.event = SNDRV_TIMER_EVENT_EARLY;
--			tread.tstamp_sec = 0;
--			tread.tstamp_nsec = 0;
--			tread.val = 0;
--			snd_timer_user_append_to_tqueue(tu, &tread);
--		} else {
--			struct snd_timer_read *r = &tu->queue[0];
--			r->resolution = 0;
--			r->ticks = 0;
--			tu->qused++;
--			tu->qtail++;
-+	scoped_guard(spinlock_irq, &tu->qlock) {
-+		tu->qhead = tu->qtail = tu->qused = 0;
-+		if (tu->timeri->flags & SNDRV_TIMER_IFLG_EARLY_EVENT) {
-+			if (tu->tread) {
-+				struct snd_timer_tread64 tread;
-+
-+				memset(&tread, 0, sizeof(tread));
-+				tread.event = SNDRV_TIMER_EVENT_EARLY;
-+				tread.tstamp_sec = 0;
-+				tread.tstamp_nsec = 0;
-+				tread.val = 0;
-+				snd_timer_user_append_to_tqueue(tu, &tread);
-+			} else {
-+				struct snd_timer_read *r = &tu->queue[0];
-+
-+				r->resolution = 0;
-+				r->ticks = 0;
-+				tu->qused++;
-+				tu->qtail++;
-+			}
- 		}
-+		tu->filter = params.filter;
-+		tu->ticks = params.ticks;
- 	}
--	tu->filter = params.filter;
--	tu->ticks = params.ticks;
--	spin_unlock_irq(&tu->qlock);
- 	err = 0;
-  _end:
- 	if (copy_to_user(_params, &params, sizeof(params)))
-@@ -1945,9 +1872,8 @@ static int snd_timer_user_status32(struct file *file,
- 	status.resolution = snd_timer_resolution(tu->timeri);
- 	status.lost = tu->timeri->lost;
- 	status.overrun = tu->overrun;
--	spin_lock_irq(&tu->qlock);
--	status.queue = tu->qused;
--	spin_unlock_irq(&tu->qlock);
-+	scoped_guard(spinlock_irq, &tu->qlock)
-+		status.queue = tu->qused;
- 	if (copy_to_user(_status, &status, sizeof(status)))
- 		return -EFAULT;
- 	return 0;
-@@ -1968,9 +1894,8 @@ static int snd_timer_user_status64(struct file *file,
- 	status.resolution = snd_timer_resolution(tu->timeri);
- 	status.lost = tu->timeri->lost;
- 	status.overrun = tu->overrun;
--	spin_lock_irq(&tu->qlock);
--	status.queue = tu->qused;
--	spin_unlock_irq(&tu->qlock);
-+	scoped_guard(spinlock_irq, &tu->qlock)
-+		status.queue = tu->qused;
- 	if (copy_to_user(_status, &status, sizeof(status)))
- 		return -EFAULT;
- 	return 0;
-@@ -2128,12 +2053,9 @@ static long snd_timer_user_ioctl(struct file *file, unsigned int cmd,
- 				 unsigned long arg)
- {
- 	struct snd_timer_user *tu = file->private_data;
--	long ret;
- 
--	mutex_lock(&tu->ioctl_lock);
--	ret = __snd_timer_user_ioctl(file, cmd, arg, false);
--	mutex_unlock(&tu->ioctl_lock);
--	return ret;
-+	guard(mutex)(&tu->ioctl_lock);
-+	return __snd_timer_user_ioctl(file, cmd, arg, false);
- }
- 
- static int snd_timer_user_fasync(int fd, struct file * file, int on)
-@@ -2260,12 +2182,11 @@ static __poll_t snd_timer_user_poll(struct file *file, poll_table * wait)
-         poll_wait(file, &tu->qchange_sleep, wait);
- 
- 	mask = 0;
--	spin_lock_irq(&tu->qlock);
-+	guard(spinlock_irq)(&tu->qlock);
- 	if (tu->qused)
- 		mask |= EPOLLIN | EPOLLRDNORM;
- 	if (tu->disconnected)
- 		mask |= EPOLLERR;
--	spin_unlock_irq(&tu->qlock);
- 
- 	return mask;
- }
-diff --git a/sound/core/timer_compat.c b/sound/core/timer_compat.c
-index ee973b7b8044..4ae9eaeb5afb 100644
---- a/sound/core/timer_compat.c
-+++ b/sound/core/timer_compat.c
-@@ -115,10 +115,7 @@ static long snd_timer_user_ioctl_compat(struct file *file, unsigned int cmd,
- 					unsigned long arg)
- {
- 	struct snd_timer_user *tu = file->private_data;
--	long ret;
- 
--	mutex_lock(&tu->ioctl_lock);
--	ret = __snd_timer_user_ioctl_compat(file, cmd, arg);
--	mutex_unlock(&tu->ioctl_lock);
--	return ret;
-+	guard(mutex)(&tu->ioctl_lock);
-+	return __snd_timer_user_ioctl_compat(file, cmd, arg);
+ 	snd_use_lock_use(&f->use_lock);
+-	spin_lock_irqsave(&f->lock, flags);
+-	cells = snd_seq_unused_cells(f->pool);
+-	spin_unlock_irqrestore(&f->lock, flags);
++	scoped_guard(spinlock_irqsave, &f->lock)
++		cells = snd_seq_unused_cells(f->pool);
+ 	snd_use_lock_free(&f->use_lock);
+ 	return cells;
  }
 -- 
 2.35.3
