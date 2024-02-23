@@ -1,148 +1,61 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-200166.simplelogin.co (mail-200166.simplelogin.co [176.119.200.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA8A7E779
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 13:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708696667; cv=none; b=nx25RBP9j7JTZKNAGKIGjpSiqi8d0BwnBkmkO8zC+n5oN6mPXVAwgcCA7DYFWwjUtZN0ZSd0ZnfEf2bsish1+kM7RToGkyrjF5pw/Ek4CdnfG3vmziGWnwFqFUlSl0IpYEh57RA2+PQqq7DaQWfg6hTlSFo/XnM7FN3nYrfMYV0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708696667; c=relaxed/simple;
-	bh=xaO4cUScFrSD4pTs/VF4FjHkzV69WCYv1eyYZyogaag=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MgUm8rXx2a//kRO60bhJAXtt9U8edvcAl1W9/9tjEZOGRPXNoX/5lPaoHwjgQHnNENq1tNRJv83IgVZcYC4CS14N167/fMMmzTPoOlmuTQd7IRPWvsRZ639Nr5S2Aiwm+e6ZGpfxhfoGOrlr/p2znxlSmEllPznYgpaacK6yjik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BplvIKk+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6BUBAebZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UDw2Hkg/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NsPt6L+L; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF568F44
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 14:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=176.119.200.166
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708699336; cv=pass; b=kgaXmL6P4L3SoxBeOXas+n4nZaGR0DCRYGY1x+/IJfDmBJ5hyVQ2tAEcgRnp76cCEo44AoZJcEch/0ogSXM3r+4IQcfTm4O3wPJJt+pzwVloa0WjYpsHYsl123gc/fnIfD2vkGCFyEmvwEy+8yJq64iWpUdzl3FuWn3Rv+t2GX4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708699336; c=relaxed/simple;
+	bh=fJQJy+9agwrK2lYXTF4aYTDMh/E/eJgm8QM6Y7gCS+s=;
+	h=MIME-Version:Date:Subject:Content-Type:From:To:Cc:Message-ID; b=SawGdVCxA2t4vj5wFKZHvLxvFBc2I/GMMSaM3Omz9675A7IVPHm8R6Kgx7YNDa4JxxHTz+hrnnrLo45nhRDrL+dCF8X26mWjrd7KolEPeeg4dNJAFODQF5hVeYEbGfP7Ts0dI4X4W3CSzUx5kN+/TySYBkAVNd8eWNRerfID7QM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=willian.wang; spf=pass smtp.mailfrom=willian.wang; dkim=pass (1024-bit key) header.d=willian.wang header.i=@willian.wang header.b=E68YxpyU; arc=pass smtp.client-ip=176.119.200.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=willian.wang
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=willian.wang
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BplvIKk+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6BUBAebZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UDw2Hkg/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NsPt6L+L"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EB59D21228;
-	Fri, 23 Feb 2024 13:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708696664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V2VnXiwBMr8OEGNfOOEISrIRVqyNDwzg6Yi1yiJ6y0k=;
-	b=BplvIKk+ejYyXBCvNq3pwruGLaaPmqdSTY672Ro0Z2fHVuHO3PHMVBGbflUa3RaLTjx5U5
-	dp57nWhedA5bCpLe5CdP/K3rMv5u/XrZWU1AnIKbgcqDcfDuFTLN5/fplwHn83Qe4UzylK
-	7Fy/GD+IZISbuMmPlhpONAa5G3ww2FU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708696664;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V2VnXiwBMr8OEGNfOOEISrIRVqyNDwzg6Yi1yiJ6y0k=;
-	b=6BUBAebZ6+9gidjUaXigSgp3mYqrqFZkq5uNE4/Z+xB1eG99ih36C5W4kiJ4l3rVTmdMnj
-	MtdNPveetwF/MAAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708696663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V2VnXiwBMr8OEGNfOOEISrIRVqyNDwzg6Yi1yiJ6y0k=;
-	b=UDw2Hkg/L+Gn0/o/DaJP2u5bkdWaWfXqX3Sjryb4hPilgT5aTF2zungS3bWHejOuU4FtcM
-	eykc4d/nyjieflb+eTVbaCgQHeI7c2U9Nyd2/8Oe4hB/XgYv14MwsYsdxveP0SKRO6+BYP
-	iGxYTWoSEJZRLBkBsTSqKkEjUt1kM3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708696663;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V2VnXiwBMr8OEGNfOOEISrIRVqyNDwzg6Yi1yiJ6y0k=;
-	b=NsPt6L+L3H8lwvCuJ/eFnghQ3Y3WyLMpOTV6bcJ9tsLa+px1PUP6NVgF5cI80Tef1JCxyO
-	miy7s1nigjDq2CBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6875132C7;
-	Fri, 23 Feb 2024 13:57:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +WXyLlek2GUnDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 13:57:43 +0000
-Date: Fri, 23 Feb 2024 14:57:43 +0100
-Message-ID: <87sf1j2sh4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: PCI SSID and Codec SSID collision?
-In-Reply-To: <d5b42e483566a3815d229270abd668131a0d9f3a.camel@irl.hu>
-References: <d5b42e483566a3815d229270abd668131a0d9f3a.camel@irl.hu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=willian.wang header.i=@willian.wang header.b="E68YxpyU"
+ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1708699326;
+	cv=none; b=0nMPzDPYW4p6JsSyKmFOT/Sop713MEwwovmV7XCuE+XgjYQ4rpaZ/gkysnNMfs/+iXVnLU7QZJ5JQrnlmHxIyFrQZmoWUVhEk1wlH+HPRVCqahOlaSv1/hsDe48Sf/la/lfL39xOAppjg5pG9N+5KHGquQK01rjwbo3et1jZ2Lpq8BRG3zlQ2+yZymjRqusKwVB9Uq3rVQrwTSNvEOzwuKxS/NHXo+6Jj/lmE9zlGtOJyLrApyMcnQEUZnmpgDkW4O3n2qYSGsgZ0Kyq6pN3pRXx+dnbg5FWo7JAzDGhws7dTVwkm449zt4BW5xAj+L4u5Fc/XHIGpdPXnMLVFHcyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
+	t=1708699326; c=relaxed/simple;
+	bh=fJQJy+9agwrK2lYXTF4aYTDMh/E/eJgm8QM6Y7gCS+s=;
+	h=Date:Subject:From:To:Cc; b=ZdHwqOskObZe/iB0Z3sHjMewHZ6jMCRWZpeqVWw8JH5/UYVusu7uqdQOwELlXBCpA2UnruX6h3Lw+z2lm5ig16q8A+f1iHKURUa5vyUhhjD++DN3WoSeKgimuajXGVYUkJ9aQRGfT/FnebEmb9wk/5hO3jnBrBDQ+eJUCTaC+/R0XfY0jg6UD4s4TqtkyxwWS9wHAWqP9FGkJDIvWqgdo5Jz+Yhbl3jKR3d5lkJy2sJ6MXiLowoCoAP8KmvGRQL8lz/CmfFn5xX4xesnjrpP/DoB02uVobEHQAzXWXdh0IjtJMpkLrqzDWDB4YOKw0mnkA8zKbSfBlREkYe708AxjQ==
+ARC-Authentication-Results: i=1; mail.protonmail.ch
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=willian.wang;
+	s=dkim; t=1708699326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fJQJy+9agwrK2lYXTF4aYTDMh/E/eJgm8QM6Y7gCS+s=;
+	b=E68YxpyUKmZZqju5KM/yWHZRZJrHvNxLPP2196UAzkW487MB2z2eeez/HGFDMAmpKhKXzq
+	020APPMZ4okCPRyYE7l5EhV8gHbhDy7uLrOix1baJUwGmCOykOJaiHWrQVs5MW7+CDDcDc
+	UC2U1lHvG7ZeTkGX7cTnerqYiVYv8dw=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.75
-X-Spamd-Result: default: False [-0.75 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 SUBJECT_ENDS_QUESTION(1.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.45)[91.29%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Date: Fri, 23 Feb 2024 11:41:26 -0300
+Subject: Re: PCI SSID and Codec SSID collision?
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+From: Willian Wang <kernel@willian.wang>
+To: tiwai@suse.de
+Cc: alsa-devel@alsa-project.org,linux-sound@vger.kernel.org,soyer@irl.hu
+Message-ID: <170869932581.7.612391552809015627.273152461@willian.wang>
+X-SimpleLogin-Type: Reply
+X-SimpleLogin-EmailLog-ID: 273152462
+X-SimpleLogin-Want-Signing: yes
 
-On Fri, 23 Feb 2024 13:05:12 +0100,
-Gergo Koteles wrote:
-> 
-> Hi,
-> 
-> The Lenovo Yoga Slim Pro 9 14IRP8 has tas2781 amplifiers, but it can
-> only pickup its fixup with the hda_model=17aa:38be module parameter.
-> 
-> The 17aa:38be is the SSID of its Codec. The PCI SSID is 17aa:3802.
-> 
-> The patch_realtek.c has these fixup:
-> SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga DuetITL 2021",
-> ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
-> SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual",
-> ALC287_FIXUP_TAS2781_I2C),
-> 
-> And the snd_hda_pick_fixup() picks the former fixup because of the same
-> PCI SSID, but that is a Codec SSID?
-> 
-> At least it worked without that line.
-> https://bugzilla.kernel.org/show_bug.cgi?id=208555#c839
-> 
-> It would be nice if it can be work without the module parameter.
-> 
-> What is the best way to add this strangeness to patch_realtek.c?
+Hi, I'm curious about the reasons for the fixup table to be the same
+for PCI and Codec SSIDs and if the PCI SSID is usually more important
+for it to be checked before the Codec. Anyway, would a simple
+conditional statement to match these exact PCI and Codec SSID to set
+the fixup manually be enough? There seems to already exist a manual
+fix for TX300 and ROG Strix G17 there (not the same kind of fix and
+with a FIXME comment, though). I have this exact laptop model and
+would like to try to contribute to the code if it's not too
+complicated.
 
-That's a bad collision that happens rarely but more than once...
-
-In this case, we'd need to fix 17aa:3802 matching to be a special
-function that checks the model more closely.  e.g. create a quirk
-function that checks the codec SSID additionally and apply the
-different quirks from there.
-
-
-thanks,
-
-Takashi
