@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E54313F003
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A6313F00F
 	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710618; cv=none; b=fr96uFVUsf9QV9e4mEPjD9nRBzPcSKOgC2gZ7TUWvW3SSQmaV6ZCdXj6cBwrZw4KHlAJdYpctKs3/+WR5OyVG3+44VR2TyveRaO2EvSwPQ05E1+PkNWBqBBG3QVXvZoFH8g1vWjwt7Fxs3bcQBOxMgDFITmyzPZQP15ZBV7SP4Q=
+	t=1708710618; cv=none; b=FISHQhZyu+4biGVRzT8qylvSxFjh/bUGHMiSk/9MasfWR0VSL3pQDqSBaM2QBb/gBuKkraHm6nRFhLJojf6d8L3KlS/u5iG6rYpq/0K3LnOrKap58slox3ZHSjHV+ZyzTFxi96XrpBNcygE5WW5pDkM3Vq1I8cmcrQQH7eWxN38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708710618; c=relaxed/simple;
-	bh=Y7Hws7KjBnbAumnmkP6ecSUj5yoKLmys0TDxzxRtrqY=;
+	bh=cwsfvCtEdywavZB2WRDbzqvOOd8oG8Ylx4F6Gom1+z4=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c5FdQMIH0KeRUZ4Tbkf0AGXY00GonLka/D1HQvPBBW+Kwu3eEzujPalU5T/alYmOozhhVnMFbEHCgrK2jQaRi+M1GybEr2pDYKmSvJihQK6wLMUrax37xQwZzLWCf0stJr8Mz2zTeim7+R/APygZ4jmyNCGdC5A/a3VsaUL3Jp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZKp/VQGO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NNpbCSKb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZKp/VQGO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NNpbCSKb; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=TPRLBY/8a4BVgDocEg65ZMM8lQEK78LiNp1LbLc4F4ODcMpmfb11YVfKvKE6dpXaikRKJ55d2s1fkkphfp6SKvAu0gh99mwUW66XEGm0Oq5OBklCp58nfWRniHdyCWQ18wMkcmQqihQ0VjKwXNxYe7Txx2BQyKHQ/zYcTOfdKM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=if4XJkbS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zJ6IYZWh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=if4XJkbS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zJ6IYZWh; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZKp/VQGO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NNpbCSKb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZKp/VQGO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NNpbCSKb"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="if4XJkbS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zJ6IYZWh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="if4XJkbS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zJ6IYZWh"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E20CF221D0;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E1D78221D5;
+	Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=ZKp/VQGOFvrKOkMtFpiUIF1QCz2Vfmks4pliZiCz4pJmkWZ1bAZQBTviacpe86tAtnbJOJ
-	znTMpW06SboCUwoUoG0d3gHB7TH6LBUY31rOv+0z9XcJ2uiQR4Jhy4YtTKae2SiHyU7SX8
-	IXsWwK8K2dQBLpRTLyWvFgHluUOE4+Y=
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=if4XJkbSBkBhy4DDCqeeSA1TM7RrEr4HmhsP5mDqkIlaQu2DFf/+1IExM7Sp/XzMjUtF7e
+	UZGecLJx6rMcZ7y8ZOCXyXNz4J3PkG9XJuDbNG5a3XJ2JjBtqaJO8bASPJkhEVDpFc7tiO
+	BC0hfWa0VsbYZFcYpVEVY2pcqn75FWQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710613;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=NNpbCSKbmrHVCcnDUn1i3aYP7ZOOqJHPKbPow3bPezpoRJxb6huzMt1uzc1PLVhcj/UKhM
-	FMcFjH8sbqosETCg==
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=zJ6IYZWhjehCosvhHTHsk7lj3vRKnyUM8YELLn9pnQ2uDwU0CLp3cVNicKScBHZg2NAcGl
+	4RNvjTlGNELFvLBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=ZKp/VQGOFvrKOkMtFpiUIF1QCz2Vfmks4pliZiCz4pJmkWZ1bAZQBTviacpe86tAtnbJOJ
-	znTMpW06SboCUwoUoG0d3gHB7TH6LBUY31rOv+0z9XcJ2uiQR4Jhy4YtTKae2SiHyU7SX8
-	IXsWwK8K2dQBLpRTLyWvFgHluUOE4+Y=
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=if4XJkbSBkBhy4DDCqeeSA1TM7RrEr4HmhsP5mDqkIlaQu2DFf/+1IExM7Sp/XzMjUtF7e
+	UZGecLJx6rMcZ7y8ZOCXyXNz4J3PkG9XJuDbNG5a3XJ2JjBtqaJO8bASPJkhEVDpFc7tiO
+	BC0hfWa0VsbYZFcYpVEVY2pcqn75FWQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710612;
+	s=susede2_ed25519; t=1708710613;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=NNpbCSKbmrHVCcnDUn1i3aYP7ZOOqJHPKbPow3bPezpoRJxb6huzMt1uzc1PLVhcj/UKhM
-	FMcFjH8sbqosETCg==
+	bh=oppnL8CvUq6dqNuLyHeui3UjQKunxHeertMxdEMAQbo=;
+	b=zJ6IYZWhjehCosvhHTHsk7lj3vRKnyUM8YELLn9pnQ2uDwU0CLp3cVNicKScBHZg2NAcGl
+	4RNvjTlGNELFvLBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF34D13AC7;
-	Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C20E813AC1;
+	Fri, 23 Feb 2024 17:50:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OHEkLdTa2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:12 +0000
+	id EAPsLdXa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:13 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 14/24] ALSA: seq: ports: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:51 +0100
-Message-Id: <20240223175001.24375-15-tiwai@suse.de>
+Subject: [PATCH v2 20/24] ALSA: seq: prioq: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:57 +0100
+Message-Id: <20240223175001.24375-21-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
 References: <20240223175001.24375-1-tiwai@suse.de>
@@ -118,266 +118,140 @@ Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_ports.c | 114 ++++++++++++++++---------------------
- 1 file changed, 49 insertions(+), 65 deletions(-)
+ sound/core/seq/seq_prioq.c | 59 +++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 33 deletions(-)
 
-diff --git a/sound/core/seq/seq_ports.c b/sound/core/seq/seq_ports.c
-index f3f14ff0f80f..ca631ca4f2c6 100644
---- a/sound/core/seq/seq_ports.c
-+++ b/sound/core/seq/seq_ports.c
-@@ -48,17 +48,15 @@ struct snd_seq_client_port *snd_seq_port_use_ptr(struct snd_seq_client *client,
- 
- 	if (client == NULL)
- 		return NULL;
--	read_lock(&client->ports_lock);
-+	guard(read_lock)(&client->ports_lock);
- 	list_for_each_entry(port, &client->ports_list_head, list) {
- 		if (port->addr.port == num) {
- 			if (port->closing)
- 				break; /* deleting now */
- 			snd_use_lock_use(&port->use_lock);
--			read_unlock(&client->ports_lock);
- 			return port;
- 		}
- 	}
--	read_unlock(&client->ports_lock);
- 	return NULL;		/* not found */
- }
- 
-@@ -73,7 +71,7 @@ struct snd_seq_client_port *snd_seq_port_query_nearest(struct snd_seq_client *cl
- 
- 	num = pinfo->addr.port;
- 	found = NULL;
--	read_lock(&client->ports_lock);
-+	guard(read_lock)(&client->ports_lock);
- 	list_for_each_entry(port, &client->ports_list_head, list) {
- 		if ((port->capability & SNDRV_SEQ_PORT_CAP_INACTIVE) &&
- 		    !check_inactive)
-@@ -93,7 +91,6 @@ struct snd_seq_client_port *snd_seq_port_query_nearest(struct snd_seq_client *cl
- 		else
- 			snd_use_lock_use(&found->use_lock);
- 	}
--	read_unlock(&client->ports_lock);
- 	return found;
- }
- 
-@@ -145,13 +142,12 @@ int snd_seq_create_port(struct snd_seq_client *client, int port,
- 	snd_use_lock_use(&new_port->use_lock);
- 
- 	num = max(port, 0);
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
-+	guard(mutex)(&client->ports_mutex);
-+	guard(write_lock_irq)(&client->ports_lock);
- 	list_for_each_entry(p, &client->ports_list_head, list) {
- 		if (p->addr.port == port) {
- 			kfree(new_port);
--			num = -EBUSY;
--			goto unlock;
-+			return -EBUSY;
- 		}
- 		if (p->addr.port > num)
- 			break;
-@@ -164,9 +160,6 @@ int snd_seq_create_port(struct snd_seq_client *client, int port,
- 	new_port->addr.port = num;	/* store the port number in the port */
- 	sprintf(new_port->name, "port-%d", num);
- 	*port_ret = new_port;
-- unlock:
--	write_unlock_irq(&client->ports_lock);
--	mutex_unlock(&client->ports_mutex);
- 
- 	return num;
- }
-@@ -281,19 +274,18 @@ int snd_seq_delete_port(struct snd_seq_client *client, int port)
+diff --git a/sound/core/seq/seq_prioq.c b/sound/core/seq/seq_prioq.c
+index e062df7610e1..e649485a8772 100644
+--- a/sound/core/seq/seq_prioq.c
++++ b/sound/core/seq/seq_prioq.c
+@@ -132,7 +132,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 			  struct snd_seq_event_cell * cell)
  {
- 	struct snd_seq_client_port *found = NULL, *p;
+ 	struct snd_seq_event_cell *cur, *prev;
+-	unsigned long flags;
+ 	int count;
+ 	int prior;
  
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
--	list_for_each_entry(p, &client->ports_list_head, list) {
--		if (p->addr.port == port) {
--			/* ok found.  delete from the list at first */
--			list_del(&p->list);
--			client->num_ports--;
--			found = p;
--			break;
-+	scoped_guard(mutex, &client->ports_mutex) {
-+		guard(write_lock_irq)(&client->ports_lock);
-+		list_for_each_entry(p, &client->ports_list_head, list) {
-+			if (p->addr.port == port) {
-+				/* ok found.  delete from the list at first */
-+				list_del(&p->list);
-+				client->num_ports--;
-+				found = p;
-+				break;
-+			}
+@@ -142,7 +141,7 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 	/* check flags */
+ 	prior = (cell->event.flags & SNDRV_SEQ_PRIORITY_MASK);
+ 
+-	spin_lock_irqsave(&f->lock, flags);
++	guard(spinlock_irqsave)(&f->lock);
+ 
+ 	/* check if this element needs to inserted at the end (ie. ordered 
+ 	   data is inserted) This will be very likeley if a sequencer 
+@@ -154,7 +153,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 			f->tail = cell;
+ 			cell->next = NULL;
+ 			f->cells++;
+-			spin_unlock_irqrestore(&f->lock, flags);
+ 			return 0;
  		}
  	}
--	write_unlock_irq(&client->ports_lock);
--	mutex_unlock(&client->ports_mutex);
- 	if (found)
- 		return port_delete(client, found);
- 	else
-@@ -309,16 +301,16 @@ int snd_seq_delete_all_ports(struct snd_seq_client *client)
- 	/* move the port list to deleted_list, and
- 	 * clear the port list in the client data.
- 	 */
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
--	if (! list_empty(&client->ports_list_head)) {
--		list_add(&deleted_list, &client->ports_list_head);
--		list_del_init(&client->ports_list_head);
--	} else {
--		INIT_LIST_HEAD(&deleted_list);
-+	guard(mutex)(&client->ports_mutex);
-+	scoped_guard(write_lock_irq, &client->ports_lock) {
-+		if (!list_empty(&client->ports_list_head)) {
-+			list_add(&deleted_list, &client->ports_list_head);
-+			list_del_init(&client->ports_list_head);
-+		} else {
-+			INIT_LIST_HEAD(&deleted_list);
-+		}
-+		client->num_ports = 0;
- 	}
--	client->num_ports = 0;
--	write_unlock_irq(&client->ports_lock);
- 
- 	/* remove each port in deleted_list */
- 	list_for_each_entry_safe(port, tmp, &deleted_list, list) {
-@@ -326,7 +318,6 @@ int snd_seq_delete_all_ports(struct snd_seq_client *client)
- 		snd_seq_system_client_ev_port_exit(port->addr.client, port->addr.port);
- 		port_delete(client, port);
- 	}
--	mutex_unlock(&client->ports_mutex);
+@@ -179,7 +177,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 		prev = cur;
+ 		cur = cur->next;
+ 		if (! --count) {
+-			spin_unlock_irqrestore(&f->lock, flags);
+ 			pr_err("ALSA: seq: cannot find a pointer.. infinite loop?\n");
+ 			return -EINVAL;
+ 		}
+@@ -195,7 +192,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 	if (cur == NULL) /* reached end of the list */
+ 		f->tail = cell;
+ 	f->cells++;
+-	spin_unlock_irqrestore(&f->lock, flags);
  	return 0;
  }
  
-@@ -506,42 +497,37 @@ static int check_and_subscribe_port(struct snd_seq_client *client,
- 	int err;
+@@ -213,14 +209,13 @@ struct snd_seq_event_cell *snd_seq_prioq_cell_out(struct snd_seq_prioq *f,
+ 						  void *current_time)
+ {
+ 	struct snd_seq_event_cell *cell;
+-	unsigned long flags;
  
- 	grp = is_src ? &port->c_src : &port->c_dest;
--	err = -EBUSY;
--	down_write(&grp->list_mutex);
-+	guard(rwsem_write)(&grp->list_mutex);
- 	if (exclusive) {
- 		if (!list_empty(&grp->list_head))
--			goto __error;
-+			return -EBUSY;
- 	} else {
- 		if (grp->exclusive)
--			goto __error;
-+			return -EBUSY;
- 		/* check whether already exists */
- 		list_for_each(p, &grp->list_head) {
- 			s = get_subscriber(p, is_src);
- 			if (match_subs_info(&subs->info, &s->info))
--				goto __error;
-+				return -EBUSY;
- 		}
+ 	if (f == NULL) {
+ 		pr_debug("ALSA: seq: snd_seq_prioq_cell_in() called with NULL prioq\n");
+ 		return NULL;
+ 	}
+-	spin_lock_irqsave(&f->lock, flags);
+ 
++	guard(spinlock_irqsave)(&f->lock);
+ 	cell = f->head;
+ 	if (cell && current_time && !event_is_ready(&cell->event, current_time))
+ 		cell = NULL;
+@@ -235,7 +230,6 @@ struct snd_seq_event_cell *snd_seq_prioq_cell_out(struct snd_seq_prioq *f,
+ 		f->cells--;
  	}
  
- 	err = subscribe_port(client, port, grp, &subs->info, ack);
- 	if (err < 0) {
- 		grp->exclusive = 0;
--		goto __error;
-+		return err;
- 	}
- 
- 	/* add to list */
--	write_lock_irq(&grp->list_lock);
-+	guard(write_lock_irq)(&grp->list_lock);
- 	if (is_src)
- 		list_add_tail(&subs->src_list, &grp->list_head);
- 	else
- 		list_add_tail(&subs->dest_list, &grp->list_head);
- 	grp->exclusive = exclusive;
- 	atomic_inc(&subs->ref_count);
--	write_unlock_irq(&grp->list_lock);
--	err = 0;
- 
-- __error:
--	up_write(&grp->list_mutex);
--	return err;
-+	return 0;
+-	spin_unlock_irqrestore(&f->lock, flags);
+ 	return cell;
  }
  
- /* called with grp->list_mutex held */
-@@ -556,12 +542,12 @@ static void __delete_and_unsubscribe_port(struct snd_seq_client *client,
+@@ -256,37 +250,36 @@ static void prioq_remove_cells(struct snd_seq_prioq *f,
+ 			       void *arg)
+ {
+ 	register struct snd_seq_event_cell *cell, *next;
+-	unsigned long flags;
+ 	struct snd_seq_event_cell *prev = NULL;
+ 	struct snd_seq_event_cell *freefirst = NULL, *freeprev = NULL, *freenext;
  
- 	grp = is_src ? &port->c_src : &port->c_dest;
- 	list = is_src ? &subs->src_list : &subs->dest_list;
--	write_lock_irq(&grp->list_lock);
--	empty = list_empty(list);
--	if (!empty)
--		list_del_init(list);
--	grp->exclusive = 0;
--	write_unlock_irq(&grp->list_lock);
-+	scoped_guard(write_lock_irq, &grp->list_lock) {
-+		empty = list_empty(list);
-+		if (!empty)
-+			list_del_init(list);
-+		grp->exclusive = 0;
-+	}
- 
- 	if (!empty)
- 		unsubscribe_port(client, port, grp, &subs->info, ack);
-@@ -575,9 +561,8 @@ static void delete_and_unsubscribe_port(struct snd_seq_client *client,
- 	struct snd_seq_port_subs_info *grp;
- 
- 	grp = is_src ? &port->c_src : &port->c_dest;
--	down_write(&grp->list_mutex);
-+	guard(rwsem_write)(&grp->list_mutex);
- 	__delete_and_unsubscribe_port(client, port, subs, is_src, ack);
--	up_write(&grp->list_mutex);
- }
- 
- /* connect two ports */
-@@ -639,18 +624,18 @@ int snd_seq_port_disconnect(struct snd_seq_client *connector,
- 	/* always start from deleting the dest port for avoiding concurrent
- 	 * deletions
- 	 */
--	down_write(&dest->list_mutex);
--	/* look for the connection */
--	list_for_each_entry(subs, &dest->list_head, dest_list) {
--		if (match_subs_info(info, &subs->info)) {
--			__delete_and_unsubscribe_port(dest_client, dest_port,
--						      subs, false,
--						      connector->number != dest_client->number);
--			err = 0;
--			break;
-+	scoped_guard(rwsem_write, &dest->list_mutex) {
-+		/* look for the connection */
-+		list_for_each_entry(subs, &dest->list_head, dest_list) {
-+			if (match_subs_info(info, &subs->info)) {
-+				__delete_and_unsubscribe_port(dest_client, dest_port,
-+							      subs, false,
-+							      connector->number != dest_client->number);
-+				err = 0;
-+				break;
+ 	/* collect all removed cells */
+-	spin_lock_irqsave(&f->lock, flags);
+-	for (cell = f->head; cell; cell = next) {
+-		next = cell->next;
+-		if (!match(cell, arg)) {
+-			prev = cell;
+-			continue;
++	scoped_guard(spinlock_irqsave, &f->lock) {
++		for (cell = f->head; cell; cell = next) {
++			next = cell->next;
++			if (!match(cell, arg)) {
++				prev = cell;
++				continue;
 +			}
++
++			/* remove cell from prioq */
++			if (cell == f->head)
++				f->head = cell->next;
++			else
++				prev->next = cell->next;
++			if (cell == f->tail)
++				f->tail = cell->next;
++			f->cells--;
++
++			/* add cell to free list */
++			cell->next = NULL;
++			if (freefirst == NULL)
++				freefirst = cell;
++			else
++				freeprev->next = cell;
++			freeprev = cell;
  		}
+-
+-		/* remove cell from prioq */
+-		if (cell == f->head)
+-			f->head = cell->next;
+-		else
+-			prev->next = cell->next;
+-		if (cell == f->tail)
+-			f->tail = cell->next;
+-		f->cells--;
+-
+-		/* add cell to free list */
+-		cell->next = NULL;
+-		if (freefirst == NULL)
+-			freefirst = cell;
+-		else
+-			freeprev->next = cell;
+-		freeprev = cell;
  	}
--	up_write(&dest->list_mutex);
- 	if (err < 0)
- 		return err;
+-	spin_unlock_irqrestore(&f->lock, flags);	
  
-@@ -669,7 +654,7 @@ int snd_seq_port_get_subscription(struct snd_seq_port_subs_info *src_grp,
- 	struct snd_seq_subscribers *s;
- 	int err = -ENOENT;
- 
--	down_read(&src_grp->list_mutex);
-+	guard(rwsem_read)(&src_grp->list_mutex);
- 	list_for_each_entry(s, &src_grp->list_head, src_list) {
- 		if (addr_match(dest_addr, &s->info.dest)) {
- 			*subs = s->info;
-@@ -677,7 +662,6 @@ int snd_seq_port_get_subscription(struct snd_seq_port_subs_info *src_grp,
- 			break;
- 		}
- 	}
--	up_read(&src_grp->list_mutex);
- 	return err;
- }
- 
+ 	/* remove selected cells */
+ 	while (freefirst) {
 -- 
 2.35.3
 
