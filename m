@@ -1,81 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6E13DB89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDDA13DB9C
 	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 17:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710614; cv=none; b=Ts7Sr6TZXWOO3VqwAKxgA5dByz2pX/glwcJggbRS2dBRDbJHZI2WqqG6FhfmlyHm97vKFfSJ8TdnYwGRC3YlC4GLJS+wDzZHV8VVH9kCfJNpOzpb7hBzzmUHB+fc7/kY/P/D+PeZe5i+muuWFx2mUhxaV5bCqN29Dvh2XXizRyM=
+	t=1708710614; cv=none; b=Qzkb3KhEc6/jVtJNelDXfCR/u+JOXjYl/eKy8ZqqLqNYV7GuzJ622yd06Cri+GZKcaW6/iFrNcwob0LEKWblZf/UqZsUj3ri8MaTz0hIbqJOTTPgRV+D6N4I4Lvsv1l1BBMz/GHvKFw7d+eHtUgIlWq/l+vbtmIM7gIFe0R+pqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708710614; c=relaxed/simple;
-	bh=ZPn/tdTSSf3n7eWk71txnBH81CTMnbn0RRGNmOiSVrI=;
+	bh=4qiZ3aChjpIganT4gpxH5A7mhq0EZHR7csH6DX6VGp0=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fcK73gJQujaRarsYbGBcjn6wv/C1lgBfnKMJ96vTvjKd1whTPAC26LF3l+QoK6S3ms1yoXu1PvJEB0/CCAF9ETzaj18HORT62u4aVYVU2nAAIQpuewJsKNHu8VlqeHyppxcqg5brOimBvD4Rp6ladL7NiEFM+ifVtEGLpAmb3aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b6VhhODa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DVQe6kV2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zWhCxuGe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I/1Q8DJv; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=h3/YR6fi61qV1xLj49sBdbkdKyEr1yfOGHsgjnlT1GMZU9UmosxJIzHUmrO9Uvnr+NtFY9kh4QUBd6LyT6MW7TnUC6qzU1y95ylyV/k6pOGuJfhIbg6aNiugnsduyjGpcpKYNRhQBtszcsMiI9Nb0buhluiUXg3SOEKxZf9mnn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DmGHgiK/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cye2zsHR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DmGHgiK/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cye2zsHR; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b6VhhODa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DVQe6kV2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zWhCxuGe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I/1Q8DJv"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DmGHgiK/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cye2zsHR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DmGHgiK/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cye2zsHR"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D7AE21FC2A;
-	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 374C12215D;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IBYrlR5ZTiVA7fYXgeeV57T0h5Gzcl7nGe6eR/5tz4Y=;
-	b=b6VhhODaUPUAKsJQ5eBLCPs6kI+v00ut8UuhvTpkQ8OMZt/oTo9kpD+nmp1WDrevTSUk4g
-	7nE3obq4R6/zpXsowntVaa7LxbBwaVcsrAQHyaYlOXuGS93CKkjf1Ro6XbTogpE+5c8S3q
-	xMXJB80yyoVDK0wbMc5cbEPnZtMM0go=
+	bh=4+JKd70NXM7/GLMMt14WHoD2Qd8JM3D7yCJ4N+6i4Gg=;
+	b=DmGHgiK/nBMTJE4Y6uc+0Q6pXnRiE7f02TswmdkToNzE9x9v+tZiQSjtRoabWfkhDkU42A
+	GLOaFYqoa1qckLlwl1KavJom/rIz2bA6oWP3ZGU6Y+v4cvgrpw2pcmEltRwHCj/Co/aIu8
+	T6i2g4/ImCBzoZ3rqkS24Y4AEhNppm4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IBYrlR5ZTiVA7fYXgeeV57T0h5Gzcl7nGe6eR/5tz4Y=;
-	b=DVQe6kV2blwNkunSPPtHrgZM9B8oRzK5/4YCZSQhHeq3Na3dkbqwsJiBCKavQrhkUUIXeo
-	G7v8MeHnWQSeUgBg==
+	bh=4+JKd70NXM7/GLMMt14WHoD2Qd8JM3D7yCJ4N+6i4Gg=;
+	b=cye2zsHRrPn4kFdZvHe6sKjve51BRDJwu/RKyGgWwX3eUVxogGUYG8iwF5WIJMv6z14hqe
+	TlKDs3U2ax6VwZBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708710610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1708710611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IBYrlR5ZTiVA7fYXgeeV57T0h5Gzcl7nGe6eR/5tz4Y=;
-	b=zWhCxuGe2W6pHxgaS6Tvd8yddDvY0fATl53lwOf9W0CcwdF53nFlTuvac61Tj4leJ/mqey
-	mTEdqfgAkJ4YMB44I9k3hU/Oh/Uo0VY9dT9D/k929X1vit+pX4TrsSJD/fNPWSfpPkB0ao
-	6AssCvsosM5tdRlG15kHa2eAz/LhI2k=
+	bh=4+JKd70NXM7/GLMMt14WHoD2Qd8JM3D7yCJ4N+6i4Gg=;
+	b=DmGHgiK/nBMTJE4Y6uc+0Q6pXnRiE7f02TswmdkToNzE9x9v+tZiQSjtRoabWfkhDkU42A
+	GLOaFYqoa1qckLlwl1KavJom/rIz2bA6oWP3ZGU6Y+v4cvgrpw2pcmEltRwHCj/Co/aIu8
+	T6i2g4/ImCBzoZ3rqkS24Y4AEhNppm4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708710610;
+	s=susede2_ed25519; t=1708710611;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IBYrlR5ZTiVA7fYXgeeV57T0h5Gzcl7nGe6eR/5tz4Y=;
-	b=I/1Q8DJvI66RUFk31Pm9kShvUI8B5jG9qndeXCdoZieem+r14pb6ovzujvpBc/pWOxTxyz
-	xN491ondujPPxJCQ==
+	bh=4+JKd70NXM7/GLMMt14WHoD2Qd8JM3D7yCJ4N+6i4Gg=;
+	b=cye2zsHRrPn4kFdZvHe6sKjve51BRDJwu/RKyGgWwX3eUVxogGUYG8iwF5WIJMv6z14hqe
+	TlKDs3U2ax6VwZBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B90F413AC7;
-	Fri, 23 Feb 2024 17:50:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1531913AC1;
+	Fri, 23 Feb 2024 17:50:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8DujK9La2GW6RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:10 +0000
+	id 8CixA9Pa2GW6RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 17:50:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 02/24] ALSA: compress_offload: Use guard() for locking
-Date: Fri, 23 Feb 2024 18:49:39 +0100
-Message-Id: <20240223175001.24375-3-tiwai@suse.de>
+Subject: [PATCH v2 04/24] ALSA: hrtimer: Use guard() for locking
+Date: Fri, 23 Feb 2024 18:49:41 +0100
+Message-Id: <20240223175001.24375-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240223175001.24375-1-tiwai@suse.de>
 References: <20240223175001.24375-1-tiwai@suse.de>
@@ -86,11 +86,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spam-Level: 
-X-Spam-Score: 0.70
-X-Spamd-Result: default: False [0.70 / 50.00];
+X-Spam-Level: ***
+X-Spam-Score: 3.70
+X-Spamd-Result: default: False [3.70 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
@@ -110,241 +110,74 @@ X-Spamd-Result: default: False [0.70 / 50.00];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+	 BAYES_HAM(-0.00)[10.29%]
 X-Spam-Flag: NO
 
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
 
-The explicit mutex_lock/unlock are still seen only in
-snd_compress_wait_for_drain() which does temporary unlock/relocking.
-
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/compress_offload.c | 98 ++++++++++++-----------------------
- 1 file changed, 33 insertions(+), 65 deletions(-)
+ sound/core/hrtimer.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 5d926c5b737d..f0008fa2d839 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -127,9 +127,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
- 	init_waitqueue_head(&runtime->sleep);
- 	data->stream.runtime = runtime;
- 	f->private_data = (void *)data;
--	mutex_lock(&compr->lock);
--	ret = compr->ops->open(&data->stream);
--	mutex_unlock(&compr->lock);
-+	scoped_guard(mutex, &compr->lock)
-+		ret = compr->ops->open(&data->stream);
- 	if (ret) {
- 		kfree(runtime);
- 		kfree(data);
-@@ -288,7 +287,7 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
- 		return -EFAULT;
+diff --git a/sound/core/hrtimer.c b/sound/core/hrtimer.c
+index e97ff8cccb64..147c1fea4708 100644
+--- a/sound/core/hrtimer.c
++++ b/sound/core/hrtimer.c
+@@ -35,12 +35,12 @@ static enum hrtimer_restart snd_hrtimer_callback(struct hrtimer *hrt)
+ 	unsigned long ticks;
+ 	enum hrtimer_restart ret = HRTIMER_NORESTART;
  
- 	stream = &data->stream;
--	mutex_lock(&stream->device->lock);
-+	guard(mutex)(&stream->device->lock);
- 	/* write is allowed when stream is running or has been steup */
- 	switch (stream->runtime->state) {
- 	case SNDRV_PCM_STATE_SETUP:
-@@ -296,7 +295,6 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
- 	case SNDRV_PCM_STATE_RUNNING:
- 		break;
- 	default:
--		mutex_unlock(&stream->device->lock);
- 		return -EBADFD;
+-	spin_lock(&t->lock);
+-	if (!t->running)
+-		goto out; /* fast path */
+-	stime->in_callback = true;
+-	ticks = t->sticks;
+-	spin_unlock(&t->lock);
++	scoped_guard(spinlock, &t->lock) {
++		if (!t->running)
++			return HRTIMER_NORESTART; /* fast path */
++		stime->in_callback = true;
++		ticks = t->sticks;
++	}
+ 
+ 	/* calculate the drift */
+ 	delta = ktime_sub(hrt->base->get_time(), hrtimer_get_expires(hrt));
+@@ -49,15 +49,13 @@ static enum hrtimer_restart snd_hrtimer_callback(struct hrtimer *hrt)
+ 
+ 	snd_timer_interrupt(stime->timer, ticks);
+ 
+-	spin_lock(&t->lock);
++	guard(spinlock)(&t->lock);
+ 	if (t->running) {
+ 		hrtimer_add_expires_ns(hrt, t->sticks * resolution);
+ 		ret = HRTIMER_RESTART;
  	}
  
-@@ -322,7 +320,6 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
- 		pr_debug("stream prepared, Houston we are good to go\n");
- 	}
- 
--	mutex_unlock(&stream->device->lock);
- 	return retval;
+ 	stime->in_callback = false;
+- out:
+-	spin_unlock(&t->lock);
+ 	return ret;
  }
  
-@@ -339,7 +336,7 @@ static ssize_t snd_compr_read(struct file *f, char __user *buf,
- 		return -EFAULT;
+@@ -80,10 +78,10 @@ static int snd_hrtimer_close(struct snd_timer *t)
+ 	struct snd_hrtimer *stime = t->private_data;
  
- 	stream = &data->stream;
--	mutex_lock(&stream->device->lock);
-+	guard(mutex)(&stream->device->lock);
+ 	if (stime) {
+-		spin_lock_irq(&t->lock);
+-		t->running = 0; /* just to be sure */
+-		stime->in_callback = 1; /* skip start/stop */
+-		spin_unlock_irq(&t->lock);
++		scoped_guard(spinlock_irq, &t->lock) {
++			t->running = 0; /* just to be sure */
++			stime->in_callback = 1; /* skip start/stop */
++		}
  
- 	/* read is allowed when stream is running, paused, draining and setup
- 	 * (yes setup is state which we transition to after stop, so if user
-@@ -350,11 +347,9 @@ static ssize_t snd_compr_read(struct file *f, char __user *buf,
- 	case SNDRV_PCM_STATE_PREPARED:
- 	case SNDRV_PCM_STATE_SUSPENDED:
- 	case SNDRV_PCM_STATE_DISCONNECTED:
--		retval = -EBADFD;
--		goto out;
-+		return -EBADFD;
- 	case SNDRV_PCM_STATE_XRUN:
--		retval = -EPIPE;
--		goto out;
-+		return -EPIPE;
- 	}
- 
- 	avail = snd_compr_get_avail(stream);
-@@ -363,17 +358,13 @@ static ssize_t snd_compr_read(struct file *f, char __user *buf,
- 	if (avail > count)
- 		avail = count;
- 
--	if (stream->ops->copy) {
-+	if (stream->ops->copy)
- 		retval = stream->ops->copy(stream, buf, avail);
--	} else {
--		retval = -ENXIO;
--		goto out;
--	}
-+	else
-+		return -ENXIO;
- 	if (retval > 0)
- 		stream->runtime->total_bytes_transferred += retval;
- 
--out:
--	mutex_unlock(&stream->device->lock);
- 	return retval;
- }
- 
-@@ -402,13 +393,12 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
- 
- 	stream = &data->stream;
- 
--	mutex_lock(&stream->device->lock);
-+	guard(mutex)(&stream->device->lock);
- 
- 	switch (stream->runtime->state) {
- 	case SNDRV_PCM_STATE_OPEN:
- 	case SNDRV_PCM_STATE_XRUN:
--		retval = snd_compr_get_poll(stream) | EPOLLERR;
--		goto out;
-+		return snd_compr_get_poll(stream) | EPOLLERR;
- 	default:
- 		break;
- 	}
-@@ -433,11 +423,9 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
- 			retval = snd_compr_get_poll(stream);
- 		break;
- 	default:
--		retval = snd_compr_get_poll(stream) | EPOLLERR;
--		break;
-+		return snd_compr_get_poll(stream) | EPOLLERR;
- 	}
--out:
--	mutex_unlock(&stream->device->lock);
-+
- 	return retval;
- }
- 
-@@ -795,12 +783,10 @@ static void error_delayed_work(struct work_struct *work)
- 
- 	stream = container_of(work, struct snd_compr_stream, error_work.work);
- 
--	mutex_lock(&stream->device->lock);
-+	guard(mutex)(&stream->device->lock);
- 
- 	stream->ops->trigger(stream, SNDRV_PCM_TRIGGER_STOP);
- 	wake_up(&stream->runtime->sleep);
--
--	mutex_unlock(&stream->device->lock);
- }
- 
- /**
-@@ -957,70 +943,52 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- {
- 	struct snd_compr_file *data = f->private_data;
- 	struct snd_compr_stream *stream;
--	int retval = -ENOTTY;
- 
- 	if (snd_BUG_ON(!data))
- 		return -EFAULT;
- 
- 	stream = &data->stream;
- 
--	mutex_lock(&stream->device->lock);
-+	guard(mutex)(&stream->device->lock);
- 	switch (_IOC_NR(cmd)) {
- 	case _IOC_NR(SNDRV_COMPRESS_IOCTL_VERSION):
--		retval = put_user(SNDRV_COMPRESS_VERSION,
-+		return put_user(SNDRV_COMPRESS_VERSION,
- 				(int __user *)arg) ? -EFAULT : 0;
--		break;
- 	case _IOC_NR(SNDRV_COMPRESS_GET_CAPS):
--		retval = snd_compr_get_caps(stream, arg);
--		break;
-+		return snd_compr_get_caps(stream, arg);
- #ifndef COMPR_CODEC_CAPS_OVERFLOW
- 	case _IOC_NR(SNDRV_COMPRESS_GET_CODEC_CAPS):
--		retval = snd_compr_get_codec_caps(stream, arg);
--		break;
-+		return snd_compr_get_codec_caps(stream, arg);
- #endif
- 	case _IOC_NR(SNDRV_COMPRESS_SET_PARAMS):
--		retval = snd_compr_set_params(stream, arg);
--		break;
-+		return snd_compr_set_params(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_GET_PARAMS):
--		retval = snd_compr_get_params(stream, arg);
--		break;
-+		return snd_compr_get_params(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_SET_METADATA):
--		retval = snd_compr_set_metadata(stream, arg);
--		break;
-+		return snd_compr_set_metadata(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_GET_METADATA):
--		retval = snd_compr_get_metadata(stream, arg);
--		break;
-+		return snd_compr_get_metadata(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_TSTAMP):
--		retval = snd_compr_tstamp(stream, arg);
--		break;
-+		return snd_compr_tstamp(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_AVAIL):
--		retval = snd_compr_ioctl_avail(stream, arg);
--		break;
-+		return snd_compr_ioctl_avail(stream, arg);
- 	case _IOC_NR(SNDRV_COMPRESS_PAUSE):
--		retval = snd_compr_pause(stream);
--		break;
-+		return snd_compr_pause(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_RESUME):
--		retval = snd_compr_resume(stream);
--		break;
-+		return snd_compr_resume(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_START):
--		retval = snd_compr_start(stream);
--		break;
-+		return snd_compr_start(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_STOP):
--		retval = snd_compr_stop(stream);
--		break;
-+		return snd_compr_stop(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_DRAIN):
--		retval = snd_compr_drain(stream);
--		break;
-+		return snd_compr_drain(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_PARTIAL_DRAIN):
--		retval = snd_compr_partial_drain(stream);
--		break;
-+		return snd_compr_partial_drain(stream);
- 	case _IOC_NR(SNDRV_COMPRESS_NEXT_TRACK):
--		retval = snd_compr_next_track(stream);
--		break;
--
-+		return snd_compr_next_track(stream);
- 	}
--	mutex_unlock(&stream->device->lock);
--	return retval;
-+
-+	return -ENOTTY;
- }
- 
- /* support of 32bit userspace on 64bit platforms */
+ 		hrtimer_cancel(&stime->hrt);
+ 		kfree(stime);
 -- 
 2.35.3
 
