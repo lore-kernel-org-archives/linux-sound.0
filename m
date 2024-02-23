@@ -1,83 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3253722EF5;
-	Fri, 23 Feb 2024 13:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708696098; cv=none; b=b+UWBITo2IdXQ/REhnXiosQbC5FAlJXOH40T+onQUKsPGdSBRqSll844EcProrh+O7+RACD+Ypce6JBTK70ipvGhz2MmB5nnbt1ous25GBGf2vdsKkv6hLnPW9u5ineL8vKuzuyIZkcbAnOanjkk2NxiMy99X9wsIgivrjkqkdA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708696098; c=relaxed/simple;
-	bh=Dkmut1aY9L+BcdJ4rpNL1JAvxJpVtlBFbV/vIEyFtrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZUAbqCzvzTR5pfxYzUCxq5HTcm1e4uMrPQ/xLOVT0UKz3fRZ4Q86CvxeYoxJ5QgPehytMQrdpFvYKb8mvADWeEy99fdH/ny68NyARUJyAqIhhQFRsWZHPzzUW/DiPnoq/hUf8ykeafcEvCCcnNkf1kpIiABl32QHWD60CeK0mkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPRzz/XL; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474E27F7C5
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 13:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708696206; cv=fail; b=GMl5QSZHvHEaB8MQ0lUg8JvHqO1NGUIqMkhbgj+961/FQGyAtqA+4RWp6qhF3U4EkweWQ07wE9Oy6r39bru78XCzqM10kTWI4S4AO1ymx8TX+p2XlZN+K94DOwid9FsaNV11HOIysYc1d/hu4rr1A9/thoOvsT3L5ZS/K8OcdeY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708696206; c=relaxed/simple;
+	bh=KE5X78l4VKyiqgrZOW99YMGQg/7zMZdWAff+0JGdGe0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GALkmyXGflQ4+UFCC352LsDOdmdYFAtAg7BYNwE1vC5FIOreZN8DIEsVL6Sh/sYBgMbsBSL3CekysL3obYSyw/PKFaIbDQBKf3vVoo0USMmADvSLWwLlCkJ7ksc4sdVFxCOKc20t4PnFBfrIi2g0TwW35JSSGEHVtDcwwqIhW9Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LweP0bxv; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPRzz/XL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CD5C433C7;
-	Fri, 23 Feb 2024 13:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708696097;
-	bh=Dkmut1aY9L+BcdJ4rpNL1JAvxJpVtlBFbV/vIEyFtrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hPRzz/XLograqBje6REd30q2onNAyizTFJC/OFxDqrznJjIHogcNK6qYWBczm68O3
-	 1T1xkAPJHcdMllBEDIhTSaZSj1PzylEmwsOyct5QoTJjdvnuG4LW+dcRyZn6cPUOOY
-	 G+ONL/GqqCFZFQz/ixs8fqmwxO6cqm3sdYdb0oS+t1QKQoWFE079K9focrljujjcYo
-	 CetPc/KjI2dSMRzAG2iaGRO3uFIbl9bSKzzhBMCYfjD5VCj8hg4TmyE4SAJy0Z0HFs
-	 7nYNciZOqAOH/wvAhD1KbNPWQNkibMRFosTTsb6W2HshQLkBsgYxfnJDuS+juGfvvF
-	 Mvmtfk5vN+P7A==
-Date: Fri, 23 Feb 2024 06:48:15 -0700
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-rockchip@lists.infradead.org, Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v3 2/7] ASoC: dt-bindings: Add Rockchip RK3308 internal
- audio codec
-Message-ID: <170869609254.1763035.9305540137750026528.robh@kernel.org>
-References: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
- <20240221-rk3308-audio-codec-v3-2-dfa34abfcef6@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LweP0bxv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708696204; x=1740232204;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=KE5X78l4VKyiqgrZOW99YMGQg/7zMZdWAff+0JGdGe0=;
+  b=LweP0bxvRALOk1CeYB9hOkxNZm0Z53eQKeUiqhx5k8h1UTrWq/22APAr
+   7GEpT433o2UyC4gJ+9n+vW4VV4oCLWLpd7qSAzBCWA8OLFh+yiDOO/Bph
+   KnxIqzCqV2E0MwzKWg8GU7NMQ56M1NufUnTOu9tE4jsSAtc58xT3x97wU
+   QZOGxfRXm193iwH1poc+Og+F0twIbEqdiKkEfo7i72HWWycEAkjepahfs
+   HOdEZHIGulLo9gBDHAo3MTh325+ix9gC3QsvzbcoWGYZ1aSmMTcEYPPBR
+   UlGI8L0tRLNlr/2fLesBUDigipUQmNlQvjMpF0bMR2G2DSmXqCWQ2PXSp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="13573321"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="13573321"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 05:50:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="36697899"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Feb 2024 05:50:04 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 23 Feb 2024 05:50:02 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 23 Feb 2024 05:50:02 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 05:50:02 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 23 Feb 2024 05:50:02 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=negDTB8f0KNlbObimjI/m6Y0TritF4eK3Qg2D8vkU4qdO9KKLxlBZaNyWykFchi+lxXCzNa3VwLFpRMsOOThKhEBNDOv5J7JfUrschhLD7p+ukQSOKMKj4Uz+xyKg3eed50Ie4xb4Nf95tGMA3aQ2MhN6J668nIKNMnh3mJLTSQDEt9ufmiXwLVLl2qgoKZp2NBRFzwUldQYCesx32XEdTY/OnCzuwYUjFC9p28ap0b21iL4QFbbe2Oj9H1SRu+0meEbRGKZtJBX0mAc9msin/v2vfDkgLdY/u0mqoSX3SLu+/Uta+hZLQj903o2JUegFoJAQ1NcGNE/uCJQORGfeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pbdu7621LTKby7P6d7i6GI2CL4hWUgy0aozdfnXyOvY=;
+ b=CBB5titsFbDB5IN3Y/CUXux0xvetm2F1oSQGnJfn1zmOg0jc9XpIgu+1L5etrP0PaegVq1ziKKCKS62PtSDNruR2PRAsg4mo1esAmOkkVHbbb1ZTWOss34z1m6TO8NZljEqwCO4hoiSE4QqFMhbzElRgPxS9odhAuWEc9axvjZ8ej7eWpLK6NCKDEGeqxKeX7KYMor6KdgH8MDmoOkiu+Uxbrzs1gcOnA7xEnDXdbe2VmfD7coS/HTatDy6gCZnXDAkUsd0c7lmyRmJmmyD1Cj+PXl7iQ1WojpdscHaVczZrNNvwRtq1lAWbaLBL+0jSa7L/HRhqcb2G5p9ZOQX7vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by SJ2PR11MB7669.namprd11.prod.outlook.com (2603:10b6:a03:4c3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Fri, 23 Feb
+ 2024 13:49:59 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::a7f1:384c:5d93:1d1d%4]) with mapi id 15.20.7339.009; Fri, 23 Feb 2024
+ 13:49:59 +0000
+Date: Fri, 23 Feb 2024 08:49:54 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
+	<jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+	<tvrtko.ursulin@linux.intel.com>, <intel-gfx@lists.freedesktop.org>,
+	<amadeuszx.slawinski@linux.intel.com>,
+	<pierre-louis.bossart@linux.intel.com>, <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 1/4] ALSA: hda: Skip i915 initialization on
+ CNL/LKF-based platforms
+Message-ID: <ZdiigqI71CI7g652@intel.com>
+References: <20240223114626.1052784-1-cezary.rojewski@intel.com>
+ <20240223114626.1052784-2-cezary.rojewski@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240223114626.1052784-2-cezary.rojewski@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0094.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::9) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240221-rk3308-audio-codec-v3-2-dfa34abfcef6@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SJ2PR11MB7669:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1c4d33a-bfdc-4237-71b6-08dc3476539a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MllKzPQ1cY0pOdKalgOpKoKVMxA5rBSXcar8PBArJqnvT6qg3bochMt1SgmFEHJQZA7zRrWeG6PXvrMxz7oLCY0RpCjhpIt4R0PeJbwpPTWqxF60q33YJIBeOzRsIZuu536XJTJFByEkW5DsYrs0WRJVMSFsGBUKmLFs3sQghiknkDTDP/D/97X4DBntnsWiDoZv6h0cjkpWVNl4P9NbD7BqyRSXQfK6UMYR+XT213writ1vbe5Y8AI0TGeFdQ9tRimudh3dN9i2LDmBMvLdr4Vl/9u9fgnMck5uWz/TG8jbNmVCx1uXaVKA6q6MlIcTfNy//DMPcLQcntNj/g1Dc6dFIuwrc0ecl4XrgicqZV/BE55PqAmUkOskyDZjhYDN/NDARAFMgOA75YY7M4pTfsSh77PGhw6sqF7StgRqsL5QMzJ072osgYStdw044KudP/c5R56YVUsRu+6lsUs2GlxPzkXCvw1ynCW6iwRLIoL6Mk99Hsg6f+EF9/LzO6TdIN8cyxb1CEImOSTcxjppYA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6059.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kCr7yhQQjPWU7XP7AbcUMa/36MmXcpT/e3YGcjZqzFsw0UmhD511Ewvraudo?=
+ =?us-ascii?Q?3vTcR72mFl6FyJL+wjt4eyCG8Q9YB7k7QD7HnxFVtzIgBSjglhftzRs0TRbZ?=
+ =?us-ascii?Q?zfBwpfJwISYWlzrDkQlkXPttmHfFGIOtH49bVvKoLz5pnMukr7bXTKobFGTZ?=
+ =?us-ascii?Q?TcKeG4muGsKydOiGd2teCBUESWv9Wrj7PFOducyNmguCm24j61D9XgtqN0MU?=
+ =?us-ascii?Q?JVy93gXHplq0VmHG329LzXqwNEERpkVIZwekP+2/3hvJcZSxsaw85hvA6NVs?=
+ =?us-ascii?Q?Mu04XPUYeMW08ck4Tw3Uoo2gVy0vz23MlvPpoGMzPQlcoz3W5TTuTgdVEIkH?=
+ =?us-ascii?Q?d+7XXyzylJgwU2P5tc3csrOdWnWtj1l/wcGg0pZ9EwbkWTuxEwJeUUKxsbBu?=
+ =?us-ascii?Q?bQNwg712vKs1KRKbfDxJOo03aM+oaKaDMM+xzK6BM4dAMxEmeG6vPG1zuUB1?=
+ =?us-ascii?Q?ZSqF3/hC1oa3lE4VUUhP/KwhSTr9KR2fkn88VUxonYGE9R9Y7SuB4bnkYUNz?=
+ =?us-ascii?Q?8H1Gze7zNeFngJZIQTE8Y+fJfp/E/H7o/E8qHsPlupzERK19DLq3c3yRmpqP?=
+ =?us-ascii?Q?dgF9jX0qjA3RJJSvenzipJSV8zUMk/Hopd+yFtiITuGw3ngRtEWqIjRWImHo?=
+ =?us-ascii?Q?168+snnSkRLj980EMkeHrsKxzchqe/XYMuMNFfIOrEXD/ZhwKxT69LlZeuOU?=
+ =?us-ascii?Q?PX/mF/dy3fdO/vZMpXmQnxZixUaXxbiTxAOswi7DP61tz0EMCFEzY+RCHHiK?=
+ =?us-ascii?Q?sYAyqI4LiHZM+L+ZLVcurInQ54pTlYXWMffSJZmG/QmBWJR98Yg4it8Plji6?=
+ =?us-ascii?Q?zSdW/Uu0RpZHf/vKPm89MSCsVT1bjg94d6WLRzcsXGrFuaCyFNcKheRfUaKQ?=
+ =?us-ascii?Q?mb8l2mEwvFRoZ1+gtIWLMzVObfMHxvgbTPg4Pzvx2yXQbPes9cN0JD+shfJB?=
+ =?us-ascii?Q?djUBh2tH3JcXrvLJ5UpT0uau8DP50W8PvTIMk20AD0l3rktyRpwAVhdUce+5?=
+ =?us-ascii?Q?KgtbQQV5yCEVqhu2zMPYzE3fKK2boWsHUHg5YnXV7jK+Gd2buz4DBxkMH51T?=
+ =?us-ascii?Q?COrp+frhVNObsMsqUmjjRbVO6ZUL8mj+Nukd2VdToMgZ8FgNUzgfjj66CO7s?=
+ =?us-ascii?Q?d3BvnhBbp3rHsCrHfsXpNXIpNfRaRdog0yypB0OuFAmsNbuElpNtIiYvZKHJ?=
+ =?us-ascii?Q?y3cV9ksQlwPrnXbNAj8QEBFGlo7QEqCueQrpATMrxk/WxCfBTwSVk6ADZShk?=
+ =?us-ascii?Q?7PGxOZXVJZB1Zxrt/rMqzk5Uy4T/UuvXoKysvfGg/xxlIgODfD2JaP+BMCPr?=
+ =?us-ascii?Q?OClSw/gAa440pF2hAqjXKg3rXzRBFo81Us9cAsekV5+f0PWk0r28FsaTEBXn?=
+ =?us-ascii?Q?l5yVhtFqrwOR1N7GU8x5qskFYNsLzmQB5MyKyGvRefTJEHbdR6A0NwdsWmx8?=
+ =?us-ascii?Q?FDFxSjZ66sIFS5GP6xkTV0IxHEBqCGTE3rBeQ7nCnrJNo1eRxqjd63vBRyL9?=
+ =?us-ascii?Q?QXYcED/rLWBqnNDhsBp/APA/qMX051Nlu0E5XIsSK8Khwph/GgduKRpVrELw?=
+ =?us-ascii?Q?zm69cD2vh/sGDxeXQiyw6izmPkDoOPllqw++3G7R?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1c4d33a-bfdc-4237-71b6-08dc3476539a
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2024 13:49:59.6421
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xGd/D7oNpiPoCPnNfM4hUgTeLh6t13J8wtFmnI3L7ozYow/JPBaJlY8U33BEy7e4jDM3tOSu1UfLxp/1CrSO4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7669
+X-OriginatorOrg: intel.com
 
+On Fri, Feb 23, 2024 at 12:46:23PM +0100, Cezary Rojewski wrote:
+> Commit 78f613ba1efb ("drm/i915: finish removal of CNL") and its friends
+> removed support for i915 for all CNL-based platforms. HDAudio library,
+> however, still treats such platforms as valid candidates for i915
+> binding. Update query mechanism to reflect changes made in drm tree.
+> 
+> At the same time, i915 support for LKF-based platforms has not been
+> provided so remove them from valid binding candidates.
+> 
+> Link: https://lore.kernel.org/all/20210728215946.1573015-1-lucas.demarchi@intel.com/
+> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 
-On Wed, 21 Feb 2024 11:22:46 +0100, Luca Ceresoli wrote:
-> Add device tree bindings document for the internal audio codec of the
-> Rockchip RK3308 SoC.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
 > ---
+>  sound/hda/hdac_i915.c | 32 +++++++++++++++++++++++++++++---
+>  1 file changed, 29 insertions(+), 3 deletions(-)
 > 
-> Changed in v3:
->  - fix underscore in DT label
+> diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
+> index 365c36fdf205..afee87bd0f2e 100644
+> --- a/sound/hda/hdac_i915.c
+> +++ b/sound/hda/hdac_i915.c
+> @@ -127,15 +127,41 @@ static int i915_component_master_match(struct device *dev, int subcomponent,
+>  /* check whether Intel graphics is present and reachable */
+>  static int i915_gfx_present(struct pci_dev *hdac_pci)
+>  {
+> +	/* List of known platforms with no i915 support. */
+> +	static struct pci_device_id denylist[] = {
+> +		/* CNL */
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a40), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a41), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a42), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a44), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a49), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a4a), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a4c), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a50), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a51), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a52), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a54), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a59), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a5a), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a5c), 0x030000, 0xff0000 },
+> +		/* LKF */
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x9840), 0x030000, 0xff0000 },
+> +		{ 0 }
+> +	};
+>  	struct pci_dev *display_dev = NULL;
+>  
+>  	if (!gpu_bind || (gpu_bind < 0 && video_firmware_drivers_only()))
+>  		return false;
+>  
+>  	for_each_pci_dev(display_dev) {
+> -		if (display_dev->vendor == PCI_VENDOR_ID_INTEL &&
+> -		    (display_dev->class >> 16) == PCI_BASE_CLASS_DISPLAY &&
+> -		    connectivity_check(display_dev, hdac_pci)) {
+> +		if (display_dev->vendor != PCI_VENDOR_ID_INTEL ||
+> +		    (display_dev->class >> 16) != PCI_BASE_CLASS_DISPLAY)
+> +			continue;
+> +
+> +		if (pci_match_id(denylist, display_dev))
+> +			continue;
+> +
+> +		if (connectivity_check(display_dev, hdac_pci)) {
+>  			pci_dev_put(display_dev);
+>  			return true;
+>  		}
+> -- 
+> 2.25.1
 > 
-> Changed in v2:
->  - reword commit title
->  - add maxItems to resets
->  - remove quotes from reset-names
->  - use percent values for rockchip,micbias-avdd-multiplier
->  - use name compliant to the docs in the example
-> ---
->  .../bindings/sound/rockchip,rk3308-codec.yaml      | 98 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 103 insertions(+)
-> 
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
