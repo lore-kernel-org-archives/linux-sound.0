@@ -1,64 +1,106 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FB160260
-	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 15:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47275D750;
+	Fri, 23 Feb 2024 15:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708701034; cv=none; b=fBSgvtmXludVmGB6N2oQ51dPtJO7IM45KvCsPnxb8ytZMdkxSyJtReN00/xC1+gU5joib3R+3XF1CSJCaMP2yYp2JnVuTMeSQWy9YnEMmIQPnZBHEYJbDD3Fd70eS+8bS29QXGIDD54mTkGPP5lxFC6rsOj3jNQXkKL6RU4Q/H4=
+	t=1708702773; cv=none; b=bWyUANVODDSm1gh5ts9z2Kqohs44/oX7VTI+qEVt3WQfmOUrWhzl2o+pWZO1H07M5oSTtWS9vxzayCYZhmJPdfiTngpVDkDgBmsm13AoFe+hqdzBK+99SDqeJwkwpc27lMWskx1rIFQa7ZTS1rWBvwwMxCvjvQc7xID4SpDS+GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708701034; c=relaxed/simple;
-	bh=Y6eIDmiVmNl1Zxowb5V6ppGEIHwpZtVT+AlFM2a5we4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ePx5YbuJfQrSIE5rUMVG3Y4TcKvrsYEXIlFN2QPknUEKqZpLYwcfchMNcRtFKrBfw8OhB44T/xWPkTEAUNczkdSeR5ycozsmW61/oMYB86ECQXCy7qYDM0pzKwR0+ZrxUrSPuzLgxmc36Fg1xbc3bZS1hngfF10Ctsv2YBbg+QE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b68dc5.dsl.pool.telekom.hu [::ffff:81.182.141.197])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000075348.0000000065D8B562.001DCA93; Fri, 23 Feb 2024 16:10:26 +0100
-Message-ID: <4786204abbd7acadd27a8cf487be91e524eaa444.camel@irl.hu>
-Subject: Re: PCI SSID and Codec SSID collision?
-From: Gergo Koteles <soyer@irl.hu>
-To: Willian Wang <kernel@willian.wang>, tiwai@suse.de
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Date: Fri, 23 Feb 2024 16:10:26 +0100
-In-Reply-To: <170869932581.7.612391552809015627.273152461@willian.wang>
-References: <170869932581.7.612391552809015627.273152461@willian.wang>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1708702773; c=relaxed/simple;
+	bh=dC5mGTNTyyY3AWeZcJmn6etsgLzZ5Hz6FQdLDaOGHdA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IGRRrWtgIlW10iPhdCCcLrzdJqsm/vUEiu4Dkfq+r5Y/Ahh4cWnWA6yhJYrHrMn3FpPokOYqFd1GHxptk5tXKSXkJshJyWNbpcWIEzyokVyZacdjVsQxjB4YKNK5BljsQneVTsu/2GCrhq54JKJlMDYDJSOKzNQ86Wa53LP++Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=JtEzCVL5; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="JtEzCVL5"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41N8gUBS005505;
+	Fri, 23 Feb 2024 09:39:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=C
+	h7NU+9X8vJmYJdz6CxoEcg5BbpkVmYbEwAr2DuQhBU=; b=JtEzCVL5SjrHWyJqX
+	ink/zbuE2+SjAQRASZQBZY67wrKG5cpMAdJ6VZxymBCJg2uLmYBUsKk+pZyq/WrQ
+	BEewAz+b45Z8kM/LxVDUKNR3cmSpmaHJVc4poM5EQhsq7HKxtZ0sYwSGD7pQR7D0
+	iDRadZRc7iy7YHnRq4Hmz37YGEfZGSno67JyRSW2gblah6aBDEhRxbXOJNgtpTM1
+	uIiv1DhkZ0gZRyh87Bv8Fjd3MXDGMRT5HQgwB/uQBbbc62R8b8TQqmM+BVGCesFp
+	dcxa+DjUWIZwUV3PuZhVBn+w/pMBjFprwMfIzA8sn0b7l3QKgUzPQqUFlBv11mSS
+	50x1w==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wd205m5pe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 23 Feb 2024 09:39:12 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 23 Feb
+ 2024 15:39:10 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Fri, 23 Feb 2024 15:39:10 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 61BCD820246;
+	Fri, 23 Feb 2024 15:39:10 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH v2 0/6] ALSA: cs35l56: Apply calibration from EFI
+Date: Fri, 23 Feb 2024 15:39:04 +0000
+Message-ID: <20240223153910.2063698-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 30I-KLe2jTA_RYiFaB2G9pall02cT_eX
+X-Proofpoint-GUID: 30I-KLe2jTA_RYiFaB2G9pall02cT_eX
+X-Proofpoint-Spam-Reason: safe
 
-Hi Willian,
+Factory calibration of the speakers stores the calibration information
+into an EFI variable.
 
-On Fri, 2024-02-23 at 11:41 -0300, Willian Wang wrote:
-> Hi, I'm curious about the reasons for the fixup table to be the same
-> for PCI and Codec SSIDs and if the PCI SSID is usually more important
-> for it to be checked before the Codec. Anyway, would a simple
-> conditional statement to match these exact PCI and Codec SSID to set
-> the fixup manually be enough? There seems to already exist a manual
-> fix for TX300 and ROG Strix G17 there (not the same kind of fix and
-> with a FIXME comment, though). I have this exact laptop model and
-> would like to try to contribute to the code if it's not too
-> complicated.
->=20
+This set of patches adds support for applying speaker calibration
+data from that EFI variable.
 
-I think it could be simple, like this function:
-alc298_fixup_lenovo_c940_duet7
+The HDA patch (#5) depends on the ASoC patches #2 and #3
 
-Feel free to contribute. Easier for you to test.
+Patch #6 is a KUnit test for the new cs-amp-lib library.
 
-This can help:
-The output of DuetITL 2021 amixer:
-https://linux-hardware.org/?probe=3D19173612af&log=3Damixer
+Richard Fitzgerald (6):
+  ASoC: wm_adsp: Add wm_adsp_start() and wm_adsp_stop()
+  ASoC: cs-amp-lib: Add helpers for factory calibration data
+  ASoC: cs35l56: Add helper functions for amp calibration
+  ASoC: cs35l56: Apply amp calibration from EFI data
+  ALSA: hda: cs35l56: Apply amp calibration from EFI data
+  ASoC: cs-amp-lib: Add KUnit test for calibration helpers
 
+ include/sound/cs-amp-lib.h         |  66 +++
+ include/sound/cs35l56.h            |  10 +
+ sound/pci/hda/Kconfig              |   2 +
+ sound/pci/hda/cs35l56_hda.c        |  39 +-
+ sound/soc/codecs/Kconfig           |  17 +
+ sound/soc/codecs/Makefile          |   4 +
+ sound/soc/codecs/cs-amp-lib-test.c | 715 +++++++++++++++++++++++++++++
+ sound/soc/codecs/cs-amp-lib.c      | 277 +++++++++++
+ sound/soc/codecs/cs35l56-sdw.c     |  20 +
+ sound/soc/codecs/cs35l56-shared.c  |  83 ++++
+ sound/soc/codecs/cs35l56.c         |  44 +-
+ sound/soc/codecs/wm_adsp.c         |  27 +-
+ sound/soc/codecs/wm_adsp.h         |   2 +
+ 13 files changed, 1287 insertions(+), 19 deletions(-)
+ create mode 100644 include/sound/cs-amp-lib.h
+ create mode 100644 sound/soc/codecs/cs-amp-lib-test.c
+ create mode 100644 sound/soc/codecs/cs-amp-lib.c
 
-Regards,
-Gergo
+-- 
+2.30.2
+
