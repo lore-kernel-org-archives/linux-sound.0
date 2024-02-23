@@ -1,531 +1,566 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551AFDDBD;
-	Fri, 23 Feb 2024 01:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C14125A5;
+	Fri, 23 Feb 2024 04:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708653155; cv=none; b=c0XvTowrRKLdLaKx/ne9WhWhW/DHbkYjZzP6uhMY5TVbrfWYwVS6+yRMF+mGhG2XjMXT1XnPf2u6idxWy9r2yL6FUQCErxsnQL82Hhj3342UA+goF1HjLY5BHLoHrpiM163EnxQzOD1OE6Fp0m+75bsJt9mchIqRYDCVV+9d9R4=
+	t=1708662636; cv=none; b=CC22AQA2hs1iKQOj9jAlImffCSdVgenORm60M8Me7TLRaey4V5gIIz2oiTRwgHKaEar8UU8Mhwu8t0Uz0t3ys5gcXhRFMfciJLg3JELD8eHYa3zoAhmx5wT2tkafQa8NGP0Z+WBUoubu48LPHBW7t9ISSia3MOnIFMTffmQRLvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708653155; c=relaxed/simple;
-	bh=+KDS8iSsEdaVbR9vv7dpeQO+DKaM2BjDrK0qFu2BvpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MSINEsApN+Wshs1vN9q+H09frOWqE08TtMSd/L7DUabXFZBXmxg2rRhysjHGm1SNfpjQohsCCmYpw2/2g53levg1jFgHUusepE1F2rBZsjw1x0iBhKXc5ZqiFkSm/4kGD5iWqNmmK/yJ8vQEWBiEILe1DD9rCTdigq0c+xQ8Oxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=hniHFSJS; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1708662636; c=relaxed/simple;
+	bh=JFJTUQsLK/JS1syi1du6VA2zlnoAxwlqEIk/++cp37c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ntczOIQrcHmOWak555oq9k9rSzABO27PUCnv60D7qcCOHQB3X3/KTrDvkZP1y+aLPbfcmD+SA5H4WWQcIRrKAjHfHQcIybcxQCPtDMMIG7pHxqk6ELwcmmJPp+3N8alXrKMv15LggOT3J6g3bkC+Z268+MrARkFVPBU+uruDlDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6mDywoh; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="hniHFSJS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708653142; bh=+KDS8iSsEdaVbR9vv7dpeQO+DKaM2BjDrK0qFu2BvpQ=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=hniHFSJSf+njrIt8quQdD4eXGyNC0OQh0wGbVWPy0yFlFwMK1OgGN4ffElp7cKlah
-	 sz/5GDyiDJwQTuQpV81FrpigYzeB+HLmZjSnTalRG77oefCZOEc9S/tdGgir1Q1ERz
-	 gY0+DDY8QnVxN19787//rfb08z8LiwRYIDeTrOS8=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ondrej Jirman <megi@xff.cz>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 5/5] ASoC: sun8i-codec: Implement jack and accessory detection
-Date: Fri, 23 Feb 2024 02:52:15 +0100
-Message-ID: <20240223015219.3618111-6-megi@xff.cz>
-In-Reply-To: <20240223015219.3618111-1-megi@xff.cz>
-References: <20240223015219.3618111-1-megi@xff.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6mDywoh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708662633; x=1740198633;
+  h=date:from:to:cc:subject:message-id;
+  bh=JFJTUQsLK/JS1syi1du6VA2zlnoAxwlqEIk/++cp37c=;
+  b=A6mDywoh+DyHa1lj/Jy/ChA96mptsv68ivhtjGtRxFtyKZAUZQ4tt1Pz
+   jbfPofPil2k6oEc8X+e14+PpSAo/rBZEl9w7U1B1PfAg3xCBkNZqkMJpt
+   RCjo50NhQgYoRjIP/xwJnrKRFoPawDYMowLM1P/BSWdgpj939TuXqDKks
+   PJkrLzD/C/6qfccvlP2qAuvmmdNbjSf3k4Wu8mXfpTbJ+Fu06osrnFGGy
+   d0eVf1HxGBo2h/lAypXuk0ZFWfSAZ4tC9t7Y6K51ee3uH3UxxkIcymeU2
+   tzR95xXxdsFxb99YizT9QCLHms3/bycpdk4JlbuBQcNY8uyxTVvJaFL9i
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="14387338"
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="14387338"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 20:30:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
+   d="scan'208";a="36801015"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Feb 2024 20:30:28 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rdNBy-000746-0r;
+	Fri, 23 Feb 2024 04:29:46 +0000
+Date: Fri, 23 Feb 2024 12:29:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-sound@vger.kernel.org, mhi@lists.linux.dev,
+ nouveau@lists.freedesktop.org, ntfs3@lists.linux.dev
+Subject: [linux-next:master] BUILD REGRESSION
+ e31185ce00a96232308300008db193416ceb9769
+Message-ID: <202402231222.DVB9DC74-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: e31185ce00a96232308300008db193416ceb9769  Add linux-next specific files for 20240222
 
-Add support for the jack detection functionality in the A64 variant,
-which uses a pair of IRQs; and microphone accessory (button) detection,
-which uses an ADC with an IRQ trigger.
+Error/Warning reports:
 
-IRQs will only be triggered if the JACKDETEN, HMICBIASEN, and MICADCEN
-bits are set appropriately in the analog codec component
-(sun50i-codec-analog), but there is no direct software dependency
-between the two components.
+https://lore.kernel.org/oe-kbuild-all/202402222223.h9rFmYj4-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402222314.J6A7eb4B-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202402230537.2s6Nhfsn-lkp@intel.com
 
-Setup ADC so that it samples with period of 16ms, disable smoothing
-and enable MDATA threshold (should be below idle voltage/HMIC_DATA
-value). Also enable HMIC_N, which makes sure we get HMIC_N samples
-after HMIC_DATA crosses the threshold.
+Error/Warning: (recently discovered and may have been fixed)
 
-This allows us to perform steady state detection of HMIC_DATA, by
-comparing current and previous ADC samples, to detect end of the
-transient when the user de-presses the button. Otherwise ADC could
-sample anywhere within the transient, and the driver may mis-issue
-key-press events for other buttons attached to the resistor ladder.
+arch/arm/boot/compressed/misc.c:157:6: warning: no previous prototype for function '__fortify_panic' [-Wmissing-prototypes]
+arch/arm/boot/compressed/misc.h:13:36: error: macro "fortify_panic" requires 2 arguments, but only 1 given
+arch/sh/boot/compressed/../../../../lib/decompress_unxz.c:350:(.text+0x20b4): undefined reference to `__ubsan_handle_out_of_bounds'
+sh4-linux-ld: arch/sh/boot/compressed/../../../../lib/xz/xz_dec_lzma2.c:751:(.text+0x904): undefined reference to `__ubsan_handle_out_of_bounds'
 
-Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-[Samuel: Decouple from analog codec, fixes]
-Co-developed-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-[Ondrej: Almost complete rewrite of the patch, change to use set_jack/
-get_jack_type. Better de-bounce, fix mic button handling, better
-interrupt processing.]
-Co-developed-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
----
- sound/soc/sunxi/sun50i-codec-analog.c |  12 +
- sound/soc/sunxi/sun8i-codec.c         | 318 ++++++++++++++++++++++++++
- 2 files changed, 330 insertions(+)
+Error/Warning ids grouped by kconfigs:
 
-diff --git a/sound/soc/sunxi/sun50i-codec-analog.c b/sound/soc/sunxi/sun50i-codec-analog.c
-index 2081721a8ff2..2dcdf113b66e 100644
---- a/sound/soc/sunxi/sun50i-codec-analog.c
-+++ b/sound/soc/sunxi/sun50i-codec-analog.c
-@@ -115,6 +115,11 @@
- #define SUN50I_ADDA_HS_MBIAS_CTRL	0x0e
- #define SUN50I_ADDA_HS_MBIAS_CTRL_MMICBIASEN	7
- 
-+#define SUN50I_ADDA_MDET_CTRL		0x1c
-+#define SUN50I_ADDA_MDET_CTRL_SELDETADC_FS	4
-+#define SUN50I_ADDA_MDET_CTRL_SELDETADC_DB	2
-+#define SUN50I_ADDA_MDET_CTRL_SELDETADC_BF	0
-+
- #define SUN50I_ADDA_JACK_MIC_CTRL	0x1d
- #define SUN50I_ADDA_JACK_MIC_CTRL_JACKDETEN	7
- #define SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN	6
-@@ -564,6 +569,13 @@ static int sun50i_codec_analog_probe(struct platform_device *pdev)
- 			   BIT(SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN),
- 			   enable << SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN);
- 
-+	/* Select sample interval of the ADC sample to 16ms */
-+	regmap_update_bits(regmap, SUN50I_ADDA_MDET_CTRL,
-+			   0x7 << SUN50I_ADDA_MDET_CTRL_SELDETADC_FS |
-+			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_BF,
-+			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_FS |
-+			   0x3 << SUN50I_ADDA_MDET_CTRL_SELDETADC_BF);
-+
- 	return devm_snd_soc_register_component(&pdev->dev,
- 					       &sun50i_codec_analog_cmpnt_drv,
- 					       NULL, 0);
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 2a46b96b03cc..097418364985 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -12,12 +12,16 @@
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/clk.h>
-+#include <linux/input.h>
- #include <linux/io.h>
-+#include <linux/irq.h>
-+#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/log2.h>
- 
-+#include <sound/jack.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
- #include <sound/soc-dapm.h>
-@@ -118,6 +122,23 @@
- #define SUN8I_ADC_VOL_CTRL				0x104
- #define SUN8I_ADC_VOL_CTRL_ADCL_VOL			8
- #define SUN8I_ADC_VOL_CTRL_ADCR_VOL			0
-+#define SUN8I_HMIC_CTRL1				0x110
-+#define SUN8I_HMIC_CTRL1_HMIC_M				12
-+#define SUN8I_HMIC_CTRL1_HMIC_N				8
-+#define SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB		5
-+#define SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN		4
-+#define SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN			3
-+#define SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN		0
-+#define SUN8I_HMIC_CTRL2				0x114
-+#define SUN8I_HMIC_CTRL2_HMIC_SAMPLE			14
-+#define SUN8I_HMIC_CTRL2_HMIC_MDATA_THRESHOLD		8
-+#define SUN8I_HMIC_CTRL2_HMIC_SF			6
-+#define SUN8I_HMIC_STS					0x118
-+#define SUN8I_HMIC_STS_MDATA_DISCARD			13
-+#define SUN8I_HMIC_STS_HMIC_DATA			8
-+#define SUN8I_HMIC_STS_JACK_OUT_IRQ_ST			4
-+#define SUN8I_HMIC_STS_JACK_IN_IRQ_ST			3
-+#define SUN8I_HMIC_STS_HMIC_DATA_IRQ_ST			0
- #define SUN8I_DAC_DIG_CTRL				0x120
- #define SUN8I_DAC_DIG_CTRL_ENDA				15
- #define SUN8I_DAC_VOL_CTRL				0x124
-@@ -143,6 +164,17 @@
- #define SUN8I_AIF_CLK_CTRL_WORD_SIZ_MASK	GENMASK(5, 4)
- #define SUN8I_AIF_CLK_CTRL_DATA_FMT_MASK	GENMASK(3, 2)
- #define SUN8I_AIF3_CLK_CTRL_AIF3_CLK_SRC_MASK	GENMASK(1, 0)
-+#define SUN8I_HMIC_CTRL1_HMIC_M_MASK		GENMASK(15, 12)
-+#define SUN8I_HMIC_CTRL1_HMIC_N_MASK		GENMASK(11, 8)
-+#define SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB_MASK GENMASK(6, 5)
-+#define SUN8I_HMIC_CTRL2_HMIC_SAMPLE_MASK	GENMASK(15, 14)
-+#define SUN8I_HMIC_CTRL2_HMIC_SF_MASK		GENMASK(7, 6)
-+#define SUN8I_HMIC_STS_HMIC_DATA_MASK		GENMASK(12, 8)
-+
-+#define SUN8I_CODEC_BUTTONS	(SND_JACK_BTN_0|\
-+				 SND_JACK_BTN_1|\
-+				 SND_JACK_BTN_2|\
-+				 SND_JACK_BTN_3)
- 
- #define SUN8I_CODEC_PASSTHROUGH_SAMPLE_RATE 48000
- 
-@@ -178,16 +210,32 @@ struct sun8i_codec_aif {
- 
- struct sun8i_codec_quirks {
- 	bool	bus_clock	: 1;
-+	bool	jack_detection	: 1;
- 	bool	legacy_widgets	: 1;
- 	bool	lrck_inversion	: 1;
- };
- 
-+enum {
-+	SUN8I_JACK_STATUS_DISCONNECTED,
-+	SUN8I_JACK_STATUS_WAITING_HBIAS,
-+	SUN8I_JACK_STATUS_CONNECTED,
-+};
-+
- struct sun8i_codec {
-+	struct snd_soc_component	*component;
- 	struct regmap			*regmap;
- 	struct clk			*clk_bus;
- 	struct clk			*clk_module;
- 	const struct sun8i_codec_quirks	*quirks;
- 	struct sun8i_codec_aif		aifs[SUN8I_CODEC_NAIFS];
-+	struct snd_soc_jack		*jack;
-+	struct delayed_work		jack_work;
-+	int				jack_irq;
-+	int				jack_status;
-+	int				jack_last_sample;
-+	ktime_t				jack_hbias_ready;
-+	struct mutex			jack_mutex;
-+	int				last_hmic_irq;
- 	unsigned int			sysclk_rate;
- 	int				sysclk_refcnt;
- };
-@@ -1245,6 +1293,8 @@ static int sun8i_codec_component_probe(struct snd_soc_component *component)
- 	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
-+	scodec->component = component;
-+
- 	/* Add widgets for backward compatibility with old device trees. */
- 	if (scodec->quirks->legacy_widgets) {
- 		ret = snd_soc_dapm_new_controls(dapm, sun8i_codec_legacy_widgets,
-@@ -1281,6 +1331,263 @@ static int sun8i_codec_component_probe(struct snd_soc_component *component)
- 	return 0;
- }
- 
-+static void sun8i_codec_set_hmic_bias(struct sun8i_codec *scodec, bool enable)
-+{
-+	struct snd_soc_dapm_context *dapm = &scodec->component->card->dapm;
-+	int irq_mask = BIT(SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN);
-+
-+	if (enable)
-+		snd_soc_dapm_force_enable_pin(dapm, "HBIAS");
-+	else
-+		snd_soc_dapm_disable_pin(dapm, "HBIAS");
-+
-+	snd_soc_dapm_sync(dapm);
-+
-+	regmap_update_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
-+			   irq_mask, enable ? irq_mask : 0);
-+}
-+
-+static void sun8i_codec_jack_work(struct work_struct *work)
-+{
-+	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
-+						  jack_work.work);
-+	unsigned int mdata;
-+	int type_mask = scodec->jack->jack->type;
-+	int type;
-+
-+	guard(mutex)(&scodec->jack_mutex);
-+
-+	if (scodec->jack_status == SUN8I_JACK_STATUS_DISCONNECTED) {
-+		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_IN_IRQ_ST)
-+			return;
-+
-+		scodec->jack_last_sample = -1;
-+
-+		if (type_mask & SND_JACK_MICROPHONE) {
-+			/*
-+			 * If we were in disconnected state, we enable HBIAS and
-+			 * wait 600ms before reading initial HDATA value.
-+			 */
-+			scodec->jack_hbias_ready = ktime_add_ms(ktime_get(), 600);
-+			sun8i_codec_set_hmic_bias(scodec, true);
-+			queue_delayed_work(system_power_efficient_wq,
-+					   &scodec->jack_work,
-+					   msecs_to_jiffies(610));
-+			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
-+		} else {
-+			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
-+					    type_mask);
-+			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
-+		}
-+	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
-+		/*
-+		 * If we're waiting for HBIAS to stabilize, and we get plug-out
-+		 * interrupt and nothing more for > 100ms, just cancel the
-+		 * initialization.
-+		 */
-+		if (scodec->last_hmic_irq == SUN8I_HMIC_STS_JACK_OUT_IRQ_ST) {
-+			scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
-+			sun8i_codec_set_hmic_bias(scodec, false);
-+			return;
-+		}
-+
-+		/*
-+		 * If we're not done waiting for HBIAS to stabilize, wait more.
-+		 */
-+		if (!ktime_after(ktime_get(), scodec->jack_hbias_ready)) {
-+			s64 msecs = ktime_ms_delta(scodec->jack_hbias_ready,
-+						   ktime_get());
-+
-+			queue_delayed_work(system_power_efficient_wq,
-+					   &scodec->jack_work,
-+					   msecs_to_jiffies(msecs + 10));
-+			return;
-+		}
-+
-+		/*
-+		 * Everything is stabilized, determine jack type and report it.
-+		 */
-+		regmap_read(scodec->regmap, SUN8I_HMIC_STS, &mdata);
-+		mdata &= SUN8I_HMIC_STS_HMIC_DATA_MASK;
-+		mdata >>= SUN8I_HMIC_STS_HMIC_DATA;
-+
-+		regmap_write(scodec->regmap, SUN8I_HMIC_STS, 0);
-+
-+		type = mdata < 16 ? SND_JACK_HEADPHONE : SND_JACK_HEADSET;
-+		if (type == SND_JACK_HEADPHONE)
-+			sun8i_codec_set_hmic_bias(scodec, false);
-+
-+		snd_soc_jack_report(scodec->jack, type, type_mask);
-+		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
-+	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
-+		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
-+			return;
-+
-+		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
-+		if (type_mask & SND_JACK_MICROPHONE)
-+			sun8i_codec_set_hmic_bias(scodec, false);
-+
-+		snd_soc_jack_report(scodec->jack, 0, type_mask);
-+	}
-+}
-+
-+static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
-+{
-+	struct sun8i_codec *scodec = dev_id;
-+	int type = SND_JACK_HEADSET;
-+	unsigned int status, value;
-+
-+	guard(mutex)(&scodec->jack_mutex);
-+
-+	regmap_read(scodec->regmap, SUN8I_HMIC_STS, &status);
-+	regmap_write(scodec->regmap, SUN8I_HMIC_STS, status);
-+
-+	/*
-+	 * De-bounce in/out interrupts via a delayed work re-scheduling to
-+	 * 100ms after each interrupt..
-+	 */
-+	if (status & BIT(SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)) {
-+		/*
-+		 * Out interrupt has priority over in interrupt so that if
-+		 * we get both, we assume the disconnected state, which is
-+		 * safer.
-+		 */
-+		scodec->last_hmic_irq = SUN8I_HMIC_STS_JACK_OUT_IRQ_ST;
-+		mod_delayed_work(system_power_efficient_wq, &scodec->jack_work,
-+				 msecs_to_jiffies(100));
-+	} else if (status & BIT(SUN8I_HMIC_STS_JACK_IN_IRQ_ST)) {
-+		scodec->last_hmic_irq = SUN8I_HMIC_STS_JACK_IN_IRQ_ST;
-+		mod_delayed_work(system_power_efficient_wq, &scodec->jack_work,
-+				 msecs_to_jiffies(100));
-+	} else if (status & BIT(SUN8I_HMIC_STS_HMIC_DATA_IRQ_ST)) {
-+		/*
-+		 * Ignore data interrupts until jack status turns to connected
-+		 * state, which is after HMIC enable stabilization is completed.
-+		 * Until then tha data are bogus.
-+		 */
-+		if (scodec->jack_status != SUN8I_JACK_STATUS_CONNECTED)
-+			return IRQ_HANDLED;
-+
-+		value = (status & SUN8I_HMIC_STS_HMIC_DATA_MASK) >>
-+			SUN8I_HMIC_STS_HMIC_DATA;
-+
-+		/*
-+		 * Assumes 60 mV per ADC LSB increment, 2V bias voltage, 2.2kOhm
-+		 * bias resistor.
-+		 */
-+		if (value == 0)
-+			type |= SND_JACK_BTN_0;
-+		else if (value == 1)
-+			type |= SND_JACK_BTN_3;
-+		else if (value <= 3)
-+			type |= SND_JACK_BTN_1;
-+		else if (value <= 8)
-+			type |= SND_JACK_BTN_2;
-+
-+		/*
-+		 * De-bounce. Only report button after two consecutive A/D
-+		 * samples are identical.
-+		 */
-+		if (scodec->jack_last_sample >= 0 &&
-+		    scodec->jack_last_sample == value)
-+			snd_soc_jack_report(scodec->jack, type,
-+					    scodec->jack->jack->type);
-+
-+		scodec->jack_last_sample = value;
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int sun8i_codec_enable_jack_detect(struct snd_soc_component *component,
-+					  struct snd_soc_jack *jack, void *data)
-+{
-+	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
-+	struct platform_device *pdev = to_platform_device(component->dev);
-+	int ret;
-+
-+	if (!scodec->quirks->jack_detection)
-+		return 0;
-+
-+	scodec->jack = jack;
-+
-+	scodec->jack_irq = platform_get_irq(pdev, 0);
-+	if (scodec->jack_irq < 0)
-+		return scodec->jack_irq;
-+
-+	/* Reserved value required for jack IRQs to trigger. */
-+	regmap_write(scodec->regmap, SUN8I_HMIC_CTRL1,
-+			   0xf << SUN8I_HMIC_CTRL1_HMIC_N |
-+			   0x0 << SUN8I_HMIC_CTRL1_MDATA_THRESHOLD_DB |
-+			   0x4 << SUN8I_HMIC_CTRL1_HMIC_M);
-+
-+	/* Sample the ADC at 128 Hz; bypass smooth filter. */
-+	regmap_write(scodec->regmap, SUN8I_HMIC_CTRL2,
-+			   0x0 << SUN8I_HMIC_CTRL2_HMIC_SAMPLE |
-+			   0x17 << SUN8I_HMIC_CTRL2_HMIC_MDATA_THRESHOLD |
-+			   0x0 << SUN8I_HMIC_CTRL2_HMIC_SF);
-+
-+	/* Do not discard any MDATA, enable user written MDATA threshold. */
-+	regmap_write(scodec->regmap, SUN8I_HMIC_STS, 0);
-+
-+	regmap_set_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
-+			BIT(SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN) |
-+			BIT(SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN));
-+
-+	ret = devm_request_threaded_irq(&pdev->dev, scodec->jack_irq,
-+					NULL, sun8i_codec_jack_irq,
-+					IRQF_ONESHOT,
-+					dev_name(&pdev->dev), scodec);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static void sun8i_codec_disable_jack_detect(struct snd_soc_component *component)
-+{
-+	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
-+
-+	if (!scodec->quirks->jack_detection)
-+		return;
-+
-+	devm_free_irq(component->dev, scodec->jack_irq, scodec);
-+
-+	cancel_delayed_work_sync(&scodec->jack_work);
-+
-+	regmap_clear_bits(scodec->regmap, SUN8I_HMIC_CTRL1,
-+			  BIT(SUN8I_HMIC_CTRL1_JACK_OUT_IRQ_EN) |
-+			  BIT(SUN8I_HMIC_CTRL1_JACK_IN_IRQ_EN) |
-+			  BIT(SUN8I_HMIC_CTRL1_HMIC_DATA_IRQ_EN));
-+
-+	scodec->jack = NULL;
-+}
-+
-+static int sun8i_codec_component_get_jack_type(struct snd_soc_component *component)
-+{
-+	struct device_node *node = component->dev->of_node;
-+
-+	if (of_property_match_string(node, "jack-type", "headset") >= 0)
-+		return SND_JACK_HEADSET | SUN8I_CODEC_BUTTONS;
-+	else if (of_property_match_string(node, "jack-type", "headphone") >= 0)
-+		return SND_JACK_HEADPHONE;
-+
-+	return 0;
-+}
-+
-+static int sun8i_codec_component_set_jack(struct snd_soc_component *component,
-+					  struct snd_soc_jack *jack, void *data)
-+{
-+	int ret = 0;
-+
-+	if (jack)
-+		ret = sun8i_codec_enable_jack_detect(component, jack, data);
-+	else
-+		sun8i_codec_disable_jack_detect(component);
-+
-+	return ret;
-+}
-+
- static const struct snd_soc_component_driver sun8i_soc_component = {
- 	.controls		= sun8i_codec_controls,
- 	.num_controls		= ARRAY_SIZE(sun8i_codec_controls),
-@@ -1288,16 +1595,24 @@ static const struct snd_soc_component_driver sun8i_soc_component = {
- 	.num_dapm_widgets	= ARRAY_SIZE(sun8i_codec_dapm_widgets),
- 	.dapm_routes		= sun8i_codec_dapm_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(sun8i_codec_dapm_routes),
-+	.set_jack		= sun8i_codec_component_set_jack,
-+	.get_jack_type		= sun8i_codec_component_get_jack_type,
- 	.probe			= sun8i_codec_component_probe,
- 	.idle_bias_on		= 1,
- 	.suspend_bias_off	= 1,
- 	.endianness		= 1,
- };
- 
-+static bool sun8i_codec_volatile_reg(struct device *dev, unsigned int reg)
-+{
-+	return reg == SUN8I_HMIC_STS;
-+}
-+
- static const struct regmap_config sun8i_codec_regmap_config = {
- 	.reg_bits	= 32,
- 	.reg_stride	= 4,
- 	.val_bits	= 32,
-+	.volatile_reg	= sun8i_codec_volatile_reg,
- 	.max_register	= SUN8I_DAC_MXR_SRC,
- 
- 	.cache_type	= REGCACHE_FLAT,
-@@ -1314,6 +1629,8 @@ static int sun8i_codec_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	scodec->quirks = of_device_get_match_data(&pdev->dev);
-+	INIT_DELAYED_WORK(&scodec->jack_work, sun8i_codec_jack_work);
-+	mutex_init(&scodec->jack_mutex);
- 
- 	platform_set_drvdata(pdev, scodec);
- 
-@@ -1387,6 +1704,7 @@ static const struct sun8i_codec_quirks sun8i_a33_quirks = {
- 
- static const struct sun8i_codec_quirks sun50i_a64_quirks = {
- 	.bus_clock	= true,
-+	.jack_detection	= true,
- };
- 
- static const struct of_device_id sun8i_codec_of_match[] = {
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arc-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arc-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arc-randconfig-r122-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- arc-randconfig-r133-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- sound-core-sound_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-snd_pcm_format_t-usertype-format-got-int
+|   `-- sound-core-sound_kunit.c:sparse:sparse:restricted-snd_pcm_format_t-degrades-to-integer
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-aspeed_g5_defconfig
+|   `-- arch-arm-boot-compressed-misc.h:error:macro-fortify_panic-requires-arguments-but-only-given
+|-- arm-multi_v7_defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- arm-tegra_defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm64-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-randconfig-001-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- csky-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-buildonly-randconfig-006-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-003-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-013-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-061-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- i386-randconfig-062-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- i386-randconfig-063-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   `-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|-- i386-randconfig-141-20240222
+|   |-- drivers-bluetooth-btintel.c-btintel_read_version()-warn:passing-zero-to-PTR_ERR
+|   `-- mm-page_owner.c-stack_print()-warn:unsigned-nr_entries-is-never-less-than-zero.
+|-- loongarch-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- loongarch-randconfig-001-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- microblaze-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- microblaze-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- microblaze-randconfig-r111-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- mips-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- nios2-randconfig-r054-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- openrisc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- parisc64-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-r113-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+|   `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+|-- powerpc64-randconfig-r123-20240223
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- riscv-randconfig-r112-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- s390-randconfig-r123-20240222
+|   |-- lib-string_helpers.c:sparse:sparse:incompatible-types-for-operation-(-):
+|   `-- lib-string_helpers.c:sparse:sparse:incompatible-types-in-conditional-expression-(different-types):
+|-- sh-buildonly-randconfig-r002-20230612
+|   |-- arch-sh-boot-compressed-..-..-..-..-lib-decompress_unxz.c:(.text):undefined-reference-to-__ubsan_handle_out_of_bounds
+|   `-- sh4-linux-ld:arch-sh-boot-compressed-..-..-..-..-lib-xz-xz_dec_lzma2.c:(.text):undefined-reference-to-__ubsan_handle_out_of_bounds
+|-- sh-randconfig-002-20240222
+|   |-- standard-input:Error:unknown-pseudo-op:l142
+|   |-- standard-input:Warning:overflow-in-branch-to-.L90-converted-into-longer-instruction-sequence
+|   `-- standard-input:Warning:overflow-in-branch-to-.L99-converted-into-longer-instruction-sequence
+|-- sparc-allmodconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc-randconfig-001-20240222
+|   `-- (.head.text):relocation-truncated-to-fit:R_SPARC_WDISP22-against-init.text
+|-- sparc-randconfig-002-20240222
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc-randconfig-r053-20240222
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-allmodconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-allyesconfig
+|   |-- Error:vdso-image-contains-dynamic-relocations
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   |-- sparc64-linux-ld:vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|   |-- sparc64-linux-objcopy:arch-sparc-vdso-vdso64.so.dbg:No-such-file
+|   `-- vclock_gettime.c:(.text):undefined-reference-to-__ubsan_handle_shift_out_of_bounds
+|-- sparc64-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- sparc64-randconfig-r121-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- um-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- um-randconfig-r132-20240223
+|   |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+|   |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|-- x86_64-randconfig-005-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-006-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-014-20240222
+|   `-- include-kunit-test.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-074-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-075-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-076-20240222
+|   |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|   `-- include-kunit-test.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-123-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+|   |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+|   |-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+|   |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+|   `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+`-- x86_64-randconfig-161-20240222
+    |-- mm-page_owner.c-stack_print()-warn:unsigned-nr_entries-is-never-less-than-zero.
+    `-- mm-userfaultfd.c-uffd_move_lock()-error:we-previously-assumed-src_vmap-could-be-null-(see-line-)
+clang_recent_errors
+|-- arm-defconfig
+|   |-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- arm-randconfig-003-20240222
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm-randconfig-004-20240222
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm-realview_defconfig
+|   `-- arch-arm-boot-compressed-misc.c:warning:no-previous-prototype-for-function-__fortify_panic
+|-- arm64-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- hexagon-randconfig-002-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-buildonly-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-buildonly-randconfig-005-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-004-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- i386-randconfig-012-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- i386-randconfig-053-20240222
+|   |-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- powerpc-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc-randconfig-003-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- powerpc64-randconfig-001-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-defconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- riscv-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- s390-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-allmodconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-buildonly-randconfig-001-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-buildonly-randconfig-004-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-002-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-013-20240222
+|   `-- drivers-gpu-drm-nouveau-nvkm-subdev-gsp-r535.c:warning:Function-parameter-or-struct-member-gsp-not-described-in-nvkm_gsp_radix3_sg
+|-- x86_64-randconfig-103-20240222
+|   `-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+|-- x86_64-randconfig-121-20240223
+|   |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+|   `-- io_uring-io_uring.c:sparse:sparse:cast-to-restricted-io_req_flags_t
+`-- x86_64-randconfig-122-20240223
+    |-- drivers-leds-flash-leds-ktd2692.c:sparse:sparse:symbol-ktd2692_timing-was-not-declared.-Should-it-be-static
+    |-- drivers-video-backlight-ktd2801-backlight.c:sparse:sparse:symbol-ktd2801_timing-was-not-declared.-Should-it-be-static
+    |-- fs-ntfs3-frecord.c:warning:unused-variable-i_size
+    |-- fs-ntfs3-fslog.c:sparse:sparse:restricted-__le32-degrades-to-integer
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le32
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:cast-to-restricted-__le64
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le32-degrades-to-integer
+    |-- include-trace-..-..-drivers-bus-mhi-host-trace.h:sparse:sparse:restricted-__le64-degrades-to-integer
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-em_perf_state-table-got-struct-em_perf_state-noderef-__rcu
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-kref-kref-got-struct-kref-noderef-__rcu
+    |-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-objp-got-struct-em_perf_table-noderef-__rcu-assigned-em_table
+    `-- kernel-power-energy_model.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-em_perf_state-new_ps-got-struct-em_perf_state-noderef-__rcu
+
+elapsed time: 922m
+
+configs tested: 179
+configs skipped: 4
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240222   gcc  
+arc                   randconfig-002-20240222   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   gcc  
+arm                                 defconfig   clang
+arm                        multi_v7_defconfig   gcc  
+arm                       omap2plus_defconfig   gcc  
+arm                   randconfig-001-20240222   gcc  
+arm                   randconfig-002-20240222   gcc  
+arm                   randconfig-003-20240222   clang
+arm                   randconfig-004-20240222   clang
+arm                        realview_defconfig   clang
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240222   clang
+arm64                 randconfig-002-20240222   gcc  
+arm64                 randconfig-003-20240222   clang
+arm64                 randconfig-004-20240222   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240222   gcc  
+csky                  randconfig-002-20240222   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240222   clang
+hexagon               randconfig-002-20240222   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240222   gcc  
+i386         buildonly-randconfig-002-20240222   clang
+i386         buildonly-randconfig-003-20240222   clang
+i386         buildonly-randconfig-004-20240222   gcc  
+i386         buildonly-randconfig-005-20240222   clang
+i386         buildonly-randconfig-006-20240222   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240222   clang
+i386                  randconfig-002-20240222   clang
+i386                  randconfig-003-20240222   gcc  
+i386                  randconfig-004-20240222   clang
+i386                  randconfig-005-20240222   gcc  
+i386                  randconfig-006-20240222   clang
+i386                  randconfig-011-20240222   gcc  
+i386                  randconfig-012-20240222   clang
+i386                  randconfig-013-20240222   gcc  
+i386                  randconfig-014-20240222   gcc  
+i386                  randconfig-015-20240222   clang
+i386                  randconfig-016-20240222   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240222   gcc  
+loongarch             randconfig-002-20240222   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          multi_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       alldefconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           gcw0_defconfig   clang
+mips                            gpr_defconfig   clang
+mips                      pic32mzda_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240222   gcc  
+nios2                 randconfig-002-20240222   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240222   gcc  
+parisc                randconfig-002-20240222   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        cell_defconfig   gcc  
+powerpc               randconfig-001-20240222   clang
+powerpc               randconfig-002-20240222   clang
+powerpc               randconfig-003-20240222   clang
+powerpc64             randconfig-001-20240222   clang
+powerpc64             randconfig-002-20240222   clang
+powerpc64             randconfig-003-20240222   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                    nommu_k210_defconfig   clang
+riscv                 randconfig-001-20240222   clang
+riscv                 randconfig-002-20240222   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240222   gcc  
+s390                  randconfig-002-20240222   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240222   gcc  
+sh                    randconfig-002-20240222   gcc  
+sh                          rsk7264_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240222   gcc  
+sparc64               randconfig-002-20240222   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240222   clang
+um                    randconfig-002-20240222   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240222   clang
+x86_64       buildonly-randconfig-002-20240222   clang
+x86_64       buildonly-randconfig-003-20240222   gcc  
+x86_64       buildonly-randconfig-004-20240222   clang
+x86_64       buildonly-randconfig-005-20240222   gcc  
+x86_64       buildonly-randconfig-006-20240222   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240222   clang
+x86_64                randconfig-002-20240222   clang
+x86_64                randconfig-003-20240222   clang
+x86_64                randconfig-004-20240222   clang
+x86_64                randconfig-005-20240222   gcc  
+x86_64                randconfig-006-20240222   gcc  
+x86_64                randconfig-011-20240222   clang
+x86_64                randconfig-012-20240222   gcc  
+x86_64                randconfig-013-20240222   clang
+x86_64                randconfig-014-20240222   gcc  
+x86_64                randconfig-015-20240222   clang
+x86_64                randconfig-016-20240222   clang
+x86_64                randconfig-071-20240222   clang
+x86_64                randconfig-072-20240222   clang
+x86_64                randconfig-073-20240222   clang
+x86_64                randconfig-074-20240222   gcc  
+x86_64                randconfig-075-20240222   gcc  
+x86_64                randconfig-076-20240222   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240222   gcc  
+xtensa                randconfig-002-20240222   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
