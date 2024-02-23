@@ -1,94 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED55482D8E;
-	Fri, 23 Feb 2024 16:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9100F84A2B;
+	Fri, 23 Feb 2024 16:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708706853; cv=none; b=OMYZBVI8T/TfxkfPDG4zVxwx9bJO+1IIMcRPSQsGfQgcnpyYumxAC5wJWIggUMt8o+cGyBzyjJ+w1FuazC3u5kRmBDAkn2+uJomGZeZBDTEpTa5q0Eww4H8rvu2CbkCIPtkZ6NdOB40vuBAWDUuMJssJwrwJp6eiYF09Q06scSs=
+	t=1708707355; cv=none; b=F6e7meaGJdVuQlzZuaHxkkFD4Bw/7085H31f9msrERAIydSFTDJfYG2DHk0KEYwlkyrRRo2XiAWObKJ0Qm/Zmd+6kQF0/qcdgeBkos8TBToknmyEu+GY5R5AFck60afwH355EYyy4mWnCxpFec4e6u7lJLoL/KpY4NIPz7G+1hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708706853; c=relaxed/simple;
-	bh=wsLHvynhU6z1GefHwQExyJOvrdLzMQ/mqdXsNft5llk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JEo5KFWspeLn+kdSItbYszvQ9tHKd+vpgwp1p1eJE5qIg7RuwBODfI3dMVUjfMtvN0LEl8TmLfw3XPDgBAeEQNRVnm9TLUxxuGbcJlvsOrk+0sc/d8PncUPjFjc+mSCC74i4mUq1Is9NsU+rKdBCKNy0WTrR+FY7Q2LNNC1vYzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1OIUjnn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708707355; c=relaxed/simple;
+	bh=o9q4NasFNGWz8zlB0rOMsX/O1t9hGjI/2ZeyGOezbiM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=AjPMdUwOi4njmR1Y8fy2hJnWt/u/8EEedE4WenqCfgl4HCk2jIwF0KbLfEUdPPQQi+FHFSDFV7O3w91+/76zmoclsM7mz8Kq/L9cecA9E9XQ+37doXFyO4WFTmmdY1hYEnSa3jVJOuLlMH9+2ERHNg8CGMSz7FQXAx+plnupQBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cdn5DnOB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1OIUjnn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF91DC433C7;
-	Fri, 23 Feb 2024 16:47:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cdn5DnOB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078E8C43330;
+	Fri, 23 Feb 2024 16:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708706852;
-	bh=wsLHvynhU6z1GefHwQExyJOvrdLzMQ/mqdXsNft5llk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k1OIUjnnzR3bcdJrhXjHDcRKbVeXEG/hqgEpXErt+sGy0AG9+VOW9QUb7IRibNB2v
-	 8owmndFnwuMOOB9HhbCSPZISsq+xIU89/thAZO8w4+IxML1KdI2Q0fPJIOnGFxmeDR
-	 GOVYuiwQAfr6+0GQ8kSLfS4xT+cja2xNGrqvAYkuMREqH8QpipISNzbqlL3Cre+X1c
-	 821O6ZjngP+7EYqyClS+/e2w64YYEaj3uiK3dGotwcJtiwcfEL9oM4BYHzUao7rDM0
-	 YxzYTVuhblDwUPBBY3jtgC6KpJudnkH7IJrAouup3wm7RxbIFA3n7WNpBceDMf0ljO
-	 8VQGPKXPumGNg==
-Date: Fri, 23 Feb 2024 16:47:29 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 6/6] ASoC: cs-amp-lib: Add KUnit test for calibration
- helpers
-Message-ID: <ZdjMIVYp7Qb/Tt9d@finisterre.sirena.org.uk>
-References: <20240223153910.2063698-1-rf@opensource.cirrus.com>
- <20240223153910.2063698-7-rf@opensource.cirrus.com>
+	s=k20201202; t=1708707355;
+	bh=o9q4NasFNGWz8zlB0rOMsX/O1t9hGjI/2ZeyGOezbiM=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=Cdn5DnOBlicJ0wUckGy4GLjk0678uwLkjSvz0YRREgyci3Ctsqte0wLRfij9CHFRT
+	 S2L4JRLQ0QaiGizgjUOtlLun1f+2DGOcTRiUynJglubdSGcVZAat9Kx/2c5kqsS5m2
+	 plj7Y3yoBocKYXmzHqlx8PiSMrwtD3YJKlAxA0Tu2l5mh+JKT71h0x4r7Ewlxq3RIK
+	 yuR4NrFpy3wPgsq8zxxbSNpSIlFHmBN59ZlSxQYmCxNnqu8ro9xwu9/jvxcROocIWH
+	 8jCN6i5Qt2629wNnfXHUZCOgchwzysgPuROgAPldAOSa5cvX46P0jffMUJ5fTKHoad
+	 bu6YVtUsVo5rw==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-512e75e013eso1020568e87.1;
+        Fri, 23 Feb 2024 08:55:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUn6SN9ylNChomsxvkwv1ZDCm1dng5ty0XYOYb3P3aLEReU3S9HmhQGkJraixOnHIK7QGexRfexWhVpm8Vt86KxXBtUCOGOITlkvK5UC/9996hJLd4v8ikWOIPHQuHVcB8IZZqE3wf/+t9JT0fphuQTF1M1rsdG22glRIr0QaSumMo6bShjSWkwvj6qE286UPTuLSAFYbklVZdpDcc1OvIzJwJ4BWLJ3mPiVGyKyJgTLJp/EGAA1j+Qt6FEMG72KG+Noqmgs9NvLiFfQxDrn7pmif6Ak3NLDVfY
+X-Gm-Message-State: AOJu0Yx+Rigxt/k9uJWiEtRRr0qB9y8CixhIpcpiEJz43OhZsEYICyTS
+	Afbq7pVr9ZcbVyFk3Qm+lFeWD/AQ0//7r8DjGYMuRzbt1WmW98AwpRNxs3YLElTuQNcaQy70mLc
+	d55ABu8W+/9xAcWpbmNggb0eBGg==
+X-Google-Smtp-Source: AGHT+IH3eU4uHcOcgNkS4EpFf9+utY4dSGP0CnG9Q3vlqtkLCgKqay36eKFj4lBrOQtl0GgcUPQ/S/qHFYrfi4oR314=
+X-Received: by 2002:a05:6512:e93:b0:512:d830:358c with SMTP id
+ bi19-20020a0565120e9300b00512d830358cmr267753lfb.49.1708707353147; Fri, 23
+ Feb 2024 08:55:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+NiID9uOcNnKcD/H"
-Content-Disposition: inline
-In-Reply-To: <20240223153910.2063698-7-rf@opensource.cirrus.com>
-X-Cookie: You might have mail.
+References: <20240222174343.3482354-2-robh@kernel.org> <ZdemsdGQE0RtilCd@shikoro>
+In-Reply-To: <ZdemsdGQE0RtilCd@shikoro>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 23 Feb 2024 09:55:40 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqKpn6jqktRLQUx7HMrJG0PZeiOZ=hQnHpZK6AHcM22CLQ@mail.gmail.com>
+Message-ID: <CAL_JsqKpn6jqktRLQUx7HMrJG0PZeiOZ=hQnHpZK6AHcM22CLQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: i2c: Remove obsolete i2c.txt
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Rob Herring <robh@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Feb 22, 2024 at 12:55=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> On Thu, Feb 22, 2024 at 10:43:42AM -0700, Rob Herring wrote:
+> > Everything in i2c.txt is covered by schemas/i2c/i2c-controller.yaml in
+> > dtschema project, so remove i2c.txt and update links to it in the tree.
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> Differences to i2c.txt:
 
---+NiID9uOcNnKcD/H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks
 
-On Fri, Feb 23, 2024 at 03:39:10PM +0000, Richard Fitzgerald wrote:
+> * In the schema, "clock-frequency" has a minimum of 1kHz and a maximum
+>   of 3MHz. Why? The specs do not say anything about a minimum freq and
+>   fastest speed mentioned in the docs is 5Mhz (Ultra fast mode).
 
-> +config SND_SOC_CS_AMP_LIB_TEST
-> +	tristate "KUnit test for Cirrus Logic cs-amp-lib"
-> +	depends on ACPI || COMPILE_TEST || KUNIT
+IIRC, the high speed mode originally topped out at 3MHz. I guess
+that's been revised.
 
-Should this not depend unconditionally on KUNIT rather than KUNIT or
-some other stuff?  ie
+We can drop the minimum.
 
-	depends on ACPI || COMPILE_TEST
-	depends on KUNIT
+> * new binding "i2c-scl-clk-low-timeout-us" has a description which I do
+>   not understand. What is a waiting state?
 
-or equivalent.
+Shrug. May have to look at the MPC h/w that uses the property.
 
-> +#define TYPESAFE_ACTIVATE_STATIC_STUB_PTR(test, fn_ptr, replacement_fn)		\
-> +	do {									\
-> +		typecheck_fn(typeof(fn_ptr), replacement_fn);			\
-> +		__kunit_activate_static_stub(test, fn_ptr, replacement_fn);	\
-> +	} while (0)
+>
+> * new binding "no-detect" is broken. At the least, it should be named
+>   something like "bus-fully-described" and then the OS can decide to
+>   leave out auto-detection mechanisms. If you are interested in the
+>   latter, you can simply disable class based instantiation on the host
+>   controller. No need to describe this in DT.
 
-Should this be somewhere more generic in the kunit headers?
+I've reverted the property now.
 
---+NiID9uOcNnKcD/H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXYzCAACgkQJNaLcl1U
-h9AdaAf/Vs9JrSrEhXziKNX6iqehN1Sj3RcplxRM30tl9i3P1mw5PLxE07esKYUj
-hHzcS+MzZt3Jo30134eXcbH4IwAQW5KwQoGlaAaqSmZq57heZrFmAkxYzyHjmO3Q
-PYD4gmPiKY6suY1M8Hc2x+MbJzKGXLutlIUnUlyfZFJNRK9vuEUr1jdsfIOVd8AP
-fjE6pUBRi79IKlNBDur55KdFgzt9q9J+x6uDWOz1GizJbNWrd8z9BjRcXJtVnLMY
-xobl/4INIePPiblwq3X8d46UUez1xmo/XgoXEYKelQlt6E+dmGO90/cp3bokDUw5
-Wl3swEjTyJThlczRmjZitXH7JqCUUw==
-=uxPg
------END PGP SIGNATURE-----
-
---+NiID9uOcNnKcD/H--
+Rob
