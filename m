@@ -1,84 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF15212E45;
-	Fri, 23 Feb 2024 06:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB3218633
+	for <linux-sound@vger.kernel.org>; Fri, 23 Feb 2024 08:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708669388; cv=none; b=RkR4c/0r0aTwZGhJ7ayzWgaAntETg/dlTCCK+Q234cwGDnYAa0gceYVDA76G9DwvEWtM7UjqfMpzcRCcPs61lXWumz6GS3abhsB7ShJNLoJlwr6whwpOKvZEop4FFytbUVQrjZ0lWBx7q5yvBkKce0hpQAHBtq4BNWe1AHYWNV8=
+	t=1708677774; cv=none; b=OUydth98FyUhlqb9EF2QI4m3puepUAcRTvDhefh+dYSrXXs9V/eLrHT76sLKRYnnXhg9WYAQMcGc9hmFdoWvViaKW7EpJngt6BBqo6kE9PYfLzcjTdThYyK+q+5uJFERjFTF9Yt0EPkqF7MGJpimON1a4lQap3uOBxSuUN+0IbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708669388; c=relaxed/simple;
-	bh=E0nEqPdV2QlHfBxw2rYP1kW7aUMpkrIUH2IEVRz8+Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DdyIO6LMYI3cgxhn+vrBE3bNiIAntHIJ2PyijmTad9kXYuGbsxjVUGKHPug8S0C5WmBOgHDKVx34EFWWOt5y2UooxjgCkjsFjBDGdqDY6670bMl3feSRS/66mSHIu7DZBw5ZAEiiEEFTyPA/ZHonr1v4+gOjaEfcJJ65PpOUpjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xiTwVPlT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708677774; c=relaxed/simple;
+	bh=3cYVLKzSZhujWHVLZdmR0QZh77LMPk5BOTMhG4GhQok=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=a6x6XTdoLxmr18DWFbFPAza0lOoRWpCWXX5jhqi90mV7wcLYDZ79996Cpmny9E63eTtUMfEWqfUT6+8hj0am/sYjyLJ9HsfDkfCjK75O2MQeEkpwV/o3YfY40Esw2rLSJkBn1fOB4amXuDod0vb+AKsMY1O2Zo0sfA6cQhI2/mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RQlsdi8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YbXIFoeP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RQlsdi8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YbXIFoeP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xiTwVPlT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 983D9C433F1;
-	Fri, 23 Feb 2024 06:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708669387;
-	bh=E0nEqPdV2QlHfBxw2rYP1kW7aUMpkrIUH2IEVRz8+Ng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xiTwVPlTadYJUCbYRaOeLO2ibb8HrtR2M6XYADwpIfsigHwnxriJngyeqk5OZ1b5r
-	 VfBsZGzawMJmDLSfopA0qKl34P6dpi0Q33ZTgREiACCotz5QGIDkinTyiEF4UWiUOy
-	 CiQJdAj0wYjK+oj//dnPgCS94k1TQ0a6weahgmPU=
-Date: Fri, 23 Feb 2024 07:23:03 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	srinivas.kandagatla@linaro.org, mathias.nyman@intel.com,
-	perex@perex.cz, conor+dt@kernel.org, corbet@lwn.net,
-	lgirdwood@gmail.com, andersson@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
-	bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org,
-	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v17 36/51] ASoC: dt-bindings: Update example for enabling
- USB offload on SM8250
-Message-ID: <2024022359-harmonize-bath-4a7c@gregkh>
-References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
- <20240217001017.29969-37-quic_wcheng@quicinc.com>
- <7dc9e80e-0875-4dfc-adf9-9bfad2fb8589@linaro.org>
- <bdc57138-e67e-47ae-8cf1-b8be5aeb2369@sirena.org.uk>
- <2024022300-routing-baffling-7ce0@gregkh>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RQlsdi8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YbXIFoeP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RQlsdi8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YbXIFoeP"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A04A22150;
+	Fri, 23 Feb 2024 08:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708677771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CafaoYU92oJjoO0wgUiqhOmaq3YRDX/7o+MiYDlEoIA=;
+	b=RQlsdi8UKhgoPf57p82vXfFHuVwhpF19CDoNkzQvso6JWjk1R2bXIHcGCA04rruRa5kCys
+	9D3rnLZ7WmnlqKyQWGu3YDKP1WZadS4kK/lClwRp1k9x2pZAQrutT9/36vJjNS9otedueU
+	7yv/x0NQePyk+ZhI/WKhobXjfMGLT8s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708677771;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CafaoYU92oJjoO0wgUiqhOmaq3YRDX/7o+MiYDlEoIA=;
+	b=YbXIFoePNVRqtJfpRIBnHR/AjEKr1p+C65Ye9ffDbCc75pC2S0tO80a4yzjQ6KPj+WKHk8
+	iY0NEuh7b7TfqtBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708677771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CafaoYU92oJjoO0wgUiqhOmaq3YRDX/7o+MiYDlEoIA=;
+	b=RQlsdi8UKhgoPf57p82vXfFHuVwhpF19CDoNkzQvso6JWjk1R2bXIHcGCA04rruRa5kCys
+	9D3rnLZ7WmnlqKyQWGu3YDKP1WZadS4kK/lClwRp1k9x2pZAQrutT9/36vJjNS9otedueU
+	7yv/x0NQePyk+ZhI/WKhobXjfMGLT8s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708677771;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CafaoYU92oJjoO0wgUiqhOmaq3YRDX/7o+MiYDlEoIA=;
+	b=YbXIFoePNVRqtJfpRIBnHR/AjEKr1p+C65Ye9ffDbCc75pC2S0tO80a4yzjQ6KPj+WKHk8
+	iY0NEuh7b7TfqtBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC5F713AB6;
+	Fri, 23 Feb 2024 08:42:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CORiOIpa2GVDOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Feb 2024 08:42:50 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 3/3] ALSA: pcm_oss: ump: Use automatic cleanup of kfree()
+Date: Fri, 23 Feb 2024 09:42:41 +0100
+Message-Id: <20240223084241.3361-5-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240223084241.3361-1-tiwai@suse.de>
+References: <20240223084241.3361-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024022300-routing-baffling-7ce0@gregkh>
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RQlsdi8U;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YbXIFoeP
+X-Spamd-Result: default: False [4.69 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCPT_COUNT_ONE(0.00)[1];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[42.59%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 4.69
+X-Rspamd-Queue-Id: 1A04A22150
+X-Spam-Level: ****
+X-Spam-Flag: NO
+X-Spamd-Bar: ++++
 
-On Fri, Feb 23, 2024 at 06:59:30AM +0100, Greg KH wrote:
-> On Thu, Feb 22, 2024 at 04:50:08PM +0000, Mark Brown wrote:
-> > On Thu, Feb 22, 2024 at 05:24:58PM +0100, Krzysztof Kozlowski wrote:
-> > > On 17/02/2024 01:10, Wesley Cheng wrote:
-> > > > Add an example on enabling of USB offload for the Q6DSP.  The routing can
-> > > > be done by the mixer, which can pass the multimedia stream to the USB
-> > > > backend.
-> > > > 
-> > > > Acked-by: Rob Herring <robh@kernel.org>
-> > > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > > > ---
-> > > >  .../devicetree/bindings/sound/qcom,sm8250.yaml    | 15 +++++++++++++++
-> > > >  1 file changed, 15 insertions(+)
-> > 
-> > > This broke next.
-> > 
-> > > Wesley, are you sure you explained dependencies in this patch? Why is
-> > > next failing on this now?
-> > 
-> > It's surprising to see this merged at all while the series is still in
-> > review?
-> 
-> I took the first 10 and then these dt patches as I thought those were
-> safe to take also given the review.  If I should revert them, I'll
-> gladly do so.
+There are common patterns where a temporary buffer is allocated and
+freed at the exit, and those can be simplified with the recent cleanup
+mechanism via __free(kfree).
 
-Now reverted.
+No functional changes, only code refactoring.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/oss/pcm_oss.c | 33 ++++++++++-----------------------
+ 1 file changed, 10 insertions(+), 23 deletions(-)
+
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index 728c211142d1..e4e292b2db06 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -377,7 +377,7 @@ static int snd_pcm_hw_param_near(struct snd_pcm_substream *pcm,
+ 				 snd_pcm_hw_param_t var, unsigned int best,
+ 				 int *dir)
+ {
+-	struct snd_pcm_hw_params *save = NULL;
++	struct snd_pcm_hw_params *save __free(kfree) = NULL;
+ 	int v;
+ 	unsigned int saved_min;
+ 	int last = 0;
+@@ -404,38 +404,30 @@ static int snd_pcm_hw_param_near(struct snd_pcm_substream *pcm,
+ 	saved_min = min;
+ 	min = snd_pcm_hw_param_min(pcm, params, var, min, &mindir);
+ 	if (min >= 0) {
+-		struct snd_pcm_hw_params *params1;
++		struct snd_pcm_hw_params *params1 __free(kfree) = NULL;
+ 		if (max < 0)
+ 			goto _end;
+ 		if ((unsigned int)min == saved_min && mindir == valdir)
+ 			goto _end;
+ 		params1 = kmalloc(sizeof(*params1), GFP_KERNEL);
+-		if (params1 == NULL) {
+-			kfree(save);
++		if (params1 == NULL)
+ 			return -ENOMEM;
+-		}
+ 		*params1 = *save;
+ 		max = snd_pcm_hw_param_max(pcm, params1, var, max, &maxdir);
+-		if (max < 0) {
+-			kfree(params1);
++		if (max < 0)
+ 			goto _end;
+-		}
+ 		if (boundary_nearer(max, maxdir, best, valdir, min, mindir)) {
+ 			*params = *params1;
+ 			last = 1;
+ 		}
+-		kfree(params1);
+ 	} else {
+ 		*params = *save;
+ 		max = snd_pcm_hw_param_max(pcm, params, var, max, &maxdir);
+-		if (max < 0) {
+-			kfree(save);
++		if (max < 0)
+ 			return max;
+-		}
+ 		last = 1;
+ 	}
+  _end:
+- 	kfree(save);
+ 	if (last)
+ 		v = snd_pcm_hw_param_last(pcm, params, var, dir);
+ 	else
+@@ -789,7 +781,7 @@ static int choose_rate(struct snd_pcm_substream *substream,
+ 		       struct snd_pcm_hw_params *params, unsigned int best_rate)
+ {
+ 	const struct snd_interval *it;
+-	struct snd_pcm_hw_params *save;
++	struct snd_pcm_hw_params *save __free(kfree) = NULL;
+ 	unsigned int rate, prev;
+ 
+ 	save = kmalloc(sizeof(*save), GFP_KERNEL);
+@@ -808,10 +800,8 @@ static int choose_rate(struct snd_pcm_substream *substream,
+ 			ret = snd_pcm_hw_param_set(substream, params,
+ 						   SNDRV_PCM_HW_PARAM_RATE,
+ 						   rate, 0);
+-			if (ret == (int)rate) {
+-				kfree(save);
++			if (ret == (int)rate)
+ 				return rate;
+-			}
+ 			*params = *save;
+ 		}
+ 		prev = rate;
+@@ -821,7 +811,6 @@ static int choose_rate(struct snd_pcm_substream *substream,
+ 	}
+ 
+ 	/* not found, use the nearest rate */
+-	kfree(save);
+ 	return snd_pcm_hw_param_near(substream, params, SNDRV_PCM_HW_PARAM_RATE, best_rate, NULL);
+ }
+ 
+@@ -1847,7 +1836,7 @@ static int snd_pcm_oss_get_formats(struct snd_pcm_oss_file *pcm_oss_file)
+ 	struct snd_pcm_substream *substream;
+ 	int err;
+ 	int direct;
+-	struct snd_pcm_hw_params *params;
++	struct snd_pcm_hw_params *params __free(kfree) = NULL;
+ 	unsigned int formats = 0;
+ 	const struct snd_mask *format_mask;
+ 	int fmt;
+@@ -1873,7 +1862,7 @@ static int snd_pcm_oss_get_formats(struct snd_pcm_oss_file *pcm_oss_file)
+ 	_snd_pcm_hw_params_any(params);
+ 	err = snd_pcm_hw_refine(substream, params);
+ 	if (err < 0)
+-		goto error;
++		return err;
+ 	format_mask = hw_param_mask_c(params, SNDRV_PCM_HW_PARAM_FORMAT);
+ 	for (fmt = 0; fmt < 32; ++fmt) {
+ 		if (snd_mask_test(format_mask, fmt)) {
+@@ -1883,9 +1872,7 @@ static int snd_pcm_oss_get_formats(struct snd_pcm_oss_file *pcm_oss_file)
+ 		}
+ 	}
+ 
+- error:
+-	kfree(params);
+-	return err < 0 ? err : formats;
++	return formats;
+ }
+ 
+ static int snd_pcm_oss_set_format(struct snd_pcm_oss_file *pcm_oss_file, int format)
+-- 
+2.35.3
+
