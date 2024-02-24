@@ -1,161 +1,99 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5788F29437
-	for <linux-sound@vger.kernel.org>; Sat, 24 Feb 2024 11:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E17423CE;
+	Sat, 24 Feb 2024 13:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708774348; cv=none; b=tqpXL/C3AbGZO2kQn6cLOtV9Xrclqq8DbBggh7NZZfjbuyHAjpZ//jMrFfgRPtHFwk6yX1LZP618cClZ7+vuGjWWXJoR3OrzSB3Z263o6SoLSHFgdmS0SuGszN82k43USjLOFqHM8Q8aaCJy1jOldO1sTqgskyVOiNQ881mg9Qg=
+	t=1708782638; cv=none; b=rjh/y75BaM0QEdCzNRNZQ0PgT4OXJwUROcW8PH1Z3a6t0urqKtixT90mk48oghwcPucX1B+nsy0CNLNFEquGtFkKzD1t7xB1oDynraS6GrEx9BLzidTWVjksp3kcv3J7+NKIR6ZAlxsMB4LYvJrUkqq5A03/dHwDDq74qFMOnOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708774348; c=relaxed/simple;
-	bh=QqVEYMPMS78VRIAZr9rO/j9w4smKhKSOz+kA9SabeY0=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LIMaUViiUt+tBKo/ik8dLQ5HYKJjQpxoVdlGDeV+08vqTJrnlMecYFM8Y4NynwCaOux8w0eCS2hYoqP0IRE0LZvOFd+dzXUPfLKQwDHNmNlcIZ5puSVHKQDKucaYYKO5Zqrm18rF+8IfjEvtJqkXh9AhqRpyqisv8kThpvquwMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b68dc5.dsl.pool.telekom.hu [::ffff:81.182.141.197])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000074CA6.0000000065D9D3C1.001DF100; Sat, 24 Feb 2024 12:32:17 +0100
-Message-ID: <b44901fe1039bc57a534f29de3802d8c6a63f608.camel@irl.hu>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add special fixup for Lenovo 14IRP8
-From: Gergo Koteles <soyer@irl.hu>
-To: Willian Wang <git@willian.wang>, linux-sound@vger.kernel.org
-Date: Sat, 24 Feb 2024 12:32:16 +0100
-In-Reply-To: <170876716408.8.3462298005055430048.273643142@willian.wang>
-References: <170876716408.8.3462298005055430048.273643142@willian.wang>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1708782638; c=relaxed/simple;
+	bh=bA7hd8w++uVUc0cYik9/qvIUQcO7GzpA41GuPWaRpSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HcEewTSYz0WMtEiGCl3Esn6RjB5wExNnrfI8LqxwXt0jrw2REpc8Zvcpj7h/a0GDt+g83DjCocepmcvsiTI8Og2NKdhhFS2xuIomagy85z3ryPfc907Oinic2dC8AGsVFpK27TZlferzIFqxG+5DBCy0ufSQEynATTNc2IIfBpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=fRU68jDr; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="fRU68jDr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1708782632; bh=bA7hd8w++uVUc0cYik9/qvIUQcO7GzpA41GuPWaRpSo=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=fRU68jDr6/yA2+a996tgyGvvxlFnaoOTaSl+8JflvQZR7JfIAmF+ZcAaLRKkP9Bxd
+	 XcDXDkCQA4NlmnhnUctDY517DGukKuYjZZ27KJOP6JS6xPooh1jRCesn7xma1WIsEt
+	 bE31ENl02kbCRDgr9DI3DqkZ0KGsdghfGWaVgfLY=
+Date: Sat, 24 Feb 2024 14:50:32 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] dt-bindings: sound: Add jack-type property to
+ sun8i-a33-codec
+Message-ID: <sdkcau552puf5afga253hyxc3lqn3dmwk4hjlhojjfe5vvl5zh@ecrx7ecvsj4b>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240223015219.3618111-1-megi@xff.cz>
+ <20240223015219.3618111-2-megi@xff.cz>
+ <42d3ac7d-4b51-4332-8892-a4f03a315a80@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42d3ac7d-4b51-4332-8892-a4f03a315a80@kernel.org>
 
-Hi Willian,
+On Sat, Feb 24, 2024 at 11:31:07AM +0100, Krzysztof Kozlowski wrote:
+> On 23/02/2024 02:52, Ondřej Jirman wrote:
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > The codec driver needs to know what jack connector is connected to
+> > on the board. Add proprty to describe the type of connector.
+> > 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > ---
+> 
+> Please use scripts/get_maintainers.pl to get a list of necessary people
+> and lists to CC. It might happen, that command when run on an older
+> kernel, gives you outdated entries. Therefore please be sure you base
+> your patches on recent Linux kernel.
+> 
+> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+> people, so fix your workflow. Tools might also fail if you work on some
+> ancient tree (don't, instead use mainline), work on fork of kernel
+> (don't, instead use mainline) or you ignore some maintainers (really
+> don't). Just use b4 and everything should be fine, although remember
+> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+> 
+> You missed at least devicetree list (maybe more), so this won't be
+> tested by automated tooling. Performing review on untested code might be
+> a waste of time, thus I will skip this patch entirely till you follow
+> the process allowing the patch to be tested.
+> 
+> Please kindly resend and include all necessary To/Cc entries.
 
-Looks good! Only some little things need to be addressed.
+Yeah, I did run the script on v3 where this patch was not present, and
+forgot to re-run it on the new version. I'll resend. In any case I did run DT
+tests on the patch.
 
-On Sat, 2024-02-24 at 06:32 -0300, Willian Wang wrote:
-> Lenovo Slim/Yoga Pro 9 14IRP8 requires a special fixup because there is
-> a collision of its PCI SSID (17aa:3802) with Lenovo Yoga DuetITL 2021
-> codec SSID.
->=20
+kind regards,
+	o.
 
-Fixes: 3babae915f4c ("ALSA: hda/tas2781: Add tas2781 HDA driver")
-
-> Cc: stable@vger.kernel.org
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D208555
-> Link: https://lore.kernel.org/all/d5b42e483566a3815d229270abd668131a0d9f3=
-a.camel@irl.hu
-> Signed-off-by: Willian Wang <git@willian.wang>
-
-Something ate your tabs. Please try to send the patch using git send-
-email, which is the "standard" way.
-
-There is get_maintainer.pl script that lists who might be interested in
-the patch
-./scripts/get_maintainer.pl --nogit --nogit-fallback --norolestats=20
-
-Send the patch to them, and cc the lists.
-
-
-> ---
->  sound/pci/hda/patch_realtek.c | 25 ++++++++++++++++++++++++-
->  1 file changed, 24 insertions(+), 1 deletion(-)
->=20
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.=
-c
-> index 0ec1312bffd5..aa16944d5c11 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -7444,6 +7444,7 @@ enum {
->      ALC287_FIXUP_LEGION_15IMHG05_AUTOMUTE,
->      ALC287_FIXUP_YOGA7_14ITL_SPEAKERS,
->      ALC298_FIXUP_LENOVO_C940_DUET7,
-> +    ALC287_FIXUP_LENOVO_14IRP8_DUETITL,
->      ALC287_FIXUP_13S_GEN2_SPEAKERS,
->      ALC256_FIXUP_SET_COEF_DEFAULTS,
->      ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
-> @@ -7495,6 +7496,24 @@ static void
-> alc298_fixup_lenovo_c940_duet7(struct hda_codec *codec,
->      __snd_hda_apply_fixup(codec, id, action, 0);
->  }
->=20
-> +/* A special fixup for Lenovo Slim/Yoga Pro 9 14IRP8 and Yoga DuetITL 20=
-21;
-> + * 14IRP8 PCI SSID will mistakenly be matched with the DuetITL codec SSI=
-D,
-> + * so we need to apply different fixup on this case. If it weren't for t=
-he
-> + * PCI SSID, 14IRP8 would be matched with the correct codec SSID
-> + */
-
-I think you can mention the two codec SSIDs (0x17aa38be, 0x17aa38bf) in
-the comment.
-
-> +static void alc287_fixup_lenovo_14Irp8_duetitl(struct hda_codec *codec,
-
-14Irp8 -> 14irp8
-
-> +                          const struct hda_fixup *fix,
-> +                          int action)
-> +{
-> +    int id;
-> +
-> +    if (codec->core.subsystem_id =3D=3D 0x17aa3802)
-> +        id =3D ALC287_FIXUP_YOGA7_14ITL_SPEAKERS; /* DuetITL */
-> +    else
-> +        id =3D ALC287_FIXUP_TAS2781_I2C; /* 14IRP8 */
-> +    __snd_hda_apply_fixup(codec, id, action, 0);
-> +}
-> +
->  static const struct hda_fixup alc269_fixups[] =3D {
->      [ALC269_FIXUP_GPIO2] =3D {
->          .type =3D HDA_FIXUP_FUNC,
-> @@ -9379,6 +9398,10 @@ static const struct hda_fixup alc269_fixups[] =3D =
-{
->          .type =3D HDA_FIXUP_FUNC,
->          .v.func =3D alc298_fixup_lenovo_c940_duet7,
->      },
-> +    [ALC287_FIXUP_LENOVO_14IRP8_DUETITL] =3D {
-> +        .type =3D HDA_FIXUP_FUNC,
-> +        .v.func =3D alc287_fixup_lenovo_14Irp8_duetitl,
-
-14Irp8 -> 14irp8
-
-> +    },
->      [ALC287_FIXUP_13S_GEN2_SPEAKERS] =3D {
->          .type =3D HDA_FIXUP_VERBS,
->          .v.verbs =3D (const struct hda_verb[]) {
-> @@ -10247,7 +10270,7 @@ static const struct snd_pci_quirk alc269_fixup_tb=
-l[] =3D {
->      SND_PCI_QUIRK(0x17aa, 0x31af, "ThinkCentre Station",
-> ALC623_FIXUP_LENOVO_THINKSTATION_P340),
->      SND_PCI_QUIRK(0x17aa, 0x334b, "Lenovo ThinkCentre M70 Gen5",
-> ALC283_FIXUP_HEADSET_MIC),
->      SND_PCI_QUIRK(0x17aa, 0x3801, "Lenovo Yoga9 14IAP7",
-> ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> -    SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga DuetITL 2021",
-> ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
-> +    SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga DuetITL 2021",
-
-"Lenovo Yoga DuetITL 2021" -> "Lenovo Yoga Pro 9 14IRP8 / DuetITL 2021"
-
-> ALC287_FIXUP_LENOVO_14IRP8_DUETITL),
->      SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05",
-> ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
->      SND_PCI_QUIRK(0x17aa, 0x3818, "Lenovo C940 / Yoga Duet 7",
-> ALC298_FIXUP_LENOVO_C940_DUET7),
->      SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL",
-> ALC287_FIXUP_13S_GEN2_SPEAKERS),
-
-The git format-patch has a -v option to indicate the patch version.
-You can mark your next patch as v2.
-
-thanks,
-Gergo
-
+> 
+> Best regards,
+> Krzysztof
+> 
