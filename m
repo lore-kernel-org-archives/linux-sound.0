@@ -1,127 +1,112 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD17C1419B3;
-	Fri, 23 Feb 2024 23:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7579F23BF;
+	Sat, 24 Feb 2024 01:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708730609; cv=none; b=kNAliC4IjqI5/yqZQkLqZyOuBQ0UZHg/4QKcSofiQcY5UB0I3GQ9UC+9EUwOCE2xgz7UuM8y1GVAUxeTZQya05tL+nUPQt81ixGW3TnUaIUlxTZjPtntbdYaWgl3rHvdA/drX5DruBjZFcaEV8gD1OI+GHuJ2klHzdoxQpCqzfY=
+	t=1708737553; cv=none; b=e7378TQsdXd1L6BUxPy62hU37FMkHsrV+sn/NCr9JeZBOCl3zWs4SBtxJczkefvKOS7S2d1xbonxItQYlyG9WPi4vNEwMGicoT3p7tT0KZB/9akoEZ5YJqr4RDN6yUF6FgnoMkFm6H7uBFhNhbfWvhrvKA1lK+KYYX79aLOSN5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708730609; c=relaxed/simple;
-	bh=N6kOf4nA1kfeVKu4bUDVNAmyfanJ9PZTJlYfgdcivVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fmVvCP8wFMlIQ22PPGJ25RikNhTOVEdl6EmqLWWpTAW2YH2grGguEx+Mt/WxQzLxmV7mNfXkSmepbwqHfvt9zDKfEssKfpLOtWEU3GAz5lprwK8timZnNoNFhE+8Rbqwdw/FANjM7g+CKBuHDpkstyR47bIoRQ1oRjxooOu4dug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql8tm/gY; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708737553; c=relaxed/simple;
+	bh=0W8qjJDpYcgYroDsZAHS1ygwFOJj7ZrezH6oMeip5ik=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Iwd8YPN/o0YuuBIpQjzcHLXtDfkR+tePZNQDip86CpbBpF7CaGHo09oTkQektsAjM3ldm3qRb4FOehMgtvqwRr8R8SGar3qyQ5Muoxl2nDLTaLD5HMlqicP8TuN73nxkj9tuS7hbHKh97D5S7Hxhw9yOOJvDLaV/G2kxWMfB0g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ff/ekrVk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql8tm/gY"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dc1ff58fe4so8462275ad.1;
-        Fri, 23 Feb 2024 15:23:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708730607; x=1709335407; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FiqHwwDIFlgu953RnTsKDugOiVMOZzq+GWo/eDFLupM=;
-        b=Ql8tm/gYPjFLmsgDQXaHY+9gOmkOpsyd3Xrp8HNpKrvgAACMy33uLGcMkq1wH40tfw
-         ttDzePz1YRCtrEfB0lEbPvHXqKZ3xORqlk4nctFgDcSrej9DRuoVPWvCF8ZlBE+PhpWw
-         kEdEqn/R8BPIeSPZrc396yTWbjgUi/gExWifHynQCv1+NIlucTJ6KRolybCeQn4FV/pR
-         38//KeGty4ioKzhsp3dKukLtEsuwxQ0RhfJFcQhT7wkUJQvJ2j6dZLEgx4rLOnZIrBKn
-         wfvgj/1BN7o+1sKbkS+y175fob/Ne5dEj+Nmketg3CuoS28fAKUB9sODPRWVqwyiQd7a
-         MvoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708730607; x=1709335407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FiqHwwDIFlgu953RnTsKDugOiVMOZzq+GWo/eDFLupM=;
-        b=Dr3L/jDmut/4GgH7SfLhcYzaCGaBnEmnrTgjxNyrTLbmLhP7hD072+zqRHxSroI2lU
-         Y2h19gsQcytEC0GQ6XUBFThxJN2U1iiMvgXSHOsBNeKoZ8XmF3Kq8QhSDkG/GFII0UEo
-         gpKtMLqhPWNzST/ox857WXsvWmW/Wm74pZL6J3Mldz1tYRWmR9sl8twdlNqXGvJg7jTm
-         JQqwZFqVJhaqw6mesowqF1cN9i8CdxYFYyPWTthO1zEr5d3UvpAFwGxmkQX+0fGeEODH
-         Lj81+zPp5MM2SyTX5GCkU3mZ0hk+EuVgSVmTJ26nKBF38Z5q8+5HObe0U2LPNrZJVTFQ
-         Rgpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHOq5kTseoTgxRP/gM/QYeciCszSmx+Bi6j6N4NUdiQiO9U1KxlHdj16dt3arHeY6Ymhf11AgUZcLTdBgW5Oqp6bNHkuFZqEr54pn45F2qwZ7hFuJuxdHqDgoL7/yywaDG8MWXQCrqsQnufxBeZxc92Ge/D+jP8ftLicZRVWwY1/EcqYWPZANzb3e1zMDj0EJUsXP9ptNU3pUQhFkuf1aa
-X-Gm-Message-State: AOJu0Yx1MeiOOzuJ/bGAit3iYOH3H1w18gacsz7ZgbRz0HpjC+1iCOmW
-	HHJKKqImBV76NAodh710PzHDlv+63uC6nkLZ0/uD2LIjZN3FfRxr
-X-Google-Smtp-Source: AGHT+IFEAfawHMf5nBlmAJcBqwc+dhP+Td4J3SQO4+9ntTDwOu1ddqXWhazOMBAKnIl7MU/frKuiLA==
-X-Received: by 2002:a17:902:ec8b:b0:1db:2ad9:9393 with SMTP id x11-20020a170902ec8b00b001db2ad99393mr1556242plg.48.1708730606848;
-        Fri, 23 Feb 2024 15:23:26 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:f0c6:1cdc:5abd:78b8])
-        by smtp.gmail.com with ESMTPSA id kr7-20020a170903080700b001d74502d261sm12194960plb.115.2024.02.23.15.23.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 15:23:26 -0800 (PST)
-Date: Fri, 23 Feb 2024 15:23:24 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 3/4] Input: leds: Prepare for removal of config option
- LEDS_AUDIO_TRIGGER
-Message-ID: <Zdko7JAFw_TBV-63@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <e5ef576b-70ee-4781-88e3-e728c1e7cb9c@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ff/ekrVk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 506E6C433C7;
+	Sat, 24 Feb 2024 01:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708737553;
+	bh=0W8qjJDpYcgYroDsZAHS1ygwFOJj7ZrezH6oMeip5ik=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=Ff/ekrVkMNWJBDGkpsP/ovqQh2yy1ijB5ftoTK+/UMaqJWDxNbNOKDQ24y0qlURiT
+	 N86GGDRMnW5AEO+3RHaO2XaXOYxDA4ibfnVDmk9OplY/pQbkQdRWg0E13BTRhyo/Ey
+	 E7GKyzybhjWoin88WA6LDL8n39i41+9gmBImeMju6zTBmw38Z6z8mKdPpWm1Cai1Dh
+	 tLR7TBInqGjbW6nemQL6B37MrpxV1aa2e6/jocEVz4mmQME8ahbk6OREfwpjeHQwqx
+	 7OGusmZWog/eiFdepXGySC4Gi90Xc7Qb6ZzLMm5U/Vj7pI5DjSk+10zDXroo9bbYdH
+	 4E1uvU+UVBQNg==
+From: Mark Brown <broonie@kernel.org>
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, nicolas.ferre@microchip.com, 
+ alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev, 
+ mturquette@baylibre.com, sboyd@kernel.org, herbert@gondor.apana.org.au, 
+ davem@davemloft.net, andi.shyti@kernel.org, tglx@linutronix.de, 
+ tudor.ambarus@linaro.org, miquel.raynal@bootlin.com, richard@nod.at, 
+ vigneshr@ti.com, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+ linus.walleij@linaro.org, sre@kernel.org, u.kleine-koenig@pengutronix.de, 
+ p.zabel@pengutronix.de, olivia@selenic.com, radu_nicolae.pirea@upb.ro, 
+ richard.genoud@gmail.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+ lgirdwood@gmail.com, wim@linux-watchdog.org, linux@roeck-us.net, 
+ linux@armlinux.org.uk, andrei.simion@microchip.com, 
+ mihai.sain@microchip.com, andre.przywara@arm.com, neil.armstrong@linaro.org, 
+ tony@atomide.com, durai.manickamkr@microchip.com, geert+renesas@glider.be, 
+ arnd@arndb.de, Jason@zx2c4.com, rdunlap@infradead.org, rientjes@google.com, 
+ vbabka@suse.cz, mripard@kernel.org, codrin.ciubotariu@microchip.com, 
+ eugen.hristev@collabora.com, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ netdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-serial@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Varshini Rajendran <varshini.rajendran@microchip.com>
+In-Reply-To: <20240223171342.669133-1-varshini.rajendran@microchip.com>
+References: <20240223171342.669133-1-varshini.rajendran@microchip.com>
+Subject: Re: (subset) [PATCH v4 00/39] Add support for sam9x7 SoC family
+Message-Id: <170873753899.4074329.1874365978346259745.b4-ty@kernel.org>
+Date: Sat, 24 Feb 2024 01:18:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5ef576b-70ee-4781-88e3-e728c1e7cb9c@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-On Tue, Feb 13, 2024 at 08:33:24AM +0100, Heiner Kallweit wrote:
-> In a follow-up patch handling of the LED audio trigger will be changed,
-> including removal of config symbol LEDS_AUDIO_TRIGGER. Therefore set
-> the default trigger unconditionally to "audio-mute". It does no harm
-> if a default trigger doesn't exist.
+On Fri, 23 Feb 2024 22:43:42 +0530, Varshini Rajendran wrote:
+> This patch series adds support for the new SoC family - sam9x7.
+>  - The device tree, configs and drivers are added
+>  - Clock driver for sam9x7 is added
+>  - Support for basic peripherals is added
+>  - Target board SAM9X75 Curiosity is added
 > 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> ---
->  drivers/input/input-leds.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  Changes in v4:
+>  --------------
 > 
-> diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
-> index b16fc8194..176f1da7f 100644
-> --- a/drivers/input/input-leds.c
-> +++ b/drivers/input/input-leds.c
-> @@ -18,12 +18,6 @@
->  #define VT_TRIGGER(_name)	.trigger = NULL
->  #endif
->  
-> -#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
+> [...]
 
-Should it be simply changed to CONFIG_SND_CTL_LED?
+Applied to
 
-> -#define AUDIO_TRIGGER(_name)	.trigger = _name
-> -#else
-> -#define AUDIO_TRIGGER(_name)	.trigger = NULL
-> -#endif
-> -
->  static const struct {
->  	const char *name;
->  	const char *trigger;
-> @@ -35,7 +29,7 @@ static const struct {
->  	[LED_KANA]	= { "kana", VT_TRIGGER("kbd-kanalock") },
->  	[LED_SLEEP]	= { "sleep" } ,
->  	[LED_SUSPEND]	= { "suspend" },
-> -	[LED_MUTE]	= { "mute", AUDIO_TRIGGER("audio-mute") },
-> +	[LED_MUTE]	= { "mute", "audio-mute" },
->  	[LED_MISC]	= { "misc" },
->  	[LED_MAIL]	= { "mail" },
->  	[LED_CHARGING]	= { "charging" },
-> -- 
-> 2.43.1
-> 
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks.
+Thanks!
 
--- 
-Dmitry
+[13/39] ASoC: dt-bindings: atmel-classd: add sam9x7 compatible
+        commit: 89f3180d5915d4ea40e044ee102cd5c1ec81e7ef
+[17/39] ASoC: dt-bindings: microchip: add sam9x7
+        commit: c06a7a8e885753a024163bbb0dfd7349e8054643
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
