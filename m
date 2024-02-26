@@ -1,102 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABE81DFEA;
-	Mon, 26 Feb 2024 16:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A046127B4D;
+	Mon, 26 Feb 2024 16:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708965733; cv=none; b=ofGEpo4OXrREnDdAa6IEDauWIwf1nn+UUKsS39QS6hPLQ+9Qt86UnEyQkBA6x5BABE27GUHsbShYoVo6E3I0hcga5SmOsXIJ0EIoTggPqUyqCITA356twMu9EvGZeSpQBW8eeUzfhXwhLqgUFML696MtgLj2OQbaqwSpOrdThsc=
+	t=1708965922; cv=none; b=Yd4rHA88I57+egCSEJr0Obb6tnIq9Rp61DHThH1MBahkl83+uYvXn3KwHrY8YpoCZr7zJ7nmOX8A2H7fIR1kj8fMS9Zbbp+ktTCZ8/718XvhTdogPMrFrYtYoPESTTK7C73I8IShNySx9iSBuQlcjlPt1GL5HJjuySC1xCxM1gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708965733; c=relaxed/simple;
-	bh=yw07OWyD0LtGybRZCX/Yqm2aQwlLwnlMybFWhWjrytk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MzzMl4wkY0PM8p806ehhGofzXvm2ndA/gVE4h4QJVy/N2ZeixiFIxi7ovFVx6mkhCe1c8RBAS4S2KXyjeOVbYfiJpUk3DXMc4OCo/qxjS4/q8G0ahqlbdtMwnP5JLDij7QZ3tXtZr1Ik12kDyOc9el3R60Ng/EoZgyO1ZVywM4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n3V2VU9Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708965922; c=relaxed/simple;
+	bh=htcnUineXKuRIijMZZzqAZpIfeDz5CJu5ZzPoiE2Ql0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Un2+ZaWcFqw99bfHaxurj/QltNilqiyhyB5hek9yPjUpM6Cu5KyI/TUBukG3CqmORKYAb2wJL9wOYe5D3r1BjtsxjPmnAZ/oNkcDMF3L1NyVOHVYoOdgH94kjxT3Hnm/XwXqMC268U1rrXMMIrEWwthWqvPNCNpufseq9gxOkC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FoK8cc2d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=5/ZXCHY5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MteP/CWz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YSPc2zIj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n3V2VU9Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41460C43390;
-	Mon, 26 Feb 2024 16:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708965733;
-	bh=yw07OWyD0LtGybRZCX/Yqm2aQwlLwnlMybFWhWjrytk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=n3V2VU9YIFkybyzgFGadV160pUuRkp2plaLGHlaYeyQHlXcWr70M0e09RRifFEbht
-	 lweekPfQpw0KnMwogvAjS4Yd5+Yl9jggk84KE6IP+Q0MNPT1U08Q9GGHqR8mHMEVIj
-	 X7J/pKmfgLTXb39+YeEYE0VUSrmZyJQ/GyY+2wCFS/ahlfV39oaKj6Z0j6u5LHisrn
-	 JIT99tz4DEFL6st8vHeFZp+aoSCD0QGD9pOb2dSYPNR7f6sosIrwgN1h3Qalt7LR+j
-	 yICKTiRPwrZr5PzzsiSRc6UvhNxfjylF1HpoHVEytgpk88nqXpJfO9wahx5J9/Nqe/
-	 7cOdv1qoG5kog==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240221150507.1039979-1-rf@opensource.cirrus.com>
-References: <20240221150507.1039979-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/9] ALSA: cs35l56: Apply calibration from EFI
-Message-Id: <170896573086.55097.17093703884740704115.b4-ty@kernel.org>
-Date: Mon, 26 Feb 2024 16:42:10 +0000
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FoK8cc2d";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="5/ZXCHY5";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MteP/CWz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YSPc2zIj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E490E225AF;
+	Mon, 26 Feb 2024 16:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708965919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNKQOvX+alm4LCMtGGNsFDsIgNEjmJS+VHB4k1BcnoI=;
+	b=FoK8cc2d/IpT93Anet6ZMgVmF0417NNt8kEwHcm8oR9msOJZjAsH0abIEf+b6Hi6yYnsgT
+	0b7jSvdAvoKaxcdm4PhUFyPDDfunqMrKqjc9DmpjJCG1v8l3tE+DAf8iafAGutEPc9m5rf
+	wL5cgfaBVgoStqphXUuG1JXhaEfj9q8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708965919;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNKQOvX+alm4LCMtGGNsFDsIgNEjmJS+VHB4k1BcnoI=;
+	b=5/ZXCHY5e9+HWvqCTBBUuURJzTIrP5tHzUpUBcEy0uabtOxhTPUjXeX/uC8YnNKdIF5+IP
+	X1FHWhuqlzrxSUCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708965918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNKQOvX+alm4LCMtGGNsFDsIgNEjmJS+VHB4k1BcnoI=;
+	b=MteP/CWzWhn+dK0SaqUbv3rWE+O04xwyDiSMHgV1mF33vP1MPioucBzdaF8rq3EKJavEj4
+	n81Alg6YGa6VdWOfWA2mjYG14MEWQ7FrHfqcar1ZvqWd5BGffFYXP6Dp2yp/irPNNJGfyt
+	NiPemduGs6+mIj9h9s0Q3jVVHZrnjjM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708965918;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNKQOvX+alm4LCMtGGNsFDsIgNEjmJS+VHB4k1BcnoI=;
+	b=YSPc2zIjtp7PO4Rtt9tam47ZoWA8VrgLgOl/mblznZcDxJ7YLNw1CjpA89ezIaRa8Ml/r/
+	r4AFMyPi0nDKNlDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D1EB13A58;
+	Mon, 26 Feb 2024 16:45:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b4jJIR7A3GWrFAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 26 Feb 2024 16:45:18 +0000
+Message-ID: <3b539d8d-e529-45b0-aa83-545248bc0670@suse.cz>
+Date: Mon, 26 Feb 2024 17:45:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO |
+ __GFP_RETRY_MAYFAIL allocations
+Content-Language: en-US
+To: Sven van Ashbrook <svenva@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, bgeffon@google.com,
+ cujomalainey@chromium.org, kramasub@chromium.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-sound@vger.kernel.org, perex@perex.cz, stable@vger.kernel.org,
+ tiwai@suse.com, tiwai@suse.de, Michal Hocko <mhocko@kernel.org>,
+ Mel Gorman <mgorman@techsingularity.net>
+References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
+ <20240221114357.13655-2-vbabka@suse.cz>
+ <CAG-rBijH3GaHN2zA2_cby-RsQCVHou-WjZnxudMebPrS9imgfg@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAG-rBijH3GaHN2zA2_cby-RsQCVHou-WjZnxudMebPrS9imgfg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="MteP/CWz";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YSPc2zIj
+X-Spamd-Result: default: False [-0.75 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-0.45)[78.91%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[14];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -0.75
+X-Rspamd-Queue-Id: E490E225AF
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Bar: /
 
-On Wed, 21 Feb 2024 15:04:58 +0000, Richard Fitzgerald wrote:
-> Factory calibration of the speakers stores the calibration information
-> into an EFI variable.
+On 2/26/24 17:09, Sven van Ashbrook wrote:
+> Vlastimil,
 > 
-> This set of patches adds support for applying speaker calibration
-> data from that EFI variable.
+> We noticed that this patch is now added to Andrew Morton's
+> mm-hotfixes-unstable branch.
 > 
-> Patch #1 and #2 are bugfixes that are prerequisites.
-> 
-> [...]
+> How can we help to get this into mm-hotfixes-stable
+> and from there, into mainline ?
 
-Applied to
+A Tested-by: can't hurt, but of course you need to finish the testing first.
+It's encouraging you didn't hit the bug yet anymore, thought!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> We are still stress-testing using low memory suspend. Anything else
+> that is required, and we can help with?
 
-Thanks!
+I think that's already great enough, thanks!
 
-[1/9] ASoC: wm_adsp: Fix missing mutex_lock in wm_adsp_write_ctl()
-      (no commit info)
-[2/9] ALSA: hda: hda_cs_dsp_ctl: Only call notify when a control has been added to a card
-      (no commit info)
-[3/9] ASoC: wm_adsp: Add wm_adsp_start() and wm_adsp_stop()
-      commit: 5519ac3a7164d5d1c31879bf5b0d279b58c8e88f
-[4/9] ASoC: cs-amp-lib: Add helpers for factory calibration data
-      commit: 1cad8725f2b98965ed3658bc917090b30adb14fa
-[5/9] ASoC: cs35l56: Add helper functions for amp calibration
-      commit: e1830f66f6c62d288d2c27a7ed18ab93caa0b253
-[6/9] ASoC: cs35l56: Apply amp calibration from EFI data
-      commit: 1326444e93c250ff99eba048f699313ba6acbf2f
-[7/9] ALSA: hda: hda_cs_dsp_ctl: Add helper function to write calibration
-      (no commit info)
-[8/9] ALSA: hda: cs35l56: Apply amp calibration from EFI data
-      commit: cfa43aaa7948be5a701ad4099588cf49d5a02708
-[9/9] ASoC: cs-amp-lib: Add KUnit test for calibration helpers
-      (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> Sven
 
