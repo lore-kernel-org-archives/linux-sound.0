@@ -1,83 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E8212FB03
-	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 19:28:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00601130ACC;
+	Mon, 26 Feb 2024 19:47:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708975703; cv=none; b=EBEKCM9uJOByIEu2/BojloBdWPEMDj9qFZmajCkJaUjBgttieIeSv8OD8HxjFxTfmbqDbbXIuL6nZSxvq7NzqoHwiwcEgUbvdqhvUc9eedsgxNqJLTs/ALwpPsMkdy0LEwBTgzQuD6sLwGnNudp0hwPXYKUbKZaOGH2r75CZW+E=
+	t=1708976850; cv=none; b=SnMCY/wsQn0QjIYiSB3Ei33N5vCBvRR7FM/YgBHvWQurxobVg0c8+cIueaYy881ntjykwqBwp4gUlP7XhOfKDMBBDN78QgS5B/eQMSZWaVk5IBAyGvtwzpbU2ZSuHbk54Ay9FXDUro+CC6UIgNsKC5Gv4OWieH8mmw94XoAnboY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708975703; c=relaxed/simple;
-	bh=VsrxgaLb+abib+xObAVod7O0ZkmPJTnPeNMRVwjrXMs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rpEDbI4k2Zg4ou2JOvFPH4BLUgmdVaz36xo5Ti/3RLhy7izGee4MdJKuBmuVfPPl7bVdIhYdq2wDGg6v/aIFV3NsQ8Eyya9OFkpCb6vX/iC8yLis+1s/5QRiCbGf+WamUOW6w67kt9dcTW80Yl4lGi4UqWT92/sWyTdxXa+qOIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/CQE36u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708976850; c=relaxed/simple;
+	bh=bN2ZLXQ1BVg6TFH1/7WADY4uD05YSBJXrczGwIHT+ew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ra0GpjZJDB5L2X+sKRpMF7e4/6LkuHKvZTFyjH5j50o5+XDKmfZNGYsuJxGswHWuUCYCO5PfC0hxbDvLsDVRFi++sqnzDWz23wZ2gXGXTJ+xgw0/pkoJ7tHPRn+d0FQik7yY+x5HOejT3sflWNsBirOKcrr8Loyk5BpAAa2svMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sv5A4TqM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/CQE36u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A49C433C7;
-	Mon, 26 Feb 2024 19:28:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sv5A4TqM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E98C43390;
+	Mon, 26 Feb 2024 19:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708975703;
-	bh=VsrxgaLb+abib+xObAVod7O0ZkmPJTnPeNMRVwjrXMs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=a/CQE36uwihueNCLxm80itCjFTVXNa/GYassCMysVAGKJeIB7/wf+TFK2aS9qF1eo
-	 QAeLz10Y8kGycumzpgyO0gEs6lAfXRUenayIR4RX6dCr1MFEIv/B2/tV/E0NnY3AVK
-	 zzgVAJ4Muh2+6A17f1NZGBgzLPef9l2JXJWI5WZUaHSLOGR1deng9XKZMsaXCH7xoU
-	 OMTUje9etl4v2Y11uKXI7EO+Qcfvs9bc9vI1nMLIf/SsrHLs4gIoEq5GY6HEmJUQSb
-	 MpZ0lV/lpemXeYNNlnjwlgcIqsXMh4nviAC3flCXJFf3zlyRDWjPKfgHdRf5QhocOU
-	 Du/mtwsT5qFqw==
-From: Mark Brown <broonie@kernel.org>
-To: Johnny Hsieh <mnixry@outlook.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <TYSPR04MB8429E5883243B650AF86A030C55A2@TYSPR04MB8429.apcprd04.prod.outlook.com>
-References: <TYSPR04MB8429E5883243B650AF86A030C55A2@TYSPR04MB8429.apcprd04.prod.outlook.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI
- quirk table
-Message-Id: <170897570248.121037.750092229957179245.b4-ty@kernel.org>
-Date: Mon, 26 Feb 2024 19:28:22 +0000
+	s=k20201202; t=1708976849;
+	bh=bN2ZLXQ1BVg6TFH1/7WADY4uD05YSBJXrczGwIHT+ew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sv5A4TqM2dKTf46810qK1BFMH3qGSEWGaUdMxPKbvk8UccqJUjdtNVbuwwyCya3pt
+	 DS41bXK1yrW/w3beNOO2FYfgAixrfxF+vjRG5q6E7YDs6fKBC8BfhoS2FylWjri9k+
+	 xX60aHCdCY7YpHYj3b1YOEuUlInAZ8ZemnQDcxIFsr9Rpx9kanUwqG1+3aeqGb0xEj
+	 RmtcIAEIQfW7SRX5gsIjpmyIpvIZHhPUFKejBo8zxsxr5bfnGXcajOqa7ezvvQaGbk
+	 QW7t4ClCS+nzM0gI+7cxRSwaWBJ0h+K1MaWQBGoB2XK1Zo0z52XPeIU5GCDtMJbpSi
+	 i3f/qwKFiux0A==
+Date: Mon, 26 Feb 2024 13:47:27 -0600
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
+ to sun8i-a33-codec
+Message-ID: <20240226194727.GA1320480-robh@kernel.org>
+References: <20240224135501.3822390-1-megi@xff.cz>
+ <20240224135501.3822390-2-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240224135501.3822390-2-megi@xff.cz>
 
-On Mon, 26 Feb 2024 21:27:32 +0800, Johnny Hsieh wrote:
-> This patcha adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
-> to enable internal microphone array.
+On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
 > 
+> The codec driver needs to know what jack connector it is connected to
+> on the board. Add proprty to describe the type of connector.
 > 
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> ---
+>  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> index 63eadc4200ac..399fc00ad3f4 100644
+> --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> @@ -44,6 +44,15 @@ properties:
+>        - const: bus
+>        - const: mod
+>  
+> +  jack-type:
 
-Applied to
+I'm all for a generic property name, but it needs to be documented 
+somewhere common. Perhaps dai-common.yaml.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I'm sure there is some prior art here to consider as well.
 
-Thanks!
-
-[1/1] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-      commit: 50ee641643dd0f46702e9a99354398196e1734c2
-[1/1] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-      commit: 50ee641643dd0f46702e9a99354398196e1734c2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
