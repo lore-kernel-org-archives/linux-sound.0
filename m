@@ -1,280 +1,173 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF212C532
-	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 16:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7386212C547;
+	Mon, 26 Feb 2024 16:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708963760; cv=none; b=pwnXTJVTo49yhvxvxA+nyef4TlCV78+wdZhtObjnL+Z7npazZRMiCKztSKnhDsKi+brtJ0xVttUc0Bib2XaPFlOKm9KJYvgl/W/4NxQT3tgKKCoM6A/nMYrwwrtm29pYWPWeQShJvstYMqoyDMYLMFp6NEikkLMkEZ8U72ig3a0=
+	t=1708963774; cv=none; b=WPqiz+eQ9gDbjfmUrWDXLlnc31+G7AZA/i5f8+JzHrqjwhW5ugRR0etVuEap21U40UHeVNUV9p00+rK4XE9RVublif9Kz9u42zI15aNUSsYYjfzC6qrkdtldGn0XalmuyGXK+ZzLG7kG1pnkAmYQeW+OoFmA2zWXsktZYxRH+MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708963760; c=relaxed/simple;
-	bh=TidfZc7ErYBLnN3EIMvg/9g/fBw+mmuobrxPTxjxuIc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XIIfHy5xZ/Tz9x/hWKyqcwTxG78JxpQdZGcY8mg9nLrPx83dMaVld1tvsnWXKMSZ+vufbaY5uxHCAYl1Y15D9VYTbY6iCHozMmIUSAimQQ1GcY2A7dL11efilYnexik0Mk0SslFPjfpLUp4L/t1/qIJPgdkDJ4AMvwRlgigzCS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QI4zNxBH; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1708963774; c=relaxed/simple;
+	bh=544qUMhqgYQOHGl46eHK6g/2ihFgsZn/LHzZzuoNf14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i4mJ0pVA9S2hBdWVQ73eeeMwlxu9QAX/yJGlbs17nqEExN2S7I9qNoXk7iMn5e5br5IyBMj0SMjzhVsJi87VIESrJQYKaMt2orV6Ziu1AeJa2ByHTWY3WXyWqChTnOmQ9iAjrBTHx6TA6c3k/doKAsjhkJcAg6UknGas/psdvZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFKSjVwP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QI4zNxBH"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-59fc4d05861so1818272eaf.2
-        for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 08:09:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708963757; x=1709568557; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kY37XU8Gu2F16RfGDaO10TRnKshw9yrEqXfsRtwgKYw=;
-        b=QI4zNxBHDg/8ckWBjGr7HneyycBRBmvqGDinHu259qytlBCvT9pgNo6tTUowbFiHzk
-         pGL5cyZe8h0WBuQ8PWaBZ3JuN1WzQWSrFCmp4MYNzwqmXwy/FiWgY/rBJIsnw50Vk+1e
-         MXnABJeSMpjwSo9odhsrvFStmg47dfsGPYnfE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708963757; x=1709568557;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kY37XU8Gu2F16RfGDaO10TRnKshw9yrEqXfsRtwgKYw=;
-        b=QrHPfI3kZxFFm9nNVtR5botreoULFoAkVPoCTKjopwTPfqJsYZlraS9GS8zDVNKOJd
-         RSp/DPE020Zra8tJe/6noR4uL8s4zIRUnLXj3DFUdk2u/j6zQ32D9iP26QU0zyToHhuS
-         8VKtJyDfq9xP6gHCrQIflpvEObFNpirXV9X929PiPXGppW2Rzj/YmHZSNrHBFuBt2yua
-         GNk/rno4JYlzq035t4wK9ZxqwpEfX2O0DqMiTbwW4VLSWmcA0KOYzQZ6PB3wbPklp/66
-         XApdaHvxI6H64kvwFpEVGTQR6itVK810KHrx9HWKyEoy2vJf5zjEcZRNiRxbwlEpUIxY
-         3knA==
-X-Forwarded-Encrypted: i=1; AJvYcCWBgdZr1IAY+azeDbVcEVL6xjlzzTgERA2U76+DGvLuvAKd2C/Sy4gSTxeLCYcdtopH3KlI89Vq9VONEPqubluBWDUxwqUr+lmRrNk=
-X-Gm-Message-State: AOJu0YyzpxcoIWqZ2750ecSYTeNSMAnVg61FkLmb6xmkjmBBg2ujZkK/
-	hSCkY7GjA6VEQeXP5zqe93AEPuijzcVAgreB5idq5fqHRA3alHsKR3M/jvPqbSdTvXMX/IgyLGt
-	M3R4HtEiFV0OfRMBi/d6NzR4X/PMsC46d31yj
-X-Google-Smtp-Source: AGHT+IGO8+qRP9Sa5Y8eYjqpu7kaXPnwBCmmXNtbHYpcRdAzwsLsqULq7XSlSPpVhz7oo52TaAYvnvDAeqhL7iNt9wg=
-X-Received: by 2002:a4a:7617:0:b0:5a0:3917:5d46 with SMTP id
- t23-20020a4a7617000000b005a039175d46mr6268492ooc.2.1708963757421; Mon, 26 Feb
- 2024 08:09:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFKSjVwP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3858C433F1;
+	Mon, 26 Feb 2024 16:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708963774;
+	bh=544qUMhqgYQOHGl46eHK6g/2ihFgsZn/LHzZzuoNf14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gFKSjVwP60i6oW9D7LFMScKauvLLEEnmQASp+Uth6mTofKuSpkIQq72+2SDSFXZ6R
+	 Lq1ZT4yI+OaSa41rwTMpeOj5sbsruVuvaxytpdeoM3mWQ6iV+7K1OeNGrhBLoCz/2i
+	 dTrZH7dG03AaoXC267IIp6BIqJ2w1vurx7gjm8QLgpfD5U7WkqMKQYhBBbyRT9fpOc
+	 HDalcrYaW3e2HphJwpjaqrUVi3BGrjIH2eQGKh6nHJGgmqSAQnXBCyaFcFggWxVqn5
+	 vJqdYB/klAj/39MMDPZHvGtUhlGcsH9DLE4+bQbCDJWVo2dydZozgQ9SPNQ+YZwRHv
+	 7TuEZXZlVRG3A==
+Date: Mon, 26 Feb 2024 16:09:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: amergnat@baylibre.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Message-ID: <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
- <20240221114357.13655-2-vbabka@suse.cz>
-In-Reply-To: <20240221114357.13655-2-vbabka@suse.cz>
-From: Sven van Ashbrook <svenva@chromium.org>
-Date: Mon, 26 Feb 2024 11:09:06 -0500
-Message-ID: <CAG-rBijH3GaHN2zA2_cby-RsQCVHou-WjZnxudMebPrS9imgfg@mail.gmail.com>
-Subject: Re: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO |
- __GFP_RETRY_MAYFAIL allocations
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, bgeffon@google.com, 
-	cujomalainey@chromium.org, kramasub@chromium.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-sound@vger.kernel.org, 
-	perex@perex.cz, stable@vger.kernel.org, tiwai@suse.com, tiwai@suse.de, 
-	Michal Hocko <mhocko@kernel.org>, Mel Gorman <mgorman@techsingularity.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CwpsPPtJ8s7wyugW"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+X-Cookie: Walk softly and carry a BFG-9000.
 
-Vlastimil,
 
-We noticed that this patch is now added to Andrew Morton's
-mm-hotfixes-unstable branch.
+--CwpsPPtJ8s7wyugW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-How can we help to get this into mm-hotfixes-stable
-and from there, into mainline ?
+On Mon, Feb 26, 2024 at 03:01:50PM +0100, amergnat@baylibre.com wrote:
 
-We are still stress-testing using low memory suspend. Anything else
-that is required, and we can help with?
-
-Sven
-
-On Wed, Feb 21, 2024 at 6:44=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> Sven reports an infinite loop in __alloc_pages_slowpath() for costly
-> order __GFP_RETRY_MAYFAIL allocations that are also GFP_NOIO. Such
-> combination can happen in a suspend/resume context where a GFP_KERNEL
-> allocation can have __GFP_IO masked out via gfp_allowed_mask.
->
-> Quoting Sven:
->
-> 1. try to do a "costly" allocation (order > PAGE_ALLOC_COSTLY_ORDER)
->    with __GFP_RETRY_MAYFAIL set.
->
-> 2. page alloc's __alloc_pages_slowpath tries to get a page from the
->    freelist. This fails because there is nothing free of that costly
->    order.
->
-> 3. page alloc tries to reclaim by calling __alloc_pages_direct_reclaim,
->    which bails out because a zone is ready to be compacted; it pretends
->    to have made a single page of progress.
->
-> 4. page alloc tries to compact, but this always bails out early because
->    __GFP_IO is not set (it's not passed by the snd allocator, and even
->    if it were, we are suspending so the __GFP_IO flag would be cleared
->    anyway).
->
-> 5. page alloc believes reclaim progress was made (because of the
->    pretense in item 3) and so it checks whether it should retry
->    compaction. The compaction retry logic thinks it should try again,
->    because:
->     a) reclaim is needed because of the early bail-out in item 4
->     b) a zonelist is suitable for compaction
->
-> 6. goto 2. indefinite stall.
->
-> (end quote)
->
-> The immediate root cause is confusing the COMPACT_SKIPPED returned from
-> __alloc_pages_direct_compact() (step 4) due to lack of __GFP_IO to be
-> indicating a lack of order-0 pages, and in step 5 evaluating that in
-> should_compact_retry() as a reason to retry, before incrementing and
-> limiting the number of retries. There are however other places that
-> wrongly assume that compaction can happen while we lack __GFP_IO.
->
-> To fix this, introduce gfp_compaction_allowed() to abstract the __GFP_IO
-> evaluation and switch the open-coded test in try_to_compact_pages() to
-> use it.
->
-> Also use the new helper in:
-> - compaction_ready(), which will make reclaim not bail out in step 3, so
->   there's at least one attempt to actually reclaim, even if chances are
->   small for a costly order
-> - in_reclaim_compaction() which will make should_continue_reclaim()
->   return false and we don't over-reclaim unnecessarily
-> - in __alloc_pages_slowpath() to set a local variable can_compact,
->   which is then used to avoid retrying reclaim/compaction for costly
->   allocations (step 5) if we can't compact and also to skip the early
->   compaction attempt that we do in some cases
->
-> Reported-by: Sven van Ashbrook <svenva@chromium.org>
-> Closes: https://lore.kernel.org/all/CAG-rBihs_xMKb3wrMO1%2B-%2Bp4fowP9oy1=
-pa_OTkfxBzPUVOZF%2Bg@mail.gmail.com/
-> Fixes: 3250845d0526 ("Revert "mm, oom: prevent premature OOM killer invoc=
-ation for high order request"")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  include/linux/gfp.h |  9 +++++++++
->  mm/compaction.c     |  7 +------
->  mm/page_alloc.c     | 10 ++++++----
->  mm/vmscan.c         |  5 ++++-
->  4 files changed, 20 insertions(+), 11 deletions(-)
->
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index de292a007138..e2a916cf29c4 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -353,6 +353,15 @@ static inline bool gfp_has_io_fs(gfp_t gfp)
->         return (gfp & (__GFP_IO | __GFP_FS)) =3D=3D (__GFP_IO | __GFP_FS)=
-;
->  }
->
+> index 000000000000..13e95c227114
+> --- /dev/null
+> +++ b/sound/soc/codecs/mt6357.c
+> @@ -0,0 +1,1805 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Check if the gfp flags allow compaction - GFP_NOIO is a really
-> + * tricky context because the migration might require IO.
-> + */
-> +static inline bool gfp_compaction_allowed(gfp_t gfp_mask)
+> + * MT6357 ALSA SoC audio codec driver
+> + *
+
+Please use a C++ comment for the whole comment to make it clearer that
+this is intentional.
+
+> +static void set_playback_gpio(struct mt6357_priv *priv, bool enable)
 > +{
-> +       return IS_ENABLED(CONFIG_COMPACTION) && (gfp_mask & __GFP_IO);
+> +	if (enable) {
+> +		/* set gpio mosi mode */
+> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_CLR, GPIO_MODE2_CLEAR_ALL);
+> +		regmap_write(priv->regmap, MT6357_GPIO_MODE2_SET, GPIO8_MODE_SET_AUD_CLK_MOSI |
+> +								  GPIO9_MODE_SET_AUD_DAT_MOSI0 |
+> +								  GPIO10_MODE_SET_AUD_DAT_MOSI1 |
+> +								  GPIO11_MODE_SET_AUD_SYNC_MOSI);
+
+This would be a lot more legible if you worked out the values to set and
+then had a single set of writes, currently the indentation makes it very
+hard to read.  Similarly for other similar functions.
+
+> +static int mt6357_put_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(component);
+> +	struct soc_mixer_control *mc = (struct soc_mixer_control *)kcontrol->private_value;
+> +	unsigned int reg;
+> +	int ret;
+> +
+> +	ret = snd_soc_put_volsw(kcontrol, ucontrol);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	switch (mc->reg) {
+> +	case MT6357_ZCD_CON2:
+> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
+> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
+> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
+> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
+> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
+> +		break;
+
+It would probably be less code and would definitely be clearer and
+simpler to just read the values when we need them rather than constatly
+keeping a cache separate to the register cache.
+
+> +	/* ul channel swap */
+> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
+
+On/off controls should end in Switch.
+
+> +static const char * const hslo_mux_map[] = {
+> +	"Open", "DACR", "Playback", "Test mode"
+> +};
+> +
+> +static int hslo_mux_map_value[] = {
+> +	0x0, 0x1, 0x2, 0x3,
+> +};
+
+Why not just use a normal mux here, there's no missing values or
+reordering?  Similarly for other muxes.
+
+> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +	unsigned int val;
+> +
+> +	pr_debug("%s() reg = 0x%x", __func__, reg);
+> +	regmap_read(priv->regmap, reg, &val);
+> +	return val;
 > +}
-> +
->  extern gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma);
->
->  #ifdef CONFIG_CONTIG_ALLOC
-> diff --git a/mm/compaction.c b/mm/compaction.c
-> index 4add68d40e8d..b961db601df4 100644
-> --- a/mm/compaction.c
-> +++ b/mm/compaction.c
-> @@ -2723,16 +2723,11 @@ enum compact_result try_to_compact_pages(gfp_t gf=
-p_mask, unsigned int order,
->                 unsigned int alloc_flags, const struct alloc_context *ac,
->                 enum compact_priority prio, struct page **capture)
->  {
-> -       int may_perform_io =3D (__force int)(gfp_mask & __GFP_IO);
->         struct zoneref *z;
->         struct zone *zone;
->         enum compact_result rc =3D COMPACT_SKIPPED;
->
-> -       /*
-> -        * Check if the GFP flags allow compaction - GFP_NOIO is really
-> -        * tricky context because the migration might require IO
-> -        */
-> -       if (!may_perform_io)
-> +       if (!gfp_compaction_allowed(gfp_mask))
->                 return COMPACT_SKIPPED;
->
->         trace_mm_compaction_try_to_compact_pages(order, gfp_mask, prio);
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 150d4f23b010..a663202045dc 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -4041,6 +4041,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
- order,
->                                                 struct alloc_context *ac)
->  {
->         bool can_direct_reclaim =3D gfp_mask & __GFP_DIRECT_RECLAIM;
-> +       bool can_compact =3D gfp_compaction_allowed(gfp_mask);
->         const bool costly_order =3D order > PAGE_ALLOC_COSTLY_ORDER;
->         struct page *page =3D NULL;
->         unsigned int alloc_flags;
-> @@ -4111,7 +4112,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
- order,
->          * Don't try this for allocations that are allowed to ignore
->          * watermarks, as the ALLOC_NO_WATERMARKS attempt didn't yet happ=
-en.
->          */
-> -       if (can_direct_reclaim &&
-> +       if (can_direct_reclaim && can_compact &&
->                         (costly_order ||
->                            (order > 0 && ac->migratetype !=3D MIGRATE_MOV=
-ABLE))
->                         && !gfp_pfmemalloc_allowed(gfp_mask)) {
-> @@ -4209,9 +4210,10 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned in=
-t order,
->
->         /*
->          * Do not retry costly high order allocations unless they are
-> -        * __GFP_RETRY_MAYFAIL
-> +        * __GFP_RETRY_MAYFAIL and we can compact
->          */
-> -       if (costly_order && !(gfp_mask & __GFP_RETRY_MAYFAIL))
-> +       if (costly_order && (!can_compact ||
-> +                            !(gfp_mask & __GFP_RETRY_MAYFAIL)))
->                 goto nopage;
->
->         if (should_reclaim_retry(gfp_mask, order, ac, alloc_flags,
-> @@ -4224,7 +4226,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
- order,
->          * implementation of the compaction depends on the sufficient amo=
-unt
->          * of free memory (see __compaction_suitable)
->          */
-> -       if (did_some_progress > 0 &&
-> +       if (did_some_progress > 0 && can_compact &&
->                         should_compact_retry(ac, order, alloc_flags,
->                                 compact_result, &compact_priority,
->                                 &compaction_retries))
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 4f9c854ce6cc..4255619a1a31 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -5753,7 +5753,7 @@ static void shrink_lruvec(struct lruvec *lruvec, st=
-ruct scan_control *sc)
->  /* Use reclaim/compaction for costly allocs or under memory pressure */
->  static bool in_reclaim_compaction(struct scan_control *sc)
->  {
-> -       if (IS_ENABLED(CONFIG_COMPACTION) && sc->order &&
-> +       if (gfp_compaction_allowed(sc->gfp_mask) && sc->order &&
->                         (sc->order > PAGE_ALLOC_COSTLY_ORDER ||
->                          sc->priority < DEF_PRIORITY - 2))
->                 return true;
-> @@ -5998,6 +5998,9 @@ static inline bool compaction_ready(struct zone *zo=
-ne, struct scan_control *sc)
->  {
->         unsigned long watermark;
->
-> +       if (!gfp_compaction_allowed(sc->gfp_mask))
-> +               return false;
-> +
->         /* Allocation can already succeed, nothing to do */
->         if (zone_watermark_ok(zone, sc->order, min_wmark_pages(zone),
->                               sc->reclaim_idx, 0))
-> --
-> 2.43.1
->
+
+Remove these, there are vastly more logging facilities as standard in
+the regmap core.
+
+> +/* Reg bit defines */
+> +/* MT6357_GPIO_DIR0 */
+> +#define GPIO8_DIR_MASK				BIT(8)
+> +#define GPIO8_DIR_INPUT				0
+
+Please namespace your defines, these look very generic.
+
+--CwpsPPtJ8s7wyugW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXct7QACgkQJNaLcl1U
+h9Agkgf7BBrglcg7jMvSrH2s1xIYkCIuoub5OdCpv9Ph6xdo47W9uy2hoGlAK6nD
+BS+w4kyaZmwgueREI0Rf/l6hYRPKJtWv9emek2zz9z5r4R7xzhdbzj2R4MVJkcJH
+O9QTkYk0PoAJkgVJnH6XNqFGriEYmNxkuRdF4l3Mdbn6KiHlf4XwaqWx29KLmXci
+bxoCisLzrR5rPaZAKPMuf8lPvMAQr19dvvk1RlMkyZ2Di1mpakxQIn+QZY7ja2GI
+dJs9hbr+UAJTCKhf0uhtslARm+WZfNCHtGbr8YUjZnzQ+z6vAcNdTTfgDBYINKSC
+AWTgPQtQPSt9Ti03CsQj0ka+/ujatQ==
+=uDQI
+-----END PGP SIGNATURE-----
+
+--CwpsPPtJ8s7wyugW--
