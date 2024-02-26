@@ -1,239 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2EF1EF15;
-	Mon, 26 Feb 2024 07:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED55DDA3
+	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 10:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708932685; cv=none; b=stxgDNZnD/XLzIbjxYjuTHWOkJN35c/FTRBI0LxN2z5FXNIs0ccfs/wkcVBJKAzXYBLH5a5JE/23cYxh9iPnlMn+olTgn7+5kshX/Gj+x6FvWfuq4q5NVA3D6gMVV9vmk8ATAzLGfbEENFKpKRhXwfRfMJqfvEK7P4n6IObjFKc=
+	t=1708944044; cv=none; b=cIiRcImoQRFchaab8OUFgVU84xqyeCLZBbbwx6T+Fgi0Fe7yXG9VYKaGTO6NYs+IipBellTl4SgsMxGRmaCH6Ta0fxkQU1WjfSfrnO+krUvBX43csqOkRdeZQFCWPYP8wXv0Ajm48cYq4HbPCrkwdRBle/YmYK9OO3z4uuYW90s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708932685; c=relaxed/simple;
-	bh=q2wfBwiV2aXw54Tlm2xPl3C7+8RYVtIB25oGgkG96t4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Auyjp29si0Rhj4H1aG0ydyo0+nlzhi76y71VGo/eV8aDk04CEOFZXzCMYeJZ4jFRXE2YcrJ3liOvNtTdNe/akeXQhjm95CptQbD4fVqTCerzGRlNwU2mE2cZitOE7f38faHW1ncpfWUv1uzgcnhxHf4jAJxz4/d36Big7dcGNmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rVCKYGuB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708944044; c=relaxed/simple;
+	bh=DaawKgzre8sRBX+LnD3mVhbEc25B3Gz5fzha4m6cLRg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HVzwoi3bBj98fBsLMMNG50QFyGi/0iXe+SS0vxn3GEIM6IajIxDTGcCSHZiAtE34lW6ZYGZM63OYFINwzLqNBfOUP4hfjnhMjL8FRbzzoWCTiYndumJitf+lv2hMQP8n+vlwEcq9Wxdp+oIFGC1KVRpXhTC9cX292yfGhnwHLIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7pxcFAP; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rVCKYGuB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D1A4C32791;
-	Mon, 26 Feb 2024 07:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708932684;
-	bh=q2wfBwiV2aXw54Tlm2xPl3C7+8RYVtIB25oGgkG96t4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=rVCKYGuBWEHI9i1CQGFtCLE4SK1bfMLl8FfzjigRTYP241PdvAvsuIgAPlYVs6lwU
-	 8dvEgQjNMejblLGn883AzbPzxMmuSgIK4oy+U4xs+DLtAps1sJVvYTROgOaoC+tpcK
-	 nah5/05TKY9Mr2U/LvNfbSRjPbploKeKc+yeKoNZb8y2aD+nBh0PqZ1rWI7TaxD8H/
-	 z+SXQIHNVaQb/OmRt1krYv/BFiYWguka5pYboBk/j5tVYQXTJomZbO3XuiLhUwm2iF
-	 e+vWaOf+TcYrpWPZpAfoCrYOetsQUPdVUvr7jew7g4t2O0Rlrx7Lej+ho8N/2Z4YGx
-	 ZwlIKp29p6hFw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09EB2C54E55;
-	Mon, 26 Feb 2024 07:31:24 +0000 (UTC)
-From:
- Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Mon, 26 Feb 2024 10:30:33 +0300
-Subject: [PATCH v8 37/38] ASoC: cirrus: edb93xx: Delete driver
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7pxcFAP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708944041; x=1740480041;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=DaawKgzre8sRBX+LnD3mVhbEc25B3Gz5fzha4m6cLRg=;
+  b=l7pxcFAPCvMrBCYSAF4i6/5622Sc9M7Ds0W5/iQ+xFhMeixFz/Nr/7ia
+   8Vs0ylJm6ef6YYKxcXiFRb5fCoLl7BRLIKK3BFCl7K15amgogO7+8wSJz
+   IXpt4ZgxhlJNiv/blyfgV4Ikkbgv42sUd6Lo6a12+QMczmcaYrlLWAzfc
+   D1F5NScRy9UBYsPJztwZXVDQ37Tym6jiijUw97UubJAwa6LI3J1mkJvpG
+   9zPbKAjFLw4sCCRbQ4pi05INnHfP76RN6YnTuiT7+7QOVhZPTexSP+wqV
+   228Ji4hU/LhyqwtreNfoDUWr/2WbQI4N+6YvdLvhIWjF6eF/OtSAGY6m4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="13772063"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="13772063"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 02:40:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="11398714"
+Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost) ([10.252.46.254])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 02:40:37 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ tiwai@suse.com, perex@perex.cz, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, amadeuszx.slawinski@linux.intel.com,
+ pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com, Cezary Rojewski
+ <cezary.rojewski@intel.com>
+Subject: Re: [PATCH v2 1/4] ALSA: hda: Skip i915 initialization on
+ CNL/LKF-based platforms
+In-Reply-To: <20240223114626.1052784-2-cezary.rojewski@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240223114626.1052784-1-cezary.rojewski@intel.com>
+ <20240223114626.1052784-2-cezary.rojewski@intel.com>
+Date: Mon, 26 Feb 2024 12:40:34 +0200
+Message-ID: <87plwjo6e5.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-ep93xx-v8-37-3136dca7238f@maquefel.me>
-References: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
-In-Reply-To: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Nikita Shubin <nikita.shubin@maquefel.me>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- Arnd Bergmann <arnd@arndb.de>
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1708932678; l=4988;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=q85pa0yb/O7EaHVagkr9aEFvCWc3nilsGlPhGwvGUM8=; =?utf-8?q?b=3D8UtRg/3nXSnx?=
- =?utf-8?q?4o+/JTMPUTG+buPc4cSiDKlBZq/lB3s6U996EFQLI4rm6uGrUdagqeUvAdhF9P0H?=
- JrJD5kZ0CxSeVyo1QujZMX54WuYZUPxgriIbK0GTLWkuVOxLSoBf
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received:
- by B4 Relay for nikita.shubin@maquefel.me/20230718 with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: <nikita.shubin@maquefel.me>
+Content-Type: text/plain
 
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+On Fri, 23 Feb 2024, Cezary Rojewski <cezary.rojewski@intel.com> wrote:
+> Commit 78f613ba1efb ("drm/i915: finish removal of CNL") and its friends
+> removed support for i915 for all CNL-based platforms. HDAudio library,
+> however, still treats such platforms as valid candidates for i915
+> binding. Update query mechanism to reflect changes made in drm tree.
+>
+> At the same time, i915 support for LKF-based platforms has not been
+> provided so remove them from valid binding candidates.
+>
+> Link: https://lore.kernel.org/all/20210728215946.1573015-1-lucas.demarchi@intel.com/
+> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> ---
+>  sound/hda/hdac_i915.c | 32 +++++++++++++++++++++++++++++---
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+>
+> diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
+> index 365c36fdf205..afee87bd0f2e 100644
+> --- a/sound/hda/hdac_i915.c
+> +++ b/sound/hda/hdac_i915.c
+> @@ -127,15 +127,41 @@ static int i915_component_master_match(struct device *dev, int subcomponent,
+>  /* check whether Intel graphics is present and reachable */
+>  static int i915_gfx_present(struct pci_dev *hdac_pci)
+>  {
+> +	/* List of known platforms with no i915 support. */
+> +	static struct pci_device_id denylist[] = {
 
-Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
-to commit "ARM: dts: ep93xx: Add EDB9302 DT".
+This should be const to place it in rodata, it doesn't need to be
+mutable.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
----
- sound/soc/cirrus/Kconfig   |   9 ----
- sound/soc/cirrus/Makefile  |   4 --
- sound/soc/cirrus/edb93xx.c | 116 ---------------------------------------------
- 3 files changed, 129 deletions(-)
+> +		/* CNL */
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a40), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a41), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a42), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a44), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a49), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a4a), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a4c), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a50), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a51), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a52), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a54), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a59), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a5a), 0x030000, 0xff0000 },
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x5a5c), 0x030000, 0xff0000 },
+> +		/* LKF */
+> +		{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x9840), 0x030000, 0xff0000 },
+> +		{ 0 }
 
-diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
-index 38a83c4dcc2d..97def4e53fbc 100644
---- a/sound/soc/cirrus/Kconfig
-+++ b/sound/soc/cirrus/Kconfig
-@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
- 
- endif # if SND_EP93XX_SOC_I2S
- 
--config SND_EP93XX_SOC_EDB93XX
--	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
--	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
--	select SND_EP93XX_SOC_I2S
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	help
--	  Say Y or M here if you want to add support for I2S audio on the
--	  Cirrus Logic EDB93xx boards.
-diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
-index 19a86daad660..5916c03888cb 100644
---- a/sound/soc/cirrus/Makefile
-+++ b/sound/soc/cirrus/Makefile
-@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-objs	 			:= ep93xx-i2s.o
- obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
- obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
- 
--# EP93XX Machine Support
--snd-soc-edb93xx-objs				:= edb93xx.o
--
--obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
-diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
-deleted file mode 100644
-index 8bb67d7d2b4b..000000000000
---- a/sound/soc/cirrus/edb93xx.c
-+++ /dev/null
-@@ -1,116 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * SoC audio for EDB93xx
-- *
-- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
-- *
-- * This driver support CS4271 codec being master or slave, working
-- * in control port mode, connected either via SPI or I2C.
-- * The data format accepted is I2S or left-justified.
-- * DAPM support not implemented.
-- */
--
--#include <linux/platform_device.h>
--#include <linux/module.h>
--#include <linux/soc/cirrus/ep93xx.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
--#include <sound/soc.h>
--#include <asm/mach-types.h>
--
--static int edb93xx_hw_params(struct snd_pcm_substream *substream,
--			     struct snd_pcm_hw_params *params)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
--	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
--	int err;
--	unsigned int mclk_rate;
--	unsigned int rate = params_rate(params);
--
--	/*
--	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
--	 * rates below 50kHz and 128 for higher sample rates
--	 */
--	if (rate < 50000)
--		mclk_rate = rate * 64 * 4;
--	else
--		mclk_rate = rate * 64 * 2;
--
--	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
--				     SND_SOC_CLOCK_IN);
--	if (err)
--		return err;
--
--	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
--				      SND_SOC_CLOCK_OUT);
--}
--
--static const struct snd_soc_ops edb93xx_ops = {
--	.hw_params	= edb93xx_hw_params,
--};
--
--SND_SOC_DAILINK_DEFS(hifi,
--	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
--	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
--	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
--
--static struct snd_soc_dai_link edb93xx_dai = {
--	.name		= "CS4271",
--	.stream_name	= "CS4271 HiFi",
--	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
--			  SND_SOC_DAIFMT_CBC_CFC,
--	.ops		= &edb93xx_ops,
--	SND_SOC_DAILINK_REG(hifi),
--};
--
--static struct snd_soc_card snd_soc_edb93xx = {
--	.name		= "EDB93XX",
--	.owner		= THIS_MODULE,
--	.dai_link	= &edb93xx_dai,
--	.num_links	= 1,
--};
--
--static int edb93xx_probe(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = &snd_soc_edb93xx;
--	int ret;
--
--	ret = ep93xx_i2s_acquire();
--	if (ret)
--		return ret;
--
--	card->dev = &pdev->dev;
--
--	ret = snd_soc_register_card(card);
--	if (ret) {
--		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
--			ret);
--		ep93xx_i2s_release();
--	}
--
--	return ret;
--}
--
--static void edb93xx_remove(struct platform_device *pdev)
--{
--	struct snd_soc_card *card = platform_get_drvdata(pdev);
--
--	snd_soc_unregister_card(card);
--	ep93xx_i2s_release();
--}
--
--static struct platform_driver edb93xx_driver = {
--	.driver		= {
--		.name	= "edb93xx-audio",
--	},
--	.probe		= edb93xx_probe,
--	.remove_new	= edb93xx_remove,
--};
--
--module_platform_driver(edb93xx_driver);
--
--MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
--MODULE_DESCRIPTION("ALSA SoC EDB93xx");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:edb93xx-audio");
+Nitpick, prefer {} over { 0 }.
+
+BR,
+Jani.
+
+> +	};
+>  	struct pci_dev *display_dev = NULL;
+>  
+>  	if (!gpu_bind || (gpu_bind < 0 && video_firmware_drivers_only()))
+>  		return false;
+>  
+>  	for_each_pci_dev(display_dev) {
+> -		if (display_dev->vendor == PCI_VENDOR_ID_INTEL &&
+> -		    (display_dev->class >> 16) == PCI_BASE_CLASS_DISPLAY &&
+> -		    connectivity_check(display_dev, hdac_pci)) {
+> +		if (display_dev->vendor != PCI_VENDOR_ID_INTEL ||
+> +		    (display_dev->class >> 16) != PCI_BASE_CLASS_DISPLAY)
+> +			continue;
+> +
+> +		if (pci_match_id(denylist, display_dev))
+> +			continue;
+> +
+> +		if (connectivity_check(display_dev, hdac_pci)) {
+>  			pci_dev_put(display_dev);
+>  			return true;
+>  		}
 
 -- 
-2.41.0
-
+Jani Nikula, Intel
