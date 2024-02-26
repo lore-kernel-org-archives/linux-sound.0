@@ -1,140 +1,282 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01olkn2083.outbound.protection.outlook.com [40.92.53.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEB2127B72
-	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 13:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.53.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708955150; cv=fail; b=QA0tCFnICFJgg4SiLzKE+0PLsvjF6EQsS9qbdzZjv/nbiPELzzBcNLMoyVQT8qPXht5sdfOWQZmWuzp8t7LOL89fO2vJwJKQh+fjlWCLgRoofbZ6A6YdjUwSfYS1UDRC8IGOQ6hsYG+F7WoI7kcsXO+sxyJh+O9uTHQo65YbCz0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708955150; c=relaxed/simple;
-	bh=1aWwSKsMw5TwMd5H2pR0cwS7EhFKMuvcc9tAy5cnnmM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GuIZ99sIvF7Q2Mi03re5ExTFbcZ9Y4KOdaScn/79PWEy5cZ9wayf9PA+KrZrasRnhpJznuQ9ndFR3c7GUm/6xFr8D2WK51GTut8AxWAfY1eS/jN0GqQady8OQKLBSuboihzEHiEMBFESsK4n5810AH08jMrAsE1z37DXRcXTGo8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=FAY1NMe9; arc=fail smtp.client-ip=40.92.53.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A482B129A67
+	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 14:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708956131; cv=none; b=mnOxkFtOVUhatZl/gST2wZeZ0cVl3VIoyAB3pUhNQfHdBBsxvaJt6IvQ1QY9QA6g761q5GnftwNPGW20QVXVkbQgic4tnG2qR27FWFr0r3zmbl0BYFhkDSW8McUn3kjBrv9ZP4Yy+Fzxifkdn/0v++9CFC5eyiuNrtNjAgnfqc4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708956131; c=relaxed/simple;
+	bh=0kCH2S+hyKAqspnQK264eeLgQIfJopJ1XswPK6oxmVg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=vEDnNVmw7SHLk7ZeTHvaTbDopTYTQNiEgHyy1iw3ci5nC3ydGvpnRc+NMgdBiceCeZDf5fjHK1FepB5DgGy95YW/wnXFLoZUss7GUPVWkEB0p8M2hP9HEmYXPj8VWRPUvtzmDZsAj/4/a1IcnkPQC4A/D8WXHAOAss/0ae7gjoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BFBtPD+6; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="FAY1NMe9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jZ1jvhRm5L0tqUrQ49/yGayIj0rpO9SvYsXglc7n7KguFYvAh1cH9AKNFJ0DdMlEtq+oDxfJ5v3ZR7rvK99GIQmxtSxmdjvGyH+z7l01+XjBN2izjZL9CLbXNbBawyTxG8cQ6IAeDiyTyRviFh1mc7mnre9Cu90+5ltuxUtdfIxCY3W+g1fxTZ0ZuMyZXy79cdoRjhiNi5ZaKmFxHNh8f6T8r0T3JxL5G0M9DBtzYuqssmSmYvSRQVBUycJMXo2aprdmUvdcoynyJGkVLOxMgAs1PdWkLfywd3Hw9HRAWni+67u2I9ujnBhq2p7Zx2XaxmAWJuwwjT/4bh+C8O+k4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8S35nQIJ3YCZ1EgFsdactNhnOfQ8KC2fhjTB35GlD5Y=;
- b=WVl1dPEOWoLaJfppfsa0u2Td0YC7plLAo49vRnKniL318BF8X8xW78XX9DJrJaChfu5QWhEGvRAxy3AJNvXQpSczdLA6oKsoBdkVJBmcqNU8nYIa1TfAt8rlmDqvb6oEqMso0d4Xl6WwPtSG1lF5zO6jMqJg9g+MSb4H132tCbW8MYO3csGDjt2vh1RNDq+sTShqzDQV9B7a52UvKopUjfQRTYPaLGMILfFRj9HBowr4IOSX7Abr2Z5uBidSHNzceYju4oHPDDq8EztXjiGSVXpqQMI8rx2IvfVSiNCoFT3NzBHPDcCHGa4/SheH6GHdJa3eTBpknU7RXiTeZuawVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8S35nQIJ3YCZ1EgFsdactNhnOfQ8KC2fhjTB35GlD5Y=;
- b=FAY1NMe9Drks4oavakK6DOLS9hDYbCfrgAT+4Xy4UHC7M+s9bS52MOAxAWlXIRVqZLEZdMlQigyPDraV1ht7LWNzST00HUK5JxYBS/gzPejWNNuatAnxNCJXFvq8OEYYNGy+2t2+cWhsM8rZSxEhR7JnpLlvJB0ERxYxcoRLRLZI8PSAEwokV+9uSMJ6ZOWybGe3giQTsPI/27J8SAtfLpw2XKy4Zp/1hJOBv6C8Z7n2Q5kvhTF3U/0OJlEywyY58ZFcdvm2r/aJ6vyXRHbdyEi9wwiQZs0Kdudh31bFcWSxtxfEvUcXGcVCg+1pVT6NWlOY2dkNGxlkr4ddWTA+lQ==
-Received: from TYSPR04MB8429.apcprd04.prod.outlook.com (2603:1096:405:d0::9)
- by KL1PR0401MB6442.apcprd04.prod.outlook.com (2603:1096:820:be::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 26 Feb
- 2024 13:45:45 +0000
-Received: from TYSPR04MB8429.apcprd04.prod.outlook.com
- ([fe80::b04f:2d88:3925:de09]) by TYSPR04MB8429.apcprd04.prod.outlook.com
- ([fe80::b04f:2d88:3925:de09%4]) with mapi id 15.20.7316.031; Mon, 26 Feb 2024
- 13:45:45 +0000
-From: Johnny Hsieh <mnixry@outlook.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Johnny Hsieh <mnixry@outlook.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-Date: Mon, 26 Feb 2024 21:44:50 +0800
-Message-ID:
- <TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <TYSPR04MB8429E5883243B650AF86A030C55A2@TYSPR04MB8429.apcprd04.prod.outlook.com>
-References: <TYSPR04MB8429E5883243B650AF86A030C55A2@TYSPR04MB8429.apcprd04.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [uY4pwkDeEWfDRhI3MGaADTDk3eQos4eb]
-X-ClientProxiedBy: JNAP275CA0021.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::12)
- To TYSPR04MB8429.apcprd04.prod.outlook.com (2603:1096:405:d0::9)
-X-Microsoft-Original-Message-ID: <20240226134450.39997-1-mnixry@outlook.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BFBtPD+6"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-412a9457b2eso1809815e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 06:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708956128; x=1709560928; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ytleufDfW156KK594Ruui+vLo5tX3ovRIKKvPCU4Yc8=;
+        b=BFBtPD+6fSkeGOAAjoK6NBxkE5NUn7BvcnXHy9DqpDyeVBSofizv6vupfpWK8yXcO9
+         cKikZvW2biqwxDbkp98ZEznYTyO0tqzSGvbJOLY+neWvi17Aq6twCofKHASQ9GLWbzvi
+         uuUv1xiwztoXwSfLDFMR886GFD7TrHUG9a2SmdKK39NHqXTPdXyuFF04DPzQnQRQA5Vb
+         AKhiD7LQIkolWCjsq9I3nLDpjLyQY5xXlmZfdmgvrQEE/9IK55uMidEUjPn35ibqCbAQ
+         ghNlfSscmpXZ2+vPy8Wkv4nx0S1f45EQ0Sc+N7h645DFFgaIstNsWg9QK0BCXyg3M1i9
+         mE5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708956128; x=1709560928;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ytleufDfW156KK594Ruui+vLo5tX3ovRIKKvPCU4Yc8=;
+        b=AYOOWTYhwhgBL81TQd562fYK3503w8njjUV6lW0DbAC8Ysv8VLxY5h8mbVQcTOCgG1
+         voQpC+knsAQHeJ1/roIaxatHZ58ILvMmo1ongoIhG3MucPJ2SGehKdIoS+Q8cS7c0bbQ
+         ipptxkMPMm2Z/arc4sw3mVHiAwj9NSl5FitGKcliPjU4efOPcrSBpehVwxYH8eblNp02
+         5CkGt1zg+9MZ4lzGJEI0D2/aFnyjMDklXTptqODYH+lLJz78+bAG/7p1Nh4HXoNWExRm
+         uB2O2OvsF8YzyZ0RWYOQf6Habw4uICNcP1o9wBX5xAzofMyYVE0p48aok/uvBxILJVWN
+         Pa9Q==
+X-Gm-Message-State: AOJu0YweO/mHejUP8WjHC0Xp/b14ydlP2+AXll3KCR3Y7ad0PV9xj/gr
+	ptg3SJRhqrvGd5hDsZz5AEeLWP9lDyGz9F25tXzukcmUB6hNMdPkMYXP2qVePew=
+X-Google-Smtp-Source: AGHT+IFKQGufEHWXBUu9F0HZgi/6g4V1k8Axa81ufjmly7iPNiTWJ446aEOcRP2RTw2v1K+EZMJ4Lg==
+X-Received: by 2002:a05:600c:4f46:b0:412:9434:fa38 with SMTP id m6-20020a05600c4f4600b004129434fa38mr5678803wmq.7.1708956127984;
+        Mon, 26 Feb 2024 06:02:07 -0800 (PST)
+Received: from [127.0.1.1] ([93.5.22.158])
+        by smtp.googlemail.com with ESMTPSA id d33-20020a05600c4c2100b004129f87a2c6sm2838475wmp.1.2024.02.26.06.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 06:02:07 -0800 (PST)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Date: Mon, 26 Feb 2024 15:01:39 +0100
+Subject: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
+ afe document
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYSPR04MB8429:EE_|KL1PR0401MB6442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fca5a15-62cf-4c49-6128-08dc36d13b03
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	fAq2AVemsUoqCrYDWpGRhmAbJC6y/ynpG+OcMUWugV5uK0s6PBHy5BMO3kchvnW3xbtMwR3IgxWkaR2ItUjDDklyV08I0f8vNf5XEW07CstTJBW4vscyc2+SayBTcgpdD7fR5djS+AAmklvdjXZgCc4Scaj92bubAlxsW/6wrw4C3foiCa36bT8zg29jXkaJXUcxdc26BdiHsEd4ON7DOSbACePJGBjfWy+vO43v9WFQzZL+3NibcXVh/vNWuq2SJdznOB2OSMFmQZsjbQpzXqDHZvvgMAtvp/Arr0PX5cV2zTOqvMFBE8Y5BEcLJpOep600+zBGzyvtWmmdLzIOgxm+V06kK8VvgDnEovOSK5kGtL9pRQNwUkgbNINiXdLMFGQD6Ri9uRPLZ9eHsewTdIJ/sfvyON6Jk2Txz+q+gydP7cU/F+Mxgh2atJ6lkMhp+FAVkqvT2zyuC6RfP2C/uRYzzTewsQ3lfezba5Jz4Sp/rxqfAOwt8Qp9iuP9CXgjGmiF01zkPGTNK/WN+lKHFqxFdzXAfgT0RgznwOkxnpyx7NrsydfMOyN+iMCxMYYz/D0AhbPlG7/wRFSIBwfZXnNnczliU+Zdf5V48JbDYaiILrFYTDxDERkwLveJ+oxb
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+cUXitgPY7zS3u/42g9dgASAhQSJABkwwOSIFpBz4a1o41umtVw7mzxhck7r?=
- =?us-ascii?Q?qqlPt4Z3PPiRBgW37g/wiVT9xR77QnnF6dG/BSawdJ+XexRlbXpo15z0Q5fe?=
- =?us-ascii?Q?X6yWzX+CH6zcvzMvjazg4KtuYLfMRXVxoQ7ahzZR/7QuhKqJfU5ZaYNslrae?=
- =?us-ascii?Q?JIPAJhcKXBsZazKyNM7kq7jpdCJdmGxt7T+llu+6GVOzFYrs9jWSa/Pn8uL0?=
- =?us-ascii?Q?pBKi8J/A0ZREPMs2tj9zNBZ9W71DU9yS/rUowbR1u1rH4CQ3MI9PrIfRc7KZ?=
- =?us-ascii?Q?O4WX0hCmImWr7JrcIJR7wGVFp/ayOKd3EOnj2uOWPV+YCQm7gL8/Tte99/4G?=
- =?us-ascii?Q?c1IK7j2yphYYQDVtI3LakXk3b0LV2reT/Rjfy+l2HOUAsCiT5n1JQx0By89b?=
- =?us-ascii?Q?I68yqKCy/i28CdD9fC41ybE+YLMAop3ksZOkLyTR8lO+r6M2uTFGZ+X/oQvy?=
- =?us-ascii?Q?A2pamoJgDWnKBYA7VOZ0jN+yDs0eWwkz4c4WKfEqFnfkkTcDXeHeKe2ZFymD?=
- =?us-ascii?Q?aXa5jdCWyvPAb11wTkKNSwguxPpQZ5Sx2efS09YdoQ3Qm2j7nSL8cG5TuS9y?=
- =?us-ascii?Q?zokX9UuiWhZ6TwYzDbV5qCo8T9BYUBjs8TDuN+tcmCfCb8MVVuwrRqQao0BC?=
- =?us-ascii?Q?s8Rj1NIrTALllFghUz06c5I/IeFjvo+bUKEnJ39qCxCF9NZLmp+EhiqxsmhL?=
- =?us-ascii?Q?41UVQ8YSLNl8JfKh75wRxTP9B0vN9NoLr/OvYsupvIZUMxHToofbLiULTEVJ?=
- =?us-ascii?Q?BBAvOa6wUIaZY6y8F54Wwyl4Qdrw2U4mOYqI4PrDS+fvFa64znhLtO5zPKRN?=
- =?us-ascii?Q?JqyBRbWLncRPBN7pnMiChuwhPiGnSKHlC0RjEeHIbSFj2wT/LaxoO2yxDwDp?=
- =?us-ascii?Q?yG9nKd3Wuf4edDyaFeU9AgBaVof6GI98pZYdSy1uyni5+4ZshI6g8MuDkJxG?=
- =?us-ascii?Q?njemCYR4qfr+kHsT8HiBspwpV3lDlElW6k6LUYk1LIb90rq6h4H+WpT/HZka?=
- =?us-ascii?Q?yaqyavnBoz8PYwrfW8Ou8zpnpz/gtIn2aXXfkAMi/h6v3XY6182XVQvMPNgh?=
- =?us-ascii?Q?MD7DTxZ6Lam7SM1KqiMcGo80+r+AF+g/YHwBRbisWhroQqnCKtegGtMyW3x8?=
- =?us-ascii?Q?88OOWnI8WQ+c75dso5RRgmxvGE5qxOEaYQCv8KU9Qjo691H2wQz85BoQMkN/?=
- =?us-ascii?Q?IxEKbOdwXTEeUN+820l0r4MQHp4w656eMu2djNHnEZwiXd7K18YvFkdT6LA?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fca5a15-62cf-4c49-6128-08dc36d13b03
-X-MS-Exchange-CrossTenant-AuthSource: TYSPR04MB8429.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 13:45:45.1782
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0401MB6442
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5536; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=0kCH2S+hyKAqspnQK264eeLgQIfJopJ1XswPK6oxmVg=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBl3JncMTn7Pva3qSLlaPLg/cPnluAh0ub2unqFS4aw
+ o/sUWTKJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZdyZ3AAKCRArRkmdfjHURSduEA
+ CPJ+/cDO21Vbv6JavXGbRfwQV42UFIsvpm9Tzg2PmE+GXSHwFoKdkB1mOZZFCDgbG2dW3Xs2HZhJiR
+ +iI8NDm41ZA+2C0KIcd7qH6JsZ7N/fuBCRpf8tXC3TfjEbJ15U8mM4PRosdsFFtaKBHG2qWantz4bW
+ ZFnck6avImi7OjOmwaaAnmsyPuLk9W2w1y320VyqsMzidfwFvedimCwQj03Tif9DfJXwuoXd8gqg4h
+ Nk1RyfaW6Ha8n7NJW6T8GowjEqfTtJr2UxhBxQYE4z9lk2s8/wB3Wp4ZwA+UQv2V/B4WLYq6BlKeh5
+ I71FsGrbbU3I37US9rMAqv6ADDBfHeHcfRA32w0RyeUFR4l/TaWyMDJtbCRTCz4lYS6ni3EDwN72jq
+ G4wubcsZi4uJiFK/3syTEeZKj11NrJyb6EGo6j9jhSU9eor4bTbq+jS4LyITxulj3/pIS8xSclGoN+
+ ALOfjFYcEVuBNpMyfWQOfQaKCchoceUQUym53JxkCHrmfhcpyIjXG+GcY5BWFq9j1wTuH0s30EzSli
+ DZS89EOLdXA42pQ9DZkFE3/DSlHiMaF+Lg/Jl48BnPgVIXRRHrCYvWaUqlax6BpcEAy5CpScngO1ut
+ 3kmJ6PyADi5zVLfxqJWYEI8F9O8YvyzaTjvPbjClBHZ5mK2eW53ia46Wzgfw==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 
-This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
-to enable internal microphone array.
+Add MT8365 audio front-end bindings
 
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
+ .../bindings/sound/mediatek,mt8365-afe.yaml        | 164 +++++++++++++++++++++
+ 1 file changed, 164 insertions(+)
 
-sorry for the typo in mail before, this patch is a fixed version
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
+new file mode 100644
+index 000000000000..1d7eb2532ad2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
+@@ -0,0 +1,164 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt8365-afe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek AFE PCM controller for MT8365
++
++maintainers:
++  - Alexandre Mergnat <amergnat@baylibre.com>
++
++properties:
++  compatible:
++    const: mediatek,mt8365-afe-pcm
++
++  reg:
++    maxItems: 2
++
++  interrupts:
++    maxItems: 1
++
++  mediatek,topckgen:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the mediatek topckgen controller
++
++  power-domains:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: 26M clock
++      - description: mux for audio clock
++      - description: audio i2s0 mck
++      - description: audio i2s1 mck
++      - description: audio i2s2 mck
++      - description: audio i2s3 mck
++      - description: engen 1 clock
++      - description: engen 2 clock
++      - description: audio 1 clock
++      - description: audio 2 clock
++      - description: mux for i2s0
++      - description: mux for i2s1
++      - description: mux for i2s2
++      - description: mux for i2s3
++
++  clock-names:
++    items:
++      - const: top_clk26m_clk
++      - const: top_audio_sel
++      - const: audio_i2s0_m
++      - const: audio_i2s1_m
++      - const: audio_i2s2_m
++      - const: audio_i2s3_m
++      - const: engen1
++      - const: engen2
++      - const: aud1
++      - const: aud2
++      - const: i2s0_m_sel
++      - const: i2s1_m_sel
++      - const: i2s2_m_sel
++      - const: i2s3_m_sel
++
++  mediatek,i2s-shared-clock:
++    description:
++      i2s modules can share the same external clock pin.
++      If this property is not present the clock mode is separrate.
++    type: boolean
++
++  mediatek,dmic-iir-on:
++    description:
++      Boolean which specifies whether the DMIC IIR is enabled.
++      If this property is not present the IIR is disabled.
++    type: boolean
++
++  mediatek,dmic-irr-mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Selects stop band of IIR DC-removal filter.
++      0 = Software programmable custom coeff loaded by the driver.
++      1 = 5Hz if 48KHz mode.
++      2 = 10Hz if 48KHz mode.
++      3 = 25Hz if 48KHz mode.
++      4 = 50Hz if 48KHz mode.
++      5 = 65Hz if 48KHz mode.
++    enum:
++      - 0
++      - 1
++      - 2
++      - 3
++      - 4
++      - 5
++
++  mediatek,dmic-two-wire-mode:
++    description:
++      Boolean which turns on digital microphone for two wire mode.
++      If this property is not present the two wire mode is disabled.
++    type: boolean
++
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - power-domains
++  - mediatek,topckgen
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/power/mediatek,mt8365-power.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        afe@11220000 {
++            compatible = "mediatek,mt8365-afe-pcm";
++            reg = <0 0x11220000 0 0x1000>,
++                  <0 0x11221000 0 0xA000>;
++            interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_LOW>;
++            power-domains = <&spm MT8365_POWER_DOMAIN_AUDIO>;
++            mediatek,topckgen = <&topckgen>;
++            #sound-dai-cells = <0>;
++            clocks = <&clk26m>,
++                     <&topckgen CLK_TOP_AUDIO_SEL>,
++                     <&topckgen CLK_TOP_AUD_I2S0_M>,
++                     <&topckgen CLK_TOP_AUD_I2S1_M>,
++                     <&topckgen CLK_TOP_AUD_I2S2_M>,
++                     <&topckgen CLK_TOP_AUD_I2S3_M>,
++                     <&topckgen CLK_TOP_AUD_ENGEN1_SEL>,
++                     <&topckgen CLK_TOP_AUD_ENGEN2_SEL>,
++                     <&topckgen CLK_TOP_AUD_1_SEL>,
++                     <&topckgen CLK_TOP_AUD_2_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S0_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S1_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S2_SEL>,
++                     <&topckgen CLK_TOP_APLL_I2S3_SEL>;
++            clock-names = "top_clk26m_clk",
++                          "top_audio_sel",
++                          "audio_i2s0_m",
++                          "audio_i2s1_m",
++                          "audio_i2s2_m",
++                          "audio_i2s3_m",
++                          "engen1",
++                          "engen2",
++                          "aud1",
++                          "aud2",
++                          "i2s0_m_sel",
++                          "i2s1_m_sel",
++                          "i2s2_m_sel",
++                          "i2s3_m_sel";
++        };
++    };
++
++...
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index cc231185d..558719875 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
 -- 
-2.44.0
+2.25.1
 
