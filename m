@@ -1,234 +1,280 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE64712BF11;
-	Mon, 26 Feb 2024 15:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF212C532
+	for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 16:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708961406; cv=none; b=lyjT4qhMwBplqozakXtinu8XFu304JtXti7KNhX+8/Wulv0y5Jp23RbkdniZR6oP6zuRIwo1UrscrvCTIrpxJQlTDJDbhCGMU2ldbHc/gj+CHns3b3wVCPRawdMH2ts9ZPp78m2o0zjE3cpLcULmuMAaX5+6424m7h0NWzQks+g=
+	t=1708963760; cv=none; b=pwnXTJVTo49yhvxvxA+nyef4TlCV78+wdZhtObjnL+Z7npazZRMiCKztSKnhDsKi+brtJ0xVttUc0Bib2XaPFlOKm9KJYvgl/W/4NxQT3tgKKCoM6A/nMYrwwrtm29pYWPWeQShJvstYMqoyDMYLMFp6NEikkLMkEZ8U72ig3a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708961406; c=relaxed/simple;
-	bh=1dPT6v1I08Wyw5hcrN7bcgojMxnYVXIX2j0GluKbE6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fbYkgK03hP5wkvcXoLLl1ePdYs4s7xYszXkekkRxEzz038dqVAdstLmoZ6LGVNAJ7cyQ56hH/R7XuTg/Q7qaiqYz1pQcKA2GK6YqgXP6O/tn+/+egXqTkAXtE1YJi2eU2zhFfVCzB4jaULWhA4IPVnLAurhWc7Cpn8GfjSg3+Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y68N6UCu; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1708963760; c=relaxed/simple;
+	bh=TidfZc7ErYBLnN3EIMvg/9g/fBw+mmuobrxPTxjxuIc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XIIfHy5xZ/Tz9x/hWKyqcwTxG78JxpQdZGcY8mg9nLrPx83dMaVld1tvsnWXKMSZ+vufbaY5uxHCAYl1Y15D9VYTbY6iCHozMmIUSAimQQ1GcY2A7dL11efilYnexik0Mk0SslFPjfpLUp4L/t1/qIJPgdkDJ4AMvwRlgigzCS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QI4zNxBH; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y68N6UCu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708961402;
-	bh=1dPT6v1I08Wyw5hcrN7bcgojMxnYVXIX2j0GluKbE6Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y68N6UCuVbVFFasJj+ySVlHijeOnuqq7y8A5tsZ0r2I5+eHsdn6kGbuIQEhK7g7eh
-	 9xrlqCRvZTuDtW8PiCKK+RnlkYifQubrxK/ifQjhcDxUuEeLgqnHmMYB3ARUCjhxJj
-	 T5OONjkP2MYwvgu1TBRjX6KjEImlNeFxDuUqGdrT+ZyldQzxawK2jN3Y/MEAGVgYnx
-	 iks6DyEZIRF4HSGtkr11rFZq481N2a7ZUThufV2fpbjtNHSXZWAQnBSuXZA94ggtor
-	 G7R8S41pEbfY3rseYnbtvq4FdHetz7E2Pyy6OTkjE7TP5umlIbZUyaorLZuFMZad8Z
-	 u5JPfnYhZgszw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 591A237820C3;
-	Mon, 26 Feb 2024 15:30:01 +0000 (UTC)
-Message-ID: <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
-Date: Mon, 26 Feb 2024 16:30:00 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QI4zNxBH"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-59fc4d05861so1818272eaf.2
+        for <linux-sound@vger.kernel.org>; Mon, 26 Feb 2024 08:09:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1708963757; x=1709568557; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kY37XU8Gu2F16RfGDaO10TRnKshw9yrEqXfsRtwgKYw=;
+        b=QI4zNxBHDg/8ckWBjGr7HneyycBRBmvqGDinHu259qytlBCvT9pgNo6tTUowbFiHzk
+         pGL5cyZe8h0WBuQ8PWaBZ3JuN1WzQWSrFCmp4MYNzwqmXwy/FiWgY/rBJIsnw50Vk+1e
+         MXnABJeSMpjwSo9odhsrvFStmg47dfsGPYnfE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708963757; x=1709568557;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kY37XU8Gu2F16RfGDaO10TRnKshw9yrEqXfsRtwgKYw=;
+        b=QrHPfI3kZxFFm9nNVtR5botreoULFoAkVPoCTKjopwTPfqJsYZlraS9GS8zDVNKOJd
+         RSp/DPE020Zra8tJe/6noR4uL8s4zIRUnLXj3DFUdk2u/j6zQ32D9iP26QU0zyToHhuS
+         8VKtJyDfq9xP6gHCrQIflpvEObFNpirXV9X929PiPXGppW2Rzj/YmHZSNrHBFuBt2yua
+         GNk/rno4JYlzq035t4wK9ZxqwpEfX2O0DqMiTbwW4VLSWmcA0KOYzQZ6PB3wbPklp/66
+         XApdaHvxI6H64kvwFpEVGTQR6itVK810KHrx9HWKyEoy2vJf5zjEcZRNiRxbwlEpUIxY
+         3knA==
+X-Forwarded-Encrypted: i=1; AJvYcCWBgdZr1IAY+azeDbVcEVL6xjlzzTgERA2U76+DGvLuvAKd2C/Sy4gSTxeLCYcdtopH3KlI89Vq9VONEPqubluBWDUxwqUr+lmRrNk=
+X-Gm-Message-State: AOJu0YyzpxcoIWqZ2750ecSYTeNSMAnVg61FkLmb6xmkjmBBg2ujZkK/
+	hSCkY7GjA6VEQeXP5zqe93AEPuijzcVAgreB5idq5fqHRA3alHsKR3M/jvPqbSdTvXMX/IgyLGt
+	M3R4HtEiFV0OfRMBi/d6NzR4X/PMsC46d31yj
+X-Google-Smtp-Source: AGHT+IGO8+qRP9Sa5Y8eYjqpu7kaXPnwBCmmXNtbHYpcRdAzwsLsqULq7XSlSPpVhz7oo52TaAYvnvDAeqhL7iNt9wg=
+X-Received: by 2002:a4a:7617:0:b0:5a0:3917:5d46 with SMTP id
+ t23-20020a4a7617000000b005a039175d46mr6268492ooc.2.1708963757421; Mon, 26 Feb
+ 2024 08:09:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
-Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAG-rBihs_xMKb3wrMO1+-+p4fowP9oy1pa_OTkfxBzPUVOZF+g@mail.gmail.com>
+ <20240221114357.13655-2-vbabka@suse.cz>
+In-Reply-To: <20240221114357.13655-2-vbabka@suse.cz>
+From: Sven van Ashbrook <svenva@chromium.org>
+Date: Mon, 26 Feb 2024 11:09:06 -0500
+Message-ID: <CAG-rBijH3GaHN2zA2_cby-RsQCVHou-WjZnxudMebPrS9imgfg@mail.gmail.com>
+Subject: Re: [PATCH] mm, vmscan: prevent infinite loop for costly GFP_NOIO |
+ __GFP_RETRY_MAYFAIL allocations
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, bgeffon@google.com, 
+	cujomalainey@chromium.org, kramasub@chromium.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-sound@vger.kernel.org, 
+	perex@perex.cz, stable@vger.kernel.org, tiwai@suse.com, tiwai@suse.de, 
+	Michal Hocko <mhocko@kernel.org>, Mel Gorman <mgorman@techsingularity.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
-> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+Vlastimil,
+
+We noticed that this patch is now added to Andrew Morton's
+mm-hotfixes-unstable branch.
+
+How can we help to get this into mm-hotfixes-stable
+and from there, into mainline ?
+
+We are still stress-testing using low memory suspend. Anything else
+that is required, and we can help with?
+
+Sven
+
+On Wed, Feb 21, 2024 at 6:44=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> Sven reports an infinite loop in __alloc_pages_slowpath() for costly
+> order __GFP_RETRY_MAYFAIL allocations that are also GFP_NOIO. Such
+> combination can happen in a suspend/resume context where a GFP_KERNEL
+> allocation can have __GFP_IO masked out via gfp_allowed_mask.
+>
+> Quoting Sven:
+>
+> 1. try to do a "costly" allocation (order > PAGE_ALLOC_COSTLY_ORDER)
+>    with __GFP_RETRY_MAYFAIL set.
+>
+> 2. page alloc's __alloc_pages_slowpath tries to get a page from the
+>    freelist. This fails because there is nothing free of that costly
+>    order.
+>
+> 3. page alloc tries to reclaim by calling __alloc_pages_direct_reclaim,
+>    which bails out because a zone is ready to be compacted; it pretends
+>    to have made a single page of progress.
+>
+> 4. page alloc tries to compact, but this always bails out early because
+>    __GFP_IO is not set (it's not passed by the snd allocator, and even
+>    if it were, we are suspending so the __GFP_IO flag would be cleared
+>    anyway).
+>
+> 5. page alloc believes reclaim progress was made (because of the
+>    pretense in item 3) and so it checks whether it should retry
+>    compaction. The compaction retry logic thinks it should try again,
+>    because:
+>     a) reclaim is needed because of the early bail-out in item 4
+>     b) a zonelist is suitable for compaction
+>
+> 6. goto 2. indefinite stall.
+>
+> (end quote)
+>
+> The immediate root cause is confusing the COMPACT_SKIPPED returned from
+> __alloc_pages_direct_compact() (step 4) due to lack of __GFP_IO to be
+> indicating a lack of order-0 pages, and in step 5 evaluating that in
+> should_compact_retry() as a reason to retry, before incrementing and
+> limiting the number of retries. There are however other places that
+> wrongly assume that compaction can happen while we lack __GFP_IO.
+>
+> To fix this, introduce gfp_compaction_allowed() to abstract the __GFP_IO
+> evaluation and switch the open-coded test in try_to_compact_pages() to
+> use it.
+>
+> Also use the new helper in:
+> - compaction_ready(), which will make reclaim not bail out in step 3, so
+>   there's at least one attempt to actually reclaim, even if chances are
+>   small for a costly order
+> - in_reclaim_compaction() which will make should_continue_reclaim()
+>   return false and we don't over-reclaim unnecessarily
+> - in __alloc_pages_slowpath() to set a local variable can_compact,
+>   which is then used to avoid retrying reclaim/compaction for costly
+>   allocations (step 5) if we can't compact and also to skip the early
+>   compaction attempt that we do in some cases
+>
+> Reported-by: Sven van Ashbrook <svenva@chromium.org>
+> Closes: https://lore.kernel.org/all/CAG-rBihs_xMKb3wrMO1%2B-%2Bp4fowP9oy1=
+pa_OTkfxBzPUVOZF%2Bg@mail.gmail.com/
+> Fixes: 3250845d0526 ("Revert "mm, oom: prevent premature OOM killer invoc=
+ation for high order request"")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
->   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 +++++++++++++++++++++
->   1 file changed, 127 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
-> new file mode 100644
-> index 000000000000..f469611ec6b6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
-> @@ -0,0 +1,127 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  include/linux/gfp.h |  9 +++++++++
+>  mm/compaction.c     |  7 +------
+>  mm/page_alloc.c     | 10 ++++++----
+>  mm/vmscan.c         |  5 ++++-
+>  4 files changed, 20 insertions(+), 11 deletions(-)
+>
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index de292a007138..e2a916cf29c4 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -353,6 +353,15 @@ static inline bool gfp_has_io_fs(gfp_t gfp)
+>         return (gfp & (__GFP_IO | __GFP_FS)) =3D=3D (__GFP_IO | __GFP_FS)=
+;
+>  }
+>
+> +/*
+> + * Check if the gfp flags allow compaction - GFP_NOIO is a really
+> + * tricky context because the migration might require IO.
+> + */
+> +static inline bool gfp_compaction_allowed(gfp_t gfp_mask)
+> +{
+> +       return IS_ENABLED(CONFIG_COMPACTION) && (gfp_mask & __GFP_IO);
+> +}
 > +
-> +title: Mediatek MT8365 sound card with MT6357 sound codec.
+>  extern gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma);
+>
+>  #ifdef CONFIG_CONTIG_ALLOC
+> diff --git a/mm/compaction.c b/mm/compaction.c
+> index 4add68d40e8d..b961db601df4 100644
+> --- a/mm/compaction.c
+> +++ b/mm/compaction.c
+> @@ -2723,16 +2723,11 @@ enum compact_result try_to_compact_pages(gfp_t gf=
+p_mask, unsigned int order,
+>                 unsigned int alloc_flags, const struct alloc_context *ac,
+>                 enum compact_priority prio, struct page **capture)
+>  {
+> -       int may_perform_io =3D (__force int)(gfp_mask & __GFP_IO);
+>         struct zoneref *z;
+>         struct zone *zone;
+>         enum compact_result rc =3D COMPACT_SKIPPED;
+>
+> -       /*
+> -        * Check if the GFP flags allow compaction - GFP_NOIO is really
+> -        * tricky context because the migration might require IO
+> -        */
+> -       if (!may_perform_io)
+> +       if (!gfp_compaction_allowed(gfp_mask))
+>                 return COMPACT_SKIPPED;
+>
+>         trace_mm_compaction_try_to_compact_pages(order, gfp_mask, prio);
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 150d4f23b010..a663202045dc 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -4041,6 +4041,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
+ order,
+>                                                 struct alloc_context *ac)
+>  {
+>         bool can_direct_reclaim =3D gfp_mask & __GFP_DIRECT_RECLAIM;
+> +       bool can_compact =3D gfp_compaction_allowed(gfp_mask);
+>         const bool costly_order =3D order > PAGE_ALLOC_COSTLY_ORDER;
+>         struct page *page =3D NULL;
+>         unsigned int alloc_flags;
+> @@ -4111,7 +4112,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
+ order,
+>          * Don't try this for allocations that are allowed to ignore
+>          * watermarks, as the ALLOC_NO_WATERMARKS attempt didn't yet happ=
+en.
+>          */
+> -       if (can_direct_reclaim &&
+> +       if (can_direct_reclaim && can_compact &&
+>                         (costly_order ||
+>                            (order > 0 && ac->migratetype !=3D MIGRATE_MOV=
+ABLE))
+>                         && !gfp_pfmemalloc_allowed(gfp_mask)) {
+> @@ -4209,9 +4210,10 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned in=
+t order,
+>
+>         /*
+>          * Do not retry costly high order allocations unless they are
+> -        * __GFP_RETRY_MAYFAIL
+> +        * __GFP_RETRY_MAYFAIL and we can compact
+>          */
+> -       if (costly_order && !(gfp_mask & __GFP_RETRY_MAYFAIL))
+> +       if (costly_order && (!can_compact ||
+> +                            !(gfp_mask & __GFP_RETRY_MAYFAIL)))
+>                 goto nopage;
+>
+>         if (should_reclaim_retry(gfp_mask, order, ac, alloc_flags,
+> @@ -4224,7 +4226,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int=
+ order,
+>          * implementation of the compaction depends on the sufficient amo=
+unt
+>          * of free memory (see __compaction_suitable)
+>          */
+> -       if (did_some_progress > 0 &&
+> +       if (did_some_progress > 0 && can_compact &&
+>                         should_compact_retry(ac, order, alloc_flags,
+>                                 compact_result, &compact_priority,
+>                                 &compaction_retries))
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 4f9c854ce6cc..4255619a1a31 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -5753,7 +5753,7 @@ static void shrink_lruvec(struct lruvec *lruvec, st=
+ruct scan_control *sc)
+>  /* Use reclaim/compaction for costly allocs or under memory pressure */
+>  static bool in_reclaim_compaction(struct scan_control *sc)
+>  {
+> -       if (IS_ENABLED(CONFIG_COMPACTION) && sc->order &&
+> +       if (gfp_compaction_allowed(sc->gfp_mask) && sc->order &&
+>                         (sc->order > PAGE_ALLOC_COSTLY_ORDER ||
+>                          sc->priority < DEF_PRIORITY - 2))
+>                 return true;
+> @@ -5998,6 +5998,9 @@ static inline bool compaction_ready(struct zone *zo=
+ne, struct scan_control *sc)
+>  {
+>         unsigned long watermark;
+>
+> +       if (!gfp_compaction_allowed(sc->gfp_mask))
+> +               return false;
 > +
-> +maintainers:
-> +  - Alexandre Mergnat <amergnat@baylibre.com>
-> +
-> +description:
-> +  This binding describes the MT8365 sound card.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8365-mt6357
-> +
-> +  mediatek,hp-pull-down:
-> +    description:
-> +      Earphone driver positive output stage short to the
-> +      audio reference ground.
-> +      Default value is false.
-> +    type: boolean
-> +
-> +  mediatek,micbias0-microvolt:
-> +    description: |
-
-description: Selects MIC Bias 0 output voltage
-
-> +      Selects MIC Bias 0 output voltage.
-> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
-> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
-
-No, you don't say 0 1 2 3 4 to a property that says "microvolt", that's simply
-wrong.
-
-mediatek,micbias0-microvolt = <2100000>;
-
-...so you want a binding that says
-enum: [ 1700000, 1800000, this, that, 2700000]
-
-> +
-> +  mediatek,micbias1-microvolt:
-> +    description: |
-> +      Selects MIC Bias 1 output voltage.
-> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
-> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
-
-same here.
-
-> +
-> +  mediatek,platform:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of MT8365 ASoC platform.
-> +
-> +  pinctrl-names:
-> +    minItems: 1
-> +    items:
-> +      - const: aud_default
-> +      - const: aud_dmic
-> +      - const: aud_miso_off
-> +      - const: aud_miso_on
-> +      - const: aud_mosi_off
-> +      - const: aud_mosi_on
-> +
-> +  vaud28-supply:
-> +    description:
-> +      2.8 volt supply for the audio codec
-> +
-> +patternProperties:
-> +  "^dai-link-[0-9]+$":
-> +    type: object
-> +    description:
-> +      Container for dai-link level properties and CODEC sub-nodes.
-> +
-> +    properties:
-> +      codec:
-> +        type: object
-> +        description: Holds subnode which indicates codec dai.
-> +
-> +        properties:
-> +          sound-dai:
-> +            maxItems: 1
-> +            description: phandle of the codec DAI
-> +
-> +        additionalProperties: false
-> +
-> +      link-name:
-> +        description:
-> +          This property corresponds to the name of the BE dai-link to which
-> +          we are going to update parameters in this node.
-> +        items:
-> +          const: 2ND I2S BE
-> +
-> +      sound-dai:
-> +        maxItems: 1
-> +        description: phandle of the CPU DAI
-> +
-> +    additionalProperties: false
-> +
-> +    required:
-> +      - link-name
-> +      - sound-dai
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - mediatek,platform
-> +  - pinctrl-names
-> +  - vaud28-supply
-> +
-> +examples:
-> +  - |
-> +    sound {
-> +        compatible = "mediatek,mt8365-mt6357";
-> +        mediatek,platform = <&afe>;
-
-Please:
-
-https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
-
-Regards,
-Angelo
-
-> +        pinctrl-names = "aud_default",
-> +            "aud_dmic",
-> +            "aud_miso_off",
-> +            "aud_miso_on",
-> +            "aud_mosi_off",
-> +            "aud_mosi_on";
-> +        pinctrl-0 = <&aud_default_pins>;
-> +        pinctrl-1 = <&aud_dmic_pins>;
-> +        pinctrl-2 = <&aud_miso_off_pins>;
-> +        pinctrl-3 = <&aud_miso_on_pins>;
-> +        pinctrl-4 = <&aud_mosi_off_pins>;
-> +        pinctrl-5 = <&aud_mosi_on_pins>;
-> +        vaud28-supply = <&mt6357_vaud28_reg>;
-> +
-> +        /* hdmi interface */
-> +        dai-link-0 {
-> +            sound-dai = <&afe>;
-> +            link-name = "2ND I2S BE";
-> +
-> +            codec {
-> +                sound-dai = <&it66121hdmitx>;
-> +            };
-> +        };
-> +    };
-> 
-
+>         /* Allocation can already succeed, nothing to do */
+>         if (zone_watermark_ok(zone, sc->order, min_wmark_pages(zone),
+>                               sc->reclaim_idx, 0))
+> --
+> 2.43.1
+>
