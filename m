@@ -1,87 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD54146E8D;
-	Tue, 27 Feb 2024 16:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2342D481BD
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 17:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709050219; cv=none; b=LZvlzEAp2bFVHZgmORmdI1hxMmLCeZapIBNWlJyxmfU4bG6HEbymTvi1YgcVgWEFtRHgbypwnIwDwtp1jX7nfE1+OAvIdDiR18ktetB8JrzlFQH0TlEU9Ec0+rveaS1LsyjZN2AIrS6VVTWCoL9qlZmwx1qHWoTlC+ayHz8G86s=
+	t=1709053495; cv=none; b=EG5zCzrJ4nqwxYPromq8tKoicHCW4DV56+0nhf6uPlBcFDuUcIYPNgUWxed3r4r9FTUzTS2U2E9136yO8yIswMn2BRwjiw2Wewx6DsUpoAGiyhj1B/0TU1QjXP8oHpYYsvRYJeW88nkYSqBq1sc6eu4nvZ+D85Tn7smNeRVab0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709050219; c=relaxed/simple;
-	bh=cN+V1mjBJaEyjI2HaATBxgd/1peblTgEH/q3L/Z12ag=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XkQv3z+1P3S4fMEEgTjrGXEeGmdC9HdJDrfxk4t2+5TJJwNLnOyar19i2iMGnx2y/ByOdj1/MOsEbN1dx5oOcjv/hSKFP0Tum7uP6BlcFOoAljJUNxaHrA/BK5mT/KDMtIOFfbPJnIPAVtqh3tZjEFeEZPFcc09GUa/RMJkoGDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kh/nTfR1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709053495; c=relaxed/simple;
+	bh=nx3Al3sJLVHlvfnNiUefu/fSlBGWeq90iTuG8ElMJVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4dJd2BfUYpRFLix5es0jl2RLq09ApEc0PcWhnNBNq/th2Ow3akBDt1FsCa5sM/ATUROhLeMX17BWxdO9zdlZrHokB+H2Evdh/oeYJH+NN6B5yFbVjC54W3HKVZuexHA75BwKtiqug5x5RwXk/O/gCJb6T2JIqphTRX2vieDrX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=RZWe+Ivl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kh/nTfR1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688D5C433C7;
-	Tue, 27 Feb 2024 16:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709050219;
-	bh=cN+V1mjBJaEyjI2HaATBxgd/1peblTgEH/q3L/Z12ag=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Kh/nTfR1g7N/a4Z1HS9yyw7PCkABwUuz4oRVzyIoxnXWQpZ2aiiMog3OwwGtxW5Iv
-	 SlrooLi9nUTXV8f8eY86kjjrB/RRQiGmZTAyHPbNZg0e4JvMzb3TP5HWifH2hKq+tQ
-	 WhI96RDzEQ3pMzNTez5jUYCket9p6M3rUU52wfVIZT5wVwk9wGEiMQL80+KTtpHCDx
-	 thOXQT9rSzV1wqi/RKPnNODUK31ALXGM20UVoyWKvUHSgkeRSygGLKF++GFkbVqZsg
-	 Ch8rT9GKKZbansHF4ZlUfDqo8CzE800H47arHb4sgTeKHVKTaYXZOA87xwVDgvmSVM
-	 vlAj3QWh3zgcQ==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240227100042.99-1-rf@opensource.cirrus.com>
-References: <20240227100042.99-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Prevent bad sign extension in
- cs35l56_read_silicon_uid()
-Message-Id: <170905021816.83159.8702222315975677755.b4-ty@kernel.org>
-Date: Tue, 27 Feb 2024 16:10:18 +0000
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RZWe+Ivl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=nx3A
+	l3sJLVHlvfnNiUefu/fSlBGWeq90iTuG8ElMJVI=; b=RZWe+IvlEXiNRgwQBlBr
+	HkeuLQlomaOzt17btM8FfRjYYXz3GxFr9/zMIUUmAYdMi944hjqvJ6n1YYD/421j
+	IAJ0Fy4gEbKYmsPmAAwLkD9BlkG/fVGmFIEg0cx3oeWCRBJr4gfIZ6DeaPo7i7rU
+	hgyz3v8BnPUXTrABKnkLDBhaejAUAiV/qndSkX11xH0QRyV34l29hMAF6gN/Pxyt
+	kZIYL8ltx8O8ESK60+lQeYkJJyzijLo4Ge+qQm5/9PN7gX/37Zt4vYeNBZRZdlig
+	T9o2CB+cbVIyoVuE440kLAtcQ6NSNZisaw76X7iZOQuY4xoAHZ1qnXFozdWiq9FF
+	Iw==
+Received: (qmail 1670908 invoked from network); 27 Feb 2024 18:04:42 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Feb 2024 18:04:42 +0100
+X-UD-Smtp-Session: l3s3148p1@CKOvBWASTKUujnu9
+Date: Tue, 27 Feb 2024 18:04:41 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: Remove obsolete i2c.txt
+Message-ID: <Zd4WKY966qe4DC3i@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Rob Herring <robh@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-i3c@lists.infradead.org,
+	linux-sound@vger.kernel.org
+References: <20240222174343.3482354-2-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="J5qK8c/j+dsQwcO0"
+Content-Disposition: inline
+In-Reply-To: <20240222174343.3482354-2-robh@kernel.org>
 
-On Tue, 27 Feb 2024 10:00:42 +0000, Richard Fitzgerald wrote:
-> Cast u8 values to u32 when using them to build a 32-bit unsigned value
-> that is then stored in a u64. This avoids the possibility of a bad sign
-> extension where the u8 is implicitly extended to an int, thus changing it
-> from an unsigned to a signed value.
-> 
-> Whether this is a real problem is debatable, but it does no harm to
-> ensure that the u8 are cast to a suitable type for shifting.
-> 
-> [...]
 
-Applied to
+--J5qK8c/j+dsQwcO0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Feb 22, 2024 at 10:43:42AM -0700, Rob Herring wrote:
+> Everything in i2c.txt is covered by schemas/i2c/i2c-controller.yaml in
+> dtschema project, so remove i2c.txt and update links to it in the tree.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Thanks!
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-[1/1] ASoC: cs35l56: Prevent bad sign extension in cs35l56_read_silicon_uid()
-      commit: cb9d8a2c6cb7cbb0fc919defe4fae741bfcae9de
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--J5qK8c/j+dsQwcO0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXeFiUACgkQFA3kzBSg
+KbY1UxAAs23gIOVvLkCmeyrbAAN7i3d7cIQP2kzKq9Z4iouxjZavNTtUoLQI3Dkk
+i2BhJMPBbngmCwt4X+FDvI5qNRbBLNmX11fyuXpND15iRR6dPZ4jPm7VvMBxy62h
+CrNy9H6KK6ydfsaaRCKZvx6SuvcRcPd+rZeHSFLh6/3ESldx7JA/dAtCsFI6KUxF
+58lIqJZg++rAfqxaa2lJJFu180EMRcJzRmGx/c14ySOtYszfEU/KMnSFxdLlStBu
+S74TiQ8Aif+WUILLavWSCBiXJ3L6eiba+0fS0m+68z3x4UbpiMX8J1Zs4wq0TF+I
+wkPJl9iI0EhNZCy2T0l+iAFCBkLG84w9iyd3eQuTyp6Wl2y1jlbw7B4h57P/8CK+
+SWI/E6NdS3Gda5CwQw4zqAMlTv1VaJXpOlJv4MohCy1VfzaK/q/9bR9w9WVFOf0T
+N4ub2OU3EmKrLvxZfJPPbWgSNsS4zuDrZ1EoC7LYP7+Wx15ktYux9a8pRNC2RwhL
+xrRYAR7lPkZwz3IVgrhAFeIssOsWD0C4qOeXvX27cd2mqnDa9xWHIGd1ZEAaiLm7
+5tbuk7aF9qizAL35XAeM7/zZnIvGGNDPeu696we834v6Ud5ThnMqjVTnmDgdBT6h
+ftuE2WjABe5yP+zBZtKDrNFl0Cf1UtJ6DXn7TyDGkdV1GB0IYBk=
+=PXn7
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--J5qK8c/j+dsQwcO0--
