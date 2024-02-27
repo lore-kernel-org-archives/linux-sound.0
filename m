@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C3F133416
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C77133419
 	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 08:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024004; cv=none; b=oTZwebcJgEbdSakwkXpeP0pxoFJ3Hn5seT0IUn5BhNZf2SIgPF0dJzbU/pPDky+aBqfx9aGJNI0Xc/u0S4cywNca7wDXHgNw/Ou6xaXleyzNTKtyMTV3zXO+mfQxL3L6kbdTkxT7RRMAvnzvBvHeAFfpoWhx2pQayq826NqsVjQ=
+	t=1709024004; cv=none; b=Ba//Ts5ZygR/zIxmm/JgYhMSPOAFToi8lmTk7Z0pJdPMLrXv6hjP5lXIVjB4DZJhcBV0fzq9dWJoCKXCmxsJNxkmPBrQniOxwDa8LTl4M34edYhZKp4UCNNjI9oIsVNJrcb9RVPVLabfOYu8QA91d1K7fPKoX7kKERv3XSHGAKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709024004; c=relaxed/simple;
-	bh=my8aQu5+qUXdy7wdXjyncNKiWsGU70cj9e+NgV3m4Ms=;
+	bh=s+3S/ehx5hsPAueZEmzzsjb45wWp93u20Nd/NdMqkzU=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lnSvw4QLLHBM0NFJIJWQ6keyK7Ht+dR+Y1XlQGZsMmvIMC0iRT3zzc4z1SYLqygfaP8wdrzxjHECkl9vDfOI8EMjyxADfgaXNqjEzRJ8YtcDJlY4vWIUZ8XPYLdByFgtIZ0O2fh1918vNTyLfzJs6dTLGz1Z6hpsutJjI16z67I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tjKeYIDL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RRq1o1sh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tjKeYIDL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RRq1o1sh; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Edd7/G5Vl/baL2OiFaa+/MkcRJldUaWcGPcAByeEGFReV7z+m2rHVk1N+y/sajFO0S7NiqWNxMNM8XusaQl86H4tX/QBjJlQQ9U3M7EV5ief6nG6y6xe8bqyS+C7XsvrhtncwxzO65JuB4Px4QrMdg6V6QRNsd0jsPYO8ue0dgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bO+Da1Mw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N6YXTIzO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bO+Da1Mw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N6YXTIzO; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tjKeYIDL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RRq1o1sh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tjKeYIDL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RRq1o1sh"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bO+Da1Mw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N6YXTIzO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bO+Da1Mw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N6YXTIzO"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 01DE722774;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63D722277B;
 	Tue, 27 Feb 2024 08:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1709023995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7jSwN4VC5k/7J0k/leqZ5mHEEbI1Rq3zXgXP729gKEU=;
-	b=tjKeYIDLBpYq2TjaQ5a4FBuUpznRBnZX79lVXENZfR90zHnT+s4e5AC4S/Tqagvc01mVRm
-	GsrhWYfC7Mqdk0zegEQTAxE3b+Kyh6gyELi3YIynY5zlrg3EQUSXfkXN/97esipeoFhgf1
-	k+e6LmpituPin5t/FLmc15peBmk6ROA=
+	bh=PFaw5Iss9rriOLb5USgWTWejNzEG3Ljlljf3qfRxoo8=;
+	b=bO+Da1MwRVEOr1N0eKa/7WrbBu6qxj8Ax8ZptWI5MKFhn8wtklw8D/mJoU5HltiI46CZVW
+	ROlrY/Fap6GCABqTI1yns4yoacGJKXd4Q1F6bc48k/BoeCFLDzHc3v79z1ZobT4a2Gm2IR
+	ELM4FQ2IiggJ3hBJFiFhK1zHW1CbM90=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1709023995;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7jSwN4VC5k/7J0k/leqZ5mHEEbI1Rq3zXgXP729gKEU=;
-	b=RRq1o1sht2oUe8pygk0eH27JS/JzRjaVwiEVOknBVfqvI6I8BlMCgrBnqkbyDNMwV7XmwB
-	c+/P9WFfhvk/fbCQ==
+	bh=PFaw5Iss9rriOLb5USgWTWejNzEG3Ljlljf3qfRxoo8=;
+	b=N6YXTIzO2fkAKrwq7hBoOZwL/dklx0nbayq55XyinTGypQUIHUOeuN8/T2MRE8ZdACBsGG
+	4cNzBRMut4g2XNDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1709023995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7jSwN4VC5k/7J0k/leqZ5mHEEbI1Rq3zXgXP729gKEU=;
-	b=tjKeYIDLBpYq2TjaQ5a4FBuUpznRBnZX79lVXENZfR90zHnT+s4e5AC4S/Tqagvc01mVRm
-	GsrhWYfC7Mqdk0zegEQTAxE3b+Kyh6gyELi3YIynY5zlrg3EQUSXfkXN/97esipeoFhgf1
-	k+e6LmpituPin5t/FLmc15peBmk6ROA=
+	bh=PFaw5Iss9rriOLb5USgWTWejNzEG3Ljlljf3qfRxoo8=;
+	b=bO+Da1MwRVEOr1N0eKa/7WrbBu6qxj8Ax8ZptWI5MKFhn8wtklw8D/mJoU5HltiI46CZVW
+	ROlrY/Fap6GCABqTI1yns4yoacGJKXd4Q1F6bc48k/BoeCFLDzHc3v79z1ZobT4a2Gm2IR
+	ELM4FQ2IiggJ3hBJFiFhK1zHW1CbM90=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1709023995;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7jSwN4VC5k/7J0k/leqZ5mHEEbI1Rq3zXgXP729gKEU=;
-	b=RRq1o1sht2oUe8pygk0eH27JS/JzRjaVwiEVOknBVfqvI6I8BlMCgrBnqkbyDNMwV7XmwB
-	c+/P9WFfhvk/fbCQ==
+	bh=PFaw5Iss9rriOLb5USgWTWejNzEG3Ljlljf3qfRxoo8=;
+	b=N6YXTIzO2fkAKrwq7hBoOZwL/dklx0nbayq55XyinTGypQUIHUOeuN8/T2MRE8ZdACBsGG
+	4cNzBRMut4g2XNDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE4E813A58;
-	Tue, 27 Feb 2024 08:53:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AB4E13AD7;
+	Tue, 27 Feb 2024 08:53:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OMIlNfqi3WWeaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:14 +0000
+	id YGIEEfui3WWeaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:15 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v3 06/24] ALSA: info: Use guard() for locking
-Date: Tue, 27 Feb 2024 09:52:48 +0100
-Message-Id: <20240227085306.9764-7-tiwai@suse.de>
+Subject: [PATCH v3 09/24] ALSA: rawmidi: Use guard() for locking
+Date: Tue, 27 Feb 2024 09:52:51 +0100
+Message-Id: <20240227085306.9764-10-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240227085306.9764-1-tiwai@suse.de>
 References: <20240227085306.9764-1-tiwai@suse.de>
@@ -114,319 +114,581 @@ X-Spam-Flag: NO
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
 
+There are a few remaining explicit mutex and spinlock calls, and those
+are the places where the temporary unlock/relocking happens -- which
+guard() doens't cover well yet.
+
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/info.c     | 93 ++++++++++++++-----------------------------
- sound/core/info_oss.c | 10 ++---
- 2 files changed, 33 insertions(+), 70 deletions(-)
+ sound/core/rawmidi.c | 253 ++++++++++++++++---------------------------
+ 1 file changed, 93 insertions(+), 160 deletions(-)
 
-diff --git a/sound/core/info.c b/sound/core/info.c
-index e2f302e55bbb..1f5b8a3d9e3b 100644
---- a/sound/core/info.c
-+++ b/sound/core/info.c
-@@ -105,17 +105,15 @@ static loff_t snd_info_entry_llseek(struct file *file, loff_t offset, int orig)
+diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
+index 1431cb997808..7accf9a1ddf4 100644
+--- a/sound/core/rawmidi.c
++++ b/sound/core/rawmidi.c
+@@ -105,13 +105,8 @@ static inline bool __snd_rawmidi_ready(struct snd_rawmidi_runtime *runtime)
+ 
+ static bool snd_rawmidi_ready(struct snd_rawmidi_substream *substream)
  {
- 	struct snd_info_private_data *data;
- 	struct snd_info_entry *entry;
--	loff_t ret = -EINVAL, size;
-+	loff_t size;
+-	unsigned long flags;
+-	bool ready;
+-
+-	spin_lock_irqsave(&substream->lock, flags);
+-	ready = __snd_rawmidi_ready(substream->runtime);
+-	spin_unlock_irqrestore(&substream->lock, flags);
+-	return ready;
++	guard(spinlock_irqsave)(&substream->lock);
++	return __snd_rawmidi_ready(substream->runtime);
+ }
  
- 	data = file->private_data;
- 	entry = data->entry;
--	mutex_lock(&entry->access);
--	if (entry->c.ops->llseek) {
--		ret = entry->c.ops->llseek(entry,
--					   data->file_private_data,
--					   file, offset, orig);
--		goto out;
--	}
-+	guard(mutex)(&entry->access);
-+	if (entry->c.ops->llseek)
-+		return entry->c.ops->llseek(entry,
-+					    data->file_private_data,
-+					    file, offset, orig);
+ static inline int snd_rawmidi_ready_append(struct snd_rawmidi_substream *substream,
+@@ -238,12 +233,9 @@ static void __reset_runtime_ptrs(struct snd_rawmidi_runtime *runtime,
+ static void reset_runtime_ptrs(struct snd_rawmidi_substream *substream,
+ 			       bool is_input)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	if (substream->opened && substream->runtime)
+ 		__reset_runtime_ptrs(substream->runtime, is_input);
+-	spin_unlock_irqrestore(&substream->lock, flags);
+ }
  
- 	size = entry->size;
- 	switch (orig) {
-@@ -126,21 +124,18 @@ static loff_t snd_info_entry_llseek(struct file *file, loff_t offset, int orig)
- 		break;
- 	case SEEK_END:
- 		if (!size)
--			goto out;
+ int snd_rawmidi_drop_output(struct snd_rawmidi_substream *substream)
+@@ -260,33 +252,29 @@ int snd_rawmidi_drain_output(struct snd_rawmidi_substream *substream)
+ 	long timeout;
+ 	struct snd_rawmidi_runtime *runtime;
+ 
+-	spin_lock_irq(&substream->lock);
+-	runtime = substream->runtime;
+-	if (!substream->opened || !runtime || !runtime->buffer) {
+-		err = -EINVAL;
+-	} else {
++	scoped_guard(spinlock_irq, &substream->lock) {
++		runtime = substream->runtime;
++		if (!substream->opened || !runtime || !runtime->buffer)
 +			return -EINVAL;
- 		offset += size;
- 		break;
- 	default:
--		goto out;
-+		return -EINVAL;
+ 		snd_rawmidi_buffer_ref(runtime);
+ 		runtime->drain = 1;
  	}
- 	if (offset < 0)
--		goto out;
-+		return -EINVAL;
- 	if (size && offset > size)
- 		offset = size;
- 	file->f_pos = offset;
--	ret = offset;
-- out:
--	mutex_unlock(&entry->access);
--	return ret;
-+	return offset;
- }
- 
- static ssize_t snd_info_entry_read(struct file *file, char __user *buffer,
-@@ -238,10 +233,10 @@ static int snd_info_entry_open(struct inode *inode, struct file *file)
- 	struct snd_info_private_data *data;
- 	int mode, err;
- 
--	mutex_lock(&info_mutex);
-+	guard(mutex)(&info_mutex);
- 	err = alloc_info_private(entry, &data);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	mode = file->f_flags & O_ACCMODE;
- 	if (((mode == O_RDONLY || mode == O_RDWR) && !entry->c.ops->read) ||
-@@ -257,14 +252,11 @@ static int snd_info_entry_open(struct inode *inode, struct file *file)
- 	}
- 
- 	file->private_data = data;
--	mutex_unlock(&info_mutex);
- 	return 0;
- 
-  error:
- 	kfree(data);
- 	module_put(entry->module);
-- unlock:
--	mutex_unlock(&info_mutex);
- 	return err;
- }
- 
-@@ -306,7 +298,6 @@ static ssize_t snd_info_text_entry_write(struct file *file,
- 	struct snd_info_buffer *buf;
- 	loff_t pos;
- 	size_t next;
--	int err = 0;
- 
- 	if (!entry->c.text.write)
- 		return -EIO;
-@@ -317,34 +308,24 @@ static ssize_t snd_info_text_entry_write(struct file *file,
- 	/* don't handle too large text inputs */
- 	if (next > 16 * 1024)
- 		return -EIO;
--	mutex_lock(&entry->access);
-+	guard(mutex)(&entry->access);
- 	buf = data->wbuffer;
- 	if (!buf) {
- 		data->wbuffer = buf = kzalloc(sizeof(*buf), GFP_KERNEL);
--		if (!buf) {
--			err = -ENOMEM;
--			goto error;
--		}
-+		if (!buf)
-+			return -ENOMEM;
- 	}
- 	if (next > buf->len) {
- 		char *nbuf = kvzalloc(PAGE_ALIGN(next), GFP_KERNEL);
--		if (!nbuf) {
--			err = -ENOMEM;
--			goto error;
--		}
-+		if (!nbuf)
-+			return -ENOMEM;
- 		kvfree(buf->buffer);
- 		buf->buffer = nbuf;
- 		buf->len = PAGE_ALIGN(next);
- 	}
--	if (copy_from_user(buf->buffer + pos, buffer, count)) {
--		err = -EFAULT;
--		goto error;
--	}
-+	if (copy_from_user(buf->buffer + pos, buffer, count))
-+		return -EFAULT;
- 	buf->size = next;
-- error:
--	mutex_unlock(&entry->access);
+-	spin_unlock_irq(&substream->lock);
 -	if (err < 0)
 -		return err;
- 	*offset = next;
- 	return count;
+ 
+ 	timeout = wait_event_interruptible_timeout(runtime->sleep,
+ 				(runtime->avail >= runtime->buffer_size),
+ 				10*HZ);
+ 
+-	spin_lock_irq(&substream->lock);
+-	if (signal_pending(current))
+-		err = -ERESTARTSYS;
+-	if (runtime->avail < runtime->buffer_size && !timeout) {
+-		rmidi_warn(substream->rmidi,
+-			   "rawmidi drain error (avail = %li, buffer_size = %li)\n",
+-			   (long)runtime->avail, (long)runtime->buffer_size);
+-		err = -EIO;
++	scoped_guard(spinlock_irq, &substream->lock) {
++		if (signal_pending(current))
++			err = -ERESTARTSYS;
++		if (runtime->avail < runtime->buffer_size && !timeout) {
++			rmidi_warn(substream->rmidi,
++				   "rawmidi drain error (avail = %li, buffer_size = %li)\n",
++				   (long)runtime->avail, (long)runtime->buffer_size);
++			err = -EIO;
++		}
++		runtime->drain = 0;
+ 	}
+-	runtime->drain = 0;
+-	spin_unlock_irq(&substream->lock);
+ 
+ 	if (err != -ERESTARTSYS) {
+ 		/* we need wait a while to make sure that Tx FIFOs are empty */
+@@ -297,9 +285,8 @@ int snd_rawmidi_drain_output(struct snd_rawmidi_substream *substream)
+ 		snd_rawmidi_drop_output(substream);
+ 	}
+ 
+-	spin_lock_irq(&substream->lock);
+-	snd_rawmidi_buffer_unref(runtime);
+-	spin_unlock_irq(&substream->lock);
++	scoped_guard(spinlock_irq, &substream->lock)
++		snd_rawmidi_buffer_unref(runtime);
+ 
+ 	return err;
  }
-@@ -369,10 +350,10 @@ static int snd_info_text_entry_open(struct inode *inode, struct file *file)
- 	struct snd_info_private_data *data;
+@@ -363,14 +350,13 @@ static int open_substream(struct snd_rawmidi *rmidi,
+ 			snd_rawmidi_runtime_free(substream);
+ 			return err;
+ 		}
+-		spin_lock_irq(&substream->lock);
++		guard(spinlock_irq)(&substream->lock);
+ 		substream->opened = 1;
+ 		substream->active_sensing = 0;
+ 		if (mode & SNDRV_RAWMIDI_LFLG_APPEND)
+ 			substream->append = 1;
+ 		substream->pid = get_pid(task_pid(current));
+ 		rmidi->streams[substream->stream].substream_opened++;
+-		spin_unlock_irq(&substream->lock);
+ 	}
+ 	substream->use_count++;
+ 	return 0;
+@@ -433,9 +419,8 @@ int snd_rawmidi_kernel_open(struct snd_rawmidi *rmidi, int subdevice,
+ 	if (!try_module_get(rmidi->card->module))
+ 		return -ENXIO;
+ 
+-	mutex_lock(&rmidi->open_mutex);
++	guard(mutex)(&rmidi->open_mutex);
+ 	err = rawmidi_open_priv(rmidi, subdevice, mode, rfile);
+-	mutex_unlock(&rmidi->open_mutex);
+ 	if (err < 0)
+ 		module_put(rmidi->card->module);
+ 	return err;
+@@ -568,10 +553,10 @@ static void close_substream(struct snd_rawmidi *rmidi,
+ 		}
+ 		snd_rawmidi_buffer_ref_sync(substream);
+ 	}
+-	spin_lock_irq(&substream->lock);
+-	substream->opened = 0;
+-	substream->append = 0;
+-	spin_unlock_irq(&substream->lock);
++	scoped_guard(spinlock_irq, &substream->lock) {
++		substream->opened = 0;
++		substream->append = 0;
++	}
+ 	substream->ops->close(substream);
+ 	if (substream->runtime->private_free)
+ 		substream->runtime->private_free(substream);
+@@ -586,7 +571,7 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
+ 	struct snd_rawmidi *rmidi;
+ 
+ 	rmidi = rfile->rmidi;
+-	mutex_lock(&rmidi->open_mutex);
++	guard(mutex)(&rmidi->open_mutex);
+ 	if (rfile->input) {
+ 		close_substream(rmidi, rfile->input, 1);
+ 		rfile->input = NULL;
+@@ -596,7 +581,6 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
+ 		rfile->output = NULL;
+ 	}
+ 	rfile->rmidi = NULL;
+-	mutex_unlock(&rmidi->open_mutex);
+ 	wake_up(&rmidi->open_wait);
+ }
+ 
+@@ -695,12 +679,8 @@ static int __snd_rawmidi_info_select(struct snd_card *card,
+ 
+ int snd_rawmidi_info_select(struct snd_card *card, struct snd_rawmidi_info *info)
+ {
+-	int ret;
+-
+-	mutex_lock(&register_mutex);
+-	ret = __snd_rawmidi_info_select(card, info);
+-	mutex_unlock(&register_mutex);
+-	return ret;
++	guard(mutex)(&register_mutex);
++	return __snd_rawmidi_info_select(card, info);
+ }
+ EXPORT_SYMBOL(snd_rawmidi_info_select);
+ 
+@@ -744,9 +724,8 @@ static int resize_runtime_buffer(struct snd_rawmidi_substream *substream,
+ 		newbuf = kvzalloc(params->buffer_size, GFP_KERNEL);
+ 		if (!newbuf)
+ 			return -ENOMEM;
+-		spin_lock_irq(&substream->lock);
++		guard(spinlock_irq)(&substream->lock);
+ 		if (runtime->buffer_ref) {
+-			spin_unlock_irq(&substream->lock);
+ 			kvfree(newbuf);
+ 			return -EBUSY;
+ 		}
+@@ -754,7 +733,6 @@ static int resize_runtime_buffer(struct snd_rawmidi_substream *substream,
+ 		runtime->buffer = newbuf;
+ 		runtime->buffer_size = params->buffer_size;
+ 		__reset_runtime_ptrs(runtime, is_input);
+-		spin_unlock_irq(&substream->lock);
+ 		kvfree(oldbuf);
+ 	}
+ 	runtime->avail_min = params->avail_min;
+@@ -767,15 +745,12 @@ int snd_rawmidi_output_params(struct snd_rawmidi_substream *substream,
  	int err;
  
--	mutex_lock(&info_mutex);
-+	guard(mutex)(&info_mutex);
- 	err = alloc_info_private(entry, &data);
- 	if (err < 0)
--		goto unlock;
-+		return err;
+ 	snd_rawmidi_drain_output(substream);
+-	mutex_lock(&substream->rmidi->open_mutex);
++	guard(mutex)(&substream->rmidi->open_mutex);
+ 	if (substream->append && substream->use_count > 1)
+-		err = -EBUSY;
+-	else
+-		err = resize_runtime_buffer(substream, params, false);
+-
++		return -EBUSY;
++	err = resize_runtime_buffer(substream, params, false);
+ 	if (!err)
+ 		substream->active_sensing = !params->no_active_sensing;
+-	mutex_unlock(&substream->rmidi->open_mutex);
+ 	return err;
+ }
+ EXPORT_SYMBOL(snd_rawmidi_output_params);
+@@ -788,7 +763,7 @@ int snd_rawmidi_input_params(struct snd_rawmidi_substream *substream,
+ 	int err;
  
- 	data->rbuffer = kzalloc(sizeof(*data->rbuffer), GFP_KERNEL);
- 	if (!data->rbuffer) {
-@@ -386,15 +367,12 @@ static int snd_info_text_entry_open(struct inode *inode, struct file *file)
- 		err = single_open(file, snd_info_seq_show, data);
- 	if (err < 0)
- 		goto error;
--	mutex_unlock(&info_mutex);
+ 	snd_rawmidi_drain_input(substream);
+-	mutex_lock(&substream->rmidi->open_mutex);
++	guard(mutex)(&substream->rmidi->open_mutex);
+ 	if (framing == SNDRV_RAWMIDI_MODE_FRAMING_NONE && clock_type != SNDRV_RAWMIDI_MODE_CLOCK_NONE)
+ 		err = -EINVAL;
+ 	else if (clock_type > SNDRV_RAWMIDI_MODE_CLOCK_MONOTONIC_RAW)
+@@ -802,7 +777,6 @@ int snd_rawmidi_input_params(struct snd_rawmidi_substream *substream,
+ 		substream->framing = framing;
+ 		substream->clock_type = clock_type;
+ 	}
+-	mutex_unlock(&substream->rmidi->open_mutex);
  	return 0;
+ }
+ EXPORT_SYMBOL(snd_rawmidi_input_params);
+@@ -814,9 +788,8 @@ static int snd_rawmidi_output_status(struct snd_rawmidi_substream *substream,
  
-  error:
- 	kfree(data->rbuffer);
- 	kfree(data);
- 	module_put(entry->module);
+ 	memset(status, 0, sizeof(*status));
+ 	status->stream = SNDRV_RAWMIDI_STREAM_OUTPUT;
+-	spin_lock_irq(&substream->lock);
++	guard(spinlock_irq)(&substream->lock);
+ 	status->avail = runtime->avail;
+-	spin_unlock_irq(&substream->lock);
+ 	return 0;
+ }
+ 
+@@ -827,11 +800,10 @@ static int snd_rawmidi_input_status(struct snd_rawmidi_substream *substream,
+ 
+ 	memset(status, 0, sizeof(*status));
+ 	status->stream = SNDRV_RAWMIDI_STREAM_INPUT;
+-	spin_lock_irq(&substream->lock);
++	guard(spinlock_irq)(&substream->lock);
+ 	status->avail = runtime->avail;
+ 	status->xruns = runtime->xruns;
+ 	runtime->xruns = 0;
+-	spin_unlock_irq(&substream->lock);
+ 	return 0;
+ }
+ 
+@@ -1025,19 +997,19 @@ static int snd_rawmidi_next_device(struct snd_card *card, int __user *argp,
+ 		return -EFAULT;
+ 	if (device >= SNDRV_RAWMIDI_DEVICES) /* next device is -1 */
+ 		device = SNDRV_RAWMIDI_DEVICES - 1;
+-	mutex_lock(&register_mutex);
+-	device = device < 0 ? 0 : device + 1;
+-	for (; device < SNDRV_RAWMIDI_DEVICES; device++) {
+-		rmidi = snd_rawmidi_search(card, device);
+-		if (!rmidi)
+-			continue;
+-		is_ump = rawmidi_is_ump(rmidi);
+-		if (find_ump == is_ump)
+-			break;
++	scoped_guard(mutex, &register_mutex) {
++		device = device < 0 ? 0 : device + 1;
++		for (; device < SNDRV_RAWMIDI_DEVICES; device++) {
++			rmidi = snd_rawmidi_search(card, device);
++			if (!rmidi)
++				continue;
++			is_ump = rawmidi_is_ump(rmidi);
++			if (find_ump == is_ump)
++				break;
++		}
++		if (device == SNDRV_RAWMIDI_DEVICES)
++			device = -1;
+ 	}
+-	if (device == SNDRV_RAWMIDI_DEVICES)
+-		device = -1;
+-	mutex_unlock(&register_mutex);
+ 	if (put_user(device, argp))
+ 		return -EFAULT;
+ 	return 0;
+@@ -1050,18 +1022,16 @@ static int snd_rawmidi_call_ump_ioctl(struct snd_card *card, int cmd,
+ {
+ 	struct snd_ump_endpoint_info __user *info = argp;
+ 	struct snd_rawmidi *rmidi;
+-	int device, ret;
++	int device;
+ 
+ 	if (get_user(device, &info->device))
+ 		return -EFAULT;
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	rmidi = snd_rawmidi_search(card, device);
+ 	if (rmidi && rmidi->ops && rmidi->ops->ioctl)
+-		ret = rmidi->ops->ioctl(rmidi, cmd, argp);
++		return rmidi->ops->ioctl(rmidi, cmd, argp);
+ 	else
+-		ret = -ENXIO;
+-	mutex_unlock(&register_mutex);
+-	return ret;
++		return -ENXIO;
+ }
+ #endif
+ 
+@@ -1168,27 +1138,23 @@ static struct timespec64 get_framing_tstamp(struct snd_rawmidi_substream *substr
+ int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+ 			const unsigned char *buffer, int count)
+ {
+-	unsigned long flags;
+ 	struct timespec64 ts64 = get_framing_tstamp(substream);
+ 	int result = 0, count1;
+ 	struct snd_rawmidi_runtime *runtime;
+ 
+-	spin_lock_irqsave(&substream->lock, flags);
+-	if (!substream->opened) {
+-		result = -EBADFD;
+-		goto unlock;
+-	}
++	guard(spinlock_irqsave)(&substream->lock);
++	if (!substream->opened)
++		return -EBADFD;
+ 	runtime = substream->runtime;
+ 	if (!runtime || !runtime->buffer) {
+ 		rmidi_dbg(substream->rmidi,
+ 			  "snd_rawmidi_receive: input is not active!!!\n");
+-		result = -EINVAL;
+-		goto unlock;
++		return -EINVAL;
+ 	}
+ 
+ 	count = get_aligned_size(runtime, count);
+ 	if (!count)
+-		goto unlock;
++		return result;
+ 
+ 	if (substream->framing == SNDRV_RAWMIDI_MODE_FRAMING_TSTAMP) {
+ 		result = receive_with_tstamp_framing(substream, buffer, count, &ts64);
+@@ -1211,7 +1177,7 @@ int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+ 			count1 = runtime->buffer_size - runtime->avail;
+ 		count1 = get_aligned_size(runtime, count1);
+ 		if (!count1)
+-			goto unlock;
++			return result;
+ 		memcpy(runtime->buffer + runtime->hw_ptr, buffer, count1);
+ 		runtime->hw_ptr += count1;
+ 		runtime->hw_ptr %= runtime->buffer_size;
+@@ -1239,8 +1205,6 @@ int snd_rawmidi_receive(struct snd_rawmidi_substream *substream,
+ 		else if (__snd_rawmidi_ready(runtime))
+ 			wake_up(&runtime->sleep);
+ 	}
 - unlock:
--	mutex_unlock(&info_mutex);
+-	spin_unlock_irqrestore(&substream->lock, flags);
+ 	return result;
+ }
+ EXPORT_SYMBOL(snd_rawmidi_receive);
+@@ -1362,20 +1326,15 @@ static ssize_t snd_rawmidi_read(struct file *file, char __user *buf, size_t coun
+ int snd_rawmidi_transmit_empty(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_rawmidi_runtime *runtime;
+-	int result;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	runtime = substream->runtime;
+ 	if (!substream->opened || !runtime || !runtime->buffer) {
+ 		rmidi_dbg(substream->rmidi,
+ 			  "snd_rawmidi_transmit_empty: output is not active!!!\n");
+-		result = 1;
+-	} else {
+-		result = runtime->avail >= runtime->buffer_size;
++		return 1;
+ 	}
+-	spin_unlock_irqrestore(&substream->lock, flags);
+-	return result;
++	return (runtime->avail >= runtime->buffer_size);
+ }
+ EXPORT_SYMBOL(snd_rawmidi_transmit_empty);
+ 
+@@ -1449,16 +1408,10 @@ static int __snd_rawmidi_transmit_peek(struct snd_rawmidi_substream *substream,
+ int snd_rawmidi_transmit_peek(struct snd_rawmidi_substream *substream,
+ 			      unsigned char *buffer, int count)
+ {
+-	int result;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	if (!substream->opened || !substream->runtime)
+-		result = -EBADFD;
+-	else
+-		result = __snd_rawmidi_transmit_peek(substream, buffer, count);
+-	spin_unlock_irqrestore(&substream->lock, flags);
+-	return result;
++		return -EBADFD;
++	return __snd_rawmidi_transmit_peek(substream, buffer, count);
+ }
+ EXPORT_SYMBOL(snd_rawmidi_transmit_peek);
+ 
+@@ -1505,16 +1458,10 @@ static int __snd_rawmidi_transmit_ack(struct snd_rawmidi_substream *substream,
+  */
+ int snd_rawmidi_transmit_ack(struct snd_rawmidi_substream *substream, int count)
+ {
+-	int result;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	if (!substream->opened || !substream->runtime)
+-		result = -EBADFD;
+-	else
+-		result = __snd_rawmidi_transmit_ack(substream, count);
+-	spin_unlock_irqrestore(&substream->lock, flags);
+-	return result;
++		return -EBADFD;
++	return __snd_rawmidi_transmit_ack(substream, count);
+ }
+ EXPORT_SYMBOL(snd_rawmidi_transmit_ack);
+ 
+@@ -1531,21 +1478,13 @@ EXPORT_SYMBOL(snd_rawmidi_transmit_ack);
+ int snd_rawmidi_transmit(struct snd_rawmidi_substream *substream,
+ 			 unsigned char *buffer, int count)
+ {
+-	int result;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	if (!substream->opened)
+-		result = -EBADFD;
+-	else {
+-		count = __snd_rawmidi_transmit_peek(substream, buffer, count);
+-		if (count <= 0)
+-			result = count;
+-		else
+-			result = __snd_rawmidi_transmit_ack(substream, count);
+-	}
+-	spin_unlock_irqrestore(&substream->lock, flags);
+-	return result;
++		return -EBADFD;
++	count = __snd_rawmidi_transmit_peek(substream, buffer, count);
++	if (count <= 0)
++		return count;
++	return __snd_rawmidi_transmit_ack(substream, count);
+ }
+ EXPORT_SYMBOL(snd_rawmidi_transmit);
+ 
+@@ -1558,17 +1497,15 @@ EXPORT_SYMBOL(snd_rawmidi_transmit);
+ int snd_rawmidi_proceed(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_rawmidi_runtime *runtime;
+-	unsigned long flags;
+ 	int count = 0;
+ 
+-	spin_lock_irqsave(&substream->lock, flags);
++	guard(spinlock_irqsave)(&substream->lock);
+ 	runtime = substream->runtime;
+ 	if (substream->opened && runtime &&
+ 	    runtime->avail < runtime->buffer_size) {
+ 		count = runtime->buffer_size - runtime->avail;
+ 		__snd_rawmidi_transmit_ack(substream, count);
+ 	}
+-	spin_unlock_irqrestore(&substream->lock, flags);
+ 	return count;
+ }
+ EXPORT_SYMBOL(snd_rawmidi_proceed);
+@@ -1772,7 +1709,7 @@ static void snd_rawmidi_proc_info_read(struct snd_info_entry *entry,
+ 			    rawmidi_is_ump(rmidi) ? "UMP" : "Legacy");
+ 	if (rmidi->ops && rmidi->ops->proc_read)
+ 		rmidi->ops->proc_read(entry, buffer);
+-	mutex_lock(&rmidi->open_mutex);
++	guard(mutex)(&rmidi->open_mutex);
+ 	if (rmidi->info_flags & SNDRV_RAWMIDI_INFO_OUTPUT) {
+ 		list_for_each_entry(substream,
+ 				    &rmidi->streams[SNDRV_RAWMIDI_STREAM_OUTPUT].substreams,
+@@ -1787,10 +1724,10 @@ static void snd_rawmidi_proc_info_read(struct snd_info_entry *entry,
+ 				    "  Owner PID    : %d\n",
+ 				    pid_vnr(substream->pid));
+ 				runtime = substream->runtime;
+-				spin_lock_irq(&substream->lock);
+-				buffer_size = runtime->buffer_size;
+-				avail = runtime->avail;
+-				spin_unlock_irq(&substream->lock);
++				scoped_guard(spinlock_irq, &substream->lock) {
++					buffer_size = runtime->buffer_size;
++					avail = runtime->avail;
++				}
+ 				snd_iprintf(buffer,
+ 				    "  Mode         : %s\n"
+ 				    "  Buffer size  : %lu\n"
+@@ -1814,11 +1751,11 @@ static void snd_rawmidi_proc_info_read(struct snd_info_entry *entry,
+ 					    "  Owner PID    : %d\n",
+ 					    pid_vnr(substream->pid));
+ 				runtime = substream->runtime;
+-				spin_lock_irq(&substream->lock);
+-				buffer_size = runtime->buffer_size;
+-				avail = runtime->avail;
+-				xruns = runtime->xruns;
+-				spin_unlock_irq(&substream->lock);
++				scoped_guard(spinlock_irq, &substream->lock) {
++					buffer_size = runtime->buffer_size;
++					avail = runtime->avail;
++					xruns = runtime->xruns;
++				}
+ 				snd_iprintf(buffer,
+ 					    "  Buffer size  : %lu\n"
+ 					    "  Avail        : %lu\n"
+@@ -1835,7 +1772,6 @@ static void snd_rawmidi_proc_info_read(struct snd_info_entry *entry,
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&rmidi->open_mutex);
+ }
+ 
+ /*
+@@ -2024,12 +1960,12 @@ static int snd_rawmidi_dev_register(struct snd_device *device)
+ 	if (rmidi->device >= SNDRV_RAWMIDI_DEVICES)
+ 		return -ENOMEM;
+ 	err = 0;
+-	mutex_lock(&register_mutex);
+-	if (snd_rawmidi_search(rmidi->card, rmidi->device))
+-		err = -EBUSY;
+-	else
+-		list_add_tail(&rmidi->list, &snd_rawmidi_devices);
+-	mutex_unlock(&register_mutex);
++	scoped_guard(mutex, &register_mutex) {
++		if (snd_rawmidi_search(rmidi->card, rmidi->device))
++			err = -EBUSY;
++		else
++			list_add_tail(&rmidi->list, &snd_rawmidi_devices);
++	}
+ 	if (err < 0)
+ 		return err;
+ 
+@@ -2102,9 +2038,8 @@ static int snd_rawmidi_dev_register(struct snd_device *device)
+  error_unregister:
+ 	snd_unregister_device(rmidi->dev);
+  error:
+-	mutex_lock(&register_mutex);
+-	list_del(&rmidi->list);
+-	mutex_unlock(&register_mutex);
++	scoped_guard(mutex, &register_mutex)
++		list_del(&rmidi->list);
  	return err;
  }
  
-@@ -549,7 +527,7 @@ int snd_info_card_register(struct snd_card *card)
-  */
- void snd_info_card_id_change(struct snd_card *card)
- {
--	mutex_lock(&info_mutex);
-+	guard(mutex)(&info_mutex);
- 	if (card->proc_root_link) {
- 		proc_remove(card->proc_root_link);
- 		card->proc_root_link = NULL;
-@@ -558,7 +536,6 @@ void snd_info_card_id_change(struct snd_card *card)
- 		card->proc_root_link = proc_symlink(card->id,
- 						    snd_proc_root->p,
- 						    card->proc_root->name);
--	mutex_unlock(&info_mutex);
- }
+@@ -2113,8 +2048,8 @@ static int snd_rawmidi_dev_disconnect(struct snd_device *device)
+ 	struct snd_rawmidi *rmidi = device->device_data;
+ 	int dir;
  
- /*
-@@ -574,12 +551,11 @@ void snd_info_card_disconnect(struct snd_card *card)
- 	if (card->proc_root)
- 		proc_remove(card->proc_root->p);
- 
--	mutex_lock(&info_mutex);
-+	guard(mutex)(&info_mutex);
- 	if (card->proc_root)
- 		snd_info_clear_entries(card->proc_root);
- 	card->proc_root_link = NULL;
- 	card->proc_root = NULL;
--	mutex_unlock(&info_mutex);
- }
- 
- /*
-@@ -703,9 +679,8 @@ snd_info_create_entry(const char *name, struct snd_info_entry *parent,
- 	entry->parent = parent;
- 	entry->module = module;
- 	if (parent) {
--		mutex_lock(&parent->access);
-+		guard(mutex)(&parent->access);
- 		list_add_tail(&entry->list, &parent->children);
--		mutex_unlock(&parent->access);
+-	mutex_lock(&register_mutex);
+-	mutex_lock(&rmidi->open_mutex);
++	guard(mutex)(&register_mutex);
++	guard(mutex)(&rmidi->open_mutex);
+ 	wake_up(&rmidi->open_wait);
+ 	list_del_init(&rmidi->list);
+ 	for (dir = 0; dir < 2; dir++) {
+@@ -2140,8 +2075,6 @@ static int snd_rawmidi_dev_disconnect(struct snd_device *device)
  	}
- 	return entry;
- }
-@@ -775,9 +750,8 @@ void snd_info_free_entry(struct snd_info_entry * entry)
- 		return;
- 	if (entry->p) {
- 		proc_remove(entry->p);
--		mutex_lock(&info_mutex);
-+		guard(mutex)(&info_mutex);
- 		snd_info_clear_entries(entry);
--		mutex_unlock(&info_mutex);
- 	}
- 
- 	/* free all children at first */
-@@ -786,9 +760,8 @@ void snd_info_free_entry(struct snd_info_entry * entry)
- 
- 	p = entry->parent;
- 	if (p) {
--		mutex_lock(&p->access);
-+		guard(mutex)(&p->access);
- 		list_del(&entry->list);
--		mutex_unlock(&p->access);
- 	}
- 	kfree(entry->name);
- 	if (entry->private_free)
-@@ -804,15 +777,13 @@ static int __snd_info_register(struct snd_info_entry *entry)
- 	if (snd_BUG_ON(!entry))
- 		return -ENXIO;
- 	root = entry->parent == NULL ? snd_proc_root->p : entry->parent->p;
--	mutex_lock(&info_mutex);
-+	guard(mutex)(&info_mutex);
- 	if (entry->p || !root)
--		goto unlock;
-+		return 0;
- 	if (S_ISDIR(entry->mode)) {
- 		p = proc_mkdir_mode(entry->name, entry->mode, root);
--		if (!p) {
--			mutex_unlock(&info_mutex);
-+		if (!p)
- 			return -ENOMEM;
--		}
- 	} else {
- 		const struct proc_ops *ops;
- 		if (entry->content == SNDRV_INFO_CONTENT_DATA)
-@@ -821,15 +792,11 @@ static int __snd_info_register(struct snd_info_entry *entry)
- 			ops = &snd_info_text_entry_ops;
- 		p = proc_create_data(entry->name, entry->mode, root,
- 				     ops, entry);
--		if (!p) {
--			mutex_unlock(&info_mutex);
-+		if (!p)
- 			return -ENOMEM;
--		}
- 		proc_set_size(p, entry->size);
- 	}
- 	entry->p = p;
-- unlock:
--	mutex_unlock(&info_mutex);
+ #endif /* CONFIG_SND_OSSEMUL */
+ 	snd_unregister_device(rmidi->dev);
+-	mutex_unlock(&rmidi->open_mutex);
+-	mutex_unlock(&register_mutex);
  	return 0;
  }
  
-diff --git a/sound/core/info_oss.c b/sound/core/info_oss.c
-index ebc714b2f46b..0dbbb8005570 100644
---- a/sound/core/info_oss.c
-+++ b/sound/core/info_oss.c
-@@ -29,20 +29,17 @@ int snd_oss_info_register(int dev, int num, char *string)
- 		return -ENXIO;
- 	if (snd_BUG_ON(num < 0 || num >= SNDRV_CARDS))
- 		return -ENXIO;
--	mutex_lock(&strings);
-+	guard(mutex)(&strings);
- 	if (string == NULL) {
- 		x = snd_sndstat_strings[num][dev];
- 		kfree(x);
- 		x = NULL;
- 	} else {
- 		x = kstrdup(string, GFP_KERNEL);
--		if (x == NULL) {
--			mutex_unlock(&strings);
-+		if (x == NULL)
- 			return -ENOMEM;
--		}
- 	}
- 	snd_sndstat_strings[num][dev] = x;
--	mutex_unlock(&strings);
- 	return 0;
- }
- EXPORT_SYMBOL(snd_oss_info_register);
-@@ -53,7 +50,7 @@ static int snd_sndstat_show_strings(struct snd_info_buffer *buf, char *id, int d
- 	char *str;
- 
- 	snd_iprintf(buf, "\n%s:", id);
--	mutex_lock(&strings);
-+	guard(mutex)(&strings);
- 	for (idx = 0; idx < SNDRV_CARDS; idx++) {
- 		str = snd_sndstat_strings[idx][dev];
- 		if (str) {
-@@ -64,7 +61,6 @@ static int snd_sndstat_show_strings(struct snd_info_buffer *buf, char *id, int d
- 			snd_iprintf(buf, "%i: %s\n", idx, str);
- 		}
- 	}
--	mutex_unlock(&strings);
- 	if (ok < 0)
- 		snd_iprintf(buf, " NOT ENABLED IN CONFIG\n");
- 	return ok;
 -- 
 2.35.3
 
