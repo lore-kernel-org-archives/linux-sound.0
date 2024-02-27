@@ -1,54 +1,54 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49CA14A4DD
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 17:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D121014534F
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 18:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709056511; cv=none; b=rAc/gdG198XzFm3KwI5fGx6qfaXI5f+X+mm+VO0ZRP8QzIkIuszfOAZnxDWmeH1II+uEzymxNOQkjsrixX49LXNAXO5SReelHEM3/wwt10P9l9QrB6YFxwI1NGZm+Sqpj/sr5uHS5Pr0J90ibrs+iZTMTzIpj+6ORUTo8zk+SdE=
+	t=1709057567; cv=none; b=tC9jrbdawli0CAF80Ha0g0HQCLWsMpmJIOH3ErvZaqIk0Jr9Jp4PQfx33XLBPOVWaHnPJNGQMB2FtyIEuGIld1kpaQB3FXnWXq42OQ3D1OjF06rc5uYJbKFUBg2oGQxYYG1UyqT32f0MCCU+FkCAGhk+6+jtu1Pr3wx9fIKUXig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709056511; c=relaxed/simple;
-	bh=4mxpcwtJGmPAx0hGuHiSF19sttpDcfgAzEqkq+js9w0=;
+	s=arc-20240116; t=1709057567; c=relaxed/simple;
+	bh=cg9qu1nZlxnC68Ueeoocn/P6r5hs5t9MDoe/bzmk888=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/qIG/yQdIer8gch90mNkbCqQ0foAnjUFYcx025FgPcmREBo8OqZNjfNAPiXJLVHFFJfj0YrvRSu7kgTQMMlMFG51ya6FhrL4SQX77Qwpz4JSx1JeFtcf2uPswjTJZ17qqhjXa+3Msu0zS6jNjRqgda2n9e7U9nBSkhxcZKhPcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=chESIHFZ; arc=none smtp.client-ip=209.85.166.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=R51450x7kCjzUFLN0SkykrAoDAWxQB48KbUMc9p7WeO9SUYtYN2hxt3fWjLq2ttMTwGxJk3wurEagKss86i+1akIUbB48I/MECZnWbD4tz6QoFtnE+Qk3hdvT36dwadWoKsTnvOan0Ly/ScBsi3SH9ahntVDiO4mmDs0VJGqQcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eyUIl0H7; arc=none smtp.client-ip=209.85.166.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="chESIHFZ"
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-7c7c984699fso107409939f.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 09:55:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eyUIl0H7"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3651d6dea15so107315ab.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 10:12:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709056509; x=1709661309; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1709057565; x=1709662365; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0z6oy3tLEwRGgu8/omrsseYREQZqlDjlucfwbridRR4=;
-        b=chESIHFZopoekdXZAIn5yr8L36LqKiRAzMmBw0JBzQdug/CTAodhBYAHHvD7wNUm7O
-         yo4UCYJAOc4GbOcIf/OFhVNYZ5ssaZkAGjeQcVoSFwmTwDttR51c8WWCh5ULH12ghuGq
-         2UZsNyck+l4Ae2E9kGCporZr2CKI+1eDAI/b8=
+        bh=9xo3DafYnz7qDd1iyNarBE0C+acGQnxfRXgU4VP6u+M=;
+        b=eyUIl0H7ncs3ylQqTu0mSwGbC82HxXtlkyrkqFfGcpyR2+v3Btg6IxUiNmsjjX3n3u
+         XVK1keJtroTd/pSf1TVj58vuG3el2WjFuos4d/z1+qCNkdyB7dxdget3J41HlqPdLx7P
+         aJTrDFzRIouwfVNPGPxRo+oToe/7+a9UBOdQE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709056509; x=1709661309;
+        d=1e100.net; s=20230601; t=1709057565; x=1709662365;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0z6oy3tLEwRGgu8/omrsseYREQZqlDjlucfwbridRR4=;
-        b=tTdcao2WLSNEZ0oCVqchGArf2S0LTU+BEQpS7/g5+bqP2PJn4MQSCP/lWgbR/ETbVP
-         StPasHY7Op5kQV/J3x0KRX+0n9tRdRX25ZXZNfLIlg6YtuJHLICaGyHVPnTFMm1lkVPM
-         6J5pGqZxNZBPaEflWDVzm0638WtfMXLOR2OjoG398mAP8VqvovHYsHIm0+WUGMs79Svu
-         PFLtvrRccVjBt9zc9vfYQyYIk4P/7bC4xYx0iqWcUzCnPfJcmRumBGTtvuACb5/UWwOm
-         4tVA3skb09ypkTju73K5F/WxhABW7TznuDGv+avEStYOYVhKt674K2Z8+70gGE+Po6sI
-         NEug==
-X-Forwarded-Encrypted: i=1; AJvYcCXsKlraTNYCJmu31gSkrl6MD3mKd5trw5Z6PcU8gaA0SQn7LnewMWxJ4xHbbIzJx5s9rNchqWKxNb1WpH544kHHVYXXY3xh/UrtHQc=
-X-Gm-Message-State: AOJu0YxXdxunl77DGmaObguLyhSAGbL+UVMJsAYwvwWBgYDLLomTWIe8
-	Rxqhq9kYE3HDihETqTUQK2ozK/3zrLTa5yefQvYBwkMcaU+EDX3cqswmj6o6YQ==
-X-Google-Smtp-Source: AGHT+IE99IEm1bwDJq2IEwn8DzuSvhEObNZduooC8XEtgQeAr6li7TB9E5Onf6yMe4pPR4UCVj/fTw==
-X-Received: by 2002:a5e:c007:0:b0:7c7:9184:df98 with SMTP id u7-20020a5ec007000000b007c79184df98mr13293582iol.12.1709056509170;
-        Tue, 27 Feb 2024 09:55:09 -0800 (PST)
+        bh=9xo3DafYnz7qDd1iyNarBE0C+acGQnxfRXgU4VP6u+M=;
+        b=WQbmdh4jSN/WOmJ4ajqT5Xyt8HYX0rOe3DVP2TjXcVXJbhWziQCMHmYNw/Iz4TRYuS
+         iGBjSjqXnOkBzGL0BaDZWjDMPyOD1SGB9SOmjU9WKXLZeAEK3VAGRJTcerWry2SOFW/w
+         b1m/AvQYwZ5Cd2yKKCv9Eo0x+qXrlA+FX8poEpPS/6CCCxjRJIVU5T1HpCvx+X/d/ghF
+         TDLhOVKr2sZRMtvDTADP5f0zaxoN44n1CBC1ujL9bUxy5zTeaY1c7P1SW/lItNvW/X41
+         dTBw07IGG5MK7y+WmRzHkqrIQqlfAj814GeN5pbN5nbJVtZR6MH7Zn/JffuXQWZG2czS
+         Waew==
+X-Forwarded-Encrypted: i=1; AJvYcCVOOJbivNKcW1EpHBpF2dlPm8jRqqGsUzAeqfsNbD7zEZsomDBN0Hqf3xk03Igtrpd1QY9DOXjpmlsjBhH3m/ZxyJAQ3ZygCx+GDJk=
+X-Gm-Message-State: AOJu0YyHwwUL2wUEluhAQfkA95wBIApSs+KSbFh/C2hpW07zmRGVGJyb
+	IpUHWYc1hUzesNMnBk3TWnckJFrAW3y9XqlL7yO/0Np7J9kT3snuiCUMonp5tA==
+X-Google-Smtp-Source: AGHT+IGjrhhbq3O4yJbGQNPJHVvQDH/cLI79okVS/czvt6vJUsosc4jtEJE++l5mG9grtKNLuUoKMw==
+X-Received: by 2002:a05:6e02:1aae:b0:365:b00e:c3cc with SMTP id l14-20020a056e021aae00b00365b00ec3ccmr105566ilv.2.1709057565143;
+        Tue, 27 Feb 2024 10:12:45 -0800 (PST)
 Received: from localhost (147.220.222.35.bc.googleusercontent.com. [35.222.220.147])
-        by smtp.gmail.com with UTF8SMTPSA id u14-20020a02b1ce000000b0047464deaba5sm1816183jah.114.2024.02.27.09.55.08
+        by smtp.gmail.com with UTF8SMTPSA id br17-20020a05663846d100b004742452a382sm1963310jab.45.2024.02.27.10.12.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 09:55:08 -0800 (PST)
-Date: Tue, 27 Feb 2024 17:55:07 +0000
+        Tue, 27 Feb 2024 10:12:44 -0800 (PST)
+Date: Tue, 27 Feb 2024 18:12:44 +0000
 From: Matthias Kaehlcke <mka@chromium.org>
 To: Javier Carrasco <javier.carrasco@wolfvision.net>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -67,13 +67,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/8] usb: misc: onboard_dev: add support for non-hub
- devices
-Message-ID: <Zd4h-4Nm0Kl-7mqp@google.com>
+Subject: Re: [PATCH v4 6/8] usb: misc: onboard_dev: use device supply names
+Message-ID: <Zd4mHOEs6tHELUXl@google.com>
 References: <20240220-onboard_xvf3500-v4-0-dc1617cc5dd4@wolfvision.net>
- <20240220-onboard_xvf3500-v4-2-dc1617cc5dd4@wolfvision.net>
- <ZdZN3FIS4zcKe4Kw@google.com>
- <174ce57a-3197-4251-831f-205ec5cfeae9@wolfvision.net>
+ <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,50 +79,19 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <174ce57a-3197-4251-831f-205ec5cfeae9@wolfvision.net>
+In-Reply-To: <20240220-onboard_xvf3500-v4-6-dc1617cc5dd4@wolfvision.net>
 
-On Thu, Feb 22, 2024 at 03:42:26PM +0100, Javier Carrasco wrote:
-> On 21.02.24 20:24, Matthias Kaehlcke wrote:
-> > On Tue, Feb 20, 2024 at 03:05:46PM +0100, Javier Carrasco wrote:
-> >> Most of the functionality this driver provides can be used by non-hub
-> >> devices as well.
-> >>
-> >> To account for the hub-specific code, add a flag to the device data
-> >> structure and check its value for hub-specific code.
-> > 
-> > Please mention that the driver doesn't power off non-hub devices
-> > during system suspend.
-> > 
-> >> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> >> ---
-> >>  drivers/usb/misc/onboard_usb_dev.c |  3 ++-
-> >>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
-> >>  2 files changed, 12 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> >> index 2103af2cb2a6..f43130a6786f 100644
-> >> --- a/drivers/usb/misc/onboard_usb_dev.c
-> >> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> >> @@ -129,7 +129,8 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
-> >>  		if (!device_may_wakeup(node->udev->bus->controller))
-> >>  			continue;
-> >>  
-> >> -		if (usb_wakeup_enabled_descendants(node->udev)) {
-> >> +		if (usb_wakeup_enabled_descendants(node->udev) ||
-> >> +		    !onboard_dev->pdata->is_hub) {
-> > 
-> > 
-> > This check isn't dependent on characteristics of the USB devices processed
-> > in this loop, therefore it can be performed at function entry. Please combine
-> > it with the check of 'always_powered_in_suspend'. It's also an option to
-> > omit the check completely, 'always_powered_in_suspend' will never be set for
-> > non-hub devices (assuming the sysfs attribute isn't added).
-> > 
+On Tue, Feb 20, 2024 at 03:05:50PM +0100, Javier Carrasco wrote:
+> The current mechanism uses generic names for the power supplies, which
+> conflicts with proper name definitions in the device bindings.
 > 
-> The attribute will not be available for non-hub devices in v5. However,
-> if the check is completely removed, will power_off not stay true at the
-> end of the function, always leading to a device power off? As you said,
-> 'always_powered_in_suspend' will not be set for non-hub devices.
+> Add a per-device property to include real supply names and keep generic
+> names as a fallback mechanism for backward compatibility.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 
-Even without the sysfs attribute the field 'always_powered_in_suspend' could
-be set to true by probe() for non-hub devices.
+For v5 you could consider making this [1/8] (i.e. before the renaming
+of the driver). That way support for new hubs doesn't necessarily have
+to wait for the entire series to land. Since this series is underway
+I think new bindings shouldn't use 'vdd-supply' but the device
+specific name of the supply.
