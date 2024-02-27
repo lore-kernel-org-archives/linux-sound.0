@@ -1,177 +1,274 @@
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8874A14F987;
-	Tue, 27 Feb 2024 12:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D461CFA9;
+	Tue, 27 Feb 2024 12:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709035868; cv=none; b=GmG9N8+iSt3MD9e7bv0LcCopGkd566A2iZYx3jQDVAYKOU8h0lFah4FpAWlJTCv3Um7Wi+8I2UX3zMoE4L/I/v++DH2pJzAHDVDD7ozz2qsTaX0o6oGaNrNBwZr470ykBJScmPlWttH2Qk9OBSnSHh65+MwH7f64ZNp7VaHoACw=
+	t=1709037525; cv=none; b=urmoEuqSTsmYY/nTXpprnxvmh+smruOIx4/fad4jg57ZGiIxqIcl+4ak/Dg0og6grVdssZek4x1VUA9WR0rib0ZVW5tfAb2lU/bzoYlGFNjs7EEVrInajCOzV7iRWVzrcuSIcgW0PaUhkmObaoPgFqRFZn2cJ0u7mP3jMrOcxmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709035868; c=relaxed/simple;
-	bh=Jpx8HKm9BGBUo/aktxdkRyrJGYDFjXNdMQ+YMjx31sA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MCHFC/mLst/dNpqNeF+l3zmwCxRz5fOzbe9sqJSvrcAqaDWlAiMkf36CTGSMQw1xpc9bll205cqNSU8j1ZQJZ3/Lk/Vc8BHrgRv+7BOwVJdYHwXLGUk6qd/CbOkMVtVNr6wz+gWrse8f/QLFr7xiipnX1ZzMMta7hOAa0/JrU0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dfWbwXxJ; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1709037525; c=relaxed/simple;
+	bh=wIFETi/MZvXW9/FAsIozT825+vybcsyNan5jzXcLPQc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t3KCOza2gHgl5L6KKHPzNkaMj91yW12AfY+FRUvO0FIHeOKsf7o5Z6bSxjt8CyQ4sT8bryyeXoD5I7suKR4tWXvOiZKWyunkgcgManSwgG1zuu1Y/23tQ1aoaqfrdkHbsuf23GAlNU1spiPyNfu4ticZxCVg0UTsNjRIT69f/Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=evMyTP2k; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dfWbwXxJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="evMyTP2k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709035861;
-	bh=Jpx8HKm9BGBUo/aktxdkRyrJGYDFjXNdMQ+YMjx31sA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dfWbwXxJigyS5KeGUp9zCavzOTOxtYMxTZ1iXIUFADnqos5jbqkwfgbYPC8PRlH9c
-	 LlKO4XxnXvrfrF+f8343Rw/AV7w8ekHjDZsOMrJdllEvM0H2tT+UxKJ7mRtmX1Qprj
-	 GXgNLDtFzB0d3Hb5Ihyx26zaF2O7orkFTnn0B7LI73AC1PHp1BRZgMWSzyscrltTCc
-	 whV3tXz1DAC4+rkEKaIlf4UQBqVMWBAdfHZ64KGr1xLC0gYJlRTidDqQkCG0s1EDgw
-	 PhKid+mptZtDIx8Bijk8vRZBQi0WweGr7j/J+9R3FXnQvdlZwcvT4pmYKNMXoPeI9n
-	 QKNSHr7y3enkQ==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	s=mail; t=1709037521;
+	bh=wIFETi/MZvXW9/FAsIozT825+vybcsyNan5jzXcLPQc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=evMyTP2kJ2qJhKVWh8x49Jwu/aes3ZGEKemzrZ61lFaUHq/IycOxxot4qKk41kzxl
+	 cqrVwpwI2NQI8YcQOgzdaf/bXWHrbZjaU1J64If8Ew92UnrwNxcp/T8UsMnbar6tMb
+	 1yT36QOG2Ht1R2By9rJ3rSWkkqsaLdTPVC2VTXqOZ+l+PbPg723HKrlFHzIvcjjtMg
+	 TE+w7uKNuh0laf1rPtuaRrPg9XIBZD19vQxaBPoxzvi9cPLcias50byRUGVTT2c6gt
+	 stWeZQARKK5MlueSNvTX44aEHsI3GAuCRJpH4qXv3dcqhIMpFJT0AywZDSBymXtvG+
+	 xRKNlrETnAaAw==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9DAD037820EC;
-	Tue, 27 Feb 2024 12:10:59 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: broonie@kernel.org
-Cc: wenst@chromium.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	trevor.wu@mediatek.com,
-	maso.huang@mediatek.com,
-	xiazhengqiao@huaqin.corp-partner.google.com,
-	arnd@arndb.de,
-	kuninori.morimoto.gx@renesas.com,
-	shraash@google.com,
-	amergnat@baylibre.com,
-	nicolas.ferre@microchip.com,
-	u.kleine-koenig@pengutronix.de,
-	dianders@chromium.org,
-	frank.li@vivo.com,
-	allen-kh.cheng@mediatek.com,
-	eugen.hristev@collabora.com,
-	claudiu.beznea@tuxon.dev,
-	jarkko.nikula@bitmer.com,
-	jiaxin.yu@mediatek.com,
-	alpernebiyasak@gmail.com,
-	ckeepax@opensource.cirrus.com,
-	zhourui@huaqin.corp-partner.google.com,
-	nfraprado@collabora.com,
-	alsa-devel@alsa-project.org,
-	shane.chien@mediatek.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH 21/22] arm64: dts: mediatek: mt8195-cherry: Specify sound DAI links and routing
-Date: Tue, 27 Feb 2024 13:09:38 +0100
-Message-ID: <20240227120939.290143-22-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240227120939.290143-1-angelogioacchino.delregno@collabora.com>
-References: <20240227120939.290143-1-angelogioacchino.delregno@collabora.com>
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D93BE37813B6;
+	Tue, 27 Feb 2024 12:38:39 +0000 (UTC)
+Message-ID: <e0907559-121f-4cdf-8b5a-744295ec85b3@collabora.com>
+Date: Tue, 27 Feb 2024 13:38:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
+ <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+ <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The drivers and bindings acquired support for specifying audio hardware
-and links in device tree: describe and link the sound related HW of this
-machine.
+Il 27/02/24 11:23, Alexandre Mergnat ha scritto:
+> 
+> 
+> On 26/02/2024 16:30, AngeloGioacchino Del Regno wrote:
+>> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
+>>> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+>>>
+>>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>> ---
+>>>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 +++++++++++++++++++++
+>>>   1 file changed, 127 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml 
+>>> b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>>> new file mode 100644
+>>> index 000000000000..f469611ec6b6
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>>> @@ -0,0 +1,127 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Mediatek MT8365 sound card with MT6357 sound codec.
+>>> +
+>>> +maintainers:
+>>> +  - Alexandre Mergnat <amergnat@baylibre.com>
+>>> +
+>>> +description:
+>>> +  This binding describes the MT8365 sound card.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: mediatek,mt8365-mt6357
+>>> +
+>>> +  mediatek,hp-pull-down:
+>>> +    description:
+>>> +      Earphone driver positive output stage short to the
+>>> +      audio reference ground.
+>>> +      Default value is false.
+>>> +    type: boolean
+>>> +
+>>> +  mediatek,micbias0-microvolt:
+>>> +    description: |
+>>
+>> description: Selects MIC Bias 0 output voltage
+>>
+>>> +      Selects MIC Bias 0 output voltage.
+>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+>>
+>> No, you don't say 0 1 2 3 4 to a property that says "microvolt", that's simply
+>> wrong.
+>>
+>> mediatek,micbias0-microvolt = <2100000>;
+>>
+>> ...so you want a binding that says
+>> enum: [ 1700000, 1800000, this, that, 2700000]
+>>
+> 
+> Is it correct if I put "description: Selects MIC Bias 0 output voltage index" ?
+> 
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../boot/dts/mediatek/mt8195-cherry.dtsi      | 45 +++++++++++++++++++
- 1 file changed, 45 insertions(+)
+No, it's still not correct. You have to pass microvolt values.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-index f94c07f8b933..e405e226e449 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-@@ -240,6 +240,7 @@ adsp_device_mem: memory@60e80000 {
- 	spk_amplifier: rt1019p {
- 		compatible = "realtek,rt1019p";
- 		label = "rt1019p";
-+		#sound-dai-cells = <0>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&rt1019p_pins_default>;
- 		sdb-gpios = <&pio 100 GPIO_ACTIVE_HIGH>;
-@@ -334,6 +335,7 @@ &disp_pwm0 {
- &dp_tx {
- 	status = "okay";
- 
-+	#sound-dai-cells = <0>;
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&dptx_pin>;
- 
-@@ -404,6 +406,7 @@ audio_codec: codec@1a {
- 		/* Realtek RT5682i or RT5682s, sharing the same configuration */
- 		reg = <0x1a>;
- 		interrupts-extended = <&pio 89 IRQ_TYPE_EDGE_BOTH>;
-+		#sound-dai-cells = <0>;
- 		realtek,jd-src = <1>;
- 
- 		AVDD-supply = <&mt6359_vio18_ldo_reg>;
-@@ -1130,6 +1133,48 @@ &sound {
- 		"AFE_SOF_DL2", "AFE_SOF_DL3", "AFE_SOF_UL4", "AFE_SOF_UL5";
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&aud_pins_default>;
-+
-+	audio-routing =
-+		"Headphone", "HPOL",
-+		"Headphone", "HPOR",
-+		"IN1P", "Headset Mic",
-+		"Ext Spk", "Speaker";
-+
-+	mm-dai-link {
-+		link-name = "ETDM1_IN_BE";
-+		mediatek,clk-provider = "cpu";
-+	};
-+
-+	hs-playback-dai-link {
-+		link-name = "ETDM1_OUT_BE";
-+		mediatek,clk-provider = "cpu";
-+		codec {
-+			sound-dai = <&audio_codec>;
-+		};
-+	};
-+
-+	hs-capture-dai-link {
-+		link-name = "ETDM2_IN_BE";
-+		mediatek,clk-provider = "cpu";
-+		codec {
-+			sound-dai = <&audio_codec>;
-+		};
-+	};
-+
-+	spk-playback-dai-link {
-+		link-name = "ETDM2_OUT_BE";
-+		mediatek,clk-provider = "cpu";
-+		codec {
-+			sound-dai = <&spk_amplifier>;
-+		};
-+	};
-+
-+	displayport-dai-link {
-+		link-name = "DPTX_BE";
-+		codec {
-+			sound-dai = <&dp_tx>;
-+		};
-+	};
- };
- 
- &spi0 {
--- 
-2.44.0
+The driver will then transform the microvolt values to the index and subsequently
+write the index value to the hardware registers.
+
+The bindings shall be generic, in the sense that they shall not express hardware
+register values... and this is especially true when we have a value that *does*
+actually have means to be expressed in common units.
+
+Besides, in the cases in which there's no common units involved, the values most
+probably won't be suited for devicetree//bindings, so those would be hardcoded in
+the driver as platform data.
+
+This is not the case, so, please keep this property but specify microvolts in the
+bindings (and obviously in devicetree).
+
+>>> +
+>>> +  mediatek,micbias1-microvolt:
+>>> +    description: |
+>>> +      Selects MIC Bias 1 output voltage.
+>>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+>>
+>> same here.
+>>
+>>> +
+>>> +  mediatek,platform:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>> +    description: The phandle of MT8365 ASoC platform.
+>>> +
+>>> +  pinctrl-names:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - const: aud_default
+>>> +      - const: aud_dmic
+>>> +      - const: aud_miso_off
+>>> +      - const: aud_miso_on
+>>> +      - const: aud_mosi_off
+>>> +      - const: aud_mosi_on
+>>> +
+>>> +  vaud28-supply:
+>>> +    description:
+>>> +      2.8 volt supply for the audio codec
+>>> +
+>>> +patternProperties:
+>>> +  "^dai-link-[0-9]+$":
+>>> +    type: object
+>>> +    description:
+>>> +      Container for dai-link level properties and CODEC sub-nodes.
+>>> +
+>>> +    properties:
+>>> +      codec:
+>>> +        type: object
+>>> +        description: Holds subnode which indicates codec dai.
+>>> +
+>>> +        properties:
+>>> +          sound-dai:
+>>> +            maxItems: 1
+>>> +            description: phandle of the codec DAI
+>>> +
+>>> +        additionalProperties: false
+>>> +
+>>> +      link-name:
+>>> +        description:
+>>> +          This property corresponds to the name of the BE dai-link to which
+>>> +          we are going to update parameters in this node.
+>>> +        items:
+>>> +          const: 2ND I2S BE
+>>> +
+>>> +      sound-dai:
+>>> +        maxItems: 1
+>>> +        description: phandle of the CPU DAI
+>>> +
+>>> +    additionalProperties: false
+>>> +
+>>> +    required:
+>>> +      - link-name
+>>> +      - sound-dai
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - mediatek,platform
+>>> +  - pinctrl-names
+>>> +  - vaud28-supply
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    sound {
+>>> +        compatible = "mediatek,mt8365-mt6357";
+>>> +        mediatek,platform = <&afe>;
+>>
+>> Please:
+>>
+>> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
+> 
+> Is it about the wrong pinctrl-names tab alignment ?
+> Also, 2ND I2S BE => 2ND_I2S_BE ?
+> Otherwise, I don't get it sorry.
+> 
+
+...as Krzysztof already clarified, won't repeat :-P
+
+Cheers!
+
+>>
+>> Regards,
+>> Angelo
+>>
+>>> +        pinctrl-names = "aud_default",
+>>> +            "aud_dmic",
+>>> +            "aud_miso_off",
+>>> +            "aud_miso_on",
+>>> +            "aud_mosi_off",
+>>> +            "aud_mosi_on";
+>>> +        pinctrl-0 = <&aud_default_pins>;
+>>> +        pinctrl-1 = <&aud_dmic_pins>;
+>>> +        pinctrl-2 = <&aud_miso_off_pins>;
+>>> +        pinctrl-3 = <&aud_miso_on_pins>;
+>>> +        pinctrl-4 = <&aud_mosi_off_pins>;
+>>> +        pinctrl-5 = <&aud_mosi_on_pins>;
+>>> +        vaud28-supply = <&mt6357_vaud28_reg>;
+>>> +
+>>> +        /* hdmi interface */
+>>> +        dai-link-0 {
+>>> +            sound-dai = <&afe>;
+>>> +            link-name = "2ND I2S BE";
+>>> +
+>>> +            codec {
+>>> +                sound-dai = <&it66121hdmitx>;
+>>> +            };
+>>> +        };
+>>> +    };
+>>>
+>>
+> 
+
 
