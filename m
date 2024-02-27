@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A60135A68
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 08:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3481135A56
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 08:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024009; cv=none; b=PsbOau/DLEGdaHs3rW3l5CMRmp2G2nq4Ek8be3RPQU6hfYRQLHRpDPQ3/Smw1oWfZbQcHb0cHx/BbcEhf+BXaQ61RQF7ANYLvxzA7OQV91+lB0z7bUocn4bp//2LTCc1xoD/3on0h35m35VONxWV9qYzx8oqQK2HMj5FkuCYf1w=
+	t=1709024009; cv=none; b=JvKNbN27Ec+LriBCg5/J3izOcTGOs3GwePr1qjcg3VpLj/fMHK5EjWmkVNQDjUgJ7Gyzvu9g596wXCbCyVtLkBOEWuybujtP7dgYCDvab1NWCNOUzT7xkLqxCR+hgbB8sRIeigt+yueLLjhOUzZ4dogTwK76scVw0GmOkqIpvH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709024009; c=relaxed/simple;
-	bh=Gm8ES37GC8nY+hXCEZT03EAKNuq4Wo9dwUi+RcISECw=;
+	bh=BLFrlknqyQP0hzqEUa4QwZdYTsCqWHMaXtk2h8Y4fw8=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XImO5qFYFFrrlvSDJMcafygxjPErZXs0xf0guzHgej40pUTaty63FJqBfP2VTNrrPZfnmEo6WLP0RUE2kP9YiI8sg26xe/W3ICjeDaSKiCxykBjEP0DUEFojedTINrOglwPfyWIDHXvQoO7t2bgqZ6dkdXzCb2Xavw93H7XAlQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VkSw2Myg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OR8BNYDE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VkSw2Myg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OR8BNYDE; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=G8Ol3L8tkF8sE2ZbHcdZ6SlV+HvVQq5gsgqHZIXWZdS+OnDcAiTOYFzbhUGhtB7HH1NRao/1G5AJFxMWx9IaYS4mK0tv3mZlFXBILP3YtuL8YGpje7YPTK3TLZzlvX/fZsSEts9xW8AXsnhyEEmgk+cDdngDMm2A3mdJdVWUNx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQLbQDew; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S4zMb+cU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQLbQDew; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S4zMb+cU; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VkSw2Myg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OR8BNYDE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VkSw2Myg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OR8BNYDE"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQLbQDew";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S4zMb+cU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQLbQDew";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S4zMb+cU"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CA8622786;
-	Tue, 27 Feb 2024 08:53:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 648A322781;
+	Tue, 27 Feb 2024 08:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
-	b=VkSw2MygfANBgFXVTx+5veWPJiEuvWy03A3D7MkuBkkcG9abbw3EmLobSsY3oDRB0nLQA/
-	e3sOy65STRoVF78ihA2XLMUX+iW4+tL1FsPwXDxtZv7eI0xxOJF5DomcnaCv+023UzHOOU
-	LvCiRMqf5PjsV+IPq2WDIP5Cw95jvZ8=
+	bh=fESucqM8FkxNWsDnTz+11bmd3zuVEh/fO85aBx6cat8=;
+	b=MQLbQDew+qydv2k9LcEbhlR7mRclWHyJNQCWRsejALVBRGsaQJW20K+YStwEJA4Xm10rf1
+	Q80QVNzPHUVbDO55TkevjT9oqauOHExTStQTs7DphyBweDnImHWaE+WS7ulZsJtN9+VffM
+	oUqHKOK0oa0FvOK1j21woO4Z9RjTCWw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023997;
+	s=susede2_ed25519; t=1709023996;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
-	b=OR8BNYDEOIdDiY7tFIS7Wpt7KnDy5CIQKdXO/5ZlVIqISOrVVT8JAqPDCwM4mr8x6PX0i5
-	Pe2Is2INTmAiw8DA==
+	bh=fESucqM8FkxNWsDnTz+11bmd3zuVEh/fO85aBx6cat8=;
+	b=S4zMb+cUpZTon/fd17kv178TV8RSh0faRWCi13na5kfesSL/ocD3zS/WMXbBUvoe2c9o7x
+	y03u/nqL4Hos1HDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
-	b=VkSw2MygfANBgFXVTx+5veWPJiEuvWy03A3D7MkuBkkcG9abbw3EmLobSsY3oDRB0nLQA/
-	e3sOy65STRoVF78ihA2XLMUX+iW4+tL1FsPwXDxtZv7eI0xxOJF5DomcnaCv+023UzHOOU
-	LvCiRMqf5PjsV+IPq2WDIP5Cw95jvZ8=
+	bh=fESucqM8FkxNWsDnTz+11bmd3zuVEh/fO85aBx6cat8=;
+	b=MQLbQDew+qydv2k9LcEbhlR7mRclWHyJNQCWRsejALVBRGsaQJW20K+YStwEJA4Xm10rf1
+	Q80QVNzPHUVbDO55TkevjT9oqauOHExTStQTs7DphyBweDnImHWaE+WS7ulZsJtN9+VffM
+	oUqHKOK0oa0FvOK1j21woO4Z9RjTCWw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023997;
+	s=susede2_ed25519; t=1709023996;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EDPUqMTmZolyxq139RXrsdVw3qJOapC8UZaZmsiwy3I=;
-	b=OR8BNYDEOIdDiY7tFIS7Wpt7KnDy5CIQKdXO/5ZlVIqISOrVVT8JAqPDCwM4mr8x6PX0i5
-	Pe2Is2INTmAiw8DA==
+	bh=fESucqM8FkxNWsDnTz+11bmd3zuVEh/fO85aBx6cat8=;
+	b=S4zMb+cUpZTon/fd17kv178TV8RSh0faRWCi13na5kfesSL/ocD3zS/WMXbBUvoe2c9o7x
+	y03u/nqL4Hos1HDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2981D13A58;
-	Tue, 27 Feb 2024 08:53:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BA0813AD7;
+	Tue, 27 Feb 2024 08:53:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qDX7CP2i3WWeaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:17 +0000
+	id 0JNTEfyi3WWeaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:16 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v3 24/24] ALSA: control_led: Use guard() for locking
-Date: Tue, 27 Feb 2024 09:53:06 +0100
-Message-Id: <20240227085306.9764-25-tiwai@suse.de>
+Subject: [PATCH v3 17/24] ALSA: seq: midi: Use guard() for locking
+Date: Tue, 27 Feb 2024 09:52:59 +0100
+Message-Id: <20240227085306.9764-18-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240227085306.9764-1-tiwai@suse.de>
 References: <20240227085306.9764-1-tiwai@suse.de>
@@ -98,7 +98,6 @@ X-Spamd-Result: default: False [1.90 / 50.00];
 	 TO_DN_NONE(0.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_ONE(0.00)[1];
-	 R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 MID_CONTAINS_FROM(1.00)[];
@@ -115,267 +114,135 @@ X-Spam-Flag: NO
 We can simplify the code gracefully with new guard() macro and co for
 automatic cleanup of locks.
 
-A couple of functions that use snd_card_ref() and *_unref() are also
-cleaned up with a defined class, too.
-
 Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/control_led.c | 150 +++++++++++++++++----------------------
- 1 file changed, 65 insertions(+), 85 deletions(-)
+ sound/core/seq/seq_midi.c       | 16 ++++------------
+ sound/core/seq/seq_midi_event.c | 14 +++-----------
+ 2 files changed, 7 insertions(+), 23 deletions(-)
 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index a78eb48927c7..3d37e9fa7b9c 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -147,29 +147,27 @@ static void snd_ctl_led_set_state(struct snd_card *card, unsigned int access,
- 		return;
- 	route = -1;
- 	found = false;
--	mutex_lock(&snd_ctl_led_mutex);
--	/* the card may not be registered (active) at this point */
--	if (card && !snd_ctl_led_card_valid[card->number]) {
--		mutex_unlock(&snd_ctl_led_mutex);
--		return;
--	}
--	list_for_each_entry(lctl, &led->controls, list) {
--		if (lctl->kctl == kctl && lctl->index_offset == ioff)
--			found = true;
--		UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
--	}
--	if (!found && kctl && card) {
--		lctl = kzalloc(sizeof(*lctl), GFP_KERNEL);
--		if (lctl) {
--			lctl->card = card;
--			lctl->access = access;
--			lctl->kctl = kctl;
--			lctl->index_offset = ioff;
--			list_add(&lctl->list, &led->controls);
-+	scoped_guard(mutex, &snd_ctl_led_mutex) {
-+		/* the card may not be registered (active) at this point */
-+		if (card && !snd_ctl_led_card_valid[card->number])
-+			return;
-+		list_for_each_entry(lctl, &led->controls, list) {
-+			if (lctl->kctl == kctl && lctl->index_offset == ioff)
-+				found = true;
- 			UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
+diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
+index 0594269d92ab..ba52a77eda38 100644
+--- a/sound/core/seq/seq_midi.c
++++ b/sound/core/seq/seq_midi.c
+@@ -302,22 +302,19 @@ snd_seq_midisynth_probe(struct device *_dev)
+ 	if (ports > (256 / SNDRV_RAWMIDI_DEVICES))
+ 		ports = 256 / SNDRV_RAWMIDI_DEVICES;
+ 
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	client = synths[card->number];
+ 	if (client == NULL) {
+ 		newclient = 1;
+ 		client = kzalloc(sizeof(*client), GFP_KERNEL);
+-		if (client == NULL) {
+-			mutex_unlock(&register_mutex);
++		if (client == NULL)
+ 			return -ENOMEM;
+-		}
+ 		client->seq_client =
+ 			snd_seq_create_kernel_client(
+ 				card, 0, "%s", card->shortname[0] ?
+ 				(const char *)card->shortname : "External MIDI");
+ 		if (client->seq_client < 0) {
+ 			kfree(client);
+-			mutex_unlock(&register_mutex);
+ 			return -ENOMEM;
  		}
-+		if (!found && kctl && card) {
-+			lctl = kzalloc(sizeof(*lctl), GFP_KERNEL);
-+			if (lctl) {
-+				lctl->card = card;
-+				lctl->access = access;
-+				lctl->kctl = kctl;
-+				lctl->index_offset = ioff;
-+				list_add(&lctl->list, &led->controls);
-+				UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
-+			}
-+		}
  	}
--	mutex_unlock(&snd_ctl_led_mutex);
- 	switch (led->mode) {
- 	case MODE_OFF:		route = 1; break;
- 	case MODE_ON:		route = 0; break;
-@@ -201,14 +199,13 @@ static unsigned int snd_ctl_led_remove(struct snd_kcontrol *kctl, unsigned int i
- 	struct snd_ctl_led_ctl *lctl;
- 	unsigned int ret = 0;
+@@ -398,7 +395,6 @@ snd_seq_midisynth_probe(struct device *_dev)
+ 	client->num_ports++;
+ 	if (newclient)
+ 		synths[card->number] = client;
+-	mutex_unlock(&register_mutex);
+ 	return 0;	/* success */
  
--	mutex_lock(&snd_ctl_led_mutex);
-+	guard(mutex)(&snd_ctl_led_mutex);
- 	lctl = snd_ctl_led_find(kctl, ioff);
- 	if (lctl && (access == 0 || access != lctl->access)) {
- 		ret = lctl->access;
- 		list_del(&lctl->list);
- 		kfree(lctl);
+       __nomem:
+@@ -411,7 +407,6 @@ snd_seq_midisynth_probe(struct device *_dev)
+ 		snd_seq_delete_kernel_client(client->seq_client);
+ 		kfree(client);
  	}
--	mutex_unlock(&snd_ctl_led_mutex);
- 	return ret;
+-	mutex_unlock(&register_mutex);
+ 	return -ENOMEM;
  }
  
-@@ -239,44 +236,36 @@ static void snd_ctl_led_notify(struct snd_card *card, unsigned int mask,
- 	}
- }
- 
-+DEFINE_FREE(snd_card_unref, struct snd_card *, if (_T) snd_card_unref(_T))
-+
- static int snd_ctl_led_set_id(int card_number, struct snd_ctl_elem_id *id,
- 			      unsigned int group, bool set)
- {
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_kcontrol *kctl;
- 	struct snd_kcontrol_volatile *vd;
- 	unsigned int ioff, access, new_access;
--	int err = 0;
- 
- 	card = snd_card_ref(card_number);
--	if (card) {
--		down_write(&card->controls_rwsem);
--		kctl = snd_ctl_find_id_locked(card, id);
--		if (kctl) {
--			ioff = snd_ctl_get_ioff(kctl, id);
--			vd = &kctl->vd[ioff];
--			access = vd->access & SNDRV_CTL_ELEM_ACCESS_LED_MASK;
--			if (access != 0 && access != group_to_access(group)) {
--				err = -EXDEV;
--				goto unlock;
--			}
--			new_access = vd->access & ~SNDRV_CTL_ELEM_ACCESS_LED_MASK;
--			if (set)
--				new_access |= group_to_access(group);
--			if (new_access != vd->access) {
--				vd->access = new_access;
--				snd_ctl_led_notify(card, SNDRV_CTL_EVENT_MASK_INFO, kctl, ioff);
--			}
--		} else {
--			err = -ENOENT;
--		}
--unlock:
--		up_write(&card->controls_rwsem);
--		snd_card_unref(card);
--	} else {
--		err = -ENXIO;
-+	if (!card)
-+		return -ENXIO;
-+	guard(rwsem_write)(&card->controls_rwsem);
-+	kctl = snd_ctl_find_id_locked(card, id);
-+	if (!kctl)
-+		return -ENOENT;
-+	ioff = snd_ctl_get_ioff(kctl, id);
-+	vd = &kctl->vd[ioff];
-+	access = vd->access & SNDRV_CTL_ELEM_ACCESS_LED_MASK;
-+	if (access != 0 && access != group_to_access(group))
-+		return -EXDEV;
-+	new_access = vd->access & ~SNDRV_CTL_ELEM_ACCESS_LED_MASK;
-+	if (set)
-+		new_access |= group_to_access(group);
-+	if (new_access != vd->access) {
-+		vd->access = new_access;
-+		snd_ctl_led_notify(card, SNDRV_CTL_EVENT_MASK_INFO, kctl, ioff);
- 	}
--	return err;
-+	return 0;
- }
- 
- static void snd_ctl_led_refresh(void)
-@@ -312,7 +301,7 @@ static void snd_ctl_led_clean(struct snd_card *card)
- 
- static int snd_ctl_led_reset(int card_number, unsigned int group)
- {
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_ctl_led *led;
- 	struct snd_ctl_led_ctl *lctl;
- 	struct snd_kcontrol_volatile *vd;
-@@ -322,26 +311,22 @@ static int snd_ctl_led_reset(int card_number, unsigned int group)
- 	if (!card)
- 		return -ENXIO;
- 
--	mutex_lock(&snd_ctl_led_mutex);
--	if (!snd_ctl_led_card_valid[card_number]) {
--		mutex_unlock(&snd_ctl_led_mutex);
--		snd_card_unref(card);
--		return -ENXIO;
+@@ -425,12 +420,10 @@ snd_seq_midisynth_remove(struct device *_dev)
+ 	struct snd_card *card = dev->card;
+ 	int device = dev->device, p, ports;
+ 	
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	client = synths[card->number];
+-	if (client == NULL || client->ports[device] == NULL) {
+-		mutex_unlock(&register_mutex);
++	if (client == NULL || client->ports[device] == NULL)
+ 		return -ENODEV;
 -	}
--	led = &snd_ctl_leds[group];
-+	scoped_guard(mutex, &snd_ctl_led_mutex) {
-+		if (!snd_ctl_led_card_valid[card_number])
-+			return -ENXIO;
-+		led = &snd_ctl_leds[group];
- repeat:
--	list_for_each_entry(lctl, &led->controls, list)
--		if (lctl->card == card) {
--			vd = &lctl->kctl->vd[lctl->index_offset];
--			vd->access &= ~group_to_access(group);
--			snd_ctl_led_ctl_destroy(lctl);
--			change = true;
--			goto repeat;
--		}
--	mutex_unlock(&snd_ctl_led_mutex);
-+		list_for_each_entry(lctl, &led->controls, list)
-+			if (lctl->card == card) {
-+				vd = &lctl->kctl->vd[lctl->index_offset];
-+				vd->access &= ~group_to_access(group);
-+				snd_ctl_led_ctl_destroy(lctl);
-+				change = true;
-+				goto repeat;
-+			}
-+	}
- 	if (change)
- 		snd_ctl_led_set_state(NULL, group_to_access(group), NULL, 0);
--	snd_card_unref(card);
+ 	ports = client->ports_per_device[device];
+ 	client->ports_per_device[device] = 0;
+ 	msynth = client->ports[device];
+@@ -444,7 +437,6 @@ snd_seq_midisynth_remove(struct device *_dev)
+ 		synths[card->number] = NULL;
+ 		kfree(client);
+ 	}
+-	mutex_unlock(&register_mutex);
  	return 0;
  }
  
-@@ -353,9 +338,8 @@ static void snd_ctl_led_register(struct snd_card *card)
- 	if (snd_BUG_ON(card->number < 0 ||
- 		       card->number >= ARRAY_SIZE(snd_ctl_led_card_valid)))
- 		return;
--	mutex_lock(&snd_ctl_led_mutex);
--	snd_ctl_led_card_valid[card->number] = true;
--	mutex_unlock(&snd_ctl_led_mutex);
-+	scoped_guard(mutex, &snd_ctl_led_mutex)
-+		snd_ctl_led_card_valid[card->number] = true;
- 	/* the register callback is already called with held card->controls_rwsem */
- 	list_for_each_entry(kctl, &card->controls, list)
- 		for (ioff = 0; ioff < kctl->count; ioff++)
-@@ -367,10 +351,10 @@ static void snd_ctl_led_register(struct snd_card *card)
- static void snd_ctl_led_disconnect(struct snd_card *card)
+diff --git a/sound/core/seq/seq_midi_event.c b/sound/core/seq/seq_midi_event.c
+index 7511462fe071..fa9dfc53c3fc 100644
+--- a/sound/core/seq/seq_midi_event.c
++++ b/sound/core/seq/seq_midi_event.c
+@@ -144,21 +144,15 @@ static inline void reset_encode(struct snd_midi_event *dev)
+ 
+ void snd_midi_event_reset_encode(struct snd_midi_event *dev)
  {
- 	snd_ctl_led_sysfs_remove(card);
--	mutex_lock(&snd_ctl_led_mutex);
--	snd_ctl_led_card_valid[card->number] = false;
--	snd_ctl_led_clean(card);
--	mutex_unlock(&snd_ctl_led_mutex);
-+	scoped_guard(mutex, &snd_ctl_led_mutex) {
-+		snd_ctl_led_card_valid[card->number] = false;
-+		snd_ctl_led_clean(card);
-+	}
- 	snd_ctl_led_refresh();
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->lock, flags);
++	guard(spinlock_irqsave)(&dev->lock);
+ 	reset_encode(dev);
+-	spin_unlock_irqrestore(&dev->lock, flags);
  }
+ EXPORT_SYMBOL(snd_midi_event_reset_encode);
  
-@@ -430,9 +414,8 @@ static ssize_t mode_store(struct device *dev,
- 	else
- 		return count;
- 
--	mutex_lock(&snd_ctl_led_mutex);
--	led->mode = mode;
--	mutex_unlock(&snd_ctl_led_mutex);
-+	scoped_guard(mutex, &snd_ctl_led_mutex)
-+		led->mode = mode;
- 
- 	snd_ctl_led_set_state(NULL, group_to_access(led->group), NULL, 0);
- 	return count;
-@@ -615,15 +598,15 @@ static ssize_t list_show(struct device *dev,
- 			 struct device_attribute *attr, char *buf)
+ void snd_midi_event_reset_decode(struct snd_midi_event *dev)
  {
- 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_ctl_led_ctl *lctl;
- 	size_t l = 0;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->lock, flags);
++	guard(spinlock_irqsave)(&dev->lock);
+ 	dev->lastcmd = 0xff;
+-	spin_unlock_irqrestore(&dev->lock, flags);
+ }
+ EXPORT_SYMBOL(snd_midi_event_reset_decode);
  
- 	card = snd_card_ref(led_card->number);
- 	if (!card)
- 		return -ENXIO;
--	down_read(&card->controls_rwsem);
--	mutex_lock(&snd_ctl_led_mutex);
-+	guard(rwsem_read)(&card->controls_rwsem);
-+	guard(mutex)(&snd_ctl_led_mutex);
- 	if (snd_ctl_led_card_valid[led_card->number]) {
- 		list_for_each_entry(lctl, &led_card->led->controls, list) {
- 			if (lctl->card != card)
-@@ -634,9 +617,6 @@ static ssize_t list_show(struct device *dev,
- 					   lctl->kctl->id.numid + lctl->index_offset);
+@@ -177,7 +171,6 @@ bool snd_midi_event_encode_byte(struct snd_midi_event *dev, unsigned char c,
+ 				struct snd_seq_event *ev)
+ {
+ 	bool rc = false;
+-	unsigned long flags;
+ 
+ 	if (c >= MIDI_CMD_COMMON_CLOCK) {
+ 		/* real-time event */
+@@ -187,7 +180,7 @@ bool snd_midi_event_encode_byte(struct snd_midi_event *dev, unsigned char c,
+ 		return ev->type != SNDRV_SEQ_EVENT_NONE;
+ 	}
+ 
+-	spin_lock_irqsave(&dev->lock, flags);
++	guard(spinlock_irqsave)(&dev->lock);
+ 	if ((c & 0x80) &&
+ 	    (c != MIDI_CMD_COMMON_SYSEX_END || dev->type != ST_SYSEX)) {
+ 		/* new command */
+@@ -236,7 +229,6 @@ bool snd_midi_event_encode_byte(struct snd_midi_event *dev, unsigned char c,
  		}
  	}
--	mutex_unlock(&snd_ctl_led_mutex);
--	up_read(&card->controls_rwsem);
--	snd_card_unref(card);
- 	return l;
- }
  
+-	spin_unlock_irqrestore(&dev->lock, flags);
+ 	return rc;
+ }
+ EXPORT_SYMBOL(snd_midi_event_encode_byte);
 -- 
 2.35.3
 
