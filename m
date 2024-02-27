@@ -1,107 +1,101 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 16.mo550.mail-out.ovh.net (16.mo550.mail-out.ovh.net [178.33.104.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EC4135419;
-	Mon, 26 Feb 2024 23:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B57610D
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 01:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.33.104.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708991840; cv=none; b=gfPF03G1MYeF4p1jd5urz3OaNQwEnqeRRlZrF287Kct95g4A1jYWXFTZnabWCK9Sppvb4qDEROIV4QgDA6Q2OO9JxDZKn9yo9j7v04iUFLzdwXtuvgunMKTEhuuqM9ZNnvrNihOdnMIJKUEnjGrox8VjI6eS87XVhjk3K2+Av1Q=
+	t=1708997998; cv=none; b=I0tkEYYksB8JuRpIrd0L5e2kziQhnVH9sE2fRQ/xjKUJDscP1HoOad9AIa1/+HVLh3x3BMghJaLMCyUOFVDqo1HXERiVkg3truKlx38Z6s90VylWA/lemqAC28L9ETfRHYjUWgGdnoERgt5uXSxwIYNG8XJddORXU+KyVr95y8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708991840; c=relaxed/simple;
-	bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYm6oEsyn3Oxwc3RqHtFd6nvl2LO2LKcHDTXBfEuIP5UXXt6WUIHQqsP9E5ZgIq+5irmKj2McnNXdzlD5lDNHyDBonHr1rO2nv80/Ysubkz9nWYdqIViS0E/2E1KhLvs8F2NM4xTediyXs29Q9MeqQIXDA/XQQGAaj1ecq75bAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=WXO1PBxy; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="WXO1PBxy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1708991828; bh=rZaLoAoJVtC2cJB1SpNOGGPxOC1/pGjN9BizSRFZma0=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=WXO1PBxyQno+RvrzTOKSG5iaPFGaFoBMY4jYlysNZb6djRltmh6ERSyY70L86T+a1
-	 Ilb+f7g+ayjXlBNH3QzL7+QNJZpTmkThUABO8S/1mSAf6Xnk95uInS3xNMmZiJu328
-	 vfO6JYvwF1GJyAPEhYPvBb5OFrVsnpo0a1Oj1UL8=
-Date: Tue, 27 Feb 2024 00:57:08 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
- to sun8i-a33-codec
-Message-ID: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240224135501.3822390-1-megi@xff.cz>
- <20240224135501.3822390-2-megi@xff.cz>
- <20240226194727.GA1320480-robh@kernel.org>
+	s=arc-20240116; t=1708997998; c=relaxed/simple;
+	bh=oP+NUZOFqM2E6ptm+fLs9NHiWljY1OQX7Li7+FuOHyQ=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=aLJf4q46LIFpqf9Tqjo7y+cn4zES1COgAsEcyTdrVDJFfasmT7Rkb/EXFzMtUZhBf1Vyat4RrIqbQT8teHutZCK/+sQC27FNGXgIK1DfNnX7+gLrr8WgmliVxOQnU/1Awpn7gd2lApu3zYWibbElTKO+hXHouPUuvmr/+VBKxxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=178.33.104.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
+Received: from director2.ghost.mail-out.ovh.net (unknown [10.109.176.96])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4TkKTD3Ng2z1FjV
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 01:21:52 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-f4n6p (unknown [10.111.174.252])
+	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 605D91FD7C;
+	Tue, 27 Feb 2024 01:21:40 +0000 (UTC)
+Received: from etezian.org ([37.59.142.108])
+	by ghost-submission-6684bf9d7b-f4n6p with ESMTPSA
+	id uPD7FCQ53WXtyQAAxDwYeA
+	(envelope-from <andi@etezian.org>); Tue, 27 Feb 2024 01:21:40 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-108S002fe1109a9-1c88-4d0a-8ee4-2e8d2b473102,
+                    9285090D84508773EC2C25A4099646E261C64314) smtp.auth=andi@etezian.org
+X-OVh-ClientIp:89.217.109.169
+From: Andi Shyti <andi.shyti@kernel.org>
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, nicolas.ferre@microchip.com, 
+ alexandre.belloni@bootlin.com, claudiu.beznea@tuxon.dev, 
+ mturquette@baylibre.com, sboyd@kernel.org, herbert@gondor.apana.org.au, 
+ davem@davemloft.net, tglx@linutronix.de, tudor.ambarus@linaro.org, 
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+ linus.walleij@linaro.org, sre@kernel.org, u.kleine-koenig@pengutronix.de, 
+ p.zabel@pengutronix.de, olivia@selenic.com, radu_nicolae.pirea@upb.ro, 
+ richard.genoud@gmail.com, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+ lgirdwood@gmail.com, broonie@kernel.org, wim@linux-watchdog.org, 
+ linux@roeck-us.net, linux@armlinux.org.uk, andrei.simion@microchip.com, 
+ mihai.sain@microchip.com, andre.przywara@arm.com, neil.armstrong@linaro.org, 
+ tony@atomide.com, durai.manickamkr@microchip.com, geert+renesas@glider.be, 
+ arnd@arndb.de, Jason@zx2c4.com, rdunlap@infradead.org, rientjes@google.com, 
+ vbabka@suse.cz, mripard@kernel.org, codrin.ciubotariu@microchip.com, 
+ eugen.hristev@collabora.com, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ netdev@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-serial@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Varshini Rajendran <varshini.rajendran@microchip.com>
+In-Reply-To: <20240223171342.669133-1-varshini.rajendran@microchip.com>
+References: <20240223171342.669133-1-varshini.rajendran@microchip.com>
+Subject: Re: (subset) [PATCH v4 00/39] Add support for sam9x7 SoC family
+Message-Id: <170899689860.412407.545047377007032928.b4-ty@kernel.org>
+Date: Tue, 27 Feb 2024 02:21:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240226194727.GA1320480-robh@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
+X-Ovh-Tracer-Id: 4120793662683875913
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrgeefgdeffecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfgjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihdrshhhhihtiheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeelkefhieeljeejffdtvddthfffleffueekkefgieelveejjedtudettdeghfdutdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekledrvddujedruddtledrudeiledpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomheprghnughisegvthgviihirghnrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 
-On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
-> On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> > 
-> > The codec driver needs to know what jack connector it is connected to
-> > on the board. Add proprty to describe the type of connector.
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > ---
-> >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > index 63eadc4200ac..399fc00ad3f4 100644
-> > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > @@ -44,6 +44,15 @@ properties:
-> >        - const: bus
-> >        - const: mod
-> >  
-> > +  jack-type:
+Hi
+
+On Fri, 23 Feb 2024 22:43:42 +0530, Varshini Rajendran wrote:
+> This patch series adds support for the new SoC family - sam9x7.
+>  - The device tree, configs and drivers are added
+>  - Clock driver for sam9x7 is added
+>  - Support for basic peripherals is added
+>  - Target board SAM9X75 Curiosity is added
 > 
-> I'm all for a generic property name, but it needs to be documented 
-> somewhere common. Perhaps dai-common.yaml.
+>  Changes in v4:
+>  --------------
 > 
-> I'm sure there is some prior art here to consider as well.
+> [...]
 
-There's only a mention in the code. But there's no use of similar property
-on the codec nodes.
+Applied to i2c/i2c-host on
 
-https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
 
-/**
- * snd_soc_component_get_jack_type
- * @component: COMPONENTs
- *
- * Returns the jack type of the component
- * This can either be the supported type or one read from
- * devicetree with the property: jack-type.
- */
+Thank you,
+Andi
 
-This is part of a component, so maybe in sound/component-common.yaml ?
+Patches applied
+===============
+[06/39] dt-bindings: i2c: at91: Add sam9x7 compatible string
+        commit: a856c9e6104f7b4619f09e19ab95903c7888da96
 
-Kind regards,
-	o.
-
-> Rob
