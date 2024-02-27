@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46A1135A50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46E1135A55
 	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 08:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024006; cv=none; b=KeQBhGYv9e4pq5ELH5EitJg32s4Itj9APrxitcYXEwfmKOeoKEJGBzrQJe5bzME4sUErxv9JMddjHq7Gt66VbJPhUp8OLtFh3NWoh2s1sIxKWcNGlwjuU0VXCELg6RYcsmNwpdYNtsmqAImDjxpbyTgH+ZmCHL2DkGIYbyDm9b8=
+	t=1709024007; cv=none; b=PjbW0+0BlghxD2W/tzsIfM0oNOQSuFrsMGASv6dfc0mKxOr50F+vkyu6SubBZHkUcL5rbT+Xrv74/7XJy5PUKRo1Ik9O6Uj83EW2Ht1hN2XTC026KhkOirYOHGhChSwFkrWItvkUQiQF6bEex9t6Mac3CQGq2BVc67+utmSdBMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709024006; c=relaxed/simple;
-	bh=Y7Hws7KjBnbAumnmkP6ecSUj5yoKLmys0TDxzxRtrqY=;
+	s=arc-20240116; t=1709024007; c=relaxed/simple;
+	bh=IR82NPAL7BQRTnSTuDAhquA7dfoxAafYkT8UgS02f/0=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aKKDv6QB4vkjb4jVOg54x4+maJeHHq57FPczLVAZdpmshi5AjAZJ/5NHGgMh/bMwc/usOrDj6GG1/ITfoo07+9+TcIr5eHJK3aI82mHZu91mHWRomCbBT1oCaBRBt1mm65EZ8vO4+R6TW2fW7mOlWxNNA1/7kue2k3N7slUvy+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xd6bfh3F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gKAIild3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xd6bfh3F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gKAIild3; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=uzZvUcwHw22PoOKAWhp0gzAQmGsYIJIZA5eY8CyhVAocArN4eFoe5Q7zlYQPZLisQ8rexHaqxKQWpQD/AAZqxLPAQ2SLBJEdUj0TylYjkl2jYIsCrHLmfWK3JVSwom8wiVoetIV9Oufa4S5YOO2f789DGgxkpAXm1ONPZ2iQEQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZhEnWrg8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=euMEt09T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZhEnWrg8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=euMEt09T; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xd6bfh3F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gKAIild3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xd6bfh3F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gKAIild3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZhEnWrg8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="euMEt09T";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZhEnWrg8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="euMEt09T"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 06C312277E;
-	Tue, 27 Feb 2024 08:53:16 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9EA2B2277D;
+	Tue, 27 Feb 2024 08:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1709023995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=xd6bfh3FRwxFft3Vw2NXfjQhrsV/sCPjcZuRScjv7bCYlY7vERrB4Jx/NVROvjAacelgqz
-	9buPDYdtVTYYk1JCRbjYuEoqeZQOqMDSHV8mQPDJKSuf/T2dwXN//PAgOu7lpoIhntAmNf
-	X0Ib2cNjKXFGZwhm8Z+m+Nawal7GjkQ=
+	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
+	b=ZhEnWrg8XOKW3Ua/Z542j6aBoE9jqwbbqJ6ErwiAVVswHYw9WPickRBxckhIXbnkkV98Lp
+	PjHz3CDMdwUcN/FAkSXzcncBsiziLA7BhjOAfcazBmGjmOFbHq7ab7um5ZcLaDTz2lW4d2
+	10AgJbKEPB7oP+qF0WZwybkLAq/vP78=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023996;
+	s=susede2_ed25519; t=1709023995;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=gKAIild3ZV8u135sP+jKeg95YEh0nr2yAgdQRLWMe9wGTw7zp8qRvvsxDSJrnzNouO6zYl
-	tQCNfTeCv73v4sCg==
+	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
+	b=euMEt09TfdXfP/i/HPwL7PPjA+VZa6LXp6CQS6t6T3n3YCfn0ZfGaaLtIeCOeu+Szvnjcz
+	KSqa3al697eVgzAQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1709023995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=xd6bfh3FRwxFft3Vw2NXfjQhrsV/sCPjcZuRScjv7bCYlY7vERrB4Jx/NVROvjAacelgqz
-	9buPDYdtVTYYk1JCRbjYuEoqeZQOqMDSHV8mQPDJKSuf/T2dwXN//PAgOu7lpoIhntAmNf
-	X0Ib2cNjKXFGZwhm8Z+m+Nawal7GjkQ=
+	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
+	b=ZhEnWrg8XOKW3Ua/Z542j6aBoE9jqwbbqJ6ErwiAVVswHYw9WPickRBxckhIXbnkkV98Lp
+	PjHz3CDMdwUcN/FAkSXzcncBsiziLA7BhjOAfcazBmGjmOFbHq7ab7um5ZcLaDTz2lW4d2
+	10AgJbKEPB7oP+qF0WZwybkLAq/vP78=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023996;
+	s=susede2_ed25519; t=1709023995;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RBICid4kXEluFyKvLMIfooyhTxKUzuiOcjbVi5SV8M=;
-	b=gKAIild3ZV8u135sP+jKeg95YEh0nr2yAgdQRLWMe9wGTw7zp8qRvvsxDSJrnzNouO6zYl
-	tQCNfTeCv73v4sCg==
+	bh=px5YcOaGyp0fjIZiLQMVzH2fgPhpHk/y6ZU+hcDEWkw=;
+	b=euMEt09TfdXfP/i/HPwL7PPjA+VZa6LXp6CQS6t6T3n3YCfn0ZfGaaLtIeCOeu+Szvnjcz
+	KSqa3al697eVgzAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E13DF13A58;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8638C13AD7;
 	Tue, 27 Feb 2024 08:53:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +EzaNfui3WWeaQAAD6G6ig
+	id WEygH/ui3WWeaQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:15 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v3 14/24] ALSA: seq: ports: Use guard() for locking
-Date: Tue, 27 Feb 2024 09:52:56 +0100
-Message-Id: <20240227085306.9764-15-tiwai@suse.de>
+Subject: [PATCH v3 11/24] ALSA: core: Use guard() for locking
+Date: Tue, 27 Feb 2024 09:52:53 +0100
+Message-Id: <20240227085306.9764-12-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240227085306.9764-1-tiwai@suse.de>
 References: <20240227085306.9764-1-tiwai@suse.de>
@@ -87,8 +87,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xd6bfh3F;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gKAIild3
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZhEnWrg8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=euMEt09T
 X-Spamd-Result: default: False [1.69 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -114,7 +114,7 @@ X-Spamd-Result: default: False [1.69 / 50.00];
 	 BAYES_HAM(-3.00)[100.00%]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Score: 1.69
-X-Rspamd-Queue-Id: 06C312277E
+X-Rspamd-Queue-Id: 9EA2B2277D
 X-Spam-Level: *
 X-Spam-Flag: NO
 X-Spamd-Bar: +
@@ -126,265 +126,545 @@ Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_ports.c | 114 ++++++++++++++++---------------------
- 1 file changed, 49 insertions(+), 65 deletions(-)
+ sound/core/init.c      | 199 +++++++++++++++++++----------------------
+ sound/core/sound.c     |  28 +++---
+ sound/core/sound_oss.c |  17 ++--
+ 3 files changed, 107 insertions(+), 137 deletions(-)
 
-diff --git a/sound/core/seq/seq_ports.c b/sound/core/seq/seq_ports.c
-index f3f14ff0f80f..ca631ca4f2c6 100644
---- a/sound/core/seq/seq_ports.c
-+++ b/sound/core/seq/seq_ports.c
-@@ -48,17 +48,15 @@ struct snd_seq_client_port *snd_seq_port_use_ptr(struct snd_seq_client *client,
- 
- 	if (client == NULL)
- 		return NULL;
--	read_lock(&client->ports_lock);
-+	guard(read_lock)(&client->ports_lock);
- 	list_for_each_entry(port, &client->ports_list_head, list) {
- 		if (port->addr.port == num) {
- 			if (port->closing)
- 				break; /* deleting now */
- 			snd_use_lock_use(&port->use_lock);
--			read_unlock(&client->ports_lock);
- 			return port;
- 		}
+diff --git a/sound/core/init.c b/sound/core/init.c
+index 22c0d217b860..4ed5037d8693 100644
+--- a/sound/core/init.c
++++ b/sound/core/init.c
+@@ -284,30 +284,31 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 	if (xid)
+ 		strscpy(card->id, xid, sizeof(card->id));
+ 	err = 0;
+-	mutex_lock(&snd_card_mutex);
+-	if (idx < 0) /* first check the matching module-name slot */
+-		idx = get_slot_from_bitmask(idx, module_slot_match, module);
+-	if (idx < 0) /* if not matched, assign an empty slot */
+-		idx = get_slot_from_bitmask(idx, check_empty_slot, module);
+-	if (idx < 0)
+-		err = -ENODEV;
+-	else if (idx < snd_ecards_limit) {
+-		if (test_bit(idx, snd_cards_lock))
+-			err = -EBUSY;	/* invalid */
+-	} else if (idx >= SNDRV_CARDS)
+-		err = -ENODEV;
++	scoped_guard(mutex, &snd_card_mutex) {
++		if (idx < 0) /* first check the matching module-name slot */
++			idx = get_slot_from_bitmask(idx, module_slot_match, module);
++		if (idx < 0) /* if not matched, assign an empty slot */
++			idx = get_slot_from_bitmask(idx, check_empty_slot, module);
++		if (idx < 0)
++			err = -ENODEV;
++		else if (idx < snd_ecards_limit) {
++			if (test_bit(idx, snd_cards_lock))
++				err = -EBUSY;	/* invalid */
++		} else if (idx >= SNDRV_CARDS)
++			err = -ENODEV;
++		if (!err) {
++			set_bit(idx, snd_cards_lock);		/* lock it */
++			if (idx >= snd_ecards_limit)
++				snd_ecards_limit = idx + 1; /* increase the limit */
++		}
++	}
+ 	if (err < 0) {
+-		mutex_unlock(&snd_card_mutex);
+ 		dev_err(parent, "cannot find the slot for index %d (range 0-%i), error: %d\n",
+-			 idx, snd_ecards_limit - 1, err);
++			idx, snd_ecards_limit - 1, err);
+ 		if (!card->managed)
+ 			kfree(card); /* manually free here, as no destructor called */
+ 		return err;
  	}
--	read_unlock(&client->ports_lock);
- 	return NULL;		/* not found */
- }
- 
-@@ -73,7 +71,7 @@ struct snd_seq_client_port *snd_seq_port_query_nearest(struct snd_seq_client *cl
- 
- 	num = pinfo->addr.port;
- 	found = NULL;
--	read_lock(&client->ports_lock);
-+	guard(read_lock)(&client->ports_lock);
- 	list_for_each_entry(port, &client->ports_list_head, list) {
- 		if ((port->capability & SNDRV_SEQ_PORT_CAP_INACTIVE) &&
- 		    !check_inactive)
-@@ -93,7 +91,6 @@ struct snd_seq_client_port *snd_seq_port_query_nearest(struct snd_seq_client *cl
- 		else
- 			snd_use_lock_use(&found->use_lock);
- 	}
--	read_unlock(&client->ports_lock);
- 	return found;
- }
- 
-@@ -145,13 +142,12 @@ int snd_seq_create_port(struct snd_seq_client *client, int port,
- 	snd_use_lock_use(&new_port->use_lock);
- 
- 	num = max(port, 0);
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
-+	guard(mutex)(&client->ports_mutex);
-+	guard(write_lock_irq)(&client->ports_lock);
- 	list_for_each_entry(p, &client->ports_list_head, list) {
- 		if (p->addr.port == port) {
- 			kfree(new_port);
--			num = -EBUSY;
--			goto unlock;
-+			return -EBUSY;
- 		}
- 		if (p->addr.port > num)
- 			break;
-@@ -164,9 +160,6 @@ int snd_seq_create_port(struct snd_seq_client *client, int port,
- 	new_port->addr.port = num;	/* store the port number in the port */
- 	sprintf(new_port->name, "port-%d", num);
- 	*port_ret = new_port;
-- unlock:
--	write_unlock_irq(&client->ports_lock);
--	mutex_unlock(&client->ports_mutex);
- 
- 	return num;
- }
-@@ -281,19 +274,18 @@ int snd_seq_delete_port(struct snd_seq_client *client, int port)
+-	set_bit(idx, snd_cards_lock);		/* lock it */
+-	if (idx >= snd_ecards_limit)
+-		snd_ecards_limit = idx + 1; /* increase the limit */
+-	mutex_unlock(&snd_card_mutex);
+ 	card->dev = parent;
+ 	card->number = idx;
+ #ifdef MODULE
+@@ -386,11 +387,10 @@ struct snd_card *snd_card_ref(int idx)
  {
- 	struct snd_seq_client_port *found = NULL, *p;
+ 	struct snd_card *card;
  
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
--	list_for_each_entry(p, &client->ports_list_head, list) {
--		if (p->addr.port == port) {
--			/* ok found.  delete from the list at first */
--			list_del(&p->list);
--			client->num_ports--;
--			found = p;
+-	mutex_lock(&snd_card_mutex);
++	guard(mutex)(&snd_card_mutex);
+ 	card = snd_cards[idx];
+ 	if (card)
+ 		get_device(&card->card_dev);
+-	mutex_unlock(&snd_card_mutex);
+ 	return card;
+ }
+ EXPORT_SYMBOL_GPL(snd_card_ref);
+@@ -398,12 +398,8 @@ EXPORT_SYMBOL_GPL(snd_card_ref);
+ /* return non-zero if a card is already locked */
+ int snd_card_locked(int card)
+ {
+-	int locked;
+-
+-	mutex_lock(&snd_card_mutex);
+-	locked = test_bit(card, snd_cards_lock);
+-	mutex_unlock(&snd_card_mutex);
+-	return locked;
++	guard(mutex)(&snd_card_mutex);
++	return test_bit(card, snd_cards_lock);
+ }
+ 
+ static loff_t snd_disconnect_llseek(struct file *file, loff_t offset, int orig)
+@@ -427,15 +423,15 @@ static int snd_disconnect_release(struct inode *inode, struct file *file)
+ {
+ 	struct snd_monitor_file *df = NULL, *_df;
+ 
+-	spin_lock(&shutdown_lock);
+-	list_for_each_entry(_df, &shutdown_files, shutdown_list) {
+-		if (_df->file == file) {
+-			df = _df;
+-			list_del_init(&df->shutdown_list);
 -			break;
-+	scoped_guard(mutex, &client->ports_mutex) {
-+		guard(write_lock_irq)(&client->ports_lock);
-+		list_for_each_entry(p, &client->ports_list_head, list) {
-+			if (p->addr.port == port) {
-+				/* ok found.  delete from the list at first */
-+				list_del(&p->list);
-+				client->num_ports--;
-+				found = p;
++	scoped_guard(spinlock, &shutdown_lock) {
++		list_for_each_entry(_df, &shutdown_files, shutdown_list) {
++			if (_df->file == file) {
++				df = _df;
++				list_del_init(&df->shutdown_list);
 +				break;
 +			}
  		}
  	}
--	write_unlock_irq(&client->ports_lock);
--	mutex_unlock(&client->ports_mutex);
- 	if (found)
- 		return port_delete(client, found);
- 	else
-@@ -309,16 +301,16 @@ int snd_seq_delete_all_ports(struct snd_seq_client *client)
- 	/* move the port list to deleted_list, and
- 	 * clear the port list in the client data.
- 	 */
--	mutex_lock(&client->ports_mutex);
--	write_lock_irq(&client->ports_lock);
--	if (! list_empty(&client->ports_list_head)) {
--		list_add(&deleted_list, &client->ports_list_head);
--		list_del_init(&client->ports_list_head);
--	} else {
--		INIT_LIST_HEAD(&deleted_list);
-+	guard(mutex)(&client->ports_mutex);
-+	scoped_guard(write_lock_irq, &client->ports_lock) {
-+		if (!list_empty(&client->ports_list_head)) {
-+			list_add(&deleted_list, &client->ports_list_head);
-+			list_del_init(&client->ports_list_head);
-+		} else {
-+			INIT_LIST_HEAD(&deleted_list);
+-	spin_unlock(&shutdown_lock);
+ 
+ 	if (likely(df)) {
+ 		if ((file->f_flags & FASYNC) && df->disconnected_f_op->fasync)
+@@ -501,27 +497,24 @@ void snd_card_disconnect(struct snd_card *card)
+ 	if (!card)
+ 		return;
+ 
+-	spin_lock(&card->files_lock);
+-	if (card->shutdown) {
+-		spin_unlock(&card->files_lock);
+-		return;
++	scoped_guard(spinlock, &card->files_lock) {
++		if (card->shutdown)
++			return;
++		card->shutdown = 1;
++
++		/* replace file->f_op with special dummy operations */
++		list_for_each_entry(mfile, &card->files_list, list) {
++			/* it's critical part, use endless loop */
++			/* we have no room to fail */
++			mfile->disconnected_f_op = mfile->file->f_op;
++
++			scoped_guard(spinlock, &shutdown_lock)
++				list_add(&mfile->shutdown_list, &shutdown_files);
++
++			mfile->file->f_op = &snd_shutdown_f_ops;
++			fops_get(mfile->file->f_op);
 +		}
-+		client->num_ports = 0;
  	}
--	client->num_ports = 0;
--	write_unlock_irq(&client->ports_lock);
+-	card->shutdown = 1;
+-
+-	/* replace file->f_op with special dummy operations */
+-	list_for_each_entry(mfile, &card->files_list, list) {
+-		/* it's critical part, use endless loop */
+-		/* we have no room to fail */
+-		mfile->disconnected_f_op = mfile->file->f_op;
+-
+-		spin_lock(&shutdown_lock);
+-		list_add(&mfile->shutdown_list, &shutdown_files);
+-		spin_unlock(&shutdown_lock);
+-
+-		mfile->file->f_op = &snd_shutdown_f_ops;
+-		fops_get(mfile->file->f_op);
+-	}
+-	spin_unlock(&card->files_lock);	
  
- 	/* remove each port in deleted_list */
- 	list_for_each_entry_safe(port, tmp, &deleted_list, list) {
-@@ -326,7 +318,6 @@ int snd_seq_delete_all_ports(struct snd_seq_client *client)
- 		snd_seq_system_client_ev_port_exit(port->addr.client, port->addr.port);
- 		port_delete(client, port);
- 	}
--	mutex_unlock(&client->ports_mutex);
- 	return 0;
- }
- 
-@@ -506,42 +497,37 @@ static int check_and_subscribe_port(struct snd_seq_client *client,
- 	int err;
- 
- 	grp = is_src ? &port->c_src : &port->c_dest;
--	err = -EBUSY;
--	down_write(&grp->list_mutex);
-+	guard(rwsem_write)(&grp->list_mutex);
- 	if (exclusive) {
- 		if (!list_empty(&grp->list_head))
--			goto __error;
-+			return -EBUSY;
- 	} else {
- 		if (grp->exclusive)
--			goto __error;
-+			return -EBUSY;
- 		/* check whether already exists */
- 		list_for_each(p, &grp->list_head) {
- 			s = get_subscriber(p, is_src);
- 			if (match_subs_info(&subs->info, &s->info))
--				goto __error;
-+				return -EBUSY;
- 		}
+ 	/* notify all connected devices about disconnection */
+ 	/* at this point, they cannot respond to any calls except release() */
+@@ -544,10 +537,10 @@ void snd_card_disconnect(struct snd_card *card)
  	}
  
- 	err = subscribe_port(client, port, grp, &subs->info, ack);
- 	if (err < 0) {
- 		grp->exclusive = 0;
--		goto __error;
-+		return err;
- 	}
- 
- 	/* add to list */
--	write_lock_irq(&grp->list_lock);
-+	guard(write_lock_irq)(&grp->list_lock);
- 	if (is_src)
- 		list_add_tail(&subs->src_list, &grp->list_head);
- 	else
- 		list_add_tail(&subs->dest_list, &grp->list_head);
- 	grp->exclusive = exclusive;
- 	atomic_inc(&subs->ref_count);
--	write_unlock_irq(&grp->list_lock);
--	err = 0;
- 
-- __error:
--	up_write(&grp->list_mutex);
--	return err;
-+	return 0;
- }
- 
- /* called with grp->list_mutex held */
-@@ -556,12 +542,12 @@ static void __delete_and_unsubscribe_port(struct snd_seq_client *client,
- 
- 	grp = is_src ? &port->c_src : &port->c_dest;
- 	list = is_src ? &subs->src_list : &subs->dest_list;
--	write_lock_irq(&grp->list_lock);
--	empty = list_empty(list);
--	if (!empty)
--		list_del_init(list);
--	grp->exclusive = 0;
--	write_unlock_irq(&grp->list_lock);
-+	scoped_guard(write_lock_irq, &grp->list_lock) {
-+		empty = list_empty(list);
-+		if (!empty)
-+			list_del_init(list);
-+		grp->exclusive = 0;
+ 	/* disable fops (user space) operations for ALSA API */
+-	mutex_lock(&snd_card_mutex);
+-	snd_cards[card->number] = NULL;
+-	clear_bit(card->number, snd_cards_lock);
+-	mutex_unlock(&snd_card_mutex);
++	scoped_guard(mutex, &snd_card_mutex) {
++		snd_cards[card->number] = NULL;
++		clear_bit(card->number, snd_cards_lock);
 +	}
  
- 	if (!empty)
- 		unsubscribe_port(client, port, grp, &subs->info, ack);
-@@ -575,9 +561,8 @@ static void delete_and_unsubscribe_port(struct snd_seq_client *client,
- 	struct snd_seq_port_subs_info *grp;
+ #ifdef CONFIG_PM
+ 	wake_up(&card->power_sleep);
+@@ -569,11 +562,10 @@ void snd_card_disconnect_sync(struct snd_card *card)
+ {
+ 	snd_card_disconnect(card);
  
- 	grp = is_src ? &port->c_src : &port->c_dest;
--	down_write(&grp->list_mutex);
-+	guard(rwsem_write)(&grp->list_mutex);
- 	__delete_and_unsubscribe_port(client, port, subs, is_src, ack);
--	up_write(&grp->list_mutex);
+-	spin_lock_irq(&card->files_lock);
++	guard(spinlock_irq)(&card->files_lock);
+ 	wait_event_lock_irq(card->remove_sleep,
+ 			    list_empty(&card->files_list),
+ 			    card->files_lock);
+-	spin_unlock_irq(&card->files_lock);
  }
+ EXPORT_SYMBOL_GPL(snd_card_disconnect_sync);
  
- /* connect two ports */
-@@ -639,18 +624,18 @@ int snd_seq_port_disconnect(struct snd_seq_client *connector,
- 	/* always start from deleting the dest port for avoiding concurrent
- 	 * deletions
- 	 */
--	down_write(&dest->list_mutex);
--	/* look for the connection */
--	list_for_each_entry(subs, &dest->list_head, dest_list) {
--		if (match_subs_info(info, &subs->info)) {
--			__delete_and_unsubscribe_port(dest_client, dest_port,
--						      subs, false,
--						      connector->number != dest_client->number);
--			err = 0;
+@@ -767,9 +759,8 @@ void snd_card_set_id(struct snd_card *card, const char *nid)
+ 	/* check if user specified own card->id */
+ 	if (card->id[0] != '\0')
+ 		return;
+-	mutex_lock(&snd_card_mutex);
++	guard(mutex)(&snd_card_mutex);
+ 	snd_card_set_id_no_lock(card, nid, nid);
+-	mutex_unlock(&snd_card_mutex);
+ }
+ EXPORT_SYMBOL(snd_card_set_id);
+ 
+@@ -797,14 +788,11 @@ static ssize_t id_store(struct device *dev, struct device_attribute *attr,
+ 	}
+ 	memcpy(buf1, buf, copy);
+ 	buf1[copy] = '\0';
+-	mutex_lock(&snd_card_mutex);
+-	if (!card_id_ok(NULL, buf1)) {
+-		mutex_unlock(&snd_card_mutex);
++	guard(mutex)(&snd_card_mutex);
++	if (!card_id_ok(NULL, buf1))
+ 		return -EEXIST;
+-	}
+ 	strcpy(card->id, buf1);
+ 	snd_info_card_id_change(card);
+-	mutex_unlock(&snd_card_mutex);
+ 
+ 	return count;
+ }
+@@ -897,26 +885,27 @@ int snd_card_register(struct snd_card *card)
+ 	err = snd_device_register_all(card);
+ 	if (err < 0)
+ 		return err;
+-	mutex_lock(&snd_card_mutex);
+-	if (snd_cards[card->number]) {
+-		/* already registered */
+-		mutex_unlock(&snd_card_mutex);
+-		return snd_info_card_register(card); /* register pending info */
++	scoped_guard(mutex, &snd_card_mutex) {
++		if (snd_cards[card->number]) {
++			/* already registered */
++			return snd_info_card_register(card); /* register pending info */
++		}
++		if (*card->id) {
++			/* make a unique id name from the given string */
++			char tmpid[sizeof(card->id)];
++
++			memcpy(tmpid, card->id, sizeof(card->id));
++			snd_card_set_id_no_lock(card, tmpid, tmpid);
++		} else {
++			/* create an id from either shortname or longname */
++			const char *src;
++
++			src = *card->shortname ? card->shortname : card->longname;
++			snd_card_set_id_no_lock(card, src,
++						retrieve_id_from_card_name(src));
++		}
++		snd_cards[card->number] = card;
+ 	}
+-	if (*card->id) {
+-		/* make a unique id name from the given string */
+-		char tmpid[sizeof(card->id)];
+-		memcpy(tmpid, card->id, sizeof(card->id));
+-		snd_card_set_id_no_lock(card, tmpid, tmpid);
+-	} else {
+-		/* create an id from either shortname or longname */
+-		const char *src;
+-		src = *card->shortname ? card->shortname : card->longname;
+-		snd_card_set_id_no_lock(card, src,
+-					retrieve_id_from_card_name(src));
+-	}
+-	snd_cards[card->number] = card;
+-	mutex_unlock(&snd_card_mutex);
+ 	err = snd_info_card_register(card);
+ 	if (err < 0)
+ 		return err;
+@@ -937,7 +926,7 @@ static void snd_card_info_read(struct snd_info_entry *entry,
+ 	struct snd_card *card;
+ 
+ 	for (idx = count = 0; idx < SNDRV_CARDS; idx++) {
+-		mutex_lock(&snd_card_mutex);
++		guard(mutex)(&snd_card_mutex);
+ 		card = snd_cards[idx];
+ 		if (card) {
+ 			count++;
+@@ -949,7 +938,6 @@ static void snd_card_info_read(struct snd_info_entry *entry,
+ 			snd_iprintf(buffer, "                      %s\n",
+ 					card->longname);
+ 		}
+-		mutex_unlock(&snd_card_mutex);
+ 	}
+ 	if (!count)
+ 		snd_iprintf(buffer, "--- no soundcards ---\n");
+@@ -962,13 +950,12 @@ void snd_card_info_read_oss(struct snd_info_buffer *buffer)
+ 	struct snd_card *card;
+ 
+ 	for (idx = count = 0; idx < SNDRV_CARDS; idx++) {
+-		mutex_lock(&snd_card_mutex);
++		guard(mutex)(&snd_card_mutex);
+ 		card = snd_cards[idx];
+ 		if (card) {
+ 			count++;
+ 			snd_iprintf(buffer, "%s\n", card->longname);
+ 		}
+-		mutex_unlock(&snd_card_mutex);
+ 	}
+ 	if (!count) {
+ 		snd_iprintf(buffer, "--- no soundcards ---\n");
+@@ -985,12 +972,11 @@ static void snd_card_module_info_read(struct snd_info_entry *entry,
+ 	struct snd_card *card;
+ 
+ 	for (idx = 0; idx < SNDRV_CARDS; idx++) {
+-		mutex_lock(&snd_card_mutex);
++		guard(mutex)(&snd_card_mutex);
+ 		card = snd_cards[idx];
+ 		if (card)
+ 			snd_iprintf(buffer, "%2i %s\n",
+ 				    idx, card->module->name);
+-		mutex_unlock(&snd_card_mutex);
+ 	}
+ }
+ #endif
+@@ -1072,15 +1058,13 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
+ 	mfile->file = file;
+ 	mfile->disconnected_f_op = NULL;
+ 	INIT_LIST_HEAD(&mfile->shutdown_list);
+-	spin_lock(&card->files_lock);
++	guard(spinlock)(&card->files_lock);
+ 	if (card->shutdown) {
+-		spin_unlock(&card->files_lock);
+ 		kfree(mfile);
+ 		return -ENODEV;
+ 	}
+ 	list_add(&mfile->list, &card->files_list);
+ 	get_device(&card->card_dev);
+-	spin_unlock(&card->files_lock);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(snd_card_file_add);
+@@ -1102,22 +1086,21 @@ int snd_card_file_remove(struct snd_card *card, struct file *file)
+ {
+ 	struct snd_monitor_file *mfile, *found = NULL;
+ 
+-	spin_lock(&card->files_lock);
+-	list_for_each_entry(mfile, &card->files_list, list) {
+-		if (mfile->file == file) {
+-			list_del(&mfile->list);
+-			spin_lock(&shutdown_lock);
+-			list_del(&mfile->shutdown_list);
+-			spin_unlock(&shutdown_lock);
+-			if (mfile->disconnected_f_op)
+-				fops_put(mfile->disconnected_f_op);
+-			found = mfile;
 -			break;
-+	scoped_guard(rwsem_write, &dest->list_mutex) {
-+		/* look for the connection */
-+		list_for_each_entry(subs, &dest->list_head, dest_list) {
-+			if (match_subs_info(info, &subs->info)) {
-+				__delete_and_unsubscribe_port(dest_client, dest_port,
-+							      subs, false,
-+							      connector->number != dest_client->number);
-+				err = 0;
++	scoped_guard(spinlock, &card->files_lock) {
++		list_for_each_entry(mfile, &card->files_list, list) {
++			if (mfile->file == file) {
++				list_del(&mfile->list);
++				scoped_guard(spinlock, &shutdown_lock)
++					list_del(&mfile->shutdown_list);
++				if (mfile->disconnected_f_op)
++					fops_put(mfile->disconnected_f_op);
++				found = mfile;
 +				break;
 +			}
  		}
++		if (list_empty(&card->files_list))
++			wake_up_all(&card->remove_sleep);
  	}
--	up_write(&dest->list_mutex);
+-	if (list_empty(&card->files_list))
+-		wake_up_all(&card->remove_sleep);
+-	spin_unlock(&card->files_lock);
+ 	if (!found) {
+ 		dev_err(card->dev, "card file remove problem (%p)\n", file);
+ 		return -ENOENT;
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index df5571d98629..b9db9aa0bfcb 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -103,7 +103,7 @@ void *snd_lookup_minor_data(unsigned int minor, int type)
+ 
+ 	if (minor >= ARRAY_SIZE(snd_minors))
+ 		return NULL;
+-	mutex_lock(&sound_mutex);
++	guard(mutex)(&sound_mutex);
+ 	mreg = snd_minors[minor];
+ 	if (mreg && mreg->type == type) {
+ 		private_data = mreg->private_data;
+@@ -111,7 +111,6 @@ void *snd_lookup_minor_data(unsigned int minor, int type)
+ 			get_device(&mreg->card_ptr->card_dev);
+ 	} else
+ 		private_data = NULL;
+-	mutex_unlock(&sound_mutex);
+ 	return private_data;
+ }
+ EXPORT_SYMBOL(snd_lookup_minor_data);
+@@ -150,17 +149,15 @@ static int snd_open(struct inode *inode, struct file *file)
+ 
+ 	if (minor >= ARRAY_SIZE(snd_minors))
+ 		return -ENODEV;
+-	mutex_lock(&sound_mutex);
+-	mptr = snd_minors[minor];
+-	if (mptr == NULL) {
+-		mptr = autoload_device(minor);
+-		if (!mptr) {
+-			mutex_unlock(&sound_mutex);
+-			return -ENODEV;
++	scoped_guard(mutex, &sound_mutex) {
++		mptr = snd_minors[minor];
++		if (mptr == NULL) {
++			mptr = autoload_device(minor);
++			if (!mptr)
++				return -ENODEV;
+ 		}
++		new_fops = fops_get(mptr->f_ops);
+ 	}
+-	new_fops = fops_get(mptr->f_ops);
+-	mutex_unlock(&sound_mutex);
+ 	if (!new_fops)
+ 		return -ENODEV;
+ 	replace_fops(file, new_fops);
+@@ -269,7 +266,7 @@ int snd_register_device(int type, struct snd_card *card, int dev,
+ 	preg->f_ops = f_ops;
+ 	preg->private_data = private_data;
+ 	preg->card_ptr = card;
+-	mutex_lock(&sound_mutex);
++	guard(mutex)(&sound_mutex);
+ 	minor = snd_find_free_minor(type, card, dev);
+ 	if (minor < 0) {
+ 		err = minor;
+@@ -284,7 +281,6 @@ int snd_register_device(int type, struct snd_card *card, int dev,
+ 
+ 	snd_minors[minor] = preg;
+  error:
+-	mutex_unlock(&sound_mutex);
  	if (err < 0)
- 		return err;
+ 		kfree(preg);
+ 	return err;
+@@ -305,7 +301,7 @@ int snd_unregister_device(struct device *dev)
+ 	int minor;
+ 	struct snd_minor *preg;
  
-@@ -669,7 +654,7 @@ int snd_seq_port_get_subscription(struct snd_seq_port_subs_info *src_grp,
- 	struct snd_seq_subscribers *s;
- 	int err = -ENOENT;
- 
--	down_read(&src_grp->list_mutex);
-+	guard(rwsem_read)(&src_grp->list_mutex);
- 	list_for_each_entry(s, &src_grp->list_head, src_list) {
- 		if (addr_match(dest_addr, &s->info.dest)) {
- 			*subs = s->info;
-@@ -677,7 +662,6 @@ int snd_seq_port_get_subscription(struct snd_seq_port_subs_info *src_grp,
+-	mutex_lock(&sound_mutex);
++	guard(mutex)(&sound_mutex);
+ 	for (minor = 0; minor < ARRAY_SIZE(snd_minors); ++minor) {
+ 		preg = snd_minors[minor];
+ 		if (preg && preg->dev == dev) {
+@@ -315,7 +311,6 @@ int snd_unregister_device(struct device *dev)
  			break;
  		}
  	}
--	up_read(&src_grp->list_mutex);
- 	return err;
+-	mutex_unlock(&sound_mutex);
+ 	if (minor >= ARRAY_SIZE(snd_minors))
+ 		return -ENOENT;
+ 	return 0;
+@@ -355,7 +350,7 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
+ 	int minor;
+ 	struct snd_minor *mptr;
+ 
+-	mutex_lock(&sound_mutex);
++	guard(mutex)(&sound_mutex);
+ 	for (minor = 0; minor < SNDRV_OS_MINORS; ++minor) {
+ 		mptr = snd_minors[minor];
+ 		if (!mptr)
+@@ -373,7 +368,6 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
+ 			snd_iprintf(buffer, "%3i:        : %s\n", minor,
+ 				    snd_device_type_name(mptr->type));
+ 	}
+-	mutex_unlock(&sound_mutex);
  }
+ 
+ int __init snd_minor_info_init(void)
+diff --git a/sound/core/sound_oss.c b/sound/core/sound_oss.c
+index 2751bf2ff61b..d65cc6fee2e6 100644
+--- a/sound/core/sound_oss.c
++++ b/sound/core/sound_oss.c
+@@ -29,7 +29,7 @@ void *snd_lookup_oss_minor_data(unsigned int minor, int type)
+ 
+ 	if (minor >= ARRAY_SIZE(snd_oss_minors))
+ 		return NULL;
+-	mutex_lock(&sound_oss_mutex);
++	guard(mutex)(&sound_oss_mutex);
+ 	mreg = snd_oss_minors[minor];
+ 	if (mreg && mreg->type == type) {
+ 		private_data = mreg->private_data;
+@@ -37,7 +37,6 @@ void *snd_lookup_oss_minor_data(unsigned int minor, int type)
+ 			get_device(&mreg->card_ptr->card_dev);
+ 	} else
+ 		private_data = NULL;
+-	mutex_unlock(&sound_oss_mutex);
+ 	return private_data;
+ }
+ EXPORT_SYMBOL(snd_lookup_oss_minor_data);
+@@ -106,7 +105,7 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
+ 	preg->f_ops = f_ops;
+ 	preg->private_data = private_data;
+ 	preg->card_ptr = card;
+-	mutex_lock(&sound_oss_mutex);
++	guard(mutex)(&sound_oss_mutex);
+ 	snd_oss_minors[minor] = preg;
+ 	minor_unit = SNDRV_MINOR_OSS_DEVICE(minor);
+ 	switch (minor_unit) {
+@@ -130,7 +129,6 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
+ 			goto __end;
+ 		snd_oss_minors[track2] = preg;
+ 	}
+-	mutex_unlock(&sound_oss_mutex);
+ 	return 0;
+ 
+       __end:
+@@ -139,7 +137,6 @@ int snd_register_oss_device(int type, struct snd_card *card, int dev,
+       	if (register1 >= 0)
+       		unregister_sound_special(register1);
+ 	snd_oss_minors[minor] = NULL;
+-	mutex_unlock(&sound_oss_mutex);
+ 	kfree(preg);
+       	return -EBUSY;
+ }
+@@ -156,12 +153,10 @@ int snd_unregister_oss_device(int type, struct snd_card *card, int dev)
+ 		return 0;
+ 	if (minor < 0)
+ 		return minor;
+-	mutex_lock(&sound_oss_mutex);
++	guard(mutex)(&sound_oss_mutex);
+ 	mptr = snd_oss_minors[minor];
+-	if (mptr == NULL) {
+-		mutex_unlock(&sound_oss_mutex);
++	if (mptr == NULL)
+ 		return -ENOENT;
+-	}
+ 	switch (SNDRV_MINOR_OSS_DEVICE(minor)) {
+ 	case SNDRV_MINOR_OSS_PCM:
+ 		track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_AUDIO);
+@@ -176,7 +171,6 @@ int snd_unregister_oss_device(int type, struct snd_card *card, int dev)
+ 	if (track2 >= 0)
+ 		snd_oss_minors[track2] = NULL;
+ 	snd_oss_minors[minor] = NULL;
+-	mutex_unlock(&sound_oss_mutex);
+ 
+ 	/* call unregister_sound_special() outside sound_oss_mutex;
+ 	 * otherwise may deadlock, as it can trigger the release of a card
+@@ -220,7 +214,7 @@ static void snd_minor_info_oss_read(struct snd_info_entry *entry,
+ 	int minor;
+ 	struct snd_minor *mptr;
+ 
+-	mutex_lock(&sound_oss_mutex);
++	guard(mutex)(&sound_oss_mutex);
+ 	for (minor = 0; minor < SNDRV_OSS_MINORS; ++minor) {
+ 		mptr = snd_oss_minors[minor];
+ 		if (!mptr)
+@@ -233,7 +227,6 @@ static void snd_minor_info_oss_read(struct snd_info_entry *entry,
+ 			snd_iprintf(buffer, "%3i:       : %s\n", minor,
+ 				    snd_oss_device_type_name(mptr->type));
+ 	}
+-	mutex_unlock(&sound_oss_mutex);
+ }
+ 
  
 -- 
 2.35.3
