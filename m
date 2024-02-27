@@ -1,100 +1,274 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D7E56458;
-	Tue, 27 Feb 2024 10:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330391386A5
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 10:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709028069; cv=none; b=ZwbJ84gijogkP7rcBV0QpACIfGqzoSVVJVH9GS9qnvkoy5zMcphRjHZlW2JL9b2IaOKwGQ3GkzCKx3JOOC+iCnQkwSSlAN7ZhsM1N+svPx1oEIk8Ad9pPbUUbPBONdXT8h984dxXBhR3TJmxoCAxTyA//B8az0hK6P3cynuWzKg=
+	t=1709029419; cv=none; b=i27OsNNcfrYhcY3jwcqHHrngXY8VLH7KKFWjW/VLL75OD1OTWTKd9j43sHq7ZHZiGobZ+jpHLiI2Mwiv2SHa4LgC4VKKjldAcg5x6ZtcXD5RY9aWPwDKmbJiGagGXGFU566exS49PBZa5Laii4vt3Y62VOtLO4205ikKyc4HA/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709028069; c=relaxed/simple;
-	bh=icVQbNc6Pzd3/XoMFybZxZR4XgSeB5FGoOCVNAL9xWE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GcQnhQxv3BKj5FeypssFUFvuthaUtiMitAOBJt18n3KTdXg8nGilkxfXKryqfvmne3jJIweY+KhD2cBhf/LompXhTJNxhkkkLHm1r9ZTlg9x4Akh66cqqNSgMAxs0k4YQ6KReWfuTLmAJW6c7w69VXrmxRsuBPYXubCOgZVHpnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jjIKGiEF; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1709029419; c=relaxed/simple;
+	bh=5u+d29M3CDX3NbLVvd9IU8TbBtjbvakMQDSEITp/s8w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WJ+MfPt90iICh05tjOircXD6EhwkkWinppd6vD4Q+v2yzE9/ku1EkbUgDbgbpMDoRTp0rmi5w0u6D5CR4/UCd4tTf3dc8n5a1UtHPpDL5d1xD1E9UReHisz18ItSngRfjGkfNUGnnV5aQ66X0+kd0qNbVFaEuc8sFijpLTdFhx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Qt3Mvm6X; arc=none smtp.client-ip=209.85.166.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jjIKGiEF"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R59Fpo012520;
-	Tue, 27 Feb 2024 04:00:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=e
-	KIvLq8xXb6oflbot81eGZAizbrGvdd+1Q79YDlPBfg=; b=jjIKGiEF9iJDojLcV
-	PmzfDAPYEFMmbld2KLy4GldiaePq3k9Xvew+Toj1H5E0xCM5mDEQq8XX988QuOPd
-	r8owsQyxVMc8gi+bSpQxQrLYg7cWiwwrHnXWyVzzcuinM+SctHuQhSI2YIOuLPWn
-	nRFbPeP2+e1sOszAyKKXJCrbjkiYbeFNtzverDy0eYae2xQQ+jfS91pjV89ilaHF
-	Exp4fet7/0TeIG5w5xqh/Ltb6jzia7cZwnDYzXPocyWu/6ltE/8oeR5xtU556UU7
-	aKLgEwj6nZvuwzxFzQNbvPewmQklIx39aUaZVMWBcEqYmnRofMopye2Ydzx9l9rU
-	+UOZw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wfer2u9e5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 Feb 2024 04:00:47 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 27 Feb
- 2024 10:00:44 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Tue, 27 Feb 2024 10:00:44 +0000
-Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.65.56])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5A600820246;
-	Tue, 27 Feb 2024 10:00:44 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH] ASoC: cs35l56: Prevent bad sign extension in cs35l56_read_silicon_uid()
-Date: Tue, 27 Feb 2024 10:00:42 +0000
-Message-ID: <20240227100042.99-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Qt3Mvm6X"
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-36519980c04so10215355ab.3
+        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 02:23:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709029414; x=1709634214; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wRDnUl47SBcmf8gVz+t2ubWEYD6TUCpoZIdH8z+nNoU=;
+        b=Qt3Mvm6X4sSgNwsf+HUsxufJ4dYMHtUASZzeTM9O7nXQ14f2hmWORYXN/63OihxAua
+         Ew8xXWn4+iR8ESMNw2X9j5C1r4QR5XynpNe740qIjOtJc5HjcRzqDNRkY8ACnjRAQW4p
+         AEcgo57K4CCal/VbCwgAFnE40aA8G3pfkMwjnIJdvnqgi3H1Hqwcmm3Dzd4TuqpLuarh
+         K1YFjDOdaIi5LIMizyBz1PH/Yz95xbxsGdLqNa8u536ZO9/mAGZ4mrL+B1vOluv/U0yj
+         c4X3typK/rF6Sq2l3XlNOXZ1zMzguzFyxgo/7q/klm2obm0KF6ziBbRfbMNb8tbk/Xoy
+         HT/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709029414; x=1709634214;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wRDnUl47SBcmf8gVz+t2ubWEYD6TUCpoZIdH8z+nNoU=;
+        b=ge4H0B0TIdpTg76LLp5kRTC/pmxzCDx9Giyu1zjPjk4SXQ0c8BvGkTHArUP3pgGLSg
+         WJRMEDkNO1ntY5pvr17tEzULaiv1MLMunFPO5+CeN2Uns3MwDlhsLQ86pIu1RJJ35KcT
+         z8qkTR1gvlTQXEiqdFxWbQ4VEjzC1mAfxNS0bKYB3PYiKFfbE5Z0rVkzO0fEu+NA9mZn
+         VCvMD6JKHMk+H4ajYUcY3eMySilobutDZ7WyCSYz0VpoAHGAmZUq+W3KDaDsE7Va3HcI
+         a0qaioVRRDa7oazNqbtWcpj61jvNfKU69G3xgqd3qEz8M9zEKmeoKfBwRJZ5CPAhkVYY
+         AztQ==
+X-Gm-Message-State: AOJu0YxRpvGB0cW6XeaXG1xQ+yKdgBFJm+Efop2lhT+x7wU5LC+O6B9c
+	VTqwKEGd/IXU8Fdo1OB2cbdcLlIOK5DMu+CUThllBe7ie0SkxyHIzofSP8PygjE=
+X-Google-Smtp-Source: AGHT+IFlwjkngqWStTBwNfi9zv2j3kwATePJOcv87F/BtVt3qeg8VtNnjQ+1xDPzFY8KBNxxoIwTKw==
+X-Received: by 2002:a05:6e02:e10:b0:365:1b7c:670 with SMTP id a16-20020a056e020e1000b003651b7c0670mr7885060ilk.8.1709029414201;
+        Tue, 27 Feb 2024 02:23:34 -0800 (PST)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id p6-20020a92c606000000b003642dacafa5sm2063105ilm.29.2024.02.27.02.23.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Feb 2024 02:23:33 -0800 (PST)
+Message-ID: <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
+Date: Tue, 27 Feb 2024 11:23:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
+ audio sound card document
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
+ <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: sVtyfHros6atG7YF84seuCbHvi2LKv4u
-X-Proofpoint-ORIG-GUID: sVtyfHros6atG7YF84seuCbHvi2LKv4u
-X-Proofpoint-Spam-Reason: safe
 
-Cast u8 values to u32 when using them to build a 32-bit unsigned value
-that is then stored in a u64. This avoids the possibility of a bad sign
-extension where the u8 is implicitly extended to an int, thus changing it
-from an unsigned to a signed value.
 
-Whether this is a real problem is debatable, but it does no harm to
-ensure that the u8 are cast to a suitable type for shifting.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: e1830f66f6c6 ("ASoC: cs35l56: Add helper functions for amp calibration")
----
- sound/soc/codecs/cs35l56-shared.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 26/02/2024 16:30, AngeloGioacchino Del Regno wrote:
+> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
+>> Add soundcard bindings for the MT8365 SoC with the MT6357 audio codec.
+>>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>> ---
+>>   .../bindings/sound/mediatek,mt8365-mt6357.yaml     | 127 
+>> +++++++++++++++++++++
+>>   1 file changed, 127 insertions(+)
+>>
+>> diff --git 
+>> a/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml 
+>> b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>> new file mode 100644
+>> index 000000000000..f469611ec6b6
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-mt6357.yaml
+>> @@ -0,0 +1,127 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-mt6357.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Mediatek MT8365 sound card with MT6357 sound codec.
+>> +
+>> +maintainers:
+>> +  - Alexandre Mergnat <amergnat@baylibre.com>
+>> +
+>> +description:
+>> +  This binding describes the MT8365 sound card.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: mediatek,mt8365-mt6357
+>> +
+>> +  mediatek,hp-pull-down:
+>> +    description:
+>> +      Earphone driver positive output stage short to the
+>> +      audio reference ground.
+>> +      Default value is false.
+>> +    type: boolean
+>> +
+>> +  mediatek,micbias0-microvolt:
+>> +    description: |
+> 
+> description: Selects MIC Bias 0 output voltage
+> 
+>> +      Selects MIC Bias 0 output voltage.
+>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+> 
+> No, you don't say 0 1 2 3 4 to a property that says "microvolt", that's 
+> simply
+> wrong.
+> 
+> mediatek,micbias0-microvolt = <2100000>;
+> 
+> ...so you want a binding that says
+> enum: [ 1700000, 1800000, this, that, 2700000]
+> 
 
-diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-index 20b6dbd3fbab..f3670bf85a95 100644
---- a/sound/soc/codecs/cs35l56-shared.c
-+++ b/sound/soc/codecs/cs35l56-shared.c
-@@ -659,9 +659,10 @@ static int cs35l56_read_silicon_uid(struct cs35l56_base *cs35l56_base, u64 *uid)
- 		return ret;
- 	}
- 
--	unique_id = pte.lot[2] | (pte.lot[1] << 8) | (pte.lot[0] << 16);
-+	unique_id = (u32)pte.lot[2] | ((u32)pte.lot[1] << 8) | ((u32)pte.lot[0] << 16);
- 	unique_id <<= 32;
--	unique_id |= pte.x | (pte.y << 8) | (pte.wafer_id << 16) | (pte.dvs << 24);
-+	unique_id |= (u32)pte.x | ((u32)pte.y << 8) | ((u32)pte.wafer_id << 16) |
-+		     ((u32)pte.dvs << 24);
- 
- 	dev_dbg(cs35l56_base->dev, "UniqueID = %#llx\n", unique_id);
- 
+Is it correct if I put "description: Selects MIC Bias 0 output voltage 
+index" ?
+
+>> +
+>> +  mediatek,micbias1-microvolt:
+>> +    description: |
+>> +      Selects MIC Bias 1 output voltage.
+>> +      [1.7v, 1.8v, 1.9v, 2.0v, 2.1v, 2.5v, 2.6v, 2.7v]
+>> +    enum: [0, 1, 2, 3, 4, 5, 6, 7]
+> 
+> same here.
+> 
+>> +
+>> +  mediatek,platform:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description: The phandle of MT8365 ASoC platform.
+>> +
+>> +  pinctrl-names:
+>> +    minItems: 1
+>> +    items:
+>> +      - const: aud_default
+>> +      - const: aud_dmic
+>> +      - const: aud_miso_off
+>> +      - const: aud_miso_on
+>> +      - const: aud_mosi_off
+>> +      - const: aud_mosi_on
+>> +
+>> +  vaud28-supply:
+>> +    description:
+>> +      2.8 volt supply for the audio codec
+>> +
+>> +patternProperties:
+>> +  "^dai-link-[0-9]+$":
+>> +    type: object
+>> +    description:
+>> +      Container for dai-link level properties and CODEC sub-nodes.
+>> +
+>> +    properties:
+>> +      codec:
+>> +        type: object
+>> +        description: Holds subnode which indicates codec dai.
+>> +
+>> +        properties:
+>> +          sound-dai:
+>> +            maxItems: 1
+>> +            description: phandle of the codec DAI
+>> +
+>> +        additionalProperties: false
+>> +
+>> +      link-name:
+>> +        description:
+>> +          This property corresponds to the name of the BE dai-link to 
+>> which
+>> +          we are going to update parameters in this node.
+>> +        items:
+>> +          const: 2ND I2S BE
+>> +
+>> +      sound-dai:
+>> +        maxItems: 1
+>> +        description: phandle of the CPU DAI
+>> +
+>> +    additionalProperties: false
+>> +
+>> +    required:
+>> +      - link-name
+>> +      - sound-dai
+>> +
+>> +additionalProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - mediatek,platform
+>> +  - pinctrl-names
+>> +  - vaud28-supply
+>> +
+>> +examples:
+>> +  - |
+>> +    sound {
+>> +        compatible = "mediatek,mt8365-mt6357";
+>> +        mediatek,platform = <&afe>;
+> 
+> Please:
+> 
+> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
+
+Is it about the wrong pinctrl-names tab alignment ?
+Also, 2ND I2S BE => 2ND_I2S_BE ?
+Otherwise, I don't get it sorry.
+
+> 
+> Regards,
+> Angelo
+> 
+>> +        pinctrl-names = "aud_default",
+>> +            "aud_dmic",
+>> +            "aud_miso_off",
+>> +            "aud_miso_on",
+>> +            "aud_mosi_off",
+>> +            "aud_mosi_on";
+>> +        pinctrl-0 = <&aud_default_pins>;
+>> +        pinctrl-1 = <&aud_dmic_pins>;
+>> +        pinctrl-2 = <&aud_miso_off_pins>;
+>> +        pinctrl-3 = <&aud_miso_on_pins>;
+>> +        pinctrl-4 = <&aud_mosi_off_pins>;
+>> +        pinctrl-5 = <&aud_mosi_on_pins>;
+>> +        vaud28-supply = <&mt6357_vaud28_reg>;
+>> +
+>> +        /* hdmi interface */
+>> +        dai-link-0 {
+>> +            sound-dai = <&afe>;
+>> +            link-name = "2ND I2S BE";
+>> +
+>> +            codec {
+>> +                sound-dai = <&it66121hdmitx>;
+>> +            };
+>> +        };
+>> +    };
+>>
+> 
+
 -- 
-2.39.2
-
+Regards,
+Alexandre
