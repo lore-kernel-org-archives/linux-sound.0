@@ -1,154 +1,207 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6521E1EA7E
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 10:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459851384A9
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 10:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709029898; cv=none; b=sKFZhzj/ESetpK4x9oiC/sUiX/0Iap6IFaHETLoUUbm1GZYeJGlpXpOGMeLMjZeUuuRwFYCAdCGCIQEu5h/4RbY2UTy7E9wL3QZj5FsLuNUHnRsHeMYTVX4xjuk0qP28dTdOYcdJAGvOB71JeMtg7b4e1Oo2eWopqJtJyHie1i4=
+	t=1709030960; cv=none; b=nhCS1vK0oumHTSyr83RJ5cHN3rflFQNTWiW2Ke4MnBEKffSrzg6gvwl/s/G6YVBA8HZtj+d7CLM9LXCPI61q5bziyafwFoxeMDxFiKiPAzmXk83TmGq485DOa5YCOXhjyp33NJ44FbhcJg4ytuEgu8XolXMCyDNi46qfSDVdykY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709029898; c=relaxed/simple;
-	bh=oqRyvwZ9kFkOtBSmL+4M05VcOckEN7B6vmEqud3g9ZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nkoLKyLMGWaz5ktf2H9IowD2MnnqRt+N9yzmkmVdXcy5R6LXGYhouiUGjnVSzNQo9rg94StJJkLh8x4z3CMMed0ZIPgxnUikmYR5tEajHZmW0KalJ4sJAFAbrCXulLrxo3vqp96RGxwOQCutLfoIolf87+XWFgoEe4Jofgt9w0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a25WGDNI; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709030960; c=relaxed/simple;
+	bh=RoSAgznzILdWz7eBgKtZymTw5XFqvbcVj9vGy5i2zic=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T6JPcspfZKx40hKh7yfof5gK9l/3QPi+f0eUnTRWcNTjVe7EidbK2Y+tLsot61scz+AZKnYKoIsPK8kzeow3Yb8hBdQj7XILdz+jVGCoi2fZ8BwVu+Qo5Uu7srriYPYi3ZKmdA93cvnYHK918eTw5hlqgMVoJokRyxR48wMKYzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LxaUMD2o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zo+eq+lw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LxaUMD2o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zo+eq+lw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a25WGDNI"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-563bb51c36eso4449399a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 02:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709029895; x=1709634695; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f4iudg19y7abzrO0HKBUX7Faev1tIapQqDvDX8vbZQo=;
-        b=a25WGDNIPCCpgBQwH0zJkhYpNPVSdCtKxHGLrW0p664C138TdJ9aSFT/osQpSiKZRr
-         JsUYUYS76KvjgH0Nl1oOQar8O/cbe8kobjAHjVkvsZ7hxgRu6xd0W33fg+NZjsSuuFfC
-         pHdqmw35X7JExCBJTAMIDs0RdcokdaYsQg+3HZ4zkwZrPxhw2E8AzmAiUuhMqn1iFtaA
-         rvw0s+wjiblpmYrbcRYrfBEmnObU7Puv0klcFaltHTjADqrgeFF7OGVKmn1drHnY1XdJ
-         uxCzWI4NbaZyOy894Ov/FTxnzAompOQTKMR49gD9/1VDpN13fvOHu6o5EUZeNtzq3QMQ
-         VRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709029895; x=1709634695;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f4iudg19y7abzrO0HKBUX7Faev1tIapQqDvDX8vbZQo=;
-        b=aZDXuHeGYMZick/zpzRk66UkAUGET7Uzv1evKZwaj4ygueRj2uiiWZISdJs+/ZS5qN
-         6FNgVQ9lR6JNDzhYiJLar7cyApieBVhJH/8e4YdIMA/hqT/aKXS+geQadTwufiwCx4q3
-         ro/CgRyH0BgJzt+i1+RKi5/L64GMNJ8vkXtAnMlYpSkEMuP0UAicX7TuJX96xz80M2ju
-         uxAOwNEWIlcaktg5Tt+CoZF2ncQYapX3gtazmFWQu7nrMnkS3Bt/tDlcpVqAVjWLaB7m
-         ktlyDE/nDdDhCVHIif3uDOeQp0JVLoruGbYzCEh7T+NfCQ4veA58q32+BvdPgkz+Qxj4
-         lsDQ==
-X-Gm-Message-State: AOJu0Yx6SUOm592C4pFRzkKr8xymfV5CYzpMmgIQMuUONGuZR7DmPGei
-	GDAdzQNkuyLekR5yxvEIqpOOnnGcjt3QCfwVycRACKMxyb/jJITJhS+sBhP3cxE=
-X-Google-Smtp-Source: AGHT+IEEl8fKy5C7l5uepTiAwXSRMBRmCGJ06jeVF6eHUMlxJ3GqL+ZGbydOs4ZuhukC+mSJM7jiog==
-X-Received: by 2002:a05:6402:2059:b0:563:c54e:f1 with SMTP id bc25-20020a056402205900b00563c54e00f1mr6442198edb.2.1709029894862;
-        Tue, 27 Feb 2024 02:31:34 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id ev19-20020a056402541300b005661b5884adsm622854edb.27.2024.02.27.02.31.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 02:31:34 -0800 (PST)
-Message-ID: <282ca3d6-b403-4378-8dc2-8e1d09fdf7c9@linaro.org>
-Date: Tue, 27 Feb 2024 11:31:32 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LxaUMD2o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zo+eq+lw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LxaUMD2o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zo+eq+lw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4CDBC1F44F;
+	Tue, 27 Feb 2024 10:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709030954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=tsCcre0+Et8yZsuBCJCbh5lUN/tEu/eLZQ87wPqDmq8=;
+	b=LxaUMD2oRF/OXF4r35iet9YqzKsqXTYgjVXfWWEUA+1n6U3e2k5MyXCqrW87sRT8ClGJWU
+	pnk9sb9dHdmmQMCvhy3AIWNUF8T61Ojrxfj1su5d+HuT4oDh9uuG2sVXlQ8bs0ube/aLNt
+	+PXCQyy0libKWYL9pe62Nl3lXls7qyo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709030954;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=tsCcre0+Et8yZsuBCJCbh5lUN/tEu/eLZQ87wPqDmq8=;
+	b=Zo+eq+lwsB9VQX62+qWSJ+VjhfLFZ5zCeaBXQi3sRkTkhpPh25RSP9II9cVO6+7d/Vk9Is
+	vQZteIhB5uZsx/Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709030954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=tsCcre0+Et8yZsuBCJCbh5lUN/tEu/eLZQ87wPqDmq8=;
+	b=LxaUMD2oRF/OXF4r35iet9YqzKsqXTYgjVXfWWEUA+1n6U3e2k5MyXCqrW87sRT8ClGJWU
+	pnk9sb9dHdmmQMCvhy3AIWNUF8T61Ojrxfj1su5d+HuT4oDh9uuG2sVXlQ8bs0ube/aLNt
+	+PXCQyy0libKWYL9pe62Nl3lXls7qyo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709030954;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=tsCcre0+Et8yZsuBCJCbh5lUN/tEu/eLZQ87wPqDmq8=;
+	b=Zo+eq+lwsB9VQX62+qWSJ+VjhfLFZ5zCeaBXQi3sRkTkhpPh25RSP9II9cVO6+7d/Vk9Is
+	vQZteIhB5uZsx/Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B33713A65;
+	Tue, 27 Feb 2024 10:49:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EJXfDSq+3WUNBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 10:49:14 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>
+Subject: [PATCH] ALSA: kunit: Fix sparse warnings
+Date: Tue, 27 Feb 2024 11:49:12 +0100
+Message-Id: <20240227104912.18921-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] ASoC: dt-bindings: mediatek,mt8365-mt6357: Add
- audio sound card document
-Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Lee Jones <lee@kernel.org>,
- Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-2-4fa1cea1667f@baylibre.com>
- <e15fdb18-d4de-495f-b90b-ba0e787cbef4@collabora.com>
- <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <92b9e9ac-6265-4611-888d-ba74bb871be5@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWO(0.00)[2];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[gmail.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
 
-On 27/02/2024 11:23, Alexandre Mergnat wrote:
->>> +
->>> +examples:
->>> +  - |
->>> +    sound {
->>> +        compatible = "mediatek,mt8365-mt6357";
->>> +        mediatek,platform = <&afe>;
->>
->> Please:
->>
->> https://docs.kernel.org/devicetree/bindings/dts-coding-style.html
-> 
-> Is it about the wrong pinctrl-names tab alignment ?
-> Also, 2ND I2S BE => 2ND_I2S_BE ?
-> Otherwise, I don't get it sorry.
+There were a few sparse warnings about the cast of strong-typed
+snd_pcm_format_t.  Fix them with cast with __force.
 
-Alignment of continued lines, order of properties.
+For spreading the ugly mess, put them in the definitions
+WRONG_FORMAT_1 and WRONG_FORMAT_2 and use them in the callers.
 
-Best regards,
-Krzysztof
+Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202402270303.PmvmQrJV-lkp@intel.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/sound_kunit.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
+
+diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+index 4212c4a20697..eb90f62228c0 100644
+--- a/sound/core/sound_kunit.c
++++ b/sound/core/sound_kunit.c
+@@ -17,7 +17,8 @@
+ 	.name = #fmt,								\
+ }
+ 
+-#define WRONG_FORMAT (SNDRV_PCM_FORMAT_LAST + 1)
++#define WRONG_FORMAT_1 (__force snd_pcm_format_t)((__force int)SNDRV_PCM_FORMAT_LAST + 1)
++#define WRONG_FORMAT_2 (__force snd_pcm_format_t)-1
+ 
+ #define VALID_NAME "ValidName"
+ #define NAME_W_SPEC_CHARS "In%v@1id name"
+@@ -104,8 +105,8 @@ static void test_phys_format_size(struct kunit *test)
+ 				valid_fmt[i].physical_bits);
+ 	}
+ 
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(-1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT_1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT_2), -EINVAL);
+ }
+ 
+ static void test_format_width(struct kunit *test)
+@@ -117,8 +118,8 @@ static void test_format_width(struct kunit *test)
+ 				valid_fmt[i].width);
+ 	}
+ 
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(-1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_2), -EINVAL);
+ }
+ 
+ static void test_format_signed(struct kunit *test)
+@@ -132,8 +133,8 @@ static void test_format_signed(struct kunit *test)
+ 				valid_fmt[i].sd < 0 ? -EINVAL : 1 - valid_fmt[i].sd);
+ 	}
+ 
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(-1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_2), -EINVAL);
+ }
+ 
+ static void test_format_endianness(struct kunit *test)
+@@ -147,10 +148,10 @@ static void test_format_endianness(struct kunit *test)
+ 				valid_fmt[i].le < 0 ? -EINVAL : 1 - valid_fmt[i].le);
+ 	}
+ 
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(-1), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT), -EINVAL);
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(-1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT_1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT_2), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_1), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_2), -EINVAL);
+ }
+ 
+ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *data,
+@@ -177,7 +178,7 @@ static void test_format_fill_silence(struct kunit *test)
+ 			_test_fill_silence(test, &valid_fmt[j], buffer, buf_samples[i]);
+ 	}
+ 
+-	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(WRONG_FORMAT, buffer, 20), -EINVAL);
++	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(WRONG_FORMAT_1, buffer, 20), -EINVAL);
+ 	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(SNDRV_PCM_FORMAT_LAST, buffer, 0), 0);
+ }
+ 
+@@ -272,8 +273,8 @@ static void test_pcm_format_name(struct kunit *test)
+ 		KUNIT_EXPECT_STREQ(test, name, valid_fmt[i].name);
+ 	}
+ 
+-	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT), "Unknown");
+-	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(-1), "Unknown");
++	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT_1), "Unknown");
++	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT_2), "Unknown");
+ }
+ 
+ static void test_card_add_component(struct kunit *test)
+-- 
+2.35.3
 
