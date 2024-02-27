@@ -1,113 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A913A25D;
-	Tue, 27 Feb 2024 13:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B0E1487EF;
+	Tue, 27 Feb 2024 15:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709040428; cv=none; b=Nh5FtIS1vq3Mjx2AEPAhaW7qUEByV9pMMQBDxjjEhMFX8j/Cb6fFAWSpM8msDCnCwaCoG6ZYz6wNcPsRGMhqVUq8R8gCw0hUQnHexIEssnFBYfvKkQX6rzGkE/zPx3ZjNHdSrbIwsXATycX47DtkwbzvYWrCkyaRHXFGtYWZ3k8=
+	t=1709046422; cv=none; b=KGHQ4Phrgw7cjIyXxgaCLEIZVwssGKzgA9ozoGk+93rtJByD/tZDd2TBmnr81rAMCJB92erbWxibuRg3q/dS0IcDN/i53dTcAx/AwLLMLghBiKB4ODJ0FtvO8olwBgW+YaBoC1a40W5Zb/y9JP7bYkNxg4U5fhIY4ZZaoeS8Rdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709040428; c=relaxed/simple;
-	bh=mQuoPMjiuf8ynXjuDbiiuc6MSut0kX4NXC2fBVQm6FQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RqYVIs7BLwIEROh3UN3Cc+DJlndYlC8P3k2XFlYhsaPW8MP1+yQFTT9/kD1xPhrQqqAeCum2SLDK5z7VoTrOW3XfeQ1hGDEpkMlHku8HuUAqmxPtQCLko9cp6WwIU5FYzHwUgtXoB/lzjxDY97uuRLBqRxqQM6FC59g1OXS5F7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiYsfqrN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709046422; c=relaxed/simple;
+	bh=me+PaR02OqhyQDVfheZnctQBFyoYjMvRYEUCFZryMNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RIv3G5va8UhzNRQ+G/dWyoCYTUmhTvPa4nP4XNeCcBHO0yq+vc7VUkX/kVdKb62TXo+gUzj4pMgZvw2Ncbu9ZKUA5Kb9n83+918MaXebYMpixslmRBSsGAn1pLfopDqELLQp0Nvd+/49yKWOfM8NtvCeFjQrXH66PbEHkWS3fkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgLCqJl5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiYsfqrN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C53CC43390;
-	Tue, 27 Feb 2024 13:27:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgLCqJl5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE7EC433C7;
+	Tue, 27 Feb 2024 15:06:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709040427;
-	bh=mQuoPMjiuf8ynXjuDbiiuc6MSut0kX4NXC2fBVQm6FQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YiYsfqrNmxelw6OLCadO4d24dF73YVqv4GXCnzuNjZu47FB3rTy1hLVSKKAefEn1s
-	 ZMDN8gvO4BI8MI5h5oSI9qx85Gz8zdwEdyk5aGSjNSqYu1swE/C6/dcwxG2Ssf/V6p
-	 XH2rJg1Gc/o2ziShAi0h6jOS0LMybeZg5kh1ao5XhYDLQh3aICvvUNI7NjFpGLeW7u
-	 X5l5k1SHu5oQ2RzsIRiRv47fR/9KGDtu3DeKi7G+RXf8Dg2gnwpuJv/NZCdkH1BCD0
-	 85J66xJ7KqCX83NhABKxeyFSWFJHqZObxs8XA1oRVABAdLOzaeGmnowo8GwAvfctE+
-	 IU+Mjg83pNh8A==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-512fe342841so1770883e87.0;
-        Tue, 27 Feb 2024 05:27:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVysh9KTj7+CwVyW2d8AJbZqez+bRdfLq2PvE4eI6DJBrEhoOr4Dj/PXISrpyOMtJLOdrLOaBStyo6ODZ/i1Xw0e6a6mpYeLIbp22PdwJcpjARlF4/XDQnLocx7rrErruJqqIkZHzB/r8djJu2A2iKgzrKX6P4dVompyJpIH6xQ1XkJ11gVOkwAIUcRTJfLjxOrIiPWwlRqTxBbRz4BlYvB1HW3cKe10qF2AtIwozTWhwrCU8zo+OaYLcm1iDy21Ji992M/U2JB2gIujvWb9IQEHe5VMDgmQbOn
-X-Gm-Message-State: AOJu0YxmAxNKZNPuYfZvSQ5Vjveg/uKVOFtFjdsIJRBle3omyhOESyQm
-	T5G1SBqZhgS7r9JYZ5YJb1wW+jlWUw3p7dfUC227j0BzNDTzOb2SYH1EbWX3ZPWLj3yy4gNWofR
-	oYO0/sJreaY/i6fhgmZjkJPPBtg==
-X-Google-Smtp-Source: AGHT+IGSECgtfha3Slu/bp01d2++70z6Ndl3JBsL88LZ7J9E4A1ZYVnx89bJzdpkH8hy8sv4XeL5Ccsb8VUnBLV0130=
-X-Received: by 2002:ac2:5611:0:b0:513:7b1:848c with SMTP id
- v17-20020ac25611000000b0051307b1848cmr545044lfd.18.1709040425849; Tue, 27 Feb
- 2024 05:27:05 -0800 (PST)
+	s=k20201202; t=1709046421;
+	bh=me+PaR02OqhyQDVfheZnctQBFyoYjMvRYEUCFZryMNo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UgLCqJl5Tjup29jLQDrfmHzJGcqm6Vn0A8QXbh+nlYBzo2ztnaVO69jw/ROGGmueY
+	 Q9CPhg0EF4DmsduPBINCvhKNEiGUEtH2sTIg7deV+MJ6/U8qYhCiUAdMgk8XbPVToj
+	 9wtNHmraZWYT1fxgj94MCWn8gj21ORbqXgMnPCijB49ft1u4dQcyICfaz2g+vmNMMs
+	 rZZsVNAfiQZ0jA3ObE7SKMxvTqvsNl4f5z1q0W1ZwJwQ5UCk+f8WCRJyArGfEyJdrh
+	 OINmmHKU5aIdMSwoD6cUeaIBcBAd4w8YASgdaCcJMogfF+vg1YgDVX3fDIbOTvokyG
+	 yiquWurwJIAEA==
+Date: Tue, 27 Feb 2024 15:06:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>,
+	Fabien Parent <fparent@baylibre.com>
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+Message-ID: <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240222174343.3482354-2-robh@kernel.org> <ZdemsdGQE0RtilCd@shikoro>
- <CAL_JsqKpn6jqktRLQUx7HMrJG0PZeiOZ=hQnHpZK6AHcM22CLQ@mail.gmail.com> <Zdkda5jf072mENvK@shikoro>
-In-Reply-To: <Zdkda5jf072mENvK@shikoro>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 27 Feb 2024 07:26:52 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+Wus0CFpD3+b1Ewfv0e7iCE35gzsAwahBxErex6tY5Ww@mail.gmail.com>
-Message-ID: <CAL_Jsq+Wus0CFpD3+b1Ewfv0e7iCE35gzsAwahBxErex6tY5Ww@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: i2c: Remove obsolete i2c.txt
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Z6rJHLYKeV1xaopM"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+X-Cookie: Please go away.
+
+
+--Z6rJHLYKeV1xaopM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 23, 2024 at 4:34=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Rob,
->
-> > > * In the schema, "clock-frequency" has a minimum of 1kHz and a maximu=
-m
-> > >   of 3MHz. Why? The specs do not say anything about a minimum freq an=
-d
-> > >   fastest speed mentioned in the docs is 5Mhz (Ultra fast mode).
-> >
-> > IIRC, the high speed mode originally topped out at 3MHz. I guess
-> > that's been revised.
->
-> Hs-mode has a max of 3.4MHz...
->
-> >
-> > We can drop the minimum.
->
-> ... but I see you changed min/max now to 1/5000000. That's what I would
-> have suggested as well.
->
->
-> > > * new binding "i2c-scl-clk-low-timeout-us" has a description which I =
-do
-> > >   not understand. What is a waiting state?
-> >
-> > Shrug. May have to look at the MPC h/w that uses the property.
->
-> I will also have another look. My gut feeling is that the binding is
-> okay, only the description might need an update.
->
-> > >
-> > > * new binding "no-detect" is broken. At the least, it should be named
-> > >   something like "bus-fully-described" and then the OS can decide to
-> > >   leave out auto-detection mechanisms. If you are interested in the
-> > >   latter, you can simply disable class based instantiation on the hos=
-t
-> > >   controller. No need to describe this in DT.
-> >
-> > I've reverted the property now.
->
-> Cool, thanks!
+On Mon, Feb 26, 2024 at 03:01:38PM +0100, Alexandre Mergnat wrote:
+> This serie aim to add the following audio support for the Genio 350-evk:
+> - Playback
+>   - 2ch Headset Jack (Earphone)
+>   - 1ch Line-out Jack (Speaker)
+>   - 8ch HDMI Tx
+> - Capture
+>   - 1ch DMIC (On-board Digital Microphone)
+>   - 1ch AMIC (On-board Analogic Microphone)
+>   - 1ch Headset Jack (External Analogic Microphone)=20
+>=20
+> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+> change documented in "mediatek,mt8365-mt6357.yaml".
 
-I don't think there's anything else to discuss on this patch, can I
-get your ack?
+Given the number of custom controls here could you please post the
+output of mixer-test and pcm-test from a system with this driver running
+next time you post, this will help with review since it checks a bunch
+of things around the new controls.
 
-Rob
+--Z6rJHLYKeV1xaopM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXd+o0ACgkQJNaLcl1U
+h9D7bgf9HvLTv1/D7ibf9xpiO/7Y8mdR7blZxSERHC0VJyzegzQI6g+LO1qHYqc3
+w9Kt0UwtxRgeVFwzBejVVYpZ72d9DoqN3nS4osApKoOChjapCsvasw+uqAodEk5j
+he8RYvVZ5UJWO6P1D5+DkvesptWMDXHFbcoASdlGpEURjMBSLgIOZPnhsZumU0tf
+AzDfDa1BwQwuIS/hg7ebHpzFlevB7SEUANSppMJ3Jp7/SbgTPt9w+/+lERnOiAh1
+G86yCidp9TlgUpb92TVwFyOcdnXT13VmhCwZ/7xwye2IVNnv4CXmFgPk8C4TyNdW
+s1HkIR6EuDYgEsxPOSQt7+eWhweHYg==
+=/HK9
+-----END PGP SIGNATURE-----
+
+--Z6rJHLYKeV1xaopM--
