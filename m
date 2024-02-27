@@ -1,156 +1,100 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466D5137C58
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 09:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D7E56458;
+	Tue, 27 Feb 2024 10:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709025016; cv=none; b=QL5bCuP+c7/xPZg9n7m+PgzpNNYJ/hUqvCYMeYtvA7dB/c2Vjbpbwr2z2MIjBV0JXiTkbyit9GQzWFDlZdwr9dPBP5H8L7cHfXcosYiP/UW5kaQGpPxKrzk5Z6vJj3yW89Vbac0hlagSQXmCqghiQkeKjdgWnrrIf3PtqHhLHIw=
+	t=1709028069; cv=none; b=ZwbJ84gijogkP7rcBV0QpACIfGqzoSVVJVH9GS9qnvkoy5zMcphRjHZlW2JL9b2IaOKwGQ3GkzCKx3JOOC+iCnQkwSSlAN7ZhsM1N+svPx1oEIk8Ad9pPbUUbPBONdXT8h984dxXBhR3TJmxoCAxTyA//B8az0hK6P3cynuWzKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709025016; c=relaxed/simple;
-	bh=kijL9tDw75u6TYnoJpASLDXSUbOrqM4BZZW4QLBL0GI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKeiHtL2TkYVsFFiibMh8T9zFK+sOOXGieZ6QI8G68JR6CCaPzWWnzNIJVyZ5X5Inj9VnmLTAj6xsWdiw2KjWxuFK2S0QNxRVObxXG6IA6LdRH2SA+AVZEKe5i3ZwFPgtgd2XfxJZ0WC2F49Xl4QGy58A8nn14RBgIflpFokt8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dzSUiFNb; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709028069; c=relaxed/simple;
+	bh=icVQbNc6Pzd3/XoMFybZxZR4XgSeB5FGoOCVNAL9xWE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GcQnhQxv3BKj5FeypssFUFvuthaUtiMitAOBJt18n3KTdXg8nGilkxfXKryqfvmne3jJIweY+KhD2cBhf/LompXhTJNxhkkkLHm1r9ZTlg9x4Akh66cqqNSgMAxs0k4YQ6KReWfuTLmAJW6c7w69VXrmxRsuBPYXubCOgZVHpnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jjIKGiEF; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dzSUiFNb"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a3f5808b0dfso545898466b.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 01:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709025012; x=1709629812; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4jfB+Qos/TbbfpQCwGnGmZ5LcQISfQmi0hGA4S6JfaA=;
-        b=dzSUiFNb6ZMFvE6zWRvWcEMDaViw7S4N/O2Ef5u7fCXNnq8QX0rTsBf+VbkSPmn7mD
-         kN0KhD4DpY6ZASQW7EVx/Oay7LQhl9CWEzWOsDRZ4tC6mPomgTRiRsrB/XxdkjtahH48
-         hazdQWpIXCpNV4y6DhGKXXb5mxrnHQBT5JuWZUs4U6ufeuTGyrXfBmBwJ/xWB+C+In2a
-         uyo9EDgAv/wKiZGqUuN4nM1wlwrdYEd0RULWjVBYUadFZUdxW6aQzHdXM+fLOj5Ep5U7
-         vx6wvvGIzLAXJ+XOgiTC15TxZAYmjdTzL2MKpI3FyP1enDfduDhXqeUwqJbEeSq1IoYn
-         p0Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709025012; x=1709629812;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4jfB+Qos/TbbfpQCwGnGmZ5LcQISfQmi0hGA4S6JfaA=;
-        b=b9dTBEB7ZiFvejrR7J6edOyNM+Wop+RJphuS4UfgcRiX2xSXQ5Yi2yH1DbccnJRFIZ
-         GRhpZ6KaENwqqpQUu6eFzAeFGWNDipEl1Ymjk0eKdXqQOqS+DYLJSyPcsZdL8Y1VhHu1
-         Obv6FhMcnGgzb1sv6RF8iQW+N5fTMnMPJRxEf3faONg0CXjUqDV8Vf7mhKk4NFxa9ge+
-         cb25PwcE+PRuWWF+9U1ALuPTAqomqIV2l/9+ij5niZmo8DaYzVDgoyryS5lcf2m0Sup5
-         vgBDsEbw2aNud7yLGS7iKckAqWAv3JK+O8lL6SowVIjH1yj18kIUSMOOACH880xEEjwC
-         9LpA==
-X-Gm-Message-State: AOJu0YzN+rX/ZwYoko5wRUbdUgTBVDcCU8m4FLaXEQGrqEi7DiC9Wdt6
-	+YRplpVR9V7hJ/qyztJN5fVW3Ucc9bb2kectg4ipCqtp1akZIbwdIfQdkXELgFw=
-X-Google-Smtp-Source: AGHT+IFjg6TUqGceaHtS0RDBUuFRFRIN3MDvCONyB7Q+VVzjJA9M7exXV6k2ArlnkjNyYmuFmHYeXQ==
-X-Received: by 2002:a17:906:3659:b0:a3f:29b:7c27 with SMTP id r25-20020a170906365900b00a3f029b7c27mr6080459ejb.4.1709025012635;
-        Tue, 27 Feb 2024 01:10:12 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id e14-20020a170906374e00b00a431488d8efsm548118ejc.160.2024.02.27.01.10.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 01:10:12 -0800 (PST)
-Message-ID: <84f3033c-a844-477d-8007-67b8e22702ab@linaro.org>
-Date: Tue, 27 Feb 2024 10:10:09 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jjIKGiEF"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R59Fpo012520;
+	Tue, 27 Feb 2024 04:00:47 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=e
+	KIvLq8xXb6oflbot81eGZAizbrGvdd+1Q79YDlPBfg=; b=jjIKGiEF9iJDojLcV
+	PmzfDAPYEFMmbld2KLy4GldiaePq3k9Xvew+Toj1H5E0xCM5mDEQq8XX988QuOPd
+	r8owsQyxVMc8gi+bSpQxQrLYg7cWiwwrHnXWyVzzcuinM+SctHuQhSI2YIOuLPWn
+	nRFbPeP2+e1sOszAyKKXJCrbjkiYbeFNtzverDy0eYae2xQQ+jfS91pjV89ilaHF
+	Exp4fet7/0TeIG5w5xqh/Ltb6jzia7cZwnDYzXPocyWu/6ltE/8oeR5xtU556UU7
+	aKLgEwj6nZvuwzxFzQNbvPewmQklIx39aUaZVMWBcEqYmnRofMopye2Ydzx9l9rU
+	+UOZw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wfer2u9e5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Feb 2024 04:00:47 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 27 Feb
+ 2024 10:00:44 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Tue, 27 Feb 2024 10:00:44 +0000
+Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.65.56])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5A600820246;
+	Tue, 27 Feb 2024 10:00:44 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs35l56: Prevent bad sign extension in cs35l56_read_silicon_uid()
+Date: Tue, 27 Feb 2024 10:00:42 +0000
+Message-ID: <20240227100042.99-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/18] ASoC: mediatek: mt8365: Add DMIC DAI support
-Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-8-4fa1cea1667f@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v1-8-4fa1cea1667f@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: sVtyfHros6atG7YF84seuCbHvi2LKv4u
+X-Proofpoint-ORIG-GUID: sVtyfHros6atG7YF84seuCbHvi2LKv4u
+X-Proofpoint-Spam-Reason: safe
 
-On 26/02/2024 15:01, Alexandre Mergnat wrote:
-> Add Digital Micro Device Audio Interface support for MT8365 SoC.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+Cast u8 values to u32 when using them to build a 32-bit unsigned value
+that is then stored in a u64. This avoids the possibility of a bad sign
+extension where the u8 is implicitly extended to an int, thus changing it
+from an unsigned to a signed value.
 
+Whether this is a real problem is debatable, but it does no harm to
+ensure that the u8 are cast to a suitable type for shifting.
 
-> +
-> +static int init_dmic_priv_data(struct mtk_base_afe *afe)
-> +{
-> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
-> +	struct mt8365_dmic_data *dmic_priv;
-> +	struct device_node *np = afe->dev->of_node;
-> +	unsigned int temps[4];
-> +	int ret;
-> +
-> +	dmic_priv = devm_kzalloc(afe->dev, sizeof(struct mt8365_dmic_data),
-> +				  GFP_KERNEL);
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: e1830f66f6c6 ("ASoC: cs35l56: Add helper functions for amp calibration")
+---
+ sound/soc/codecs/cs35l56-shared.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-You have very inconsistent style of coding. Some patches are done
-correctly, some repeast known issues. All over. This is sizeof(*). This
-comment (and all others) apply everywhere, just in case.
-
-Best regards,
-Krzysztof
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index 20b6dbd3fbab..f3670bf85a95 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -659,9 +659,10 @@ static int cs35l56_read_silicon_uid(struct cs35l56_base *cs35l56_base, u64 *uid)
+ 		return ret;
+ 	}
+ 
+-	unique_id = pte.lot[2] | (pte.lot[1] << 8) | (pte.lot[0] << 16);
++	unique_id = (u32)pte.lot[2] | ((u32)pte.lot[1] << 8) | ((u32)pte.lot[0] << 16);
+ 	unique_id <<= 32;
+-	unique_id |= pte.x | (pte.y << 8) | (pte.wafer_id << 16) | (pte.dvs << 24);
++	unique_id |= (u32)pte.x | ((u32)pte.y << 8) | ((u32)pte.wafer_id << 16) |
++		     ((u32)pte.dvs << 24);
+ 
+ 	dev_dbg(cs35l56_base->dev, "UniqueID = %#llx\n", unique_id);
+ 
+-- 
+2.39.2
 
