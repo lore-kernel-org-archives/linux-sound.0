@@ -1,347 +1,152 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B40B1420D4
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 15:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA128145B09;
+	Tue, 27 Feb 2024 15:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709047121; cv=none; b=GLyoXAf1DngCmP6+aIlifzNmMSINpLMyCS5sHaqxuKjsCqOvxLz4gIW4dx9ubRTftXLqmTu6lvK+h8W08VwYmGbVrUYus9yN/BAmHpCL6SArvYTD++mww+MURyPoAUOCOhlApvVtmxlgIav+KgesQuYE7O3ouNTvsWgS7pq0jX0=
+	t=1709048788; cv=none; b=CX8DW8WjeHtFHyGLg/kiek5yLbXf+76laCl24cg1omjXEgjwKs7/WnvndujICUz6d04TTgDN9zJhowrJk0tc9UCxXLEsQdP9uREnDTnt4H9d898+Unn13vIpDGdPdHQVeTgQik14DTGVa8IJy+Elyac0YPtgR2wOFA3IKmAkTOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709047121; c=relaxed/simple;
-	bh=QlIBhT9SjPcv+nOLgdktMUfy88alkJYEWz1rlWTKDjo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HCP7+kxzVjRZPVn1uRB1w2FWxNPiUUKposT2RI/XwnShm9cUTbXPcaP1DxQO19Z597Vk/jIVkq5P7T66huZA4PfaOV4sKm4EEIAhHvHV+Hw4QYc+6cGW6Rb9JVO8e0woiowXM5nP2X5XXpRL0Be1Ipl3+GEK16mTuoUmeFjLvwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=k4mz6vlW; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1709048788; c=relaxed/simple;
+	bh=NBx9tvmKwEqoQnhtitPC+pDa9PzOIcQYFJVbd2LxzdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IUZblNeCPmk6EDrLGItdSdJtoLLCdk9EHTxDcaIAQLOYjfF3+N4WO8sTrfhwskI4iy2HdEL97Xv7Rwy8rzVio7PkWGaZ1QPVFSeK2ikQERxx94ZS/GMoDQzrpI5oKUf8LxbjbINQ6OquJGVeM5pYxlgGm8GrdT66620o2xxf58M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0NP/5Lv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="k4mz6vlW"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6900f479e3cso16047626d6.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 07:18:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709047117; x=1709651917; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
-        b=k4mz6vlWu3JS8iabSsK2rnaam1eX5rMnuiODcOsCGTyLuWWTL4ScCceoCjyY3htG3X
-         DT0LFt1BFFNctk73XJOa8d7tRmjZKIvox2A+1C1B40wzeFvL1dZyiZgYvESBlJyqt3QU
-         Afm8dHx3wKo0cjK69zYXzZAwQQMiCeQj9dKQsQcDu61J+bVPTpk5ZacJVte6Au20gZTr
-         u0qrK+gUWtMIUpo4Zvt2oOk8bqcXUcukwF34+b8t8/lqMZVU9atPDVA5YqO6PE7v59yX
-         tf3ScQ2xlD9TKHFal9quUpqxH7LQcrRaTUwvUN4Ziyxku8bnjIHqZifK6SKZnEZ5SvWG
-         qO0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709047117; x=1709651917;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgeSwdzfejtZ7gerQ3YAwA0BCpS4Ld6TiTQUNC32GpI=;
-        b=akzSKJILQkdrSITpQnE7vWpJBIClD2OG1gWdQihx90anvYrSaLQ19Gg9uL5K1Hnely
-         oBoxV2qiNsLBa/sTOsV/ss6eRhxt2ZpS9k0O5oF4oBpok1gn8pq0XilVdym5CblyvkPX
-         DQZFb+ZWrKLhpChQIhcoXPe2NDVQUf/mQOrGzBPOabVn0IpuX7DE8pSKGa6hrLz5GSnG
-         SLDF5Z2yW6JTGmFs7r3gwsJC0C/gr5v0InjLFs1yTVBgY/dLwUW07YPMRbTFKenhwJ1X
-         iPnLGsUv+0yTYiHKhiBE9VbevUBWnGgsczSXHO4a2pU9Sa8aVV0p67DKber5fJqWYD6K
-         hjBQ==
-X-Gm-Message-State: AOJu0YzFswRmw7IrrRZSsxBYnbEIrgTkWosDojz4/2IuyrrYCb2TKB5/
-	RYYHEcZI0+/FRedYvzzlQn9b+HIHuShBky4vh99PSNr3/wVbanx9LQKZettxdWk=
-X-Google-Smtp-Source: AGHT+IGCOPu8LzF13tl9Z5c0o4yQmsOPurtebB8rpDPdng5maYtZftIJX0pkpHN6dXZAiJKRZsdFWA==
-X-Received: by 2002:a0c:971a:0:b0:68f:ef9b:44aa with SMTP id k26-20020a0c971a000000b0068fef9b44aamr2191669qvd.27.1709047117308;
-        Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id pf10-20020a056214498a00b0068f914ac80bsm2104905qvb.50.2024.02.27.07.18.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 07:18:37 -0800 (PST)
-Message-ID: <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
-Date: Tue, 27 Feb 2024 16:18:32 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0NP/5Lv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4CFC433F1;
+	Tue, 27 Feb 2024 15:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709048788;
+	bh=NBx9tvmKwEqoQnhtitPC+pDa9PzOIcQYFJVbd2LxzdU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a0NP/5LvisMSpubv7WhZLqjoPbQzydNaAKz27SrNhnhKQC5xhsGBXugMa0Fp6fht3
+	 y6a8eA4xwqUPQR36iF9x3/CdXiSsTUw/m9jWvnImhfMHUj5/+CI6bK6Hqf4i9xil3Z
+	 v0UOqNH9gK9aKeujipZGRz6rK98sEsf8cfjMv5heyWgKT4sYaJpYaUe0bWM6qBDT1A
+	 4PaPMaFLE+M5bp9UQaHACG3m5PruDxyQSmxs0kXftMtONsnttZVRR3V+TUXPRWMiz9
+	 fBbFq9TAfzgueW2xj2ujZ5dJ8B4J/7XlklL1KebQ27m2z42EjzkbkgRz3mEypkvUIx
+	 ZW0AGqLBN8WuQ==
+Date: Tue, 27 Feb 2024 15:46:21 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com, 13916275206@139.com,
+	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
+	pdjuandi@ti.com, manisha.agrawal@ti.com, s-hari@ti.com,
+	aviel@ti.com, hnagalla@ti.com, praneeth@ti.com
+Subject: Re: [PATCH v6 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
+Message-ID: <0cba2632-5d79-488a-9eec-dbed4208971b@sirena.org.uk>
+References: <20240223123809.503-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
- afe document
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-1-4fa1cea1667f@baylibre.com>
- <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ce5f71a9-1b5f-4724-89db-dae2f64e8008@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q/NIaDdKYiyeWvDU"
+Content-Disposition: inline
+In-Reply-To: <20240223123809.503-1-shenghao-ding@ti.com>
+X-Cookie: Please go away.
 
 
+--q/NIaDdKYiyeWvDU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 27/02/2024 10:01, Krzysztof Kozlowski wrote:
-> On 26/02/2024 15:01, Alexandre Mergnat wrote:
->> Add MT8365 audio front-end bindings
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
->> ---
->>   .../bindings/sound/mediatek,mt8365-afe.yaml        | 164 +++++++++++++++++++++
->>   1 file changed, 164 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> new file mode 100644
->> index 000000000000..1d7eb2532ad2
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8365-afe.yaml
->> @@ -0,0 +1,164 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/mediatek,mt8365-afe.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: MediaTek AFE PCM controller for MT8365
->> +
->> +maintainers:
->> +  - Alexandre Mergnat <amergnat@baylibre.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: mediatek,mt8365-afe-pcm
->> +
->> +  reg:
->> +    maxItems: 2
-> 
-> You must describe the items.
+On Fri, Feb 23, 2024 at 08:38:04PM +0800, Shenghao Ding wrote:
 
-Actually, I've took downstream code that I'm not able to explain because 
-the second reg isn't on my MTK documentation.
-So I've remove the second reg and passed all functional tests 
-successfully. Then I will remove the extra reg for v2.
+> +static const char *const pcmdev_ctrl_name[] = {
+> +	"%s-i2c-%d-dev%d-ch%d-ana-gain",
+> +	"%s-i2c-%d-dev%d-ch%d-digi-gain",
+> +	"%s-i2c-%d-dev%d-ch%d-fine-gain",
+> +};
 
-> 
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  mediatek,topckgen:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: The phandle of the mediatek topckgen controller
-> 
-> What for? Don't repeat the property name. Say something useful.
+So, I see why you're doing this naming thing for the per-device controls
+- the device can (and is designed to) allow controlling multiple amps
+with a single I2C write.  However this is resulting in something that's
+really awkward from an ALSA point of view, the names that are being
+generated are very much not idiomatic for control names and probably
+aren't going to be terribly meaningful for end users since they're not
+associated with where the relevant outputs physically are.  We could
+require machines to provide names for everything but that's probably
+going to be a miserable experience on x86 and is unhelpful even with DT
+so having a default seems to make sense.
 
-got it
+I think these should look more like ALSA names, so "I2C %d Device %d..."
+though that does make things a bit longer.
 
-> 
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  "#sound-dai-cells":
->> +    const: 0
->> +
->> +  clocks:
->> +    items:
->> +      - description: 26M clock
->> +      - description: mux for audio clock
->> +      - description: audio i2s0 mck
->> +      - description: audio i2s1 mck
->> +      - description: audio i2s2 mck
->> +      - description: audio i2s3 mck
->> +      - description: engen 1 clock
->> +      - description: engen 2 clock
->> +      - description: audio 1 clock
->> +      - description: audio 2 clock
->> +      - description: mux for i2s0
->> +      - description: mux for i2s1
->> +      - description: mux for i2s2
->> +      - description: mux for i2s3
->> +
->> +  clock-names:
->> +    items:
->> +      - const: top_clk26m_clk
->> +      - const: top_audio_sel
->> +      - const: audio_i2s0_m
->> +      - const: audio_i2s1_m
->> +      - const: audio_i2s2_m
->> +      - const: audio_i2s3_m
->> +      - const: engen1
->> +      - const: engen2
->> +      - const: aud1
->> +      - const: aud2
->> +      - const: i2s0_m_sel
->> +      - const: i2s1_m_sel
->> +      - const: i2s2_m_sel
->> +      - const: i2s3_m_sel
->> +
->> +  mediatek,i2s-shared-clock:
-> 
-> Why do you need this property? Linux (and other systems) handle sharing
-> clocks properly.
+> +static const char *const pcmdev_ctrl_name_with_prefix[] = {
+> +	"%s-dev%d-ch%d-ana-gain",
+> +	"%s-dev%d-ch%d-digi-gain",
+> +	"%s-dev%d-ch%d-fine-gain",
+> +};
 
-Indeed, not needed. It was used by the downstream code driver but I 
-remove it for v2.
+For these I'm not clear why we don't just use the name, what's the goal
+in having the device number in there?
 
-> 
->> +    description:
->> +      i2s modules can share the same external clock pin.
->> +      If this property is not present the clock mode is separrate.
-> 
-> Typo
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-iir-on:
->> +    description:
->> +      Boolean which specifies whether the DMIC IIR is enabled.
->> +      If this property is not present the IIR is disabled.
-> 
-> "is enabled" or "enable it"?
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
+I think it would make sense to do a version the driver with no user
+visible controls (or at least none that need this name generation stuff)
+and then make the controls an incremental patch, the driver would
+obviously need both bits to be properly useful but it'd mean that the
+simple bit could get reviewed and possibly merged separately to the
+complicated bit which would probably be easier.
 
-I will rephrase:
+Please also send the output of mixer-test from a machine with this
+driver in it as part of the cover letter, it'll make it easier to tell
+what's going on.
 
-True to enable the Infinite Impulse Response (IIR) filter
-on the digital microphone inputs.
+> +	if (comp->name_prefix) {
+> +	/* There's name_prefix defined in DTS. Bin file name will be
+> +	 * name_prefix.bin stores the firmware including register setting and
+> +	 * params for different filters inside chips, it must be copied into
 
-> 
->> +    type: boolean
->> +
->> +  mediatek,dmic-irr-mode:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description:
->> +      Selects stop band of IIR DC-removal filter.
->> +      0 = Software programmable custom coeff loaded by the driver.
-> 
-> Bindings are for hardware, not drivers. Why is this a property of board DTS?
+The comment should be indented like it's inside the if ().
 
-Actually this is a hardware feature. Mode 1 t 5 are predefined filters. 
-Mode 0, the HW will read some "coef filter registers" to setup the 
-custom filter. the "coef filter regs" are written by the driver. 
-Currently the coef values are hardcoded in the driver.
+> +	} else {
+> +	/* There's NO name_prefix defined in DTS. Bin file name will be
+> +	 * device-name[defined in pcmdevice_i2c_id]-i2c-bus_id[0,1,...,N]-
+> +	 * sum[1,...,4]dev.bin stores the firmware including register setting
+> +	 * and params for different filters inside chips, it must be copied
+> +	 * into firmware folder. The same types of pcmdevices sitting on the
+> +	 * same i2c bus will be aggregated as one single codec, all of them
+> +	 * share the same bin file.
+> +	 */
+> +		scnprintf(pcm_dev->bin_name, PCMDEVICE_BIN_FILENAME_LEN,
+> +			"%s-i2c-%d-%udev.bin", pcm_dev->dev_name, adap->nr,
+> +			pcm_dev->ndev);
+> +	}
 
-> 
->> +      1 = 5Hz if 48KHz mode.
->> +      2 = 10Hz if 48KHz mode.
->> +      3 = 25Hz if 48KHz mode.
->> +      4 = 50Hz if 48KHz mode.
->> +      5 = 65Hz if 48KHz mode.
-> 
-> Use proper unit suffixes - hz.
-> 
-> 
->> +    enum:
->> +      - 0
->> +      - 1
->> +      - 2
->> +      - 3
->> +      - 4
->> +      - 5
->> +
->> +  mediatek,dmic-two-wire-mode:
->> +    description:
->> +      Boolean which turns on digital microphone for two wire mode.
->> +      If this property is not present the two wire mode is disabled.
-> 
-> This looks like hardware property, but the naming looks like SW. Again
-> you instruct what driver should do. Standard disclaimer:
-> 
-> You described the desired Linux feature or behavior, not the actual
-> hardware. The bindings are about the latter, so instead you need to
-> rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
+You could also do this as a fallback (ie, try the specified name first
+then fall bakc to the bus based numbering), that way if a name is added
+later it won't break people's installs on upgrade.
 
-Actually this is a hardware feature. This is ALL I have to describe the 
-HW behavior from the datasheet:
-"
-bit name: ul_dmic_two_wire_ctl
-Turns on digital microphone for two wire mode.
-0: Turn off
-1: Turn on
-"
+> +static const struct regmap_config pcmdevice_i2c_regmap = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.cache_type = REGCACHE_MAPLE,
+> +	.ranges = pcmdevice_ranges,
+> +	.num_ranges = ARRAY_SIZE(pcmdevice_ranges),
+> +	.max_register = 256 * 128,
+> +};
 
-On the board schematic, SoC and DMIC and linked by 3 pins:
-- clk
-- data0
-- data1
+Shouldn't there be some volatile registers if we have interrupts?
 
-IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC must 
-be aware of that by reading the register value written by the driver, 
-using the value found in the DTS.
+--q/NIaDdKYiyeWvDU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I don't get why you think it wouldn't be hardware behavior.
+-----BEGIN PGP SIGNATURE-----
 
-Rephrase description:
-"True to enable the two wire mode of the digital microphone"
-Is it better ?
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXeA8wACgkQJNaLcl1U
+h9C3Hwf9Gmdxf4Cz4ZF49QuHRx9unEzbCoT6YJxHKoeWCY8Dv+nxvafUfp8NqeXG
+eGHw314ytCKdPKj65J0ef3jupWrB3Z4euByOjCBvtRRriVqmCPMdhaCVFA8kKr9U
+SyiqAm1z9t9LCeKVcFcKsh6Bc8H+oqx4E1z7IJ91TUhfD+1kK/c2iFyIDb1hjZis
+1TXj1840PpqIH62vmfWeYv08SpEKNryODarBU/DZXyDtNewADHC2MLYOJF29PMhb
+GeGwOckFtxAwHkkrtwAkaM6V9bRSQ843E4UmDMH60Cm6XlweK32rP1TGsrUR7llO
+4vWck8vZ4ivdI5DSDA9rN/KXP62dWA==
+=J6Xo
+-----END PGP SIGNATURE-----
 
-About the property name, "mediatek,dmic-two-wire-ctl" sound better for you ?
-
-> 
-> 
->> +    type: boolean
->> +
->> +
-> 
-> Just one blank line.
-> 
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - power-domains
->> +  - mediatek,topckgen
->> +  - clocks
->> +  - clock-names
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
->> +
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        afe@11220000 {
-> 
-> What is AFE?
-
-Audio Front End, this is the same name used for other MTK SoC, to be 
-consistent.
-
-Cook a new patch serie to change "afe" by "audio-controller" for all MTK 
-SoC would be great.
-
-> 
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> 
->> +            compatible = "mediatek,mt8365-afe-pcm";
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Regards,
-Alexandre
+--q/NIaDdKYiyeWvDU--
