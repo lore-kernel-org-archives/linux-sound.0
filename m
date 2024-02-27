@@ -1,58 +1,58 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8C41332A9
-	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 09:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466D5137C58
+	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 09:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024899; cv=none; b=hRr//MG2M9bbF0GneI6h8leH0KicIy7UvN7qabghW1WKZkxfx5Mdy/9t4u4b7PIyBNHFttILauFpJiHy+yDUgKgcOLpUOPFvgbVg0gXafjogjm4qF/ovBCNrXPHbXLCONzMW5xKs2Qgb83h/vZGgZhdQLjar9YXqw4+RPNe4WAM=
+	t=1709025016; cv=none; b=QL5bCuP+c7/xPZg9n7m+PgzpNNYJ/hUqvCYMeYtvA7dB/c2Vjbpbwr2z2MIjBV0JXiTkbyit9GQzWFDlZdwr9dPBP5H8L7cHfXcosYiP/UW5kaQGpPxKrzk5Z6vJj3yW89Vbac0hlagSQXmCqghiQkeKjdgWnrrIf3PtqHhLHIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709024899; c=relaxed/simple;
-	bh=3kw8GWKZ49dH9ZlUayVrZGjzEB6wIbKXc74Xfxvi4qU=;
+	s=arc-20240116; t=1709025016; c=relaxed/simple;
+	bh=kijL9tDw75u6TYnoJpASLDXSUbOrqM4BZZW4QLBL0GI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pgzHiuocEylp8+nM+ttZQ+4fQ3nR+23I2Pj8FIheJXv/TsaX1o+owLDxgxpPI9uDNX5IHWHE9ls6UQyiJLq+4ba/BQAzHB/UpxTDnWMhdO4Y4iVSUfhFALU5VLZK9pHAYCiuOlHz0gq3LIuZJL6BYkbVKGyOkFwRi1JhSO5mb5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b3vRwsHN; arc=none smtp.client-ip=209.85.208.45
+	 In-Reply-To:Content-Type; b=SKeiHtL2TkYVsFFiibMh8T9zFK+sOOXGieZ6QI8G68JR6CCaPzWWnzNIJVyZ5X5Inj9VnmLTAj6xsWdiw2KjWxuFK2S0QNxRVObxXG6IA6LdRH2SA+AVZEKe5i3ZwFPgtgd2XfxJZ0WC2F49Xl4QGy58A8nn14RBgIflpFokt8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dzSUiFNb; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b3vRwsHN"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-563bb51c36eso4324438a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 01:08:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dzSUiFNb"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a3f5808b0dfso545898466b.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 01:10:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709024896; x=1709629696; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709025012; x=1709629812; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M/XMlDT5Zncb31c4k3IQ8WBJzhTpe12p8N1wL4Pn258=;
-        b=b3vRwsHNQX9OUVoxgfhPhKveqUX8bOvICfGt6S4aVf1TtFhVVSjWnttDZ0YBpAAfVQ
-         U2QMvJFtUqf+WIW/9sPQAznYHVFeUDDRDCQZkENu8l3hE4zHWpCzEiLOL/NzXNZ1WCM+
-         vGXcypapRb/hBKky0ikwY5sG9/Ap7F8VR8nzEmh7naOvwh0u+wNz1WZwg/uPKsMR0wAT
-         FQgjBi/IwrjK+jM3pcZ0cnoFWWcvtO9yeRNvlCbEl07nwWWTAiqcQiH54Ulm3etfEbpP
-         ZMUqiYw8OE81ELtrZGO1rciF49oyf9K8vcJ58AGtC0K1f9bqKZD/KUh1xOItSVmlXzyc
-         C4mg==
+        bh=4jfB+Qos/TbbfpQCwGnGmZ5LcQISfQmi0hGA4S6JfaA=;
+        b=dzSUiFNb6ZMFvE6zWRvWcEMDaViw7S4N/O2Ef5u7fCXNnq8QX0rTsBf+VbkSPmn7mD
+         kN0KhD4DpY6ZASQW7EVx/Oay7LQhl9CWEzWOsDRZ4tC6mPomgTRiRsrB/XxdkjtahH48
+         hazdQWpIXCpNV4y6DhGKXXb5mxrnHQBT5JuWZUs4U6ufeuTGyrXfBmBwJ/xWB+C+In2a
+         uyo9EDgAv/wKiZGqUuN4nM1wlwrdYEd0RULWjVBYUadFZUdxW6aQzHdXM+fLOj5Ep5U7
+         vx6wvvGIzLAXJ+XOgiTC15TxZAYmjdTzL2MKpI3FyP1enDfduDhXqeUwqJbEeSq1IoYn
+         p0Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709024896; x=1709629696;
+        d=1e100.net; s=20230601; t=1709025012; x=1709629812;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/XMlDT5Zncb31c4k3IQ8WBJzhTpe12p8N1wL4Pn258=;
-        b=p2AfMaWs0qZ68EURRYtIfeoiP1B44gz6DsUeNnWlA9EYOLvzN076dDHSYhNgYWUD1N
-         apRoqKQiTJkVykkrvpSEPOMR9G7YNsY7tqDcaBSmuVL0Tq7qS/a2uoQ98TM8U99GRzBQ
-         L+GYTxxpAe1QdyF6uIIaI9sfLQm6ZqYbi9T9/0/4AuZVd4rwUFbASUrzgAczasP9nnNa
-         4a1KRKasE3ybZxQmryLLDnFGKC03Cn/ulutnGAz8hzy6vEcS/OnSiVa1VQkQfJRiS5ZK
-         eRMQgUmR7vGCddkio5i1Dm5h/LSMZTbSRLckVpOMRfZUSWR75GgXeVHs0A0kD7AWJJ0/
-         2PXw==
-X-Gm-Message-State: AOJu0YzIqc0s/RF515G+GQ4mL/DMU7IO8akfoEcfJpVm66QKC47nXZOT
-	0krSPCD+5QTugaQv7iFKujHApdEw1g0zHYLn3Nno9ltyrpHRj5OBiEGm1ljizUo=
-X-Google-Smtp-Source: AGHT+IGqFBX1eyZzazauhmxoaCWVFLpVUbL5P8fO0kdYan0Z8+9zfK75kAvDOP1Jsczdq7H0Uzl+Fg==
-X-Received: by 2002:a17:906:a11a:b0:a3e:6862:dc78 with SMTP id t26-20020a170906a11a00b00a3e6862dc78mr5714509ejy.4.1709024896461;
-        Tue, 27 Feb 2024 01:08:16 -0800 (PST)
+        bh=4jfB+Qos/TbbfpQCwGnGmZ5LcQISfQmi0hGA4S6JfaA=;
+        b=b9dTBEB7ZiFvejrR7J6edOyNM+Wop+RJphuS4UfgcRiX2xSXQ5Yi2yH1DbccnJRFIZ
+         GRhpZ6KaENwqqpQUu6eFzAeFGWNDipEl1Ymjk0eKdXqQOqS+DYLJSyPcsZdL8Y1VhHu1
+         Obv6FhMcnGgzb1sv6RF8iQW+N5fTMnMPJRxEf3faONg0CXjUqDV8Vf7mhKk4NFxa9ge+
+         cb25PwcE+PRuWWF+9U1ALuPTAqomqIV2l/9+ij5niZmo8DaYzVDgoyryS5lcf2m0Sup5
+         vgBDsEbw2aNud7yLGS7iKckAqWAv3JK+O8lL6SowVIjH1yj18kIUSMOOACH880xEEjwC
+         9LpA==
+X-Gm-Message-State: AOJu0YzN+rX/ZwYoko5wRUbdUgTBVDcCU8m4FLaXEQGrqEi7DiC9Wdt6
+	+YRplpVR9V7hJ/qyztJN5fVW3Ucc9bb2kectg4ipCqtp1akZIbwdIfQdkXELgFw=
+X-Google-Smtp-Source: AGHT+IFjg6TUqGceaHtS0RDBUuFRFRIN3MDvCONyB7Q+VVzjJA9M7exXV6k2ArlnkjNyYmuFmHYeXQ==
+X-Received: by 2002:a17:906:3659:b0:a3f:29b:7c27 with SMTP id r25-20020a170906365900b00a3f029b7c27mr6080459ejb.4.1709025012635;
+        Tue, 27 Feb 2024 01:10:12 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id h19-20020a170906719300b00a3e92467f22sm547354ejk.163.2024.02.27.01.08.13
+        by smtp.gmail.com with ESMTPSA id e14-20020a170906374e00b00a431488d8efsm548118ejc.160.2024.02.27.01.10.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 01:08:16 -0800 (PST)
-Message-ID: <eebc1521-4030-4f0b-a84c-c3ee18ec7da6@linaro.org>
-Date: Tue, 27 Feb 2024 10:08:12 +0100
+        Tue, 27 Feb 2024 01:10:12 -0800 (PST)
+Message-ID: <84f3033c-a844-477d-8007-67b8e22702ab@linaro.org>
+Date: Tue, 27 Feb 2024 10:10:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,8 +60,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/18] dt-bindings: mfd: mediatek: Add codec property for
- MT6357 PMIC
+Subject: Re: [PATCH 08/18] ASoC: mediatek: mt8365: Add DMIC DAI support
 Content-Language: en-US
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -80,7 +79,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <20240226-audio-i350-v1-3-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-8-4fa1cea1667f@baylibre.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -126,49 +125,31 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v1-3-4fa1cea1667f@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v1-8-4fa1cea1667f@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 26/02/2024 15:01, Alexandre Mergnat wrote:
-> Add the codec property along with the mt6357.c codec driver support.
-
-Describe the hardware, not the Linux drivers. There is no codec driver
-support in the bindings.
-
-https://elixir.bootlin.com/linux/v6.8-rc6/source/Documentation/devicetree/bindings/writing-bindings.rst#L21
-
+> Add Digital Micro Device Audio Interface support for MT8365 SoC.
 > 
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> index 37423c2e0fdf..d25a78070744 100644
-> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
-> @@ -37,6 +37,17 @@ properties:
->    "#interrupt-cells":
->      const: 2
->  
-> +  codec:
-> +    type: object
-> +    unevaluatedProperties: false
-> +    description:
-> +      MT6357 sound codec.
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt6357-sound
-> +    required:
-> +      - compatible
-
-No resources? Then no need for this node.
-
-We have it even documented (if my repeating every time is not enough)...
-https://elixir.bootlin.com/linux/v6.8-rc6/source/Documentation/devicetree/bindings/writing-bindings.rst#L30
 
 
+> +
+> +static int init_dmic_priv_data(struct mtk_base_afe *afe)
+> +{
+> +	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+> +	struct mt8365_dmic_data *dmic_priv;
+> +	struct device_node *np = afe->dev->of_node;
+> +	unsigned int temps[4];
+> +	int ret;
+> +
+> +	dmic_priv = devm_kzalloc(afe->dev, sizeof(struct mt8365_dmic_data),
+> +				  GFP_KERNEL);
+
+You have very inconsistent style of coding. Some patches are done
+correctly, some repeast known issues. All over. This is sizeof(*). This
+comment (and all others) apply everywhere, just in case.
 
 Best regards,
 Krzysztof
