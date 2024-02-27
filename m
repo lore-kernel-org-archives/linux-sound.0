@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF4B130E3B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40E4130E59
 	for <linux-sound@vger.kernel.org>; Tue, 27 Feb 2024 08:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024001; cv=none; b=ITFmmXv0qPihz/gU4xdxyHEibukBZHsdwYmyoS7TSyYunovxeT4Gi67fvlrFq7mcki/Ojf6gPUf6+V4orJBn/SuUE2CKl0MXTxpfGGMdVT4iaWiu0EJi4ld+4S5SJ6Thw8+PG4prR3Iuutqyi+gs4R0WvdH2wGIig3q87LKlOAk=
+	t=1709024001; cv=none; b=CXhIWkkN11brke0emFuBJTOaXSJ/PlUQ7/UygwHJ0QwBV/xSzTuI/Bfg4srbOzm2OkzPChbMWbusj9fVLoYaxG/8DSfgHwtZ1uaE6fSmHyhaPdvXAPtrAN6Uyoz01c85LrY7UKnk1sm0LHuHLIHft8R4VjghnAmNv82eC/WspHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709024001; c=relaxed/simple;
-	bh=nqF3MgF0quaF7Dwn8to1qdh0v7Y/0Rpa6RoQ/SDyhPs=;
+	bh=EpPEjBmkoeR5a/LNNWahYDUPu1vDl7SZR73hKXpiqf4=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=J2uUIn/L2yZ5Bi+DB0TqsV5AX8zE7zih1j6Anf1HBqBP9mY+d2os92PpZwwhLHDKHM3vTCIdwUwbLWBoqqpixwHIWO9HK4Je3qvG1Ihgt0ddyJg4xL3Q5B6oMJMxONqHxiSJF36n/g4kYH4LeK8w8kerl8TS1LmkPFmysnRvXbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SHOs3PZr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OQCV7ed7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SHOs3PZr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OQCV7ed7; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=T8lrTTW8Bpcsj+oTSj+I9nXGlPfepsWKAognmDkcFETZaYrrzX4NKR6UnK35lEeOkPlLpq7tFI773ZMUCyDfoyCm5laZWCybelX5y3WWCfzvr5lu3NuB5aohXMYto6qhz66yAS4V6cXh+4gOV1kU6QZic00rI19oih9Gji8r9kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ar2u77hW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3rVOk6/5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cognp9XT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SzMtZa/k; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SHOs3PZr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OQCV7ed7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SHOs3PZr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OQCV7ed7"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ar2u77hW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3rVOk6/5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cognp9XT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SzMtZa/k"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 46B741FD39;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DBC9F1FD35;
 	Tue, 27 Feb 2024 08:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1709023998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=SHOs3PZr3TyewG4+XIqMFrFalRhJAhGf8xSGoKyfnDREPXFZ9tDmJdqGIy2pDB5cIRWzol
-	2MzfSzHOLbuqmVv/+SFtTl4KMAsu/4RyJnAKefbKZbVE1fN3ZChapXEWwVBi+4BUoOb8Qc
-	GreXvELpTD/RP5ANxD0XE0m3QQnnWYg=
+	bh=oM0M1pd2b46NDgAwXgLPMP1sayrB/6gPKN6yfWMxPS4=;
+	b=ar2u77hWqgHmYDt2J2/bPfEEZ6VulmRnPIc5ekvUFUzpryTZ9o/2X/zYK+DKrWbmexMgGa
+	qw8o2XkJ32OjLw9KfE3jACNXEjsw9pjXJCYPh4AxzF9ojpWnpFWEAhRYWFfFmAgcqT879K
+	N/cCeZuRMjIx7PReLQm+t7ZN6M3xeZQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023996;
+	s=susede2_ed25519; t=1709023998;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=OQCV7ed7YFo5xH9TUdjSB7RWYC57TKTw9vHXhtF8qHBeURm64NkyZq0dZwTnrzFzm7EIfR
-	AlJXiTdinBXMnPDA==
+	bh=oM0M1pd2b46NDgAwXgLPMP1sayrB/6gPKN6yfWMxPS4=;
+	b=3rVOk6/5Lg81LP9ULBGQbOoFmsbHx9wD+TZWlmFKzcaUIppu4c2GzsA2W3jvjNQgA5X9K3
+	if5fWHshMhIzJrBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1709023996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=SHOs3PZr3TyewG4+XIqMFrFalRhJAhGf8xSGoKyfnDREPXFZ9tDmJdqGIy2pDB5cIRWzol
-	2MzfSzHOLbuqmVv/+SFtTl4KMAsu/4RyJnAKefbKZbVE1fN3ZChapXEWwVBi+4BUoOb8Qc
-	GreXvELpTD/RP5ANxD0XE0m3QQnnWYg=
+	bh=oM0M1pd2b46NDgAwXgLPMP1sayrB/6gPKN6yfWMxPS4=;
+	b=Cognp9XTP7t9SKyO+yj7T7g7F/rRERGR8NFXLEl3oBfym9HOKIXG4Ldjr1kMTMUDYoLoIC
+	76dJP4OaqgRF/Brqb+3Xas8vQ5xPNpOoj4QEnjb44gXfn7Exa80QZXExfrtkLTs0caS4MU
+	snbfz4yJHwYSFNUwLM1uHEPQTxnZyGs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1709023996;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tqI1vpoeCqxFDS7hL0dw+rup0siLyS/o3TCYvmw55W8=;
-	b=OQCV7ed7YFo5xH9TUdjSB7RWYC57TKTw9vHXhtF8qHBeURm64NkyZq0dZwTnrzFzm7EIfR
-	AlJXiTdinBXMnPDA==
+	bh=oM0M1pd2b46NDgAwXgLPMP1sayrB/6gPKN6yfWMxPS4=;
+	b=SzMtZa/keNvaeP33PHn71A136+KoP8OinblKfGdgRE6W/GMqf7qMLmeiLX6AvdJ5N9LZgg
+	L0W0TL7Sf/BGNuCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D2B213A58;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C424713AD7;
 	Tue, 27 Feb 2024 08:53:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OHnRCfyi3WWeaQAAD6G6ig
+	id CHOcLvyi3WWeaQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 27 Feb 2024 08:53:16 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v3 16/24] ALSA: seq: timer: Use guard() for locking
-Date: Tue, 27 Feb 2024 09:52:58 +0100
-Message-Id: <20240227085306.9764-17-tiwai@suse.de>
+Subject: [PATCH v3 21/24] ALSA: pcm: Use guard() for locking
+Date: Tue, 27 Feb 2024 09:53:03 +0100
+Message-Id: <20240227085306.9764-22-tiwai@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240227085306.9764-1-tiwai@suse.de>
 References: <20240227085306.9764-1-tiwai@suse.de>
@@ -89,8 +89,8 @@ Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out2.suse.de;
 	none
 X-Spam-Level: ***
-X-Spam-Score: 3.50
-X-Spamd-Result: default: False [3.50 / 50.00];
+X-Spam-Score: 3.46
+X-Spamd-Result: default: False [3.46 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
@@ -101,11 +101,12 @@ X-Spamd-Result: default: False [3.50 / 50.00];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_ONE(0.00)[1];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 MID_CONTAINS_FROM(1.00)[];
 	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 NEURAL_SPAM_SHORT(2.60)[0.866];
+	 NEURAL_SPAM_SHORT(2.56)[0.854];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
@@ -120,354 +121,467 @@ Only the code refactoring, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_timer.c | 163 +++++++++++++------------------------
- 1 file changed, 58 insertions(+), 105 deletions(-)
+ sound/core/pcm.c        | 90 ++++++++++++++---------------------------
+ sound/core/pcm_memory.c | 30 ++++++--------
+ sound/core/pcm_native.c | 48 ++++++++--------------
+ 3 files changed, 59 insertions(+), 109 deletions(-)
 
-diff --git a/sound/core/seq/seq_timer.c b/sound/core/seq/seq_timer.c
-index 9863be6fd43e..ad2b97e2762d 100644
---- a/sound/core/seq/seq_timer.c
-+++ b/sound/core/seq/seq_timer.c
-@@ -75,9 +75,7 @@ void snd_seq_timer_delete(struct snd_seq_timer **tmr)
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 87d27fbdfe5c..dc37f3508dc7 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -91,9 +91,8 @@ static int snd_pcm_control_ioctl(struct snd_card *card,
  
- void snd_seq_timer_defaults(struct snd_seq_timer * tmr)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	/* setup defaults */
- 	tmr->ppq = 96;		/* 96 PPQ */
- 	tmr->tempo = 500000;	/* 120 BPM */
-@@ -93,7 +91,6 @@ void snd_seq_timer_defaults(struct snd_seq_timer * tmr)
- 	tmr->preferred_resolution = seq_default_timer_resolution;
+ 			if (get_user(device, (int __user *)arg))
+ 				return -EFAULT;
+-			mutex_lock(&register_mutex);
+-			device = snd_pcm_next(card, device);
+-			mutex_unlock(&register_mutex);
++			scoped_guard(mutex, &register_mutex)
++				device = snd_pcm_next(card, device);
+ 			if (put_user(device, (int __user *)arg))
+ 				return -EFAULT;
+ 			return 0;
+@@ -106,7 +105,6 @@ static int snd_pcm_control_ioctl(struct snd_card *card,
+ 			struct snd_pcm *pcm;
+ 			struct snd_pcm_str *pstr;
+ 			struct snd_pcm_substream *substream;
+-			int err;
  
- 	tmr->skew = tmr->skew_base = SKEW_BASE;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- }
+ 			info = (struct snd_pcm_info __user *)arg;
+ 			if (get_user(device, &info->device))
+@@ -118,35 +116,23 @@ static int snd_pcm_control_ioctl(struct snd_card *card,
+ 			stream = array_index_nospec(stream, 2);
+ 			if (get_user(subdevice, &info->subdevice))
+ 				return -EFAULT;
+-			mutex_lock(&register_mutex);
++			guard(mutex)(&register_mutex);
+ 			pcm = snd_pcm_get(card, device);
+-			if (pcm == NULL) {
+-				err = -ENXIO;
+-				goto _error;
+-			}
++			if (pcm == NULL)
++				return -ENXIO;
+ 			pstr = &pcm->streams[stream];
+-			if (pstr->substream_count == 0) {
+-				err = -ENOENT;
+-				goto _error;
+-			}
+-			if (subdevice >= pstr->substream_count) {
+-				err = -ENXIO;
+-				goto _error;
+-			}
++			if (pstr->substream_count == 0)
++				return -ENOENT;
++			if (subdevice >= pstr->substream_count)
++				return -ENXIO;
+ 			for (substream = pstr->substream; substream;
+ 			     substream = substream->next)
+ 				if (substream->number == (int)subdevice)
+ 					break;
+-			if (substream == NULL) {
+-				err = -ENXIO;
+-				goto _error;
+-			}
+-			mutex_lock(&pcm->open_mutex);
+-			err = snd_pcm_info_user(substream, info);
+-			mutex_unlock(&pcm->open_mutex);
+-		_error:
+-			mutex_unlock(&register_mutex);
+-			return err;
++			if (substream == NULL)
++				return -ENXIO;
++			guard(mutex)(&pcm->open_mutex);
++			return snd_pcm_info_user(substream, info);
+ 		}
+ 	case SNDRV_CTL_IOCTL_PCM_PREFER_SUBDEVICE:
+ 		{
+@@ -389,15 +375,15 @@ static void snd_pcm_substream_proc_hw_params_read(struct snd_info_entry *entry,
+ 	struct snd_pcm_substream *substream = entry->private_data;
+ 	struct snd_pcm_runtime *runtime;
  
- static void seq_timer_reset(struct snd_seq_timer *tmr)
-@@ -108,11 +105,8 @@ static void seq_timer_reset(struct snd_seq_timer *tmr)
- 
- void snd_seq_timer_reset(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	seq_timer_reset(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
- }
- 
- 
-@@ -121,7 +115,6 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- 				    unsigned long resolution,
- 				    unsigned long ticks)
- {
--	unsigned long flags;
- 	struct snd_seq_queue *q = timeri->callback_data;
- 	struct snd_seq_timer *tmr;
- 
-@@ -130,30 +123,28 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- 	tmr = q->timer;
- 	if (tmr == NULL)
- 		return;
--	spin_lock_irqsave(&tmr->lock, flags);
--	if (!tmr->running) {
--		spin_unlock_irqrestore(&tmr->lock, flags);
--		return;
-+
-+	scoped_guard(spinlock_irqsave, &tmr->lock) {
-+		if (!tmr->running)
-+			return;
-+
-+		resolution *= ticks;
-+		if (tmr->skew != tmr->skew_base) {
-+			/* FIXME: assuming skew_base = 0x10000 */
-+			resolution = (resolution >> 16) * tmr->skew +
-+				(((resolution & 0xffff) * tmr->skew) >> 16);
-+		}
-+
-+		/* update timer */
-+		snd_seq_inc_time_nsec(&tmr->cur_time, resolution);
-+
-+		/* calculate current tick */
-+		snd_seq_timer_update_tick(&tmr->tick, resolution);
-+
-+		/* register actual time of this timer update */
-+		ktime_get_ts64(&tmr->last_update);
+-	mutex_lock(&substream->pcm->open_mutex);
++	guard(mutex)(&substream->pcm->open_mutex);
+ 	runtime = substream->runtime;
+ 	if (!runtime) {
+ 		snd_iprintf(buffer, "closed\n");
+-		goto unlock;
++		return;
  	}
- 
--	resolution *= ticks;
--	if (tmr->skew != tmr->skew_base) {
--		/* FIXME: assuming skew_base = 0x10000 */
--		resolution = (resolution >> 16) * tmr->skew +
--			(((resolution & 0xffff) * tmr->skew) >> 16);
--	}
--
--	/* update timer */
--	snd_seq_inc_time_nsec(&tmr->cur_time, resolution);
--
--	/* calculate current tick */
--	snd_seq_timer_update_tick(&tmr->tick, resolution);
--
--	/* register actual time of this timer update */
--	ktime_get_ts64(&tmr->last_update);
--
--	spin_unlock_irqrestore(&tmr->lock, flags);
--
- 	/* check queues and dispatch events */
- 	snd_seq_check_queue(q, 1, 0);
- }
-@@ -161,18 +152,15 @@ static void snd_seq_timer_interrupt(struct snd_timer_instance *timeri,
- /* set current tempo */
- int snd_seq_timer_set_tempo(struct snd_seq_timer * tmr, int tempo)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 	if (tempo <= 0)
- 		return -EINVAL;
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	if ((unsigned int)tempo != tmr->tempo) {
- 		tmr->tempo = tempo;
- 		snd_seq_timer_set_tick_resolution(tmr);
+ 	if (runtime->state == SNDRV_PCM_STATE_OPEN) {
+ 		snd_iprintf(buffer, "no setup\n");
+-		goto unlock;
++		return;
  	}
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
- 
-@@ -180,17 +168,15 @@ int snd_seq_timer_set_tempo(struct snd_seq_timer * tmr, int tempo)
- int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
- {
- 	int changed;
--	unsigned long flags;
- 
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 	if (tempo <= 0 || ppq <= 0)
- 		return -EINVAL;
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	if (tmr->running && (ppq != tmr->ppq)) {
- 		/* refuse to change ppq on running timers */
- 		/* because it will upset the song position (ticks) */
--		spin_unlock_irqrestore(&tmr->lock, flags);
- 		pr_debug("ALSA: seq: cannot change ppq of a running timer\n");
- 		return -EBUSY;
+ 	snd_iprintf(buffer, "access: %s\n", snd_pcm_access_name(runtime->access));
+ 	snd_iprintf(buffer, "format: %s\n", snd_pcm_format_name(runtime->format));
+@@ -416,8 +402,6 @@ static void snd_pcm_substream_proc_hw_params_read(struct snd_info_entry *entry,
+ 		snd_iprintf(buffer, "OSS period frames: %lu\n", (unsigned long)runtime->oss.period_frames);
  	}
-@@ -199,7 +185,6 @@ int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
- 	tmr->ppq = ppq;
- 	if (changed)
- 		snd_seq_timer_set_tick_resolution(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
+ #endif
+- unlock:
+-	mutex_unlock(&substream->pcm->open_mutex);
  }
  
-@@ -207,15 +192,12 @@ int snd_seq_timer_set_tempo_ppq(struct snd_seq_timer *tmr, int tempo, int ppq)
- int snd_seq_timer_set_position_tick(struct snd_seq_timer *tmr,
- 				    snd_seq_tick_time_t position)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
+ static void snd_pcm_substream_proc_sw_params_read(struct snd_info_entry *entry,
+@@ -426,15 +410,15 @@ static void snd_pcm_substream_proc_sw_params_read(struct snd_info_entry *entry,
+ 	struct snd_pcm_substream *substream = entry->private_data;
+ 	struct snd_pcm_runtime *runtime;
  
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->tick.cur_tick = position;
- 	tmr->tick.fraction = 0;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
- 
-@@ -223,15 +205,12 @@ int snd_seq_timer_set_position_tick(struct snd_seq_timer *tmr,
- int snd_seq_timer_set_position_time(struct snd_seq_timer *tmr,
- 				    snd_seq_real_time_t position)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 
- 	snd_seq_sanity_real_time(&position);
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->cur_time = position;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
- }
- 
-@@ -239,8 +218,6 @@ int snd_seq_timer_set_position_time(struct snd_seq_timer *tmr,
- int snd_seq_timer_set_skew(struct snd_seq_timer *tmr, unsigned int skew,
- 			   unsigned int base)
- {
--	unsigned long flags;
--
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
- 
-@@ -249,9 +226,8 @@ int snd_seq_timer_set_skew(struct snd_seq_timer *tmr, unsigned int skew,
- 		pr_debug("ALSA: seq: invalid skew base 0x%x\n", base);
- 		return -EINVAL;
+-	mutex_lock(&substream->pcm->open_mutex);
++	guard(mutex)(&substream->pcm->open_mutex);
+ 	runtime = substream->runtime;
+ 	if (!runtime) {
+ 		snd_iprintf(buffer, "closed\n");
+-		goto unlock;
++		return;
  	}
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	tmr->skew = skew;
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return 0;
+ 	if (runtime->state == SNDRV_PCM_STATE_OPEN) {
+ 		snd_iprintf(buffer, "no setup\n");
+-		goto unlock;
++		return;
+ 	}
+ 	snd_iprintf(buffer, "tstamp_mode: %s\n", snd_pcm_tstamp_mode_name(runtime->tstamp_mode));
+ 	snd_iprintf(buffer, "period_step: %u\n", runtime->period_step);
+@@ -444,8 +428,6 @@ static void snd_pcm_substream_proc_sw_params_read(struct snd_info_entry *entry,
+ 	snd_iprintf(buffer, "silence_threshold: %lu\n", runtime->silence_threshold);
+ 	snd_iprintf(buffer, "silence_size: %lu\n", runtime->silence_size);
+ 	snd_iprintf(buffer, "boundary: %lu\n", runtime->boundary);
+- unlock:
+-	mutex_unlock(&substream->pcm->open_mutex);
  }
  
-@@ -296,12 +272,12 @@ int snd_seq_timer_open(struct snd_seq_queue *q)
- 		snd_timer_instance_free(t);
- 		return err;
+ static void snd_pcm_substream_proc_status_read(struct snd_info_entry *entry,
+@@ -456,17 +438,17 @@ static void snd_pcm_substream_proc_status_read(struct snd_info_entry *entry,
+ 	struct snd_pcm_status64 status;
+ 	int err;
+ 
+-	mutex_lock(&substream->pcm->open_mutex);
++	guard(mutex)(&substream->pcm->open_mutex);
+ 	runtime = substream->runtime;
+ 	if (!runtime) {
+ 		snd_iprintf(buffer, "closed\n");
+-		goto unlock;
++		return;
  	}
--	spin_lock_irq(&tmr->lock);
--	if (tmr->timeri)
--		err = -EBUSY;
--	else
--		tmr->timeri = t;
--	spin_unlock_irq(&tmr->lock);
-+	scoped_guard(spinlock_irq, &tmr->lock) {
-+		if (tmr->timeri)
-+			err = -EBUSY;
-+		else
-+			tmr->timeri = t;
-+	}
+ 	memset(&status, 0, sizeof(status));
+ 	err = snd_pcm_status64(substream, &status);
  	if (err < 0) {
- 		snd_timer_close(t);
- 		snd_timer_instance_free(t);
-@@ -318,10 +294,10 @@ int snd_seq_timer_close(struct snd_seq_queue *q)
- 	tmr = q->timer;
- 	if (snd_BUG_ON(!tmr))
- 		return -EINVAL;
--	spin_lock_irq(&tmr->lock);
--	t = tmr->timeri;
--	tmr->timeri = NULL;
--	spin_unlock_irq(&tmr->lock);
-+	scoped_guard(spinlock_irq, &tmr->lock) {
-+		t = tmr->timeri;
-+		tmr->timeri = NULL;
-+	}
- 	if (t) {
- 		snd_timer_close(t);
- 		snd_timer_instance_free(t);
-@@ -342,13 +318,8 @@ static int seq_timer_stop(struct snd_seq_timer *tmr)
- 
- int snd_seq_timer_stop(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_stop(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_stop(tmr);
- }
- 
- static int initialize_timer(struct snd_seq_timer *tmr)
-@@ -398,13 +369,8 @@ static int seq_timer_start(struct snd_seq_timer *tmr)
- 
- int snd_seq_timer_start(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_start(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_start(tmr);
- }
- 
- static int seq_timer_continue(struct snd_seq_timer *tmr)
-@@ -426,13 +392,8 @@ static int seq_timer_continue(struct snd_seq_timer *tmr)
- 
- int snd_seq_timer_continue(struct snd_seq_timer *tmr)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&tmr->lock, flags);
--	err = seq_timer_continue(tmr);
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return err;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return seq_timer_continue(tmr);
- }
- 
- /* return current 'real' time. use timeofday() to get better granularity. */
-@@ -440,9 +401,8 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
- 					       bool adjust_ktime)
- {
- 	snd_seq_real_time_t cur_time;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&tmr->lock, flags);
-+	guard(spinlock_irqsave)(&tmr->lock);
- 	cur_time = tmr->cur_time;
- 	if (adjust_ktime && tmr->running) {
- 		struct timespec64 tm;
-@@ -453,7 +413,6 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
- 		cur_time.tv_sec += tm.tv_sec;
- 		snd_seq_sanity_real_time(&cur_time);
+ 		snd_iprintf(buffer, "error %d\n", err);
+-		goto unlock;
++		return;
  	}
--	spin_unlock_irqrestore(&tmr->lock, flags);
- 	return cur_time;	
+ 	snd_iprintf(buffer, "state: %s\n", snd_pcm_state_name(status.state));
+ 	snd_iprintf(buffer, "owner_pid   : %d\n", pid_vnr(substream->pid));
+@@ -480,8 +462,6 @@ static void snd_pcm_substream_proc_status_read(struct snd_info_entry *entry,
+ 	snd_iprintf(buffer, "-----\n");
+ 	snd_iprintf(buffer, "hw_ptr      : %ld\n", runtime->status->hw_ptr);
+ 	snd_iprintf(buffer, "appl_ptr    : %ld\n", runtime->control->appl_ptr);
+- unlock:
+-	mutex_unlock(&substream->pcm->open_mutex);
  }
  
-@@ -461,13 +420,8 @@ snd_seq_real_time_t snd_seq_timer_get_cur_time(struct snd_seq_timer *tmr,
-  high PPQ values) */
- snd_seq_tick_time_t snd_seq_timer_get_cur_tick(struct snd_seq_timer *tmr)
- {
--	snd_seq_tick_time_t cur_tick;
--	unsigned long flags;
+ #ifdef CONFIG_SND_PCM_XRUN_DEBUG
+@@ -1009,9 +989,8 @@ void snd_pcm_detach_substream(struct snd_pcm_substream *substream)
+ 	kfree(runtime->hw_constraints.rules);
+ 	/* Avoid concurrent access to runtime via PCM timer interface */
+ 	if (substream->timer) {
+-		spin_lock_irq(&substream->timer->lock);
+-		substream->runtime = NULL;
+-		spin_unlock_irq(&substream->timer->lock);
++		scoped_guard(spinlock_irq, &substream->timer->lock)
++			substream->runtime = NULL;
+ 	} else {
+ 		substream->runtime = NULL;
+ 	}
+@@ -1068,10 +1047,10 @@ static int snd_pcm_dev_register(struct snd_device *device)
+ 		return -ENXIO;
+ 	pcm = device->device_data;
+ 
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	err = snd_pcm_add(pcm);
+ 	if (err)
+-		goto unlock;
++		return err;
+ 	for (cidx = 0; cidx < 2; cidx++) {
+ 		int devtype = -1;
+ 		if (pcm->streams[cidx].substream == NULL)
+@@ -1090,7 +1069,7 @@ static int snd_pcm_dev_register(struct snd_device *device)
+ 					  pcm->streams[cidx].dev);
+ 		if (err < 0) {
+ 			list_del_init(&pcm->list);
+-			goto unlock;
++			return err;
+ 		}
+ 
+ 		for (substream = pcm->streams[cidx].substream; substream; substream = substream->next)
+@@ -1098,9 +1077,6 @@ static int snd_pcm_dev_register(struct snd_device *device)
+ 	}
+ 
+ 	pcm_call_notify(pcm, n_register);
 -
--	spin_lock_irqsave(&tmr->lock, flags);
--	cur_tick = tmr->tick.cur_tick;
--	spin_unlock_irqrestore(&tmr->lock, flags);
--	return cur_tick;
-+	guard(spinlock_irqsave)(&tmr->lock);
-+	return tmr->tick.cur_tick;
+- unlock:
+-	mutex_unlock(&register_mutex);
+ 	return err;
  }
  
+@@ -1110,8 +1086,8 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
+ 	struct snd_pcm_substream *substream;
+ 	int cidx;
  
-@@ -486,19 +440,18 @@ void snd_seq_info_timer_read(struct snd_info_entry *entry,
- 		q = queueptr(idx);
- 		if (q == NULL)
- 			continue;
--		mutex_lock(&q->timer_mutex);
--		tmr = q->timer;
--		if (!tmr)
--			goto unlock;
--		ti = tmr->timeri;
--		if (!ti)
--			goto unlock;
--		snd_iprintf(buffer, "Timer for queue %i : %s\n", q->queue, ti->timer->name);
--		resolution = snd_timer_resolution(ti) * tmr->ticks;
--		snd_iprintf(buffer, "  Period time : %lu.%09lu\n", resolution / 1000000000, resolution % 1000000000);
--		snd_iprintf(buffer, "  Skew : %u / %u\n", tmr->skew, tmr->skew_base);
--unlock:
--		mutex_unlock(&q->timer_mutex);
-+		scoped_guard(mutex, &q->timer_mutex) {
-+			tmr = q->timer;
-+			if (!tmr)
-+				break;
-+			ti = tmr->timeri;
-+			if (!ti)
-+				break;
-+			snd_iprintf(buffer, "Timer for queue %i : %s\n", q->queue, ti->timer->name);
-+			resolution = snd_timer_resolution(ti) * tmr->ticks;
-+			snd_iprintf(buffer, "  Period time : %lu.%09lu\n", resolution / 1000000000, resolution % 1000000000);
-+			snd_iprintf(buffer, "  Skew : %u / %u\n", tmr->skew, tmr->skew_base);
-+		}
- 		queuefree(q);
-  	}
+-	mutex_lock(&register_mutex);
+-	mutex_lock(&pcm->open_mutex);
++	guard(mutex)(&register_mutex);
++	guard(mutex)(&pcm->open_mutex);
+ 	wake_up(&pcm->open_wait);
+ 	list_del_init(&pcm->list);
+ 
+@@ -1138,8 +1114,6 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
+ 			snd_unregister_device(pcm->streams[cidx].dev);
+ 		free_chmap(&pcm->streams[cidx]);
+ 	}
+-	mutex_unlock(&pcm->open_mutex);
+-	mutex_unlock(&register_mutex);
+ 	return 0;
  }
+ 
+@@ -1164,7 +1138,7 @@ int snd_pcm_notify(struct snd_pcm_notify *notify, int nfree)
+ 		       !notify->n_unregister ||
+ 		       !notify->n_disconnect))
+ 		return -EINVAL;
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	if (nfree) {
+ 		list_del(&notify->list);
+ 		list_for_each_entry(pcm, &snd_pcm_devices, list)
+@@ -1174,7 +1148,6 @@ int snd_pcm_notify(struct snd_pcm_notify *notify, int nfree)
+ 		list_for_each_entry(pcm, &snd_pcm_devices, list)
+ 			notify->n_register(pcm);
+ 	}
+-	mutex_unlock(&register_mutex);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(snd_pcm_notify);
+@@ -1190,7 +1163,7 @@ static void snd_pcm_proc_read(struct snd_info_entry *entry,
+ {
+ 	struct snd_pcm *pcm;
+ 
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	list_for_each_entry(pcm, &snd_pcm_devices, list) {
+ 		snd_iprintf(buffer, "%02i-%02i: %s : %s",
+ 			    pcm->card->number, pcm->device, pcm->id, pcm->name);
+@@ -1202,7 +1175,6 @@ static void snd_pcm_proc_read(struct snd_info_entry *entry,
+ 				    pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream_count);
+ 		snd_iprintf(buffer, "\n");
+ 	}
+-	mutex_unlock(&register_mutex);
+ }
+ 
+ static struct snd_info_entry *snd_pcm_proc_entry;
+diff --git a/sound/core/pcm_memory.c b/sound/core/pcm_memory.c
+index a0b951471699..506386959f08 100644
+--- a/sound/core/pcm_memory.c
++++ b/sound/core/pcm_memory.c
+@@ -38,17 +38,15 @@ static void __update_allocated_size(struct snd_card *card, ssize_t bytes)
+ 
+ static void update_allocated_size(struct snd_card *card, ssize_t bytes)
+ {
+-	mutex_lock(&card->memory_mutex);
++	guard(mutex)(&card->memory_mutex);
+ 	__update_allocated_size(card, bytes);
+-	mutex_unlock(&card->memory_mutex);
+ }
+ 
+ static void decrease_allocated_size(struct snd_card *card, size_t bytes)
+ {
+-	mutex_lock(&card->memory_mutex);
++	guard(mutex)(&card->memory_mutex);
+ 	WARN_ON(card->total_pcm_alloc_bytes < bytes);
+ 	__update_allocated_size(card, -(ssize_t)bytes);
+-	mutex_unlock(&card->memory_mutex);
+ }
+ 
+ static int do_alloc_pages(struct snd_card *card, int type, struct device *dev,
+@@ -58,14 +56,12 @@ static int do_alloc_pages(struct snd_card *card, int type, struct device *dev,
+ 	int err;
+ 
+ 	/* check and reserve the requested size */
+-	mutex_lock(&card->memory_mutex);
+-	if (max_alloc_per_card &&
+-	    card->total_pcm_alloc_bytes + size > max_alloc_per_card) {
+-		mutex_unlock(&card->memory_mutex);
+-		return -ENOMEM;
++	scoped_guard(mutex, &card->memory_mutex) {
++		if (max_alloc_per_card &&
++		    card->total_pcm_alloc_bytes + size > max_alloc_per_card)
++			return -ENOMEM;
++		__update_allocated_size(card, size);
+ 	}
+-	__update_allocated_size(card, size);
+-	mutex_unlock(&card->memory_mutex);
+ 
+ 	if (str == SNDRV_PCM_STREAM_PLAYBACK)
+ 		dir = DMA_TO_DEVICE;
+@@ -191,20 +187,20 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
+ 	size_t size;
+ 	struct snd_dma_buffer new_dmab;
+ 
+-	mutex_lock(&substream->pcm->open_mutex);
++	guard(mutex)(&substream->pcm->open_mutex);
+ 	if (substream->runtime) {
+ 		buffer->error = -EBUSY;
+-		goto unlock;
++		return;
+ 	}
+ 	if (!snd_info_get_line(buffer, line, sizeof(line))) {
+ 		snd_info_get_str(str, line, sizeof(str));
+ 		size = simple_strtoul(str, NULL, 10) * 1024;
+ 		if ((size != 0 && size < 8192) || size > substream->dma_max) {
+ 			buffer->error = -EINVAL;
+-			goto unlock;
++			return;
+ 		}
+ 		if (substream->dma_buffer.bytes == size)
+-			goto unlock;
++			return;
+ 		memset(&new_dmab, 0, sizeof(new_dmab));
+ 		new_dmab.dev = substream->dma_buffer.dev;
+ 		if (size > 0) {
+@@ -218,7 +214,7 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
+ 					 substream->pcm->card->number, substream->pcm->device,
+ 					 substream->stream ? 'c' : 'p', substream->number,
+ 					 substream->pcm->name, size);
+-				goto unlock;
++				return;
+ 			}
+ 			substream->buffer_bytes_max = size;
+ 		} else {
+@@ -230,8 +226,6 @@ static void snd_pcm_lib_preallocate_proc_write(struct snd_info_entry *entry,
+ 	} else {
+ 		buffer->error = -EINVAL;
+ 	}
+- unlock:
+-	mutex_unlock(&substream->pcm->open_mutex);
+ }
+ 
+ static inline void preallocate_info_init(struct snd_pcm_substream *substream)
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 0e84de4b484d..f2a0cbb25bb7 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1398,17 +1398,15 @@ static int snd_pcm_action_nonatomic(const struct action_ops *ops,
+ 	int res;
+ 
+ 	/* Guarantee the group members won't change during non-atomic action */
+-	down_read(&snd_pcm_link_rwsem);
++	guard(rwsem_read)(&snd_pcm_link_rwsem);
+ 	res = snd_pcm_buffer_access_lock(substream->runtime);
+ 	if (res < 0)
+-		goto unlock;
++		return res;
+ 	if (snd_pcm_stream_linked(substream))
+ 		res = snd_pcm_action_group(ops, substream, state, false);
+ 	else
+ 		res = snd_pcm_action_single(ops, substream, state);
+ 	snd_pcm_buffer_access_unlock(substream->runtime);
+- unlock:
+-	up_read(&snd_pcm_link_rwsem);
+ 	return res;
+ }
+ 
+@@ -2259,7 +2257,6 @@ static bool is_pcm_file(struct file *file)
+  */
+ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
+ {
+-	int res = 0;
+ 	struct snd_pcm_file *pcm_file;
+ 	struct snd_pcm_substream *substream1;
+ 	struct snd_pcm_group *group __free(kfree) = NULL;
+@@ -2281,20 +2278,15 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
+ 	group = kzalloc(sizeof(*group), GFP_KERNEL);
+ 	if (!group)
+ 		return -ENOMEM;
+-
+ 	snd_pcm_group_init(group);
+ 
+-	down_write(&snd_pcm_link_rwsem);
++	guard(rwsem_write)(&snd_pcm_link_rwsem);
+ 	if (substream->runtime->state == SNDRV_PCM_STATE_OPEN ||
+ 	    substream->runtime->state != substream1->runtime->state ||
+-	    substream->pcm->nonatomic != substream1->pcm->nonatomic) {
+-		res = -EBADFD;
+-		goto _end;
+-	}
+-	if (snd_pcm_stream_linked(substream1)) {
+-		res = -EALREADY;
+-		goto _end;
+-	}
++	    substream->pcm->nonatomic != substream1->pcm->nonatomic)
++		return -EBADFD;
++	if (snd_pcm_stream_linked(substream1))
++		return -EALREADY;
+ 
+ 	snd_pcm_stream_lock_irq(substream);
+ 	if (!snd_pcm_stream_linked(substream)) {
+@@ -2310,9 +2302,7 @@ static int snd_pcm_link(struct snd_pcm_substream *substream, int fd)
+ 	refcount_inc(&target_group->refs);
+ 	snd_pcm_stream_unlock(substream1);
+ 	snd_pcm_group_unlock_irq(target_group, nonatomic);
+- _end:
+-	up_write(&snd_pcm_link_rwsem);
+-	return res;
++	return 0;
+ }
+ 
+ static void relink_to_local(struct snd_pcm_substream *substream)
+@@ -2327,14 +2317,11 @@ static int snd_pcm_unlink(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_group *group;
+ 	bool nonatomic = substream->pcm->nonatomic;
+ 	bool do_free = false;
+-	int res = 0;
+ 
+-	down_write(&snd_pcm_link_rwsem);
++	guard(rwsem_write)(&snd_pcm_link_rwsem);
+ 
+-	if (!snd_pcm_stream_linked(substream)) {
+-		res = -EALREADY;
+-		goto _end;
+-	}
++	if (!snd_pcm_stream_linked(substream))
++		return -EALREADY;
+ 
+ 	group = substream->group;
+ 	snd_pcm_group_lock_irq(group, nonatomic);
+@@ -2353,10 +2340,7 @@ static int snd_pcm_unlink(struct snd_pcm_substream *substream)
+ 	snd_pcm_group_unlock_irq(group, nonatomic);
+ 	if (do_free)
+ 		kfree(group);
+-
+-       _end:
+-	up_write(&snd_pcm_link_rwsem);
+-	return res;
++	return 0;
+ }
+ 
+ /*
+@@ -2929,10 +2913,10 @@ static int snd_pcm_release(struct inode *inode, struct file *file)
+ 	/* block until the device gets woken up as it may touch the hardware */
+ 	snd_power_wait(pcm->card);
+ 
+-	mutex_lock(&pcm->open_mutex);
+-	snd_pcm_release_substream(substream);
+-	kfree(pcm_file);
+-	mutex_unlock(&pcm->open_mutex);
++	scoped_guard(mutex, &pcm->open_mutex) {
++		snd_pcm_release_substream(substream);
++		kfree(pcm_file);
++	}
+ 	wake_up(&pcm->open_wait);
+ 	module_put(pcm->card->module);
+ 	snd_card_file_remove(pcm->card, file);
 -- 
 2.35.3
 
