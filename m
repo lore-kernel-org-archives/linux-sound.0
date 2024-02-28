@@ -1,140 +1,187 @@
-Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD9315B96D;
-	Wed, 28 Feb 2024 15:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190BD15D5AF
+	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 15:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709132660; cv=none; b=NDYI+iX4/LFAXwcwBZkbuQDa8Q0GW6gEX9yqIh+oHcjbCDirV6QmEofcDolxVP1pN1NBGiu/7l7zV2E5Mu+lKlw/rpNdBtisErIYo8lyMqE8CS/DEOvBop0S3c1w2Vo4fY8ECZ/yVRxsCGG33Ab+Rj0vk2EjGFaLwE9MxQCnk90=
+	t=1709134639; cv=none; b=NuFnj2iXup00pGYC7y5z9/2UA+AjkXsA9sFfZBIadHBIfujjnSNLP+AvhDUtXKkefQImsnDFyECwubiNVe2VVomCu3SvZIGZvw6BqG22cxaZbQzgRmpmUeEOBw7mfa3lDyxDtuUIjoLihf4aHFxj9j5hiz/OZf9Q9w7yrUzAGX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709132660; c=relaxed/simple;
-	bh=9tGXBwKFGJZGSPR//Bsv4YEYrGJHk4BY+p5e8O6rcok=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=UR/bYnPnvjIXqy7P7yC47ZfA/yS04+4gW9OosJaoSojdN6uy86JoxB11mZ5Gjb2q9h54/bP+k4HcTGOJGUcMPtQmXHCbL01DbgSIB3NYvh1sDQBlfYrbXceDCDkWxfQrKR0OZm3a6hTgAiiZDNxhGtR40gk77nc6u/qCaCaSelM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Gs1v+yG/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Wnlbkg93; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1709134639; c=relaxed/simple;
+	bh=YrTM7NclhRirvO5ov26nYLcb/cIPqgB149/aYYtK3+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqVUkZ6Q/q+rvTEQU1D41CHJEPakXdFw0+Qqi3qG2RDgkihk2pSECv/WLrQrpQjX2t3li8ZjPX3/ZFgpQ5+F/AH/HfEemB/p1URKMhi5geojxfrISJ7dQnaIk+BeUU/sPXvB7zy+MnfNlz9uhql8iFtnYg1YyW/0enUPUT7e44Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OxBB1/41; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Gs1v+yG/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Wnlbkg93"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 2D21E13800C7;
-	Wed, 28 Feb 2024 10:04:18 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 28 Feb 2024 10:04:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709132658; x=1709219058; bh=P2H2+x5x0F
-	o5gwusq3oIdtZV3HYY8iYFn/h5UuumAQI=; b=Gs1v+yG/57GNqgyWOk02TVwS9X
-	v7HxGuSp15n0B1bjvZNlSmQ9avtro5BxFQYW1edFDDu8AMBPTV0DyBND1J7tsg/F
-	d4eP3wLPfYm1HWPGpfYi/1KKFLODAfVMTPFCMS3C+LaG0il3+pb9syBaJinB/qxF
-	w+HaocebKVXAjoWllypjyyith5zcuz6p2W1CRgDi3+M682S48TO36D4iISbCYKlj
-	IuaUj0biKbttHIdc0+AHnrS+RVQOHAHf8sLozRJRM7uH5ODuKmqS1/klPlAJE1ES
-	dv3UHQFTVFUHvodQcS55/4UsTYmLh2zUQ0Oh5VMY3zFXn0BLGzrsM6MXXS7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709132658; x=1709219058; bh=P2H2+x5x0Fo5gwusq3oIdtZV3HYY
-	8iYFn/h5UuumAQI=; b=Wnlbkg93pqFgknqadoHyLV2YZn4aEm1Eh6y9yu13w9IJ
-	YeqSH9F0BgZU1oVk0sk1IewiAK18VbM1338LrX1NMlUWG9WkoWCM18YUP9GB1z8U
-	DavlmF4qousqRhILb1/H9Bc0AS2agWzdkcrptuF6NAtHMzZUU+vAq3fahealu2HH
-	mA1nYoJ1GLfbR+rCeESMeT5AsvdcXs+3LkqevDnZfKFh/ZR/dywx62Fa9L5bz5gU
-	BFXX2jS3EeDGQOyPD63wMmD//9wXQ/WPx0rRtJwg3zLhiBdT6k20KGdu7Ea48nZr
-	2+TXI2aFDNfSimKG4yC/tGqB6IXohZbieyO0pk2hvw==
-X-ME-Sender: <xms:cUvfZRj_DnPDEPQpUcno0JKfEvp4Ln15wVTYk8SSXZ97OwES75JjxA>
-    <xme:cUvfZWBJqLghLk5YvWAq5hsr_q1q9UcV4mTtQmx42TbspnmTLMYvLm2tJVxR5ThHp
-    -ZBQyOaA3IK9IsaZPo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeejgdeikecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:cUvfZRHWc61MGTeSXfJztwB3ixUjPkFVhTTIAMAOQscudotNquWSXw>
-    <xmx:cUvfZWTXNEcXeFHRn8zyEgNnb9VGAbS--bkteVhro2mgtHg_GlD1Bw>
-    <xmx:cUvfZexRd09R6bU05A0oPCxbXBIDMKBq-LwfRZHYScqNxFptXBE0kQ>
-    <xmx:ckvfZQ6oeYyYrfipWdqbz0F0WX_L8lFHsWji5GvL6hlXlzJxmbOGpA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 4B00AB6008F; Wed, 28 Feb 2024 10:04:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-182-gaab6630818-fm-20240222.002-gaab66308
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OxBB1/41"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-36523b9fa11so19514865ab.3
+        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 07:37:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709134637; x=1709739437; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=svD1W1a7QFf9Gza+G3SPXvK0VpFKMCR1+Xi0Z1FWhGs=;
+        b=OxBB1/41F8A5SVmH7WKmwol1l9JkBUCE2aZRvp0MoMgt14h5YhBEKDK08u/e6MCRz8
+         T3+mQ3gcFNwIx+dA5Jcvhew9h9HqHpI7b/oxrD1SYn5MHEea71e2NRaCgi8lzXD2Gzru
+         fjPLs/8qPvLxHxrf1LNf3uxIUgFwv91YrC15U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709134637; x=1709739437;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=svD1W1a7QFf9Gza+G3SPXvK0VpFKMCR1+Xi0Z1FWhGs=;
+        b=dd3MqSN1AofQiZOIQDRtU81tZyVMTl6bQBCn7AL3pkmw/QurbQSvVyD27JrEr4kUQZ
+         995Dy2zE9xKN5Cy32t4VkRUzMcAqb7Ysn2BL9vz1v6rtFYDlCiJsOOBznTkoeeIMhwkr
+         z/LwjMk1Th2sIDgsRA+XpysvY6JBd4oLep3VifwgjNICYWxRSx4bN7dy6TZoYxG0B1Sf
+         +2Je9Jmf4fi/z8QnQ9j7q0u+ka/wIY6AXHDDLFKOALJ9o+U34CKOFZ8DNccgA7RXuGwn
+         BHBCKICMRFOU596JKVg1hBZX+2vriAj5iBrWKq/YL2L5u3oFBkHCNvWOcK5RcCnTBX4E
+         K2dw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6tYKkRykIHcUQ0wxZzFfvEte4w8LcbfDBdIZNJYzhB7jk52pcDPTrk3c/uNzxdoEKWufkJt9TLdlXdXKXnGhZ5mauCtTmMRRM5R0=
+X-Gm-Message-State: AOJu0YweCek4s+JCHIJi1L+xgOQ8hDzNShDej7gdF68XrPmUrOaFU7o4
+	mF1nFYPclqQtCn42M2S2oCmoCxjmZwDpnG7t6xUjKMcdpwRC4l6lbNaeb5QC+w==
+X-Google-Smtp-Source: AGHT+IFwnHar0bSnDcMYJo9D3FZDjlUk0s+GVf8S+gT0uUdrPI6XVBO5n/eqspfTGLxTLggHdT93YQ==
+X-Received: by 2002:a92:de43:0:b0:365:1e8f:1519 with SMTP id e3-20020a92de43000000b003651e8f1519mr13223206ilr.27.1709134637291;
+        Wed, 28 Feb 2024 07:37:17 -0800 (PST)
+Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
+        by smtp.gmail.com with UTF8SMTPSA id i6-20020a056e021b0600b00363ce0ac359sm2766041ilv.47.2024.02.28.07.37.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 07:37:16 -0800 (PST)
+Date: Wed, 28 Feb 2024 15:37:16 +0000
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 1/8] usb: misc: onboard_hub: use device supply names
+Message-ID: <Zd9TLL0IM08Wh63i@google.com>
+References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
+ <20240228-onboard_xvf3500-v5-1-76b805fd3fe6@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <1265517d-b98a-4ec6-9215-10cd988ff78f@app.fastmail.com>
-In-Reply-To: <87msrkhcz6.wl-tiwai@suse.de>
-References: <20240228140152.1824901-1-arnd@kernel.org>
- <87msrkhcz6.wl-tiwai@suse.de>
-Date: Wed, 28 Feb 2024 16:03:56 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Takashi Iwai" <tiwai@suse.de>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Kees Cook" <keescook@chromium.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH] ALSA: asihpi: work around clang-17+ false positive fortify-string
- warning
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240228-onboard_xvf3500-v5-1-76b805fd3fe6@wolfvision.net>
 
-On Wed, Feb 28, 2024, at 15:37, Takashi Iwai wrote:
-> On Wed, 28 Feb 2024 15:01:45 +0100,
-> Arnd Bergmann wrote:
->> 
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> One of the memory copies in this driver triggers a warning about a
->> possible out of range access:
->> 
->> In file included from /home/arnd/arm-soc/sound/pci/asihpi/hpimsgx.c:13:
->> /home/arnd/arm-soc/include/linux/fortify-string.h:553:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
->>   553 |                         __write_overflow_field(p_size_field, size);
->>       |                         ^
->
-> Hmm, I can't see the relevance of those messages with the code you
-> touched.  Do you have more info?
+Hi Javier,
 
-Not much. The warning is caused by this line:
+Thanks for moving this patch to the front of the series!
 
-        memcpy(&rESP_HPI_ADAPTER_OPEN[adapter], &hr,
-                sizeof(rESP_HPI_ADAPTER_OPEN[0]));
+A few more comments inline.
 
-rESP_HPI_ADAPTER_OPEN[] is a global array with a fixed
-length of 20 elements, and 'adapter' is a 16-bit index
-into that array. The warning is intended to trigger when
-there is a code path that will overflow, but it normally
-warns only if there is a known value range that the
-variable can take, not for an unrestricted index.
+On Wed, Feb 28, 2024 at 02:51:28PM +0100, Javier Carrasco wrote:
+> The current implementation uses generic names for the power supplies,
+> which conflicts with proper name definitions in the device bindings.
+> 
+> Add a per-device property to include real supply names and keep generic
+> names for existing devices to keep backward compatibility.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
+>  drivers/usb/misc/onboard_usb_hub.h | 12 ++++++++++
+>  2 files changed, 38 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/onboard_usb_hub.c b/drivers/usb/misc/onboard_usb_hub.c
+> index 0dd2b032c90b..3755f6cc1eda 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.c
+> +++ b/drivers/usb/misc/onboard_usb_hub.c
+> @@ -29,17 +29,6 @@
+>  
+>  #include "onboard_usb_hub.h"
+>  
+> -/*
+> - * Use generic names, as the actual names might differ between hubs. If a new
+> - * hub requires more than the currently supported supplies, add a new one here.
+> - */
+> -static const char * const supply_names[] = {
+> -	"vdd",
+> -	"vdd2",
+> -};
+> -
+> -#define MAX_SUPPLIES ARRAY_SIZE(supply_names)
+> -
+>  static void onboard_hub_attach_usb_driver(struct work_struct *work);
+>  
+>  static struct usb_device_driver onboard_hub_usbdev_driver;
+> @@ -65,6 +54,30 @@ struct onboard_hub {
+>  	struct clk *clk;
+>  };
+>  
+> +static int onboard_hub_get_regulator_bulk(struct device *dev,
+> +					  struct onboard_hub *onboard_hub)
 
-My first thought was that clang warns about it here because
-the 'u16 adapter' declaration limits the index to something
-smaller than an 'int' or 'long', but changing the type
-did not get rid of the warning.
+Let's call this onboard_hub_get_regulators(), it's an implementation detail
+that regulator_bulk_get() is used for getting them.
 
->> Adding a range check avoids the problem, though I don't quite see
->> why it warns in the first place if clang has no knowledge of the
->> actual range of the type, or why I never saw the warning in previous
->> randconfig tests.
->
-> It's indeed puzzling.  If it's really about adapter_prepare() call,
-> the caller is only HPIMSGX__init(), and there is already an assignment
-> with that index value beforehand:
->   hpi_entry_points[hr.u.s.adapter_index] = entry_point_func;
->
-> and this array is also the size of HPI_MAX_ADAPTERS.  That is, the
-> same check should have caught here...
+no need to pass 'dev', there is onboard_hub->dev
 
-The fortified-string warning only triggers for string.h operations
-(memset, memcpy, memcmp, strn*...), not for a direct assignment.
+>  static int onboard_hub_power_on(struct onboard_hub *hub)
+>  {
+>  	int err;
+> @@ -253,7 +266,6 @@ static int onboard_hub_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct onboard_hub *hub;
+> -	unsigned int i;
+>  	int err;
+>  
+>  	hub = devm_kzalloc(dev, sizeof(*hub), GFP_KERNEL);
+> @@ -264,18 +276,9 @@ static int onboard_hub_probe(struct platform_device *pdev)
+>  	if (!hub->pdata)
+>  		return -EINVAL;
+>  
+> -	if (hub->pdata->num_supplies > MAX_SUPPLIES)
+> -		return dev_err_probe(dev, -EINVAL, "max %zu supplies supported!\n",
+> -				     MAX_SUPPLIES);
+> -
+> -	for (i = 0; i < hub->pdata->num_supplies; i++)
+> -		hub->supplies[i].supply = supply_names[i];
+> -
+> -	err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
+> -	if (err) {
+> -		dev_err(dev, "Failed to get regulator supplies: %pe\n", ERR_PTR(err));
+> +	err = onboard_hub_get_regulator_bulk(dev, onboard_hub);
 
-      Arnd
+The local variable is called 'hub', not 'onboard_hub'.
+
+> diff --git a/drivers/usb/misc/onboard_usb_hub.h b/drivers/usb/misc/onboard_usb_hub.h
+> index f360d5cf8d8a..ea24bd6790f0 100644
+> --- a/drivers/usb/misc/onboard_usb_hub.h
+> +++ b/drivers/usb/misc/onboard_usb_hub.h
+> @@ -6,54 +6,66 @@
+>  #ifndef _USB_MISC_ONBOARD_USB_HUB_H
+>  #define _USB_MISC_ONBOARD_USB_HUB_H
+>  
+> +#define MAX_SUPPLIES 2
+> +
+>  struct onboard_hub_pdata {
+>  	unsigned long reset_us;		/* reset pulse width in us */
+>  	unsigned int num_supplies;	/* number of supplies */
+> +	const char * const supply_names[MAX_SUPPLIES]; /* use the real names */
+
+The comment isn't particularly useful or accurate. Not in all cases
+real names are used and outside of the context of this change the
+comment is hard to understand.
+
+I'd say just omit it, the name of the field is self-documenting enough,
+there is no need to repeat the same in a comment (as for 'num_supplies'
+...)
