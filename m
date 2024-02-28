@@ -1,81 +1,103 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FAD2262B
-	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 07:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EAE2C842;
+	Wed, 28 Feb 2024 08:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709105976; cv=none; b=dFWwLVDLRUcgsNpJSTktbxKDVqpq1pWJn99xO8rp5Y0MPb2jak10Bx3A2ft6A/+lU0xc8ALeYrbmNzqp2xXiJ6VzI9c8rNGzs07ESI4ydQFIz94A0KwBfQ9wx5KIDvVkrx6RSt9hCtjkhTQCaOxGr9n/twt+4O9BDQzEZsubDQU=
+	t=1709108928; cv=none; b=p7n6Q4/bj5Epbu/Gpo2xybAjoIH8/m4FBG0lDVDP8R3ci8QPDnQV8kYVYlq+hvSE9F31RcYFKWuypxMykdiK6NEC8eftIT+eAwKEW473AsT7czqZAPARjswycb04RPQOOtAMyNIYqmRpk7NSe81EmQ5bkGmMhTedQBTqRP2fHj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709105976; c=relaxed/simple;
-	bh=30+IE/wX+J+GmGYD58bOq80Psm6oAk56MlPcFLN+60c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=D51wHsvTqghPhyj6NutDNdocPY61GT5RZA1fy2r5enh9fOT01YVlZ8Kai8S7NW2OdWzYuM5asWUQVM9nzVaSmjdn0SAF1iXJ3JLgWdPCJ0tkLCQ788jks6wor7So5ucsw8vQRSaHXgnaoFgxgFrmVpsVsUuFag4w7sMOXmqWVLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link; spf=pass smtp.mailfrom=jwang.link; dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b=TEw+YIVd; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwang.link
+	s=arc-20240116; t=1709108928; c=relaxed/simple;
+	bh=5C6vD/fRuXGe615n6PpX9VIOEIZkOgWqNNFadbqmy4M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KR25EONeFJRXlMbm6own874XiOPOzSDXw3ZTFIfzn5HUca4cEO9ydIRC/v495/2AfayPp25dI/9h+qaQiZYrLbUlVcikg09RErBJZQy0GNwXPy2o3vk0OJWSZQ4DCPc7uUUaA/Wue8jdItUxE1PVIVKDPGDhHWi1u6fJkbUEvlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me; spf=pass smtp.mailfrom=maquefel.me; dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b=EalO3ZTM; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maquefel.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maquefel.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b="TEw+YIVd"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jwang.link; s=key1;
-	t=1709105972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ndKq2eVWKXYErGnWKFXFB9z2FnzOLNeieDO4qh9C7k4=;
-	b=TEw+YIVd2tdlyZKBfc7ph4Na1+6jK5DlxpuozWuWwk/DtVkfWqailE8/prapPkY9tmU6F9
-	XHT4xp7++EBj3sriAbWWikyx4AGqvR53b30vV/ByoGuVpLT959sdWX310ImUCPloABbnb3
-	GxVdcUOS+cPh75rTskua+qYLAx/dBbHvMHT7RBPTD9zB8x+wFiftsbaZjaG3wFwrR8vjW1
-	2xebQqdG8XmSwvj7CiOHxT3BHRRHCJFpqWzeHjP41J7dqQi3YAYquHQnLNF+herQQSFA6B
-	cK4vY2hQ9CQqXrjG8qeG404uTLsHaHFLDC5MbUKagVJhts/0UJwgp1OZ+akdpA==
-From: Jiawei Wang <me@jwang.link>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Jiawei Wang <me@jwang.link>
-Subject: [PATCH 2/2] ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
-Date: Wed, 28 Feb 2024 15:39:14 +0800
-Message-Id: <20240228073914.232204-2-me@jwang.link>
-In-Reply-To: <20240228073914.232204-1-me@jwang.link>
-References: <20240228073914.232204-1-me@jwang.link>
+	dkim=pass (1024-bit key) header.d=maquefel.me header.i=@maquefel.me header.b="EalO3ZTM"
+Received: from mail-nwsmtp-smtp-production-main-18.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-18.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:8c9b:0:640:8c33:0])
+	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 7184B61680;
+	Wed, 28 Feb 2024 11:23:10 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-18.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 2NUOVYANd8c0-nNSnKwOK;
+	Wed, 28 Feb 2024 11:23:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail;
+	t=1709108588; bh=5C6vD/fRuXGe615n6PpX9VIOEIZkOgWqNNFadbqmy4M=;
+	h=References:Date:In-Reply-To:Cc:To:From:Subject:Message-ID;
+	b=EalO3ZTMGKQby2mNKqzwTBWhRSR2vOdtx+YGi+0dATxHc9Ne404mREzk3ONsmowJQ
+	 Sbt6ELQEiXojAyllpQkuQc6yuKN4UbpwNHkcrWbSfpHM6co896dWu7EcWBkPxvOZZi
+	 FlkHZDOUFmF5J3w7ul6ZRoH0jf1AGJ+fqIZrkwaY=
+Authentication-Results: mail-nwsmtp-smtp-production-main-18.iva.yp-c.yandex.net; dkim=pass header.i=@maquefel.me
+Message-ID: <154df7fd17dd05fdb6ba21d5f4d84ecfdb476091.camel@maquefel.me>
+Subject: Re: [PATCH v8 00/38] ep93xx device tree conversion
+From: Nikita Shubin <nikita.shubin@maquefel.me>
+To: Mark Brown <broonie@kernel.org>
+Cc: Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin
+ <alexander.sverdlin@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Lukasz Majewski <lukma@denx.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Thierry Reding
+ <thierry.reding@gmail.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>,  Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>, "Wu, Aaron"
+ <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, Olof Johansson
+ <olof@lixom.net>,  Niklas Cassel <cassel@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org,  devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org,  linux-watchdog@vger.kernel.org,
+ linux-pwm@vger.kernel.org,  linux-spi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Bartosz
+ Golaszewski <bartosz.golaszewski@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Andy
+ Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 28 Feb 2024 11:23:02 +0300
+In-Reply-To: <168fd3d7-d1e9-467e-bdd0-36c12aa81b68@sirena.org.uk>
+References: <20240226-ep93xx-v8-0-3136dca7238f@maquefel.me>
+	 <168fd3d7-d1e9-467e-bdd0-36c12aa81b68@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Like many other models, the Lenovo 21J2 (ThinkBook 16 G5+ APO)
-needs a quirk entry for the internal microphone to function.
+Hello Mark!
 
-Signed-off-by: Jiawei Wang <me@jwang.link>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Mon, 2024-02-26 at 13:34 +0000, Mark Brown wrote:
+> On Mon, Feb 26, 2024 at 10:29:56AM +0300, Nikita Shubin via B4 Relay
+> wrote:
+>=20
+> > The goal is to receive ACKs for all patches in series to merge it
+> > via Arnd branch.
+>=20
+> What are the actual dependencies here?
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index cc231185d72c..895e73243921 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21J2"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.39.2
+More than a half of patches makes device drivers incompatible with
+"platform" approach, this is intentionally cause we don't want any
+leftovers - ep93xx should be fully converted to dt or left as is.
 
+Currently only 4 patches that require review/ack left:
+
+- ARM: ep93xx: add regmap aux_dev
+- clk: ep93xx: add DT support for Cirrus EP93xx
+- dma: cirrus: Convert to DT for Cirrus EP93xx
+- dma: cirrus: remove platform code
