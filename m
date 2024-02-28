@@ -1,40 +1,58 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FDD5733F;
-	Wed, 28 Feb 2024 10:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B04D73537
+	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 11:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709115937; cv=none; b=lt2pDU5NFZ44a3WlEqee/OWgi56ceCXICSvVeUGhiiCf/J1gMuC4PH07KHkK81vDOWw7fR2pTHqLTj6TgnGZflB8tophiXFnCj8i+Rv1NKVX0y06UdajyL2FfFZrGzBluOPRgl/5YQZidkwRkUxSUAx1rPUbR7htO8lrvA/5cME=
+	t=1709120890; cv=none; b=NM3B0AK7A3WB+bOHpmwRIrTMNrGiTdper1c13vKp6ZE67Ob9tzvNsUI+zmdDnv1GuwWozihT6K9yAx6p4AkpB7l1x43o6lOfT8wmQSBZhrxh4N1lDgcp26z4xj0IniapX38M76rW0lEgJv3lTynqz0lAEs2iVHQEPV4NxsD6EPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709115937; c=relaxed/simple;
-	bh=E8R79vstTtZYjkIXyTYbyYkKBTC6894FJU5MK2LqR20=;
+	s=arc-20240116; t=1709120890; c=relaxed/simple;
+	bh=efAhC9hRP8H3lGnTm4GfEFicpOrPdhSIcMulUBDXTn4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vBwYd0m2X9iswRt7OJe3U1nwQOxB63y0ae/c/KyWQbqCAqFS0SwkIbbjRo986DRMT3PChRmxJXeCRbSxwSX5hTQd4xz78zDibMJvblrKKaVgw9NPne7Z8X4azOfd19y+sHUfkZwLjWSE2a1kWZieUB1VH4GsllN3842Y5CGtp5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qVdjMgNp; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=muj6PrXcYTtZitoNyZVN46E9++sWhkAIZHblLTnNKXNZVHc8FdUo1hY5Jqiup9XlUPb27DnwyDwW0wuUbV60zbMzryDUPPqQURap0JpcZH6jgxEG5dc2yYFSAGWhqa0NsZ8zpaL79v0sYZad60HevUSGFNGpJwDZS9D9DmLc2RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=COSUTH52; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qVdjMgNp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709115933;
-	bh=E8R79vstTtZYjkIXyTYbyYkKBTC6894FJU5MK2LqR20=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qVdjMgNpoJSKYoUGzNNif7MwqOIvRhO+7Z512Q1OpHtWr70VAn2rL29LyFCx5lcOu
-	 2A+3rlzaNSw1g91MWg9EOwDjy0uIXRvFQe8lG+ZfY76MTDsfoXPLs73Ne1Se/vBUbv
-	 VpOLc1vtuTvKRGQtbKDRuKGyfxcvr8ufYw5nC+/8DZYLodTszxLHzRryEYxFhssgrw
-	 oAphV7git0xKym3Y/vQWhfh+Yme1IfUOBmtbU7oTWRHVm9YqOMrnEIy7veaCQATzW8
-	 TjkxbCIEE9MER6XEM87oFe7lh0ZSRcN6OZPk/sUiDQ0VVSmBJM5WF1FdL6uC3PR8gA
-	 jemLx0f+CRKLA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 30B7E3780C6C;
-	Wed, 28 Feb 2024 10:25:32 +0000 (UTC)
-Message-ID: <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
-Date: Wed, 28 Feb 2024 11:25:31 +0100
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="COSUTH52"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33d066f8239so3875918f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 03:48:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709120886; x=1709725686; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
+        b=COSUTH52myYonC9p1wVFPrp122+Ej5uX81zZb445ewbgzlXj1AbYaVKub8slgHwWhv
+         jxcqhxjczBC+Q1AHXz8rdROkB2WN+8oJ87srSMU5WgfM3NrhEYm7FOLYZC0oB3WQVICx
+         pWSPUyflkKpWY5SpvK5p0x2SznbJTWoyNGAhrzKuLN9tDvrxB8dWehztcZpORmWKrcoG
+         b2QQOkMKRHLkIMyQJeq/7W9hfTQhc2kEpocBM4CL5BmGIiWCKDBWzk+LAiUE4UnWqPVe
+         aR60oHEvSY4YfSI+WT2PMqN2GR8zeaz4TC4wWf6DY1N2C/kz+3CH94BQ9yLCJgI0uOiB
+         kDYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709120886; x=1709725686;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zu3ewqCG+5EQn7RzZWf4wxjkdVeCPYXJSPVh/ZEGpuY=;
+        b=r+uEQ+ABB/3V+edvLKgNWzo4iRw7NsAlDsa8QYFMCzRUjdItYVexKdAPDmI98y0Sdj
+         XSoPiKT/l7OtY7McjzVSIVpaDN+wsAQSiz1Mu2ynLAvT9RWu9y/H79pc49XdxS7zXiMn
+         THwXlWhs5JMwxYbpnDmdAu1825V5ucaa04hwCf0jprkRQ6OODBRLFpNpzK4+n4et6J5P
+         7dd6jceq5Tv1Tp4GCppSYgjPweVUOgqoH4z6Ccy/X1SY+MPkKb06qWwq8nOSh3H33MUW
+         w1k1VeC4OgBuv/uZ4I0tjcqsa71e7pPS2IfDOyEe8Uusx/MKOt/ZumikgCP+XkIMPQgP
+         5Iew==
+X-Gm-Message-State: AOJu0YxSyrD+5OYUp9TfezIHUS1wzMVPYthUAZadGLs3YA8WvhY+5RaT
+	SIryIrYC5pXyx4q7vzNPBcHiPjNGJOpY3oYXaODZLEFRhvXlX4EInKFf8R2e4Sg=
+X-Google-Smtp-Source: AGHT+IEB/UQwleJbf7XKW6dc1tBjhAXHjTKhYWiBK169zurfst+bdJvN4ZyFBulks3zB3QHX3zW7pQ==
+X-Received: by 2002:adf:fd44:0:b0:33d:277d:a2c7 with SMTP id h4-20020adffd44000000b0033d277da2c7mr7855219wrs.16.1709120886505;
+        Wed, 28 Feb 2024 03:48:06 -0800 (PST)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id bo14-20020a056000068e00b0033d6bc17d0esm15009877wrb.74.2024.02.28.03.48.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 03:48:06 -0800 (PST)
+Message-ID: <a4ba6a35-cfb4-4c3d-a9c7-ccd47d4c32d8@baylibre.com>
+Date: Wed, 28 Feb 2024 12:48:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,7 +63,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add audio
  afe document
 Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>,
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -66,177 +84,201 @@ References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
  <eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com>
  <bd4bf6ae-350e-4ee6-a924-7dd31b2c6034@linaro.org>
  <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <66e527af-0253-4565-9822-04ed84e5817c@baylibre.com>
+ <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <bb86b986-ecd7-416a-9036-082a3cff2176@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 28/02/24 10:57, Alexandre Mergnat ha scritto:
-> I think I got it.
-> 
-> - mediatek,i2s-shared-clock: will be remove from DT
-> - mediatek,dmic-iir-on: will be remove from DT
-> - mediatek,dmic-irr-mode: will be remove from DT
-> - mediatek,dmic-two-wire-mode: rephrase description needed
-> 
-> I've did abstraction (despite me) that IIR settings are runtime config because the 
-> driver implement its usage like a one-time-setup -_-'
-> 
-
-Yes but just one more thing I just noticed: `mediatek,dmic-two-wire-mode` - can we
-please rename this to `mediatek,dmic-mode` ?
-
-That'd be for consistency check mt6359.yaml and mt6358.txt
-
-   mediatek,dmic-mode:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description: |
-       Indicates how many data pins are used to transmit two channels of PDM
-       signal. 0 means two wires, 1 means one wire. Default value is 0.
-     enum:
-       - 0 # one wire
-       - 1 # two wires
-
-Cheers,
-Angelo
 
 
-
-> Thanks for the explanations, that help.
-> 
-> Regards,
-> Alexandre
-> 
-> On 28/02/2024 08:28, Krzysztof Kozlowski wrote:
->> On 27/02/2024 16:18, Alexandre Mergnat wrote:
->>>>
->>>>> +    type: boolean
->>>>> +
->>>>> +  mediatek,dmic-iir-on:
->>>>> +    description:
->>>>> +      Boolean which specifies whether the DMIC IIR is enabled.
->>>>> +      If this property is not present the IIR is disabled.
->>>>
->>>> "is enabled" or "enable it"?
->>>>
->>>> You described the desired Linux feature or behavior, not the actual
->>>> hardware. The bindings are about the latter, so instead you need to
->>>> rephrase the property and its description to match actual hardware
->>>> capabilities/features/configuration etc.
->>>
->>> I will rephrase:
->>>
->>> True to enable the Infinite Impulse Response (IIR) filter
->>> on the digital microphone inputs.
+On 28/02/2024 11:25, AngeloGioacchino Del Regno wrote:
+> Il 28/02/24 10:57, Alexandre Mergnat ha scritto:
+>> I think I got it.
 >>
->> I still don't know why this is DT-specific. You still tell driver what
->> to do...
+>> - mediatek,i2s-shared-clock: will be remove from DT
+>> - mediatek,dmic-iir-on: will be remove from DT
+>> - mediatek,dmic-irr-mode: will be remove from DT
+>> - mediatek,dmic-two-wire-mode: rephrase description needed
 >>
->>>
->>>>
->>>>> +    type: boolean
->>>>> +
->>>>> +  mediatek,dmic-irr-mode:
->>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>> +    description:
->>>>> +      Selects stop band of IIR DC-removal filter.
->>>>> +      0 = Software programmable custom coeff loaded by the driver.
->>>>
->>>> Bindings are for hardware, not drivers. Why is this a property of board DTS?
->>>
->>> Actually this is a hardware feature. Mode 1 t 5 are predefined filters.
->>> Mode 0, the HW will read some "coef filter registers" to setup the
->>> custom filter. the "coef filter regs" are written by the driver.
->>> Currently the coef values are hardcoded in the driver.
->>
->> You don't get the point. Just because you choose some mode it does not
->> mean is hardware feature for DT. Sampling frequency done by hardware is
->> also "hardware feature", but do you put it to DT? No.
->>
->> Explain why this is board-specific, not runtime configuration.
->>
->>>
->>>>
->>>>> +      1 = 5Hz if 48KHz mode.
->>>>> +      2 = 10Hz if 48KHz mode.
->>>>> +      3 = 25Hz if 48KHz mode.
->>>>> +      4 = 50Hz if 48KHz mode.
->>>>> +      5 = 65Hz if 48KHz mode.
->>>>
->>>> Use proper unit suffixes - hz.
->>>>
->>>>
->>>>> +    enum:
->>>>> +      - 0
->>>>> +      - 1
->>>>> +      - 2
->>>>> +      - 3
->>>>> +      - 4
->>>>> +      - 5
->>>>> +
->>>>> +  mediatek,dmic-two-wire-mode:
->>>>> +    description:
->>>>> +      Boolean which turns on digital microphone for two wire mode.
->>>>> +      If this property is not present the two wire mode is disabled.
->>>>
->>>> This looks like hardware property, but the naming looks like SW. Again
->>>> you instruct what driver should do. Standard disclaimer:
->>>>
->>>> You described the desired Linux feature or behavior, not the actual
->>>> hardware. The bindings are about the latter, so instead you need to
->>>> rephrase the property and its description to match actual hardware
->>>> capabilities/features/configuration etc.
->>>
->>> Actually this is a hardware feature. This is ALL I have to describe the
->>> HW behavior from the datasheet:
->>> "
->>> bit name: ul_dmic_two_wire_ctl
->>> Turns on digital microphone for two wire mode.
->>> 0: Turn off
->>> 1: Turn on
->>
->> That's rather suggestion it is not a description of hardware but you
->> want driver to do something...
->>
->>> "
->>>
->>> On the board schematic, SoC and DMIC and linked by 3 pins:
->>> - clk
->>> - data0
->>> - data1
->>>
->>> IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC must
->>> be aware of that by reading the register value written by the driver,
->>> using the value found in the DTS.
->>
->> So this depends on type of connection of DMIC? Then rephrase description
->> property like this.
->>
->>>
->>> I don't get why you think it wouldn't be hardware behavior.
->>
->> Because telling what to write to the registers which is typical sign of
->> people stuffing to DT whatever they need to configure the hardware.
->>
->>>
->>> Rephrase description:
->>> "True to enable the two wire mode of the digital microphone"
->>> Is it better ?
->>
->> No, because again you describe some sort of mode. If you insist on such
->> description, then my answer is: it's runtime, so not suitable for DT.
->> Instead describe what is the hardware problem/configuration, e.g. "DMIC
->> is connected with only CLK and DATA0, without third pin" etc.
->>
->>>
->>> About the property name, "mediatek,dmic-two-wire-ctl" sound better for you ?
->>
->> To sound more like a register less like physical characteristic of the
->> board? No. The name can stay, I don't have better ideas.
->>
->>
->> Best regards,
->> Krzysztof
+>> I've did abstraction (despite me) that IIR settings are runtime config 
+>> because the driver implement its usage like a one-time-setup -_-'
 >>
 > 
+> Yes but just one more thing I just noticed: 
+> `mediatek,dmic-two-wire-mode` - can we
+> please rename this to `mediatek,dmic-mode` ?
 
+Sure, I wasn't aware of this property. I will do it.
+
+Note: the description isn't consistent with the enum comments
+"
+0 means two wires, 1 means one wire.
+...
+        - 0 # one wire
+        - 1 # two wires
+"
+
+> 
+> That'd be for consistency check mt6359.yaml and mt6358.txt
+> 
+>    mediatek,dmic-mode:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description: |
+>        Indicates how many data pins are used to transmit two channels of 
+> PDM
+>        signal. 0 means two wires, 1 means one wire. Default value is 0.
+>      enum:
+>        - 0 # one wire
+>        - 1 # two wires
+> 
+> Cheers,
+> Angelo
+> 
+> 
+> 
+>> Thanks for the explanations, that help.
+>>
+>> Regards,
+>> Alexandre
+>>
+>> On 28/02/2024 08:28, Krzysztof Kozlowski wrote:
+>>> On 27/02/2024 16:18, Alexandre Mergnat wrote:
+>>>>>
+>>>>>> +    type: boolean
+>>>>>> +
+>>>>>> +  mediatek,dmic-iir-on:
+>>>>>> +    description:
+>>>>>> +      Boolean which specifies whether the DMIC IIR is enabled.
+>>>>>> +      If this property is not present the IIR is disabled.
+>>>>>
+>>>>> "is enabled" or "enable it"?
+>>>>>
+>>>>> You described the desired Linux feature or behavior, not the actual
+>>>>> hardware. The bindings are about the latter, so instead you need to
+>>>>> rephrase the property and its description to match actual hardware
+>>>>> capabilities/features/configuration etc.
+>>>>
+>>>> I will rephrase:
+>>>>
+>>>> True to enable the Infinite Impulse Response (IIR) filter
+>>>> on the digital microphone inputs.
+>>>
+>>> I still don't know why this is DT-specific. You still tell driver what
+>>> to do...
+>>>
+>>>>
+>>>>>
+>>>>>> +    type: boolean
+>>>>>> +
+>>>>>> +  mediatek,dmic-irr-mode:
+>>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>>> +    description:
+>>>>>> +      Selects stop band of IIR DC-removal filter.
+>>>>>> +      0 = Software programmable custom coeff loaded by the driver.
+>>>>>
+>>>>> Bindings are for hardware, not drivers. Why is this a property of 
+>>>>> board DTS?
+>>>>
+>>>> Actually this is a hardware feature. Mode 1 t 5 are predefined filters.
+>>>> Mode 0, the HW will read some "coef filter registers" to setup the
+>>>> custom filter. the "coef filter regs" are written by the driver.
+>>>> Currently the coef values are hardcoded in the driver.
+>>>
+>>> You don't get the point. Just because you choose some mode it does not
+>>> mean is hardware feature for DT. Sampling frequency done by hardware is
+>>> also "hardware feature", but do you put it to DT? No.
+>>>
+>>> Explain why this is board-specific, not runtime configuration.
+>>>
+>>>>
+>>>>>
+>>>>>> +      1 = 5Hz if 48KHz mode.
+>>>>>> +      2 = 10Hz if 48KHz mode.
+>>>>>> +      3 = 25Hz if 48KHz mode.
+>>>>>> +      4 = 50Hz if 48KHz mode.
+>>>>>> +      5 = 65Hz if 48KHz mode.
+>>>>>
+>>>>> Use proper unit suffixes - hz.
+>>>>>
+>>>>>
+>>>>>> +    enum:
+>>>>>> +      - 0
+>>>>>> +      - 1
+>>>>>> +      - 2
+>>>>>> +      - 3
+>>>>>> +      - 4
+>>>>>> +      - 5
+>>>>>> +
+>>>>>> +  mediatek,dmic-two-wire-mode:
+>>>>>> +    description:
+>>>>>> +      Boolean which turns on digital microphone for two wire mode.
+>>>>>> +      If this property is not present the two wire mode is disabled.
+>>>>>
+>>>>> This looks like hardware property, but the naming looks like SW. Again
+>>>>> you instruct what driver should do. Standard disclaimer:
+>>>>>
+>>>>> You described the desired Linux feature or behavior, not the actual
+>>>>> hardware. The bindings are about the latter, so instead you need to
+>>>>> rephrase the property and its description to match actual hardware
+>>>>> capabilities/features/configuration etc.
+>>>>
+>>>> Actually this is a hardware feature. This is ALL I have to describe the
+>>>> HW behavior from the datasheet:
+>>>> "
+>>>> bit name: ul_dmic_two_wire_ctl
+>>>> Turns on digital microphone for two wire mode.
+>>>> 0: Turn off
+>>>> 1: Turn on
+>>>
+>>> That's rather suggestion it is not a description of hardware but you
+>>> want driver to do something...
+>>>
+>>>> "
+>>>>
+>>>> On the board schematic, SoC and DMIC and linked by 3 pins:
+>>>> - clk
+>>>> - data0
+>>>> - data1
+>>>>
+>>>> IMHO, "two-wire-mode" means the HW use 2 pins for data, and the SoC 
+>>>> must
+>>>> be aware of that by reading the register value written by the driver,
+>>>> using the value found in the DTS.
+>>>
+>>> So this depends on type of connection of DMIC? Then rephrase description
+>>> property like this.
+>>>
+>>>>
+>>>> I don't get why you think it wouldn't be hardware behavior.
+>>>
+>>> Because telling what to write to the registers which is typical sign of
+>>> people stuffing to DT whatever they need to configure the hardware.
+>>>
+>>>>
+>>>> Rephrase description:
+>>>> "True to enable the two wire mode of the digital microphone"
+>>>> Is it better ?
+>>>
+>>> No, because again you describe some sort of mode. If you insist on such
+>>> description, then my answer is: it's runtime, so not suitable for DT.
+>>> Instead describe what is the hardware problem/configuration, e.g. "DMIC
+>>> is connected with only CLK and DATA0, without third pin" etc.
+>>>
+>>>>
+>>>> About the property name, "mediatek,dmic-two-wire-ctl" sound better 
+>>>> for you ?
+>>>
+>>> To sound more like a register less like physical characteristic of the
+>>> board? No. The name can stay, I don't have better ideas.
+>>>
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>>
+>>
+> 
+
+-- 
+Regards,
+Alexandre
