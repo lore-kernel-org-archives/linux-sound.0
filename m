@@ -1,116 +1,171 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2089.outbound.protection.outlook.com [40.107.22.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDABB4084F
-	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 18:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709144303; cv=none; b=ueBF8o+izAwbSf+SA58D8D0I1iufYSJ79TEUogzY38Q7lQWUEvTG3INMYqVSwxhVCqyuwGONKHIvdfERjvWzSJchkjOr/OmmNIT/6VChvzv9uJ1nCdRXQH95HOMeUTJdiDD1IuUSrpgf1iLxleV1R8PsHNteda9U+fpcNSpqqc8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709144303; c=relaxed/simple;
-	bh=gN6UNzSImlDquC10b3CWfwkTQgabC80ehaNwnV3SeC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CgLf2cKguMRJhrjiuIDMs6bCyPMrIp8EeoAmHy2E8vYMje1vhUtp550M4Hk9LcyQJr5w/asiFO1zLc7kdefCykAF4p/bq7vcW+RbAzuscdaAVZO2B5GYi7s0+unGHRBm+yUdQdYLOD3CI4l9e5Svp8PndfPLGitnhHwz7+4o3sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d0uY8R12; arc=none smtp.client-ip=209.85.166.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAC071ED5;
+	Wed, 28 Feb 2024 19:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709147675; cv=fail; b=UEoeFyIyFaUF/hJxpy6yJp/hgRkS7GjJXcJeSTImHN3KOZzAlDJO7ncLWpJBejT5AU/0bwJE8ZaLVTi9IyBm0klhbybzAx16nUCM1S9lH6yeHwVeaUAmUWRjFxjyM+OPpgpJLx0czr10505VO3PLOoBLI+BhxcsP17B01BqJz50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709147675; c=relaxed/simple;
+	bh=7iNOKyVgPV+NASK32AAV4GSz44MILMDSyJ7liOKDspc=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=M6cUx0PDoS8wAe8zSqfcBPYJXUgsbDfj9Xhu/clMO24C8xhs7SfBqVPE3R9DV6yi3xPQmKNtuvtNy1mm1WBltOoMTVn5F+eOVCAUBT/VtsOhguTx1c1Yly26jYndv77/WBW82dzP0TUTuIbqcrehps79ioB79AK+YLealeLwtTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=QoyuC5G+; arc=fail smtp.client-ip=40.107.22.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d0uY8R12"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3651d6dea15so146515ab.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 10:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709144300; x=1709749100; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
-        b=d0uY8R12ZimQWLvKQoWC1kwK/RPVOYYFcrNTB4AakyXjepRS8H1ECQCXpAMxGWhzqr
-         hHpPrpn1ydb0c8Y3BZVLjqjDp9CNFyZdXREe3Wc4OHev1yJxU/Od5JZxeZqWJfw3qzv7
-         TTI+6cjPghR2yCRd7ODK2z9CjTL/vpS5HK7ZY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709144300; x=1709749100;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
-        b=mE2ZDuvIpSOjBT07dyUZpOEHKxrT2+PN9rbkCp72YuYSs2Jx2pMuswF5XECT4ykd33
-         884wm7AFp8QjKRTmGnbFLJlmU8YshL8Xf8iOETHtXgvbv8getDv9wIJrQ6uIZf/50N7U
-         LAJUCxxhPVekTON2UPHi+9UIpytMZ7uDgqKwcELZYJeo8UhhcfNlsaTm47Oql9jDb+l4
-         4M6SW4rx8Acee1OL70uM9Ni65vG4hKPH6uGy6OtePyTKS6XGr0P16/Oqemv+EMS92a5s
-         bcwQD6898YauKKWLw+Ym8tBLEABHjBVIwzxJjQHPUYrWUrzsOh5w0u0UMlyfFAj19nPs
-         Q2QA==
-X-Forwarded-Encrypted: i=1; AJvYcCWedlxqbJ+9l0qG3Q2IhXwXU+47QQnqME2QkYqy4BZouiH9psFBwE8PMCHc6BboK2gVWN5Y+Z1hox3nbdptcVvqsJ4sKg+rNqgrW4A=
-X-Gm-Message-State: AOJu0Yy4PQ4mwCYBy/yo7KnSIh6pLRTf0OsisuIIyF84oxiymNjcafRf
-	i7j+oRdQ0LJbs79iKV8yxeK1EVRHFv5NiylRarsw1o6g0A+4I7bm8+dn2iLiHQ==
-X-Google-Smtp-Source: AGHT+IHXEHGYeHKTpMNJ+KuzBh/Bght5BJMrKbIQmxnIMu1FTfUkGMBXH786Efps00aZM2tFe5bRbw==
-X-Received: by 2002:a05:6e02:1e07:b0:365:102a:ee10 with SMTP id g7-20020a056e021e0700b00365102aee10mr154842ila.6.1709144299900;
-        Wed, 28 Feb 2024 10:18:19 -0800 (PST)
-Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
-        by smtp.gmail.com with UTF8SMTPSA id a24-20020a02ac18000000b004747f3fc39asm1951147jao.160.2024.02.28.10.18.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 10:18:19 -0800 (PST)
-Date: Wed, 28 Feb 2024 18:18:18 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 2/8] usb: misc: onboard_hub: rename to onboard_dev
-Message-ID: <Zd946sKywJNvIJq6@google.com>
-References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="QoyuC5G+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oUtl+j1d+PMqV2FoDdIX7LTgpo48R5MpXJTnPiMpqUwfE5ydDeSveWnSDV1l1KPpkpfNrUwDPp8TQQBBFceYntlFEont2p6KIWdlufpdDpvOUNQGPX+zcpEMmmjImw/Vstl3l3f5W3R9iMasPvt1rB+0cqc/CL5CpzMwRWHgUHFbD3FEotLah6DEIGE3Dne3oK3LvqKVqtXol9am8nXAaVXE4AMEqjK6NTX463F1WhL9qny055OMHgQDMMB8JeH1QNZZOw3RHM7JU/NUtb7dFbMxMrMtxyFXEqUuMEn2AnZwQOCY8/lSc9UmwEJAKdPQU5qAW0upqvB14DJRjkbDIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mgX7pm/WN4qh/OVOYBqwQuf7h4vJHUClXfX1K8VHH4A=;
+ b=fiDxdflQEbQa+DT9z/WVv9wcZtxcziAFU0T2vhZa/2xswmZYPo130N1O7cgnHuPxnqGjyyaXY/f6OtmXMkpivh3WWBCOcUZMu+nGeLSrJkXEoQNl94cEG4HaCwdTMtUe13lm/D3hQGL+eIMwj0NIN8ZzQQVPHGiWsvFhORUI+oR1uLTM12yVJeuS6MMTtJUquHHTDpCtHzLvXNsD0sc21fcjKX1kjFGYtIPnlCmVyjwiIcWo34wbDNqBKlTyOTBoWErCe0hCGrIMn6p8ZMAtWEwKTgrWFTvNADkkOUtDq5BSvKnZEbDqIg+gHoX1VM7xsDBPI/mXCTzH8dGr0rH2Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mgX7pm/WN4qh/OVOYBqwQuf7h4vJHUClXfX1K8VHH4A=;
+ b=QoyuC5G+9zRgDfizrntChH6bYk9+6vN4xR7BX5iZL5VlOvlRuy76l/CZ3eCGvMtrr+H1b2E+jtn0Tmu6Lkj3NvXxjJT+k3rjPjv7up4iUcpyUmZ8rzpLcy7MKMu2CmuQN+xSbXoAc+1cKi8BMDNvreNxgRb+KKOaADU46iWhANc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by VI1PR04MB9835.eurprd04.prod.outlook.com (2603:10a6:800:1e1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Wed, 28 Feb
+ 2024 19:14:30 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa%7]) with mapi id 15.20.7316.035; Wed, 28 Feb 2024
+ 19:14:30 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v3 0/4] arm64: dts: imx8qxp add asrc and sai
+Date: Wed, 28 Feb 2024 14:14:12 -0500
+Message-Id: <20240228-asrc_8qxp-v3-0-d4d5935fd3aa@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAASG32UC/23MQQ7CIBCF4as0sxZDp60QV97DNIaOU8tCqGAIp
+ uHuYtcu/5eXb4PIwXKEc7NB4GSj9a5Gd2iAFuMeLOy9NqDEXiIqYWKgm37lVeBgzEnpTvdyhvp
+ fA88279Z1rL3Y+Pbhs9MJf+s/JaGQYsB2IlI8tSQvLq9H8k8YSylfdiyHmKAAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.13-dev-c87ef
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709147666; l=1288;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=7iNOKyVgPV+NASK32AAV4GSz44MILMDSyJ7liOKDspc=;
+ b=w7o0dQexyDWQFJ92TeSxkkl45lnSkdw1GxAfYFryXW4R+5rFVt91OuA+JLSgiz8IURQjlXyKU
+ 6R9PTIrBml3CNeOxual0PbOg1hYrCpZXPTv+Q2UODySNYKCRKenWwWL
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SJ0PR03CA0299.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::34) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|VI1PR04MB9835:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a4a00dc-822f-40ba-85b1-08dc38917d4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	RX+sXaMYnhBl2U/w9n9LETiGc669ERUruq+6FLgVj7Acke7ThB4flGa1hcrRaaCLJdy+s8RHRSwSXldu5BlntBauEMRT+cc8ZcxG8rlMyMw8M6kK9ZKW0LGOwNySmJ+iPxw4VrFlpTKGV6/xPi1XAj6Pd1gspgQAWHzuZsBh7IfybwO2wj/MSEPdubPJW9ggu/eb3LSuWtF881j5cbUgb5YLDWjn2RyneWxyvaBs9A4GgtL+IIypyXNCNsUUt6DB68UlKVDUsH2iX0JVMIuGsefjbZWEbPgk6bhp3HPJHqUeNtwBzVfN08i8Ala3Pd77UgUP/9zgN+U5xD/IYDWtJhdcrfuoX0jh6VbfY1gbr0E0OimAiowPe6e2KfA2We18T9ABqR2zh6j4W0i9neYlQ26R9VwFS2jHjoOV/hYzKR2CEGKYo2DyvzQ/z2qS+6hYpMgL9ZFHvYOb/jjDSq/GyKsAK7l8tT61YBW/VzqU7UP5hQXrYTfaDMGRnsSATvEo9IGL0b3zDod8tGbE9XMyIIcnNoZgZzQohzLQgdf69JC3vFcgO/GmjeeOvcI5EtAzzCPJyKOMW7MnDzQ9lx01ujkrgFJ6f0ZccmLlz4Ka+3k4uJsYLj/8qzGuXbR6K1NtFCe7mnG96jrFDTwDY1eGpd8DyyEwTeuNsOZ+xPpSnqXD80xc/VNx/GOsBFfD3+A8+9J+frxxIJV3S7dZFuHQCyQZLUpq6g/ppItV0RqpBfE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SkpIM3VNNVByTkZibzV2SkRHTGt4R2R1NEZwWGdUSW1yVkFYbzF0QUlYL3p2?=
+ =?utf-8?B?YjRJQVpxVXB2T1k1RURoN3Z2dEZROXFPdmNEeTlsOTROdXVQem1VcHp6R282?=
+ =?utf-8?B?a1VsdlBMYlZCRzBpWW91eDlpdlRlMGt1eGtKWjNTcFh1cjdTY1IxMlNueCtH?=
+ =?utf-8?B?WUFITjRKSHIyRkR1Y1RSWWNwb0wyQ2dxdmwrMlZSV25SdmVmVXE1VmJXYVdw?=
+ =?utf-8?B?ZTk1ZlZqVCtjS0krMGxZbTZwTmRpQUhMSUxVT0taNU91Vzh4RHVyMXB0eWph?=
+ =?utf-8?B?V1ZJSHVVdTFqbzhvUjJXa2lDQ0k3bGxNSGQzbHAwbmxvM3c1NjRiUFphM1NI?=
+ =?utf-8?B?OTE2bGhQclJLVTVoNVIzQkVIZkRtMUVOZ29oU1RIVDRNOHprQUV0ai8xSkdU?=
+ =?utf-8?B?L2dLSUkzazRnQUZRbVpSQWdFeE4yUlNmb0N4M1RaM3R0V1RRWnlqb3FLajRx?=
+ =?utf-8?B?TW1rOWZYd25RMW9VM1BaMTRXeFJQVVNjaDV1cFlVVjAwMFRldGNNbVVTcG1P?=
+ =?utf-8?B?aVJLRzcwNnRwU29OSEFDRjRJL0lmWSsrYk4xR1V4eWVDS2pFekw0TUREa01y?=
+ =?utf-8?B?VlVWN3FYZ3U1N09IZTJoYnlBaVh2M215eHJuUTIzbVc1SW80VzBrYWxhV0NJ?=
+ =?utf-8?B?TUVuVElWOGFQOG5zNUZsS3B2YlpDb0tqVGRJT1hLNnlxaXhnelUwcDZHUDVp?=
+ =?utf-8?B?ZUh6ckFPN3ZFdW1LcFZyWUVYUSs2c05FMERTUmFaaUs2ZnVRTU9PT2NibTFU?=
+ =?utf-8?B?c21IUWJhVnZqYndMNmtMK0k2T05MMEhXdlNSWDBMT1V4TUZZZk1IZDB0Y2xo?=
+ =?utf-8?B?S3RMN0lQYm9TU3VVMXRLLzhzMG1WcE1qanEwZ2lRNUFLdUxvTWlZbitqUUtH?=
+ =?utf-8?B?RE5qTTlCRGRkUEp3TmNWRDlPVCtZa2pWZFVoc3k0cjZMTzJHeUZNWW15UVNU?=
+ =?utf-8?B?Y3ZCdndZcHl4ZGpIM2ZTYkRQN0J5bExVTjNwMCtXTVphK0F2RWpXeVhGNjBz?=
+ =?utf-8?B?d2hMaUhHSUxYa1JxdlBLT0p0TkRyZjBXVFpFWlNId2pSZEdQUUpFRVBOdHdn?=
+ =?utf-8?B?YlU0aVI0K1REbjJza1ZqWlRiaWZyMkpFWU85cUxZM0p5RWFJTnZUWEhlQkk4?=
+ =?utf-8?B?Y2lSdVBUZDNHR3oraU5RajZRTXVnODdyRkp3QkxVVlVhN3NkMzE3VXJQSWh6?=
+ =?utf-8?B?anBTY0wzYllFRlZRNmRiV3VPL2RLYXQwaFZKeHNON1prdkcxRWdIWTRBejNr?=
+ =?utf-8?B?MmxNR3lPVkFMQ3Q0U2I4ZkdyWUg0SHJHdUxmM2VkVWFkTy9TUVQ0SFNHZDM2?=
+ =?utf-8?B?cVRiWGZpWGJoOVp3SnhkaHBGVm0rQjRDaTZOUnc0aVFFYStONkhoNjlMZ09i?=
+ =?utf-8?B?TFAxbVkrOGt0NWJoejBHOGxaMVJZRHVGaDFydUVYTUxpUXJqWG5IcnFhYk5x?=
+ =?utf-8?B?V3cvaDdKeTFYNE9zMkcxck4xTGF4Tjh1cHV2K0hHWHFvbDUwVUsvRUNpYmUy?=
+ =?utf-8?B?N0sxaGl0VUdoVSt2OUhPTExIYnJCTDlmeFVDTExQNjVndDlKdDZSM29PaXda?=
+ =?utf-8?B?UXVuTUJRS3VlaE5rZFE5Rk5Gc0VUSUNSRGdGYnFQVmJNaTJVbmlvRjJYd0NH?=
+ =?utf-8?B?Yk9qNE9uMEtmTWhXaWZPaUVOZ2lweFdkcUM1QlpFcWdkQXlwOWk4cWFyVlk0?=
+ =?utf-8?B?UFlkWmRGK1VBbVVya3BFcy85bWtpVnNrOXA3UHY4T2pBRzV5RXROMmYwWWd5?=
+ =?utf-8?B?OGlCSEdjNFJjUXI5ZEx2Vkpab0xaSXEveVFveXNPdTVkR084OEFKd3lNbFhG?=
+ =?utf-8?B?USs3L0VRcDV6eTE4bndCeDRGd0ErWGFoYjUrc0NQVkZKSUlBam5Heks0WHd0?=
+ =?utf-8?B?QUM3ME5tYTRuYXozdUZNVE5oL1JHODFFNVNhZ3k5UHhtOHBjVTBIc1prWjJZ?=
+ =?utf-8?B?dW5ISVRMTU9PRmtPQVBZdnVNQi81OFRqRm5HZW1EQ0F6dWhOOU1qaWhRWmFl?=
+ =?utf-8?B?Q05vU094dlRXMkltTS9OVE1YM1BiOHViclJ5VGh1cVNobVJJdEZBUGRDRmx5?=
+ =?utf-8?B?WmRDZ1J0TUVLK3ZFNEJpQXRlbDdzd2VOYVRsWDdVSG1zRmM1M3BFNEs5bHI3?=
+ =?utf-8?Q?flxQWtzLBXbQRYGGSdpUyiVY8?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a4a00dc-822f-40ba-85b1-08dc38917d4d
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 19:14:30.4202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ju3mboIiN+5jWp9yr5kquJoIKFfqwgU+a/CONB/koQQsgMrqMRJ8DCgcsZ5nl30EAoXs2VoZf+wFwFD10MNcfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9835
 
-On Wed, Feb 28, 2024 at 02:51:29PM +0100, Javier Carrasco wrote:
-> This patch prepares onboad_hub to support non-hub devices by renaming
-> the driver files and their content, the headers and their references.
-> 
-> The comments and descriptions have been slightly modified to keep
-> coherence and account for the specific cases that only affect onboard
-> hubs (e.g. peer-hub).
-> 
-> The "hub" variables in functions where "dev" (and similar names) variables
-> already exist have been renamed to onboard_dev for clarity, which adds a
-> few lines in cases where more than 80 characters are used.
-> 
-> No new functionality has been added.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
-> ---
->  ...-usb-hub => sysfs-bus-platform-onboard-usb-dev} |   3 +-
->  MAINTAINERS                                        |   4 +-
->  drivers/usb/core/Makefile                          |   4 +-
->  drivers/usb/core/hub.c                             |   8 +-
->  drivers/usb/core/hub.h                             |   2 +-
->  drivers/usb/misc/Kconfig                           |  16 +-
->  drivers/usb/misc/Makefile                          |   2 +-
->  drivers/usb/misc/onboard_usb_dev.c                 | 519 +++++++++++++++++++++
->  .../misc/{onboard_usb_hub.h => onboard_usb_dev.h}  |  28 +-
->  ...ard_usb_hub_pdevs.c => onboard_usb_dev_pdevs.c} |  47 +-
->  include/linux/usb/onboard_dev.h                    |  18 +
->  include/linux/usb/onboard_hub.h                    |  18 -
->  12 files changed, 595 insertions(+), 74 deletions(-)
+Update binding doc to avoid warning.
+Change from v1 to v2
+- Fixed dts DTB_CHECK warning
 
-This does not rename/delete onboard_usb_hub.c. With a rename there would
-probably be an actual diff for onboard_usb_dev.c instead of a new file,
-which would help with reviewing.
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Changes in v3:
+- Fixed dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/fsl,spdif.example.dtb: spdif@2004000: interrupts: [[0, 52, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/sound/fsl,spdif.yaml#
+
+- Link to v2: https://lore.kernel.org/r/20240227-asrc_8qxp-v2-0-521bcc7eb1c0@nxp.com
+
+---
+Frank Li (4):
+      ASoC: dt-bindings: fsl,imx-asrc/spdif: Add power-domains requirement
+      ASoC: dt-bindings: fsl,imx-asrc: update max interrupt numbers
+      ASoC: dt-bindings: fsl-sai: allow only one dma-names
+      arm64: dts: imx8qxp: add asrc[0,1], esai0, spdif[0,1] and sai[4,5]
+
+ .../devicetree/bindings/sound/fsl,imx-asrc.yaml    |   3 +
+ .../devicetree/bindings/sound/fsl,sai.yaml         |  12 +-
+ .../devicetree/bindings/sound/fsl,spdif.yaml       |  23 +-
+ arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi   | 304 +++++++++++++++++++++
+ 4 files changed, 337 insertions(+), 5 deletions(-)
+---
+base-commit: ca301cf599a4eeafed8e3dd87bf8d2fe810e075e
+change-id: 20240227-asrc_8qxp-25aa6783840f
+
+Best regards,
+-- 
+Frank Li <Frank.Li@nxp.com>
+
