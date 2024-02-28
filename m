@@ -1,77 +1,38 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E0079B74
-	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 19:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B322274410;
+	Wed, 28 Feb 2024 19:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709148141; cv=none; b=rLeZRa/+aNmnFMDjtLhXnrNXI9/qscNmf9KMwCqrw2wMc0/PapRYPQc/Qkoz9JOrJ86dOXmoo3zdcMAKVKv33TxhKdMD0GGf9O0mgqoICsMp+q8HGUiuIpK6k2LDvheXOtRDCJcOpt3aA6l5S7b6ZFrPttxbT8OMVQ0UGYexghw=
+	t=1709148531; cv=none; b=G5/2QjBHOCVFmBZpIYLy2sEXiknvgWNIKfrSjESjVGGPW2B1Rm4QR0o2stkHqlkyoHZRKpxr3tBAqzCERnfuEoU4oN7E6zzT5lEmND7oIYHPJbuDH96auca1SKBBYhor2NcZvqYeXZ+E4Pb6JemOX5nsZNgftUJukUahEeNb5iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709148141; c=relaxed/simple;
-	bh=Ys3XowIf0bm7jRKzuc3PtxqeRx99FE+WClNAKD56B0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5KzamsKKq6gIMPXog49BlbbyW/iPo+VRIoZWW9r/dpaKRmQRCxAOK82YaI6lhCVIzgZfrwRtMJFQoH8f+4An3M0odyhdEf/OzR0MXaZxdgDN8bP9TkqdyAdr80r8K3eOHVT2DkcRz8PG6ElUVVco0yszbFOPcFiiAtEU/vpcZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GS7ODvLr; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1709148531; c=relaxed/simple;
+	bh=y3/AiIPJpnisyh+JMqGGimriuBFEELkPDH66n6lcrt4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=pmWYxQ4+PcXTd49lmlNe5rD5O8F33obQ48oRTDFSEOEc4hiBIYg9SlFh6YmGJjfFE2ANK/Oee9dyACUuW8mg5BA5B5F6hq10xiWXqHM4QE2vZjpzUhzZlmNKUwsRz1BIcwOjuuo4/YZrkyfwfIcDIaJJPglwZv8GRVoridR1PTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=cv2lVUiH; arc=none smtp.client-ip=185.70.43.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GS7ODvLr"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3657c437835so460955ab.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 11:22:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709148139; x=1709752939; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWZCONUO1eBq93ur5BQyYMDhfKl8EM5yFU5z78+cztc=;
-        b=GS7ODvLrZ4WkXb2ylj9Rf3E1euju9QWLterM4AEx2bYAGFy2rrORH9vfuC9tFZO0By
-         cLddsajAj9eDh5NVIrUGEeLVOZJjMerOWUP9cDdxZjRvW/5+BGnr1znbzLtdjsIJx6Xl
-         WAJJBUyZKOCDN4elNbpazW6tcVnWpWhgfZHYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709148139; x=1709752939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cWZCONUO1eBq93ur5BQyYMDhfKl8EM5yFU5z78+cztc=;
-        b=tEkGZZiUv6T6fOGmnBOL4m+juW2FJAbZG6eYNmVa4GlUzSPwEDLLVAdoST2VRAjRi5
-         JevNjHAIfGRaneRLgxAybvwEwMZDh5tSfRn91KdbZjTt355xLEVcXBTUIDu4N2wgdDtg
-         0GatBucJfenhK+dVvy07Z5Zg7iQptdPlzw9ubl27OdSZAs1DgBBULS16a3i/otMXsifE
-         uhzGo0U1tyH7pFxOcnuM4+R4QySNYkAem7rWe4B1Q4ckTQ3Y+FQraRFRHw/rM9g3Ta1Q
-         7S+/idpr2aKbhIfxVUOXSarm8UZko/ox872OQu4qWjJORB5nwjcVAr/g1kEOM5cwNlku
-         bygw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjU9Fa4qISbPXW1aeuBmpLw3FtuRtNU4IZjcCG/wCpmbL6+S9uQA7ruKLnV5jn1ID5M3EWN8pYHmmZCNUcqDpnEVD0KJDW2DOj0fo=
-X-Gm-Message-State: AOJu0YyavSiB/57AMJZYWtCJ4lhV0dx91PwSe2RoQS4eYLMgaN4c9Awo
-	pVXaB5z/fqlnASnXVuCkdwIvUWge5ZQevswUyx3OGbwJ2xOhUjh4gZmcGOQPAw==
-X-Google-Smtp-Source: AGHT+IFqbcv66YZt2FKNF964iMhI6GTiYtKK3x/4hGk7YfuhA2JWmeUUh4jB5yMEezmNt7X9tFEO2w==
-X-Received: by 2002:a92:c5a9:0:b0:365:a9fd:1a7a with SMTP id r9-20020a92c5a9000000b00365a9fd1a7amr178874ilt.26.1709148139247;
-        Wed, 28 Feb 2024 11:22:19 -0800 (PST)
-Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
-        by smtp.gmail.com with UTF8SMTPSA id x3-20020a92d643000000b003638f9a9debsm10233ilp.75.2024.02.28.11.22.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 11:22:18 -0800 (PST)
-Date: Wed, 28 Feb 2024 19:22:18 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 8/8] usb: misc: onboard_hub: add support for XMOS
- XVF3500
-Message-ID: <Zd-H6hVPv1poXoa1@google.com>
-References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-8-76b805fd3fe6@wolfvision.net>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="cv2lVUiH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1709148527; x=1709407727;
+	bh=y3/AiIPJpnisyh+JMqGGimriuBFEELkPDH66n6lcrt4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=cv2lVUiHA5KQlEXkHCHqNZshzfp90Wf5plfT4RhFVcUBE143fXFBv8cMKZpy8v/qp
+	 eIZ+LmhOJbsV1Ri55hTq3af2JfrG96RLUIHwQPdKaI1J2tl1+/HwJFaXjB9t7vpMOO
+	 EhY8ELU3rgZImU9nwSKwKHlv/hVydDhfjidXkfM++577TCxe+U/8Pg1QNgFCj6yTef
+	 jOXUfPw5DvrSQRgCJWNBTln/lfYnH9FcJT1OJUfY/7ScKyB389pKQeBAQqRZUIuynT
+	 7oU7qwAKLrnl+GnGsVYofUVRthQxNpuSnK4EWl907sv4e2Tpq5J+bcQIIbCHNuxqHj
+	 jvDe5mCwkxEEg==
+Date: Wed, 28 Feb 2024 19:28:41 +0000
+To: cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com, broonie@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+From: =?utf-8?Q?Alban_Boy=C3=A9?= <alban.boye@protonmail.com>
+Cc: =?utf-8?Q?Alban_Boy=C3=A9?= <alban.boye@protonmail.com>
+Subject: [PATCH v3] ASoC: Intel: bytcr_rt5640: Add an extra entry for the Chuwi Vi8 tablet
+Message-ID: <20240228192807.15130-1-alban.boye@protonmail.com>
+Feedback-ID: 10280386:user:proton
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,56 +40,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240228-onboard_xvf3500-v5-8-76b805fd3fe6@wolfvision.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 28, 2024 at 02:51:35PM +0100, Javier Carrasco wrote:
-> The XMOS XVF3500 VocalFusion Voice Processor[1] is a low-latency, 32-bit
-> multicore controller for voice processing.
-> 
-> This device requires a specific power sequence, which consists of
-> enabling the regulators that control the 3V3 and 1V0 device supplies,
-> and a reset de-assertion after a delay of at least 100ns. Such power
-> sequence is already supported by the onboard_hub driver, and it can be
-> reused for non-hub USB devices as well.
+The bios version can differ depending if it is a dual-boot variant of the t=
+ablet.
+Therefore another DMI match is required.
 
-Please update the commit message, the onboard_hub driver no longer
-exists as such with the other patches of this series.
+Signed-off-by: Alban Boy=C3=A9 <alban.boye@protonmail.com>
+---
+ sound/soc/intel/boards/bytcr_rt5640.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-> Once in normal operation, the XVF3500 registers itself as a USB device,
-> and it does not require any device-specific operations in the driver.
-> 
-> [1] https://www.xmos.com/xvf3500/
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards=
+/bytcr_rt5640.c
+index 03be5e26ec4a..05f38d1f7d82 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -685,6 +685,18 @@ static const struct dmi_system_id byt_rt5640_quirk_tab=
+le[] =3D {
+ =09=09=09=09=09BYT_RT5640_SSP0_AIF1 |
+ =09=09=09=09=09BYT_RT5640_MCLK_EN),
+ =09},
++=09{=09/* Chuwi Vi8 dual-boot (CWI506) */
++=09=09.matches =3D {
++=09=09=09DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Insyde"),
++=09=09=09DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "i86"),
++=09=09=09/* The above are too generic, also match BIOS info */
++=09=09=09DMI_MATCH(DMI_BIOS_VERSION, "CHUWI2.D86JHBNR02"),
++=09=09},
++=09=09.driver_data =3D (void *)(BYTCR_INPUT_DEFAULTS |
++=09=09=09=09=09BYT_RT5640_MONO_SPEAKER |
++=09=09=09=09=09BYT_RT5640_SSP0_AIF1 |
++=09=09=09=09=09BYT_RT5640_MCLK_EN),
++=09},
+ =09{
+ =09=09/* Chuwi Vi10 (CWI505) */
+ =09=09.matches =3D {
+--=20
+2.43.1
 
-Acked-by: Matthias Kaehlcke <mka@chromium.org>
 
-> ---
->  drivers/usb/misc/onboard_usb_dev.c | 2 ++
->  drivers/usb/misc/onboard_usb_dev.h | 8 ++++++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> index df0ed172c7ec..50f84c5278a2 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.c
-> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> @@ -405,6 +405,7 @@ static struct platform_driver onboard_dev_driver = {
->  #define VENDOR_ID_REALTEK	0x0bda
->  #define VENDOR_ID_TI		0x0451
->  #define VENDOR_ID_VIA		0x2109
-> +#define VENDOR_ID_XMOS		0x20B1
->  
->  /*
->   * Returns the onboard_dev platform device that is associated with the USB
-> @@ -497,6 +498,7 @@ static const struct usb_device_id onboard_dev_id_table[] = {
->  	{ USB_DEVICE(VENDOR_ID_TI, 0x8142) }, /* TI USB8041 2.0 */
->  	{ USB_DEVICE(VENDOR_ID_VIA, 0x0817) }, /* VIA VL817 3.1 */
->  	{ USB_DEVICE(VENDOR_ID_VIA, 0x2817) }, /* VIA VL817 2.0 */
-> +	{ USB_DEVICE(VENDOR_ID_XMOS, 0x0013) }, /* XVF3500 */
-
-nit: be a bit more specific? e.g. XVF3500 Voice Processor, or XMOS XVF3500
-
-The other entries were implicitly hubs since this was the 'onboard_hub'
-driver. It wouldn't be a bad idea to add 'hub' to these entries in the
-patch that 'renames' the driver.
