@@ -1,54 +1,54 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62D379B6D
-	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 18:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDABB4084F
+	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 18:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709143850; cv=none; b=k1zQ+7I+xXsrFC/m7CPBP3FjD2dTopgWiRgzzM0sFJXucYBm2gjMkjAQt/nGSvsoN3RF0POcUZj6ptwZS5eMZIZ+XXvZRkvue4xh0PVr9ibVP+PWviLXUtxyhHslEC650DyU1XcMUA0vtnFV53wuPOsPA+xQToJaRNly0QC9//0=
+	t=1709144303; cv=none; b=ueBF8o+izAwbSf+SA58D8D0I1iufYSJ79TEUogzY38Q7lQWUEvTG3INMYqVSwxhVCqyuwGONKHIvdfERjvWzSJchkjOr/OmmNIT/6VChvzv9uJ1nCdRXQH95HOMeUTJdiDD1IuUSrpgf1iLxleV1R8PsHNteda9U+fpcNSpqqc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709143850; c=relaxed/simple;
-	bh=ydPMob62Ut9r97Sqx0kikCCPdrTngYvBh6QQJWZzIis=;
+	s=arc-20240116; t=1709144303; c=relaxed/simple;
+	bh=gN6UNzSImlDquC10b3CWfwkTQgabC80ehaNwnV3SeC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+LYeU49WiPYTHn6FYs1vZt65s2eG1Kr46mgz0/vJr00QSd/wCIglw0ANXWeDgPudu+kNgny1rhzYNmdpMVdAiA5ORFe/dfHpacdHhMtNYS1HAy9i9rYusbnQmjQRu+ANSb8owGKINYgjNR23dV4kUKxhE9Bg214Bv1pKd8A7T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FEIYouPg; arc=none smtp.client-ip=209.85.166.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=CgLf2cKguMRJhrjiuIDMs6bCyPMrIp8EeoAmHy2E8vYMje1vhUtp550M4Hk9LcyQJr5w/asiFO1zLc7kdefCykAF4p/bq7vcW+RbAzuscdaAVZO2B5GYi7s0+unGHRBm+yUdQdYLOD3CI4l9e5Svp8PndfPLGitnhHwz7+4o3sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d0uY8R12; arc=none smtp.client-ip=209.85.166.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FEIYouPg"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-364f791a428so298155ab.3
-        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 10:10:47 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d0uY8R12"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3651d6dea15so146515ab.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 10:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709143847; x=1709748647; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1709144300; x=1709749100; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mr+bD36IoIOKszW1o5Rb9R/mzBzmVVAn2qquBqx2Jtw=;
-        b=FEIYouPgnFUzrWgIdZQASk0HWhUcQiarax30evBDsqyfoRmttaihpZYlAXELZtupH3
-         WLBwen2wkwlwXrRIqLYjRAvbfPShC+vVCVo4S5UFkQLCxPRrjDUvRwqYufqDJ8oZKq/f
-         Hh69pt0BOR0N6tTt5CByS7vnCSxNSo5TYHS3o=
+        bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
+        b=d0uY8R12ZimQWLvKQoWC1kwK/RPVOYYFcrNTB4AakyXjepRS8H1ECQCXpAMxGWhzqr
+         hHpPrpn1ydb0c8Y3BZVLjqjDp9CNFyZdXREe3Wc4OHev1yJxU/Od5JZxeZqWJfw3qzv7
+         TTI+6cjPghR2yCRd7ODK2z9CjTL/vpS5HK7ZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709143847; x=1709748647;
+        d=1e100.net; s=20230601; t=1709144300; x=1709749100;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mr+bD36IoIOKszW1o5Rb9R/mzBzmVVAn2qquBqx2Jtw=;
-        b=MfoUsVaUBUPIy3ijTCAzhh2balUPM66gzfTLgVAW1fAEjuVomvheWoMN40PgSvhmbV
-         azqdO9Rekg/WU8PLXpEDpx4O6K3v6VjZHr9YOsj08m/2g7tpQC7FvoJ//D4v1iNM0VWh
-         4TJQo9B/xMbFJnXWgZ15JkfDFhWcMhrv3gzv9E/JwTTFqxEN4tkyRQI2QOQroqAt7/yS
-         HOikBoj+ZSgyvG0UfQh3pQXhaSv/JB331ngClc6Jcydqj3ckjMhTQxReRde+P9uNOVz3
-         FN9jZ3t43TD8hq1HPxgYYx+lVIU3jAarDSSUd9qlWs4ttPvjnyHv5xNj4Tk7wm/Pkywv
-         dlcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWl/sDaTzXgJZaC9ZfqpJ1KUT2itaLTrgn+ak8W7nFU98XTZEszhUEbF61naOTQahk3lOSuzXYrYmSF8z6PCfwpxx1HFdeMvuUk4U=
-X-Gm-Message-State: AOJu0YywROJ1HzGEBLrGNnLBr+qOlazTzvFzVH+NpKo3sLIRVSvAx7x8
-	xapfonnON2pYH8wCsILUIB7VcGQa/4+YNj+3Ez5YF5IisdnRYNUbSvMKtlvv5w==
-X-Google-Smtp-Source: AGHT+IEcf57nNkZHLpk4X+rVu40fpnQC+KxfZAodN+3tIS0La+wWipkcmp8niTZkNbjmDf9zGzJZYw==
-X-Received: by 2002:a92:dd04:0:b0:365:b9c8:4436 with SMTP id n4-20020a92dd04000000b00365b9c84436mr25912ilm.10.1709143847146;
-        Wed, 28 Feb 2024 10:10:47 -0800 (PST)
+        bh=yMuVBDlnhpO034F2/q+tE22z1XBw0OPkVpUXz7Iw1ik=;
+        b=mE2ZDuvIpSOjBT07dyUZpOEHKxrT2+PN9rbkCp72YuYSs2Jx2pMuswF5XECT4ykd33
+         884wm7AFp8QjKRTmGnbFLJlmU8YshL8Xf8iOETHtXgvbv8getDv9wIJrQ6uIZf/50N7U
+         LAJUCxxhPVekTON2UPHi+9UIpytMZ7uDgqKwcELZYJeo8UhhcfNlsaTm47Oql9jDb+l4
+         4M6SW4rx8Acee1OL70uM9Ni65vG4hKPH6uGy6OtePyTKS6XGr0P16/Oqemv+EMS92a5s
+         bcwQD6898YauKKWLw+Ym8tBLEABHjBVIwzxJjQHPUYrWUrzsOh5w0u0UMlyfFAj19nPs
+         Q2QA==
+X-Forwarded-Encrypted: i=1; AJvYcCWedlxqbJ+9l0qG3Q2IhXwXU+47QQnqME2QkYqy4BZouiH9psFBwE8PMCHc6BboK2gVWN5Y+Z1hox3nbdptcVvqsJ4sKg+rNqgrW4A=
+X-Gm-Message-State: AOJu0Yy4PQ4mwCYBy/yo7KnSIh6pLRTf0OsisuIIyF84oxiymNjcafRf
+	i7j+oRdQ0LJbs79iKV8yxeK1EVRHFv5NiylRarsw1o6g0A+4I7bm8+dn2iLiHQ==
+X-Google-Smtp-Source: AGHT+IHXEHGYeHKTpMNJ+KuzBh/Bght5BJMrKbIQmxnIMu1FTfUkGMBXH786Efps00aZM2tFe5bRbw==
+X-Received: by 2002:a05:6e02:1e07:b0:365:102a:ee10 with SMTP id g7-20020a056e021e0700b00365102aee10mr154842ila.6.1709144299900;
+        Wed, 28 Feb 2024 10:18:19 -0800 (PST)
 Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
-        by smtp.gmail.com with UTF8SMTPSA id bp24-20020a056e02349800b00363da909ebcsm2915892ilb.56.2024.02.28.10.10.46
+        by smtp.gmail.com with UTF8SMTPSA id a24-20020a02ac18000000b004747f3fc39asm1951147jao.160.2024.02.28.10.18.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 10:10:46 -0800 (PST)
-Date: Wed, 28 Feb 2024 18:10:45 +0000
+        Wed, 28 Feb 2024 10:18:19 -0800 (PST)
+Date: Wed, 28 Feb 2024 18:18:18 +0000
 From: Matthias Kaehlcke <mka@chromium.org>
 To: Javier Carrasco <javier.carrasco@wolfvision.net>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -67,11 +67,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 6/8] usb: misc: onboard_dev: add support for non-hub
- devices
-Message-ID: <Zd93JZTlN4BCxWm7@google.com>
+Subject: Re: [PATCH v5 2/8] usb: misc: onboard_hub: rename to onboard_dev
+Message-ID: <Zd946sKywJNvIJq6@google.com>
 References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-6-76b805fd3fe6@wolfvision.net>
+ <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,61 +79,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240228-onboard_xvf3500-v5-6-76b805fd3fe6@wolfvision.net>
+In-Reply-To: <20240228-onboard_xvf3500-v5-2-76b805fd3fe6@wolfvision.net>
 
-On Wed, Feb 28, 2024 at 02:51:33PM +0100, Javier Carrasco wrote:
-> Most of the functionality this driver provides can be used by non-hub
-> devices as well.
+On Wed, Feb 28, 2024 at 02:51:29PM +0100, Javier Carrasco wrote:
+> This patch prepares onboad_hub to support non-hub devices by renaming
+> the driver files and their content, the headers and their references.
 > 
-> To account for the hub-specific code, add a flag to the device data
-> structure and check its value for hub-specific code.
+> The comments and descriptions have been slightly modified to keep
+> coherence and account for the specific cases that only affect onboard
+> hubs (e.g. peer-hub).
 > 
-> The 'always_powered_in_supend' attribute is only available for hub
-> devices, keeping the driver's default behavior for non-hub devices (keep
-> on in suspend).
+> The "hub" variables in functions where "dev" (and similar names) variables
+> already exist have been renamed to onboard_dev for clarity, which adds a
+> few lines in cases where more than 80 characters are used.
+> 
+> No new functionality has been added.
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 > ---
->  drivers/usb/misc/onboard_usb_dev.c | 25 +++++++++++++++++++++++--
->  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->  2 files changed, 33 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
-> index e1779bd2d126..df0ed172c7ec 100644
-> --- a/drivers/usb/misc/onboard_usb_dev.c
-> +++ b/drivers/usb/misc/onboard_usb_dev.c
-> @@ -132,7 +132,8 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
->  	struct usbdev_node *node;
->  	bool power_off = true;
->  
-> -	if (onboard_dev->always_powered_in_suspend)
-> +	if (onboard_dev->always_powered_in_suspend &&
-> +	    !onboard_dev->pdata->is_hub)
->  		return 0;
+>  ...-usb-hub => sysfs-bus-platform-onboard-usb-dev} |   3 +-
+>  MAINTAINERS                                        |   4 +-
+>  drivers/usb/core/Makefile                          |   4 +-
+>  drivers/usb/core/hub.c                             |   8 +-
+>  drivers/usb/core/hub.h                             |   2 +-
+>  drivers/usb/misc/Kconfig                           |  16 +-
+>  drivers/usb/misc/Makefile                          |   2 +-
+>  drivers/usb/misc/onboard_usb_dev.c                 | 519 +++++++++++++++++++++
+>  .../misc/{onboard_usb_hub.h => onboard_usb_dev.h}  |  28 +-
+>  ...ard_usb_hub_pdevs.c => onboard_usb_dev_pdevs.c} |  47 +-
+>  include/linux/usb/onboard_dev.h                    |  18 +
+>  include/linux/usb/onboard_hub.h                    |  18 -
+>  12 files changed, 595 insertions(+), 74 deletions(-)
 
-With this non-hub devices would always be powered down, since
-'always_powerd_in_suspend' is not set for them. This should be:
-
-  if (!onboard_dev->pdata->is_hub ||
-       onboard_dev->always_powered_in_suspend)
-
-Checking for the (non-)hub status first is clearer IMO, also it avoids
-an unneccessary check of 'always_powered' for non-hub devices.
-
-Without code context: for hubs there can be multiple device tree nodes
-for the same physical hub chip (e.g. one for the USB2 and another for
-the USB3 part). I suppose this could also be the case for non-hub
-devices. For hubs there is the 'peer-hub' device tree property to
-establish a link between the two USB devices, as a result the onboard
-driver only creates a single platform device (which is desired,
-otherwise two platform devices would be in charge for power sequencing
-the same phyiscal device. For non-hub devices there is currently no such
-link. In many cases I expect there will be just one DT entry even though
-the device has multiple USB interfaces, but it could happen and would
-actually be a more accurate representation.
-
-General support is already there (the code dealing with 'peer-hub'), but
-we'd have to come up with a suitable name. 'peer-device' is the first
-thing that comes to my mind, but there might be better options. If such
-a generic property is added then we should deprecate 'peer-hub', but
-maintain backwards compatibility.
+This does not rename/delete onboard_usb_hub.c. With a rename there would
+probably be an actual diff for onboard_usb_dev.c instead of a new file,
+which would help with reviewing.
