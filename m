@@ -1,79 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73473FBBE
-	for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 17:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A823FBB2;
+	Wed, 28 Feb 2024 17:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709140985; cv=none; b=V4L6GNCi0WwiQyvv6mZTuDcNTNyRswGEtFH1GINACZQzq9UbQQVwDnbIAq5zONM3OK4jeHLphO81atijzagoCWFZ6waAAFJJor8jAYZUl0d/cLU58j5PWAM87tL0QAoBQUkzVMJ1uVDlIUHu+DU+oTN+jwatp3SN53oTmyHWQs0=
+	t=1709141017; cv=none; b=KGiElUVrBKuX+BPn9cvAeD/quA737i2e+rsgKNbzPoEaelHpIAgehIPkxQUGjUS1ekKStTNHiqkl9S0WfHWrXVTCZth9aFmg4oMUaalxmQmm/RZFW2EQqr0lnlY4T539UBWxdhdBG9OyTQpUEIzAsezLludeQEXZ2gCsNaOhh7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709140985; c=relaxed/simple;
-	bh=tMjIhEv+h3b2Ps+WQU7FV8OtoGXlbPLUgVjp/OLsuF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ah2L1KaXdRCBoJ1Cedbw3zrWsMGBmTYUV5Wo9mcBDe/AJX3RvoRLLIPZ8ULF87xTNBeoo2P+8ytwr5mfbmfZ0cROluW37MT1WaL/q+xwgYsYmlPfjE5JZ2NZiWkTZDqIMI6JFAr5EXo0EwYhs4oIdcqwH23SVAo7hW0smmG8Up4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBGKA6FY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709141017; c=relaxed/simple;
+	bh=gyHaX4rUH7VfXk5+GSMnekvjp1WHHHsYtG16XBQttRM=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=HI05kRleNIZuMp0CYaqr3Whx1J0B9+TjEpmXfgKWQKLP2reML10UM8sUxueent/Ozbv/R+U0F4e78wf8zBvU2THPQvNV9dll/EwMwMiyYZAX1zbw9C7c9rLV4OyLYpd7WQbyPzcpbnxl8Cs+VvPNdfZSmA3ErtCAVNqr7fB/2uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=en9o0nri; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JgYaz9Ds; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBGKA6FY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E67C433C7;
-	Wed, 28 Feb 2024 17:23:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709140984;
-	bh=tMjIhEv+h3b2Ps+WQU7FV8OtoGXlbPLUgVjp/OLsuF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kBGKA6FYaVSm3RnV9qMC9BLabmJ4All978c9MTGrsnDB+XCxY5qF3KHEiakEJIbWQ
-	 Lwoz+w2xF82MxKbZf+upqEXxoVEm892h6YOTZUZqhLbzP/5mjw6QVVXGvPcqY1koIr
-	 cZQuR7b+Nlhg9Mcf+nYf/Jt8mIZFopetxxtNTfYMbcjYBQwBu6V7tAHF7mOIUMEhch
-	 A/S9XccJQOQsI9dBoqvMo49QQAOiTgDNTl/+qnOjDYqvPywp7W0TKQW+8JcvlUyDF8
-	 zTYBHeDOMigUmry4U7c+lhnHDRVyZtOfF5R9Ec+vR2zqWcsPYNACufStwjFfRmTnhF
-	 xFry5VCluJIRg==
-Date: Wed, 28 Feb 2024 17:22:59 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	tiwai@suse.com, perex@perex.cz, jani.nikula@linux.intel.com,
-	joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
-	tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
-Subject: Re: [PATCH v3 4/5] ASoC: codecs: hda: Cleanup error messages
-Message-ID: <af0c782d-8625-46f7-a347-2d21df3f6ac0@sirena.org.uk>
-References: <20240226124432.1203798-1-cezary.rojewski@intel.com>
- <20240226124432.1203798-5-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="en9o0nri";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JgYaz9Ds"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 69C3813800B5;
+	Wed, 28 Feb 2024 12:23:34 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 28 Feb 2024 12:23:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709141014; x=1709227414; bh=Uczs6P+Vjh
+	lsb/gj6HcF1VFbl7LhQCHMFJrfB/feXkU=; b=en9o0nri8jxQPWja5PFaAxCjBA
+	CVBxhnwxdOqfhXeiKEr+G1DCaaMIRNquKEtCdBroqhtKlzd06Mtko3jduGHe7cOQ
+	S7fWvwXKsXn4Y6vt3CUC13wD9dNVgQ3KMwqHbGEMubfD0iuJcwsamSD++5v0lJ+p
+	k0oZMd94hq5jwqKTKLrja9LEeikZ+sAh9TDqJYKVETniCS/7+hc5iD+4x4p3vcbG
+	xg4NdTCmvxHZ7Q6La679xTekm9TNojZPFpXRbEQH/lmBt7lPmGY+ZmS0qgu4YXPB
+	9982UuShK/IY5SXNoMXRL2qPd9pwvUjdi8JA4jccX7RH0Xg3zhSnvTbT4sUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709141014; x=1709227414; bh=Uczs6P+Vjhlsb/gj6HcF1VFbl7Lh
+	QCHMFJrfB/feXkU=; b=JgYaz9DsiLHdxiHNDvW8LwzgBn/BCNjf2fob6BKz5jQc
+	DS5kEAeXURNsQZrPIKN9UIcI9+D5d/Ql5rzfYE8oI03V8+6Xcmi8sT7qf1IfcBf3
+	wT/yMM3dUJ3cL7L7YLYNa6FebV0892paATs0dslLr2ZOtmEN+pZEFK3PpVTozZlG
+	ETjDNtSSx5UlIDV/m1U34HExkRAWCshbKoolnF6hJ41jEChZa3Zy3pYPkEpzkySL
+	pBGd7RW2/z3j98TaKrTsUrDPCxnDvlRmokwfGRjmYE6oTNmCQFj3sJ2wsMv3Ge7x
+	t+jbx/Ui/4HcJAe2u8/s3VtdtDojqklL0Yp3mI9hZQ==
+X-ME-Sender: <xms:FWzfZQdJnERtgPUGhWvTMoPTc8vTvStLKqwqM8uoJ15MrQfp6OhDcQ>
+    <xme:FWzfZSN-kUxVIyhgDuW6xybAFJFdxqNHE3h5a2x6cWi7UfIH5uCBT_XKjXyQ93z3P
+    s_vWkt34NI2tth0DYY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeejgdelhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:FmzfZRh_6upNX0-B6oaWDTR4DjOE33shLapoovFm1eckDY-jte_nSg>
+    <xmx:FmzfZV8ZC_NDmBpXfcAS2AaJgfc1olAVkxquD-MYUuJf4LCRaxgfbA>
+    <xmx:FmzfZcvrXHYnI6fWUzBRb9cRi3I9G6YcUl-TBXpB6I2KbGHi_qdTVQ>
+    <xmx:FmzfZcHoHWEBeJFgNhGJoP0YSpwrg8qfQqIm-0Tt9-sykLuOUbLmwg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id ABF8BB6008D; Wed, 28 Feb 2024 12:23:33 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-182-gaab6630818-fm-20240222.002-gaab66308
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5d8EE8aWTInID7GB"
-Content-Disposition: inline
-In-Reply-To: <20240226124432.1203798-5-cezary.rojewski@intel.com>
-X-Cookie: Function reject.
+Message-Id: <62f20e36-536d-47ee-b486-28ed87201b60@app.fastmail.com>
+In-Reply-To: <87il28h7zs.wl-tiwai@suse.de>
+References: <20240228140152.1824901-1-arnd@kernel.org>
+ <87msrkhcz6.wl-tiwai@suse.de>
+ <1265517d-b98a-4ec6-9215-10cd988ff78f@app.fastmail.com>
+ <87il28h7zs.wl-tiwai@suse.de>
+Date: Wed, 28 Feb 2024 18:23:13 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Takashi Iwai" <tiwai@suse.de>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Kees Cook" <keescook@chromium.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] ALSA: asihpi: work around clang-17+ false positive fortify-string
+ warning
+Content-Type: text/plain
 
+On Wed, Feb 28, 2024, at 17:24, Takashi Iwai wrote:
+> On Wed, 28 Feb 2024 16:03:56 +0100,
+>> On Wed, Feb 28, 2024, at 15:37, Takashi Iwai wrote:
+>> > On Wed, 28 Feb 2024 15:01:45 +0100,
+>> 
+>> The fortified-string warning only triggers for string.h operations
+>> (memset, memcpy, memcmp, strn*...), not for a direct assignment.
+>
+> Ah, I see.  Then from the logical POV, it's better to have a check
+> before that assignment; otherwise it'd overflow silently there.
+>
+> Does putting the check beforehand (like the one below) fix similarly?
 
---5d8EE8aWTInID7GB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Indeed, it does address the issue. I'll send a v2 with that
+version, since it clearly makes more sense.
 
-On Mon, Feb 26, 2024 at 01:44:31PM +0100, Cezary Rojewski wrote:
-> Be cohesive and use same pattern in each error message.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---5d8EE8aWTInID7GB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXfa/IACgkQJNaLcl1U
-h9B3RQf/UdU0M9FMYbw47kPs/ZdpM9qN/4dwPDRM5n4ZnxN33cVWytfI7w60ysye
-ziXIITDE6a7V/A587Q/TV5NO8Ie1z09zImkQ74gdR4DdbuFmMT39wQyXPRJJsUab
-qrvH10h7bJ1hBz52wBw/mNeLV5/hydr5Qh5cmlR5BLc7VxXPHC2ebBPJQsqBENce
-/Jr1A8+pRLg2ObR0px7sX7g5oAMorzTn/GCLYsKx3rUFxiXBHXAZjO0MPM7coK1x
-HzteTCuC3mfZ8IwYgbyS5MyjCHn/oVGgruDzffetPVK2+JLdb5l4tTwcarowYx1U
-xLPD46/pS22hTsY3n2jlct4koCrlIQ==
-=WiEM
------END PGP SIGNATURE-----
-
---5d8EE8aWTInID7GB--
+       Arnd
