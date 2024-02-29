@@ -1,54 +1,54 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B9F4AEEF
-	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 16:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8CF7828D
+	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 16:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709223542; cv=none; b=NK1ztiuF6QEOzZG5D4ocajSrtt6In0NS22OoABXRbJkr2yyysAklfGpTpX3yU65bRmY5i7EskSewMIDUAJa/TWhr6ud5dPkIajSmWCrAgV7g7zBJFb+HHlqLFXOTVrTMLGoHDJE/mUuLrPJx53tbyvC89z82iMB/tl7c+Amc3FE=
+	t=1709223628; cv=none; b=kiEciW6OG/oAhBMoXpMKM3nUxpt+7ZCWQq9uyrHUq/IYH6bOF0J3fSOo7/M8aed7QDBXj8fxED5wxt1NbQSBk3MBAO6wKwgg/Lm+MnvuCFNTQwiwvqQyMhx/GKVbWlBupH/1NEtlZYANzJg3YnR5c+wNkAcvzoR/oahNXLAgSZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709223542; c=relaxed/simple;
-	bh=YhuaUfzpQDJP9Vs9GKlifVrtbWHfF96cotaDa7Ud97s=;
+	s=arc-20240116; t=1709223628; c=relaxed/simple;
+	bh=5akJAYIzzDJf3+0III/J1h+mlaUltOxaG9R8wmii+rY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpOZ8PutKtRrGVAexqDrog2ms4OJHX2xAb93dNwS3Z591e5Zaa3UDYdS1dJt6aWs0frJ96TnM2wuh+/2uko58A0GqI8CCMTUMay20KBBvxtwHzpPqz7ZbjJ5lpR21oP9e1rDjwyG3frDT3UQxUb9hn7hSBdIGn9/l4Si4KImR6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d+aJNMO2; arc=none smtp.client-ip=209.85.166.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=LnOrZMWMfXoEfhM3gfbBwDdOootEiJ/PaTZG3Fg1dcDNAjtINLh1gE3IA5bsXwbMzUVe07Uc6A3be9Wbba8uYoIzQkesKGywYGTIcicPT3CotQeu8K8uq8kXRy+vLnBjYn8nn9zG8M4TkjYeiYoktdvqOzJpLwozEYNguWBujBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Fh1o4r5V; arc=none smtp.client-ip=209.85.166.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d+aJNMO2"
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-364f791a428so5477855ab.3
-        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 08:19:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Fh1o4r5V"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-36524116e30so4574055ab.0
+        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 08:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709223540; x=1709828340; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1709223625; x=1709828425; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iDjcaSL55qXYMAB4NoyOKMuTj/7aaFa6rN5hETeg1qE=;
-        b=d+aJNMO2scqiwmjNY5/hcZFF+cPVJJgX2N5qgCud0ot9L/01Mszq8p3B53puztCZvB
-         5+o3kQ4fJtgJ28dIAnfB7qr8UJBfSYDHTzHMWCnseafU4mmLFCzj7HugWWfnvwLpnirv
-         ND6ytKOb+8jk4i/z81eoYDIO6KIOMzjYSNCpk=
+        bh=g8Qq8yPD2u9VlGqCnCi7K91emb+vPhb1JZTph4xZca0=;
+        b=Fh1o4r5V3NV6hYmmXDVU/Y9GxmzQ83D5o6s0cyDo2DHoJk1KKmJDqFr2UDN2ZYIuw5
+         +fFl6JK1gnZPmrRnL2r7QcPTwpF4NqL2lVd3JndkE95TcMi4NzER0qnmk3LnjG29orAM
+         wvdW6KZUuiiIjVKXMiJ+sG91PCzkhW8etUvXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709223540; x=1709828340;
+        d=1e100.net; s=20230601; t=1709223625; x=1709828425;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iDjcaSL55qXYMAB4NoyOKMuTj/7aaFa6rN5hETeg1qE=;
-        b=rQJPLswm6mh7t7FTdPX8OlobyQ11n/mZFsbCmKBKXuv9LuABQk9vKB2TuB1XNKGm7v
-         JANzQPRjJSF/Go/2VV8Gr4yuGor644L7iPhz+zYPCaLMyuYyOwl/5fy8RwX4vGIwMxsf
-         O6ApBE12HnuSee6tKp4bXT2NMbi56Ny1NpiCHO8/rtgDri5xBzno7nmCJzVpykono4/7
-         YZeLt3dSWNrcSiu4Doeec/2MV3UVuj9Z17w6Qsk2KHRij4901fAcxb9M4d1TJq3yVYm3
-         aABbyUvh3JLSt+n3Hrus3slzP4/9B6CbiOmRdNbAsn353+lUDw9w2u4UBQb2j41xR7jV
-         so7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXJCjiuW05MT3UxzBFprGrdpI884BDQfMdmFad5aueLLPvf9HkwzwGZgyEbmamIV/ZKbSue3u9L6344ZoXVTUYgDP+qhRSUAsUzA1s=
-X-Gm-Message-State: AOJu0Yz/CZSVNEdVRhV9vmeGP6SQLmT34E1tyumYC2ior3Iv8cDMrAOF
-	vZ1jVK4wPDDx6rSYUqI4B4AiFP67gjNdh3S/ITcf3zBWJQKc/hZmpfItadvPbA==
-X-Google-Smtp-Source: AGHT+IG6SYsudTR8afpmPjLzEt8KXtmaUS4neFhh1HH4JtsY7zddGu+EDbyGNsZuVMQLqJ/dxguupg==
-X-Received: by 2002:a92:d404:0:b0:363:c2d4:a365 with SMTP id q4-20020a92d404000000b00363c2d4a365mr2789045ilm.26.1709223540248;
-        Thu, 29 Feb 2024 08:19:00 -0800 (PST)
+        bh=g8Qq8yPD2u9VlGqCnCi7K91emb+vPhb1JZTph4xZca0=;
+        b=c13O2J1d/YquBPFIvF4/tcMFggdoFLksvxZopXNTbidgORN5HUbt8CDcMs7Fo7ZF8b
+         vF7lfVetp0pdyZ26jNzTO10jOkiL1UIiF1o4s/pZEIcGEN4n6MlIZq5kQ5AH4vtR87NU
+         cqznXnM2wsq7XAaTg6Tpgz1nU5dAIFq8DcRCqtBSf4jUg3o5mtbRw77A1bDKRwiW3iKA
+         YG6KuGFNK4tiI0MuCzAKfR2I1/o/5G3cIstQodGXIh6EWh1v39rr8V37HCixlOEPofEu
+         gcFVf1t5gGx3LbhIdsMoUbIUTgQqfON4jETO3bxkMwI8w7YnB8psGvgBhufh4EF7ZUxd
+         hbYw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3BAkxcxhqfU8WhTNud6oZtk74N23t8L6R4zgnm8CQZyEDvjSOLWYWoIQ8/APsdxIwTJD7P7Qxx/br+VUkAX+MpMmSfPfCcO8nUlE=
+X-Gm-Message-State: AOJu0YwM+KKp5HSc0DtV7bqbsgVsGkv3dn5r91nJ/9DGaiP+Rnet8KPb
+	CS968Dwl/6ezU5/uko8Ip0T1e9LYFKafJiSi1VPydrXZlC/Dw9gek3ckT+ItIA==
+X-Google-Smtp-Source: AGHT+IFreo0hr/9MzkZCTngz7lMqfGeDlbi8HZb7O7X2LxBPXUVABjMPoOBmX8meMjGxInCXYjaVSw==
+X-Received: by 2002:a92:c7d1:0:b0:365:1749:cae0 with SMTP id g17-20020a92c7d1000000b003651749cae0mr2946229ilk.7.1709223625514;
+        Thu, 29 Feb 2024 08:20:25 -0800 (PST)
 Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
-        by smtp.gmail.com with UTF8SMTPSA id v4-20020a056e020f8400b00365cdc51c7esm93507ilo.30.2024.02.29.08.18.59
+        by smtp.gmail.com with UTF8SMTPSA id s17-20020a92cb11000000b00363d8ee8cf7sm393454ilo.48.2024.02.29.08.20.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 08:18:59 -0800 (PST)
-Date: Thu, 29 Feb 2024 16:18:58 +0000
+        Thu, 29 Feb 2024 08:20:25 -0800 (PST)
+Date: Thu, 29 Feb 2024 16:20:24 +0000
 From: Matthias Kaehlcke <mka@chromium.org>
 To: Javier Carrasco <javier.carrasco@wolfvision.net>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -67,11 +67,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 1/9] usb: misc: onboard_hub: use pointer consistently
- in the probe function
-Message-ID: <ZeCucidYlrO7f-7t@google.com>
+Subject: Re: [PATCH v6 2/9] usb: misc: onboard_hub: use device supply names
+Message-ID: <ZeCuyLeC9SBNBkk_@google.com>
 References: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
- <20240229-onboard_xvf3500-v6-1-a0aff2947040@wolfvision.net>
+ <20240229-onboard_xvf3500-v6-2-a0aff2947040@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,14 +79,14 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240229-onboard_xvf3500-v6-1-a0aff2947040@wolfvision.net>
+In-Reply-To: <20240229-onboard_xvf3500-v6-2-a0aff2947040@wolfvision.net>
 
-On Thu, Feb 29, 2024 at 09:34:44AM +0100, Javier Carrasco wrote:
-> Commit 14485de431b0 ("usb: Use device_get_match_data()") overlooked the
-> already existing pointer to pdev->dev 'dev'.
+On Thu, Feb 29, 2024 at 09:34:45AM +0100, Javier Carrasco wrote:
+> The current implementation uses generic names for the power supplies,
+> which conflicts with proper name definitions in the device bindings.
 > 
-> Use the existing pointer 'dev' in device_get_match_data() to keep code
-> consistency.
+> Add a per-device property to include real supply names and keep generic
+> names for existing devices to keep backward compatibility.
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
 
