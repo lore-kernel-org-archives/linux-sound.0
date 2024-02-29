@@ -1,95 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98241504F2;
-	Thu, 29 Feb 2024 15:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45C156D22;
+	Thu, 29 Feb 2024 15:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221846; cv=none; b=V0MqdvOABmMiTHy7ZQ6ixHSyqFo6i0YydI893dQGUBp6ECDCMZEqxS2/Ba6zMFnWFebdI7p5hSDOV6/U/7qTz4lmcqfxQVdwqvHsPg3YvLKXlE3DfrTRFxjhBRUNvx8YeCktTwbp+CPX1NsvvZ2Yx3BXXUpxc6wUahoBHq6Ku4k=
+	t=1709221862; cv=none; b=rGqi5VB70Knj4pdRwAQQZfeUo+5uKkno2qZGYmvGpxs5x+k22xAASYDiPgz45NJ+BO3I+T90yYiC3IPqpc0yYD/WUTxiZtmM1wQ0wooeR9PM50ARd4G8i9tv2vJTc3Uva4wcQ7/YgXlOV47xvJV5IfV5UxIfGzNYneJ6BHm/za4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221846; c=relaxed/simple;
-	bh=cXqc0s8jWv3m+juKpMKGwUKVhtDeTSLv/yo9mPFkS9E=;
+	s=arc-20240116; t=1709221862; c=relaxed/simple;
+	bh=1aBbQYkEyYRbxRaz5vqMjWCkJLAVVwIEVE4jU/Fyqt8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HaQhg+Tg1ALehN9s+XzkKHxibtQdcfspDCnDIudpb0a+71oFpzYAnW/Ajsd13FxlFPbMMTiVyusT0jRFUDuuUI1GO2KOXPh3+B9H9T2NvTG08iQbXM5GJs57ayOoXINibMTqKVgQF41F1I+ovqTCb/cxHFhvlaninxpFEioBJ5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c5tXujd5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=eNpaYJzjO2A2HKY2TIAN334QVyWvBY1sR2m/DQAzAFzwkEJ/x9ZGAS5Lur4EU5uTqHWzY/f/DroKsP80oC9+5E/SOpUD/YE0CywLIB6737ZCjSvRPuAzgtE5f+pXh6CFfCJk1tyqJ8q1BZ8EsecZHOMCSdvQ8QuUOr8j5rIc3nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRUTkNAP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c5tXujd5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE1BC43330;
-	Thu, 29 Feb 2024 15:50:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRUTkNAP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9ABBC433B1;
+	Thu, 29 Feb 2024 15:51:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221845;
-	bh=cXqc0s8jWv3m+juKpMKGwUKVhtDeTSLv/yo9mPFkS9E=;
+	s=k20201202; t=1709221862;
+	bh=1aBbQYkEyYRbxRaz5vqMjWCkJLAVVwIEVE4jU/Fyqt8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c5tXujd5qhgGT8Z8rBTZJ5INrJcOX7OhYtGqUVSu88bjFSPY5d3xDqfPDTm/O7J9l
-	 lByJ0WjcuYGKRz6oi2kULEcG+HXpjWgit361ftu6te2dLeb6COPlvZzb5EkTENKCC0
-	 QIHAVfUPpmn7oRgAnWhfLy/86kkhbsWFdjqjNv2YzcxqJynZpX4gJgWjsWX7eF37cz
-	 5VAzaEi5nOoqDIIdp+/7ZpdwGtcrF9de5wLwz0fmbBvviqk+qBejMFLHFCFnI8Dqmq
-	 +2ALzE+aHHHyGQRCDtKpDnEXLHuVC6IUIJy4+g6FVtGdrxnXbEZpSnDDiW9dVc2sca
-	 YRG4WYybuPCuA==
+	b=CRUTkNAPVBwWUs+j/VBs4JLB6fVhfNjack0vSqm+ce9OjEzivGADIkgp579XoYukW
+	 4ZJrV5WkymriIuyhi+SZJv5TsKK5EzjDEdTHbQOhGbC01au20ix1+OpZo0vDvaGjNE
+	 /Gya3v3xSzFgRbGNEzWqAVHm14ZNBQO3bVru36+Q4T13l3It8bhndd0UA6y1fc6SgC
+	 ZZ3zASPpm2wTLMrN1BhU9S5DOe/TgLE7T10UrfJGLGnHs19HyjQYKM5mhFQgxcT/zX
+	 YCWm1vO2cLJhM2VrDj6R0Tl/K8doIYSitTa8vjpic21VlfkWvgM1KW5aV3CJG7HCLO
+	 +unIFML4AF76g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	jeremy@system76.com,
-	git@augustwikerfors.se,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 07/12] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-Date: Thu, 29 Feb 2024 10:50:24 -0500
-Message-ID: <20240229155032.2850566-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 3/7] ASoC: rt5645: Make LattePanda board DMI match more precise
+Date: Thu, 29 Feb 2024 10:50:52 -0500
+Message-ID: <20240229155057.2850873-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229155032.2850566-1-sashal@kernel.org>
-References: <20240229155032.2850566-1-sashal@kernel.org>
+In-Reply-To: <20240229155057.2850873-1-sashal@kernel.org>
+References: <20240229155057.2850873-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.79
+X-stable-base: Linux 5.15.149
 Content-Transfer-Encoding: 8bit
 
-From: Attila Tőkés <attitokes@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f7fe85b229bc30cb5dc95b4e9015a601c9e3a8cd ]
+[ Upstream commit 551539a8606e28cb2a130f8ef3e9834235b456c4 ]
 
-Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
-needs a quirk entry for the internal microphone to function.
+The DMI strings used for the LattePanda board DMI quirks are very generic.
 
-Signed-off-by: Attila Tőkés <attitokes@gmail.com>
-Link: https://msgid.link/r/20240210193638.144028-1-attitokes@gmail.com
+Using the dmidecode database from https://linux-hardware.org/ shows
+that the chosen DMI strings also match the following 2 laptops
+which also have a rt5645 codec:
+
+Insignia NS-P11W7100 https://linux-hardware.org/?computer=E092FFF8BA04
+Insignia NS-P10W8100 https://linux-hardware.org/?computer=AFB6C0BF7934
+
+All 4 hw revisions of the LattePanda board have "S70CR" in their BIOS
+version DMI strings:
+
+DF-BI-7-S70CR100-*
+DF-BI-7-S70CR110-*
+DF-BI-7-S70CR200-*
+LP-BS-7-S70CR700-*
+
+See e.g. https://linux-hardware.org/?computer=D98250A817C0
+
+Add a partial (non exact) DMI match on this string to make the LattePanda
+board DMI match more precise to avoid false-positive matches.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://msgid.link/r/20240211212736.179605-1-hdegoede@redhat.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/codecs/rt5645.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 808d002826233..c4b72101b6472 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -227,6 +227,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "82QF"),
- 		}
+diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
+index 2fdfec5051926..1e940da4414c9 100644
+--- a/sound/soc/codecs/rt5645.c
++++ b/sound/soc/codecs/rt5645.c
+@@ -3802,6 +3802,16 @@ static const struct dmi_system_id dmi_platform_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+ 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VERSION, "Default string"),
++		  /*
++		   * Above strings are too generic, LattePanda BIOS versions for
++		   * all 4 hw revisions are:
++		   * DF-BI-7-S70CR100-*
++		   * DF-BI-7-S70CR110-*
++		   * DF-BI-7-S70CR200-*
++		   * LP-BS-7-S70CR700-*
++		   * Do a partial match for S70CR to avoid false positive matches.
++		   */
++		  DMI_MATCH(DMI_BIOS_VERSION, "S70CR"),
+ 		},
+ 		.driver_data = (void *)&lattepanda_board_platform_data,
  	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "82UU"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
 -- 
 2.43.0
 
