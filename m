@@ -1,102 +1,249 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8403B2557F
-	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 01:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD693770B
+	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 03:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709169642; cv=none; b=fd2Mu00ii2qVS7r6T3Fsi/ygLtke6XHY2ye2DUuTwQswdGCOx5WDtrdT/YM9S9wVCLZ4VF4rNVjH+s2VdEYoXiaeUIIpUTdNeFCfYVrR4ivCAnC048DauQ0SGWbx3zroDznjqKUMFspg02MJlL9Owvllg9wFMbGMlrouD0GDfjY=
+	t=1709177023; cv=none; b=UqtqONA6kSRYE3JCRVxKZo777IGiIe2fdfNIlLEAKHf7p49Z38ci0GWQrlOK6+Pq/pTObpeOiZbFznzXlQXN+BcDKA55Klp55EcJpLw0fjjBC52/K2Tdjdfi1fwH/SmFGQ3hxHuKwELa0BMXneOM12UrBA9ctR+CrvyeHkcd6pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709169642; c=relaxed/simple;
-	bh=vErBZyjJ3yM0jaH8Ik5aT7QuifA4uHCNsWPcG0ae9yg=;
+	s=arc-20240116; t=1709177023; c=relaxed/simple;
+	bh=xk46Jj9RTgh6RKQqAdSGUAO0/eL7vnDByFfZswoFJd0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=svFQMLfOrNaJZ9g8zf+gfyXvUuLdkjMfvcLUhgt6mzyCAuS2zkcG9FEYzfq3V0iXxl8k43P+DVGyH5L3ho7yiHt7S15c1k/e7S7xvD8YaXEEZfFzYHSootsIFtMEGy5Kbpzs84+L8gv/fMofblry2XMY9u+8K8Ji/T6ayej7YKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=33atkk5Q; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=bXo94ClICOvHkxSFzYyaqUArNWmmsr8I82S0L6Xfp1CXHnsi+A1FIWvZt8piDHdOPXiMtb1LPLJn7VyKiQgd4jyASU7HeglaDXOlx20JI5SuISknnFuLLIrTDDZmWDU7tfYjc6PmVXPUfHD1jH2d891RpiaXMEPdSeNCqGaKZhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a8l7mT89; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="33atkk5Q"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-513160a49c1so1581e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 17:20:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a8l7mT89"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512bde3d197so352021e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Feb 2024 19:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709169638; x=1709774438; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1709177019; x=1709781819; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vErBZyjJ3yM0jaH8Ik5aT7QuifA4uHCNsWPcG0ae9yg=;
-        b=33atkk5QgfeUJtmxf3OBHJqW9VYBJPrL6rte/QbkzBUAGLtvBQGXMOYabzFaa4YEw4
-         ZbmH+DB+i0PTMSvfWaD/6nLrmnjzAH9Ok0lHIplfF6psH+xFeWKUYfqbOMotyVzeDOU9
-         KnVuJqueGKsffQHZ5Rn74yxuwrFdebxiEX/NHFTDuUaXMo37HX3sTFT2Zl9OxHdVEVHL
-         /RISr5lIXa/e+hd6MzKbBSk4Uxrj02gYrh5EzsuRpRug+d8sM6hSLy/KrN76cu3+ndQz
-         kIGHPoaz0jRxX8THQT2B5ggAnr30+TghXN4htHnLADMgeYIUXVvW9bjwggc7ZIi0nnOd
-         w4Tg==
+        bh=YnhjCqHLFxHzCoP56tcAkpXqMN7ULXn2w3/bj8hdCI8=;
+        b=a8l7mT89P+l06KxPgW8Bb9RmGL5GpI5Cmgu7NP3gnh6HeJUcgQtWu9mCrn+MQ85WAq
+         9Z3TdvuBb3eJzztkioph4ATeVoQnzTsECKMlz1LVDOKEojOMhZhkAc7o0LyQVcSxsYpB
+         hpfNJb6omIwdAUQHfYChFyRZW4l3A5JafvRjs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709169638; x=1709774438;
+        d=1e100.net; s=20230601; t=1709177019; x=1709781819;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vErBZyjJ3yM0jaH8Ik5aT7QuifA4uHCNsWPcG0ae9yg=;
-        b=S9M4xYyqGIJDfd84ua7CD3/z8FKjTX2Gb1UGXXi/CTssf/VMtwk3TdFrOvXI7bUolY
-         SUpEhGaTb+T3Wd6OotmcGYTkDY2Ln7m3dQGQJyUFoRv3T8IZD7kt5Fjd0sogHhdP+4Pd
-         Y4lxVkqg0JLnAYKlL+9JphFWTbArpM+kK4TFJYLdFXsQSHy4qr75i0t9x64tjleBFuNM
-         sShuAt7w/SLt6IVvb8tD9rAjfIrcFaJshBNuXtX+J7h0va3OBRY6udVmQEw13gSZ8Etz
-         VyDAn0/GmPrBL44f5jtlf95L3Qs4Ii0nKy2rcQswfwgGIenYgbLNVzlaSrOsi7RDEPEa
-         DPwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkZzArZ0NQiV1xvQTUKEMzWCUdwKdD6zZVZ9347nhnxgDpCquuG3M+N1XylrpWKGqvOhtIKpM6LQX6Z1IQ4R3Vrf9NfrsKIidLTkc=
-X-Gm-Message-State: AOJu0YxmDt0gCnWPXh/XREPcQTKbLuU4I+aAqJJnqPokghm0+5sM/QGm
-	UDhpXF+x18iaWUEI3yAToQxijCneXkumxt2tljPovjYsypUUCt8+vbpGEuNw48+ZcRI1sScQJS8
-	Nz5K5g1UZ6OnJfSgmy+75xq+O2VNzyXE/ACw=
-X-Google-Smtp-Source: AGHT+IH+1faJQ6/uhk0gfw8WjBzEoA6yFwJGOjkqCCQ5VIO4G5fNEb/+XhhhpVB3yiDXkNVFX0KRVuH2xhjKWBo/N64=
-X-Received: by 2002:a05:6512:1247:b0:513:1cf2:e14f with SMTP id
- fb7-20020a056512124700b005131cf2e14fmr45944lfb.4.1709169638465; Wed, 28 Feb
- 2024 17:20:38 -0800 (PST)
+        bh=YnhjCqHLFxHzCoP56tcAkpXqMN7ULXn2w3/bj8hdCI8=;
+        b=qG6uCGX1M97hkwZ29FmM+iw0pFxmSd8jVsGwEAPTTUQcb+fIpMQ6GA5mPwm2RVl801
+         v1+/E9zNSXnwjuTk4NXrT2sigSZ5sBH5YFCc3EsInTGI8uLa+u/e05OkCCvYAYNlXQO6
+         dXsfg1Pw7Cy/JyX15a4bQ6hf12foDDr4bA5UVPLN1gTiKVR3rq0kdLC3InvYGtCpQ2PR
+         LODStvfGnyLztleCM6asZoNnFopNJQBKTMj/n5I5FBEhDpf+K8RrrL1Lzj3P/Cha0BEB
+         xj1z/8JB8BKcOq5g8z59e+FNnhGDCzbnTTpkcJReZxegZGakZwLrwuGb4sg6YmsePsuS
+         fz/w==
+X-Forwarded-Encrypted: i=1; AJvYcCURerFfkpfQDX+poZs9VB/EroIDTLjVhmQBpmB3HUrSNGXyQTQru0XMvG2BoHrYIr0sqDc0wNcIXzqqobKf6ppj+2YpzAuuLQmDBlc=
+X-Gm-Message-State: AOJu0YxYh5kuBpr7BlUw4zKIYryzGVy7Gg4koa5qyo26tMFm/LE0un9Y
+	ykCf0Ar4Mz/IPTHPMfnIeK75BH6ULV3a+fRz1yYcVGW4viawaf93XT8xVNQVfWqFCFMUGf0wrra
+	g/B2O6bXjmSDXXs5Qqcl3anGoItNggpAugQHY
+X-Google-Smtp-Source: AGHT+IGoyjlA5d3MJxIU0XjajX2pLjnv5bjpGNpsYoZpp5aPB53ISOzz1U7B/7xmRxLHgmDVXHiCd+RpSMsLvGtFTsY=
+X-Received: by 2002:a05:6512:3d04:b0:513:25b9:6cf8 with SMTP id
+ d4-20020a0565123d0400b0051325b96cf8mr294868lfv.19.1709177019347; Wed, 28 Feb
+ 2024 19:23:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228140152.1824901-1-arnd@kernel.org> <87msrkhcz6.wl-tiwai@suse.de>
- <1265517d-b98a-4ec6-9215-10cd988ff78f@app.fastmail.com> <202402280925.5B709A60F@keescook>
-In-Reply-To: <202402280925.5B709A60F@keescook>
-From: Bill Wendling <morbo@google.com>
-Date: Wed, 28 Feb 2024 17:20:20 -0800
-Message-ID: <CAGG=3QU33tgfN_veiJWooXy2EhfZzUFkJZF3XdjSLE8fFCCkOA@mail.gmail.com>
-Subject: Re: Clang __bos vs loop unrolling (was Re: [PATCH] ALSA: asihpi: work
- around clang-17+ false positive fortify-string warning)
-To: Kees Cook <keescook@chromium.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.de>, 
-	Arnd Bergmann <arnd@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Justin Stitt <justinstitt@google.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
+References: <20240227120939.290143-1-angelogioacchino.delregno@collabora.com> <20240227120939.290143-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240227120939.290143-2-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 29 Feb 2024 11:23:28 +0800
+Message-ID: <CAGXv+5Edk5tCmE87DCOjVmMsiMcKeRw50=mx8=z1ZacJYd6L1Q@mail.gmail.com>
+Subject: Re: [PATCH 01/22] ASoC: mediatek: mt8192-afe-pcm: Convert to devm_pm_runtime_enable()
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	trevor.wu@mediatek.com, maso.huang@mediatek.com, 
+	xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de, 
+	kuninori.morimoto.gx@renesas.com, shraash@google.com, amergnat@baylibre.com, 
+	nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de, 
+	dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com, 
+	eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev, 
+	jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com, 
+	ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com, 
+	nfraprado@collabora.com, alsa-devel@alsa-project.org, 
+	shane.chien@mediatek.com, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	kernel@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 28, 2024 at 9:39=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
-rote:
+On Tue, Feb 27, 2024 at 8:10=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
 >
-> On Wed, Feb 28, 2024 at 04:03:56PM +0100, Arnd Bergmann wrote:
-> > My first thought was that clang warns about it here because
-> > the 'u16 adapter' declaration limits the index to something
-> > smaller than an 'int' or 'long', but changing the type
-> > did not get rid of the warning.
+> Switch from pm_runtime_enable() to devm_pm_runtime_enable(), allowing
+> to remove all gotos from the probe function.
 >
-> Our current theory is that Clang has a bug with
-> __builtin_object_size/__builtin_dynamic_object_size when doing loop
-> unrolling (or other kinds of execution flow splitting). Some examples:
-> https://github.com/ClangBuiltLinux/linux/issues?q=3Dlabel%3A%22loop+unrol=
-ler%22+
->
-> Which is perhaps related to __bos miscalculations:
-> https://github.com/ClangBuiltLinux/linux/issues?q=3Dlabel%3A%22%5B__bos%5=
-D+miscalculation%22+
->
-The idea that there's a bug with the __b{d}os builtins is
-controversial. The consensus among GCC and Clang compiler developers
-is that returning *a* valid size, rather than the one asked for, is
-okay as long as it doesn't go past the current object's max size. (I
-couldn't disagree more.) There are a lot of situations where Clang
-reverts to that behavior. I'm working to change that.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
--bw
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+
+This also fixes the unwinding order during driver unbinding.
+
+
+> ---
+>  sound/soc/mediatek/mt8192/mt8192-afe-pcm.c | 46 ++++++++--------------
+>  1 file changed, 17 insertions(+), 29 deletions(-)
+>
+> diff --git a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c b/sound/soc/media=
+tek/mt8192/mt8192-afe-pcm.c
+> index bdd1e91824d9..794419d16b01 100644
+> --- a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
+> +++ b/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
+> @@ -2217,21 +2217,20 @@ static int mt8192_afe_pcm_dev_probe(struct platfo=
+rm_device *pdev)
+>                 return ret;
+>         }
+>
+> -       pm_runtime_enable(&pdev->dev);
+> -       if (!pm_runtime_enabled(&pdev->dev))
+> -               goto err_pm_disable;
+> +       ret =3D devm_pm_runtime_enable(&pdev->dev);
+> +       if (ret)
+> +               return ret;
+>
+>         /* regmap init */
+>         afe->regmap =3D syscon_node_to_regmap(dev->parent->of_node);
+>         if (IS_ERR(afe->regmap)) {
+>                 dev_err(dev, "could not get regmap from parent\n");
+> -               ret =3D PTR_ERR(afe->regmap);
+> -               goto err_pm_disable;
+> +               return PTR_ERR(afe->regmap);
+>         }
+>         ret =3D regmap_attach_dev(dev, afe->regmap, &mt8192_afe_regmap_co=
+nfig);
+>         if (ret) {
+>                 dev_warn(dev, "regmap_attach_dev fail, ret %d\n", ret);
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         /* enable clock for regcache get default value from hw */
+> @@ -2241,7 +2240,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform=
+_device *pdev)
+>         ret =3D regmap_reinit_cache(afe->regmap, &mt8192_afe_regmap_confi=
+g);
+>         if (ret) {
+>                 dev_err(dev, "regmap_reinit_cache fail, ret %d\n", ret);
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         pm_runtime_put_sync(&pdev->dev);
+> @@ -2254,10 +2253,8 @@ static int mt8192_afe_pcm_dev_probe(struct platfor=
+m_device *pdev)
+>         afe->memif_size =3D MT8192_MEMIF_NUM;
+>         afe->memif =3D devm_kcalloc(dev, afe->memif_size, sizeof(*afe->me=
+mif),
+>                                   GFP_KERNEL);
+> -       if (!afe->memif) {
+> -               ret =3D -ENOMEM;
+> -               goto err_pm_disable;
+> -       }
+> +       if (!afe->memif)
+> +               return -ENOMEM;
+>
+>         for (i =3D 0; i < afe->memif_size; i++) {
+>                 afe->memif[i].data =3D &memif_data[i];
+> @@ -2271,26 +2268,22 @@ static int mt8192_afe_pcm_dev_probe(struct platfo=
+rm_device *pdev)
+>         afe->irqs_size =3D MT8192_IRQ_NUM;
+>         afe->irqs =3D devm_kcalloc(dev, afe->irqs_size, sizeof(*afe->irqs=
+),
+>                                  GFP_KERNEL);
+> -       if (!afe->irqs) {
+> -               ret =3D -ENOMEM;
+> -               goto err_pm_disable;
+> -       }
+> +       if (!afe->irqs)
+> +               return -ENOMEM;
+>
+>         for (i =3D 0; i < afe->irqs_size; i++)
+>                 afe->irqs[i].irq_data =3D &irq_data[i];
+>
+>         /* request irq */
+>         irq_id =3D platform_get_irq(pdev, 0);
+> -       if (irq_id < 0) {
+> -               ret =3D irq_id;
+> -               goto err_pm_disable;
+> -       }
+> +       if (irq_id < 0)
+> +               return irq_id;
+>
+>         ret =3D devm_request_irq(dev, irq_id, mt8192_afe_irq_handler,
+>                                IRQF_TRIGGER_NONE, "asys-isr", (void *)afe=
+);
+>         if (ret) {
+>                 dev_err(dev, "could not request_irq for Afe_ISR_Handle\n"=
+);
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         /* init sub_dais */
+> @@ -2301,7 +2294,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform=
+_device *pdev)
+>                 if (ret) {
+>                         dev_warn(afe->dev, "dai register i %d fail, ret %=
+d\n",
+>                                  i, ret);
+> -                       goto err_pm_disable;
+> +                       return ret;
+>                 }
+>         }
+>
+> @@ -2310,7 +2303,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform=
+_device *pdev)
+>         if (ret) {
+>                 dev_warn(afe->dev, "mtk_afe_combine_sub_dai fail, ret %d\=
+n",
+>                          ret);
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         /* others */
+> @@ -2329,7 +2322,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform=
+_device *pdev)
+>                                               &mt8192_afe_component, NULL=
+, 0);
+>         if (ret) {
+>                 dev_warn(dev, "err_platform\n");
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         ret =3D devm_snd_soc_register_component(&pdev->dev,
+> @@ -2338,15 +2331,10 @@ static int mt8192_afe_pcm_dev_probe(struct platfo=
+rm_device *pdev)
+>                                               afe->num_dai_drivers);
+>         if (ret) {
+>                 dev_warn(dev, "err_dai_component\n");
+> -               goto err_pm_disable;
+> +               return ret;
+>         }
+>
+>         return 0;
+> -
+> -err_pm_disable:
+> -       pm_runtime_disable(&pdev->dev);
+> -
+> -       return ret;
+>  }
+>
+>  static void mt8192_afe_pcm_dev_remove(struct platform_device *pdev)
+> --
+> 2.44.0
+>
