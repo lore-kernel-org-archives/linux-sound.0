@@ -1,175 +1,94 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1031C7E56C
-	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 13:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C79151CE2;
+	Thu, 29 Feb 2024 15:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709213144; cv=none; b=nGReFEHyGWe6oqNo1dYi8LixYR//nKELRTNdeg4u8BaF8zKfkbU2bueVXLKAC9EgJOx9wfc1IAn6n+ahFr2FpDlTtK/JksZ+cSrkN/vh+E+/7JP5nLpQGJ8CtTO9RYNZvEntyodV7CDPuOSPo6DHi/zwgqEx3tfyvM/uNIkIfYw=
+	t=1709221741; cv=none; b=UB+/hdOnGPajs4jnVopcH7yFZgiPKMbC9c9gtkHp/4H1eFVslxGU40GGCvkJp17wlTLeqSWgOQl54FHH0UitJ05JAayxKWnA+Q5a56pSqwM+83M98U6mPlv3LcdbbvuAGtswwQxCOU8jA/awh5SFCAmNA7nYxnnOwGIhZBtVkCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709213144; c=relaxed/simple;
-	bh=47902Agb+o7OU9tVAh9wEpUgHCy4GoimO++RFGUGc5M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=LJM55oxrGZsTL2B3rjdIyQMi1qlq4L3o4MlxubzoJVvYH+NNmUYj6RD9V7+f9OB7ZFeD43HritlacgBeGltE+2V9X5wJubbP2I14hgtsCQn20QRtSvwxwkf07KpOvyZApd7GbSH8OPqYL7ndsCF/vAKm2MU7yrzCXobi4RVcuEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CbBA8uIU; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709221741; c=relaxed/simple;
+	bh=KMdpPcg5w+z+tVeN+JvRVV4A2DEvvetANQO9444T5ko=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DG5v2HOyrUuA1WBK0qs0YNuskWz9bCUHBf14nBCThr/HnCmSYLSOZv9JfPeQ310vK5VyoRkHgkUd/BDIcvjodTzjsgFhSUaxS853SmRQzRJTMlhPeDKV87TtkuBMzqv0Rn4Ozv1O1SfW1Idms2Avoaw/SdJaxr5elCYzzzk3CmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=owoyZWg4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbBA8uIU"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33db19538d0so154870f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 05:25:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709213141; x=1709817941; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3e5vUFAkBoEFioLbyBAB4Ly+coy7PI9GjR9aaf5+AzI=;
-        b=CbBA8uIUp+DA4ZSR3ZmfxDc4X7+W6iuQ/UzYCk0y7nV469N+GYc7++mmV9RBkLztPT
-         0jp0gfuT3ju8idpwuLjs9yw3CG2qgX7m0IAmjlzvLiYS8m/u9Z/DdApdCZMgtwYHml3h
-         u+pH+IX73BMwslF/1Ll+VUozdPWT7GBEok8tbpfFJ5k8PAOTSk76ZhKBR0Lkx3PBPTJ0
-         Y97tVgR08SF6nUPG9JsyGPS0/6udW3sW5MCvDc4oCO64xbUrqJxubV2iKCFmh88Awxxd
-         hTsCqSwHf9SlsXX9YxjXlD/6ulYJ7ZJUhb1m+aKpcl5daMZpQvSl91tmEyQvepBLM4iR
-         8YNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709213141; x=1709817941;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3e5vUFAkBoEFioLbyBAB4Ly+coy7PI9GjR9aaf5+AzI=;
-        b=H1DEsCMNh/Q37I5FbWOYNl95ljQkMHVU+6yhTmAeSe8L6Y71hAzFlUlszxyKj0dPdg
-         zWyDdiezp56mZJQ60wIt/PoK33vmlFGQC+2OxV1B5gcU3so47Nglyx28wjfdHSuXQrfT
-         /9ZaouZAnRYMlGiMNy4k/r7ajHtAW00xZhNdSD7tyKrHtotRcW8UfXDK1NJCS4ifaqVt
-         bbJ4ZYmIVnNOtCG5FIM/8efNk5NkA5kso4d9NAkes42cK3UUdbpImUc5Qrc2hvkGcAZQ
-         SJFquFgI5yT6AXyn6G89+QK+jQO64jDBYVTPf5cbrUeF0WhZGbijKa/YCZ9TRZ/yT9/z
-         Nu6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVdWNFlungi+UEj0sY56YYnSJ9BrhW7FN/CXI08gKYQMSO+Uc4RdUSDKfuWlaziY4ZH9mIvZQK032+mmuBavAoaxX7EQ/Wa3vdtlWw=
-X-Gm-Message-State: AOJu0YyK03ESdSZCIpABbSBOtU3zP9tlWH0Vln/+/G5bbaeGBJdf+jvF
-	0Nefo4m8QHgA0So+sxxfsQzfC0S3tiIRIaHen7OxGDq0RsiQEJEjt7uK8iyo
-X-Google-Smtp-Source: AGHT+IGUUv9AO6lpENlFEy0ikTmPeNMdpNZcPFRrLUOPZse8svYTSjxGeDLtOwxy44JFeK8clfqIxQ==
-X-Received: by 2002:a5d:4b91:0:b0:33e:cdb:e041 with SMTP id b17-20020a5d4b91000000b0033e0cdbe041mr1429511wrt.2.1709213141075;
-        Thu, 29 Feb 2024 05:25:41 -0800 (PST)
-Received: from [172.16.100.85] ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id d15-20020a5d644f000000b0033e052be14fsm1743209wrw.98.2024.02.29.05.25.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 05:25:40 -0800 (PST)
-Message-ID: <7d2d2309-6538-40fc-a363-842a95ea57f0@gmail.com>
-Date: Thu, 29 Feb 2024 13:25:38 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="owoyZWg4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB06C433A6;
+	Thu, 29 Feb 2024 15:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709221740;
+	bh=KMdpPcg5w+z+tVeN+JvRVV4A2DEvvetANQO9444T5ko=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=owoyZWg4qRJsKOblM7lLkon+fYe32zEEZ+3DZNcIYccb2fZx6KToAIeLvCz7FFX6E
+	 OUWhqAWSUPJOrLL6x/w9oW6+SaCgLe4tWnLtAPV/XVpPoiMFkR18zsCOO4WU6o1eyQ
+	 W40NzN2HiZlTB6b6v+PfXthDGVHvcJDF31xPtAaUa/+kIo1/YjqNdKOK2Hae4pSiS7
+	 RjlE/q/vomxgqs3fQkQMZMKnMzc2peKbDGlYGv9RgKf1va3FC6eU3hTmOEdlTRaeVY
+	 nAK7mnDjC/B88GG8780A/pYvlym7aHV+ZAXf+2MXMuK9/vwGNalJTQSLyUVPUW3hOb
+	 Zh48lsCr+pmmg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 05/26] ASoC: cs42l43: Handle error from devm_pm_runtime_enable
+Date: Thu, 29 Feb 2024 10:48:24 -0500
+Message-ID: <20240229154851.2849367-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
+References: <20240229154851.2849367-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: kunit: Fix sparse warnings
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-References: <20240227104912.18921-1-tiwai@suse.de>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20240227104912.18921-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.6
+Content-Transfer-Encoding: 8bit
 
-On 2/27/24 10:49, Takashi Iwai wrote:
-> There were a few sparse warnings about the cast of strong-typed
-> snd_pcm_format_t.  Fix them with cast with __force.
-> 
-> For spreading the ugly mess, put them in the definitions
-> WRONG_FORMAT_1 and WRONG_FORMAT_2 and use them in the callers.
-> 
-> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/r/202402270303.PmvmQrJV-lkp@intel.com
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->   sound/core/sound_kunit.c | 29 +++++++++++++++--------------
->   1 file changed, 15 insertions(+), 14 deletions(-)
-> 
-> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-> index 4212c4a20697..eb90f62228c0 100644
-> --- a/sound/core/sound_kunit.c
-> +++ b/sound/core/sound_kunit.c
-> @@ -17,7 +17,8 @@
->   	.name = #fmt,								\
->   }
->   
-> -#define WRONG_FORMAT (SNDRV_PCM_FORMAT_LAST + 1)
-> +#define WRONG_FORMAT_1 (__force snd_pcm_format_t)((__force int)SNDRV_PCM_FORMAT_LAST + 1)
-> +#define WRONG_FORMAT_2 (__force snd_pcm_format_t)-1
->   
->   #define VALID_NAME "ValidName"
->   #define NAME_W_SPEC_CHARS "In%v@1id name"
-> @@ -104,8 +105,8 @@ static void test_phys_format_size(struct kunit *test)
->   				valid_fmt[i].physical_bits);
->   	}
->   
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(-1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT_1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_physical_width(WRONG_FORMAT_2), -EINVAL);
->   }
->   
->   static void test_format_width(struct kunit *test)
-> @@ -117,8 +118,8 @@ static void test_format_width(struct kunit *test)
->   				valid_fmt[i].width);
->   	}
->   
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(-1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_2), -EINVAL);
->   }
->   
->   static void test_format_signed(struct kunit *test)
-> @@ -132,8 +133,8 @@ static void test_format_signed(struct kunit *test)
->   				valid_fmt[i].sd < 0 ? -EINVAL : 1 - valid_fmt[i].sd);
->   	}
->   
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(-1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_width(WRONG_FORMAT_2), -EINVAL);
->   }
->   
->   static void test_format_endianness(struct kunit *test)
-> @@ -147,10 +148,10 @@ static void test_format_endianness(struct kunit *test)
->   				valid_fmt[i].le < 0 ? -EINVAL : 1 - valid_fmt[i].le);
->   	}
->   
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(-1), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT), -EINVAL);
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(-1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT_1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_little_endian(WRONG_FORMAT_2), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_1), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_2), -EINVAL);
->   }
->   
->   static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *data,
-> @@ -177,7 +178,7 @@ static void test_format_fill_silence(struct kunit *test)
->   			_test_fill_silence(test, &valid_fmt[j], buffer, buf_samples[i]);
->   	}
->   
-> -	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(WRONG_FORMAT, buffer, 20), -EINVAL);
-> +	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(WRONG_FORMAT_1, buffer, 20), -EINVAL);
->   	KUNIT_EXPECT_EQ(test, snd_pcm_format_set_silence(SNDRV_PCM_FORMAT_LAST, buffer, 0), 0);
->   }
->   
-> @@ -272,8 +273,8 @@ static void test_pcm_format_name(struct kunit *test)
->   		KUNIT_EXPECT_STREQ(test, name, valid_fmt[i].name);
->   	}
->   
-> -	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT), "Unknown");
-> -	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(-1), "Unknown");
-> +	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT_1), "Unknown");
-> +	KUNIT_ASSERT_STREQ(test, snd_pcm_format_name(WRONG_FORMAT_2), "Unknown");
->   }
->   
->   static void test_card_add_component(struct kunit *test)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Acked-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+[ Upstream commit d1722057477a3786b8c0d60c28fc281f6ecf1cc3 ]
+
+As devm_pm_runtime_enable can fail due to memory allocations, it is
+best to handle the error.
+
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://lore.kernel.org/r/20240206113850.719888-1-ckeepax@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/cs42l43.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index d62c9f26c6325..5009cf64124ed 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2175,7 +2175,10 @@ static int cs42l43_codec_probe(struct platform_device *pdev)
+ 	pm_runtime_use_autosuspend(priv->dev);
+ 	pm_runtime_set_active(priv->dev);
+ 	pm_runtime_get_noresume(priv->dev);
+-	devm_pm_runtime_enable(priv->dev);
++
++	ret = devm_pm_runtime_enable(priv->dev);
++	if (ret)
++		goto err_pm;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(cs42l43_irqs); i++) {
+ 		ret = cs42l43_request_irq(priv, dom, cs42l43_irqs[i].name,
 -- 
-Kind regards,
-Ivan Orlov
+2.43.0
 
