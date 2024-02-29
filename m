@@ -1,97 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8416CBEC;
-	Thu, 29 Feb 2024 15:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB178269;
+	Thu, 29 Feb 2024 15:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221776; cv=none; b=rrGG4sCwd3N31HvLnKz6itcJSEGvDYZHgqoqBUkDZ2IBW1JxMe0sgBZ874sHevBlrQv47I4nwapkcq9H6NaetbtlSUhAlip6ayJX7QQNULgJO8Zf1h1rcEfyIL6iXA3FDvatXyA/OFxk71Qve9uOhSOi6zt5GG84exGBCfUovKM=
+	t=1709221794; cv=none; b=ST7iduCEyKxvaZPxZN+iSWONcexKDOpO4RcMCfJ9gWaOv1AiMwkQBbL+yR78RxoleHUHRXj15kCYeH1/ymPDSkv0rL+f9ZtJ1RNOKuAxqiiPSv24aVvtIR1JScLITXDhoi4Al4rra3EWtRY+E96tbncbcx+PiSqgEnzDztYIfxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221776; c=relaxed/simple;
-	bh=qqQqYmeRobIgF1JaLhrO2YJ2mmVBNwvySbsBhS/0UMo=;
+	s=arc-20240116; t=1709221794; c=relaxed/simple;
+	bh=seMaBnzxWwvV+xWVKAtZ7vvq6fEuoCY+K3+gKI3+l9s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ObkF9vnE+8t89+vhOJ3bIgrrr7lhR8J7wJlemcb5S8xDLevWDrFGDs0YQqCji6Cq9/f3diRUrnNqxuXtTtwn04HIOghH62tQUCqhro0cL/wUFinzv/Ps9iWtrgY7A+7x/M/WiALV+TvnnkZbLukWe1w5iEhcDOC/ooQWXCxKWuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=peBWEtKl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=JrwAH/6APNrJ7PklnEOW8cFGQ1R1dCaB1giRK8p/Y3P67kCd4ojhkEEjvc960UfLtnVAuBAGlkL+TXrsyhF64ilrpGZB9AVoiKtY8NtUk+kSPYXuG8RobVTfGQARL0rnn224tQaIB3kCY0ZM1+pWajMI9vX7D8NRr6GvepuuINk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5OpD6tw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="peBWEtKl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184E2C433F1;
-	Thu, 29 Feb 2024 15:49:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5OpD6tw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B3EC433A6;
+	Thu, 29 Feb 2024 15:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221775;
-	bh=qqQqYmeRobIgF1JaLhrO2YJ2mmVBNwvySbsBhS/0UMo=;
+	s=k20201202; t=1709221794;
+	bh=seMaBnzxWwvV+xWVKAtZ7vvq6fEuoCY+K3+gKI3+l9s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=peBWEtKlMGXpHRaqN7Ic0cIY9vCxx/CTdNl8ivm7iRhv8J/FEqMkb7TTkRV7g28Uv
-	 H9vIPf+Jx66RcXEfHM6NqPtnEypv8QOJNS1L++1KNl/dniSGd8MsHHs9zeWKMbf8TV
-	 JxnrJaWiXjkAi/JZ3mjXRcpLdBcb9KgzELPUde1Hlck6XT+oXGE/QRgHGOrUS7N2LP
-	 pCckl9roQn0iUaVDpt4OlIAFpNgN55faL8JDY31yuGH0+y/tVvPUmD2guY8ljcjPrX
-	 EugE8tMhi35vPs9Fw+kvDCgZX0OS3J+q6Cb34BT7N4hiGheqBW1EXi27dbpxOwhVoB
-	 L4Msz6c6mpQKA==
+	b=A5OpD6twN9JSzSjqldqkIJpFGBE04NuElU1yptiu1sL3FHXdTogsGFta2LsZlrWO4
+	 SfpxhkhUbYKi39yNRhiTEg8bg0Yi9MmTzLQkOlwCd8NOjb5IRqNK3alYqW0Vowj6q2
+	 itkybDeMjlQa9Y7L1mxX4KFqpuqhQ+cknyKzcEIeLno6Hs9dZI9hBl9upNe49rdoXL
+	 GMEHLUYSFUK6aIblShFf/ezVazTW5kCIacwHe58ads7mtm88DNO9cJgUMBIcIxIkuM
+	 iYyZV97yL0pg/KhMb4CzAKQmKGDVlqmCkpGuvffLd9m9z8k4nEsbqjuXnJwrGQGAfF
+	 k7/M82p5kJhkA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Jean-Lo=C3=AFc=20Charroud?= <lagiraudiere+linux@free.fr>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	james.schulman@cirrus.com,
 	david.rhodes@cirrus.com,
 	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	alsa-devel@alsa-project.org,
 	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 24/26] ALSA: hda/realtek: cs35l41: Add internal speaker support for ASUS UM3402 with missing DSD
-Date: Thu, 29 Feb 2024 10:48:43 -0500
-Message-ID: <20240229154851.2849367-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 04/21] ASoC: cs42l43: Handle error from devm_pm_runtime_enable
+Date: Thu, 29 Feb 2024 10:49:24 -0500
+Message-ID: <20240229154946.2850012-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
-References: <20240229154851.2849367-1-sashal@kernel.org>
+In-Reply-To: <20240229154946.2850012-1-sashal@kernel.org>
+References: <20240229154946.2850012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.6
+X-stable-base: Linux 6.6.18
 Content-Transfer-Encoding: 8bit
 
-From: Jean-Loïc Charroud <lagiraudiere+linux@free.fr>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit 706c1fa1ab09f11a131fc4d699ce4c0224b1cb2d ]
+[ Upstream commit d1722057477a3786b8c0d60c28fc281f6ecf1cc3 ]
 
-Add the values for the missing DSD properties to the cs35l41 config table.
+As devm_pm_runtime_enable can fail due to memory allocations, it is
+best to handle the error.
 
-Signed-off-by: Jean-Loïc Charroud <lagiraudiere+linux@free.fr>
-Link: https://lore.kernel.org/r/1435594585.650325975.1707867511062.JavaMail.zimbra@free.fr
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://lore.kernel.org/r/20240206113850.719888-1-ckeepax@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/cs42l43.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 35277ce890a46..ffdff336678cc 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -89,6 +89,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431D1F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431DA2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
- 	{ "10431E02", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-+	{ "10431E12", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "10431EE2", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
- 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
-@@ -423,6 +424,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431D1F", generic_dsd_config },
- 	{ "CSC3551", "10431DA2", generic_dsd_config },
- 	{ "CSC3551", "10431E02", generic_dsd_config },
-+	{ "CSC3551", "10431E12", generic_dsd_config },
- 	{ "CSC3551", "10431EE2", generic_dsd_config },
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 5643c666d7d04..8015f4b7a5b32 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2175,7 +2175,10 @@ static int cs42l43_codec_probe(struct platform_device *pdev)
+ 	pm_runtime_use_autosuspend(priv->dev);
+ 	pm_runtime_set_active(priv->dev);
+ 	pm_runtime_get_noresume(priv->dev);
+-	devm_pm_runtime_enable(priv->dev);
++
++	ret = devm_pm_runtime_enable(priv->dev);
++	if (ret)
++		goto err_pm;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(cs42l43_irqs); i++) {
+ 		ret = cs42l43_request_irq(priv, dom, cs42l43_irqs[i].name,
 -- 
 2.43.0
 
