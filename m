@@ -1,76 +1,46 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8CF7828D
-	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 16:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE844AECD;
+	Thu, 29 Feb 2024 17:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709223628; cv=none; b=kiEciW6OG/oAhBMoXpMKM3nUxpt+7ZCWQq9uyrHUq/IYH6bOF0J3fSOo7/M8aed7QDBXj8fxED5wxt1NbQSBk3MBAO6wKwgg/Lm+MnvuCFNTQwiwvqQyMhx/GKVbWlBupH/1NEtlZYANzJg3YnR5c+wNkAcvzoR/oahNXLAgSZg=
+	t=1709227619; cv=none; b=X9JO3aFMiL2wN5hlOtbTPLpL2YrcHC14FHsL5PE67a46ymXsYeYeOTyYNOHi3DqjWgEZoJ2sTe48MUVPl+DQ1RPvx+UxRQ1cE/U2O/1xyklvfmlSWAMMHdKbFGLBvITo5kNSYbQ8uFWKZTg0CXQRNffuXp3ViDkvgLAD88yRcgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709223628; c=relaxed/simple;
-	bh=5akJAYIzzDJf3+0III/J1h+mlaUltOxaG9R8wmii+rY=;
+	s=arc-20240116; t=1709227619; c=relaxed/simple;
+	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LnOrZMWMfXoEfhM3gfbBwDdOootEiJ/PaTZG3Fg1dcDNAjtINLh1gE3IA5bsXwbMzUVe07Uc6A3be9Wbba8uYoIzQkesKGywYGTIcicPT3CotQeu8K8uq8kXRy+vLnBjYn8nn9zG8M4TkjYeiYoktdvqOzJpLwozEYNguWBujBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Fh1o4r5V; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qvyk1ym2veOiBwpzl3OC/8FkMEdloUiTb8LvadJ6aQA43Wf3cCP4ldABstDqzxD8livl9Q8xvKs/alC3j6gxYkXGRL2Zw61YaVmsxW8HjKq4Or8j8eGC/IcvmTEyqTpkSOKd6fCQFWxpRDf5TFCMPY9RTd+dQO1SZHVlPI3rEc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFlmFR5V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Fh1o4r5V"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-36524116e30so4574055ab.0
-        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 08:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709223625; x=1709828425; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g8Qq8yPD2u9VlGqCnCi7K91emb+vPhb1JZTph4xZca0=;
-        b=Fh1o4r5V3NV6hYmmXDVU/Y9GxmzQ83D5o6s0cyDo2DHoJk1KKmJDqFr2UDN2ZYIuw5
-         +fFl6JK1gnZPmrRnL2r7QcPTwpF4NqL2lVd3JndkE95TcMi4NzER0qnmk3LnjG29orAM
-         wvdW6KZUuiiIjVKXMiJ+sG91PCzkhW8etUvXU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709223625; x=1709828425;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g8Qq8yPD2u9VlGqCnCi7K91emb+vPhb1JZTph4xZca0=;
-        b=c13O2J1d/YquBPFIvF4/tcMFggdoFLksvxZopXNTbidgORN5HUbt8CDcMs7Fo7ZF8b
-         vF7lfVetp0pdyZ26jNzTO10jOkiL1UIiF1o4s/pZEIcGEN4n6MlIZq5kQ5AH4vtR87NU
-         cqznXnM2wsq7XAaTg6Tpgz1nU5dAIFq8DcRCqtBSf4jUg3o5mtbRw77A1bDKRwiW3iKA
-         YG6KuGFNK4tiI0MuCzAKfR2I1/o/5G3cIstQodGXIh6EWh1v39rr8V37HCixlOEPofEu
-         gcFVf1t5gGx3LbhIdsMoUbIUTgQqfON4jETO3bxkMwI8w7YnB8psGvgBhufh4EF7ZUxd
-         hbYw==
-X-Forwarded-Encrypted: i=1; AJvYcCW3BAkxcxhqfU8WhTNud6oZtk74N23t8L6R4zgnm8CQZyEDvjSOLWYWoIQ8/APsdxIwTJD7P7Qxx/br+VUkAX+MpMmSfPfCcO8nUlE=
-X-Gm-Message-State: AOJu0YwM+KKp5HSc0DtV7bqbsgVsGkv3dn5r91nJ/9DGaiP+Rnet8KPb
-	CS968Dwl/6ezU5/uko8Ip0T1e9LYFKafJiSi1VPydrXZlC/Dw9gek3ckT+ItIA==
-X-Google-Smtp-Source: AGHT+IFreo0hr/9MzkZCTngz7lMqfGeDlbi8HZb7O7X2LxBPXUVABjMPoOBmX8meMjGxInCXYjaVSw==
-X-Received: by 2002:a92:c7d1:0:b0:365:1749:cae0 with SMTP id g17-20020a92c7d1000000b003651749cae0mr2946229ilk.7.1709223625514;
-        Thu, 29 Feb 2024 08:20:25 -0800 (PST)
-Received: from localhost (144.57.222.35.bc.googleusercontent.com. [35.222.57.144])
-        by smtp.gmail.com with UTF8SMTPSA id s17-20020a92cb11000000b00363d8ee8cf7sm393454ilo.48.2024.02.29.08.20.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 08:20:25 -0800 (PST)
-Date: Thu, 29 Feb 2024 16:20:24 +0000
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Javier Carrasco <javier.carrasco@wolfvision.net>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 2/9] usb: misc: onboard_hub: use device supply names
-Message-ID: <ZeCuyLeC9SBNBkk_@google.com>
-References: <20240229-onboard_xvf3500-v6-0-a0aff2947040@wolfvision.net>
- <20240229-onboard_xvf3500-v6-2-a0aff2947040@wolfvision.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFlmFR5V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDC9C433C7;
+	Thu, 29 Feb 2024 17:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709227618;
+	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PFlmFR5Vtjnu0AEZnfm0sc9VeVNGqeqknxsqd9UsGfod5t11c0gunlUylOXrI4HT0
+	 ouhWQztuyEBNMb5SolghaMHCKAdf0eQEw1CLFpxaRCb82xV9Z1T0NyAGjz0vO5n0iG
+	 TwKGbnRn0z3kb55lQ68XQN4ejnHSEMUWsR5wh+oJeBWEdiTX3LHt9ZlcRgO8s7yGUF
+	 3yOyiveO7SW2CJYqqs32wPWfmg8q/hhgc9c4tdLFX657+BYFF4IraSelnXcBXt6bRI
+	 PFZKmIkv3xA1Igsy4ajYV4aaEZ59TToY4+UwvyroGH3858RByLknscA/wG3b2H93D4
+	 XcoTOY0UaT5eA==
+Date: Thu, 29 Feb 2024 17:26:53 +0000
+From: Lee Jones <lee@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+Message-ID: <20240229172653.GB1209090@google.com>
+References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,15 +49,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240229-onboard_xvf3500-v6-2-a0aff2947040@wolfvision.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
 
-On Thu, Feb 29, 2024 at 09:34:45AM +0100, Javier Carrasco wrote:
-> The current implementation uses generic names for the power supplies,
-> which conflicts with proper name definitions in the device bindings.
-> 
-> Add a per-device property to include real supply names and keep generic
-> names for existing devices to keep backward compatibility.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+On Tue, 13 Feb 2024, Heiner Kallweit wrote:
 
-Acked-by: Matthias Kaehlcke <mka@chromium.org>
+> If a simple trigger is assigned to a LED, then the LED may be off until
+> the next led_trigger_event() call. This may be an issue for simple
+> triggers with rare led_trigger_event() calls, e.g. power supply
+> charging indicators (drivers/power/supply/power_supply_leds.c).
+> Therefore persist the brightness value of the last led_trigger_event()
+> call and use this value if the trigger is assigned to a LED.
+> This change allows to use simple triggers in more cases.
+> As a first use case simplify handling of the mute audio trigger.
+> 
+> This series touches few subsystems. I'd propose to handle it via
+> the LED subsystem.
+> 
+> Heiner Kallweit (4):
+>   leds: trigger: Store brightness set by led_trigger_event()
+>   ALSA: control-led: Integrate mute led trigger
+>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
+>   leds: trigger: audio: Remove this trigger
+> 
+>  arch/mips/configs/ci20_defconfig     |  1 -
+
+>  drivers/input/input-leds.c           |  8 +---
+
+This does not apply.
+
+Please rebase onto v6.8-rc1.
+
+>  drivers/leds/led-triggers.c          |  6 ++-
+>  drivers/leds/trigger/Kconfig         |  7 ---
+>  drivers/leds/trigger/Makefile        |  1 -
+>  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+>  include/linux/leds.h                 | 29 ++++++------
+>  sound/core/Kconfig                   |  1 -
+>  sound/core/control_led.c             | 20 +++++++--
+>  9 files changed, 37 insertions(+), 103 deletions(-)
+>  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
+> 
+> -- 
+> 2.43.1
+> 
+
+-- 
+Lee Jones [李琼斯]
