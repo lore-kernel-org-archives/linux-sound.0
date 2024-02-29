@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C870A159E0C;
-	Thu, 29 Feb 2024 15:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9F1154E9D;
+	Thu, 29 Feb 2024 15:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221878; cv=none; b=by/+OPnn4kdaZrzyVdj9mMI/VA5d/QFxLtaBGibntzc4MDkkclOr+YZEThgyeOXIgOV368m3y4geadHr2UlhL09SwqZg14t20ECAm6nWlIc/2NuAQaafFYYGvsVnHOTflGMprTW7Qeim2Rr2yzItHrTWJfHTJNoLWLPl5Icc2/U=
+	t=1709221891; cv=none; b=huAHNlVFRYEniUrf+YZKdMF/TW4Q5bgy7mnzw1qs5f14P/GjRoAwslLJTI/T1lz8ICP+mZnkOc4cnhC3STtMxR8zLQ7AunTnauLMDQ9nZKhjmazEX7bWe28aM1XoOSj0WnNcFrioX0YxYMY0tV5ntgv9HcPbGwhCSIVVCnjb/eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221878; c=relaxed/simple;
-	bh=8vANWfrWNpLxtQjJ+V3xxVFjGXzaPGNXYBX9xlxgqls=;
+	s=arc-20240116; t=1709221891; c=relaxed/simple;
+	bh=gpBWJRGRf84YRv6YjGcShmhYPhuepAua9SEy4SqqOdI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dIPd1xgDe3JCs3O+gImrR5Cp7Pjer4rXf7m/AvwcDSCbiaUgRBqnr6rUAoTfER43jOFuwhvU4CL4cYvNO9zz4BLN36x5RmOp20wORPlPbn7hNkjNxYIqqRNV9qWzEYmE7ATgrf7enNNCd8xi39ey43aSrnqPKrx75K8m/XRVZXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ey9l9Kj8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=b2rnLLCyKX9zNVY4ARe/+0BhtL/xRp0Wvzgzlh028UHEk83RInMDBJl5d/1uROfAHXU/JUyBtWdqVCIosLyjS64Mcczn4Oktu7lPeHmYJaCvnOq48W3oQvrlx3CfjM2wnPVikTMqoKe6zZ7em21Zmq/qMuh8Y4cdp23OA69kUWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qRw1FJn8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ey9l9Kj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B75C433B1;
-	Thu, 29 Feb 2024 15:51:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qRw1FJn8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E73C433B2;
+	Thu, 29 Feb 2024 15:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221878;
-	bh=8vANWfrWNpLxtQjJ+V3xxVFjGXzaPGNXYBX9xlxgqls=;
+	s=k20201202; t=1709221890;
+	bh=gpBWJRGRf84YRv6YjGcShmhYPhuepAua9SEy4SqqOdI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ey9l9Kj8lRXLY4rfS5vwNG0YVYvTUMfuKUJWXaEHwGRsMgESUQWwxCj7bxEcPORyc
-	 Rd4jP5C6O4e5CfLIbI8wk+EGZXjfMlOJAMotQNd6Kg0bHmtJ9UQFcT1gDFI1Hds4x5
-	 ZHKhTjSWritfqPaLNIrVPYGLos3LAHK34ZrY4BnnKW1p1X/LTa8e4GkhqvGAZ2zSn6
-	 CIqlUmc5Iw+1tJfQi2E2J8GLcdtiKhP+XKAn7pud72NBHdkO5sBwYSiBQihe4R0rh/
-	 HFBM3hsWhIFDWXSugIfuRATp655hM2qsA6zDEfEvtcawC790rj3/4AR1HQ9tCdaX25
-	 7kAIxCcwuvG4A==
+	b=qRw1FJn8EoeLBW0nfvm0pA7vF7uHlcD9IRS38+dGoPkKYNTH6CDTAKfVIlbRzF8Do
+	 U1br9Ybkyt5cdvHD/FL+RP/gGDMK+UkgPeW5musy7SCSI5ASzPA2da2VdlyVuCsZH2
+	 4M0Syj3pzZrQiT7SmR+gWwdGK/oudnhpNFTRC8A/5L/OsyiPpzGxq4BC5kwtRsl1Wi
+	 u6M6lRn85VfgQawhJCmh/BQQFIvp5Npa5wF+nIMaCFDAadFQdKbLdmUJCZ1rfjXy+G
+	 Gil5NGy1eaL20yxMwSVQ73sdvSR83TLyl19XcTwK5r88p+gfDzUJx1B/8ulBK5QnyC
+	 VwbugrWp2ByeQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/7] ASoC: rt5645: Make LattePanda board DMI match more precise
-Date: Thu, 29 Feb 2024 10:51:07 -0500
-Message-ID: <20240229155112.2851155-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 2/5] ASoC: rt5645: Make LattePanda board DMI match more precise
+Date: Thu, 29 Feb 2024 10:51:24 -0500
+Message-ID: <20240229155127.2851327-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229155112.2851155-1-sashal@kernel.org>
-References: <20240229155112.2851155-1-sashal@kernel.org>
+In-Reply-To: <20240229155127.2851327-1-sashal@kernel.org>
+References: <20240229155127.2851327-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.210
+X-stable-base: Linux 5.4.269
 Content-Transfer-Encoding: 8bit
 
 From: Hans de Goede <hdegoede@redhat.com>
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+)
 
 diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
-index 7dc80183921ed..bc08f920a0d25 100644
+index c9512e97c12e5..fcc8d8463db38 100644
 --- a/sound/soc/codecs/rt5645.c
 +++ b/sound/soc/codecs/rt5645.c
-@@ -3771,6 +3771,16 @@ static const struct dmi_system_id dmi_platform_data[] = {
+@@ -3765,6 +3765,16 @@ static const struct dmi_system_id dmi_platform_data[] = {
  		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
  		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
  		  DMI_EXACT_MATCH(DMI_BOARD_VERSION, "Default string"),
