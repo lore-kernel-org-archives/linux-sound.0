@@ -1,239 +1,216 @@
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2111.outbound.protection.outlook.com [40.107.14.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8D93C482;
-	Thu, 29 Feb 2024 06:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.14.111
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709188699; cv=fail; b=uRE879oogE+O6UQ+YnsoyWCRp5AIEQE97WXW5Wd1cv3inV1PKU43l8iEUXDdbWVujVID94Stfx3O0kQX+DsOz3HUqPA44kvnUX4d8GLmgwdLqZQi8mhtO85oXC4VQ+OKDuMSKyNiJRugLfno9VoCcTKz5hvsa2CId1vqq5Uv4kU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709188699; c=relaxed/simple;
-	bh=kj5uUeTYRuerG/buUhFQ4/P3olCWEaJb+clNCGqeAXE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EGvCfGhBpbsronLu6447miFQyXvvIUOqYlGPX8XflbM5FCQXAM65pyh4uAUnYSVEB+EZU27awt+ulqOkV1w9ov9ra9mxpKWwn1Qf3CwowYBARy0BPvOrqOWmbSea6oo4TVoAmYS1QuHpJIBEiBuq948r7mwIIydD1n42+FntfcY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=d0jIlIBd; arc=fail smtp.client-ip=40.107.14.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069EC47F51;
+	Thu, 29 Feb 2024 08:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709193650; cv=none; b=lIGoCw0BHEXh99nQNK9b9z8pDUV0kHeY+4ZYJecx2jRJXoDi+gCVNTjiO0dJFY13om3vYJsIMHg82GcGL+rShXQz+BXbMn9uaanNOhzez9mMzfoNXI8XgnTBo1yiFbB7L4/LkIE5sLdR5hXeYEni1vfSCDF9fgkzLP0KaKfB7Is=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709193650; c=relaxed/simple;
+	bh=7gVZBffV5ET91xGCn9g9Lc58TUCCN5Lyadr+5Z7Eu8M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LwOgneq4Fo4DAvazxINPDxScEtYvsCUWXM39+VDV7C1KauKFrfopxdJIi/Pa5NcPd9Ry0em70s8zBqId/3v22OehSBP7/RvNFYJpzyTBNCMgTBJnZAN/ptmiONmAUJgyWSZoThpYpya4Tx+6mXidZ1SMJZMElfXsLB83kzd2ONU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PyHjHZgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bPoeXd6N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PyHjHZgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bPoeXd6N; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="d0jIlIBd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/Fa0nUWOrdxRrUASaQtWt+JwBC8pXp8ZQEXUxtEzb1kz58L0ChyFEXTbYfzDx8FUH9zwVl5ta5w+/Hbp5qeE+u3Bxk/cL2GvD6PxKH82XQ/jbH2Nx1ngbzBqGmHHw/MuIxSFnN1QqXdR1ErmZprB7o68Kg7NOhtZMIEdqL2OUWbK9pzdwt3hq50064L4IAVI+Qb2H7J849Yp24uE7zInWsEO7NZfqtM+j38Uwa25CrheaV6lPHBkfniqnpI1RQWndQN5nddPThyZTSCQRw22QzbfDpzjCYqEWbX7hEumDUWuSLP1+SBqn0C93fMob5HFA6HGlBJ1752ESuVe4EPMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qRETT8jF7zaoTMuk/Nel3QiJK4oIC817sMp3g/s+VWI=;
- b=gMIL9pCJVOFIIux3lUzD3muGNMKUzkCpQNlnPhMIUwBB57RmBTgmCNqAHUDfU5vzXGIStT7VcW2C2fEXFq35dkIxQc/DL1RcY57QwLPXnFrcXHujdV6G5oOLevpCobp5sOLoQt0XDUY6SFqUqKjVghwNw3kOAomBdQ4AIE8udAmxTjpakObiAG3NJEDgt+9oTiYUFi5Qo4BZ+oVTsQga/x1b9lO2xLu+sUQmlvq52KhGwAjQsFHiFVHiaq6xMHbAzRLvA70Sa/pdZOcrSm41Oou8fvlhyYa7eoMJ65ZvPcI8GLIbAcb/UK6CM5c7BL21e1BMdDtJO14G5MI6sonvmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qRETT8jF7zaoTMuk/Nel3QiJK4oIC817sMp3g/s+VWI=;
- b=d0jIlIBdJ2UFhghP4G9p31cPPmOReVYs9xh/oPHKfYB3WOxsH5A6X5SlF6CV4L74vEVyGUHnqu5Imn8196PPmpg2o7vGcwu6xQsNK8e299Xyx6QoLjilg12b4DYGXrSn+PZixozBXAgC0LjoUiAilpZJlKUC1V7s+pyAqAWs62o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by AS8PR08MB10316.eurprd08.prod.outlook.com (2603:10a6:20b:5b9::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Thu, 29 Feb
- 2024 06:38:13 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f%6]) with mapi id 15.20.7316.035; Thu, 29 Feb 2024
- 06:38:13 +0000
-Message-ID: <04776f37-92bb-40bf-a3ca-3da4ce3bef88@wolfvision.net>
-Date: Thu, 29 Feb 2024 07:38:11 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/8] usb: misc: onboard_dev: add support for non-hub
- devices
-To: Matthias Kaehlcke <mka@chromium.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240228-onboard_xvf3500-v5-0-76b805fd3fe6@wolfvision.net>
- <20240228-onboard_xvf3500-v5-6-76b805fd3fe6@wolfvision.net>
- <Zd93JZTlN4BCxWm7@google.com>
- <ecf303c3-d7a1-49d5-a997-32596215e43d@wolfvision.net>
- <Zd-ahtPpI8zbAYQ9@google.com>
- <63d9be60-40dd-49f6-9a75-72d4be746024@wolfvision.net>
- <Zd-m6WNd5ukXyJGx@google.com>
-Content-Language: en-US
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <Zd-m6WNd5ukXyJGx@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0052.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::15) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PyHjHZgL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bPoeXd6N";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PyHjHZgL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bPoeXd6N"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 00C1822295;
+	Thu, 29 Feb 2024 08:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709193647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+OghcDKcsB6v5yBV6QewQrZL6yYW2i8yj15Dnj8J8i8=;
+	b=PyHjHZgL+tgf09H0nnK1AN4mKtccJiyTV/JU22ncJVMLqjCdY+YHiQeYOj2ukLrkf53GCN
+	M+6T9jS/BTEbyKkonxcWBKZqhjWfjHkNYSck9fz84jbcm5vDRBrF4CSlbDtokhA8ukGeLd
+	IKRcG751MC/jNsIJMaJTEv8UjhJnQn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709193647;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+OghcDKcsB6v5yBV6QewQrZL6yYW2i8yj15Dnj8J8i8=;
+	b=bPoeXd6N+VvO6bOCMCFvXBhTI6VhwosuV5XTtBzWIqacQneYspkvGjLwrRWfmnzTUbT+hq
+	oMRb2Y8Oldp38KDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709193647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+OghcDKcsB6v5yBV6QewQrZL6yYW2i8yj15Dnj8J8i8=;
+	b=PyHjHZgL+tgf09H0nnK1AN4mKtccJiyTV/JU22ncJVMLqjCdY+YHiQeYOj2ukLrkf53GCN
+	M+6T9jS/BTEbyKkonxcWBKZqhjWfjHkNYSck9fz84jbcm5vDRBrF4CSlbDtokhA8ukGeLd
+	IKRcG751MC/jNsIJMaJTEv8UjhJnQn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709193647;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+OghcDKcsB6v5yBV6QewQrZL6yYW2i8yj15Dnj8J8i8=;
+	b=bPoeXd6N+VvO6bOCMCFvXBhTI6VhwosuV5XTtBzWIqacQneYspkvGjLwrRWfmnzTUbT+hq
+	oMRb2Y8Oldp38KDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCB6E13503;
+	Thu, 29 Feb 2024 08:00:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id o7jyLK454GVWRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 29 Feb 2024 08:00:46 +0000
+Date: Thu, 29 Feb 2024 09:00:46 +0100
+Message-ID: <878r33hf81.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <broonie@kernel.org>,
+	<shengjiu.wang@gmail.com>,
+	<Xiubo.Lee@gmail.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: soc-card: Fix missing locking in snd_soc_card_get_kcontrol()
+In-Reply-To: <20240221123710.690224-1-rf@opensource.cirrus.com>
+References: <20240221123710.690224-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|AS8PR08MB10316:EE_
-X-MS-Office365-Filtering-Correlation-Id: c18d1239-a9e7-4755-b2f4-08dc38f100fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	PalCwCC+xsKgYLoeSdPGPthME0h41Qc35TJnx2TCEJ88ELIhNstSNazQv6ohQylRU6Chw0RIARBZzyK74SqIbf50e24EXl9/krmlBxD1xm//0Qbf2dAz+ey9kOdGLOn+ZDBcG/xKSSt5Ti9bjfSI82vj4XOOaldSASPKKlOFkRJ925K5nUMiurNBST5oMatvHxyJwcxACUxW92st6sNDyIBf2yuiKnu+SKOx/0uldUa13NDGWY2JRnfh3+xiblzHxboNoUHcC/gAFHDfoIeIKfD6OvXcxZ3zD9q02jO6Zkho/xYotgRjhSozJr8Ltc6R+fQ0+mukiKYYEpAE1IMhIFG0l5mpgFNRBz3WIoT+KOK32Nbn6olyxhRvjkYjaUky8I8AnCyBlB+BOJw7RBVaNVmJ97AVientXTv2DPWVHyhXq7FPyechx7A56F65h/2KQCl0+yBcwUGqJknaVrRfleylEyAdHjrXSMVQmYZs7MPCsj+NvlpPzyuVMbD80/zmU2N4MlVCYl3/HIWe++0wibDrOi1y3hTmj0RqQKtEcZpk7f7aM+uSL7CEaNp+RfGyE/5POPRFb1W/n1cAmQlAk1Q/9xAHrGN5sC2BSCb/fO81a4SS+TO2Wx8lDdmJrdV+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cklWSEcxcWtSM3NBeG8rbTlOL1ZmT2tvWmsva3dJSVBwMTQ5b0YrTDNEVTMw?=
- =?utf-8?B?Wm8ySHRrenoxakFYNWw0YkpTNnZmT2FSY3RVZEdCQ1RodmlXSEg5eDFNQVow?=
- =?utf-8?B?Tzc4ZG1pMTdjVllPTVpBMXhUZmJnTVBBcjIyK3FQbE9uZERZdEF5QzlCQVFt?=
- =?utf-8?B?S3J0WkMvVmRzY2pZaXFvcnFiY2RjbXZHL3BPRHRmT2RpdzJPbmMrRldqSEow?=
- =?utf-8?B?SE5sZkQ1OWFhMXRyVHNtQ1hvWnVPZy80MFJ5S2tEbVcveG0xYldrTTBJVU9U?=
- =?utf-8?B?VnFYSjJoMnBkcDd6ZFFWcXI2UFc5bVdYM2ZQYTE4bmduSi9qb3lYZWJDTnR3?=
- =?utf-8?B?blJRWVoyM29vamhjcWlBQTUyZ1lOQy9BVlFkRy9kTTBoV044bWdYeTJPdEh5?=
- =?utf-8?B?RnlmdTBhazVKR3d5NGhiK2JZZVlEcTV4TXd1Z1hiczY2SjM0ZDAvMllDUHRi?=
- =?utf-8?B?Z1NoWDhlNTFCNERmSGhKa3dqdTh2cFQ4NkVWY2lBdGhkNHZFdFZNMEFOQXJC?=
- =?utf-8?B?TWlYVU1aWERXM1FQZXk2YlltR0Z3OHVmQ0ZlUnpQZzNLaWNmZVlqMkY2QmZC?=
- =?utf-8?B?L3J6dFh2UXJKemszWUdpMmd5SVZxeWNraG96eGU3ZUMvOTFzYjN1dmhhTTA4?=
- =?utf-8?B?bloySkFsMmxWNHJCaFZUMmVWYnhkRnI5RnBPYVAwMFE4U0g5L2prbDdnWi81?=
- =?utf-8?B?M2UxQkdvWkY5b3ZsQThhUVFLQkMyeCs2N0V1RHBmMDRmdGxjMUkxTi91cm9H?=
- =?utf-8?B?TzFKUHMveGpuRFF5d21GcE1NWEkxQ1JhcXNWQU9LMmRmZWMvRWZKcEJMc2sz?=
- =?utf-8?B?UkxycFpoZ29XUUNXdDhEcDdyNERIYzBCekhUbVJOVmxDazBKd3BTMG1JWlBD?=
- =?utf-8?B?cmtSTmh5c01YUkpUR2JObmNmNXhNR21aQWZEbGs0ZkwzQTFveEN0WHBDclEr?=
- =?utf-8?B?Y0dJTlUyYVdLdU5zcWNzUDJQK2g0Y2ZreURob3pKd0s3SWw0T3JCOHdwYUNU?=
- =?utf-8?B?TkFZTnNqMEdTZ0xHbVZDbXJmbmRLc3M1UGI4MUs1N1ZoeHJ1bXdiNHB5c1RQ?=
- =?utf-8?B?Z05GaE16TWxMOFVQVitFYTN4dzZnaXMrUVRSK2c4TFpnMksrci9iREVTWlZu?=
- =?utf-8?B?MlRHdzJwRzMxWVlISitKS0ozYWkxejRMSzJWRzRYTEgwcE1STlR3YjQ5NDZy?=
- =?utf-8?B?N1c0ci8vb3dlQ3lWcVVRYWN0UVZFMWZIMzhXdFhlOEs0LzdMT2x1RFlMdmE0?=
- =?utf-8?B?cmtxMXUyM00wNmFGcklGOXV2V2xjZ0VmNVVvaGFiRTlSSjNTek1HQzhqSVNW?=
- =?utf-8?B?SlFxUTRUMXlOTVEvNzBxMFRXME9vYzVhdnJITGpPUFJORitQd1ZJcm9IWW5X?=
- =?utf-8?B?a0x3NlJ1WXdrL1NzbVZaYzJMZ1Bpd1dhVTZKV0ZYbjg5anVGVlR1Q3hsR283?=
- =?utf-8?B?U2RUVGszNTdJdk5vd3lrVDJtTWtWQmhJTEdMVTJtWVZtckFiRytqMm1hY0F3?=
- =?utf-8?B?R3FYQjd6dHRlVjl0YlJMb2Q3TXJhUlNjZ2NjVFNEN1dCbHlLNE9Za2hBYkx4?=
- =?utf-8?B?T3kzbzdXWnRVRDZQMGZzNHZ6WXpjYnNyZlRwT1lnOVpSNDJlQUtuRm94cTNU?=
- =?utf-8?B?Wnh0c2ZrLzJ1MjlWS3VRTnVzcUtOeGhHQ0xSemR0OGV5aFdqWlpjN0JwWmNK?=
- =?utf-8?B?anZZdENkWEhIK0c2cTh1TVdBMGdTQnpVYmtENGM4Z0dzTC9GK3hxUWFxU1dL?=
- =?utf-8?B?d29RQVRyeGFsNXdtdXR1TVBMY0gxSjUvbVdlR1YvNnZLZnhsOVAxM2ZKNjFF?=
- =?utf-8?B?Ri9TblNRbjZOUEtHYzhLU3pyWkZXbUV2U2p0NU96bWJsQTVmOHlVVmhVbFFi?=
- =?utf-8?B?OXpuYkRuYW11QXUrV2x0WUh2RHByRXIrZUVuSFp3SEs5aEtjN0Iwak8zWGgw?=
- =?utf-8?B?Q0tGai9WYjFLRlYxOW9oUWRvczFzNWhyOWJudjQ2REpFbk9SV3ZFVmVtbW5F?=
- =?utf-8?B?Nk9oRnc0d2JvK1dnZlM5K3RCRkJYMUhvSjdja2xKVnFkSmlTSDY3N3JsRGJl?=
- =?utf-8?B?cUZVVnQ5bUFSVUdvS3oxZ2RiVDBTcHl0ekhIUDMwa2crNHIwSFZ0eFUrWlh3?=
- =?utf-8?B?Z3BvZDg5cU9WZExoT0V1NTJ3Vmd2d2FMU2xFOU50ZHJQTHJxa0h6OFdzMHo0?=
- =?utf-8?Q?za+tqGJP61fs7/cmEyirZTw=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: c18d1239-a9e7-4755-b2f4-08dc38f100fd
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 06:38:13.5994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gox6lU75vxQxh16DXKf4Clq43fGErZ8hIOWUMioF6qqqwHuF2y6la1LxpOGGMXZ4Kbebr4N6SSz99JvE6g57C35xFPdZCI2IyZ8ReOzx1NE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10316
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PyHjHZgL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bPoeXd6N
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,alsa-project.org,lists.ozlabs.org,opensource.cirrus.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: 00C1822295
+X-Spam-Flag: NO
 
-On 28.02.24 22:34, Matthias Kaehlcke wrote:
-> On Wed, Feb 28, 2024 at 09:50:22PM +0100, Javier Carrasco wrote:
->> On 28.02.24 21:41, Matthias Kaehlcke wrote:
->>> On Wed, Feb 28, 2024 at 09:21:00PM +0100, Javier Carrasco wrote:
->>>> On 28.02.24 19:10, Matthias Kaehlcke wrote:
->>>>> On Wed, Feb 28, 2024 at 02:51:33PM +0100, Javier Carrasco wrote:
->>>>>> Most of the functionality this driver provides can be used by non-hub
->>>>>> devices as well.
->>>>>>
->>>>>> To account for the hub-specific code, add a flag to the device data
->>>>>> structure and check its value for hub-specific code.
->>>>>>
->>>>>> The 'always_powered_in_supend' attribute is only available for hub
->>>>>> devices, keeping the driver's default behavior for non-hub devices (keep
->>>>>> on in suspend).
->>>>>>
->>>>>> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->>>>>> ---
->>>>>>  drivers/usb/misc/onboard_usb_dev.c | 25 +++++++++++++++++++++++--
->>>>>>  drivers/usb/misc/onboard_usb_dev.h | 10 ++++++++++
->>>>>>  2 files changed, 33 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboard_usb_dev.c
->>>>>> index e1779bd2d126..df0ed172c7ec 100644
->>>>>> --- a/drivers/usb/misc/onboard_usb_dev.c
->>>>>> +++ b/drivers/usb/misc/onboard_usb_dev.c
->>>>>> @@ -132,7 +132,8 @@ static int __maybe_unused onboard_dev_suspend(struct device *dev)
->>>>>>  	struct usbdev_node *node;
->>>>>>  	bool power_off = true;
->>>>>>  
->>>>>> -	if (onboard_dev->always_powered_in_suspend)
->>>>>> +	if (onboard_dev->always_powered_in_suspend &&
->>>>>> +	    !onboard_dev->pdata->is_hub)
->>>>>>  		return 0;
->>>>>
->>>>> With this non-hub devices would always be powered down, since
->>>>> 'always_powerd_in_suspend' is not set for them. This should be:
->>>>>
->>>>
->>>> May I ask you what you meant in v4 with this comment?
->>>>
->>>>> Even without the sysfs attribute the field 'always_powered_in_suspend'
->>>>> could
->>>>> be set to true by probe() for non-hub devices.
->>>
->>> struct onboard_dev always has the field 'always_powered_in_suspend',
->>> even for non-hubs, that don't have the corresponding sysfs attribute.
->>> Currently it is left uninitialized (i.e. false) for non-hubs. Instead
->>> it could be initialized to true by probe() for non-hubs, which would
->>> be semantically correct. With that it wouldn't be necessary to check
->>> here whether a device is hub, because the field would provide the
->>> necessary information.
->>>
->>
->> That is maybe what is confusing me a bit. Should it not be false for
->> non-hub devices? That property is only meant for hubs, so why should
->> non-hub devices be always powered in suspend? I thought it should always
->> be false for non-hub devices, and configurable for hubs.
+On Wed, 21 Feb 2024 13:37:10 +0100,
+Richard Fitzgerald wrote:
 > 
-> I suspect the confusion stems from the sysfs attribute 'always_powered_...'
-> vs. the struct field with the same name.
+> snd_soc_card_get_kcontrol() must be holding a read lock on
+> card->controls_rwsem while walking the controls list.
 > 
-> The sysfs attribute defaults to 'false', which results in USB devices
-> being powered down in suspend. That was the desired behavior for a device
-> I was working on when I implemented this driver, but in hindsight I think
-> the default should have been 'true'.
+> Compare with snd_ctl_find_numid().
 > 
-> We agreed that non-hub devices shouldn't be powered down in suspend. It
-> would be unexpected for users and could have side effects like delays
-> or losing status. Since (I think) we can't change the default of the
-> attribute we said we'd limit it to hubs, and not create it for other
-> types of USB devices. Other USB devices would remain powered during
-> system suspend.
+> The existing function is renamed snd_soc_card_get_kcontrol_locked()
+> so that it can be called from contexts that are already holding
+> card->controls_rwsem (for example, control get/put functions).
 > 
-> Are we in agreement up to this point, in particular that non-hub
-> devices should remain powered?
+> There are few direct or indirect callers of
+> snd_soc_card_get_kcontrol(), and most are safe. Three require
+> changes, which have been included in this patch:
 > 
-> struct onboard_dev has the field 'always_powered_...', which in the
-> existing code is *always* associated with the sysfs attribute of
-> the same name. But there is no reason to not to use the field when
-> the sysfs attribute does not exist. For any device at any given time
-> the field could indicate whether the device should be remain powered
-> during suspend. For hubs the value can be changed at runtime
-> through the sysfs attribute, for non-hubs it would be static and
-> always indicate that the device should remain powered.
+> codecs/cs35l45.c:
+>   cs35l45_activate_ctl() is called from a control put() function so
+>   is changed to call snd_soc_card_get_kcontrol_locked().
 > 
-> Does that clarify your doubts?
+> codecs/cs35l56.c:
+>   cs35l56_sync_asp1_mixer_widgets_with_firmware() is called from
+>   control get()/put() functions so is changed to call
+>   snd_soc_card_get_kcontrol_locked().
+> 
+> fsl/fsl_xcvr.c:
+>   fsl_xcvr_activate_ctl() is called from three places, one of which
+>   already holds card->controls_rwsem:
+>   1. fsl_xcvr_mode_put(), a control put function, which will
+>      already be holding card->controls_rwsem.
+>   2. fsl_xcvr_startup(), a DAI startup function.
+>   3. fsl_xcvr_shutdown(), a DAI shutdown function.
+> 
+>   To fix this, fsl_xcvr_activate_ctl() has been changed to call
+>   snd_soc_card_get_kcontrol_locked() so that it is safe to call
+>   directly from fsl_xcvr_mode_put().
+>   The fsl_xcvr_startup() and fsl_xcvr_shutdown() functions have been
+>   changed to take a read lock on card->controls_rsem() around calls
+>   to fsl_xcvr_activate_ctl(). While this is not very elegant, it
+>   keeps the change small, to avoid this patch creating a large
+>   collateral churn in fsl/fsl_xcvr.c.
+> 
+> Analysis of other callers of snd_soc_card_get_kcontrol() is that
+> they do not need any changes, they are not holding card->controls_rwsem
+> when they call snd_soc_card_get_kcontrol().
+> 
+> Direct callers of snd_soc_card_get_kcontrol():
+>   fsl/fsl_spdif.c: fsl_spdif_dai_probe() - DAI probe function
+>   fsl/fsl_micfil.c: voice_detected_fn() - IRQ handler
+> 
+> Indirect callers via soc_component_notify_control():
+>   codecs/cs42l43: cs42l43_mic_shutter() - IRQ handler
+>   codecs/cs42l43: cs42l43_spk_shutter() - IRQ handler
+>   codecs/ak4118.c: ak4118_irq_handler() - IRQ handler
+>   codecs/wm_adsp.c: wm_adsp_write_ctl() - not currently used
+> 
+> Indirect callers via snd_soc_limit_volume():
+>   qcom/sc8280xp.c: sc8280xp_snd_init() - DAIlink init function
+>   ti/rx51.c: rx51_aic34_init() - DAI init function
+> 
+> I don't have hardware to test the fsl/*, qcom/sc828xp.c, ti/rx51.c
+> and ak4118.c changes.
+> 
+> Backport note:
+> The fsl/, qcom/, cs35l45, cs35l56 and cs42l43 callers were added
+> since the Fixes commit so won't all be present on older kernels.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: 209c6cdfd283 ("ASoC: soc-card: move snd_soc_card_get_kcontrol() to soc-card")
+> ---
+> It would be great if people could test the fsl/, qcom/, ti/rx51 and ak4418
+> drivers.
 
-It is crystal clear now, thank you.
+This fix itself looks correct, and I merged Mark's PR now.
 
-Best regards,
-Javier Carrasco
+But in general, it'd be better to use snd_ctl_find_id() and
+snd_ctl_find_id_unlocked() if possible.  Those standard APIs can use
+the fast Xarray lookup, and especially for the case like many ASoC
+drivers that expose hundreds of kcontrols, the performance gain
+becomes significant.
 
+I see that there is no snd_ctl_find_mixer_id_unlocked() variant, but
+it should be trivial to add.
+
+
+thanks,
+
+Takashi
