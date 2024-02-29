@@ -1,52 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6907E14404A;
-	Thu, 29 Feb 2024 15:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C311504C6;
+	Thu, 29 Feb 2024 15:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221823; cv=none; b=eGw/+NMM7DABnYanh1O7MuMEt69alBLcXgfJyli+zqnoPCZnezh4SKqMCSuEb3G2Nl/zKbcqyQDbj6x6IM/p/sIGxPauShOugDv87lrovatVoUIH9/e/XcODAQhFQgYocfS5NQ92mKgLv5vVwWlhfAzMVnGu3xzEb48QcUhkqDo=
+	t=1709221843; cv=none; b=midXrshLi25Xdn4hdkp2l6fEIqXGiepczmZdh4LC0+x0+xAA8vD6P+dQcOkN7si5EObs1eDDImRH0MxpkhZC4hiSYSu56N9jMGehONLxJZY/sH6wfr00A8/oF7i8dzCO3KNZrN1sCiQC/PkWb5mVdo1GftAwBeBE26+eiWAL+XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221823; c=relaxed/simple;
-	bh=BTstNTU4rdjYfmXZ3VWwYPtnTndcYv9QQpk64ZexWUo=;
+	s=arc-20240116; t=1709221843; c=relaxed/simple;
+	bh=hX1X2qS80z/6QcjTqb0Ho7A66ckoeTDMLAe17KU4MCo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ra/7HChvlYLrtX9olNGjVF7s9s7Y61091Ypd43/tN+JIGtFzIlNcSmRNstoL9whjoQWVuXVhBQBiFHe1AzH4DDQFZDFbV9EMBbCUF1sIsE59e22Q7hetpbyEXjAiwNa9BQqw410xynBo153GjsUgyu7bQVFE0HOG1ITcUz846o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLJQmvWq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=CnebJ2sIJzG9tFsBx8JXkwXO0ppp+fAcc3+m1Y63Rhi7ptuP2Rb0YJIKXsFTB5kZz0yK6Edp7kUVID2zdMLmEmn+MAafo58BbwyF4RvTULVXVAztz7lR69fJ0dhYHjhnXvYBUSgpOUDhY5nF+rgek5WhM0L+jzEnSlsE9kVgd8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNVoX8im; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLJQmvWq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2879C433F1;
-	Thu, 29 Feb 2024 15:50:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNVoX8im"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80E1C43394;
+	Thu, 29 Feb 2024 15:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221823;
-	bh=BTstNTU4rdjYfmXZ3VWwYPtnTndcYv9QQpk64ZexWUo=;
+	s=k20201202; t=1709221843;
+	bh=hX1X2qS80z/6QcjTqb0Ho7A66ckoeTDMLAe17KU4MCo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kLJQmvWqsh51aS4RcOflgkcF9YVxyLpKs2waVK54OO+kwT21a/S2Z9D3axjwtjdm1
-	 h6ezYybWUCCz9pmMxS3tG6LS0PHU2nwXh3ltFMPaD/2ekmOK8RDM8yLFqPQFr6VdOe
-	 EWrBRkcQbh1CdKNRXMWVF0aUFPrVPbx+flEAtMwwrXMLaWToqMavt+6yJ5WA3hEbVJ
-	 fplENAvs9filep/dduWs20NJG4S08bnvhhvohxNisoMyDbw3L8+9OMYKqlfRQmBU8U
-	 nVxdEZOuertEjyDzFXRYVYBKhLEu5DsM0xS9XTBc7AL5jFwl1ALE+MJmBIh5+62RKQ
-	 8YSWWydNWwoYw==
+	b=JNVoX8imEpmmKXfK1wtLi8gfPIJqoWRsrVAHlt7MVoNa20CcQMzbNkho2knSWz10x
+	 q0/5LZv6hCTQ5anVKlDW/e+wNAATvq2C269Blh7X9FAx2zHlCAf6n6V2Yhzbl5FZoC
+	 5ytCAa2Nvjd+9PkNmcP+fPIJwqjBOUkX18cdmCKUUCyDyL7LldJFErq997WCvc8lfx
+	 Z2LIlgrywEwwaUlPyyDgCsJMSakt8UOWptVx1Eh7ahee4Wv22LA1kwo6c9KlE3JD/1
+	 CZ14fD8HQd6+WrfJJcswU6+LUWA1hgFcIjojtxAmSCMzCVqVYxJLta+kW2b1aOWe2S
+	 M5juZ/20K7DKg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
 	lgirdwood@gmail.com,
-	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 19/21] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend
-Date: Thu, 29 Feb 2024 10:49:39 -0500
-Message-ID: <20240229154946.2850012-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/12] ASoC: rt5645: Make LattePanda board DMI match more precise
+Date: Thu, 29 Feb 2024 10:50:23 -0500
+Message-ID: <20240229155032.2850566-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229154946.2850012-1-sashal@kernel.org>
-References: <20240229154946.2850012-1-sashal@kernel.org>
+In-Reply-To: <20240229155032.2850566-1-sashal@kernel.org>
+References: <20240229155032.2850566-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,69 +51,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.18
+X-stable-base: Linux 6.1.79
 Content-Transfer-Encoding: 8bit
 
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit c40aad7c81e5fba34b70123ed7ce3397fa62a4d2 ]
+[ Upstream commit 551539a8606e28cb2a130f8ef3e9834235b456c4 ]
 
-When the system is suspended while audio is active, the
-sof_ipc4_pcm_hw_free() is invoked to reset the pipelines since during
-suspend the DSP is turned off, streams will be re-started after resume.
+The DMI strings used for the LattePanda board DMI quirks are very generic.
 
-If the firmware crashes during while audio is running (or when we reset
-the stream before suspend) then the sof_ipc4_set_multi_pipeline_state()
-will fail with IPC error and the state change is interrupted.
-This will cause misalignment between the kernel and firmware state on next
-DSP boot resulting errors returned by firmware for IPC messages, eventually
-failing the audio resume.
-On stream close the errors are ignored so the kernel state will be
-corrected on the next DSP boot, so the second boot after the DSP panic.
+Using the dmidecode database from https://linux-hardware.org/ shows
+that the chosen DMI strings also match the following 2 laptops
+which also have a rt5645 codec:
 
-If sof_ipc4_trigger_pipelines() is called from sof_ipc4_pcm_hw_free() then
-state parameter is SOF_IPC4_PIPE_RESET and only in this case.
+Insignia NS-P11W7100 https://linux-hardware.org/?computer=E092FFF8BA04
+Insignia NS-P10W8100 https://linux-hardware.org/?computer=AFB6C0BF7934
 
-Treat a forced pipeline reset similarly to how we treat a pcm_free by
-ignoring error on state sending to allow the kernel's state to be
-consistent with the state the firmware will have after the next boot.
+All 4 hw revisions of the LattePanda board have "S70CR" in their BIOS
+version DMI strings:
 
-Link: https://github.com/thesofproject/sof/issues/8721
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://msgid.link/r/20240213115233.15716-1-peter.ujfalusi@linux.intel.com
+DF-BI-7-S70CR100-*
+DF-BI-7-S70CR110-*
+DF-BI-7-S70CR200-*
+LP-BS-7-S70CR700-*
+
+See e.g. https://linux-hardware.org/?computer=D98250A817C0
+
+Add a partial (non exact) DMI match on this string to make the LattePanda
+board DMI match more precise to avoid false-positive matches.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://msgid.link/r/20240211212736.179605-1-hdegoede@redhat.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/ipc4-pcm.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ sound/soc/codecs/rt5645.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index db19cd03ecad8..e8acf60c27a74 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -377,7 +377,18 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 	ret = sof_ipc4_set_multi_pipeline_state(sdev, state, trigger_list);
- 	if (ret < 0) {
- 		dev_err(sdev->dev, "failed to set final state %d for all pipelines\n", state);
--		goto free;
-+		/*
-+		 * workaround: if the firmware is crashed while setting the
-+		 * pipelines to reset state we must ignore the error code and
-+		 * reset it to 0.
-+		 * Since the firmware is crashed we will not send IPC messages
-+		 * and we are going to see errors printed, but the state of the
-+		 * widgets will be correct for the next boot.
-+		 */
-+		if (sdev->fw_state != SOF_FW_CRASHED || state != SOF_IPC4_PIPE_RESET)
-+			goto free;
-+
-+		ret = 0;
- 	}
- 
- 	/* update RUNNING/RESET state for all pipelines that were just triggered */
+diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
+index fd3dca08460ba..04a0dc0932f50 100644
+--- a/sound/soc/codecs/rt5645.c
++++ b/sound/soc/codecs/rt5645.c
+@@ -3801,6 +3801,16 @@ static const struct dmi_system_id dmi_platform_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+ 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+ 		  DMI_EXACT_MATCH(DMI_BOARD_VERSION, "Default string"),
++		  /*
++		   * Above strings are too generic, LattePanda BIOS versions for
++		   * all 4 hw revisions are:
++		   * DF-BI-7-S70CR100-*
++		   * DF-BI-7-S70CR110-*
++		   * DF-BI-7-S70CR200-*
++		   * LP-BS-7-S70CR700-*
++		   * Do a partial match for S70CR to avoid false positive matches.
++		   */
++		  DMI_MATCH(DMI_BIOS_VERSION, "S70CR"),
+ 		},
+ 		.driver_data = (void *)&lattepanda_board_platform_data,
+ 	},
 -- 
 2.43.0
 
