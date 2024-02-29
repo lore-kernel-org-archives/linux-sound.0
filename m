@@ -1,47 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EBC15B0E5;
-	Thu, 29 Feb 2024 15:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B744AEDC;
+	Thu, 29 Feb 2024 15:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221763; cv=none; b=ZmGbZZWwLinyzEzmNsQOyjiiCu/to51LWsmRZq4hDnpwDJdMSyy2KZfm5UQHpBJ9KI8q4HCXCFwm1N0Q6EMV9TMiW2SWaYr1GSmIi9uVss9S5r8qfUzGnH0doJXALriSYeuIxwTEQ+Zge98qSXp9UsWFpnaD/zU4ha4CjAT7jAA=
+	t=1709221773; cv=none; b=fqJKESXSIcCNhjuODLKpPHM7dbLZkoMbEIquuLf+idPMgpu7NOPhZMwmZSz7BVl2Y8tJy9/G1GGQFiWMXHDfjrxwC2mU+mmIA+NvK/6efK+nlbU6YQ8eQJ0f6nuJmku34vyJd+AchZsrnLyui0Rib+4Icd/oGOrnYiyLYr++HgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221763; c=relaxed/simple;
-	bh=sV5eEL/l9z12NIBJM4xwgsZ2FyHlykYtZqQbqeFukpU=;
+	s=arc-20240116; t=1709221773; c=relaxed/simple;
+	bh=I+vVsVM23mkEKCiSNKy8dYWHbX1Qn5lawkbweNDKI1w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vA7E05My3M6DQOrAiHvXFQTnrxn8VTHdnb59zAEPIx/hFCeSuUI5X7BAYlbUs6C0vWVrW1C9xyAbrKTD0qi1DRJg21nMNPqyuYVRuEoUbjJgdGY5CI0sY8j72NHXSBd/EqcK9l90mynv/QmziqaR9pUk5DmccuNnhGfI9k9SIjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gm4uFGdr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=fcUi5ZtHpOmM8pnXmPcSeV1OiGtvFj9K+2ZHPBCoH/T5/idC+Osq50Ivvm1Dbrye0iDdelHYr99eJjfvlMA35aJTuJjMxHSz8scFYm6PGYmCbLuwHP166vRKsVEOSqqYnfEzYzyTaGEIx5mmAd3jhB0Z85eBDZqdIcp0J5QJE/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qu+PETy8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gm4uFGdr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E3DFC433F1;
-	Thu, 29 Feb 2024 15:49:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qu+PETy8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1343C43399;
+	Thu, 29 Feb 2024 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221763;
-	bh=sV5eEL/l9z12NIBJM4xwgsZ2FyHlykYtZqQbqeFukpU=;
+	s=k20201202; t=1709221773;
+	bh=I+vVsVM23mkEKCiSNKy8dYWHbX1Qn5lawkbweNDKI1w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gm4uFGdr0FGWGQL7zOtgQ7gwnHuQCmNGKikbdcsETaqpvDu9dEgyWX177H2Bokjfd
-	 1AQFOzBRumegvtmfSbB5uR0FgOFudecslrGkXqyOnoBN9Ri9bYC5YGkHsevWz66xAa
-	 RfAy+M9K5DgcJ+J8zjRXNb0cCLWVYIA3n4Qa3tZhMAqVmMl3YksEtkWb6H+qIApjcD
-	 I8rVxoA6Fn9P6NDCnomfmcYD+R2undz+PpfjHLTqUD9BL8rP6ztF/ToS/De+snYg53
-	 J0kBrH/XxE80jsv0NPWDvkoHEnhfpYU1a3vdJ/cIYC/4D7xMlAMIJxbOZs2f66Yu7p
-	 7/8KTbwMUKB6w==
+	b=qu+PETy8IjPRBrbkWj7WhHnzcR+SmhM2hBKCSasL1wdoIEvzUXHldgWYfIw8nt2Cn
+	 FD3Gl63jGYYhd9YZjprh1+43F47DeMbcDcfovwOQcFQcqP/vbxmeQOuzZAeTs4qXxD
+	 VKocXYHLdEyGEt9dNreOfe1cVeqTufQj3FrM95zT8zmj3MKt0LbZR/7ymuAGO75bxu
+	 /X9dbuKO28lEKcTX5c+wVBiJHOFfzZmRSwpKxgFBWqC7VW2yP5yr9uZeZueHuiwalj
+	 3S7SRE7Cgm/YEzImKRKK2GJ6xuWGtYtMmoMqfrJg/06ARwIeu0Rz1FWxEaYJhfJz1y
+	 F9+RIL+UrJ5KA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?= <attitokes@gmail.com>,
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	jeremy@system76.com,
-	git@augustwikerfors.se,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 17/26] ASoC: amd: yc: Fix non-functional mic on Lenovo 82UU
-Date: Thu, 29 Feb 2024 10:48:36 -0500
-Message-ID: <20240229154851.2849367-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 23/26] ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend
+Date: Thu, 29 Feb 2024 10:48:42 -0500
+Message-ID: <20240229154851.2849367-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
 References: <20240229154851.2849367-1-sashal@kernel.org>
@@ -51,45 +53,71 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.6
 Content-Transfer-Encoding: 8bit
 
-From: Attila Tőkés <attitokes@gmail.com>
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-[ Upstream commit f7fe85b229bc30cb5dc95b4e9015a601c9e3a8cd ]
+[ Upstream commit c40aad7c81e5fba34b70123ed7ce3397fa62a4d2 ]
 
-Like many other models, the Lenovo 82UU (Yoga Slim 7 Pro 14ARH7)
-needs a quirk entry for the internal microphone to function.
+When the system is suspended while audio is active, the
+sof_ipc4_pcm_hw_free() is invoked to reset the pipelines since during
+suspend the DSP is turned off, streams will be re-started after resume.
 
-Signed-off-by: Attila Tőkés <attitokes@gmail.com>
-Link: https://msgid.link/r/20240210193638.144028-1-attitokes@gmail.com
+If the firmware crashes during while audio is running (or when we reset
+the stream before suspend) then the sof_ipc4_set_multi_pipeline_state()
+will fail with IPC error and the state change is interrupted.
+This will cause misalignment between the kernel and firmware state on next
+DSP boot resulting errors returned by firmware for IPC messages, eventually
+failing the audio resume.
+On stream close the errors are ignored so the kernel state will be
+corrected on the next DSP boot, so the second boot after the DSP panic.
+
+If sof_ipc4_trigger_pipelines() is called from sof_ipc4_pcm_hw_free() then
+state parameter is SOF_IPC4_PIPE_RESET and only in this case.
+
+Treat a forced pipeline reset similarly to how we treat a pcm_free by
+ignoring error on state sending to allow the kernel's state to be
+consistent with the state the firmware will have after the next boot.
+
+Link: https://github.com/thesofproject/sof/issues/8721
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Link: https://msgid.link/r/20240213115233.15716-1-peter.ujfalusi@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/sof/ipc4-pcm.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index d83cb6e4c62ae..8eb5f8e2b5f85 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -234,6 +234,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "82UG"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "82UU"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 39039a647cca3..ea70c0d7cf75a 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -413,7 +413,18 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 	ret = sof_ipc4_set_multi_pipeline_state(sdev, state, trigger_list);
+ 	if (ret < 0) {
+ 		dev_err(sdev->dev, "failed to set final state %d for all pipelines\n", state);
+-		goto free;
++		/*
++		 * workaround: if the firmware is crashed while setting the
++		 * pipelines to reset state we must ignore the error code and
++		 * reset it to 0.
++		 * Since the firmware is crashed we will not send IPC messages
++		 * and we are going to see errors printed, but the state of the
++		 * widgets will be correct for the next boot.
++		 */
++		if (sdev->fw_state != SOF_FW_CRASHED || state != SOF_IPC4_PIPE_RESET)
++			goto free;
++
++		ret = 0;
+ 	}
+ 
+ 	/* update RUNNING/RESET state for all pipelines that were just triggered */
 -- 
 2.43.0
 
