@@ -1,98 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE844AECD;
-	Thu, 29 Feb 2024 17:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F26A70AD9
+	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 17:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709227619; cv=none; b=X9JO3aFMiL2wN5hlOtbTPLpL2YrcHC14FHsL5PE67a46ymXsYeYeOTyYNOHi3DqjWgEZoJ2sTe48MUVPl+DQ1RPvx+UxRQ1cE/U2O/1xyklvfmlSWAMMHdKbFGLBvITo5kNSYbQ8uFWKZTg0CXQRNffuXp3ViDkvgLAD88yRcgI=
+	t=1709227634; cv=none; b=GKOVoaq4oY40pwn/iFXZ8rfZm86hs8AAx49/5PGY8DPK7GpnEdfziB3XR7+FUucgaEDBRApsEyu4unhc2MHceG2SfanqC/634ehx6ftS5DODEbpFDbebQDM+w/1D9LthFqufbXK+OQSSj26tdjYqegz/AnPIZ/Kf2ZRST2OgwQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709227619; c=relaxed/simple;
-	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qvyk1ym2veOiBwpzl3OC/8FkMEdloUiTb8LvadJ6aQA43Wf3cCP4ldABstDqzxD8livl9Q8xvKs/alC3j6gxYkXGRL2Zw61YaVmsxW8HjKq4Or8j8eGC/IcvmTEyqTpkSOKd6fCQFWxpRDf5TFCMPY9RTd+dQO1SZHVlPI3rEc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFlmFR5V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709227634; c=relaxed/simple;
+	bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=kJ0R4IR4NQzLxaX2w20jUuOai2R1n0Bzu5sOcJbJakpO1cF/48cqSaga7Ic4ZG/FVMtlTUXisHXuuFW/du9TMMOfTAlDaR/DPNsJ8fyyXPOc7cL5WJE5ftP0i4FnSRw2Lu3Ywlu16WIHr1/CMBxOxUuIwecyg7D2Pu08+k2fLfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gateworks.com; spf=pass smtp.mailfrom=gateworks.com; dkim=pass (2048-bit key) header.d=gateworks-com.20230601.gappssmtp.com header.i=@gateworks-com.20230601.gappssmtp.com header.b=D7HArK7v; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gateworks.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gateworks.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFlmFR5V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDC9C433C7;
-	Thu, 29 Feb 2024 17:26:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709227618;
-	bh=/+vxeGoa9JMmFeA7U/NM1GhP4jJ2AQtTVmh5PXJiVqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PFlmFR5Vtjnu0AEZnfm0sc9VeVNGqeqknxsqd9UsGfod5t11c0gunlUylOXrI4HT0
-	 ouhWQztuyEBNMb5SolghaMHCKAdf0eQEw1CLFpxaRCb82xV9Z1T0NyAGjz0vO5n0iG
-	 TwKGbnRn0z3kb55lQ68XQN4ejnHSEMUWsR5wh+oJeBWEdiTX3LHt9ZlcRgO8s7yGUF
-	 3yOyiveO7SW2CJYqqs32wPWfmg8q/hhgc9c4tdLFX657+BYFF4IraSelnXcBXt6bRI
-	 PFZKmIkv3xA1Igsy4ajYV4aaEZ59TToY4+UwvyroGH3858RByLknscA/wG3b2H93D4
-	 XcoTOY0UaT5eA==
-Date: Thu, 29 Feb 2024 17:26:53 +0000
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240229172653.GB1209090@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+	dkim=pass (2048-bit key) header.d=gateworks-com.20230601.gappssmtp.com header.i=@gateworks-com.20230601.gappssmtp.com header.b="D7HArK7v"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a44628725e3so74759566b.0
+        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 09:27:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20230601.gappssmtp.com; s=20230601; t=1709227631; x=1709832431; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
+        b=D7HArK7vr9IhpSKV4M7w9oNNLRVkDv2nHrmMYoHqdMt3zlGxuvyFgItSMicyJml6zy
+         zZ6lXJvw0qlj3ASNSRgTtfHhyzC9sh0kKmneDlV6lUWixHQ5zCQJo8KsdqwJ0chIljsk
+         kPJe/XsoRDcHWJQF+WmkSb1V9DrVaZ5r8phH9+ADImYoVCvZHf2WYMK/COva+614TbfM
+         Mb6hk5q7btSiXvxqyfEGtZKaPHJdauIsLlnyLmFJGmPgyA3mepWUSms1VyPvkX00uIPk
+         Q7rBPDv100R6vRzeoNviXnB3wxIeYzHXRZlBjUcvpvjK7ISa4lH8kmAyZesldhxIE2k1
+         jlSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709227631; x=1709832431;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
+        b=rVAO04S8FDs5homfjURUc6emZk00UHTmWQQRQQs9haqP6ogU3JhIiM1teeBoNToUZ9
+         auDuYyDMl7JrWIgMsvlxf9d1QLZIem18+GeAHtbn8LOLMwdQIc8jMJ3DlX90/0WshwZE
+         zsKECk2HJK/A6oKPqioTTCn2y9oUMB4dp67hBJl9Thb2Lu2pFCYSBhMG5siMe6Zd/J6c
+         c5Gzly55k/tfGmfGFTuddMsOV/Ow7AzmqjX25QfQV56YA8r+dA2/SE8oFPdaXVnehmZn
+         K9KuUgBoZzj55XPfH13iQGhfjyRmj4KkpeOwR8NQifRyLcTq5Kyr8LzVnKe+GDaotxuF
+         MmIg==
+X-Forwarded-Encrypted: i=1; AJvYcCW2pfl4DHb8TVufwSVGIUGNkxYvQYGbNAS/BpiZuAipRlwgAFuzfwGFRn4fyZi7n+Zb7CV9IvK9s6obtxxQNntRsWCkykuGbDbf94s=
+X-Gm-Message-State: AOJu0YzMfkMHS3IXD13O8udbXMBRuNDL+tY71wmpECRc6q07LOlNBEy+
+	GtjxVZT/OqvN5Pa3JqdtcpvPcCvzv1AaVztQDU4gAun/1gTwmhf2/n3JiHRP6fyLWLr3hmeMlmf
+	RyNsYek552vfhcOJBxKmyxtrrHVVdkvjvLA3BUQ==
+X-Google-Smtp-Source: AGHT+IHY+BeReToKKxC+x9eEFVG469n2fNVsygBbwAcPapCF0QV3dnwOTqV/Fu19u/7jKdln3AQTI2lVnWJwQiLIPYs=
+X-Received: by 2002:a17:906:5fcc:b0:a43:a4a1:1945 with SMTP id
+ k12-20020a1709065fcc00b00a43a4a11945mr2004809ejv.75.1709227630755; Thu, 29
+ Feb 2024 09:27:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Thu, 29 Feb 2024 09:26:59 -0800
+Message-ID: <CAJ+vNU3y5pzqeBnr8LHDtJtU7zajfRvP=_WmAhP=cAp_3iGFQQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] reset: add GPIO-based reset controller
+To: Sean Anderson <sean.anderson@seco.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>, andersson@kernel.org, bgoswami@quicinc.com, 
+	brgl@bgdev.pl, Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Device Tree Mailing List <devicetree@vger.kernel.org>, konrad.dybcio@linaro.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, 
+	linux-sound@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>, perex@perex.cz, 
+	Rob Herring <robh+dt@kernel.org>, srinivas.kandagatla@linaro.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 13 Feb 2024, Heiner Kallweit wrote:
+> On 1/9/24 04:41, Krzysztof Kozlowski wrote:
+>
+> I think a separate pseudo-device is necessary a generic solution. So I
+> guess I will revive my patchset.
+>
 
-> If a simple trigger is assigned to a LED, then the LED may be off until
-> the next led_trigger_event() call. This may be an issue for simple
-> triggers with rare led_trigger_event() calls, e.g. power supply
-> charging indicators (drivers/power/supply/power_supply_leds.c).
-> Therefore persist the brightness value of the last led_trigger_event()
-> call and use this value if the trigger is assigned to a LED.
-> This change allows to use simple triggers in more cases.
-> As a first use case simplify handling of the mute audio trigger.
-> 
-> This series touches few subsystems. I'd propose to handle it via
-> the LED subsystem.
-> 
-> Heiner Kallweit (4):
->   leds: trigger: Store brightness set by led_trigger_event()
->   ALSA: control-led: Integrate mute led trigger
->   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
->   leds: trigger: audio: Remove this trigger
-> 
->  arch/mips/configs/ci20_defconfig     |  1 -
+Sean and Krzysztof,
 
->  drivers/input/input-leds.c           |  8 +---
+I see a lot of value in a generic reset-gpio driver that you have both
+tried to get accepted in the past. I support boards that have a number
+of SPI and I2C devices that often have GPIO resets wired to them that
+are pulled in hardware to the in-reset state and find no support in
+the various drivers for reset handling. I've often wondered why a
+generic gpio reset wasn't supported in the SPI/I2C cores like it is
+for some other subsystems.
 
-This does not apply.
+The approach of a gpios-reset solution makes sense to me.
 
-Please rebase onto v6.8-rc1.
+Will you be submitting a follow-on series to your previous attempts?
 
->  drivers/leds/led-triggers.c          |  6 ++-
->  drivers/leds/trigger/Kconfig         |  7 ---
->  drivers/leds/trigger/Makefile        |  1 -
->  drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
->  include/linux/leds.h                 | 29 ++++++------
->  sound/core/Kconfig                   |  1 -
->  sound/core/control_led.c             | 20 +++++++--
->  9 files changed, 37 insertions(+), 103 deletions(-)
->  delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
-> 
-> -- 
-> 2.43.1
-> 
+Best Regards,
 
--- 
-Lee Jones [李琼斯]
+Tim
