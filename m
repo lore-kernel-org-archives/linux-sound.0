@@ -1,93 +1,75 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F26A70AD9
-	for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 17:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE4D70AEA;
+	Thu, 29 Feb 2024 17:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709227634; cv=none; b=GKOVoaq4oY40pwn/iFXZ8rfZm86hs8AAx49/5PGY8DPK7GpnEdfziB3XR7+FUucgaEDBRApsEyu4unhc2MHceG2SfanqC/634ehx6ftS5DODEbpFDbebQDM+w/1D9LthFqufbXK+OQSSj26tdjYqegz/AnPIZ/Kf2ZRST2OgwQg=
+	t=1709228706; cv=none; b=ebA9uRoh6Wl162R4bIJYEShhxMmXgw3kC6YtkNvd5Lz+339uE1+4jPvAGe4W5ZgOvPZoz92CSp1tLH5Klh30z+pVzSdposYm4c4X5sLlBolvOzI9eY8NBhfav5IJ1cogT0d7ZnzMMYoeD5sNklDVcM0dNUshvv45oPQtS50pTy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709227634; c=relaxed/simple;
-	bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=kJ0R4IR4NQzLxaX2w20jUuOai2R1n0Bzu5sOcJbJakpO1cF/48cqSaga7Ic4ZG/FVMtlTUXisHXuuFW/du9TMMOfTAlDaR/DPNsJ8fyyXPOc7cL5WJE5ftP0i4FnSRw2Lu3Ywlu16WIHr1/CMBxOxUuIwecyg7D2Pu08+k2fLfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gateworks.com; spf=pass smtp.mailfrom=gateworks.com; dkim=pass (2048-bit key) header.d=gateworks-com.20230601.gappssmtp.com header.i=@gateworks-com.20230601.gappssmtp.com header.b=D7HArK7v; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gateworks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gateworks.com
+	s=arc-20240116; t=1709228706; c=relaxed/simple;
+	bh=r46YDK3Axw+cBVddXAlXM7gpz+1Uk3YSMg9uwZliBas=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=G0EZi1YTWhIKu1XqedPitruNw0prWGemNAhIZvW2jytviD62DK9A46deO6wejstg0HuHI7exi8rQDZOQJzFDq5CMNOIFyDGwkmnEtyAigKKAi7G2/DYxRt4+NHTGSu4YpXql+DK+6TSUCAQ2eAxPJguSwWbeYks1reG0Xjqu3zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2i8Xfzk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gateworks-com.20230601.gappssmtp.com header.i=@gateworks-com.20230601.gappssmtp.com header.b="D7HArK7v"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a44628725e3so74759566b.0
-        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 09:27:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20230601.gappssmtp.com; s=20230601; t=1709227631; x=1709832431; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
-        b=D7HArK7vr9IhpSKV4M7w9oNNLRVkDv2nHrmMYoHqdMt3zlGxuvyFgItSMicyJml6zy
-         zZ6lXJvw0qlj3ASNSRgTtfHhyzC9sh0kKmneDlV6lUWixHQ5zCQJo8KsdqwJ0chIljsk
-         kPJe/XsoRDcHWJQF+WmkSb1V9DrVaZ5r8phH9+ADImYoVCvZHf2WYMK/COva+614TbfM
-         Mb6hk5q7btSiXvxqyfEGtZKaPHJdauIsLlnyLmFJGmPgyA3mepWUSms1VyPvkX00uIPk
-         Q7rBPDv100R6vRzeoNviXnB3wxIeYzHXRZlBjUcvpvjK7ISa4lH8kmAyZesldhxIE2k1
-         jlSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709227631; x=1709832431;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=853yl5T7RBe14Q7Ic1pdq6lruxKv/bJ3MDmBIIZWjSs=;
-        b=rVAO04S8FDs5homfjURUc6emZk00UHTmWQQRQQs9haqP6ogU3JhIiM1teeBoNToUZ9
-         auDuYyDMl7JrWIgMsvlxf9d1QLZIem18+GeAHtbn8LOLMwdQIc8jMJ3DlX90/0WshwZE
-         zsKECk2HJK/A6oKPqioTTCn2y9oUMB4dp67hBJl9Thb2Lu2pFCYSBhMG5siMe6Zd/J6c
-         c5Gzly55k/tfGmfGFTuddMsOV/Ow7AzmqjX25QfQV56YA8r+dA2/SE8oFPdaXVnehmZn
-         K9KuUgBoZzj55XPfH13iQGhfjyRmj4KkpeOwR8NQifRyLcTq5Kyr8LzVnKe+GDaotxuF
-         MmIg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2pfl4DHb8TVufwSVGIUGNkxYvQYGbNAS/BpiZuAipRlwgAFuzfwGFRn4fyZi7n+Zb7CV9IvK9s6obtxxQNntRsWCkykuGbDbf94s=
-X-Gm-Message-State: AOJu0YzMfkMHS3IXD13O8udbXMBRuNDL+tY71wmpECRc6q07LOlNBEy+
-	GtjxVZT/OqvN5Pa3JqdtcpvPcCvzv1AaVztQDU4gAun/1gTwmhf2/n3JiHRP6fyLWLr3hmeMlmf
-	RyNsYek552vfhcOJBxKmyxtrrHVVdkvjvLA3BUQ==
-X-Google-Smtp-Source: AGHT+IHY+BeReToKKxC+x9eEFVG469n2fNVsygBbwAcPapCF0QV3dnwOTqV/Fu19u/7jKdln3AQTI2lVnWJwQiLIPYs=
-X-Received: by 2002:a17:906:5fcc:b0:a43:a4a1:1945 with SMTP id
- k12-20020a1709065fcc00b00a43a4a11945mr2004809ejv.75.1709227630755; Thu, 29
- Feb 2024 09:27:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2i8Xfzk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8812CC433F1;
+	Thu, 29 Feb 2024 17:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709228705;
+	bh=r46YDK3Axw+cBVddXAlXM7gpz+1Uk3YSMg9uwZliBas=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=j2i8Xfzkwu24kv9T/itHx2J8zwt0IqaZDa5JJoKmmrrPJ1VSWZUP9nFIujBp7qi7A
+	 Ucy1S6O+YGoWkH5sNSzLkEIWkPoDbT1gUsg9G7nvqy0b+i0gyHI4FN8/sMcNMiaibU
+	 mHFEmGVSE6DHMCyUObCBJW8pr1q8qyDF4ta8ZSRINsjehq1ZpRrSnhtexezeVakKM1
+	 gyIrxxfmxG3YzQW+HOrb9Ulqg2avUOW/Dox2h+N2T6XY/zTU+enoCL1AG39BLYpDH5
+	 uVMDf8f2CWmOt/bpFOWOF20TNqRm3/0CI3mYcZpoTA0Qb6HTR4vWXAg+TVdSBoGLYo
+	 Yxa83LMlOImsg==
+From: Lee Jones <lee@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Flora Fu <flora.fu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ amergnat@baylibre.com
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Fabien Parent <fparent@baylibre.com>
+In-Reply-To: <20240226-audio-i350-v1-13-4fa1cea1667f@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-13-4fa1cea1667f@baylibre.com>
+Subject: Re: (subset) [PATCH 13/18] mfd: mt6397-core: register mt6357 sound
+ codec
+Message-Id: <170922870128.1628445.8442233644486002127.b4-ty@kernel.org>
+Date: Thu, 29 Feb 2024 17:45:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Thu, 29 Feb 2024 09:26:59 -0800
-Message-ID: <CAJ+vNU3y5pzqeBnr8LHDtJtU7zajfRvP=_WmAhP=cAp_3iGFQQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] reset: add GPIO-based reset controller
-To: Sean Anderson <sean.anderson@seco.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>, andersson@kernel.org, bgoswami@quicinc.com, 
-	brgl@bgdev.pl, Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Device Tree Mailing List <devicetree@vger.kernel.org>, konrad.dybcio@linaro.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, 
-	linux-sound@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>, perex@perex.cz, 
-	Rob Herring <robh+dt@kernel.org>, srinivas.kandagatla@linaro.org, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 
-> On 1/9/24 04:41, Krzysztof Kozlowski wrote:
->
-> I think a separate pseudo-device is necessary a generic solution. So I
-> guess I will revive my patchset.
->
+On Mon, 26 Feb 2024 15:01:51 +0100, amergnat@baylibre.com wrote:
+> Add MT6357 codec entry in the MFD driver.
+> 
+> 
 
-Sean and Krzysztof,
+Applied, thanks!
 
-I see a lot of value in a generic reset-gpio driver that you have both
-tried to get accepted in the past. I support boards that have a number
-of SPI and I2C devices that often have GPIO resets wired to them that
-are pulled in hardware to the in-reset state and find no support in
-the various drivers for reset handling. I've often wondered why a
-generic gpio reset wasn't supported in the SPI/I2C cores like it is
-for some other subsystems.
+[13/18] mfd: mt6397-core: register mt6357 sound codec
+        commit: 79d98102a31ab777b4a6632d799ab2bc63654cf8
 
-The approach of a gpios-reset solution makes sense to me.
+--
+Lee Jones [李琼斯]
 
-Will you be submitting a follow-on series to your previous attempts?
-
-Best Regards,
-
-Tim
