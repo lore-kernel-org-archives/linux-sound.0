@@ -1,190 +1,290 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D465FF0E
-	for <linux-sound@vger.kernel.org>; Fri,  1 Mar 2024 06:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8582469953
+	for <linux-sound@vger.kernel.org>; Fri,  1 Mar 2024 07:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709274651; cv=none; b=qZeBEKlRs+fGjz7YSkWyQAzc7EzApgKlDC5WmN1J5VBuYLIYAsAzRuyU644PCRhs/Jrb+hBAjDFbIADAycN4zRl7Nhm2rWovyqrQIDv1/4yFm31L8tIVSDlXVcJXhpALnR0qOL9Dla6B0wOfgdKROwI2xyyaNL3beyhucGLz8Ko=
+	t=1709278068; cv=none; b=fXg36MyBAO6+ecpqSwqM4IJHxzhhFP3tVGRBVjrmuAmY3lxdWtvAQy84Zp+cA70QzzAXl2uf6eFhWQ6svSM/1gWjXUBo4p/zAoqzyV+J47EWbFu39o4ioKV+/MIFveifJa0T8j03HsOFmEbQMETP+LpYzXBXo8A19vM7fdziafU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709274651; c=relaxed/simple;
-	bh=k5V8vWbKOVu5rrnBCKAXa/253TOmV4ruxxbPCrXY1KM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKdpKZ326Ozy/o41nCa6U0hgD3aktD2F/rPkadX+VbLHx72mVyIApiCn7AUbrLRVNRL2T/LUpwKGbKFpHhJLx01P/VtEQsWeW9PgJu1D3X5EbFu+9N06hW05rHeki03JKRIJUeKuxvMe3bXYJHjvDfjnCdIXSGO5QsZ4FAYQ8A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zP5w/qsL; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709278068; c=relaxed/simple;
+	bh=W7zdHagKA1+i9adc3ZyTbvx1mZq7byD5lmrZZP0ty/8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PDg8WaOO4u79NLH/tjQ6+7VamFi5vILythyTwd0X7Zu/6ahRzRvs137xq2TQOZfy2VwWQ5oaU7vOCQ+rgzZuikSxWLRxCgTZ7fvqMNe1sqguH4h/L6WjAEGxiW9svzCOkobLkB1Dg4h31QDBz5aGB7UDMHz7wurbxvkDl+U43Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EVlPm6Rl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pX9JChBN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EVlPm6Rl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pX9JChBN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zP5w/qsL"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56694fdec74so2179502a12.1
-        for <linux-sound@vger.kernel.org>; Thu, 29 Feb 2024 22:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709274647; x=1709879447; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aQcieXKF9GCrmMdAMMXGeMlTjz7NiZHPsZQNigcQEYE=;
-        b=zP5w/qsLRzUI5DlgZmVaPyYDUZ86888MRYxPxiihrKus2xzCTxNalLXFW2jhQo6MSV
-         AAaKpGKSsfr+cT4GmIpY0vkx7El7JRQ/JXgCQNd0dTpeW/ly4S8I9OfUBvXdg9/hMIoo
-         McV4BWFSsNzVgM5fv9eds4ypWcvUMf2ZZ5w4wnDm2NXXvw2BbH/ybYJ6aazkj+VI9kxg
-         faC2V0xxRdpQHmgHSADdL5ooSLEeAZJ6gen7Za91NuWXRjLAc/bZoGxngUJtEniihrNi
-         Re31JCr4ZrEMqmfjd+TuKKhqdySNO7OmE8JNlwLa29BSYcg1Zr6nZVyhtNbkT0rY4mc4
-         RRCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709274647; x=1709879447;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aQcieXKF9GCrmMdAMMXGeMlTjz7NiZHPsZQNigcQEYE=;
-        b=XXWYnTmzstP/qK6l8zAPxRU0KF711ccoiigk9UE3YYcW3zzMWmk/LVNxUnClVuZ5Jq
-         EK0cD5MRW3MdvaRuYy4kQcJiEmEzHcLxSanbqlU9k4T+M9kDPktXJV++G/ua24PUVS2W
-         pQTghTw7s8Ocji3gSEW5PtfiBkUzHTo00u6yuJWbFlNptw8e3pImUO5iD3qTp0pFOXVE
-         2R1JEZCe/XAg4CU6SDPseilP0xN2kOg8XtqJkrlXom1neH9cdDTIiM9N9jrT1gYRuSEz
-         58hnAyo8Qv49svaKKuqjlUzya8o1BKJddozG83E1w73D11t/yID4KnCuTkjP4CChYsdN
-         XLDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhAqZZnjKJzkU1wOsVD1FFgYGjX9543rH2eLatepGr4w2DmAZE+UMykb3wCHzvkwYGzYOIsCRhTFL5qJNWqIXm91DVl1gJm3C4Eko=
-X-Gm-Message-State: AOJu0YzUxk61pr/tRBJONmbP8cQeUpQ10FzFlj2sAAddbNmCSpvajj/Y
-	wuZhBn2TXP7kNHXmUKeXs76nCw6NhAvI6VwULYIsCxMVEFy0bvRnA3l4lpLpDwY=
-X-Google-Smtp-Source: AGHT+IGSNoAmpYgNPAtqvUYUD4eCOtLsMfV3o/9sM6pyzlMN2Qlq4pj7F3rZftORbzbgCQ7xE0a3KQ==
-X-Received: by 2002:a05:6402:5245:b0:566:dede:1f82 with SMTP id t5-20020a056402524500b00566dede1f82mr116248edd.29.1709274647520;
-        Thu, 29 Feb 2024 22:30:47 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id o20-20020aa7c514000000b005663e9bd8c1sm1258757edq.38.2024.02.29.22.30.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Feb 2024 22:30:46 -0800 (PST)
-Message-ID: <a1861d70-80e2-4f42-b99a-f2b8c8efe042@linaro.org>
-Date: Fri, 1 Mar 2024 07:30:45 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EVlPm6Rl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pX9JChBN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EVlPm6Rl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pX9JChBN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7A40F1FD8B;
+	Fri,  1 Mar 2024 07:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709278064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WxBbLT+qG5USSgqCUTkVEpQrSPsuJuAFWx1nommK8I=;
+	b=EVlPm6RlMaxwiDGBPnIf7yBppipZrYMoJqDbyIwNkTYT9Ii/11OYZVjnIS4iNKzHpk+wV5
+	fbR4HhICxyitjjIi7kby56HZVciASDegBH82I/5O7XCbY0HZLjzaiKVUXZ4vMrtpQvJHSe
+	a6T/kyE9OsRI85lLiLhcinGKx32nRLg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709278064;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WxBbLT+qG5USSgqCUTkVEpQrSPsuJuAFWx1nommK8I=;
+	b=pX9JChBNdeTXxb1T4lme3E6RndQeorEW3EDGGQojp33UU4CsTC2ESu7z3ByKDgSQr/Zjkb
+	V0OLl3UQHajGqlBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709278064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WxBbLT+qG5USSgqCUTkVEpQrSPsuJuAFWx1nommK8I=;
+	b=EVlPm6RlMaxwiDGBPnIf7yBppipZrYMoJqDbyIwNkTYT9Ii/11OYZVjnIS4iNKzHpk+wV5
+	fbR4HhICxyitjjIi7kby56HZVciASDegBH82I/5O7XCbY0HZLjzaiKVUXZ4vMrtpQvJHSe
+	a6T/kyE9OsRI85lLiLhcinGKx32nRLg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709278064;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WxBbLT+qG5USSgqCUTkVEpQrSPsuJuAFWx1nommK8I=;
+	b=pX9JChBNdeTXxb1T4lme3E6RndQeorEW3EDGGQojp33UU4CsTC2ESu7z3ByKDgSQr/Zjkb
+	V0OLl3UQHajGqlBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C57613ABF;
+	Fri,  1 Mar 2024 07:27:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id n6IAC3CD4WWqfwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 01 Mar 2024 07:27:44 +0000
+Date: Fri, 01 Mar 2024 08:27:43 +0100
+Message-ID: <87r0gue7io.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 05/24] ALSA: hwdep: Use guard() for locking
+In-Reply-To: <20240229210034.GA185642@dev-arch.thelio-3990X>
+References: <20240227085306.9764-1-tiwai@suse.de>
+	<20240227085306.9764-6-tiwai@suse.de>
+	<20240229210034.GA185642@dev-arch.thelio-3990X>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] ASoC: dt-bindings: fsl,imx-asrc: update max
- interrupt numbers
-Content-Language: en-US
-To: Frank Li <Frank.li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20240228-asrc_8qxp-v3-0-d4d5935fd3aa@nxp.com>
- <20240228-asrc_8qxp-v3-2-d4d5935fd3aa@nxp.com>
- <3460ecc8-d7d7-4d1c-ad0c-b32efc3b9049@linaro.org>
- <ZeFTqM8o/eozl+MS@lizhi-Precision-Tower-5810>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZeFTqM8o/eozl+MS@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.998];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-On 01/03/2024 05:03, Frank Li wrote:
-> On Thu, Feb 29, 2024 at 10:44:42AM +0100, Krzysztof Kozlowski wrote:
->> On 28/02/2024 20:14, Frank Li wrote:
->>> fsl,imx8qxp-spdif and fsl,imx8qm-spdif have 2 interrupts. Other platforms
->>> have 1 interrupt.
->>>
->>> Increase max interrupt number to 2 and add restriction for platforms except
->>> i.MX8QXP and i.MX8QM.
->>>
->>> Signed-off-by: Frank Li <Frank.Li@nxp.com>
->>> ---
->>>  .../devicetree/bindings/sound/fsl,spdif.yaml         | 20 +++++++++++++++++++-
->>>  1 file changed, 19 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
->>> index 82430f1d5e5a2..785f7997eea82 100644
->>> --- a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
->>> +++ b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
->>> @@ -31,7 +31,8 @@ properties:
->>>      maxItems: 1
->>>  
->>>    interrupts:
->>> -    maxItems: 1
->>> +    minItems: 1
->>> +    maxItems: 2
->>>  
->>>    dmas:
->>>      items:
->>> @@ -100,6 +101,23 @@ required:
->>>  
->>>  additionalProperties: false
->>>  
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          enum:
->>> +            - fsl,imx35-spdif
->>> +            - fsl,vf610-spdif
->>> +            - fsl,imx6sx-spdif
->>> +            - fsl,imx8mq-spdif
->>> +            - fsl,imx8mm-spdif
->>> +            - fsl,imx8mn-spdif
->>> +            - fsl,imx8ulp-spdif
->>> +    then:
->>> +      properties:
->>> +        interrupts:
->>> +          maxItems: 1
->>
->> else:
->> minItems: 2
+On Thu, 29 Feb 2024 22:00:34 +0100,
+Nathan Chancellor wrote:
 > 
-> I think needn't 'else' here. Top have set to maxItems is 2. 
+> Hi Takashi,
+> 
+> On Tue, Feb 27, 2024 at 09:52:47AM +0100, Takashi Iwai wrote:
+> > We can simplify the code gracefully with new guard() macro and co for
+> > automatic cleanup of locks.
+> > 
+> > There are still a few remaining explicit mutex_lock/unlock calls, and
+> > those are for the places where we do temporary unlock/relock, which
+> > doesn't fit well with the guard(), so far.
+> > 
+> > Only the code refactoring, and no functional changes.
+> > 
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >  sound/core/hwdep.c | 85 +++++++++++++++++++++-------------------------
+> >  1 file changed, 38 insertions(+), 47 deletions(-)
+> > 
+> > diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
+> > index de7476034f2c..9d7e5039c893 100644
+> > --- a/sound/core/hwdep.c
+> > +++ b/sound/core/hwdep.c
+> > @@ -149,12 +149,12 @@ static int snd_hwdep_release(struct inode *inode, struct file * file)
+> >  	struct snd_hwdep *hw = file->private_data;
+> >  	struct module *mod = hw->card->module;
+> >  
+> > -	mutex_lock(&hw->open_mutex);
+> > -	if (hw->ops.release)
+> > -		err = hw->ops.release(hw, file);
+> > -	if (hw->used > 0)
+> > -		hw->used--;
+> > -	mutex_unlock(&hw->open_mutex);
+> > +	scoped_guard(mutex, &hw->open_mutex) {
+> > +		if (hw->ops.release)
+> > +			err = hw->ops.release(hw, file);
+> > +		if (hw->used > 0)
+> > +			hw->used--;
+> > +	}
+> >  	wake_up(&hw->open_wait);
+> >  
+> >  	snd_card_file_remove(hw->card, file);
+> > @@ -272,43 +272,43 @@ static int snd_hwdep_control_ioctl(struct snd_card *card,
+> >  
+> >  			if (get_user(device, (int __user *)arg))
+> >  				return -EFAULT;
+> > -			mutex_lock(&register_mutex);
+> >  
+> > -			if (device < 0)
+> > -				device = 0;
+> > -			else if (device < SNDRV_MINOR_HWDEPS)
+> > -				device++;
+> > -			else
+> > -				device = SNDRV_MINOR_HWDEPS;
+> > +			scoped_guard(mutex, &register_mutex) {
+> > +				if (device < 0)
+> > +					device = 0;
+> > +				else if (device < SNDRV_MINOR_HWDEPS)
+> > +					device++;
+> > +				else
+> > +					device = SNDRV_MINOR_HWDEPS;
+> >  
+> > -			while (device < SNDRV_MINOR_HWDEPS) {
+> > -				if (snd_hwdep_search(card, device))
+> > -					break;
+> > -				device++;
+> > +				while (device < SNDRV_MINOR_HWDEPS) {
+> > +					if (snd_hwdep_search(card, device))
+> > +						break;
+> > +					device++;
+> > +				}
+> > +				if (device >= SNDRV_MINOR_HWDEPS)
+> > +					device = -1;
+> > +				if (put_user(device, (int __user *)arg))
+> > +					return -EFAULT;
+> > +				return 0;
+> >  			}
+> > -			if (device >= SNDRV_MINOR_HWDEPS)
+> > -				device = -1;
+> > -			mutex_unlock(&register_mutex);
+> > -			if (put_user(device, (int __user *)arg))
+> > -				return -EFAULT;
+> > -			return 0;
+> > +			break;
+> >  		}
+> 
+> Due to a bug in clang that was resolved in clang-17 [1], clang-13
+> through clang-16 fail to build this file for ARCH=powerpc after this
+> change in -next as commit e6684d08cc19 ("ALSA: hwdep: Use guard() for
+> locking"):
+> 
+>   sound/core/hwdep.c:291:9: error: cannot jump from this asm goto statement to one of its possible targets
+>                                   if (put_user(device, (int __user *)arg))
+>                                       ^
+>   arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
+>                     __put_user(x, _pu_addr) : -EFAULT;                    \
+>                     ^
+>   arch/powerpc/include/asm/uaccess.h:48:3: note: expanded from macro '__put_user'
+>                   __put_user_size_goto(__pu_val, __pu_addr, __pu_size, __pu_failed);      \
+>                   ^
+>   arch/powerpc/include/asm/uaccess.h:116:10: note: expanded from macro '__put_user_size_goto'
+>           case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+>                   ^
+>   arch/powerpc/include/asm/uaccess.h:86:2: note: expanded from macro '__put_user_asm_goto'
+>           asm goto(                                       \
+>           ^
+>   sound/core/hwdep.c:273:8: note: possible target of asm goto statement
+>                           if (get_user(device, (int __user *)arg))
+>                               ^
+>   arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
+>                     __get_user(x, _gu_addr) :                             \
+>                     ^
+>   arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
+>           __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
+>           ^
+>   arch/powerpc/include/asm/uaccess.h:201:16: note: expanded from macro '__get_user_size_allowed'
+>                   break;                                                  \
+>                                                                           ^
+>   sound/core/hwdep.c:276:4: note: jump exits scope of variable with __attribute__((cleanup))
+>                           scoped_guard(mutex, &register_mutex) {
+>                           ^
+>   include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
+>           for (CLASS(_name, scope)(args),                                 \
+>                             ^
+>   sound/core/hwdep.c:273:8: error: cannot jump from this asm goto statement to one of its possible targets
+>                           if (get_user(device, (int __user *)arg))
+>                               ^
+>   arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
+>                     __get_user(x, _gu_addr) :                             \
+>                     ^
+>   arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
+>           __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
+>           ^
+>   arch/powerpc/include/asm/uaccess.h:199:3: note: expanded from macro '__get_user_size_allowed'
+>                   __get_user_size_goto(x, ptr, size, __gus_failed);       \
+>                   ^
+>   arch/powerpc/include/asm/uaccess.h:187:10: note: expanded from macro '__get_user_size_goto'
+>           case 1: __get_user_asm_goto(x, (u8 __user *)ptr, label, "lbz"); break;  \
+>                   ^
+>   arch/powerpc/include/asm/uaccess.h:158:2: note: expanded from macro '__get_user_asm_goto'
+>           asm_goto_output(                                        \
+>           ^
+>   include/linux/compiler_types.h:380:31: note: expanded from macro 'asm_goto_output'
+>   #define asm_goto_output(x...) asm volatile goto(x)
+>                                 ^
+>   sound/core/hwdep.c:291:9: note: possible target of asm goto statement
+>                                   if (put_user(device, (int __user *)arg))
+>                                       ^
+>   arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
+>                     __put_user(x, _pu_addr) : -EFAULT;                    \
+>                     ^
+>   arch/powerpc/include/asm/uaccess.h:52:9: note: expanded from macro '__put_user'
+>                                                                   \
+>                                                                   ^
+>   sound/core/hwdep.c:276:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+>                           scoped_guard(mutex, &register_mutex) {
+>                           ^
+>   include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
+>           for (CLASS(_name, scope)(args),                                 \
+>                             ^
+>   2 errors generated.
+> 
+> However, looking at the original change, could this be avoided/worked
+> around by just moving the put_user() call out of the scoped_guard()?
+> The put_user() call was not originally under register_mutex, so it seems
+> like this would work? As I understand it, mutex_unlock() will be called
+> once the scope of the guard is left. I am happy to send a formal patch.
 
-So explain why one item is correct here.
+Yes, that was my intention but somehow it slipped :-<
+Could you submit the fix patch?
 
 
-Best regards,
-Krzysztof
+Thanks!
 
+Takashi
