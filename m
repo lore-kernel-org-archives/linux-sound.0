@@ -1,101 +1,183 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F0F482C1;
-	Fri,  1 Mar 2024 10:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577341E4BD;
+	Fri,  1 Mar 2024 10:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709288173; cv=none; b=QLAn7cB2hohuwyxZosWSI/7AgY9qssBIFFJymBy9I22QCDeVQX4RE0+S/uJxisgFUajBxWUxRgklhLCmYe5Eq9JFNTs8cO+LEzr0BwX7GexqH0J+iPmnAxvyR3Gev/jKEORKl8/dvBgVe667X0MMTcHz6TpnGt+ujCStrTEnZ2g=
+	t=1709289408; cv=none; b=f+Ww58qLicSbex9YMQM3Pded1c4Y3aD8tobGW+CkGfYYpF6SfCk/XX4lWj30DE9av98dnh9pQGqV+EAxgHYY+ZZvZiOhh0mdcn7bPDUCl46ucktiuxcBj3+xbtU9BGEPDbAjc7ER7Q1eZXzYu9vo+VTUf4MUOXX2pf4TZXqFU+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709288173; c=relaxed/simple;
-	bh=6Agnyi8DLedM+Z6EYzVyW6OwLNrz92tvZUbDuL+GHwY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aNrqw6YzmeWTKVzMfFPcE2txHPlkmM4QAgIoSBXySkPmx1Yl1/0NU02E2Wbndczi/GQ6uVuR8GT0m4QWKquMng/kanNZpZa5Yb0covBErupLNmwn4BCTEIEqyjyjMtEzxg0zEYCH4z9uME0IYh1zbI7IH4PRPwbzvKpLMpM42To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Q5LiiEHx; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1709289408; c=relaxed/simple;
+	bh=C4l3an7f5mqxgSVgCMxQ+YelMOT39slYRkY8Ig9AT/w=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=Xuwzn//ubga18y4OXHhfffKegzc+g9EyXOGF65pxI19zDijwsufQmyWPpbPUNT4uvGgI2YabQlEqvRpYQVj1LiAEl71vK5SJO6UTDonh9zd5NNHiij7mwqUH1lak2SVF0K7SAV0HTccMEBBWNzd2uzYL7wK4Nv1LCOy1vB0Vppo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ubjdcUNa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cffUrO9L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ubjdcUNa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cffUrO9L; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Q5LiiEHx"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4214rwHV014460;
-	Fri, 1 Mar 2024 04:15:51 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=f
-	UoFHpE8arqzQuv1VUMK76N/vXq5gSpbs+hWP4zYhQQ=; b=Q5LiiEHxNLjWedBUt
-	xofHsz+eNIxlDIF5SLa6x/sHtAuk/V8gVLGjT3gqkOO69LntWMvTMRveCY1n6Fcr
-	/PdThwBDaiASORSwq14rFXQbqikcSe2o4aQmj6wrKD7jldjBhO62UQMTBD7J63/w
-	efyfKn5qyqKoYun2lEw0FyxIiqQzLzK5ptTKD7FuFFRkrp9/MrNtCDsDyW1yeoBs
-	rlXwTq2k8B0NQwfWGtifNb6GZlJ+102cqvF7u4dTUwujGvl+t5ZyVu1LjLRiE9Ad
-	pyd74W7N8VpNr1gIaNtC0m4dwwPXw/ZzMz2Y8d71zOXyoeGq5Sa1dJpXCupuyvOP
-	TkWCw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wje8h23cc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 01 Mar 2024 04:15:50 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Mar
- 2024 10:15:49 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 1 Mar 2024 10:15:49 +0000
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EA6B4820241;
-	Fri,  1 Mar 2024 10:15:48 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Lee Jones <lee@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        Maciej Strozek
-	<mstrozek@opensource.cirrus.com>
-Subject: [PATCH] mfd: cs42l43: Fix wrong GPIO_FN_SEL and SPI_CLK_CONFIG1 defaults
-Date: Fri, 1 Mar 2024 10:15:47 +0000
-Message-ID: <20240301101547.2136948-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ubjdcUNa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cffUrO9L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ubjdcUNa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cffUrO9L"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 84211336DA;
+	Fri,  1 Mar 2024 10:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709289404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=7lP9mv/TOStEwOZNfpSVS2aLQRv5lETQH/OLJx5+RR8=;
+	b=ubjdcUNaPp/Q4bp4oxHQ6WA+ASmiUOD+WpnGDKqhQ+YaM7pvSkmqMULBDX6IizvSKMxdw+
+	4XMKqBjNKQh3mXdXgSYJeEGAD033PqzzWoosLy3crAV7VRAKXto1Zo9d58XpCuJnDNTns2
+	f7BvzPsfqYCg2AKpo+fVxTvobJw8dNg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709289404;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=7lP9mv/TOStEwOZNfpSVS2aLQRv5lETQH/OLJx5+RR8=;
+	b=cffUrO9LHUh25hPiWgpp9mce475BgSfXTRB05NI1S6b1+jQSvDDyO9NSJQlsi750+BdX9j
+	q/QwiXRjzdyyRuCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709289404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=7lP9mv/TOStEwOZNfpSVS2aLQRv5lETQH/OLJx5+RR8=;
+	b=ubjdcUNaPp/Q4bp4oxHQ6WA+ASmiUOD+WpnGDKqhQ+YaM7pvSkmqMULBDX6IizvSKMxdw+
+	4XMKqBjNKQh3mXdXgSYJeEGAD033PqzzWoosLy3crAV7VRAKXto1Zo9d58XpCuJnDNTns2
+	f7BvzPsfqYCg2AKpo+fVxTvobJw8dNg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709289404;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=7lP9mv/TOStEwOZNfpSVS2aLQRv5lETQH/OLJx5+RR8=;
+	b=cffUrO9LHUh25hPiWgpp9mce475BgSfXTRB05NI1S6b1+jQSvDDyO9NSJQlsi750+BdX9j
+	q/QwiXRjzdyyRuCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53C3413A59;
+	Fri,  1 Mar 2024 10:36:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E3XqEryv4WXLMAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 01 Mar 2024 10:36:44 +0000
+Date: Fri, 01 Mar 2024 11:36:43 +0100
+Message-ID: <87h6hq5jd0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.8-rc7
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: _DQfhOcg-vxb4Zl5wF253C9eCruaktL5
-X-Proofpoint-GUID: _DQfhOcg-vxb4Zl5wF253C9eCruaktL5
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-2.10 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 TO_DN_ALL(0.00)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.10
 
-Two regs have wrong values in existing fields, change them to match
-the datasheet.
+Linus,
 
-Fixes: ace6d1448138 ("mfd: cs42l43: Add support for cs42l43 core driver")
+please pull sound fixes for v6.8-rc7 from:
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc7
+
+The topmost commit is 17c6a0c986fbea2c09010c39ef4b44334f06e390
+
+----------------------------------------------------------------
+
+sound fixes for 6.8-rc7
+
+The amount of changes wasn't as small as wished, but all reasonably
+small fixes.  There is a PCM core API change, which is for correcting
+the behavior change we took in 6.8.  The rest are device-specific
+fixes for ASoC AMD, Qualcomm, Cirrus codecs, HD-audio quirks & co.
+
+----------------------------------------------------------------
+
+Colin Ian King (1):
+      ASoC: qcom: Fix uninitialized pointer dmactl
+
+Eniac Zhang (1):
+      ALSA: hda/realtek: fix mute/micmute LED For HP mt440
+
+Gergo Koteles (1):
+      ALSA: hda/realtek: tas2781: enable subwoofer volume control
+
+Hans Peter (1):
+      ALSA: hda/realtek: Enable Mute LED on HP 840 G8 (MB 8AB8)
+
+Jaroslav Kysela (1):
+      ALSA: pcm: clarify and fix default msbits value for all formats
+
+Jay Ajit Mate (1):
+      ALSA: hda/realtek: Fix top speaker connection on Dell Inspiron 16 Plus 7630
+
+Jiawei Wang (2):
+      ASoC: amd: yc: add new YC platform variant (0x63) support
+      ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
+
+Johnny Hsieh (1):
+      ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+
+Kailang Yang (1):
+      ALSA: hda/realtek - ALC285 reduce pop noise from Headphone port
+
+Richard Fitzgerald (2):
+      ASoC: cs35l56: Must clear HALO_STATE before issuing SYSTEM_RESET
+      ASoC: soc-card: Fix missing locking in snd_soc_card_get_kcontrol()
+
+Takashi Iwai (2):
+      ALSA: ump: Fix the discard error code from snd_ump_legacy_open()
+      ALSA: Drop leftover snd-rtctimer stuff from Makefile
+
+Takashi Sakamoto (1):
+      ALSA: firewire-lib: fix to check cycle continuity
+
+Willian Wang (1):
+      ALSA: hda/realtek: Add special fixup for Lenovo 14IRP8
+
 ---
- drivers/mfd/cs42l43.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-index 73c88ee6a866..1cea3f8f467d 100644
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -84,7 +84,7 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_DRV_CTRL_5,				0x136C00C0 },
- 	{ CS42L43_GPIO_CTRL1,				0x00000707 },
- 	{ CS42L43_GPIO_CTRL2,				0x00000000 },
--	{ CS42L43_GPIO_FN_SEL,				0x00000000 },
-+	{ CS42L43_GPIO_FN_SEL,				0x00000004 },
- 	{ CS42L43_MCLK_SRC_SEL,				0x00000000 },
- 	{ CS42L43_SAMPLE_RATE1,				0x00000003 },
- 	{ CS42L43_SAMPLE_RATE2,				0x00000003 },
-@@ -217,7 +217,7 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_CTRL_REG,				0x00000006 },
- 	{ CS42L43_FDIV_FRAC,				0x40000000 },
- 	{ CS42L43_CAL_RATIO,				0x00000080 },
--	{ CS42L43_SPI_CLK_CONFIG1,			0x00000000 },
-+	{ CS42L43_SPI_CLK_CONFIG1,			0x00000001 },
- 	{ CS42L43_SPI_CONFIG1,				0x00000000 },
- 	{ CS42L43_SPI_CONFIG2,				0x00000000 },
- 	{ CS42L43_SPI_CONFIG3,				0x00000001 },
---
-2.30.2
+ include/sound/soc-card.h          |  2 ++
+ include/uapi/sound/asound.h       |  4 ++--
+ sound/core/Makefile               |  1 -
+ sound/core/pcm_native.c           |  5 +++++
+ sound/core/ump.c                  |  4 ++--
+ sound/firewire/amdtp-stream.c     |  2 +-
+ sound/pci/hda/patch_realtek.c     | 34 ++++++++++++++++++++++++++++++++--
+ sound/soc/amd/yc/acp6x-mach.c     | 14 ++++++++++++++
+ sound/soc/amd/yc/pci-acp6x.c      |  1 +
+ sound/soc/codecs/cs35l45.c        |  2 +-
+ sound/soc/codecs/cs35l56-shared.c |  1 +
+ sound/soc/codecs/cs35l56.c        |  2 +-
+ sound/soc/fsl/fsl_xcvr.c          | 12 +++++++++++-
+ sound/soc/qcom/lpass-cdc-dma.c    |  2 +-
+ sound/soc/soc-card.c              | 24 ++++++++++++++++++++++--
+ 15 files changed, 96 insertions(+), 14 deletions(-)
 
