@@ -1,111 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2958ACC;
-	Fri,  1 Mar 2024 21:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7770456B6E
+	for <linux-sound@vger.kernel.org>; Fri,  1 Mar 2024 23:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709328975; cv=none; b=DUhuXVSbIkInrZIJHd8i1yZf8OyKF85uxGhjL7acscqdfIcaNXyd0iu9HuZVst6gjbA89XegWUfgq6EpEkGcNTZV1uTXWodd0i3tYvm6AGzJeKsxa4LOebpzUmNSb7l1f2shVmX1+GWtY5atwkp/bhv0+4IvosaZrR68E7SEjus=
+	t=1709334690; cv=none; b=t4Zu7bvLqMNKzNn4YdzrdUyBmGA/MgU3YpWbOMCPtCdm7UDtaMLrhVUgxwdc4DHuQkewO/u97IHcStMCHdBgOA3fpTEbFBr9oQ4+gegxLWW2HzYGLBvrpADBXGs/v2KLvvS54CNX93dku+fMY8FGj0BUwJEzDyZ3BRrwm8dIdxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709328975; c=relaxed/simple;
-	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+r6yp4fHvHLlJL9/ItVyMBOIVY5JkiDalmmrWREyDr1RFKqEVuZhV3M6yQ1ak4ETX29pbv7zXgpwI+nW8LtgjE+HVY3g1FZVOcVfIg0JKZ4Odm6AZvXF2ZbIoDNH/Oe0ax5XgtS80BllFMV9cIBmRkNWymbSIUKcF6hmubqADo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYLz/Zns; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709334690; c=relaxed/simple;
+	bh=vrxr+C6YLcibNVe7Paa0+ZWlZqIca7ibpaNouEXhbhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YZ/HtHTZ76b/4UyLxYOjZlSgvqOXZcT1CY3pd7k2oEcRzJH8Eb1TWsdX+ypwxpcaBzUCJ138L107zEZq1voDiW/tsfIcLOWZxEqwVp5RIxRsprbRTEKURnCjLg3viSEo/RnG+szjiWSQO9RNl0f9dI0ByaNYKqggjrZkJhIrjYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=lF/wmaIO; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYLz/Zns"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B04C43390;
-	Fri,  1 Mar 2024 21:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709328975;
-	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=LYLz/ZnsEinauRuxr4yV1WGVUfRs0tq+0Tot9DU/uKbQeZEb5lw4RA2Iq7/yIdUiP
-	 HjrK8XFtaLipJS4P/sVNBh66ZbrHvC28PgCrPyYNECKUsXSLfi5Qx9R6gPD0+4WrEm
-	 wKl9ye33lOMRO+aG0nBrEhWD/w0W5Id3KMsrQaLHWfdlBkl9ZlGqCsOc8sva+/IAgP
-	 3s87FI+Omy163728oQT2rlDJp922OEJjzBzAeR6h52xiWMuOd8QtlKwoCqg6arKNul
-	 kfy4rLGXQ+QAB3qKDZNsV41rWFgr7QK4b2Q5Ercvxnlp4z6FWR7Dz9nK3iIl6nruJx
-	 UpBwUdRQtLyGg==
-Date: Fri, 1 Mar 2024 15:36:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
- to sun8i-a33-codec
-Message-ID: <20240301213612.GA3071318-robh@kernel.org>
-References: <20240224135501.3822390-1-megi@xff.cz>
- <20240224135501.3822390-2-megi@xff.cz>
- <20240226194727.GA1320480-robh@kernel.org>
- <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
+	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="lF/wmaIO"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
+	t=1709334685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=whi/b8RMhmo6Ka3O+qfQOyMTE5jfqy1oQ6xDX28pvkw=;
+	b=lF/wmaIO8EjZUPxQbWxSpILkaMKhX1X3zBAfz+c8BrvPMyK6Axhn+xosVzFPJ95IWE6+kr
+	z0yVQv8p/hL4aJfiqJvm7DmcM6LftR40vb48uygWWpSGhjpQsVMDJPvsEm+hlT/JcuBcAN
+	zrQjfesxtrnfZAz8MYhcMlZ/aTK3m3iJo5qanyWh/blt/S07RkkOtroAaS7/BQqvdFFDgv
+	RUy2L8tUSEmM8/pXVHFp96ByHmrRnxH+cjuewkXKTTemAMxQeUfefwXyPzax+48uVlgc3w
+	4+B75ZJq8EzauHgBayKOz357kA0bsPCOpB89WHP3K/U7OoBBcBwXAKKmLVaLYA==
+From: Kenny Levinsen <kl@kl.wtf>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kenny Levinsen <kl@kl.wtf>
+Subject: [PATCH] ALSA: usb-audio: Name feature ctl using output if input is PCM
+Date: Sat,  2 Mar 2024 00:11:07 +0100
+Message-ID: <20240301231107.42679-1-kl@kl.wtf>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Feb 27, 2024 at 12:57:08AM +0100, Ondřej Jirman wrote:
-> On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
-> > On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
-> > > From: Ondrej Jirman <megi@xff.cz>
-> > > 
-> > > The codec driver needs to know what jack connector it is connected to
-> > > on the board. Add proprty to describe the type of connector.
-> > > 
-> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > > ---
-> > >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > > index 63eadc4200ac..399fc00ad3f4 100644
-> > > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
-> > > @@ -44,6 +44,15 @@ properties:
-> > >        - const: bus
-> > >        - const: mod
-> > >  
-> > > +  jack-type:
-> > 
-> > I'm all for a generic property name, but it needs to be documented 
-> > somewhere common. Perhaps dai-common.yaml.
-> > 
-> > I'm sure there is some prior art here to consider as well.
-> 
-> There's only a mention in the code. But there's no use of similar property
-> on the codec nodes.
-> 
-> https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+When building feature controls from a unit without a name, we try to
+derive a name first from the feature unit's input, then fall back to the
+output terminal.
 
-git grep 'jack' Documentation/devicetree/bindings/sound
+If a feature unit connects directly to a "USB Streaming" input terminal
+rather than a mixer or other virtual type, the control receives the
+somewhat meaningless name "PCM", even if the output had a descriptive
+type such as "Headset" or "Speaker".
 
-There's lots of things related to jack. I don't see type, but I didn't 
-go looking for 'mic' or 'headphone' or 'headset' or ...
+Here is an example of such AudioControl descriptor from a USB headset
+which ends up named "PCM Playback" and is therefore not recognized as
+headphones by userspace:
 
-> 
-> /**
->  * snd_soc_component_get_jack_type
->  * @component: COMPONENTs
->  *
->  * Returns the jack type of the component
->  * This can either be the supported type or one read from
->  * devicetree with the property: jack-type.
->  */
-> 
-> This is part of a component, so maybe in sound/component-common.yaml ?
+      AudioControl Interface Descriptor:
+        bLength                12
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             4
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          5
+        bNrChannels             2
+        wChannelConfig     0x0003
+          Left Front (L)
+          Right Front (R)
+        iChannelNames           0
+        iTerminal               0
+      AudioControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             5
+        wTerminalType      0x0402 Headset
+        bAssocTerminal          4
+        bSourceID               6
+        iTerminal               0
+      AudioControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      6 (FEATURE_UNIT)
+        bUnitID                 6
+        bSourceID               4
+        bControlSize            2
+        bmaControls(0)     0x0002
+          Volume Control
+        bmaControls(1)     0x0000
+        bmaControls(2)     0x0000
+        iFeature                0
 
-A comment with no other usage I can find doesn't make it documented.
+Other headsets and DACs I tried that used their output terminal for
+naming only did so due to their input being an unnamed sidetone mixer.
 
-Rob
+Instead of always starting with the input terminal, check the type of it
+first. If it seems uninteresting, invert the order and use the output
+terminal first for naming.
+
+This makes userspace recognize headsets with simple controls as
+headphones, and leads to more consistent naming of playback devices
+based on their outputs irrespective of sidetone mixers.
+
+Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+---
+ sound/usb/mixer.c | 49 +++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 35 insertions(+), 14 deletions(-)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 409fc1164694..81256ab56835 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1652,6 +1652,34 @@ static const struct usb_feature_control_info *get_feature_control_info(int contr
+ 	return NULL;
+ }
+ 
++static int feature_unit_mutevol_ctl_name(struct usb_mixer_interface *mixer,
++					 struct snd_kcontrol *kctl,
++					 struct usb_audio_term *iterm,
++					 struct usb_audio_term *oterm)
++{
++	struct usb_audio_term *aterm, *bterm;
++	bool output_first;
++	int len = 0;
++
++	/*
++	 * If the input terminal is USB Streaming, we try getting the name of
++	 * the output terminal first in hopes of getting something more
++	 * descriptive than "PCM".
++	 */
++	output_first = iterm && !(iterm->type >> 16) && (iterm->type & 0xff00) == 0x0100;
++
++	aterm = output_first ? oterm : iterm;
++	bterm = output_first ? iterm : oterm;
++
++	if (aterm)
++		len = get_term_name(mixer->chip, aterm, kctl->id.name,
++				    sizeof(kctl->id.name), 1);
++	if (!len && bterm)
++		len = get_term_name(mixer->chip, bterm, kctl->id.name,
++				    sizeof(kctl->id.name), 1);
++	return len;
++}
++
+ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 				const struct usbmix_name_map *imap,
+ 				unsigned int ctl_mask, int control,
+@@ -1733,22 +1761,15 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 	case UAC_FU_MUTE:
+ 	case UAC_FU_VOLUME:
+ 		/*
+-		 * determine the control name.  the rule is:
+-		 * - if a name id is given in descriptor, use it.
+-		 * - if the connected input can be determined, then use the name
+-		 *   of terminal type.
+-		 * - if the connected output can be determined, use it.
+-		 * - otherwise, anonymous name.
++		 * Determine the control name:
++		 * - If a name id is given in descriptor, use it.
++		 * - If input and output terminals are present, try to derive
++		 *   the name from either of these.
++		 * - Otherwise, make up a name using the feature unit ID.
+ 		 */
+ 		if (!len) {
+-			if (iterm)
+-				len = get_term_name(mixer->chip, iterm,
+-						    kctl->id.name,
+-						    sizeof(kctl->id.name), 1);
+-			if (!len && oterm)
+-				len = get_term_name(mixer->chip, oterm,
+-						    kctl->id.name,
+-						    sizeof(kctl->id.name), 1);
++			len = feature_unit_mutevol_ctl_name(mixer, kctl, iterm,
++							    oterm);
+ 			if (!len)
+ 				snprintf(kctl->id.name, sizeof(kctl->id.name),
+ 					 "Feature %d", unitid);
+-- 
+2.44.0
+
