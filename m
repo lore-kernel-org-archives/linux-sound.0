@@ -1,233 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2052.outbound.protection.outlook.com [40.107.15.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D901D1504D2;
-	Thu, 29 Feb 2024 21:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709240436; cv=none; b=KsOjV3Z1sK1CNVmmYtLbqLE56jvws4C/BDQuwH/K6XSYaa5a01YTyjk5T6pwk0+175PVS9m6TgRrtswBcL8I0qlwpxQifmf7XYKC43NiVKMmtXOyJwrYBn5s43R2mDx3qWYchNH+7EjRCOTUkpMX46NogIndYJT1nHfyGcZGslU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709240436; c=relaxed/simple;
-	bh=1PFlaG0ecz4A0TRgIF7F08DP139nGBd6n5zmGJQVjVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFhc5+ZTqXJx93fG0YdmqR+k/YLI8bdye1o7ghwUeI1EXgjioZnFbJCmFa/D0V8fv4y65gYwJWUiJ1sOe1j432a7+7kM2eYrwA1yRTBSq0QtT1iPfxP2W1od1CBJ+Vl2ATTpp1oNQJPhyUsqf6XO0ah3llM7nDIKeDRQKsaI6aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1wrJk3E; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE8B3A8DF;
+	Fri,  1 Mar 2024 04:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.15.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709265690; cv=fail; b=TSCnUbXBp1lxr93PmX/TLE+IrIhBz+btM8dAwpiTLoBKLEAwkmcQ6Bo0lYbPQxAzWBY7JS2/Kujupa8Pf8jDehbYxnuIrWIZ1TNRqU4YiUOI1DSrufoozNX01mrkfetQDPgORbl88+w+612ZZjGJTuGLgw7ok/HQWc9FCy2nLDM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709265690; c=relaxed/simple;
+	bh=ehBvNpcHAb9Snh3k6X50gkPyv/feHt0UEfqPSHuXCfQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=B9e1UoNiNUT+Ueu8Ob16wfulPO8SCLLGI/GHvGHMLD6vtIDb1yHfOUu7sIpWTF9YrENVRkPf9MVRXhEmZN5VtwktMa0j7hsUbGaYQhzeIRX9CgQteNOSybNDBjqZE233bFLfW8/aSpOnNJ2JFSev+c9xAk2NHf05M26GmPCEznY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=m1bXZYZ1; arc=fail smtp.client-ip=40.107.15.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1wrJk3E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E74C433C7;
-	Thu, 29 Feb 2024 21:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709240436;
-	bh=1PFlaG0ecz4A0TRgIF7F08DP139nGBd6n5zmGJQVjVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p1wrJk3E0khFbxj8mmCW8AfReYQ3wrywIMSTfSVxWRjT+bCDq+plJzDBikxSEjt2/
-	 icsX7gTHw6EGyQ+HDbH1mXVmb77QB3PK8I5Xitn2VBkmYaF3Lnuh9MQlPm2BcH0UkC
-	 1PbSvKjpdDLvI6owmZfvlOwtUabm90xFCw+SiFsbdI/yyakz+na151M9bmILxQ4up/
-	 JfiLEWQlPTilDTUnunzKrVavsi8XEW5OitOpkHX7hG5PZloc4lgSS3mitfL55Yd63Q
-	 ePk9hQIfqAiu1GLKsBjACZJ43E1uhafeQ1rH57FdbdnJl4WY4+4O3ute6zXNRWq2KP
-	 zTDfDTYKASkWg==
-Date: Thu, 29 Feb 2024 14:00:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 05/24] ALSA: hwdep: Use guard() for locking
-Message-ID: <20240229210034.GA185642@dev-arch.thelio-3990X>
-References: <20240227085306.9764-1-tiwai@suse.de>
- <20240227085306.9764-6-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="m1bXZYZ1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E3awuD3cPg2t1xX2SKil2nhQ2dQ9XDYagh3Mm+vpohAu4wIxJBk9qjmLzk6azetQqP+NXSlx4TE3wEV8xAajJ/PehcGI++0tWxdH9U63X55OxkHP1n56Pr95BbZwgqKK9Rvj6L/OtHP1yWO7JEqChuQSBgWU2PYIZPHIygE1padDYZhg7KCo28P620flDqnYOYOPVEu/+dTg91PESJvOIJutlZheJEr+r0gPLFoCOxtCm2z6X4JD8Me4D+oZVvR5KcPeAYx1LERBjtyyoHT6YxnSD8SqvxXpgdVYpDrvBzcgsjTnZ5aSMFcItBXq6M4SCUJG+dcvxLPZLkIClSwqRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nNoCP6R4xV3oectVVo/ZxNlN1+GolbnpV0xxtyLKoZo=;
+ b=lPlqKaciHj8AZr2EQX0oTWapmHez2MUyQ94aLj9dZFAHbivNUig/GBpm+tbhKzUJD80Fr47vBpq4I3BkszaNGttgLsuFaSGZqZjHIfQ4Rr2NqqSFplpZ6Pca7EkBI4S7FeR9uDOBa9BRGNfcU+EVd9W9CQRIr8ueJpsyNCSGlNo1nxmt1gusXw3Cb/gSBZWXgyOAeXoHUFjlyzA3dP2UN4QCGKZR+2+d7mXS4v/NXHVAstiL9K1QFeNyJemexPGMmGMuKbcJjrasDUEEA6yhcOSUyKU21/hEtomnL9UWa3UVyZ8sPZO+HjDdEfsDlh0gIWdUHJ7Fvh6G7ZDLB1ETWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNoCP6R4xV3oectVVo/ZxNlN1+GolbnpV0xxtyLKoZo=;
+ b=m1bXZYZ1TQG76s0pdSmE7ej1lwwTR8zdRvDFa6VDO/cVBlvZZEJlfSZtqmnZhgDlzK9ByXr9xmJ+Tlen+brlMPEPEk2jlRt1g91ThTkW0FghtbaVRq8viZsavxbRS6lbUjmK9CcRazGYzTj7GE825ZOAmX51rwnngvXbpuZbG+w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by PA4PR04MB7967.eurprd04.prod.outlook.com (2603:10a6:102:b8::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.37; Fri, 1 Mar
+ 2024 04:01:26 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa%7]) with mapi id 15.20.7316.035; Fri, 1 Mar 2024
+ 04:01:26 +0000
+Date: Thu, 29 Feb 2024 23:01:17 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: fsl,imx-asrc/spdif: Add
+ power-domains requirement
+Message-ID: <ZeFTDSuLEeYrsbKi@lizhi-Precision-Tower-5810>
+References: <20240228-asrc_8qxp-v3-0-d4d5935fd3aa@nxp.com>
+ <20240228-asrc_8qxp-v3-1-d4d5935fd3aa@nxp.com>
+ <f8ce39e9-7f06-49e7-92fa-785bd1cd2d1e@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f8ce39e9-7f06-49e7-92fa-785bd1cd2d1e@linaro.org>
+X-ClientProxiedBy: BYAPR11CA0100.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::41) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227085306.9764-6-tiwai@suse.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA4PR04MB7967:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf39a693-19a7-4acd-5fa1-08dc39a44423
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	/yDoACUeXqtvhq9aOG23Uln2mYZKoM2L+s6MHoB8a4zntEH7csijqXSYXXO7Y7T47hlVvpHx9ev5PgR354Bnh55YI/0W3uEonbgCzp3lCqTQuhacvQeJI+oyMXGQWDoLCWP2qEoIcyfRIzWmzV5CQ5QEcevAUDb8BQuXvqAVjMdgNe9AXhBkvw3hEA8GYmbfLxBlDl/FVdd858x8aLX/4bN3TGAmTPD+hcLEVd4AJ7UetE1v420UBfqqGSd2K6whmAtyR5Vs9qPY0IYVE73NHieXTUR3hj1nYeCb615CGL5yEIvg4gjuOZ1CSzNJlJeBpOAkTT3g3iBc7JAQoRvIb8+AbVGsHB7N1lMVeYqZuGqSkT+mLt9H6lKlwXZXYVICM/CVbqW22rNw6tqCCFptyninj7//8kaPtTPdJ1TF5JLFUVbbL8qwpt3XNrgO5NXw0aGDnoo1d28y8ZJpQ/Hd6sc0/tOUwLMPkTiI1dFvQtJqU+X/2/bGyuIqznnhavOcvnN3gMpco9r7p208ftGIw2CeMv59CNx6cl4aP0xLDQVxRC7fJI+UxDUVjg8s3Bnx3kKHUYx8SQtqPSbDTLBeSlcruE4Oolo6aeoktuDkSXlxeEmlblkqGyb6IAi9t5IYQaTDZukfPTwewjbU3EMd66ghqOFNlK8QoLlTB7jt5q9+Juu/HsAl0XhpfCOAEo/FaiFq2ygzMPfu995Ui8JA4PfN6k8CZiBjtfRMZ3+AtIk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NT87iSE9hD91En93ryjJXhUU7OBxfvQ5zRc/2CF5NgAjVOsGJvS66Gu/a8rd?=
+ =?us-ascii?Q?OTrqjT/ki47eQCVKDRIrS4eDZm4f4wj2hT/+aPjjbHzosy0ehaq/AW+se+Ug?=
+ =?us-ascii?Q?GsBTpciv0PIwB3jqx0LKbZ75eEvyKtNLtc/Qa6et4DAdhnrW8kZUCeKcmveH?=
+ =?us-ascii?Q?g50ThgR5FCUaWsrN6bRBSq0uTsHt0j01BQTKWuMIgQp3axd3GDVx9EohJbGH?=
+ =?us-ascii?Q?SJddFf+u7JMb5Dg/oSaye7MpEXV2nH+isEPh28fxElK5Gw/bvxMDuUpGAcFO?=
+ =?us-ascii?Q?yvnpMLQPeu9Uor96A8kovGxEsJkCfP8yGP6qwoJgMNhQF2aKSTQxO3d/zQqE?=
+ =?us-ascii?Q?Z3CNoa+taaa+9uoOiLl3wNGrxsb05MOSHcFTjwvnlLT32FLzktKDnHQUZOgv?=
+ =?us-ascii?Q?VjezcqiqwHmrmt91svrpiGkzzwxc+phhqFFGlqeLdW3Bg25B5Gaycu9Tn0lk?=
+ =?us-ascii?Q?v/uwlrE2D7Pam11BuOnyfR03KRLc4f17u2ivYUNqIiOUDXgH556EPdt8UFtL?=
+ =?us-ascii?Q?1A63qnwsCR2UN6NxBGrz7q/+zjRTQ6QivVivgDsFiCkmXxv9f2Pi8oA1ElEQ?=
+ =?us-ascii?Q?E9WubzzXua5MqngplmCY+sgwz0oRr9AmVB4a7xh7I+PDpIkVIJhx2+ZF+mYk?=
+ =?us-ascii?Q?U2XKXdXI5oIp1NmkvGerBhNfimi+Tsy7TKHd87u9ZWISQwOfPai+BiVSe3aD?=
+ =?us-ascii?Q?VzpxnIcI61WILv1Sc1G8cfiRXregUCyhJCl9oTHx1hkC30tNEH7jXd9k7g79?=
+ =?us-ascii?Q?4gSd/Av7NjD3rxK8kepjr+yqdAplgepn3v0BT1FF7xp/0CgvBUvpkKYOGJ/5?=
+ =?us-ascii?Q?I8N79KCjXV133rCeW8TJjloNQUR98j1K5a2JhFK7M+a5SZ9lXoNKX090fLrM?=
+ =?us-ascii?Q?dhrXYvVNZLtRjgUFhE0fazdHfSQxLzu3VuTzsMjzn9tcW/iVlB8zXZ5f+kTn?=
+ =?us-ascii?Q?OhyTV5pEU41W6RSqaIH+IXz1NRZvawdv11zkcKRlDmN3XQijVvDDr3NRSfGU?=
+ =?us-ascii?Q?kxP/GR7xFky78Avu4lr0qmdbpJza/pwa7nxNRJ0lArxM9QiLBNLEmHvl7Ue3?=
+ =?us-ascii?Q?I2AZeLgOP1/oyrIsTtnPWCNJ5BEF5phgYsOmNp1kRVarwkBwZ96xEkXQ2+pX?=
+ =?us-ascii?Q?J2QyI+A4BzqxfbzuglwSCPVITpQfgiFkJM/MKQjlZ2Ir/FwfMyi432Ngl5ZH?=
+ =?us-ascii?Q?I0lBEFPQGHi4elLKiBY+ahBvZJuL0dastipmXeXONeV1CMyz7PPn556Am4I1?=
+ =?us-ascii?Q?+2khJxNMWYfZpokXXY4pNpg+UMhxvZD/gkCfkmZqI3i+1y9eQQJy0TpzNCDU?=
+ =?us-ascii?Q?n3K8EBEQcSS7lZsDkHPLRfpBxps3GEE7gwGj53yolMovvzN7bNYDJaMT8ecz?=
+ =?us-ascii?Q?0eLj8upD7EIgWNJllsHs9rrO5A/NFIdgovBJK7UEQmS04vGial51wjKsAtPo?=
+ =?us-ascii?Q?FM9Rvt2U0HUJczQlL9j4+jgG4LJXUZz4/9sMsBrdMIZM43SJC0Fc5T/TDTtm?=
+ =?us-ascii?Q?gZhRUwJtuqUa1WvLG1FuAia8qrJh4ExJDhx+kNxQTeePSK4fodqHO6mMev9G?=
+ =?us-ascii?Q?sB2l97jxVG+POdR6KRg=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf39a693-19a7-4acd-5fa1-08dc39a44423
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2024 04:01:26.1568
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JD/GqnHQEMFpnyeqiWJmfixhUZppgbuManWLUkaRqEv911SQvjKFk3ztYB2SACVwWhm3J07RRnAM1ftawlvCzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7967
 
-Hi Takashi,
-
-On Tue, Feb 27, 2024 at 09:52:47AM +0100, Takashi Iwai wrote:
-> We can simplify the code gracefully with new guard() macro and co for
-> automatic cleanup of locks.
+On Thu, Feb 29, 2024 at 10:44:20AM +0100, Krzysztof Kozlowski wrote:
+> On 28/02/2024 20:14, Frank Li wrote:
+> > Add power-domains property for asrc and spdif.
 > 
-> There are still a few remaining explicit mutex_lock/unlock calls, and
-> those are for the places where we do temporary unlock/relock, which
-> doesn't fit well with the guard(), so far.
+> Why?
+
+i.MX8QXP i.MX8DXL and i.MX8QM need it.
+
 > 
-> Only the code refactoring, and no functional changes.
+> You keep adding this all over the tree without explanations. Why
+> suddenly old hardware became part of power domain?
+
+This part upstreamed earlier than dts part. Because dependency eDMAv3 have
+not upstreamed for the long time. I just upstreamed eDMAv3 support
+recently. So I can start upstream dts part. So I find binding doc missed it
+when do dtb_check.
+
+Frank
+
 > 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/core/hwdep.c | 85 +++++++++++++++++++++-------------------------
->  1 file changed, 38 insertions(+), 47 deletions(-)
+> Best regards,
+> Krzysztof
 > 
-> diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
-> index de7476034f2c..9d7e5039c893 100644
-> --- a/sound/core/hwdep.c
-> +++ b/sound/core/hwdep.c
-> @@ -149,12 +149,12 @@ static int snd_hwdep_release(struct inode *inode, struct file * file)
->  	struct snd_hwdep *hw = file->private_data;
->  	struct module *mod = hw->card->module;
->  
-> -	mutex_lock(&hw->open_mutex);
-> -	if (hw->ops.release)
-> -		err = hw->ops.release(hw, file);
-> -	if (hw->used > 0)
-> -		hw->used--;
-> -	mutex_unlock(&hw->open_mutex);
-> +	scoped_guard(mutex, &hw->open_mutex) {
-> +		if (hw->ops.release)
-> +			err = hw->ops.release(hw, file);
-> +		if (hw->used > 0)
-> +			hw->used--;
-> +	}
->  	wake_up(&hw->open_wait);
->  
->  	snd_card_file_remove(hw->card, file);
-> @@ -272,43 +272,43 @@ static int snd_hwdep_control_ioctl(struct snd_card *card,
->  
->  			if (get_user(device, (int __user *)arg))
->  				return -EFAULT;
-> -			mutex_lock(&register_mutex);
->  
-> -			if (device < 0)
-> -				device = 0;
-> -			else if (device < SNDRV_MINOR_HWDEPS)
-> -				device++;
-> -			else
-> -				device = SNDRV_MINOR_HWDEPS;
-> +			scoped_guard(mutex, &register_mutex) {
-> +				if (device < 0)
-> +					device = 0;
-> +				else if (device < SNDRV_MINOR_HWDEPS)
-> +					device++;
-> +				else
-> +					device = SNDRV_MINOR_HWDEPS;
->  
-> -			while (device < SNDRV_MINOR_HWDEPS) {
-> -				if (snd_hwdep_search(card, device))
-> -					break;
-> -				device++;
-> +				while (device < SNDRV_MINOR_HWDEPS) {
-> +					if (snd_hwdep_search(card, device))
-> +						break;
-> +					device++;
-> +				}
-> +				if (device >= SNDRV_MINOR_HWDEPS)
-> +					device = -1;
-> +				if (put_user(device, (int __user *)arg))
-> +					return -EFAULT;
-> +				return 0;
->  			}
-> -			if (device >= SNDRV_MINOR_HWDEPS)
-> -				device = -1;
-> -			mutex_unlock(&register_mutex);
-> -			if (put_user(device, (int __user *)arg))
-> -				return -EFAULT;
-> -			return 0;
-> +			break;
->  		}
-
-Due to a bug in clang that was resolved in clang-17 [1], clang-13
-through clang-16 fail to build this file for ARCH=powerpc after this
-change in -next as commit e6684d08cc19 ("ALSA: hwdep: Use guard() for
-locking"):
-
-  sound/core/hwdep.c:291:9: error: cannot jump from this asm goto statement to one of its possible targets
-                                  if (put_user(device, (int __user *)arg))
-                                      ^
-  arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
-                    __put_user(x, _pu_addr) : -EFAULT;                    \
-                    ^
-  arch/powerpc/include/asm/uaccess.h:48:3: note: expanded from macro '__put_user'
-                  __put_user_size_goto(__pu_val, __pu_addr, __pu_size, __pu_failed);      \
-                  ^
-  arch/powerpc/include/asm/uaccess.h:116:10: note: expanded from macro '__put_user_size_goto'
-          case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
-                  ^
-  arch/powerpc/include/asm/uaccess.h:86:2: note: expanded from macro '__put_user_asm_goto'
-          asm goto(                                       \
-          ^
-  sound/core/hwdep.c:273:8: note: possible target of asm goto statement
-                          if (get_user(device, (int __user *)arg))
-                              ^
-  arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
-                    __get_user(x, _gu_addr) :                             \
-                    ^
-  arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
-          __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
-          ^
-  arch/powerpc/include/asm/uaccess.h:201:16: note: expanded from macro '__get_user_size_allowed'
-                  break;                                                  \
-                                                                          ^
-  sound/core/hwdep.c:276:4: note: jump exits scope of variable with __attribute__((cleanup))
-                          scoped_guard(mutex, &register_mutex) {
-                          ^
-  include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
-          for (CLASS(_name, scope)(args),                                 \
-                            ^
-  sound/core/hwdep.c:273:8: error: cannot jump from this asm goto statement to one of its possible targets
-                          if (get_user(device, (int __user *)arg))
-                              ^
-  arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
-                    __get_user(x, _gu_addr) :                             \
-                    ^
-  arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
-          __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
-          ^
-  arch/powerpc/include/asm/uaccess.h:199:3: note: expanded from macro '__get_user_size_allowed'
-                  __get_user_size_goto(x, ptr, size, __gus_failed);       \
-                  ^
-  arch/powerpc/include/asm/uaccess.h:187:10: note: expanded from macro '__get_user_size_goto'
-          case 1: __get_user_asm_goto(x, (u8 __user *)ptr, label, "lbz"); break;  \
-                  ^
-  arch/powerpc/include/asm/uaccess.h:158:2: note: expanded from macro '__get_user_asm_goto'
-          asm_goto_output(                                        \
-          ^
-  include/linux/compiler_types.h:380:31: note: expanded from macro 'asm_goto_output'
-  #define asm_goto_output(x...) asm volatile goto(x)
-                                ^
-  sound/core/hwdep.c:291:9: note: possible target of asm goto statement
-                                  if (put_user(device, (int __user *)arg))
-                                      ^
-  arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
-                    __put_user(x, _pu_addr) : -EFAULT;                    \
-                    ^
-  arch/powerpc/include/asm/uaccess.h:52:9: note: expanded from macro '__put_user'
-                                                                  \
-                                                                  ^
-  sound/core/hwdep.c:276:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
-                          scoped_guard(mutex, &register_mutex) {
-                          ^
-  include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
-          for (CLASS(_name, scope)(args),                                 \
-                            ^
-  2 errors generated.
-
-However, looking at the original change, could this be avoided/worked
-around by just moving the put_user() call out of the scoped_guard()?
-The put_user() call was not originally under register_mutex, so it seems
-like this would work? As I understand it, mutex_unlock() will be called
-once the scope of the guard is left. I am happy to send a formal patch.
-
-[1]: https://github.com/ClangBuiltLinux/linux/issues/1886
-
-diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
-index 9d7e5039c893..09200df2932c 100644
---- a/sound/core/hwdep.c
-+++ b/sound/core/hwdep.c
-@@ -288,11 +288,10 @@ static int snd_hwdep_control_ioctl(struct snd_card *card,
- 				}
- 				if (device >= SNDRV_MINOR_HWDEPS)
- 					device = -1;
--				if (put_user(device, (int __user *)arg))
--					return -EFAULT;
--				return 0;
- 			}
--			break;
-+			if (put_user(device, (int __user *)arg))
-+				return -EFAULT;
-+			return 0;
- 		}
- 	case SNDRV_CTL_IOCTL_HWDEP_INFO:
- 		{
