@@ -1,161 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5108259B;
-	Fri,  1 Mar 2024 17:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E495611C88;
+	Fri,  1 Mar 2024 17:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709312833; cv=none; b=JBc4IYK37bA6OsxXJbVBKrEJC/KliTuqHcQQNm5N+v2tthntPHBGTs89SAeGwWpySc5GWviMFZxpcTcWvPLI2V23xU8dkMM/DkCOaonSqXyRGh/wErqvOw7XlnuVezy5d1XMp4f9nf3KkXEvScRj8Rj3H2wqLziYperLOiERKN4=
+	t=1709312921; cv=none; b=GysUagc4/4A2AOndBM6mYRMTjhD9dqKrUC+qvfNFf5I9+dWvmBd1jHu0KctbJ7RLcvZeLomG8TDXmoz9SbLjFfcLQgqQfOX6pjCNaHtfz7h2gQ77Hla7NewfYCtCilmvnBGm56R3pri3JAhddHAU+uhArTTiPo5X5OQr25fSA6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709312833; c=relaxed/simple;
-	bh=rykT00e9RnV6xM7py0pfTSN+OEy9OLvHdbWKnJFpStA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qEz9CZyyF1Ff9AvVGP4WxGe4vY16VK2Qw91bfCRWK5Fzt8GGVRhekqYee3EZj6zkVOYHQZ0q6GZJXs0/0jIwuetyjDrmzf+FbkuwUELzK2NGj/7E8vp8FrnXiss8mOJJmXvXYdtFw4JGdchWZq0h0KNmh2I6IwPpPzXuduc5hpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o79NRdtq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709312921; c=relaxed/simple;
+	bh=eTObds2izYL4TPcl0aSAxiIVWF2HUMm+ABcCamdSz2U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ty2tI1TbZ77exZEvM4WIrO6K466zTB+vggaJcleI1vk8TOIaRUuhK2wLR+heMYjXpzX12ZUi9tJwXfMh744sozUz2eCS+jCydX9rooe9dPBbpZ7gxcoZzHDQj2DYFtZIF6fCl9DMq768eUg0NuqpPQHsJzubvyBf3FeshLcvZSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MmOFGptM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o79NRdtq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F3FC433C7;
-	Fri,  1 Mar 2024 17:07:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MmOFGptM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5046C433F1;
+	Fri,  1 Mar 2024 17:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709312833;
-	bh=rykT00e9RnV6xM7py0pfTSN+OEy9OLvHdbWKnJFpStA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o79NRdtq9bnUSEFuF4Du6Ce8be3X47MSFGfJJNzs56mnVYLPYxQiBGiXr1huhMbNE
-	 kg2dvmcCHxih7O+06875vfQwdNGSxLpawql30wk4YhOc2xYqW5aaQ92GjGdSfr2qvZ
-	 dRO8zWESf++QVH+HN/32QC+23RiTm5t3dBYfNAd9xacDfrQMv2sz1xYEoSla4j80Cm
-	 M3SmxxeT8WTryqGBobvVx4jOUgu3JQc7Qoq6fPDxc2wi8g6D9rIxz0LHmKP9naKeeE
-	 Au+jvNRTKsDC+o49XFE6S4cROK3wkgZY18iw8mUdD/oUSAK1ZzyuoJUafeLo/25vJ6
-	 NgiP3JyZCul3Q==
-Date: Fri, 1 Mar 2024 17:07:07 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] ASoC: dt-bindings: fsl-sai: allow only one
- dma-names
-Message-ID: <20240301-deluxe-tiptoeing-741af7d620b9@spud>
-References: <20240227-asrc_8qxp-v2-0-521bcc7eb1c0@nxp.com>
- <20240227-asrc_8qxp-v2-3-521bcc7eb1c0@nxp.com>
- <20240229-husband-penalty-8c1ab0f57f55@spud>
- <20240229-rundown-isotope-954ba9ea4c57@spud>
- <ZeDdMJlxBL4SGkws@lizhi-Precision-Tower-5810>
- <20240301-crudeness-resale-3c0a1228850d@spud>
- <ZeIGXEJ3l4tgjmxT@lizhi-Precision-Tower-5810>
+	s=k20201202; t=1709312920;
+	bh=eTObds2izYL4TPcl0aSAxiIVWF2HUMm+ABcCamdSz2U=;
+	h=From:Date:Subject:To:Cc:From;
+	b=MmOFGptM98VwC/lfX32kORpJFt12Yhq6FQsLxc/wG2wrapC77ddBWkfsULCT9EBOY
+	 uqnNLrI085BfLuVCWhPUrcAY/aTDYpTfoiOQg1h28Vfg3Ksx/9JOC+80ns8VYenqpe
+	 HcjIQSRcDc8CO2lSerJdaiWObWl4a7T9ZBk9nPGud/ohaA9Pfxfsi4LwLYEi9IPBp5
+	 0Ht2TSUURux+87OXMABbY2ZeGkHIKe4Z0V6uI7x51ee5qHBX4kPkUyoZqpGZC6fKWK
+	 1bmGCaX8YhjKsfJPQsQ2/YdggxpvZcRNppm43YEDsgBe0f8rM/YkIwjXVkrL1mq8vl
+	 RUBxk/idEcDKA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 01 Mar 2024 10:08:22 -0700
+Subject: [PATCH] ALSA: hwdep: Move put_user() call out of scoped_guard() in
+ snd_hwdep_control_ioctl()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6B1Z/Uo6ygJQ4MXY"
-Content-Disposition: inline
-In-Reply-To: <ZeIGXEJ3l4tgjmxT@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240301-fix-snd-hwdep-guard-v1-1-6aab033f3f83@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIUL4mUC/x2MywqAIBAAf0X23IJa0eNXooPlWnsxUXpA+O9Jx
+ 4GZeSFRZEowihciXZz48AVUJWDdjd8I2RYGLXUja6nQ8YPJW9xvSwG300SLZhkc9W1XK+OglCF
+ S0f7rNOf8AT4FjHJlAAAA
+To: perex@perex.cz, tiwai@suse.com
+Cc: ndesaulniers@google.com, morbo@google.com, justinstitt@google.com, 
+ linux-sound@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4165; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=eTObds2izYL4TPcl0aSAxiIVWF2HUMm+ABcCamdSz2U=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDKmPuKdXSPZYPNPaNVEkJeNQYLOPb9etoL1qziEvFdlMN
+ u+/cdKuo5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAEzk2XFGhieaJS8Tosq0xNed
+ cPb6/G/hhuL1/mdC+Qu7hZIsAsovPGL4w5Wy/8L5mPod6SxP3OY8y+1NbK8QU34jWTD16elpwh8
+ FWQE=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
+Clang prior to 17.0.0 has a bug in its asm goto jump scope analysis to
+determine that no variables with the cleanup attribute are skipped by an
+indirect jump. Instead of only checking the scope of each label that is
+a possible target of each asm goto statement, it checks the scope of
+every label, which can cause an error when a variable with the cleanup
+attribute is used between two asm goto statements with different scopes,
+even if they have completely different label targets:
 
---6B1Z/Uo6ygJQ4MXY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  sound/core/hwdep.c:273:8: error: cannot jump from this asm goto statement to one of its possible targets
+                          if (get_user(device, (int __user *)arg))
+                              ^
+  arch/powerpc/include/asm/uaccess.h:295:5: note: expanded from macro 'get_user'
+                    __get_user(x, _gu_addr) :                             \
+                    ^
+  arch/powerpc/include/asm/uaccess.h:283:2: note: expanded from macro '__get_user'
+          __get_user_size_allowed(__gu_val, __gu_addr, __gu_size, __gu_err);      \
+          ^
+  arch/powerpc/include/asm/uaccess.h:199:3: note: expanded from macro '__get_user_size_allowed'
+                  __get_user_size_goto(x, ptr, size, __gus_failed);       \
+                  ^
+  arch/powerpc/include/asm/uaccess.h:187:10: note: expanded from macro '__get_user_size_goto'
+          case 1: __get_user_asm_goto(x, (u8 __user *)ptr, label, "lbz"); break;  \
+                  ^
+  arch/powerpc/include/asm/uaccess.h:158:2: note: expanded from macro '__get_user_asm_goto'
+          asm_volatile_goto(                                      \
+          ^
+  include/linux/compiler_types.h:366:33: note: expanded from macro 'asm_volatile_goto'
+  #define asm_volatile_goto(x...) asm goto(x)
+                                  ^
+  sound/core/hwdep.c:291:9: note: possible target of asm goto statement
+                                  if (put_user(device, (int __user *)arg))
+                                      ^
+  arch/powerpc/include/asm/uaccess.h:66:5: note: expanded from macro 'put_user'
+                    __put_user(x, _pu_addr) : -EFAULT;                    \
+                    ^
+  arch/powerpc/include/asm/uaccess.h:52:9: note: expanded from macro '__put_user'
+                                                                  \
+                                                                  ^
+  sound/core/hwdep.c:276:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+                          scoped_guard(mutex, &register_mutex) {
+                          ^
+  include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
+          for (CLASS(_name, scope)(args),                                 \
 
-On Fri, Mar 01, 2024 at 11:46:20AM -0500, Frank Li wrote:
-> On Fri, Mar 01, 2024 at 04:05:25PM +0000, Conor Dooley wrote:
-> > On Thu, Feb 29, 2024 at 02:38:24PM -0500, Frank Li wrote:
-> > > On Thu, Feb 29, 2024 at 06:57:29PM +0000, Conor Dooley wrote:
-> > > > On Thu, Feb 29, 2024 at 06:55:58PM +0000, Conor Dooley wrote:
-> > > > > On Tue, Feb 27, 2024 at 03:54:11PM -0500, Frank Li wrote:
-> > > > > > Some sai only connect one direction. So allow only "rx" or "tx"=
- for
-> > > > > > dma-names.
-> > > > >=20
-> > > > > Which sai? Can you restrict this per compatible please, so that s=
-omeone
-> > > > > cannot add 2 dmas for ones where only the tx is supported.
-> > > > >=20
-> > > > > |  dmas:
-> > > > > |    minItems: 1
-> > > > > |    items:
-> > > > > |      - description: DMA controller phandle and request line for=
- RX
-> > > > > |      - description: DMA controller phandle and request line for=
- TX
-> > > > >=20
-> > > > > The binding already allows only one, but it documents that the fi=
-rst dma
-> > > > > is always the RX dma, and that doesn't change with this patch..
-> > > >=20
-> > > > I said "doesn't change" - but I don't think you can change this
-> > > > trivially, as something could rely on the first dma being the rx on=
-e.
-> > > > You'd have to check that there is nothing using these using indices
-> > > > rather than names before making any changes here.
-> > >=20
-> > > Linux driver and dts with tx only work well. Only issue is dtb_check =
-will
-> > > report error. I want to eliminate these DTB_CHECK warning.
-> >=20
-> > Linux is not the only user of these bindings, citing linux as your
-> > evidence here is only sufficient if no other users exist. Do they?
->=20
-> But, 'dmas' should be common property for all these bindings? I don't thi=
-nk
-> they use 'descriptions:' property, which should guide dts writer to write
-> dts file. actually words 'DMA controller phandle and request line' just
-> nonsense words. let 'regs', it'd better descript at 'reg-names' instead
-> of 'regs' if reg-names exist. Only meansful words is "RX" and "TX", which
-> already show at "dma-names".
+To avoid this issue, move the put_user() call out of the scoped_guard()
+scope, which allows the asm goto scope analysis to see that the variable
+with the cleanup attribute will never be skipped by the asm goto
+statements.
 
-None of this matters. If there's a documented order for these, which
-there is, software is not obligated to use the names and can rely on the
-order alone. You need to check that there are no other users which will
-be broken by your proposed change.
+There should be no functional change because prior to the refactoring,
+put_user() was not called under register_mutex, so this call does not
+even need to be in the scoped_guard() in the first place.
 
-> > > And it also reasonable, only rx or tx for a special SAI.
-> > >=20
-> > > Can we remove 'description'? dmas should already descripted at common=
- place
-> > > and 'RX' and 'TX' are listed at 'dma-names'
-> >=20
-> > Removing the description has the same problem. The existing binding has
-> > set a fixed order that you now want to make flexible.
->=20
-> Actually original set minItems: is 1, which means allow 1 channel. but
-> set items to force two channel.=20
->=20
-> Does it work
->=20
-> oneOf:
->   items:=20
->   	- description: TX
-> 	- description: RX
->   items:
-> 	- description: TX
->   items:
-> 	- description: RX
->=20
-> >=20
-> > Thanks,
-> > Conor.
->=20
->=20
+Fixes: e6684d08cc19 ("ALSA: hwdep: Use guard() for locking")
+Closes: https://github.com/ClangBuiltLinux/linux/issues/2003
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ sound/core/hwdep.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
---6B1Z/Uo6ygJQ4MXY
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
+index 9d7e5039c893..09200df2932c 100644
+--- a/sound/core/hwdep.c
++++ b/sound/core/hwdep.c
+@@ -288,11 +288,10 @@ static int snd_hwdep_control_ioctl(struct snd_card *card,
+ 				}
+ 				if (device >= SNDRV_MINOR_HWDEPS)
+ 					device = -1;
+-				if (put_user(device, (int __user *)arg))
+-					return -EFAULT;
+-				return 0;
+ 			}
+-			break;
++			if (put_user(device, (int __user *)arg))
++				return -EFAULT;
++			return 0;
+ 		}
+ 	case SNDRV_CTL_IOCTL_HWDEP_INFO:
+ 		{
 
------BEGIN PGP SIGNATURE-----
+---
+base-commit: 7dba48a474e68dcdda2b212cea131b4c9ddc7d89
+change-id: 20240301-fix-snd-hwdep-guard-ab9fe85731af
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeILOwAKCRB4tDGHoIJi
-0vPRAQD30nLmqvnQSjER93Ue59P+ueynbOrDKfMBE0R2y7D7TAD+NnAAqA7ycgcG
-24A0m2khdUZJAoZ7TGqfgOL5wSHiMww=
-=Mxzk
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
---6B1Z/Uo6ygJQ4MXY--
