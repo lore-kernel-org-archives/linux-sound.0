@@ -1,63 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D409A3D0AB;
-	Fri,  1 Mar 2024 20:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2958ACC;
+	Fri,  1 Mar 2024 21:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709324247; cv=none; b=W514p44bXtzJK63eNP9JOb01bcDY0mBojpmJ9Ad7Jgbroe72p3m6IvOW6+hyS9u4/RvjFiy02RDyw5PTfyfKjt0dDFlMxr8syQYOItToms85i/CniVrqzkJTDmno0az83JMpTC07UKq+5UMzO/aW3ZOZ9sFeMUmIx9ErCM4AsmI=
+	t=1709328975; cv=none; b=DUhuXVSbIkInrZIJHd8i1yZf8OyKF85uxGhjL7acscqdfIcaNXyd0iu9HuZVst6gjbA89XegWUfgq6EpEkGcNTZV1uTXWodd0i3tYvm6AGzJeKsxa4LOebpzUmNSb7l1f2shVmX1+GWtY5atwkp/bhv0+4IvosaZrR68E7SEjus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709324247; c=relaxed/simple;
-	bh=u66KCKZlxVizY/XMuPbTaejzZ/ZmbtwKzO1HReQDr5I=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ZxfLMyNeyD5kJUCHd2+wajf3hg93RvskQWmdVIPJBitT3OG92u83nZ08XcbLuj91hHIPnHZ4rXOWd9A8fuKxlqPtyafubJZy5ytaqck9WB+9bpvrDwKn10Dszq6ScaReOZcoFD8P2bMtx/2JJxMRQPrHfSzYjV3ySak1j5aKQJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVkCU4D5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709328975; c=relaxed/simple;
+	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+r6yp4fHvHLlJL9/ItVyMBOIVY5JkiDalmmrWREyDr1RFKqEVuZhV3M6yQ1ak4ETX29pbv7zXgpwI+nW8LtgjE+HVY3g1FZVOcVfIg0JKZ4Odm6AZvXF2ZbIoDNH/Oe0ax5XgtS80BllFMV9cIBmRkNWymbSIUKcF6hmubqADo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYLz/Zns; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVkCU4D5"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5DCBAC43601;
-	Fri,  1 Mar 2024 20:17:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYLz/Zns"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B04C43390;
+	Fri,  1 Mar 2024 21:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709324247;
-	bh=u66KCKZlxVizY/XMuPbTaejzZ/ZmbtwKzO1HReQDr5I=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=dVkCU4D5/loaOYSA3QBxoHRwN5xIaoDSPTm1KmLkzsC4NwDML5AZYz2HzNsjmKOie
-	 0LAKGWGUxGj0X3gnpu/zSC6MNf+Tyzfh73g8k3vhiV546PoIDPzInSYegYwIUV4Ybx
-	 y2A0anoeiZQL3T6MZFIGZDgWfhe2nk/JXYI6B38dixuLjfAPhUF3hgQljNeDmX1q73
-	 2uYRZAHrkfHBSgz8jO3rmlCLeEPHjVQ4qsra66s22HIrposrK7BIh7MSbMM/bQ7zGR
-	 pB5BFIeSxJLrTCFww5W4NMpzjRo4s2bAIebJVDmsXReQY/1Ubs7ZdOpjfRbHpFywr5
-	 HaQT8QqIWXF8w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 434FBD84BBA;
-	Fri,  1 Mar 2024 20:17:27 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.8-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87h6hq5jd0.wl-tiwai@suse.de>
-References: <87h6hq5jd0.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87h6hq5jd0.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc7
-X-PR-Tracked-Commit-Id: 17c6a0c986fbea2c09010c39ef4b44334f06e390
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fbf9e3b6978bbd350f2a4c81e112431610dd065c
-Message-Id: <170932424726.25962.2013727115675520845.pr-tracker-bot@kernel.org>
-Date: Fri, 01 Mar 2024 20:17:27 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1709328975;
+	bh=nNI1GFWV3VF+KBWjXYmR+1rViSk5YziUkARe0UzaTHE=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=LYLz/ZnsEinauRuxr4yV1WGVUfRs0tq+0Tot9DU/uKbQeZEb5lw4RA2Iq7/yIdUiP
+	 HjrK8XFtaLipJS4P/sVNBh66ZbrHvC28PgCrPyYNECKUsXSLfi5Qx9R6gPD0+4WrEm
+	 wKl9ye33lOMRO+aG0nBrEhWD/w0W5Id3KMsrQaLHWfdlBkl9ZlGqCsOc8sva+/IAgP
+	 3s87FI+Omy163728oQT2rlDJp922OEJjzBzAeR6h52xiWMuOd8QtlKwoCqg6arKNul
+	 kfy4rLGXQ+QAB3qKDZNsV41rWFgr7QK4b2Q5Ercvxnlp4z6FWR7Dz9nK3iIl6nruJx
+	 UpBwUdRQtLyGg==
+Date: Fri, 1 Mar 2024 15:36:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RESEND PATCH v2 1/5] dt-bindings: sound: Add jack-type property
+ to sun8i-a33-codec
+Message-ID: <20240301213612.GA3071318-robh@kernel.org>
+References: <20240224135501.3822390-1-megi@xff.cz>
+ <20240224135501.3822390-2-megi@xff.cz>
+ <20240226194727.GA1320480-robh@kernel.org>
+ <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <w75crq6ofqq6gisxdda6zeyem5gmsrexe7zarrza46awpstlvk@lc7bttbt63el>
 
-The pull request you sent on Fri, 01 Mar 2024 11:36:43 +0100:
+On Tue, Feb 27, 2024 at 12:57:08AM +0100, Ondřej Jirman wrote:
+> On Mon, Feb 26, 2024 at 01:47:27PM -0600, Rob Herring wrote:
+> > On Sat, Feb 24, 2024 at 02:54:54PM +0100, Ondřej Jirman wrote:
+> > > From: Ondrej Jirman <megi@xff.cz>
+> > > 
+> > > The codec driver needs to know what jack connector it is connected to
+> > > on the board. Add proprty to describe the type of connector.
+> > > 
+> > > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > > ---
+> > >  .../bindings/sound/allwinner,sun8i-a33-codec.yaml        | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > index 63eadc4200ac..399fc00ad3f4 100644
+> > > --- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a33-codec.yaml
+> > > @@ -44,6 +44,15 @@ properties:
+> > >        - const: bus
+> > >        - const: mod
+> > >  
+> > > +  jack-type:
+> > 
+> > I'm all for a generic property name, but it needs to be documented 
+> > somewhere common. Perhaps dai-common.yaml.
+> > 
+> > I'm sure there is some prior art here to consider as well.
+> 
+> There's only a mention in the code. But there's no use of similar property
+> on the codec nodes.
+> 
+> https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8-rc7
+git grep 'jack' Documentation/devicetree/bindings/sound
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fbf9e3b6978bbd350f2a4c81e112431610dd065c
+There's lots of things related to jack. I don't see type, but I didn't 
+go looking for 'mic' or 'headphone' or 'headset' or ...
 
-Thank you!
+> 
+> /**
+>  * snd_soc_component_get_jack_type
+>  * @component: COMPONENTs
+>  *
+>  * Returns the jack type of the component
+>  * This can either be the supported type or one read from
+>  * devicetree with the property: jack-type.
+>  */
+> 
+> This is part of a component, so maybe in sound/component-common.yaml ?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+A comment with no other usage I can find doesn't make it documented.
+
+Rob
