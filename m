@@ -1,183 +1,96 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7770456B6E
-	for <linux-sound@vger.kernel.org>; Fri,  1 Mar 2024 23:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33348179B7;
+	Sat,  2 Mar 2024 14:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709334690; cv=none; b=t4Zu7bvLqMNKzNn4YdzrdUyBmGA/MgU3YpWbOMCPtCdm7UDtaMLrhVUgxwdc4DHuQkewO/u97IHcStMCHdBgOA3fpTEbFBr9oQ4+gegxLWW2HzYGLBvrpADBXGs/v2KLvvS54CNX93dku+fMY8FGj0BUwJEzDyZ3BRrwm8dIdxM=
+	t=1709388051; cv=none; b=RVu98FeISx5eywYZhifWG/2gOeedBic9J2QY+IhuqEhuQ6OSPFXXmo4T8uIt7cgIdeOt3eCo5pyl1Z0/Nc+fNAB5J1XcxyUhZSeWNnoZ9TeJ0cHBrApyXqdwgDFwtCYIvtNfn8sRWCq7ylwXDunqxcR4O7xsEKxtqryRepyRIBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709334690; c=relaxed/simple;
-	bh=vrxr+C6YLcibNVe7Paa0+ZWlZqIca7ibpaNouEXhbhM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YZ/HtHTZ76b/4UyLxYOjZlSgvqOXZcT1CY3pd7k2oEcRzJH8Eb1TWsdX+ypwxpcaBzUCJ138L107zEZq1voDiW/tsfIcLOWZxEqwVp5RIxRsprbRTEKURnCjLg3viSEo/RnG+szjiWSQO9RNl0f9dI0ByaNYKqggjrZkJhIrjYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf; spf=pass smtp.mailfrom=kl.wtf; dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b=lF/wmaIO; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kl.wtf
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kl.wtf
+	s=arc-20240116; t=1709388051; c=relaxed/simple;
+	bh=uiQdKioW5Q8/qfRyAEscHhnKqRIHa/efSN+ljmC4lok=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G6Fe/PBY7drqVOiNO8F37wnZs/AXmgTrsB2ejxcwiGCok1VwkUpiW1/+CClCXTdp16z3UnxRAIdagiwB2sa6wIITNqBqWR93CeRfT7eO6A15hjIE1Xna8a063KBUUbrFmB9t46iuFMdeRbUOqLB4t4QIoQXucFeTOQ1bDT09SNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=XcOmshdW; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kl.wtf header.i=@kl.wtf header.b="lF/wmaIO"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=key1;
-	t=1709334685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=whi/b8RMhmo6Ka3O+qfQOyMTE5jfqy1oQ6xDX28pvkw=;
-	b=lF/wmaIO8EjZUPxQbWxSpILkaMKhX1X3zBAfz+c8BrvPMyK6Axhn+xosVzFPJ95IWE6+kr
-	z0yVQv8p/hL4aJfiqJvm7DmcM6LftR40vb48uygWWpSGhjpQsVMDJPvsEm+hlT/JcuBcAN
-	zrQjfesxtrnfZAz8MYhcMlZ/aTK3m3iJo5qanyWh/blt/S07RkkOtroAaS7/BQqvdFFDgv
-	RUy2L8tUSEmM8/pXVHFp96ByHmrRnxH+cjuewkXKTTemAMxQeUfefwXyPzax+48uVlgc3w
-	4+B75ZJq8EzauHgBayKOz357kA0bsPCOpB89WHP3K/U7OoBBcBwXAKKmLVaLYA==
-From: Kenny Levinsen <kl@kl.wtf>
-To: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="XcOmshdW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1709388045; bh=uiQdKioW5Q8/qfRyAEscHhnKqRIHa/efSN+ljmC4lok=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XcOmshdWXvExDVy4K+zxIZF+CaaHhfMsi5Ewmy+e3mozM0igrri0ZlA0bSxdUbRga
+	 kjqGrvQnU6QfAwjWqHMtsW4HfwsWF1PRAi/Ao03SEhUo7JdrGlJsUBwtY4iIeE2FCs
+	 wv8bpWOwevP5sOG9hxs0c+3O4yvxbjl2a53t7/F8=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kenny Levinsen <kl@kl.wtf>
-Subject: [PATCH] ALSA: usb-audio: Name feature ctl using output if input is PCM
-Date: Sat,  2 Mar 2024 00:11:07 +0100
-Message-ID: <20240301231107.42679-1-kl@kl.wtf>
+Cc: Ondrej Jirman <megi@xff.cz>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v3 0/4] Add support for jack detection to codec present in A64 SoC
+Date: Sat,  2 Mar 2024 15:00:34 +0100
+Message-ID: <20240302140042.1990256-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-When building feature controls from a unit without a name, we try to
-derive a name first from the feature unit's input, then fall back to the
-output terminal.
+From: Ondrej Jirman <megi@xff.cz>
 
-If a feature unit connects directly to a "USB Streaming" input terminal
-rather than a mixer or other virtual type, the control receives the
-somewhat meaningless name "PCM", even if the output had a descriptive
-type such as "Headset" or "Speaker".
+This series adds support for jack detection to this codec. I used
+and tested this on Pinephone. It works quite nicely. I tested it
+against Android headset mic button resistor specification.
 
-Here is an example of such AudioControl descriptor from a USB headset
-which ends up named "PCM Playback" and is therefore not recognized as
-headphones by userspace:
+The patches are a rewritten and debugged version of the original
+ones from Arnaud Ferraris and Samuel Holland, improved to better
+handle headset button presses and with more robust plug-in/out
+event debouncing, and to use set_jack API instead of sniffing
+the sound card widget names, to detect the type of jack connector.
 
-      AudioControl Interface Descriptor:
-        bLength                12
-        bDescriptorType        36
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-        bTerminalID             4
-        wTerminalType      0x0101 USB Streaming
-        bAssocTerminal          5
-        bNrChannels             2
-        wChannelConfig     0x0003
-          Left Front (L)
-          Right Front (R)
-        iChannelNames           0
-        iTerminal               0
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-        bTerminalID             5
-        wTerminalType      0x0402 Headset
-        bAssocTerminal          4
-        bSourceID               6
-        iTerminal               0
-      AudioControl Interface Descriptor:
-        bLength                13
-        bDescriptorType        36
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-        bUnitID                 6
-        bSourceID               4
-        bControlSize            2
-        bmaControls(0)     0x0002
-          Volume Control
-        bmaControls(1)     0x0000
-        bmaControls(2)     0x0000
-        iFeature                0
+Please take a look. :)
 
-Other headsets and DACs I tried that used their output terminal for
-naming only did so due to their input being an unnamed sidetone mixer.
+v3:
+- removed all device-tree related code
+  (it's not necessary for core functionality, it only helps make the jack detect
+  functionality of the codec be usable from simple-sound-card driver, and I'll
+  send it spearately, because it will apparently need several more rounds
+  of review)
 
-Instead of always starting with the input terminal, check the type of it
-first. If it seems uninteresting, invert the order and use the output
-terminal first for naming.
+v2:
+- use set_jack/get_jack_type
+- get rid of some custom poking inside card internals to figure
+  out what kind of jack port we should setup the codec for
+- read jack-type from OF as suggested here: 
+  https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+- add DT bindings
 
-This makes userspace recognize headsets with simple controls as
-headphones, and leads to more consistent naming of playback devices
-based on their outputs irrespective of sidetone mixers.
+Thank you very much,
+	Ondřej Jirman
 
-Signed-off-by: Kenny Levinsen <kl@kl.wtf>
----
- sound/usb/mixer.c | 49 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 35 insertions(+), 14 deletions(-)
+Arnaud Ferraris (2):
+  ASoC: sun50i-codec-analog: Enable jack detection on startup
+  ASoC: sun8i-codec: Implement jack and accessory detection
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 409fc1164694..81256ab56835 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1652,6 +1652,34 @@ static const struct usb_feature_control_info *get_feature_control_info(int contr
- 	return NULL;
- }
- 
-+static int feature_unit_mutevol_ctl_name(struct usb_mixer_interface *mixer,
-+					 struct snd_kcontrol *kctl,
-+					 struct usb_audio_term *iterm,
-+					 struct usb_audio_term *oterm)
-+{
-+	struct usb_audio_term *aterm, *bterm;
-+	bool output_first;
-+	int len = 0;
-+
-+	/*
-+	 * If the input terminal is USB Streaming, we try getting the name of
-+	 * the output terminal first in hopes of getting something more
-+	 * descriptive than "PCM".
-+	 */
-+	output_first = iterm && !(iterm->type >> 16) && (iterm->type & 0xff00) == 0x0100;
-+
-+	aterm = output_first ? oterm : iterm;
-+	bterm = output_first ? iterm : oterm;
-+
-+	if (aterm)
-+		len = get_term_name(mixer->chip, aterm, kctl->id.name,
-+				    sizeof(kctl->id.name), 1);
-+	if (!len && bterm)
-+		len = get_term_name(mixer->chip, bterm, kctl->id.name,
-+				    sizeof(kctl->id.name), 1);
-+	return len;
-+}
-+
- static void __build_feature_ctl(struct usb_mixer_interface *mixer,
- 				const struct usbmix_name_map *imap,
- 				unsigned int ctl_mask, int control,
-@@ -1733,22 +1761,15 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
- 	case UAC_FU_MUTE:
- 	case UAC_FU_VOLUME:
- 		/*
--		 * determine the control name.  the rule is:
--		 * - if a name id is given in descriptor, use it.
--		 * - if the connected input can be determined, then use the name
--		 *   of terminal type.
--		 * - if the connected output can be determined, use it.
--		 * - otherwise, anonymous name.
-+		 * Determine the control name:
-+		 * - If a name id is given in descriptor, use it.
-+		 * - If input and output terminals are present, try to derive
-+		 *   the name from either of these.
-+		 * - Otherwise, make up a name using the feature unit ID.
- 		 */
- 		if (!len) {
--			if (iterm)
--				len = get_term_name(mixer->chip, iterm,
--						    kctl->id.name,
--						    sizeof(kctl->id.name), 1);
--			if (!len && oterm)
--				len = get_term_name(mixer->chip, oterm,
--						    kctl->id.name,
--						    sizeof(kctl->id.name), 1);
-+			len = feature_unit_mutevol_ctl_name(mixer, kctl, iterm,
-+							    oterm);
- 			if (!len)
- 				snprintf(kctl->id.name, sizeof(kctl->id.name),
- 					 "Feature %d", unitid);
+Samuel Holland (2):
+  ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+  ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
+
+ sound/soc/sunxi/sun50i-codec-analog.c |  73 +++++-
+ sound/soc/sunxi/sun8i-codec.c         | 346 +++++++++++++++++++++++++-
+ 2 files changed, 399 insertions(+), 20 deletions(-)
+
 -- 
 2.44.0
 
