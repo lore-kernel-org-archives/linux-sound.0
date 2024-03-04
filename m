@@ -1,189 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260E978B74
-	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 19:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12E7CF17;
+	Mon,  4 Mar 2024 19:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709579077; cv=none; b=m+ohYgQYv4zXU6Z8xeR1JVlSQaBTqXFIGg9IoRMef0JU5k6JTLmm7/8kOdNsoXYl4kztTc74oniLLC/gdBAIWL0gvEPZE0cTSavR+R/cB6OZVWMOfRJ8MltPiM2mJpMH/aw7Lqnqqu6lXl+yqhaYJawPe6o1zgadET4wQcq1FP0=
+	t=1709579472; cv=none; b=p/4C4ZWF9gxFWCAE4T27Pn0QDBAiGi/7oadFbicGPzGFZjumTWDHPvruWV4KzSs8iR5Quztv09rLtAOALB4wEdWqZ9CZQXBc3QGlhOpA1chnmbuGlVHl+YHpKMnkkVRcDulgU0rtWpeHBuH0+RqnVH1ztBcxYBeGHntHKlPzJes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709579077; c=relaxed/simple;
-	bh=q07/xiG1a5n/c/8LAvQ0KqcgDLmF5An5u7sbwVefMzI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fnSoZXAc9aXVdTNExRgPou8aXjQ+6qR+EWRncUXZxEzLgPB1Mm9+Grzus2ctuoM3DXNPj+x5EbAUUgZNE1ZAXaCTWJK9jHVx+8TxiJoTiprXH6XSqp0twwiq1SaEXfvLfRE+66RI2RWgenHplW6Bw8JoZz/MzEOeIoJ44/29JlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blRhK1VM; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709579472; c=relaxed/simple;
+	bh=K3yrAUxiGdxT7G8PGb78Jnh5WW5YiKan5RDHOUdHxAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ZVimDZc73F6C1HDjpaYE9dWzWA1hvCuOIeskq42WeasuZ3vERpPetmrdRtPpX4ZwShMNtZqhdJenZDiW98/iVfxDR1CVgJGQz5zQ/mMuSsdu0h66QeMawNcMaCW54ExK2St7OQnt+a3tr3dK4j29cV/a9IT8xI3sMSC2GFRfBqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QMqei85U; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blRhK1VM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709579076; x=1741115076;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=q07/xiG1a5n/c/8LAvQ0KqcgDLmF5An5u7sbwVefMzI=;
-  b=blRhK1VMYcWXHeI0WAYz23EN6zVnaOspFCnfJbgNdkhiCrqqqHQej4AY
-   NA3DU0j0voDVc1n0o2Y48Yr5TGl4cItmBBSP21+tLHc/idrjsMCxgNQzi
-   cSw4h5x62K0QjKO14e2ZBmPXFqE8U+jFBb6Z66/XkxJK+fvDSQPFZChe0
-   S7SlRpQbKRAbIq8rHt5mH6wRMlcag70xiD6ACJWWoyfwPjImFVw09RILi
-   I48H1fRSOkVIX/oWS+pt1C6gBujJqzA5EGeznIDrLYKDSD0S0UDJ5wbh4
-   /nS6FDYHSKV4Trc5BaZn8u7B49KAC5icoczd27Y0JuBvAcW3RS6CwEGwC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4257311"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="4257311"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 11:04:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="13788298"
-Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2024 11:04:33 -0800
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com,
-	hdegoede@redhat.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 5/5] ASoC: Intel: avs: i2s_test: Remove redundant dapm routes
-Date: Mon,  4 Mar 2024 20:05:36 +0100
-Message-Id: <20240304190536.1783332-6-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240304190536.1783332-1-cezary.rojewski@intel.com>
-References: <20240304190536.1783332-1-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QMqei85U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709579468;
+	bh=K3yrAUxiGdxT7G8PGb78Jnh5WW5YiKan5RDHOUdHxAQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=QMqei85Ub5fJFt0Uw9DIkhVOxC8Cjbc5f/XONZH8HXy9F0yQ2I+KxVxp8evAKgyuW
+	 RXsCvF14+INkMQqGREGKq/P0JGAwpxPy+QV+oDXQD/pDqX5VXVVQmYkBz3DoHr5G46
+	 CjrZMa6v3kp6HyYPfxJNzRJXAFWN/O3Rt+eu3qUnuyrJylruhL8DF0FKDQHnJoACZl
+	 EYPBVZgsZU46hzraNRVd6h1HVH69mRlDAskUcI43/yfUS+7XjtE7HP4Ikcg9y274ox
+	 ewPozdep0uZADlomZXnMjLXRz61U1z9IKpJg0cBPzeOT/wQAd6lbIiz8A5Jezw35Or
+	 xeXP7kWWJkKGw==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 24DA23780480;
+	Mon,  4 Mar 2024 19:11:07 +0000 (UTC)
+Message-ID: <db53a405-362f-4c8d-82e2-49c001b29dd1@collabora.com>
+Date: Mon, 4 Mar 2024 21:11:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] ASoC: SOF: amd: Skip IRAM/DRAM size modification
+ for Steam Deck OLED
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
+In-Reply-To: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+On 2/20/24 22:16, Cristian Ciocaltea wrote:
+> This patch series restores audio support on Valve's Steam Deck OLED model, which
+> broke after the recent introduction of ACP/PSP communication for IRAM/DRAM fence
+> register programming.
 
-Remove unnecessary widgets and routes as they are created by
-snd_soc_dapm_connect_dai_link_widgets() automatically.
+Hi Mark,
 
-Link: https://lore.kernel.org/all/20230612110958.592674-1-brent.lu@intel.com/
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- sound/soc/intel/avs/boards/i2s_test.c | 79 ---------------------------
- 1 file changed, 79 deletions(-)
+Could we get this queued for merging as v6.9 material?
 
-diff --git a/sound/soc/intel/avs/boards/i2s_test.c b/sound/soc/intel/avs/boards/i2s_test.c
-index 28f254eb0d03..282256d18cc6 100644
---- a/sound/soc/intel/avs/boards/i2s_test.c
-+++ b/sound/soc/intel/avs/boards/i2s_test.c
-@@ -54,76 +54,13 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	return 0;
- }
- 
--static int avs_create_dapm_routes(struct device *dev, int ssp_port, int tdm_slot,
--				  struct snd_soc_dapm_route **routes, int *num_routes)
--{
--	struct snd_soc_dapm_route *dr;
--	const int num_dr = 2;
--
--	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
--	if (!dr)
--		return -ENOMEM;
--
--	dr[0].sink = devm_kasprintf(dev, GFP_KERNEL,
--				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
--	dr[0].source = devm_kasprintf(dev, GFP_KERNEL,
--				      AVS_STRING_FMT("ssp", " Tx", ssp_port, tdm_slot));
--	if (!dr[0].sink || !dr[0].source)
--		return -ENOMEM;
--
--	dr[1].sink = devm_kasprintf(dev, GFP_KERNEL,
--				    AVS_STRING_FMT("ssp", " Rx", ssp_port, tdm_slot));
--	dr[1].source = devm_kasprintf(dev, GFP_KERNEL,
--				      AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
--	if (!dr[1].sink || !dr[1].source)
--		return -ENOMEM;
--
--	*routes = dr;
--	*num_routes = num_dr;
--
--	return 0;
--}
--
--static int avs_create_dapm_widgets(struct device *dev, int ssp_port, int tdm_slot,
--				   struct snd_soc_dapm_widget **widgets, int *num_widgets)
--{
--	struct snd_soc_dapm_widget *dw;
--	const int num_dw = 2;
--
--	dw = devm_kcalloc(dev, num_dw, sizeof(*dw), GFP_KERNEL);
--	if (!dw)
--		return -ENOMEM;
--
--	dw[0].id = snd_soc_dapm_hp;
--	dw[0].reg = SND_SOC_NOPM;
--	dw[0].name = devm_kasprintf(dev, GFP_KERNEL,
--				    AVS_STRING_FMT("ssp", "pb", ssp_port, tdm_slot));
--	if (!dw[0].name)
--		return -ENOMEM;
--
--	dw[1].id = snd_soc_dapm_mic;
--	dw[1].reg = SND_SOC_NOPM;
--	dw[1].name = devm_kasprintf(dev, GFP_KERNEL,
--				    AVS_STRING_FMT("ssp", "cp", ssp_port, tdm_slot));
--	if (!dw[1].name)
--		return -ENOMEM;
--
--	*widgets = dw;
--	*num_widgets = num_dw;
--
--	return 0;
--}
--
- static int avs_i2s_test_probe(struct platform_device *pdev)
- {
--	struct snd_soc_dapm_widget *widgets;
--	struct snd_soc_dapm_route *routes;
- 	struct snd_soc_dai_link *dai_link;
- 	struct snd_soc_acpi_mach *mach;
- 	struct snd_soc_card *card;
- 	struct device *dev = &pdev->dev;
- 	const char *pname;
--	int num_routes, num_widgets;
- 	int ssp_port, tdm_slot, ret;
- 
- 	mach = dev_get_platdata(dev);
-@@ -156,26 +93,10 @@ static int avs_i2s_test_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = avs_create_dapm_routes(dev, ssp_port, tdm_slot, &routes, &num_routes);
--	if (ret) {
--		dev_err(dev, "Failed to create dapm routes: %d\n", ret);
--		return ret;
--	}
--
--	ret = avs_create_dapm_widgets(dev, ssp_port, tdm_slot, &widgets, &num_widgets);
--	if (ret) {
--		dev_err(dev, "Failed to create dapm widgets: %d\n", ret);
--		return ret;
--	}
--
- 	card->dev = dev;
- 	card->owner = THIS_MODULE;
- 	card->dai_link = dai_link;
- 	card->num_links = 1;
--	card->dapm_routes = routes;
--	card->num_dapm_routes = num_routes;
--	card->dapm_widgets = widgets;
--	card->num_dapm_widgets = num_widgets;
- 	card->fully_routed = true;
- 
- 	ret = snd_soc_fixup_dai_links_platform_name(card, pname);
--- 
-2.25.1
-
+Thanks,
+Cristian
