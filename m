@@ -1,101 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAE94653A
-	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 19:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E693962171;
+	Mon,  4 Mar 2024 20:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709580842; cv=none; b=S81s/ngHswtYBwlm5PG42/PtdFr8bG6R18XWHEYYzWuiKgf0tWWWg8b54UxnzUZ31sGBorcGvlJgy7KqIPfn4X7mUt0TW9AXtZ4yTEARuLBsB+EpfXvigEYshnfVePyk/U2kcWx8aSiUQAg+XTOhksNZawBoCN/8qk2jiyqHg8g=
+	t=1709583193; cv=none; b=SElJdsKfK5Jc8KI9giwMScnQzM1fPAMJ6B2Om3iBbGzDNyFQfT0gdwXKuzw/B+eNkIke9+fHTx+tQqy7w9d0FAAy7YPGw79o2OB53okR5Uj9HPalmO6YZ4G+sBkVOLXiKG9wx7vqTiS4WV8DKwLjzfJZAI4e9z9QAfneFDMUHQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709580842; c=relaxed/simple;
-	bh=TADBIj/jiKk87U5tou9hMcyNKNqVzZSGuG8xZJPtMNQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hhUMRC1ZFBsUcaUIgKhD4FZdHycH3KbxZODI/OYjeYcq4X/pE2WJqIA66DhW0Y67s7mfy5uipcloOgiEkLxxaIui1xMHAd0bAveGdmoKdh8fRYvKx5wq0c+UUItPex1RRrrmfz9xcTi7AFyL8FSBRy3Q65Om6Ufyv/gse53blCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwrLx/bP; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709583193; c=relaxed/simple;
+	bh=Jarf+3xgm31a5ItvIpY/7IPTj0Vs8zmgBoIbgY65ZsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S20gJAshz2YikDTv17kjrr7UPCxho2F52f6k77wdzK70ZoyLxx9qyy/OenGAeyKa2f6jiOAlPs7g9HRPdkuNY2OnsT5B9iTUH+G9aHtyAIVERudF8br+F5ZPVAWY5n7wwQeeImc0ib3Nkxi3v3rc3TEBaixK3NYHceHLbYaX384=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k85dEHj8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwrLx/bP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709580841; x=1741116841;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TADBIj/jiKk87U5tou9hMcyNKNqVzZSGuG8xZJPtMNQ=;
-  b=OwrLx/bPIOIPQRKckOFg0WWduGg6e5jskQov/tEY8dEi19W4i5yURqpD
-   sivWgpPer2R646guUVos9JvOKRjl4v6rQzLD+w2C9UTOLs18j6enWU0Yc
-   Jn8KhLpwD2bQvehvS7NqtzxgcXnck9f4xFwZRcLLt7hBP6ydK/S43XAuw
-   OdZ5xyRDTh278+iF2vKkrOv/+pvnypooq8AVia/Xc2LdpxUtvupbx+Xq2
-   t4RZDgKfzwugRivMKIHgYlQn2xwMzjn6Xx8hc0vEZNi/lw/3jQisCy+Vc
-   6H1KbcvFxHml2vGFiNKFvF/jn4jE62ypxkvVS/qQ45VC1t7sVmFDOELsy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="15500699"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="15500699"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 11:33:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="13599735"
-Received: from cryoung-mobl2.amr.corp.intel.com (HELO [10.212.71.160]) ([10.212.71.160])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 11:33:57 -0800
-Message-ID: <14a2f9b8-7711-47c4-9f57-bd839c700d4e@linux.intel.com>
-Date: Mon, 4 Mar 2024 13:32:36 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k85dEHj8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 424EFC433F1;
+	Mon,  4 Mar 2024 20:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709583192;
+	bh=Jarf+3xgm31a5ItvIpY/7IPTj0Vs8zmgBoIbgY65ZsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k85dEHj8+jTdrQGFPCxKUTyZPYtvSW8yVrZPUefH7fCrOBySUGu/XDD0+cXAil+Ro
+	 UVIh278q4HvcZPCDWkfAm4xmc/qbitRfQFj6C2AO35cx8ZwNppPqtPdSbIssr18miG
+	 mBKplj0BBKFKN2LuTbpAa3rG2oO3bzCGESDE9m1/W4DiOolIFHAanor8J+OVwLuoyu
+	 KJ0G2b7tczan5XxTPfVhF/GjEPvSX+n7eKt9dYVbqYVe720b62X1DvKsyIgy4isBAm
+	 h8CpL64c69YnJoq4LiRG7iYPrnTmRjiImLi4cYEFrzKKrL1hR6NY1HLfAK2a8CjSHt
+	 gxEdL2IZSXYHQ==
+Date: Mon, 4 Mar 2024 20:13:06 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] ASoC: dt-bindings: fsl-sai: allow only one
+ dma-names
+Message-ID: <20240304-cape-saloon-80f241bfd6df@spud>
+References: <20240227-asrc_8qxp-v2-0-521bcc7eb1c0@nxp.com>
+ <20240227-asrc_8qxp-v2-3-521bcc7eb1c0@nxp.com>
+ <20240229-husband-penalty-8c1ab0f57f55@spud>
+ <20240229-rundown-isotope-954ba9ea4c57@spud>
+ <ZeDdMJlxBL4SGkws@lizhi-Precision-Tower-5810>
+ <20240301-crudeness-resale-3c0a1228850d@spud>
+ <ZeIGXEJ3l4tgjmxT@lizhi-Precision-Tower-5810>
+ <20240301-deluxe-tiptoeing-741af7d620b9@spud>
+ <ZeIPmGG7+5cKZkO3@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] ASoC: topology: Do not ignore route checks when
- parsing graphs
-Content-Language: en-US
-To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, tiwai@suse.com,
- perex@perex.cz, amadeuszx.slawinski@linux.intel.com, hdegoede@redhat.com
-References: <20240304190536.1783332-1-cezary.rojewski@intel.com>
- <20240304190536.1783332-3-cezary.rojewski@intel.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240304190536.1783332-3-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="G/bhWJ7YMFFq+jSj"
+Content-Disposition: inline
+In-Reply-To: <ZeIPmGG7+5cKZkO3@lizhi-Precision-Tower-5810>
 
 
+--G/bhWJ7YMFFq+jSj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/4/24 13:05, Cezary Rojewski wrote:
-> One of the framework responsibilities is to ensure that the enumerated
-> DPCMs are valid i.e.: a valid BE is connected to a valid FE DAI. While
-> the are checks in soc-core.c and soc-pcm.c that verify this, a component
-> driver may attempt to workaround this by loading an invalid graph
-> through the topology file.
-> 
-> Be strict and fail topology loading when invalid graph is encountered.
+On Fri, Mar 01, 2024 at 12:25:44PM -0500, Frank Li wrote:
+> On Fri, Mar 01, 2024 at 05:07:07PM +0000, Conor Dooley wrote:
+> > On Fri, Mar 01, 2024 at 11:46:20AM -0500, Frank Li wrote:
+> > > On Fri, Mar 01, 2024 at 04:05:25PM +0000, Conor Dooley wrote:
+> > > > On Thu, Feb 29, 2024 at 02:38:24PM -0500, Frank Li wrote:
+> > > > > On Thu, Feb 29, 2024 at 06:57:29PM +0000, Conor Dooley wrote:
+> > > > > > On Thu, Feb 29, 2024 at 06:55:58PM +0000, Conor Dooley wrote:
+> > > > > > > On Tue, Feb 27, 2024 at 03:54:11PM -0500, Frank Li wrote:
+> > > > > > > > Some sai only connect one direction. So allow only "rx" or =
+"tx" for
+> > > > > > > > dma-names.
+> > > > > > >=20
+> > > > > > > Which sai? Can you restrict this per compatible please, so th=
+at someone
+> > > > > > > cannot add 2 dmas for ones where only the tx is supported.
+> > > > > > >=20
+> > > > > > > |  dmas:
+> > > > > > > |    minItems: 1
+> > > > > > > |    items:
+> > > > > > > |      - description: DMA controller phandle and request line=
+ for RX
+> > > > > > > |      - description: DMA controller phandle and request line=
+ for TX
+> > > > > > >=20
+> > > > > > > The binding already allows only one, but it documents that th=
+e first dma
+> > > > > > > is always the RX dma, and that doesn't change with this patch=
+=2E.
+> > > > > >=20
+> > > > > > I said "doesn't change" - but I don't think you can change this
+> > > > > > trivially, as something could rely on the first dma being the r=
+x one.
+> > > > > > You'd have to check that there is nothing using these using ind=
+ices
+> > > > > > rather than names before making any changes here.
+> > > > >=20
+> > > > > Linux driver and dts with tx only work well. Only issue is dtb_ch=
+eck will
+> > > > > report error. I want to eliminate these DTB_CHECK warning.
+> > > >=20
+> > > > Linux is not the only user of these bindings, citing linux as your
+> > > > evidence here is only sufficient if no other users exist. Do they?
+> > >=20
+> > > But, 'dmas' should be common property for all these bindings? I don't=
+ think
+> > > they use 'descriptions:' property, which should guide dts writer to w=
+rite
+> > > dts file. actually words 'DMA controller phandle and request line' ju=
+st
+> > > nonsense words. let 'regs', it'd better descript at 'reg-names' inste=
+ad
+> > > of 'regs' if reg-names exist. Only meansful words is "RX" and "TX", w=
+hich
+> > > already show at "dma-names".
+> >=20
+> > None of this matters. If there's a documented order for these, which
+> > there is, software is not obligated to use the names and can rely on the
+> > order alone. You need to check that there are no other users which will
+> > be broken by your proposed change.
+>=20
+> As my best knowledge, only linux use this binding.
 
-This is very invasive, it's perfectly possible that we have a number of
-'broken' topologies where one path is 'invalid' but it doesn't impact
-functionality.
+If you've checked and there are no users, that's fine. Please mention
+in the commit message that there are no users that will be affected as
+justification for the ABI change.
 
-This should be an opt-in behavior IMHO, not a blanket change.
+--G/bhWJ7YMFFq+jSj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-> ---
->  sound/soc/soc-topology.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-> index d6d368837235..778f539d9ff5 100644
-> --- a/sound/soc/soc-topology.c
-> +++ b/sound/soc/soc-topology.c
-> @@ -1083,8 +1083,9 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
->  			break;
->  		}
->  
-> -		/* add route, but keep going if some fail */
-> -		snd_soc_dapm_add_routes(dapm, route, 1);
-> +		ret = snd_soc_dapm_add_routes(dapm, route, 1);
-> +		if (ret && !dapm->card->disable_route_checks)
-> +			break;
->  	}
->  
->  	return ret;
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeYrUgAKCRB4tDGHoIJi
+0kXGAP0ZXQDdSBHtYgiW6KEtRSeHnNW+Qzp4Xi6aG6/WngSB7wEAkXcAGBBLZxUQ
+3gj8XZWrnoAYzbHNua6AJZOzWa0FEQY=
+=OdYx
+-----END PGP SIGNATURE-----
+
+--G/bhWJ7YMFFq+jSj--
