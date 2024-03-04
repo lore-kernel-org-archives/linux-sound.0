@@ -1,83 +1,92 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06920171A6;
-	Mon,  4 Mar 2024 08:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B780417541
+	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 08:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709540124; cv=none; b=aZmmbiuwuZQDwoEXIvE+GSneT+UN7dMRCJtWKzfQLCagZCyLVaJxs82fEOpX8UVo1pbYRMqqzhSqw1u73AEDt11HE2nXeY2siv6+jMhOcGBpgWv69Ef+vmTJnhCRmEEMFOdNoYCxSGungrYOqMqpeBTuO/QbWrWRbA2n7BZSvtk=
+	t=1709540332; cv=none; b=roLD/edbXLTUIYiOkUAocxWR0W/9lV516aJUSqJQ7ha6grAM+lRLKI/TpLfrrtDP6pyFzTQsBwVYf3Iejgs+JYxJAdhKJbFUteC/5QCi/3WHQexie5+VT75GmML6F3pjcWtSDAEaUMWvKoaig6sePQjFBxrymOmooGPba4z7yrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709540124; c=relaxed/simple;
-	bh=xtDY+koMXDOcmDgkQrKSlKFln0oMOLNo/L29ZJxzVeQ=;
+	s=arc-20240116; t=1709540332; c=relaxed/simple;
+	bh=XEPY+h5hm6XfNYyMM8GSi3FdJ7RSjQ9IB4KseluI3DI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sZbtb0lNQ4bw2BfpseYHZnGfWuGHXDSH1wDmDcztRBeJQidYYlRknJ1577E7pknFwClnVPStIurPmEZHdTUf4ywk9ORoDSYZl/22KQ3FhVnEAtN5Bd3xw/hrfNq4slZk2f8JTkOX6FsIjiyLIWrYDlfngfD7/YMBNzWwV8+/WwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l01HFlZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UnWQ2m0D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Elb81x4X; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F8siSzGl; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=l+pb0SYhl2iozt6S8LTjMFgb+VQDBaaKMIMAY6v7JfBVk+0R9Y3jO7KKgRSnA7ZYIFUORUYdKn1Li1+cCfWG5qRozmsPRbdlPwZDhVLpc805on2Ue1r7Bv4/X9sWx4spDiNda0FTOZE2/QJBqEOjaoLn2kAzzpEs4irEwJRQDck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r1o4XTcn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KttDyL/9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r1o4XTcn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KttDyL/9; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l01HFlZd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UnWQ2m0D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Elb81x4X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F8siSzGl"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r1o4XTcn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KttDyL/9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r1o4XTcn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KttDyL/9"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E61D68794;
-	Mon,  4 Mar 2024 08:15:19 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7DC77687A5;
+	Mon,  4 Mar 2024 08:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709540120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1709540328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JZt+Y+jfJVrXUNZn7FxYOJsCw8lVDDLyEEI3tfW+wdA=;
-	b=l01HFlZdasj9oN+RdZfW0U5Qxnkwx5VWOpEopaOuByLsG4FYwE+led8RyFlhlGNjqY7PWv
-	Otj6m71Vbn0hxwy4u2KQa3ZHLcfbykfXlTCrkRQE3Ay3MGARUOf0JO3lGyQeEDFzCU2Fly
-	Sl/9WBS962eyQYchPnFA86i0krMOsng=
+	bh=0GcM6Zqc7S8KzSFH/QRWGM93gGR/7+3SWwjm/qiQ8mk=;
+	b=r1o4XTcnhHzb7nMm8K7OEJ1wRWlb21LxDNMQf0r0ctNsgdS2Kp420vCKM+CJTvsmBWd55M
+	Kx4jX3skMWDuUjblZzlctHu1VEBGz3w2VZBSFCnHwhOExQbu47hSFHjO9u81LQzggkiRQs
+	rHTwrOQXkYuTSh+1/j6VPYGDh2nair8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709540120;
+	s=susede2_ed25519; t=1709540328;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JZt+Y+jfJVrXUNZn7FxYOJsCw8lVDDLyEEI3tfW+wdA=;
-	b=UnWQ2m0D6dQL6klQrLpEWBfm+ew581DQhzms8MGBRDpSa39sCDgu7bkdTJPl54iry9Pmfk
-	9UO8413tBhM1LVCA==
+	bh=0GcM6Zqc7S8KzSFH/QRWGM93gGR/7+3SWwjm/qiQ8mk=;
+	b=KttDyL/9tqsbQ1NkCk/c+CVu+CmQHBG/VZMUlGn01xYjL+8DRsYSwp6a46n4Rf/ZsbO9pn
+	YwSb3e3IHX7LEVDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709540119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1709540328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JZt+Y+jfJVrXUNZn7FxYOJsCw8lVDDLyEEI3tfW+wdA=;
-	b=Elb81x4XwxrV9Wc5XW3o2xoi28pS0clJZ5FlJGTgg8Yd91MSXqqgdf9mct5l5fBWOWByip
-	C+VvnKLAgWRB9K2YuNsWPi9Grv6nbIMjyDpfabn4i1mmOXKiOGftAg+hyOXHhC9+wkd7ld
-	BvTlLHqsR15ZScp8bDDi6GCa6DK9sY8=
+	bh=0GcM6Zqc7S8KzSFH/QRWGM93gGR/7+3SWwjm/qiQ8mk=;
+	b=r1o4XTcnhHzb7nMm8K7OEJ1wRWlb21LxDNMQf0r0ctNsgdS2Kp420vCKM+CJTvsmBWd55M
+	Kx4jX3skMWDuUjblZzlctHu1VEBGz3w2VZBSFCnHwhOExQbu47hSFHjO9u81LQzggkiRQs
+	rHTwrOQXkYuTSh+1/j6VPYGDh2nair8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709540119;
+	s=susede2_ed25519; t=1709540328;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JZt+Y+jfJVrXUNZn7FxYOJsCw8lVDDLyEEI3tfW+wdA=;
-	b=F8siSzGlhgNh6ms8aTZQqgBluIbm2Vuy0W4McJzpfWmddtrlNJ+CoS5oeo9KHZv9Hy+b98
-	VnOhUcqhNgfhl2BA==
+	bh=0GcM6Zqc7S8KzSFH/QRWGM93gGR/7+3SWwjm/qiQ8mk=;
+	b=KttDyL/9tqsbQ1NkCk/c+CVu+CmQHBG/VZMUlGn01xYjL+8DRsYSwp6a46n4Rf/ZsbO9pn
+	YwSb3e3IHX7LEVDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C670E13A58;
-	Mon,  4 Mar 2024 08:15:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 150B913A58;
+	Mon,  4 Mar 2024 08:18:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GA0CLxaD5WVfaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 08:15:18 +0000
-Date: Mon, 04 Mar 2024 09:15:18 +0100
-Message-ID: <871q8q2z1l.wl-tiwai@suse.de>
+	id KTGUA+iD5WVeagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 08:18:48 +0000
+Date: Mon, 04 Mar 2024 09:18:47 +0100
+Message-ID: <87y1ay1kbc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kenny Levinsen <kl@kl.wtf>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Name feature ctl using output if input is PCM
-In-Reply-To: <20240301231107.42679-1-kl@kl.wtf>
-References: <20240301231107.42679-1-kl@kl.wtf>
+	tiwai@suse.com,
+	perex@perex.cz,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tvrtko.ursulin@linux.intel.com,
+	intel-gfx@lists.freedesktop.org,
+	amadeuszx.slawinski@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com,
+	hdegoede@redhat.com
+Subject: Re: [PATCH v3 0/5] ALSA/ASoC: Conditionally skip i915 init and cleanups
+In-Reply-To: <20240226124432.1203798-1-cezary.rojewski@intel.com>
+References: <20240226124432.1203798-1-cezary.rojewski@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,11 +96,12 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
+X-Spamd-Bar: /
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Elb81x4X;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F8siSzGl
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r1o4XTcn;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="KttDyL/9"
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-0.76 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -101,11 +111,11 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 DKIM_TRACE(0.00)[suse.de:+];
 	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[14];
 	 MID_CONTAINS_FROM(1.00)[];
 	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
@@ -113,76 +123,51 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	 MIME_TRACE(0.00)[0:+];
 	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 0E61D68794
+	 BAYES_HAM(-0.25)[73.24%]
+X-Spam-Score: -0.76
+X-Rspamd-Queue-Id: 7DC77687A5
 X-Spam-Flag: NO
 
-On Sat, 02 Mar 2024 00:11:07 +0100,
-Kenny Levinsen wrote:
+On Mon, 26 Feb 2024 13:44:27 +0100,
+Cezary Rojewski wrote:
 > 
-> When building feature controls from a unit without a name, we try to
-> derive a name first from the feature unit's input, then fall back to the
-> output terminal.
+> A small set of changes to improve initialization of the audio stack on
+> HDAudio devices and pair of cleanups.
 > 
-> If a feature unit connects directly to a "USB Streaming" input terminal
-> rather than a mixer or other virtual type, the control receives the
-> somewhat meaningless name "PCM", even if the output had a descriptive
-> type such as "Headset" or "Speaker".
+> As the first change is the most important one here, following is the
+> technical background for it:
 > 
-> Here is an example of such AudioControl descriptor from a USB headset
-> which ends up named "PCM Playback" and is therefore not recognized as
-> headphones by userspace:
+> Commit 78f613ba1efb ("drm/i915: finish removal of CNL") and its friends
+> removed support for i915 for all CNL-based platforms. HDAudio library,
+> however, still treats such platforms as valid candidates for i915
+> binding. Update query mechanism to reflect changes made in drm tree.
 > 
->       AudioControl Interface Descriptor:
->         bLength                12
->         bDescriptorType        36
->         bDescriptorSubtype      2 (INPUT_TERMINAL)
->         bTerminalID             4
->         wTerminalType      0x0101 USB Streaming
->         bAssocTerminal          5
->         bNrChannels             2
->         wChannelConfig     0x0003
->           Left Front (L)
->           Right Front (R)
->         iChannelNames           0
->         iTerminal               0
->       AudioControl Interface Descriptor:
->         bLength                 9
->         bDescriptorType        36
->         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
->         bTerminalID             5
->         wTerminalType      0x0402 Headset
->         bAssocTerminal          4
->         bSourceID               6
->         iTerminal               0
->       AudioControl Interface Descriptor:
->         bLength                13
->         bDescriptorType        36
->         bDescriptorSubtype      6 (FEATURE_UNIT)
->         bUnitID                 6
->         bSourceID               4
->         bControlSize            2
->         bmaControls(0)     0x0002
->           Volume Control
->         bmaControls(1)     0x0000
->         bmaControls(2)     0x0000
->         iFeature                0
+> At the same time, i915 support for LKF-based platforms has not been
+> provided so remove them from valid binding candidates.
 > 
-> Other headsets and DACs I tried that used their output terminal for
-> naming only did so due to their input being an unnamed sidetone mixer.
+> The snd_soc_hda change is a follow up for the above and the cleanup
+> patches do not bring any functional changes.
 > 
-> Instead of always starting with the input terminal, check the type of it
-> first. If it seems uninteresting, invert the order and use the output
-> terminal first for naming.
+> Changes in v3:
+> - snd_soc_hda_codec now returns -ENODEV on attach() if i915 is not
+>   present
+> - denylist now const
+> - added new patch for the avs-driver to address -ENODEV during
+>   probe_codec()
+> - note: retained reviewed-by for patch 1/4 as changes are minimal
 > 
-> This makes userspace recognize headsets with simple controls as
-> headphones, and leads to more consistent naming of playback devices
-> based on their outputs irrespective of sidetone mixers.
+> Changes in v2:
+> - list of problematic VGA devices is now declared locally, no more
+>   touching drm stuff
 > 
-> Signed-off-by: Kenny Levinsen <kl@kl.wtf>
+> Cezary Rojewski (5):
+>   ALSA: hda: Skip i915 initialization on CNL/LKF-based platforms
+>   ASoC: codecs: hda: Skip HDMI/DP registration if i915 is missing
+>   ASoC: Intel: avs: Ignore codecs with no suppoting driver
+>   ASoC: codecs: hda: Cleanup error messages
+>   ALSA: hda: Reuse for_each_pcm_streams()
 
-Thanks, applied now to for-next branch.
+Applied to for-next branch now.  Thanks.
 
 
 Takashi
