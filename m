@@ -1,213 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BA78F58
-	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 20:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709585456; cv=fail; b=RFEDwBpSwJQTyCElDq/t8ICdBOXKkUxAMZbK5W8fjAXHbmEw4j9xH7Ac2zY9n5fT7qT9FE0eHHmUThVaDVsW6+4dzpLnPypNVH5LnM2u6fcXpBSOIGEwTRkcUf3X1OIiDXAQlUzlDiRe3JMh55pR9cvTrMGkAT2a26ivQIKHH6o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709585456; c=relaxed/simple;
-	bh=jyxVyqzEfrcV5c1/TMmV2+eq4vhyOONsviogC5kB3yA=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hYZA8fnV9opw8A13lORjRAbK2xk0jcGnnUrnF2UEH/i6jXe9KeoKCp047ltaecggsl2tioLKx8KRxOJLFL87rsZEbbucshGFYx0qzKhwcFj+ltBFw4egH84MDJ0bswPJuWnqexy2tpyeCJMV4wW8HuEXNcooKmTRwJz44tjREGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vt2K/Ddr; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0871CA94;
+	Mon,  4 Mar 2024 20:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709585790; cv=none; b=Dsutgzs91YAdKaHPyHwt/HVQfmj6tLtpDDEAkgCCQGVpjzQeG4LsrS2Tc3kz5ZSID+4gAqPT8rtZceJZRBiyQsp+IGyvtPK0YnQAbMZefhlVSgCRrPS5OcwiM0F4rB2DbS7RCd3ljVbOvAausESypL7e/VUNSrzI5YW/2eU5eHE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709585790; c=relaxed/simple;
+	bh=Cbtm2zL/5+I4hWXHFC5vNNae0nfkBO/gMESIQYQqebY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=nHiws2gDTniFZASmuH2zZRrPO7gSEgXbmBqd9LGzyV83UWzhUavAW3ZgAC8V8lSbHFtbMQe6z8UzXch2O/JYbEhsI/83vSnB8AdxVc1cJWiJ/nQDWeicI47thXEk119BJxn0A4ORlg5jtMJSH7/3g4ZEye6y+IXQJBf8lXfIOvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+lkfYQu; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vt2K/Ddr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709585455; x=1741121455;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jyxVyqzEfrcV5c1/TMmV2+eq4vhyOONsviogC5kB3yA=;
-  b=Vt2K/Ddr6YEGPz07sYfjgEudWnY5eu8xPY/7Y4vuSfXFPj5M5De1knhy
-   utHrKAot1GoHvyhlz6RLHPcHNUWof4wJDEgJh7A0VkH1AabgIyOxcKvdG
-   pE3G7TlQwiLRm0KkdeBE4ACveH5LO0mPlQHOA49QQM70+7WPdKcXDEs+t
-   tQOgKPDwZxqOPuhl7p6t9XE838vwefaD7GC96MQa0Gao83exjYvhBZ4zL
-   05EZ89cwhOiEgXwtEAk4+rHqI7Q/XrjtcSIgU640QW4oMkBmNe79zVo0q
-   J6k4oBYg/7hlzz58MgwbCOO/xvJwlEvW3a7nu82TVPY6akSLAwPCi8+/s
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7047814"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="7047814"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 12:50:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="9236970"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Mar 2024 12:50:51 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 4 Mar 2024 12:50:49 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 12:50:49 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 4 Mar 2024 12:50:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTXYrHy9yXbj5n3F4kn74afiiKQKZ00IH8V3af39g5N7p//NeMvm0NbuPzwxL3QfAt/4/3/jc5Mw/YYKzBP4LzV1rXKf4mJGMiICqrabU9VHLH4FQ3f1nrYLXmpEjfV0PMz0Sb5fBduwlDBTwkbR4d7P3x3SZBkT3y6Py6PleAQIhGpikVSCCCUxCMyH+owmUn5XErkN3Xl+fDph1x08Ost3Vh2/zfwXoRMKTZnTs6/yeDor+arj7X0rPWSR6TbG6+uDZVRBy9PPZb0CKK0HxTJhPpn33+tkNmzvZ0J7QFMQ7LDT/vd9159TWyMpUZbKOoyYxVQS+sqeaDmb4NBI9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5TmHS0EzlWyLNLMh/1QppOeCt2t2pMs5YEWpqW1qrbE=;
- b=iSBQJ5Co6Mv4YpvIH8HEx2pE5e4Pdfm5dIEecZGwF6yN8OKKxAq1YK0ZNcRGZHAlmrZNFzH1kjbK7gus+R6ZOsxtlzjOh0n/ia+sbW331sG3cpMnvy6xjX34UrPbLId5MoiNT1QESh7q7yB8zvna7IsT4FNHfQTZrDQyAz+d/hYFKxKzikZqMNSHUyE9WuoS1zZXdIgMVT+c69SE5idVadgX2aaUqYhF/Lo/Uft0GV9xJNxg6wQn8SbOfD+FRrb3C20hdY8apOh9Dt1bO8vID2eHGceLWvSZJLUEfQPfjwH4mheixmovuOKWGv5MeKKr7uM7EVdzfNIklCgwLHQJcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- SJ1PR11MB6275.namprd11.prod.outlook.com (2603:10b6:a03:456::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Mon, 4 Mar
- 2024 20:50:48 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cb11:e68c:53db:aba5]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cb11:e68c:53db:aba5%7]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
- 20:50:47 +0000
-Message-ID: <ea72dd2e-587d-4660-9a8b-da3048819e6b@intel.com>
-Date: Mon, 4 Mar 2024 21:50:42 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] ASoC: topology: Do not ignore route checks when
- parsing graphs
-Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	<broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<tiwai@suse.com>, <perex@perex.cz>, <amadeuszx.slawinski@linux.intel.com>,
-	<hdegoede@redhat.com>
-References: <20240304190536.1783332-1-cezary.rojewski@intel.com>
- <20240304190536.1783332-3-cezary.rojewski@intel.com>
- <14a2f9b8-7711-47c4-9f57-bd839c700d4e@linux.intel.com>
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <14a2f9b8-7711-47c4-9f57-bd839c700d4e@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DUZPR01CA0321.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::15) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+lkfYQu"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-512e39226efso4903107e87.0;
+        Mon, 04 Mar 2024 12:56:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709585787; x=1710190587; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HlRNmAp6oc6mRw+U/oxXT8xWm/794COQRqH81BoO21E=;
+        b=l+lkfYQu3ttys6dtKQoJBzgp4yBHp9EMrVZy9yUC+HGjwbOvqfURJocnKdhUHoFmC0
+         thWetASWBnU2YQCoegVY0uZxi/cj2RAbBEFSFid7JfdXKD4vRHrFahMUTD7cFjb//F2P
+         arO+X6lxeDKgUetCHdbMJgBNfH8wEHRTJIya0jCeSjfnnor1MyDKa/5iBJ6Tyn3hGU6M
+         YtWIWcXafFjfn7MA609RntjKoogMjw5u+OQoscX1QcLC+HSqH0P5c5O0c5BgrcpQjmK3
+         UmQIHtrakURxwc8sb4UISPR+vgNDNo4leZjWGRVUNz37q8Q+992Wvye1zTLzh/aNGbWT
+         oRLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709585787; x=1710190587;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HlRNmAp6oc6mRw+U/oxXT8xWm/794COQRqH81BoO21E=;
+        b=lA7qcdcSgzWm162lMMaUraH44Td74Z7POK7Qmv6MeSV99/blpBZd1UQK54LML/w7eO
+         OQ1a9kEZtbNW1G6X1Ug8V2v/QEMzG/Ix6ASSdz9ezs715q1fgQfbCwPOihZhykSICVeU
+         ifLSgvoVmnSg6aZoSYfhfWHAOYc/k4iA4i8z0fjZusSRMjlk4udHTdbB2W2Jy2dPatOB
+         GmKuSGhu1cbaty0HWlinzbfUBSUPWBDlFP9ph/7w10BDUSubo8djo2j5r8qfvXwMzO3s
+         9GQLJ+TqGYgFB+hMkLGLztmg+RLFFd6WEsHHBfp4SUFnXOscFk4dSijl5RWvNKxWKnn2
+         64CA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtSJrOWR3IyCMKY9jiSEWXG5pasqyT1PjEFHjw7WBNtpWGSuQ9fpism7Yglw4S5rp5IOdDhU4G8O86+Ozpc7jLYxiYu60yD6dKAc9J7uYXI54tkla1UbvRJmiq/J/YYcjYXne3hDc9
+X-Gm-Message-State: AOJu0YwB/F9SNcsEGKYqcfmyjpFdZSMQbvbH3UCgBMRgzP2hVnqjc5fc
+	FLtBRWvuE9kxqEhyUxjvdMKst69+DxvQL6aXtLATDH+E8vckeK5J4QP+vtIY
+X-Google-Smtp-Source: AGHT+IFm0VtBWXVuPskT8VCWwze+tfErEi88n9OFuC/BQ1l911Dop6lcK8GOz4qlJHpqJKRebHzd6A==
+X-Received: by 2002:a19:e00d:0:b0:512:bdcd:f22b with SMTP id x13-20020a19e00d000000b00512bdcdf22bmr6385780lfg.64.1709585786412;
+        Mon, 04 Mar 2024 12:56:26 -0800 (PST)
+Received: from ?IPV6:2a01:c23:c411:1a00:49f1:9fda:4d1e:4f64? (dynamic-2a01-0c23-c411-1a00-49f1-9fda-4d1e-4f64.c23.pool.telefonica.de. [2a01:c23:c411:1a00:49f1:9fda:4d1e:4f64])
+        by smtp.googlemail.com with ESMTPSA id tb25-20020a1709078b9900b00a4557115465sm1405531ejc.13.2024.03.04.12.56.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 12:56:25 -0800 (PST)
+Message-ID: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+Date: Mon, 4 Mar 2024 21:56:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|SJ1PR11MB6275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 954d747a-6c00-47ed-f04a-08dc3c8cc4f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XTsrb727T2/BO/4jzqICgxGhC4ULSSVG5OUxKyFCy7q92qDnSCy4YyfL9lQ6ZeChKJr16C7EdnxMryaL/zMXQk0wUJBEtKb4+fXbTkcYReni5lpqRqqEFBtNSSllvYuRJKkknTYwUCkAmv0YhSspteB1GHHCnPt2gkEX9wIMIErrGraJ6fDJeL6U7xqc+8kqc2Vvbc4iySWGJU2LLGJNeb1sHKdhRQbjNWXmMr0DEQboJtEXhi56Gqs2h9ZURR/fD7/62StzrWoBoRCDeQcJnWuWuTYqR+7SAgUkQnFHa8g2WDJZ+Dv23vc5cijVBAccR+QcrttgZaxFEkISwV6TDtpzADuiPoaGoi9z2Unw/9CI9qy12VbrvqhEeNHdIHwTPfd0UrfkBJZuG0OjIC8Z2jBnH3NOtbS/l/hVj8/Cklzc8HTJhokvudGimDBvE3nyc/IEPd8ozv6H+7SKpuC+tVe8uiNLmXOSr+03jGpm56PFr7JoWJw4zarVtdiiLwm+1dzorOxuU0R4SxIr58ZCBuGxAt3RT7Ap/x6eaz3YaClatYcYn6fGEn94JU+Xbi5gODLkV4CTgesmDKf3pwC4POfiJdB2gYYehLmGY5b6p5Ix9+yebNuvAfF7lk3RH/TlGWgB1a0zC32vzOHpH26/qxO93nJLTBESPWERwSqF8n8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTdtajRzeDNIU1grQVFaUFlFU3NkUGJKbUtEMTd0MmwyRTB4bFpsSGdybjFz?=
- =?utf-8?B?bWFKWGZ3bDBVU1d6dElkNlNyL3Y4MWVNblhCTWJVV3ZLY0gxVFFiTElnRGFs?=
- =?utf-8?B?cnpQRzFxa1JBTndqUGxBbXI0ZitYdkMyV1Z2WDBPQW5NQk95ZG1hTTVieFVQ?=
- =?utf-8?B?QmJiSDRXa3J0WFZlSzVOTE9MWFp0WUJ2bnBieGJSZU15U09ZYTlsNlFtYkc1?=
- =?utf-8?B?WjJCVmMvWUlmc2NuZ1EySHE1ZXJ3MkNzeGVyQkJzZlozNU1HNFZnNDZwNkN5?=
- =?utf-8?B?MTkySHo0ZU1ZQXdTMHVjTXA4eXF0RlpoclZ3eGFDaEZYd0VIZlVsUlRkVkt2?=
- =?utf-8?B?cytOWUJHWUU3OG1LRDg1RzExTzBTcnVMMUczbkovbWVCd1IybHhKdHNxbnJF?=
- =?utf-8?B?SnI3Rk9LOGhmUjZVRU50a01mQm9KV3I0bHFveVNBeUh5K3RXeE9aaUhDd3p1?=
- =?utf-8?B?dWhYb3RYVDZ5NHBwVXFXeGN0bHBud2g5aFU2WXNQeXNpV2luZ011UHY0aGFj?=
- =?utf-8?B?bVZvcHl4Y2IycmdQdlArRXNiTmdvbHRpVXZJVGQzbTlyZ2s0anRWRlcvSmlN?=
- =?utf-8?B?SmNJSUIxTnR5dlQwT0hwbFU1UGsvQTREdkR4ZURWd1d5dVRka1VMdzhibmQ3?=
- =?utf-8?B?UThjMEU2emYyT09YVjVVSDJtZS83dGZKNCthUUgraytBSWpkQnNmRzZGV0NO?=
- =?utf-8?B?R05OeWsySDBOVHRJdTdHblYvd1lhN2dBMHFrS0Q4TktZWWFXSTFrUFVqMVNW?=
- =?utf-8?B?N09kWFRSNUR6Zy95N0M2ZThaaU5sSmdTdS9COU9laXZmVlZFc2g1SjRxZE91?=
- =?utf-8?B?dTFmMTBQTDBHOVBtUGp6V3dOdWZvZDVUK0FJOTByc3pYaGhoa00vQk1rWUNH?=
- =?utf-8?B?TThKTEFFZUVvSmJ6amE3TnVlNUhQVXRaR0FUM1RxNEMxN2pMTjN5Y1FscXdD?=
- =?utf-8?B?SGgvb255cmk0a2hweVFsakVCcDluZXhhdUE2b2IzbWw1YURSUEQ5S2lJMmU5?=
- =?utf-8?B?OVdpcXlNbXhjQWhSQkFWMkpKTWRLeFJrR3VjdllmWDZSckQrek1wY3RQbXBq?=
- =?utf-8?B?c2M2UU9qbXVsOHJKNGZHcEZLbXQ4QkFvVkdLbnI3WHlObkpsNE5uM29yalR1?=
- =?utf-8?B?cTBjWnd6dmhmMWpha0s2SEdOQVFMcGMvQ3NHVEVEek9wRXZZV0RaY2pTemJY?=
- =?utf-8?B?b05ZM2JpV0JvTSs0U0lPdlhjTHF2b3hXZWlHMVZTT2lsOEkwR2lOYmxjQzh4?=
- =?utf-8?B?dkFibnNOYVZUcW0xTk5FVWt5OGdONWRFc2dzYnRrRDZWM1ZlVXNCVjZqcVNX?=
- =?utf-8?B?VDdwNzVZWWpWQ0t6SllvOGRtRmVxelJGZmFuSmNKZXQwRlA5dmNJRWRjM2Ns?=
- =?utf-8?B?bUFhdnV2T3F5dm1ucFZzclFSRU9iRVhjbTJTZTh2UEhmdlN0czVzTHR3ajlw?=
- =?utf-8?B?dGJxY1FQM3h5MjlXVUxaNmpwcVZWVnF4eDBwUHB4TDRhZVF2akViT2JQVTRF?=
- =?utf-8?B?NXBDTHQ3NE5QTE1xNTdoaXFGNnpZZFJMQXlnRFRNOXNCaVpMaXJrTENFM3dK?=
- =?utf-8?B?aitsTmJSaUVZYlR5dGNaZytNYWUySDh5MzlVRis5SjdOVURQNnVTdC9waE5E?=
- =?utf-8?B?VG9HSExSYnJsZVI1dy80c3RjUE1CNjJocEFmd3hpTDRjbk15THZkakxQMFQy?=
- =?utf-8?B?NkxoaC9xM0hNUkJYVkVxRDNGenlNc2RvMnlDZVFlclBXaHZia0dtbndwVy84?=
- =?utf-8?B?bDVXQWh5SC9xM0VHbTlTb1dCVEltN1VXQVoyTC9PTjRBcnNhQ3VmQ2pLUllS?=
- =?utf-8?B?aldJQXczQXVDalpuaEEzRGs3NnFDRVIxY2tMeDNmclRMMnh5L2ZXZ2Z3MjZO?=
- =?utf-8?B?czhVbWpma2ZBREFHNG9VRSt2TTFvV3ZhbGRodnNDWmJHdzNnUlRKV1hWTUEw?=
- =?utf-8?B?NTFkQVBLR1AreTZlSVI2S2lreXBQZUhRNlhDUHkxUi9PdWRTMFo3RTZidUtK?=
- =?utf-8?B?Yng1bWY5KzRLQVhwK3FVK0JGR05wMStEZjRyM3J4aUJlZGFFRjhkQ2U1Q3I5?=
- =?utf-8?B?V1ptNVk3ckFvdllMMHpaZzBlM3I4MHB4VER6WmRPMzZ5d1NPbFpQTytlZjcz?=
- =?utf-8?B?YzNkeFZOUGIxbDFrdTRzWmhSRWgrcEZnYkJNOXU4a2xpd1NUVDBBOUpHUnZU?=
- =?utf-8?B?VEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 954d747a-6c00-47ed-f04a-08dc3c8cc4f5
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 20:50:47.9132
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6pWxCxU+G6FLfyRiVdMDr7J/woqael2eWFY26Z3BAmbNwgCmCa2lHYhrDfdRwwDV/PQYeUNzFUS09tmWVSe+FBQ41yw1GblEbJoTrhc1lZ8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6275
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH v2 0/3] leds: trigger: Improve handling of led_trigger_event()
+ and simplify mute audio trigger
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2024-03-04 8:32 PM, Pierre-Louis Bossart wrote:
-> On 3/4/24 13:05, Cezary Rojewski wrote:
->> One of the framework responsibilities is to ensure that the enumerated
->> DPCMs are valid i.e.: a valid BE is connected to a valid FE DAI. While
->> the are checks in soc-core.c and soc-pcm.c that verify this, a component
->> driver may attempt to workaround this by loading an invalid graph
->> through the topology file.
->>
->> Be strict and fail topology loading when invalid graph is encountered.
-> 
-> This is very invasive, it's perfectly possible that we have a number of
-> 'broken' topologies where one path is 'invalid' but it doesn't impact
-> functionality.
-> 
-> This should be an opt-in behavior IMHO, not a blanket change.
+If a simple trigger is assigned to a LED, then the LED may be off until
+the next led_trigger_event() call. This may be an issue for simple
+triggers with rare led_trigger_event() calls, e.g. power supply
+charging indicators (drivers/power/supply/power_supply_leds.c).
+Therefore persist the brightness value of the last led_trigger_event()
+call and use this value if the trigger is assigned to a LED.
+This change allows to use simple triggers in more cases.
+As a first use case simplify handling of the mute audio trigger.
 
-To my best knowledge, soc-topology.c' first "customer" was the 
-skylake-driver and the final details were cloudy at best back then.
+This series touches few subsystems. I'd propose to handle it via
+the LED subsystem.
 
-Right now sound-drivers utilizing the topology feature do so in more 
-refined fashion. Next, in ASoC we have three locations where 
-snd_soc_dapm_add_routes() is called but error-checks are done only in 
-2/3 of them. This is bogus.
+v2:
+- Split out patch 3 from series and apply it separately via Input tree
+- Improve bisectability and ensure that audio mute trigger can't be
+  built twice between patches 2 and 4.
 
-If the intended way of using snd_soc_dapm_add_routes() is to ignore the 
-return, it should be converted to void and flag ->disable_route_checks 
-removed.
+Heiner Kallweit (3):
+  leds: trigger: Store brightness set by led_trigger_event()
+  ALSA: control-led: Integrate mute led trigger
+  leds: trigger: audio: Remove this trigger
 
+ arch/mips/configs/ci20_defconfig     |  1 -
+ drivers/leds/led-triggers.c          |  6 ++-
+ drivers/leds/trigger/Kconfig         |  7 ---
+ drivers/leds/trigger/Makefile        |  1 -
+ drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
+ include/linux/leds.h                 | 29 ++++++------
+ sound/core/Kconfig                   |  1 -
+ sound/core/control_led.c             | 20 +++++++--
+ 8 files changed, 36 insertions(+), 96 deletions(-)
+ delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
 
-Kind regards,
-Czarek
-
-
->> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
->> ---
->>   sound/soc/soc-topology.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
->> index d6d368837235..778f539d9ff5 100644
->> --- a/sound/soc/soc-topology.c
->> +++ b/sound/soc/soc-topology.c
->> @@ -1083,8 +1083,9 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
->>   			break;
->>   		}
->>   
->> -		/* add route, but keep going if some fail */
->> -		snd_soc_dapm_add_routes(dapm, route, 1);
->> +		ret = snd_soc_dapm_add_routes(dapm, route, 1);
->> +		if (ret && !dapm->card->disable_route_checks)
->> +			break;
->>   	}
->>   
->>   	return ret;
+-- 
+2.44.0
