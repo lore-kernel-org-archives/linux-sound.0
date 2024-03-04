@@ -1,85 +1,278 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493771EB2C;
-	Mon,  4 Mar 2024 13:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B4C3FB0A;
+	Mon,  4 Mar 2024 14:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709559653; cv=none; b=MEV7sbW6Q4kpqtT9fE9Eay2gOkBnEdpqduT2TNzA3oI3d86TkieZIdA+YMTSGUcZp6IcZ/TVOpQC95spOwsRDVEoAW/H0NbkKSeySsnK+GYiOlQ8wPOolDSzfVo7ZLGZNFAVjNd/z0yYuD4BWSePithEO5fbnsZs6qyPxm0r7to=
+	t=1709562224; cv=none; b=IgvOkWcmFYnRyYowhJe+GF4Q1D9Jy5qbC2unpRqYE56FES96DyubXBCfOzNu3SKFlPsO5gmbmgk978/SiIX5iKuO9Zsh2iZSiT+3f1+XyjlcLOMgzRWHdQ8z18QAE9UjGs4cGWUvv3UOL+5ZUuH0EjnRIfZyJryFD262LuPwUdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709559653; c=relaxed/simple;
-	bh=HEWHA2PR2Vwm0nx5ZwKKi8D+dn4R9GYVVAfVOpirOdg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ewod9qB84v8b3OasMIwsWRflM2lZ3EEi0PelDmZMK9j99qtH+TvINHD7T7WUh+wYt0JG40CeA1hlNHn4I8z/TSDEwNBx5/bV0AfIpksbftMcDKSJXEnauc7FPka1TKkiiABb/HaUiM0eiiFhAEH/gMHoJsZJd3zzehwTUFT+at0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=XqJjbyhz; arc=none smtp.client-ip=185.125.188.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1709562224; c=relaxed/simple;
+	bh=XXxnvR6/7pWjgGR4OrSNwADlQ09xHuL0Usz9cO3xdU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kVPlKnnPBCUtyHrV4wn+uPVEUlZs9WEP7d4F8ws7/MnYL1rHNLDpbmnUxdlaYScuL7ZXgx2YF5NwUiz/TZcR5n7FDN3ywQizq/de+2kaPzaahKu6CjQ1rmjWfUuH78hHv1HaAHYB981cIC4OhlQe/iwLtmjLqk/fdocRGd2Gyx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AsPt8hoD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="XqJjbyhz"
-Received: from andch-XPS-15-9520.. (1-163-114-48.dynamic-ip.hinet.net [1.163.114.48])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 49D333FDED;
-	Mon,  4 Mar 2024 13:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1709559648;
-	bh=tVLPpKCRmOM3oFaDePTJQsjQEmkz+D3QGfPGx8yx7lU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=XqJjbyhzobDu/SqCj/j1eAUeLfhRTceHvctRjIfQcSvG3Nf9qohi5SKZuexOaPHD3
-	 4ORyFrXG+R4Z5nxPjO/ksKsovwt2KHKnmO+F2Bq7EQoIcdtDYsMumcILt3UkBg54jy
-	 NMsYdzdyGZoLo5svgOSuRNQKlxgn6xcEMw0J5iBLrI8YNguWkR+c1rUVvNCTnlnLY7
-	 qysjWzO/AO0r3+tyk/jHClwvLCQV4FPwDRY9jmTmKGt/+YaIvJGJknVeXVCCaQoCGz
-	 XRXbjserrYrJSUDoBxKWEmZSeEfM4fAMdMqgrBdF0oihEo3L3vgeQMsgUSeMbs9HsT
-	 9GgLTSZhBTuTw==
-From: Andy Chi <andy.chi@canonical.com>
-To: 
-Cc: andy.chi@canonical.com,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	"Luke D. Jones" <luke@ljones.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Matthew Anderson <ruinairas1992@gmail.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for HP EliteBook
-Date: Mon,  4 Mar 2024 21:40:32 +0800
-Message-Id: <20240304134033.773348-1-andy.chi@canonical.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AsPt8hoD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90565C43390;
+	Mon,  4 Mar 2024 14:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709562223;
+	bh=XXxnvR6/7pWjgGR4OrSNwADlQ09xHuL0Usz9cO3xdU4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AsPt8hoDUStklKvbr9l5y2fCjUGifbeJjU76gbjhnARANwQXeq28a2bR771tR8nGT
+	 noq991Wu1u/PCmt4GmXY7fDKquRwzL5iof/dZkzUfh9seVFkRx739pgn8PWheEu6SG
+	 UWs0JrRh19UszyusQy3QxyfcQm8/sMHN5c88pWXSH+PdSW3/3avE5HPVXoLb9tKBdF
+	 TTIhXfxcJX8lBh50VfYt0ukdtiFqg/8esZM4/Etf2qaOf17eYQFv2EsnRZg7uqsvSu
+	 YR364dIhms7VAjpVoZ2rKs1VYiEaI6QPd6KwtY0QFiCXusYMaYeO3bErFJyEXF+YuE
+	 Zek//seAJQ1FA==
+Date: Mon, 4 Mar 2024 08:23:41 -0600
+From: Rob Herring <robh@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: broonie@kernel.org, wenst@chromium.org, lgirdwood@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
+	trevor.wu@mediatek.com, maso.huang@mediatek.com,
+	xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
+	kuninori.morimoto.gx@renesas.com, shraash@google.com,
+	amergnat@baylibre.com, nicolas.ferre@microchip.com,
+	u.kleine-koenig@pengutronix.de, dianders@chromium.org,
+	frank.li@vivo.com, allen-kh.cheng@mediatek.com,
+	eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
+	jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com,
+	alpernebiyasak@gmail.com, ckeepax@opensource.cirrus.com,
+	zhourui@huaqin.corp-partner.google.com, nfraprado@collabora.com,
+	alsa-devel@alsa-project.org, shane.chien@mediatek.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH 19/22] ASoC: dt-bindings: mt8192: Document audio-routing
+ and dai-link subnode
+Message-ID: <20240304142341.GA156846-robh@kernel.org>
+References: <20240227120939.290143-1-angelogioacchino.delregno@collabora.com>
+ <20240227120939.290143-20-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240227120939.290143-20-angelogioacchino.delregno@collabora.com>
 
-The HP EliteBook using ALC236 codec which using 0x02 to
-control mute LED and 0x01 to control micmute LED.
-Therefore, add a quirk to make it works.
+On Tue, Feb 27, 2024 at 01:09:36PM +0100, AngeloGioacchino Del Regno wrote:
+> Document the dai-link subnodes and the audio-routing property, allowing
+> to describe machine specific audio hardware and links in device tree.
+> 
+> While at it, also deprecate the old properties which were previously
+> used with the driver's partially hardcoded configuration.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../sound/mt8192-mt6359-rt1015-rt5682.yaml    | 129 ++++++++++++++++--
+>  1 file changed, 121 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml b/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
+> index 7e50f5d65c8f..78e221003750 100644
+> --- a/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
+> +++ b/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
+> @@ -20,6 +20,15 @@ properties:
+>        - mediatek,mt8192_mt6359_rt1015p_rt5682
+>        - mediatek,mt8192_mt6359_rt1015p_rt5682s
+>  
+> +  audio-routing:
+> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
 
-Signed-off-by: Andy Chi <andy.chi@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Already defined in sound-card-common.yaml. Add a $ref.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d71520858b5f..232f759e169f 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9880,6 +9880,10 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c8a, "HP EliteBook 630", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c8c, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c90, "HP EliteBook 640", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c91, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c97, "HP ZBook", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8ca1, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
--- 
-2.34.1
+> +    description:
+> +      A list of the connections between audio components. Each entry is a
+> +      pair of strings, the first being the connection's sink, the second
+> +      being the connection's source.
+> +      Valid names could be the input or output widgets of audio components,
+> +      power supplies, MicBias of codec and the software switch.
 
+Generally the names are defined here.
+
+> +
+>    mediatek,platform:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description: The phandle of MT8192 ASoC platform.
+> @@ -27,10 +36,12 @@ properties:
+>    mediatek,hdmi-codec:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description: The phandle of HDMI codec.
+> +    deprecated: true
+>  
+>    headset-codec:
+>      type: object
+>      additionalProperties: false
+> +    deprecated: true
+>  
+>      properties:
+>        sound-dai:
+> @@ -41,6 +52,7 @@ properties:
+>    speaker-codecs:
+>      type: object
+>      additionalProperties: false
+> +    deprecated: true
+>  
+>      properties:
+>        sound-dai:
+> @@ -51,13 +63,83 @@ properties:
+>      required:
+>        - sound-dai
+>  
+> +patternProperties:
+> +  ".*-dai-link$":
+> +    type: object
+> +    description:
+> +      Container for dai-link level properties and CODEC sub-nodes.
+> +
+> +    properties:
+> +      link-name:
+> +        description: Indicates dai-link name and PCM stream name
+> +        items:
+> +          enum:
+> +            - I2S0
+> +            - I2S1
+> +            - I2S2
+> +            - I2S3
+> +            - I2S4
+> +            - I2S5
+> +            - I2S6
+> +            - I2S7
+> +            - I2S8
+> +            - I2S9
+> +            - TDM
+> +
+> +      codec:
+> +        description: Holds subnode which indicates codec dai.
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          sound-dai:
+> +            minItems: 1
+> +            maxItems: 2
+> +        required:
+> +          - sound-dai
+> +
+> +      dai-format:
+> +        description: audio format
+> +        items:
+> +          enum:
+> +            - i2s
+> +            - right_j
+> +            - left_j
+> +            - dsp_a
+> +            - dsp_b
+> +
+> +      mediatek,clk-provider:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        description: Indicates dai-link clock master.
+> +        items:
+> +          enum:
+> +            - cpu
+> +            - codec
+> +
+> +    additionalProperties: false
+
+Move this before properties.
+
+> +
+> +    required:
+> +      - link-name
+> +
+>  additionalProperties: false
+>  
+>  required:
+>    - compatible
+>    - mediatek,platform
+> -  - headset-codec
+> -  - speaker-codecs
+> +
+> +allOf:
+> +  # Disallow dai-link-xxx nodes if the legacy properties are specified
+
+xxx-dai-link?
+
+> +  - if:
+> +      patternProperties:
+> +        ".*-dai-link$": false
+> +    then:
+> +      required:
+> +        - headset-codec
+> +        - speaker-codecs
+> +    else:
+> +      properties:
+> +        headset-codec: false
+> +        speaker-codecs: false
+> +        mediatek,hdmi-codec: false
+
+Allowing both would preserve compatibility. That's not needed? If so, 
+say why in the commit msg.
+
+>  
+>  examples:
+>    - |
+> @@ -65,19 +147,50 @@ examples:
+>      sound: mt8192-sound {
+>          compatible = "mediatek,mt8192_mt6359_rt1015_rt5682";
+>          mediatek,platform = <&afe>;
+> -        mediatek,hdmi-codec = <&anx_bridge_dp>;
+>          pinctrl-names = "aud_clk_mosi_off",
+>                          "aud_clk_mosi_on";
+>          pinctrl-0 = <&aud_clk_mosi_off>;
+>          pinctrl-1 = <&aud_clk_mosi_on>;
+>  
+> -        headset-codec {
+> -            sound-dai = <&rt5682>;
+> +        audio-routing =
+> +                "Headphone Jack", "HPOL",
+> +                "Headphone Jack", "HPOR",
+> +                "IN1P", "Headset Mic",
+> +                "Speakers", "Speaker";
+> +
+> +        spk-playback-dai-link {
+> +                link-name = "I2S3";
+> +                dai-format = "i2s";
+> +                mediatek,clk-provider = "cpu";
+> +                codec {
+> +                        sound-dai = <&rt1015p>;
+> +                };
+> +        };
+> +
+> +        hs-playback-dai-link {
+> +                link-name = "I2S8";
+> +                dai-format = "i2s";
+> +                mediatek,clk-provider = "cpu";
+> +                codec {
+> +                        sound-dai = <&rt5682 0>;
+> +                };
+> +        };
+> +
+> +        hs-capture-dai-link {
+> +                link-name = "I2S9";
+> +                dai-format = "i2s";
+> +                mediatek,clk-provider = "cpu";
+> +                codec {
+> +                        sound-dai = <&rt5682 0>;
+> +                };
+>          };
+>  
+> -        speaker-codecs {
+> -            sound-dai = <&rt1015_l>,
+> -                        <&rt1015_r>;
+> +        displayport-dai-link {
+> +                link-name = "TDM";
+> +                dai-format = "dsp_a";
+> +                codec {
+> +                        sound-dai = <&anx_bridge_dp>;
+> +                };
+>          };
+>      };
+>  
+> -- 
+> 2.44.0
+> 
