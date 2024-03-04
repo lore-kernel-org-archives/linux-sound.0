@@ -1,76 +1,98 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12E7CF17;
-	Mon,  4 Mar 2024 19:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529D17C6CE;
+	Mon,  4 Mar 2024 19:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709579472; cv=none; b=p/4C4ZWF9gxFWCAE4T27Pn0QDBAiGi/7oadFbicGPzGFZjumTWDHPvruWV4KzSs8iR5Quztv09rLtAOALB4wEdWqZ9CZQXBc3QGlhOpA1chnmbuGlVHl+YHpKMnkkVRcDulgU0rtWpeHBuH0+RqnVH1ztBcxYBeGHntHKlPzJes=
+	t=1709579567; cv=none; b=DOkRMtKO98IwyBIWuQD6uhwRjd0o9GwbHwyU8ws76XuSrRRi8thcmf9YlgZI+gTyitmhDX3D7lg12BQTukkQhx8cE1i0Pci2pTpyX5s7yZMDFVySu33xNonclePtWQISZyygHXvmZdKy4q/wcBZuQR3vY21GxP44cRuknHI9jeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709579472; c=relaxed/simple;
-	bh=K3yrAUxiGdxT7G8PGb78Jnh5WW5YiKan5RDHOUdHxAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ZVimDZc73F6C1HDjpaYE9dWzWA1hvCuOIeskq42WeasuZ3vERpPetmrdRtPpX4ZwShMNtZqhdJenZDiW98/iVfxDR1CVgJGQz5zQ/mMuSsdu0h66QeMawNcMaCW54ExK2St7OQnt+a3tr3dK4j29cV/a9IT8xI3sMSC2GFRfBqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QMqei85U; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709579567; c=relaxed/simple;
+	bh=QSR6I3jfyGK14va/ehCs0Hkla4STm7N1K8hQmaLZ2vU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kFkFzioUfxMPYsGfJC6/mlVvgPUfx/g2hx8RuOJc3Of0Bq3Vn0VFAPpDLRy6Y857MNe9VlHrSAT6fvoWLOdNEkqQomulu9jqoVxs9Gb922dzkh6R4CWfK6dEXnttENW7Um/5M98bHFIio/7RZXhYUa5l6r9l7CBgYzplipSQ9uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V3K3cePX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QMqei85U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709579468;
-	bh=K3yrAUxiGdxT7G8PGb78Jnh5WW5YiKan5RDHOUdHxAQ=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=QMqei85Ub5fJFt0Uw9DIkhVOxC8Cjbc5f/XONZH8HXy9F0yQ2I+KxVxp8evAKgyuW
-	 RXsCvF14+INkMQqGREGKq/P0JGAwpxPy+QV+oDXQD/pDqX5VXVVQmYkBz3DoHr5G46
-	 CjrZMa6v3kp6HyYPfxJNzRJXAFWN/O3Rt+eu3qUnuyrJylruhL8DF0FKDQHnJoACZl
-	 EYPBVZgsZU46hzraNRVd6h1HVH69mRlDAskUcI43/yfUS+7XjtE7HP4Ikcg9y274ox
-	 ewPozdep0uZADlomZXnMjLXRz61U1z9IKpJg0cBPzeOT/wQAd6lbIiz8A5Jezw35Or
-	 xeXP7kWWJkKGw==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 24DA23780480;
-	Mon,  4 Mar 2024 19:11:07 +0000 (UTC)
-Message-ID: <db53a405-362f-4c8d-82e2-49c001b29dd1@collabora.com>
-Date: Mon, 4 Mar 2024 21:11:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V3K3cePX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81A0C433F1;
+	Mon,  4 Mar 2024 19:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709579566;
+	bh=QSR6I3jfyGK14va/ehCs0Hkla4STm7N1K8hQmaLZ2vU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V3K3cePXRCVXsXCvb7n4XR324l2knWT3B//QwHRnxH3SGSNoiu1nBKUjlHhL9FVOc
+	 0DA+XmH20JE3yQiSRXFzz0EPYFT2P9VxCVT+ysoZrSzTvMBg0wqo1/wdH0r0Rhm09H
+	 9K87SiXgwz4G1A4/56L00nNLSh4lV2pmIRRBXZLR4bfK0m6YXGjRCj4rMf+5+dPY4J
+	 KV+NM51DEgIko7lHOoDBjDsUqISyzsOMGgCgvEK50HYzg620w0VwYvEkFihUjc2wxm
+	 r1gZotlOTf85+UuGUU8RL6Ktqmoatub0Sx2yj7g7B2IKYZWu2YelPR30yoy6McvjY6
+	 hDcWBbeYUGRVA==
+Date: Mon, 4 Mar 2024 19:12:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v3 0/2] ASoC: SOF: amd: Skip IRAM/DRAM size modification
+ for Steam Deck OLED
+Message-ID: <62b7add5-97b8-4f82-bf49-9d20d8a0407a@sirena.org.uk>
+References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
+ <db53a405-362f-4c8d-82e2-49c001b29dd1@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] ASoC: SOF: amd: Skip IRAM/DRAM size modification
- for Steam Deck OLED
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
-In-Reply-To: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yjcqeVw2x6rkxRWa"
+Content-Disposition: inline
+In-Reply-To: <db53a405-362f-4c8d-82e2-49c001b29dd1@collabora.com>
+X-Cookie: He who hesitates is last.
 
-On 2/20/24 22:16, Cristian Ciocaltea wrote:
-> This patch series restores audio support on Valve's Steam Deck OLED model, which
-> broke after the recent introduction of ACP/PSP communication for IRAM/DRAM fence
-> register programming.
 
-Hi Mark,
+--yjcqeVw2x6rkxRWa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Could we get this queued for merging as v6.9 material?
+On Mon, Mar 04, 2024 at 09:11:06PM +0200, Cristian Ciocaltea wrote:
 
-Thanks,
-Cristian
+> Could we get this queued for merging as v6.9 material?
+
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--yjcqeVw2x6rkxRWa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXmHSgACgkQJNaLcl1U
+h9CHcQf/QHAAawoaBLZYEmSJ6jjIXptEJvNjgLTRrIKFMDRoRGxUDsYLdiWjXIrq
+QRG3QFAcwvQMdnh7plUQy6JPh0jxuN4DtXxsWHnOlVS4pKkyU+SDXQJWzcuxBX4/
+9gMLYJDp7TTsm7HLaZm5YJ1y4NYnKXkTwy5IsaY4hssRQre+MZ+DsR28y82XhkOZ
+xUCs+k3FcjRxngsF/7ceM2x9YjeRXlJDK3ux4LA3lNawdYYKKWoTvBQnlGQAbAeN
+SDRgYBMcSAaWE030csrSbvO1Lf+boSaebTrM05GA5muz+MgbrY+8FxOgynQhWqsb
+jBFGg8yN0BwJXxr0eh+R/YipeO6Ydw==
+=NMer
+-----END PGP SIGNATURE-----
+
+--yjcqeVw2x6rkxRWa--
