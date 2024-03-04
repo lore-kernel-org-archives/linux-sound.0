@@ -1,60 +1,46 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69334FC1B;
-	Mon,  4 Mar 2024 20:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53271119E
+	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 21:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709585987; cv=none; b=KA+KnWAgDUrJJu5+13lxTlJj0/Zvm4ABnClbuUzsm0u+aCly151aF7bDMQjoUEeFaIDEGFO57D8ONOtGBM5i7PbRkieOi13Bi7l/pNnza2gTogM+wZI0gPgGm4HDZE65Du/alg0sW9gea3VatTYULD2RQoVQ4P31yipjzU8xWRE=
+	t=1709586170; cv=none; b=USMae87PT+hDkfZLowH9u/e9WisCKuKZs4luxhpoCzvkM87pTXQ59KmSsAcYbMBDLYd0Xxy6jJMHmCTsxE9hMURh0B83mFLcVPETgCzG57X8IS4d6F2MMIEarcwDQaVw6oIWLcpgdzrP6e9puoHl3Gn3UM31swoLxE2H8sJakzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709585987; c=relaxed/simple;
-	bh=tBuwNHb9+8917mO4T5BfGcUIt/E7uEn3hHtqjypippo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bA9KOHHiqsG/JBDgEQ56g8aiOFafRQWnsPAyjL0rA+rkYxEKaLjy3Kh95B44B93Uy2ApFcwOy0yJ0SdRDmunCmIcK6k/zvqryO2cjCMV/FeJmr+DI+ZLGLxYj6OD9BijyQ4kH41xRLNod8L9O1qdFpIgnxbvUleAFxU6+fF6/Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8Mw6XpI; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709586170; c=relaxed/simple;
+	bh=dRyORiaaDkhOJHe//rVljh2VmfBmbMd7knOY/VOeJyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QxuQBRVxuUy6mQ7d9bn49N9nOKlkaBVdwDJP0DoDXr5W6mjlYsjZdPOOxAPbzEIsStaeaJfIgrsNUXDzI4/dzu05EIC9b5aUwyvRtPQL3ORHU0gzfWKG2NStbPA2/wUaCh75AM0fmdZE1ZsOAexIBhQDWMfLpdbQW/g/gN1ImGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALCO/SI1; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8Mw6XpI"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-565c6cf4819so10032167a12.1;
-        Mon, 04 Mar 2024 12:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709585984; x=1710190784; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=y0lC9epgHNagMNtVX5cTIFML+6IihHp/4HaA0X8mUiw=;
-        b=h8Mw6XpI8yBFJGjSICdrmikndiSeiJq4I169/y84WBQ5d3ezVDfuoyixGvsKdzKVRG
-         NE+G51FDP/sbZiABZ4hJjtdWM8SuFQ5j1EzD6W1iP01nQzzU+AW3gveScbYiAcFuFCcn
-         8d84gHNKJxDMeTSOtIKtMLBwHN8AU7Bw3X26filFtOhQcUBIsEV4Cn75hSvkWCiE0Gol
-         KLiWFZpiKUBYnteDSzMHzeECt5BkRUuS8hQYXv6A9Ql87fMnN0IHhWIWRFJAPWDbxRuT
-         N4r/mnOqC3rRvo39L3E2XKta4pVxG3FFr3d90y8unZKGwTJlmbIXXwlQjYS94U/YvxPE
-         NPAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709585984; x=1710190784;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y0lC9epgHNagMNtVX5cTIFML+6IihHp/4HaA0X8mUiw=;
-        b=ccp7/4pJqr08DzEA49PvknGzJwvepdHJa2RfLdktf8HSRWmjwZksny8BbjYSE2dXYu
-         E96IHLHj9yzf0tuBIjnbq2Zma0eNzOWJ780Da4J/R1WoB1Nie7rpz5W+YDwQ0px8BqTx
-         31C6sxbXdoKmFID3YMhDtP7ahLCaqhRz9GktC3YyOxu3sWqiNZxhAQojGb1uHjddLcl3
-         pFUm3VHMMTzv5tlldf26CUEjRyg11IrqoaFgBLlUdPpXamgJpUxgmbshpK8j6UxbFX/6
-         46TsuSsXZ1giysJ8qqn2CJYireKFjqF2ljfSGGFSrQYpnMdrjE6+FpyRrkWI3Hgxemt/
-         z91g==
-X-Forwarded-Encrypted: i=1; AJvYcCX0sGbzBaFECYYukWpga1Pl9LHRH+MIvqjNe9S5xJV/LjTBjIFbMCA7a2oZfoE2LCHiwRbWzT8ndiX6pIbN2YIOH334qckAFW+ftwe41beVK4qD/1OiLbD38L+9CVoO08MNYaVnGjRT
-X-Gm-Message-State: AOJu0Yz0SS6wjYNbxtt3op0Fj0hVfjPQqOR92PSSa2ICHVyssrp8E54m
-	Q6iTwzsmrvVi5D6QMofHgMkUbVKVqllnYCzkmafh8sWSiM+Z9PVW
-X-Google-Smtp-Source: AGHT+IHLTtruACg2s5x6W73EU3x7BtRoa3LZnyqIqdLDFk9ySA7s4N2kLw2G8Avb9nfUAdCzmzyzxQ==
-X-Received: by 2002:a17:906:fa85:b0:a3e:53d9:c7d5 with SMTP id lt5-20020a170906fa8500b00a3e53d9c7d5mr618651ejb.36.1709585983693;
-        Mon, 04 Mar 2024 12:59:43 -0800 (PST)
-Received: from ?IPV6:2a01:c23:c411:1a00:49f1:9fda:4d1e:4f64? (dynamic-2a01-0c23-c411-1a00-49f1-9fda-4d1e-4f64.c23.pool.telefonica.de. [2a01:c23:c411:1a00:49f1:9fda:4d1e:4f64])
-        by smtp.googlemail.com with ESMTPSA id tb25-20020a1709078b9900b00a4557115465sm1405531ejc.13.2024.03.04.12.59.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Mar 2024 12:59:43 -0800 (PST)
-Message-ID: <1e339779-6d04-4392-8ea2-5592c0fd1aa2@gmail.com>
-Date: Mon, 4 Mar 2024 21:59:47 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALCO/SI1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709586169; x=1741122169;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=dRyORiaaDkhOJHe//rVljh2VmfBmbMd7knOY/VOeJyE=;
+  b=ALCO/SI13HT/niWsXxavTY+G1ztmGyAy9Pfj5nlbntjA9viOXzJ9Nz/u
+   gjWm1lyz4NqY/SsvtuAbYtoqZUctMJy6kUnY28lii4BMjo+5EBxjZg8zy
+   G92d7CfZTYqBTr14/+pUlIgULCI7OHyanJsZbH+dqPzblrBW5CbvVCoOo
+   gTIAxi/Q8DgGcS2PC6uHNHdg34jvowiR+6dsY37QlimJmEX/RsSb9dyG2
+   lcBFPSR5g724jfBMav1CDf097sz8avV1QcFIsWol2Qr7d2w7g94k9pDYQ
+   Q9d4VFdxBGR0iIOyblnmV9g9rsu3CqB/I9fm9RPhfzVefi3832AYct3p5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="3962381"
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="3962381"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 13:02:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="9066810"
+Received: from cryoung-mobl2.amr.corp.intel.com (HELO [10.212.71.160]) ([10.212.71.160])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 13:02:47 -0800
+Message-ID: <eca552eb-9d5b-4990-a98f-85dc1da3a96c@linux.intel.com>
+Date: Mon, 4 Mar 2024 15:02:46 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,182 +48,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2 3/3] leds: trigger: audio: Remove this trigger
+Subject: Re: [PATCH 1/5] ASoC: Intel: Disable route checks for Skylake boards
 Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, tiwai@suse.com,
+ perex@perex.cz, amadeuszx.slawinski@linux.intel.com, hdegoede@redhat.com
+References: <20240304190536.1783332-1-cezary.rojewski@intel.com>
+ <20240304190536.1783332-2-cezary.rojewski@intel.com>
+ <ff674cfa-19d4-4de4-80ec-9be88f8cb4a4@linux.intel.com>
+ <87c39d2f-fac0-4414-9c9f-53e45de70e79@intel.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87c39d2f-fac0-4414-9c9f-53e45de70e79@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Now that the audio trigger is fully integrated in
-sound/core/control_led.c, we can remove it here.
-
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- arch/mips/configs/ci20_defconfig     |  1 -
- drivers/leds/trigger/ledtrig-audio.c | 67 ----------------------------
- include/linux/leds.h                 | 14 ------
- 3 files changed, 82 deletions(-)
- delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
-
-diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
-index cdf2a782d..7827b2b39 100644
---- a/arch/mips/configs/ci20_defconfig
-+++ b/arch/mips/configs/ci20_defconfig
-@@ -152,7 +152,6 @@ CONFIG_LEDS_TRIGGER_CAMERA=m
- CONFIG_LEDS_TRIGGER_PANIC=y
- CONFIG_LEDS_TRIGGER_NETDEV=y
- CONFIG_LEDS_TRIGGER_PATTERN=y
--CONFIG_LEDS_TRIGGER_AUDIO=y
- CONFIG_RTC_CLASS=y
- CONFIG_RTC_DRV_JZ4740=y
- CONFIG_DMADEVICES=y
-diff --git a/drivers/leds/trigger/ledtrig-audio.c b/drivers/leds/trigger/ledtrig-audio.c
-deleted file mode 100644
-index 2ecd4b760..000000000
---- a/drivers/leds/trigger/ledtrig-audio.c
-+++ /dev/null
-@@ -1,67 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--//
--// Audio Mute LED trigger
--//
--
--#include <linux/kernel.h>
--#include <linux/leds.h>
--#include <linux/module.h>
--#include "../leds.h"
--
--static enum led_brightness audio_state[NUM_AUDIO_LEDS];
--
--static int ledtrig_audio_mute_activate(struct led_classdev *led_cdev)
--{
--	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MUTE]);
--	return 0;
--}
--
--static int ledtrig_audio_micmute_activate(struct led_classdev *led_cdev)
--{
--	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MICMUTE]);
--	return 0;
--}
--
--static struct led_trigger ledtrig_audio[NUM_AUDIO_LEDS] = {
--	[LED_AUDIO_MUTE] = {
--		.name     = "audio-mute",
--		.activate = ledtrig_audio_mute_activate,
--	},
--	[LED_AUDIO_MICMUTE] = {
--		.name     = "audio-micmute",
--		.activate = ledtrig_audio_micmute_activate,
--	},
--};
--
--enum led_brightness ledtrig_audio_get(enum led_audio type)
--{
--	return audio_state[type];
--}
--EXPORT_SYMBOL_GPL(ledtrig_audio_get);
--
--void ledtrig_audio_set(enum led_audio type, enum led_brightness state)
--{
--	audio_state[type] = state;
--	led_trigger_event(&ledtrig_audio[type], state);
--}
--EXPORT_SYMBOL_GPL(ledtrig_audio_set);
--
--static int __init ledtrig_audio_init(void)
--{
--	led_trigger_register(&ledtrig_audio[LED_AUDIO_MUTE]);
--	led_trigger_register(&ledtrig_audio[LED_AUDIO_MICMUTE]);
--	return 0;
--}
--module_init(ledtrig_audio_init);
--
--static void __exit ledtrig_audio_exit(void)
--{
--	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MUTE]);
--	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MICMUTE]);
--}
--module_exit(ledtrig_audio_exit);
--
--MODULE_DESCRIPTION("LED trigger for audio mute control");
--MODULE_LICENSE("GPL v2");
--MODULE_ALIAS("ledtrig:audio-mute");
--MODULE_ALIAS("ledtrig:audio-micmute");
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 48fff5980..d2668b427 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -705,18 +705,4 @@ enum led_audio {
- 	NUM_AUDIO_LEDS
- };
- 
--#if IS_ENABLED(CONFIG_LEDS_TRIGGER_AUDIO)
--enum led_brightness ledtrig_audio_get(enum led_audio type);
--void ledtrig_audio_set(enum led_audio type, enum led_brightness state);
--#else
--static inline enum led_brightness ledtrig_audio_get(enum led_audio type)
--{
--	return LED_OFF;
--}
--static inline void ledtrig_audio_set(enum led_audio type,
--				     enum led_brightness state)
--{
--}
--#endif
--
- #endif		/* __LINUX_LEDS_H_INCLUDED */
--- 
-2.44.0
+Content-Transfer-Encoding: 8bit
 
 
+
+On 3/4/24 14:40, Cezary Rojewski wrote:
+> On 2024-03-04 8:28 PM, Pierre-Louis Bossart wrote:
+>> On 3/4/24 13:05, Cezary Rojewski wrote:
+>>> Topology files that are propagated to the world and utilized by the
+>>> skylake-driver carry shortcomings in their SectionGraphs.
+>>>
+>>> Since commit daa480bde6b3 ("ASoC: soc-core: tidyup for
+>>> snd_soc_dapm_add_routes()") route checks are no longer permissive. Probe
+>>> failures for Intel boards have been partially addressed by commit
+>>> a22ae72b86a4 ("ASoC: soc-core: disable route checks for legacy devices")
+>>> and its follow up but only skl_nau88l25_ssm4567.c is patched. Fix the
+>>> problem for the rest of the boards.
+>>>
+>>> Link:
+>>> https://lore.kernel.org/all/20200309192744.18380-1-pierre-louis.bossart@linux.intel.com/
+>>> Fixes: daa480bde6b3 ("ASoC: soc-core: tidyup for
+>>> snd_soc_dapm_add_routes()")
+>>> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+>>> ---
+>>>   sound/soc/intel/boards/bxt_da7219_max98357a.c       | 1 +
+>>>   sound/soc/intel/boards/bxt_rt298.c                  | 1 +
+>>>   sound/soc/intel/boards/glk_rt5682_max98357a.c       | 1 +
+>>>   sound/soc/intel/boards/kbl_da7219_max98357a.c       | 1 +
+>>>   sound/soc/intel/boards/kbl_da7219_max98927.c        | 4 ++++
+>>>   sound/soc/intel/boards/kbl_rt5660.c                 | 1 +
+>>>   sound/soc/intel/boards/kbl_rt5663_max98927.c        | 2 ++
+>>>   sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c | 1 +
+>>>   sound/soc/intel/boards/skl_hda_dsp_generic.c        | 1 +
+>>
+>> This HDAudio machine driver is shared with the SOF-based solutions and I
+>> see no reason to change the route checking...
+>>
+>> I don't agree with this change. Why can't you fix the broken topologies
+>> instead, if indeed they 'carry shortcomings'?
+>>
+>> Same for glk, this an SOF-based solution.
+> 
+> Perhaps the flag could be set conditionally for those two?
+> 
+> Even when you address the problem in the topology file, you do not get
+> any confirmation user replaced the invalid file. skylake-driver topology
+> were not part of any firmware-alike package. Please note that I actually
+> did all that I believe could be done to repair those topologies and
+> provided valid references at avs-topology/for-skylake-driver [1].
+
+Humm, the commit daa480bde6b3 ("ASoC: soc-core: tidyup for
+snd_soc_dapm_add_routes()") dates from August 2019 and was included in
+kernel 5.4.
+
+Why are we seeing issues on route checks with the Skylake driver in
+2024? Are we saying that the card creation failed for the last 5 years?
+
+I must be missing something here.
