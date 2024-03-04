@@ -1,73 +1,71 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B787125CF
-	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 08:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6766A374C5;
+	Mon,  4 Mar 2024 10:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709540535; cv=none; b=Fkc0w+yfFDGH+smUD0kUSruSS+IxwIJhwRmKKTvZmYAbN8Pl512emi6imORUcTNcnrrEOX60GLjYFN0XCHxM6ms4E4Q1kmk5hvlbI1TtUH8E0NToADZEA91GDR1uYjo2dTEU5qIrmCLx7lcuNbA0ISCUg6tL1Rr7M5PWwePZkEM=
+	t=1709548786; cv=none; b=NLmqnkH2S6T1j+GInARRej5yky2rB6Ox9dlaafbESp3KnhPrEswxaE84+VET480LWs8ZaHq3fL0bJKlxgGLBIEKv54Mo4oQ3JGRxsQ0UlMIKXrwKuHb9xX/eaY2dC3aCofUWqCTGEWbjqSLHMBQGbSH/1tC8caHFWhY78ezkQhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709540535; c=relaxed/simple;
-	bh=PsTePWtPSxnq0Tq5h7N6mE5fQbOSzHlEQUVchiHxCEo=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=r3aq1itp+b11Ij7ytKNc33FbesmQd8NNJf7NJKFISa5umnEt2aMeUfD7ky/+iDoFGLF+0XsT/vwGPTjakTUF+xVHQcMvSDJh0GoO9f579uVHemsh/V8At7QqMxhsll15tUHjHXdMaNT0/M2p+SqvucbVjfmCEHcYWGvmUSVxPug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SGErdCw2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9HXks1zK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SGErdCw2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9HXks1zK; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1709548786; c=relaxed/simple;
+	bh=alO/U+Jf4iG9Oroj2wjLRn2JHcgNm638lBIgiXhN9x4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MaSn/aVD+Kp3NWdrcyVYRoEKHCW7Z1gcUNntfa86+oV4kFbSX71FQTRKkckX02FcA+Unob8iO4Iacd7J0imZ4DWaVUXgQzpJIv9dW5Ft2Av5DTr/qaXTvK32tgCQAs5n+cmcrwHj127r9EFpRLpfxLfQxMLCKDfssE8K34PZpeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KANii62M; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SGErdCw2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9HXks1zK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SGErdCw2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9HXks1zK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9488F687FE;
-	Mon,  4 Mar 2024 08:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709540531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Jn7vK4XPEyjYtv2ZwYq9V8L1qUYG5X1aKfQCWfbQ4M=;
-	b=SGErdCw27gzYMsyum8Q+/lIQYSOOexjGSndUiDwDBQUTO0uQl5qP4tOTqAIoZw8QRCj4pV
-	hBcx3KsdMpa53a88D80udKsM3dLrfJkR72Ag80EnkgEGsvMagfBH2PLPc6bnMyURMvHIYa
-	B5M88r/uFTiMMG+y1lgYfZBXLM9+KyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709540531;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Jn7vK4XPEyjYtv2ZwYq9V8L1qUYG5X1aKfQCWfbQ4M=;
-	b=9HXks1zKLEYsHyfD4QUV8EW3y/O1XZjisYuRex+bL5MKTbFHFnmvbH23VHehlV3e2fLDef
-	NT/Qxp9/e5KYmyDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709540531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Jn7vK4XPEyjYtv2ZwYq9V8L1qUYG5X1aKfQCWfbQ4M=;
-	b=SGErdCw27gzYMsyum8Q+/lIQYSOOexjGSndUiDwDBQUTO0uQl5qP4tOTqAIoZw8QRCj4pV
-	hBcx3KsdMpa53a88D80udKsM3dLrfJkR72Ag80EnkgEGsvMagfBH2PLPc6bnMyURMvHIYa
-	B5M88r/uFTiMMG+y1lgYfZBXLM9+KyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709540531;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3Jn7vK4XPEyjYtv2ZwYq9V8L1qUYG5X1aKfQCWfbQ4M=;
-	b=9HXks1zKLEYsHyfD4QUV8EW3y/O1XZjisYuRex+bL5MKTbFHFnmvbH23VHehlV3e2fLDef
-	NT/Qxp9/e5KYmyDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 765A113A5B;
-	Mon,  4 Mar 2024 08:22:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gl+kG7OE5WVVawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 08:22:11 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: ac97: More cleanup with snd_ctl_find_id_mixer()
-Date: Mon,  4 Mar 2024 09:21:58 +0100
-Message-Id: <20240304082158.8583-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KANii62M"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1dcb3e6ff3fso17582335ad.2;
+        Mon, 04 Mar 2024 02:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709548785; x=1710153585; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G6jXvq2qmm0+17q8SmauhVcVGT6BLcIEeqQPZJ4ozCo=;
+        b=KANii62MMM+kT7Xk0ZkeVA7WohutQMKM+gnpwHDxeLxh0hpjdUT0Ru1Qhm6dPHo55t
+         rpz97OG9MXRiylScAS6PeOKgzdOse5SXevGGhZ1bxPU6Rn/ssBkKQ60/Qvnqip++xhCx
+         aQQ5AYye8vcMfy7iB94/Y/F4xmmUe/NANbj5QyD5AFesGs3D4q9iG6XWwgROPdATG8RO
+         FfmCnjrMJ454+mtWJJsIS9jc9uIpjTWw9T2HM34J0jmcG8HVPDR+fLOv37mvPIjnQE5v
+         9I/QxG9YnhQuK97sXoazXEqC6zpUtDYNeuUKY0Vhqkyk+m3i7elZUMYQyCU3NQcjRhkc
+         uOrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709548785; x=1710153585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G6jXvq2qmm0+17q8SmauhVcVGT6BLcIEeqQPZJ4ozCo=;
+        b=O0uT/XOilMh+kQTRSB7BDx1aZQyPhrHnFFkm7YSeghzHbcbfK46Oyqqw+LSlrVj0ve
+         mkxDSy7LR72mh47df/ugch86pS4/4OllIEdBAqxVY+Q0oxk6nLp45CgTfWaNQuHULcmY
+         Yjh3Z4V+Gu7qhu+KuSVpqalS09kS+foBWVsZ3qClZcGtFUdLZ7CHzheUZq5kHHBZuGwf
+         WgXk+Paf7WgocbmaE4MlrWMLO4kYSc+ARHjRHMi80XoIDfJyzKWTUKoVEflmZm7wTU4F
+         RNPcSfrqSL2EKLOzIm6Et8d6EsP1p263KGXsfz5ROX14i0UGIBK/H/i46Czx5b5XcJSz
+         qLfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVN1T2FcL3WXmBMLmY6BfGRw81dVuJUDHAFXVKBjOg0VOV3x6yGhT8aR1dHsWYd/j9u9IUlCcoWarlWMs5vb6BI5g7tJU5LNLi4vBSpWjxKWvILXTeGaZ/WC/Kjyil/ou6aW2txXR1pWLw=
+X-Gm-Message-State: AOJu0YxqXYvlISOB3gHAPDSSSYfzboapPSJXh3C15GvPNuxYLNFYaZKg
+	/WeOFQyyorQyPtVWWE92+o8Xa1G9YXEqAZyWRHzBA1Sw916u4yr+
+X-Google-Smtp-Source: AGHT+IEphhTomhgd7MG4T6Wq2PB7tJCXnPsbBg2jNkJtivGBCIyhb4QbXO0VSm2T34nIBhRMQtl5wQ==
+X-Received: by 2002:a17:902:6f17:b0:1d9:6de3:9980 with SMTP id w23-20020a1709026f1700b001d96de39980mr6812671plk.48.1709548784665;
+        Mon, 04 Mar 2024 02:39:44 -0800 (PST)
+Received: from localhost.localdomain ([103.177.252.48])
+        by smtp.gmail.com with ESMTPSA id q7-20020a17090311c700b001dcb7b28705sm8170330plh.26.2024.03.04.02.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 02:39:44 -0800 (PST)
+From: Al Raj Hassain <alrajhassain@gmail.com>
+To: 
+Cc: alrajhassain@gmail.com,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Jeremy Soller <jeremy@system76.com>,
+	August Wikerfors <git@augustwikerfors.se>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Add HP Pavilion Aero Laptop 13-be2xxx(8BD6) into DMI quirk table
+Date: Mon,  4 Mar 2024 16:09:23 +0530
+Message-Id: <20240304103924.13673-1-alrajhassain@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,60 +73,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [4.78 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_DN_NONE(0.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.12)[66.77%]
-X-Spam-Level: ****
-X-Spam-Score: 4.78
-X-Spam-Flag: NO
 
-There was one overlooked place to be replaced with
-snd_ctl_find_id_mixer() for code simplification.
+The HP Pavilion Aero Laptop 13-be2xxx(8BD6) requires a quirk entry for its internal microphone to function.
 
-No functional change, only code refactoring.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Al Raj Hassain <alrajhassain@gmail.com>
 ---
- sound/pci/ac97/ac97_patch.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/pci/ac97/ac97_patch.c b/sound/pci/ac97/ac97_patch.c
-index 1d786bd5ce3e..cd83aa864ea3 100644
---- a/sound/pci/ac97/ac97_patch.c
-+++ b/sound/pci/ac97/ac97_patch.c
-@@ -41,12 +41,9 @@ static int patch_build_controls(struct snd_ac97 * ac97, const struct snd_kcontro
- static void reset_tlv(struct snd_ac97 *ac97, const char *name,
- 		      const unsigned int *tlv)
- {
--	struct snd_ctl_elem_id sid;
- 	struct snd_kcontrol *kctl;
--	memset(&sid, 0, sizeof(sid));
--	strcpy(sid.name, name);
--	sid.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
--	kctl = snd_ctl_find_id(ac97->bus->card, &sid);
-+
-+	kctl = snd_ctl_find_id_mixer(ac97->bus->card, name);
- 	if (kctl && kctl->tlv.p)
- 		kctl->tlv.p = tlv;
- }
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index abb9589b8477..90360f8b3e81 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -416,6 +416,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8B2F"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8BD6"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
-2.35.3
+2.39.2
 
