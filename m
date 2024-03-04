@@ -1,95 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E07FC09
-	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 20:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709584774; cv=none; b=rD0Kz0LG5JR98B2oyuF3TpZCuOv3QlbmEwVkb3zj3UYjgePF11As418ssUCv9tsaw52ytIUWyCIOrtfK3+TLUKDOWYWhRna6x0Dk4QKHrd7vcOqRo/G9QNCijvmryCiiA2pZKBRE6k4BDaDCcNLazgujHQpaPnKRiV3t9sVxxBk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709584774; c=relaxed/simple;
-	bh=04nMoYqVUkcSBJOJnm4RngC7PaOMqhkjTAtnI8X3D5w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KkJIDyTv8r1rXI2hf3nKlGcwScptUDaJgOCQeIap8rQnpN+ga+UoniZb0tMHHUgpJDO7ss7ghT3kW3+Aev1Ne/ucV3sf9zubKdlAy2eKXG7L8ulifc0KbCLDkvsxIHzbHzARMLMegFOm42NtZnBViPFaAtPZYSorOglhJ96GbEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Son7wq09; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791AD79DD
+	for <linux-sound@vger.kernel.org>; Mon,  4 Mar 2024 20:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709584820; cv=fail; b=HA0LxYsdQBbhEbgX9iyBkpL0lZ/zQYIR0ntBAqhT5qQnAoaSDwnzCNHJkeRGLfn83sulYUyIP07ALJ2WA91DYsi+7j6lhqEPHFA3e0TdCh8JTP6bO4RyJeOXlHZmFkWZLXFy/oD7bmkAgHBl+NHylqDQzTeGb/KuH5/Tqz2m11Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709584820; c=relaxed/simple;
+	bh=Fv431xRMdCQdJdSI7jVxPqB0QcYfe/7zeipmmlJ5YUQ=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UBloAUh/E90edsYX+0BCZJg/s9msvEM30+YSzjmuPZeDZzWX++IgPQVRvrDtMGyO/RYLljTWs4CsvcbnYHF4pHiF67Z5QECOoHayq17JhuxRsyN9T922S8tGj6nC0P7yBIBSQYJUBwHVztf5SfpKUgSOitK8zRo1ddSaiPRE5n8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5Y0oXVO; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Son7wq09"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE06C43390;
-	Mon,  4 Mar 2024 20:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709584774;
-	bh=04nMoYqVUkcSBJOJnm4RngC7PaOMqhkjTAtnI8X3D5w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Son7wq09UMxU70j0JxvfzaQ4lqq0J/pIa0hwUU2z8MfeO8IVsg5hhXiBY+X8vb5zQ
-	 CxZNUX8aiJ79nQ/Q0UoJfwKvi0ymqda5Fzu2SpTh2z4+cTk4GEfs9j0a1jeUw3Gma7
-	 g/LJcEONbPMyWJQWHmaPjX9WyooLOQF+Nevevdf5xbM/TYm5DGM4XUp13HfKXy2tdl
-	 PhKUFSJYve1CjPyG8KWRnUtyXo0OZ/G1AC2uN29f8uZJApejXW7isNrF9p5/aJmBYq
-	 wNOSM/MXjU7eUyOV3e+Ym9T4plG8yMjiwOdTrRlD1F3mJmSPpITt6pvAFlZUD/NPJE
-	 pkbm53keEuKcA==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Vincenzo De Michele <vincenzo.michele@davinci.de>, 
- Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc: Dean Jenkins <dean.jenkins@siemens.com>, 
- Eugeniu Rosca <eugeniu.rosca@bosch.com>, 
- Andreas Pape <Andreas.Pape4@bosch.com>, 
- Yeswanth Rayapati <yeswanth.rayapati@in.bosch.com>
-In-Reply-To: <20240301085003.3057-1-erosca@de.adit-jv.com>
-References: <20240301085003.3057-1-erosca@de.adit-jv.com>
-Subject: Re: [PATCH v2] ASoC: rcar: adg: correct TIMSEL setting for SSI9
-Message-Id: <170958477137.789715.8335791604405299468.b4-ty@kernel.org>
-Date: Mon, 04 Mar 2024 20:39:31 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5Y0oXVO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709584818; x=1741120818;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Fv431xRMdCQdJdSI7jVxPqB0QcYfe/7zeipmmlJ5YUQ=;
+  b=W5Y0oXVOcuFgcuve1feuhPqoUVZ8Nl6HRDdbOkmSoR+aqXqMASBbtWV1
+   oOkcu1rOUtck15FrrXks01lzdl/mA0Cvhu8NFx7EmVerCplDX6gIl7ddx
+   2Mupq8UE4nlW/LpDqR7AJi5hVxzrw8TC8wCHxAjya6FmqT5mHOyaLcymS
+   CvgvdigHwDmRoSEh6OSh0n+6u1ZUG5OuPzHBlUZdAumWkhIQcmHmRWTRo
+   54jBKezGeN9XkRm8HG/7l54tX6Px94JKtoOBlToD4iENZ/TjqCuxM5DnM
+   f1z2/NIx8OyaspmbPrPIham9SRsPDF0SGn1CGgcjUGZ2Zgsht+dlu+OS5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7869597"
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="7869597"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 12:40:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="13690445"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Mar 2024 12:40:17 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 12:40:16 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 12:40:16 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 4 Mar 2024 12:40:16 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cB3CrsVlWIThmulD750GVpkw3EEkyXjHq0S9q/UiFy0vmhrj21njZCfQykMjYtthInaiOc70KHDMSsCksr6JwBSkr0KX+8phc/J1/vTSquuMf5VEicYfAmirTeJR62w8s+G1f9V9m2fvs6fqS7OZq9hPFgdrXQMbdMwMeQacTUn1WDqsX5byk7HLYUjR1Iwb/tB+ti7JiayGGmDP6o20wqB+7a/E2cpTIAo6imINpj10GL6ySpSWeMte7Mtta1c/Q4oeRF3L/Z581jzMXIsXnkvR5LfAlKKtt5jxwd1qNlnWAHSUb5Vv45Lrn2c2PxzWIknzyh/7HJuO0US7Qvu39Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uPx391c+ECLZ142RJZQzn2D942j+opSeaqvFVjdAqJc=;
+ b=QcYInpwo5jejG38YBDTujVV3VEYnKhjFDjFekxaeeEHLsP8l0GswosvEAYjfbi0G9bpNDozDZYrkfTPpYYCXw8La7NsEV4EHv6loyfNR1p2hb2PHt7EhonBIMgU/NAfneevx5Mr821uK82gFNBRgvdNuFngZv9zECCszeVgwN9Z9ytxJQUKgB29cjJq+mmY33lrDhWDRoRFU1FKXbaqPj+9m57TeB9AZpW+0SW5dGlVUrZUipJNeqen2XrsVL3X/kh3rrVkdLzLinHe5uAhn/SPiBxcKFgZeZPhgT4a7lk/nyYFK1E7fOY+2o4L6moX6s2yAUluOvNJlhH+woRX6/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
+ DS0PR11MB6496.namprd11.prod.outlook.com (2603:10b6:8:c0::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7362.23; Mon, 4 Mar 2024 20:40:15 +0000
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cb11:e68c:53db:aba5]) by DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cb11:e68c:53db:aba5%7]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
+ 20:40:15 +0000
+Message-ID: <87c39d2f-fac0-4414-9c9f-53e45de70e79@intel.com>
+Date: Mon, 4 Mar 2024 21:40:10 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] ASoC: Intel: Disable route checks for Skylake boards
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	<broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<tiwai@suse.com>, <perex@perex.cz>, <amadeuszx.slawinski@linux.intel.com>,
+	<hdegoede@redhat.com>
+References: <20240304190536.1783332-1-cezary.rojewski@intel.com>
+ <20240304190536.1783332-2-cezary.rojewski@intel.com>
+ <ff674cfa-19d4-4de4-80ec-9be88f8cb4a4@linux.intel.com>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <ff674cfa-19d4-4de4-80ec-9be88f8cb4a4@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DU2PR04CA0189.eurprd04.prod.outlook.com
+ (2603:10a6:10:28d::14) To DS0PR11MB6375.namprd11.prod.outlook.com
+ (2603:10b6:8:c9::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-a684c
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|DS0PR11MB6496:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87a147a0-7003-463a-b8f7-08dc3c8b4bc6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8FkU5/H1kUH3oD70nQLyNIAcjbQZ25blJ/qA25DUfZ0GaZmTl3TGTyJrpQ+i9cXhOv3myb2QtjOrX6Ayt6R9cp1VJCGmmG+KQfllvTgXs/esUO2fnMVjmCfIMRegb0H84BfJUf4IWA2SWynqGIdNbs/RqQuVHxK/BPyhosUULeZxe6wBe6ZfnfuURAN5rtMRjksERipE3xVhAFewkY2L6T7Gsdpx+kxr+ixLn03e7JSdFzxy3Lz9545BsR8R9WBZspYs5QgfwIGhleHbPFo/LTPJwIQBBXbNFaV35lPljXstERcOYCq+plBWf0c9GPMB5DQG/gvFdhI38IfclllOoYd3ontdZfmbp/SAKpumxRLijxzHTvWrwAT3okUepGLnCulHdOAflJa77NOC3cAn9ZM3mtbxnRybHzNcJoctD6Z5fSgyqwhCJxqLouUPONe8X+mcveVm9aetfFSsyJr/3VTSkm2GU7XGfXS5ciD0EEuE+nU/X1sb1J9QN4FuCrXdVxj/mjj3xE2ZK3/4qizWvffL9NgVeaMd6lkGoEDYTCvlwLXLHu1eksesFPwLg7Zwg89CNC62osnDR9yo8Pvag8ra0jKflKGKYPdgUCeCRq6rtq6NoH0B1EQvV0YNMZ8F
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDM0RzVnMWpYQmN2WWlvQThvejhWYjZaU2FMcXYwNFV4N1pRaXUycE9JT1hG?=
+ =?utf-8?B?bTJPRU16UTBjNTlkRUl5azhITGtycEFGeVJqVHBMNHg2c0wzZlp5VGkwZlZz?=
+ =?utf-8?B?c2hVcWpiOUtYVis0VWJYQnpWdjRkUFVoeTRQOENETWFySFB6WGNVaWZZbWxW?=
+ =?utf-8?B?WVFLUzZTbDJvQWVKU1g3ZXAzMWpiT3FRNDFYaE45V0ZmSGZwUWFqVkpsUnJ1?=
+ =?utf-8?B?dk9sWTl2cSt4R3NkRUJON1pHMzJBK082ajZjeGNSSmd5bXZQT2cvVEhtLyto?=
+ =?utf-8?B?V0pwMnlQRmlMYnZLZU9lRWVBaUQ4bFJRNjhXZlhyMWdyWGdJRk9KVnhDazlF?=
+ =?utf-8?B?MUlpcUJkNFd0S0VHM3JTR1JuZVJIZ201U2wwaW1mYmVQQjN4V2Y5MUZHZWhv?=
+ =?utf-8?B?ZkxMMjdZRzA4Y0RabGJaako5YmlBVmY3a3NCeVBPQUNmRVVUdURSMTN6eHR3?=
+ =?utf-8?B?VGZ1WXpINGNGTExDTXArVEczWC9Ra0FGaTJLTnUzeUV1c29mNkQ5UzFBeFRt?=
+ =?utf-8?B?LzdhcitOaHZJeFZWMU5MZkJMOGNSWGJVWHFGOHNmRWdKUk9OSk1zMDZuNExr?=
+ =?utf-8?B?cmNHUEJkcFpJRU50RmJKampScllhVVVaR3hEU1gzeVY2ZVJ0M2VaZjdYeFVS?=
+ =?utf-8?B?K1JnT3dPakQ5UUI1MisyYzRESmo4NlVxRlZxWk55Q2J0eXNwQlBpcTNzdTFC?=
+ =?utf-8?B?V2FidExiUkphTTQxT2NteFJvbW1Panh0SGdvL293K2xuZmJ5ZFk2M3VjcGNZ?=
+ =?utf-8?B?dnNZUXRENzlGK2dQcGt3MmZUR2NQZUJ0M3J1ajZLbzdNYlhZN2tmM1NFTDFV?=
+ =?utf-8?B?U0s4MHg1d0ZlZm9HRWczTmNpMTJUWXlFZEVxM2NQVk1wWmJWUFlENUpqbGNz?=
+ =?utf-8?B?UGJaWXNqdUhac1lldk5QNGVVN01zVlFWd1BiYkt5SzMrcGxmT05SejQvenUw?=
+ =?utf-8?B?Nm82bFBmR1NoakNIYXVoUzRLQ2k4RU9adk8wL0orbDdwUkNJb1dNRlY3Mkx4?=
+ =?utf-8?B?dkpaSVVWaitvSHBSN3lKTEVob09NMStNVHcvUW1zUEptMWZiV20vcDJnWkM4?=
+ =?utf-8?B?SjVCR1VURzNTUXZ0VWFnaGdQaXh1R1pPVnNXKyswbk5VeWNYS1ZodHNhNFM1?=
+ =?utf-8?B?NC9Wdlc1TFo4bFd6MTFWNWFXUHREU2JEeUtVT21RUXFQcWk4MU9WcUdpYitX?=
+ =?utf-8?B?MVdXZ3laMG40MVc2bzdWR3I1SHg5a05DckVwQ1B2bHNCejFYSXJ4QkJXMVdy?=
+ =?utf-8?B?NC9XOEEycENLQnEvMzU2aWtOOFlkZzVMYW1RMXdyTHk1d2IxckZuVklLY1FT?=
+ =?utf-8?B?M1dUcS9UcEdXZXNzaVU5T2lRVDVvcnNFeXFtWCtsSDBQYThtRGdlS2MzMDVr?=
+ =?utf-8?B?TzJMRDlCd1paK3ZQRWxNVHRnS2d4TThCNVd1QnNWaEQ3byt6RGdWWURDWEhB?=
+ =?utf-8?B?T25WenFLZndmNFdiaTZmd1k2K2tmWmxoK0t3a0F3TEpVSUV3cm84dGhWRE1a?=
+ =?utf-8?B?b3JjK3dTSnYzSmZoenNXZTB0bjVac28xeGhBY2tNYURZd3dRWTdpOGtWTGhi?=
+ =?utf-8?B?M0FwNVVHemtEWG9JZnVYdGxCaEE0eHNvVlF2Q3JMYkR2Q2xWTUdpSmhDdmJZ?=
+ =?utf-8?B?NUNnQkorUTJFZWVvSGNRQlovTVhaM2xZNVI0bzRDZzVkNC9pZ1JYRklEczgr?=
+ =?utf-8?B?RkpZekxjUk5pdktRNG1LZERvQmp1Wm04Sm5nUEFMWmg4dG1NN1FtR3E4ZTlF?=
+ =?utf-8?B?RmV4bWorNkYvck1DMk02OHgxNGZtQW01ZXI4UXZwdkVobHJKbmtNdTNuQWJ2?=
+ =?utf-8?B?OGxFUXNWc2laZUtSdU55cVdpbHIvUmNiMHJnTUhVdzRqNVMxSllYaGxiRzBE?=
+ =?utf-8?B?WTNIdWJ3blNvekNZbDgyeDF6b1ZIWHRxcEdWQVc0YWN6ZjB5T2I4dWlYWWF6?=
+ =?utf-8?B?bE5Vb25ZcXpTa29FbVVlaHp3SElpa1RJUWhwT1FGL3ZQbWdHRm1LSmc5OGFy?=
+ =?utf-8?B?a2MvODRFUm9WUCsvRTJXUE1lVi84eDd2Y0hUNjVnQVQ5VWFpQUNhRjNXVjlC?=
+ =?utf-8?B?TmhGQkdPYkxIWlcyVHNLR2xobkFHZWhHTUU5cFdYbGs4TlFJQ0pCcVkxWjFv?=
+ =?utf-8?B?UEZPbm9ldVFhTHBOOC8rK0J0cXJobkRBWVRaaXVFR2FYL1NvNk44Wlc1bFRY?=
+ =?utf-8?B?NGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87a147a0-7003-463a-b8f7-08dc3c8b4bc6
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 20:40:15.0086
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QANFNV8M2AxdO7zgtILvslqWo1S5fboAROkEGZ0d2KXEwZD4h8HXfOmoG7HZUfYilzIBRcuoKCk+biAKs4RLG2fnMKTvpIiZDwWYzY8gIOw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6496
+X-OriginatorOrg: intel.com
 
-On Fri, 01 Mar 2024 09:50:03 +0100, Eugeniu Rosca wrote:
-> Timing select registers for SRC and CMD are by default
-> referring to the corresponding SSI word select.
-> The calculation rule from HW spec skips SSI8, which has
-> no clock connection.
+On 2024-03-04 8:28 PM, Pierre-Louis Bossart wrote:
+> On 3/4/24 13:05, Cezary Rojewski wrote:
+>> Topology files that are propagated to the world and utilized by the
+>> skylake-driver carry shortcomings in their SectionGraphs.
+>>
+>> Since commit daa480bde6b3 ("ASoC: soc-core: tidyup for
+>> snd_soc_dapm_add_routes()") route checks are no longer permissive. Probe
+>> failures for Intel boards have been partially addressed by commit
+>> a22ae72b86a4 ("ASoC: soc-core: disable route checks for legacy devices")
+>> and its follow up but only skl_nau88l25_ssm4567.c is patched. Fix the
+>> problem for the rest of the boards.
+>>
+>> Link: https://lore.kernel.org/all/20200309192744.18380-1-pierre-louis.bossart@linux.intel.com/
+>> Fixes: daa480bde6b3 ("ASoC: soc-core: tidyup for snd_soc_dapm_add_routes()")
+>> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+>> ---
+>>   sound/soc/intel/boards/bxt_da7219_max98357a.c       | 1 +
+>>   sound/soc/intel/boards/bxt_rt298.c                  | 1 +
+>>   sound/soc/intel/boards/glk_rt5682_max98357a.c       | 1 +
+>>   sound/soc/intel/boards/kbl_da7219_max98357a.c       | 1 +
+>>   sound/soc/intel/boards/kbl_da7219_max98927.c        | 4 ++++
+>>   sound/soc/intel/boards/kbl_rt5660.c                 | 1 +
+>>   sound/soc/intel/boards/kbl_rt5663_max98927.c        | 2 ++
+>>   sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c | 1 +
+>>   sound/soc/intel/boards/skl_hda_dsp_generic.c        | 1 +
 > 
-> >From section 43.2.18 CMD Output Timing Select Register (CMDOUT_TIMSEL),
-> of R-Car Series, 3rd Generation Hardware User’s Manual Rev.2.20:
+> This HDAudio machine driver is shared with the SOF-based solutions and I
+> see no reason to change the route checking...
 > 
-> [...]
+> I don't agree with this change. Why can't you fix the broken topologies
+> instead, if indeed they 'carry shortcomings'?
+> 
+> Same for glk, this an SOF-based solution.
 
-Applied to
+Perhaps the flag could be set conditionally for those two?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Even when you address the problem in the topology file, you do not get 
+any confirmation user replaced the invalid file. skylake-driver topology 
+were not part of any firmware-alike package. Please note that I actually 
+did all that I believe could be done to repair those topologies and 
+provided valid references at avs-topology/for-skylake-driver [1].
 
-Thanks!
 
-[1/1] ASoC: rcar: adg: correct TIMSEL setting for SSI9
-      commit: cbae1a350e3ceff38242a4905805c80ccbcfbba5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+[1]: 
+https://github.com/thesofproject/avs-topology-xml/tree/for-skylake-driver
