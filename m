@@ -1,133 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2076.outbound.protection.outlook.com [40.107.20.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB00714AA3;
-	Tue,  5 Mar 2024 17:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709659535; cv=none; b=fyS5zioiC+Yw9UGBABaY8Kx+NUreRcX4ChU+89diz9HOkJgffo2ocJcnRJEtDufclBphqEhXW+xV5AK6xUOckr04j0jJiyU313/fkqDQZBto6X24f2EBuZpaSFNKAU9d9rmEZEjXVoL6tVQDXSHMWlwYEKVfJYT2Hwg9HN9GDks=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709659535; c=relaxed/simple;
-	bh=4nFC5omIFOjOAJ+cP/UoTfF1yurBWzlnntNqzpar1uA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HfBtgAV6H+rNMgDeAlAdUi8CX/rDNANU2Pgg1V4p3FCfL2+D929f4JWlP4nfNIWm/n6NlndLMSR4I/eY6wD1X9IldsPjqb0IszrRt4jsVrVZY27kzd4YSj88BM1z4UbXm6zmUfjxq5tOpuqKHB3i5nBL4BOaQr+7YxU8kD/5g5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGIoI2Rq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B92175AD;
+	Tue,  5 Mar 2024 17:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709660006; cv=fail; b=ZaWij7ynSS9KJuwHyASNnvPqn9P98CUmLrsf+7T3yYS7Yh7L08fzWwKLb7ksKPQkrPn08qxuoztkaWZ5PN9QRq+nRpxVnGsJ+9L1nzCxo5co44mQWcxGqL85i/JdX2dkbE94tGtWEFPxcocBrB5PP440xX7be9HjcHSsATIH5jM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709660006; c=relaxed/simple;
+	bh=VwHc3kjcb2pWtSk++KPQVvXCwWX8pTOMc7rwxNKUg5U=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=O+g6nxTLMj+g+hthtwx+N6iiqLfn/1dGToWPyKUrCzCHGZqVagwjk2SCupsYJJUkgKKwXNoq1NABd+kO9lInrTE9PGsFYuKbw3DkRKWCdmzuZmw1QfQ3UrFDs6oOENi2z9iQ+jjm8CRFbvDryWB38+K4JpRnTg0bH3ucBK3eKSY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=sjs/VvAO; arc=fail smtp.client-ip=40.107.20.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGIoI2Rq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE95C433C7;
-	Tue,  5 Mar 2024 17:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709659535;
-	bh=4nFC5omIFOjOAJ+cP/UoTfF1yurBWzlnntNqzpar1uA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nGIoI2RqSSD+o5WgK9vgZYqgif+hg8huqzeRQfiT4srghDdJmIeoqQSII8KF0NwNc
-	 WhTFl3lISg2N3BXnnD8honFCDlkWkCLPzATIHWdliP3x3xjDnxmO6KuHzM2zL5APwC
-	 sAiyhqYbkWpDmbBP1JA/FAzosdQDSChqnfX/LBUGWTz9WUX/TEx3zPIzORcgYSm99b
-	 xYlQr6Z0yT4rAAWNEdQHP02sm4tNCDMnTGNARDBIrNaLW3sU3t2zXk1dvhGbcqpg0n
-	 2F/sl6ixgTHrDNsicoFbpZ7owAlaGBnYy+P+Se9N6NqcNkd121JRUA5eDQIObyb65h
-	 wno0/gZxqkbdw==
-Date: Tue, 5 Mar 2024 11:25:32 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux1394-devel@lists.sourceforge.net
-Subject: [PATCH 2/2][next] ALSA: firewire-lib: Avoid
- -Wflex-array-member-not-at-end warning
-Message-ID: <d3a764eb76909b16b8a22d9ff530e5edf0e59e6b.1709658886.git.gustavoars@kernel.org>
-References: <cover.1709658886.git.gustavoars@kernel.org>
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="sjs/VvAO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nbQ7EsvDxVv5uOZ63Qhb0yrxAPtCL8iofC/IPJMDO3EO7VxW7YA1Wrb8dQxWy2eItEgywYOlo1pbizy8NBubqlKjS//jgCVeav5g0jxYltAsKhWnjIUAxMUXBBvJRT81JNaXwMWPOnXFgJzT1KgV8Tr/bjQHrjICGNrVn4Gjn41GOBxg6LQFBKBSw7g0fJnR8jRT3T8t9i9Qf0vvRCr9InJw8c/nqTnbYQQ/X6usROumCc5G/9Vl50b4dgPDhXhIfP885XDSxoAnHX6RdymvPyEizZx43OTusPRKAkWDbT35Me3m8TVoH36OtwQpdW3Ra+Whe/xt88MwU68XM9nXGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dsojrvO4pMzNiiQfQ89H0V6O1virTNQPr22c0toyn2k=;
+ b=dS5LdI5qhQKILSuYq6Ycrq8f4LpSwfSbLKL6BvqQg7pLyVltVrF4Tw/6jHu4dD2RM4Wi+wq1PRI0UH/kislnLVDp2pSKY2doxYp5UeKQVD5WaTcKex7jf8gSV2LfULpxT2lfS6PKAvgjOhEXc1wVnYsQW4U1T0AoyARqHBxAhJLOxXVHJCH5iWH3CnJ57CrGxMyHnxRfbItvabJYqLCM4mXNm3MZ+2j/fLV0qT3JzmvO8BwJEATMrpxZN9nY2ONoGv6ko9mtdgeI1QM0Z0CJjHbvfiRzTjTzfa92cXDtz54LOuAAGJiPf92rbFAw/9w2LhU7ZaBhnRd1uiR0CFPQ+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dsojrvO4pMzNiiQfQ89H0V6O1virTNQPr22c0toyn2k=;
+ b=sjs/VvAOx6ZwjParKWdpuwIojGYPCeD6Pejwz2xVZWz5/GCkN+TYKYOW4PxKkqIPoTJK1bFIJ1uXPh25UOnrtdNH5tsifl6/iuXDPmcNcM38A8pjmC8sED76LILgJvXBXugKb4z8HNfMqYSHCjg3V23nhWjIFnASRhS77IchC0A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by PA4PR04MB7856.eurprd04.prod.outlook.com (2603:10a6:102:cc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Tue, 5 Mar
+ 2024 17:33:21 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::3168:91:27c6:edf6]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::3168:91:27c6:edf6%3]) with mapi id 15.20.7339.035; Tue, 5 Mar 2024
+ 17:33:21 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v4 0/4] arm64: dts: imx8qxp add asrc and sai
+Date: Tue, 05 Mar 2024 12:33:01 -0500
+Message-Id: <20240305-asrc_8qxp-v4-0-c61b98046591@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE1X52UC/22Myw6CMBQFf4XctTXltrWVlf9hjCl9SBcCtqbBE
+ P7dwkYWLufkzMyQXAwuQVPNEF0OKQx9AX6owHS6fzgSbGFAipwiSqJTNHf1mkaCQuuTVExx6qH
+ 8x+h8mLbW9Va4C+k9xM+Wzriu/yoZCSUC69YY6dra0Es/jUczPGFtZLb31N5jxbPcijMT3jKtf
+ 96yLF+MyHIR2AAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.13-dev-c87ef
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709659997; l=1942;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=VwHc3kjcb2pWtSk++KPQVvXCwWX8pTOMc7rwxNKUg5U=;
+ b=yJ1Fis795/ZtEnWPy2Kkhbz92+dRUoUMyNm6kgyUfzCDGq/wKlXxtagR2hpJBpSmz3wM947m3
+ f0qy0FKqNl/DUW6D4zJXCfGm1g5qFh0Qty/ixn/eih9VwSdm2Axz8wn
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SJ0PR05CA0159.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::14) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1709658886.git.gustavoars@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA4PR04MB7856:EE_
+X-MS-Office365-Filtering-Correlation-Id: 319b5d1d-80f3-400f-0c6b-08dc3d3a5a45
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	DR5M/gBlg5rYttutStQRxZrlrgZmYnmp/T/jzI0qsfoeYb1OqnDEEqRQIOWxkUqe/3n6TOg4wZuVBPmmCVoYCc97xI10QcfhGhwpA98HoIvNibDUU06tmD0D+iCgW/ndYR5d8cQ8vBsJ9lqS5QMNXpJWXoYo6M0JFVFiUFfURQe74fmtrVMpBviJ+bIaADYj6j1xGROPnc0yXowj4mgciNRBkQCNKDKjc5SrcXyt7i6cIaiHQPj8W32N9tohbN3re6ORu/Pt0we4Y4t5dZ44318rZh7vKloKFA69sAODkdNZVQ7GOE5QewtlwVbgXjNJYqte56FeGTQUXfPx6hiAbFYpN9zYfzjaWDd6ehp6hZ6i+HD28M7j3nAXoSuv5hxvCGCDnNoPQ4FzgCUfsQ/WiFksLFomX10Ovy/9BAFjRe196npLUOmoj9aaH1gSfTlSZaxcmblAWCMalZuQzD/Y7vP0rl22QfkyIJhquVWLBC59qT4jbMkDbZSiz5NEcQg1ai4twO5TmQDofscjwrCf6kr1mfV5f4BbopHseEpUcEuTZgC2GyPkcbp8W8GLyZZUyZIntzZmBRdZya71rFW87k50Ll2oD6nl+rfuEoB/UKjX2fAyeED8JtZXZjrnK0VyPeFuI1RNxnzsvCva9YfpNBp5pucitOuWCU3XcwHqq1gNyh2j/8/kS5OeHlQ71VJE
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(921011)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NWZkbExTZFp0S3FjQjE3dGVKbE5kVVlvOG0xallHV3RSRnFRajJLMElsM3Y4?=
+ =?utf-8?B?WTN5dytJeVZQWW51a2ZYSUZFTUdGaGtMU29XeGVtZ1lmdGRJa1hSYTI1ejhx?=
+ =?utf-8?B?MVlydXgvMUFvNG9ldlBod0N3d3JLSmVRcUtDa2QxZ2VPdDZMMmR2WWZIM09N?=
+ =?utf-8?B?UjVqNnpPVncvSXhKb3dQTE1tWDdVeGlaNmxIYjN1VFNrMnpKVXZiQVc3WnJE?=
+ =?utf-8?B?M1BZR1pmbWtoRWhYMkxhdUtIblVKeWhJZlV3bFpSa3Bvd1BQcWJ5R2hMRmx2?=
+ =?utf-8?B?TytYSU9uNUU0ZU51TDkyQU81R3psZ2R1YkNJelVGaUQzTzZwcnk0ZXAreDgv?=
+ =?utf-8?B?aTlrZXdWaHN5S0JnSkwyWi9naG9iamVObDFOSG5qMTE2dTdaSHdqMWdGNjE5?=
+ =?utf-8?B?VXh0dlBoTFRubWd6MDBQeGo5MElWSzI0Q2RVb25SbG9zUE93eVZic1RuQ3Bl?=
+ =?utf-8?B?a2xPT3VlKzRBdWZ1VFBacUZDdlJlblRub0NXY01pNVZrTldsaStzRUY2VUE2?=
+ =?utf-8?B?SThZYzVtc1c4THQ3Wkxha1hNeTRLTzBHUXcrbTNsbElPQWlISE1yN1BRc0dW?=
+ =?utf-8?B?OXVnbWFDaUVPRCtKa1FaNEFCcU1jTXNGOGFiRGUvTW56d3pTVzRPSFYxWEdQ?=
+ =?utf-8?B?aGRNbUI0bkpyNktMSWxneVJuL0k1RzZBT1NtUmxKaWJsd3lvTWVFVGhpUzFx?=
+ =?utf-8?B?ZUd3KzBvd05xcUZVM3VxZ2ZicFlBMnpLUG84WFdLUDJWWnRNVU5mYUY3OFBT?=
+ =?utf-8?B?RmxEdjF5dy9sbkdTM0RCWW55S2g4UzJrdXZucFB6dElKTmtwamE1elZYZWJu?=
+ =?utf-8?B?TzRGZ3F3UDN3aG85dGdnamVuQUdoRHAwaTIwL3lQS0lYcXNtcHdlQzk2aDIv?=
+ =?utf-8?B?b3QwKzZNckE1TGEyY1h5VFF0dXBRQk9VcTJoQmE4NlJYTFMvaXBTL3daNk9v?=
+ =?utf-8?B?SzZMc0F1YVUyekVsRitBcU50RFRkZHpGWFRKZXUzVEc1QTh2MWhMZVVBWEdv?=
+ =?utf-8?B?NkRlS2E1T2NRRUFMQ29ZUGVsRmNzRXBSTGtTR3RCSFY2UzRTcGk1U1VDRWYx?=
+ =?utf-8?B?bW5uT3dNL2xKZnhoKzlMdDZVYlNsdFhkL1VYYlk2L290Vll5Y3VHakdHT204?=
+ =?utf-8?B?UHZad3psd0p3VmJNVVZ6UXBGWE1kRGdWQ3hkRHR6azVyNlM0NGdDL1NsLzg0?=
+ =?utf-8?B?NjZmWjlIcUxHaktuQTVFOHFuNm8rNGJSeEJyL0szRTVHSHdWM0ZBVUdWWC96?=
+ =?utf-8?B?d3RKRGw4TkhreFJZVnNncnB3RExQbndHQ0FvbEZaWlAzaXEvWVNOWU9RVHE2?=
+ =?utf-8?B?NWNRZHdWS0w2Nk1kTGN4QzJKOGpWQm0vMldyTFpWVE1WenA4MWFNb243Yngr?=
+ =?utf-8?B?L0RlTEVrNVFPcVJ6Wkg4WWRlOUdyRXNhSXFQNlgxSDZTZ1h2UkFNak5lblo0?=
+ =?utf-8?B?ai9WeTV0bzloaGNMSGZCTDBCRlhqNlVLRlNsbmpLWUR4N1VPaFBXSDFRZHB5?=
+ =?utf-8?B?NFp6ZlhCMjV0a0ZrZ3dkNGtDY2dmNloza3JaUk5jK3BxWEcwTzdDT2JZYWF5?=
+ =?utf-8?B?MUxpeGVlajVBMzlTWmg4cjI3akI0eGdTV1Vydk5WTThZRlMwNllGM3ZGNFJ1?=
+ =?utf-8?B?TW4xWUpMUW5GWTRDd3NIeW5XS1I3cmFiMmtTS0dGVXFLUDNDY0YyakpWN1V3?=
+ =?utf-8?B?U3N1bDhvUmhVVHNDT01LTVpuZ2Z2MjZrTTdhU0ErUGV0d2Z2eDRJOWZnMHZJ?=
+ =?utf-8?B?dGRiZ0pIT0ZYVGdxWStWVVF5eTdOSGN5d1ZjRmhKYnVqUUFFMG03Z3IrRThY?=
+ =?utf-8?B?QjNzak4rZlpBcHZQRzN0dmxqZ2NPQ3ovaHJ6Y0FPM2Z2ajMrNFhVSFZvblFG?=
+ =?utf-8?B?NWR1eHNoSGRFNXVuUysvNGFJcXRiMFVyOE9vQmdUU0RHbmlVZVh1L1FjSDlG?=
+ =?utf-8?B?N3RIVUxUU0RYVitUYlE5SDl4M0NjaVAyaThvSDNleDlFTXdSeEdnRXhPbld6?=
+ =?utf-8?B?SlRKdzM3bGZpZ3lueTB6THhZd29qSzhBdmMxeXRlRTdpc2VBYk00Q3JYbzhh?=
+ =?utf-8?B?MmlQZWVPOXlxNkY0V2F1K25KVUZrckhPd1h0MTk5UWdOTDV6RzJJcktraG8z?=
+ =?utf-8?Q?SPYoLHDfW4ZKwceqRx21xBKzZ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 319b5d1d-80f3-400f-0c6b-08dc3d3a5a45
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 17:33:21.2556
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6B+ihu+rCJf8RbLRPooxuCV16UzJB8nxZzkuX3XbXam6f+zr8btddp44KDkOPgXvgsmRf1CKz4sdMAIRJq4Q1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7856
 
--Wflex-array-member-not-at-end is coming in GCC-14, and we are getting
-ready to enable it globally.
+Update binding doc to avoid warning.
+Change from v1 to v2
+- Fixed dts DTB_CHECK warning
 
-There is currently a local structure `template` that is using a flexible
-`struct fw_iso_packet` as a header for an on-stack array
-`__be32 header[CIP_HEADER_QUADLETS];`.
-
-struct {
-	struct fw_iso_packet params;
-	__be32 header[CIP_HEADER_QUADLETS];
-} template = { {0}, {0} };
-
-However, we are deprecating flexible arrays in the middle of another
-struct. So, in order to avoid this, we use the `struct_group_tagged()`
-helper to separate the flexible array from the rest of the members in
-the flexible structure:
-
-struct fw_iso_packet {
-        struct_group_tagged(fw_iso_packet_hdr, hdr,
-                ... the rest of the members
-        );
-        u32 header[];           /* tx: Top of 1394 isoch. data_block    */
-};
-
-With the change described above, we can now declare an object of the
-type of the tagged struct, without embedding the flexible array in the
-middle of another struct:
-
-struct {
-	struct fw_iso_packet_hdr params;
-	__be32 header[CIP_HEADER_QUADLETS];
-} template = { {0}, {0} };
-
-We also use `container_of()` whenever we need to retrieve a pointer to
-the flexible structure.
-
-So, with these changes, fix the following warning:
-
-sound/firewire/amdtp-stream.c: In function ‘process_rx_packets’:
-sound/firewire/amdtp-stream.c:1184:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
- 1184 |                         struct fw_iso_packet params;
-      |
-
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- sound/firewire/amdtp-stream.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Changes in v4:
+Combine comments' from v2 and v3. I hope I address everythings.
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index c9f153f85ae6..7ba1cd64d7f1 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -1181,12 +1181,14 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
- 
- 	for (i = 0; i < packets; ++i) {
- 		struct {
--			struct fw_iso_packet params;
-+			struct fw_iso_packet_hdr params;
- 			__be32 header[CIP_HEADER_QUADLETS];
- 		} template = { {0}, {0} };
-+		struct fw_iso_packet *params =
-+			container_of(&template.params, struct fw_iso_packet, hdr);
- 		bool sched_irq = false;
- 
--		build_it_pkt_header(s, desc->cycle, &template.params, pkt_header_length,
-+		build_it_pkt_header(s, desc->cycle, params, pkt_header_length,
- 				    desc->data_blocks, desc->data_block_counter,
- 				    desc->syt, i, curr_cycle_time);
- 
-@@ -1198,7 +1200,7 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
- 			}
- 		}
- 
--		if (queue_out_packet(s, &template.params, sched_irq) < 0) {
-+		if (queue_out_packet(s, params, sched_irq) < 0) {
- 			cancel_stream(s);
- 			return;
- 		}
+- Krzysztof's comments
+  - add reson about why change
+
+- rob's comments
+  using rob's suggest logic to restrict interrupt number
+  but for dma-names, still need use oneOf to cover 3 case
+  - [rx, tx]
+  - [rx]
+  - [tx]
+
+  oneOf
+    - items:
+        - tx
+        - rx
+    - enums: [rx, tx]
+
+- Conor's comments
+  - add power-domains required for imx8qxp and imx8qm
+  - remove dmas descript, not allow use index to get dma-channel. Current
+no user using this method.
+
+- Link to v3: https://lore.kernel.org/r/20240228-asrc_8qxp-v3-0-d4d5935fd3aa@nxp.com
+
+Changes in v3:
+- Fixed dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/fsl,spdif.example.dtb: spdif@2004000: interrupts: [[0, 52, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/sound/fsl,spdif.yaml#
+
+- Link to v2: https://lore.kernel.org/r/20240227-asrc_8qxp-v2-0-521bcc7eb1c0@nxp.com
+
+---
+Frank Li (4):
+      ASoC: dt-bindings: fsl,imx-asrc/spdif: Add power-domains property
+      ASoC: dt-bindings: fsl,imx-asrc: update max interrupt numbers
+      ASoC: dt-bindings: fsl-sai: allow only one dma-names
+      arm64: dts: imx8qxp: add asrc[0,1], esai0, spdif[0,1] and sai[4,5]
+
+ .../devicetree/bindings/sound/fsl,imx-asrc.yaml    |  14 +
+ .../devicetree/bindings/sound/fsl,sai.yaml         |  13 +-
+ .../devicetree/bindings/sound/fsl,spdif.yaml       |  33 ++-
+ arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi   | 304 +++++++++++++++++++++
+ 4 files changed, 356 insertions(+), 8 deletions(-)
+---
+base-commit: ca301cf599a4eeafed8e3dd87bf8d2fe810e075e
+change-id: 20240227-asrc_8qxp-25aa6783840f
+
+Best regards,
 -- 
-2.34.1
+Frank Li <Frank.Li@nxp.com>
 
