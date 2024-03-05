@@ -1,97 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994FB85942;
-	Tue,  5 Mar 2024 16:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596CB944F;
+	Tue,  5 Mar 2024 17:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654852; cv=none; b=jezBI6Hl2ujYck/EvQhlRB6tOm2BhMA7N0YtPBhwLiQdwjz0tT2SyLhRhW1ZLtrBq2P1RU6H41UKfnqr2Nsnm62wjnOh4tYmCJIfdRofY4j00A6D/+Gjbak+CEpY92viDue7Qz0isGSxtUIDP4l9buuv4HfdzLaupprBvsTM1T0=
+	t=1709659459; cv=none; b=qrA8qMkyX558VbRh60H2uVwaAkkpESuwPGrDncUMHw9ar0ma1WI3WACOfCFRTcJlIcDy7+il9MzFrwOyiBZIGZmqA5r1QGXa7jl/iqxT4rJUjUBwm3lv3ACptjUTGhjloQpcFzYvJbmzCR9qWu2Hnv9w2FedHErTeNjeJQRJHmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654852; c=relaxed/simple;
-	bh=9u4MuvGx1V+56K9txq9pYyx3UFHJtGTgw8yFnAwt+r8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AWcseNo7BrKVaW3JqBYac4Lv3SIJn2m5SzHNVrLqDeELYKIPd9voKUnLvxLjJR5Ms3QgeRgwulWdugGpYQ4ITuHiW4nMBM6DGEMAxbLNuc0jprvugsAzd84B4LKX9E96rtJDz5D+NxaMN2daNTVg9F2fSkGi97Y4CwEVj9wKvvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFBQG1Q2; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709659459; c=relaxed/simple;
+	bh=ulWrTp+lCV+gMNzuEsMt7+NdH9m0bIisaeuCfQ/H8QE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=flSugAaGgIw4eTyqox2Vbdeh/ORZ+IUHUGZSoTfWEo5CgEMVKw+KNQF59XwsK9XgfWKPYa2p/PeK1D1GVmR//KPsNN46HeWMa0MIV/s78jb3erV8BfnBaSJnK4fOeROPhNfYD/XqVFGAMPO9J44Y14NpCbfivDgz49WXlPJ3yKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QrNdYMDP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFBQG1Q2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709654851; x=1741190851;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9u4MuvGx1V+56K9txq9pYyx3UFHJtGTgw8yFnAwt+r8=;
-  b=lFBQG1Q21ZED1VFVc72PAxrnxXpuzfw2T4KkTqA2hdM2/jjaSbL64JSv
-   1jtIaZwoPrT/5Bpbxo0jbcNy+4LxDSOHy9+EqsLD8Z5hIJ5sDvKEyurj8
-   O19MH3OizI2BEXxha+KIj2MIeO1yoQC2AwhSr3I97m27k3hX/f1Z5JKTM
-   rgcGPK6rVBpDoBseqkVWHQehb7EeMRyjtAdhiDizDM6i3GKrTeFbpTK41
-   lHseJgPahYkcodvR8G8MGEsAzYupsFYTqGN1memjzgbYSBvFSmJUqxuMT
-   TFPS/HFKV9q9G11vzEF9KsowGrs1XF23nWJb/Br5SlHg9SfM180YIDCgm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14870237"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="14870237"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 08:07:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="937042660"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="937042660"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2024 08:07:26 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id E3D3B1A6; Tue,  5 Mar 2024 18:07:24 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 1/1] ASoC: Intel: atom: sst_ipc: Remove unused intel-mid.h
-Date: Tue,  5 Mar 2024 18:07:22 +0200
-Message-ID: <20240305160723.1363534-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QrNdYMDP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE591C433F1;
+	Tue,  5 Mar 2024 17:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709659458;
+	bh=ulWrTp+lCV+gMNzuEsMt7+NdH9m0bIisaeuCfQ/H8QE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=QrNdYMDPC/2tFJec41XasQKtNc041wNjuL5OO8PQ1hxCSb/ldGPYzjb0+xAueLtB5
+	 QyGGFFB3eXPzuD8MP59Xwfh4Q5HbPZ8mqASpYcTd/uywW43rD4H0J6Y2l6jP+aH9Uz
+	 03CnagADHeI4OrUvpjlxgEASx3VuVKCwrrhQOEKaV79BM2FUL/npnEXTRwFEVStAk+
+	 KZDzeX71Cfeehmxe/IkcDIVpGK5wnQChaFYQc8HqYHKfZqCElrcT+MmF5Kd+FYfu1c
+	 Q3jROYzeJxzSaf9T4pG53d9VHi2Cy9BP1G15pbrsOa9L7MgDEd0WXxq/+tRS7S1poW
+	 iu/QSAT4pDzlA==
+Date: Tue, 5 Mar 2024 11:24:15 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux1394-devel@lists.sourceforge.net
+Subject: [PATCH 0/2][next] firewire: Avoid -Wflex-array-member-not-at-end
+ warnings
+Message-ID: <cover.1709658886.git.gustavoars@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-intel-mid.h is providing some core parts of the South Complex PM,
-which are usually are not used by individual drivers. In particular,
-this driver doesn't use it, so simply remove the unused header.
+-Wflex-array-member-not-at-end is coming in GCC-14, and we are getting
+ready to enable it globally. So, we are deprecating flexible-array
+members in the middle of another struct.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/intel/atom/sst/sst_ipc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+There are currently a couple of local structures (`u` and `template`)
+that are using a flexible `struct fw_iso_packet` as header for a couple
+of on-stack arrays.
 
-diff --git a/sound/soc/intel/atom/sst/sst_ipc.c b/sound/soc/intel/atom/sst/sst_ipc.c
-index 3fc2c9a6c44d..0630e58b9d6b 100644
---- a/sound/soc/intel/atom/sst/sst_ipc.c
-+++ b/sound/soc/intel/atom/sst/sst_ipc.c
-@@ -19,8 +19,9 @@
- #include <sound/pcm.h>
- #include <sound/soc.h>
- #include <sound/compress_driver.h>
--#include <asm/intel-mid.h>
-+
- #include <asm/platform_sst_audio.h>
-+
- #include "../sst-mfld-platform.h"
- #include "sst.h"
- 
+We make use of the `struct_group_tagged()` helper to separate the
+flexible array from the rest of the members in the flexible structure,
+and, with this, we can now declare objects of the type of the tagged
+struct, without embedding the flexible array in the middle of another
+struct.
+
+We also use `container_of()` whenever we need to retrieve a pointer to
+the flexible structure, through which the flexible-array member can be
+accessed.
+
+With these changes, we fix a couple of -Wflex-array-member-not-at-end
+warnings.
+
+Gustavo A. R. Silva (2):
+  firewire: Avoid -Wflex-array-member-not-at-end warning
+  ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning
+
+ drivers/firewire/core-cdev.c  |  9 +++++----
+ include/linux/firewire.h      | 16 +++++++++-------
+ sound/firewire/amdtp-stream.c |  8 +++++---
+ 3 files changed, 19 insertions(+), 14 deletions(-)
+
 -- 
-2.43.0.rc1.1.gbec44491f096
+2.34.1
 
