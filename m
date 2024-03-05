@@ -1,248 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BEC12B6C;
-	Tue,  5 Mar 2024 15:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654093; cv=fail; b=Y6SCCYmvTQ5gWQqbniTNgmH3192E7q4dl0WRChinWIypoc/ObCCpcBFAFfXfl6EA5tog3CYpY+P30ATzPK1zSNfP6YfXO9w1n1zQA1Rq9YTY6A/JdBzdF3MjGEeKNA3xDcKm9CpBUyAuch+katOZRLMdnl6poWcgNUrQfVXRBD8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654093; c=relaxed/simple;
-	bh=hqoHwt9ecQxCNTnd+sHpErGT761y/h55L/8j9ofF+yw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=PXObISUAueLRzXsdS/95TD+HE6Flmxl8WrKMq7wn+3CXghUa65l3BUQyjH4ioc8/FhF9WgzxITHVx/dJrgL5ZEyuO9o6nLgCG5WDNnv96iQPVBovneXApT02m/PU3Ga/dGG7jH3qWotuN6EGZ36XnUXwjAnFRZv8mUC3KP8k8Eo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9faKc1X; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85531128372;
+	Tue,  5 Mar 2024 15:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709654178; cv=none; b=VIIj8rwZV8xBX1+0vp3urRPw8QC5N5fr8zT2IvSx4Dsed5P51jMrdjgWnN2hZdDPzwfPeXSZ/xRH2tIGunCVklQVEuHwj7E4NW7jyQmb3eu5mxmdhO8AKKbtyOApEZv6c4n77H2WQUc7lJX07l2dXo/A9PuW8M7joZfRYWr3v3s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709654178; c=relaxed/simple;
+	bh=BnaFDzBbmltAb5v+2wC3qWTbygfeUvKTmDcPvhmGNYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nulsiXPeJIrQvAkujdyFvK8vnWySN38jLIFuZ+jeO93dYPUFO9RqZDTlA+ojPrzzS5A4t5q8ljbMNQIGWPvN8dlDQk9b3AYxh+UwzoH1kbc/wvOx5mf+7Vrxn3JwzJhiXVdWD/6R3brHtROqKdHRpYUYlTz6gJwWm0mejDnW9AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/ab6b87; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9faKc1X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709654092; x=1741190092;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=hqoHwt9ecQxCNTnd+sHpErGT761y/h55L/8j9ofF+yw=;
-  b=N9faKc1X1y65ZwNtiVG759YloG+O200lFWCim7936uJXt9D405eyKdV3
-   MGyeOq/PKH75ycZZgrke0S5FDxVPk35BmqmG1oYgO6N8/EkCGeRuSmXTr
-   8sIb2wx4SH3Ebj1Bw79Tcl7CFacuYnQToMT4GpNddGQreRhQr8kPbLADJ
-   m+5z9KRzA4WKPbGT5NDKRVz6C2gQ0NzLnMKJTgHgXdAIKQcQKuJoSfdAT
-   ywg57FcuAYqPhu1gkkJ2aWTEcR+ldtSztl7NqmIdPfe7ilTMBEfD+lImb
-   8CFs70F9i5itpNE3zFrJbxotDYI7l/8yF+AoFkMdUKRc65vOr0VFq1JcJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="8033204"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="8033204"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 07:54:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9319295"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Mar 2024 07:54:51 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Mar 2024 07:54:50 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Mar 2024 07:54:49 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 5 Mar 2024 07:54:49 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 5 Mar 2024 07:54:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dtK3E/DA0AMyFBZ8vPGQLHb7/dykX3egBf/Z+5cvcHvnz4miupYEBih94POQbo7AQR4Y8MmTvzFOroLc8aTyb6KqzshbnxzFSOfRHjFQjz6xha0RT5g7uM74tHhQYQaRCR7dLsbOpnH3fL977X5MLj0MPkHj77DDNy2qxAbkP0tMOi1vBudbDsdizSnI5WO8gKPb7Ki5eNYTSoVqlgW5cJDN+U1OdrxVXgCTgUfTyqrv83Q4LpCYIi5Jo5p3es1imCvqPrtkWQiNDTelCYIbPB/y/dp64yf/VcBKqZY7QAHkxqvRdTwr5d6WjYTx521kh5jc9ZonC3BSBZSGVNbX8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wfuPYClZIxnM7X7D4JYbkUqBPtgY6F8L7t2qdWwFud0=;
- b=J6jmnD9ttAf72cC8mR5NtJJw+ttxdwb1XpyFGjv2e/pJU78Qn1pKFVv5LIEna8Dv72m3Ngl/6/Mw70/yNe5NFt2pPGs/hNBoqyk+BSF/wCuVIMAwlvvMAYcpOjjIcMvyenb/vQYvynFYQhtTiTmhKMxszEPp5s0HCfsjOy4wKHTSEqRdGlKdDxyiiEUFbuSoJ0FeNV4VbRJrzFvHLKtFa2p1QGF8fNiBkXhqGpDTzvzN44uMfon4cvqZDD1Lso4T8z0CYA33PEKGWOiVXRTdzLSFIML4pKr8OqajkUPM1kyw7iwSHsncPumTSZiVw/lDAbWISt/dsqDkXwnD7Jqs8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
- by DS0PR11MB6517.namprd11.prod.outlook.com (2603:10b6:8:d3::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7362.23; Tue, 5 Mar 2024 15:54:45 +0000
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::618b:b1ee:1f99:76ea]) by MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::618b:b1ee:1f99:76ea%5]) with mapi id 15.20.7362.019; Tue, 5 Mar 2024
- 15:54:45 +0000
-Message-ID: <24a1f5df-1629-4569-ac1e-b7c9a128f0c7@intel.com>
-Date: Tue, 5 Mar 2024 16:54:37 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] selftests: avoid using SKIP(exit()) in harness
- fixure setup
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, <davem@davemloft.net>
-CC: <netdev@vger.kernel.org>, <edumazet@google.com>, <pabeni@redhat.com>, Mark
- Brown <broonie@kernel.org>, <ivan.orlov0322@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <shuah@kernel.org>, <jglisse@redhat.com>,
-	<akpm@linux-foundation.org>, <keescook@chromium.org>,
-	<linux-sound@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>
-References: <20240304233621.646054-1-kuba@kernel.org>
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-In-Reply-To: <20240304233621.646054-1-kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0139.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::19) To MN6PR11MB8102.namprd11.prod.outlook.com
- (2603:10b6:208:46d::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/ab6b87"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2d29aad15a5so73961521fa.3;
+        Tue, 05 Mar 2024 07:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709654174; x=1710258974; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=CtBdSAcSwQ3TnbeDptF/Azjp8u4IA8m0A+cAla/IMsQ=;
+        b=F/ab6b87Xge+C7V2adMwJr9Jl+zqfkE2U8GYAwl60h1C0K72nRziFwHpiB0VA6pRYq
+         9AmSnd1+7yAZBWVw1o0eOguxYNw6JNKKljz4CPNVLxsk5I1ZcTUuc4EdgNzaxlTE/fPo
+         QP220Tl1vpSQPPFb9NtfNm7ec7BzJexrWJX/moImFpseKSmSdPTg43fXiKJqZm9n3Y49
+         vmokVUmVF6yuLgC4MnNMkeXsNF4piCsl1FKbwk0/GTvImOb64VBPqfVg1Wnj80ZZD1hc
+         tE79tRXL4HEuSZo23X3AFZ8su2PKna/OejITkIofSFUKNwaxoON4TZRh4QjkERyf3yS0
+         6R1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709654174; x=1710258974;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CtBdSAcSwQ3TnbeDptF/Azjp8u4IA8m0A+cAla/IMsQ=;
+        b=vAJW+O4TXKB2c5VnhfGQ9ulX34F71ClrKEquGXQnKPiwy/kRtcp57PiXXcDBsuSgn9
+         PHHU1KUNwtNFBRJHdGN2pGg+9lipnHhzLgPFbMVijRY8Q6qk0TJuK+Lalr20GOSLC8SY
+         ZN8FR2nNIO1+H1dZq0INdz7gn4+ugBPP8laCNt71mIKTQ8IO+ZwLudl9ZrMItdprb7cw
+         Ql6Wm/7MtAdA/C9IuAz+es8ehfa4BuJdHbmgC/OoO+47/Sv/bEn6ZPlxv8ZpoWiUU0L6
+         Ih7zglbeAm+mufUTJSH+Emb4utqhAR1XcstgpPbtKhHHjUVqBf2a6o0i0z1YQGxs89uB
+         NXRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcqKTe0R6g2zHY4wMIgJ8Vm92SpjDc8YL6LIkAP3kVW3TbVl7i6+DMfVyJpa1yOFT3CQ4VxXG+4VK/8pMT/1T2+9sDaFHgl5cM9yshOdMJKQPpJwhSWmLHjb7ihBdWCKPET771c6FB
+X-Gm-Message-State: AOJu0YyM8Lu5DtAOD9BD9RCHJ7BEvjw9LLr5lXMHRg9YV0ezjlELBZv/
+	cvmZsL7NlQiRb14+hnj1Ys/xorWk+7egXjhkKBuAvMv954iKB2We
+X-Google-Smtp-Source: AGHT+IH0xTw+NsmOff/qConk8WbNXsaW01mYPdFaE+ctYS/tDRSWvT6y42MrROboHI8zb7nO3EXGBw==
+X-Received: by 2002:a2e:3c07:0:b0:2d3:4b73:7b40 with SMTP id j7-20020a2e3c07000000b002d34b737b40mr1545546lja.17.1709654174098;
+        Tue, 05 Mar 2024 07:56:14 -0800 (PST)
+Received: from ?IPV6:2a01:c22:724c:8900:80cc:68f7:e37e:d133? (dynamic-2a01-0c22-724c-8900-80cc-68f7-e37e-d133.c22.pool.telefonica.de. [2a01:c22:724c:8900:80cc:68f7:e37e:d133])
+        by smtp.googlemail.com with ESMTPSA id n14-20020a056402060e00b0056717df82d5sm3532441edv.64.2024.03.05.07.56.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Mar 2024 07:56:13 -0800 (PST)
+Message-ID: <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
+Date: Tue, 5 Mar 2024 16:56:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|DS0PR11MB6517:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0db03913-5a9f-46a3-26b5-08dc3d2c9446
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aTaOafrnb6vCsiv/hkMymesjnytD6RoE04FklfaKqxAsA1LCB5wFlfbEGHGxGv91SYQd8zCIVh+X/JWpf63S/KxyUD7DwRB/mK1AI55oQX9mJ088Oq3G+GD8COHSYp3ZFBdQFGtGGNMmsw5THdjw0OJ9X8OfAnckk+Y/B2jAKwHwi9PznR4AXHS4T8Tftqs9SnQdNcSQ8CoB+e/AnTsVcqzOIx7ZNkTxqVEFmfAQWOn7gxrAJBZpZdSFgAH09DxhaTRS8Siv005+P40WkbgnCPCOYEMHSx5iozsCMigfWkDXuegLzonqeCF/bSAcypATH+bsDTneDDefrFISFfvzHrZf1GixZ0DYcVylD3ctXbkIXuBV75dvNVu9aspfn/U6ziHT+J+rB/eZIApJ71kzrYpMbrIteOBTancjRAzKG0/6vQtvoEqp5syioAaYwL9hO9nzg7fFgwY2nPG3ZvGy0U64kIivG4n6w+oLXyhH0x7ZYBZqz6w75RYMnYvsIu3yKzBgB+SD1vy4+5pYWCgsad1f5jJWYppsnQMmbeGy3+TyBkutqKML3U4RFlCuxodaPQxl14L3OIJwtgyIRksokqjTMBaWlIIwxomVgOvLrVU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M052blNXVHFQa24wYzQ5UUlYOHJQejBWMmdERlVlU1NOZkM2Q0xtWkN0ay9L?=
- =?utf-8?B?RHhMdGNPRzh5SXBjdEpYK3JOVXpNZWY2MnJLbEJ5Nk1TaTE1Z0VyYk5qYUcr?=
- =?utf-8?B?QUE5cHpoaHNidFYwOWYrU1hUQkl0TVlXY0c4L1NJdjVZTFFKTmJkYTBJMjdt?=
- =?utf-8?B?dVdwbGhSZGZqUGVPRlZSZGdqQjRPdFdtZnhkdnpZREhVMmhLcllNTDBGUHAx?=
- =?utf-8?B?K1ZuNk5LWkVEMGdhODNTUHNyNkNSbGFka05DS09ic0RjdmRYOFJOcE9yYXox?=
- =?utf-8?B?NUNaZnFJYnd3aUk3QWltN3lBRHlvZGJSSzdLT2lJTzRoc1FwRTR6ZlN4Rjk4?=
- =?utf-8?B?WWtUS1ZJa1dRUkwwYjVoRndubTNPNmt1WThOS1ZaMWJMSzd0NnpGTzNzaUEx?=
- =?utf-8?B?YmFvNHdzVWxWMWZwOExIalAxNXc5QnNyZ21uOXFQMjMvYkhoRFNEQkFEdlBp?=
- =?utf-8?B?ZWZ5SU5KazRuRlBKcGkrMUt3dGtlNmV0a3ltYmhaOSs4emJUaS9obzZveUky?=
- =?utf-8?B?SXpIaTZpVklUZDZaQ09Rb25WZGZQMnltdnpVRC9nRmhQckJhY2dscmhsSStQ?=
- =?utf-8?B?bEFVM2VVL09JZTQvdHA4VWVpVEgvTkR2L2Fhb2VVcDM5VGZjQjdtdXFrZlBV?=
- =?utf-8?B?Z1VhUFBvMXpiTno0SWRJZEJZclFzZ25EaFhzUmoxV21rNGpLQ0lZVk1OOXBX?=
- =?utf-8?B?TlZwOWZWbHdyT0Q2QUxFd3FjUTVCc3dBdUZZMkdHbm5VTXBsRWFCL3MxUVc0?=
- =?utf-8?B?bktKRzgzT3lXL2dabEpGMEN1UCt5b0VHTFhPaWl6Zk9zUGJkV004WklpQ3RM?=
- =?utf-8?B?V2tHRnphWFpVTFNPU0tDUmtkUTlRbTNqN2xwQUltaG5IVnRrcGJDMnZMMTFH?=
- =?utf-8?B?S2RYUjJ2K1BZMlRicUswRXNMUW4yR1RaT1JZOE8ycGVHdzV0ZG9rMXhLTEp5?=
- =?utf-8?B?NTRsRWVGdjhYVkRKNDc0UkhuYVFNWHl0WWExZDJqSkJWRGNCdS9TQ1RHbFF1?=
- =?utf-8?B?UmhwUTJ0eTJKUU8xWkpCQnBIMzZEbzJTVlpmWDExVlNFQlVuWGp5Wk9tT1Jh?=
- =?utf-8?B?bEtUWHZEZ0FPMFJZeWc5MjVDR0ZoOU4wOEdBUlBiSWlvZ2w1amVFN0x5ZStt?=
- =?utf-8?B?b3VBK1ZOVFlWd1M5a0l0VXFrV1BMTGdVbUVoNDN5eG1kYXBMbWJWNCt1Wlcy?=
- =?utf-8?B?c2NCTVlFL25ubnk3YlRVZEU0OFhOSE9XWHhWTEhudFNjQnJ4YnJiYTlsNkdm?=
- =?utf-8?B?NTNRTTVYVC9nOFhOQUlGUytYQU9uVVNrc2JVL3BKNnV1TmRXTjlYcGYvWVpP?=
- =?utf-8?B?UUtHZUYvaXBFeVAyTUFvVkprQytvYTV6S0dISnBFOUY3Q0R6NW5QY3c1ZHd3?=
- =?utf-8?B?eXdCbGptU1pObXlSMkdWTHNVeGxqV1NYZklhTFMxbVIzOVRBQkcwMmdCaWZR?=
- =?utf-8?B?dHZYQjBFemNrdkRiK3ZSM2tCdmgrNVBQUW16U2Y5WXg3L3ErQkJlblp6Nlhu?=
- =?utf-8?B?V1YxcDZFa1k3K2F2b2toekNLUnRDcjVKWjhnUmZLR0JzQ2grMUVKZXFHZ2kz?=
- =?utf-8?B?S3NhQUlkZEQ3a096d2NJYjJXWW0rMzhyckcvWTlqSUhNaFdyaU1vK2EyWW95?=
- =?utf-8?B?eVdEQTYzK0ZsZTJ4bVRHZjhvU0VUaDNkdGszVTlpeGkzMnp2RS9ULy9GN1o3?=
- =?utf-8?B?c3pFZ0dLZ0dUUUtGODJQT2pGZVBuWHFlbkJ1aloxRzh4QnM5VVFrTkJCcm1P?=
- =?utf-8?B?TElJOHRlaENvN0FCcTNEbVFHazRqaHQydmtpVi9tWit2U0x1MHFGVGhzb0VH?=
- =?utf-8?B?QndjMjJpYVNsN0JMcDRnckZPaDBRejVRYXVMbWJsQWYvV3oyN0ZLU25DUFJS?=
- =?utf-8?B?Qndkay9uMUp2ckVEOGo2NEM3dWo2VzJLTVJDQVRCSkxYdHZaL1ZEemFia1E4?=
- =?utf-8?B?b0FmWnN2Z0hzNWZWb1pucnNyMmVuS0tRaGNCY0xjMm0wQzhTbnl5L3JLaG1P?=
- =?utf-8?B?UFJ0RU9OZHhub3NxbGdna2hrWkJaMWN0UmhmUTU1VkplZm1peWVaSWVQVzdO?=
- =?utf-8?B?VzhlR1B0R04vaGtiK0hTUEgvZ2RzZzZ4a3ZYTFRoRWhZdkZlNGdrUnpNZHY0?=
- =?utf-8?B?cEIyV3dIWGtoN0o5RjBHUUlOaGFDTEd4RVpPQUJ0VWR3MHFQdGNkS01hTXR1?=
- =?utf-8?B?bEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0db03913-5a9f-46a3-26b5-08dc3d2c9446
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 15:54:45.6961
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hYDNO1nkWoHuP4wHwR6OPcVmDvA09AmllfPLpRhSrxoJcO8R3c0y/MrqH5J4kmNRMy318pZRIU8A1rmeFkS56aFqVwjq4BeT06Oc12iDWpk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6517
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+To: Lee Jones <lee@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Pavel Machek
+ <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-mips@vger.kernel.org
+References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+ <170964052434.128456.128263499797916605.b4-ty@kernel.org>
+ <20240305120947.GD86322@google.com> <20240305145454.GG86322@google.com>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+In-Reply-To: <20240305145454.GG86322@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 3/5/24 00:36, Jakub Kicinski wrote:
-> selftest harness uses various exit codes to signal test
-> results. Avoid calling exit() directly, otherwise tests
-> may get broken by harness refactoring (like the commit
-> under Fixes). SKIP() will instruct the harness that the
-> test shouldn't run, it used to not be the case, but that
-> has been fixed. So just return, no need to exit.
+On 05.03.2024 15:54, Lee Jones wrote:
+> On Tue, 05 Mar 2024, Lee Jones wrote:
 > 
-> Note that for hmm-tests this actually changes the result
-> from pass to skip. Which seems fair, the test is skipped,
-> after all.
+>> On Tue, 05 Mar 2024, Lee Jones wrote:
+>>
+>>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
+>>>> If a simple trigger is assigned to a LED, then the LED may be off until
+>>>> the next led_trigger_event() call. This may be an issue for simple
+>>>> triggers with rare led_trigger_event() calls, e.g. power supply
+>>>> charging indicators (drivers/power/supply/power_supply_leds.c).
+>>>> Therefore persist the brightness value of the last led_trigger_event()
+>>>> call and use this value if the trigger is assigned to a LED.
+>>>> This change allows to use simple triggers in more cases.
+>>>> As a first use case simplify handling of the mute audio trigger.
+>>>>
+>>>> [...]
+>>>
+>>> Applied, thanks!
+>>>
+>>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
+>>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
+>>> [2/3] ALSA: control-led: Integrate mute led trigger
+>>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
+>>> [3/3] leds: trigger: audio: Remove this trigger
+>>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
+>>
+>> Submitted for build testing.
+>>
+>> Once succeeded, a PR will follow for other maintainers to pull from.
 > 
-> Reported-by: Mark Brown <broonie@kernel.org>
-> Link: https://lore.kernel.org/all/05f7bf89-04a5-4b65-bf59-c19456aeb1f0@sirena.org.uk
-> Fixes: a724707976b0 ("selftests: kselftest_harness: use KSFT_* exit codes")
-
-I believe that the next patch of the linked series is a culprit,
-but that does not mandate a next revision in my eyes
-
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> This needs to go to net-next because that's where the breaking
-> patch was (mis?)-applied.
+> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' allmodconfig
+> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vclock_gettime-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
+> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vgetcpu-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
+> /builds/linux/drivers/platform/x86/dell/dell-laptop.c: In function 'dell_init':
+> /builds/linux/drivers/platform/x86/dell/dell-laptop.c:2255:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+>    micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+>                                  ^~~~~~~~~~~~~~~~~
+>                                  led_trigger_set
+> cc1: all warnings being treated as errors
+> make[7]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/dell/dell-laptop.o] Error 1
+> make[7]: Target 'drivers/platform/x86/dell/' not remade because of errors.
+> make[6]: *** [/builds/linux/scripts/Makefile.build:481: drivers/platform/x86/dell] Error 2
+> /builds/linux/drivers/platform/x86/huawei-wmi.c: In function 'huawei_wmi_leds_setup':
+> /builds/linux/drivers/platform/x86/huawei-wmi.c:313:28: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+>   huawei->cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+>                             ^~~~~~~~~~~~~~~~~
+>                             led_trigger_set
+> cc1: all warnings being treated as errors
+> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/huawei-wmi.o] Error 1
+> /builds/linux/drivers/platform/x86/asus-wmi.c: In function 'asus_wmi_led_init':
+> /builds/linux/drivers/platform/x86/asus-wmi.c:1623:34: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+>    asus->micmute_led.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+>                                   ^~~~~~~~~~~~~~~~~
+>                                   led_trigger_set
+> cc1: all warnings being treated as errors
+> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/asus-wmi.o] Error 1
+> /builds/linux/drivers/platform/x86/thinkpad_acpi.c: In function 'mute_led_init':
+> /builds/linux/drivers/platform/x86/thinkpad_acpi.c:9288:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+>    mute_led_cdev[i].brightness = ledtrig_audio_get(i);
+>                                  ^~~~~~~~~~~~~~~~~
+>                                  led_trigger_set
 > 
-> CC: ivan.orlov0322@gmail.com
-> CC: perex@perex.cz
-> CC: tiwai@suse.com
-> CC: broonie@kernel.org
-> CC: shuah@kernel.org
-> CC: jglisse@redhat.com
-> CC: akpm@linux-foundation.org
-> CC: keescook@chromium.org
-> CC: linux-sound@vger.kernel.org
-> CC: linux-kselftest@vger.kernel.org
-> CC: linux-mm@kvack.org
-> ---
->   tools/testing/selftests/alsa/test-pcmtest-driver.c | 4 ++--
->   tools/testing/selftests/mm/hmm-tests.c             | 4 ++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
+> ############################3
 > 
-> diff --git a/tools/testing/selftests/alsa/test-pcmtest-driver.c b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-> index a52ecd43dbe3..ca81afa4ee90 100644
-> --- a/tools/testing/selftests/alsa/test-pcmtest-driver.c
-> +++ b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-> @@ -127,11 +127,11 @@ FIXTURE_SETUP(pcmtest) {
->   	int err;
->   
->   	if (geteuid())
-> -		SKIP(exit(-1), "This test needs root to run!");
-> +		SKIP(return, "This test needs root to run!");
->   
->   	err = read_patterns();
->   	if (err)
-> -		SKIP(exit(-1), "Can't read patterns. Probably, module isn't loaded");
-> +		SKIP(return, "Can't read patterns. Probably, module isn't loaded");
->   
->   	card_name = malloc(127);
->   	ASSERT_NE(card_name, NULL);
-> diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
-> index 20294553a5dd..d2cfc9b494a0 100644
-> --- a/tools/testing/selftests/mm/hmm-tests.c
-> +++ b/tools/testing/selftests/mm/hmm-tests.c
-> @@ -138,7 +138,7 @@ FIXTURE_SETUP(hmm)
->   
->   	self->fd = hmm_open(variant->device_number);
->   	if (self->fd < 0 && hmm_is_coherent_type(variant->device_number))
-> -		SKIP(exit(0), "DEVICE_COHERENT not available");
-> +		SKIP(return, "DEVICE_COHERENT not available");
->   	ASSERT_GE(self->fd, 0);
->   }
->   
-> @@ -149,7 +149,7 @@ FIXTURE_SETUP(hmm2)
->   
->   	self->fd0 = hmm_open(variant->device_number0);
->   	if (self->fd0 < 0 && hmm_is_coherent_type(variant->device_number0))
-> -		SKIP(exit(0), "DEVICE_COHERENT not available");
-> +		SKIP(return, "DEVICE_COHERENT not available");
->   	ASSERT_GE(self->fd0, 0);
->   	self->fd1 = hmm_open(variant->device_number1);
->   	ASSERT_GE(self->fd1, 0);
+> Errors were caused
+>  
+> [v6.8-rc1] ib-leds-mips-sound-6.9 2c61168294d0e ("leds: trigger: audio: Remove this trigger")
+> 
+>  x86_64 allmodconfig gcc-8
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtQpYDimIIpMqO0Qm4AMAAPU/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhvxgZA6moBZmToTavyY4Eita/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9 
+> 
+>  x86_64 allmodconfig gcc-9
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtYCYEqxnUFmoH73iKlcEIV8/ 	Pass (0 errors - 0 warnings) : v6.8-rc1
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw2i4B539YZXCoSN2LSRvsW8/ 	Fail (7 errors - 0 warnings) : ib-leds-mips-sound-6.9 
+> 
+>  x86_64 allyesconfig gcc-8
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtTzCsCxRpl9loRyfPrD1uhR/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
+>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw1WQ2BIpJRoyK7ruVCtihSN/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9
+> 
 
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-- that's totally what mandates vfork() introduced in recent refactor
+Right, I forgot, there are patches applied via a different tree end of January,
+that this series depends on. I assume this means that the series can be applied
+only after the merge window.
 
-(Sorry for pointing the same in the Link:-ed thread, it was just
-newer/higher in my email client)
