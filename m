@@ -1,81 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522677484;
-	Tue,  5 Mar 2024 12:09:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BDF8592E;
+	Tue,  5 Mar 2024 13:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709640592; cv=none; b=tjuxLdRatqscjx4GUF3ac0UG99s3ULULNjEnuaKCKYkHtscYQhCh3UYGac1haue8meWMWNZuuNkibZjK50Hpx5yRkW3lj3zhwSFXF0PmtDauIxf6SSCVzWotolc+puHx4nLOWsgPMdbYAyTRl6joDgzcFnUMTIPCKJiQYbLsQyU=
+	t=1709645666; cv=none; b=hCaOxwyuT2MqQQuOFp+l1baMskOr3cXS5nJSsWkvhyZuM80RiLB0Xv36zVW0dMJLckHI8r/BSjC+Y9fp5RH+qan69FlYD6s5RuKKFw/dh+Uh9UNLI3w0MC3RxNKWr1nDgIuNHk9h2EAqDjcPTYsdqGVVgQ+79xkcmldffkwY64g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709640592; c=relaxed/simple;
-	bh=TPtJtVZnWukNSHq5RvVLOZ6puDBbDvzzbdZt98utfDc=;
+	s=arc-20240116; t=1709645666; c=relaxed/simple;
+	bh=g4/QOF7J2Wwmq5RED3wJPXCTwXZH4+mZplLeZQexveM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BG3kDj2CWCGSJC2NeL/3J5islWBjrpf8cvx4j/9hnjZE+eZf98/kntHn/Hab4YWkkwG+o/1Sn6eYslXhHmHtt3OF/RJZ0anrtN6dB9tkRBPPT7b6MAEbuYiPkLIQ1PrPG/UelWiiU2sfkzBkVJR8o0kva5iKK2LYAAScdHSxAHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r8y4oa+H; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5uW3XMlWQLH+agYkHyHvsIMwyZyRaGCG31LTOiu9SB0lkEGrnSBCsZsrBaYyS/nkGUlx1mlEuK99A51szZyDVatmJeC1hzXDmuaTSDT/LLxyLt034goy/qOGLfMCD1p4YAzrSNzgkKWhK5MiO5PP22a/QAkPzMSDiEv8nizbK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OQDU6ggv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r8y4oa+H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339CDC433C7;
-	Tue,  5 Mar 2024 12:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709640591;
-	bh=TPtJtVZnWukNSHq5RvVLOZ6puDBbDvzzbdZt98utfDc=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OQDU6ggv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED44C433C7;
+	Tue,  5 Mar 2024 13:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709645666;
+	bh=g4/QOF7J2Wwmq5RED3wJPXCTwXZH4+mZplLeZQexveM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r8y4oa+HeNHfSS2aqjOOpgtrTZTf1q94RBVqgmeXN5m+zPt7XmCCd6dIb19FWkgNv
-	 gWvSVoklh6WNYRbr7g9QG2kWLWeRJRg00cHeVei/xXSSKEyp3N/6UeJp3z94wGrahp
-	 763KL00JNr3wRqHOGW6tDL070Wz0DYuoqzxNrXIuCxpHFmqZZGNnHV3xV0CXPIlCnV
-	 /ZiOYiGDrjaXoTIUaj2U3soT2RZ44sidK8bDMs3jq1uIIhxyoyvIH43XW3JETt3HKT
-	 Au52l60kv3SY6ww1v5r75KyxCzNa7rU3SVyfcCW9PeQtwbl1WPFYXGnUCa7/qLtojl
-	 ypW5zYKpAIB/Q==
-Date: Tue, 5 Mar 2024 12:09:47 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240305120947.GD86322@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
+	b=OQDU6ggv54aYtD+1IDFT3k/iv4TejmdReAkqFsd71PddBRutvzVhsCX2zY6h6LWzy
+	 bn0crC1yL+7OcLzk3aopjSjrkAZ46owcDTJgOJVpF1d2jCXNsQ1m/XS4t2m6nhL9td
+	 L8mD7q2UXsAf02KQLlN5ebDD0p0btdc5WgKFlPVY=
+Date: Tue, 5 Mar 2024 13:34:21 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 2/9] usb: misc: onboard_hub: use device supply names
+Message-ID: <2024030557-mutable-subtype-f340@gregkh>
+References: <20240305-onboard_xvf3500-v7-0-ad3fb50e593b@wolfvision.net>
+ <20240305-onboard_xvf3500-v7-2-ad3fb50e593b@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <170964052434.128456.128263499797916605.b4-ty@kernel.org>
+In-Reply-To: <20240305-onboard_xvf3500-v7-2-ad3fb50e593b@wolfvision.net>
 
-On Tue, 05 Mar 2024, Lee Jones wrote:
-
-> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> > If a simple trigger is assigned to a LED, then the LED may be off until
-> > the next led_trigger_event() call. This may be an issue for simple
-> > triggers with rare led_trigger_event() calls, e.g. power supply
-> > charging indicators (drivers/power/supply/power_supply_leds.c).
-> > Therefore persist the brightness value of the last led_trigger_event()
-> > call and use this value if the trigger is assigned to a LED.
-> > This change allows to use simple triggers in more cases.
-> > As a first use case simplify handling of the mute audio trigger.
-> > 
-> > [...]
+On Tue, Mar 05, 2024 at 06:55:02AM +0100, Javier Carrasco wrote:
+> The current implementation uses generic names for the power supplies,
+> which conflicts with proper name definitions in the device bindings.
 > 
-> Applied, thanks!
+> Add a per-device property to include real supply names and keep generic
+> names for existing devices to keep backward compatibility.
 > 
-> [1/3] leds: trigger: Store brightness set by led_trigger_event()
->       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> [2/3] ALSA: control-led: Integrate mute led trigger
->       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> [3/3] leds: trigger: audio: Remove this trigger
->       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
+> Acked-by: Matthias Kaehlcke <mka@chromium.org>
+> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
+> ---
+>  drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
+>  drivers/usb/misc/onboard_usb_hub.h | 12 ++++++++++
+>  2 files changed, 38 insertions(+), 23 deletions(-)
 
-Submitted for build testing.
+Due to other patches to this file, this commit does not apply to my
+tree.  Can you rebase and resend after -rc1 is out?
 
-Once succeeded, a PR will follow for other maintainers to pull from.
+thanks,
 
--- 
-Lee Jones [李琼斯]
+greg k-h
