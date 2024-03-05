@@ -1,130 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50F5A78D;
-	Tue,  5 Mar 2024 10:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3B25B670;
+	Tue,  5 Mar 2024 10:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709635206; cv=none; b=LT2kJ895qjmEvcjuTNphXpQpTnEdGM2ASnQ5dLcVaZMdDktYe+S+dnnF8HYRwP9cOS4f0pLf5CMASnOOaMDrg5hrTLqtHOpJvh3gg7TYzln8nxvjTuyyD3c+bDjwpwtaWcCAczxVhh/hzlvazbEmUNgWRc8PXaCwwUpghO9f54E=
+	t=1709635246; cv=none; b=DeWBHx2goi2Mc128lrIwX/Uf9E8Tww7b4FD4kk5Zrbgz/ulU3WSApNdDFrgZ5OVpBWkcyXREiX3HgLJahc8cjsyJ/f++ABxpH0WOCSOYDw0ncVA3zvu10WHwmELXEv09CTCsEAJx5RkF1BJ+Pbb5omOvbgWMKQ3L3Memi7DG2Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709635206; c=relaxed/simple;
-	bh=IJDVz1uipxvQs+z2wfWz4EQe35sYMgwDkAU8oGgCkfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AHdYYMCvXxuN1OejYybHchNgVddC8OBxm7ePvaUwiAdkgdRCuDcx4glnGwCMH5JcC2Wo/HpjJIWrwsAjCmcu2p6P+EwWBmoHcD+0I6lWINOTRIYg2Tvi5WjgfC0/BB93OHLKs25/srDXPk2VgJkEntfxENpPM0T8HVSjZY/pMPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IG0YkgI/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709635246; c=relaxed/simple;
+	bh=fDlN5HGLItWU94tsGbGVj8uU9vIMn50cMaUnHApy5eQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YuHZQ/P1A8gLJYF+XRZePS5fAn4SUWQTza6UtoRH9R5A3NyeDRGstmPocx9eDRwH2/uyu6Hr1fbqSdtBtnB9Uxa9v2d75E5gxWkHElZWvHaD1EdN+MfOhcGFjz4YFKv5Ir6aPVAuGjAmEsCI2AQ/MGjqVFTbgjGFl0F0yBYaQo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vlk2GqID; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IG0YkgI/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77779C433F1;
-	Tue,  5 Mar 2024 10:40:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vlk2GqID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C5BC433F1;
+	Tue,  5 Mar 2024 10:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709635205;
-	bh=IJDVz1uipxvQs+z2wfWz4EQe35sYMgwDkAU8oGgCkfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IG0YkgI/VfyLOtJMVZvNwGqFJaWZF344+xm8SzYA6a4CCUjrLevkeRI34sXmryMuV
-	 tSD3ZJsRKSWE7MM0whXPbTNoNcDttLYN86EodmAY9U2ypzvjgAsz4sIriGVzJy+y4l
-	 L2kTRAfyY797LslqJZZ8S5bIuxgZx7lgk6usCoQ/pRkaimUTre28WRXZoSZEWiz8Ge
-	 Jh4a9RoZaITjjOq3jyrpAT7S3gRoy3VqcPX2zHDm/Z7jXQDwT0/M8qGRizodIEbdKT
-	 42xMIm60lKoHeSPkQHJU8a81cju2MR/EVELVRKTmEJrusJOdE2zyBTGFRzde/e88nm
-	 T6dwyk1tkzP5A==
-Date: Tue, 5 Mar 2024 10:40:00 +0000
+	s=k20201202; t=1709635246;
+	bh=fDlN5HGLItWU94tsGbGVj8uU9vIMn50cMaUnHApy5eQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Vlk2GqIDqBVE1UH49lZkW0JcOqudwvqlb34gphleBZOxNKjGqfEmVXqT9ztvSoRFj
+	 wX3/kn/foaV9dvJq+cS2tCAF+0TPHitUaDsjrfxKpA6AaZLQJFEH+ql9J4KiLJKAhz
+	 bI/1xkKPiAH2PG2HSyLVmhg7RxSnAf1F4JVUZyDkyP1dOICydaWnkWHL7A6zdlBoUF
+	 gH7FFvSEwDIJgGYC+IlMThiN71WHgTMQE2K3qtv57n8XwSoSmPhbtk3mqKyX5sh97P
+	 yKaKmNe60gkGEowdh8kYkKOGoLSTV7tFPWy9Ru9Bul8vzLBZmqdyvPuz+1PBNBlnXi
+	 4iYkQeYvQH18g==
 From: Lee Jones <lee@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org,
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH 0/4] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240305104000.GG5206@google.com>
-References: <30d49088-283c-40f3-b97b-fd5f5174a467@gmail.com>
- <20240229172653.GB1209090@google.com>
- <208e8bcc-1f35-4095-9a70-7243fdabaf87@gmail.com>
- <20240305095539.GE5206@google.com>
- <875xy1ynya.wl-tiwai@suse.de>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240301101547.2136948-1-mstrozek@opensource.cirrus.com>
+References: <20240301101547.2136948-1-mstrozek@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH] mfd: cs42l43: Fix wrong GPIO_FN_SEL and
+ SPI_CLK_CONFIG1 defaults
+Message-Id: <170963524448.85157.8424824978966890082.b4-ty@kernel.org>
+Date: Tue, 05 Mar 2024 10:40:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <875xy1ynya.wl-tiwai@suse.de>
+X-Mailer: b4 0.12.4
 
-On Tue, 05 Mar 2024, Takashi Iwai wrote:
-
-> On Tue, 05 Mar 2024 10:55:39 +0100,
-> Lee Jones wrote:
-> > 
-> > On Sat, 02 Mar 2024, Heiner Kallweit wrote:
-> > 
-> > > On 29.02.2024 18:26, Lee Jones wrote:
-> > > > On Tue, 13 Feb 2024, Heiner Kallweit wrote:
-> > > > 
-> > > >> If a simple trigger is assigned to a LED, then the LED may be off until
-> > > >> the next led_trigger_event() call. This may be an issue for simple
-> > > >> triggers with rare led_trigger_event() calls, e.g. power supply
-> > > >> charging indicators (drivers/power/supply/power_supply_leds.c).
-> > > >> Therefore persist the brightness value of the last led_trigger_event()
-> > > >> call and use this value if the trigger is assigned to a LED.
-> > > >> This change allows to use simple triggers in more cases.
-> > > >> As a first use case simplify handling of the mute audio trigger.
-> > > >>
-> > > >> This series touches few subsystems. I'd propose to handle it via
-> > > >> the LED subsystem.
-> > > >>
-> > > >> Heiner Kallweit (4):
-> > > >>   leds: trigger: Store brightness set by led_trigger_event()
-> > > >>   ALSA: control-led: Integrate mute led trigger
-> > > >>   Input: leds: Prepare for removal of config option LEDS_AUDIO_TRIGGER
-> > > >>   leds: trigger: audio: Remove this trigger
-> > > >>
-> > > >>  arch/mips/configs/ci20_defconfig     |  1 -
-> > > > 
-> > > >>  drivers/input/input-leds.c           |  8 +---
-> > > > 
-> > > > This does not apply.
-> > > > 
-> > > > Please rebase onto v6.8-rc1.
-> > > > 
-> > > Since v6.8-rc1 the following has been added, which is touched by
-> > > my series:
-> > > 698b43780ba2 ("Input: leds - set default-trigger for mute")
-> > > 
-> > > Rebasing onto v6.8-rc1 would mean:
-> > > - remove the change to input-leds from the series
-> > > - resubmit this change via input subsystem
-> > > 
-> > > This would affect bisectability, because for the time being
-> > > input-leds would reference a config symbol that doesn't exist
-> > > any longer.
-> > > 
-> > > We'd be fine only if the change to input-leds is applied first.
-> > > I think that's the best way to go, if you can't accept a series
-> > > based on linux-next.
-> > 
-> > Then it's going to have to wait until v6.10.
+On Fri, 01 Mar 2024 10:15:47 +0000, Maciej Strozek wrote:
+> Two regs have wrong values in existing fields, change them to match
+> the datasheet.
 > 
-> Or merging via input tree?
-> The changes are relatively small and easy, after all.
+> Fixes: ace6d1448138 ("mfd: cs42l43: Add support for cs42l43 core driver")
+> 
+> 
 
-That's likely to culminate in similar merge-conflicts when further
-changes are made to:
+Applied, thanks!
 
-  drivers/leds/led-triggers.c
-  drivers/leds/trigger/Kconfig
-  drivers/leds/trigger/Makefile
-  drivers/leds/trigger/ledtrig-audio.c
-  include/linux/leds.h
+[1/1] mfd: cs42l43: Fix wrong GPIO_FN_SEL and SPI_CLK_CONFIG1 defaults
+      commit: 78334c343bef528b911da83a6b041d15a1a72efb
 
-What happens if I take all but the Input change?  If this doesn't cause
-build-failures and the Input change will definitely land in v6.9, it
-could work.
-
--- 
+--
 Lee Jones [李琼斯]
+
