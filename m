@@ -1,146 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DC5128399;
-	Tue,  5 Mar 2024 16:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994FB85942;
+	Tue,  5 Mar 2024 16:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709654794; cv=none; b=eEoPQoV++L8WCFGbPPLPHtAJ0aOrEw1GGnclXrDzxf2EnC59TkmGZvy/csQVkbtBFxsrw6DNHboBMyA7rqW9x5k4kNf4ymbiFXle2XWiFyKHE1N6i8H7WJuel0GHDXODq3DZ3JAc15h3LqqDHMXrfGjk2N82VBMarFJz8U2uVts=
+	t=1709654852; cv=none; b=jezBI6Hl2ujYck/EvQhlRB6tOm2BhMA7N0YtPBhwLiQdwjz0tT2SyLhRhW1ZLtrBq2P1RU6H41UKfnqr2Nsnm62wjnOh4tYmCJIfdRofY4j00A6D/+Gjbak+CEpY92viDue7Qz0isGSxtUIDP4l9buuv4HfdzLaupprBvsTM1T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709654794; c=relaxed/simple;
-	bh=iQ4ueZCtzUAUounXFnVno6yI9heqKH0W5Dph34x4a8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=risDjIhrDRi/YgDBLYfsrwtRt4zyG3LaMOBZPqhSYukjLign5JWFN047QMCtHaUJPYKXS2sNfZpkzIMJWZATVMYVGUNp9Lu90JFW7RHmG9pnn8el8DPD4Hx8ruTBAHHARiWCGezczQqwzxD5Ov2+J6UEcLaZCM8sYNt9LJM8lSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxPNg1Zm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709654852; c=relaxed/simple;
+	bh=9u4MuvGx1V+56K9txq9pYyx3UFHJtGTgw8yFnAwt+r8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AWcseNo7BrKVaW3JqBYac4Lv3SIJn2m5SzHNVrLqDeELYKIPd9voKUnLvxLjJR5Ms3QgeRgwulWdugGpYQ4ITuHiW4nMBM6DGEMAxbLNuc0jprvugsAzd84B4LKX9E96rtJDz5D+NxaMN2daNTVg9F2fSkGi97Y4CwEVj9wKvvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFBQG1Q2; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxPNg1Zm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F66CC433C7;
-	Tue,  5 Mar 2024 16:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709654794;
-	bh=iQ4ueZCtzUAUounXFnVno6yI9heqKH0W5Dph34x4a8o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fxPNg1ZmxayBUPsjxy9RQhDpBa9lRMs+kH0JU14MS9DXyPcPVSnPo6olELCIYGkG3
-	 1apLIEGE/2hCtYeZSr7RLZ4yWLhc4xZJ2kqdnphv9CLkdX+tRiUlAJWQAN4wlOjS/d
-	 zwlNN7+HoyxkGZiqghpDTM+EaNOamLDS+we7myyMLSDIjo+JWoI4L2U6QyqXAWCGOx
-	 CDiMvZK+XG4mdIfmznnz7KKORI+oknDBV7eaPuVgTx5xQe+rtaaMqYtgOW/8xf3mY6
-	 VChg0g2MXBclanr/LcYhDP37FI1zkuVQQDOZoO+65jedFECBNfmHHegT8k0duDjpHB
-	 zlgtCl74qjUcw==
-Date: Tue, 5 Mar 2024 16:06:26 +0000
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-leds@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240305160626.GH86322@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
- <20240305145454.GG86322@google.com>
- <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFBQG1Q2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709654851; x=1741190851;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9u4MuvGx1V+56K9txq9pYyx3UFHJtGTgw8yFnAwt+r8=;
+  b=lFBQG1Q21ZED1VFVc72PAxrnxXpuzfw2T4KkTqA2hdM2/jjaSbL64JSv
+   1jtIaZwoPrT/5Bpbxo0jbcNy+4LxDSOHy9+EqsLD8Z5hIJ5sDvKEyurj8
+   O19MH3OizI2BEXxha+KIj2MIeO1yoQC2AwhSr3I97m27k3hX/f1Z5JKTM
+   rgcGPK6rVBpDoBseqkVWHQehb7EeMRyjtAdhiDizDM6i3GKrTeFbpTK41
+   lHseJgPahYkcodvR8G8MGEsAzYupsFYTqGN1memjzgbYSBvFSmJUqxuMT
+   TFPS/HFKV9q9G11vzEF9KsowGrs1XF23nWJb/Br5SlHg9SfM180YIDCgm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="14870237"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="14870237"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 08:07:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="937042660"
+X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
+   d="scan'208";a="937042660"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2024 08:07:26 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E3D3B1A6; Tue,  5 Mar 2024 18:07:24 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v1 1/1] ASoC: Intel: atom: sst_ipc: Remove unused intel-mid.h
+Date: Tue,  5 Mar 2024 18:07:22 +0200
+Message-ID: <20240305160723.1363534-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
 
-On Tue, 05 Mar 2024, Heiner Kallweit wrote:
+intel-mid.h is providing some core parts of the South Complex PM,
+which are usually are not used by individual drivers. In particular,
+this driver doesn't use it, so simply remove the unused header.
 
-> On 05.03.2024 15:54, Lee Jones wrote:
-> > On Tue, 05 Mar 2024, Lee Jones wrote:
-> > 
-> >> On Tue, 05 Mar 2024, Lee Jones wrote:
-> >>
-> >>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> >>>> If a simple trigger is assigned to a LED, then the LED may be off until
-> >>>> the next led_trigger_event() call. This may be an issue for simple
-> >>>> triggers with rare led_trigger_event() calls, e.g. power supply
-> >>>> charging indicators (drivers/power/supply/power_supply_leds.c).
-> >>>> Therefore persist the brightness value of the last led_trigger_event()
-> >>>> call and use this value if the trigger is assigned to a LED.
-> >>>> This change allows to use simple triggers in more cases.
-> >>>> As a first use case simplify handling of the mute audio trigger.
-> >>>>
-> >>>> [...]
-> >>>
-> >>> Applied, thanks!
-> >>>
-> >>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> >>> [2/3] ALSA: control-led: Integrate mute led trigger
-> >>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> >>> [3/3] leds: trigger: audio: Remove this trigger
-> >>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
-> >>
-> >> Submitted for build testing.
-> >>
-> >> Once succeeded, a PR will follow for other maintainers to pull from.
-> > 
-> > make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' allmodconfig
-> > make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
-> > x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vclock_gettime-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> > x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vgetcpu-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> > /builds/linux/drivers/platform/x86/dell/dell-laptop.c: In function 'dell_init':
-> > /builds/linux/drivers/platform/x86/dell/dell-laptop.c:2255:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >    micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >                                  ^~~~~~~~~~~~~~~~~
-> >                                  led_trigger_set
-> > cc1: all warnings being treated as errors
-> > make[7]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/dell/dell-laptop.o] Error 1
-> > make[7]: Target 'drivers/platform/x86/dell/' not remade because of errors.
-> > make[6]: *** [/builds/linux/scripts/Makefile.build:481: drivers/platform/x86/dell] Error 2
-> > /builds/linux/drivers/platform/x86/huawei-wmi.c: In function 'huawei_wmi_leds_setup':
-> > /builds/linux/drivers/platform/x86/huawei-wmi.c:313:28: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >   huawei->cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >                             ^~~~~~~~~~~~~~~~~
-> >                             led_trigger_set
-> > cc1: all warnings being treated as errors
-> > make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/huawei-wmi.o] Error 1
-> > /builds/linux/drivers/platform/x86/asus-wmi.c: In function 'asus_wmi_led_init':
-> > /builds/linux/drivers/platform/x86/asus-wmi.c:1623:34: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >    asus->micmute_led.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >                                   ^~~~~~~~~~~~~~~~~
-> >                                   led_trigger_set
-> > cc1: all warnings being treated as errors
-> > make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/asus-wmi.o] Error 1
-> > /builds/linux/drivers/platform/x86/thinkpad_acpi.c: In function 'mute_led_init':
-> > /builds/linux/drivers/platform/x86/thinkpad_acpi.c:9288:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >    mute_led_cdev[i].brightness = ledtrig_audio_get(i);
-> >                                  ^~~~~~~~~~~~~~~~~
-> >                                  led_trigger_set
-> > 
-> > ############################3
-> > 
-> > Errors were caused
-> >  
-> > [v6.8-rc1] ib-leds-mips-sound-6.9 2c61168294d0e ("leds: trigger: audio: Remove this trigger")
-> > 
-> >  x86_64 allmodconfig gcc-8
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtQpYDimIIpMqO0Qm4AMAAPU/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhvxgZA6moBZmToTavyY4Eita/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9 
-> > 
-> >  x86_64 allmodconfig gcc-9
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtYCYEqxnUFmoH73iKlcEIV8/ 	Pass (0 errors - 0 warnings) : v6.8-rc1
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw2i4B539YZXCoSN2LSRvsW8/ 	Fail (7 errors - 0 warnings) : ib-leds-mips-sound-6.9 
-> > 
-> >  x86_64 allyesconfig gcc-8
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtTzCsCxRpl9loRyfPrD1uhR/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw1WQ2BIpJRoyK7ruVCtihSN/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9
-> > 
-> 
-> Right, I forgot, there are patches applied via a different tree end of January,
-> that this series depends on. I assume this means that the series can be applied
-> only after the merge window.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ sound/soc/intel/atom/sst/sst_ipc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Yes, unless there is a succinct immutable branch I can pull from.
-
+diff --git a/sound/soc/intel/atom/sst/sst_ipc.c b/sound/soc/intel/atom/sst/sst_ipc.c
+index 3fc2c9a6c44d..0630e58b9d6b 100644
+--- a/sound/soc/intel/atom/sst/sst_ipc.c
++++ b/sound/soc/intel/atom/sst/sst_ipc.c
+@@ -19,8 +19,9 @@
+ #include <sound/pcm.h>
+ #include <sound/soc.h>
+ #include <sound/compress_driver.h>
+-#include <asm/intel-mid.h>
++
+ #include <asm/platform_sst_audio.h>
++
+ #include "../sst-mfld-platform.h"
+ #include "sst.h"
+ 
 -- 
-Lee Jones [李琼斯]
+2.43.0.rc1.1.gbec44491f096
+
