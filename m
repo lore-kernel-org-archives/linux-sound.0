@@ -1,169 +1,201 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2120.outbound.protection.outlook.com [40.107.8.120])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750AF43AB0;
-	Tue,  5 Mar 2024 13:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.120
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709646014; cv=fail; b=QeUNqjD530ydK0H0hl4fhQnb1/kaqc2QE9+yj/E+Rq7Eq3A2bG13DJDkV9JautnxMD/GC5i1hpdKW3jxoFCJ+DFzmAGv+TW6Eu65EuVm80keEhHxLbh7uoa1HgQqsd1bI9Y8o4WGiO1xPTPyWRpf4OeveccSC//jILO/Lo6TkUQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709646014; c=relaxed/simple;
-	bh=cCpztWhtXV+qjaYGcBaGIA9v8xZO4O3wpyANkqbBZq0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Pq1BdolRk3IeTDI5zSlfAs1oNCEO5c5AlgYLMKw2c7XqAd7WJfRntXwwEGxn3nMVMMS66VzkixXXfD3Q7az6rYBO+glm0o+PtHJCN8N7uQeSvKMOjMhGheVGir8/a7s3/KYt0H2ttink0UG66ODfw3XBMuICtYp/Jpn2Hkcs23E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net; spf=pass smtp.mailfrom=wolfvision.net; dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b=s/UZXo5T; arc=fail smtp.client-ip=40.107.8.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wolfvision.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wolfvision.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939458613A;
+	Tue,  5 Mar 2024 14:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709647638; cv=none; b=NFswNjSodoNUWjTEU2Xt0m9JK1ttiWDwnRo4+0PAshOuCDcqh7iiNEnJyEsg4LsRGZ+zl9k0TzEYycLfXaigkhDstyS3GaelDv9Gt87cbeWXhippUAmsmwu9hQdrKFHPCOnWD+pUhURvP1gAqoLkBhad9eU0pipW+LzEk1e/70E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709647638; c=relaxed/simple;
+	bh=SX5to30EhNbAVGigcYLVoaY+solEIJuRba9iTb4VyoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t8udJZAfRQZ7bobgRIn23UyZmMTkmfEam/xB4MVM3+X2Xav4Fd+q4+9eG29UtQsK2sloK+v/s/XNuQmIPkQUyaUC9z7wO1RsBegBluY7dEiOGI9jylTNdQWo/B/xYBFyPwvs6nI3n4SH3BdtVzBmke6NJbibnxwysKHbq5y0zyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WJo0BDiG; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="s/UZXo5T"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZLyN1GNRsQOwA79k95qNVLKmIgWOEItgPK6mSgls9v+aY0KoDW0a7gK+cBLtzJwuRH0RsNzujUun89X5GyENl/GloNEGwMXZLL49owFM+7Wbyst/HMjD7VYil+AoYLykbgwIZMyNj+VHFPKKw+kab+E9tgvwJzntbg6I9WkSNyuqCyJ2X94bCuGLOnwVGMjcWBbFp31C1xJMQ+/AhY5XnFCmj4m4EJfTW8SoJewTu6k/JO8sfQff3DLwkEt4FmgLcMzEYbhOJ5qg6hCIk9clQqX+RbXrmrGqI0+HRGsr7l+ziTAdNDL/omLB9keV3lCfP0hW9Jc3rArSIoHHHgRqdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W7E+YYBE/dHRdZUZn0zstzc2fjejFi8Hm4rPLzpSAqE=;
- b=aKOpB6a/+RqK2ZtvlEAE5WKgXM/8OiUcN+JdacqDZGkYN9lazVaQA5S0Yn5MANrUax+LCFJovVS35zRu0rm3/9YOG0VdsaOcUnyi9eTCCVpbePUI+1McdpVniJkky7T8UC+HMLI695hhskrvacYoh1Nu1Lj/bXLuldELu4cUlEMmXGo+j8mZ4cwzO2J1j0IVeHFGEOLv/SbFKn7wQpIXyGhph7B81yAJAJQeDqQEvztwDzADNnAYNAUe8bfG8YJdLsWCABWrEDW9JrWJapTSH1eiC5Vct9IC3SV4kgqKArUnnk1fRYgS1YKrW4K0bDgMB5OtgZZsedEHT2MNkQCpJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W7E+YYBE/dHRdZUZn0zstzc2fjejFi8Hm4rPLzpSAqE=;
- b=s/UZXo5TGbRyGmqgV9D/zPD4Whi0ikuKq4sMDP+T33MryV9vjK81G7qGmOuvRX3aS5F7IM+S0DnNA6avSDuunA3nnG+WNZJ+K4RMCE3+uRenJmcLZPJ9S0AT4bfGtg9dYx8onMgYInI9axneso90pU/CZ+1WgPdACp/ntxdoGLA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com (2603:10a6:803:111::15)
- by PA4PR08MB7596.eurprd08.prod.outlook.com (2603:10a6:102:272::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Tue, 5 Mar
- 2024 13:40:08 +0000
-Received: from VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f]) by VE1PR08MB4974.eurprd08.prod.outlook.com
- ([fe80::9e35:6de9:e4fc:843f%7]) with mapi id 15.20.7339.035; Tue, 5 Mar 2024
- 13:40:08 +0000
-Message-ID: <611caf62-1404-483e-8797-4096e0c3a433@wolfvision.net>
-Date: Tue, 5 Mar 2024 14:40:05 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] usb: misc: onboard_hub: use device supply names
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WJo0BDiG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EBD901BF203;
+	Tue,  5 Mar 2024 14:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709647632;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3FaprjU0HK8RgVI5QhbgK15bFxzuhMnZNXwzBpwlbU4=;
+	b=WJo0BDiGD/G+sF4Dv+i+C8fBUkMXamCRODSXLuTYB82Zv3J/SP5X3GWGiSa7oLX8IvnCkm
+	8MlueCfV2b5TdnrfiTitWiQXld19UIRXw6hoQ4P/ZZT8tduz81JhnfrSL4fsmkUAQ5DGeK
+	9SO24WkSVVEwAMEsoYFHlrCTRth+s4gzzxJwbWAY2NDUaJbWsp6Ry6/pnfgJzVjnVIQiCd
+	zxNfFHODiMpOZnIIXc4uRVVTwjfmN3D7JZ0vyHnK9yJZp7fvfp1Jt1zCKoCciQOgRfZwCy
+	q9eH+LkDRnmQJBjG8DNjss8NqWnwWLfQ8P6hXZVmzyqZ/Th6NYOi9Ow2v+G8lg==
+Date: Tue, 5 Mar 2024 15:07:09 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
- Helen Koike <helen.koike@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240305-onboard_xvf3500-v7-0-ad3fb50e593b@wolfvision.net>
- <20240305-onboard_xvf3500-v7-2-ad3fb50e593b@wolfvision.net>
- <2024030557-mutable-subtype-f340@gregkh>
-From: Javier Carrasco <javier.carrasco@wolfvision.net>
-In-Reply-To: <2024030557-mutable-subtype-f340@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0173.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::20) To VE1PR08MB4974.eurprd08.prod.outlook.com
- (2603:10a6:803:111::15)
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko
+ Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] ASoC: rockchip: i2s-tdm: Fix inaccurate sampling
+ rates
+Message-ID: <20240305150709.02cc4a4e@booty>
+In-Reply-To: <2509388.gFrL1EYhQU@archbook>
+References: <20240221-rk3308-audio-codec-v3-0-dfa34abfcef6@bootlin.com>
+	<20240221-rk3308-audio-codec-v3-1-dfa34abfcef6@bootlin.com>
+	<2509388.gFrL1EYhQU@archbook>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4974:EE_|PA4PR08MB7596:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0b14db1-ff4d-4f55-acd6-08dc3d19c5a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	wVUWSA/dIzCb/8IxCTmngZQAoPWkHVmKEp7f4aBpbFGMVBz/0tWoc0wTa4v508y/Zu0eVZ15w2OAw7EFEkUNuS4hM8D3cHgEYimLK6kfBv7JGfQ9Ks0MRu+mUmeoWuSC4l1PAPtjbNpCanVEEL+V1cDAnvTynnjhN+mu6xcg1GGEhrB+uS8ONKo3sZR+6PQMOaHRpvj1NnXUWGtnYYmzc0Q/S0NLLmdBHNbj9AuSCYs1nu/LNZrzKg23yWzVSBwsgCUfvdgCbPhvhOFO58wTL8FLxRh5gXYG18EdkPmFvk3KvkdGGSlDKF+cwBgB2gjPpYhd1yLwqULxv0nq8VooRXqYoGNg0VnIU+AWxil6LMD/tkRl3NrxUU8YUQsoTQ+mRyt/JTOXdJTrLEFovgu8D8aGvvL9asRH5ufRe/vfRzN+Q4tiYzeRIKqculxSJu1CQchSHtytfvZAt3Z31bm2uMqMnSmEIQMo6ET6OxFmF0YkYDf/GeLxVNSOZh1l77nar5iAdE3j/QEnN4aad9OoOd/8zVPNsSKr+2e10acaU3lpiWvyl+hwEuLwJ5zIZMeYDPdLKH6ol3AcUVYTIrHCCFlzIUw93n0323nkwtJ9nEBsQflcO57jJKlURLbI1ppBemlvmmEXMYJ+vCaLyOPYTHrqYx1wSO8j+t7T+7nsbuA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4974.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?LzNyUWlRM09PYU9Db0tpMDV6Y1J3S2gxTm5sT0s0dnNxYTd0NGNEQ0dHUVgx?=
- =?utf-8?B?Yi9ROHRqalZhc2UzY1YyMnppYTg4UWVsUnltblpFcjZuRUk2cUtQWlQ2UTN1?=
- =?utf-8?B?OEV1c2QxRXlVT3A4Z2RXWnJyWWZBanhaeTgvcjFxYTY0SW0wTWl5a29DUFM0?=
- =?utf-8?B?SFA0WXRieUJGZWdjTlhCcmhJM0Z6dFNmbE02dXlSYzJMNC9EOGR4STZYNGdi?=
- =?utf-8?B?ZlNlU0Z0UktUUFF6UnEzNW5McXJZeC9FWUJGejFNQ3ZRb2ZSM2xhTkxNMnNT?=
- =?utf-8?B?ZHdhTWJjZU8zei8xWDRyMG11a1VPQWtUR1psUjlHWDhZL0w1bllGZEV0RGRS?=
- =?utf-8?B?WkJ2eW1oQm9SOTQxbytncGlUTXVlTDFtazhCSi9lbTdRSHFWTTFEQWFDa0Ji?=
- =?utf-8?B?MTFybWRaMzliRHlxQ011dzROMnkyYTdUUXh6N1NEdGpYeFpCQ0Zqcmx1ZXlU?=
- =?utf-8?B?d2dGaXlkNFpvaXZDWVhVejJ5T0dhQjRUZW9iR1AxTjYrb3JWZ2VXRm1mdmJ4?=
- =?utf-8?B?dVdUeHUvY05sc0dBMG9DaVRZMmhQSmtaZ2FYL0o4MnhjN0ZYMnBWNWd6N0Zs?=
- =?utf-8?B?VGJtdmRZZDNnanBKQThHYXZIa0xJMG5PME51ZmhEVkFmTmsra1pXRFh4amJX?=
- =?utf-8?B?aWJQaGJCYkQrYmR0dFE4enp5bUNTOGZzSzdmMzkvVjRGaCtkNHlhVTJTTlAw?=
- =?utf-8?B?MEtTamNETEZoajlBcmQvRmUyNU56NS83cjhRUUVUeXVRbzJ0cHRLL0pQNWZR?=
- =?utf-8?B?WmdVVmo3K0ZEYWJsOE5YcXdiVUgxeHp1R2ZWR3hxMnc1d3o5ZllkeHJ2NjFB?=
- =?utf-8?B?T3ZRVGgxbHlTWHYvbnZDTzNibzdCRTZTMnJFSy9ZR2ZMa2xJd05nekNIVC9L?=
- =?utf-8?B?V2g2K3piekhkVXdITHJ1ajNNK2pRTUdkZGdEeVBDQnl6M3BMWnlyWUdlalpT?=
- =?utf-8?B?V0lHRXJ2ZmRQOE9adStyUGJZSnk1QTAraUFlZlpGc2Y1UzdwQ3ovelJHbU0z?=
- =?utf-8?B?RHZ3T3hTZVRRODhucGNHWjRTT1I0YVZaaFpLWEszWnd4ajBlNzNTelRGRHZL?=
- =?utf-8?B?RkJlNDdpZHpmYTZicWNSVU5FTXlVMVF2ODlWL3FIcWlnV24xRHJOQk5hbS92?=
- =?utf-8?B?VWh6YzNIYTVHTlVCbC9qTlB0OGc3VnB4VkNFbnByLzhzOTNVcFJCRTJTcGg3?=
- =?utf-8?B?clh5a3NPWERaWEtabzBMbllyK2NLbGVaUEhMazZHNnhCbkd1ak9MY2VablVN?=
- =?utf-8?B?dUdsSnIvNFJaKzFSVlp6WnZqN2pNc0JRbys3VUJGdzhPUVFMQmtqZ2swVTJY?=
- =?utf-8?B?Rk9tMkZuNkNxVy8rMDViRFpPaXdCK3l5MjJRc3ZqOWdGd051ZEY2bUVZV1Jq?=
- =?utf-8?B?cVVZZEIvTU1TVUVYek9pUVZLYlhsOWYwaFBPV2FidGlEd2pEUXhOampzcXdp?=
- =?utf-8?B?bkdnUm9BeVdydTREemNRVTV4WUNjdDYyMGdTTFBhWURHQUwyZUNBRVVEdVoy?=
- =?utf-8?B?WlBUTldYTHVPL09kTWFJMVN4Qm8vSWo5UGhJdTIwQUp3SGp1MmRiaUdwWmxk?=
- =?utf-8?B?R01lS3I1UWVFeFpNSzJJR1AzWHBUMmRaNmZmQ3Y1WFhQMFYxMjl4OUNFUWdJ?=
- =?utf-8?B?ZXh6a0h0NVVvRXhjZytRUCsvMzJOSWY2QkgxWldnbThvak9IWllsMlZZS3R0?=
- =?utf-8?B?Q1l1QXM4TWxadmI5aWNXSFhUZ0FWclpkT2taT2pweXBaVjkya01pZkU3QzJu?=
- =?utf-8?B?VU5iL2hsQ3l2TWdoTFFIS2JpeUt0RVdmdnNLejlsanA3ckI2Z3Vndzh1dVRw?=
- =?utf-8?B?ZHN6Z1lRVlJjVnYwQkNLeVBac1BLaC83cG16Tjg0SUlOUVpLQmd1Rmx1WnJF?=
- =?utf-8?B?WTYwOC9CN1Z2R3IvdDZUZ3hMRDNXZzNHZTh6OFlKQVBhemlFMzNadEhNdWpH?=
- =?utf-8?B?N3UwNVhsaTgzRVlnb09IS1l4WXR1cFR3Z1dYN3M5UytIMDJEWEFOeUloM1dV?=
- =?utf-8?B?bTAyaHRyY3VMUEVkWlh6TnNTckVHUCtFSHBxd3hMbjJNamhrNXN1dHNqZnBH?=
- =?utf-8?B?Y0VXeE1rbzZOR1R4N2J4VEhHU2JaaWRRekw5aktTZzY1MXZNOWdXM2wxaU16?=
- =?utf-8?B?elZsQmpyZ0ttZmFkMDkwOTk4MmVpaFJ5YmpwWFdhcGk1NHIrZDR6cTB5R3kz?=
- =?utf-8?Q?g84SLQFyYDsCQcZr3mckOL8=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0b14db1-ff4d-4f55-acd6-08dc3d19c5a6
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4974.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 13:40:08.1487
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SruZP+ZL/OF6V/bvwKhupyXZxJ+mghvOcVFc3jVgTNhRLYVYTow9WCsZu3cRsVqjFwRGf57JMHtlxJgZBz7aVxJfyGgxqVfnrXEcxYgVlYo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7596
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On 05.03.24 14:34, Greg Kroah-Hartman wrote:
-> On Tue, Mar 05, 2024 at 06:55:02AM +0100, Javier Carrasco wrote:
->> The current implementation uses generic names for the power supplies,
->> which conflicts with proper name definitions in the device bindings.
->>
->> Add a per-device property to include real supply names and keep generic
->> names for existing devices to keep backward compatibility.
->>
->> Acked-by: Matthias Kaehlcke <mka@chromium.org>
->> Signed-off-by: Javier Carrasco <javier.carrasco@wolfvision.net>
->> ---
->>  drivers/usb/misc/onboard_usb_hub.c | 49 ++++++++++++++++++++------------------
->>  drivers/usb/misc/onboard_usb_hub.h | 12 ++++++++++
->>  2 files changed, 38 insertions(+), 23 deletions(-)
-> 
-> Due to other patches to this file, this commit does not apply to my
-> tree.  Can you rebase and resend after -rc1 is out?
-> 
-> thanks,
-> 
-> greg k-h
+Hello Nicolas,
 
-Alright. I see that you have added 1/9 to usb-testing, and the rest of
-the series requires 2/9, so I will resend 2/9 - 9/9 after rebasing when
--rc1 is out.
+On Mon, 04 Mar 2024 19:40:52 +0100
+Nicolas Frattaroli <frattaroli.nicolas@gmail.com> wrote:
+
+[...]
+
+> Hello,
+> 
+> thank you for your patch series fixing this driver. Since I am the person
+> currently listed as the maintainer of it and was the person who originally
+> upstreamed it, I think I can provide some insight.
+> 
+> The mclk calculation and reparenting code indeed originates from the
+> downstream driver. As for why that driver did these calculations itself,
+> I do not know, but I do know why I did not remove them and rely on the
+> CCF to do the reparenting and such for me.
+> 
+> For starters, I did not know that the DAI and CCF code have functionality
+> to automatically reparent clocks based on the audio rate. The reason I did
+> not know this is because after looking at the official kernel documentation
+> at [1], I did not see any mention of this.
+> 
+> Similarly, the documentation for the CCF at [2] also makes no mention of
+> this feature. In general, guidance for how to properly write a DAI driver
+> in the kernel documentation is sparse, though I am extremely grateful to
+> broonie for his patience in answering some of my questions I had at the
+> time. The input of any of the reviewers at the time, including that of
+> Rockchip's engineer who wrote the downstream driver, made it a lot better
+> than it initially was.
+> 
+> Had somebody brought up the existence of this functionality during the
+> reviews of this driver's original submission, I would of course have
+> fixed this. I do not blame the reviewers or maintainers, as they have
+> enough on their plate as-is and don't owe me anything. But I am trying
+> to explain the circumstances here that lead to mclk being slightly broken
+> for this driver.
+> 
+> Naturally, now that I know that this functionality does exist, I can do
+> a web search (since in-tree documentation search was fruitless) for
+> "linux common clock framework reparenting", which as its second result
+> brings up a PDF of the slides of a talk by one of your co-workers.[3] The
+> slides do not contain the string "reparent", though they do tell me that
+> I am able to purchase Linux kernel development training from your
+> employer.
+> 
+> What I'm trying to say here is that I still don't know how the DAI
+> reparenting mclk through the CCF works, and I'd probably need to dig
+> into the implementation to even know that it does this. Furthermore,
+> your employer has an economic incentive to keep this information out
+> of the in-tree documentation.
+
+I am very surprised by your opinion about our contributions, as we are
+trying to do exactly the opposite, being active members of the
+community and giving back in various ways. We are trying to contribute
+documentation and share knowledge as well: we release all of our
+training materials as Creative Commons (source code included), we
+contribute to the Buildroot and Yocto documentation and one of our
+colleagues is the maintainer of the Yocto Project documentation. We
+also wrote and/or maintain "practical working code examples" such as
+the simplest-yocto-setup [1] we recently published and the
+zynqmp-pmufw-builder [2], and published some video tutorials (I
+remember about one on device tree that seems very appreciated).
+
+[1] https://github.com/bootlin/simplest-yocto-setup/
+[2] https://github.com/lucaceresoli/zynqmp-pmufw-builder/
+
+We also contributed to the Documentation directory of the Linux kernel
+tree, as git can show:
+
+git shortlog --no-merges -s \
+  --author=free-electrons.com --author=bootlin.com \
+  -- Documentation/ ':!Documentation/devicetree/bindings/'
+
+Sure, we could do better, but I think we are definitely doing something.
+
+About the CCF specifically, it is surely one of the areas of the kernel
+that has insufficient documentation. As a matter of fact, while some
+areas are very well documented, for others the only real documentation
+is the code. I don't like this fact, some contributions certainly help
+but documenting a complex subsystem written by others is definitely a
+very relevant effort.
+
+However I don't think the sound documentation should describe clock
+reparenting: it is really a CCF feature that is available to any
+in-kernel clock user, i.e. pretty much every subsystem. It should
+definitely be described in the CCF docs, sure.
+
+> I hope that clears up any confusion as to "why such a complex yet
+> incorrect logic is present", and what ultimately lead you to having
+> to write this patch.
+
+Thanks for taking time to explain. This is very useful as there might
+have been reasons I didn't suspect for the code being as it is.
+
+The fact that you based your work on the downstream vendor kernel (as
+I did for the codec driver in this series) is probably the reason. Not
+only because the code quality of vendor kernels is sometimes
+considerably lower than the mainline kernel, but also because that
+driver might have been written when the reparenting logic in the CCF
+was not yet as complete and effective as it is today, so chances are
+the manual reparenting was correct initially.
+
+Also, the incorrect sampling rate is barely noticeable at most sampling
+rates up to 96 kHz, so I'm not blaming anybody for having introduced a
+bug that is not visible in all use cases. The only way to not introduce
+any bugs is not writing any code.
+
+> As for the patch itself, I'll hopefully get around to testing it this
+> week on an RK3566 board, as your cover letter does not list the platforms
+> this was tested for regressions on, so I assume you're just using RK3308.
+
+Your testing would be very useful!
+
+And yes, I developed and tested my patch on RK3308. Good point, added
+now to my commit log so it will appear in v4.
+
+> The RK356x has some linked clock things going on which mainline does not
+> yet model properly as far as I know (which is why some video related clocks
+> are marked as critical, and why things like [4] are needed for MIPI-DSI
+> output to work. So any changes that might fiddle with the parent clocks
+> I'd like to validate.
+
+Right, video clocks are tricky to get right and I've often seen them
+require manual hard-coding in the device tree, unfortunately.
+
+> If I don't get around to it in a timely manner
+> however, I'm fine with this patch as-is.
+
+Cool, thanks.
 
 Best regards,
-Javier Carrasco
+Luca
 
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
