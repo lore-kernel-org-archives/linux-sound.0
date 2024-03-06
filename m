@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67FA135403;
-	Wed,  6 Mar 2024 16:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2D5D534;
+	Wed,  6 Mar 2024 16:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709742250; cv=none; b=erE2eXkourNC6NSbGtz1dYxfA9AdMQlHzx0aewV+070vG0m/oSYTu1liJnCxG0hamAhFYtTv94yHDursfRAKxr2x9XuOLBJh013cBLeHblP1utOAHHOfNESWeJoyEBnEZZa37Fw2fuSCxGGi3MgMFDZnVZxirRHIExut0ZEue6c=
+	t=1709743581; cv=none; b=bizlp4nXLUaVSuzN0/jXrJ/TqdjhC683Gj5TpHkAEd5eFHK/hKS6+mPSf3+2IW/azi9kLD+KN1c6zI3C4BwrpKUzNKAmkttUaeMSGctijgM1+EN4wivhGYJ35Xe0Y8JUoSVGvD8/xsrNHKuvpI5uC6/3jvFJiQPVA9CSeioffIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709742250; c=relaxed/simple;
-	bh=k3dnnDtaz/QdFgY9kxCvPf0pAwoj2MB21+fDJtJi8ME=;
+	s=arc-20240116; t=1709743581; c=relaxed/simple;
+	bh=oqownLCVQSkUoTKT5XoUEGTUrAy5b210q5G72rB5tWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t25M47EAAJ6cbGahlObS9xrKI03UK+SqmQuKwcqLgaf1YNMpc+Kv5Cn7WYRs6AkuwvhCOmwlYUb72lqat3B3BzNMcAN+MsutSSC6z78AosfWukUucdrDmX3NXeEs24IO0uZQwMJMeFa9LRsKURZixqx5LLbdeIrcZhRWQnv0UV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQKKc6fr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NVJ5N1K4MeBuRdkUswJGnn83B3tt14dlhN+S3cdPNHOb7/7XOhvefO4uoEwXy/oLRAB6r+PYSRIG2ve2FoMOe7IbsphMWpoo+mY6dO19l9+fb0x8RGdnQE/9yDBGZUtiJ4TS/AegS31cG+/B37aAQNNVEmVaChrUvW+66vNl8Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VT1otnHn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQKKc6fr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F9AC433C7;
-	Wed,  6 Mar 2024 16:24:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VT1otnHn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8329FC433F1;
+	Wed,  6 Mar 2024 16:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709742250;
-	bh=k3dnnDtaz/QdFgY9kxCvPf0pAwoj2MB21+fDJtJi8ME=;
+	s=k20201202; t=1709743581;
+	bh=oqownLCVQSkUoTKT5XoUEGTUrAy5b210q5G72rB5tWc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PQKKc6frdioHcSh/PgWUDkD/tbmbWbSCycj0XPJkNGgJd+pO/5bG9NpLlOJ6cmedU
-	 BnHYEoTHj2dH9rO7cVoTn3x7XOc/dhFtBPGl4avy7lTmvGm1RK8bZ5njKXegy0bVaF
-	 ULW6wiYdmj+MwQsE9lWqNXCoS4d6EZhYHK1DclrL8E1twKATZZ8ihweCLPIpG81gRE
-	 RlHpK4rV0eekY6Rl078Jsg24ZRHVP6LFUaoxOiBTpDzQhaKd6lldXRLeoLm1ImnacF
-	 gPbRqLefCjcIc9Q2jbyTS3moZeKjDlG4pMJIhyDJRp/gKYi5OpFSQrUtFfQWv0dtKQ
-	 ISgyLzHcs6AEA==
-Date: Wed, 6 Mar 2024 16:24:05 +0000
+	b=VT1otnHnPHMfU1px85lS1GHKSvltK8wF1Gr1NN84kawjKasmSPxziz2MLNTf6vZrY
+	 0bv+o2N85zcdczPMarK1iDAyWtSvzODi1G69k/t2pqGzeDhfg2LMk3OdWat/quiAyV
+	 BHRxjMpe3IbM4DepV2TfWoFgHGdC5pLtu5/sinaoZgu3Z5CPqlAT/KAfK+IWe2DYBM
+	 HDmJsZetCujNcqw/HMv4tnq9tNZjqEoHBSRcewfMr5USVVWGjEjMrOmpeX4c6Y2bF3
+	 WAYRW5xfp7A0GX1Z0EyW2W5LaOma2FMdEIuTscfXrf4kj2pW52s4FqMn2URHbwha6h
+	 Fvg2d8i8gvcrA==
+Date: Wed, 6 Mar 2024 16:46:16 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Stuart Henderson <stuarth@opensource.cirrus.com>
 Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
 	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 1/5] ASoC: wm8962: Enable oscillator if selecting
- WM8962_FLL_OSC
-Message-ID: <2030336d-76e2-4966-b513-0d1dd6a69f54@sirena.org.uk>
+Subject: Re: [PATCH 4/5] ASoC: wm8962: Fix wm8962_set_fll to use source
+ instead of fll_id
+Message-ID: <90fc91ae-0009-4cf1-8dd4-0f711e9c0c74@sirena.org.uk>
 References: <20240306161439.1385643-1-stuarth@opensource.cirrus.com>
+ <20240306161439.1385643-4-stuarth@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,39 +44,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Hfrzizu6LrF7Dinl"
+	protocol="application/pgp-signature"; boundary="4tZc99IaNMjFZtgq"
 Content-Disposition: inline
-In-Reply-To: <20240306161439.1385643-1-stuarth@opensource.cirrus.com>
+In-Reply-To: <20240306161439.1385643-4-stuarth@opensource.cirrus.com>
 X-Cookie: Have at you!
 
 
---Hfrzizu6LrF7Dinl
+--4tZc99IaNMjFZtgq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Mar 06, 2024 at 04:14:35PM +0000, Stuart Henderson wrote:
+On Wed, Mar 06, 2024 at 04:14:38PM +0000, Stuart Henderson wrote:
 
-Why?
+> Previously wm8962_set_fll was using fll_id to configure the source.
 
-> Signed-off-by: Stuart Henderson <stuarth@opensource.cirrus.com>
+Which was a problem because...?
 
-Please don't send patch serieses without cover letters, having a cover
-letter makes it easier to tell why the series is a series and makes it
-easier for tooling to work with the series.
+> This change is problematic, but it looks like there's limited
+> users of this driver, and luckily they all seem to be intending to
+> use WM8962_FLL_MCLK as the source which happens to have the same
+> value as WM8962_FLL.
 
---Hfrzizu6LrF7Dinl
+If the change is problematic why make it at all?
+
+--4tZc99IaNMjFZtgq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXomKQACgkQJNaLcl1U
-h9AcVAf8CRujpFgMZEhaTuLhZm6fTeSR/Ns/t7vaRWxay1wCf49pk5MnkxBnQ8Zs
-PQA1GzCY+tv4oR2Nchbhr9O+WiE79aWl00qPg5jGrdw9tzrhFHx6IouVyH+bvRJf
-uxHSm0u6w0jIrkk0xLHYZedTmvXGp1gOmde9rpdPxWS4WsJ05bMky5l1LpchYG/e
-KMH7OQPmlB1cx38gwnCgyrw5oNSZqEfJ3II4dqju+L1GuaufsYOka23zqkJQMG7S
-9lGQ3YGvr04tqOdMC08MlFoMHIIfqEEi47C3LFfTOzZ3VbgKPZ+KbMDojVSMUDoq
-o6M3eOl2gGZ4H/hIqX97Fp7o3zWnsw==
-=epkj
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXondcACgkQJNaLcl1U
+h9CyCgf+PfnqyAIO4He9YKYcqZdFqmX1Y6LWOmcZizuzPlrBkbtVDMjLbJ2RrObb
+gAOrMKGWOgJaZ7BwNS/L2pZ45G77p2OvmRhoT7BRQFt38QgkMhlfDNr1d+jpDzBO
+Xz+t2FL8GVEkYVb7q6C2k1BDfDtguZaB/Ld2zX8PCamgBhnSYU81R91vkc+GHIRh
+bZn6WrnAQ/bmq6Z42NLd9LSNNca4KvQhmOTh9QyGuC21lMpgnC8zdU3P25oMJU/Z
+3sWh08Ws129OzmVpD9kPpazamzH2uBRkOx8LVMgoCUhCtShYgQ5DpsR+wAqPNjoB
+seNWRk1Oev7kctFSAfwUNCrBBZIogg==
+=HNjP
 -----END PGP SIGNATURE-----
 
---Hfrzizu6LrF7Dinl--
+--4tZc99IaNMjFZtgq--
