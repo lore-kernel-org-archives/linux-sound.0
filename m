@@ -1,118 +1,91 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B025260B85;
-	Wed,  6 Mar 2024 10:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679655D72F;
+	Wed,  6 Mar 2024 12:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709722477; cv=none; b=oJmi4j3T/drb66UzKmuWoMVirWZvkUznQPIPUFv0PAhRlt/8dOZn2TbqXiQ5Y5hP893wAMxUPRXmo03wX/E7ZMOcA7iGN3F7l7biQz/yftYD64pte/ING4uiz5M8IJ+l2EBJ7mvn9XK6pF6Nx6xujgOqqEp86x6/stvi1v86q1Y=
+	t=1709728231; cv=none; b=BeyMZl1ksM3WkshEqXK8uT+wi5fxFFfFYLpF+yHLjlCgWTQ7YAjahydamgYVvJdvSxnAzANwbwm9UJouX2j7KA1CprYeccNXyD/etEqf07Y92BK+xglVJqUB2EYhGpcaPq31/wKcLdy7i1pITjy19SyH+cAvYTD/DNFJ3aj8NAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709722477; c=relaxed/simple;
-	bh=BCOyQaski6VQlTYoUq01OxZVmiyxRSehT78bucUqV40=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 In-Reply-To:References; b=E2g8xbp0OX0TAyUbhctMaEIs4HzEwOa6o7sQi9Ykmf9dEPThLMkYdl2/NsFBCkfdNW+EhdtBCZdgs0cgfbTd7udG7rsBqBxVcN3e3ULCTbFe3Jyk3UHM8AMN+wgtdoZZvmvlZMIvBzBBaPYJgLx3fns+UcqKBcCrGm6UzpY1nBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HJ2iGKjE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1709728231; c=relaxed/simple;
+	bh=Ix+FfAXcBUKh13sk+NOTEZ7IBFQR2jDzOXOAnRx0yKw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OtCFU6Z5vqJs6DKiQp2kPB+Cbg+b63S3RTgeRB8WlLz8DbVl8a06z8zrreM3s5/qmOoeQ458zQhI19D/aONqGJxvZH5BX0IMhknmPg4Odcl8GTAAWyWgRxrePOKLhBf3v38SwiVdO8LDpTvJdL7nEbDF7K0vk1kkGDVU9P1EyIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwHuWyCM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HJ2iGKjE"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4266jsY7031466;
-	Wed, 6 Mar 2024 10:54:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references; s=qcppdkim1; bh=6KdBFHDx0oq3RNnkz99R68M
-	tuO2GPsYXR0khb5BCPBU=; b=HJ2iGKjE7vqFN/t3yQeTVV1zpbFhFWM/SOL8O3s
-	M/lRtEzryqRPcRLROL5gySnSDq6oK95tBcoJEiVucPSox3wq4c/MOsGJe4Ez5a/F
-	246khxrDbEPvzDrmJeCvOns3iRKAZd/91PeQ6j8XlcvC2DC+NShPoI0ktY9Git1t
-	QG1nXWux7JmX0NyYNipeaLArekg3epZ+YnhMdOZqK42dmvc2i0D+XI8NdeFZ4LJa
-	KS7/O7XW0N66gDq8V5F0OTa+fC6uGq143jan0fm7gGr/s6FyOwnzp7kMjsc8a2TR
-	5LKOy1beW36SauBhn46RBqJAgk3Oj51VAmMmK6jbukoHyow==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wpjy3rjha-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Mar 2024 10:54:25 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 426AsAQK018102;
-	Wed, 6 Mar 2024 10:54:22 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3wkw6ktcdx-1;
-	Wed, 06 Mar 2024 10:54:22 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 426AsMYT018187;
-	Wed, 6 Mar 2024 10:54:22 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-c-shalma-hyd.qualcomm.com [10.213.108.128])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 426AsMOh018186;
-	Wed, 06 Mar 2024 10:54:22 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 2341845)
-	id 007DC3E1F; Wed,  6 Mar 2024 16:24:20 +0530 (+0530)
-From: Shalini Manjunatha <quic_c_shalma@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Raghu Bankapur <quic_rbankapu@quicinc.com>,
-        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        Shalini Manjunatha <quic_c_shalma@quicinc.com>,
-        linux-kernel@vger.kernel.org
-Cc: Krishna Jha <quic_kkishorj@quicinc.com>
-Subject: [PATCH V0 1/1] ASoC: soc-compress: Fix and add DPCM locking
-Date: Wed,  6 Mar 2024 16:23:20 +0530
-Message-Id: <d985beeafdd32316eb45f20811eb7926da7a796e.1709720380.git.quic_c_shalma@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1709720380.git.quic_c_shalma@quicinc.com>
-References: <cover.1709720380.git.quic_c_shalma@quicinc.com>
-In-Reply-To: <cover.1709720380.git.quic_c_shalma@quicinc.com>
-References: <cover.1709720380.git.quic_c_shalma@quicinc.com>
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: nenwcDJD0jq7Q5O_-5RFb3qGmO7txTkn
-X-Proofpoint-ORIG-GUID: nenwcDJD0jq7Q5O_-5RFb3qGmO7txTkn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-06_06,2024-03-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=997
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403060086
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwHuWyCM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECB2CC43390;
+	Wed,  6 Mar 2024 12:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709728230;
+	bh=Ix+FfAXcBUKh13sk+NOTEZ7IBFQR2jDzOXOAnRx0yKw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OwHuWyCMS3P3JaqWLfifteuKfRKiu58aIRAVz3urWEfqyZp0xETWff1hTlUQ+P9QC
+	 L86aTv8MtN0CwTPXKER0F7HUZ+FfgHov8V4JT+iTUhPXKQ0GtEzRM95XzV6oUF0o0I
+	 a2Erome4ZxFFYfgMTiweRa62mtFrGhMmKM5gKpXjoE3VhFLvLWhdRZeuNZIEZGJWef
+	 WlYlWlgpbLW9zqWQjO87vKemv1dqoRI9ZzIXDmaBoTtepD9U8N53tbItgT7p2m0wpE
+	 R78FywCN9oCyWl+MayYi+h1XUIBhAyBpc/uE4sy52SMz2+uDJdH72eDHfom425GUsj
+	 l3rfN2kXSLz0Q==
+From: Mark Brown <broonie@kernel.org>
+To: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20240305160723.1363534-1-andriy.shevchenko@linux.intel.com>
+References: <20240305160723.1363534-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] ASoC: Intel: atom: sst_ipc: Remove unused
+ intel-mid.h
+Message-Id: <170972822557.17598.8700374385096227275.b4-ty@kernel.org>
+Date: Wed, 06 Mar 2024 12:30:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-a684c
 
-We find mising DPCM locking inside soc_compr_set_params_fe
-before calling dpcm_be_dai_hw_params() and dpcm_be_dai_prepare()
-which cause lockdep assert for DPCM lock not held in
-__soc_pcm_hw_params() and __soc_pcm_prepare()
+On Tue, 05 Mar 2024 18:07:22 +0200, Andy Shevchenko wrote:
+> intel-mid.h is providing some core parts of the South Complex PM,
+> which are usually are not used by individual drivers. In particular,
+> this driver doesn't use it, so simply remove the unused header.
+> 
+> 
 
-Signed-off-by: Shalini Manjunatha <quic_c_shalma@quicinc.com>
----
- sound/soc/soc-compress.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied to
 
-diff --git a/sound/soc/soc-compress.c b/sound/soc/soc-compress.c
-index a38fee4..e692aa3 100644
---- a/sound/soc/soc-compress.c
-+++ b/sound/soc/soc-compress.c
-@@ -385,11 +385,15 @@ static int soc_compr_set_params_fe(struct snd_compr_stream *cstream,
- 
- 	fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_FE;
- 
-+	snd_soc_dpcm_mutex_lock(fe);
- 	ret = dpcm_be_dai_hw_params(fe, stream);
-+	snd_soc_dpcm_mutex_unlock(fe);
- 	if (ret < 0)
- 		goto out;
- 
-+	snd_soc_dpcm_mutex_lock(fe);
- 	ret = dpcm_be_dai_prepare(fe, stream);
-+	snd_soc_dpcm_mutex_unlock(fe);
- 	if (ret < 0)
- 		goto out;
- 
--- 
-2.7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: Intel: atom: sst_ipc: Remove unused intel-mid.h
+      commit: 8fedf4f1d62ed058958e7a46aa62c0cb656dc040
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
