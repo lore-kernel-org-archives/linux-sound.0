@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2D5D534;
-	Wed,  6 Mar 2024 16:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36184137936;
+	Wed,  6 Mar 2024 16:47:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709743581; cv=none; b=bizlp4nXLUaVSuzN0/jXrJ/TqdjhC683Gj5TpHkAEd5eFHK/hKS6+mPSf3+2IW/azi9kLD+KN1c6zI3C4BwrpKUzNKAmkttUaeMSGctijgM1+EN4wivhGYJ35Xe0Y8JUoSVGvD8/xsrNHKuvpI5uC6/3jvFJiQPVA9CSeioffIo=
+	t=1709743679; cv=none; b=eTw/Sth9Ca6jmRGTQ6hACxpJpAK9ydbKJbxOi/89QzsVFFXPkwwAT9e0LCaP2CMk9qcjbbag/46vG3zjGq4OWgA9mEIAibDdKdjDj40WBNZSxl0G06oHL4Vf3zv1pom1E5retWpLXBiU2uEO+PRpGg+p7qBSYBvbUtqjSNPw7ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709743581; c=relaxed/simple;
-	bh=oqownLCVQSkUoTKT5XoUEGTUrAy5b210q5G72rB5tWc=;
+	s=arc-20240116; t=1709743679; c=relaxed/simple;
+	bh=gyK3Oa2EgaOEcRwH1bFm2IMU4x6SIH8TB4MiAN3Tmtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NVJ5N1K4MeBuRdkUswJGnn83B3tt14dlhN+S3cdPNHOb7/7XOhvefO4uoEwXy/oLRAB6r+PYSRIG2ve2FoMOe7IbsphMWpoo+mY6dO19l9+fb0x8RGdnQE/9yDBGZUtiJ4TS/AegS31cG+/B37aAQNNVEmVaChrUvW+66vNl8Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VT1otnHn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=M6noxD/gn4SL8fY6FcSjb29oHFHaHsW9Afx7fRZhaHRwGaF54fgLgJSqw+BEAV5b/ElOALg1MEhetxVapfs9QSUmcHLAJ8zupmdOqbyeWkiHTtt+yoFLgTRV2XMF0gLltS6rS42gJrjuGXvqepuo+f7odL1hYCQNxUpkOLGcyk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqX0qM0A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VT1otnHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8329FC433F1;
-	Wed,  6 Mar 2024 16:46:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqX0qM0A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41257C433F1;
+	Wed,  6 Mar 2024 16:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709743581;
-	bh=oqownLCVQSkUoTKT5XoUEGTUrAy5b210q5G72rB5tWc=;
+	s=k20201202; t=1709743678;
+	bh=gyK3Oa2EgaOEcRwH1bFm2IMU4x6SIH8TB4MiAN3Tmtg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VT1otnHnPHMfU1px85lS1GHKSvltK8wF1Gr1NN84kawjKasmSPxziz2MLNTf6vZrY
-	 0bv+o2N85zcdczPMarK1iDAyWtSvzODi1G69k/t2pqGzeDhfg2LMk3OdWat/quiAyV
-	 BHRxjMpe3IbM4DepV2TfWoFgHGdC5pLtu5/sinaoZgu3Z5CPqlAT/KAfK+IWe2DYBM
-	 HDmJsZetCujNcqw/HMv4tnq9tNZjqEoHBSRcewfMr5USVVWGjEjMrOmpeX4c6Y2bF3
-	 WAYRW5xfp7A0GX1Z0EyW2W5LaOma2FMdEIuTscfXrf4kj2pW52s4FqMn2URHbwha6h
-	 Fvg2d8i8gvcrA==
-Date: Wed, 6 Mar 2024 16:46:16 +0000
+	b=XqX0qM0A8xM6CjT/E02/ozWGPWddzvlAD1SKPZeeIYniqf3O/apGGdbEKSK+SBlgd
+	 Us3mWwgAleZtLRQgKt7ZyXBYeVoOsmu0cLQKejzFSFwo5rKx2H08Am3sSXzmSnsNhK
+	 tSVhj6VDf1pP7fFSvFBHpYolt/DqYy+QHA2cUKv2teTcn4g6V16BEdO6EXLuUpNyvz
+	 FCSCeD3h3MIS9JZ0JkxO6KXBgJkMJ8y7alGEUHCOEbsH3K5Cv7VxDyCdWn3ITiI11K
+	 BevR8F6K47bChOgGsHQ+p20R+PAo/LVQBcQiHJ94mFPV8OEIbDZJs2mwc1FJ4tTgLs
+	 oLQY2Z2JhDWWQ==
+Date: Wed, 6 Mar 2024 16:47:54 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Stuart Henderson <stuarth@opensource.cirrus.com>
 Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
 	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 4/5] ASoC: wm8962: Fix wm8962_set_fll to use source
- instead of fll_id
-Message-ID: <90fc91ae-0009-4cf1-8dd4-0f711e9c0c74@sirena.org.uk>
+Subject: Re: [PATCH 2/5] ASoC: wm8962: Enable both SPKOUTR_ENA and
+ SPKOUTL_ENA in mono mode
+Message-ID: <1db18205-64ec-4235-964d-89cfd198a5b9@sirena.org.uk>
 References: <20240306161439.1385643-1-stuarth@opensource.cirrus.com>
- <20240306161439.1385643-4-stuarth@opensource.cirrus.com>
+ <20240306161439.1385643-2-stuarth@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,42 +44,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4tZc99IaNMjFZtgq"
+	protocol="application/pgp-signature"; boundary="EoYH/R4wBBEJKnZL"
 Content-Disposition: inline
-In-Reply-To: <20240306161439.1385643-4-stuarth@opensource.cirrus.com>
+In-Reply-To: <20240306161439.1385643-2-stuarth@opensource.cirrus.com>
 X-Cookie: Have at you!
 
 
---4tZc99IaNMjFZtgq
+--EoYH/R4wBBEJKnZL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Mar 06, 2024 at 04:14:38PM +0000, Stuart Henderson wrote:
+On Wed, Mar 06, 2024 at 04:14:36PM +0000, Stuart Henderson wrote:
+> Signed-off-by: Stuart Henderson <stuarth@opensource.cirrus.com>
 
-> Previously wm8962_set_fll was using fll_id to configure the source.
+Because...?
 
-Which was a problem because...?
-
-> This change is problematic, but it looks like there's limited
-> users of this driver, and luckily they all seem to be intending to
-> use WM8962_FLL_MCLK as the source which happens to have the same
-> value as WM8962_FLL.
-
-If the change is problematic why make it at all?
-
---4tZc99IaNMjFZtgq
+--EoYH/R4wBBEJKnZL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXondcACgkQJNaLcl1U
-h9CyCgf+PfnqyAIO4He9YKYcqZdFqmX1Y6LWOmcZizuzPlrBkbtVDMjLbJ2RrObb
-gAOrMKGWOgJaZ7BwNS/L2pZ45G77p2OvmRhoT7BRQFt38QgkMhlfDNr1d+jpDzBO
-Xz+t2FL8GVEkYVb7q6C2k1BDfDtguZaB/Ld2zX8PCamgBhnSYU81R91vkc+GHIRh
-bZn6WrnAQ/bmq6Z42NLd9LSNNca4KvQhmOTh9QyGuC21lMpgnC8zdU3P25oMJU/Z
-3sWh08Ws129OzmVpD9kPpazamzH2uBRkOx8LVMgoCUhCtShYgQ5DpsR+wAqPNjoB
-seNWRk1Oev7kctFSAfwUNCrBBZIogg==
-=HNjP
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXonjkACgkQJNaLcl1U
+h9CKDAf9GubyuS+G38uH6EeHSpRuTVyLfwf8KGTJQNFNlfLpma07D2/LU3K1KqvT
+dsSPV1QE2jlr7kwLXdQIZj8qOpFRRAS6Md3L3Lrlzct5wNf2w0KPE3fiCKTHHka2
+eqYvKcTTYpboaN+rkG3N65z7La4aaNv/8cTcfe8yd5LNbqfceuun3El1EdxXfn2B
+dnaIVSyXBCzAURjbnwONWlVGcqhRUboLAQ1ePukh2/zWNv5oY2XKvwmtIFpdf4iF
+6aUbFPdU+F7oeq/xdGCuDgVUepJVc/Y1coSw6FdaFoojAlWErr/VCxh5IFTvVKlH
+uzN9wCsXix9cKZrZxKrdYaRiXyEvmQ==
+=/g8g
 -----END PGP SIGNATURE-----
 
---4tZc99IaNMjFZtgq--
+--EoYH/R4wBBEJKnZL--
