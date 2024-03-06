@@ -1,93 +1,94 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4177137936;
-	Wed,  6 Mar 2024 16:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE71136676;
+	Wed,  6 Mar 2024 16:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709741718; cv=none; b=cOPiktw/aVtfsnYz3qjt0/i1fj9f0dhk7oNDi5qmqkjEU8FtAhBzckgkJF7qyHf5Kr2cSqEk5qpQgZfuSSUaTARLv8tWMjjAOieuyeVby5MyY2r/AREr4XUTW3f2NlpB/Y4pHe978kcas8MkCDIjQ0CMiwwY9N1L+S1F8hSe0Bk=
+	t=1709741868; cv=none; b=rv8ent5SK1Qrw0Q9Lhqm0eFCT5OIzpavALPBkZNMJMiSsMCGYKXtp/1hxC477lnrTBZpB7yF84Ux7/SKeyzyYmhscBvR57GO69IZenSSaEL3s7SY4uPmBkCfEFfuFU1H/jDVcVzm3jtok+jXU6XlcQQCzhJZ9FCYXZOYKR7rv1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709741718; c=relaxed/simple;
-	bh=ioYN/9YghUj0aCB+8sxcgLE59kh3ARmKIokGHWoPN0s=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LwV9wyYcTlAR6jLeop41NoSoD4MyjWOon7oQm95Pm1LQu6vb//1f1HGhCs3GNgjd7jcemiKioi7G95CPfHuSJc3Kz97t0mPSK6fjDRrxPciTBAta71HP4nPuHaPQPyLdOpfrU8Q1upbqDRmIX3/gfmMqTSakUlgsTvi96zpAKyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DzuFhK0x; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1709741868; c=relaxed/simple;
+	bh=RVMlEsB2pN6OihFSXCIfVDCN4Q/0ngtVNwKfhyIQRas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=no2NP0zst+JvyLIQOS93iDd2PDywjP71mb4adXsmhVP4LzsP6zhiRj2sLCOhO8CUhxPp19UtkOuA1bywMjIZtgOZQqrpuVh5Aj4r7uMABQ350rYHSVB5U/a5loEZf4KrL7JbgJwJFqZa9+0bPCrok/lL+f0ugKJl8B8Kk106riw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kw4WzDRz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DzuFhK0x"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4268m45H016753;
-	Wed, 6 Mar 2024 10:15:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=bRU53y88xZ5UTSTdeL7E9DlLRqfwscew8y4zZPeOtvw=; b=
-	DzuFhK0xgLwkNfb/9rHkmebTTxtraSge9LlgHjAeC2to/86SSIItWaKJv6zboVu3
-	qifYBzQ2rIQQdcWClGmXVV+FBnKLgan4HkOPWxPg3IyiR/IBPZo/1sQJqKzAMuBX
-	3IJaMauPfr11MG2FuUYs2Sn9Pl7TEESesie7PIiyPQhYJiNarufIpQnGQtUZ1SoE
-	OfuPDG/hQbbEBkep9FgIaa1PwmzLt1iQ9h9y60njAPJP1v04KRmqbD66GO9aif2M
-	gGgMqh9fwrfSkbRW349eOP1wpYHFpp1pG1ANS8nlzYXc6xgyQr+hTT41Ppmr0MIk
-	UX4PEaYkaTNIMdCXmIIiXw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wpn930g9n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Mar 2024 10:15:10 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 6 Mar 2024
- 16:15:08 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.4 via Frontend Transport; Wed, 6 Mar 2024 16:15:08 +0000
-Received: from ediswws08.ad.cirrus.com (ediswws08.ad.cirrus.com [198.90.208.13])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id BE609820243;
-	Wed,  6 Mar 2024 16:15:08 +0000 (UTC)
-From: Stuart Henderson <stuarth@opensource.cirrus.com>
-To: <broonie@kernel.org>, <shengjiu.wang@gmail.com>, <Xiubo.Lee@gmail.com>
-CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        "Stuart
- Henderson" <stuarth@opensource.cirrus.com>
-Subject: [PATCH 5/5] ASoC: wm8962: Fix up incorrect error message in wm8962_set_fll
-Date: Wed, 6 Mar 2024 16:14:39 +0000
-Message-ID: <20240306161439.1385643-5-stuarth@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240306161439.1385643-1-stuarth@opensource.cirrus.com>
-References: <20240306161439.1385643-1-stuarth@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kw4WzDRz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A38C433F1;
+	Wed,  6 Mar 2024 16:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709741867;
+	bh=RVMlEsB2pN6OihFSXCIfVDCN4Q/0ngtVNwKfhyIQRas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kw4WzDRzJgOTgaWFiMqFOR7PMSi9EDNdg7X4h+56sL4CI8WOzjGrR3TGYYabudwEO
+	 hJw3FgoUTwlwmpm4K895rAktQDlRceWuhwxJaXljCJlo+3FSF2G1cy2pmeqduAMDHu
+	 d2p/s7ZBxVWFkppkhj2O1Tuwcpsy110sGLtiSLNnE+CjOnRIHfpZacw2aEBZTNIu5l
+	 anC3ux8TNyEEawLB6Z9sbwic2mEvbsARDVqMC2qFCggocPTVJVVOONoyMGji3eh2gn
+	 2bhR3GDNicRCyCmNDaE6kS6pZGZtQnLwaLIvxndYmgjqL9vbIbSf89fUhJ8kYvb7ID
+	 0DUmWuSP7pdRQ==
+Date: Wed, 6 Mar 2024 16:17:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Shalini Manjunatha <quic_c_shalma@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Raghu Bankapur <quic_rbankapu@quicinc.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krishna Jha <quic_kkishorj@quicinc.com>
+Subject: Re: [PATCH V0 0/1] ASoC: soc-compress: Fix and add missing DPCM
+ locking
+Message-ID: <d9d858fd-a4ae-4623-9627-4ccbb049966b@sirena.org.uk>
+References: <cover.1709720380.git.quic_c_shalma@quicinc.com>
+ <Zeh9HMcWxfgPJS1T@matsya>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: GQpgMBZCV7sidcX6J5TRZH52UMzzfD2J
-X-Proofpoint-ORIG-GUID: GQpgMBZCV7sidcX6J5TRZH52UMzzfD2J
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BU4G5YQs4z51lECv"
+Content-Disposition: inline
+In-Reply-To: <Zeh9HMcWxfgPJS1T@matsya>
+X-Cookie: Have at you!
 
-Use source instead of ret, which seems to be unrelated and will always
-be zero.
 
-Signed-off-by: Stuart Henderson <stuarth@opensource.cirrus.com>
----
- sound/soc/codecs/wm8962.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--BU4G5YQs4z51lECv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-index 24bd818c3345..5ad6850c591f 100644
---- a/sound/soc/codecs/wm8962.c
-+++ b/sound/soc/codecs/wm8962.c
-@@ -2941,7 +2941,7 @@ static int wm8962_set_fll(struct snd_soc_component *component, int fll_id, int s
- 				    WM8962_FLL_FRC_NCO, WM8962_FLL_FRC_NCO);
- 		break;
- 	default:
--		dev_err(component->dev, "Unknown FLL source %d\n", ret);
-+		dev_err(component->dev, "Unknown FLL source %d\n", source);
- 		return -EINVAL;
- 	}
- 
--- 
-2.39.2
+On Wed, Mar 06, 2024 at 07:56:36PM +0530, Vinod Koul wrote:
+> On 06-03-24, 16:23, Shalini Manjunatha wrote:
+> > We find mising DPCM locking inside soc_compr_set_params_fe()
+> > before calling dpcm_be_dai_hw_params() and dpcm_be_dai_prepare()
+> > which cause lockdep assert for DPCM lock not held in
+> > __soc_pcm_hw_params() and __soc_pcm_prepare() in above flow
+> > when ever we play compress offload audio playback use case.
+>=20
+> where is the patch ?
 
+In reply to the cover letter:
+
+   https://lore.kernel.org/lkml/d985beeafdd32316eb45f20811eb7926da7a796e.17=
+09720380.git.quic_c_shalma@quicinc.com/
+
+You do seem to be on CC.
+
+--BU4G5YQs4z51lECv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXolyUACgkQJNaLcl1U
+h9Cqzgf/bPmF9PKuBaGGpT5GM8QMANRh7UVzVUYTKzyoe5b7KOX6ZaW21olPQBFx
++e/IMQ17j0wlCVbGUmQrUBaunMN0tYrwa7sgbQbv8Zzs4rUK4CGF+X2hCt6aTXmN
+X/MJEcwqBwQyCet5TWhqN8tmQOvKyIZhhbQxIqjQr5XVBV2jaDk33V1zgxT+To77
+RTej4cW3QErcHuKndVVkdHaJEH7IXSlQpVh+gF1zdjEji8CRiLXbnIp2GvyUzKW/
+6YGM0gesJcw6ZaFgqOCsNyEfGwsy3ixj4BIHuns+CaSQvTegI9uoV74jjBCcW23C
+60/fvEjWk2CwwL9Kf0B9R3D+IQ/W1g==
+=M7r+
+-----END PGP SIGNATURE-----
+
+--BU4G5YQs4z51lECv--
