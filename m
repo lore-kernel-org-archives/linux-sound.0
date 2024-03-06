@@ -1,424 +1,687 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from smtp.ivitera.com (smtp.ivitera.com [88.101.85.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB04E1B812;
-	Wed,  6 Mar 2024 07:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE375CDC2;
+	Wed,  6 Mar 2024 07:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.101.85.59
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709709611; cv=none; b=LEmUigWUJm5lPjzKPwoy+OAOfHC4LNl0O0yoA8fUsBgqBQq8OFMkApSoZrDc7J56PYqL+39OjKnIQW7aLq0fAZTpzKNwG9lVRxe9Yj+SDr6UGjItTPjmcsFsnrbhNNgYSkBvV65UjmR8D2LbsB2lXOYv/3XvbivAkB9sC0gjrkQ=
+	t=1709711354; cv=none; b=SCOhF01jHhjpkk0HZ1T2fS5NDFbhPsv1q0XVKRNsz8YTzK0mz77zCMkHw31P0jXAQ4x4LR0sqBiNKLgJIFGOAnn+yEFqyVNi9n+wzXWyauSFImSAUpjb9CKrwrNkRuBmHB1wfTBwSNbj/s7F/qMLzQ9KaMWKb6Au5iriYG4Thqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709709611; c=relaxed/simple;
-	bh=3hSTie2Z4h1aOmI/fKXJ9/KRM8g2DZju6vdN3L8tNX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gE1urkSpA5EM3Lz1guH3nhPGzYxBUcREDyIuL7vXj+eWbgpns2MiVDjRpJzddbUCfHvZl3quRGCitRHuD/j76inUE+n6vgxDpJMP37vjCXU1Uq/CqSd+T9M33frVUXroh/wK8AFKGw1/piLFaqNIDEvPi6ObnZCRRimvzvbLExM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=cUhEyju6; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1709711354; c=relaxed/simple;
+	bh=t5jsJMHRGhUJhHuAiVcBgOrxgeY+cGFH6ML5Fa66sY8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bwXUDNweUkaRjr/lypu6OSlTjV9Me8LL1GdUc/fz3AMy3DCUYfzZ4Hp2jpv/grsAg65fIyaY6GwiSHi3c+R4yQ+tfU02+rSeYqgjh4Qc8XQMycbdmik2UdvoG/1Et1kucl13xffUrZlB88Lhnd+7MAyi1iSAc+02G1qG62UEiEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com; spf=pass smtp.mailfrom=ivitera.com; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=gpexxRtW; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=fhT8k+L4; arc=none smtp.client-ip=88.101.85.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ivitera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="cUhEyju6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1709709607; x=1741245607;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jW3nFBn6TcQTAHKIo2UTCLyc402JWm2+7QktnDYTndE=;
-  b=cUhEyju6gK0mHaRwx1HLL5JwHP9DbuIkRNKPuuq+E0jFwJKlz3BbI4H3
-   XeFiO75ivxmMc7SOh/ZJgNNnsuUZpQf8AK3rhwvPrKPaliLRgbQ3waE2M
-   XjQLIFOwRfihswhykx6mYA1bPAUuou43R6n20nWBgvkrkPU7xBeGdpW/v
-   M8eLc3mHJ3+s3I12g5sxOdbBiWI4hFd1B/wQ5kXuPsQUNFJyL0F/BCSmH
-   LQQ7E2dWZ4ghzpYQoge4/kn5327X+sgF/oZHpE4LxfsL8RN0GKjt/sKAE
-   WnvJ2bfZ39jrLzKLIXRUxZHthd+9gW5y3mUdfKIPxj4fkg3xzqWU2pFuE
-   w==;
-X-IronPort-AV: E=Sophos;i="6.06,207,1705359600"; 
-   d="scan'208";a="35754710"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 06 Mar 2024 08:19:58 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9EF8D280071;
-	Wed,  6 Mar 2024 08:19:58 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4 4/4] arm64: dts: imx8qxp: add asrc[0, 1], esai0, spdif[0, 1] and sai[4, 5]
-Date: Wed, 06 Mar 2024 08:20:00 +0100
-Message-ID: <2177674.irdbgypaU6@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240305-asrc_8qxp-v4-4-c61b98046591@nxp.com>
-References: <20240305-asrc_8qxp-v4-0-c61b98046591@nxp.com> <20240305-asrc_8qxp-v4-4-c61b98046591@nxp.com>
+	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="gpexxRtW";
+	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="fhT8k+L4"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.ivitera.com (Postfix) with ESMTP id DD010119D9;
+	Wed,  6 Mar 2024 08:43:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+	t=1709711039; bh=t5jsJMHRGhUJhHuAiVcBgOrxgeY+cGFH6ML5Fa66sY8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gpexxRtWVE7WMsik1mZqiQ8jyHrhnnp/E1J6mUpHNAudU+/JVxYtCqILEsA2PIQOx
+	 yDsQPcuBft6Lih9PGr4Uo3ZdKKnZRAIIDKMpH6VD2Y//ISKRqPbUMlGXZoSTYm43ab
+	 7ybzvuLP2qVREpCxyLAy2nyIai5kedM5NZtqtF3Y=
+Received: from smtp.ivitera.com ([127.0.0.1])
+	by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SxBq1oRg_5E7; Wed,  6 Mar 2024 08:43:59 +0100 (CET)
+Received: from [192.168.105.22] (dustin.pilsfree.net [81.201.58.138])
+	(Authenticated sender: pavel)
+	by smtp.ivitera.com (Postfix) with ESMTPSA id 555E912676;
+	Wed,  6 Mar 2024 08:43:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+	t=1709711038; bh=t5jsJMHRGhUJhHuAiVcBgOrxgeY+cGFH6ML5Fa66sY8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fhT8k+L44v4cO0D6YehScAWPJ7jHUndVvSog2rqjb7OtEGrIfhFEQZ2Gcp/Fq9u+f
+	 I0IxTuzjYv+Q5d2wG6TdDhVTpXp6ZONljXWaa+6N5jWGXZ4qj1G2ZpqsuickBexVLm
+	 h6Zi4VzEohBYh6/YERUwLY4XW5pvugQrmCdkSpn4=
+Message-ID: <865b94d6-e9b6-6db9-eae5-5c56d4802710@ivitera.com>
+Date: Wed, 6 Mar 2024 08:43:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4 1/7] ASoC: rockchip: i2s-tdm: Fix inaccurate sampling
+ rates
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240305-rk3308-audio-codec-v4-0-312acdbe628f@bootlin.com>
+ <20240305-rk3308-audio-codec-v4-1-312acdbe628f@bootlin.com>
+From: Pavel Hofman <pavel.hofman@ivitera.com>
+In-Reply-To: <20240305-rk3308-audio-codec-v4-1-312acdbe628f@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
 
-thanks for the patch.
+On 05. 03. 24 15:36, Luca Ceresoli wrote:
+> The sample rates set by the rockchip_i2s_tdm driver in master mode are
+> inaccurate up to 5% in several cases, due to the driver logic to configure
+> clocks and a nasty interaction with the Common Clock Framework.
+> 
+> To understand what happens, here is the relevant section of the clock tree
+> (slightly simplified), along with the names used in the driver:
+> 
+>         vpll0 _OR_ vpll1               "mclk_root"
+>            clk_i2s2_8ch_tx_src         "mclk_parent"
+>               clk_i2s2_8ch_tx_mux
+>                  clk_i2s2_8ch_tx       "mclk" or "mclk_tx"
+> 
+> This is what happens when playing back e.g. at 192 kHz using
+> audio-graph-card (when recording the same applies, only s/tx/rx/):
+> 
+>   0. at probe, rockchip_i2s_tdm_set_sysclk() stores the passed frequency in
+>      i2s_tdm->mclk_tx_freq (*) which is 50176000, and that is never modified
+>      afterwards
+> 
+>   1. when playback is started, rockchip_i2s_tdm_hw_params() is called and
+>      does the following two calls
+> 
+>   2. rockchip_i2s_tdm_calibrate_mclk():
+> 
+>      2a. selects mclk_root0 (vpll0) as a parent for mclk_parent
+>          (mclk_tx_src), which is OK because the vpll0 rate is a good for
+>          192000 (and sumbultiple) rates
+> 
+>      2b. sets the mclk_root frequency based on ppm calibration computations
+> 
+>      2c. sets mclk_tx_src to 49152000 (= 256 * 192000), which is also OK as
+>          it is a multiple of the required bit clock
+> 
+>   3. rockchip_i2s_tdm_set_mclk()
+> 
+>      3a. calls clk_set_rate() to set the rate of mclk_tx (clk_i2s2_8ch_tx)
+>          to the value of i2s_tdm->mclk_tx_freq (*), i.e. 50176000 which is
+>          not a multiple of the sampling frequency -- this is not OK
+> 
+>          3a1. clk_set_rate() reacts by reparenting clk_i2s2_8ch_tx_src to
+>               vpll1 -- this is not OK because the default vpll1 rate can be
+> 	     divided to get 44.1 kHz and related rates, not 192 kHz
+> 
+> The result is that the driver does a lot of ad-hoc decisions about clocks
+> and ends up in using the wrong parent at an unoptimal rate.
+> 
+> Step 0 is one part of the problem: unless the card driver calls set_sysclk
+> at each stream start, whatever rate is set in mclk_tx_freq during boot will
+> be taken and used until reboot. Moreover the driver does not care if its
+> value is not a multiple of any audio frequency.
+> 
+> Another part of the problem is that the whole reparenting and clock rate
+> setting logic is conflicting with the CCF algorithms to achieve largely the
+> same goal: selecting the best parent and setting the closest clock
+> rate. And it turns out that only calling once clk_set_rate() on
+> clk_i2s2_8ch_tx picks the correct vpll and sets the correct rate.
+> 
+> The fix is based on removing the custom logic in the driver to select the
+> parent and set the various clocks, and just let the Clock Framework do it
+> all. As a side effect, the set_sysclk() op becomes useless because we now
+> let the CCF compute the appropriate value for the sampling rate.  It also
+> implies that the whole calibration logic is now dead code and so it is
+> removed along with the "PCM Clock Compensation in PPM" kcontrol, which has
+> always been broken anyway. The handling of the 4 optional clocks also
+> becomes dead code and is removed.
+> 
+> The actual rates have been tested playing 30 seconds of audio at various
+> sampling rates before and after this change using sox:
+> 
+>      time play -r <sample_rate> -n synth 30 sine 950 gain -3
+> 
+> The time reported in the table below is the 'real' value reported by the
+> 'time' command in the above command line.
+> 
+>       rate        before     after
+>     ---------     ------     ------
+>       8000 Hz     30.60s     30.63s
+>      11025 Hz     30.45s     30.51s
+>      16000 Hz     30.47s     30.50s
+>      22050 Hz     30.78s     30.41s
+>      32000 Hz     31.02s     30.43s
+>      44100 Hz     30.78s     30.41s
+>      48000 Hz     29.81s     30.45s
+>      88200 Hz     30.78s     30.41s
+>      96000 Hz     29.79s     30.42s
+>     176400 Hz     27.40s     30.41s
+>     192000 Hz     29.79s     30.42s
+> 
+> While the tests are running the clock tree confirms that:
+> 
+>   * without the patch, vpll1 is always used and clk_i2s2_8ch_tx always
+>     produces 50176000 Hz, which cannot be divided for most audio rates
+>     except the slowest ones, generating inaccurate rates
+>   * with the patch:
+>     - for 192000 Hz vpll0 is used
+>     - for 176400 Hz vpll1 is used
+>     - clk_i2s2_8ch_tx always produces (256 * <rate>) Hz
+> 
+> Tested on the RK3308 using the internal audio codec.
+> 
+> Fixes: 081068fd6414 ("ASoC: rockchip: add support for i2s-tdm controller")
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
 
-Am Dienstag, 5. M=E4rz 2024, 18:33:05 CET schrieb Frank Li:
-> Add asrc[0,1], esai0, spdif[0,1], sai[4,5] and related lpcg node for
-> imx8 audio subsystem.
->=20
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+I tested this patch, it works OK on 8ch I2S0 of RK3308 Radxa Pi S, 
+frequencies checked in clock summary and clock pins with an 
+oscilloscope. It's basically identical issue with the same cause as I 
+reported in 
+https://lore.kernel.org/alsa-devel/20240304134329.392c75bf@booty/T/#m19d69461aa827f15a86d6d31ed1b1520e80a909e 
+
+
+Just a note - the patch changes mclk frequencies from fixed 256 x 
+192000/176400  to variable 256 x fs. While 256 x fs is more standard 
+than the fixed mclk for all samplerates of the same family, it may cause 
+changes for existing users if using the mclk output pins. But the 
+existing code was broken and had to be hacked to work anyway. Perhaps 
+this may need some considering.
+
+Also I wonder if the DTS description rockchip,i2s-tdm.yaml file may be 
+updated too, as some clocks listed by it are removed by the patch:
+
+-const: mclk_tx_src
+-const: mclk_rx_src
+-const: mclk_root0
+-const: mclk_root1
+
+IMO it may be a bit confusing if the description lists parameters which 
+are not actually used by the driver anymore.
+
+With regards,
+
+Pavel.
+
 > ---
->  arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi | 304 +++++++++++++++++=
-++++++
->  1 file changed, 304 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi b/arch/arm6=
-4/boot/dts/freescale/imx8-ss-audio.dtsi
-> index 07afeb78ed564..78305559f15c9 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
-> @@ -6,6 +6,7 @@
-> =20
->  #include <dt-bindings/clock/imx8-clock.h>
->  #include <dt-bindings/clock/imx8-lpcg.h>
-> +#include <dt-bindings/dma/fsl-edma.h>
->  #include <dt-bindings/firmware/imx/rsrc.h>
-> =20
->  audio_ipg_clk: clock-audio-ipg {
-> @@ -481,4 +482,307 @@ acm: acm@59e00000 {
->  			      "sai3_rx_bclk",
->  			      "sai4_rx_bclk";
->  	};
-> +
-> +	asrc0: asrc@59000000 {
-
-Please insert nodes sorted by address. ASRC0 is the very first node.
-
-> +		compatible =3D "fsl,imx8qm-asrc";
-> +		reg =3D <0x59000000 0x10000>;
-> +		interrupts =3D <GIC_SPI 372 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&asrc0_lpcg 0>,
-> +			 <&asrc0_lpcg 0>,
-> +			 <&aud_pll_div0_lpcg 0>,
-> +			 <&aud_pll_div1_lpcg 0>,
-> +			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
-> +			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>;
-> +		clock-names =3D "mem", "ipg",
-> +			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
-> +			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
-> +			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
-> +			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
-> +			      "spba";
-> +		dmas =3D <&edma0 0 0 0>,
-> +		       <&edma0 1 0 0>,
-> +		       <&edma0 2 0 0>,
-> +		       <&edma0 3 0 FSL_EDMA_RX>,
-> +		       <&edma0 4 0 FSL_EDMA_RX>,
-> +		       <&edma0 5 0 FSL_EDMA_RX>;
-> +		/* tx* is output channel of asrc, it is rx channel for eDMA */
-> +		dma-names =3D "rxa", "rxb", "rxc", "txa", "txb", "txc";
-> +		fsl,asrc-rate  =3D <8000>;
-> +		fsl,asrc-width =3D <16>;
-> +		fsl,asrc-clk-map =3D <0>;
-> +		power-domains =3D <&pd IMX_SC_R_ASRC_0>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	esai0: esai@59010000 {
-> +		compatible =3D "fsl,imx8qm-esai", "fsl,imx6ull-esai";
-> +		reg =3D <0x59010000 0x10000>;
-> +		interrupts =3D <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&esai0_lpcg 1>, <&esai0_lpcg 0>, <&esai0_lpcg 1>, <&clk_du=
-mmy>;
-> +		clock-names =3D "core", "extal", "fsys", "spba";
-> +		dmas =3D <&edma0 6 0 FSL_EDMA_RX>, <&edma0 7 0 0>;
-> +		dma-names =3D "rx", "tx";
-> +		power-domains =3D <&pd IMX_SC_R_ESAI_0>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	spdif0: spdif@59020000 {
-> +		compatible =3D "fsl,imx8qm-spdif";
-> +		reg =3D <0x59020000 0x10000>;
-> +		interrupts =3D  <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>, /* rx */
-> +			      <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>; /* tx */
-> +		clocks =3D <&spdif0_lpcg 1>,	/* core */
-> +			 <&clk_dummy>,		/* rxtx0 */
-> +			 <&spdif0_lpcg 0>,	/* rxtx1 */
-> +			 <&clk_dummy>,		/* rxtx2 */
-> +			 <&clk_dummy>,		/* rxtx3 */
-> +			 <&clk_dummy>,		/* rxtx4 */
-> +			 <&audio_ipg_clk>,	/* rxtx5 */
-> +			 <&clk_dummy>,		/* rxtx6 */
-> +			 <&clk_dummy>,		/* rxtx7 */
-> +			 <&clk_dummy>;		/* spba */
-> +		clock-names =3D "core", "rxtx0", "rxtx1", "rxtx2", "rxtx3", "rxtx4",
-> +			      "rxtx5", "rxtx6", "rxtx7", "spba";
-> +		dmas =3D <&edma0 8 0 (FSL_EDMA_MULTI_FIFO | FSL_EDMA_RX)>,
-> +		       <&edma0 9 0 FSL_EDMA_MULTI_FIFO>;
-> +		dma-names =3D "rx", "tx";
-> +		power-domains =3D <&pd IMX_SC_R_SPDIF_0>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	spdif1: spdif@59030000 {
-
-That's imx8qm only, no?
-
-> +		compatible =3D "fsl,imx8qm-spdif";
-> +		reg =3D <0x59030000 0x10000>;
-> +		interrupts =3D  <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>, /* rx */
-> +			      <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH>; /* tx */
-> +		clocks =3D <&spdif1_lpcg 1>,	/* core */
-> +			 <&clk_dummy>,		/* rxtx0 */
-> +			 <&spdif1_lpcg 0>,	/* rxtx1 */
-> +			 <&clk_dummy>,		/* rxtx2 */
-> +			 <&clk_dummy>,		/* rxtx3 */
-> +			 <&clk_dummy>,		/* rxtx4 */
-> +			 <&audio_ipg_clk>,	/* rxtx5 */
-> +			 <&clk_dummy>,		/* rxtx6 */
-> +			 <&clk_dummy>,		/* rxtx7 */
-> +			 <&clk_dummy>;		/* spba */
-> +		clock-names =3D "core", "rxtx0", "rxtx1", "rxtx2", "rxtx3", "rxtx4",
-> +			      "rxtx5", "rxtx6", "rxtx7", "spba";
-> +		dmas =3D <&edma0 10 0 (FSL_EDMA_MULTI_FIFO | FSL_EDMA_RX)>,
-> +		       <&edma0 11 0 FSL_EDMA_MULTI_FIFO>;
-> +		dma-names =3D "rx", "tx";
-> +		power-domains =3D <&pd IMX_SC_R_SPDIF_1>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	asrc1: asrc@59800000 {
-
-Insert this between dsp and edma1, sorted by address.
-
-> +		compatible =3D "fsl,imx8qm-asrc";
-> +		reg =3D <0x59800000 0x10000>;
-> +		interrupts =3D <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&asrc1_lpcg 0>,
-> +			 <&asrc1_lpcg 0>,
-> +			 <&aud_pll_div0_lpcg 0>,
-> +			 <&aud_pll_div1_lpcg 0>,
-> +			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
-> +			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>;
-> +		clock-names =3D "mem", "ipg",
-> +			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
-> +			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
-> +			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
-> +			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
-> +			      "spba";
-> +		dmas =3D <&edma1 0 0 0>,
-> +		       <&edma1 1 0 0>,
-> +		       <&edma1 2 0 0>,
-> +		       <&edma1 3 0 FSL_EDMA_RX>,
-> +		       <&edma1 4 0 FSL_EDMA_RX>,
-> +		       <&edma1 5 0 FSL_EDMA_RX>;
-> +		/* tx* is output channel of asrc, it is rx channel for eDMA */
-> +		dma-names =3D "rxa", "rxb", "rxc", "txa", "txb", "txc";
-> +		fsl,asrc-rate  =3D <8000>;
-> +		fsl,asrc-width =3D <16>;
-> +		fsl,asrc-clk-map =3D <1>;
-> +		power-domains =3D <&pd IMX_SC_R_ASRC_1>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	sai4: sai@59820000 {
-> +		compatible =3D "fsl,imx8qm-sai";
-> +		reg =3D <0x59820000 0x10000>;
-> +		interrupts =3D <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&sai4_lpcg 1>,
-> +			 <&clk_dummy>,
-> +			 <&sai4_lpcg 0>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>;
-> +		clock-names =3D "bus", "mclk0", "mclk1", "mclk2", "mclk3";
-> +		dmas =3D <&edma1 8 0 FSL_EDMA_RX>, <&edma1 9 0 0>;
-> +		dma-names =3D "rx", "tx";
-> +		power-domains =3D <&pd IMX_SC_R_SAI_4>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	sai5: sai@59830000 {
-> +		compatible =3D "fsl,imx8qm-sai";
-> +		reg =3D <0x59830000 0x10000>;
-> +		interrupts =3D <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&sai5_lpcg 1>,
-> +			 <&clk_dummy>,
-> +			 <&sai5_lpcg 0>,
-> +			 <&clk_dummy>,
-> +			 <&clk_dummy>;
-> +		clock-names =3D "bus", "mclk0", "mclk1", "mclk2", "mclk3";
-> +		dmas =3D <&edma1 10 0 0>;
-> +		dma-names =3D "tx";
-> +		power-domains =3D <&pd IMX_SC_R_SAI_5>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	amix: amix@59840000 {
-> +		compatible =3D "fsl,imx8qm-audmix";
-> +		reg =3D <0x59840000 0x10000>;
-> +		clocks =3D <&amix_lpcg 0>;
-> +		clock-names =3D "ipg";
-> +		power-domains =3D <&pd IMX_SC_R_AMIX>;
-> +		dais =3D <&sai4>, <&sai5>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	mqs: mqs@59850000 {
-> +		compatible =3D "fsl,imx8qm-mqs";
-> +		reg =3D <0x59850000 0x10000>;
-> +		clocks =3D <&mqs0_lpcg 0>,
-> +			<&mqs0_lpcg 1>;
-> +		clock-names =3D "mclk", "core";
-> +		power-domains =3D <&pd IMX_SC_R_MQS_0>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	asrc0_lpcg: clock-controller@59400000 {
-
-Please insert he lpcg nodes according to their address.
-
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59400000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "asrc0_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_ASRC_0>;
-> +	};
-> +
-> +	esai0_lpcg: clock-controller@59410000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59410000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_ESAI0_MCLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "esai0_lpcg_extal_clk",
-> +				     "esai0_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_ESAI_0>;
-> +	};
-> +
-> +	spdif0_lpcg: clock-controller@59420000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59420000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_SPDIF0_TX_CLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "spdif0_lpcg_tx_clk",
-> +				     "spdif0_lpcg_gclkw";
-> +		power-domains =3D <&pd IMX_SC_R_SPDIF_0>;
-> +	};
-> +
-> +	spdif1_lpcg: clock-controller@59430000 {
-
-That's imx8qm only as well, no?
-
-Thanks and best regards,
-Alexander
-
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59430000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_SPDIF1_TX_CLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "spdif1_lpcg_tx_clk",
-> +				     "spdif1_lpcg_gclkw";
-> +		power-domains =3D <&pd IMX_SC_R_SPDIF_1>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	asrc1_lpcg: clock-controller@59c00000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59c00000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "asrc1_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_ASRC_1>;
-> +	};
-> +
-> +	sai4_lpcg: clock-controller@59c20000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59c20000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_SAI4_MCLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "sai4_lpcg_mclk",
-> +				     "sai4_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_SAI_4>;
-> +	};
-> +
-> +	sai5_lpcg: clock-controller@59c30000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59c30000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_SAI5_MCLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "sai5_lpcg_mclk",
-> +				     "sai5_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_SAI_5>;
-> +	};
-> +
-> +	amix_lpcg: clock-controller@59c40000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59c40000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>;
-> +		clock-output-names =3D "amix_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_AMIX>;
-> +	};
-> +
-> +	mqs0_lpcg: clock-controller@59c50000 {
-> +		compatible =3D "fsl,imx8qxp-lpcg";
-> +		reg =3D <0x59c50000 0x10000>;
-> +		#clock-cells =3D <1>;
-> +		clocks =3D <&acm IMX_ADMA_ACM_MQS_TX_CLK_SEL>,
-> +			 <&audio_ipg_clk>;
-> +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-> +		clock-output-names =3D "mqs0_lpcg_mclk",
-> +				     "mqs0_lpcg_ipg_clk";
-> +		power-domains =3D <&pd IMX_SC_R_MQS_0>;
-> +	};
->  };
->=20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+> 
+> As discussed after v3, the clock manipulation logic that this patch removes
+> is a remnant of the downstream 4.19 driver
+> (https://github.com/rockchip-linux/kernel/blob/develop-4.19/sound/soc/rockchip/rockchip_i2s_tdm.c).
+> It might be that the CCF was not yet capable of optimally reparenting back
+> in 4.19, so it did make sense back then.
+> 
+> Changed in v4:
+>   - Mention the tested hardware in the commit message
+>   - No content changes
+> 
+> Changed in v3:
+>   - this patch is new in v3, and it replaces and supersedes the patch "ASoC:
+>     rockchip: i2s-tdm: Fix clk_id usage in .set_sysclk()"
+> ---
+>   sound/soc/rockchip/rockchip_i2s_tdm.c | 352 +---------------------------------
+>   1 file changed, 6 insertions(+), 346 deletions(-)
+> 
+> diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+> index 860e66ec85e8..9fa020ef7eab 100644
+> --- a/sound/soc/rockchip/rockchip_i2s_tdm.c
+> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+> @@ -25,8 +25,6 @@
+>   #define DEFAULT_MCLK_FS				256
+>   #define CH_GRP_MAX				4  /* The max channel 8 / 2 */
+>   #define MULTIPLEX_CH_MAX			10
+> -#define CLK_PPM_MIN				-1000
+> -#define CLK_PPM_MAX				1000
+>   
+>   #define TRCM_TXRX 0
+>   #define TRCM_TX 1
+> @@ -53,20 +51,6 @@ struct rk_i2s_tdm_dev {
+>   	struct clk *hclk;
+>   	struct clk *mclk_tx;
+>   	struct clk *mclk_rx;
+> -	/* The mclk_tx_src is parent of mclk_tx */
+> -	struct clk *mclk_tx_src;
+> -	/* The mclk_rx_src is parent of mclk_rx */
+> -	struct clk *mclk_rx_src;
+> -	/*
+> -	 * The mclk_root0 and mclk_root1 are root parent and supplies for
+> -	 * the different FS.
+> -	 *
+> -	 * e.g:
+> -	 * mclk_root0 is VPLL0, used for FS=48000Hz
+> -	 * mclk_root1 is VPLL1, used for FS=44100Hz
+> -	 */
+> -	struct clk *mclk_root0;
+> -	struct clk *mclk_root1;
+>   	struct regmap *regmap;
+>   	struct regmap *grf;
+>   	struct snd_dmaengine_dai_dma_data capture_dma_data;
+> @@ -76,19 +60,11 @@ struct rk_i2s_tdm_dev {
+>   	const struct rk_i2s_soc_data *soc_data;
+>   	bool is_master_mode;
+>   	bool io_multiplex;
+> -	bool mclk_calibrate;
+>   	bool tdm_mode;
+> -	unsigned int mclk_rx_freq;
+> -	unsigned int mclk_tx_freq;
+> -	unsigned int mclk_root0_freq;
+> -	unsigned int mclk_root1_freq;
+> -	unsigned int mclk_root0_initial_freq;
+> -	unsigned int mclk_root1_initial_freq;
+>   	unsigned int frame_width;
+>   	unsigned int clk_trcm;
+>   	unsigned int i2s_sdis[CH_GRP_MAX];
+>   	unsigned int i2s_sdos[CH_GRP_MAX];
+> -	int clk_ppm;
+>   	int refcount;
+>   	spinlock_t lock; /* xfer lock */
+>   	bool has_playback;
+> @@ -114,12 +90,6 @@ static void i2s_tdm_disable_unprepare_mclk(struct rk_i2s_tdm_dev *i2s_tdm)
+>   {
+>   	clk_disable_unprepare(i2s_tdm->mclk_tx);
+>   	clk_disable_unprepare(i2s_tdm->mclk_rx);
+> -	if (i2s_tdm->mclk_calibrate) {
+> -		clk_disable_unprepare(i2s_tdm->mclk_tx_src);
+> -		clk_disable_unprepare(i2s_tdm->mclk_rx_src);
+> -		clk_disable_unprepare(i2s_tdm->mclk_root0);
+> -		clk_disable_unprepare(i2s_tdm->mclk_root1);
+> -	}
+>   }
+>   
+>   /**
+> @@ -142,29 +112,9 @@ static int i2s_tdm_prepare_enable_mclk(struct rk_i2s_tdm_dev *i2s_tdm)
+>   	ret = clk_prepare_enable(i2s_tdm->mclk_rx);
+>   	if (ret)
+>   		goto err_mclk_rx;
+> -	if (i2s_tdm->mclk_calibrate) {
+> -		ret = clk_prepare_enable(i2s_tdm->mclk_tx_src);
+> -		if (ret)
+> -			goto err_mclk_rx;
+> -		ret = clk_prepare_enable(i2s_tdm->mclk_rx_src);
+> -		if (ret)
+> -			goto err_mclk_rx_src;
+> -		ret = clk_prepare_enable(i2s_tdm->mclk_root0);
+> -		if (ret)
+> -			goto err_mclk_root0;
+> -		ret = clk_prepare_enable(i2s_tdm->mclk_root1);
+> -		if (ret)
+> -			goto err_mclk_root1;
+> -	}
+>   
+>   	return 0;
+>   
+> -err_mclk_root1:
+> -	clk_disable_unprepare(i2s_tdm->mclk_root0);
+> -err_mclk_root0:
+> -	clk_disable_unprepare(i2s_tdm->mclk_rx_src);
+> -err_mclk_rx_src:
+> -	clk_disable_unprepare(i2s_tdm->mclk_tx_src);
+>   err_mclk_rx:
+>   	clk_disable_unprepare(i2s_tdm->mclk_tx);
+>   err_mclk_tx:
+> @@ -564,159 +514,6 @@ static void rockchip_i2s_tdm_xfer_resume(struct snd_pcm_substream *substream,
+>   			   I2S_XFER_RXS_START);
+>   }
+>   
+> -static int rockchip_i2s_tdm_clk_set_rate(struct rk_i2s_tdm_dev *i2s_tdm,
+> -					 struct clk *clk, unsigned long rate,
+> -					 int ppm)
+> -{
+> -	unsigned long rate_target;
+> -	int delta, ret;
+> -
+> -	if (ppm == i2s_tdm->clk_ppm)
+> -		return 0;
+> -
+> -	if (ppm < 0)
+> -		delta = -1;
+> -	else
+> -		delta = 1;
+> -
+> -	delta *= (int)div64_u64((u64)rate * (u64)abs(ppm) + 500000,
+> -				1000000);
+> -
+> -	rate_target = rate + delta;
+> -
+> -	if (!rate_target)
+> -		return -EINVAL;
+> -
+> -	ret = clk_set_rate(clk, rate_target);
+> -	if (ret)
+> -		return ret;
+> -
+> -	i2s_tdm->clk_ppm = ppm;
+> -
+> -	return 0;
+> -}
+> -
+> -static int rockchip_i2s_tdm_calibrate_mclk(struct rk_i2s_tdm_dev *i2s_tdm,
+> -					   struct snd_pcm_substream *substream,
+> -					   unsigned int lrck_freq)
+> -{
+> -	struct clk *mclk_root;
+> -	struct clk *mclk_parent;
+> -	unsigned int mclk_root_freq;
+> -	unsigned int mclk_root_initial_freq;
+> -	unsigned int mclk_parent_freq;
+> -	unsigned int div, delta;
+> -	u64 ppm;
+> -	int ret;
+> -
+> -	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+> -		mclk_parent = i2s_tdm->mclk_tx_src;
+> -	else
+> -		mclk_parent = i2s_tdm->mclk_rx_src;
+> -
+> -	switch (lrck_freq) {
+> -	case 8000:
+> -	case 16000:
+> -	case 24000:
+> -	case 32000:
+> -	case 48000:
+> -	case 64000:
+> -	case 96000:
+> -	case 192000:
+> -		mclk_root = i2s_tdm->mclk_root0;
+> -		mclk_root_freq = i2s_tdm->mclk_root0_freq;
+> -		mclk_root_initial_freq = i2s_tdm->mclk_root0_initial_freq;
+> -		mclk_parent_freq = DEFAULT_MCLK_FS * 192000;
+> -		break;
+> -	case 11025:
+> -	case 22050:
+> -	case 44100:
+> -	case 88200:
+> -	case 176400:
+> -		mclk_root = i2s_tdm->mclk_root1;
+> -		mclk_root_freq = i2s_tdm->mclk_root1_freq;
+> -		mclk_root_initial_freq = i2s_tdm->mclk_root1_initial_freq;
+> -		mclk_parent_freq = DEFAULT_MCLK_FS * 176400;
+> -		break;
+> -	default:
+> -		dev_err(i2s_tdm->dev, "Invalid LRCK frequency: %u Hz\n",
+> -			lrck_freq);
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = clk_set_parent(mclk_parent, mclk_root);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = rockchip_i2s_tdm_clk_set_rate(i2s_tdm, mclk_root,
+> -					    mclk_root_freq, 0);
+> -	if (ret)
+> -		return ret;
+> -
+> -	delta = abs(mclk_root_freq % mclk_parent_freq - mclk_parent_freq);
+> -	ppm = div64_u64((uint64_t)delta * 1000000, (uint64_t)mclk_root_freq);
+> -
+> -	if (ppm) {
+> -		div = DIV_ROUND_CLOSEST(mclk_root_initial_freq, mclk_parent_freq);
+> -		if (!div)
+> -			return -EINVAL;
+> -
+> -		mclk_root_freq = mclk_parent_freq * round_up(div, 2);
+> -
+> -		ret = clk_set_rate(mclk_root, mclk_root_freq);
+> -		if (ret)
+> -			return ret;
+> -
+> -		i2s_tdm->mclk_root0_freq = clk_get_rate(i2s_tdm->mclk_root0);
+> -		i2s_tdm->mclk_root1_freq = clk_get_rate(i2s_tdm->mclk_root1);
+> -	}
+> -
+> -	return clk_set_rate(mclk_parent, mclk_parent_freq);
+> -}
+> -
+> -static int rockchip_i2s_tdm_set_mclk(struct rk_i2s_tdm_dev *i2s_tdm,
+> -				     struct snd_pcm_substream *substream,
+> -				     struct clk **mclk)
+> -{
+> -	unsigned int mclk_freq;
+> -	int ret;
+> -
+> -	if (i2s_tdm->clk_trcm) {
+> -		if (i2s_tdm->mclk_tx_freq != i2s_tdm->mclk_rx_freq) {
+> -			dev_err(i2s_tdm->dev,
+> -				"clk_trcm, tx: %d and rx: %d should be the same\n",
+> -				i2s_tdm->mclk_tx_freq,
+> -				i2s_tdm->mclk_rx_freq);
+> -			return -EINVAL;
+> -		}
+> -
+> -		ret = clk_set_rate(i2s_tdm->mclk_tx, i2s_tdm->mclk_tx_freq);
+> -		if (ret)
+> -			return ret;
+> -
+> -		ret = clk_set_rate(i2s_tdm->mclk_rx, i2s_tdm->mclk_rx_freq);
+> -		if (ret)
+> -			return ret;
+> -
+> -		/* mclk_rx is also ok. */
+> -		*mclk = i2s_tdm->mclk_tx;
+> -	} else {
+> -		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> -			*mclk = i2s_tdm->mclk_tx;
+> -			mclk_freq = i2s_tdm->mclk_tx_freq;
+> -		} else {
+> -			*mclk = i2s_tdm->mclk_rx;
+> -			mclk_freq = i2s_tdm->mclk_rx_freq;
+> -		}
+> -
+> -		ret = clk_set_rate(*mclk, mclk_freq);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>   static int rockchip_i2s_ch_to_io(unsigned int ch, bool substream_capture)
+>   {
+>   	if (substream_capture) {
+> @@ -853,19 +650,17 @@ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
+>   				      struct snd_soc_dai *dai)
+>   {
+>   	struct rk_i2s_tdm_dev *i2s_tdm = to_info(dai);
+> -	struct clk *mclk;
+> -	int ret = 0;
+>   	unsigned int val = 0;
+>   	unsigned int mclk_rate, bclk_rate, div_bclk = 4, div_lrck = 64;
+> +	int err;
+>   
+>   	if (i2s_tdm->is_master_mode) {
+> -		if (i2s_tdm->mclk_calibrate)
+> -			rockchip_i2s_tdm_calibrate_mclk(i2s_tdm, substream,
+> -							params_rate(params));
+> +		struct clk *mclk = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
+> +			i2s_tdm->mclk_tx : i2s_tdm->mclk_rx;
+>   
+> -		ret = rockchip_i2s_tdm_set_mclk(i2s_tdm, substream, &mclk);
+> -		if (ret)
+> -			return ret;
+> +		err = clk_set_rate(mclk, DEFAULT_MCLK_FS * params_rate(params));
+> +		if (err)
+> +			return err;
+>   
+>   		mclk_rate = clk_get_rate(mclk);
+>   		bclk_rate = i2s_tdm->frame_width * params_rate(params);
+> @@ -973,96 +768,6 @@ static int rockchip_i2s_tdm_trigger(struct snd_pcm_substream *substream,
+>   	return 0;
+>   }
+>   
+> -static int rockchip_i2s_tdm_set_sysclk(struct snd_soc_dai *cpu_dai, int stream,
+> -				       unsigned int freq, int dir)
+> -{
+> -	struct rk_i2s_tdm_dev *i2s_tdm = to_info(cpu_dai);
+> -
+> -	/* Put set mclk rate into rockchip_i2s_tdm_set_mclk() */
+> -	if (i2s_tdm->clk_trcm) {
+> -		i2s_tdm->mclk_tx_freq = freq;
+> -		i2s_tdm->mclk_rx_freq = freq;
+> -	} else {
+> -		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
+> -			i2s_tdm->mclk_tx_freq = freq;
+> -		else
+> -			i2s_tdm->mclk_rx_freq = freq;
+> -	}
+> -
+> -	dev_dbg(i2s_tdm->dev, "The target mclk_%s freq is: %d\n",
+> -		stream ? "rx" : "tx", freq);
+> -
+> -	return 0;
+> -}
+> -
+> -static int rockchip_i2s_tdm_clk_compensation_info(struct snd_kcontrol *kcontrol,
+> -						  struct snd_ctl_elem_info *uinfo)
+> -{
+> -	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+> -	uinfo->count = 1;
+> -	uinfo->value.integer.min = CLK_PPM_MIN;
+> -	uinfo->value.integer.max = CLK_PPM_MAX;
+> -	uinfo->value.integer.step = 1;
+> -
+> -	return 0;
+> -}
+> -
+> -static int rockchip_i2s_tdm_clk_compensation_get(struct snd_kcontrol *kcontrol,
+> -						 struct snd_ctl_elem_value *ucontrol)
+> -{
+> -	struct snd_soc_dai *dai = snd_kcontrol_chip(kcontrol);
+> -	struct rk_i2s_tdm_dev *i2s_tdm = snd_soc_dai_get_drvdata(dai);
+> -
+> -	ucontrol->value.integer.value[0] = i2s_tdm->clk_ppm;
+> -
+> -	return 0;
+> -}
+> -
+> -static int rockchip_i2s_tdm_clk_compensation_put(struct snd_kcontrol *kcontrol,
+> -						 struct snd_ctl_elem_value *ucontrol)
+> -{
+> -	struct snd_soc_dai *dai = snd_kcontrol_chip(kcontrol);
+> -	struct rk_i2s_tdm_dev *i2s_tdm = snd_soc_dai_get_drvdata(dai);
+> -	int ret = 0, ppm = 0;
+> -	int changed = 0;
+> -	unsigned long old_rate;
+> -
+> -	if (ucontrol->value.integer.value[0] < CLK_PPM_MIN ||
+> -	    ucontrol->value.integer.value[0] > CLK_PPM_MAX)
+> -		return -EINVAL;
+> -
+> -	ppm = ucontrol->value.integer.value[0];
+> -
+> -	old_rate = clk_get_rate(i2s_tdm->mclk_root0);
+> -	ret = rockchip_i2s_tdm_clk_set_rate(i2s_tdm, i2s_tdm->mclk_root0,
+> -					    i2s_tdm->mclk_root0_freq, ppm);
+> -	if (ret)
+> -		return ret;
+> -	if (old_rate != clk_get_rate(i2s_tdm->mclk_root0))
+> -		changed = 1;
+> -
+> -	if (clk_is_match(i2s_tdm->mclk_root0, i2s_tdm->mclk_root1))
+> -		return changed;
+> -
+> -	old_rate = clk_get_rate(i2s_tdm->mclk_root1);
+> -	ret = rockchip_i2s_tdm_clk_set_rate(i2s_tdm, i2s_tdm->mclk_root1,
+> -					    i2s_tdm->mclk_root1_freq, ppm);
+> -	if (ret)
+> -		return ret;
+> -	if (old_rate != clk_get_rate(i2s_tdm->mclk_root1))
+> -		changed = 1;
+> -
+> -	return changed;
+> -}
+> -
+> -static struct snd_kcontrol_new rockchip_i2s_tdm_compensation_control = {
+> -	.iface = SNDRV_CTL_ELEM_IFACE_PCM,
+> -	.name = "PCM Clock Compensation in PPM",
+> -	.info = rockchip_i2s_tdm_clk_compensation_info,
+> -	.get = rockchip_i2s_tdm_clk_compensation_get,
+> -	.put = rockchip_i2s_tdm_clk_compensation_put,
+> -};
+> -
+>   static int rockchip_i2s_tdm_dai_probe(struct snd_soc_dai *dai)
+>   {
+>   	struct rk_i2s_tdm_dev *i2s_tdm = snd_soc_dai_get_drvdata(dai);
+> @@ -1072,9 +777,6 @@ static int rockchip_i2s_tdm_dai_probe(struct snd_soc_dai *dai)
+>   	if (i2s_tdm->has_playback)
+>   		snd_soc_dai_dma_data_set_playback(dai, &i2s_tdm->playback_dma_data);
+>   
+> -	if (i2s_tdm->mclk_calibrate)
+> -		snd_soc_add_dai_controls(dai, &rockchip_i2s_tdm_compensation_control, 1);
+> -
+>   	return 0;
+>   }
+>   
+> @@ -1115,7 +817,6 @@ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
+>   	.probe = rockchip_i2s_tdm_dai_probe,
+>   	.hw_params = rockchip_i2s_tdm_hw_params,
+>   	.set_bclk_ratio	= rockchip_i2s_tdm_set_bclk_ratio,
+> -	.set_sysclk = rockchip_i2s_tdm_set_sysclk,
+>   	.set_fmt = rockchip_i2s_tdm_set_fmt,
+>   	.set_tdm_slot = rockchip_dai_tdm_slot,
+>   	.trigger = rockchip_i2s_tdm_trigger,
+> @@ -1444,35 +1145,6 @@ static void rockchip_i2s_tdm_path_config(struct rk_i2s_tdm_dev *i2s_tdm,
+>   		rockchip_i2s_tdm_tx_path_config(i2s_tdm, num);
+>   }
+>   
+> -static int rockchip_i2s_tdm_get_calibrate_mclks(struct rk_i2s_tdm_dev *i2s_tdm)
+> -{
+> -	int num_mclks = 0;
+> -
+> -	i2s_tdm->mclk_tx_src = devm_clk_get(i2s_tdm->dev, "mclk_tx_src");
+> -	if (!IS_ERR(i2s_tdm->mclk_tx_src))
+> -		num_mclks++;
+> -
+> -	i2s_tdm->mclk_rx_src = devm_clk_get(i2s_tdm->dev, "mclk_rx_src");
+> -	if (!IS_ERR(i2s_tdm->mclk_rx_src))
+> -		num_mclks++;
+> -
+> -	i2s_tdm->mclk_root0 = devm_clk_get(i2s_tdm->dev, "mclk_root0");
+> -	if (!IS_ERR(i2s_tdm->mclk_root0))
+> -		num_mclks++;
+> -
+> -	i2s_tdm->mclk_root1 = devm_clk_get(i2s_tdm->dev, "mclk_root1");
+> -	if (!IS_ERR(i2s_tdm->mclk_root1))
+> -		num_mclks++;
+> -
+> -	if (num_mclks < 4 && num_mclks != 0)
+> -		return -ENOENT;
+> -
+> -	if (num_mclks == 4)
+> -		i2s_tdm->mclk_calibrate = 1;
+> -
+> -	return 0;
+> -}
+> -
+>   static int rockchip_i2s_tdm_path_prepare(struct rk_i2s_tdm_dev *i2s_tdm,
+>   					 struct device_node *np,
+>   					 bool is_rx_path)
+> @@ -1610,11 +1282,6 @@ static int rockchip_i2s_tdm_probe(struct platform_device *pdev)
+>   	i2s_tdm->io_multiplex =
+>   		of_property_read_bool(node, "rockchip,io-multiplex");
+>   
+> -	ret = rockchip_i2s_tdm_get_calibrate_mclks(i2s_tdm);
+> -	if (ret)
+> -		return dev_err_probe(i2s_tdm->dev, ret,
+> -				     "mclk-calibrate clocks missing");
+> -
+>   	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+>   	if (IS_ERR(regs)) {
+>   		return dev_err_probe(i2s_tdm->dev, PTR_ERR(regs),
+> @@ -1667,13 +1334,6 @@ static int rockchip_i2s_tdm_probe(struct platform_device *pdev)
+>   		goto err_disable_hclk;
+>   	}
+>   
+> -	if (i2s_tdm->mclk_calibrate) {
+> -		i2s_tdm->mclk_root0_initial_freq = clk_get_rate(i2s_tdm->mclk_root0);
+> -		i2s_tdm->mclk_root1_initial_freq = clk_get_rate(i2s_tdm->mclk_root1);
+> -		i2s_tdm->mclk_root0_freq = i2s_tdm->mclk_root0_initial_freq;
+> -		i2s_tdm->mclk_root1_freq = i2s_tdm->mclk_root1_initial_freq;
+> -	}
+> -
+>   	pm_runtime_enable(&pdev->dev);
+>   
+>   	regmap_update_bits(i2s_tdm->regmap, I2S_DMACR, I2S_DMACR_TDL_MASK,
+> 
