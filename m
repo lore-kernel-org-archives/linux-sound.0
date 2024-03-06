@@ -1,154 +1,97 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2D05DF14;
-	Wed,  6 Mar 2024 09:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CCE605A6;
+	Wed,  6 Mar 2024 10:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709717418; cv=none; b=G7fbuRihZh04BddtCPjGjHnzn7qhJ3XSivHL+O415HDiqEDrQckcZIcYGBD0MtcePCOzO7N+/9Li+zvFABYBoAKswpx6TNZlmZU06x6U28YdpfIUcpK5PGpF4ESrin62+AFSUtU4oysbGgoOvEFREH16+V3yy8LqMJDJP2llpSU=
+	t=1709722474; cv=none; b=Re4vF8gvawyiAX+CA01gFYnnuTo5TRl2rY0Gk5Msn7XmeEPAddZLnrwd5HY4i9CnIGg8py34GHnn02yqPd07sueKGn9ojWJRZToe3Zq9gb72kFwmQzbsvb2hRl1ns3tU3ar2Z8AbfQuQplRA6DO+s4P1JtDsf13NpCV9GRg9X78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709717418; c=relaxed/simple;
-	bh=cTefToFtwVhAQ8i3dFPgBPjlikGLUDhBO/cbOnwlNP8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qv1/SrQOJ38yY6ZtU3RZhfzd9UkX6qRQzxGBgSuPrZbB1lVrASxLih2xGzaNPeSKNItJZBwTUJ8DG3mWTCz6Ns+mCWTJ3V7l+EW2N8fU2QuPA4h+zsLAJPkZJ2jSCgdMicua7naczT+z0zsNloolwPdGQMgZiBVu3PsIJJmfDkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Q4KzraUf; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709722474; c=relaxed/simple;
+	bh=un6WSCrH0nwZRCvTfsywl316B66p1DBPStSLUvF7JXU=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=KL8+xIkjc1ink8Iii8we8uTTJQ8KNgDfl/IaRNys0FrXPs6HtMT9BB6vkvC49t7XCEfZBqK+nFWj7f55LxkTbROPHHjWhoIStgx/d83cHSNLVfFRLvPOw4silG5kcfC66tftZAK2KiEzCqEa+3OVUP1t16KT91Eyffpd/B6M2U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JA8trjj6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q4KzraUf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C9FA1C0008;
-	Wed,  6 Mar 2024 09:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709717409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CQ3VHuLfhnfTcsfgCprSG/Jx5UxR5Py4OUyE2oFEY7o=;
-	b=Q4KzraUfQuzhH0i5kczTZn1IU4kllu6HVuILq8u8bXcIrCiAtcQi6yZa80emo4MBRiFdqv
-	Xlscq1RBGfOrcEjQNK9q5liHgCs//res/hsNUrtnJF+bueLkHEV23Xjh58zWYY0L0ueNoR
-	kmjG9UI957MwbdlHZatHKiz34mUJBYqUDfpIlIK9roBbP2V4+Q166fOVc3m/64mvTrTk+J
-	WQ73sLX8Jzq2Ynl9LS1gu4B3tgvqHfGHOkjbRX3toUtybarxPgbU50vQ6nb9ONBLHiBHYY
-	B0HTvTHAfbQk9k06yAtHwjcvtaJHNNHWRHEba7Qm65KhDdjtzPJwAATtzbwwaQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 06 Mar 2024 10:30:01 +0100
-Subject: [PATCH 2/2] ASoC: trace: add event to snd_soc_dapm trace events
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JA8trjj6"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4268ewkp028060;
+	Wed, 6 Mar 2024 10:54:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id; s=qcppdkim1; bh=5TxhWqAJYi09
+	OyiGMAl/JFGwe7rxA4G2XCalQeFYGwU=; b=JA8trjj6fAuoQ8I7X9XmYP/VcjEA
+	QjMquurDrnzhKc6NG69xBfR0mCrDhLrdNRvTwFP0QUByqZiOBzH6Thin2NyRw+UI
+	OtHC/eA6T011vev+Gf0uHAM/ho1UQahIWPrcNLPu5a2KOv6l3qk0C1ygLLiGUeVD
+	wX4SWAtb2ijXde3LglpqRveSpDAV54MV9kPSgUpkrJNIx8C2ivGsqblJMoU7X1rC
+	CWtpCAjnfpwEjjKzg6z1iylEQBo5GCXVC+7d7xTfLGYHvSaxhALPaLIFvCREyYU5
+	AEnwJvcsYT8mi3xWv5WDPsuEX5tWI7Akijuj7ymiIXAD1ubBrRYdx5KTcQ==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wpbav1eu2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 10:54:14 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 426AsA4m018092;
+	Wed, 6 Mar 2024 10:54:10 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3wkw6ktcbx-1;
+	Wed, 06 Mar 2024 10:54:10 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 426AsAcU018078;
+	Wed, 6 Mar 2024 10:54:10 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-c-shalma-hyd.qualcomm.com [10.213.108.128])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 426AsApF018077;
+	Wed, 06 Mar 2024 10:54:10 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 2341845)
+	id C4DE13E1F; Wed,  6 Mar 2024 16:24:08 +0530 (+0530)
+From: Shalini Manjunatha <quic_c_shalma@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Raghu Bankapur <quic_rbankapu@quicinc.com>,
+        alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        Shalini Manjunatha <quic_c_shalma@quicinc.com>,
+        linux-kernel@vger.kernel.org
+Cc: Krishna Jha <quic_kkishorj@quicinc.com>
+Subject: [PATCH V0 0/1] ASoC: soc-compress: Fix and add missing DPCM locking
+Date: Wed,  6 Mar 2024 16:23:19 +0530
+Message-Id: <cover.1709720380.git.quic_c_shalma@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: OD4E1X52YD1L7EZ0FIIHkkEBesBmaHjP
+X-Proofpoint-ORIG-GUID: OD4E1X52YD1L7EZ0FIIHkkEBesBmaHjP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_06,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=868 impostorscore=0 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 clxscore=1011 priorityscore=1501 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403060086
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240306-improve-asoc-trace-events-v1-2-edb252bbeb10@bootlin.com>
-References: <20240306-improve-asoc-trace-events-v1-0-edb252bbeb10@bootlin.com>
-In-Reply-To: <20240306-improve-asoc-trace-events-v1-0-edb252bbeb10@bootlin.com>
-To: Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Add the event value to the snd_soc_dapm_start and snd_soc_dapm_done trace
-events to make them more informative.
+We find mising DPCM locking inside soc_compr_set_params_fe()
+before calling dpcm_be_dai_hw_params() and dpcm_be_dai_prepare()
+which cause lockdep assert for DPCM lock not held in
+__soc_pcm_hw_params() and __soc_pcm_prepare() in above flow
+when ever we play compress offload audio playback use case.
 
-Trace before:
+To fix this issue added DPCM lock and unlock in both places of
+above code flow mentioned.
 
-           aplay-229   [000]   250.140309: snd_soc_dapm_start:   card=vscn-2046
-           aplay-229   [000]   250.167531: snd_soc_dapm_done:    card=vscn-2046
-           aplay-229   [000]   251.169588: snd_soc_dapm_start:   card=vscn-2046
-           aplay-229   [000]   251.195245: snd_soc_dapm_done:    card=vscn-2046
+Shalini Manjunatha (1):
+  ASoC: soc-compress: Fix and add DPCM locking
 
-Trace after:
-
-           aplay-214   [000]   693.290612: snd_soc_dapm_start:   card=vscn-2046 event=1
-           aplay-214   [000]   693.315508: snd_soc_dapm_done:    card=vscn-2046 event=1
-           aplay-214   [000]   694.537349: snd_soc_dapm_start:   card=vscn-2046 event=2
-           aplay-214   [000]   694.563241: snd_soc_dapm_done:    card=vscn-2046 event=2
-
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- include/trace/events/asoc.h | 16 +++++++++-------
- sound/soc/soc-dapm.c        |  4 ++--
- 2 files changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/include/trace/events/asoc.h b/include/trace/events/asoc.h
-index b7ac7f100bb4..4eed9028bb11 100644
---- a/include/trace/events/asoc.h
-+++ b/include/trace/events/asoc.h
-@@ -57,34 +57,36 @@ DEFINE_EVENT(snd_soc_dapm, snd_soc_bias_level_done,
- 
- DECLARE_EVENT_CLASS(snd_soc_dapm_basic,
- 
--	TP_PROTO(struct snd_soc_card *card),
-+	TP_PROTO(struct snd_soc_card *card, int event),
- 
--	TP_ARGS(card),
-+	TP_ARGS(card, event),
- 
- 	TP_STRUCT__entry(
- 		__string(	name,	card->name	)
-+		__field(	int,	event		)
- 	),
- 
- 	TP_fast_assign(
- 		__assign_str(name, card->name);
-+		__entry->event = event;
- 	),
- 
--	TP_printk("card=%s", __get_str(name))
-+	TP_printk("card=%s event=%d", __get_str(name), (int)__entry->event)
- );
- 
- DEFINE_EVENT(snd_soc_dapm_basic, snd_soc_dapm_start,
- 
--	TP_PROTO(struct snd_soc_card *card),
-+	TP_PROTO(struct snd_soc_card *card, int event),
- 
--	TP_ARGS(card)
-+	TP_ARGS(card, event)
- 
- );
- 
- DEFINE_EVENT(snd_soc_dapm_basic, snd_soc_dapm_done,
- 
--	TP_PROTO(struct snd_soc_card *card),
-+	TP_PROTO(struct snd_soc_card *card, int event),
- 
--	TP_ARGS(card)
-+	TP_ARGS(card, event)
- 
- );
- 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 7e8a2a5312f5..ad8ba8fbbaee 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -1963,7 +1963,7 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event)
- 
- 	snd_soc_dapm_mutex_assert_held(card);
- 
--	trace_snd_soc_dapm_start(card);
-+	trace_snd_soc_dapm_start(card, event);
- 
- 	for_each_card_dapms(card, d) {
- 		if (dapm_idle_bias_off(d))
-@@ -2088,7 +2088,7 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event)
- 		"DAPM sequencing finished, waiting %dms\n", card->pop_time);
- 	pop_wait(card->pop_time);
- 
--	trace_snd_soc_dapm_done(card);
-+	trace_snd_soc_dapm_done(card, event);
- 
- 	return 0;
- }
+ sound/soc/soc-compress.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 -- 
-2.34.1
+2.7.4
 
