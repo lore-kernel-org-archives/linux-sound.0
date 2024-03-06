@@ -1,86 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A97130AEE;
-	Wed,  6 Mar 2024 13:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C252131759;
+	Wed,  6 Mar 2024 14:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709730791; cv=none; b=Qu1sb8RyuWPkLCqawJGil3bquXVfjHdVMENRqcu92Ya1cn/gNb8LJhbkXbH22Nhb4/SmAPIPJwH16xH8C5Rsf131TcVnvnXweoWgKemWUfbedWAeyZwedhkC/JKWn0xiiFLZlKnkQugIkeGn1ZaMAjf8p0Z52caIcBqSJ5nMoFs=
+	t=1709735201; cv=none; b=N18UvqoW5xLZNCrNh3OWvXqJxpO09Jhb0R+FmjlmD4pCBSqytix+uAO57JESvuYELPLV7q4meH5qAx3khIN6InGZZ9pKBFINGuy25EjoOWC3XgKNqhrPQoOAJmwUTwZHjBnz2mhtLKYw6Dy5nnhsJnAelQ2HJlQrUn4kQfx83Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709730791; c=relaxed/simple;
-	bh=yOhwaGsC/lWPIb3ztljvxktWVaALdLmAgQMWRiXDiVQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WvTBVvWhYq0O5t3ldbR1EmXmIq6KHbTh01xUILo6fmpqlAv8Y/YEYlq6wUVy9sa8PzeKoleikBi78z9mqg7GQCsUuxE34paLz2Gzz36oUn4AwIAIWaebrmoV2IZh4o9oH72NM3CIZx9G6iCxPATwIuyH7rGvEPRODEz33w52mTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qrab2BIH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709735201; c=relaxed/simple;
+	bh=CvQGHmWgOnsOTN4nRgF7DFatpkWfraS3t2qrVvApk14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFXGfS4FqnjhlRlukoLsNb8jwAziaFUZV+fCFqYDF9TokqMak5b++HlGaSmhxECmWTV0UPMmUMGuMbGpKvF7U3qW1oSaJNOOYZIayie9vQY5gw3OFVWt8OBrL8ii4hFhDs/V91QeFiv9uxMknq6enPIU0KlwgKzh3d0R3ip0CAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qVWWsexe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qrab2BIH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3036EC433C7;
-	Wed,  6 Mar 2024 13:13:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qVWWsexe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02BBDC433C7;
+	Wed,  6 Mar 2024 14:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709730790;
-	bh=yOhwaGsC/lWPIb3ztljvxktWVaALdLmAgQMWRiXDiVQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qrab2BIH9agsK+zgozbu3so/KURHltrGzdqamvDwIvpJFy9Kj66mFnj045iQn0Pnv
-	 j5qnOiZ303sw3Wb+Wl4Vl1v7J0mqXG775UQd+YC9o3UJxZ6qatn9Q/lCNRzIzv0925
-	 ERJZhAgT04FA8cAHXCobdkHRRHG+RdZJHefe4/U6QLQRhw6CqLYP90hs9CHCFh3yLG
-	 /t20d3l/aiYHPbSLDB2GfHkJEWTZwsQ60z3jM69ISr3Bls559DNlGU7dBTZQQyHKZJ
-	 7HPSRfDpdiEgM3orDT3zluaCrEtmEqdubVbrI/kIYbxUQtNrUAuYReGmHfiOChKzqG
-	 IBHcDI/tX146w==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240305152131.3424326-1-robh@kernel.org>
-References: <20240305152131.3424326-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: nvidia: Fix 'lge' vendor prefix
-Message-Id: <170973078551.143235.16133167101955701655.b4-ty@kernel.org>
-Date: Wed, 06 Mar 2024 13:13:05 +0000
+	s=k20201202; t=1709735200;
+	bh=CvQGHmWgOnsOTN4nRgF7DFatpkWfraS3t2qrVvApk14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qVWWsexejXTXdMwUVX+jFW9ip/xjVh4qPvLSTAWGD6bf2LV6/etQYZWwQ4HqcgABk
+	 qecK8zq5ybarJwt9MnLg8u3m6zHJS98+I/jYeARtuu7rNSwmNe70WTUagcxHKGK/mC
+	 dyLwuqulQ3kr8kGulGWx42i4gzCA/aw+t62tIIFa95Iw9AlMo4ZHmgTZrj9jk8dzeW
+	 d7bYZk1SDI7P2qDg9OCKCeu+yv+NoGa0xqDwgZCoELX2+NwPCQ+zMuSNpdV8eccqpS
+	 rvx3S7BE2HhA0y0zijKMQYRTQn7E0WQfxhwpkWkBWFCceDXN5qkFksNSxNpZyzu6pu
+	 OcWHWd+8er0ZQ==
+Date: Wed, 6 Mar 2024 19:56:36 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Shalini Manjunatha <quic_c_shalma@quicinc.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Raghu Bankapur <quic_rbankapu@quicinc.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krishna Jha <quic_kkishorj@quicinc.com>
+Subject: Re: [PATCH V0 0/1] ASoC: soc-compress: Fix and add missing DPCM
+ locking
+Message-ID: <Zeh9HMcWxfgPJS1T@matsya>
+References: <cover.1709720380.git.quic_c_shalma@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1709720380.git.quic_c_shalma@quicinc.com>
 
-On Tue, 05 Mar 2024 09:21:31 -0600, Rob Herring wrote:
-> The documented vendor prefix for LG Electronics is 'lg' not 'lge'. Just
-> change the example to 'lg' as there doesn't appear to be any dependency
-> on the existing compatible string.
+On 06-03-24, 16:23, Shalini Manjunatha wrote:
+> We find mising DPCM locking inside soc_compr_set_params_fe()
+> before calling dpcm_be_dai_hw_params() and dpcm_be_dai_prepare()
+> which cause lockdep assert for DPCM lock not held in
+> __soc_pcm_hw_params() and __soc_pcm_prepare() in above flow
+> when ever we play compress offload audio playback use case.
+
+where is the patch ?
+
 > 
+> To fix this issue added DPCM lock and unlock in both places of
+> above code flow mentioned.
 > 
+> Shalini Manjunatha (1):
+>   ASoC: soc-compress: Fix and add DPCM locking
+> 
+>  sound/soc/soc-compress.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> -- 
+> 2.7.4
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: nvidia: Fix 'lge' vendor prefix
-      commit: 482c9f3d42ba58a2ae1f69cbfbf3a9f3e251527d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+~Vinod
