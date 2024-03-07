@@ -1,162 +1,132 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BA312FF99;
-	Thu,  7 Mar 2024 11:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8086E5F86B;
+	Thu,  7 Mar 2024 12:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709811948; cv=none; b=RTJ+/y66JsMTUCZPj514cuFkExPMxpvr06cvwB4uyj5Hj7QkPwLSh5EE7JkvdlGL6Cpz7AQSG/rrmeZlOHPeifnjZU4fol5dtBSQB1/CJwyqu410GE8/ULciX13eMyOMM1uhyeD8TfZe66NaZr3ABvvAplFVm1I8nWoBivK5MQM=
+	t=1709815936; cv=none; b=oG2PTmGin7OpEsZx/7EK7ylhv0QehUhojIIfGHcYWwxOHkMnRoU9MXRhyzRH8z0bkSAY1NdeKK8w/rdlx/shxLDe6TWpekRthR6VLS5zJS/44YsL/ujfpR2eJ0vyU+Q6fN7WBrpNI2iTPn+tFqq3iIZ75+hGWZleiZ5wUQbe5xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709811948; c=relaxed/simple;
-	bh=8bxWkdHWjuivwKz8TBybuK02NLszyCe4cZF3c/Vh6Zg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NETX2DVWnnI81EPRAiatYybJztVPFa5DUPyaLEL5y+TF1zj8Guth0Vt/b42Afqr0jP+kirsorE9HsY8z67B26pugkKz2aKyXMza9f/d/B2BymgWzSnGvMG24nP1XyyhtVXnj0ECydvMtzf+wOetk6W7hS5GbjLf8S08ieKuuhZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KeT64IIE; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709815936; c=relaxed/simple;
+	bh=MblaJ/xBbyAlKSi+e0NY+oob1/RL+llTsv1GcmbHug4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KsT1a+L66yP6Ypq2aKND9d4sWQRnBYAlwUkC7N12to2nZTWMqC8mhwSmx0MXjBnLykvBGBY5rtnmmS3JVBCeKb4EmvOyntUAKQ2xFs5HLFqJTczMOFQ9RYA0KdaLbR6hNP0TcYSOP0B7iDQ6Ob09vpGiFCitbhaOVJahWSmjqXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8l6/5Ae; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KeT64IIE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709811945;
-	bh=8bxWkdHWjuivwKz8TBybuK02NLszyCe4cZF3c/Vh6Zg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KeT64IIEUmDtx6ONnrK70cAlu1NnYKqwBoVDZemg5fugfpHTO5lxbn3aaOd/IHMI/
-	 QIBd2Mp3tUQWpPsZ47yKYRRbd8tU2r1FaOiEDUNI1c/OIFZzZvRIsV4x/B0k01w8QS
-	 3WZu0WQdNHM5flp8LFloIgZMfJt0zcBqawOXVzIJ/2YqrlyIqWgN5JPRyeGUrhhQz8
-	 LNWx4t2ybOXZud75GNZaWxyhv2U4WIFf5LJmu2oDm8E7ESmio2Y6Bj9C2E5CUQDx/W
-	 zrfYNqBS9r5uVhawrolCsZjcLfQz9xPTJ9WPDNvRk9ji2Gu0A9G/CV9/F1RYC2Lgj7
-	 d2tKTVLMbzOqg==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2E3E237820F9;
-	Thu,  7 Mar 2024 11:45:43 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: broonie@kernel.org
-Cc: wenst@chromium.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	trevor.wu@mediatek.com,
-	maso.huang@mediatek.com,
-	xiazhengqiao@huaqin.corp-partner.google.com,
-	arnd@arndb.de,
-	kuninori.morimoto.gx@renesas.com,
-	shraash@google.com,
-	amergnat@baylibre.com,
-	nicolas.ferre@microchip.com,
-	u.kleine-koenig@pengutronix.de,
-	dianders@chromium.org,
-	frank.li@vivo.com,
-	allen-kh.cheng@mediatek.com,
-	eugen.hristev@collabora.com,
-	claudiu.beznea@tuxon.dev,
-	jarkko.nikula@bitmer.com,
-	jiaxin.yu@mediatek.com,
-	alpernebiyasak@gmail.com,
-	ckeepax@opensource.cirrus.com,
-	zhourui@huaqin.corp-partner.google.com,
-	nfraprado@collabora.com,
-	alsa-devel@alsa-project.org,
-	shane.chien@mediatek.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v2 22/22] arm64: dts: mediatek: mt8186-corsola: Specify sound DAI links and routing
-Date: Thu,  7 Mar 2024 12:44:45 +0100
-Message-ID: <20240307114445.196981-23-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240307114445.196981-1-angelogioacchino.delregno@collabora.com>
-References: <20240307114445.196981-1-angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8l6/5Ae"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB771C433F1;
+	Thu,  7 Mar 2024 12:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709815936;
+	bh=MblaJ/xBbyAlKSi+e0NY+oob1/RL+llTsv1GcmbHug4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d8l6/5Ae9Jc8Q5gtpYdqmVO7Bn5xYa/nI0y/WNBC7lZ9A+7MTGoERrSyeZLKuj2JQ
+	 MQ4hySceKJxRI2PnSYBmJI+xBMeN6Z7LeijVfT6/2KKfAE6LPJoN8Jvqott/Ropt1l
+	 N/lu9QrVbR2yUVmeivDKG1K2LzanzlGxPC1tvzK2MzGwKTwbjpQNOYpd2vuv3FWP6+
+	 a6reH1zjT7H1D7+CqpY85CGl07Vbq4nAyVopneT7QIakgnNou0w58+YUuV3IXFAKMz
+	 QP4g9QfkUKAqgpI4zlGj8VYJLTA4Unq8fPewhuYw8pcZMoCHDsisUguS31qfQ9a/7+
+	 XkMn4AbGjMIcw==
+Date: Thu, 7 Mar 2024 12:52:10 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] ASoC: starfive: Add PDM controller support
+Message-ID: <fddca901-273c-4b06-ad59-d156941920d6@sirena.org.uk>
+References: <20240307033708.139535-1-xingyu.wu@starfivetech.com>
+ <20240307033708.139535-3-xingyu.wu@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OMuJ0wTIjHrUHwqT"
+Content-Disposition: inline
+In-Reply-To: <20240307033708.139535-3-xingyu.wu@starfivetech.com>
+X-Cookie: Been Transferred Lately?
 
-The drivers and bindings acquired support for specifying audio hardware
-and links in device tree: describe and link the sound related HW of this
-machine.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../boot/dts/mediatek/mt8186-corsola.dtsi     | 42 ++++++++++++++++---
- 1 file changed, 37 insertions(+), 5 deletions(-)
+--OMuJ0wTIjHrUHwqT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-index 3dea28f1d806..0bdb83c3e560 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-@@ -42,7 +42,7 @@ backlight_lcd0: backlight-lcd0 {
- 		default-brightness-level = <576>;
- 	};
- 
--	bt-sco-codec {
-+	bt-sco {
- 		compatible = "linux,bt-sco";
- 		#sound-dai-cells = <0>;
- 	};
-@@ -223,12 +223,44 @@ sound: sound {
- 		mediatek,adsp = <&adsp>;
- 		mediatek,platform = <&afe>;
- 
--		playback-codecs {
--			sound-dai = <&it6505dptx>, <&rt1019p>;
-+		audio-routing =
-+			"Headphone", "HPOL",
-+			"Headphone", "HPOR",
-+			"IN1P", "Headset Mic",
-+			"Speakers", "Speaker",
-+			"HDMI1", "TX";
-+
-+		hs-playback-dai-link {
-+			link-name = "I2S0";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			codec {
-+				sound-dai = <&rt5682s 0>;
-+			};
-+		};
-+
-+		hs-capture-dai-link {
-+			link-name = "I2S1";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			codec {
-+				sound-dai = <&rt5682s 0>;
-+			};
- 		};
- 
--		headset-codec {
--			sound-dai = <&rt5682s 0>;
-+		spk-share-dai-link {
-+			link-name = "I2S2";
-+			mediatek,clk-provider = "cpu";
-+		};
-+
-+		spk-hdmi-playback-dai-link {
-+			link-name = "I2S3";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			/* RT1019P and IT6505 connected to the same I2S line */
-+			codec {
-+				sound-dai = <&it6505dptx>, <&rt1019p>;
-+			};
- 		};
- 	};
- 
--- 
-2.44.0
+On Thu, Mar 07, 2024 at 11:37:08AM +0800, Xingyu Wu wrote:
 
+> +static const struct snd_kcontrol_new jh8100_pdm_snd_controls[] = {
+> +	SOC_SINGLE("DC compensation Control", JH8100_PDM_DMIC_CTRL0, 30, 1, 0),
+> +	SOC_SINGLE("High Pass Filter Control", JH8100_PDM_DMIC_CTRL0, 28, 1, 0),
+> +	SOC_SINGLE("Left Channel Volume Control", JH8100_PDM_DMIC_CTRL0, 23, 1, 0),
+> +	SOC_SINGLE("Right Channel Volume Control", JH8100_PDM_DMIC_CTRL0, 22, 1, 0),
+> +	SOC_SINGLE_TLV("Volume", JH8100_PDM_DMIC_CTRL0, 16, 0x3F, 1, volume_tlv),
+> +	SOC_SINGLE("Data MSB Shift", JH8100_PDM_DMIC_CTRL0, 1, 7, 0),
+> +	SOC_SINGLE("SCALE", JH8100_PDM_DC_SCALE0, 0, 0x3F, 0),
+> +	SOC_SINGLE("DC offset", JH8100_PDM_DC_SCALE0, 8, 0xFFFFF, 0),
+> +};
+
+Simple on/off switches should have names ending in Switch, volumes
+should end in Volume as per control-names.rst.  Please for the next
+version you post show the output of running mixer-test on a system with
+this device, it will identify these and other issues.
+
+> +static int jh8100_pdm_component_probe(struct snd_soc_component *component)
+> +{
+> +	struct jh8100_pdm_priv *priv = snd_soc_component_get_drvdata(component);
+> +
+> +	snd_soc_component_init_regmap(component, priv->regmap);
+> +	snd_soc_add_component_controls(component, jh8100_pdm_snd_controls,
+> +				       ARRAY_SIZE(jh8100_pdm_snd_controls));
+
+You can just specify the controls in the snd_soc_compoenent_driver.
+
+> +#ifdef CONFIG_PM
+> +static int jh8100_pdm_runtime_suspend(struct device *dev)
+> +{
+> +	struct jh8100_pdm_priv *priv = dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(priv->icg_clk);
+> +	return 0;
+> +}
+> +
+> +static int jh8100_pdm_runtime_resume(struct device *dev)
+> +{
+> +	struct jh8100_pdm_priv *priv = dev_get_drvdata(dev);
+> +
+> +	return jh8100_pdm_crg_enable(priv);
+> +}
+> +#endif
+
+It's weird that the runtime suspend and resume are not symmetric - why
+do we need to bring the device out of reset but not put it into reset?
+
+> +	if (!device_property_read_u8(&pdev->dev, "starfive,pdm-modulex", &using_modulex))
+> +		if (using_modulex == 1)
+> +			base += JH8100_PDM_MODULEX_SHIFT; /* Use module 1 */
+
+This really looks like you've got one hardware block with two devices in
+it, either the address ranges registered for the devices in DT should be
+separate and you shouldn't need this property or you should have one
+component registering both PDM interfaces.
+
+--OMuJ0wTIjHrUHwqT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXpuHoACgkQJNaLcl1U
+h9Bj5Af/R9ushCNRKrPb78ikXIhM0zTjHfChPI6K6mCQsquHeplDYjw97T1NMXpF
+t3mQJVASZqIIv4ve6aaaObvoNYMNfQHF1qxI7fw8TL2RR1nqo2MI6b7+hZEMcFLo
+iW9+/SHL1mFHQ+gSdRIgDBj/ym9Plcryy1ajxFom8gqitvA/o0kZJHez6EpW2t0I
+avPYFO3iHOTB77FSG6YcwY+RKqrluLRgVAuNXIay1P9+VKW0Zx4gFo7ZRcd2s1xz
+5bGuh2cqhWCOwJXiKYjNUZPs8usGcGDEc6TtluNXKACrtzRPCymY1YYpVWEPkK6C
+5X21iVfOR/nJ0+kRIKeGzk57bmvIBA==
+=W35A
+-----END PGP SIGNATURE-----
+
+--OMuJ0wTIjHrUHwqT--
