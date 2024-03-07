@@ -1,247 +1,454 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811D94C6D;
-	Thu,  7 Mar 2024 03:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BCD1D530;
+	Thu,  7 Mar 2024 07:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709783510; cv=none; b=OrfEMqdIoiupj+fIVYbfbpqUHv9FnEeuhBx+xFNIG60hqfjT733YOzMMH8swCCzpERTQaXbVMRSKhclbkaYJIoMrBqgGlU7A8aDbwawIp1+tBWt3dvBqRbDYce5lRaOY8xchHKTZ19hVBJqvfvVVoHvtkJ6174pcno8KBWyq2bs=
+	t=1709796155; cv=none; b=sw6u2MCBI+IYU4jok82VduDvGbnZW/yOjrNEjSZ8b+KbthShaNsFNw7JJQDx70a5kyOQGsXETlk0uO3BucjH2Ix7zxpYQV9mQRnAQbbPHoMgy0C1sLcZmSIq2g6UOVDqdz0O2qTK3Gy+tsaKKY0oDO33HPf/wHYulZAxZpTbg2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709783510; c=relaxed/simple;
-	bh=qHETVGmABCOv5h0hlnwqLErCUvhtOVNNegiNhI6aBxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ngma7cgAw4DOXrXyNIYRVWEMmaotQwpEkwejlMTuRbjkj2vUenraLm52ZQulbn48woCcmb65snb8sstQEMkC83xJao2mEqg7WAfm/A8pB9LeOyICUmOD9Mo/Y54qxjE3ROU7yijlw4L5Ci5R+3ietCkJb0Y4qFuRchWZVRIpBQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLKl13xC; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709796155; c=relaxed/simple;
+	bh=XzSNS6u2HPOAIDHK4q1VObZ/WEOrGkZIizRIVvf9tcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DYn8aq6r7/QwnB9jaiOMOSQIf4OkFXnRr6S7dkrZupnGTf+erGzsBbPW/YhXaNf24Q7Y9+b5ylKJgP4/GjUXJrT6ZmqwCkWgLyWrQytUZKDa/438EPLeEABLq1KGWbkKFsqFb749PIqv4EZPhXLwPvsO5vYbMzipgoUb3DNrnO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=k0IRUW3Y; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLKl13xC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709783509; x=1741319509;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qHETVGmABCOv5h0hlnwqLErCUvhtOVNNegiNhI6aBxI=;
-  b=NLKl13xCM/XestgAMCd2C+6xBvS3RdDEwTj44tNI4MR3JF9wJLCglY/y
-   4eNNQZAzkrtiab2Na9JNBYK+gop52xI2AvdH8iYv3bGAwVvKT0ZEv4LRz
-   tp4et2lcC7k/gGp/eaeL90rRd6HEleELo+qebVu+KwZJgUwlmF0oi+kS+
-   +SjDiEltmnuHdbI/dJhYMQzzVLy5yUXKdOWlTWVLFCNppyTk3gQvXsa0Q
-   dpJAgOp4q0+lX38pKaA8a5kcMyKkMdeJ4FgOZ4iQkHGU5u5OgDEb/mWpM
-   MRfIZDj8RzQEVeQ90JXrXzGKeQvNNMqDJBaf4vlmUq+O7adReJuQ461Nd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="26907504"
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="26907504"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2024 19:51:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,209,1705392000"; 
-   d="scan'208";a="10399324"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 06 Mar 2024 19:51:43 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ri4nE-0004ll-0U;
-	Thu, 07 Mar 2024 03:51:40 +0000
-Date: Thu, 7 Mar 2024 11:51:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chancel Liu <chancel.liu@nxp.com>, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chancel Liu <chancel.liu@nxp.com>
-Subject: Re: [PATCH 3/4] ASoC: fsl: Let imx-audio-rpmsg register platform
- device for card
-Message-ID: <202403071138.bdVPDO4p-lkp@intel.com>
-References: <20240306075510.535963-4-chancel.liu@nxp.com>
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="k0IRUW3Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1709796152; x=1741332152;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=AxE3uErFTedD6+UeONgdddLhPAaujenW0IvRh9D31mU=;
+  b=k0IRUW3YY18G5pzQR5IOLwkFrEDWK/V1XY3EYdVjg8jYDNZPuN4xLhMU
+   MYmkJJVLpjoTG/mdJ63+Elo2vXEM24f2LL9sYN5sH7z7GsZLX7PS8cq34
+   ggb2Q0LQTeP2YtD4tuV4VmLL/5jFC0mg7OJc9T3K0+iYaAJC+bsWdHsLq
+   pEzFXxYra5dC1ZVFIIv4PKD+VUFP+prpoPOV7iWGLTQ7DE4277fV049bN
+   ydwrHC+rxVFm9rscT+B3EcJDLHUP94e6jDRmoQ+GOY/20V94pXaPsWcSM
+   lSZLU+GBZMPcbR5+cAGHjCIac4hU7+47Yfe+7BXWzG8o4VhezP8Uale9M
+   w==;
+X-IronPort-AV: E=Sophos;i="6.06,210,1705359600"; 
+   d="scan'208";a="35778208"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Mar 2024 08:22:23 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 88A3728007C;
+	Thu,  7 Mar 2024 08:22:23 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] arm64: dts: imx8qxp: add asrc[0, 1], esai0, spdif[0, 1] and sai[4, 5]
+Date: Thu, 07 Mar 2024 08:22:25 +0100
+Message-ID: <1961523.PYKUYFuaPT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <ZeiJdoTqWd8h0Q5I@lizhi-Precision-Tower-5810>
+References: <20240305-asrc_8qxp-v4-0-c61b98046591@nxp.com> <2177674.irdbgypaU6@steina-w> <ZeiJdoTqWd8h0Q5I@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306075510.535963-4-chancel.liu@nxp.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Chancel,
+Hi Frank,
 
-kernel test robot noticed the following build errors:
+Am Mittwoch, 6. M=E4rz 2024, 16:19:18 CET schrieb Frank Li:
+> On Wed, Mar 06, 2024 at 08:20:00AM +0100, Alexander Stein wrote:
+> > Hi Frank,
+> >=20
+> > thanks for the patch.
+> >=20
+> > Am Dienstag, 5. M=E4rz 2024, 18:33:05 CET schrieb Frank Li:
+> > > Add asrc[0,1], esai0, spdif[0,1], sai[4,5] and related lpcg node for
+> > > imx8 audio subsystem.
+> > >=20
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > >  arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi | 304 +++++++++++++=
+++++++++++
+> > >  1 file changed, 304 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi b/arch/=
+arm64/boot/dts/freescale/imx8-ss-audio.dtsi
+> > > index 07afeb78ed564..78305559f15c9 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
+> > > @@ -6,6 +6,7 @@
+> > > =20
+> > >  #include <dt-bindings/clock/imx8-clock.h>
+> > >  #include <dt-bindings/clock/imx8-lpcg.h>
+> > > +#include <dt-bindings/dma/fsl-edma.h>
+> > >  #include <dt-bindings/firmware/imx/rsrc.h>
+> > > =20
+> > >  audio_ipg_clk: clock-audio-ipg {
+> > > @@ -481,4 +482,307 @@ acm: acm@59e00000 {
+> > >  			      "sai3_rx_bclk",
+> > >  			      "sai4_rx_bclk";
+> > >  	};
+> > > +
+> > > +	asrc0: asrc@59000000 {
+> >=20
+> > Please insert nodes sorted by address. ASRC0 is the very first node.
+> >=20
+> > > +		compatible =3D "fsl,imx8qm-asrc";
+> > > +		reg =3D <0x59000000 0x10000>;
+> > > +		interrupts =3D <GIC_SPI 372 IRQ_TYPE_LEVEL_HIGH>;
+> > > +		clocks =3D <&asrc0_lpcg 0>,
+> > > +			 <&asrc0_lpcg 0>,
+> > > +			 <&aud_pll_div0_lpcg 0>,
+> > > +			 <&aud_pll_div1_lpcg 0>,
+> > > +			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
+> > > +			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>;
+> > > +		clock-names =3D "mem", "ipg",
+> > > +			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
+> > > +			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
+> > > +			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
+> > > +			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
+> > > +			      "spba";
+> > > +		dmas =3D <&edma0 0 0 0>,
+> > > +		       <&edma0 1 0 0>,
+> > > +		       <&edma0 2 0 0>,
+> > > +		       <&edma0 3 0 FSL_EDMA_RX>,
+> > > +		       <&edma0 4 0 FSL_EDMA_RX>,
+> > > +		       <&edma0 5 0 FSL_EDMA_RX>;
+> > > +		/* tx* is output channel of asrc, it is rx channel for eDMA */
+> > > +		dma-names =3D "rxa", "rxb", "rxc", "txa", "txb", "txc";
+> > > +		fsl,asrc-rate  =3D <8000>;
+> > > +		fsl,asrc-width =3D <16>;
+> > > +		fsl,asrc-clk-map =3D <0>;
+> > > +		power-domains =3D <&pd IMX_SC_R_ASRC_0>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	esai0: esai@59010000 {
+> > > +		compatible =3D "fsl,imx8qm-esai", "fsl,imx6ull-esai";
+> > > +		reg =3D <0x59010000 0x10000>;
+> > > +		interrupts =3D <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>;
+> > > +		clocks =3D <&esai0_lpcg 1>, <&esai0_lpcg 0>, <&esai0_lpcg 1>, <&cl=
+k_dummy>;
+> > > +		clock-names =3D "core", "extal", "fsys", "spba";
+> > > +		dmas =3D <&edma0 6 0 FSL_EDMA_RX>, <&edma0 7 0 0>;
+> > > +		dma-names =3D "rx", "tx";
+> > > +		power-domains =3D <&pd IMX_SC_R_ESAI_0>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	spdif0: spdif@59020000 {
+> > > +		compatible =3D "fsl,imx8qm-spdif";
+> > > +		reg =3D <0x59020000 0x10000>;
+> > > +		interrupts =3D  <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>, /* rx */
+> > > +			      <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>; /* tx */
+> > > +		clocks =3D <&spdif0_lpcg 1>,	/* core */
+> > > +			 <&clk_dummy>,		/* rxtx0 */
+> > > +			 <&spdif0_lpcg 0>,	/* rxtx1 */
+> > > +			 <&clk_dummy>,		/* rxtx2 */
+> > > +			 <&clk_dummy>,		/* rxtx3 */
+> > > +			 <&clk_dummy>,		/* rxtx4 */
+> > > +			 <&audio_ipg_clk>,	/* rxtx5 */
+> > > +			 <&clk_dummy>,		/* rxtx6 */
+> > > +			 <&clk_dummy>,		/* rxtx7 */
+> > > +			 <&clk_dummy>;		/* spba */
+> > > +		clock-names =3D "core", "rxtx0", "rxtx1", "rxtx2", "rxtx3", "rxtx4=
+",
+> > > +			      "rxtx5", "rxtx6", "rxtx7", "spba";
+> > > +		dmas =3D <&edma0 8 0 (FSL_EDMA_MULTI_FIFO | FSL_EDMA_RX)>,
+> > > +		       <&edma0 9 0 FSL_EDMA_MULTI_FIFO>;
+> > > +		dma-names =3D "rx", "tx";
+> > > +		power-domains =3D <&pd IMX_SC_R_SPDIF_0>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	spdif1: spdif@59030000 {
+> >=20
+> > That's imx8qm only, no?
+>=20
+> I am not sure what means. why do you think it is imx8qm only? It is for
+> imx8qm, imx8qxp, imx8dxl.
 
-[auto build test ERROR on shawnguo/for-next]
-[also build test ERROR on broonie-sound/for-next linus/master v6.8-rc7 next-20240306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+According to Table- 2-6 (Audio DMA memory Map) in i.MX8X RM Rev. 0 05/2020,
+the lasted one available on the webpage, address 0x59030000 is reserved.
+I read that as there is no periphery available. This matches the feature li=
+st
+in 1.1.2 Features, where "1x SPDIF" is stated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chancel-Liu/ASoC-fsl-imx_pcm_rpmsg-Register-component-with-rpmsg-channel-name/20240306-155945
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240306075510.535963-4-chancel.liu%40nxp.com
-patch subject: [PATCH 3/4] ASoC: fsl: Let imx-audio-rpmsg register platform device for card
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240307/202403071138.bdVPDO4p-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 325f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240307/202403071138.bdVPDO4p-lkp@intel.com/reproduce)
+So spdif1 is only for imx8qm (no idea about imx8dxl though) and should be
+listed in a file called imx8qm-ss-audio.dtsi which is only included in
+imx8qm.dtsi.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403071138.bdVPDO4p-lkp@intel.com/
+Thanks and best regards
+Alexander
 
-All errors (new ones prefixed by >>):
+>=20
+> Frank
+>=20
+> >=20
+> > > +		compatible =3D "fsl,imx8qm-spdif";
+> > > +		reg =3D <0x59030000 0x10000>;
+> > > +		interrupts =3D  <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>, /* rx */
+> > > +			      <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH>; /* tx */
+> > > +		clocks =3D <&spdif1_lpcg 1>,	/* core */
+> > > +			 <&clk_dummy>,		/* rxtx0 */
+> > > +			 <&spdif1_lpcg 0>,	/* rxtx1 */
+> > > +			 <&clk_dummy>,		/* rxtx2 */
+> > > +			 <&clk_dummy>,		/* rxtx3 */
+> > > +			 <&clk_dummy>,		/* rxtx4 */
+> > > +			 <&audio_ipg_clk>,	/* rxtx5 */
+> > > +			 <&clk_dummy>,		/* rxtx6 */
+> > > +			 <&clk_dummy>,		/* rxtx7 */
+> > > +			 <&clk_dummy>;		/* spba */
+> > > +		clock-names =3D "core", "rxtx0", "rxtx1", "rxtx2", "rxtx3", "rxtx4=
+",
+> > > +			      "rxtx5", "rxtx6", "rxtx7", "spba";
+> > > +		dmas =3D <&edma0 10 0 (FSL_EDMA_MULTI_FIFO | FSL_EDMA_RX)>,
+> > > +		       <&edma0 11 0 FSL_EDMA_MULTI_FIFO>;
+> > > +		dma-names =3D "rx", "tx";
+> > > +		power-domains =3D <&pd IMX_SC_R_SPDIF_1>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	asrc1: asrc@59800000 {
+> >=20
+> > Insert this between dsp and edma1, sorted by address.
+> >=20
+> > > +		compatible =3D "fsl,imx8qm-asrc";
+> > > +		reg =3D <0x59800000 0x10000>;
+> > > +		interrupts =3D <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;
+> > > +		clocks =3D <&asrc1_lpcg 0>,
+> > > +			 <&asrc1_lpcg 0>,
+> > > +			 <&aud_pll_div0_lpcg 0>,
+> > > +			 <&aud_pll_div1_lpcg 0>,
+> > > +			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
+> > > +			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>;
+> > > +		clock-names =3D "mem", "ipg",
+> > > +			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
+> > > +			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
+> > > +			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
+> > > +			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
+> > > +			      "spba";
+> > > +		dmas =3D <&edma1 0 0 0>,
+> > > +		       <&edma1 1 0 0>,
+> > > +		       <&edma1 2 0 0>,
+> > > +		       <&edma1 3 0 FSL_EDMA_RX>,
+> > > +		       <&edma1 4 0 FSL_EDMA_RX>,
+> > > +		       <&edma1 5 0 FSL_EDMA_RX>;
+> > > +		/* tx* is output channel of asrc, it is rx channel for eDMA */
+> > > +		dma-names =3D "rxa", "rxb", "rxc", "txa", "txb", "txc";
+> > > +		fsl,asrc-rate  =3D <8000>;
+> > > +		fsl,asrc-width =3D <16>;
+> > > +		fsl,asrc-clk-map =3D <1>;
+> > > +		power-domains =3D <&pd IMX_SC_R_ASRC_1>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	sai4: sai@59820000 {
+> > > +		compatible =3D "fsl,imx8qm-sai";
+> > > +		reg =3D <0x59820000 0x10000>;
+> > > +		interrupts =3D <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>;
+> > > +		clocks =3D <&sai4_lpcg 1>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&sai4_lpcg 0>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>;
+> > > +		clock-names =3D "bus", "mclk0", "mclk1", "mclk2", "mclk3";
+> > > +		dmas =3D <&edma1 8 0 FSL_EDMA_RX>, <&edma1 9 0 0>;
+> > > +		dma-names =3D "rx", "tx";
+> > > +		power-domains =3D <&pd IMX_SC_R_SAI_4>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	sai5: sai@59830000 {
+> > > +		compatible =3D "fsl,imx8qm-sai";
+> > > +		reg =3D <0x59830000 0x10000>;
+> > > +		interrupts =3D <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
+> > > +		clocks =3D <&sai5_lpcg 1>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&sai5_lpcg 0>,
+> > > +			 <&clk_dummy>,
+> > > +			 <&clk_dummy>;
+> > > +		clock-names =3D "bus", "mclk0", "mclk1", "mclk2", "mclk3";
+> > > +		dmas =3D <&edma1 10 0 0>;
+> > > +		dma-names =3D "tx";
+> > > +		power-domains =3D <&pd IMX_SC_R_SAI_5>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	amix: amix@59840000 {
+> > > +		compatible =3D "fsl,imx8qm-audmix";
+> > > +		reg =3D <0x59840000 0x10000>;
+> > > +		clocks =3D <&amix_lpcg 0>;
+> > > +		clock-names =3D "ipg";
+> > > +		power-domains =3D <&pd IMX_SC_R_AMIX>;
+> > > +		dais =3D <&sai4>, <&sai5>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	mqs: mqs@59850000 {
+> > > +		compatible =3D "fsl,imx8qm-mqs";
+> > > +		reg =3D <0x59850000 0x10000>;
+> > > +		clocks =3D <&mqs0_lpcg 0>,
+> > > +			<&mqs0_lpcg 1>;
+> > > +		clock-names =3D "mclk", "core";
+> > > +		power-domains =3D <&pd IMX_SC_R_MQS_0>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	asrc0_lpcg: clock-controller@59400000 {
+> >=20
+> > Please insert he lpcg nodes according to their address.
+> >=20
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59400000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "asrc0_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_ASRC_0>;
+> > > +	};
+> > > +
+> > > +	esai0_lpcg: clock-controller@59410000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59410000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_ESAI0_MCLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "esai0_lpcg_extal_clk",
+> > > +				     "esai0_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_ESAI_0>;
+> > > +	};
+> > > +
+> > > +	spdif0_lpcg: clock-controller@59420000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59420000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_SPDIF0_TX_CLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "spdif0_lpcg_tx_clk",
+> > > +				     "spdif0_lpcg_gclkw";
+> > > +		power-domains =3D <&pd IMX_SC_R_SPDIF_0>;
+> > > +	};
+> > > +
+> > > +	spdif1_lpcg: clock-controller@59430000 {
+> >=20
+> > That's imx8qm only as well, no?
+> >=20
+> > Thanks and best regards,
+> > Alexander
+> >=20
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59430000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_SPDIF1_TX_CLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "spdif1_lpcg_tx_clk",
+> > > +				     "spdif1_lpcg_gclkw";
+> > > +		power-domains =3D <&pd IMX_SC_R_SPDIF_1>;
+> > > +		status =3D "disabled";
+> > > +	};
+> > > +
+> > > +	asrc1_lpcg: clock-controller@59c00000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59c00000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "asrc1_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_ASRC_1>;
+> > > +	};
+> > > +
+> > > +	sai4_lpcg: clock-controller@59c20000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59c20000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_SAI4_MCLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "sai4_lpcg_mclk",
+> > > +				     "sai4_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_SAI_4>;
+> > > +	};
+> > > +
+> > > +	sai5_lpcg: clock-controller@59c30000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59c30000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_SAI5_MCLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "sai5_lpcg_mclk",
+> > > +				     "sai5_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_SAI_5>;
+> > > +	};
+> > > +
+> > > +	amix_lpcg: clock-controller@59c40000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59c40000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>;
+> > > +		clock-output-names =3D "amix_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_AMIX>;
+> > > +	};
+> > > +
+> > > +	mqs0_lpcg: clock-controller@59c50000 {
+> > > +		compatible =3D "fsl,imx8qxp-lpcg";
+> > > +		reg =3D <0x59c50000 0x10000>;
+> > > +		#clock-cells =3D <1>;
+> > > +		clocks =3D <&acm IMX_ADMA_ACM_MQS_TX_CLK_SEL>,
+> > > +			 <&audio_ipg_clk>;
+> > > +		clock-indices =3D <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
+> > > +		clock-output-names =3D "mqs0_lpcg_mclk",
+> > > +				     "mqs0_lpcg_ipg_clk";
+> > > +		power-domains =3D <&pd IMX_SC_R_MQS_0>;
+> > > +	};
+> > >  };
+> > >=20
+> > >=20
+> >=20
+> >=20
+>=20
+>=20
 
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:173:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
-   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
-   In file included from include/sound/dmaengine_pcm.h:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
-   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
-   In file included from include/sound/dmaengine_pcm.h:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from sound/soc/fsl/imx-audio-rpmsg.c:6:
-   In file included from sound/soc/fsl/imx-pcm-rpmsg.h:278:
-   In file included from include/sound/dmaengine_pcm.h:11:
-   In file included from include/sound/soc.h:21:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:78:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> sound/soc/fsl/imx-audio-rpmsg.c:107:8: error: use of undeclared label 'fail'
-     107 |                 goto fail;
-         |                      ^
-   17 warnings and 1 error generated.
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
 
-vim +/fail +107 sound/soc/fsl/imx-audio-rpmsg.c
-
-    74	
-    75	static int imx_audio_rpmsg_probe(struct rpmsg_device *rpdev)
-    76	{
-    77		struct imx_audio_rpmsg *data;
-    78		int ret = 0;
-    79	
-    80		dev_info(&rpdev->dev, "new channel: 0x%x -> 0x%x!\n",
-    81			 rpdev->src, rpdev->dst);
-    82	
-    83		data = devm_kzalloc(&rpdev->dev, sizeof(*data), GFP_KERNEL);
-    84		if (!data)
-    85			return -ENOMEM;
-    86	
-    87		dev_set_drvdata(&rpdev->dev, data);
-    88	
-    89		/* Register platform driver for rpmsg routine */
-    90		data->rpmsg_pdev = platform_device_register_data(&rpdev->dev,
-    91								 rpdev->id.name,
-    92								 PLATFORM_DEVID_NONE,
-    93								 NULL, 0);
-    94		if (IS_ERR(data->rpmsg_pdev)) {
-    95			dev_err(&rpdev->dev, "failed to register rpmsg platform.\n");
-    96			ret = PTR_ERR(data->rpmsg_pdev);
-    97		}
-    98	
-    99		data->card_pdev = platform_device_register_data(&rpdev->dev,
-   100								"imx-audio-rpmsg",
-   101								PLATFORM_DEVID_AUTO,
-   102								rpdev->id.name,
-   103								strlen(rpdev->id.name));
-   104		if (IS_ERR(data->card_pdev)) {
-   105			dev_err(&rpdev->dev, "failed to register rpmsg card.\n");
-   106			ret = PTR_ERR(data->card_pdev);
- > 107			goto fail;
-   108		}
-   109	
-   110		return ret;
-   111	}
-   112	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
