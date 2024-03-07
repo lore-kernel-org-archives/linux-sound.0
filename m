@@ -1,41 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4101DA27;
-	Thu,  7 Mar 2024 17:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85E517722;
+	Thu,  7 Mar 2024 17:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709833390; cv=none; b=cPI2LLx0xGYISrsgzcwP4cc/mcUYls9HcJA7wQdHLAMWaUff2zVO/RvscIamGIyOak8Cd1KuC8AqKBRUoQWlLt3qvMswiExDeMS4en/X0T6VFfAUkUO8nRe9Zgg2dbBHC79nNquDqxLJU0NLk8gydv+QP15Kw3JQZwL7P9o+7o8=
+	t=1709834097; cv=none; b=g5UE541XGVHZrzKTnQ/FKS6fVf1oxmfICFe7S0bnkEZfsmopGOxvX2XG7gvX3c4dK5SLW9kIKbaYHuehaB7z7O2SMRg58rBlcCwAfmdSs5qg7yokbn+M0HAOUa/FMEQ7lGyPdFJK/ef66s2lD/FFW0JM3dszWxEpi9nH/MOxlxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709833390; c=relaxed/simple;
-	bh=FxTN8wmTOOtkcRhR+GPUgI7j4Kh31mD0hBGQBSjSMwo=;
+	s=arc-20240116; t=1709834097; c=relaxed/simple;
+	bh=N/G00rBhFeUtQPFUnLF5UqWzkC0ItgBzrXMdpGLMz58=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bG4fP/OfL5C022bknNtbf2IoC95286jzyBjazbL4Ebtr+RjV+J+i1O17d/RMvp8COYUHLzG1YoHtfpfrl7qRQEYeAqTgSQX4vLgJsN6v0aUWDea+APsNDdFzGtUkY0zCwgLeG6SKrnbJFp6UifWIPh76JjqL7liQYD8bYtWd0hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YzVGMf8r; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=d3Ie7tjbZ415tluOgGbXrv5GzZ4dheQ+ASQU7JBwXxUW8MdZzDRVQENTM6WZr4JmdHAvGEZn0bGrZvRojDkewjq7szxnMGPffxdwobMGV/H0R3agYcpmOX+saW0/cR48LppS9wzdz2Ymoxd+vUji807Ch/wYyCaRgfWZQmtfbcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JnuyfUZ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YzVGMf8r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119E0C43390;
-	Thu,  7 Mar 2024 17:43:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JnuyfUZ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE23C433C7;
+	Thu,  7 Mar 2024 17:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709833390;
-	bh=FxTN8wmTOOtkcRhR+GPUgI7j4Kh31mD0hBGQBSjSMwo=;
+	s=k20201202; t=1709834097;
+	bh=N/G00rBhFeUtQPFUnLF5UqWzkC0ItgBzrXMdpGLMz58=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YzVGMf8rd3vB3hJ2jU7a3m5TXdZpMFZlgd9Ht/oLnYSkbxw4QUUBfw0t0fs8xs5ha
-	 FdPBK9BVprmfdnEM3DOaPLzDutl0qNUZAF1WKRCCHC8mCQ3krO8ZfjDrOOI89Mn72J
-	 i3A0v1Dvs4Wg0/WX7uPORJI5ZGuUMMLxPFITOtALC/m48gF4sLagvWSEnois8scp94
-	 Ol7lNmwroRlZ3vlCUtvI9JVOWdU4aMPaX0Cfo/1y3xjzFbVJhuOhOqmm1zvbFGkp2m
-	 +nEOvIhID8bjPDzE3HCvBKL/xNbL1PN+7vaJyHB8SK/YxpBEkA6ajTeIluVd21gVj9
-	 jd2J41PPLo3bQ==
+	b=JnuyfUZ5k6RipLTJCjx0fB7LjTyCGUd8FcKG8zqs2T3r6UC2h3eX1v8ATZzAxx+Yp
+	 pYZncg0OdtOt84ZvuAKkfXJKxNwf0HqcEWVnhbyHjrW3ZDMAPYsq/e1g36Zm69DCGz
+	 y03mX2SOJHbBLK4ffQeATEek14ejx7XdAnKqQTZNV8SsaEAQww09Gh64i4Qnb7DucA
+	 aY1B0UKXp3Jjv3ap6vh20yzAeTNc12yiFLnaimwhxwPpSVfQY1bupmajce3ey2MnRU
+	 cHYXCVHj6fjAf7K3bh58r0ZIk1s3RA+wvMov59fRY/lH65ywsvr7EfRgW+oBrgc4M2
+	 Q9OzcxFbbUI9Q==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240307110227.41421-1-rf@opensource.cirrus.com>
-References: <20240307110227.41421-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: wm_adsp: Fix missing mutex_lock in
- wm_adsp_write_ctl()
-Message-Id: <170983338880.97308.14001370070298134572.b4-ty@kernel.org>
-Date: Thu, 07 Mar 2024 17:43:08 +0000
+To: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20240307163734.3852754-1-andriy.shevchenko@linux.intel.com>
+References: <20240307163734.3852754-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] ASoC: Intel: catpt: Carefully use PCI bitwise
+ constants
+Message-Id: <170983409454.99823.12509782331460236693.b4-ty@kernel.org>
+Date: Thu, 07 Mar 2024 17:54:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,14 +54,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Thu, 07 Mar 2024 11:02:27 +0000, Richard Fitzgerald wrote:
-> wm_adsp_write_ctl() must hold the pwr_lock mutex when calling
-> cs_dsp_get_ctl().
+On Thu, 07 Mar 2024 18:37:34 +0200, Andy Shevchenko wrote:
+> PM constants for PCI devices are defined with bitwise annotation.
+> When used as is, sparse complains about that:
 > 
-> This was previously partially fixed by commit 781118bc2fc1
-> ("ASoC: wm_adsp: Fix missing locking in wm_adsp_[read|write]_ctl()")
-> but this only put locking around the call to cs_dsp_coeff_write_ctrl(),
-> missing the call to cs_dsp_get_ctl().
+>   .../catpt/dsp.c:390:9: warning: restricted pci_power_t degrades to integer
+>   .../catpt/dsp.c:414:9: warning: restricted pci_power_t degrades to integer
+> 
+> Force them to be u32 in the driver.
 > 
 > [...]
 
@@ -63,8 +71,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: wm_adsp: Fix missing mutex_lock in wm_adsp_write_ctl()
-      commit: f193957b0fbbba397c8bddedf158b3bf7e4850fc
+[1/1] ASoC: Intel: catpt: Carefully use PCI bitwise constants
+      commit: 6c023ad32b192dea51a4f842cc6ecf89bb6238c9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
