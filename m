@@ -1,95 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85E517722;
-	Thu,  7 Mar 2024 17:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6091EF13;
+	Thu,  7 Mar 2024 18:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709834097; cv=none; b=g5UE541XGVHZrzKTnQ/FKS6fVf1oxmfICFe7S0bnkEZfsmopGOxvX2XG7gvX3c4dK5SLW9kIKbaYHuehaB7z7O2SMRg58rBlcCwAfmdSs5qg7yokbn+M0HAOUa/FMEQ7lGyPdFJK/ef66s2lD/FFW0JM3dszWxEpi9nH/MOxlxQ=
+	t=1709837794; cv=none; b=qEcXcta0hokXijMAl1n0OdY7cKCge/6RGDtSF3KoEn+loW2PGeOhaqG2Jva3JDMuiSETm/c+nXelqIJuaxhkBJuOYWVgkhxPNOeSkWw12IbWrKqH3YQwKW5RlJ/qoEO0CrVnHZGU9jpHG/LII1nFQG/L/wRT5AJFnnVqHpb3GPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709834097; c=relaxed/simple;
-	bh=N/G00rBhFeUtQPFUnLF5UqWzkC0ItgBzrXMdpGLMz58=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d3Ie7tjbZ415tluOgGbXrv5GzZ4dheQ+ASQU7JBwXxUW8MdZzDRVQENTM6WZr4JmdHAvGEZn0bGrZvRojDkewjq7szxnMGPffxdwobMGV/H0R3agYcpmOX+saW0/cR48LppS9wzdz2Ymoxd+vUji807Ch/wYyCaRgfWZQmtfbcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JnuyfUZ5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709837794; c=relaxed/simple;
+	bh=UV0sY6h4DN51/nvSU5fsXkmxOfhwJjNehBRV4+DLeao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oj5xgdqVOpuVyWySFGt5QC3q87/4Bpw3G+3lIkzPva54343d9vzVyHqpg0pnK/7GXvCM/LN5ToKgX78D6+o8RGCT1QszzsRGClw/1ZXzrJwsRZqeEscSfBo8Qy1BblsVmcyfXiLg3iBwwLyYChiviW9y9xD1ueFLqFfbPy3fvps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbbV86UP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JnuyfUZ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE23C433C7;
-	Thu,  7 Mar 2024 17:54:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbbV86UP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96EDAC433C7;
+	Thu,  7 Mar 2024 18:56:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709834097;
-	bh=N/G00rBhFeUtQPFUnLF5UqWzkC0ItgBzrXMdpGLMz58=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JnuyfUZ5k6RipLTJCjx0fB7LjTyCGUd8FcKG8zqs2T3r6UC2h3eX1v8ATZzAxx+Yp
-	 pYZncg0OdtOt84ZvuAKkfXJKxNwf0HqcEWVnhbyHjrW3ZDMAPYsq/e1g36Zm69DCGz
-	 y03mX2SOJHbBLK4ffQeATEek14ejx7XdAnKqQTZNV8SsaEAQww09Gh64i4Qnb7DucA
-	 aY1B0UKXp3Jjv3ap6vh20yzAeTNc12yiFLnaimwhxwPpSVfQY1bupmajce3ey2MnRU
-	 cHYXCVHj6fjAf7K3bh58r0ZIk1s3RA+wvMov59fRY/lH65ywsvr7EfRgW+oBrgc4M2
-	 Q9OzcxFbbUI9Q==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20240307163734.3852754-1-andriy.shevchenko@linux.intel.com>
-References: <20240307163734.3852754-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] ASoC: Intel: catpt: Carefully use PCI bitwise
- constants
-Message-Id: <170983409454.99823.12509782331460236693.b4-ty@kernel.org>
-Date: Thu, 07 Mar 2024 17:54:54 +0000
+	s=k20201202; t=1709837793;
+	bh=UV0sY6h4DN51/nvSU5fsXkmxOfhwJjNehBRV4+DLeao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hbbV86UP6pH8ipawLp8zXWN0pywWlB75UXWU9TDaDlEa+1dOwSKN/TpdNaBdEiTMg
+	 9Aey8CwYWmk+QGK5RXwfVM8ujORjBVhr0nMTerKnAOVedKY/CCikIplfVF6hhQJ4ob
+	 xPUSeFFcwAZFfVQCQwT/nLDn5cnwK3TCDQF+I7J6ZJm1428odTpnDCibn6xw+jtEVN
+	 pPZFHAZ1JFfOylLbNONip02c7KTCFEdaZnqPhp3FBCwsfnYFKcAg723X/7x7FcHfCU
+	 j/gLbBa3e5ZADLyWKkky1i1BsrhclxrJQjAZCAwDhZ7P0aAqIZQV5GQReJQodgdayi
+	 iY9V1jzbgn/0g==
+Date: Thu, 7 Mar 2024 18:56:28 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] ASoC: dt-bindings: fsl-sai: allow only one
+ dma-names
+Message-ID: <20240307-agnostic-dyslexia-6f1da244ec58@spud>
+References: <20240305-asrc_8qxp-v4-0-c61b98046591@nxp.com>
+ <20240305-asrc_8qxp-v4-3-c61b98046591@nxp.com>
+ <20240306-pebble-grope-88fdaa95a87c@spud>
+ <ZejDQddMp17RD6Yk@lizhi-Precision-Tower-5810>
+ <20240306205524.GB587561-robh@kernel.org>
+ <Zejdz0BKwSlsio9S@lizhi-Precision-Tower-5810>
+ <CAL_JsqJw5W7a9Pz9gRPuP717onHdSwRvwGJ=v+QDSe+4ORvTaA@mail.gmail.com>
+ <ZekgPg2nsLIQpvY/@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PgOaAGG3OrEgcB2K"
+Content-Disposition: inline
+In-Reply-To: <ZekgPg2nsLIQpvY/@lizhi-Precision-Tower-5810>
 
-On Thu, 07 Mar 2024 18:37:34 +0200, Andy Shevchenko wrote:
-> PM constants for PCI devices are defined with bitwise annotation.
-> When used as is, sparse complains about that:
-> 
->   .../catpt/dsp.c:390:9: warning: restricted pci_power_t degrades to integer
->   .../catpt/dsp.c:414:9: warning: restricted pci_power_t degrades to integer
-> 
-> Force them to be u32 in the driver.
-> 
-> [...]
 
-Applied to
+--PgOaAGG3OrEgcB2K
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Mar 06, 2024 at 09:02:38PM -0500, Frank Li wrote:
+> On Wed, Mar 06, 2024 at 04:58:22PM -0600, Rob Herring wrote:
+> > On Wed, Mar 6, 2024 at 3:19=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrot=
+e:
+> > >
+> > > On Wed, Mar 06, 2024 at 02:55:24PM -0600, Rob Herring wrote:
+> > > > On Wed, Mar 06, 2024 at 02:25:53PM -0500, Frank Li wrote:
+> > > > > On Wed, Mar 06, 2024 at 06:45:13PM +0000, Conor Dooley wrote:
+> > > > > > On Tue, Mar 05, 2024 at 12:33:04PM -0500, Frank Li wrote:
+> > > > > > > Some sai only connect one direction dma (rx/tx) in SOC. For e=
+xample:
+> > > > > > > imx8qxp sai5 only connect tx dma channel. So allow only one "=
+rx" or "tx"
+> > > > > > > for dma-names.
+> > > > > > >
+> > > > > > > Remove description under dmas because no user use index to ge=
+t dma channel.
+> > > > > > > All user use 'dma-names' to get correct dma channel. dma-name=
+s already in
+> > > > > > > 'required' list.
+> > > > > >
+> > > > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > > >
+> > > > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > > > > > ---
+> > > > > > >  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 13 ++=
+++++-------
+> > > > > > >  1 file changed, 6 insertions(+), 7 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.=
+yaml b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> > > > > > > index 2456d958adeef..6f551c68d33db 100644
+> > > > > > > --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> > > > > > > +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> > > > > > > @@ -81,15 +81,14 @@ properties:
+> > > > > > >
+> > > > > > >    dmas:
+> > > > > > >      minItems: 1
+> > > > > > > -    items:
+> > > > > > > -      - description: DMA controller phandle and request line=
+ for RX
+> > > > > > > -      - description: DMA controller phandle and request line=
+ for TX
+> > > > > > > +    maxItems: 2
+> > > > > > >
+> > > > > > >    dma-names:
+> > > > > > > -    minItems: 1
+> > > > > > > -    items:
+> > > > > > > -      - const: rx
+> > > > > > > -      - const: tx
+> > > > > > > +    oneOf:
+> > > > > > > +      - items:
+> > > > > > > +          - const: rx
+> > > > > > > +          - const: tx
+> > > > > > > +      - enum: [ rx, tx ]
+> > > > > >
+> > > > > > I'm not entirely sure if this was Rob's suggestion, I got the i=
+mpression
+> > > > > > he was suggesting that in the two items case we'd not care abou=
+t the
+> > > > > > order. But while I think this is different to that suggestion i=
+t's also
+> > > > > > not wrong.
 
-Thanks!
+> > > > > Rob's suggest was not work. dt-binding check complain too long
+> > > > > if there are two dma-names =3D "rx", "tx".
+> > > >
+> > > > So I'm wrong or you didn't have it correct? No way to tell with your
+> > > > explanation. Let me give you the exact schema:
+> > > >
+> > > > dma-names:
+> > > >   minItems: 1
+> > > >   items:
+> > > >     - enum: [ rx, tx ]
+> > > >     - const: tx
+> > > >
+> > > > This says we can have 1 or 2 entries. The first entry can be either=
+ rx
+> > > > or tx. The 2nd entry must be tx. That's what you want. However, '"t=
+x",
+> > > > "tx"' is allowed with the above, but we enforce items to be unique
+> > > > elsewhere. Or I thought we did, but we relaxed '.*-names$' at some
+> > > > point. I'm going to fix that now.
+> > >
+> > > Conor find out my problem. The below code works. I missed maxItems.
+> > >
+> > >   dma-names:
+> > >      minItems: 1
+> > >      maxItems: 2
+> > >      items
+> >=20
+> > Missing ':'
+> >=20
+> > >        enum: [ rx, tx ]
+> >=20
+> > That is not my suggestion. This would be my 3rd choice after what I
+> > proposed or what you had already. Please plug in exactly what I told
+> > you and report back what doesn't work.
+>=20
+> It also works. look likes conor's method is a little bit easy to be
+> understood.
 
-[1/1] ASoC: Intel: catpt: Carefully use PCI bitwise constants
-      commit: 6c023ad32b192dea51a4f842cc6ecf89bb6238c9
+What I suggested is different, it is more permissive than what you have
+or what Rob suggested. Your original one allows
+"rx", "tx" OR "rx" OR "tx"
+Rob's allows the same but with a nicer syntax. What that stm binding I
+mentioned allows is
+"rx", "tx" OR "tx", "rx" OR "rx" OR "tx"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--PgOaAGG3OrEgcB2K
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeoN3AAKCRB4tDGHoIJi
+0nd3AQCWltdW9osVlgRPEJE0ihSrSm9KZdQvqgiz22Um6H8xQQEAiKTPyYqzkfIt
+B4P5sXRr4dR2MsnwyKa6AX2uGt0DZQs=
+=CRIZ
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--PgOaAGG3OrEgcB2K--
