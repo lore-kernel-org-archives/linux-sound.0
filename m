@@ -1,59 +1,33 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8B71CD16
-	for <linux-sound@vger.kernel.org>; Thu,  7 Mar 2024 07:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67B1CA6B;
+	Thu,  7 Mar 2024 08:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709798377; cv=none; b=D0QX9l7qKoyJeGv5W+hsoQliaYcWc+9TGB+1+eCewpq+ReQDMOL6sUzBKkMvsX2eGjtwl8/rRR03W3PJU91tptZNzrMmDA4RPM4NMqxaUAYl4bDo3e/jAmGht0wUMXqhLaipK3H4OoqJeWBZzZe1LxhyzLLnU/xO+RmfD1j9+58=
+	t=1709799848; cv=none; b=TRbA2SyJJ46oWTxzYEzTaRnbh/ke9w0fy5pXxiK0rTP29eANEpOmTXhE2gAh41no9xqILuBstrheFBT5mGeJrcYsFKmXyRNLq2gZauNIufezCEnUmEPfQg6OJS1x2TND1m38QyxYz9COhKXcfAuYhlVaQw0kYNm8wv4bsEBMorE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709798377; c=relaxed/simple;
-	bh=oJYwvebPSxy6YxXO/DvKCCgPQHIT9wOAIrN7jlew0mM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BiEYfTyaeYykKiL/BwYJ4euerzh3MXH9Qw4Zvm7vzKaBnX1/5dLQo2ybJPTmlBSf2rDmmVvCYqmVvtSqc4cMzWR/AtkwfB4dBSpgvEIaIlh7PVXgIrJO5Zkoqj4Qr+o9HShpdMBqcMx/9+zXtqOSB+cia9rY41N96rvt2H81xpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iGzsl/Kw; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709799848; c=relaxed/simple;
+	bh=LnK4aSk3ub7negQrRfXck0P2JGqhuT6jGuyWGnitA9g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=VRMgyDv1m0pyY9yc09pd/xZN2tJuSNbrMPeU4JT/+D+AQy/tX8QSsPyP6/bmgXo9rwlY2hqFg11UiK24td5bYlO0OHoUhyT2uik9XxEreqZ8O2Mh2KFB3XHtq7uvTeQ6NbwrXyOig9TA0wDWZx11WZlclP/Pk5j96F1AWcKcG/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uw/pCp4j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iGzsl/Kw"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a45bb2a9c20so74812466b.0
-        for <linux-sound@vger.kernel.org>; Wed, 06 Mar 2024 23:59:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709798374; x=1710403174; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=msrSbyxYEEwE738VHVTMGn05YADYFgEKkR5Gx/mGJkQ=;
-        b=iGzsl/KwRfxZLamxH4mYUEhwPA3gPGvJTu2r+n4dFIV+vNh36kyADzTU7bsElvJMK4
-         VyzYTU5RZmschd7x3HXNixQzXTF1WCd/YDnQepFAcw0x/C2r5N+TGwI4PM0U4I3F6jxD
-         1qGyRgz2/1ouIj3qXCexl/q7LB+89u4rCr4Kldd0mnJCxI8wpEr27qH+VoJRVk29+q9G
-         OiG3V/jzK9EIkHWb5JXSHnRSyLQ5cxUAidbDSGley7p8LXppb5JJoWnznXA0uBubXIba
-         KII2lUWcJMDUtpBbllFyprAn10wpj34DZKF81iActtWu1CUxkMwpJA6xa/5aWzqx1nie
-         WNdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709798374; x=1710403174;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=msrSbyxYEEwE738VHVTMGn05YADYFgEKkR5Gx/mGJkQ=;
-        b=w84rlfSGogCrnt5BOkOA1B9zZSgy/Dd9sdp0t0cTVmoGSi5SI35vem797KqvfL48Ln
-         gzZOzss2albcWdJxlAo9HpmClwViE0iH4g5eATPFDHwAKsYovftJqpO4ShZJOyviEhCo
-         z6/usGVenKEpJEErC8zjw6z/QIBGK1+iWRAg2xAlF9L4liHgnP2jHS8Mkh9fWn2TF9bY
-         3zXjrj2YMtYh7jnC42UYJLRaYQ6u5RsUGoa1xeUCTeNiYbYu9PN+8RKzEXblu9By2IaR
-         qqcqhSlOJxNTSZ7n/M2DEydkuvvdj4he509NVO38q+MdpZKeSZj6fj00KPdUVR8aLvhp
-         mhcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVeEODQpgQ+Jl+RJmzsExAFeD8HBswBEpZ3QdiV/Mpbm3bgpuWKn4n7E5JG/IZ/TrYwoVI2ez+Rdysm/3NANUKZ9LTdmqjn7DA191g=
-X-Gm-Message-State: AOJu0Yy+zd85xNbbAVkYIRzxzw2l7rIHuBJX5gcR4/9is/j4xbOLX+Hs
-	rHX/P+Zk3nKn0DKSQ6Zgmq5jEGRhmxY4ZwQk5cJjlWrgAYX3cYVKWZaP6e1bByA=
-X-Google-Smtp-Source: AGHT+IHmAuMmL8+JDhVaYmwIN0yPYo2zccHsl0AqXOJzba3Y+FejC+8+XdTU05lulAfln4DYxlD4ww==
-X-Received: by 2002:a17:906:a3cf:b0:a45:16af:bda1 with SMTP id ca15-20020a170906a3cf00b00a4516afbda1mr8310947ejb.12.1709798373914;
-        Wed, 06 Mar 2024 23:59:33 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id j22-20020a170906475600b00a449d6184dasm6663851ejs.6.2024.03.06.23.59.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 23:59:33 -0800 (PST)
-Message-ID: <0b92700a-cf79-4f1c-986a-d18fe0151bb8@linaro.org>
-Date: Thu, 7 Mar 2024 08:59:31 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uw/pCp4j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 646A7C433C7;
+	Thu,  7 Mar 2024 08:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709799847;
+	bh=LnK4aSk3ub7negQrRfXck0P2JGqhuT6jGuyWGnitA9g=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=Uw/pCp4jYBGeE0xpSmi2Z0Fkc9gXd6atN/8AAx59H4+budzx8oOGV8HVEqFPT8R9A
+	 ep40uufbzSg6Dw77coIK+iyyO0FVDgrBZPOY2iv9LtRTAdmvTHVOqiZtKie6wZmd9y
+	 nzhxt8vi0z3wCKBtSH31IPylAfx8DWuX+MWt/FSzg4+VgIl+XdSoSylPNyC6mWJpzQ
+	 M7g8DAkjdA80fv6CwxRXUQQA5xhSJ/YEmX0lz7alUo4DWPmmg6RxzSLRU96nlf+0tx
+	 +iBY3wLKA600P0ieDLuBKjTxVtZ7FdisFiy+rjLHBGz/UG+YxjlcADJznA4YfGvpKu
+	 hRpQOvk2wkuKw==
+Message-ID: <3509c637-23f0-4e7e-847f-bf3f4f3bf8a0@kernel.org>
+Date: Thu, 7 Mar 2024 09:23:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,22 +35,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: ASoC: Add PDM controller for the
- StarFive JH8100 SoC
+Subject: Re: [PATCH v2 4/4] ASoC: fsl: imx-rpmsg: Update to correct DT node
 Content-Language: en-US
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: Walker Chen <walker.chen@starfivetech.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20240307033708.139535-1-xingyu.wu@starfivetech.com>
- <20240307033708.139535-2-xingyu.wu@starfivetech.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+To: Chancel Liu <chancel.liu@nxp.com>, shengjiu.wang@gmail.com,
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ linux-imx@nxp.com, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240307074437.1472593-1-chancel.liu@nxp.com>
+ <20240307074437.1472593-5-chancel.liu@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -86,161 +57,80 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240307033708.139535-2-xingyu.wu@starfivetech.com>
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240307074437.1472593-5-chancel.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 07/03/2024 04:37, Xingyu Wu wrote:
-> Add bindings for the PDM controller for the StarFive JH8100 SoC.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching.
-
+On 07/03/2024 08:44, Chancel Liu wrote:
+> Platform device for card to probe is registered in imx-audio-rpmsg.
+> According to this change DT node of ASoC CPU DAI device is updated.
 > 
-> Signed-off-by: Xingyu Wu <xingyu.wu@starfivetech.com>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 > ---
->  .../bindings/sound/starfive,jh8100-pdm.yaml   | 84 +++++++++++++++++++
->  1 file changed, 84 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml
+>  sound/soc/fsl/imx-rpmsg.c | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml b/Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml
-> new file mode 100644
-> index 000000000000..a91b47d39ad3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/starfive,jh8100-pdm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive JH8100 PDM controller
-> +
-> +description: |
-> +  The Pulse Density Modulation (PDM) controller is a digital PDM out
-> +  microphone interface controller and decoder that supports both
-> +  mono/stereo PDM format, and an Inter-IC Sound (I2S) transmitter that
-> +  outputs standard stereo audio data to another device. The I2S transmitter
-> +  can be configured to operate either a master or a slave (default mode).
-> +  The PDM controller includes two PDM modules, each PDM module can drive
-> +  one bitstream sampling clock and two bitstream coming data with sampling
-> +  clock rising and falling edge.
-> +
-> +maintainers:
-> +  - Xingyu Wu <xingyu.wu@starfivetech.com>
-> +  - Walker Chen <walker.chen@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh8100-pdm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: DMIC output clock
-> +      - description: Main ICG clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: dmic
-> +      - const: icg
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  starfive,syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to System Register Controller sys_syscon_ne node.
-> +          - description: PDM source enabled control offset of SYS_SYSCON_NE register.
-> +          - description: PDM source enabled control mask
-> +    description:
-> +      The phandle to System Register Controller syscon node and the PDM source
-> +      from I2S enabled control offset and mask of SYS_SYSCON_NE register.
-> +
-> +  starfive,pdm-modulex:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    description:
-> +      The module x will be using in PDM controller. Default use module 0.
+> diff --git a/sound/soc/fsl/imx-rpmsg.c b/sound/soc/fsl/imx-rpmsg.c
+> index e5bd63dab10c..2686125b3043 100644
+> --- a/sound/soc/fsl/imx-rpmsg.c
+> +++ b/sound/soc/fsl/imx-rpmsg.c
+> @@ -108,10 +108,9 @@ static int imx_rpmsg_late_probe(struct snd_soc_card *card)
+>  static int imx_rpmsg_probe(struct platform_device *pdev)
+>  {
+>  	struct snd_soc_dai_link_component *dlc;
+> -	struct device *dev = pdev->dev.parent;
+>  	/* rpmsg_pdev is the platform device for the rpmsg node that probed us */
+> -	struct platform_device *rpmsg_pdev = to_platform_device(dev);
+> -	struct device_node *np = rpmsg_pdev->dev.of_node;
+> +	struct platform_device *rpmsg_pdev = NULL;
+> +	struct device_node *np = NULL;
+>  	struct of_phandle_args args;
+>  	const char *platform_name;
+>  	struct imx_rpmsg *data;
+> @@ -127,6 +126,22 @@ static int imx_rpmsg_probe(struct platform_device *pdev)
+>  		goto fail;
+>  	}
+>  
+> +	if (!strcmp(pdev->dev.platform_data, "rpmsg-micfil-channel"))
+> +		np = of_find_node_by_name(NULL, "rpmsg_micfil");
+> +	else
+> +		np = of_find_node_by_name(NULL, "rpmsg_audio");
 
-This is an index of the block instance? If so, then it's not allowed.
-Otherwise I don't understand the description.
-
-Anyway, don't repeat constraints in free form text. default: 0, if this
-is going to stay.
-
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - starfive,syscon
-> +
-> +unevaluatedProperties: false
-
-This is wrong without $ref, which points you to missing $ref to dai-common.
-
-> +
-> +examples:
-> +  - |
-> +    pdm@12250000 {
-> +      compatible = "starfive,jh8100-pdm";
-> +      reg = <0x12250000 0x1000>;
-> +      clocks = <&syscrg_ne 142>,
-> +               <&syscrg_ne 171>;
-> +      clock-names = "dmic", "icg";
-> +      resets = <&syscrg_ne 44>;
-> +      starfive,syscon = <&sys_syscon_ne 0xC 0xFF>;
-
-Lowercase hex only.
-
-> +      #sound-dai-cells = <0>;
-> +    };
+Why do you create ABI on node names? Where is it documented? Why can't
+you use phandles?
 
 Best regards,
 Krzysztof
