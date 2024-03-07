@@ -1,56 +1,57 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F4F125DC;
-	Thu,  7 Mar 2024 10:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA951272A4;
+	Thu,  7 Mar 2024 11:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709808925; cv=none; b=SgJARsV6mEUXLRopfdUl3SfKXF/y9b9MqmWNELHWFx0mwhEO5crKyfvkKOvPrHtrB0nPWJoEFjYQ2fH/QsVECN+psC1ciuz2yTqUmi0JEhqtVY7h6WRuhIRNt0ia9c544LeliAdySgnFFNEvpHlWi0yIF2B+FwntkXpdZJTeGLU=
+	t=1709809357; cv=none; b=VVQa5kf5SkQMLyFa5etwSfragxFq/FBEFytGbhN18fV4cSq+EuJMiFutKevg6Jw44BFlzGFtKV2oTYl8PPNhNLO7GIybf47jInSM+/Te5Cd2VvkV5me64dX3XNst4qHK3/nts8frazQNkU3hAh9h2a72xrb4OW9rHIlrcua1AJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709808925; c=relaxed/simple;
-	bh=c2pfRKegllUwre/PwJmQYxRG47uR59AYi5sXveb40mc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cOxxlpSC2tv3IBaYMGKhze2Y1qvAZjAx/sAwDLAjw0FeYP/8gliGDMh1HxJj97bFOyhwVr/R9lSLvFl15Rq6QCZfcoNgQWSlDDHnzOyZRu9nQxvyO1mBgP6W3/GMYQN+BcyAs/tUbiacC68EKiAaBsPXKAkvGB2aIyhz37sPLn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gbcrLtK5; arc=none smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1709809357; c=relaxed/simple;
+	bh=ZYEX9P7puv9lEbiZYmALqk/NyV6qZh9JWibH9V3LTwA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P919mud1FJIdKrpR6Orwtj5HY81NFZiOwJb688OsIWrJk6KH1mXfkkn0n4Re1CfxRTFnIfQIfdUYxMYWuIzToyVQqDzXs5DQKqeyo1aqdcH/JhvSwsaL+mEUgSHKMUz5BQKc4L+JZ0YPA1iBRTmyA7NrhiqsPN/fJvXsKBivCqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=eWSfgExZ; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gbcrLtK5"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4276U3Nt025228;
-	Thu, 7 Mar 2024 04:55:18 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="eWSfgExZ"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4275LZKl032521;
+	Thu, 7 Mar 2024 05:02:30 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=+
-	6itJG20D909fOrrsxMInYc0fNTy/L9GVmmhKAtl9s4=; b=gbcrLtK5xt02wAlmo
-	9AJp5VNInXpqgucouatAeBtSL7q/7F8dju+ct7ywGXL02bNnEKiTJk7JKJ2ZBXfW
-	YXynqBiyzC6enVLXLkZvCyCho/USqAHGHGSWNbDhl6M2WqKWGWfayuN2IMYlvU9U
-	IdU3fRas1XnpE4t2RbKm4hVblk3M2S6uyvnpOJvnPzaBlpUEY5gPMPZKb1GVg1TN
-	N70wUuePaFvQuGM2SW/Pr1Hy1JsBya5KlfRLX7hNVA0iHI19Ak7wwl9F9gXzSRck
-	1kbRAthDZEin81TTf6QL/eJaC0L0WFjzMgp+crmpDOBSNbDAUS0cdgJpkv2LFzEm
-	x+9wg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wpn931gtr-1
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=b
+	iYfRWZpVTnCEFD0PEPQzFspaGqHimN3uGEojMKIy20=; b=eWSfgExZfQ/JugLPN
+	UCaAjj8FjGYA07m/nCy5K9mntomHaPrEskfHaMZMWwBuEZbOavF7fySJ4kwTtdJI
+	VNR0sF+vJdFhkqR9FykB2Y48KTZmG8jSEck13/9Ju+VbUxV105PHEkIojyelAv4S
+	l1vbGAhJTsSuBu/YUCGCM32ZneuAJQBokUUvaolQqGjKxVPzyrUh81sS7POH2alT
+	QGxg+RzSsPZPtGh5JXVBr6QMFNtLe5edOS8or6tdkAIp8MpBMdfZQV3xLLYNvcwP
+	XpcWxaVhqQEXkcAqPGQZjCS85ojo4vGU8Z7KnZNxMlv3U9bvRzviW4WXRvNsC9rX
+	/akSA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wm2d2nxe5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 04:55:18 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 07 Mar 2024 05:02:29 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 7 Mar 2024
- 10:55:16 +0000
+ 11:02:27 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.4 via Frontend Transport; Thu, 7 Mar 2024 10:55:16 +0000
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Thu, 7 Mar 2024 11:02:27 +0000
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B63BF82024B;
-	Thu,  7 Mar 2024 10:55:16 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8FD7082024B;
+	Thu,  7 Mar 2024 11:02:27 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         "Richard
  Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH] firmware: cirrus: cs_dsp: Remove non-existent member from kerneldoc
-Date: Thu, 7 Mar 2024 10:55:16 +0000
-Message-ID: <20240307105516.40250-1-rf@opensource.cirrus.com>
+Subject: [PATCH] ASoC: wm_adsp: Fix missing mutex_lock in wm_adsp_write_ctl()
+Date: Thu, 7 Mar 2024 11:02:27 +0000
+Message-ID: <20240307110227.41421-1-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,30 +61,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 6035ksXV5TBZiMrwZ5Q4wTBH6YWgkHpN
-X-Proofpoint-ORIG-GUID: 6035ksXV5TBZiMrwZ5Q4wTBH6YWgkHpN
+X-Proofpoint-ORIG-GUID: n_kVY7arxyRYDYcPdj0LkKnHbJ-ufm7T
+X-Proofpoint-GUID: n_kVY7arxyRYDYcPdj0LkKnHbJ-ufm7T
 X-Proofpoint-Spam-Reason: safe
 
-The kerneldoc for struct cs_dsp refers to a fw_file_name member but
-there's no such member.
+wm_adsp_write_ctl() must hold the pwr_lock mutex when calling
+cs_dsp_get_ctl().
+
+This was previously partially fixed by commit 781118bc2fc1
+("ASoC: wm_adsp: Fix missing locking in wm_adsp_[read|write]_ctl()")
+but this only put locking around the call to cs_dsp_coeff_write_ctrl(),
+missing the call to cs_dsp_get_ctl().
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 781118bc2fc1 ("ASoC: wm_adsp: Fix missing locking in wm_adsp_[read|write]_ctl()")
 ---
- include/linux/firmware/cirrus/cs_dsp.h | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/codecs/wm_adsp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 29cd11d5a3cf..23384a54d575 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -123,7 +123,6 @@ struct cs_dsp_client_ops;
-  * @sysclk_mask:	Mask of frequency bits within sysclk register (ADSP1 only)
-  * @sysclk_shift:	Shift of frequency bits within sysclk register (ADSP1 only)
-  * @alg_regions:	List of currently loaded algorithm regions
-- * @fw_file_name:	Filename of the current firmware
-  * @fw_name:		Name of the current firmware
-  * @fw_id:		ID of the current firmware, obtained from the wmfw
-  * @fw_id_version:	Version of the firmware, obtained from the wmfw
+diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
+index e451c009f2d9..7d5c096e06cd 100644
+--- a/sound/soc/codecs/wm_adsp.c
++++ b/sound/soc/codecs/wm_adsp.c
+@@ -683,11 +683,12 @@ static void wm_adsp_control_remove(struct cs_dsp_coeff_ctl *cs_ctl)
+ int wm_adsp_write_ctl(struct wm_adsp *dsp, const char *name, int type,
+ 		      unsigned int alg, void *buf, size_t len)
+ {
+-	struct cs_dsp_coeff_ctl *cs_ctl = cs_dsp_get_ctl(&dsp->cs_dsp, name, type, alg);
++	struct cs_dsp_coeff_ctl *cs_ctl;
+ 	struct wm_coeff_ctl *ctl;
+ 	int ret;
+ 
+ 	mutex_lock(&dsp->cs_dsp.pwr_lock);
++	cs_ctl = cs_dsp_get_ctl(&dsp->cs_dsp, name, type, alg);
+ 	ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, buf, len);
+ 	mutex_unlock(&dsp->cs_dsp.pwr_lock);
+ 
 -- 
 2.30.2
 
