@@ -1,61 +1,80 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64C786AC5;
-	Thu,  7 Mar 2024 11:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606FC128378;
+	Thu,  7 Mar 2024 11:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709809945; cv=none; b=Sl7kI4MWbA3yZf6vOcxbyT1H9G041+mO4MA6jsyI83YD9jVT3bz0nc7OEVw2F5pdVWEBh/Bu3y3ciFCuiwFctRFWrj3oSopUYfnHIdQLQ7qxPBTLyf7bSph35eKoAsZ867hvTRw78AF+9l5nAvKLigWSHhJvzy/RYTGSEJjvRHo=
+	t=1709811897; cv=none; b=k2ShcX6rJSN9UrcE7OQ4H2s7/T+2Y//mHqUuNGKSLVf1EqT4SZ3gSdHs+0L6OPRWvHxxG6fPy8wsplLNcXFwCD+19tPxsAYpLXv7TPTYh7yVKIU0wDRebI18z8dZzFVJAeNz7od98Q4oIuY4r1UmtJisQc2F2UCSDjjPWCKmu2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709809945; c=relaxed/simple;
-	bh=3rWMw8R+NsnkFdzxFdqowjz8po9SnkV8ho17BYS6idY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ek6xh2Mzizz8/yIhrxmZX3S8ey7/QoM1JBFIPLmiV92exwlcg+dHXvB0M7TkMdtxyxlTps0lAFgDk4fsHDEryxJkGTITbCdu8LYOXOEdlOKKyVgqdMJO7OALw3k3Aav8WL3PsDMcU8Z/v7Cxyn+PSmAO4NreGHXgl5q1KXtOumI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=lo2RdtTu; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1709811897; c=relaxed/simple;
+	bh=YLXRACV/8yso/Q2DcFPV1h8H715+Ey2K/IagRmZU0Zs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MBJEYauO1FcQcJnND1FqVcB6rhflzXqrRdiMQHAhyEMQ6i08yOzy1TBZokivADtkUF9pWYVATjv07F0KBzTKUWFQtlyv13ObtaJxThAjtRq+8h+0luo/TDspM2eC8PMbTqTlPKnSoiHiLbYGCKESpVpiT3RzTJhmNN1MdoSNFfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BfGGW/8o; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lo2RdtTu"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4278beip008605;
-	Thu, 7 Mar 2024 05:12:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=FiXXVGoZ6B/v7js0WzJUH1DmMPvwXnS9aA/7lbdCnac=; b=
-	lo2RdtTuwP162GMPOVP0PSg+54uZL6Pvkos432aC/zc7120PMo/errG2vt0U87QS
-	5EDKIzGT6nhKxFrlEIXYjEFjYpKU6KZQ89VrIsMSSBU4hJIveAzwu2EFmhQqP49c
-	hNqaP5iCs7sHjcFG8kEq5mgZD3ghgrG7hOLr6p+IzIGa5+Nm4+KHGA4ILS6xil+C
-	sVWTL+XdpeEPfbTNiRX70nV0Qv50OcV4zaGanRNFkMIEhtOUBN3m7oPsSLBhImsA
-	bOw0AZgfGJD75/gRZO7WQ7jhuR5kWo+eiddBQRF6R3k3dybzlZyl03HHxLb5T7N8
-	vT50rBgXBk8LeZ0Sk1/bZw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wpn931ha8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 05:12:18 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 7 Mar 2024
- 11:12:17 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Thu, 7 Mar 2024 11:12:17 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D746982024D;
-	Thu,  7 Mar 2024 11:12:16 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH 2/2] ALSA: hda: hda_component: Include sound/hda_codec.h
-Date: Thu, 7 Mar 2024 11:12:16 +0000
-Message-ID: <20240307111216.45053-2-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240307111216.45053-1-rf@opensource.cirrus.com>
-References: <20240307111216.45053-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BfGGW/8o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709811893;
+	bh=YLXRACV/8yso/Q2DcFPV1h8H715+Ey2K/IagRmZU0Zs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BfGGW/8oM75PltNZ2OlrFzEmE/VU5QVzvNNOpMKGnf1iZCr0ypLRvCqQfshe+yQ2P
+	 CH4IgHnLTNShm4DiEnEFNR6gSxdmRLFXWNMY7pAxMmDbVgYVPOwdnMlRZQd4OS3y5Z
+	 Z6F+V6y21n8TERe7hXK2W2q3V/XwsSly2pI480Xa0A0Vp9rZgzuhmEEg1x0SHFkB10
+	 oN7sl4/rbcDlAhnmUtzBLqaptIKyQjclAZLWp66yFcEeOrz8+YeyBL2VKOV0KSg7ki
+	 8GKRxVJEF3HxqU8nn0zCFTz3vlKrJZ64jB7SMgpfEVtHzTeiNlvNpMH1ltHdcGN8U4
+	 2VFZmIUsV6fVw==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0887F37820BB;
+	Thu,  7 Mar 2024 11:44:50 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: broonie@kernel.org
+Cc: wenst@chromium.org,
+	lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	trevor.wu@mediatek.com,
+	maso.huang@mediatek.com,
+	xiazhengqiao@huaqin.corp-partner.google.com,
+	arnd@arndb.de,
+	kuninori.morimoto.gx@renesas.com,
+	shraash@google.com,
+	amergnat@baylibre.com,
+	nicolas.ferre@microchip.com,
+	u.kleine-koenig@pengutronix.de,
+	dianders@chromium.org,
+	frank.li@vivo.com,
+	allen-kh.cheng@mediatek.com,
+	eugen.hristev@collabora.com,
+	claudiu.beznea@tuxon.dev,
+	jarkko.nikula@bitmer.com,
+	jiaxin.yu@mediatek.com,
+	alpernebiyasak@gmail.com,
+	ckeepax@opensource.cirrus.com,
+	zhourui@huaqin.corp-partner.google.com,
+	nfraprado@collabora.com,
+	alsa-devel@alsa-project.org,
+	shane.chien@mediatek.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 00/22] ASoC: Cleanup MediaTek soundcard machine drivers
+Date: Thu,  7 Mar 2024 12:44:23 +0100
+Message-ID: <20240307114445.196981-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,35 +82,109 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: MYpp-lhqeIV3bEWwZXEjznVqAX-5uGuo
-X-Proofpoint-ORIG-GUID: MYpp-lhqeIV3bEWwZXEjznVqAX-5uGuo
-X-Proofpoint-Spam-Reason: safe
 
-hda_component.h uses hda_codec_dev from sound/hda_codec.h.
-Include sound/hda_codec.h instead of assuming that it has already
-been included by the parent .c file.
+Changes in v2:
+ - Bindings: Changed link-name/codec/clk-provider to remove `items`
+   and leave just the enum
+ - Moved .*-dai-link pattern additionalProperties after `type: object`
+ - Added ref to sound-card-common.yaml
+ - Fixed dai-link-xxx -> xxx-dai-link typo in example comment
 
-This isn't causing any problems with current code, so no need to
-backport to older kernels.
+This series performs a cleanup of most of the MediaTek AFE drivers and
+soundcard machine drivers, reducing code duplication and setting a base
+to be consistent with their devicetree bindings, as many of those are
+using different properties and nodes for no good reason.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/pci/hda/hda_component.h | 1 +
- 1 file changed, 1 insertion(+)
+Summarizing:
+ - Commonizes functions and ops where possible
+ - Adds a common probe mechanism, increasing maintainability of
+   soundcard drivers for older MediaTek SoCs
+ - Migrates all drivers to support the new bindings
+   - Obviously retains compatibility with old device trees
+ - Reduces machine-specific parameters hardcoding in drivers
+   - Can now set machine-specific params in device tree
+   - Uses the `audio-routing` and `dai-link` nodes like some
+     other non-MediaTek SoC sound drivers
+ - Imposes consistency between MediaTek ASoC machine soundcard
+   drivers bindings
+ - Reduces code size and greatly reduces the amount of code that
+   will be required for newer drivers (retaining compatibility with
+   the old bindings was costly in terms of code size, otherwise
+   this series would've removed ~1000 more lines, or something
+   along that line).
 
-diff --git a/sound/pci/hda/hda_component.h b/sound/pci/hda/hda_component.h
-index a0fcc723483d..c80a66691b5d 100644
---- a/sound/pci/hda/hda_component.h
-+++ b/sound/pci/hda/hda_component.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/component.h>
-+#include <sound/hda_codec.h>
- 
- #define HDA_MAX_COMPONENTS	4
- #define HDA_MAX_NAME_SIZE	50
+This series was (manually) tested on MT8173, MT8192, MT8195 and MT8186
+Chromebooks.
+
+
+AngeloGioacchino Del Regno (22):
+  ASoC: mediatek: mt8192-afe-pcm: Convert to devm_pm_runtime_enable()
+  ASoC: mediatek: mt8192-afe-pcm: Simplify with dev_err_probe()
+  ASoC: mediatek: Commonize ADDA rate transform functions and enums
+  ASoC: mediatek: Assign dummy when codec not specified for a DAI link
+  ASoC: mediatek: Add common machine soundcard driver probe mechanism
+  ASoC: mediatek: common: Constify struct mtk_sof_priv
+  ASoC: mediatek: mt8188: Migrate to mtk_soundcard_common_probe
+  ASoC: mediatek: mt8195: Migrate to mtk_soundcard_common_probe
+  ASoC: mediatek: mt8192: Migrate to mtk_soundcard_common_probe
+  ASoC: mediatek: mt8186: Migrate to mtk_soundcard_common_probe
+  ASoC: mediatek: Add common snd_soc_ops .startup() callback
+  ASoC: mediatek: mt8195: Migrate to the common mtk_soundcard_startup
+  ASoC: mediatek: mt8192: Migrate to the common mtk_soundcard_startup
+  ASoC: mediatek: mt8186-rt1019: Migrate to the common
+    mtk_soundcard_startup
+  ASoC: mediatek: Add common mtk_afe_component_probe callback
+  ASoC: mediatek: Use common mtk_afe_pcm_platform with common probe cb
+  ASoC: mediatek: mt8186: Unify mt8186-mt6366 machine drivers
+  ASoC: dt-bindings: mt8195: Document audio-routing and dai-link subnode
+  ASoC: dt-bindings: mt8192: Document audio-routing and dai-link subnode
+  ASoC: dt-bindings: mt8186: Document audio-routing and dai-link subnode
+  arm64: dts: mediatek: mt8195-cherry: Specify sound DAI links and
+    routing
+  arm64: dts: mediatek: mt8186-corsola: Specify sound DAI links and
+    routing
+
+ .../sound/mt8186-mt6366-da7219-max98357.yaml  |  112 +-
+ .../sound/mt8186-mt6366-rt1019-rt5682s.yaml   |  102 +-
+ .../sound/mt8192-mt6359-rt1015-rt5682.yaml    |  124 +-
+ .../bindings/sound/mt8195-mt6359.yaml         |  115 ++
+ .../boot/dts/mediatek/mt8186-corsola.dtsi     |   42 +-
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |   45 +
+ sound/soc/mediatek/Kconfig                    |   24 +-
+ sound/soc/mediatek/common/Makefile            |    2 +
+ .../mediatek/common/mtk-afe-platform-driver.c |   18 +
+ .../soc/mediatek/common/mtk-dai-adda-common.c |   70 +
+ .../soc/mediatek/common/mtk-dai-adda-common.h |   45 +
+ .../soc/mediatek/common/mtk-dsp-sof-common.c  |   15 +-
+ .../soc/mediatek/common/mtk-dsp-sof-common.h  |    1 -
+ sound/soc/mediatek/common/mtk-soc-card.h      |    7 +-
+ .../mediatek/common/mtk-soundcard-driver.c    |  205 ++-
+ .../mediatek/common/mtk-soundcard-driver.h    |   42 +
+ sound/soc/mediatek/mt6797/mt6797-afe-pcm.c    |   14 +-
+ sound/soc/mediatek/mt6797/mt6797-dai-adda.c   |   85 +-
+ sound/soc/mediatek/mt7986/mt7986-afe-pcm.c    |   14 +-
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c    |   14 +-
+ sound/soc/mediatek/mt8183/mt8183-dai-adda.c   |   90 +-
+ sound/soc/mediatek/mt8186/Makefile            |    3 +-
+ sound/soc/mediatek/mt8186/mt8186-afe-pcm.c    |   19 +-
+ sound/soc/mediatek/mt8186/mt8186-dai-adda.c   |   94 +-
+ .../mt8186/mt8186-mt6366-da7219-max98357.c    | 1189 -----------------
+ ...t6366-rt1019-rt5682s.c => mt8186-mt6366.c} |  578 ++++----
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c    |   21 +-
+ sound/soc/mediatek/mt8188/mt8188-dai-adda.c   |   89 +-
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c     |  203 +--
+ sound/soc/mediatek/mt8192/mt8192-afe-pcm.c    |  114 +-
+ sound/soc/mediatek/mt8192/mt8192-dai-adda.c   |   90 +-
+ .../mt8192/mt8192-mt6359-rt1015-rt5682.c      |  301 ++---
+ sound/soc/mediatek/mt8195/mt8195-afe-pcm.c    |   21 +-
+ sound/soc/mediatek/mt8195/mt8195-dai-adda.c   |   90 +-
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c     |  487 +++----
+ 35 files changed, 1714 insertions(+), 2771 deletions(-)
+ create mode 100644 sound/soc/mediatek/common/mtk-dai-adda-common.c
+ create mode 100644 sound/soc/mediatek/common/mtk-dai-adda-common.h
+ delete mode 100644 sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c
+ rename sound/soc/mediatek/mt8186/{mt8186-mt6366-rt1019-rt5682s.c => mt8186-mt6366.c} (72%)
+
 -- 
-2.30.2
+2.44.0
 
