@@ -1,88 +1,132 @@
-Received: from out203-205-251-82.mail.qq.com (out203-205-251-82.mail.qq.com [203.205.251.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C3D54BCB;
-	Fri,  8 Mar 2024 10:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0070535CA
+	for <linux-sound@vger.kernel.org>; Fri,  8 Mar 2024 11:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709892463; cv=none; b=uKUoKeHQRZWdwjbY13nMAEzBhECQAlSDOUOt9U0IH9MvuUx/Q+kkeWwMsn4bBLpBeVDPOIi/ulVN4V38OH8xro5So30ocnuu1InZ1gVRhTAfjYbmCAELfT8/Q0T5gYpIJmSxOpMa3kl8oyBc+FgNByCkNDXZ1b5UrkrSPt21qss=
+	t=1709899201; cv=none; b=m3JFr3TBTjLJIod0bKwUPWnGo27gXOTLy3dj639Yb0LSUmISaz31ljPVslyTZjxfN/A46KMv1Sz36yCyA78IzJDn4P1uCjq+zJAXKnWCHpbFanFMw0ynhYvNt69z2af18qY4PjFV1hdViLxj4EM/kG52h8rPBDtdAQlPVpK+9v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709892463; c=relaxed/simple;
-	bh=KfBwrEHy4rD3TgkZxTpu4NpzB46Nn8Bk5rUIqZCiyt8=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=bkvmcNG6VKSCmVxkckZpnwuNz3z9kxCGSTpZUlNdhK7VXI01wYdIY33HLYavrfNIS8feOGcZowUXr2vxtMpi7issJpN8a4JC5d5wjIv2RkZWcY7QC9G5hDh46+IwZvizzvWeb8gfsyKuwr6vPZvIdXvC9TEaRJPYV97Kay68dEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=CF4sfV40; arc=none smtp.client-ip=203.205.251.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1709899201; c=relaxed/simple;
+	bh=IvuVaaiHnfQWveNLqU1485ZEz4gl2gi+73FvOoV8OD4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BrVK9v3R7mP/naC+Pz5AjH8jPJlT/SV5fH8U/mgu2OgyxUMNMBclwxdK2aWA5MWFsloGGky1Bqu92ZTY4dvYTLorymbUEDi0GhS7oedEgA3UFBCZvB9LW5wlqAeSyAvBVrd3tXuOr/bR6CVyF4A2DSWT+QVWyO1iLEk3gWCi3ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=upUjxbLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O/Z+4VAs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=upUjxbLI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O/Z+4VAs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="CF4sfV40"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1709892447; bh=DGeQxNXVCp+OKO+A96VQZ6ctFIKvpPbY6cUQov38t7Y=;
-	h=From:To:Cc:Subject:Date;
-	b=CF4sfV40Sty2PWDUMJTIl0AMofSbHMk6SUCFVijNT5xHHhOM14oZJjudvKvqKmx2X
-	 W3dcWD3VrJiR4yqeJgoVXWIbuv6DzI2ukPcoYlgw0ndYinSJG9mZyoQAjL/Dg5Lr7n
-	 KzE6St9hMz3ItxU9irGkukP3fDjK4mxTouA4+YPs=
-Received: from ubuntu.vimicro.com ([121.225.188.5])
-	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
-	id 1D886CA2; Fri, 08 Mar 2024 18:07:24 +0800
-X-QQ-mid: xmsmtpt1709892444taknccbx0
-Message-ID: <tencent_002E3C6C67928986481018466EEDF8D05706@qq.com>
-X-QQ-XMAILINFO: MyirvGjpKb1jAqqZEB0xTnlxtJ/DAMLnSoztftAha+rM1A6lJXL7t826AF4tNB
-	 +Agpdv8mAFFZnSzJjGwk8DVSg5QnLBlPYJCfidEBP1k99ZzwI3CxUsnmgcbBdVmKcmPWxCksZudw
-	 XIk5n0CpyYlvDymR6sfWpTiHyBzomgmI9i1iisOyreQcWsmX4EEJlODLJsS3MH51xwOJhR9eWbEL
-	 S4T8lx6Zb24/bqgoimCE0oPq5lmF4ngZR8/K9WkAz41I6iUHxJEBg2vNHWiz+WcFKoAkdJsi2Jx9
-	 T1s4g1ORxGa6jsQxRa8kWLZTi+KdE1BK7aZko+OPztVJ/cy+/riZ+hxgylBQCaSd+2w9TLE887i2
-	 nsGakszuGHi0MlbXwHYaepRfR9gb2T4ycipDaLEC1SqsTpgm6MFNdLxTGny/vkw/6AHMDebpk/Ku
-	 6QUVVZDBHbKSgNgNvWj896JNPxF19keG9Uy6Wa4rBepgyVsZNmJB+l68nUvEixtyU20SA7J70nB2
-	 hTsav1TzSLE7LfsxzAlY9lhA+IUlMD1Rk0Tii10i27pyuKmZhje+EZtiPq2+b+OBFC48Qn6pTAdL
-	 BI7ZBxOWKVjEdi0IJq/J4GQ+wsPAaPIJAyFWbCIGHPXtcgnzQLRdn7ZEphPm6YPfVv6SjNQ8phKN
-	 S1vHE6tnjbBX1hoqLrRrg/k8iUziBFvl3aM2eg8CZcWzo8ziuRnmFq5PMBEreOLyy1fZbbhqWbLp
-	 DXJt4iDT/WdM2N1S+2Od1F8KbUraDi0FQLypN1MsvZJgm9wHLWVPTvUNVS5QRNVhg0etC9OiVBOc
-	 +fDohIRmN/dEtalAM8MK9VxFWJoxYDm+dj/F1HRDisw7swVlofPb6qlC4JJVa6rik8qmVzC9OgRJ
-	 Ju0kqyHusnKCjIPePtwtMnOQr4iHNeYj3ceizG8mtUi5/Sxrp8J8a+r3UDoBoA7yTP4+StRW4PK2
-	 5kEuMrdZt8/OnWZLaMzI7sot8G/tXrYIu2/sLQBm6HnlnmRtkxm2aNeDHcVbuEqDV9d8RXwWnrO1
-	 Rzq5+0mynfPNncMcPU
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From: xuhanwu <2433926602@qq.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="upUjxbLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O/Z+4VAs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="upUjxbLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O/Z+4VAs"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 57C2E37A20;
+	Fri,  8 Mar 2024 08:16:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709885778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Q97NHEuky/hA3Mq2WfYgCyNueahZcmFUxiRzul7/tM=;
+	b=upUjxbLIbNJKUIh9BwKGl40GzBtiB/SOuCFe6LESePrzMXNyK3maNSi1MsmF0HHNxOgcgX
+	H/Pd9SQdWSRNvj1nyP41yXHawJYfjq2T+VMF4Ll7kWMj8UpG9toWCBt+n+EcxiiBpkhvuR
+	MnDLfu9aJO1/Bh6uuIcWWYsOEL1yTyA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709885778;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Q97NHEuky/hA3Mq2WfYgCyNueahZcmFUxiRzul7/tM=;
+	b=O/Z+4VAsn6sIK0qi2a8nh6csTFQdPhE+o+u5TbpV/Fx9CyomDfAmhRsxYt/VgaQFSjk29x
+	JNItTGG6rSO44VAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709885778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Q97NHEuky/hA3Mq2WfYgCyNueahZcmFUxiRzul7/tM=;
+	b=upUjxbLIbNJKUIh9BwKGl40GzBtiB/SOuCFe6LESePrzMXNyK3maNSi1MsmF0HHNxOgcgX
+	H/Pd9SQdWSRNvj1nyP41yXHawJYfjq2T+VMF4Ll7kWMj8UpG9toWCBt+n+EcxiiBpkhvuR
+	MnDLfu9aJO1/Bh6uuIcWWYsOEL1yTyA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709885778;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Q97NHEuky/hA3Mq2WfYgCyNueahZcmFUxiRzul7/tM=;
+	b=O/Z+4VAsn6sIK0qi2a8nh6csTFQdPhE+o+u5TbpV/Fx9CyomDfAmhRsxYt/VgaQFSjk29x
+	JNItTGG6rSO44VAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1791A13310;
+	Fri,  8 Mar 2024 08:16:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BkwyBFLJ6mXiTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 08 Mar 2024 08:16:18 +0000
+Date: Fri, 08 Mar 2024 09:16:17 +0100
+Message-ID: <877cidxhny.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Athaariq Ardhiansyah <foss@athaariq.my.id>
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	xu.hanwu@zxelec.com
-Subject: [PATCH] ASoC: soc-pcm: add the judgment of unsupported commands for the function soc_pcm_trigger
-Date: Fri,  8 Mar 2024 18:07:06 +0800
-X-OQ-MSGID: <20240308100706.20984-1-2433926602@qq.com>
-X-Mailer: git-send-email 2.17.1
+	kailang@realtek.com.tw,
+	pshou@realtek.com.tw,
+	tiwai@suse.de,
+	jwoithe@just42.net
+Subject: Re: [PATCH 1/1] ALSA: hda/realtek: fix ALC285 issues on HP Envy x360 laptops
+In-Reply-To: <20240308005912.456727-1-foss@athaariq.my.id>
+References: <20240308005912.456727-1-foss@athaariq.my.id>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 
-From: xuhanwu <xu.hanwu@zxelec.com>
+On Fri, 08 Mar 2024 01:59:12 +0100,
+Athaariq Ardhiansyah wrote:
+> 
+> @@ -9862,6 +9923,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x880d, "HP EliteBook 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x8811, "HP Spectre x360 15-eb1xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+>  	SND_PCI_QUIRK(0x103c, 0x8812, "HP Spectre x360 15-eb1xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+> +	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
+>  	SND_PCI_QUIRK(0x103c, 0x881d, "HP 250 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>  	SND_PCI_QUIRK(0x103c, 0x8846, "HP EliteBook 850 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x8847, "HP EliteBook x360 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
 
-Function soc_pcm_trigger, if the parameter cmd does not support the need to return an error (-EINVAL).
+The table is sorted in PCI SSID order.  Could you put the entry at the
+right position?
 
-Signed-off-by: xuhanwu <xu.hanwu@zxelec.com>
----
- sound/soc/soc-pcm.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 77ee103b7..eba737729 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -1173,6 +1173,9 @@ static int soc_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 			if (r < 0)
- 				break;
- 		}
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
- 
- 	/*
--- 
-2.17.1
+thanks,
 
+Takashi
