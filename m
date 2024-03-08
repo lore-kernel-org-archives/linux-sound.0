@@ -1,166 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF602381C1;
-	Fri,  8 Mar 2024 14:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6586A4085D;
+	Fri,  8 Mar 2024 14:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709907318; cv=none; b=P6wsLRkj4tk8NGeJPcBl0OHuYRbU69aOLW4lvSNReec9Ar4UCBUR/NcHc81ZQ2g27xIcK1vkGaJ0T1cltg0VTZ9V3fHpEqSpWdi53cUxk56mskfAMJFqW8h86CF4HBd4JQz4xCyKunfrO3v25gXMaU19yu7hrW9y5SByITx3aHg=
+	t=1709907671; cv=none; b=TUHtYI3KYC7j8tIOkV/QDqmPObdU9Jgf54B4zzHnCFFIYwn+PY5qV1SaCjmf+9aNQVuROKua4PZXC5Y+zc6cnWfstRYp8ZvLQc+OoycdpUxIWr8NJUpxbuh2IG7RhF6fvQFb6K343IXXIm0IaQtnZkQWowxB317u3da5ggcatr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709907318; c=relaxed/simple;
-	bh=nnJa2eJuW3gIneCAKpj1Ao6WHMfBOJS01uvb6VF/qzs=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=OCw7emKKprpaz+TuzVpFV15v+iw+zkWqKJPeFBFnh7RVJWRTOmxzzK99nMBXtAdLHKJHwTHWonYSNYLNKSnskGDSGHjjBVyuSgVSZ5GszkCEjCDYQCToACS89MY9OM8URMUmkJQEMuqRMiIx6b3KLKqBS3wcElVhNATvVTyMV2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdeeycQr; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709907671; c=relaxed/simple;
+	bh=nfuiBwqmn6mGxy6Z9xV6RXzPpifQCqpWBpsuAYw3zeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d2YEEX21hUOy7XT0y78xZZslgHtBama8Dt0Wxn3ECDkDGFUVpSn+Y3M8gczMpAb058eY6BHBXwNYM7+MSOuAPkdx2aThbJYn99GtUnqU2rsiaKLIrlZX7/aPoGbZEDINcS0k05rbTHmKc5oCTsmkW8oIGjjcDB1U7vKO4evZJ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDDIxB+9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdeeycQr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709907317; x=1741443317;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=nnJa2eJuW3gIneCAKpj1Ao6WHMfBOJS01uvb6VF/qzs=;
-  b=gdeeycQrQO5MrNoDxjXzqqJZi1e80RmiTZq8CTVgkqBHnaEp4pD7o6/c
-   o80RXF0ZKEhbAsJHH4dqckSGhZUjxqQ5ATxH5kNffTmcgQANTdvDYfEIL
-   GnBR87Rz1sp19loxURRo5XTDSLfUWsyWjpzYekyQvViaC6EGLrMqpCUhh
-   YAO0PGx7u5SDWn6tumPgECL3CzfP2Vbv66Bkv18GtWoaqHMBOhZFJNsbw
-   H/7BaEfj+NA0UpmxPWjQUStWHdu51nEPMbNA1TLtraSoYceIHFLej4wZh
-   E9/jiWJVHptUjKSXnDPtN5AVSRx639GIBjAenV9RupVPBXPFhz+6olK0p
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="15765639"
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="15765639"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 06:15:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,109,1708416000"; 
-   d="scan'208";a="41450832"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.186])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 06:15:11 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 8 Mar 2024 16:15:08 +0200 (EET)
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-cc: broonie@kernel.org, tiwai@suse.com, Hans de Goede <hdegoede@redhat.com>, 
-    lenb@kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-    linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
-    LKML <linux-kernel@vger.kernel.org>, patches@opensource.cirrus.com, 
-    platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org, 
-    Simon Trimmer <simont@opensource.cirrus.com>
-Subject: Re: [PATCH 3/3] platform/x86: serial-multi-instantiate: Add support
- for CS35L54 and CS35L57
-In-Reply-To: <20240308135900.603192-4-rf@opensource.cirrus.com>
-Message-ID: <ea3c3230-cdf1-c41f-47fd-8b47667f7c5c@linux.intel.com>
-References: <20240308135900.603192-1-rf@opensource.cirrus.com> <20240308135900.603192-4-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDDIxB+9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E46C433F1;
+	Fri,  8 Mar 2024 14:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709907670;
+	bh=nfuiBwqmn6mGxy6Z9xV6RXzPpifQCqpWBpsuAYw3zeE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IDDIxB+9X+b4mxMok5F4KDupMwgZkuQxRJAFJ53R/PYyH0dgxjD2W5nksl6YJRWkj
+	 0S6e0DJHJnS3Yyq4IL5WhEvTUqVmKFIZn7W8B4zdvBnN63PQH8b4T4PuXMI8sLdkZb
+	 ZVIj5dj2qy9uWtLt/BeEyKYArKVs8YcNTA+zC4GDqds2/gpxNhOuHkG5ekK+B+1Gx3
+	 ypAZ0NdaNgHpEUat33JAN2L7MlEa543TNGuSoeYzQbaYoYeBSE3ZlO1O+SovIx0yQd
+	 xKoWFEk379v5hsoijMAoUa6TWovnuNiZHcAbrhDa0MSPG+uFTkwI7fL0KMynFGXvnS
+	 8x2cQSpRYJQEw==
+Date: Fri, 8 Mar 2024 14:21:05 +0000
+From: Mark Brown <broonie@kernel.org>
+To: xuhanwu <2433926602@qq.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xu.hanwu@zxelec.com
+Subject: Re: [PATCH] ASoC: soc-pcm: add the judgment of unsupported commands
+ for the function soc_pcm_trigger
+Message-ID: <c78e86fe-5d0f-49dc-82f8-0e106618800a@sirena.org.uk>
+References: <tencent_002E3C6C67928986481018466EEDF8D05706@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2054902426-1709907308=:9765"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CO6rGfmqIi+VPQbx"
+Content-Disposition: inline
+In-Reply-To: <tencent_002E3C6C67928986481018466EEDF8D05706@qq.com>
+X-Cookie: Isn't this my STOP?!
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-2054902426-1709907308=:9765
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+--CO6rGfmqIi+VPQbx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 8 Mar 2024, Richard Fitzgerald wrote:
+On Fri, Mar 08, 2024 at 06:07:06PM +0800, xuhanwu wrote:
 
-> From: Simon Trimmer <simont@opensource.cirrus.com>
->=20
-> Add the ACPI HIDs and smi_node descriptions for the CS35L54 and CS35L57
-> Boosted Smart Amplifiers.
->=20
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> ---
-> This patch doesn't have any build dependencies on the ASOC/HDA code so
-> can be take separately.
+> Function soc_pcm_trigger, if the parameter cmd does not support the need to return an error (-EINVAL).
 
-Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
 
---=20
- i.
+> @@ -1173,6 +1173,9 @@ static int soc_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+>  			if (r < 0)
+>  				break;
+>  		}
+> +		break;
+> +	default:
+> +		return -EINVAL;
+>  	}
 
-> ---
->  drivers/acpi/scan.c                           |  2 ++
->  .../platform/x86/serial-multi-instantiate.c   | 28 +++++++++++++++++++
->  2 files changed, 30 insertions(+)
->=20
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index e6ed1ba91e5c..091c501bed1f 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -1725,7 +1725,9 @@ static bool acpi_device_enumeration_by_parent(struc=
-t acpi_device *device)
->  =09=09{"BSG1160", },
->  =09=09{"BSG2150", },
->  =09=09{"CSC3551", },
-> +=09=09{"CSC3554", },
->  =09=09{"CSC3556", },
-> +=09=09{"CSC3557", },
->  =09=09{"INT33FE", },
->  =09=09{"INT3515", },
->  =09=09/* Non-conforming _HID for Cirrus Logic already released */
-> diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/pl=
-atform/x86/serial-multi-instantiate.c
-> index 8158e3cf5d6d..97b9c6392230 100644
-> --- a/drivers/platform/x86/serial-multi-instantiate.c
-> +++ b/drivers/platform/x86/serial-multi-instantiate.c
-> @@ -329,6 +329,19 @@ static const struct smi_node cs35l41_hda =3D {
->  =09.bus_type =3D SMI_AUTO_DETECT,
->  };
-> =20
-> +static const struct smi_node cs35l54_hda =3D {
-> +=09.instances =3D {
-> +=09=09{ "cs35l54-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l54-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l54-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l54-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09/* a 5th entry is an alias address, not a real device */
-> +=09=09{ "cs35l54-hda_dummy_dev" },
-> +=09=09{}
-> +=09},
-> +=09.bus_type =3D SMI_AUTO_DETECT,
-> +};
-> +
->  static const struct smi_node cs35l56_hda =3D {
->  =09.instances =3D {
->  =09=09{ "cs35l56-hda", IRQ_RESOURCE_AUTO, 0 },
-> @@ -342,6 +355,19 @@ static const struct smi_node cs35l56_hda =3D {
->  =09.bus_type =3D SMI_AUTO_DETECT,
->  };
-> =20
-> +static const struct smi_node cs35l57_hda =3D {
-> +=09.instances =3D {
-> +=09=09{ "cs35l57-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l57-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l57-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09{ "cs35l57-hda", IRQ_RESOURCE_AUTO, 0 },
-> +=09=09/* a 5th entry is an alias address, not a real device */
-> +=09=09{ "cs35l57-hda_dummy_dev" },
-> +=09=09{}
-> +=09},
-> +=09.bus_type =3D SMI_AUTO_DETECT,
-> +};
-> +
->  /*
->   * Note new device-ids must also be added to ignore_serial_bus_ids in
->   * drivers/acpi/scan.c: acpi_device_enumeration_by_parent().
-> @@ -350,7 +376,9 @@ static const struct acpi_device_id smi_acpi_ids[] =3D=
- {
->  =09{ "BSG1160", (unsigned long)&bsg1160_data },
->  =09{ "BSG2150", (unsigned long)&bsg2150_data },
->  =09{ "CSC3551", (unsigned long)&cs35l41_hda },
-> +=09{ "CSC3554", (unsigned long)&cs35l54_hda },
->  =09{ "CSC3556", (unsigned long)&cs35l56_hda },
-> +=09{ "CSC3557", (unsigned long)&cs35l57_hda },
->  =09{ "INT3515", (unsigned long)&int3515_data },
->  =09/* Non-conforming _HID for Cirrus Logic already released */
->  =09{ "CLSA0100", (unsigned long)&cs35l41_hda },
->=20
---8323328-2054902426-1709907308=:9765--
+As can be seen from inspection of the immediately preceeding handling
+of start, we're deliberately ignoring half the values in each switch.
+
+--CO6rGfmqIi+VPQbx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXrHtAACgkQJNaLcl1U
+h9Buggf9Er3lQ+YUmjX3FWMP79cpAvBoNUrZrY7dLRxkY1es5FVy6xz0w5lUTkzh
+4NYhi8DlZs4WzV8Ojl8NaclX45m7OIGEZ9+vUQuD1Ut5kUJPyhYW4VU77ilKccP/
+G9S41rpKOIA4Yqr6Nk7xRPL8sVxGEIBBkl61Bdayqj0EQLJ1lQ6GQvfZEzRiAii1
+WpFR2RvWuGYKVVf8+7jTLRoFlWlzcZMuW57mO3l1R4ubKc/QWEh58sHN6YGt/pal
+MKBwCocq36mCnOYGPaELkRe9EOmFw1dMZgrbSNFR4lkZZ9PL7aaIr/D2KpVnauj8
+n9NAS/ReBkoqer8CfaIQcO8WFxZEjQ==
+=Uh3/
+-----END PGP SIGNATURE-----
+
+--CO6rGfmqIi+VPQbx--
