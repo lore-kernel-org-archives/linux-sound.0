@@ -1,60 +1,59 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E0B5F56A
-	for <linux-sound@vger.kernel.org>; Fri,  8 Mar 2024 21:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BB95E08E
+	for <linux-sound@vger.kernel.org>; Fri,  8 Mar 2024 21:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709932489; cv=none; b=trulNYiqUFlHMHuZCIG+fFE7U1Vvhj2EGyNwuW1ELOctDA0BsLPy05i/4n19EBcy3srVhITP3iTLNq9/YlWDZOu2s0NKSZ6a0h1FCMzx31KnggsiBNp5N69xwm4HUhbTeeGK9QaCcG0MIR8HkXnvlN+yV8fS8uD4CnTbfxr8+4Q=
+	t=1709932552; cv=none; b=c+GTtTpgS7FukQ5eSZu/OIjl6SeXSn31mx91DmSH5ubQ5Lcz7UqTiJJGCFjNWtaIb5iRiAwQNFL18flqGy+CV1x8LPmLrR26JGZztcfQEw3TMAopJg020iumWeN7MYX2evFEC8zCt3lhYHqeqNdJWtZ9l1vLoinB7vTQ+q+aFds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709932489; c=relaxed/simple;
-	bh=kZ0TLCrmRMeOPl+rFTQmOhsHhGWo4r/ZIkktfWOLEjo=;
+	s=arc-20240116; t=1709932552; c=relaxed/simple;
+	bh=TeTFL8k++CGdOhlfe3T5SrVkXeRyBgWcTBx+E/fu2wc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G6k5E3rplEp/tnMogL5hV775bhhNvLiw37OxVrxrPDxXUrUT4cVCLMCFZvmapTPV1Z/ajUlTmJraBeKzgko5zG1UEGP6CxnzWqpQhnFglxvG//HLVJGsmNtHRbLjatCMTGC1tUVpbFRfSHIjEBG22fWFN9cYGMibGPF/gI5wnOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NqYJCVue; arc=none smtp.client-ip=209.85.208.49
+	 In-Reply-To:Content-Type; b=j4H7u4dzZEuc7QX3Hq+h+FODVoVlqyGAA2DvFiqgJ5+nL7HcFxadC9puqs3EXk190gJPoOvVhjz/Z2/3U0COsdexCBH5jZIaF/VbitHXt+ZSSGk/cNA7mER1DJUsoRY5kPe3HqAqUw+B8MOZzL/s7J45rWPnZdddfi2Tmzted70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SNUu59Rd; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NqYJCVue"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-563c595f968so3293594a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 08 Mar 2024 13:14:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SNUu59Rd"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5683247fd0fso1235641a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 08 Mar 2024 13:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709932485; x=1710537285; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxnqYln9ADsMyuNnl4vUkzdEy37mmTDR/E/NohQDLWs=;
-        b=NqYJCVueMll6B0Wu4iSxRO9wf/Cig57Km+Nj3YbslSjwZtma0bbaHJlEd+WIoIfJlo
-         ifuJNbdtcMpmx7igcVmddxdRAWH9OQGivLTW0GxxegIn7Ko9hxnH/1Ky9l0O7cLlKN/i
-         wvATWophmU8KGi14xtJcckq+pe+KCuXQGujd1LzkQ0TXehlBJEq0NWr2MPWzvMoHelZN
-         yYqyWu3OeJJXpCfaeSgKBFT2QBUYQZHW+heNqWC8O7YvGR4d6FUMJ1YjXtwMUzxvXKxC
-         bSFtPVtVNqlIqsVMX63tA7ctnR3+G9LoOMQZjP7XfoQtabcveOt9YILjQHnuR7EOUByi
-         yr6A==
+        d=linaro.org; s=google; t=1709932549; x=1710537349; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N4W64r4suULTbZbM2VCCq3KkVsIO3TU/J/8FcbisdEU=;
+        b=SNUu59RdOaatj1yMAXyGuK9fNoLmX8pKIcg9EhO98ujGfxbnnZ5QvVvr7GkWJNIf4M
+         MlF6loPr860Mf/X9dF3q9B5UrDDk5cPCmmTlv+PlDq0VPRKxQWEq0DPVvqgmkbR/3NWS
+         ep5pKpVyYb7VOelajs/AiLe9xD4q8NJrUT+iRnAuUUFo00cnUj6YhYdE9ayUNCm6H49j
+         vncrx9C4UYNze3Osx/JFtov9y05r4aA9w/LecZs16tLCEc+LG4NzbU709ADn0ttk4xHu
+         1u1GRVsauYO/97BdOG20YRchjTupulavpWH8wAa8CaaQdsCUeHYaZ7q02rywfc0Nh0wO
+         XIqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709932485; x=1710537285;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UxnqYln9ADsMyuNnl4vUkzdEy37mmTDR/E/NohQDLWs=;
-        b=bM0mSX9N8WGx2IkfbJabJKeMSzaOOAwojxnhYF0ws/7cafi+MZhY9ktgM6xg46BHIX
-         LGGPmFAPa+hwOYngRtBb6Xx2yArsuj105eSSgQWvIAqftvK1mfJ5jF0D19NNYO29kY3D
-         MlMIBWe0U8bGrTrWTij3xJ394lFwSgg2GOzHkUljrVFJGjUaG4ZFuTUq0fRCtBzmTd/Y
-         a8m8D87lS6sMQDgTFHHc3TxIJAW78uizlA7F7IwGQ9fVIhDtftvkzotef9lzfYFwAuE/
-         vfmT7v8qqfyaq9jAP6vI2vTH8mmx1jI3Jq4Vk0m9tqw96M6YtCv0eKMS1/9+opvIMc0l
-         oFgg==
-X-Forwarded-Encrypted: i=1; AJvYcCWEICHPp2NHprJ6IBHdq5ehdpGBU+xpCNDB36ypaDFn4BOwzBPmW9Sb0dRwRT7464C1gsIhg5MTkgjhOiIeRXhugoaGoqzRf1VMyiw=
-X-Gm-Message-State: AOJu0YyL6DQCkUIBRjgl7ngafzqiqnLb9cgqz3wa2LtGxWtE0HtwsKLn
-	wSsJQ3LB4iLOWi4qDCFqn1L3N5WjKFErvmTDqx/GtawzLtMYyrp2tS2zXX33Bqs=
-X-Google-Smtp-Source: AGHT+IGSol2enaRnCP+rzGjQ3u/px1I+gOLFCynayO390+ONgARrx94dn8jBxEIC9XrgQ5sZ9LmJGQ==
-X-Received: by 2002:a50:ab5a:0:b0:568:376e:ea2a with SMTP id t26-20020a50ab5a000000b00568376eea2amr267584edc.40.1709932484429;
-        Fri, 08 Mar 2024 13:14:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709932549; x=1710537349;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N4W64r4suULTbZbM2VCCq3KkVsIO3TU/J/8FcbisdEU=;
+        b=xVKf6HM9ZN5c33zL6YibU1r6sipMuURe96Wsx+J8xDfjg27pwdvzyZUYAl5l0viXTU
+         nY/G2+4U2lVc+gk8FdJfXdh94rV9v3BdgQ15ZubpnH3hqwkMcyyWT1NLEIJwSTM8nwLk
+         4xqcHcVB5x/38PTnsr6JXMIogQ/16yKKeEXahcn3nymf4H+SZMgTBylA5EgQmEIJbkOB
+         Pl12yMEB/MQTLHNL0ZpbUnaY8ntw9a2w3Mx5Nz5BVdVWOhlRRlyzJtNo6ImH0ISwJnJG
+         9+/6ewzsgb5kRLPDe/HWOXoxuoH0MHqjN4VaE8+wkJjZEvVySl2htNzuFpAp8HTydXhT
+         V/GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEQf3Fo/JgWW5qff0Lu1mMy6Jp45rX75DR3JsEvz/zDavR6Y5L1hFlzfC8h93zx24vKk27mjchu/O9Qpq26V+a1p57iQy2YdmrQ18=
+X-Gm-Message-State: AOJu0Yzu3OAPRMpa7ltAT/05+wNJvma1KMc4La4QJ6BFiWsp4VVrWUu4
+	Xlofe0BsTYh3fhEEcTBAeHQm3KHeh356l0hV+5iHxwq8gpjgkGi+AbFueUbF2oI=
+X-Google-Smtp-Source: AGHT+IFX6YErZc4X0azI//lUIKC3QskpMA6Zrb31XzAcPoKGq1xhjZhrKiVd7ScDBHlZMmLWlzS4cw==
+X-Received: by 2002:a50:cd03:0:b0:568:335d:a95d with SMTP id z3-20020a50cd03000000b00568335da95dmr309733edi.18.1709932549023;
+        Fri, 08 Mar 2024 13:15:49 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id fd23-20020a056402389700b005683b3a471asm61050edb.72.2024.03.08.13.14.42
+        by smtp.gmail.com with ESMTPSA id fd23-20020a056402389700b005683b3a471asm61050edb.72.2024.03.08.13.15.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Mar 2024 13:14:43 -0800 (PST)
-Message-ID: <e0f689e9-db30-468d-8ffb-c809edbf7e7c@linaro.org>
-Date: Fri, 8 Mar 2024 22:14:40 +0100
+        Fri, 08 Mar 2024 13:15:48 -0800 (PST)
+Message-ID: <2749c144-4606-49c5-a9e1-3b9547e5978a@linaro.org>
+Date: Fri, 8 Mar 2024 22:15:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,7 +63,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 2/4] ASoC: dt-bindings: fsl,imx-asrc: update max
  interrupt numbers
-To: Rob Herring <robh@kernel.org>, Frank Li <Frank.Li@nxp.com>
+Content-Language: en-US
+To: Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
@@ -77,7 +77,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 References: <20240308-asrc_8qxp-v6-0-e08f6d030e09@nxp.com>
  <20240308-asrc_8qxp-v6-2-e08f6d030e09@nxp.com>
  <20240308181103.GA855753-robh@kernel.org>
-Content-Language: en-US
+ <ZetgiaZ1+wt5lCkB@lizhi-Precision-Tower-5810>
+ <Zeti5mFUUh9UedAx@lizhi-Precision-Tower-5810>
+ <ZetmXE4YooDYJgSM@lizhi-Precision-Tower-5810>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -123,33 +125,106 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240308181103.GA855753-robh@kernel.org>
+In-Reply-To: <ZetmXE4YooDYJgSM@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/03/2024 19:11, Rob Herring wrote:
->>  
->>    interrupts:
->> -    maxItems: 1
->> +    minItems: 1
->> +    maxItems: 2
->> +    items:
->> +      - description: Combined or receive interrupt
->> +      - description: Transmit interrupt
+On 08/03/2024 20:26, Frank Li wrote:
+> On Fri, Mar 08, 2024 at 02:11:34PM -0500, Frank Li wrote:
+>> On Fri, Mar 08, 2024 at 02:01:29PM -0500, Frank Li wrote:
+>>> On Fri, Mar 08, 2024 at 12:11:03PM -0600, Rob Herring wrote:
+>>>> On Fri, Mar 08, 2024 at 10:30:51AM -0500, Frank Li wrote:
+>>>>> fsl,imx8qxp-spdif and fsl,imx8qm-spdif have 2 interrupts. Other platforms
+>>>>> have 1 interrupt.
+>>>>>
+>>>>> Increase max interrupt number to 2 and add restriction for platforms except
+>>>>> i.MX8QXP and i.MX8QM.
+>>>>>
+>>>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>>>>> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+>>>>> ---
+>>>>>  .../devicetree/bindings/sound/fsl,spdif.yaml        | 21 ++++++++++++++++++++-
+>>>>>  1 file changed, 20 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
+>>>>> index 56f8c0c8afdea..a242f68f99f18 100644
+>>>>> --- a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
+>>>>> @@ -31,7 +31,11 @@ properties:
+>>>>>      maxItems: 1
+>>>>>  
+>>>>>    interrupts:
+>>>>> -    maxItems: 1
+>>>>> +    minItems: 1
+>>>>> +    maxItems: 2
+>>>>> +    items:
+>>>>> +      - description: Combined or receive interrupt
+>>>>> +      - description: Transmit interrupt
+>>>>
+>>>> Test your patches please because this will have warnings. Or, you can 
+>>>> put in *exactly* what I provided because this is not it.
+>>>>
+>>>> If you continue to just toss crap at us at the rate you are, the DT 
+>>>> maintainers will either just start ignoring your patches or require some 
+>>>> trusted review by another NXP colleague first (offhand, not sure who 
+>>>> that would be which is part of the problem).
+>>>
+>>> Sorry, I run wrong command to check another dtb file. So have not catch
+>>> this problem.
+>>
+>> Strange when I run second time, spdif warning disappeared.
+>>
+>> make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  CHECK_DTBS=y freescale/imx8dxl-evk.dtb
+>>   DTC_CHK arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: /: fixedregulator@101: 'anyOf' conditional failed, one must be fixed:
+>> 	'reg' is a required property
+>> 	'ranges' is a required property
+>> 	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: bus@34000000: clock-cm40-ipg: {'compatible': ['fixed-clock'], '#clock-cells': [[0]], 'clock-frequency': [[132000000]], 'clock-output-names': ['cm40_ipg_clk'], 'phandle': [[15]]} should not be valid under {'type': 'object'}
+>> 	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: intmux@37400000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+>> 	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,intmux.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@591f0000: 'clocks' is a required property
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@591f0000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@599f0000: 'clocks' is a required property
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@599f0000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: serial@5a070000: Unevaluated properties are not allowed ('resets' was unexpected)
+>> 	from schema $id: http://devicetree.org/schemas/serial/fsl-lpuart.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5a1f0000: 'clocks' is a required property
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5a1f0000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5a9f0000: 'clocks' is a required property
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5a9f0000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,edma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: bus@5b000000: clock-conn-bch: {'compatible': ['fixed-clock'], '#clock-cells': [[0]], 'clock-frequency': [[400000000]], 'clock-output-names': ['conn_bch_clk']} should not be valid under {'type': 'object'}
+>> 	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-apbh@5b810000: $nodename:0: 'dma-apbh@5b810000' does not match '^dma-controller(@.*)?$'
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
+>> /home/lizhi/source/linux-upstream-dts/arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-apbh@5b810000: 'clock-names', 'interrupt-names', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+>> 	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
+>>
 > 
-> Test your patches please because this will have warnings. Or, you can 
-> put in *exactly* what I provided because this is not it.
+> I figured out what's happen. CHECK_DTB will check binding doc except
+> example part. So I skip run dt_binding_check when I have not touch example
+> part in dt-binding doc.
 > 
-> If you continue to just toss crap at us at the rate you are, the DT 
-> maintainers will either just start ignoring your patches or require some 
+> The problem is
+> step 1. run make CHECK_DTB=y freescale/imx8ulp-evk.dtb
+>         Then I get some sai error, I found use wrong 8ulp-evk.dtb
+> 
+> step 2. run make CHECK_DTBS=y freescale/imx8dxl-evk.dtb
+>         Then tools not check dt_binding file again even there are warning.
+> 
+> Do you have option let CHECK_DTBS to force check binding doc every time.
 
-It happened already, at least for me, by default I move them to the end
-of the patch/review queue.
-
-> trusted review by another NXP colleague first (offhand, not sure who 
-> that would be which is part of the problem).
-
-
+CHECK_DTB is for checking dtbs, not binding. You must run
+dt_bindings_check, as asked by every damn document and guide.
 
 Best regards,
 Krzysztof
