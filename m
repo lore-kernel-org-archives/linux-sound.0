@@ -1,96 +1,118 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7091EF1E
-	for <linux-sound@vger.kernel.org>; Fri,  8 Mar 2024 20:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2609217745;
+	Fri,  8 Mar 2024 21:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709931027; cv=none; b=fE1IIanwJj+gUg4WeSaLvaGftDSb8vFDDOVp+HiVC8N+S7/MgsdnZO42C4G3cOCvUKc9awpI5rMi5a0dsurGSwTKPGm+gs6Il4gKdyoGdn3w60V38Gzt0VE1afxHWzQSiEqf4VeKKG8dR6j/5rJpjozflR2LpA3YJ4eG3xQHJjY=
+	t=1709932393; cv=none; b=ucZMAmUSuohPw/60GZudTBM5MpRtNtD4A7xRCdwsBc9JOA5o+MdzNn4695nygOBFc/LbH9AL1t4QL5+SJzZFaZXYoorKk6ITqJ5QvDXrNTEyeT2Mmd+Pu/eeEfoe/VViT2mzUKVMGes0Cn8uYxEbiyZ2xPvUw7bd7GMq7WdjNaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709931027; c=relaxed/simple;
-	bh=/6aj7VcRtFUpDLXzKCgtmCPxav1dB5NR+5i8og9hTsA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=lNHjB6DVNnSfygxYPE5mFbgJmE4TuT2BxVGC5lW+enTiLWuWPkW9yxVUy/FSkC9Bt5SwlGx1KZFhBZVHqwA+oZ0/t5AnKEQuE26VgSwLUlewlcW3M82dG8yQn1zuKWUem66qSaUQQrPzWgBQ/NLxzJ9zFgomSmOjMuqMS4nk9Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HF4EmkLk; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709932393; c=relaxed/simple;
+	bh=Cl/9Sp/NINGtvBYYiSrwF+QPSh3NMkkxwESwsbvSXak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BVfymHcQmo9IXXtnIQyAxDZbwlTY5RClnsRBNixmOYNSgojQG63N2eU/Hcn6MMI7V1ky4/LCWSAFl9qtePs+lxLutoZvYFLVr0pwUa9ufUJlR7nX/qwVg1jqHvSRdvIvkpVkk9WVDOxvHWXBGQKroP2Q9hEvbBd+KzbG5JWcqxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W3k/WFpg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HF4EmkLk"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5132181d54bso3478630e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 08 Mar 2024 12:50:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709931024; x=1710535824; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J2cbf+OSAcCVNssarDAWNCy4JoQ138LzooY8lnkOCco=;
-        b=HF4EmkLkDIr4wKb7wmbjiYehJfvel9kjP96+6917BnpsBaAb3DUHRSOvHYMyRjolF8
-         AJycD+2cHwrgwQ5QIexRky5pVo1fsX+JffMWAz7xgYuF/GC6WP3qGslHv0c0dvHmLmZ6
-         QDwBYvqD8P8bW/+tUScwf8+amE0w8wuNMH3YCopPn1jFmx7NI/miCReO80I7iFGgl718
-         hImcy/B3UVmpH9wicKasuPHTciW/+e3Ndy3czLG2tyfn86VyFNFt7jU2NLh4BhneFLg6
-         gxQZHaTDhiGByzR4w1ffxpOJaG5+GMlGBNT3WOq3dTQs4kK7oXMh+JdMxOhKFHrUSpIj
-         4fFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709931024; x=1710535824;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J2cbf+OSAcCVNssarDAWNCy4JoQ138LzooY8lnkOCco=;
-        b=KbyC/1fOfN1g8SisXT7tMltkEZiAIBCgiyj8NfRp522DLxgebv8MuMKhT28Fo4RTKX
-         pU6Oyq/FFEZwLRQfCDZmX/g/p0ZutLLLfkbr0EMMR/MvT09D3QuFmEn2l3jvgxgMS9u4
-         J1IXLKWYuLHOzzeD4nav2udxKG5Dhq3ctEF2eTJlgx6r6oAsH22Si5gb3mfnNxxB6Gga
-         0ayW4o6Ttg1YqqUm/yjILlxmT8nO4frqfeQRDuQjssGCmNIZUne+3Z/x1uTJkoC5d2eR
-         UdSUJ0qs0segqrq+upG5094lkI12zjeiEJJl+DP+egX+e0ZwsDCFaBontNoVp8qPTJ38
-         +Dtg==
-X-Gm-Message-State: AOJu0YynfYFjm7YAbPRNSibjJxcDSrRyytRnM4SzPIJkn/LK9eMd7qAc
-	grY/lFLgczFhCWEvEqBxGj105a6XrY9wX0A3fzjqVmQfnxmE7rdZKQNdZ8IalVjvqRDvPOF1aqW
-	QUmiozzCZx8jxNQ89fgvtXLD92n87Hcf0kADpXg==
-X-Google-Smtp-Source: AGHT+IFro09L2Upl88adqPGAPJkLjG5+XgaojdM36Zpn7mgzBxECeXZNqH/VvChEtPVRvl+xJ2HK19d7oEJSWLmfV/Y=
-X-Received: by 2002:ac2:4241:0:b0:513:4658:3aae with SMTP id
- m1-20020ac24241000000b0051346583aaemr115052lfl.8.1709931024036; Fri, 08 Mar
- 2024 12:50:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W3k/WFpg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B78C433C7;
+	Fri,  8 Mar 2024 21:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709932392;
+	bh=Cl/9Sp/NINGtvBYYiSrwF+QPSh3NMkkxwESwsbvSXak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W3k/WFpg5OC+DFozK8WwA9u1toMKDEt7mS4BOsCZBggUwISOFws3qP2Zo3W4At62A
+	 M01+5T1KwTrBO2Wbv6ps0axa0muQKblUlWQimJzXUKeDGi29jp2GhnA+o2mlZsvvN4
+	 9xDY3a9v11lws7MbmYh88KwtZbkAMC5AEuMEYpolYE303RIg3Nx/UDdRdHaclwfJ1Q
+	 kajW1QH04Tt/NfBcG0qC7uWe05M+/M7PV5vyK7rdHl8N4L/4XPclPpRpEixKMfDinD
+	 vpLHwROOhhG8fYdOTkR38MZMhanKrDQjtE8LFVsuqTsoibumL46BbxDu068MiATv/O
+	 3o4uX44uvKFIQ==
+Date: Fri, 8 Mar 2024 15:13:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Conor Dooley <conor@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v6 3/4] ASoC: dt-bindings: fsl-sai: allow only one
+ dma-names
+Message-ID: <20240308211310.GA1291632-robh@kernel.org>
+References: <20240308-asrc_8qxp-v6-0-e08f6d030e09@nxp.com>
+ <20240308-asrc_8qxp-v6-3-e08f6d030e09@nxp.com>
+ <20240308-croon-goofball-797d091e981a@spud>
+ <ZethoKhsUZ08HHL0@lizhi-Precision-Tower-5810>
+ <ZetzOu+SqmLQfsOs@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: M Cooley <m.cooley.198@gmail.com>
-Date: Fri, 8 Mar 2024 15:50:12 -0500
-Message-ID: <CALijGzn7GL_tmdGZXy-tTGCgpT4bwLW2+QU1QBseMRQwjPhbtw@mail.gmail.com>
-Subject: ASoC: amd: yc: Fix non-functional mic on ASUS M7600RE
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZetzOu+SqmLQfsOs@lizhi-Precision-Tower-5810>
 
-Hi, I apologize if this is not the correct format for this request,
-but I am unsure what the protocol is for people unaffiliated with
-kernel development teams submitting [PATCH]'s vs bugs / feature
-requests. I am happy to resubmit as a properly formatted patch request
-if it's preferred.
+On Fri, Mar 08, 2024 at 03:21:14PM -0500, Frank Li wrote:
+> On Fri, Mar 08, 2024 at 02:06:08PM -0500, Frank Li wrote:
+> > On Fri, Mar 08, 2024 at 04:58:16PM +0000, Conor Dooley wrote:
+> > > On Fri, Mar 08, 2024 at 10:30:52AM -0500, Frank Li wrote:
+> > > > Some sai only connect one direction dma (rx/tx) in SOC. For example:
+> > > > imx8qxp sai5 only connect tx dma channel. So allow only one "rx" or "tx"
+> > > > for dma-names.
+> > > > 
+> > > > Remove description under dmas because no user use index to get dma channel.
+> > > > All user use 'dma-names' to get correct dma channel. dma-names already in
+> > > > 'required' list.
+> > > > 
+> > > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > 
+> > > Please drop my ack from this, this isn't the patch I acked originally
+> > > and we were having a conversation as recently as yesterday on v4 about
+> > > this patch because Rob didn't like this approach. His suggestion is
+> > > better than the one I gave on v4 that you have used here.
+> 
+> I paste your comments here
+> 
+> "What I suggested is different, it is more permissive than what you have
+> or what Rob suggested. Your original one allows
+> "rx", "tx" OR "rx" OR "tx"
+> Rob's allows the same but with a nicer syntax. What that stm binding I
+> mentioned allows is
+> "rx", "tx" OR "tx", "rx" OR "rx" OR "tx"
+> "
+> 
+> Actually:
+> 
+> "rx", "tx" OR "tx", "rx" OR "rx" OR "tx" is exactly what we want.
 
-The ASUS M7600RE (Vivobook Pro 16X OLED) needs a quirk entry for the
-internal microphone to function. I have made sure the BIOS is UTD
-prior to testing, and with the newest kernel, the issue is still
-present until this fix is applied, after which it works as expected.
+No, it is not.
 
-Below is a patch for the quirks table addition that resolves the issue:
+> "rx", "tx" OR "rx" OR "tx" is only feasible, but not perfect. Why need
+> limited "rx" and "tx" order? 
 
----
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index abb9589b8477..af90da8646ba 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -311,6 +311,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
-                        DMI_MATCH(DMI_PRODUCT_NAME, "M6500RC"),
-                }
-        },
-+ {
-+         .driver_data = &acp6x_card,
-+         .matches = {
-+                 DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+                 DMI_MATCH(DMI_PRODUCT_NAME, "M7600RE"),
-+         }
-+ },
-        {
-                .driver_data = &acp6x_card,
-                .matches = {
----
+First, that's exactly what the binding already had. Why loosen it? 
+Second, defined order is just the DT way. There is less reason to 
+support both ways. It is simpler for a client to read properties if it 
+knows the position of entries.
+
+
+> It just bring us some noise and no actual
+> value to do that.
+> 
+> Frank
+> 
+> 
+> > 
+> > Why do you think Rob don't like this approach? He just said this is 3rd
+> > method. And it is simple enough and match all restriction.
+
+I don't like the approach. Clear enough?
+
+Rob
