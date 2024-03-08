@@ -1,173 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BE056459;
-	Fri,  8 Mar 2024 12:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BEB81F;
+	Fri,  8 Mar 2024 12:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709900523; cv=none; b=K20/ZSe+Aui7Audpez8qiTw+nDsemlgNu8+a9dNR0Iunm15qkQdritRSNqbhkDqyvU0oO8mo24hzjEYqLzIGBp7hwt1dOgA4uD8FRGlYn8gDy5J5s6+eQbjJpaiK/T/EHQkJCjnFc8haFibMJw3E+RwXuc01on7nBKMAZ3ZNEDQ=
+	t=1709901329; cv=none; b=p3+PSG8bgqT/il45X0ydPPOzWgwF2xsc2+95lPQyhVfmjR60TNFpK/d2Rpr9hEsdJJRZ/8lLUMpJX/a6LIWae6xUtFukPoxyCeQlLbzZXkTWnXyF4sr0ZgxFsnxNCubKd8iUJs4nO+fdzPCq2VTMH6zGjXtN8ITjf9LZHw65KrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709900523; c=relaxed/simple;
-	bh=g5ixp0fYy/59trzeP0NPiDYMEkNcgTm9omBN8m96Uik=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=mcEZTh7HI2MSEuuEg1Dsf7nLIMUG2Yd2Rvw9pPNKY/FGZR6ZphETE7GY4Nt0Gp3gF743pEM9QlmbFPM5BCBdJWtbGy6qxHa1QwwRs9vqX48nnxi3lLKfVnJ6vpYbT5zL4a/4cO/XholHbsE0wYeDzeuEHTIsUsQY8TjQlSYO7CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x+FX2zXO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6iUr9nq9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x+FX2zXO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6iUr9nq9; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1709901329; c=relaxed/simple;
+	bh=FO/2tbdfopZ0jgXfxeznKBXF2Z6rQryzkEHxQzSdob4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKzllPkBKmAiBX6LiWAxC99GtBE0N+Dx4q1evBCrRCjqp6AXHMrVMOv9E7n7BLwqSUfwFeXX36rSQDs+ATzD5q6TcLpQ+zk8X1912zPMg092RJqehu4EfOBQue8a0NFTvQpok5/r4SiSm2AogJ1PRd7zf+JL6c77RnUkcnGiPjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TYOhrchC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x+FX2zXO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6iUr9nq9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x+FX2zXO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6iUr9nq9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98947201E5;
-	Fri,  8 Mar 2024 12:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709900519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DFWYxwJfs4ybUP74ibrFRJ+zlS34JclQA7ZTGwHJbJM=;
-	b=x+FX2zXO3kreMbCuMVZAZtnJJ4BxpkpP4FzjAl31wGmxhFtdr8uMe8jKG71YYOwXcfgArR
-	5PPYiAD0GRvKLSh0iiliuONzUi0HtFiaz5XQ8+6LGGEW90gpQ3T/AAJ7oncoNMf7SBz0VA
-	zUmwnoOjOF/kbcBGhe4Qre+VLrZNoVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709900519;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DFWYxwJfs4ybUP74ibrFRJ+zlS34JclQA7ZTGwHJbJM=;
-	b=6iUr9nq9v4S9lYpr+kbEEPcxdJbFr3zi/rM9k4cY2CqKV/1RIX9pLGGj0OgumCTwtvUj8X
-	VimptQbsQIMJSRBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709900519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DFWYxwJfs4ybUP74ibrFRJ+zlS34JclQA7ZTGwHJbJM=;
-	b=x+FX2zXO3kreMbCuMVZAZtnJJ4BxpkpP4FzjAl31wGmxhFtdr8uMe8jKG71YYOwXcfgArR
-	5PPYiAD0GRvKLSh0iiliuONzUi0HtFiaz5XQ8+6LGGEW90gpQ3T/AAJ7oncoNMf7SBz0VA
-	zUmwnoOjOF/kbcBGhe4Qre+VLrZNoVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709900519;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DFWYxwJfs4ybUP74ibrFRJ+zlS34JclQA7ZTGwHJbJM=;
-	b=6iUr9nq9v4S9lYpr+kbEEPcxdJbFr3zi/rM9k4cY2CqKV/1RIX9pLGGj0OgumCTwtvUj8X
-	VimptQbsQIMJSRBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B87F13310;
-	Fri,  8 Mar 2024 12:21:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Kqq2FOcC62UmDQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 08 Mar 2024 12:21:59 +0000
-Date: Fri, 08 Mar 2024 13:21:58 +0100
-Message-ID: <87plw4vrq1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.8
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TYOhrchC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A38FC43394;
+	Fri,  8 Mar 2024 12:35:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709901328;
+	bh=FO/2tbdfopZ0jgXfxeznKBXF2Z6rQryzkEHxQzSdob4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TYOhrchCM5AcfxPJr1oIyABZAaxg9gskQp8WoHXfOeui02f9YDOiUEccLFAfpD2MU
+	 EiUsJt/4PuPnbdyx9XpqQeesIstI/T4Dps8oISJ/y5AUG8qglej8saE4q/j8uFmuQD
+	 MtyJSyWiCJfn8zC3DSxgZZhC3aFuUlWjbwyNJa2caxdbIUR3V6GYfzhBTdUg0iUfYL
+	 7DDTDQ/azQpLSE//PcmZ7EJMqDDLBKsliYdSOxj5Y2ZCkCx0GHh5Gy+4sf/Gaq7XKx
+	 3nO8obKNqOFLq8Y8riZvs/8P5jhDuqveb687JPfbxHzKcjxYU2SzHwk8DBGqK0Cm2J
+	 b7zKSu+WHLzaA==
+Date: Fri, 8 Mar 2024 12:35:23 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH v1 2/2] ASoC:
+ starfive: Add PDM controller support
+Message-ID: <330cf044-75e2-4938-b886-ce13003d30e8@sirena.org.uk>
+References: <20240307033708.139535-1-xingyu.wu@starfivetech.com>
+ <20240307033708.139535-3-xingyu.wu@starfivetech.com>
+ <fddca901-273c-4b06-ad59-d156941920d6@sirena.org.uk>
+ <NTZPR01MB0956E2033EDDA3FFE1211ACD9F27A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 TO_DN_ALL(0.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PmTquCiKJJKa3CmU"
+Content-Disposition: inline
+In-Reply-To: <NTZPR01MB0956E2033EDDA3FFE1211ACD9F27A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+X-Cookie: Isn't this my STOP?!
 
-Linus,
 
-please pull sound fixes for v6.8 from:
+--PmTquCiKJJKa3CmU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8
+On Fri, Mar 08, 2024 at 08:45:45AM +0000, Xingyu Wu wrote:
+> > On Thu, Mar 07, 2024 at 11:37:08AM +0800, Xingyu Wu wrote:
 
-The topmost commit is 21e59fe2f7221cdc77b2e5ef90a04c302b237053
+> > > +	if (!device_property_read_u8(&pdev->dev, "starfive,pdm-modulex",
+> > &using_modulex))
+> > > +		if (using_modulex == 1)
+> > > +			base += JH8100_PDM_MODULEX_SHIFT; /* Use module 1 */
 
-----------------------------------------------------------------
+> > This really looks like you've got one hardware block with two devices in it, either
+> > the address ranges registered for the devices in DT should be separate and you
+> > shouldn't need this property or you should have one component registering both
+> > PDM interfaces.
 
-sound fixes for 6.8-final
+> Yeah, They like two independent device and have different register to
+> configure, but just use the same clocks and resets.  Due to the sample
+> rate depend on the share clocks, they should be registered together as
+> a 4-channel capture device (rarely used), or just one of them can be
+> registered separately as a 2-channel device.  BTW, can I use the
+> 0x12250000 about the property of reg for device 0 or 0x12250010 for
+> device 1 to choose which device to be used in DT?
 
-A collection of small fixes.  A half of them are HD-audio quirks while
-the rest are various device-specific ASoC fixes.
+Ah, so it's actually a small MFD but given that it's two audio blocks
+possibly not worth registering as such.  I'd register two stereo DAIs to
+one component and then use the DAI ID to figure out which registers to
+write to.  Four channel mode might need a property to put everything as
+one DAI and not register the second one, or it might just be OK to let
+the first DAI be 4 channel with runtime error checking.
 
-----------------------------------------------------------------
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
 
-Al Raj Hassain (1):
-      ASoC: amd: yc: Add HP Pavilion Aero Laptop 13-be2xxx(8BD6) into DMI quirk table
+--PmTquCiKJJKa3CmU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Alban Boyé (1):
-      ASoC: Intel: bytcr_rt5640: Add an extra entry for the Chuwi Vi8 tablet
+-----BEGIN PGP SIGNATURE-----
 
-Andreas Pape (1):
-      ASoC: rcar: adg: correct TIMSEL setting for SSI9
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXrBgoACgkQJNaLcl1U
+h9DEhwf+KgApJjUr4IiU+vvCVeMKJxlSEoO7nfmdqt1/A6QTnqv6jBiCGSwpMIHx
+h+m+KI68xKrBA8J2ufPN/KnCh0prXfy8vOPOccavWBg4UdDm6LHnheeZHXt+xgla
+VRAaPw9XpGmW7mo2lqY4QR6lutgLIQDxIoLjzRepCFoFrTQIH2yaSqUxcakRwaFA
+KfqgAyDhr+NrZSThLLoHuJjGQOVEyA8TOwrjKPnG3GVjhLupXbr6UgR3BZ7I7saf
+k7zYnzW4/HSb3ACbYaHCkwL88RVCFdih43ZpIwNKgxeFpB9/FYa0ow4xk3nGjoPn
+cEbVA3HKOGq0/mGsOzLEYgAc2u4Vdg==
+=kMbj
+-----END PGP SIGNATURE-----
 
-Andy Chi (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs for HP EliteBook
-
-Kailang Yang (2):
-      ALSA: hda/realtek - Fix headset Mic no show at resume back for Lenovo ALC897 platform
-      ALSA: hda/realtek - Add Headset Mic supported Acer NB platform
-
-Rob Herring (1):
-      ASoC: dt-bindings: nvidia: Fix 'lge' vendor prefix
-
-Stefan Binding (3):
-      ALSA: hda: cs35l41: Support Lenovo Thinkbook 16P
-      ALSA: hda/realtek: Add quirks for Lenovo Thinkbook 16P laptops
-      ALSA: hda: cs35l41: Overwrite CS35L41 configuration for ASUS UM5302LA
-
-Stuart Henderson (4):
-      ASoC: madera: Fix typo in madera_set_fll_clks shift value
-      ASoC: wm8962: Enable oscillator if selecting WM8962_FLL_OSC
-      ASoC: wm8962: Enable both SPKOUTR_ENA and SPKOUTL_ENA in mono mode
-      ASoC: wm8962: Fix up incorrect error message in wm8962_set_fll
-
-songxiebing (1):
-      ALSA: hda: optimize the probe codec process
-
----
- .../sound/nvidia,tegra-audio-max9808x.yaml         |  2 +-
- sound/pci/hda/cs35l41_hda_property.c               |  6 +++++
- sound/pci/hda/hda_controller.c                     |  3 +++
- sound/pci/hda/patch_realtek.c                      | 15 +++++++++--
- sound/soc/amd/yc/acp6x-mach.c                      |  7 ++++++
- sound/soc/codecs/madera.c                          |  2 +-
- sound/soc/codecs/wm8962.c                          | 29 ++++++++++++++--------
- sound/soc/intel/boards/bytcr_rt5640.c              | 12 +++++++++
- sound/soc/sh/rcar/adg.c                            |  7 ++++++
- 9 files changed, 69 insertions(+), 14 deletions(-)
-
+--PmTquCiKJJKa3CmU--
