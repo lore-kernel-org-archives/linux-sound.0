@@ -1,63 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922C160273;
-	Fri,  8 Mar 2024 22:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092731D699
+	for <linux-sound@vger.kernel.org>; Fri,  8 Mar 2024 22:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709936891; cv=none; b=cgnpiTjmAhpZm7l/m0gV2j6eID3P36HFd6vu2/kePJq4toSyP2rxDPlqG6XW+32+Pgae2glpmJ5SgupsPkxdVrtSfSwbXUI/HKOuPeHb9G5F9MfF99dtHY8gMXewNkqN5S2BQ2qeMKiVChrcEk2iTJGsLUpqazOKh2ORzlcVn7g=
+	t=1709937355; cv=none; b=jGq8yPx/KcliRby9xtc3vW+Vjwab+eQcn6/eg0yQpcL6rF95gGxhITPSx038fpZxDRg3ClA0O7Kv76oUqNSq1RyQVuMhyy4vAVsV+QxXSLV5ILhsJDPTY07OTgv/+9XGFHMHznTeE+/hZ5edHmpX3lKn05DfEpjHxZD9KsA/PKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709936891; c=relaxed/simple;
-	bh=ciiZs7q1eA7AoVDXQLwAUf84ATrX4qskFdGSEyec+yw=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ttgx76Xu1OCVC4myR7rkxR7btf/oDkRY1okH1C0VmJRsqTTRT4NRPR+yUs2aAqxRFPVg4TDFfaNwSorGXJTUlgvHrUwA/o70KVHk5c6uZBSQddC+92g5T0Y2QzTaSDbnSXCrHzU5JHV3kdfwKrhmxsdzuYR2H5v+0KfmaRwt104=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PS+ZsCDC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709937355; c=relaxed/simple;
+	bh=ONjv0VtUftGGTVaaqppbSyYYxndj4Wvui5PdudKSKsU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ReIVOAGT8AEBWZG1WuJQSee+GrFdOivBr6KyvmEZG6TJudB9TU2ZeDT3jmAav1sp91CANEKiLDFhxomZi9/4XlM2eCIc3Uwb+DT06/tCo776t14AtoPYiez8b86XFEUTM4L94/0caQii2t0pAhQpJuUYEwg9mO5QzVMmXFSttw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+GWC8yj; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PS+ZsCDC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 634DEC433F1;
-	Fri,  8 Mar 2024 22:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709936891;
-	bh=ciiZs7q1eA7AoVDXQLwAUf84ATrX4qskFdGSEyec+yw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=PS+ZsCDCIMtGrxhGdX5psVFkRYllePOszcKiO5k9b2tb4EadOgTJgsSu3KL0YlEUR
-	 jWLQd2Lr+e6V1mecgcJ29k10FeysWo+G3Djd3V+KhLJ0tZF+ZgnF0FkLvX738MfrMd
-	 +HoAzg8vjdIF7+SslVKQzJiDkugB344a7mglvSJOIBH/p/fvjzsMgBOPfnCS+v9hm3
-	 0cjYDYbAI0TIVytNFpxIuVDA6Hm318F8GzgkzemIAIgoqKbY7iDOY1tCrW1M09dPn8
-	 gxBGrC7w938PuOaYCsGtPGeDwcTiKHsNWYeM4Px5YOBshSK54UGuAjVwcOK72YIHSI
-	 UOa2ZtKppMJLg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 50380C39562;
-	Fri,  8 Mar 2024 22:28:11 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.8
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87plw4vrq1.wl-tiwai@suse.de>
-References: <87plw4vrq1.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87plw4vrq1.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8
-X-PR-Tracked-Commit-Id: 21e59fe2f7221cdc77b2e5ef90a04c302b237053
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6dfeb04c467826fe6f808827e19abd5c6336a08d
-Message-Id: <170993689132.2485.3610301827665451838.pr-tracker-bot@kernel.org>
-Date: Fri, 08 Mar 2024 22:28:11 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+GWC8yj"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d33986dbc0so27484301fa.2
+        for <linux-sound@vger.kernel.org>; Fri, 08 Mar 2024 14:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709937352; x=1710542152; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p+osjGBHTR09d/MwYxvJc9Om61QsxQtq+K9ltwKLvAc=;
+        b=a+GWC8yjXtyq/0ABRc+qE3WDgBSA4qGdSajCyry0+Ic3BJPIPg/4Pc80YTjDg0RI3F
+         Xx8OFJ+BdP1Tk1zsg3XNZJoN2oHDVon3UI2eVYg/OFV2GkpT4c8ap/vI5BLGxznLj+l9
+         V7GU/Uhx5PNh+ImEjhYFdTLaHPr+uvmyuCnrRXFKYOw+75McgUFDbwnhTocQHruJVvxY
+         ZSO8ZQsgFiQkXGeaBVJYcLHZ72Wi7VmVySy5Ln+vEZk6lMAqtUl8vRbmYTuPdkNrCLO3
+         CcBJnW5FpuUcmllA34Z7pUfndCsb8pGH47eF5oGOHysS3U3DLXYbUDhj4RGQ46C7ZP2t
+         cHxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709937352; x=1710542152;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p+osjGBHTR09d/MwYxvJc9Om61QsxQtq+K9ltwKLvAc=;
+        b=t3e3U5fhNRIFVFDDsJEccmn1uT3BxG7WnrtjPlQ0OMqqu94n1294b/fcppcmD87wvW
+         QJR4gQcPyCqvIa17EF/WNuJr48vIMoi7SEsWCHTL4hX6TTNUKJYEa6VsJi4qM5HTD4RI
+         1EjZMbOc4ZDw5SM4p+p8pyN/JbkxMFf2cJhhp6jWu+iD92sMRTFwUTdlyqrAg2fePFk7
+         HgXLEA7XyPicmwqpWDlvqHX53yKUib9WuHc03+sxs63X17QErWGz5WMglYib6XqXw9G2
+         kqWvO7Z6/+vw2vjeyXKDEMamcpBz/EhKhBWEb8sTE/bAJSt2T1MhhD/QWVWe0L4i7ixv
+         n6eA==
+X-Forwarded-Encrypted: i=1; AJvYcCWw5MDYA8FfCYg8LmTSN6mXg3+0ePfo/HSjXv85nvSf/boN+4au6RT48pLpYXlbLr32+EYvV270q22sAldEEF5rECHS4H3o70Vh8eY=
+X-Gm-Message-State: AOJu0Yxv4ZeatuTrlLVGslr6OiNATdTzGuwqOZE0a7ykGhtrEvwwoh85
+	5fOs1OSLo64Ua2Z7VO3IL/WdRto/ASJM6ahqwcZ5J/sqZ5sWyWzquw7GFnSbFN4KM2QIWzuDvAu
+	f7tMYHa+IUfrGPZuFSLGspgjUg/0=
+X-Google-Smtp-Source: AGHT+IFTCILwfXto0Mg+Fmlxx6jFy/jU9acKGcQjbmCoHCIpBnJ9WoOt3a8qRrKjY6DtagOCjq2lSdp4C5WpYX9i4+c=
+X-Received: by 2002:a05:651c:4c8:b0:2d3:7e8e:de23 with SMTP id
+ e8-20020a05651c04c800b002d37e8ede23mr374734lji.23.1709937352038; Fri, 08 Mar
+ 2024 14:35:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <CALijGzn7GL_tmdGZXy-tTGCgpT4bwLW2+QU1QBseMRQwjPhbtw@mail.gmail.com>
+ <5eb9f2b5-62ef-442d-b93f-ea6b0d85eac3@sirena.org.uk>
+In-Reply-To: <5eb9f2b5-62ef-442d-b93f-ea6b0d85eac3@sirena.org.uk>
+From: M Cooley <m.cooley.198@gmail.com>
+Date: Fri, 8 Mar 2024 17:35:40 -0500
+Message-ID: <CALijGznExWW4fujNWwMzmn_K=wo96sGzV_2VkT7NjvEUdkg7Gw@mail.gmail.com>
+Subject: [PATCH v2] ASoC: amd: yc: Fix non-functional mic on ASUS M7600RE
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Fri, 08 Mar 2024 13:21:58 +0100:
+On Fri, Mar 8, 2024 at 4:37=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> It's a patch whatever the reason for it - basically your email looks
+> like it got almost everything right (assuming git am likes it), you just
+> need to delete the process question above from the changelog and add a
+> Signed-off-by as covered in submitting-patches.rst.  As that covers
+> there's legal stuff with the signoff which means I shouldn't take a
+> patch without it.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.8
+The ASUS M7600RE (Vivobook Pro 16X OLED) needs a quirks-table entry for the
+internal microphone to function properly.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6dfeb04c467826fe6f808827e19abd5c6336a08d
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Signed-off-by: Mitch Cooley <m.cooley.198@gmail.com>
+---
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index abb9589b8477..af90da8646ba 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -311,6 +311,13 @@ static const struct dmi_system_id yc_acp_quirk_table[]=
+ =3D {
+                        DMI_MATCH(DMI_PRODUCT_NAME, "M6500RC"),
+                }
+        },
++ {
++         .driver_data =3D &acp6x_card,
++         .matches =3D {
++                 DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++                 DMI_MATCH(DMI_PRODUCT_NAME, "M7600RE"),
++         }
++ },
+        {
+                .driver_data =3D &acp6x_card,
+                .matches =3D {
+--
