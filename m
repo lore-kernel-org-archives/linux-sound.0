@@ -1,40 +1,71 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586A3BA4D
-	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 10:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E783D8E;
+	Sun, 10 Mar 2024 10:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710066906; cv=none; b=a1UL6sSDwTKH0GVcZ3+8nwEZLpbgExTVy/ePFOHETj77UbbnFu3Ju3t72PGlY3M60Doz8XOfmx3zFeFJagQsEsuDhbMcY7MU6OtXXHHp7TApoIJT/RFPftNcZvUMqb0FmtQt6K3YB0kS9FodfZyKsXkT3pDtc5nNygKNJsrlDGM=
+	t=1710067094; cv=none; b=S822KuWBpvYEND4UACqtxHNcPVQyjHW2uizh0A95vza3tfoLdRp9lVf9VedJ/Ure5i08FILblP2yD91zY/Qy+89gjha9q5ALooYu7RQwh40RZTj61nqFAbkud5hPHIbr/l/t3q8VriogykGDYbBFzcT4kaB8bNHtWILs5Ta/FUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710066906; c=relaxed/simple;
-	bh=13MLU6aIVKd1ZxKtLmHPWIHy29nf4wfRwphRwROUDc0=;
+	s=arc-20240116; t=1710067094; c=relaxed/simple;
+	bh=8/J5Jwa+0rLFUZyeqG/2hEgXFAgXb6jr08TRztCGnd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MhRMxdR4YtSv7FgmJDj0JILYX41JRKnBdtTwsd9HtUP7qDgBI+fd5Pq+NxVcW70UhFhcXbAIVmikA1guECYptMsA0qaEhhYylxsJmSZpRuDv9q+aCIqa4jhGFfTNovzd09ZGspr1D+Depf40njc6dKRH3vSXQaiufSh/cHFU7A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=r3y4J3Kw; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwCu27Hj8ZieCBrfCGCFtM63fk7k28E7mui4EVgPHH+ACdmQIlagKv2VQ7LHaW7TdmyXT/XBo4PvloPpwgW86fH9fbXEDckJqo1NDlwEy9xn04WPBx6EdPlFwFBVa3q1kBPkktXc51ziteSWTQ2f9D8SBtWiKlRq6X1HvxcZXcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bw/KztFx; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="r3y4J3Kw"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 062296007738; Sun, 10 Mar 2024 21:05:00 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 062296007738
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1710066900; bh=d94w3VA8ii+PgWUSJ8Z803mVI5Ogmt2HynFxeh4HawE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r3y4J3KweDx6xQ6+ObbxtNK0aVH44UWXjfkDmuDbQeQYz/uKg54NK7k0IQ9qZLImB
-	 /5YR7n83z44AMkTYwerdDYEeNRDOfWd8MU4rKoFpKKk5+TO4505H9VmOn/yQukb2Sb
-	 dMgZKX4p9oXUJ9yc+wE9m5u13OV60OJGWrWkUSP3On514SNnJt2l0w0cM3al3VTJ8L
-	 35IpxUr+CgIztPGxet0eX/b5M4qOM8rUv0CafHOxgOdCWG9iRMEqL174nrFXGaxYqP
-	 YP0p/kVX/LgA0DBjzI7EoQYtiLXDHijPLpP60dQRf0JoFAtjsnEJduTOQUgdKOEDpV
-	 5o6lVycJDXp+g==
-Date: Sun, 10 Mar 2024 21:04:59 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 3/3] ALSA: scarlett2: Fix Scarlett 4th Gen input gain range
-Message-ID: <9168317b5ac5335943d3f14dbcd1cc2d9b2299d0.1710047969.git.g@b4.vu>
-References: <cover.1710047969.git.g@b4.vu>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bw/KztFx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710067092; x=1741603092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8/J5Jwa+0rLFUZyeqG/2hEgXFAgXb6jr08TRztCGnd4=;
+  b=bw/KztFxr2RGA20RrmiEl8fvCxsf8uXqk06fmxN1bqJOKfdCJl4qV4ZN
+   xiNZpSpdGtbhSRljEtcYZ5tG0uTNH2RUZ7Hyx6ncAJhkPV8MBFp5w4wH8
+   EzuoJkS8H52fo+6+kyNpxH67sEukvGnQDUOOGkQgqRfAe2++7/Ejkefqr
+   Fj8bUQzmixfS1vOhhO/GG4pofa0Ye9vbtWwIRc8FgsQwKsd6tcaz6X/14
+   5qDSURKjuKVR9CGWk9jdNZZZLFLYQGLz7NZLWteq/QRR+Vl1b4JcG0TlX
+   OFjDpsi2rIjKvDkDszlqLCYYrhYTG8mFWGYwoawo1/l1LJOiEZXzN08Yu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="4868405"
+X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
+   d="scan'208";a="4868405"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 03:38:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
+   d="scan'208";a="10787715"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 10 Mar 2024 03:38:05 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rjGZ9-0008BP-19;
+	Sun, 10 Mar 2024 10:38:03 +0000
+Date: Sun, 10 Mar 2024 18:37:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Andreas Larsson <andreas@gaisler.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Kjetil Oftedal <oftedal@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+	Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 14/28] sparc32: Drop unused mmu models
+Message-ID: <202403101854.Z94SAU13-lkp@intel.com>
+References: <20240309-sunset-v2-14-f09912574d2c@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,51 +74,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1710047969.git.g@b4.vu>
+In-Reply-To: <20240309-sunset-v2-14-f09912574d2c@ravnborg.org>
 
-The input gain range TLV was declared as -70dB to 0dB, but the preamp
-gain range is actually 0dB to +70dB. Rename SCARLETT2_GAIN_BIAS to
-SCARLETT2_MAX_GAIN and update the TLV to fix.
+Hi Sam,
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-Fixes: 0a995e38dc44 ("ALSA: scarlett2: Add support for software-controllable input gain")
----
- sound/usb/mixer_scarlett2.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 3815ce1d216e..ffb8bcebf9ad 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -173,7 +173,9 @@
- 
- /* some gui mixers can't handle negative ctl values */
- #define SCARLETT2_VOLUME_BIAS 127
--#define SCARLETT2_GAIN_BIAS 70
-+
-+/* maximum preamp input gain */
-+#define SCARLETT2_MAX_GAIN 70
- 
- /* mixer range from -80dB to +6dB in 0.5dB steps */
- #define SCARLETT2_MIXER_MIN_DB -80
-@@ -3464,7 +3466,7 @@ static int scarlett2_input_gain_ctl_info(struct snd_kcontrol *kctl,
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = elem->channels;
- 	uinfo->value.integer.min = 0;
--	uinfo->value.integer.max = SCARLETT2_GAIN_BIAS;
-+	uinfo->value.integer.max = SCARLETT2_MAX_GAIN;
- 	uinfo->value.integer.step = 1;
- 
- unlock:
-@@ -3541,7 +3543,7 @@ static int scarlett2_input_gain_ctl_put(struct snd_kcontrol *kctl,
- }
- 
- static const DECLARE_TLV_DB_MINMAX(
--	db_scale_scarlett2_gain, -SCARLETT2_GAIN_BIAS * 100, 0
-+	db_scale_scarlett2_gain, 0, SCARLETT2_MAX_GAIN * 100
- );
- 
- static const struct snd_kcontrol_new scarlett2_input_gain_ctl = {
+[auto build test WARNING on 84b76d05828a1909e20d0f66553b876b801f98c8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Relay/sparc32-Update-defconfig-to-LEON-SMP/20240310-021717
+base:   84b76d05828a1909e20d0f66553b876b801f98c8
+patch link:    https://lore.kernel.org/r/20240309-sunset-v2-14-f09912574d2c%40ravnborg.org
+patch subject: [PATCH v2 14/28] sparc32: Drop unused mmu models
+config: sparc-randconfig-r113-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403101854.Z94SAU13-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> arch/sparc/mm/srmmu.c:49:5: sparse: sparse: symbol 'vac_line_size' was not declared. Should it be static?
+
+vim +/vac_line_size +49 arch/sparc/mm/srmmu.c
+
+accf032cfa582e Sam Ravnborg   2012-05-19  46  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  47  int vac_cache_size;
+9d262d95114cf2 Guenter Roeck  2017-04-01  48  EXPORT_SYMBOL(vac_cache_size);
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @49  int vac_line_size;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  50  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
