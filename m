@@ -1,220 +1,115 @@
-Received: from mail.athaariq.my.id (unknown [117.53.144.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646C836AE1
-	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 14:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.53.144.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710079485; cv=none; b=u3YTuQzrSxOmpJiqy02g/64j5NGxsUdxw41WA2zd7OUDx5U2ruU8O22KYFJkJgWLMRW4yfX3kctjn3PLbKzzx6oZE+A0zfywt2W+CekAW/5KzOkHm7M8s6qdvbcf6OtvNZO9Zq905oENvfgwNh7FQmoxN5Wqiv6tXdUARicmLIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710079485; c=relaxed/simple;
-	bh=bCuL2wl8S9icw4U5xMr/xIXsWYoAqwQJPnAC6leV3uQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r2HtHZWv3F7xZEBEgf65/5IKSxDhrvaxN2tiaHpIs7y5dlebCIDsIGnrRqy4EaxRGhwJmLEvMe6AJQgShRxYrbg1nqc8aLLLqjGsPJKznSdOPeZG+QZ9QzV+7jIF3ANbMyyY1RixtwdfdfifQOqtuVsH67+Jt9WZ+WvALY456U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=athaariq.my.id; spf=pass smtp.mailfrom=athaariq.my.id; dkim=pass (2048-bit key) header.d=athaariq.my.id header.i=@athaariq.my.id header.b=vLkVJZ/i; arc=none smtp.client-ip=117.53.144.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=athaariq.my.id
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=athaariq.my.id
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=athaariq.my.id header.i=@athaariq.my.id header.b="vLkVJZ/i"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.athaariq.my.id (Postfix) with ESMTP id 2B5583FCCE;
-	Sun, 10 Mar 2024 14:04:36 +0000 (UTC)
-Authentication-Results: mail.athaariq.my.id (amavisd-new);
-	dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
-	header.d=athaariq.my.id
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=athaariq.my.id;
-	 h=content-transfer-encoding:mime-version:references:in-reply-to
-	:x-mailer:message-id:date:date:subject:subject:from:from
-	:received; s=dkim20240121; t=1710079475; x=1711289076; bh=bCuL2w
-	l8S9icw4U5xMr/xIXsWYoAqwQJPnAC6leV3uQ=; b=vLkVJZ/imLfXfwTDGPX53i
-	KuL7GQmmfnwfknqVlSTVous6tP+WjSZS4NzLoyt27cUwKkJEEgUtcEQwnWoFmoVg
-	F4wDeQayB+ISSrt5FFqHMkWNE+rACfsTyc3fI+JLbR2yf3VfUQe2PIcX/VJMixxc
-	XumnfFWRx4FnkDk5cL0XlDvXOf0CNbnxUp5XiclCN/QQGEyXy73/hPDwGr19yiTq
-	lhnqoA6DOkJNE4MACw8B1Llnme66sJMB+94Y7FHw/83adZm5FCOpLjumq/79sVvE
-	uaGafnxplUPparxzja5nr717wiQzm8ARK3S0jwvKYT5pXH70PdFRCobDDH/5mYZA
-	==
-Received: from localhost.localdomain (unknown [192.168.100.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.athaariq.my.id (Postfix) with ESMTPSA id A5E793FCD0;
-	Sun, 10 Mar 2024 14:04:33 +0000 (UTC)
-From: Athaariq Ardhiansyah <foss@athaariq.my.id>
-To: linux-sound@vger.kernel.org
-Cc: kailang@realtek.com.tw,
-	pshou@realtek.com.tw,
-	tiwai@suse.de,
-	jwoithe@just42.net,
-	Athaariq Ardhiansyah <foss@athaariq.my.id>
-Subject: [PATCH v3] ALSA: hda/realtek: fix ALC285 issues on HP Envy x360 laptops
-Date: Sun, 10 Mar 2024 20:58:44 +0700
-Message-ID: <20240310140249.3695-1-foss@athaariq.my.id>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <877cidxhny.wl-tiwai@suse.de>
-References: <877cidxhny.wl-tiwai@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B564210EB
+	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 14:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710081559; cv=none; b=e0fXdNAtjX3oIiU/hoTic+KFrmAZN9IB9+wgat1SJIhUc9YLanMV7CtbfIUAXX5Au9Thxi+zbhz7sAypmWTLZI2ZOmiTcLjhwOzuPAJkmOrR3MU8NvxB4e3doOpa9ngC6e+7k1Dc6ZJe3BeRO5o/uJh+pUSPwbyCdLxrQu2Ix64=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710081559; c=relaxed/simple;
+	bh=tcCJcDqDYZaFzocjDP4wiXd1T+ypqrL+pY4JYmx+XM0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XGzAqhpDHH52OD9G32OSJLs4hxEltlMLRL0q/aWlmemtf1zh1z+irjldg3/XuGbOhBJxR7MCHqoXpSeZYkY9tLy7mjb9oCNZ3ftOLi10EZYhEybgeXLx2/LyMkner79HBMbObYRL9gv/5UxGovarztpXRp3NTPQOONbb3wQkpLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKN-0001Cv-0y; Sun, 10 Mar 2024 15:39:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKK-005XJm-VP; Sun, 10 Mar 2024 15:39:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKK-003TZj-2p;
+	Sun, 10 Mar 2024 15:39:00 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	kernel@pengutronix.de
+Subject: [PATCH] ASoC: tlv320adc3xxx: Don't strip remove function when driver is builtin
+Date: Sun, 10 Mar 2024 15:38:51 +0100
+Message-ID: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1917; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=tcCJcDqDYZaFzocjDP4wiXd1T+ypqrL+pY4JYmx+XM0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl7cX8VWtYhL0KtuOOqhLGjI6fvbv4I6W1Z4U92 ZFLuAirQBiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZe3F/AAKCRCPgPtYfRL+ TvreCACBY53KQpaQ1S6h0Znmi9qhSZ9KGdIbyorjr/T8fAbh7lRp4Yt5ksFJlyqorX1/CRtMZ/+ f/IwumkOihqjbZZvEkm2RiaRJWh7zsaP1F3og52SGJw6r1LGdBGRvB5llSETqFB5Xv96GJlqCpc lu4yP20GOhukwEnAGWKh7zbRH0i8L/0UTI9sPvtgkJ5OeULSH0gYxF5Ji9jrGHRsUJ079s2frcY SoiZYns8FibUBnlCfNRj3aj+9BKf/K0Ku6C9BSjaz3T+FGQXOcJqVNWtXKzyrxJN/u+JdDthkPu gHEmE7wfmdR68YKkD+3eSiXm2VkUNQPK4IWzLbZ8gwKH9rq2
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-Realtek codec on HP Envy laptop series are heavily modified by vendor.
-Therefore, need intervention to make it work properly. The patch fixes:
+Using __exit for the remove function results in the remove callback
+being discarded with SND_SOC_TLV320ADC3XXX=y. When such a device gets
+unbound (e.g. using sysfs or hotplug), the driver is just removed
+without the cleanup being performed. This results in resource leaks. Fix
+it by compiling in the remove callback unconditionally.
 
-- B&O soundbar speakers (between lid and keyboard) activation
-- Enable LED on mute button
-- Add missing process coefficient which affects the output amplifier
-- Volume control synchronization between B&O soundbar and side speakers
-- Unmute headset output on several HP Envy models
-- Auto-enable headset mic when plugged
+This also fixes a W=1 modpost warning:
 
-This patch was tested on HP Envy x360 13-AR0107AU with Realtek ALC285
+	WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
 
-The only unsolved problem is output amplifier of all built-in speakers
-is too weak, which causes volume of built-in speakers cannot be loud
-as vendor's proprietary driver due to missing _DSD parameter in the
-firmware. The solution is currently on research. Expected to has another
-patch in the future.
+(which only happens with SND_SOC_TLV320ADC3XXX=m).
 
-Potential fix to related issues, need test before close those issues:
-
-- https://bugzilla.kernel.org/show_bug.cgi?id=3D189331
-- https://bugzilla.kernel.org/show_bug.cgi?id=3D216632
-- https://bugzilla.kernel.org/show_bug.cgi?id=3D216311
-- https://bugzilla.kernel.org/show_bug.cgi?id=3D213507
-
-Signed-off-by: Athaariq Ardhiansyah <foss@athaariq.my.id>
+Fixes: e9a3b57efd28 ("ASoC: codec: tlv320adc3xxx: New codec driver")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
+Hello,
 
-Changes in v2:
-- Re-order SND_PCI_QUIRK based on its PCI SSID
-- Fix missing whitespace
+note that this patch only applies as is after commit 4e8ff3587868 ("ASoC:
+codecs: tlv320adc3xxx: Wrap adc3xxx_i2c_remove() in __exit_p()") which was the
+wrong approach to fix the build error.
 
-Changes in v3:
-- Fix minor commit message mistake
+Best regards
+Uwe
 
----
- sound/pci/hda/patch_realtek.c | 63 +++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ sound/soc/codecs/tlv320adc3xxx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.=
-c
-index e3096572881d..04f959fd9689 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6695,6 +6695,60 @@ static void alc285_fixup_hp_spectre_x360(struct hd=
-a_codec *codec,
- 	}
+diff --git a/sound/soc/codecs/tlv320adc3xxx.c b/sound/soc/codecs/tlv320adc3xxx.c
+index 420bbf588efe..e100cc9f5c19 100644
+--- a/sound/soc/codecs/tlv320adc3xxx.c
++++ b/sound/soc/codecs/tlv320adc3xxx.c
+@@ -1429,7 +1429,7 @@ static int adc3xxx_i2c_probe(struct i2c_client *i2c)
+ 	return ret;
  }
-=20
-+static void alc285_fixup_hp_envy_x360(struct hda_codec *codec,
-+				      const struct hda_fixup *fix,
-+				      int action)
-+{
-+	static const struct coef_fw coefs[] =3D {
-+		WRITE_COEF(0x08, 0x6a0c), WRITE_COEF(0x0d, 0xa023),
-+		WRITE_COEF(0x10, 0x0320), WRITE_COEF(0x1a, 0x8c03),
-+		WRITE_COEF(0x25, 0x1800), WRITE_COEF(0x26, 0x003a),
-+		WRITE_COEF(0x28, 0x1dfe), WRITE_COEF(0x29, 0xb014),
-+		WRITE_COEF(0x2b, 0x1dfe), WRITE_COEF(0x37, 0xfe15),
-+		WRITE_COEF(0x38, 0x7909), WRITE_COEF(0x45, 0xd489),
-+		WRITE_COEF(0x46, 0x00f4), WRITE_COEF(0x4a, 0x21e0),
-+		WRITE_COEF(0x66, 0x03f0), WRITE_COEF(0x67, 0x1000),
-+		WRITE_COEF(0x6e, 0x1005), { }
-+	};
-+
-+	static const struct hda_pintbl pincfgs[] =3D {
-+		{ 0x12, 0xb7a60130 },  /* Internal microphone*/
-+		{ 0x14, 0x90170150 },  /* B&O soundbar speakers */
-+		{ 0x17, 0x90170153 },  /* Side speakers */
-+		{ 0x19, 0x03a11040 },  /* Headset microphone */
-+		{ }
-+	};
-+
-+	switch (action) {
-+	case HDA_FIXUP_ACT_PRE_PROBE:
-+		snd_hda_apply_pincfgs(codec, pincfgs);
-+
-+		/* Fixes volume control problem for side speakers */
-+		alc295_fixup_disable_dac3(codec, fix, action);
-+
-+		/* Fixes no sound from headset speaker */
-+		snd_hda_codec_amp_stereo(codec, 0x21, HDA_OUTPUT, 0, -1, 0);
-+
-+		/* Auto-enable headset mic when plugged */
-+		snd_hda_jack_set_gating_jack(codec, 0x19, 0x21);
-+
-+		/* Headset mic volume enhancement */
-+		snd_hda_codec_set_pin_target(codec, 0x19, PIN_VREF50);
-+		break;
-+	case HDA_FIXUP_ACT_INIT:
-+		alc_process_coef_fw(codec, coefs);
-+		break;
-+	case HDA_FIXUP_ACT_BUILD:
-+		rename_ctl(codec, "Bass Speaker Playback Volume",
-+			   "B&O-Tuned Playback Volume");
-+		rename_ctl(codec, "Front Playback Switch",
-+			   "B&O Soundbar Playback Switch");
-+		rename_ctl(codec, "Bass Speaker Playback Switch",
-+			   "Side Speaker Playback Switch");
-+		break;
-+	}
-+}
-+
- /* for hda_fixup_thinkpad_acpi() */
- #include "thinkpad_helper.c"
-=20
-@@ -7290,6 +7344,7 @@ enum {
- 	ALC280_FIXUP_HP_9480M,
- 	ALC245_FIXUP_HP_X360_AMP,
- 	ALC285_FIXUP_HP_SPECTRE_X360_EB1,
-+	ALC285_FIXUP_HP_ENVY_X360,
- 	ALC288_FIXUP_DELL_HEADSET_MODE,
- 	ALC288_FIXUP_DELL1_MIC_NO_PRESENCE,
- 	ALC288_FIXUP_DELL_XPS_13,
-@@ -9244,6 +9299,12 @@ static const struct hda_fixup alc269_fixups[] =3D =
-{
- 		.type =3D HDA_FIXUP_FUNC,
- 		.v.func =3D alc285_fixup_hp_spectre_x360_eb1
- 	},
-+	[ALC285_FIXUP_HP_ENVY_X360] =3D {
-+		.type =3D HDA_FIXUP_FUNC,
-+		.v.func =3D alc285_fixup_hp_envy_x360,
-+		.chained =3D true,
-+		.chain_id =3D ALC285_FIXUP_HP_GPIO_AMP_INIT,
-+	},
- 	[ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP] =3D {
- 		.type =3D HDA_FIXUP_FUNC,
- 		.v.func =3D alc285_fixup_ideapad_s740_coef,
-@@ -9821,6 +9882,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LE=
-D_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP=
-_HP_SPECTRE_X360),
- 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE=
-_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP=
-_ENVY_X360),
- 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AM=
-P_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_=
-GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
-@@ -10509,6 +10571,7 @@ static const struct hda_model_fixup alc269_fixup_=
-models[] =3D {
- 	{.id =3D ALC295_FIXUP_HP_OMEN, .name =3D "alc295-hp-omen"},
- 	{.id =3D ALC285_FIXUP_HP_SPECTRE_X360, .name =3D "alc285-hp-spectre-x36=
-0"},
- 	{.id =3D ALC285_FIXUP_HP_SPECTRE_X360_EB1, .name =3D "alc285-hp-spectre=
--x360-eb1"},
-+	{.id =3D ALC285_FIXUP_HP_ENVY_X360, .name =3D "alc285-hp-envy-x360"},
- 	{.id =3D ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP, .name =3D "alc287-ideapad-b=
-ass-spk-amp"},
- 	{.id =3D ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN, .name =3D "alc287-yoga=
-9-bass-spk-pin"},
- 	{.id =3D ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name =3D "alc623-lenov=
-o-thinkstation-p340"},
---=20
-2.44.0
+ 
+-static void __exit adc3xxx_i2c_remove(struct i2c_client *client)
++static void adc3xxx_i2c_remove(struct i2c_client *client)
+ {
+ 	struct adc3xxx *adc3xxx = i2c_get_clientdata(client);
+ 
+@@ -1452,7 +1452,7 @@ static struct i2c_driver adc3xxx_i2c_driver = {
+ 		   .of_match_table = tlv320adc3xxx_of_match,
+ 		  },
+ 	.probe = adc3xxx_i2c_probe,
+-	.remove = __exit_p(adc3xxx_i2c_remove),
++	.remove = adc3xxx_i2c_remove,
+ 	.id_table = adc3xxx_i2c_id,
+ };
+ 
+
+base-commit: 8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+-- 
+2.43.0
 
