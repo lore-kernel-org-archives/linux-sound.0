@@ -1,124 +1,220 @@
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D9018646
-	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 12:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.179
+Received: from mail.athaariq.my.id (unknown [117.53.144.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 646C836AE1
+	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 14:04:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.53.144.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710074076; cv=none; b=jBideBeekGVziQqPJama+xCeWbh8SUY1xAwl4nvm52gys4csGyb98XwOsLZ0qesUny5AE1Bm1IGc0ZSY3/5zcvn0lslTlGZRDFSi3Gr9q+wsunabR+m3R4uPo+DRQZCUnnjJy6TCPT+k/+SOXwFQEB06q5dEVbrz9z1pmfKkVoc=
+	t=1710079485; cv=none; b=u3YTuQzrSxOmpJiqy02g/64j5NGxsUdxw41WA2zd7OUDx5U2ruU8O22KYFJkJgWLMRW4yfX3kctjn3PLbKzzx6oZE+A0zfywt2W+CekAW/5KzOkHm7M8s6qdvbcf6OtvNZO9Zq905oENvfgwNh7FQmoxN5Wqiv6tXdUARicmLIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710074076; c=relaxed/simple;
-	bh=eVb3cFCjq/wLYohZULzNmR4wY1wWmg+rXCBfYx/lovk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0P3Sj68iNjAGG1udNn7dz7klPSw0XY1/zdMXIB/sbqwAjPYuFvs1bEplWlF9mWCty7Cr6p/yp/egmVgM9drCX8CF+wgh7f5I8rHwVHN9fHD0rTMvcOIk9vdgKd7kMvqkkuspX0s/gd+XNjMefOXpYL61fqZOXQiJ4J6yUnlVnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org; spf=none smtp.mailfrom=ravnborg.org; dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=XrZGVqiL; dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=m3RslpyQ; arc=none smtp.client-ip=46.30.211.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
+	s=arc-20240116; t=1710079485; c=relaxed/simple;
+	bh=bCuL2wl8S9icw4U5xMr/xIXsWYoAqwQJPnAC6leV3uQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r2HtHZWv3F7xZEBEgf65/5IKSxDhrvaxN2tiaHpIs7y5dlebCIDsIGnrRqy4EaxRGhwJmLEvMe6AJQgShRxYrbg1nqc8aLLLqjGsPJKznSdOPeZG+QZ9QzV+7jIF3ANbMyyY1RixtwdfdfifQOqtuVsH67+Jt9WZ+WvALY456U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=athaariq.my.id; spf=pass smtp.mailfrom=athaariq.my.id; dkim=pass (2048-bit key) header.d=athaariq.my.id header.i=@athaariq.my.id header.b=vLkVJZ/i; arc=none smtp.client-ip=117.53.144.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=athaariq.my.id
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=athaariq.my.id
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="XrZGVqiL";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="m3RslpyQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=YPj7mJSOmbCaNiEGC/t0Gr13wSnOz33kScWhnHNog2A=;
-	b=XrZGVqiLZ7HmxgauHv34KliKYg3bdIPWco3WbmOUS/lB8zsCC5CO+ZmGjgOxo2GjOG74rWmUTzeTD
-	 b/mY6sUBDEHan3+MiNqavhep1+qPHkyBDaWl6exwf4yZnQXZflm2ZNKhjgrSRP7oI7myR7O69SGebo
-	 XlYfPZUDqofK/AVeAQ8SbwF/6PyanxchTuw/gVeaNJjgYIqCt52w0/UnbwyIPRtB3Doc3R096J0hgI
-	 65BFZAHEQ6DOTY5XCc3HExn3ycYD4hb6fzaL/ouKN7wTNatsDLSWPfo0LIq8G88c92fKpkXAryb068
-	 idmG4syFCwOqfBYTzt3xyh947vR51BQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=YPj7mJSOmbCaNiEGC/t0Gr13wSnOz33kScWhnHNog2A=;
-	b=m3RslpyQ6rat08/y9fWoWhKLFFXulH2lxA/XDZXt362zndzEJbzwHFpTAVufQTF1BKRUZp5V6l5Ws
-	 lWldjHQAQ==
-X-HalOne-ID: 84422ca7-deda-11ee-9cef-31e85a7fa845
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id 84422ca7-deda-11ee-9cef-31e85a7fa845;
-	Sun, 10 Mar 2024 12:34:22 +0000 (UTC)
-Date: Sun, 10 Mar 2024 13:34:20 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Sam Ravnborg via B4 Relay <devnull+sam.ravnborg.org@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Kjetil Oftedal <oftedal@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 14/28] sparc32: Drop unused mmu models
-Message-ID: <20240310123420.GA989676@ravnborg.org>
-References: <20240309-sunset-v2-14-f09912574d2c@ravnborg.org>
- <202403101854.Z94SAU13-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=athaariq.my.id header.i=@athaariq.my.id header.b="vLkVJZ/i"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.athaariq.my.id (Postfix) with ESMTP id 2B5583FCCE;
+	Sun, 10 Mar 2024 14:04:36 +0000 (UTC)
+Authentication-Results: mail.athaariq.my.id (amavisd-new);
+	dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
+	header.d=athaariq.my.id
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=athaariq.my.id;
+	 h=content-transfer-encoding:mime-version:references:in-reply-to
+	:x-mailer:message-id:date:date:subject:subject:from:from
+	:received; s=dkim20240121; t=1710079475; x=1711289076; bh=bCuL2w
+	l8S9icw4U5xMr/xIXsWYoAqwQJPnAC6leV3uQ=; b=vLkVJZ/imLfXfwTDGPX53i
+	KuL7GQmmfnwfknqVlSTVous6tP+WjSZS4NzLoyt27cUwKkJEEgUtcEQwnWoFmoVg
+	F4wDeQayB+ISSrt5FFqHMkWNE+rACfsTyc3fI+JLbR2yf3VfUQe2PIcX/VJMixxc
+	XumnfFWRx4FnkDk5cL0XlDvXOf0CNbnxUp5XiclCN/QQGEyXy73/hPDwGr19yiTq
+	lhnqoA6DOkJNE4MACw8B1Llnme66sJMB+94Y7FHw/83adZm5FCOpLjumq/79sVvE
+	uaGafnxplUPparxzja5nr717wiQzm8ARK3S0jwvKYT5pXH70PdFRCobDDH/5mYZA
+	==
+Received: from localhost.localdomain (unknown [192.168.100.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by mail.athaariq.my.id (Postfix) with ESMTPSA id A5E793FCD0;
+	Sun, 10 Mar 2024 14:04:33 +0000 (UTC)
+From: Athaariq Ardhiansyah <foss@athaariq.my.id>
+To: linux-sound@vger.kernel.org
+Cc: kailang@realtek.com.tw,
+	pshou@realtek.com.tw,
+	tiwai@suse.de,
+	jwoithe@just42.net,
+	Athaariq Ardhiansyah <foss@athaariq.my.id>
+Subject: [PATCH v3] ALSA: hda/realtek: fix ALC285 issues on HP Envy x360 laptops
+Date: Sun, 10 Mar 2024 20:58:44 +0700
+Message-ID: <20240310140249.3695-1-foss@athaariq.my.id>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <877cidxhny.wl-tiwai@suse.de>
+References: <877cidxhny.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202403101854.Z94SAU13-lkp@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi kernel test robot et al.
+Realtek codec on HP Envy laptop series are heavily modified by vendor.
+Therefore, need intervention to make it work properly. The patch fixes:
 
-On Sun, Mar 10, 2024 at 06:37:53PM +0800, kernel test robot wrote:
-> Hi Sam,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 84b76d05828a1909e20d0f66553b876b801f98c8]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Relay/sparc32-Update-defconfig-to-LEON-SMP/20240310-021717
-> base:   84b76d05828a1909e20d0f66553b876b801f98c8
-> patch link:    https://lore.kernel.org/r/20240309-sunset-v2-14-f09912574d2c%40ravnborg.org
-> patch subject: [PATCH v2 14/28] sparc32: Drop unused mmu models
-> config: sparc-randconfig-r113-20240310 (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/config)
-> compiler: sparc-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20240310/202403101854.Z94SAU13-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403101854.Z94SAU13-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/sparc/mm/srmmu.c:49:5: sparse: sparse: symbol 'vac_line_size' was not declared. Should it be static?
-> 
-> vim +/vac_line_size +49 arch/sparc/mm/srmmu.c
-> 
-> accf032cfa582e Sam Ravnborg   2012-05-19  46  
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  47  int vac_cache_size;
-> 9d262d95114cf2 Guenter Roeck  2017-04-01  48  EXPORT_SYMBOL(vac_cache_size);
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16 @49  int vac_line_size;
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  50  
+- B&O soundbar speakers (between lid and keyboard) activation
+- Enable LED on mute button
+- Add missing process coefficient which affects the output amplifier
+- Volume control synchronization between B&O soundbar and side speakers
+- Unmute headset output on several HP Envy models
+- Auto-enable headset mic when plugged
 
-vac_line_size is no longer used and can be deleted.
-vac_cache_size is never written to and can be deleted too.
+This patch was tested on HP Envy x360 13-AR0107AU with Realtek ALC285
 
-vac_cache_size is used in shmparam_32.h like this:
-#define SHMLBA (vac_cache_size ? vac_cache_size : PAGE_SIZE)
+The only unsolved problem is output amplifier of all built-in speakers
+is too weak, which causes volume of built-in speakers cannot be loud
+as vendor's proprietary driver due to missing _DSD parameter in the
+firmware. The solution is currently on research. Expected to has another
+patch in the future.
 
-The same file has:
-#define __ARCH_FORCE_SHMLBA	1
+Potential fix to related issues, need test before close those issues:
 
-If I understand it right then when SHMLBA equals PAGE_SIZE then there is
-no need to define __ARCH_FORCE_SHMLBA and sparc32 can use the asm-generic
-variant of shmparam.h
+- https://bugzilla.kernel.org/show_bug.cgi?id=3D189331
+- https://bugzilla.kernel.org/show_bug.cgi?id=3D216632
+- https://bugzilla.kernel.org/show_bug.cgi?id=3D216311
+- https://bugzilla.kernel.org/show_bug.cgi?id=3D213507
 
-I will do this change in v3.
+Signed-off-by: Athaariq Ardhiansyah <foss@athaariq.my.id>
+---
 
-	Sam
+Changes in v2:
+- Re-order SND_PCI_QUIRK based on its PCI SSID
+- Fix missing whitespace
+
+Changes in v3:
+- Fix minor commit message mistake
+
+---
+ sound/pci/hda/patch_realtek.c | 63 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.=
+c
+index e3096572881d..04f959fd9689 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6695,6 +6695,60 @@ static void alc285_fixup_hp_spectre_x360(struct hd=
+a_codec *codec,
+ 	}
+ }
+=20
++static void alc285_fixup_hp_envy_x360(struct hda_codec *codec,
++				      const struct hda_fixup *fix,
++				      int action)
++{
++	static const struct coef_fw coefs[] =3D {
++		WRITE_COEF(0x08, 0x6a0c), WRITE_COEF(0x0d, 0xa023),
++		WRITE_COEF(0x10, 0x0320), WRITE_COEF(0x1a, 0x8c03),
++		WRITE_COEF(0x25, 0x1800), WRITE_COEF(0x26, 0x003a),
++		WRITE_COEF(0x28, 0x1dfe), WRITE_COEF(0x29, 0xb014),
++		WRITE_COEF(0x2b, 0x1dfe), WRITE_COEF(0x37, 0xfe15),
++		WRITE_COEF(0x38, 0x7909), WRITE_COEF(0x45, 0xd489),
++		WRITE_COEF(0x46, 0x00f4), WRITE_COEF(0x4a, 0x21e0),
++		WRITE_COEF(0x66, 0x03f0), WRITE_COEF(0x67, 0x1000),
++		WRITE_COEF(0x6e, 0x1005), { }
++	};
++
++	static const struct hda_pintbl pincfgs[] =3D {
++		{ 0x12, 0xb7a60130 },  /* Internal microphone*/
++		{ 0x14, 0x90170150 },  /* B&O soundbar speakers */
++		{ 0x17, 0x90170153 },  /* Side speakers */
++		{ 0x19, 0x03a11040 },  /* Headset microphone */
++		{ }
++	};
++
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		snd_hda_apply_pincfgs(codec, pincfgs);
++
++		/* Fixes volume control problem for side speakers */
++		alc295_fixup_disable_dac3(codec, fix, action);
++
++		/* Fixes no sound from headset speaker */
++		snd_hda_codec_amp_stereo(codec, 0x21, HDA_OUTPUT, 0, -1, 0);
++
++		/* Auto-enable headset mic when plugged */
++		snd_hda_jack_set_gating_jack(codec, 0x19, 0x21);
++
++		/* Headset mic volume enhancement */
++		snd_hda_codec_set_pin_target(codec, 0x19, PIN_VREF50);
++		break;
++	case HDA_FIXUP_ACT_INIT:
++		alc_process_coef_fw(codec, coefs);
++		break;
++	case HDA_FIXUP_ACT_BUILD:
++		rename_ctl(codec, "Bass Speaker Playback Volume",
++			   "B&O-Tuned Playback Volume");
++		rename_ctl(codec, "Front Playback Switch",
++			   "B&O Soundbar Playback Switch");
++		rename_ctl(codec, "Bass Speaker Playback Switch",
++			   "Side Speaker Playback Switch");
++		break;
++	}
++}
++
+ /* for hda_fixup_thinkpad_acpi() */
+ #include "thinkpad_helper.c"
+=20
+@@ -7290,6 +7344,7 @@ enum {
+ 	ALC280_FIXUP_HP_9480M,
+ 	ALC245_FIXUP_HP_X360_AMP,
+ 	ALC285_FIXUP_HP_SPECTRE_X360_EB1,
++	ALC285_FIXUP_HP_ENVY_X360,
+ 	ALC288_FIXUP_DELL_HEADSET_MODE,
+ 	ALC288_FIXUP_DELL1_MIC_NO_PRESENCE,
+ 	ALC288_FIXUP_DELL_XPS_13,
+@@ -9244,6 +9299,12 @@ static const struct hda_fixup alc269_fixups[] =3D =
+{
+ 		.type =3D HDA_FIXUP_FUNC,
+ 		.v.func =3D alc285_fixup_hp_spectre_x360_eb1
+ 	},
++	[ALC285_FIXUP_HP_ENVY_X360] =3D {
++		.type =3D HDA_FIXUP_FUNC,
++		.v.func =3D alc285_fixup_hp_envy_x360,
++		.chained =3D true,
++		.chain_id =3D ALC285_FIXUP_HP_GPIO_AMP_INIT,
++	},
+ 	[ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP] =3D {
+ 		.type =3D HDA_FIXUP_FUNC,
+ 		.v.func =3D alc285_fixup_ideapad_s740_coef,
+@@ -9821,6 +9882,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
+] =3D {
+ 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LE=
+D_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP=
+_HP_SPECTRE_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE=
+_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP=
+_ENVY_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AM=
+P_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_=
+GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
+@@ -10509,6 +10571,7 @@ static const struct hda_model_fixup alc269_fixup_=
+models[] =3D {
+ 	{.id =3D ALC295_FIXUP_HP_OMEN, .name =3D "alc295-hp-omen"},
+ 	{.id =3D ALC285_FIXUP_HP_SPECTRE_X360, .name =3D "alc285-hp-spectre-x36=
+0"},
+ 	{.id =3D ALC285_FIXUP_HP_SPECTRE_X360_EB1, .name =3D "alc285-hp-spectre=
+-x360-eb1"},
++	{.id =3D ALC285_FIXUP_HP_ENVY_X360, .name =3D "alc285-hp-envy-x360"},
+ 	{.id =3D ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP, .name =3D "alc287-ideapad-b=
+ass-spk-amp"},
+ 	{.id =3D ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN, .name =3D "alc287-yoga=
+9-bass-spk-pin"},
+ 	{.id =3D ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name =3D "alc623-lenov=
+o-thinkstation-p340"},
+--=20
+2.44.0
+
