@@ -1,40 +1,40 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBE41C6AD
-	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 10:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5BA8475
+	for <linux-sound@vger.kernel.org>; Sun, 10 Mar 2024 10:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710066874; cv=none; b=IsWJUZlGDK1D0/huA6x59sgAX61VHXwOgOTeFLvsLIJjVn7CC2wgENCV1GPzCa4T4xC9tL4fGJiO2L1oFAyHgB1QSTiwVusqY+vqX7tewjxIPFQLJonmODwiU0sAMB1aNuBqXflHEBpEcDbyqCjpIhOxon+DIqtWuCUSc242Hm4=
+	t=1710066885; cv=none; b=VvbNL9Mjbm58EwiUiwZphZg+M6MABaONs06rMZOmfx6QLXUSvvMp4VLKPMriZLcm1+xfkIq0qCMoGWFBHQyIQ/G6l4RGjPFJ2OI67J+TuKjW7le3CvmAH7BmZ9EbbecbS3Hwju1Xvm4wmx06TEaLzAClDyo/BP6l3X2f2NoCDMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710066874; c=relaxed/simple;
-	bh=oIdGc5ImnhfPaViLEZJj7z0WGuChdCpuiV5eOBsCcs4=;
+	s=arc-20240116; t=1710066885; c=relaxed/simple;
+	bh=hMoVhJEkwpldmNhim4/TJ9WepGQrKmmYJRI1ofyA+88=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Om0LKlPbTxihLUMqv31cETjPlkN2+tmAXOEmHYFlBqjU5+gMVRowO1OangY2putz838u7giCoWp15vvIGGytJVV0ggMuX+whJSnC/6TKIRUDZjxcbtEQDR7aRZ08EB5QSlgSOFfsm76ZZk1T1UuPhVx6h9Ft8BFS8K/zQyFtA4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=KmaZQ2gP; arc=none smtp.client-ip=203.16.231.148
+	 Content-Type:Content-Disposition:In-Reply-To; b=D75t7cuvq6EBm0JxF+l/70yaDzGIWpl7ohP0x8zmHFvTgLc6UjjXdJYyCUEpoBZwzi8s6184by57tdBo+iX84c2oGn0XdSyesvc8c5cW+PU0esVsAYroRXmzK05GVlAfjO8suovfgdfG+uUvXN4ZFne7izB1e/vl2tc5uMr45TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=GlNPYF/R; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="KmaZQ2gP"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="GlNPYF/R"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 6680C6007738; Sun, 10 Mar 2024 21:04:27 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 6680C6007738
+	id ABA806028493; Sun, 10 Mar 2024 21:04:41 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu ABA806028493
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1710066867; bh=alKXXMz8W4c1SZQiDHs47UyXMb/OcD3ZnuxsxJWMXHY=;
+	t=1710066881; bh=345QHE5pTforqtd8/VrINFhJxee5FEbEJWkD0ZcbIeA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KmaZQ2gPHe2Rw3shZG96Lh/4jpFQSJT8VK+91kyL7+Hn5mmFhVZXLMr6+53bsrItI
-	 pwjMMRX3htmwXlZUXXaDV+zHY95mhxLd6KCwkWC7xiynMTg9FcsWexc8UVdyTiWrRk
-	 mabz5pCcULi3tA1bMApDSK31Q+gVh7rjDFp6LHl94+xjuN4+WOUu+oHtMypwy1Wp+y
-	 VnEEdOdCMFcxyP+jcv/IU41f0DNiwek8xuI7RQwVeii+OzkfjgxRU68s9ZtId6pzJE
-	 H7hoG9/9DGdri4iXARR0H0Ov24070+IGZEFgQhidPa5sm/J30OUbrCgsFsvydpPkFW
-	 vWloeUOoauQhA==
-Date: Sun, 10 Mar 2024 21:04:27 +1030
+	b=GlNPYF/RpFVqKcdJHeDOwpSnsrdVa6ed9awFcJdjESHVjssgWzncBrvhfouTaTEyW
+	 IBsDsgNLC21eJj/bQl95hm3Sfwzie6nOjqzbHbq11BOZo448ynVtRWCdDWUzh58S+N
+	 /FNwkVZvkXfJqSjeCv0xHJOgUCKZ6zlYmdoCMbWXpSI+CbkGnoQYaETTBSdiU3croo
+	 lpVcJ0meOdMbMo8h6o77qNMpCHLRpezsSvbmMPoO8ByIiIRZygp5CeYyzRhRsaI4FU
+	 XNqGUgLUx8i6kk3lQtC99G34bvj0PVnIuoEYFCgaZn3k5HHAJ4atLMTycSepa9HRE6
+	 Lrux3H8YbbZwg==
+Date: Sun, 10 Mar 2024 21:04:41 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 1/3] ALSA: scarlett2: Fix Scarlett 4th Gen 4i4 low-voltage
- detection
-Message-ID: <d97b7d87f43b0e54f37e1552394be2f3ae182704.1710047969.git.g@b4.vu>
+Subject: [PATCH 2/3] ALSA: scarlett2: Fix Scarlett 4th Gen autogain status
+ values
+Message-ID: <8bd12a5e7dc714801dd9887c4bc5cb35c384e27c.1710047969.git.g@b4.vu>
 References: <cover.1710047969.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,66 +46,118 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1710047969.git.g@b4.vu>
 
-The value currently being read to determine the low-voltage state is
-actually the front panel state. Fix the code to use the correct offset
-for the low-voltage state.
+The meanings of the raw_auto_gain_status values were originally
+guessed through experimentation, but the official names have now been
+discovered. Update the autogain status control strings accordingly.
 
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-Fixes: d7cfa2fdfc8a ("ALSA: scarlett2: Add power status control")
+Fixes: 0a995e38dc44 ("ALSA: scarlett2: Add support for software-controllable input gain")
 ---
- sound/usb/mixer_scarlett2.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ sound/usb/mixer_scarlett2.c | 62 ++++++++++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 28 deletions(-)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 6de605a601e5..bce69a78c505 100644
+index bce69a78c505..3815ce1d216e 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -415,7 +415,7 @@ enum {
- 	SCARLETT2_CONFIG_INPUT_SELECT_SWITCH,
- 	SCARLETT2_CONFIG_INPUT_LINK_SWITCH,
- 	SCARLETT2_CONFIG_POWER_EXT,
--	SCARLETT2_CONFIG_POWER_STATUS,
-+	SCARLETT2_CONFIG_POWER_LOW,
- 	SCARLETT2_CONFIG_PCM_INPUT_SWITCH,
- 	SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
- 	SCARLETT2_CONFIG_COUNT
-@@ -723,8 +723,8 @@ static const struct scarlett2_config_set scarlett2_config_set_gen4_4i4 = {
- 		[SCARLETT2_CONFIG_POWER_EXT] = {
- 			.offset = 0x168 },
- 
--		[SCARLETT2_CONFIG_POWER_STATUS] = {
--			.offset = 0x66 }
-+		[SCARLETT2_CONFIG_POWER_LOW] = {
-+			.offset = 0x16d }
- 	}
+@@ -284,14 +284,22 @@ static const char *const scarlett2_dim_mute_names[SCARLETT2_DIM_MUTE_COUNT] = {
+ 	"Mute Playback Switch", "Dim Playback Switch"
  };
  
-@@ -6294,8 +6294,7 @@ static int scarlett2_update_power_status(struct usb_mixer_interface *mixer)
+-/* Autogain Status Values */
+-enum {
+-	SCARLETT2_AUTOGAIN_STATUS_STOPPED,
+-	SCARLETT2_AUTOGAIN_STATUS_RUNNING,
+-	SCARLETT2_AUTOGAIN_STATUS_FAILED,
+-	SCARLETT2_AUTOGAIN_STATUS_CANCELLED,
+-	SCARLETT2_AUTOGAIN_STATUS_UNKNOWN,
+-	SCARLETT2_AUTOGAIN_STATUS_COUNT
++/* The autogain_status is set based on the autogain_switch and
++ * raw_autogain_status values.
++ *
++ * If autogain_switch is set, autogain_status is set to 0 (Running).
++ * The other status values are from the raw_autogain_status value + 1.
++ */
++static const char *const scarlett2_autogain_status_texts[] = {
++	"Running",
++	"Success",
++	"SuccessDRover",
++	"WarnMinGainLimit",
++	"FailDRunder",
++	"FailMaxGainLimit",
++	"FailClipped",
++	"Cancelled",
++	"Invalid"
+ };
+ 
+ /* Power Status Values */
+@@ -2835,9 +2843,9 @@ static int scarlett2_autogain_is_running(struct scarlett2_data *private)
  {
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
--	u8 power_ext;
--	u8 power_status;
-+	u8 power_ext, power_low;
+ 	int i;
  
- 	private->power_status_updated = 0;
++	/* autogain_status[] is 0 if autogain is running */
+ 	for (i = 0; i < private->info->gain_input_count; i++)
+-		if (private->autogain_status[i] ==
+-		    SCARLETT2_AUTOGAIN_STATUS_RUNNING)
++		if (!private->autogain_status[i])
+ 			return 1;
  
-@@ -6304,12 +6303,12 @@ static int scarlett2_update_power_status(struct usb_mixer_interface *mixer)
- 	if (err < 0)
+ 	return 0;
+@@ -2867,25 +2875,25 @@ static int scarlett2_update_autogain(struct usb_mixer_interface *mixer)
  		return err;
  
--	err = scarlett2_usb_get_config(mixer, SCARLETT2_CONFIG_POWER_STATUS,
--				       1, &power_status);
-+	err = scarlett2_usb_get_config(mixer, SCARLETT2_CONFIG_POWER_LOW,
-+				       1, &power_low);
- 	if (err < 0)
- 		return err;
+ 	/* Translate autogain_switch and raw_autogain_status into
+-	 * autogain_status
++	 * autogain_status.
++	 *
++	 * When autogain_switch[] is set, the status is the first
++	 * element in scarlett2_autogain_status_texts[] (Running). The
++	 * subsequent elements correspond to the status value from the
++	 * device (raw_autogain_status[]) + 1. The last element is
++	 * "Invalid", in case the device reports a status outside the
++	 * range of scarlett2_autogain_status_texts[].
+ 	 */
+ 	for (i = 0; i < info->gain_input_count; i++)
+ 		if (private->autogain_switch[i])
++			private->autogain_status[i] = 0;
++		else if (raw_autogain_status[i] <
++				ARRAY_SIZE(scarlett2_autogain_status_texts) - 1)
+ 			private->autogain_status[i] =
+-				SCARLETT2_AUTOGAIN_STATUS_RUNNING;
+-		else if (raw_autogain_status[i] == 0)
+-			private->autogain_status[i] =
+-				SCARLETT2_AUTOGAIN_STATUS_STOPPED;
+-		else if (raw_autogain_status[i] >= 2 &&
+-			 raw_autogain_status[i] <= 5)
+-			private->autogain_status[i] =
+-				SCARLETT2_AUTOGAIN_STATUS_FAILED;
+-		else if (raw_autogain_status[i] == 6)
+-			private->autogain_status[i] =
+-				SCARLETT2_AUTOGAIN_STATUS_CANCELLED;
++				raw_autogain_status[i] + 1;
+ 		else
+ 			private->autogain_status[i] =
+-				SCARLETT2_AUTOGAIN_STATUS_UNKNOWN;
++				ARRAY_SIZE(scarlett2_autogain_status_texts) - 1;
  
--	if (power_status > 1)
-+	if (power_low)
- 		private->power_status = SCARLETT2_POWER_STATUS_FAIL;
- 	else if (power_ext)
- 		private->power_status = SCARLETT2_POWER_STATUS_EXT;
+ 	return 0;
+ }
+@@ -3111,12 +3119,10 @@ static int scarlett2_autogain_switch_ctl_put(
+ static int scarlett2_autogain_status_ctl_info(
+ 	struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
+ {
+-	static const char *const values[SCARLETT2_AUTOGAIN_STATUS_COUNT] = {
+-		"Stopped", "Running", "Failed", "Cancelled", "Unknown"
+-	};
+-
+ 	return snd_ctl_enum_info(
+-		uinfo, 1, SCARLETT2_AUTOGAIN_STATUS_COUNT, values);
++		uinfo, 1,
++		ARRAY_SIZE(scarlett2_autogain_status_texts),
++		scarlett2_autogain_status_texts);
+ }
+ 
+ static const struct snd_kcontrol_new scarlett2_autogain_switch_ctl = {
 -- 
 2.43.0
 
