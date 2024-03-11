@@ -1,47 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8E7524AF;
-	Mon, 11 Mar 2024 15:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D896054F91;
+	Mon, 11 Mar 2024 15:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710169964; cv=none; b=UA4Zh0GIVMipfVqjP5lDb2ODtcIihe0OspJw3pqzkfiyWpB0cr3Szyl0HirT+YGtXRO5J8CLIZFAOAmOT2VO9o6I1ObspRJ1C09rc0JGI0UFt9EpzykyIWHsQodxtzn4bFco0VWSXDMrEtW0tDAOxGCaULEpHynf1NiWiRDrdAg=
+	t=1710169970; cv=none; b=Q5Gpkz1phbqwDQK/JQ3wjGXS+67Gv3msxWBQNig6D6hMPyBnqqbIyMeGc+8sqyMo2c2GbXXDmzjYlOyAtcIGm4rplmebnjlQGQb9fvDuC5HRUoGD6zBiUGqxT8/imreztt5ayXISrl16xUh9lt3E1ap7EX7SJSUFymb6vLdqmvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710169964; c=relaxed/simple;
-	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
+	s=arc-20240116; t=1710169970; c=relaxed/simple;
+	bh=qExPU8C2HXd+ID3W+ZzNQdWxRTKsDvz5q7M7trnFqHc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Oc0Jja3OwW5KWnM2UBBPiKgkif3ivNwKIao1iR3aYlt8IZvvWg65TrezQLt1Xos+GccuOfvUzFY+b8KR1DUlXy5IZEpMcMrBlPSIYXv07h9DYMqs6QQHmbGuBtrxNgiVQPQAY6R53qxZ5eP2lRf9H1iKVO9QrYaudpPp8klHw7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJfTE2uw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=qEFD2s0vnhGgO0eZvvfVw52mZK4WpjTmVmJy2FRuuFTeMz4i5Vmeblhcn9XQz+10ImQizlSZKY59cK1qoF/69fnnu+oB7eJpg96m9TYpKUp7pvxgjrnpKW4FnKqsIsDo4MqmwJbluU58afDzkRJ3ZPuqpo0Uk6TwwFe5ps5ynag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j20kLSyk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJfTE2uw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98977C43330;
-	Mon, 11 Mar 2024 15:12:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j20kLSyk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D02C43390;
+	Mon, 11 Mar 2024 15:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710169963;
-	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
+	s=k20201202; t=1710169970;
+	bh=qExPU8C2HXd+ID3W+ZzNQdWxRTKsDvz5q7M7trnFqHc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fJfTE2uwgpV6yJc2zA/Dh9rSWJvmFDR5Ltdd+qVNpfpBMLRlZop5GVpc4Am1e2t/C
-	 wgYB2l70YU+FMZkh6Y518Hi4JDq5mgHdjUDuhzIz5bCKa0wqcwRL0GTAwiHHlGHzXS
-	 RW5AHUwpyPE7cTJtIvXw55r61Ymr7+Hg1qmW6M7XdXL0b4c1TU/bGq5dwNk3dWX7QD
-	 IJH8t8huRtfqoxJArF28voScms5qSXK5ZHQcPs5RiTvrIi4O9iYHCSMC34dcXYxbMZ
-	 3+N6yH5xRo+s61qyhOWqZG7FCwqv55sBeSwqYtbxU/AZ0qlL/xJ0wVO4xo0MPsyGfD
-	 PCrL8P6NRY3aA==
+	b=j20kLSyku3e9Kl1tjAucxhaBW/DjMKsUAJKUseKuDyPE3hCZHZYnlvLoYolVUhqAk
+	 sGijBZZOuO79m6q249LyKmBWEwXartX7/+lIdHQlNgvXkfAyz4QREQAhJvfAFQUV2N
+	 7X4csblkkeplxFvPdo3rtyCFEUOtaLVX6yypWDIqPcBivoCtf9ZZX48B1whTf2GrRL
+	 +aVFAiI0GzErTPdCZKH8fwhpk/n0uH72Aip4oTpnrzz2o7kdnuQgUz3c9jisYnOdfA
+	 fr4qKorV0CcP4nPCmJnoAnE7yw51hptW82Su4xz9NVm6/GjrchB60hW3Fb5NyIFvnR
+	 dKDLU90tHX6Lw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Johnny Hsieh <mnixry@outlook.com>,
-	linux-sound@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
+Cc: Kailang Yang <kailang@realtek.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	jeremy@system76.com,
-	git@augustwikerfors.se
-Subject: [PATCH AUTOSEL 6.7 12/23] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-Date: Mon, 11 Mar 2024 11:11:52 -0400
-Message-ID: <20240311151217.317068-12-sashal@kernel.org>
+	sbinding@opensource.cirrus.com,
+	luke@ljones.dev,
+	andy.chi@canonical.com,
+	shenghao-ding@ti.com,
+	ruinairas1992@gmail.com,
+	vitalyr@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 15/23] ALSA: hda/realtek - ALC285 reduce pop noise from Headphone port
+Date: Mon, 11 Mar 2024 11:11:55 -0400
+Message-ID: <20240311151217.317068-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240311151217.317068-1-sashal@kernel.org>
 References: <20240311151217.317068-1-sashal@kernel.org>
@@ -56,40 +58,33 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.9
 Content-Transfer-Encoding: 8bit
 
-From: Johnny Hsieh <mnixry@outlook.com>
+From: Kailang Yang <kailang@realtek.com>
 
-[ Upstream commit 50ee641643dd0f46702e9a99354398196e1734c2 ]
+[ Upstream commit b34bf65838f7c6e785f62681605a538b73c2808c ]
 
-This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
-to enable internal microphone array.
+It had pop noise from Headphone port when system reboot state.
+If NID 58h Index 0x0 to fill default value, it will reduce pop noise.
 
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
-Link: https://msgid.link/r/TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Kailang Yang <kailang@realtek.com>
+Link: https://lore.kernel.org/r/7493e207919a4fb3a0599324fd010e3e@realtek.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 80ad60d485ea0..17c8ff7558694 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index eb45e5c3db8c6..ebde2ea8fa812 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -3684,6 +3684,7 @@ static void alc285_hp_init(struct hda_codec *codec)
+ 	int i, val;
+ 	int coef38, coef0d, coef36;
+ 
++	alc_write_coefex_idx(codec, 0x58, 0x00, 0x1888); /* write default value */
+ 	alc_update_coef_idx(codec, 0x4a, 1<<15, 1<<15); /* Reset HP JD */
+ 	coef38 = alc_read_coef_idx(codec, 0x38); /* Amp control */
+ 	coef0d = alc_read_coef_idx(codec, 0x0d); /* Digital Misc control */
 -- 
 2.43.0
 
