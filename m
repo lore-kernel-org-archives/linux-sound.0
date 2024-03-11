@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A58056B88;
-	Mon, 11 Mar 2024 15:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7575EE97;
+	Mon, 11 Mar 2024 15:13:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710169981; cv=none; b=ZvLZtC78lMZt9/y8w2TRaM6nGhYvssyPCIC/NNrKlTeqYNpbjY5RTgOlYPDtvXDc8K+SLPVZBYbx1iHR29+sLyGCprhpkZmguv+0ITjV1l4zcb5SPPO0fUWbppY+8oioFP4AYdWpzJ6KRVxlyrY4lkA1SAXGj+AV+c4h7Omns80=
+	t=1710170007; cv=none; b=Z2Fp46ESMLlO56rBZcPBTBKEEsEYyPrxUn7iSnOAXnIQMW7AQa5MhWgXIktHFrs3IPlPVn2D+1NIsgZyImBlO5sWG31mnM6UgLMuMV73X9bzpnM41T6iWPMzVZ9DzRtRqQFKPc5bTG+aIYm82Ie+/wkYlOsABv9R2H5CfGyZUWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710169981; c=relaxed/simple;
-	bh=yxJXJBt2rnE90+EW1MbwMjyYjD3W0qZ618LNmt+sM4M=;
+	s=arc-20240116; t=1710170007; c=relaxed/simple;
+	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CkRDM1UG/USwT3CJ4emtL78xOMpxNohxSC+7NOutZpZLhRpzYsdI9JYPovdpphcaMlA1t43x8DcOTRgalfsE2hXzrIdqJUye/I7oWEKw+DyiLY+sYHxPPHGVsnpArCK347yu3F5/Ba51E4ZG+gDvFMkQ227CHP45jro43YwWI7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nagn15C+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UtCBSXqfRzvr3VojZc5kWIMs5u44dR7QcbrvJnrvYpZ1m4JG0gFjws1f99n1GLrzRPKLGk8836+eRH/9rFRQKZBafOq2lfjJtH+jGazHs0WBB1Dp+tcWumLr65kX5HLzBjj2NSWYpB0W7OdeQc7W53Lq1TyQTH6nju1fqHjsU+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgBkeELP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nagn15C+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A802AC433C7;
-	Mon, 11 Mar 2024 15:12:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgBkeELP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE042C43394;
+	Mon, 11 Mar 2024 15:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710169981;
-	bh=yxJXJBt2rnE90+EW1MbwMjyYjD3W0qZ618LNmt+sM4M=;
+	s=k20201202; t=1710170007;
+	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Nagn15C+eWmbtXRRAIsxUMaHRO8RJ0CGDOSbLMQJxXFZ/A5ePSnHa3E0/ecPr9r8M
-	 B8FhM+yzT1Nbi5MZXtChzTrgZ/IL5GmJ92asPCco87XspCgb1b4lc3e46Nd0+HxGmK
-	 Ix3a8GHyHAyLsodCOkM/PDjPDr4RouLNIulUBo+aLlDdRlACLQY03Rj0biXzHjfDrV
-	 xfUfngjAJeN82e4zMRYJMBcaY+g/EQGNSs33zeQ0JLrrSyH0eLTmuJf1k4/Lyzsa5V
-	 1hZqWGw2DT0R8QCgGoUAZ9pCbKcw1fbWdANa57lAy5esfilEg+hJWX5g0dOQo/jWAX
-	 UeAW37efDN+xw==
+	b=BgBkeELPhcLraOKKj94cX4rNA0WIpkRf4HZYNl8ERHzeJt6pQjX6bo8BWzA8X/TpT
+	 /X1MjMbejIOCQejGgu5VsAdlvm6OV/SEhc54wdXWYGokprvM4z1dFPbEPrSMfgoIlB
+	 yBu+s8aiLups+SVrH6ds6pwPkzPnVjyGcVRFtrHBsqEjd+iyjgBBco9utvUOEQIro2
+	 P39ej9hTDH15jhpUF2lm/YIi85yfA+EchkNoC4VGG3t/8Mceicy0DTFk11DAfJWE7M
+	 hAuXZf7t9XeeArR7DJVwUUDM/fsXpwYim5XdFu0UjqNCebBk7OLbrz+Ma3VHqTuh+K
+	 gdAFiFaOes6vA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jiawei Wang <me@jwang.link>,
+Cc: Johnny Hsieh <mnixry@outlook.com>,
+	linux-sound@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
@@ -37,14 +38,13 @@ Cc: Jiawei Wang <me@jwang.link>,
 	tiwai@suse.com,
 	mario.limonciello@amd.com,
 	jeremy@system76.com,
-	git@augustwikerfors.se,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 19/23] ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
-Date: Mon, 11 Mar 2024 11:11:59 -0400
-Message-ID: <20240311151217.317068-19-sashal@kernel.org>
+	git@augustwikerfors.se
+Subject: [PATCH AUTOSEL 6.6 07/17] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+Date: Mon, 11 Mar 2024 11:12:58 -0400
+Message-ID: <20240311151314.317776-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240311151217.317068-1-sashal@kernel.org>
-References: <20240311151217.317068-1-sashal@kernel.org>
+In-Reply-To: <20240311151314.317776-1-sashal@kernel.org>
+References: <20240311151314.317776-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,18 +53,19 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.9
+X-stable-base: Linux 6.6.21
 Content-Transfer-Encoding: 8bit
 
-From: Jiawei Wang <me@jwang.link>
+From: Johnny Hsieh <mnixry@outlook.com>
 
-[ Upstream commit ed00a6945dc32462c2d3744a3518d2316da66fcc ]
+[ Upstream commit 50ee641643dd0f46702e9a99354398196e1734c2 ]
 
-Like many other models, the Lenovo 21J2 (ThinkBook 16 G5+ APO)
-needs a quirk entry for the internal microphone to function.
+This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
+to enable internal microphone array.
 
-Signed-off-by: Jiawei Wang <me@jwang.link>
-Link: https://msgid.link/r/20240228073914.232204-2-me@jwang.link
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
+Link: https://msgid.link/r/TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -72,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 17c8ff7558694..de0d399eae8c4 100644
+index 80ad60d485ea0..17c8ff7558694 100644
 --- a/sound/soc/amd/yc/acp6x-mach.c
 +++ b/sound/soc/amd/yc/acp6x-mach.c
 @@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
@@ -83,7 +84,7 @@ index 17c8ff7558694..de0d399eae8c4 100644
 +		.driver_data = &acp6x_card,
 +		.matches = {
 +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21J2"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
 +		}
 +	},
  	{
