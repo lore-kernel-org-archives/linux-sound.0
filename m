@@ -1,87 +1,139 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEFB17561
-	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 09:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78C217999;
+	Mon, 11 Mar 2024 10:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710149259; cv=none; b=kvJ47O7MJWHk04/xs2ihjEuihFHSlO7NsECq8kx0djTct/eXE91+4ibCqK/MEOUeWP8jcQ+YFyx18nOd9tl2qE7EZyLxRGi9qHF3vUMjCkHJ+K7Qv2usQ43YTdeilHx1nM9oI4UQkmWf877yPTbK5OQgp9rnWJHO5efrFpgFvqo=
+	t=1710152082; cv=none; b=aTojxJfkHsL5A4igmXdqb5XKVk8ipnFg6edhJRHz0OVdhTUXee962VurwiA80zfQPy5IV56TO0aWhsoHoXcAw2S1ujnpaoj1E7/HUsowlcl5kVb+YArVt/mY+me/edUDNzbr3P/Nuw7yHvw7VUmgkeeGEh08gClCXflhhuF7Q74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710149259; c=relaxed/simple;
-	bh=IbrlUYNZxvqXkP6Zs5pgUOySu2oeOlmvKd+vo18BIjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YWUQWYUFzEyB2HUIfAOTY6uxNylNjp48QKq7GACaOVCkrhgFybAIJ0LkVSY4iaGdaLW2XUU6srAlQUYNvcfjDJCVksWUnllPE/A+gbvK0d5stil0FrLthYX5rZUvYfpsq9Dn5jb1p8mujTSVMWMY0nSp8QkoEAsPDcv3km2U8mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=FsAtQ96S; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1710152082; c=relaxed/simple;
+	bh=NJ15PA7RZlbmnmArC4fnfSy4/v7wcKLjhs2bbWriqRo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvH8nmiU/fxednJCsvjjqRDFVkG6lNPVkv4ANbCY/4q7JQ9gRzU372S1lFg2uNNhHeC+XL587EHCxONSXSSrw0nuh8kG1qzjs1YxtUNSiiv0nN9SD/gYZ8osksDmwavTuDMigZ/asewjZrCmHfnI+t9nqRfInr8xz/s0tuOWTg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mIgTpckY; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="FsAtQ96S"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id DBD516062037; Mon, 11 Mar 2024 19:57:34 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu DBD516062037
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1710149254; bh=4SgDhK379YrLBpaJ2ehBUk9UV0oDgnnOmJjYQ6ZVx/k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FsAtQ96S6pFSlTQ9BYOjygl9f+uVWNv8AkesovjFAZ2ZxZlDzKcbbPV8waayfZs41
-	 eB4HIIeVrM22Vu3wFbobBxhRMM+0gOLz16EbVQt5d/5O7SNCj+/of1jR6HiG/w5T4k
-	 XBczloeAJayzusLD3OiaBHhH0tkcB535BBDv1uOw4MrPtJwxo+JJ9EvSTRpgjFO/2T
-	 eF/y/vpsaBARptDBOnIFUR/p94JFzrqwIBO0txk8jCYix9lM10/+ZLPuKSbTn70DdV
-	 gXiDLIpqjB1OGy5hha4Brnp1SJes3iN0bqhdpKHdW2kUo9VERLjlzRlek0la9jgL+j
-	 3fsWZs+dvRcsg==
-Date: Mon, 11 Mar 2024 19:57:34 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ALSA: scarlett2: Scarlett 4th Gen fixes for 6.8
-Message-ID: <Ze7OhgoCUFzMnX9h@m.b4.vu>
-References: <cover.1710047969.git.g@b4.vu>
- <87o7blb2uz.wl-tiwai@suse.de>
- <Ze7D+gD+2DxgbSGY@m.b4.vu>
- <87h6hdb1j0.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mIgTpckY"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B6urf2014292;
+	Mon, 11 Mar 2024 05:14:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=MeyE9CPwcBniBLq
+	ToRElUJW1aTRcibz70UI55MTwDPU=; b=mIgTpckYcIRZ3sRZ5f2jvxQf/L7UNkQ
+	TDFQ9fmGqkwtXRcbOgt84tbYjQ71OibtRVI2xgGCbUT+NvxkZrNsmXfR32PYjgSy
+	iijm0qB4zDLPfUwzni9od8oakqkMX34IzxGcFrmrtGlf9vX/vDanaeO/n1xB9gM8
+	v1O3GQ8YOQXkGvwKDHVSldazGE3BKsDNB2e8Brgc/fyqqmpNQhcfqqpsKHjLzXT9
+	7Euu2vbxaJ+d2Fj+PQFEKFEopcCadksrlPv+c8Iq0U2+yNSU7Fph7W4iuIgr1WaH
+	Nb4tgb3bG5Wx25CPx4dk4VVFMZsup7ICvJ5F1oBH8+eAZ8oqLY3T1Tw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wrp22sqyj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 05:14:21 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 11 Mar
+ 2024 10:14:19 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.4 via Frontend Transport; Mon, 11 Mar 2024 10:14:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 0A65D820241;
+	Mon, 11 Mar 2024 10:14:19 +0000 (UTC)
+Date: Mon, 11 Mar 2024 10:14:17 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Jeff LaBundy <jeff@labundy.com>
+CC: James Ogletree <jogletre@opensource.cirrus.com>,
+        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v9 1/5] firmware: cs_dsp: Add write sequencer interface
+Message-ID: <Ze7ZeY+FTPuk0zyE@ediswmail9.ad.cirrus.com>
+References: <20240308222421.188858-1-jogletre@opensource.cirrus.com>
+ <20240308222421.188858-2-jogletre@opensource.cirrus.com>
+ <Ze4GEKkXoRA/4Sga@nixie71>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <87h6hdb1j0.wl-tiwai@suse.de>
+In-Reply-To: <Ze4GEKkXoRA/4Sga@nixie71>
+X-Proofpoint-GUID: u7JIgzHDWMTPP6IGr17hIFuHqyTQ2WbS
+X-Proofpoint-ORIG-GUID: u7JIgzHDWMTPP6IGr17hIFuHqyTQ2WbS
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, Mar 11, 2024 at 09:44:51AM +0100, Takashi Iwai wrote:
-> On Mon, 11 Mar 2024 09:42:34 +0100,
-> Geoffrey D. Bennett wrote:
-> > 
-> > On Mon, Mar 11, 2024 at 09:16:04AM +0100, Takashi Iwai wrote:
-> > > On Sun, 10 Mar 2024 11:34:09 +0100,
-> > > Geoffrey D. Bennett wrote:
-> > > > 
-> > > > Hi Takashi,
-> > > > 
-> > > > I have three minor fixes for the Scarlett 4th Gen driver in 6.8:
-> > > > - The low-voltage indication is now being read from the correct offset
-> > > > - The autogain status values are now all correctly interpreted
-> > > > - The input gain range is now correct
-> > > > 
-> > > > Regards,
-> > > > Geoffrey.
-> > > > 
-> > > > Geoffrey D. Bennett (3):
-> > > >   ALSA: scarlett2: Fix Scarlett 4th Gen 4i4 low-voltage detection
-> > > >   ALSA: scarlett2: Fix Scarlett 4th Gen autogain status values
-> > > >   ALSA: scarlett2: Fix Scarlett 4th Gen input gain range
-> > > 
-> > > Applied all patches now.  Thanks.
-> > 
-> > Hi Takashi,
-> > 
-> > Sorry for the inconvience, I have a v2 of the 3rd patch "Fix Scarlett
-> > 4th Gen input gain range" which I will send in a moment. Please let me
-> > know if you prefer a patch on top of the above rather than a
-> > replacement patch.
+On Sun, Mar 10, 2024 at 02:12:16PM -0500, Jeff LaBundy wrote:
+> On Fri, Mar 08, 2024 at 10:24:17PM +0000, James Ogletree wrote:
+> > +	switch (op_code) {
+> > +	case CS_DSP_WSEQ_FULL:
+> > +		cs_dsp_chunk_write(&ch, 32, op_new->address);
+> > +		cs_dsp_chunk_write(&ch, 32, op_new->data);
+> > +		break;
+> > +	case CS_DSP_WSEQ_L16:
+> > +	case CS_DSP_WSEQ_H16:
+> > +		cs_dsp_chunk_write(&ch, 24, op_new->address);
+> > +		cs_dsp_chunk_write(&ch, 16, op_new->data);
+> > +		break;
+> > +	default:
+> > +		ret = -EINVAL;
+> > +		cs_dsp_err(dsp, "Op code not supported: %X\n", op_code);
+> > +		goto op_new_free;
 > 
-> Yes, please send an incremental fix.
-> You can get the commits in for-linus branch of sound.git tree.
+> There is no need to drop down and call devm_kfree() here; it's sufficient
+> to simply return -EINVAL. The devres core will free any instances of
+> cs_dsp_wseq_op when the driver is unbound.
+> 
+> I imagine you're calling devm_kfree() to protect against the case where
+> the driver successfully probes, but the contents of the firmware are found
+> to be invalid later. In that case, yes, this newly allocated memory will
+> persist throughout the length of the driver's life.
+> 
+> That's an error condition though; if it happens, the customer will surely
+> remove the module, correct the .wmfw or .bin file, then insert the module
+> again. All we need to do here is make sure that memory does not leak after
+> the module is removed, and device-managed allocation already handles this.
+> 
 
-Thanks for your patience. I have submitted an incremental fix,
-hopefully correct this time!
+I disagree here. This is the write function, there is no guarantee
+this is even called at probe time. This is generic code going
+into the DSP library and will presumably get re-used for different
+purposes and on different parts in the future. Freeing on the error
+path is much safer here.
+
+> > +int cs_dsp_wseq_multi_write(struct cs_dsp *dsp, struct cs_dsp_wseq *wseq,
+> > +			    const struct reg_sequence *reg_seq, int num_regs,
+> > +			    u8 op_code, bool update)
+> > +{
+> > +	int ret, i;
+> > +
+> > +	for (i = 0; i < num_regs; i++) {
+> > +		ret = cs_dsp_wseq_write(dsp, wseq, reg_seq[i].reg,
+> > +					reg_seq[i].def, update, op_code);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
+> 
+> This is absolutely a nit-pick, but in cs_dsp_wseq_init(), you use the pattern
+> of breaking on error and always returning ret; here you return on error. Both
+> are functionally equivalent but it would be nice to be consistent in terms of
+> style.
+> 
+> If you do opt to match cs_dsp_wseq_multi_write() to cs_dsp_wseq_init(), I do
+> think you'll need to initialize ret to zero here as well to avoid a compiler
+> warning for the num_regs = 0 case.
+
+I would be inclined to make cs_dsp_wseq_init function like this
+one personally, rather than the other way around. Generally best
+to return if there is no clean up to do.
+
+Thanks,
+Charles
