@@ -1,117 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FC93FB2E
-	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 14:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8E7524AF;
+	Mon, 11 Mar 2024 15:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710165950; cv=none; b=JR82+Qs3izLhv+68XixuG4XemSk+I4CQYhnY4lpDbl7lIrcelTE7SqQhJDPL9+d/k0vw4u1BHxW1rTz8oDnvMl/guSjm//sN4cGokSF3Kh+Jhv8zIWQGvnWi5QXnaChONR8saPujNAQKjIEQlteV2pI/aiZIukBJsKxRjECvRFQ=
+	t=1710169964; cv=none; b=UA4Zh0GIVMipfVqjP5lDb2ODtcIihe0OspJw3pqzkfiyWpB0cr3Szyl0HirT+YGtXRO5J8CLIZFAOAmOT2VO9o6I1ObspRJ1C09rc0JGI0UFt9EpzykyIWHsQodxtzn4bFco0VWSXDMrEtW0tDAOxGCaULEpHynf1NiWiRDrdAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710165950; c=relaxed/simple;
-	bh=UHMR4pqbVOsU7aLmYcmKHPDC47wVCRagl/RwfRJq63k=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=VToyh24Z3j1n406RWUnu8ILXnzoM+MgEBNxNBtfIdHY4i3C8Dz5a4lBryBEzh3OvSo7VilJh2wx0NmgwCmsIx5j7kWHaOhZkP79+y2E3fkasCMmD55IlKg1St1xPbv2ftP5IeAfoyqDlhM169qGSHtHvNKkZmJ8B2nV0VdEMxaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RrdbAr2g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710169964; c=relaxed/simple;
+	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Oc0Jja3OwW5KWnM2UBBPiKgkif3ivNwKIao1iR3aYlt8IZvvWg65TrezQLt1Xos+GccuOfvUzFY+b8KR1DUlXy5IZEpMcMrBlPSIYXv07h9DYMqs6QQHmbGuBtrxNgiVQPQAY6R53qxZ5eP2lRf9H1iKVO9QrYaudpPp8klHw7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJfTE2uw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RrdbAr2g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C6FC433C7;
-	Mon, 11 Mar 2024 14:05:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJfTE2uw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98977C43330;
+	Mon, 11 Mar 2024 15:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710165950;
-	bh=UHMR4pqbVOsU7aLmYcmKHPDC47wVCRagl/RwfRJq63k=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=RrdbAr2gSdjhpVdUBVPwYvAG4+DM+/qYkT05L4bnOO+la235nWy4j4FPFjdoOsM6w
-	 guAHI05KdupyQoxAymBRuof8g6z2NDTM2A87A5QE0pTYOyWxCJnp+JqL3RPp5TD6wI
-	 C4a9eFYmb4yCv0F9mqpXpCvUOBdou5kwkIyNPbuThJegi9X4od2mKpkMilbZkhXyd7
-	 kusPYGGkciIOZ6QfOEsAXx8nI0Ci2WeajJ10zhBw9LqRiaDZVpN/JriVfMa/lDjLXQ
-	 zeCSrVdLQZfEzneHRSSSIYaJWk/XfrjLb1yE0JE+TyOFwkSMYICfOkpS4U40Vl1ezu
-	 ASvyAsULDBg7Q==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id 68A761200088;
-	Mon, 11 Mar 2024 10:05:48 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 11 Mar 2024 10:05:48 -0400
-X-ME-Sender: <xms:ug_vZTcns5F4VmSCmWfMFHId3q_1TySUB9svi28M7jXUMKjzZWEcfg>
-    <xme:ug_vZZM4LR-RfsVVNtvCkpGCLxiYOIumDRJbGSaSg7X8TpXw8TVAVj-MIoktW5qc4
-    EBKqnTmKtQEBtwS4cI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjedugdeitdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeejvddvjeffveevffdvjeejgedukeegfffhkeektdduffffueekffffudef
-    vddvgfenucffohhmrghinhepvghvvghrhihthhhinhhgvddrtghomhenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugdomhgvshhmthhp
-    rghuthhhphgvrhhsohhnrghlihhthidquddvkeehudejtddvgedqvdekjedttddvieegqd
-    grrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:ug_vZciA-X89FEkRLmH215-3DCIfaE78E_Bfi-DInAFk0Bgv0Va0fg>
-    <xmx:ug_vZU_xMhQH6SZHBrp1cIU0BKMmfi5uN5ICgrxlkRt0bOe_npcSrQ>
-    <xmx:ug_vZft8lZE6MOdPg3eeqURAlEm5sOtM_senXg9kxOnU_aomYU47XA>
-    <xmx:vA_vZalNjXxjw9dINZlH-FGuq_Ai571BMTrFHUfKs9bLNSBRXUSje_g8Tyc>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 94D7FB6008D; Mon, 11 Mar 2024 10:05:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
+	s=k20201202; t=1710169963;
+	bh=l/Bd3krpOcAVTkApY/kXI+PTs5uv+u9Z0EBakS4REvI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fJfTE2uwgpV6yJc2zA/Dh9rSWJvmFDR5Ltdd+qVNpfpBMLRlZop5GVpc4Am1e2t/C
+	 wgYB2l70YU+FMZkh6Y518Hi4JDq5mgHdjUDuhzIz5bCKa0wqcwRL0GTAwiHHlGHzXS
+	 RW5AHUwpyPE7cTJtIvXw55r61Ymr7+Hg1qmW6M7XdXL0b4c1TU/bGq5dwNk3dWX7QD
+	 IJH8t8huRtfqoxJArF28voScms5qSXK5ZHQcPs5RiTvrIi4O9iYHCSMC34dcXYxbMZ
+	 3+N6yH5xRo+s61qyhOWqZG7FCwqv55sBeSwqYtbxU/AZ0qlL/xJ0wVO4xo0MPsyGfD
+	 PCrL8P6NRY3aA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Johnny Hsieh <mnixry@outlook.com>,
+	linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	mario.limonciello@amd.com,
+	jeremy@system76.com,
+	git@augustwikerfors.se
+Subject: [PATCH AUTOSEL 6.7 12/23] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+Date: Mon, 11 Mar 2024 11:11:52 -0400
+Message-ID: <20240311151217.317068-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240311151217.317068-1-sashal@kernel.org>
+References: <20240311151217.317068-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <e387ad3c-7646-49b6-a5f5-afd287556d8c@app.fastmail.com>
-In-Reply-To: <20240309-sunset-v2-28-f09912574d2c@ravnborg.org>
-References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
- <20240309-sunset-v2-28-f09912574d2c@ravnborg.org>
-Date: Mon, 11 Mar 2024 15:05:25 +0100
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "Sam Ravnborg" <sam@ravnborg.org>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>
-Cc: "Helge Deller" <deller@gmx.de>, "Randy Dunlap" <rdunlap@infradead.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Mark Cave-Ayland" <mark.cave-ayland@ilande.co.uk>,
- "Kjetil Oftedal" <oftedal@gmail.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Alan Stern" <stern@rowland.harvard.edu>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, sparclinux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 28/28] fbdev/p9100: Drop now unused driver p9100
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.9
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 9, 2024, at 19:15, Sam Ravnborg via B4 Relay wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
->
-> The p9100 driver is only relevant for the Sparcbook 3 machine,
-> and with sun4m support removed this driver is no longer relevant.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Acked-by: Arnd Bergmann <arnd@kernel.org>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Arnd Bergmann <arnd@kernel.org>
-> Cc: Andreas Larsson <andreas@gaisler.com>
-> Cc: Helge Deller <deller@gmx.de>
-> ---
->  drivers/video/fbdev/Kconfig  |   8 -
->  drivers/video/fbdev/Makefile |   1 -
->  drivers/video/fbdev/p9100.c  | 372 -------------------------------------------
->  3 files changed, 381 deletions(-)
+From: Johnny Hsieh <mnixry@outlook.com>
 
-I tried to figure out if there are other drivers in the same
-category and found the list at
-https://everything2.com/title/Sun+graphics+cards
+[ Upstream commit 50ee641643dd0f46702e9a99354398196e1734c2 ]
 
-As far as I can tell, the only SBUS graphics that were
-shipped on sparc64 are FB_FFB and FB_CG6, so we could
-go further and remove BW2, CG3, TCX, CG14 and LEO as
-well.
+This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
+to enable internal microphone array.
 
-No need to change anything here for the moment, dropping
-p9100 is already a step in the right direction.
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
+Link: https://msgid.link/r/TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-     Arnd
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 80ad60d485ea0..17c8ff7558694 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.43.0
+
