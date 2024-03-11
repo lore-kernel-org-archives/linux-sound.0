@@ -1,150 +1,156 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25547F42;
-	Mon, 11 Mar 2024 15:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710172117; cv=fail; b=Z01kZh5H8TK/Co5NxN8sKrUCzFkzsYkJoyUV2Bn5Dhw+j/12Z/8iDSYNqlbNV3YjBhPK5e8yWxMDAZ9A20hlIQGUblmOg0pMwRSuhg3IKMgQD57froP1br8M3tmQ1s4Yjza90G/+RmgesXjY/FZOuYxfergBuD+OwF6rtbAgDPQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710172117; c=relaxed/simple;
-	bh=iN0ooDBlds92WLn4pfWbKyZgLRkfozshO8OUObhVVuc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ew0tu+WarptH4XvPB/0lsKbJ9SbRz+Kf033LUWomcS7seKr8G7RjHbXrhlYYJubYqoeAQZP/sMcVEvbfkAFLZH49/luPuCVKNI6JD5P/3vVANFhn5Uz4DH2LtOK13Fal/kZViaSwZb6bppym1X/jzXTZnebKuZEZesgVeDe3aT8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=y0KEz5eD; arc=fail smtp.client-ip=40.107.93.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1831C4122D
+	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 15:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710172283; cv=none; b=SmYm/lSsogAXxwp7mY4v4EKcW/piy1yj0Y0p0LpFCLlUAzgVs8Z7e6tZ3CgFnfpDSXgs+yDUp43NT67uXrPefLEwmuh7I0b7baEgRkzBeZyiJj2HWm1rQD9niMthatIGrZTD+v8o+xqsUIJG+JxRNLO3YvYdT93lQExQ9kXTQIo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710172283; c=relaxed/simple;
+	bh=iL71k+wuodw/wKJq363VmTYyqcbvj+DLHzbUvqEuV9g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FRyjSIsQU86rgJuVfbJuUdKhgjVy/NEHQd5q1riRq1iC6TPqZ1Y+POZc0sbKozQQ8lCsd4CfEPnjA2zIkkZtmUkTrMwdALkGwjlhqJ96yJ/CkwU6ZPxmme2M18tCpn+Lxtc09iBI7P5n8WLuB2Jwn7phlLFAdBJg4tXaIc3cKzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z0w6nsjn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=saCDQWad; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z0w6nsjn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=saCDQWad; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="y0KEz5eD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VcSNfjF+7THWSUGNuy/3B0yDGTTlM3FhvaT7N6niQ1fQgDMd1a9bfwfvAOZksFmgjAFDYcETXbb80oGnQqkYkCQAPNro54DilsUKlCyRXYFs29gJGGmFs8I01jwwe5fozi0DwAa6Wkt5H5CfbPcXn5VtwR5v916dd5vTAXI5+2zOyclgX3os+EzTXqIoRPO84X4JZcfL65ROl6uOTrSiY6xvUjP3dPIeFHNG3HPttSs1GklbrmH4esEntHD4++aZDHVxQIyPXP60C5hCN+OGn6euN/9zpiUQ+eJRTLZcQweaqhK6ikAwDagzc9vrFrnvBPhWTjLdS5i0DS2QzMatfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QzQxLd0inIBw41tDmrDhV2LRjUbq7K1ehflu6uiua1U=;
- b=FG1wjTaLDY6vtAD98vTSvZ9Kun6EO9qqDOa2/ULJ7Uz1dQ6lKgNqHn9G3vx5lRwkLaBLv2VEEHLne1fleIFirrQjucMJY2Adr/z0zxKrSjDXHhDSrodKYLt8C+s3r3TUSe6WxreU+sCRjEQUizAbfppJ2iPnumbyTDsZeDdRZFjVX5Wz10WKkcC0UOziHOWx/gMQJTH+BEyPrrsTb/FWjlr+fGTjVr1mECMv+CuWK03f+jnRMCyArHTMv6cdLAoJ6Kz3CZOXVvjz1ZB6+lU3ibkix30g9FRn/+9HQUXpnbnjF8FMIVAfVUqUuJHQ0CQoy+ve8utR1yK4E543OXRVZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QzQxLd0inIBw41tDmrDhV2LRjUbq7K1ehflu6uiua1U=;
- b=y0KEz5eDme+9tta7X91XzRb0RfSwRF/u9A5OlLvKl9JOEXU8jkpGaAfcVvcK65SrF1q/GWyFiwGKK85GDWo++6oGu39h1PK06ip3R8znm40+yvvSgFJcFSi5EieiXe10w5UyDxMBsr1s1TQU71vnnMviArv/VNyJetn4uhxbLU8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by SJ1PR12MB6025.namprd12.prod.outlook.com (2603:10b6:a03:48c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Mon, 11 Mar
- 2024 15:48:32 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::57a8:313:6bf6:ccb3]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::57a8:313:6bf6:ccb3%3]) with mapi id 15.20.7362.035; Mon, 11 Mar 2024
- 15:48:32 +0000
-Message-ID: <f38b7a66-a141-4877-811d-8c14d09ae4ea@amd.com>
-Date: Mon, 11 Mar 2024 21:18:21 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH AUTOSEL 6.7 18/23] ASoC: amd: yc: add new YC platform
- variant (0x63) support
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Jiawei Wang <me@jwang.link>, lgirdwood@gmail.com,
- perex@perex.cz, tiwai@suse.com, Syed.SabaKareem@amd.com,
- linux-sound@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Venkata prasad Potturu <venkataprasad.potturu@amd.com>
-References: <20240311151217.317068-1-sashal@kernel.org>
- <20240311151217.317068-18-sashal@kernel.org>
- <023092e1-689c-4b00-b93f-4092c3724fb6@amd.com>
- <9c4517bb-2e8c-4d60-a6cc-8ce4b2c3ed2e@sirena.org.uk>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <9c4517bb-2e8c-4d60-a6cc-8ce4b2c3ed2e@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BMXP287CA0001.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:2c::13) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z0w6nsjn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="saCDQWad";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z0w6nsjn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="saCDQWad"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1654D2209D;
+	Mon, 11 Mar 2024 15:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710172280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gmc98DluW3LhEdJHJs9DMwbC/mt6kI946XwcCOb+5TI=;
+	b=Z0w6nsjnWhYaRa3MUw1aDxxATP5A4pRPrhhT0+wrzs7YDwVYyllPQvaOajnIrpXw1R7qjL
+	L1fmwRGDSZoA2iJiRS9WLZbz4m38tdmtkCJ0hU5hkXN12OBdWAQoGRMl8S4nf7IK00TXlp
+	RdtpjPgkW17A4MBU0i6ivRB9t9zaE30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710172280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gmc98DluW3LhEdJHJs9DMwbC/mt6kI946XwcCOb+5TI=;
+	b=saCDQWad5iOSxBcebHwuH2YNzUXFe/QZxHC+VyuAKTQ6TUCxSi4AUFzQ/6M7Ph72+4/hhD
+	jHyJuKywxJ7KKmDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710172280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gmc98DluW3LhEdJHJs9DMwbC/mt6kI946XwcCOb+5TI=;
+	b=Z0w6nsjnWhYaRa3MUw1aDxxATP5A4pRPrhhT0+wrzs7YDwVYyllPQvaOajnIrpXw1R7qjL
+	L1fmwRGDSZoA2iJiRS9WLZbz4m38tdmtkCJ0hU5hkXN12OBdWAQoGRMl8S4nf7IK00TXlp
+	RdtpjPgkW17A4MBU0i6ivRB9t9zaE30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710172280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gmc98DluW3LhEdJHJs9DMwbC/mt6kI946XwcCOb+5TI=;
+	b=saCDQWad5iOSxBcebHwuH2YNzUXFe/QZxHC+VyuAKTQ6TUCxSi4AUFzQ/6M7Ph72+4/hhD
+	jHyJuKywxJ7KKmDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBA10136BA;
+	Mon, 11 Mar 2024 15:51:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5zTTM3co72WwCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 11 Mar 2024 15:51:19 +0000
+Date: Mon, 11 Mar 2024 16:51:19 +0100
+Message-ID: <87sf0wrclk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?f=E6talize?= <faetalize@proton.me>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"trivial@kernel.org" <trivial@kernel.org>
+Subject: Re: [PATCH] fix volume mute and mic mute LEDs on HP probook 0x8a74
+In-Reply-To: <_svHAlMKMyPfAYW80GE0F2Nh_0nIyML552foHvCW2Zr7rT4bgt9wKaTVDP77iOL2CCoFzh0uuvwEXRAgSH-DqNwTyZaRY9fIs9bCb5763Zw=@proton.me>
+References: <_svHAlMKMyPfAYW80GE0F2Nh_0nIyML552foHvCW2Zr7rT4bgt9wKaTVDP77iOL2CCoFzh0uuvwEXRAgSH-DqNwTyZaRY9fIs9bCb5763Zw=@proton.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|SJ1PR12MB6025:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5569dca-1008-4b35-84d9-08dc41e2b43d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	uo4Mj9VVV+STrD0UH5+qblAys7DXKrlTyHOr0DJrIW02cmzbP7njB44XtsLhpIrE2lK0DoS457WnWtXFZxnY+VswQkeww/+d055rxl+StLQUbBLLDROAwAvRjFuip/RUggOkFKRcTvAXanQmBLbMUqpB7ULEQqbDZxGzk7tOtle1OZi6LGI0acit+7s+yqLuDg5CULcYUOIcjCt6GmIQIIKdboeKjprYqQWfbJr//nkvOVqzfjpuhkvHQeRrSdAayTL1fp2Gs25lHmM0wlNroXWIUS0amJLIJGsM24fOTd+/VwAIhmcebq5V5daaiWMhGTbA/j3lPWascZTsiIC45DciiE2TAY+8Peae+cNh3M/SPIVRoL5hPJdTqlVLsgBK+FdhXSRS3/Ej5cljjGRxdYpNKHoAVdJ4iHxiY1plZvXO+LoC8Vrirg0ao4eV50hSrRmZJjoxvE2H8w23fV4vmwmZckkqr3UNBIpYnuWml83DW/8MCLTvNGIyRAUUJFufYBkjhzwBvOeJtN3JP6ts47bDnKzNUE3aigq3kemlqHOYVVU+HrwCar2dVkq9REp/2lCHKDtc0QAHKxSkA2teuS1ZMFa2z6HuSsBLgug3dtlW/705LoKx13+AsUJfjDGcRRyHLKKisGUEq9cBDVz4jqScubT9qkCc1ydvRsPSUuE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RnA4MHNPU2Rhb2hOMXAxQU8yZ2xrbHFLQ1VqR1BRcGNEcW5CRkRuTGQ5cTVB?=
- =?utf-8?B?REFmWHFlMDRuOVRYZXdFRDM2Wk9UWVpEajE4SlYyRjFmZ3hORVZLRXhrN1FI?=
- =?utf-8?B?YW4rRlJRUkY5N1lEL1hGYmFkYmNlbUdtcTZHMWVkbFhWeGxoazhSSlkrNll5?=
- =?utf-8?B?cmdteDY4djl2MVJNaytLYlN4QlA2RVgyeUprYjhDZEtDcUhRcUxEL3YrcjBL?=
- =?utf-8?B?QXQ3SGYzNXBKQnc3aEV6QUJwSlp6TXRPbW9OWW1GYTVxQ3JBN280ODQydU96?=
- =?utf-8?B?ZjIyRjJxMnZKT0NoQlczMnNaNGg5RHlBOGFFVFh5Y3ZNajlKMVNYSlg0blF6?=
- =?utf-8?B?STFEQVdDVzRDN2QrTkZ4V053aHg2QVFsb2tGdGlMMEo2SjBoK3ozeStELy93?=
- =?utf-8?B?YU1YZWNjd0hLOFNpZUdjZkF6TWxoWWpMeUl4aVYybmJZdExMWDkyeXB1TE83?=
- =?utf-8?B?T2x5dFNEN3RWM09GbUFNdjBBNk9DdGtqazh1SVl1amRGeklqMFdXWGlSVzdq?=
- =?utf-8?B?L1diS1NuSy8yclNoRGtxeG5vdER0TWVCMkI3RzJTbWVBeUpRejRXTmdvdEo1?=
- =?utf-8?B?MWhoaTRNTDVVS2dIT2Era05iSmdHWHZSWWtzOFQ4aXBKcnZqVXdwTjYyeGxK?=
- =?utf-8?B?d2tXbkRKRzIyVWNlbTVIbi8wTm5Ud0tVUFN4aVF0L0hjMmpSMDc2OHhHbmZE?=
- =?utf-8?B?OUdkNjZ3WVZQWWV5d2hWWVBOcUY1ejZ1cWdNVEZ1enJ5c1UrVFdGRHRvek1w?=
- =?utf-8?B?UXVFRmFsTFgwMjg2NVhSeEFTZUcwYXd6R1NnaFNUMDNwc2RxMmNlSm4rditp?=
- =?utf-8?B?dFZXVjdqT0RSTCtaQVVQOCt1YVE0d2Flb1dlVXVCMUZnTHFrZlZCRThCVFhm?=
- =?utf-8?B?RktNcllTSGx0R2lVOGZiV3BkakhSZkxvRmkxbVovU2FaNFEybzhDdHNBaGox?=
- =?utf-8?B?TEd1RmFUaCtORHBJeThiVUkralhzaDVxbnczTUttVTZRaE16bU1jQ2dFN05J?=
- =?utf-8?B?YjdOUXg5QjBPbGJ6R29QMmljZ1ZuME55WGhiRllySWIvSUE4NXRRREFzalBh?=
- =?utf-8?B?dVkzNG1RU2gxMlhkT2FNMDNNaGJVNjhmamFoWmJ1d1NhYk95NS9UbWRqTDQz?=
- =?utf-8?B?Mm91VWE1a1pLUWRxREFtR0U1TWQzN1VCYVNKRzJZY3BraWkwODZmUU5Xbjd4?=
- =?utf-8?B?UXZsd3ppS3VBL3A2M1lsNmFwQnZ1eGQ3QkN6Wnh5dnpPYUpiQ2RuRHFmZzUz?=
- =?utf-8?B?QnVYWENDb1pxZ0xHZ1N3R1dnTUYvUi8vaEg0SXZlQVdGS1lSM0U3SWwrU2h0?=
- =?utf-8?B?SWVrak1kUmd2TjkrVHF4QWpyTnhvZXNodTRXK0FzSy9xaFZNdFVkeFNjcGdw?=
- =?utf-8?B?MUs1WTdITHh2MFlsOFBzTks2OG9XRjBxdXJ0STFHanZ2Y3p5Yjh0cWs1WmQx?=
- =?utf-8?B?WUE3ZjZtTSt3ZHBBL21ydkFtRjdpUk1VNUN4UjNOaGUwNXpEcHJkT3NWY3Jv?=
- =?utf-8?B?d3k1TFExOWg4b0liY2RoNUxVOG9TZXVxUUdYVjVtWmFSRStlV1pxcWxVYXh5?=
- =?utf-8?B?ZDRRSnhaL2tORFVIRUhyRHM1d3EzUGxVU1AvYWxueEJaMVNYMXNYcCs4bDhL?=
- =?utf-8?B?RWZXUW1lU0grTlJ0Rk9ITUg2S3MxWkVsekJldUZaZitpdm5mNHJCWmxXZTVS?=
- =?utf-8?B?ZVh3YlZ0ZC9mdWlpTEtlQmp3d1J1alRoUWNxUjRsalJ1UHJrN2RrbnNVdDRO?=
- =?utf-8?B?NmYwemJLRm1kQWVZZGd4K010dUtqbUVKejJQMjJmYjVGd1ZDUWhueXRoNkdB?=
- =?utf-8?B?cXR0OXpOWGZUbER3dEd2TWIxQjBuZFZvVmpsb21rT0doTzdwTXFReVBKUHh5?=
- =?utf-8?B?NlZQSEpvTCt4bG02OXU1NEFDY01xdUZ6MzJicUhQd2V1enhIRVVGakJQS29P?=
- =?utf-8?B?WUQvUEJMYWh1K0I1QmJaTVdjdnlmRUZ4U1ZnOWpWbjQ4NGxoN3dCS0dHQmZO?=
- =?utf-8?B?d3ZoQ2o4N2EvWk1OVzI2S3J4ZkU5TGZSVzdVMm92N1Ayd3c1NUdpKzh4Ky9S?=
- =?utf-8?B?QkJ6MitNSCtDQmpvN2Q4U3doenR3ZEswdFN5alFhSkhiSUV3Y3ZWcU56aFpC?=
- =?utf-8?Q?X/brlDSEJeI/a77i3nCHsTwSE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5569dca-1008-4b35-84d9-08dc41e2b43d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 15:48:32.5689
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xG+fOKCBIOsPHgzmYZreKi4xjtxbQkYLZdR5wGGmDLYLYFrFt5MdCddmJ2sQcSbddocAybsfJrFSggBBbqaCFw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6025
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z0w6nsjn;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=saCDQWad
+X-Spamd-Result: default: False [-2.31 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 URIBL_BLOCKED(0.00)[suse.de:dkim,pm.me:email];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -2.31
+X-Rspamd-Queue-Id: 1654D2209D
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 11/03/24 21:13, Mark Brown wrote:
-> On Mon, Mar 11, 2024 at 09:09:26PM +0530, Mukunda,Vijendar wrote:
->> On 11/03/24 20:41, Sasha Levin wrote:
->>> The Lenovo 21J2 (ThinkBook 16 G5+ APO) has this new variant,
->>> as detected with lspci:
->>> 64:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
->>>         ACP/ACP3X/ACP6x Audio Coprocessor (rev 63)
->> This patch has to be reverted.
->> Pci revision id 0x63 corresponds to Pink Sardine (PS) platform.
->> Its not yellow corp platform.
->> Already PS platform ACP driver with PDM controller support available in mainline
->> kernel.
+On Mon, 11 Mar 2024 14:05:55 +0100,
+fætalize wrote:
+> 
+> > --- linux-6.8/sound/pci/hda/patch_realtek.c.orig 2024-03-11 11:59:02.989267710 +0000
+> > +++ linux-6.8/sound/pci/hda/patch_realtek.c 2024-03-11 11:54:16.764227013 +0000
+> > @@ -9890,6 +9890,7 @@ static const struct snd_pci_quirk alc269
+> > SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> > SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+> > SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> > + SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC q", ALC236_FIXUP_HP_GPIO_LED),
+> > SND_PCI_QUIRK(0x103c, 0x87e7, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> > SND_PCI_QUIRK(0x103c, 0x87f1, "HP ProBook 630 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> > SND_PCI_QUIRK(0x103c, 0x87f2, "HP ProBook 640 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+> 
+> Some probook models have a different board ID, which aren't encompassed by the patches. 
+> on my probook 440 g8, this patch fixed my LED lights which now activate correctly upon mute/unmute.
+> 
+> Signed-off-by: Valentine Altair <faetalize@pm.me>
 
-> Is this already corrected upstream?  If there's a patch upstream that
-> needs reverting please send a patch to do that.
-We will send a patch to revert these changes.
+The fix looks trivial, but to be merged to the upstream, could you
+resubmit in a proper format?
+  https://docs.kernel.org/process/submitting-patches.html
 
+Or, if it's too hard, I can fix by myself, as this is a really trivial
+change, too.
+
+
+thanks,
+
+Takashi
