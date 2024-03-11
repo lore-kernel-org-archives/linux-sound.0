@@ -1,111 +1,78 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4912E1118B;
-	Mon, 11 Mar 2024 08:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0D31C33
+	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 08:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710146533; cv=none; b=DGFYzxyAAcfMPMig0PTB03QkAiXl008SKganAFsRGa0QPl00nU9kNuKZh+LrlhUlh7CBqbTobG6itIaJlMVE0Scf8NIyd9sQ0YlA0PLw+kruY9ky4HNrXdomZ4pf1sHrhtWarFGwvZcnrQWXdgXGrcSK9GKIvB2otHPskGDBM3g=
+	t=1710146560; cv=none; b=BEN3VuvSUF+h6tPnueQaXr31fxUlBw6sSe3zjxtTwVNStOmsSDwrJxumd/LfCPtZiCJ2r7X0eqWT2/Vmn8yfVTLdg2+zACXtER19k4IsYP9FZzcUFDRar/EA004GuPy9yL5y8brJv7tRritvrxdUXZSJSzfBp2IHVTF/nGVihow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710146533; c=relaxed/simple;
-	bh=CVcpSQEowmQSM9t8/GfJCKCgL/YYmkegZpNkLQK9IlA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a9HVtpWeXQc9Wgl/YF9iO0chfNfsrbhrS0fURsjAZQzeAi9UZ2m1rlK2FniuRWbqv3lgCXmjGZOgTWx+7m5QdAQjSJ0YjhOxkQzfCLBsrKH68iqduvCZdvQtMw/zqcHsWt6RmYUXcabzVNriXG6PkbITSnqPcBTwWYC7wPb9tBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so4712090276.0;
-        Mon, 11 Mar 2024 01:42:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710146529; x=1710751329;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TgHOKxgDd5agwFdYIamY3hBfpfSIfbA2P0oFSiagzbA=;
-        b=lQOL04NszMvWfx57k3yAmYl839GNllo5dtjgbSMAUGnIoRTa2u+5BkUoMxKI54/ios
-         i8VsvrQCZyygkb4BB69ML9gzKTbTrKrIDMQknWul+WkkNrgYZ6MEKlPrEEhMSuyRvy0B
-         RDdNCJyUYlbTKglFvsATy/iRhr2sPkLS9Iy7ZizEpUFwqkvesHH3Wc8xTnr8gXWTlHeQ
-         63NQAb2k5H9bzN+h5mB1MAVbbF0t6bQblUcz5NU6Y7Lyr8ZKE0chtebQlxoIgkULpdb/
-         hONbyVIWbRsSyYjay1hN2tGfT1O26qHC3nq2kvlMQddqB25MgTe2YTIxB/uJcKvogKhq
-         OI0w==
-X-Forwarded-Encrypted: i=1; AJvYcCXMs20XRoLRCF3P4bD5wkSUkfNZsQLTZRrMmK4fKI+q381NSBvBmy/6YaDucccX0ETzaea8x62WAE+D+fl9DPOHKJ/e3WrBxxMKIDBG3AlrthvygNFyP1Thvhi7dOs2rV6G915E8jBrMbU=
-X-Gm-Message-State: AOJu0YzMikBJgHYRYuBvXnVLsAa/VviWDUgI45SirYIrOZufczCxN8Hu
-	peW6fAZcADVdd8VN2eeRXaXrm3qwdAiVcQMo/8GF2ZT9RYKAwPkCeZw4p1IK3Fg=
-X-Google-Smtp-Source: AGHT+IEAexAj9L8CdAOz2RRTCuCiOg6bbZC4YflYeRtxjd1DdieZAAtIQDMGF2Ott3AknWjbS6xnUg==
-X-Received: by 2002:a25:a1c1:0:b0:dc6:cf8e:8f97 with SMTP id a59-20020a25a1c1000000b00dc6cf8e8f97mr3462313ybi.27.1710146528928;
-        Mon, 11 Mar 2024 01:42:08 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id g1-20020a25db01000000b00dc6c58ae000sm1080856ybf.16.2024.03.11.01.42.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Mar 2024 01:42:08 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-609eb87a847so30269647b3.0;
-        Mon, 11 Mar 2024 01:42:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWcd9PYniGZys/lkR3AC7/t6zuC4A4HlLcG0fP1Mx4yaul5wCbRntCTC/GOmD1IdsOPACNxvreNrg3P0Wy+3fLJbulUp7tSLCCc19WLzWlumYbtMOmcUls7zTZo2Dr3Li/fAI7um86C20g=
-X-Received: by 2002:a0d:d90e:0:b0:609:7699:dc63 with SMTP id
- b14-20020a0dd90e000000b006097699dc63mr4623835ywe.9.1710146528457; Mon, 11 Mar
- 2024 01:42:08 -0700 (PDT)
+	s=arc-20240116; t=1710146560; c=relaxed/simple;
+	bh=DN4kXREgEZahLMtZW/woMwShQ/8KouDNFSZFzWtVV0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ND5UUxtutfxkMJBXj74o8CJXWfmYDhv2u+yc3rcyvWuYUTyylpQXjNQuPjzp3kJnzs65oQfi063O2m1ZYtBS8+7dVZ8SbFjb2BF0RJnfCrWGesYKztwW46L5pb6u4ATkS82QTTAmf7mTKQWIkLaejlO2nFj51ybnuop8RlneuZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=bx01p6Aq; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="bx01p6Aq"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 4B9336062037; Mon, 11 Mar 2024 19:12:34 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 4B9336062037
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1710146554; bh=eM/CONVbL/2FvKS1pVVX1t4jEy5lkfvaatoEgRwRTEc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bx01p6Aq6LmU3uyWLMPfhP31uCPbMtm11JCKtFLGD4faKWyqYfF4JW2AAxWIwyt6R
+	 bbIBzaGyaYSpN9JhIGXWYPT+tZb3wcbL/1F/gzKOJdfx1eDoPjWYEgkXWjCNLJ+SQ/
+	 pBZ6Cfiyqcaxi5Nzt3R8cmxp5A/IheKMK6mVOpQvH71oBHvBYN7i4dUN3GIuJ2fTY/
+	 OvIuD5eVrK9CbXJLrJ1IDrYvAxYEgSCLxH3nDvaphPeDiXfgOKwOsWb+8/32QacLp1
+	 OXwlork3Zl1Z8ybzVSGyGnFzkBUmCsoJe1qSNBsw5Xv6WP+V/0ZsDnfBbGMg+GNamg
+	 O7n3tRHecWAiQ==
+Date: Mon, 11 Mar 2024 19:12:34 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ALSA: scarlett2: Scarlett 4th Gen fixes for 6.8
+Message-ID: <Ze7D+gD+2DxgbSGY@m.b4.vu>
+References: <cover.1710047969.git.g@b4.vu>
+ <87o7blb2uz.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Mar 2024 09:41:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXAxus+Y9w9e_A03MHhcBSzj4xREw1YwN9d331o+6=zhA@mail.gmail.com>
-Message-ID: <CAMuHMdXAxus+Y9w9e_A03MHhcBSzj4xREw1YwN9d331o+6=zhA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: tlv320adc3xxx: Don't strip remove function when
- driver is builtin
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7blb2uz.wl-tiwai@suse.de>
 
-On Sun, Mar 10, 2024 at 3:39=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> Using __exit for the remove function results in the remove callback
-> being discarded with SND_SOC_TLV320ADC3XXX=3Dy. When such a device gets
-> unbound (e.g. using sysfs or hotplug), the driver is just removed
-> without the cleanup being performed. This results in resource leaks. Fix
-> it by compiling in the remove callback unconditionally.
->
-> This also fixes a W=3D1 modpost warning:
->
->         WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section=
- mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx=
-_i2c_remove (section: .exit.text)
->
-> (which only happens with SND_SOC_TLV320ADC3XXX=3Dm).
->
-> Fixes: e9a3b57efd28 ("ASoC: codec: tlv320adc3xxx: New codec driver")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->
-> note that this patch only applies as is after commit 4e8ff3587868 ("ASoC:
-> codecs: tlv320adc3xxx: Wrap adc3xxx_i2c_remove() in __exit_p()") which wa=
-s the
-> wrong approach to fix the build error.
+On Mon, Mar 11, 2024 at 09:16:04AM +0100, Takashi Iwai wrote:
+> On Sun, 10 Mar 2024 11:34:09 +0100,
+> Geoffrey D. Bennett wrote:
+> > 
+> > Hi Takashi,
+> > 
+> > I have three minor fixes for the Scarlett 4th Gen driver in 6.8:
+> > - The low-voltage indication is now being read from the correct offset
+> > - The autogain status values are now all correctly interpreted
+> > - The input gain range is now correct
+> > 
+> > Regards,
+> > Geoffrey.
+> > 
+> > Geoffrey D. Bennett (3):
+> >   ALSA: scarlett2: Fix Scarlett 4th Gen 4i4 low-voltage detection
+> >   ALSA: scarlett2: Fix Scarlett 4th Gen autogain status values
+> >   ALSA: scarlett2: Fix Scarlett 4th Gen input gain range
+> 
+> Applied all patches now.  Thanks.
 
-Sorry, my bad...
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Hi Takashi,
 
-Gr{oetje,eeting}s,
+Sorry for the inconvience, I have a v2 of the 3rd patch "Fix Scarlett
+4th Gen input gain range" which I will send in a moment. Please let me
+know if you prefer a patch on top of the above rather than a
+replacement patch.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Geoffrey.
