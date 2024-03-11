@@ -1,151 +1,95 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332E411C92
-	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 08:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955F322318
+	for <linux-sound@vger.kernel.org>; Mon, 11 Mar 2024 09:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710146695; cv=none; b=nzfQvMEThZy2jeROC/olWmVjiZ2ZIUYoO2TJBZzs7egcdiv3Xn8KDmbJBtzHVGs9gE+034XnDL1uF1ZEsjCtTDDXDFlfy6QLsn+rw5PKeDC9VxWQSBn4Uw9N1TNp3EBN5iGQoEI5zl9Y7P07gt8cuamJeGROPeL0PFhM4N82ics=
+	t=1710149173; cv=none; b=jTz8y/bRXRAF/mMQjm6kWBss16UJJPFpKdqoKRDhr7I46DWgbdM6veMvSvxDMouxUig7pj+bZSyCtLiUwmThC80dCWrx32tYye46qmQCgh4KiwC2+4/21V528cN0pM2zYNZYGp5NIoM8KgcPXd9K2Tfx97tXpkOkvilNhn590lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710146695; c=relaxed/simple;
-	bh=5k6Taxj1VqrQXXkwprl2em9yuTims4/1BDmFbROPRvI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nnOCoR3bgmQfLwbea0msOeVG65jX0pHRWYw3nLskzHuHqEWzQebbNie6bScK2VSb0CtNrA1VVhr7DpKdKEb4lGHzMgEcET/VcynHd5aWNLVikhhO8+jzDisBqlv/0wfAlLZGSlt2GcepsbAK0NjTgHN5t6L1n/V99a1YHwevK0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vMD4Nr6s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2NdGxol3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vMD4Nr6s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2NdGxol3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710149173; c=relaxed/simple;
+	bh=WxkHeHp/1uSPN65r++0a9qD4l9NXl+R4+U4Y9UgwCV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EIIjBvm2InHcaKF5vOXGzCdWczipfB6GPqTVgaKOjZ0r9CxJX3fioKN1hkpTW2tiYfNDu4Vk16/cGAIxtzq3CQJip0r3t6EA1ntLjsi3/DcP7XRmil8rX8i2DEjpPQylgRMzbpqhbOoIBD9pT9821/hoDOMfVbm7kOcdPPi27Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=ZMHDDYyc; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vMD4Nr6s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2NdGxol3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vMD4Nr6s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2NdGxol3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B8E85C428;
-	Mon, 11 Mar 2024 08:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710146692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t3tAOB1S2XwVH4kMLQ3PZnX5+bOJXf7TDAkYcqTTQNA=;
-	b=vMD4Nr6snRWf4I5wxoIpUHaOg3gMYEoHQ3twJfa4AJOqm+8mZzOArXj8ypHbdic+E/265a
-	eN37NUkUVKM40blOohilPWjibGKNo/eItJOKpG1+fjq8j9ORkOq8N8P1bxS9tM3EdOaCQp
-	EM8B7GjoB9xSOb6XZFiME/6cist7hNk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710146692;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t3tAOB1S2XwVH4kMLQ3PZnX5+bOJXf7TDAkYcqTTQNA=;
-	b=2NdGxol3VL/Ky/XIo6cYyYQrdCI9wceilCIQluri+Pl0bwpL+u75vzA7qWVGNGpRrHUzBN
-	hmSlAmTbp1v6UUBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710146692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t3tAOB1S2XwVH4kMLQ3PZnX5+bOJXf7TDAkYcqTTQNA=;
-	b=vMD4Nr6snRWf4I5wxoIpUHaOg3gMYEoHQ3twJfa4AJOqm+8mZzOArXj8ypHbdic+E/265a
-	eN37NUkUVKM40blOohilPWjibGKNo/eItJOKpG1+fjq8j9ORkOq8N8P1bxS9tM3EdOaCQp
-	EM8B7GjoB9xSOb6XZFiME/6cist7hNk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710146692;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t3tAOB1S2XwVH4kMLQ3PZnX5+bOJXf7TDAkYcqTTQNA=;
-	b=2NdGxol3VL/Ky/XIo6cYyYQrdCI9wceilCIQluri+Pl0bwpL+u75vzA7qWVGNGpRrHUzBN
-	hmSlAmTbp1v6UUBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5833613695;
-	Mon, 11 Mar 2024 08:44:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TIZdFITE7mVBcwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 11 Mar 2024 08:44:52 +0000
-Date: Mon, 11 Mar 2024 09:44:51 +0100
-Message-ID: <87h6hdb1j0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ALSA: scarlett2: Scarlett 4th Gen fixes for 6.8
-In-Reply-To: <Ze7D+gD+2DxgbSGY@m.b4.vu>
-References: <cover.1710047969.git.g@b4.vu>
-	<87o7blb2uz.wl-tiwai@suse.de>
-	<Ze7D+gD+2DxgbSGY@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="ZMHDDYyc"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id B04596028493; Mon, 11 Mar 2024 19:56:08 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu B04596028493
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1710149168; bh=9ehYfnuvahx0/6J68gvxPFdtG8bqr1DYsxjmF3NbHA4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ZMHDDYycwFMrAWQdids1/eL/ghSLPeOYroYE6UZQq5Z7+OoII5+gE4dsZ7daoTjMX
+	 SUr4wFUn1AkIk8k5lFS54oTbqH8RcIsBAZ0Vc0zOsl+LT1BhlUkcNhQpObwL6+tvtV
+	 +ovdqN62rzjK+QLuOCJ1RjFE7/RP7NpcmhneQAdLWRyZEm7ObEf2yHVK0iDwKJik8v
+	 Ox+cP+GK1hcflCH1seDInk2kohfRpFTu2iYRKEOHrRS/xSGe00NtIZvQ4m4T3Mxwhl
+	 5WQ3lOd4pKMOfmdJSeXc1s32U0YqJdxHqeoPnN1HNfM5sh7nBkJhVA7tUSnA3/XiX8
+	 26zUmhB9C+HLA==
+Date: Mon, 11 Mar 2024 19:56:08 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: scarlett2: Fix Scarlett 4th Gen input gain range again
+Message-ID: <Ze7OMA8ntG7KteGa@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.07
-X-Spamd-Result: default: False [-3.07 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.77)[99.00%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 11 Mar 2024 09:42:34 +0100,
-Geoffrey D. Bennett wrote:
-> 
-> On Mon, Mar 11, 2024 at 09:16:04AM +0100, Takashi Iwai wrote:
-> > On Sun, 10 Mar 2024 11:34:09 +0100,
-> > Geoffrey D. Bennett wrote:
-> > > 
-> > > Hi Takashi,
-> > > 
-> > > I have three minor fixes for the Scarlett 4th Gen driver in 6.8:
-> > > - The low-voltage indication is now being read from the correct offset
-> > > - The autogain status values are now all correctly interpreted
-> > > - The input gain range is now correct
-> > > 
-> > > Regards,
-> > > Geoffrey.
-> > > 
-> > > Geoffrey D. Bennett (3):
-> > >   ALSA: scarlett2: Fix Scarlett 4th Gen 4i4 low-voltage detection
-> > >   ALSA: scarlett2: Fix Scarlett 4th Gen autogain status values
-> > >   ALSA: scarlett2: Fix Scarlett 4th Gen input gain range
-> > 
-> > Applied all patches now.  Thanks.
-> 
-> Hi Takashi,
-> 
-> Sorry for the inconvience, I have a v2 of the 3rd patch "Fix Scarlett
-> 4th Gen input gain range" which I will send in a moment. Please let me
-> know if you prefer a patch on top of the above rather than a
-> replacement patch.
+The 4th Gen input preamp gain range is 0dB to +69dB, although the
+control values range from 0 to 70. Replace SCARLETT2_MAX_GAIN with
+SCARLETT2_MAX_GAIN_VALUE and SCARLETT2_MAX_GAIN_DB, and update the TLV
+again.
 
-Yes, please send an incremental fix.
-You can get the commits in for-linus branch of sound.git tree.
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+Fixes: a45cf0a08347 ("ALSA: scarlett2: Fix Scarlett 4th Gen input gain range")
+---
+ sound/usb/mixer_scarlett2.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index ffb8bcebf9ad..bd114be537d7 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -174,8 +174,11 @@
+ /* some gui mixers can't handle negative ctl values */
+ #define SCARLETT2_VOLUME_BIAS 127
+ 
+-/* maximum preamp input gain */
+-#define SCARLETT2_MAX_GAIN 70
++/* maximum preamp input gain and value
++ * values are from 0 to 70, preamp gain is from 0 to 69 dB
++ */
++#define SCARLETT2_MAX_GAIN_VALUE 70
++#define SCARLETT2_MAX_GAIN_DB 69
+ 
+ /* mixer range from -80dB to +6dB in 0.5dB steps */
+ #define SCARLETT2_MIXER_MIN_DB -80
+@@ -3466,7 +3469,7 @@ static int scarlett2_input_gain_ctl_info(struct snd_kcontrol *kctl,
+ 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+ 	uinfo->count = elem->channels;
+ 	uinfo->value.integer.min = 0;
+-	uinfo->value.integer.max = SCARLETT2_MAX_GAIN;
++	uinfo->value.integer.max = SCARLETT2_MAX_GAIN_VALUE;
+ 	uinfo->value.integer.step = 1;
+ 
+ unlock:
+@@ -3543,7 +3546,7 @@ static int scarlett2_input_gain_ctl_put(struct snd_kcontrol *kctl,
+ }
+ 
+ static const DECLARE_TLV_DB_MINMAX(
+-	db_scale_scarlett2_gain, 0, SCARLETT2_MAX_GAIN * 100
++	db_scale_scarlett2_gain, 0, SCARLETT2_MAX_GAIN_DB * 100
+ );
+ 
+ static const struct snd_kcontrol_new scarlett2_input_gain_ctl = {
+-- 
+2.43.0
 
-thanks,
-
-Takashi
