@@ -1,39 +1,41 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891D5139577
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 18:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB35139572
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 18:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710268145; cv=none; b=NXkC/vYhyK5W6K8PNcElNTkN9Kkvtt6dbOcJM2bCnkFmoZtTU9sVxy96e3z6GeUVOIcG38kwd17Wat6Udi1TmeQR5i9YnWKxJAnBVb6H1YSrI3AHRqPrzWYBw0bPRP9z2DJNkXAo50uOa6KAlmveweghRU2sjHHOEX/+pWo7JWs=
+	t=1710268401; cv=none; b=BJDEvNg2Wl6YYp+07/LGkKj31B3XCpvlesIWcWz/3C4klrUKau7XkyfogSq6Dovc0Y4kN8ZdbnwSRnicYRHQRGLJypjKENak8n7yi5f/Eioj004xIwAgMS/7GfuT+mcLPg+v1A6s+lsFGUmggSwCf+rQh8sZ7iPb10HG+uIy7xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710268145; c=relaxed/simple;
-	bh=WllykmaF4pGB/VJqzIAL+gVfpScS1uaCsxOlj7c5vg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TQkSFwcGJkaDw8U2gfjiEqgb+VKgE4cM4sMysIJ4hDoYqmp0bsCHsg2CmWwUC8UDg0cTY1VRx7nTGN1c7CruU1cUfjGy+vJi6LvhemCBAmf/76KPwBB8RuuChOu6c9PFgx7AcsSB9mYFCtVbcOYaNP7eqe6l4kCRKi2YfS8hewo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=i4Fr7+9H; arc=none smtp.client-ip=203.16.231.148
+	s=arc-20240116; t=1710268401; c=relaxed/simple;
+	bh=IT1PgdHr1IELX9wOWs02PxIMQNQGJCCc93cvm36bz8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V5LBanH0DrbXYZtMqsjsUpGmUiE8MGfMABgcMrhX4kixwciceY9jnP6mQLVH+7oejf3+EqBeKLhQpugzrLDX6rBxrShE6SEUSatMLs0hTmQ5PBXip2/jHYg9YP/g9ucB8qHEpY0EdZxl0jqV3bPBJcR+TrK66HxYReH3QKf28gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=MYX92LAY; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="i4Fr7+9H"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="MYX92LAY"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 41D81604B628; Wed, 13 Mar 2024 04:58:52 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 41D81604B628
+	id DCD4B604B628; Wed, 13 Mar 2024 05:03:14 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu DCD4B604B628
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1710268132; bh=fxM7CDb4XA48mbNKp3MDjP+o9TU2afP477wsRb9DfJw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=i4Fr7+9H+3BurRa4SLhv85l4D9t9o1uONRbzk7KhCranjtDKYyI4rfViMp7Px8/tY
-	 FDmzK+kuKBXVPa6VPi4+xSoYXxE8Jkg3XXSSOMdZuTltkwal571z6SLTGQJ90qb88c
-	 cGV1IE//cizKmqdf6yQ8Kkh6VSNU7UH/48KHz86Qnxk453Qm3dgeH0EPylVUFIw9Oq
-	 /uNHkhGQi3NjBd82dLlef5ByU6ec1O1zclSrJ+GXiCTwHmONJTeihqsYcAAuZpDtUs
-	 CZddU0ESnoCcT43qXPddYKpF373WU9k49mhYOtnSwXSNAZTh0UnZtv3PiU/4CehT4Z
-	 GVpKB7/WnN/rQ==
-Date: Wed, 13 Mar 2024 04:58:52 +1030
+	t=1710268394; bh=ix4GX1hCkqh+ElRhB4JLjqPgL0UoH3CY+rYGXt3vGwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MYX92LAYJtBtbV2WjOXpyZeNC8EGKHNw8P/8bZrmoXUEgEJ9t7koJw/qpCuLRnD6Z
+	 3PfJXEkvxqzmAjLaj0dXzClL73idQ9wa8wPbQYdgnL+CJpqEM49N3ppe7rdI4pd2ni
+	 sP1nv7IJpxuyIJk4RoK7SCBjvj8JfKxMmYpzIm6RtEHoKgPSQhwBl8UJMetZvexplo
+	 UdEi4AJWJaN4LzoeUTckIcK3Xyr8S88uyCxkz8piBuF5pMoDCs4LB7XU49bc3TJqnt
+	 wPkGkoa0praP+mchloK4yNC1GpG1axEUT2Y+3uuNkQlOI0GfUOeBJCjtTYEKl7APc2
+	 biXQt/SfuJsCg==
+Date: Wed, 13 Mar 2024 05:03:14 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 00/14] ALSA: scarlett2: Add support for Vocaster
-Message-ID: <cover.1710264833.git.g@b4.vu>
+Subject: [PATCH 01/14] ALSA: scarlett2: Move initialisation code lower in the
+ source
+Message-ID: <0922071cb8be99a2394705de27b917d1e4e46f3f.1710264833.git.g@b4.vu>
+References: <cover.1710264833.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,49 +44,857 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1710264833.git.g@b4.vu>
 
-Hi Takashi,
+So that more forward declarations won't be required when we add
+handling of the ACK notification, move the initialisation functions to
+after the notification functions.
 
-This patch series contains:
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ sound/usb/mixer_scarlett2.c | 815 ++++++++++++++++++------------------
+ 1 file changed, 409 insertions(+), 406 deletions(-)
 
-1-2: Fix to wait for an ACK from the device after sending a command,
-before attempting to read the response. This didn't seem to be
-necessary previously, but with 4th Gen devices it seems to help with a
-rare issue where the device stops responding.
-
-3: Support for reading flash segments from the device.
-
-4-11: Preparation for Vocaster support.
-
-12: Vocaster One and Two support.
-
-13: Add autogain target controls for 4th Gen and Vocaster.
-
-14: Add Bluetooth volume control for Vocaster Two.
-
-Thanks,
-Geoffrey.
-
-Geoffrey D. Bennett (14):
-  ALSA: scarlett2: Move initialisation code lower in the source
-  ALSA: scarlett2: Implement handling of the ACK notification
-  ALSA: scarlett2: Add support for reading from flash
-  ALSA: scarlett2: Rename gen4_write_addr to param_buf_addr
-  ALSA: scarlett2: Add pbuf field to struct scarlett2_config
-  ALSA: scarlett2: Add support for config items with size = 32
-  ALSA: scarlett2: Add additional input configuration parameters
-  ALSA: scarlett2: Define the maximum preamp input gain per-config-set
-  ALSA: scarlett2: Define autogain status texts per-config-set
-  ALSA: scarlett2: Add input mute controls
-  ALSA: scarlett2: Add DSP controls
-  ALSA: scarlett2: Add support for Focusrite Vocaster One and Two
-  ALSA: scarlett2: Add autogain target controls
-  ALSA: scarlett2: Add Bluetooth volume control for Vocaster Two
-
- sound/usb/mixer_quirks.c    |    2 +
- sound/usb/mixer_scarlett2.c | 2757 ++++++++++++++++++++++++++++-------
- 2 files changed, 2235 insertions(+), 524 deletions(-)
-
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index bd114be537d7..8390b646c0ae 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -6383,412 +6383,7 @@ static int scarlett2_add_power_status_ctl(struct usb_mixer_interface *mixer)
+ 				     &private->power_status_ctl);
+ }
+ 
+-/*** Cleanup/Suspend Callbacks ***/
+-
+-static void scarlett2_private_free(struct usb_mixer_interface *mixer)
+-{
+-	struct scarlett2_data *private = mixer->private_data;
+-
+-	cancel_delayed_work_sync(&private->work);
+-	kfree(private);
+-	mixer->private_data = NULL;
+-}
+-
+-static void scarlett2_private_suspend(struct usb_mixer_interface *mixer)
+-{
+-	struct scarlett2_data *private = mixer->private_data;
+-
+-	if (cancel_delayed_work_sync(&private->work))
+-		scarlett2_config_save(private->mixer);
+-}
+-
+-/*** Initialisation ***/
+-
+-static void scarlett2_count_io(struct scarlett2_data *private)
+-{
+-	const struct scarlett2_device_info *info = private->info;
+-	const int (*port_count)[SCARLETT2_PORT_DIRNS] = info->port_count;
+-	int port_type, srcs = 0, dsts = 0;
+-
+-	/* Count the number of mux sources and destinations */
+-	for (port_type = 0;
+-	     port_type < SCARLETT2_PORT_TYPE_COUNT;
+-	     port_type++) {
+-		srcs += port_count[port_type][SCARLETT2_PORT_IN];
+-		dsts += port_count[port_type][SCARLETT2_PORT_OUT];
+-	}
+-
+-	private->num_mux_srcs = srcs;
+-	private->num_mux_dsts = dsts;
+-
+-	/* Mixer inputs are mux outputs and vice versa.
+-	 * Scarlett Gen 4 DSP I/O uses SCARLETT2_PORT_TYPE_MIX but
+-	 * doesn't have mixer controls.
+-	 */
+-	private->num_mix_in =
+-		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_OUT] -
+-			info->dsp_count;
+-
+-	private->num_mix_out =
+-		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_IN] -
+-			info->dsp_count;
+-
+-	/* Number of analogue line outputs */
+-	private->num_line_out =
+-		port_count[SCARLETT2_PORT_TYPE_ANALOGUE][SCARLETT2_PORT_OUT];
+-
+-	/* Number of monitor mix controls */
+-	private->num_monitor_mix_ctls =
+-		info->direct_monitor * 2 * private->num_mix_in;
+-}
+-
+-/* Look through the interface descriptors for the Focusrite Control
+- * interface (bInterfaceClass = 255 Vendor Specific Class) and set
+- * bInterfaceNumber, bEndpointAddress, wMaxPacketSize, and bInterval
+- * in private
+- */
+-static int scarlett2_find_fc_interface(struct usb_device *dev,
+-				       struct scarlett2_data *private)
+-{
+-	struct usb_host_config *config = dev->actconfig;
+-	int i;
+-
+-	for (i = 0; i < config->desc.bNumInterfaces; i++) {
+-		struct usb_interface *intf = config->interface[i];
+-		struct usb_interface_descriptor *desc =
+-			&intf->altsetting[0].desc;
+-		struct usb_endpoint_descriptor *epd;
+-
+-		if (desc->bInterfaceClass != 255)
+-			continue;
+-
+-		epd = get_endpoint(intf->altsetting, 0);
+-		private->bInterfaceNumber = desc->bInterfaceNumber;
+-		private->bEndpointAddress = epd->bEndpointAddress &
+-			USB_ENDPOINT_NUMBER_MASK;
+-		private->wMaxPacketSize = le16_to_cpu(epd->wMaxPacketSize);
+-		private->bInterval = epd->bInterval;
+-		return 0;
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-/* Initialise private data */
+-static int scarlett2_init_private(struct usb_mixer_interface *mixer,
+-				  const struct scarlett2_device_entry *entry)
+-{
+-	struct scarlett2_data *private =
+-		kzalloc(sizeof(struct scarlett2_data), GFP_KERNEL);
+-
+-	if (!private)
+-		return -ENOMEM;
+-
+-	mutex_init(&private->usb_mutex);
+-	mutex_init(&private->data_mutex);
+-	INIT_DELAYED_WORK(&private->work, scarlett2_config_save_work);
+-
+-	mixer->private_data = private;
+-	mixer->private_free = scarlett2_private_free;
+-	mixer->private_suspend = scarlett2_private_suspend;
+-
+-	private->info = entry->info;
+-	private->config_set = entry->info->config_set;
+-	private->series_name = entry->series_name;
+-	scarlett2_count_io(private);
+-	private->scarlett2_seq = 0;
+-	private->mixer = mixer;
+-
+-	return scarlett2_find_fc_interface(mixer->chip->dev, private);
+-}
+-
+-/* Cargo cult proprietary initialisation sequence */
+-static int scarlett2_usb_init(struct usb_mixer_interface *mixer)
+-{
+-	struct usb_device *dev = mixer->chip->dev;
+-	struct scarlett2_data *private = mixer->private_data;
+-	u8 step0_buf[24];
+-	u8 step2_buf[84];
+-	int err;
+-
+-	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
+-		return -EINVAL;
+-
+-	/* step 0 */
+-	err = scarlett2_usb_rx(dev, private->bInterfaceNumber,
+-			       SCARLETT2_USB_CMD_INIT,
+-			       step0_buf, sizeof(step0_buf));
+-	if (err < 0)
+-		return err;
+-
+-	/* step 1 */
+-	private->scarlett2_seq = 1;
+-	err = scarlett2_usb(mixer, SCARLETT2_USB_INIT_1, NULL, 0, NULL, 0);
+-	if (err < 0)
+-		return err;
+-
+-	/* step 2 */
+-	private->scarlett2_seq = 1;
+-	err = scarlett2_usb(mixer, SCARLETT2_USB_INIT_2,
+-			    NULL, 0,
+-			    step2_buf, sizeof(step2_buf));
+-	if (err < 0)
+-		return err;
+-
+-	/* extract 4-byte firmware version from step2_buf[8] */
+-	private->firmware_version = le32_to_cpu(*(__le32 *)(step2_buf + 8));
+-	usb_audio_info(mixer->chip,
+-		       "Firmware version %d\n",
+-		       private->firmware_version);
+-
+-	return 0;
+-}
+-
+-/* Get the flash segment numbers for the App_Settings and App_Upgrade
+- * segments and put them in the private data
+- */
+-static int scarlett2_get_flash_segment_nums(struct usb_mixer_interface *mixer)
+-{
+-	struct scarlett2_data *private = mixer->private_data;
+-	int err, count, i;
+-
+-	struct {
+-		__le32 size;
+-		__le32 count;
+-		u8 unknown[8];
+-	} __packed flash_info;
+-
+-	struct {
+-		__le32 size;
+-		__le32 flags;
+-		char name[16];
+-	} __packed segment_info;
+-
+-	err = scarlett2_usb(mixer, SCARLETT2_USB_INFO_FLASH,
+-			    NULL, 0,
+-			    &flash_info, sizeof(flash_info));
+-	if (err < 0)
+-		return err;
+-
+-	count = le32_to_cpu(flash_info.count);
+-
+-	/* sanity check count */
+-	if (count < SCARLETT2_SEGMENT_NUM_MIN ||
+-	    count > SCARLETT2_SEGMENT_NUM_MAX + 1) {
+-		usb_audio_err(mixer->chip,
+-			      "invalid flash segment count: %d\n", count);
+-		return -EINVAL;
+-	}
+-
+-	for (i = 0; i < count; i++) {
+-		__le32 segment_num_req = cpu_to_le32(i);
+-		int flash_segment_id;
+-
+-		err = scarlett2_usb(mixer, SCARLETT2_USB_INFO_SEGMENT,
+-				    &segment_num_req, sizeof(segment_num_req),
+-				    &segment_info, sizeof(segment_info));
+-		if (err < 0) {
+-			usb_audio_err(mixer->chip,
+-				"failed to get flash segment info %d: %d\n",
+-				i, err);
+-			return err;
+-		}
+-
+-		if (!strncmp(segment_info.name,
+-			     SCARLETT2_SEGMENT_SETTINGS_NAME, 16))
+-			flash_segment_id = SCARLETT2_SEGMENT_ID_SETTINGS;
+-		else if (!strncmp(segment_info.name,
+-				  SCARLETT2_SEGMENT_FIRMWARE_NAME, 16))
+-			flash_segment_id = SCARLETT2_SEGMENT_ID_FIRMWARE;
+-		else
+-			continue;
+-
+-		private->flash_segment_nums[flash_segment_id] = i;
+-		private->flash_segment_blocks[flash_segment_id] =
+-			le32_to_cpu(segment_info.size) /
+-				SCARLETT2_FLASH_BLOCK_SIZE;
+-	}
+-
+-	/* segment 0 is App_Gold and we never want to touch that, so
+-	 * use 0 as the "not-found" value
+-	 */
+-	if (!private->flash_segment_nums[SCARLETT2_SEGMENT_ID_SETTINGS]) {
+-		usb_audio_err(mixer->chip,
+-			      "failed to find flash segment %s\n",
+-			      SCARLETT2_SEGMENT_SETTINGS_NAME);
+-		return -EINVAL;
+-	}
+-	if (!private->flash_segment_nums[SCARLETT2_SEGMENT_ID_FIRMWARE]) {
+-		usb_audio_err(mixer->chip,
+-			      "failed to find flash segment %s\n",
+-			      SCARLETT2_SEGMENT_FIRMWARE_NAME);
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-/* Read configuration from the interface on start */
+-static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
+-{
+-	struct scarlett2_data *private = mixer->private_data;
+-	const struct scarlett2_device_info *info = private->info;
+-	int err, i;
+-
+-	if (scarlett2_has_config_item(private, SCARLETT2_CONFIG_MSD_SWITCH)) {
+-		err = scarlett2_usb_get_config(
+-			mixer, SCARLETT2_CONFIG_MSD_SWITCH,
+-			1, &private->msd_switch);
+-		if (err < 0)
+-			return err;
+-	}
+-
+-	if (private->firmware_version < info->min_firmware_version) {
+-		usb_audio_err(mixer->chip,
+-			      "Focusrite %s firmware version %d is too old; "
+-			      "need %d",
+-			      private->series_name,
+-			      private->firmware_version,
+-			      info->min_firmware_version);
+-		return 0;
+-	}
+-
+-	/* no other controls are created if MSD mode is on */
+-	if (private->msd_switch)
+-		return 0;
+-
+-	err = scarlett2_update_input_level(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_pad(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_air(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_phantom(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_direct_monitor(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	/* the rest of the configuration is for devices with a mixer */
+-	if (!scarlett2_has_mixer(private))
+-		return 0;
+-
+-	err = scarlett2_update_monitor_mix(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_monitor_other(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	if (scarlett2_has_config_item(private,
+-				      SCARLETT2_CONFIG_STANDALONE_SWITCH)) {
+-		err = scarlett2_usb_get_config(
+-			mixer, SCARLETT2_CONFIG_STANDALONE_SWITCH,
+-			1, &private->standalone_switch);
+-		if (err < 0)
+-			return err;
+-	}
+-
+-	if (scarlett2_has_config_item(private,
+-				      SCARLETT2_CONFIG_POWER_EXT)) {
+-		err = scarlett2_update_power_status(mixer);
+-		if (err < 0)
+-			return err;
+-	}
+-
+-	err = scarlett2_update_sync(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	if (scarlett2_has_config_item(private,
+-				      SCARLETT2_CONFIG_LINE_OUT_VOLUME)) {
+-		s16 sw_vol[SCARLETT2_ANALOGUE_MAX];
+-
+-		/* read SW line out volume */
+-		err = scarlett2_usb_get_config(
+-			mixer, SCARLETT2_CONFIG_LINE_OUT_VOLUME,
+-			private->num_line_out, &sw_vol);
+-		if (err < 0)
+-			return err;
+-
+-		for (i = 0; i < private->num_line_out; i++)
+-			private->vol[i] = clamp(
+-				sw_vol[i] + SCARLETT2_VOLUME_BIAS,
+-				0, SCARLETT2_VOLUME_BIAS);
+-
+-		/* read SW mute */
+-		err = scarlett2_usb_get_config(
+-			mixer, SCARLETT2_CONFIG_MUTE_SWITCH,
+-			private->num_line_out, &private->mute_switch);
+-		if (err < 0)
+-			return err;
+-
+-		for (i = 0; i < private->num_line_out; i++)
+-			private->mute_switch[i] =
+-				!!private->mute_switch[i];
+-
+-		/* read SW/HW switches */
+-		if (scarlett2_has_config_item(private,
+-					      SCARLETT2_CONFIG_SW_HW_SWITCH)) {
+-			err = scarlett2_usb_get_config(
+-				mixer, SCARLETT2_CONFIG_SW_HW_SWITCH,
+-				private->num_line_out,
+-				&private->vol_sw_hw_switch);
+-			if (err < 0)
+-				return err;
+-
+-			for (i = 0; i < private->num_line_out; i++)
+-				private->vol_sw_hw_switch[i] =
+-					!!private->vol_sw_hw_switch[i];
+-		}
+-	}
+-
+-	err = scarlett2_update_volumes(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_dim_mute(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_select(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_gain(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_autogain(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	err = scarlett2_update_input_safe(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	if (scarlett2_has_config_item(private,
+-				      SCARLETT2_CONFIG_PCM_INPUT_SWITCH)) {
+-		err = scarlett2_update_pcm_input_switch(mixer);
+-		if (err < 0)
+-			return err;
+-	}
+-
+-	err = scarlett2_update_mix(mixer);
+-	if (err < 0)
+-		return err;
+-
+-	return scarlett2_usb_get_mux(mixer);
+-}
++/*** Notification Handlers ***/
+ 
+ /* Notify on sync change */
+ static void scarlett2_notify_sync(struct usb_mixer_interface *mixer)
+@@ -7146,6 +6741,126 @@ static void scarlett2_notify(struct urb *urb)
+ 	}
+ }
+ 
++/*** Cleanup/Suspend Callbacks ***/
++
++static void scarlett2_private_free(struct usb_mixer_interface *mixer)
++{
++	struct scarlett2_data *private = mixer->private_data;
++
++	cancel_delayed_work_sync(&private->work);
++	kfree(private);
++	mixer->private_data = NULL;
++}
++
++static void scarlett2_private_suspend(struct usb_mixer_interface *mixer)
++{
++	struct scarlett2_data *private = mixer->private_data;
++
++	if (cancel_delayed_work_sync(&private->work))
++		scarlett2_config_save(private->mixer);
++}
++
++/*** Initialisation ***/
++
++static void scarlett2_count_io(struct scarlett2_data *private)
++{
++	const struct scarlett2_device_info *info = private->info;
++	const int (*port_count)[SCARLETT2_PORT_DIRNS] = info->port_count;
++	int port_type, srcs = 0, dsts = 0;
++
++	/* Count the number of mux sources and destinations */
++	for (port_type = 0;
++	     port_type < SCARLETT2_PORT_TYPE_COUNT;
++	     port_type++) {
++		srcs += port_count[port_type][SCARLETT2_PORT_IN];
++		dsts += port_count[port_type][SCARLETT2_PORT_OUT];
++	}
++
++	private->num_mux_srcs = srcs;
++	private->num_mux_dsts = dsts;
++
++	/* Mixer inputs are mux outputs and vice versa.
++	 * Scarlett Gen 4 DSP I/O uses SCARLETT2_PORT_TYPE_MIX but
++	 * doesn't have mixer controls.
++	 */
++	private->num_mix_in =
++		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_OUT] -
++			info->dsp_count;
++
++	private->num_mix_out =
++		port_count[SCARLETT2_PORT_TYPE_MIX][SCARLETT2_PORT_IN] -
++			info->dsp_count;
++
++	/* Number of analogue line outputs */
++	private->num_line_out =
++		port_count[SCARLETT2_PORT_TYPE_ANALOGUE][SCARLETT2_PORT_OUT];
++
++	/* Number of monitor mix controls */
++	private->num_monitor_mix_ctls =
++		info->direct_monitor * 2 * private->num_mix_in;
++}
++
++/* Look through the interface descriptors for the Focusrite Control
++ * interface (bInterfaceClass = 255 Vendor Specific Class) and set
++ * bInterfaceNumber, bEndpointAddress, wMaxPacketSize, and bInterval
++ * in private
++ */
++static int scarlett2_find_fc_interface(struct usb_device *dev,
++				       struct scarlett2_data *private)
++{
++	struct usb_host_config *config = dev->actconfig;
++	int i;
++
++	for (i = 0; i < config->desc.bNumInterfaces; i++) {
++		struct usb_interface *intf = config->interface[i];
++		struct usb_interface_descriptor *desc =
++			&intf->altsetting[0].desc;
++		struct usb_endpoint_descriptor *epd;
++
++		if (desc->bInterfaceClass != 255)
++			continue;
++
++		epd = get_endpoint(intf->altsetting, 0);
++		private->bInterfaceNumber = desc->bInterfaceNumber;
++		private->bEndpointAddress = epd->bEndpointAddress &
++			USB_ENDPOINT_NUMBER_MASK;
++		private->wMaxPacketSize = le16_to_cpu(epd->wMaxPacketSize);
++		private->bInterval = epd->bInterval;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
++/* Initialise private data */
++static int scarlett2_init_private(struct usb_mixer_interface *mixer,
++				  const struct scarlett2_device_entry *entry)
++{
++	struct scarlett2_data *private =
++		kzalloc(sizeof(struct scarlett2_data), GFP_KERNEL);
++
++	if (!private)
++		return -ENOMEM;
++
++	mutex_init(&private->usb_mutex);
++	mutex_init(&private->data_mutex);
++	INIT_DELAYED_WORK(&private->work, scarlett2_config_save_work);
++
++	mixer->private_data = private;
++	mixer->private_free = scarlett2_private_free;
++	mixer->private_suspend = scarlett2_private_suspend;
++
++	private->info = entry->info;
++	private->config_set = entry->info->config_set;
++	private->series_name = entry->series_name;
++	scarlett2_count_io(private);
++	private->scarlett2_seq = 0;
++	private->mixer = mixer;
++
++	return scarlett2_find_fc_interface(mixer->chip->dev, private);
++}
++
++/* Submit a URB to receive notifications from the device */
+ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ {
+ 	struct usb_device *dev = mixer->chip->dev;
+@@ -7177,6 +6892,294 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 	return usb_submit_urb(mixer->urb, GFP_KERNEL);
+ }
+ 
++/* Cargo cult proprietary initialisation sequence */
++static int scarlett2_usb_init(struct usb_mixer_interface *mixer)
++{
++	struct usb_device *dev = mixer->chip->dev;
++	struct scarlett2_data *private = mixer->private_data;
++	u8 step0_buf[24];
++	u8 step2_buf[84];
++	int err;
++
++	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
++		return -EINVAL;
++
++	/* step 0 */
++	err = scarlett2_usb_rx(dev, private->bInterfaceNumber,
++			       SCARLETT2_USB_CMD_INIT,
++			       step0_buf, sizeof(step0_buf));
++	if (err < 0)
++		return err;
++
++	/* step 1 */
++	private->scarlett2_seq = 1;
++	err = scarlett2_usb(mixer, SCARLETT2_USB_INIT_1, NULL, 0, NULL, 0);
++	if (err < 0)
++		return err;
++
++	/* step 2 */
++	private->scarlett2_seq = 1;
++	err = scarlett2_usb(mixer, SCARLETT2_USB_INIT_2,
++			    NULL, 0,
++			    step2_buf, sizeof(step2_buf));
++	if (err < 0)
++		return err;
++
++	/* extract 4-byte firmware version from step2_buf[8] */
++	private->firmware_version = le32_to_cpu(*(__le32 *)(step2_buf + 8));
++	usb_audio_info(mixer->chip,
++		       "Firmware version %d\n",
++		       private->firmware_version);
++
++	return 0;
++}
++
++/* Get the flash segment numbers for the App_Settings and App_Upgrade
++ * segments and put them in the private data
++ */
++static int scarlett2_get_flash_segment_nums(struct usb_mixer_interface *mixer)
++{
++	struct scarlett2_data *private = mixer->private_data;
++	int err, count, i;
++
++	struct {
++		__le32 size;
++		__le32 count;
++		u8 unknown[8];
++	} __packed flash_info;
++
++	struct {
++		__le32 size;
++		__le32 flags;
++		char name[16];
++	} __packed segment_info;
++
++	err = scarlett2_usb(mixer, SCARLETT2_USB_INFO_FLASH,
++			    NULL, 0,
++			    &flash_info, sizeof(flash_info));
++	if (err < 0)
++		return err;
++
++	count = le32_to_cpu(flash_info.count);
++
++	/* sanity check count */
++	if (count < SCARLETT2_SEGMENT_NUM_MIN ||
++	    count > SCARLETT2_SEGMENT_NUM_MAX + 1) {
++		usb_audio_err(mixer->chip,
++			      "invalid flash segment count: %d\n", count);
++		return -EINVAL;
++	}
++
++	for (i = 0; i < count; i++) {
++		__le32 segment_num_req = cpu_to_le32(i);
++		int flash_segment_id;
++
++		err = scarlett2_usb(mixer, SCARLETT2_USB_INFO_SEGMENT,
++				    &segment_num_req, sizeof(segment_num_req),
++				    &segment_info, sizeof(segment_info));
++		if (err < 0) {
++			usb_audio_err(mixer->chip,
++				"failed to get flash segment info %d: %d\n",
++				i, err);
++			return err;
++		}
++
++		if (!strncmp(segment_info.name,
++			     SCARLETT2_SEGMENT_SETTINGS_NAME, 16))
++			flash_segment_id = SCARLETT2_SEGMENT_ID_SETTINGS;
++		else if (!strncmp(segment_info.name,
++				  SCARLETT2_SEGMENT_FIRMWARE_NAME, 16))
++			flash_segment_id = SCARLETT2_SEGMENT_ID_FIRMWARE;
++		else
++			continue;
++
++		private->flash_segment_nums[flash_segment_id] = i;
++		private->flash_segment_blocks[flash_segment_id] =
++			le32_to_cpu(segment_info.size) /
++				SCARLETT2_FLASH_BLOCK_SIZE;
++	}
++
++	/* segment 0 is App_Gold and we never want to touch that, so
++	 * use 0 as the "not-found" value
++	 */
++	if (!private->flash_segment_nums[SCARLETT2_SEGMENT_ID_SETTINGS]) {
++		usb_audio_err(mixer->chip,
++			      "failed to find flash segment %s\n",
++			      SCARLETT2_SEGMENT_SETTINGS_NAME);
++		return -EINVAL;
++	}
++	if (!private->flash_segment_nums[SCARLETT2_SEGMENT_ID_FIRMWARE]) {
++		usb_audio_err(mixer->chip,
++			      "failed to find flash segment %s\n",
++			      SCARLETT2_SEGMENT_FIRMWARE_NAME);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/* Read configuration from the interface on start */
++static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
++{
++	struct scarlett2_data *private = mixer->private_data;
++	const struct scarlett2_device_info *info = private->info;
++	int err, i;
++
++	if (scarlett2_has_config_item(private, SCARLETT2_CONFIG_MSD_SWITCH)) {
++		err = scarlett2_usb_get_config(
++			mixer, SCARLETT2_CONFIG_MSD_SWITCH,
++			1, &private->msd_switch);
++		if (err < 0)
++			return err;
++	}
++
++	if (private->firmware_version < info->min_firmware_version) {
++		usb_audio_err(mixer->chip,
++			      "Focusrite %s firmware version %d is too old; "
++			      "need %d",
++			      private->series_name,
++			      private->firmware_version,
++			      info->min_firmware_version);
++		return 0;
++	}
++
++	/* no other controls are created if MSD mode is on */
++	if (private->msd_switch)
++		return 0;
++
++	err = scarlett2_update_input_level(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_pad(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_air(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_phantom(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_direct_monitor(mixer);
++	if (err < 0)
++		return err;
++
++	/* the rest of the configuration is for devices with a mixer */
++	if (!scarlett2_has_mixer(private))
++		return 0;
++
++	err = scarlett2_update_monitor_mix(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_monitor_other(mixer);
++	if (err < 0)
++		return err;
++
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_STANDALONE_SWITCH)) {
++		err = scarlett2_usb_get_config(
++			mixer, SCARLETT2_CONFIG_STANDALONE_SWITCH,
++			1, &private->standalone_switch);
++		if (err < 0)
++			return err;
++	}
++
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_POWER_EXT)) {
++		err = scarlett2_update_power_status(mixer);
++		if (err < 0)
++			return err;
++	}
++
++	err = scarlett2_update_sync(mixer);
++	if (err < 0)
++		return err;
++
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_LINE_OUT_VOLUME)) {
++		s16 sw_vol[SCARLETT2_ANALOGUE_MAX];
++
++		/* read SW line out volume */
++		err = scarlett2_usb_get_config(
++			mixer, SCARLETT2_CONFIG_LINE_OUT_VOLUME,
++			private->num_line_out, &sw_vol);
++		if (err < 0)
++			return err;
++
++		for (i = 0; i < private->num_line_out; i++)
++			private->vol[i] = clamp(
++				sw_vol[i] + SCARLETT2_VOLUME_BIAS,
++				0, SCARLETT2_VOLUME_BIAS);
++
++		/* read SW mute */
++		err = scarlett2_usb_get_config(
++			mixer, SCARLETT2_CONFIG_MUTE_SWITCH,
++			private->num_line_out, &private->mute_switch);
++		if (err < 0)
++			return err;
++
++		for (i = 0; i < private->num_line_out; i++)
++			private->mute_switch[i] =
++				!!private->mute_switch[i];
++
++		/* read SW/HW switches */
++		if (scarlett2_has_config_item(private,
++					      SCARLETT2_CONFIG_SW_HW_SWITCH)) {
++			err = scarlett2_usb_get_config(
++				mixer, SCARLETT2_CONFIG_SW_HW_SWITCH,
++				private->num_line_out,
++				&private->vol_sw_hw_switch);
++			if (err < 0)
++				return err;
++
++			for (i = 0; i < private->num_line_out; i++)
++				private->vol_sw_hw_switch[i] =
++					!!private->vol_sw_hw_switch[i];
++		}
++	}
++
++	err = scarlett2_update_volumes(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_dim_mute(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_select(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_gain(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_autogain(mixer);
++	if (err < 0)
++		return err;
++
++	err = scarlett2_update_input_safe(mixer);
++	if (err < 0)
++		return err;
++
++	if (scarlett2_has_config_item(private,
++				      SCARLETT2_CONFIG_PCM_INPUT_SWITCH)) {
++		err = scarlett2_update_pcm_input_switch(mixer);
++		if (err < 0)
++			return err;
++	}
++
++	err = scarlett2_update_mix(mixer);
++	if (err < 0)
++		return err;
++
++	return scarlett2_usb_get_mux(mixer);
++}
++
+ static const struct scarlett2_device_entry *get_scarlett2_device_entry(
+ 	struct usb_mixer_interface *mixer)
+ {
 -- 
 2.43.0
 
