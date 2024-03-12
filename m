@@ -1,95 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576156750;
-	Tue, 12 Mar 2024 14:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E96416FF3B
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 14:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.77.79.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710253901; cv=none; b=GAmEkabfzYQ0b2CtoHWepcCM8UDpP2IFWKH7PYn48CQHbOoIM2++BLSHfjXeBfmC8zmUrUCPVDpy0ntbfbuq8FGJRUtuZNTf/2qcmCVOL/juHNOv1uwEnMZOj+yaVo4HRX225qLmof5trsDdMF9OKAn9MgJTh6n2tY3uv1Jgu7k=
+	t=1710253985; cv=none; b=jSADpInWPsLKHn7Uw4Kal1TyYOgC5imcZ1M89rpu5U8h32xVwdCDsH4MkA3b6q+fzrDe0LlgtemFZgv3Ws0P/C9/qGMM0NCCsvGYvEtrXXEuzJwApK8EUOlosOE/MEDXEQuMy1Mnn729jhQZNAeVDkdhHpc2b3Twc/rxemMVqmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710253901; c=relaxed/simple;
-	bh=JkjP3QBcCVXwodpuOnjb64q87p6hcmN+DHZyzdDU3n4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J/yHUQ1BGOKcla1aWOBMUOmvviq8ro+95hcQOujK5Rs38a5I8MB1Hzk1IBPjwQQWQTagbrjppDHS8DvUE154h2GdYO1RNxEbVqYu4dc9GUhGcJpvh4b920+NObegAfKpDDEIIF/ACs6ieJ/Cd2IfOzDIH9nvWWt9a/9wkh6eFcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8Y55hkG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710253985; c=relaxed/simple;
+	bh=1glY5eIo11rlVsr1KtLK3N1ayppfoc5sRGadB34ajHo=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=scKWFJv2VRBFO6aLg3mGGt0ymBJXgw2aOkNgE/O3jfdA74YV9hFi/CqfwrmJdhQImWgxdG+o1u3r87+5KXQc4PPOA2rJ6HITLIWbHFgXs/xSzHUfoFZuG7BFeoGYa1DnmvRqkLI4R22FYF9YYC7uDUe1lh3HuXpIq4XYVdBIKFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=etJFEA0j; arc=none smtp.client-ip=51.77.79.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8Y55hkG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05FD1C433C7;
-	Tue, 12 Mar 2024 14:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710253901;
-	bh=JkjP3QBcCVXwodpuOnjb64q87p6hcmN+DHZyzdDU3n4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m8Y55hkG6WDmkZz6/FOoTr5ivZwbyLII8RO2gW6ywhz7XcoUG451PetQHfP4sWdA1
-	 b94BiGCvRzsYfLIQj2+A0Gq1u0jbiyOPCH2OBjhdgOIms/21Re0s5IVaO9VUgF0EwY
-	 r7e6baT45S6fYkOYEh+XgBVzoUAjdjKSRhi+ZcJ50bjprg7ng/zLKkLcci4tixbJEi
-	 FvS7zOlDaT3u+KvPF+F/43V1wVZ7+GpL7CfP8R7MnC9GAjP6VS+wjcfdi/OoKHNRzs
-	 qgiLxfOQndj4b+ziXRawuo1kCFw4qFK6DAjBODRB2qan4pqyGKRXlnnOB1tJ0g+glh
-	 IfvF7O4MRnajA==
-Date: Tue, 12 Mar 2024 14:31:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: xuhanwu <2433926602@qq.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	xuhanwu <xu.hanwu@zxelec.com>
-Subject: Re: [PATCH] ASoC: soc-pcm: add a check for unsupported commands to
- the soc_pcm_trigger
-Message-ID: <dff13df4-39c4-4995-b7cf-f9240a970cbc@sirena.org.uk>
-References: <tencent_002E3C6C67928986481018466EEDF8D05706@qq.com>
- <tencent_8A7C0C985AE1A1975C25D8DE24010D8B2007@qq.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="etJFEA0j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1710253971; x=1710513171;
+	bh=1glY5eIo11rlVsr1KtLK3N1ayppfoc5sRGadB34ajHo=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=etJFEA0jmxK/0R5gsEnygKzEwnJ/hfkF1yEsvmipGdLr+q0VC9vw+5BvoQSbMYRue
+	 6ypE08kk4CE7jsh9XzgETBCgbnncYztePe/fWcfwIASS446mNzB0q0g6OdoHs7sR6g
+	 Sml+wC/9HwGMLnKe72w9Tvfnp2qJqMYkkCu0nQ8n4WfPq3C95XMibqVkVKTcOdEDpC
+	 /4pG5EPA9SEVGjBZ0zZdkbllyXlTkYlt0EsS6N5f8Waw/pxQoBFnuKmTYNS31E+lD0
+	 8D4qJliz7AJRh6CQ4PejrjpkKhIrd51ZjE4gV1h72AJPajH+riKQYQkP9sW36U4oEc
+	 o2BWD4zcORG6w==
+Date: Tue, 12 Mar 2024 14:32:30 +0000
+To: Takashi Iwai <tiwai@suse.de>, "perex@perex.cz" <perex@perex.cz>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "trivial@kernel.org" <trivial@kernel.org>
+From: =?utf-8?Q?f=C3=A6talize?= <faetalize@proton.me>
+Subject: [PATCH V4] ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models
+Message-ID: <Cxl_wqve8dKqfAvFk0MGn8zG_gdt5vut5hmg5E4pCWVKHP1zGam7z5uiD3bgX_Tq0PJwbIzVOH7TUmL_o2QaIR49GRVHFI0xPWvo-Xeg36I=@proton.me>
+Feedback-ID: 76527010:user:proton
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SVXtnl3SxrTOaMQW"
-Content-Disposition: inline
-In-Reply-To: <tencent_8A7C0C985AE1A1975C25D8DE24010D8B2007@qq.com>
-X-Cookie: Oh, so there you are!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Some HP laptops have received revisions that altered their board IDs
+and therefore the current patches/quirks do not apply to them.
+Specifically, for my Probook 440 G8, I have a board ID of 8a74.
+It is necessary to add a line for that specific model.
 
---SVXtnl3SxrTOaMQW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Mar 11, 2024 at 03:05:48PM +0800, xuhanwu wrote:
-
-> >	As can be seen from inspection of the immediately
-> >	preceeding handling of start, we're deliberately
-> >        ignoring half the values in each switch.
-
-> In kernel version 6.2, when the soc_pcm_trigger function receives a
-> command parameter cmd set to SNDRV_PCM_TRIGGER_DRAIN,
-> it returns a value of -EINVAL.The function snd_pcm_drain checks
-> the returned error value and exits accordingly.
-
-The current kernel version is v6.8 (we're in the merge window for v6.9
-now) - any changes that you're submitting should be submitted against
-current code, not v6.2.
-
-> In the latest code, when the cmd parameter is set to SNDRV_PCM_TRIGGER_DRAIN,
-> the return value is 0. If snd_pcm_drain finds that the return value is 0,
-> it will not execute the goto unlock;
-
-Well, it will get to the unlock eventually after going through the for
-loop so the lock doesn't get leaked AFAICT?  I'm not sure what the issue
-you're seeing here is.
-
---SVXtnl3SxrTOaMQW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXwZ0gACgkQJNaLcl1U
-h9D7CQf+I65qwiSF2Y7Qh8DH3RkCpngGIXOKfpL2TThE6NklN8FE2csXpMZpGDFD
-CVEyolsym8c+sLekPSky2TTMtZ3hBHuukCrGciB9qffhrorQ7MgRdEgBtP1Efip7
-GApg3MCVPYwlZYVqWWh7HamuHn6aHJCSqAw3EuvN9JpdWl9tXN8hdc7hNPQun1nG
-utgMOAxUseqF7onB9MxViFHFJ2Zd55DrqorFMkjpaOzIVDE8DnV6p+RHgVRv1ISt
-dMuTHFQowR3cT6+CJEdyzW2ozg7SCUXr9qIwNG0acBvBOb+WKTw4gXZaiqgS0+tx
-XiVAdwuJhfWW/OfNW5e1k+MuJbL72w==
-=23qx
------END PGP SIGNATURE-----
-
---SVXtnl3SxrTOaMQW--
+Signed-off-by: Valentine Altair <faetalize@proton.me>
+---
+V3 -> V4: Added entry in the right order (ordered by PCI SSID).
+V2 -> V3: regenerated diff using git.
+V1 -> V2: No changes.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a1facdb..986b99c 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9950,6 +9950,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
+=3D {
+ =09SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_=
+GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_M=
+UTE_LED_COEFBIT2),
+ =09SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FI=
+XUP_HP_MUTE_LED_COEFBIT),
++=09SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_F=
+IXUP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8a78, "HP Dev One", ALC285_FIXUP_HP_LIMIT_INT_M=
+IC_BOOST),
+ =09SND_PCI_QUIRK(0x103c, 0x8aa0, "HP ProBook 440 G9 (MB 8A9E)", ALC236_FIX=
+UP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIX=
+UP_HP_GPIO_LED),
