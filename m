@@ -1,86 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E9258AC4
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 13:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DD679B91
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 13:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710249248; cv=none; b=kfYgMPM2qtU04usDlMy+4FjbgqjjfcUh3mUuayFCC+gpxIjp8xjvY4jnapHPq0k+1cHlrn/pBCeu7KuBWkRygXwFRFKgie2FjtUY8iyZ90tykVmWa1lNw7RBrbLK7yPYJ/BuTNzy+DHFfMAjXHBb5QR6/UeN12bMVV5Wv38BCM0=
+	t=1710250479; cv=none; b=Vk8MxQQp9Jy7HP9cSaQpMYzG9PC2I/Dnglr4M0qNCFGq2FgxLBL/gpCbRonTbvLK/MgK32lCL0bGtf2Bqqx3B7fiPV5CcuehdIj3b0ot/uhNawVva/Bm2kLQcf5cvtWlf+mhgEibJWwqYTizLIcr9Fbd7beGMn3VSIBmI6RvUT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710249248; c=relaxed/simple;
-	bh=lYXMh/VhJOBdw8Q6ZNlQBSkqO+8vl05y+VDb2Pyunns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e/v0KDq4A1tGCFa8Zh+qY0X5hLvtvKe9sR0PX8mpQ4i5nFu6WE0JJzScDKehcfAJi0+2NlDfeapuEvCqfZh/V1LEKHNMveC2JeMAIAgdOrTMCMZv2QNbBJx4DYQmxUwnwcjCIu7mylq4H7n1A9ss0w+aRwIjNJmnFNPbVCMd1CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3nF2gqL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710250479; c=relaxed/simple;
+	bh=RoCKyGoFOXTXBcI66pHFhEIiNwcqkU6ZzabdP+m1KHc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TL5uWh2TVwEGuh6IJZmO8CcljUw41kxcGbijkbrRS4D3OmJvwLvpfw01s0KtJvqQRIqoJ1bHQ7m3CSpG6/Vv/MkfHEkvwgmNQ0D8zGjhvEHof4XrrcTSVJtgEtJpm/Ck8lsEPVbG+vP2cMPLEpdE/gKNRda+0KMDYJZNy5FAn6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=teenage.engineering; spf=pass smtp.mailfrom=teenage.engineering; dkim=pass (1024-bit key) header.d=teenage.engineering header.i=@teenage.engineering header.b=dwIO502c; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=teenage.engineering
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=teenage.engineering
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3nF2gqL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254F4C433F1;
-	Tue, 12 Mar 2024 13:14:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710249248;
-	bh=lYXMh/VhJOBdw8Q6ZNlQBSkqO+8vl05y+VDb2Pyunns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O3nF2gqLPju45x0jCSbojBKmp3lqoNAR3KT740q76z8TCpwcQwFNaybjeBCFZ07GR
-	 6JF19dvkhfa2XL2TiSbasArsa+h2GNoQV2YygAxwxq4OD6JoW9bT0GSLk1DPeGbY9n
-	 eAXwTjLbWx+xCCwLaEle0hPdh51sABo6HALniMCbE3HKikfP2NzCCjS6Tn8VaE/rjB
-	 Xr8SpXzoZYWrf+d8qnVKUFwrro/qP1k9bArjgdVjAYRZ3CuuUMecGf6hMt0n56i3Pt
-	 8LXzz5xBfiAI2eXlHIialVa6VAxR4MFeNc08b+zJEBvW9yFIGFIlrAbFiqna/tS+iR
-	 e9aIrgIHrm1Cw==
-Date: Tue, 12 Mar 2024 13:14:04 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiawei Wang <me@jwang.link>
-Cc: Mukunda Vijendar <vijendar.mukunda@amd.com>,
-	Sasha Levin <sashal@kernel.org>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Revert "ASoC: amd: yc: add new YC platform variant
- (0x63) support"
-Message-ID: <f977ddfe-50c7-4c08-9621-e9079f4a2d9c@sirena.org.uk>
-References: <20240312023326.224504-1-me@jwang.link>
+	dkim=pass (1024-bit key) header.d=teenage.engineering header.i=@teenage.engineering header.b="dwIO502c"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-513173e8191so5757622e87.1
+        for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 06:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=teenage.engineering; s=google; t=1710250475; x=1710855275; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ydK834n5Y01WNKzZ3f80iHRR/lm34FccFQgm4PjBZd0=;
+        b=dwIO502cgnX7hpY1lTe2g69yytKl7DHcxYQ28tVek+78O/MIvvHd4GiRzWRW5vQ3ww
+         tbfj2+yA25smAYkuEmbeBU57xTWVjpqPm8T23GALk2txFjckASVs0Kz6t1NG5DAobXNf
+         oBpUqeYFRv97dtBAP4WRT+I/mHRaSFZq7ceCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710250475; x=1710855275;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ydK834n5Y01WNKzZ3f80iHRR/lm34FccFQgm4PjBZd0=;
+        b=g369jy6oLpLfJPL5AezNmciVQRt2ZHw9gVQiSJk0UhP4aIZpIdi7ucGOG3hSyUFhmm
+         /o5QHhKJVLbb4RrvswNa/tB4W6q2B3UV268A3h1vDtxjGaT/bZdb28KixBW9Tqwqe4wm
+         kCSYTaQjYvwaP3bCUIhQMGFp0LB5LGm2mWwmKWGWL/1eSueFJBiPBDkBPy1qK7N3QWsw
+         QocWbTXk1iSaD3UunLD+6qE0O5QkV2SOmMJNR/ZAIb6hem4r9V12JxYywnua/okHqVZ5
+         VZ6S0sXzWJjmD4EjcE5xwKq6usra5yhSQ9mipGDGbZVygE0qr6eUUN8YxE5X+/LBLE62
+         bs2Q==
+X-Gm-Message-State: AOJu0YwDPSLhEjpji8E/NyJVfwUK5M0UKkzZPJMUfqRPhPBsKCygoQLD
+	ZRvek1hiowCrtl65jy6RDMwpMrSrFJC7suOG+/7DVX1l4zE7bSEJvKaYiGl05/8=
+X-Google-Smtp-Source: AGHT+IE4uj5CrZLeYM5TNm+LonyTH0gKYw8widC+2ebBXmlYOGegPu776ofdhfQXUkEQl8DWhspHeg==
+X-Received: by 2002:a05:6512:1251:b0:513:4e8e:43db with SMTP id fb17-20020a056512125100b005134e8e43dbmr148542lfb.65.1710250475453;
+        Tue, 12 Mar 2024 06:34:35 -0700 (PDT)
+Received: from localhost.localdomain (212-107-146-90.customers.ownit.se. [212.107.146.90])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056512358600b0051357109ac6sm1587332lfr.285.2024.03.12.06.34.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 06:34:35 -0700 (PDT)
+From: Johan Carlsson <johan.carlsson@teenage.engineering>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	Johan Carlsson <johan.carlsson@teenage.engineering>
+Subject: [PATCH] ALSA: usb-audio: Stop parsing channels bits when all channels are found.
+Date: Tue, 12 Mar 2024 14:34:20 +0100
+Message-Id: <20240312133420.11289-1-johan.carlsson@teenage.engineering>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1Axp6qaALKcVUKbp"
-Content-Disposition: inline
-In-Reply-To: <20240312023326.224504-1-me@jwang.link>
-X-Cookie: Oh, so there you are!
+Content-Transfer-Encoding: 8bit
 
+If a usb audio device sets more bits than the amount of channels
+it could write outside of the map array.
 
---1Axp6qaALKcVUKbp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Johan Carlsson <johan.carlsson@teenage.engineering>
+---
+ sound/usb/stream.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On Tue, Mar 12, 2024 at 10:33:24AM +0800, Jiawei Wang wrote:
-> Please revert my previous two commits:
->=20
-> ASoC: amd: yc: add new YC platform variant (0x63) support
-> [ Upstream commit 316a784839b21b122e1761cdca54677bb19a47fa ]
->=20
-> ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
-> [ Upstream commit ed00a6945dc32462c2d3744a3518d2316da66fcc ]
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index 3d4add94e367..d591a526cca1 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -300,9 +300,12 @@ static struct snd_pcm_chmap_elem *convert_chmap(int channels, unsigned int bits,
+ 	c = 0;
+ 
+ 	if (bits) {
+-		for (; bits && *maps; maps++, bits >>= 1)
++		for (; bits && *maps; maps++, bits >>= 1) {
+ 			if (bits & 1)
+ 				chmap->map[c++] = *maps;
++			if (c == chmaps->channels)
++				break;
++		}
+ 	} else {
+ 		/* If we're missing wChannelConfig, then guess something
+ 		    to make sure the channel map is not skipped entirely */
+-- 
+2.34.1
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---1Axp6qaALKcVUKbp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXwVRsACgkQJNaLcl1U
-h9D7NQgAg4uOLRDuEwyqMOV3CyIfgrTU7i2m8OLZM/w/1wNHR+jmDRfPsv+Bqqkg
-PEgDSwXSnHPLDGHN929XFbsPeM2gbYt+qBCIuMeGlRsVsw4DSpd1+CjR/i9L2fnR
-nMCnBDS+9W3ZDC9nvJ7Hvl1LINtzDtqvlxlIzfCYL5ulUWdqsE/C0akYp4grhwEc
-n8D8rWFkjgKQ9Sg18loFunWPDTh5WtBOxrgcMzCWOYrUrKD4MoEPQL5hp9nYBOUf
-DSbuNHVfNOhv/dNdSwgoOEey9rdAZFIXBsQ3JeBd7v+a24lMROY1MTDoLFhRJ3yo
-HGUS/EzjSwv3pKGR3rnApkpxKJl37g==
-=hzkT
------END PGP SIGNATURE-----
-
---1Axp6qaALKcVUKbp--
