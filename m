@@ -1,86 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4CC57861;
-	Mon, 11 Mar 2024 22:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CE25CAC
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 01:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710195962; cv=none; b=cpIX3eDw3SLuAC76ogzAnFpFTllObA/uF+W4Wi03hnSVTimiJx/abFwx9Mnxi0DhD2ZMaoAyrRtpOILr7YeeFlLRbHc2CPzgkZKY/pQQZJrHuTakBgETLTz0d5xDWcgfcCEiMGpkBsGBpC+7rVsgA/55hjDkZnoE9GHYSR8az8k=
+	t=1710206333; cv=none; b=tk5WvcESY9gH7VMhTy8eZt2w7jVgi5w5jh9vF/zDsPCn8pSP/0/L1ymiO3iVD7kE4DmSqL0Ll7rsE8VbrUnlFbCluGZOzbBgA4jkuWCDCYBxWI8Zkd5CUtUxjnWg6m5uTi5WykLMa3EjlMif6TbiR2ZHC8DHqfVO43NP0G6TpBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710195962; c=relaxed/simple;
-	bh=nhbB7KN+EHCiAICcRdHdrKjxV/CnwlXVj5krZi1VAOQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a6Kz7gH3/F0gkjKPd1tI5s5qLy24Hm/82PI1wNLB0y0rZ1MrwMUQC8WA/DSSJIfbOdMfZl+MPKSFeeSApBDMf2UL6q6nnqBk2uqgTEdb685dmMsYAWazKunsp9DBkz0vzC0ISkeRRokA5GmDhbHPttJbm9IMTLv3WYsQWSkOsDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MKZv1lzc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710206333; c=relaxed/simple;
+	bh=U7QlsJJbWAdTANPglIW+ODPzVlRHVQzQk7XZEpxzL0I=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=rxL7iYqEKz671/n5wrwrITjoiNYB3eGh51RrF8jBSVH5Xbq1DBqL5QqXX3bHYssrB9+q5MBZxbH50yZY/UU4PU2PM46l8XO2FtF7VW2F7uVsTzTwK79DsPht4wHu47hGZ9WMAsYAnLMn2nJ4b97tLrJFSVmupLmEx25ZVofbRQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=CdrvKBMS; arc=none smtp.client-ip=185.70.43.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MKZv1lzc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 400DFC433C7;
-	Mon, 11 Mar 2024 22:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710195961;
-	bh=nhbB7KN+EHCiAICcRdHdrKjxV/CnwlXVj5krZi1VAOQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MKZv1lzcp4zTGpiciqj1xnbftzR2jp2AXkT8WSfbmufh6zCz8WjOAL5tnN5+e/eTX
-	 x2sGXpz94n+SSI7tbH9T0Qps+spePhN9uSbrDLcDd41dDnWPH758lRTaPeUJ+fau8W
-	 g8prQJGzGthmOm5s6Q3wbVGtMZzwtSt1hWqtpj3eWeU2ya8+/qCECr8/an5ltZlZnP
-	 1AIZ9NpEBiCGOMI9dAfjM15ApZg7qCGGRwmKK+Kj6e/w4dtEkiuWBG33lIwIdLSTOm
-	 df0b1aq9zGmcjql9igxmucTZ1QnozoYCOAFMVIaw7U24YhBa3GpAXTeHZEiaF2Lg/R
-	 zBBizEmcRIMiA==
-From: Rob Herring <robh@kernel.org>
-To: James Schulman <james.schulman@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	patches@opensource.cirrus.com
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: cirrus,cs42l43: Fix 'gpio-ranges' schema
-Date: Mon, 11 Mar 2024 16:25:53 -0600
-Message-ID: <20240311222554.1940567-1-robh@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="CdrvKBMS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1710206328; x=1710465528;
+	bh=U7QlsJJbWAdTANPglIW+ODPzVlRHVQzQk7XZEpxzL0I=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=CdrvKBMSvrsMq5NhxsW6VXhJ9Cv2el9CkCRL2kj2Fo2Ea0YaGD7cuzOhtrz3RHJ1V
+	 WgWN4KGHft6tvb0AMz9sOhby9XDOmLyzgWybawr32RewcbKBht1dYhk0ySEU5OyNPT
+	 Q2ycl0dggwxGDNtp6PIyK+QwTa4hiX4Pxl+dj9dqMuVNF3IScbnXVFMUySwrM6zAhn
+	 JjBj/T8mvf/5NWJTyMtsN2lPUOZ2Qbe3szqmffbcY0e/gG5jsf3Ic+dmsx+rAp4AGl
+	 6eYtD1X8LQvYFT9QyF0qvNtMM/tnsUn2PFe1n+WiverD9e0LxYYh0QS/NKwL7MU8cj
+	 t/ORE9NVpGlJg==
+Date: Tue, 12 Mar 2024 01:18:28 +0000
+To: Takashi Iwai <tiwai@suse.de>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "trivial@kernel.org" <trivial@kernel.org>, "perex@perex.cz" <perex@perex.cz>
+From: =?utf-8?Q?f=C3=A6talize?= <faetalize@proton.me>
+Subject: [PATCH V3] ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models
+Message-ID: <fYpNFBsL1RgCO3Ag9BWsfndkd5Z3toPsW6hMfNG8EDFj4V4RaDXsZQ5CC-YxMR8ekj-sqGx7RMbuXlRZhq8q6prm1nn4VVUAgyJaA-qvY6c=@proton.me>
+Feedback-ID: 76527010:user:proton
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-'gpio-ranges' is a phandle-array which is really a matrix. The schema in
-cirrus,cs42l43 is incomplete as it doesn't define there's only a single
-entry. Add the outer array constraints that there is a single entry.
+Some HP laptops have received revisions that altered their board IDs
+and therefore the current patches/quirks do not apply to them.
+Specifically, for my Probook 440 G8, I have a board ID of 8a74.
+It is necessary to add a line for that specific model.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Valentine Altair faetalize@proton.me
 ---
- .../devicetree/bindings/sound/cirrus,cs42l43.yaml     | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l43.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l43.yaml
-index 7f9d8c7a635a..99a536601cc7 100644
---- a/Documentation/devicetree/bindings/sound/cirrus,cs42l43.yaml
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l43.yaml
-@@ -185,11 +185,12 @@ properties:
- 
-       gpio-ranges:
-         items:
--          - description: A phandle to the CODEC pinctrl node
--            minimum: 0
--          - const: 0
--          - const: 0
--          - const: 3
-+          - items:
-+              - description: A phandle to the CODEC pinctrl node
-+                minimum: 0
-+              - const: 0
-+              - const: 0
-+              - const: 3
- 
-     patternProperties:
-       "-state$":
--- 
-2.43.0
-
+V2 -> V3: regenerated diff using git.
+V1 -> V2: No changes.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a1facdb..f04c3c1 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9890,6 +9890,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
+=3D {
+ =09SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MU=
+TE_LED_COEFBIT2),
+ =09SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_F=
+IXUP_HP_GPIO_LED),
++=09SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC q", ALC236=
+_FIXUP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x87e7, "HP ProBook 450 G8 Notebook PC", ALC236_F=
+IXUP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x87f1, "HP ProBook 630 G8 Notebook PC", ALC236_F=
+IXUP_HP_GPIO_LED),
+ =09SND_PCI_QUIRK(0x103c, 0x87f2, "HP ProBook 640 G8 Notebook PC", ALC236_F=
+IXUP_HP_GPIO_LED),
