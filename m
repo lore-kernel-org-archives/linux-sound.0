@@ -1,71 +1,79 @@
-Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CE25CAC
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 01:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CC415BF
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 02:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710206333; cv=none; b=tk5WvcESY9gH7VMhTy8eZt2w7jVgi5w5jh9vF/zDsPCn8pSP/0/L1ymiO3iVD7kE4DmSqL0Ll7rsE8VbrUnlFbCluGZOzbBgA4jkuWCDCYBxWI8Zkd5CUtUxjnWg6m5uTi5WykLMa3EjlMif6TbiR2ZHC8DHqfVO43NP0G6TpBg=
+	t=1710210837; cv=none; b=GqQKWA9ZFmFkKrL3SWbbV5UAZjWGra5AUBxO+4NxhV9ZhDWd36D5UCgYOE7HieycBSMAQ5JgJZL2mVVyfpIW/Nls2QrKlNN8jWU05ib8XIlTOY3WOThtiBV2s/bgBzLkh6dwT9FCLSZtvWvMA9pdqwo85yPobEx5qcTmg2TAEvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710206333; c=relaxed/simple;
-	bh=U7QlsJJbWAdTANPglIW+ODPzVlRHVQzQk7XZEpxzL0I=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=rxL7iYqEKz671/n5wrwrITjoiNYB3eGh51RrF8jBSVH5Xbq1DBqL5QqXX3bHYssrB9+q5MBZxbH50yZY/UU4PU2PM46l8XO2FtF7VW2F7uVsTzTwK79DsPht4wHu47hGZ9WMAsYAnLMn2nJ4b97tLrJFSVmupLmEx25ZVofbRQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=CdrvKBMS; arc=none smtp.client-ip=185.70.43.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1710210837; c=relaxed/simple;
+	bh=l27e6lKZx7jLNyMIN5Nj7ktFynRg7mA5MoSkfJNJLrE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jkc6U3l3Yyg4/wFEY4HCFmCD54XLZ2qlhV+cGNMh0O1o6eg0K2oiv3mitj1kvT228EKBPsyQVO69fFSc2RlpiYAKOsdY7ODvc0F0GIGeprkqcXGgfcwMYrd87mlv2q2nwK2E53o+uKVHUaOjJWPMjSUDZQ0JP0pb2KN5UGPqfhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link; spf=pass smtp.mailfrom=jwang.link; dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b=jjsvsiyo; arc=none smtp.client-ip=91.218.175.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwang.link
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="CdrvKBMS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1710206328; x=1710465528;
-	bh=U7QlsJJbWAdTANPglIW+ODPzVlRHVQzQk7XZEpxzL0I=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=CdrvKBMSvrsMq5NhxsW6VXhJ9Cv2el9CkCRL2kj2Fo2Ea0YaGD7cuzOhtrz3RHJ1V
-	 WgWN4KGHft6tvb0AMz9sOhby9XDOmLyzgWybawr32RewcbKBht1dYhk0ySEU5OyNPT
-	 Q2ycl0dggwxGDNtp6PIyK+QwTa4hiX4Pxl+dj9dqMuVNF3IScbnXVFMUySwrM6zAhn
-	 JjBj/T8mvf/5NWJTyMtsN2lPUOZ2Qbe3szqmffbcY0e/gG5jsf3Ic+dmsx+rAp4AGl
-	 6eYtD1X8LQvYFT9QyF0qvNtMM/tnsUn2PFe1n+WiverD9e0LxYYh0QS/NKwL7MU8cj
-	 t/ORE9NVpGlJg==
-Date: Tue, 12 Mar 2024 01:18:28 +0000
-To: Takashi Iwai <tiwai@suse.de>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "trivial@kernel.org" <trivial@kernel.org>, "perex@perex.cz" <perex@perex.cz>
-From: =?utf-8?Q?f=C3=A6talize?= <faetalize@proton.me>
-Subject: [PATCH V3] ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models
-Message-ID: <fYpNFBsL1RgCO3Ag9BWsfndkd5Z3toPsW6hMfNG8EDFj4V4RaDXsZQ5CC-YxMR8ekj-sqGx7RMbuXlRZhq8q6prm1nn4VVUAgyJaA-qvY6c=@proton.me>
-Feedback-ID: 76527010:user:proton
+	dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b="jjsvsiyo"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jwang.link; s=key1;
+	t=1710210830;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=slo0jZZdDZMibllmQvwXAHqC6xaA2PlPRLN9kHfjfLg=;
+	b=jjsvsiyoguWz0Nmle3m/NJXTJUgxrYNEqEbTKwt9f5ATNWseVt6+EMu27zaTrAKp53+hOe
+	h2Sj83Nt1L5972DYqacVWsZ+exnb0YbDi2jRr0ktPK4siuuAFhUFFi3p4tH1BRIzf1Co9J
+	YtbHxh0F8b7lLEbxEEe+bGYVfhETs89zsHryw5VH4c1sq9JAisyVSWT2wrBp7+g246q1cW
+	ceT/QLVXmFe8Pzc1H+ka2GMPjgMBAsXiH7gFZs3YBVlitPWvUL9RwNjgYUoNGSS10nHnss
+	zLBjSe4KZuJOUc56gGDF9TnZaIMdzJidT3cfqdrti/20w1Nb3z6VdYM+qT07Gg==
+From: Jiawei Wang <me@jwang.link>
+To: Mark Brown <broonie@kernel.org>,
+	Mukunda Vijendar <vijendar.mukunda@amd.com>,
+	Sasha Levin <sashal@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	Jiawei Wang <me@jwang.link>
+Subject: [PATCH 0/2] Revert "ASoC: amd: yc: add new YC platform variant (0x63) support"
+Date: Tue, 12 Mar 2024 10:33:24 +0800
+Message-Id: <20240312023326.224504-1-me@jwang.link>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Some HP laptops have received revisions that altered their board IDs
-and therefore the current patches/quirks do not apply to them.
-Specifically, for my Probook 440 G8, I have a board ID of 8a74.
-It is necessary to add a line for that specific model.
+Please revert my previous two commits:
 
-Signed-off-by: Valentine Altair faetalize@proton.me
----
-V2 -> V3: regenerated diff using git.
-V1 -> V2: No changes.
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a1facdb..f04c3c1 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9890,6 +9890,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- =09SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MU=
-TE_LED_COEFBIT2),
- =09SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_F=
-IXUP_HP_GPIO_LED),
-+=09SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC q", ALC236=
-_FIXUP_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x87e7, "HP ProBook 450 G8 Notebook PC", ALC236_F=
-IXUP_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x87f1, "HP ProBook 630 G8 Notebook PC", ALC236_F=
-IXUP_HP_GPIO_LED),
- =09SND_PCI_QUIRK(0x103c, 0x87f2, "HP ProBook 640 G8 Notebook PC", ALC236_F=
-IXUP_HP_GPIO_LED),
+ASoC: amd: yc: add new YC platform variant (0x63) support
+[ Upstream commit 316a784839b21b122e1761cdca54677bb19a47fa ]
+
+ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
+[ Upstream commit ed00a6945dc32462c2d3744a3518d2316da66fcc ]
+
+PCI revision id 0x63 is the Pink Sardine (PS) platform, not Yellow
+Carp (YC). Thanks to Mukunda Vijendar [1] for pointing out that.
+
+The mic on Lenovo 21J2 works after enabling the CONFIG_SND_SOC_AMD_PS
+flag, which I had not enabled when I was writing these patches. 21J2
+does not need to be in this quirk table.
+
+I apologize for the inconvenience caused.
+
+Link: https://lore.kernel.org/linux-sound/023092e1-689c-4b00-b93f-4092c3724fb6@amd.com/ [1]
+
+Signed-off-by: Jiawei Wang <me@jwang.link>
+
+Jiawei Wang (2):
+  Revert "ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2"
+  Revert "ASoC: amd: yc: add new YC platform variant (0x63) support"
+
+ sound/soc/amd/yc/acp6x-mach.c | 7 -------
+ sound/soc/amd/yc/pci-acp6x.c  | 1 -
+ 2 files changed, 8 deletions(-)
+
+-- 
+2.39.2
+
