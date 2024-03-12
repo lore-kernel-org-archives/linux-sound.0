@@ -1,135 +1,126 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1FD77F11
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 08:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F67078273;
+	Tue, 12 Mar 2024 09:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710233892; cv=none; b=uNAHqw7QfPfiXFp4lli/2s1NydTv+Slc++dLXQwkS4MnjHHcYHx0ZV2smyrsqY1FTSkVIzDINH/v4dRIFN0w6YIgurPjPBQfK6/220yp3UxCT4xl+EgJZ0yGhh0jHpM6H+dTz30Yelqnkxu1/oGNmXNBFTmJyPS3GD0JxuFo/1Q=
+	t=1710236502; cv=none; b=C8xkOxOdgkwghsX8LLlr0FdVFWEn9+cCLRgEiOh2RM3HDFfnuQyG3GTWt8XcAhDCAXV7V6rbTpr4YFL4Caq8SOtTNFFusQt9cwVT0bkHaQcxChtTXtaTTDODrTWIRLluFY0JBnD308WoL9NJo7CFPb+3UJR4RVQZCgmsUDMiHrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710233892; c=relaxed/simple;
-	bh=AU1Zl+tSRS2NV45KDCYOlwTwF/5xzBM2xGuo+H38t9s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tPFfSOiU9Zd7WCg1dcFjzxw4UQgeL948aFNjFKdMawqnE5DkdyppaHz9ztNumpdw5CHoTqSfvhE7QDgL1ozl0wWkI8AuUkZA7FPic/qJLdVDJGa8zD/1ltzsR6UbDDtbUvAQatT/YlIW1B6CYs2mEDIsleUphjIcIEfVWE3AzyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BCHJIMkT; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710236502; c=relaxed/simple;
+	bh=2aEimQhgFxmWJYn6GcjIbcGQw3slBQN7rqnpfFA3a7Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PqhL/5dSVMOWO3QfQ+Db6LcALucokzHqbwiMcAClPLCiTYuTIucyx+OHBcaoxArZJPy3Njn6DbY9xtQBYL8uixMyWn3icGmJLOh0Q4VWrAQcbi9uLyPOIDoGhqZ0gxu6HXp97/kLsxBwv5dIC1ho6ZxcVSgIpNXOyRYNFCLYw28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qSi5GOWk; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BCHJIMkT"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e285a33bdso3101241f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 01:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710233888; x=1710838688; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VjT8Br7RwB5Cf9wT37+1E/wNuS7CDeDlSSoF+6MfTlU=;
-        b=BCHJIMkTyMqepjdVgkNxd/ed4PdVWRkXFYOMqMAsnMHKT0EOoiXQyaLQTZxaZ8oPHv
-         TnHttj9RZeRMWoVvh70+xoDgKSvwMMDAf9EdRopGrSmNU4/KY4YR7zEzLkmwG3scs+Ba
-         7P35Sm+cM2Zi0cttKHBWhLcOzVxsB8y36CI7It14nYZuCtpo2sDfOR0HSFhJiraDfind
-         KuEqqKGKBiPHtq9GKsDeRnLfcBFW0ufaZF9MWDGp8ml7tO7jGMffKiBHs9zVGm0Sr8UJ
-         YdnizJ00pfffCXyA1c7VKMBiW4eqsA50xbNuFB5AHlVn/KkjgkHcGgnb+8E5rn7s2mRo
-         GG8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710233888; x=1710838688;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjT8Br7RwB5Cf9wT37+1E/wNuS7CDeDlSSoF+6MfTlU=;
-        b=k+0W/MqH7spVhfelmSu6jEV/XO8798fjRk8g27heBN8t/fVybR5IYfag91SGaG+syN
-         0YQKDaXZmL0iuN0deT/+QzfDx1UK0pq83nJs4IJ8AnDN7L92fNK/ejuB3Jkzfm+Bmq2B
-         vIj3EOlRUa7v7crdwJPQuMBzA5V95O7VDnSpLIa32O2Liytcc3K5Pcvt4yvswn2w2jNv
-         9zwMdBN22sfF6U4GeG88hQf9ZjmzDToQs9+FkaTv3GTqI7uwbkjO3WaFo4u2AeGAp5vp
-         YRohBNrc9m1obzWGWNpU2TK5li1eSrD+jwBC+M7Hm746FLNJGdFhSa+kmR7HukKutoYX
-         OzKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWakYqJzhAD2HHkW0cTInpmq8ny8Wq1Q07qty71Fft5dE3KlfFjg+9AEyfiI8Ddanb9Sgj+mUeJ5+pdLxf1toKRiG9P+Cx1uJ9Psgg=
-X-Gm-Message-State: AOJu0Yzz+hT0UiFocFhIuZcr7NHWiMMWOfsQHuPTuTTd87IOVtQ3p9iC
-	W7/zI1Jnj6qqaQFWJduN4q35wI01WNNB+iR6++O32fSWor4Kfc3/lRxncem0rM8=
-X-Google-Smtp-Source: AGHT+IGEY43ahXXjF+ZtPgyw++kTwzbaMmqAYW0DyROyoKxXhlKv6tTyjqHeIgkml0d0nNzd+tbCLg==
-X-Received: by 2002:a05:6000:1c3:b0:33e:8b95:b351 with SMTP id t3-20020a05600001c300b0033e8b95b351mr5064003wrx.9.1710233888438;
-        Tue, 12 Mar 2024 01:58:08 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id i5-20020adfb645000000b0033e87c6bcb2sm7367141wre.8.2024.03.12.01.58.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 01:58:08 -0700 (PDT)
-Message-ID: <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
-Date: Tue, 12 Mar 2024 09:58:05 +0100
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qSi5GOWk"
+Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA2BE6BE;
+	Tue, 12 Mar 2024 10:41:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710236472;
+	bh=2aEimQhgFxmWJYn6GcjIbcGQw3slBQN7rqnpfFA3a7Q=;
+	h=From:Subject:Date:To:Cc:From;
+	b=qSi5GOWkNp3rBG+Pufp3fLgvoZAdTjDz5F1yUlw1L5lAuqhN4wOPTCZUrBaXvfeXt
+	 lzF7dcBxpbuyUQnjnefVejUMbdK0E5wWDYrVwgr4VMBJPtzLn1jAcpjpEBi4NHZP7a
+	 5i+VV31WDxc3w7NpTewN2bdgkBS1jziWKcP3cQv8=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/4] drm: xlnx: zynqmp: Add DP audio support
+Date: Tue, 12 Mar 2024 11:41:01 +0200
+Message-Id: <20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
- board
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC0j8GUC/x3MQQqAIBBA0avErBvISaS6SrSQHGsgLJRCkO6et
+ HyL/wskjsIJpqZA5EeSnKFCtQ2suw0bo7hqoI501yvCLIeEjO5Cezs5UZvBOkV+9EZDra7IXvJ
+ /nJf3/QBk1wuEYQAAAA==
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2156;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=2aEimQhgFxmWJYn6GcjIbcGQw3slBQN7rqnpfFA3a7Q=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBl8CNGUu4queGy9PSBXJQ9gvh4uSIIYmIqaQ6Ez
+ ookQ6CorvqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZfAjRgAKCRD6PaqMvJYe
+ 9QkSD/wMNPPabtvMaovE9RIESQnKyXvtLUuJQNoSaZh/P+61WDzI5Bk2WfJpuEm+lNWNTsr/DWb
+ 3zutn7tAFHWMg1OlttiXezVNI/+3RtNRlGK96b39sgvbDt/NZgfG7QPsKrOgzqYv7KIdFpF7oJj
+ G1LJIcdaOT37n5Umfxj+xPlOhONzSZC4jGLISJ0yl8rSf6pP8eq1NZNcw441ACUzqx2p9ZNjYp/
+ v2hgYJXwk1AVrzZf371WoihZCoP7DMg1hCDzGpqxt2GjaqrEYDKmEbySZn3syNZCnUj9rzUjQMg
+ ob0V0GhpXbPzwYxLF9Two7PMmXnirLV1PfWIlr/zYpx2LocGygZj5a8VjVFQaZ0BHw14E/9s+qC
+ nLVk+GRrxQHlm35KcfK5bREWj3hiW5hyEwCFUWi3szZwaVY3/4rlgKE9kvNSJAWulSIYml78Wp2
+ WiEtHilmRiP6HG7YzKyke2ZuU1v94IEm9xCAE/Q6MoFFsZRKvACPgjJqw1KT7Ci9U4TttEv8FqJ
+ 0G0nuVEmvbZmNkvs1DAxGzRMfv2TZ6SwPr3K5dcAIG7Se4uEgWy5KlUyQJq6xyzERc0V9cShiks
+ QGYKu1ajblPxpysQfYeTUgAhKwmDlQ/WKHvAoohXjin0IKfS0zQ0ohnKDQK8KU5GrLwyULVhx6B
+ YRT4z38AeIRF89g==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
+Add DisplayPort audio support for Xilinx ZynqMP platforms.
 
+This depends on patch adding cyclic DMA mode for DPDMA driver:
 
-On 27/02/2024 16:06, Mark Brown wrote:
-> On Mon, Feb 26, 2024 at 03:01:38PM +0100, Alexandre Mergnat wrote:
->> This serie aim to add the following audio support for the Genio 350-evk:
->> - Playback
->>    - 2ch Headset Jack (Earphone)
->>    - 1ch Line-out Jack (Speaker)
->>    - 8ch HDMI Tx
->> - Capture
->>    - 1ch DMIC (On-board Digital Microphone)
->>    - 1ch AMIC (On-board Analogic Microphone)
->>    - 1ch Headset Jack (External Analogic Microphone)
->>
->> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
->> change documented in "mediatek,mt8365-mt6357.yaml".
-> 
-> Given the number of custom controls here could you please post the
-> output of mixer-test and pcm-test from a system with this driver running
-> next time you post, this will help with review since it checks a bunch
-> of things around the new controls.
+https://lore.kernel.org/all/20240228042124.3074044-3-vishal.sagar@amd.com/
 
-Hi Mark,
+If that patch is missing, starting an audio playback will fail with an
+ASoC error.
 
-I'm a bit lost for mixer-test and pcm-test.
-Currently, I cross-compile the alsa lib project to be able to build the 
-tests and put it on my board.
+The current DT is, for some reason, missing the DMA channels for the
+audio. This series adds that to the bindings and the dts file, but to
+support older dtb files without the audio DMA, the driver will not fail
+if the audio DMA is missing, but will just mark the audio support as
+disabled.
 
-I can execute it, but I still have 2 issues:
+The series also includes an improvement to the
+soc-generic-dmaengine-pcm.c, required to support two dmaengine_pcms.
 
-1) I've a lot of missing module in my environment (Encode.so, Encode.pm, 
-Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing 
-perl modules and install them in the rootfs
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Tomi Valkeinen (4):
+      ASoC: dmaengine_pcm: Allow passing component name via config
+      dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+      arm64: dts: zynqmp: Add DMA for DP audio
+      drm: xlnx: zynqmp_dpsub: Add DP audio support
 
-2) I don't know how to configure pcm-test.conf & 
-Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
+ .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   |  10 +-
+ arch/arm64/boot/dts/xilinx/zynqmp.dtsi             |   7 +-
+ drivers/gpu/drm/xlnx/Kconfig                       |   9 +
+ drivers/gpu/drm/xlnx/Makefile                      |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c                 |  50 ---
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h            |   7 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  54 ++-
+ drivers/gpu/drm/xlnx/zynqmp_dp.h                   |   7 +
+ drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             | 461 +++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |  39 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h                |  15 +-
+ include/sound/dmaengine_pcm.h                      |   2 +
+ sound/soc/soc-core.c                               |   8 +-
+ sound/soc/soc-generic-dmaengine-pcm.c              |   3 +
+ 14 files changed, 563 insertions(+), 110 deletions(-)
+---
+base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+change-id: 20240312-xilinx-dp-audio-468ad12f9f64
 
-My test cmd:
-./run_kselftest.sh -c alsa
-
-I'm wondering if I'm going to the wrong way because I don't find 
-guide/readme whereas it's not trivial at all.
-
+Best regards,
 -- 
-Regards,
-Alexandre
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
