@@ -1,100 +1,136 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6366179B69;
-	Tue, 12 Mar 2024 11:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EB020304;
+	Tue, 12 Mar 2024 11:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710242552; cv=none; b=QIUt+ujixUQ2mt5hqjR+z6QS0mfBijnFTfFH2G8qKNse3FqFG4mHTaYkVhvf1wtTjUo6fdU/kuxvdLpXZiJEmusolkrSWlJW+8kb7BHT7QZsnTxsbXIOpQT31v0v0nXvxXBapSvGg11YsSPELWl5kIlO1coDlVtJ68EnSRGiSoE=
+	t=1710243069; cv=none; b=bHdJn2glt+GmQedoxL8XzDL522FQewVFnbozD5qwR+Hyb90796uFeULAIQ7kdY/RkD06B8pdCSSS16tBtfKZtvxjE4RO/p/YxS3HER6kuNhEHFZY7Y7uySmZa6rGI8uQrnkSeirdUZAL+72CNU75p0jJfgrkNpLPaXavahIabqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710242552; c=relaxed/simple;
-	bh=cywT/QByQFIJdhADZzCtgX79R/D7p67c/GQR1xc82d0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qdpPK2V5+SgpSyT//BHZ8/OJqXwjhdkURKF1ZdgaCvsZ0NK3NNzv2z8jfA+qpmLQMwR0PizS7viejUXd38x7aLA6T1ilQtpOcSAlc0VBy64kerXBcZF97Q62n35lpcntX+3TybuJvLmk23IdtuUrJMjbT16RQglygC/epH1whs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ac1emfkd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lNsVlYH+; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1710243069; c=relaxed/simple;
+	bh=MP0JRLNxFjkIuQaCWUsq/84138rYzlZEgnBzrBtF1Dk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TCoF563kTGEDzCiP3Vz+nBSV9Q7zd+YYUTJZIrjsmXiWeeUP1r4/6+ykWxAJVPpj/ENHKaseXMCNOnoyZ8PLdx0GhpWmZUvSU977eHMgsVxHLRTy+AYdgpaZy6s0jPgdeJXh7RiqgQv0uHxNofnt0wTFWkQf6Bwkg+zYbT2BEn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DG5PmHu/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kkwonUXt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=msxMbRZM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FRR9LtLm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ac1emfkd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lNsVlYH+"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710242549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sf8IIBXXR308h4kRJYGu81pgt61c8R8ZXVrdx1HuATA=;
-	b=Ac1emfkdlm80k4NNTrCk8ypmAbhqVcLh0Kz1QOcDVFPeDx9wpxESgrFvxYlIX1BzpQUp/p
-	em+4Tmjou7GWCWrnQq7k6OpRokEfvU3eKL4sui1heA0izq4y4rY0BLAL6CjQkJorH4XyXu
-	ZU9+FKCqgt1YuWe+GwdNjAafSnXf6H2RiO68MdGyK7m1D15TOeMdHRs8+BtL+L4mwjR5gU
-	PTZGw0ikFWrZIQUtR9rsfeZa+pS6T9QXluTpUC/4zyQ6szYjeGt+Q9ie6YOH8bXa9XyPrc
-	GLPvVp/OsV26opnHbRV2AVepeHgEbK5FX4aJKT5ycRCI5kdF30He28WL4JdqbQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710242549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sf8IIBXXR308h4kRJYGu81pgt61c8R8ZXVrdx1HuATA=;
-	b=lNsVlYH+t9pbriX1H3dOtFuKudDyN9IUKK3uLJfP6y+9tXbhZxDSsh7XxbMlABleSvEYfi
-	+yzmuutONeyQN6AA==
-Date: Tue, 12 Mar 2024 12:22:28 +0100
-Subject: [PATCH] ALSA: aaci: Delete unused variable in aaci_do_suspend
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DG5PmHu/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kkwonUXt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="msxMbRZM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FRR9LtLm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 124C1375E6;
+	Tue, 12 Mar 2024 11:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710243065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UUWeccaaobTK6qF95MjlX9Yi3J/YlTM7KHg6Q4pDQSo=;
+	b=DG5PmHu/HNZtYAtOLO8hEhxShe0kah95ol8onjsuI3H1sW0HPeLeNLMMzIrk9Vf083WQpj
+	DvYC+sT9NNkC+r6S7srA7t1T9tPIW2QuyvwaHfpRBAM1FozEl8GvzteoYf8/13GKI5Xwzl
+	ggcxY57nYT8RcfC1o39xSJiZMTw5bMg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710243065;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UUWeccaaobTK6qF95MjlX9Yi3J/YlTM7KHg6Q4pDQSo=;
+	b=kkwonUXtV/7RgzcoSwNpqG3jRYxywn520vl/qrbOuud1TmO2ylZOm+DV0AeEGEsGRWiCG/
+	JLRwfjYl5eFqMlAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710243063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UUWeccaaobTK6qF95MjlX9Yi3J/YlTM7KHg6Q4pDQSo=;
+	b=msxMbRZMvIWBpD/MxpZ8xqhox6ui94UzMbRXgblprk7RP5kFboHaTpWf/DgezR9c6MA8XB
+	9upXk81X6PtHwZkKcwbY1YP+vAnZ7QLwggj3w4P0TExl9HdfO6sRpjmH8UUc4+eY92v4dl
+	kgZ61xU1Sb9/YT8q7NbAi12o9LOYhWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710243063;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UUWeccaaobTK6qF95MjlX9Yi3J/YlTM7KHg6Q4pDQSo=;
+	b=FRR9LtLm+/xQBCMD4QaQCxSrxm8B04Kq2MDi7KtAzQX1gKL+eU+IGGxtnDlMNTttvpW8Gd
+	gF40WoS/dxmhOeBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED8451364F;
+	Tue, 12 Mar 2024 11:31:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A+ovOfY88GVTYQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 12 Mar 2024 11:31:02 +0000
+Date: Tue, 12 Mar 2024 12:31:01 +0100
+Message-ID: <87v85r6616.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Russell King <linux@armlinux.org.uk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: aaci: Delete unused variable in aaci_do_suspend
+In-Reply-To: <20240312-aaci-unused-v1-1-09be643f67c2@linutronix.de>
+References: <20240312-aaci-unused-v1-1-09be643f67c2@linutronix.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240312-aaci-unused-v1-1-09be643f67c2@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIAPM68GUC/x3MQQqAIBBA0avIrBtQM6SuEi1Ep5qNhWIE4t2Tl
- m/xf4VMiSnDIiokejjzFTvUIMCfLh6EHLpBS23kqDQ65xlLLJkCBmuUVXLWNEnoxZ1o5/e/rVt
- rH4HQ5qNdAAAA
-To: Russell King <linux@armlinux.org.uk>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710242548; l=1049;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=cywT/QByQFIJdhADZzCtgX79R/D7p67c/GQR1xc82d0=;
- b=Gx2FROu1Olg8QxebPKXGIbZIuHew1YoC26h43RlpBK9Hj4HCacMYmsn4XBAh6+PgVx/d5keqb
- rEIQpH/iYx5DKFGyxE0rb0k+2cGlGMzdAeqGYoConcgYqrUUNP0R94J
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-2.00 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.90)[99.57%]
+X-Spam-Score: -2.00
+X-Spam-Flag: NO
 
-The variable aaci is not used anymore and can be deleted.
+On Tue, 12 Mar 2024 12:22:28 +0100,
+Thomas Weiﬂschuh wrote:
+> 
+> The variable aaci is not used anymore and can be deleted.
+> 
+> Fixes: 792a6c51875c ("[ALSA] Fix PM support")
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> ---
+> Note: This only seems to trigger with the series
+> "ALSA: Clean up with DEFINE_SIMPLE_DEV_PM_OPS()" applied.
+> 
+> (Encountered on next-20240312)
+> 
+> [0] https://lore.kernel.org/all/20240207155140.18238-1-tiwai@suse.de/
 
-Fixes: 792a6c51875c ("[ALSA] Fix PM support")
-Signed-off-by: Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
----
-Note: This only seems to trigger with the series
-"ALSA: Clean up with DEFINE_SIMPLE_DEV_PM_OPS()" applied.
+Thanks, applied now.
 
-(Encountered on next-20240312)
 
-[0] https://lore.kernel.org/all/20240207155140.18238-1-tiwai@suse.de/
----
- sound/arm/aaci.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/sound/arm/aaci.c b/sound/arm/aaci.c
-index 0817ad21af74..2bfffdd33864 100644
---- a/sound/arm/aaci.c
-+++ b/sound/arm/aaci.c
-@@ -740,7 +740,6 @@ static const struct snd_pcm_ops aaci_capture_ops = {
- #ifdef CONFIG_PM
- static int aaci_do_suspend(struct snd_card *card)
- {
--	struct aaci *aaci = card->private_data;
- 	snd_power_change_state(card, SNDRV_CTL_POWER_D3cold);
- 	return 0;
- }
-
----
-base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
-change-id: 20240312-aaci-unused-d74171092e50
-
-Best regards,
--- 
-Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
-
+Takashi
