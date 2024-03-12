@@ -1,169 +1,100 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A5778299
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 10:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6366179B69;
+	Tue, 12 Mar 2024 11:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710239057; cv=none; b=QtuDHaNGyEQIDHLQZZmdZIsQiZWtnMXZis45bS1/R1jYbaiO2+CW0w8SVn+ZqS/4iCie84aBzEc0p/ixyHW+dajz9rrn4dsfYwjo8hU45GI84ZN2EcsKDzvHcNN0lC1Q0XkGkgjdBCss59lbH3FzHTy8x9WTwMykUjN3ScImins=
+	t=1710242552; cv=none; b=QIUt+ujixUQ2mt5hqjR+z6QS0mfBijnFTfFH2G8qKNse3FqFG4mHTaYkVhvf1wtTjUo6fdU/kuxvdLpXZiJEmusolkrSWlJW+8kb7BHT7QZsnTxsbXIOpQT31v0v0nXvxXBapSvGg11YsSPELWl5kIlO1coDlVtJ68EnSRGiSoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710239057; c=relaxed/simple;
-	bh=NC+qtZrug8c0Jfn0CW3a6wj3pFA/bSooZq3Y1ynVYko=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oWXYLkTcvzC6JuAZ4Kq6lcmOl+TUOrJRGXCSSMusKNieZ3a/UUFmWMx1dGlmaWK3FSWM57c2/G1OxpoVydp4eCzwukPvlb4pxgK8Kj04pkRhA+ZsFrAbxNjCBq2ieNlNxsQZR5OccB220gP43Hte+CHOW8INnd9cw+7VbClUr8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=co+1ZWLM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i15I3/S1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IXglOW6x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pAX2HSoc; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710242552; c=relaxed/simple;
+	bh=cywT/QByQFIJdhADZzCtgX79R/D7p67c/GQR1xc82d0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qdpPK2V5+SgpSyT//BHZ8/OJqXwjhdkURKF1ZdgaCvsZ0NK3NNzv2z8jfA+qpmLQMwR0PizS7viejUXd38x7aLA6T1ilQtpOcSAlc0VBy64kerXBcZF97Q62n35lpcntX+3TybuJvLmk23IdtuUrJMjbT16RQglygC/epH1whs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ac1emfkd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lNsVlYH+; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="co+1ZWLM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i15I3/S1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IXglOW6x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pAX2HSoc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E7F8037555;
-	Tue, 12 Mar 2024 10:24:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710239053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qiEq3xlMRDEWR+yfQiqLsLs4G2h+H99K+r0zNaIhDDw=;
-	b=co+1ZWLM0I3Sc/v0IDi5kQwFOmPpEIerOE8mUJi8mQaxiQBRkBS2xC9jvnNkLDhdzDz8Wx
-	cZxGvSzc2bn/2areA+HwVsemD5KPUw22zWvFmyH06etymb3NXIkOpoOyC4kM94X48s/Baw
-	2mGgT8dnB6kcjPAw1n74OMBJlCYJ3ic=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710239053;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qiEq3xlMRDEWR+yfQiqLsLs4G2h+H99K+r0zNaIhDDw=;
-	b=i15I3/S1jcWjy7MftU+LsaflhbCafioFK8aodeRPbVaNpL4qQuoa6AstPAipEkRM2sG4MJ
-	Q19jeGPwEPXk/rBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710239051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qiEq3xlMRDEWR+yfQiqLsLs4G2h+H99K+r0zNaIhDDw=;
-	b=IXglOW6xwiiK/1xqMQRolxllM0KL6uiEJ63Culm55j54oNardak4SmY9hVXnOaEfvi/Tiu
-	mDDN2FwNtyidgNMrKgrBL24/9t4jxWy8Jp32DCP6UNihnNSmxDtBksf4UZy1lzK7QzqVty
-	RMufElryWMhgfMjb9ctlrLoacXoYOqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710239051;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qiEq3xlMRDEWR+yfQiqLsLs4G2h+H99K+r0zNaIhDDw=;
-	b=pAX2HSoccyO0hA3SYjjzUNFMzWCxWwqlFQSCHvgb8AB3oooArnE0Yg3HEqjmm3RHgS/90V
-	vXsalhI+e0qKElAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D19A5137C4;
-	Tue, 12 Mar 2024 10:24:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fEilMkst8GVZSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Mar 2024 10:24:11 +0000
-Date: Tue, 12 Mar 2024 11:24:11 +0100
-Message-ID: <874jdb7np0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?f=E6talize?= <faetalize@proton.me>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"trivial@kernel.org" <trivial@kernel.org>,
-	"perex@perex.cz" <perex@perex.cz>
-Subject: Re: [PATCH V3] ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models
-In-Reply-To: <fYpNFBsL1RgCO3Ag9BWsfndkd5Z3toPsW6hMfNG8EDFj4V4RaDXsZQ5CC-YxMR8ekj-sqGx7RMbuXlRZhq8q6prm1nn4VVUAgyJaA-qvY6c=@proton.me>
-References: <fYpNFBsL1RgCO3Ag9BWsfndkd5Z3toPsW6hMfNG8EDFj4V4RaDXsZQ5CC-YxMR8ekj-sqGx7RMbuXlRZhq8q6prm1nn4VVUAgyJaA-qvY6c=@proton.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ac1emfkd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lNsVlYH+"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710242549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sf8IIBXXR308h4kRJYGu81pgt61c8R8ZXVrdx1HuATA=;
+	b=Ac1emfkdlm80k4NNTrCk8ypmAbhqVcLh0Kz1QOcDVFPeDx9wpxESgrFvxYlIX1BzpQUp/p
+	em+4Tmjou7GWCWrnQq7k6OpRokEfvU3eKL4sui1heA0izq4y4rY0BLAL6CjQkJorH4XyXu
+	ZU9+FKCqgt1YuWe+GwdNjAafSnXf6H2RiO68MdGyK7m1D15TOeMdHRs8+BtL+L4mwjR5gU
+	PTZGw0ikFWrZIQUtR9rsfeZa+pS6T9QXluTpUC/4zyQ6szYjeGt+Q9ie6YOH8bXa9XyPrc
+	GLPvVp/OsV26opnHbRV2AVepeHgEbK5FX4aJKT5ycRCI5kdF30He28WL4JdqbQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710242549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sf8IIBXXR308h4kRJYGu81pgt61c8R8ZXVrdx1HuATA=;
+	b=lNsVlYH+t9pbriX1H3dOtFuKudDyN9IUKK3uLJfP6y+9tXbhZxDSsh7XxbMlABleSvEYfi
+	+yzmuutONeyQN6AA==
+Date: Tue, 12 Mar 2024 12:22:28 +0100
+Subject: [PATCH] ALSA: aaci: Delete unused variable in aaci_do_suspend
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IXglOW6x;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pAX2HSoc
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,proton.me:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-0.994];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -5.51
-X-Rspamd-Queue-Id: E7F8037555
-X-Spam-Flag: NO
+Message-Id: <20240312-aaci-unused-v1-1-09be643f67c2@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAPM68GUC/x3MQQqAIBBA0avIrBtQM6SuEi1Ep5qNhWIE4t2Tl
+ m/xf4VMiSnDIiokejjzFTvUIMCfLh6EHLpBS23kqDQ65xlLLJkCBmuUVXLWNEnoxZ1o5/e/rVt
+ rH4HQ5qNdAAAA
+To: Russell King <linux@armlinux.org.uk>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1710242548; l=1049;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=cywT/QByQFIJdhADZzCtgX79R/D7p67c/GQR1xc82d0=;
+ b=Gx2FROu1Olg8QxebPKXGIbZIuHew1YoC26h43RlpBK9Hj4HCacMYmsn4XBAh6+PgVx/d5keqb
+ rEIQpH/iYx5DKFGyxE0rb0k+2cGlGMzdAeqGYoConcgYqrUUNP0R94J
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Tue, 12 Mar 2024 02:18:28 +0100,
-f�talize wrote:
-> 
-> Some HP laptops have received revisions that altered their board IDs
-> and therefore the current patches/quirks do not apply to them.
-> Specifically, for my Probook 440 G8, I have a board ID of 8a74.
-> It is necessary to add a line for that specific model.
-> 
-> Signed-off-by: Valentine Altair faetalize@proton.me
-> ---
-> V2 -> V3: regenerated diff using git.
-> V1 -> V2: No changes.
+The variable aaci is not used anymore and can be deleted.
 
-Almost good, but just a few things:
+Fixes: 792a6c51875c ("[ALSA] Fix PM support")
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Note: This only seems to trigger with the series
+"ALSA: Clean up with DEFINE_SIMPLE_DEV_PM_OPS()" applied.
 
-- The alc269_fixup_tblp[] is sorted in PCI SSID order;
-  put the entry at the right position
-- Signed-off-by line should be in the format "Real Name <real@xxx>"
-- The address in the From line should match with Signed-off-by line;
-  if the mail set up is difficult to change, you can put "From: ...."
-  line at the beginning of the patch itself, too.
+(Encountered on next-20240312)
 
-Could you resubmit with those corrections?
+[0] https://lore.kernel.org/all/20240207155140.18238-1-tiwai@suse.de/
+---
+ sound/arm/aaci.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/sound/arm/aaci.c b/sound/arm/aaci.c
+index 0817ad21af74..2bfffdd33864 100644
+--- a/sound/arm/aaci.c
++++ b/sound/arm/aaci.c
+@@ -740,7 +740,6 @@ static const struct snd_pcm_ops aaci_capture_ops = {
+ #ifdef CONFIG_PM
+ static int aaci_do_suspend(struct snd_card *card)
+ {
+-	struct aaci *aaci = card->private_data;
+ 	snd_power_change_state(card, SNDRV_CTL_POWER_D3cold);
+ 	return 0;
+ }
 
-thanks,
+---
+base-commit: 90d35da658da8cff0d4ecbb5113f5fac9d00eb72
+change-id: 20240312-aaci-unused-d74171092e50
 
-Takashi
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index a1facdb..f04c3c1 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -9890,6 +9890,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->  	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC q", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x87e7, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x87f1, "HP ProBook 630 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x87f2, "HP ProBook 640 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
