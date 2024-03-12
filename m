@@ -1,78 +1,135 @@
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com [91.218.175.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9DA20E3
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 02:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1FD77F11
+	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 08:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710210840; cv=none; b=kfWZLSxjxI8cu6ZOOQ7j2yULFSnX7h4GKj0l2We7jFohfmavh1LD2QCNEXbWuF4EE/laL0+53nvIp9LmcrbTRYROkdIpHWhE2+dK3EiojVu42Ax7mv5ED5DNf/Zy+N+rG7pxerxSHpFP8Z+bi4Fr6pYTP1Xev1xv7qhZ3zz+kQg=
+	t=1710233892; cv=none; b=uNAHqw7QfPfiXFp4lli/2s1NydTv+Slc++dLXQwkS4MnjHHcYHx0ZV2smyrsqY1FTSkVIzDINH/v4dRIFN0w6YIgurPjPBQfK6/220yp3UxCT4xl+EgJZ0yGhh0jHpM6H+dTz30Yelqnkxu1/oGNmXNBFTmJyPS3GD0JxuFo/1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710210840; c=relaxed/simple;
-	bh=9HfJZ1daIpI/qgLrY7OexiFHZFaY79TV2YQdm1yEh1w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uzGrghOpcl1gyx19BOK02mkkrmEmSclEquEhLvSfmWYsPUCiTwmAfoocxrBAPXQnYI3UW16e2B3lsW50D4eARs9rgJUF5m9FIpVytP0hEEhRks5jCqKPLrlcjkcg+jfexfUMwpujeyfDZ9EjPHHc9cuU1Ksw7dAO7+OojPEeFT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link; spf=pass smtp.mailfrom=jwang.link; dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b=X/TGze0C; arc=none smtp.client-ip=91.218.175.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwang.link
+	s=arc-20240116; t=1710233892; c=relaxed/simple;
+	bh=AU1Zl+tSRS2NV45KDCYOlwTwF/5xzBM2xGuo+H38t9s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tPFfSOiU9Zd7WCg1dcFjzxw4UQgeL948aFNjFKdMawqnE5DkdyppaHz9ztNumpdw5CHoTqSfvhE7QDgL1ozl0wWkI8AuUkZA7FPic/qJLdVDJGa8zD/1ltzsR6UbDDtbUvAQatT/YlIW1B6CYs2mEDIsleUphjIcIEfVWE3AzyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BCHJIMkT; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b="X/TGze0C"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jwang.link; s=key1;
-	t=1710210836;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=baXpziilhDI+/LqGsygHqrlEoLt3IAOy2wsmkx3if08=;
-	b=X/TGze0CNXL3oYmhvB3BVvMCaGjdBwg5Abn0yuj37eByddULxLWNyDwEBcow4ECs/ErpnX
-	a6qCI0SKeNwS3outO7QlJjMCt6WoWQt6DUudJlpdKmBk2wyeiBHlDzGTXWi7LbOI2xfHpj
-	sONiqWjNjkxB/6nNTgNDQ52uxlR841pNi2M198bgWuf9dvXtkBMc5gUJE3megal4XbvhDQ
-	zTyayBg0hSdzgH3d1I3evnmCop5KxFfyp1BygBwYIKKw7jPH3xxgK2vZBrQOXAg292Vjvx
-	z5o0BeI7fVjK1jFON96280ffN4RFuF6C0r6Lt1LZJSA5jsCCUZ+Xid0skw5ReQ==
-From: Jiawei Wang <me@jwang.link>
-To: Mark Brown <broonie@kernel.org>,
-	Mukunda Vijendar <vijendar.mukunda@amd.com>,
-	Sasha Levin <sashal@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Jiawei Wang <me@jwang.link>
-Subject: [PATCH 2/2] Revert "ASoC: amd: yc: add new YC platform variant (0x63) support"
-Date: Tue, 12 Mar 2024 10:33:26 +0800
-Message-Id: <20240312023326.224504-3-me@jwang.link>
-In-Reply-To: <20240312023326.224504-1-me@jwang.link>
-References: <20240312023326.224504-1-me@jwang.link>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BCHJIMkT"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e285a33bdso3101241f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 01:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710233888; x=1710838688; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VjT8Br7RwB5Cf9wT37+1E/wNuS7CDeDlSSoF+6MfTlU=;
+        b=BCHJIMkTyMqepjdVgkNxd/ed4PdVWRkXFYOMqMAsnMHKT0EOoiXQyaLQTZxaZ8oPHv
+         TnHttj9RZeRMWoVvh70+xoDgKSvwMMDAf9EdRopGrSmNU4/KY4YR7zEzLkmwG3scs+Ba
+         7P35Sm+cM2Zi0cttKHBWhLcOzVxsB8y36CI7It14nYZuCtpo2sDfOR0HSFhJiraDfind
+         KuEqqKGKBiPHtq9GKsDeRnLfcBFW0ufaZF9MWDGp8ml7tO7jGMffKiBHs9zVGm0Sr8UJ
+         YdnizJ00pfffCXyA1c7VKMBiW4eqsA50xbNuFB5AHlVn/KkjgkHcGgnb+8E5rn7s2mRo
+         GG8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710233888; x=1710838688;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VjT8Br7RwB5Cf9wT37+1E/wNuS7CDeDlSSoF+6MfTlU=;
+        b=k+0W/MqH7spVhfelmSu6jEV/XO8798fjRk8g27heBN8t/fVybR5IYfag91SGaG+syN
+         0YQKDaXZmL0iuN0deT/+QzfDx1UK0pq83nJs4IJ8AnDN7L92fNK/ejuB3Jkzfm+Bmq2B
+         vIj3EOlRUa7v7crdwJPQuMBzA5V95O7VDnSpLIa32O2Liytcc3K5Pcvt4yvswn2w2jNv
+         9zwMdBN22sfF6U4GeG88hQf9ZjmzDToQs9+FkaTv3GTqI7uwbkjO3WaFo4u2AeGAp5vp
+         YRohBNrc9m1obzWGWNpU2TK5li1eSrD+jwBC+M7Hm746FLNJGdFhSa+kmR7HukKutoYX
+         OzKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWakYqJzhAD2HHkW0cTInpmq8ny8Wq1Q07qty71Fft5dE3KlfFjg+9AEyfiI8Ddanb9Sgj+mUeJ5+pdLxf1toKRiG9P+Cx1uJ9Psgg=
+X-Gm-Message-State: AOJu0Yzz+hT0UiFocFhIuZcr7NHWiMMWOfsQHuPTuTTd87IOVtQ3p9iC
+	W7/zI1Jnj6qqaQFWJduN4q35wI01WNNB+iR6++O32fSWor4Kfc3/lRxncem0rM8=
+X-Google-Smtp-Source: AGHT+IGEY43ahXXjF+ZtPgyw++kTwzbaMmqAYW0DyROyoKxXhlKv6tTyjqHeIgkml0d0nNzd+tbCLg==
+X-Received: by 2002:a05:6000:1c3:b0:33e:8b95:b351 with SMTP id t3-20020a05600001c300b0033e8b95b351mr5064003wrx.9.1710233888438;
+        Tue, 12 Mar 2024 01:58:08 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id i5-20020adfb645000000b0033e87c6bcb2sm7367141wre.8.2024.03.12.01.58.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Mar 2024 01:58:08 -0700 (PDT)
+Message-ID: <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
+Date: Tue, 12 Mar 2024 09:58:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
+ board
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 316a784839b21b122e1761cdca54677bb19a47fa.
 
-PCI revision id 0x63 is the Pink Sardine (PS) platform, not Yellow
-Carp (YC). Thanks to Mukunda Vijendar [1] for pointing out that.
 
-Link: https://lore.kernel.org/linux-sound/023092e1-689c-4b00-b93f-4092c3724fb6@amd.com/ [1]
+On 27/02/2024 16:06, Mark Brown wrote:
+> On Mon, Feb 26, 2024 at 03:01:38PM +0100, Alexandre Mergnat wrote:
+>> This serie aim to add the following audio support for the Genio 350-evk:
+>> - Playback
+>>    - 2ch Headset Jack (Earphone)
+>>    - 1ch Line-out Jack (Speaker)
+>>    - 8ch HDMI Tx
+>> - Capture
+>>    - 1ch DMIC (On-board Digital Microphone)
+>>    - 1ch AMIC (On-board Analogic Microphone)
+>>    - 1ch Headset Jack (External Analogic Microphone)
+>>
+>> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+>> change documented in "mediatek,mt8365-mt6357.yaml".
+> 
+> Given the number of custom controls here could you please post the
+> output of mixer-test and pcm-test from a system with this driver running
+> next time you post, this will help with review since it checks a bunch
+> of things around the new controls.
 
-Signed-off-by: Jiawei Wang <me@jwang.link>
----
- sound/soc/amd/yc/pci-acp6x.c | 1 -
- 1 file changed, 1 deletion(-)
+Hi Mark,
 
-diff --git a/sound/soc/amd/yc/pci-acp6x.c b/sound/soc/amd/yc/pci-acp6x.c
-index 694b8e313902..7af6a349b1d4 100644
---- a/sound/soc/amd/yc/pci-acp6x.c
-+++ b/sound/soc/amd/yc/pci-acp6x.c
-@@ -162,7 +162,6 @@ static int snd_acp6x_probe(struct pci_dev *pci,
- 	/* Yellow Carp device check */
- 	switch (pci->revision) {
- 	case 0x60:
--	case 0x63:
- 	case 0x6f:
- 		break;
- 	default:
+I'm a bit lost for mixer-test and pcm-test.
+Currently, I cross-compile the alsa lib project to be able to build the 
+tests and put it on my board.
+
+I can execute it, but I still have 2 issues:
+
+1) I've a lot of missing module in my environment (Encode.so, Encode.pm, 
+Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing 
+perl modules and install them in the rootfs
+
+2) I don't know how to configure pcm-test.conf & 
+Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
+
+My test cmd:
+./run_kselftest.sh -c alsa
+
+I'm wondering if I'm going to the wrong way because I don't find 
+guide/readme whereas it's not trivial at all.
+
 -- 
-2.39.2
-
+Regards,
+Alexandre
