@@ -1,164 +1,93 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E779B1B7E8
-	for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 08:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868E620DF4
+	for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 08:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710316999; cv=none; b=kEFPodaPoRMRk/LJMlHOenDBwHHGxXuq9G98UaYklCCn86KgBApnCCKt14bEXQ4Ra1WFqNGbj1d2+SBfpEEeMeM3SKoAuH6kPwU08HcdzvG1GVe8lmKaC4cpX/hxJZ8PFnDcB6Q01S2eHGKXZ2/bdqwR3rWFWt/8nPtll7CxSdY=
+	t=1710317720; cv=none; b=EZJcJQbsNyheAD9FhGCZL5YlK1QmrIq2HlInWPi81bWTbrnWUf/hnsZie1AfwvHkL0YVkNpGkhshStwOb5GvooQl5LsscmO4YF4l+xa8d80daBTHn3ixfayIAGZdHn7Iyw7w9OKMHAWRk09MUO++e8Ou9sdp5E3oYBXSwdyLMbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710316999; c=relaxed/simple;
-	bh=gRShenHCxcdnTK7K1mCY4h67piQzQmbBm3y5WMxRGlw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=llIkT1YThcJ6Z/S+LAT7RIKngkSjMPimgBGSja2s1Pr3tBZcKLFVNAUw+ghKM8ln8sQz56B5rVJwuMCTTizll/M+oeIuj+QuHweqFZmyzjFQ0NXZYzzHqWb/rOpiDr4mHf4Fs15gsIG65LYjDS8cb2jhx0OQL2tdqhl/wYMofkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O9dyeS+X; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1710317720; c=relaxed/simple;
+	bh=h/MXWXp+5T4OLqk46Oo+aG62YS68LikNztRly1tLnlU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jR0hnkZDkFo5Oi9QnkffolX21p5FzIKqDLmP6extPR04yGZpL9bE28O58zvtSDPnl1S4Zzbm7EuYVC3uBv6FlEVgbLj1IWqZCxPrqsZArNBExpLWnZaKS/u1XdYuebByUkpEjC4VuBwzcY6nViNoSg4RZQeHC2xitnw6XD2d+HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=teenage.engineering; spf=pass smtp.mailfrom=teenage.engineering; dkim=pass (1024-bit key) header.d=teenage.engineering header.i=@teenage.engineering header.b=I5jxbVYr; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=teenage.engineering
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=teenage.engineering
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O9dyeS+X"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a4645485da6so203549766b.1
-        for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 01:03:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=teenage.engineering header.i=@teenage.engineering header.b="I5jxbVYr"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-513c53ed3d8so811673e87.3
+        for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 01:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710316996; x=1710921796; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+2ehdSyGG7YinOeMSH1X38eE2SpnsnmuopiJfznP8Q4=;
-        b=O9dyeS+XEjtAK4nLYIAVQxRNqHIZ3zkKwPOtZmODDySStocLPl1X6ygweXVDRu8rV1
-         Bug0yu21KClgqMYWB+CXVt6mJuUzQfnZDTP6Iy3cIyp7CPIQsw8ZbA9WzLSX/BNnZB2d
-         0yFols5AWBKW9o7XiH0RBiQNba6qvBHtn2hz0ISL+lqC33yy9jUZAZMW66K1PeDEYlUA
-         jsCbK3j5kpdGQK8X6o6HjrV19fJilWh0yNxh44yQYRJnTtS3DfQZOhopieCzat4i+2Fu
-         zMvhPBcEHq+GIuBXCh6nWL/QgTiEkfiVUP4SfHgsmNUg19ILnyfnBOHZheX//jd0kY8p
-         YS5g==
+        d=teenage.engineering; s=google; t=1710317717; x=1710922517; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qmozHBUZheLp78P11XSScWHwwKieGZ5T3nJBgYjdcW0=;
+        b=I5jxbVYrSyS8Te34i+F6uIJPmwu3XXmUWr39uulyzN1eH96rPZ7Z/RvfQm/7U0C7b5
+         ZaA16tNBTEVMOoT9KvPIcKcyAM1Sa2sfWCN/y78VQigRlCI1BAFToGj4J+gMSDWDZZVV
+         oICIfuCLRGDViSR4IwMxOML1WwEL7bvovWhGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710316996; x=1710921796;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1710317717; x=1710922517;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+2ehdSyGG7YinOeMSH1X38eE2SpnsnmuopiJfznP8Q4=;
-        b=i5iwwDOiKqe8xXecxfGyIBbPk1znoB8wyW/0v2u4W6Rf/ySXtubTsL1uNa4wNtPxbP
-         9fgmWhP7OIj3U5dqjhwIFjn5vceA9Z9TETnqNFBMplb3bBw/WKr+kVjWYU91ZWTLwrp6
-         /9bx3V1a4fHBvpbHd8GYaqWUU/fGffVmflXyLrTTyOgf1u5pFnGuSGV7lnUJxgDYS8Ju
-         IJ5zlFwDen3zcWEQ15oty1GO9hSynfHWx66gixWoSqDvKgKmh2fCZ+rRIvy/WLcK2x51
-         02HAo/JG0KFfa1ctJKodyD/yuouu/tl6XgS1YAdVWOvz/6g9KIx8gYTf2EZkju9jHIFj
-         W8Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlJwTvUnLmqt3fZp9fQgoGdkuXyucDDSjQjijywR6m2wScWMA68BhyJ8aK4RZ7hskIBOHzssUm92Z3ftgNfGOAiIiBbD1DeSxWrEE=
-X-Gm-Message-State: AOJu0Yx4oatJitkPLFxtAUiyPasPmwF9Eonm/XWcBoyBRwpsb2j0Xcsd
-	uaMIdUlbxf+GsHAqZVtMm0CeH1r1oM9mbliOY4fShabj7U4nzlQChd+DhRXJmpijpszOpp02kKg
-	NRxMvpcApyfLJMjgpbbwntdUtOtqf77plgV7R
-X-Google-Smtp-Source: AGHT+IFePtdXxi6l/ot35dlK/aWa1JrNLiMXU14TYRiwdZwUw/7eG/+kSYyAzAFXWIWYs6eWT26Q4L0fnUiQ37J4W6Y=
-X-Received: by 2002:a17:906:6a10:b0:a45:f371:c109 with SMTP id
- qw16-20020a1709066a1000b00a45f371c109mr9733432ejc.24.1710316996074; Wed, 13
- Mar 2024 01:03:16 -0700 (PDT)
+        bh=qmozHBUZheLp78P11XSScWHwwKieGZ5T3nJBgYjdcW0=;
+        b=pXugSx4EGtVPrRQtW7mH/6+8EP+SV/CJRQLxNZ9jNlvHM8oQb/AuMf2Iq+HkuwZ6wc
+         OBvOGwtjT7Hetjhjrut/gbZiQZRC3OIptt6/DP990+fBw4WiCZYC+zphiCcUx0AB7OFi
+         cZl4q4peRuk+hvzjapew9fFIskU91JDv7ZjqumKLU61Z78Djaf1pWTM+TdV6CAG/nQGO
+         cXz/znbhU3GBWulBtnTL3LV4UvhNg2s7j0ZeHcIh1hRm/rUDXt1NdJE7yLnvjbqE46wk
+         FFCU/04YXDPj6b0k6ed/HXOJG50F07JgejPH2uowEedzdhccISW+JkMaV83Df2Z/Ipbw
+         cCpQ==
+X-Gm-Message-State: AOJu0YwsmkgrsHhiVvx/jLMGIgCizgIS6OohNQRPxg8sA4bIOQeiVHYA
+	xf/q56JSJ0T+m7QgHwgBa59RWMM6yI/GrWC5M6r6+oShXDDtSYWlW8Y+GXLHEIQ=
+X-Google-Smtp-Source: AGHT+IFgmFeUFKduS1LLceFgm2mn/x7XTScG0H2L6fgwPyVlM+9yabihGv/zZjC175HXQElBF1wCGg==
+X-Received: by 2002:a05:6512:3246:b0:513:aef9:a7d8 with SMTP id c6-20020a056512324600b00513aef9a7d8mr1456974lfr.47.1710317716697;
+        Wed, 13 Mar 2024 01:15:16 -0700 (PDT)
+Received: from localhost.localdomain (212-107-146-90.customers.ownit.se. [212.107.146.90])
+        by smtp.gmail.com with ESMTPSA id x5-20020a19e005000000b00512f6cc7fc1sm1979596lfg.55.2024.03.13.01.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 01:15:16 -0700 (PDT)
+From: Johan Carlsson <johan.carlsson@teenage.engineering>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	Johan Carlsson <johan.carlsson@teenage.engineering>
+Subject: [PATCH v2] ALSA: usb-audio: Stop parsing channels bits when all channels are found.
+Date: Wed, 13 Mar 2024 09:15:09 +0100
+Message-Id: <20240313081509.9801-1-johan.carlsson@teenage.engineering>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228013619.29758-1-quic_wcheng@quicinc.com> <20240228013619.29758-21-quic_wcheng@quicinc.com>
-In-Reply-To: <20240228013619.29758-21-quic_wcheng@quicinc.com>
-From: Albert Wang <albertccwang@google.com>
-Date: Wed, 13 Mar 2024 16:03:03 +0800
-Message-ID: <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
-Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
-	conor+dt@kernel.org, corbet@lwn.net, lgirdwood@gmail.com, 
-	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org, 
-	bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, 
-	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-+/**
-+ * qc_usb_audio_offload_suspend() - USB offload PM suspend handler
-+ * @intf: USB interface
-+ * @message: suspend type
-+ *
-+ * PM suspend handler to ensure that the USB offloading driver is able to stop
-+ * any pending traffic, so that the bus can be suspended.
-+ *
-+ */
-+static void qc_usb_audio_offload_suspend(struct usb_interface *intf,
-+                                               pm_message_t message)
-+{
-+       struct qmi_uaudio_stream_ind_msg_v01 disconnect_ind = {0};
-+       struct snd_usb_audio *chip = usb_get_intfdata(intf);
-+       struct uaudio_qmi_svc *svc = uaudio_svc;
-+       struct uaudio_dev *dev;
-+       int card_num;
-+       int ret;
-+
-+       if (!chip)
-+               return;
-+
-+       card_num = chip->card->number;
-+       if (card_num >= SNDRV_CARDS)
-+               return;
-+
-+
-+       mutex_lock(&chip->mutex);
-+       dev = &uadev[card_num];
-+
-+       if (atomic_read(&dev->in_use)) {
-+               mutex_unlock(&chip->mutex);
-+               dev_dbg(uaudio_qdev->data->dev, "sending qmi
-indication suspend\n");
-+               disconnect_ind.dev_event = USB_QMI_DEV_DISCONNECT_V01;
-+               disconnect_ind.slot_id = dev->udev->slot_id;
-+               disconnect_ind.controller_num = dev->usb_core_id;
-+               disconnect_ind.controller_num_valid = 1;
-+               ret = qmi_send_indication(svc->uaudio_svc_hdl, &svc->client_sq,
-+                               QMI_UAUDIO_STREAM_IND_V01,
-+                               QMI_UAUDIO_STREAM_IND_MSG_V01_MAX_MSG_LEN,
-+                               qmi_uaudio_stream_ind_msg_v01_ei,
-+                               &disconnect_ind);
-+               if (ret < 0)
-+                       dev_err(uaudio_qdev->data->dev,
-+                               "qmi send failed with err: %d\n", ret);
-+
-+               ret = wait_event_interruptible_timeout(dev->disconnect_wq,
-+                               !atomic_read(&dev->in_use),
-+                               msecs_to_jiffies(DEV_RELEASE_WAIT_TIMEOUT));
-+               if (!ret) {
-+                       dev_err(uaudio_qdev->data->dev,
-+                               "timeout while waiting for dev_release\n");
-+                       atomic_set(&dev->in_use, 0);
-+               } else if (ret < 0) {
-+                       dev_err(uaudio_qdev->data->dev,
-+                               "failed with ret %d\n", ret);
-+                               atomic_set(&dev->in_use, 0);
-+               }
-+               mutex_lock(&chip->mutex);
-+       }
-+       mutex_unlock(&chip->mutex);
-+}
-+
+If a usb audio device sets more bits than the amount of channels
+it could write outside of the map array.
 
-Hi Wesley,
+Signed-off-by: Johan Carlsson <johan.carlsson@teenage.engineering>
+---
+ sound/usb/stream.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The suspend function `qc_usb_audio_offload_suspend()` looks to stop
-the traffic on the bus, so that the bus can be suspended. That allows
-the application processor(AP) to enter suspend. There is a subtle
-difference with our feature, which is to allow AP suspend with the
-Host and USB controller active to continue the audio offloading. We
-call this feature `allow AP suspend in playback`. So, I have some
-points to clarify with you:
-1. Will the suspend flow `usb_audio_suspend() -->
-platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
-called when offloading is active?
-2. As my understanding, the suspend function is to allow AP suspend
-when the offloading is IDLE, but it won't allow AP suspend when in
-playback or capture. Please correct me if anything is wrong.
-3. We would like to integrate the `allow AP suspend in playback`
-feature with your framework to become one upstream offload solution.
-Here is the patch:
-https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.1509961-1-guanyulin@google.com/
-.
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index 3d4add94e367..d5409f387945 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -300,9 +300,12 @@ static struct snd_pcm_chmap_elem *convert_chmap(int channels, unsigned int bits,
+ 	c = 0;
+ 
+ 	if (bits) {
+-		for (; bits && *maps; maps++, bits >>= 1)
++		for (; bits && *maps; maps++, bits >>= 1) {
+ 			if (bits & 1)
+ 				chmap->map[c++] = *maps;
++			if (c == chmap->channels)
++				break;
++		}
+ 	} else {
+ 		/* If we're missing wChannelConfig, then guess something
+ 		    to make sure the channel map is not skipped entirely */
+-- 
+2.34.1
 
-Thanks,
-Albert
