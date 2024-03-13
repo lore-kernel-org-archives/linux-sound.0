@@ -1,167 +1,106 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD3A6A003
-	for <linux-sound@vger.kernel.org>; Tue, 12 Mar 2024 19:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FA3BA27
+	for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 01:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710270046; cv=none; b=nKqFPouibPmiNyCBovrCrug4g49QgiCJsplDXedmpXFtVMOQUpbJwz9BATbLy0yQQzZn/5DcNHvlvsC/0E3mONrh5iBhkf4ObgZPHFoMgpw3uL1jM4CPDIbosUMSJmIEmTTFJ0bm6uVrFNw3nQuanedkepc2QRFoMK+Qkh09M9M=
+	t=1710295192; cv=none; b=QCtO1lB8ZRiBErJxqjV2X+etdl0npebu8sY9B2EyWxzX/vNFqqhplxLBz+HNSEeB1Epqw35dxGR1qe1cmLuPGxq/LZ+gkhW4qrnzPhxBejXVBT2lWbCqandZOC53DYjMbLb9iAeJsTgSJn5dU24Pd/wZkuqFh2VuBo0K6Pye0tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710270046; c=relaxed/simple;
-	bh=lDZjnhy60e0RSij4Y8L58VOEZKFRc9KgND2oGr3XqZc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sf3I+sgUlH0S1wXWbQt/ES3p2eECBD6Lw2Wq3AuuVr6NEe//J7Z2S0OjPRXcMoWaopP0sjIsTlFcOehyxb+ri5hN+ZX40Qevt4Z3WkQ7DKyI2y2ai0uD6EGFXgv0V85Pg0iqIzUczWJPV0B8cpdiLhotESe2stSx5QDmrGCL6as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2NLU0NXK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lVOv5ZSR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2NLU0NXK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lVOv5ZSR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710295192; c=relaxed/simple;
+	bh=YXfNG6InGs9UX5DNyZ0fj3mfQ2k+TZSoRfrVZzIZuXA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sNU7IHfcFUxOvo3hjcWaUlz4GFGLCfY2uq0dAuJdGTqi30RKgloVVZ1252ZgmwJCErmULQaFWyka2BSEapTYAGxoo4yj9WNJJHPkqwkigvlGI2aEyEwZeUNyzkohJCidq+JRid+/ZIIQ6vcXZnu/Bk1znstjQqElCJCSp5uv08k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link; spf=pass smtp.mailfrom=jwang.link; dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b=Z43MnxcR; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jwang.link
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jwang.link
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2NLU0NXK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lVOv5ZSR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2NLU0NXK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lVOv5ZSR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 42DF51F441;
-	Tue, 12 Mar 2024 19:00:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710270043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=jwang.link header.i=@jwang.link header.b="Z43MnxcR"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jwang.link; s=key1;
+	t=1710295186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K2l9pvmy9K/XS9ClndGj54uLv0o/ism2b17ysFL5ca0=;
-	b=2NLU0NXK6FXxM6TaxD4SxwDzaUfJYzOzXj1PsECEtpln5EfJVrR2kkV0jwx+hBRjkzyVy4
-	+dNAel1fEhEN3DRGz8bNBPhTN/q4gFztrT4FRmPp3gLVuSu3Mx4qha9PElakIRcr2aXbD6
-	QE1zmc59zBM4+FxbNhs+FVEmgMAbjJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710270043;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K2l9pvmy9K/XS9ClndGj54uLv0o/ism2b17ysFL5ca0=;
-	b=lVOv5ZSRV18/p/MwsGwnF6Yeq3vbh5KfLnRAaYOcY46/56mp1k2RbRs0QibxiZ+/sqzUZr
-	LXiJDIGdUQrnp8BQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710270043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K2l9pvmy9K/XS9ClndGj54uLv0o/ism2b17ysFL5ca0=;
-	b=2NLU0NXK6FXxM6TaxD4SxwDzaUfJYzOzXj1PsECEtpln5EfJVrR2kkV0jwx+hBRjkzyVy4
-	+dNAel1fEhEN3DRGz8bNBPhTN/q4gFztrT4FRmPp3gLVuSu3Mx4qha9PElakIRcr2aXbD6
-	QE1zmc59zBM4+FxbNhs+FVEmgMAbjJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710270043;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K2l9pvmy9K/XS9ClndGj54uLv0o/ism2b17ysFL5ca0=;
-	b=lVOv5ZSRV18/p/MwsGwnF6Yeq3vbh5KfLnRAaYOcY46/56mp1k2RbRs0QibxiZ+/sqzUZr
-	LXiJDIGdUQrnp8BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1C63513795;
-	Tue, 12 Mar 2024 19:00:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sJqfBVum8GUOfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Mar 2024 19:00:43 +0000
-Date: Tue, 12 Mar 2024 20:00:42 +0100
-Message-ID: <87jzm7p95x.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/14] ALSA: scarlett2: Add support for Vocaster
-In-Reply-To: <cover.1710264833.git.g@b4.vu>
-References: <cover.1710264833.git.g@b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=r7XhUhv62yjw/H4r/up4rGeRGhLVIJLq4wHWumME4f8=;
+	b=Z43MnxcRU21ECHrcSBE6edJq4r7gNPrqY75C2K+pk0xFN0md4Rlr8absIeJ9OYeZffnvKv
+	1VWdrIPhlb/KSf5UoJilfhPNCe/xVY+aaZL/m4DBqp9pup5IhcKRufuikKsBC8O4C/KLnR
+	Up76vW8I6d7yZz+fRIc+Nk5UGUiGcbeTTgUwybrejzKB56eF5pbiVR7C+NpueADqZg4iZX
+	GkKl1l9C3ket8Ot0f3dOLe21onenCVF9oVlCma+cRYQlKkhijqh1ILMLUySQ0auG+8xfy8
+	a+/bP75kcT6gFeX2cN2Gk195Z1gqKDqd8e2v9j8iCXqP0iiA94VwCPIGtxDuIQ==
+From: Jiawei Wang <me@jwang.link>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	me@jwang.link,
+	sashal@kernel.org,
+	vijendar.mukunda@amd.com
+Subject: [PATCH v3 0/2] ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2" and "add new YC platform variant (0x63) support"
+Date: Wed, 13 Mar 2024 09:58:51 +0800
+Message-Id: <20240313015853.3573242-1-me@jwang.link>
+In-Reply-To: <a127404b-a071-4917-8ddb-d7371c721827@sirena.org.uk>
+References: <a127404b-a071-4917-8ddb-d7371c721827@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [0.79 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.11)[66.33%]
-X-Spam-Score: 0.79
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 12 Mar 2024 19:28:52 +0100,
-Geoffrey D. Bennett wrote:
-> 
-> Hi Takashi,
-> 
-> This patch series contains:
-> 
-> 1-2: Fix to wait for an ACK from the device after sending a command,
-> before attempting to read the response. This didn't seem to be
-> necessary previously, but with 4th Gen devices it seems to help with a
-> rare issue where the device stops responding.
-> 
-> 3: Support for reading flash segments from the device.
-> 
-> 4-11: Preparation for Vocaster support.
-> 
-> 12: Vocaster One and Two support.
-> 
-> 13: Add autogain target controls for 4th Gen and Vocaster.
-> 
-> 14: Add Bluetooth volume control for Vocaster Two.
+I would like to revert two of my previous commits after
+realizing they incorrectly enabled the Yellow Carp
+(YC) driver for Pink Sardine (PS) platforms.
 
-As the merge window was already opened, I postpone this series to
-6.10.  If there is any fix that should be taken to 6.9, please submit
-separately.
+The first commit was reverted because it added a quirk entry
+that incorrectly enabled the YC driver for the Lenovo 21J2
+laptop, which is a PS platform.
 
+The second commit was reverted because it incorrectly enabled
+the YC driver for PS platforms.
 
-thanks,
+Thanks to Mukunda Vijendar [1] for pointing this out.
 
-Takashi
+Link: https://lore.kernel.org/linux-sound/023092e1-689c-4b00-b93f-4092c3724fb6@amd.com/ [1]
 
+v3 -> v2:
+- No changes to content.
+- Patches re-prepared using the broonie/sound.git tree's for-next branch.
+v2 -> v1:
+- No changes to content. Subject lines and commit messages were revised.
+
+On March 13, 2024 at 12:44 AM, Mark Brown wrote:
+> This still doesn't apply against my for-6.9 branch.
+
+I've updated the patch using your "for-next" tree.
+
+However, it can't be applied to the "for-6.9" branch,
+because the commits to be reverted are not present in "for-6.9".
+Below are their hashes:
+ed00a69  ASoC: amd: yc: Fix non-functional mic on Lenovo 21J2
+316a784  ASoC: amd: yc: add new YC platform variant (0x63) support
+
+On March 13, 2024 at 12:50 AM, Mukunda,Vijendar wrote:
+> You can prepare patch by cloning below git tree for-next branch.
 > 
-> Thanks,
-> Geoffrey.
+> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
 > 
-> Geoffrey D. Bennett (14):
->   ALSA: scarlett2: Move initialisation code lower in the source
->   ALSA: scarlett2: Implement handling of the ACK notification
->   ALSA: scarlett2: Add support for reading from flash
->   ALSA: scarlett2: Rename gen4_write_addr to param_buf_addr
->   ALSA: scarlett2: Add pbuf field to struct scarlett2_config
->   ALSA: scarlett2: Add support for config items with size = 32
->   ALSA: scarlett2: Add additional input configuration parameters
->   ALSA: scarlett2: Define the maximum preamp input gain per-config-set
->   ALSA: scarlett2: Define autogain status texts per-config-set
->   ALSA: scarlett2: Add input mute controls
->   ALSA: scarlett2: Add DSP controls
->   ALSA: scarlett2: Add support for Focusrite Vocaster One and Two
->   ALSA: scarlett2: Add autogain target controls
->   ALSA: scarlett2: Add Bluetooth volume control for Vocaster Two
-> 
->  sound/usb/mixer_quirks.c    |    2 +
->  sound/usb/mixer_scarlett2.c | 2757 ++++++++++++++++++++++++++++-------
->  2 files changed, 2235 insertions(+), 524 deletions(-)
-> 
-> -- 
-> 2.43.0
-> 
+> while sending patches, please use --cc-cmd=./scripts/get_maintainer.pl along
+> with cc list.
+
+Thank you for your guidance. I have updated the patch using
+the "for-next" tree as suggested. Additionally, I've 
+incorporated the cc-cmd as per your instructions.
+
+Jiawei Wang (2):
+  ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2"
+  ASoC: amd: yc: Revert "add new YC platform variant (0x63) support"
+
+ sound/soc/amd/yc/acp6x-mach.c | 7 -------
+ sound/soc/amd/yc/pci-acp6x.c  | 1 -
+ 2 files changed, 8 deletions(-)
+
+-- 
+2.39.2
+
