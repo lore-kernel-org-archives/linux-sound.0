@@ -1,162 +1,123 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649735789B;
-	Wed, 13 Mar 2024 11:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9F7405FB
+	for <linux-sound@vger.kernel.org>; Wed, 13 Mar 2024 13:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710327772; cv=none; b=APPp1tS0vX6iAAcUtcbGt2nOk7nmuVbB8sPHM22VCK3zKW/ZBsGcWGejQ9SOXKLa0oZhFlL3HegezVMpfBC/CusJkJbRkogXbfvOVZk7sRIaYpe2iqbu2LrUvfZ+aKsOKr/Wnakk1SgrZTKQma7xIf4n2JliniHTEd9At2ypxoo=
+	t=1710336936; cv=none; b=WBMV9/nHTAu9lvQVfjpbUOqlQ8Rgty6AlsPLRFs0NYNdPGPt/bopPp1r8FxwybKOa5io/F4oR69hkbdNmaKXkW/idn+UClKVKsd+yGaIcpwPohY+C+B9tEddQ9sGqIgTDNrpDtm3rrxau6DKyDARrxwg9OKx7ISO5ZW6EchGU74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710327772; c=relaxed/simple;
-	bh=8bxWkdHWjuivwKz8TBybuK02NLszyCe4cZF3c/Vh6Zg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K3oDUlkZ4v+GpAeDVdeCuxg8A0s8XFm8qc1PXLvInMsCJySxQ/J5LNqiAjwrXj0sdDQWmLqAbn85j4ZWFmO9b5BtrgOB4kHxFV0WAoalgpj3J7JJaHp5VoR/winbRq73pHYoDxAWLhQPh8mqYkjD6KS7QntCIDVgMaKF3vEzxd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kLXjuJS+; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1710336936; c=relaxed/simple;
+	bh=CokjGX//cJFbw44r1bS0dENKpCmRyQvr8ZbTBnc8CsU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oDXoCsfemBXV5sYMkQjnfqTyF+aKrlr0JiRdbw61TvGa5M4fvBmF4AeXajeuX41/nxYnDxlS833mItbo35iD9Q6IxtR5A2n0ZwNxcvaPo8u7IxnqsK7+NUQNwfhjnhtbK78z8r3j7vamwAaLTrJgWjZTg4eSMnWT7l9jhAHcvYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xX0ltKuo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p0x0WeL5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQbl+Ji2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UGYgGKjx; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kLXjuJS+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1710327770;
-	bh=8bxWkdHWjuivwKz8TBybuK02NLszyCe4cZF3c/Vh6Zg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kLXjuJS+h4P48NJgsFH/aN0xzQA9soLMlzqYcbHcL1vT9XBh30RFh79Rr2TC3hedD
-	 B7OI3kn/HhOTeCKT8NtAI9xFfwnRUc5JAoV8Rk3YXZ7JjxOKeCuiSeGtT1ybQncOuq
-	 RVhJulrkCCGHSnDXBDR4U8zfJIvw5bs0nS07gwM6AWJ5sNu26tM2FmF6ryClKIbGuJ
-	 CLmBl5kz/jLII3xqkt5KIJJua4UQk5aT/jWMtfpvwT0JGl2u632Jl9QAu35nriX/5J
-	 Ch2XBe3OGtReRIe19CmDZtG1GURCFKGOhBsRvN59a4qdK+mAslzp3odKl6GVNLwqWQ
-	 7teTUM4FYF2rg==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xX0ltKuo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p0x0WeL5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQbl+Ji2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UGYgGKjx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D37DB37820D0;
-	Wed, 13 Mar 2024 11:02:47 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: broonie@kernel.org
-Cc: wenst@chromium.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	trevor.wu@mediatek.com,
-	maso.huang@mediatek.com,
-	xiazhengqiao@huaqin.corp-partner.google.com,
-	arnd@arndb.de,
-	kuninori.morimoto.gx@renesas.com,
-	shraash@google.com,
-	amergnat@baylibre.com,
-	nicolas.ferre@microchip.com,
-	u.kleine-koenig@pengutronix.de,
-	dianders@chromium.org,
-	frank.li@vivo.com,
-	allen-kh.cheng@mediatek.com,
-	eugen.hristev@collabora.com,
-	claudiu.beznea@tuxon.dev,
-	jarkko.nikula@bitmer.com,
-	jiaxin.yu@mediatek.com,
-	alpernebiyasak@gmail.com,
-	ckeepax@opensource.cirrus.com,
-	zhourui@huaqin.corp-partner.google.com,
-	nfraprado@collabora.com,
-	alsa-devel@alsa-project.org,
-	shane.chien@mediatek.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v3 22/22] arm64: dts: mediatek: mt8186-corsola: Specify sound DAI links and routing
-Date: Wed, 13 Mar 2024 12:01:47 +0100
-Message-ID: <20240313110147.1267793-23-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240313110147.1267793-1-angelogioacchino.delregno@collabora.com>
-References: <20240313110147.1267793-1-angelogioacchino.delregno@collabora.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BF86321C90;
+	Wed, 13 Mar 2024 13:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710336932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D0ufr8Z37MM8x6WOeVfHqDwfgTiJim497v+kgweWOU=;
+	b=xX0ltKuovcL4/sPO+4q5CCYaDULCDwKdgL/vRomfLh3cUGyKvdFYP8VC1qWb4e0+hOWXtK
+	7uvkKDnyHkadVCQ2tcEr0pc4CgWk6VBXOfWrEMNKRmXOSR3mFXb/RS13JktNIxOX+L5etK
+	/yr21bZ9aC7z+N+6btEB0c3IWjk6/gI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710336932;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D0ufr8Z37MM8x6WOeVfHqDwfgTiJim497v+kgweWOU=;
+	b=p0x0WeL57uHRsRZkJaf9yCbJOh2KyA/4XLBx4GOP77VH7gV8vjGCZcf9aXUv/BV2MJJqqA
+	7Yk6CuGNNOlzLeAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710336931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D0ufr8Z37MM8x6WOeVfHqDwfgTiJim497v+kgweWOU=;
+	b=IQbl+Ji2/bQizWZNy+9jcoSe8IYbh1WftLUfl5OrNaIqIRzr/JkT/lLrvAkLYaUGf0/oPf
+	6kXZe9F7KfcRV4IbYsP+6sqaWnkyua3BjXO3yeEDQ1NzNs2DGB7bYWOq+/8+0sEkGHIzCy
+	zLpYEzZVGMY1uOZu8gxl9YO5pb1wlF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710336931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9D0ufr8Z37MM8x6WOeVfHqDwfgTiJim497v+kgweWOU=;
+	b=UGYgGKjxZEXvLZyTctKl9KiVw9qp3CSTUE0gKWoVjkr1JQ1pgOKGHS4rveD76OLw3PsAJU
+	mgaejSyXJTjbhWDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E5061397F;
+	Wed, 13 Mar 2024 13:35:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GlfUIKOr8WWWTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Mar 2024 13:35:31 +0000
+Date: Wed, 13 Mar 2024 14:35:31 +0100
+Message-ID: <87y1amntjw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Johan Carlsson <johan.carlsson@teenage.engineering>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: Stop parsing channels bits when all channels are found.
+In-Reply-To: <20240313081509.9801-1-johan.carlsson@teenage.engineering>
+References: <20240313081509.9801-1-johan.carlsson@teenage.engineering>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.56
+X-Spamd-Result: default: False [-2.56 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[teenage.engineering:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.26)[96.50%]
+X-Spam-Flag: NO
 
-The drivers and bindings acquired support for specifying audio hardware
-and links in device tree: describe and link the sound related HW of this
-machine.
+On Wed, 13 Mar 2024 09:15:09 +0100,
+Johan Carlsson wrote:
+> 
+> If a usb audio device sets more bits than the amount of channels
+> it could write outside of the map array.
+> 
+> Signed-off-by: Johan Carlsson <johan.carlsson@teenage.engineering>
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../boot/dts/mediatek/mt8186-corsola.dtsi     | 42 ++++++++++++++++---
- 1 file changed, 37 insertions(+), 5 deletions(-)
+Applied now.  Thanks.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-index 3dea28f1d806..0bdb83c3e560 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-@@ -42,7 +42,7 @@ backlight_lcd0: backlight-lcd0 {
- 		default-brightness-level = <576>;
- 	};
- 
--	bt-sco-codec {
-+	bt-sco {
- 		compatible = "linux,bt-sco";
- 		#sound-dai-cells = <0>;
- 	};
-@@ -223,12 +223,44 @@ sound: sound {
- 		mediatek,adsp = <&adsp>;
- 		mediatek,platform = <&afe>;
- 
--		playback-codecs {
--			sound-dai = <&it6505dptx>, <&rt1019p>;
-+		audio-routing =
-+			"Headphone", "HPOL",
-+			"Headphone", "HPOR",
-+			"IN1P", "Headset Mic",
-+			"Speakers", "Speaker",
-+			"HDMI1", "TX";
-+
-+		hs-playback-dai-link {
-+			link-name = "I2S0";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			codec {
-+				sound-dai = <&rt5682s 0>;
-+			};
-+		};
-+
-+		hs-capture-dai-link {
-+			link-name = "I2S1";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			codec {
-+				sound-dai = <&rt5682s 0>;
-+			};
- 		};
- 
--		headset-codec {
--			sound-dai = <&rt5682s 0>;
-+		spk-share-dai-link {
-+			link-name = "I2S2";
-+			mediatek,clk-provider = "cpu";
-+		};
-+
-+		spk-hdmi-playback-dai-link {
-+			link-name = "I2S3";
-+			dai-format = "i2s";
-+			mediatek,clk-provider = "cpu";
-+			/* RT1019P and IT6505 connected to the same I2S line */
-+			codec {
-+				sound-dai = <&it6505dptx>, <&rt1019p>;
-+			};
- 		};
- 	};
- 
--- 
-2.44.0
 
+Takashi
