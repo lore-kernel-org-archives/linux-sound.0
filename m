@@ -1,82 +1,63 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4E973510
-	for <linux-sound@vger.kernel.org>; Thu, 14 Mar 2024 17:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8306774C14;
+	Thu, 14 Mar 2024 18:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710438118; cv=none; b=j3KMoRibh2A+besWp9klkLRox/1PY9Ev2l64Laz5FZcqtuJQidlnG9gWn5ZTttiHAv4yrkkRbrKPnJvQ64v1MHsXl2QE8V/+m/iSaDPloUr4yHBND2Pe1oQ3XONezi+MmX01LfyboHhVvZv7yDiWlQZ480YbyvJfgyVLuW2f/SY=
+	t=1710440427; cv=none; b=Ey3BKorQD8esYDswP466AlRNWqbvJky9I3EpOTji7rVyqr5zJNYcjrnlZmjMNrUY2sU2TXDHlCuHDKzTRFzzIfARe86jeiPiSeCJK1b3B92OIT62dzvRaq2o2uQsn60tqNTFwf3TIQWEPh8NYqz5qW3jxNOKS1NiY6lPfuwRuV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710438118; c=relaxed/simple;
-	bh=ofTAhNGanx2lb58qhO/7H5QyTHESYPQ+pOu2ktQfgsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WsvPDJ4Y+jug169ajFCGJS1DcjeZRWk5WiBpx1Lg6YI0lJ4jlk7XdHxKkYC4Voy+0tEaWXCRUBlVQBM7w/L4DCCNLXjMSAdb0eQFsxnZwKVAKjNsN+ZSImyhbFzz48aBQ1nJENDR8YJHmRlaHfMtOaIccQEu80cZjBVxki/xL5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=pSb82/D9; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1710440427; c=relaxed/simple;
+	bh=fwfoBdSO8malZWXE3votyGS7Cq/TkMRqxo+zv7Ju66Y=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=oLdtW6C8RgUyAzNBiQuoi8x1+/ddySzKaxUg/EC2T5WeByfB6fXcvfgicjiOaV9Qnh4+dDLpWWiyP43uV9WYewW9SwChg+qPCm6c0FK2nviGJou6X/lzAEpipxFwesCbM0Ynb3/SoAO28eHJxvPvcEfnipL2bzaAK4+RSd371n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFcYiUhn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="pSb82/D9"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 266F1604B910; Fri, 15 Mar 2024 04:11:46 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 266F1604B910
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1710438106; bh=d1PIks3LJnYAvURtdAFSbmuuRNGHOEdk3/bYB7nF3Kc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pSb82/D9I3gLCKwnTx0OkEAnk+o1P0KPH7R1FAqtExWnV12hbP1oOQkHBEwTcKhcB
-	 +W2UOnWwfImSCxYL1DJimWJYcIACzR6kUSVftX30MkBKZbss/+DxxH6ThVLhp9U28H
-	 sJCtQ6RIKVNhY4kSWXXzDdIzEj8HWqtNvuoCVObsNeFfVAXo+reecB2v+nYauTBbOY
-	 ovRqWE8IhFSskFWX7ThR2VUgA+kzEgqgnqWX7SNNexRj4pjz/CSUN6ePbValKYRBup
-	 x+ZX3MTT6Ce3yxS7co+AsQEcgtcnNh7CYDzGovu6o87y/AyHzIcMXRYR5EJO8bzMKY
-	 px1whH0TD6v9g==
-Date: Fri, 15 Mar 2024 04:11:46 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFcYiUhn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D184C43390;
+	Thu, 14 Mar 2024 18:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710440427;
+	bh=fwfoBdSO8malZWXE3votyGS7Cq/TkMRqxo+zv7Ju66Y=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=kFcYiUhnfLLmT+vHR+FCMc8A+2P8GhryVhdAU5yDP/g9TWXG8IRD79jEvWTEuuZ/7
+	 7Cj/McJa9Am0K4nvoilMfvC8eouAPFyjXd6DQHVCaO9AyFuLQZRd+m8+ZMa3wEGbVC
+	 AvaoY7hQd/47dKI0/mXCRIj+tDBRWKUik3XwD6bbTZ8O/JGgZXj4OeO8NqU9j9tcfu
+	 LB3zMM3PC35e7mwOMEWtr2y3F0bVmKmSmK2Z03bkL2WtPIVXo70hpGYrGRe63tjmEa
+	 YUgq28cBUJeo7Q12vOSANvhc4GTfOtKVUzT5uszf0TEJlqJYsqxuUNXBSTHoohRddR
+	 VSZ60K4VUPI1Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55FD3D95055;
+	Thu, 14 Mar 2024 18:20:27 +0000 (UTC)
+Subject: Re: [GIT PULL] sound updates for 6.9-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <874jd9m69o.wl-tiwai@suse.de>
+References: <874jd9m69o.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <874jd9m69o.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc1
+X-PR-Tracked-Commit-Id: a39d51ff1f52cd0b6fe7d379ac93bd8b4237d1b7
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: fe46a7dd189e25604716c03576d05ac8a5209743
+Message-Id: <171044042734.24196.6958519905217855170.pr-tracker-bot@kernel.org>
+Date: Thu, 14 Mar 2024 18:20:27 +0000
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/14] ALSA: scarlett2: Add support for Vocaster
-Message-ID: <ZfM22n3G/7y7zkUL@m.b4.vu>
-References: <cover.1710264833.git.g@b4.vu>
- <87jzm7p95x.wl-tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jzm7p95x.wl-tiwai@suse.de>
 
-Hi Takashi,
+The pull request you sent on Thu, 14 Mar 2024 11:56:03 +0100:
 
-On Tue, Mar 12, 2024 at 08:00:42PM +0100, Takashi Iwai wrote:
-> On Tue, 12 Mar 2024 19:28:52 +0100,
-> Geoffrey D. Bennett wrote:
-> > 
-> > Hi Takashi,
-> > 
-> > This patch series contains:
-> > 
-> > 1-2: Fix to wait for an ACK from the device after sending a command,
-> > before attempting to read the response. This didn't seem to be
-> > necessary previously, but with 4th Gen devices it seems to help with a
-> > rare issue where the device stops responding.
-> > 
-> > 3: Support for reading flash segments from the device.
-> > 
-> > 4-11: Preparation for Vocaster support.
-> > 
-> > 12: Vocaster One and Two support.
-> > 
-> > 13: Add autogain target controls for 4th Gen and Vocaster.
-> > 
-> > 14: Add Bluetooth volume control for Vocaster Two.
-> 
-> As the merge window was already opened, I postpone this series to
-> 6.10.  If there is any fix that should be taken to 6.9, please submit
-> separately.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc1
 
-Okay, thanks, I'll resubmit separately fixes for 6.9, and please don't
-apply any of these for 6.10 yet; I'll submit a v2 later.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/fe46a7dd189e25604716c03576d05ac8a5209743
 
-Thanks,
-Geoffrey.
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
