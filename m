@@ -1,166 +1,198 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF31B763E4;
-	Thu, 14 Mar 2024 20:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710449865; cv=none; b=Z6vxvILyVPabkfbz8PGZ/b9JTCRCtyBNwtaUYNfUTg2FEl92PEyQLGSGBhxP6bkuyzLcI79j54kcLsJKCYxfnAAiXTU1kqwJFH/ukxUaDJ6PE4Bj7FoFJV6vJGBe5PVB16lsKzrkm3nzXZQxKsMKNOMEuBVw0v/PAyCPOk/jMUo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710449865; c=relaxed/simple;
-	bh=i/In70euOucOu10Yn4mf9BZSNHDbmPI7QOVoNvr1wN0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=e/Nq4/TEwD36LnwfEosxO1zQ3fEEQQu2hvpwD77PaGFMO+LjfsxX6KHSBJKrSl2hr8ZP9fTazr4zEoVQFJx9K7VGDKH0ePaU0qZ+A0xzaLIyzQJX4fxAyyO8QWFpOS7978NHMkwWtjs7FpIBJE0UxqlhT9jTc6UZ5fB1u3YnI6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VypaMdDu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02205C61C;
+	Thu, 14 Mar 2024 21:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710450206; cv=fail; b=sAyhYEuQ4iV3K5vQaOEPa5L6uSVnGJxsJ5qrKxTTpMrmCHkMAbEm4y2vSA1KiExFD/jr6tWtwqJ2/TG9cfpi69Ys6AkpKR7nz4EIUmInU5VKaRwHHGIuv0TfjTS9lat0Q5cQT+2uscSmmeyB9PpNqhnv2FjcNYqYi70melm59WQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710450206; c=relaxed/simple;
+	bh=ShUhdESNjrH/YzdqzNE5inaqj7TcrCKeb3JavQkRpJI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LEUfzJaW0g1YFQdOspClb/MDl1NHvEu2GEzq+j6nBptA4JFCzWgqWlULTtslbY8Jrg/uAPr5GFfKTWzn2KAVCvX7D+8oy4hFQVqBc+IM9n6xNHA0XRyq03eMenR9ZNwn81NrfYheesYNpFgB07Ccp479TLt8E5K6KOlkuSbBFhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=be9c6oeC; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=V62EpOln; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VypaMdDu"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42EKFsjk019502;
-	Thu, 14 Mar 2024 20:57:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=i1RRwlY+GSx5CIfYwtnNU1qLUiFuXaO9rJ+b19a99LU=; b=Vy
-	paMdDuLHTBjsvksPD2BnAdKbsOB51/5Li48ozD40T3l6rwY/B8nOD1KgUDng+sO3
-	aiaKBQRFPLsVhYNNk1dD3NVvrA2h3AJs8i3LKGOkWHs91I3yKQS6k6Z8jXZAblbZ
-	XnWX+kdgFjWTEj1sUGMlzP5+TQP0c3Ei+sRSCMdmlMD2M6GgRkigVqaZfBYHLpCA
-	LC2sZrKu/v4LCyVOXaLBWxaJT/9sDaOofQ9xNSObmdPran5eK+ggiUNcp9u0YLSr
-	gibSEaPxQ/pBdwBRDjOk/FkIOuSn23Ab+UZLXeuggME+SClx8erC9dBqmnIQtUZu
-	mn4R55nTAKEDQkQ5LqJg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wv81bg2qb-1
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="be9c6oeC";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="V62EpOln"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42E7cNZ0023193;
+	Thu, 14 Mar 2024 16:03:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-id:content-transfer-encoding:mime-version;
+	 s=PODMain02222019; bh=ShUhdESNjrH/YzdqzNE5inaqj7TcrCKeb3JavQkRp
+	JI=; b=be9c6oeCxiMA77ssCQATJglm509cEYmp4vTcm9CUAKZ4pe1GdAZagWd2s
+	2ZvCrFiKwIRie7iZOMMmaaLc28GUy3Y4iydrl6mTE1QF183J1cGguwoRBQz+1UEs
+	k6Bi6O+CKPZCt/X5XLqNa56xWD+WBE0bno7UspiIgk/OfqrBCeNYVAe+o+fM467r
+	h0dv6S2gowm092FlHf9ogtBJMT9K9m6QzsT0mtmQfYr4jfuE8PGOSJ6rjtuGPENA
+	9P4oI/yfG+6BF3IdLOeLbxfkrzg5jcGvBoXDUDKSX2feCCG4nDXJNr+Nr9fkGH6q
+	iZ1Q14baHcmldpIM2VLtLq7FWVIjA==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3wuf1f1rv9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:57:21 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42EKvK31005345
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:57:20 GMT
-Received: from [10.71.112.106] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 14 Mar
- 2024 13:57:19 -0700
-Message-ID: <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
-Date: Thu, 14 Mar 2024 13:57:19 -0700
+	Thu, 14 Mar 2024 16:03:05 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aTlP9+dKFDiXShToZRTvBhZMjkQhjfKy/S2M/384TnAvvybiRuc+WDnoy+eK9QQAThfiSCL9guUPxuJLCsweW04YXAyKm+q5nbQAHoSEJvwRpKuMfi6tGHh8wwM8nx1eGSn8aWzaOZBGnwOItLY/noHhLkk4hXl9qkwzPg/fJpOk40CjeRk992RKzJDBra1fGLhVT3Vyi+nOCraCRvnlYidKbSgnNaTV5zQSbAJeqOSzFBMcSu8wtZbRP2IrGUdtbRjjVgS13Wz6aZFLdEeRS3cRYnS7vyzXIogQSIAR+NU6i2pr9qjVddOuKkf/bokJmbEkoPBfeR1e7SEYTcx5Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ShUhdESNjrH/YzdqzNE5inaqj7TcrCKeb3JavQkRpJI=;
+ b=IGnbxHEdJFVVsOQDqea3ntv5rNkbpR0+y7cKJNLRuweYSucBUqxr8CGdNLgIJOuVTf0MASwnSHrxNP0BBLdeA2qOotpQdsmUmgSoHXQtoGfd89AqOtOzNs2nCbJUg2NMiMNrfm0kMSqOheemlEbWRuigDNxzpq+yg/tFlvHFSWYz+0LPqaU5bTJaeTO4Y3ChTF2H0tBIMg+4VTy3RBgn9cNAoVu76as9pIRBuOiY/EG+mC52p2krplHuZ5/1dJOC3nFdVmNWZx4J7YKnMkfyAtfSgFMJGBSjaUM58qyt0/mzd2cv5PLBPHUVEQEjA3Po3e4LQSnb9wXDol+StGV9aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cirrus.com; dmarc=pass action=none header.from=cirrus.com;
+ dkim=pass header.d=cirrus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ShUhdESNjrH/YzdqzNE5inaqj7TcrCKeb3JavQkRpJI=;
+ b=V62EpOlnIUQbJCIjKSPwLv/QMnw5oCAl4K1T9MeMEVwO+ubsMJ7VkVx6ReEMq3Agefhz/0AbuWfUURoYtJdYgw6b4ZTPQeloU+RtPhGYfd5PyjEuqWp38m4Bgf898RMuTBFpvI9IiV/06SOJpdJYLUdY6DBGl2QML0on4Dben18=
+Received: from DS7PR19MB5688.namprd19.prod.outlook.com (2603:10b6:8:73::14) by
+ MW4PR19MB7176.namprd19.prod.outlook.com (2603:10b6:303:22b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Thu, 14 Mar
+ 2024 21:03:01 +0000
+Received: from DS7PR19MB5688.namprd19.prod.outlook.com
+ ([fe80::981b:f6d7:d597:1ac]) by DS7PR19MB5688.namprd19.prod.outlook.com
+ ([fe80::981b:f6d7:d597:1ac%7]) with mapi id 15.20.7386.021; Thu, 14 Mar 2024
+ 21:03:01 +0000
+From: James Ogletree <James.Ogletree@cirrus.com>
+To: Jeff LaBundy <jeff@labundy.com>
+CC: James Ogletree <jogletre@opensource.cirrus.com>,
+        Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Mark Brown
+	<broonie@kernel.org>,
+        "open list:CIRRUS LOGIC HAPTIC DRIVERS"
+	<patches@opensource.cirrus.com>,
+        "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+        "open list:INPUT (KEYBOARD,
+ MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+        "open
+ list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+	<devicetree@vger.kernel.org>
+Subject: Re: [PATCH v9 3/5] mfd: cs40l50: Add support for CS40L50 core driver
+Thread-Topic: [PATCH v9 3/5] mfd: cs40l50: Add support for CS40L50 core driver
+Thread-Index: AQHacaduJqGy1qAMm0iUF9x94vi/YLExpT4AgAYdZQA=
+Date: Thu, 14 Mar 2024 21:03:01 +0000
+Message-ID: <510B2927-5756-4CB1-B34B-E4D8B8681DE2@cirrus.com>
+References: <20240308222421.188858-1-jogletre@opensource.cirrus.com>
+ <20240308222421.188858-4-jogletre@opensource.cirrus.com>
+ <Ze5E1KxRltUTX4R6@nixie71>
+In-Reply-To: <Ze5E1KxRltUTX4R6@nixie71>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR19MB5688:EE_|MW4PR19MB7176:EE_
+x-ms-office365-filtering-correlation-id: 965f1788-a846-4b52-80a7-08dc446a2280
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ rDpPlJZQmht5nIXmu8AxMCusDvP4vDt5MBo2kvdJiMo6OK7bHOrQcNMM4E7AcXaouR8nmTt4+mWW6yEZgjMlvxmVMnbN7oCE62Z2+1wAOFalCprYDhNRPBKvK1SFNt505gdTxqV0J2wustxhVVavnaCkqgmwzxBTVHoMnJOxpAtBz2CbXu2lyLsADM5gmkeK8MNndvJkoGn5EbY4KBtuWXvVsv2stZuX0gVLVsLquV+3RqvQCZ/RwDH7SkvjLNVvlTfzY+j4IeA/jPdUi+oSZGPGgZd3Zb2fjDZQRjic7HYz1rnuWLaVzIlWX7XQyNSNahLvlBLMSzoBq8kvYQLPcwK/SM1wT5gTE5HFJIpLKbAAxk2IQD2XkjIcOfiMoA7duclHVfGgq9MPW2jwC4XBKI1QcgzyWFOMSl4PqQJhFmnBh8+qz2zMGohrm/Y5Gl2ucT3Sbr1hR9sewKIkdVyFKhFunptyzz89GUp+vKsEQoicpOATozn45qnkuu5za9I7MMHbMvF5OiEmfNXSREN0yB3UiXN5yjZOpcHEeOf8tL3a5wig0ZEH7sjkMUNUBPA7s7/+govEijouCUyGnxjKbMbxls6HJX1l+bHhFxCd+2oS+lG9z2ytiw3Y1u9Kf8q4QIjvWaBD3yNagSdzkUwYsFYuLrN/IQajuejvdFzaRW24OMn/gwfMunJVYwPkWT21qTd5v8vBBsahFvYXqcQQIiGJ4W3GPwXrS70L7jXpV70=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR19MB5688.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Uf/l5wzgMyNOMeEhpcpyp9asCTKQk3cwF0jjKtE7wKpc7sJbGaTUhEKR9FEm?=
+ =?us-ascii?Q?mLqQDwYboHshNhDo1qX5BSsh8TZO/YPzxNuSC9roQdpbJeysQsiwPPWhexVh?=
+ =?us-ascii?Q?ibJ6iFl15t3m6Z5bT6jm3tcr6Rc6qwl0yOCOAJmtQNE8OeyXX3cvpolXgdVa?=
+ =?us-ascii?Q?ZaHg2m+tsq/HzQ02B4SSr5bggArdzitrPOZTIcqCkBJxt8v0dJasXhvZati9?=
+ =?us-ascii?Q?OvtPJIlEims2X/bzG2IM5riYgN21uUCsPUxMivMGRG1nd9VFoMJHxUo1Adn5?=
+ =?us-ascii?Q?NHNfxXzkzV+FrV7rk6BMv8/y4O81alMLIecKlv4hMfpeYNJhgs/MgRMzpd8u?=
+ =?us-ascii?Q?MfJvWDpZaM7YgGvtNe4GF1/rl+gGhTyFoECT+BX5mXszikP7NzTY1k7WBaYZ?=
+ =?us-ascii?Q?xttLpjwYSqIe3kDc7AnhEajyyCgpgOE7rKI5+YpzoIE3XhC+GaZPwlUDHOVm?=
+ =?us-ascii?Q?WJjkVDpVY8/nG3wFAYWFq0+GmqeQSrqdprdfN8FGQbPBt1bUK3ZASpjn8qfE?=
+ =?us-ascii?Q?Ev5Ataa6NzfSdY77dkZb3P2StKbnWlAycbxxZieFJUu7Qhc1+np0bRCm03se?=
+ =?us-ascii?Q?cMfAhbtWaM3V9MZuXoxYDifIfJtLK/Qag1g9gkS/JQIyu112zftHXlpni4t4?=
+ =?us-ascii?Q?kefMRszQ+hxZo32tqRHWubpzEsK9d5TtIVTRQdnY5voWz0WoZfnQ7R62r+sH?=
+ =?us-ascii?Q?Ip6MxH/tIhf6ZNKWq3ycb4BOf9Hykcxea5+NADUW+6kmiN16cr30l0lhJNg7?=
+ =?us-ascii?Q?u7Z/GNFgHGDt4cnZJL/vm8NnHzQWlRlsVpKjcSAp5vhwY8XwtTKe6h5/8c81?=
+ =?us-ascii?Q?mON/f4T/oF9YlJp5E2yJhP6r63wajVTNRjcjS+V5O9kBU8uF8DY75N5/lMgF?=
+ =?us-ascii?Q?4nT/6jzsAbbn1Hxvx65/DWUmraITr6+vwW5dJ+BBstie+b/1/skCmshnCe4J?=
+ =?us-ascii?Q?i/HKEIYD+SUknD14XCiBhurOpbi+NSW8PNFS6R1xlIaBM6jQWH12/D0tQsEk?=
+ =?us-ascii?Q?PYYLTJivs3yYmyK9vWfv++GI6QVSJb/Y7QDGU4iJw0Zf/RND0INdRPLp2ml3?=
+ =?us-ascii?Q?6BzoRs67zWUCjgqZsz2oV/UGeaD5CnYHgg2+7Uom2jF9VF2hza2rmAIOzcYd?=
+ =?us-ascii?Q?TMRYxWWxG0DUC5um/zlIfRx17J38+u8/pKx8PhSugoNYF4hbKWgsGl0k8T+s?=
+ =?us-ascii?Q?Q69uId/b8lPLdvpJm6tmlX/FhMBeVLNF3xmiP6T6PdvoMtbNRZjLqgsWdY0T?=
+ =?us-ascii?Q?rX3A5syiZOtEoIOLb7c0KWF/h+H2T+XOW4lXYVlpgINRyw88rMMsyg3PvWVw?=
+ =?us-ascii?Q?lSnNSObDAEYrv41zVR9ilkXtNdoznnwBRO7DXWyOoO0FauH/bz0Xah3WS6aO?=
+ =?us-ascii?Q?hNspazTt2W2W09azh8yvVWyF9spj0KHQctw+/HgLlYLgiNXApNR7TaOctQSN?=
+ =?us-ascii?Q?g7x+SFLD81mDQRvMIzJLW6JZFxRNX49HIoE53II/aeNZFenrTP5kfypGXTrL?=
+ =?us-ascii?Q?hoHTnypMAsYql2phmGuMiTjLFYjNQ7VznlcU1i2bsbMz/vWzGXO3jRQL21eT?=
+ =?us-ascii?Q?YRr8EQRJluMttZGt58kB488wp5Svp9a7mGnHStmftLaxOq+Vt1PsX8w0EJdz?=
+ =?us-ascii?Q?fg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <510C247338C16145A268F1895DAC3EFC@namprd19.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Content-Language: en-US
-To: Albert Wang <albertccwang@google.com>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
- <20240228013619.29758-21-quic_wcheng@quicinc.com>
- <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
- <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com>
- <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: hogKYBgJv_8ag5r84EkBXjMbinIFbgfn
-X-Proofpoint-ORIG-GUID: hogKYBgJv_8ag5r84EkBXjMbinIFbgfn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-14_13,2024-03-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2402120000 definitions=main-2403140161
+X-OriginatorOrg: cirrus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB5688.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 965f1788-a846-4b52-80a7-08dc446a2280
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2024 21:03:01.5303
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eezHtUT/ViXfpoYxfDYUGWkIIe+STniuBTFvmOmZM+NkmkY6UxMG9YESw32rOdz0wLfEe90ACdd/f4dKuxnlmQAzoygD3jZonJEFfrjFiKY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR19MB7176
+X-Proofpoint-ORIG-GUID: CxDNTYAXL8-y0pr5nqthp_9M7BPGQKPI
+X-Proofpoint-GUID: CxDNTYAXL8-y0pr5nqthp_9M7BPGQKPI
+X-Proofpoint-Spam-Reason: safe
 
-Hi Albert
+Hi Jeff,
 
-On 3/14/2024 3:29 AM, Albert Wang wrote:
-> On Thu, Mar 14, 2024 at 3:18 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
->>
->> Hi Albert,
->>
->> On 3/13/2024 1:03 AM, Albert Wang wrote:
->>> Hi Wesley,
->>>
->>> The suspend function `qc_usb_audio_offload_suspend()` looks to stop
->>> the traffic on the bus, so that the bus can be suspended. That allows
->>> the application processor(AP) to enter suspend. There is a subtle
->>> difference with our feature, which is to allow AP suspend with the
->>> Host and USB controller active to continue the audio offloading. We
->>> call this feature `allow AP suspend in playback`. So, I have some
->>> points to clarify with you:
->>
->> Yes, I'm aware of that feature also.
->>
->>> 1. Will the suspend flow `usb_audio_suspend() -->
->>> platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
->>> called when offloading is active?
->>
->> It can be.  This is why in our case, we are going to issue the
->> disconnect event to the audio DSP to stop the session if it is currently
->> in one.
->>
->>> 2. As my understanding, the suspend function is to allow AP suspend
->>> when the offloading is IDLE, but it won't allow AP suspend when in
->>> playback or capture. Please correct me if anything is wrong.
->>
->> As mentioned above, it will let apps go into PM suspend after forcing
->> the audio stream to be idle.  We won't block PM suspend entry.
->>
-> Right. Your design is to force the audio stream idle, or say, inform
-> the audio DSP
-> to stop the current offloading session first, then AP can go into PM
-> suspend as usual.
-> Then I can say the current design did not support the `allow AP
-> suspend in playback`
-> feature, right?
-> 
+Thank you for the kind remarks and thorough review.
 
-Correct, this series does not cover this mechanism.
+All of your points, here and across the series, you can consider
+acknowledged and I will work to adopt them in the next version.
 
->> Yes, I saw that patch as well.  I'll take a look once this series lands
->> upstream.
-> 
-> That patch is rejected and archived now. So we need to find another
-> approach to do
-> that, even based on your framework.
-> 
+There were a few loose ends and questions throughout the series which I
+intend to address over the coming days. The first one is below.
 
-We can discuss that offline and come up with an approach that is 
-reviewable by maintainers and the community.
+>> +
+>> +static const struct reg_sequence cs40l50_irq_mask_override[] =3D {
+>> + { CS40L50_IRQ1_MASK_2, CS40L50_IRQ_MASK_2_OVERRIDE },
+>> + { CS40L50_IRQ1_MASK_20, CS40L50_IRQ_MASK_20_OVERRIDE },
+>> +};
+>> +
+>> +static int cs40l50_configure_dsp(struct cs_dsp *dsp)
+>> +{
+>> + struct cs40l50 *cs40l50 =3D container_of(dsp, struct cs40l50, dsp);
+>> + u32 nwaves;
+>> + int err;
+>> +
+>> + /* Log number of effects if wavetable was loaded */
+>> + if (cs40l50->bin) {
+>=20
+> Is there any other clue you can use to discern whether a wavetable was
+> loaded? The memory at cs40l50->bin is gone now, and although you're not
+> dereferencing it anymore, another contributor might be fooled into doing
+> so down the road.
+>=20
+> Maybe a boolean would be more maintainable; I don't feel strongly about
+> it though.
 
-Thanks
-Wesley Cheng
+I will simply remove the conditional. If no wavetable was loaded, the
+register will have a value of 0, which is no less worthwhile to report to t=
+he
+user.
 
-> Thanks,
-> Albert
-> 
-> 
->>> 3. We would like to integrate the `allow AP suspend in playback`
->>> feature with your framework to become one upstream offload solution.
->>> Here is the patch:
->>> https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.1509961-1-guanyulin@google.com/
->>> .
->>
->> Yes, I saw that patch as well.  I'll take a look once this series lands
->> upstream.
->>
->> Thanks
->> Wesley Cheng
+Best,
+James
