@@ -1,79 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6584D1EB34;
-	Thu, 14 Mar 2024 16:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4E973510
+	for <linux-sound@vger.kernel.org>; Thu, 14 Mar 2024 17:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710435486; cv=none; b=Vcs77zsqIn9OruxtzeUdAOrJhUYLw+iYoFLIzWGw/W1n/H2zKqN5I1yG9u5alCNlf3pNPTfHuREtZOlBEzJS0fzW7a9v20Ko9xJfnrzJbAb1Is7iRYCAwb5GtlzMLZLZdG1Fn3cHee7QZ7COTyOrYZxE6RDu4X1820poWEiZfbI=
+	t=1710438118; cv=none; b=j3KMoRibh2A+besWp9klkLRox/1PY9Ev2l64Laz5FZcqtuJQidlnG9gWn5ZTttiHAv4yrkkRbrKPnJvQ64v1MHsXl2QE8V/+m/iSaDPloUr4yHBND2Pe1oQ3XONezi+MmX01LfyboHhVvZv7yDiWlQZ480YbyvJfgyVLuW2f/SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710435486; c=relaxed/simple;
-	bh=fcf8GvnNI2NlxwWa/BLBUBs674hhRLyrkoAa66D2RKo=;
+	s=arc-20240116; t=1710438118; c=relaxed/simple;
+	bh=ofTAhNGanx2lb58qhO/7H5QyTHESYPQ+pOu2ktQfgsM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nE9Dvb4jlx6h5vXrX4A9HOeg58e+rGh2c7tkkgerxTH4oqbOienOHOVPcy/KYUA6XDZf6V+m6gCBjqy5QTyf7NcGJc9/rDTvrPmiASibu9GsfnMNXtwivmFvh9LqXtIIbs5WA4+yEvd/cAiOkfmsi8qZbL7NfrNIwdhyRUBBxTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Upxp6VnM; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WsvPDJ4Y+jug169ajFCGJS1DcjeZRWk5WiBpx1Lg6YI0lJ4jlk7XdHxKkYC4Voy+0tEaWXCRUBlVQBM7w/L4DCCNLXjMSAdb0eQFsxnZwKVAKjNsN+ZSImyhbFzz48aBQ1nJENDR8YJHmRlaHfMtOaIccQEu80cZjBVxki/xL5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=pSb82/D9; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Upxp6VnM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710435484; x=1741971484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fcf8GvnNI2NlxwWa/BLBUBs674hhRLyrkoAa66D2RKo=;
-  b=Upxp6VnMtVVIh5OrjLy1m4x53O33vUT82Px9mA1yIg4XVcMfwTQJFixh
-   7LgJMYtNRqx/gFI4UZaFZANBwyUZ2125tyWFO/h/8aNJY3Ssz6Q5mTtSq
-   z2Rj4kEpS4nJkn25okzKvdQv4rbbJF9HCHjqQ9B/Jb64bwio9XG/KBlJp
-   J699SnKSz1nj/E2RkWAJaF9YVeUpsaCsOXlpHs5uHkESF9K3aOaQpXess
-   FCsbM8DPR2tGCmMJCjBmNp+30GvOQOM0FuzvdY/0Dl1c7H5pm+EbBsxtB
-   SWZno7PLV95EK9E7rTZWvtAMKbMAY13rhlzTtvMhwYJfdAqn3LBycbVbu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="22731667"
-X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
-   d="scan'208";a="22731667"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 09:58:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
-   d="scan'208";a="16952403"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.72.214])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 09:57:59 -0700
-Date: Thu, 14 Mar 2024 09:57:57 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
-	linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
-	iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
-	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
-	linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-edac@vger.kernel.org, selinux@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
-	dev@openvswitch.org, linux-s390@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net,
-	Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [FYI][PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <ZfMslbCmCtyEaEWN@aschofie-mobl2>
-References: <20240223125634.2888c973@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="pSb82/D9"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 266F1604B910; Fri, 15 Mar 2024 04:11:46 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 266F1604B910
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1710438106; bh=d1PIks3LJnYAvURtdAFSbmuuRNGHOEdk3/bYB7nF3Kc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pSb82/D9I3gLCKwnTx0OkEAnk+o1P0KPH7R1FAqtExWnV12hbP1oOQkHBEwTcKhcB
+	 +W2UOnWwfImSCxYL1DJimWJYcIACzR6kUSVftX30MkBKZbss/+DxxH6ThVLhp9U28H
+	 sJCtQ6RIKVNhY4kSWXXzDdIzEj8HWqtNvuoCVObsNeFfVAXo+reecB2v+nYauTBbOY
+	 ovRqWE8IhFSskFWX7ThR2VUgA+kzEgqgnqWX7SNNexRj4pjz/CSUN6ePbValKYRBup
+	 x+ZX3MTT6Ce3yxS7co+AsQEcgtcnNh7CYDzGovu6o87y/AyHzIcMXRYR5EJO8bzMKY
+	 px1whH0TD6v9g==
+Date: Fri, 15 Mar 2024 04:11:46 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/14] ALSA: scarlett2: Add support for Vocaster
+Message-ID: <ZfM22n3G/7y7zkUL@m.b4.vu>
+References: <cover.1710264833.git.g@b4.vu>
+ <87jzm7p95x.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,121 +44,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240223125634.2888c973@gandalf.local.home>
+In-Reply-To: <87jzm7p95x.wl-tiwai@suse.de>
 
-On Fri, Feb 23, 2024 at 12:56:34PM -0500, Steven Rostedt wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Hi Takashi,
+
+On Tue, Mar 12, 2024 at 08:00:42PM +0100, Takashi Iwai wrote:
+> On Tue, 12 Mar 2024 19:28:52 +0100,
+> Geoffrey D. Bennett wrote:
+> > 
+> > Hi Takashi,
+> > 
+> > This patch series contains:
+> > 
+> > 1-2: Fix to wait for an ACK from the device after sending a command,
+> > before attempting to read the response. This didn't seem to be
+> > necessary previously, but with 4th Gen devices it seems to help with a
+> > rare issue where the device stops responding.
+> > 
+> > 3: Support for reading flash segments from the device.
+> > 
+> > 4-11: Preparation for Vocaster support.
+> > 
+> > 12: Vocaster One and Two support.
+> > 
+> > 13: Add autogain target controls for 4th Gen and Vocaster.
+> > 
+> > 14: Add Bluetooth volume control for Vocaster Two.
 > 
-> [
->    This is a treewide change. I will likely re-create this patch again in
->    the second week of the merge window of v6.9 and submit it then. Hoping
->    to keep the conflicts that it will cause to a minimum.
-> ]
-> 
-> With the rework of how the __string() handles dynamic strings where it
-> saves off the source string in field in the helper structure[1], the
-> assignment of that value to the trace event field is stored in the helper
-> value and does not need to be passed in again.
-> 
-> This means that with:
-> 
->   __string(field, mystring)
-> 
-> Which use to be assigned with __assign_str(field, mystring), no longer
-> needs the second parameter and it is unused. With this, __assign_str()
-> will now only get a single parameter.
-> 
-> There's over 700 users of __assign_str() and because coccinelle does not
-> handle the TRACE_EVENT() macro I ended up using the following sed script:
-> 
->   git grep -l __assign_str | while read a ; do
->       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
->       mv /tmp/test-file $a;
->   done
-> 
-> I then searched for __assign_str() that did not end with ';' as those
-> were multi line assignments that the sed script above would fail to catch.
-> 
-> Note, the same updates will need to be done for:
-> 
->   __assign_str_len()
->   __assign_rel_str()
->   __assign_rel_str_len()
->   __assign_bitmask()
->   __assign_rel_bitmask()
->   __assign_cpumask()
->   __assign_rel_cpumask()
-> 
-> [1] https://lore.kernel.org/linux-trace-kernel/20240222211442.634192653@goodmis.org/
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
->  arch/arm64/kernel/trace-events-emulation.h    |   2 +-
->  arch/powerpc/include/asm/trace.h              |   4 +-
->  arch/x86/kvm/trace.h                          |   2 +-
->  drivers/base/regmap/trace.h                   |  18 +--
->  drivers/base/trace.h                          |   2 +-
->  drivers/block/rnbd/rnbd-srv-trace.h           |  12 +-
->  drivers/cxl/core/trace.h                      |  24 ++--
+> As the merge window was already opened, I postpone this series to
+> 6.10.  If there is any fix that should be taken to 6.9, please submit
+> separately.
 
-snip to CXL
+Okay, thanks, I'll resubmit separately fixes for 6.9, and please don't
+apply any of these for 6.10 yet; I'll submit a v2 later.
 
-
-> diff --git a/drivers/cxl/core/trace.h b/drivers/cxl/core/trace.h
-> index bdf117a33744..07ba4e033347 100644
-> --- a/drivers/cxl/core/trace.h
-> +++ b/drivers/cxl/core/trace.h
-
-snip to poison
-
-> @@ -668,8 +668,8 @@ TRACE_EVENT(cxl_poison,
->  	    ),
->  
->  	TP_fast_assign(
-> -		__assign_str(memdev, dev_name(&cxlmd->dev));
-> -		__assign_str(host, dev_name(cxlmd->dev.parent));
-> +		__assign_str(memdev);
-> +		__assign_str(host);
-
-I think I get that the above changes work because the TP_STRUCT__entry for
-these did:
-	__string(memdev, dev_name(&cxlmd->dev))
-	__string(host, dev_name(cxlmd->dev.parent))
-
->  		__entry->serial = cxlmd->cxlds->serial;
->  		__entry->overflow_ts = cxl_poison_overflow(flags, overflow_ts);
->  		__entry->dpa = cxl_poison_record_dpa(record);
-> @@ -678,12 +678,12 @@ TRACE_EVENT(cxl_poison,
->  		__entry->trace_type = trace_type;
->  		__entry->flags = flags;
->  		if (region) {
-> -			__assign_str(region, dev_name(&region->dev));
-> +			__assign_str(region);
->  			memcpy(__entry->uuid, &region->params.uuid, 16);
->  			__entry->hpa = cxl_trace_hpa(region, cxlmd,
->  						     __entry->dpa);
->  		} else {
-> -			__assign_str(region, "");
-> +			__assign_str(region);
->  			memset(__entry->uuid, 0, 16);
->  			__entry->hpa = ULLONG_MAX;
-
-For the above 2, there was no helper in TP_STRUCT__entry. A recently
-posted patch is fixing that up to be __string(region, NULL) See [1],
-with the actual assignment still happening in TP_fast_assign.
-
-Does that assign logic need to move to the TP_STRUCT__entry definition
-when you merge these changes? I'm not clear how much logic is able to be
-included, ie like 'C' style code in the TP_STRUCT__entry.
-
-[1]
-https://lore.kernel.org/linux-cxl/20240314044301.2108650-1-alison.schofield@intel.com/
-
-Thanks for helping,
-Alison
-
-
->  		}
-
-
-
+Thanks,
+Geoffrey.
