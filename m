@@ -1,265 +1,126 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED68F381C6;
-	Fri, 15 Mar 2024 11:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAB91B7EA;
+	Fri, 15 Mar 2024 11:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710502096; cv=none; b=CTJpFdKRwKwnDJdpMhb0QC9HQw4phP/0WHuJKwAw02w4qmkN1XTK+5Y0qnAtUzih+zN3yRmcCcpyzSgM1oqD5SxG5unxkY0jMRQukpH2WCKlIiX9Z/cnrEK0xwYZXqJsU4Tdykkb7jusU0bv33+YkxyhjQp8wKcD0IBUpsmZddU=
+	t=1710503484; cv=none; b=F1B1QYxyt4z8uvFlCY5EjkygdUneFpoM4+qWVJFsFo0xJXedwH4DGAqpKrs7+hGdoJM6VW6YQUuV/GQWqV2iHKoOIWv18oixzhAOs4RoOpdzsqwuBTA4+18ny/IrBL7D1sMf+od4da3jrqUkpdppWCB5tjpglzxQ8Jkgq0oB+gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710502096; c=relaxed/simple;
-	bh=e9C6b7wBIvVr5D8OgogHyChIqRw3FYo/8ckm6eoEVCQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YN9tj86y+4Z0Pc91jJvpuQf8WngEcd0G2VY34PaZU2aVSOTfiV8N4IaTDwe9aWBtgjxZfr9fJLdUd3v5D5Ysln2LC+JaOezZfH7lLDVkDkTnWBxTNhhF6oYpT8YFu9ceDN/XGVFx/BdBNHIyV20U570w9C7XKbXiKZpeH1ImL+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=C1EqRKWR; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1710503484; c=relaxed/simple;
+	bh=xTFqm7IClFSwRbfHDriijIbisYv3wMCRVyg507cp8m8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HJffZpR4RGaR0xKmdWBRPHC0fqwHM/SgyFkG2AWbNqQJ/y1QrtvcUqGHt4FvQISs1a1Nk7ldOdBjMs7qJxdXOoqzXRDTsoYcuQD3x2rXODByv2x+g6dZcecFXkCnA7U+vf5Sdc/U3Mo+Czx3krd4MCnoC67dU6a+sKDIpXU3xdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NN0PobY/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HKf/3iGS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NN0PobY/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HKf/3iGS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="C1EqRKWR"
-Received: by mail.gandi.net (Postfix) with ESMTPA id 73A2BE0002;
-	Fri, 15 Mar 2024 11:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710502092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NN0PobY/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HKf/3iGS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NN0PobY/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HKf/3iGS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7A63621DD1;
+	Fri, 15 Mar 2024 11:51:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710503479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1ByKbg1sHmU9IHih5m1OFO59QL3ayS3Id0H8zj9ZFbU=;
-	b=C1EqRKWRRoWpb0hvc0NO337oFmlSlDZdxBdCKsGzwwGF5Csq8sqOm+720fvcsDajIciV51
-	nfa9uLgkJ09294QyRHP2nu6lzF4L9of/FhpstMKQg+xhdB464nkivpPBIXM+TUCvPThgsJ
-	G8oPMcRTvFNdWYrpmDybK7s1T8sW4byz6dgvkuJOyfc31TM/YvyE6iENg8ygMlDsAFAYU+
-	ThQ9Q3VevjUx6GXpOD0tG202TZ3Js3XIduW0M9iQXJpoM2TQKF/NBwvcuSKRc3apWO29YQ
-	YVdZcEQA5SN6lEc+JdXn3KKzK5X/H0AtWqGOU+Ivq/TZFSlexqZ0M72fAT33Yw==
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com,
-	christophercordahi@nanometrics.ca
-Subject: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin during capture streams
-Date: Fri, 15 Mar 2024 12:27:45 +0100
-Message-ID: <20240315112745.63230-14-bastien.curutchet@bootlin.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+	bh=xTFqm7IClFSwRbfHDriijIbisYv3wMCRVyg507cp8m8=;
+	b=NN0PobY/aemHh1hlNv2a161XAG4ha7M/D+MR2gCYyEZszbW1PFYtGpz9bpf7mkuIlFIKs5
+	/WJscXi7rRAw4agvO816FRnKYbKq4Lo7aQazO2SvEbi9Xd5oavZg0OMa0M/51uOUA0vGvD
+	PGPm4X42V/tGJFTQf045zkUCBdRbIAQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710503479;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTFqm7IClFSwRbfHDriijIbisYv3wMCRVyg507cp8m8=;
+	b=HKf/3iGSCw5zTX2ENPKIaP92jcCqKOr0cLasTZxKvWZKkyKfuc1LwcBphbQtv2DWwGQLDP
+	P8EfhPKp0jKC8ABw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710503479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTFqm7IClFSwRbfHDriijIbisYv3wMCRVyg507cp8m8=;
+	b=NN0PobY/aemHh1hlNv2a161XAG4ha7M/D+MR2gCYyEZszbW1PFYtGpz9bpf7mkuIlFIKs5
+	/WJscXi7rRAw4agvO816FRnKYbKq4Lo7aQazO2SvEbi9Xd5oavZg0OMa0M/51uOUA0vGvD
+	PGPm4X42V/tGJFTQf045zkUCBdRbIAQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710503479;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTFqm7IClFSwRbfHDriijIbisYv3wMCRVyg507cp8m8=;
+	b=HKf/3iGSCw5zTX2ENPKIaP92jcCqKOr0cLasTZxKvWZKkyKfuc1LwcBphbQtv2DWwGQLDP
+	P8EfhPKp0jKC8ABw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 311EB13460;
+	Fri, 15 Mar 2024 11:51:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XqpyCjc29GXXCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 Mar 2024 11:51:19 +0000
+Date: Fri, 15 Mar 2024 12:51:18 +0100
+Message-ID: <87h6h7btmx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: syzbot <syzbot+f3bc6f8108108010a03d@syzkaller.appspotmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com,
+	tiwai@suse.de
+Subject: Re: [syzbot] [sound?] possible deadlock in snd_timer_close_locked
+In-Reply-To: <00000000000099d9850613b12348@google.com>
+References: <00000000000099d9850613b12348@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: 0.88
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="NN0PobY/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HKf/3iGS"
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [0.88 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 BAYES_HAM(-0.11)[66.29%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TAGGED_RCPT(0.00)[f3bc6f8108108010a03d];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 SUBJECT_HAS_QUESTION(0.00)[]
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7A63621DD1
 
-The McBSP's DX pin that outputs serial data during playback streams can
-be used during capture streams to repeatedly output a chosen pattern.
-For instance, this can be useful to drive an active-low signal during
-captures (by choosing <0> as output pattern).
-
-Enable this behaviour when the device-tree property 'ti,drive-dx' is
-present. DX pin is driven with the provided pattern every time a
-capture stream is launched.
-
-This property is not compatible with classic playback stream so
-davinci_i2s_trigger() returns an error if a playback stream is started
-while 'ti,drive-dx' flag is present.
-
-This has been tested on a board designed of a DAVINCI/OMAP-L138 where
-the DX pin is linked to the chip select pin of the converters of the
-capture side.
-
-Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
----
- sound/soc/ti/davinci-i2s.c | 74 ++++++++++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 11 deletions(-)
-
-diff --git a/sound/soc/ti/davinci-i2s.c b/sound/soc/ti/davinci-i2s.c
-index 13e349e7a6ec..e289a84bdd6a 100644
---- a/sound/soc/ti/davinci-i2s.c
-+++ b/sound/soc/ti/davinci-i2s.c
-@@ -101,6 +101,9 @@
- #define DAVINCI_MCBSP_PCR_FSRM		(1 << 10)
- #define DAVINCI_MCBSP_PCR_FSXM		(1 << 11)
- 
-+#define PLAYBACK_CLOCK			1
-+#define CAPTURE_CLOCK			0
-+
- enum {
- 	DAVINCI_MCBSP_WORD_8 = 0,
- 	DAVINCI_MCBSP_WORD_12,
-@@ -164,6 +167,8 @@ struct davinci_mcbsp_dev {
- 
- 	bool sync_err;
- 	bool free_run;
-+	bool drive_dx;
-+	u32 dx_val;
- };
- 
- static inline void davinci_mcbsp_write_reg(struct davinci_mcbsp_dev *dev,
-@@ -187,6 +192,19 @@ static void toggle_clock(struct davinci_mcbsp_dev *dev, int playback)
- 	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_PCR_REG, dev->pcr);
- }
- 
-+static int davinci_drive_dx(struct davinci_mcbsp_dev *dev)
-+{
-+	unsigned int spcr;
-+
-+	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_DXR_REG, dev->dx_val);
-+
-+	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
-+	spcr |= DAVINCI_MCBSP_SPCR_XRST;
-+	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-+
-+	return 0;
-+}
-+
- static void davinci_mcbsp_start(struct davinci_mcbsp_dev *dev,
- 		struct snd_pcm_substream *substream)
- {
-@@ -194,6 +212,9 @@ static void davinci_mcbsp_start(struct davinci_mcbsp_dev *dev,
- 	u32 spcr;
- 	u32 mask = playback ? DAVINCI_MCBSP_SPCR_XRST : DAVINCI_MCBSP_SPCR_RRST;
- 
-+	if (!playback && dev->drive_dx)
-+		davinci_drive_dx(dev);
-+
- 	/* Enable transmitter or receiver */
- 	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
- 	spcr |= mask;
-@@ -212,9 +233,17 @@ static void davinci_mcbsp_stop(struct davinci_mcbsp_dev *dev, int playback)
- 	/* Reset transmitter/receiver and sample rate/frame sync generators */
- 	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
- 	spcr &= ~(DAVINCI_MCBSP_SPCR_GRST | DAVINCI_MCBSP_SPCR_FRST);
--	spcr &= playback ? ~DAVINCI_MCBSP_SPCR_XRST : ~DAVINCI_MCBSP_SPCR_RRST;
--	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
--	toggle_clock(dev, playback);
-+
-+	if (!playback) {
-+		spcr &= ~DAVINCI_MCBSP_SPCR_RRST;
-+		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-+		toggle_clock(dev, CAPTURE_CLOCK);
-+	}
-+	if (playback || dev->drive_dx) {
-+		spcr &= ~DAVINCI_MCBSP_SPCR_XRST;
-+		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-+		toggle_clock(dev, PLAYBACK_CLOCK);
-+	}
- }
- 
- static int davinci_i2s_tdm_word_length(int tdm_slot_width)
-@@ -408,6 +437,10 @@ static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
- 	}
- 	if (inv_fs == true)
- 		pcr ^= (DAVINCI_MCBSP_PCR_FSXP | DAVINCI_MCBSP_PCR_FSRP);
-+
-+	if (dev->drive_dx)
-+		pcr |= DAVINCI_MCBSP_PCR_CLKRP;
-+
- 	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SRGR_REG, srgr);
- 	dev->pcr = pcr;
- 	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_PCR_REG, pcr);
-@@ -562,6 +595,9 @@ static int davinci_i2s_hw_params(struct snd_pcm_substream *substream,
- 		xcr |= DAVINCI_MCBSP_XCR_XDATDLY(1);
- 	}
- 
-+	if (dev->drive_dx)
-+		xcr |= DAVINCI_MCBSP_XCR_XDATDLY(2);
-+
- 	if (params_channels(params) == 2) {
- 		element_cnt = 2;
- 		if (double_fmt[fmt] && dev->enable_channel_combine) {
-@@ -611,9 +647,9 @@ static int davinci_i2s_hw_params(struct snd_pcm_substream *substream,
- 	xcr |= DAVINCI_MCBSP_XCR_XWDLEN1(mcbsp_word_length) |
- 		DAVINCI_MCBSP_XCR_XWDLEN2(mcbsp_word_length);
- 
--	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK || dev->drive_dx)
- 		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_XCR_REG, xcr);
--	else
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
- 		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_RCR_REG, rcr);
- 
- 	pr_debug("%s - %d  srgr=%X\n", __func__, __LINE__, srgr);
-@@ -628,16 +664,21 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
- 	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(dai);
- 	int playback = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK);
- 	u32 spcr;
--	u32 mask = playback ? DAVINCI_MCBSP_SPCR_XRST : DAVINCI_MCBSP_SPCR_RRST;
- 
- 	davinci_mcbsp_stop(dev, playback);
- 
- 	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
--	if (spcr & mask) {
-+	if (spcr & DAVINCI_MCBSP_SPCR_XRST) {
- 		/* start off disabled */
- 		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG,
--					spcr & ~mask);
--		toggle_clock(dev, playback);
-+					spcr & ~DAVINCI_MCBSP_SPCR_XRST);
-+		toggle_clock(dev, PLAYBACK_CLOCK);
-+	}
-+	if (spcr & DAVINCI_MCBSP_SPCR_RRST) {
-+		/* start off disabled */
-+		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG,
-+					spcr & ~DAVINCI_MCBSP_SPCR_RRST);
-+		toggle_clock(dev, CAPTURE_CLOCK);
- 	}
- 	if (dev->pcr & (DAVINCI_MCBSP_PCR_FSXM | DAVINCI_MCBSP_PCR_FSRM |
- 			DAVINCI_MCBSP_PCR_CLKXM | DAVINCI_MCBSP_PCR_CLKRM)) {
-@@ -646,7 +687,7 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
- 		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
- 	}
- 
--	if (playback) {
-+	if (playback || dev->drive_dx) {
- 		/* Enable the transmitter */
- 		spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
- 		spcr |= DAVINCI_MCBSP_SPCR_XRST;
-@@ -659,7 +700,7 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
- 		spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
- 		spcr &= ~DAVINCI_MCBSP_SPCR_XRST;
- 		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
--		toggle_clock(dev, playback);
-+		toggle_clock(dev, PLAYBACK_CLOCK);
- 	}
- 
- 	return 0;
-@@ -672,6 +713,11 @@ static int davinci_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
- 	int ret = 0;
- 	int playback = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK);
- 
-+	if (playback && dev->drive_dx) {
-+		dev_err(dev->dev, "Playback is not allowed when drive-cs flag is set\n");
-+		return -EINVAL;
-+	}
-+
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
-@@ -779,6 +825,12 @@ static int davinci_i2s_probe(struct platform_device *pdev)
- 
- 	dev->free_run = !of_property_read_bool(pdev->dev.of_node, "ti,disable-free-run");
- 	dev->sync_err = of_property_read_bool(pdev->dev.of_node, "ti,enable-sync-err");
-+	dev->drive_dx = false;
-+	ret = of_property_read_u32(pdev->dev.of_node, "ti,drive-dx", &dev->dx_val);
-+	if (ret && ret != -EINVAL)
-+		return ret;
-+	if (!ret)
-+		dev->drive_dx = true;
- 
- 	/* setup DMA, first TX, then RX */
- 	dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
--- 
-2.43.2
-
+#syz dup: [syzbot] [sound?] possible deadlock in snd_pcm_period_elapsed (4)
