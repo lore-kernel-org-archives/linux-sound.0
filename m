@@ -1,59 +1,59 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C1A18027
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 09:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF96182DB
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710496720; cv=none; b=g3FiNmYGaIbWWRKvgJS0zTdrMQAhWkm6N2UoXHkP35CnMQoHkXcuvK1qaCURmTLYKbh+hrYXIb6amH6CYJFxH6Ey088BDPmFFYJO5feQgOwg6OzKMMgUu0zSiFkuXXA26iQWNnUoG8K+JYfeM9AIGtXQhTu9YpEhlDeAbTLCU0w=
+	t=1710496819; cv=none; b=iOKtrW0W8wRQBKj4Hbai5QGnYnhIAKJX+ahIymVH6pxB+z/Bzv6wjqHE44EgnjEuFauFu0mo7JfjDb0Ulnf4InmeHX7ePq9yPSFjMIk3sRkCfD+TX61MXIa4lnoDtw+uTHc2NaNS1fiUeuK4n0bq25gXt53qrhLb6J8qhMfn6Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710496720; c=relaxed/simple;
-	bh=Iu8k+oLwr4hqiYGmKQ/JGJ3jwWl99QjATtzgXxf4OXU=;
+	s=arc-20240116; t=1710496819; c=relaxed/simple;
+	bh=MdPiINrYitdZDH2g/vvUhvEntL1U9Tr4A8teJzOp2iY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DsF6dROuyVREH+StHD9O2WAyWKJSb/NezzPUDzax6JwPmWkbigreNtrrcS9537IsXrFgSz890jW4+eQIPoKLZUEdqWyfcAJp2uz6Hey78Z5do9oFmGoXhtop4cKCnjNe4mfAQfMve8Yqfc+K8dpFaueC0LTcWBoCkNWwf4QtCjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jSqXuiWa; arc=none smtp.client-ip=209.85.208.45
+	 In-Reply-To:Content-Type; b=RCRF96LAo5/gXj+isoeTHI8e2vsW/9Rbf7YVuc//I0lkL6/Zm8reH9QWs3UimBV0Xs2KR+PXXF2xPa5fcWPg59bXOReV+6UxHhhfh34Qr/7Y0SzOyCBxVpnC63quabGP3CNaiLzEV2SVtBW9AUoAi0eqafPCSa8epmD+mIl9ywM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Laqcq9rz; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jSqXuiWa"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-568b4b9aeeaso334215a12.3
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 02:58:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Laqcq9rz"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so250146466b.0
+        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 03:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710496716; x=1711101516; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710496816; x=1711101616; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XCDp802c/vz00Jj0fM4zOQgn8Q59NL1j5+KpAzF7J7g=;
-        b=jSqXuiWayhwPsLCkyutVXWLtC1vGR7vkoSEbU8owomudfMu9cXg8m5bJu0nSn/kScz
-         BKVUTZYkxxfhFZN3rNG9gt6AQIieM/9B6f8g6BTXT2C0XSBf6wa1J8A76r/eYodS5dH5
-         tNy/WIxLp6n2OIU+0XjvFbD1aQLHuAP3KRso3ZcS1c3YJnedH7Wds7kmbL/HYufMvf1J
-         EU3J06g6JY9965FWIxJFsv0PEQc9127go1BflGkOFUzYS42GZV/kz1DCxeg1O4LRbjdW
-         uJY6kPOLDU4T3grbh4bnuzvOT/D9bbBv08gyDvKyLGlAWSLV9aPaymJ/HDyiqqM//FUx
-         +aOA==
+        bh=LpB1iaL8i/TMAgyiGjpKHex+3mHIdJteZ4k5b7bX7pQ=;
+        b=Laqcq9rzWzCdYxi2buioA+GIGSWA9v6O0crWcGDUf4/clGXa9bS+otS9DvzDXTSIaS
+         Jzg5yrUs2koUEW2s8RZ7NptglNgtnu0oTtbltMwMQz3SL6TXSSx5TRnrpCMpQLupI/Fr
+         NwNuezJ0vkk0eq2CRF4G0EuvDB2nyRRB/QCZW+wYbqfF9h96LYAAzH1CxiyzGVONOmVo
+         eABMqwqw+nzCjku+k2lZbcVIoVONEkhyGtEO1z8L/6EJPicedHMmX2nE0P2VZ0r7TFf7
+         ra5s4+JEx2ZFOUiE0J1OlSct+vHIAMl+w1Y1ElFFo19P67eq8SXKAs0hJXVcvTZ4uczV
+         GaNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710496716; x=1711101516;
+        d=1e100.net; s=20230601; t=1710496816; x=1711101616;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XCDp802c/vz00Jj0fM4zOQgn8Q59NL1j5+KpAzF7J7g=;
-        b=GKGCP0eL9MksEAizEVQa/j4rkScFWQV/upuAxk7yef3cEO8Bf+faI+p+nkEOlu3mT8
-         BjGUIhAkeFqISgL3pDA9V5Z1k3wihJPrSJLgrtmDHCEsINY7GDoz4YzTBIwJ4oYVjRXn
-         GKKu3DcJiD45jAHAx/laguFbJYPYl2/rFYKO7qj65CP1R2BtOZ1GPlHR1EBh86FY3mzz
-         s0+rL5Lex1E5PAhH9/ix71aj4XF0r3vgDXhLxejQVnGs2Q5td8PSBdET7NFDFH3cR6Eb
-         UK+k4bl5LdFoCBPjU9GMaj2NPHYo7+9Nnq3kxsFmLFiM2QqKqkUO2ayBR9l4RPcG2z+M
-         mEMg==
-X-Forwarded-Encrypted: i=1; AJvYcCXAnH/wXGcSHhx860dReh3j3GCFYS7rhfSZp6q60ESFTBsUfV9L8WyckPvp9MmR9C0UT0ntrii9uKjCHyjIvPXyUYpBzJOS4tQNP1g=
-X-Gm-Message-State: AOJu0YxWrI1nOhH4BDeovYT47HaroEmEgA6/a9KY/KkIdCDhUOFvCQK6
-	LbV+23qaDvTns3mF7gC1po0usENc6uaHZIhBS+8l9M/fDK0wc3ROk5eVRHmWQr8=
-X-Google-Smtp-Source: AGHT+IHIsIdUGhPXOM3BQx4/0p1MeZLlO90elMoxks/E8rq2q+6HU+t6JEfKjICz9pAzbqmmPNO/Hw==
-X-Received: by 2002:a17:907:c086:b0:a46:6dcf:3f39 with SMTP id st6-20020a170907c08600b00a466dcf3f39mr3347105ejc.57.1710496716475;
-        Fri, 15 Mar 2024 02:58:36 -0700 (PDT)
+        bh=LpB1iaL8i/TMAgyiGjpKHex+3mHIdJteZ4k5b7bX7pQ=;
+        b=nA2psnq7/qo3tUA6i2ZWXAni3xKOXfsVTzRm3NznvZfV41SDX12MX/+hY/c2p1fpHj
+         tzyqx1wVG37qH0yb/HCBIVrH3BBk3QY0j3EtNn7U4nqmHfYvqsxKdEmjLFJEjs5L2rwQ
+         EzKH8MoHMR/9Y2TtdFFyuZ5h4gXh4h9jWPk3veGq102AMnJb7sOSuZXPF9hTVDNEbSWI
+         2O12oQs6PfnXRUkSwJVxgcFwiAwx5hCHG1i19iT5x/G5XCR8R8s0khrsvohn9+VWXUUL
+         3CF0JYyzFGWzBc4irr9wECLRFANYxTUpZBFGkRHWCpePL7nfW+BF248luU844y3o+L87
+         ZVag==
+X-Forwarded-Encrypted: i=1; AJvYcCWHaKtK9pU4Jicu/uOWxvnhAn7cMPiC6+pNe9OtWckk7olZFA1PgWTy0xbcxaQHf324WmkuohLdqDXLsqNFXzJqoLDCCezX99qWcRk=
+X-Gm-Message-State: AOJu0YxubC4iywFsNRus73hAEr43dCXGQSzdxjkKZ7nZMChc/nZDwggz
+	zMlHRwDokwNVWqbFJXpqrcqyLaTe6NmU0koIFROTnfw1N8ChVjs/c7vcSTMr/oI=
+X-Google-Smtp-Source: AGHT+IETRWxFpcKiWIwfwIe1BRvOlwqPlsFpdWcZAC6w358bOa1ndXYyZ3o2HSFBW1oGzkXMoym+Ow==
+X-Received: by 2002:a17:907:8dcc:b0:a46:7509:2425 with SMTP id tg12-20020a1709078dcc00b00a4675092425mr3299196ejc.63.1710496816404;
+        Fri, 15 Mar 2024 03:00:16 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id dv22-20020a170906b81600b00a4658d3e405sm1529599ejb.196.2024.03.15.02.58.34
+        by smtp.gmail.com with ESMTPSA id dv22-20020a170906b81600b00a4658d3e405sm1529599ejb.196.2024.03.15.03.00.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Mar 2024 02:58:36 -0700 (PDT)
-Message-ID: <f91ea77c-8170-4ae6-850f-3d5715d83855@linaro.org>
-Date: Fri, 15 Mar 2024 10:58:34 +0100
+        Fri, 15 Mar 2024 03:00:15 -0700 (PDT)
+Message-ID: <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
+Date: Fri, 15 Mar 2024 11:00:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,8 +61,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/25] ASoC: dt-bindings: meson: g12a-toacodec: add
- support for A1 SoC family
+Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
+ 'sysrate' property
 Content-Language: en-US
 To: Jan Dakinevich <jan.dakinevich@salutedevices.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -82,7 +82,7 @@ To: Jan Dakinevich <jan.dakinevich@salutedevices.com>,
  linux-gpio@vger.kernel.org
 Cc: kernel@salutedevices.com
 References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-9-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -128,39 +128,37 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240314232201.2102178-9-jan.dakinevich@salutedevices.com>
+In-Reply-To: <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 15/03/2024 00:21, Jan Dakinevich wrote:
-> Add "amlogic,t9015-a1" compatible string and new device tree phandle
-> options.
+> This option allow to redefine the rate of DSP system clock.
 
-I don't understand the second part. You did not add any options, no
-phandles. You added some defines for something, so say what are these
-"something".
+And why is it suitable for bindings? Describe the hardware, not what you
+want to do in the driver.
 
 > 
 > Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
 > ---
->  .../devicetree/bindings/sound/amlogic,g12a-toacodec.yaml     | 1 +
->  include/dt-bindings/sound/meson-g12a-toacodec.h              | 5 +++++
->  2 files changed, 6 insertions(+)
+>  Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
-> index 23f82bb89750..c47604aa590f 100644
-> --- a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
-> +++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
-> @@ -26,6 +26,7 @@ properties:
->        - items:
->            - enum:
->                - amlogic,sm1-toacodec
-> +              - amlogic,a1-toacodec
+> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+> index df21dd72fc65..d2f23a59a6b6 100644
+> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+> @@ -40,6 +40,10 @@ properties:
+>    resets:
+>      maxItems: 1
+>  
+> +  sysrate:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: redefine rate of DSP system clock
 
-Keep alphabetical order. Don't stuff new entries to the end...
-
-
-
+No vendor prefix, so is it a generic property? Also, missing unit
+suffix, but more importantly I don't understand why this is a property
+of hardware.
 
 Best regards,
 Krzysztof
