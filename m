@@ -1,133 +1,155 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.109.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC78318E25
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD31B5B1
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.104.109.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498311; cv=none; b=HDIQkT80Xxa5rZ+Macs4ndFi38fYxXS1EJTcWtV5IfCTEu+bPb1BFfyR60uARH3no4BLYv5Ss6xo0B0O0AH6IY7xQvmavg1K2fAz1OdiZ9OTTTqYkZMANRDD4un68J4zaKG/mGjLVlUTjGKAXmPRodtR1CwBKjQe8DI52sRHbVI=
+	t=1710498778; cv=none; b=Wm95ZfiKUZVfOlkqsFDCQ+hauEbdJB0vlIeHqqA5Oi7apw/QgvCltikO4hH8v5zzYgTLhhgzKi1FGU/VL/iJoFSzd4Z/zKTruMmIlKS0U+Ww6Wb6C1Z/0qxyrX104YXJs//9JHqch/UoFx95Gw/tX+ve5ef0n/BiJ3WBjdmLqfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498311; c=relaxed/simple;
-	bh=NfFTjprpYpTx/YOcA395cb2tUELkt8+AWxFx0BohTVw=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=TK6cyQWWPJZ5uJDADZiikncN3p/ez7PmMpPwor8WyVlfivOvG7oPpjfxD63XcnXS88JVTCei81Foil59ATn2cIzk08EKZWInUwduUQseqOHaCXtDKdRcLN2k6omXjtzN37/acDB8P89NVLzGFzNHcVbM17/uoZRI1q/jUcfUgrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=scTyMV6t; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710498778; c=relaxed/simple;
+	bh=Lysa3j/b+7vY91N4LKyJOXIxDfbOuECbYmClh0Al9S0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type:Content-Disposition; b=SDlvBi+9bu4DUoRxfqIblgxQkPyBi1xEASp+av1V8EbtxUFDTpXKPCrMRWvTeWTFaKJwl43ph4NObufO33HtkSzecfg/vHhCM3XdZYEXXKpJ03duGnpgnTt1L7rV62ssiCvxqMyK4ZccXXkwHxTYIH5gvwaT7nAYCsn70RbEYEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com; spf=pass smtp.mailfrom=toradex.com; dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.b=OYzwDElx; arc=none smtp.client-ip=194.104.109.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toradex.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="scTyMV6t"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33ed4cf02ebso170465f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 03:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710498307; x=1711103107; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3EB/6PldhsbhWY9+bYWiu2w8/wr6W5dSP5c/9sIMoI=;
-        b=scTyMV6tGxpPlH+TE8fWNj5v3IY+5bAIEbQwmbIVNN3XGjo9GTZz+InJd/EjxhUuZq
-         Q9Ot2p8f+AOjQj6+U0vZhicYtDDqkq+P9saxDp5W48/Ueq1Ar2TaKf8LebWOrVL8Pqug
-         Jmj16tfoojVaZWL7EJcEzgolSUXHFVPP65f5DlSnRQGt5KeOjJYN2DSKmBodnc5K668f
-         P+R+lLYCxRO4Wqor3SqTkHfGN17d2n0vjk3RtNfPH1vbggffj+CgkGdnbROD6tAeXJTc
-         jC6eosvqjs0KjmhMfv2w2TGnCWtqJJopYJCCPYpHq0b3qIC/Jl7PUhWLs0FhV599qsaf
-         D8Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710498307; x=1711103107;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I3EB/6PldhsbhWY9+bYWiu2w8/wr6W5dSP5c/9sIMoI=;
-        b=AH1WWGLtInLXasefRRPbshZnxb4JbNBeyMj4/kdFTAVSeXeKBREM40kKF7O7VdP0dr
-         qaI/GeZskT73fftRxJ9Qgf7/2Zt6A4txLPdOSy9dYoUOFW4lqI3V2SeJCnK+Yx4Mx/qd
-         KXIYQfX58wczKo4kIsa+nMJZWMOpTRF9fLVUzOLMXIQZc02NcLq5FxAcFB/mI+IZUgje
-         Mlut7NunIpUQ89NRBeoQS2UdPCD88LlrqRxdyufrxLxEvv23UW05UPLuhnEHccNJJAbq
-         wC8odGUemHnq92yDQ11c29z6chrYyMSqnTLrWLzrYscRGwXD9DWy1sda3M/ctdsdFKTu
-         bLDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXzlsvxC7b0O0rCmLb7FgOjxRHrNmWrk17Z4T4B2PX1pei3Hf3OBPi3DhLdO8NX8s+Drwq9dpszbhlz0tBMW+WdRqJde2WvttOY82A=
-X-Gm-Message-State: AOJu0YwD/Gcn6q12VTgJXYJ92V0CybtMHoe4m/MxQt0Tevu3rdo34Cp3
-	b9LR9YTC3Q+nWgqDuzVKGtEUF3g55Os0caE2J5IAaQuuOhUH2AwZ10Xk5yVLy1k=
-X-Google-Smtp-Source: AGHT+IGWDipfwojUVR3R0h/HAg8+ErMHQU1L9DU1QDqUHJY9+2A1t5wePivY0yDxiYGWnr60Q0NDnQ==
-X-Received: by 2002:a5d:4cc1:0:b0:33e:7f5c:732c with SMTP id c1-20020a5d4cc1000000b0033e7f5c732cmr3060666wrt.62.1710498307090;
-        Fri, 15 Mar 2024 03:25:07 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:8151:4d0a:14d8:1124])
-        by smtp.gmail.com with ESMTPSA id o14-20020adfe80e000000b0033e8c50fc3fsm2818997wrm.90.2024.03.15.03.25.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 03:25:06 -0700 (PDT)
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
- <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Jan Dakinevich <jan.dakinevich@salutedevices.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman
- <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@salutedevices.com
-Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
- 'sysrate' property
-Date: Fri, 15 Mar 2024 11:22:59 +0100
-In-reply-to: <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
-Message-ID: <1jil1nhjwd.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.b="OYzwDElx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
+	t=1710498769;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lysa3j/b+7vY91N4LKyJOXIxDfbOuECbYmClh0Al9S0=;
+	b=OYzwDElxa4zfvDif50B8SbTRujxiNA589vjSCPOA3Z//OoGa1+E+IZK6yKq7GJjDXAgBPj
+	kJQdpYR/EJIRMEWQ63NihIX1lhh7hC08PC84YSI07myQJL7bg2GdTTdrttn/qE4ZohBldS
+	4Yphx+K73VGwM35KORJ1UdXcvnvQL9U=
+Received: from ZRZP278CU001.outbound.protection.outlook.com
+ (mail-switzerlandnorthazlp17011007.outbound.protection.outlook.com
+ [40.93.85.7]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-59-3h8wLJniMfqJbUmeoCreYw-1; Fri, 15 Mar 2024 11:32:47 +0100
+X-MC-Unique: 3h8wLJniMfqJbUmeoCreYw-1
+Received: from ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1e::13)
+ by GV0P278MB0949.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:54::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.22; Fri, 15 Mar
+ 2024 10:32:46 +0000
+Received: from ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::2128:374f:6717:b13a]) by ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::2128:374f:6717:b13a%6]) with mapi id 15.20.7386.020; Fri, 15 Mar 2024
+ 10:32:46 +0000
+Date: Fri, 15 Mar 2024 11:32:43 +0100
+From: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Andrejs Cainikovs <andrejs.cainikovs@gmail.com>,
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [RFC PATCH v1] ASoC: wm8904: enable fll with fixed mclk
+Message-ID: <ZfQjywL8r+egtG7V@toradex.com>
+References: <20240308155831.141229-1-andrejs.cainikovs@gmail.com>
+ <Ze7smWSeoCVIcxIo@ediswmail9.ad.cirrus.com>
+ <ZfBG9IMFEjjIdgdi@toradex.com>
+ <ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com>
+In-Reply-To: <ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com>
+X-ClientProxiedBy: ZR0P278CA0031.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::18) To ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1e::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZRAP278MB0254:EE_|GV0P278MB0949:EE_
+X-MS-Office365-Filtering-Correlation-Id: f12a33e0-46c4-4468-bd79-08dc44db40f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0
+X-Microsoft-Antispam-Message-Info: rnIW+bCH7VY68btCO0TAR8uwjiLdHwORcc93xv3043gHcL2I/g0p0Xn+ZTH/wVK+StzulwhATTKoTdtg1wBlEivdzdleuShFf22Cv1+6XMSXTXoZJv1zXQJapGEH3rKOwdzu/sJyupiYcPxGe4XGw4RbE3eCYPFnXoS3zFGPPn8kJJggCn22aoO6DxrRTVMAGoQRyWSqrzY28xGNdW+1WSkpDh/vLFwwRMvH3G/lJi710KoEcRebBB2tBo07+Yu7tpFUHG7Ly++YB4v7fY9YObZiJt5hHrllulqwWSKb4OPt4uyS08HpUAFsL5tT7xSeGXSVwubAaTk33XWvM0WoWzoxPpp/9vXkGJYR+3CjGHzxVZF+qo5LfAk0tPHVFT46qsCr1ssjKCOmQoQbyTa+ELKI489JCZh/gfqXbGVEGb6gWwEc3XqMQjNRISn+5FdReZJ3RPkVn1F3SCD6QJiTll+9ScqKj+RK2VtCS5JF9h9mN6CHDM6hBZxw3yJt0MKzQfuRxrv8Np3BIElT/GYl9GKGeB0XG2NOuVzlILYAHrmf8uxikhdopakPEnFouiB98TVWWh6EhhWC92JXOK2dULRj6fjhOMiHV8A/tqvH2M7NR4Km+K/aht3sBm83TMRT6kNWZuATHIZOjyQSjXMFcMJeg9vrQ6EOBd9Bqm6xos8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IZZzzHVt3rj3IdpFghaNTxQbB2bCozuF9ra6nAJPDevWrctZSPSl1yMEZBVL?=
+ =?us-ascii?Q?Fjq2+vGTUc5DizAzYkEzOcBenFBVwuJZBu5uAyU8PxKeTcWDmA0nB9Sf+tV/?=
+ =?us-ascii?Q?5UR9ioaq//80q/s7vceC6i28murIeNB0To5ABkVETQnAar8nHMktwlBmnTPY?=
+ =?us-ascii?Q?0rzXzpf8lZH1UkIZImXgd/v/r0k+cw3ZSSWcLfN0G3Mge8TZbHCuf7/IZnGp?=
+ =?us-ascii?Q?7d06rwJ3EkTAiWdq0vER6FyFl2bXyXBmxM5lmEbUibl2+E7GWIvvMJSSfrGY?=
+ =?us-ascii?Q?UENZTnXH2xuLMswcvivnbOi8+EO5Zy9tM+VXIipIXB6AE43KRQi00y4nXe1O?=
+ =?us-ascii?Q?B+569OuZN8ZJ4s4FV29yfUdnMbe/iBkCSwrxL9xImPX9AIT4jbyTk3aIGjdV?=
+ =?us-ascii?Q?oeEfFsCArwk1+bEYd8bkkNuAnglTLix6oeBiJOpRaLTw6+iw2XpLfqW+Jgz7?=
+ =?us-ascii?Q?jk3lx/iibeb17QK9WOL9zFYPlvR/k6Rd40uht+cuqf5BVtKNUr4yqKqvgy5c?=
+ =?us-ascii?Q?EUk46Dhm+oXVbFq8tEplTi8/L3EPOEwAfy8TUMI9eQTg20cX11YBrPFuRQ7n?=
+ =?us-ascii?Q?sXmS/zWFb75dqCvPPCYfQW6TJuEFRQIAQbtiMpS6e/efuoNeIOnQ1mk+xEGB?=
+ =?us-ascii?Q?zke7N5Uq6IIsVeB8wEFV+Vjjr+ksjH/wS4mieTo9ZFBW61R/V1GETlT9VUqy?=
+ =?us-ascii?Q?6obsodVnkFirqnz9KAXv0CBAsPfvWeQJOqgV++7CyGCYAUX51A1ySZ+6EHMO?=
+ =?us-ascii?Q?uMMxmXPAiAJTH4s8ifWPbBLwuiHz3dyAmdvz0YM5FrlJyaH8CJ2Wyq5Qo7ix?=
+ =?us-ascii?Q?4/8c566rMb3M2dpUY4jcbUivSlHGrOR0zkK/8DfT1XTyxyjnX7990nDDnhlz?=
+ =?us-ascii?Q?3MH3ATWbYSoN7Rai/ooqovTHIxkRliX9dUEmhCcNy7ywDfyyxOyd4D44SRW4?=
+ =?us-ascii?Q?xMJLUTHFHF6WXVBx48npn3jwyheOHSXmDgTBZFlO5+F307puQpM9rSN3J+aA?=
+ =?us-ascii?Q?TgMfPrdu3bbV/X/t9SGruDU+c0jYf+GKkr3W6zf/bGNtwbxWKA8tabSlMlfw?=
+ =?us-ascii?Q?GBoFx7aSv4P08q0HStEtIxBkUwaJbSFVkKHcu6p8MkuqeMBQZ6iWR6o9aXsM?=
+ =?us-ascii?Q?rTeOI0D0KLPtYf/Z8OrzvZqZMpL+t9BRK1Q54qFkB9x1MIOZeF2h9pEgGZSk?=
+ =?us-ascii?Q?uaYIeIBVYfZ9z4n/+lgvzU8Esznn7sivseTdqhgx/61/6ccu+Sn+SEYoekbb?=
+ =?us-ascii?Q?RY5LwF4yq1p8nN6kAb0B2PbKQQ6mFyAoxVaMrv7rY5yU+uVDXgtMcsrsDb3J?=
+ =?us-ascii?Q?OY1ROqYD01bDJredVO6mjIuk4E5kqTG88lQim7avFlPw33wYh2q96DQvgSf9?=
+ =?us-ascii?Q?JTpG9c90weZ1OvAMwnl3twe5Jr6/URMZrpgpTSiwDYR5zYn24IrA5fcky41J?=
+ =?us-ascii?Q?h7ILc1M6hfualBnf6EzJENXuJI/KPHsYBy7Ow3UVDogGy9kQgAmU3edtBtN2?=
+ =?us-ascii?Q?smIYMJHRkQzwEK0lcr1AKjDirHE10qcxRzUL4ww12ZnFUO5ctkDNF8D14ZM7?=
+ =?us-ascii?Q?NgDUR1O9sPFbvS2fmw58+gQA+XnFSYFwpzoNVp3ZXOeAwKHko/O+qpBBZqzk?=
+ =?us-ascii?Q?Aw=3D=3D?=
+X-OriginatorOrg: toradex.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f12a33e0-46c4-4468-bd79-08dc44db40f7
+X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2024 10:32:45.9836
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W04d1rrPbFNberYzyvWaZuDtiA1ozO7msQRlXWi6PipT9jMibbbJnhJeeomzJNJALZhvDdNxeuLPstsytF8bgeXe4kmvCIjrqjaY4Nf7bP0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV0P278MB0949
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: toradex.com
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 12, 2024 at 01:51:02PM +0000, Charles Keepax wrote:
+> Ah, ok I see what I was missing here. simple_card_utils calls
+> clk_set_rate if you specify mclk_fs. Which you don't want in this
+> case. My gut reaction is that really the problem here is the machine
+> driver doesn't support the clocking setup you have.
+>=20
+> Having a quick look through the simple card stuff can you remove:
+>=20
+> =09clocks =3D <&audio_refclk1>;
+>=20
+> From the machine driver DT stuff, and add mclk-fs. I think that
+> should cause the simple card to call the codec dai_set_sysclk
+> but without ever touching the audio_refclk. A small change in
+> simple_util_parse_clk might also be needed to allow it to return
+> without finding a clock. Which feels like a much simpler and less
+> scary change.
 
-On Fri 15 Mar 2024 at 11:00, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+Thanks for your help, Charles. Your suggestion works as expected.
+Btw, there was no need to touch simple_util_parse_clk as it does
+allow to return without finding a clock.
 
-> On 15/03/2024 00:21, Jan Dakinevich wrote:
->> This option allow to redefine the rate of DSP system clock.
->
-> And why is it suitable for bindings? Describe the hardware, not what you
-> want to do in the driver.
->
->> 
->> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
->> ---
->>  Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml | 4 ++++
->>  1 file changed, 4 insertions(+)
->> 
->> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->> index df21dd72fc65..d2f23a59a6b6 100644
->> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->> @@ -40,6 +40,10 @@ properties:
->>    resets:
->>      maxItems: 1
->>  
->> +  sysrate:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: redefine rate of DSP system clock
->
-> No vendor prefix, so is it a generic property? Also, missing unit
-> suffix, but more importantly I don't understand why this is a property
-> of hardware.
+Best regards,
+Andrejs.
 
-+1.
+> My only slight reservation is the automatic clocking thing only
+> really exists as a hack to support simple card anyway. But overal
+> I think it might be better to try to move the direction of travel
+> more to adding support for the clocking systems that exist into
+> simple-card rather than tweaking the codec driver to work around
+> it.
+>=20
+> Thanks,
+> Charles
 
-The appropriate way to set rate of the clock before the driver take over
-is 'assigned-rate', if you need to customize this for different
-platform.
-
-Then you don't have to deal with it in the device driver.
-
->
-> Best regards,
-> Krzysztof
-
-
--- 
-Jerome
