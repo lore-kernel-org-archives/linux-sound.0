@@ -1,110 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F9E3B783;
-	Fri, 15 Mar 2024 14:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817C83D54D
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 15:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710514496; cv=none; b=Uj5qw8fRyTJpqxaOMm9fSB84N7tqHdTtbI2N3rgv8zpmoWNE/dlcwGAY1Fa1BHR4gPu2ePYzPfRp6EONvyAh6iePOs4FDXUIHMH7X/kQ5YIO6psWJBNWA9EQPapf38jMeuOJ+clHdylfA28BD2XwOISO9aoEUv7jQQ7NCK0UKVM=
+	t=1710515127; cv=none; b=MtoMrgw/naR1D1kIMv1Co5BeQZydGwlsqoVB66d183kGJdgXNkTySAJ0XZXaBJP7FGwL7ahTPCyfL/6qsK96yg4cVacOwEl4/DPoyRUQnwWC2cAnG8uskcrinKRY7jxogiMiYUpCaF+Cpl65OQOOubbjJ40EHNfUAeqN0o4yObI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710514496; c=relaxed/simple;
-	bh=wpqIUwnNLWbIy1Zvw8blSo1JlKbndzcJuNOieCu2HqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZPpKcoXkomC+KNeRK1beGoMs8rMLbWfB9gozUVer5ElgTKnl4MxdVRAX9vW4Brlr5uvxry/WNx0iTP89+RTc4PbdxLvRw2gyC31CzdQeKcOLpHOFjPQQFW5Hwe91GknNt9oD3+xfhNLLvHX1Yt96yEx2tJcoEe5pnEPFHAQgB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJf9ywlx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710515127; c=relaxed/simple;
+	bh=608S623xqC0b/8HelcnyHmJp3/fN4Q27AKppt8+4SSs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jJrR4FpzZOfJNWuuNLNoCaVp683tqmOeJQm2CW39OCpiHy9AXjUYyjMFzZ3ydJNVtpg4zBtbeJ32g6y+/GKsaVUV8GVW+wE3EbZhIcYJT9f4iDcsI77LVK2fOYPl8m+D95asNGbQyJ/9Wq7gPSBmkKWzX2gRAxZH/1NK+BdVsZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LQHCrmE3; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJf9ywlx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4979C433F1;
-	Fri, 15 Mar 2024 14:54:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710514496;
-	bh=wpqIUwnNLWbIy1Zvw8blSo1JlKbndzcJuNOieCu2HqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oJf9ywlxeebUGm5lGowLDQIprnpa21rM3k9zG//vZtyYRSfB12aid3EbbaKNikdWU
-	 suAfBiOrvPAUV5fJUGyOYhuTW2JvvaxXO2GQ77MheCnaDoT2ma0zyXXObXaql4jmsb
-	 Tqip77HGMgvF1isYlmA/yPck4M0NyBZ6ZsWp2FpleUs4B4QxlxC6eAQn5672rThdEn
-	 fjy7KIEzadIzf+GtGeelzqslmpmgbTIl8gBsohHeEsCtkI+AWLxc/0PzE0ryShaSVH
-	 LLgRjlyZKxusS0VD5yXJcu5E0iGvfPFw09Y1jpnI0BeT7jN/vQ4WheUxLvSOVU0C/R
-	 ngIYI8uCVlwTw==
-Date: Fri, 15 Mar 2024 14:54:51 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	herve.codina@bootlin.com, christophercordahi@nanometrics.ca
-Subject: Re: [PATCH 09/13] ASoC: ti: davinci-i2s: Enable unexpected frame
- pulses detection
-Message-ID: <9b3091e7-53ea-46f8-9dbc-a3896e920a97@sirena.org.uk>
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-10-bastien.curutchet@bootlin.com>
- <51866f62-460d-4035-bcf1-b9f03cf9be0b@sirena.org.uk>
- <13faa6c8-ad4f-4f81-935a-5ea74621d373@bootlin.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LQHCrmE3"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a46966e9d30so59306866b.1
+        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 08:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710515124; x=1711119924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=24MutwcHiBZkjQYCos7XDdDwAEGZOLUpdfO5OhJienA=;
+        b=LQHCrmE3vq4+P4FXjfetbGuTF5nVJjW16VjjpIsSaqljUy4Mx1G3QbH7kIz615JB0y
+         mifH6On3FYNeDgWpOg4d3iKvGVkPx5O+rgnW9Z0zlGJtCmWKfZ3jsMbTT9f7tOKGA0cG
+         R7gt+uGC/g71lTG/IBiOjuSDVzRgP3w/WIsOcNjWt6nQ2+OZmBsG7aSUqxEu5OLgUy5y
+         QjgAophCgvHYi6SK31LHxgBxTGI1d/vNov6zLsBW1bgcJXUUCiVN/MFq9VP/Q6WfHd4B
+         KzKs9lzCuHg1Wql+38LwwHBN7Wt0gCT2wg9AO3/wd0MGF2haYqzDYMC/b/kUjdNP+s72
+         i9lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710515124; x=1711119924;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=24MutwcHiBZkjQYCos7XDdDwAEGZOLUpdfO5OhJienA=;
+        b=cZBkY/6ro6jDKMIElJw49mVhWblV7vNRHY/0Yn4v1TrgMjebxLBAWYEUOaQrDLbxRn
+         bBF4dh2vy3w2sZnr6ev9enDICQZ94njcwntehDV25tStOdpno80pQD637aUOYlz9uL84
+         H6j5locz4/NiiWNUGaxmgWX7SYNB0Ev41BKPD/cKo3Y+Q09tj0iu8eHcxd1/R38d9QRv
+         JSohtlhdAMzSbdz8IS03BtXYCwfDfs0vP98JcCW+kKwBv+ZPgyesSuLgI0qTr9EnvEFO
+         N1YuJCrqEsTwM8qECS+//DhS4O8nBNbt+p9mfal0dW4qfFY1kowMioys5LV4VRY4Voc/
+         5anw==
+X-Forwarded-Encrypted: i=1; AJvYcCWk6UzmgnVUDW+LFeonPVEQlYAdKqtv9EQ+tyfsmoHBeqNV3FjFTuywzUWsBI+PuvUDZG2Xtvnv3XEJcUjPakkytcIj6FiNV/60Rrg=
+X-Gm-Message-State: AOJu0YzWP8Dx754gST+wszyjCNLHJ0d4ugq2HazgD52AsPG+tplAB5i/
+	O+qDQgYK9rX88+ed6x277PiSAGWbyxM13bU8uqAsL9m9fAgdrLng+5MmjuoGZpU=
+X-Google-Smtp-Source: AGHT+IEO2hyzf/1xUUR4DWAg0e4i1y4j4ET1cfOEMZuvZS0x8BJ0B3U9ZhIu1vGtdXCzcUUMUTMYUw==
+X-Received: by 2002:a17:906:9c8c:b0:a3e:cdae:7aa2 with SMTP id fj12-20020a1709069c8c00b00a3ecdae7aa2mr4284674ejc.35.1710515123916;
+        Fri, 15 Mar 2024 08:05:23 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id j22-20020a170906051600b00a441a7a75b5sm1773189eja.209.2024.03.15.08.05.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Mar 2024 08:05:22 -0700 (PDT)
+Message-ID: <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
+Date: Fri, 15 Mar 2024 16:05:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2KhnnhvxjBoPFAUT"
-Content-Disposition: inline
-In-Reply-To: <13faa6c8-ad4f-4f81-935a-5ea74621d373@bootlin.com>
-X-Cookie: A well-known friend is a treasure.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+ <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+ <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+ <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
+ <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---2KhnnhvxjBoPFAUT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Fri, Mar 15, 2024 at 03:45:24PM +0100, Bastien Curutchet wrote:
-> On 3/15/24 15:09, Mark Brown wrote:
-> > On Fri, Mar 15, 2024 at 12:27:41PM +0100, Bastien Curutchet wrote:
+On 15/03/2024 15:30, Mark Brown wrote:
+> On Fri, Mar 15, 2024 at 12:01:12PM +0100, Alexandre Mergnat wrote:
+>> On 13/03/2024 18:23, Mark Brown wrote:
+>>> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+> 
+>>>> Actually you must save the values because the gain selected by the user will
+>>>> be override to do a ramp => volume_ramp(.....):
+>>>> - When you switch on the HP, you start from gain=-40db to final_gain
+>>>> (selected by user).
+>>>> - When you switch off the HP, you start from final_gain (selected by user)
+>>>> to gain=-40db.
+> 
+>>> You can just read the value back when you need to do a ramp?
+> 
+>> You can't. Because you will read -40db when HP isn't playing sound. That is
+>> why the gain is saved into the struct.
+> 
+>> Let me know, when you change de gain to do a ramp down (start from user gain
+>> to gain=-40db), next time for the ramp up, how/where do you find the user
+>> gain ?
+> 
+> In the register.  You only need to reset the gain to -40dB at the start
+> of the ramp.
 
-> > > McBSP can generate an SYNCERR when unexpected frame pulses are
-> > > detected. The driver always disables this feature and ignore the
-> > > unexpected frame pulses.
+Sorry but I don't understand your logic, I'm not able to implement it...
+If I'm at -10dB and doing a ramp to reach -40dB, next time I will read 
+the register the value will be -40dB.
 
-> > What does "unexpected" mean?
+This implementation is also done in other MTK audio codec drivers.
 
-> Unexpected frame sync pulse is defined in datasheet as a sync pulse that
-> occurs <N> bit clocks earlier than the last transmitted bit of the previous
-> frame. The <N> can be configured through registers.
+> 
+>>>> Also, the microphone's gain change when it's enabled/disabled.
+> 
+>>> I don't understand what this means?
+> 
+>> When microphone isn't capturing, the gain read back from the register is
+>> 0dB. I've put some logs in my code and do capture to show how it works:
+> 
+> Is this a property of the hardware or a property of your driver?
 
-> > > Enable the generation of SYNCERR by the McBSP according to the
-> > > 'ti,enable-sync-err' device-tree property.
+At the end of the capture, the gain is set to 0dB by the driver.
+At the start of the capture, the gain is set to the setup gain.
 
-> > Why would this be optional, and how is this reported - I'm not seeing
-> > any interrupt handling updates?
+AFAII from the comment in the code, it's done to avoid the "pop noises".
 
-> It is possible to deliberately ignore them and that is what is done today in
-> the driver.
-> This is reported as a status bit in a register. An interrupt can indeed be
-> generated from this but I'm not using it (now at least).
-> I use the fact that McBSP automatically drops previous element and starts a
-> new reception when an unexpected frame pulse occurs.
+> 
+>>>>>> +	/* ul channel swap */
+>>>>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
+> 
+>>>>> On/off controls should end in Switch.
+> 
+>>>> Sorry, I don't understand your comment. Can you reword it please ?
+> 
+>>> See control-names.rst.  Run mixer-test on a card with this driver and
+>>> fix all the issues it reports.
+> 
+>> Ok the name is the issue for you AFAII.
+>> This control isn't for on/off but swap Left and Right.
+>>  From the codec documentation:
+>> "Swaps audio UL L/R channel before UL SRC"
+>> This control is overkill, I will remove it
+> 
+> This is turning the swapping on and off.
 
-That sounds like a very standard behaviour for incorrect clocking.  I
-don't think this needs configuration at all, just enable this mode.
-
---2KhnnhvxjBoPFAUT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0YToACgkQJNaLcl1U
-h9DXzQf/SiZqlmZT6xmjS1bCVvJ6Goxl8aWHFYwkoXqqlqIa3nAeHYUUyXV05kI3
-Q9wNkk5YWPwDi4hHCkO8/XTvDtnobNBT51YqIWsgLquWdHyHehjGdvhqMkxN/eGi
-vJ2v+789u9CPM5hry0dMXgBTxlDG5G1b5GWoGe7rjYEdoCDDTNJo56JRpCk3T/GX
-g001ZFQgk2tZUyaGgBEjF1cFzWY2WocYH5l5nhhALRHQ+H0zP75++neQ19ydZkC0
-Y4R+CzYDoWn/jvgrf5ng/n+o66WW97stC12kMTjiodnTpaCWSF7Bk+qk1WqLoWAJ
-uu2o1O7QEGyyJWz+4GuiRyuMupFGbw==
-=aZq6
------END PGP SIGNATURE-----
-
---2KhnnhvxjBoPFAUT--
+-- 
+Regards,
+Alexandre
