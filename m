@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C00250246
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 17:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40D740BE6
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 17:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710522859; cv=none; b=R3JkmGGkewOzXgkG3qTqMAk7JvWUvTO6Hn2PBQcilFV5aN/SGjpXkIksjvipkKhD9Qafnp4JWxY1KjuBid8Xf/a89LKKHXh+Fm5Z31gAZ7H610k/2qxK+OP57sRjlQpLr9Q55d0Ev1nShYelxjkuKBvw4rM2w0fBjPIYI0FzSCs=
+	t=1710522861; cv=none; b=OuCVrDIEPVv7D6+pPNaigJLARP7RbSR2NK7GJ+Ei8nICwN35vajfiXI0SmTU54sn3qTYSCn0KJA6TIHCiF4rRrcjMxYnmQ6Zi+ApPsh0sldU+1sqvLM52QDJ4xKHrZG7Rcved7lgnZwHle9gRX/o250IRxnpOESs3mwnbbV2ujE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710522859; c=relaxed/simple;
-	bh=Kaz0LaYPRpBxspj1FcPNiECRYBY8jmkWnHc+j92z6KA=;
+	s=arc-20240116; t=1710522861; c=relaxed/simple;
+	bh=OMUYFcPk6rQSQ+tSTqbatOncFfYSsSfm70s/P3vUlsM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bcY5Xk8c1wi58Av5SVUM7aaTMxgX0lqea1Tl2lMw7C6zPlI8vG0TeOKv37b+KER/o+7y9B7/tnKcXw5LnylfSmrtJsQNF9tBAPm0WwcPAtvmTf1OvZDcNVrvLnZlpnHhyAbKdkECQ11KYLe1U4K4BFKRMa0xwYeFI2gooEnQuoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=siuNSCCM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PCzPLN9kgnR7nHwxG+EWs71If4UYo1pqsRFXZw2GOrTuhJ5uqUobicoiBeTaeP5BjrsJhbeqQ4QDkLM9QolCH3M2AX32hWFHwOinRxkBRl0R1d0D7uuFKb+dEQZvRK1F08ALe/JSHNfbZn03RB4xqgq+Em73vdMyHgSzB/hG60U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvJPictf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="siuNSCCM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B789AC433F1;
-	Fri, 15 Mar 2024 17:14:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvJPictf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E95AC43390;
+	Fri, 15 Mar 2024 17:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710522858;
-	bh=Kaz0LaYPRpBxspj1FcPNiECRYBY8jmkWnHc+j92z6KA=;
+	s=k20201202; t=1710522860;
+	bh=OMUYFcPk6rQSQ+tSTqbatOncFfYSsSfm70s/P3vUlsM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=siuNSCCMU02IGJum3mKw8sj53+bK+YUF3nkJPxGPeloRMNxAffsCKP9Tzoe9ZeFEF
-	 aPkr4aaodLobFKRpFMYMsztFieLImFG+qeoWoYgBBXiekQihve4b5u5NMDbjCQnmuW
-	 BTtENQ86yXmQ+kdLbsj31nQa0KhMBwH7X2LRc6jU/sBqbB8gD7n2qiJzyERu1A1ekJ
-	 9L7Wo5we59gsenxWKmn9dqoSPWzhHjObC2bUcbkrd+mqNne+FiQNxMzqHHxA45nnNq
-	 lT2+Pm0XqgBix7DPrVPPuy8+X/8kE0X67djHyzjr6jgKwqmwKxXqe+k4FNPAaYuO5u
-	 zU16CGZZtvS2A==
+	b=DvJPictf9GbnSp9MegLadGU/dsaqPNxG0JrEGKXpPyCgl6RYD/EYw7QoN1hwtIAWB
+	 eF2hRFLUlvYgmIQV3bGk0BD8UQPjRj4cTvQUhWH1d5SRJ1C0zH+xoIWYUzxdEqlnVx
+	 HFtRkCZ2Q/49N6P4OcG2TRkItAKvqjHavipZCcnsacEF8Tg1avvFB0OxpIpsPy5i6N
+	 FA7aweJAkLLSrtegyj++TSEf4FLHDZzGVgJKtd1p4APcrtQU4jQXxcx6ZTzVZHyIMo
+	 sdmE6nQ4zpLPCz468U9rM+uL1ovT/e8hOTHW8eqIb1VrhNLgL1xThJ0sEcA/GHxzln
+	 kas3c7U3wdpxA==
 From: Mark Brown <broonie@kernel.org>
 To: Jiawei Wang <me@jwang.link>
 Cc: linux-sound@vger.kernel.org, sashal@kernel.org, 
  vijendar.mukunda@amd.com
-In-Reply-To: <20240312163256.886831-1-me@jwang.link>
-References: <a9a4f09f-f38a-48c0-81dc-2796c6126e3e@sirena.org.uk>
- <20240312163256.886831-1-me@jwang.link>
-Subject: Re: [PATCH v2 0/2] ASoC: amd: yc: Revert "Fix non-functional mic
+In-Reply-To: <20240313015853.3573242-1-me@jwang.link>
+References: <a127404b-a071-4917-8ddb-d7371c721827@sirena.org.uk>
+ <20240313015853.3573242-1-me@jwang.link>
+Subject: Re: [PATCH v3 0/2] ASoC: amd: yc: Revert "Fix non-functional mic
  on Lenovo 21J2" and "add new YC platform variant (0x63) support"
-Message-Id: <171052285728.54017.11209846729223561085.b4-ty@kernel.org>
-Date: Fri, 15 Mar 2024 17:14:17 +0000
+Message-Id: <171052285905.54017.7217285466307758536.b4-ty@kernel.org>
+Date: Fri, 15 Mar 2024 17:14:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13-dev-a684c
 
-On Wed, 13 Mar 2024 00:32:54 +0800, Jiawei Wang wrote:
+On Wed, 13 Mar 2024 09:58:51 +0800, Jiawei Wang wrote:
 > I would like to revert two of my previous commits after
 > realizing they incorrectly enabled the Yellow Carp
 > (YC) driver for Pink Sardine (PS) platforms.
