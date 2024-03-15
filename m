@@ -1,136 +1,108 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15DA175A1
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 09:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AECB17BCF;
+	Fri, 15 Mar 2024 09:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710493569; cv=none; b=Y9Hfs9JUAlt8WqdGeSPluZGPdgMA0NqB+3zTd1jF3Y7JjLxKSuWS6EsefMERACfJKt585TlxHisb8amTehkfzlJ9JaqAynvFhbiZt/vJLZwunn7noY/kXQVGNghDxSw63uSJDoIkDKkuPVR4NgcXFrKnKa8LU/Zt8WBptKj/I7I=
+	t=1710494994; cv=none; b=px93weN12d2DiYRXQPTONUvVqAdt36rxFEEFWGxaokZMAS3yG0jJrONT6dBlRmfGgi+2Ez8YyNvHHfrbzob28VLrQXFd879B1OvYDANl1lMo5vhOXMIdAFbNJKG1yc+WNamXdymjG0JpNpe5K4PWtteYe72/mmA2gTWNaNs9Vso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710493569; c=relaxed/simple;
-	bh=VYYch6XeureEVUpN2Mw2LknizCfpr7ksjmijCa7rU1g=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=rLC1ZtKKQz/w3rWWZq3TKUV/zuLWA/i5C2TumbCg0h0Xb7Lp86/fB4jZMTKwYXZb5yfz95WUDpHm37VO1P1ubAipr8ot0jMQyPkHbP5PrKJ5NHSIaeNOXFvAxzJbrrEGz/UEqv25E5nf26LToGrvsYR2ISu2WsiKXH5BLxAk6BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uxb9xEco; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710494994; c=relaxed/simple;
+	bh=s/rsVNseMI89dvpT4qv6LnO86oQ4MzaZCUsE1z5nD0M=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kBFLTUAjArtL7axkW5ojknCZDwQgVq+/+Xr5LkeD2WOei4ecThQsKhpZ+2m17mkPC53t4qC0IHH+gMKTZtj/UAGcPBATRrHT9Ok4Q5sqvKAOVOtaXJpqcZ8IxfiaPg4CGeq79ZRi1N5fiVsyLB0JIbxdiGlBGLmocIHj+02tvs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=KQRkhWDp; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uxb9xEco"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41401e02b6bso1372055e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 02:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710493565; x=1711098365; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZpMSBa9vXitkcuu7vgMM3w3/yA6IqPigK2dGLCTN5uc=;
-        b=uxb9xEcoW06sfo43xA0iTAYPNc/sHcZzFzBdFoMm+3EOzpxR7jYZ/onGi6nNR8uU/v
-         hl02w0ZJJNgsZcO+8zUMT/ZhxT7Ey0uKjCJnmqRq86yVfuKsQntH3/BKSW6mbMMDPDIs
-         9t6UgkeVK8jQ72uKve4rd1X8oaBEKaVXA+ZkyDOoQYuNXEMneLNEABWHxQUjJBbEpGzY
-         /I+RhDbrsHd9aCGoUaVegA21Y7cErzy+NM5ghfysg2RlnChMoeDwYEyHATPnBBGLmnCL
-         5izbvTWkvXkmUI63aC40YFTXBmYB/uzsyes0oRGna1aEKGa7wfOsaTouDqyBioAxPrT0
-         WaDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710493565; x=1711098365;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZpMSBa9vXitkcuu7vgMM3w3/yA6IqPigK2dGLCTN5uc=;
-        b=QAzXKFdqSXFgY+YtCEdvJVxdfi+odZUyVti7fumLS+Ptf2kqRH6ARIzuobhvYWX/h8
-         3D0Eyfbfuj593zAR9nnqXY/WK69wYBRGNNA+/3bexPt4q+3Thp85OzZ1u/kF3AWWt3wr
-         vmG+3FGD9sMd8eHjJXCfTApLwYjVApCtpWV+y1B7szu5+jvMznRi60vrUgUdkW6p6C/s
-         U8HyXoygilJ3NBwACaNcCJwS4I4oywq7fEk+qZ/1funSQBygy1zNeqeCuWGNv1zqOYTY
-         fYLd+P7Hka/zTc36533YKP/qM0U82kkd9b5HPqJxOIQ3xNyWR18nwcvWBnQnDyZ6fBws
-         8bSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgaBzB2zJlHHr6jpOmLu+MJatAb0szLXZ8alKgVPssSfTHzuY0lWjqq0+FzFRKi6oj57ouLrcIX6mYvbBGpWhV6uNLk62DWMyw4Yo=
-X-Gm-Message-State: AOJu0Ywzv76PnQQxhO9e842B/Ox1eBZ1l5P6CnZ5O1bIXP2VVqUby/ml
-	6RARg0TsmddQLxWjtTC4mg7GJHA1Algiel6lSDAiSGOns72QiPgVWiYtNbJqyjc=
-X-Google-Smtp-Source: AGHT+IGv2qeT4+XV+fkhSqD7rZTLCUTw8RubHWgYTp3yu9LMq3zgewNkauR43y7qOB4OhUkwae7l8g==
-X-Received: by 2002:a05:600c:4f11:b0:414:37f:2798 with SMTP id l17-20020a05600c4f1100b00414037f2798mr483210wmq.6.1710493564904;
-        Fri, 15 Mar 2024 02:06:04 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:8151:4d0a:14d8:1124])
-        by smtp.gmail.com with ESMTPSA id fj6-20020a05600c0c8600b00414024b2f49sm900044wmb.0.2024.03.15.02.06.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 02:06:04 -0700 (PDT)
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-2-jan.dakinevich@salutedevices.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
- <jbrunet@baylibre.com>, Michael  Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob  Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@salutedevices.com
-Subject: Re: [PATCH 01/25] clk: meson: a1: restrict an amount of 'hifi_pll'
- params
-Date: Fri, 15 Mar 2024 09:58:50 +0100
-In-reply-to: <20240314232201.2102178-2-jan.dakinevich@salutedevices.com>
-Message-ID: <1j8r2jj24k.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="KQRkhWDp"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42F5lrmp008795;
+	Fri, 15 Mar 2024 04:29:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=XW5ng7VNfl6tWdU
+	EwvI/Ce8NzNIDaOkKmr9AemVDb1c=; b=KQRkhWDp73COJy1kFBCYzBVx9Ku1PH4
+	LuK5O5hi+XUuK54zrEVti24dJcRiKPtAU8oN4mfUbx+VysCbToT5IuNClvHPZKaM
+	T1sk9aHZw7iB7xUgNxacAUKyFuBgNFF8KRYD0qJGYMJAmtgTT4U6nneI9TGRJ3lz
+	ARMEu+1g1INR1BnygubP6CzGzD/uo3VU4JqfmlEK1iTKyBbRyWOP5eJOucwLk2SG
+	f+IJefyopYrAuG1+BkxI+l/BEIlEtQRPktbSyylsM2JmK2jMPG2/rA8ADi17wPbp
+	jXOwPxsZDV372bo8DtEAiTb9m63PMoqDQJfNw3yaLkjZ/gYYoRiqeZw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3wv9xp8eag-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Mar 2024 04:29:32 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 15 Mar
+ 2024 09:29:30 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Fri, 15 Mar 2024 09:29:30 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 31050820243;
+	Fri, 15 Mar 2024 09:29:30 +0000 (UTC)
+Date: Fri, 15 Mar 2024 09:29:29 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Jeff LaBundy <jeff@labundy.com>
+CC: James Ogletree <jogletre@opensource.cirrus.com>,
+        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v9 1/5] firmware: cs_dsp: Add write sequencer interface
+Message-ID: <ZfQU+Za34tYHzYgx@ediswmail9.ad.cirrus.com>
+References: <20240308222421.188858-1-jogletre@opensource.cirrus.com>
+ <20240308222421.188858-2-jogletre@opensource.cirrus.com>
+ <Ze4GEKkXoRA/4Sga@nixie71>
+ <Ze7ZeY+FTPuk0zyE@ediswmail9.ad.cirrus.com>
+ <ZfMMYm1k7qP7Uqm8@nixie71>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZfMMYm1k7qP7Uqm8@nixie71>
+X-Proofpoint-ORIG-GUID: fBmu2HAOHoYGTVPgPhFQv1o6PpgsLM8U
+X-Proofpoint-GUID: fBmu2HAOHoYGTVPgPhFQv1o6PpgsLM8U
+X-Proofpoint-Spam-Reason: safe
 
+On Thu, Mar 14, 2024 at 09:40:34AM -0500, Jeff LaBundy wrote:
+> On Mon, Mar 11, 2024 at 10:14:17AM +0000, Charles Keepax wrote:
+> > On Sun, Mar 10, 2024 at 02:12:16PM -0500, Jeff LaBundy wrote:
+> > > On Fri, Mar 08, 2024 at 10:24:17PM +0000, James Ogletree wrote:
+> > I disagree here. This is the write function, there is no guarantee
+> > this is even called at probe time. This is generic code going
+> > into the DSP library and will presumably get re-used for different
+> > purposes and on different parts in the future. Freeing on the error
+> > path is much safer here.
+> 
+> Agreed that this won't be called during probe; all I mean to say is
+> that I don't see any issue in hanging on to a bit of memory while the
+> device is in an error state, before the module is unloaded and devres
+> unrolls all of the device-managed resources.
 
-On Fri 15 Mar 2024 at 02:21, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
+I think that's the problem the assumption that all users will
+completely bork the device if this operation fails. Likely but
+far from certain.
 
-> Existing values were insufficient to produce accurate clock for audio
-> devices. New values are safe and most suitable to produce 48000Hz sample
-> rate.
+> It's also perfectly fine to leave this as-is; the existing method is
+> functionally correct, and I understand the perspective of having the
+> generic library clean up immediately. If that's the intent however,
+> the same error handling needs to be applied in cs_dsp_populate_wseq();
+> currently only cs_dsp_wseq_write() calls devm_kfree() on error. Since
+> L50 uses asynchronous FW loading, neither are called until after the
+> device probes.
+> 
 
-The hifi pll is not about 48k only. I see no reason to restrict the PLL
-to a single setting.
+Hmm... yes I guess in my head I wasn't thinking so much about
+populate being called at runtime, but I am inclined to agree. We
+should probably update populate to also free on the error path.
 
-You've provided no justification why the PLL driver can't reach the same
-setting for 48k. The setting below is just the crude part. the fine
-tuning is done done with the frac parameter so I doubt this provides a
-more accurate rate.
-
->
-> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-> ---
->  drivers/clk/meson/a1-pll.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/clk/meson/a1-pll.c b/drivers/clk/meson/a1-pll.c
-> index 4325e8a6a3ef..00e06d03445b 100644
-> --- a/drivers/clk/meson/a1-pll.c
-> +++ b/drivers/clk/meson/a1-pll.c
-> @@ -74,9 +74,9 @@ static struct clk_regmap fixed_pll = {
->  	},
->  };
->  
-> -static const struct pll_mult_range hifi_pll_mult_range = {
-> -	.min = 32,
-> -	.max = 64,
-> +static const struct pll_params_table hifi_pll_params_table[] = {
-> +	PLL_PARAMS(128, 5),
-> +	{ },
->  };
->  
->  static const struct reg_sequence hifi_init_regs[] = {
-> @@ -124,7 +124,7 @@ static struct clk_regmap hifi_pll = {
->  			.shift   = 6,
->  			.width   = 1,
->  		},
-> -		.range = &hifi_pll_mult_range,
-> +		.table = hifi_pll_params_table,
->  		.init_regs = hifi_init_regs,
->  		.init_count = ARRAY_SIZE(hifi_init_regs),
->  	},
-
-
--- 
-Jerome
+Thanks,
+Charles
