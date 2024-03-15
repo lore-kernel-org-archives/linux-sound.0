@@ -1,155 +1,177 @@
-Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.109.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD31B5B1
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.104.109.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E72919477
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 11:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498778; cv=none; b=Wm95ZfiKUZVfOlkqsFDCQ+hauEbdJB0vlIeHqqA5Oi7apw/QgvCltikO4hH8v5zzYgTLhhgzKi1FGU/VL/iJoFSzd4Z/zKTruMmIlKS0U+Ww6Wb6C1Z/0qxyrX104YXJs//9JHqch/UoFx95Gw/tX+ve5ef0n/BiJ3WBjdmLqfs=
+	t=1710500481; cv=none; b=HXptYYNLbIVWHb/9EgkavNbsEp9Og3rS6D7MauCLE2J9OxXKQ+PcOXMijoWK4FDpBgbfDJkP5E/ul/C1r6dySI/JDGz5Jmy1JySJjmm8q6zBN7g9flVpfLf1UbzrABx31x+JotU48XA3YGf2GHzUNSAGSskCsGcaDmW+y/CIgGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498778; c=relaxed/simple;
-	bh=Lysa3j/b+7vY91N4LKyJOXIxDfbOuECbYmClh0Al9S0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type:Content-Disposition; b=SDlvBi+9bu4DUoRxfqIblgxQkPyBi1xEASp+av1V8EbtxUFDTpXKPCrMRWvTeWTFaKJwl43ph4NObufO33HtkSzecfg/vHhCM3XdZYEXXKpJ03duGnpgnTt1L7rV62ssiCvxqMyK4ZccXXkwHxTYIH5gvwaT7nAYCsn70RbEYEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com; spf=pass smtp.mailfrom=toradex.com; dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.b=OYzwDElx; arc=none smtp.client-ip=194.104.109.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=toradex.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toradex.com
+	s=arc-20240116; t=1710500481; c=relaxed/simple;
+	bh=1bp9ya6mUTdhU/FzzsHERh5njunu+iph5TE1N9ar6zQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MkbapEP2ax+ZfFVrWRMlyq4Nbdu5H1EIguKuWlxLOL23F+05tk0v1fyusmDfU2gOx7HSDgCCuhEHQKcFXI2e+Z/31tSnHC3uqZXPtENd0dL8z4ymAbRM2+J/bT6d6vlrWBpYLP3dLUO5tY/8czUSZyugF48wHP69kZ+a1TzUjI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0KrHfQjm; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=toradex.com header.i=@toradex.com header.b="OYzwDElx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
-	t=1710498769;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lysa3j/b+7vY91N4LKyJOXIxDfbOuECbYmClh0Al9S0=;
-	b=OYzwDElxa4zfvDif50B8SbTRujxiNA589vjSCPOA3Z//OoGa1+E+IZK6yKq7GJjDXAgBPj
-	kJQdpYR/EJIRMEWQ63NihIX1lhh7hC08PC84YSI07myQJL7bg2GdTTdrttn/qE4ZohBldS
-	4Yphx+K73VGwM35KORJ1UdXcvnvQL9U=
-Received: from ZRZP278CU001.outbound.protection.outlook.com
- (mail-switzerlandnorthazlp17011007.outbound.protection.outlook.com
- [40.93.85.7]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-59-3h8wLJniMfqJbUmeoCreYw-1; Fri, 15 Mar 2024 11:32:47 +0100
-X-MC-Unique: 3h8wLJniMfqJbUmeoCreYw-1
-Received: from ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1e::13)
- by GV0P278MB0949.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:54::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.22; Fri, 15 Mar
- 2024 10:32:46 +0000
-Received: from ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
- ([fe80::2128:374f:6717:b13a]) by ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
- ([fe80::2128:374f:6717:b13a%6]) with mapi id 15.20.7386.020; Fri, 15 Mar 2024
- 10:32:46 +0000
-Date: Fri, 15 Mar 2024 11:32:43 +0100
-From: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Andrejs Cainikovs <andrejs.cainikovs@gmail.com>,
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [RFC PATCH v1] ASoC: wm8904: enable fll with fixed mclk
-Message-ID: <ZfQjywL8r+egtG7V@toradex.com>
-References: <20240308155831.141229-1-andrejs.cainikovs@gmail.com>
- <Ze7smWSeoCVIcxIo@ediswmail9.ad.cirrus.com>
- <ZfBG9IMFEjjIdgdi@toradex.com>
- <ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com>
-In-Reply-To: <ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com>
-X-ClientProxiedBy: ZR0P278CA0031.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::18) To ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1e::13)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0KrHfQjm"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-430b7b22b17so364601cf.2
+        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 04:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710500478; x=1711105278; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
+        b=0KrHfQjmpkRwbZCaWB6aajlxkeTQyJaR8SGhkW4gyLoWycW5Qew46jI8Be9qx5IYtK
+         23SNd5WFJKrFAXslqZOFC4QiP1I9S1IaEaJebnLvO2BYpYV4UTKGly2/tbIPdQK1DUq9
+         0JO49ZAaGVTigrafNhSQ1Hj7Los5xAvfpL6Dbxg17oJjGybV30eChz5hbJhfC1ZfllMk
+         CuLEuA/gpmhPK9G9kVbyiGQGuT815tuj8oO6P9tPp0boSOxptEZJipuvOlKlP9ZXSpZC
+         40Z5M9Xui3/tpBwEMpfRG4p3DKmlVtJvsjTpNZgqsaehUv2yaf1sEITHqWV1evE81874
+         shPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710500478; x=1711105278;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5DsyBbYAZw/09Nakq0pDw/8yd9OC3IgRs2xlCXHLsrE=;
+        b=pIn3gZxv9UYPVmBFhGLh3gKOxCX56P1+HwVfmcLSulnKiv9UiC1/9W92i/BuwGuZ86
+         VYZrD9sB5dNwTe6LMFJQLGwRXy3kTBPlNDd++ZX1bEZZxZiHmvXLIAN2Ny0IQL/7KZN1
+         ROnIKXmr4eClfdgrw8YLSGifgeLN2185jqys3i/GxrbdMl46ZbkYnS7XUiV2cwF0NlAq
+         pfb0PKeQ/Rj2HtTJ3o7t9bIoI6ykY6/0CQdHZCSGC3qOYbxPOzTmYjxeNlvPXw+wMM6d
+         t67wo5wQZ0SA3sHR3SUjubQWdbmiIogl1gQhJyMEM7Aftfm6WlvSP4tZWFROEoeFOkPa
+         1k1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXkPy1vRytcLxRP3Ppq45ymMXtmpjveJvZhm7J5fnoE/Hrc0Ecwy2vrMKDqbkdTVQmn1QY4uusQL7lofWm2EPEs3wsC7GxJu3xI7EI=
+X-Gm-Message-State: AOJu0Yw/R4b4RhQl/FZJTvT3+KtfEdsF8yhe7AbIslQR96WI8ALA2YRf
+	+93nFJS+JLGZPyGauUKEIRwWDXMJNvgUPkp+nMMqX59IK86Ko4bYxBjoTPoVkIY=
+X-Google-Smtp-Source: AGHT+IEVOOgZFoxsLMo3B/9DgMlPg+8mCIQzmFSjWr5NC1POGFlHlr6r0UtoZZxyVjffb0W7416VFg==
+X-Received: by 2002:ac8:5783:0:b0:42e:b90c:c5a9 with SMTP id v3-20020ac85783000000b0042eb90cc5a9mr5156478qta.51.1710500478406;
+        Fri, 15 Mar 2024 04:01:18 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id p3-20020a05622a00c300b0042ef88b7daesm1838670qtw.19.2024.03.15.04.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Mar 2024 04:01:17 -0700 (PDT)
+Message-ID: <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
+Date: Fri, 15 Mar 2024 12:01:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZRAP278MB0254:EE_|GV0P278MB0949:EE_
-X-MS-Office365-Filtering-Correlation-Id: f12a33e0-46c4-4468-bd79-08dc44db40f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0
-X-Microsoft-Antispam-Message-Info: rnIW+bCH7VY68btCO0TAR8uwjiLdHwORcc93xv3043gHcL2I/g0p0Xn+ZTH/wVK+StzulwhATTKoTdtg1wBlEivdzdleuShFf22Cv1+6XMSXTXoZJv1zXQJapGEH3rKOwdzu/sJyupiYcPxGe4XGw4RbE3eCYPFnXoS3zFGPPn8kJJggCn22aoO6DxrRTVMAGoQRyWSqrzY28xGNdW+1WSkpDh/vLFwwRMvH3G/lJi710KoEcRebBB2tBo07+Yu7tpFUHG7Ly++YB4v7fY9YObZiJt5hHrllulqwWSKb4OPt4uyS08HpUAFsL5tT7xSeGXSVwubAaTk33XWvM0WoWzoxPpp/9vXkGJYR+3CjGHzxVZF+qo5LfAk0tPHVFT46qsCr1ssjKCOmQoQbyTa+ELKI489JCZh/gfqXbGVEGb6gWwEc3XqMQjNRISn+5FdReZJ3RPkVn1F3SCD6QJiTll+9ScqKj+RK2VtCS5JF9h9mN6CHDM6hBZxw3yJt0MKzQfuRxrv8Np3BIElT/GYl9GKGeB0XG2NOuVzlILYAHrmf8uxikhdopakPEnFouiB98TVWWh6EhhWC92JXOK2dULRj6fjhOMiHV8A/tqvH2M7NR4Km+K/aht3sBm83TMRT6kNWZuATHIZOjyQSjXMFcMJeg9vrQ6EOBd9Bqm6xos8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IZZzzHVt3rj3IdpFghaNTxQbB2bCozuF9ra6nAJPDevWrctZSPSl1yMEZBVL?=
- =?us-ascii?Q?Fjq2+vGTUc5DizAzYkEzOcBenFBVwuJZBu5uAyU8PxKeTcWDmA0nB9Sf+tV/?=
- =?us-ascii?Q?5UR9ioaq//80q/s7vceC6i28murIeNB0To5ABkVETQnAar8nHMktwlBmnTPY?=
- =?us-ascii?Q?0rzXzpf8lZH1UkIZImXgd/v/r0k+cw3ZSSWcLfN0G3Mge8TZbHCuf7/IZnGp?=
- =?us-ascii?Q?7d06rwJ3EkTAiWdq0vER6FyFl2bXyXBmxM5lmEbUibl2+E7GWIvvMJSSfrGY?=
- =?us-ascii?Q?UENZTnXH2xuLMswcvivnbOi8+EO5Zy9tM+VXIipIXB6AE43KRQi00y4nXe1O?=
- =?us-ascii?Q?B+569OuZN8ZJ4s4FV29yfUdnMbe/iBkCSwrxL9xImPX9AIT4jbyTk3aIGjdV?=
- =?us-ascii?Q?oeEfFsCArwk1+bEYd8bkkNuAnglTLix6oeBiJOpRaLTw6+iw2XpLfqW+Jgz7?=
- =?us-ascii?Q?jk3lx/iibeb17QK9WOL9zFYPlvR/k6Rd40uht+cuqf5BVtKNUr4yqKqvgy5c?=
- =?us-ascii?Q?EUk46Dhm+oXVbFq8tEplTi8/L3EPOEwAfy8TUMI9eQTg20cX11YBrPFuRQ7n?=
- =?us-ascii?Q?sXmS/zWFb75dqCvPPCYfQW6TJuEFRQIAQbtiMpS6e/efuoNeIOnQ1mk+xEGB?=
- =?us-ascii?Q?zke7N5Uq6IIsVeB8wEFV+Vjjr+ksjH/wS4mieTo9ZFBW61R/V1GETlT9VUqy?=
- =?us-ascii?Q?6obsodVnkFirqnz9KAXv0CBAsPfvWeQJOqgV++7CyGCYAUX51A1ySZ+6EHMO?=
- =?us-ascii?Q?uMMxmXPAiAJTH4s8ifWPbBLwuiHz3dyAmdvz0YM5FrlJyaH8CJ2Wyq5Qo7ix?=
- =?us-ascii?Q?4/8c566rMb3M2dpUY4jcbUivSlHGrOR0zkK/8DfT1XTyxyjnX7990nDDnhlz?=
- =?us-ascii?Q?3MH3ATWbYSoN7Rai/ooqovTHIxkRliX9dUEmhCcNy7ywDfyyxOyd4D44SRW4?=
- =?us-ascii?Q?xMJLUTHFHF6WXVBx48npn3jwyheOHSXmDgTBZFlO5+F307puQpM9rSN3J+aA?=
- =?us-ascii?Q?TgMfPrdu3bbV/X/t9SGruDU+c0jYf+GKkr3W6zf/bGNtwbxWKA8tabSlMlfw?=
- =?us-ascii?Q?GBoFx7aSv4P08q0HStEtIxBkUwaJbSFVkKHcu6p8MkuqeMBQZ6iWR6o9aXsM?=
- =?us-ascii?Q?rTeOI0D0KLPtYf/Z8OrzvZqZMpL+t9BRK1Q54qFkB9x1MIOZeF2h9pEgGZSk?=
- =?us-ascii?Q?uaYIeIBVYfZ9z4n/+lgvzU8Esznn7sivseTdqhgx/61/6ccu+Sn+SEYoekbb?=
- =?us-ascii?Q?RY5LwF4yq1p8nN6kAb0B2PbKQQ6mFyAoxVaMrv7rY5yU+uVDXgtMcsrsDb3J?=
- =?us-ascii?Q?OY1ROqYD01bDJredVO6mjIuk4E5kqTG88lQim7avFlPw33wYh2q96DQvgSf9?=
- =?us-ascii?Q?JTpG9c90weZ1OvAMwnl3twe5Jr6/URMZrpgpTSiwDYR5zYn24IrA5fcky41J?=
- =?us-ascii?Q?h7ILc1M6hfualBnf6EzJENXuJI/KPHsYBy7Ow3UVDogGy9kQgAmU3edtBtN2?=
- =?us-ascii?Q?smIYMJHRkQzwEK0lcr1AKjDirHE10qcxRzUL4ww12ZnFUO5ctkDNF8D14ZM7?=
- =?us-ascii?Q?NgDUR1O9sPFbvS2fmw58+gQA+XnFSYFwpzoNVp3ZXOeAwKHko/O+qpBBZqzk?=
- =?us-ascii?Q?Aw=3D=3D?=
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f12a33e0-46c4-4468-bd79-08dc44db40f7
-X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0254.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2024 10:32:45.9836
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W04d1rrPbFNberYzyvWaZuDtiA1ozO7msQRlXWi6PipT9jMibbbJnhJeeomzJNJALZhvDdNxeuLPstsytF8bgeXe4kmvCIjrqjaY4Nf7bP0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV0P278MB0949
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: toradex.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nicolas Belin <nbelin@baylibre.com>
+References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
+ <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
+ <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
+ <c441a132-b16b-4244-a712-8971c902d4d7@baylibre.com>
+ <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 12, 2024 at 01:51:02PM +0000, Charles Keepax wrote:
-> Ah, ok I see what I was missing here. simple_card_utils calls
-> clk_set_rate if you specify mclk_fs. Which you don't want in this
-> case. My gut reaction is that really the problem here is the machine
-> driver doesn't support the clocking setup you have.
->=20
-> Having a quick look through the simple card stuff can you remove:
->=20
-> =09clocks =3D <&audio_refclk1>;
->=20
-> From the machine driver DT stuff, and add mclk-fs. I think that
-> should cause the simple card to call the codec dai_set_sysclk
-> but without ever touching the audio_refclk. A small change in
-> simple_util_parse_clk might also be needed to allow it to return
-> without finding a clock. Which feels like a much simpler and less
-> scary change.
 
-Thanks for your help, Charles. Your suggestion works as expected.
-Btw, there was no need to touch simple_util_parse_clk as it does
-allow to return without finding a clock.
 
-Best regards,
-Andrejs.
+On 13/03/2024 18:23, Mark Brown wrote:
+> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
+>> On 26/02/2024 17:09, Mark Brown wrote:
+> 
+>>>> +	case MT6357_ZCD_CON2:
+>>>> +		regmap_read(priv->regmap, MT6357_ZCD_CON2, &reg);
+>>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTL] =
+>>>> +			(reg & AUD_HPL_GAIN_MASK) >> AUD_HPL_GAIN_SFT;
+>>>> +		priv->ana_gain[ANALOG_VOLUME_HPOUTR] =
+>>>> +			(reg & AUD_HPR_GAIN_MASK) >> AUD_HPR_GAIN_SFT;
+>>>> +		break;
+> 
+>>> It would probably be less code and would definitely be clearer and
+>>> simpler to just read the values when we need them rather than constatly
+>>> keeping a cache separate to the register cache.
+> 
+>> Actually you must save the values because the gain selected by the user will
+>> be override to do a ramp => volume_ramp(.....):
+>> - When you switch on the HP, you start from gain=-40db to final_gain
+>> (selected by user).
+>> - When you switch off the HP, you start from final_gain (selected by user)
+>> to gain=-40db.
+> 
+> You can just read the value back when you need to do a ramp?
 
-> My only slight reservation is the automatic clocking thing only
-> really exists as a hack to support simple card anyway. But overal
-> I think it might be better to try to move the direction of travel
-> more to adding support for the clocking systems that exist into
-> simple-card rather than tweaking the codec driver to work around
-> it.
->=20
-> Thanks,
-> Charles
+You can't. Because you will read -40db when HP isn't playing sound. That 
+is why the gain is saved into the struct.
 
+Let me know, when you change de gain to do a ramp down (start from user 
+gain to gain=-40db), next time for the ramp up, how/where do you find 
+the user gain ?
+
+
+> 
+>> Also, the microphone's gain change when it's enabled/disabled.
+> 
+> I don't understand what this means?
+
+When microphone isn't capturing, the gain read back from the register is 
+0dB. I've put some logs in my code and do capture to show how it works:
+
+root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
+10 recorded_file.wav
+[Mar15 09:31] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
+[  +0.000126] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_dai_int_adda_prepare 'Capture' rate = 48000
+[  +0.107688] mt6357-sound mt6357-sound: TOTO set mic to stored value
+[ +10.072648] mt6357-sound mt6357-sound: TOTO set mic to 0dB
+
+root@i350-evk:~# arecord -D hw:mt8365evk,2,0 -r 48000 -c2 -f s32_le -d 
+10 recorded_file.wav
+[Mar15 09:32] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_afe_fe_hw_params AWB period = 6000 rate = 48000 channels = 2
+[  +0.000133] mt8365-afe-pcm 11220000.audio-controller: 
+mt8365_dai_int_adda_prepare 'Capture' rate = 48000
+[  +0.109418] mt6357-sound mt6357-sound: TOTO set mic to stored value
+[ +10.164197] mt6357-sound mt6357-sound: TOTO set mic to 0dB
+
+
+> 
+>>>> +	/* ul channel swap */
+>>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
+> 
+>>> On/off controls should end in Switch.
+> 
+>> Sorry, I don't understand your comment. Can you reword it please ?
+> 
+> See control-names.rst.  Run mixer-test on a card with this driver and
+> fix all the issues it reports.
+
+Ok the name is the issue for you AFAII.
+This control isn't for on/off but swap Left and Right.
+ From the codec documentation:
+"Swaps audio UL L/R channel before UL SRC"
+This control is overkill, I will remove it
+
+I'm stuck to run mixer-test, please check the following message: 
+https://lore.kernel.org/all/7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com/
+
+
+-- 
+Regards,
+Alexandre
