@@ -1,57 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C31CA9C;
-	Fri, 15 Mar 2024 14:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F7018E06;
+	Fri, 15 Mar 2024 14:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710513525; cv=none; b=bOXexNR1JbkyVzypQO4b02OIVLiVxMLj+Xx16gInpgSFOxoN9ZP7R5SCq8DaKemxtfHduyW22s8z+kadIBIcttmibWB0A4gKfdeFfr4P3GLtQgtXzSY4TtYgs5nrP8R6VFiPVKhQ0Yx7vj0ZPiyFKbdq/Y+IQrhLH6jd5ydleP0=
+	t=1710513629; cv=none; b=RBn/ELVyAP8mV9nuc4TCoic07Ltq2zAPsIGD3KRqEHOYRqICobxtgsjECGJLxDO5RxmiS3/4jvECjwlSZUCZM8KH15dSH5QdcPa3nSWYHBTAwWYfcNiwEFGcyUr4D1RDZpaXCiaQ/3uj535f2LYZUunggpjuiNTz1qMKvdp/b1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710513525; c=relaxed/simple;
-	bh=LWOPGxaWjPP8E3hvpb0v/9QUSjPMu3aHfXD/4e34bMg=;
+	s=arc-20240116; t=1710513629; c=relaxed/simple;
+	bh=/q5YpMd9flHlseDCFPbg8au4ag1109m5lTjQTwS5gjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LpcFp2rHkB65tXt1Mv34ewvyFxRr9QarR6tZRuKfDMvjWOZimwINXu9Al0stEifl2PxTtLes24JYOHimnka3+ukeLxCE0x5KTnUd9efr91zKoXfcFpSEZUxA6iTj2bsnlTpnmJd0slgX84koxkfxLCflVU0/ldcP0RJbIcaQ7Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pfLF0Y3A; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lYfbMbKECd3DdK4Lml0NVF3GuEPKLHQL7I9A+iwyC00mghyV8eEZf8QR0Wod5QqPufgtPRENyXXOEVXgTprH7PVG4sADZzMvOCA/pZqlqTZ+JQ3A5W2XWiD8+rNz7r5cUXnt9OdwrVi3MqzccaxumPTKtzMfIA54G/+POxaBUck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xh9YWr5X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pfLF0Y3A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37258C433C7;
-	Fri, 15 Mar 2024 14:38:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xh9YWr5X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 277A7C43394;
+	Fri, 15 Mar 2024 14:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710513524;
-	bh=LWOPGxaWjPP8E3hvpb0v/9QUSjPMu3aHfXD/4e34bMg=;
+	s=k20201202; t=1710513629;
+	bh=/q5YpMd9flHlseDCFPbg8au4ag1109m5lTjQTwS5gjw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pfLF0Y3Aw17VSoUcFU9nXUe7DJBTJnsvXRSp5JM2LcK8rgXc6Uqcotv7Rmcu/5y0r
-	 /k6jI4bvcl7jt+qndKxRPxKCuZU89MT7ts52FJGGSvHCZWLkGEMpmCxiaerdnhxlP4
-	 eca3MDnsqT6qnrh/36IIbVKpEABMWOLcMD840rxSlrl3WJKTxBSuQiGU2islj0xuUz
-	 VXPkRyigmU8/GmAk0LgZFCWSwIVB7rmY+yJiXtDISqyjOeYDHvGXasd3yu4D+lLUKl
-	 bbYt5HZZ/xwVfB+zMv4jDhP1WyyDmY5pb+X7Fmh9+K/LpfAq+PwR3Wf4s4A1UU0UjJ
-	 J5HVGG/SCVpew==
-Date: Fri, 15 Mar 2024 14:38:37 +0000
+	b=Xh9YWr5X8ZC2LB5aTOiLwQb+ka5kfR3Rq3WSR2N14VU3k+/gBkTescbM5r8gxPImq
+	 PYMXqiXv+1R5zvYmVQRbOj6ISyIIs0Jg8SW9cu6tBsgV/NDNrsaCAXlUSFYZxqToWn
+	 l4Q6LURoBzapyHnLXCTKsDJVE8U0/mXF0vJu3TgISaWVou228FJcyNcrrXVWgFf61b
+	 /wkXznU5VRw4R7GUKnxZMu75XOzGg7FqW58iVcnSpE65Z/LJnJSZZlhEc0IwZgcdU4
+	 AXBntKqJoom6SKD0SvFQTZtZ0ljv+F6gieBnDhx3uW4Kl499/3lbwubH7ebT/R2iuF
+	 LFfM0sXO6WpOA==
+Date: Fri, 15 Mar 2024 14:40:23 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nicolas Belin <nbelin@baylibre.com>,
-	Fabien Parent <fparent@baylibre.com>
-Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
- board
-Message-ID: <bf418207-7f13-4ced-8c21-2824dd07fab5@sirena.org.uk>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <4ffde184-cf68-4b71-b81d-9b5894529926@sirena.org.uk>
- <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	christophercordahi@nanometrics.ca
+Subject: Re: [PATCH 04/13] ASoC: ti: davinci-i2s: Replace dev_err with
+ dev_err_probe
+Message-ID: <2f58922d-8964-4693-ab8a-612eb2f427e1@sirena.org.uk>
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-5-bastien.curutchet@bootlin.com>
+ <6102130b-b496-4e75-9b9f-f960484848fb@sirena.org.uk>
+ <20240315152332.57c8fdc4@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,54 +54,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Y91BRilVEGdxtZCJ"
+	protocol="application/pgp-signature"; boundary="15hPqMQpuEKqXq2/"
 Content-Disposition: inline
-In-Reply-To: <7ddad394-e880-4ef8-8591-cb803a2086ae@baylibre.com>
-X-Cookie: If rash develops, discontinue use.
+In-Reply-To: <20240315152332.57c8fdc4@bootlin.com>
+X-Cookie: A well-known friend is a treasure.
 
 
---Y91BRilVEGdxtZCJ
+--15hPqMQpuEKqXq2/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Mar 12, 2024 at 09:58:05AM +0100, Alexandre Mergnat wrote:
+On Fri, Mar 15, 2024 at 03:23:32PM +0100, Herve Codina wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-> I'm a bit lost for mixer-test and pcm-test.
-> Currently, I cross-compile the alsa lib project to be able to build the
-> tests and put it on my board.
+> > dev_err_probe() with a fixed error code doesn't seem to make much sense,
+> > the whole point is to handle deferral but for a straight lookup like
+> > this that can't happen.
 
-> I can execute it, but I still have 2 issues:
+> The error code is uniformly formatted and the error path is more compact.
+>   https://elixir.bootlin.com/linux/latest/source/drivers/base/core.c#L4963
 
-> 1) I've a lot of missing module in my environment (Encode.so, Encode.pm,
-> Symbol.pm, IO/Handle.pm, ...). AFAII, I've to cross compile the missing perl
-> modules and install them in the rootfs
+> IMHO, to benefit of these feature, it makes sense to use it even with a fixed
+> error code.
 
-These tests are both simple C programs...
+I'm not convinced TBH, the fixed error code smells pretty bad.
 
-> 2) I don't know how to configure pcm-test.conf &
-> Lenovo_ThinkPad_P1_Gen2.conf (or new file to match with my board).
-
-The configuration is optional.
-
-> My test cmd:
-> ./run_kselftest.sh -c alsa
-
-Just run the programs directly.  I'm only asking for the output from two
-of them anyway.
-
---Y91BRilVEGdxtZCJ
+--15hPqMQpuEKqXq2/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0XWwACgkQJNaLcl1U
-h9BnLAf/e1vJ3Zr2d9fJBV1LV7sal34lcNVLD3JRrMKuk6bdnA2S2RYAgOf0UJwl
-cRuGTcq2lBneNaYnb9jgaf1C7i5kuXvnMG0IJuqVBrTZwiN5SbGhpmdvZj6HLwPu
-a8Q5MEwz/DrIXqjghxcXr5bjKi6XJ/9RRB1QpfxQFIwAOYQPNAG2F0j4SrD8zcbA
-O2dO4KRIjYUBBnpP5maQh3R3yr+TEEdolkib2FyoHL2jo2Vv1zOiTK2382kuTnKA
-y+GgUm8tQ4HiGZdAJqZAPh+Of86A9Rwl2133Tp1dxkFWlOamtyhfYbPESyNchUrV
-qduBr5NQ0tnTuAoEKttdYckFHYq6Bg==
-=FScF
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0XdYACgkQJNaLcl1U
+h9BL+Qf/e/mT3mvVoCNVK90XX2T3vJXR/x4cDU6LIbiYli44yw2LIvQ6NEJdy1s2
+h2NuvcMj4KFqXuOmTHZFkLVj3bteWZpfEBCd9Yyp3k0S2v3lz6vKMo6WeI2JTMnZ
+Or+DSkLgGs8Rgn7aVqilsMBQRKQjnZ9JrYK0v02oMMWjm4Lg5Gk9AXwOOPvHAbWt
+m/SrXOnPfFeWn0XXywm3AjF1vWnFu1g+qbPq/MniiwA7kYF7CG2fZCm/p1itXQIc
+C+Phc9DjmvnJQwC+pSgTSoWx8nwKW6cDiV0ndVaJkudn90o4yxWj4DGJSxzCz8U+
+ytZAz8Q0eZ+iH6t2K2R+Mt/5eNGvrg==
+=GIiK
 -----END PGP SIGNATURE-----
 
---Y91BRilVEGdxtZCJ--
+--15hPqMQpuEKqXq2/--
