@@ -1,84 +1,52 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817C83D54D
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 15:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9CA3BB52;
+	Fri, 15 Mar 2024 15:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710515127; cv=none; b=MtoMrgw/naR1D1kIMv1Co5BeQZydGwlsqoVB66d183kGJdgXNkTySAJ0XZXaBJP7FGwL7ahTPCyfL/6qsK96yg4cVacOwEl4/DPoyRUQnwWC2cAnG8uskcrinKRY7jxogiMiYUpCaF+Cpl65OQOOubbjJ40EHNfUAeqN0o4yObI=
+	t=1710515762; cv=none; b=d2wUuUQFC1S+dfcUYm6l+GBUAZu48vEXc306cWCCFblzk1xr5261YwMPtoXuKhabXgjWE7RawCH5SJSx7xGNRlWp6H6S+pzL7XqzGRdBDUC/UieIYv9M8xkNOBhwwM04H1mE9aCrwSZPVMLO2FiWXyZNVr54JBb3SqjesbHfAQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710515127; c=relaxed/simple;
-	bh=608S623xqC0b/8HelcnyHmJp3/fN4Q27AKppt8+4SSs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jJrR4FpzZOfJNWuuNLNoCaVp683tqmOeJQm2CW39OCpiHy9AXjUYyjMFzZ3ydJNVtpg4zBtbeJ32g6y+/GKsaVUV8GVW+wE3EbZhIcYJT9f4iDcsI77LVK2fOYPl8m+D95asNGbQyJ/9Wq7gPSBmkKWzX2gRAxZH/1NK+BdVsZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LQHCrmE3; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710515762; c=relaxed/simple;
+	bh=JetYKg36RGIdkXrH8sSoGmguKkbdT3c+edAG3vVoLks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tP03OoGsfNTos+fpoLxNwmigWUjU0NFnkgEIJHGJ38kRbcjGcEbvytLGEvo/2ZCvVPRLVU8N65q7YnzCNxkTHRrs6JulUiE5oUqo9wbIrIgoZ9srUK6onQ9av2sWDdxYvjls1Sr+W0rDeJi4do83O8K4tYXfl2WrEpqccEoc1eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z6UQVzJD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LQHCrmE3"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a46966e9d30so59306866b.1
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 08:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710515124; x=1711119924; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=24MutwcHiBZkjQYCos7XDdDwAEGZOLUpdfO5OhJienA=;
-        b=LQHCrmE3vq4+P4FXjfetbGuTF5nVJjW16VjjpIsSaqljUy4Mx1G3QbH7kIz615JB0y
-         mifH6On3FYNeDgWpOg4d3iKvGVkPx5O+rgnW9Z0zlGJtCmWKfZ3jsMbTT9f7tOKGA0cG
-         R7gt+uGC/g71lTG/IBiOjuSDVzRgP3w/WIsOcNjWt6nQ2+OZmBsG7aSUqxEu5OLgUy5y
-         QjgAophCgvHYi6SK31LHxgBxTGI1d/vNov6zLsBW1bgcJXUUCiVN/MFq9VP/Q6WfHd4B
-         KzKs9lzCuHg1Wql+38LwwHBN7Wt0gCT2wg9AO3/wd0MGF2haYqzDYMC/b/kUjdNP+s72
-         i9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710515124; x=1711119924;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=24MutwcHiBZkjQYCos7XDdDwAEGZOLUpdfO5OhJienA=;
-        b=cZBkY/6ro6jDKMIElJw49mVhWblV7vNRHY/0Yn4v1TrgMjebxLBAWYEUOaQrDLbxRn
-         bBF4dh2vy3w2sZnr6ev9enDICQZ94njcwntehDV25tStOdpno80pQD637aUOYlz9uL84
-         H6j5locz4/NiiWNUGaxmgWX7SYNB0Ev41BKPD/cKo3Y+Q09tj0iu8eHcxd1/R38d9QRv
-         JSohtlhdAMzSbdz8IS03BtXYCwfDfs0vP98JcCW+kKwBv+ZPgyesSuLgI0qTr9EnvEFO
-         N1YuJCrqEsTwM8qECS+//DhS4O8nBNbt+p9mfal0dW4qfFY1kowMioys5LV4VRY4Voc/
-         5anw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk6UzmgnVUDW+LFeonPVEQlYAdKqtv9EQ+tyfsmoHBeqNV3FjFTuywzUWsBI+PuvUDZG2Xtvnv3XEJcUjPakkytcIj6FiNV/60Rrg=
-X-Gm-Message-State: AOJu0YzWP8Dx754gST+wszyjCNLHJ0d4ugq2HazgD52AsPG+tplAB5i/
-	O+qDQgYK9rX88+ed6x277PiSAGWbyxM13bU8uqAsL9m9fAgdrLng+5MmjuoGZpU=
-X-Google-Smtp-Source: AGHT+IEO2hyzf/1xUUR4DWAg0e4i1y4j4ET1cfOEMZuvZS0x8BJ0B3U9ZhIu1vGtdXCzcUUMUTMYUw==
-X-Received: by 2002:a17:906:9c8c:b0:a3e:cdae:7aa2 with SMTP id fj12-20020a1709069c8c00b00a3ecdae7aa2mr4284674ejc.35.1710515123916;
-        Fri, 15 Mar 2024 08:05:23 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id j22-20020a170906051600b00a441a7a75b5sm1773189eja.209.2024.03.15.08.05.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Mar 2024 08:05:22 -0700 (PDT)
-Message-ID: <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
-Date: Fri, 15 Mar 2024 16:05:21 +0100
-Precedence: bulk
-X-Mailing-List: linux-sound@vger.kernel.org
-List-Id: <linux-sound.vger.kernel.org>
-List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z6UQVzJD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C680C433F1;
+	Fri, 15 Mar 2024 15:15:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710515761;
+	bh=JetYKg36RGIdkXrH8sSoGmguKkbdT3c+edAG3vVoLks=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z6UQVzJDHdLFI/FI8NYnDUEw4xnU4jAVfiYnJa7PImFmHArIldd+gIV3Sv2UQwCGZ
+	 9Ax3SpbT9vkcMC7t4p3Zfj1jIn4bGhzHu4dq2KCraI7LAE/NU3z54DZji/qrZXXo61
+	 sptSTer//vPtvWSriM+ymuqmO77T0AvZg1YzEQw/BPikvjeE+M1R/KsxX/MLlKhBzY
+	 jbHmdHzfeyUuZoWykiI8NkuSojEMzfOk4bj14VxQxqGF5lq2Wd6y+agWxXx+vx29oh
+	 BWLxPgFUv8c8QrU2p+BHTR1HgmqxOZM93ujA2zaLrLXUvLusk84biWueGVvifRqFhn
+	 SwYBfpHlb7iKw==
+Date: Fri, 15 Mar 2024 15:15:54 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH 12/18] ASoC: codecs: mt6357: add MT6357 codec
+Message-ID: <0a41b498-5cca-4487-a0e0-0df749f6e796@sirena.org.uk>
 References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
  <20240226-audio-i350-v1-12-4fa1cea1667f@baylibre.com>
  <9891855d-2284-42e4-9d3a-35ba406540e8@sirena.org.uk>
@@ -86,77 +54,75 @@ References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
  <ff3d2db1-697b-42c6-a0f2-74276e9fc098@sirena.org.uk>
  <dda0e6ba-4538-47a0-95e9-6adcfd4169a7@baylibre.com>
  <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <0d31ffb2-9df5-4c3e-a728-902b71a1a713@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
+Precedence: bulk
+X-Mailing-List: linux-sound@vger.kernel.org
+List-Id: <linux-sound.vger.kernel.org>
+List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fgDyTJrdbX73HLO7"
+Content-Disposition: inline
+In-Reply-To: <fd53a0e7-fa70-4c0d-b578-393183487335@baylibre.com>
+X-Cookie: A well-known friend is a treasure.
 
 
+--fgDyTJrdbX73HLO7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15/03/2024 15:30, Mark Brown wrote:
-> On Fri, Mar 15, 2024 at 12:01:12PM +0100, Alexandre Mergnat wrote:
->> On 13/03/2024 18:23, Mark Brown wrote:
->>> On Tue, Mar 12, 2024 at 07:03:25PM +0100, Alexandre Mergnat wrote:
-> 
->>>> Actually you must save the values because the gain selected by the user will
->>>> be override to do a ramp => volume_ramp(.....):
->>>> - When you switch on the HP, you start from gain=-40db to final_gain
->>>> (selected by user).
->>>> - When you switch off the HP, you start from final_gain (selected by user)
->>>> to gain=-40db.
-> 
->>> You can just read the value back when you need to do a ramp?
-> 
->> You can't. Because you will read -40db when HP isn't playing sound. That is
->> why the gain is saved into the struct.
-> 
->> Let me know, when you change de gain to do a ramp down (start from user gain
->> to gain=-40db), next time for the ramp up, how/where do you find the user
->> gain ?
-> 
-> In the register.  You only need to reset the gain to -40dB at the start
-> of the ramp.
+On Fri, Mar 15, 2024 at 04:05:21PM +0100, Alexandre Mergnat wrote:
+> On 15/03/2024 15:30, Mark Brown wrote:
 
-Sorry but I don't understand your logic, I'm not able to implement it...
-If I'm at -10dB and doing a ramp to reach -40dB, next time I will read 
-the register the value will be -40dB.
+> > > Let me know, when you change de gain to do a ramp down (start from user gain
+> > > to gain=-40db), next time for the ramp up, how/where do you find the user
+> > > gain ?
 
-This implementation is also done in other MTK audio codec drivers.
+> > In the register.  You only need to reset the gain to -40dB at the start
+> > of the ramp.
 
-> 
->>>> Also, the microphone's gain change when it's enabled/disabled.
-> 
->>> I don't understand what this means?
-> 
->> When microphone isn't capturing, the gain read back from the register is
->> 0dB. I've put some logs in my code and do capture to show how it works:
-> 
-> Is this a property of the hardware or a property of your driver?
+> Sorry but I don't understand your logic, I'm not able to implement it...
+> If I'm at -10dB and doing a ramp to reach -40dB, next time I will read the
+> register the value will be -40dB.
 
-At the end of the capture, the gain is set to 0dB by the driver.
-At the start of the capture, the gain is set to the setup gain.
+After we've done the ramp and turned the amplifier off we can just
+restore the desired value?  The hardware is not going to care what the
+volume is while it's not enabled.
 
-AFAII from the comment in the code, it's done to avoid the "pop noises".
+> This implementation is also done in other MTK audio codec drivers.
 
-> 
->>>>>> +	/* ul channel swap */
->>>>>> +	SOC_SINGLE("UL LR Swap", MT6357_AFE_UL_DL_CON0, AFE_UL_LR_SWAP_SFT, 1, 0),
-> 
->>>>> On/off controls should end in Switch.
-> 
->>>> Sorry, I don't understand your comment. Can you reword it please ?
-> 
->>> See control-names.rst.  Run mixer-test on a card with this driver and
->>> fix all the issues it reports.
-> 
->> Ok the name is the issue for you AFAII.
->> This control isn't for on/off but swap Left and Right.
->>  From the codec documentation:
->> "Swaps audio UL L/R channel before UL SRC"
->> This control is overkill, I will remove it
-> 
-> This is turning the swapping on and off.
+Perhaps they should be updated too?
 
--- 
-Regards,
-Alexandre
+> > > When microphone isn't capturing, the gain read back from the register is
+> > > 0dB. I've put some logs in my code and do capture to show how it works:
+
+> > Is this a property of the hardware or a property of your driver?
+
+> At the end of the capture, the gain is set to 0dB by the driver.
+> At the start of the capture, the gain is set to the setup gain.
+
+So that's a property of the driver then?
+
+> AFAII from the comment in the code, it's done to avoid the "pop noises".
+
+Yes, that's the usual reason to ramp gains.  Though if you've just
+copied the code without checking that it's needed it's possible that
+this is something that's been fixed in current hardware.
+
+--fgDyTJrdbX73HLO7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX0ZikACgkQJNaLcl1U
+h9ANMQf7BdfrOiW1Xoo2hUjwcif1X0ikLf9S3dwVoevqKNXQHOBvrNlZo0hx8Lpc
+cb7BxhcMn0yDAdJKRd5N4p/THoafHtJ/+pYuLVB1xyz9W0OB/x+RZEMBDUv+AOIG
+gN4Pb9xiFL55ELmhLXdQcmyccdi3RjnnGK07tD3gwqiHgilNQazB2sqKf+bUrs0f
+P5pJpmnh6QWxyMnyI9Mby7N/c4LDtVKMyBeptA631XeUyiPnlhN2Y8E4aZo0u5+p
+qg/zSbEy39TWoCI69lQkJX7MYeoTDzuKCmaGdolnVUjOsm0ZWpxt5iuxdyq4Yhl/
+65is6JhRr0irTBQKv824acHouSjrkw==
+=GmOx
+-----END PGP SIGNATURE-----
+
+--fgDyTJrdbX73HLO7--
