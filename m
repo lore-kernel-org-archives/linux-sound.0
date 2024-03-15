@@ -1,76 +1,102 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF415250E2
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 13:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEF41BF3C
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 13:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710508026; cv=none; b=uMBRyPy4dNB3Inb5QJ51977z5t4MO7P7d2ezKVdRcRgAEZ2nWeqWheuHxSc4uKOBnp8tWY5aA/Ih1gJq+MUT03yGNH/ZNF6VXIx0JtrPZ+BJONHPqrNVoWLQPQv8V748y0Lc3Jd1LEYgz0Ey2NJ4hM2f8x+58nmZhc1hrB4w4qU=
+	t=1710508686; cv=none; b=PwPks4SLb+C5JQfOWi+Nq4LY/N/FYui+c56ARf2AcBRHcChUSLr0OBdurHNrOvnzAzMSzYEZwUjVciqDhR9vevumT92Qjs9E0jIqtOtlynLM13D251zp9QqWF7EVbvssDC2fVBkGo8ftSolXRhgL5edwr279ZNqjHw2IuWAvhGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710508026; c=relaxed/simple;
-	bh=Zk1+QM8Mp7D6C4Ax3bAQLs0hyyOiEgbA7bCMgIKQ2ZY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=CYNkBTklj4vjJSQVACRljEJRBql7P86QNhd1+VRRoq7GrEF9C5pcp9EU7q0p8XrutnLMX+bOQ9cVOMNqbnUFitJ33k4E0/Vi8ioEfrnupCYVEISwHt9Lxi82uQ5kX8vUzWG1NctwECLSYPfiMZNjALGHRaDLWoUD6R2msFnrXgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7cbf4635bfaso55599639f.2
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 06:07:04 -0700 (PDT)
+	s=arc-20240116; t=1710508686; c=relaxed/simple;
+	bh=T/HfBhiQE1waDWYQEd1vD78rXPyQGtudkxEwrgNEHpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sU0SYglxjdKSOQ1fN/ABYH07my5/ZVs6ysdqQPp6ixkXRYVNFyhW+H84TwbJLOoFEtvojMMYl2wIi3YuM4bjGZZD4Kp2kdSW9eeerEJIum6tArqhWBkwZ+PR/6kzMSH/crYM/2AbNO+SzAeebxfcY+X1yIXS3ZoRlSKNOFNhYJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SvBaGvP/; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SvBaGvP/"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41324a16c9eso13360745e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 06:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710508683; x=1711113483; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BAvj14vJUGomBSxrVqhPVayHAwF+lgqULbYlbgwOBiU=;
+        b=SvBaGvP/UksjyWCCiLK9EIV8EEDnxFbMgOrLqbR647u/fgdd+h6QPq97xOfwC8TBHB
+         d5Z2L8NZIUiYLhF/UM+X5z6/PJ8A0SsMvlWPsLak8r/Xf70Zbl6vAudT6OogOUpHUHFQ
+         MMAG3txLF6jTzyHwuu1vS9AKn+ylPwprBUmpEKBsMpLJH3pdyHbYIkVJ9RdFkYeMdORW
+         ywHqs9dFiXrzzpWrreJPOb2aLNDOyM1hxf+1uz3gk1r7bVthll0mEpQ9lA99uSkSwZ8c
+         Xb3eUhywYM8nsO6Jhh+Emwim6hXpEVfSE3clFr4naOQo6kCZ4aElB6J0bL1u4pJWdhLV
+         2Oww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710508024; x=1711112824;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GUpBZioC/dn8Fi5qWaAgB/XKmxFecPjr1f5eBhNHbfc=;
-        b=GIQEW/BARmKcL+yJqXIHLY7xnvYB0WkZjgifn5QrSyv8nwZVevRx47T/YjIzD8QzUX
-         /iPvnuj/e8uDLYs2NlMYMYNNmcVEKGrAHfqtCh2v7x7sWR50ibyMi77UcQOdT7wdh5tF
-         FEFQuP8MMj8Wd184krWN2ozK87EtXuNHdLit1EKdfIKKN7/QWazbGPqwpbthDRBkGSY3
-         UkTLKo4Yrr0jKNzWFEpxUJdjC6jCkOuaFUi4mfxE5E33KadeIk9lN+Stws9rZVDUAR69
-         D3Y9VI/hG7Nw78KjeYv8RcM9jVEAUpfeRU8LPDDalJPM9c91/gPfc2pXdjuRVHPl3krR
-         gYPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNw1SPVOdY6aNRSm3yJNEUN5+olGnWu8Sk9nYvE2e30rHOQM3pLzg7xfmXe52Ars/Wwruu2FQ4yFb0qkYYClh3v4v1rkbgEUTAPag=
-X-Gm-Message-State: AOJu0Yzyjb05Aa5AatdPD2oZBqy/MO6x7Ca1OSKz0sOsIXx4i95VkzBk
-	Dt2THD/Y24HKw9o6ow1W/89cwuUVlpVWJBZCqXSodkJ4MCMEa91z8Yf18ZalbGIp+GiWeigqaGv
-	beb3KrYh8xXjeEo0wq3blTNt5SRknFGXrchYI5FvmX9xh4NhzX2H88aQ=
-X-Google-Smtp-Source: AGHT+IH6HawuAmz3XIpz8TEkIlnF1hWQEXhjEgar1mM+g/YbxEJmMhh0kmD4hvaWWh/9GfhvbJ9S9wmz3CODTooSOb76gaPtVjgu
+        d=1e100.net; s=20230601; t=1710508683; x=1711113483;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BAvj14vJUGomBSxrVqhPVayHAwF+lgqULbYlbgwOBiU=;
+        b=To0ci+sN7Z5GW9WvqQAbsC+1uyc2X+ifhmpWvqkfmv7/cdUnJFt0/6KEWqcO8TQQOi
+         O/qaQFfNKFfq1g1GqNo0v4u1eSpcUjiYshoK+1A0jZhVuJd4BYAXcXWA6JdLLBn8QTrM
+         bRj1gRXyxQjM++7IEEJ4xYpXaCC+/nTX/uGMyclvlg+NQZyPmzO4uW2EoklzHcHYyX6q
+         NVVjLYirspUndkIk3CUjC2Q/lCcx//uq31ZTG4Ulbd2Xfx7tVxwNMEf1RJ2FlQW6FuoU
+         9eh97HxSx7uy6fZvxFy0/xBtry8lw/IM1cArpSb1j2UGl4xrce3s6Onqv7I0e9L8GTW0
+         NmkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUenYiZyvj5Q2TfqJ/e7iiT1W3DBapaB1h7+k6aOaL3sXmOEZpMh5CGgf+aQY74A0mYqWlkIsNFLKrD8WU5QHegWFg9K3pOcWfx+HU=
+X-Gm-Message-State: AOJu0Yykb5xJ8feQOnrVG+oa+TVaPAXp1UFQZIMJRH2gsQJ9cSSTjZQ8
+	DM2HVVY98cgBM2+IFlw4p3H2PxGVxFPtL9Lw0gNhnBHd8Tot+zCI9AZ2PrDt9c4=
+X-Google-Smtp-Source: AGHT+IHlUY3Az6uwRCsdn4XHEMvaEDhhX0HkGvtTN9jqjiaiqubgf+xJXK+Mvnp/afaT+k0YwpLk1g==
+X-Received: by 2002:a05:600c:4f94:b0:413:f1c0:8a5d with SMTP id n20-20020a05600c4f9400b00413f1c08a5dmr3796731wmq.26.1710508682802;
+        Fri, 15 Mar 2024 06:18:02 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fl22-20020a05600c0b9600b00414013adab2sm1909935wmb.6.2024.03.15.06.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Mar 2024 06:18:02 -0700 (PDT)
+Date: Fri, 15 Mar 2024 16:17:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
+	kernel@salutedevices.com
+Subject: Re: [PATCH 06/25] ASoC: meson: g12a-toacodec: fix "Lane Select" width
+Message-ID: <cc26302f-fa57-41ba-bf1c-2e7ef898b4d0@moroto.mountain>
+References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-7-jan.dakinevich@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:2165:b0:365:26e3:6e47 with SMTP id
- s5-20020a056e02216500b0036526e36e47mr253652ilv.0.1710508024164; Fri, 15 Mar
- 2024 06:07:04 -0700 (PDT)
-Date: Fri, 15 Mar 2024 06:07:04 -0700
-In-Reply-To: <0000000000000b9a510613b0145f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002a81490613b2affb@google.com>
-Subject: Re: [syzbot] [sound?] possible deadlock in snd_pcm_period_elapsed (4)
-From: syzbot <syzbot+28c1a5a5b041a754b947@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com, tiwai@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240314232201.2102178-7-jan.dakinevich@salutedevices.com>
 
-syzbot has bisected this issue to:
+On Fri, Mar 15, 2024 at 02:21:42AM +0300, Jan Dakinevich wrote:
+> For both G12A and SM1 the width of "Lane Select" should be 2, not 3.
+> Otherwise, it overlaps with "Source".
+> 
+> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
 
-commit beb45974dd49068b24788bbfc2abe20d50503761
-Author: Takashi Iwai <tiwai@suse.de>
-Date:   Tue Feb 27 08:52:45 2024 +0000
+When you resend this, could you describe how this bug might look to a
+user?  If a user hits this bug and they want to see if it has been
+fixed by reading the commit messages, I don't think this description
+is sufficient for that.
 
-    ALSA: timer: Use guard() for locking
+regards,
+dan carpenter
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=148a87b9180000
-start commit:   fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=168a87b9180000
-console output: https://syzkaller.appspot.com/x/log.txt?x=128a87b9180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4d90a36f0cab495a
-dashboard link: https://syzkaller.appspot.com/bug?extid=28c1a5a5b041a754b947
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14835185180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1132fbfa180000
-
-Reported-by: syzbot+28c1a5a5b041a754b947@syzkaller.appspotmail.com
-Fixes: beb45974dd49 ("ALSA: timer: Use guard() for locking")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
