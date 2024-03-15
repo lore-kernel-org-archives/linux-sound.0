@@ -1,67 +1,69 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DC7182D8
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC78318E25
+	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710498059; cv=none; b=Dvbnmqt8mYOLROceTrAvLEVGllVDYZ97BStjG3uSIt6fBuN/lvoYLwmg2BvOer2Jr3TRyGJbko88arv0MvvDHh1SGmhWwqzKw7FbKCuKvN9dhgg1XHnzIVfwYe9pds2MMyvXt2tKRC4S2yfx1iv28GzZbdcP9y1Q0AVn0Igdyn0=
+	t=1710498311; cv=none; b=HDIQkT80Xxa5rZ+Macs4ndFi38fYxXS1EJTcWtV5IfCTEu+bPb1BFfyR60uARH3no4BLYv5Ss6xo0B0O0AH6IY7xQvmavg1K2fAz1OdiZ9OTTTqYkZMANRDD4un68J4zaKG/mGjLVlUTjGKAXmPRodtR1CwBKjQe8DI52sRHbVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710498059; c=relaxed/simple;
-	bh=JSCNMW8qWshcPVnF89xrbpx4/BHY0kCqY+YQoPryMmE=;
+	s=arc-20240116; t=1710498311; c=relaxed/simple;
+	bh=NfFTjprpYpTx/YOcA395cb2tUELkt8+AWxFx0BohTVw=;
 	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=XcCtFxmk3lgOF60T3HzKEeEwaAu4lsZm1Mgpv7hbrO44gCVjW0PbC12xLLnegfjAGuz51LggeVAYEnKgBvTgZx1KC/8br4Yr0HSo5lMyfuAKMsXpk4Y73Az66NHvfNqA393xoLJvhbVlFVXyg7k9ViAC5P7k3/2QLpP+lBKdthM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sVk2tWd8; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version:Content-Type; b=TK6cyQWWPJZ5uJDADZiikncN3p/ez7PmMpPwor8WyVlfivOvG7oPpjfxD63XcnXS88JVTCei81Foil59ATn2cIzk08EKZWInUwduUQseqOHaCXtDKdRcLN2k6omXjtzN37/acDB8P89NVLzGFzNHcVbM17/uoZRI1q/jUcfUgrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=scTyMV6t; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sVk2tWd8"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513d3e57518so1658328e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 03:20:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="scTyMV6t"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33ed4cf02ebso170465f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 03:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710498054; x=1711102854; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710498307; x=1711103107; darn=vger.kernel.org;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=6gMhyQcCq8fucjInJ87jHa5Zs8QHwH2ZIASN5Qcn1XU=;
-        b=sVk2tWd8CFKPdshbb9eXUUET6ZxocEIboqiLXoiqK3hg721u/2gNRYRSMVLaAGcwJX
-         Oo6qm5UrSecL0sM5Xm9FwSsum2PVin70I8X2N/GMT4dGYvdHTaA69jv5n6dD99DacA7W
-         EFL8UNGrHt2wcgjlR4vp/M6Goki5GzwwxGoeEXf3sFZdhF/Bv3gVaIfco4vOYFEb6kxc
-         VKXpBa1w2q4oYRFCOpmcRXzJIcSXs6Ptz/+usei3On4qFEQwz5glSw9RDuguoqoei4GD
-         o4CoCeTiM2q9tfz+CKEBK9WMpNQPMasWCBBAF0+085Z/m0GiOpUam0MPZ7VLHf+qPd9b
-         Xuaw==
+        bh=I3EB/6PldhsbhWY9+bYWiu2w8/wr6W5dSP5c/9sIMoI=;
+        b=scTyMV6tGxpPlH+TE8fWNj5v3IY+5bAIEbQwmbIVNN3XGjo9GTZz+InJd/EjxhUuZq
+         Q9Ot2p8f+AOjQj6+U0vZhicYtDDqkq+P9saxDp5W48/Ueq1Ar2TaKf8LebWOrVL8Pqug
+         Jmj16tfoojVaZWL7EJcEzgolSUXHFVPP65f5DlSnRQGt5KeOjJYN2DSKmBodnc5K668f
+         P+R+lLYCxRO4Wqor3SqTkHfGN17d2n0vjk3RtNfPH1vbggffj+CgkGdnbROD6tAeXJTc
+         jC6eosvqjs0KjmhMfv2w2TGnCWtqJJopYJCCPYpHq0b3qIC/Jl7PUhWLs0FhV599qsaf
+         D8Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710498054; x=1711102854;
+        d=1e100.net; s=20230601; t=1710498307; x=1711103107;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6gMhyQcCq8fucjInJ87jHa5Zs8QHwH2ZIASN5Qcn1XU=;
-        b=pi+mLivf/VhOQWwCOmuM/bbffyj2lBZxtsvwuw6PGncwPoh9DjBM8j/U3hYC4ox8mv
-         WhUK0xMGVYUxKThFWy3+2YZivbg5gvB5YR1UeSKVQcYJ13CifkjsJ3ACh/8ZjHidacdq
-         sJlZbwRRfaEnaAqmf1m1ZwxJ5FblHf0XxgDKZIXzYpTGEQXMDk+Fh2jGJ+iYGPiHf/yy
-         uh70ZoYGZP7MZxXlKibVFXwLRFkH1BaTPFA5hNk5EohXKN6Pd/smZUqXjQwDv19WzUTZ
-         BGzN5075fGUorN0irzsm+Y50c2836fl6oueVJcopyZKtGxNbnspfqIAvmsxcpzHQzgiS
-         z+Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCU9RpSomeuwjYgVKvKHhngej/0C2QNGZ3XZ2QhWY6216qZxL5iAbLMG6eVilSwJAK0nQmkHVYzHjMuanrEg8c8F2qyTxQJuUYWsF4Q=
-X-Gm-Message-State: AOJu0YzMpVnmhq91S2QAoCvt9KG7e535gTPm7ezIev4R8wl9s1un2WGR
-	56pIzwIiddYyskasxWNcHi1ZGKKMs07puvPC2rokw1bz3yYd4uTvqusN3Fg5J08=
-X-Google-Smtp-Source: AGHT+IE93RWjsQIaXcrXP7QebJrBXb65k9rloMkqM4nhLZfNJA/HvogTh3saXyVEmcMBtfGaiLq/Mg==
-X-Received: by 2002:ac2:4348:0:b0:513:42e:ddf0 with SMTP id o8-20020ac24348000000b00513042eddf0mr2648632lfl.36.1710498054118;
-        Fri, 15 Mar 2024 03:20:54 -0700 (PDT)
+        bh=I3EB/6PldhsbhWY9+bYWiu2w8/wr6W5dSP5c/9sIMoI=;
+        b=AH1WWGLtInLXasefRRPbshZnxb4JbNBeyMj4/kdFTAVSeXeKBREM40kKF7O7VdP0dr
+         qaI/GeZskT73fftRxJ9Qgf7/2Zt6A4txLPdOSy9dYoUOFW4lqI3V2SeJCnK+Yx4Mx/qd
+         KXIYQfX58wczKo4kIsa+nMJZWMOpTRF9fLVUzOLMXIQZc02NcLq5FxAcFB/mI+IZUgje
+         Mlut7NunIpUQ89NRBeoQS2UdPCD88LlrqRxdyufrxLxEvv23UW05UPLuhnEHccNJJAbq
+         wC8odGUemHnq92yDQ11c29z6chrYyMSqnTLrWLzrYscRGwXD9DWy1sda3M/ctdsdFKTu
+         bLDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzlsvxC7b0O0rCmLb7FgOjxRHrNmWrk17Z4T4B2PX1pei3Hf3OBPi3DhLdO8NX8s+Drwq9dpszbhlz0tBMW+WdRqJde2WvttOY82A=
+X-Gm-Message-State: AOJu0YwD/Gcn6q12VTgJXYJ92V0CybtMHoe4m/MxQt0Tevu3rdo34Cp3
+	b9LR9YTC3Q+nWgqDuzVKGtEUF3g55Os0caE2J5IAaQuuOhUH2AwZ10Xk5yVLy1k=
+X-Google-Smtp-Source: AGHT+IGWDipfwojUVR3R0h/HAg8+ErMHQU1L9DU1QDqUHJY9+2A1t5wePivY0yDxiYGWnr60Q0NDnQ==
+X-Received: by 2002:a5d:4cc1:0:b0:33e:7f5c:732c with SMTP id c1-20020a5d4cc1000000b0033e7f5c732cmr3060666wrt.62.1710498307090;
+        Fri, 15 Mar 2024 03:25:07 -0700 (PDT)
 Received: from localhost ([2a01:e0a:3c5:5fb1:8151:4d0a:14d8:1124])
-        by smtp.gmail.com with ESMTPSA id n7-20020a05600c3b8700b00413ea3db648sm8058358wms.26.2024.03.15.03.20.53
+        by smtp.gmail.com with ESMTPSA id o14-20020adfe80e000000b0033e8c50fc3fsm2818997wrm.90.2024.03.15.03.25.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 03:20:53 -0700 (PDT)
+        Fri, 15 Mar 2024 03:25:06 -0700 (PDT)
 References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-22-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
+ <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
 User-agent: mu4e 1.10.8; emacs 29.2
 From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
- <jbrunet@baylibre.com>, Michael  Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob  Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Jan Dakinevich <jan.dakinevich@salutedevices.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman
+ <khilman@baylibre.com>, Martin Blumenstingl
  <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -70,11 +72,11 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
  linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
  linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
  kernel@salutedevices.com
-Subject: Re: [PATCH 21/25] ASoC: dt-bindings: meson: axg-tdm-iface: claim
- support of A1 SoC family
-Date: Fri, 15 Mar 2024 11:13:48 +0100
-In-reply-to: <20240314232201.2102178-22-jan.dakinevich@salutedevices.com>
-Message-ID: <1jmsqzhk3e.fsf@starbuckisacylon.baylibre.com>
+Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
+ 'sysrate' property
+Date: Fri, 15 Mar 2024 11:22:59 +0100
+In-reply-to: <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
+Message-ID: <1jil1nhjwd.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,44 +86,47 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 
-On Fri 15 Mar 2024 at 02:21, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
+On Fri 15 Mar 2024 at 11:00, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> Add "amlogic,a1-tdm-iface" compatible string alias to
-> "amlogic,axg-tdm-iface".
+> On 15/03/2024 00:21, Jan Dakinevich wrote:
+>> This option allow to redefine the rate of DSP system clock.
 >
-> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-> ---
->  .../devicetree/bindings/sound/amlogic,axg-tdm-iface.yaml    | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> And why is it suitable for bindings? Describe the hardware, not what you
+> want to do in the driver.
 >
-> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-tdm-iface.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-tdm-iface.yaml
-> index 45955d8a26d1..7c1af85b52b4 100644
-> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-tdm-iface.yaml
-> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-tdm-iface.yaml
-> @@ -14,7 +14,11 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: amlogic,axg-tdm-iface
-> +    oneOf:
-> +      - const: amlogic,axg-tdm-iface
-> +      - items:
-> +          - const: amlogic,a1-tdm-iface
-> +          - const: amlogic,axg-tdm-iface
+>> 
+>> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+>> ---
+>>  Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>> 
+>> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+>> index df21dd72fc65..d2f23a59a6b6 100644
+>> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
+>> @@ -40,6 +40,10 @@ properties:
+>>    resets:
+>>      maxItems: 1
+>>  
+>> +  sysrate:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description: redefine rate of DSP system clock
+>
+> No vendor prefix, so is it a generic property? Also, missing unit
+> suffix, but more importantly I don't understand why this is a property
+> of hardware.
 
-Same as the card driver. I could have named it "amlogic,tdm-iface"
++1.
 
-This is purely a SW component, which help agregate clocks and
-tdm-formatters. It is analog to a "gpio-leds" or a "pwm-clock"
-driver. We would add a compatible for every SoC for these, would we ?
+The appropriate way to set rate of the clock before the driver take over
+is 'assigned-rate', if you need to customize this for different
+platform.
 
-I don't think it makes a lot of sense to add this. It is not going to
-hurt but this is just adding useless compatible to the doc that will
-never be used
+Then you don't have to deal with it in the device driver.
 
->  
->    "#sound-dai-cells":
->      const: 0
+>
+> Best regards,
+> Krzysztof
 
 
 -- 
