@@ -1,128 +1,147 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8493A182DD
-	for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 10:12:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87E2182D4;
+	Fri, 15 Mar 2024 10:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710497580; cv=none; b=WLSwLkYa2S6BwRybisuqSeJsrshqSt2r66wI7JR1rTqB8vqL7UaJdsKXicmUm7EyZ+mnwpfdLy+FgCopmyjHuxFBRffW+nBfEnHQxiicvIJpnhbgE2csFGU2zDvkcppnllGCaS47YN2iVy4m7jQCCTVCB+cf4TyUCNWTKrCewy4=
+	t=1710497675; cv=none; b=bjDmpHcR2WQjgmtxAl43udKUgPogulIi+kBVmNaExSjS248eoNuTPHcJvzLEg7by3JEpD8a0FdY1adYGqjMA9PY3pzVdAsA2jRJSCf3h/ur3kzZr6rxZxWIfjyJozxXo7t8s7UNPaTDJ65poFPHvRX46IUJxEjIar/sQ1Z1kCls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710497580; c=relaxed/simple;
-	bh=+QI7pZjV5YnoIH6SZx7QJZM4F+zGSldQpGRXjDpUssA=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=EAot908T+VyMoGAF/TjlG1kSi4g19itLkULwyAerDkZci2/X0lulsK4wddswKHKDLjzBy2s0V6aVz+vXokVjCzrBYcZabKfgeUrxxWkcIqttMjGNiiUxaJrTPXYlK4QWtu1JAUC5KmaXy+kIKa5WcSUavuBvoZcqSGxsOCN5MQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=T/xwh8Ck; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710497675; c=relaxed/simple;
+	bh=UsbmK9fmU3C126PD4sa4jNSwSxuxUdY1RLY4p+iJL2I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B9E9e5hv9knoGykCXu+FGT+sASbau940OcyINxQuHKTIgssUHl3b8CVtLaEm5OjEDhn7sWDigb3w/wutOyTeDBqNFPJIh3sfuWgEvY95HK0JNYJMRLJSEGKHXPkLYAzUuJx/sunFs57TSXL5dfz+XedSXHzFYx23yOH4Ovjc2ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aowXEWcR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMhKqYEh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aowXEWcR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMhKqYEh; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="T/xwh8Ck"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413f4b5171dso10397905e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 15 Mar 2024 03:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710497576; x=1711102376; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQKgoyfzzduaJ5jov9NmJ8PCZR9rXm8iDmJsBk54NZ8=;
-        b=T/xwh8Ckt/9itzt/WoPlSWCGVCc8RFmeaWg8oUn6LbKMoaqb208buZ2nxKkZwMGjNJ
-         MEK+GurRZWeeVot7WTz8mavZ8GeOYoHfyKnjL8+kmXtwqv+nKIsEQRHBsSdK/ok9qU+D
-         8rvGaR2n1WOEqyyIonxfRWKs3d94pRkUenGfmGjKFaHDghTGIUZgkJj/PXz0dzyp1AaA
-         6xvloC+Wr90Q8RwUL3+ukgYxNY+qh7pU7JUyr8yAIh4DGkc7e7wUchVIS8d8fV0luIgV
-         CMLO56KDeoJji7d8r61crqJKbo8WQV5xBsD4fOUFvAxnHUgdm3g9tZDZxzNmlDmSbndT
-         47sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710497576; x=1711102376;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQKgoyfzzduaJ5jov9NmJ8PCZR9rXm8iDmJsBk54NZ8=;
-        b=It28XY0AKUTV2Gy9igQWgm+Bnt3fdyOf8yPjwtaeEWOal5Kts6A6GO/XvITVQwi1dn
-         wq56jCRp9iJye4mvi05Ac5+YSvtfuUeQnl4d2Y9pC0h7detPygh3otfdrIxqpqny7VjJ
-         FiTS3Uj7rqlF4kI2Aak9Dabfsvl7xp8S6VsRDbPusoD6U8CZcK/LggbhysaFBYYRmiPT
-         NnTdFZfgaMbp41CP6AVrwyDmoUROWR6bjpwK0A8g87PLCrxavysUq0YvzuLSEPCgHwEi
-         ugaKrUkZzj4iHsQJRsicL8qBmFy5hdagoPAqr8uFQFbaosQ/+bt+R3XYKOSKrMtXGJaj
-         CSEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXY1H/O1C+LAeDiuTgV//dBUPO+EFsmNZ1kxAdE0/t4urRJXUicPOyFTa/mXaMgtcwqLqSa/3YVNVMWa+kL/w2X7SjPHe2yIx2YcsU=
-X-Gm-Message-State: AOJu0YzWfZyS5uie83T/rjIxkMh9Hy7vshy9n3UJ7ez3OIOqTHqkE+rR
-	E8samoCpka9Iqds6BH+u8Rx4aBei40ITqWVUEO60EJvtzMecmKGSffxTB1Pm8cI=
-X-Google-Smtp-Source: AGHT+IGkpPwSpcUKRjM84ML2A3Du8Hq7iROZC24mk3kzA01vpaV9CKlS3GgcL5y/xRPaeZYOGOCuww==
-X-Received: by 2002:a05:600c:4eca:b0:414:1e0:2afa with SMTP id g10-20020a05600c4eca00b0041401e02afamr788040wmq.3.1710497575919;
-        Fri, 15 Mar 2024 03:12:55 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:8151:4d0a:14d8:1124])
-        by smtp.gmail.com with ESMTPSA id bu27-20020a056000079b00b0033ecbfc6941sm2481373wrb.110.2024.03.15.03.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 03:12:55 -0700 (PDT)
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-20-jan.dakinevich@salutedevices.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
- <jbrunet@baylibre.com>, Michael  Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob  Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@salutedevices.com
-Subject: Re: [PATCH 19/25] ASoC: dt-bindings: meson: axg-sound-card: claim
- support of A1 SoC family
-Date: Fri, 15 Mar 2024 11:06:52 +0100
-In-reply-to: <20240314232201.2102178-20-jan.dakinevich@salutedevices.com>
-Message-ID: <1jr0gbhkgp.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aowXEWcR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMhKqYEh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aowXEWcR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMhKqYEh"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AFE0B1FB59;
+	Fri, 15 Mar 2024 10:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710497671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G1dpeR8AdO6+eAWIu+TQT/0nMheZgF9XKgeFMBR3eEU=;
+	b=aowXEWcRuEcGaXPIxVRDPmYOwc0oQzyKIFcwsB5OX/Q0/q700PkS8DH/UjXL5srYROuZS7
+	L2m26NLS+wKmzON7msyoZyIxPpimzRxfaW1Y/b4Jsy63JtzW1mH7BGQ3lli0DFcKIAVbS0
+	YvcFjpIM36ViSkkvMvGQViBVA40bJP0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710497671;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G1dpeR8AdO6+eAWIu+TQT/0nMheZgF9XKgeFMBR3eEU=;
+	b=hMhKqYEhThNZHSOaPSOD5eIRRBMXrUqaPhw+e1Cax1tdW4TSA6w074B9aJWNvuUqUBKzK9
+	0ClhCuCE3EVcIoAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710497671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G1dpeR8AdO6+eAWIu+TQT/0nMheZgF9XKgeFMBR3eEU=;
+	b=aowXEWcRuEcGaXPIxVRDPmYOwc0oQzyKIFcwsB5OX/Q0/q700PkS8DH/UjXL5srYROuZS7
+	L2m26NLS+wKmzON7msyoZyIxPpimzRxfaW1Y/b4Jsy63JtzW1mH7BGQ3lli0DFcKIAVbS0
+	YvcFjpIM36ViSkkvMvGQViBVA40bJP0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710497671;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G1dpeR8AdO6+eAWIu+TQT/0nMheZgF9XKgeFMBR3eEU=;
+	b=hMhKqYEhThNZHSOaPSOD5eIRRBMXrUqaPhw+e1Cax1tdW4TSA6w074B9aJWNvuUqUBKzK9
+	0ClhCuCE3EVcIoAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EA6A13460;
+	Fri, 15 Mar 2024 10:14:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1r46GYcf9GVzaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 Mar 2024 10:14:31 +0000
+Date: Fri, 15 Mar 2024 11:14:30 +0100
+Message-ID: <87wmq3by49.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: syzbot <syzbot+28c1a5a5b041a754b947@syzkaller.appspotmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [syzbot] [sound?] possible deadlock in snd_pcm_period_elapsed (4)
+In-Reply-To: <0000000000000b9a510613b0145f@google.com>
+References: <0000000000000b9a510613b0145f@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Bar: /
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aowXEWcR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hMhKqYEh
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.84 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-0.15)[68.98%];
+	 TAGGED_RCPT(0.00)[28c1a5a5b041a754b947];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 SUBJECT_HAS_QUESTION(0.00)[]
+X-Spam-Score: 0.84
+X-Rspamd-Queue-Id: AFE0B1FB59
+X-Spam-Flag: NO
+
+On Fri, 15 Mar 2024 11:00:31 +0100,
+syzbot wrote:
+(snip)
+> the shortest dependencies between 2nd lock and 1st lock:
+>  -> (&timer->lock){+.+.}-{2:2} {
+>     HARDIRQ-ON-W at:
+>                       lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+>                       __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+>                       _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+>                       spin_lock include/linux/spinlock.h:351 [inline]
+>                       class_spinlock_constructor include/linux/spinlock.h:561 [inline]
+>                       snd_timer_close_locked+0x53/0x8d0 sound/core/timer.c:412
+
+Ouch, I incorrectly converted from spin_lock_irq() to
+guard(spinlock).  It should have been guard(spinlock_irq), of course.
+
+Will submit the fix patch.
 
 
-On Fri 15 Mar 2024 at 02:21, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
+thanks,
 
-> Add "amlogic,a1-sound-card" compatible string alias to
-> "amlogic,axg-sound-card".
->
-> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-> ---
->  .../devicetree/bindings/sound/amlogic,axg-sound-card.yaml   | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
-> index 5db718e4d0e7..492b41cc8ccd 100644
-> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
-> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml
-> @@ -14,7 +14,11 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: amlogic,axg-sound-card
-> +    oneOf:
-> +      - const: amlogic,axg-sound-card
-> +      - items:
-> +          - const: amlogic,a1-sound-card
-> +          - const: amlogic,axg-sound-card
-
-I know the rule about SoC related name but it is different here.
-This does not describe HW in the SoC. 
-
-The axg sound card is just a name, much like simple-card or
-audio-graph-card. I could have named it "amlogic,my-awesome-card"
-
-We would not add "amlogic,a1-simple-card", would we ?
-
-It is purely a software component, which aggregate HW ones.
-
-
->    audio-aux-devs:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-
-
--- 
-Jerome
+Takashi
