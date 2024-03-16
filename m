@@ -1,97 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599E514276;
-	Fri, 15 Mar 2024 22:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6661E560
+	for <linux-sound@vger.kernel.org>; Sat, 16 Mar 2024 08:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710540261; cv=none; b=lxVvqgwc8AxRmEjgjSqSOsGwH9BXXIc0qc/Xvu9Z2Kw5MxQeHninCTR+sZuSXRRqyPQhxeAU3WVkdlQrx9UzFsGSjHTrmhLhsTq/hBTXz7WcOBwA/gKpuz503+iA0ytcUrGgXmO0Xn6iv1MCxPJfWi0TCkjnmwZ58WL2c48TBFM=
+	t=1710578277; cv=none; b=Drx+YvRvQA0xoFajQPNmWsKCK3JFA8EZIcMfGnU/5jUG6X8scEZYOKM1Wf24mDLSFJySuKAwqDhcO0FukTalJ2/tEEuRv+Cp4iAEOexWxrEKGPOvHpnqGpdI4orPoVQas4YXzip+ZWv9MGeI5reWkx1pgEsO19Td49Yok1UN8rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710540261; c=relaxed/simple;
-	bh=55d02eBOn9dVSEV1nC826S33Ja0fZxXUxGbxrPros3I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Im45LTbxdl1oyDx2/VYQfltOSL+y0+q42QN08yAA7w3iITpFxAvdJ/KEm4S7nDRCyh7QaiR4eq4ooDPHm8CTHdvpWG760bLx8Dh5pDN0bGbjKEoOpfWLFm46MMLR7HbwMvrmWBX9h11/hPm7cUzIdKWesBLRMkp2cSpJT1AtOCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYWuKH5x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710578277; c=relaxed/simple;
+	bh=BnWx1dV2R+9nfz+GYUttb9wZEDAOubd6INsUpXjqcMk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uHKdoNQ+eOq6jQlsqLq5ESPcWq22LFrARrBNSVi6yfdU28wMAnBeGefDB15gQhRN7VuQbhT0N40M/j2CAN1gOZfT9KcfN3fcvLuZa4nazpbkw4bOzDB+8MzqgNXKtfL0APfPgIJO072gSe2n7rsUN2353A4jtUy/e+fbCkv/qVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OWg/FD4H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AvRvUToU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OWg/FD4H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AvRvUToU; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYWuKH5x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA30C433F1;
-	Fri, 15 Mar 2024 22:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710540261;
-	bh=55d02eBOn9dVSEV1nC826S33Ja0fZxXUxGbxrPros3I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LYWuKH5xER2A8wOAtUti7njqo6GjmQex7kvAwajEhq4zOFxYxdzUv4xIw63uvHD7w
-	 506nvqYkXMHf40y8Un/Axl5yS/ttxk762XCPVSeRAllJ4UDjVZdAbhydmBckkkpLfC
-	 frsoiRHSX+F+DcJ0L9uy/VBIZtopULdN2fZNtvpSsFVhT8E3kTl1HGpToKqvTMFMo1
-	 XLenWIwEsrfUmGSaQwBoUOmd3eHWgVshZzATwzHVsdfG/MmXVfUFFnPDNgTxE9WEbh
-	 Q/My+xf4621XX4wgKL6J5V1lwuwuSEzWqk6ih/6FXm5jnVqQZ0AzbuWmouCy+k1AUY
-	 Mh/B1pKLNAOIQ==
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com
-In-Reply-To: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
-References: <20240220201623.438944-1-cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 0/2] ASoC: SOF: amd: Skip IRAM/DRAM size
- modification for Steam Deck OLED
-Message-Id: <171054025817.128762.3711303869431739426.b4-ty@kernel.org>
-Date: Fri, 15 Mar 2024 22:04:18 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OWg/FD4H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AvRvUToU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OWg/FD4H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AvRvUToU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9BDDE1FC05;
+	Sat, 16 Mar 2024 08:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710578273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=VN3+EVgQ6MYAhKewc2mfJmjJh8U+PyT45uKNe54YJF8=;
+	b=OWg/FD4H6ZthttQFDR5C2AuRWuRDwPKiAIKNeHTFyklqu91dZlPkXjJ9g0TC8/0hFQPKHB
+	6puw1p33dI72BQs7bd9yyALTZ4WVXlo7Q5cFvGtUxbPaW7n5Xy6TQeFVhbQ0WhBo+kXike
+	PzAOhdqIWGmJXwVpYVvJcayePAXLqjM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710578273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=VN3+EVgQ6MYAhKewc2mfJmjJh8U+PyT45uKNe54YJF8=;
+	b=AvRvUToUJXnG5D/mSWdnlkTIPASvuFb90Dji0E6HGfNRajI8wLcVA5iW/6HkrwG3uT0Nit
+	FDiKortspjr8vZAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710578273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=VN3+EVgQ6MYAhKewc2mfJmjJh8U+PyT45uKNe54YJF8=;
+	b=OWg/FD4H6ZthttQFDR5C2AuRWuRDwPKiAIKNeHTFyklqu91dZlPkXjJ9g0TC8/0hFQPKHB
+	6puw1p33dI72BQs7bd9yyALTZ4WVXlo7Q5cFvGtUxbPaW7n5Xy6TQeFVhbQ0WhBo+kXike
+	PzAOhdqIWGmJXwVpYVvJcayePAXLqjM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710578273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=VN3+EVgQ6MYAhKewc2mfJmjJh8U+PyT45uKNe54YJF8=;
+	b=AvRvUToUJXnG5D/mSWdnlkTIPASvuFb90Dji0E6HGfNRajI8wLcVA5iW/6HkrwG3uT0Nit
+	FDiKortspjr8vZAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E68013A66;
+	Sat, 16 Mar 2024 08:37:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BvbuGGFa9WUSaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 16 Mar 2024 08:37:53 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Kenny Levinsen <kl@kl.wtf>,
+	=?UTF-8?q?Nikl=C4=81vs=20Ko=C4=BCes=C5=86ikovs?= <pinkflames.linux@gmail.com>
+Subject: [PATCH] Revert "ALSA: usb-audio: Name feature ctl using output if input is PCM"
+Date: Sat, 16 Mar 2024 09:37:30 +0100
+Message-ID: <20240316083744.28126-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-a684c
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: 0.55
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="OWg/FD4H";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AvRvUToU
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [0.55 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.14)[-0.713];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[kl.wtf,gmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9BDDE1FC05
 
-On Tue, 20 Feb 2024 22:16:02 +0200, Cristian Ciocaltea wrote:
-> This patch series restores audio support on Valve's Steam Deck OLED model, which
-> broke after the recent introduction of ACP/PSP communication for IRAM/DRAM fence
-> register programming.
-> 
-> Changes in v3:
-> - Drop a patch file that was sent by mistake in v2
-> 
-> [...]
+This reverts commit 1601cd53c7e3197181277326dbfc131d20a74e46.
 
-Applied to
+This fix is applied globally to all devices, and it may change the
+existing control names.  When the devices are managed with the fixed
+configuration like UCM, such control name mismatch may lead to
+significant regressions.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+For avoiding that kind of regression, we would need to apply such
+changes conditionally, but it'd take time to settle down.
+While the original fix is a good thing in general, in order to address
+the regression, let's revert the change for now.
 
-Thanks!
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=218605
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/mixer.c | 49 ++++++++++++++---------------------------------
+ 1 file changed, 14 insertions(+), 35 deletions(-)
 
-[1/2] ASoC: SOF: amd: Move signed_fw_image to struct acp_quirk_entry
-      commit: 33c3d813330718c403a60d220f03fbece0f4fb5c
-[2/2] ASoC: SOF: amd: Skip IRAM/DRAM size modification for Steam Deck OLED
-      commit: 094d11768f740f11483dad4efcd9bbcffa4ce146
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 81256ab56835..409fc1164694 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1652,34 +1652,6 @@ static const struct usb_feature_control_info *get_feature_control_info(int contr
+ 	return NULL;
+ }
+ 
+-static int feature_unit_mutevol_ctl_name(struct usb_mixer_interface *mixer,
+-					 struct snd_kcontrol *kctl,
+-					 struct usb_audio_term *iterm,
+-					 struct usb_audio_term *oterm)
+-{
+-	struct usb_audio_term *aterm, *bterm;
+-	bool output_first;
+-	int len = 0;
+-
+-	/*
+-	 * If the input terminal is USB Streaming, we try getting the name of
+-	 * the output terminal first in hopes of getting something more
+-	 * descriptive than "PCM".
+-	 */
+-	output_first = iterm && !(iterm->type >> 16) && (iterm->type & 0xff00) == 0x0100;
+-
+-	aterm = output_first ? oterm : iterm;
+-	bterm = output_first ? iterm : oterm;
+-
+-	if (aterm)
+-		len = get_term_name(mixer->chip, aterm, kctl->id.name,
+-				    sizeof(kctl->id.name), 1);
+-	if (!len && bterm)
+-		len = get_term_name(mixer->chip, bterm, kctl->id.name,
+-				    sizeof(kctl->id.name), 1);
+-	return len;
+-}
+-
+ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 				const struct usbmix_name_map *imap,
+ 				unsigned int ctl_mask, int control,
+@@ -1761,15 +1733,22 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 	case UAC_FU_MUTE:
+ 	case UAC_FU_VOLUME:
+ 		/*
+-		 * Determine the control name:
+-		 * - If a name id is given in descriptor, use it.
+-		 * - If input and output terminals are present, try to derive
+-		 *   the name from either of these.
+-		 * - Otherwise, make up a name using the feature unit ID.
++		 * determine the control name.  the rule is:
++		 * - if a name id is given in descriptor, use it.
++		 * - if the connected input can be determined, then use the name
++		 *   of terminal type.
++		 * - if the connected output can be determined, use it.
++		 * - otherwise, anonymous name.
+ 		 */
+ 		if (!len) {
+-			len = feature_unit_mutevol_ctl_name(mixer, kctl, iterm,
+-							    oterm);
++			if (iterm)
++				len = get_term_name(mixer->chip, iterm,
++						    kctl->id.name,
++						    sizeof(kctl->id.name), 1);
++			if (!len && oterm)
++				len = get_term_name(mixer->chip, oterm,
++						    kctl->id.name,
++						    sizeof(kctl->id.name), 1);
+ 			if (!len)
+ 				snprintf(kctl->id.name, sizeof(kctl->id.name),
+ 					 "Feature %d", unitid);
+-- 
+2.43.0
 
