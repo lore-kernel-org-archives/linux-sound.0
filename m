@@ -1,179 +1,105 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C1D8C07
-	for <linux-sound@vger.kernel.org>; Sat, 16 Mar 2024 17:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9E179D1
+	for <linux-sound@vger.kernel.org>; Sun, 17 Mar 2024 02:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710609058; cv=none; b=qFC4bIsuicZjCFUiXwdr+r8hwDsVg3+kkqUKjl8rIYfPfhw6PRIOEbSRpHDIvYKgpP29vJkwN34pVpCc1J+CYRdCHFksvQfa3LDlxVxPGPwRpa5hoDUEmhxmWZmFWAz5Pp24zzGMG/UuTXBlcA3ZNZwVeDLEBezgnFxu8X1VPws=
+	t=1710641094; cv=none; b=JhKms1rYToES7Ca18IQA1G3shSvmCzrarhrEmVmjoRK7hppuVtcI+4O4r3jV2jqtPUpmsVlUImDad36V+Q4DxI/6bKjY16chiNlwaOccXcqzTeaaf2YbmJs8Pc7+0Qq8wMhqXUXdPyRUDeMzu+pbjkF51U59DB16ViZeDw9hlD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710609058; c=relaxed/simple;
-	bh=2C4TqCj9uagcJTH4KZSOP4wzXbm4UKJwzHzBVc5p5O0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SvNcMXLYf1wZfdcQVyVsaUPvAbfq/taY7ASCEIlXtj0P+joEdhPS9j4ZxdxtKz80vBsdPSx2baJ2fHzKmdQwKxJT1dJLWpJ1n+XsKyTMbaqTH6m0oGk7AQ710mautTZ6EfQUFJvxKULPCUPe/W/m9RJuyvgFOM7dRmucH/QMGDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZ7cn4aJ; arc=none smtp.client-ip=209.85.218.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710641094; c=relaxed/simple;
+	bh=aCT0vUa9iGG4jg2bvIm4ZCdWt/b43G+VBuROresZ9VA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=IeEkLqm0nUhNqiDfswqwyhjqhueFwgxIvTkhsPAaHcCSSLBgpDfTlkwxiRV81e8GMslOowYWhbNcWILJJqkC06LxTUOR0Vw3rSxhj8x+554ZHPP1gMe1mkjP/jNGr4JEUyqjEKUNwWuo1x/Na+DrHnEf4pESCQ4Vtr35gmo7vI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=m4W0rfQY; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZ7cn4aJ"
-Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-a450bedffdfso365268266b.3
-        for <linux-sound@vger.kernel.org>; Sat, 16 Mar 2024 10:10:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="m4W0rfQY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1def89f0cfdso10617705ad.0
+        for <linux-sound@vger.kernel.org>; Sat, 16 Mar 2024 19:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710609055; x=1711213855; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1710641090; x=1711245890; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WcGlz7VjH78Yh1a1KHLRiyW+MZRTE0hisB7kMvXRdBE=;
-        b=AZ7cn4aJP1UrcipbTaFu9Y0PYrQUke07QF7Os88DpvU+tZ4+GcY76m7T8Udw170r2M
-         L0z2gTVZx2YDWnOgJjlF6GakBHMzQJ1JljBckURj5y/j2tvW2PAO69vFDYZS1FVqAlU6
-         MDeEEw/F47RNHcs80JcVc8pJLerwaEwKoR0Gy7IIjVL7DZllrShJ+kUuqlPMg1r2WNSt
-         LdWWTz9GoqP5lriG2kqMBilfGiB3jDoCTc4QXpjQsjF10kwUgqxp8CA5wt1Nv2ZlOadZ
-         YoxWmS5L1lUrIv70E9xCOsFtTUvlVfEPabY4C8SuDk0u13t2SleQMVJCshr5s+j9jCQI
-         C+yg==
+        bh=IWtXa4epYbJQbXxdWpC2jiOsOGSFUbjYRhlCuBfpHew=;
+        b=m4W0rfQY9orveLLiPnFycdorxiTPY/5TLey1SEPo68ocpSSIasMVoFfbq5qT9DZH3L
+         pISO1ebjO/rvPF/z7MU+riD3+2qdbfsoZNZ612ttCcZl09zlK/d14ZIQIyySBFNr5dkt
+         ipjpidONNzKO8xw39jG0Vh2pjxttuIFkhSKJmUT3annGg+otQEnZNyuP9Pzeur32V0Fw
+         ptQj3DcbNWnkefdzfb+5AavE4z63l2CaBhHs8dWTKSHMBRoMO796tiuCm7lagVhxt81V
+         GIX8ips2rZiJ7ZOarBPCfjFp9MJgeYVbBx5L6AAw3SlIZ8tQymi8N7AtegS061PFHBxz
+         vDNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710609055; x=1711213855;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WcGlz7VjH78Yh1a1KHLRiyW+MZRTE0hisB7kMvXRdBE=;
-        b=hLJdSXqs0E2878vRHrlKdlYVeYpnZirRkEhWNAu8ZAlurQdOwQEpw3aK/e9H9SkSvP
-         yAZrMXe7rBoQovf6xP85CqT7DpeKvHnL8befRgwBNN63LM3B1p2Ewxyfm9YaRmOKoGEW
-         VP5f4HjaDVG44xmO/65EHYZRIFYjQi13nTM9R9ZimjkNmMq7e1HXx5rDvisJMw9miqn6
-         8pimiSBQIQqqzHBs6dw98CHteM7W/45E32BO+RHVaHGM+L+Of1UttvbWsSdtLfsCYZ/T
-         CnDjvJwNwaO3DsSluuKlzUqvmt8BfQRaCCfwBKzR5erOC+R3KgbUDGIYQnpbqaLxkuQS
-         GPUg==
-X-Gm-Message-State: AOJu0YwIGFy+Yen8TITdPCMFdADh5R7JN3k3rFxAJC2SldMFRbTBMK+Q
-	S+rMwY7HRDW8imUqclc01Z2Ji4d9ubIfWy6E9gnajSECT1Jk2Bopu1c45zkDWMC8OtFLWIIfemq
-	xSF9JDSSzpNGTS37AGCNj5lFMGdPdyWEt82Szyw==
-X-Google-Smtp-Source: AGHT+IFqoW7nWhV8IUA+TQG2fQc9qLd29Wk2q4rxPtFWQSwuIXGDepbg1ubnSnkWf5dAK+m67+iBxGQakS6NzOCrGXQ=
-X-Received: by 2002:a17:906:d92b:b0:a46:a3df:6abc with SMTP id
- rn11-20020a170906d92b00b00a46a3df6abcmr1143114ejb.12.1710609055006; Sat, 16
- Mar 2024 10:10:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710641090; x=1711245890;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IWtXa4epYbJQbXxdWpC2jiOsOGSFUbjYRhlCuBfpHew=;
+        b=eLn78YwPuU0sf+86MCIzmzbf3mNtqs0nF4uYL/OTPFZXHOQTGS8ShGgfAHBnldN5te
+         pxqWURzqWcwecdHQ8tEk+3qz+hGLZ8e8fy52l8imaR/K7rvIzXRKkTcYtZ0vzUAU7cAQ
+         SA5XB0X/m7TwalinqT44vddDIaSXLZJtWfJlkQnh+KxlnZAPZrEh5TR8t/BQC8hVgPrr
+         Kxf2bzv6TS8WJM2dXZyHS28lBKQAG4VUHMUbDYfvWzAii8R8gjeJ5vsZJ3laU0abiXHL
+         oYTtMUsCUhI7xjPOyPW2Sg5QkXYRpZ78RpQ42rXcdbrPsyqRRaJ6WrUfs5K58EnAcxv+
+         SzfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUUQr9LZFInoki1FSuw2Xmgx2/WZoB9dxFOHsRm2Q9D5tCv4iDl+pVRR4zpbWiLzvno/r1a9Ur6MU05fBr8cWS0hx1WckPffFBei0U=
+X-Gm-Message-State: AOJu0Yyf427ZsCuZKRB2NpibLh2Qk6NZoIGXx1rD97z5GrRvaqFab5Lv
+	vUeFFfnCjw8RSKaBFP0gVwLw+spww82VXfTAj3PY4G6PmascowzbOKZT+AYvmQ==
+X-Google-Smtp-Source: AGHT+IGJfXs2YCoHgkgwujxBkyiSGmRp8KbhcbDvqGktBTuf7mgurovld+JrdIomojDkTkRDlF31Vw==
+X-Received: by 2002:a17:902:da8d:b0:1e0:16e0:b28e with SMTP id j13-20020a170902da8d00b001e016e0b28emr210988plx.34.1710641090085;
+        Sat, 16 Mar 2024 19:04:50 -0700 (PDT)
+Received: from [192.168.3.16] (mx-ll-183.89.30-58.dynamic.3bb.co.th. [183.89.30.58])
+        by smtp.gmail.com with ESMTPSA id v11-20020a170902d68b00b001defd3e64d5sm2881143ply.263.2024.03.16.19.04.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Mar 2024 19:04:49 -0700 (PDT)
+Message-ID: <570989e3-299f-4617-adde-b6b8d1e06277@cpp.in>
+Date: Sun, 17 Mar 2024 05:04:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240316083744.28126-1-tiwai@suse.de>
-In-Reply-To: <20240316083744.28126-1-tiwai@suse.de>
-From: =?UTF-8?B?TmlrbMSBdnMgS2/EvGVzxYZpa292cw==?= <pinkflames.linux@gmail.com>
-Date: Sat, 16 Mar 2024 19:10:38 +0200
-Message-ID: <CAG+bWs0kNpOP0EnAh44CSEDn2aCn-i8nJasqZdfSzr+KfLL4Og@mail.gmail.com>
-Subject: Re: [PATCH] Revert "ALSA: usb-audio: Name feature ctl using output if
- input is PCM"
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Kenny Levinsen <kl@kl.wtf>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Anthony I Gilea <i@cpp.in>
+Subject: [PATCH] ALSA: hda: cs35l41: Support HP Spectre x360 14 eu0000
+To: James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If it's relevant:
+The new HP Spectre x360 has _DSD for CS35L41 amps in ACPI but
+reset-gpios and spk-id-gpios are merged into single Package of size 4 so
+_DSD parser fails to parse it.
 
-Reported-and-tested-by: Nikl=C4=81vs Ko=C4=BCes=C5=86ikovs <pinkflames.linu=
-x@gmail.com>
+Overwrite broken _DSD with the correct configuration.
 
-sestd., 2024. g. 16. marts, plkst. 10:37 =E2=80=94 lietot=C4=81js Takashi I=
-wai
-(<tiwai@suse.de>) rakst=C4=ABja:
->
-> This reverts commit 1601cd53c7e3197181277326dbfc131d20a74e46.
->
-> This fix is applied globally to all devices, and it may change the
-> existing control names.  When the devices are managed with the fixed
-> configuration like UCM, such control name mismatch may lead to
-> significant regressions.
->
-> For avoiding that kind of regression, we would need to apply such
-> changes conditionally, but it'd take time to settle down.
-> While the original fix is a good thing in general, in order to address
-> the regression, let's revert the change for now.
->
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218605
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/usb/mixer.c | 49 ++++++++++++++---------------------------------
->  1 file changed, 14 insertions(+), 35 deletions(-)
->
-> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> index 81256ab56835..409fc1164694 100644
-> --- a/sound/usb/mixer.c
-> +++ b/sound/usb/mixer.c
-> @@ -1652,34 +1652,6 @@ static const struct usb_feature_control_info *get_=
-feature_control_info(int contr
->         return NULL;
->  }
->
-> -static int feature_unit_mutevol_ctl_name(struct usb_mixer_interface *mix=
-er,
-> -                                        struct snd_kcontrol *kctl,
-> -                                        struct usb_audio_term *iterm,
-> -                                        struct usb_audio_term *oterm)
-> -{
-> -       struct usb_audio_term *aterm, *bterm;
-> -       bool output_first;
-> -       int len =3D 0;
-> -
-> -       /*
-> -        * If the input terminal is USB Streaming, we try getting the nam=
-e of
-> -        * the output terminal first in hopes of getting something more
-> -        * descriptive than "PCM".
-> -        */
-> -       output_first =3D iterm && !(iterm->type >> 16) && (iterm->type & =
-0xff00) =3D=3D 0x0100;
-> -
-> -       aterm =3D output_first ? oterm : iterm;
-> -       bterm =3D output_first ? iterm : oterm;
-> -
-> -       if (aterm)
-> -               len =3D get_term_name(mixer->chip, aterm, kctl->id.name,
-> -                                   sizeof(kctl->id.name), 1);
-> -       if (!len && bterm)
-> -               len =3D get_term_name(mixer->chip, bterm, kctl->id.name,
-> -                                   sizeof(kctl->id.name), 1);
-> -       return len;
-> -}
-> -
->  static void __build_feature_ctl(struct usb_mixer_interface *mixer,
->                                 const struct usbmix_name_map *imap,
->                                 unsigned int ctl_mask, int control,
-> @@ -1761,15 +1733,22 @@ static void __build_feature_ctl(struct usb_mixer_=
-interface *mixer,
->         case UAC_FU_MUTE:
->         case UAC_FU_VOLUME:
->                 /*
-> -                * Determine the control name:
-> -                * - If a name id is given in descriptor, use it.
-> -                * - If input and output terminals are present, try to de=
-rive
-> -                *   the name from either of these.
-> -                * - Otherwise, make up a name using the feature unit ID.
-> +                * determine the control name.  the rule is:
-> +                * - if a name id is given in descriptor, use it.
-> +                * - if the connected input can be determined, then use t=
-he name
-> +                *   of terminal type.
-> +                * - if the connected output can be determined, use it.
-> +                * - otherwise, anonymous name.
->                  */
->                 if (!len) {
-> -                       len =3D feature_unit_mutevol_ctl_name(mixer, kctl=
-, iterm,
-> -                                                           oterm);
-> +                       if (iterm)
-> +                               len =3D get_term_name(mixer->chip, iterm,
-> +                                                   kctl->id.name,
-> +                                                   sizeof(kctl->id.name)=
-, 1);
-> +                       if (!len && oterm)
-> +                               len =3D get_term_name(mixer->chip, oterm,
-> +                                                   kctl->id.name,
-> +                                                   sizeof(kctl->id.name)=
-, 1);
->                         if (!len)
->                                 snprintf(kctl->id.name, sizeof(kctl->id.n=
-ame),
->                                          "Feature %d", unitid);
-> --
-> 2.43.0
->
+Signed-off-by: Anthony I Gilea <i@cpp.in>
+---
+  sound/pci/hda/cs35l41_hda_property.c | 2 ++
+  1 file changed, 2 insertions(+)
+
+diff --ruNp a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+
+--- a/sound/pci/hda/cs35l41_hda_property.c	2024-03-10 23:38:09.000000000 +0300
++++ b/sound/pci/hda/cs35l41_hda_property.c	2024-03-14 18:22:01.887566917 +0300
+@@ -64,6 +64,7 @@ static const struct cs35l41_config cs35l
+  	{ "103C8BE5", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+  	{ "103C8BE6", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+  	{ "103C8B3A", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
++	{ "103C8C15", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+  	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+  	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+  	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -405,6 +406,7 @@ static const struct cs35l41_prop_model c
+  	{ "CSC3551", "103C8BE5", generic_dsd_config },
+  	{ "CSC3551", "103C8BE6", generic_dsd_config },
+  	{ "CSC3551", "103C8B3A", generic_dsd_config },
++	{ "CSC3551", "103C8C15", generic_dsd_config },
+  	{ "CSC3551", "104312AF", generic_dsd_config },
+  	{ "CSC3551", "10431433", generic_dsd_config },
+  	{ "CSC3551", "10431463", generic_dsd_config },
