@@ -1,128 +1,161 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDFC1C11
-	for <linux-sound@vger.kernel.org>; Sun, 17 Mar 2024 08:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4B91BF27;
+	Sun, 17 Mar 2024 14:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710664525; cv=none; b=thuHzuR1SGwQrFVS1HE8ARqksXxQqLH7J7CE1NyhqKABJqNABTbJCAkn9F/BWOxV5UaKgNOFTPZd40oDQotQ3E9Y9TUA3zJs0IHcpe8W5KFiEJWXcKoIS1E685HYxWncQJQ/gqj7apHVO4rHqzE5veBqCp/JXjDJZ+XKuQ8E0bM=
+	t=1710685092; cv=none; b=qRSrAz/v19tiLpNTLCaaDa3nq/uLKnxvqZqzoAQRPeH3g8a5jLgs8aLtKHkqLGz9aO7SKKsBu/DswgPqIZRd6I3LbjsPEoAW91VeSY7R40DjLmF6G7KAt8o66k8+lUzSRPeOtshfNCtNSji8pUkKsczRTmrGH3TFurvmsWwkLvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710664525; c=relaxed/simple;
-	bh=znTX9eAIHyWQ7f5ssmtNNZv+t2Yeo0/G0gKKGQUKCnE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CKYy987u3nOQtGmadLbxXoNBeUY06CWRLg4+t+TsRqh1nMVX8h93RDGWruRprojk4FPfoRegfJ2rLEyGxjjkG1nQhYAV8duK0mHVrTWu3mzSUWb2E1Kgcb4y1Q9SCyyqrUc8Dc+G2fNdfRn7OdK/CFR9aPzDY8VxjSbf6tz7Iig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BPA/uIC5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9BpFYTqp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BPA/uIC5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9BpFYTqp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710685092; c=relaxed/simple;
+	bh=xAVsxMnJoqTUvzQY5QFOBDRP+AQP097SoH7H4Z6KpPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OSTOA+nVJx/x1Ks3Z825/odkZ7II9bqpcZPYAeOGA1m0/rTpX+Ut2CfdmZrpC0UsA7jNpDp4ZojueO6yskepSgmKioC0HgdaSYeruFlNxPGzswl/JJYBZ0C4Y/rOIEcPopKtZOqQpu5uTGdNbjztKQmdPyvKOJ2H0Kyvw3Ri2Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=uv7Lm/X9; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BPA/uIC5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9BpFYTqp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BPA/uIC5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9BpFYTqp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="uv7Lm/X9"
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id EEF53100004;
+	Sun, 17 Mar 2024 17:17:55 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru EEF53100004
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1710685075;
+	bh=SQRSKK7y7FzIxWfxLiQrXC7XGIdk++wvMoC5iAR3Cb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=uv7Lm/X9X5z1ZUSUWfoS0ttfd/72rpm6SUnpRRaNa24NwI+up88M2sXcGcvi9f9YN
+	 Jig10wMsHnHwV3wanec2UWaKwWicjrcIw9dzuHtmOHhcc7uYxFsB3ysm6RbjCzKe6y
+	 jFKr94t1wofL3qvT2jXHDt0cZ9TG2LvhthtFoXo8mnq8bJQBPmuOH+d043V2q04tZW
+	 98zrHAAMKuh6hEZvYg4S/n02z1WyFyc8uh7Y4DQZO2og/ahv9LdqCGSLBmonIYf9hv
+	 V9kuUDEqBFP9SD9NKttW20YDJR+hHD4daPmB+e6xNuANLo3Bwgo7cs0+9iYR4UQ95k
+	 jIktZ299+OK9Q==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 026CA20883;
-	Sun, 17 Mar 2024 08:35:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710664516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeS2ELhNfkGsLzrI905ZXWqhNufqsqpTOo3C0vyBpRQ=;
-	b=BPA/uIC5hgPhnKuLVsgq/zVJJ9u6Dxz7vT5vWLPHZPdPofgLcuizOmVMap0WKnGVzE3Tzm
-	rdM13D6HMRxTsRaivpSGSpyYOG/GVwLwLpKnvRxA02YgIyDi/xGOuZwm7t3JsWArmVKSGc
-	drwTxxsOfOUoJNnwXHTtpJ9/PFa1FSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710664516;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeS2ELhNfkGsLzrI905ZXWqhNufqsqpTOo3C0vyBpRQ=;
-	b=9BpFYTqp/GPWjJbYU/kv4P3pSWzd+NJfXk7GbxY+MDk2W5ruhFF43sqKAZZYtKBRnUH+Dw
-	dbhPnVZB0bRtgzBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710664516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeS2ELhNfkGsLzrI905ZXWqhNufqsqpTOo3C0vyBpRQ=;
-	b=BPA/uIC5hgPhnKuLVsgq/zVJJ9u6Dxz7vT5vWLPHZPdPofgLcuizOmVMap0WKnGVzE3Tzm
-	rdM13D6HMRxTsRaivpSGSpyYOG/GVwLwLpKnvRxA02YgIyDi/xGOuZwm7t3JsWArmVKSGc
-	drwTxxsOfOUoJNnwXHTtpJ9/PFa1FSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710664516;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeS2ELhNfkGsLzrI905ZXWqhNufqsqpTOo3C0vyBpRQ=;
-	b=9BpFYTqp/GPWjJbYU/kv4P3pSWzd+NJfXk7GbxY+MDk2W5ruhFF43sqKAZZYtKBRnUH+Dw
-	dbhPnVZB0bRtgzBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB74E1349D;
-	Sun, 17 Mar 2024 08:35:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fRgrMEOr9mWbRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 17 Mar 2024 08:35:15 +0000
-Date: Sun, 17 Mar 2024 09:35:15 +0100
-Message-ID: <875xxl9ry4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ian Murphy <iano200@gmail.com>
-Cc: tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: add in quirk for Acer Swift Go 16 - SFG16-71
-In-Reply-To: <20240316094157.13890-1-iano200@gmail.com>
-References: <20240316094157.13890-1-iano200@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Sun, 17 Mar 2024 17:17:55 +0300 (MSK)
+Received: from [172.28.160.49] (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sun, 17 Mar 2024 17:17:55 +0300
+Message-ID: <cbfd9c66-cca5-49f5-9468-43710c48518e@salutedevices.com>
+Date: Sun, 17 Mar 2024 17:17:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.45
-X-Spamd-Result: default: False [-2.45 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.15)[95.92%]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/25] clk: meson: a1: restrict an amount of 'hifi_pll'
+ params
+Content-Language: en-US
+To: Jerome Brunet <jbrunet@baylibre.com>
+CC: Neil Armstrong <neil.armstrong@linaro.org>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+	Kevin Hilman <khilman@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	<linux-amlogic@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <alsa-devel@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<kernel@salutedevices.com>
+References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-2-jan.dakinevich@salutedevices.com>
+ <1j8r2jj24k.fsf@starbuckisacylon.baylibre.com>
+From: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+In-Reply-To: <1j8r2jj24k.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: YVDakinevich@sberdevices.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_smtp_not_equal_from}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: n, {Tracking_smtp_domain_mismatch}, {Tracking_smtp_domain_2level_mismatch}, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Sat, 16 Mar 2024 10:41:57 +0100,
-Ian Murphy wrote:
+
+
+On 3/15/24 11:58, Jerome Brunet wrote:
 > 
-> Keyboard has an LED that is ON/OFF when mic is muted/active
->  - LED is controlled by GPIO pin
->  - Patch enables led to appear in /sys/class/leds/ as hda::micmute
->  - Enables LED when mic is MUTED
->  - Disables LED when mic is active
+> On Fri 15 Mar 2024 at 02:21, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
 > 
-> Signed-off-by: Ian Murphy <iano200@gmail.com>
+>> Existing values were insufficient to produce accurate clock for audio
+>> devices. New values are safe and most suitable to produce 48000Hz sample
+>> rate.
+> 
+> The hifi pll is not about 48k only. I see no reason to restrict the PLL
+> to a single setting.
+> > You've provided no justification why the PLL driver can't reach the same
+> setting for 48k. The setting below is just the crude part. the fine
+> tuning is done done with the frac parameter so I doubt this provides a
+> more accurate rate.
+> 
 
-Applied now with corrections of white spaces.  Thanks.
+You are right, it is not about 48k only. However, there are two issues.
 
+First, indeed, I could just extend the range of multipliers to 1..255.
+But I am unsure if hifi_pll is able to handle whole range of
+mulptipliers. The value 128 is taken from Amlogic's branch, and I am
+pretty sure that it works.
 
-Takashi
+Second, unfortunately frac parameter currently doesn't work. When frac
+is used enabling of hifi_pll fails in meson_clk_pll_wait_lock(). I see
+it when try to use 44100Hz and multipliers' range is set to 1..255. So,
+support of other rates than 48k requires extra effort.
+
+>>
+>> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+>> ---
+>>  drivers/clk/meson/a1-pll.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/clk/meson/a1-pll.c b/drivers/clk/meson/a1-pll.c
+>> index 4325e8a6a3ef..00e06d03445b 100644
+>> --- a/drivers/clk/meson/a1-pll.c
+>> +++ b/drivers/clk/meson/a1-pll.c
+>> @@ -74,9 +74,9 @@ static struct clk_regmap fixed_pll = {
+>>  	},
+>>  };
+>>  
+>> -static const struct pll_mult_range hifi_pll_mult_range = {
+>> -	.min = 32,
+>> -	.max = 64,
+>> +static const struct pll_params_table hifi_pll_params_table[] = {
+>> +	PLL_PARAMS(128, 5),
+>> +	{ },
+>>  };
+>>  
+>>  static const struct reg_sequence hifi_init_regs[] = {
+>> @@ -124,7 +124,7 @@ static struct clk_regmap hifi_pll = {
+>>  			.shift   = 6,
+>>  			.width   = 1,
+>>  		},
+>> -		.range = &hifi_pll_mult_range,
+>> +		.table = hifi_pll_params_table,
+>>  		.init_regs = hifi_init_regs,
+>>  		.init_count = ARRAY_SIZE(hifi_init_regs),
+>>  	},
+> 
+> 
+
+-- 
+Best regards
+Jan Dakinevich
