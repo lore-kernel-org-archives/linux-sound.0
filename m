@@ -1,49 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CB279E3;
-	Sun, 17 Mar 2024 20:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D091EB2D;
+	Sun, 17 Mar 2024 20:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710705990; cv=none; b=gZepKX1TzKGzGo1AAgk0G0aYSjejq1omIcKrc4ZJJPx4VunNosnk7r1k6oMQmb7nah1dNGqPOCoRw3NmIhPqTzZVpEVFoxZ2FTpKWoB3s+9k39qgt69uBL2dxhstkjNuhZacr7fWa3RVpCKe+e/onBPj5wktlQKeLVY0tJSe+JE=
+	t=1710706232; cv=none; b=Qf8NfKpWOgvE02r1rQnbFQYeix4OCHL5HZ18Xcy2SFPEN5SBOP4N56YrRAbN+ROGe4HcjQ+QiamtaDBEnNOEpl2qogG4HiixKKWUNlII3Bj1g1CTpl3j5Re1POlKZZTMezZkZWOloL4alyBA5I7+Mmq1s8TUu92x48ltYK6HK5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710705990; c=relaxed/simple;
-	bh=sFEHSjac8D3PtwCoVIQIp9ed7NUBbJyBtQx8DW7CYHw=;
+	s=arc-20240116; t=1710706232; c=relaxed/simple;
+	bh=m0qaEC2rBea95oHX1LSUKuzhZbY693N8ozdemzKvcfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKzUl++yTyBePF8DGtD3hyNKMrB6cwuvwMcR2XzbRuDilwty90HR1Zp1NGRQDx64YKiM7G1Uz3SEzdU4o103lwiomTrE/RwhrVhFFHmOOQH36eKUSEuS9Qq5yR/JYmQAdVhexEhPSIHEcnyMJUlreqcNhXwoXyL1p+h+yW2v7FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmO55PF+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgGiHs3adbuPn3Eois2jSCyRuX5VTbBJwWd39qXiTtmq5dEPpLWetAsXbgNdBPVi+SnUWIYJGQ0W1FYVZTHBiiTX3XDFs6blz7qh/KUuxxyZCaZTNX5d9MT+mvCwTBC29cckNRB99WsBu0OPY0/vqpCoZ2n9UQjXwcZIUAUwmQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJuKQxQ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmO55PF+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088AFC433C7;
-	Sun, 17 Mar 2024 20:06:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJuKQxQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D30C433C7;
+	Sun, 17 Mar 2024 20:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710705989;
-	bh=sFEHSjac8D3PtwCoVIQIp9ed7NUBbJyBtQx8DW7CYHw=;
+	s=k20201202; t=1710706230;
+	bh=m0qaEC2rBea95oHX1LSUKuzhZbY693N8ozdemzKvcfg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GmO55PF+27CYXtYz0jkopdHUjYs9RksuwoQcqWTdNPRY3OcaqcLkh+pZ+RLVhlpNo
-	 jq9am4kudwG9uDvzQjVIlw9RzjLf5HfUAanHe2GwNrFqeKhqbWzVeUzqYbkK1/lta3
-	 qBKGqLzx0+h9H+t9hia/j06U/pkAyIHeTvlIfyV83BDI//q84HTPGoI6zuVet1WZ1R
-	 ZIKwq/YFAZzMR7wXQBxVn9katyHo9ZCgB3Ys25cj/+yw6GbeiyKYZVoPdy//t0NeKv
-	 wVNOjAclCDO603/b/uv3iezx1Ui/mBcALUlTmiUIqnnMItIQfex2kjTE4RRjipQYB+
-	 lY+fLrhLuRUIQ==
-Date: Sun, 17 Mar 2024 14:06:25 -0600
+	b=PJuKQxQ5HZ3emFjVOQPKMNrHwcgYFfTz/i6fuJAowij7C8t0S89MKrmXb7xbqlfOk
+	 sKXlLKOE2cdhaEXLfnUwHL7pDPdVAvcakFZmXi+aZ9s5UjyGS1C6hBDH4OkLqJsPQl
+	 aqQnfkzXhJoPH5AjWdicJUfQXzFdVBS2uj6HlvfFLRLjKJRTEj5TyY5rYzQRk1cUlG
+	 keqOyTmchEDnZBzdhUHqyfgJFbmtsKvbsyXsnU1l0NdcImwQZ7d0FGij04rt0aGWJ9
+	 Zmg/pJ/Yp4e87znvzb/txLPuf3KsUIedXw0KieQP/7z009jRf1cLsGtUbwb2hsb1tc
+	 XR3fXDcPUsenw==
+Date: Sun, 17 Mar 2024 14:10:26 -0600
 From: Rob Herring <robh@kernel.org>
 To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, christophercordahi@nanometrics.ca,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+Cc: Rob Herring <robh+dt@kernel.org>,
 	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, herve.codina@bootlin.com,
+	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+	herve.codina@bootlin.com,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH 02/13] ASoC: dt-bindings: davinci-mcbsp: Add new
- properties
-Message-ID: <171070598512.2141016.568175668659767924.robh@kernel.org>
+	Jaroslav Kysela <perex@perex.cz>, christophercordahi@nanometrics.ca,
+	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	alsa-devel@alsa-project.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH 12/13] ASoC: dt-bindings: davinic-mcbsp: Add the
+ 'ti,drive-dx' property
+Message-ID: <171070619705.2172467.4945077110707168777.robh@kernel.org>
 References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-3-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-13-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,33 +53,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240315112745.63230-3-bastien.curutchet@bootlin.com>
+In-Reply-To: <20240315112745.63230-13-bastien.curutchet@bootlin.com>
 
 
-On Fri, 15 Mar 2024 12:27:34 +0100, Bastien Curutchet wrote:
-> Following features are not described in the bindings:
->  - The McBSP uses an internal sample rate generator to provide bit clock
->    or frame clock. This sample rate generator can be programmed to be
->    driven by McBSP's internal clock source or by an external clock source
->    (located on CLKS pin).
->  - McBSP can be configured in 'free-running' mode so that its serial
->    clocks will continue to run during emulation halt.
->  - McBSP can generate a SYNCERR when unexpected frame pulses are detected
+On Fri, 15 Mar 2024 12:27:44 +0100, Bastien Curutchet wrote:
+> McBSP is able to handle capture and playback stream.
+> The McBSP's DX pins that outputs serial data during playback streams can
+> be used to output a chosen pattern during capture streams. For instance,
+> this can be useful to drive an active-low signal during capture streams
+> (by choosing <0> as pattern)
 > 
-> Add an optional clock item that allows to select an external clock as
-> sample rate generator's input.
-> 
-> Add a 'ti,disable-free-run' flag to disable the free-running mode. This
-> mode is selected by default by the driver that's why I add a disabling
-> flag instead of an enabling one.
-> 
-> Add a 'ti,enable-sync-err' flag to enable SYNCERR generation when
-> unexpected frame pulses are detected.
+> Add a 'ti,drive-dx' property that can be used to repeatedly output a
+> chosen pattern on DX pin while capture stream is ON.
 > 
 > Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
 > ---
->  .../devicetree/bindings/sound/davinci-mcbsp.yaml | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
