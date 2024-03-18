@@ -1,173 +1,144 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B307C2E827
-	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 10:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490A238388
+	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 11:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710759386; cv=none; b=QoT+63vbeuP/sDzDa+cEdeDWC537xjM0xdB1fDvRVpOfydAo9A3Rg7hvk9tely/AwjX/RjPm9INY99OrZIXnxJPybaP0A9i4vnSn34idSkwsq9u+sQOyqUapCsj6ia+lUrleYtyjN9x2ZeozfgNlyCsBe9m28HojkYinuaYPisk=
+	t=1710760362; cv=none; b=kQ6pNpo1cs7WQW4g3wae2ZyBbnB8kDTnpxmMiVBROVvxkc19/wufjAcbnBG9zR5Hp6lHoHaW6rkiX2SfQ76vgdC+HAVZ0I079YzFk8wv5WTZ6bxZ4wQi75U76Ca68molEhVbRBfadPOPdDKjU8/bVK5ZWTn1ZEv14mNNvd6BkUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710759386; c=relaxed/simple;
-	bh=ktqhDBsasebif64PIWUFmzzdHaGOsLDzz8vPPDymlSQ=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=HZSfUBHAnL45PtynQaJpVqiBRbBMgRdQ+oxVUQJ5F3E3Xi07oH+bW4QGLiehoVl5M9TbdkmGPLXdQEqnb2RPx64QEiBUHiH/G9L026Kklj2btETtSVsppf00Lv536AF0aafJDg0Od1ktqBt/JsOScHKEDJ3iphKpP1ZdHGjQp+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=VBm3UaES; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710760362; c=relaxed/simple;
+	bh=0Bx39X9nrmaOe2siDGBtD8UvPB5+0atvcfW4BaACz+4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gTgFh/S2p/4qIZ9gBv2KysVkCggZs3VM428meOsODnixUN9g78ICDujyySiQS5Cy/Ef3QxnCDptInSKKN6RnauVV9OBdaJBc8BLzEk9bedVHnVZDyvS+qk62K7DEjgez4fcgSoblkKeUVyZN0yn0do3aLt7N9gI0MUO0pKVPHKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=2ROMi7FD; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="VBm3UaES"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-513dd2d2415so2611987e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 03:56:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="2ROMi7FD"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-609f1f97864so45693597b3.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 04:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710759383; x=1711364183; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=F3i97oXHe0eAhEUjD88GKSO+6DE7eLwPQSdXhNfZFbQ=;
-        b=VBm3UaESKKWDtqxB13mfadCGf6zYds154Uy2mVCfgBykHOzG3/r/bmkb0KV/dsks7S
-         5MCO9IxlTDS74OpXloNO/nsDVtVMiqHRFFuTB1CCPXXko9xIkekIqijDy2Iswiolz3oV
-         fr2DrlSfzQmA71cXmfvMezTY8fB6go2IgecSw+WWiljZ0ndQ3X7qm9RSZuhc3g88rkuH
-         JsxQH537CH8+bHBFZrAwwiXhJvkv+zhlyMH8Z42Ny88iFOlAFhuYx3NH9yXH5dHM+kiZ
-         q77IsGBwQ9iTVHqo64PBbj4H5SSy9AZcFVbHp72jbbQMIRDcfxAdbM9iCk1l1Rea9q49
-         4axA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710759383; x=1711364183;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1710760358; x=1711365158; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F3i97oXHe0eAhEUjD88GKSO+6DE7eLwPQSdXhNfZFbQ=;
-        b=uUsOwS3BmrUruB1l8T+y6Q1GBq+dh3mcCe8kre4Q2hr2jex3H3xYId/ZklTj1LP5HK
-         G7zK+D66NnTldxmNsnQUeNGk9aIrn74ZAgGfqqL+3gVEx4KhWZoRajeB6c4noNhW2MeA
-         WYtpf7ohbjmcbbfWTFHEJxsATl4ks1VUCenLurckJtl5sMknWAit98HCqqDUJe2lezlK
-         e2u8rqKAL+8be70qSoJIGgiWRccP9zbWla8/0uBqGndSc00ygRyoFisHlguC0vM/szXk
-         UPl0lz0kTVR0aLwawaF0TOUivxKRdzwVNP1i+7O86oXFZzIA5oQOddeAPq1o82jyTIlf
-         ktlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDkFWOiPI/QcWsGlqa4c7rkxgeyIhzgC0+wwklXPHGjAQ51rWwErnKB2VYlTy4Zul5fsUhbIBAt5XWpvkyA60LY4tioQ8k7Nt8qyU=
-X-Gm-Message-State: AOJu0Yzfp6DA7AWPZgRR5swgwQSHxbddeHF1fISuRaDRWHo8HbBP4K2m
-	5p33ke75n0he/jtNdudvrTzYBVBFyICPVlpBKNHIqX0313E4oFO5eTiE1rz7dcs=
-X-Google-Smtp-Source: AGHT+IF2t1NObGaOQ+IPe7s03JmYlEbsyaNF+u7Gb3UFP+mZEEcwim7+2sDBYhdUxYtGEoaRHjxYsg==
-X-Received: by 2002:a19:8c0f:0:b0:513:9da7:3792 with SMTP id o15-20020a198c0f000000b005139da73792mr7100240lfd.19.1710759382830;
-        Mon, 18 Mar 2024 03:56:22 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:e4d5:78c0:18b:ad85])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b0041407100b3csm7809350wms.30.2024.03.18.03.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 03:56:22 -0700 (PDT)
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
- <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
- <1jil1nhjwd.fsf@starbuckisacylon.baylibre.com>
- <6feba9ff-8bbf-4494-93f0-732679bc4032@salutedevices.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@salutedevices.com
-Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
- 'sysrate' property
-Date: Mon, 18 Mar 2024 11:55:35 +0100
-In-reply-to: <6feba9ff-8bbf-4494-93f0-732679bc4032@salutedevices.com>
-Message-ID: <1j1q87hkq2.fsf@starbuckisacylon.baylibre.com>
+        bh=CJoZDN6ezIJlLMa5gaDKCST13mLnHhS66r8V7Evf8Jc=;
+        b=2ROMi7FDJwptKqSspUrVQ6fZTE/NhmeID0jQXfMNvLylVl03Isq/pPLOH4nvdmX7Zh
+         9KCNUm4bUeY4d1Z2jy+IcbCF040fCMqQNv/K+o0Jz3qNnGqCP7yfjRhhOrMTGeLfJ1XS
+         rMoNEFfhP2MhzYeYfGbjNMN5BONjXhKg1PHYUeUqI4qKtw57aJ63VlT5j1CaVW0rorjA
+         PD24HbD2Mx2IIfVCVzpDkMOyWx63JoRqZICwfMw6b2hmdtTJf3hWfSFtbQHxSEsYC1f4
+         Iu8NrchQQBlb8LntshiWgPkRgjmlWPWBYktSPectDwSM4uVKjwHysD/PINR/CLYNGBUY
+         93pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710760358; x=1711365158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CJoZDN6ezIJlLMa5gaDKCST13mLnHhS66r8V7Evf8Jc=;
+        b=gGv0aNN2h3acA0dYrlEMm54B6Hob4Nfr+z4JOizsvwvvnp5ixrL7v9maFbaR+ySk1R
+         tsskLENqbwfGjcEebsoAMzBm6NxnEBc5rdRbyal0+KpAskNUBxsTSJc5MEJGoGwW1ly1
+         2k5p1+NWCZsnHvH17Zt2VGEq+JiCsocf0u2txCKZgdJRQgnhh8ubnikXPC9A0BtAx1HA
+         BYX6MnI54voxkRuptBJsnERZxs/NNB//wFiwwNTtHcHltWHXkIsnD7mqNuD3hGo9hzpc
+         Xr/daMFc9OETOYxGFKF93qaclPIrHDe8bjDVNeA+JoOkogDhx9BjTHIaEsUSRUAh9/MM
+         89Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHkF1c0+PslZXDF1HV3Q5Tvr41OUDF/WfKZBZ8ZUUt/4Bbh1WipvDQTwWmxlbeOeJ38P5JXUeWmiZ3Em2GMPyxqBQeajfakuk3+PQ=
+X-Gm-Message-State: AOJu0YwoIyj4pL/dhYiPx84zuC7kopW8e0QnxBuoUeMTuaVeZAEuNJku
+	5XhD96ev94QHeqdc9Cw0nAJrlRpaUpcsrtVVgYHNNWVDxz37y68fIw3fSHwoHi9uMey96rT5igO
+	oGOVcdDfHCfaq9YVfr1OI9kS61uHABPl6EE8o
+X-Google-Smtp-Source: AGHT+IG/HgIgdSgvQqy3AXOe0r/4PVhQlkf8W/nO+Clig28YU2mx//r0WREn/yYLRmNX0scfU3SYjJOJrqswVfJx9YE=
+X-Received: by 2002:a25:3187:0:b0:dcc:1449:71ea with SMTP id
+ x129-20020a253187000000b00dcc144971eamr8864308ybx.50.1710760357653; Mon, 18
+ Mar 2024 04:12:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <570989e3-299f-4617-adde-b6b8d1e06277@cpp.in> <000901da7922$c81acee0$58506ca0$@opensource.cirrus.com>
+In-Reply-To: <000901da7922$c81acee0$58506ca0$@opensource.cirrus.com>
+From: aigilea <i@cpp.in>
+Date: Mon, 18 Mar 2024 14:12:01 +0300
+Message-ID: <CABYkuAi9+XmXnJP0J+jvXkOaOGyK0pvRiFic1v2LmxkGo4ic0g@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l41: Support HP Spectre x360 14 eu0000
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: James Schulman <james.schulman@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi.
 
-On Sun 17 Mar 2024 at 18:52, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
+Indeed, my bad, this patch is obsolete then. I will update and resend
+the second one (for the patch_realtek.c) as more quirks are needed.
 
-> On 3/15/24 13:22, Jerome Brunet wrote:
->> 
->> On Fri 15 Mar 2024 at 11:00, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->> 
->>> On 15/03/2024 00:21, Jan Dakinevich wrote:
->>>> This option allow to redefine the rate of DSP system clock.
->>>
->>> And why is it suitable for bindings? Describe the hardware, not what you
->>> want to do in the driver.
->>>
->>>>
->>>> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
->>>> ---
->>>>  Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml | 4 ++++
->>>>  1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>> index df21dd72fc65..d2f23a59a6b6 100644
->>>> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>> @@ -40,6 +40,10 @@ properties:
->>>>    resets:
->>>>      maxItems: 1
->>>>  
->>>> +  sysrate:
->>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>> +    description: redefine rate of DSP system clock
->>>
->>> No vendor prefix, so is it a generic property? Also, missing unit
->>> suffix, but more importantly I don't understand why this is a property
->>> of hardware.
->> 
->> +1.
->> 
->> The appropriate way to set rate of the clock before the driver take over
->> is 'assigned-rate', if you need to customize this for different
->> platform.
->> 
+On Mon, Mar 18, 2024 at 1:55=E2=80=AFPM Stefan Binding
+<sbinding@opensource.cirrus.com> wrote:
 >
-> It would be great, but it doesn't work. Below, is what I want to see:
+> Hi,
 >
-> 	assigned-clocks =
-> 		<&clkc_audio AUD2_CLKID_PDM_SYSCLK_SEL>,
-> 		<&clkc_audio AUD2_CLKID_PDM_SYSCLK_DIV>;
-> 	assigned-clock-parents =
-> 		<&clkc_pll CLKID_FCLK_DIV3>,
-> 		<0>;
-> 	assigned-clock-rates =
-> 		<0>,
-> 		<256000000>;
+> Support for this laptop was previously added in patch:
+> 33e5e648e631 ("ALSA: hda: cs35l41: Support additional HP Envy Models")
 >
-> But regardles of this declaration, PDM's driver unconditionally sets
-> sysclk'rate to 250MHz and throws away everything that was configured
-> before, reparents audio2_pdm_sysclk_mux to hifi_pll and changes
-> hifi_pll's rate.
+> Is your branch out of date?
 >
-> This value 250MHz is declared here:
+> Thanks,
+> Stefan Binding
 >
-> static const struct axg_pdm_cfg axg_pdm_config = {
-> 	.filters = &axg_default_filters,
-> 	.sys_rate = 250000000,
-> };
+> > -----Original Message-----
+> > From: Anthony I Gilea <i@cpp.in>
+> > Sent: Sunday, March 17, 2024 2:05 AM
+> > To: James Schulman <james.schulman@cirrus.com>; David Rhodes
+> > <david.rhodes@cirrus.com>; Richard Fitzgerald
+> > <rf@opensource.cirrus.com>; Jaroslav Kysela <perex@perex.cz>; Takashi
+> > Iwai <tiwai@suse.com>
+> > Cc: alsa-devel@alsa-project.org; patches@opensource.cirrus.com; linux-
+> > sound@vger.kernel.org; linux-kernel@vger.kernel.org
+> > Subject: [PATCH] ALSA: hda: cs35l41: Support HP Spectre x360 14 eu0000
+> >
+> > The new HP Spectre x360 has _DSD for CS35L41 amps in ACPI but
+> > reset-gpios and spk-id-gpios are merged into single Package of size 4 s=
+o
+> > _DSD parser fails to parse it.
+> >
+> > Overwrite broken _DSD with the correct configuration.
+> >
+> > Signed-off-by: Anthony I Gilea <i@cpp.in>
+> > ---
+> >   sound/pci/hda/cs35l41_hda_property.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --ruNp a/sound/pci/hda/cs35l41_hda_property.c
+> > b/sound/pci/hda/cs35l41_hda_property.c
+> >
+> > --- a/sound/pci/hda/cs35l41_hda_property.c    2024-03-10
+> > 23:38:09.000000000 +0300
+> > +++ b/sound/pci/hda/cs35l41_hda_property.c    2024-03-14
+> > 18:22:01.887566917 +0300
+> > @@ -64,6 +64,7 @@ static const struct cs35l41_config cs35l
+> >       { "103C8BE5", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4100, 24 },
+> >       { "103C8BE6", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4100, 24 },
+> >       { "103C8B3A", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4100, 24 },
+> > +     { "103C8C15", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4100, 24 },
+> >       { "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 1, 2, 0, 1000, 4500, 24 },
+> >       { "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4500, 24 },
+> >       { "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> > }, 0, 1, -1, 1000, 4500, 24 },
+> > @@ -405,6 +406,7 @@ static const struct cs35l41_prop_model c
+> >       { "CSC3551", "103C8BE5", generic_dsd_config },
+> >       { "CSC3551", "103C8BE6", generic_dsd_config },
+> >       { "CSC3551", "103C8B3A", generic_dsd_config },
+> > +     { "CSC3551", "103C8C15", generic_dsd_config },
+> >       { "CSC3551", "104312AF", generic_dsd_config },
+> >       { "CSC3551", "10431433", generic_dsd_config },
+> >       { "CSC3551", "10431463", generic_dsd_config },
 >
-> The property 'sysrate' is intended to redefine hardcoded 'sys_rate'
-> value in 'axg_pdm_config'.
-
-What is stopping you from removing that from the driver and adding
-assigned-rate to 250M is the existing platform ?
-
->
->> Then you don't have to deal with it in the device driver.
->> 
->>>
->>> Best regards,
->>> Krzysztof
->> 
->> 
-
-
--- 
-Jerome
