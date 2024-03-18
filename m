@@ -1,135 +1,82 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8B31E488;
-	Sun, 17 Mar 2024 23:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA2518029;
+	Mon, 18 Mar 2024 01:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710718795; cv=none; b=ZiR20CvJkrZZhohM817t17Hlzr5PKhM+DxW4biv7PPVGMuIuVVJSeRSEkbxHSYvMjQJ8fS1zxqJpRH6aRwSMSTPHiR+i/+va8uHS3SSRbYTH99x5I96rAwnqG7dFVN5K9YgvjhIntuXbprBBOgEcUfAbW25viGw7pB5eUJgwkLo=
+	t=1710727115; cv=none; b=E1SVx2yyFYznKwUbpypwHw9Z7gXAYJi2bACXWrB9CWa6KVu2bqSAHy2sdqgG0SSBJb+KJhWt19yPupzRFC3Dq+PtTRW8l/rfwJ8lyXv+9319d21GFdt5uYs/uKGOZt040lCiQw5655y45119KSO9p8wzsbGSTfuOSx8nT33IScw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710718795; c=relaxed/simple;
-	bh=xrdrLONqXUisegUxaeWCoF7p1xx5KhI42epdweRiOW8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hAqgqqbLtml7S+B7+dLryJ8IE8D2vBzc6rANBvbEwWUhdsnQQ30f6ByjhtfOFuMjWOgvt7qRwen4zshGPc5S1P5quNUgXeaHacdYccximOmGEoqNJC2Hjmgh2Q4qVr4iEkHx2y4tK0O+OZm4GK2unTBuW/FhwsU+8iSvljxwsB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=d2g4D0qY; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
+	s=arc-20240116; t=1710727115; c=relaxed/simple;
+	bh=DcITcUi0UAzIfJfgwKPQR+v9uBz4blRpVUIme3CHnFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFB7oUWlaZy1S9LuLIQei7HvUopv+wqWl5PRuliKxnhW5fgMuoTuvbRRUdf2PM4yL1ioC91L8N6WSrUaduiMDTIGbb5t58mJf+vnBsHmNzRwylEuS1ZosHbi5NrnunexnP6oAy24ztEPm4U7aK1HhS8SwPBa+kuBNU8FwQGUAWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAIvdc3+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="d2g4D0qY"
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 7A96D120002;
-	Mon, 18 Mar 2024 02:39:47 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 7A96D120002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1710718787;
-	bh=bKsdI1eMZNCKrRBjX4TwkOfAmnVx5pDlExnmUyzw5I0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=d2g4D0qYg7zCodKeZgunyPQ2KHFeWySByW3jsDIdDJPoZ45ddkegxgysUiOXg4C4V
-	 dKCzGIMi9BrjxQg67RAkFBWIN4xHn8l6Uzhd1hn2Xqy2zDM7RyVemTuTVMJu1a/ww/
-	 BmlnccNSzsyV3U6K4jD9fCGzBve5aCH7TNmBFhdfYFDj803QgXT743kOJdiMWYg+v5
-	 1itPRU/yii51uY2BbU2auMmX4qV8ZkTEIqANPaliE4gJ1R+RdMRgGOmDib81FFzL0i
-	 ETOVXcFgC+4fVWh/MtRgHAdAfBm8HZtpKBkt5p+NQSWWhxf/tC8zXByk80AicK4rgg
-	 RAAcvadico93g==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Mon, 18 Mar 2024 02:39:47 +0300 (MSK)
-Received: from [172.28.160.49] (100.64.160.123) by
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 18 Mar 2024 02:39:46 +0300
-Message-ID: <7d61700d-bfb5-46c6-bd45-a18aecf06a5b@salutedevices.com>
-Date: Mon, 18 Mar 2024 02:39:03 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAIvdc3+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C89C433F1;
+	Mon, 18 Mar 2024 01:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710727114;
+	bh=DcITcUi0UAzIfJfgwKPQR+v9uBz4blRpVUIme3CHnFc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sAIvdc3+W8FabzOBdpjbNt/g0jAjRvax2T9f3NSY8kAOrB89h8mK4nw5jTJ1lrenD
+	 Y5qJKBbqvraWed/nleybq9nkZkavn7X/B9pLcKMZ1RPzbmJIOqC6x55bnHDT4ptj2g
+	 QSAQrQNFYvSN1c0wA/TAzTJSdNUGCbRKNvhLHnzIrkFXe7GKNV4g3jxQFKm2y92vQg
+	 EGlj9Ghn5fxsugSIIZ46rB0m79t1yhi3O7zAJiCl+U8fDLM+HlwrAesQjIOxWwh0Sl
+	 +sYxdTnEGNnsvz6zIZjBqEX4whzIGPHGiA3MjK/WIv240fYQj8/x76UwEfvan5BkyN
+	 doWb5r1bfJjRw==
+Date: Sun, 17 Mar 2024 21:58:32 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Jiawei Wang <me@jwang.link>, Mark Brown <broonie@kernel.org>,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	Syed.SabaKareem@amd.com, linux-sound@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
+Subject: Re: [PATCH AUTOSEL 6.6 12/17] ASoC: amd: yc: add new YC platform
+ variant (0x63) support
+Message-ID: <ZfefyOEkKM_GHvhC@sashalap>
+References: <20240311151314.317776-1-sashal@kernel.org>
+ <20240311151314.317776-12-sashal@kernel.org>
+ <b13786b0-fdee-45a4-9f1a-33427cef5635@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/25] ASoC: dt-bindings: meson: t9015: add support for A1
- SoC family
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
-	<jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
-	<linus.walleij@linaro.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, <linux-amlogic@lists.infradead.org>,
-	<linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <kernel@salutedevices.com>
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-12-jan.dakinevich@salutedevices.com>
- <20240317190316.GA2071139-robh@kernel.org>
-From: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-In-Reply-To: <20240317190316.GA2071139-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.3
-X-KSMG-AntiSpam-Envelope-From: YVDakinevich@sberdevices.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Tracking_smtp_not_equal_from}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: n, {Tracking_smtp_domain_mismatch}, {Tracking_smtp_domain_2level_mismatch}, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <b13786b0-fdee-45a4-9f1a-33427cef5635@amd.com>
 
-
-
-On 3/17/24 22:03, Rob Herring wrote:
-> On Fri, Mar 15, 2024 at 02:21:47AM +0300, Jan Dakinevich wrote:
->> Add "amlogic,t9015-a1" compatible string.
-> 
-> That's obvious from the diff. Perhaps what does 'a1' mean? What the 
-> difference from the existing compatible?
-> 
-
-a1 means A1 SoC family. The difference is described in next commit where
-this compatible string is added to driver. Should I duplicate here the
-explanation from that commit?
-
+On Mon, Mar 11, 2024 at 09:10:54PM +0530, Mukunda,Vijendar wrote:
+>On 11/03/24 20:43, Sasha Levin wrote:
+>> From: Jiawei Wang <me@jwang.link>
 >>
->> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
->> ---
->>  Documentation/devicetree/bindings/sound/amlogic,t9015.yaml | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
+>> [ Upstream commit 316a784839b21b122e1761cdca54677bb19a47fa ]
 >>
->> diff --git a/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml b/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
->> index 5f5cccdbeb34..ee8bd57dbcf9 100644
->> --- a/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
->> +++ b/Documentation/devicetree/bindings/sound/amlogic,t9015.yaml
->> @@ -21,7 +21,9 @@ properties:
->>  
->>    compatible:
->>      items:
->> -      - const: amlogic,t9015
->> +      - enum:
->> +          - amlogic,t9015
->> +          - amlogic,t9015-a1
->>  
->>    clocks:
->>      items:
->> -- 
->> 2.34.1
+>> The Lenovo 21J2 (ThinkBook 16 G5+ APO) has this new variant,
+>> as detected with lspci:
 >>
+>> 64:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
+>>         ACP/ACP3X/ACP6x Audio Coprocessor (rev 63)
+>>
+>> Signed-off-by: Jiawei Wang <me@jwang.link>
+>> Link: https://msgid.link/r/20240228073914.232204-1-me@jwang.link
+>> Signed-off-by: Mark Brown <broonie@kernel.org>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>This patch has to be reverted.
+>Pci revision id 0x63 corresponds to Pink Sardine (PS) platform.
+>Its not yellow corp platform.
+>Already PS platform ACP driver with PDM controller support available
+>in mainline kernel.
+>https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/sound/soc/amd/ps?h=v6.7.9
+
+I'll drop it, thanks.
 
 -- 
-Best regards
-Jan Dakinevich
+Thanks,
+Sasha
