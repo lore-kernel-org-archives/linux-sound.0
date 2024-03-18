@@ -1,142 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5FCEAD7;
-	Mon, 18 Mar 2024 08:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A8326AF7;
+	Mon, 18 Mar 2024 09:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710752149; cv=none; b=L1E3uLZ1stxFO0waF1YQ0L4B1Jg09SsffFqHPdXl9xBbbqofDBwGlOY3KJ43n4gvvUdPSnG4DyE0IghGtM02FUcUMNS7mgVH9jxE5N0Kl9Jf/JZ5vnnqRzrecUWhBxdrLQ77bMYSOPesxoQa4D3ysAbxJtMoZvTPgud+0//1WdM=
+	t=1710753846; cv=none; b=uqaa62tFGFky0gfBj86q/3Znh2xfh4XNZvQf1sljlMTBdGzQo18SYSqDwGaDL9ORv+NFsfDIz4LcCmHUMJkI1RaXLhzmC0I4nm8Ma7g4ERmPlytNF+RniPpbogqjSjHPrQEmjra+Dz/ieDykz0jcBaPpG9n6bSE5TLoR8OsKZSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710752149; c=relaxed/simple;
-	bh=/fB2tphTIRzK7XGA5TcnCZsCEUMQG1ulyI1hCwC4Bw8=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=X1zUcCii0cBtwK/PyJ2Zg+dKyzjFtu9PIQ9j8O2dXkRNR8kwnjrd+9tTndoHi/2bN7N0/wDrl5H4bN0KejZcdrUIdzEgthcL+VZKayjR+zAsgsE3Y6dzY5KjXQiXk6yfpZn48ruSG0xNhAELPkqjjB9SQRlEgYS8ttvlFjrAc/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2SIpIfIB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z5QGDrCw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2SIpIfIB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z5QGDrCw; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710753846; c=relaxed/simple;
+	bh=DpVVUBuvLHpQCKgKSJ/r5ujars6qANboe0uw/ZA8xpo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eMSar+JI8OAB9tZkE4jWyYRP7QtwKdqv4P2DU+dD7rRGvFer+8e9WM6l1y+oJuSogocheJllm2pSg9UF+8fg1CmdWToBiKzz/buxhheHVWbNztdTmaztLQQdRTAE2Eoc8rRaNtKK9+9yh1+xYc6E4r77g8m0Ioo3kSYsl54guF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GjOj/aJU; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2SIpIfIB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5QGDrCw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2SIpIfIB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5QGDrCw"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A2A155C2D4;
-	Mon, 18 Mar 2024 08:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710752145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
-	b=2SIpIfIBkbLcg16opl1AI6CC1Wtdmlz5OFDbcRe1IMHczWM3IGOBQLothI0c/ae93xrglZ
-	0V1Y7PTEJubCZ5wOk10j3k55Y5L5TXuLu7UjEEW+vCykfY1jtrI9omiza3JoE2F/DST4Pw
-	ehPQaWLueNiylw2Co68YofgZKhaBQeE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710752145;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
-	b=z5QGDrCw7unS8nkjac2KKiKrM5C8zIDGQHEEd1rb6WWVYEfT0Z0DFxAOJNuaakDAnDg6gm
-	kCfp9GBwQTYR7OAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710752145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
-	b=2SIpIfIBkbLcg16opl1AI6CC1Wtdmlz5OFDbcRe1IMHczWM3IGOBQLothI0c/ae93xrglZ
-	0V1Y7PTEJubCZ5wOk10j3k55Y5L5TXuLu7UjEEW+vCykfY1jtrI9omiza3JoE2F/DST4Pw
-	ehPQaWLueNiylw2Co68YofgZKhaBQeE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710752145;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
-	b=z5QGDrCw7unS8nkjac2KKiKrM5C8zIDGQHEEd1rb6WWVYEfT0Z0DFxAOJNuaakDAnDg6gm
-	kCfp9GBwQTYR7OAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EA8B1349D;
-	Mon, 18 Mar 2024 08:55:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IiFnHZEB+GW5QAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 18 Mar 2024 08:55:45 +0000
-Date: Mon, 18 Mar 2024 09:55:45 +0100
-Message-ID: <87o7bb9awe.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.9-rc1
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GjOj/aJU"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42I90EeJ019800;
+	Mon, 18 Mar 2024 04:23:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=LpFO4w9gXdXIdRz
+	3lp4nFmm9huDm3XdMOvGss5eCmI4=; b=GjOj/aJUactSeGm371ocin1DUdF65l+
+	Q2Tb8OJhGmdUdw2tuCT/907rZxuOt0u1EVhit4uy+Lz10M81zCt89bRM/dDHH/Q5
+	6gfJVAchwPB4SxN583h+dPwRyAOkUoJnZdRK4g4QrVGhlYqfb4P2XQ78PxcKsV5X
+	4ZYGzciP4JxkSh9oEFXM5Lku0Jq7Wg+J1COKKON85Jj+qHKNdghQYQIjJOb7+QzL
+	7KkEWe8Fya6vVWSz/tUew3uF6MM7DvtszrJ+UktAwWij4uOeKLsqT2ZiFJThm1xv
+	aaghj3DTkzZMt7qGK44fi1ux8PR7YRkjz+b7kod+BnyIRiLGiHSZhiA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ww7uj1uxm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Mar 2024 04:23:48 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 18 Mar
+ 2024 09:23:47 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Mon, 18 Mar 2024 09:23:47 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F16C3820244;
+	Mon, 18 Mar 2024 09:23:46 +0000 (UTC)
+Date: Mon, 18 Mar 2024 09:23:45 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Kartik Agarwala <agarwala.kartik@gmail.com>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <javier.carrasco.cruz@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: wm8776: Convert to dtschema
+Message-ID: <ZfgIIT4wObY+TlZ5@ediswmail9.ad.cirrus.com>
+References: <20240317200201.119233-1-agarwala.kartik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: 6.69
-X-Spamd-Result: default: False [6.69 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_DN_ALL(0.00)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.71)[83.53%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_SPAM_SHORT(3.00)[1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: ******
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240317200201.119233-1-agarwala.kartik@gmail.com>
+X-Proofpoint-ORIG-GUID: WRt0zsDs5d2poBW6Pz6vUrdhezhFBfd6
+X-Proofpoint-GUID: WRt0zsDs5d2poBW6Pz6vUrdhezhFBfd6
+X-Proofpoint-Spam-Reason: safe
 
-Linus,
+On Mon, Mar 18, 2024 at 01:32:02AM +0530, Kartik Agarwala wrote:
+> Convert WM8776 audio CODEC bindings from text to dtschema.
+> 
+> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+> ---
 
-please pull sound fixes for v6.9-rc1 from:
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.9-rc1
-
-The topmost commit is 585f5bf9e9f65b1fec607780d75d08afee0f0b85
-
-----------------------------------------------------------------
-
-sound fixes for 6.9-rc1
-
-Two regression fixes that had been introduced in the previous PR,
-additional HD-audio quirks, and a further enhancement for the new
-kunit.
-
-----------------------------------------------------------------
-
-Ian Murphy (1):
-      ALSA: hda/realtek: add in quirk for Acer Swift Go 16 - SFG16-71
-
-Jichi Zhang (1):
-      ALSA: hda/realtek: Add quirk for Lenovo Yoga 9 14IMH9
-
-Takashi Iwai (2):
-      ALSA: timer: Fix missing irq-disable at closing
-      Revert "ALSA: usb-audio: Name feature ctl using output if input is PCM"
-
-Takashi Sakamoto (1):
-      ALSA: core: add kunitconfig
-
----
- sound/core/.kunitconfig       |  5 +++++
- sound/core/timer.c            |  2 +-
- sound/pci/hda/patch_realtek.c | 22 +++++++++++++++++++
- sound/usb/mixer.c             | 49 +++++++++++++------------------------------
- 4 files changed, 42 insertions(+), 36 deletions(-)
- create mode 100644 sound/core/.kunitconfig
-
+Thanks,
+Charles
