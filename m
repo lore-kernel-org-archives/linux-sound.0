@@ -1,132 +1,142 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215F0249FA
-	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 08:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5FCEAD7;
+	Mon, 18 Mar 2024 08:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710749642; cv=none; b=Fik1R42IK+OFuqxgPuVc4H/PNWIR71sIxPuznkk+barGFNIlpZlHOKGt1Wy9hXAKqsn2Pa4acQeFd5fxJ98HJvtT3HFH4wryd2MOO92Mtv+5gpLqhm7i6VOu1wiW5Y4zADZXGQk1OBuXiIZSkLw8v6aFB9KPfHvrv473+fPU90Q=
+	t=1710752149; cv=none; b=L1E3uLZ1stxFO0waF1YQ0L4B1Jg09SsffFqHPdXl9xBbbqofDBwGlOY3KJ43n4gvvUdPSnG4DyE0IghGtM02FUcUMNS7mgVH9jxE5N0Kl9Jf/JZ5vnnqRzrecUWhBxdrLQ77bMYSOPesxoQa4D3ysAbxJtMoZvTPgud+0//1WdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710749642; c=relaxed/simple;
-	bh=NQYwqHun149c96QQoFY/sT5uLvHuF4B+STfh/+h2DKY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qY6vpFonlxX3Cqgqr8eewoTwVsul3DZEuaJrDCYuCM1lEwYumshz9kc6JLXj5sDsZ4TK7mmoY65PdsD4/ILSBTkHIeqmbHdVjzLK9SS7SR7au3oW1QFSaXLHrHIgRiT6P8m/tmSQ0pjwOgAWUIo3cI2qefHupMCmWo56OxTdhCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Utm594Ps; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710752149; c=relaxed/simple;
+	bh=/fB2tphTIRzK7XGA5TcnCZsCEUMQG1ulyI1hCwC4Bw8=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=X1zUcCii0cBtwK/PyJ2Zg+dKyzjFtu9PIQ9j8O2dXkRNR8kwnjrd+9tTndoHi/2bN7N0/wDrl5H4bN0KejZcdrUIdzEgthcL+VZKayjR+zAsgsE3Y6dzY5KjXQiXk6yfpZn48ruSG0xNhAELPkqjjB9SQRlEgYS8ttvlFjrAc/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2SIpIfIB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z5QGDrCw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2SIpIfIB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z5QGDrCw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Utm594Ps"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a4675aaa2e8so454286166b.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 01:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710749639; x=1711354439; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v8eR7MT371kMC18v8eMbd/eR6VOEqCVYjH7fh91MXtU=;
-        b=Utm594Ps+0cKNyL9hDYMS5xeIt+ohrmcPOESE2WrCFiJHRotk4539hAke8hwICKTJs
-         yhNYbF3S8ev8Wuq0l3V6fdbb8ZZOqgChX0TFZgZw9jKbNnPo6TiE6n9imneerXfibZ0c
-         +7LlgSPK2TqjJuL82pCQVpdrY54wdpwpGWcbEV6OlT+9ZN1IUtgqj0EXe7IghqKbPjGR
-         t9AikdCXygkNB0H97kez1cPB2uI98NqzeEtYrI08UOYjjtdIxBlCByHjVm2yThDKPJRb
-         zJVcV4zPFiYz7GSEL5wUSJrN3sC3g6114ofuuTWpUsBud763T1KsW6dz7Wg/rwb/UppG
-         BFLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710749639; x=1711354439;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8eR7MT371kMC18v8eMbd/eR6VOEqCVYjH7fh91MXtU=;
-        b=Oxd5n6zMWdPcWZc4nmRNPIMyRP2AeSKdlx6fYPUfAXthIbK4JrLiiX65L8njUquw4B
-         RpGH50JSFc17WKRf8wasVyJdRFNAXJg8NpQpg9xrJkY4her+6e1CKQyeClLxSjq3UofF
-         Wam2SpHCLZlfRWlzozMkXcUS/G2r3A8eSHLlU7q3Ar3HAjJTjZznNpJ4EQKUmTPhoYLm
-         diCQuYA43Z0gV6x/0R1tHUQHlail+gDhOsaCUCnri6yZ1/99UMpQkcbgNWPHIRrd6UFi
-         BQ+LZkvEKTD5t7JjeBaplfZAZPS8R4wIVEilK3kj8QEa/zUnA4ZIdCg3flTTUGsaSmSf
-         QBZA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNK92UGh5GsH5iNmYP/DKLtlHgtnUd8pESl8tMyG4WJzI569ug3dkKBt4SZir95i2xAqW5eUmwmuGZXgWtu4/hvOfMj7zN7+0jbEg=
-X-Gm-Message-State: AOJu0Ywn91SNRNFeFYKuO/Dpilq5FXkI4Efjhr8Zk2ScSCVXlBnJ/eOj
-	Fc5c4MbyY/J9p1s3lsBseCCeS7fse39APpEYmIjMKdD6m5hwUJN6dWVppIKJHt8=
-X-Google-Smtp-Source: AGHT+IFkZ2zlPmvfN0gPeHx4SIPhn0Ce4f/YhW2HbMajTyHbFeUj/Vd3gkZ5w2SqQ7qwJre1eEGnQw==
-X-Received: by 2002:a17:906:4fc7:b0:a46:b4bd:c5f1 with SMTP id i7-20020a1709064fc700b00a46b4bdc5f1mr3076401ejw.9.1710749639491;
-        Mon, 18 Mar 2024 01:13:59 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id s22-20020a170906501600b00a46cf8aea7bsm17480ejj.30.2024.03.18.01.13.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 01:13:59 -0700 (PDT)
-Message-ID: <e6a6fc75-2f95-44b4-a730-856b75f80461@linaro.org>
-Date: Mon, 18 Mar 2024 09:13:56 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2SIpIfIB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5QGDrCw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2SIpIfIB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z5QGDrCw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A2A155C2D4;
+	Mon, 18 Mar 2024 08:55:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710752145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
+	b=2SIpIfIBkbLcg16opl1AI6CC1Wtdmlz5OFDbcRe1IMHczWM3IGOBQLothI0c/ae93xrglZ
+	0V1Y7PTEJubCZ5wOk10j3k55Y5L5TXuLu7UjEEW+vCykfY1jtrI9omiza3JoE2F/DST4Pw
+	ehPQaWLueNiylw2Co68YofgZKhaBQeE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710752145;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
+	b=z5QGDrCw7unS8nkjac2KKiKrM5C8zIDGQHEEd1rb6WWVYEfT0Z0DFxAOJNuaakDAnDg6gm
+	kCfp9GBwQTYR7OAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1710752145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
+	b=2SIpIfIBkbLcg16opl1AI6CC1Wtdmlz5OFDbcRe1IMHczWM3IGOBQLothI0c/ae93xrglZ
+	0V1Y7PTEJubCZ5wOk10j3k55Y5L5TXuLu7UjEEW+vCykfY1jtrI9omiza3JoE2F/DST4Pw
+	ehPQaWLueNiylw2Co68YofgZKhaBQeE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1710752145;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=joiuEo91VaTCIwnvp+a7CPqnwqgmwdAIwB6fL+M9w4g=;
+	b=z5QGDrCw7unS8nkjac2KKiKrM5C8zIDGQHEEd1rb6WWVYEfT0Z0DFxAOJNuaakDAnDg6gm
+	kCfp9GBwQTYR7OAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EA8B1349D;
+	Mon, 18 Mar 2024 08:55:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IiFnHZEB+GW5QAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 18 Mar 2024 08:55:45 +0000
+Date: Mon, 18 Mar 2024 09:55:45 +0100
+Message-ID: <87o7bb9awe.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.9-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: wm8776: Convert to dtschema
-Content-Language: en-US
-To: Kartik Agarwala <agarwala.kartik@gmail.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org
-Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- javier.carrasco.cruz@gmail.com
-References: <20240317200201.119233-1-agarwala.kartik@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240317200201.119233-1-agarwala.kartik@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: 6.69
+X-Spamd-Result: default: False [6.69 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_DN_ALL(0.00)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.71)[83.53%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_SPAM_SHORT(3.00)[1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: ******
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Flag: NO
 
-On 17/03/2024 21:02, Kartik Agarwala wrote:
-> Convert WM8776 audio CODEC bindings from text to dtschema.
-> 
-> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
-> ---
+Linus,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+please pull sound fixes for v6.9-rc1 from:
 
-Best regards,
-Krzysztof
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.9-rc1
+
+The topmost commit is 585f5bf9e9f65b1fec607780d75d08afee0f0b85
+
+----------------------------------------------------------------
+
+sound fixes for 6.9-rc1
+
+Two regression fixes that had been introduced in the previous PR,
+additional HD-audio quirks, and a further enhancement for the new
+kunit.
+
+----------------------------------------------------------------
+
+Ian Murphy (1):
+      ALSA: hda/realtek: add in quirk for Acer Swift Go 16 - SFG16-71
+
+Jichi Zhang (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga 9 14IMH9
+
+Takashi Iwai (2):
+      ALSA: timer: Fix missing irq-disable at closing
+      Revert "ALSA: usb-audio: Name feature ctl using output if input is PCM"
+
+Takashi Sakamoto (1):
+      ALSA: core: add kunitconfig
+
+---
+ sound/core/.kunitconfig       |  5 +++++
+ sound/core/timer.c            |  2 +-
+ sound/pci/hda/patch_realtek.c | 22 +++++++++++++++++++
+ sound/usb/mixer.c             | 49 +++++++++++++------------------------------
+ 4 files changed, 42 insertions(+), 36 deletions(-)
+ create mode 100644 sound/core/.kunitconfig
 
