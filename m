@@ -1,79 +1,175 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A8326AF7;
-	Mon, 18 Mar 2024 09:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F312032C96
+	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 10:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710753846; cv=none; b=uqaa62tFGFky0gfBj86q/3Znh2xfh4XNZvQf1sljlMTBdGzQo18SYSqDwGaDL9ORv+NFsfDIz4LcCmHUMJkI1RaXLhzmC0I4nm8Ma7g4ERmPlytNF+RniPpbogqjSjHPrQEmjra+Dz/ieDykz0jcBaPpG9n6bSE5TLoR8OsKZSU=
+	t=1710758449; cv=none; b=AHp60+SsOX1w7jfrWOhtorR1+a3mahCbqM/3XkvlakUZc1/1PlYKfd5xAloc5kazc5Thsj+2I0TttWxRNKVd0tbJp+NXVQ/RQ5SI+9eePw3OQpwgUdBaib1vFmVN2kkkKtwGJh5bydgpTVLyfwnJymwcTsZ/PkhzdFQQcTjRK5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710753846; c=relaxed/simple;
-	bh=DpVVUBuvLHpQCKgKSJ/r5ujars6qANboe0uw/ZA8xpo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMSar+JI8OAB9tZkE4jWyYRP7QtwKdqv4P2DU+dD7rRGvFer+8e9WM6l1y+oJuSogocheJllm2pSg9UF+8fg1CmdWToBiKzz/buxhheHVWbNztdTmaztLQQdRTAE2Eoc8rRaNtKK9+9yh1+xYc6E4r77g8m0Ioo3kSYsl54guF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GjOj/aJU; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1710758449; c=relaxed/simple;
+	bh=i5ixDYb3wbENoImw8j5KKJEmWmhgfjQSVNTIJMv1DhY=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=shPdQ7GthxfsmVL+yY+2hE+jeTjm8fNk2YHbwCA9KNY6jdUTPUqxrh/7AEPJuHgEVsia4K6scZMKkx9zX6JvnyYOhQYhX95+gbA96rkzjIS6MsV61zvFEHcJp7hFDF8bmN3SFuekKau9p4BVJyW653PU34jpU6N1HGuHg+8QOjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Ngikuw+3; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GjOj/aJU"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42I90EeJ019800;
-	Mon, 18 Mar 2024 04:23:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=LpFO4w9gXdXIdRz
-	3lp4nFmm9huDm3XdMOvGss5eCmI4=; b=GjOj/aJUactSeGm371ocin1DUdF65l+
-	Q2Tb8OJhGmdUdw2tuCT/907rZxuOt0u1EVhit4uy+Lz10M81zCt89bRM/dDHH/Q5
-	6gfJVAchwPB4SxN583h+dPwRyAOkUoJnZdRK4g4QrVGhlYqfb4P2XQ78PxcKsV5X
-	4ZYGzciP4JxkSh9oEFXM5Lku0Jq7Wg+J1COKKON85Jj+qHKNdghQYQIjJOb7+QzL
-	7KkEWe8Fya6vVWSz/tUew3uF6MM7DvtszrJ+UktAwWij4uOeKLsqT2ZiFJThm1xv
-	aaghj3DTkzZMt7qGK44fi1ux8PR7YRkjz+b7kod+BnyIRiLGiHSZhiA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ww7uj1uxm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 18 Mar 2024 04:23:48 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 18 Mar
- 2024 09:23:47 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Mon, 18 Mar 2024 09:23:47 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F16C3820244;
-	Mon, 18 Mar 2024 09:23:46 +0000 (UTC)
-Date: Mon, 18 Mar 2024 09:23:45 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Kartik Agarwala <agarwala.kartik@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <javier.carrasco.cruz@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: wm8776: Convert to dtschema
-Message-ID: <ZfgIIT4wObY+TlZ5@ediswmail9.ad.cirrus.com>
-References: <20240317200201.119233-1-agarwala.kartik@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Ngikuw+3"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4140a9f25adso9954755e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 03:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710758445; x=1711363245; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNzf7P8nz60f5DqiZ1A/ORzVISDkI6sI6tCR2mQw6JE=;
+        b=Ngikuw+3cNJp9rXoQiOJ2p93RAsF34UruLbhm6ntsmzb9jVrQn7uD1aG7Xz6ErKrxy
+         2fPnnQZVHAS6hTNgqCXBwtVIQW2TZ7YlfxjQvLeuIn6xAyind4ZIrh7Z6KU/Gh8JECv6
+         vqjpkfV9IjZ9y0uKxq4tvL6YFKofrlbdB5pfdMLk48d/W1gwtxSacexXTPLG0ZDdIomJ
+         RuJhePL/Fd/mX8gjzjDdV+ZeBKY+JXSXi8uH67e3mW+vx+WLGysWFlZJpETFAgwfUzuJ
+         3s9W6Cz7ufbkn/6/OYUQxQ9NnxJDQs0GL6yzW/11CXrME36NCFesd/wSS2EZt6LVKaAD
+         KSVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710758445; x=1711363245;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xNzf7P8nz60f5DqiZ1A/ORzVISDkI6sI6tCR2mQw6JE=;
+        b=MVE4h/K23kKPVNznWWj5Ww5lPKSDGtuwwdLXzKBDJI9Iimh2klDXhzbX2FtQNwvEpI
+         FhJBqzBUyPZUKDcmoLmzNPJg/TV0H8M8cYsUERF683OBdFNWsQ/U6yA9q/ih+WJMOk5K
+         b7xbIkrt7YmLIKop4MKYFv8JQFITnoa7vIQMQWT33jN1tFWcnG8hjGoXG88BuickeFDK
+         lZXthN+t/+lVviuI8OHnE+u/satYbtO7eoQDAs6UEXy5xZYIBQIiOy6TXu1L1Hjpjzwc
+         WGsmQKBsKhpQB1EX7PkKi5rUrrzx06bUuneerxbVYKKYfPwX0niQT593b6sVf0utRLm9
+         jAYw==
+X-Forwarded-Encrypted: i=1; AJvYcCXLiNDdfMFZB1KCm+/c9vLmYNrHy5jrFMqpYEue4aj8DqEkK9gLffJBaoD82ERaa+frSuovEMhoPqmmEYTHe3lm/jVYtnN7OeyH6LE=
+X-Gm-Message-State: AOJu0YyrexgXXDDO2mirhISJSLfcVdDZsm1ygz4xH+RkqoTv/wrHbnMq
+	cCfA4SP50oX6sVG1RINVBhToNT3h++kdLJs2/MVjW0LSdmatMquI+UqKY6qzq20=
+X-Google-Smtp-Source: AGHT+IF2NPmkDgNrJwjlDs0dlEQjbzK0dB/C1p7NsE17fQtvvBPtrHxeI38T1w1hQ953d1PS97HQkQ==
+X-Received: by 2002:a05:600c:4707:b0:414:ca1:6531 with SMTP id v7-20020a05600c470700b004140ca16531mr3050478wmo.41.1710758445095;
+        Mon, 18 Mar 2024 03:40:45 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e4d5:78c0:18b:ad85])
+        by smtp.gmail.com with ESMTPSA id f19-20020a05600c155300b00414105c4cd9sm2909256wmg.21.2024.03.18.03.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Mar 2024 03:40:44 -0700 (PDT)
+References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-2-jan.dakinevich@salutedevices.com>
+ <1j8r2jj24k.fsf@starbuckisacylon.baylibre.com>
+ <cbfd9c66-cca5-49f5-9468-43710c48518e@salutedevices.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
+ Hilman <khilman@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
+ kernel@salutedevices.com
+Subject: Re: [PATCH 01/25] clk: meson: a1: restrict an amount of 'hifi_pll'
+ params
+Date: Mon, 18 Mar 2024 11:17:14 +0100
+In-reply-to: <cbfd9c66-cca5-49f5-9468-43710c48518e@salutedevices.com>
+Message-ID: <1jedc7hlg4.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240317200201.119233-1-agarwala.kartik@gmail.com>
-X-Proofpoint-ORIG-GUID: WRt0zsDs5d2poBW6Pz6vUrdhezhFBfd6
-X-Proofpoint-GUID: WRt0zsDs5d2poBW6Pz6vUrdhezhFBfd6
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain
 
-On Mon, Mar 18, 2024 at 01:32:02AM +0530, Kartik Agarwala wrote:
-> Convert WM8776 audio CODEC bindings from text to dtschema.
-> 
-> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
-> ---
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+On Sun 17 Mar 2024 at 17:17, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
 
-Thanks,
-Charles
+> On 3/15/24 11:58, Jerome Brunet wrote:
+>> 
+>> On Fri 15 Mar 2024 at 02:21, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
+>> 
+>>> Existing values were insufficient to produce accurate clock for audio
+>>> devices. New values are safe and most suitable to produce 48000Hz sample
+>>> rate.
+>> 
+>> The hifi pll is not about 48k only. I see no reason to restrict the PLL
+>> to a single setting.
+>> > You've provided no justification why the PLL driver can't reach the same
+>> setting for 48k. The setting below is just the crude part. the fine
+>> tuning is done done with the frac parameter so I doubt this provides a
+>> more accurate rate.
+>> 
+>
+> You are right, it is not about 48k only. However, there are two issues.
+>
+> First, indeed, I could just extend the range of multipliers to 1..255.
+
+Why 1..255 ? This is not what I'm pointing out
+
+According to the datasheet - the range is 32 - 64, as currently
+set in the driver.
+
+The change you have provided request a multipler of 128/5 = 25,6
+If you put assigned-rate = 614400000 in DT, I see no reason can find the
+same solution on its own.
+
+> But I am unsure if hifi_pll is able to handle whole range of
+> mulptipliers. The value 128 is taken from Amlogic's branch, and I am
+> pretty sure that it works.
+
+>
+> Second, unfortunately frac parameter currently doesn't work. When frac
+> is used enabling of hifi_pll fails in meson_clk_pll_wait_lock(). I see
+> it when try to use 44100Hz and multipliers' range is set to 1..255. So,
+> support of other rates than 48k requires extra effort.
+
+Then your change is even more problematic because it certainly does not
+disable frac ... which you say is broken.
+
+That parameter should be removed with a proper comment explaining why
+you are disabling it. That type a limitation / known issue should be
+mentionned in your change.
+
+>
+>>>
+>>> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+>>> ---
+>>>  drivers/clk/meson/a1-pll.c | 8 ++++----
+>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/clk/meson/a1-pll.c b/drivers/clk/meson/a1-pll.c
+>>> index 4325e8a6a3ef..00e06d03445b 100644
+>>> --- a/drivers/clk/meson/a1-pll.c
+>>> +++ b/drivers/clk/meson/a1-pll.c
+>>> @@ -74,9 +74,9 @@ static struct clk_regmap fixed_pll = {
+>>>  	},
+>>>  };
+>>>  
+>>> -static const struct pll_mult_range hifi_pll_mult_range = {
+>>> -	.min = 32,
+>>> -	.max = 64,
+>>> +static const struct pll_params_table hifi_pll_params_table[] = {
+>>> +	PLL_PARAMS(128, 5),
+>>> +	{ },
+>>>  };
+>>>  
+>>>  static const struct reg_sequence hifi_init_regs[] = {
+>>> @@ -124,7 +124,7 @@ static struct clk_regmap hifi_pll = {
+>>>  			.shift   = 6,
+>>>  			.width   = 1,
+>>>  		},
+>>> -		.range = &hifi_pll_mult_range,
+>>> +		.table = hifi_pll_params_table,
+>>>  		.init_regs = hifi_init_regs,
+>>>  		.init_count = ARRAY_SIZE(hifi_init_regs),
+>>>  	},
+>> 
+>> 
+
+
+-- 
+Jerome
