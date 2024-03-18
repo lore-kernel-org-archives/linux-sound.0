@@ -1,109 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024A44AED2;
-	Mon, 18 Mar 2024 13:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D6F54FAF;
+	Mon, 18 Mar 2024 16:48:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710769719; cv=none; b=Tx5OBXUNTIb8V+g+df3PQtgNqCFMafmxBAEbKsa+vmwBiAJVoUNFTQb3C1lyCJWnbPW65hsQuZ4pAvLeXGSlDuGSg0s9oFjEPj75umRPJio5caRWL23tkr2D9f2PNcXKzi+YbKNS3PPTNUqtPhDxSzx0H5dEGgEN9X3RwC4RCWw=
+	t=1710780482; cv=none; b=tHBgP0I1J/Rz0BvqnWVF7f5MZjbGSSuGQmHFLkufCO4k7ZMQLyLHkVyjzuuXJyCuV7LQmtI42FdDN2DzIpRLYTcoHrmO1kmIsS5fzJ5u0CMJ+GVzTtCcZ603q0arftfmhTZShp1k74dCTi/WKnahYkU69yYn/gNnMDgrNmQ83M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710769719; c=relaxed/simple;
-	bh=MHoHwr0eDPD5cgVd1+iwqRgWIVLOzhoSjzj/dQkgH/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLQn7ULMrmlVxLRMf4+dM3xQYaq9SPn4ceHuOIldoirkdqnh/VlXfu+KOiJb4aKnsKxLDIELJerXAnzbtgapHvaDQeMNzoO0j71bpaJQTJKBVyc7VbysIMKJ4/JC3KlSppOh4KC2wi+bIhW0qlRxGRnShIOPuRRt3WC4Nnc7NRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKkpVxKx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710780482; c=relaxed/simple;
+	bh=vfTFXZYjTA8bpLJRP7X1KpbKhb3MrGmYIoOfnukVcqs=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=jZNoHdVJCCcRwPSlVJJmVJDf7p5o1m+m66FkwPC86oaNmebxWG9Dx4hwG9IYm5orhSKcDD0Ad1dPnv+7KymcdOMfDuhva9D4qyzIJZuM2+plY7xgCwfzfB6Teoj7ml079sqNKuV5nC7GCgGuw5GfnIzADMStzRJgX/xyN+p+hPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqwPfiPC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKkpVxKx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1095BC433F1;
-	Mon, 18 Mar 2024 13:48:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqwPfiPC"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21F76C433C7;
+	Mon, 18 Mar 2024 16:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710769718;
-	bh=MHoHwr0eDPD5cgVd1+iwqRgWIVLOzhoSjzj/dQkgH/M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DKkpVxKxY7h9v+lH5UT2+3Yhzkji9Pqcx33yJYLYim45vOo92XuYMu+YsHi1ZhZwG
-	 fc9Kinal7Gz43JO9X6EBtVPVJCa1KqGDeTMjMwSQb2cw9+nUNz28XZMOze6O1MLI0h
-	 5KMZotzvi/hfqpFn29SDRG0ZiAYMYaMJMcyWl527F8xnrvyortoF9cxBPADf3dH1ek
-	 XXUJlYYrGd9CKFAxhjwbp1ORhxlvSc9ZgcC8dEj2fdtNa6b3cfkExJIlFD+vZcTijm
-	 M0lnpXAg63TlsHu/H9VvpHn83Ki149ZsnCePdDElv4ZWROEyOXFnYSWSNT6WCSeekd
-	 QLkjCGvBD0jXA==
-Date: Mon, 18 Mar 2024 13:48:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
-	kernel@salutedevices.com
-Subject: Re: [PATCH 12/25] ASoC: meson: t9015: add support for A1 SoC family
-Message-ID: <30dadd4c-de10-43a7-baf8-8ddd49f5c80e@sirena.org.uk>
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-13-jan.dakinevich@salutedevices.com>
- <5f8e8cd2-f9c4-4961-a85d-a0f3217294e6@sirena.org.uk>
- <c4c0e3a3-eaa8-42c6-bbd3-e5c6993dc63b@salutedevices.com>
+	s=k20201202; t=1710780482;
+	bh=vfTFXZYjTA8bpLJRP7X1KpbKhb3MrGmYIoOfnukVcqs=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=oqwPfiPCdRKHGmVABK4N8hudXaY+VeREpprAroMLAtsL4pPco+hSW8KxIYv4rRSCd
+	 222oUUSHwblKQJLfIB4ZgxaboWatupVWnVqFjR4RLP8rJRBELncjfAl4iEdnkmTIH0
+	 9Z2gVR0ot1ZfRd9YefOtGp2IpJID6fjiwRijYcDLAyzOe8L/zoMeYDUCnhvat4Iec9
+	 uNG/vahcXYgL5Uiwm5fzHeRvqq4sGvPX3Cuf1i1MZNkJJ5tca6tsYN89I9J+P7LIbU
+	 WHlDi33cJ7aFJvT/tNZqgw6tgfb50311EzameUNMC6s8S7q6rTQsK/9tO9qdvxIqlV
+	 OW8KEQZRWaNzA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19890C04E24;
+	Mon, 18 Mar 2024 16:48:02 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.9-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87o7bb9awe.wl-tiwai@suse.de>
+References: <87o7bb9awe.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87o7bb9awe.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.9-rc1
+X-PR-Tracked-Commit-Id: 585f5bf9e9f65b1fec607780d75d08afee0f0b85
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5574aaa303e6bfabd7a2296707658ae9e2e9a9fc
+Message-Id: <171078048209.4121.5993893874426166792.pr-tracker-bot@kernel.org>
+Date: Mon, 18 Mar 2024 16:48:02 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cWXPDKTXShavPzNA"
-Content-Disposition: inline
-In-Reply-To: <c4c0e3a3-eaa8-42c6-bbd3-e5c6993dc63b@salutedevices.com>
-X-Cookie: Alaska:
 
+The pull request you sent on Mon, 18 Mar 2024 09:55:45 +0100:
 
---cWXPDKTXShavPzNA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.9-rc1
 
-On Sun, Mar 17, 2024 at 07:27:14PM +0300, Jan Dakinevich wrote:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5574aaa303e6bfabd7a2296707658ae9e2e9a9fc
 
-> Both mic bias and ADC's input mode depends on schematics and should be
-> configurable. What is the better way to give access to these parameters?
-> Device tree?
+Thank you!
 
-Yes.
-
-> >> +	SOC_SINGLE("ADC Mic Bias Switch", LINEIN_CFG, MICBIAS_EN, 1, 0),
-> >> +	SOC_ENUM("ADC Mic Bias Level", a1_adc_mic_bias_level),
-
-> > Why would micbias be user controlled rather than a DAPM widget as
-> > normal?
-
-> Yes, I could use SND_SOC_DAPM_SUPPLY, but it supports only raw values,
-> and doesn't supports enums. Here, I want to use enum to restrict
-> possible values, because only these values mentioned in the
-> documentation that I have.
-
-A supply is an on/off switch not an enum.  Users should not be selecting
-values at all.
-
---cWXPDKTXShavPzNA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX4Ri4ACgkQJNaLcl1U
-h9DTQAf+Ppr066CVfsvlN/xyNgCUEg1jqhI9r20Nh5lxtnjU+wC1Kcr+iobrATQM
-TDOweMGu65tzuQZfO6T+CaB8UHXIAHKQStRrDMt60u8hvNbQ1WBBGcNpHZ4aEnH7
-dha2+WYeSatRy9dWtHHuumkiG0oMZO93Q9agqdWm0p3dcF/kfp0UsgdfjFXbC0CZ
-bF5SO0qaSh4sYzmkOWdsGn175ELpN2HMYaAL5R1kaS4QntznG3QCuLXxdOSy6/+7
-SByMPu2j+jkFJTHfOQlYZZCDrgZ+czQ4gWszPQuk9LWDTYFrxajuRVwRKXew/GA8
-Z0fuEs8wuIMGmSTEXpNJXc/IeEv+nw==
-=YCeA
------END PGP SIGNATURE-----
-
---cWXPDKTXShavPzNA--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
