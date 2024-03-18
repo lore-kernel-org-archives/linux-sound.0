@@ -1,190 +1,154 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A2F38385
-	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 12:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180633BBD4
+	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 13:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710765430; cv=none; b=FyzM8o56RnzVV0cbeFBUJO4Xp4Vpca79sd5ng1L7k71nFTayLrIHLZffjV9FsPkWwAb6yQehpPySanA7kson6sN+OrvAZ9c3pSupEBC+rrArMOURxh0x+jTXu+VXWcFAIPTPQWVc4Dig6VCV7hjCOkTjdtQkxSYcoCJIxYL96P0=
+	t=1710767875; cv=none; b=YctoHLzsKsaEZVJMdmazVeE5z2V3kRtFFXaMBKeGmVvxwr1F6HNjMXjYDUxVUFDlSI+fc+PCUc2TBgqQ8tM8JZhjPdCL3qVOdcBXkoGo0C0WfU+A8e9omE1UsK+DZOxe+K2/7wBuD56cZS3RSPJYL2N71EjwZEqtA+rePFu+cME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710765430; c=relaxed/simple;
-	bh=ffVSz7DOuhkOHsp+hZtUJyFaeYyOmG7SnEA1gJweHr8=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=uXhiVG7E3a3ngu+vII+BO2Lv3weXt5DpmEau4INesK/UxQq2C5oY/tHwYo5MD5cTlI8zPXQr5pWyip6HKBEN3TGol+x531O83TG9ms2l6C2TgOnLkA0XBFl/LG40v2GXyiwx74Dk9flwQycPcaNAfpeyWFzjxVxSBN8qKIX4GF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3H1r+fcn; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1710767875; c=relaxed/simple;
+	bh=hTRXqs+87AcQQdwX7hLXmpkNLX8eNTZwj5xd3y9wDh8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=nGoo5Cp6vvCTK0l44p4cu3lXDR/W5NDPlporgqtCQGeugejMgnbpEuaOoDXqNHihvDW+IkBDKdqRNEGa2GSEiQLu3jUFnUkqVSMJDxI5cIjDvOCfaERWvaMxIJpLKy+PWMkoHlIy8PuR31q5XeRLG1EpKFPdk7oSOhzym9IXd0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=XVReJsTx; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3H1r+fcn"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33d90dfe73cso2395188f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 05:37:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="XVReJsTx"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e703e0e5deso1568884b3a.3
+        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 06:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710765427; x=1711370227; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=rOOelAXYkB/aiK2SaiRN9v1LrZq2BMclSsiRMOgV+hM=;
-        b=3H1r+fcnra/gm/Xsk+79PZMv5zKsl7ToQOUHMjp2643/bLLbVsoe1nk9I1djcBzljM
-         IadEKd3FWf/M/zDloxKzRnXng0veGHo7IRA+HK8EaNzLKHw75ZX5FiVl7XL4qexiLfVv
-         8E3SkROWFiLYjAybftrvQ+Smj8bay+x+WvjwfvusMusMgeYNCS/CziCUPMrfUaf3WH0O
-         XFB4haA3eSNqTakEHHzWoJ/nk85hqCpF1zxiu1j/k64RpBebZrglJ7QbsrYu8f2ZvuZ6
-         GuMI00vL+1cAPuzrKTt3E0ejpb/NCG/oU6OZpj+IPut02GwPHGi/mln878luOEucieGk
-         9RDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710765427; x=1711370227;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1710767872; x=1711372672; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rOOelAXYkB/aiK2SaiRN9v1LrZq2BMclSsiRMOgV+hM=;
-        b=TqVAvRHEJhQ/0/ugbBxXbNKy5QR2Va+kzokd1+vfwM0WnSkXEsVCKQ/ar+DNU9fpMP
-         eNTt6QGhpz3O0ziL/bvAJ3d/KsiYe0eUuqKI/CQ1N/8gNNXKkkroxDLDAkpbsqgi6RkS
-         Rb/3h/TLwyXeZmewBGctmiCdQgn7acUfNDOFQ+f5SP4tW/o2PSLMUHL+S4AvV2v+SlSf
-         gOlNoqrvkGUol5FuoFWz2CQmXB/PQwyCGFNyQ8DUU8jd6jqjwID2zn1vcny0vLmAjddb
-         qT/EtA2CEaIDuyjKeL5qxdSgksyId1VfouA3a4j5sCs5ixfLwVdvheMTPhGiclorD59n
-         qhwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlqTIGzuTLcPZYAslxyy0wplownKkbbxmAzS4bVR0oEDLb3EhzIxgW/V1wweGxzsz4NvgS3EYgLs1WBpppHpuG+CT6ZKKMwCpJG9k=
-X-Gm-Message-State: AOJu0Yy/YLs2oUmrspQbU0X1KHKwIte2hOwUOLfyDC/r9CkKkSTob6c9
-	s17UDA2ClF52HM7b/kS+e7dfmBSa6CynOL8QUI49GeF+gskm1aity6jDzDCtlhQ=
-X-Google-Smtp-Source: AGHT+IGH3TE2GhAXJz1wHAYIWwW1VoL15oPzUDNMTpeZ23Nb9XboEbKTQoGyB/c9i7ijddIXELni7w==
-X-Received: by 2002:a5d:404a:0:b0:33e:6a81:d8b9 with SMTP id w10-20020a5d404a000000b0033e6a81d8b9mr10519425wrp.20.1710765426924;
-        Mon, 18 Mar 2024 05:37:06 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:e4d5:78c0:18b:ad85])
-        by smtp.gmail.com with ESMTPSA id p6-20020adfe606000000b0033e79eca6dfsm9665379wrm.50.2024.03.18.05.37.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 05:37:06 -0700 (PDT)
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
- <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
- <1jil1nhjwd.fsf@starbuckisacylon.baylibre.com>
- <6feba9ff-8bbf-4494-93f0-732679bc4032@salutedevices.com>
- <1j1q87hkq2.fsf@starbuckisacylon.baylibre.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Jan Dakinevich <jan.dakinevich@salutedevices.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
-  Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin
-  Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@salutedevices.com
-Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
- 'sysrate' property
-Date: Mon, 18 Mar 2024 13:19:28 +0100
-In-reply-to: <1j1q87hkq2.fsf@starbuckisacylon.baylibre.com>
-Message-ID: <1jwmpzg1hq.fsf@starbuckisacylon.baylibre.com>
+        bh=TccUwvnyA3+iIKaf7kLJqh49DkBa5LS6qGPxBEluav4=;
+        b=XVReJsTx+m3aEhPJ9BjJu+4J6ssFgLqY/vJPXGV20hNYsTeU30IR3nc1cv1hPKg3mE
+         ekSRdRgaIbqFUtN4TTsPGkCU/8LA814SwR457HjifMCECCDpc9crrIH9AF5I9BBYhSh5
+         24x9c93qpfAfKNwp7OyCEkq/A6Cf/bmFJA0xTOZ3fGAmT4vsJ1NwXrculfP4ClfNMcGD
+         iiJ3L64lxVAdLT7wgAVMfpN6a7PPUZwlxyW/wgq7VA3x4Kc8bDP/LD2tK/PJQp0lRFKr
+         pz90IfRr/2gPFpzE3IxNcGQYMVomWD2/DnxH3xnrENN4AnVPQBKohEVAjA2hdbQr+p1A
+         g97A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710767872; x=1711372672;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TccUwvnyA3+iIKaf7kLJqh49DkBa5LS6qGPxBEluav4=;
+        b=ss9MHJ5N0GdlSgXhkvN/LfJ9jHPNnGRW3FAWlMeJNtKKWWBVgTvOxodpsrgpBUveIv
+         nOWkF6pl/ctZ1olTIh3u2qFGQrMmkhwfR0Mn3iaSYehM8rsBo9+oQ6zPvxt6tSUyqt8x
+         AdyYbh/V03xslhXUa7y3suAupqYxH4p98erfH3nsjoERLkNh1zl1+j6pw8vKeTYrbLlk
+         7WtFK2aQY2q2UtsgCTEPTrpkKyYtSkmX5AXZkkkT1JW0U4ZtWhYhC74jm5qAhd890AE+
+         JbvorLRRDa8A8qnmt0CIVx48iNsNJ6ksT3KKALXMpQFbyMK38VRl7RkjyTsBRv1Bxfut
+         E4Xg==
+X-Gm-Message-State: AOJu0YxSWBnlTE/ax4Sh7T5ou2uPcUnnYz9QW9PCGN2p/NU0Eg/rBw21
+	XGkj6qBaYrTtI/svlViv8nDcnEyOku81OQLs5ScmRa11udFFie0Qai1WONumnj+c6jAaHsq5MH2
+	Tytwv
+X-Google-Smtp-Source: AGHT+IE3BSS+qytG3C84b34czAdsgC/GjVd/Z/ylH0iIydUB/nO09+ycIyS4kwBZj2jrjPH8Tx9v1Q==
+X-Received: by 2002:a05:6a20:d807:b0:1a3:5336:f303 with SMTP id iv7-20020a056a20d80700b001a35336f303mr6672409pzb.15.1710767872001;
+        Mon, 18 Mar 2024 06:17:52 -0700 (PDT)
+Received: from [192.168.3.16] ([183.89.29.155])
+        by smtp.gmail.com with ESMTPSA id d1-20020aa78141000000b006e6c0080466sm8054389pfn.176.2024.03.18.06.17.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 06:17:51 -0700 (PDT)
+Message-ID: <e2a7aaed-e9d7-4d36-8abf-b71dfd32a0ff@cpp.in>
+Date: Mon, 18 Mar 2024 16:17:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Anthony I Gilea <i@cpp.in>
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for HP Spectre x360 14 eu0000
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+My original patch was based on an old branch, sorry for that.
+I've re-done it against master and tested if everything works properly.
 
-On Mon 18 Mar 2024 at 11:55, Jerome Brunet <jbrunet@baylibre.com> wrote:
+Cirrus amps support for this laptop was added in patch:
+33e5e648e631 ("ALSA: hda: cs35l41: Support additional HP Envy Models")
 
-> On Sun 17 Mar 2024 at 18:52, Jan Dakinevich <jan.dakinevich@salutedevices.com> wrote:
->
->> On 3/15/24 13:22, Jerome Brunet wrote:
->>> 
->>> On Fri 15 Mar 2024 at 11:00, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->>> 
->>>> On 15/03/2024 00:21, Jan Dakinevich wrote:
->>>>> This option allow to redefine the rate of DSP system clock.
->>>>
->>>> And why is it suitable for bindings? Describe the hardware, not what you
->>>> want to do in the driver.
->>>>
->>>>>
->>>>> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
->>>>> ---
->>>>>  Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml | 4 ++++
->>>>>  1 file changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>>> index df21dd72fc65..d2f23a59a6b6 100644
->>>>> --- a/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>>> +++ b/Documentation/devicetree/bindings/sound/amlogic,axg-pdm.yaml
->>>>> @@ -40,6 +40,10 @@ properties:
->>>>>    resets:
->>>>>      maxItems: 1
->>>>>  
->>>>> +  sysrate:
->>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>>> +    description: redefine rate of DSP system clock
->>>>
->>>> No vendor prefix, so is it a generic property? Also, missing unit
->>>> suffix, but more importantly I don't understand why this is a property
->>>> of hardware.
->>> 
->>> +1.
->>> 
->>> The appropriate way to set rate of the clock before the driver take over
->>> is 'assigned-rate', if you need to customize this for different
->>> platform.
->>> 
->>
->> It would be great, but it doesn't work. Below, is what I want to see:
->>
->> 	assigned-clocks =
->> 		<&clkc_audio AUD2_CLKID_PDM_SYSCLK_SEL>,
->> 		<&clkc_audio AUD2_CLKID_PDM_SYSCLK_DIV>;
->> 	assigned-clock-parents =
->> 		<&clkc_pll CLKID_FCLK_DIV3>,
->> 		<0>;
->> 	assigned-clock-rates =
->> 		<0>,
->> 		<256000000>;
->>
->> But regardles of this declaration, PDM's driver unconditionally sets
->> sysclk'rate to 250MHz and throws away everything that was configured
->> before, reparents audio2_pdm_sysclk_mux to hifi_pll and changes
->> hifi_pll's rate.
->>
->> This value 250MHz is declared here:
->>
->> static const struct axg_pdm_cfg axg_pdm_config = {
->> 	.filters = &axg_default_filters,
->> 	.sys_rate = 250000000,
->> };
->>
->> The property 'sysrate' is intended to redefine hardcoded 'sys_rate'
->> value in 'axg_pdm_config'.
->
-> What is stopping you from removing that from the driver and adding
-> assigned-rate to 250M is the existing platform ?
+This patch adds fixes for wrong pincfgs, wrong DAC selection and mute/micmute LEDs.
 
-... Also, considering how PDM does work, I'm not sure I get the point of
-the doing all this to go from 250MHz to 256Mhz.
+Signed-off-by: Anthony I Gilea <i@cpp.in>
+---
+  sound/pci/hda/patch_realtek.c | 39 ++++++++++++++++++++++++++++++++++++++-
+  1 file changed, 38 insertions(+), 1 deletions(-)
 
-PDM value is sampled at ~75% of the half period. That clock basically
-feeds a counter and the threshold is adjusted based on the clock rate.
-
-So there is no need to change the rate. Changing it is only necessary
-when the captured audio rate is extremely slow (<8kHz) and the counter
-may overflow. The driver already adjust this automatically.
-
-So changing the input rate from 250MHz to 256MHz should not make any
-difference.
-
->
->>
->>> Then you don't have to deal with it in the device driver.
->>> 
->>>>
->>>> Best regards,
->>>> Krzysztof
->>> 
->>> 
-
-
--- 
-Jerome
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index b6cd13b1775d..c2bed68b88e2 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7097,6 +7097,38 @@ static void alc_fixup_headset_mic(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc245_fixup_hp_spectre_x360_eu0xxx(struct hda_codec *codec,
++					  const struct hda_fixup *fix, int action)
++{
++	/*
++	 * The Pin Complex 0x14 for the treble speakers is wrongly reported as
++	 * unconnected.
++	 * The Pin Complex 0x17 for the bass speakers has the lowest association
++	 * and sequence values so shift it up a bit to squeeze 0x14 in.
++	 */
++	static const struct hda_pintbl pincfgs[] = {
++		{ 0x14, 0x90170110 }, // top/treble
++		{ 0x17, 0x90170111 }, // bottom/bass
++		{ }
++	};
++
++	/*
++	 * Force DAC 0x02 for the bass speakers 0x17.
++	 */
++	static const hda_nid_t conn[] = { 0x02 };
++
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		snd_hda_apply_pincfgs(codec, pincfgs);
++		snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
++		break;
++	}
++
++	cs35l41_fixup_i2c_two(codec, fix, action);
++	alc245_fixup_hp_mute_led_coefbit(codec, fix, action);
++	alc245_fixup_hp_gpio_led(codec, fix, action);
++}
++
+ 
+ enum {
+ 	ALC269_FIXUP_GPIO2,
+@@ -7373,6 +7405,7 @@ enum {
+ 	ALC289_FIXUP_DELL_CS35L41_SPI_2,
+ 	ALC294_FIXUP_CS35L41_I2C_2,
+ 	ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED,
++	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9562,6 +9595,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_HP_GPIO_LED,
+ 	},
++	[ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_hp_spectre_x360_eu0xxx,
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -9924,7 +9961,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8be8, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8be9, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bf0, "HP", ALC236_FIXUP_HP_GPIO_LED),
+-	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre 14", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre x360 2-in-1 Laptop 14-eu0xxx", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
