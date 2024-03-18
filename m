@@ -1,141 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7C557862;
-	Mon, 18 Mar 2024 20:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A7458101
+	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 20:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710792493; cv=none; b=slMvWEXQliN922uB1HURvxTM5nnO3gedg/IQFgoQHv4GpBnbv3DmC4Etk6L+o19VN5zXlzOPbWB922QlWU0Sb6guMCP/02AI2W95XrKrdFl/iOwNupgaE2NjDYcOH/aBZTr2aola4W6JxYm4fGT9Bxa6d8y6u5ZrH0ORlopM8Fk=
+	t=1710792565; cv=none; b=dUGFU/zjL/6+cXxHg1R9n7ahnJ1s433sdkMWU9EU5AF7clochRhrnx/6VVchCio34eYRVdPFwGFDqGLZKCOJC/5DLyG5AtV+C7eWcq38RLF8+B1wa6E5uQNJcGPtEw73qg7Jh5H6+/LM94ZFoxy7365Be96/TGEH3uBhfxzT7VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710792493; c=relaxed/simple;
-	bh=sMw7esYZrxxW1kATPTh6O4ptDRoE3Q+nZihwtYXZxlg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hc+yS9MIbrznDvidSW7VnXeUfA20kGG6aPO7BpJ02+WiSjkO18ecPzdtWuo68zH+Sk4BDhJhGJTdpXYu9Jto01vyHy2hHe/1oVSIGI5gNb403B54/7ohVd2OQwmU61ROKjxOk5Dp4pKJpFd3aPxuBy/obPnJRZFw9sshKjkxgFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbroGQ2X; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbroGQ2X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710792492; x=1742328492;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sMw7esYZrxxW1kATPTh6O4ptDRoE3Q+nZihwtYXZxlg=;
-  b=SbroGQ2XNShvl5bSrtml3YvjL/YYRaPmJ7THkGmk9iK0EvHOAzBzQM22
-   y+W4Sg/OUR6lcM8Gp2tPclo+vNZEJk9JJ16t9zxWW2AfyYy5p0PBdUcO2
-   Wp3Wbsg8uaPEXStUT5sQSYACRQjDWZgrb0Lc6swGHtZpHfgbipKZWkxOj
-   NHXeqourCBm7df+t5le2dw3FkGYRbY07kFqBJ+Td6DjMmbwJoy85Wo1PK
-   VmkwmkQtoZU9aELdPt7rip/ipe/7UFdFX4UEFTeaqOeMV2I5ZuWceFLM7
-   1GhbNu3L48zAauA5gObHlHVV04DmhDnt63Y0ngNCixywEFmRUFmKOATsj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="16354711"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="16354711"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 13:08:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="937060635"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="937060635"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2024 13:08:07 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 68B82241; Mon, 18 Mar 2024 22:08:06 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/1] ASoC: fsl: imx-es8328: Switch to using gpiod API
-Date: Mon, 18 Mar 2024 22:07:56 +0200
-Message-ID: <20240318200804.181516-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+	s=arc-20240116; t=1710792565; c=relaxed/simple;
+	bh=4ZvB0P1A9euRMXZ18Vxh7s6VsSarGosZC7A98PK7Mh0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pm8Lo4QcTDuWv9YxDqLQtr1LlnZdX0szNF4bZgOB2Ezscxa7O47fqVsxJZofRbMp/q6BtUI/hvw2y3bvnIrukMgRwi0r9Xg7WIHdB5B/bCPvesNKSC+wRIfU7f1c+zI273mEoZz4bD6K5wtGAakXlbQ+/80cxZ4rvTyJq0Hhqdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7c8742bedd4so425936339f.1
+        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 13:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710792563; x=1711397363;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0/iBbcB5+Py1tzqROnlNaTIxdElDFlDoRpvjKYNXpbM=;
+        b=JLiaXuFn8/pZCpbcMn7HARLOySPUm2uHn3F3Y/DSOOxg0bMSL/avv5yx0LrDj1CCge
+         NoTegUFNCrsg3f5Y5UsJCXxHecxuxSFvS3EQSs/14xruJ0+jRVwfsXh7ISDtPSbkKSp5
+         K6KIbpuh9kXHMd+KD6reiQR7zLCP7x4GQ0cvB9Qz3MV1ZUIO+DGP/k5jE3G/VE5PDvGK
+         igsPtDPGqdfMgOUlwxOHxZd0C3LwWh3ZCrbvv0z6A8FniC4FnuNA0fMJeRCvXmUV17hi
+         4QrL7qGBF2iIDLPN6wlK2MVGWPkmRYbdcJhZsQ19V1O85Fd0f6VdxxRJZgo+qaBnrZq8
+         xnxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXL7PiHditctC0HTeHf1AZLO51IovAxLx13XERg9j8wIQjW2JTu4fw7ex6tlTs6hKQFTsdLZfZetBBJedsK3Ip95xqC8hedZwMao+o=
+X-Gm-Message-State: AOJu0YwOzWmDlI6hZy/FQzas/cMKx1x2BvedUE41xnaKttoQzRYRpKg5
+	7FpgR30qe61Uqx0PetYriVg8XavjmeIOPJDzBLyrtxxw7vPHAJdjSrgJYX7xrWeisSZO7wdktxP
+	G21LIHhiJ90i/fQoyXCsCY/zngBHVjciTN/OnKRN0HFvlYyvybokOMsc=
+X-Google-Smtp-Source: AGHT+IHkytdWU4VpiO3JrHz+BGduFNb9ep0mdS7Rs90pTEtDZJmxz8lOl/lq/P8gXyUAASlggdrQRwvWaWOkKUstZU7twzGDDApq
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:35a9:b0:477:2080:50ec with SMTP id
+ v41-20020a05663835a900b00477208050ecmr34919jal.3.1710792563259; Mon, 18 Mar
+ 2024 13:09:23 -0700 (PDT)
+Date: Mon, 18 Mar 2024 13:09:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000048fbc0613f4eff0@google.com>
+Subject: [syzbot] [sound?] inconsistent lock state in snd_timer_interrupt
+From: syzbot <syzbot+d832e7bb0f8bf47217f1@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-This updates the driver to gpiod API, and removes yet another use of
-of_get_named_gpio().
+Hello,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+syzbot found the following issue on:
+
+HEAD commit:    fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=11bd6569180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aef2a55903e5791c
+dashboard link: https://syzkaller.appspot.com/bug?extid=d832e7bb0f8bf47217f1
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=165534f1180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=145cfbb6180000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/089e25869df5/disk-fe46a7dd.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/423b1787914f/vmlinux-fe46a7dd.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/4c043e30c07d/bzImage-fe46a7dd.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d832e7bb0f8bf47217f1@syzkaller.appspotmail.com
+
+================================
+WARNING: inconsistent lock state
+6.8.0-syzkaller-08951-gfe46a7dd189e #0 Not tainted
+--------------------------------
+inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
+swapper/0/0 [HC0[0]:SC1[1]:HE0:SE0] takes:
+ffff8880297a3148 (&timer->lock){+.?.}-{2:2}, at: class_spinlock_irqsave_constructor include/linux/spinlock.h:574 [inline]
+ffff8880297a3148 (&timer->lock){+.?.}-{2:2}, at: snd_timer_interrupt.part.0+0x31/0xd80 sound/core/timer.c:818
+{SOFTIRQ-ON-W} state was registered at:
+  lock_acquire kernel/locking/lockdep.c:5754 [inline]
+  lock_acquire+0x1b1/0x540 kernel/locking/lockdep.c:5719
+  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+  _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+  spin_lock include/linux/spinlock.h:351 [inline]
+  class_spinlock_constructor include/linux/spinlock.h:561 [inline]
+  snd_timer_close_locked+0x65/0xbd0 sound/core/timer.c:412
+  snd_timer_close+0x8b/0xf0 sound/core/timer.c:464
+  snd_timer_user_release+0x91/0x260 sound/core/timer.c:1468
+  __fput+0x270/0xb80 fs/file_table.c:422
+  task_work_run+0x14e/0x250 kernel/task_work.c:180
+  exit_task_work include/linux/task_work.h:38 [inline]
+  do_exit+0xa7d/0x2be0 kernel/exit.c:878
+  do_group_exit+0xd3/0x2a0 kernel/exit.c:1027
+  __do_sys_exit_group kernel/exit.c:1038 [inline]
+  __se_sys_exit_group kernel/exit.c:1036 [inline]
+  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1036
+  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+  do_syscall_64+0xd2/0x260 arch/x86/entry/common.c:83
+  entry_SYSCALL_64_after_hwframe+0x6d/0x75
+irq event stamp: 526819
+hardirqs last  enabled at (526818): [<ffffffff8ae0154a>] asm_sysvec_call_function_single+0x1a/0x20 arch/x86/include/asm/idtentry.h:709
+hardirqs last disabled at (526819): [<ffffffff8ad60002>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (526819): [<ffffffff8ad60002>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (526756): [<ffffffff8ad63156>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (526756): [<ffffffff8ad63156>] __do_softirq+0x596/0x8de kernel/softirq.c:583
+softirqs last disabled at (526813): [<ffffffff8151a149>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (526813): [<ffffffff8151a149>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (526813): [<ffffffff8151a149>] irq_exit_rcu+0xb9/0x120 kernel/softirq.c:645
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&timer->lock);
+  <Interrupt>
+    lock(&timer->lock);
+
+ *** DEADLOCK ***
+
+1 lock held by swapper/0/0:
+ #0: ffffc90000007cb0 ((&priv->tlist)){+.-.}-{0:0}, at: call_timer_fn+0x11a/0x5b0 kernel/time/timer.c:1789
+
+stack backtrace:
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:114
+ print_usage_bug kernel/locking/lockdep.c:3971 [inline]
+ valid_state kernel/locking/lockdep.c:4013 [inline]
+ mark_lock_irq kernel/locking/lockdep.c:4216 [inline]
+ mark_lock+0x923/0xc60 kernel/locking/lockdep.c:4678
+ mark_usage kernel/locking/lockdep.c:4567 [inline]
+ __lock_acquire+0x13d4/0x3b30 kernel/locking/lockdep.c:5091
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0x1b1/0x540 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3a/0x60 kernel/locking/spinlock.c:162
+ class_spinlock_irqsave_constructor include/linux/spinlock.h:574 [inline]
+ snd_timer_interrupt.part.0+0x31/0xd80 sound/core/timer.c:818
+ snd_timer_interrupt sound/core/timer.c:1107 [inline]
+ snd_timer_s_function+0x14f/0x200 sound/core/timer.c:1107
+ call_timer_fn+0x1a0/0x5b0 kernel/time/timer.c:1792
+ expire_timers kernel/time/timer.c:1843 [inline]
+ __run_timers+0x74b/0xab0 kernel/time/timer.c:2408
+ __run_timer_base kernel/time/timer.c:2419 [inline]
+ __run_timer_base kernel/time/timer.c:2412 [inline]
+ run_timer_base+0x111/0x190 kernel/time/timer.c:2428
+ run_timer_softirq+0x1a/0x40 kernel/time/timer.c:2438
+ __do_softirq+0x218/0x8de kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0xb9/0x120 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x95/0xb0 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:native_irq_disable arch/x86/include/asm/irqflags.h:37 [inline]
+RIP: 0010:arch_local_irq_disable arch/x86/include/asm/irqflags.h:72 [inline]
+RIP: 0010:acpi_safe_halt+0x1a/0x20 drivers/acpi/processor_idle.c:113
+Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 65 48 8b 05 d8 60 31 75 48 8b 00 a8 08 75 0c 66 90 0f 00 2d c8 73 a7 00 fb f4 <fa> c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffffffff8d407d68 EFLAGS: 00000246
+RAX: 0000000000004000 RBX: 0000000000000001 RCX: ffffffff8ad255f9
+RDX: 0000000000000001 RSI: ffff8880196e4000 RDI: ffff8880196e4064
+RBP: ffff8880196e4064 R08: 0000000000000001 R09: ffffed1017286fdd
+R10: ffff8880b9437eeb R11: 0000000000000000 R12: ffff8880151de800
+R13: ffffffff8e31fbc0 R14: 0000000000000000 R15: 0000000000000000
+ acpi_idle_enter+0xc5/0x160 drivers/acpi/processor_idle.c:707
+ cpuidle_enter_state+0x85/0x510 drivers/cpuidle/cpuidle.c:267
+ cpuidle_enter+0x4e/0xa0 drivers/cpuidle/cpuidle.c:388
+ cpuidle_idle_call kernel/sched/idle.c:236 [inline]
+ do_idle+0x313/0x3f0 kernel/sched/idle.c:332
+ cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:430
+ rest_init+0x16f/0x2b0 init/main.c:730
+ arch_call_rest_init+0x13/0x40 init/main.c:831
+ start_kernel+0x3a3/0x490 init/main.c:1077
+ x86_64_start_reservations+0x18/0x30 arch/x86/kernel/head64.c:509
+ x86_64_start_kernel+0xb2/0xc0 arch/x86/kernel/head64.c:490
+ common_startup_64+0x13e/0x148
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	65 48 8b 05 d8 60 31 	mov    %gs:0x753160d8(%rip),%rax        # 0x753160f0
+  17:	75
+  18:	48 8b 00             	mov    (%rax),%rax
+  1b:	a8 08                	test   $0x8,%al
+  1d:	75 0c                	jne    0x2b
+  1f:	66 90                	xchg   %ax,%ax
+  21:	0f 00 2d c8 73 a7 00 	verw   0xa773c8(%rip)        # 0xa773f0
+  28:	fb                   	sti
+  29:	f4                   	hlt
+* 2a:	fa                   	cli <-- trapping instruction
+  2b:	c3                   	ret
+  2c:	cc                   	int3
+  2d:	cc                   	int3
+  2e:	cc                   	int3
+  2f:	cc                   	int3
+  30:	90                   	nop
+  31:	90                   	nop
+  32:	90                   	nop
+  33:	90                   	nop
+  34:	90                   	nop
+  35:	90                   	nop
+  36:	90                   	nop
+  37:	90                   	nop
+  38:	90                   	nop
+  39:	90                   	nop
+  3a:	90                   	nop
+  3b:	90                   	nop
+  3c:	90                   	nop
+  3d:	90                   	nop
+  3e:	90                   	nop
+  3f:	90                   	nop
+
+
 ---
-v2: fixed compilation error
- sound/soc/fsl/imx-es8328.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/sound/soc/fsl/imx-es8328.c b/sound/soc/fsl/imx-es8328.c
-index 6f0d031c1d5f..d67b8a149bff 100644
---- a/sound/soc/fsl/imx-es8328.c
-+++ b/sound/soc/fsl/imx-es8328.c
-@@ -3,7 +3,7 @@
- // Copyright 2012 Freescale Semiconductor, Inc.
- // Copyright 2012 Linaro Ltd.
- 
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_platform.h>
-@@ -23,7 +23,7 @@ struct imx_es8328_data {
- 	struct snd_soc_card card;
- 	char codec_dai_name[DAI_NAME_SIZE];
- 	char platform_name[DAI_NAME_SIZE];
--	int jack_gpio;
-+	struct gpio_desc *jack_gpiod;
- };
- 
- static struct snd_soc_jack_gpio headset_jack_gpios[] = {
-@@ -54,8 +54,8 @@ static int imx_es8328_dai_init(struct snd_soc_pcm_runtime *rtd)
- 					struct imx_es8328_data, card);
- 	int ret = 0;
- 
--	/* Headphone jack detection */
--	if (gpio_is_valid(data->jack_gpio)) {
-+	if (data->jack_gpiod) {
-+		/* Headphone jack detection */
- 		ret = snd_soc_card_jack_new_pins(rtd->card, "Headphone",
- 						 SND_JACK_HEADSET | SND_JACK_BTN_0,
- 						 &headset_jack,
-@@ -64,7 +64,7 @@ static int imx_es8328_dai_init(struct snd_soc_pcm_runtime *rtd)
- 		if (ret)
- 			return ret;
- 
--		headset_jack_gpios[0].gpio = data->jack_gpio;
-+		headset_jack_gpios[0].desc = data->jack_gpiod;
- 		ret = snd_soc_jack_add_gpios(&headset_jack,
- 					     ARRAY_SIZE(headset_jack_gpios),
- 					     headset_jack_gpios);
-@@ -174,7 +174,11 @@ static int imx_es8328_probe(struct platform_device *pdev)
- 
- 	data->dev = dev;
- 
--	data->jack_gpio = of_get_named_gpio(pdev->dev.of_node, "jack-gpio", 0);
-+	data->jack_gpiod = devm_gpiod_get_optional(dev, "jack", GPIOD_IN);
-+	if (IS_ERR(data->jack_gpiod)) {
-+		ret = PTR_ERR(data->jack_gpiod);
-+		goto put_device;
-+	}
- 
- 	/*
- 	 * CPU == Platform
--- 
-2.43.0.rc1.1.gbec44491f096
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
