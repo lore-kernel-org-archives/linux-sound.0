@@ -1,75 +1,63 @@
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2061.outbound.protection.outlook.com [40.107.241.61])
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2079.outbound.protection.outlook.com [40.107.14.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF2D5813B;
-	Mon, 18 Mar 2024 19:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F0F56470;
+	Mon, 18 Mar 2024 19:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.14.79
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710788467; cv=fail; b=JM7UoMnABjJRURe3JH23vg7XVltYzoirR3Ptev8cTgCfac600L7AOYvz9XCI51s2CSPuVBueUxY3qtShF7tO3WkBVWHF0Cg3NhN7nPLe0YwC9VZkFGpOU9lo3SOfLEAEpcUyoMrRaiwRUe9tS2NrGc1aL4U8v6QxUtQiAmgjNdg=
+	t=1710789521; cv=fail; b=WfBHrXyAf3/2A52FheVy+vUHNbodHNEV3A8crIzuxkYAXksFqhFtaB+4krNjmJkCfS9fuqiktlKEvOLKecXVsXUMdvh8qQGMFi9kJGJmM6iEVhMmPZnEwvg4uFTvCVoLQPzvo8K6rCQfQYa5MGWLs/O/zr/VfjBz4scRjMWbHBg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710788467; c=relaxed/simple;
-	bh=qAfBYrkO08yGnKQGR6fjbQTnvzJDmfUQKuhObdOe3bE=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=ZTMd3vyJMD3cbc9tpZq2RcLlfxD6k+DEG/rZiAxuz0pBfXuJ03qySSP7WN+6LPxdCqsq5gkMD23R/kudomywADS2nU9XqWMcD3sVpVc+hA+nEsvTdDyFpkjnyakC5ACdlJvJqdTRZ0MKBlwgM8VFSssY0dWPW/qx9sgKvw+ZRZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=gq10Uf/7; arc=fail smtp.client-ip=40.107.241.61
+	s=arc-20240116; t=1710789521; c=relaxed/simple;
+	bh=KJ3vCL3cXoWoRi6jZhqATR75FBvynQKtKLGR6tC7ue8=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=sY7irGj69mHnzY/lIk6syZQEU8MeNlTEsbTHaSwqfoVYV4iqayY/Q7uLWZdZGK119aUKYcNHROkYZ03rRILDZ+zTOHYg4v7hC3JCSD6ACsW9U4kjgLIeQNbCD92re//nhcBhOrx+qDLnzmf88L2aUGwYIUmtuEe2/bs3rMjsO8w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=U6z5d8/X; arc=fail smtp.client-ip=40.107.14.79
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="gq10Uf/7"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="U6z5d8/X"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OLigXHYEvvbS2dUEq5KkhWgJihGbGzLL7KL1ozDZuZ9qCiWk/MsMGGZdgKuDM7cZ6V1MY8KtXrkhr2gnuODhJvGKcdP35o8Y275cmQZbOvTIZrj6tvkg13CJ+IQVF/7MyJAYosi8/7tc48FgjBQ3XTNJ6zUW10qMR3PfvY+Hlk8TD1qkO9QG4dRVIK+fCquCgeozRugI1IoDRa0wZNtEutF7sFunoFNhQo8fzjxqwc2pvp2PyshRx8lYbzuxpktL1y37fAvVpwirFc+kUo26gpG5a/t4IdV9TUEC8jrHH8qx6xPDQleiT8ztaYl8/Xm1plhwMqie2Q4/SqmOsZwuAQ==
+ b=mcGo2tQ6rrmSdCYLXLrp6bYzwSfKN08AnTOqoWKcEO9ALhGkEk+MCktGDCOErZ25hG3IdBKjAZ0M6kWf96PPpWEI1iCx47if2iv2DkvHy5rMqECy7CjW1MZWrOBTdaNgj9+SNn3C7wTmodbo1cfMYtBmmlQCsySLtDdMv7A02on54qtYLPbWpNZkIhiJyeRS9fwcnivDTKr7KdK9AEfRtePrlyUMMChu204Mkyh4XKa1ao5N4t3FPFr9lqMHfgvlRo+cwJI4AscfBEHsIlSIs2vcfaXuTBesk2zIiSwFz0wURK7raYfS/QVlstKrS+DOt4ctXITClxHgIK85RleCYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hkg2H7ddNwIZIQC1R8Zb0q6hwKirK7cL/YmbIpemUvg=;
- b=ZpR60Q4uNWgcfiEWgQHxy8GT4J9zONfUAeOBUPAlcZh+TgA2ZX2wX0BZxpYlkIdiDqGAnvTtwFpzOrdsS5cGLcYYDKQnw4tnsPKKeWYdKtlp9yLIv7kWExDgFKqG5gTjcgeIscpXq0GGbYX3kfDP14pB9CbNVLEyjdcUG71uaiejHn9SGSS5vmeEQutxEzxT4n2d1DdoyIu1XaTC4mt8Ebbtjh+OuSbeYvq8SwEo45rQV3HAsLWy785r4IGEcgFNIx74c6FyJoOL5Ii23c4Fu0RyJ+iarNoOXodbajv9SciGN6UiE5omzY6TMBNMgsz34zp3OSVBryOoRHAUMo6FFQ==
+ bh=hZWbUpCq/gHoGB2mwe/jr3f/z2vC2G9c7W6actd1Stc=;
+ b=ju6V/R46+1nSYfgoc0KbVsFiecKZlxdA2PJrmjKIVwCgVXojw4Jq8/e5KejiNEUf5CpplkilH9lDghPBhpesAe3CrNA73U1Aid1UPSAxGP0zHeKWkxMl+h/m2o8DJYvDC1YSqY8To+95Bi/es444IBw+c1HIEH7Xu001o3iDsU0Ap62ounvOEaXBLPtMAjsZLZ7lm2r49gm3oTpf4fkMUN8uzDV6XPG+XAyYGGIsNlhe78BR3aXTze3m2m9yBwBU01UctmwqOR3RLCEJEM+ikNVd6QHgtLk2P9vfL0sXWFkALwzOYdmZoqCAYxldRQfPmwjKYRJSZcwBpfj7Vb2cpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hkg2H7ddNwIZIQC1R8Zb0q6hwKirK7cL/YmbIpemUvg=;
- b=gq10Uf/7LKrQofMuiSYCvz9ReWhkjsTb94AlSNr+yUcKApXZmH/pmBTxBNaZdeuOF8uOaXUnhxcPYh93FbIxnadGZHazxtyfkYyLViB3zEDmwvekg2qUToj7CIppZ6d/aTXbx8FIbF/onnxtJ/2H11O0qIAhGkug9DB92lg3s1c=
+ bh=hZWbUpCq/gHoGB2mwe/jr3f/z2vC2G9c7W6actd1Stc=;
+ b=U6z5d8/Xh5SryEqUpD2QZIAq+4OTytX45XjxCJYn34neMwOSyZNqmflhkkx8hJ9ycscorG/yjKx83b2cpbUA0tuPa+O19xzAY1+YNmSP/RY02kqvG43PaHFB3NNWnKxV0C+63BFtJRknZ5UerlZGN71Q/2z9TH7yhNt6z27dihM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by VI1PR04MB7119.eurprd04.prod.outlook.com (2603:10a6:800:12e::24) with
+ by GV1PR04MB10244.eurprd04.prod.outlook.com (2603:10a6:150:17b::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.26; Mon, 18 Mar
- 2024 19:01:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.25; Mon, 18 Mar
+ 2024 19:18:35 +0000
 Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::3168:91:27c6:edf6]) by PAXPR04MB9642.eurprd04.prod.outlook.com
  ([fe80::3168:91:27c6:edf6%3]) with mapi id 15.20.7386.025; Mon, 18 Mar 2024
- 19:01:02 +0000
+ 19:18:35 +0000
 From: Frank Li <Frank.Li@nxp.com>
-Date: Mon, 18 Mar 2024 15:00:10 -0400
-Subject: [PATCH v7 4/4] arm64: dts: imx8qxp: add asrc[0,1], esai0, spdif0
- and sai[4,5]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240318-asrc_8qxp-v7-4-01ce5264a761@nxp.com>
-References: <20240318-asrc_8qxp-v7-0-01ce5264a761@nxp.com>
-In-Reply-To: <20240318-asrc_8qxp-v7-0-01ce5264a761@nxp.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.13-dev-c87ef
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710788441; l=9795;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=qAfBYrkO08yGnKQGR6fjbQTnvzJDmfUQKuhObdOe3bE=;
- b=NvWdQIrH2FgAj/Lm22MQbHmPvo7CbRZWdBCWKfIb3hwjSWQFt35zA1ATJ0sq6wjDOfka6CW6M
- 9cOXXuRZRG2AFgFqGZn00sL/F+5OzS/AyNbcjTCjRSRJzNdA4KxvaYM
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: BYAPR02CA0018.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::31) To DB9PR04MB9626.eurprd04.prod.outlook.com
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/1] ASoC: dt-bindings: fsl-audmix: Convert fsl,audmix.txt to yaml
+Date: Mon, 18 Mar 2024 15:18:21 -0400
+Message-Id: <20240318191822.2271229-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::30) To DB9PR04MB9626.eurprd04.prod.outlook.com
  (2603:10a6:10:309::18)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,378 +66,217 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|VI1PR04MB7119:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa91049a-97b4-4da5-ad39-08dc477dc119
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GV1PR04MB10244:EE_
+X-MS-Office365-Filtering-Correlation-Id: 656cb60b-8e89-4730-022d-08dc478034d7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	qmOJDEWQeXuuxJ0VThkZkWDT+m7mK0d2CmL7zdNiqfhxptq9gR/Gw50sX3uyaFhkBHwidYnxUg+UD664ByT83G60fbPD9+pFpmsW9Lbiq9EUsf7lg2PHlQW4FTVcqOqlz4rYJ88wEGaBY1Lg8jldjkDLY8YyFdVX93OoeNPD27ewXOTPhVtqr3OuYOWgSi+zJe/wq1qgzLLdnPasix8CGCS3J0Z0bvwx76Nx2HaQSXi5wIkc9qu+/m/J1ZDsXd6x64QakLBWmut7aQ/3YlYcGtlCIpUDRNi8+c3/lBqLi+FDzZt4gKnzcmjHWEEt/T5J3q4XJ8qzkAwc1EDrIDNzmWQ6ape2lJ3E4bSXAxj6QmZr1uUqdwEeUJjFm3Kr0F2msITAv7QU8RyYIZs1qS+4qrRKOU8N3IsxOUg6uo6sZRqSQoA6Vam66MDMZ4ZcndwIaJp1DAgsMT9GxyUkQTbX7oQAeWqvpNtJQv8lfumhgdXRGXb2UVWD2dNYmLk8L9RhOSMrtpzOh5a0ehNqIZU4ErWcFaoziNeDGDwN2axyYUP/VWzBr+kaUN/zOSqmCw1DqW5mW7LNDTS6H995Q9lxpaw2EM5qZkwDSobwNW7sENavHGM2Sw6RNhyLwUQKIMI2HcoBedtz0Onhdk1KH6gVLNmFOVmH0l1mPlc2bp64KEg8hitZsMXWbLDs+gbA+P8syJHgCGWyyTnWEnbxlJz4prOdm7e3GjBDVRGbgHvabLg=
+	qbSP3Yas8gw49Y9+uC8osxQqWGayUr/ncTGV7DqOTudDTO57JHia0rGZg6H8wRdv8oeTsD/CiIWBeXdtDvKYDlgZ1MqDpGV67jj24O5b8MxRJMxIoKkeJ1akGn9CwbK41ZeqcXXAgErILlthcpTljrHouzAizztUMkcqWcPntK+pPOxntLqKV+3FaLBoCzwcyawOSK8FhmTWsc0jfQcxMEH+arosy6iFdrFC18aLfrx9CJufa0fAubSqK2Iqpl48phnmKlJ5wNMPOkHXc+Tmb4q1ftdfXdl3zCHxUerz1SVnedBPnD8Pj8dD5rpmS6UUZUfmUiYvOxmRRwBoha/yBUmzbIi7u1jDYgG4ijGYUdORRpEFDveeQ3Mn7QEGrYsYquWUZjY44e+oSrhusWa+aFrlqRlSys1XFLh5oVMQqXH+oCvB+Yf1pJDPuFl2cmyjgaEB8TjtImQqfMG8pRgnmoig3Ot8wTnQl4XYRPXzOZ1L7up+WVV/yj+hzI8Y3VxdECiEV0ojkWSuc0Q6TlcrlGQ185QY1dXz74nHLQHfeCjntMKaMnKEbr/2v71LrdkmMrxhI4Y2Kv77Pr1joUNGccdUBnBMd+JFc1YMuOwEFFtq/DxHAsv4myLZYEn4AUPM5OcELRVBQhPKQfqE7ypNaUIK96oTSqidZ/Y8gjaeeSE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(366007)(376005)(38350700005)(921011);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bmJkN0MyaURONk95Y1RSNTVRUDBqaCs1WFpwT29IY0M5OWlmWURBNFpzTVJr?=
- =?utf-8?B?dzNBVmhIVWtabGlaVDFRbGVzTlFUUXlWbG5VTkhQOU1FQ3RlYVRkcE5TZFVM?=
- =?utf-8?B?TXQ2TEwrN0FDK0NzSDRKaC9WeGVYb082RUZvK20vQVBKVWdnMmNJdXR0SlR3?=
- =?utf-8?B?ZHVXaUEvb0h4SnVqN1Nqb3F4MVBDbDc3OU8xZ0x4Q3RJVHU0S1hPVVFtRUFT?=
- =?utf-8?B?MlowRWl5TE1QWWI4LzRSL0tGZ3Y1V1lDaDhvcloxMjB3VGJqSFhWRUxVbWov?=
- =?utf-8?B?UW9yVXJjTUtNa0ltYm1rUUdVbUM5VlhYeUxTT3ZpWlRQNmNSbmdrVzNNaVJo?=
- =?utf-8?B?eWltcWYrelhlMlJGZzVnSUpkemtTNHBOampOa0R1dVpvOWkwNElUTTVUaWtT?=
- =?utf-8?B?dmxrenIrQ0xOOWFVUFlNVGZ4Yng1RUhZUEZacTdzMHEvbjlVT1pzOU1GZURE?=
- =?utf-8?B?ckt5STkyLytkSGtyR3NPS0RaTWRGblROUk5jZ21McGF5Q1BHTmY5UmYyOGVW?=
- =?utf-8?B?MVNObnQ3eXJYbkp4VkNNNU5uM2JCRmxoY2RZaXNtZWZkSEFydW8rMmFjMmdT?=
- =?utf-8?B?cEFWZ0RIaTZSRzh2VWVtWVVTY0ZOVFB6WmVOZmtCWHpvVjVESTBhbDdDb21k?=
- =?utf-8?B?NGpsU3ZGQjV6dFRibkhsdHJ0aS9VWGwrMkJZU21rSk51Tmppc0JoYjlxTXl2?=
- =?utf-8?B?MW9rNExwS3pyZmp1aWpUdDc3Tms5eUozTnpPVDltRCtWNmFhVnRFck5mQmpr?=
- =?utf-8?B?bjcwS3E5OWR1Ti9zUzhiVy84Zk1lalFGVkpPNVRSdDVmSXZ3SWI4WVlFWTFa?=
- =?utf-8?B?NVpXa0tNUVlBSXBKK0xhMzk5MnNPM3dIbHY0Y2J1RThVenFWcFYzVjdpa1N6?=
- =?utf-8?B?V2w2dEl4M0FaS3BGc3JtZzFLcml4TUhXK05rdk8xZ1BodUdKcmJFdytFM3Nt?=
- =?utf-8?B?SWhpZmJibE9Dd3o5UkxoZFo3SEY4NGFMT0lYUXpPRlJKOEsxZmQ3VTI5SGlG?=
- =?utf-8?B?V3dFejZpS1RZQ0tZRzFzeEpJeFcxNy9jd1BwQUNLMjBIM1Z1Ky9jMTdDZmp4?=
- =?utf-8?B?dU9CM3dLbzNqbTBGTUZVTnBYVk1uRGtGTjJJVnJ4UVJtVGN4OEJORXoyZVIr?=
- =?utf-8?B?bDdFRUhjV3pHdXdTWHhaMmVXNGFPRUZLUzg0eVJyMTNEZTZhVGlwQlowTmQ2?=
- =?utf-8?B?azVGZUxZWmhzUW1FQW9PcTJQVU1WcjQ0R1FxeEZvSktLV2tjd2V4eUg5UWlw?=
- =?utf-8?B?OUgvejVhMDRoV2VOSDhWS3ZsV2FxZVFWdzByK3NxSkRPMnZWbTI2M1BGRGlR?=
- =?utf-8?B?ZzJJblBZMENkZEtrQk01cXYxUmZlVXp4bDVwRWlYRTlDeStaSzFZNnRTbndv?=
- =?utf-8?B?V0xKTXpjOEh6TnZVMU81ZENFdFEwSTdkNHd3QnIza081bnhtTUcrODB2YzdZ?=
- =?utf-8?B?S0JnLzNFcDA2QzIwdzJKSUhBdlprZWR6c1ZnYkE0d2dFYVYvNy8zZnFDMGs5?=
- =?utf-8?B?WUdrZjFycWVCekdCWEhIb1JOcU5JZnN5ODFWMWczaVBXQzhib0o1Q2dqOHBi?=
- =?utf-8?B?WEF3NDlSaDZXMWYxL08zSkI3WGxubkZhaENYMkp5L1FlcGQvQ3RkSmNiUXEr?=
- =?utf-8?B?dHdsMm0vb3JXUThvT0t4Wm9SNjlTL3FSNVNxbzU2dG9lVyt5WFVUT2xwK3Y3?=
- =?utf-8?B?eWUvNEZUeDVNWDZwck55SDhtY1JhM1B2YXBuM2NiWE1rWXZ0dXhma0xqYVZY?=
- =?utf-8?B?cU92UDdpbUgyeHBmZkpoYnU0c0d5OW9JRlpOQUNPNVVkcXNieGFjSko0VkE3?=
- =?utf-8?B?UUF5UDlPN05JZW1nQzk0NGp6VGxCUWZ5VWVPaVRWc2Uxcnp5Snpsd1lTaUtN?=
- =?utf-8?B?cWxKQ1RJWmdxNk9vWDQ3RTJNbmNNS2o0OHlxbTcrTk5CU0hWaTAwbFdwL1Vo?=
- =?utf-8?B?YjlnQ2liVTBGdzdMcjdKVnlZYmVwVlBXekRwUlNVYVE0RFl0bjJKbHJidWhr?=
- =?utf-8?B?cER6UGhNWkYxZTJNclRNa2ZGR2dwc1hBanpGZU9LYnRCQmRxWmtUeUtWTEZC?=
- =?utf-8?B?WnQ2YUJNYUVuZjI1RE5SVjJwd2tMU2R2T3BlNkt5Vk9WNXh4UVRzeVNFNnpu?=
- =?utf-8?Q?/n0OSH9QGADIjQE/eB7KK3xZg?=
+	=?us-ascii?Q?wAveVdgpAk9vQfW77TnzMBpJ/9UpX6u18nb2bIu4f+1+01sxkZHx7RpkOYej?=
+ =?us-ascii?Q?gokd+aSpCPJBdqI30zch5itbj1MbFlAXNNRkl/ictF3fLEhihcIUMEsghgIZ?=
+ =?us-ascii?Q?MoNoV7BYDpsBbSJG0sQrMbRyFaC7Q2rsbnLr7xSmul7OEeZCuCb2qi9iGVU4?=
+ =?us-ascii?Q?vlZrCXysQ57GZcUrwyLbhFP2qpVF00/YIww/jBrCYXvEB+G9OUp8UhOl42lK?=
+ =?us-ascii?Q?vDHwWtpzrKDXLUGZZYWMwDFslNXj0dkXaowk3YaKuuFqapsHclK/40Z7x09S?=
+ =?us-ascii?Q?tD2AP5nu5HPAwGtNhBuFv6JgE1imjZgtm3l0h1LdHBXTiYbeoX35uoJ44UP4?=
+ =?us-ascii?Q?e11wEsmz2y+xifGFMMHZOv+xdpzgsrGB7I15T30r5A4FkfSty6bhFtrDXdCS?=
+ =?us-ascii?Q?iyuG7pYHUkz8az86Ws1H6qrpfTHFQZdDcq17Vraq+xsGdBRcnbly21u7QJHE?=
+ =?us-ascii?Q?/TZfPLhERoB35qSjbs4sRzgqfhrkxdOcDxehBC0QtPF/2I5+hgfy4TUgjVqK?=
+ =?us-ascii?Q?OTxxuqxx8PVQy9Rw669ZlGna/vh5zO5bG5W+Sow51YoOpmCfjT3JWO0V9/7V?=
+ =?us-ascii?Q?W3FgkAIH3yixYonxFySynokiKFoXS+owwdHFKnqQ6+xtP6eBv6NAyTzQdXTw?=
+ =?us-ascii?Q?WoWT64vQMJxLt3CNBN3IV4LMxEkda7UvOi9QPFI8chxJll17/OQGAdq+f0fP?=
+ =?us-ascii?Q?R5Y12av9ZWzZD0qVx43BFTtnBSt2vFTGu/F74Q3cg92OEZnhb/iLyyoB3loO?=
+ =?us-ascii?Q?d1XGkv3rwgbhusa0gaRrNlupeNy91anPkrm9KS0ruCoUpSRrYMVFJU4tf11W?=
+ =?us-ascii?Q?FhA3PpR9hv982R4JF23+5u5q9dN5KqG7HO5BHS/U3UL/mvvbw+BhQRaJ6YFs?=
+ =?us-ascii?Q?HKwHMJg4JxYo5/S0zcnNq3Nknd7me3T51TNpKTnDxubuIzDvbfdY0b2U4HiT?=
+ =?us-ascii?Q?ZFNil+k27rvLIiuoHF/q4sjFB463Ga2b7c4yhEp3yYZpuqvztiL6rLGXBDWL?=
+ =?us-ascii?Q?MuF3k+j1+U1Qx+evxprDL2w9+MqMJXeTAOEZ4I9VZ9JVTGS+9Q9vVZuTnNrK?=
+ =?us-ascii?Q?biC0w+lgFfS/eNLKGJMm7EAiY5mdKOQYIgxTr90EODW8DdFY7BC0NnZSboHF?=
+ =?us-ascii?Q?yYmTAaOruHmZh4UINSmZtZT336IAc5d+26QBFHYV5OlfUs8XL0gIGAqd9yST?=
+ =?us-ascii?Q?ql2Alx7f2lEYXCkZodeOhH2G4xCC3ySfLY0XpaQ8QjWQwNm8EUKhqBcB5U30?=
+ =?us-ascii?Q?PO3GyMQNeTB2o6HOzvVKj0I2DXsCC0yMmVfh6fL7AlsHLc45UMpc1xLN/H7Y?=
+ =?us-ascii?Q?1EMug2rRNsomatmMZyFw6JSUxWU13ZBxdSUfK/gzFNqolUBbu8BNQCOwjIfY?=
+ =?us-ascii?Q?BgOBhQWevLSUsN/ydQ/GSht7tsmTTMTqcDl4NBoSGVknkBm+8SXEujneIIGF?=
+ =?us-ascii?Q?AUsQOpmi8dLOsQEsP/T4h7ljM8HLiL99woI1JtReON5ZyGECXwwLe/CXFtZ1?=
+ =?us-ascii?Q?SjXLaw303vC7NevcgcVRMS//4QTHspEaImspr6vi2ejSr7P05p6MpSqibsHD?=
+ =?us-ascii?Q?0IY68IJ0JpKr+bvNYJtX/KEvYtb49g7bi/J+Bd1R?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa91049a-97b4-4da5-ad39-08dc477dc119
+X-MS-Exchange-CrossTenant-Network-Message-Id: 656cb60b-8e89-4730-022d-08dc478034d7
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 19:01:01.9320
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2024 19:18:35.2807
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: czS+7Y4T+kD1GV8fsBk+Rf/5hU0X1ABM/8nwXl6zBdK9Qy4yZGxEYOp7URzMbRjsrLcqLmTCZDiQagAxI5QPmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7119
+X-MS-Exchange-CrossTenant-UserPrincipalName: E9LcUbjq4gAsbXpkMreIKJpEZ8ZAEZmJuOnewcX/LnZSUo4H2x71iQ6CqpcWQWUg8XZXiZuuvrth3SoMJREi3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10244
 
-Add asrc[0,1], esai0, spdif0, sai[4,5] and related lpcg node for
-imx8 audio subsystem.
+Convert fsl,audmix.txt to yaml to let dtb check tools check audmix part.
 
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi | 267 +++++++++++++++++++++++
- 1 file changed, 267 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
-index 07afeb78ed564..d50457e745259 100644
---- a/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi
-@@ -6,6 +6,7 @@
- 
- #include <dt-bindings/clock/imx8-clock.h>
- #include <dt-bindings/clock/imx8-lpcg.h>
-+#include <dt-bindings/dma/fsl-edma.h>
- #include <dt-bindings/firmware/imx/rsrc.h>
- 
- audio_ipg_clk: clock-audio-ipg {
-@@ -119,6 +120,86 @@ audio_subsys: bus@59000000 {
- 	#size-cells = <1>;
- 	ranges = <0x59000000 0x0 0x59000000 0x1000000>;
- 
-+	asrc0: asrc@59000000 {
-+		compatible = "fsl,imx8qm-asrc";
-+		reg = <0x59000000 0x10000>;
-+		interrupts = <GIC_SPI 372 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&asrc0_lpcg 0>,
-+			 <&asrc0_lpcg 0>,
-+			 <&aud_pll_div0_lpcg 0>,
-+			 <&aud_pll_div1_lpcg 0>,
-+			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
-+			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>;
-+		clock-names = "mem", "ipg",
-+			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
-+			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
-+			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
-+			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
-+			      "spba";
-+		dmas = <&edma0 0 0 0>,
-+		       <&edma0 1 0 0>,
-+		       <&edma0 2 0 0>,
-+		       <&edma0 3 0 FSL_EDMA_RX>,
-+		       <&edma0 4 0 FSL_EDMA_RX>,
-+		       <&edma0 5 0 FSL_EDMA_RX>;
-+		/* tx* is output channel of asrc, it is rx channel for eDMA */
-+		dma-names = "rxa", "rxb", "rxc", "txa", "txb", "txc";
-+		fsl,asrc-rate  = <8000>;
-+		fsl,asrc-width = <16>;
-+		fsl,asrc-clk-map = <0>;
-+		power-domains = <&pd IMX_SC_R_ASRC_0>;
-+		status = "disabled";
-+	};
-+
-+	esai0: esai@59010000 {
-+		compatible = "fsl,imx8qm-esai";
-+		reg = <0x59010000 0x10000>;
-+		interrupts = <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&esai0_lpcg 1>, <&esai0_lpcg 0>, <&esai0_lpcg 1>, <&clk_dummy>;
-+		clock-names = "core", "extal", "fsys", "spba";
-+		dmas = <&edma0 6 0 FSL_EDMA_RX>, <&edma0 7 0 0>;
-+		dma-names = "rx", "tx";
-+		power-domains = <&pd IMX_SC_R_ESAI_0>;
-+		status = "disabled";
-+	};
-+
-+	spdif0: spdif@59020000 {
-+		compatible = "fsl,imx8qm-spdif";
-+		reg = <0x59020000 0x10000>;
-+		interrupts =  <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>, /* rx */
-+			      <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>; /* tx */
-+		clocks = <&spdif0_lpcg 1>,	/* core */
-+			 <&clk_dummy>,		/* rxtx0 */
-+			 <&spdif0_lpcg 0>,	/* rxtx1 */
-+			 <&clk_dummy>,		/* rxtx2 */
-+			 <&clk_dummy>,		/* rxtx3 */
-+			 <&clk_dummy>,		/* rxtx4 */
-+			 <&audio_ipg_clk>,	/* rxtx5 */
-+			 <&clk_dummy>,		/* rxtx6 */
-+			 <&clk_dummy>,		/* rxtx7 */
-+			 <&clk_dummy>;		/* spba */
-+		clock-names = "core", "rxtx0", "rxtx1", "rxtx2", "rxtx3", "rxtx4",
-+			      "rxtx5", "rxtx6", "rxtx7", "spba";
-+		dmas = <&edma0 8 0 (FSL_EDMA_MULTI_FIFO | FSL_EDMA_RX)>,
-+		       <&edma0 9 0 FSL_EDMA_MULTI_FIFO>;
-+		dma-names = "rx", "tx";
-+		power-domains = <&pd IMX_SC_R_SPDIF_0>;
-+		status = "disabled";
-+	};
-+
- 	sai0: sai@59040000 {
- 		compatible = "fsl,imx8qm-sai";
- 		reg = <0x59040000 0x10000>;
-@@ -239,6 +320,40 @@ edma0: dma-controller@591f0000 {
- 				<&pd IMX_SC_R_DMA_0_CH23>;
- 	};
- 
-+	asrc0_lpcg: clock-controller@59400000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59400000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_4>;
-+		clock-output-names = "asrc0_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_ASRC_0>;
-+	};
-+
-+	esai0_lpcg: clock-controller@59410000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59410000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&acm IMX_ADMA_ACM_ESAI0_MCLK_SEL>,
-+			 <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-+		clock-output-names = "esai0_lpcg_extal_clk",
-+				     "esai0_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_ESAI_0>;
-+	};
-+
-+	spdif0_lpcg: clock-controller@59420000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59420000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&acm IMX_ADMA_ACM_SPDIF0_TX_CLK_SEL>,
-+			 <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-+		clock-output-names = "spdif0_lpcg_tx_clk",
-+				     "spdif0_lpcg_gclkw";
-+		power-domains = <&pd IMX_SC_R_SPDIF_0>;
-+	};
-+
- 	sai0_lpcg: clock-controller@59440000 {
- 		compatible = "fsl,imx8qxp-lpcg";
- 		reg = <0x59440000 0x10000>;
-@@ -333,6 +448,102 @@ dsp: dsp@596e8000 {
- 		status = "disabled";
- 	};
- 
-+	asrc1: asrc@59800000 {
-+		compatible = "fsl,imx8qm-asrc";
-+		reg = <0x59800000 0x10000>;
-+		interrupts = <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&asrc1_lpcg 0>,
-+			 <&asrc1_lpcg 0>,
-+			 <&aud_pll_div0_lpcg 0>,
-+			 <&aud_pll_div1_lpcg 0>,
-+			 <&acm IMX_ADMA_ACM_AUD_CLK0_SEL>,
-+			 <&acm IMX_ADMA_ACM_AUD_CLK1_SEL>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>;
-+		clock-names = "mem", "ipg",
-+			      "asrck_0", "asrck_1", "asrck_2", "asrck_3",
-+			      "asrck_4", "asrck_5", "asrck_6", "asrck_7",
-+			      "asrck_8", "asrck_9", "asrck_a", "asrck_b",
-+			      "asrck_c", "asrck_d", "asrck_e", "asrck_f",
-+			      "spba";
-+		dmas = <&edma1 0 0 0>,
-+		       <&edma1 1 0 0>,
-+		       <&edma1 2 0 0>,
-+		       <&edma1 3 0 FSL_EDMA_RX>,
-+		       <&edma1 4 0 FSL_EDMA_RX>,
-+		       <&edma1 5 0 FSL_EDMA_RX>;
-+		/* tx* is output channel of asrc, it is rx channel for eDMA */
-+		dma-names = "rxa", "rxb", "rxc", "txa", "txb", "txc";
-+		fsl,asrc-rate  = <8000>;
-+		fsl,asrc-width = <16>;
-+		fsl,asrc-clk-map = <1>;
-+		power-domains = <&pd IMX_SC_R_ASRC_1>;
-+		status = "disabled";
-+	};
-+
-+	sai4: sai@59820000 {
-+		compatible = "fsl,imx8qm-sai";
-+		reg = <0x59820000 0x10000>;
-+		interrupts = <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&sai4_lpcg 1>,
-+			 <&clk_dummy>,
-+			 <&sai4_lpcg 0>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>;
-+		clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3";
-+		dmas = <&edma1 8 0 FSL_EDMA_RX>, <&edma1 9 0 0>;
-+		dma-names = "rx", "tx";
-+		power-domains = <&pd IMX_SC_R_SAI_4>;
-+		status = "disabled";
-+	};
-+
-+	sai5: sai@59830000 {
-+		compatible = "fsl,imx8qm-sai";
-+		reg = <0x59830000 0x10000>;
-+		interrupts = <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&sai5_lpcg 1>,
-+			 <&clk_dummy>,
-+			 <&sai5_lpcg 0>,
-+			 <&clk_dummy>,
-+			 <&clk_dummy>;
-+		clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3";
-+		dmas = <&edma1 10 0 0>;
-+		dma-names = "tx";
-+		power-domains = <&pd IMX_SC_R_SAI_5>;
-+		status = "disabled";
-+	};
-+
-+	amix: amix@59840000 {
-+		compatible = "fsl,imx8qm-audmix";
-+		reg = <0x59840000 0x10000>;
-+		clocks = <&amix_lpcg 0>;
-+		clock-names = "ipg";
-+		power-domains = <&pd IMX_SC_R_AMIX>;
-+		dais = <&sai4>, <&sai5>;
-+		status = "disabled";
-+	};
-+
-+	mqs: mqs@59850000 {
-+		compatible = "fsl,imx8qm-mqs";
-+		reg = <0x59850000 0x10000>;
-+		clocks = <&mqs0_lpcg 0>,
-+			<&mqs0_lpcg 1>;
-+		clock-names = "mclk", "core";
-+		power-domains = <&pd IMX_SC_R_MQS_0>;
-+		status = "disabled";
-+	};
-+
- 	edma1: dma-controller@599f0000 {
- 		compatible = "fsl,imx8qm-edma";
- 		reg = <0x599f0000 0xc0000>;
-@@ -481,4 +692,60 @@ acm: acm@59e00000 {
- 			      "sai3_rx_bclk",
- 			      "sai4_rx_bclk";
- 	};
-+
-+	asrc1_lpcg: clock-controller@59c00000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59c00000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_4>;
-+		clock-output-names = "asrc1_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_ASRC_1>;
-+	};
-+
-+	sai4_lpcg: clock-controller@59c20000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59c20000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&acm IMX_ADMA_ACM_SAI4_MCLK_SEL>,
-+			 <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-+		clock-output-names = "sai4_lpcg_mclk",
-+				     "sai4_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_SAI_4>;
-+	};
-+
-+	sai5_lpcg: clock-controller@59c30000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59c30000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&acm IMX_ADMA_ACM_SAI5_MCLK_SEL>,
-+			 <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-+		clock-output-names = "sai5_lpcg_mclk",
-+				     "sai5_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_SAI_5>;
-+	};
-+
-+	amix_lpcg: clock-controller@59c40000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59c40000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>;
-+		clock-output-names = "amix_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_AMIX>;
-+	};
-+
-+	mqs0_lpcg: clock-controller@59c50000 {
-+		compatible = "fsl,imx8qxp-lpcg";
-+		reg = <0x59c50000 0x10000>;
-+		#clock-cells = <1>;
-+		clocks = <&acm IMX_ADMA_ACM_MQS_TX_CLK_SEL>,
-+			 <&audio_ipg_clk>;
-+		clock-indices = <IMX_LPCG_CLK_0>, <IMX_LPCG_CLK_4>;
-+		clock-output-names = "mqs0_lpcg_mclk",
-+				     "mqs0_lpcg_ipg_clk";
-+		power-domains = <&pd IMX_SC_R_MQS_0>;
-+	};
- };
+Notes:
+    dt_binding_check and DTB_CHECK passed.
+    
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,audmix.yaml
+      LINT    Documentation/devicetree/bindings
+      DTEX    Documentation/devicetree/bindings/sound/fsl,audmix.example.dts
+      CHKDT   Documentation/devicetree/bindings/processed-schema.json
+      SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+      DTC_CHK Documentation/devicetree/bindings/sound/fsl,audmix.example.dtb
 
+ .../devicetree/bindings/sound/fsl,audmix.txt  | 50 ------------
+ .../devicetree/bindings/sound/fsl,audmix.yaml | 78 +++++++++++++++++++
+ 2 files changed, 78 insertions(+), 50 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/fsl,audmix.txt b/Documentation/devicetree/bindings/sound/fsl,audmix.txt
+deleted file mode 100644
+index 840b7e0d6a631..0000000000000
+--- a/Documentation/devicetree/bindings/sound/fsl,audmix.txt
++++ /dev/null
+@@ -1,50 +0,0 @@
+-NXP Audio Mixer (AUDMIX).
+-
+-The Audio Mixer is a on-chip functional module that allows mixing of two
+-audio streams into a single audio stream. Audio Mixer has two input serial
+-audio interfaces. These are driven by two Synchronous Audio interface
+-modules (SAI). Each input serial interface carries 8 audio channels in its
+-frame in TDM manner. Mixer mixes audio samples of corresponding channels
+-from two interfaces into a single sample. Before mixing, audio samples of
+-two inputs can be attenuated based on configuration. The output of the
+-Audio Mixer is also a serial audio interface. Like input interfaces it has
+-the same TDM frame format. This output is used to drive the serial DAC TDM
+-interface of audio codec and also sent to the external pins along with the
+-receive path of normal audio SAI module for readback by the CPU.
+-
+-The output of Audio Mixer can be selected from any of the three streams
+- - serial audio input 1
+- - serial audio input 2
+- - mixed audio
+-
+-Mixing operation is independent of audio sample rate but the two audio
+-input streams must have same audio sample rate with same number of channels
+-in TDM frame to be eligible for mixing.
+-
+-Device driver required properties:
+-=================================
+-  - compatible		: Compatible list, contains "fsl,imx8qm-audmix"
+-
+-  - reg			: Offset and length of the register set for the device.
+-
+-  - clocks		: Must contain an entry for each entry in clock-names.
+-
+-  - clock-names		: Must include the "ipg" for register access.
+-
+-  - power-domains	: Must contain the phandle to AUDMIX power domain node
+-
+-  - dais		: Must contain a list of phandles to AUDMIX connected
+-			  DAIs. The current implementation requires two phandles
+-			  to SAI interfaces to be provided, the first SAI in the
+-			  list being used to route the AUDMIX output.
+-
+-Device driver configuration example:
+-======================================
+-  audmix: audmix@59840000 {
+-    compatible = "fsl,imx8qm-audmix";
+-    reg = <0x0 0x59840000 0x0 0x10000>;
+-    clocks = <&clk IMX8QXP_AUD_AUDMIX_IPG>;
+-    clock-names = "ipg";
+-    power-domains = <&pd_audmix>;
+-    dais = <&sai4>, <&sai5>;
+-  };
+diff --git a/Documentation/devicetree/bindings/sound/fsl,audmix.yaml b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+new file mode 100644
+index 0000000000000..fc65b76ea35ce
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/fsl,audmix.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP Audio Mixer (AUDMIX).
++
++maintainers:
++  - Shengjiu Wang <shengjiu.wang@nxp.com>
++  - Frank Li <Frank.Li@nxp.com>
++
++description:
++  The Audio Mixer is a on-chip functional module that allows mixing of two
++  audio streams into a single audio stream. Audio Mixer has two input serial
++  audio interfaces. These are driven by two Synchronous Audio interface
++  modules (SAI). Each input serial interface carries 8 audio channels in its
++  frame in TDM manner. Mixer mixes audio samples of corresponding channels
++  from two interfaces into a single sample. Before mixing, audio samples of
++  two inputs can be attenuated based on configuration. The output of the
++  Audio Mixer is also a serial audio interface. Like input interfaces it has
++  the same TDM frame format. This output is used to drive the serial DAC TDM
++  interface of audio codec and also sent to the external pins along with the
++  receive path of normal audio SAI module for readback by the CPU.
++
++  The output of Audio Mixer can be selected from any of the three streams
++    - serial audio input 1
++    - serial audio input 2
++    - mixed audio
++
++  Mixing operation is independent of audio sample rate but the two audio
++  input streams must have same audio sample rate with same number of channels
++  in TDM frame to be eligible for mixing.
++
++properties:
++  compatible:
++    const: fsl,imx8qm-audmix
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: ipg
++
++  power-domains:
++    maxItems: 1
++
++  dais:
++    description:
++      Must contain a list of phandles to AUDMIX connected
++      DAIs. The current implementation requires two phandles
++      to SAI interfaces to be provided, the first SAI in the
++      list being used to route the AUDMIX output.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - dais
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    audmix@59840000 {
++      compatible = "fsl,imx8qm-audmix";
++      reg = <0x59840000 0x10000>;
++      clocks = <&amix_lpcg 0>;
++      clock-names = "ipg";
++      power-domains = <&pd_audmix>;
++      dais = <&sai4>, <&sai5>;
++    };
 -- 
 2.34.1
 
