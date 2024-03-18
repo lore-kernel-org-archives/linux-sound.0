@@ -1,82 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.sberdevices.ru (mx1.sberdevices.ru [37.18.73.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA2518029;
-	Mon, 18 Mar 2024 01:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E56E12B76;
+	Mon, 18 Mar 2024 07:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.18.73.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710727115; cv=none; b=E1SVx2yyFYznKwUbpypwHw9Z7gXAYJi2bACXWrB9CWa6KVu2bqSAHy2sdqgG0SSBJb+KJhWt19yPupzRFC3Dq+PtTRW8l/rfwJ8lyXv+9319d21GFdt5uYs/uKGOZt040lCiQw5655y45119KSO9p8wzsbGSTfuOSx8nT33IScw=
+	t=1710746859; cv=none; b=lInWxP3wftOTYg2snWNa/8Yle7EEVDtrSgfCG+lWUA1esmxQ2rmctfJYve1RP8KwaDNWu3fX+quCZ0O/pHof+XnK6WgGSlCd0B5d1H2/IskisdjLE8Z//4BPtTJLyMrs5j4Zkrx7ZTO/ztMob60GJ/IRJHjAtxLeECF4muULCNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710727115; c=relaxed/simple;
-	bh=DcITcUi0UAzIfJfgwKPQR+v9uBz4blRpVUIme3CHnFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CFB7oUWlaZy1S9LuLIQei7HvUopv+wqWl5PRuliKxnhW5fgMuoTuvbRRUdf2PM4yL1ioC91L8N6WSrUaduiMDTIGbb5t58mJf+vnBsHmNzRwylEuS1ZosHbi5NrnunexnP6oAy24ztEPm4U7aK1HhS8SwPBa+kuBNU8FwQGUAWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAIvdc3+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710746859; c=relaxed/simple;
+	bh=ue+ngYpZQczjaWjC2/97iH40jedNa6xc3uMbfjw4jjk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqqp62cx3usEnHpVkqT6XF03/rASpoAvrTwUpQhlDDz6OsMSCbaYoy6c9xvsZReF84PHbYlH4yGczDyE3Stxj+D+mZlMo4/pTvBDgpgGGiv8+DF6S7OItBHBuQXoTrWDXoSQbdgq3kD2fwIU/5w7CaYAphHjFZCRLWrXKgamzqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=salutedevices.com; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=VnGw2EO2; arc=none smtp.client-ip=37.18.73.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=salutedevices.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAIvdc3+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C89C433F1;
-	Mon, 18 Mar 2024 01:58:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710727114;
-	bh=DcITcUi0UAzIfJfgwKPQR+v9uBz4blRpVUIme3CHnFc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sAIvdc3+W8FabzOBdpjbNt/g0jAjRvax2T9f3NSY8kAOrB89h8mK4nw5jTJ1lrenD
-	 Y5qJKBbqvraWed/nleybq9nkZkavn7X/B9pLcKMZ1RPzbmJIOqC6x55bnHDT4ptj2g
-	 QSAQrQNFYvSN1c0wA/TAzTJSdNUGCbRKNvhLHnzIrkFXe7GKNV4g3jxQFKm2y92vQg
-	 EGlj9Ghn5fxsugSIIZ46rB0m79t1yhi3O7zAJiCl+U8fDLM+HlwrAesQjIOxWwh0Sl
-	 +sYxdTnEGNnsvz6zIZjBqEX4whzIGPHGiA3MjK/WIv240fYQj8/x76UwEfvan5BkyN
-	 doWb5r1bfJjRw==
-Date: Sun, 17 Mar 2024 21:58:32 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Jiawei Wang <me@jwang.link>, Mark Brown <broonie@kernel.org>,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	Syed.SabaKareem@amd.com, linux-sound@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
-Subject: Re: [PATCH AUTOSEL 6.6 12/17] ASoC: amd: yc: add new YC platform
- variant (0x63) support
-Message-ID: <ZfefyOEkKM_GHvhC@sashalap>
-References: <20240311151314.317776-1-sashal@kernel.org>
- <20240311151314.317776-12-sashal@kernel.org>
- <b13786b0-fdee-45a4-9f1a-33427cef5635@amd.com>
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="VnGw2EO2"
+Received: from p-infra-ksmg-sc-msk01 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 51C11100003;
+	Mon, 18 Mar 2024 10:27:31 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 51C11100003
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1710746851;
+	bh=6eBBMkMfZ38/VKvG5K/FQSiHY3xSbVnH219JcM7xg+0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=VnGw2EO2nPizTbHONIIGLX+5hzjAt0tn586YH2n+Nhjyhclw+v5sfCXXWLvEo7/6y
+	 bd7RztKrqxLrZBw8CXY7FvdpzSlm9desv11YzbjzOS0KgMPCfL6f5J7lol/3zBQsVg
+	 3FdNsw1eHzOXUOH8P2/eqVz95tneJYyiygr5588ZrluwFkgV7TX0aLL39RhD1/cV3M
+	 hhhRl+onDEkQL7iEWHG/Mi7W1cqNFCeDg10qCyYLiYiis1rLwaUlt4RVGRAbvxw3aO
+	 EUcR2aghhldiuGJqtEl+/bF2hdTYPZLd4Fx7WVU91rwjgVIkxvFkr6swtw+VfYjwS+
+	 E9oPwXGgWH5Gw==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Mon, 18 Mar 2024 10:27:31 +0300 (MSK)
+Received: from localhost (100.64.160.123) by p-i-exch-sc-m02.sberdevices.ru
+ (172.16.192.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Mar
+ 2024 10:27:30 +0300
+Date: Mon, 18 Mar 2024 10:27:30 +0300
+From: Dmitry Rokosov <ddrokosov@salutedevices.com>
+To: Rob Herring <robh@kernel.org>
+CC: Jan Dakinevich <jan.dakinevich@salutedevices.com>, Neil Armstrong
+	<neil.armstrong@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman
+	<khilman@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	<linux-amlogic@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <alsa-devel@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<kernel@salutedevices.com>
+Subject: Re: [PATCH 22/25] ASoC: dt-bindings: meson: introduce link-name
+ optional property
+Message-ID: <20240318072730.3u4qbwxijreyduwi@CAB-WSD-L081021>
+References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-23-jan.dakinevich@salutedevices.com>
+ <20240317194534.GA2093375-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <b13786b0-fdee-45a4-9f1a-33427cef5635@amd.com>
+In-Reply-To: <20240317194534.GA2093375-robh@kernel.org>
+User-Agent: NeoMutt/20220415
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 183875 [Feb 29 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.3
+X-KSMG-AntiSpam-Envelope-From: ddrokosov@salutedevices.com
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/02/29 19:21:00 #23899999
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Mon, Mar 11, 2024 at 09:10:54PM +0530, Mukunda,Vijendar wrote:
->On 11/03/24 20:43, Sasha Levin wrote:
->> From: Jiawei Wang <me@jwang.link>
->>
->> [ Upstream commit 316a784839b21b122e1761cdca54677bb19a47fa ]
->>
->> The Lenovo 21J2 (ThinkBook 16 G5+ APO) has this new variant,
->> as detected with lspci:
->>
->> 64:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
->>         ACP/ACP3X/ACP6x Audio Coprocessor (rev 63)
->>
->> Signed-off-by: Jiawei Wang <me@jwang.link>
->> Link: https://msgid.link/r/20240228073914.232204-1-me@jwang.link
->> Signed-off-by: Mark Brown <broonie@kernel.org>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->This patch has to be reverted.
->Pci revision id 0x63 corresponds to Pink Sardine (PS) platform.
->Its not yellow corp platform.
->Already PS platform ACP driver with PDM controller support available
->in mainline kernel.
->https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/sound/soc/amd/ps?h=v6.7.9
+Hello Rob,
 
-I'll drop it, thanks.
+On Sun, Mar 17, 2024 at 01:45:34PM -0600, Rob Herring wrote:
+> On Fri, Mar 15, 2024 at 02:21:58AM +0300, Jan Dakinevich wrote:
+> > From: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> > 
+> > The 'link-name' property is an optional DT property that allows for the
+> > customization of the name associated with the DAI link and PCM stream.
+> > This functionality mirrors the approach commonly utilized in Qualcomm
+> > audio cards, providing flexibility in DAI naming conventions for
+> > improved system integration and userspace experience.
+> > 
+> > It allows userspace program to easy determine PCM stream purpose, e.g.:
+> >     ~ # cat /proc/asound/pcm
+> >     00-00: speaker (*) :  : playback 1
+> >     00-01: mics (*) :  : capture 1
+> >     00-02: loopback (*) :  : capture 1
+> > 
+> > Signed-off-by: Dmitry Rokosov <ddrokosov@salutedevices.com>
+> 
+> This needs your S-o-b as well.
+
+I will send this change in the separate patch series, as Neil suggested
+in the cover letter reply.
 
 -- 
-Thanks,
-Sasha
+Thank you,
+Dmitry
