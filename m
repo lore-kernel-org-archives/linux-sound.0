@@ -1,154 +1,94 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180633BBD4
-	for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 13:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5726547F50;
+	Mon, 18 Mar 2024 13:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710767875; cv=none; b=YctoHLzsKsaEZVJMdmazVeE5z2V3kRtFFXaMBKeGmVvxwr1F6HNjMXjYDUxVUFDlSI+fc+PCUc2TBgqQ8tM8JZhjPdCL3qVOdcBXkoGo0C0WfU+A8e9omE1UsK+DZOxe+K2/7wBuD56cZS3RSPJYL2N71EjwZEqtA+rePFu+cME=
+	t=1710768533; cv=none; b=AFL/XfWCmI/o6+DjxtA/9hx+nYqN1D0MhXd4IHVTm+Vg2PLgOdIPNCVJizwLE+YMTCORykEkFHuXacEmOvhg0qiIkijmRGxdLdUfD2DA4XLugl+RI88msoyqKiOJutWkY8O5F/TTYD2JxCxXfQE7NnkSqiSgQHBWam/2rrEj67g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710767875; c=relaxed/simple;
-	bh=hTRXqs+87AcQQdwX7hLXmpkNLX8eNTZwj5xd3y9wDh8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=nGoo5Cp6vvCTK0l44p4cu3lXDR/W5NDPlporgqtCQGeugejMgnbpEuaOoDXqNHihvDW+IkBDKdqRNEGa2GSEiQLu3jUFnUkqVSMJDxI5cIjDvOCfaERWvaMxIJpLKy+PWMkoHlIy8PuR31q5XeRLG1EpKFPdk7oSOhzym9IXd0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in; spf=none smtp.mailfrom=cpp.in; dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b=XVReJsTx; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cpp.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cpp.in
+	s=arc-20240116; t=1710768533; c=relaxed/simple;
+	bh=H4T7GRxUc7yBWQ/u7+eX/MPNWtS9olwvn5w3951JJzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tTSlN6IwMW/ovnS5iKPhMUAyqqSXJRlYWdzfHR46b4m9RH/8XV+xN3mKAZNQxQ2AZ5nen9YjVqaYTbrZqTDTZDATVUia99aYK8in2NVT3FPHVLaa4XX8afVYYxuLk/olykt7c0xo7CcxE1u3JP/P3mvllZtzo+FtAr2UtQ0/H6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPwx81na; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cpp-in.20230601.gappssmtp.com header.i=@cpp-in.20230601.gappssmtp.com header.b="XVReJsTx"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e703e0e5deso1568884b3a.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 06:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cpp-in.20230601.gappssmtp.com; s=20230601; t=1710767872; x=1711372672; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TccUwvnyA3+iIKaf7kLJqh49DkBa5LS6qGPxBEluav4=;
-        b=XVReJsTx+m3aEhPJ9BjJu+4J6ssFgLqY/vJPXGV20hNYsTeU30IR3nc1cv1hPKg3mE
-         ekSRdRgaIbqFUtN4TTsPGkCU/8LA814SwR457HjifMCECCDpc9crrIH9AF5I9BBYhSh5
-         24x9c93qpfAfKNwp7OyCEkq/A6Cf/bmFJA0xTOZ3fGAmT4vsJ1NwXrculfP4ClfNMcGD
-         iiJ3L64lxVAdLT7wgAVMfpN6a7PPUZwlxyW/wgq7VA3x4Kc8bDP/LD2tK/PJQp0lRFKr
-         pz90IfRr/2gPFpzE3IxNcGQYMVomWD2/DnxH3xnrENN4AnVPQBKohEVAjA2hdbQr+p1A
-         g97A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710767872; x=1711372672;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TccUwvnyA3+iIKaf7kLJqh49DkBa5LS6qGPxBEluav4=;
-        b=ss9MHJ5N0GdlSgXhkvN/LfJ9jHPNnGRW3FAWlMeJNtKKWWBVgTvOxodpsrgpBUveIv
-         nOWkF6pl/ctZ1olTIh3u2qFGQrMmkhwfR0Mn3iaSYehM8rsBo9+oQ6zPvxt6tSUyqt8x
-         AdyYbh/V03xslhXUa7y3suAupqYxH4p98erfH3nsjoERLkNh1zl1+j6pw8vKeTYrbLlk
-         7WtFK2aQY2q2UtsgCTEPTrpkKyYtSkmX5AXZkkkT1JW0U4ZtWhYhC74jm5qAhd890AE+
-         JbvorLRRDa8A8qnmt0CIVx48iNsNJ6ksT3KKALXMpQFbyMK38VRl7RkjyTsBRv1Bxfut
-         E4Xg==
-X-Gm-Message-State: AOJu0YxSWBnlTE/ax4Sh7T5ou2uPcUnnYz9QW9PCGN2p/NU0Eg/rBw21
-	XGkj6qBaYrTtI/svlViv8nDcnEyOku81OQLs5ScmRa11udFFie0Qai1WONumnj+c6jAaHsq5MH2
-	Tytwv
-X-Google-Smtp-Source: AGHT+IE3BSS+qytG3C84b34czAdsgC/GjVd/Z/ylH0iIydUB/nO09+ycIyS4kwBZj2jrjPH8Tx9v1Q==
-X-Received: by 2002:a05:6a20:d807:b0:1a3:5336:f303 with SMTP id iv7-20020a056a20d80700b001a35336f303mr6672409pzb.15.1710767872001;
-        Mon, 18 Mar 2024 06:17:52 -0700 (PDT)
-Received: from [192.168.3.16] ([183.89.29.155])
-        by smtp.gmail.com with ESMTPSA id d1-20020aa78141000000b006e6c0080466sm8054389pfn.176.2024.03.18.06.17.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 06:17:51 -0700 (PDT)
-Message-ID: <e2a7aaed-e9d7-4d36-8abf-b71dfd32a0ff@cpp.in>
-Date: Mon, 18 Mar 2024 16:17:48 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPwx81na"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FDDAC433F1;
+	Mon, 18 Mar 2024 13:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710768532;
+	bh=H4T7GRxUc7yBWQ/u7+eX/MPNWtS9olwvn5w3951JJzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KPwx81naHa13NzOUadChg3ZXXlM4Sfuiu0hyjqME8CSu7bbn6dPXX9fM3Av51MWwp
+	 lC6BjSjjKXisOf6Kvo0k30BSGCQfHKEVSPAMVo8LAwdYWGTUZUMS5aHHFpJ390HQE+
+	 KystrWwhb03wJgV+GuBOFmbQN4WUyAEUbeJhFnSroQKxi7YHBnKb5X335rck3OiuZ9
+	 ORW1KLzz9YcbC7cPhtj5UZHvZ5wZYTZeVlMIjuTMINnEH3fjFVqS6Fc1MYzCQHwGpv
+	 wfrxRv5tLvclqRosigeSDxi4ltoMjD44u15AGBfr1C1z9WAHE4aRdcLrAEkwvokDGa
+	 apDTwQGa95aFg==
+Date: Mon, 18 Mar 2024 13:28:44 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: Herve Codina <herve.codina@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	christophercordahi@nanometrics.ca
+Subject: Re: [PATCH 04/13] ASoC: ti: davinci-i2s: Replace dev_err with
+ dev_err_probe
+Message-ID: <0ee075c8-7c74-444b-9024-ad5440c36789@sirena.org.uk>
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-5-bastien.curutchet@bootlin.com>
+ <6102130b-b496-4e75-9b9f-f960484848fb@sirena.org.uk>
+ <20240315152332.57c8fdc4@bootlin.com>
+ <2f58922d-8964-4693-ab8a-612eb2f427e1@sirena.org.uk>
+ <622b8b7e-7bd1-4e88-b705-79f7077b754a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Anthony I Gilea <i@cpp.in>
-Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for HP Spectre x360 14 eu0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sdrGDqd8KEdxafwD"
+Content-Disposition: inline
+In-Reply-To: <622b8b7e-7bd1-4e88-b705-79f7077b754a@bootlin.com>
+X-Cookie: Alaska:
 
-My original patch was based on an old branch, sorry for that.
-I've re-done it against master and tested if everything works properly.
 
-Cirrus amps support for this laptop was added in patch:
-33e5e648e631 ("ALSA: hda: cs35l41: Support additional HP Envy Models")
+--sdrGDqd8KEdxafwD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This patch adds fixes for wrong pincfgs, wrong DAC selection and mute/micmute LEDs.
+On Mon, Mar 18, 2024 at 08:40:24AM +0100, Bastien Curutchet wrote:
+> On 3/15/24 15:40, Mark Brown wrote:
 
-Signed-off-by: Anthony I Gilea <i@cpp.in>
----
-  sound/pci/hda/patch_realtek.c | 39 ++++++++++++++++++++++++++++++++++++++-
-  1 file changed, 38 insertions(+), 1 deletions(-)
+> > I'm not convinced TBH, the fixed error code smells pretty bad.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index b6cd13b1775d..c2bed68b88e2 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7097,6 +7097,38 @@ static void alc_fixup_headset_mic(struct hda_codec *codec,
- 	}
- }
- 
-+static void alc245_fixup_hp_spectre_x360_eu0xxx(struct hda_codec *codec,
-+					  const struct hda_fixup *fix, int action)
-+{
-+	/*
-+	 * The Pin Complex 0x14 for the treble speakers is wrongly reported as
-+	 * unconnected.
-+	 * The Pin Complex 0x17 for the bass speakers has the lowest association
-+	 * and sequence values so shift it up a bit to squeeze 0x14 in.
-+	 */
-+	static const struct hda_pintbl pincfgs[] = {
-+		{ 0x14, 0x90170110 }, // top/treble
-+		{ 0x17, 0x90170111 }, // bottom/bass
-+		{ }
-+	};
-+
-+	/*
-+	 * Force DAC 0x02 for the bass speakers 0x17.
-+	 */
-+	static const hda_nid_t conn[] = { 0x02 };
-+
-+	switch (action) {
-+	case HDA_FIXUP_ACT_PRE_PROBE:
-+		snd_hda_apply_pincfgs(codec, pincfgs);
-+		snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
-+		break;
-+	}
-+
-+	cs35l41_fixup_i2c_two(codec, fix, action);
-+	alc245_fixup_hp_mute_led_coefbit(codec, fix, action);
-+	alc245_fixup_hp_gpio_led(codec, fix, action);
-+}
-+
- 
- enum {
- 	ALC269_FIXUP_GPIO2,
-@@ -7373,6 +7405,7 @@ enum {
- 	ALC289_FIXUP_DELL_CS35L41_SPI_2,
- 	ALC294_FIXUP_CS35L41_I2C_2,
- 	ALC245_FIXUP_CS35L56_SPI_4_HP_GPIO_LED,
-+	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -9562,6 +9595,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC285_FIXUP_HP_GPIO_LED,
- 	},
-+	[ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc245_fixup_hp_spectre_x360_eu0xxx,
-+	},
- };
- 
- static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-@@ -9924,7 +9961,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8be8, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8be9, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bf0, "HP", ALC236_FIXUP_HP_GPIO_LED),
--	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre 14", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre x360 2-in-1 Laptop 14-eu0xxx", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
- 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> Ok. I'll keep the dev_err() for the fixed errors then, and use the
+> dev_err_probe() for the others, would that be ok ?
+
+Yes, when we can get a deferral it's the right thing.
+
+--sdrGDqd8KEdxafwD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX4QYsACgkQJNaLcl1U
+h9DEsgf+Ny9qlyRP+/by6BPfHGXB+skGcS3TPXz/GIAnirpIiVrZg4hPTC/uSxWF
+kuUx+m7UnPWUrUm7rBjDOhBNBpF16YY06MguCTLpBoOJ1f79tVB6Pn/8afzpGWS5
+GjmCKVR8riUNwbh+/WvWF6t9FPMnjRWYPqudsy8w/Bw2zgkDzFCYUhKzdfhii7bp
+TxBsaLFP8c+OT4plH/ofuW/RJNidJwn/f2cC2PWF5pv3uv2s3Jy4IAl/KvKRaYzl
+Q+H3bGkfGslxduSxefjqGmB5WW0eFmOfefTZ0OVckvp5GdORBWPp8uGLq+Ge+sh0
+poWhOCiuHaeY5JEeyFx2YXhxaFrCLw==
+=wK3n
+-----END PGP SIGNATURE-----
+
+--sdrGDqd8KEdxafwD--
