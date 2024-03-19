@@ -1,125 +1,132 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5024F1FA;
-	Tue, 19 Mar 2024 06:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4D65381D;
+	Tue, 19 Mar 2024 08:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710830493; cv=none; b=nRU2xilbRz1Bc0bE5qKVAkS4zBsnlXbpG11SqCIhPfv0S51hCsmJAJsJYkv3JsERjLxi0BlG4cNsZfhuklJ34aaZSkhFma3GEVqiQSAH3ru9gb281XMWRewcryBSL0pYqC2DBLdeUjWqmG3ln2tLXJksL8EEHVHuuVAS7VYByf0=
+	t=1710836586; cv=none; b=JJpVScUAscojGmW03TQhHf2go9txlrqeZvidS6KnRC2ZIXreDVqDmU250vkTgYZL3VOSrfluABB1lhRRkOdHuYeiy+WVtktYprFVvB7tivXzn21UTgeco5mYll+rw+9gn5e+R4g8hNrdkfdlr+1lF9I8+cWWvhMsGHOcr7U0xoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710830493; c=relaxed/simple;
-	bh=cB02ygBIYWAmN9avtVxh22JTZFVbrPvtMdEwWza9xhA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j/vTQJ5s7r85f2Vb9iDwTKviVhmtjyO7efP1PFMRxDRd0QWgfjVnAaf2O4J6NNytPe9SzNaUnEzTuMvPH/XU8dYBhww9ebbwiTYhGQFgDTFfMjoWrHWoKOWVl+6imdnT/vByBFuqzTJr810UBUq+i1jZstoY1EsnvRZs+YBZ5K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pIsNx3T1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JtoMDHaY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pIsNx3T1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JtoMDHaY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710836586; c=relaxed/simple;
+	bh=3uEgcL14/KgOuyUT7DBq5tefLQ6t4ehjg3mzEL3+jfo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cX6tpwNtkff5dVlst8K0hhaFVmicZftR00jD0clu4mVaqq6vIl5iWuOCpYXvccpJrT/jrc2FbxHs0ic3LfwXQD4RlaYN/mU98OsTUulEg/CLkJeNkIKMJlLgoGjK/kfxA1nxFv8oQk2mNkMQJyeG+s9Y5OmvsT2jIh58aoBM5yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SlVttPhl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pIsNx3T1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JtoMDHaY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pIsNx3T1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JtoMDHaY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 33ACC373CB;
-	Tue, 19 Mar 2024 06:41:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710830490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cB02ygBIYWAmN9avtVxh22JTZFVbrPvtMdEwWza9xhA=;
-	b=pIsNx3T1Mky30y/iA+eYk+g0wpSPm5/B0yFMwU6RWFqxkf+mxii5/5cZnYjkaeNfQWUv+a
-	QcxcZuOb4ivGrkMTEQCrnBg8nqEWO/vNl08QtRiWmnA94RW/H7hieXMaZyJzBgZsqoGiw5
-	3W6j/xhuN9V19tfICREBhSVDoMG6vSI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710830490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cB02ygBIYWAmN9avtVxh22JTZFVbrPvtMdEwWza9xhA=;
-	b=JtoMDHaYF2CtUhahqqCQWsT4Wtg0x8QG8R1LNuKr3EAx/AvMJhKxAeJ2CX41XG4BM/tPx1
-	7Uz400cVVyg+HrDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710830490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cB02ygBIYWAmN9avtVxh22JTZFVbrPvtMdEwWza9xhA=;
-	b=pIsNx3T1Mky30y/iA+eYk+g0wpSPm5/B0yFMwU6RWFqxkf+mxii5/5cZnYjkaeNfQWUv+a
-	QcxcZuOb4ivGrkMTEQCrnBg8nqEWO/vNl08QtRiWmnA94RW/H7hieXMaZyJzBgZsqoGiw5
-	3W6j/xhuN9V19tfICREBhSVDoMG6vSI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710830490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cB02ygBIYWAmN9avtVxh22JTZFVbrPvtMdEwWza9xhA=;
-	b=JtoMDHaYF2CtUhahqqCQWsT4Wtg0x8QG8R1LNuKr3EAx/AvMJhKxAeJ2CX41XG4BM/tPx1
-	7Uz400cVVyg+HrDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC598136D6;
-	Tue, 19 Mar 2024 06:41:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Y9AdOJkz+WUyWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 19 Mar 2024 06:41:29 +0000
-Date: Tue, 19 Mar 2024 07:41:29 +0100
-Message-ID: <87y1ae67vq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: syzbot <syzbot+d832e7bb0f8bf47217f1@syzkaller.appspotmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [syzbot] [sound?] inconsistent lock state in snd_timer_interrupt
-In-Reply-To: <000000000000048fbc0613f4eff0@google.com>
-References: <000000000000048fbc0613f4eff0@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SlVttPhl"
+Received: from [127.0.1.1] (91-154-34-181.elisa-laajakaista.fi [91.154.34.181])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C0F9480;
+	Tue, 19 Mar 2024 09:22:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710836555;
+	bh=3uEgcL14/KgOuyUT7DBq5tefLQ6t4ehjg3mzEL3+jfo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SlVttPhlZmdAZ8gccAq6wQTegHctamRKMdfu9Po5XhbEqiXORQDbrQ8XDmJS3IARs
+	 kDy7ymBgWr8EDqEJnJhQfnlWaXDMsLhDy1EmH8hnuokuPF8pey+sThBfYv1ALduMgD
+	 358wyAXc1YStlLyTWSJ9cVzyIDpsdUviGMdfNxuU=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 0/4] drm: xlnx: zynqmp: Add DP audio support
+Date: Tue, 19 Mar 2024 10:22:35 +0200
+Message-Id: <20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pIsNx3T1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JtoMDHaY
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.96 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-2.95)[99.78%];
-	 TAGGED_RCPT(0.00)[d832e7bb0f8bf47217f1];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 NEURAL_HAM_SHORT(-0.20)[-0.997];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 SUBJECT_HAS_QUESTION(0.00)[]
-X-Spam-Score: -2.96
-X-Rspamd-Queue-Id: 33ACC373CB
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAExL+WUC/3WNywrCMBBFf6XM2pEmhmhc9T+kizztgCYl0VIp+
+ Xdj9y7PgXvuBsVn8gWu3QbZL1QoxQb80IGddLx7JNcYeM9Ff2IcV3pQXNHNqN+OEgp50Y7xoII
+ U0FZz9oHWvXgbG09UXil/9oOF/ez/1sKwR6mkPaugrTFqIOd1SdEknd3RpieMtdYvddEXYLUAA
+ AA=
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>, 
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2328;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=3uEgcL14/KgOuyUT7DBq5tefLQ6t4ehjg3mzEL3+jfo=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBl+UteszrAX3VCstAgTvoLpu8isthstgM8lQo14
+ ZRi8mNeUreJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZflLXgAKCRD6PaqMvJYe
+ 9VWGEACTMaOmmgN7gTLqZ+nMj1xJZzveP7DfyJPSYOOzO00onkaLVb6oBLFhnr33FFybYk1hOGi
+ KhYv3zigVDzM73PmV8hEZgCsmBBdU8eYihGctjn8PIkwi2+EQ8MEzlUIkE/zkzMF5t3Z1ttywbu
+ Vc7cSTcAZIGnvYjtqkOLrK34sHGPFJUN5f7pNbS6qwV3zz1zDVGkTFubmRJC6/g07WUxcz/JiMw
+ URydx9qINppM5/CbIOvEG/Q2wOsiDR8ac/KPx/I8Qd/jLKiyIY51SAcrG2k/aPYG6Zni0M52Dy6
+ Nwt83wdvPC5Vt3BPD3kRMOaseGUCKud+yy8YNHsGb9AkaJzY5cipxLq3YV5DPtwFl1oypmV7tR1
+ KblwN7cfFezCFtLL7oMq0TZXLeNemll01fISlNjUTvaRo3qA123VdJ9gRhnUCa9N6YVvX3H8xI+
+ gKy0pCKmSIHRxxrm52ABFe5D0hJa2zbuJzamo+CXRfhB4Ct5QKLmjl57MYCUH/fUm+90Hyyx5ox
+ vapDAMEPx0PZiYknT5y0bK0pqTTH4+TacjnmlxnH04X9JMcw2slKGThvRw6Qi5pbqHo8Sr8BBQJ
+ cwThUb40B/0QNUrGB9PHfDoHX+GLniYBAck9RMt9ZionewHu2qt7WEhSvNMCaCtm9Xwlnd0PhPp
+ tZojWuEVv3/r0Sw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-#syz fix: ALSA: timer: Fix missing irq-disable at closing
+Add DisplayPort audio support for Xilinx ZynqMP platforms.
+
+This depends on patch adding cyclic DMA mode for DPDMA driver:
+
+https://lore.kernel.org/all/20240228042124.3074044-3-vishal.sagar@amd.com/
+
+If that patch is missing, starting an audio playback will fail with an
+ASoC error.
+
+The current DT is, for some reason, missing the DMA channels for the
+audio. This series adds that to the bindings and the dts file, but to
+support older dtb files without the audio DMA, the driver will not fail
+if the audio DMA is missing, but will just mark the audio support as
+disabled.
+
+The series also includes an improvement to the
+soc-generic-dmaengine-pcm.c, required to support two dmaengine_pcms.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v2:
+- Fix a missing double-quote in the DT binding
+- Link to v1: https://lore.kernel.org/r/20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com
+
+---
+Tomi Valkeinen (4):
+      ASoC: dmaengine_pcm: Allow passing component name via config
+      dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+      arm64: dts: zynqmp: Add DMA for DP audio
+      drm: xlnx: zynqmp_dpsub: Add DP audio support
+
+ .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   |  10 +-
+ arch/arm64/boot/dts/xilinx/zynqmp.dtsi             |   7 +-
+ drivers/gpu/drm/xlnx/Kconfig                       |   9 +
+ drivers/gpu/drm/xlnx/Makefile                      |   1 +
+ drivers/gpu/drm/xlnx/zynqmp_disp.c                 |  50 ---
+ drivers/gpu/drm/xlnx/zynqmp_disp_regs.h            |   7 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  54 ++-
+ drivers/gpu/drm/xlnx/zynqmp_dp.h                   |   7 +
+ drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             | 461 +++++++++++++++++++++
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |  39 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h                |  15 +-
+ include/sound/dmaengine_pcm.h                      |   2 +
+ sound/soc/soc-core.c                               |   8 +-
+ sound/soc/soc-generic-dmaengine-pcm.c              |   3 +
+ 14 files changed, 563 insertions(+), 110 deletions(-)
+---
+base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+change-id: 20240312-xilinx-dp-audio-468ad12f9f64
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
