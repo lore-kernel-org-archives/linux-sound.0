@@ -1,149 +1,106 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C39D4085F
-	for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 22:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6F1364D4;
+	Tue, 19 Mar 2024 22:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710887407; cv=none; b=COwvYGBb7Cnx57sFPYotV+J46O46k0NvNohhehULS2L5kiaBzM0sGIpMgf47SJOe7t4qd9EI5vocsJe4OH65qBGK931bfaEW6BrqWTv2D+A1/FiVLrI2S2ZCuMtjIx/1UOOWdlwAKywwHdF0di8MKsICdbIlnZvqf1NHmUmsjJo=
+	t=1710888610; cv=none; b=YNMT5KYt42HYVXqNHecc+KxCuwtVRFmM8gfpTtcyt4XHaGl0P9pARY6BkHQOJjzxf8N9qTfu2g48q2saOVcdvvP8x6ZvjA5/aDen88yNaEsKhINxBr7Exi0nnzrltWZdF1mQOpUPNfkXSHqq5cI2b74qBXm6tSReBT136/3Fg8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710887407; c=relaxed/simple;
-	bh=wtbRGprG246JSinZ1zeJ0g2NwwsbkPDYzZmmC7vbRTg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R3fjfDW0TCXNewgd3CA+WWnxH3YLRYCS7ygN9+PP5ypsnRdeVT3h4dRBCl+ZeE9JGz/AxBoJMFIz+HanBvWpbCE1m8hovE1pWQWQjQ2V8SVXOBeNGH5u2HsoLdKqdziRNK0lO1+uoXvg7vGm88pwuLKCR3UIfn0WZlJUDu9An9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ofVfAAXS; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ofVfAAXS"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-413f8c8192eso38925e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 15:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710887404; x=1711492204; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t8EtD8zegIhUQWzA/oDS70j+Z9o9c4kykZ4EUai9up0=;
-        b=ofVfAAXSVDz8umrvv14pK2V/4/3P3kzsOjuxfKAom8Ki59bDmUAF1ZZeWjIBSUQbKQ
-         OfXIJR+vPGDajLBH9qCmNiEbA/7RtRlba9C8M12whYQ7Q67DVEqA9GaoZs0lhuWOpVsn
-         inK1zngi7gQ3VUaCl+YdO3Br3OP9NWCD/Hr3L3Y7i6AeaQYmq5ZHTl/gBOsxC5D8xsrA
-         UjLIBbcUUEjz+IYZaereQMCv89gJ6b4wMcPFly4nwrKNvTVIH/+kesT7ruQbm4BCG0ON
-         Ho93su6n6Xp9Bt+rc1w4GoRvH5It59jwEoy0Cxl4snlxWSL2R+YpWUfjti9Mx8VlOOe1
-         WgQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710887404; x=1711492204;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t8EtD8zegIhUQWzA/oDS70j+Z9o9c4kykZ4EUai9up0=;
-        b=pH/G+R3zYYAWjcGuAbH4MRlvZ7ifWPKA/2zxB1ygt1jCDFhjGVQHF6Gf0E8qheOYsk
-         jtlJGRDn0Fzgq0iTrewz2vVD01w6+BU1KfNxyS8lpuFOzn4V/O+zPZm2NWHub/lpc48J
-         poulbCckV0pAKf10Kw7DZHc2/QNzS4UFYZgwFVAShG4sNRhs6WMIMyGvKBtfH4aV7+T0
-         abLxc9oWWMZy4XBTeQAhgJ2cgna8CgKoOjlh3KDSvnkSldfxI8xddp/yUHoKLrxNP+7G
-         vWEi0BXOBi2RBNDkWABltjXU+dm5UWdjat51eN5j8AOiV1vd0CVMvA4jOmh1jtLVBFGB
-         hotA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBmU4b9KUT3R6kQfFf/8gkqOAqJWhUsDlGy71sQfjr8zYFUg+vpvFAwrzx2jQLZw9fIeRiBb0gzo9XvxLwa8pp8pXObpXUMAkKeLw=
-X-Gm-Message-State: AOJu0Yxnv9D/lX+mwarwZhaK7zkDFhnLDmx8qkyYHKOJsR/TIsABe8qX
-	hN0XXpELqdoJKXvK6zGb/FY04zxFTzvi9AU2yxSrElHBveH9i+Nc78Jntjoa8CM4AYGYTlXBJJS
-	D15QX2/+THOQ+PjnmMfatEhKsELANfM+KZ+o=
-X-Google-Smtp-Source: AGHT+IFnGQzm4jMjcrzDlbzN56akGGgkj3uAyRKTIsnW0UhcIBF+MbiMv0KxT6M+rBMt9Ny+pOt1FU4BU9vpN+72B78=
-X-Received: by 2002:a05:600c:3051:b0:414:1ee:f399 with SMTP id
- n17-20020a05600c305100b0041401eef399mr89401wmh.2.1710887404353; Tue, 19 Mar
- 2024 15:30:04 -0700 (PDT)
+	s=arc-20240116; t=1710888610; c=relaxed/simple;
+	bh=1flOJ3RWi62qhATNMgJWjfQ18bBCP95T4oDhosHEGzc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RzQg7/NzgjJV+ndoPiy7alIajDg1azAZlN2Uyykfq0OntUur6lth8VJSbAkK3HRUpFbUxR4E+g4o6sztB7KYXjfDJuuTUsgukD5jbPWe6WkGz6ggUibznUO8CwRCMYHBgWAZfGl6oyhVDlMHgtcSNeZ3n92+3dmr2r3l17gmNP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.178.112] (p57b378ee.dip0.t-ipconnect.de [87.179.120.238])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 152AC61E5FE3D;
+	Tue, 19 Mar 2024 23:48:19 +0100 (CET)
+Message-ID: <cd42aca9-ac6c-4579-96d5-121a38ebded5@molgen.mpg.de>
+Date: Tue, 19 Mar 2024 23:48:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com> <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
-In-Reply-To: <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
-From: John Stultz <jstultz@google.com>
-Date: Tue, 19 Mar 2024 15:29:51 -0700
-Message-ID: <CANDhNCpP6Nd_iYtdgW+RyH1g7c-eyHR+j-LV4gv8rKWu9QkzhQ@mail.gmail.com>
-Subject: Re: [PATCH v5 02/11] timekeeping: Add function to convert realtime to
- base clock
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, giometti@enneenne.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	andriy.shevchenko@linux.intel.com, eddie.dong@intel.com, 
-	christopher.s.hall@intel.com, jesse.brandeburg@intel.com, davem@davemloft.net, 
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com, 
-	perex@perex.cz, linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com, 
-	peter.hilber@opensynergy.com, pandith.n@intel.com, 
-	mallikarjunappa.sangannavar@intel.com, subramanian.mohan@intel.com, 
-	basavaraj.goudar@intel.com, thejesh.reddy.t.r@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH v5 00/11] Add support for Intel PPS
+ Generator
+Content-Language: en-US
+To: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ mallikarjunappa.sangannavar@intel.com, alexandre.torgue@foss.st.com,
+ perex@perex.cz, basavaraj.goudar@intel.com, thejesh.reddy.t.r@intel.com,
+ christopher.s.hall@intel.com, x86@kernel.org, joabreu@synopsys.com,
+ peter.hilber@opensynergy.com, intel-wired-lan@lists.osuosl.org,
+ subramanian.mohan@intel.com, linux-sound@vger.kernel.org,
+ andriy.shevchenko@linux.intel.com, netdev@vger.kernel.org,
+ pandith.n@intel.com, eddie.dong@intel.com, mcoquelin.stm32@gmail.com,
+ anthony.l.nguyen@intel.com, davem@davemloft.net
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 19, 2024 at 6:06=E2=80=AFAM <lakshmi.sowjanya.d@intel.com> wrot=
-e:
->
+Dear Lakshmi,
+
+
+Thank you for your patch series.
+
+Am 19.03.24 um 14:05 schrieb lakshmi.sowjanya.d@intel.com:
 > From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->
-> PPS(Pulse Per Second) generates signals in realtime, but Timed IO
-> hardware understands time in base clock reference. Add an interface,
-> ktime_real_to_base_clock() to convert realtime to base clock.
->
-> Convert the base clock to the system clock using convert_base_to_cs() in
-> get_device_system_crosststamp().
->
-> Add the helper function timekeeping_clocksource_has_base(), to check
-> whether the current clocksource has the same base clock. This will be
-> used by Timed IO device to check if the base clock is X86_ART(Always
-> Running Timer).
->
-> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Co-developed-by: Christopher S. Hall <christopher.s.hall@intel.com>
-> Signed-off-by: Christopher S. Hall <christopher.s.hall@intel.com>
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> ---
->  include/linux/timekeeping.h |   6 +++
->  kernel/time/timekeeping.c   | 105 +++++++++++++++++++++++++++++++++++-
->  2 files changed, 109 insertions(+), 2 deletions(-)
->
-> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
-> index 7e50cbd97f86..1b2a4a37bf93 100644
-> --- a/include/linux/timekeeping.h
-> +++ b/include/linux/timekeeping.h
-> @@ -275,12 +275,18 @@ struct system_device_crosststamp {
->   *             timekeeping code to verify comparability of two cycle val=
-ues.
->   *             The default ID, CSID_GENERIC, does not identify a specifi=
-c
->   *             clocksource.
-> + * @nsecs:     @cycles is in nanoseconds.
->   */
->  struct system_counterval_t {
->         u64                     cycles;
->         enum clocksource_ids    cs_id;
-> +       bool                    nsecs;
+> 
+> The goal of the PPS(Pulse Per Second) hardware/software is to generate a
 
-Apologies, this is a bit of an annoying bikeshed request, but maybe
-use_nsecs here?
-There are plenty of places where nsecs fields hold actual nanoseconds,
-so what you have might be easy to misread in the future.
+Please add a space before (.
 
-Also, at least in this series, I'm not sure I see where this nsecs
-value gets set? Maybe something to split out and add in a separate
-patch, where its use is more clear?
+> signal from the system on a wire so that some third-party hardware can
+> observe that signal and judge how close the system's time is to another
+> system or piece of hardware.
+> 
+> Existing methods (like parallel ports) require software to flip a bit at
+> just the right time to create a PPS signal. Many things can prevent
+> software from doing this precisely. This (Timed I/O) method is better
+> because software only "arms" the hardware in advance and then depends on
+> the hardware to "fire" and flip the signal at just the right time.
+> 
+> To generate a PPS signal with this new hardware, the kernel wakes up
+> twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+> this shortly (~10ms) before the actual change in the signal needs to be
+> made. It computes the TSC value at which edge will happen, convert to a
+> value hardware understands and program this value to Timed I/O hardware.
+> The actual edge transition happens without any further action from the
+> kernel.
+> 
+> The result here is a signal coming out of the system that is roughly
+> 1,000 times more accurate than the old methods. If the system is heavily
+> loaded, the difference in accuracy is larger in old methods.
+> 
+> Application Interface:
+> The API to use Timed I/O is very simple. It is enabled and disabled by
+> writing a '1' or '0' value to the sysfs enable attribute associated with
+> the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+> device. When enabled, a pulse-per-second(PPS) synchronized with the
 
-> +bool timekeeping_clocksource_has_base(enum clocksource_ids id)
-> +{
-> +       unsigned int seq;
-> +       bool ret;
-> +
-> +       do {
-> +               seq =3D read_seqcount_begin(&tk_core.seq);
-> +               ret =3D tk_core.timekeeper.tkr_mono.clock->base ?
-> +               tk_core.timekeeper.tkr_mono.clock->base->id =3D=3D id : f=
-alse;
+Please add a space before (.
 
-Again, bikeshed nit: I know folks like ternaries for conciseness, but
-once you've crossed a single line, I'd often prefer to read an if
-statement.
+> system clock is continuously produced on the Timed I/O pin, otherwise it
+> is pulled low.
+> 
+> The Timed I/O signal on the motherboard is enabled in the BIOS setup.
 
-thanks
--john
+It’d be great if you documented your test setup including the name of 
+the system firmware option.
+
+
+Kind regards,
+
+Paul
