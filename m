@@ -1,324 +1,149 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C4B2D05C;
-	Tue, 19 Mar 2024 18:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C39D4085F
+	for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 22:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710872882; cv=none; b=UMoBLaNMhpg0fE7qPZ8YeX2f4Yi0rqA/wudwCWfB6/2qNk4Vso6qATcAG5eH6ii4TyrqPYDthozLyIoFyC4x0JF8R+M/bAAi93zBB8b5ahvEMPn1m3NApcjK+ceXITlghVlopt/UJ98u6AYY3b3kMqiODgmDqhRxI4haUsM2Y2k=
+	t=1710887407; cv=none; b=COwvYGBb7Cnx57sFPYotV+J46O46k0NvNohhehULS2L5kiaBzM0sGIpMgf47SJOe7t4qd9EI5vocsJe4OH65qBGK931bfaEW6BrqWTv2D+A1/FiVLrI2S2ZCuMtjIx/1UOOWdlwAKywwHdF0di8MKsICdbIlnZvqf1NHmUmsjJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710872882; c=relaxed/simple;
-	bh=abdnB0gyW3XwfLvq1h9H4CJRk5if6by9tOYHJk/rUZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ArzbgNck9dhzRBTXsSdDbmJmYL3RPqeM/TLMi1M8jcX8D6ub3LKcTItIm+7fw8kswitL3bZYB9CoYwAwwrajQGQKVwII6hnKAtxJHcgLKje9dgZr4+eFcRtLZTg9NjgPHD2BplAWa41Dta1Exe2LlUZBKkqTdmPWAZdrZFZDTHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HU3T6tI6; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710887407; c=relaxed/simple;
+	bh=wtbRGprG246JSinZ1zeJ0g2NwwsbkPDYzZmmC7vbRTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R3fjfDW0TCXNewgd3CA+WWnxH3YLRYCS7ygN9+PP5ypsnRdeVT3h4dRBCl+ZeE9JGz/AxBoJMFIz+HanBvWpbCE1m8hovE1pWQWQjQ2V8SVXOBeNGH5u2HsoLdKqdziRNK0lO1+uoXvg7vGm88pwuLKCR3UIfn0WZlJUDu9An9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ofVfAAXS; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HU3T6tI6"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d27184197cso77855441fa.1;
-        Tue, 19 Mar 2024 11:28:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ofVfAAXS"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-413f8c8192eso38925e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 15:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710872878; x=1711477678; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tUKjW78EP4nHLFdEFyF1sz33PGb04BsnsgyPGWHjdiY=;
-        b=HU3T6tI6u6xssI8bStmld/Sit5ZLuOdRinte3L9A2+A+ZxwQXTUFSEkMiFoH+/yEqv
-         w7koj6b25k5JDBD/Hi2l3izC4xj/G0E6ziv2drCGSq21iPd+LVCqQ6ADlOs2xEST99mB
-         VQ1khMD5j5sEBXhT3PIzFYvo8bSZagwqpONyrC1NXqefhwyqkmUaSsLZ5FVcc3eO3pVK
-         jAdpxVNcHoG8IwZMS+tIZJ7e1YRAEVLs02+gRv78aZiOrCNTAdKjEw2pKyc+uyfD2mX+
-         UQ5PuuM0ZG6glEGGaiOQNglZ4HKThPZZMxosLYZp8qswisnxdyvesCEvTMdTeTnauopU
-         4EAw==
+        d=google.com; s=20230601; t=1710887404; x=1711492204; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8EtD8zegIhUQWzA/oDS70j+Z9o9c4kykZ4EUai9up0=;
+        b=ofVfAAXSVDz8umrvv14pK2V/4/3P3kzsOjuxfKAom8Ki59bDmUAF1ZZeWjIBSUQbKQ
+         OfXIJR+vPGDajLBH9qCmNiEbA/7RtRlba9C8M12whYQ7Q67DVEqA9GaoZs0lhuWOpVsn
+         inK1zngi7gQ3VUaCl+YdO3Br3OP9NWCD/Hr3L3Y7i6AeaQYmq5ZHTl/gBOsxC5D8xsrA
+         UjLIBbcUUEjz+IYZaereQMCv89gJ6b4wMcPFly4nwrKNvTVIH/+kesT7ruQbm4BCG0ON
+         Ho93su6n6Xp9Bt+rc1w4GoRvH5It59jwEoy0Cxl4snlxWSL2R+YpWUfjti9Mx8VlOOe1
+         WgQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710872878; x=1711477678;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUKjW78EP4nHLFdEFyF1sz33PGb04BsnsgyPGWHjdiY=;
-        b=EvEfBuMvEXGRrCodUV4EF+kcQsVSfDH0gbDO2AnXVIgeOFlj+dwSlDJdu7iSA6y5Ai
-         rCObhZll6umRTedT+S0ShhOn23RzXOXdwTW6EFi5+N+WggvWYlRJiqcG9MOXbJhVEnw5
-         QkMkI9tBhzNN7WpIf3p0/hQkxe+n1Pl8qAkyhrgR0Fy5owVCoezHBz2PEYfpUKgRdLJa
-         48yCcDKXQHUj05AenwhE477uvmNoMf3xWU8HkTp94Wka4Gt7O/OOoR/lU3h7iZ3o9H/U
-         BFJhFywduUxB8YFthvNZc/zsfisAMJtLS7uATgd7fIhFRj7bswscEvaecsyZeN3HoEmf
-         prhw==
-X-Forwarded-Encrypted: i=1; AJvYcCWRIz+i2VE8l9SUZoAFVlwhIT2UJE7cl2L0i7dw35vMo5gRLjcb3UUrWO/aDcORbILV84pESAKGnxEEVocBhfct0VR3drlw44iMnmVZDHYzud/svYnTgIxkJ5wljSxMXd+1MUA9+WTS9Q==
-X-Gm-Message-State: AOJu0YxqQIVz88MCp5bcovJXBRjTD0UTeHjfOfHffqdO0eWcEgt8q96m
-	LAgOpEwKkWptTCDnKADJAPKOp9IOSiW2QODXKXiElXWKgKr7yl2f
-X-Google-Smtp-Source: AGHT+IFS7dXGsCRrzrfkP3DfhxFHZGiAlHX5aRWXJ333+GTCrqWr6bFU78pTHZZanczfFxZTNcnyeQ==
-X-Received: by 2002:a05:651c:19a4:b0:2d4:6df2:12c0 with SMTP id bx36-20020a05651c19a400b002d46df212c0mr3113178ljb.34.1710872878182;
-        Tue, 19 Mar 2024 11:27:58 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-76-118.kaisa-laajakaista.fi. [85.29.76.118])
-        by smtp.gmail.com with ESMTPSA id d2-20020a2e3602000000b002d3f3da0702sm1846927lja.107.2024.03.19.11.27.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Mar 2024 11:27:57 -0700 (PDT)
-Message-ID: <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
-Date: Tue, 19 Mar 2024 20:29:38 +0200
+        d=1e100.net; s=20230601; t=1710887404; x=1711492204;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t8EtD8zegIhUQWzA/oDS70j+Z9o9c4kykZ4EUai9up0=;
+        b=pH/G+R3zYYAWjcGuAbH4MRlvZ7ifWPKA/2zxB1ygt1jCDFhjGVQHF6Gf0E8qheOYsk
+         jtlJGRDn0Fzgq0iTrewz2vVD01w6+BU1KfNxyS8lpuFOzn4V/O+zPZm2NWHub/lpc48J
+         poulbCckV0pAKf10Kw7DZHc2/QNzS4UFYZgwFVAShG4sNRhs6WMIMyGvKBtfH4aV7+T0
+         abLxc9oWWMZy4XBTeQAhgJ2cgna8CgKoOjlh3KDSvnkSldfxI8xddp/yUHoKLrxNP+7G
+         vWEi0BXOBi2RBNDkWABltjXU+dm5UWdjat51eN5j8AOiV1vd0CVMvA4jOmh1jtLVBFGB
+         hotA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBmU4b9KUT3R6kQfFf/8gkqOAqJWhUsDlGy71sQfjr8zYFUg+vpvFAwrzx2jQLZw9fIeRiBb0gzo9XvxLwa8pp8pXObpXUMAkKeLw=
+X-Gm-Message-State: AOJu0Yxnv9D/lX+mwarwZhaK7zkDFhnLDmx8qkyYHKOJsR/TIsABe8qX
+	hN0XXpELqdoJKXvK6zGb/FY04zxFTzvi9AU2yxSrElHBveH9i+Nc78Jntjoa8CM4AYGYTlXBJJS
+	D15QX2/+THOQ+PjnmMfatEhKsELANfM+KZ+o=
+X-Google-Smtp-Source: AGHT+IFnGQzm4jMjcrzDlbzN56akGGgkj3uAyRKTIsnW0UhcIBF+MbiMv0KxT6M+rBMt9Ny+pOt1FU4BU9vpN+72B78=
+X-Received: by 2002:a05:600c:3051:b0:414:1ee:f399 with SMTP id
+ n17-20020a05600c305100b0041401eef399mr89401wmh.2.1710887404353; Tue, 19 Mar
+ 2024 15:30:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-Content-Language: en-US
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20240315112745.63230-14-bastien.curutchet@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com> <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+In-Reply-To: <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 19 Mar 2024 15:29:51 -0700
+Message-ID: <CANDhNCpP6Nd_iYtdgW+RyH1g7c-eyHR+j-LV4gv8rKWu9QkzhQ@mail.gmail.com>
+Subject: Re: [PATCH v5 02/11] timekeeping: Add function to convert realtime to
+ base clock
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, giometti@enneenne.com, corbet@lwn.net, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
+	andriy.shevchenko@linux.intel.com, eddie.dong@intel.com, 
+	christopher.s.hall@intel.com, jesse.brandeburg@intel.com, davem@davemloft.net, 
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com, 
+	perex@perex.cz, linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com, 
+	peter.hilber@opensynergy.com, pandith.n@intel.com, 
+	mallikarjunappa.sangannavar@intel.com, subramanian.mohan@intel.com, 
+	basavaraj.goudar@intel.com, thejesh.reddy.t.r@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 15/03/2024 13:27, Bastien Curutchet wrote:
-> The McBSP's DX pin that outputs serial data during playback streams can
-> be used during capture streams to repeatedly output a chosen pattern.
-> For instance, this can be useful to drive an active-low signal during
-> captures (by choosing <0> as output pattern).
-
-Are there really any other use of this than to pull down or up the DX
-pin (0 or 0xffff)?
-
-If you just use the pin as GPIO then you don't need to change anything
-in the driver, The playback would not erach the pin, so no need to block it.
-
-> Enable this behaviour when the device-tree property 'ti,drive-dx' is
-> present. DX pin is driven with the provided pattern every time a
-> capture stream is launched.
-
-It is an interesting use of the hardware... You are controlling an
-external device (light an LED when capture is on)?
-
-> This property is not compatible with classic playback stream so
-> davinci_i2s_trigger() returns an error if a playback stream is started
-> while 'ti,drive-dx' flag is present.
-
-Propbaly add the .startup() callback and block the playback right there?
-
-> 
-> This has been tested on a board designed of a DAVINCI/OMAP-L138 where
-> the DX pin is linked to the chip select pin of the converters of the
-> capture side.
-
-Isn't the DX will be pulled down as soon as the McBSP is enabled?
-Can you just re-configure the PUPD_SEL for the pin group to make the pin
-to be pulled the other way?
-
-> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
+On Tue, Mar 19, 2024 at 6:06=E2=80=AFAM <lakshmi.sowjanya.d@intel.com> wrot=
+e:
+>
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> PPS(Pulse Per Second) generates signals in realtime, but Timed IO
+> hardware understands time in base clock reference. Add an interface,
+> ktime_real_to_base_clock() to convert realtime to base clock.
+>
+> Convert the base clock to the system clock using convert_base_to_cs() in
+> get_device_system_crosststamp().
+>
+> Add the helper function timekeeping_clocksource_has_base(), to check
+> whether the current clocksource has the same base clock. This will be
+> used by Timed IO device to check if the base clock is X86_ART(Always
+> Running Timer).
+>
+> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Co-developed-by: Christopher S. Hall <christopher.s.hall@intel.com>
+> Signed-off-by: Christopher S. Hall <christopher.s.hall@intel.com>
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > ---
->  sound/soc/ti/davinci-i2s.c | 74 ++++++++++++++++++++++++++++++++------
->  1 file changed, 63 insertions(+), 11 deletions(-)
-> 
-> diff --git a/sound/soc/ti/davinci-i2s.c b/sound/soc/ti/davinci-i2s.c
-> index 13e349e7a6ec..e289a84bdd6a 100644
-> --- a/sound/soc/ti/davinci-i2s.c
-> +++ b/sound/soc/ti/davinci-i2s.c
-> @@ -101,6 +101,9 @@
->  #define DAVINCI_MCBSP_PCR_FSRM		(1 << 10)
->  #define DAVINCI_MCBSP_PCR_FSXM		(1 << 11)
->  
-> +#define PLAYBACK_CLOCK			1
-> +#define CAPTURE_CLOCK			0
-> +
->  enum {
->  	DAVINCI_MCBSP_WORD_8 = 0,
->  	DAVINCI_MCBSP_WORD_12,
-> @@ -164,6 +167,8 @@ struct davinci_mcbsp_dev {
->  
->  	bool sync_err;
->  	bool free_run;
-> +	bool drive_dx;
-> +	u32 dx_val;
->  };
->  
->  static inline void davinci_mcbsp_write_reg(struct davinci_mcbsp_dev *dev,
-> @@ -187,6 +192,19 @@ static void toggle_clock(struct davinci_mcbsp_dev *dev, int playback)
->  	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_PCR_REG, dev->pcr);
->  }
->  
-> +static int davinci_drive_dx(struct davinci_mcbsp_dev *dev)
+>  include/linux/timekeeping.h |   6 +++
+>  kernel/time/timekeeping.c   | 105 +++++++++++++++++++++++++++++++++++-
+>  2 files changed, 109 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
+> index 7e50cbd97f86..1b2a4a37bf93 100644
+> --- a/include/linux/timekeeping.h
+> +++ b/include/linux/timekeeping.h
+> @@ -275,12 +275,18 @@ struct system_device_crosststamp {
+>   *             timekeeping code to verify comparability of two cycle val=
+ues.
+>   *             The default ID, CSID_GENERIC, does not identify a specifi=
+c
+>   *             clocksource.
+> + * @nsecs:     @cycles is in nanoseconds.
+>   */
+>  struct system_counterval_t {
+>         u64                     cycles;
+>         enum clocksource_ids    cs_id;
+> +       bool                    nsecs;
+
+Apologies, this is a bit of an annoying bikeshed request, but maybe
+use_nsecs here?
+There are plenty of places where nsecs fields hold actual nanoseconds,
+so what you have might be easy to misread in the future.
+
+Also, at least in this series, I'm not sure I see where this nsecs
+value gets set? Maybe something to split out and add in a separate
+patch, where its use is more clear?
+
+> +bool timekeeping_clocksource_has_base(enum clocksource_ids id)
 > +{
-> +	unsigned int spcr;
+> +       unsigned int seq;
+> +       bool ret;
 > +
-> +	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_DXR_REG, dev->dx_val);
-> +
-> +	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
-> +	spcr |= DAVINCI_MCBSP_SPCR_XRST;
-> +	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
+> +       do {
+> +               seq =3D read_seqcount_begin(&tk_core.seq);
+> +               ret =3D tk_core.timekeeper.tkr_mono.clock->base ?
+> +               tk_core.timekeeper.tkr_mono.clock->base->id =3D=3D id : f=
+alse;
 
+Again, bikeshed nit: I know folks like ternaries for conciseness, but
+once you've crossed a single line, I'd often prefer to read an if
+statement.
 
-
-> +
-> +	return 0;
-> +}
-> +
->  static void davinci_mcbsp_start(struct davinci_mcbsp_dev *dev,
->  		struct snd_pcm_substream *substream)
->  {
-> @@ -194,6 +212,9 @@ static void davinci_mcbsp_start(struct davinci_mcbsp_dev *dev,
->  	u32 spcr;
->  	u32 mask = playback ? DAVINCI_MCBSP_SPCR_XRST : DAVINCI_MCBSP_SPCR_RRST;
->  
-> +	if (!playback && dev->drive_dx)
-> +		davinci_drive_dx(dev);
-> +
->  	/* Enable transmitter or receiver */
->  	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
->  	spcr |= mask;
-
-if (dev->drive_dx) {
-	spcr |= DAVINCI_MCBSP_SPCR_XRST;
-	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_DXR_REG, dev->dx_val);
-}
-
-and no need for the davinci_drive_dx() function, plus it makes it
-symmetric of what you do on stop()
-
-> @@ -212,9 +233,17 @@ static void davinci_mcbsp_stop(struct davinci_mcbsp_dev *dev, int playback)
->  	/* Reset transmitter/receiver and sample rate/frame sync generators */
->  	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
->  	spcr &= ~(DAVINCI_MCBSP_SPCR_GRST | DAVINCI_MCBSP_SPCR_FRST);
-> -	spcr &= playback ? ~DAVINCI_MCBSP_SPCR_XRST : ~DAVINCI_MCBSP_SPCR_RRST;
-> -	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-> -	toggle_clock(dev, playback);
-> +
-> +	if (!playback) {
-> +		spcr &= ~DAVINCI_MCBSP_SPCR_RRST;
-> +		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-> +		toggle_clock(dev, CAPTURE_CLOCK);
-> +	}
-> +	if (playback || dev->drive_dx) {
-> +		spcr &= ~DAVINCI_MCBSP_SPCR_XRST;
-> +		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-> +		toggle_clock(dev, PLAYBACK_CLOCK);
-> +	}
->  }
->  
->  static int davinci_i2s_tdm_word_length(int tdm_slot_width)
-> @@ -408,6 +437,10 @@ static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
->  	}
->  	if (inv_fs == true)
->  		pcr ^= (DAVINCI_MCBSP_PCR_FSXP | DAVINCI_MCBSP_PCR_FSRP);
-> +
-> +	if (dev->drive_dx)
-> +		pcr |= DAVINCI_MCBSP_PCR_CLKRP;
-> +
->  	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SRGR_REG, srgr);
->  	dev->pcr = pcr;
->  	davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_PCR_REG, pcr);
-> @@ -562,6 +595,9 @@ static int davinci_i2s_hw_params(struct snd_pcm_substream *substream,
->  		xcr |= DAVINCI_MCBSP_XCR_XDATDLY(1);
->  	}
->  
-> +	if (dev->drive_dx)
-> +		xcr |= DAVINCI_MCBSP_XCR_XDATDLY(2);
-> +
->  	if (params_channels(params) == 2) {
->  		element_cnt = 2;
->  		if (double_fmt[fmt] && dev->enable_channel_combine) {
-> @@ -611,9 +647,9 @@ static int davinci_i2s_hw_params(struct snd_pcm_substream *substream,
->  	xcr |= DAVINCI_MCBSP_XCR_XWDLEN1(mcbsp_word_length) |
->  		DAVINCI_MCBSP_XCR_XWDLEN2(mcbsp_word_length);
->  
-> -	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK || dev->drive_dx)
->  		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_XCR_REG, xcr);
-> -	else
-> +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
->  		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_RCR_REG, rcr);
->  
->  	pr_debug("%s - %d  srgr=%X\n", __func__, __LINE__, srgr);
-> @@ -628,16 +664,21 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
->  	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(dai);
->  	int playback = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK);
->  	u32 spcr;
-> -	u32 mask = playback ? DAVINCI_MCBSP_SPCR_XRST : DAVINCI_MCBSP_SPCR_RRST;
->  
->  	davinci_mcbsp_stop(dev, playback);
->  
->  	spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
-> -	if (spcr & mask) {
-> +	if (spcr & DAVINCI_MCBSP_SPCR_XRST) {
->  		/* start off disabled */
->  		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG,
-> -					spcr & ~mask);
-> -		toggle_clock(dev, playback);
-> +					spcr & ~DAVINCI_MCBSP_SPCR_XRST);
-> +		toggle_clock(dev, PLAYBACK_CLOCK);
-> +	}
-> +	if (spcr & DAVINCI_MCBSP_SPCR_RRST) {
-> +		/* start off disabled */
-> +		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG,
-> +					spcr & ~DAVINCI_MCBSP_SPCR_RRST);
-> +		toggle_clock(dev, CAPTURE_CLOCK);
->  	}
->  	if (dev->pcr & (DAVINCI_MCBSP_PCR_FSXM | DAVINCI_MCBSP_PCR_FSRM |
->  			DAVINCI_MCBSP_PCR_CLKXM | DAVINCI_MCBSP_PCR_CLKRM)) {
-> @@ -646,7 +687,7 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
->  		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
->  	}
->  
-> -	if (playback) {
-> +	if (playback || dev->drive_dx) {
->  		/* Enable the transmitter */
->  		spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
->  		spcr |= DAVINCI_MCBSP_SPCR_XRST;
-> @@ -659,7 +700,7 @@ static int davinci_i2s_prepare(struct snd_pcm_substream *substream,
->  		spcr = davinci_mcbsp_read_reg(dev, DAVINCI_MCBSP_SPCR_REG);
->  		spcr &= ~DAVINCI_MCBSP_SPCR_XRST;
->  		davinci_mcbsp_write_reg(dev, DAVINCI_MCBSP_SPCR_REG, spcr);
-> -		toggle_clock(dev, playback);
-> +		toggle_clock(dev, PLAYBACK_CLOCK);
->  	}
->  
->  	return 0;
-> @@ -672,6 +713,11 @@ static int davinci_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
->  	int ret = 0;
->  	int playback = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK);
->  
-> +	if (playback && dev->drive_dx) {
-> +		dev_err(dev->dev, "Playback is not allowed when drive-cs flag is set\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	switch (cmd) {
->  	case SNDRV_PCM_TRIGGER_START:
->  	case SNDRV_PCM_TRIGGER_RESUME:
-> @@ -779,6 +825,12 @@ static int davinci_i2s_probe(struct platform_device *pdev)
->  
->  	dev->free_run = !of_property_read_bool(pdev->dev.of_node, "ti,disable-free-run");
->  	dev->sync_err = of_property_read_bool(pdev->dev.of_node, "ti,enable-sync-err");
-> +	dev->drive_dx = false;
-
-no need to initialize it to 0, dev is allocated with devm_kzalloc()
-
-> +	ret = of_property_read_u32(pdev->dev.of_node, "ti,drive-dx", &dev->dx_val);
-> +	if (ret && ret != -EINVAL)
-> +		return ret;
-> +	if (!ret)
-> +		dev->drive_dx = true;
-
-if (!ret)
-	dev->drive_dx = true;
-else if (ret != -EINVAL)
-	return ret;
-
->  
->  	/* setup DMA, first TX, then RX */
->  	dma_data = &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK];
-
--- 
-Péter
+thanks
+-john
