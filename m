@@ -1,172 +1,185 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AD7651B2
-	for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 02:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C261040840
+	for <linux-sound@vger.kernel.org>; Tue, 19 Mar 2024 05:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710815185; cv=none; b=WAawWNvHs0Se2a1z4llX9ShPEhCaGJYPVIyejgqADTUF1MsQKPxUwqneZFDnlynuvWXaw4NPH/ycwQjJbVBpxvX3ZGlBylZZxC94O67Xn2wvMX2FQCTHTqUw4kaL9a8RXE5QQPRhXXO3a5nOQwZrAxyKVj2JkOTvirzlRCDG8Ro=
+	t=1710825430; cv=none; b=IQPvW2yRbDSvbsaLLOHLMVABoy+v0Km80QKTNvXMCBc1dmFpX0kMdeC8fL1xV2C/tWjty5CTpP6iB+1O+M5cSkBclCgDMUOZQatemgZf3ILLcDQsahMNzr43Qoye6nLvgpD1vzxH4a+x63+iorCopTLCRu5JK+LnL1XoNoKs7tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710815185; c=relaxed/simple;
-	bh=sggre/bwedm+SjhOnNs5oKMSJXt1Hx/MhvbnEbYdQRE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZJIn7nlB4Xr3aasn3ozpibIGKX7cwZp8cRdg6IKFTCIIEX+tQ6d3BgcGmLCT+sCoAz3qDpm2Bh22anoUszASsLncz5WvPessEPymH92ps61IDlnU42ZnCxL01yf65nZZ5XnXPfxfoj4GsgbQNbCMTsRLMUr+E8j98vc8HO4iWwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u+QpXFOH; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1710825430; c=relaxed/simple;
+	bh=vMYOcFp28SYyP2tvNAU0IH+DCWd0/H20pM8Uz7RyXyk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h105+qHKcYAh5QveXGjz97mg7+TE2eAxA5/SvM4kTcb6lyZmEwUwIy+UguTL9K8CDkfhMf8f5C2lcvgSez+bbBAvEmI6NMvjuxwzsiAYTrRuQcZ14V+XyNlWjr/5SJs6Ex77GDCtiU1ttW+J5mxEuLspP/iyEccBJhDpbIoyAnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M4TtL8EU; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u+QpXFOH"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a46ce2bd562so165071566b.2
-        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 19:26:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M4TtL8EU"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56a9f5694dcso1785402a12.1
+        for <linux-sound@vger.kernel.org>; Mon, 18 Mar 2024 22:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710815182; x=1711419982; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9PVwebktWBWty2mBrf17cNCGtAzEMmWTbg3BNLwRbR4=;
-        b=u+QpXFOHxIIm2aA8ZtgDstbdEP0JytJobxygrcibELE2iSg42kVC3nIhORU+hQRdCR
-         g02IrjRD211Th2bTY7QgjIDz8/vvzyrWwbNp74QLJaFZFfbHDgcS2+5Tuoj0930kPNkf
-         c5x6ok0I/EMtikTXIe6THfEeU4JEvOhnoN+MkV1pV8QRt5gUoq42kfYXtxdB4JbDg8Mq
-         Ny7aNIrtG/saUzznCbyJGJp+gTdqkFow4k6LyzTqM8w2oRxnxSQ41Quu/jitkpJYs0uC
-         3GS4g2V6k/At4g57bbgqkF2rtgkVMB32SCqGrKB26kWQdo1HgPBZk0ytKK3VgS62qucq
-         Xqsw==
+        d=linaro.org; s=google; t=1710825427; x=1711430227; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=A6dmZujj3rrpeCLhV31DevVs1siyY1p4z7CzCm28mJ8=;
+        b=M4TtL8EUv7kLw2Jep7jp6doZAKjLLc6ec8TXCsuEQ77s6SRGQR0Z1k9Gx2ec9E6/d6
+         lGeGrM9RccgLhs7DZoFyfTn/Aobots0GfZMsiaN9TsVHwUqoE5Qta9jw3+LArugI6jCZ
+         WLeHhiT6LdOdj5ILgs0G5co9YnO1AM4hYKjGrWa43eQsVb4W2Gb3FDE0VcN6i1It7J1a
+         8iI69YOJy89WQ3AZkRt6QseLt9a1hKv7mSz/KOectCvwnDQj2CPn+wdMP0IaTf5+p5hL
+         mNwpT/qWnRnFBidjPNW1VcriV8Im5U50raU9zMwv2r1Cg2J/Ao+4JW4ERTX35TPoOmf/
+         BuFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710815182; x=1711419982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9PVwebktWBWty2mBrf17cNCGtAzEMmWTbg3BNLwRbR4=;
-        b=BxvCgBfkZVla6ZRK0JVhiJRC15VuSb6Xaef0uiGeM5djDj68IujADmjdJ0y31yOBwe
-         /NBXYCAAsSTN/wIvTFDtkzIhRkeOZBcsFSGaA6h2BTQuAsSRxvl/stgEkSq79nokZQIC
-         ybnVVkTQPqPC7fi6g3XrKrBi3RI7Nrld/SsaRxOKcHgMwVzK3uxrDLyA+bXzezJoOCbL
-         DBXxi0QHNJ2nzDEwkVqpAGOx+eeEPIqjXOKMY1mDIJlcm6nke+x/E/OAFvZfnJQoDbcq
-         z8ebKqKQMWfJcSFe6NceqvB5Woa1deCjAaloMX9vpXkUtlax+YvilyfgLf0qSzRjEd3R
-         8M+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUXOXUQ+xv2oncl2fTWq4x6rkteYfM7RJmf7Dl0xcqjxwIy6jIFpK/CU3qe3deScRqo7xataWh/v53r5Tvt+ZYjT3McYLKSUl/ozU0=
-X-Gm-Message-State: AOJu0YxlgOYwVxlY9yo4BwbNbwmMTVa9GHGL9hl2tZFNV3lmMLf1Zhzr
-	fsSCOxeYKGfrOeCBL4Z23/q8zQlp5oMxzh6Uef7E8cQOEwXeWQbaJnaWCHyHIzcrCHj+UohcYLp
-	pvWayfv9kcqol2rM+ai7dYCQfLz7INHu6qWPM
-X-Google-Smtp-Source: AGHT+IFu9/5+j8r+Fb4pBtW95+Cl0mFkAx99vWRUt0Y35XyzFmr6MbTbI8DsVSvg5VsvJGnE/Mvw9QqpeiGeWfWctas=
-X-Received: by 2002:a17:906:81c9:b0:a46:6958:c415 with SMTP id
- e9-20020a17090681c900b00a466958c415mr639887ejx.8.1710815181445; Mon, 18 Mar
- 2024 19:26:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710825427; x=1711430227;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A6dmZujj3rrpeCLhV31DevVs1siyY1p4z7CzCm28mJ8=;
+        b=g8NJEcCkcDKqfNyWzvuP6mLJJ4tYTyh91WlFulS1Qc2fgcoUH00TyuApPo7GTmdNK5
+         kgmkBOZAGcXo+oqjWBv73TQaJPnOP3xWjOt57JJhvbrTmIV3vcfUDaFNOQlEAPrIjyNd
+         AcN0KrKj20wlUoIRmpCd0zYPLm1NcxgDXMno2Qs7WBl+txGuxQKVCVcMZgW0NeVPwBrh
+         3MuEsGyiAK8Rxe40Vey1sbCvfnSdoG/bjVm9FtvP+BOiasLEsCwl37XPh4OOJw/7kS1+
+         cYPirTkOupU5svfvEJzda6zO/UJd/HQZpPYT1NaXubdH0YqAouRikaxDZG70o+JJjcz0
+         yJcg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8SaY8zaxwNSJdyWUSHh4QIqNMg8wjDKud4tUsBLVlzMYdBtTnjTbKYVIVaWgW4n3xU7BA6FujZL6FshHcUKo5en4afXn91juQ72I=
+X-Gm-Message-State: AOJu0YwP7MXoFuPx5INsgl6b7f08yQLIL27ILQ1sDNXnSNnH8T7kI5iQ
+	OH5TF0heeNMKuc4OfL+GWJfol6QPLW4ON0QNUbVho9ppud7xRDPoTghkRbLfHw4=
+X-Google-Smtp-Source: AGHT+IEmNGvabBJ6k+gmhVzndKnI6ZiE6h4BbtVDtsDUU3kYdiaT5WpmQM/PfthEbTFQJrgj5cSwbQ==
+X-Received: by 2002:a17:906:88d:b0:a46:b1b3:aba0 with SMTP id n13-20020a170906088d00b00a46b1b3aba0mr778832eje.17.1710825427121;
+        Mon, 18 Mar 2024 22:17:07 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id dm18-20020a170907949200b00a45200fe2b5sm5566916ejc.224.2024.03.18.22.17.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 22:17:06 -0700 (PDT)
+Message-ID: <4b8564e1-0342-4682-a963-bc32ff69622c@linaro.org>
+Date: Tue, 19 Mar 2024 06:17:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
- <20240228013619.29758-21-quic_wcheng@quicinc.com> <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
- <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com> <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
- <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
-In-Reply-To: <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
-From: Albert Wang <albertccwang@google.com>
-Date: Tue, 19 Mar 2024 10:26:08 +0800
-Message-ID: <CANqn-rjMcncjZv9YNZJOZgFo0_ro9hk=TBSFrY9RfhE1Mi13qw@mail.gmail.com>
-Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
-	conor+dt@kernel.org, corbet@lwn.net, lgirdwood@gmail.com, 
-	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org, 
-	bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, 
-	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/25] ASoC: dt-bindings: meson: axg-pdm: document
+ 'sysrate' property
+To: Jan Dakinevich <jan.dakinevich@salutedevices.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-gpio@vger.kernel.org
+Cc: kernel@salutedevices.com
+References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
+ <20240314232201.2102178-14-jan.dakinevich@salutedevices.com>
+ <ca80caab-2664-4797-a222-e14537eea440@linaro.org>
+ <827c4f17-043e-4e09-aea6-0fee22d1b234@salutedevices.com>
+ <16a22924-054d-4d50-9f32-cc07c0bbbdf4@linaro.org>
+ <54e924ae-4d45-4337-aeae-32eebe773b63@salutedevices.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <54e924ae-4d45-4337-aeae-32eebe773b63@salutedevices.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> We can discuss that offline and come up with an approach that is
-> reviewable by maintainers and the community.
+On 17/03/2024 17:35, Jan Dakinevich wrote:
+> 
+> 
+> On 3/17/24 19:27, Krzysztof Kozlowski wrote:
+>> On 17/03/2024 16:55, Jan Dakinevich wrote:
+>>>
+>>>
+>>> On 3/15/24 13:00, Krzysztof Kozlowski wrote:
+>>>> On 15/03/2024 00:21, Jan Dakinevich wrote:
+>>>>> This option allow to redefine the rate of DSP system clock.
+>>>>
+>>>> And why is it suitable for bindings? Describe the hardware, not what you
+>>>> want to do in the driver.
+>>>>
+>>>
+>>> What do you mean? I am adding some new property and should describe it
+>>> in dt-bindinds. Isn't it?
+>>
+>> No, if the property is not suitable for bindings, you should not add it
+>> in the first place. So again: explain what sort of hardware, not driver,
+>> problem you are solving here, so we can understand why do you need new
+>> property. Otherwise use existing properties or no properties, because we
+>> do not define all possible clocks in the bindings.
+>>
+>> Let's be clear: with such commit msg explanation as you have, my answer
+>> is: no, driver should set clock frequency and you do not need this
+>> property at all.
+>>
+> 
+> Could you please take a look on answer to "Jerome Brunet
+> <jbrunet@baylibre.com>"'s message on the same thread. There, I am trying
+> to explain what I am solving by this commit.
 
-Sure, looking forward to working together with you!
+How is this answer here? You asked "What do you mean", so apparently you
+did not understand why I am responding and why you cannot just document
+whatever you wish, because that "whatever you wish" is not correct. I
+explained that but now you respond that I should read other part of
+emails. Really?
 
-Thanks,
-Albert Wang
+So again, do you understand that commit msg should provide rationale why
+you think this describes hardware and why this is suitable for bindings?
 
-On Fri, Mar 15, 2024 at 4:57=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
-om> wrote:
->
-> Hi Albert
->
-> On 3/14/2024 3:29 AM, Albert Wang wrote:
-> > On Thu, Mar 14, 2024 at 3:18=E2=80=AFAM Wesley Cheng <quic_wcheng@quici=
-nc.com> wrote:
-> >>
-> >> Hi Albert,
-> >>
-> >> On 3/13/2024 1:03 AM, Albert Wang wrote:
-> >>> Hi Wesley,
-> >>>
-> >>> The suspend function `qc_usb_audio_offload_suspend()` looks to stop
-> >>> the traffic on the bus, so that the bus can be suspended. That allows
-> >>> the application processor(AP) to enter suspend. There is a subtle
-> >>> difference with our feature, which is to allow AP suspend with the
-> >>> Host and USB controller active to continue the audio offloading. We
-> >>> call this feature `allow AP suspend in playback`. So, I have some
-> >>> points to clarify with you:
-> >>
-> >> Yes, I'm aware of that feature also.
-> >>
-> >>> 1. Will the suspend flow `usb_audio_suspend() -->
-> >>> platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
-> >>> called when offloading is active?
-> >>
-> >> It can be.  This is why in our case, we are going to issue the
-> >> disconnect event to the audio DSP to stop the session if it is current=
-ly
-> >> in one.
-> >>
-> >>> 2. As my understanding, the suspend function is to allow AP suspend
-> >>> when the offloading is IDLE, but it won't allow AP suspend when in
-> >>> playback or capture. Please correct me if anything is wrong.
-> >>
-> >> As mentioned above, it will let apps go into PM suspend after forcing
-> >> the audio stream to be idle.  We won't block PM suspend entry.
-> >>
-> > Right. Your design is to force the audio stream idle, or say, inform
-> > the audio DSP
-> > to stop the current offloading session first, then AP can go into PM
-> > suspend as usual.
-> > Then I can say the current design did not support the `allow AP
-> > suspend in playback`
-> > feature, right?
-> >
->
-> Correct, this series does not cover this mechanism.
->
-> >> Yes, I saw that patch as well.  I'll take a look once this series land=
-s
-> >> upstream.
-> >
-> > That patch is rejected and archived now. So we need to find another
-> > approach to do
-> > that, even based on your framework.
-> >
->
-> We can discuss that offline and come up with an approach that is
-> reviewable by maintainers and the community.
->
-> Thanks
-> Wesley Cheng
->
-> > Thanks,
-> > Albert
-> >
-> >
-> >>> 3. We would like to integrate the `allow AP suspend in playback`
-> >>> feature with your framework to become one upstream offload solution.
-> >>> Here is the patch:
-> >>> https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.15=
-09961-1-guanyulin@google.com/
-> >>> .
-> >>
-> >> Yes, I saw that patch as well.  I'll take a look once this series land=
-s
-> >> upstream.
-> >>
-> >> Thanks
-> >> Wesley Cheng
+
+Best regards,
+Krzysztof
+
