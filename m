@@ -1,110 +1,211 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220D6524B7;
-	Wed, 20 Mar 2024 15:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9646050A7C;
+	Wed, 20 Mar 2024 15:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710947566; cv=none; b=KC0anEdz6P07IgA8alQM9ftOGYI9B4ZHorbQPzFDx6XQqRmXF42+BEI1Lxu9SBIoahveSllEKSOV/i8Jna3w+FcTig5OJcUQQPr37rR2RD5egUbBAmuSq2LNG6f3J4jrzI5i9vY1uZvyJnsAUeXusvduaZUf4LwVWskK9/JDBpw=
+	t=1710948057; cv=none; b=N7RabjJKrMmABhUWLI8+QN+yxixF6cxVly3McaFipfKcsBx03OJ0WVeHhOOaTKR4pH8vvPJpHAsmHqXTRczQBE9uvDOREvOVJYZTfjBU65Mraur/H5q9o1OcZjHMt8g1QM08o1R7x1xV+/zA8pXXsj6dRQn2XGdZbGLUywqmLDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710947566; c=relaxed/simple;
-	bh=lujk9lU125wCesb290Yfcege4U2BvoIEq9CjFfIpdGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PL9a9zllMnnt2qzZGeVYPlO/6kndWqAA2tqoeOcENlI5eVF1JXb1dcelq4tdp4swD7ejWOUVJjt9gFDlgg3k9MK+DY7ljxGuMiglLOY2AxIe3XEMvMMjgCPKa1IC4batwIh8ahmHVZRVnj+UmMc7trio52SGrdyuXp8tEscRHDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bd8HcGUC; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710948057; c=relaxed/simple;
+	bh=fv+3A41O9ch1OK7JdlitS1XL1KqojW9QBzFKwa+VV84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=alM+w6+y4zzYvgefy0sc9HRJcwPUiRnVsTLPOk/mNYrz5aaNsfJPNrs/B9cEL7ghHWDTKpEY2kG4lgq9/VWatIh6+Cyz9RClrJ4D7vROPmdCjUL6im/2DO/g00Z9gBvGCxsuqDlZor4JvixQrY0iDP2Y489XdiGRUpB/CrxWLMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9BD006I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bd8HcGUC"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d29aad15a5so84005451fa.3;
-        Wed, 20 Mar 2024 08:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710947563; x=1711552363; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VKDCvcnWgS98kbw0fYidYmjqYC/LQ8RqbNoxwppD2oU=;
-        b=bd8HcGUCNjxPwF27y6YU5P4iKp7np6yt2qd3MfucgS0fAFj1TqD+w+ggkbx44VZhWX
-         Gs0sE7zy2D+9+p9+bV2q9O7sj55pMpIxxYpPfqOSeBfoTX9oqGxtf3X2k27nGL0EU96t
-         tAUb5l3erIUTMwcPcCn/x4pSGPAQi5cV+v0xB39pz8Jmhk3IaC03bAEWpmKBX7rnKiCu
-         qtyERWlHZ6eKAlaC5MHJ5m4ajDVwjktsHxlyRW60aQyzvakbbvNlcKAPoo2dftmM1jzK
-         tSOJDlUzzfZJjBJhwHjOtKU+jrhMrhVbPCz9t5ea9SM5dSP4WorvbzTp2wdqx54ilbz0
-         7c7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710947563; x=1711552363;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VKDCvcnWgS98kbw0fYidYmjqYC/LQ8RqbNoxwppD2oU=;
-        b=MaUeNkWmg1AgOMmNnucX/dXXnJuMAqlO3p0cYMf7TuTU550gvzPdVLNhm2ObWDVdx6
-         VK/jaBB26BDuR3a1CXSefFnzvwqVsdSa+3535ppaXUvpTfmoAT+NjR2CpyN0Mz4U3xB5
-         x/7M5KuE2kEXnQnm8sIyt8XWkOZ09LSf5zhCtrf4zNiD6YlNUJ8rAuOSndTLJ4YzcSFo
-         J/45zTAEPCFJhrmeDGS/lsh4uZblyBmCessxYOLwh5f21HYeL2sjoVNv83Emw2To+iFe
-         RbViFJvcd4oeWtl1ItFZeeKREA/sANUc41joUklaRik5Oyj+a35XqL+D0vPiFf6muJTM
-         XFTg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+o3MWR+62eGWPBBO30G952fzM2NjjUx1+mfo6pfTBGu3FETXh3WW3Xgnr1ypu0NNp2VeA1jPn5e8Zmin0z//1VZ1tdZJtllaxBoWQwhJe/gBN5rshpxFl72oH/LsBEjztPVznJI0ozA==
-X-Gm-Message-State: AOJu0YyQAzf76AqrZDLladr1LRXgGgxfIw/Fff3Wa8MeP9WjCoZNI2Kv
-	tr9V5/LFYtrW8yz6oUkb+VgWuJUtJdT3Z08yqs2DyQBQUS9j6UI9
-X-Google-Smtp-Source: AGHT+IFT9VgVVUGrEsXx4hdX1Xure9Rf4dbvEDYWuckKrrAkroGtk3moQU6iBZ09MUSIgYCXGLSHqQ==
-X-Received: by 2002:a2e:be09:0:b0:2d3:f095:ff2a with SMTP id z9-20020a2ebe09000000b002d3f095ff2amr12648201ljq.47.1710947563034;
-        Wed, 20 Mar 2024 08:12:43 -0700 (PDT)
-Received: from ?IPV6:2001:999:708:5b57:30d6:2195:bb7b:bb94? ([2001:999:708:5b57:30d6:2195:bb7b:bb94])
-        by smtp.gmail.com with ESMTPSA id u22-20020a2e8456000000b002d51e0b73aesm825619ljh.25.2024.03.20.08.12.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 08:12:42 -0700 (PDT)
-Message-ID: <24792e21-afcf-489f-a47b-01f88721ea5a@gmail.com>
-Date: Wed, 20 Mar 2024 17:14:23 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9BD006I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0727C433C7;
+	Wed, 20 Mar 2024 15:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710948057;
+	bh=fv+3A41O9ch1OK7JdlitS1XL1KqojW9QBzFKwa+VV84=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d9BD006IJGpTepDWLabTqcTw6QqFiz0qcnfeeCcJpGNdk2H9R7WS2InLXWlieU7ZQ
+	 DevWDbFa80XlPqbC+XL15mjSDuMiViIU8aX6oMI1tr3kk3xITPSwMGERv7Jn3tDkuQ
+	 pRiMKon6XaGgRgKJUEvd3ZsL3M4boYQSVtepLMYkzUL8yiVRyNCDLcGqW2zZyK5yZU
+	 o49EB41A6z9PSFuCnLVQpNFOfisIVveyAbE2depcsWf9L7PFtaQ/PdSEXi41TcNxGX
+	 r1cKrrCfguT/VpGOoPOybU97FnJ5wk4z1jIrsNcOW8giwqX+NXwbh5HwPsfMrI1Z9H
+	 u7rVBVd5nb2/Q==
+Date: Wed, 20 Mar 2024 10:20:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: fsl-audmix: Convert
+ fsl,audmix.txt to yaml
+Message-ID: <20240320152054.GA1737736-robh@kernel.org>
+References: <20240318191822.2271229-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] ASoC: ti: davinci-i2s: Add TDM support
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-8-bastien.curutchet@bootlin.com>
- <9d123584-1feb-404b-890f-2da694cf56d5@gmail.com>
- <f2d8715d-a1ad-45a4-952f-a702b29740be@bootlin.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <f2d8715d-a1ad-45a4-952f-a702b29740be@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318191822.2271229-1-Frank.Li@nxp.com>
 
-HI Bastien,
-
-On 20/03/2024 09:31, Bastien Curutchet wrote:
->>> +    if ((dev->tdm_slots || dev->slot_width) &&
->>> +        ((fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) !=
->>> SND_SOC_DAIFMT_BP_FC)) {
->>> +        dev_err(dev->dev, "TDM is only supported for BP_FC format\n");
->>> +        return -EINVAL;
->>
->> I think this is not a valid statement, Fsync can be generated internally
->> or coming from external source in TDM mode also.
->>
+On Mon, Mar 18, 2024 at 03:18:21PM -0400, Frank Li wrote:
+> Convert fsl,audmix.txt to yaml to let dtb check tools check audmix part.
 > 
-> My hardware allow me to only test BP_FC so I wished to put some
-> 'barriers' in front of untested things.
-
-I don't see restrictions on the other changes affecting this to be lifted.
-I would allow TDM for full clock provider mode also.
-
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
 > 
+> Notes:
+>     dt_binding_check and DTB_CHECK passed.
+>     
+>     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,audmix.yaml
+>       LINT    Documentation/devicetree/bindings
+>       DTEX    Documentation/devicetree/bindings/sound/fsl,audmix.example.dts
+>       CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>       DTC_CHK Documentation/devicetree/bindings/sound/fsl,audmix.example.dtb
 > 
-> Best regards,
-> Bastien
+>  .../devicetree/bindings/sound/fsl,audmix.txt  | 50 ------------
+>  .../devicetree/bindings/sound/fsl,audmix.yaml | 78 +++++++++++++++++++
+>  2 files changed, 78 insertions(+), 50 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,audmix.txt b/Documentation/devicetree/bindings/sound/fsl,audmix.txt
+> deleted file mode 100644
+> index 840b7e0d6a631..0000000000000
+> --- a/Documentation/devicetree/bindings/sound/fsl,audmix.txt
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -NXP Audio Mixer (AUDMIX).
+> -
+> -The Audio Mixer is a on-chip functional module that allows mixing of two
+> -audio streams into a single audio stream. Audio Mixer has two input serial
+> -audio interfaces. These are driven by two Synchronous Audio interface
+> -modules (SAI). Each input serial interface carries 8 audio channels in its
+> -frame in TDM manner. Mixer mixes audio samples of corresponding channels
+> -from two interfaces into a single sample. Before mixing, audio samples of
+> -two inputs can be attenuated based on configuration. The output of the
+> -Audio Mixer is also a serial audio interface. Like input interfaces it has
+> -the same TDM frame format. This output is used to drive the serial DAC TDM
+> -interface of audio codec and also sent to the external pins along with the
+> -receive path of normal audio SAI module for readback by the CPU.
+> -
+> -The output of Audio Mixer can be selected from any of the three streams
+> - - serial audio input 1
+> - - serial audio input 2
+> - - mixed audio
+> -
+> -Mixing operation is independent of audio sample rate but the two audio
+> -input streams must have same audio sample rate with same number of channels
+> -in TDM frame to be eligible for mixing.
+> -
+> -Device driver required properties:
+> -=================================
+> -  - compatible		: Compatible list, contains "fsl,imx8qm-audmix"
+> -
+> -  - reg			: Offset and length of the register set for the device.
+> -
+> -  - clocks		: Must contain an entry for each entry in clock-names.
+> -
+> -  - clock-names		: Must include the "ipg" for register access.
+> -
+> -  - power-domains	: Must contain the phandle to AUDMIX power domain node
+> -
+> -  - dais		: Must contain a list of phandles to AUDMIX connected
+> -			  DAIs. The current implementation requires two phandles
+> -			  to SAI interfaces to be provided, the first SAI in the
+> -			  list being used to route the AUDMIX output.
+> -
+> -Device driver configuration example:
+> -======================================
+> -  audmix: audmix@59840000 {
+> -    compatible = "fsl,imx8qm-audmix";
+> -    reg = <0x0 0x59840000 0x0 0x10000>;
+> -    clocks = <&clk IMX8QXP_AUD_AUDMIX_IPG>;
+> -    clock-names = "ipg";
+> -    power-domains = <&pd_audmix>;
+> -    dais = <&sai4>, <&sai5>;
+> -  };
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,audmix.yaml b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+> new file mode 100644
+> index 0000000000000..fc65b76ea35ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/fsl,audmix.yaml
+> @@ -0,0 +1,78 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/fsl,audmix.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP Audio Mixer (AUDMIX).
+> +
+> +maintainers:
+> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> +  - Frank Li <Frank.Li@nxp.com>
+> +
+> +description:
 
--- 
-Péter
+You need '|' as you have formatting.
+
+> +  The Audio Mixer is a on-chip functional module that allows mixing of two
+> +  audio streams into a single audio stream. Audio Mixer has two input serial
+> +  audio interfaces. These are driven by two Synchronous Audio interface
+> +  modules (SAI). Each input serial interface carries 8 audio channels in its
+> +  frame in TDM manner. Mixer mixes audio samples of corresponding channels
+> +  from two interfaces into a single sample. Before mixing, audio samples of
+> +  two inputs can be attenuated based on configuration. The output of the
+> +  Audio Mixer is also a serial audio interface. Like input interfaces it has
+> +  the same TDM frame format. This output is used to drive the serial DAC TDM
+> +  interface of audio codec and also sent to the external pins along with the
+> +  receive path of normal audio SAI module for readback by the CPU.
+> +
+> +  The output of Audio Mixer can be selected from any of the three streams
+> +    - serial audio input 1
+> +    - serial audio input 2
+> +    - mixed audio
+> +
+> +  Mixing operation is independent of audio sample rate but the two audio
+> +  input streams must have same audio sample rate with same number of channels
+> +  in TDM frame to be eligible for mixing.
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8qm-audmix
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ipg
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  dais:
+> +    description:
+> +      Must contain a list of phandles to AUDMIX connected
+> +      DAIs. The current implementation requires two phandles
+> +      to SAI interfaces to be provided, the first SAI in the
+> +      list being used to route the AUDMIX output.
+
+Needs a type and constraints. This corresponds to the output and 2 input 
+streams? Something like this then?:
+
+$ref: /schemas/types.yaml#/definitions/phandle-array
+minItems: 2
+items:
+  - description: the AUDMIX output
+    maxItems: 1
+  - description: serial audio input 1
+    maxItems: 1
+  - description: serial audio input 2
+    maxItems: 1
+
+Rob
