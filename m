@@ -1,138 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6E11A27D
-	for <linux-sound@vger.kernel.org>; Wed, 20 Mar 2024 06:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284722F0D;
+	Wed, 20 Mar 2024 07:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710916054; cv=none; b=A/1Yf7KON+8J40gXu22T7hFhdZ/WFj0sR0sAb/P8T17lGudYC6r/Jtlz0cEySebRs56lW8DFwjzoo0l+VFGymmZeMowdLSeRKIexDn7bFMPof6Veb9aaJiUtGHnz62xaeH8F0woHY3mkMsQGg32j+YkhLeYHpVX8Z0Au40DBerM=
+	t=1710919876; cv=none; b=c4oGtv477w3mbJqRT5/ux/Cw9so/onwquMpRY0jsvDdEvCPdfFHs0pducLjAdXmvUDQOA6z2jkUU2Vw96xfDxBIGwoq/W7p4icAJipyuIe7/VaOXHxS9lUN+CJMmyqvj0fMTO+p3kFlViOw6WKrWUPWwjQOaKynlMj5sA3tooUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710916054; c=relaxed/simple;
-	bh=2MQa0ZWpQcCeWTiatibGL+FRLuxUldns28eiqb2WlR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qWNoq78YhMc1Oxf/gkratRIwhBuBaNZw1uNoOlTfyHFnDfITXxt5c83vv9P47aFhUUTERJxW8tpESQdjBEnl8TNqDrpTlsfRaavg/8T9FWJixyDc63EjcLZyG0owsZ6vIPeaMvQlGeCLV4qckTQIl8PI5KPJoUJpkRJmjcOEGes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c3r2vh6P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rlXZaYI6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c3r2vh6P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rlXZaYI6; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710919876; c=relaxed/simple;
+	bh=Ik5ahjZmxjfQ1FR/v6ZDPMYWeeijut/xAT0hg7CxjZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GRq1t4efoQhAssGahkeYiv/rwk9IARHR5V0SMlk/8ZX2cHvrd+FTS9yPS1ANv4+DH2JemN9/nXn1Tq8cKtQk3Wr9DqbdVgnNskBWk9EmXRWVwFZbf0he06HMEjc7+SzX0pa+9eEqEgXpJkphgjrhl+bi64DGuXTROuCDgSSf4g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Q1cBSxYK; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c3r2vh6P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rlXZaYI6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c3r2vh6P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rlXZaYI6"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9CDD4208B0;
-	Wed, 20 Mar 2024 06:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710916048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=VmUaZENwOhUEE8yOLt6hCM9T+m6BX8zcHhL+IZV3t2E=;
-	b=c3r2vh6PGXDmKEwXxPmye7TnfOin1sPdehnIy39FNT6yTpP6p7IygADFIzsw5ho5uwP+8R
-	M82B/S0ses/inWqSorFKox/EzrxJB/Mbl9hFzqgkeg9CsJYGlIEkj9U7IavvbUZAfYZG7/
-	WSaZp2Lg6Aw74SEksZu5jqhYXoY7F6M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710916048;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=VmUaZENwOhUEE8yOLt6hCM9T+m6BX8zcHhL+IZV3t2E=;
-	b=rlXZaYI6Pz/xDZux7iRVJiutu2WXM2SKBQADhao3LZ/zn9Dmr8mH135lPPoQYOl6VcPi2A
-	VHjWhHOER5i05qCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710916048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=VmUaZENwOhUEE8yOLt6hCM9T+m6BX8zcHhL+IZV3t2E=;
-	b=c3r2vh6PGXDmKEwXxPmye7TnfOin1sPdehnIy39FNT6yTpP6p7IygADFIzsw5ho5uwP+8R
-	M82B/S0ses/inWqSorFKox/EzrxJB/Mbl9hFzqgkeg9CsJYGlIEkj9U7IavvbUZAfYZG7/
-	WSaZp2Lg6Aw74SEksZu5jqhYXoY7F6M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710916048;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=VmUaZENwOhUEE8yOLt6hCM9T+m6BX8zcHhL+IZV3t2E=;
-	b=rlXZaYI6Pz/xDZux7iRVJiutu2WXM2SKBQADhao3LZ/zn9Dmr8mH135lPPoQYOl6VcPi2A
-	VHjWhHOER5i05qCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79022136D6;
-	Wed, 20 Mar 2024 06:27:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZnGqF9CB+mWlGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Mar 2024 06:27:28 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Subject: [PATCH] ALSA: control: Fix unannotated kfree() cleanup
-Date: Wed, 20 Mar 2024 07:27:20 +0100
-Message-ID: <20240320062722.31325-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q1cBSxYK"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 68F241BF20A;
+	Wed, 20 Mar 2024 07:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1710919871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=voBe4cnKC0PYia7ms5iUQbaUgT546itFPRtdPkNE1ao=;
+	b=Q1cBSxYKQaIltFJkiNRkwe6YV7E7uUhmWbptRl2p/i0RABaEw6LCltBs36y+/AFubbLIoI
+	Gm2n0LiHp+5jjpd7Ux+FiS6cQfihpFUlZuH5uqTXDDmejoDNW7Hpg8ku5vt7sfsVzszS2C
+	HMOZ2ydoyDCJT6i8PqzsNXNMe27Y6ArMipnHj7rDltqswrI48QRV4v716Ay18bxoAkzimR
+	uwKKDIkLQtJ/DDeNbbAsHpAJEFXACx1sRL6UePnwjfqnQWoT3NMwHx6ocx8grfkdymdzfE
+	VFWAH2+u8OLiNA8UfJIbY6iTIrolrARnTn8ZBx+owPUttl1KIXsf1lN13sIPeA==
+Message-ID: <f2d8715d-a1ad-45a4-952f-a702b29740be@bootlin.com>
+Date: Wed, 20 Mar 2024 08:31:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] ASoC: ti: davinci-i2s: Add TDM support
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-8-bastien.curutchet@bootlin.com>
+ <9d123584-1feb-404b-890f-2da694cf56d5@gmail.com>
+Content-Language: en-US
+From: Bastien Curutchet <bastien.curutchet@bootlin.com>
+In-Reply-To: <9d123584-1feb-404b-890f-2da694cf56d5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: 3.64
-X-Spamd-Result: default: False [3.64 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-0.99)[-0.993];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWO(0.00)[2];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.07)[61.98%]
-X-Spam-Level: ***
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Flag: NO
+X-GND-Sasl: bastien.curutchet@bootlin.com
 
-The recent conversion to the automatic kfree() forgot to mark a
-variable with __free(kfree), leading to memory leaks.  Fix it.
+Hi Péter,
 
-Fixes: 1052d9882269 ("ALSA: control: Use automatic cleanup of kfree()")
-Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Closes: https://lore.kernel.org/r/c1e2ef3c-164f-4840-9b1c-f7ca07ca422a@alu.unizg.hr
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/control.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>> +static int davinci_i2s_set_tdm_slot(struct snd_soc_dai *cpu_dai,
+>> +				    unsigned int tx_mask,
+>> +				    unsigned int rx_mask,
+>> +				    int slots, int slot_width)
+>> +{
+>> +	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(cpu_dai);
+>> +
+>> +	dev_dbg(dev->dev, "%s - slots %d, slot_width %d\n", __func__, slots, slot_width);
+> 
+> The __func__ can be ommited, it is better to leave it for dynamic
+> debugging by adding "dyndbg=+pmf" module parameter if needed.
+> 
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 8367fd485371..fb0c60044f7b 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -1275,12 +1275,12 @@ static int snd_ctl_elem_read(struct snd_card *card,
- static int snd_ctl_elem_read_user(struct snd_card *card,
- 				  struct snd_ctl_elem_value __user *_control)
- {
--	struct snd_ctl_elem_value *control;
-+	struct snd_ctl_elem_value *control __free(kfree) = NULL;
- 	int result;
- 
- 	control = memdup_user(_control, sizeof(*control));
- 	if (IS_ERR(control))
--		return PTR_ERR(control);
-+		return PTR_ERR(no_free_ptr(control));
- 
- 	result = snd_ctl_elem_read(card, control);
- 	if (result < 0)
--- 
-2.43.0
+True, I'll remove the __func__.
 
+>> +
+>> +	if (slots > 128 || !slots) {
+>> +		dev_err(dev->dev, "Invalid number of slots\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (rx_mask != (1 << slots) - 1) {
+>> +		dev_err(dev->dev, "Invalid RX mask (0x%08x) : all slots must be used by McBSP\n",
+>> +			rx_mask);
+>> +		return -EINVAL;
+> 
+> This is only a restriction for RX?
+> 
+
+Nope you're right, I'll add the same for tx_mask.
+
+>> +	}
+>> +
+>> +	if (davinci_i2s_tdm_word_length(slot_width) < 0) {
+>> +		dev_err(dev->dev, "%s: Unsupported slot_width %d\n", __func__, slot_width);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dev->tdm_slots = slots;
+>> +	dev->slot_width = slot_width;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   #define DEFAULT_BITPERSAMPLE	16
+>>   
+>>   static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
+>> @@ -228,6 +282,13 @@ static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
+>>   		DAVINCI_MCBSP_SRGR_FWID(DEFAULT_BITPERSAMPLE - 1);
+>>   
+>>   	dev->fmt = fmt;
+>> +
+>> +	if ((dev->tdm_slots || dev->slot_width) &&
+>> +	    ((fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) != SND_SOC_DAIFMT_BP_FC)) {
+>> +		dev_err(dev->dev, "TDM is only supported for BP_FC format\n");
+>> +		return -EINVAL;
+> 
+> I think this is not a valid statement, Fsync can be generated internally
+> or coming from external source in TDM mode also.
+> 
+
+My hardware allow me to only test BP_FC so I wished to put some
+'barriers' in front of untested things.
+
+
+Best regards,
+Bastien
