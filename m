@@ -1,37 +1,37 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284722F0D;
-	Wed, 20 Mar 2024 07:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AE729409;
+	Wed, 20 Mar 2024 07:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710919876; cv=none; b=c4oGtv477w3mbJqRT5/ux/Cw9so/onwquMpRY0jsvDdEvCPdfFHs0pducLjAdXmvUDQOA6z2jkUU2Vw96xfDxBIGwoq/W7p4icAJipyuIe7/VaOXHxS9lUN+CJMmyqvj0fMTO+p3kFlViOw6WKrWUPWwjQOaKynlMj5sA3tooUs=
+	t=1710920792; cv=none; b=lOgovI0QOkeBQFVsEsh0PCHJvqDqymxQFFkAKwP0yAPcUIJmKgCCfIV0NsDkXWxThguRY6/1y3WH+AEU5XEkG7z2CGhCucWdr3WR2hXpt1GAtASLhBwGxOsh8w+MZsLcetFVJNuimE8JDuOFpKYpAE3JnRlOli/ucHq5tZAgFy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710919876; c=relaxed/simple;
-	bh=Ik5ahjZmxjfQ1FR/v6ZDPMYWeeijut/xAT0hg7CxjZE=;
+	s=arc-20240116; t=1710920792; c=relaxed/simple;
+	bh=Ib1YGi6+k7//xZhCELUHLMN5Yymzlzl+jC3TmZzQS9Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GRq1t4efoQhAssGahkeYiv/rwk9IARHR5V0SMlk/8ZX2cHvrd+FTS9yPS1ANv4+DH2JemN9/nXn1Tq8cKtQk3Wr9DqbdVgnNskBWk9EmXRWVwFZbf0he06HMEjc7+SzX0pa+9eEqEgXpJkphgjrhl+bi64DGuXTROuCDgSSf4g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Q1cBSxYK; arc=none smtp.client-ip=217.70.183.201
+	 In-Reply-To:Content-Type; b=dBAeM9DHk0pFsUlk/BKeeuWN/0XG41FWt/577JcpQudrvurAyNAJC7SDtUs7TXpsfIduRR50pdtP56CkM9FdPJ0r+wJC5LRWdCMsscNk04IWl+LXvP2NpO74ztSxFsWju+CrMMKf6hye50hezajPjboSm/VAtokm/evYqYuvpww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CntIZw8p; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q1cBSxYK"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 68F241BF20A;
-	Wed, 20 Mar 2024 07:31:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CntIZw8p"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92281FF807;
+	Wed, 20 Mar 2024 07:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710919871;
+	t=1710920781;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=voBe4cnKC0PYia7ms5iUQbaUgT546itFPRtdPkNE1ao=;
-	b=Q1cBSxYKQaIltFJkiNRkwe6YV7E7uUhmWbptRl2p/i0RABaEw6LCltBs36y+/AFubbLIoI
-	Gm2n0LiHp+5jjpd7Ux+FiS6cQfihpFUlZuH5uqTXDDmejoDNW7Hpg8ku5vt7sfsVzszS2C
-	HMOZ2ydoyDCJT6i8PqzsNXNMe27Y6ArMipnHj7rDltqswrI48QRV4v716Ay18bxoAkzimR
-	uwKKDIkLQtJ/DDeNbbAsHpAJEFXACx1sRL6UePnwjfqnQWoT3NMwHx6ocx8grfkdymdzfE
-	VFWAH2+u8OLiNA8UfJIbY6iTIrolrARnTn8ZBx+owPUttl1KIXsf1lN13sIPeA==
-Message-ID: <f2d8715d-a1ad-45a4-952f-a702b29740be@bootlin.com>
-Date: Wed, 20 Mar 2024 08:31:10 +0100
+	bh=5e54mRdfjOEsN/nbRi2WZI4kTVdEISox3uake09K72s=;
+	b=CntIZw8pN/VwkZVAO2SKwwcoAtquLsqesAgaQpn/KPk1iEZfAC8HeTtQHdijlfn6YGgsSx
+	RQos6KXPFCJ4c+Xi5wqSS70s9jR4Zxwn5dareb5xQLoAPE3QoIrSICgKBVpvUdicaLz7tL
+	wIKiOyqdbu88jmtnChKDI3UnAImFTS9B0/OAy9UvC3GUyqh3zn31c+5JvDi0HKX2kPTeQS
+	7kalN+DfuBkBhSOnaZj3grj22/4vg70ATfphQ174JcteuOWhGa1BD317xg1aOTsUa0uI9O
+	+ak0xuplA037PBZYHBDJJhmMdYh6XEXakJ5DiuGKbgj0s4IakIvCwG1PAHS++g==
+Message-ID: <773cd098-0678-4edc-aea3-0418bedebc13@bootlin.com>
+Date: Wed, 20 Mar 2024 08:46:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,7 +39,9 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] ASoC: ti: davinci-i2s: Add TDM support
+Subject: Re: [PATCH 12/13] ASoC: dt-bindings: davinic-mcbsp: Add the
+ 'ti,drive-dx' property
+Content-Language: en-US
 To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
@@ -51,81 +53,67 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
  christophercordahi@nanometrics.ca
 References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-8-bastien.curutchet@bootlin.com>
- <9d123584-1feb-404b-890f-2da694cf56d5@gmail.com>
-Content-Language: en-US
+ <20240315112745.63230-13-bastien.curutchet@bootlin.com>
+ <6e120eee-5cec-460c-87d2-40ef776efc3d@gmail.com>
 From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-In-Reply-To: <9d123584-1feb-404b-890f-2da694cf56d5@gmail.com>
+In-Reply-To: <6e120eee-5cec-460c-87d2-40ef776efc3d@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: bastien.curutchet@bootlin.com
 
 Hi Péter,
 
->> +static int davinci_i2s_set_tdm_slot(struct snd_soc_dai *cpu_dai,
->> +				    unsigned int tx_mask,
->> +				    unsigned int rx_mask,
->> +				    int slots, int slot_width)
->> +{
->> +	struct davinci_mcbsp_dev *dev = snd_soc_dai_get_drvdata(cpu_dai);
->> +
->> +	dev_dbg(dev->dev, "%s - slots %d, slot_width %d\n", __func__, slots, slot_width);
-> 
-> The __func__ can be ommited, it is better to leave it for dynamic
-> debugging by adding "dyndbg=+pmf" module parameter if needed.
-> 
 
-True, I'll remove the __func__.
-
->> +
->> +	if (slots > 128 || !slots) {
->> +		dev_err(dev->dev, "Invalid number of slots\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (rx_mask != (1 << slots) - 1) {
->> +		dev_err(dev->dev, "Invalid RX mask (0x%08x) : all slots must be used by McBSP\n",
->> +			rx_mask);
->> +		return -EINVAL;
+On 3/19/24 19:02, Péter Ujfalusi wrote:
 > 
-> This is only a restriction for RX?
 > 
+> On 15/03/2024 13:27, Bastien Curutchet wrote:
+>> McBSP is able to handle capture and playback stream.
+>> The McBSP's DX pins that outputs serial data during playback streams can
+>> be used to output a chosen pattern during capture streams. For instance,
+>> this can be useful to drive an active-low signal during capture streams
+>> (by choosing <0> as pattern)
+> 
+> or configure the MCBSPx.DX pin as GPO and use it as a GPIO?
 
-Nope you're right, I'll add the same for tx_mask.
+In my use case, DX pin is connected to the ADC chip select pin so I want
+the DX pin to toggle the closest possible to capture's start. That's
+why I introduced this feature over configuring the pin as GPO.
 
->> +	}
->> +
->> +	if (davinci_i2s_tdm_word_length(slot_width) < 0) {
->> +		dev_err(dev->dev, "%s: Unsupported slot_width %d\n", __func__, slot_width);
->> +		return -EINVAL;
->> +	}
->> +
->> +	dev->tdm_slots = slots;
->> +	dev->slot_width = slot_width;
->> +
->> +	return 0;
->> +}
->> +
->>   #define DEFAULT_BITPERSAMPLE	16
+> 
+> Quite novel use of the hardware, no doubt about it. If you don't have
+> DMA servicing the TX, it will just re-transmit the word from from the
+> DXR register when the transmitter is pulled out of reset.
+> 
+> Interesting, but I'm not sure if this belongs to DT.
+> 
+>> Add a 'ti,drive-dx' property that can be used to repeatedly output a
+>> chosen pattern on DX pin while capture stream is ON.
+>>
+>> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
+>> ---
+>>   Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml b/Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml
+>> index d8d4e7ea6e02..f4d1fc6bcd61 100644
+>> --- a/Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml
+>> @@ -80,6 +80,13 @@ properties:
+>>         Enable synchronisation error detections when an unexpected frame pulse is
+>>         received. If not present, unexpected frame pulses are ignored.
 >>   
->>   static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
->> @@ -228,6 +282,13 @@ static int davinci_i2s_set_dai_fmt(struct snd_soc_dai *cpu_dai,
->>   		DAVINCI_MCBSP_SRGR_FWID(DEFAULT_BITPERSAMPLE - 1);
->>   
->>   	dev->fmt = fmt;
+>> +  ti,drive-dx:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      If the property is present, McBSP will repeatedly output the selected
+>> +      value on DX pin during capture streams. For instance, if set to 0, this
+>> +      can be used to drive an active-low signal.
 >> +
->> +	if ((dev->tdm_slots || dev->slot_width) &&
->> +	    ((fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) != SND_SOC_DAIFMT_BP_FC)) {
->> +		dev_err(dev->dev, "TDM is only supported for BP_FC format\n");
->> +		return -EINVAL;
+>>   required:
+>>     - "#sound-dai-cells"
+>>     - compatible
 > 
-> I think this is not a valid statement, Fsync can be generated internally
-> or coming from external source in TDM mode also.
-> 
-
-My hardware allow me to only test BP_FC so I wished to put some
-'barriers' in front of untested things.
-
 
 Best regards,
 Bastien
