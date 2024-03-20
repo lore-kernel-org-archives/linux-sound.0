@@ -1,135 +1,115 @@
-Received: from sonic305-20.consmr.mail.gq1.yahoo.com (sonic305-20.consmr.mail.gq1.yahoo.com [98.137.64.83])
+Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECEC664A4
-	for <linux-sound@vger.kernel.org>; Wed, 20 Mar 2024 18:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.64.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5085284;
+	Wed, 20 Mar 2024 18:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.235.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710958358; cv=none; b=lPbKQ6GR71vbXyb1wvWEKXHKuPiz5FoFsFIC3UrWlMPBfh0JfggmPfSm1P4vKb0HjUK/yWOqih0VnOpmO1XlinruAIQbsb6dx9HXmz/Bo+nndbR98VE1JbizK4Fvlmnu65KoZ9Tzko9lRtHPUpLITs+QAVm1czyaodl7q6wf/II=
+	t=1710961091; cv=none; b=Jg3Ypif6wf3+cWiDu81C+7p2jzqchqMLJOVWyNuwqHsKVIzeEkbeKsGkXfvJ5esYXfsMYKMNm9JonkSMeDmfDtMYmf8Eb0q0T76c+szftxiTy8wROtaXrTq8zfyhNk/+4SU9dHu/AQNTrDPMlVo2y7HE35eY3yb3XUxKh4trT+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710958358; c=relaxed/simple;
-	bh=bgVYqzWvfpqE6jxKb66SRmkeso/7iWyCQu7GKuwJRro=;
-	h=Date:From:Subject:To:MIME-Version:Message-Id:Content-Type:
-	 References; b=ci6Cc4MtsbFkvupkjztKz27sTMPokpMZ/w+sF4sgiGsRNQPJ2sv+P8DrJc/D8WjDA6fMoQq8H662I3rlqHa5LYv024u4ibaFf/2UAAXAAc18USee7NnrV1wMtqTJHa9MNmcUoKgNg4SQeB7AUYf3h59oPnW5Y0adP8ipCNMrMUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.ca; spf=pass smtp.mailfrom=yahoo.ca; dkim=pass (2048-bit key) header.d=yahoo.ca header.i=@yahoo.ca header.b=TOIIn8V2; arc=none smtp.client-ip=98.137.64.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.ca
+	s=arc-20240116; t=1710961091; c=relaxed/simple;
+	bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=efXN3rulYYbGtKPNqLjqSmyG7syThx5/CuvUyQIhRCTs+NdcjvxcDNkg2zWWePm3BOkDDFCrmmo9jWHBYTjMI/8TKqnGW316ug38zZIzXrIJ5QiCOZ6r0HDhAYivIjz0CizWR9FdMGNOG1I/qHpj9Dx7xM2Us0o6c/ekuNRHFuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr; spf=pass smtp.mailfrom=alu.unizg.hr; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=DY+5muLF; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=RiKRQU/J; arc=none smtp.client-ip=161.53.235.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.ca header.i=@yahoo.ca header.b="TOIIn8V2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1710958356; bh=0yMZBXcBZkZ/M2EO1/087sLa8IJRDaXBPocFKvglIy8=; h=Date:From:Subject:To:References:From:Subject:Reply-To; b=TOIIn8V2mppLW+G1qaZOIUXlQaW26FeI079S3XQS0Mo+gZyv9i7onw/4ZdZqyHpg6KKRDWi213Gmm5Jzbe2wbVozD+nfKPfMguOsqVmyRLFtDHj5Il1q6tZW4IUs0yujHd0uOxg+Iuzt0FQU7P5xeGgYei02JT+jfsMjXuRaBSHgR5w91OZaI8ctMKeDPjHouH+3Z29BiiEjzWAUvVM9aFdsKB9NX1DCH4CRNvhXRmAnVekStYM+sGYApXRNUfXcjudBYu4dpG13B3mw3EbhmOTuTtcglPM4e00cBPfjRcpK9kagaxGoBwfNS5DuFKvZ0AkpVSNwY+2ddV6PzuEwAQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710958356; bh=KqEPM2gW0h+KegJ/7QJu8Nz09YjHxp3TO/j59Q7udKA=; h=X-Sonic-MF:Date:From:Subject:To:From:Subject; b=WbgZbm/jttge2PBdqPuLDJPYnRpHQS0R54p+VI8yavHmdQbRzDPa/FucSekQ+njoDBLeQf2gjxmTeqiITwxO5R/Uut2dHYWDQ9dPsaVY/un6rrYWze0Nzd+eYD71ebaT+Oskzy18G8XAnVw4b43nbQCofAKZWxT6hYv4TkUA8rXkluHSbbBvhvD3zLvNN+F2v72cgHWyLkM34HX395QW/zhwsQXr4CBvx/CDNlS/xljQdXUVYMAPcSb81vmiux7shEfXzHeAiJmt9FePNy7cGwiuQMsasnJNm9Ekp8X7dJbUsTXaWVgOsdRTnYGgspJvpUlkL0IRuVO1fbYduFcktQ==
-X-YMail-OSG: OnVf6EsVM1nMhDwwtaQga9n.gjV.dCdbO8OfcMELD13nX.SUrFvjCDwN8zC.5.C
- y5bruO67fJO0.cx3XVdj.XmfCQo2LQ1l3_KRwzbuELThDJizKWHZmODyzWSfgOq8HLbqfjCH9OjN
- k0M04uqvoBMHEhxzPo8ZNYI2wWHTjKTjYlNBzeEuORTxd4TBtIp4yXwGJJGL0TEGWZdW8f4VovS.
- Xc3FjGQicJyTQ1gqQmlLvEzfi8qaTjXcbZMKlRUeLK54MDZsV5Nb2DFzroXKhI4GwMppzrD5yS5m
- OzolBfihWTq79eB9pwQBcDZnBdUNgyYBsNChsCMZK_9CNDXf0tfO8dMPqslwXiyi2wE1Ow0SMhQP
- iHa_yAAXNgPgvyU7Rvhq2FvkViuFe1DRlEVtue_pFwgjYJNBH.V_1b4IGbkayMbvbO7ja55LYYy4
- HKCsHzmCb9N.RehTIBYKWq24iUNbHZDJze7g.pvYJpiDRSawiSUWB4CYWw0cgNj0j_r9QT2USXza
- g.2gd8E78GsNShr2YcfCHp8.AXVKlusWGpn8G037TXXTO6qicOb0h08sDO5YCVpheVdsAtvPOADb
- DQKm2pUv075Bg2r5PkfxDcmoOhtsVFG6..mlVH5GQd4L5IWvVOsYYFhVxYg6s60sePtAkIboB85u
- F_lUvJXGWClk3HKtZ0Cid1VfY6uHtxYeO8m7v_5b6gjPe34_8s..bTPzDbBFUnCFnTDjbyQODMLi
- TIVrCOS25NVwpdqb7ySgRHgZ4fpTlkRU6WNYKtg8NjoOeXu.OTZROI7e.SSL7q5vWyo1PH_i5Au1
- lpHl3mcsaq2DashwluRBWRN9PruWM2XKFO.B8yBxSkiln.veP9Eh3xKRyijW4DbOEfa_FQPmNFMk
- qnzJJaZayol0YlPsTyECMV6uZI34yUmJw6PHBECZPGp2afkUbaWjmT.0iy6zv2Bk8uI__KiXlIHX
- subaCCwPktJhcOShc1U6aMb_CrNN7tagx3ejGZX9YCuwaeRpb3onKxXAtuLhnlJkvQy5JRuXu1M.
- jLa1BIxPH5FUMJTLFgqm9PZ6rQ7ugp3OhHkWvV0t_MJ_IYwTKU7ifwxPCTPgAY51zJxWCxJHPPpC
- 2mSuZJ9g7pttXDVPdcsduA2076DQMXnpuXkW8atxHnrC8TCrLk57RDZjCTiKOyuoZItP85hU7alw
- J8ileF_cRQYNaHiAm45RtLpQ2jSrgnuMoyRMRq4I7b0Xe_Ofb8s4jBzvtuO2jsHd87PKB.Jc7yEq
- p_9lsm50Vjt11E0eNlp24_aTMa5QWI9PHNknM8R1g_PhzlZ1hKSGTTy65tsf_2ug2IfcVMcrd4v8
- RKaPMSfCIvewp7wc8mNIqgTQV.c9nUqMtX5Y5_65bstDnrmsVuKbWsmd8tNQkQ6fIFOuVf3ygfhq
- O4vKmTzqQrfHRK.Jgzl_L2ZTKOiivV.GzCorVx4t6W_UBI3UUiHQg_EuWG3ouf7lpoJjJk25dWdr
- Tmc7CcC2SLqaMz88KNzZM0TXFIVbFV0Prt_LgItwzKzr._VzeN2SH9MukVDFzEwAI6DGzJrSGm0c
- 4Z_Z0fCKUnoNI.B1trotC5qN8VCOU.R.lLNNkjNQpSiXz9GnriJm4C66t24f4JcHB0apWQEgvak1
- 6Na.HMmPJNMThJt7ZI8A0r4csnNGZpVp5tMUAahShfZMphHns9IJyQEATwlWIC8r3ElHYc.xrR4h
- srwtFk.Om4ZDWBsAen7QhsO_i8ZFwDgqMjVqjrCT.I5xNE4jOwTZCLw29AIEoEPDUpxAqbeOIK_R
- 71iu4A6J7IcQldfP_7QuiPnMBlqZosbGzVmPahLX4jkfj3E37Rfa58cOBPSgE0AK_In5zcv1Cbtg
- lY1yL5vqWYkKa83WYmcphgXZ.Untq2NesO2gXtH53_MQi31qKwOvRGpnHD413JFx5kODJowVjsSi
- Dft4J1kCzbJYGDssuVS1_B6iVsmXbolqmOgoidk5qy2y20jZvTJWCwoMpkF7Eph1P657rcGM2LB.
- wQ9CRYd5LT847zOlFMjDBW6.yeknIRThXlwLYT3MiluloCytnBkqGH0t7c.4LuXhIrpwqgqRjoui
- Wzv5AST7gjYHZjYj_pPjI75kfIcYJHviwXtDJv7BVUwfZ2UG24pT0r4kBPhBIaz5SBIUCTEdUFN3
- AjBTsUI4ZmRRG7MeMkL.oXpdb4iOBnRrHB3c_mD9OdW9VJOXigTkDpYylDrZKMR5iGkzbeq.7dQV
- jji1gEPjz.vqmBB0-
-X-Sonic-MF: <alex_y_xu@yahoo.ca>
-X-Sonic-ID: bf0f5cf1-488c-43ce-b4fb-1c44294e8624
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.gq1.yahoo.com with HTTP; Wed, 20 Mar 2024 18:12:36 +0000
-Received: by hermes--production-bf1-7d6dbd57c9-hwf7b (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8148c9f88f5021eb0a73e4f9f7a97599;
-          Wed, 20 Mar 2024 17:01:46 +0000 (UTC)
-Date: Wed, 20 Mar 2024 13:01:22 -0400
-From: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: Regression: SUnreclaim leak: snd_ctl_ioctl?
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="DY+5muLF";
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="RiKRQU/J"
+Received: from localhost (localhost [127.0.0.1])
+	by domac.alu.hr (Postfix) with ESMTP id 5E3DE60177;
+	Wed, 20 Mar 2024 19:58:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1710961081; bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DY+5muLFNrPwcksLBq7MWz5d1e/rcJ4qwHefTd1WzJK5/jfRoHtTP7pnBQTLff25L
+	 EB1tiIYlZI/ZeVqRIYl/bxf4CobnAVouVGO0PteTqEuT4DTACxoirQ2eIcsi+m+A71
+	 41x4K5nmiJB26Roba/+kJaHhauaYfldAB2AJpjO0Nj1U9vZ+zSEpbU8CbPRlsntk6J
+	 Dq2zM7nUODtQ1apEPQdF8Wi1t//CYW7Z3oYkIqaRyCX9kKwjtdSzSqiF9wh8lF+edM
+	 IrvqV3LP4dmMm+zyvUjO2cklxK7ucX5j+6vj9Vput7Yq1uKxUxXscn7AZfmsTh2dkN
+	 Rld9TXENxq0Rw==
+X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
+Received: from domac.alu.hr ([127.0.0.1])
+	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MpvGs34--TU3; Wed, 20 Mar 2024 19:57:52 +0100 (CET)
+Received: from [192.168.178.20] (dh207-43-75.xnet.hr [88.207.43.75])
+	by domac.alu.hr (Postfix) with ESMTPSA id 769806015E;
+	Wed, 20 Mar 2024 19:57:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
+	t=1710961072; bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RiKRQU/JAwmyZpGYCdlRCJ7opfNiRahL08pQC7ORYlcFB2ifFBOaS6dB86vfCHcCl
+	 vAKAvbyVs7WLR4JMv3MsXsz0FKnS982GjvyhW99Sy1+RDDpXZryKRDstvLzuJGcKoI
+	 a+iwrrSmYt8rg0X3yxg5D1CQMUdHU1jjHbxmw78MsYlsGg0LY69YSfOE262qKVS55n
+	 SY7hMkxK8+HsD/m3C6//XH5lqcWDTaOapNNey1Ti1wK6Hl7R8g6PQ5R4CWj/isKP9k
+	 bbWiILDZ5t08pTq000Fg2CqHGJTMY+G8IF3MgXMiyWOhZWirCjgh53cehuc/prB05Y
+	 9Ob/LvMqzl7MA==
+Message-ID: <e0441a7a-b76f-42e7-8ad4-9ba00327c2ca@alu.unizg.hr>
+Date: Wed, 20 Mar 2024 19:57:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <1710953751.8yx03664pf.none@localhost>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-References: <1710953751.8yx03664pf.none.ref@localhost>
-X-Mailer: WebService/1.1.22129 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] alsa: KMEMLEAK in pulseaudio and alsa-sink-ALC89
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Curtis Malainey <cujomalainey@chromium.org>,
+ linux-kernel@vger.kernel.org
+References: <c1e2ef3c-164f-4840-9b1c-f7ca07ca422a@alu.unizg.hr>
+ <87wmpxto4g.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+In-Reply-To: <87wmpxto4g.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On 3/20/24 07:26, Takashi Iwai wrote:
+> On Wed, 20 Mar 2024 02:13:08 +0100,
+> Mirsad Todorovac wrote:
+>>
+>> Hi,
+>>
+>> On Ubuntu 22.04 LTS, with the torvalds tree kernel vanilla v6.8-11167-g4438a810f396,
+>> there is like 660K memory leaks sized 2048 bytes (1.35 GB)
+>>
+>> unreferenced object 0xffff919c43c7c800 (size 2048):
+>> unreferenced object 0xffff919c43c78000 (size 2048):
+>> unreferenced object 0xffff919c43c79800 (size 2048):
+>> root@defiant:/home/marvin/linux/kernel/linux_torvalds# grep size ~marvin/linux/kernel_bugs/v6.8-11167/kmemleak.log | wc -l
+>> 663265
+>> root@defiant:/home/marvin/linux/kernel/linux_torvalds#
+>>
+>> Please find the .config attached.
+>>
+>> The kmemleak output is:
+>>
+>> unreferenced object 0xffff9199526ba800 (size 2048):
+>>    comm "pulseaudio", pid 2533, jiffies 4294900352
+>>    hex dump (first 32 bytes):
+>>      04 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00  ................
+>>      49 45 43 39 35 38 20 50 6c 61 79 62 61 63 6b 20  IEC958 Playback
+>>    backtrace (crc 87c1dcdc):
+>>      [<ffffffffb2fa477b>] kmemleak_alloc+0x4b/0x90
+>>      [<ffffffffb210e517>] __kmalloc_node_track_caller+0x3c7/0x530
+>>      [<ffffffffb20a102b>] memdup_user+0x2b/0xb0
+>>      [<ffffffffc0746d56>] snd_ctl_ioctl+0x726/0x860 [snd]
+>>      [<ffffffffb21bed6d>] __x64_sys_ioctl+0x9d/0xe0
+>>      [<ffffffffb2f93d33>] do_syscall_64+0x83/0x150
+>>      [<ffffffffb3000121>] entry_SYSCALL_64_after_hwframe+0x6c/0x74
+> 
+> Thanks for the report.  This was indeed an overlooked marking of
+> __free(kfree).  I'll submit the fix patch.
+> 
+> Takashi
 
-In the last few days of running torvalds master kernel, I found that=20
-SUnreclaim memory seems to increase indefinitely. slabinfo -r kmalloc-2k=20
-says:
+Not at all, thanks for such an early response.
 
-Slabcache: kmalloc-2k       Aliases:  0 Order :  3 Objects: 1272941
+I understand the problems with the incremental development. Actually, great it was caught before
+the release ;-)
 
-Sizes (bytes)     Slabs              Debug                Memory
-------------------------------------------------------------------------
-Object :    2048  Total  :  264991   Sanity Checks : On   Total: 8683225088
-SlabObj:    6144  Full   :  264972   Redzoning     : On   Used : 2606983168
-SlabSiz:   32768  Partial:      19   Poisoning     : On   Loss : 6076241920
-Loss   :    4096  CpuSlab:       0   Tracking      : On   Lalig: 5213966336
-Align  :    2048  Objects:       5   Tracing       : Off  Lpadd: 542701568
-
-kmalloc-2k has no kmem_cache operations
-
-kmalloc-2k: Kernel object allocation
------------------------------------------------------------------------
-1272283 snd_ctl_ioctl+0x45f/0x6d0 waste=3D1048361192/824 age=3D6141/183854/=
-366927 pid=3D687-33984 cpus=3D0-1,3-8,10
-        memdup_user+0x21/0x70
-        snd_ctl_ioctl+0x45f/0x6d0
-        __x64_sys_ioctl+0x85/0xa0
-        do_syscall_64+0x3d/0xf0
-        entry_SYSCALL_64_after_hwframe+0x46/0x4e
-
-    189 acpi_add_single_object+0x38/0x710 waste=3D119448/632 age=3D368130/3=
-68134/368138 pid=3D1 cpus=3D0
-[ ... ]
-
-kmalloc-2k: Kernel object freeing
-------------------------------------------------------------------------
- 633587 <not-available> age=3D4295305473 pid=3D0 cpus=3D0
- 382872 rcu_core+0x284/0x540 age=3D4513/194630/361523 pid=3D0-21201 cpus=3D=
-0-11
-        rcu_core+0x284/0x540
-        __do_softirq+0xad/0x1de
-
- 247690 amdgpu_dm_atomic_commit_tail+0x1721/0x3740 age=3D6157/199198/366963=
- pid=3D163-19507 cpus=3D0-11
-        amdgpu_dm_atomic_commit_tail+0x1721/0x3740
-        commit_tail+0x8a/0x120
-        process_one_work+0x12b/0x250
-        worker_thread+0x2d9/0x3f0
-        kthread+0xac/0xe0
-        ret_from_fork+0x28/0x40
-        ret_from_fork_asm+0x11/0x20
-
-   2794 __sk_destruct+0x17a/0x1b0 age=3D994/147194/368001 pid=3D0-19414 cpu=
-s=3D0-11
-[ ... ]
-
-So, if I understand correctly, some memory copied from userspace for=20
-snd_ctl_ioctl is not freed correctly. The PIDs were pipewire,=20
-wireplumber, and pipewire-pulse, so I restarted those but it didn't=20
-resolve the issue.
-
-Let me know what other information is needed.
-
-Thanks,
-Alex.
+Best regards,
+Mirsad Todorovac
