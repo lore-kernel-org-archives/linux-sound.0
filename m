@@ -1,94 +1,280 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23AF5472A;
-	Wed, 20 Mar 2024 15:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385E139AF4;
+	Wed, 20 Mar 2024 15:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710948066; cv=none; b=PU/iN63w+mXraQ/bDFGk7HkxGHFw8rBbZf8ALMApQOxefzdXWwNHt91MQwT+X8gB3toiNIf4CeL4XddpEXLaDkrqLjzNGfYVkXEpvPF6sEPvr68jZ9TysSKgq3MjY5qe6wpURVPzn5dW9QJ/eQ6TNE5uiAIaddLvt6XVj9t7sqg=
+	t=1710948278; cv=none; b=gU9ypUv8ua7MKoPTK1TX5PYjOT3GhgsBEiAflQ51wkzlWdPElkmWxmL9417WmgkWve+uQWxawIG6/aWycLBY2DTvwx9UdvlX0Gkh9AvTJp/kRxwzh0kJrdi3NITIk572xSmpJiD1GjPIffjoV5nQJKJG/nEv/e0V/FA2UYpw8Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710948066; c=relaxed/simple;
-	bh=1tGig6cMdiKntUIQI2Cqx4/KYJV/11C4ppZ+rg59blM=;
+	s=arc-20240116; t=1710948278; c=relaxed/simple;
+	bh=jMJNWDr4Oq6R+QFdtiIkIxG3CyxghSZhQ7z0m1GBulY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jiyT6iRBbmwDRgZI3ZFcLjP1JTm73ylZgJVlxNDKrX/m/NAHSsUFGmGiaB+wXjij60UtfN9MBDObrKN0wrYiJ6zKZQuvm68ppPcc4cXEBcd+SierN6XRCaj3VyS1ythZa8aOppvMF2qE2ZPy844Jlncsrq0QJk80TJjo1hCH2wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzZyDMRT; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0aJiZ0kWY0/YCF/zl85R4Jnym3hs81LyxbZokYW0bDB7aB1bz/FSCcRA8GeoNiL1b41wMc/LcAnV+A8sATD9AV7Dd+KjlmbWlmx+ExVNAnmKDeZne8V4DG+p/GKwVH19BpXn4W58xqTDnYxkoxpCXvUCp2BiB/9+LhB5MQe+kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HXE8Z2BP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzZyDMRT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3B8C433C7;
-	Wed, 20 Mar 2024 15:21:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HXE8Z2BP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E8FC433C7;
+	Wed, 20 Mar 2024 15:24:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710948065;
-	bh=1tGig6cMdiKntUIQI2Cqx4/KYJV/11C4ppZ+rg59blM=;
+	s=k20201202; t=1710948277;
+	bh=jMJNWDr4Oq6R+QFdtiIkIxG3CyxghSZhQ7z0m1GBulY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VzZyDMRTD6tiu8t50ps7WpB9F2ZgXz9wsf3Z1pWLWaVhFhGl+tOTmDDwtVpMdx6XX
-	 jdYCKWoHwCZs9loN8cbi5K/+hop+jJQEQE0nhUFuYwTKUTfLff35CoTNr4JzN+IS9/
-	 niFqFBP7OI8c8pCVAD4iUwsZemY4TlJOnNuuC+BrBui+8Bw2gN1CyKYoMqwny/a1YO
-	 V1PVogkpeRKB+CDSbTxg6VXRWUFwf++QeHvGRhLWFiEgy/30AlaGi8VmMkWZDeeHcb
-	 sueTSFUU78dR6iZInmbbdCebwwDxztEp19M1OzmsXGbSQr++TLM5tbGRXWLYccx3bm
-	 S3NNG6oHJoyPA==
-Date: Wed, 20 Mar 2024 15:21:00 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Xingyu Wu <xingyu.wu@starfivetech.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
+	b=HXE8Z2BPqA+Yj86VvT71M8x8u0h+qlafu3lvZ8qPk0OaScKRSuN3BSnzFhae+G8MA
+	 UD9g+n9iaT8tOpjOpmUvcim6bxjnvoFHfPc35+bDgrIpoPjmE9DvdHiGPXVcnjz1Z2
+	 yxQQI1lrO2kpyjj2qQ6gFzCydfBXMIdg6guSWj323mFd1QoGKL7N2+fuDh+GDQNy2L
+	 e/bKaCPJgV2NaD3mncYHCycRqm2M2XXXRQrgkbvoyztcaHyS5tB/Pn+Xrm5cl77xED
+	 L83eu7vZXkaGwMI+jMONI/zZHnodQuV2KXlaNymAK23SxNF0/b6Bw2VYEFUkD01O4u
+	 GuH0KBQLuWrBQ==
+Date: Wed, 20 Mar 2024 10:24:35 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ASoC: cdns: Add drivers of Cadence Multi-Channel
- I2S Controller
-Message-ID: <aeac0262-1054-4bc9-b5e9-653785305162@sirena.org.uk>
-References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
- <20240320090239.168743-3-xingyu.wu@starfivetech.com>
- <1d0399d2-684f-490e-8711-f636e987a0b8@linux.intel.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt to
+ yaml
+Message-ID: <20240320152435.GA1753500-robh@kernel.org>
+References: <20240318194535.2274543-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="V7Pu1AxS8JZcWuN0"
-Content-Disposition: inline
-In-Reply-To: <1d0399d2-684f-490e-8711-f636e987a0b8@linux.intel.com>
-X-Cookie: Androphobia:
-
-
---V7Pu1AxS8JZcWuN0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240318194535.2274543-1-Frank.Li@nxp.com>
 
-On Wed, Mar 20, 2024 at 10:00:24AM -0500, Pierre-Louis Bossart wrote:
+On Mon, Mar 18, 2024 at 03:45:34PM -0400, Frank Li wrote:
+> Convert fsl,esai.txt to yaml. So DTB_CHECK tools can verify dts file about
+> esai part.
+> 
+> clock-names 'spba' is optional according to description. So minItems of
+> clocks and clock-names is 3.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> 
+> Notes:
+>     Pass dt_binding check
+>      make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
+>       DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dts
+>       LINT    Documentation/devicetree/bindings
+>       CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>       DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dtb
+> 
+>  .../devicetree/bindings/sound/fsl,esai.txt    |  68 -----------
+>  .../devicetree/bindings/sound/fsl,esai.yaml   | 110 ++++++++++++++++++
+>  2 files changed, 110 insertions(+), 68 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/fsl,esai.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,esai.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,esai.txt b/Documentation/devicetree/bindings/sound/fsl,esai.txt
+> deleted file mode 100644
+> index 90112ca1ff423..0000000000000
+> --- a/Documentation/devicetree/bindings/sound/fsl,esai.txt
+> +++ /dev/null
+> @@ -1,68 +0,0 @@
+> -Freescale Enhanced Serial Audio Interface (ESAI) Controller
+> -
+> -The Enhanced Serial Audio Interface (ESAI) provides a full-duplex serial port
+> -for serial communication with a variety of serial devices, including industry
+> -standard codecs, Sony/Phillips Digital Interface (S/PDIF) transceivers, and
+> -other DSPs. It has up to six transmitters and four receivers.
+> -
+> -Required properties:
+> -
+> -  - compatible		: Compatible list, should contain one of the following
+> -			  compatibles:
+> -			  "fsl,imx35-esai",
+> -			  "fsl,vf610-esai",
+> -			  "fsl,imx6ull-esai",
+> -			  "fsl,imx8qm-esai",
+> -
+> -  - reg			: Offset and length of the register set for the device.
+> -
+> -  - interrupts		: Contains the spdif interrupt.
+> -
+> -  - dmas		: Generic dma devicetree binding as described in
+> -			  Documentation/devicetree/bindings/dma/dma.txt.
+> -
+> -  - dma-names		: Two dmas have to be defined, "tx" and "rx".
+> -
+> -  - clocks		: Contains an entry for each entry in clock-names.
+> -
+> -  - clock-names		: Includes the following entries:
+> -	"core"		  The core clock used to access registers
+> -	"extal"		  The esai baud clock for esai controller used to
+> -			  derive HCK, SCK and FS.
+> -	"fsys"		  The system clock derived from ahb clock used to
+> -			  derive HCK, SCK and FS.
+> -	"spba"		  The spba clock is required when ESAI is placed as a
+> -			  bus slave of the Shared Peripheral Bus and when two
+> -			  or more bus masters (CPU, DMA or DSP) try to access
+> -			  it. This property is optional depending on the SoC
+> -			  design.
+> -
+> -  - fsl,fifo-depth	: The number of elements in the transmit and receive
+> -			  FIFOs. This number is the maximum allowed value for
+> -			  TFCR[TFWM] or RFCR[RFWM].
+> -
+> -  - fsl,esai-synchronous: This is a boolean property. If present, indicating
+> -			  that ESAI would work in the synchronous mode, which
+> -			  means all the settings for Receiving would be
+> -			  duplicated from Transmission related registers.
+> -
+> -Optional properties:
+> -
+> -  - big-endian		: If this property is absent, the native endian mode
+> -			  will be in use as default, or the big endian mode
+> -			  will be in use for all the device registers.
+> -
+> -Example:
+> -
+> -esai: esai@2024000 {
+> -	compatible = "fsl,imx35-esai";
+> -	reg = <0x02024000 0x4000>;
+> -	interrupts = <0 51 0x04>;
+> -	clocks = <&clks 208>, <&clks 118>, <&clks 208>;
+> -	clock-names = "core", "extal", "fsys";
+> -	dmas = <&sdma 23 21 0>, <&sdma 24 21 0>;
+> -	dma-names = "rx", "tx";
+> -	fsl,fifo-depth = <128>;
+> -	fsl,esai-synchronous;
+> -	big-endian;
+> -};
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,esai.yaml b/Documentation/devicetree/bindings/sound/fsl,esai.yaml
+> new file mode 100644
+> index 0000000000000..9e31283933d1b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/fsl,esai.yaml
+> @@ -0,0 +1,110 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale Enhanced Serial Audio Interface (ESAI) Controller
+> +
+> +maintainers:
+> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> +  - Frank Li <Frank.Li@nxp.com>
+> +
+> +description:
+> +  The Enhanced Serial Audio Interface (ESAI) provides a full-duplex serial port
+> +  for serial communication with a variety of serial devices, including industry
+> +  standard codecs, Sony/Phillips Digital Interface (S/PDIF) transceivers, and
+> +  other DSPs. It has up to six transmitters and four receivers.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx35-esai
+> +      - fsl,vf610-esai
 
-> > +	for (i = 0; i < CDNS_I2S_FIFO_DEPTH; i++) {
-> > +		if (format == SNDRV_PCM_FORMAT_S16_LE) {
-> > +			data[0] = p16[tx_ptr][0];
-> > +			data[1] = p16[tx_ptr][1];
-> > +		} else if (format == SNDRV_PCM_FORMAT_S32_LE) {
-> > +			data[0] = p32[tx_ptr][0];
-> > +			data[1] = p32[tx_ptr][1];
-> > +		}
+Alphabetical order
 
-> what about other formats implied by the use of 'else if' ?
+> +      - fsl,imx6ull-esai
+> +      - fsl,imx8qm-esai
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 3
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    minItems: 3
+> +    description: |
+> +      core:   The core clock used to access registers.
+> +      extal:  The esai baud clock for esai controller used to
+> +              derive HCK, SCK and FS.
+> +      fsys:   The system clock derived from ahb clock used to
+> +              derive HCK, SCK and FS.
+> +      spba:   The spba clock is required when ESAI is placed as a
+> +              bus slave of the Shared Peripheral Bus and when two
+> +              or more bus masters (CPU, DMA or DSP) try to access
+> +              it. This property is optional depending on the SoC
+> +              design.
 
-In general things like this should be written as switch statements.
+This description should be split into each items entry below.
 
---V7Pu1AxS8JZcWuN0
-Content-Type: application/pgp-signature; name="signature.asc"
+> +    items:
+> +      - const: core
+> +      - const: extal
+> +      - const: fsys
+> +      - const: spba
+> +
+> +  dmas:
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  dma-names:
+> +    items:
+> +      - const: rx
+> +      - const: tx
+> +
+> +  fsl,fifo-depth:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: The number of elements in the transmit and receive
+> +                 FIFOs. This number is the maximum allowed value for
+> +                 TFCR[TFWM] or RFCR[RFWM].
 
------BEGIN PGP SIGNATURE-----
+Not the normal indentation. Should be just indent 2 more spaces than 
+'description'.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX6/tsACgkQJNaLcl1U
-h9BupQf/TIN+i7DTxIw1TfTwOUo18dvWHR8fAtRPMkNvvTXlDI+sAFwhdGomSgtj
-7gHyw1/ZmMWHeGC6CffzXKwU4g3z/HyEidwFO6s2LdVxEvl2t8wE0Xo+c5Sgy9G/
-iOdGpcwiRCqHh53rhK1UWdIP+paItr1ghPq6ySCASwQZFtvH7CMX4GWbNOEysO1V
-6oQcPRwNkQ0k18dVdhsid+PvdPckEJVJGH8+H/YXeR/macDHMiyAJJEdTajQwAuX
-iptwgUav7/bLABLR08oqMAaaczvDQgrhm0gRMdLqZQbgeTeq6Liap+HE039e3W9V
-LUtcRjsLp6oOIB79EuRycmDey0JzUQ==
-=f9S8
------END PGP SIGNATURE-----
-
---V7Pu1AxS8JZcWuN0--
+> +
+> +  fsl,esai-synchronous:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: This is a boolean property. If present, indicating
+> +                 that ESAI would work in the synchronous mode, which
+> +                 means all the settings for Receiving would be
+> +                 duplicated from Transmission related registers.
+> +
+> +  big-endian:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: If this property is absent, the native endian mode
+> +                 will be in use as default, or the big endian mode
+> +                 will be in use for all the device registers.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - dmas
+> +  - dma-names
+> +  - fsl,fifo-depth
+> +  - fsl,esai-synchronous
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    esai@2024000 {
+> +      compatible = "fsl,imx35-esai";
+> +      reg = <0x02024000 0x4000>;
+> +      interrupts = <0 51 0x04>;
+> +      clocks = <&clks 208>, <&clks 118>, <&clks 208>;
+> +      clock-names = "core", "extal", "fsys";
+> +      dmas = <&sdma 23 21 0>, <&sdma 24 21 0>;
+> +      dma-names = "rx", "tx";
+> +      fsl,fifo-depth = <128>;
+> +      fsl,esai-synchronous;
+> +      big-endian;
+> +    };
+> -- 
+> 2.34.1
+> 
