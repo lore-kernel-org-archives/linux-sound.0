@@ -1,42 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD33FBA3;
-	Wed, 20 Mar 2024 11:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A363D541;
+	Wed, 20 Mar 2024 11:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710933821; cv=none; b=tVay2u5krvbJsmeUA6dhHKRbYOh14OEQyA3r4DM0FgFAsoKkSy659OlYqpyrdPHqsceC82JtpievKb1TUNbQwtcgjm8R9kLOIg/ish0d1WrOE47U44PUc6Rh4t7H8tQlIT4fls19cdRtVRhq28jfw+H55Ixef9xUngDg2QKLTCY=
+	t=1710934151; cv=none; b=B/7C4mGHtuWVKt2NlMNKeqsaTjGdY0SRa+7CBHEHpYCgeKiQzr1z/bqXqBXE9s6LuTcthkJOIW5ZU9SLed1QzIwss31Nve8jMUmXyebTEJigJvMkovopxefFrwSUebe0pPPx9a85jZSc8ppyKxqtn4IObehKawbaXACJJRTYpcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710933821; c=relaxed/simple;
-	bh=0aPMYZqS1U/faF5yL5h5SYsSJK/wGQpWX/DtVL7hT4Y=;
+	s=arc-20240116; t=1710934151; c=relaxed/simple;
+	bh=M4qZDfeqdgUN7WwW07gOdPYTQ8hzgSGfC9I8vI9ySrQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sXScvIj/GXTYot5E0rwnK1//GGNen4NXtVfjoUeBbtbJGCSlddf806uGx+rh5Id53tfVc+/N7ys+3vc87SM9PuBCGkHjsgGIoCkbrjE7NW9T4/NN7zLqRFrvuv7FML23YIY0XvvoKZl7auninnsBrVsoJdwxbYwFvMuVxqIKIYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KvlwfhtK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5S4OJ0Bq; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=Pbhkvagy/oJmYgSZmasExGQ9maLGZ8bcSz4GP2dDbaGsnUoRq7Ge1pmjweSXeG0+sV3Er0Gu/Lu2LOkcuewY1crcqFe26by1hU2soyAG5cEtSEw/dS21c965fJtp5A5XGI39XGaco6P8Ql7PN1ypaJpPitK7fL2ZPSNwipQhdbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=A5Ce6O1t; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6AbpP4Vo; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KvlwfhtK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5S4OJ0Bq"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="A5Ce6O1t";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6AbpP4Vo"
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710933818;
+	s=2020; t=1710934148;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aTym/nC5xD61zbRK5hpctTKsJawMwlPvb8OVQ2E/Od4=;
-	b=KvlwfhtKxgD4GRV4La6sGDGFZr+2/2uQrcTfqM3vprppbQRBkL/TLG6IXU/hXtuEdKTRWU
-	8j62Nfc078Ao9H36UHuTIm9El2GoZ0LbJ4UnXyyIh2KtBC0/qwC14k1SmTqRP/f177mK7B
-	DlIuApaSsLAFcCx09fnG5xqcxZf/lewP6w/aPQFYdFLQkKbMHzXVPSVQTwD4g380A5a0nR
-	bohRu65iUTWfJXh2G9qDlxCeLHYbtn/1RxX6elSI50rVI25EjfOaq1jApa+jCL4PJS35ME
-	6FOW71TXq+emFfTlbaT2VVOyWI/HQuDjjudpJRADjjmMZ+Gw/YNJKYhb0SCrew==
+	bh=M4qZDfeqdgUN7WwW07gOdPYTQ8hzgSGfC9I8vI9ySrQ=;
+	b=A5Ce6O1tFxISLyNmqEAZsC9uJLadVd1q3mUS3sjqQ4msM7jFzzl79ffArFw+5Hvx0kNO4o
+	QPnJExm9F+pf/ZrruBvzkEquNVkyZyRDxIecapw+UAPWH/+V2hQpvbUDKl15gbqoABhlLq
+	+hzuxBEzbsujR4jnk2Xfpjk2IIDQrFPFhY3aJ/ktQsASuYS0VGsAHjQEG679MbXA6/b4xn
+	9tIuH8P88GR6nzKxlWTRKd7EA/eXU5YGpVs/to5qzFuAqQxJsrrbPRHiNqjnMjs5T9vJ5b
+	suCc3kbrUVmlBwGHnJLosTvbfQ780/i9scNqwwYj7kDawAUignheWsMht8MaTQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710933818;
+	s=2020e; t=1710934148;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aTym/nC5xD61zbRK5hpctTKsJawMwlPvb8OVQ2E/Od4=;
-	b=5S4OJ0Bqq8GLmgf1t47z3Wr7Pn74Q0Z8hp6uTTCi/CglQBez4Y7PgP+9Y8m7R18/ZWh6QO
-	7N63F1Og9OVrh6Aw==
+	bh=M4qZDfeqdgUN7WwW07gOdPYTQ8hzgSGfC9I8vI9ySrQ=;
+	b=6AbpP4VorMVdt2xHPU/GrukrmO9bQSz9DqdX8PyH0teQhWqnYHp1IKhd40ae9cWC2jPdLz
+	UraY84+UL0kipbCg==
 To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
  corbet@lwn.net, linux-kernel@vger.kernel.org
 Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -49,13 +49,13 @@ Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
  pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
  subramanian.mohan@intel.com, basavaraj.goudar@intel.com,
  thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
-Subject: Re: [PATCH v5 01/11] x86/tsc: Add base clock properties in
- clocksource structure
-In-Reply-To: <20240319130547.4195-2-lakshmi.sowjanya.d@intel.com>
+Subject: Re: [PATCH v5 02/11] timekeeping: Add function to convert realtime
+ to base clock
+In-Reply-To: <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
 References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
- <20240319130547.4195-2-lakshmi.sowjanya.d@intel.com>
-Date: Wed, 20 Mar 2024 12:23:37 +0100
-Message-ID: <875xxhi1ty.ffs@tglx>
+ <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 20 Mar 2024 12:29:07 +0100
+Message-ID: <8734sli1ks.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,22 +67,13 @@ Content-Type: text/plain
 On Tue, Mar 19 2024 at 18:35, lakshmi.sowjanya.d@intel.com wrote:
 > From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 >
-> Add base clock hardware abstraction in clocksource structure.
+> PPS(Pulse Per Second) generates signals in realtime, but Timed IO
+> hardware understands time in base clock reference. Add an interface,
+> ktime_real_to_base_clock() to convert realtime to base clock.
 >
-> Add clocksource ID for x86 ART(Always Running Timer).
+> Convert the base clock to the system clock using convert_base_to_cs() in
+> get_device_system_crosststamp().
 
-This change log tells the WHAT but not the WHY. You have to add context
-and explanation WHY this change is required and why it makes sense.
-
-Also I think this should be ordered differently:
-
-  1) Add the clocksource_base struct and provide the infrastructure in
-     get_device_system_crosststamp()
-
-  2) Make TSC/ART use it
-
-  3) Add the realtime muck
-
-Thanks,
-
-        tglx
+This really is doing two unrelated things. ktime_real_to_base_clock()
+has absolutely nothing to do with the clocksource_base related changes
+to get_device_system_crosststamp()
