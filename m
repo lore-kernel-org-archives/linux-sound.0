@@ -1,165 +1,72 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C17239AF4;
-	Wed, 20 Mar 2024 15:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB9A54F8A;
+	Wed, 20 Mar 2024 16:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710949227; cv=none; b=YwRjpNl5W5MVOI0UWF/Q8jO25QpkgrLwv5lXWH+FFTGr6NQv4m1yGvbdO5TCB7e4q/KzGa0coJk6Vdkktzmq7oQ7z9VdtIUbHA6mHl632rx39rLaEH/4rDFzb6u0UFjl1StS2D4znWeZPNkh6GhNfbiAoctLgXx8EfHnZ1VGE74=
+	t=1710950986; cv=none; b=R0dvnXXKh0o4QjF3nCUWWR1X2jpSMj58i0qqQmZP6D3/npJi2JZ7zlb/CX/d8wMd9VZDdjUNaHGblWCmxR29VErjbPFORrhmfj6a38BWEqlJNjG7smd5/skvbW9VGHpz5PkoPVu4twYEqTlc1r5W4BcTrHqsKsq/M+3/ptfl9oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710949227; c=relaxed/simple;
-	bh=yBSdj607UAc5s+hvP7CPVuKFZYFu/uVZGG+qtqxl8+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NFkDPaiiX3vk9yWRW4BCLXUqEEu7vsVrrh/QnRSiv04aTRDGqRWJ2gbd8tL9udI0Ky8moQXU7M8yX6FmHuu9NwJaE6UUp0tIPGs9rFMjupe8s2u5HmUra1q++M5lXnYrXpUBMpJ07YSJfPo+Y/sddcDeajMPF44U/vVQdROyWB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q6wC8N0T; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710950986; c=relaxed/simple;
+	bh=eElWcB41AoBcrw2W6dId5StcFH42yYRYig91JzcJ8qQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rBzG1FyVKkI+je9YiT7nIQo4tSdwUUzd2XtiQSZnyUE3gBZy5IB5WiOMgq1GoLiOZjMI+KKIaz0nvhVZcShVV+2f817KrOp51+V/2sHhCcSyNi/WxGwiMXJPGcW53I2/RSteJR8e3QwgkfiwEqprYXux5H0bgHSoU9W6IyJRzbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rmqTMWnG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q6wC8N0T"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d41d1bedc9so121421681fa.3;
-        Wed, 20 Mar 2024 08:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710949224; x=1711554024; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jxYGnvFML+VTUWkD++QvXGadpkGwkGYbiArVcV37wmI=;
-        b=Q6wC8N0TbpvdQ8+2lbGY6AnO8TbzfuGgOJDNnnaIyyO1lMn4wPdyAObUhr9I6lo2vJ
-         JoayA2WtV49LxGzzXxKni1rXMdK5MdTY/LEZhqBcoGkyuRVefEqVz48p0sC0wkhSz/Pq
-         qOfQndGyWae6/2RKUs7i5pZcSkZNRNhe2zx3J+/jL4tJomvI3QNahQqnngBIpXji4iL5
-         +Cx/cbnn7K/cwC/nC+lbQCqfpitbfzfv6M8lgpr7rInFxHae2O/rS5z0McO3fJpnVKir
-         rG2Q5JBJCrztRqm21meWviO3q3SVvIfy7hGnqlVuSEPIgFqa2l30R6FcAYTnEKQm41Rl
-         h/jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710949224; x=1711554024;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxYGnvFML+VTUWkD++QvXGadpkGwkGYbiArVcV37wmI=;
-        b=OyBmJcNdRzjYhexnX+tuGLRq9aBNTrd8oMXKDjsHD0JES7rffTP9NFdSwUaYx8OPHE
-         16v8gdUXxydNzPHGo7SjBnDmZjNMF0pYkgIdvZrWB2Mu/2j9flEPPpfGNYOFAN74SB2u
-         c4ZWoV0wBhfHb7aW3zMesjCcevpHAjmjX3cYlLCqRMACh7fwY06BTRCL/m8Q/mkPAIhM
-         XNHmmPuQqGvliG4dNXtwMgYQItYFukS8o4yYXF19wg90Blc48BG0SbBOW1e9250eDMAS
-         UWHgK//HiwI5s8VluIGrCnf+u0NCTy8pRHBnopaYeAxOLpCmNIAJ7VwxhMiJj00zfufY
-         GoWw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2ZO8HGxPbpbwah08lqnwwpyUlOp8fmo4U06l+n5BQlkb0JHLQDCMGq7EiK7AsXkxb/wRRv3uBsPPA2ft+gdN26AjyhbUYabqmrgYdK5kaELlHxoaAiqFyqdkyO7h1+4QjaJNINbV2Bg==
-X-Gm-Message-State: AOJu0YzyoRvHzdbZVkT7bZTLNhW/tNUC16IudDRbSWWMh8P5Erfe1L2D
-	jKjB9GWlKeDmCzGTdgTcpb4zgPBAI6Se5kvehcNhHY1wV2IRriQh
-X-Google-Smtp-Source: AGHT+IFkjCDnIG+obH3vpqIoZtlRGajoCZ7GqSL0r6s79HfobNhYOMoOfjpHT3b/0GeCUbIua5NJmg==
-X-Received: by 2002:a05:651c:388:b0:2d4:707d:8b3c with SMTP id e8-20020a05651c038800b002d4707d8b3cmr10212936ljp.18.1710949223984;
-        Wed, 20 Mar 2024 08:40:23 -0700 (PDT)
-Received: from ?IPV6:2001:999:708:5b57:30d6:2195:bb7b:bb94? ([2001:999:708:5b57:30d6:2195:bb7b:bb94])
-        by smtp.gmail.com with ESMTPSA id v23-20020a2e87d7000000b002d2b76dd76esm2196040ljj.57.2024.03.20.08.40.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 08:40:23 -0700 (PDT)
-Message-ID: <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
-Date: Wed, 20 Mar 2024 17:42:05 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rmqTMWnG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B65C433C7;
+	Wed, 20 Mar 2024 16:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710950985;
+	bh=eElWcB41AoBcrw2W6dId5StcFH42yYRYig91JzcJ8qQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rmqTMWnG3wf+0ACqT2qYY6cOhL1XEakoZB3MoiZ6kCRTdM7wPGnZqlDbki7KZReX+
+	 fXNgYPhCRdxxCYkU59i4ZvQCWluxF2XtKaQKParMSlFiKrMCrVsqEATGOOaN9Sb1sy
+	 e+hPcjWbB7oVy3CEFEc9SYharoPVcQ5UII1NQMX71rxBVyvSLhMsPLqjNfS/jXUH6A
+	 5V3tkZ85nbAufQUswK8ZDlE5t00rJ/XuqYv9mQUZx6EMstW5wVsbDShcyUl8IXvqUh
+	 tQN90NgT7fmBMrki+OnsQ7owNSN1U9yM0TUUyw0Z8LFt9URqOcCvnYzUfxB0Frpibm
+	 bZpSuSGHSVuEw==
+Date: Wed, 20 Mar 2024 16:09:38 +0000
+From: Simon Horman <horms@kernel.org>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com, christopher.s.hall@intel.com,
+	jesse.brandeburg@intel.com, davem@davemloft.net,
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com, pandith.n@intel.com,
+	mallikarjunappa.sangannavar@intel.com, subramanian.mohan@intel.com,
+	basavaraj.goudar@intel.com, thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v5 11/11] ABI: pps: Add ABI documentation for Intel TIO
+Message-ID: <20240320160938.GV185808@kernel.org>
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+ <20240319130547.4195-12-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-Content-Language: en-US
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
- <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
- <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319130547.4195-12-lakshmi.sowjanya.d@intel.com>
 
-Hi Bastien,
-
-On 20/03/2024 10:52, Bastien Curutchet wrote:
-> Hi Péter,
+On Tue, Mar 19, 2024 at 06:35:47PM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > 
-> On 3/19/24 19:29, Péter Ujfalusi wrote:
->>
->>
->> On 15/03/2024 13:27, Bastien Curutchet wrote:
->>> The McBSP's DX pin that outputs serial data during playback streams can
->>> be used during capture streams to repeatedly output a chosen pattern.
->>> For instance, this can be useful to drive an active-low signal during
->>> captures (by choosing <0> as output pattern).
->>
->> Are there really any other use of this than to pull down or up the DX
->> pin (0 or 0xffff)
->
-> I don't know, indeed today I can only think about these two patterns.
-> I tried to do something in a 'generic' way so it can evolve if needed.
-
-I think the definition of the 'ti,drive-dx' is somehow odd. It allows
-you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
-32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
-If you have 4 channel capture then I won't speculate what will be on the
-DX pin ;)
-
-Would not be better to say that the DX pin will be driven low or high
-during capture _and_ disable the playback support?
-
+> Document sysfs interface for Intel Timed I/O PPS driver.
 > 
->> If you just use the pin as GPIO then you don't need to change anything
->> in the driver, The playback would not erach the pin, so no need to
->> block it.
->>
->>> Enable this behaviour when the device-tree property 'ti,drive-dx' is
->>> present. DX pin is driven with the provided pattern every time a
->>> capture stream is launched.
->>
->> It is an interesting use of the hardware... You are controlling an
->> external device (light an LED when capture is on)?
-> 
-> Yes I control the chip select pin of the ADC that is sending data to DR
-> pin, that's why I need the DX pin to be synchronized with capture
-> streams.
+> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> ---
+>  Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
 
-I see. Still a a novel use of a feature ;)
+Hi Lakshmi,
 
-> 
->>> This property is not compatible with classic playback stream so
->>> davinci_i2s_trigger() returns an error if a playback stream is started
->>> while 'ti,drive-dx' flag is present.
->>
->> Propbaly add the .startup() callback and block the playback right there?
->>
-> 
-> Ok, TBH my mastery of the sound subsystem is not high enough to have an
-> opinion of where this should go so I'll trust you on this.
-
-It would be more elegant to only create PCM for the capture in this
-case, but I would not bother with it.
-Stopping user right at startup time is second better.
-
->>>
->>> This has been tested on a board designed of a DAVINCI/OMAP-L138 where
->>> the DX pin is linked to the chip select pin of the converters of the
->>> capture side.
->>
->> Isn't the DX will be pulled down as soon as the McBSP is enabled?
->> Can you just re-configure the PUPD_SEL for the pin group to make the pin
->> to be pulled the other way?
->>
-> 
-> Well, the acquisition chain in my use case is a bit convoluted. The DX
-> pin's main purpose is to drive ADC chip select but it is also connected
-> to other components and all this needs synchronization upon captures.
-
-OK, thanks for the explanation.
-
--- 
-Péter
+Please consider adding this new file to the
+PPS SUPPORT section in the MAINTAINERS file.
