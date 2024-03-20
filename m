@@ -1,52 +1,52 @@
 Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5085284;
-	Wed, 20 Mar 2024 18:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590E46A00F
+	for <linux-sound@vger.kernel.org>; Wed, 20 Mar 2024 19:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.235.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710961091; cv=none; b=Jg3Ypif6wf3+cWiDu81C+7p2jzqchqMLJOVWyNuwqHsKVIzeEkbeKsGkXfvJ5esYXfsMYKMNm9JonkSMeDmfDtMYmf8Eb0q0T76c+szftxiTy8wROtaXrTq8zfyhNk/+4SU9dHu/AQNTrDPMlVo2y7HE35eY3yb3XUxKh4trT+c=
+	t=1710961250; cv=none; b=TUnjLBSSPelYMe++UXTorLqQYEFHzhFOsqKcF+pFq8koJz8FGgzZbSBoxE9M9ksKCqGGhBtVzhRMjV8nJuStu0xR6Gbq3elSCzeUkcyix4A4zY/KGb7CBsbFfdOGMncd1W0q+uZvpZv0npvh7UtgWvzbYDH6kylq5nuIFPWxTNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710961091; c=relaxed/simple;
-	bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=efXN3rulYYbGtKPNqLjqSmyG7syThx5/CuvUyQIhRCTs+NdcjvxcDNkg2zWWePm3BOkDDFCrmmo9jWHBYTjMI/8TKqnGW316ug38zZIzXrIJ5QiCOZ6r0HDhAYivIjz0CizWR9FdMGNOG1I/qHpj9Dx7xM2Us0o6c/ekuNRHFuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr; spf=pass smtp.mailfrom=alu.unizg.hr; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=DY+5muLF; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=RiKRQU/J; arc=none smtp.client-ip=161.53.235.3
+	s=arc-20240116; t=1710961250; c=relaxed/simple;
+	bh=lPzMDtOJu7AylTdfoGojNib+QZW/x2guHIX1y8d48aw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Erl3QiCsGmrPcrIhSt7wz9P+LqI7GtSdcc4vOIUe8u3Bc4BOhPMzTH1CYQZx0xoba024PEs1F0IcFIWS8k4ZQGU1urR5DJNKRC/IPxIGhuxaXtXqXnWCrkKG9NVuMwrJRQHBw42DpnA+CyCo8MLbP+EgqLZ02gLjJ8J8YwKuRq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr; spf=pass smtp.mailfrom=alu.unizg.hr; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=fdT0z8Vo; dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b=EFVbx3I6; arc=none smtp.client-ip=161.53.235.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.unizg.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="DY+5muLF";
-	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="RiKRQU/J"
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="fdT0z8Vo";
+	dkim=pass (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="EFVbx3I6"
 Received: from localhost (localhost [127.0.0.1])
-	by domac.alu.hr (Postfix) with ESMTP id 5E3DE60177;
-	Wed, 20 Mar 2024 19:58:01 +0100 (CET)
+	by domac.alu.hr (Postfix) with ESMTP id 0993B6019C;
+	Wed, 20 Mar 2024 20:00:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-	t=1710961081; bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DY+5muLFNrPwcksLBq7MWz5d1e/rcJ4qwHefTd1WzJK5/jfRoHtTP7pnBQTLff25L
-	 EB1tiIYlZI/ZeVqRIYl/bxf4CobnAVouVGO0PteTqEuT4DTACxoirQ2eIcsi+m+A71
-	 41x4K5nmiJB26Roba/+kJaHhauaYfldAB2AJpjO0Nj1U9vZ+zSEpbU8CbPRlsntk6J
-	 Dq2zM7nUODtQ1apEPQdF8Wi1t//CYW7Z3oYkIqaRyCX9kKwjtdSzSqiF9wh8lF+edM
-	 IrvqV3LP4dmMm+zyvUjO2cklxK7ucX5j+6vj9Vput7Yq1uKxUxXscn7AZfmsTh2dkN
-	 Rld9TXENxq0Rw==
+	t=1710961244; bh=lPzMDtOJu7AylTdfoGojNib+QZW/x2guHIX1y8d48aw=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=fdT0z8Vo3GtHxZ2p7Wh41OB3SyI4tkFPW7xnW0DFI+zA/76pjKdLFv/KpLgd41xO8
+	 DvxgrB9cH7SAEvE+sXJpjt3KjvsZm0d+J8SSQFJ/0AprcpnQ1qqNykEKUMYTU9SD6J
+	 QUUkVl9TaIaK2qLCplNI4YAH9wFktcPciYafekjOAfkhEob1y/7m5IHoEAISKIhrUP
+	 VWTD5k/qaBB2fB2FQaqmQGsad9W5Wfn2f8XZ7+2WmJlGyV+2D0HCyL+FwE1F1hW/Hl
+	 xVngMKTBEl5EkyNDdDx4esP2gbnCuSGsCpGNqZt1oLUSXvL9aUnFZ9LcYWF8uudYyC
+	 VaFBMrneh3idQ==
 X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
 Received: from domac.alu.hr ([127.0.0.1])
 	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MpvGs34--TU3; Wed, 20 Mar 2024 19:57:52 +0100 (CET)
+	with ESMTP id I_9rNAHq1nJ3; Wed, 20 Mar 2024 20:00:33 +0100 (CET)
 Received: from [192.168.178.20] (dh207-43-75.xnet.hr [88.207.43.75])
-	by domac.alu.hr (Postfix) with ESMTPSA id 769806015E;
-	Wed, 20 Mar 2024 19:57:51 +0100 (CET)
+	by domac.alu.hr (Postfix) with ESMTPSA id D5A3A6015E;
+	Wed, 20 Mar 2024 20:00:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-	t=1710961072; bh=cTN3MDWduNZ2VVH6OHDT0Y/oKmYN/zt5QKvqDfh2tgk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RiKRQU/JAwmyZpGYCdlRCJ7opfNiRahL08pQC7ORYlcFB2ifFBOaS6dB86vfCHcCl
-	 vAKAvbyVs7WLR4JMv3MsXsz0FKnS982GjvyhW99Sy1+RDDpXZryKRDstvLzuJGcKoI
-	 a+iwrrSmYt8rg0X3yxg5D1CQMUdHU1jjHbxmw78MsYlsGg0LY69YSfOE262qKVS55n
-	 SY7hMkxK8+HsD/m3C6//XH5lqcWDTaOapNNey1Ti1wK6Hl7R8g6PQ5R4CWj/isKP9k
-	 bbWiILDZ5t08pTq000Fg2CqHGJTMY+G8IF3MgXMiyWOhZWirCjgh53cehuc/prB05Y
-	 9Ob/LvMqzl7MA==
-Message-ID: <e0441a7a-b76f-42e7-8ad4-9ba00327c2ca@alu.unizg.hr>
-Date: Wed, 20 Mar 2024 19:57:45 +0100
+	t=1710961233; bh=lPzMDtOJu7AylTdfoGojNib+QZW/x2guHIX1y8d48aw=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=EFVbx3I6guNWDBySPlWnzi2DnRFLwXNWiHxOdrvyiBaOD5VElbIS4E+PKnn5FevZF
+	 zUoqvbDz1YCLC5Swlmd5lvg8A4JPGSUm7XONMEdktLA1ft8zCGwKGvFve2NM3N4BO3
+	 SPnqS40PFmn/Efa0X51qHLXjDri1bRa/sccITAX+tEYdCH1hXxGfQ10g6cvwxAh7UI
+	 lX7sKLtfOZ+fOoc+RnotBFGCySk0KN8TK1td9lxdsK2z7CVqGG6f+3+Nitn5A4rao8
+	 Ka/JqcpGkHd2+QaVGSJb12e03rO8vQCjynzZVWRydbWrcxoLvGu5IGMYgRiUrGieFM
+	 6vuGNlUO2T4IQ==
+Message-ID: <3ff7296f-b53f-443e-8188-f102707f9593@alu.unizg.hr>
+Date: Wed, 20 Mar 2024 20:00:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,62 +54,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] alsa: KMEMLEAK in pulseaudio and alsa-sink-ALC89
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Curtis Malainey <cujomalainey@chromium.org>,
- linux-kernel@vger.kernel.org
-References: <c1e2ef3c-164f-4840-9b1c-f7ca07ca422a@alu.unizg.hr>
- <87wmpxto4g.wl-tiwai@suse.de>
+Subject: Re: [PATCH] ALSA: control: Fix unannotated kfree() cleanup
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20240320062722.31325-1-tiwai@suse.de>
 Content-Language: en-US
 From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <87wmpxto4g.wl-tiwai@suse.de>
+In-Reply-To: <20240320062722.31325-1-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/20/24 07:26, Takashi Iwai wrote:
-> On Wed, 20 Mar 2024 02:13:08 +0100,
-> Mirsad Todorovac wrote:
->>
->> Hi,
->>
->> On Ubuntu 22.04 LTS, with the torvalds tree kernel vanilla v6.8-11167-g4438a810f396,
->> there is like 660K memory leaks sized 2048 bytes (1.35 GB)
->>
->> unreferenced object 0xffff919c43c7c800 (size 2048):
->> unreferenced object 0xffff919c43c78000 (size 2048):
->> unreferenced object 0xffff919c43c79800 (size 2048):
->> root@defiant:/home/marvin/linux/kernel/linux_torvalds# grep size ~marvin/linux/kernel_bugs/v6.8-11167/kmemleak.log | wc -l
->> 663265
->> root@defiant:/home/marvin/linux/kernel/linux_torvalds#
->>
->> Please find the .config attached.
->>
->> The kmemleak output is:
->>
->> unreferenced object 0xffff9199526ba800 (size 2048):
->>    comm "pulseaudio", pid 2533, jiffies 4294900352
->>    hex dump (first 32 bytes):
->>      04 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00  ................
->>      49 45 43 39 35 38 20 50 6c 61 79 62 61 63 6b 20  IEC958 Playback
->>    backtrace (crc 87c1dcdc):
->>      [<ffffffffb2fa477b>] kmemleak_alloc+0x4b/0x90
->>      [<ffffffffb210e517>] __kmalloc_node_track_caller+0x3c7/0x530
->>      [<ffffffffb20a102b>] memdup_user+0x2b/0xb0
->>      [<ffffffffc0746d56>] snd_ctl_ioctl+0x726/0x860 [snd]
->>      [<ffffffffb21bed6d>] __x64_sys_ioctl+0x9d/0xe0
->>      [<ffffffffb2f93d33>] do_syscall_64+0x83/0x150
->>      [<ffffffffb3000121>] entry_SYSCALL_64_after_hwframe+0x6c/0x74
+On 3/20/24 07:27, Takashi Iwai wrote:
+> The recent conversion to the automatic kfree() forgot to mark a
+> variable with __free(kfree), leading to memory leaks.  Fix it.
 > 
-> Thanks for the report.  This was indeed an overlooked marking of
-> __free(kfree).  I'll submit the fix patch.
+> Fixes: 1052d9882269 ("ALSA: control: Use automatic cleanup of kfree()")
+> Reported-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+> Closes: https://lore.kernel.org/r/c1e2ef3c-164f-4840-9b1c-f7ca07ca422a@alu.unizg.hr
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>   sound/core/control.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Takashi
+> diff --git a/sound/core/control.c b/sound/core/control.c
+> index 8367fd485371..fb0c60044f7b 100644
+> --- a/sound/core/control.c
+> +++ b/sound/core/control.c
+> @@ -1275,12 +1275,12 @@ static int snd_ctl_elem_read(struct snd_card *card,
+>   static int snd_ctl_elem_read_user(struct snd_card *card,
+>   				  struct snd_ctl_elem_value __user *_control)
+>   {
+> -	struct snd_ctl_elem_value *control;
+> +	struct snd_ctl_elem_value *control __free(kfree) = NULL;
+>   	int result;
+>   
+>   	control = memdup_user(_control, sizeof(*control));
+>   	if (IS_ERR(control))
+> -		return PTR_ERR(control);
+> +		return PTR_ERR(no_free_ptr(control));
+>   
+>   	result = snd_ctl_elem_read(card, control);
+>   	if (result < 0)
 
-Not at all, thanks for such an early response.
+Hi,
 
-I understand the problems with the incremental development. Actually, great it was caught before
-the release ;-)
+Thanks for the fix at such a short notice.
+
+Just re-ran the kselftests for alsa, so far no kmemleak.
+
+The test was done in the same environment, Ubuntu 22.04 LTS with torvalds tree kernel
+(vanilla v6.8-11743-ga4145ce1e7bc + fixes).
+
+You can add:
+
+Tested-by: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+
+at your convenience.
 
 Best regards,
 Mirsad Todorovac
