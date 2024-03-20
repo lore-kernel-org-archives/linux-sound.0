@@ -1,1031 +1,119 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C958564A;
-	Wed, 20 Mar 2024 19:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9129CE8;
+	Wed, 20 Mar 2024 20:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710963040; cv=none; b=U2+gZnH0pLy1Cm3iEThEROstsVkTkl72+fiNJlhHSwHSe4hY4ukDmwEfaYT2Lt8tZAmZ4FozYb41WSq/K4+v2HzFDV9gsx1cQTccdiH3hk+wv5QfJMZSpKMT9T3SMb7UjH4AGU99sCXJFoFeogRwtOKXgdYYL2S5rnRKiYo+Ef0=
+	t=1710966559; cv=none; b=E56Stp+SCaYb1KfMG25ksE2+Yaafr7TATLNlhc2irVB2Oz5txkLwhyEtdR/TuMd7s5X1D4jP2EEbfpd5UivGwkjd/yrkSNwp/HPQ0a30DC4Je61wHeDVMhz8vqM7+X/MjQxu6nbbXq//zAwPjit3dQiFXOYDyVkck70/ucGK03I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710963040; c=relaxed/simple;
-	bh=+VOo0YYRyBshkLPrUMPUcz2XGjWBvD8KRu++MdJSE/Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dRA64bArHj9QbuX9paffH/sNaHPKKuDMFie9qjobg5mf2Z8dQt5xxfcynBtKY7oJVNmNqQyAbRjKdP0g1K0frFSier2XLg1wOOlBOnR5L1CeWCF6bJsAvyBS6OmVJLDdSvHw9jdJYUaARzVBTDbrcJoWIfViqpHhVWoY9GT9H5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=oVB4yUOu; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1710966559; c=relaxed/simple;
+	bh=sibqcgVk69cAWwUp5fELHFPqFKZCzweuaYfOTBxCD6o=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=PtW7htaMg/FnLKT3HGfAJmsGkanWm6ZAVPXu65pK508cxUXuAbGh6ZF+tYMl7Y/I1RDdWcJsfl5C3nCAJeu4v3K5US9BleeJbANJpZAEztCgSduC9IJ6fLDNFU9H3JckYEhD+e/enb5JSPepmNH44BBk2KJ4J+iQue11qD4M3Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ly5E8on/; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="oVB4yUOu"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42KITVQu019806;
-	Wed, 20 Mar 2024 14:30:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=9riPzcKKiMQZeV/ofG1Vx73cq95VL7RPbwW2+jnBctA=; b=
-	oVB4yUOuPEqCyK6+ndbTwyqqbgFPChdwqyLIwYXUWwqjMezbpNjGhbEck1pIYERf
-	EqrFNQMiXaq86otukJoDs0mNH+809io1qEGme9UQNR8TgY8/GFreG1uThqU7jiKT
-	XPwVk557z14t/MtQ2EM1Po9VUjfOi/Sky67UjR5wjAxcSxQCHwJ540ivnbv583+y
-	mfw3YuLNbwVfM14GzSIsNCygz7wmiDR5neQBp9dQeWCb2LUQ54X5mahN3AZwn8Pi
-	3dAPcrBuMGcSZVzsKYX8w4QRBPd/vGQ67UHHqwtLUTLUg97q5SDCnMaXe5eDcM+X
-	0ATTRcSce9drIkGWBGpeYA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ww7uj5dwf-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Mar 2024 14:30:18 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 20 Mar
- 2024 19:30:18 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.4 via Frontend Transport; Wed, 20 Mar 2024 19:30:18 +0000
-Received: from aus-sw-rshr002.ad.cirrus.com (aus-sw-rshr002.ad.cirrus.com [141.131.145.53])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7DA8C820246;
-	Wed, 20 Mar 2024 19:30:16 +0000 (UTC)
-From: James Ogletree <jogletre@opensource.cirrus.com>
-To: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
-CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        James Ogletree
-	<jogletre@opensource.cirrus.com>
-Subject: [PATCH v10 3/5] mfd: cs40l50: Add support for CS40L50 core driver
-Date: Wed, 20 Mar 2024 19:29:54 +0000
-Message-ID: <20240320192956.2395731-4-jogletre@opensource.cirrus.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
-References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ly5E8on/"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-513d599dbabso348498e87.1;
+        Wed, 20 Mar 2024 13:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710966556; x=1711571356; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Dvd7/K/iPH6D09kkHMbkBRJCLxovJRz+5X5JeM9cC40=;
+        b=ly5E8on/KPPjFjwvSaSEAmef/5FTEnJUr40nDBBV2TV0moKWqXDVO7ZZ5pX/7xg+rZ
+         dnq8HX0ikU6MGnuvuuB6htcGI3ybwGOqYyI9fZars43ZGoiOX4xNqVSkOHWTYs8VBZbx
+         hkQOGGHZJRVZUi1Hcq1gEzkxgCWbhKAQG5quZ9q7gbFvgc7vr97xIu+OJUFFdCIHX5rb
+         FmOGPoNvxCR0TAV3RKOd9qhpxdOCo5EfWgUiWHYSu1M+rmkatYfJSgHQr8GoqhjolScn
+         Eqz0o9ntYKrVkbCzlSrqvtuQd+wnyByFecxwzhZXfQ/paH9h+JqRN/nG9JSgFUbMa5Ij
+         YGfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710966556; x=1711571356;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dvd7/K/iPH6D09kkHMbkBRJCLxovJRz+5X5JeM9cC40=;
+        b=GW+ODPBSQtbDNIzgDN/3ZtMyj2UOi+W2wEN7Po4O94prqDVj2tjpG1vYit72YnrARu
+         x6BAynNJUqqY3kKhgQH6r41kE/SKzYLnes1k5IIbhQaQJn0bDm5QKak8Foonw5ewW9Rz
+         hX2RvA/6zrav77sBY5Af9Ck5x1W8vzd/zFOInN+v/Oz6VxVrpAa1dadI2VpvwXRv8XfH
+         XSj2aOGio1kr6ufAHvSpUf554u0LvsPo4oF0qX/jjBXGkmYD5lZ2G4F8podBuiulEBuX
+         Ob3xoJMuL6l8kV17Mxl9/zszSFbNu1bAwNvoPuEL6XCm+9kJD9XPqxsSQ6ZSM8F0/3tj
+         2cAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX69+DTh7en9/i9ZJdqiEbnSwo1ZZwxJov9+JSVP894DcEHpdgimwZ4LTia2dVBU0vb/xgaILKGMIm1oXx4CACH2GLX44Zi7p8PjE4yqpyx2nvTs9O/xYv6XusYqPlDa9wjx2acBHr0uQ==
+X-Gm-Message-State: AOJu0YwNbakOUg8M5TQTf8IE35tV3st0n6KC3Vf7mAL7swxb9zzrgpwF
+	IZqryDlIcKnD4+Vuo/5zPjoHQ9SdU9Cp5SMve0UAEBTcsRpL292f0rvlw+HzStrfOjzD
+X-Google-Smtp-Source: AGHT+IGeAB6MCS1rA/ycdxQ22gDA1FTucn7CNo0Yl14vI1V2G3iGJZh5xoX+yAWkcX+Cye2/GFrHmw==
+X-Received: by 2002:a19:f803:0:b0:512:ed8e:97ce with SMTP id a3-20020a19f803000000b00512ed8e97cemr5087582lff.16.1710966555838;
+        Wed, 20 Mar 2024 13:29:15 -0700 (PDT)
+Received: from [10.0.0.100] (host-85-29-76-118.kaisa-laajakaista.fi. [85.29.76.118])
+        by smtp.gmail.com with ESMTPSA id q5-20020ac25145000000b00512e594e235sm2348058lfd.242.2024.03.20.13.29.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Mar 2024 13:29:15 -0700 (PDT)
+Message-ID: <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
+Date: Wed, 20 Mar 2024 22:30:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
+ during capture streams
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-14-bastien.curutchet@bootlin.com>
+ <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
+ <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
+ <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
+Content-Language: en-US
+In-Reply-To: <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: IhqmMoyHbbGOrwxwbsFrCNbem0IBl8Xn
-X-Proofpoint-GUID: IhqmMoyHbbGOrwxwbsFrCNbem0IBl8Xn
-X-Proofpoint-Spam-Reason: safe
 
-Introduce support for Cirrus Logic Device CS40L50: a
-haptic driver with waveform memory, integrated DSP,
-and closed-loop algorithms.
 
-The MFD component registers and initializes the device.
 
-Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
----
- MAINTAINERS                 |   2 +
- drivers/mfd/Kconfig         |  30 ++
- drivers/mfd/Makefile        |   4 +
- drivers/mfd/cs40l50-core.c  | 570 ++++++++++++++++++++++++++++++++++++
- drivers/mfd/cs40l50-i2c.c   |  68 +++++
- drivers/mfd/cs40l50-spi.c   |  68 +++++
- include/linux/mfd/cs40l50.h | 137 +++++++++
- 7 files changed, 879 insertions(+)
- create mode 100644 drivers/mfd/cs40l50-core.c
- create mode 100644 drivers/mfd/cs40l50-i2c.c
- create mode 100644 drivers/mfd/cs40l50-spi.c
- create mode 100644 include/linux/mfd/cs40l50.h
+On 20/03/2024 17:42, Péter Ujfalusi wrote:
+>>> On 15/03/2024 13:27, Bastien Curutchet wrote:
+>>>> The McBSP's DX pin that outputs serial data during playback streams can
+>>>> be used during capture streams to repeatedly output a chosen pattern.
+>>>> For instance, this can be useful to drive an active-low signal during
+>>>> captures (by choosing <0> as output pattern).
+>>>
+>>> Are there really any other use of this than to pull down or up the DX
+>>> pin (0 or 0xffff)
+>>
+>> I don't know, indeed today I can only think about these two patterns.
+>> I tried to do something in a 'generic' way so it can evolve if needed.
+> 
+> I think the definition of the 'ti,drive-dx' is somehow odd. It allows
+> you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
+> 32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
+> If you have 4 channel capture then I won't speculate what will be on the
+> DX pin ;)
+> 
+> Would not be better to say that the DX pin will be driven low or high
+> during capture _and_ disable the playback support?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 862a18e3fc7b..e804f3766cba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4940,6 +4940,8 @@ M:	Ben Bright <ben.bright@cirrus.com>
- L:	patches@opensource.cirrus.com
- S:	Supported
- F:	Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
-+F:	drivers/mfd/cs40l*
-+F:	include/linux/mfd/cs40l*
- 
- CIRRUS LOGIC DSP FIRMWARE DRIVER
- M:	Simon Trimmer <simont@opensource.cirrus.com>
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 90ce58fd629e..6273c255f107 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -2241,6 +2241,36 @@ config MCP_UCB1200_TS
- 
- endmenu
- 
-+config MFD_CS40L50_CORE
-+	tristate
-+	select MFD_CORE
-+	select FW_CS_DSP
-+	select REGMAP_IRQ
-+
-+config MFD_CS40L50_I2C
-+	tristate "Cirrus Logic CS40L50 (I2C)"
-+	select REGMAP_I2C
-+	select MFD_CS40L50_CORE
-+	depends on I2C
-+	help
-+	  Select this to support the Cirrus Logic CS40L50 Haptic
-+	  Driver over I2C.
-+
-+	  This driver can be built as a module. If built as a module it will be
-+	  called "cs40l50-i2c".
-+
-+config MFD_CS40L50_SPI
-+	tristate "Cirrus Logic CS40L50 (SPI)"
-+	select REGMAP_SPI
-+	select MFD_CS40L50_CORE
-+	depends on SPI
-+	help
-+	  Select this to support the Cirrus Logic CS40L50 Haptic
-+	  Driver over SPI.
-+
-+	  This driver can be built as a module. If built as a module it will be
-+	  called "cs40l50-spi".
-+
- config MFD_VEXPRESS_SYSREG
- 	tristate "Versatile Express System Registers"
- 	depends on VEXPRESS_CONFIG && GPIOLIB
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index c66f07edcd0e..a8d18ba155d0 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -88,6 +88,10 @@ obj-$(CONFIG_MFD_MADERA)	+= madera.o
- obj-$(CONFIG_MFD_MADERA_I2C)	+= madera-i2c.o
- obj-$(CONFIG_MFD_MADERA_SPI)	+= madera-spi.o
- 
-+obj-$(CONFIG_MFD_CS40L50_CORE)	+= cs40l50-core.o
-+obj-$(CONFIG_MFD_CS40L50_I2C)	+= cs40l50-i2c.o
-+obj-$(CONFIG_MFD_CS40L50_SPI)	+= cs40l50-spi.o
-+
- obj-$(CONFIG_TPS6105X)		+= tps6105x.o
- obj-$(CONFIG_TPS65010)		+= tps65010.o
- obj-$(CONFIG_TPS6507X)		+= tps6507x.o
-diff --git a/drivers/mfd/cs40l50-core.c b/drivers/mfd/cs40l50-core.c
-new file mode 100644
-index 000000000000..34d0b1cfc486
---- /dev/null
-+++ b/drivers/mfd/cs40l50-core.c
-@@ -0,0 +1,570 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CS40L50 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2024 Cirrus Logic, Inc.
-+ *
-+ * Author: James Ogletree <james.ogletree@cirrus.com>
-+ */
-+
-+#include <linux/firmware/cirrus/cs_dsp.h>
-+#include <linux/firmware/cirrus/wmfw.h>
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/cs40l50.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+
-+static const struct mfd_cell cs40l50_devs[] = {
-+	{ .name = "cs40l50-codec", },
-+	{ .name = "cs40l50-vibra", },
-+};
-+
-+const struct regmap_config cs40l50_regmap = {
-+	.reg_bits =		32,
-+	.reg_stride =		4,
-+	.val_bits =		32,
-+	.reg_format_endian =	REGMAP_ENDIAN_BIG,
-+	.val_format_endian =	REGMAP_ENDIAN_BIG,
-+};
-+EXPORT_SYMBOL_GPL(cs40l50_regmap);
-+
-+static const char * const cs40l50_supplies[] = {
-+	"vdd-io",
-+};
-+
-+static const struct regmap_irq cs40l50_reg_irqs[] = {
-+	REGMAP_IRQ_REG(CS40L50_DSP_QUEUE_IRQ, CS40L50_IRQ1_INT_2_OFFSET,
-+		       CS40L50_DSP_QUEUE_MASK),
-+	REGMAP_IRQ_REG(CS40L50_AMP_SHORT_IRQ, CS40L50_IRQ1_INT_1_OFFSET,
-+		       CS40L50_AMP_SHORT_MASK),
-+	REGMAP_IRQ_REG(CS40L50_TEMP_ERR_IRQ, CS40L50_IRQ1_INT_8_OFFSET,
-+		       CS40L50_TEMP_ERR_MASK),
-+	REGMAP_IRQ_REG(CS40L50_BST_UVP_IRQ, CS40L50_IRQ1_INT_9_OFFSET,
-+		       CS40L50_BST_UVP_MASK),
-+	REGMAP_IRQ_REG(CS40L50_BST_SHORT_IRQ, CS40L50_IRQ1_INT_9_OFFSET,
-+		       CS40L50_BST_SHORT_MASK),
-+	REGMAP_IRQ_REG(CS40L50_BST_ILIMIT_IRQ, CS40L50_IRQ1_INT_9_OFFSET,
-+		       CS40L50_BST_ILIMIT_MASK),
-+	REGMAP_IRQ_REG(CS40L50_UVLO_VDDBATT_IRQ, CS40L50_IRQ1_INT_10_OFFSET,
-+		       CS40L50_UVLO_VDDBATT_MASK),
-+	REGMAP_IRQ_REG(CS40L50_GLOBAL_ERROR_IRQ, CS40L50_IRQ1_INT_18_OFFSET,
-+		       CS40L50_GLOBAL_ERROR_MASK),
-+};
-+
-+static struct regmap_irq_chip cs40l50_irq_chip = {
-+	.name =		"cs40l50",
-+	.status_base =	CS40L50_IRQ1_INT_1,
-+	.mask_base =	CS40L50_IRQ1_MASK_1,
-+	.ack_base =	CS40L50_IRQ1_INT_1,
-+	.num_regs =	22,
-+	.irqs =		cs40l50_reg_irqs,
-+	.num_irqs =	ARRAY_SIZE(cs40l50_reg_irqs),
-+	.runtime_pm =	true,
-+};
-+
-+int cs40l50_dsp_write(struct device *dev, struct regmap *regmap, u32 val)
-+{
-+	int i, ret;
-+	u32 ack;
-+
-+	/* Device NAKs if hibernating, so optionally retry */
-+	for (i = 0; i < CS40L50_DSP_TIMEOUT_COUNT; i++) {
-+		ret = regmap_write(regmap, CS40L50_DSP_QUEUE, val);
-+		if (!ret)
-+			break;
-+
-+		usleep_range(CS40L50_DSP_POLL_US, CS40L50_DSP_POLL_US + 100);
-+	}
-+
-+	/* If write never occurred, don't bother polling for ACK */
-+	if (i == CS40L50_DSP_TIMEOUT_COUNT) {
-+		dev_err(dev, "Timed out writing %#X to DSP: %d\n", val, ret);
-+		return ret;
-+	}
-+
-+	ret = regmap_read_poll_timeout(regmap, CS40L50_DSP_QUEUE, ack, !ack,
-+				       CS40L50_DSP_POLL_US,
-+				       CS40L50_DSP_POLL_US * CS40L50_DSP_TIMEOUT_COUNT);
-+	if (ret)
-+		dev_err(dev, "DSP failed to ACK %#X: %d\n", val, ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cs40l50_dsp_write);
-+
-+static const struct cs_dsp_region cs40l50_dsp_regions[] = {
-+	{ .type = WMFW_HALO_PM_PACKED, .base = CS40L50_PMEM_0 },
-+	{ .type = WMFW_HALO_XM_PACKED, .base = CS40L50_XMEM_PACKED_0 },
-+	{ .type = WMFW_HALO_YM_PACKED, .base = CS40L50_YMEM_PACKED_0 },
-+	{ .type = WMFW_ADSP2_XM, .base = CS40L50_XMEM_UNPACKED24_0 },
-+	{ .type = WMFW_ADSP2_YM, .base = CS40L50_YMEM_UNPACKED24_0 },
-+};
-+
-+static const struct reg_sequence cs40l50_internal_vamp_config[] = {
-+	{ CS40L50_BST_LPMODE_SEL, CS40L50_DCM_LOW_POWER },
-+	{ CS40L50_BLOCK_ENABLES2, CS40L50_OVERTEMP_WARN },
-+};
-+
-+static const struct reg_sequence cs40l50_irq_mask_override[] = {
-+	{ CS40L50_IRQ1_MASK_2, CS40L50_IRQ_MASK_2_OVERRIDE },
-+	{ CS40L50_IRQ1_MASK_20, CS40L50_IRQ_MASK_20_OVERRIDE },
-+};
-+
-+static int cs40l50_wseq_init(struct cs40l50 *cs40l50)
-+{
-+	struct cs_dsp *dsp = &cs40l50->dsp;
-+
-+	cs40l50->wseqs[CS40L50_STANDBY].ctl = cs_dsp_get_ctl(dsp, "STANDBY_SEQUENCE",
-+							     WMFW_ADSP2_XM,
-+							     CS40L50_PM_ALGO);
-+	if (!cs40l50->wseqs[CS40L50_STANDBY].ctl) {
-+		dev_err(cs40l50->dev, "Control not found for standby sequence\n");
-+		return -ENOENT;
-+	}
-+
-+	cs40l50->wseqs[CS40L50_ACTIVE].ctl = cs_dsp_get_ctl(dsp, "ACTIVE_SEQUENCE",
-+							    WMFW_ADSP2_XM,
-+							    CS40L50_PM_ALGO);
-+	if (!cs40l50->wseqs[CS40L50_ACTIVE].ctl) {
-+		dev_err(cs40l50->dev, "Control not found for active sequence\n");
-+		return -ENOENT;
-+	}
-+
-+	cs40l50->wseqs[CS40L50_PWR_ON].ctl = cs_dsp_get_ctl(dsp, "PM_PWR_ON_SEQ",
-+							    WMFW_ADSP2_XM,
-+							    CS40L50_PM_ALGO);
-+	if (!cs40l50->wseqs[CS40L50_PWR_ON].ctl) {
-+		dev_err(cs40l50->dev, "Control not found for power-on sequence\n");
-+		return -ENOENT;
-+	}
-+
-+	return cs_dsp_wseq_init(&cs40l50->dsp, cs40l50->wseqs, ARRAY_SIZE(cs40l50->wseqs));
-+}
-+
-+static int cs40l50_dsp_config(struct cs40l50 *cs40l50)
-+{
-+	int ret;
-+
-+	/* Configure internal V_AMP supply */
-+	ret = regmap_multi_reg_write(cs40l50->regmap, cs40l50_internal_vamp_config,
-+				     ARRAY_SIZE(cs40l50_internal_vamp_config));
-+	if (ret)
-+		return ret;
-+
-+	ret = cs_dsp_wseq_multi_write(&cs40l50->dsp, &cs40l50->wseqs[CS40L50_PWR_ON],
-+				      cs40l50_internal_vamp_config, CS_DSP_WSEQ_FULL,
-+				      ARRAY_SIZE(cs40l50_internal_vamp_config), false);
-+	if (ret)
-+		return ret;
-+
-+	/* Override firmware defaults for IRQ masks */
-+	ret = regmap_multi_reg_write(cs40l50->regmap, cs40l50_irq_mask_override,
-+				     ARRAY_SIZE(cs40l50_irq_mask_override));
-+	if (ret)
-+		return ret;
-+
-+	return cs_dsp_wseq_multi_write(&cs40l50->dsp, &cs40l50->wseqs[CS40L50_PWR_ON],
-+				       cs40l50_irq_mask_override, CS_DSP_WSEQ_FULL,
-+				       ARRAY_SIZE(cs40l50_irq_mask_override), false);
-+}
-+
-+static int cs40l50_dsp_post_run(struct cs_dsp *dsp)
-+{
-+	struct cs40l50 *cs40l50 = container_of(dsp, struct cs40l50, dsp);
-+	int ret;
-+
-+	ret = cs40l50_wseq_init(cs40l50);
-+	if (ret)
-+		return ret;
-+
-+	ret = cs40l50_dsp_config(cs40l50);
-+	if (ret) {
-+		dev_err(cs40l50->dev, "Failed to configure DSP: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = devm_mfd_add_devices(cs40l50->dev, PLATFORM_DEVID_NONE, cs40l50_devs,
-+				   ARRAY_SIZE(cs40l50_devs), NULL, 0, NULL);
-+	if (ret)
-+		dev_err(cs40l50->dev, "Failed to add child devices: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static const struct cs_dsp_client_ops client_ops = {
-+	.post_run = cs40l50_dsp_post_run,
-+};
-+
-+static void cs40l50_dsp_remove(void *data)
-+{
-+	cs_dsp_remove(data);
-+}
-+
-+static int cs40l50_dsp_init(struct cs40l50 *cs40l50)
-+{
-+	int ret;
-+
-+	cs40l50->dsp.num = 1;
-+	cs40l50->dsp.type = WMFW_HALO;
-+	cs40l50->dsp.dev = cs40l50->dev;
-+	cs40l50->dsp.regmap = cs40l50->regmap;
-+	cs40l50->dsp.base = CS40L50_CORE_BASE;
-+	cs40l50->dsp.base_sysinfo = CS40L50_SYS_INFO_ID;
-+	cs40l50->dsp.mem = cs40l50_dsp_regions;
-+	cs40l50->dsp.num_mems = ARRAY_SIZE(cs40l50_dsp_regions);
-+	cs40l50->dsp.no_core_startstop = true;
-+	cs40l50->dsp.client_ops = &client_ops;
-+
-+	ret = cs_dsp_halo_init(&cs40l50->dsp);
-+	if (ret)
-+		return ret;
-+
-+	return devm_add_action_or_reset(cs40l50->dev, cs40l50_dsp_remove,
-+					&cs40l50->dsp);
-+}
-+
-+static int cs40l50_reset_dsp(struct cs40l50 *cs40l50)
-+{
-+	int ret;
-+
-+	mutex_lock(&cs40l50->lock);
-+
-+	if (cs40l50->dsp.running)
-+		cs_dsp_stop(&cs40l50->dsp);
-+
-+	if (cs40l50->dsp.booted)
-+		cs_dsp_power_down(&cs40l50->dsp);
-+
-+	ret = cs40l50_dsp_write(cs40l50->dev, cs40l50->regmap, CS40L50_SHUTDOWN);
-+	if (ret)
-+		goto err_mutex;
-+
-+	ret = cs_dsp_power_up(&cs40l50->dsp, cs40l50->fw, "cs40l50.wmfw",
-+			      cs40l50->bin, "cs40l50.bin", "cs40l50");
-+	if (ret)
-+		goto err_mutex;
-+
-+	ret = cs40l50_dsp_write(cs40l50->dev, cs40l50->regmap, CS40L50_SYSTEM_RESET);
-+	if (ret)
-+		goto err_mutex;
-+
-+	ret = cs40l50_dsp_write(cs40l50->dev, cs40l50->regmap, CS40L50_PREVENT_HIBER);
-+	if (ret)
-+		goto err_mutex;
-+
-+	ret = cs_dsp_run(&cs40l50->dsp);
-+err_mutex:
-+	mutex_unlock(&cs40l50->lock);
-+
-+	return ret;
-+}
-+
-+static void cs40l50_dsp_power_down(void *data)
-+{
-+	cs_dsp_power_down(data);
-+}
-+
-+static void cs40l50_dsp_stop(void *data)
-+{
-+	cs_dsp_stop(data);
-+}
-+
-+static void cs40l50_dsp_bringup(const struct firmware *bin, void *context)
-+{
-+	struct cs40l50 *cs40l50 = context;
-+	u32 nwaves;
-+	int ret;
-+
-+	/* Wavetable is optional; bringup DSP regardless */
-+	cs40l50->bin = bin;
-+
-+	ret = cs40l50_reset_dsp(cs40l50);
-+	if (ret) {
-+		dev_err(cs40l50->dev, "Failed to reset DSP: %d\n", ret);
-+		goto err_fw;
-+	}
-+
-+	ret = regmap_read(cs40l50->regmap, CS40L50_NUM_WAVES, &nwaves);
-+	if (ret)
-+		goto err_fw;
-+
-+	dev_info(cs40l50->dev, "%u RAM effects loaded\n", nwaves);
-+
-+	/* Add teardown actions for first-time bringup */
-+	ret = devm_add_action_or_reset(cs40l50->dev, cs40l50_dsp_power_down,
-+				       &cs40l50->dsp);
-+	if (ret) {
-+		dev_err(cs40l50->dev, "Failed to add power down action: %d\n", ret);
-+		goto err_fw;
-+	}
-+
-+	ret = devm_add_action_or_reset(cs40l50->dev, cs40l50_dsp_stop, &cs40l50->dsp);
-+	if (ret)
-+		dev_err(cs40l50->dev, "Failed to add stop action: %d\n", ret);
-+err_fw:
-+	release_firmware(cs40l50->bin);
-+	release_firmware(cs40l50->fw);
-+}
-+
-+static void cs40l50_request_firmware(const struct firmware *fw, void *context)
-+{
-+	struct cs40l50 *cs40l50 = context;
-+	int ret;
-+
-+	if (!fw) {
-+		dev_err(cs40l50->dev, "No firmware file found\n");
-+		return;
-+	}
-+
-+	cs40l50->fw = fw;
-+
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT, CS40L50_WT,
-+				      cs40l50->dev, GFP_KERNEL, cs40l50,
-+				      cs40l50_dsp_bringup);
-+	if (ret) {
-+		dev_err(cs40l50->dev, "Failed to request %s: %d\n", CS40L50_WT, ret);
-+		release_firmware(cs40l50->fw);
-+	}
-+}
-+
-+struct cs40l50_irq {
-+	const char *name;
-+	int virq;
-+};
-+
-+static struct cs40l50_irq cs40l50_irqs[] = {
-+	{ "DSP", },
-+	{ "Global", },
-+	{ "Boost UVLO", },
-+	{ "Boost current limit", },
-+	{ "Boost short", },
-+	{ "Boost undervolt", },
-+	{ "Overtemp", },
-+	{ "Amp short", },
-+};
-+
-+static const struct reg_sequence cs40l50_err_rls[] = {
-+	{ CS40L50_ERR_RLS, CS40L50_GLOBAL_ERR_RLS_SET },
-+	{ CS40L50_ERR_RLS, CS40L50_GLOBAL_ERR_RLS_CLEAR },
-+};
-+
-+static irqreturn_t cs40l50_hw_err(int irq, void *data)
-+{
-+	struct cs40l50 *cs40l50 = data;
-+	int ret = 0, i;
-+
-+	mutex_lock(&cs40l50->lock);
-+
-+	/* Log hardware interrupt and execute error release sequence */
-+	for (i = 1; i < ARRAY_SIZE(cs40l50_irqs); i++) {
-+		if (cs40l50_irqs[i].virq == irq) {
-+			dev_err(cs40l50->dev, "%s error\n", cs40l50_irqs[i].name);
-+			ret = regmap_multi_reg_write(cs40l50->regmap, cs40l50_err_rls,
-+						     ARRAY_SIZE(cs40l50_err_rls));
-+			break;
-+		}
-+	}
-+
-+	mutex_unlock(&cs40l50->lock);
-+	return IRQ_RETVAL(!ret);
-+}
-+
-+static irqreturn_t cs40l50_dsp_queue(int irq, void *data)
-+{
-+	struct cs40l50 *cs40l50 = data;
-+	u32 rd_ptr, val, wt_ptr;
-+	int ret = 0;
-+
-+	mutex_lock(&cs40l50->lock);
-+
-+	/* Read from DSP queue, log, and update read pointer */
-+	while (!ret) {
-+		ret = regmap_read(cs40l50->regmap, CS40L50_DSP_QUEUE_WT, &wt_ptr);
-+		if (ret)
-+			break;
-+
-+		ret = regmap_read(cs40l50->regmap, CS40L50_DSP_QUEUE_RD, &rd_ptr);
-+		if (ret)
-+			break;
-+
-+		/* Check if queue is empty */
-+		if (wt_ptr == rd_ptr)
-+			break;
-+
-+		ret = regmap_read(cs40l50->regmap, rd_ptr, &val);
-+		if (ret)
-+			break;
-+
-+		dev_dbg(cs40l50->dev, "DSP payload: %#X", val);
-+
-+		rd_ptr += sizeof(u32);
-+
-+		if (rd_ptr > CS40L50_DSP_QUEUE_END)
-+			rd_ptr = CS40L50_DSP_QUEUE_BASE;
-+
-+		ret = regmap_write(cs40l50->regmap, CS40L50_DSP_QUEUE_RD, rd_ptr);
-+	}
-+
-+	mutex_unlock(&cs40l50->lock);
-+
-+	return IRQ_RETVAL(!ret);
-+}
-+
-+static int cs40l50_irq_init(struct cs40l50 *cs40l50)
-+{
-+	int ret, i, virq;
-+
-+	ret = devm_regmap_add_irq_chip(cs40l50->dev, cs40l50->regmap, cs40l50->irq,
-+				       IRQF_ONESHOT | IRQF_SHARED, 0,
-+				       &cs40l50_irq_chip, &cs40l50->irq_data);
-+	if (ret) {
-+		dev_err(cs40l50->dev, "Failed adding IRQ chip\n");
-+		return ret;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(cs40l50_irqs); i++) {
-+		virq = regmap_irq_get_virq(cs40l50->irq_data, i);
-+		if (virq < 0) {
-+			dev_err(cs40l50->dev, "Failed getting virq for %s\n",
-+				cs40l50_irqs[i].name);
-+			return virq;
-+		}
-+
-+		cs40l50_irqs[i].virq = virq;
-+
-+		/* Handle DSP and hardware interrupts separately */
-+		ret = devm_request_threaded_irq(cs40l50->dev, virq, NULL,
-+						i ? cs40l50_hw_err : cs40l50_dsp_queue,
-+						IRQF_ONESHOT | IRQF_SHARED,
-+						cs40l50_irqs[i].name, cs40l50);
-+		if (ret) {
-+			return dev_err_probe(cs40l50->dev, ret,
-+					     "Failed requesting %s IRQ\n",
-+					     cs40l50_irqs[i].name);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int cs40l50_get_model(struct cs40l50 *cs40l50)
-+{
-+	int ret;
-+
-+	ret = regmap_read(cs40l50->regmap, CS40L50_DEVID, &cs40l50->devid);
-+	if (ret)
-+		return ret;
-+
-+	if (cs40l50->devid != CS40L50_DEVID_A)
-+		return -EINVAL;
-+
-+	ret = regmap_read(cs40l50->regmap, CS40L50_REVID, &cs40l50->revid);
-+	if (ret)
-+		return ret;
-+
-+	if (cs40l50->revid < CS40L50_REVID_B0)
-+		return -EINVAL;
-+
-+	dev_dbg(cs40l50->dev, "Cirrus Logic CS40L50 rev. %02X\n", cs40l50->revid);
-+
-+	return 0;
-+}
-+
-+static int cs40l50_pm_runtime_setup(struct device *dev)
-+{
-+	int ret;
-+
-+	pm_runtime_set_autosuspend_delay(dev, CS40L50_AUTOSUSPEND_MS);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_get_noresume(dev);
-+	ret = pm_runtime_set_active(dev);
-+	if (ret)
-+		return ret;
-+
-+	return devm_pm_runtime_enable(dev);
-+}
-+
-+int cs40l50_probe(struct cs40l50 *cs40l50)
-+{
-+	struct device *dev = cs40l50->dev;
-+	int ret;
-+
-+	mutex_init(&cs40l50->lock);
-+
-+	cs40l50->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(cs40l50->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(cs40l50->reset_gpio),
-+				     "Failed getting reset GPIO\n");
-+
-+	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(cs40l50_supplies),
-+					     cs40l50_supplies);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed getting supplies\n");
-+
-+	/* Ensure minimum reset pulse width */
-+	usleep_range(CS40L50_RESET_PULSE_US, CS40L50_RESET_PULSE_US + 100);
-+
-+	gpiod_set_value_cansleep(cs40l50->reset_gpio, 0);
-+
-+	/* Wait for control port to be ready */
-+	usleep_range(CS40L50_CP_READY_US, CS40L50_CP_READY_US + 100);
-+
-+	ret = cs40l50_get_model(cs40l50);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get part number\n");
-+
-+	ret = cs40l50_dsp_init(cs40l50);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to initialize DSP\n");
-+
-+	ret = cs40l50_pm_runtime_setup(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to initialize runtime PM\n");
-+
-+	ret = cs40l50_irq_init(cs40l50);
-+	if (ret)
-+		return ret;
-+
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT, CS40L50_FW,
-+				      dev, GFP_KERNEL, cs40l50, cs40l50_request_firmware);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to request %s\n", CS40L50_FW);
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cs40l50_probe);
-+
-+int cs40l50_remove(struct cs40l50 *cs40l50)
-+{
-+	gpiod_set_value_cansleep(cs40l50->reset_gpio, 1);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cs40l50_remove);
-+
-+static int cs40l50_runtime_suspend(struct device *dev)
-+{
-+	struct cs40l50 *cs40l50 = dev_get_drvdata(dev);
-+
-+	return regmap_write(cs40l50->regmap, CS40L50_DSP_QUEUE, CS40L50_ALLOW_HIBER);
-+}
-+
-+static int cs40l50_runtime_resume(struct device *dev)
-+{
-+	struct cs40l50 *cs40l50 = dev_get_drvdata(dev);
-+
-+	return cs40l50_dsp_write(dev, cs40l50->regmap, CS40L50_PREVENT_HIBER);
-+}
-+
-+EXPORT_GPL_DEV_PM_OPS(cs40l50_pm_ops) = {
-+	RUNTIME_PM_OPS(cs40l50_runtime_suspend, cs40l50_runtime_resume, NULL)
-+};
-+
-+MODULE_DESCRIPTION("CS40L50 Advanced Haptic Driver");
-+MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(FW_CS_DSP);
-diff --git a/drivers/mfd/cs40l50-i2c.c b/drivers/mfd/cs40l50-i2c.c
-new file mode 100644
-index 000000000000..639be743d956
---- /dev/null
-+++ b/drivers/mfd/cs40l50-i2c.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CS40L50 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2024 Cirrus Logic, Inc.
-+ *
-+ * Author: James Ogletree <james.ogletree@cirrus.com>
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/mfd/cs40l50.h>
-+
-+static int cs40l50_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct cs40l50 *cs40l50;
-+
-+	cs40l50 = devm_kzalloc(&i2c->dev, sizeof(*cs40l50), GFP_KERNEL);
-+	if (!cs40l50)
-+		return -ENOMEM;
-+
-+	i2c_set_clientdata(i2c, cs40l50);
-+
-+	cs40l50->dev = &i2c->dev;
-+	cs40l50->irq = i2c->irq;
-+
-+	cs40l50->regmap = devm_regmap_init_i2c(i2c, &cs40l50_regmap);
-+	if (IS_ERR(cs40l50->regmap))
-+		return dev_err_probe(cs40l50->dev, PTR_ERR(cs40l50->regmap),
-+				     "Failed to initialize register map\n");
-+
-+	return cs40l50_probe(cs40l50);
-+}
-+
-+static void cs40l50_i2c_remove(struct i2c_client *i2c)
-+{
-+	struct cs40l50 *cs40l50 = i2c_get_clientdata(i2c);
-+
-+	cs40l50_remove(cs40l50);
-+}
-+
-+static const struct i2c_device_id cs40l50_id_i2c[] = {
-+	{ "cs40l50" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, cs40l50_id_i2c);
-+
-+static const struct of_device_id cs40l50_of_match[] = {
-+	{ .compatible = "cirrus,cs40l50" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cs40l50_of_match);
-+
-+static struct i2c_driver cs40l50_i2c_driver = {
-+	.driver = {
-+		.name = "cs40l50",
-+		.of_match_table = cs40l50_of_match,
-+		.pm = pm_ptr(&cs40l50_pm_ops),
-+	},
-+	.id_table = cs40l50_id_i2c,
-+	.probe = cs40l50_i2c_probe,
-+	.remove = cs40l50_i2c_remove,
-+};
-+module_i2c_driver(cs40l50_i2c_driver);
-+
-+MODULE_DESCRIPTION("CS40L50 I2C Driver");
-+MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/mfd/cs40l50-spi.c b/drivers/mfd/cs40l50-spi.c
-new file mode 100644
-index 000000000000..53526b595a0d
---- /dev/null
-+++ b/drivers/mfd/cs40l50-spi.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CS40L50 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2024 Cirrus Logic, Inc.
-+ *
-+ * Author: James Ogletree <james.ogletree@cirrus.com>
-+ */
-+
-+#include <linux/mfd/cs40l50.h>
-+#include <linux/spi/spi.h>
-+
-+static int cs40l50_spi_probe(struct spi_device *spi)
-+{
-+	struct cs40l50 *cs40l50;
-+
-+	cs40l50 = devm_kzalloc(&spi->dev, sizeof(*cs40l50), GFP_KERNEL);
-+	if (!cs40l50)
-+		return -ENOMEM;
-+
-+	spi_set_drvdata(spi, cs40l50);
-+
-+	cs40l50->dev = &spi->dev;
-+	cs40l50->irq = spi->irq;
-+
-+	cs40l50->regmap = devm_regmap_init_spi(spi, &cs40l50_regmap);
-+	if (IS_ERR(cs40l50->regmap))
-+		return dev_err_probe(cs40l50->dev, PTR_ERR(cs40l50->regmap),
-+				     "Failed to initialize register map\n");
-+
-+	return cs40l50_probe(cs40l50);
-+}
-+
-+static void cs40l50_spi_remove(struct spi_device *spi)
-+{
-+	struct cs40l50 *cs40l50 = spi_get_drvdata(spi);
-+
-+	cs40l50_remove(cs40l50);
-+}
-+
-+static const struct spi_device_id cs40l50_id_spi[] = {
-+	{ "cs40l50" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(spi, cs40l50_id_spi);
-+
-+static const struct of_device_id cs40l50_of_match[] = {
-+	{ .compatible = "cirrus,cs40l50" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cs40l50_of_match);
-+
-+static struct spi_driver cs40l50_spi_driver = {
-+	.driver = {
-+		.name = "cs40l50",
-+		.of_match_table = cs40l50_of_match,
-+		.pm = pm_ptr(&cs40l50_pm_ops),
-+	},
-+	.id_table = cs40l50_id_spi,
-+	.probe = cs40l50_spi_probe,
-+	.remove = cs40l50_spi_remove,
-+};
-+module_spi_driver(cs40l50_spi_driver);
-+
-+MODULE_DESCRIPTION("CS40L50 SPI Driver");
-+MODULE_AUTHOR("James Ogletree, Cirrus Logic Inc. <james.ogletree@cirrus.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/mfd/cs40l50.h b/include/linux/mfd/cs40l50.h
-new file mode 100644
-index 000000000000..e5dc49860944
---- /dev/null
-+++ b/include/linux/mfd/cs40l50.h
-@@ -0,0 +1,137 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * CS40L50 Advanced Haptic Driver with waveform memory,
-+ * integrated DSP, and closed-loop algorithms
-+ *
-+ * Copyright 2024 Cirrus Logic, Inc.
-+ *
-+ * Author: James Ogletree <james.ogletree@cirrus.com>
-+ */
-+
-+#ifndef __MFD_CS40L50_H__
-+#define __MFD_CS40L50_H__
-+
-+#include <linux/firmware/cirrus/cs_dsp.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/pm.h>
-+#include <linux/regmap.h>
-+
-+/* Power Supply Configuration */
-+#define CS40L50_BLOCK_ENABLES2		0x201C
-+#define CS40L50_ERR_RLS			0x2034
-+#define CS40L50_BST_LPMODE_SEL		0x3810
-+#define CS40L50_DCM_LOW_POWER		0x1
-+#define CS40L50_OVERTEMP_WARN		0x4000010
-+
-+/* Interrupts */
-+#define CS40L50_IRQ1_INT_1		0xE010
-+#define CS40L50_IRQ1_BASE		CS40L50_IRQ1_INT_1
-+#define CS40L50_IRQ1_INT_2		0xE014
-+#define CS40L50_IRQ1_INT_8		0xE02C
-+#define CS40L50_IRQ1_INT_9		0xE030
-+#define CS40L50_IRQ1_INT_10		0xE034
-+#define CS40L50_IRQ1_INT_18		0xE054
-+#define CS40L50_IRQ1_MASK_1		0xE090
-+#define CS40L50_IRQ1_MASK_2		0xE094
-+#define CS40L50_IRQ1_MASK_20		0xE0DC
-+#define CS40L50_IRQ1_INT_1_OFFSET	(CS40L50_IRQ1_INT_1 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ1_INT_2_OFFSET	(CS40L50_IRQ1_INT_2 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ1_INT_8_OFFSET	(CS40L50_IRQ1_INT_8 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ1_INT_9_OFFSET	(CS40L50_IRQ1_INT_9 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ1_INT_10_OFFSET	(CS40L50_IRQ1_INT_10 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ1_INT_18_OFFSET	(CS40L50_IRQ1_INT_18 - CS40L50_IRQ1_BASE)
-+#define CS40L50_IRQ_MASK_2_OVERRIDE	0xFFDF7FFF
-+#define CS40L50_IRQ_MASK_20_OVERRIDE	0x15C01000
-+#define CS40L50_AMP_SHORT_MASK		BIT(31)
-+#define CS40L50_DSP_QUEUE_MASK		BIT(21)
-+#define CS40L50_TEMP_ERR_MASK		BIT(31)
-+#define CS40L50_BST_UVP_MASK		BIT(6)
-+#define CS40L50_BST_SHORT_MASK		BIT(7)
-+#define CS40L50_BST_ILIMIT_MASK		BIT(18)
-+#define CS40L50_UVLO_VDDBATT_MASK	BIT(16)
-+#define CS40L50_GLOBAL_ERROR_MASK	BIT(15)
-+
-+enum cs40l50_irq_list {
-+	CS40L50_DSP_QUEUE_IRQ,
-+	CS40L50_GLOBAL_ERROR_IRQ,
-+	CS40L50_UVLO_VDDBATT_IRQ,
-+	CS40L50_BST_ILIMIT_IRQ,
-+	CS40L50_BST_SHORT_IRQ,
-+	CS40L50_BST_UVP_IRQ,
-+	CS40L50_TEMP_ERR_IRQ,
-+	CS40L50_AMP_SHORT_IRQ,
-+};
-+
-+/* DSP */
-+#define CS40L50_XMEM_PACKED_0		0x2000000
-+#define CS40L50_XMEM_UNPACKED24_0	0x2800000
-+#define CS40L50_SYS_INFO_ID		0x25E0000
-+#define CS40L50_DSP_QUEUE_WT		0x28042C8
-+#define CS40L50_DSP_QUEUE_RD		0x28042CC
-+#define CS40L50_NUM_WAVES		0x2805C18
-+#define CS40L50_CORE_BASE		0x2B80000
-+#define CS40L50_YMEM_PACKED_0		0x2C00000
-+#define CS40L50_YMEM_UNPACKED24_0	0x3400000
-+#define CS40L50_PMEM_0			0x3800000
-+#define CS40L50_DSP_POLL_US		1000
-+#define CS40L50_DSP_TIMEOUT_COUNT	100
-+#define CS40L50_RESET_PULSE_US		2200
-+#define CS40L50_CP_READY_US		3100
-+#define CS40L50_AUTOSUSPEND_MS		2000
-+#define CS40L50_PM_ALGO			0x9F206
-+#define CS40L50_GLOBAL_ERR_RLS_SET	BIT(11)
-+#define CS40L50_GLOBAL_ERR_RLS_CLEAR	0
-+
-+enum cs40l50_wseqs {
-+	CS40L50_PWR_ON,
-+	CS40L50_STANDBY,
-+	CS40L50_ACTIVE,
-+	CS40L50_NUM_WSEQS,
-+};
-+
-+/* DSP Queue */
-+#define CS40L50_DSP_QUEUE_BASE		0x11004
-+#define CS40L50_DSP_QUEUE_END		0x1101C
-+#define CS40L50_DSP_QUEUE		0x11020
-+#define CS40L50_PREVENT_HIBER		0x2000003
-+#define CS40L50_ALLOW_HIBER		0x2000004
-+#define CS40L50_SHUTDOWN		0x2000005
-+#define CS40L50_SYSTEM_RESET		0x2000007
-+#define CS40L50_START_I2S		0x3000002
-+#define CS40L50_OWT_PUSH		0x3000008
-+#define CS40L50_STOP_PLAYBACK		0x5000000
-+#define CS40L50_OWT_DELETE		0xD000000
-+
-+/* Firmware files */
-+#define CS40L50_FW			"cs40l50.wmfw"
-+#define CS40L50_WT			"cs40l50.bin"
-+
-+/* Device */
-+#define CS40L50_DEVID			0x0
-+#define CS40L50_REVID			0x4
-+#define CS40L50_DEVID_A			0x40A50
-+#define CS40L50_REVID_B0		0xB0
-+
-+struct cs40l50 {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct mutex lock;
-+	struct cs_dsp dsp;
-+	struct gpio_desc *reset_gpio;
-+	struct regmap_irq_chip_data *irq_data;
-+	const struct firmware *fw;
-+	const struct firmware *bin;
-+	struct cs_dsp_wseq wseqs[CS40L50_NUM_WSEQS];
-+	int irq;
-+	u32 devid;
-+	u32 revid;
-+};
-+
-+int cs40l50_dsp_write(struct device *dev, struct regmap *regmap, u32 val);
-+int cs40l50_probe(struct cs40l50 *cs40l50);
-+int cs40l50_remove(struct cs40l50 *cs40l50);
-+
-+extern const struct regmap_config cs40l50_regmap;
-+extern const struct dev_pm_ops cs40l50_pm_ops;
-+
-+#endif /* __MFD_CS40L50_H__ */
+After some thinking, it might be still better to use the DX pin as GPIO
+and either have a custom machine driver which would handle it (set low
+when a capture trigger happens) or connect it in DAPM as a supply, bias
+or something and ASoC would handle it automagically.
+
+I think that would be cleaner in many ways. What do you think?
+
 -- 
-2.25.1
-
+Péter
