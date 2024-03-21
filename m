@@ -1,111 +1,112 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789ED85952;
-	Thu, 21 Mar 2024 15:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A7F12C52B
+	for <linux-sound@vger.kernel.org>; Thu, 21 Mar 2024 16:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711034056; cv=none; b=ktLr2Z8ijOWj43k9zEgNIQepAtP8tSRU0+aaV5nm9KE8QbHrdrPwwx5tk5xBWgBqodBjvmlVN6h2PS7Y8jg935usJ1Q7FlWfkQv/h/nXUjMsb90WWep+AOFbNWz5F7wsT+QmWa39/TUyipbmTjJEpeeBB/Hus0V2InjMVgOgXY8=
+	t=1711037831; cv=none; b=DrCO1jrQC7Js++2hVkjO557CCRMnMIV+oY4g/rSglrcHnFyUpmnY7s9BA7z6F5UrgfszdCZQFPxGi9F2AEU01zewpnp0msIvrEIlq8mQmNsv5TNrPFrR4inzwAbyEFFRbt1p/b9eIEJkqhj8xsXaRV754HpPE91opTkqAWb6xNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711034056; c=relaxed/simple;
-	bh=FJDfFUiyTJXJm+o9DzdVsd9q4EWWb/PQk1TE73FXUGY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wmju0i5flMqWYFrNhXxtF6nrX9UkeWcqvemb34IoB89rpkt+ac/lQAi8KY3K6KFz6QqTdlDJyONl/5Zc7vV0RJ7l21QoacD326020TGJYKiX8A73GuPzz5icnD2hpBTwcVMUDifb44C2z9XZuCnBtY/OT/tQScpDsHByjmU4d0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YbLWQ2wj; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711037831; c=relaxed/simple;
+	bh=iCvxqjV8nvENU9QhU5KtACphTO4DgKMFcObGcyiE06A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pAQGlQ9VJwHC48Xy4G/mbHWIQ/nK6wyx95bmxTMvpnck56hVR3pVPPajcz/Cqvd1mzcBckSjrRenca2TMIg7Z0zeGE17sHjhTS1/g6proHCUKYXXG4kg6q1BVxEuQHUHJ2OQNaKzehApw+4wb/oLkUIv8JNdF6Myq2Ury8rNKGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=vUMoiJEn; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YbLWQ2wj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CE8911BF20C;
-	Thu, 21 Mar 2024 15:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711034045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E0SqObXdIaAiz8b63yEz0WL2gHCtn7ExtuiZ1KSSPzM=;
-	b=YbLWQ2wjXQHGg1G42dbskBhClkYaOV309PxaBzoEypCb5JhC1qla6nnH+L6aebMZVNT1E4
-	f9PKSYDrJEs/v2rc1gGgXYmcTlL6nHXibcDXg6s4ugoMA8PzC32JsqjnXjW4xIFgUMlNYX
-	DZxXFhQhEQ0cjKK5NBqogEER1Hp5a4FqF734sbxWDKeZ/7l8Afta8H2fbhLrOGeCqD9lkf
-	P583S/uZz6CFhwHnkLo2M+X+ucHr/lhBnymoQ1dq9P0/xFrv+boXJ/aSbltIcbK0OmaVCZ
-	49abQzySFOE4rcqUXevHhfVY8JPJVgF8dRgwn6qslcP+mFIGg44dso9PZpOn0Q==
-Message-ID: <5467add6-0099-4e54-a4f7-12aa149d03c7@bootlin.com>
-Date: Thu, 21 Mar 2024 16:14:04 +0100
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="vUMoiJEn"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-430b7b22b17so7648121cf.2
+        for <linux-sound@vger.kernel.org>; Thu, 21 Mar 2024 09:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1711037827; x=1711642627; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GblkM0rXkobGOvAznWFXNMB8PHw+JhTurN6nTmP6yek=;
+        b=vUMoiJEnC/mouzRlDN62P1GJ42N5P7VgELwelDb5GEIedHAPzJqjNrN7953cuqx51y
+         pXuU+SV7+Vt3h34mJcH1gORmVu/a49WJHZByQP1zRBJSoBJF/mjNSPjFzXpnWh0n3Cta
+         cCkycKUPa+PRMs5eSuAAv2rTcWMECD4zoUM95FZOUAkf4v09IUuMyg3y7pim3/VdBs+P
+         x/y0zjhZcrL9yJSHgs5Aeo4AdBZQ6wDtN+COZSW8sNE/hhPeLJayDZwdZaSCRY4jOTxK
+         5ygSrl3dt7KgX8tKE7HQzXSK+wrFAtmt9NB3gZfI6gKGmujXn66rHeyaEAg+jEZrQhd/
+         Qx1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711037827; x=1711642627;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GblkM0rXkobGOvAznWFXNMB8PHw+JhTurN6nTmP6yek=;
+        b=mWAMm6Ez1Pu1OYlgNzC6la7MdHgrlX7UpnwEyNO2izXHPwuLksOPtB4S2IIrwoT5HQ
+         r+P4YpuOEPAfxMGT/rMdN6uRrMutNrEH9dyd0ZUUFrjBDvJCZ4DDHHlep9QCAi+q8Zpe
+         HdZ/bZ5kYe2UWZVmHF3YKJHP5tptFLAQUs/C236fEFS8pPyu13l3uAfWuoiv48Lkw+AW
+         5FQUskt1mMFr0ShwbVjf4XdjR91enwZFb54piubT1DxWpa1iglqorYDN3Lbuo2/sHCHl
+         vIEMbbDfZTU7Dv2duMNihRBER1qIvdbLDhJGMnv+vrucZgtHf5FXIoB0nhKJxG6+/Ya1
+         Vsug==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Z8OqUHgS+kunYgHUtTesQ0DM0vH5nEBd5ckHr7vvDM1JAmGcpX4U2g2T/WlaxGxB00J116UbzkWCGMAEBNpUFyMaoWnp4mcSWYE=
+X-Gm-Message-State: AOJu0YzMzGUKQYdzEyvn80YZKQYu82UQeRPqn/415HyqKp1ksIFYtEsS
+	y1WNfTlEmemBsu3hhiDJitA7KqCLDQM5O9FWPxW1NMprIB9DSrRmNRE8w1CHXNDpUXlcSAyebLw
+	x
+X-Google-Smtp-Source: AGHT+IEkMIUX5FBkoVAsY/o5aRSeEBHHMCbQRrZJMyq82UZg8ZQv8JQaK8mGhWFKdcA1ZdOtiV9Z3w==
+X-Received: by 2002:a05:622a:106:b0:431:1def:c7c5 with SMTP id u6-20020a05622a010600b004311defc7c5mr3547484qtw.43.1711037826656;
+        Thu, 21 Mar 2024 09:17:06 -0700 (PDT)
+Received: from localhost (2603-7000-0c01-2716-da5e-d3ff-fee7-26e7.res6.spectrum.com. [2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id e8-20020ac85988000000b0042c61b99f42sm15309qte.46.2024.03.21.09.17.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 09:17:05 -0700 (PDT)
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: control: fix memory leak in snd_ctl_elem_read_user()
+Date: Thu, 21 Mar 2024 12:17:00 -0400
+Message-ID: <20240321161700.2926-1-hannes@cmpxchg.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
- <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
- <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
- <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
- <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
-Content-Language: en-US
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-In-Reply-To: <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Hi Péter,
+With 6.9, I noticed kmalloc-2k blowing up to tens of gigabytes over
+several days. Kmemleak shows a long string of these:
 
-On 3/20/24 21:30, Péter Ujfalusi wrote:
-> 
-> 
-> On 20/03/2024 17:42, Péter Ujfalusi wrote:
->>>> On 15/03/2024 13:27, Bastien Curutchet wrote:
->>>>> The McBSP's DX pin that outputs serial data during playback streams can
->>>>> be used during capture streams to repeatedly output a chosen pattern.
->>>>> For instance, this can be useful to drive an active-low signal during
->>>>> captures (by choosing <0> as output pattern).
->>>>
->>>> Are there really any other use of this than to pull down or up the DX
->>>> pin (0 or 0xffff)
->>>
->>> I don't know, indeed today I can only think about these two patterns.
->>> I tried to do something in a 'generic' way so it can evolve if needed.
->>
->> I think the definition of the 'ti,drive-dx' is somehow odd. It allows
->> you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
->> 32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
->> If you have 4 channel capture then I won't speculate what will be on the
->> DX pin ;)
->>
->> Would not be better to say that the DX pin will be driven low or high
->> during capture _and_ disable the playback support?
-> 
-> After some thinking, it might be still better to use the DX pin as GPIO
-> and either have a custom machine driver which would handle it (set low
-> when a capture trigger happens) or connect it in DAPM as a supply, bias
-> or something and ASoC would handle it automagically.
-> 
-> I think that would be cleaner in many ways. What do you think?
-> 
-I agree, that would be cleaner. I ran a few tests to see if that would
-work on my hardware. It doesn't ... So I looked back to the schematics
-and found two reasons :
-  * the DX pin needs to be in sync with the clock.
-  * the DX pin needs to be in a high-impedance state between two frames
-    so a pull-up can drive it back up. Actually, the DX pin is also
-    linked to the FSR pin so it provides the frame clock to the capture
-    stream.
+unreferenced object 0xffff8f1bddbce800 (size 2048):
+  comm "wireplumber", pid 1058, jiffies 4294690193
+  hex dump (first 32 bytes):
+    14 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00  ................
+    4d 61 73 74 65 72 20 50 6c 61 79 62 61 63 6b 20  Master Playback
+  backtrace (crc bd965d91):
+    [<ffffffff85ac328b>] __kmalloc_node_track_caller+0x25b/0x370
+    [<ffffffff85a79375>] memdup_user+0x25/0x80
+    [<ffffffff85fa5d63>] snd_ctl_ioctl+0x753/0x880
+    [<ffffffff85b18119>] __x64_sys_ioctl+0x89/0xb0
+    [<ffffffff861ee190>] do_syscall_64+0x80/0x170
+    [<ffffffff862000ab>] entry_SYSCALL_64_after_hwframe+0x46/0x4e
 
-Bast regards,
-Bastien
+When 1052d9882269 ("ALSA: control: Use automatic cleanup of kfree()")
+converted a few sites to automatic freeing, it removed the kfree from
+snd_ctl_elem_read_user() but forgot to add the __free hook.
+
+Fixes: 1052d9882269 ("ALSA: control: Use automatic cleanup of kfree()")
+Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
+---
+ sound/core/control.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/control.c b/sound/core/control.c
+index 8367fd485371..7da0d6afb766 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -1275,7 +1275,7 @@ static int snd_ctl_elem_read(struct snd_card *card,
+ static int snd_ctl_elem_read_user(struct snd_card *card,
+ 				  struct snd_ctl_elem_value __user *_control)
+ {
+-	struct snd_ctl_elem_value *control;
++	struct snd_ctl_elem_value *control __free(kfree) = NULL;
+ 	int result;
+ 
+ 	control = memdup_user(_control, sizeof(*control));
+-- 
+2.44.0
+
