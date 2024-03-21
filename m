@@ -1,271 +1,135 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25A45A0FE
-	for <linux-sound@vger.kernel.org>; Thu, 21 Mar 2024 08:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2093884038;
+	Thu, 21 Mar 2024 13:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711009460; cv=none; b=ef7y1HdTPE0ARTYggIiJi172w/CuJuD4QgNFz1gON42lNHN/jeysQ0bvy5a01wCUUqDWv9K2TLpwD94oi7ggW6ChY1+RyMILPMgJiZ6D+G2/NQAOK2WzCmy1/m8ILWiYS9zqmDUpcRnaE9iWYMeE4r7gYKwJxpFvffFGpL/g+Lw=
+	t=1711026471; cv=none; b=jrdtTkzzKSqg0nQ3mS1AmJtkFxSEyZOZAjqYibhrdHujGzfXTgACNfOJ+piw8t7aLKQw/VFm4+iHTyiCwOlXYWc7UGu3D6mjhLVO/8dyRlXalhgQbPoYTl718xVIPlkzM1LJkx/OthkVgOKtTeP5RI1fKCEZB37C4nkse0r5ipw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711009460; c=relaxed/simple;
-	bh=puypE/cD4qoL7TggRdj4y0HLYHlNQcFzzc+Li1UZ2kg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=scwFOPpR0Ih+BClKHGZS3S9YgXp2QLX+S+/M/0OCh9xlIaIWFnB73RbOO+BtflfWXPg6qTv8gccZRk0N1M491o+LAoRcIq3qCiv3BN6bJ9c1uOU8tQJ/LYKbYQtkhSXn5ezmMiZaU3dKiA599mUOTiLbL5qxbMRf3lHzkcSs/LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AFd0EZ4s; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711026471; c=relaxed/simple;
+	bh=lNF/nXlhxo+l9WMdwFIqQFvTQLSF/djgFb4AU2uJoaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JKm2GP07BQE+nt7FR9yz0OuD1+sXSDAZ8su/XEcx871UF/Y+GQtScJZtt/nwxUFIKHYaSpUFYupKyTC6b3jnKLvNFXZciJuBL/sKJGwN0JIsqKFYDzuMhZw/9BAJaSLOC3ATmoiW2U5VTCU8ptWb2xbN1YKmYRLlAwiJbs7RPZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8sODEWl; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AFd0EZ4s"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a46ba938de0so91475666b.3
-        for <linux-sound@vger.kernel.org>; Thu, 21 Mar 2024 01:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711009457; x=1711614257; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+UypPW8gPwDLXrQUnDbD7DxFqZiEj0eZW8k1MOScP+U=;
-        b=AFd0EZ4sw8lzS7CjgGAzvVy3q1l9AwT4ythC+6Ib3IRj4mrKZDLuBkOUDRj8IoyBfx
-         WuSvemsTMycRvIhhcIPBJAEASeP43y2KkTPNPl1S1Gb9SokTcZpifueb/MZMYAOummf0
-         B620l24O9i5mWxQJWBUO+jESFuKNkjvb7serpXyRTcLTH353unomYdG/pOXsh5+fQgQQ
-         HP0GjbqR+4mWpUX/tP89nbxwFOlncfWxbyw1p2d5ZD/0gZ3jv4rXpZ0dluvKjkyfxsq3
-         vk2xPR5/4YMkUYYJj31AQDuiYYBmwosJy5QQGNTpnrKtVTJ5wEgmnHnH9TIBlPgWvwe/
-         /DXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711009457; x=1711614257;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+UypPW8gPwDLXrQUnDbD7DxFqZiEj0eZW8k1MOScP+U=;
-        b=b9sGW4s9B/j0GRicRDTZVGoW+5XkixaDmFqtb1Wj8n5szn8Qfohi5S5touqFKUBQ9Y
-         8dzGnmQaJqmArbd+pOGQxfzBiIrE5pWb7QjTHEB9p2UfhMiNXLIXYCwdqIwUDwjCtFPm
-         uF4LsSUdr4J2s2qpIbbfH7iINDvserzhsTfS69xiR4AqjRmGi4N/C2oRHpgzYwh5Qx+u
-         ntDpBrN8mivo2jsatP6tTzfhf57SE1IkRTM/TEYIfgO2OthuJSeKO5yq0MERD6TUvMDZ
-         g9rbr2rUrkeckRe599yhSGaPT66vcUc2MDm5r3ySXLYV5v22k2Ziz3y7/Le8wos5441y
-         D7oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXosELnhw7IJHMJ583aeZ8EkYpswRhBb7jemquqNq4eNXJUDqDFw3M9LcssiM8fu0SPnzZFlX9hnmPPXiOwhTLbBPANp/zylwAwiXE=
-X-Gm-Message-State: AOJu0Yzd2qQ3XuNyA9+1htfGeCbXk1mx/Q2OZVgbzPOp+4QSQlpo3mEA
-	E3/GlUe1IvkAT/O61zR0ORL3Gt683ZfZeYUs+qqLDxK2c0i9mTHC3SJEQSRQu14=
-X-Google-Smtp-Source: AGHT+IGnBqvwAnhgvz2ONAGBSV04k1AJkK5A2dPVwZs64JtSxb2/pkLeOZkuNPJugcGk81huW3bM2g==
-X-Received: by 2002:a17:907:940c:b0:a46:ea52:3ed2 with SMTP id dk12-20020a170907940c00b00a46ea523ed2mr4872278ejc.44.1711009457118;
-        Thu, 21 Mar 2024 01:24:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id jz8-20020a17090775e800b00a4644397aa9sm8164487ejc.67.2024.03.21.01.24.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 01:24:16 -0700 (PDT)
-Message-ID: <9d9efb8a-0b3c-4e7a-8673-07cd3b1f5f87@linaro.org>
-Date: Thu, 21 Mar 2024 09:24:14 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8sODEWl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711026469; x=1742562469;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lNF/nXlhxo+l9WMdwFIqQFvTQLSF/djgFb4AU2uJoaY=;
+  b=h8sODEWlt9xkhmEf4ZTnM6LNEtgjU1JqseSSyoWRvxZIGhFGKSy6lpCM
+   xHUeWDEKWb91wJmNtyo9/bknZN27FWSB+ti7udz0/L9VEcmhR+e9Vb1di
+   Z6xGo/pwJUfsl7oPByNhxvjYxzvVa325y97bobKcnLYveKbM1OO+6Dv+H
+   IEZRFSfEyAvPjmhqVsxYZRjLNgcCrKkqTF+XQ0oPRIs/aaPlMZC5ZVaij
+   KOOc+y+LmawZ/jWauyfBb4eX3olybRT/U3gKTgETjgp+iyq93fPcxNufQ
+   k8fP90AVBhqa4Ak38cR5ejFhTCjR8ZLO4nQffrwB1OqUhH3x0+SiBg86K
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127128"
+X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
+   d="scan'208";a="6127128"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:07:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
+   d="scan'208";a="51923188"
+Received: from vyakovle-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.54.189])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:07:46 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	stable@vger.kernel.org
+Subject: [PATCH 00/17] ASoC: SOF: ipc4/Intel: Fix delay reporting (for 6.9 / 6.8)
+Date: Thu, 21 Mar 2024 15:07:57 +0200
+Message-ID: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add bindings for Cadence I2S-MC
- controller
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Claudiu Beznea <Claudiu.Beznea@microchip.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
- <20240320090239.168743-2-xingyu.wu@starfivetech.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240320090239.168743-2-xingyu.wu@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/03/2024 10:02, Xingyu Wu wrote:
-> Add bindings for the Multi-Channel I2S controller of Cadence.
-> 
-> The Multi-Channel I2S (I2S-MC) implements a function of the
-> 8-channel I2S bus interfasce. Each channel can become receiver
-> or transmitter. Four I2S instances are used on the StarFive
-> JH8100 SoC. One instance of them is limited to 2 channels, two
-> instance are limited to 4 channels, and the other one can use
-> most 8 channels. Add a unique property about
-> 'starfive,i2s-max-channels' to distinguish each instance.
-> 
-> Signed-off-by: Xingyu Wu <xingyu.wu@starfivetech.com>
-> ---
->  .../bindings/sound/cdns,i2s-mc.yaml           | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/cdns,i2s-mc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cdns,i2s-mc.yaml b/Documentation/devicetree/bindings/sound/cdns,i2s-mc.yaml
-> new file mode 100644
-> index 000000000000..0a1b0122a246
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cdns,i2s-mc.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cdns,i2s-mc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cadence multi-channel I2S controller
-> +
-> +description:
-> +  The Cadence I2S Controller implements a function of the multi-channel
-> +  (up to 8-channel) bus. It combines functions of a transmitter and a receiver.
-> +
-> +maintainers:
-> +  - Xingyu Wu <xingyu.wu@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cdns,i2s-mc
+Hi,
 
-Why did this appear? Who asked for this? Usually these blocks are not
-usable on their own.
+The current version of delay reporting code can report incorrect
+values when paired with a firmware which enables this feature.
 
-> +      - starfive,jh8100-i2s
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description:
-> +      The interrupt line number for the I2S controller. Add this
-> +      parameter if the I2S controller that you are using does not
-> +      using DMA.
+Unfortunately there are several smaller issues that needed to be addressed
+to correct the behavior:
 
-That's still wrong. You already got comment on this. Either you have
-interrupt or not. You do not add interrupts, based on your choice or not
-of having DMA. Drop the comment.
+Wrong information was used for the host side of counter
+For MTL/LNL used incorrect (in a sense that it was verified only on MTL)
+link side counter function.
+The link side counter needs compensation logic if pause/resume is used.
+The offset values were not refreshed from firmware.
+Finally, not strictly connected, but the ALSA buffer size needs to be
+constrained to avoid constant xrun from media players (like mpv)
 
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bit clock
-> +      - description: Main ICG clock
-> +      - description: Inner master clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bclk
-> +      - const: icg
-> +      - const: mclk_inner
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    items:
-> +      - description: TX DMA Channel
-> +      - description: RX DMA Channel
-> +    minItems: 1
-> +
-> +  dma-names:
-> +    items:
-> +      - const: tx
-> +      - const: rx
-> +    minItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: starfive,jh8100-i2s
-> +    then:
-> +      properties:
-> +        starfive,i2s-max-channels:
-> +          description:
-> +            Number of I2S max stereo channels supported on the StarFive
-> +            JH8100 SoC.
-> +          $ref: /schemas/types.yaml#/definitions/uint32
+The series applies cleanly for 6.9 and 6.8.y stable, but older stable
+would need manual backport, but it is questionable if it is needed as
+MTL/LNL is missing features.
 
-Properties must be defined in top-level. You can disallow the property
-for other variants, but I claim you won't have here other variants.
+Mark, can you pick these patches for the 6.9 cycle as fixes?
 
-https://elixir.bootlin.com/linux/v5.19/source/Documentation/devicetree/bindings/example-schema.yaml#L212
+Regards,
+Peter
+---
+Peter Ujfalusi (17):
+  ASoC: SOF: Add dsp_max_burst_size_in_ms member to snd_sof_pcm_stream
+  ASoC: SOF: ipc4-topology: Save the DMA maximum burst size for PCMs
+  ASoC: SOF: Intel: hda-pcm: Use dsp_max_burst_size_in_ms to place
+    constraint
+  ASoC: SOF: Intel: hda: Implement get_stream_position (Linear Link
+    Position)
+  ASoC: SOF: Intel: mtl/lnl: Use the generic get_stream_position
+    callback
+  ASoC: SOF: Introduce a new callback pair to be used for PCM delay
+    reporting
+  ASoC: SOF: Intel: Set the dai/host get frame/byte counter callbacks
+  ASoC: SOF: ipc4-pcm: Use the snd_sof_pcm_get_dai_frame_counter() for
+    pcm_delay
+  ASoC: SOF: Intel: hda-common-ops: Do not set the get_stream_position
+    callback
+  ASoC: SOF: Remove the get_stream_position callback
+  ASoC: SOF: ipc4-pcm: Move struct sof_ipc4_timestamp_info definition
+    locally
+  ASoC: SOF: ipc4-pcm: Combine the SOF_IPC4_PIPE_PAUSED cases in
+    pcm_trigger
+  ASoC: SOF: ipc4-pcm: Invalidate the stream_start_offset in PAUSED
+    state
+  ASoC: SOF: sof-pcm: Add pointer callback to sof_ipc_pcm_ops
+  ASoC: SOF: ipc4-pcm: Correct the delay calculation
+  ALSA: hda: Add pplcllpl/u members to hdac_ext_stream
+  ASoC: SOF: Intel: hda: Compensate LLP in case it is not reset
 
+ include/sound/hdaudio_ext.h          |   3 +
+ sound/soc/sof/intel/hda-common-ops.c |   3 +
+ sound/soc/sof/intel/hda-dai-ops.c    |  11 ++
+ sound/soc/sof/intel/hda-pcm.c        |  29 ++++
+ sound/soc/sof/intel/hda-stream.c     |  70 ++++++++++
+ sound/soc/sof/intel/hda.h            |   6 +
+ sound/soc/sof/intel/lnl.c            |   2 -
+ sound/soc/sof/intel/mtl.c            |  14 --
+ sound/soc/sof/intel/mtl.h            |  10 --
+ sound/soc/sof/ipc4-pcm.c             | 191 ++++++++++++++++++++++-----
+ sound/soc/sof/ipc4-priv.h            |  14 --
+ sound/soc/sof/ipc4-topology.c        |  22 ++-
+ sound/soc/sof/ops.h                  |  24 +++-
+ sound/soc/sof/pcm.c                  |   8 ++
+ sound/soc/sof/sof-audio.h            |   9 +-
+ sound/soc/sof/sof-priv.h             |  24 +++-
+ 16 files changed, 351 insertions(+), 89 deletions(-)
 
-> +          enum: [2, 4, 8]
-> +      required:
-> +        - starfive,i2s-max-channels
-> +
-> +required:
-
-required goes after properties.
-
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +oneOf:
-> +  - required:
-> +      - dmas
-> +      - dma-names
-> +  - required:
-> +      - interrupts
-
-This won't work. Provide both interrupts and dmas, and then test your DTS.
-
-> +
-> +unevaluatedProperties: false
-> +
-
-Best regards,
-Krzysztof
+-- 
+2.44.0
 
