@@ -1,119 +1,115 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B9129CE8;
-	Wed, 20 Mar 2024 20:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478E1FA2;
+	Thu, 21 Mar 2024 02:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710966559; cv=none; b=E56Stp+SCaYb1KfMG25ksE2+Yaafr7TATLNlhc2irVB2Oz5txkLwhyEtdR/TuMd7s5X1D4jP2EEbfpd5UivGwkjd/yrkSNwp/HPQ0a30DC4Je61wHeDVMhz8vqM7+X/MjQxu6nbbXq//zAwPjit3dQiFXOYDyVkck70/ucGK03I=
+	t=1710987754; cv=none; b=G33vMncjnFykww/6R8n5y/zg0f4hadExyv6MD/sOrNmMQpWnnrASecr8RJZp12pE3hyTSCoCxAs5QU7HF9DVcUpNSbXX3JUmV/7SF4uAsnAdgLfRRElCR3FMRkkZU9C+4mZgzCHErBi+ccaWbOR8TgXAqPxtLfEnzrLpgZFd/ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710966559; c=relaxed/simple;
-	bh=sibqcgVk69cAWwUp5fELHFPqFKZCzweuaYfOTBxCD6o=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PtW7htaMg/FnLKT3HGfAJmsGkanWm6ZAVPXu65pK508cxUXuAbGh6ZF+tYMl7Y/I1RDdWcJsfl5C3nCAJeu4v3K5US9BleeJbANJpZAEztCgSduC9IJ6fLDNFU9H3JckYEhD+e/enb5JSPepmNH44BBk2KJ4J+iQue11qD4M3Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ly5E8on/; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710987754; c=relaxed/simple;
+	bh=jZ+LsTmK95ZdAmRuA0OFABHxkMFYGbBWun3N61Cxfug=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=ELfuIQj/QRwdgp4MWUn+IMQ2p48LoFE4uZeGwn/sImWRPSTuN7aA24EMjhc67MbshEmZWtuPGv6lanu67qJFpH+s+5KKvlYFThc3NqfTQp4bWEjNeR7gr4LqoTvv78sG/8BwCewRZVAYEG6PgrBXp6BX78WfxJt2ZUiv5UGzArM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=noxK8eeg; arc=none smtp.client-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ly5E8on/"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-513d599dbabso348498e87.1;
-        Wed, 20 Mar 2024 13:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710966556; x=1711571356; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Dvd7/K/iPH6D09kkHMbkBRJCLxovJRz+5X5JeM9cC40=;
-        b=ly5E8on/KPPjFjwvSaSEAmef/5FTEnJUr40nDBBV2TV0moKWqXDVO7ZZ5pX/7xg+rZ
-         dnq8HX0ikU6MGnuvuuB6htcGI3ybwGOqYyI9fZars43ZGoiOX4xNqVSkOHWTYs8VBZbx
-         hkQOGGHZJRVZUi1Hcq1gEzkxgCWbhKAQG5quZ9q7gbFvgc7vr97xIu+OJUFFdCIHX5rb
-         FmOGPoNvxCR0TAV3RKOd9qhpxdOCo5EfWgUiWHYSu1M+rmkatYfJSgHQr8GoqhjolScn
-         Eqz0o9ntYKrVkbCzlSrqvtuQd+wnyByFecxwzhZXfQ/paH9h+JqRN/nG9JSgFUbMa5Ij
-         YGfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710966556; x=1711571356;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dvd7/K/iPH6D09kkHMbkBRJCLxovJRz+5X5JeM9cC40=;
-        b=GW+ODPBSQtbDNIzgDN/3ZtMyj2UOi+W2wEN7Po4O94prqDVj2tjpG1vYit72YnrARu
-         x6BAynNJUqqY3kKhgQH6r41kE/SKzYLnes1k5IIbhQaQJn0bDm5QKak8Foonw5ewW9Rz
-         hX2RvA/6zrav77sBY5Af9Ck5x1W8vzd/zFOInN+v/Oz6VxVrpAa1dadI2VpvwXRv8XfH
-         XSj2aOGio1kr6ufAHvSpUf554u0LvsPo4oF0qX/jjBXGkmYD5lZ2G4F8podBuiulEBuX
-         Ob3xoJMuL6l8kV17Mxl9/zszSFbNu1bAwNvoPuEL6XCm+9kJD9XPqxsSQ6ZSM8F0/3tj
-         2cAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX69+DTh7en9/i9ZJdqiEbnSwo1ZZwxJov9+JSVP894DcEHpdgimwZ4LTia2dVBU0vb/xgaILKGMIm1oXx4CACH2GLX44Zi7p8PjE4yqpyx2nvTs9O/xYv6XusYqPlDa9wjx2acBHr0uQ==
-X-Gm-Message-State: AOJu0YwNbakOUg8M5TQTf8IE35tV3st0n6KC3Vf7mAL7swxb9zzrgpwF
-	IZqryDlIcKnD4+Vuo/5zPjoHQ9SdU9Cp5SMve0UAEBTcsRpL292f0rvlw+HzStrfOjzD
-X-Google-Smtp-Source: AGHT+IGeAB6MCS1rA/ycdxQ22gDA1FTucn7CNo0Yl14vI1V2G3iGJZh5xoX+yAWkcX+Cye2/GFrHmw==
-X-Received: by 2002:a19:f803:0:b0:512:ed8e:97ce with SMTP id a3-20020a19f803000000b00512ed8e97cemr5087582lff.16.1710966555838;
-        Wed, 20 Mar 2024 13:29:15 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-76-118.kaisa-laajakaista.fi. [85.29.76.118])
-        by smtp.gmail.com with ESMTPSA id q5-20020ac25145000000b00512e594e235sm2348058lfd.242.2024.03.20.13.29.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 13:29:15 -0700 (PDT)
-Message-ID: <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
-Date: Wed, 20 Mar 2024 22:30:57 +0200
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="noxK8eeg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1710987746; bh=tGduqx86ofJ4VZiMxzvF3DYEia1EIzuyhA5NWgFAAVU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=noxK8eegEsMhIzMzk5ZzvHOs6uQgunQPrDD5re8yKdfSVsxUAcvrBVVwzsKBzZPNO
+	 ieZpwwYgZsUvUMFFHIJwUBrDRWesSqdnG6hg+ZoNz9YflJOSROVBThWnEmJo7iILke
+	 gM2kfJx1n21N+txJPwIxe6ixbexPTv8Y/YdEsq7c=
+Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
+	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
+	id 597A0486; Thu, 21 Mar 2024 10:22:23 +0800
+X-QQ-mid: xmsmtpt1710987743tvsaz0g1f
+Message-ID: <tencent_AC7946DBB367A364897F43B2045A37625705@qq.com>
+X-QQ-XMAILINFO: NMGzQWUSIfvTh5kaSsJnxvMdWkS/957wfzyIPBAljw4bzj/aSXtxHOo0EAy84O
+	 7wkLb7/wfdb5nQbi8SxFgkcZIguPhh4G8keQhitAAfZ/sRoJT9GXFHFbpS81uavFodxfKiUiadPJ
+	 Q9N7i0sOgR4p8AHxgVWMHAfD23ilJTnkWur5gVmKli1h4LX5psbS7aOW60VwijVhdkULlbAtUJ9d
+	 jssnWg/fOMXDvkylyZ2BICXzW2IsRBoY+oCyOpBf8b1nfW1zZmLAAEgKZjJH6A2MnyCLgqJKEBZF
+	 ZRLVVxOLFjOhVImtqhh6NVEIetjMC6FAzJNNXsKTeeFTF3WRjhrU0FbK/4FyVGkHjk6Ni23aP/WE
+	 0bkroVHzTEEOldQ5gv7J+Zbpc7qPqYnEuiRtFGKEWtLHiJ22zTxHqVQMuttnvsdlKqvY9duuoB2g
+	 v7+2Iv4Bw51LHbN1rO0tKTrZrqpLthkSIwr9lnd9fUoFOF6hLQANGVbUTlDxPL5+ZRktLrCaO18l
+	 e5Up9ySaZ7bEiHJ2P+GhBGfl7rbgbYF7/arY+NvWOr/h7WOK556tphYOYWIgZ8kpYvIeZLomuaQx
+	 nWjJAzbLMRXUaQXu7KuuaYSJ2A/iJ+wFTUCwRYkfRQsfBShTS6kB5k9QWh643hnxokevjnsOEMDV
+	 0of2jcwQiDhII4Qxtiwr73ZyW1qzL/qiwKO07akVDbMjlwu3w9IYx7ljXB5JJvEytRlv1k4qC+qU
+	 cknKaKr5ACZbotmaZj93hVTxNV0gnZkug4Qo/9NOtdhUF0b1ujmUUfg69XCEdB5JgKc6CW1UP/eT
+	 HWzCLWUks8vANXUi/5pK1oWXgWwHrjZqbhSTa2SO3S6hNOBNJgzacCg2KW2yTNMNM49SimhcjUZw
+	 dKnzNGrw1GSSSf5UmYSvq8fYH3eMo2+li1o9IBzobxryHYR5dXRnTK9dQ+ShMn+DWUOKbMpM1iXW
+	 mIUzvCCYg=
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+18840ef96e57b83b7fea@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: [PATCH] ALSA: timer: fix deadlock in _snd_pcm_stream_lock_irqsave
+Date: Thu, 21 Mar 2024 10:22:24 +0800
+X-OQ-MSGID: <20240321022223.1836044-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <00000000000096e5980613f4cb96@google.com>
+References: <00000000000096e5980613f4cb96@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
- <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
- <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
- <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
-Content-Language: en-US
-In-Reply-To: <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+[Syzbot reported]
+swapper/2/0 just changed the state of lock:
+ffff88802a304110 (&group->lock#2){..-.}-{2:2}, at: _snd_pcm_stream_lock_irqsave+0xa0/0xd0 sound/core/pcm_native.c:170
+but this lock took another, SOFTIRQ-unsafe lock in the past:
+ (&timer->lock){+.+.}-{2:2}
 
 
-On 20/03/2024 17:42, Péter Ujfalusi wrote:
->>> On 15/03/2024 13:27, Bastien Curutchet wrote:
->>>> The McBSP's DX pin that outputs serial data during playback streams can
->>>> be used during capture streams to repeatedly output a chosen pattern.
->>>> For instance, this can be useful to drive an active-low signal during
->>>> captures (by choosing <0> as output pattern).
->>>
->>> Are there really any other use of this than to pull down or up the DX
->>> pin (0 or 0xffff)
->>
->> I don't know, indeed today I can only think about these two patterns.
->> I tried to do something in a 'generic' way so it can evolve if needed.
-> 
-> I think the definition of the 'ti,drive-dx' is somehow odd. It allows
-> you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
-> 32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
-> If you have 4 channel capture then I won't speculate what will be on the
-> DX pin ;)
-> 
-> Would not be better to say that the DX pin will be driven low or high
-> during capture _and_ disable the playback support?
+and interrupts could create inverse lock ordering between them.
 
-After some thinking, it might be still better to use the DX pin as GPIO
-and either have a custom machine driver which would handle it (set low
-when a capture trigger happens) or connect it in DAPM as a supply, bias
-or something and ASoC would handle it automagically.
 
-I think that would be cleaner in many ways. What do you think?
+other info that might help us debug this:
+ Possible interrupt unsafe locking scenario:
 
+       CPU0                    CPU1
+       ----                    ----
+  lock(&timer->lock);
+                               local_irq_disable();
+                               lock(&group->lock#2);
+                               lock(&timer->lock);
+  <Interrupt>
+    lock(&group->lock#2);
+
+ *** DEADLOCK ***
+[Fix]
+Ensure that the context interrupt state is the same before and after using the
+timer->lock.
+
+Fixes: beb45974dd49 ("ALSA: timer: Use guard() for locking")
+Reported-and-tested-by: syzbot+18840ef96e57b83b7fea@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ sound/core/timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/timer.c b/sound/core/timer.c
+index 15b07d09c4b7..c501faa30040 100644
+--- a/sound/core/timer.c
++++ b/sound/core/timer.c
+@@ -409,7 +409,7 @@ static void snd_timer_close_locked(struct snd_timer_instance *timeri,
+ 	struct snd_timer *timer = timeri->timer;
+ 
+ 	if (timer) {
+-		guard(spinlock)(&timer->lock);
++		guard(spinlock_irqsave)(&timer->lock);
+ 		timeri->flags |= SNDRV_TIMER_IFLG_DEAD;
+ 	}
+ 
 -- 
-Péter
+2.43.0
+
