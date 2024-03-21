@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE63783CD6;
-	Thu, 21 Mar 2024 13:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1448405C;
+	Thu, 21 Mar 2024 13:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711026514; cv=none; b=OQlmQ9gx30G+QNyw8F05Oi1/tBRrH+61eL39TBryDuGIUBsw67UWXgPCmyzCT5jQvkASrv3yDp8d6RQ16gWmqDf6ar8shcus1X1Ln1UCDSiaYfNiz5pt0BkJKtvLa2HVjMrFP3ai96+MUXjPTpfXkESi7/8HtboPr4ydN8duUXo=
+	t=1711026515; cv=none; b=i5ZGPqaGqxHbPjKbW9ZwJfqXoVrT6qT61tFQkGDvdi+/sZY2Nt3p6tdez/EYn2IAUdtXf/b7SLxmXLubtOSKZb2mJwXeQ9FXxlGudd+1LBdmi6LwrsGeFTJsw7GT5laIxjk331UEoCklZ7X+hxGgb861yoR92VKTetxLA7kB76E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711026514; c=relaxed/simple;
-	bh=ORaWkE27cCIRkjidNjEIlsBLNgSeV1yAAIRoIlSWZbg=;
+	s=arc-20240116; t=1711026515; c=relaxed/simple;
+	bh=WsoSQZkGlz+fd8Vlgor7mRrcyeqvtpLqLmRK3+jjBzs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fa8ZRSe+Ags/aFCB3+a8xHTut2gev5sCbP5DgZ2ww/UGuYEcNjoW/YmURYBCL5vid1Z+R428IcYroHT1BkXGGuBZoP4Zgf9Znv/qMB5d5qtWDip7U5nFFzPO9TgnTQjP8Z14cRJyrIqJb9yFZzMxCKEd40+dOEvkCrYahxXhvZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jeydZim7; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=Ke3O0dAud5iDyqJYVaFJamTxdL2enaWyM/R6ZpTKrvqXq93KDYI5p/YGcRC0hHmKU/qFk6rfbcNxqCjDz+v0R2AgrMQCSQJwsCW29M2BtsRQZz0+yktUyBHcpMEXRzmPXDIvHHDmdWax5BCcefUhimJ1LnLSHef2IU4OJDCa0TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gaOXGXvs; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jeydZim7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gaOXGXvs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711026513; x=1742562513;
+  t=1711026514; x=1742562514;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ORaWkE27cCIRkjidNjEIlsBLNgSeV1yAAIRoIlSWZbg=;
-  b=jeydZim73Qih/IqqSwBfXIAK6UIcUjT0NfidcTop0R4iaQ2uiaTqA+Od
-   BFTw48rUI9pxFSAEbNNsDHGLwRo5YoRIJA5WXtf0H9hitEX1vf/NQ+rLc
-   oUv4N4YEodsQoqKokkkSrNLxWLmKD00XFZelST58BWdxk2Ri0JQwql4av
-   m4IMX7UWLzKQYEQpt8a8xECg5U8Gvon7SEPCE2ylL5vUzLYQ/GJNy3bQ9
-   0E/OBW8xYvq2rtOAMGLpSMw1EqyudvkqPu1JDW2cA+bXtMMRKbLoipzUw
-   gtpuXG+8wHo4RSFmOP9baVGXqQRB4Fzf3mNuGEtXcTubB+Z+OJ+79xat9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127256"
+  bh=WsoSQZkGlz+fd8Vlgor7mRrcyeqvtpLqLmRK3+jjBzs=;
+  b=gaOXGXvsaOYbGlxYxa0X8mk2hTt7SwiWigexcIEkB6WpwW9MJ4HA72Lj
+   BziCCp5FH0XwSjL6AWV4tYZIhwOeg5H9dgWXmSmStEKc7oumHPgz8FxzY
+   bh5hlD4N9cgjMZvoQM9uNCbScPO7bnA+G+8mPPbnQynrz1YlTdgBpBWqS
+   YXPg75hTNhGlVlDAF6r/9SN7VaG6dXl/AlYQ83X7Bz5T5JvJG1CKt/Oz0
+   ZM1G7FXIEHsyTc47bYx80OC2LKt73Bf7kQt81Lar5SEugn1FKx5Eyl6BL
+   vFphvgpZcDwDuJVfDGQTVa1tyRDTmQq8n25Cuvy9LQAEBp4KH4azMgeip
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127268"
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="6127256"
+   d="scan'208";a="6127268"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:25 -0700
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:30 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="51923308"
+   d="scan'208";a="51923326"
 Received: from vyakovle-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.54.189])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:22 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:27 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -48,9 +48,9 @@ Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	stable@vger.kernel.org
-Subject: [PATCH 14/17] ASoC: SOF: sof-pcm: Add pointer callback to sof_ipc_pcm_ops
-Date: Thu, 21 Mar 2024 15:08:11 +0200
-Message-ID: <20240321130814.4412-15-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 16/17] ALSA: hda: Add pplcllpl/u members to hdac_ext_stream
+Date: Thu, 21 Mar 2024 15:08:13 +0200
+Message-ID: <20240321130814.4412-17-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
 References: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
@@ -62,72 +62,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The IPC specific pointer callback can be used when additional or custom
-handling is needed during the pointer calculation, like executing a delay
-calculation at the same time to minimize drift between the reported pointer
-and the calculated delay.
+The pplcllpl/u can be used to save the Link Connection Linear Link
+Position register value to be used for compensation of the LLP register
+value in case the counter is not reset (after pause/resume or
+stop/start without closing the stream).
+
+The LLP can be used along with PPHCLDP to calculate delay caused by the DSP
+processing for HDA links.
 
 Cc: stable@vger.kernel.org # 6.8
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/sof/pcm.c       | 8 ++++++++
- sound/soc/sof/sof-audio.h | 8 +++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ include/sound/hdaudio_ext.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index 33d576b17647..f03cee94bce6 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -388,13 +388,21 @@ static snd_pcm_uframes_t sof_pcm_pointer(struct snd_soc_component *component,
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
-+	const struct sof_ipc_pcm_ops *pcm_ops = sof_ipc_get_ops(sdev, pcm);
- 	struct snd_sof_pcm *spcm;
- 	snd_pcm_uframes_t host, dai;
-+	int ret = -EOPNOTSUPP;
+diff --git a/include/sound/hdaudio_ext.h b/include/sound/hdaudio_ext.h
+index a8bebac1e4b2..957295364a5e 100644
+--- a/include/sound/hdaudio_ext.h
++++ b/include/sound/hdaudio_ext.h
+@@ -56,6 +56,9 @@ struct hdac_ext_stream {
+ 	u32 pphcldpl;
+ 	u32 pphcldpu;
  
- 	/* nothing to do for BE */
- 	if (rtd->dai_link->no_pcm)
- 		return 0;
- 
-+	if (pcm_ops && pcm_ops->pointer)
-+		ret = pcm_ops->pointer(component, substream, &host);
++	u32 pplcllpl;
++	u32 pplcllpu;
 +
-+	if (ret != -EOPNOTSUPP)
-+		return ret ? ret : host;
-+
- 	/* use dsp ops pointer callback directly if set */
- 	if (sof_ops(sdev)->pcm_pointer)
- 		return sof_ops(sdev)->pcm_pointer(sdev, substream);
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 04e5cb2c70a7..86bbb531e142 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -103,7 +103,10 @@ struct snd_sof_dai_config_data {
-  *	       additional memory in the SOF PCM stream structure
-  * @pcm_free: Function pointer for PCM free that can be used for freeing any
-  *	       additional memory in the SOF PCM stream structure
-- * @delay: Function pointer for pcm delay calculation
-+ * @pointer: Function pointer for pcm pointer
-+ *	     Note: the @pointer callback may return -EOPNOTSUPP which should be
-+ *		   handled in a same way as if the callback is not provided
-+ * @delay: Function pointer for pcm delay reporting
-  * @reset_hw_params_during_stop: Flag indicating whether the hw_params should be reset during the
-  *				 STOP pcm trigger
-  * @ipc_first_on_start: Send IPC before invoking platform trigger during
-@@ -124,6 +127,9 @@ struct sof_ipc_pcm_ops {
- 	int (*dai_link_fixup)(struct snd_soc_pcm_runtime *rtd, struct snd_pcm_hw_params *params);
- 	int (*pcm_setup)(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm);
- 	void (*pcm_free)(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm);
-+	int (*pointer)(struct snd_soc_component *component,
-+		       struct snd_pcm_substream *substream,
-+		       snd_pcm_uframes_t *pointer);
- 	snd_pcm_sframes_t (*delay)(struct snd_soc_component *component,
- 				   struct snd_pcm_substream *substream);
- 	bool reset_hw_params_during_stop;
+ 	bool decoupled:1;
+ 	bool link_locked:1;
+ 	bool link_prepared;
 -- 
 2.44.0
 
