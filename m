@@ -1,158 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235BE83CD6;
-	Thu, 21 Mar 2024 13:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9B58232;
+	Thu, 21 Mar 2024 14:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711026516; cv=none; b=FNi68CFLTD0+nD6hVe8fhlWI7ZIZLI04nn6PP6aNmQ2J8YcGHbu6WvhaXDRXm2ZQKGzajmUwkHh9WxDBhIpP30D2ITX6d/0Mg5cyUQa4uex/texWy/4Bw7MutBEzTzoGCOxF+rOIVQzsEviS7lATecH+TctakHYtsMGqUoHpLe8=
+	t=1711032806; cv=none; b=qhnUqNgDztqkKxIOgjobSlv9FmSqD8aFN3LLp4KZQcOaCF0vSsVeZ7WPZmnq35C/SFHyc+aPv0yB9stBxqUCdrkH37q3p8sxxmzuhz1Q1zfPNRlthWTZX5x+c0Olm4iC7EEd6lNXSibc23ywE7v+s4ZhkqUUeZpbx/+vl/qWezk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711026516; c=relaxed/simple;
-	bh=qg7WTflSgWnykKRCW93DXzCAr6LePwXPuCvvmbMGhHM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LsFah4pQvwuJi716zBIC7TzdtOHdklnlGpV4V4wo0I6bNqH3vohSiGZ6fZSzpvCZPYfPGalUvpsIoTIKEXOlI+jchaPocUrTxmr6LacC9TP/61Rbhn9yKHa64Zz9dSv+jleyDuMSdJ8KXxkMBi5qNuWyKaavppg7OwLSP0nWDxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBIwS2J3; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711032806; c=relaxed/simple;
+	bh=xrAps+kQb2l8QaGn7Q6eCI50hbOHvxC5cKDHNy6xTB4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=la2+WOKCeVTqiB9laHJY+86CtaBZeqdDFefQk5kbEx50VqUmWXIrjf7B2NFIt+ULAFbCEVmTfUacFnHoozzaEQz8uc3uoHCpSgpTBVJbNqhYZuccqUPJW6Pfel4zzkijkvlBj/7wRAWBNO28B8D7lPbrqgnr0m1auWrBa7GS34g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Bo1mXDrd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=72pv6KOl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBIwS2J3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711026515; x=1742562515;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qg7WTflSgWnykKRCW93DXzCAr6LePwXPuCvvmbMGhHM=;
-  b=LBIwS2J38doSqa1cG7dStV37fLrW1mTu2TG7jpsV+KqpBZZsVpcJzSM7
-   b214skkSefvP8cgS0/0Gj5q3OLfeRvjME5BS92y5FkKjBQAEVk/clG1hH
-   UswoIbux/4qHoX5f4vjsvwDlNbhMoj99mJMfBOFsOS3H05nHfg6rE5ljH
-   nUjsFx/ALd11wxXEmuJuKU2WuSbpbK68Z2ENU3xabx5kwWKh7rewVpowM
-   1DmY1Q/wVu0B2a3SAp9s+LoAdMkkBzl79soMn8umXe26HfF9yNkXi4N8w
-   sa10er2/WGqPk/NQa8dyS/z99n5IygSjzFm7Kuuzbq9gaA+QDQaH1bCcI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127275"
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="6127275"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="51923339"
-Received: from vyakovle-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.54.189])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:30 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	stable@vger.kernel.org
-Subject: [PATCH 17/17] ASoC: SOF: Intel: hda: Compensate LLP in case it is not reset
-Date: Thu, 21 Mar 2024 15:08:14 +0200
-Message-ID: <20240321130814.4412-18-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
-References: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Bo1mXDrd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="72pv6KOl"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1711032802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2r4kmlwH724Y4qI43//rL/0kpwyX9e5Eqqy+Tzlxna4=;
+	b=Bo1mXDrdv9XN9ZfmeP7xgJh41zMLO8nOEsx6Tq0pqTkcVSOjDALigxXRNqQR8I0ICkjnfE
+	jKO/rVkdvlpkv5QW3DdVSUE4ZpI6JNA5PUc3upt94pt9Nne/B2u264SiabjnUjwD2L0TvP
+	nviHQ1omFuOg+DMG4rX7W/RNABhShvvJfJ6ph9bQLYwJbxU4c3B+hFv6o3gbZL6IO1et4L
+	Ea2A6wYiuyQJAU+QkrkR+1uaIIBGH4tu9wPipDWhkzBy9amAzqt4KSNAnaeYkgXyRKtEan
+	ZKOg7m+zHEJ3/7TT611E4X5nrcCwVRrIumMmrk9MKxUMp7ci7AOVlnh1U81J0g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1711032802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2r4kmlwH724Y4qI43//rL/0kpwyX9e5Eqqy+Tzlxna4=;
+	b=72pv6KOlbz95mP5aFQ19r1gYUoZf8dUWfzAVreSPhDIR2yaW8/hAvL1hmsHdgv1+EU9W0K
+	esvYdHhzFZEGnZDg==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+ subramanian.mohan@intel.com, basavaraj.goudar@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v5 02/11] timekeeping: Add function to convert realtime
+ to base clock
+In-Reply-To: <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+ <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+Date: Thu, 21 Mar 2024 15:53:22 +0100
+Message-ID: <87le6bhc0t.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-During pause/reset or stop/start the LLP counter is not reset, which will
-result broken delay reporting.
+On Tue, Mar 19 2024 at 18:35, lakshmi.sowjanya.d@intel.com wrote:
+> +bool ktime_real_to_base_clock(ktime_t treal, enum clocksource_ids base_id, u64 *cycles)
+> +{
+> +	struct timekeeper *tk = &tk_core.timekeeper;
+> +	unsigned int seq;
+> +	u64 delta;
+> +
+> +	do {
+> +		seq = read_seqcount_begin(&tk_core.seq);
+> +		delta = (u64)treal - tk->tkr_mono.base_real;
+> +		if (delta > tk->tkr_mono.clock->max_idle_ns)
+> +			return false;
 
-Read the LLP value on STOP/PAUSE trigger and use it in LLP reading to
-normalize the LLP from the register.
+I don't think this cutoff is valid. There is no guarantee that this is
+linear unless:
 
-Cc: stable@vger.kernel.org # 6.8
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/sof/intel/hda-dai-ops.c | 11 +++++++++++
- sound/soc/sof/intel/hda-pcm.c     |  8 ++++++++
- sound/soc/sof/intel/hda-stream.c  |  9 ++++++++-
- 3 files changed, 27 insertions(+), 1 deletion(-)
+       Treal[last timekeeper update] <= treal < Treal[next timekeeper update]
 
-diff --git a/sound/soc/sof/intel/hda-dai-ops.c b/sound/soc/sof/intel/hda-dai-ops.c
-index c50ca9e72d37..b073720b4cf4 100644
---- a/sound/soc/sof/intel/hda-dai-ops.c
-+++ b/sound/soc/sof/intel/hda-dai-ops.c
-@@ -7,6 +7,7 @@
- 
- #include <sound/pcm_params.h>
- #include <sound/hdaudio_ext.h>
-+#include <sound/hda_register.h>
- #include <sound/hda-mlink.h>
- #include <sound/sof/ipc4/header.h>
- #include <uapi/sound/sof/header.h>
-@@ -362,6 +363,16 @@ static int hda_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
- 	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
- 		snd_hdac_ext_stream_clear(hext_stream);
-+
-+		/*
-+		 * Save the LLP registers in case the stream is
-+		 * restarting due PAUSE_RELEASE, or START without a pcm
-+		 * close/open since in this case the LLP register is not reset
-+		 * to 0 and the delay calculation will return with invalid
-+		 * results.
-+		 */
-+		hext_stream->pplcllpl = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPL);
-+		hext_stream->pplcllpu = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPU);
- 		break;
- 	default:
- 		dev_err(sdev->dev, "unknown trigger command %d\n", cmd);
-diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index 69fefcd1abc5..d7b446f3f973 100644
---- a/sound/soc/sof/intel/hda-pcm.c
-+++ b/sound/soc/sof/intel/hda-pcm.c
-@@ -282,6 +282,14 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 
- 	/* binding pcm substream to hda stream */
- 	substream->runtime->private_data = &dsp_stream->hstream;
-+
-+	/*
-+	 * Reset the llp cache values (they are used for LLP compensation in
-+	 * case the counter is not reset)
-+	 */
-+	dsp_stream->pplcllpl = 0;
-+	dsp_stream->pplcllpu = 0;
-+
- 	return 0;
- }
- 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 8504a4f27b60..0c189d3b19c1 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -1064,6 +1064,8 @@ snd_pcm_uframes_t hda_dsp_stream_get_position(struct hdac_stream *hstream,
- 	return pos;
- }
- 
-+#define merge_u64(u32_u, u32_l) (((u64)(u32_u) << 32) | (u32_l))
-+
- /**
-  * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-  * @sdev: SOF device
-@@ -1093,7 +1095,12 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
- 	llp_l = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPL);
- 	llp_u = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPU);
- 
--	return ((u64)llp_u << 32) | llp_l;
-+	/* Compensate the LLP counter with the saved offset */
-+	if (hext_stream->pplcllpl || hext_stream->pplcllpu)
-+		return merge_u64(llp_u, llp_l) -
-+		       merge_u64(hext_stream->pplcllpu, hext_stream->pplcllpl);
-+
-+	return merge_u64(llp_u, llp_l);
- }
- 
- /**
--- 
-2.44.0
+Look at the dance in get_device_system_crosststamp() and
+adjust_historical_crosststamp() to see why.
 
+> +		*cycles = tk->tkr_mono.cycle_last + convert_ns_to_cs(delta);
+> +		if (!convert_cs_to_base(cycles, base_id))
+> +			return false;
+> +	} while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL_GPL(ktime_real_to_base_clock);
+
+Looking at the usage site:
+
+> +static bool pps_generate_next_pulse(struct pps_tio *tio, ktime_t expires)
+> +{
+> +	u64 art;
+> +
+> +	if (!ktime_real_to_base_clock(expires, CSID_X86_ART, &art)) {
+> +		pps_tio_disable(tio);
+
+I'm pretty sure this can happen when there is sufficient delay between
+the check for (now - expires < SAFE_TIME_NS) and the delta computation
+in ktime_real_to_base_clock() if there is a timerkeeper update
+interleaving which brings tkr_mono.base_real in front of expires.
+
+Is that intentional and correct?
+
+If so, then it's inconsistent with the behaviour of the hrtimer
+callback:
+
+> +		return false;
+> +	}
+> +
+> +	pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
+> +	return true;
+> +}
+> +
+> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
+> +{
+> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
+> +	ktime_t expires, now;
+> +
+> +	guard(spinlock)(&tio->lock);
+> +
+> +	expires = hrtimer_get_expires(timer);
+> +	now = ktime_get_real();
+> +
+> +	if (now - expires < SAFE_TIME_NS) {
+> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
+> +			return HRTIMER_NORESTART;
+> +	}
+
+This safe guard does not care about time being set. I'm not familiar
+with the PPS logic, but is it expected that the pulse pattern will be
+like this:
+
+         
+
+    ---|-----|-----|-----|----------------->
+       P     P  ^        P
+                |
+        clock_settime(CLOCK_REALTIME, now - 2 seconds)         
+        
+        Obviously the pulse gap will be as big as the time is set
+        backwards, which might be way more than 2 seconds.
+        
+
+    ---|-----|-----|-----|----------------->
+       P     P  ^  P     P
+                |
+        clock_settime(CLOCK_REALTIME, now + 2 seconds)         
+
+I don't see anything in this code which cares about CLOCK_REALTIME being
+set via clock_settime() or adjtimex().
+
+Aside of that I have a question about how the TIO hardware treats this
+case:
+
+   ktime_real_to_base_clock(expires, &art);
+
+-> GAP which makes @art get into the past
+
+   pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
+
+Will the hardware ignore that already expired value or just emit a pulse
+immediately? In the latter case the pulse will be at a random point in
+time, which does not sound correct.
+
+Thanks,
+
+        tglx
