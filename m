@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E2883CAA;
-	Thu, 21 Mar 2024 13:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235BE83CD6;
+	Thu, 21 Mar 2024 13:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711026515; cv=none; b=BBxbOdDpUpoFkV9c2YJJg6u5D3DiNFtNUBurakcjqtPjFTF6QkDhsqQQ+4xxqjJEaIOy6ag6fYyyDe0+tC+9Ut8Kj3HUO5pK/U+uLTvh5N+11QR5pzvy0EngfCLPECHLX/GUKgFgYQKi0F1vzzUaCdQGUYDnYAdklKK8Z3h2aAQ=
+	t=1711026516; cv=none; b=FNi68CFLTD0+nD6hVe8fhlWI7ZIZLI04nn6PP6aNmQ2J8YcGHbu6WvhaXDRXm2ZQKGzajmUwkHh9WxDBhIpP30D2ITX6d/0Mg5cyUQa4uex/texWy/4Bw7MutBEzTzoGCOxF+rOIVQzsEviS7lATecH+TctakHYtsMGqUoHpLe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711026515; c=relaxed/simple;
-	bh=zAswIAhw088DZTVhXeA7+578dtBcFkjjc3KaMdQgXG0=;
+	s=arc-20240116; t=1711026516; c=relaxed/simple;
+	bh=qg7WTflSgWnykKRCW93DXzCAr6LePwXPuCvvmbMGhHM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B36pT8Px+SIC9KvUNvVkbtj85ltTWYC0tcbKDU9EI+vHrqU4hOitJflpcvAlLzOiEiHFcUaeXjc5z0i/9syn/c66GQI6e8U7V6R1B7VTwwGD2kTkdTUFV+rfLw+CkX07dd/wznTCcPNoiuG5zt+4ZzAVjxao9cbepMyeu37uo64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWabU9m9; arc=none smtp.client-ip=198.175.65.17
+	 MIME-Version; b=LsFah4pQvwuJi716zBIC7TzdtOHdklnlGpV4V4wo0I6bNqH3vohSiGZ6fZSzpvCZPYfPGalUvpsIoTIKEXOlI+jchaPocUrTxmr6LacC9TP/61Rbhn9yKHa64Zz9dSv+jleyDuMSdJ8KXxkMBi5qNuWyKaavppg7OwLSP0nWDxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBIwS2J3; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWabU9m9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBIwS2J3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711026514; x=1742562514;
+  t=1711026515; x=1742562515;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zAswIAhw088DZTVhXeA7+578dtBcFkjjc3KaMdQgXG0=;
-  b=GWabU9m9yrJy30s9x+vfmDr0D1iT0GJa7rAT7zhTkLIxS86YD/hJQlIV
-   5avWu2XFQu/fD1swVjH4+HhRyhwWGgkvbRpj0dt8B04o0bxrUbmMZn1HF
-   Bsg+8hIQBuGgHR26BsLwEiXvs759HDlpOaaG38x0fS155D6fsZJJJv4gY
-   LYu5QgVU2laT3FPru5XcnugCf7SJq0sPLYYoQQrVvO7t0goR/8450qrIq
-   PJxWcMx+dG4IrHgjmzG76PBRseqgPeL1HRplQv+l8rvctO+BOfyAHJTcf
-   DGd3OlXZi9EFE6kYH3rk7C8afPLIcw/bKcDNrVH0xWUBoFwjwV9T7OXba
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127261"
+  bh=qg7WTflSgWnykKRCW93DXzCAr6LePwXPuCvvmbMGhHM=;
+  b=LBIwS2J38doSqa1cG7dStV37fLrW1mTu2TG7jpsV+KqpBZZsVpcJzSM7
+   b214skkSefvP8cgS0/0Gj5q3OLfeRvjME5BS92y5FkKjBQAEVk/clG1hH
+   UswoIbux/4qHoX5f4vjsvwDlNbhMoj99mJMfBOFsOS3H05nHfg6rE5ljH
+   nUjsFx/ALd11wxXEmuJuKU2WuSbpbK68Z2ENU3xabx5kwWKh7rewVpowM
+   1DmY1Q/wVu0B2a3SAp9s+LoAdMkkBzl79soMn8umXe26HfF9yNkXi4N8w
+   sa10er2/WGqPk/NQa8dyS/z99n5IygSjzFm7Kuuzbq9gaA+QDQaH1bCcI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6127275"
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="6127261"
+   d="scan'208";a="6127275"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:27 -0700
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="51923316"
+   d="scan'208";a="51923339"
 Received: from vyakovle-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.54.189])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:25 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 06:08:30 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -48,9 +48,9 @@ Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	stable@vger.kernel.org
-Subject: [PATCH 15/17] ASoC: SOF: ipc4-pcm: Correct the delay calculation
-Date: Thu, 21 Mar 2024 15:08:12 +0200
-Message-ID: <20240321130814.4412-16-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 17/17] ASoC: SOF: Intel: hda: Compensate LLP in case it is not reset
+Date: Thu, 21 Mar 2024 15:08:14 +0200
+Message-ID: <20240321130814.4412-18-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
 References: <20240321130814.4412-1-peter.ujfalusi@linux.intel.com>
@@ -62,288 +62,97 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch improves the delay calculation by relying on the
-LLP (Linear Link Position) on the DAI side and the
-LDP (Linear Data Pointer) on the host side. The LDP provides the same DMA
-position as LPIB, but with a linear count instead of a position in the
-ALSA ring buffer. The LDP values are provided in bytes and must be
-converted to frames. The difference in units means that the host counter
-will wrap earlier than the LLP. We need to wrap the LLP at the same
-boundary as the host counter.
+During pause/reset or stop/start the LLP counter is not reset, which will
+result broken delay reporting.
 
-The ASoC framework relies on separate pointer and delay callback.
-Measurement errors can be reduced by processing all the counter values in
-the pointer callback. The delay value is stored, and will be reported to
-higher levels in the delay callback.
-
-For playback, the firmware provides a stream_start offset to handle
-mixing/pause usages, where the DAI might have started earlier than the
-PCM device. The delay calculation must be special-cased when the link
-counter has not reached the start offset value, i.e. no valid audio has
-left the DSP.
+Read the LLP value on STOP/PAUSE trigger and use it in LLP reading to
+normalize the LLP from the register.
 
 Cc: stable@vger.kernel.org # 6.8
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/sof/ipc4-pcm.c | 159 +++++++++++++++++++++++++++++++--------
- 1 file changed, 127 insertions(+), 32 deletions(-)
+ sound/soc/sof/intel/hda-dai-ops.c | 11 +++++++++++
+ sound/soc/sof/intel/hda-pcm.c     |  8 ++++++++
+ sound/soc/sof/intel/hda-stream.c  |  9 ++++++++-
+ 3 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 905dbc4852b1..e915f9f87a6c 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -19,14 +19,22 @@
-  * struct sof_ipc4_timestamp_info - IPC4 timestamp info
-  * @host_copier: the host copier of the pcm stream
-  * @dai_copier: the dai copier of the pcm stream
-- * @stream_start_offset: reported by fw in memory window
-+ * @stream_start_offset: reported by fw in memory window (converted to frames)
-+ * @stream_end_offset: reported by fw in memory window (converted to frames)
-  * @llp_offset: llp offset in memory window
-+ * @boundary: wrap boundary should be used for the LLP frame counter
-+ * @delay: Calculated and stored in pointer callback. The stored value is
-+ *	   returned in the delay callback.
-  */
- struct sof_ipc4_timestamp_info {
- 	struct sof_ipc4_copier *host_copier;
- 	struct sof_ipc4_copier *dai_copier;
- 	u64 stream_start_offset;
-+	u64 stream_end_offset;
- 	u32 llp_offset;
+diff --git a/sound/soc/sof/intel/hda-dai-ops.c b/sound/soc/sof/intel/hda-dai-ops.c
+index c50ca9e72d37..b073720b4cf4 100644
+--- a/sound/soc/sof/intel/hda-dai-ops.c
++++ b/sound/soc/sof/intel/hda-dai-ops.c
+@@ -7,6 +7,7 @@
+ 
+ #include <sound/pcm_params.h>
+ #include <sound/hdaudio_ext.h>
++#include <sound/hda_register.h>
+ #include <sound/hda-mlink.h>
+ #include <sound/sof/ipc4/header.h>
+ #include <uapi/sound/sof/header.h>
+@@ -362,6 +363,16 @@ static int hda_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+ 		snd_hdac_ext_stream_clear(hext_stream);
 +
-+	u64 boundary;
-+	snd_pcm_sframes_t delay;
- };
++		/*
++		 * Save the LLP registers in case the stream is
++		 * restarting due PAUSE_RELEASE, or START without a pcm
++		 * close/open since in this case the LLP register is not reset
++		 * to 0 and the delay calculation will return with invalid
++		 * results.
++		 */
++		hext_stream->pplcllpl = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPL);
++		hext_stream->pplcllpu = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPU);
+ 		break;
+ 	default:
+ 		dev_err(sdev->dev, "unknown trigger command %d\n", cmd);
+diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
+index 69fefcd1abc5..d7b446f3f973 100644
+--- a/sound/soc/sof/intel/hda-pcm.c
++++ b/sound/soc/sof/intel/hda-pcm.c
+@@ -282,6 +282,14 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
  
- static int sof_ipc4_set_multi_pipeline_state(struct snd_sof_dev *sdev, u32 state,
-@@ -726,6 +734,10 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- 	if (abi_version < SOF_IPC4_FW_REGS_ABI_VER)
- 		support_info = false;
- 
-+	/* For delay reporting the get_host_byte_counter callback is needed */
-+	if (!sof_ops(sdev) || !sof_ops(sdev)->get_host_byte_counter)
-+		support_info = false;
-+
- 	for_each_pcm_streams(stream) {
- 		pipeline_list = &spcm->stream[stream].pipeline_list;
- 
-@@ -858,7 +870,6 @@ static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
- 	struct sof_ipc4_copier *host_copier = time_info->host_copier;
- 	struct sof_ipc4_copier *dai_copier = time_info->dai_copier;
- 	struct sof_ipc4_pipeline_registers ppl_reg;
--	u64 stream_start_position;
- 	u32 dai_sample_size;
- 	u32 ch, node_index;
- 	u32 offset;
-@@ -875,38 +886,51 @@ static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
- 	if (ppl_reg.stream_start_offset == SOF_IPC4_INVALID_STREAM_POSITION)
- 		return -EINVAL;
- 
--	stream_start_position = ppl_reg.stream_start_offset;
- 	ch = dai_copier->data.out_format.fmt_cfg;
- 	ch = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(ch);
- 	dai_sample_size = (dai_copier->data.out_format.bit_depth >> 3) * ch;
--	/* convert offset to sample count */
--	do_div(stream_start_position, dai_sample_size);
--	time_info->stream_start_offset = stream_start_position;
-+
-+	/* convert offsets to frame count */
-+	time_info->stream_start_offset = ppl_reg.stream_start_offset;
-+	do_div(time_info->stream_start_offset, dai_sample_size);
-+	time_info->stream_end_offset = ppl_reg.stream_end_offset;
-+	do_div(time_info->stream_end_offset, dai_sample_size);
+ 	/* binding pcm substream to hda stream */
+ 	substream->runtime->private_data = &dsp_stream->hstream;
 +
 +	/*
-+	 * Calculate the wrap boundary need to be used for delay calculation
-+	 * The host counter is in bytes, it will wrap earlier than the frames
-+	 * based link counter.
++	 * Reset the llp cache values (they are used for LLP compensation in
++	 * case the counter is not reset)
 +	 */
-+	time_info->boundary = div64_u64(~((u64)0),
-+					frames_to_bytes(substream->runtime, 1));
-+	/* Initialize the delay value to 0 (no delay) */
-+	time_info->delay = 0;
- 
++	dsp_stream->pplcllpl = 0;
++	dsp_stream->pplcllpu = 0;
++
  	return 0;
  }
  
--static snd_pcm_sframes_t sof_ipc4_pcm_delay(struct snd_soc_component *component,
--					    struct snd_pcm_substream *substream)
-+static int sof_ipc4_pcm_pointer(struct snd_soc_component *component,
-+				struct snd_pcm_substream *substream,
-+				snd_pcm_uframes_t *pointer)
- {
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct sof_ipc4_timestamp_info *time_info;
- 	struct sof_ipc4_llp_reading_slot llp;
--	snd_pcm_uframes_t head_ptr, tail_ptr;
-+	snd_pcm_uframes_t head_cnt, tail_cnt;
- 	struct snd_sof_pcm_stream *stream;
-+	u64 dai_cnt, host_cnt, host_ptr;
- 	struct snd_sof_pcm *spcm;
--	u64 tmp_ptr;
- 	int ret;
- 
- 	spcm = snd_sof_find_spcm_dai(component, rtd);
- 	if (!spcm)
--		return 0;
-+		return -EOPNOTSUPP;
- 
- 	stream = &spcm->stream[substream->stream];
- 	time_info = stream->private;
- 	if (!time_info)
--		return 0;
-+		return -EOPNOTSUPP;
- 
- 	/*
- 	 * stream_start_offset is updated to memory window by FW based on
-@@ -916,46 +940,116 @@ static snd_pcm_sframes_t sof_ipc4_pcm_delay(struct snd_soc_component *component,
- 	if (time_info->stream_start_offset == SOF_IPC4_INVALID_STREAM_POSITION) {
- 		ret = sof_ipc4_get_stream_start_offset(sdev, substream, stream, time_info);
- 		if (ret < 0)
--			return 0;
-+			return -EOPNOTSUPP;
- 	}
- 
-+	/* For delay calculation we need the host counter */
-+	host_cnt = snd_sof_pcm_get_host_byte_counter(sdev, component, substream);
-+	host_ptr = host_cnt;
-+
-+	/* convert the host_cnt to frames */
-+	host_cnt = div64_u64(host_cnt, frames_to_bytes(substream->runtime, 1));
-+
- 	/*
- 	 * If the LLP counter is not reported by firmware in the SRAM window
--	 * then read the dai (link) position via host accessible means if
-+	 * then read the dai (link) counter via host accessible means if
- 	 * available.
- 	 */
- 	if (!time_info->llp_offset) {
--		tmp_ptr = snd_sof_pcm_get_dai_frame_counter(sdev, component, substream);
--		if (!tmp_ptr)
--			return 0;
-+		dai_cnt = snd_sof_pcm_get_dai_frame_counter(sdev, component, substream);
-+		if (!dai_cnt)
-+			return -EOPNOTSUPP;
- 	} else {
- 		sof_mailbox_read(sdev, time_info->llp_offset, &llp, sizeof(llp));
--		tmp_ptr = ((u64)llp.reading.llp_u << 32) | llp.reading.llp_l;
-+		dai_cnt = ((u64)llp.reading.llp_u << 32) | llp.reading.llp_l;
- 	}
-+	dai_cnt += time_info->stream_end_offset;
- 
--	/* In two cases dai dma position is not accurate
-+	/* In two cases dai dma counter is not accurate
- 	 * (1) dai pipeline is started before host pipeline
--	 * (2) multiple streams mixed into one. Each stream has the same dai dma position
-+	 * (2) multiple streams mixed into one. Each stream has the same dai dma
-+	 *     counter
-+	 *
-+	 * Firmware calculates correct stream_start_offset for all cases
-+	 * including above two.
-+	 * Driver subtracts stream_start_offset from dai dma counter to get
-+	 * accurate one
-+	 */
-+
-+	/*
-+	 * On stream start the dai counter might not yet have reached the
-+	 * stream_start_offset value which means that no frames have left the
-+	 * DSP yet from the audio stream (on playback, capture streams have
-+	 * offset of 0 as we start capturing right away).
-+	 * In this case we need to adjust the distance between the counters by
-+	 * increasing the host counter by (offset - dai_counter).
-+	 * Otherwise the dai_counter needs to be adjusted to reflect the number
-+	 * of valid frames passed on the DAI side.
- 	 *
--	 * Firmware calculates correct stream_start_offset for all cases including above two.
--	 * Driver subtracts stream_start_offset from dai dma position to get accurate one
-+	 * The delay is the difference between the counters on the two
-+	 * sides of the DSP.
- 	 */
--	tmp_ptr -= time_info->stream_start_offset;
-+	if (dai_cnt < time_info->stream_start_offset) {
-+		host_cnt += time_info->stream_start_offset - dai_cnt;
-+		dai_cnt = 0;
-+	} else {
-+		dai_cnt -= time_info->stream_start_offset;
-+	}
-+
-+	/* Wrap the dai counter at the boundary where the host counter wraps */
-+	div64_u64_rem(dai_cnt, time_info->boundary, &dai_cnt);
- 
--	/* Calculate the delay taking into account that both pointer can wrap */
--	div64_u64_rem(tmp_ptr, substream->runtime->boundary, &tmp_ptr);
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		head_ptr = substream->runtime->status->hw_ptr;
--		tail_ptr = tmp_ptr;
-+		head_cnt = host_cnt;
-+		tail_cnt = dai_cnt;
- 	} else {
--		head_ptr = tmp_ptr;
--		tail_ptr = substream->runtime->status->hw_ptr;
-+		head_cnt = dai_cnt;
-+		tail_cnt = host_cnt;
-+	}
-+
-+	if (head_cnt < tail_cnt) {
-+		time_info->delay = time_info->boundary - tail_cnt + head_cnt;
-+		goto out;
- 	}
- 
--	if (head_ptr < tail_ptr)
--		return substream->runtime->boundary - tail_ptr + head_ptr;
-+	time_info->delay =  head_cnt - tail_cnt;
-+
-+out:
-+	/*
-+	 * Convert the host byte counter to PCM pointer which wraps in buffer
-+	 * and it is in frames
-+	 */
-+	div64_u64_rem(host_ptr, snd_pcm_lib_buffer_bytes(substream), &host_ptr);
-+	*pointer = bytes_to_frames(substream->runtime, host_ptr);
-+
-+	return 0;
-+}
-+
-+static snd_pcm_sframes_t sof_ipc4_pcm_delay(struct snd_soc_component *component,
-+					    struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct sof_ipc4_timestamp_info *time_info;
-+	struct snd_sof_pcm_stream *stream;
-+	struct snd_sof_pcm *spcm;
-+
-+	spcm = snd_sof_find_spcm_dai(component, rtd);
-+	if (!spcm)
-+		return 0;
-+
-+	stream = &spcm->stream[substream->stream];
-+	time_info = stream->private;
-+	/*
-+	 * Report the stored delay value calculated in the pointer callback.
-+	 * In the unlikely event that the calculation was skipped/aborted, the
-+	 * default 0 delay returned.
-+	 */
-+	if (time_info)
-+		return time_info->delay;
-+
-+	/* No delay information available, report 0 as delay */
-+	return 0;
- 
--	return head_ptr - tail_ptr;
+diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
+index 8504a4f27b60..0c189d3b19c1 100644
+--- a/sound/soc/sof/intel/hda-stream.c
++++ b/sound/soc/sof/intel/hda-stream.c
+@@ -1064,6 +1064,8 @@ snd_pcm_uframes_t hda_dsp_stream_get_position(struct hdac_stream *hstream,
+ 	return pos;
  }
  
- const struct sof_ipc_pcm_ops ipc4_pcm_ops = {
-@@ -965,6 +1059,7 @@ const struct sof_ipc_pcm_ops ipc4_pcm_ops = {
- 	.dai_link_fixup = sof_ipc4_pcm_dai_link_fixup,
- 	.pcm_setup = sof_ipc4_pcm_setup,
- 	.pcm_free = sof_ipc4_pcm_free,
-+	.pointer = sof_ipc4_pcm_pointer,
- 	.delay = sof_ipc4_pcm_delay,
- 	.ipc_first_on_start = true,
- 	.platform_stop_during_hw_free = true,
++#define merge_u64(u32_u, u32_l) (((u64)(u32_u) << 32) | (u32_l))
++
+ /**
+  * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
+  * @sdev: SOF device
+@@ -1093,7 +1095,12 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
+ 	llp_l = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPL);
+ 	llp_u = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPU);
+ 
+-	return ((u64)llp_u << 32) | llp_l;
++	/* Compensate the LLP counter with the saved offset */
++	if (hext_stream->pplcllpl || hext_stream->pplcllpu)
++		return merge_u64(llp_u, llp_l) -
++		       merge_u64(hext_stream->pplcllpu, hext_stream->pplcllpl);
++
++	return merge_u64(llp_u, llp_l);
+ }
+ 
+ /**
 -- 
 2.44.0
 
