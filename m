@@ -1,115 +1,120 @@
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478E1FA2;
-	Thu, 21 Mar 2024 02:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983CD79C0;
+	Thu, 21 Mar 2024 03:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710987754; cv=none; b=G33vMncjnFykww/6R8n5y/zg0f4hadExyv6MD/sOrNmMQpWnnrASecr8RJZp12pE3hyTSCoCxAs5QU7HF9DVcUpNSbXX3JUmV/7SF4uAsnAdgLfRRElCR3FMRkkZU9C+4mZgzCHErBi+ccaWbOR8TgXAqPxtLfEnzrLpgZFd/ko=
+	t=1710991597; cv=none; b=ZloV69Ig+0ABIGsirSHg027nkaXBtKlJll3dKvF0TcxnrqPlUrrQSKB7MPy3PO6lAp7JewC4iUn6/ZHZeZackYkKXCZY0FkubiUV0bVTfaayKSJuLI/KVSXol1hE0VBZPmaXHQv/6QfYOGwA5URkVm+PiWMiSXBiH7b6zuzQe9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710987754; c=relaxed/simple;
-	bh=jZ+LsTmK95ZdAmRuA0OFABHxkMFYGbBWun3N61Cxfug=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=ELfuIQj/QRwdgp4MWUn+IMQ2p48LoFE4uZeGwn/sImWRPSTuN7aA24EMjhc67MbshEmZWtuPGv6lanu67qJFpH+s+5KKvlYFThc3NqfTQp4bWEjNeR7gr4LqoTvv78sG/8BwCewRZVAYEG6PgrBXp6BX78WfxJt2ZUiv5UGzArM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=noxK8eeg; arc=none smtp.client-ip=162.62.57.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1710991597; c=relaxed/simple;
+	bh=ke/oAGc/MrcXkP76/nykPwcNPE4ORuVefrIwaF6dT7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mkAiHLF4JXV5F8/eBVMOrrRh8KhKHUYslq+KUB/h7AIqPnbm3w6VaCHjizDaogAiTTSs5qhv6xdiDZmRXU3c9lewYgbXreKiBHSreAysOcp/H2eqdJuzeVhICpg8Cu+abJz+uGFTKyk9XuqRH0ytX8R/S5+x2zamHVlwzS6Z9YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1pWz6mk; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="noxK8eeg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1710987746; bh=tGduqx86ofJ4VZiMxzvF3DYEia1EIzuyhA5NWgFAAVU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=noxK8eegEsMhIzMzk5ZzvHOs6uQgunQPrDD5re8yKdfSVsxUAcvrBVVwzsKBzZPNO
-	 ieZpwwYgZsUvUMFFHIJwUBrDRWesSqdnG6hg+ZoNz9YflJOSROVBThWnEmJo7iILke
-	 gM2kfJx1n21N+txJPwIxe6ixbexPTv8Y/YdEsq7c=
-Received: from pek-lxu-l1.wrs.com ([111.198.228.140])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id 597A0486; Thu, 21 Mar 2024 10:22:23 +0800
-X-QQ-mid: xmsmtpt1710987743tvsaz0g1f
-Message-ID: <tencent_AC7946DBB367A364897F43B2045A37625705@qq.com>
-X-QQ-XMAILINFO: NMGzQWUSIfvTh5kaSsJnxvMdWkS/957wfzyIPBAljw4bzj/aSXtxHOo0EAy84O
-	 7wkLb7/wfdb5nQbi8SxFgkcZIguPhh4G8keQhitAAfZ/sRoJT9GXFHFbpS81uavFodxfKiUiadPJ
-	 Q9N7i0sOgR4p8AHxgVWMHAfD23ilJTnkWur5gVmKli1h4LX5psbS7aOW60VwijVhdkULlbAtUJ9d
-	 jssnWg/fOMXDvkylyZ2BICXzW2IsRBoY+oCyOpBf8b1nfW1zZmLAAEgKZjJH6A2MnyCLgqJKEBZF
-	 ZRLVVxOLFjOhVImtqhh6NVEIetjMC6FAzJNNXsKTeeFTF3WRjhrU0FbK/4FyVGkHjk6Ni23aP/WE
-	 0bkroVHzTEEOldQ5gv7J+Zbpc7qPqYnEuiRtFGKEWtLHiJ22zTxHqVQMuttnvsdlKqvY9duuoB2g
-	 v7+2Iv4Bw51LHbN1rO0tKTrZrqpLthkSIwr9lnd9fUoFOF6hLQANGVbUTlDxPL5+ZRktLrCaO18l
-	 e5Up9ySaZ7bEiHJ2P+GhBGfl7rbgbYF7/arY+NvWOr/h7WOK556tphYOYWIgZ8kpYvIeZLomuaQx
-	 nWjJAzbLMRXUaQXu7KuuaYSJ2A/iJ+wFTUCwRYkfRQsfBShTS6kB5k9QWh643hnxokevjnsOEMDV
-	 0of2jcwQiDhII4Qxtiwr73ZyW1qzL/qiwKO07akVDbMjlwu3w9IYx7ljXB5JJvEytRlv1k4qC+qU
-	 cknKaKr5ACZbotmaZj93hVTxNV0gnZkug4Qo/9NOtdhUF0b1ujmUUfg69XCEdB5JgKc6CW1UP/eT
-	 HWzCLWUks8vANXUi/5pK1oWXgWwHrjZqbhSTa2SO3S6hNOBNJgzacCg2KW2yTNMNM49SimhcjUZw
-	 dKnzNGrw1GSSSf5UmYSvq8fYH3eMo2+li1o9IBzobxryHYR5dXRnTK9dQ+ShMn+DWUOKbMpM1iXW
-	 mIUzvCCYg=
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+18840ef96e57b83b7fea@syzkaller.appspotmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: [PATCH] ALSA: timer: fix deadlock in _snd_pcm_stream_lock_irqsave
-Date: Thu, 21 Mar 2024 10:22:24 +0800
-X-OQ-MSGID: <20240321022223.1836044-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <00000000000096e5980613f4cb96@google.com>
-References: <00000000000096e5980613f4cb96@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1pWz6mk"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3686717e82aso94805ab.2;
+        Wed, 20 Mar 2024 20:26:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710991595; x=1711596395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S0MuB5ySDlf80mKLJwWBjBqQwGvGCqX7FdKX4jErWIQ=;
+        b=Q1pWz6mkhk8MnVWuBIeJ2pd8xEXA3vqQLAwgrlmM/Tt/HkiaTHXHOUYVIt/qDmGlOR
+         7Hui8t37Y4ThqZjon6RhFjZ15pVxcTROb92z9VFfcWCI5epwRmXicpE3ZQNJvSNh5k62
+         iIRV29TbChdgud1g92cR7Vsrp345YysAKpSp1YKi17Rbi0Tmf1RIazjlIGjL7JIPYw/e
+         /58dxAw/6AEDTLnpcgDCXnLxls+j3Du6oI4SrSWkcbXuWuqcg8yWZfjyRkFJ5Tgpsz/Y
+         aiABh91nep6x/WeMxJjgw2bxnb3DImky0N2nk4j1pUooMA5VQR7UyZSchXxTD5VZnjD6
+         Nk3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710991595; x=1711596395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S0MuB5ySDlf80mKLJwWBjBqQwGvGCqX7FdKX4jErWIQ=;
+        b=qqPPHxxH1O5kNEHyChcXD3Ic0umoEvo0zsksTP01MBHdUCYtySuoLXjGW3h0xEM/Sg
+         bwz31N6O7JKfl7ywM3f45s6ozgbbaK56HC3tscLl9Q77n/HUPxwm4n2dRdihPzvYqDvV
+         r3mMXYUUyS4RoGO2/qgeQQZEJgA/dtI0GZmvC1+46jKslvo7lO5rmIq0gr8Ml30LzCj4
+         Q2jOruDkorIyNds40oWnlrquS9zoEpBBAst4RtKKr8M2RlQJFfS1oqwUGyygbVcwSTei
+         B1NjsdVsVwpk0HuWADShQaUgqmavycNXWH9Hyy3lGDMa/m06PtNzVITMhZLhgzDZcskM
+         MNcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSHHx39m3G7gjyKljKjgo4P5QyEtc4+jHVqRL2ZUCv61E/xqv+45FoCQmV7bOPdNyJj6Qf7uCADWT4rzbOqooeQdOXJv2Ibgb4bKIf48Tdm4pW+LcO8XmiuwpXesIuvvKuNFOUfg/ceYI=
+X-Gm-Message-State: AOJu0YzhTT7q1lQWgOSdKdqxlRWc47hQyq9tJ1sVQZPoEki3nauq64/k
+	grc2euhhBZnch+/XR10dFaVd/R9ofpPZTYjgk57hJfVHqMFamfLDeZod5dREiM86RMeq+SDt5Hl
+	qVSdg5m4jFf+ca0ZdMaT9eNEiok8=
+X-Google-Smtp-Source: AGHT+IFc9RGbcaS9BK4282AsGdS9WHC1k3cMjtHAAfPxbdpowTsLcJUO6T6GCfuC6nwd3Y1eBaJZ6K2ufci7CeLK2Bg=
+X-Received: by 2002:a92:d812:0:b0:366:43bd:f0f5 with SMTP id
+ y18-20020a92d812000000b0036643bdf0f5mr4561373ilm.17.1710991594728; Wed, 20
+ Mar 2024 20:26:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240311111349.723256-1-chancel.liu@nxp.com>
+In-Reply-To: <20240311111349.723256-1-chancel.liu@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 21 Mar 2024 11:26:23 +0800
+Message-ID: <CAA+D8ANGAw3MVPiR7oXY0-FDxvGfs3KDQ5CqxhLQa3Oaxd5jwg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] ASoC: fsl: Support register and unregister rpmsg
+ sound card through remoteproc
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	linux-imx@nxp.com, alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[Syzbot reported]
-swapper/2/0 just changed the state of lock:
-ffff88802a304110 (&group->lock#2){..-.}-{2:2}, at: _snd_pcm_stream_lock_irqsave+0xa0/0xd0 sound/core/pcm_native.c:170
-but this lock took another, SOFTIRQ-unsafe lock in the past:
- (&timer->lock){+.+.}-{2:2}
+On Mon, Mar 11, 2024 at 7:14=E2=80=AFPM Chancel Liu <chancel.liu@nxp.com> w=
+rote:
+>
+>         echo /lib/firmware/fw.elf > /sys/class/remoteproc/remoteproc0/fir=
+mware
+> (A)     echo start > /sys/class/remoteproc/remoteproc0/state
+> (B)     echo stop > /sys/class/remoteproc/remoteproc0/state
+>
+> The rpmsg sound card is registered in (A) and unregistered in (B).
+> After "start", imx-audio-rpmsg registers devices for ASoC platform driver
+> and machine driver. Then sound card is registered. After "stop",
+> imx-audio-rpmsg unregisters devices for ASoC platform driver and machine
+> driver. Then sound card is unregistered.
 
+Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-and interrupts could create inverse lock ordering between them.
+Best regards
+Shengjiu Wang
 
-
-other info that might help us debug this:
- Possible interrupt unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&timer->lock);
-                               local_irq_disable();
-                               lock(&group->lock#2);
-                               lock(&timer->lock);
-  <Interrupt>
-    lock(&group->lock#2);
-
- *** DEADLOCK ***
-[Fix]
-Ensure that the context interrupt state is the same before and after using the
-timer->lock.
-
-Fixes: beb45974dd49 ("ALSA: timer: Use guard() for locking")
-Reported-and-tested-by: syzbot+18840ef96e57b83b7fea@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- sound/core/timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 15b07d09c4b7..c501faa30040 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -409,7 +409,7 @@ static void snd_timer_close_locked(struct snd_timer_instance *timeri,
- 	struct snd_timer *timer = timeri->timer;
- 
- 	if (timer) {
--		guard(spinlock)(&timer->lock);
-+		guard(spinlock_irqsave)(&timer->lock);
- 		timeri->flags |= SNDRV_TIMER_IFLG_DEAD;
- 	}
- 
--- 
-2.43.0
-
+>
+> changes in v2
+> - Fix build errors reported by kernel test robot
+>
+> changes in v3
+> - Add a new patch for fsl_rpmsg to register CPU DAI with rpmsg channel
+>   name
+> - Update imx-rpmsg.c to get DT node of ASoC CPU DAI device with rpmsg
+>   channel name instead of using undocumented bindings
+>
+> Chancel Liu (5):
+>   ASoC: fsl: imx-pcm-rpmsg: Register component with rpmsg channel name
+>   ASoC: fsl: imx-audio-rpmsg: Register device with rpmsg channel name
+>   ASoC: fsl: Let imx-audio-rpmsg register platform device for card
+>   ASoC: fsl: fsl_rpmsg: Register CPU DAI with name of rpmsg channel
+>   ASoC: fsl: imx-rpmsg: Update to correct DT node
+>
+>  sound/soc/fsl/fsl_rpmsg.c       | 43 ++++++++++++++++++++-------------
+>  sound/soc/fsl/imx-audio-rpmsg.c | 21 +++++++++++++---
+>  sound/soc/fsl/imx-pcm-rpmsg.c   | 11 ++++++---
+>  sound/soc/fsl/imx-rpmsg.c       | 28 ++++++++++++++-------
+>  4 files changed, 71 insertions(+), 32 deletions(-)
+>
+> --
+> 2.43.0
+>
