@@ -1,185 +1,134 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2216CA4A;
-	Fri, 22 Mar 2024 08:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4A518057;
+	Fri, 22 Mar 2024 08:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711096432; cv=none; b=UcYYcJAchv/43LfMpzdA+igXSVGjv5wkrpbgK2W56FRiouVJWihGf2bK6jffV2AE1OFE1PFkDLX+W5CjzeHZyMY82pDltXWNNmR5xSFn5pqAeBWhciBS23aqkVllnQxjPhToT81x9vJUKTZXq9caYiEuonQeaJlB2xHf02imyKI=
+	t=1711097938; cv=none; b=LQNpljS7wIolvz6+xwEOsyU/4H+j9SvbbmxiCOAd0QXdQqyzYxl1EfFtAAjp3ejqGY8iolNuE6rASIuLxkjGMUpz4tj8svJ/WHOskuBNAKmN7mUDEZan8knvxXxdU+0D1Wzp9gvPucH6g4h7iC73rLGCd7mqiWd+1YMGOWZEOKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711096432; c=relaxed/simple;
-	bh=S1fSKPGfqTSlj0nruv3EJJSWjVO2uwXlISmnmX73GrU=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=AWFe+1scJJQcaxwbbARHSAyOwi3Q2ZAgfKslJrIfbFyb7Sw3OfwtwZCgFII6RjacjvW4MZbqFmxxtRCYNRU+xHyy82/RA8g2oKG0i+ppmY0MDnUQZupfLGdB8w2C5edODGKHBMp3Q4GDTHbsmLpAa1Xl6kSpak37dxiKurnoL2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k0rBfayv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2grr9aKX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k0rBfayv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2grr9aKX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1711097938; c=relaxed/simple;
+	bh=P0dr0dBCvvvUpslvPwKlG6vn+eNquMJf7JhYBVBNQQw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QUXMs6i0qiPZFErGxdPksvabWVoKJzrywYd772HfGM83w8FvrUnh4+EVCS2RI2JT9gdcfQb55lOLFF2/wBS+3A3/tGoCEfRkchmV+R1fSdD7eWiLZghuRJeFkB2dulyOSk9Y1od11Qb/k8n/XpVs9bnGJRsE+DfunA2nyXZ3xrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Yo8VsMbD; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k0rBfayv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2grr9aKX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k0rBfayv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2grr9aKX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A258339CF;
-	Fri, 22 Mar 2024 08:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711096429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
-	b=k0rBfayv+RLD8c3gBoeejWTrwnxHQvBbHsxLAgijQUvjZ1qE7GYbcs/e5lXLaPOn/KZEBH
-	2iZ1yzQuQxY6CC9gA5Fbb9mOny41Oyi2iVRJDHvVLjF1Mh5JeasUnRzy5hiZMS4BdrSkwQ
-	lpJNqkO318Jj7ZZ8Ts9l55V0Jd2tjKM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711096429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
-	b=2grr9aKX2AygMpJfIlIXMgUxy3P6APw+43hz2vwRdKbG6vSbu9KmMLTd7OADSK8SRFPpv6
-	sJCCy7p1+nJGp4DA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711096429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
-	b=k0rBfayv+RLD8c3gBoeejWTrwnxHQvBbHsxLAgijQUvjZ1qE7GYbcs/e5lXLaPOn/KZEBH
-	2iZ1yzQuQxY6CC9gA5Fbb9mOny41Oyi2iVRJDHvVLjF1Mh5JeasUnRzy5hiZMS4BdrSkwQ
-	lpJNqkO318Jj7ZZ8Ts9l55V0Jd2tjKM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711096429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
-	b=2grr9aKX2AygMpJfIlIXMgUxy3P6APw+43hz2vwRdKbG6vSbu9KmMLTd7OADSK8SRFPpv6
-	sJCCy7p1+nJGp4DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0C9A132FF;
-	Fri, 22 Mar 2024 08:33:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sGKTNWxC/WXOMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 22 Mar 2024 08:33:48 +0000
-Date: Fri, 22 Mar 2024 09:33:48 +0100
-Message-ID: <87a5mqzmvn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes #2 for 6.9-rc1
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yo8VsMbD"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 32255FF807;
+	Fri, 22 Mar 2024 08:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711097934;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3/uxx5AdFXNV6za9HAZhGhTPRrtGXUVryUFqmL6/+ic=;
+	b=Yo8VsMbDGjdd/vpgx8agJbI6GMKOf/aAiUzJqOH05A/UxeYb0EdRvZ6bR7TGTVa5Sj3c4E
+	JbRrqP9lz61Fzh9YZAlk5lBWWv2e/8eoDOtQDnCGZ8BK+lzTP/5gaymkYvzhY1Lsb+AUUJ
+	vL12A2FJdmkYaZQYmYKu187UJ0qhck87rmYMjW2yF4wmj1PVGuEXy0tvhB7oaPqqqUqDb6
+	FFfVf1eK1ZhU/o2zs5uo8gXueHSUkRnL4FZkm8AdNZMgTHeaOHZpOJ9tAgT+Ro/VmaRrFI
+	0n5nUtONT8KkK+wqRct6I6W99vFEHtgFFY+cbdAudMkkI0Lc1JnJnHnd3Gtz8Q==
+Message-ID: <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
+Date: Fri, 22 Mar 2024 09:58:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
+ during capture streams
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-14-bastien.curutchet@bootlin.com>
+ <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
+ <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
+ <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
+ <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
+ <5467add6-0099-4e54-a4f7-12aa149d03c7@bootlin.com>
+ <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
+Content-Language: en-US
+From: Bastien Curutchet <bastien.curutchet@bootlin.com>
+In-Reply-To: <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -0.18
-X-Spamd-Result: default: False [-0.18 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_SPAM_SHORT(2.91)[0.970];
-	 NEURAL_HAM_LONG(-0.99)[-0.994];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 TO_DN_ALL(0.00)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Flag: NO
+X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Linus,
+Hi Péter,
 
-please pull sound fixes #2 for v6.9-rc1 from:
+On 3/21/24 19:31, Péter Ujfalusi wrote:
+> Hi Bastien,
+> 
+> On 3/21/24 17:14, Bastien Curutchet wrote:
+>>>> I think the definition of the 'ti,drive-dx' is somehow odd. It allows
+>>>> you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
+>>>> 32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
+>>>> If you have 4 channel capture then I won't speculate what will be on the
+>>>> DX pin ;)
+>>>>
+>>>> Would not be better to say that the DX pin will be driven low or high
+>>>> during capture _and_ disable the playback support?
+>>>
+>>> After some thinking, it might be still better to use the DX pin as GPIO
+>>> and either have a custom machine driver which would handle it (set low
+>>> when a capture trigger happens) or connect it in DAPM as a supply, bias
+>>> or something and ASoC would handle it automagically.
+>>>
+>>> I think that would be cleaner in many ways. What do you think?
+>>>
+>> I agree, that would be cleaner. I ran a few tests to see if that would
+>> work on my hardware. It doesn't ... So I looked back to the schematics
+>> and found two reasons :
+>>   * the DX pin needs to be in sync with the clock.
+> 
+> I'm not sure what this means, sync with which clock?
+> 
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix2-6.9-rc1
+Sorry, that was not very clear, I meant sync with the bit block that is
+output on McBSP.CLKR pin.
 
-The topmost commit is 9f2347842b526cbc2655068591fb0166362d2999
+>>   * the DX pin needs to be in a high-impedance state between two frames
+>>     so a pull-up can drive it back up. Actually, the DX pin is also
+>>     linked to the FSR pin so it provides the frame clock to the capture
+>>     stream.
+> 
+> Hrm, you are using the DX pin as FSR for the capture? Why not McBSP.FSR pin >
 
-----------------------------------------------------------------
+The McBSP.FSR pin is used for the capture but is driven by the McBSP.DX
+pin. Both pins are linked together.
 
-sound fixes #2 for 6.9-rc2
+> Looking back to the patch, one thing stood out: you are setting the
+> XDATDLY to 2.
+> You have some sort of T1 framing on the bus? The pullup will make the DX
+> line high in for the framing bit, right? > Or you simulate another FSR line with T1 framing DX?
+> 
 
-The remaining fixes for 6.9-rc1 that have been gathered in this week.
-More about ASoC at this time (one long-standing fix for compress
-offload, SOF, AMD ACP, Rockchip, Cirrus and tlv320 stuff) while
-another regression fix in ALSA core and a couple of HD-audio quirks as
-usual are included.
+Yes the goal is to simulate an FSR.
 
-----------------------------------------------------------------
+> The 'ti,drive-dx' sounds like a bad property for sure, you have T1
+> framing and driving the DX to certain level.
+> It is like DSP_A (1 bit delay) playing constant 0x2 ?
+> 
+> Can you use aplay /dev/zero and a DT property to select T1 framing for
+> the playback? Or that would be too coarse for timing the start of
+> playback and capture?
+> 
 
-Anthony I Gilea (1):
-      ALSA: hda/realtek: Add quirk for HP Spectre x360 14 eu0000
+That's a good idea, thank you. I'll try this and come back to you.
 
-Chancel Liu (1):
-      ASoC: soc-core.c: Skip dummy codec when adding platforms
 
-Cristian Ciocaltea (2):
-      ASoC: SOF: amd: Move signed_fw_image to struct acp_quirk_entry
-      ASoC: SOF: amd: Skip IRAM/DRAM size modification for Steam Deck OLED
-
-Hui Wang (1):
-      ALSA: hda/realtek: fix the hp playback volume issue for LG machines
-
-Jiawei Wang (2):
-      ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2"
-      ASoC: amd: yc: Revert "add new YC platform variant (0x63) support"
-
-Luca Ceresoli (1):
-      ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates
-
-M Cooley (1):
-      ASoC: amd: yc: Fix non-functional mic on ASUS M7600RE
-
-Rob Herring (1):
-      ASoC: dt-bindings: cirrus,cs42l43: Fix 'gpio-ranges' schema
-
-Shalini Manjunatha (1):
-      ASoC: soc-compress: Fix and add DPCM locking
-
-Takashi Iwai (1):
-      ALSA: control: Fix unannotated kfree() cleanup
-
-Tim Crawford (1):
-      ALSA: hda/realtek: Add quirks for some Clevo laptops
-
-Uwe Kleine-K�nig (1):
-      ASoC: tlv320adc3xxx: Don't strip remove function when driver is builtin
-
----
- .../devicetree/bindings/sound/cirrus,cs42l43.yaml  |  11 +-
- sound/core/control.c                               |   4 +-
- sound/pci/hda/patch_realtek.c                      |  68 +++-
- sound/soc/amd/yc/acp6x-mach.c                      |  14 +-
- sound/soc/amd/yc/pci-acp6x.c                       |   1 -
- sound/soc/codecs/tlv320adc3xxx.c                   |   4 +-
- sound/soc/rockchip/rockchip_i2s_tdm.c              | 352 +--------------------
- sound/soc/soc-compress.c                           |   4 +
- sound/soc/soc-core.c                               |   3 +
- sound/soc/sof/amd/acp-loader.c                     |   2 +-
- sound/soc/sof/amd/acp.c                            |  48 +--
- sound/soc/sof/amd/acp.h                            |   7 +-
- sound/soc/sof/amd/vangogh.c                        |   9 +-
- 13 files changed, 137 insertions(+), 390 deletions(-)
+Best regards,
+Bastien
 
