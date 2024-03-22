@@ -1,91 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A164CB47;
-	Fri, 22 Mar 2024 14:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08785EE78;
+	Fri, 22 Mar 2024 17:15:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711119582; cv=none; b=dP8ALNUM6xllJpDGwHBMM1AP7Xvv5hD10mfGyEnNMfqPg1KoL/60tWFL4ptKoa4OLTx2ZmqGHWzj5hYjYw35+8YbMgMuMuW2XN6spm4Eqs59gyl1sx8bVnDpWSH9ZTvOeU9STmGhXpfDCqk4sEfRXP2Vnq1S76EJPHMPaoomdsI=
+	t=1711127751; cv=none; b=O1+Q1hzX0CtTyPXvyDv5xiis7vVXk1kuaQwmx8gp7dpyW5WrUBinLnP+UhkZW19jqC6E+DfJ2FS2NVL6jpADDBFE98fsqTODftsUtUxlhBoIHn0wdKBsowcLJAGfFGjf3Em1BNCw12ZEZRwjnBkJVVU7UOCiZJBn+NM3dCrtnrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711119582; c=relaxed/simple;
-	bh=UqzGdXK0o4iy7ce72+Jguni+WtdtHJAkBg4t/Gsjw+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iwOSDUVjl01LQe1a3jqTzdye14YVeDIHunLEv87ihV+Cv7ZYeiZ5O2izy6Z2VSDoBRMqRyutWEszqLI4XSB1X0HAtopZdFBkz3LLYctBqnsTPcJvp76lA79oHRQOrNamkZosXdldOQB9dLVc1m62AHAJa7EEjW4r5mB3V4205LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikj271nX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711127751; c=relaxed/simple;
+	bh=VGAtW9BmMYY7brh3dqFNfHuDTNFnNhf7D4jZ+WyAnXA=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=MnePbUJeeJ+5eXnNhFzHeZsn13Y37eFUWT+D35LOaRj3kizBuXgidsJPzk+1Si/EVYsx6NYiB+rMDjQ606YE43N9EkltovxHnCTOqCMklTp072I3MM/wuolQhx67c3/ht3tQPpFspyDiEGbqUuPBpBGHSmG2NrYsswxTy5r1tng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i6gOCMrd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikj271nX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7CC6C433C7;
-	Fri, 22 Mar 2024 14:59:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i6gOCMrd"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A79FDC433F1;
+	Fri, 22 Mar 2024 17:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711119582;
-	bh=UqzGdXK0o4iy7ce72+Jguni+WtdtHJAkBg4t/Gsjw+k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ikj271nXVaTbVZB+YZgseBnuocZ2xADr7wxwa2mAc2SfIE1vYP8ng2j0nskSCaXxo
-	 ZV/mvoCooFdwl5yrSr924bA+Q4YfTQEAzX+JOywKdQf8PPx9dkRctcFXKviYhnrSbi
-	 M1qB2zRUya6nHXx12UWryZbdqpYmWtEC+nUtmYLKZI/kNKu1LV0We4l2OVmgd4LvMC
-	 PWHkDHeqmNhWv5v4jzQrWtAKuE7lxwS4l9sEEbL89mLG1Sq6+FdLs1ud4Mr/+kwxoY
-	 inMC/PrRPDsYYDUZvJMSNDADKeGgGL8HbR6c0ONqDu5tONxJ6qfeOjcPSZ01kJtjI3
-	 oPHHMOcUgoDMQ==
-Date: Fri, 22 Mar 2024 09:59:39 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-sound@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] ASoC: dt-bindings: fsl-audmix: Convert
- fsl,audmix.txt to yaml
-Message-ID: <171111957775.891508.5189958179022068449.robh@kernel.org>
-References: <20240321150401.2464783-1-Frank.Li@nxp.com>
+	s=k20201202; t=1711127751;
+	bh=VGAtW9BmMYY7brh3dqFNfHuDTNFnNhf7D4jZ+WyAnXA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=i6gOCMrdHDY8Ho2avFbBMUsTsKkGARMAI2wEVzQpoqIgnG5NQctkZFiNUpPjufqmb
+	 ZfDuEWroqYNTO9D7qHIc0oqj0ea+rKqJdE0PF0bvYdsfhNSbgpsmZTlIBLipyLLEAs
+	 /LbD6koJf39ZwgPICU4e4bVocqaRabX4mBl5mbbovn6hHdCJfvg5MN/BFZTLydkHx2
+	 NN3H1Ienal9zmRuwUt/aMa1u9wS0EvrSGVBGij9Q+qXY+50+BYADveEdtXtatcX1r6
+	 2j3aYC/08cUVipk2vL1h3SXsLbTbgfBdGcKPi+E7QoKC9Xp00v/liK4ny7aSqCyRj6
+	 d0Wm23DSaTVsQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9F2B1D95058;
+	Fri, 22 Mar 2024 17:15:51 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes #2 for 6.9-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87a5mqzmvn.wl-tiwai@suse.de>
+References: <87a5mqzmvn.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87a5mqzmvn.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix2-6.9-rc1
+X-PR-Tracked-Commit-Id: 9f2347842b526cbc2655068591fb0166362d2999
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6b571e2676c8c2100c3395cdcb471c5ec6f8f98a
+Message-Id: <171112775164.8613.665637922352036674.pr-tracker-bot@kernel.org>
+Date: Fri, 22 Mar 2024 17:15:51 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240321150401.2464783-1-Frank.Li@nxp.com>
 
+The pull request you sent on Fri, 22 Mar 2024 09:33:48 +0100:
 
-On Thu, 21 Mar 2024 11:04:00 -0400, Frank Li wrote:
-> Convert fsl,audmix.txt to yaml to let dtb check tools check audmix part.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> 
-> Notes:
->     Change from v1 to v2
->     - Add | at descript
->     - Add phandle-array according to rob's feedback
-> 
->     $ref: /schemas/types.yaml#/definitions/phandle-array
->     minItems: 2
->     items:
->      - description: the AUDMIX output
->        maxItems: 1
->      - description: serial audio input 1
->        maxItems: 1
->      - description: serial audio input 2
->        maxItems: 1
-> 
->     dt_binding_check and DTB_CHECK passed.
-> 
->     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,audmix.yaml
->       LINT    Documentation/devicetree/bindings
->       DTEX    Documentation/devicetree/bindings/sound/fsl,audmix.example.dts
->       CHKDT   Documentation/devicetree/bindings/processed-schema.json
->       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->       DTC_CHK Documentation/devicetree/bindings/sound/fsl,audmix.example.dtb
-> 
->  .../devicetree/bindings/sound/fsl,audmix.txt  | 50 -----------
->  .../devicetree/bindings/sound/fsl,audmix.yaml | 83 +++++++++++++++++++
->  2 files changed, 83 insertions(+), 50 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,audmix.yaml
-> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix2-6.9-rc1
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6b571e2676c8c2100c3395cdcb471c5ec6f8f98a
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
