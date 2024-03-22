@@ -1,394 +1,167 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE7A3CF79;
-	Fri, 22 Mar 2024 10:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711103420; cv=none; b=UDYMfInfJbauam4ZoEHfyiuqwoxkGSei/GJfbJOw73NLJvIXB1/MW0y1x6oSDckiI3i5eonTC9liKDx6UFFgnQfKFXfvJWleap1YyUXTerLtzaWafxWzk9mBR9F2AE4bV9SqJek18k/zvHYgc5HvkPZqPtv3N339E+Ra/WZdSE0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711103420; c=relaxed/simple;
-	bh=Ir6UgQpxRd3H2lL0X+fpaDtwZNgzUoLJRkTmekBFT9Q=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=acYXqz6P/8pa4qm/29zjaJ8Eg6zOY61Oi937LL+GkXsOYoJrHYnOK4cT2a/EysZuycs0lSURKd5ifEZTB/Q6cmiSBr86WLOy+IufIKZSUYLRtL7q7CZukRS7dne2QbGf+zIzAf3JfxZHFekVbyGslAq21QIYWDkBccLXS6Mymok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id E1342200FAA;
-	Fri, 22 Mar 2024 11:30:10 +0100 (CET)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 4EEB4200831;
-	Fri, 22 Mar 2024 11:30:10 +0100 (CET)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 19CBC183AD17;
-	Fri, 22 Mar 2024 18:30:08 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shengjiu.wang@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/2] ASoC: dt-bindings: fsl-asoc-card: convert to YAML
-Date: Fri, 22 Mar 2024 18:13:25 +0800
-Message-Id: <1711102406-8399-2-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1711102406-8399-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1711102406-8399-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2E7224FA;
+	Fri, 22 Mar 2024 10:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711104347; cv=fail; b=V6jIl/BMa1tJv82hBzQU8Q646mSQu59Jltkuj1obOYQ0r9dsWr14IaDwhNNd2p5GI3IWmd+N0Jn8cassMDDjVDtMiNijOo6sRXMK1q5bHGPPWLCITdK4hoMi+C8LxzOMzyYyZelzlvIjqqJnH0J3iHbgYjAwQrfBnb86Nku/LsY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711104347; c=relaxed/simple;
+	bh=6yH3Jkfl/fV17Lu3XVz2bnGXs8NPodsMJhiwzodTSwk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QjtFzOnNcGnyUUS1aRs7YpdjsRGpYw28PtiCJU/3tmOobCr19ctwIPSMB9TBJxAzv80/2KHber8QwMDdTb3OJnZy/4sPTAxZ7XmiJepd5sF0gXTxMeGRD80PRjweyjqYMvv7VfNK8KLFkPwaEuQ2VcrllEQSO5wq+Jl+IiufJow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0WG0kGRW; arc=fail smtp.client-ip=40.107.237.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0WG0kGRW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=REQzzy0IOP9+wpWJaY+iuGeD9rzd9ZM+T/Fry8l+qh5sMTJ+uqQtS3jxIXMVS/3OdBU0Yt0boA6lK7X+K/h3Jo5eeTBDydhPVkLe4K35+JUA5s9ISHYOYSkG7ElCPvHZOkYQhhahr9vNHHn7DWSJTlWxp693bkOk3LyL44PaWw7rB3GmUvJ2aUhQ/d4GkrE5Uw3p+dBL+MLDw5ZbRCekUxkWFeYat5qDyr6ARzUMerAu2xznTj+CEaPUvDpu/uG0RbNhZXPsrm0xWHLKSMg7lKta4n/CHkX9RcPsFXs9DmKDpLxx0J9qr7gE608jXRalhO+nwbr1p54zyghlIcSaKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NJ40fTpi1X3XyhbHNfncF3nrCNL+5Ge4jqthzb7jY/c=;
+ b=hKHoatiBjt9KK7p0eZ5xlU2iVRHnMle3cGwHto/9CkXqPkiAtgC/hpppr69T2M9Ee/7yTU6asNUWWGCefzMhkbiQlQzWvezm/hA3O4DLMAMj3sAbGx3PkBbagsAHpGgHfb2AL709UOuBnrMQXmzppk7i7FRbKdwKbqod0l646Wqi2/99cr8mI1qtYSahLjvYUdxeQEi4ddZDkSmOxcWrw+0+l9ipGR+pbfKnk1o26vNlXBCZU8ZnhBo4MAzq6P/JSf0KU/mlGu9Y5/JR6EAvxM6uWKWvkeO+8S9Y/AuIeYMzAgEln7D6810dWeqyxpEWYbn5+lO/E8XhiOAB5fTnuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NJ40fTpi1X3XyhbHNfncF3nrCNL+5Ge4jqthzb7jY/c=;
+ b=0WG0kGRWLfJyOMrbTqNfYCErbVgBhoXAEoTRNFNH7Px0WrsxFdtMmKxxn20DVAEUTiBfTzwx8yi71arIiaq1dAsv4kZg3g75Ku5XRhu/y60BL/VDGG4Sdq2Clb5ibROckkMhpDFIC2Gn2fGmLHd7nGojb7G+QTaP0kK/0pzC2YA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
+ by DS0PR12MB6656.namprd12.prod.outlook.com (2603:10b6:8:d2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.34; Fri, 22 Mar
+ 2024 10:45:43 +0000
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::57a8:313:6bf6:ccb3]) by DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::57a8:313:6bf6:ccb3%3]) with mapi id 15.20.7409.022; Fri, 22 Mar 2024
+ 10:45:43 +0000
+Message-ID: <3a057c60-4b4c-431a-85c3-1f15b757b16b@amd.com>
+Date: Fri, 22 Mar 2024 16:15:32 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [RESEND] ASoC: amd: simplify soundwire dependencies for
+Content-Language: en-US
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, venkataprasad.potturu@amd.com,
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, arnd@arndb.de,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Lucas Tanure <lucas.tanure@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20240322070353.2367300-1-Vijendar.Mukunda@amd.com>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20240322070353.2367300-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0087.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::12) To DM6PR12MB4123.namprd12.prod.outlook.com
+ (2603:10b6:5:21f::23)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|DS0PR12MB6656:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f89f3c3-c350-4548-794b-08dc4a5d38dc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	qVeTZdj0y3AlUCGFHpJ0lnhXXd2YOnV7NsH9bLCP6MWu8pX2RyFQ1rdCQiIM597jbFd3XFxdj0Q1UOKI91I4vmy7T8gLBmz+M2wXQLUsIOWDBv871e6pa5eq+WZ+4Lb3T6Cyy9Q5yMYPEwUxFIJ3YRH6GI7MvAs32owDeeHA1cjBfp3Za2+ViaZ2+DKOWsnKNx12pZi1iSwiXlMxYCL30ez/YuwrIclo+FK9tpdAybIVSjhBKIcq66i33RqVHiKVMaB/2uIOcapBiCiOBd+Cjxj3SoZXdrbzmaX4Mdxk6SUe9K35/pC9253g4ptpsHnP5SdRGkdpATd60agn4gl8f5KMcoqM0cpvO0uju95vyWwqvY7ZgokIp8RtTfMq8RychDy0oZ6rbeBOc5Fi453PpPKG+F0cdMj5+OCiwaHPZOEQtteEFADKr+PJ4rp5PT6uIkfdYBSZlXpUL7MmcFqEy9ikBZ/yvIHkTqkXkxkRl2Tav+5XhRh/EiHSFkEwoyQKQUyH/xFOzqCBtalWkcRLTIR2xAcSIXiF3WXqH7GhFY+Jw+9cLjRCZl3teVMSew6fyT2nmjXXP2ZYFRfdSjkapHFbZtn004o6hDUYfVLWy1NwtmjvMvdGotMmD6bXluXED8/5IAzWNRhV1LN0bqXpA42LzHd31Ra1rHpeXo98bcM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b09OQmYyWkVXeHhWL2kzRytuMTBkMkVpVDdyLzV1R3R6ZlhzWERpdllZRGNm?=
+ =?utf-8?B?aTRNa0FvMU9YTC9tMlZRM3dILzlZVVoxcFNJdWFDQ2ZhU2h3WG1JTmZnOTcv?=
+ =?utf-8?B?cGZGVVo5bXJnSVRiSzlIcXdaV0haSWJRVWM3Y1hnRlhYYktSOHpyRUNYbUl5?=
+ =?utf-8?B?QXNFVEp5MDVBQm9IdTc5VEx0WDc0RFZGZXA3QjE4RS9zSzFOL05tb1hzelMw?=
+ =?utf-8?B?TVZOV1RRbmRRVHhmNGpZZTA1L1k0aWx6dUZNa0w2SlphRlhGLzE5WGVUcGx6?=
+ =?utf-8?B?UVlvSFhkN1d5bERwdTNkeWVZQzNwdU81Z2ZQUmhudEtsRzQwS3NLWHI3endv?=
+ =?utf-8?B?LzlWaEViT2NQdmYxeGFnUTlHNjRlVSt2eDRGOHg4VGo2UEl0TlRkdVp3eGpS?=
+ =?utf-8?B?WW9kZ0t5bUZVcy8xdGRHTTF6Zmp6WHRYenVtRzJ2VjJDRUZ4UTJaM0E2MGp0?=
+ =?utf-8?B?Y1NwV04vdEFwcm9rSlZ1UXMwaGNCbU1NbUd3OEpuWklpSXFEa0VyaHREenlP?=
+ =?utf-8?B?b0hrckw3UFpWZzU2M3JpZEUybEFGczBhTWhWajVCY21UNU5FRHYzOGtycnVi?=
+ =?utf-8?B?cmcxdWdHSENMWVhjc1VkZDZUR2UxQzc5WjQ3MUZmVm9DdTh6RTBuQ1l5ZmZP?=
+ =?utf-8?B?QjdwaTlyQ0ZjVXN0TVlhYUt6WnM2WVRNNjBRNjgxeHlRQlpkNG94ZEpDN2Zr?=
+ =?utf-8?B?Z05VNm85OWVXMWl0Q3JrdktVKzZYR1hHQk1JUDcxUzdvV1pHczJmUFhqRlo1?=
+ =?utf-8?B?ZU5zVUE0Mlk5dWlYSWJmQkVURXBkTkdSL2RMWTY0UDFzNXpZWFNKN1FJS29L?=
+ =?utf-8?B?VVQvek5QTTh3K3QxZmhLWWdQNWJmYU5xOGlnMHFKUmxMV2JVZ1NteGNwdWZJ?=
+ =?utf-8?B?Q05UZCtONVFNVFlFZEhqYmlvemVxWDUxVVpQWEVXYUc0MDRiU3ZGa1FIeU41?=
+ =?utf-8?B?RmIza051M2F5UlNXVnNRaStLZEg1KzNRMEt5ZVdUZ3ozbnRaaUExN1ZqcFU1?=
+ =?utf-8?B?WGNuWFZNVWZqT3ZKUEI0bklPYTBKR2l0ZndGUnZDSDFTRHNTa3B0M2U3WVBq?=
+ =?utf-8?B?dkhLQ1VvdlRLUVNLNGMwaDQ3a2VaVVRRd1lyUXV5dTdTSVhKdWF2Tm4rR3dG?=
+ =?utf-8?B?eTdTM1JXS28wUXZvVVdSb3hDUVR5T2hsTmlpL0tZLzJvRlYvQXd4QktDYTFH?=
+ =?utf-8?B?aldqU0JPUUlEZUVuOTNzV0tsKzZlSFIwaUd6VnN2TWVaRHlmZXBIY2phVXpW?=
+ =?utf-8?B?aXp5b2RHZjQzUlcxZDZpTDE0bjBxTWNXbXorQ0xUYSs2Z0tYTDlKUWJFdFN0?=
+ =?utf-8?B?UWlBQW1HQWJvMTA0SXNDMk9yTEZ2Y3FOVlNNdkRjVVNEaXJ0U1hxTS9MOVlN?=
+ =?utf-8?B?TUFwbG82Y012UnNETSt0bDN6c2krTHhPRjdiMXh1YVVYWTZSZnhzK0I2VFlv?=
+ =?utf-8?B?OFRPNk1idWgzc0hyeDREUXNTQTN5dlVLRmdFSkt5REFsMXRnY085K0pNRm9H?=
+ =?utf-8?B?bkNzc2d2aG1XUGlQOWYzU1h5R3VpbFVJM1Z4V0lndHljekV2enRzUG5rcWdC?=
+ =?utf-8?B?dUlUTXl6WnhTd2Uydk1iKzZYK1pRdUxmS2lMYmxrYk0yR1d4VUR2SXpweEJY?=
+ =?utf-8?B?RVlyTlgyS1VXczFUbzFPOEhaS0NsWHU2NnlWeW5sbnB5TDN4ZERKMG92MitW?=
+ =?utf-8?B?SnFYL1YreGo1eGZVZWNpSTBQc25uMFBKY1BlUXFHYjhQSUQ4MmpDWkxNVk1k?=
+ =?utf-8?B?dWNvaUdmaVNEMS8vaFRvYzZ1OWxVTkpaOFc5MHlSNzlFcnNTSEhOVkxaODdh?=
+ =?utf-8?B?R0JSeDE5U0NTZC9hTGM3dEpoTzY0VkxjSEtaYjJrc09DM0E5U0pPdXI5QkZD?=
+ =?utf-8?B?a1R2Vi9wQ2lmVDQ0YU1QNVpUZzE5WG1ZT0NCNDBmRjFEYXBhSkQvQVJpV2xH?=
+ =?utf-8?B?Vy82Sm1FRU9pWkRuYVJCVUE0cnR6MlFneEFBQzJsU29XN2Rqd1dRUUtBcEFU?=
+ =?utf-8?B?VUczUnB4bnhSZWM0VXY3YTJiUGg1VkJTdmQ0MjBoRHFMV2kydzZzQ2wrRlg1?=
+ =?utf-8?B?RkNDOXQrdklsUjQ5Yi9mc1dnTm5WanVxd0Z6dGMvSzE2MTdWKzRKSkRseit6?=
+ =?utf-8?Q?pdwbO5gDIDtTsGbSX5jWfV6aW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f89f3c3-c350-4548-794b-08dc4a5d38dc
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:45:43.0600
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3X4x7MyNxw3Eqj0ittyAg5fpc0ee9sr+HlBS0EMitsidPSav/KWQnt/Te7ykZ1+Nu8XEez9SYMc75aB2l8KwGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6656
 
-Convert the fsl-asoc-card binding to YAML.
-
-In order to pass the checking, add some used compatible
-string from devicetree.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- .../bindings/sound/fsl-asoc-card.txt          | 117 -----------
- .../bindings/sound/fsl-asoc-card.yaml         | 196 ++++++++++++++++++
- 2 files changed, 196 insertions(+), 117 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
- create mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt b/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-deleted file mode 100644
-index 4e8dbc5abfd1..000000000000
---- a/Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
-+++ /dev/null
-@@ -1,117 +0,0 @@
--Freescale Generic ASoC Sound Card with ASRC support
--
--The Freescale Generic ASoC Sound Card can be used, ideally, for all Freescale
--SoCs connecting with external CODECs.
--
--The idea of this generic sound card is a bit like ASoC Simple Card. However,
--for Freescale SoCs (especially those released in recent years), most of them
--have ASRC (Documentation/devicetree/bindings/sound/fsl,asrc.txt) inside. And
--this is a specific feature that might be painstakingly controlled and merged
--into the Simple Card.
--
--So having this generic sound card allows all Freescale SoC users to benefit
--from the simplification of a new card support and the capability of the wide
--sample rates support through ASRC.
--
--Note: The card is initially designed for those sound cards who use AC'97, I2S
--      and PCM DAI formats. However, it'll be also possible to support those non
--      AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audio, as
--      long as the driver has been properly upgraded.
--
--
--The compatible list for this generic sound card currently:
-- "fsl,imx-audio-ac97"
--
-- "fsl,imx-audio-cs42888"
--
-- "fsl,imx-audio-cs427x"
-- (compatible with CS4271 and CS4272)
--
-- "fsl,imx-audio-wm8962"
--
-- "fsl,imx-audio-sgtl5000"
-- (compatible with Documentation/devicetree/bindings/sound/imx-audio-sgtl5000.txt)
--
-- "fsl,imx-audio-wm8960"
--
-- "fsl,imx-audio-mqs"
--
-- "fsl,imx-audio-wm8524"
--
-- "fsl,imx-audio-tlv320aic32x4"
--
-- "fsl,imx-audio-tlv320aic31xx"
--
-- "fsl,imx-audio-si476x"
--
-- "fsl,imx-audio-wm8958"
--
-- "fsl,imx-audio-nau8822"
--
--Required properties:
--
--  - compatible		: Contains one of entries in the compatible list.
--
--  - model		: The user-visible name of this sound complex
--
--  - audio-cpu		: The phandle of an CPU DAI controller
--
--  - audio-codec		: The phandle of an audio codec
--
--Optional properties:
--
--  - audio-asrc		: The phandle of ASRC. It can be absent if there's no
--			  need to add ASRC support via DPCM.
--
--  - audio-routing	: A list of the connections between audio components.
--			  Each entry is a pair of strings, the first being the
--			  connection's sink, the second being the connection's
--			  source. There're a few pre-designed board connectors:
--			   * Line Out Jack
--			   * Line In Jack
--			   * Headphone Jack
--			   * Mic Jack
--			   * Ext Spk
--			   * AMIC (stands for Analog Microphone Jack)
--			   * DMIC (stands for Digital Microphone Jack)
--
--			  Note: The "Mic Jack" and "AMIC" are redundant while
--			        coexisting in order to support the old bindings
--				of wm8962 and sgtl5000.
--
--  - hp-det-gpio		: The GPIO that detect headphones are plugged in
--  - mic-det-gpio	: The GPIO that detect microphones are plugged in
--  - bitclock-master	: Indicates dai-link bit clock master; for details see simple-card.yaml.
--  - frame-master	: Indicates dai-link frame master; for details see simple-card.yaml.
--  - dai-format		: audio format, for details see simple-card.yaml.
--  - frame-inversion	: dai-link uses frame clock inversion, for details see simple-card.yaml.
--  - bitclock-inversion	: dai-link uses bit clock inversion, for details see simple-card.yaml.
--  - mclk-id		: main clock id, specific for each card configuration.
--
--Optional unless SSI is selected as a CPU DAI:
--
--  - mux-int-port	: The internal port of the i.MX audio muxer (AUDMUX)
--
--  - mux-ext-port	: The external port of the i.MX audio muxer
--
--Example:
--sound-cs42888 {
--	compatible = "fsl,imx-audio-cs42888";
--	model = "cs42888-audio";
--	audio-cpu = <&esai>;
--	audio-asrc = <&asrc>;
--	audio-codec = <&cs42888>;
--	audio-routing =
--		"Line Out Jack", "AOUT1L",
--		"Line Out Jack", "AOUT1R",
--		"Line Out Jack", "AOUT2L",
--		"Line Out Jack", "AOUT2R",
--		"Line Out Jack", "AOUT3L",
--		"Line Out Jack", "AOUT3R",
--		"Line Out Jack", "AOUT4L",
--		"Line Out Jack", "AOUT4R",
--		"AIN1L", "Line In Jack",
--		"AIN1R", "Line In Jack",
--		"AIN2L", "Line In Jack",
--		"AIN2R", "Line In Jack";
--};
-diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml b/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-new file mode 100644
-index 000000000000..48051655230d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-@@ -0,0 +1,196 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/fsl-asoc-card.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale Generic ASoC Sound Card with ASRC support
-+
-+description:
-+  The Freescale Generic ASoC Sound Card can be used, ideally,
-+  for all Freescale SoCs connecting with external CODECs.
-+
-+  The idea of this generic sound card is a bit like ASoC Simple Card.
-+  However, for Freescale SoCs (especially those released in recent years),
-+  most of them have ASRC
-+  (Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml) inside. And
-+  this is a specific feature that might be painstakingly controlled and
-+  merged into the Simple Card.
-+
-+  So having this generic sound card allows all Freescale SoC users to
-+  benefit from the simplification of a new card support and the capability
-+  of the wide sample rates support through ASRC.
-+
-+  Note, The card is initially designed for those sound cards who use AC'97, I2S
-+  and PCM DAI formats. However, it'll be also possible to support those non
-+  AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audio, as
-+  long as the driver has been properly upgraded.
-+
-+maintainers:
-+  - Shengjiu Wang <shengjiu.wang@nxp.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - fsl,imx-sgtl5000
-+              - fsl,imx53-cpuvo-sgtl5000
-+              - fsl,imx51-babbage-sgtl5000
-+              - fsl,imx53-m53evk-sgtl5000
-+              - fsl,imx53-qsb-sgtl5000
-+              - fsl,imx53-voipac-sgtl5000
-+              - fsl,imx6-armadeus-sgtl5000
-+              - fsl,imx6-rex-sgtl5000
-+              - fsl,imx6-sabreauto-cs42888
-+              - fsl,imx6-wandboard-sgtl5000
-+              - fsl,imx6dl-nit6xlite-sgtl5000
-+              - fsl,imx6q-ba16-sgtl5000
-+              - fsl,imx6q-nitrogen6_max-sgtl5000
-+              - fsl,imx6q-nitrogen6_som2-sgtl5000
-+              - fsl,imx6q-nitrogen6x-sgtl5000
-+              - fsl,imx6q-sabrelite-sgtl5000
-+              - fsl,imx6q-sabresd-wm8962
-+              - fsl,imx6q-udoo-ac97
-+              - fsl,imx6q-ventana-sgtl5000
-+              - fsl,imx6sl-evk-wm8962
-+              - fsl,imx6sx-sdb-mqs
-+              - fsl,imx6sx-sdb-wm8962
-+              - fsl,imx7d-evk-wm8960
-+              - karo,tx53-audio-sgtl5000
-+              - tq,imx53-mba53-sgtl5000
-+          - enum:
-+              - fsl,imx-audio-ac97
-+              - fsl,imx-audio-cs42888
-+              - fsl,imx-audio-mqs
-+              - fsl,imx-audio-sgtl5000
-+              - fsl,imx-audio-wm8960
-+              - fsl,imx-audio-wm8962
-+      - items:
-+          - enum:
-+              - fsl,imx-audio-ac97
-+              - fsl,imx-audio-cs42888
-+              - fsl,imx-audio-cs427x
-+              - fsl,imx-audio-mqs
-+              - fsl,imx-audio-nau8822
-+              - fsl,imx-audio-sgtl5000
-+              - fsl,imx-audio-si476x
-+              - fsl,imx-audio-tlv320aic31xx
-+              - fsl,imx-audio-tlv320aic32x4
-+              - fsl,imx-audio-wm8524
-+              - fsl,imx-audio-wm8960
-+              - fsl,imx-audio-wm8962
-+              - fsl,imx-audio-wm8958
-+
-+  model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex
-+
-+  audio-asrc:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      The phandle of ASRC. It can be absent if there's no
-+      need to add ASRC support via DPCM.
-+
-+  audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of an audio codec
-+
-+  audio-cpu:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of an CPU DAI controller
-+
-+  audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description:
-+      A list of the connections between audio components. Each entry is a
-+      pair of strings, the first being the connection's sink, the second
-+      being the connection's source. There're a few pre-designed board
-+      connectors.
-+        * Line Out Jack
-+        * Line In Jack
-+        * Headphone Jack
-+        * Mic Jack
-+        * Ext Spk
-+        * AMIC (stands for Analog Microphone Jack)
-+        * DMIC (stands for Digital Microphone Jack)
-+      Note, The "Mic Jack" and "AMIC" are redundant while coexisting in
-+      order to support the old bindings of wm8962 and sgtl5000.
-+
-+  hp-det-gpio:
-+    maxItems: 1
-+    description: The GPIO that detect headphones are plugged in
-+
-+  hp-det-gpios:
-+    maxItems: 1
-+    description: The GPIO that detect headphones are plugged in
-+
-+  mic-det-gpio:
-+    maxItems: 1
-+    description: The GPIO that detect microphones are plugged in
-+
-+  mic-det-gpios:
-+    maxItems: 1
-+    description: The GPIO that detect microphones are plugged in
-+
-+  bitclock-master:
-+    description: Indicates dai-link bit clock master; for details see simple-card.yaml.
-+
-+  frame-master:
-+    description: Indicates dai-link frame master; for details see simple-card.yaml.
-+
-+  dai-format:
-+    description: audio format, for details see simple-card.yaml.
-+
-+  frame-inversion:
-+    description: dai-link uses frame clock inversion, for details see simple-card.yaml.
-+
-+  bitclock-inversion:
-+    description: dai-link uses bit clock inversion, for details see simple-card.yaml.
-+
-+  mclk-id:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: main clock id, specific for each card configuration.
-+
-+  mux-int-port:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 7]
-+    description: The internal port of the i.MX audio muxer (AUDMUX)
-+
-+  mux-ext-port:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [3, 4, 5, 6]
-+    description: The external port of the i.MX audio muxer
-+
-+  ssi-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of an CPU DAI controller
-+
-+required:
-+  - compatible
-+  - model
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    sound-cs42888 {
-+        compatible = "fsl,imx-audio-cs42888";
-+        model = "cs42888-audio";
-+        audio-cpu = <&esai>;
-+        audio-asrc = <&asrc>;
-+        audio-codec = <&cs42888>;
-+        audio-routing =
-+             "Line Out Jack", "AOUT1L",
-+             "Line Out Jack", "AOUT1R",
-+             "Line Out Jack", "AOUT2L",
-+             "Line Out Jack", "AOUT2R",
-+             "Line Out Jack", "AOUT3L",
-+             "Line Out Jack", "AOUT3R",
-+             "Line Out Jack", "AOUT4L",
-+             "Line Out Jack", "AOUT4R",
-+             "AIN1L", "Line In Jack",
-+             "AIN1R", "Line In Jack",
-+             "AIN2L", "Line In Jack",
-+             "AIN2R", "Line In Jack";
-+    };
--- 
-2.34.1
+On 22/03/24 12:33, Vijendar Mukunda wrote:
+> The CONFIG_SOUNDWIRE_AMD is a user-visible option, it should be never
+> selected by another driver.
+> So replace the extra complexity with a normal Kconfig dependency in
+> SND_SOC_AMD_SOUNDWIRE.
+Please ignore this patch, as the commit title has not been posted
+completely.
+>
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>  sound/soc/amd/Kconfig | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
+> index fa74635cee08..3508f5a96b75 100644
+> --- a/sound/soc/amd/Kconfig
+> +++ b/sound/soc/amd/Kconfig
+> @@ -134,15 +134,14 @@ config SND_SOC_AMD_RPL_ACP6x
+>  
+>  config SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+>  	tristate
+> -	select SOUNDWIRE_AMD if SND_SOC_AMD_SOUNDWIRE != n
+>  	select SND_AMD_SOUNDWIRE_ACPI if ACPI
+>  
+>  config SND_SOC_AMD_SOUNDWIRE
+>  	tristate "Support for SoundWire based AMD platforms"
+>  	default SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+>  	depends on SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+> -	depends on ACPI && SOUNDWIRE
+> -	depends on !(SOUNDWIRE=m && SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE=y)
+> +	depends on ACPI
+> +	depends on SOUNDWIRE_AMD
+>  	help
+>  	  This adds support for SoundWire for AMD platforms.
+>  	  Say Y if you want to enable SoundWire links with SOF.
 
