@@ -1,134 +1,70 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4A518057;
-	Fri, 22 Mar 2024 08:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D82F2837E;
+	Fri, 22 Mar 2024 10:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711097938; cv=none; b=LQNpljS7wIolvz6+xwEOsyU/4H+j9SvbbmxiCOAd0QXdQqyzYxl1EfFtAAjp3ejqGY8iolNuE6rASIuLxkjGMUpz4tj8svJ/WHOskuBNAKmN7mUDEZan8knvxXxdU+0D1Wzp9gvPucH6g4h7iC73rLGCd7mqiWd+1YMGOWZEOKk=
+	t=1711103417; cv=none; b=q+uKc3k1fFypqFG2CK9UaXWKsCGl+Ri08Yk3vQxNBRHeOAxcvnjqnkbvHCIJv+cmVanTGLQBgewkavwyQeiefPwEn5Ecgh8RZmosbGx4KzyuZoJ2KsxaEBISVXjWkpP+pr8WCkkTAtcsRk23MWSf2wD5UnLEVGRm8/wd3MA3BI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711097938; c=relaxed/simple;
-	bh=P0dr0dBCvvvUpslvPwKlG6vn+eNquMJf7JhYBVBNQQw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QUXMs6i0qiPZFErGxdPksvabWVoKJzrywYd772HfGM83w8FvrUnh4+EVCS2RI2JT9gdcfQb55lOLFF2/wBS+3A3/tGoCEfRkchmV+R1fSdD7eWiLZghuRJeFkB2dulyOSk9Y1od11Qb/k8n/XpVs9bnGJRsE+DfunA2nyXZ3xrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Yo8VsMbD; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yo8VsMbD"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 32255FF807;
-	Fri, 22 Mar 2024 08:58:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711097934;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3/uxx5AdFXNV6za9HAZhGhTPRrtGXUVryUFqmL6/+ic=;
-	b=Yo8VsMbDGjdd/vpgx8agJbI6GMKOf/aAiUzJqOH05A/UxeYb0EdRvZ6bR7TGTVa5Sj3c4E
-	JbRrqP9lz61Fzh9YZAlk5lBWWv2e/8eoDOtQDnCGZ8BK+lzTP/5gaymkYvzhY1Lsb+AUUJ
-	vL12A2FJdmkYaZQYmYKu187UJ0qhck87rmYMjW2yF4wmj1PVGuEXy0tvhB7oaPqqqUqDb6
-	FFfVf1eK1ZhU/o2zs5uo8gXueHSUkRnL4FZkm8AdNZMgTHeaOHZpOJ9tAgT+Ro/VmaRrFI
-	0n5nUtONT8KkK+wqRct6I6W99vFEHtgFFY+cbdAudMkkI0Lc1JnJnHnd3Gtz8Q==
-Message-ID: <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
-Date: Fri, 22 Mar 2024 09:58:52 +0100
+	s=arc-20240116; t=1711103417; c=relaxed/simple;
+	bh=GUtmXf9WlmO3w758QqnC1fkxggOvB6pRAawA1GBYSW0=;
+	h=From:To:Subject:Date:Message-Id; b=nuQvAlfw4PtMamtR6mn/AQ83oVqUxVTnyFXxtvTQ0N2j430kaF9L+Jz3AO7EWfguDN0go3YGe5nQY+FbJQIVARdOfZBlKxXCgOyrwoiLcN3v1NK/xZf1BuqRTvlz7lAy3/hw6j+GWoWglOzH4t6veNeHVbr452AjAFnLv6LxI5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 3F5FF200FED;
+	Fri, 22 Mar 2024 11:30:09 +0100 (CET)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id DF9F6200F42;
+	Fri, 22 Mar 2024 11:30:08 +0100 (CET)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id A235D183AD25;
+	Fri, 22 Mar 2024 18:30:06 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/2] ASoC: dt-bindings: convert fsl-asoc-card.txt to YAML
+Date: Fri, 22 Mar 2024 18:13:24 +0800
+Message-Id: <1711102406-8399-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
- <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
- <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
- <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
- <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
- <5467add6-0099-4e54-a4f7-12aa149d03c7@bootlin.com>
- <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
-Content-Language: en-US
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-In-Reply-To: <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
 
-Hi Péter,
+Convert fsl-asoc-card.txt to YAML. In order to pass the checking,
+add some used compatible string from devicetree.
 
-On 3/21/24 19:31, Péter Ujfalusi wrote:
-> Hi Bastien,
-> 
-> On 3/21/24 17:14, Bastien Curutchet wrote:
->>>> I think the definition of the 'ti,drive-dx' is somehow odd. It allows
->>>> you to set it to 0x1234 and the DX pin will show 0x1234 when you capture
->>>> 32bit. If you capture 16bit then it will transmit 0x12 (or 0x34?), no?
->>>> If you have 4 channel capture then I won't speculate what will be on the
->>>> DX pin ;)
->>>>
->>>> Would not be better to say that the DX pin will be driven low or high
->>>> during capture _and_ disable the playback support?
->>>
->>> After some thinking, it might be still better to use the DX pin as GPIO
->>> and either have a custom machine driver which would handle it (set low
->>> when a capture trigger happens) or connect it in DAPM as a supply, bias
->>> or something and ASoC would handle it automagically.
->>>
->>> I think that would be cleaner in many ways. What do you think?
->>>
->> I agree, that would be cleaner. I ran a few tests to see if that would
->> work on my hardware. It doesn't ... So I looked back to the schematics
->> and found two reasons :
->>   * the DX pin needs to be in sync with the clock.
-> 
-> I'm not sure what this means, sync with which clock?
-> 
+change cpu-dai in imx6sx-nitrogen6sx to ssi-controller.
 
-Sorry, that was not very clear, I meant sync with the bit block that is
-output on McBSP.CLKR pin.
+Shengjiu Wang (2):
+  ASoC: dt-bindings: fsl-asoc-card: convert to YAML
+  ARM: dts: imx6sx-nitrogen6sx: drop incorrect cpu-dai property
 
->>   * the DX pin needs to be in a high-impedance state between two frames
->>     so a pull-up can drive it back up. Actually, the DX pin is also
->>     linked to the FSR pin so it provides the frame clock to the capture
->>     stream.
-> 
-> Hrm, you are using the DX pin as FSR for the capture? Why not McBSP.FSR pin >
+ .../bindings/sound/fsl-asoc-card.txt          | 117 -----------
+ .../bindings/sound/fsl-asoc-card.yaml         | 196 ++++++++++++++++++
+ .../boot/dts/nxp/imx/imx6sx-nitrogen6sx.dts   |   2 +-
+ 3 files changed, 197 insertions(+), 118 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
 
-The McBSP.FSR pin is used for the capture but is driven by the McBSP.DX
-pin. Both pins are linked together.
-
-> Looking back to the patch, one thing stood out: you are setting the
-> XDATDLY to 2.
-> You have some sort of T1 framing on the bus? The pullup will make the DX
-> line high in for the framing bit, right? > Or you simulate another FSR line with T1 framing DX?
-> 
-
-Yes the goal is to simulate an FSR.
-
-> The 'ti,drive-dx' sounds like a bad property for sure, you have T1
-> framing and driving the DX to certain level.
-> It is like DSP_A (1 bit delay) playing constant 0x2 ?
-> 
-> Can you use aplay /dev/zero and a DT property to select T1 framing for
-> the playback? Or that would be too coarse for timing the start of
-> playback and capture?
-> 
-
-That's a good idea, thank you. I'll try this and come back to you.
-
-
-Best regards,
-Bastien
+-- 
+2.34.1
 
