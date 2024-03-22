@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58093EA8E
-	for <linux-sound@vger.kernel.org>; Fri, 22 Mar 2024 11:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7C63F9CC
+	for <linux-sound@vger.kernel.org>; Fri, 22 Mar 2024 11:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711106681; cv=none; b=t0naXa8rdDiazhDmIe1xLjnOOV0MFzmlG3+/mcOXXLvVIcB6bSDYFuIhExm/Ye8p5Tu9T2lb9SoUKRXvO7g2lFTTlSuJVWtM8P5riRH+lXOvJPIXl83xio8adcBKSVbdoDKiLxaw8dJkFACOBVJlW5iAnoY2zXQzpvOZsSiYTIM=
+	t=1711106802; cv=none; b=sRTWDFfTLlK7VCy6rmw6cH0F2Tddo4m+4vrB2lEuefaMtG/J4g1PBTfSjj/lkRquRu1VRMdqj4v31MQeGvaXu/TwR/vGiBiDQmTcvNpiu4Sd5g7SW188oFEGH0HJRON73UNnVfoNR20BIj25hXIAy5z1++980lqn5NOdh2CUj5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711106681; c=relaxed/simple;
-	bh=1v7K6FuT0FXxl1LoP3a/ozWX859AhDJc8GxXCmXI0A4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oU9lf0CUt1BaOtepVRzRI5Q9NF8UjE3VWnt5RYeAq8LLqcu73zuytSDT38jJyasxh4ulPotTMOaHHLZ/eTCjgB2zncf7j74qcI5jfDOW05JTFZonmNA94HHwUQmgyqUK5X6e+58BDtYuywIigiSTLu/hycy61f3BKDLeskj4IcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/kbzjaf; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1711106802; c=relaxed/simple;
+	bh=Cltf0gUJhwqEhMMLpKzS3AOoVBO5HwUjCpHCNSxY2wI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sClJBDlJ6k0/YAsvO0f13WOk5lVy6HfI5oipv1JZb4VWytWEO5JceW9/BjJUXlOiwFAmhA/uEZppm1MSYSUfRTMt+L9xPWUFXj8/UNt/nkxVr4jTolBc7hUl59Q6t1AZ0DqUCijrcAMJVOO/6jodIubv0RvpKe0GswQdqGGcH3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLVbNdGI; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/kbzjaf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLVbNdGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711106679; x=1742642679;
+  t=1711106799; x=1742642799;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=1v7K6FuT0FXxl1LoP3a/ozWX859AhDJc8GxXCmXI0A4=;
-  b=B/kbzjafNgqTacdpzBohOopORIziZN0jCE+vLHRIxwQ7Y3syr0/BJ7Ee
-   jOF+xjGUEXRi+P9EYYq8n2t9pXL1takbqYWjL0pTZqtHIY+lVeMGd+Pi4
-   tideJd8jLUL3bwqpX1TmwWSDsZ2ju3O8YIkLd5TXjfJs3xtJ5X10anWjo
-   A2zS4vjiZS68U0qp9w1sCdiKIzQQGPb/FYXqwrR/9pU0U89s7lxZZ1HHL
-   k7lgyxuhFjtgQIF6CqkhkQxuGeFdkYJAPk5r1mTx/ey0odaFvi+XNxS1h
-   a4tK2+ZcZfOMsyMOuXlXkY+cd8q4RX5XZbW/z1hOC03y7fEp+oHhR49Q4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="5977031"
+  bh=Cltf0gUJhwqEhMMLpKzS3AOoVBO5HwUjCpHCNSxY2wI=;
+  b=cLVbNdGILbFLX4t0knQ0d540FNt+dV1zTvIZ2eL+hmDprStwXKvnD6sI
+   b+BYzefa0eEOgXbSo5O793LWjDVIhVUEh9b/5tDUX5qWEqMqN/YrlVjzJ
+   0LfvC+Wvf6rBiSZAEvE/XRGfNCONbwOXdJQFSsDcpHZbLksCNDQTIT+xM
+   OBkVwcQtOY5YNdoaK8uyILPErj4B4yhRUTf8O/7i6cTmxd3+ZIY2/oFAo
+   DxTvUEtAH1CcfQoPY/NPAH0TEpieaVGvQv6/aUjLPMjCe6qrf5PBXgeQz
+   1usczDJYjGgOudzuZD4UftIqR5L+U2UqYjCpyi6g/FHhZ26GysA1/HlZX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9102212"
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="5977031"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:24:38 -0700
+   d="scan'208";a="9102212"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:26:38 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19580809"
+   d="scan'208";a="15306939"
 Received: from kridax-mobl1.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.32.117])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:24:36 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 04:26:36 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -45,10 +45,10 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
-	liam.r.girdwood@intel.com
-Subject: [RESEND] ASoC: SOF: Intel: hda-dsp: Skip IMR boot on ACE platforms in case of S3 suspend
-Date: Fri, 22 Mar 2024 13:25:04 +0200
-Message-ID: <20240322112504.4192-1-peter.ujfalusi@linux.intel.com>
+	rander.wang@intel.com
+Subject: [RESEND] ASoC: SOF: mtrace: rework mtrace timestamp setting
+Date: Fri, 22 Mar 2024 13:27:03 +0200
+Message-ID: <20240322112703.4549-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -56,68 +56,69 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-SoCs with ACE architecture are tailored to use s2idle instead deep (S3)
-suspend state and the IMR content is lost when the system is forced to
-enter even to S3.
-When waking up from S3 state the IMR boot will fail as the content is lost.
-Set the skip_imr_boot flag to make sure that we don't try IMR in this case.
+From: Rander Wang <rander.wang@intel.com>
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+The original timestamp is built base on windows epoch time which is not
+fit for Linux system and difficult to be used for kernel debugging. This
+patch adopts syslog timestamp so that we can simply use dmesg to check
+the timestamp between fw and kernel.
+
+Signed-off-by: Rander Wang <rander.wang@intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
 Hi Mark,
 
 Can you pick this for 6.9, it was originally sent on 13.02.2024:
-https://lore.kernel.org/linux-sound/20240213110701.12818-1-peter.ujfalusi@linux.intel.com/
+https://lore.kernel.org/linux-sound/20240213111901.20032-1-peter.ujfalusi@linux.intel.com/
 
 Thanks,
 Peter
 
- sound/soc/sof/intel/hda-dsp.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ sound/soc/sof/ipc4-mtrace.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
-index 31ffa1a8f2ac..ef5c915db8ff 100644
---- a/sound/soc/sof/intel/hda-dsp.c
-+++ b/sound/soc/sof/intel/hda-dsp.c
-@@ -681,17 +681,27 @@ static int hda_suspend(struct snd_sof_dev *sdev, bool runtime_suspend)
- 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
- 	const struct sof_intel_dsp_desc *chip = hda->desc;
- 	struct hdac_bus *bus = sof_to_bus(sdev);
-+	bool imr_lost = false;
- 	int ret, j;
+diff --git a/sound/soc/sof/ipc4-mtrace.c b/sound/soc/sof/ipc4-mtrace.c
+index 9f1e33ee8826..0e04bea9432d 100644
+--- a/sound/soc/sof/ipc4-mtrace.c
++++ b/sound/soc/sof/ipc4-mtrace.c
+@@ -4,6 +4,7 @@
  
- 	/*
--	 * The memory used for IMR boot loses its content in deeper than S3 state
--	 * We must not try IMR boot on next power up (as it will fail).
--	 *
-+	 * The memory used for IMR boot loses its content in deeper than S3
-+	 * state on CAVS platforms.
-+	 * On ACE platforms due to the system architecture the IMR content is
-+	 * lost at S3 state already, they are tailored for s2idle use.
-+	 * We must not try IMR boot on next power up in these cases as it will
-+	 * fail.
-+	 */
-+	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
-+	    (chip->hw_ip_version >= SOF_INTEL_ACE_1_0 &&
-+	     sdev->system_suspend_target == SOF_SUSPEND_S3))
-+		imr_lost = true;
-+
+ #include <linux/debugfs.h>
+ #include <linux/sched/signal.h>
++#include <linux/sched/clock.h>
+ #include <sound/sof/ipc4/header.h>
+ #include "sof-priv.h"
+ #include "ipc4-priv.h"
+@@ -412,7 +413,6 @@ static int ipc4_mtrace_enable(struct snd_sof_dev *sdev)
+ 	const struct sof_ipc_ops *iops = sdev->ipc->ops;
+ 	struct sof_ipc4_msg msg;
+ 	u64 system_time;
+-	ktime_t kt;
+ 	int ret;
+ 
+ 	if (priv->mtrace_state != SOF_MTRACE_DISABLED)
+@@ -424,9 +424,12 @@ static int ipc4_mtrace_enable(struct snd_sof_dev *sdev)
+ 	msg.primary |= SOF_IPC4_MOD_INSTANCE(SOF_IPC4_MOD_INIT_BASEFW_INSTANCE_ID);
+ 	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(SOF_IPC4_FW_PARAM_SYSTEM_TIME);
+ 
+-	/* The system time is in usec, UTC, epoch is 1601-01-01 00:00:00 */
+-	kt = ktime_add_us(ktime_get_real(), FW_EPOCH_DELTA * USEC_PER_SEC);
+-	system_time = ktime_to_us(kt);
 +	/*
- 	 * In case of firmware crash or boot failure set the skip_imr_boot to true
- 	 * as well in order to try to re-load the firmware to do a 'cold' boot.
- 	 */
--	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
--	    sdev->fw_state == SOF_FW_CRASHED ||
-+	if (imr_lost || sdev->fw_state == SOF_FW_CRASHED ||
- 	    sdev->fw_state == SOF_FW_BOOT_FAILED)
- 		hda->skip_imr_boot = true;
- 
++	 * local_clock() is used to align with dmesg, so both kernel and firmware logs have
++	 * the same base and a minor delta due to the IPC. system time is in us format but
++	 * local_clock() returns the time in ns, so convert to ns.
++	 */
++	system_time = div64_u64(local_clock(), NSEC_PER_USEC);
+ 	msg.data_size = sizeof(system_time);
+ 	msg.data_ptr = &system_time;
+ 	ret = iops->set_get_data(sdev, &msg, msg.data_size, true);
 -- 
 2.44.0
 
