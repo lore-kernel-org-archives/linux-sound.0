@@ -1,158 +1,142 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2077.outbound.protection.outlook.com [40.107.93.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B24C133
-	for <linux-sound@vger.kernel.org>; Fri, 22 Mar 2024 06:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711088274; cv=none; b=tId03UqPm0M1R4II9mhSgoO5MqjEmqhsUrzUz2KLm/OXDrG9erePhcq+ykUgqoyCVvS0FfmJn9k0jj1eaK9QsCaWEn0sHWc+4DdA9xQUnwNwTVNxzEgnmnMpS4bHGC82UsQqobT6lZfOJv2cFNlEeWQHgWtlPVVS+4PZ+9QsMGg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711088274; c=relaxed/simple;
-	bh=7QWjRTt2ummpls6CdbuPMzRfmumuZfXlw2FAbLs4uqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VUudvwrZt/oAKR0V9ro8ooRxrK2CyZixHlAhozA9laa6hDpuJhzNiXAsA44CIUk3/6MHkPgdaE5P8yvYkOVJGuxyRRXj7xrr9GE7a8trfr8Xk9WY69aTbAAaTHBW1Dc9B6JWumlGVbdZTNKGZmbXZOlxDZD2ZwXKJkxuRU5CjHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JicBCTRs; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4725E10A35;
+	Fri, 22 Mar 2024 07:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711091044; cv=fail; b=ge8Z4hIBj+YUHVIPRn9FFfnPubOInDz1DBoFN2p21aSGmuS2PW6XK4JOXGhYQae1OvRw8BUMLc9qICdBKd7stj/HTlOGTisTyoZ1u5v7b+qbzH1j2gabHjAZaJL4sz2BXfJnvh+1OpmtRoRSdUZ0VGapqaMJ5EuZRVs1yEZU5Kk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711091044; c=relaxed/simple;
+	bh=8kQEDYEW9v1tqSrqRvEKCnJox9KK2bCHALbmILJsgDE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hJZphM16u+pE3pK/cH27k0I5ZO+0zqyYtpud51/ulVWux3hndUDeNPJnRv+YhkdkrubGstAeOgruGTUMTy3zJNkx3gxIt/g//sdMeAkFS3kZbCGs0StyEof1BfOjA5vQzbqenM3vRViyiqyDRa+E7OJgBRpbpJX/fSkqXsTzvgw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UOSQ7LQb; arc=fail smtp.client-ip=40.107.93.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JicBCTRs"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a46f0da1b4fso227244066b.2
-        for <linux-sound@vger.kernel.org>; Thu, 21 Mar 2024 23:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711088271; x=1711693071; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=omAuBuA6/U6J/WmiUkArJStENzk1lkMMLOUjd1MyIEg=;
-        b=JicBCTRscpDZiP9o5x4gIeqZ8cvNInUHnGixW6Q68Mi2NURDg7AKji1okL+982kODg
-         fLS36s2J+wA7SINkDzSn8ISj9f6B8yCWw2EEnFi0AmNV/U1Jvf00+zlbVm7o19fykrkt
-         FEtQzf0AmqEzdsIvVw71MS+Ic1NiA8OIA48fGBHRLRWU3ms9RQOzMqcNoxiUfkenFD+J
-         godWheoh0ZI1p8oPrO59dKbHk+P/TlCoHT7tpWwQn6O8q3A4kJlMvKZOfAXWwaRF64sv
-         ZmIXIxVF96WsUyT5R0yNu2fpZROCyMNM0pBAbVfSE9kKr4tGzWPty4PSLXV4ChCrfsjZ
-         MfaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711088271; x=1711693071;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=omAuBuA6/U6J/WmiUkArJStENzk1lkMMLOUjd1MyIEg=;
-        b=cws5+aWXCRlewYyWL+26YQuJfAyaLVvHGzaIR3anzTGh6z56irSAoTJ6XPzxQTNBQJ
-         Gp2hGOlc0tFeh1x9B8dnickzDOhfPaUjOxZitAD44UDKUPZUPl5Q4xfLFUFxRQxgez1q
-         1/5fgEWSrxg4Dqf8wID9+m78dRPq5dJn1+JFtNjp96NVnLGZ59rFJWtHa58MZxvKhgA9
-         mPQTgwJDGeSglbKF+UfVLClr0w644U1QVcHJl+g1CnFrffOYovAwfs1OSEM4Ev+3Ws08
-         bJSjaQU8ocMBW0rzSNca+4nU07nVnw/VduNx20BAs8Ojt42dgKeOE8zfI7g1l1+XCzNO
-         +1WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJHE3+sN+NDRMoi+/Iqo+speZA7iwJfEIx3QnLEfxAZSiJoTs/Teoh9+RpD/RM+Z1Us3RPvbi/4zC8aZx0NAnXKSNtkE1Ny8fhr2s=
-X-Gm-Message-State: AOJu0YyG4ZmJJU7HQ51ujg2A/VzYJeNqHxaFS2xAmoEYoefTpRo3JV2T
-	zqy3RXyqlfKynfFS9uSwJRd6VfTHqBTzEvOOEsNFvt7xoqr4+BlHsJSfxu89k9w=
-X-Google-Smtp-Source: AGHT+IE8/2CKAhMCkAHadWAr2Zt6B+iP78C3p8mo9tDpUqx0IuosFVUu6jQ4oTyw9wcaRaoJ9wsPmQ==
-X-Received: by 2002:a17:906:6a13:b0:a47:330f:f110 with SMTP id qw19-20020a1709066a1300b00a47330ff110mr499343ejc.7.1711088271346;
-        Thu, 21 Mar 2024 23:17:51 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id e3-20020a170906844300b00a45f2dc6795sm657658ejy.137.2024.03.21.23.17.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 23:17:50 -0700 (PDT)
-Message-ID: <0c84a8ab-5b92-49a3-aa14-08aaff856445@linaro.org>
-Date: Fri, 22 Mar 2024 07:17:48 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UOSQ7LQb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mAlsv/SVOByERIiiZ5HynI79mYXbx0wqnxwCmrGqn4ka/rurJ2HBlZ0q5DTLd9l4Aln49dTq02vTdWnijISRy4vwV5VZGwr5r4FrPo3cBreBfC9M7W2j5D2pDtm/KS2BRs2Xg09VREq3jzhsdKC1iCXNwgyf/1BuYGPSboGcN95bB/39aJ8R0rLITzWJnrz5N18uSEJPgmRT6wd82gvvQeEXA4GnzN325lTG6K+WYoWaqFknExZUULohDG0wFHXImflMQk+64SYP2Ip3H++01sI2Ycn8p0c5n6AiPj4Fj9tmeWhKI9K4yuoJONf6usb2oFDVvOJpsFnxHHdDJu/lzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lvPmvxP4a/imKBh10t3nC3rSrKRULrn9Gq7KSQ9i+KM=;
+ b=WalHvZ/6b4fcD4/jhSAoei5nCjogB+8Z0MvWvT+Gy60SRvShb6yPBxqojS+TNdjeVBbddRjigfvoImtfZ+ktHoYtcX0v8K4y/pDQ0CSFNEGaXfRyPEN7T5JOadYAWFpQhW/SUIp4FTVvrf6847noht2q6CfQxgSsv0bfaPE7q9Wa5ot/NFg6shkOHYZY06onGBxvVGWS3GQ8FY/ZVRzh9Lvsauv9zxlYtht/M5x8Mygl2PWI3hOo4nTJVY7IUrjaxTU28so27p3vAN92QWs7EPMBX4zJlHhAPtCHgniz6u5l2wegtF6h4HT+yQHMxdcF+h60IJUqEs580k7rbE7zhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lvPmvxP4a/imKBh10t3nC3rSrKRULrn9Gq7KSQ9i+KM=;
+ b=UOSQ7LQbDaBhtY3MdcFoEOZ9X+EuWO24sDStvQ6SitFX/YBrWvdbDLs3csJKMV29h2aEMMv92wDRT4NrV6RURhM7scKtekMyN612kFSc6ir6luiXUACa7KCL5J0Y1XiMGKqqbZykGnwbEfThaP7TnfjRv7MkG5Vm22apLOAnwSE=
+Received: from CH2PR10CA0022.namprd10.prod.outlook.com (2603:10b6:610:4c::32)
+ by MN0PR12MB5906.namprd12.prod.outlook.com (2603:10b6:208:37a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Fri, 22 Mar
+ 2024 07:03:59 +0000
+Received: from CH3PEPF00000018.namprd21.prod.outlook.com
+ (2603:10b6:610:4c:cafe::bd) by CH2PR10CA0022.outlook.office365.com
+ (2603:10b6:610:4c::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.25 via Frontend
+ Transport; Fri, 22 Mar 2024 07:03:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7430.0 via Frontend Transport; Fri, 22 Mar 2024 07:03:59 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 22 Mar
+ 2024 02:03:58 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35
+ via Frontend Transport; Fri, 22 Mar 2024 02:03:54 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <venkataprasad.potturu@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<arnd@arndb.de>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>, Lucas Tanure
+	<lucas.tanure@collabora.com>, Cristian Ciocaltea
+	<cristian.ciocaltea@collabora.com>, "open list:SOUND - SOC LAYER / DYNAMIC
+ AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] [RESEND] ASoC: amd: simplify soundwire dependencies for 
+Date: Fri, 22 Mar 2024 12:33:50 +0530
+Message-ID: <20240322070353.2367300-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt to
- yaml
-To: Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20240318194535.2274543-1-Frank.Li@nxp.com>
- <20240320152435.GA1753500-robh@kernel.org>
- <ZfxeJ9dAXtfYW7Qq@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZfxeJ9dAXtfYW7Qq@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: Vijendar.Mukunda@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|MN0PR12MB5906:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa043dbe-1a8a-49b7-05f0-08dc4a3e3f96
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dCMBYO7kjwhZr/0OYLv1t3RATRIba/Fa7xof3ePJ3GC6r9Pk0yyQmZ3fslztpHVeg0AK8Z4VRTvKOcVWubI5Ll1/dlR/Dy8PveKSQw8FuUCd6nD1gS9idMW8vksPir6ZoiVkUDVs+h2oEmGRGq1q4fdSs78aFVQU5r7Q6yvHnAqbcrQBixPtkQp0NPXvMG6jP2X+gG2rjX0Za4dnYpg/btEVaeh9Qy2iAC+V/y9/bcy0jPIYmdIESHTRo62IklSuFAb3X+/uyqne69Jd6kxderKfKtkoPiJVO+cV6U/fVrgStUJIXjmNOna4x0kBRRPdYA3AEWeU07vmaDREaEx5foJJyusIxFnZPm29MuuxD5P5gBWTmeXesUGjsPxS2m+hNh0Jf0esl/Y3VpcZHZpNVLsNGiqLCWf8H+uXB8qjHsbRhxpNOO3GSTF5qow3Q7sUl4XXLvEhzLWqfrY4GGHdKWhfdR4DOzW5m3/sbPhqsxNrBdKnZeiE0h59WqEyKq4R4VO2pXRw2H6gJ/cK+P+g6ceiuCVM+TVupwoZx9n9go+IksoZI627Guxp5MfZRKK8IRxzOS2cS0sQ7mritXMVHQS23/ozHfXmiwEM8lhV4wRQTzLf376acJZL+aNnfy1awJ80327ZGxIlkf+HiJyQOKFsYTAJ0jRK4O/hYJQCcDS61ruqxG/HXHGUdCcF5ggAqWwQTza7XG1s1Jc88qWhmlWlliDgQM3BwK+m4UzQ430LFkYioFi1NW3bLKM/g2na
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(376005)(7416005)(82310400014)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 07:03:59.4367
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa043dbe-1a8a-49b7-05f0-08dc4a3e3f96
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000018.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5906
 
-On 21/03/2024 17:19, Frank Li wrote:
->>> +  clocks:
->>> +    minItems: 3
->>> +    maxItems: 4
->>> +
->>> +  clock-names:
->>> +    minItems: 3
->>> +    description: |
->>> +      core:   The core clock used to access registers.
->>> +      extal:  The esai baud clock for esai controller used to
->>> +              derive HCK, SCK and FS.
->>> +      fsys:   The system clock derived from ahb clock used to
->>> +              derive HCK, SCK and FS.
->>> +      spba:   The spba clock is required when ESAI is placed as a
->>> +              bus slave of the Shared Peripheral Bus and when two
->>> +              or more bus masters (CPU, DMA or DSP) try to access
->>> +              it. This property is optional depending on the SoC
->>> +              design.
->>
->> This description should be split into each items entry below.
+The CONFIG_SOUNDWIRE_AMD is a user-visible option, it should be never
+selected by another driver.
+So replace the extra complexity with a normal Kconfig dependency in
+SND_SOC_AMD_SOUNDWIRE.
 
-Description of clocks goes to clocks. Here, just items with 'const' items.
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/Kconfig | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-There are plenty of examples for this, most of complex devices define
-clocks that way.
-
-
-
-Best regards,
-Krzysztof
+diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
+index fa74635cee08..3508f5a96b75 100644
+--- a/sound/soc/amd/Kconfig
++++ b/sound/soc/amd/Kconfig
+@@ -134,15 +134,14 @@ config SND_SOC_AMD_RPL_ACP6x
+ 
+ config SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+ 	tristate
+-	select SOUNDWIRE_AMD if SND_SOC_AMD_SOUNDWIRE != n
+ 	select SND_AMD_SOUNDWIRE_ACPI if ACPI
+ 
+ config SND_SOC_AMD_SOUNDWIRE
+ 	tristate "Support for SoundWire based AMD platforms"
+ 	default SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+ 	depends on SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
+-	depends on ACPI && SOUNDWIRE
+-	depends on !(SOUNDWIRE=m && SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE=y)
++	depends on ACPI
++	depends on SOUNDWIRE_AMD
+ 	help
+ 	  This adds support for SoundWire for AMD platforms.
+ 	  Say Y if you want to enable SoundWire links with SOF.
+-- 
+2.34.1
 
