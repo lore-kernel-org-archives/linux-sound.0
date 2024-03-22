@@ -1,142 +1,185 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2077.outbound.protection.outlook.com [40.107.93.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4725E10A35;
-	Fri, 22 Mar 2024 07:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711091044; cv=fail; b=ge8Z4hIBj+YUHVIPRn9FFfnPubOInDz1DBoFN2p21aSGmuS2PW6XK4JOXGhYQae1OvRw8BUMLc9qICdBKd7stj/HTlOGTisTyoZ1u5v7b+qbzH1j2gabHjAZaJL4sz2BXfJnvh+1OpmtRoRSdUZ0VGapqaMJ5EuZRVs1yEZU5Kk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711091044; c=relaxed/simple;
-	bh=8kQEDYEW9v1tqSrqRvEKCnJox9KK2bCHALbmILJsgDE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hJZphM16u+pE3pK/cH27k0I5ZO+0zqyYtpud51/ulVWux3hndUDeNPJnRv+YhkdkrubGstAeOgruGTUMTy3zJNkx3gxIt/g//sdMeAkFS3kZbCGs0StyEof1BfOjA5vQzbqenM3vRViyiqyDRa+E7OJgBRpbpJX/fSkqXsTzvgw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UOSQ7LQb; arc=fail smtp.client-ip=40.107.93.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2216CA4A;
+	Fri, 22 Mar 2024 08:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711096432; cv=none; b=UcYYcJAchv/43LfMpzdA+igXSVGjv5wkrpbgK2W56FRiouVJWihGf2bK6jffV2AE1OFE1PFkDLX+W5CjzeHZyMY82pDltXWNNmR5xSFn5pqAeBWhciBS23aqkVllnQxjPhToT81x9vJUKTZXq9caYiEuonQeaJlB2xHf02imyKI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711096432; c=relaxed/simple;
+	bh=S1fSKPGfqTSlj0nruv3EJJSWjVO2uwXlISmnmX73GrU=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=AWFe+1scJJQcaxwbbARHSAyOwi3Q2ZAgfKslJrIfbFyb7Sw3OfwtwZCgFII6RjacjvW4MZbqFmxxtRCYNRU+xHyy82/RA8g2oKG0i+ppmY0MDnUQZupfLGdB8w2C5edODGKHBMp3Q4GDTHbsmLpAa1Xl6kSpak37dxiKurnoL2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k0rBfayv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2grr9aKX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k0rBfayv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2grr9aKX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UOSQ7LQb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mAlsv/SVOByERIiiZ5HynI79mYXbx0wqnxwCmrGqn4ka/rurJ2HBlZ0q5DTLd9l4Aln49dTq02vTdWnijISRy4vwV5VZGwr5r4FrPo3cBreBfC9M7W2j5D2pDtm/KS2BRs2Xg09VREq3jzhsdKC1iCXNwgyf/1BuYGPSboGcN95bB/39aJ8R0rLITzWJnrz5N18uSEJPgmRT6wd82gvvQeEXA4GnzN325lTG6K+WYoWaqFknExZUULohDG0wFHXImflMQk+64SYP2Ip3H++01sI2Ycn8p0c5n6AiPj4Fj9tmeWhKI9K4yuoJONf6usb2oFDVvOJpsFnxHHdDJu/lzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lvPmvxP4a/imKBh10t3nC3rSrKRULrn9Gq7KSQ9i+KM=;
- b=WalHvZ/6b4fcD4/jhSAoei5nCjogB+8Z0MvWvT+Gy60SRvShb6yPBxqojS+TNdjeVBbddRjigfvoImtfZ+ktHoYtcX0v8K4y/pDQ0CSFNEGaXfRyPEN7T5JOadYAWFpQhW/SUIp4FTVvrf6847noht2q6CfQxgSsv0bfaPE7q9Wa5ot/NFg6shkOHYZY06onGBxvVGWS3GQ8FY/ZVRzh9Lvsauv9zxlYtht/M5x8Mygl2PWI3hOo4nTJVY7IUrjaxTU28so27p3vAN92QWs7EPMBX4zJlHhAPtCHgniz6u5l2wegtF6h4HT+yQHMxdcF+h60IJUqEs580k7rbE7zhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lvPmvxP4a/imKBh10t3nC3rSrKRULrn9Gq7KSQ9i+KM=;
- b=UOSQ7LQbDaBhtY3MdcFoEOZ9X+EuWO24sDStvQ6SitFX/YBrWvdbDLs3csJKMV29h2aEMMv92wDRT4NrV6RURhM7scKtekMyN612kFSc6ir6luiXUACa7KCL5J0Y1XiMGKqqbZykGnwbEfThaP7TnfjRv7MkG5Vm22apLOAnwSE=
-Received: from CH2PR10CA0022.namprd10.prod.outlook.com (2603:10b6:610:4c::32)
- by MN0PR12MB5906.namprd12.prod.outlook.com (2603:10b6:208:37a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Fri, 22 Mar
- 2024 07:03:59 +0000
-Received: from CH3PEPF00000018.namprd21.prod.outlook.com
- (2603:10b6:610:4c:cafe::bd) by CH2PR10CA0022.outlook.office365.com
- (2603:10b6:610:4c::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.25 via Frontend
- Transport; Fri, 22 Mar 2024 07:03:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7430.0 via Frontend Transport; Fri, 22 Mar 2024 07:03:59 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 22 Mar
- 2024 02:03:58 -0500
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.35
- via Frontend Transport; Fri, 22 Mar 2024 02:03:54 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <venkataprasad.potturu@amd.com>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<arnd@arndb.de>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>, Lucas Tanure
-	<lucas.tanure@collabora.com>, Cristian Ciocaltea
-	<cristian.ciocaltea@collabora.com>, "open list:SOUND - SOC LAYER / DYNAMIC
- AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] [RESEND] ASoC: amd: simplify soundwire dependencies for 
-Date: Fri, 22 Mar 2024 12:33:50 +0530
-Message-ID: <20240322070353.2367300-1-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k0rBfayv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2grr9aKX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k0rBfayv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2grr9aKX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A258339CF;
+	Fri, 22 Mar 2024 08:33:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711096429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
+	b=k0rBfayv+RLD8c3gBoeejWTrwnxHQvBbHsxLAgijQUvjZ1qE7GYbcs/e5lXLaPOn/KZEBH
+	2iZ1yzQuQxY6CC9gA5Fbb9mOny41Oyi2iVRJDHvVLjF1Mh5JeasUnRzy5hiZMS4BdrSkwQ
+	lpJNqkO318Jj7ZZ8Ts9l55V0Jd2tjKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711096429;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
+	b=2grr9aKX2AygMpJfIlIXMgUxy3P6APw+43hz2vwRdKbG6vSbu9KmMLTd7OADSK8SRFPpv6
+	sJCCy7p1+nJGp4DA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711096429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
+	b=k0rBfayv+RLD8c3gBoeejWTrwnxHQvBbHsxLAgijQUvjZ1qE7GYbcs/e5lXLaPOn/KZEBH
+	2iZ1yzQuQxY6CC9gA5Fbb9mOny41Oyi2iVRJDHvVLjF1Mh5JeasUnRzy5hiZMS4BdrSkwQ
+	lpJNqkO318Jj7ZZ8Ts9l55V0Jd2tjKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711096429;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v8/qdVkgphyenrjVkkJ3P3ooDkxe09gRUQgzequ/ZsA=;
+	b=2grr9aKX2AygMpJfIlIXMgUxy3P6APw+43hz2vwRdKbG6vSbu9KmMLTd7OADSK8SRFPpv6
+	sJCCy7p1+nJGp4DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0C9A132FF;
+	Fri, 22 Mar 2024 08:33:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sGKTNWxC/WXOMwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 Mar 2024 08:33:48 +0000
+Date: Fri, 22 Mar 2024 09:33:48 +0100
+Message-ID: <87a5mqzmvn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes #2 for 6.9-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: Vijendar.Mukunda@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|MN0PR12MB5906:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa043dbe-1a8a-49b7-05f0-08dc4a3e3f96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	dCMBYO7kjwhZr/0OYLv1t3RATRIba/Fa7xof3ePJ3GC6r9Pk0yyQmZ3fslztpHVeg0AK8Z4VRTvKOcVWubI5Ll1/dlR/Dy8PveKSQw8FuUCd6nD1gS9idMW8vksPir6ZoiVkUDVs+h2oEmGRGq1q4fdSs78aFVQU5r7Q6yvHnAqbcrQBixPtkQp0NPXvMG6jP2X+gG2rjX0Za4dnYpg/btEVaeh9Qy2iAC+V/y9/bcy0jPIYmdIESHTRo62IklSuFAb3X+/uyqne69Jd6kxderKfKtkoPiJVO+cV6U/fVrgStUJIXjmNOna4x0kBRRPdYA3AEWeU07vmaDREaEx5foJJyusIxFnZPm29MuuxD5P5gBWTmeXesUGjsPxS2m+hNh0Jf0esl/Y3VpcZHZpNVLsNGiqLCWf8H+uXB8qjHsbRhxpNOO3GSTF5qow3Q7sUl4XXLvEhzLWqfrY4GGHdKWhfdR4DOzW5m3/sbPhqsxNrBdKnZeiE0h59WqEyKq4R4VO2pXRw2H6gJ/cK+P+g6ceiuCVM+TVupwoZx9n9go+IksoZI627Guxp5MfZRKK8IRxzOS2cS0sQ7mritXMVHQS23/ozHfXmiwEM8lhV4wRQTzLf376acJZL+aNnfy1awJ80327ZGxIlkf+HiJyQOKFsYTAJ0jRK4O/hYJQCcDS61ruqxG/HXHGUdCcF5ggAqWwQTza7XG1s1Jc88qWhmlWlliDgQM3BwK+m4UzQ430LFkYioFi1NW3bLKM/g2na
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(376005)(7416005)(82310400014)(1800799015);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 07:03:59.4367
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa043dbe-1a8a-49b7-05f0-08dc4a3e3f96
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000018.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5906
+X-Spam-Score: -0.18
+X-Spamd-Result: default: False [-0.18 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_SPAM_SHORT(2.91)[0.970];
+	 NEURAL_HAM_LONG(-0.99)[-0.994];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 TO_DN_ALL(0.00)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Flag: NO
 
-The CONFIG_SOUNDWIRE_AMD is a user-visible option, it should be never
-selected by another driver.
-So replace the extra complexity with a normal Kconfig dependency in
-SND_SOC_AMD_SOUNDWIRE.
+Linus,
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+please pull sound fixes #2 for v6.9-rc1 from:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix2-6.9-rc1
+
+The topmost commit is 9f2347842b526cbc2655068591fb0166362d2999
+
+----------------------------------------------------------------
+
+sound fixes #2 for 6.9-rc2
+
+The remaining fixes for 6.9-rc1 that have been gathered in this week.
+More about ASoC at this time (one long-standing fix for compress
+offload, SOF, AMD ACP, Rockchip, Cirrus and tlv320 stuff) while
+another regression fix in ALSA core and a couple of HD-audio quirks as
+usual are included.
+
+----------------------------------------------------------------
+
+Anthony I Gilea (1):
+      ALSA: hda/realtek: Add quirk for HP Spectre x360 14 eu0000
+
+Chancel Liu (1):
+      ASoC: soc-core.c: Skip dummy codec when adding platforms
+
+Cristian Ciocaltea (2):
+      ASoC: SOF: amd: Move signed_fw_image to struct acp_quirk_entry
+      ASoC: SOF: amd: Skip IRAM/DRAM size modification for Steam Deck OLED
+
+Hui Wang (1):
+      ALSA: hda/realtek: fix the hp playback volume issue for LG machines
+
+Jiawei Wang (2):
+      ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2"
+      ASoC: amd: yc: Revert "add new YC platform variant (0x63) support"
+
+Luca Ceresoli (1):
+      ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates
+
+M Cooley (1):
+      ASoC: amd: yc: Fix non-functional mic on ASUS M7600RE
+
+Rob Herring (1):
+      ASoC: dt-bindings: cirrus,cs42l43: Fix 'gpio-ranges' schema
+
+Shalini Manjunatha (1):
+      ASoC: soc-compress: Fix and add DPCM locking
+
+Takashi Iwai (1):
+      ALSA: control: Fix unannotated kfree() cleanup
+
+Tim Crawford (1):
+      ALSA: hda/realtek: Add quirks for some Clevo laptops
+
+Uwe Kleine-König (1):
+      ASoC: tlv320adc3xxx: Don't strip remove function when driver is builtin
+
 ---
- sound/soc/amd/Kconfig | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
-index fa74635cee08..3508f5a96b75 100644
---- a/sound/soc/amd/Kconfig
-+++ b/sound/soc/amd/Kconfig
-@@ -134,15 +134,14 @@ config SND_SOC_AMD_RPL_ACP6x
- 
- config SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
- 	tristate
--	select SOUNDWIRE_AMD if SND_SOC_AMD_SOUNDWIRE != n
- 	select SND_AMD_SOUNDWIRE_ACPI if ACPI
- 
- config SND_SOC_AMD_SOUNDWIRE
- 	tristate "Support for SoundWire based AMD platforms"
- 	default SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
- 	depends on SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
--	depends on ACPI && SOUNDWIRE
--	depends on !(SOUNDWIRE=m && SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE=y)
-+	depends on ACPI
-+	depends on SOUNDWIRE_AMD
- 	help
- 	  This adds support for SoundWire for AMD platforms.
- 	  Say Y if you want to enable SoundWire links with SOF.
--- 
-2.34.1
+ .../devicetree/bindings/sound/cirrus,cs42l43.yaml  |  11 +-
+ sound/core/control.c                               |   4 +-
+ sound/pci/hda/patch_realtek.c                      |  68 +++-
+ sound/soc/amd/yc/acp6x-mach.c                      |  14 +-
+ sound/soc/amd/yc/pci-acp6x.c                       |   1 -
+ sound/soc/codecs/tlv320adc3xxx.c                   |   4 +-
+ sound/soc/rockchip/rockchip_i2s_tdm.c              | 352 +--------------------
+ sound/soc/soc-compress.c                           |   4 +
+ sound/soc/soc-core.c                               |   3 +
+ sound/soc/sof/amd/acp-loader.c                     |   2 +-
+ sound/soc/sof/amd/acp.c                            |  48 +--
+ sound/soc/sof/amd/acp.h                            |   7 +-
+ sound/soc/sof/amd/vangogh.c                        |   9 +-
+ 13 files changed, 137 insertions(+), 390 deletions(-)
 
