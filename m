@@ -1,37 +1,37 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7308F4E;
-	Sat, 23 Mar 2024 08:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BDC611A;
+	Sat, 23 Mar 2024 09:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711181092; cv=none; b=WSCR+mcE4uDaQVGqCvauR00PwI0HDU2EgFIho6NVyvxZTu/K3VWbi5lkUT6mM2XExuUbpTGaH7vhIYk42sWK9Zy5gpVOxN5Pu024laPqOSt9pBQU8Wg2XGzIAUftmum7ECpPeLxhUwUjfN7iX0sY4Z2c/lGjjZ0IBUdx9nicfEk=
+	t=1711186138; cv=none; b=VvDiBxiWHu0e39Z1PvL+n0t3HuCgZI5wQfLCNuuoObTFwx39eaXlXbA1Oc7RrY6eZzHGOsKaLz4iqqaKXU5eEH4s3Ka/7xK7bhXHWVqLDnX4rSXmA7Zq2UpPajZ0RU4Uqqw7F3sSgu/1jN2y/wR+CJNb6b5RE5jshyPWhZxIIoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711181092; c=relaxed/simple;
-	bh=LOzqZIJfq3GFDFYMFq76hbLnaXAucqVOGo9lZ9q+xnU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GaBorfcIrREGr7Bc4PkjdOsZcSPxv5Nbhkz4N0CD/I9xNhpzL1zSO41qwHTO+v9FOqf75UBCDP9asgsYUWV74xc0ObriJS7n3vGqORCYd0DCqHDuL2T4x4GpUfeCb8YBLlo9IuYxZ0MLEFA4xwA5uw9WH29Jn/hUTGn/NBNPSA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=dxrmS6g9; arc=none smtp.client-ip=220.197.31.2
+	s=arc-20240116; t=1711186138; c=relaxed/simple;
+	bh=5lBIVgAM5E4mPhYWUorhznpmzPoNlqyWAgY/2lpzGj0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=atV9YUY4u6hnAiFKIjrEfX3L5jS0YF99yrghXiwh13gVMSR4CepxUhLhZhG83M6QTasl/FmvISr/K4bGDgWvL6whlgaEfO5MyaSSFuIYeXvfVyqkFu5IblLYqIHHX7rtynvC9OHR25JNWnXLf1RR8a//I/w0mNgheU8b1ye799g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=YGijb2pN; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="dxrmS6g9"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="YGijb2pN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=4sLPu
-	xdZiClCXB1J1+1mjIh7A/SbM4HGp17P+htLANo=; b=dxrmS6g96dfWIY7y+f21z
-	0br3Z1/bZVXl4IGz5SiCMg46a8UbjIrekITGNpMo/Jaoxw3uN61132PlcaQXVue3
-	x+YVm67xP7aBJr+PpbHtsgLhlaytZvPANkDYna/za4xDnUwKGIYUAGyVAoAGEW81
-	xA8F4dp4lTFcJza5XJmTHY=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=CNVZw
+	DrMkjyNbmfapeaXh+oqui44MB1SGQzuQiUxjpU=; b=YGijb2pNueRnbfDouJZCj
+	LCOVCUsp5DKUHslMRNUijL/N4wMoeWke0OYzDTLPEGFJvI6B7gyE4XccEh9PPkd7
+	YbMY0ex2i3p9aBIYeaMpnvV/xx/1dTsMabKlOfUJxgQekmpmIbL8cc0w84DGmTS9
+	NO2yL9s0NsYeNUMbDgXpy4=
 Received: from localhost.localdomain (unknown [111.198.54.11])
-	by gzga-smtp-mta-g1-0 (Coremail) with SMTP id _____wDX_m7_jP5l6aBtAw--.18544S2;
-	Sat, 23 Mar 2024 16:04:16 +0800 (CST)
+	by gzga-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3P9B0oP5lJX1nBg--.18267S2;
+	Sat, 23 Mar 2024 17:27:18 +0800 (CST)
 From: LuMingYin <lumingyindetect@163.com>
 To: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	minhuadotchen@gmail.com,
 	LuMingYin <lumingyindetect@163.com>
-Subject: [PATCH] sound:Fix a memory leak related to variable data
-Date: Sat, 23 Mar 2024 16:04:13 +0800
-Message-Id: <20240323080413.641089-1-lumingyindetect@163.com>
+Subject: [PATCH] sound:Fix a memory leak in snd_ctl_elem_add_compat function
+Date: Sat, 23 Mar 2024 17:27:12 +0800
+Message-Id: <20240323092712.685675-1-lumingyindetect@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -40,46 +40,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDX_m7_jP5l6aBtAw--.18544S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr1UKF4xJw1UGw4fAFWxtFb_yoW8Ww4fpF
-	W3Kry3tF97Ww1IkFn7tr4kWF1fZa1xZayDGwsrKw1UJFy3Xr10va4SyryrArZYy3ySkr4r
-	CF4jyrWfA39xAFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTlksUUUUU=
-X-CM-SenderInfo: poxpx0hj1l0vphwhu3i6rwjhhfrp/1tbiTwKq92XAlCzcmAAAsJ
+X-CM-TRANSID:_____wD3P9B0oP5lJX1nBg--.18267S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGw17GF4fKw4UXr4fCF48WFg_yoW5Gw4rpF
+	WfKrZxKrn7XrnIkFnxtF18WF1fZ397Ja1DWr4Dtw1rZay3Wr10va4rAryFvwsF9ryvkrWU
+	Ca1jqFZa9wnIkFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTyIbUUUUU=
+X-CM-SenderInfo: poxpx0hj1l0vphwhu3i6rwjhhfrp/xtbBoA+q92WXwXlQngAAs2
 
-In the file /linux/sound/core/control_compat.c, a pointer named 'data' is defined at line 82. This pointer allocates a block of dynamic memory using the 'kzalloc' function at line 85. When the if statement at line 86 returns false, it indicates successful allocation of the dynamic memory area pointed to by 'data'. However, when the if statement at line 90 returns true, the program returns at line 91. During this process, the dynamic memory area pointed to by 'data' is neither used as in the switch statement at line 108 nor deallocated, leading to a memory leak bug. The if statement at line 95 also has the same issue. This commit fixes this problem.
+In the function snd_ctl_elem_add_compat defined in /linux/sound/core/control_compat.c, a pointer named data is declared. This pointer allocates a block of dynamic memory using the kzalloc function at line 354. When the if statement at line 355 returns false, it indicates successful allocation of the dynamic memory area pointed to by data. However, when the if statements at lines 359 or 362 are true, the program will not execute the snd_ctl_elem_add(file, data, replace); operation at line 389 and will return directly. During this process, the dynamic memory area pointed to by data is neither freed nor used, leading to a memory leak bug. This commit fixes the aforementioned memory leak issue.
 
 Signed-off-by: LuMingYin <lumingyindetect@163.com>
 ---
- sound/core/control_compat.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ sound/core/control_compat.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 934bb945e702..32113eb06f68 100644
+index 934bb945e702..685f88e2835a 100644
 --- a/sound/core/control_compat.c
 +++ b/sound/core/control_compat.c
-@@ -87,13 +87,19 @@ static int snd_ctl_elem_info_compat(struct snd_ctl_file *ctl,
- 		return -ENOMEM;
+@@ -357,29 +357,39 @@ static int snd_ctl_elem_add_compat(struct snd_ctl_file *file,
  
- 	/* copy id */
--	if (copy_from_user(&data->id, &data32->id, sizeof(data->id)))
-+	if (copy_from_user(&data->id, &data32->id, sizeof(data->id))){
+ 	/* id, type, access, count */ \
+ 	if (copy_from_user(&data->id, &data32->id, sizeof(data->id)) ||
+-	    copy_from_user(&data->type, &data32->type, 3 * sizeof(u32)))
++	    copy_from_user(&data->type, &data32->type, 3 * sizeof(u32))){
 +		kfree(data);
-+		data = NULL;
+ 		return -EFAULT;
+-	if (get_user(data->owner, &data32->owner))
++		}
++	if (get_user(data->owner, &data32->owner)){
++		kfree(data);
  		return -EFAULT;
 +	}
- 	/* we need to copy the item index.
- 	 * hope this doesn't break anything..
- 	 */
--	if (get_user(data->value.enumerated.item, &data32->value.enumerated.item))
-+	if (get_user(data->value.enumerated.item, &data32->value.enumerated.item)){
-+		kfree(data);
-+		data = NULL;
- 		return -EFAULT;
-+	}
- 
- 	err = snd_ctl_elem_info(ctl, data);
- 	if (err < 0)
+ 	switch (data->type) {
+ 	case SNDRV_CTL_ELEM_TYPE_BOOLEAN:
+ 	case SNDRV_CTL_ELEM_TYPE_INTEGER:
+ 		if (get_user(data->value.integer.min, &data32->value.integer.min) ||
+ 		    get_user(data->value.integer.max, &data32->value.integer.max) ||
+-		    get_user(data->value.integer.step, &data32->value.integer.step))
++		    get_user(data->value.integer.step, &data32->value.integer.step)){
++			kfree(data);
+ 			return -EFAULT;
++		}
+ 		break;
+ 	case SNDRV_CTL_ELEM_TYPE_INTEGER64:
+ 		if (copy_from_user(&data->value.integer64,
+ 				   &data32->value.integer64,
+-				   sizeof(data->value.integer64)))
++				   sizeof(data->value.integer64))){
++			kfree(data);
+ 			return -EFAULT;
++		}
+ 		break;
+ 	case SNDRV_CTL_ELEM_TYPE_ENUMERATED:
+ 		if (copy_from_user(&data->value.enumerated,
+ 				   &data32->value.enumerated,
+-				   sizeof(data->value.enumerated)))
++				   sizeof(data->value.enumerated))){
++			kfree(data);
+ 			return -EFAULT;
++		}
+ 		data->value.enumerated.names_ptr =
+ 			(uintptr_t)compat_ptr(data->value.enumerated.names_ptr);
+ 		break;
 -- 
 2.25.1
 
