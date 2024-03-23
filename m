@@ -1,93 +1,85 @@
-Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FAD4C94
-	for <linux-sound@vger.kernel.org>; Sat, 23 Mar 2024 06:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.133.245.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7308F4E;
+	Sat, 23 Mar 2024 08:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711174178; cv=none; b=VP+6YgTUshqvMGz5lddyYO7F74k61rT3qXK+mItfHcYHaVc4PWO3XLL089CvDaAhRrz7+dU66Y1yTI3CwSQyFZU2HhmAy5We0pc5Li7AIOT6zL9Q59i68rM4uCEXsiev1PJgOkG9jdQp76HmLLzSZ/unUjIVoGhFQUcs1VJoPCE=
+	t=1711181092; cv=none; b=WSCR+mcE4uDaQVGqCvauR00PwI0HDU2EgFIho6NVyvxZTu/K3VWbi5lkUT6mM2XExuUbpTGaH7vhIYk42sWK9Zy5gpVOxN5Pu024laPqOSt9pBQU8Wg2XGzIAUftmum7ECpPeLxhUwUjfN7iX0sY4Z2c/lGjjZ0IBUdx9nicfEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711174178; c=relaxed/simple;
-	bh=dqNdFzDav8LT0eeQGhnGEPZYDofLjfHq/dxayOwpeo4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=SF1gquKUBoKp/C/mcS8V7iRyh4AVZE11e7Gdq1F84JycuOig+MczhuXIZCYPo+BInbiF4qvfUHDXmgfJgrgxFELWShFkH+MOEP+o6C4x23p7W8ai3AHQprlouMhcAPdKXEaG09Fw0cREEERRLczhGLQna3lmoWBbauWS/QwyRBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nppct.ru; spf=pass smtp.mailfrom=nppct.ru; dkim=pass (1024-bit key) header.d=nppct.ru header.i=@nppct.ru header.b=YsHkIRqv; arc=none smtp.client-ip=195.133.245.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nppct.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nppct.ru
+	s=arc-20240116; t=1711181092; c=relaxed/simple;
+	bh=LOzqZIJfq3GFDFYMFq76hbLnaXAucqVOGo9lZ9q+xnU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GaBorfcIrREGr7Bc4PkjdOsZcSPxv5Nbhkz4N0CD/I9xNhpzL1zSO41qwHTO+v9FOqf75UBCDP9asgsYUWV74xc0ObriJS7n3vGqORCYd0DCqHDuL2T4x4GpUfeCb8YBLlo9IuYxZ0MLEFA4xwA5uw9WH29Jn/hUTGn/NBNPSA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=dxrmS6g9; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nppct.ru header.i=@nppct.ru header.b="YsHkIRqv"
-Received: from mail.nppct.ru (localhost [127.0.0.1])
-	by mail.nppct.ru (Postfix) with ESMTP id 1037A1C14D3
-	for <linux-sound@vger.kernel.org>; Sat, 23 Mar 2024 09:03:54 +0300 (MSK)
-Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
-	reason="pass (just generated, assumed good)" header.d=nppct.ru
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
-	content-transfer-encoding:content-type:content-type:mime-version
-	:x-mailer:message-id:date:date:subject:subject:to:from:from; s=
-	dkim; t=1711173832; x=1712037833; bh=dqNdFzDav8LT0eeQGhnGEPZYDof
-	LjfHq/dxayOwpeo4=; b=YsHkIRqvWQKYIMxnD97F0HIXWNpS6EkxErXonl3SSFP
-	p+c2GiRkYrjB6bKpRhk1uzvoY8PFbIVEtTZ+rW1t6JLE9Dw9J+WxSQxjekpsb5VY
-	p6q1UymDgt0st5IcHKoo7Wq24URe+bgcpGjqKmESGwBNDGvAs8kdKJccpOXHKZlk
-	=
-X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
-Received: from mail.nppct.ru ([127.0.0.1])
-	by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id sHpW_Ofw8UWi for <linux-sound@vger.kernel.org>;
-	Sat, 23 Mar 2024 09:03:52 +0300 (MSK)
-Received: from localhost.localdomain (mail.dev-ai-melanoma.ru [185.130.227.204])
-	by mail.nppct.ru (Postfix) with ESMTPSA id B46AC1C14A0;
-	Sat, 23 Mar 2024 09:03:50 +0300 (MSK)
-From: Andrey Shumilin <shum.sdl@nppct.ru>
-To: Clemens Ladisch <clemens@ladisch.de>
-Cc: Andrey Shumilin <shum.sdl@nppct.ru>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	khoroshilov@ispras.ru,
-	ykarpov@ispras.ru,
-	vmerzlyakov@ispras.ru,
-	vefanov@ispras.ru
-Subject: [PATCH] amdtp-stream: Checking a variable for zero before dividing
-Date: Sat, 23 Mar 2024 09:03:38 +0300
-Message-Id: <20240323060338.663707-1-shum.sdl@nppct.ru>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="dxrmS6g9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=4sLPu
+	xdZiClCXB1J1+1mjIh7A/SbM4HGp17P+htLANo=; b=dxrmS6g96dfWIY7y+f21z
+	0br3Z1/bZVXl4IGz5SiCMg46a8UbjIrekITGNpMo/Jaoxw3uN61132PlcaQXVue3
+	x+YVm67xP7aBJr+PpbHtsgLhlaytZvPANkDYna/za4xDnUwKGIYUAGyVAoAGEW81
+	xA8F4dp4lTFcJza5XJmTHY=
+Received: from localhost.localdomain (unknown [111.198.54.11])
+	by gzga-smtp-mta-g1-0 (Coremail) with SMTP id _____wDX_m7_jP5l6aBtAw--.18544S2;
+	Sat, 23 Mar 2024 16:04:16 +0800 (CST)
+From: LuMingYin <lumingyindetect@163.com>
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	minhuadotchen@gmail.com,
+	LuMingYin <lumingyindetect@163.com>
+Subject: [PATCH] sound:Fix a memory leak related to variable data
+Date: Sat, 23 Mar 2024 16:04:13 +0800
+Message-Id: <20240323080413.641089-1-lumingyindetect@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDX_m7_jP5l6aBtAw--.18544S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr1UKF4xJw1UGw4fAFWxtFb_yoW8Ww4fpF
+	W3Kry3tF97Ww1IkFn7tr4kWF1fZa1xZayDGwsrKw1UJFy3Xr10va4SyryrArZYy3ySkr4r
+	CF4jyrWfA39xAFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTlksUUUUU=
+X-CM-SenderInfo: poxpx0hj1l0vphwhu3i6rwjhhfrp/1tbiTwKq92XAlCzcmAAAsJ
 
-The step variable is initialized to zero.
-It changes in the loop, but if it doesn’t change
-it will remain zero.
-The patch added a variable check.
+In the file /linux/sound/core/control_compat.c, a pointer named 'data' is defined at line 82. This pointer allocates a block of dynamic memory using the 'kzalloc' function at line 85. When the if statement at line 86 returns false, it indicates successful allocation of the dynamic memory area pointed to by 'data'. However, when the if statement at line 90 returns true, the program returns at line 91. During this process, the dynamic memory area pointed to by 'data' is neither used as in the switch statement at line 108 nor deallocated, leading to a memory leak bug. The if statement at line 95 also has the same issue. This commit fixes this problem.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
+Signed-off-by: LuMingYin <lumingyindetect@163.com>
 ---
- sound/firewire/amdtp-stream.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/core/control_compat.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index c9f153f85ae6..b61aa30f43a9 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -168,7 +168,8 @@ static int apply_constraint_to_size(struct snd_pcm_hw_params *params,
- 		if (snd_interval_test(r, amdtp_rate_table[i]))
- 			step = max(step, amdtp_syt_intervals[i]);
- 	}
--
-+	if (step == 0)
-+		return -EINVAL;
- 	t.min = roundup(s->min, step);
- 	t.max = rounddown(s->max, step);
- 	t.integer = 1;
+diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
+index 934bb945e702..32113eb06f68 100644
+--- a/sound/core/control_compat.c
++++ b/sound/core/control_compat.c
+@@ -87,13 +87,19 @@ static int snd_ctl_elem_info_compat(struct snd_ctl_file *ctl,
+ 		return -ENOMEM;
+ 
+ 	/* copy id */
+-	if (copy_from_user(&data->id, &data32->id, sizeof(data->id)))
++	if (copy_from_user(&data->id, &data32->id, sizeof(data->id))){
++		kfree(data);
++		data = NULL;
+ 		return -EFAULT;
++	}
+ 	/* we need to copy the item index.
+ 	 * hope this doesn't break anything..
+ 	 */
+-	if (get_user(data->value.enumerated.item, &data32->value.enumerated.item))
++	if (get_user(data->value.enumerated.item, &data32->value.enumerated.item)){
++		kfree(data);
++		data = NULL;
+ 		return -EFAULT;
++	}
+ 
+ 	err = snd_ctl_elem_info(ctl, data);
+ 	if (err < 0)
 -- 
-2.30.2
+2.25.1
 
