@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB2C128810;
-	Sun, 24 Mar 2024 23:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF5B482FA;
+	Sun, 24 Mar 2024 22:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711321326; cv=none; b=R6ui6FP+8sUGC3lXOav2bJlROXlRPklEnlBVA6sU8xbZsdBYjKa9Sa+g6UYHVrIEphJaEIOcZ9gV3ILHI/uG/1ukLcE8lhIUt2c/V6FTJLw+r7qXFNaRCSCwTp6iM265dw/YmFot06wtGJwfVpqazP1sODM1r7TzVw/g3XPd9UI=
+	t=1711320500; cv=none; b=bFzi2s8v0khdiVoLAVjaak0KNgNU8Cj24EqOYK0Y2gkUwfFkJWyW0yZ1XxihHtrjGdz5B/Y1+jCrlZ76abh7rqzrzkLEHvJ622UTKmkQzQ0hzxUHfEHoewTOTWVFY/nXQf/Joo0mUUAwZSsexqO7RCmqz3hZ9p/3cE7N41QJkzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711321326; c=relaxed/simple;
+	s=arc-20240116; t=1711320500; c=relaxed/simple;
 	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z6c4vH1grCWAMqRoUXskVPH6ROvQC5In2R3N8kESdCSqpvxvAUsWn5C49e4/12Zge2V8AM/1+zCq76H2QC0Uj1f665T0UiZDrCWJ9sMk1a+onPG3v3ZjVRyE1FxkH5pT0fO49SdMQ3YGYIQQUJU05m7CBKwJI/xPfghlOavcPmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jq2qDmAJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BkpOSE3w7r+slzTZBTrkSWgVzSDNHyKu0zAz2WjmDfzBJK63PFW5uV+RtqO8BMVFC62CrbuPB0COv1s3AmbMjTbw5RuYgv2lThU/e8JX6RE0Uwqk7KeiXY9aNN1HnpSor8QWsRjSxjlZfZ/vMfJLziL45ehaoOW6udfn9N55QnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpNYx5ku; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq2qDmAJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 637B5C43399;
-	Sun, 24 Mar 2024 23:02:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpNYx5ku"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0065DC433F1;
+	Sun, 24 Mar 2024 22:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711321325;
+	s=k20201202; t=1711320499;
 	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jq2qDmAJAtt0KGKnWJSvo63HvXpTHAye559qGfyR06Jb5muLCVikOL05+GCLZRBFX
-	 izkLeSy3QnHqqNUOjnqPYfb3cr5a0tz+zZ49RUt8fjZueQdmcZM/uwCHoAra2Vc6zp
-	 YD36AF4P99PYN8ZBUnuKs1RopHtVupwQ2CU9rPwZusA9WSh/i9xwqgWBGx5QWeTWJO
-	 hWVQ9+40qUJ086bmRCMUeu1mh7MMb8yLEOo6B7BvNYGaAths7m3Fh31Zg+AswD9UWU
-	 fM7yLZEksVStCC68IAT7pF6pmxcPgmJGSSvz1INdtpzfGv7dDSlGXVcgMZGwjphHmA
-	 eX6mRnOPxWGkg==
+	b=qpNYx5kuJwyRxVvFzvkGMT1mM1N2Qnfx6NI3PQ6yD3tcVZn46vtLZkwO9kZ6jMprD
+	 WPAb1WDAqy+Bf4pI5srCkZ7z++/DkWBnSvdw+XSqDkhLsnL8BUV01WpISgBoIzvOQa
+	 eKj6ezZUZ8DGU9GRbCHyGRadeSf0UicuqNi4jPVooOCn4UY9jsYoERrN513WErcPUF
+	 fTKZ0WUU5Q3daPIgz0UWfm4AP8myQ5uNhiWM5pjypjUPR8vxSHSduxBhpFd3EmuYiK
+	 K/5l3Vl7iD+M1GFkezD0rzN9XXwJOxrQluY0OGDUAzU4M6fhBu4RmbE6xI6I22eWEy
+	 jDrJTROqL0rvg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -33,12 +33,12 @@ Cc: Johnny Hsieh <mnixry@outlook.com>,
 	linux-sound@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6 048/638] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-Date: Sun, 24 Mar 2024 18:51:25 -0400
-Message-ID: <20240324230116.1348576-49-sashal@kernel.org>
+Subject: [PATCH 6.7 059/713] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+Date: Sun, 24 Mar 2024 18:36:25 -0400
+Message-ID: <20240324224720.1345309-60-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240324230116.1348576-1-sashal@kernel.org>
-References: <20240324230116.1348576-1-sashal@kernel.org>
+In-Reply-To: <20240324224720.1345309-1-sashal@kernel.org>
+References: <20240324224720.1345309-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
