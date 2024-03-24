@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF5B482FA;
-	Sun, 24 Mar 2024 22:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E17A1448C8;
+	Sun, 24 Mar 2024 23:12:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711320500; cv=none; b=bFzi2s8v0khdiVoLAVjaak0KNgNU8Cj24EqOYK0Y2gkUwfFkJWyW0yZ1XxihHtrjGdz5B/Y1+jCrlZ76abh7rqzrzkLEHvJ622UTKmkQzQ0hzxUHfEHoewTOTWVFY/nXQf/Joo0mUUAwZSsexqO7RCmqz3hZ9p/3cE7N41QJkzM=
+	t=1711321973; cv=none; b=p6SEwMdrlP/+IAe+tY2aRExI5T5mpb0nqLiE+Mwe9xVGjpiOx0rHOkfFm8BHVXJHeSl3Vrkq3RlNxB8VDw90NRlXHyT2UYIfLL5/vv2Y9YoKyhVuOs8CCKdxkIcRDxAp959gOA7kMTgROEqXXtEvGsaHkO3pAh6VlGTEYYsy5ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711320500; c=relaxed/simple;
-	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
+	s=arc-20240116; t=1711321973; c=relaxed/simple;
+	bh=9kUUdf+AjWFvFSiEOTqGVjiPX8FFD9m8l8eaQutwhnk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BkpOSE3w7r+slzTZBTrkSWgVzSDNHyKu0zAz2WjmDfzBJK63PFW5uV+RtqO8BMVFC62CrbuPB0COv1s3AmbMjTbw5RuYgv2lThU/e8JX6RE0Uwqk7KeiXY9aNN1HnpSor8QWsRjSxjlZfZ/vMfJLziL45ehaoOW6udfn9N55QnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpNYx5ku; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WbkoYnAG/Pl8Fq8OOwBNBZvgq0R8Y4ewHbkLW7mPoMtj3n5Le/6jMZRfKzUNiH+3tB+m07a+Pxkki5NbLkdv0gxv5BO1imMblVdsOMPviGo4BaMamadL6wBXxxYiovo/bnWk9Ge53jrekv/Sw5o4WUWBVwy2HLC95izxHFZcACI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=smo4iNQB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpNYx5ku"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0065DC433F1;
-	Sun, 24 Mar 2024 22:48:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="smo4iNQB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96AFAC43394;
+	Sun, 24 Mar 2024 23:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711320499;
-	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
+	s=k20201202; t=1711321972;
+	bh=9kUUdf+AjWFvFSiEOTqGVjiPX8FFD9m8l8eaQutwhnk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qpNYx5kuJwyRxVvFzvkGMT1mM1N2Qnfx6NI3PQ6yD3tcVZn46vtLZkwO9kZ6jMprD
-	 WPAb1WDAqy+Bf4pI5srCkZ7z++/DkWBnSvdw+XSqDkhLsnL8BUV01WpISgBoIzvOQa
-	 eKj6ezZUZ8DGU9GRbCHyGRadeSf0UicuqNi4jPVooOCn4UY9jsYoERrN513WErcPUF
-	 fTKZ0WUU5Q3daPIgz0UWfm4AP8myQ5uNhiWM5pjypjUPR8vxSHSduxBhpFd3EmuYiK
-	 K/5l3Vl7iD+M1GFkezD0rzN9XXwJOxrQluY0OGDUAzU4M6fhBu4RmbE6xI6I22eWEy
-	 jDrJTROqL0rvg==
+	b=smo4iNQBsjd9IqKOAy0dP/tm4Ft8dE0iVa6S7W25gue9BLI5lIjwWCnJuZbh/FCZD
+	 FLtJlUVrhNTVx6dDOk+mGQtUAN3qhbtXgU/XkXuSlAzESfYdGzVwWCg1Bw7juHZ7RC
+	 LfhoYsIV98a/lE6lHzIZEVHWsUhLr6VkGaVJ1tGnP9N17yF7wt+taAzhB8v8cgI9du
+	 rlOvTjKtpEUu+0Xg5B/WBp5+GkjN483DyxLb0BPdy+gmdJ560FWsq3DKKH3qTgpq1h
+	 9ZksmCUOwywTIXwj8OEOpnAAX8+vUHMGZ1SII3iyTv2m9xAk6mCjzpT7LdPpeTmClU
+	 g/d+nSDn84GoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -33,12 +33,12 @@ Cc: Johnny Hsieh <mnixry@outlook.com>,
 	linux-sound@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.7 059/713] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-Date: Sun, 24 Mar 2024 18:36:25 -0400
-Message-ID: <20240324224720.1345309-60-sashal@kernel.org>
+Subject: [PATCH 6.1 044/451] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+Date: Sun, 24 Mar 2024 19:05:20 -0400
+Message-ID: <20240324231207.1351418-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240324224720.1345309-1-sashal@kernel.org>
-References: <20240324224720.1345309-1-sashal@kernel.org>
+In-Reply-To: <20240324231207.1351418-1-sashal@kernel.org>
+References: <20240324231207.1351418-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,7 +66,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index cc231185d72c3..5587198751daa 100644
+index 5921af7fd92c5..0568e64d10150 100644
 --- a/sound/soc/amd/yc/acp6x-mach.c
 +++ b/sound/soc/amd/yc/acp6x-mach.c
 @@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
