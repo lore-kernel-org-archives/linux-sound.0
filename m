@@ -1,125 +1,88 @@
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D512519BA2;
-	Sun, 24 Mar 2024 17:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB2C128810;
+	Sun, 24 Mar 2024 23:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711303173; cv=none; b=FwkT8uGZf9WskzBTkLj/4AofKEne3C173RZ5/1RdwZqgJaaTY72vUxbJo7i51pGO12beghiAoFGtXjdihsg78EPdmGBiQ8uzHMH+AJGdg3TS9VFJazaAyhsHRqqWXWieHImy2b3yxOJ0hlZIWow/BukW5YDaTNLBzCwQMbKaBmU=
+	t=1711321326; cv=none; b=R6ui6FP+8sUGC3lXOav2bJlROXlRPklEnlBVA6sU8xbZsdBYjKa9Sa+g6UYHVrIEphJaEIOcZ9gV3ILHI/uG/1ukLcE8lhIUt2c/V6FTJLw+r7qXFNaRCSCwTp6iM265dw/YmFot06wtGJwfVpqazP1sODM1r7TzVw/g3XPd9UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711303173; c=relaxed/simple;
-	bh=vOzA/tKqPZp4+9Wm+5C8N3FOA99D7YrNR9zQplxWvkY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gfkuYpxVhVSYdk5OuEr/vdFlTvZmGoqzr1bQnkERc50S0XaSL6g/OdgXrP2uB+kHaEwfw5S0MZDFlKC1oDzSrjyE29ziNgD2PhKigOjfQ8HRrRSVl//roU7JTmjVk9/xWhZZjzldKxug87sLbp6/TzajEogUmqyOWmSVao2vduw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=u0RcmHdo; arc=none smtp.client-ip=45.89.224.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
+	s=arc-20240116; t=1711321326; c=relaxed/simple;
+	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Z6c4vH1grCWAMqRoUXskVPH6ROvQC5In2R3N8kESdCSqpvxvAUsWn5C49e4/12Zge2V8AM/1+zCq76H2QC0Uj1f665T0UiZDrCWJ9sMk1a+onPG3v3ZjVRyE1FxkH5pT0fO49SdMQ3YGYIQQUJU05m7CBKwJI/xPfghlOavcPmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jq2qDmAJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="u0RcmHdo"
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 41699120003;
-	Sun, 24 Mar 2024 20:52:33 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 41699120003
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
-	s=mail; t=1711302753;
-	bh=rPCKzwxY/P8E8hlP0ZyZIPxAhwhwOHS8SkfFEzDhMSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=u0RcmHdomX0A7S94roBud3m3OftVEWIzyfo0+wLhUD5RNO2YIkm+Bu+sexbKz179I
-	 i5GpnTO/k7ENM3P7qRlc6B6vZqKFCKks80+FEUdIZzUFiLmcW4x9WMI4RwDatDFD+s
-	 74VhHD8YZCnqv3GTD0mCN/EuweCj7PqXiHaozecwcU+QA5GnFuJ1v8BlPSQH1zvKKd
-	 Ub+6IlO1kQcvkqML+hbN7VHMgEfmPuNcbPG0++Sw67iUPMk2tVUOvD8BGR6OOzMjZ3
-	 urrDZRZmxUZ0I5/8cNdc7ZI870Fc8Z7WiQRuHU+sxzLq25zcJtMwWOzVeay3zaRvL9
-	 zYYThkk6c+Khg==
-Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Sun, 24 Mar 2024 20:52:33 +0300 (MSK)
-Received: from [192.168.20.2] (100.64.160.123) by
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Sun, 24 Mar 2024 20:52:32 +0300
-Message-ID: <2bc7976b-3910-4a44-a969-7b6bc5d72869@salutedevices.com>
-Date: Sun, 24 Mar 2024 20:51:04 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq2qDmAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 637B5C43399;
+	Sun, 24 Mar 2024 23:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711321325;
+	bh=oZM8KMIQOEe1NkhuP82yx6UpYRUZXW+a3NEGlch/gKM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Jq2qDmAJAtt0KGKnWJSvo63HvXpTHAye559qGfyR06Jb5muLCVikOL05+GCLZRBFX
+	 izkLeSy3QnHqqNUOjnqPYfb3cr5a0tz+zZ49RUt8fjZueQdmcZM/uwCHoAra2Vc6zp
+	 YD36AF4P99PYN8ZBUnuKs1RopHtVupwQ2CU9rPwZusA9WSh/i9xwqgWBGx5QWeTWJO
+	 hWVQ9+40qUJ086bmRCMUeu1mh7MMb8yLEOo6B7BvNYGaAths7m3Fh31Zg+AswD9UWU
+	 fM7yLZEksVStCC68IAT7pF6pmxcPgmJGSSvz1INdtpzfGv7dDSlGXVcgMZGwjphHmA
+	 eX6mRnOPxWGkg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Johnny Hsieh <mnixry@outlook.com>,
+	linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6 048/638] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
+Date: Sun, 24 Mar 2024 18:51:25 -0400
+Message-ID: <20240324230116.1348576-49-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240324230116.1348576-1-sashal@kernel.org>
+References: <20240324230116.1348576-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/25] ASoC: meson: g12a-toacodec: fix "Lane Select" width
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>, Jerome Brunet
-	<jbrunet@baylibre.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
-	<linus.walleij@linaro.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, <linux-amlogic@lists.infradead.org>,
-	<linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>
-CC: <kernel@salutedevices.com>
-References: <20240314232201.2102178-1-jan.dakinevich@salutedevices.com>
- <20240314232201.2102178-7-jan.dakinevich@salutedevices.com>
-From: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-In-Reply-To: <20240314232201.2102178-7-jan.dakinevich@salutedevices.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: p-i-exch-sc-m01.sberdevices.ru (172.16.192.107) To
- p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 184373 [Mar 24 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: YVDakinevich@sberdevices.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 11 0.3.11 5ecf9895443a5066245fcb91e8430edf92b1b594, {Tracking_smtp_not_equal_from}, {Tracking_from_domain_doesnt_match_to}, 100.64.160.123:7.1.2;smtp.sberdevices.ru:7.1.1,5.0.1;salutedevices.com:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;sberdevices.ru:7.1.1,5.0.1, FromAlignment: n, {Tracking_smtp_domain_mismatch}, {Tracking_smtp_domain_2level_mismatch}, {Tracking_white_helo}, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/03/24 14:08:00 #24408963
-X-KSMG-AntiVirus-Status: Clean, skipped
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Sorry, I screwed up. Original code is correct. I mixed up the maximum
-value and bit offset.
+From: Johnny Hsieh <mnixry@outlook.com>
 
-On 3/15/24 02:21, Jan Dakinevich wrote:
-> For both G12A and SM1 the width of "Lane Select" should be 2, not 3.
-> Otherwise, it overlaps with "Source".
-> 
-> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
-> ---
->  sound/soc/meson/g12a-toacodec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
-> index 531bb8707a3e..b92de2235627 100644
-> --- a/sound/soc/meson/g12a-toacodec.c
-> +++ b/sound/soc/meson/g12a-toacodec.c
-> @@ -229,11 +229,11 @@ static const struct snd_soc_dapm_route g12a_toacodec_routes[] = {
->  };
->  
->  static const struct snd_kcontrol_new g12a_toacodec_controls[] = {
-> -	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL, 3, 0),
-> +	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL, 2, 0),
->  };
->  
->  static const struct snd_kcontrol_new sm1_toacodec_controls[] = {
-> -	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 3, 0),
-> +	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 2, 0),
->  };
->  
->  static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
+[ Upstream commit 50ee641643dd0f46702e9a99354398196e1734c2 ]
 
+This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
+to enable internal microphone array.
+
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
+Link: https://msgid.link/r/TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index cc231185d72c3..5587198751daa 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
-Best regards
-Jan Dakinevich
+2.43.0
+
