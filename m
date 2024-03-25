@@ -1,150 +1,130 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779B985937
-	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 14:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19F615DBCC;
+	Mon, 25 Mar 2024 14:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.164.42.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711376710; cv=none; b=f+xx7a3E+A/foGAfLILjcgaP3kGsu71/xluRk4hr2QNGC3NaBTgIAnIIZZA4y0XTle1YMniXxPQnfunXGzLuc76YwtZYX/FmlB5Du/DAhy7H4Eg3nOyTV8nBf5IekNk2Ey93BOfmYk8rs9JpdWRs+rQivmbXXzSxfGDZc2uyQ9I=
+	t=1711376961; cv=none; b=CQStE9B889lv6qUAGPB9MJFY2bZYVlFv3MGQ5l7NRGa9oLCq6loNpZlWrzk7PFDbGhKQZvm4Av7PBdjoBz4gGESYnHAX+mo9yFIe2ZUOFnF+1GfDZuDmeDUbBzvyWj64TwzpIttSAIZ6tCCOTHyp5G4AHhuC8Ovp1O43RaSDYMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711376710; c=relaxed/simple;
-	bh=+MeltPZVNKwDT4s9LWJGLhPwYg6oTgYBzKVCn15VZsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n0WzdcSQ7e884lN6GKE1cvXihfK6dfoDs5JnJKruPb8Kp3dG8ZFIhI8kIUe1iUV/SQJgEkLmbja1bxAnmu4aRs9unxPjrh4QQEU5DofFYi9numlib4EViHrqAhZOMRrWH7I1huEjSAsC7vfJJ3oaUJbhTs2sh26uU5xrTS6PXMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hhxvnGY1; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hhxvnGY1"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-513d717269fso5505964e87.0
-        for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 07:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711376706; x=1711981506; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O3PUtNY4boQ+ipy4wQYd09otPfOvXLpDaCkOQ9UXG84=;
-        b=hhxvnGY1pu+otW6Yd/0JGjmzbva5HqMncBVKvci/73gkV2z6H+efQDQXzGMIV2XISZ
-         jJF8mP3YVIpGKtbpdbfxywzfT79JbH0+hVju3cqQY7KL5cjuWiEDjnW3OzPN0cmSy1cI
-         lsH292aWVY19lCEV03oHbzl07vXKOOI2dCO39ioWj5Cxi7hbEoZZaVMqjUl4T1GI88H2
-         VmsSRjN/fBIGUF2lqdFhyUOLfoAjeI55+9ukbfX7N3OcV7WOFP5Uq/O67ffH8cig9Jxt
-         p2kXx2XX6x8WXKO8er+1/Nw2bs1Ewdg3fT8v0Zu0sAspKSInI36DCTOIPjEB7ahm/bNj
-         tq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711376706; x=1711981506;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O3PUtNY4boQ+ipy4wQYd09otPfOvXLpDaCkOQ9UXG84=;
-        b=fJQEIkdomH8FbQhffsISDIQB3y9iA3iSW4DfL/nnO81OUVXpFPU7u+oQoVYKuGmrpA
-         HinW1DrJFblf13xRQAfMZUwDspMf/9e+wQvMHFenU/sircgyoQDL9yhVU5C0y7ni7m0W
-         wu0/7yWYvPJPIFyzggZszmsEQGmyGa0TNTZK+YfZH6OT76O7Ka1ZxqRyjMXQW7Ijm1lN
-         8A3o2sa359aH8+t3a3vI901lw0mour6mizXIaXlbxK6T3HyCDSETOwUPCDPscxJUcxln
-         yk8vuptpTFHxVyi2hcgfa0A3SYvnZj9ULqXCBPshqRaAwvGt5wKXzdCDmzhXQ2EUYu0h
-         0CIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIIFgD05tbjmLj/qGhsJFIbeFiBZwKbD7PKjG2akrDP9Be10B/rlyyMy+DwnieDy9Lvvw5pdJnUI1WTyc++OtyP88++J4OKUn79LU=
-X-Gm-Message-State: AOJu0YyVxD5apgLhfOZomoPMEGsb/rdBK85QU17R1ZFubUppgBFcy7zb
-	/1va5E+5R35cjnxvVxgdjwVHxgqZyEfy4y+ugSTpbCwWZUqn3WAWrkVbabeL5Lc=
-X-Google-Smtp-Source: AGHT+IEFidCgty+v00DMTxMPtnXdVdXzQmlAggnT/0h5fv4Uf17UIa5tj3pq//IwqDLEoDELOZO2Xw==
-X-Received: by 2002:a19:ca14:0:b0:513:23be:e924 with SMTP id a20-20020a19ca14000000b0051323bee924mr4375709lfg.59.1711376705571;
-        Mon, 25 Mar 2024 07:25:05 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id l12-20020a1709062a8c00b00a45f39b2d16sm3104885eje.200.2024.03.25.07.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 07:25:05 -0700 (PDT)
-Date: Mon, 25 Mar 2024 17:25:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Su Hui <suhui@nfschina.com>
-Cc: arnaud.pouliquen@foss.st.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, nathan@kernel.org,
-	ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sti: uniperif: fix the undefined bitwise shift
- behavior problem
-Message-ID: <5d850276-a872-45fb-9df2-2b72479787be@moroto.mountain>
-References: <20240325034032.1031885-1-suhui@nfschina.com>
+	s=arc-20240116; t=1711376961; c=relaxed/simple;
+	bh=UclVC5TUuacQtw8LteqZT6tP4wbtrOMeCdE5sCs/DJs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=oaCs6gkx3RON3caV3QTo8ITlpfyzTDia8+7rhudEu+tPjof0D4o7OQaHjofxbpFxEgXaJcdIfgTUfAgb8iMHIBPvhRzfF609RlkBsZ2UZl/wQHlVH6/rrwQB5qwFvoRpkJWBaZ4YiIRnl1HsHkAfZ7v43tLJKC9MCaWBd2R5wRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=61.164.42.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from duoming$zju.edu.cn ( [106.117.100.135] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Mon, 25 Mar 2024 22:26:42 +0800
+ (GMT+08:00)
+Date: Mon, 25 Mar 2024 22:26:42 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Takashi Iwai" <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tiwai@suse.com, perex@perex.cz
+Subject: Re: [PATCH] ALSA: sh: aica: reorder cleanup operations to avoid UAF
+ bug
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
+ 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
+In-Reply-To: <871q7yybeb.wl-tiwai@suse.de>
+References: <20240325033946.47052-1-duoming@zju.edu.cn>
+ <871q7yybeb.wl-tiwai@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240325034032.1031885-1-suhui@nfschina.com>
+Message-ID: <43e102f3.61dc.18e7601a2f2.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:by_KCgBnR5yjiQFmetpgAQ--.21222W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwQLAWYBgRkAmQAAsr
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Mon, Mar 25, 2024 at 11:40:33AM +0800, Su Hui wrote:
-> Clang static checker(scan-build):
-> sound/soc/sti/uniperif_player.c:1115:12: warning:
-> The result of the left shift is undefined because the right operand is
-> negative [core.UndefinedBinaryOperatorResult]
-> 
-> When UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip) equals to -1, the result of
-> SET_UNIPERIF_CONFIG_BACK_STALL_REQ_DISABLE(ip) is undefined.
-> 
-> Here are some results of using different compilers.
-> 		1UL >> -1	1UL << -1
-> gcc 10.2.1	0x2		0
-> gcc 11.4.0	0		0x8000000000000000
-> clang 14.0.0	0x64b8a45d72a0	0x64b8a45d72a0
-> clang 17.0.0	0x556c43b0f2a0	0x556c43b0f2a0
-> 
-> Add some macros to ensure that when right opreand is negative or other
-> invalid values, the results of bitwise shift is zero.
-> 
-> Fixes: e1ecace6a685 ("ASoC: sti: Add uniperipheral header file")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
-> ---
->  sound/soc/sti/uniperif.h | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/soc/sti/uniperif.h b/sound/soc/sti/uniperif.h
-> index 2a5de328501c..1cbff01fbff0 100644
-> --- a/sound/soc/sti/uniperif.h
-> +++ b/sound/soc/sti/uniperif.h
-> @@ -12,17 +12,28 @@
->  
->  #include <sound/dmaengine_pcm.h>
->  
-> +#define SR_SHIFT(a, b)		({unsigned long __a = (a); \
-> +				unsigned int __b = (b); \
-> +				__b < BITS_PER_LONG ? \
-> +				__a >> __b : 0; })
-
-The code definitely looks buggy, but how do you know your solution is
-correct without testing it?
-
-I don't like this solution at all.  This is basically a really
-complicated way of writing "if (b != -1)".  Instead of checking for -1,
-the better solution is to just stop passing -1.  If you review that
-file, every time it uses "-1" that's either dead code or a bug...
-
-sound/soc/sti/uniperif.h
-   132  #define UNIPERIF_ITS_UNDERFLOW_REC_DONE_SHIFT(ip) \
-   133          ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? -1 : 12)
-                                                                      ^^^^
-This is dead code
-
-   134  #define UNIPERIF_ITS_UNDERFLOW_REC_DONE_MASK(ip) \
-   135          ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? \
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-because the version is checked here.
-
-   136                  0 : (BIT(UNIPERIF_ITS_UNDERFLOW_REC_DONE_SHIFT(ip))))
-
-Just delete UNIPERIF_ITS_UNDERFLOW_REC_DONE_SHIFT() and use 12 directly.
-
-[ snip ]
-
-   988  #define UNIPERIF_BIT_CONTROL_OFFSET(ip)  \
-   989          ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? -1 : 0x004c)
-                                                                       ^^^
-Negative offsets seem like a bug.
-
-   990  #define GET_UNIPERIF_BIT_CONTROL(ip) \
-   991          readl_relaxed(ip->base + UNIPERIF_BIT_CONTROL_OFFSET(ip))
-
-regards,
-dan carpenter
-
+T24gTW9uLCAyNSBNYXIgMjAyNCAwOToxNjoxMiArMDEwMCBUYWthc2hpIEl3YWkgd3JvdGU6Cj4g
+PiBUaGUgZHJlYW1jYXN0Y2FyZC0+dGltZXIgY291bGQgc2NoZWR1bGUgdGhlIHNwdV9kbWFfd29y
+ayBhbmQgdGhlCj4gPiBzcHVfZG1hX3dvcmsgY291bGQgYWxzbyBhcm0gdGhlIGRyZWFtY2FzdGNh
+cmQtPnRpbWVyLgo+ID4gCj4gPiBXaGVuIHRoZSBZYW1haGEgQUlDQSBjYXJkIGlzIGNsb3Npbmcs
+IHRoZSBkcmVhbWNhc3RjYXJkLT5jaGFubmVsCj4gPiB3aWxsIGJlIGRlYWxsb2NhdGVkLiBCdXQg
+aXQgY291bGQgc3RpbGwgYmUgZGVyZWZlcmVuY2VkIGluIHRoZQo+ID4gd29ya2VyIHRocmVhZC4g
+VGhlIHJlYXNvbiBpcyB0aGF0IGRlbF90aW1lcigpIHdpbGwgcmV0dXJuIGRpcmVjdGx5Cj4gPiBy
+ZWdhcmRsZXNzIG9mIHdoZXRoZXIgdGhlIHRpbWVyIGhhbmRsZXIgaXMgcnVubmluZyBvciBub3Qg
+YW5kIHRoZQo+ID4gd29ya2VyIGNvdWxkIGJlIHJlc2NoZWR1bGVkIGluIHRoZSB0aW1lciBoYW5k
+bGVyLiBBcyBhIHJlc3VsdCwgdGhlCj4gPiBVQUYgYnVnIHdpbGwgaGFwcGVuLiBUaGUgcmFjeSBz
+aXR1YXRpb24gaXMgc2hvd24gYmVsb3c6Cj4gPiAKPiA+ICAgICAgIChUaHJlYWQgMSkgICAgICAg
+ICAgICAgICAgIHwgICAgICAoVGhyZWFkIDIpCj4gPiBzbmRfYWljYXBjbV9wY21fY2xvc2UoKSAg
+ICAgICAgICB8Cj4gPiAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICBydW5fc3B1
+X2RtYSgpIC8vd29ya2VyCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAg
+IG1vZF90aW1lcigpCj4gPiAgIGZsdXNoX3dvcmsoKSAgICAgICAgICAgICAgICAgICB8Cj4gPiAg
+IGRlbF90aW1lcigpICAgICAgICAgICAgICAgICAgICB8ICBhaWNhX3BlcmlvZF9lbGFwc2VkKCkg
+Ly90aW1lcgo+ID4gICBrZnJlZShkcmVhbWNhc3RjYXJkLT5jaGFubmVsKSAgfCAgICBzY2hlZHVs
+ZV93b3JrKCkKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIHJ1bl9zcHVf
+ZG1hKCkgLy93b3JrZXIKPiA+ICAgLi4uICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
+ZHJlYW1jYXN0Y2FyZC0+Y2hhbm5lbC0+IC8vVVNFCj4gPiAKPiA+IEluIG9yZGVyIHRvIG1pdGln
+YXRlIHRoaXMgYnVnLCB1c2UgdGltZXJfc2h1dGRvd25fc3luYygpIHRvIHNodXRkb3duCj4gPiB0
+aGUgdGltZXIgYW5kIHRoZW4gdXNlIGZsdXNoX3dvcmsoKSB0byBjYW5jZWwgdGhlIHdvcmtlci4K
+PiA+IAo+ID4gRml4ZXM6IDE5OGRlNDNkNzU4YyAoIltBTFNBXSBBZGQgQUxTQSBzdXBwb3J0IGZv
+ciB0aGUgU0VHQSBEcmVhbWNhc3QgUENNIGRldmljZSIpCj4gPiBTaWduZWQtb2ZmLWJ5OiBEdW9t
+aW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4KPiA+IC0tLQo+ID4gIHNvdW5kL3NoL2FpY2Eu
+YyB8IDIgKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL3NvdW5kL3NoL2FpY2EuYyBiL3NvdW5kL3NoL2FpY2Eu
+Ywo+ID4gaW5kZXggMzIwYWM3OTJjN2YuLmJjNjhhMzkwM2YyIDEwMDY0NAo+ID4gLS0tIGEvc291
+bmQvc2gvYWljYS5jCj4gPiArKysgYi9zb3VuZC9zaC9haWNhLmMKPiA+IEBAIC0zNTQsOCArMzU0
+LDggQEAgc3RhdGljIGludCBzbmRfYWljYXBjbV9wY21fY2xvc2Uoc3RydWN0IHNuZF9wY21fc3Vi
+c3RyZWFtCj4gPiAgCQkJCSAqc3Vic3RyZWFtKQo+ID4gIHsKPiA+ICAJc3RydWN0IHNuZF9jYXJk
+X2FpY2EgKmRyZWFtY2FzdGNhcmQgPSBzdWJzdHJlYW0tPnBjbS0+cHJpdmF0ZV9kYXRhOwo+ID4g
+Kwl0aW1lcl9zaHV0ZG93bl9zeW5jKCZkcmVhbWNhc3RjYXJkLT50aW1lcik7Cj4gCj4gSSB0aG91
+Z2h0IHRoaXMgY2FsbCBpbnZhbGlkYXRlcyB0aGUgdGltZXIgb2JqZWN0LCBoZW5jZSBpdCBjYW4n
+dCBiZQo+IHVzZWQgYWdhaW47IGkuZS4gaXQgYnJlYWtzIHdoZW4gdGhlIHN0cmVhbSBpcyByZS1v
+cGVuZWQsIEkgc3VwcG9zZT8KPgo+IEluIGdlbmVyYWwgdGltZXJfc2h1dGRvd24qKCkgaXMgdXNl
+ZCBmb3IgdGhlIGNvZGUgcGF0aCB0byBjbGVhbiB1cCB0aGUKPiBkcml2ZXIgKG9yIHRoZSBvYmpl
+Y3QgdGhlIHRpbWVyIGJlbG9uZ3MgdG8pLiAgVGhlIFBDTSBjbG9zZSBpcyBvbmx5Cj4gYWJvdXQg
+dGhlIFBDTSBzdHJlYW0sIGFuZCBpdCdzIG5vdCB0aGUgcGxhY2UuCj4gCj4gQSBwcm9wZXIgZml4
+IHdvdWxkIGJlIHJhdGhlciB0byBpbXBsZW1lbnQgdHdvIHRoaW5nczoKPiAtIENhbGwgbW9kX3Rp
+bWVyKCkgY29uZGl0aW9uYWxseSBpbiBydW5fc3B1X2RtYSgpCj4gLSBJbXBsZW1lbnQgUENNIHN5
+bmNfc3RvcCBvcCB0byBjYW5jZWwvZmx1c2ggdGhlIHdvcmsKPiAKPiBUaGUgZm9ybWVyIGFsb25l
+IHNob3VsZCBzdWZmaWNlIHRvIGZpeCB0aGUgVUFGIGluIHlvdXIgc2NlbmFyaW8sCj4gdGhvdWdo
+LiAgVGhlIGxhdHRlciB3aWxsIGNvdmVyIG90aGVyIHBvc3NpYmxlIGNvcm5lciBjYXNlcy4KClRo
+YW5rIHlvdSBmb3IgeW91ciB0aW1lIGFuZCByZXBseSEgSSBrbm93IHVzaW5nIHRpbWVyX3NodXRk
+b3duX3N5bmMoKQppcyBub3QgcHJvcGVyLiBJbiBvcmRlciB0byBzb2x2ZSB0aGUgcHJvYmxlbSwg
+SSBhZGQgYSBzaHV0ZG93biBmbGFnIAppbiB0aGUgc3RydWN0IHNuZF9jYXJkX2FpY2EgYW5kIHNl
+dCB0aGUgZmxhZyB0byB0cnVlIHdoZW4gdGhlIFBDTSAKc3RyZWFtIGlzIGNsb3NpbmcuIFRoZW4g
+Y2FsbCBtb2RfdGltZXIoKSBjb25kaXRpb25hbGx5IGluIHJ1bl9zcHVfZG1hKCkuCldoYXQncyBt
+b3JlLCB1c2UgZGVsX3RpbWVyX3N5bmMoKSB0byBzdG9wIHRoZSB0aW1lciBhbmQgcHV0IGl0IGJl
+Zm9yZSAKZmx1c2hfd29yaygpLiBBcyBhIHJlc3VsdCwgYm90aCB0aW1lciBhbmQgd29ya2VyIGNv
+dWxkIGJlIHN0b3BwZWQgc2FmZWx5LiAKVGhlIGRldGFpbCBpcyBzaG93biBiZWxvdzoKCmRpZmYg
+LS1naXQgYS9zb3VuZC9zaC9haWNhLmMgYi9zb3VuZC9zaC9haWNhLmMKaW5kZXggMzIwYWM3OTJj
+N2ZlLi5kYWIwMDVlZGE3ZjAgMTAwNjQ0Ci0tLSBhL3NvdW5kL3NoL2FpY2EuYworKysgYi9zb3Vu
+ZC9zaC9haWNhLmMKQEAgLTI3OCw3ICsyNzgsOCBAQCBzdGF0aWMgdm9pZCBydW5fc3B1X2RtYShz
+dHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCiAgICAgICAgICAgICAgICBkcmVhbWNhc3RjYXJkLT5j
+bGlja3MrKzsKICAgICAgICAgICAgICAgIGlmICh1bmxpa2VseShkcmVhbWNhc3RjYXJkLT5jbGlj
+a3MgPj0gQUlDQV9QRVJJT0RfTlVNQkVSKSkKICAgICAgICAgICAgICAgICAgICAgICAgZHJlYW1j
+YXN0Y2FyZC0+Y2xpY2tzICU9IEFJQ0FfUEVSSU9EX05VTUJFUjsKLSAgICAgICAgICAgICAgIG1v
+ZF90aW1lcigmZHJlYW1jYXN0Y2FyZC0+dGltZXIsIGppZmZpZXMgKyAxKTsKKyAgICAgICAgICAg
+ICAgIGlmICghZHJlYW1jYXN0Y2FyZC0+c2h1dGRvd24pCisgICAgICAgICAgICAgICAgICAgICAg
+IG1vZF90aW1lcigmZHJlYW1jYXN0Y2FyZC0+dGltZXIsIGppZmZpZXMgKyAxKTsKICAgICAgICB9
+CiB9CgpAQCAtMzQ3LDYgKzM0OCw3IEBAIHN0YXRpYyBpbnQgc25kX2FpY2FwY21fcGNtX29wZW4o
+c3RydWN0IHNuZF9wY21fc3Vic3RyZWFtCiAgICAgICAgZHJlYW1jYXN0Y2FyZC0+Y2xpY2tzID0g
+MDsKICAgICAgICBkcmVhbWNhc3RjYXJkLT5jdXJyZW50X3BlcmlvZCA9IDA7CiAgICAgICAgZHJl
+YW1jYXN0Y2FyZC0+ZG1hX2NoZWNrID0gMDsKKyAgICAgICBkcmVhbWNhc3RjYXJkLT5zaHV0ZG93
+biA9IGZhbHNlOwogICAgICAgIHJldHVybiAwOwogfQoKQEAgLTM1NCw4ICszNTYsOSBAQCBzdGF0
+aWMgaW50IHNuZF9haWNhcGNtX3BjbV9jbG9zZShzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJlYW0KICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKnN1YnN0cmVhbSkKIHsKICAgICAgICBzdHJ1
+Y3Qgc25kX2NhcmRfYWljYSAqZHJlYW1jYXN0Y2FyZCA9IHN1YnN0cmVhbS0+cGNtLT5wcml2YXRl
+X2RhdGE7CisgICAgICAgZHJlYW1jYXN0Y2FyZC0+c2h1dGRvd24gPSB0cnVlOworICAgICAgIGRl
+bF90aW1lcl9zeW5jKCZkcmVhbWNhc3RjYXJkLT50aW1lcik7CiAgICAgICAgZmx1c2hfd29yaygm
+KGRyZWFtY2FzdGNhcmQtPnNwdV9kbWFfd29yaykpOwotICAgICAgIGRlbF90aW1lcigmZHJlYW1j
+YXN0Y2FyZC0+dGltZXIpOwogICAgICAgIGRyZWFtY2FzdGNhcmQtPnN1YnN0cmVhbSA9IE5VTEw7
+CiAgICAgICAga2ZyZWUoZHJlYW1jYXN0Y2FyZC0+Y2hhbm5lbCk7CiAgICAgICAgc3B1X2Rpc2Fi
+bGUoKTsKZGlmZiAtLWdpdCBhL3NvdW5kL3NoL2FpY2EuaCBiL3NvdW5kL3NoL2FpY2EuaAppbmRl
+eCAwMjFiMTMyZTA4OGUuLjU5YTlkZWFmM2RkMyAxMDA2NDQKLS0tIGEvc291bmQvc2gvYWljYS5o
+CisrKyBiL3NvdW5kL3NoL2FpY2EuaApAQCAtNjUsNCArNjUsNSBAQCBzdHJ1Y3Qgc25kX2NhcmRf
+YWljYSB7CiAgICAgICAgc3RydWN0IHRpbWVyX2xpc3QgdGltZXI7CiAgICAgICAgaW50IG1hc3Rl
+cl92b2x1bWU7CiAgICAgICAgaW50IGRtYV9jaGVjazsKKyAgICAgICBib29sIHNodXRkb3duOwog
+fTsKCkkgd291bGQgYmUgdmVyeSBhcHByZWNpYXRlLCBpZiB5b3UgY291bGQgZ2l2ZSBtZSBzb21l
+IHN1Z2dlc3Rpb25zCmFib3V0IHRoZSBhYm92ZSBzb2x1dGlvbi4KCkJlc3QgcmVnYXJkcywKRHVv
+bWluZyBaaG91
