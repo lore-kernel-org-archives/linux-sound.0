@@ -1,178 +1,99 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715AD1C5AB6;
-	Mon, 25 Mar 2024 11:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607C8156669;
+	Mon, 25 Mar 2024 12:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711366313; cv=none; b=eTonxTBwtpJafamVBR6tPLLbMQ63QPLrsS3H2iN64x6c+KoajhXC6RronJsDspmqAg5yGWCssMMNxNLX3j15cSfoXdiOQrefQHcV6AO/R6yhV4NMpftFPHNY+3eDj/7yHTUgV4J/SfKinTjshxBS7K2HZyqBZYkUZpR+P7aYgLM=
+	t=1711370102; cv=none; b=XAglHPtgYw7zVIkczpU+mgdKekhOE8zhrhbaitr74x6hHeuou6gqJVdGkrPfonSIUFAusoO5ybOvpe5WqSLnPNjhpyZXGMLJfibcxuu5tywB4d7u9g5xmpIm17varEJDoOVa6rx9aRvg8OXJV61FJp4omOKxM2xtsJUmRzH27dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711366313; c=relaxed/simple;
-	bh=8wIa6nW1ERiw4t1Ybn1tnOi5l/VyBjBAJ/xBmZH1cd4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QCzzjwlwlueN5ARxAYSPX8yoffMVKmxeoz7K0SyBEMueofQm/W+6JFWfj5zn1c3zbxNhhdkaxTxNziQmBO2ykdl/IMc27ZsAkcNTcftmQVy0/MUIhDXMrHvlFndrx3rKzA3bbNo/4TRmFr55S6/4GbMdRM3QMTBRCbqJSCDiZ/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c/cQZre1; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1711370102; c=relaxed/simple;
+	bh=6jzjiwrkhrrxiOb3ouQm9/gN7kt04YtLniYwKlTluek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=fNfM/HWZmJj7ltEr1HJE6UgsiNfIqo0JE6qXgrBcXcS0v0EKO7jgXt++mfs0spP8COdCuCBuaNccHgBkSCfkxYnKKP8ANu6yQ8Cxo72xVO7P7ZmgoozUzGyyo/Sg6BgBQLR0Uma+pHPD08my6ZYTgTM728SsK5WtMbMAEzAh7m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=meT28BSM; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c/cQZre1"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P4qkf4007553;
-	Mon, 25 Mar 2024 06:31:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=Ve6q53KNEyaHYsEeYneEssGZ6Wrn16sSu1b7bPPggrU=; b=
-	c/cQZre1an3oq7WNRPOSd+tbcrU3woSndVth5uiXREO/unhZ67BkwsC7nUkoWDVn
-	FkjLlg6HYnSw6CHI9AGZtBO4e8PUfV9Q6kWBG+CUnWpLrePIw9dGN5IP0NHXbLIh
-	oL0RGNzh+KbWLzo4/smOX5PsJr/4J7Rb3ms5vrPVFfpdLgMbHdo06uP8qpv0A5ui
-	OlBRjSdJxEozbRq0RRWpzSyvTAhhwgeancq0I0klLrWlCWHgdtWZOvNv1OqpoSUd
-	u0Bki4VCnetoHTqhaSoe8PeXc3k9M8xISLS7m6GjTo4vrKerGvHZgtOcsFyRaf+K
-	DyPXoNwywMD35K2eigiX/Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyb6v0-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 06:31:30 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 25 Mar
- 2024 11:31:27 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Mon, 25 Mar 2024 11:31:27 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3C764820246;
-	Mon, 25 Mar 2024 11:31:27 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>
-Subject: [PATCH 1/5] firmware: cs_dsp: Add locked wrappers for coeff read and write
-Date: Mon, 25 Mar 2024 11:31:23 +0000
-Message-ID: <20240325113127.112783-2-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240325113127.112783-1-rf@opensource.cirrus.com>
-References: <20240325113127.112783-1-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="meT28BSM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711370100; x=1742906100;
+  h=message-id:date:mime-version:subject:to:references:cc:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6jzjiwrkhrrxiOb3ouQm9/gN7kt04YtLniYwKlTluek=;
+  b=meT28BSM18Q5CeqZIYtu9mWAq3MfHi6+rVVaqz1DPzkIq3liaJn3P1nk
+   lVozH64N2x/0psEQgAfOFmvF3e+zH4/DTzZa5J5YU/rVSTzLrUfNefPTe
+   dZVn1qfkyutYbO2Ki1kqY2fgWyxsSU9zzNEGyyHZAI8sMBo5yNoXu10lW
+   Sm4T7w64g6350vGEibsVq1GtaPeTfFSM8fGikouNS7VRcsyhtbewvPC+G
+   MeVcUrLnEMw2QsUeRaaFuFBxCM9x4MC/alv9yQ/Rk7DCnCEo37hTU6gJv
+   BkyY4/xA0BUjxmkaXomk7MlO2Zg/X45Laz+QtIS39Gr2C2oBYiFku/oLM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="10139987"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="10139987"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:34:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="16268554"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:34:54 -0700
+Message-ID: <3edd5823-bf54-4898-bcee-e1628c863388@linux.intel.com>
+Date: Mon, 25 Mar 2024 13:34:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/28] sound: intel: Use PCI_IRQ_INTX
+Content-Language: en-US
+To: Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
+ linux-scsi@vger.kernel.org, "Martin K . Petersen"
+ <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-sound@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-serial@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ platform-driver-x86@vger.kernel.org, ntb@lists.linux.dev,
+ Lee Jones <lee@kernel.org>, David Airlie <airlied@gmail.com>,
+ amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-rdma@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240325070944.3600338-1-dlemoal@kernel.org>
+ <20240325070944.3600338-5-dlemoal@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240325070944.3600338-5-dlemoal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: W_mGFw0jCLpfl27Iq92J29FYCUk_XLhO
-X-Proofpoint-GUID: W_mGFw0jCLpfl27Iq92J29FYCUk_XLhO
-X-Proofpoint-Spam-Reason: safe
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+On 3/25/2024 8:09 AM, Damien Le Moal wrote:
+> Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
+> macro.
+> 
+> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> ---
+>   sound/soc/intel/avs/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+> index d7f8940099ce..69818e4b43da 100644
+> --- a/sound/soc/intel/avs/core.c
+> +++ b/sound/soc/intel/avs/core.c
+> @@ -343,7 +343,7 @@ static int avs_hdac_acquire_irq(struct avs_dev *adev)
+>   	int ret;
+>   
+>   	/* request one and check that we only got one interrupt */
+> -	ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | PCI_IRQ_LEGACY);
+> +	ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | PCI_IRQ_INTX);
+>   	if (ret != 1) {
+>   		dev_err(adev->dev, "Failed to allocate IRQ vector: %d\n", ret);
+>   		return ret;
 
-It is a common pattern for functions to take and release the DSP
-pwr_lock over the cs_dsp calls to read and write firmware controls.
-Add wrapper functions to do this sequence so that the calling code can
-be simplified to a single function call..
-
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- drivers/firmware/cirrus/cs_dsp.c       | 54 ++++++++++++++++++++++++++
- include/linux/firmware/cirrus/cs_dsp.h |  4 ++
- 2 files changed, 58 insertions(+)
-
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index 9f3d665cfdcf..0d139e4de37c 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -819,6 +819,33 @@ int cs_dsp_coeff_write_ctrl(struct cs_dsp_coeff_ctl *ctl,
- }
- EXPORT_SYMBOL_NS_GPL(cs_dsp_coeff_write_ctrl, FW_CS_DSP);
- 
-+/**
-+ * cs_dsp_coeff_lock_and_write_ctrl() - Writes the given buffer to the given coefficient control
-+ * @ctl: pointer to coefficient control
-+ * @off: word offset at which data should be written
-+ * @buf: the buffer to write to the given control
-+ * @len: the length of the buffer in bytes
-+ *
-+ * Same as cs_dsp_coeff_write_ctrl() but takes pwr_lock.
-+ *
-+ * Return: A negative number on error, 1 when the control value changed and 0 when it has not.
-+ */
-+int cs_dsp_coeff_lock_and_write_ctrl(struct cs_dsp_coeff_ctl *ctl,
-+				     unsigned int off, const void *buf, size_t len)
-+{
-+	struct cs_dsp *dsp = ctl->dsp;
-+	int ret;
-+
-+	lockdep_assert_not_held(&dsp->pwr_lock);
-+
-+	mutex_lock(&dsp->pwr_lock);
-+	ret = cs_dsp_coeff_write_ctrl(ctl, off, buf, len);
-+	mutex_unlock(&dsp->pwr_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cs_dsp_coeff_lock_and_write_ctrl);
-+
- static int cs_dsp_coeff_read_ctrl_raw(struct cs_dsp_coeff_ctl *ctl,
- 				      unsigned int off, void *buf, size_t len)
- {
-@@ -891,6 +918,33 @@ int cs_dsp_coeff_read_ctrl(struct cs_dsp_coeff_ctl *ctl,
- }
- EXPORT_SYMBOL_NS_GPL(cs_dsp_coeff_read_ctrl, FW_CS_DSP);
- 
-+/**
-+ * cs_dsp_coeff_lock_and_read_ctrl() - Reads the given coefficient control into the given buffer
-+ * @ctl: pointer to coefficient control
-+ * @off: word offset at which data should be read
-+ * @buf: the buffer to store to the given control
-+ * @len: the length of the buffer in bytes
-+ *
-+ * Same as cs_dsp_coeff_read_ctrl() but takes pwr_lock.
-+ *
-+ * Return: Zero for success, a negative number on error.
-+ */
-+int cs_dsp_coeff_lock_and_read_ctrl(struct cs_dsp_coeff_ctl *ctl,
-+				    unsigned int off, void *buf, size_t len)
-+{
-+	struct cs_dsp *dsp = ctl->dsp;
-+	int ret;
-+
-+	lockdep_assert_not_held(&dsp->pwr_lock);
-+
-+	mutex_lock(&dsp->pwr_lock);
-+	ret = cs_dsp_coeff_read_ctrl(ctl, off, buf, len);
-+	mutex_unlock(&dsp->pwr_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cs_dsp_coeff_lock_and_read_ctrl);
-+
- static int cs_dsp_coeff_init_control_caches(struct cs_dsp *dsp)
- {
- 	struct cs_dsp_coeff_ctl *ctl;
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 23384a54d575..82687e07a7c2 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -238,8 +238,12 @@ void cs_dsp_cleanup_debugfs(struct cs_dsp *dsp);
- int cs_dsp_coeff_write_acked_control(struct cs_dsp_coeff_ctl *ctl, unsigned int event_id);
- int cs_dsp_coeff_write_ctrl(struct cs_dsp_coeff_ctl *ctl, unsigned int off,
- 			    const void *buf, size_t len);
-+int cs_dsp_coeff_lock_and_write_ctrl(struct cs_dsp_coeff_ctl *ctl, unsigned int off,
-+				     const void *buf, size_t len);
- int cs_dsp_coeff_read_ctrl(struct cs_dsp_coeff_ctl *ctl, unsigned int off,
- 			   void *buf, size_t len);
-+int cs_dsp_coeff_lock_and_read_ctrl(struct cs_dsp_coeff_ctl *ctl, unsigned int off,
-+				    void *buf, size_t len);
- struct cs_dsp_coeff_ctl *cs_dsp_get_ctl(struct cs_dsp *dsp, const char *name, int type,
- 					unsigned int alg);
- 
--- 
-2.39.2
-
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
