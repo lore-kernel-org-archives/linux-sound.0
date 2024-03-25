@@ -1,143 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B4358109;
-	Mon, 25 Mar 2024 17:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5118E20;
+	Mon, 25 Mar 2024 18:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711389584; cv=none; b=k8MILfWEPXJElGPYSJTA9MIbUT1csKgGk7VL4YFeguCcWDw7Z2NHdoVcABzTXJxQewkzGgwU0WSxZzF6wNpBVORiIAhk5q+ZZXawEL59HcEp5fJ1C9s4gn1irXD3VlLitlWDmoe7YbFBSnz1hcH0i4E+HK1FPFK1P3qNuWiYQ54=
+	t=1711390795; cv=none; b=qNMJEygw9uX6OtBQlHy/O0mcirU52rPXTMhvfa9ptgqImhU24Wbd2uWxK6r1Av0HrhXLB43nsHWvpCDnaNvPtIET+6XBsHhKrpYnMvLxbpd95597QW6MomxoPA1H1hfgXowdAz3iibebOoEb1veyQt1k3SkaDrjt76FSnU/R3Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711389584; c=relaxed/simple;
-	bh=wXPwR8AWQ/l5POkeyRm4pjnxElVQugxHc5xn97XdOt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mwSWCal1ciRKVbKK1fL+kXJeF/cgGfRZHGrVsDw1g6YRjBYR6QH05A5jE/xYsoUk1gDVeDiQGNP0RiLH2/kn8mwCVE08GtOxxAS9suifmW/w7oxKZ2zf9RcVPrmkvWZQTwXNfWKr/LcImQKuNtL+DKqFdfH9giZUWKnvt/dGViA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fftc+ZYk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711390795; c=relaxed/simple;
+	bh=E81LA2THJKeDidFFeqQI4zKcNnZcZ38Rs/hVCGWis4k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sElSdpHIdaOlHcbe+YwguJ0inkfQGMNL7Q3a/7iW9GCZVy4QJDxloFNcguyRyxri7Ukn5rLiv8v6efaCfj+0ZZWefKNVfYs2uwyi4+wJ7qSJ49lAxVfZ8QNAVXf/r6Qec6fN1G8DyoviKviLYlPx2gxetL5PCIn4sJMvCre3qCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YbJg6AXg; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fftc+ZYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB4DC433C7;
-	Mon, 25 Mar 2024 17:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711389583;
-	bh=wXPwR8AWQ/l5POkeyRm4pjnxElVQugxHc5xn97XdOt8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=fftc+ZYkkbAwFHlbCa37SyMisbtr/6H45opy0Mf+j5xkS4yQN6nnqvgzKIwN5cMkS
-	 JGU7aXj8A44g1kqohrtMvyr8BQtkUKYBcOayA6qCJgtTMwTf/kelwo9pOgN/8QnLsu
-	 UIE6DWfAS1/sVyHXWVKOrMu+RyfOd97ka0hzS3t6wyaEXAFGZi62fjzM3UJynqbbgU
-	 H0lYPyz92L3C3sMx1f4eQH4DhoUNr+56b45xuwEGRsR2xenSlkm1nQPE1Iz9puf+bD
-	 H1LGwlI9nP2qDWP/0zv6RAwWAEhOMg0Ubz9A62rXnjwgOVqq9DoYLXgjg373B75r7y
-	 KgU8mvhg/2W5A==
-Date: Mon, 25 Mar 2024 12:59:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org, ntb@lists.linux.dev,
-	Lee Jones <lee@kernel.org>, David Airlie <airlied@gmail.com>,
-	amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-rdma@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/28] Remove PCI_IRQ_LEGACY
-Message-ID: <20240325175941.GA1443646@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbJg6AXg"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dddbe47ac1so35629585ad.1;
+        Mon, 25 Mar 2024 11:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711390793; x=1711995593; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rMzrRncdSfwKv7bbmYuayc7ahUnMmS+d++1NpNJY28g=;
+        b=YbJg6AXgUalcLsoo/QQVf0UOmUtewy5Z38bMZ7zTHQJHUKXF++5MG1HqsKJMnbx8n7
+         JsRacJy7SyvDeRvvcICLEaB/DTFKIc8swJ10YPsSZHUPPclguFpChbayKelq8V2/+jd8
+         gzI6kQ4iFPks2obEctwKm/BlbGZwrawL5OfNIvZJiGHv86x6cn7EbwzWJNqw4kEwT8Jf
+         9u4CaItYm7UZXuv07+KowexL2ey5CoJwUQjTozuNycU8hduzDdv/JTXofgpBWzPKOQxa
+         w02lE2nuf9y03+2VIITsHKS1n38zXSTnUdjJlambqCwe8Y2gj5zvMR4x/tVs8qw/XUsm
+         A+Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711390793; x=1711995593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rMzrRncdSfwKv7bbmYuayc7ahUnMmS+d++1NpNJY28g=;
+        b=P+FNaQOqMyCEBn58vrV2TpTgQgkZo+gbmENnalIMjngDQsaba+8oyJLOKHjNJhyQT0
+         wdxNuQwyT7cuZIcxACtLSkfiAE3Ndi4VYkWkgqrhgHKLgJhoi7gTEZYf35Nf/b0bNNX0
+         VIP7r/yxajSWdgRt87DyjZX0SOtwfr3WgJPV6XcAqI+xiKasrf5GZ1T8/axH+DW9XijN
+         T8gN5N7XWNtBGP9PdjkS/IWkWnqZcL2/UmI50Eq5Ze70jO9xeoBlPr2atzOVVNo889Jz
+         NieQhQ8aubiDOk2WL/3t5TT8tGiqtVwETHPezdxNlKDYDDy5n31jHhAvguoAdnYpD3Es
+         BTfA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+twh78TSfzu7wRDwMvOLpGuoqToXwaMjh4jeIHALAv4GqKFD158DHzIp+nVev5Feig4nlkvyOcuw9mPj6lbWLN5w3BPf4sFRCEPeIthFdYxnKVUMB+Njrs5c2zlF/9c+ypHV7RFQYz8KUeq685zvN46TU1VD6f/n3l0SK5Jyo9BNO8dQm
+X-Gm-Message-State: AOJu0Yzv2ri0Islv0CKtJV84B/BZ2AnJO4NPeP8Gzlb5juanW1E56nof
+	YpHYafV/Lh523zKwdEWX9b/KEERNYmQiAm+GWprhs7a99nDnPHWnQELSQGSr/Rs=
+X-Google-Smtp-Source: AGHT+IHKUevLsdZcPN6IM1ik1xoJp2mQaYxMFZBtrEmNtYwA6oFk+gLB3eosr+OB5zj862LgKib99w==
+X-Received: by 2002:a17:902:d507:b0:1e0:bc64:a37a with SMTP id b7-20020a170902d50700b001e0bc64a37amr6034767plg.8.1711390792834;
+        Mon, 25 Mar 2024 11:19:52 -0700 (PDT)
+Received: from localhost ([103.139.191.219])
+        by smtp.gmail.com with UTF8SMTPSA id h10-20020a170902f54a00b001e02875930asm4957694plf.25.2024.03.25.11.19.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Mar 2024 11:19:52 -0700 (PDT)
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org
+Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	javier.carrasco.cruz@gmail.com
+Subject: [PATCH] ASoC: dt-bindings: wm8974: Convert to dtschema
+Date: Mon, 25 Mar 2024 23:49:42 +0530
+Message-Id: <20240325181943.116733-1-agarwala.kartik@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240325070944.3600338-1-dlemoal@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 25, 2024 at 04:09:11PM +0900, Damien Le Moal wrote:
-> This patch series removes the use of the depracated PCI_IRQ_LEGACY macro
-> and replace it with PCI_IRQ_INTX. No functional change.
-> 
-> Damien Le Moal (28):
->   PCI: msi: Use PCI_IRQ_INTX
->   PCI: portdrv: Use PCI_IRQ_INTX
->   PCI: documentation: Use PCI_IRQ_INTX
->   sound: intel: Use PCI_IRQ_INTX
->   usb: hcd-pci: Use PCI_IRQ_INTX
->   tty: 8250_pci: Use PCI_IRQ_INTX
->   platform: intel_ips: Use PCI_IRQ_INTX
->   ntb: Use PCI_IRQ_INTX
->   mfd: intel-lpss-pci: Use PCI_IRQ_INTX
->   drm: amdgpu: Use PCI_IRQ_INTX
->   infiniband: qib: Use PCI_IRQ_INTX
->   infiniband: vmw_pvrdma: Use PCI_IRQ_INTX
->   misc: vmci_guest: Use PCI_IRQ_ALL_TYPES
->   net: xgbe: Use PCI_IRQ_INTX
->   net: aquantia atlantic: Use PCI_IRQ_INTX
->   net: atheros: alx: Use PCI_IRQ_INTX
->   net: realtek: r8169: Use PCI_IRQ_INTX
->   net: wangxun: Use PCI_IRQ_INTX
->   net: wireless: ath10k: Use references to INTX instead of LEGACY
->   net wireless; realtec: Use PCI_IRQ_INTX
->   scsi: arcmsr: Use PCI_IRQ_INTX
->   scsi: hpsa: Use PCI_IRQ_INTX
->   scsi: ipr: Use PCI_IRQ_INTX
->   scsi: megaraid: Use PCI_IRQ_INTX
->   scsi: mpt3sas: Use PCI_IRQ_INTX
->   scsi: pmcraid: Use PCI_IRQ_INTX
->   scsi: vmw_pvscsi: Do not use PCI_IRQ_LEGACY
->   PCI: Remove PCI_IRQ_LEGACY
-> 
->  Documentation/PCI/msi-howto.rst               |  2 +-
->  Documentation/PCI/pci.rst                     |  2 +-
->  .../translations/zh_CN/PCI/msi-howto.rst      |  2 +-
->  Documentation/translations/zh_CN/PCI/pci.rst  |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c       |  2 +-
->  drivers/infiniband/hw/qib/qib_iba7220.c       |  2 +-
->  drivers/infiniband/hw/qib/qib_iba7322.c       |  5 ++-
->  drivers/infiniband/hw/qib/qib_pcie.c          |  2 +-
->  .../infiniband/hw/vmw_pvrdma/pvrdma_main.c    |  2 +-
->  drivers/mfd/intel-lpss-pci.c                  |  2 +-
->  drivers/misc/vmw_vmci/vmci_guest.c            |  3 +-
->  drivers/net/ethernet/amd/xgbe/xgbe-pci.c      |  2 +-
->  .../net/ethernet/aquantia/atlantic/aq_cfg.h   |  2 +-
->  .../net/ethernet/aquantia/atlantic/aq_hw.h    |  2 +-
->  .../net/ethernet/aquantia/atlantic/aq_nic.c   |  2 +-
->  .../ethernet/aquantia/atlantic/aq_pci_func.c  |  9 ++---
->  .../aquantia/atlantic/hw_atl/hw_atl_a0.c      |  2 +-
->  .../aquantia/atlantic/hw_atl/hw_atl_b0.c      |  2 +-
->  .../aquantia/atlantic/hw_atl2/hw_atl2.c       |  2 +-
->  drivers/net/ethernet/atheros/alx/main.c       |  2 +-
->  drivers/net/ethernet/realtek/r8169_main.c     |  2 +-
->  drivers/net/ethernet/wangxun/libwx/wx_lib.c   |  8 ++---
->  drivers/net/wireless/ath/ath10k/ahb.c         | 18 +++++-----
->  drivers/net/wireless/ath/ath10k/pci.c         | 36 +++++++++----------
->  drivers/net/wireless/ath/ath10k/pci.h         |  6 ++--
->  drivers/net/wireless/realtek/rtw88/pci.c      |  2 +-
->  drivers/net/wireless/realtek/rtw89/pci.c      |  2 +-
->  drivers/ntb/hw/idt/ntb_hw_idt.c               |  2 +-
->  drivers/pci/msi/api.c                         |  8 ++---
->  drivers/pci/pcie/portdrv.c                    |  8 ++---
->  drivers/platform/x86/intel_ips.c              |  2 +-
->  drivers/scsi/arcmsr/arcmsr_hba.c              |  2 +-
->  drivers/scsi/hpsa.c                           |  2 +-
->  drivers/scsi/ipr.c                            |  2 +-
->  drivers/scsi/megaraid/megaraid_sas_base.c     |  4 +--
->  drivers/scsi/mpt3sas/mpt3sas_base.c           |  2 +-
->  drivers/scsi/pmcraid.c                        |  2 +-
->  drivers/scsi/vmw_pvscsi.c                     |  2 +-
->  drivers/tty/serial/8250/8250_pci.c            |  2 +-
->  drivers/usb/core/hcd-pci.c                    |  3 +-
->  include/linux/pci.h                           |  7 ++--
->  sound/soc/intel/avs/core.c                    |  2 +-
->  42 files changed, 84 insertions(+), 91 deletions(-)
+Convert WM8974 audio CODEC bindings from text to dtschema.
 
-I applied all these to pci/enumeration for v6.10, thanks!
+Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+---
+ .../devicetree/bindings/sound/wlf,wm8974.txt  | 15 -------
+ .../devicetree/bindings/sound/wlf,wm8974.yaml | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 15 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
 
-I added acks and reviewed-by and will update if we receive more, and
-adjusted subject lines to add "... instead of PCI_IRQ_LEGACY" and in
-some cases to match history of the file.
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8974.txt b/Documentation/devicetree/bindings/sound/wlf,wm8974.txt
+deleted file mode 100644
+index 01d3a7c83..000000000
+--- a/Documentation/devicetree/bindings/sound/wlf,wm8974.txt
++++ /dev/null
+@@ -1,15 +0,0 @@
+-WM8974 audio CODEC
+-
+-This device supports both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-  - compatible: "wlf,wm8974"
+-  - reg: the I2C address or SPI chip select number of the device
+-
+-Examples:
+-
+-codec: wm8974@1a {
+-	compatible = "wlf,wm8974";
+-	reg = <0x1a>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
+new file mode 100644
+index 000000000..d27300207
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/wlf,wm8974.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: WM8974 audio CODEC
++
++maintainers:
++  - patches@opensource.cirrus.com
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: wlf,wm8974
++
++  reg:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "wlf,wm8974";
++            reg = <0x1a>;
++        };
++    };
+-- 
+2.34.1
 
-Bjorn
