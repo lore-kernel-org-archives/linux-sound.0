@@ -1,96 +1,89 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26A1185F27;
-	Mon, 25 Mar 2024 03:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7EE180A85;
+	Mon, 25 Mar 2024 07:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711338023; cv=none; b=rPxJOMs0swrdxtOBfJ6YmCo8Eif14NUT8je4waZ9DfaViMJQgB+aF3LPxVofx8ldyN1/FeRcwJmmR5vFzKULvdGRmwGQ76jQkBvz8s5WSlZ+mTePj+Hm3Rea82CLY6yTG7SxdZier5oDvL71hY17J4+9+hH6bsL0QmT5pILhvyA=
+	t=1711350619; cv=none; b=KfYVTQs9WrjHo85Ms9SovIsJ997v8bZL4nXytIUPaUgr1stJ+5tRIUa4FKDfiS+LHP1mjSvkEu+GxzWux9D//j52Mp7vCjqCdqwD9xjIkem8DnXDqyv9o8wgpfRZuPrL3ZlQ3zj/CVASOTufYUmdRhWmnxMGfCXZ1Bf1vL55e1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711338023; c=relaxed/simple;
-	bh=cm6ZnN81c2x49XQx/b2mFqGyUdAzRwWF8NYiQkUhL2c=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=DgxNrLw6RcfuntButEW9Gfzx0aZqQDJbuEMz0j/dJmMhiyKGppcasHlkeD9tmiekx7SWtve8HttJHUsUkcXksv2lqy754Vhx+w8YjxFy5tFM26iSTSGdoqawlaRoGILdRCkfmo9psbRHc7ImYdppvKdwaw32AMILiVAhcv+h4Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=20.231.56.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from ubuntu.localdomain (unknown [218.12.19.154])
-	by mail-app4 (Coremail) with SMTP id cS_KCgBXeb0C8gBmkGxFAQ--.46008S2;
-	Mon, 25 Mar 2024 11:39:56 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] ALSA: sh: aica: reorder cleanup operations to avoid UAF bug
-Date: Mon, 25 Mar 2024 11:39:46 +0800
-Message-Id: <20240325033946.47052-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:cS_KCgBXeb0C8gBmkGxFAQ--.46008S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UZw1kZFWxuFWDCrykXwb_yoW8Ar1fpF
-	Z8WF93KFn7KFyvkFWUZrn2gryxGw1fta1Dtw45J3yjvFs3Xr1Fka45K3ySgFW3trZ5u39r
-	tw45Xw1avr90va7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
-	U==
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwMJAWX+3hkBYwBgsW
+	s=arc-20240116; t=1711350619; c=relaxed/simple;
+	bh=pDklQ4HEyATJrG52s500i9rhBWGMsdxljxs2zv1Sn9M=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DUYqjmAnKF+cBB561dGFaK+t1TDFKl2FYXUYTxKWrW/rEu2WiqgfYfcURMSVLihoEuFPZaOACESFmq4InNMfqQc4Fi+NMIsXslpnqDFFop6U0tIjZ61Ts0ew/YDoH42O4eWErsFaIV9jpzjY5isUhkQOn9IP+FKg/nsgMuZLm20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sDYAW4so; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sDYAW4so"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA54EC43390;
+	Mon, 25 Mar 2024 07:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711350619;
+	bh=pDklQ4HEyATJrG52s500i9rhBWGMsdxljxs2zv1Sn9M=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=sDYAW4so/yK4aW9I/T/TZScfACA4ErlTn9EzeRTzT0MnxaSVQ18Q/wo608EexZikE
+	 sQl8FfiCyoVhNcD8xHTbECjttNmWw0ciorZ3xFGviCMbgRLOJ00DpYRWlTMJxOtZZg
+	 s5SU6uyY/WGt9G9bB84oySLBvK+/u2GZTVC3oMJhjM7Ob8VXW5JgVt2V7KHslRw3Oh
+	 gL35PqaFFZT1tkoAczGgg/W48noHxc978hv4oL6Fxz0NJ+OHry+tDI+RQsYgB4eL/x
+	 FfsjGiAWqZV/KEgVhCfLsTpJ+PJrw7cwRmdpFSka6ElQHDgnw5eikTNurbY+d3DDsq
+	 XYcVv/bRWkvlQ==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org,
+	ntb@lists.linux.dev,
+	Lee Jones <lee@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-rdma@vger.kernel.org,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 08/28] ntb: Use PCI_IRQ_INTX
+Date: Mon, 25 Mar 2024 16:09:19 +0900
+Message-ID: <20240325070944.3600338-9-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240325070944.3600338-1-dlemoal@kernel.org>
+References: <20240325070944.3600338-1-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The dreamcastcard->timer could schedule the spu_dma_work and the
-spu_dma_work could also arm the dreamcastcard->timer.
+Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
+macro.
 
-When the Yamaha AICA card is closing, the dreamcastcard->channel
-will be deallocated. But it could still be dereferenced in the
-worker thread. The reason is that del_timer() will return directly
-regardless of whether the timer handler is running or not and the
-worker could be rescheduled in the timer handler. As a result, the
-UAF bug will happen. The racy situation is shown below:
-
-      (Thread 1)                 |      (Thread 2)
-snd_aicapcm_pcm_close()          |
- ...                             |  run_spu_dma() //worker
-                                 |    mod_timer()
-  flush_work()                   |
-  del_timer()                    |  aica_period_elapsed() //timer
-  kfree(dreamcastcard->channel)  |    schedule_work()
-                                 |  run_spu_dma() //worker
-  ...                            |    dreamcastcard->channel-> //USE
-
-In order to mitigate this bug, use timer_shutdown_sync() to shutdown
-the timer and then use flush_work() to cancel the worker.
-
-Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- sound/sh/aica.c | 2 +-
+ drivers/ntb/hw/idt/ntb_hw_idt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/sh/aica.c b/sound/sh/aica.c
-index 320ac792c7f..bc68a3903f2 100644
---- a/sound/sh/aica.c
-+++ b/sound/sh/aica.c
-@@ -354,8 +354,8 @@ static int snd_aicapcm_pcm_close(struct snd_pcm_substream
- 				 *substream)
- {
- 	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
-+	timer_shutdown_sync(&dreamcastcard->timer);
- 	flush_work(&(dreamcastcard->spu_dma_work));
--	del_timer(&dreamcastcard->timer);
- 	dreamcastcard->substream = NULL;
- 	kfree(dreamcastcard->channel);
- 	spu_disable();
+diff --git a/drivers/ntb/hw/idt/ntb_hw_idt.c b/drivers/ntb/hw/idt/ntb_hw_idt.c
+index 48823b53ede3..48dfb1a69a77 100644
+--- a/drivers/ntb/hw/idt/ntb_hw_idt.c
++++ b/drivers/ntb/hw/idt/ntb_hw_idt.c
+@@ -2129,7 +2129,7 @@ static int idt_init_isr(struct idt_ntb_dev *ndev)
+ 	int ret;
+ 
+ 	/* Allocate just one interrupt vector for the ISR */
+-	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_LEGACY);
++	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_INTX);
+ 	if (ret != 1) {
+ 		dev_err(&pdev->dev, "Failed to allocate IRQ vector");
+ 		return ret;
 -- 
-2.17.1
+2.44.0
 
