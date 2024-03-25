@@ -1,59 +1,59 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01A6148FFE;
-	Mon, 25 Mar 2024 14:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DBE155756;
+	Mon, 25 Mar 2024 14:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711376988; cv=none; b=TgVeTARt2TRCkEr/MjzcTfgi+iXESbOyAyYAPut4SmGZZQXwnl7xEj3+Swomx+1CdHXu94jjWqX3hKPLDXlpeyf4zKBccPU1G8DNEXOTk5qZJkgmqfR0CEzHONXexUAg+nB87JYgis04ogvv94IBe/+93X3USPenBMJjx/FQUqo=
+	t=1711377421; cv=none; b=sjV+mPtlYmJ0cSPZ0KmPTcFxE95Xa3bUlz2ccoOsq8UFm4czQShu3Ilzx7jkOZ+xyZOQMV8AFpXxVYmjMqqKj1AYIc+bSU6egR/VL+CnQaIS3qFjzRL5PLCfjgh2gfiX4d7vpWHfrjBK/kqjLxgWDG5g/A1n1XZKmT0piPp494Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711376988; c=relaxed/simple;
-	bh=3/aO5OuorLl8UcRWmY0nPxQX+riWkFHW9LJcFrhK7kM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UPxp1J328oMR/QgrmKVCvupM5RiO008NlIEOaBF5xgwIx4ONOkqu8WOduMPJ/m0adEj+MGJsBPVTlTRGeMZQJeKfij0MlhufK7sTRgp60f1D56ud/I+XmLvOwWVTyy4axff6tosMmpVYl8Pe2uLxHg5tVw0TKNwl5x9UarXAyWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=NQWMKPA+; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1711377421; c=relaxed/simple;
+	bh=4aIDgEXJp9CJ/1kTSz+yIr/23FqqJgqh4VDseMLsP8o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h0txUEZuhA4AFqxuWlKaRJM/1pP4hOqfYYA5p84dxBYDov2PIqVsI7ooE7w6eJf8XAKmEeLQRx30wyZbiCw8y1Jz8MeLN1D7IJMDDx8/Ko4j+491Z3PnPhYkQUtfSn7OA6mdiBKUKPUzdMIlJYy3uVIRnShlHTJi0cnNix9hAVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fvs2yDWa; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NQWMKPA+"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P7Rwds032111;
-	Mon, 25 Mar 2024 09:29:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=i
-	U76he4wuuKu7dLL8rq067nWSEgF6XzN74dcE1qsi3A=; b=NQWMKPA+RgfKWOSta
-	6uadNyMBZwf6Qe3LyFQ2oNgl9h0rzCgAdmUVuwKDlgUDEDEV1+YD+Gq46nopihkP
-	B03zu4c/9JavRcXzTVO0EbOZWXkjIVnoXKKLja/ZZaANLhDgB/PARL9TSZruVF9D
-	ompvSlJhTZlAFakVeDZ3E1Gr0+kNgZPLrCaeoJtnFojbSOyHxCNphbdFWE3eAiYB
-	i6M/1GaKuuxtEIRV9QvSQdDAynSoqnfNXNLyE0Y6SUeKEH88kWC3qijed06xTQB9
-	4GLYTSYTZMc8jEemjV4Z9617TJ0CTT+iMBkdYE3pAtHoMH2tS5XI7ZGpqvl+8nR0
-	x2v5w==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3x1ugm3hym-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 09:29:40 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 25 Mar
- 2024 14:29:38 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.4 via Frontend Transport; Mon, 25 Mar 2024 14:29:38 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 06853820244;
-	Mon, 25 Mar 2024 14:29:38 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l56: Raise device name message log level
-Date: Mon, 25 Mar 2024 14:29:37 +0000
-Message-ID: <20240325142937.257869-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fvs2yDWa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711377420; x=1742913420;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4aIDgEXJp9CJ/1kTSz+yIr/23FqqJgqh4VDseMLsP8o=;
+  b=Fvs2yDWa0rLiaWxENBoyNDIJ7OKge1DpKkUXVeJ0mRheuEXY9+OIvDei
+   z7+l7V6bALLzcqW6GGPoU5NqnfJsqTofNJ7QOYkoxj9aZs+k+PbnCM2PE
+   83tSNaeSv2ZUdvYH30dM+PvBL3m7pEIq6Bz5fQK6fekQBAbPE4uuDLIzH
+   6Bg5mof6QL//fMRWNeVH7zTV3e9DLJxHwmnDg5JuKye+c4PxBKVFKz0vk
+   3OCpRDTpvHzEFODDLS1qi+rqNwRb3z73f/bbsQxY3PETTqKKcClBg3TjC
+   dZOB5h+kTF+A5oxcgI0lbSiv5HrrPax+JSGWc84WNudRCP/2NUkE4Kai4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6511058"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="6511058"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 07:37:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="937070504"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="937070504"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2024 07:36:56 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E42B0101; Mon, 25 Mar 2024 16:36:55 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v2 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
+Date: Mon, 25 Mar 2024 16:33:50 +0200
+Message-ID: <20240325143654.3305498-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,38 +61,105 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: -l-o5qGsO2wpx8pyk7r5-ks3XXWjmyvJ
-X-Proofpoint-GUID: -l-o5qGsO2wpx8pyk7r5-ks3XXWjmyvJ
-X-Proofpoint-Spam-Reason: safe
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+No more users.
 
-The system and amplifier names influence which firmware and tuning files
-are downloaded to the device; log these values to aid end-user system
-support.
-
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- sound/pci/hda/cs35l56_hda.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: updated dependent driver as well (Mark)
+ include/sound/soc-jack.h              |  2 --
+ sound/soc/generic/simple-card-utils.c |  2 --
+ sound/soc/soc-jack.c                  | 23 ++++-------------------
+ 3 files changed, 4 insertions(+), 23 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 41974b3897a7..f3c5715f5e02 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -1024,8 +1024,8 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
- 		goto err;
- 	}
+diff --git a/include/sound/soc-jack.h b/include/sound/soc-jack.h
+index a0abb1ee5110..3a81d4b8ca8a 100644
+--- a/include/sound/soc-jack.h
++++ b/include/sound/soc-jack.h
+@@ -44,7 +44,6 @@ struct snd_soc_jack_zone {
+ /**
+  * struct snd_soc_jack_gpio - Describes a gpio pin for jack detection
+  *
+- * @gpio:         legacy gpio number
+  * @idx:          gpio descriptor index within the function of the GPIO
+  *                consumer device
+  * @gpiod_dev:    GPIO consumer device
+@@ -59,7 +58,6 @@ struct snd_soc_jack_zone {
+  *		       ADC).
+  */
+ struct snd_soc_jack_gpio {
+-	unsigned int gpio;
+ 	unsigned int idx;
+ 	struct device *gpiod_dev;
+ 	const char *name;
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index 81077d16d22f..b4876b4f259d 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -752,8 +752,6 @@ int simple_util_init_jack(struct snd_soc_card *card,
+ 	if (!prefix)
+ 		prefix = "";
  
--	dev_dbg(cs35l56->base.dev, "DSP system name: '%s', amp name: '%s'\n",
--		cs35l56->system_name, cs35l56->amp_name);
-+	dev_info(cs35l56->base.dev, "DSP system name: '%s', amp name: '%s'\n",
-+		 cs35l56->system_name, cs35l56->amp_name);
+-	sjack->gpio.gpio = -ENOENT;
+-
+ 	if (is_hp) {
+ 		snprintf(prop, sizeof(prop), "%shp-det", prefix);
+ 		pin_name	= pin ? pin : "Headphones";
+diff --git a/sound/soc/soc-jack.c b/sound/soc/soc-jack.c
+index b2cc13b9c77b..63971396b708 100644
+--- a/sound/soc/soc-jack.c
++++ b/sound/soc/soc-jack.c
+@@ -8,7 +8,6 @@
  
- 	regmap_multi_reg_write(cs35l56->base.regmap, cs35l56_hda_dai_config,
- 			       ARRAY_SIZE(cs35l56_hda_dai_config));
+ #include <sound/jack.h>
+ #include <sound/soc.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+ #include <linux/workqueue.h>
+@@ -345,21 +344,9 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 				goto undo;
+ 			}
+ 		} else {
+-			/* legacy GPIO number */
+-			if (!gpio_is_valid(gpios[i].gpio)) {
+-				dev_err(jack->card->dev,
+-					"ASoC: Invalid gpio %d\n",
+-					gpios[i].gpio);
+-				ret = -EINVAL;
+-				goto undo;
+-			}
+-
+-			ret = gpio_request_one(gpios[i].gpio, GPIOF_IN,
+-					       gpios[i].name);
+-			if (ret)
+-				goto undo;
+-
+-			gpios[i].desc = gpio_to_desc(gpios[i].gpio);
++			dev_err(jack->card->dev, "ASoC: Invalid gpio at index %d\n", i);
++		        ret = -EINVAL;
++		        goto undo;
+ 		}
+ got_gpio:
+ 		INIT_DELAYED_WORK(&gpios[i].work, gpio_work);
+@@ -373,7 +360,7 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 					      gpios[i].name,
+ 					      &gpios[i]);
+ 		if (ret < 0)
+-			goto err;
++			goto undo;
+ 
+ 		if (gpios[i].wake) {
+ 			ret = irq_set_irq_wake(gpiod_to_irq(gpios[i].desc), 1);
+@@ -401,8 +388,6 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 	devres_add(jack->card->dev, tbl);
+ 	return 0;
+ 
+-err:
+-	gpio_free(gpios[i].gpio);
+ undo:
+ 	jack_free_gpios(jack, i, gpios);
+ 	devres_free(tbl);
 -- 
-2.39.2
+2.43.0.rc1.1.gbec44491f096
 
