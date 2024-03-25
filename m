@@ -1,40 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1144D5B5;
-	Mon, 25 Mar 2024 14:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFC2153806;
+	Mon, 25 Mar 2024 14:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711376179; cv=none; b=lhYrGqFqFOOVZZxMWKp5aNki/kLErc5of25gbSwDHF4hrz/o/z225tmoFL2yVUvOt+Ja0hYQ9rnVp+LeK2KTgS2z1usJ+ZhiLDtwbzRp4yILdAZoN7DbRJltdBeqo8K8AcVJwC4ePkdL7AzAghf32dlyLMg64ib0x8jkfLwjY24=
+	t=1711376298; cv=none; b=AN1me4kNceDB7wYqF1cErRj3Gm/+yXVPbOKE/a60KGkJXYbxpBQ1I39FJh4hTdP313SMpWZGYzy+49GlydfCchGxG/YQnz/D7ohlMym/Wc9A3FHddzYauDlqrrbi1JLkgFSSJF+h7I1fK+OWQvauk2tKm72W/U6BQCqVWeZe9Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711376179; c=relaxed/simple;
-	bh=r/XMZ3WXauYvm7sf5LS1SIvevJHJOehk70EFv+rTJIw=;
+	s=arc-20240116; t=1711376298; c=relaxed/simple;
+	bh=jbD2Lb5wA/eUCNXCJLVthr6/MzEiKX6SqxWZxnTuOnE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/TirBrTeKoF8+DIFoP3rpu2qI5hdfEhgLZqurxHS3iNwnYl/wA0aj6jaPAGkhkyB0ZZ8jcHF2YBhsx5Wemc7KArNC+2VmXx7Kbz0E49BAo9fXdOD0dZCvSsN/7/xqSQB3Gi2+Eozgzibicw+N4/4mooBmg9KbMivW68C6JBMCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PECatv+9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JhIhKkT2YqMOINhxnxyGwNB1kyRxXZ7Wwe0PQeJfOgVC0YDtV43ESpld4We7mlMMO7WD8tk5m6tRRWulbbEd45/rRZBisz3cGZp5xXqD9mgLF2IdZGUmtSpN/Lh1CrE7jIEV37KJ2rW3z/5HhxfyZaxIOBfMLw3g1uAQKYfe+Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIJBcOZw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PECatv+9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF11C433F1;
-	Mon, 25 Mar 2024 14:16:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIJBcOZw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551B6C3278D;
+	Mon, 25 Mar 2024 14:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711376179;
-	bh=r/XMZ3WXauYvm7sf5LS1SIvevJHJOehk70EFv+rTJIw=;
+	s=k20201202; t=1711376298;
+	bh=jbD2Lb5wA/eUCNXCJLVthr6/MzEiKX6SqxWZxnTuOnE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PECatv+9XZy29PUnTXjlhOEIfHdyOmo4E4PPQmBSunU5rDGdGlyOEuLSY4fXBPuvg
-	 q1r4kkHcqsnU08vRkE6XeieITlTxK1/lqd31YsDe0JNLOVBlKd79wm/0ZOw6UNv2X/
-	 qHvr2RhnPsuGAKp594QMz6FA9/JzuXnA4jkQk1pdDxzbJMcC5WZd1UIStavKiHPtF9
-	 GQwLvNdloDVXYzlBLF8MPlhqNyhdonTDUqzuhuaZ1VZDF0EqQZj2AsRMMEPCxa+GTn
-	 2p3xfQBfwsl6/5Lb4ZmaIp/6eESaMlyvih24Ir9F1rC357tB8vVxG9MdBW+EzbFgUs
-	 459IIiBEnrjoQ==
-Date: Mon, 25 Mar 2024 14:16:15 +0000
+	b=SIJBcOZwUhINwFcGdCy+3ok576TN9S810xuZ8ZzXc+YsDCkkdm2aFq4Rb/QQx0lUi
+	 1wCvxXFctAcTrEW1JWL8HrusNRZ090ozLa1y+/4W1HSAvRJjjagI3SeojbTeSEOpth
+	 JVqpRvqwRP4xMipGrKVSugC394E0I0wHmQz9uqnRmKjiVb/ma5GFpOxfhYS80hw1VN
+	 kVa+H456ovUt/aptnwA12NIMQRD+kFb7iLum3bA1g0EF9EYSVIOthLrTUNXqEuuQBR
+	 8qkEq2K1UK+3Qux+vNE58QmXDQuoGAu7RuT+3ssdB6orI+bYKjCVexSqifI7VacJfd
+	 +OE8pqjMaaDuA==
+Date: Mon, 25 Mar 2024 14:18:08 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Message-ID: <e6900b97-c1b7-45a5-bc3c-4a4a2745fdf3@sirena.org.uk>
-References: <20240318202602.182619-1-andriy.shevchenko@linux.intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
+	trevor.wu@mediatek.com, maso.huang@mediatek.com,
+	xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
+	kuninori.morimoto.gx@renesas.com, shraash@google.com,
+	amergnat@baylibre.com, nicolas.ferre@microchip.com,
+	u.kleine-koenig@pengutronix.de, dianders@chromium.org,
+	frank.li@vivo.com, allen-kh.cheng@mediatek.com,
+	eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
+	jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com,
+	alpernebiyasak@gmail.com, ckeepax@opensource.cirrus.com,
+	zhourui@huaqin.corp-partner.google.com, nfraprado@collabora.com,
+	alsa-devel@alsa-project.org, shane.chien@mediatek.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v3 05/22] ASoC: mediatek: Add common machine soundcard
+ driver probe mechanism
+Message-ID: <6b9dd2ad-a24e-497a-8a5c-c7c04475cf5d@sirena.org.uk>
+References: <20240313110147.1267793-1-angelogioacchino.delregno@collabora.com>
+ <20240313110147.1267793-6-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,54 +58,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MR2NRS0l68cHGpCq"
+	protocol="application/pgp-signature"; boundary="HA8wmAlBS5gx6s1i"
 Content-Disposition: inline
-In-Reply-To: <20240318202602.182619-1-andriy.shevchenko@linux.intel.com>
-X-Cookie: Bus error -- driver executed.
+In-Reply-To: <20240313110147.1267793-6-angelogioacchino.delregno@collabora.com>
+X-Cookie: Is it clean in other dimensions?
 
 
---MR2NRS0l68cHGpCq
+--HA8wmAlBS5gx6s1i
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 18, 2024 at 10:25:16PM +0200, Andy Shevchenko wrote:
-> No more users.
+On Wed, Mar 13, 2024 at 12:01:30PM +0100, AngeloGioacchino Del Regno wrote:
+> Add a common machine soundcard driver probe function that supports both
+> DSP and AFE-direct usecases and also provides a hook for legacy machine
+> soundcard driver probe mechanisms.
 >=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/sound/soc-jack.h |  2 --
+> Note that the hook is there because, even for legacy probe, a lot of the
+> actual code can still be commonized, hence still reducing duplication
+> for the legacy devicetree retrocompatibility cases.
 >=20
-> If I am not mistaken, after
-> https://lore.kernel.org/r/20240318200804.181516-1-andriy.shevchenko@linux=
-=2Eintel.com
-> there is no more users. Hence the above is the only dependency.
+> This common probe function deprecates all of the inconsistent previous
+> probe mechanisms and aims to settle all of the MediaTek card drivers on
+> consistent and common devicetree properties describing wanted DAIs,
+> device specific DAI configuration and DAI links to codecs found on
+> each device/board.
 
-You are mistaken, please try compile tests:
+This breaks allmodconfig builds:
 
-/build/stage/linux/sound/soc/generic/simple-card-utils.c: In function =E2=
-=80=98simple_util_init_jack=E2=80=99:
-/build/stage/linux/sound/soc/generic/simple-card-utils.c:755:20: error: =E2=
-=80=98struct snd_soc_jack_gpio=E2=80=99 has no member named =E2=80=98gpio=
-=E2=80=99
-  755 |         sjack->gpio.gpio =3D -ENOENT;
-      |                    ^
 
-(this is among other things in x86 allmodconfig).
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In funct=
+ion =E2=80=98mtk_sof_dai_link_fixup=E2=80=99:
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:18:41: er=
+ror: initialization discards =E2=80=98const=E2=80=99 qualifier from pointer=
+ target type [-Werror=3Ddiscarded-qualifiers]
+   18 |         struct mtk_sof_priv *sof_priv =3D soc_card_data->sof_priv;
+      |                                         ^~~~~~~~~~~~~
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In funct=
+ion =E2=80=98mtk_sof_card_probe=E2=80=99:
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:58:41: er=
+ror: initialization discards =E2=80=98const=E2=80=99 qualifier from pointer=
+ target type [-Werror=3Ddiscarded-qualifiers]
+   58 |         struct mtk_sof_priv *sof_priv =3D soc_card_data->sof_priv;
+      |                                         ^~~~~~~~~~~~~
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In funct=
+ion =E2=80=98mtk_sof_find_tplg_be=E2=80=99:
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:76:41: er=
+ror: initialization discards =E2=80=98const=E2=80=99 qualifier from pointer=
+ target type [-Werror=3Ddiscarded-qualifiers]
+   76 |         struct mtk_sof_priv *sof_priv =3D soc_card_data->sof_priv;
+      |                                         ^~~~~~~~~~~~~
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In funct=
+ion =E2=80=98mtk_sof_check_tplg_be_dai_link_fixup=E2=80=99:
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:116:41: e=
+rror: initialization discards =E2=80=98const=E2=80=99 qualifier from pointe=
+r target type [-Werror=3Ddiscarded-qualifiers]
+  116 |         struct mtk_sof_priv *sof_priv =3D soc_card_data->sof_priv;
+      |                                         ^~~~~~~~~~~~~
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In funct=
+ion =E2=80=98mtk_sof_card_late_probe=E2=80=99:
+/build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:147:41: e=
+rror: initialization discards =E2=80=98const=E2=80=99 qualifier from pointe=
+r target type [-Werror=3Ddiscarded-qualifiers]
+  147 |         struct mtk_sof_priv *sof_priv =3D soc_card_data->sof_priv;
+      |                                         ^~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
---MR2NRS0l68cHGpCq
+--HA8wmAlBS5gx6s1i
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYBhy4ACgkQJNaLcl1U
-h9BowQf/Rppf7Qjjmtff9y9FS5vz5dJ7RLRz1S6N1JTwV4m4QYjv7YSGaWzHrqwf
-1Eaa8ZzyvZh/6v6C29hamNu0LtlMg9ucT6v+W+KnTa+WkHz6LE1wqOlmhchqypL/
-qRD0cTFjJFyKzM7cLdDeHWyXe+l3M5lr6eeAMG4TRivjecNwului9GuZ2ncVS82a
-DBBJPErDR0In1Ec5dk5CSGWJHe5yzLi0Yv26WaEh8sZJXUwhSiYwlEGfON/jp5yW
-TgZayyfKkrqBjcptdhUPxLaCa5az4CbBrXrSHCD8gfwQaWfi7P33inXgxFl0FBUU
-tL3kTnkC+6lT9/SJ9jJtzPFAKiAJ0Q==
-=5laV
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYBh58ACgkQJNaLcl1U
+h9Dw2Qf+OK6uEVJdUDAeL+cRMOtxJ5v8lWJ4kCDEd4EzMY8PITg8YZaxDb1HJs18
+yfD4+oR2f/uMSGayxCnuRgzBthSs96xOJ34EkRpUgsB81RrC1Jjv5zWwIP1SCQlN
+e2rKPS4ccBdE5uowKduc5TIbqbgbjLCArqTpqHDX6IBQP4A3SqYkcv/tOwFHuC/t
+kE6+fH8gG7hQ9no9cE3WumRCLDyE8rRca6smAENrfcco8/5DCg2LqJ+SOEC64X+o
+TYw0mmtRwPdObNmdHyrCtfk9XppdDLh21bKZrQvpj7WW2+EqSzbYLdyxvArVbzMq
+bEqhwUbisC0nv6/RJbKsKWZy/N3IUA==
+=6CF1
 -----END PGP SIGNATURE-----
 
---MR2NRS0l68cHGpCq--
+--HA8wmAlBS5gx6s1i--
