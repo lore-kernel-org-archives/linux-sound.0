@@ -1,85 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D85D13B290;
-	Mon, 25 Mar 2024 15:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23757131BDC;
+	Mon, 25 Mar 2024 16:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711381938; cv=none; b=isUKJ6kj3+6FNbCSzVxVmYiscgl3FEMxtJUNCGysRKIyzDO06gN8KG5wEY/8EZJ7ZKTrqAfKB8uCUWKKUKhuYNTUKfrRMATPQ9atV1JG3bpNEhQU6x6aqxsJt1KL9wHqZP4R+JIg35nPiK/OubY5Lb6clMCKQyN5DU9SHn+8sFM=
+	t=1711383634; cv=none; b=s+mDzPblcqUmgc1/CKwB5b+x4ZoSpZitqARJJVRzEY7O3Pu4tZKz3T/qUyorW+E+P1+yo1xLnoWD7Q+MqGvW1naxo/np/9OJ4XzTaK3fNlyp5Ti9issIwGpIQGXFKvtpozOY7VvEBgUqzGVHFxEEoboqQYbspLjKw1cO+pRWAjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711381938; c=relaxed/simple;
-	bh=sOLBnPszEseCrqEhABXNORHufRD3rz4P4P6IKCH46XY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUB+RQqAMuCUVq4Fa11PiVs/FsTDYmk2EXIodx8uHA0ZZb6AvZ+/x7SsV0FoYw+ZxEwHs8PZdepDxVbXGVPLZpk2JsKgb/myKJP6Ph8EP9GhOmY7SwK+N5H5aTozu/0q33a+ywjs7gDZdL0nNWitLAGrmDroma1eHyWyNhNmSfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTHLCfZg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711383634; c=relaxed/simple;
+	bh=FVbkQCzAdIw4q3itUG9P08Dcata9gXWtTydpboh50RU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O7EtJjVe77vzaJB3rgLJsThqiz5+ASvbkRtP8aB1memFViPhavRj+bKcm0oYdIBckpZWwWdGe7VBM2M2X90z+2TqRpJmCoPoh3SMLYpdxNM4P3lpq60y+jfqStCgnoJ8T7mEJdvYhs09cDDUamWxy+Gw40+WrAE/GtL/8DQrCTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFQALtxg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3Jr5cvn4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFQALtxg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3Jr5cvn4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTHLCfZg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A032FC32796;
-	Mon, 25 Mar 2024 15:52:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711381937;
-	bh=sOLBnPszEseCrqEhABXNORHufRD3rz4P4P6IKCH46XY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bTHLCfZgVrIJw6zmFtALYr1Hi0YzXyAkj8DhdVOKD+eokDB9g9SOxbejyPJKh188z
-	 TC0ylXaFB8a/lNLwlIfVuskCYvPEF3FxtL4YJJ2EgY51q1acJnEAr6Bt7GmzvtPCP1
-	 fvVkvHITXpBMtf9aMJXkqTzqWuJGlf35bccDAsdqNSTPNJOQntvmh3g0oVvIX75NQ4
-	 5geV1tizFBnic+iRRhpTpi8QtR3goe7T3jnla9afcNe56buNgq647nvhLcA797rghe
-	 iwcH8PnzgpykApYyFVChp6KKQghsGTBsj+yOYe+eLR9eQBoiWF9+O624vWwo2GIqJy
-	 2jdbtSLrrtYgA==
-Date: Mon, 25 Mar 2024 10:52:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, devicetree@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>, imx@lists.linux.dev,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH v2 1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt
- to yaml
-Message-ID: <171138193441.3998562.4443623988882776576.robh@kernel.org>
-References: <20240322145406.2613256-1-Frank.Li@nxp.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFQALtxg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Jr5cvn4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFQALtxg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Jr5cvn4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 34E423476E;
+	Mon, 25 Mar 2024 16:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711383630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47zzowitN7FnCAMt8Wzhn4k4ZMZM2cQ36obDnp4K5bw=;
+	b=dFQALtxgQrLApuv3dK4Gk/Y1evBLn6QNuDtcFGSoQhHViz9dkWKqEMTg6JyRXRSG/hWtd6
+	NJe0Z5pwIpKu6GZeXPobp9tNQSQr9Gz3JPVUPjxfrqMaIIsZkLBOZBttrS2FJRLOHqyltV
+	MFIQCNbS5KmNU14Igwb6L+hpKOGfXF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711383630;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47zzowitN7FnCAMt8Wzhn4k4ZMZM2cQ36obDnp4K5bw=;
+	b=3Jr5cvn4sJk308DRLI/MyI7PwY0BRTNyQk5dth9jsGmT6eFXlKFVXHFA4/QMYuzIC58xeY
+	5PZXJlmIWEBZItAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711383630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47zzowitN7FnCAMt8Wzhn4k4ZMZM2cQ36obDnp4K5bw=;
+	b=dFQALtxgQrLApuv3dK4Gk/Y1evBLn6QNuDtcFGSoQhHViz9dkWKqEMTg6JyRXRSG/hWtd6
+	NJe0Z5pwIpKu6GZeXPobp9tNQSQr9Gz3JPVUPjxfrqMaIIsZkLBOZBttrS2FJRLOHqyltV
+	MFIQCNbS5KmNU14Igwb6L+hpKOGfXF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711383630;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47zzowitN7FnCAMt8Wzhn4k4ZMZM2cQ36obDnp4K5bw=;
+	b=3Jr5cvn4sJk308DRLI/MyI7PwY0BRTNyQk5dth9jsGmT6eFXlKFVXHFA4/QMYuzIC58xeY
+	5PZXJlmIWEBZItAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF1A213503;
+	Mon, 25 Mar 2024 16:20:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WuaCOE2kAWYTFgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 Mar 2024 16:20:29 +0000
+Date: Mon, 25 Mar 2024 17:20:31 +0100
+Message-ID: <87o7b2waeo.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>,
+	"Simon Trimmer" <simont@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Raise device name message log level
+In-Reply-To: <20240325142937.257869-1-rf@opensource.cirrus.com>
+References: <20240325142937.257869-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240322145406.2613256-1-Frank.Li@nxp.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.15
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.15 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.14)[88.64%]
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dFQALtxg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3Jr5cvn4
+X-Rspamd-Queue-Id: 34E423476E
+
+On Mon, 25 Mar 2024 15:29:37 +0100,
+Richard Fitzgerald wrote:
+> 
+> From: Simon Trimmer <simont@opensource.cirrus.com>
+> 
+> The system and amplifier names influence which firmware and tuning files
+> are downloaded to the device; log these values to aid end-user system
+> support.
+> 
+> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+
+Thanks, applied now.
 
 
-On Fri, 22 Mar 2024 10:54:05 -0400, Frank Li wrote:
-> Convert fsl,esai.txt to yaml. So DTB_CHECK tools can verify dts file about
-> esai part.
-> 
-> clock-names 'spba' is optional according to description. So minItems of
-> clocks and clock-names is 3.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> 
-> Notes:
->     Change from v1 to v2
->     - alphabetical order compatible string according to rob's suggestion
->     - clock description move under 'clock' according to kryszof's suggestion
->     - fix descritpion indent according to rob's suggestion
-> 
->     Pass dt_binding check
->      make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
->       DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dts
->       LINT    Documentation/devicetree/bindings
->       CHKDT   Documentation/devicetree/bindings/processed-schema.json
->       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->       DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dtb
-> 
->  .../devicetree/bindings/sound/fsl,esai.txt    |  68 ----------
->  .../devicetree/bindings/sound/fsl,esai.yaml   | 116 ++++++++++++++++++
->  2 files changed, 116 insertions(+), 68 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/fsl,esai.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,esai.yaml
-> 
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+Takashi
