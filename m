@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7670773506
-	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 22:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BF773182
+	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 22:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711404680; cv=none; b=TxRXRJJd3k2Ut0rgn7K0KNJEGPT3VO7oI2clgrcdyO66EdplvikwmYoE/fMPDdV122lDZJbnOrGeHaoPBC9g7R26kmuCh94FP4Pf06PJi+gXLtr6HadT2OoME8J5v93OhRpWAPaowT2g+/Ou6wFe70NTG7nzUS9k8ixVgJrvNGE=
+	t=1711404681; cv=none; b=IUoK13EgGbY86eqOMf3gAYs7AV8E6ErKdsCa6pHTPR6JuflK3de4IxiCY20nsGAG8M085zboFprsptKncmSKo0t0a8c2LJU1ekUgMcKo/PHkwQ23gBOIWwKTtIj6bqzmvQXY2r5iTWlkqAR5iW5M4OIolw5nK84VdJQO36M7ZU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711404680; c=relaxed/simple;
-	bh=C6iqP+SUqKOGYlTuczVziDcc3fuv3N3E/oj7Kxnbnxg=;
+	s=arc-20240116; t=1711404681; c=relaxed/simple;
+	bh=9MzgSaL4b2SEm9kQyW13sQcHVrXyc+A1wSFX0z0Qljo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Jpc48FBFDNyq7MRTdcTaM2d2g2hok8B0TPnq9FKCmRjloJqOzGnSqQJERzlSxv773bS1xcBXvR7P1uDOaYiaugdZrcoc1uU7QeMqwYwvKoDVOr5SSTNJSlDjDxsgOclFSTGD3Q73/BREQfUnr/tokrR7EDnGYP/56+W2Waq3CBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFGPyp8k; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=mKejmK1iPr1TbtUSsqIaVWxSWq4uD6nuXtMhy5ty/37QXQHBSAuzd5tejp8sacgop76jXL2zMXL0pzjcCUQnrEnCh5600H9eaev7kvO6lJT8riDeXVU+OEGTkSJE5ZEn9EiNxT9CJUGcGVk9rSjpoCnXUIzzDUI5X3Bzibvmv1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bl7oCGJr; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFGPyp8k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bl7oCGJr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711404679; x=1742940679;
+  t=1711404680; x=1742940680;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=C6iqP+SUqKOGYlTuczVziDcc3fuv3N3E/oj7Kxnbnxg=;
-  b=oFGPyp8kMcGcqWz6jnVdTEjLRRi+sl3H35sTKtY3mQLWmqz9gjChEKH1
-   SvlFbXjTfKuSofMfiCDty7IKrwwEAASW86dBxjqiMGbfbV7OlvWcanZ3A
-   Feb7m7O5zJbFpycElQxM4E7FrgozA6tzxkyexVZCn9IFIyRAcZa591i4R
-   F9C1XAn3LXAhkqgm8S5JkGobJcWmjlKvc2jx0jHC7CRy3G4hdktFnIPY4
-   8ymNJcz4t9Mp9GaPZxV9FOmfy/Wpxh8JN/8Tio6rJhenO1R+LPLCVfrk9
-   6yNhnvCO4suWfy1rEs/9rmsDtHwJUuQ+d/3sD67yUBXLT9w7jbu6DHbmA
+  bh=9MzgSaL4b2SEm9kQyW13sQcHVrXyc+A1wSFX0z0Qljo=;
+  b=bl7oCGJrNmhSkv6aZQ9JDOZdiB9odtgUwzE5sPaf24Jv8UkiYQ22AjFr
+   1vlz1VSBnHqiL+wNq7kVmxEGhCeAr3P8FXFaRbudLcDhSRMo5EJlOGpKS
+   yIhOmxV5HypeHnGQHCWIGdiFrUnukHTa3yJdhOM/wjuzZWM0hGZdCYL22
+   6X+quyjh0zCWPzAFt2K+u7i4mWFSjXdQGLUAM/RnK9qJKw2zTb19H89Lj
+   VpQ57YTFRMfpVS0ehUMl0bHXxu++8Y6sFcGMoV+FOHJgC7n0fpIDjk/3G
+   6GjHBJXVqHlowyldLHjGOcusGFW/7IiAKqzMpZ4bV+cnnuoJVonXuztH+
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6643607"
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6643612"
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="6643607"
+   d="scan'208";a="6643612"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="15722089"
+   d="scan'208";a="15722098"
 Received: from jaimbres-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.lan) ([10.212.98.109])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:15 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:16 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -47,9 +47,9 @@ Cc: alsa-devel@alsa-project.org,
 	Brent Lu <brent.lu@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 02/21] ASoC: Intel: sof_ssp_amp: use common module for DAI link generation
-Date: Mon, 25 Mar 2024 17:10:40 -0500
-Message-Id: <20240325221059.206042-3-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 03/21] ASoC: Intel: board_helpers: change dai link helpers to static function
+Date: Mon, 25 Mar 2024 17:10:41 -0500
+Message-Id: <20240325221059.206042-4-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240325221059.206042-1-pierre-louis.bossart@linux.intel.com>
 References: <20240325221059.206042-1-pierre-louis.bossart@linux.intel.com>
@@ -63,242 +63,262 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Use intel_board module to generate DAI link array and update num_links
-field in snd_soc_card structure.
+Since there is a helper function to generate entire DAI link array, we
+switch individual dai link helpers to static function. No functional
+change in this commit.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_ssp_amp.c | 178 ++++++++-------------------
- 1 file changed, 53 insertions(+), 125 deletions(-)
+ sound/soc/intel/boards/sof_board_helpers.c | 85 +++++++++-------------
+ sound/soc/intel/boards/sof_board_helpers.h | 24 ------
+ 2 files changed, 35 insertions(+), 74 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index ee2e813bf4c0..0b8adab76755 100644
---- a/sound/soc/intel/boards/sof_ssp_amp.c
-+++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -75,126 +75,64 @@ static struct snd_soc_card sof_ssp_amp_card = {
- #define HDMI_IN_BE_ID		0
- #define SPK_BE_ID		2
- #define DMIC01_BE_ID		3
--#define DMIC16K_BE_ID		4
- #define INTEL_HDMI_BE_ID	5
-+/* extra BE links to support no-hdmi-in boards */
-+#define DMIC16K_BE_ID		4
-+#define BT_OFFLOAD_BE_ID	8
+diff --git a/sound/soc/intel/boards/sof_board_helpers.c b/sound/soc/intel/boards/sof_board_helpers.c
+index e853dc851c42..feba1a522527 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.c
++++ b/sound/soc/intel/boards/sof_board_helpers.c
+@@ -74,6 +74,11 @@ static int dmic_init(struct snd_soc_pcm_runtime *rtd)
+  * DAI Link Helpers
+  */
  
--static struct snd_soc_dai_link *
--sof_card_dai_links_create(struct device *dev, enum sof_ssp_codec amp_type,
--			  int ssp_amp, int dmic_be_num, int hdmi_num,
--			  bool idisp_codec)
-+#define SSP_AMP_LINK_ORDER	SOF_LINK_ORDER(SOF_LINK_HDMI_IN, \
-+					SOF_LINK_AMP,            \
-+					SOF_LINK_DMIC01,         \
-+					SOF_LINK_DMIC16K,        \
-+					SOF_LINK_IDISP_HDMI,     \
-+					SOF_LINK_BT_OFFLOAD,     \
-+					SOF_LINK_NONE)
++enum sof_dmic_be_type {
++	SOF_DMIC_01,
++	SOF_DMIC_16K,
++};
 +
-+#define SSP_AMP_LINK_IDS	SOF_LINK_ORDER(HDMI_IN_BE_ID, \
-+					SPK_BE_ID,            \
-+					DMIC01_BE_ID,         \
-+					DMIC16K_BE_ID,        \
-+					INTEL_HDMI_BE_ID,     \
-+					BT_OFFLOAD_BE_ID,     \
-+					0)
-+
-+static int
-+sof_card_dai_links_create(struct device *dev, struct snd_soc_card *card,
-+			  struct sof_card_private *ctx)
+ /* DEFAULT_LINK_ORDER: the order used in sof_rt5682 */
+ #define DEFAULT_LINK_ORDER	SOF_LINK_ORDER(SOF_LINK_CODEC, \
+ 					SOF_LINK_DMIC01,       \
+@@ -97,13 +102,13 @@ static struct snd_soc_dai_link_component platform_component[] = {
+ 	}
+ };
+ 
+-int sof_intel_board_set_codec_link(struct device *dev,
+-				   struct snd_soc_dai_link *link, int be_id,
+-				   enum sof_ssp_codec codec_type, int ssp_codec)
++static int set_ssp_codec_link(struct device *dev, struct snd_soc_dai_link *link,
++			      int be_id, enum sof_ssp_codec codec_type,
++			      int ssp_codec)
  {
--	struct snd_soc_dai_link *links;
--	int i;
--	int id = 0;
- 	int ret;
--	bool fixed_be = false;
--	int be_id;
--	unsigned long ssp_mask_hdmi_in;
+ 	struct snd_soc_dai_link_component *cpus;
  
--	links = devm_kcalloc(dev, sof_ssp_amp_card.num_links,
--					sizeof(struct snd_soc_dai_link), GFP_KERNEL);
--	if (!links)
--		return NULL;
-+	ret = sof_intel_board_set_dai_link(dev, card, ctx);
-+	if (ret)
-+		return ret;
+-	dev_dbg(dev, "link %d: codec %s, ssp %d\n", be_id,
++	dev_dbg(dev, "link %d: ssp codec %s, ssp %d\n", be_id,
+ 		sof_ssp_get_codec_name(codec_type), ssp_codec);
  
--	/* HDMI-In SSP */
--	ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
--				SOF_HDMI_CAPTURE_SSP_MASK_SHIFT;
-+	if (ctx->amp_type == CODEC_NONE)
-+		return 0;
+ 	/* link name */
+@@ -144,11 +149,9 @@ int sof_intel_board_set_codec_link(struct device *dev,
  
--	if (ssp_mask_hdmi_in) {
--		int port = 0;
--
--		/* the topology supports HDMI-IN uses fixed BE ID for DAI links */
--		fixed_be = true;
--
--		be_id = HDMI_IN_BE_ID;
--		for_each_set_bit(port, &ssp_mask_hdmi_in, 32) {
--			ret = sof_intel_board_set_hdmi_in_link(dev, &links[id],
--							       be_id, port);
--			if (ret)
--				return NULL;
--
--			id++;
--			be_id++;
--		}
--	}
--
--	/* codec SSP */
--	if (amp_type != CODEC_NONE) {
--		be_id = fixed_be ? SPK_BE_ID : id;
--		ret = sof_intel_board_set_ssp_amp_link(dev, &links[id], be_id,
--						       amp_type, ssp_amp);
--		if (ret)
--			return NULL;
--
--		/* codec-specific fields */
--		switch (amp_type) {
--		case CODEC_CS35L41:
--			cs35l41_set_dai_link(&links[id]);
--			break;
--		case CODEC_RT1308:
--			sof_rt1308_dai_link(&links[id]);
--			break;
--		default:
--			dev_err(dev, "invalid amp type %d\n", amp_type);
--			return NULL;
--		}
--
--		id++;
--	}
--
--	/* dmic */
--	if (dmic_be_num > 0) {
--		/* at least we have dmic01 */
--		be_id = fixed_be ? DMIC01_BE_ID : id;
--		ret = sof_intel_board_set_dmic_link(dev, &links[id], be_id,
--						    SOF_DMIC_01);
--		if (ret)
--			return NULL;
--
--		id++;
-+	if (!ctx->amp_link) {
-+		dev_err(dev, "amp link not available");
-+		return -EINVAL;
- 	}
- 
--	if (dmic_be_num > 1) {
--		/* set up 2 BE links at most */
--		be_id = fixed_be ? DMIC16K_BE_ID : id;
--		ret = sof_intel_board_set_dmic_link(dev, &links[id], be_id,
--						    SOF_DMIC_16K);
--		if (ret)
--			return NULL;
--
--		id++;
--	}
--
--	/* HDMI playback */
--	for (i = 1; i <= hdmi_num; i++) {
--		be_id = fixed_be ? (INTEL_HDMI_BE_ID + i - 1) : id;
--		ret = sof_intel_board_set_intel_hdmi_link(dev, &links[id], be_id,
--							  i, idisp_codec);
--		if (ret)
--			return NULL;
--
--		id++;
--	}
--
--	/* BT audio offload */
--	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT) {
--		int port = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
--				SOF_BT_OFFLOAD_SSP_SHIFT;
--
--		ret = sof_intel_board_set_bt_link(dev, &links[id], id, port);
--		if (ret)
--			return NULL;
--
--		id++;
-+	/* codec-specific fields for speaker amplifier */
-+	switch (ctx->amp_type) {
-+	case CODEC_CS35L41:
-+		cs35l41_set_dai_link(ctx->amp_link);
-+		break;
-+	case CODEC_RT1308:
-+		sof_rt1308_dai_link(ctx->amp_link);
-+		break;
-+	default:
-+		dev_err(dev, "invalid amp type %d\n", ctx->amp_type);
-+		return -EINVAL;
- 	}
- 
--	return links;
-+	return 0;
+ 	return 0;
  }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_codec_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
  
- static int sof_ssp_amp_probe(struct platform_device *pdev)
+-int sof_intel_board_set_dmic_link(struct device *dev,
+-				  struct snd_soc_dai_link *link, int be_id,
+-				  enum sof_dmic_be_type be_type)
++static int set_dmic_link(struct device *dev, struct snd_soc_dai_link *link,
++			 int be_id, enum sof_dmic_be_type be_type)
  {
- 	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
--	struct snd_soc_dai_link *dai_links;
- 	struct sof_card_private *ctx;
- 	int ret;
+ 	struct snd_soc_dai_link_component *cpus;
  
-@@ -221,15 +159,6 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
+@@ -196,16 +199,14 @@ int sof_intel_board_set_dmic_link(struct device *dev,
  
- 	ctx->ssp_amp = sof_ssp_amp_quirk & SOF_AMPLIFIER_SSP_MASK;
+ 	return 0;
+ }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_dmic_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
  
--	/* set number of dai links */
--	sof_ssp_amp_card.num_links = ctx->dmic_be_num;
+-int sof_intel_board_set_intel_hdmi_link(struct device *dev,
+-					struct snd_soc_dai_link *link, int be_id,
+-					int hdmi_id, bool idisp_codec)
++static int set_idisp_hdmi_link(struct device *dev, struct snd_soc_dai_link *link,
++			       int be_id, int hdmi_id, bool idisp_codec)
+ {
+ 	struct snd_soc_dai_link_component *cpus, *codecs;
+ 
+-	dev_dbg(dev, "link %d: intel hdmi, hdmi id %d, idisp codec %d\n",
+-		be_id, hdmi_id, idisp_codec);
++	dev_dbg(dev, "link %d: idisp hdmi %d, idisp codec %d\n", be_id, hdmi_id,
++		idisp_codec);
+ 
+ 	/* link name */
+ 	link->name = devm_kasprintf(dev, GFP_KERNEL, "iDisp%d", hdmi_id);
+@@ -256,11 +257,9 @@ int sof_intel_board_set_intel_hdmi_link(struct device *dev,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_intel_hdmi_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
+-int sof_intel_board_set_ssp_amp_link(struct device *dev,
+-				     struct snd_soc_dai_link *link, int be_id,
+-				     enum sof_ssp_codec amp_type, int ssp_amp)
++static int set_ssp_amp_link(struct device *dev, struct snd_soc_dai_link *link,
++			    int be_id, enum sof_ssp_codec amp_type, int ssp_amp)
+ {
+ 	struct snd_soc_dai_link_component *cpus;
+ 
+@@ -298,11 +297,9 @@ int sof_intel_board_set_ssp_amp_link(struct device *dev,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_ssp_amp_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
+-int sof_intel_board_set_bt_link(struct device *dev,
+-				struct snd_soc_dai_link *link, int be_id,
+-				int ssp_bt)
++static int set_bt_offload_link(struct device *dev, struct snd_soc_dai_link *link,
++			       int be_id, int ssp_bt)
+ {
+ 	struct snd_soc_dai_link_component *cpus;
+ 
+@@ -341,11 +338,9 @@ int sof_intel_board_set_bt_link(struct device *dev,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_bt_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
+-int sof_intel_board_set_hdmi_in_link(struct device *dev,
+-				     struct snd_soc_dai_link *link, int be_id,
+-				     int ssp_hdmi)
++static int set_hdmi_in_link(struct device *dev, struct snd_soc_dai_link *link,
++			    int be_id, int ssp_hdmi)
+ {
+ 	struct snd_soc_dai_link_component *cpus;
+ 
+@@ -383,7 +378,6 @@ int sof_intel_board_set_hdmi_in_link(struct device *dev,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_NS(sof_intel_board_set_hdmi_in_link, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
+ static int calculate_num_links(struct sof_card_private *ctx)
+ {
+@@ -467,10 +461,8 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 			if (ctx->codec_type == CODEC_NONE)
+ 				continue;
+ 
+-			ret = sof_intel_board_set_codec_link(dev, &links[idx],
+-							     be_id,
+-							     ctx->codec_type,
+-							     ctx->ssp_codec);
++			ret = set_ssp_codec_link(dev, &links[idx], be_id,
++						 ctx->codec_type, ctx->ssp_codec);
+ 			if (ret) {
+ 				dev_err(dev, "fail to set codec link, ret %d\n",
+ 					ret);
+@@ -486,8 +478,7 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 				continue;
+ 
+ 			/* at least we have dmic01 */
+-			ret = sof_intel_board_set_dmic_link(dev, &links[idx],
+-							    be_id, SOF_DMIC_01);
++			ret = set_dmic_link(dev, &links[idx], be_id, SOF_DMIC_01);
+ 			if (ret) {
+ 				dev_err(dev, "fail to set dmic01 link, ret %d\n",
+ 					ret);
+@@ -502,8 +493,8 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 				continue;
+ 
+ 			/* set up 2 BE links at most */
+-			ret = sof_intel_board_set_dmic_link(dev, &links[idx],
+-							    be_id, SOF_DMIC_16K);
++			ret = set_dmic_link(dev, &links[idx], be_id,
++					    SOF_DMIC_16K);
+ 			if (ret) {
+ 				dev_err(dev, "fail to set dmic16k link, ret %d\n",
+ 					ret);
+@@ -515,11 +506,9 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 		case SOF_LINK_IDISP_HDMI:
+ 			/* idisp HDMI */
+ 			for (i = 1; i <= ctx->hdmi_num; i++) {
+-				ret = sof_intel_board_set_intel_hdmi_link(dev,
+-									  &links[idx],
+-									  be_id,
+-									  i,
+-									  ctx->hdmi.idisp_codec);
++				ret = set_idisp_hdmi_link(dev, &links[idx],
++							  be_id, i,
++							  ctx->hdmi.idisp_codec);
+ 				if (ret) {
+ 					dev_err(dev, "fail to set hdmi link, ret %d\n",
+ 						ret);
+@@ -535,10 +524,8 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 			if (ctx->amp_type == CODEC_NONE)
+ 				continue;
+ 
+-			ret = sof_intel_board_set_ssp_amp_link(dev, &links[idx],
+-							       be_id,
+-							       ctx->amp_type,
+-							       ctx->ssp_amp);
++			ret = set_ssp_amp_link(dev, &links[idx], be_id,
++					       ctx->amp_type, ctx->ssp_amp);
+ 			if (ret) {
+ 				dev_err(dev, "fail to set amp link, ret %d\n",
+ 					ret);
+@@ -553,8 +540,8 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 			if (!ctx->bt_offload_present)
+ 				continue;
+ 
+-			ret = sof_intel_board_set_bt_link(dev, &links[idx],
+-							  be_id, ctx->ssp_bt);
++			ret = set_bt_offload_link(dev, &links[idx], be_id,
++						  ctx->ssp_bt);
+ 			if (ret) {
+ 				dev_err(dev, "fail to set bt link, ret %d\n",
+ 					ret);
+@@ -566,10 +553,8 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 		case SOF_LINK_HDMI_IN:
+ 			/* HDMI-In */
+ 			for_each_set_bit(ssp_hdmi_in, &ctx->ssp_mask_hdmi_in, 32) {
+-				ret = sof_intel_board_set_hdmi_in_link(dev,
+-								       &links[idx],
+-								       be_id,
+-								       ssp_hdmi_in);
++				ret = set_hdmi_in_link(dev, &links[idx], be_id,
++						       ssp_hdmi_in);
+ 				if (ret) {
+ 					dev_err(dev, "fail to set hdmi-in link, ret %d\n",
+ 						ret);
+diff --git a/sound/soc/intel/boards/sof_board_helpers.h b/sound/soc/intel/boards/sof_board_helpers.h
+index 162a5f4841da..38e459e6af9b 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.h
++++ b/sound/soc/intel/boards/sof_board_helpers.h
+@@ -108,34 +108,10 @@ struct sof_card_private {
+ 	};
+ };
+ 
+-enum sof_dmic_be_type {
+-	SOF_DMIC_01,
+-	SOF_DMIC_16K,
+-};
 -
--	if (ctx->amp_type != CODEC_NONE)
--		sof_ssp_amp_card.num_links++;
--
--	if (ctx->ssp_mask_hdmi_in)
--		sof_ssp_amp_card.num_links += hweight32(ctx->ssp_mask_hdmi_in);
--
- 	if (sof_ssp_amp_quirk & SOF_HDMI_PLAYBACK_PRESENT) {
- 		ctx->hdmi_num = (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_PLAYBACK_MASK) >>
- 				SOF_NO_OF_HDMI_PLAYBACK_SHIFT;
-@@ -239,25 +168,24 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
+ int sof_intel_board_card_late_probe(struct snd_soc_card *card);
+ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ 				 struct sof_card_private *ctx);
  
- 		if (mach->mach_params.codec_mask & IDISP_CODEC_MASK)
- 			ctx->hdmi.idisp_codec = true;
+-int sof_intel_board_set_codec_link(struct device *dev,
+-				   struct snd_soc_dai_link *link, int be_id,
+-				   enum sof_ssp_codec codec_type, int ssp_codec);
+-int sof_intel_board_set_dmic_link(struct device *dev,
+-				  struct snd_soc_dai_link *link, int be_id,
+-				  enum sof_dmic_be_type be_type);
+-int sof_intel_board_set_intel_hdmi_link(struct device *dev,
+-					struct snd_soc_dai_link *link, int be_id,
+-					int hdmi_id, bool idisp_codec);
+-int sof_intel_board_set_ssp_amp_link(struct device *dev,
+-				     struct snd_soc_dai_link *link, int be_id,
+-				     enum sof_ssp_codec amp_type, int ssp_amp);
+-int sof_intel_board_set_bt_link(struct device *dev,
+-				struct snd_soc_dai_link *link, int be_id,
+-				int ssp_bt);
+-int sof_intel_board_set_hdmi_in_link(struct device *dev,
+-				     struct snd_soc_dai_link *link, int be_id,
+-				     int ssp_hdmi);
 -
--		sof_ssp_amp_card.num_links += ctx->hdmi_num;
- 	} else {
- 		ctx->hdmi_num = 0;
- 	}
+ struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
+ 					  const char * const dai_name[], int num_dais);
  
--	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT) {
-+	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT)
- 		ctx->bt_offload_present = true;
--		sof_ssp_amp_card.num_links++;
-+
-+	ctx->link_order_overwrite = SSP_AMP_LINK_ORDER;
-+
-+	if (ctx->ssp_mask_hdmi_in) {
-+		/* the topology supports HDMI-IN uses fixed BE ID for DAI links */
-+		ctx->link_id_overwrite = SSP_AMP_LINK_IDS;
- 	}
- 
--	dai_links = sof_card_dai_links_create(&pdev->dev, ctx->amp_type,
--					      ctx->ssp_amp, ctx->dmic_be_num,
--					      ctx->hdmi_num,
--					      ctx->hdmi.idisp_codec);
--	if (!dai_links)
--		return -ENOMEM;
--
--	sof_ssp_amp_card.dai_link = dai_links;
-+	/* update dai_link */
-+	ret = sof_card_dai_links_create(&pdev->dev, &sof_ssp_amp_card, ctx);
-+	if (ret)
-+		return ret;
- 
- 	/* update codec_conf */
- 	switch (ctx->amp_type) {
 -- 
 2.40.1
 
