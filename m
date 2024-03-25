@@ -1,89 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9DD6DCE8;
-	Mon, 25 Mar 2024 21:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78FE5D744;
+	Mon, 25 Mar 2024 21:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711401822; cv=none; b=Ba3hMMF01IOcDCwNZEm8Q8u+Nakvk3ZnSoBCDDGD7c/+aw+UAKLBuUPut4DuZfbqau2Hg+Ru4XPK3t8kG+QsfvavOuBX+quINlC8bXHRi6fgDRJp5csqzpUU1SQtWlWpwboETj4piwe8QMXhbYPC6/8HkzOqFUNvwFtpiAXo+MM=
+	t=1711401959; cv=none; b=Pnxt1YnsL1ePNB2EDbO3hCKlxxARQ9eQkC79tiDk+1+veTc5vuIBEbZQfTzqSSUQquLNFAYzfCaEb/pw3BaZHq68OOERzEEAABsb7vje2xkq0USqf5eJux2k8/AloxduO/atQU5ChrtSgEFdRX6o7+eWCFIFseLj6wQiiinsROI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711401822; c=relaxed/simple;
-	bh=5VlNGqcHMvtON5unUlw6MhRhFT/EHB8rh4TeAwp2M0M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=G52BouEfsbin2rZ8DtYkSCkjEd/unGFdowRx1soTdy/FpoKxDRmUuOBiPwyEfOHzN6Dmjj3/4je48SXzafKTxyMUv2BqVluBrz2kj1RKGs/G2aVFbvTOO4BbWCuPn57iKO2TbCjdsne8NY/Usk2HPjx7AMydyQ7nsSXvqMhY4QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7vb34R0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7vb34R0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63D3C433F1;
-	Mon, 25 Mar 2024 21:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711401821;
-	bh=5VlNGqcHMvtON5unUlw6MhRhFT/EHB8rh4TeAwp2M0M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Z7vb34R0SjkxZbMxkaCkDhBVQvHg9e2lR2fuM9VeE4g41CkFoIuihNbq7fEapejgK
-	 5bbMVFfCljC9GoGQGEMeTuo70SMaMFDOg4FzLCzszuEkrWxw1E3gAdGWuBcu3a04WN
-	 bXvltTZdWNIfV3gB5yAFH11NnCJZgWnb66kzQ8+2APZcyWbaVkU/pdIpbCwRM/i0Kk
-	 k2kUrKbaBGMT40PliisX7KRw7d2NeQpRA5gHNPa6jKPVwoYsH8mR2cw2dOX0ELv729
-	 Byu6Q7Q4krVcmB2FjvmQhM4b+EN0hdo+FanbK7jSVAa+ZsEpvf3dptsOestmeFH6Mu
-	 qNtunSaqMxNYQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Cc: imx@lists.linux.dev
-In-Reply-To: <20240322145406.2613256-1-Frank.Li@nxp.com>
-References: <20240322145406.2613256-1-Frank.Li@nxp.com>
-Subject: Re: [PATCH v2 1/1] ASoC: dt-bindings: fsl-esai: Convert
- fsl,esai.txt to yaml
-Message-Id: <171140181939.365050.6118403026272055438.b4-ty@kernel.org>
-Date: Mon, 25 Mar 2024 21:23:39 +0000
+	s=arc-20240116; t=1711401959; c=relaxed/simple;
+	bh=k9v5Ltm9l7F5/wZwQ/APUya5hmjRVWK8DhyYFYiswFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=XjfM34zKLeCP7BLBLBmFJ5FyXCaZc/J5VNja1BJ9VaOlWcpN+WxtzRuopP0dwuiPscJ+OLFNWY13LTOXnv7wRAoXr1DkMLp0WkeQJgMrQUQ7/gxm/jK+PgL+gVXpHjSdogcyt+v6bOv11+oB2NHXhjU12fnm8qoHlF1fP34Zu5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000770A7.000000006601EBDC.0023A883; Mon, 25 Mar 2024 22:25:48 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH 0/3] ALSA: hda/tas2781: fixes for 6.9-rc1
+Date: Mon, 25 Mar 2024 22:25:32 +0100
+Message-ID: <cover.1711401621.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On Fri, 22 Mar 2024 10:54:05 -0400, Frank Li wrote:
-> Convert fsl,esai.txt to yaml. So DTB_CHECK tools can verify dts file about
-> esai part.
-> 
-> clock-names 'spba' is optional according to description. So minItems of
-> clocks and clock-names is 3.
-> 
-> 
-> [...]
+Hi,
 
-Applied to
+This series removes the no longer needed digital gain kcontrol, which 
+caused problems in tas2563, because the register does not exists there.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This series also adds locking and debug statements to the other 
+kcontrols. They sometimes ran in parallel with tasdev_fw_ready, and 
+caused weird sound problems.
+https://github.com/tomsom/yoga-linux/issues/58
 
-Thanks!
+Regards,
+Gergo
 
-[1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt to yaml
-      commit: 885dd75f41f9fff5b277bc6ab28ad798f98a37b4
+Gergo Koteles (3):
+  ALSA: hda/tas2781: remove digital gain kcontrol
+  ALSA: hda/tas2781: add locks to kcontrols
+  ALSA: hda/tas2781: add debug statements to kcontrols
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ include/sound/tas2781-tlv.h     |   1 -
+ sound/pci/hda/tas2781_hda_i2c.c | 103 +++++++++++++++++++++-----------
+ 2 files changed, 68 insertions(+), 36 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+base-commit: 4cece764965020c22cff7665b18a012006359095
+-- 
+2.44.0
 
