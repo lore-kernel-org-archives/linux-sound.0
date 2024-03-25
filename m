@@ -1,76 +1,231 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0729D6F50F;
-	Mon, 25 Mar 2024 23:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213C8339BF;
+	Mon, 25 Mar 2024 23:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.89.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711408426; cv=none; b=D4fLj93AZzSxPktBIBTyuwGqPHQG4zZYGgIR2eZ41gdn0qzEljqpHPk0DV1KajCcXAhKq6Mwp/sxq9Uaiumz74L6JQYXkjI7VMFLLaWfCl+mOoAJXkCl7luc88qxMbxnn9Znzt42ujgAv572FfBhFGfVSfETccm76WybeLcSceM=
+	t=1711410871; cv=none; b=Nrjysbg6Xo7L3Qi8Ko3SQQrNY0LXbxVWmKQ3H6MrXNjGunVQto/9uhwkK2njUUYf7wMbAoM1HbmZzDUEKK6RLITBMfLINWVra5B6q8eTRxsLtjqpLZrLSkWRfWRcw543lPiBEiubWTJ7g8rKUxIjMo92jdZDRArctkOvoJG+y/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711408426; c=relaxed/simple;
-	bh=Mrh9SPT/w9jyav9m5OpYx1ZRCZOxPVd30OC7EfnHLQ4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mTJbm79leWAMslrBsdAbbitE5EZXRwHoaZSuPxbEWQxolb+DOuvjfDC8rJ6JNFh8Kg/00FD/9CXvBgymI7SpODSRfWakTeYTM70CZNkRhIVxgsVBvMzF/vY7GBxtpqJ+pkXSAtRCVK3Eka6OqOs7I1JnI45Zrh6/6FyFZ1umlys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000077165.0000000066020525.0023AE94; Tue, 26 Mar 2024 00:13:41 +0100
-Message-ID: <e5a06991c5540219366db84ce4e820e22a939929.camel@irl.hu>
-Subject: Re: [PATCH 3/3] ALSA: hda/tas2781: add debug statements to kcontrols
-From: Gergo Koteles <soyer@irl.hu>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,
-  Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-Date: Tue, 26 Mar 2024 00:13:40 +0100
-In-Reply-To: <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
-References: <cover.1711401621.git.soyer@irl.hu>
-	 <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
-	 <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1711410871; c=relaxed/simple;
+	bh=e18u4Zx+/EJmVkR05i1wQWx/l3yrJ3WydzFhrZJeVEo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iIkDQqdhmbA0K9O7Zcql0IPlA2CLb7PgtKvf/wTFS5/XDrjnzJiQbbexBnGEUcuwifkRNoRdW3t69x85feC4cA2FjH3tsZXK+aiRD/Q8Toa/XNMF22rgqoUI1scNhXThj8d1NnfqBqqHaqmlT2PQhF1jEOY3N7laQYA7v4Om6Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b=R5ju2o7B; arc=none smtp.client-ip=45.89.224.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=salutedevices.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=salutedevices.com header.i=@salutedevices.com header.b="R5ju2o7B"
+Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
+	by mx1.sberdevices.ru (Postfix) with ESMTP id 99E62120002;
+	Tue, 26 Mar 2024 02:54:21 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 99E62120002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=salutedevices.com;
+	s=mail; t=1711410861;
+	bh=/VGhO9g3eLyI3DESf5O8GZK0vOI9FoBBKXuZ7OPsOuY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=R5ju2o7B45ahyVSiF39mcNRMAUqnPGpji4GHX/iajeG4RrqfujwqkOcymDjiyMR+D
+	 8Hl/clsCTydAowO3FflAD+m3faQW7+AQG1TAMj0LlJQ1UBehLETGdJ9Hrsyn0AUzBk
+	 BqEJploVZ7iNb/ealUhK2ublCUf0CfhMgDxQLwqoUHbM6gyw4X9qPp4okHt6M1trz9
+	 93WJejsLAbB2Zq7ox5f09jzThHyBGRyZQnEYrR052DkfuaEdnRdowWxwKjr2Xbz4D8
+	 yDWtlb9JDgneTuE0/Ba3D76wlftiymjKg+rva+EeY3rV6SnY7kQXZpHVK1aDQfrM6b
+	 uiRdsbYuYqjiA==
+Received: from smtp.sberdevices.ru (p-i-exch-sc-m02.sberdevices.ru [172.16.192.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.sberdevices.ru (Postfix) with ESMTPS;
+	Tue, 26 Mar 2024 02:54:21 +0300 (MSK)
+Received: from CAB-WSD-0003115.sberdevices.ru (100.64.160.123) by
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 26 Mar 2024 02:54:20 +0300
+From: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+To: Jan Dakinevich <jan.dakinevich@salutedevices.com>, Jerome Brunet
+	<jbrunet@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+	<khilman@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, <alsa-devel@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-amlogic@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH v2] ASoC: meson: g12a-toacodec: rework the definition of bits
+Date: Tue, 26 Mar 2024 02:53:11 +0300
+Message-ID: <20240325235311.411920-1-jan.dakinevich@salutedevices.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
+ p-i-exch-sc-m02.sberdevices.ru (172.16.192.103)
+X-KSMG-Rule-ID: 10
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 184404 [Mar 25 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: YVDakinevich@sberdevices.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 11 0.3.11 5ecf9895443a5066245fcb91e8430edf92b1b594, {Tracking_smtp_not_equal_from}, {Tracking_uf_ne_domains}, salutedevices.com:7.1.1;lore.kernel.org:7.1.1;100.64.160.123:7.1.2;smtp.sberdevices.ru:5.0.1,7.1.1;sberdevices.ru:5.0.1,7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: n, {Tracking_smtp_domain_mismatch}, {Tracking_smtp_domain_2level_mismatch}, {Tracking_sender_alignment_int}, {Tracking_white_helo}, ApMailHostAddress: 100.64.160.123
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/03/25 23:10:00
+X-KSMG-LinksScanning: Clean, bases: 2024/03/25 23:09:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/03/25 18:32:00 #24438765
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Hi Pierre-Louis,
+There is a lot of defines, but almost all of them are not used. Lets
+rework them:
 
-On Mon, 2024-03-25 at 17:01 -0500, Pierre-Louis Bossart wrote:
->=20
->=20
-> > +++ b/sound/pci/hda/tas2781_hda_i2c.c
-> > @@ -189,6 +189,9 @@ static int tasdevice_get_profile_id(struct snd_kcon=
-trol *kcontrol,
-> > =20
-> >  	ucontrol->value.integer.value[0] =3D tas_priv->rcabin.profile_cfg_id;
-> > =20
-> > +	dev_dbg(tas_priv->dev, "%s: %d\n", __func__,
->=20
-> Nit-pick: you don't need to add __func__ to dev_dbg logs, the user can
-> add the information with the dyndbg parameter, e.g.
->=20
-> options snd_intel_dspcfg dyndbg=3D+pmf
->=20
-> dev_err/warn don't have this functionality though so in those cases
-> there's no replacement for __func__
->=20
+ - keep separate the definition for different platforms to make easier
+   checking that they match documentation.
 
-Thanks. I just put a #define DEBUG into the first line and rebuilt the
-module. It will be faster this way :)
+ - use LSB/MSB sufixes for uniformity.
 
-I will send a v2.
+ - don't use hard-coded values for already declared defines.
 
+Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+---
+Links:
 
-Regards,
-Gergo
+ [1] https://lore.kernel.org/lkml/20240314232201.2102178-1-jan.dakinevich@salutedevices.com/
+
+Changes v1 -> v2:
+ - Detached from v1's series (patch 7).
+ - Fixed my wrong understanding of SOC_SINGLE's input parameters.
+
+ sound/soc/meson/g12a-toacodec.c | 79 ++++++++++++++++++++-------------
+ 1 file changed, 49 insertions(+), 30 deletions(-)
+
+diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
+index 531bb8707a3e..22181f4bab72 100644
+--- a/sound/soc/meson/g12a-toacodec.c
++++ b/sound/soc/meson/g12a-toacodec.c
+@@ -20,26 +20,37 @@
+ #define G12A_TOACODEC_DRV_NAME "g12a-toacodec"
+ 
+ #define TOACODEC_CTRL0			0x0
+-#define  CTRL0_ENABLE_SHIFT		31
+-#define  CTRL0_DAT_SEL_SM1_MSB		19
+-#define  CTRL0_DAT_SEL_SM1_LSB		18
+-#define  CTRL0_DAT_SEL_MSB		15
+-#define  CTRL0_DAT_SEL_LSB		14
+-#define  CTRL0_LANE_SEL_SM1		16
+-#define  CTRL0_LANE_SEL			12
+-#define  CTRL0_LRCLK_SEL_SM1_MSB	14
+-#define  CTRL0_LRCLK_SEL_SM1_LSB	12
+-#define  CTRL0_LRCLK_SEL_MSB		9
+-#define  CTRL0_LRCLK_SEL_LSB		8
+-#define  CTRL0_LRCLK_INV_SM1		BIT(10)
+-#define  CTRL0_BLK_CAP_INV_SM1		BIT(9)
+-#define  CTRL0_BLK_CAP_INV		BIT(7)
+-#define  CTRL0_BCLK_O_INV_SM1		BIT(8)
+-#define  CTRL0_BCLK_O_INV		BIT(6)
+-#define  CTRL0_BCLK_SEL_SM1_MSB		6
+-#define  CTRL0_BCLK_SEL_MSB		5
+-#define  CTRL0_BCLK_SEL_LSB		4
+-#define  CTRL0_MCLK_SEL			GENMASK(2, 0)
++
++/* Common bits */
++#define CTRL0_ENABLE_SHIFT		31
++#define CTRL0_MCLK_SEL			GENMASK(2, 0)
++
++/* G12A bits */
++#define CTRL0_DAT_SEL_G12A_MSB		15
++#define CTRL0_DAT_SEL_G12A_LSB		14
++#define CTRL0_LANE_SEL_G12A_MSB		13
++#define CTRL0_LANE_SEL_G12A_LSB		12
++#define CTRL0_LANE_SEL_G12A_MAX		3
++#define CTRL0_LRCLK_SEL_G12A_MSB	9
++#define CTRL0_LRCLK_SEL_G12A_LSB	8
++#define CTRL0_BLK_CAP_INV_G12A		BIT(7)
++#define CTRL0_BCLK_O_INV_G12A		BIT(6)
++#define CTRL0_BCLK_SEL_G12A_MSB		5
++#define CTRL0_BCLK_SEL_G12A_LSB		4
++
++/* SM1 bits */
++#define CTRL0_DAT_SEL_SM1_MSB		19
++#define CTRL0_DAT_SEL_SM1_LSB		18
++#define CTRL0_LANE_SEL_SM1_MSB		17
++#define CTRL0_LANE_SEL_SM1_LSB		16
++#define CTRL0_LANE_SEL_SM1_MAX		3
++#define CTRL0_LRCLK_SEL_SM1_MSB		14
++#define CTRL0_LRCLK_SEL_SM1_LSB		12
++#define CTRL0_LRCLK_INV_SM1		BIT(10)
++#define CTRL0_BLK_CAP_INV_SM1		BIT(9)
++#define CTRL0_BCLK_O_INV_SM1		BIT(8)
++#define CTRL0_BCLK_SEL_SM1_MSB		6
++#define CTRL0_BCLK_SEL_SM1_LSB		4
+ 
+ #define TOACODEC_OUT_CHMAX		2
+ 
+@@ -108,7 +119,7 @@ static int g12a_toacodec_mux_put_enum(struct snd_kcontrol *kcontrol,
+ }
+ 
+ static SOC_ENUM_SINGLE_DECL(g12a_toacodec_mux_enum, TOACODEC_CTRL0,
+-			    CTRL0_DAT_SEL_LSB,
++			    CTRL0_DAT_SEL_G12A_LSB,
+ 			    g12a_toacodec_mux_texts);
+ 
+ static SOC_ENUM_SINGLE_DECL(sm1_toacodec_mux_enum, TOACODEC_CTRL0,
+@@ -210,7 +221,7 @@ static int g12a_toacodec_component_probe(struct snd_soc_component *c)
+ {
+ 	/* Initialize the static clock parameters */
+ 	return snd_soc_component_write(c, TOACODEC_CTRL0,
+-				       CTRL0_BLK_CAP_INV);
++				       CTRL0_BLK_CAP_INV_G12A);
+ }
+ 
+ static int sm1_toacodec_component_probe(struct snd_soc_component *c)
+@@ -229,11 +240,13 @@ static const struct snd_soc_dapm_route g12a_toacodec_routes[] = {
+ };
+ 
+ static const struct snd_kcontrol_new g12a_toacodec_controls[] = {
+-	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL, 3, 0),
++	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_G12A_LSB,
++		   CTRL0_LANE_SEL_G12A_MAX, 0),
+ };
+ 
+ static const struct snd_kcontrol_new sm1_toacodec_controls[] = {
+-	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 3, 0),
++	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1_LSB,
++		   CTRL0_LANE_SEL_SM1_MAX, 0),
+ };
+ 
+ static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
+@@ -266,16 +279,22 @@ static const struct regmap_config g12a_toacodec_regmap_cfg = {
+ 
+ static const struct g12a_toacodec_match_data g12a_toacodec_match_data = {
+ 	.component_drv	= &g12a_toacodec_component_drv,
+-	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, 14, 15),
+-	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, 8, 9),
+-	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 5),
++	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, CTRL0_DAT_SEL_G12A_LSB,
++				    CTRL0_DAT_SEL_G12A_MSB),
++	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, CTRL0_LRCLK_SEL_G12A_LSB,
++				     CTRL0_LRCLK_SEL_G12A_MSB),
++	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, CTRL0_BCLK_SEL_G12A_LSB,
++				    CTRL0_BCLK_SEL_G12A_MSB),
+ };
+ 
+ static const struct g12a_toacodec_match_data sm1_toacodec_match_data = {
+ 	.component_drv	= &sm1_toacodec_component_drv,
+-	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, 18, 19),
+-	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, 12, 14),
+-	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 6),
++	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, CTRL0_DAT_SEL_SM1_LSB,
++				    CTRL0_DAT_SEL_SM1_MSB),
++	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, CTRL0_LRCLK_SEL_SM1_LSB,
++				     CTRL0_LRCLK_SEL_SM1_MSB),
++	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, CTRL0_BCLK_SEL_SM1_LSB,
++				    CTRL0_BCLK_SEL_SM1_MSB),
+ };
+ 
+ static const struct of_device_id g12a_toacodec_of_match[] = {
+-- 
+2.34.1
 
