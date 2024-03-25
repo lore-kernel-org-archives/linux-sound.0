@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E4B74E0A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E392B757F4
 	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 22:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711404685; cv=none; b=Bviisyl5i0fvCiUL5PChtnKGV4fGW8n8RcuJ0VzHK7OfrJiIpfnKO4ZmZb5f1eMUKZQbV463p+qVhfkM3/GqquFMELAcke/mWOoNtdndzKjw4xfjGyMTLZ/Ac203ys2LfjGW6leSfdGfHEUCXMvib4GIEIvSVAukJiKtl/2a/0w=
+	t=1711404685; cv=none; b=HfyvEYvQtWpsSFTjPpUTYTc/m3mq2EspfLn2YMl9rme5CvJQEcRPph+JpJXw/1V0iutxVQ/h7Viun2DxOS125y655fnaSxvI3Esu/tPdt9LPOvYhn75HvVRFYIfH22mKktHzIERy8hQyySgnJPeMB5XyIqggHtnao7eMzyIc4ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711404685; c=relaxed/simple;
-	bh=Bg8bHueUGEorR/Bj8ktg+TuI3LOyayYHwRHY4N8/zmU=;
+	bh=/AbZr3luctDlVjBzrahchdMNCBFkU+915f9nJbC0iBQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ttG7vO7wfN9WUZd3Hk3Rc6EDLaj37f6j9w406VEPnGQfJgmvAJD3bv7t/99TUPnF4v9Y5N1PcG57lQotkm2T8pKPl4/+cE+YxkOjkDa94I3wE2a8TDRJGJ64mOUGX6hvxo0kCOX+7L9+NMPPJtWiDBWR8DiHAfmbwvxGanMQN2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y5I46gTY; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=fbqHeaECoQ4GvJ0X1mY1sIbcp9sYcnNoQSHl5PpjsAcP/8dvTLMrgrSossaOJ2NcIDYYHHcCPFOGk0mUiegk5ZNrubmODt7wP6Ljop1VRFs5dMKyvpcDgpggP9zBLRx3KzfheL+30B7+LNgB//3qFLHliasV5Be2fWyirILbSus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfxeLIgV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5I46gTY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfxeLIgV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1711404684; x=1742940684;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Bg8bHueUGEorR/Bj8ktg+TuI3LOyayYHwRHY4N8/zmU=;
-  b=Y5I46gTY3BWAWXGs2SvJP0SIaU8SgJNLvP6TbcrUQoKEIjbtaHTBcaXs
-   kYJ0WblTPF9HqfENpgsr9vHk0jWKLFYEigYdZrCj2kw4vzlQjNlfduRre
-   ZGy4j9IQxZ5DyCWggtVloKpn8P6gd0rEFHf02sbTzYZYSZ91lr06hKeLR
-   AG3WEXftzaRoCh8p5WUdhyPJ9xEAHGgfXLWRx4MPOP6ZUnIyI5UkN9w5g
-   e1yaqGRJb1RWN5y/Rk872ANJ1DsvMCHCRW5BoTUjehPrNHqJlI3d76ZrB
-   ocSz5jVMBf+6txr0svVPqshVzsATB9kMzVYb7hrxQP8O+C+74upLJN5PI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6643645"
+  bh=/AbZr3luctDlVjBzrahchdMNCBFkU+915f9nJbC0iBQ=;
+  b=MfxeLIgVZc8RrxooLHudBHPBBq/y7EgWHFBaj4+yqxfsAv6cSY9iECZd
+   oNVKwEzTj38SxbM2akn061vPlKb1YzHPjyf49HiH82u3L3fSne+fWd8PV
+   iYIytQbcRm5igY28FK3ssK2rvpkM+CZpHeoTv/FqfOW1fVhCuxM3ETFx1
+   JpndsU3yTr0nBkoHHwrMIM7WCiDkjLqx/79RRBgpUSHf9+jWJgpQC8kb0
+   T7JM0tqYx7COo4AMzGiXG6jb3PPmzN0ciuV/B7sjT0dnvrworT/O8g0QX
+   sO/G7xIPPbPXngF69+4F+fdUfP5N46B2CPEcxNh0lgOZU2LZVhknfacez
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6643649"
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="6643645"
+   d="scan'208";a="6643649"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:22 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="15722131"
+   d="scan'208";a="15722135"
 Received: from jaimbres-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.lan) ([10.212.98.109])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:20 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:11:21 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -47,9 +47,9 @@ Cc: alsa-devel@alsa-project.org,
 	Brent Lu <brent.lu@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 10/21] ASoC: Intel: sof_rt5682: use common module for sof_card_private initialization
-Date: Mon, 25 Mar 2024 17:10:48 -0500
-Message-Id: <20240325221059.206042-11-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 11/21] ASoC: Intel: sof_ssp_amp: use common module for sof_card_private initialization
+Date: Mon, 25 Mar 2024 17:10:49 -0500
+Message-Id: <20240325221059.206042-12-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240325221059.206042-1-pierre-louis.bossart@linux.intel.com>
 References: <20240325221059.206042-1-pierre-louis.bossart@linux.intel.com>
@@ -63,182 +63,59 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Use intel_board module to initialize sof_card_private structure
+Use intel_board module to initialize sof_card_private structure.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_rt5682.c | 218 +++++++++++-----------------
- 1 file changed, 88 insertions(+), 130 deletions(-)
+ sound/soc/intel/boards/sof_ssp_amp.c | 91 ++++++++--------------------
+ 1 file changed, 25 insertions(+), 66 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 640d17c6cd35..672636f07456 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -27,37 +27,14 @@
+diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
+index 0b8adab76755..b99af8bc4ccc 100644
+--- a/sound/soc/intel/boards/sof_ssp_amp.c
++++ b/sound/soc/intel/boards/sof_ssp_amp.c
+@@ -20,34 +20,12 @@
  #include "sof_board_helpers.h"
- #include "sof_maxim_common.h"
  #include "sof_realtek_common.h"
+ #include "sof_cirrus_common.h"
 -#include "sof_ssp_common.h"
  
--#define SOF_RT5682_SSP_CODEC(quirk)		((quirk) & GENMASK(2, 0))
--#define SOF_RT5682_SSP_CODEC_MASK			(GENMASK(2, 0))
--#define SOF_RT5682_MCLK_EN			BIT(3)
--#define SOF_RT5682_SSP_AMP_SHIFT		6
--#define SOF_RT5682_SSP_AMP_MASK                 (GENMASK(8, 6))
--#define SOF_RT5682_SSP_AMP(quirk)	\
--	(((quirk) << SOF_RT5682_SSP_AMP_SHIFT) & SOF_RT5682_SSP_AMP_MASK)
--#define SOF_RT5682_MCLK_BYTCHT_EN		BIT(9)
--#define SOF_RT5682_NUM_HDMIDEV_SHIFT		10
--#define SOF_RT5682_NUM_HDMIDEV_MASK		(GENMASK(12, 10))
--#define SOF_RT5682_NUM_HDMIDEV(quirk)	\
--	((quirk << SOF_RT5682_NUM_HDMIDEV_SHIFT) & SOF_RT5682_NUM_HDMIDEV_MASK)
--
--/* BT audio offload: reserve 3 bits for future */
--#define SOF_BT_OFFLOAD_SSP_SHIFT		19
--#define SOF_BT_OFFLOAD_SSP_MASK		(GENMASK(21, 19))
--#define SOF_BT_OFFLOAD_SSP(quirk)	\
--	(((quirk) << SOF_BT_OFFLOAD_SSP_SHIFT) & SOF_BT_OFFLOAD_SSP_MASK)
--#define SOF_SSP_BT_OFFLOAD_PRESENT		BIT(22)
+-/* SSP port ID for speaker amplifier */
+-#define SOF_AMPLIFIER_SSP(quirk)		((quirk) & GENMASK(3, 0))
+-#define SOF_AMPLIFIER_SSP_MASK			(GENMASK(3, 0))
 -
 -/* HDMI capture*/
--#define SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT  27
--#define SOF_SSP_HDMI_CAPTURE_PRESENT_MASK (GENMASK(30, 27))
--#define SOF_HDMI_CAPTURE_SSP_MASK(quirk)   \
--	(((quirk) << SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT) & SOF_SSP_HDMI_CAPTURE_PRESENT_MASK)
+-#define SOF_HDMI_CAPTURE_SSP_MASK_SHIFT		4
+-#define SOF_HDMI_CAPTURE_SSP_MASK_MASK		(GENMASK(9, 4))
+-#define SOF_HDMI_CAPTURE_SSP_MASK(quirk)	\
+-	(((quirk) << SOF_HDMI_CAPTURE_SSP_MASK_SHIFT) & SOF_HDMI_CAPTURE_SSP_MASK_MASK)
+-
+-/* HDMI playback */
+-#define SOF_HDMI_PLAYBACK_PRESENT		BIT(13)
+-#define SOF_NO_OF_HDMI_PLAYBACK_SHIFT		14
+-#define SOF_NO_OF_HDMI_PLAYBACK_MASK		(GENMASK(16, 14))
+-#define SOF_NO_OF_HDMI_PLAYBACK(quirk)	\
+-	(((quirk) << SOF_NO_OF_HDMI_PLAYBACK_SHIFT) & SOF_NO_OF_HDMI_PLAYBACK_MASK)
+-
+-/* BT audio offload */
+-#define SOF_SSP_BT_OFFLOAD_PRESENT		BIT(17)
+-#define SOF_BT_OFFLOAD_SSP_SHIFT		18
+-#define SOF_BT_OFFLOAD_SSP_MASK			(GENMASK(20, 18))
+-#define SOF_BT_OFFLOAD_SSP(quirk)	\
+-	(((quirk) << SOF_BT_OFFLOAD_SSP_SHIFT) & SOF_BT_OFFLOAD_SSP_MASK)
 +/* Driver-specific board quirks: from bit 0 to 7 */
-+#define SOF_RT5682_MCLK_EN			BIT(0)
-+#define SOF_RT5682_MCLK_BYTCHT_EN		BIT(1)
++#define SOF_HDMI_PLAYBACK_PRESENT		BIT(0)
  
- /* Default: MCLK on, MCLK 19.2M, SSP0  */
- static unsigned long sof_rt5682_quirk = SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0);
-+					SOF_SSP_PORT_CODEC(0);
+ /* Default: SSP2  */
+-static unsigned long sof_ssp_amp_quirk = SOF_AMPLIFIER_SSP(2);
++static unsigned long sof_ssp_amp_quirk = SOF_SSP_PORT_AMP(2);
  
- static int sof_rt5682_quirk_cb(const struct dmi_system_id *id)
- {
-@@ -72,7 +49,7 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Circuitco"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Minnowboard Max"),
- 		},
--		.driver_data = (void *)(SOF_RT5682_SSP_CODEC(2)),
-+		.driver_data = (void *)(SOF_SSP_PORT_CODEC(2)),
- 	},
+ static const struct dmi_system_id chromebook_platforms[] = {
  	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -80,7 +57,7 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "AAEON"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "UP-CHT01"),
- 		},
--		.driver_data = (void *)(SOF_RT5682_SSP_CODEC(2)),
-+		.driver_data = (void *)(SOF_SSP_PORT_CODEC(2)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -89,7 +66,7 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "WhiskeyLake Client"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(1)),
-+					SOF_SSP_PORT_CODEC(1)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -97,8 +74,8 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Hatch"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -107,7 +84,7 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Ice Lake Client"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0)),
-+					SOF_SSP_PORT_CODEC(0)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -116,9 +93,9 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_OEM_STRING, "AUDIO-MAX98373_ALC5682I_I2S_UP4"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -128,9 +105,9 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_OEM_STRING, "AUDIO-ADL_MAX98373_ALC5682I_I2S"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -139,9 +116,9 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_OEM_STRING, "AUDIO-MAX98390_ALC5682I_I2S"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -150,9 +127,9 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_OEM_STRING, "AUDIO-MAX98360_ALC5682I_I2S_AMP_SSP2"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.callback = sof_rt5682_quirk_cb,
-@@ -160,11 +137,11 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Rex"),
- 		},
- 		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(2) |
--					SOF_RT5682_SSP_AMP(0) |
--					SOF_RT5682_NUM_HDMIDEV(3) |
--					SOF_BT_OFFLOAD_SSP(1) |
--					SOF_SSP_BT_OFFLOAD_PRESENT
-+					SOF_SSP_PORT_CODEC(2) |
-+					SOF_SSP_PORT_AMP(0) |
-+					SOF_NUM_IDISP_HDMI(3) |
-+					SOF_SSP_PORT_BT_OFFLOAD(1) |
-+					SOF_BT_OFFLOAD_PRESENT
- 					),
- 	},
- 	{}
-@@ -630,19 +607,29 @@ static int sof_audio_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
+@@ -136,45 +114,27 @@ static int sof_ssp_amp_probe(struct platform_device *pdev)
  	struct sof_card_private *ctx;
-+	bool is_legacy_cpu;
  	int ret;
  
 -	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
@@ -246,224 +123,108 @@ index 640d17c6cd35..672636f07456 100644
 -		return -ENOMEM;
 -
  	if (pdev->id_entry && pdev->id_entry->driver_data)
- 		sof_rt5682_quirk = (unsigned long)pdev->id_entry->driver_data;
+ 		sof_ssp_amp_quirk = (unsigned long)pdev->id_entry->driver_data;
  
- 	dmi_check_system(sof_rt5682_quirk_table);
- 
--	ctx->codec_type = sof_ssp_detect_codec_type(&pdev->dev);
 -	ctx->amp_type = sof_ssp_detect_amp_type(&pdev->dev);
-+	if (soc_intel_is_byt() || soc_intel_is_cht()) {
-+		is_legacy_cpu = true;
-+
-+		/* default quirk for legacy cpu */
-+		sof_rt5682_quirk = SOF_RT5682_MCLK_EN |
-+				   SOF_RT5682_MCLK_BYTCHT_EN |
-+				   SOF_SSP_PORT_CODEC(2);
-+	}
-+
-+	dev_dbg(&pdev->dev, "sof_rt5682_quirk = %lx\n", sof_rt5682_quirk);
-+
++	dev_dbg(&pdev->dev, "sof_ssp_amp_quirk = %lx\n", sof_ssp_amp_quirk);
+ 
+-	if (dmi_check_system(chromebook_platforms) || mach->mach_params.dmic_num > 0)
+-		ctx->dmic_be_num = 2;
+-	else
 +	/* initialize ctx with board quirk */
-+	ctx = sof_intel_board_get_ctx(&pdev->dev, sof_rt5682_quirk);
++	ctx = sof_intel_board_get_ctx(&pdev->dev, sof_ssp_amp_quirk);
 +	if (!ctx)
 +		return -ENOMEM;
- 
- 	if (ctx->codec_type == CODEC_RT5650) {
- 		sof_audio_card_rt5682.name = devm_kstrdup(&pdev->dev, "rt5650",
-@@ -653,23 +640,12 @@ static int sof_audio_probe(struct platform_device *pdev)
- 			ctx->amp_type = CODEC_RT5650;
- 	}
- 
--	if (soc_intel_is_byt() || soc_intel_is_cht()) {
-+	if (is_legacy_cpu) {
- 		ctx->rt5682.is_legacy_cpu = true;
++
++	if (!dmi_check_system(chromebook_platforms) &&
++	    (mach->mach_params.dmic_num == 0))
  		ctx->dmic_be_num = 0;
- 		/* HDMI is not supported by SOF on Baytrail/CherryTrail */
- 		ctx->hdmi_num = 0;
--		/* default quirk for legacy cpu */
--		sof_rt5682_quirk = SOF_RT5682_MCLK_EN |
--						SOF_RT5682_MCLK_BYTCHT_EN |
--						SOF_RT5682_SSP_CODEC(2);
- 	} else {
--		ctx->dmic_be_num = 2;
--		ctx->hdmi_num = (sof_rt5682_quirk & SOF_RT5682_NUM_HDMIDEV_MASK) >>
--			 SOF_RT5682_NUM_HDMIDEV_SHIFT;
+ 
+-	/* port number/mask of peripherals attached to ssp interface */
+-	ctx->ssp_mask_hdmi_in = (sof_ssp_amp_quirk & SOF_HDMI_CAPTURE_SSP_MASK_MASK) >>
+-			SOF_HDMI_CAPTURE_SSP_MASK_SHIFT;
+-
+-	ctx->ssp_bt = (sof_ssp_amp_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
+-			SOF_BT_OFFLOAD_SSP_SHIFT;
+-
+-	ctx->ssp_amp = sof_ssp_amp_quirk & SOF_AMPLIFIER_SSP_MASK;
+-
+ 	if (sof_ssp_amp_quirk & SOF_HDMI_PLAYBACK_PRESENT) {
+-		ctx->hdmi_num = (sof_ssp_amp_quirk & SOF_NO_OF_HDMI_PLAYBACK_MASK) >>
+-				SOF_NO_OF_HDMI_PLAYBACK_SHIFT;
 -		/* default number of HDMI DAI's */
 -		if (!ctx->hdmi_num)
 -			ctx->hdmi_num = 3;
 -
  		if (mach->mach_params.codec_mask & IDISP_CODEC_MASK)
  			ctx->hdmi.idisp_codec = true;
- 	}
-@@ -694,23 +670,6 @@ static int sof_audio_probe(struct platform_device *pdev)
- 		}
+ 	} else {
+ 		ctx->hdmi_num = 0;
  	}
  
--	dev_dbg(&pdev->dev, "sof_rt5682_quirk = %lx\n", sof_rt5682_quirk);
--
--	/* port number/mask of peripherals attached to ssp interface */
--	ctx->ssp_mask_hdmi_in = (sof_rt5682_quirk & SOF_SSP_HDMI_CAPTURE_PRESENT_MASK) >>
--			SOF_NO_OF_HDMI_CAPTURE_SSP_SHIFT;
--
--	ctx->ssp_bt = (sof_rt5682_quirk & SOF_BT_OFFLOAD_SSP_MASK) >>
--			SOF_BT_OFFLOAD_SSP_SHIFT;
--
--	ctx->ssp_amp = (sof_rt5682_quirk & SOF_RT5682_SSP_AMP_MASK) >>
--			SOF_RT5682_SSP_AMP_SHIFT;
--
--	ctx->ssp_codec = sof_rt5682_quirk & SOF_RT5682_SSP_CODEC_MASK;
--
--	if (sof_rt5682_quirk & SOF_SSP_BT_OFFLOAD_PRESENT)
+-	if (sof_ssp_amp_quirk & SOF_SSP_BT_OFFLOAD_PRESENT)
 -		ctx->bt_offload_present = true;
 -
- 	/* update dai_link */
- 	ret = sof_card_dai_links_create(&pdev->dev, &sof_audio_card_rt5682, ctx);
- 	if (ret)
-@@ -766,96 +725,96 @@ static const struct platform_device_id board_ids[] = {
- 	{
- 		.name = "cml_rt1015_rt5682",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1)),
+ 	ctx->link_order_overwrite = SSP_AMP_LINK_ORDER;
+ 
+ 	if (ctx->ssp_mask_hdmi_in) {
+@@ -220,38 +180,38 @@ static const struct platform_device_id board_ids[] = {
  	},
  	{
- 		.name = "jsl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1)),
+ 		.name = "tgl_rt1308_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_AMPLIFIER_SSP(2) |
+-					SOF_HDMI_CAPTURE_SSP_MASK(0x22)),
++		.driver_data = (kernel_ulong_t)(SOF_SSP_PORT_AMP(2) |
++					SOF_SSP_MASK_HDMI_CAPTURE(0x22)),
+ 					/* SSP 1 and SSP 5 are used for HDMI IN */
  	},
  	{
- 		.name = "tgl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1) |
--					SOF_RT5682_NUM_HDMIDEV(4) |
+ 		.name = "adl_cs35l41",
+-		.driver_data = (kernel_ulong_t)(SOF_AMPLIFIER_SSP(1) |
+-					SOF_NO_OF_HDMI_PLAYBACK(4) |
++		.driver_data = (kernel_ulong_t)(SOF_SSP_PORT_AMP(1) |
++					SOF_NUM_IDISP_HDMI(4) |
+ 					SOF_HDMI_PLAYBACK_PRESENT |
 -					SOF_BT_OFFLOAD_SSP(2) |
 -					SOF_SSP_BT_OFFLOAD_PRESENT),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
-+					SOF_NUM_IDISP_HDMI(4) |
 +					SOF_SSP_PORT_BT_OFFLOAD(2) |
 +					SOF_BT_OFFLOAD_PRESENT),
  	},
  	{
- 		.name = "adl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1) |
--					SOF_RT5682_NUM_HDMIDEV(4) |
--					SOF_BT_OFFLOAD_SSP(2) |
--					SOF_SSP_BT_OFFLOAD_PRESENT),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
-+					SOF_NUM_IDISP_HDMI(4) |
-+					SOF_SSP_PORT_BT_OFFLOAD(2) |
-+					SOF_BT_OFFLOAD_PRESENT),
- 	},
- 	{
- 		.name = "adl_mx98357_rt5682",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.name = "adl_rt5682_c1_h02",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(1) |
--					SOF_RT5682_NUM_HDMIDEV(3) |
-+					SOF_SSP_PORT_CODEC(1) |
-+					SOF_NUM_IDISP_HDMI(3) |
+ 		.name = "adl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
++		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
  					/* SSP 0 and SSP 2 are used for HDMI IN */
--					SOF_HDMI_CAPTURE_SSP_MASK(0x5)),
-+					SOF_SSP_MASK_HDMI_CAPTURE(0x5)),
- 	},
- 	{
- 		.name = "rpl_mx98357_rt5682",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(2) |
--					SOF_RT5682_NUM_HDMIDEV(4)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(2) |
-+					SOF_NUM_IDISP_HDMI(4)),
- 	},
- 	{
- 		.name = "rpl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1) |
--					SOF_RT5682_NUM_HDMIDEV(4) |
--					SOF_BT_OFFLOAD_SSP(2) |
--					SOF_SSP_BT_OFFLOAD_PRESENT),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
-+					SOF_NUM_IDISP_HDMI(4) |
-+					SOF_SSP_PORT_BT_OFFLOAD(2) |
-+					SOF_BT_OFFLOAD_PRESENT),
- 	},
- 	{
- 		.name = "rpl_rt5682_c1_h02",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(1) |
--					SOF_RT5682_NUM_HDMIDEV(3) |
-+					SOF_SSP_PORT_CODEC(1) |
+-					SOF_NO_OF_HDMI_PLAYBACK(3) |
 +					SOF_NUM_IDISP_HDMI(3) |
+ 					SOF_HDMI_PLAYBACK_PRESENT),
+ 	},
+ 	{
+ 		.name = "rpl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
++		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
  					/* SSP 0 and SSP 2 are used for HDMI IN */
--					SOF_HDMI_CAPTURE_SSP_MASK(0x5)),
-+					SOF_SSP_MASK_HDMI_CAPTURE(0x5)),
- 	},
- 	{
- 		.name = "mtl_mx98357_rt5682",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1) |
--					SOF_RT5682_NUM_HDMIDEV(3) |
--					SOF_BT_OFFLOAD_SSP(2) |
--					SOF_SSP_BT_OFFLOAD_PRESENT),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
+-					SOF_NO_OF_HDMI_PLAYBACK(3) |
 +					SOF_NUM_IDISP_HDMI(3) |
-+					SOF_SSP_PORT_BT_OFFLOAD(2) |
-+					SOF_BT_OFFLOAD_PRESENT),
+ 					SOF_HDMI_PLAYBACK_PRESENT),
  	},
  	{
- 		.name = "mtl_mx98360_rt5682",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(0) |
--					SOF_RT5682_SSP_AMP(1) |
--					SOF_RT5682_NUM_HDMIDEV(3)),
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
-+					SOF_NUM_IDISP_HDMI(3)),
- 	},
- 	{
- 		.name = "mtl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_RT5682_SSP_CODEC(2) |
--					SOF_RT5682_SSP_AMP(0) |
--					SOF_RT5682_NUM_HDMIDEV(3) |
--					SOF_BT_OFFLOAD_SSP(1) |
--					SOF_SSP_BT_OFFLOAD_PRESENT),
-+					SOF_SSP_PORT_CODEC(2) |
-+					SOF_SSP_PORT_AMP(0) |
+ 		.name = "mtl_lt6911_hdmi_ssp",
+-		.driver_data = (kernel_ulong_t)(SOF_HDMI_CAPTURE_SSP_MASK(0x5) |
+-				/* SSP 0 and SSP 2 are used for HDMI IN */
+-				SOF_NO_OF_HDMI_PLAYBACK(3) |
+-				SOF_HDMI_PLAYBACK_PRESENT),
++		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
++					/* SSP 0 and SSP 2 are used for HDMI IN */
 +					SOF_NUM_IDISP_HDMI(3) |
-+					SOF_SSP_PORT_BT_OFFLOAD(1) |
-+					SOF_BT_OFFLOAD_PRESENT),
++					SOF_HDMI_PLAYBACK_PRESENT),
  	},
  	{ }
  };
-@@ -881,4 +840,3 @@ MODULE_LICENSE("GPL v2");
+@@ -274,4 +234,3 @@ MODULE_LICENSE("GPL");
  MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_BOARD_HELPERS);
- MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_MAXIM_COMMON);
  MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_REALTEK_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_CIRRUS_COMMON);
 -MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_SSP_COMMON);
 -- 
 2.40.1
