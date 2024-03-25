@@ -1,95 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBFA2E40B;
-	Mon, 25 Mar 2024 17:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DABD12FF71;
+	Mon, 25 Mar 2024 17:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711387379; cv=none; b=Bw+ja6WJy8ZG/5MVYziOgMkvUbhavbl4RKLX/EISluV1P77CHxPA6eAFqVVfi93smMYtdWoPq0HP5w7UmzzODufmC41EalMU3nNlGknlA5iAVDVRpjTwAOdaIMVr6mcx+XXrf5J0OALSBVT6ssUt+h+E6DEHoap/CXdVwcXl0eI=
+	t=1711387958; cv=none; b=NsG8IVNZJJEUoDSU2lOAn5hG8QZSOcpNu7pZVP1kt/o7Z7YJYLkDEE4O6coWDyWLwy5E1YTTpxcyOJF4nRgzugZZxC1FKB2Rd8926TYwTmBStuzpYdBYVhx/UXYOz7pNf1PA4wuIuLl4ZK03pNt5uh6QVxrcKAF/mBprA8aerO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711387379; c=relaxed/simple;
-	bh=xfJbMCzsrXZxRm25PZGOd822X0FpoeAfxKN45zbkmC8=;
+	s=arc-20240116; t=1711387958; c=relaxed/simple;
+	bh=EQVMqG03KUhv5BVkLnTVMCLuTRWpG9rrEV770Zk15xI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YWo0pmaqVulHn2Hk7VKDONVbSfLbkS31t+Q+eMSzAsJfeMK8DrWXEL9UvyYnTH+OvVmZ7cYjhVQxgmpO182fSShsbVwiVAP4y37GW29H4pw1s6JQEjV9V/fuDslcPkKLEQFIK/twbzNyPZkKb4j2JEt3CaADM2gp6WZfqmMDqTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INWK+d1Q; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YW7fMFKVQ6b/c3OLqpA/w4xSa0nNaMSHUch57rpHjrhEkPkIQR9ltKZYzjTmPFZeSo9K/sZbnaGMp4aWgtxXzs+bcQrsrm37h0Ra92pMsDwAuYRJ+vUVNpF8fL9Uim0VeKjoBlT2MSOWN+hBS+vDuOEwqn+CN9Y+UcYS/JwYDt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7tBN2cy; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INWK+d1Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8C3C433F1;
-	Mon, 25 Mar 2024 17:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711387379;
-	bh=xfJbMCzsrXZxRm25PZGOd822X0FpoeAfxKN45zbkmC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=INWK+d1Qv+IU/FZVe8ERMYzaSnFcqiu0MiNfbfRBhiNZOcNqyFEMCYaOsBhKMKiTA
-	 uUBfFPKmaOLse+7VpMMd3oKt9RcKs2vnzhu10PQp14NADD7a7EVLyN0k3jdZ2kDGrO
-	 xTVpE2/vi3pknUlTcB1ywfBzj3jCUfKc2sdcYfqKh5VRdbBWgPs1U60ONH7GK6V/fO
-	 9PFLEP4d9+9ngYNwAO4cmax5NsJgTeF6AjqiaECCy3JFVxL3tkzprvCEPkN0gmNKVH
-	 fQXUKMILIrYqF/mwUalUtpclu8WAte+ALvk2WkQmV10s5TL4f6efQ4eh3y+aUVzNUa
-	 urwZdn5rExjwQ==
-Date: Mon, 25 Mar 2024 17:22:55 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7tBN2cy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711387957; x=1742923957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EQVMqG03KUhv5BVkLnTVMCLuTRWpG9rrEV770Zk15xI=;
+  b=S7tBN2cy4yafXJa2MiWqbtjWrNi2rQtE6kYl2BXpzzT5bMzkG7akZ82d
+   hIt6MPp6tYV7eU/bDWjwT4YBPVXHHqtULZ2IqQDiiMJuwgJFJ1S6Z3c4k
+   Ahy1pIHvkTTwVUJvJXfvxlgu9SKas91+bjqY9wYL1S+g1CTFxo4ORIQWn
+   +BDnLkBBbcF2Qrv1Cz2hnfrrQRdpY7j6vrIwRfTrWR+eOYQXohq2qh3lr
+   n5O8oVdjOu9+HduXh+EjTvQFotYdLWSgQZFfPmOT36mNp4kx+RDl8ljSf
+   rcH6LiBt9Pg+86ZEzFJhgVax5jfT8mVFTRMODM9ClTTKUe22gbFkVpdEG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6587540"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="6587540"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 10:32:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="914849973"
+X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
+   d="scan'208";a="914849973"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 10:32:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rooBU-0000000G4B5-0C9G;
+	Mon, 25 Mar 2024 19:32:32 +0200
+Date: Mon, 25 Mar 2024 19:32:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Subject: Re: [PATCH v1 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Message-ID: <92f1cf44-3228-4eca-b8d3-39057c1150bb@sirena.org.uk>
+Message-ID: <ZgG1LwVAd1xxqJTg@smile.fi.intel.com>
 References: <20240318202602.182619-1-andriy.shevchenko@linux.intel.com>
  <e6900b97-c1b7-45a5-bc3c-4a4a2745fdf3@sirena.org.uk>
  <ZgGJE0JNAESe5xUf@smile.fi.intel.com>
+ <92f1cf44-3228-4eca-b8d3-39057c1150bb@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LaK5P6dTv6keEyL5"
-Content-Disposition: inline
-In-Reply-To: <ZgGJE0JNAESe5xUf@smile.fi.intel.com>
-X-Cookie: Evil isn't all bad.
-
-
---LaK5P6dTv6keEyL5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <92f1cf44-3228-4eca-b8d3-39057c1150bb@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Mar 25, 2024 at 04:24:19PM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 25, 2024 at 02:16:15PM +0000, Mark Brown wrote:
-> > On Mon, Mar 18, 2024 at 10:25:16PM +0200, Andy Shevchenko wrote:
-
-> > > If I am not mistaken, after
-> > > https://lore.kernel.org/r/20240318200804.181516-1-andriy.shevchenko@linux.intel.com
-> > > there is no more users. Hence the above is the only dependency.
-
-> > You are mistaken, please try compile tests:
+On Mon, Mar 25, 2024 at 05:22:55PM +0000, Mark Brown wrote:
+> On Mon, Mar 25, 2024 at 04:24:19PM +0200, Andy Shevchenko wrote:
+> > On Mon, Mar 25, 2024 at 02:16:15PM +0000, Mark Brown wrote:
+> > > On Mon, Mar 18, 2024 at 10:25:16PM +0200, Andy Shevchenko wrote:
 
 ...
 
-> > (this is among other things in x86 allmodconfig).
+> > > > If I am not mistaken, after
+> > > > https://lore.kernel.org/r/20240318200804.181516-1-andriy.shevchenko@linux.intel.com
+> > > > there is no more users. Hence the above is the only dependency.
+> 
+> > > You are mistaken, please try compile tests:
 
-> I usually enable the particular drivers and I have compile tested this,
-> but indeed, I haven't enabled _all_ modules.
+...
 
-> Thank you for the pointing out.
+> > > (this is among other things in x86 allmodconfig).
+> 
+> > I usually enable the particular drivers and I have compile tested this,
+> > but indeed, I haven't enabled _all_ modules.
+> 
+> > Thank you for the pointing out.
+> 
+> Especially if you're doing this sort of "I think I got everything" type
+> change it's sensible to do at least one allmodconfig build, it won't get
+> everything but it'll catch a lot.
 
-Especially if you're doing this sort of "I think I got everything" type
-change it's sensible to do at least one allmodconfig build, it won't get
-everything but it'll catch a lot.
+True, as even `git grep` output can be misinterpreted and some occurrences
+may disappear from the sight.
 
---LaK5P6dTv6keEyL5
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+With Best Regards,
+Andy Shevchenko
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYBsu4ACgkQJNaLcl1U
-h9BIMQf/aFj62j+vlTEFjnOpnzrhJuPYsepi2exphNqFVcfnMN9ktirXQXnxUVbl
-wdDLnGpTE3NN3sQcALzox2VnvEPYrH5MLseFFG4GUOSSv6TJmb42/gf0LqAmzu6H
-6dgqhFOUeMEyZyBgcs2EFSdL0jlTy6YV57gtCrNNh48b0wU6FdGMg3Cick9ZRDsi
-GYquSuSXMrFb1RmXiMAm5WuS7NKnoWXh8ycB+yEU2dLWcqhR3m0DvpWACwPaDQsq
-Z0hiqgi8mrXK256qiQg8p4YVJvXoxIuSOERjw/xG4yS661pex7UTIhd5FvtQXxTg
-aLfT22n4snWG6I44fcJ5qMujrmV/9A==
-=CNyB
------END PGP SIGNATURE-----
-
---LaK5P6dTv6keEyL5--
