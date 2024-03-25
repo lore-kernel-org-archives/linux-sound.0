@@ -1,133 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26FA1BAA48
-	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 11:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792021C5AB0;
+	Mon, 25 Mar 2024 11:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711365200; cv=none; b=cfRNpC8+M4mdW5mQSYglHA96it9i4mQlpvg8nH9x3Jm5em5BmmJjFhWY2h9cukuS9xIPgyH9Dww1fycA6vjm7E2j7CNO45OZPHnbGW6Q0COR8wvh6zeD1jxswGpUKIuUvoe1/FxJfLnu/K4WqluPi/v+gEL+4cUxX9pDnPMkD2M=
+	t=1711366311; cv=none; b=mEbLfXVZHgrDbef5LFMmYarNh64gx423lCzjChWr1FwcfmNfZq2x8a9NJ74n1QTSiPd5LD7Mp4jzbjPE6tcpI6o2unHLKn2D+5xpOir3/A+ny4BA1Qivi6LkH+ux21mDl9kJEYAOENIz6uiyd6xq3J+Rhbm5+jptjW7A4r+YVzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711365200; c=relaxed/simple;
-	bh=Hsa/4RMLo7slhwDozooCgxr8Rhe6jK9MdW6Cr2Tbkbo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=gAlLWBlw90hVyTvZnUVqDRoBG72jBnqIUntrUKxCC+I4oWcro+xO8TSN7rY2VkGGQJCqSbuv3J2EAFNAw8nVeSU7DiEdhCMj4iVq3fo1e/qfPSyIKrwjtm5FRX2I08Mcf02TZqoRMzSF98oXBWGtACOnYweLnMAUMLBIEpljaXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i6ljovrx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711366311; c=relaxed/simple;
+	bh=MJQZPFsYuoWMOOKpqEWdDBSguutaxNezVILCQTDO434=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V7gp4sDYsFKRMlPzNZLxrcdgcQ5P+BI+pxTDeWgThZXFnhCcHYw+04D7n/BXsCIsM2FQc/3HXDiV5WZiTsEr/FMZ+SKWLsHfaxwAlrfWynE0XpVnZp3AD46otjdn7EUhoWP8wNNIjvFW+3vUBsNi+OTBsa5FgCUPoGCDy/ZmUJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BvWMcMW0; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i6ljovrx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711365195;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QAPHGbxlJ6k982EnibWHBxa9+vZqkzt4vbnevEyQxDY=;
-	b=i6ljovrxAAxtvJII+5FvBck2e+Y+YtGgrYqG7qg0wLeKvICjtKddxa94WSc045W+j5P67U
-	0GSPJYHBf1FupyAeHXOrIVlDAGU2R3BAjBQroPUBnv8F6uE+j1qu/D7GyecBcb/Ry2G38+
-	tGjgXqYK2YW2BQBhQ3E7rxvsTuk/veY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-verZTBElMPCQaS4ZAp_aBA-1; Mon, 25 Mar 2024 07:13:14 -0400
-X-MC-Unique: verZTBElMPCQaS4ZAp_aBA-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-56bf76d4282so1977797a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 04:13:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711365193; x=1711969993;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QAPHGbxlJ6k982EnibWHBxa9+vZqkzt4vbnevEyQxDY=;
-        b=jX9TNSWU2Smjk0RZ8ZUl4fG12W1A9ogMnss1kciSAtdVt+72UdmynPVFZtYlAZLxWo
-         IIDhw/yfXpOHjwwVIZ4aysgfxHsnQNXIW+05HOqJ6Hx0QByBD3zzGpfvv9H7IOmexeJH
-         8W8jASSnJZkMBzNbnX9NaZOsxiO0kyCUC0MZ/YjeQ3OhUzRlzR01SpMCTgYfZlwsmI2r
-         HTP+4KT8owJ+NEv4PyGI1WPTI0RPUgyVH0SpItptuF8JBGmgfbKM3bf4N1ROa0AdAwdp
-         aKwdiM22Na9MLozGh2rKeRNz5fIoQJGNvwyrE7XeciPvuUrdNZrsX+HovZEnJgMUAms8
-         lnOw==
-X-Forwarded-Encrypted: i=1; AJvYcCV00DrOa1R9UZIus2T4WKhATfYJDaVwNV7LMS82dH3jYX/BbOjLFepta4P0Kaq0zVUO119jjI+sIzY1qrScYssEsKLREzO4/6qjPwc=
-X-Gm-Message-State: AOJu0YwZQxxhGtJhTxW15dAw+s1Zv/Lo4pJdIk9zYCN8zWsewcnfPPF7
-	/dqVF7v/TkOpDltHYhQqYEO+cNjxFjmB4ADBkEh6jjSRA4lm9grKtflpp7O3YHljF14ik5s1H86
-	wlu7Yk+I6lXPkn7rdQ5Vc1Byvr/Ytv7TWiD6GVp/LHznOUNp1kqWrn3prAUPa
-X-Received: by 2002:a50:8753:0:b0:568:aced:e5a0 with SMTP id 19-20020a508753000000b00568acede5a0mr5705684edv.14.1711365193419;
-        Mon, 25 Mar 2024 04:13:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHDFlIpB/lK3v3cbB5QOQ7Bbg8iNxhFwokSKMspks8TaBGXgxvtbwZi1GudHYxQskJStFdo7A==
-X-Received: by 2002:a50:8753:0:b0:568:aced:e5a0 with SMTP id 19-20020a508753000000b00568acede5a0mr5705672edv.14.1711365193137;
-        Mon, 25 Mar 2024 04:13:13 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id fi24-20020a056402551800b0056bfa6ad5eesm2530825edb.91.2024.03.25.04.13.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 04:13:12 -0700 (PDT)
-Message-ID: <f677cad0-4387-4a79-b7bb-f7b0676e5418@redhat.com>
-Date: Mon, 25 Mar 2024 12:13:11 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BvWMcMW0"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P4qkf3007553;
+	Mon, 25 Mar 2024 06:31:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=B
+	GcWn7Vy3IP2SJ0lUTxgCUyOMlOORhPAToSh6yl/wik=; b=BvWMcMW0AFEJbcVpl
+	N/H3iWdtmnkhlCD4K2IRAP4UwGO8uJQoagQlEmJIVyhs6yaIAeWRH4LtmhHSo/Sh
+	x9HdataaQPk8HITz0EOvgZf9jwd/gluc+ewVc1kWkOAmf2u6HUoGDKC35l7EAlLe
+	NPkRCV492Ylcl4BRzWRUgmxMRcIUTvHCaPcaNsjsPgIR44E/4BixNZLkKNF/XlL7
+	5lzpoFtjhtatZVDmFQf9SHCamPD/k4HMQ+xE3ncl6PnMVlDb7Uej6SlK4eyjxuS5
+	A78XYmMZFUnBimhddr1nseKug06ZneLBeZHTkoQB9HuCAkutqVs3CFHilqWyeZLL
+	ptorA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyb6v0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Mar 2024 06:31:29 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 25 Mar
+ 2024 11:31:27 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Mon, 25 Mar 2024 11:31:27 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2DEC7820241;
+	Mon, 25 Mar 2024 11:31:27 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH 0/5] ALSA: cirrus: Tidy up of firmware control read/write
+Date: Mon, 25 Mar 2024 11:31:22 +0000
+Message-ID: <20240325113127.112783-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/28] platform: intel_ips: Use PCI_IRQ_INTX
-To: Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
- linux-scsi@vger.kernel.org, "Martin K . Petersen"
- <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- ntb@lists.linux.dev, Lee Jones <lee@kernel.org>,
- David Airlie <airlied@gmail.com>, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
- <20240325070944.3600338-8-dlemoal@kernel.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240325070944.3600338-8-dlemoal@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: eEuzHHeve88IErOHMGl7VLKzH3MtdUFP
+X-Proofpoint-GUID: eEuzHHeve88IErOHMGl7VLKzH3MtdUFP
+X-Proofpoint-Spam-Reason: safe
 
-Hi,
+This set of patches factors out some repeated code to clean up
+firmware control read/write functions, and removes some redundant
+control notification code.
 
-On 3/25/24 8:09 AM, Damien Le Moal wrote:
-> Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
-> macro.
-> 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Simon Trimmer (5):
+  firmware: cs_dsp: Add locked wrappers for coeff read and write
+  ASoC: wm_adsp: Use cs_dsp_coeff_lock_and_[read|write]_ctrl()
+  ALSA: hda: hda_cs_dsp_ctl: Use
+    cs_dsp_coeff_lock_and_[read|write]_ctrl()
+  ASoC: wm_adsp: Remove notification of driver write
+  ALSA: hda: hda_cs_dsp_ctl: Remove notification of driver write
 
-Thanks, patch looks good to me, feel free to merge
-this through whatever tree is convenient (or let me
-know if you want me to pick up just this one patch
-from the series).
+ drivers/firmware/cirrus/cs_dsp.c       | 54 ++++++++++++++++++++++++++
+ include/linux/firmware/cirrus/cs_dsp.h |  4 ++
+ sound/pci/hda/hda_cs_dsp_ctl.c         | 22 +----------
+ sound/soc/codecs/wm_adsp.c             | 32 ++++-----------
+ 4 files changed, 67 insertions(+), 45 deletions(-)
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->  drivers/platform/x86/intel_ips.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/intel_ips.c b/drivers/platform/x86/intel_ips.c
-> index ba38649cc142..73ec4460a151 100644
-> --- a/drivers/platform/x86/intel_ips.c
-> +++ b/drivers/platform/x86/intel_ips.c
-> @@ -1505,7 +1505,7 @@ static int ips_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  	 * IRQ handler for ME interaction
->  	 * Note: don't use MSI here as the PCH has bugs.
->  	 */
-> -	ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_LEGACY);
-> +	ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_INTX);
->  	if (ret < 0)
->  		return ret;
->  
+-- 
+2.39.2
 
