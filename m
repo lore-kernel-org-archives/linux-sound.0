@@ -1,108 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4378062E;
-	Mon, 25 Mar 2024 12:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E29612C7F9;
+	Mon, 25 Mar 2024 13:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711371435; cv=none; b=F3JGkS5CzXamA33+Bk4EwxeG2K/FgMd6uwm/vKUn/6O6V9XJVzRu79PV0jyh5UR9dojTkXk7dK0HeCoMDbQBexuBx3HooIgQjxumXrWUnjE9gw4cnZ7WzYzPu/Q9H1lM4Vps3wx7vOtglMx14Xf8O4z2Hd+RvQWx8/AYF9RJ9ag=
+	t=1711374073; cv=none; b=dCkUgkh3gg+liW1LFvKJzpFRHiXttzJ06HJrC0YJLWdZbpq/4Vo6CEaQriL3ulWZXivbjVCVBZ7e3+SnCVQpU2g+AWnwpT+AU4Lea5XoWAa2182KBe/f5x/bCZnecCtyNcxyYdxa2koKPs2hHu8sHL4HpoJBeboWJCl0YZSscu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711371435; c=relaxed/simple;
-	bh=HUjKdQlxom6P1m/TBqTuw6g6vhOkoQNgKeUZCY9XFh8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=S0PfVWyk1RENFfnj21UUcFJPW2TPp5oSIdVFOrZNqxWYVsrS0PMWLa/VwP82Oa2jDH5IVoupmvyDf5faQnruJHAtDxKCPKTeYzrYj8RJKRU95yaNPoxw1ShK0spEJSi/TwV4cSCn+jJv4PiNYetdl0UL+sI5bCPcqbHHJLt7rOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJUAlXLp; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711374073; c=relaxed/simple;
+	bh=WgdUCSrnKAGw2TF5y8bAENJkYNr1jVJYvWxlovRCCZM=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=q3/QslZ7OwKpdHvG7cw6Hr7XK1Za6/liHgt68fZt8MO8ZqBDhPD5uCOMDAlmwSI5CvqhZZC2tczbZxU0edW8FqPGFjORKwB0nAKj+AC2N4E695aNBdmsQAe+LJMZB+uGihtRnYHqt38rAkb7RE+lP6dyEvfjjBsriTzl0IMOx/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAHK62NK; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJUAlXLp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711371433; x=1742907433;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=HUjKdQlxom6P1m/TBqTuw6g6vhOkoQNgKeUZCY9XFh8=;
-  b=jJUAlXLpNmQvj1sPQuPkQIAXYKr5zeC4VNVj9Ux1TwLOuSS6Esa4zLz0
-   zgEgwo/w7ayto416WoD4OWjK28R7LT3nFHmJB7mXhtz2SNx2K6kC31p5U
-   zokP/yHr2iFMo8fP2ftyk69TN7iXUPRNKur3Pl4oRglfGoFbJk2NkgTbk
-   Ld2SM0WM8n9T8n6b6LhtlenvoYlxARr3y8LdMlr/xjKFEJKKy7U7aIPV4
-   HzXWu0erfWuIPcR0FYP8eDfZMhh9gvMfeAgGO4ZztPpozZ/+GYo7IYEVU
-   z6kr/vMDhaX+uJedxYk8whHWDGx1fO1YooHU9R81QnU+gbr0aY4OV5LA3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6552944"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="6552944"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:57:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="15637244"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:57:06 -0700
-Message-ID: <b99a99be-d5f3-4e7a-a83a-e29722cd79dc@linux.intel.com>
-Date: Mon, 25 Mar 2024 13:57:04 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAHK62NK"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51381021af1so6741597e87.0;
+        Mon, 25 Mar 2024 06:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711374070; x=1711978870; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9fW3TP6U7rAT0YQU6K+tYG9SUW8HtzWbLUAXpV7C8xQ=;
+        b=KAHK62NKHWpZ0MYJUPY2XmYv8WI4YT/tEYrTXI1YsZAp1GvRB7kGA1qyp2xcBL4Xnw
+         vZAqWI+dPcrTvjfu0w11scE1fhZaENb5SorlruXN7npQoanAew77IxGEwfP9vwfDRrcB
+         HmVlnKp5CeG1CHwJYGbikoPXg2HiGcpOxTVwqgehUmQMYGEdDtfZDWTOIBDm9G+dqvZZ
+         CGg+IlJtXFUcn+xGfBl5MZ4Sk/+ROX4jnsQ/F0w5P8nzoU09kYMq51waFClcVbM/vU26
+         KtLrDR1SXIHrRFfx10rsAsvKPcuXOffuB/XHBjd1N7X4pVVajc8OJlUIVW2PR8/3B4b8
+         tVEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711374070; x=1711978870;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9fW3TP6U7rAT0YQU6K+tYG9SUW8HtzWbLUAXpV7C8xQ=;
+        b=R64es4ttsBQuoEPEChmqFZTgrbOv3MdNL/GALwlF//CVtbmR8lms/Uoi1aOP1bRCOR
+         Pub/y+BmASeSXmrjl91hw5zFcRRjXvX117pRLRmnS5U4eclmp5V0NuFHogr0H1H7mmEN
+         iYqR8CMlxQ1ZgRVQZt+iuWUxOfJLtCu4jOT9fxYWTb0149XguZVfHc0E3ZHERQkeAbqX
+         QzV/xPoyTtvaQNlRoK4UIgwie7Q8R0zubad8VFEEMaw8JmUnEWRAlXEa0ewnt9zqNo1T
+         LIdEE2nIWUCRMCx8eH0pf7Cawl2946sZ2FV5FoVKS2Cb50gw/G/CPVGh6TlsTBg3zcxb
+         uiKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3quyAuUxTGP2j7LNEmv4jqA+qv7XZ+BXC0r7ulXGQuuDSzIYP9nqkGvEX4FDJRECP7iSecYeNo+F7UDVQmwcPiFJNjhUVrS3E/ZQghpHosVBXOg3Wm8rurRGiZ846aWCm+SCDq7pmoR1Z6lWsuvjACotPnHzx1BlvmQ2H+SZFsy8=
+X-Gm-Message-State: AOJu0Yz0BToWG1b8bdMaqsp+Mhb+N1MILovezocoPqh7MIn3AQVce+9S
+	d4N+zIZxxAi6IAoZXTDejOaklSWQ//Vvd8NFIuv3l8DART7mjX6/
+X-Google-Smtp-Source: AGHT+IHFZcT7cCZU+2peD7kPFIrbSzoXyVVras2/b4e8Wkx4t8Kby1ECloKaZu4recJeyOK2uAMvKg==
+X-Received: by 2002:a19:4344:0:b0:513:e14d:15e1 with SMTP id m4-20020a194344000000b00513e14d15e1mr5689528lfj.57.1711374069495;
+        Mon, 25 Mar 2024 06:41:09 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id kv20-20020a17090778d400b00a46cc48ab07sm3068893ejc.221.2024.03.25.06.41.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Mar 2024 06:41:09 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=7c0212269c912adc4455d93afd23d4aee2f75956631fcdfadad28a09c895;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/28] sound: intel: Use PCI_IRQ_INTX
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
- linux-scsi@vger.kernel.org, "Martin K . Petersen"
- <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- platform-driver-x86@vger.kernel.org, ntb@lists.linux.dev,
- Lee Jones <lee@kernel.org>, David Airlie <airlied@gmail.com>,
- amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-rdma@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
- <20240325070944.3600338-5-dlemoal@kernel.org>
- <3edd5823-bf54-4898-bcee-e1628c863388@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <3edd5823-bf54-4898-bcee-e1628c863388@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Date: Mon, 25 Mar 2024 14:41:08 +0100
+Message-Id: <D02VH5KH4A9R.6IOJPPMBF0K5@gmail.com>
+Cc: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <lgirdwood@gmail.com>, <jonathanh@nvidia.com>, <mkumard@nvidia.com>,
+ <stable@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: Fix DSPK 16-bit playback
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Sameer Pujar" <spujar@nvidia.com>, <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240325104928.2796868-1-spujar@nvidia.com>
+In-Reply-To: <20240325104928.2796868-1-spujar@nvidia.com>
 
-On 3/25/2024 1:34 PM, Amadeusz Sławiński wrote:
-> On 3/25/2024 8:09 AM, Damien Le Moal wrote:
->> Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
->> macro.
->>
->> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
->> ---
->>   sound/soc/intel/avs/core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
->> index d7f8940099ce..69818e4b43da 100644
->> --- a/sound/soc/intel/avs/core.c
->> +++ b/sound/soc/intel/avs/core.c
->> @@ -343,7 +343,7 @@ static int avs_hdac_acquire_irq(struct avs_dev *adev)
->>       int ret;
->>       /* request one and check that we only got one interrupt */
->> -    ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | 
->> PCI_IRQ_LEGACY);
->> +    ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | PCI_IRQ_INTX);
->>       if (ret != 1) {
->>           dev_err(adev->dev, "Failed to allocate IRQ vector: %d\n", ret);
->>           return ret;
-> 
-> Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+--7c0212269c912adc4455d93afd23d4aee2f75956631fcdfadad28a09c895
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Sorry, one more thing, can you adjust commit title to:
-ASoC: Intel: avs: Use PCI_IRQ_INTX
+On Mon Mar 25, 2024 at 11:49 AM CET, Sameer Pujar wrote:
+> DSPK configuration is wrong for 16-bit playback and this happens because
+> the client config is always fixed at 24-bit in hw_params(). Fix this by
+> updating the client config to 16-bit for the respective playback.
+>
+> Fixes: 327ef6470266 ("ASoC: tegra: Add Tegra186 based DSPK driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>  sound/soc/tegra/tegra186_dspk.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/sound/soc/tegra/tegra186_dspk.c b/sound/soc/tegra/tegra186_d=
+spk.c
+> index aa37c4ab0adb..3a152e76122b 100644
+> --- a/sound/soc/tegra/tegra186_dspk.c
+> +++ b/sound/soc/tegra/tegra186_dspk.c
+> @@ -1,8 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+> +// SPDX-FileCopyrightText: Copyright (c) 2020-2024 NVIDIA CORPORATION & =
+AFFILIATES. All rights reserved.
+>  //
+>  // tegra186_dspk.c - Tegra186 DSPK driver
+> -//
+> -// Copyright (c) 2020 NVIDIA CORPORATION. All rights reserved.
+> =20
+>  #include <linux/clk.h>
+>  #include <linux/device.h>
+> @@ -246,6 +245,7 @@ static int tegra186_dspk_hw_params(struct snd_pcm_sub=
+stream *substream,
+>  	switch (params_format(params)) {
+>  	case SNDRV_PCM_FORMAT_S16_LE:
+>  		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_16;
+> +		cif_conf.client_bits =3D TEGRA_ACIF_BITS_16;
 
-and with that, you can add above Reviewed-by:
+Do we perhaps want to move the common cif_conf.client_bits assignment
+into the S32_LE case now? It doesn't make much sense to have a common
+assignment that's overridden for the S16_LE case and only kept for the
+only other alternative (S32_LE).
 
-Thanks!
+Thierry
+
+--7c0212269c912adc4455d93afd23d4aee2f75956631fcdfadad28a09c895
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYBfvUACgkQ3SOs138+
+s6FALg/+Ife+lFuYpPI7oOhuX256Czmwcb6Ey73+YJeFTYvB51f7oFhaupJh0Urj
+Gda3FfgCjHbEU4cMrx2jYyKN//Fvs1Yqc3+JK4tmt7E5JAPV4S52lLty8Lgpmvd/
+2aDv5UgrH58PrQgQu/QKHmNcGJ0LrAXp6pH6BGrRJZ0URFiOX0CiGRM3W0YsWw9y
+87FYcPkpH8Y0hHjfWhJMeh6npOc6CbcjmCdMo7p3SYjBR9Z88BtJA0JGKyE/JoQ6
+tLCMgAnJCXbWGfTuUOqCck5kZE0zo7n9Mu8lDdMHhlyJalyc5ikSBiIhGXuDJQHO
+LTEyyPO6d3TVaSKF6nRCq5Vg8eaxVW5L5Knc6EYIm+DgsUvXz12ClhXl08EPKtxe
+odUxIZuAajREk8YFon5cGszOLgjLEMbl+/d4abD2+YHe0Ct3Qdxwlb0x6pcdWUeg
+bxYPqTpAw57nMkmTfZmaUgi42xcgekE0OnLuw8oQ+gPrhC1S+MBJYxe5sztN6XNm
+ubfhqDRdniGPGtvnXw9snSpl30q5ec5ZXArARO593ZUSXC6uKK1Rg5s1+na+iKTS
+jaXg+yCMcbx01JO3M/VvC2+fsSuCZ1MjBPskCHg+o2jbs9pbpPLpJRV5xZFISyvT
+IZfDLFEuJJ1DUp6dVbJbaLHAbPhIaFJmxWLLZ0pGdWZ5wGEC8Nk=
+=TLnc
+-----END PGP SIGNATURE-----
+
+--7c0212269c912adc4455d93afd23d4aee2f75956631fcdfadad28a09c895--
