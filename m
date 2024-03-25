@@ -1,48 +1,47 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714D31C5AA9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715301C5AB4;
 	Mon, 25 Mar 2024 11:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711366313; cv=none; b=Sw0A3QFJAMAA4DEzUsRFAJmKswAqy7cemx14qF/b4RT8Y+9V6PwrV//DhlMqmZ6pVW8GPf15ZiuSzdak4DxNVdzNiu0vyKTZ5qG/o17F2NCTuyGDhwOAvWVYCQt/s74NZ2xOw+Fuw0gMVRiAtQmtRwYNTmez7Si+Ji3zSGmFx6U=
+	t=1711366314; cv=none; b=CcGcfBNXZEPVSW2cuSIK7kZDf82s8ozXHylbLqfR7zbf9jd304kU7eK1WSU+z5It7k1nucWhbmwxaw625k+VJ9T38kGHezKyrh/d0JcnFMAknaObmQVsetfNSeO2L0gPc9aoXB4w6rV2v/nqRZ9Xn6n+oy7UegI3KMazZkenS78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711366313; c=relaxed/simple;
-	bh=zmwpU7zhfw8O1UTOk5P7IsqdbKBMPEewor0lPLRRAe8=;
+	s=arc-20240116; t=1711366314; c=relaxed/simple;
+	bh=DtND/2TH2HecycIPvl0bQ7o+Uh9mDNNleYg4w3UFX/k=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u49pRHIMyUwnr4pS2pb1Kml1DoXfaITmzKQAi2qJuqEch7I0HYtqgJrbjBNnFog0EZmhKxbb6NpJDwpRm5qp+JSRB3UXFavSv41VHTgZrs9m0DiNhAd0Xb+Qjm6qcNL23yitcBb+orqwSe8ckbsr4vI8oil8YAKZ1JfngxqYhAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=NashjA8/; arc=none smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=g7uU1IBeHCX2jW7pklwwTTiqENgMyAQzT98yz6caDnqxgvC3vdvaCRdfEc94RlCapPMFf/DviJgWF7bQZENDFhi4yG5SPht78HG1Zex/isXRm+FOBnFFa6Tw7Wfe44SH09E6WWzj5qS0k+iiRcFSxFdIJZXS1sVSOCjkSRaiAwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hAZBgus+; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NashjA8/"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hAZBgus+"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P4qkf6007553;
-	Mon, 25 Mar 2024 06:31:32 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P4qkf5007553;
+	Mon, 25 Mar 2024 06:31:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=siE7HV2Pcf2Dad5MeeLwU/Yn1sAi4q9OlYqKhgzd2rk=; b=
-	NashjA8/Q6yMq0d0V5XiRUMLbsmsBR+X5iYlJsguj8r7kCVgGQedcEb1s+eBTQZ4
-	eKrkPRVJNmRy6L3ucPqBf03oj+pbguD4A+14zCAYLoWX7G+RHnlqGVAfplOHLWcA
-	Zmh8oFgA5/bMnYXvfTQubNFV8KKGQU25I5pGd2PULacF9zJ4U9AF7V7Cpz8CID0Y
-	c7dFUvH3DOck9t0LkrfHTBbTS74q80zOcvdURlhywP0wDbLPCNjy6HFV6kCr8l40
-	e8BZkAtxavmFfcdPMHCEUB9x1C5NxUaxoLbSlc9AumuwAz5BQfmqROgLaT1qkcxQ
-	QnypmRPWiTKliVUCE/Xk4w==
+	PODMain02222019; bh=s1A3sEsy8QLu47lwBUxBo7IgUoNvvzU56aJ+ojynQBQ=; b=
+	hAZBgus++QqTo91R9+0lwTstUiNyOi68eSTlbEwJ7N6eDQmI5a6jJFEw/jbACMDp
+	AC1UircWKayQcyELCh5g7VxvEJCdx9QrlPQdIoixJxiWcEGtsrD+/N8WexPjMto3
+	55OxtVVFaHcIVW2qZvq/pMJcuQPO1cRzna7wADtGYKS1PfGks8y3eCowhGCt4S4L
+	nwN47QQ1hOmYc/FXMPO/BbBnU4wMUXF3ksU5aoiZAvqg9NTXhvoGJrag4mXmRY9F
+	a9+rqCKhnB0nb0MswYZWNFAq05ZTxvsPIBvs2oqFQR2vwLezO6p6d0P7Y8tLZcTM
+	s7/wJgV0kMdnsb917/JhNg==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyb6v0-4
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyb6v0-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Mar 2024 06:31:32 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+	Mon, 25 Mar 2024 06:31:31 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 25 Mar
  2024 11:31:27 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Mon, 25 Mar 2024 11:31:27 +0000
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.4 via Frontend Transport; Mon, 25 Mar 2024 11:31:27 +0000
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5553E820259;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 41DBA82024D;
 	Mon, 25 Mar 2024 11:31:27 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: <broonie@kernel.org>, <tiwai@suse.com>
@@ -52,9 +51,9 @@ CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
  Trimmer" <simont@opensource.cirrus.com>,
         Richard Fitzgerald
 	<rf@opensource.cirrus.com>
-Subject: [PATCH 5/5] ALSA: hda: hda_cs_dsp_ctl: Remove notification of driver write
-Date: Mon, 25 Mar 2024 11:31:27 +0000
-Message-ID: <20240325113127.112783-6-rf@opensource.cirrus.com>
+Subject: [PATCH 2/5] ASoC: wm_adsp: Use cs_dsp_coeff_lock_and_[read|write]_ctrl()
+Date: Mon, 25 Mar 2024 11:31:24 +0000
+Message-ID: <20240325113127.112783-3-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240325113127.112783-1-rf@opensource.cirrus.com>
 References: <20240325113127.112783-1-rf@opensource.cirrus.com>
@@ -66,47 +65,73 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: F0iH18PgYYJ0Qf-2-ARpnSRL4tt02OfD
-X-Proofpoint-GUID: F0iH18PgYYJ0Qf-2-ARpnSRL4tt02OfD
+X-Proofpoint-ORIG-GUID: A9SwOO9lWnUqNlKhK1VT9Lw8RetoN_Fj
+X-Proofpoint-GUID: A9SwOO9lWnUqNlKhK1VT9Lw8RetoN_Fj
 X-Proofpoint-Spam-Reason: safe
 
 From: Simon Trimmer <simont@opensource.cirrus.com>
 
-Any control that the driver is updating should be marked as SYSTEM and
-therefore will not have an ALSA control to notify.
+Using the cs_dsp_coeff_lock_and_[read|write]_ctrl() wrappers tidies
+the calling functions as it does not need to manage the DSP pwr_lock.
 
 Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
- sound/pci/hda/hda_cs_dsp_ctl.c | 8 --------
- 1 file changed, 8 deletions(-)
+ sound/soc/codecs/wm_adsp.c | 24 ++++++------------------
+ 1 file changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/sound/pci/hda/hda_cs_dsp_ctl.c b/sound/pci/hda/hda_cs_dsp_ctl.c
-index 725544d81941..7f2d35cf245b 100644
---- a/sound/pci/hda/hda_cs_dsp_ctl.c
-+++ b/sound/pci/hda/hda_cs_dsp_ctl.c
-@@ -201,7 +201,6 @@ int hda_cs_dsp_write_ctl(struct cs_dsp *dsp, const char *name, int type,
- 			 unsigned int alg, const void *buf, size_t len)
- {
- 	struct cs_dsp_coeff_ctl *cs_ctl;
--	struct hda_cs_dsp_coeff_ctl *ctl;
- 	int ret;
+diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
+index 7d5c096e06cd..8e366902ee4e 100644
+--- a/sound/soc/codecs/wm_adsp.c
++++ b/sound/soc/codecs/wm_adsp.c
+@@ -403,13 +403,8 @@ static int wm_coeff_put(struct snd_kcontrol *kctl,
+ 	struct wm_coeff_ctl *ctl = bytes_ext_to_ctl(bytes_ext);
+ 	struct cs_dsp_coeff_ctl *cs_ctl = ctl->cs_ctl;
+ 	char *p = ucontrol->value.bytes.data;
+-	int ret = 0;
+-
+-	mutex_lock(&cs_ctl->dsp->pwr_lock);
+-	ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, p, cs_ctl->len);
+-	mutex_unlock(&cs_ctl->dsp->pwr_lock);
  
- 	mutex_lock(&dsp->pwr_lock);
-@@ -211,13 +210,6 @@ int hda_cs_dsp_write_ctl(struct cs_dsp *dsp, const char *name, int type,
- 	if (ret < 0)
- 		return ret;
- 
--	if (ret == 0 || (cs_ctl->flags & WMFW_CTL_FLAG_SYS))
--		return 0;
--
--	ctl = cs_ctl->priv;
--
--	snd_ctl_notify(ctl->card, SNDRV_CTL_EVENT_MASK_VALUE, &ctl->kctl->id);
--
- 	return 0;
+-	return ret;
++	return cs_dsp_coeff_lock_and_write_ctrl(cs_ctl, 0, p, cs_ctl->len);
  }
- EXPORT_SYMBOL_NS_GPL(hda_cs_dsp_write_ctl, SND_HDA_CS_DSP_CONTROLS);
+ 
+ static int wm_coeff_tlv_put(struct snd_kcontrol *kctl,
+@@ -426,13 +421,11 @@ static int wm_coeff_tlv_put(struct snd_kcontrol *kctl,
+ 	if (!scratch)
+ 		return -ENOMEM;
+ 
+-	if (copy_from_user(scratch, bytes, size)) {
++	if (copy_from_user(scratch, bytes, size))
+ 		ret = -EFAULT;
+-	} else {
+-		mutex_lock(&cs_ctl->dsp->pwr_lock);
+-		ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, scratch, size);
+-		mutex_unlock(&cs_ctl->dsp->pwr_lock);
+-	}
++	else
++		ret = cs_dsp_coeff_lock_and_write_ctrl(cs_ctl, 0, scratch, size);
++
+ 	vfree(scratch);
+ 
+ 	return ret;
+@@ -474,13 +467,8 @@ static int wm_coeff_get(struct snd_kcontrol *kctl,
+ 	struct wm_coeff_ctl *ctl = bytes_ext_to_ctl(bytes_ext);
+ 	struct cs_dsp_coeff_ctl *cs_ctl = ctl->cs_ctl;
+ 	char *p = ucontrol->value.bytes.data;
+-	int ret;
+ 
+-	mutex_lock(&cs_ctl->dsp->pwr_lock);
+-	ret = cs_dsp_coeff_read_ctrl(cs_ctl, 0, p, cs_ctl->len);
+-	mutex_unlock(&cs_ctl->dsp->pwr_lock);
+-
+-	return ret;
++	return cs_dsp_coeff_lock_and_read_ctrl(cs_ctl, 0, p, cs_ctl->len);
+ }
+ 
+ static int wm_coeff_tlv_get(struct snd_kcontrol *kctl,
 -- 
 2.39.2
 
