@@ -1,90 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FC21448C5;
-	Mon, 25 Mar 2024 02:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26A1185F27;
+	Mon, 25 Mar 2024 03:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711332790; cv=none; b=t6GriCTwVChT//VbpLOuyjwDLji0uRD7+A2zT+2+RH1T1Y2UMmUgs/ZP2l0Mwp4e2xeuFbOdKrsFvZJN73iLtFD4ZgpzXDUJLfSxxE/AkqZDUziN409ca1r/OdL9hzYDdBRXPdPq7jeEucl66Cf1368FxalqI4RGZai+/qNj/ng=
+	t=1711338023; cv=none; b=rPxJOMs0swrdxtOBfJ6YmCo8Eif14NUT8je4waZ9DfaViMJQgB+aF3LPxVofx8ldyN1/FeRcwJmmR5vFzKULvdGRmwGQ76jQkBvz8s5WSlZ+mTePj+Hm3Rea82CLY6yTG7SxdZier5oDvL71hY17J4+9+hH6bsL0QmT5pILhvyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711332790; c=relaxed/simple;
-	bh=5wz/G6BX39xadTRq0vFfWqYZDZhSRjYlx0kuuawdnUY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=RTqZ+N+YfszdbYr0Jv7vsSMJscmQa5uQ6l8VSSkHhwAP0S2Jy/sPwgt4qMFczCXEpzeZwDa7joQg/lTLhLgGIcQK37hWSuH2Kh7R5Uy9MCP2ZCx9XmukLEaoTImoCqJikbHMAmOrqO8MXyU4yVkcIcCb/z8bA0QzF0azKKrVMy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bf4PA4AJ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bf4PA4AJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C2673C3278B;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711332787;
-	bh=5wz/G6BX39xadTRq0vFfWqYZDZhSRjYlx0kuuawdnUY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=bf4PA4AJ6lFivhLpGcubQoBLV61qpUeFb5CEvCqEnG+WnZVpdTtq1TuutfbOOTnK8
-	 KUbnm61riFCmr43khH6NJi+4O1d75Ldpm05eeetUHo1B1Wi5vnJupujdw46EbtGMoy
-	 guqa2zX2JJk5Oa+qv/Oa+zEqgpaecqGNAMw04MelD+IQ2unKuY71gotTmBa86UnRwW
-	 nytA2WM5NsQWo/cY8jD0IUH2Bh9n9HuqLCO+m9hyxg0EyTrdg7l7WlHXTeT9aqwg9v
-	 uuNMse2kFdLrJV17V0aMiyoJc+5+ucfT+2/0JNrcXygvVB5vKNmDS3mjGr2f763QO+
-	 WAOcXVm6tj7Rw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B4277D2D0E4;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711338023; c=relaxed/simple;
+	bh=cm6ZnN81c2x49XQx/b2mFqGyUdAzRwWF8NYiQkUhL2c=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=DgxNrLw6RcfuntButEW9Gfzx0aZqQDJbuEMz0j/dJmMhiyKGppcasHlkeD9tmiekx7SWtve8HttJHUsUkcXksv2lqy754Vhx+w8YjxFy5tFM26iSTSGdoqawlaRoGILdRCkfmo9psbRHc7ImYdppvKdwaw32AMILiVAhcv+h4Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=20.231.56.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from ubuntu.localdomain (unknown [218.12.19.154])
+	by mail-app4 (Coremail) with SMTP id cS_KCgBXeb0C8gBmkGxFAQ--.46008S2;
+	Mon, 25 Mar 2024 11:39:56 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] ALSA: sh: aica: reorder cleanup operations to avoid UAF bug
+Date: Mon, 25 Mar 2024 11:39:46 +0800
+Message-Id: <20240325033946.47052-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgBXeb0C8gBmkGxFAQ--.46008S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4UZw1kZFWxuFWDCrykXwb_yoW8Ar1fpF
+	Z8WF93KFn7KFyvkFWUZrn2gryxGw1fta1Dtw45J3yjvFs3Xr1Fka45K3ySgFW3trZ5u39r
+	tw45Xw1avr90va7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
+	U==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwMJAWX+3hkBYwBgsW
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] treewide,
- serdev: change receive_buf() return type to size_t
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <171133278773.9916.16472744560807510288.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 02:13:07 +0000
-References: <20240122180551.34429-1-francesco@dolcini.it>
-In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org,
- linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- greybus-dev@lists.linaro.org, linux-iio@vger.kernel.org,
- netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-sound@vger.kernel.org, francesco.dolcini@toradex.com,
- luiz.dentz@gmail.com, johan@kernel.org, elder@kernel.org, jic23@kernel.org,
- lee@kernel.org, kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
- davem@davemloft.net, krzysztof.kozlowski@linaro.org, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, bleung@chromium.org, tzungbi@kernel.org,
- robh@kernel.org, Jonathan.Cameron@huawei.com
 
-Hello:
+The dreamcastcard->timer could schedule the spu_dma_work and the
+spu_dma_work could also arm the dreamcastcard->timer.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
+When the Yamaha AICA card is closing, the dreamcastcard->channel
+will be deallocated. But it could still be dereferenced in the
+worker thread. The reason is that del_timer() will return directly
+regardless of whether the timer handler is running or not and the
+worker could be rescheduled in the timer handler. As a result, the
+UAF bug will happen. The racy situation is shown below:
 
-On Mon, 22 Jan 2024 19:05:51 +0100 you wrote:
-> From: Francesco Dolcini <francesco.dolcini@toradex.com>
-> 
-> receive_buf() is called from ttyport_receive_buf() that expects values
-> ">= 0" from serdev_controller_receive_buf(), change its return type from
-> ssize_t to size_t.
-> 
-> The need for this clean-up was noticed while fixing a warning, see
-> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value").
-> Changing the callback prototype to return an unsigned seems the best way
-> to document the API and ensure that is properly used.
-> 
-> [...]
+      (Thread 1)                 |      (Thread 2)
+snd_aicapcm_pcm_close()          |
+ ...                             |  run_spu_dma() //worker
+                                 |    mod_timer()
+  flush_work()                   |
+  del_timer()                    |  aica_period_elapsed() //timer
+  kfree(dreamcastcard->channel)  |    schedule_work()
+                                 |  run_spu_dma() //worker
+  ...                            |    dreamcastcard->channel-> //USE
 
-Here is the summary with links:
-  - [v2] treewide, serdev: change receive_buf() return type to size_t
-    https://git.kernel.org/chrome-platform/c/fed99212acae
+In order to mitigate this bug, use timer_shutdown_sync() to shutdown
+the timer and then use flush_work() to cancel the worker.
 
-You are awesome, thank you!
+Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+ sound/sh/aica.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+index 320ac792c7f..bc68a3903f2 100644
+--- a/sound/sh/aica.c
++++ b/sound/sh/aica.c
+@@ -354,8 +354,8 @@ static int snd_aicapcm_pcm_close(struct snd_pcm_substream
+ 				 *substream)
+ {
+ 	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
++	timer_shutdown_sync(&dreamcastcard->timer);
+ 	flush_work(&(dreamcastcard->spu_dma_work));
+-	del_timer(&dreamcastcard->timer);
+ 	dreamcastcard->substream = NULL;
+ 	kfree(dreamcastcard->channel);
+ 	spu_disable();
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
