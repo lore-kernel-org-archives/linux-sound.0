@@ -1,88 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E17A1448C8;
-	Sun, 24 Mar 2024 23:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC32149C6F;
+	Mon, 25 Mar 2024 01:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711321973; cv=none; b=p6SEwMdrlP/+IAe+tY2aRExI5T5mpb0nqLiE+Mwe9xVGjpiOx0rHOkfFm8BHVXJHeSl3Vrkq3RlNxB8VDw90NRlXHyT2UYIfLL5/vv2Y9YoKyhVuOs8CCKdxkIcRDxAp959gOA7kMTgROEqXXtEvGsaHkO3pAh6VlGTEYYsy5ZY=
+	t=1711331664; cv=none; b=GJotvEpMU2t96ExlDP3QYkgti/oue1B5/XZ2/OAaIXFHBOg1K26ltNX9kzVIaC/PnayRyFTRu4YN4f21q8FdTbC9asELWe8D6wb/XNMMmEug7fnwPJGVoT5EkY2oD+cMj3e1Xyxxr/P3JU9ZaKKy5lFZlvUtn2KgsaoMl5MvKZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711321973; c=relaxed/simple;
-	bh=9kUUdf+AjWFvFSiEOTqGVjiPX8FFD9m8l8eaQutwhnk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WbkoYnAG/Pl8Fq8OOwBNBZvgq0R8Y4ewHbkLW7mPoMtj3n5Le/6jMZRfKzUNiH+3tB+m07a+Pxkki5NbLkdv0gxv5BO1imMblVdsOMPviGo4BaMamadL6wBXxxYiovo/bnWk9Ge53jrekv/Sw5o4WUWBVwy2HLC95izxHFZcACI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=smo4iNQB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711331664; c=relaxed/simple;
+	bh=6oSruhpUUM/JsOE/DmTpdI2vwwDBrgPZ0a067ebg71g=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=BXavgyVIwbI0XKt1bmIkdF8F+g0tHgU1gEza/QMi5atTyUN40Y2UP4Zw6q60v2jdLAevl79doPcqwa3mWV37MQAFut45u2PH4gdHOaD5f3a/3JCcsD95+91BVI6QTqL08yDZxgNdIsE1jv1Y6zYz+VCooluQ5p0gBwpWn7T7MgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5v5+h49; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="smo4iNQB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96AFAC43394;
-	Sun, 24 Mar 2024 23:12:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5v5+h49"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6E65C3278A;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711321972;
-	bh=9kUUdf+AjWFvFSiEOTqGVjiPX8FFD9m8l8eaQutwhnk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=smo4iNQBsjd9IqKOAy0dP/tm4Ft8dE0iVa6S7W25gue9BLI5lIjwWCnJuZbh/FCZD
-	 FLtJlUVrhNTVx6dDOk+mGQtUAN3qhbtXgU/XkXuSlAzESfYdGzVwWCg1Bw7juHZ7RC
-	 LfhoYsIV98a/lE6lHzIZEVHWsUhLr6VkGaVJ1tGnP9N17yF7wt+taAzhB8v8cgI9du
-	 rlOvTjKtpEUu+0Xg5B/WBp5+GkjN483DyxLb0BPdy+gmdJ560FWsq3DKKH3qTgpq1h
-	 9ZksmCUOwywTIXwj8OEOpnAAX8+vUHMGZ1SII3iyTv2m9xAk6mCjzpT7LdPpeTmClU
-	 g/d+nSDn84GoQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Johnny Hsieh <mnixry@outlook.com>,
-	linux-sound@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.1 044/451] ASoC: amd: yc: Add Lenovo ThinkBook 21J0 into DMI quirk table
-Date: Sun, 24 Mar 2024 19:05:20 -0400
-Message-ID: <20240324231207.1351418-45-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240324231207.1351418-1-sashal@kernel.org>
-References: <20240324231207.1351418-1-sashal@kernel.org>
+	s=k20201202; t=1711331662;
+	bh=6oSruhpUUM/JsOE/DmTpdI2vwwDBrgPZ0a067ebg71g=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=H5v5+h49ENxYpO4Qx7Bxhx6rXvKE1uOYwWRPMuOMKAAAGjbVLOwiVpxBUGFp5tgD0
+	 bRdst26F9hDjh7YUZUwWr0x2cAfYNRnj+dxtl/ne6glopIwxX+aoKUy6CJcxbWbaUd
+	 MNr0+9gadKcBt3ZsPaHE1sxCHjuCpj1s5bpqLzxDj5YOy3Dta1gaLkaSqBQAzpz4LX
+	 MIdCzDsNSrkQbOQKie0yC9qHiPkAzdY9UedzZ5MflJ7Du/7ighdOEZfL1lo9oLnp14
+	 irlDyqzxpGP8P9NN8Jv7v8MMGYjdEJEFqvc3HShkoC9g70mAo7FfNU3xI07MtYbvbK
+	 tzSw6JGLkISEA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A9007D2D0E0;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] treewide,
+ serdev: change receive_buf() return type to size_t
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171133166268.9916.3624245768126440750.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 01:54:22 +0000
+References: <20240122180551.34429-1-francesco@dolcini.it>
+In-Reply-To: <20240122180551.34429-1-francesco@dolcini.it>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ greybus-dev@lists.linaro.org, linux-iio@vger.kernel.org,
+ netdev@vger.kernel.org, chrome-platform@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-sound@vger.kernel.org, francesco.dolcini@toradex.com,
+ luiz.dentz@gmail.com, johan@kernel.org, elder@kernel.org, jic23@kernel.org,
+ lee@kernel.org, kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+ davem@davemloft.net, krzysztof.kozlowski@linaro.org, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, bleung@chromium.org, tzungbi@kernel.org,
+ robh@kernel.org, Jonathan.Cameron@huawei.com
 
-From: Johnny Hsieh <mnixry@outlook.com>
+Hello:
 
-[ Upstream commit 50ee641643dd0f46702e9a99354398196e1734c2 ]
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
 
-This patch adds Lenovo 21J0 (ThinkBook 16 G5+ ARP) to the DMI quirks table
-to enable internal microphone array.
+On Mon, 22 Jan 2024 19:05:51 +0100 you wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> receive_buf() is called from ttyport_receive_buf() that expects values
+> ">= 0" from serdev_controller_receive_buf(), change its return type from
+> ssize_t to size_t.
+> 
+> The need for this clean-up was noticed while fixing a warning, see
+> commit 94d053942544 ("Bluetooth: btnxpuart: fix recv_buf() return value").
+> Changing the callback prototype to return an unsigned seems the best way
+> to document the API and ensure that is properly used.
+> 
+> [...]
 
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Johnny Hsieh <mnixry@outlook.com>
-Link: https://msgid.link/r/TYSPR04MB8429D62DFDB6727866ECF1DEC55A2@TYSPR04MB8429.apcprd04.prod.outlook.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Here is the summary with links:
+  - [v2] treewide, serdev: change receive_buf() return type to size_t
+    https://git.kernel.org/chrome-platform/c/fed99212acae
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 5921af7fd92c5..0568e64d10150 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -199,6 +199,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21J0"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
