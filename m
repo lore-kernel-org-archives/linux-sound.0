@@ -1,99 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607C8156669;
-	Mon, 25 Mar 2024 12:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442DB38DFB;
+	Mon, 25 Mar 2024 12:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711370102; cv=none; b=XAglHPtgYw7zVIkczpU+mgdKekhOE8zhrhbaitr74x6hHeuou6gqJVdGkrPfonSIUFAusoO5ybOvpe5WqSLnPNjhpyZXGMLJfibcxuu5tywB4d7u9g5xmpIm17varEJDoOVa6rx9aRvg8OXJV61FJp4omOKxM2xtsJUmRzH27dY=
+	t=1711371423; cv=none; b=WhvZXQnEObzaQDXSt5X6YYMmj4z1xmLurjZCml7uUHENz0K8VMlnAji6wonFv/8hSX1/SbN8x/Ozfy8yCvFvNSAFJXq5yytnWd9mob/WYCZcglczKp+vDlaZ8wmRstWkn+LyMGZlbu1p0h13+HZmz96s5ul/A/uD+mqdQUiQeeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711370102; c=relaxed/simple;
-	bh=6jzjiwrkhrrxiOb3ouQm9/gN7kt04YtLniYwKlTluek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=fNfM/HWZmJj7ltEr1HJE6UgsiNfIqo0JE6qXgrBcXcS0v0EKO7jgXt++mfs0spP8COdCuCBuaNccHgBkSCfkxYnKKP8ANu6yQ8Cxo72xVO7P7ZmgoozUzGyyo/Sg6BgBQLR0Uma+pHPD08my6ZYTgTM728SsK5WtMbMAEzAh7m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=meT28BSM; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711371423; c=relaxed/simple;
+	bh=RUllOB4kMGk0CFo8XwTIjMOO3T3GbHWi6dMwwwH6M9E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CYy6KaH8khax2Jhzstv4TMmlZoaQNCfxpcOe3HO5JkQuxZ0TpHvX1QbmCWXlB/aKrpqlX92YC+f1LMsF48zD4Zgy8IcRYSgbKmAScFztfEZ/b7627Xhu0DNnTZ/x2ZtlgSlVPjvtL76Ui+7+JdQbWeN8/gszAVxd4a1FZ/gV8xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BYwSrx7R; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="meT28BSM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711370100; x=1742906100;
-  h=message-id:date:mime-version:subject:to:references:cc:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6jzjiwrkhrrxiOb3ouQm9/gN7kt04YtLniYwKlTluek=;
-  b=meT28BSM18Q5CeqZIYtu9mWAq3MfHi6+rVVaqz1DPzkIq3liaJn3P1nk
-   lVozH64N2x/0psEQgAfOFmvF3e+zH4/DTzZa5J5YU/rVSTzLrUfNefPTe
-   dZVn1qfkyutYbO2Ki1kqY2fgWyxsSU9zzNEGyyHZAI8sMBo5yNoXu10lW
-   Sm4T7w64g6350vGEibsVq1GtaPeTfFSM8fGikouNS7VRcsyhtbewvPC+G
-   MeVcUrLnEMw2QsUeRaaFuFBxCM9x4MC/alv9yQ/Rk7DCnCEo37hTU6gJv
-   BkyY4/xA0BUjxmkaXomk7MlO2Zg/X45Laz+QtIS39Gr2C2oBYiFku/oLM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="10139987"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="10139987"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:34:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="16268554"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 05:34:54 -0700
-Message-ID: <3edd5823-bf54-4898-bcee-e1628c863388@linux.intel.com>
-Date: Mon, 25 Mar 2024 13:34:51 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BYwSrx7R"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42P3wbgC000927;
+	Mon, 25 Mar 2024 07:56:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PODMain02222019; bh=xj2uHvx66aHHaH32S4duzTFa+mcPFLckOCA6lL3XaxE=; b=
+	BYwSrx7RG1FXLgZH305/A63SWtbzmJ6uJBuLPZlf9zawx6UYuhy5mmplZaIAcnP1
+	YJOgh7NY8n9OXwmMUnyC5d6E/MfIDpOFKYgbwiebrxwVqkUSRgd8OXUwF8hmlwhQ
+	U44MWUUdPPKcte2SotUyMpIWUfqhLC896uTgOU+PO1MhTkiMMC7FbJupIHrSnjIq
+	gs2ZCly7dqy3M4mmNyFzvXH+JA69EGNlSpQhGTnTlEnVYJZQYCTlzEYm1n9+pUJe
+	ILzzfpqijw9fsvLMDctuRsFJU/vJtIlslgEowZZCqTBF7oG/IQ3eoe4Ec/b3/5+k
+	/qxVn75v2TLMBcSJyRaMuw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyba74-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Mar 2024 07:56:53 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 25 Mar
+ 2024 12:56:50 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.4 via Frontend Transport; Mon, 25 Mar 2024 12:56:50 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 48FED82024D;
+	Mon, 25 Mar 2024 12:56:50 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>
+Subject: [PATCH 2/3] ASoC: soc-card: Use snd_ctl_find_id_mixer() instead of open-coding
+Date: Mon, 25 Mar 2024 12:56:49 +0000
+Message-ID: <20240325125650.213913-3-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240325125650.213913-1-rf@opensource.cirrus.com>
+References: <20240325125650.213913-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/28] sound: intel: Use PCI_IRQ_INTX
-Content-Language: en-US
-To: Damien Le Moal <dlemoal@kernel.org>, linux-pci@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
- linux-scsi@vger.kernel.org, "Martin K . Petersen"
- <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
- platform-driver-x86@vger.kernel.org, ntb@lists.linux.dev,
- Lee Jones <lee@kernel.org>, David Airlie <airlied@gmail.com>,
- amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-rdma@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
- <20240325070944.3600338-5-dlemoal@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240325070944.3600338-5-dlemoal@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: YKNsErgc-SVE7LA5WL0DpKQBZVrZCXeo
+X-Proofpoint-GUID: YKNsErgc-SVE7LA5WL0DpKQBZVrZCXeo
+X-Proofpoint-Spam-Reason: safe
 
-On 3/25/2024 8:09 AM, Damien Le Moal wrote:
-> Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
-> macro.
-> 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-> ---
->   sound/soc/intel/avs/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-> index d7f8940099ce..69818e4b43da 100644
-> --- a/sound/soc/intel/avs/core.c
-> +++ b/sound/soc/intel/avs/core.c
-> @@ -343,7 +343,7 @@ static int avs_hdac_acquire_irq(struct avs_dev *adev)
->   	int ret;
->   
->   	/* request one and check that we only got one interrupt */
-> -	ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | PCI_IRQ_LEGACY);
-> +	ret = pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI | PCI_IRQ_INTX);
->   	if (ret != 1) {
->   		dev_err(adev->dev, "Failed to allocate IRQ vector: %d\n", ret);
->   		return ret;
+Use the snd_ctl_find_id_mixer[_locked]() wrapper in
+snd_soc_card_get_kcontrol[_locked]() instead of open-coding a custom
+list walk of the card controls list.
 
-Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+ sound/soc/soc-card.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
+
+diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
+index 8a2f163da6bc..0a3104d4ad23 100644
+--- a/sound/soc/soc-card.c
++++ b/sound/soc/soc-card.c
+@@ -32,33 +32,20 @@ static inline int _soc_card_ret(struct snd_soc_card *card,
+ struct snd_kcontrol *snd_soc_card_get_kcontrol_locked(struct snd_soc_card *soc_card,
+ 						      const char *name)
+ {
+-	struct snd_card *card = soc_card->snd_card;
+-	struct snd_kcontrol *kctl;
+-
+-	/* must be held read or write */
+-	lockdep_assert_held(&card->controls_rwsem);
+-
+ 	if (unlikely(!name))
+ 		return NULL;
+ 
+-	list_for_each_entry(kctl, &card->controls, list)
+-		if (!strncmp(kctl->id.name, name, sizeof(kctl->id.name)))
+-			return kctl;
+-	return NULL;
++	return snd_ctl_find_id_mixer_locked(soc_card->snd_card, name);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol_locked);
+ 
+ struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
+ 					       const char *name)
+ {
+-	struct snd_card *card = soc_card->snd_card;
+-	struct snd_kcontrol *kctl;
+-
+-	down_read(&card->controls_rwsem);
+-	kctl = snd_soc_card_get_kcontrol_locked(soc_card, name);
+-	up_read(&card->controls_rwsem);
++	if (unlikely(!name))
++		return NULL;
+ 
+-	return kctl;
++	return snd_ctl_find_id_mixer(soc_card->snd_card, name);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol);
+ 
+-- 
+2.39.2
+
