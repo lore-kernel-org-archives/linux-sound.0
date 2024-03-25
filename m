@@ -1,204 +1,109 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2057.outbound.protection.outlook.com [40.107.113.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E461C137C
-	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 04:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711341404; cv=fail; b=bVgAmPmYcRSCsf4LN4Gs0wh23bkcE+I+fmIOgpeCtwC4lnKgJiA3dPengTEnu5Er4zipnnMaRXh0QXLQqt9CueeBYGfC7WEoo/Bx0b95KDNI8H6OlbPlhIKNqWLPAM0iDUavbpahKZZ5Khg++5OvzxqdzU7jHDgVPC4jqRZVtY0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711341404; c=relaxed/simple;
-	bh=DRJo5Zh7uoUsqlhBa9LN8X9mkwIp5Hf2eepH8DBYf3s=;
-	h=Message-ID:To:In-Reply-To:References:From:Subject:Content-Type:
-	 Date:MIME-Version; b=CUAUlIZ6t52uZyNim199aCAdf/sHLWgtZh/Us07QJmRHodjOdZNaZ+XTQ3Os0ZOccexYCJVg1zTc2Dt9EBiBi49cZHHL4GNAsQ+Ar75DE3FMjyowoGXbVsxS3+yHXaUxDBV+HVoCiQqQzBFxFI5ztwA9ZaE9TH3jrr0nFV7YMWM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=WVXW0bsB; arc=fail smtp.client-ip=40.107.113.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="WVXW0bsB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R2Lu8+JdwfUFleyOunvuMt9vdzH4Qq7R3yqLU4Z4iKameUN+VMOLNxyoBYdNXP7nLCUgLs6P/Z2Ebwccvt0Xrv2Qk6hxA29GE+1l1x5Llz8DLrRL+FRmg/SW30TsP1pHJCcwMz0rYz6X1l1PntgO4hePzvvHi5G/mfHr+myaOZneRXQGjW+khgNgylZkpqlfeBkX7qgpboRvjat3hjNnXcTiHMwtXRu7g3prWn59JSAdy3cuXsXZ3C7Gg8wTBmXR5qs2mp1nPJ3rgyQZfEEsrt/ivu6NeDxHvi6s7wIt0bEGp2VLP4zyqpa1QvofptpXTcZVyz2dnYUDE5KXnv7jAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uz6U1imtp4A5ePlvKD0/SLhzN1hah03F7tGbrV3yCBI=;
- b=CJKSHKSQ8wV4jUyvYrEG9KoLqZe/LUtCUa79gnF3lviVKEVMWX3RvlkuyPzDvLa3SrJ4z1m4ZGModsO+gCO723T74C2T4pUTVK2C3Qeoukq50yzqaDSf9L8f/2xJep9uyZmTljGNNLo8rYgEJjs59VazLQ2Dz8FV+bmevvlU5L1+MeNrzL18ivtYSRVOMSzfAGiMtqW+0VfNeySZVJ9ubo4iH0Qpw0GfPQbrZ5N7LRwOKfkf2WLHPY0c/Tpck1Mwl1LyA8E5mD/cdfIu3DWnG/UegVSfgM+tqRMofnZrdOBNEjrKqJ/kDMj0b4HbhELDOyq02jjwygeorZRiRVod9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uz6U1imtp4A5ePlvKD0/SLhzN1hah03F7tGbrV3yCBI=;
- b=WVXW0bsBu9ZtY+/LB81djuMIhLgyGAF3JUzXDKAdParqlN7GzECfLbndb0D+0nAaZsDhXQHkiuTAJfYL8wiE8st7S31iWpzmami72zxD0z50jrDGgA/+DW7wF5fPG4DEbQ8/Pljk9NpTO8/wO1Z2uJo2l5L0CJktmgiTfGkTWA4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB10698.jpnprd01.prod.outlook.com
- (2603:1096:400:296::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Mon, 25 Mar
- 2024 04:36:39 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 25 Mar 2024
- 04:36:39 +0000
-Message-ID: <87h6gv53mx.wl-kuninori.morimoto.gx@renesas.com>
-To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
- <amadeuszx.slawinski@linux.intel.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,	Daniel Baluta
- <daniel.baluta@nxp.com>,	Hans de Goede <hdegoede@redhat.com>,	Jaroslav
- Kysela <perex@perex.cz>,	Jerome Brunet <jbrunet@baylibre.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Kevin Hilman <khilman@baylibre.com>,	Liam
- Girdwood <lgirdwood@gmail.com>,	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Trevor Wu
- <trevor.wu@mediatek.com>,	Vinod Koul <vkoul@kernel.org>,	Xiubo Li
- <Xiubo.Lee@gmail.com>,	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-sound@vger.kernel.org,	linux-stm32@st-md-mailman.stormreply.com
-In-Reply-To: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 05/15] ASoC: meson: replace dpcm_playback/capture to playback/capture_only
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 25 Mar 2024 04:36:39 +0000
-X-ClientProxiedBy: TYCPR01CA0105.jpnprd01.prod.outlook.com
- (2603:1096:405:4::21) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id B7A803D82DA;
+	Mon, 25 Mar 2024 03:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.101.60.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711338124; cv=none; b=MU0kzQRnTDWBEHcK1F/uoAHjjp4uS17lkAwTXNUMzxHoFMG5s/tZE+QKvYnZeGVXDT6bHM6PIS6deSEA0HJKwuegLIyZtpXSPyD5TTRISdn8wNX/1EIS2F+nJor1L1++6DPjch/qyODJ43mJXLYLyR2FXnx/77k3MG0sCIPO31Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711338124; c=relaxed/simple;
+	bh=KGBViHtyWl4RTc5Yv34/CbkultLm1irMrCSdjeeHfsM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gkvEsWa9A6bFiOf7IvQYN4L8r1Opoj0CAZEplhi4HHi4Qu4VJYzzX/Sx1Y+WOtyZkRJ4kDfuVOsfedd13Z6ZCQr3NdIiRqasXlH3auEdQQ2+ERsffpoSrNp06NxMtvKE0M0Sd+r9OytHCPNruTkbMeQVYeMTuK199LZuO5LrTbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com; spf=pass smtp.mailfrom=nfschina.com; arc=none smtp.client-ip=42.101.60.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nfschina.com
+Received: from localhost.localdomain (unknown [180.167.10.98])
+	by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id 4E0ED6026BC81;
+	Mon, 25 Mar 2024 11:41:22 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+To: arnaud.pouliquen@foss.st.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	morbo@google.com,
+	justinstitt@google.com
+Cc: Su Hui <suhui@nfschina.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: sti: uniperif: fix the undefined bitwise shift behavior problem
+Date: Mon, 25 Mar 2024 11:40:33 +0800
+Message-Id: <20240325034032.1031885-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB10698:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfdd4d5e-149e-4095-61ba-08dc4c8529ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	NiJdGQTpvTILSieWHtHsZh7MZgtvUDB61xDdDdCmBFaWbgRnQnHztDUHBWUgxvrKrrquxl3Vi3dQ8eFYGOI83QIoRGrS3gVyfXj/sI+iFxT0NUkgye6XbQ74e2M5/edWOJjdh83t/sD2sgY+SUO3Rh6W41H55jVLqMIqcLLYGt/dIxESX1C1BqlORNPSDqDa3ro3ktYxQKJ6ld63Ckb7FNXVSza5yQ3YR3f/gPU9g47vP/ZtiCmKK/TeylfBODUhZ5YOYeq9+yJSAnPZcG5ku3uScDecv0c9p6kS85nA3BiIU/zz3chqxBc0PdX6Qnse16IXP54Jr9wZ20yN3Y8puAZeajx6H4M3OA4u/Wt/TJyPin0cTQUduIkZp0U5GFHW94ajFb8iUGK+vM36PLQBNSlKvOu6jjL4VHtybT5Wfjf/BxoJKGyxAM7fF8eScuccesjxHqO3PAoyvfaD/cEP9pZ+tmISrqGF18jtEGLH0inofZjAL8by2Bsvi6+RCy33/Z2O8kCahOC3vMwO+uGbUBg7hGdUBnITQE1rRYnF9+vgp3H7fN0o5y8JxzTbRZagUhWjZSwaHClgGauLVWdtmxVTv+mnmXsrCIBW9UZSaOJNS4FYHnw043MIeKwd6sboZXlVrtpYcA4ibFcVguDCKudthmbvu6TDyZT3EDgrLoaBK0S8nEgU/sUdToHiWhbo8XWCz1GNFHMHP/HVxydGxyf3r8TpeNT5CWyGnGHOaec=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(52116005)(1800799015)(38350700005)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Kya4C9wViqwMeaKSW/VpGq2Dh5knCuOpc78+E5tpRiYZWipjPgdZJNcZ4ZQV?=
- =?us-ascii?Q?5SypNCSUkRJzk/YJm1I7amIyOHNK0NgQzk4rTUsRLzEmW88YgvgW4rBrKPnH?=
- =?us-ascii?Q?/fN0TtQBz772DJQCiobaBqwM6GdilWH8r2tVxitQsH3v5IQkny72JLoMm8US?=
- =?us-ascii?Q?Y3PF2xbzP5BqZs1TM9e3aM+02loeAcaFHJJKG/emmTDF4UkFtJ/KKBL7q5gp?=
- =?us-ascii?Q?aYbVaMm378uZ/pD9fU/D7CYy/w1Qmh2eXIM4pIQCS++H29FO2/8cjH3K4Hlw?=
- =?us-ascii?Q?roikpEeTmpeGXrWW9LFq1CbOUS0ZvW5FLDQTPkXwUWGonM6bFheu3NiDN/9B?=
- =?us-ascii?Q?02ILrPrj32HFFMbVfqanFJh6Mzs0Xvmt+QB4nUzSz6Afsg/gw75fkbRhv9bt?=
- =?us-ascii?Q?ViPNIaObZuCnGDeztPhaLjf4W08+H1oYbidZcQOY4U5B040lVxACIy014dii?=
- =?us-ascii?Q?19T3+Mvl0uxAKLfQzjGIQxIrJvbu+2eao2MfmbyyF6dVowTzftnWUPNbBKmr?=
- =?us-ascii?Q?s9dNPW58fnOenKY8iSsXvGRGM/oByEq14FRwITsCeu4XszhOsb1AQtq+TDNX?=
- =?us-ascii?Q?+Ap3StXMYJP7DgzF3z+KJHYcAy8kuFCucRo4iyTKGS7vJpypZpBXyi4sPmP8?=
- =?us-ascii?Q?clFLsMI0rCKsylVJ1w/9YFbrW4C5hPOGZtbHfkpZEIeO/BFK2oUH9hkAFhFL?=
- =?us-ascii?Q?mDOwQ6qKSOWh8YWxW4xkLV7n59kthHQVf7QgjDL2G0pmQmwQLyfbbDuSyMlL?=
- =?us-ascii?Q?y0aghFka6/W1F2b6v3K83VFKMo4pXTATeJhbTz5DbpRQ2j4FM2Si6aVdZeer?=
- =?us-ascii?Q?BehNeXk0w2gFCugXjYfBtOp0DMMf23oBA+E2HEA1hHKAeRc4rft0yQ6JgzrE?=
- =?us-ascii?Q?mxtxD3xWyuz5CSTx/ykDV0v7cC8fxUp7LcSzJUhHay2aSvzMQDvVdLY1Iyjz?=
- =?us-ascii?Q?vG1NjurIQERU/LBn79AXnUEGQ45uIhtlePl6fYIj80RHjQ2LdOXtwpHcfPmU?=
- =?us-ascii?Q?HgU87HXjs4z0xyf67qGifseVqkLxEGUuTLYdlwIEZVOqLl1jtgVXB4yTufyB?=
- =?us-ascii?Q?biJ4ec7BU0Cw7L4K9/T47ao/LhdQdcvYL50ueBk7m6hSnf1eFBVPHpbzDYeh?=
- =?us-ascii?Q?GdtG3QBfnubzhbd+khJW/pUPlWeUnK1PbwnpHSgWvupfyyzh7HaMO0SzIZY9?=
- =?us-ascii?Q?v9u3R8Dhw76TFT4nIApzcEtWFfTnO3hJh25torJxXxKbNXtIJurlANN+IL4R?=
- =?us-ascii?Q?VnStdSBXje0Y0dgoo838WR5MPsDadCOzw04u89C0w7GGXyCpdl+nsWzcTi3M?=
- =?us-ascii?Q?/BMM+soCOJA9zmZI5i4phT7Gfd4N0XXRbrcLvMc8AFcVc1qHh4ewyulwyzhF?=
- =?us-ascii?Q?LMyFREs0jlsSsSSxa+dpiQisbW2yoijqT9cJhuM666/ONvteLhAC2HRxLYUV?=
- =?us-ascii?Q?Dl1j1QTXNx35IqPdyAqiKXoB9vFD6mugn0jcVoQ76YzqGjX96kv67pHViB9V?=
- =?us-ascii?Q?hOZKDMw4RlVsa62M/hp6QyA6yYOyC2OzuYFwvQb/qlQ00RFsrTg1g2n9+u96?=
- =?us-ascii?Q?4YwcTYEP2fiPVR0RopjfjW1nrhZ5licILM/U/Ult6IiOe4Ewp9wOUglrL5I3?=
- =?us-ascii?Q?LjURvoAJJjQuqFG90eXZkIo=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfdd4d5e-149e-4095-61ba-08dc4c8529ac
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 04:36:39.4099
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2nuGccxAcHPtz1mRxW/XF4ZURwv0pUTtXvdhaCmIzRtp5cXZWCcF+mpC++X75jnr/dRaHqf4yIDYYwF8zqafHpkidSjwd3rNybvKSFy/PygX7VST0lJGPxfkOLgsjNK9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10698
+Content-Transfer-Encoding: 8bit
 
-soc_get_playback_capture() is now handling DPCM and normal comprehensively
-for playback/capture stream. We can use playback/capture_only flag
-instead of using dpcm_playback/capture. This patch replace these.
+Clang static checker(scan-build):
+sound/soc/sti/uniperif_player.c:1115:12: warning:
+The result of the left shift is undefined because the right operand is
+negative [core.UndefinedBinaryOperatorResult]
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+When UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip) equals to -1, the result of
+SET_UNIPERIF_CONFIG_BACK_STALL_REQ_DISABLE(ip) is undefined.
+
+Here are some results of using different compilers.
+		1UL >> -1	1UL << -1
+gcc 10.2.1	0x2		0
+gcc 11.4.0	0		0x8000000000000000
+clang 14.0.0	0x64b8a45d72a0	0x64b8a45d72a0
+clang 17.0.0	0x556c43b0f2a0	0x556c43b0f2a0
+
+Add some macros to ensure that when right opreand is negative or other
+invalid values, the results of bitwise shift is zero.
+
+Fixes: e1ecace6a685 ("ASoC: sti: Add uniperipheral header file")
+Signed-off-by: Su Hui <suhui@nfschina.com>
 ---
- sound/soc/meson/axg-card.c         | 8 ++++----
- sound/soc/meson/meson-card-utils.c | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ sound/soc/sti/uniperif.h | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
-index 3180aa4d3a15..21bf1453af43 100644
---- a/sound/soc/meson/axg-card.c
-+++ b/sound/soc/meson/axg-card.c
-@@ -132,7 +132,7 @@ static int axg_card_add_tdm_loopback(struct snd_soc_card *card,
- 	lb->stream_name = lb->name;
- 	lb->cpus->of_node = pad->cpus->of_node;
- 	lb->cpus->dai_name = "TDM Loopback";
--	lb->dpcm_capture = 1;
-+	lb->capture_only = 1;
- 	lb->no_pcm = 1;
- 	lb->ops = &axg_card_tdm_be_ops;
- 	lb->init = axg_card_tdm_dai_lb_init;
-@@ -176,7 +176,7 @@ static int axg_card_parse_cpu_tdm_slots(struct snd_soc_card *card,
+diff --git a/sound/soc/sti/uniperif.h b/sound/soc/sti/uniperif.h
+index 2a5de328501c..1cbff01fbff0 100644
+--- a/sound/soc/sti/uniperif.h
++++ b/sound/soc/sti/uniperif.h
+@@ -12,17 +12,28 @@
  
- 	/* Disable playback is the interface has no tx slots */
- 	if (!tx)
--		link->dpcm_playback = 0;
-+		link->capture_only = 1;
+ #include <sound/dmaengine_pcm.h>
  
- 	for (i = 0, rx = 0; i < AXG_TDM_NUM_LANES; i++) {
- 		snprintf(propname, 32, "dai-tdm-slot-rx-mask-%d", i);
-@@ -186,7 +186,7 @@ static int axg_card_parse_cpu_tdm_slots(struct snd_soc_card *card,
++#define SR_SHIFT(a, b)		({unsigned long __a = (a); \
++				unsigned int __b = (b); \
++				__b < BITS_PER_LONG ? \
++				__a >> __b : 0; })
++
++#define SL_SHIFT(a, b)		({unsigned long __a = (a); \
++				unsigned int __b = (b); \
++				__b < BITS_PER_LONG ? \
++				__a << __b : 0; })
++
+ /*
+  * Register access macros
+  */
  
- 	/* Disable capture is the interface has no rx slots */
- 	if (!rx)
--		link->dpcm_capture = 0;
-+		link->playback_only = 1;
+ #define GET_UNIPERIF_REG(ip, offset, shift, mask) \
+-	((readl_relaxed(ip->base + offset) >> shift) & mask)
++	(SR_SHIFT(readl_relaxed(ip->base + offset), shift) & mask)
+ #define SET_UNIPERIF_REG(ip, offset, shift, mask, value) \
+ 	writel_relaxed(((readl_relaxed(ip->base + offset) & \
+-	~(mask << shift)) | (((value) & mask) << shift)), ip->base + offset)
++	~SL_SHIFT(mask, shift)) | SL_SHIFT(((value) & mask), shift)),\
++	ip->base + offset)
+ #define SET_UNIPERIF_BIT_REG(ip, offset, shift, mask, value) \
+-	writel_relaxed((((value) & mask) << shift), ip->base + offset)
++	writel_relaxed(SL_SHIFT(((value) & mask), shift), ip->base + offset)
  
- 	/* ... but the interface should at least have one of them */
- 	if (!tx && !rx) {
-@@ -275,7 +275,7 @@ static int axg_card_parse_tdm(struct snd_soc_card *card,
- 		return ret;
- 
- 	/* Add loopback if the pad dai has playback */
--	if (link->dpcm_playback) {
-+	if (!link->capture_only) {
- 		ret = axg_card_add_tdm_loopback(card, index);
- 		if (ret)
- 			return ret;
-diff --git a/sound/soc/meson/meson-card-utils.c b/sound/soc/meson/meson-card-utils.c
-index ed6c7e2f609c..1a4ef124e4e2 100644
---- a/sound/soc/meson/meson-card-utils.c
-+++ b/sound/soc/meson/meson-card-utils.c
-@@ -186,9 +186,9 @@ int meson_card_set_fe_link(struct snd_soc_card *card,
- 	link->dpcm_merged_rate = 1;
- 
- 	if (is_playback)
--		link->dpcm_playback = 1;
-+		link->playback_only = 1;
- 	else
--		link->dpcm_capture = 1;
-+		link->capture_only = 1;
- 
- 	return meson_card_set_link_name(card, link, node, "fe");
- }
+ /*
+  * UNIPERIF_SOFT_RST reg
 -- 
-2.25.1
+2.30.2
 
