@@ -1,83 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B969A6FE2B;
-	Mon, 25 Mar 2024 22:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9877F71732
+	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 22:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711404082; cv=none; b=PfG+xVdrVDdete/h5ciKdRNwsBaYHog/Ua0NfMXy6hHzks20RNqJmg12X9Dm4QVKwvJ2iiCrpdUw9+RRaVytbXQaO1p6auMPobdJGgRcdhFm052K9yV4slUiLPFlQ35m2Sq2BcTPudmd5Jw4nZ/w7fPi3wV1YPSGkS6Qhg4yxFk=
+	t=1711404432; cv=none; b=C0CcwqTTf+CEUA0R83ms6YLn8KyvvrCrWCy28D5YoAdP0bng+RjZMw6FG/kJGrRIuBHDbV2l57TPsdH3NChwt10BwzRp7VTy0tzGXsOpL1WHrU8CbczO5hvXsdPMz2QzWjiqw+vMr4A/dVHEYQnEFgSa0o52mvs370rvvJ3fUxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711404082; c=relaxed/simple;
-	bh=a8ojaLzDl4GFJujvayJ70jYfCqO9SVCGKM0gEiJ//B0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C/Y7SmZacFSds3NE2qx2lzPa5ERz1Lw+gTKeY5gbhMTmRzKwAfoOwAjqRva+X3cAxfJBXB6XNfgUd1BHhkTy/VSwPviVUnqjH4K2ZM3kGERHM9pr/TX0gp8WXKkfBBqK4mNgJzk7NvMRghU0xVIAkpIRFuD3g7eXaW6KEqp0qpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PI9ESCe8; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PI9ESCe8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711404081; x=1742940081;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=a8ojaLzDl4GFJujvayJ70jYfCqO9SVCGKM0gEiJ//B0=;
-  b=PI9ESCe8Y/5OaUZpUqgMT2ILPXWvM9whxrb1sC5IJbA8gEdJ59X1Dd90
-   FB3qFHkI1axrcMDaW5P9zIeygmfZ+PsJEDfQzC+DMtY4zI+mDVeFOinJU
-   s1Y7aIJOIDCFdbAxNKGaGqzvDUJZGaT3gImoQUNUgGQyebSSHYNy3q4D1
-   iF5vFRFcAFznB7ai89r+00af06eWiVcPT1cSeG6Mro2JITSQwi/uRAczr
-   EjpEfiWZkm2kF3bpw+Sc+MSojK6G0Qp/+j6gHFk6WTNa+xAx0PyHgY9Ww
-   igUuOJ/rWIAkCynDbEEkYazRapagxDCgYRB4IkHAPGMVEExWexlVWpaYS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17827860"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="17827860"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:01:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="15619103"
-Received: from jaimbres-mobl2.amr.corp.intel.com (HELO [10.212.98.109]) ([10.212.98.109])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:01:19 -0700
-Message-ID: <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
-Date: Mon, 25 Mar 2024 17:01:18 -0500
+	s=arc-20240116; t=1711404432; c=relaxed/simple;
+	bh=EMiOVf45ss87dGK9cVe/o5M2xwdQcFYlhgc0G6qx4T8=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MIZlAjHep9T2eel5oQfSJhaB56V+9Vd80A5Skc7vVsbyozmRQGspy9K5F/txVxUsl+WhUFX/We4NxFVeVt68pV+rKB+hOs5rgBUPo17nMZ0GU/bs+DAzN5Ay9hDafwRE7we88kH33VzOOnBQ7GU4onedqmhXcbyxiHnvzco9sg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-217.elisa-laajakaista.fi [88.113.26.217])
+	by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+	id 01746dfc-eaf4-11ee-a9de-005056bdf889;
+	Tue, 26 Mar 2024 00:07:02 +0200 (EET)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 26 Mar 2024 00:07:01 +0200
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ALSA: hda/tas2781: add debug statements to kcontrols
+Message-ID: <ZgH1hVH_1-7kFbgp@surfacebook.localdomain>
+References: <cover.1711401621.git.soyer@irl.hu>
+ <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
+ <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ALSA: hda/tas2781: add debug statements to kcontrols
-Content-Language: en-US
-To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1711401621.git.soyer@irl.hu>
- <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
 
+Mon, Mar 25, 2024 at 05:01:18PM -0500, Pierre-Louis Bossart kirjoitti:
 
+...
 
+> > +	dev_dbg(tas_priv->dev, "%s: %d\n", __func__,
+> 
+> Nit-pick: you don't need to add __func__ to dev_dbg logs, the user can
+> add the information with the dyndbg parameter, e.g.
+> 
+> options snd_intel_dspcfg dyndbg=+pmf
+> 
+> dev_err/warn don't have this functionality though so in those cases
+> there's no replacement for __func__
 
-> +++ b/sound/pci/hda/tas2781_hda_i2c.c
-> @@ -189,6 +189,9 @@ static int tasdevice_get_profile_id(struct snd_kcontrol *kcontrol,
->  
->  	ucontrol->value.integer.value[0] = tas_priv->rcabin.profile_cfg_id;
->  
-> +	dev_dbg(tas_priv->dev, "%s: %d\n", __func__,
+You beat me up to it, I just downloaded the email thread to say the same.
 
-Nit-pick: you don't need to add __func__ to dev_dbg logs, the user can
-add the information with the dyndbg parameter, e.g.
+Since I'm here, I think __func__ in dev_err()/dev_warn() usually says about
+poorly written message itself (that it's not unique enough to distinguish
+taking into account that this has device instance name as well). While pr_*()
+ones indeed may benefit from having it.
 
-options snd_intel_dspcfg dyndbg=+pmf
-
-dev_err/warn don't have this functionality though so in those cases
-there's no replacement for __func__
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
