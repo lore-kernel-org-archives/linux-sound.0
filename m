@@ -1,136 +1,83 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7736FE2A;
-	Mon, 25 Mar 2024 21:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B969A6FE2B;
+	Mon, 25 Mar 2024 22:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711401968; cv=none; b=Vrjb33XOzDrSQNK8Di5QArcdG1gN6B5Foo6VaSbU4hCpv8vQZimD8eVj42hrnX5iYYOrFP44/Qc2Z3uIea7lpTWlbMKpb7MxemPFuyYVyK/cyqGxp0wPA4EdW3IyX8ErpeXrJ3UwiD6oGzQHSuSS5qgxlos6HSAKsV8S0rlZjvM=
+	t=1711404082; cv=none; b=PfG+xVdrVDdete/h5ciKdRNwsBaYHog/Ua0NfMXy6hHzks20RNqJmg12X9Dm4QVKwvJ2iiCrpdUw9+RRaVytbXQaO1p6auMPobdJGgRcdhFm052K9yV4slUiLPFlQ35m2Sq2BcTPudmd5Jw4nZ/w7fPi3wV1YPSGkS6Qhg4yxFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711401968; c=relaxed/simple;
-	bh=7tKjUPBeypTJx3dhjiPVGtY+r3oYW9ckUbJZzdlsjYY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=k/6Jflculyxgx5KZlQrsLfRI5kZ1yt22ZmP80hhzpAXfeSPsNPkM6h8IQ7pyoYGUtPJQLRaYSEmge3Pur+5PWNeq2Ihh7XaCXMRImsyRoj5NuR/io3CIuM4Na8sWo7liJl8k3KYqgpbmLPQAkDItt/Lx65zHz9jDom0pyxHx7po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 00000000000770B0.000000006601EBEE.0023A89D; Mon, 25 Mar 2024 22:26:03 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH 3/3] ALSA: hda/tas2781: add debug statements to kcontrols
-Date: Mon, 25 Mar 2024 22:25:35 +0100
-Message-ID: <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1711401621.git.soyer@irl.hu>
-References: <cover.1711401621.git.soyer@irl.hu>
+	s=arc-20240116; t=1711404082; c=relaxed/simple;
+	bh=a8ojaLzDl4GFJujvayJ70jYfCqO9SVCGKM0gEiJ//B0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C/Y7SmZacFSds3NE2qx2lzPa5ERz1Lw+gTKeY5gbhMTmRzKwAfoOwAjqRva+X3cAxfJBXB6XNfgUd1BHhkTy/VSwPviVUnqjH4K2ZM3kGERHM9pr/TX0gp8WXKkfBBqK4mNgJzk7NvMRghU0xVIAkpIRFuD3g7eXaW6KEqp0qpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PI9ESCe8; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PI9ESCe8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711404081; x=1742940081;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=a8ojaLzDl4GFJujvayJ70jYfCqO9SVCGKM0gEiJ//B0=;
+  b=PI9ESCe8Y/5OaUZpUqgMT2ILPXWvM9whxrb1sC5IJbA8gEdJ59X1Dd90
+   FB3qFHkI1axrcMDaW5P9zIeygmfZ+PsJEDfQzC+DMtY4zI+mDVeFOinJU
+   s1Y7aIJOIDCFdbAxNKGaGqzvDUJZGaT3gImoQUNUgGQyebSSHYNy3q4D1
+   iF5vFRFcAFznB7ai89r+00af06eWiVcPT1cSeG6Mro2JITSQwi/uRAczr
+   EjpEfiWZkm2kF3bpw+Sc+MSojK6G0Qp/+j6gHFk6WTNa+xAx0PyHgY9Ww
+   igUuOJ/rWIAkCynDbEEkYazRapagxDCgYRB4IkHAPGMVEExWexlVWpaYS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17827860"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="17827860"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:01:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="15619103"
+Received: from jaimbres-mobl2.amr.corp.intel.com (HELO [10.212.98.109]) ([10.212.98.109])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:01:19 -0700
+Message-ID: <377e0f33-697c-4baf-ac48-baff6199dd53@linux.intel.com>
+Date: Mon, 25 Mar 2024 17:01:18 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] ALSA: hda/tas2781: add debug statements to kcontrols
+Content-Language: en-US
+To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1711401621.git.soyer@irl.hu>
+ <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <cbdc337b911bee0f80f805b936041fd59c1db54a.1711401621.git.soyer@irl.hu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Sometimes it is useful to examine the timing of kcontrol events.
 
-Add debug statements to each kcontrol.
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- sound/pci/hda/tas2781_hda_i2c.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 9a43f563bb9e..b60ce4c2c090 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -189,6 +189,9 @@ static int tasdevice_get_profile_id(struct snd_kcontrol *kcontrol,
- 
- 	ucontrol->value.integer.value[0] = tas_priv->rcabin.profile_cfg_id;
- 
-+	dev_dbg(tas_priv->dev, "%s: %d\n", __func__,
-+		tas_priv->rcabin.profile_cfg_id);
-+
- 	mutex_unlock(&tas_priv->codec_lock);
- 
- 	return 0;
-@@ -206,6 +209,9 @@ static int tasdevice_set_profile_id(struct snd_kcontrol *kcontrol,
- 
- 	mutex_lock(&tas_priv->codec_lock);
- 
-+	dev_dbg(tas_priv->dev, "%s: %d -> %d\n", __func__,
-+		tas_priv->rcabin.profile_cfg_id, val);
-+
- 	if (tas_priv->rcabin.profile_cfg_id != val) {
- 		tas_priv->rcabin.profile_cfg_id = val;
- 		ret = 1;
-@@ -253,6 +259,8 @@ static int tasdevice_program_get(struct snd_kcontrol *kcontrol,
- 
- 	ucontrol->value.integer.value[0] = tas_priv->cur_prog;
- 
-+	dev_dbg(tas_priv->dev, "%s: %d\n", __func__, tas_priv->cur_prog);
-+
- 	mutex_unlock(&tas_priv->codec_lock);
- 
- 	return 0;
-@@ -271,6 +279,9 @@ static int tasdevice_program_put(struct snd_kcontrol *kcontrol,
- 
- 	mutex_lock(&tas_priv->codec_lock);
- 
-+	dev_dbg(tas_priv->dev, "%s: %d -> %d\n", __func__,
-+		tas_priv->cur_prog, val);
-+
- 	if (tas_priv->cur_prog != val) {
- 		tas_priv->cur_prog = val;
- 		ret = 1;
-@@ -290,6 +301,8 @@ static int tasdevice_config_get(struct snd_kcontrol *kcontrol,
- 
- 	ucontrol->value.integer.value[0] = tas_priv->cur_conf;
- 
-+	dev_dbg(tas_priv->dev, "%s: %d\n", __func__, tas_priv->cur_conf);
-+
- 	mutex_unlock(&tas_priv->codec_lock);
- 
- 	return 0;
-@@ -308,6 +321,9 @@ static int tasdevice_config_put(struct snd_kcontrol *kcontrol,
- 
- 	mutex_lock(&tas_priv->codec_lock);
- 
-+	dev_dbg(tas_priv->dev, "%s: %d -> %d\n", __func__,
-+		tas_priv->cur_conf, val);
-+
- 	if (tas_priv->cur_conf != val) {
- 		tas_priv->cur_conf = val;
- 		ret = 1;
-@@ -330,6 +346,9 @@ static int tas2781_amp_getvol(struct snd_kcontrol *kcontrol,
- 
- 	ret = tasdevice_amp_getvol(tas_priv, ucontrol, mc);
- 
-+	dev_dbg(tas_priv->dev, "%s: %ld\n", __func__,
-+		ucontrol->value.integer.value[0]);
-+
- 	mutex_unlock(&tas_priv->codec_lock);
- 
- 	return ret;
-@@ -345,6 +364,9 @@ static int tas2781_amp_putvol(struct snd_kcontrol *kcontrol,
- 
- 	mutex_lock(&tas_priv->codec_lock);
- 
-+	dev_dbg(tas_priv->dev, "%s: %ld\n", __func__,
-+		ucontrol->value.integer.value[0]);
-+
- 	/* The check of the given value is in tasdevice_amp_putvol. */
- 	ret = tasdevice_amp_putvol(tas_priv, ucontrol, mc);
- 
--- 
-2.44.0
+> +++ b/sound/pci/hda/tas2781_hda_i2c.c
+> @@ -189,6 +189,9 @@ static int tasdevice_get_profile_id(struct snd_kcontrol *kcontrol,
+>  
+>  	ucontrol->value.integer.value[0] = tas_priv->rcabin.profile_cfg_id;
+>  
+> +	dev_dbg(tas_priv->dev, "%s: %d\n", __func__,
+
+Nit-pick: you don't need to add __func__ to dev_dbg logs, the user can
+add the information with the dyndbg parameter, e.g.
+
+options snd_intel_dspcfg dyndbg=+pmf
+
+dev_err/warn don't have this functionality though so in those cases
+there's no replacement for __func__
+
 
