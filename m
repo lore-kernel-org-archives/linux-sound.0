@@ -1,71 +1,71 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F5118E20;
-	Mon, 25 Mar 2024 18:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF011737;
+	Mon, 25 Mar 2024 19:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711390795; cv=none; b=qNMJEygw9uX6OtBQlHy/O0mcirU52rPXTMhvfa9ptgqImhU24Wbd2uWxK6r1Av0HrhXLB43nsHWvpCDnaNvPtIET+6XBsHhKrpYnMvLxbpd95597QW6MomxoPA1H1hfgXowdAz3iibebOoEb1veyQt1k3SkaDrjt76FSnU/R3Mo=
+	t=1711394070; cv=none; b=txaCEBHvpFxnlHRAzhWlqvpa+ipLIK5w2DhxG//Ne4w2GCu+BoOXxVjirXhsIf1AADynEpNtLyKy9knFHjp2B0ZFLywWVAtUdVzrwvrAxTvSPz7vYrOavL4Ms4oNR26RMedJq/nUFQenoux6/B81DxDhSUbCY0P4UEHz8/OfMoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711390795; c=relaxed/simple;
-	bh=E81LA2THJKeDidFFeqQI4zKcNnZcZ38Rs/hVCGWis4k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sElSdpHIdaOlHcbe+YwguJ0inkfQGMNL7Q3a/7iW9GCZVy4QJDxloFNcguyRyxri7Ukn5rLiv8v6efaCfj+0ZZWefKNVfYs2uwyi4+wJ7qSJ49lAxVfZ8QNAVXf/r6Qec6fN1G8DyoviKviLYlPx2gxetL5PCIn4sJMvCre3qCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YbJg6AXg; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711394070; c=relaxed/simple;
+	bh=S4dR9hMjuyXo+2NLjdCApilcKOOtn4MC+CpSK0tyAkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHvQJuo/ROO+1/8tJGGxMZ8e0R7xRbfxdwl+u4RQXWoI04AB+cFy0WCY3GG2ghOtc9xXh6c4cJmgF7ZL94COu3GtiJEhmRZQc7zLwwAyrS79IhB0c1D015vU962OSHOEazHkkiTJ2TlNXW5Yecwxab10S60PPSMM2PIYllpAw6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMxKADBa; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbJg6AXg"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dddbe47ac1so35629585ad.1;
-        Mon, 25 Mar 2024 11:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711390793; x=1711995593; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rMzrRncdSfwKv7bbmYuayc7ahUnMmS+d++1NpNJY28g=;
-        b=YbJg6AXgUalcLsoo/QQVf0UOmUtewy5Z38bMZ7zTHQJHUKXF++5MG1HqsKJMnbx8n7
-         JsRacJy7SyvDeRvvcICLEaB/DTFKIc8swJ10YPsSZHUPPclguFpChbayKelq8V2/+jd8
-         gzI6kQ4iFPks2obEctwKm/BlbGZwrawL5OfNIvZJiGHv86x6cn7EbwzWJNqw4kEwT8Jf
-         9u4CaItYm7UZXuv07+KowexL2ey5CoJwUQjTozuNycU8hduzDdv/JTXofgpBWzPKOQxa
-         w02lE2nuf9y03+2VIITsHKS1n38zXSTnUdjJlambqCwe8Y2gj5zvMR4x/tVs8qw/XUsm
-         A+Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711390793; x=1711995593;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rMzrRncdSfwKv7bbmYuayc7ahUnMmS+d++1NpNJY28g=;
-        b=P+FNaQOqMyCEBn58vrV2TpTgQgkZo+gbmENnalIMjngDQsaba+8oyJLOKHjNJhyQT0
-         wdxNuQwyT7cuZIcxACtLSkfiAE3Ndi4VYkWkgqrhgHKLgJhoi7gTEZYf35Nf/b0bNNX0
-         VIP7r/yxajSWdgRt87DyjZX0SOtwfr3WgJPV6XcAqI+xiKasrf5GZ1T8/axH+DW9XijN
-         T8gN5N7XWNtBGP9PdjkS/IWkWnqZcL2/UmI50Eq5Ze70jO9xeoBlPr2atzOVVNo889Jz
-         NieQhQ8aubiDOk2WL/3t5TT8tGiqtVwETHPezdxNlKDYDDy5n31jHhAvguoAdnYpD3Es
-         BTfA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+twh78TSfzu7wRDwMvOLpGuoqToXwaMjh4jeIHALAv4GqKFD158DHzIp+nVev5Feig4nlkvyOcuw9mPj6lbWLN5w3BPf4sFRCEPeIthFdYxnKVUMB+Njrs5c2zlF/9c+ypHV7RFQYz8KUeq685zvN46TU1VD6f/n3l0SK5Jyo9BNO8dQm
-X-Gm-Message-State: AOJu0Yzv2ri0Islv0CKtJV84B/BZ2AnJO4NPeP8Gzlb5juanW1E56nof
-	YpHYafV/Lh523zKwdEWX9b/KEERNYmQiAm+GWprhs7a99nDnPHWnQELSQGSr/Rs=
-X-Google-Smtp-Source: AGHT+IHKUevLsdZcPN6IM1ik1xoJp2mQaYxMFZBtrEmNtYwA6oFk+gLB3eosr+OB5zj862LgKib99w==
-X-Received: by 2002:a17:902:d507:b0:1e0:bc64:a37a with SMTP id b7-20020a170902d50700b001e0bc64a37amr6034767plg.8.1711390792834;
-        Mon, 25 Mar 2024 11:19:52 -0700 (PDT)
-Received: from localhost ([103.139.191.219])
-        by smtp.gmail.com with UTF8SMTPSA id h10-20020a170902f54a00b001e02875930asm4957694plf.25.2024.03.25.11.19.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Mar 2024 11:19:52 -0700 (PDT)
-From: Kartik Agarwala <agarwala.kartik@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
-	patches@opensource.cirrus.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMxKADBa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711394069; x=1742930069;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=S4dR9hMjuyXo+2NLjdCApilcKOOtn4MC+CpSK0tyAkM=;
+  b=AMxKADBaFjLF7rinPZw3jk2vCbfjVFyRaVpYuHkdzF2LXF8wDOtWmHj0
+   Atin8dkll7yRqaWwpIdzRZyLcfZ4SDsw/sT5NoHN+tsVdjQ23lOg7dgzA
+   OYP80H+bbFAoCMYs5hf0rthjgUA0FK5dVC54MlsgXFDhPzqjyP7gO7a9q
+   C857vfNbwFQVILBDO9HwrfDbSv/r10h0if2PP7Z8gj4W3jpHFS/d2Tyq4
+   CbymBVzpdh01NkNS0zkR9ILdTXWJklatFGFG/CpQ+9wAwb4DDp0gellgC
+   D4EPSuuPG5g33LbUh9JtvdNPTCltoFd1RAd7ttQlLVpXmx9VK2e3g3Y/J
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="10213322"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="10213322"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:14:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="937070805"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="937070805"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2024 12:14:23 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 470F2101; Mon, 25 Mar 2024 21:14:22 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	javier.carrasco.cruz@gmail.com
-Subject: [PATCH] ASoC: dt-bindings: wm8974: Convert to dtschema
-Date: Mon, 25 Mar 2024 23:49:42 +0530
-Message-Id: <20240325181943.116733-1-agarwala.kartik@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] ASoC: fsl: imx-es8328: Remove leftover gpio initialisation
+Date: Mon, 25 Mar 2024 21:13:41 +0200
+Message-ID: <20240325191341.3977321-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,84 +74,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert WM8974 audio CODEC bindings from text to dtschema.
+The gpio field is not used anymore, remove the leftover.
+This also fixes the compilation error after the ...
 
-Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+Fixes: 9855f05e5536 ("ASoC: fsl: imx-es8328: Switch to using gpiod API")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- .../devicetree/bindings/sound/wlf,wm8974.txt  | 15 -------
- .../devicetree/bindings/sound/wlf,wm8974.yaml | 41 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 15 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.txt
- create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
+ sound/soc/fsl/imx-es8328.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8974.txt b/Documentation/devicetree/bindings/sound/wlf,wm8974.txt
-deleted file mode 100644
-index 01d3a7c83..000000000
---- a/Documentation/devicetree/bindings/sound/wlf,wm8974.txt
-+++ /dev/null
-@@ -1,15 +0,0 @@
--WM8974 audio CODEC
--
--This device supports both I2C and SPI (configured with pin strapping
--on the board).
--
--Required properties:
--  - compatible: "wlf,wm8974"
--  - reg: the I2C address or SPI chip select number of the device
--
--Examples:
--
--codec: wm8974@1a {
--	compatible = "wlf,wm8974";
--	reg = <0x1a>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
-new file mode 100644
-index 000000000..d27300207
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
-@@ -0,0 +1,41 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/wlf,wm8974.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: WM8974 audio CODEC
-+
-+maintainers:
-+  - patches@opensource.cirrus.com
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: wlf,wm8974
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "wlf,wm8974";
-+            reg = <0x1a>;
-+        };
-+    };
+diff --git a/sound/soc/fsl/imx-es8328.c b/sound/soc/fsl/imx-es8328.c
+index d67b8a149bff..5b9648f3b087 100644
+--- a/sound/soc/fsl/imx-es8328.c
++++ b/sound/soc/fsl/imx-es8328.c
+@@ -28,7 +28,6 @@ struct imx_es8328_data {
+ 
+ static struct snd_soc_jack_gpio headset_jack_gpios[] = {
+ 	{
+-		.gpio = -1,
+ 		.name = "headset-gpio",
+ 		.report = SND_JACK_HEADSET,
+ 		.invert = 0,
 -- 
-2.34.1
+2.43.0.rc1.1.gbec44491f096
 
