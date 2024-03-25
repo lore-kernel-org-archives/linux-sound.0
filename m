@@ -1,100 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF011737;
-	Mon, 25 Mar 2024 19:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E4E1B963
+	for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 19:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711394070; cv=none; b=txaCEBHvpFxnlHRAzhWlqvpa+ipLIK5w2DhxG//Ne4w2GCu+BoOXxVjirXhsIf1AADynEpNtLyKy9knFHjp2B0ZFLywWVAtUdVzrwvrAxTvSPz7vYrOavL4Ms4oNR26RMedJq/nUFQenoux6/B81DxDhSUbCY0P4UEHz8/OfMoY=
+	t=1711395022; cv=none; b=SbPnpssDTL4f99f+qREZ+G3uWQaqdw3PI6u84Mtk6XMU23BLytbLiouUVfVCWCkHgvvOgEz08Y0uXzQZIz8SgZrQ3ynm2uOFdG8RQ+HSeJe5xOkuIyy50Y93DwcckLPxnwqXD+D7M/amdxgEqZO7uD2pGU2Kf8iIZgM1k+pmERo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711394070; c=relaxed/simple;
-	bh=S4dR9hMjuyXo+2NLjdCApilcKOOtn4MC+CpSK0tyAkM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHvQJuo/ROO+1/8tJGGxMZ8e0R7xRbfxdwl+u4RQXWoI04AB+cFy0WCY3GG2ghOtc9xXh6c4cJmgF7ZL94COu3GtiJEhmRZQc7zLwwAyrS79IhB0c1D015vU962OSHOEazHkkiTJ2TlNXW5Yecwxab10S60PPSMM2PIYllpAw6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMxKADBa; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711395022; c=relaxed/simple;
+	bh=uPe8oNZuRjkr6igJ6+uXw4kV5e62kfNMyQsl4UJy4wc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iKMh+FM7XfLuU/umMQJ0J1TpbhRDecYxS+o5pWPBtxEd2bkMykm8ZFnzqP+s2dc9+Ncr2J1f9veoXCCSH6cRzvc1evOhOoQ/Js2wnjzZ7yp6MiQIzJigQ4gIJVYe/HOe6aKbzun3CAsOYoEPMZRe0hIv9qpJ9VpRkmwdEQwAXDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DB628KU8; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMxKADBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711394069; x=1742930069;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=S4dR9hMjuyXo+2NLjdCApilcKOOtn4MC+CpSK0tyAkM=;
-  b=AMxKADBaFjLF7rinPZw3jk2vCbfjVFyRaVpYuHkdzF2LXF8wDOtWmHj0
-   Atin8dkll7yRqaWwpIdzRZyLcfZ4SDsw/sT5NoHN+tsVdjQ23lOg7dgzA
-   OYP80H+bbFAoCMYs5hf0rthjgUA0FK5dVC54MlsgXFDhPzqjyP7gO7a9q
-   C857vfNbwFQVILBDO9HwrfDbSv/r10h0if2PP7Z8gj4W3jpHFS/d2Tyq4
-   CbymBVzpdh01NkNS0zkR9ILdTXWJklatFGFG/CpQ+9wAwb4DDp0gellgC
-   D4EPSuuPG5g33LbUh9JtvdNPTCltoFd1RAd7ttQlLVpXmx9VK2e3g3Y/J
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="10213322"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="10213322"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:14:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="937070805"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="937070805"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2024 12:14:23 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 470F2101; Mon, 25 Mar 2024 21:14:22 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] ASoC: fsl: imx-es8328: Remove leftover gpio initialisation
-Date: Mon, 25 Mar 2024 21:13:41 +0200
-Message-ID: <20240325191341.3977321-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DB628KU8"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a474c4faf5eso208412566b.2
+        for <linux-sound@vger.kernel.org>; Mon, 25 Mar 2024 12:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711395019; x=1711999819; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=jv/1xmcEvOlqaR46UzZJ7st3YBn+EpjWb15LuamGQxQ=;
+        b=DB628KU8Ehu9ggev0qLWeo8pkUCof/0j3QCfQQlITdYClelQC6EQz9Vynx+VpDbM1L
+         XxtmGpks9ZhImymnFXlkFdTwF/DAezjxscBl4d6SWZnefHrinwnvokflNMM6iSqfeEGe
+         RZ/+Es2mNluXUIlpHbSx/3uII1IwuHThjYbxvx8PTjaWyNEMpVX3nuVk7HEip2mEgydk
+         TrmiUMplFEfh+QGAK6lhx3zuxM6BHg6padPbF+zpTGo0GYltJdEjPK7ALHkrcL4VeNfh
+         pmdB5F9LcIcSYqwsO7pa12r2Gr3PZRp9Fo1m8+Th9LUtOwDN9EuDMYTxPxwCYfRco/5K
+         2QuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711395019; x=1711999819;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jv/1xmcEvOlqaR46UzZJ7st3YBn+EpjWb15LuamGQxQ=;
+        b=tcnMTtlVyqlqf+nNFjjg+MBeLeFzpSnHo8a6iwnMj6zOnj/zL9Mi3CGHCFcDx2PQp5
+         TYNXQSdK7XGe9zHXQKAPmH8POWlzjDTnT4I9kBYmQvY20UiAMQd9riU2hUJeUz2Ggzaa
+         DlCmuX0KOEn98VNzSrxZfbPBwm2xuYGhurly5cHP0liqWaFFf3Mp9ysyd/cvoI3y68S1
+         K5BkIMuS4qpuOWxvyWIXkX0UE/q9jfWKttZR9IG930PCEr5M2iFs4huDCSUPUNppO18k
+         ZR287z/6NiE0gidnKjcI5XT2Isi/ZDb+nJR7WfY7kYjvPzPMD1354N+85OSoEaYQaGQ6
+         WdLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYXPLXW461UBFtYQIGceSMOOn7EP8FQ5bedAo+OkmzcAroJel1/pV2FDdtJLQseNNjCjSZrWEU+83djnPIMUi3/at2OIjEHpaldz0=
+X-Gm-Message-State: AOJu0Yy68aOY27kfdEIOt4ZwOV2Q5PqxcthhFcdc1aUatVrQzjzN23yq
+	iTtdP1pXhKqtu2AKxjLMBoCOk1o2NUB7hMj7emw2FuKI0rSBS0YdHMePAFG0AHw=
+X-Google-Smtp-Source: AGHT+IGX4/HFcgffUtYMyhp+T40RL1ILiQHYgjsp+MVTbpKOKdEt5DSqzufsE6rQjsLkAFDBctdkkQ==
+X-Received: by 2002:a17:907:11cb:b0:a47:35e5:7da0 with SMTP id va11-20020a17090711cb00b00a4735e57da0mr5224303ejb.41.1711395019094;
+        Mon, 25 Mar 2024 12:30:19 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.44])
+        by smtp.gmail.com with ESMTPSA id ao11-20020a170907358b00b00a4a377ee13asm1233822ejc.218.2024.03.25.12.30.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Mar 2024 12:30:18 -0700 (PDT)
+Message-ID: <02fc496c-caac-4434-8e18-229074733b1c@linaro.org>
+Date: Mon, 25 Mar 2024 20:30:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: dt-bindings: wm8974: Convert to dtschema
+To: Kartik Agarwala <agarwala.kartik@gmail.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ javier.carrasco.cruz@gmail.com
+References: <20240325181943.116733-1-agarwala.kartik@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240325181943.116733-1-agarwala.kartik@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The gpio field is not used anymore, remove the leftover.
-This also fixes the compilation error after the ...
+On 25/03/2024 19:19, Kartik Agarwala wrote:
+> Convert WM8974 audio CODEC bindings from text to dtschema.
+> 
+> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
 
-Fixes: 9855f05e5536 ("ASoC: fsl: imx-es8328: Switch to using gpiod API")
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/fsl/imx-es8328.c | 1 -
- 1 file changed, 1 deletion(-)
+Thank you for your patch. There are no DTS users of this binding, so
+while such conversions are useful, they have significantly smaller
+impact. In the future, please consider converting bindings from active
+platforms (arm64 defconfig, arm multi_v7). This would have significantly
+bigger impact.
 
-diff --git a/sound/soc/fsl/imx-es8328.c b/sound/soc/fsl/imx-es8328.c
-index d67b8a149bff..5b9648f3b087 100644
---- a/sound/soc/fsl/imx-es8328.c
-+++ b/sound/soc/fsl/imx-es8328.c
-@@ -28,7 +28,6 @@ struct imx_es8328_data {
- 
- static struct snd_soc_jack_gpio headset_jack_gpios[] = {
- 	{
--		.gpio = -1,
- 		.name = "headset-gpio",
- 		.report = SND_JACK_HEADSET,
- 		.invert = 0,
--- 
-2.43.0.rc1.1.gbec44491f096
+See also:
+https://lore.kernel.org/all/6552bcb8-e046-4882-91da-1094fff3d239@linaro.org/
+
+> ---
+>  .../devicetree/bindings/sound/wlf,wm8974.txt  | 15 -------
+>  .../devicetree/bindings/sound/wlf,wm8974.yaml | 41 +++++++++++++++++++
+>  2 files changed, 41 insertions(+), 15 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8974.yaml
+> 
+
+...
+
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        codec@1a {
+> +            compatible = "wlf,wm8974";
+> +            reg = <0x1a>;
+
+In the future for other patches like this, make example complete, so add
+a dai-cells also here.
+
+No need to resend just for that.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
