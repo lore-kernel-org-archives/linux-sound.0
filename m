@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC48313C90A
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA0413C916
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469127; cv=none; b=gRGrq/7kNynH1ojja2Rp93D5maf5l5HsnsLHRu42ailZ5K49XGp0hyvaGi5xoCdsPxat8uHgFGBBUTF7TtuJ4uDSQCGLJdLumRRkcKtINkUvzcmOA3KJGE4uhk8TurmNebRq8LaXRRDfq7tagwYhrFHN0zF08AQDvI7tO5BrMkg=
+	t=1711469128; cv=none; b=J/tsiqAZ8RYPJMkR4l1Ut+djhAWFwPQ4n2bSmQsr1CKWmaqqjEJK8tEaYmBVLePeakW7DtNkVYDfZ5AIG04UlAFL0mf56S0zVVK0GE7clAaYhAhWr15UBbCWjg+Bie3n2wnpdWDfLscRWCzI7zgNvhR+34U2IeOiItjMsH0Je/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469127; c=relaxed/simple;
-	bh=CqMw0hQCpoYpsInZ7ccCCDW4BJ6/9Rb+vQzek9KYCzw=;
+	s=arc-20240116; t=1711469128; c=relaxed/simple;
+	bh=p4bcEeZvlLZOeW2O2yiVYCUk6wRlaf1Q9CsfKwwjbvA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OS94rGsKErjt9hxv6QltBW27ES8D1bGte0T0MlO3F/pn17h2j5BAFoEvoWxYgpx9yMWm+lxxR3/ZMBH/THBxs173/j1ycrRa/G68H1LKA5AyuheyqcDd+kfSPwCCh4/F5YsEPpQx6k+Lv11cyIgwbp9eRmSbqpuiBvdEGcDt13M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiRbiDDj; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=gJczwpvmYzbK3uUe8Si2b9GRJqeE+5FmLgN/KQYhnqlN5mhAY7BH1fhcisTXUD2Ik1bpGGYIpnt2tWcAF1zHTGRmo4Nsj2cdMTgzFrP9z5VSutW7IU7+sLtb6MhzmgyGPHqz5/cJ4eCjBVxSMpFe3n8hp4NjMxZNuiC87KHUL1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtIQ/Y8K; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiRbiDDj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtIQ/Y8K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711469125; x=1743005125;
+  t=1711469124; x=1743005124;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CqMw0hQCpoYpsInZ7ccCCDW4BJ6/9Rb+vQzek9KYCzw=;
-  b=ZiRbiDDjZQ71mMW6yuAI6/3tdH4ypqPpoB9IGUMLab066c++VjFcFW/d
-   B06odjB5/sFs6A2P5VnfpaawfgtPmYjmYNLien/Mo0Y9j36jVmi2arZnP
-   4b8JiCnXzJQE05WYT5u+324BZ6likosjq9svrf/AMILJVKWh3jzqR7nbh
-   LJKKx3IHd/bM17qckKftsw0kKXCsmcAGNt/W1toBRJ6anhI4XNNv6GbT5
-   okQwYrMhqOLAFU6F1g7JFuMa+tzZ+WtUVbxF+JGOjagoHVcg1sXkji1qU
-   /OUuBhUn81AfOSFHcBTPwzGrDanFtTp++y+50D2450YlEFvgUrwakwn2X
+  bh=p4bcEeZvlLZOeW2O2yiVYCUk6wRlaf1Q9CsfKwwjbvA=;
+  b=mtIQ/Y8KFDOw/ThOnh1ZXBaYvTUDt7mtLEwtVwHastHwGKKI3R+ZUdbb
+   5FxbQXQK39MPawizheRpiOu+LXYScg+2h6D+OUvPzCzOZ4kRob33izpN9
+   kFczpOZvWVwsr2NWlmgDU6DSwh+H4pZYrGInUMW6H/7Cy7sUPWU/geZTS
+   aUgsYGPOiY+vr2CzzhI3KtUrUEW8LCWcGeOuymcgwueUpvy2SA3cOjxEy
+   R5vyHcPxy4gHBX6hcVtUtPI8E4bwFa6yULSfmEP3jzTrBIyvJ4unEiwTM
+   hHtw06jfleAT5PCApxaLF1mu9qWpQtQ/2etk6IKKFGSr3oWdYQLJM7PSX
    Q==;
-X-CSE-ConnectionGUID: zPsk8okzTq2VeQHRiWm8bg==
-X-CSE-MsgGUID: 8kzTARrTTSmJ5qKxXQaXCQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260381"
+X-CSE-ConnectionGUID: 3Q+TillcSESUgtL1TAtboQ==
+X-CSE-MsgGUID: RpRaUyF0Sl22CywQWFSDkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260367"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="17260381"
+   d="scan'208";a="17260367"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:49 -0700
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="20482198"
+   d="scan'208";a="20482180"
 Received: from bhubbert-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.65.108])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:48 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:46 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -53,9 +53,9 @@ Cc: alsa-devel@alsa-project.org,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Bard liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 09/34] ASoC: Intel: sof_sdw: Use for_each_set_bit
-Date: Tue, 26 Mar 2024 11:04:04 -0500
-Message-Id: <20240326160429.13560-10-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 07/34] ASoC: Intel: sof_sdw: Move flags to private struct
+Date: Tue, 26 Mar 2024 11:04:02 -0500
+Message-Id: <20240326160429.13560-8-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
 References: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
@@ -69,51 +69,111 @@ Content-Transfer-Encoding: 8bit
 
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Rather than open coding a loop to process each bit use for_each_set_bit.
+Move the flags ignore_pch_dmic and append_dai_type into the drivers
+private structure rather than passing them around between functions.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c        | 21 +++++++--------------
+ sound/soc/intel/boards/sof_sdw_common.h |  2 ++
+ 2 files changed, 9 insertions(+), 14 deletions(-)
 
 diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 0ffa6e36dbed..a12283d3e1cc 100644
+index 45732884e310..5557db68a002 100644
 --- a/sound/soc/intel/boards/sof_sdw.c
 +++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -5,6 +5,7 @@
-  *  sof_sdw - ASOC Machine driver for Intel SoundWire platforms
-  */
+@@ -1463,10 +1463,7 @@ static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
+ 			      struct snd_soc_dai_link *dai_links, int sdw_be_num,
+ 			      const struct snd_soc_acpi_link_adr *adr_link,
+ 			      struct snd_soc_codec_conf **codec_conf,
+-			      int *be_id, bool *ignore_pch_dmic,
+-			      bool append_dai_type,
+-			      int adr_index,
+-			      int dai_index)
++			      int *be_id, int adr_index, int dai_index)
+ {
+ 	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
+ 	struct device *dev = card->dev;
+@@ -1549,8 +1546,7 @@ static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
+ 	if (!codec_info)
+ 		return -EINVAL;
  
-+#include <linux/bitmap.h>
- #include <linux/device.h>
- #include <linux/dmi.h>
- #include <linux/module.h>
-@@ -1644,7 +1645,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	char *codec_name, *codec_dai_name;
- 	int i, j, be_id = 0;
- 	int hdmi_num;
--	int ssp_mask;
-+	unsigned long ssp_mask;
- 	int ret;
+-	if (codec_info->ignore_pch_dmic)
+-		*ignore_pch_dmic = true;
++	ctx->ignore_pch_dmic |= codec_info->ignore_pch_dmic;
  
- 	ret = get_dailink_info(dev, adr_link, &sdw_be_num, &codec_conf_num);
-@@ -1782,12 +1783,10 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	if (!ssp_num)
- 		goto DMIC;
+ 	for_each_pcm_streams(stream) {
+ 		char *name, *cpu_name;
+@@ -1572,7 +1568,7 @@ static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
+ 		}
  
--	for (i = 0, j = 0; ssp_mask; i++, ssp_mask >>= 1) {
-+	j = 0;
-+	for_each_set_bit(i, &ssp_mask, BITS_PER_TYPE(ssp_mask)) {
- 		int playback, capture;
+ 		/* create stream name according to first link id */
+-		if (append_dai_type) {
++		if (ctx->append_dai_type) {
+ 			name = devm_kasprintf(dev, GFP_KERNEL,
+ 					      sdw_stream_name[stream + 2], cpu_dai_id[0],
+ 					      type_strings[codec_info->dais[dai_index].dai_type]);
+@@ -1647,8 +1643,6 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 	struct snd_soc_codec_conf *codec_conf;
+ 	struct sof_sdw_codec_info *codec_info;
+ 	struct sof_sdw_codec_info *ssp_info;
+-	bool append_dai_type = false;
+-	bool ignore_pch_dmic = false;
+ 	int codec_conf_num = 0;
+ 	bool group_generated[SDW_MAX_GROUPS] = { };
+ 	struct snd_soc_dai_link *dai_links;
+@@ -1732,7 +1726,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 			if (!codec_info)
+ 				return -EINVAL;
+ 			if (codec_info->dai_num > 1) {
+-				append_dai_type = true;
++				ctx->append_dai_type = true;
+ 				goto out;
+ 			}
+ 			for (j = 0; j < i; j++) {
+@@ -1740,7 +1734,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 				    SDW_PART_ID(adr_link->adr_d[j].adr)) ||
+ 				    (SDW_MFG_ID(adr_link->adr_d[i].adr) !=
+ 				    SDW_MFG_ID(adr_link->adr_d[j].adr))) {
+-					append_dai_type = true;
++					ctx->append_dai_type = true;
+ 					goto out;
+ 				}
+ 			}
+@@ -1771,8 +1765,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 				ret = create_sdw_dailink(card, &link_index, dai_links,
+ 							 sdw_be_num, adr_link,
+ 							 &codec_conf, &current_be_id,
+-							 &ignore_pch_dmic,
+-							 append_dai_type, i, j);
++							 i, j);
+ 				if (ret < 0) {
+ 					dev_err(dev, "failed to create dai link %d\n", link_index);
+ 					return ret;
+@@ -1825,7 +1818,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ DMIC:
+ 	/* dmic */
+ 	if (dmic_num > 0) {
+-		if (ignore_pch_dmic) {
++		if (ctx->ignore_pch_dmic) {
+ 			dev_warn(dev, "Ignoring PCH DMIC\n");
+ 			goto HDMI;
+ 		}
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index a04cbab9bc70..1daf98a5849f 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -103,6 +103,8 @@ struct mc_private {
+ 	struct device *amp_dev1, *amp_dev2;
+ 	/* To store SDW Pin index for each SoundWire link */
+ 	unsigned int sdw_pin_index[SDW_MAX_LINKS];
++	bool append_dai_type;
++	bool ignore_pch_dmic;
+ };
  
--		if (!(ssp_mask & 0x1))
--			continue;
--
- 		name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d-Codec", i);
- 		cpu_dai_name = devm_kasprintf(dev, GFP_KERNEL, "SSP%d Pin", i);
- 		codec_name = devm_kasprintf(dev, GFP_KERNEL, "i2c-%s:0%d",
+ extern unsigned long sof_sdw_quirk;
 -- 
 2.40.1
 
