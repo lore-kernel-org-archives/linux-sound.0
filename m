@@ -1,42 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF6A495FD
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 12:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD55495FD;
+	Tue, 26 Mar 2024 12:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711457469; cv=none; b=PXKA1gRIRWQanG0sHfAnVrP/Wlcp6o4BZYPYrA+bkxea3jn3cqc2+U0Ng841zG5EBDNOvQ9TxNs0ny/83CLQd+lFQ7OXD8edLClBdak03W/JPWBF33m6m/BHPvMdeTX+5+gKu+hAGTTpU6ufiblDeQeo8TjL/Gwj7Wa6/XbwAzM=
+	t=1711457475; cv=none; b=OPWcEUjWJ21p7R0agJmKtEe6/mQ/drUEZpBTBL8R72N8WLx4GeNr8f98Viy0QMsxEoeyDpCUpZzmLQqcZKxhcRmeB86nkI08YkgWA5Uev/cAUONIhpHF2tdOF0qIEBroA2lwEVtAOupvsWo8QaYOX6hRrr5OqgPT527qPR7D+xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711457469; c=relaxed/simple;
-	bh=EZ6pFz2V/DRj+qMyZoOeq2lbUpexXlez3RxaoFi+MTs=;
+	s=arc-20240116; t=1711457475; c=relaxed/simple;
+	bh=Hnsmw4cSlCWFWusJgFgXB9IFNQHqwcx52ZbhZkS1BMc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=h6yo2KWetjyvZYOUaap+KXAZ/Y1UmFUkL3vSiq9ZOhc1zfeQk/QNIoFxucmzhNi11u73yOGaxfUiy0J06pdATSZIC6WlBvMG1af4/NXxBS/FqGlr9msWiZSAwpZ4QkZR2y6Qjth+j8gcEdaHlYxcsHjJNwRgoRyct8i0zvPUP5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hi4UuAkf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fVUqqyYARKqXpg4wqiUyA+ggU1mNaPsu2vr4Qgx5pO5E0Wam8hYNLskGg9rBCPIhF+1XH7p4ZRlIbPyToohz+l2WlhKdbJ/QMOGv4d69t0ZtvasgAnE4Yyy8SAY3D91/Hl3XzuWXLImUB0GewfZNsqv/olqeHqqacJfvmFgmFOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sEPxM8BV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hi4UuAkf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A915FC433C7;
-	Tue, 26 Mar 2024 12:51:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sEPxM8BV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C07FC43394;
+	Tue, 26 Mar 2024 12:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711457469;
-	bh=EZ6pFz2V/DRj+qMyZoOeq2lbUpexXlez3RxaoFi+MTs=;
+	s=k20201202; t=1711457474;
+	bh=Hnsmw4cSlCWFWusJgFgXB9IFNQHqwcx52ZbhZkS1BMc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hi4UuAkf7sRJXkUAI0utHWP1JtUexhos3i4hWj3DGSXskzhSxaXKD0qB03KV1OkI7
-	 L/ChM9Z1h4adf2dIg6wUaCzjJ3eLfBDkBylZXq0b7yGDBrZpbReMXj1f9aMQmd1Kwo
-	 DzDr2QlaMScm3Ihw3LLvRkbZY+Y27M23r/M/VOLby+GIC+MeV58VsLBtr+rL8s6Fqf
-	 Mlle6khD750cq7FDEM0aL3/bjQGXa1lVwfwGBLpXJ8CJ/KVsyz8TZO2KoR8sAfMGRS
-	 z3P5HIKkDXT52iWRF+MzvyXROBqGH7VasspTtEPfHnDbdVVoZebYQNXQqXjc8aXbOK
-	 eSVJmfSdtXj6A==
+	b=sEPxM8BVbQ07kjm4amF/00CiTgh1i2KSrruwCtk1gy5l57g81+eu/IVT1/qPM6PCt
+	 6C7ar8Me3JW30/ZCq8HNP5Gxzu0Q5lFimE3pAh1S6KHchXGQygXkKp4MHyBcfCsHDB
+	 aamnyV2tG/zleVfYnqAf6knJ9SMbX2+xb8LXr1U89fFxtf+dl57q6BG3o8zy1/m2KL
+	 u43T+2gL2C5qq1jv4rxNcm9D5aGE88x4XKp6iPP0GfFEQsJz0ForRWeP+xAiqam/Sh
+	 HMPA3Qal319cQxp+Hj/EWNEw+E+bJlDQIeOWAQr5oNUI5c4dCFpxCVWucPQ+4ouIEx
+	 PETXvB7mo3aXQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20240325221925.206507-1-pierre-louis.bossart@linux.intel.com>
-References: <20240325221925.206507-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASoC: hdac_hda: improve error logs
-Message-Id: <171145746742.70451.13798013977820982009.b4-ty@kernel.org>
-Date: Tue, 26 Mar 2024 12:51:07 +0000
+To: Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>
+In-Reply-To: <20240325191341.3977321-1-andriy.shevchenko@linux.intel.com>
+References: <20240325191341.3977321-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] ASoC: fsl: imx-es8328: Remove leftover gpio
+ initialisation
+Message-Id: <171145746963.70451.9741731830919913816.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 12:51:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,9 +55,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Mon, 25 Mar 2024 17:19:25 -0500, Pierre-Louis Bossart wrote:
-> We have a couple of duplicate logs and missing information, add
-> __func__ consistently and make sure useful error codes are logged.
+On Mon, 25 Mar 2024 21:13:41 +0200, Andy Shevchenko wrote:
+> The gpio field is not used anymore, remove the leftover.
+> This also fixes the compilation error after the ...
 > 
 > 
 
@@ -59,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: hdac_hda: improve error logs
-      commit: ea5fee227ff3dae209062ac9544906debe1e9ac1
+[1/1] ASoC: fsl: imx-es8328: Remove leftover gpio initialisation
+      commit: 6a92834166b16babd70e99c3e0ce9262893ad6ae
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
