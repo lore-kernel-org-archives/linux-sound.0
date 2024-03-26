@@ -1,82 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D53613D293;
-	Tue, 26 Mar 2024 19:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08C013FD71
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 20:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711482025; cv=none; b=tVD8UtH9pq/BLgdJYrJsglHiLbQU6VEc2bD3jcgLdlm0NFimLEhzJWxd1Q9tZ5bUTKbu0eTHLgx1KqqPCW2YgvoqYab7X3on4iMvqbiTKWSLDN7YyB2Oo9joWQsGBLiv580KoUvnhW7AZd139KQP5Xq/1WTjRFRLtzpsMR63bUc=
+	t=1711484669; cv=none; b=Ec1r+ixFLmIO1y9qHBcgS7pw/czqfOK0VbBF66Ict9efkL4qsYfD5CHqCMSfY+9OdgO+nZ5AH1sV+GgYfkjO7Y5d/77GkflsRPcthDaeUHK3d4KMabWveXTOKPt33owjtQIx17B6Rzcxxb/GxHINknIJGVRW3vl2cM49M/qiX5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711482025; c=relaxed/simple;
-	bh=x0TTBRigEsuZwoi8waGTwMiUmmSaW138ZPTL9PFeVe4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PAmr0OcDZuczOvK4SN14NyTl4RH28GqlJ6YPQcDn8gBhcyqTk3lZyRiREawcyNrTOjEZ3Z7V1cavRQUR9RM0BbVpphVFAS/hF1C22C3CSgFkz7nQMVjgnIS37LQ4huyVOd9nvB9qLgBz0FNIURChurAZAvfQgerXQ8NJYxnd4Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BWBxELgD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711484669; c=relaxed/simple;
+	bh=3/laPbw4dZzLc5cIWlMGtQPK7sjd5djD9WWYkPnEIy8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Z81A+WZ8wGb13MUFDcdKzs7m8WypbL0T0nLoShoVfr1Q1EBMO7jiqLnNu9ZEAwnCxnxegVOYWptm0jecZ+Uy/hWh76BtQlx5tKZuClJc9paY77gQu7yvcY2gb+etIFZb5N8Faa6ZN95yTx+2izjgUEF9RPbwhqiaf7JXo/4WbYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=klP/P7wX; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWBxELgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8986C43399;
-	Tue, 26 Mar 2024 19:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711482025;
-	bh=x0TTBRigEsuZwoi8waGTwMiUmmSaW138ZPTL9PFeVe4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BWBxELgDsZ0DEW+f6ZFmjGZv+imC3IgkjGQ6idn+Vk50cKqPZeRrIqa6M1eddxIYA
-	 Z74+W6g+4x0+5SVki4gnig7y1sf/2RM8eLTOuNbmaW1fkDl4/ZYRR4dQhDbd1NX5cc
-	 aORv+96x3qCcTlrqZ6H22lItVrZwfdvxAhU58BGr2lCrXsM5TVqSV0sO5CBAq1LkWy
-	 Xw7y1QbMm54RHNl7GIGr1TTrhy5LYUeplhD/wGUBNIEISVTGnv00SgPHTzyW/QXSd0
-	 8ZsGHlF6kmB7kBA35V33ZDxbqw2vPz26HiZiNtbIKVokdrd0insLR+Xh7K7LE1tJIS
-	 Px6LYnwhC799Q==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20240326171134.1414462-1-andriy.shevchenko@linux.intel.com>
-References: <20240326171134.1414462-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v3 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Message-Id: <171148202361.195485.9515319942433271607.b4-ty@kernel.org>
-Date: Tue, 26 Mar 2024 19:40:23 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="klP/P7wX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711484668; x=1743020668;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=3/laPbw4dZzLc5cIWlMGtQPK7sjd5djD9WWYkPnEIy8=;
+  b=klP/P7wXjQS00YZMLKERRA4CvvhbqPheHUv6C0Dv5naQ188WAzPLCJE2
+   r597KLlQghsQMe1UTLrXAUvCmzWp/UdpBxMVtrCB3o5YfAzOsCP5I/dmt
+   P/W3P2gg41dQ1XOEP4L9//yjbC6gaya+Yha926gszcxppgQ2heAAk/+Zp
+   pgvVuzse1qdBgI1FIOFHm6e2LQxcQoi4fn3O3UohIwLl30lh48RkHzbK+
+   k3CqIhDNRqs/xaE41dcS6SxQesOQ69mWnj000XoHoshnGv/ZjJovSRwhP
+   3wlSSBwFsYfMgvYa7yHJ8d/QVlmBG7vzvj31eZgkX7qL3lkwkx1hnA+0r
+   g==;
+X-CSE-ConnectionGUID: qsaor2KGRUaTRrBRDEAJDA==
+X-CSE-MsgGUID: aWGZDW3RSUaq1wQuyJKt1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17946346"
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="17946346"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 13:24:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="20716653"
+Received: from bhubbert-mobl.amr.corp.intel.com (HELO [10.212.65.108]) ([10.212.65.108])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 13:24:24 -0700
+Message-ID: <1c437229-cbc7-4e0c-987c-9ca31800a572@linux.intel.com>
+Date: Tue, 26 Mar 2024 15:24:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/15] ASoC: Intel: replace dpcm_playback/capture to
+ playback/capture_only
+Content-Language: en-US
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
+ <87frwf53mq.wl-kuninori.morimoto.gx@renesas.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87frwf53mq.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
 
-On Tue, 26 Mar 2024 19:09:48 +0200, Andy Shevchenko wrote:
-> No more users.
-> 
-> 
+Hi Morimoto-san,
 
-Applied to
+> soc_get_playback_capture() is now handling DPCM and normal comprehensively
+> for playback/capture stream. We can use playback/capture_only flag
+> instead of using dpcm_playback/capture. This patch replace these.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This patch no longer applies since Mark merged
+"[PATCH 00/21] ASoC: Intel: boards: updates for 6.10 - part1"
 
-Thanks!
+https://lore.kernel.org/linux-sound/20240325221059.206042-1-pierre-louis.bossart@linux.intel.com/
 
-[1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-      commit: 7b95ee0db7e0a7f99077f1b926323c7bf0d2e8f8
+The odds of additional conflicts are very high due to the number of
+queued changes in machine drivers, I really don't know how we're going
+to find the time to solve those conflicts and test experimental
+versions, while we're also busy checking the 6.9-rc1 transition.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+In addition, I have a bit of heartburn with the concept of flipping the
+logic from a clear description of playback or capture supported, to an
+implicit 'both supported unless stated otherwise'. We are going to miss
+some cases and have regressions, it's pretty much a given.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+And then there are cases such as the following examples
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> @@ -496,8 +494,6 @@ static struct snd_soc_dai_link cml_rt1011_rt5682_dailink[] = {
+>  		 */
+>  		.name = "SSP1-Codec",
+>  		.id = 6,
+> -		.dpcm_playback = 1,
+> -		.dpcm_capture = 1, /* Capture stream provides Feedback */
+>  		.no_pcm = 1,
+>  		.init = cml_rt1011_spk_init,
+>  		.ops = &cml_rt1011_ops,
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+> @@ -293,8 +291,6 @@ int sof_intel_board_set_ssp_amp_link(struct device *dev,
+>  
+>  	link->id = be_id;
+>  	link->no_pcm = 1;
+> -	link->dpcm_capture = 1; /* feedback stream or firmware-generated echo reference */
+> -	link->dpcm_playback = 1;
+>  
+>  	return 0;
+>  }
 
-Thanks,
-Mark
+> diff --git a/sound/soc/intel/boards/sof_da7219.c b/sound/soc/intel/boards/sof_da7219.c
+> index 6eb5a6144e97..c7cca3e47ed9 100644
+> --- a/sound/soc/intel/boards/sof_da7219.c
+> +++ b/sound/soc/intel/boards/sof_da7219.c
+> @@ -296,8 +296,6 @@ static struct snd_soc_dai_link jsl_dais[] = {
+>  		.id = 0,
+>  		.ignore_pmdown_time = 1,
+>  		.no_pcm = 1,
+> -		.dpcm_playback = 1,
+> -		.dpcm_capture = 1, /* IV feedback */
+>  		SND_SOC_DAILINK_REG(ssp1_pin, max_98373_components, platform),
 
+where we lose comments on what the capture stream is. That's not so
+good, we added those comments on purpose to explain that the capture
+stream isn't a regular PCM format, I don't see a good reason to see them go?
