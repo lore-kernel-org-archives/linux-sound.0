@@ -1,111 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ABD73500;
-	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52DDC57330;
+	Tue, 26 Mar 2024 09:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711444845; cv=none; b=DLh46Z/9+sDfttYXYhOXBkWwh1JC2kZzw0+bxEDXbTacVSoWTorKR0edLfTTMZgw4s1LN4KSRa8f9R80DBipVbFnSxm/gwZkPkPdsod4m1lIqslhQpEkWfy1NJ02ZI6+kjM5sLYibkHsQRNYhBpzuJNipmgULoLfDLSTlhyZCEM=
+	t=1711446188; cv=none; b=gC/LNlzT/8jTqFIER4irWEn9VygVi5FtNCaaNwil9U+N0pUM43RAVa836d8465PRvN1XzmCdp/XQjj4sHohCHHhVNaIh9yib0I24USYRGgEawCbLLWmMbGnGAsWmV9mRpeifIgUQeg/WMdxB0RVBQZof6lKz9K53Ssmm3O1WGFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711444845; c=relaxed/simple;
-	bh=ZhNVE0cVvxF6vOSto8uaF4d/Wo+PXywhYyMEAUEj+b4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CAI10pg/pZatyIgdO/oi5dpcB1vq9t8gwiqv+AN19+cMcnLwmFxqLzhJQUV9hjRNVaAND1VRawWKNRtuxitSYI4chsgxs0g8SK8u60ns9J/CzA9p6qb6eYthVfK8cqkGx01o6pXIKKy+N78o0oSoaVaxs5elp1sUR/PJcFevZT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpRINKu0; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpRINKu0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711444844; x=1742980844;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZhNVE0cVvxF6vOSto8uaF4d/Wo+PXywhYyMEAUEj+b4=;
-  b=BpRINKu0VVJgHo65VqFWEZ/vQU0+uiIBhWDzDHazqOcx81GehFtGi583
-   oq59uDJnzH9snWXKGHxJcCzpwKlV0HEi2+lTYMcwE4OkWYzj7uDgSgzhR
-   HUhommkpaqiPMzDjonzaUrtAs5jCzOwyCoJmtHRX4NQteCdbwRSajJbSn
-   A1vhNfzkPvmG9IvXdi3O7FsAMLqKVoilaZ+2smL3LZOeisNKXY7AESxBw
-   xoc5eP0CQF5iWHidn1uBDBbMumXJ4vDXZTuWYIFCEEqa4gbeSzHg6aAgD
-   AknyD0a3D1YYmLoFWAybFKC2V8xLDTDmSZQc/GmQAVXSJsHP8w81PxMHv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6350355"
-X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="6350355"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="16293279"
-Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH 7/7] soundwire: intel_ace2x: set the clock source
-Date: Tue, 26 Mar 2024 09:20:30 +0000
-Message-Id: <20240326092030.1062802-8-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
-References: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
+	s=arc-20240116; t=1711446188; c=relaxed/simple;
+	bh=fnFbU4zyFpMX7N2P8SPsyX5StAHUauELU2tMEYZuxz0=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=gnAq/DeeCf0gaZ6KhRk0Y4/ziZ68Grkq+Qs9gEBlHuKZvQVI3GnxHW4guB8fsd0kK8ygq8tsJAhU2NOcMbKmZuDzCcD15lp3x2SzNlh/fGJWMkILVA22gHA3GC/ZXkidjp0w/Sm/yRN2DoGNhtWpotTYKnzqaBp/QAVNymRgklE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from ubuntu.localdomain (unknown [218.12.18.200])
+	by mail-app2 (Coremail) with SMTP id by_KCgB35ZiOmAJmN9tuAQ--.5570S2;
+	Tue, 26 Mar 2024 17:42:48 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH v2] ALSA: sh: aica: reorder cleanup operations to avoid UAF bugs
+Date: Tue, 26 Mar 2024 17:42:38 +0800
+Message-Id: <20240326094238.95442-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:by_KCgB35ZiOmAJmN9tuAQ--.5570S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAw4DKF45Zr4fJF4kCFW3Wrg_yoW5uF4Upr
+	W5Wryrtrn7tFWv9rWUZwna9rn7Gw1fta4Utw4UGw4vvan3ur1YkF1jyw4FvFWakrWkuw47
+	ZF48Ary3CFyYyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUSNtxUUU
+	UU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIMAWYBgRkQowA1s1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+The dreamcastcard->timer could schedule the spu_dma_work and the
+spu_dma_work could also arm the dreamcastcard->timer.
 
-Insert clock setup after power-up and before setting up the SYNCPRD,
-per hardware recommendations.
+When the snd_pcm_substream is closing, the aica_channel will be
+deallocated. But it could still be dereferenced in the worker
+thread. The reason is that del_timer() will return directly
+regardless of whether the timer handler is running or not and
+the worker could be rescheduled in the timer handler. As a result,
+the UAF bug will happen. The racy situation is shown below:
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+      (Thread 1)                 |      (Thread 2)
+snd_aicapcm_pcm_close()          |
+ ...                             |  run_spu_dma() //worker
+                                 |    mod_timer()
+  flush_work()                   |
+  del_timer()                    |  aica_period_elapsed() //timer
+  kfree(dreamcastcard->channel)  |    schedule_work()
+                                 |  run_spu_dma() //worker
+  ...                            |    dreamcastcard->channel-> //USE
+
+In order to mitigate this bug and other possible corner cases,
+call mod_timer() conditionally in run_spu_dma(), then implement
+PCM sync_stop op to cancel both the timer and worker. The sync_stop
+op will be called from PCM core appropriately when needed.
+
+Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
- drivers/soundwire/intel_ace2x.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Changes in v2:
+  - call mod_timer() conditionally and implement PCM sync_stop op.
 
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index d8ae05cf3d57..43a348db83bf 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -33,6 +33,20 @@ static void intel_shim_vs_init(struct sdw_intel *sdw)
- 	usleep_range(10, 15);
+ sound/sh/aica.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+index 320ac792c7f..3182c634464 100644
+--- a/sound/sh/aica.c
++++ b/sound/sh/aica.c
+@@ -278,7 +278,8 @@ static void run_spu_dma(struct work_struct *work)
+ 		dreamcastcard->clicks++;
+ 		if (unlikely(dreamcastcard->clicks >= AICA_PERIOD_NUMBER))
+ 			dreamcastcard->clicks %= AICA_PERIOD_NUMBER;
+-		mod_timer(&dreamcastcard->timer, jiffies + 1);
++		if (snd_pcm_running(dreamcastcard->substream))
++			mod_timer(&dreamcastcard->timer, jiffies + 1);
+ 	}
  }
  
-+static void intel_shim_vs_set_clock_source(struct sdw_intel *sdw, u32 source)
+@@ -290,6 +291,8 @@ static void aica_period_elapsed(struct timer_list *t)
+ 	/*timer function - so cannot sleep */
+ 	int play_period;
+ 	struct snd_pcm_runtime *runtime;
++	if (!snd_pcm_running(substream))
++		return;
+ 	runtime = substream->runtime;
+ 	dreamcastcard = substream->pcm->private_data;
+ 	/* Have we played out an additional period? */
+@@ -350,12 +353,19 @@ static int snd_aicapcm_pcm_open(struct snd_pcm_substream
+ 	return 0;
+ }
+ 
++static int snd_aicapcm_pcm_sync_stop(struct snd_pcm_substream *substream)
 +{
-+	void __iomem *shim_vs = sdw->link_res->shim_vs;
-+	u32 val;
++	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
 +
-+	val = intel_readl(shim_vs, SDW_SHIM2_INTEL_VS_LVSCTL);
-+
-+	u32p_replace_bits(&val, source, SDW_SHIM2_INTEL_VS_LVSCTL_MLCS);
-+
-+	intel_writel(shim_vs, SDW_SHIM2_INTEL_VS_LVSCTL, val);
-+
-+	dev_dbg(sdw->cdns.dev, "clock source %d LVSCTL %#x\n", source, val);
++	del_timer_sync(&dreamcastcard->timer);
++	cancel_work_sync(&dreamcastcard->spu_dma_work);
++	return 0;
 +}
 +
- static int intel_shim_check_wake(struct sdw_intel *sdw)
+ static int snd_aicapcm_pcm_close(struct snd_pcm_substream
+ 				 *substream)
  {
- 	void __iomem *shim_vs;
-@@ -100,6 +114,8 @@ static int intel_link_power_up(struct sdw_intel *sdw)
- 		goto out;
- 	}
+ 	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+-	flush_work(&(dreamcastcard->spu_dma_work));
+-	del_timer(&dreamcastcard->timer);
+ 	dreamcastcard->substream = NULL;
+ 	kfree(dreamcastcard->channel);
+ 	spu_disable();
+@@ -401,6 +411,7 @@ static const struct snd_pcm_ops snd_aicapcm_playback_ops = {
+ 	.prepare = snd_aicapcm_pcm_prepare,
+ 	.trigger = snd_aicapcm_pcm_trigger,
+ 	.pointer = snd_aicapcm_pcm_pointer,
++	.sync_stop = snd_aicapcm_pcm_sync_stop,
+ };
  
-+	intel_shim_vs_set_clock_source(sdw, clock_source);
-+
- 	if (!*shim_mask) {
- 		/* we first need to program the SyncPRD/CPU registers */
- 		dev_dbg(sdw->cdns.dev, "first link up, programming SYNCPRD\n");
+ /* TO DO: set up to handle more than one pcm instance */
 -- 
-2.34.1
+2.17.1
 
