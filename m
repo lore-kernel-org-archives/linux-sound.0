@@ -1,89 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4BE1798A;
-	Tue, 26 Mar 2024 16:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2C413C91F;
+	Tue, 26 Mar 2024 17:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711471578; cv=none; b=l4PQ5Br96An+kTbKrdz3TzMne6dnL0PBMSxmoOetthaD3XKDPZb44n4gtQbSyTRJlptrd1DYFl8wtLcECC3VmKD56T+NrJUy3jpSkJKLfRUd3uzDgCXmzOKOkaeUqdVDcsotURYwNQonseCps1SSyDDhO4qCi6oIEh8Zlk00Djo=
+	t=1711472446; cv=none; b=Lc4ztSzNV1v61j8z+FATGfq5GGRYTfdahzwp5ABOdfuqBBd8bC/yQrpNJjpLc2qCgaY7TRQVr6O3GcoL7SQTK4040wqxScVOP+WnF/dkfqbe2H1628oX8bgPtmUFgq1Tt8ZNpAhV7OamFifRlhr6UrIxH3fTH2SeXiwPZ2eJkRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711471578; c=relaxed/simple;
-	bh=ZxM4G3wey3BGq0FKQ5QmpygX01UO4gnXT52HSKPAB3Y=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OCSetxYyvjyCE89xo0zlzXjF+zczMcB/S8I3I2IUPQ1upXm4TQ3oJi9iw0Aus4Zq+4L+sPfGIwtDlsYLMxWxVxcw2cLL5sOnTYXM9O0DAx4HAt8o+41chZH5QmZ8kp4jKxAvGTdQP88r3g9p+J6vBweI834Z8G/sqqFQly9XdKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zmm6/IXs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711472446; c=relaxed/simple;
+	bh=VcQPvmo4VU6C5+jXx9/sQvdk6EoaPM38qN5xUSOSE7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lxE+Mqqv+7YOICmPkhJoPlBpzcjGZL6CeGLeZBvxkg0r9II7wTgl2hXwrTNnOh4nxKujubD0VMSi7TlqpqW0HKGHeAgO2yDRebfTBhYwPetOCWy21uat0dYN+Joah3wD+inSQGZCN1KApNtwwFpbtLYtH43sYKDZP99IA5Pyvrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KitKWoco; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zmm6/IXs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D17C43390;
-	Tue, 26 Mar 2024 16:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711471577;
-	bh=ZxM4G3wey3BGq0FKQ5QmpygX01UO4gnXT52HSKPAB3Y=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=Zmm6/IXsWQ4h43X/u4GRrPt8zqbOP+AlRxUwu2Q/g0mb48tjXQ9QCHfwul2V7P0rS
-	 7/wFGPQ8yOJAIXxcttUca0zzqwvAryCqx0XKVt3eURvam6lcHvdV9xZS1roYJBwBAc
-	 Ra8Ovwlo+AAejvmTiRjx5HZVUnNziLDnjfuOSzIdpWZezrSpH//hlcXODGgz7u1AGh
-	 18YejGbvAWhAE+rI/iXdFyTCageriym9/Sh8skIi+73n7Y6RJfbR75iFsNTh3kZCYI
-	 NphiuT0mDizHveRxk2jvTGPi4125hTIOFLtqNCEI8iIa+H1TdTiR5MPJ6qjZ4jk2Vl
-	 Jpix1+xrB53rw==
-Date: Tue, 26 Mar 2024 16:46:10 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present
- in A64 SoC
-Message-ID: <ebcae0f3-b5ac-4c1e-9a37-c7d58a564195@sirena.org.uk>
-References: <20240302140042.1990256-1-megi@xff.cz>
- <171146686191.132239.8280140430376443574.b4-ty@kernel.org>
- <2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KitKWoco"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711472445; x=1743008445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VcQPvmo4VU6C5+jXx9/sQvdk6EoaPM38qN5xUSOSE7o=;
+  b=KitKWocogFjeMfkFnkeJIWtamtZot8ODM6jyovUgUltLu3a+HwfiGq1B
+   /IeMpYuQj1j1WbY8GhpCWlLOgtRTRCOHhQ1TEv/e4cq1rr5q1XHwbRiO+
+   lT/z4vfh4MSvgQtUMKetS+zzvdl3HEqyr6IvCEXIt9vFVwBvf9aNJszNr
+   Pd6cF3wXlfnMHzv0q5NTgC1N/7X7DfD8oP5LffdwcYe0TFuBIrzZZ2i1G
+   oWGyOeVFlj0jnLekxe74HLMnnjU7wliuFJUvOkuGv8TPPmET0EF3EIMkJ
+   8zd7pgIk4Mtt5AWutuM1pcvjtWD2dOq1lECQzbtzMjkIUupFS9r5WxHeE
+   g==;
+X-CSE-ConnectionGUID: Bps2R4MpQUmAD8EVYXuB9Q==
+X-CSE-MsgGUID: tYxNSVOZTEeruWiWUJM1HQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="24025825"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="24025825"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:00:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914885315"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="914885315"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:00:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rpAAB-0000000GOVR-2L8i;
+	Tue, 26 Mar 2024 19:00:39 +0200
+Date: Tue, 26 Mar 2024 19:00:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v2 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
+Message-ID: <ZgL_N1aMQiju3yaI@smile.fi.intel.com>
+References: <20240325143654.3305498-1-andriy.shevchenko@linux.intel.com>
+ <ZgGvev-Wh7SkYnI7@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0y5Ly+iol10WH03x"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh>
-X-Cookie: Equal bytes for women.
+In-Reply-To: <ZgGvev-Wh7SkYnI7@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Mon, Mar 25, 2024 at 07:08:10PM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 25, 2024 at 04:33:50PM +0200, Andy Shevchenko wrote:
+> > No more users.
+> 
+> FSL code needs to be cleaned up (there is a leftover that makes this fail).
+> :-(
+
+Okay, since the fix-patch had been applied, this one now is clean to go.
+Do I need to resend or any other work needs to be done?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---0y5Ly+iol10WH03x
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Mar 26, 2024 at 05:33:14PM +0100, Ond=C5=99ej Jirman wrote:
-
-> Coincidentally, Intel kernel test bot found an issue today that this fail=
-s to
-> build with CONFIG_SND_JACK_INPUT_DEV disabled. Should I send a followup f=
-ix or
-> should I send v5 with the fix integrated into the patch that breaks?
-
-Please send a followup.
-
---0y5Ly+iol10WH03x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYC+9EACgkQJNaLcl1U
-h9CNawf/UmpDYDZvQrYV8oU7dWL/FIeOKYSzjpAsrpf4DW68Za0ZdVc0PVK6zRM9
-eiNrQRM5q13TpYKBQXJMIlZxIhk+c4VfjT0cpYv8zX5MYYCg+mlGUkCGcuN2C75v
-+4vCAQEEEw6zHX+30YNU27jLK9sEc35GSyBXWY1UVJFpbjm4gV3aHC+l93zsrl3Z
-MIVAnNzuZZ7ils7JRYmdKMF0+s/R4XE3Jtkviy3/wdV8P0sobh4kK4ihIWDdHsvg
-7Ri3nyWP7eM7mwapZA/QzKU5xjfNQyuDcLQWRgoYiyPLlwXuK0HqzIo3Gmog+cPI
-YkEf4sliSd5tDKvr1kXkrna7nAmGaA==
-=Mpn6
------END PGP SIGNATURE-----
-
---0y5Ly+iol10WH03x--
