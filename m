@@ -1,77 +1,56 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718B51BC46;
-	Tue, 26 Mar 2024 10:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711450074; cv=fail; b=adu7bZ7xzH3UO05RLp2hMSlKnTPXhPv2zVJ0aa09chpCFy0J8q8wW7wScm3chnp9aWiqLZNmgx0Mgq7ypyj1AfKwJRDgiiRP5E+bCsu4lvo/gJQHVwi71qAvisa35CtCjddaRZqEmK7c/T3fZaeihlBUYDCB4/RFiWUqfXaBO5c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711450074; c=relaxed/simple;
-	bh=U1wk8y+BhqOMDJzZajcRiFQ8pqMlkSxIlj0bEdBrBmU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qvKpAdgxkJvan2Jm5UaCkGMQvudu3zZQ9pk8msfkD2oBjFoHyWvp0TGwJS1/kPNUTvXCkauNWpcF/v9DD3inQN76qZdFyy+sRD847jIHavvLqGQn5tAJyhhJsiy1deNEpfAw+rJaHyF5AyhFecSwD4iSRYEQIF4bqmJUOM9qI2I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AbI+vVcJ; arc=fail smtp.client-ip=40.107.237.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EA53C30
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 10:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711450486; cv=none; b=CjvMX27E16tRRKQlewM3YUJcPsy3rsgBLUZymBlXK8NwAbWVJHFqaONybfAxG4+HJsxlA9rZbP9I5vjaB4EdhJojt15ApWd+hadEDkIw4/LNRhLJH1Wpc0qpjXBfLM8XwpDy7NUN1YFMpFwsV5gKHV7/aAcDzjx6aDPdcsouxbk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711450486; c=relaxed/simple;
+	bh=XSnm+C1nDuZv8ACHR6TW5mpdhHiNy+THkei+tTtuni0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uGszrS7oZmBEsVoUYIiqkr5438wzJd+yaMF8mTNSqKmBVgXgRPh7IX91HVKd3CoT4bJacsm0oh2K84g0dxRZHyLdj0BztfsrClTYfXCmWxJ7/9ytJiZrEgGySpixCzOYuiSUxfuT0ER6gQ0AQ8p5ysPMS2auFKR9Mtg7n++ReYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=B3o5c6gQ; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AbI+vVcJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SXPDbGraChxYgSbYYJO6h4Ggdfp1k/MI2G93rrCpTpAZF38k+1Ztu37mcPh6Vn6eLM7S6Fx6qtmwcB2QV1LIE9gQ0TWwa0U5xNdzzm0NyUmzBvAXk1vHvLjcYw4T0AqyhFlSmIJz3SGoP5KLptrj6QdKzEVQYw1B5Wr7Y8Ld61V//5gk7UFUvCxWuje4jXy5SwON50OqutkxCloPQB18y2l2tDZQw26BbBG5owLzXk78bgCN5y0Nmu/kds2NgkNgrPCIA97M4OCl7pU2+XWkf//CX7N/XGthB8wzHk5hQtqDL0628fJJNbIPlv6ViBXxXiRAtQiwLRRLmKCF87jRlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e8/hV0CjDxFc6wzjF4+MNtX/I/fU+FjyLUL0JhUakV8=;
- b=m5Hppgg6Wbm1CAr0icU8XdVHH7tLm2AUOGNZdlv3r5e4xU2j43RTzS5hm6m31FAQkrA5TYjqddA+x7kCjEy8asKxWKN8q2/xG4X8VbcUbDomrMJXzMtLd2u51a7MRMsHJwwz0lVsKbHNwUKxMKPAKQrmR2aJjqIio3qZJdYeDhETr6XlZhtP6SRWDbSA6UC+Utze0vCEUQ390jgO6E9leOo56CaYbOkOWnb0StD4V6LubPN1f3+uWGECCRXpjV/ls80PgqVbdsRjVf8PDzB7/cGzpG78hBLPqsaJOhdHJXJbnJPShS4p4+2zr9zMmXHMWi+Ed8Paeml/m/EEO69AfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e8/hV0CjDxFc6wzjF4+MNtX/I/fU+FjyLUL0JhUakV8=;
- b=AbI+vVcJVUUv699Auk2ZLvW04I0wXAKWpX0vnQ2gbVKPixeHwA6jQlHvHJUI4KbQPN+p2yU4g+UTjoQXv0GyQxSYseJqD4esrulNxuBjg/g6n5jlzO9lKAY2THYM07BYtN96Y/ANytQ5UpmQ2pfpfz7fmDrBeTgiRfPkHqUzLJ75mh59NcNnVyL4HiF4YcTpuhbIpCsBYlonAMvbY5F9csscCeIwl1uobHT5qtDARU7CiwPTiS5Jqdw8yaaeqZC5bwUXk6Ha3rypHEjxVOl8+qCB8L/K6KDDX9i5bqSwh1hllJ8gkyQ6myuOV7MGjFNuQ1SCqU51TheyTM8EL/vU/Q==
-Received: from MW4PR03CA0130.namprd03.prod.outlook.com (2603:10b6:303:8c::15)
- by PH0PR12MB7839.namprd12.prod.outlook.com (2603:10b6:510:286::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Tue, 26 Mar
- 2024 10:47:49 +0000
-Received: from MWH0EPF000A672E.namprd04.prod.outlook.com
- (2603:10b6:303:8c:cafe::9) by MW4PR03CA0130.outlook.office365.com
- (2603:10b6:303:8c::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
- Transport; Tue, 26 Mar 2024 10:47:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- MWH0EPF000A672E.mail.protection.outlook.com (10.167.249.20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.10 via Frontend Transport; Tue, 26 Mar 2024 10:47:46 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 26 Mar
- 2024 03:47:31 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 26 Mar
- 2024 03:47:31 -0700
-Received: from build-spujar-20230918T214410352.internal (10.127.8.9) by
- mail.nvidia.com (10.129.68.10) with Microsoft SMTP Server id 15.2.1258.12 via
- Frontend Transport; Tue, 26 Mar 2024 03:47:31 -0700
-From: Sameer Pujar <spujar@nvidia.com>
-To: <broonie@kernel.org>, <linux-sound@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lgirdwood@gmail.com>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
-	<stable@vger.kernel.org>
-Subject: [PATCH v2] ASoC: tegra: Fix DSPK 16-bit playback
-Date: Tue, 26 Mar 2024 10:47:25 +0000
-Message-ID: <20240326104725.2895151-1-spujar@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="B3o5c6gQ"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42Q6ktLw006401;
+	Tue, 26 Mar 2024 05:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=c
+	g2ExQSlUl6TK2A9b6Qbr/F6lta6jp4WdUYMfj1xQBE=; b=B3o5c6gQQiVr9kwKH
+	inU+XGYIAORQ3dlva+6FnN2DG61EPVHUB+xD8xQpUaH/8RnAkvzHm2ZxXGX0Qeag
+	Rh9EBIdy0pCw2lv141xlU4v7wGTpa2P+2TxgR6VQInAc4cz4pdFybnK09zeJmJmQ
+	1FojjWP9gYQtJEbhzIrJ9kJGxr9JTYdOvNPfQN5CEOn/YApT5dKYVnEX8XAS3Jtm
+	IQ7NIL+p4Mm/CB4uADsRwH3Yg3IifImb+wLT+B1ntKSKFuJGqcHy+SgCrA8uLTkx
+	E+1UMIi0jar7oLUBmOBpxq2+MrA/WfCKNdAC8FR/LTnlaoSBuO6wO+ubUnkMNZx2
+	f25gw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x1vfyd13g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 05:54:37 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 26 Mar
+ 2024 10:54:35 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Tue, 26 Mar 2024 10:54:35 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id ECB0D820241;
+	Tue, 26 Mar 2024 10:54:34 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs42l43: Correct extraction of data pointer in suspend/resume
+Date: Tue, 26 Mar 2024 10:54:34 +0000
+Message-ID: <20240326105434.852907-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,75 +59,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A672E:EE_|PH0PR12MB7839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51ce102b-f4ab-48a3-3c72-08dc4d822cac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	k+Q9eZBfTW6v8VOvehv0P1h1geurrjA4BqNWY1OjfsQizjYeMX2WrEt5XzKkcyGvF4UrvLQ1Q8LNm0XiXTonex/emP+iMyUht8Tq3AlFtgPPyv1r9Hy/FTA2X+V+RvBi/1r4u5NabuBDz8XaBhCSQFyrNIwdXWaSFqW4gpRTlWhlER70fHTV/exy/v4vn9D29A4FVXrZ54rFyIcOH0CXz4E5rxbLIcyDcfwWFEyuXn/xfSXJvaw9gSdFZz1oBihno19LE5tBI2CHl42jh6sE2Yu2Lom+8s2snIUmkroTvU/ep8RDcye3cG+Q5Fh6RX9vxqhx2qbKJSsxJlVeBeM7nbrhZyuPSzC48UvmYR8Vnt3hTdaFQ2LTyFmNjw6nV3sNtYZ4ViLFpRVjp9KacV/1XrkchKjJfWAxns44kTkOUXhS6puSWGAGLGqvODEYdjTJQnuNzfVTUVR1CObh11P3kpGhXOAO4gnV4xJW/3ekmjetsD8E7dWJZTWKarj5mhxq7Di75Jw97elc2yE7WnNUrYEzZB97EuxrovqcxgECfVxLafqhwXjFT1Q4wKDg0jBpgGFQSFgwiXKRKTQS0UcP4acpkMNg6vi0N1v4qBQIGqM1W6NFTBEw0toIKBhPKz0Vb0+GVZ8BHm3RFIeqgXaMPZHOLbDDiYLd7HHxSWlvIqugOoqoKNTdWDMVM7RK/dpd5Vxk7SHNXQ8zyKEX+6fWUjqwOdit0B2vGNuldctzPtQldgMSFf+lBIlzc+ajApPJ
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(376005)(36860700004)(82310400014)(1800799015);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 10:47:46.9402
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51ce102b-f4ab-48a3-3c72-08dc4d822cac
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000A672E.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7839
+X-Proofpoint-ORIG-GUID: NEaJDqAYYEktuuKwybFOc8vE10B7Ze_U
+X-Proofpoint-GUID: NEaJDqAYYEktuuKwybFOc8vE10B7Ze_U
+X-Proofpoint-Spam-Reason: safe
 
-DSPK configuration is wrong for 16-bit playback and this happens because
-the client config is always fixed at 24-bit in hw_params(). Fix this by
-updating the client config to 16-bit for the respective playback.
+The current code is pulling the wrong pointer causing it to disable the
+wrong IRQ. Correct the code to pull the correct cs42l43 core data
+pointer.
 
-Fixes: 327ef6470266 ("ASoC: tegra: Add Tegra186 based DSPK driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+Fixes: 64353af49fec ("ASoC: cs42l43: Add system suspend ops to disable IRQ")
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- changes in v2:
-   * moved common setting to S32_LE switch case.
+ sound/soc/codecs/cs42l43.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
- sound/soc/tegra/tegra186_dspk.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra186_dspk.c b/sound/soc/tegra/tegra186_dspk.c
-index aa37c4ab0adb..21cd41fec7a9 100644
---- a/sound/soc/tegra/tegra186_dspk.c
-+++ b/sound/soc/tegra/tegra186_dspk.c
-@@ -1,8 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
-+// SPDX-FileCopyrightText: Copyright (c) 2020-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
- //
- // tegra186_dspk.c - Tegra186 DSPK driver
--//
--// Copyright (c) 2020 NVIDIA CORPORATION. All rights reserved.
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 860d5cda67bf..94685449f0f4 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2364,7 +2364,8 @@ static int cs42l43_codec_runtime_resume(struct device *dev)
  
- #include <linux/clk.h>
- #include <linux/device.h>
-@@ -241,14 +240,14 @@ static int tegra186_dspk_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
+ static int cs42l43_codec_suspend(struct device *dev)
+ {
+-	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++	struct cs42l43_codec *priv = dev_get_drvdata(dev);
++	struct cs42l43 *cs42l43 = priv->core;
  
--	cif_conf.client_bits = TEGRA_ACIF_BITS_24;
--
- 	switch (params_format(params)) {
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
-+		cif_conf.client_bits = TEGRA_ACIF_BITS_16;
- 		break;
- 	case SNDRV_PCM_FORMAT_S32_LE:
- 		cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
-+		cif_conf.client_bits = TEGRA_ACIF_BITS_24;
- 		break;
- 	default:
- 		dev_err(dev, "unsupported format!\n");
+ 	disable_irq(cs42l43->irq);
+ 
+@@ -2373,7 +2374,8 @@ static int cs42l43_codec_suspend(struct device *dev)
+ 
+ static int cs42l43_codec_suspend_noirq(struct device *dev)
+ {
+-	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++	struct cs42l43_codec *priv = dev_get_drvdata(dev);
++	struct cs42l43 *cs42l43 = priv->core;
+ 
+ 	enable_irq(cs42l43->irq);
+ 
+@@ -2382,7 +2384,8 @@ static int cs42l43_codec_suspend_noirq(struct device *dev)
+ 
+ static int cs42l43_codec_resume(struct device *dev)
+ {
+-	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++	struct cs42l43_codec *priv = dev_get_drvdata(dev);
++	struct cs42l43 *cs42l43 = priv->core;
+ 
+ 	enable_irq(cs42l43->irq);
+ 
+@@ -2391,7 +2394,8 @@ static int cs42l43_codec_resume(struct device *dev)
+ 
+ static int cs42l43_codec_resume_noirq(struct device *dev)
+ {
+-	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++	struct cs42l43_codec *priv = dev_get_drvdata(dev);
++	struct cs42l43 *cs42l43 = priv->core;
+ 
+ 	disable_irq(cs42l43->irq);
+ 
 -- 
-2.25.1
+2.39.2
 
