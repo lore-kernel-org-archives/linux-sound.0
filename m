@@ -1,64 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1D71369B8;
-	Tue, 26 Mar 2024 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D15F3A1D7;
+	Tue, 26 Mar 2024 09:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711441699; cv=none; b=MPEkKqRpu6+G09fNV+hdIDoXpNILUsV1VnumWf7fq/obHsZubSQO6yssIONs1KmFS7CCM1TyeOwxqk52lgxmEDk83TOwOpQ9jBQhpnQ0DSVcfuxX2RX/5M75Fgivi+wwsSxlyxzL1q8bqiRYHM3wOEqslF8sk9oijZsrmN96uYc=
+	t=1711443689; cv=none; b=FP05D9C6Tkhetp2uMdRrapc+pV6xawF9XrAheDYUZyBw0r8bxt+6HwFJNhBAR2k4V4NdMl+IPzJoATSS6UC3CFqGjq/YCVKlkBG8qpz0oBiDv5To9kDMQLYqqIyVwvYs8d8FpXZyEfh13X8yMlStx96onGFCPKvkOgIornVXVhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711441699; c=relaxed/simple;
-	bh=96BDswjuIPcZg1qhOZIkzTSwczxsMEua47evXf14TnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ts0hAJe6+m3emiy7aNmF4e4wDNbdyXT4YasilSISdtdHszeIVZyBYbZaSoG9fWfl/lLZW7hPk+YARAo/3MQTKAy2+T0mFoWHaxbrRDtdF3RbQ1AE5DrnIBiK6abUeLIy3EYQ+9KvzdtdpMXSstZqY5k43gTJ+mtIUUXC6NJAObk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RxG/ncDU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711443689; c=relaxed/simple;
+	bh=ixR84/hC5ObDuk4xPuGOBtJ9kzC3VnB6M3PMiFfGYYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h8+IBb4pMZmDEQ5QH1xiTufMtElF5+J2E6wc8wF1w+guDqk57ldGPC+gu1kbu4RSXjdSj8DhZA53EcROpADo0L/d8jqBQ5iO0gyauBoB6cHLPfuFV3/cG0zUy53usDGcxknBKX2qChO4BDHr03JVPA4yt+WVBH//fDaZQi5Sf/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=xVo5qX9g; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RxG/ncDU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09485C43390;
-	Tue, 26 Mar 2024 08:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711441698;
-	bh=96BDswjuIPcZg1qhOZIkzTSwczxsMEua47evXf14TnY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RxG/ncDUNX4/TQRQ37YMA/tgly5hlKCcMt7eJY0HhwuFwTGKbpHnqDXspdqXSeTAz
-	 6/Y0SZpQZS7m7O59ZsyIkMKIARh7/BDEvQVP+xzLqN+WCNa0lvdQK0bvME1twyoLP7
-	 EjKWKE6g0qxwIv7z73HaM8pwD+C6vl8IYemUdXG4=
-Date: Tue, 26 Mar 2024 09:28:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivami <manivannan.sadhasivam@linaro.org>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org, ntb@lists.linux.dev,
-	Lee Jones <lee@kernel.org>, David Airlie <airlied@gmail.com>,
-	amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-rdma@vger.kernel.org,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/28] usb: hcd-pci: Use PCI_IRQ_INTX
-Message-ID: <2024032609-rage-faceplate-23be@gregkh>
-References: <20240325070944.3600338-1-dlemoal@kernel.org>
- <20240325070944.3600338-6-dlemoal@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="xVo5qX9g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1711443682;
+	bh=ixR84/hC5ObDuk4xPuGOBtJ9kzC3VnB6M3PMiFfGYYw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xVo5qX9gWM7zCDSwnSrhWrJ89WQvr7Mbc8CNeGAKCYK8/DNDNUah7EFJtxQsJQteW
+	 pwHub4vWv7+ankvLH9iVnb3NilI/G/gn5g4ssqgBuAMsTkG0XhBKVGw4mg2Qq5nPpO
+	 croR8uM9EiMqWkOpeGDYUWP4vMdJbgFKuUn/xTItahZ7+NaWD3vz2hgCiZGvbbtZ+a
+	 oWifTWYZw2g2fRnlXx8xQYfX9I7Pn6yFQyGaKZnyTth+SqgOzxAhMeo6rwwjZaKjAd
+	 3cevRIaBA+SSmFVdKAFeITWqCF0EzI7DS2OH7ViPquRFEKRIM+JoZaqX4qhH3fEzVH
+	 jl47zmQ8nbWbA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 15BA33782082;
+	Tue, 26 Mar 2024 09:01:20 +0000 (UTC)
+Message-ID: <eb4b5b1d-90dc-4355-8fb0-5fb7f2bb2426@collabora.com>
+Date: Tue, 26 Mar 2024 10:01:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240325070944.3600338-6-dlemoal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/22] ASoC: mediatek: Add common machine soundcard
+ driver probe mechanism
+To: Mark Brown <broonie@kernel.org>
+Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
+ trevor.wu@mediatek.com, maso.huang@mediatek.com,
+ xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
+ kuninori.morimoto.gx@renesas.com, shraash@google.com, amergnat@baylibre.com,
+ nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
+ dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
+ eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
+ jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
+ ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
+ nfraprado@collabora.com, alsa-devel@alsa-project.org,
+ shane.chien@mediatek.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ kernel@collabora.com
+References: <20240313110147.1267793-1-angelogioacchino.delregno@collabora.com>
+ <20240313110147.1267793-6-angelogioacchino.delregno@collabora.com>
+ <6b9dd2ad-a24e-497a-8a5c-c7c04475cf5d@sirena.org.uk>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <6b9dd2ad-a24e-497a-8a5c-c7c04475cf5d@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 25, 2024 at 04:09:16PM +0900, Damien Le Moal wrote:
-> Use the macro PCI_IRQ_INTX instead of the deprecated PCI_IRQ_LEGACY
-> macro.
+Il 25/03/24 15:18, Mark Brown ha scritto:
+> On Wed, Mar 13, 2024 at 12:01:30PM +0100, AngeloGioacchino Del Regno wrote:
+>> Add a common machine soundcard driver probe function that supports both
+>> DSP and AFE-direct usecases and also provides a hook for legacy machine
+>> soundcard driver probe mechanisms.
+>>
+>> Note that the hook is there because, even for legacy probe, a lot of the
+>> actual code can still be commonized, hence still reducing duplication
+>> for the legacy devicetree retrocompatibility cases.
+>>
+>> This common probe function deprecates all of the inconsistent previous
+>> probe mechanisms and aims to settle all of the MediaTek card drivers on
+>> consistent and common devicetree properties describing wanted DAIs,
+>> device specific DAI configuration and DAI links to codecs found on
+>> each device/board.
 > 
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+> This breaks allmodconfig builds:
 
+Oops. Forgot to test this commit without the next one constifying stuff around.
+I'll recheck and make this one right. Good catch!
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thanks for notifying!
+
+Cheers,
+Angelo
+
+> 
+> 
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In function ‘mtk_sof_dai_link_fixup’:
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:18:41: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>     18 |         struct mtk_sof_priv *sof_priv = soc_card_data->sof_priv;
+>        |                                         ^~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In function ‘mtk_sof_card_probe’:
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:58:41: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>     58 |         struct mtk_sof_priv *sof_priv = soc_card_data->sof_priv;
+>        |                                         ^~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In function ‘mtk_sof_find_tplg_be’:
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:76:41: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>     76 |         struct mtk_sof_priv *sof_priv = soc_card_data->sof_priv;
+>        |                                         ^~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In function ‘mtk_sof_check_tplg_be_dai_link_fixup’:
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:116:41: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>    116 |         struct mtk_sof_priv *sof_priv = soc_card_data->sof_priv;
+>        |                                         ^~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c: In function ‘mtk_sof_card_late_probe’:
+> /build/stage/linux/sound/soc/mediatek/common/mtk-dsp-sof-common.c:147:41: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>    147 |         struct mtk_sof_priv *sof_priv = soc_card_data->sof_priv;
+>        |                                         ^~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+> 
+> 
