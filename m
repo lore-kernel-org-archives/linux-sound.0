@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7345513C91A
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BEF13CA9C
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469139; cv=none; b=DLrkJw/VJJmtVbIMbXLgUiPN7hg7yzkxe0uZH9aR5uTCQZk49gX2CST+nrmjbaTL+CJRikz8NhX2OSbSUXhiudLc1WquzFNM92rNfblM9FdeihOMmXBH5530kLg5efNyufYFUZ4HptHQ5oJNQmycr8FuPkHesbZKhZXuoTqqqEs=
+	t=1711469139; cv=none; b=rPj/EvSRFvNyzK3EgpyHwlPvHFZ/PzUCLX9fAJsd/0DQRd8NfUQtFG90Pz1+FrlvMuGoJcGjJhB6U8/YDEZOUf6McpsTCEp1woDHQM55V69lI0KlT/BR6wTLT5rsVTTPWYcB4ubi56jzuVhhCNnv86N5kZ4cVqH9c3cswHtuPnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711469139; c=relaxed/simple;
-	bh=Mv4ouSSBc7noGQriz/pJ01JRgynIe96KuX9Wsjb+4qw=;
+	bh=tREAwQrFehuM87JjX9YUMXsTXTVzigFunxTBdz/OtwY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=T+cl1P6i/TYcaSp/844SCt4AdqR9PNxUkWm7UPAFeVRsX4bssyythaTg03/eI1dksbQpITtDtuSADSBBb3Cli+mGnqr0LVpkD9bxwq/pjdgLGa2uh6O1FZiVZJrfgY4Qlf9yjVcDTCvmdva+ODBbpbXBYtdcCmjY1gk+wIyKs2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WiJDMF/R; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version:Content-Type; b=nHwSGXCrVc4N8XbBLbC9+WhECpPiIdHHWvovVuqmc2kWfbBCSywItx2n9bl/modMrqBEAIIE3R6FVH46rW4qXtDpv5ka6JjviE8T+xijEj2nLOdxlOHTC98EQr++DJ4gc91gLWxO4WoAlf3Ti+7F+RBqb0cvBjqeh3wCDjTWvP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBp94pVp; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WiJDMF/R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBp94pVp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711469137; x=1743005137;
+  t=1711469138; x=1743005138;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Mv4ouSSBc7noGQriz/pJ01JRgynIe96KuX9Wsjb+4qw=;
-  b=WiJDMF/Ry3jTOO3K7G+EMHeRtz9aEO9ztj0Nv0yORqZW9oxforXP0vXP
-   at+0D3gopNP55e3yWSd1hnxusly90amB97WtSQ8HFiG2A8Lfv/aM+8AD8
-   8C+rNFbk2pqO3r4Qc+zMyqrKa1aJnKRwL9FuEXVxVvLpMz8EEfyO/Sdpf
-   EE/4ZACDXGh00ApwmtBA2EMeSleeJLGT81mhCafLipzHPl/vBvG+8w7S3
-   Kw0cYPIKCssHnAFVWYU2Qa1lDEHjQxx+hT/yETayY5AJ79xamXysupnr2
-   y96+gbVS2Skz4/NxSwF15DelYtY6+zav3jMdY5DoYxebtiTBR14l4a9NH
+  bh=tREAwQrFehuM87JjX9YUMXsTXTVzigFunxTBdz/OtwY=;
+  b=XBp94pVpGpYeMvcpG57xvoysztHG1iiek2PjDDmouCsf6OUoaKzPq+1m
+   5WeGDE5+hcfw0uQC5JGMbYHuHwRTjqakGE5vDrmBD5Kp58qjG+EcN1x2Q
+   8EpVdtFfK6EFcsFtH3hfVYbTr+wGNny20+gg3hB9t++il7WK2/n90uV2u
+   X60WuTUTJVDyx5iINAVbNvskgb1JNeWFiJ22ranBR0bTJrtv799yg02iI
+   Fmbt3/TA9a5pi7FV0gXxWpTlm887oTYBDp38Z2hLfTLq8zTpo98IbRv9I
+   P6RuRUh9XktcsV4LL9I22BOJq6nqc2jKPDj4wm+/gQSH3o2txfSrG2nVk
    Q==;
-X-CSE-ConnectionGUID: pD4RyRRsQ9Gg5J1Sha/gtQ==
-X-CSE-MsgGUID: 20lxlsqpQ8umOJGDRfWsdA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260480"
+X-CSE-ConnectionGUID: TohCtjqaTLiLhT+ntm58EQ==
+X-CSE-MsgGUID: VLvHAHr7TiGKWDbAz+JacQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260503"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="17260480"
+   d="scan'208";a="17260503"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:58 -0700
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:05:00 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="20482357"
+   d="scan'208";a="20482392"
 Received: from bhubbert-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.65.108])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:57 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:05:00 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -52,10 +52,12 @@ Cc: alsa-devel@alsa-project.org,
 	Jack Yu <jack.yu@realtek.com>,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Bard liao <yung-chuan.liao@linux.intel.com>,
+	Chao Song <chao.song@linux.intel.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 22/34] ASoC: Intel: sof_sdw: Move generation of DAI links to new parsing
-Date: Tue, 26 Mar 2024 11:04:17 -0500
-Message-Id: <20240326160429.13560-23-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 25/34] ASoC: Intel: sof_sdw: remove unused rt dmic rtd_init
+Date: Tue, 26 Mar 2024 11:04:20 -0500
+Message-Id: <20240326160429.13560-26-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
 References: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
@@ -65,454 +67,153 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-The only part left using the old parsing code is now the generation of
-the actual DAI links. Move this generation over to being based on the
-new parsing, which allows the removal of the last of the old parsing
-code.
+Some Realtek SDW DMIC codecs use the generic rt_dmic_rtd_init callback now.
+Remove unused rtd_init callbacks.
 
-The new DAI link generation is a simple matter of creating a new DAI
-link for each sof_sdw_dailink struct, and adding a cpu, a codec, and
-a mapping for each sof_sdw_endpoint contained in that sof_sdw_dailink.
-Note that the CPUs can be inferred as the endpoint list is iterated,
-because the endpoints were added into the list sorted by link.
-
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Reviewed-by: Chao Song <chao.song@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 340 +++++++------------------------
- 1 file changed, 78 insertions(+), 262 deletions(-)
+ sound/soc/intel/boards/Makefile             |  3 +--
+ sound/soc/intel/boards/sof_sdw_common.h     |  3 ---
+ sound/soc/intel/boards/sof_sdw_rt712_sdca.c | 24 -------------------
+ sound/soc/intel/boards/sof_sdw_rt715.c      | 26 ---------------------
+ sound/soc/intel/boards/sof_sdw_rt715_sdca.c | 26 ---------------------
+ 5 files changed, 1 insertion(+), 81 deletions(-)
+ delete mode 100644 sound/soc/intel/boards/sof_sdw_rt715.c
+ delete mode 100644 sound/soc/intel/boards/sof_sdw_rt715_sdca.c
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 89ce77961634..9f1c49df9cd2 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1234,129 +1234,6 @@ static const char *get_codec_name(struct device *dev,
- 	return NULL;
+diff --git a/sound/soc/intel/boards/Makefile b/sound/soc/intel/boards/Makefile
+index 08cfd4baecdd..8f711be46c43 100644
+--- a/sound/soc/intel/boards/Makefile
++++ b/sound/soc/intel/boards/Makefile
+@@ -40,8 +40,7 @@ snd-soc-sof-sdw-objs += sof_sdw.o				\
+ 			sof_sdw_maxim.o sof_sdw_rt_amp.o	\
+ 			sof_sdw_rt5682.o sof_sdw_rt700.o	\
+ 			sof_sdw_rt711.o sof_sdw_rt_sdca_jack_common.o	\
+-			sof_sdw_rt712_sdca.o sof_sdw_rt715.o	\
+-			sof_sdw_rt715_sdca.o sof_sdw_rt722_sdca.o	\
++			sof_sdw_rt712_sdca.o sof_sdw_rt722_sdca.o	\
+ 			sof_sdw_rt_dmic.o			\
+ 			sof_sdw_cs42l42.o sof_sdw_cs42l43.o	\
+ 			sof_sdw_cs_amp.o			\
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index decaed97fa74..84715d9ca942 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -193,10 +193,7 @@ int maxim_spk_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt5682_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt700_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt711_rtd_init(struct snd_soc_pcm_runtime *rtd);
+-int rt712_sdca_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt712_spk_rtd_init(struct snd_soc_pcm_runtime *rtd);
+-int rt715_rtd_init(struct snd_soc_pcm_runtime *rtd);
+-int rt715_sdca_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd);
+ int rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd);
+diff --git a/sound/soc/intel/boards/sof_sdw_rt712_sdca.c b/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
+index 9c898c7286af..0c4cd4cdbd45 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
++++ b/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
+@@ -66,27 +66,3 @@ int rt712_spk_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ 	return ret;
  }
  
--static int fill_sdw_codec_dlc(struct device *dev,
--			      const struct snd_soc_acpi_link_adr *adr_link,
--			      struct snd_soc_dai_link_component *codec,
--			      int adr_index, int dai_index)
--{
--	u64 adr = adr_link->adr_d[adr_index].adr;
--	struct sof_sdw_codec_info *codec_info;
+-static const char * const dmics[] = {
+-	"rt712-sdca-dmic"
+-};
 -
--	codec_info = find_codec_info_part(adr);
--	if (!codec_info)
+-int rt712_sdca_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd)
+-{
+-	struct snd_soc_card *card = rtd->card;
+-	struct snd_soc_dai *codec_dai;
+-	struct snd_soc_component *component;
+-
+-	codec_dai = get_codec_dai_by_name(rtd, dmics, ARRAY_SIZE(dmics));
+-	if (!codec_dai)
 -		return -EINVAL;
 -
--	codec->name = get_codec_name(dev, codec_info, adr_link, adr_index);
--	if (!codec->name)
+-	component = codec_dai->component;
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s mic:%s",
+-					  card->components, component->name_prefix);
+-	if (!card->components)
 -		return -ENOMEM;
 -
--	codec->dai_name = codec_info->dais[dai_index].dai_name;
--
 -	return 0;
 -}
--
--static int set_codec_init_func(struct snd_soc_card *card,
--			       const struct snd_soc_acpi_link_adr *adr_link,
--			       struct snd_soc_dai_link *dai_links,
--			       bool playback, int group_id, int adr_index, int dai_index)
--{
--	int i = adr_index;
--
--	do {
--		/*
--		 * Initialize the codec. If codec is part of an aggregated
--		 * group (group_id>0), initialize all codecs belonging to
--		 * same group.
--		 * The first link should start with adr_link->adr_d[adr_index]
--		 * because that is the device that we want to initialize and
--		 * we should end immediately if it is not aggregated (group_id=0)
--		 */
--		for ( ; i < adr_link->num_adr; i++) {
--			struct sof_sdw_codec_info *codec_info;
--
--			codec_info = find_codec_info_part(adr_link->adr_d[i].adr);
--			if (!codec_info)
--				return -EINVAL;
--
--			/* The group_id is > 0 iff the codec is aggregated */
--			if (adr_link->adr_d[i].endpoints->group_id != group_id)
--				continue;
--
--			if (codec_info->dais[dai_index].init)
--				codec_info->dais[dai_index].init(card,
--								 adr_link,
--								 dai_links,
--								 codec_info,
--								 playback);
--			if (!group_id)
--				return 0;
--		}
--
--		i = 0;
--		adr_link++;
--	} while (adr_link->mask);
--
--	return 0;
--}
+-MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_BOARD_HELPERS);
+diff --git a/sound/soc/intel/boards/sof_sdw_rt715.c b/sound/soc/intel/boards/sof_sdw_rt715.c
+deleted file mode 100644
+index b5a886cd595d..000000000000
+--- a/sound/soc/intel/boards/sof_sdw_rt715.c
++++ /dev/null
+@@ -1,26 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-// Copyright (c) 2020 Intel Corporation
 -
 -/*
-- * check endpoint status in slaves and gather link ID for all slaves in
-- * the same group to generate different CPU DAI. Now only support
-- * one sdw link with all slaves set with only single group id.
-- *
-- * one slave on one sdw link with aggregated = 0
-- * one sdw BE DAI <---> one-cpu DAI <---> one-codec DAI
-- *
-- * two or more slaves on one sdw link with aggregated = 0
-- * one sdw BE DAI  <---> one-cpu DAI <---> multi-codec DAIs
-- *
-- * multiple links with multiple slaves with aggregated = 1
-- * one sdw BE DAI  <---> 1 .. N CPU DAIs <----> 1 .. N codec DAIs
+- *  sof_sdw_rt715 - Helpers to handle RT715 from generic machine driver
 - */
--static int get_slave_info(const struct snd_soc_acpi_link_adr *adr_link,
--			  struct device *dev, int *cpu_dai_id, int *cpu_dai_num,
--			  int *codec_num, unsigned int *group_id,
--			  int adr_index)
+-
+-#include <linux/device.h>
+-#include <linux/errno.h>
+-#include <sound/soc.h>
+-#include <sound/soc-acpi.h>
+-#include "sof_sdw_common.h"
+-
+-int rt715_rtd_init(struct snd_soc_pcm_runtime *rtd)
 -{
--	int i;
+-	struct snd_soc_card *card = rtd->card;
 -
--	if (!adr_link->adr_d[adr_index].endpoints->aggregated) {
--		cpu_dai_id[0] = ffs(adr_link->mask) - 1;
--		*cpu_dai_num = 1;
--		*codec_num = 1;
--		*group_id = 0;
--		return 0;
--	}
--
--	*codec_num = 0;
--	*cpu_dai_num = 0;
--	*group_id = adr_link->adr_d[adr_index].endpoints->group_id;
--
--	/* Count endpoints with the same group_id in the adr_link */
--	for (; adr_link && adr_link->num_adr; adr_link++) {
--		unsigned int link_codecs = 0;
--
--		for (i = 0; i < adr_link->num_adr; i++) {
--			if (adr_link->adr_d[i].endpoints->aggregated &&
--			    adr_link->adr_d[i].endpoints->group_id == *group_id)
--				link_codecs++;
--		}
--
--		if (link_codecs) {
--			*codec_num += link_codecs;
--
--			if (*cpu_dai_num >= SDW_MAX_CPU_DAIS) {
--				dev_err(dev, "cpu_dai_id array overflowed\n");
--				return -EINVAL;
--			}
--
--			cpu_dai_id[(*cpu_dai_num)++] = ffs(adr_link->mask) - 1;
--		}
--	}
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s mic:rt715",
+-					  card->components);
+-	if (!card->components)
+-		return -ENOMEM;
 -
 -	return 0;
 -}
 -
- static int sof_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct sof_sdw_codec_info *codec_info;
-@@ -1563,135 +1440,102 @@ static int parse_sdw_endpoints(struct snd_soc_card *card,
- }
- 
- static int create_sdw_dailink(struct snd_soc_card *card,
-+			      struct sof_sdw_dailink *sof_dai,
- 			      struct snd_soc_dai_link **dai_links,
--			      const struct snd_soc_acpi_link_adr *adr_link,
--			      int *be_id, int adr_index, int dai_index)
-+			      int *be_id)
- {
--	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
- 	struct device *dev = card->dev;
--	const struct snd_soc_acpi_link_adr *adr_link_next;
--	struct snd_soc_dai_link_ch_map *sdw_codec_ch_maps;
--	struct snd_soc_dai_link_component *codecs;
--	struct snd_soc_dai_link_component *cpus;
--	struct sof_sdw_codec_info *codec_info;
--	int cpu_dai_id[SDW_MAX_CPU_DAIS];
--	int cpu_dai_num;
--	unsigned int group_id;
--	int codec_dlc_index = 0;
--	int codec_num;
-+	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct sof_sdw_endpoint *sof_end;
- 	int stream;
--	int i = 0;
--	int j, k;
--	int ret;
+diff --git a/sound/soc/intel/boards/sof_sdw_rt715_sdca.c b/sound/soc/intel/boards/sof_sdw_rt715_sdca.c
+deleted file mode 100644
+index 4b37a8a6dd2e..000000000000
+--- a/sound/soc/intel/boards/sof_sdw_rt715_sdca.c
++++ /dev/null
+@@ -1,26 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-// Copyright (c) 2020 Intel Corporation
 -
--	ret = get_slave_info(adr_link, dev, cpu_dai_id, &cpu_dai_num, &codec_num,
--			     &group_id, adr_index);
--	if (ret)
--		return ret;
+-/*
+- *  sof_sdw_rt715_sdca - Helpers to handle RT715-SDCA from generic machine driver
+- */
 -
--	codecs = devm_kcalloc(dev, codec_num, sizeof(*codecs), GFP_KERNEL);
--	if (!codecs)
+-#include <linux/device.h>
+-#include <linux/errno.h>
+-#include <sound/soc.h>
+-#include <sound/soc-acpi.h>
+-#include "sof_sdw_common.h"
+-
+-int rt715_sdca_rtd_init(struct snd_soc_pcm_runtime *rtd)
+-{
+-	struct snd_soc_card *card = rtd->card;
+-
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s mic:rt715-sdca",
+-					  card->components);
+-	if (!card->components)
 -		return -ENOMEM;
 -
--	sdw_codec_ch_maps = devm_kcalloc(dev, codec_num,
--					 sizeof(*sdw_codec_ch_maps), GFP_KERNEL);
--	if (!sdw_codec_ch_maps)
--		return -ENOMEM;
+-	return 0;
+-}
 -
--	/* generate codec name on different links in the same group */
--	j = adr_index;
--	for (adr_link_next = adr_link; adr_link_next && adr_link_next->num_adr &&
--	     i < cpu_dai_num; adr_link_next++) {
--		/* skip the link excluded by this processed group */
--		if (cpu_dai_id[i] != ffs(adr_link_next->mask) - 1)
--			continue;
--
--		/* j reset after loop, adr_index only applies to first link */
--		for (; j < adr_link_next->num_adr && codec_dlc_index < codec_num; j++) {
--			const struct snd_soc_acpi_endpoint *endpoints;
--
--			endpoints = adr_link_next->adr_d[j].endpoints;
--
--			if (group_id && (!endpoints->aggregated ||
--					 endpoints->group_id != group_id))
--				continue;
--
--			ret = fill_sdw_codec_dlc(dev, adr_link_next,
--						 &codecs[codec_dlc_index],
--						 j, dai_index);
--			if (ret)
--				return ret;
--
--			sdw_codec_ch_maps[codec_dlc_index].cpu = i;
--			sdw_codec_ch_maps[codec_dlc_index].codec = codec_dlc_index;
--
--			codec_dlc_index++;
--		}
--		j = 0;
--
--		/* check next link to create codec dai in the processed group */
--		i++;
--	}
--
--	/* find codec info to create BE DAI */
--	codec_info = find_codec_info_part(adr_link->adr_d[adr_index].adr);
--	if (!codec_info)
--		return -EINVAL;
- 
- 	for_each_pcm_streams(stream) {
--		char *name, *cpu_name;
--		int playback, capture;
- 		static const char * const sdw_stream_name[] = {
- 			"SDW%d-Playback",
- 			"SDW%d-Capture",
- 			"SDW%d-Playback-%s",
- 			"SDW%d-Capture-%s",
- 		};
-+		struct snd_soc_dai_link_ch_map *codec_maps;
-+		struct snd_soc_dai_link_component *codecs;
-+		struct snd_soc_dai_link_component *cpus;
-+		int num_cpus = hweight32(sof_dai->link_mask[stream]);
-+		int num_codecs = sof_dai->num_devs[stream];
-+		int playback, capture;
-+		int cur_link = 0;
-+		int i = 0, j = 0;
-+		char *name;
- 
--		if (!codec_info->dais[dai_index].direction[stream])
-+		if (!sof_dai->num_devs[stream])
- 			continue;
- 
--		*be_id = codec_info->dais[dai_index].dailink[stream];
-+		sof_end = list_first_entry(&sof_dai->endpoints,
-+					   struct sof_sdw_endpoint, list);
-+
-+		*be_id = sof_end->dai_info->dailink[stream];
- 		if (*be_id < 0) {
- 			dev_err(dev, "Invalid dailink id %d\n", *be_id);
- 			return -EINVAL;
- 		}
- 
- 		/* create stream name according to first link id */
--		if (ctx->append_dai_type) {
-+		if (ctx->append_dai_type)
- 			name = devm_kasprintf(dev, GFP_KERNEL,
--					      sdw_stream_name[stream + 2], cpu_dai_id[0],
--					      type_strings[codec_info->dais[dai_index].dai_type]);
--		} else {
-+					      sdw_stream_name[stream + 2],
-+					      ffs(sof_end->link_mask) - 1,
-+					      type_strings[sof_end->dai_info->dai_type]);
-+		else
- 			name = devm_kasprintf(dev, GFP_KERNEL,
--					      sdw_stream_name[stream], cpu_dai_id[0]);
--		}
-+					      sdw_stream_name[stream],
-+					      ffs(sof_end->link_mask) - 1);
- 		if (!name)
- 			return -ENOMEM;
- 
--		cpus = devm_kcalloc(dev, cpu_dai_num, sizeof(*cpus), GFP_KERNEL);
-+		cpus = devm_kcalloc(dev, num_cpus, sizeof(*cpus), GFP_KERNEL);
- 		if (!cpus)
- 			return -ENOMEM;
- 
--		/*
--		 * generate CPU DAI name base on the sdw link ID and
--		 * PIN ID with offset of 2 according to sdw dai driver.
--		 */
--		for (k = 0; k < cpu_dai_num; k++) {
--			cpu_name = devm_kasprintf(dev, GFP_KERNEL,
--						  "SDW%d Pin%d", cpu_dai_id[k],
--						  ctx->sdw_pin_index[cpu_dai_id[k]]++);
--			if (!cpu_name)
--				return -ENOMEM;
--
--			cpus[k].dai_name = cpu_name;
-+		codecs = devm_kcalloc(dev, num_codecs, sizeof(*codecs), GFP_KERNEL);
-+		if (!codecs)
-+			return -ENOMEM;
-+
-+		codec_maps = devm_kcalloc(dev, num_codecs, sizeof(*codec_maps), GFP_KERNEL);
-+		if (!codec_maps)
-+			return -ENOMEM;
-+
-+		list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
-+			if (!sof_end->dai_info->direction[stream])
-+				continue;
-+
-+			if (cur_link != sof_end->link_mask) {
-+				int link_num = ffs(sof_end->link_mask) - 1;
-+				int pin_num = ctx->sdw_pin_index[link_num]++;
-+
-+				cur_link = sof_end->link_mask;
-+
-+				cpus[i].dai_name = devm_kasprintf(dev, GFP_KERNEL,
-+								  "SDW%d Pin%d",
-+								  link_num, pin_num);
-+				if (!cpus[i].dai_name)
-+					return -ENOMEM;
-+				i++;
-+			}
-+
-+			codec_maps[j].cpu = i - 1;
-+			codec_maps[j].codec = j;
-+
-+			codecs[j].name = sof_end->codec_name;
-+			codecs[j].dai_name = sof_end->dai_info->dai_name;
-+			j++;
- 		}
- 
-+		WARN_ON(i != num_cpus || j != num_codecs);
-+
- 		playback = (stream == SNDRV_PCM_STREAM_PLAYBACK);
- 		capture = (stream == SNDRV_PCM_STREAM_CAPTURE);
- 
- 		init_dai_link(dev, *dai_links, be_id, name, playback, capture,
--			      cpus, cpu_dai_num, codecs, codec_num,
-+			      cpus, num_cpus, codecs, num_codecs,
- 			      sof_sdw_rtd_init, &sdw_ops);
- 
- 		/*
-@@ -1699,13 +1543,14 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 		 * based on wait_for_completion(), tag them as 'nonatomic'.
- 		 */
- 		(*dai_links)->nonatomic = true;
--		(*dai_links)->ch_maps = sdw_codec_ch_maps;
-+		(*dai_links)->ch_maps = codec_maps;
- 
--		ret = set_codec_init_func(card, adr_link, *dai_links,
--					  playback, group_id, adr_index, dai_index);
--		if (ret < 0) {
--			dev_err(dev, "failed to init codec 0x%x\n", codec_info->part_id);
--			return ret;
-+		list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
-+			if (sof_end->dai_info->init)
-+				sof_end->dai_info->init(card, sof_end->adr_link,
-+							*dai_links,
-+							sof_end->codec_info,
-+							playback);
- 		}
- 
- 		(*dai_links)++;
-@@ -1839,18 +1684,15 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	int sdw_be_num = 0, ssp_num = 0, dmic_num = 0, bt_num = 0;
- 	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
- 	struct snd_soc_acpi_mach_params *mach_params = &mach->mach_params;
--	const struct snd_soc_acpi_link_adr *adr_link = mach_params->links;
- 	struct snd_soc_codec_conf *codec_conf;
--	struct sof_sdw_codec_info *codec_info;
- 	struct sof_sdw_codec_info *ssp_info;
- 	struct sof_sdw_endpoint *sof_ends;
- 	struct sof_sdw_dailink *sof_dais;
- 	int num_devs = 0;
- 	int num_ends = 0;
--	bool group_generated[SDW_MAX_GROUPS] = { };
- 	struct snd_soc_dai_link *dai_links;
- 	int num_links;
--	int i, j, be_id = 0;
-+	int i, be_id = 0;
- 	int hdmi_num;
- 	unsigned long ssp_mask;
- 	int ret;
-@@ -1939,44 +1781,18 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 		ctx->sdw_pin_index[i] = SDW_INTEL_BIDIR_PDI_BASE;
- 
- 	/* generate DAI links by each sdw link */
--	for (adr_link = mach_params->links ; adr_link->num_adr; adr_link++) {
--		for (i = 0; i < adr_link->num_adr; i++) {
--			const struct snd_soc_acpi_endpoint *endpoint;
-+	while (sof_dais->initialised) {
-+		int current_be_id;
- 
--			endpoint = adr_link->adr_d[i].endpoints;
-+		ret = create_sdw_dailink(card, sof_dais, &dai_links, &current_be_id);
-+		if (ret)
-+			goto err_end;
- 
--			/* this group has been generated */
--			if (endpoint->aggregated &&
--			    group_generated[endpoint->group_id])
--				continue;
-+		/* Update the be_id to match the highest ID used for SDW link */
-+		if (be_id < current_be_id)
-+			be_id = current_be_id;
- 
--			/* find codec info to get dai_num */
--			codec_info = find_codec_info_part(adr_link->adr_d[i].adr);
--			if (!codec_info) {
--				ret = -EINVAL;
--				goto err_end;
--			}
--
--			for (j = 0; j < codec_info->dai_num ; j++) {
--				int current_be_id;
--
--				ret = create_sdw_dailink(card, &dai_links, adr_link,
--							 &current_be_id, i, j);
--				if (ret < 0) {
--					dev_err(dev,
--						"failed to create dai link %d on 0x%x\n",
--						j, codec_info->part_id);
--					return ret;
--				}
--
--				/* Update the be_id to match the highest ID used for SDW link */
--				if (be_id < current_be_id)
--					be_id = current_be_id;
--			}
--
--			if (endpoint->aggregated)
--				group_generated[endpoint->group_id] = true;
--		}
-+		sof_dais++;
- 	}
- 
- SSP:
 -- 
 2.40.1
 
