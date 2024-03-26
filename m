@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9808E13C8FC
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C459013C90A
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469123; cv=none; b=Rkt++IoQN4IQox7CJsfcs/aTIUI6F3lFAXpAupLi/FUbbTApUAzFBxTgxQwCKC5+UQyeW2GThxH5W7PVdJwxlNSgrIaAtP4HL3OEL7Gp1BgAw/tgeOyJe720RNQPF3S02Muw46juxQt7ENcB4APrCiAUI/NN/zvPqm41MobOsSs=
+	t=1711469124; cv=none; b=A9Sdm0xUESSnzIOcx7SgRrfzUWlbeYxGM2f9j90H2wjTb62d+6r1CrpDjBRXWJh/5Zur4cagnxz8uJDHgt48G95sW4COIV0rpYqAuL7RCqNNHxQqncbyXOO9/Q95gL5V3bdbP5oow76uSRs5FY3yIfDhTL80oRjh14ownaBhE/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469123; c=relaxed/simple;
-	bh=IGaUX8YJZXWAmr7zoW4xLN1MTZeKcfPI99f/516aWdw=;
+	s=arc-20240116; t=1711469124; c=relaxed/simple;
+	bh=fZxnibU93p/ekxAxl4/k7QCGk+QjngNBvoyRs5ReYv4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EBbfOFXpOP/I15wvXfGZoae1Rk3a//UVyDPaZ3xhHn5b/x51JUdlK3YqrEbA8NE/i18OM2mzFblT7WkYZlhPC6sjEJr1PYZ/pWT7Wt5+p9Y8TUId8RKIn9RlxtWIKfWjcXKlG//fF+cRAcf4Z9abvEfy0VIXz5SulrSM9UsHjn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K5XLuPin; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=a87yGgyNN9mjw657Sl6oyuEBVrrckyu9prb8+glIZAhFtG6t39WQS2Zj5fB+BGqNDzg5LDGmek5/VFL+yppe2kIwYxSHGWAplwqEtawMztjVetIXajyS8aljBd2gakVi1fCFPbe7AvXdggsa+bflUmaw83qf46JVbhsdX7xTTL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPMeiYZU; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5XLuPin"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPMeiYZU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711469121; x=1743005121;
+  t=1711469123; x=1743005123;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=IGaUX8YJZXWAmr7zoW4xLN1MTZeKcfPI99f/516aWdw=;
-  b=K5XLuPinEGqrcwT0QwI5zi0MCNzLfMGe5lFkl10uRBHR2naBi3sz/nXe
-   MgWiYeSi6201PAG0Rmhoyx0yL360DwvVHBR1fk8Ax18p+Zi1EM3LkYJCB
-   JH2Lguriz17mMch5EZsmGW/oYqNtmqxU+2cWoqvbs7GwWcYT+9DCJ7aJ4
-   wuJtgGn6z5KhGGme6BnJK7IBBJbqm2gcSBZPJthV6rFpkFe8lbSwwZPXg
-   pfhg2Obtux/XPMa/baRHoVU6I3dE3U6fWiVh6Y3tLOnn67HXVc4KIy/l1
-   T7mFeWQ1U4XnTaOosCzL1sVYbtTHaFj8JICqBUmfwsLr4xAbpmZpgz7Vd
-   w==;
-X-CSE-ConnectionGUID: WUtBWkggRruSA0xmfIo4Wg==
-X-CSE-MsgGUID: HPr+lncRSsaKWlIPQSLabA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260346"
+  bh=fZxnibU93p/ekxAxl4/k7QCGk+QjngNBvoyRs5ReYv4=;
+  b=dPMeiYZUGVmQmEwG2dJh/rFOA1SZPZ3PyS9dBiXwJ9HH8UGKu6rGka0I
+   Y1NujOFqwDjCBG+T1zRg99Hryh2POBK8fJmw854IdBQ06UpI7v6wHFZxM
+   4heUGWUTBP4oFSJuUBPt7rYTh4K85LtfZECpVqwr3CkfP4BmR8ld8cEmC
+   6UQJ9J7UB4vGdvG3BapJ9bcNKz323CqV7EcpKPEpev4VFzFCu1E0bmc6D
+   FCuNy739rbc+Vx+8c1LkVvBTNoxWqp6zUFX+JwHOjCWlaIXIBvnfcXieQ
+   XMVFcfNVm/miRopeOTmBtL7grOKS5tFmV1i2fEQOJJsqxK1vknc4+fg7l
+   A==;
+X-CSE-ConnectionGUID: OvgCQz3zTiOnFoqgVqCiqQ==
+X-CSE-MsgGUID: QaJKjg/PSQWag70W1VXZLQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260359"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="17260346"
+   d="scan'208";a="17260359"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:45 -0700
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:46 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="20482146"
+   d="scan'208";a="20482166"
 Received: from bhubbert-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.65.108])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:44 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:04:46 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -53,9 +53,9 @@ Cc: alsa-devel@alsa-project.org,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Bard liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 04/34] ASoC: intel: sof_sdw: Only pass codec_conf pointer around
-Date: Tue, 26 Mar 2024 11:03:59 -0500
-Message-Id: <20240326160429.13560-5-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 06/34] ASoC: Intel: sof_sdw: Move get_codec_dai_by_name() into sof_sdw itself
+Date: Tue, 26 Mar 2024 11:04:01 -0500
+Message-Id: <20240326160429.13560-7-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
 References: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
@@ -69,100 +69,231 @@ Content-Transfer-Encoding: 8bit
 
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Rather than passing around a pointer to the codec_conf array, an index
-into it and a size, simply pass around a pointer to the current codec_conf.
-This reduces the amount of state moving around.
+Currently sof_sdw relies on sof_board_helpers to provide
+get_codec_dai_by_name(), but that is the only function from
+sof_board_helpers it uses and no other machine driver requires
+that function. There is no reason for sof_sdw to select SSP_COMMON
+but more and more functions in sof_board_helpers are gaining
+dependencies on functions that would require stubs for sof_sdw to
+build without it.  Firstly it was sof_ssp_get_codec_name(), as was
+fixed in commit c1469c3a8a30 ("ASoC: Intel: ssp-common: Add stub for
+sof_ssp_get_codec_name"), now it is:
+
+ERROR: modpost: "sof_ssp_detect_amp_type"
+[sound/soc/intel/boards/snd-soc-intel-sof-board-helpers.ko] undefined!
+ERROR: modpost: "sof_ssp_detect_codec_type"
+[sound/soc/intel/boards/snd-soc-intel-sof-board-helpers.ko] undefined!
+
+Rather than adding more stubs, simply move the affected function
+to the sof_sdw machine driver itself and no longer select
+SND_SOC_INTEL_SOF_BOARD_HELPERS at all. This should allow work on
+SSP_COMMON to progress without affecting sof_sdw.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ sound/soc/intel/boards/Kconfig                 |  1 -
+ sound/soc/intel/boards/sof_board_helpers.c     | 18 ------------------
+ sound/soc/intel/boards/sof_board_helpers.h     |  3 ---
+ sound/soc/intel/boards/sof_sdw.c               | 18 ++++++++++++++++++
+ sound/soc/intel/boards/sof_sdw_common.h        |  4 ++++
+ sound/soc/intel/boards/sof_sdw_cs42l42.c       |  1 -
+ sound/soc/intel/boards/sof_sdw_rt5682.c        |  1 -
+ sound/soc/intel/boards/sof_sdw_rt700.c         |  1 -
+ sound/soc/intel/boards/sof_sdw_rt711.c         |  1 -
+ sound/soc/intel/boards/sof_sdw_rt712_sdca.c    |  1 -
+ .../intel/boards/sof_sdw_rt_sdca_jack_common.c |  1 -
+ sound/soc/intel/boards/sof_ssp_common.h        |  7 -------
+ 12 files changed, 22 insertions(+), 35 deletions(-)
 
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index e5df64fec319..b7a6ac4b6c0c 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -678,7 +678,6 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	depends on MFD_INTEL_LPSS || COMPILE_TEST
+ 	depends on SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES || COMPILE_TEST
+ 	depends on SOUNDWIRE
+-	select SND_SOC_INTEL_SOF_BOARD_HELPERS
+ 	select SND_SOC_MAX98363
+ 	select SND_SOC_MAX98373_I2C
+ 	select SND_SOC_MAX98373_SDW
+diff --git a/sound/soc/intel/boards/sof_board_helpers.c b/sound/soc/intel/boards/sof_board_helpers.c
+index a5135be94f32..586600680e84 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.c
++++ b/sound/soc/intel/boards/sof_board_helpers.c
+@@ -630,24 +630,6 @@ sof_intel_board_get_ctx(struct device *dev, unsigned long board_quirk)
+ }
+ EXPORT_SYMBOL_NS(sof_intel_board_get_ctx, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+ 
+-struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
+-					  const char * const dai_name[], int num_dais)
+-{
+-	struct snd_soc_dai *dai;
+-	int index;
+-	int i;
+-
+-	for (index = 0; index < num_dais; index++)
+-		for_each_rtd_codec_dais(rtd, i, dai)
+-			if (strstr(dai->name, dai_name[index])) {
+-				dev_dbg(rtd->card->dev, "get dai %s\n", dai->name);
+-				return dai;
+-			}
+-
+-	return NULL;
+-}
+-EXPORT_SYMBOL_NS(get_codec_dai_by_name, SND_SOC_INTEL_SOF_BOARD_HELPERS);
+-
+ MODULE_DESCRIPTION("ASoC Intel SOF Machine Driver Board Helpers");
+ MODULE_AUTHOR("Brent Lu <brent.lu@intel.com>");
+ MODULE_LICENSE("GPL");
+diff --git a/sound/soc/intel/boards/sof_board_helpers.h b/sound/soc/intel/boards/sof_board_helpers.h
+index 2f27ad8726f8..b6a83ca14fa8 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.h
++++ b/sound/soc/intel/boards/sof_board_helpers.h
+@@ -167,7 +167,4 @@ int sof_intel_board_set_dai_link(struct device *dev, struct snd_soc_card *card,
+ struct sof_card_private *
+ sof_intel_board_get_ctx(struct device *dev, unsigned long board_quirk);
+ 
+-struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
+-					  const char * const dai_name[], int num_dais);
+-
+ #endif /* __SOF_INTEL_BOARD_HELPERS_H */
 diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 4bd9f62c48fc..7b61d45df5da 100644
+index e2c1822b185f..45732884e310 100644
 --- a/sound/soc/intel/boards/sof_sdw.c
 +++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1457,10 +1457,8 @@ static const char * const type_strings[] = {"SimpleJack", "SmartAmp", "SmartMic"
- static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
- 			      struct snd_soc_dai_link *dai_links, int sdw_be_num,
- 			      const struct snd_soc_acpi_link_adr *adr_link,
--			      struct snd_soc_codec_conf *codec_conf,
--			      int codec_count, int *be_id,
--			      int *codec_conf_index,
--			      bool *ignore_pch_dmic,
-+			      struct snd_soc_codec_conf **codec_conf,
-+			      int *be_id, bool *ignore_pch_dmic,
- 			      bool append_dai_type,
- 			      int adr_index,
- 			      int dai_index)
-@@ -1509,7 +1507,7 @@ static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
- 				continue;
+@@ -514,6 +514,24 @@ static struct snd_soc_dai_link_component platform_component[] = {
+ 	}
+ };
  
- 			/* sanity check */
--			if (*codec_conf_index >= codec_count) {
-+			if (*codec_conf >= card->codec_conf + card->num_configs) {
- 				dev_err(dev, "codec_conf array overflowed\n");
- 				return -EINVAL;
- 			}
-@@ -1520,12 +1518,11 @@ static int create_sdw_dailink(struct snd_soc_card *card, int *link_index,
- 			if (ret)
- 				return ret;
- 
--			codec_conf[*codec_conf_index].dlc = codecs[codec_dlc_index];
--			codec_conf[*codec_conf_index].name_prefix =
--					adr_link_next->adr_d[j].name_prefix;
-+			(*codec_conf)->dlc = codecs[codec_dlc_index];
-+			(*codec_conf)->name_prefix = adr_link_next->adr_d[j].name_prefix;
- 
- 			codec_dlc_index++;
--			(*codec_conf_index)++;
-+			(*codec_conf)++;
- 		}
- 		j = 0;
- 
-@@ -1646,7 +1643,6 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	bool append_dai_type = false;
- 	bool ignore_pch_dmic = false;
- 	int codec_conf_num = 0;
--	int codec_conf_index = 0;
- 	bool group_generated[SDW_MAX_GROUPS] = { };
- 	struct snd_soc_dai_link *dai_links;
- 	int num_links, link_index = 0;
-@@ -1706,6 +1702,9 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	if (!codec_conf)
- 		return -ENOMEM;
- 
-+	card->codec_conf = codec_conf;
-+	card->num_configs = codec_conf_num;
++struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
++					  const char * const dai_name[],
++					  int num_dais)
++{
++	struct snd_soc_dai *dai;
++	int index;
++	int i;
 +
- 	/* SDW */
- 	if (!sdw_be_num)
- 		goto SSP;
-@@ -1764,9 +1763,9 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
++	for (index = 0; index < num_dais; index++)
++		for_each_rtd_codec_dais(rtd, i, dai)
++			if (strstr(dai->name, dai_name[index])) {
++				dev_dbg(rtd->card->dev, "get dai %s\n", dai->name);
++				return dai;
++			}
++
++	return NULL;
++}
++
+ /* these wrappers are only needed to avoid typecast compilation errors */
+ int sdw_startup(struct snd_pcm_substream *substream)
+ {
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index b1d57034361c..a04cbab9bc70 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -107,6 +107,10 @@ struct mc_private {
  
- 				ret = create_sdw_dailink(card, &link_index, dai_links,
- 							 sdw_be_num, adr_link,
--							 codec_conf, codec_conf_num,
--							 &current_be_id, &codec_conf_index,
--							 &ignore_pch_dmic, append_dai_type, i, j);
-+							 &codec_conf, &current_be_id,
-+							 &ignore_pch_dmic,
-+							 append_dai_type, i, j);
- 				if (ret < 0) {
- 					dev_err(dev, "failed to create dai link %d\n", link_index);
- 					return ret;
-@@ -1886,9 +1885,6 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	card->dai_link = dai_links;
- 	card->num_links = num_links;
+ extern unsigned long sof_sdw_quirk;
  
--	card->codec_conf = codec_conf;
--	card->num_configs = codec_conf_num;
--
- 	return 0;
- }
++struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
++					  const char * const dai_name[],
++					  int num_dais);
++
+ int sdw_startup(struct snd_pcm_substream *substream);
+ int sdw_prepare(struct snd_pcm_substream *substream);
+ int sdw_trigger(struct snd_pcm_substream *substream, int cmd);
+diff --git a/sound/soc/intel/boards/sof_sdw_cs42l42.c b/sound/soc/intel/boards/sof_sdw_cs42l42.c
+index 0dc297f7de01..b999f4e7901a 100644
+--- a/sound/soc/intel/boards/sof_sdw_cs42l42.c
++++ b/sound/soc/intel/boards/sof_sdw_cs42l42.c
+@@ -15,7 +15,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
  
+ static const struct snd_soc_dapm_widget cs42l42_widgets[] = {
+diff --git a/sound/soc/intel/boards/sof_sdw_rt5682.c b/sound/soc/intel/boards/sof_sdw_rt5682.c
+index 6b008a5a343b..f812aea64322 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt5682.c
++++ b/sound/soc/intel/boards/sof_sdw_rt5682.c
+@@ -15,7 +15,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
+ 
+ static const struct snd_soc_dapm_widget rt5682_widgets[] = {
+diff --git a/sound/soc/intel/boards/sof_sdw_rt700.c b/sound/soc/intel/boards/sof_sdw_rt700.c
+index 88e785a54b16..a2648c900e74 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt700.c
++++ b/sound/soc/intel/boards/sof_sdw_rt700.c
+@@ -13,7 +13,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
+ 
+ static const struct snd_soc_dapm_widget rt700_widgets[] = {
+diff --git a/sound/soc/intel/boards/sof_sdw_rt711.c b/sound/soc/intel/boards/sof_sdw_rt711.c
+index cdd1587b246c..9762c48ba7a9 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt711.c
++++ b/sound/soc/intel/boards/sof_sdw_rt711.c
+@@ -15,7 +15,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
+ 
+ /*
+diff --git a/sound/soc/intel/boards/sof_sdw_rt712_sdca.c b/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
+index ebb4b58c198b..9c898c7286af 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
++++ b/sound/soc/intel/boards/sof_sdw_rt712_sdca.c
+@@ -13,7 +13,6 @@
+ #include <sound/soc.h>
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
+ 
+ static const struct snd_soc_dapm_widget rt712_spk_widgets[] = {
+diff --git a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
+index 5253d8332780..fe59a144efef 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
++++ b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
+@@ -15,7 +15,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+-#include "sof_board_helpers.h"
+ #include "sof_sdw_common.h"
+ 
+ /*
+diff --git a/sound/soc/intel/boards/sof_ssp_common.h b/sound/soc/intel/boards/sof_ssp_common.h
+index d24888bc99fd..ff84154ce60a 100644
+--- a/sound/soc/intel/boards/sof_ssp_common.h
++++ b/sound/soc/intel/boards/sof_ssp_common.h
+@@ -68,13 +68,6 @@ enum sof_ssp_codec {
+ enum sof_ssp_codec sof_ssp_detect_codec_type(struct device *dev);
+ enum sof_ssp_codec sof_ssp_detect_amp_type(struct device *dev);
+ 
+-#if IS_ENABLED(CONFIG_SND_SOC_INTEL_SOF_SSP_COMMON)
+ const char *sof_ssp_get_codec_name(enum sof_ssp_codec codec_type);
+-#else
+-static inline const char *sof_ssp_get_codec_name(enum sof_ssp_codec codec_type)
+-{
+-	return NULL;
+-}
+-#endif
+ 
+ #endif /* __SOF_SSP_COMMON_H */
 -- 
 2.40.1
 
