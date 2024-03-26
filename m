@@ -1,181 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67805B1FB;
-	Tue, 26 Mar 2024 09:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D434E74416;
+	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711444843; cv=none; b=qAg7mm3TJP3WuVA3u1za0BmBouekmuDrUJI6kRO+PqqmzqWK6+V8oWZmMym6VCtvtsfKGIzVMH38hmQjQGTWRwxwqLXhuxtkcaV1xBsIzT3LDtYmLKTZNXPz8AkOquZBFLjcdetJU4EVyyBmGDSqPlbM7/M/otq4AqrWcw1+L7U=
+	t=1711444843; cv=none; b=GrPkSEqQgDVbaTKPHhk+eCMEi9sJMtvBHP11StH/ywXtv+eFwozJi2wprJEKb5p9++kE0OOtQ0gXvUIdbqFSZyR+Z41xjy9gnEjM9eeqOPAnZudOJObfVNmLCRZQwL2uzKrCfsKQH+YpPkh2oX3WPduQeWLGHPf+N42rJUbGGq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711444843; c=relaxed/simple;
-	bh=7mgL40AjEE0M+EUMGGkohJuAfYZB2b06SxnfYpnrnD4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aJEl+1MRgCV1WAyA0BT2GxXHe9FvthtmAlSkH90mwCnCTeRkb0MNCK28OqGgUgKO2qQNGLxhRf6YuEX3KZsoUDaLJK+33ehEYBGykZuO8oGjoGpx7x4WpWTtg2IIKvt5f4DkuaRM+TS7BWDDgBsyF5yO4S3kofBPUTBq7LqRbVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MR2UFTBe; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	bh=q2wfBwiV2aXw54Tlm2xPl3C7+8RYVtIB25oGgkG96t4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KMUBxg5Ke6SIg+nGIPFTNOUHfm3J7MediPo6faN5eSFGGfBOTZb7EB2zhKyZ30uJ5DKd7KN2A5CD0khhfFLwGO7YjSgUJI8+Il7WumG9D7alGvfkfi3O54m5eGCCNXrC7ebQnvhcx4W4YD2nyZGu2A7kJw10CPnaqk0sjc4TSzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+UMMct2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MR2UFTBe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711444842; x=1742980842;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7mgL40AjEE0M+EUMGGkohJuAfYZB2b06SxnfYpnrnD4=;
-  b=MR2UFTBesaPN8FlkHLJN0VSuY3e4b8OJIPIt+UK3wnOhYvM++95bkfQu
-   56u3Gh7T9TawQi5aQlAzGps2MzkIvpZN47ho+ZiWPszxcgr4l8X/Q8yxd
-   nFaw+XSUuO9d0pw/6ay17evS9+qcDhpLCIFMpFft1cj7d0f+NkyRWNVpU
-   3e7GxuCjdmsbhiVRt3CyKcTGlcxfdF4pymRn4kCryKNEorMKMNgRb3APN
-   bMa6wkjK1Wttp78zOL3TLaFOgchpKavGiaXgXxy52Itr2UJ3O9gb94g3Q
-   s1de6tjXFlwE/txAyIBsz6NRRVJnubp+L8kq960xjBPTRl2n0LMvrld9k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6350347"
-X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="6350347"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="16293270"
-Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH 4/7] soundwire: intel: add support for MeteorLake additional clocks
-Date: Tue, 26 Mar 2024 09:20:27 +0000
-Message-Id: <20240326092030.1062802-5-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
-References: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+UMMct2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0A76DC3279D;
+	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711444843;
+	bh=q2wfBwiV2aXw54Tlm2xPl3C7+8RYVtIB25oGgkG96t4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=n+UMMct21UPvD9H7AK65QTpeHGvjy4hF2CZcRN6KkaOUlY7e2OxQdzKdurlgifx5N
+	 iROGMpsmP6fKKm35CJEpLlya00kxW0mVdAAsTYfEKbPLS18iWC5/E92YAQ3i7Mo3pJ
+	 OS07EQNoeXqft+BP7ZToxLUVySI+MY+a4gbny5RD8tZ/fMSLPcsbCFvX24op6xwPqz
+	 AVp+vSJV51t/8rTWos9I53GlihurIvcvRo//bV8EIkv34lgpIAmc77f+LOKHt+MRzU
+	 5ld+gxglYJTb7708Hw3FC3rJSrEssP7xYZbnq2ozuHBgdZ1BMPCkVE7aj6UnX3X+3Q
+	 lkv7SJXBH2WWw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02566CD11DF;
+	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
+From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
+Date: Tue, 26 Mar 2024 12:19:04 +0300
+Subject: [PATCH v9 37/38] ASoC: cirrus: edb93xx: Delete driver
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240326-ep93xx-v9-37-156e2ae5dfc8@maquefel.me>
+References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
+In-Reply-To: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+ Nikita Shubin <nikita.shubin@maquefel.me>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Arnd Bergmann <arnd@arndb.de>
+X-Mailer: b4 0.13-dev-e3e53
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711444837; l=4988;
+ i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
+ bh=q85pa0yb/O7EaHVagkr9aEFvCWc3nilsGlPhGwvGUM8=;
+ b=wfpQkt14c99qNtnBSRcgj0t3fLLIm8kyxvEtHiGnyhGShiN/xAyxMSoQimbmR7XVJvXLneZDVUMp
+ C/nIMKg1AYFmy6l9FThf45/l2BW/p12SaT+835FbuIIOvwSb7GPq
+X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
+ pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
+X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
+ with auth_id=65
+X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
+Reply-To: nikita.shubin@maquefel.me
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-In the MeteorLake hardware, the SoundWire link clock can be selected
-from the Xtal, audio cardinal clock (24.576 MHz) or the 96 MHz audio
-PLL.
+Can be replaced with "simple-audio-card" for the rates up to 50kHz, refer
+to commit "ARM: dts: ep93xx: Add EDB9302 DT".
 
-This patches add the clock selection in a backwards-compatible manner,
-using the ACPI firmware as the source of information and checking its
-compatibility with hardware capabilities.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
 ---
- drivers/soundwire/intel.c           | 43 +++++++++++++++++++++++++----
- include/linux/soundwire/sdw_intel.h |  5 ++++
- 2 files changed, 42 insertions(+), 6 deletions(-)
+ sound/soc/cirrus/Kconfig   |   9 ----
+ sound/soc/cirrus/Makefile  |   4 --
+ sound/soc/cirrus/edb93xx.c | 116 ---------------------------------------------
+ 3 files changed, 129 deletions(-)
 
-diff --git a/drivers/soundwire/intel.c b/drivers/soundwire/intel.c
-index 1287a325c435..e15666962fe4 100644
---- a/drivers/soundwire/intel.c
-+++ b/drivers/soundwire/intel.c
-@@ -345,8 +345,10 @@ static int intel_link_power_up(struct sdw_intel *sdw)
- 	u32 spa_mask, cpa_mask;
- 	u32 link_control;
- 	int ret = 0;
-+	u32 clock_source;
- 	u32 syncprd;
- 	u32 sync_reg;
-+	bool lcap_mlcs;
+diff --git a/sound/soc/cirrus/Kconfig b/sound/soc/cirrus/Kconfig
+index 38a83c4dcc2d..97def4e53fbc 100644
+--- a/sound/soc/cirrus/Kconfig
++++ b/sound/soc/cirrus/Kconfig
+@@ -31,12 +31,3 @@ config SND_EP93XX_SOC_I2S_WATCHDOG
  
- 	mutex_lock(sdw->link_res->shim_lock);
+ endif # if SND_EP93XX_SOC_I2S
  
-@@ -358,12 +360,35 @@ static int intel_link_power_up(struct sdw_intel *sdw)
- 	 * is only dependent on the oscillator clock provided to
- 	 * the IP, so adjust based on _DSD properties reported in DSDT
- 	 * tables. The values reported are based on either 24MHz
--	 * (CNL/CML) or 38.4 MHz (ICL/TGL+).
-+	 * (CNL/CML) or 38.4 MHz (ICL/TGL+). On MeteorLake additional
-+	 * frequencies are available with the MLCS clock source selection.
- 	 */
--	if (prop->mclk_freq % 6000000)
--		syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
--	else
--		syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24;
-+	lcap_mlcs = intel_readl(shim, SDW_SHIM_LCAP) & SDW_SHIM_LCAP_MLCS_MASK;
-+
-+	if (prop->mclk_freq % 6000000) {
-+		if (prop->mclk_freq % 2400000) {
-+			if (lcap_mlcs) {
-+				syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24_576;
-+				clock_source = SDW_SHIM_MLCS_CARDINAL_CLK;
-+			} else {
-+				dev_err(sdw->cdns.dev, "%s: invalid clock configuration, mclk %d lcap_mlcs %d\n",
-+					__func__, prop->mclk_freq, lcap_mlcs);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+		} else {
-+			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
-+			clock_source = SDW_SHIM_MLCS_XTAL_CLK;
-+		}
-+	} else {
-+		if (lcap_mlcs) {
-+			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_96;
-+			clock_source = SDW_SHIM_MLCS_AUDIO_PLL_CLK;
-+		} else {
-+			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24;
-+			clock_source = SDW_SHIM_MLCS_XTAL_CLK;
-+		}
-+	}
+-config SND_EP93XX_SOC_EDB93XX
+-	tristate "SoC Audio support for Cirrus Logic EDB93xx boards"
+-	depends on SND_EP93XX_SOC && (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9302A || MACH_EDB9307A || MACH_EDB9315A)
+-	select SND_EP93XX_SOC_I2S
+-	select SND_SOC_CS4271_I2C if I2C
+-	select SND_SOC_CS4271_SPI if SPI_MASTER
+-	help
+-	  Say Y or M here if you want to add support for I2S audio on the
+-	  Cirrus Logic EDB93xx boards.
+diff --git a/sound/soc/cirrus/Makefile b/sound/soc/cirrus/Makefile
+index 19a86daad660..5916c03888cb 100644
+--- a/sound/soc/cirrus/Makefile
++++ b/sound/soc/cirrus/Makefile
+@@ -6,7 +6,3 @@ snd-soc-ep93xx-i2s-objs	 			:= ep93xx-i2s.o
+ obj-$(CONFIG_SND_EP93XX_SOC)			+= snd-soc-ep93xx.o
+ obj-$(CONFIG_SND_EP93XX_SOC_I2S)		+= snd-soc-ep93xx-i2s.o
  
- 	if (!*shim_mask) {
- 		dev_dbg(sdw->cdns.dev, "powering up all links\n");
-@@ -403,6 +428,13 @@ static int intel_link_power_up(struct sdw_intel *sdw)
- 				"Failed to set SHIM_SYNC: %d\n", ret);
- 			goto out;
- 		}
-+
-+		/* update link clock if needed */
-+		if (lcap_mlcs) {
-+			link_control = intel_readl(shim, SDW_SHIM_LCTL);
-+			u32p_replace_bits(&link_control, clock_source, SDW_SHIM_LCTL_MLCS_MASK);
-+			intel_writel(shim, SDW_SHIM_LCTL, link_control);
-+		}
- 	}
- 
- 	*shim_mask |= BIT(link_id);
-@@ -1062,4 +1094,3 @@ const struct sdw_intel_hw_ops sdw_intel_cnl_hw_ops = {
- 	.sync_check_cmdsync_unlocked = intel_check_cmdsync_unlocked,
- };
- EXPORT_SYMBOL_NS(sdw_intel_cnl_hw_ops, SOUNDWIRE_INTEL);
+-# EP93XX Machine Support
+-snd-soc-edb93xx-objs				:= edb93xx.o
 -
-diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
-index fa40b85d5019..8e78417156e3 100644
---- a/include/linux/soundwire/sdw_intel.h
-+++ b/include/linux/soundwire/sdw_intel.h
-@@ -22,6 +22,7 @@
- /* LCAP */
- #define SDW_SHIM_LCAP			0x0
- #define SDW_SHIM_LCAP_LCOUNT_MASK	GENMASK(2, 0)
-+#define SDW_SHIM_LCAP_MLCS_MASK		BIT(8)
- 
- /* LCTL */
- #define SDW_SHIM_LCTL			0x4
-@@ -30,6 +31,10 @@
- #define SDW_SHIM_LCTL_SPA_MASK		GENMASK(3, 0)
- #define SDW_SHIM_LCTL_CPA		BIT(8)
- #define SDW_SHIM_LCTL_CPA_MASK		GENMASK(11, 8)
-+#define SDW_SHIM_LCTL_MLCS_MASK		GENMASK(29, 27)
-+#define SDW_SHIM_MLCS_XTAL_CLK		0x0
-+#define SDW_SHIM_MLCS_CARDINAL_CLK	0x1
-+#define SDW_SHIM_MLCS_AUDIO_PLL_CLK	0x2
- 
- /* SYNC */
- #define SDW_SHIM_SYNC			0xC
+-obj-$(CONFIG_SND_EP93XX_SOC_EDB93XX)		+= snd-soc-edb93xx.o
+diff --git a/sound/soc/cirrus/edb93xx.c b/sound/soc/cirrus/edb93xx.c
+deleted file mode 100644
+index 8bb67d7d2b4b..000000000000
+--- a/sound/soc/cirrus/edb93xx.c
++++ /dev/null
+@@ -1,116 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * SoC audio for EDB93xx
+- *
+- * Copyright (c) 2010 Alexander Sverdlin <subaparts@yandex.ru>
+- *
+- * This driver support CS4271 codec being master or slave, working
+- * in control port mode, connected either via SPI or I2C.
+- * The data format accepted is I2S or left-justified.
+- * DAPM support not implemented.
+- */
+-
+-#include <linux/platform_device.h>
+-#include <linux/module.h>
+-#include <linux/soc/cirrus/ep93xx.h>
+-#include <sound/core.h>
+-#include <sound/pcm.h>
+-#include <sound/soc.h>
+-#include <asm/mach-types.h>
+-
+-static int edb93xx_hw_params(struct snd_pcm_substream *substream,
+-			     struct snd_pcm_hw_params *params)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+-	int err;
+-	unsigned int mclk_rate;
+-	unsigned int rate = params_rate(params);
+-
+-	/*
+-	 * According to CS4271 datasheet we use MCLK/LRCK=256 for
+-	 * rates below 50kHz and 128 for higher sample rates
+-	 */
+-	if (rate < 50000)
+-		mclk_rate = rate * 64 * 4;
+-	else
+-		mclk_rate = rate * 64 * 2;
+-
+-	err = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_rate,
+-				     SND_SOC_CLOCK_IN);
+-	if (err)
+-		return err;
+-
+-	return snd_soc_dai_set_sysclk(cpu_dai, 0, mclk_rate,
+-				      SND_SOC_CLOCK_OUT);
+-}
+-
+-static const struct snd_soc_ops edb93xx_ops = {
+-	.hw_params	= edb93xx_hw_params,
+-};
+-
+-SND_SOC_DAILINK_DEFS(hifi,
+-	DAILINK_COMP_ARRAY(COMP_CPU("ep93xx-i2s")),
+-	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "cs4271-hifi")),
+-	DAILINK_COMP_ARRAY(COMP_PLATFORM("ep93xx-i2s")));
+-
+-static struct snd_soc_dai_link edb93xx_dai = {
+-	.name		= "CS4271",
+-	.stream_name	= "CS4271 HiFi",
+-	.dai_fmt	= SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
+-			  SND_SOC_DAIFMT_CBC_CFC,
+-	.ops		= &edb93xx_ops,
+-	SND_SOC_DAILINK_REG(hifi),
+-};
+-
+-static struct snd_soc_card snd_soc_edb93xx = {
+-	.name		= "EDB93XX",
+-	.owner		= THIS_MODULE,
+-	.dai_link	= &edb93xx_dai,
+-	.num_links	= 1,
+-};
+-
+-static int edb93xx_probe(struct platform_device *pdev)
+-{
+-	struct snd_soc_card *card = &snd_soc_edb93xx;
+-	int ret;
+-
+-	ret = ep93xx_i2s_acquire();
+-	if (ret)
+-		return ret;
+-
+-	card->dev = &pdev->dev;
+-
+-	ret = snd_soc_register_card(card);
+-	if (ret) {
+-		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
+-			ret);
+-		ep93xx_i2s_release();
+-	}
+-
+-	return ret;
+-}
+-
+-static void edb93xx_remove(struct platform_device *pdev)
+-{
+-	struct snd_soc_card *card = platform_get_drvdata(pdev);
+-
+-	snd_soc_unregister_card(card);
+-	ep93xx_i2s_release();
+-}
+-
+-static struct platform_driver edb93xx_driver = {
+-	.driver		= {
+-		.name	= "edb93xx-audio",
+-	},
+-	.probe		= edb93xx_probe,
+-	.remove_new	= edb93xx_remove,
+-};
+-
+-module_platform_driver(edb93xx_driver);
+-
+-MODULE_AUTHOR("Alexander Sverdlin <subaparts@yandex.ru>");
+-MODULE_DESCRIPTION("ALSA SoC EDB93xx");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:edb93xx-audio");
+
 -- 
-2.34.1
+2.41.0
+
 
