@@ -1,99 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3965482E2
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 09:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11BF45978;
+	Tue, 26 Mar 2024 09:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711444586; cv=none; b=HugWiMedk06lIOvNj9sQtG5Xl4N8KDD2gd2pfhr4n00POhXnJeQ43LhHNGrYy1knQ8zmUcJC3o3TE3jTZCG4zYY01IhDxHq5K8lwS75Y8N9JUNm6BMRMF/g+JZlewVuFsyzwO0ht3qr6jN/lV5WP3PYpV1S2aAW3Dj8ZBRLKB7s=
+	t=1711444839; cv=none; b=XdIbIYeWfGKhb9S6zE+7uA5Epdj4DzRoxTPCqIstjTNvoeeioSGecUDPWEXDFQr0vzJXdg9IHKJtCFwI2wHzcBabDH9kjOGACF6yZcMI9S2UlSB4ij4axvxggnW6NYfnWQA5QvrrgE63MnPO+a3tZqLmDTgDGHfxHsc9DVkNHaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711444586; c=relaxed/simple;
-	bh=bedNodAL0epS6BTRsXC3wvUj3ZKA55DLlAXiTh5Pi8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=D4ynAUf9bMHkjhxwEwcPV0ualwcL40cPXb0W5WNlFW8BNCWBgNOAx/ppivEvrE+CgmKnxOV1uKBfkvrhwUXzb9X1P/deTdBNVqxaLqAmpskqKyMIKUbvwkmdIYxySpTYO3plgFErbrDmjeqEs1MK9b1m78Xyh2d48+JrFwzShhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bI0rg5d9; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1711444839; c=relaxed/simple;
+	bh=ZRw5HW3vx3O6hI9fyvWhe7T/sssosg/zjSWpKw5oUQs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L89mFeQyIzrFLc1CJap/dcwuJQ+zidQQatRon7yadpJh9qTQ5QCLQyhR9RLNfx2JSrQVVGBcl2OA2SXG1iStsjv0zSbI0DhKOJetKLSPFfuQL0C/0dW19xlR6VkvUfsajHbybDZlOxj3Xhq6BCEEyWQvxTSyiR4P+sc4EMMm65M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qz/QSTNt; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bI0rg5d9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qz/QSTNt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711444585; x=1742980585;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=bedNodAL0epS6BTRsXC3wvUj3ZKA55DLlAXiTh5Pi8k=;
-  b=bI0rg5d9jvDpwiHohly2S/7VYlwqa/PwQTZJ3HWzvc3ffwvNDSLz/R82
-   hDHLSmSfnFMGjpRt9H/X1tQgThQ4BcKm8kl+f8DiwRD0gM6nDLw4pwwjC
-   elPTcRXC9b4kgU7MIMvxylQP1NAVJCy68CSNWZdTj6PjFfPtESl2PB1K/
-   no2/zBp2K4REYAEvIEtnS0Y/1UrHVy1c8+YeCTrQiaC7X2rIRpYw+vpd+
-   XWhMbklGehxR52/sWiCDalM4+MD+REJB0EL5ifpcOW66UhXYpUFR1RH6R
-   3OL7gSI9Gz1WbE78FXbCKvFurv08QjyY4spLympaCronDikkIqCLQDBf7
+  t=1711444837; x=1742980837;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZRw5HW3vx3O6hI9fyvWhe7T/sssosg/zjSWpKw5oUQs=;
+  b=Qz/QSTNtoh+DnzbECKIc4jH5sG7aX8OTTDtV5NPlz+IQX/KH1MviDSmK
+   vX7Rqgy835KVqyDBLuxKAbzGwTpVKr50NyWOFmyq5++XTizrAaQWEipmp
+   UvcwZYF0AMMa6UgXLWNu9PdWuI3+Nu/G+QuVU2AKUT1UEI1B08PoWuXAU
+   cbFD1blaEYBaLQRSBvSCqS7QPMEXujD17BfBkx25gfxjR8Ily7MHyXa+9
+   KW0qvDE02Akfvo9klUNk5sXRsqD8L0NfqvWapAeIvCfdYEAPclsfyqleo
+   T/CZlYNN+56nDJMraxB3pbRiWGd4L6h4zsmCYLIGgY7J6XWbLE4QqgKqD
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="7082133"
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6350332"
 X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="7082133"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:15:38 -0700
+   d="scan'208";a="6350332"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
-   d="scan'208";a="16564237"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:15:28 -0700
-Message-ID: <80b9d7ed-5ddf-488b-8839-a96f85cfe9e0@linux.intel.com>
-Date: Tue, 26 Mar 2024 10:15:26 +0100
+   d="scan'208";a="16293257"
+Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH 0/7] soundwire: add support for link clock source selection
+Date: Tue, 26 Mar 2024 09:20:23 +0000
+Message-Id: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] ASoC: Intel/avs: replace dpcm_playback/capture to
- playback/capture_only
-Content-Language: en-US
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
- Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
- imx@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
- <87bk7353m7.wl-kuninori.morimoto.gx@renesas.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87bk7353m7.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/25/2024 5:37 AM, Kuninori Morimoto wrote:
-> soc_get_playback_capture() is now handling DPCM and normal comprehensively
-> for playback/capture stream. We can use playback/capture_only flag
-> instead of using dpcm_playback/capture. This patch replace these.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
+Since CannonLake, we've been using the XTAL oscillator as the link clock
+source, but since MeteorLake the hardware offers two additional sources:
+the audio cardinal clock and the internal audio PLL.
 
-ASoC: Intel: avs: boards: Replace dpcm_playback/capture to 
-playback/capture_only
+This series adds support for link clock source selection.
 
-Fix prefix and start commit title from capital letter, otherwise seems good.
+Pierre-Louis Bossart (7):
+  soundwire: cadence: show the bus frequency and frame shape
+  soundwire: bus: extend base clock checks to 96 MHz
+  soundwire: intel: add more values for SYNCPRD
+  soundwire: intel: add support for MeteorLake additional clocks
+  soundwire: intel_ace2x: move and extend clock selection
+  soundwire: intel_ace2.x: power-up first before setting SYNCPRD
+  soundwire: intel_ace2x: set the clock source
+
+ drivers/soundwire/bus.c             | 12 +++----
+ drivers/soundwire/cadence_master.c  |  6 ++++
+ drivers/soundwire/intel.c           | 43 +++++++++++++++++++----
+ drivers/soundwire/intel_ace2x.c     | 53 +++++++++++++++++++++--------
+ include/linux/soundwire/sdw_intel.h | 11 ++++--
+ 5 files changed, 96 insertions(+), 29 deletions(-)
+
+-- 
+2.34.1
+
