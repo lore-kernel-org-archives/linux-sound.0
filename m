@@ -1,88 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEEF12E75;
-	Tue, 26 Mar 2024 17:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661DE2110B;
+	Tue, 26 Mar 2024 17:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711472845; cv=none; b=pe5MOYKRnmX9KFgic1isgK/ohElLOOhSRgB0CiFJy+oCIRNxnfrGv+0dx6AFECHg7IWDIaPeF4h/8u6YdH3Iq1USuc2Ba4qkrV/IFYV0eM21XQ7cfY1FKnvsj+tiFGtIPXCr5if8e1IN8WGmi6xlVzd1nvGl7Abb6Oj7/4QbUf8=
+	t=1711473102; cv=none; b=pPrgetmpyOCyJbnQFziBNCID79IlzuH0EDcvc64YI5H9J4N4D97q+VR7buFVSOfV0r+bFdxI8ANG+2qTXCB5P0kMoe9hNSNbHnyc42qmFPMAnamnjJWvCAiC6snAsGiCy/SaRVDmHCDGm0FZcYX2jYZNaO1QiP1ZAeU72N49GLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711472845; c=relaxed/simple;
-	bh=ORw11zggvPK3vCivrl1I+TdOEO2ouRBSNRl8iFMjGKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=os+sPrUBfI+kyLWpzIx/YoFJT3N67E4c+5AsXhQsAi8gSyRgmiJ3slsh9OqD1hR0zVom8FoYMda0cmo+/nDP30x5tr6xX/TSEW0hLzi6HP2vrulGWORorn3yPvL7g7QIP6G9HnCsIMqyme2MfbwmYZ2W1AUjMXjlKTbKbRlgdK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+sTbZwO; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1711473102; c=relaxed/simple;
+	bh=54+WKa1ydkrk+oiWK74oAKFRtaRxLI8Zl8NhBv6zJZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GeZFco4O3nVRWUEkkfKI8r6xxghWItoJm3gR4VQ8jJ52XzHRJ53xAFoIU6LI5YLXRLJtvh50xzmJyJvjGREbj98m3aEY492BfEwMq1x4+Jbi68+toEPv7ndlIeIl3aqsXXQhDINTTmqariHSBLHSa1RjSgCYaKHvJbI0mARuMlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfiEDf8U; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+sTbZwO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfiEDf8U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711472844; x=1743008844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ORw11zggvPK3vCivrl1I+TdOEO2ouRBSNRl8iFMjGKU=;
-  b=R+sTbZwObdNMy3zwe3v94XtttbornPlnINKIizSQINfIOdp+QLd772Mp
-   K4ZyNoZGut+LoA0+aG9WVfGVnGkKi7htfeQT2vjKED/E347FBLT0wJmI5
-   6XliK+JMTNQGoEmoqdv8WkCftXFmB7kXapepmsjRUfLghRzexYDhIx9nv
-   H24jnbVjCJAAAMmOFxHmhcHNxHylKIGWl7RAYbqN3NdG7+jbuxoAkFLDh
-   3p66B4TG2NLVb7P2aizJTJ02MQxoeITmceSLgro90IdeZE4teEEXzVoLb
-   n1iDOkYUmPF4M/rRl2Pa4KUvhZfp2WeV/GQHjIqCLJATaa9BRy7DrgFSB
-   g==;
-X-CSE-ConnectionGUID: kk/lkYmSQ3+leceaLXlVqA==
-X-CSE-MsgGUID: k8pEtSI/TQ21738NARFfuw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="24026961"
+  t=1711473100; x=1743009100;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=54+WKa1ydkrk+oiWK74oAKFRtaRxLI8Zl8NhBv6zJZ4=;
+  b=FfiEDf8UdnDLPXfdU2lHHsdpeS+AZoKL9R8WZC8vMtL9SJ66c+vgG+KZ
+   +LFCrT43jF965Z0sYKQ8V1VKcKbt2xB4khYXnj9lG0s67tIWGmWatGcjf
+   PsyIQin6dYIIUAF5hKchQS4/m+L6kiGUPCOb16C8R+ExEVE81DtK3PZcb
+   P0TtZhAdTCtkj5n/Nj6YDaCm/3Qa3sB/iX/RYy4vAk0IOMEFZ+Ob8TWDI
+   n+cGs6gj12Z/mc4a+GpwTYMZZ/gwKktkasvzpjSdoTerKOIzkcQl6wmmA
+   1uXYtQhuCh9eZyihuXgidDhIEuwS8RBUJNllpv80BH9Gk9eBXGMX9YpDE
+   Q==;
+X-CSE-ConnectionGUID: PHygj2LoQeyQEZHtXLWfBA==
+X-CSE-MsgGUID: K0Sz7JLGQEqM+wpQdSGrGQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6732184"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="24026961"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:07:24 -0700
+   d="scan'208";a="6732184"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:11:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914885454"
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="937072885"
 X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="914885454"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:07:21 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rpAGd-0000000GOcv-0gSV;
-	Tue, 26 Mar 2024 19:07:19 +0200
-Date: Tue, 26 Mar 2024 19:07:18 +0200
+   d="scan'208";a="937072885"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Mar 2024 10:11:37 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 6BBDBE7; Tue, 26 Mar 2024 19:11:36 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v2 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Message-ID: <ZgMAxuNXQDHjUKrr@smile.fi.intel.com>
-References: <20240325143654.3305498-1-andriy.shevchenko@linux.intel.com>
- <ZgGvev-Wh7SkYnI7@smile.fi.intel.com>
- <ZgL_N1aMQiju3yaI@smile.fi.intel.com>
- <986726af-ce6b-45a5-b173-f5fb041e9849@sirena.org.uk>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v3 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
+Date: Tue, 26 Mar 2024 19:09:48 +0200
+Message-ID: <20240326171134.1414462-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <986726af-ce6b-45a5-b173-f5fb041e9849@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 26, 2024 at 05:02:39PM +0000, Mark Brown wrote:
-> On Tue, Mar 26, 2024 at 07:00:39PM +0200, Andy Shevchenko wrote:
-> 
-> > Okay, since the fix-patch had been applied, this one now is clean to go.
-> > Do I need to resend or any other work needs to be done?
-> 
-> Please resend.  If I've told you a patch failed to build it's gone from
-> my queue, I don't keep track of anything like that.
+No more users.
 
-Noted, will resend soon.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v3: resent after imx-es8328 got fixed (Mark)
 
+ include/sound/soc-jack.h              |  2 --
+ sound/soc/generic/simple-card-utils.c |  2 --
+ sound/soc/soc-jack.c                  | 23 ++++-------------------
+ 3 files changed, 4 insertions(+), 23 deletions(-)
+
+diff --git a/include/sound/soc-jack.h b/include/sound/soc-jack.h
+index a0abb1ee5110..3a81d4b8ca8a 100644
+--- a/include/sound/soc-jack.h
++++ b/include/sound/soc-jack.h
+@@ -44,7 +44,6 @@ struct snd_soc_jack_zone {
+ /**
+  * struct snd_soc_jack_gpio - Describes a gpio pin for jack detection
+  *
+- * @gpio:         legacy gpio number
+  * @idx:          gpio descriptor index within the function of the GPIO
+  *                consumer device
+  * @gpiod_dev:    GPIO consumer device
+@@ -59,7 +58,6 @@ struct snd_soc_jack_zone {
+  *		       ADC).
+  */
+ struct snd_soc_jack_gpio {
+-	unsigned int gpio;
+ 	unsigned int idx;
+ 	struct device *gpiod_dev;
+ 	const char *name;
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index 81077d16d22f..b4876b4f259d 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -752,8 +752,6 @@ int simple_util_init_jack(struct snd_soc_card *card,
+ 	if (!prefix)
+ 		prefix = "";
+ 
+-	sjack->gpio.gpio = -ENOENT;
+-
+ 	if (is_hp) {
+ 		snprintf(prop, sizeof(prop), "%shp-det", prefix);
+ 		pin_name	= pin ? pin : "Headphones";
+diff --git a/sound/soc/soc-jack.c b/sound/soc/soc-jack.c
+index b2cc13b9c77b..63971396b708 100644
+--- a/sound/soc/soc-jack.c
++++ b/sound/soc/soc-jack.c
+@@ -8,7 +8,6 @@
+ 
+ #include <sound/jack.h>
+ #include <sound/soc.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+ #include <linux/workqueue.h>
+@@ -345,21 +344,9 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 				goto undo;
+ 			}
+ 		} else {
+-			/* legacy GPIO number */
+-			if (!gpio_is_valid(gpios[i].gpio)) {
+-				dev_err(jack->card->dev,
+-					"ASoC: Invalid gpio %d\n",
+-					gpios[i].gpio);
+-				ret = -EINVAL;
+-				goto undo;
+-			}
+-
+-			ret = gpio_request_one(gpios[i].gpio, GPIOF_IN,
+-					       gpios[i].name);
+-			if (ret)
+-				goto undo;
+-
+-			gpios[i].desc = gpio_to_desc(gpios[i].gpio);
++			dev_err(jack->card->dev, "ASoC: Invalid gpio at index %d\n", i);
++		        ret = -EINVAL;
++		        goto undo;
+ 		}
+ got_gpio:
+ 		INIT_DELAYED_WORK(&gpios[i].work, gpio_work);
+@@ -373,7 +360,7 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 					      gpios[i].name,
+ 					      &gpios[i]);
+ 		if (ret < 0)
+-			goto err;
++			goto undo;
+ 
+ 		if (gpios[i].wake) {
+ 			ret = irq_set_irq_wake(gpiod_to_irq(gpios[i].desc), 1);
+@@ -401,8 +388,6 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
+ 	devres_add(jack->card->dev, tbl);
+ 	return 0;
+ 
+-err:
+-	gpio_free(gpios[i].gpio);
+ undo:
+ 	jack_free_gpios(jack, i, gpios);
+ 	devres_free(tbl);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0.rc1.1.gbec44491f096
 
