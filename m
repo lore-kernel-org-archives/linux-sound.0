@@ -1,35 +1,42 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171E05810C
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 11:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACCE548F0;
+	Tue, 26 Mar 2024 11:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711453697; cv=none; b=kc4eiMldwP1IIUCZiTzlM8elLmg/zuHW2qcIgeZsISzTuBBOA18Fcst5mnD9NHtL8pzrqdw6qsTRToZ8fD8yflEd2E1YCVfQeqrPnHNE+vlWQ99Ddb9Q4H/CbqJp01lPVoCBMOdsdK3XzR+PDNT1JsWa4ghiENUV5khr0y2S3QA=
+	t=1711453778; cv=none; b=BrLuztPq4+v7c2IIusnvxk2gdRXFD5sriYWLjl8cKoNm/UkztkEkYEQOAHtYlM0R5gSnDI+5pI+E7VXaM8ThtZX1gS5wby60nsKwidc2gyiwdc6J8sV+VZwJUOZRps6fT3ReCHE+UVHLYp8KcHgX66BXPjvzY0AghijTzh6vKnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711453697; c=relaxed/simple;
-	bh=ksJEpKNewmNmslHJnwfsm7/NFw9UPD2T7IztjcDkQfA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ccYxEeQChIyaEMoPyn71J0xbTWDCYfPwMtnqRkAU6XaE+9x0mbfjMpQixRIqMFo7QHPlo7/V8KbFDj8E9QVl+3Z/+3oyEXl7IllDGjWjq6wBm1EZMIVmbtgeXjexT1PWiHUPdQ0kR8e+HegGL0lhICD1h7XEtYUafUb1ddhhkHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=qDReuZwN; arc=none smtp.client-ip=95.215.58.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1711453778; c=relaxed/simple;
+	bh=BFJiq54VJ20G77R+5TuJjaEBvW4xwFaEM9rhhP0Ncb0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZeiOkvNmNMbWeZV8Qr1EC9bEW7DeFjpEH7vj4mRdLGkxbzoELinWymDYIIi4yAUoDAfxolNZ61YWg+I6uojWK/7pAemLhZWnmV3TOC8lh/hhmi+PLn6EADnWK4OVTvwXzTO2ONJAZKD16UDHcM+sArlzrOX5qviBMhfmZR+JsSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZHnyN/l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="qDReuZwN"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1711453692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5NiU8SrRvzEhPUZ6dRGyNb0sPUWcZywjTyvLXnPPhjk=;
-	b=qDReuZwN3nrUyVjAuIWjRIzZfloFZ4MU7bD1Ew9vB9m6XHRQRwszFsitqgFQ+s10CZYkNp
-	idjYvCnazE219txqs1kGPNiTATR1lccgEydGt0gw9po1sogNhQl9AHWyMOd2uPa5qQtUcI
-	w78kKhDU/NMstoVwOji1IbcRDD9IQrfYws0i0imJbpGWGnz2JiqTj5FsA/wknze7J7yZBC
-	Fii6gJdwa4ppOMfLUL+lpQki/RfBzNbTf1Y+BNurIOfbtZHjKWyULbJzhy/4Yn7xZdKyqT
-	CQhrMYTZQPJStcowy+9OR3obWTv+dsklNPeHzjwmjdpFXGGo8JWgWztTUBFggQ==
-From: John Watts <contact@jookia.org>
-Date: Tue, 26 Mar 2024 22:48:00 +1100
-Subject: [PATCH] ASoC: soc-dai: Note valid values of sysclock direction
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZHnyN/l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E00AC433C7;
+	Tue, 26 Mar 2024 11:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711453778;
+	bh=BFJiq54VJ20G77R+5TuJjaEBvW4xwFaEM9rhhP0Ncb0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rZHnyN/lxkJ4rEPC4b/yDmCFVNZcBBMryLgCqqnuFy+L5PopBPEvkDFxKQbNXZhe1
+	 CzAgNucLOHLSxf0ZOxDDf2FRJQEA+Nvzk0p9npnbmHMzVxhQQzHkyN00i+s+O1gB3K
+	 kThRq2wIvrF49mIjpl8KkuLiuRL/V5oq1cgtfNWSlPKejp52VHRMa4tVnOyS6iVVee
+	 PDjdDTO215U7x0pF0aF7PEOFw1iBflI/mV1GQH2B00pGld+6xZTKXww3xAtUlT/gto
+	 pd2aSLd1sEER8Ooqubtcw+veag0FJnPaUPzEnexz1D06jxhfqsWbGgejX66xYKKbAp
+	 PTnwtrCSsL5Tw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, Kartik Agarwala <agarwala.kartik@gmail.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ javier.carrasco.cruz@gmail.com
+In-Reply-To: <20240325181943.116733-1-agarwala.kartik@gmail.com>
+References: <20240325181943.116733-1-agarwala.kartik@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: wm8974: Convert to dtschema
+Message-Id: <171145377605.25584.16707436600302080995.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 11:49:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,59 +45,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-dai_mclk_hint-v1-1-653cbd2d78d9@jookia.org>
-X-B4-Tracking: v=1; b=H4sIAO+1AmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDYyMz3ZTEzPjc5Jzs+IzMvBJdc0PT5KSUJANLIwNzJaCegqLUtMwKsHn
- RsbW1ABjvwRhfAAAA
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- John Watts <contact@jookia.org>
-X-Developer-Signature: v=1; a=openssh-sha256; t=1711453681; l=1310;
- i=contact@jookia.org; h=from:subject:message-id;
- bh=ksJEpKNewmNmslHJnwfsm7/NFw9UPD2T7IztjcDkQfA=;
- b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
- 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
- MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA8uxXLeHvK+2JawLBA6msgjO
- K2YehwVQKZcf8hjQbFSosobFfeEHYLxNjkH2s6bKWV4l4LdXyOZBhldj7WvzOCwUAAOcr
-X-Developer-Key: i=contact@jookia.org; a=openssh;
- fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
-X-Migadu-Flow: FLOW_OUT
+X-Mailer: b4 0.14-dev
 
-Clock direction is marked as 'unsigned int' but only two values are
-currently used in practice. Note these down in the documentation.
+On Mon, 25 Mar 2024 23:49:42 +0530, Kartik Agarwala wrote:
+> Convert WM8974 audio CODEC bindings from text to dtschema.
+> 
+> 
 
-Signed-off-by: John Watts <contact@jookia.org>
----
-When writing a driver I wasn't sure what values of 'dir' to check against,
-so I decided to note them down in the documentation.
+Applied to
 
-I'm not sure exactly how correct this is: All the drivers I've checked use
-these values, though I'm sure some code uses 0 or 1 somewhere or something
-like 'if (dir)'. Maybe changing to an enum would help here? I'm not sure.
----
- sound/soc/soc-dai.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index 6f8773a8fc05..fefe394dce72 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -45,7 +45,7 @@ static inline int _soc_dai_ret(struct snd_soc_dai *dai,
-  * @dai: DAI
-  * @clk_id: DAI specific clock ID
-  * @freq: new clock frequency in Hz
-- * @dir: new clock direction - input/output.
-+ * @dir: new clock direction (SND_SOC_CLOCK_IN or SND_SOC_CLOCK_OUT)
-  *
-  * Configures the DAI master (MCLK) or system (SYSCLK) clocking.
-  */
+Thanks!
 
----
-base-commit: 72fb52fb0ac44b6a1edd9bc390e44bce3acccd26
-change-id: 20240326-dai_mclk_hint-715cbdb09207
+[1/1] ASoC: dt-bindings: wm8974: Convert to dtschema
+      commit: b340f56a74b62d8ce8617650c8ab4a26c87ba5c5
 
-Best regards,
--- 
-John Watts <contact@jookia.org>
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
