@@ -1,110 +1,102 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2743233;
-	Tue, 26 Mar 2024 01:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8FF1F16B;
+	Tue, 26 Mar 2024 01:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711414964; cv=none; b=rM7ASU2REwWDOBYHL06F9bj+WZF/A+tgQCMOG+xbYuID/HAEiKYLqwJKlmLfvFdnrlkBtnG5e2GnPqYKDQsD4LamQV1yU5JLPQ+zsGX9bvGkSOeJUCuE8QlP6pDxFEVif08NqOoQ9PdCcHSwao7qkaRJlQ573CmlAk9+3SGmcpI=
+	t=1711418377; cv=none; b=aZ9GhH8vWX7ys1CJK3jE1bOYsHhU2cdGo/zIR2NcfQ5QlL68nNIidOdoqIqLLEUmZV4Y/srl1R7UMCnlgsohzk2tkQ0gbXAuEQB4G4Mx9S7zZrAgGD5URkn4Fld9RRs2Kd9RqxsRgpKqalGWbcYed2/ZmtO4NrocnYX+Gzz8XiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711414964; c=relaxed/simple;
-	bh=Yci2u2Nqawj66kr/KUuXF0uP69vmsVBHA/4TkrHnOOc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b7vYT0vtLV2BSJnxjsFximIece8iA6v7PNfiwbNaD4NrCVRzJzHRDkUDQPTYb74I98ugdFXnSEKYOAs/DBy5iG8kINA0f0W/p6GePZLg1/7flcGp0aZogbPKjOdymGP/WtCyQWnvPw9+gyqeZptzdlbYOIEQijTQoyQX3nKNffg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GiplsfyJ; arc=none smtp.client-ip=209.85.167.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711418377; c=relaxed/simple;
+	bh=godkSQKzA+faGIiVFZsDHyhNsvM15bnkQ1YACwtY2GU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sNBdJ/yzHfqykH4vU9fJpQnVlK0CL25tIedf8QxVoUw7ZfFrIm4B9quTVUO1wpZEhIVF5jSBjM7pFweaKFmlWfisJkPOB7MdVvW9OkB7LICExOJAeC336M6NAjmdj87hvR/LzCB6fOa0tvEbhVz/W+jvvl/+azxzmGzYZ9Gnolg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEseGsx9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GiplsfyJ"
-Received: by mail-oi1-f194.google.com with SMTP id 5614622812f47-3c3d2d0e86dso552752b6e.2;
-        Mon, 25 Mar 2024 18:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711414962; x=1712019762; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LKf2jwKRUBghsb1hb9noFEqyR7Wc63fp95/WXgHPqo=;
-        b=GiplsfyJKDdb04oWtbn1GVagZBggpHG6sYcI3n+VNflRRiohPMhllWqAAEXrQZIVHl
-         XBoKUEXfPayBtmeYrJETsY3B3gtDJTvcgu3WnY5W/jaZpAAF/X2klhOxnHB+HFt2h+UT
-         4pKBvnMtF2nhz85NroPLrmTKxnyKxsFis7Nd7cyJYF/D7or3BKzusmRnfYdvrG4S+VGs
-         wZIvhZOMw6negoWpYNk352YgBKLe2M45yMO1IiqSiN5HFCoXmDF+XtThU93G6cXGHpox
-         ixhdVLsxVLnilqvRZekSuhaNKdyDV21RH2975eZx1CsPINY6EnDW5OSJ1c79yK5WkFq4
-         Jr4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711414962; x=1712019762;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0LKf2jwKRUBghsb1hb9noFEqyR7Wc63fp95/WXgHPqo=;
-        b=hHhaRFguwIIkH5CuvOyGn+ndf6PqPslN4R3hZog8pbZUcenOynjfzbEfaAFuTPBUEj
-         /pJUPFum4RXiM6p8OCG/4b66Qf+0Xfr05Q3dAt/DKvOnjU/4KBbcXQy8GREF9nwRHAyU
-         agS8KJICjJjM7B6YSGsMVCleIQCEXq+MBS7Gvl4nwPuHHDEDwxEq+1/6/f7imbVhdXqh
-         ntA3lHT+rTT6xwOz0zjCv6QQfpL6tbA353MofKEeW3ZXILP/ljbMz55nac+soh3WN3ps
-         18UbIsvVzLz6s0qOtoRazUlB2otwPCZonXjiY7dTIWhzWTodshmTfeG+M7Q6JH1zBJM5
-         za/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWS3hoBfURrs4t/IABK+pSxV14yeSOsp/gYKWCUOuBlKCxAyox0sAke/AgcaNf5aJXSrOMWioG4LAT9Itxw2P7eSnfaeeAxQ/xuF2BxaVuJ/f2lDwdKvY+4uDzKfe2q8ZJEZtduw460thw=
-X-Gm-Message-State: AOJu0Yw0dZNROjq4AkdFcGfVoqX8aDKt+T4hbEbGeXEI/69Mng/5whll
-	VBwiK+VAjwUCoqJkv9MLZMnc60t0INKrOKsz6hVzLadJl5t2uOsMzomFEbWTT4uQHw==
-X-Google-Smtp-Source: AGHT+IHgnz7INBk3M0+aautZT3lb/GWvYXaiIL5Ynv4roLiKyMREkBYvBKQKsQBqPvMl2x17AEXJ3w==
-X-Received: by 2002:a05:6358:3996:b0:17c:1da1:aa8f with SMTP id b22-20020a056358399600b0017c1da1aa8fmr9438563rwe.24.1711414962405;
-        Mon, 25 Mar 2024 18:02:42 -0700 (PDT)
-Received: from C02ZT45ZLVDL.corp.robot.car (c-98-42-213-84.hsd1.ca.comcast.net. [98.42.213.84])
-        by smtp.gmail.com with ESMTPSA id b21-20020a631b15000000b005dc8c301b9dsm6647878pgb.2.2024.03.25.18.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 18:02:42 -0700 (PDT)
-From: Stephen Lee <slee08177@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: alsa-devel@alsa-project.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEseGsx9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E54C433C7;
+	Tue, 26 Mar 2024 01:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711418376;
+	bh=godkSQKzA+faGIiVFZsDHyhNsvM15bnkQ1YACwtY2GU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=vEseGsx9VChXF6uoxfB81/TXxABM0Tm8P30hdOtWQH6VzHSy3gSeFMON0IL7wc44r
+	 ZRdhiHS5jriNrOHhmeYJDesXljZs1Rrn17t06sM8kZvEGFgUd6iWyZjnQzoWwYImcy
+	 +DzsiGlhCkliNR+Xr9b0nQtSs9UJ9rMaf051oIcoINiPQOqLGDeKHNcKKl71ue4J0p
+	 j151q4LQNuT7XvYsSEtS0ohKksohJmPWYnKDp0sKNjrsuUE/t9xFzGQdoH/F6UMaYo
+	 +XiTX3QfRWcnP5/9rfSGKmaSBpBdtsrEY2cyPSy5VW+hJUtfn3juyvxwfaqz5wWCE2
+	 t8DSj/HZB4uwQ==
+Date: Mon, 25 Mar 2024 19:59:34 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	roman.gushchin@linux.dev,
-	dennis@kernel.org,
-	Stephen Lee <slee08177@gmail.com>
-Subject: [PATCH] ASoC: ops: Fix wraparound for mask in snd_soc_get_volsw
-Date: Mon, 25 Mar 2024 18:01:31 -0700
-Message-Id: <20240326010131.6211-1-slee08177@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2][next] ALSA: firewire-lib: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <ZgIsBqoMb7p3fMDr@neat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In snd_soc_info_volsw(), mask is generated by figuring out the index of
-the most significant bit set in max and converting the index to a
-bitmask through bit shift 1. Unintended wraparound occurs when max is an
-integer value with msb bit set. Since the bit shift value 1 is treated
-as an integer type, the left shift operation will wraparound and set
-mask to 0 instead of all 1's. In order to fix this, we type cast 1 as
-`1ULL` to prevent the wraparound.
+Use the `DEFINE_FLEX()` helper for an on-stack definition of a
+flexible structure where the size of the flexible-array member
+is known at compile-time, and refactor the rest of the code,
+accordingly.
 
-Fixes: 7077148fb50a ("ASoC: core: Split ops out of soc-core.c")
-Signed-off-by: Stephen Lee <slee08177@gmail.com>
+So, with these changes, fix the following warning:
+sound/firewire/amdtp-stream.c:1184:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Link: https://github.com/KSPP/linux/issues/202
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
+Changes in v2:
+ - Use DEFINE_FLEX() helper instead of a new tagged struct.
 
-This seems to show up in quite a few places in the alsa subsystem,
-should they be addressed altogether?
+v1:
+ - Link: https://lore.kernel.org/linux-hardening/d3a764eb76909b16b8a22d9ff530e5edf0e59e6b.1709658886.git.gustavoars@kernel.org/
 
----
- sound/soc/soc-ops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/firewire/amdtp-stream.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 2d25748ca706..b27e89ff6a16 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -263,7 +263,7 @@ int snd_soc_get_volsw(struct snd_kcontrol *kcontrol,
- 	int max = mc->max;
- 	int min = mc->min;
- 	int sign_bit = mc->sign_bit;
--	unsigned int mask = (1 << fls(max)) - 1;
-+	unsigned int mask = (1ULL << fls(max)) - 1;
- 	unsigned int invert = mc->invert;
- 	int val;
- 	int ret;
+diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
+index c9f153f85ae6..d35d0a420ee0 100644
+--- a/sound/firewire/amdtp-stream.c
++++ b/sound/firewire/amdtp-stream.c
+@@ -1180,13 +1180,11 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
+ 		(void)fw_card_read_cycle_time(fw_parent_device(s->unit)->card, &curr_cycle_time);
+ 
+ 	for (i = 0; i < packets; ++i) {
+-		struct {
+-			struct fw_iso_packet params;
+-			__be32 header[CIP_HEADER_QUADLETS];
+-		} template = { {0}, {0} };
++		DEFINE_FLEX(struct fw_iso_packet, template, header,
++			    header_length, CIP_HEADER_QUADLETS);
+ 		bool sched_irq = false;
+ 
+-		build_it_pkt_header(s, desc->cycle, &template.params, pkt_header_length,
++		build_it_pkt_header(s, desc->cycle, template, pkt_header_length,
+ 				    desc->data_blocks, desc->data_block_counter,
+ 				    desc->syt, i, curr_cycle_time);
+ 
+@@ -1198,7 +1196,7 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
+ 			}
+ 		}
+ 
+-		if (queue_out_packet(s, &template.params, sched_irq) < 0) {
++		if (queue_out_packet(s, template, sched_irq) < 0) {
+ 			cancel_stream(s);
+ 			return;
+ 		}
 -- 
-2.43.2
+2.34.1
 
