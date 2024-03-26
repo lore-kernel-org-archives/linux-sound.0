@@ -1,69 +1,102 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E89C13C9DA;
-	Tue, 26 Mar 2024 16:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC0D13C9B4;
+	Tue, 26 Mar 2024 16:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469944; cv=none; b=FSU4xR/OHqeEk4aRMq+SPxcRZdO1WQ2N04Qqva1qd9tFuAvB/ewjgnL0dHzRgZCm02MyLPuCm+oM06YbRhL/hVLlZ3riS7PjCX/hHzUen0MSuBuDUqWtAqTL0UCcnD2fy11F7XtoHvIt/F0bkxu4Nkf3IBWxhKmO98bUQ+39zEA=
+	t=1711470143; cv=none; b=uk7j24v4Q4I9TacqZIxwL8Hr4SO2OLYLD58ofSQJlYbgYFoUNcJZMkygBOuIhEx1r3/gB9mYCMe59qiEMXh/WioIE1Fs7DOT+Ij2dtjwNQTNrzSsG8MJPxlVWeKcNn3gIL8IYnHfW/lRLo3x0vLgUiQoSCqxyt7z0Q4IG2zYE1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469944; c=relaxed/simple;
-	bh=5aDrrnIyMvrzhrxVH1Ca2IiEhPa9yUeMCoC85ZSPPPI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=qjLW+/JP3CoxSyVfeG1p8r8WekpO1Ul5Jo9Jf3iImGggjs7E9WWB9hK+CwW4aVS5q9X2GCbe3tYI+LAjzki2Yd4gmvn6CcR5qZPVU2J45eiw4jVKiN7JUHZEHJW7jYrVQZGZQT+nWb9n9Pfw2zln3cEQUBK7FSuYtrAglE4GV08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000077340.000000006602F575.0023D3CD; Tue, 26 Mar 2024 17:19:00 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH v2 4/4] ALSA: hda/tas2781: remove useless dev_dbg from playback_hook
-Date: Tue, 26 Mar 2024 17:18:48 +0100
-Message-ID: <8b9546db6c92dea4476a7247a88d56248c2ba8c2.1711469583.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1711469583.git.soyer@irl.hu>
-References: <cover.1711469583.git.soyer@irl.hu>
+	s=arc-20240116; t=1711470143; c=relaxed/simple;
+	bh=//W8P4cggBSW4ea8DF0U9iBbG/iet5qmMnbhF2CbDqw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mKxpSYw2RRuH0ckp5li85hB8icdIt0PQJLm3LoDm1QS/oVput7OiKFZaKd2P7i4dz+O/ZYrVbBk1x8VCnIYDRNT/m23hJUSeadTL6nQGABQH/bkGSzy6fUPGjZWB0Hf8vHdu0bT4ahqleo9OVTURKIeJr1O5TNrJ795X+bGr3aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdMrYjnh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdMrYjnh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EA99C433C7;
+	Tue, 26 Mar 2024 16:22:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711470142;
+	bh=//W8P4cggBSW4ea8DF0U9iBbG/iet5qmMnbhF2CbDqw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=WdMrYjnhXYNxEf9pNXnLav5F4Q4epZrMVL+Zz2HGT5iP/apNBDGKnDGgaXPEvRqrt
+	 OSt7ASfME63Asis7oPSNMMgDVkQ/tEhvKBMxVpzSrdnS/N75iru8LP3FECq+002ak4
+	 gEyUzMeFj6KXQKuwDvIfyQQRgiUP6nX62l2D26HzNjSef8Oz+1ECVc+zo0iExP5RRS
+	 rLgLMDcuR5YKGuOCC2PuNBrfu0P1FJeJ/hNj4mY/rqdwsDnwSvOxF572bK07/6t3KK
+	 Q4sddwI+t3yMJBC95MgpPLzqKjF5xzaeAY5h8sL/UBc/OVCZpMbeY0KvMCb4pEzdtd
+	 dMKOk7KIy4enA==
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Rob Herring <robh@kernel.org>
+In-Reply-To: <20240305-rk3308-audio-codec-v4-0-312acdbe628f@bootlin.com>
+References: <20240305-rk3308-audio-codec-v4-0-312acdbe628f@bootlin.com>
+Subject: Re: (subset) [PATCH v4 0/7] Add support for the internal RK3308
+ audio codec
+Message-Id: <171147013904.144152.3554445649674983907.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 16:22:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+X-Mailer: b4 0.14-dev
 
-The debug message "Playback action not supported: action" is not useful,
-because the action was previously printed, and the list of supported
-actions are intentional.
+On Tue, 05 Mar 2024 15:36:27 +0100, Luca Ceresoli wrote:
+> This series adds a driver for the internal audio codec of the Rockchip
+> RK3308 SoC, along with some related patches. This codec is internally
+> connected to the I2S peripherals on the same chip, and it has some
+> peculiarities arising from that interconnection.
+> 
+> For proper bidirectional operation with the internal codec at any possible
+> combination of sampling rates, the I2S peripheral needs two clock sources
+> (tx and rx), while connection with an external codec commonly needs only
+> one.
+> 
+> [...]
 
-Remove the debug statement from the default switch case.
+Applied to
 
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- sound/pci/hda/tas2781_hda_i2c.c | 2 --
- 1 file changed, 2 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index f495caee38e1..48dae3339305 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -161,8 +161,6 @@ static void tas2781_hda_playback_hook(struct device *dev, int action)
- 		pm_runtime_put_autosuspend(dev);
- 		break;
- 	default:
--		dev_dbg(tas_hda->dev, "Playback action not supported: %d\n",
--			action);
- 		break;
- 	}
- }
--- 
-2.44.0
+Thanks!
+
+[2/7] ASoC: dt-bindings: Add Rockchip RK3308 internal audio codec
+      commit: cce4cbb157493483f03c21213753b66425a31430
+[3/7] ASoC: core: add SOC_DOUBLE_RANGE_TLV() helper macro
+      commit: d75a21611a6e723d81db3f827e131ad39b69186c
+[4/7] ASoC: codecs: Add RK3308 internal audio codec driver
+      commit: 4ed0915f5bc4bcc81bca783a5b984f3d81e9764e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
