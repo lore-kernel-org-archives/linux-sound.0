@@ -1,83 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11D555C33;
-	Tue, 26 Mar 2024 11:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F8152F9A;
+	Tue, 26 Mar 2024 11:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711451992; cv=none; b=o7oPuIaAoGvFrU9Y7XDnJTNu7mbmvnnAAB9TwMADAz24knS+cn43Fbequej0M9Y37CT494H1+YvfAarFjRAw/i/kdvsRAlDRpPGCs4fJG2NmzEN921enqILnlt5J+BeTvp7S+4eXMBaqxe8G/VfXvKDYSD9hAcD4O2yP61Vjw7E=
+	t=1711452012; cv=none; b=bWIXRkLEK8Ahx95scb1H/GiKu+Wwqd9F26sScc32GiYYHzI04fRxRM52gPBg4nWAfGSjfm2JoEs0vNzl5gYqiVvuzunsIor6RRtdyUklCGcmTwwaihpPn96hzprsL9/cI+Xk1cdkHBZVMMy0pJGNnH2gp6uw6pHas6j+8YYN+r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711451992; c=relaxed/simple;
-	bh=cxhWoUYtJZZNiOZfAH8xkrcFMUu4hcm2fAHSkSR/9gE=;
+	s=arc-20240116; t=1711452012; c=relaxed/simple;
+	bh=JZJYfdkOEfrBChAlxdomlE/FMRCLxwEMSTjs1gzQjmI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r+SQQ/21w/Zm7F+sLHXsOVMci676waqdMhHqEmL+0JU26ye1JRdtS/pCiBHeXRA0RLQCUixKcgiFzf3RX9Gk7GI37H+kwGrDz8ht6RFHu+qcdixEPm21SHpdecqNGWVjnvBkpVFJ4V7y8GSxqMJuAurrlFCX10/sGvpCyjhGmTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nanpw0Nl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNN5bTqH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nanpw0Nl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SNN5bTqH; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=DIWrA1tsvzfq/ZGLVKfIeucb57xB972ia22tQYHGCo/DtQ3QRgGjRrDid3REZrsR/gJSUH7UXChIAL20yar4Lt/Qvij7im5u8V5DooNu8oCD21lO9AS0tZ5djNcxBhufxGNmHf0qgR3GPvudS+5vdcQpPt47cciUyJxowhz7o2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qFWDvUdh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RGiqrTXZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qFWDvUdh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RGiqrTXZ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nanpw0Nl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNN5bTqH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nanpw0Nl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SNN5bTqH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qFWDvUdh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RGiqrTXZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qFWDvUdh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RGiqrTXZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A17215CC2A;
-	Tue, 26 Mar 2024 11:19:48 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E50037AD9;
+	Tue, 26 Mar 2024 11:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711451988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711452007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u83TdCBVrchsJlkkgVuqOm/eHzpeZOQaY4sR+M9ssWE=;
-	b=Nanpw0NlyJq7/olIQfRWLdoeO9mqWpO+Ra+hsJOjcIsex2H48VPVKUjvLNwTfOdFmfWkki
-	yW6ELCVpaQyKkFBVQrS6RPTqt/ZaX35OTf/uJkUF1h2UQo7U181/92YIVVRxZqXOAg7rMR
-	fCRhLEooRbcDEAQx3BT0Mu1UH+v9OFE=
+	bh=tUTUfOoY+2SogT+OaWxxDe3rJC42MpmS4UtIqhLd8AA=;
+	b=qFWDvUdhEw+1w/36ez/ULmEshiSbU5BLtgbDEF5s7BImFrCk9b0FDVTJDah6rEIFcP+GDv
+	1tKvqWfah85kRk1vM3jHpa66iHIuxUF0xWPPxWdWbTDHPxRbl4bYf6kuD+FcICqI/jIQdT
+	LFo/4EeF93yBxknPJXIF9twrAR84Y0s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711451988;
+	s=susede2_ed25519; t=1711452007;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u83TdCBVrchsJlkkgVuqOm/eHzpeZOQaY4sR+M9ssWE=;
-	b=SNN5bTqHoZjjMgi1X4F3ly9GXE9CODoERNdJHDEiSnkimKsO+fSRDy8SpcXUGcCtK460xi
-	wdmxQ5vg6ycF2PDQ==
+	bh=tUTUfOoY+2SogT+OaWxxDe3rJC42MpmS4UtIqhLd8AA=;
+	b=RGiqrTXZMmGKLYf71hZOyClLQLEXPh5KTBTWeJIWdVc50zMD57PT2M/+RVnKyF8BAcKIus
+	hrKfijCK98fmQMAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711451988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1711452007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u83TdCBVrchsJlkkgVuqOm/eHzpeZOQaY4sR+M9ssWE=;
-	b=Nanpw0NlyJq7/olIQfRWLdoeO9mqWpO+Ra+hsJOjcIsex2H48VPVKUjvLNwTfOdFmfWkki
-	yW6ELCVpaQyKkFBVQrS6RPTqt/ZaX35OTf/uJkUF1h2UQo7U181/92YIVVRxZqXOAg7rMR
-	fCRhLEooRbcDEAQx3BT0Mu1UH+v9OFE=
+	bh=tUTUfOoY+2SogT+OaWxxDe3rJC42MpmS4UtIqhLd8AA=;
+	b=qFWDvUdhEw+1w/36ez/ULmEshiSbU5BLtgbDEF5s7BImFrCk9b0FDVTJDah6rEIFcP+GDv
+	1tKvqWfah85kRk1vM3jHpa66iHIuxUF0xWPPxWdWbTDHPxRbl4bYf6kuD+FcICqI/jIQdT
+	LFo/4EeF93yBxknPJXIF9twrAR84Y0s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711451988;
+	s=susede2_ed25519; t=1711452007;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u83TdCBVrchsJlkkgVuqOm/eHzpeZOQaY4sR+M9ssWE=;
-	b=SNN5bTqHoZjjMgi1X4F3ly9GXE9CODoERNdJHDEiSnkimKsO+fSRDy8SpcXUGcCtK460xi
-	wdmxQ5vg6ycF2PDQ==
+	bh=tUTUfOoY+2SogT+OaWxxDe3rJC42MpmS4UtIqhLd8AA=;
+	b=RGiqrTXZMmGKLYf71hZOyClLQLEXPh5KTBTWeJIWdVc50zMD57PT2M/+RVnKyF8BAcKIus
+	hrKfijCK98fmQMAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E97F13306;
-	Tue, 26 Mar 2024 11:19:48 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2737D13306;
+	Tue, 26 Mar 2024 11:20:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cSodGVSvAmbiDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 Mar 2024 11:19:48 +0000
-Date: Tue, 26 Mar 2024 12:19:50 +0100
-Message-ID: <87msqlutnt.wl-tiwai@suse.de>
+	id n7DQB2evAmb6DgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Mar 2024 11:20:07 +0000
+Date: Tue, 26 Mar 2024 12:20:08 +0100
+Message-ID: <87le65utnb.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: linux-sound@vger.kernel.org,
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: [PATCH v2] ALSA: sh: aica: reorder cleanup operations to avoid UAF bugs
-In-Reply-To: <20240326094238.95442-1-duoming@zju.edu.cn>
-References: <20240326094238.95442-1-duoming@zju.edu.cn>
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2][next] ALSA: firewire-lib: Avoid -Wflex-array-member-not-at-end warning
+In-Reply-To: <ZgIsBqoMb7p3fMDr@neat>
+References: <ZgIsBqoMb7p3fMDr@neat>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,73 +90,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out1.suse.de;
+	none
 X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nanpw0Nl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SNN5bTqH
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.18 / 50.00];
+X-Spam-Score: -3.29
+X-Spamd-Result: default: False [-3.29 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[9];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.67)[92.96%]
-X-Spam-Score: -2.18
-X-Rspamd-Queue-Id: A17215CC2A
+	 BAYES_HAM(-2.99)[99.97%]
 X-Spam-Flag: NO
 
-On Tue, 26 Mar 2024 10:42:38 +0100,
-Duoming Zhou wrote:
+On Tue, 26 Mar 2024 02:59:34 +0100,
+Gustavo A. R. Silva wrote:
 > 
-> The dreamcastcard->timer could schedule the spu_dma_work and the
-> spu_dma_work could also arm the dreamcastcard->timer.
+> Use the `DEFINE_FLEX()` helper for an on-stack definition of a
+> flexible structure where the size of the flexible-array member
+> is known at compile-time, and refactor the rest of the code,
+> accordingly.
 > 
-> When the snd_pcm_substream is closing, the aica_channel will be
-> deallocated. But it could still be dereferenced in the worker
-> thread. The reason is that del_timer() will return directly
-> regardless of whether the timer handler is running or not and
-> the worker could be rescheduled in the timer handler. As a result,
-> the UAF bug will happen. The racy situation is shown below:
+> So, with these changes, fix the following warning:
+> sound/firewire/amdtp-stream.c:1184:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 > 
->       (Thread 1)                 |      (Thread 2)
-> snd_aicapcm_pcm_close()          |
->  ...                             |  run_spu_dma() //worker
->                                  |    mod_timer()
->   flush_work()                   |
->   del_timer()                    |  aica_period_elapsed() //timer
->   kfree(dreamcastcard->channel)  |    schedule_work()
->                                  |  run_spu_dma() //worker
->   ...                            |    dreamcastcard->channel-> //USE
-> 
-> In order to mitigate this bug and other possible corner cases,
-> call mod_timer() conditionally in run_spu_dma(), then implement
-> PCM sync_stop op to cancel both the timer and worker. The sync_stop
-> op will be called from PCM core appropriately when needed.
-> 
-> Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
-> Suggested-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> Link: https://github.com/KSPP/linux/issues/202
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > ---
 > Changes in v2:
->   - call mod_timer() conditionally and implement PCM sync_stop op.
+>  - Use DEFINE_FLEX() helper instead of a new tagged struct.
+> 
+> v1:
+>  - Link: https://lore.kernel.org/linux-hardening/d3a764eb76909b16b8a22d9ff530e5edf0e59e6b.1709658886.git.gustavoars@kernel.org/
 
-Thanks, applied now.
+Applied now.  Thanks.
 
 
 Takashi
