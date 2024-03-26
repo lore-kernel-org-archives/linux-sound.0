@@ -1,214 +1,343 @@
-Received: from zg8tmtu5ljg5lje1ms4xmtka.icoremail.net (zg8tmtu5ljg5lje1ms4xmtka.icoremail.net [159.89.151.119])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C89713667F;
-	Tue, 26 Mar 2024 08:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.89.151.119
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F371C1CAA2;
+	Tue, 26 Mar 2024 08:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711440405; cv=none; b=j24Xr2PKbZe5PJ0JClcVcg5hpkzWu5Rin5uSejv7On/mdZbvfI3eLXMU1n9SG5Zng2xr+/1YfT07CycXXfqMRbEWSEtgsS3MrLwL9Ip26FTe+IuvHL3xbot9oq8J/XrCwLbW0EU17XU6ZF/i3ulRK+WDHcWuRr4zeUq3uOf1ogY=
+	t=1711441530; cv=none; b=a5cvSQ5NNshB3yZ3L6lf/uPGba/bTRuqfRDBN3oz0pKF2R4dhQ7VS3MPg8n/PpZX3DKWGtCjDu/P6JppotH3kKIyPKm0NPgpp1yIZMJzrlQSAB5Mfn1wwIZFRi0j8Mswd0mQKqHvdc5ngXswBn33tf3+Zwe7xxTbzw0+jj8525Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711440405; c=relaxed/simple;
-	bh=0mprrKmOhpR33P1YbG1q5TYaU+0M/FbzNHqUHsz6E8A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=GZnB7Y1QtJohpYJAayWx9C8zIItolcXUx662DpXWXz1myNIWN3N35w7dHf7JIzXhRQVfCKzBbawmZrqoXHX1QIdk+ZZ4+D22vuXOJ4WjzbOBGwiLxTJU7bvUuZKSwRgh5w/fqSj/iCNvi2yZRhksmBFPtYvgLQYIXzlvNitRrdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=159.89.151.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from duoming$zju.edu.cn ( [218.12.18.200] ) by
- ajax-webmail-mail-app3 (Coremail) ; Tue, 26 Mar 2024 16:06:15 +0800
- (GMT+08:00)
-Date: Tue, 26 Mar 2024 16:06:15 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Takashi Iwai" <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tiwai@suse.com, perex@perex.cz
-Subject: Re: [PATCH] ALSA: sh: aica: reorder cleanup operations to avoid UAF
- bug
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT5 build
- 20231205(37e20f0e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
-In-Reply-To: <875xx9wjv6.wl-tiwai@suse.de>
+	s=arc-20240116; t=1711441530; c=relaxed/simple;
+	bh=eBTAxInTITOaeErmzo1CWw6lx2uzOSOpRzyTiEHPDHM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GV1g7Q6VHsaXjG4m/kqy9jqRsX+b1iKVAcHA2b4O2ruoAiB/lloC3UsiaL0smjxpWRtYyrYOtxOiDYsz0wNOxQYhnPZtZpqydqgTcJkHnRgo0Y+zxhyR6EzSCmSsqgvYdCfanqa7867q8npG5LcOtDPKlpN1+c4l+En/lUzOc00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jMUR1KX4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0MMiilL+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mCKqyz60; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZmYeRiyF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jMUR1KX4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0MMiilL+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mCKqyz60";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZmYeRiyF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D596A5D30E;
+	Tue, 26 Mar 2024 08:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711441525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6HwNVZ8vGUi21YrBu1k8FuwFUwUUE5fxjqfIFZFMZ+k=;
+	b=jMUR1KX4c8bP+yJX7noP9dez/VLUcJk965/nQDTn9KcW40zPmDgoG8Q9h8QwkPZ1QSsSUG
+	GMnDpHwMw5oHlzClx7+VNWvGwCyBDUOIO0SnVH9Kc1wxM7iSHJPneIsAV22nLrfjDBgom2
+	u25bmEAknet3W+6fRBlMbiZ4F0nHIXQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711441525;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6HwNVZ8vGUi21YrBu1k8FuwFUwUUE5fxjqfIFZFMZ+k=;
+	b=0MMiilL+9YcJzziMaaN7km4c/jk+tkSLE9wCXslZ0FAX/Zbh6CRfk8P25BIiUyh6Lyv+sp
+	uA+IsT+/IK8Ut5DQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711441524; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6HwNVZ8vGUi21YrBu1k8FuwFUwUUE5fxjqfIFZFMZ+k=;
+	b=mCKqyz60GRI/FLSq4HDOZWL7YYmKSgT7IrCU+Y+b+61791e11cEe+RDhO2XGO5XQAfZGKu
+	jQ2df7Sk7D+JJ6dNvYQVXZp+CCeVTCvcos5r3f0wVZ8S/ox1hbWcHoQFvPvwqLpexXG88W
+	fVTZajj2DfIzIQ3itWey5ACF2LvgUNg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711441524;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6HwNVZ8vGUi21YrBu1k8FuwFUwUUE5fxjqfIFZFMZ+k=;
+	b=ZmYeRiyFrnqputND11OkO9rSDoTPOPOc6nOABLHb0HUYB6ARtyY6usg4wZy2SeI/cqDCeB
+	VeuQMT7BBPcEliDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A17B8138A1;
+	Tue, 26 Mar 2024 08:25:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6/mPJXSGAmYsXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Mar 2024 08:25:24 +0000
+Date: Tue, 26 Mar 2024 09:25:26 +0100
+Message-ID: <87zfulv1qh.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: duoming@zju.edu.cn
+Cc: "Takashi Iwai" <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: Re: [PATCH] ALSA: sh: aica: reorder cleanup operations to avoid UAF bug
+In-Reply-To: <3c71609d.7271.18e79cbb047.Coremail.duoming@zju.edu.cn>
 References: <20240325033946.47052-1-duoming@zju.edu.cn>
- <871q7yybeb.wl-tiwai@suse.de>
- <43e102f3.61dc.18e7601a2f2.Coremail.duoming@zju.edu.cn>
- <874jcuxtf9.wl-tiwai@suse.de>
- <75af0c57.6e39.18e796e478f.Coremail.duoming@zju.edu.cn>
- <875xx9wjv6.wl-tiwai@suse.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	<871q7yybeb.wl-tiwai@suse.de>
+	<43e102f3.61dc.18e7601a2f2.Coremail.duoming@zju.edu.cn>
+	<874jcuxtf9.wl-tiwai@suse.de>
+	<75af0c57.6e39.18e796e478f.Coremail.duoming@zju.edu.cn>
+	<875xx9wjv6.wl-tiwai@suse.de>
+	<3c71609d.7271.18e79cbb047.Coremail.duoming@zju.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Message-ID: <3c71609d.7271.18e79cbb047.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgCXDcn4gQJmatkqAQ--.24541W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwIMAWYBgRkQowAAsA
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW3Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -5.51
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Level: 
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mCKqyz60;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZmYeRiyF
+X-Rspamd-Queue-Id: D596A5D30E
 
-T24gVHVlLCAyNiBNYXIgMjAyNCAwODowODoyOSArMDEwMCBUYWthc2hpIEl3YWkgd3JvdGU6Cj4g
-PiA+ID4gPiA+IFRoZSBkcmVhbWNhc3RjYXJkLT50aW1lciBjb3VsZCBzY2hlZHVsZSB0aGUgc3B1
-X2RtYV93b3JrIGFuZCB0aGUKPiA+ID4gPiA+ID4gc3B1X2RtYV93b3JrIGNvdWxkIGFsc28gYXJt
-IHRoZSBkcmVhbWNhc3RjYXJkLT50aW1lci4KPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+IFdoZW4g
-dGhlIFlhbWFoYSBBSUNBIGNhcmQgaXMgY2xvc2luZywgdGhlIGRyZWFtY2FzdGNhcmQtPmNoYW5u
-ZWwKPiA+ID4gPiA+ID4gd2lsbCBiZSBkZWFsbG9jYXRlZC4gQnV0IGl0IGNvdWxkIHN0aWxsIGJl
-IGRlcmVmZXJlbmNlZCBpbiB0aGUKPiA+ID4gPiA+ID4gd29ya2VyIHRocmVhZC4gVGhlIHJlYXNv
-biBpcyB0aGF0IGRlbF90aW1lcigpIHdpbGwgcmV0dXJuIGRpcmVjdGx5Cj4gPiA+ID4gPiA+IHJl
-Z2FyZGxlc3Mgb2Ygd2hldGhlciB0aGUgdGltZXIgaGFuZGxlciBpcyBydW5uaW5nIG9yIG5vdCBh
-bmQgdGhlCj4gPiA+ID4gPiA+IHdvcmtlciBjb3VsZCBiZSByZXNjaGVkdWxlZCBpbiB0aGUgdGlt
-ZXIgaGFuZGxlci4gQXMgYSByZXN1bHQsIHRoZQo+ID4gPiA+ID4gPiBVQUYgYnVnIHdpbGwgaGFw
-cGVuLiBUaGUgcmFjeSBzaXR1YXRpb24gaXMgc2hvd24gYmVsb3c6Cj4gPiA+ID4gPiA+IAo+ID4g
-PiA+ID4gPiAgICAgICAoVGhyZWFkIDEpICAgICAgICAgICAgICAgICB8ICAgICAgKFRocmVhZCAy
-KQo+ID4gPiA+ID4gPiBzbmRfYWljYXBjbV9wY21fY2xvc2UoKSAgICAgICAgICB8Cj4gPiA+ID4g
-PiA+ICAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIHJ1bl9zcHVfZG1hKCkgLy93
-b3JrZXIKPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICBt
-b2RfdGltZXIoKQo+ID4gPiA+ID4gPiAgIGZsdXNoX3dvcmsoKSAgICAgICAgICAgICAgICAgICB8
-Cj4gPiA+ID4gPiA+ICAgZGVsX3RpbWVyKCkgICAgICAgICAgICAgICAgICAgIHwgIGFpY2FfcGVy
-aW9kX2VsYXBzZWQoKSAvL3RpbWVyCj4gPiA+ID4gPiA+ICAga2ZyZWUoZHJlYW1jYXN0Y2FyZC0+
-Y2hhbm5lbCkgIHwgICAgc2NoZWR1bGVfd29yaygpCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwgIHJ1bl9zcHVfZG1hKCkgLy93b3JrZXIKPiA+ID4gPiA+ID4g
-ICAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICBkcmVhbWNhc3RjYXJkLT5jaGFu
-bmVsLT4gLy9VU0UKPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+IEluIG9yZGVyIHRvIG1pdGlnYXRl
-IHRoaXMgYnVnLCB1c2UgdGltZXJfc2h1dGRvd25fc3luYygpIHRvIHNodXRkb3duCj4gPiA+ID4g
-PiA+IHRoZSB0aW1lciBhbmQgdGhlbiB1c2UgZmx1c2hfd29yaygpIHRvIGNhbmNlbCB0aGUgd29y
-a2VyLgo+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gRml4ZXM6IDE5OGRlNDNkNzU4YyAoIltBTFNB
-XSBBZGQgQUxTQSBzdXBwb3J0IGZvciB0aGUgU0VHQSBEcmVhbWNhc3QgUENNIGRldmljZSIpCj4g
-PiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNu
-Pgo+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+ID4gIHNvdW5kL3NoL2FpY2EuYyB8IDIgKy0KPiA+
-ID4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
-ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL3NvdW5kL3NoL2FpY2EuYyBiL3Nv
-dW5kL3NoL2FpY2EuYwo+ID4gPiA+ID4gPiBpbmRleCAzMjBhYzc5MmM3Zi4uYmM2OGEzOTAzZjIg
-MTAwNjQ0Cj4gPiA+ID4gPiA+IC0tLSBhL3NvdW5kL3NoL2FpY2EuYwo+ID4gPiA+ID4gPiArKysg
-Yi9zb3VuZC9zaC9haWNhLmMKPiA+ID4gPiA+ID4gQEAgLTM1NCw4ICszNTQsOCBAQCBzdGF0aWMg
-aW50IHNuZF9haWNhcGNtX3BjbV9jbG9zZShzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJlYW0KPiA+ID4g
-PiA+ID4gIAkJCQkgKnN1YnN0cmVhbSkKPiA+ID4gPiA+ID4gIHsKPiA+ID4gPiA+ID4gIAlzdHJ1
-Y3Qgc25kX2NhcmRfYWljYSAqZHJlYW1jYXN0Y2FyZCA9IHN1YnN0cmVhbS0+cGNtLT5wcml2YXRl
-X2RhdGE7Cj4gPiA+ID4gPiA+ICsJdGltZXJfc2h1dGRvd25fc3luYygmZHJlYW1jYXN0Y2FyZC0+
-dGltZXIpOwo+ID4gPiA+ID4gCj4gPiA+ID4gPiBJIHRob3VnaHQgdGhpcyBjYWxsIGludmFsaWRh
-dGVzIHRoZSB0aW1lciBvYmplY3QsIGhlbmNlIGl0IGNhbid0IGJlCj4gPiA+ID4gPiB1c2VkIGFn
-YWluOyBpLmUuIGl0IGJyZWFrcyB3aGVuIHRoZSBzdHJlYW0gaXMgcmUtb3BlbmVkLCBJIHN1cHBv
-c2U/Cj4gPiA+ID4gPgo+ID4gPiA+ID4gSW4gZ2VuZXJhbCB0aW1lcl9zaHV0ZG93biooKSBpcyB1
-c2VkIGZvciB0aGUgY29kZSBwYXRoIHRvIGNsZWFuIHVwIHRoZQo+ID4gPiA+ID4gZHJpdmVyIChv
-ciB0aGUgb2JqZWN0IHRoZSB0aW1lciBiZWxvbmdzIHRvKS4gIFRoZSBQQ00gY2xvc2UgaXMgb25s
-eQo+ID4gPiA+ID4gYWJvdXQgdGhlIFBDTSBzdHJlYW0sIGFuZCBpdCdzIG5vdCB0aGUgcGxhY2Uu
-Cj4gPiA+ID4gPiAKPiA+ID4gPiA+IEEgcHJvcGVyIGZpeCB3b3VsZCBiZSByYXRoZXIgdG8gaW1w
-bGVtZW50IHR3byB0aGluZ3M6Cj4gPiA+ID4gPiAtIENhbGwgbW9kX3RpbWVyKCkgY29uZGl0aW9u
-YWxseSBpbiBydW5fc3B1X2RtYSgpCj4gPiA+ID4gPiAtIEltcGxlbWVudCBQQ00gc3luY19zdG9w
-IG9wIHRvIGNhbmNlbC9mbHVzaCB0aGUgd29yawo+ID4gPiA+ID4gCj4gPiA+ID4gPiBUaGUgZm9y
-bWVyIGFsb25lIHNob3VsZCBzdWZmaWNlIHRvIGZpeCB0aGUgVUFGIGluIHlvdXIgc2NlbmFyaW8s
-Cj4gPiA+ID4gPiB0aG91Z2guICBUaGUgbGF0dGVyIHdpbGwgY292ZXIgb3RoZXIgcG9zc2libGUg
-Y29ybmVyIGNhc2VzLgo+ID4gPiA+IAo+ID4gPiA+IFRoYW5rIHlvdSBmb3IgeW91ciB0aW1lIGFu
-ZCByZXBseSEgSSBrbm93IHVzaW5nIHRpbWVyX3NodXRkb3duX3N5bmMoKQo+ID4gPiA+IGlzIG5v
-dCBwcm9wZXIuIEluIG9yZGVyIHRvIHNvbHZlIHRoZSBwcm9ibGVtLCBJIGFkZCBhIHNodXRkb3du
-IGZsYWcgCj4gPiA+ID4gaW4gdGhlIHN0cnVjdCBzbmRfY2FyZF9haWNhIGFuZCBzZXQgdGhlIGZs
-YWcgdG8gdHJ1ZSB3aGVuIHRoZSBQQ00gCj4gPiA+ID4gc3RyZWFtIGlzIGNsb3NpbmcuIFRoZW4g
-Y2FsbCBtb2RfdGltZXIoKSBjb25kaXRpb25hbGx5IGluIHJ1bl9zcHVfZG1hKCkuCj4gPiA+ID4g
-V2hhdCdzIG1vcmUsIHVzZSBkZWxfdGltZXJfc3luYygpIHRvIHN0b3AgdGhlIHRpbWVyIGFuZCBw
-dXQgaXQgYmVmb3JlIAo+ID4gPiA+IGZsdXNoX3dvcmsoKS4gQXMgYSByZXN1bHQsIGJvdGggdGlt
-ZXIgYW5kIHdvcmtlciBjb3VsZCBiZSBzdG9wcGVkIHNhZmVseS4gCj4gPiA+ID4gVGhlIGRldGFp
-bCBpcyBzaG93biBiZWxvdzoKPiA+ID4gCj4gPiA+IFlvdSBjYW4gdXNlIHRoZSBleGlzdGluZyBB
-UEkgdG8gY2hlY2sgdGhlIFBDTSBydW5uaW5nIHN0YXRlLCBlLmcuCj4gPiA+IAo+ID4gPiAtLS0g
-YS9zb3VuZC9zaC9haWNhLmMKPiA+ID4gKysrIGIvc291bmQvc2gvYWljYS5jCj4gPiA+IEBAIC0y
-NzgsNyArMjc4LDggQEAgc3RhdGljIHZvaWQgcnVuX3NwdV9kbWEoc3RydWN0IHdvcmtfc3RydWN0
-ICp3b3JrKQo+ID4gPiAgCQlkcmVhbWNhc3RjYXJkLT5jbGlja3MrKzsKPiA+ID4gIAkJaWYgKHVu
-bGlrZWx5KGRyZWFtY2FzdGNhcmQtPmNsaWNrcyA+PSBBSUNBX1BFUklPRF9OVU1CRVIpKQo+ID4g
-PiAgCQkJZHJlYW1jYXN0Y2FyZC0+Y2xpY2tzICU9IEFJQ0FfUEVSSU9EX05VTUJFUjsKPiA+ID4g
-LQkJbW9kX3RpbWVyKCZkcmVhbWNhc3RjYXJkLT50aW1lciwgamlmZmllcyArIDEpOwo+ID4gPiAr
-CQlpZiAoc25kX3BjbV9ydW5uaW5nKGRyZWFtY2FzdGNhcmQtPnN1YnN0cmVhbSkpCj4gPiA+ICsJ
-CQltb2RfdGltZXIoJmRyZWFtY2FzdGNhcmQtPnRpbWVyLCBqaWZmaWVzICsgMSk7Cj4gPiA+ICAJ
-fQo+ID4gPiAgfQo+ID4gCj4gPiBUaGFuayB5b3UgZm9yIHlvdXIgc3VnZ2VzdGlvbnMsIFRoZSBm
-b2xsb3dpbmcgaXMgYSBuZXcgcGxhbiB1c2luZyB0aGUKPiA+IGV4aXN0aW5nIEFQSSB0byBtaXRp
-Z2F0ZSB0aGUgYnVnLgo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvc291bmQvc2gvYWljYS5jIGIvc291
-bmQvc2gvYWljYS5jCj4gPiBpbmRleCAzMjBhYzc5MmM3ZmUuLmJjMDAzZGQ5MWE4MiAxMDA2NDQK
-PiA+IC0tLSBhL3NvdW5kL3NoL2FpY2EuYwo+ID4gKysrIGIvc291bmQvc2gvYWljYS5jCj4gPiBA
-QCAtMjc4LDcgKzI3OCw4IEBAIHN0YXRpYyB2b2lkIHJ1bl9zcHVfZG1hKHN0cnVjdCB3b3JrX3N0
-cnVjdCAqd29yaykKPiA+ICAgICAgICAgICAgICAgICBkcmVhbWNhc3RjYXJkLT5jbGlja3MrKzsK
-PiA+ICAgICAgICAgICAgICAgICBpZiAodW5saWtlbHkoZHJlYW1jYXN0Y2FyZC0+Y2xpY2tzID49
-IEFJQ0FfUEVSSU9EX05VTUJFUikpCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBkcmVhbWNh
-c3RjYXJkLT5jbGlja3MgJT0gQUlDQV9QRVJJT0RfTlVNQkVSOwo+ID4gLSAgICAgICAgICAgICAg
-IG1vZF90aW1lcigmZHJlYW1jYXN0Y2FyZC0+dGltZXIsIGppZmZpZXMgKyAxKTsKPiA+ICsgICAg
-ICAgICAgICAgICBpZiAoc25kX3BjbV9ydW5uaW5nKGRyZWFtY2FzdGNhcmQtPnN1YnN0cmVhbSkp
-Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICBtb2RfdGltZXIoJmRyZWFtY2FzdGNhcmQtPnRp
-bWVyLCBqaWZmaWVzICsgMSk7Cj4gPiAgICAgICAgIH0KPiA+ICB9Cj4gPiAKPiA+IEBAIC0zMTYs
-NiArMzE3LDcgQEAgc3RhdGljIHZvaWQgc3B1X2JlZ2luX2RtYShzdHJ1Y3Qgc25kX3BjbV9zdWJz
-dHJlYW0gKnN1YnN0cmVhbSkKPiA+ICAgICAgICAgc3RydWN0IHNuZF9wY21fcnVudGltZSAqcnVu
-dGltZTsKPiA+ICAgICAgICAgcnVudGltZSA9IHN1YnN0cmVhbS0+cnVudGltZTsKPiA+ICAgICAg
-ICAgZHJlYW1jYXN0Y2FyZCA9IHN1YnN0cmVhbS0+cGNtLT5wcml2YXRlX2RhdGE7Cj4gPiArICAg
-ICAgIF9fc25kX3BjbV9zZXRfc3RhdGUocnVudGltZSwgU05EUlZfUENNX1NUQVRFX1JVTk5JTkcp
-Owo+IAo+IFN1Y2ggYW4gZXhwbGljaXQgc3RhdGUgY2hhbmdlIGlzbid0IG5lZWRlZCwgcmF0aGVy
-IHdyb25nLgo+IFRoZSBhYm92ZSBjb25kaXRpb24gY2hlY2sgaXMgcGVyZm9ybWVkIG9ubHkgd2hl
-biBraWNrZWQgb2ZmIGZyb20gdGhlCj4gdGltZXIgaGFuZGxlciwgYW5kIHRoYXQncyBhbHdheXMg
-YWZ0ZXIgdGhlIHN0cmVhbSBzdGFydGVkLgo+IAo+ID4gQEAgLTM1NCw4ICszNTcsOSBAQCBzdGF0
-aWMgaW50IHNuZF9haWNhcGNtX3BjbV9jbG9zZShzdHJ1Y3Qgc25kX3BjbV9zdWJzdHJlYW0KPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICpzdWJzdHJlYW0pCj4gPiAgewo+ID4g
-ICAgICAgICBzdHJ1Y3Qgc25kX2NhcmRfYWljYSAqZHJlYW1jYXN0Y2FyZCA9IHN1YnN0cmVhbS0+
-cGNtLT5wcml2YXRlX2RhdGE7Cj4gPiArICAgICAgIF9fc25kX3BjbV9zZXRfc3RhdGUoc3Vic3Ry
-ZWFtLT5ydW50aW1lLCBTTkRSVl9QQ01fU1RBVEVfRElTQ09OTkVDVEVEKTsKPiAKPiBUaGlzIGJy
-ZWFrcyB0aGluZ3MgYWdhaW4hICBZb3UgZG9uJ3QgZGlzY29ubmVjdCB0aGUgZGV2aWNlIGF0IGNs
-b3NpbmcKPiB0aGUgc3RyZWFtIGF0IGFsbC4gIEFuZCB0aGUgc3RhdGUgY2hhbmdlIGlzIGhhbmRs
-ZWQgaW4gUENNIGNvcmUgc2lkZSwKPiBub3QgaW4gdGhlIGRyaXZlciBzaWRlLgo+IAo+ID4gKyAg
-ICAgICBkZWxfdGltZXJfc3luYygmZHJlYW1jYXN0Y2FyZC0+dGltZXIpOwo+ID4gICAgICAgICBm
-bHVzaF93b3JrKCYoZHJlYW1jYXN0Y2FyZC0+c3B1X2RtYV93b3JrKSk7Cj4gPiAtICAgICAgIGRl
-bF90aW1lcigmZHJlYW1jYXN0Y2FyZC0+dGltZXIpOwo+IAo+IEknZCBsZWF2ZSB0aGlzIHVuY2hh
-bmdlZC4gIFRoZSBVQUYgaXRzZWxmIGlzIGNvdmVyZWQgYnkgdGhlIHN0cmVhbQo+IHN0YXRlIGNo
-ZWNrLiAgQW5kLCBpZiBhbnksIHdlIGNhbiBjaGFuZ2UgbW9yZSBwcm9wZXJseToKCkkgdGhpbmsg
-aWYgd2UgbGVhdmUgdGhlIGNsZWFudXAgb3BlcmF0aW9ucyB1bmNoYW5nZWQsIHRoZSBVQUYgY291
-bGQgCnN0aWxsIGhhcHBlbi4gVGhlIHNjZW5hcmlvIGlzIHNob3duIGJlbG93OgoKICAgICAgKFRo
-cmVhZCAxKSAgICAgICAgICAgICAgICAgfCAgICAgIChUaHJlYWQgMikKICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgcnVuX3NwdV9kbWEoKSAvL3dvcmtlcgogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgIGlmIChzbmRfcGNtX3J1bm5pbmcoZHJlYW1jYXN0Y2Fy
-ZC0+c3Vic3RyZWFtKSkKc25kX2FpY2FwY21fcGNtX2Nsb3NlKCkgICAgICAgICAgfAogLi4uICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAKICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfCAgICBtb2RfdGltZXIoKQogIGZsdXNoX3dvcmsoKSAgICAgICAgICAgICAgICAgICB8
-CiAgZGVsX3RpbWVyKCkgICAgICAgICAgICAgICAgICAgIHwgIGFpY2FfcGVyaW9kX2VsYXBzZWQo
-KSAvL3RpbWVyCiAga2ZyZWUoZHJlYW1jYXN0Y2FyZC0+Y2hhbm5lbCkgIHwgICAgc2NoZWR1bGVf
-d29yaygpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIHJ1bl9zcHVfZG1hKCkg
-Ly93b3JrZXIKICAuLi4gICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICBkcmVhbWNhc3Rj
-YXJkLT5jaGFubmVsLT4gLy9VU0UKClNvIHdlIHNob3VsZCBpbXBsZW1lbnQgUENNIHN5bmNfc3Rv
-cCBvcHMgbGlrZSBiZWxvdy4KCj4gLSBBZGQgdGhlIHNhbWUgUENNIHN0YXRlIGNoZWNrIGF0IHRo
-ZSBiZWdpbm5pbmcgb2YKPiAgIGFpY2FfcGVyaW9kX2VsYXBzZWQoKSwgYW5kIGJhaWwgb3V0IGlt
-bWVkaWF0ZWx5IGlmIG5vdCBydW5uaW5nCj4gCj4gLSBJbXBsZW1lbnQgUENNIHN5bmNfc3RvcCBv
-cHM6Cj4gICBpdCBzaG91bGQgaGF2ZSBsaWtlCj4gCj4gc3RhdGljIGludCBzbmRfYWljYXBjbV9w
-Y21fc3luY19zdG9wKHN0cnVjdCBzbmRfcGNtX3N1YnN0cmVhbSAqc3Vic3RyZWFtKQo+IHsKPiAJ
-c3RydWN0IHNuZF9jYXJkX2FpY2EgKmRyZWFtY2FzdGNhcmQgPSBzdWJzdHJlYW0tPnBjbS0+cHJp
-dmF0ZV9kYXRhOwo+IAo+IAlkZWxfdGltZXJfc3luYygmZHJlYW1jYXN0Y2FyZC0+dGltZXIpOwo+
-IAljYW5jZWxfd29ya19zeW5jKCZkcmVhbWNhc3RjYXJkLT5zcHVfZG1hX3dvcmspOwo+IAlyZXR1
-cm4gMDsKPiB9Cj4gCj4gICBhbmQgZ2V0IHJpZCBvZiB0aGUgY29ycmVzcG9uZGluZyBjYWxscyBm
-cm9tIHNuZF9haWNhcGNtX3BjbV9jbG9zZSgpCgpUaGFuayB5b3UgZm9yIHlvdXIgc3VnZ2VzdGlv
-bnMsIHRoZSBpbXByb3ZlZCBwbGFuIGlzIHNob3duIGJlbG93OgoKZGlmZiAtLWdpdCBhL3NvdW5k
-L3NoL2FpY2EuYyBiL3NvdW5kL3NoL2FpY2EuYwppbmRleCAzMjBhYzc5MmM3Zi4uMjk4OTQwNzYw
-NmYgMTAwNjQ0Ci0tLSBhL3NvdW5kL3NoL2FpY2EuYworKysgYi9zb3VuZC9zaC9haWNhLmMKQEAg
-LTI3OCw3ICsyNzgsOCBAQCBzdGF0aWMgdm9pZCBydW5fc3B1X2RtYShzdHJ1Y3Qgd29ya19zdHJ1
-Y3QgKndvcmspCiAgICAgICAgICAgICAgICBkcmVhbWNhc3RjYXJkLT5jbGlja3MrKzsKICAgICAg
-ICAgICAgICAgIGlmICh1bmxpa2VseShkcmVhbWNhc3RjYXJkLT5jbGlja3MgPj0gQUlDQV9QRVJJ
-T0RfTlVNQkVSKSkKICAgICAgICAgICAgICAgICAgICAgICAgZHJlYW1jYXN0Y2FyZC0+Y2xpY2tz
-ICU9IEFJQ0FfUEVSSU9EX05VTUJFUjsKLSAgICAgICAgICAgICAgIG1vZF90aW1lcigmZHJlYW1j
-YXN0Y2FyZC0+dGltZXIsIGppZmZpZXMgKyAxKTsKKyAgICAgICAgICAgICAgIGlmIChzbmRfcGNt
-X3J1bm5pbmcoZHJlYW1jYXN0Y2FyZC0+c3Vic3RyZWFtKSkKKyAgICAgICAgICAgICAgICAgICAg
-ICAgbW9kX3RpbWVyKCZkcmVhbWNhc3RjYXJkLT50aW1lciwgamlmZmllcyArIDEpOwogICAgICAg
-IH0KIH0KCkBAIC0yOTAsNiArMjkxLDggQEAgc3RhdGljIHZvaWQgYWljYV9wZXJpb2RfZWxhcHNl
-ZChzdHJ1Y3QgdGltZXJfbGlzdCAqdCkKICAgICAgICAvKnRpbWVyIGZ1bmN0aW9uIC0gc28gY2Fu
-bm90IHNsZWVwICovCiAgICAgICAgaW50IHBsYXlfcGVyaW9kOwogICAgICAgIHN0cnVjdCBzbmRf
-cGNtX3J1bnRpbWUgKnJ1bnRpbWU7CisgICAgICAgaWYgKCFzbmRfcGNtX3J1bm5pbmcoc3Vic3Ry
-ZWFtKSkKKyAgICAgICAgICAgICAgIHJldHVybjsKICAgICAgICBydW50aW1lID0gc3Vic3RyZWFt
-LT5ydW50aW1lOwogICAgICAgIGRyZWFtY2FzdGNhcmQgPSBzdWJzdHJlYW0tPnBjbS0+cHJpdmF0
-ZV9kYXRhOwogICAgICAgIC8qIEhhdmUgd2UgcGxheWVkIG91dCBhbiBhZGRpdGlvbmFsIHBlcmlv
-ZD8gKi8KQEAgLTM1MCwxMiArMzUzLDIwIEBAIHN0YXRpYyBpbnQgc25kX2FpY2FwY21fcGNtX29w
-ZW4oc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtCiAgICAgICAgcmV0dXJuIDA7CiB9Cgorc3RhdGlj
-IGludCBzbmRfYWljYXBjbV9wY21fc3luY19zdG9wKHN0cnVjdCBzbmRfcGNtX3N1YnN0cmVhbSAq
-c3Vic3RyZWFtKQoreworICAgICAgIHN0cnVjdCBzbmRfY2FyZF9haWNhICpkcmVhbWNhc3RjYXJk
-ID0gc3Vic3RyZWFtLT5wY20tPnByaXZhdGVfZGF0YTsKKworICAgICAgIGRlbF90aW1lcl9zeW5j
-KCZkcmVhbWNhc3RjYXJkLT50aW1lcik7CisgICAgICAgY2FuY2VsX3dvcmtfc3luYygmZHJlYW1j
-YXN0Y2FyZC0+c3B1X2RtYV93b3JrKTsKKyAgICAgICByZXR1cm4gMDsKK30KKwogc3RhdGljIGlu
-dCBzbmRfYWljYXBjbV9wY21fY2xvc2Uoc3RydWN0IHNuZF9wY21fc3Vic3RyZWFtCiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICpzdWJzdHJlYW0pCiB7CiAgICAgICAgc3RydWN0IHNu
-ZF9jYXJkX2FpY2EgKmRyZWFtY2FzdGNhcmQgPSBzdWJzdHJlYW0tPnBjbS0+cHJpdmF0ZV9kYXRh
-OwotICAgICAgIGZsdXNoX3dvcmsoJihkcmVhbWNhc3RjYXJkLT5zcHVfZG1hX3dvcmspKTsKLSAg
-ICAgICBkZWxfdGltZXIoJmRyZWFtY2FzdGNhcmQtPnRpbWVyKTsKKyAgICAgICBzbmRfYWljYXBj
-bV9wY21fc3luY19zdG9wKHN1YnN0cmVhbSk7CiAgICAgICAgZHJlYW1jYXN0Y2FyZC0+c3Vic3Ry
-ZWFtID0gTlVMTDsKICAgICAgICBrZnJlZShkcmVhbWNhc3RjYXJkLT5jaGFubmVsKTsKICAgICAg
-ICBzcHVfZGlzYWJsZSgpOwoKSWYgeW91IHRoaW5rIHRoZSBhYm92ZSBwbGFuIGlzIHByb3Blciwg
-SSB3aWxsIHNlbmQgdGhlIHYyLgoKQmVzdCByZWdhcmRzLApEdW9taW5nIFpob3UK
+On Tue, 26 Mar 2024 09:06:15 +0100,
+duoming@zju.edu.cn wrote:
+> 
+> On Tue, 26 Mar 2024 08:08:29 +0100 Takashi Iwai wrote:
+> > > > > > > The dreamcastcard->timer could schedule the spu_dma_work and the
+> > > > > > > spu_dma_work could also arm the dreamcastcard->timer.
+> > > > > > > 
+> > > > > > > When the Yamaha AICA card is closing, the dreamcastcard->channel
+> > > > > > > will be deallocated. But it could still be dereferenced in the
+> > > > > > > worker thread. The reason is that del_timer() will return directly
+> > > > > > > regardless of whether the timer handler is running or not and the
+> > > > > > > worker could be rescheduled in the timer handler. As a result, the
+> > > > > > > UAF bug will happen. The racy situation is shown below:
+> > > > > > > 
+> > > > > > >       (Thread 1)                 |      (Thread 2)
+> > > > > > > snd_aicapcm_pcm_close()          |
+> > > > > > >  ...                             |  run_spu_dma() //worker
+> > > > > > >                                  |    mod_timer()
+> > > > > > >   flush_work()                   |
+> > > > > > >   del_timer()                    |  aica_period_elapsed() //timer
+> > > > > > >   kfree(dreamcastcard->channel)  |    schedule_work()
+> > > > > > >                                  |  run_spu_dma() //worker
+> > > > > > >   ...                            |    dreamcastcard->channel-> //USE
+> > > > > > > 
+> > > > > > > In order to mitigate this bug, use timer_shutdown_sync() to shutdown
+> > > > > > > the timer and then use flush_work() to cancel the worker.
+> > > > > > > 
+> > > > > > > Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
+> > > > > > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> > > > > > > ---
+> > > > > > >  sound/sh/aica.c | 2 +-
+> > > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > > > 
+> > > > > > > diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+> > > > > > > index 320ac792c7f..bc68a3903f2 100644
+> > > > > > > --- a/sound/sh/aica.c
+> > > > > > > +++ b/sound/sh/aica.c
+> > > > > > > @@ -354,8 +354,8 @@ static int snd_aicapcm_pcm_close(struct snd_pcm_substream
+> > > > > > >  				 *substream)
+> > > > > > >  {
+> > > > > > >  	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+> > > > > > > +	timer_shutdown_sync(&dreamcastcard->timer);
+> > > > > > 
+> > > > > > I thought this call invalidates the timer object, hence it can't be
+> > > > > > used again; i.e. it breaks when the stream is re-opened, I suppose?
+> > > > > >
+> > > > > > In general timer_shutdown*() is used for the code path to clean up the
+> > > > > > driver (or the object the timer belongs to).  The PCM close is only
+> > > > > > about the PCM stream, and it's not the place.
+> > > > > > 
+> > > > > > A proper fix would be rather to implement two things:
+> > > > > > - Call mod_timer() conditionally in run_spu_dma()
+> > > > > > - Implement PCM sync_stop op to cancel/flush the work
+> > > > > > 
+> > > > > > The former alone should suffice to fix the UAF in your scenario,
+> > > > > > though.  The latter will cover other possible corner cases.
+> > > > > 
+> > > > > Thank you for your time and reply! I know using timer_shutdown_sync()
+> > > > > is not proper. In order to solve the problem, I add a shutdown flag 
+> > > > > in the struct snd_card_aica and set the flag to true when the PCM 
+> > > > > stream is closing. Then call mod_timer() conditionally in run_spu_dma().
+> > > > > What's more, use del_timer_sync() to stop the timer and put it before 
+> > > > > flush_work(). As a result, both timer and worker could be stopped safely. 
+> > > > > The detail is shown below:
+> > > > 
+> > > > You can use the existing API to check the PCM running state, e.g.
+> > > > 
+> > > > --- a/sound/sh/aica.c
+> > > > +++ b/sound/sh/aica.c
+> > > > @@ -278,7 +278,8 @@ static void run_spu_dma(struct work_struct *work)
+> > > >  		dreamcastcard->clicks++;
+> > > >  		if (unlikely(dreamcastcard->clicks >= AICA_PERIOD_NUMBER))
+> > > >  			dreamcastcard->clicks %= AICA_PERIOD_NUMBER;
+> > > > -		mod_timer(&dreamcastcard->timer, jiffies + 1);
+> > > > +		if (snd_pcm_running(dreamcastcard->substream))
+> > > > +			mod_timer(&dreamcastcard->timer, jiffies + 1);
+> > > >  	}
+> > > >  }
+> > > 
+> > > Thank you for your suggestions, The following is a new plan using the
+> > > existing API to mitigate the bug.
+> > > 
+> > > diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+> > > index 320ac792c7fe..bc003dd91a82 100644
+> > > --- a/sound/sh/aica.c
+> > > +++ b/sound/sh/aica.c
+> > > @@ -278,7 +278,8 @@ static void run_spu_dma(struct work_struct *work)
+> > >                 dreamcastcard->clicks++;
+> > >                 if (unlikely(dreamcastcard->clicks >= AICA_PERIOD_NUMBER))
+> > >                         dreamcastcard->clicks %= AICA_PERIOD_NUMBER;
+> > > -               mod_timer(&dreamcastcard->timer, jiffies + 1);
+> > > +               if (snd_pcm_running(dreamcastcard->substream))
+> > > +                       mod_timer(&dreamcastcard->timer, jiffies + 1);
+> > >         }
+> > >  }
+> > > 
+> > > @@ -316,6 +317,7 @@ static void spu_begin_dma(struct snd_pcm_substream *substream)
+> > >         struct snd_pcm_runtime *runtime;
+> > >         runtime = substream->runtime;
+> > >         dreamcastcard = substream->pcm->private_data;
+> > > +       __snd_pcm_set_state(runtime, SNDRV_PCM_STATE_RUNNING);
+> > 
+> > Such an explicit state change isn't needed, rather wrong.
+> > The above condition check is performed only when kicked off from the
+> > timer handler, and that's always after the stream started.
+> > 
+> > > @@ -354,8 +357,9 @@ static int snd_aicapcm_pcm_close(struct snd_pcm_substream
+> > >                                  *substream)
+> > >  {
+> > >         struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+> > > +       __snd_pcm_set_state(substream->runtime, SNDRV_PCM_STATE_DISCONNECTED);
+> > 
+> > This breaks things again!  You don't disconnect the device at closing
+> > the stream at all.  And the state change is handled in PCM core side,
+> > not in the driver side.
+> > 
+> > > +       del_timer_sync(&dreamcastcard->timer);
+> > >         flush_work(&(dreamcastcard->spu_dma_work));
+> > > -       del_timer(&dreamcastcard->timer);
+> > 
+> > I'd leave this unchanged.  The UAF itself is covered by the stream
+> > state check.  And, if any, we can change more properly:
+> 
+> I think if we leave the cleanup operations unchanged, the UAF could 
+> still happen. The scenario is shown below:
+> 
+>       (Thread 1)                 |      (Thread 2)
+>                                  |  run_spu_dma() //worker
+>                                  |    if (snd_pcm_running(dreamcastcard->substream))
+> snd_aicapcm_pcm_close()          |
+>  ...                             |  
+>                                  |    mod_timer()
+>   flush_work()                   |
+>   del_timer()                    |  aica_period_elapsed() //timer
+>   kfree(dreamcastcard->channel)  |    schedule_work()
+>                                  |  run_spu_dma() //worker
+>   ...                            |    dreamcastcard->channel-> //USE
+> 
+> So we should implement PCM sync_stop ops like below.
+> 
+> > - Add the same PCM state check at the beginning of
+> >   aica_period_elapsed(), and bail out immediately if not running
+> > 
+> > - Implement PCM sync_stop ops:
+> >   it should have like
+> > 
+> > static int snd_aicapcm_pcm_sync_stop(struct snd_pcm_substream *substream)
+> > {
+> > 	struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+> > 
+> > 	del_timer_sync(&dreamcastcard->timer);
+> > 	cancel_work_sync(&dreamcastcard->spu_dma_work);
+> > 	return 0;
+> > }
+> > 
+> >   and get rid of the corresponding calls from snd_aicapcm_pcm_close()
+> 
+> Thank you for your suggestions, the improved plan is shown below:
+> 
+> diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+> index 320ac792c7f..2989407606f 100644
+> --- a/sound/sh/aica.c
+> +++ b/sound/sh/aica.c
+> @@ -278,7 +278,8 @@ static void run_spu_dma(struct work_struct *work)
+>                 dreamcastcard->clicks++;
+>                 if (unlikely(dreamcastcard->clicks >= AICA_PERIOD_NUMBER))
+>                         dreamcastcard->clicks %= AICA_PERIOD_NUMBER;
+> -               mod_timer(&dreamcastcard->timer, jiffies + 1);
+> +               if (snd_pcm_running(dreamcastcard->substream))
+> +                       mod_timer(&dreamcastcard->timer, jiffies + 1);
+>         }
+>  }
+> 
+> @@ -290,6 +291,8 @@ static void aica_period_elapsed(struct timer_list *t)
+>         /*timer function - so cannot sleep */
+>         int play_period;
+>         struct snd_pcm_runtime *runtime;
+> +       if (!snd_pcm_running(substream))
+> +               return;
+>         runtime = substream->runtime;
+>         dreamcastcard = substream->pcm->private_data;
+>         /* Have we played out an additional period? */
+> @@ -350,12 +353,20 @@ static int snd_aicapcm_pcm_open(struct snd_pcm_substream
+>         return 0;
+>  }
+> 
+> +static int snd_aicapcm_pcm_sync_stop(struct snd_pcm_substream *substream)
+> +{
+> +       struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+> +
+> +       del_timer_sync(&dreamcastcard->timer);
+> +       cancel_work_sync(&dreamcastcard->spu_dma_work);
+> +       return 0;
+> +}
+> +
+>  static int snd_aicapcm_pcm_close(struct snd_pcm_substream
+>                                  *substream)
+>  {
+>         struct snd_card_aica *dreamcastcard = substream->pcm->private_data;
+> -       flush_work(&(dreamcastcard->spu_dma_work));
+> -       del_timer(&dreamcastcard->timer);
+> +       snd_aicapcm_pcm_sync_stop(substream);
+>         dreamcastcard->substream = NULL;
+>         kfree(dreamcastcard->channel);
+>         spu_disable();
+
+Don't call it here explicitly.  sync_stop is a PCM op, i.e. add
+snd_aicapcm_pcm_sync_stop to snd_aicapcm_playback_ops definition,
+instead.
+Then it'll be called from PCM core appropriately when needed
+(e.g. before calling the close callback via hw_free call).
+
+
+thanks,
+
+Takashi
