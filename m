@@ -1,99 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC6071B24;
-	Tue, 26 Mar 2024 09:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1355787D;
+	Tue, 26 Mar 2024 09:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711444843; cv=none; b=mHEcMWiVLVP+bhh6707XRqAkZdqegn6TR5fRI8qXrLkAk5wVWwk7H9DRy/RlVeYgV60y0acDk54hNfGjSiYfXzlB/ZkNJQn7YUxpIyw7UKmiMopGYrm2fu9O/86mp6AybW8slx1uG/hXjQyB4+vrRAH5tWjLa1But/5nAoax9A8=
+	t=1711444843; cv=none; b=RgAg7I9NmpjoV+96dhx6VnRjMK6nLnadyceB3Ol/1T1gkTXNznmTFoLgooN31w4w0g9ZgXolUDNlXz59y+gB8DeKe1zZMcfPWhSe4UTal6aKCBWCKDjsIXvW39M3fkc9X/6KFUeJvBnTHb7/TyqzaCNpQqsugneUaXHONI+ZDAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711444843; c=relaxed/simple;
-	bh=54Nt44uzjzCFnj+OxusuOrTsRFxaxwM69uLh7J3UaoM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EAovzHknu2kmJHCQ8bpJOA9oYTtguuxb9MbPnSF+PBtUFIKp3penTIwTuw5/XAC00cseKfTQzrpbccQM6LNk8FfWlxqIhCi/7VPunLXyvGmHMBuPydKkLjlSkOVo1MdmbN0bHYnV30iPskeS66lUk5O1xZXwRh2aZi10tzSH5Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXK5Gjy9; arc=none smtp.client-ip=10.30.226.201
+	bh=UcBRdyJoV3HQmcqcxz4QCVsNvKgyu4qgE3ILvcUwU0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LhrIMPEKV6BcCb1+Y+Pzy1mpENPEYVDXnGb7xvJM1798q3b0wcxa6zoxYUDlKz76SNZ/+S7ZPRRTCesthOS9PcLe0Bb3oKmdcfXje1IuvinRvG2NBOokXIr4qgsywjv+2FXycDy/nO3z4F8U8QHQfaYeJdHehEs+c+E1fBhtg/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaBQAlI+; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXK5Gjy9"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 749F0C4AF7F;
-	Tue, 26 Mar 2024 09:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711444842;
-	bh=54Nt44uzjzCFnj+OxusuOrTsRFxaxwM69uLh7J3UaoM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lXK5Gjy95XX6ZB/lfQdjdI3AYDYSMaVBH/xLHe9RF3jhwvkGGisvUYR4r3MzUGYMx
-	 VC87hL7TUSJ9MmYl91qNndlQUnNpAjogDTjqMjWvJR9tL6MKsedYCZBOs9t7KxRDbm
-	 g1jgQLxWJlEhlDL+o2ab7xkezS2brpUcg9XftIqixCCKYVio7PBHSBLJDbmyk3eDaR
-	 5uEbrRot0AaG1S6wEdii0iChfYBWuML+CqmDxCJ3Wfh/X0WEFbA2UIXP8zB/+e0S44
-	 fA4Z7jQYfbnvPVxjOJddqHnE2la/ggauyoUzAtd5wGUDhVTYJnNc3CWYzVDgcmWa8J
-	 G6LGKefQ1fZgA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 619F5CD11DF;
-	Tue, 26 Mar 2024 09:20:42 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
-Date: Tue, 26 Mar 2024 12:18:54 +0300
-Subject: [PATCH v9 27/38] ASoC: dt-bindings: ep93xx: Document Audio Port
- support
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaBQAlI+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711444842; x=1742980842;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UcBRdyJoV3HQmcqcxz4QCVsNvKgyu4qgE3ILvcUwU0k=;
+  b=VaBQAlI+UUQymwO3oFKEBzKVwWHueGMhrWcHlAu7zNBODxPy31RNnBH4
+   uDdD0FM2MXfzX8PjbbsF6+oJEbBF4KjOPJ6ZH3KOhpNYxcqo6zg4FanGN
+   FanPCN9w3obB1DZUi+G/4EaxDl9Z46LvgXAFma5oYbIjuSHS8EgYAQh7x
+   /Wb0mJNS+lssvEDuTrdHN33UWrmgPYp2HX09DRJCYO9eho5c+hx1a1HSF
+   1zf4OJEjW1tSb4400uWGz2De4Ruyed62xtNreiLdB9Vnu3rS8rqwa8dsx
+   X09HS3gNdT/3dUalfHpqj1CCdzhi8XMDo2nD0C+2sK0ZT6UAYsf8Z61uF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6350349"
+X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
+   d="scan'208";a="6350349"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,155,1708416000"; 
+   d="scan'208";a="16293273"
+Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 02:20:36 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH 5/7] soundwire: intel_ace2x: move and extend clock selection
+Date: Tue, 26 Mar 2024 09:20:28 +0000
+Message-Id: <20240326092030.1062802-6-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
+References: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-ep93xx-v9-27-156e2ae5dfc8@maquefel.me>
-References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
-In-Reply-To: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
-To: Hartley Sweeten <hsweeten@visionengravers.com>, 
- Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Arnd Bergmann <arnd@arndb.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13-dev-e3e53
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711444837; l=848;
- i=nikita.shubin@maquefel.me; s=20230718; h=from:subject:message-id;
- bh=0LgX6xJfVzU1kIBxobRUjsHWxEbHLzVzD6pHlBy8Ioo=;
- b=5ztgZZ2oUwJ/hKQO7ZhZXKm61ndvsJiqGmWxqsoL+hJL7tAnhkO4iXwPXs7iJIii9fzX8fTzC/7o
- LAxe4JCQCiVEjB2UxnPUNpruQGl4JBL6kTchDOPfDR7uYnnwieSb
-X-Developer-Key: i=nikita.shubin@maquefel.me; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for nikita.shubin@maquefel.me/20230718
- with auth_id=65
-X-Original-From: Nikita Shubin <nikita.shubin@maquefel.me>
-Reply-To: nikita.shubin@maquefel.me
+Content-Transfer-Encoding: 8bit
 
-From: Nikita Shubin <nikita.shubin@maquefel.me>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Document Audio Graph Port support in binding document.
+The input clock to the SoundWire IP can be
+38.4 MHz (xtal clock source)
+24.576 MHz (audio cardinal clock)
+96 MHz (internal Audio PLL)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Nikita Shubin <nikita.shubin@maquefel.me>
+This patch moves the clock selection outside the mutex and add the new
+choices for 24.576 and 96 MHz, but doesn't add any functionality.
+Follow-up patches will add support for clock selection.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/soundwire/intel_ace2x.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml b/Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml
-index 36a320ddf534..4693e85aed37 100644
---- a/Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml
-+++ b/Documentation/devicetree/bindings/sound/cirrus,ep9301-i2s.yaml
-@@ -50,6 +50,10 @@ properties:
-       - const: tx
-       - const: rx
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 8280baa3254b..abdd651a185c 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -74,20 +74,29 @@ static int intel_link_power_up(struct sdw_intel *sdw)
+ 	struct sdw_master_prop *prop = &bus->prop;
+ 	u32 *shim_mask = sdw->link_res->shim_mask;
+ 	unsigned int link_id = sdw->instance;
++	u32 clock_source;
+ 	u32 syncprd;
+ 	int ret;
  
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
++	if (prop->mclk_freq % 6000000) {
++		if (prop->mclk_freq % 2400000) {
++			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24_576;
++			clock_source = SDW_SHIM2_MLCS_CARDINAL_CLK;
++		} else {
++			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
++			clock_source = SDW_SHIM2_MLCS_XTAL_CLK;
++		}
++	} else {
++		syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_96;
++		clock_source = SDW_SHIM2_MLCS_AUDIO_PLL_CLK;
++	}
 +
- required:
-   - compatible
-   - '#sound-dai-cells'
-
+ 	mutex_lock(sdw->link_res->shim_lock);
+ 
+ 	if (!*shim_mask) {
+ 		/* we first need to program the SyncPRD/CPU registers */
+ 		dev_dbg(sdw->cdns.dev, "first link up, programming SYNCPRD\n");
+ 
+-		if (prop->mclk_freq % 6000000)
+-			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_38_4;
+-		else
+-			syncprd = SDW_SHIM_SYNC_SYNCPRD_VAL_24;
+-
+ 		ret =  hdac_bus_eml_sdw_set_syncprd_unlocked(sdw->link_res->hbus, syncprd);
+ 		if (ret < 0) {
+ 			dev_err(sdw->cdns.dev, "%s: hdac_bus_eml_sdw_set_syncprd failed: %d\n",
 -- 
-2.41.0
-
+2.34.1
 
