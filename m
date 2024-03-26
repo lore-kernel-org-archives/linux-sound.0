@@ -1,102 +1,128 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED7B1292FD
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 03:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9073033FD;
+	Tue, 26 Mar 2024 04:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711425022; cv=none; b=CsKz7iEIk+wYmY+bUbxoX53wkaeLIUa6MVHnQWlhxkNvBAO3WqLRKTyWmCrjxfxz6HNcq90t3iWTlyY2oDJlZWsize0oo4Yw63YOj06XsLOzHIoIKpsSnyGbX7RV/kEGI0YcnV0vT+Nljq7f9HfCFYTM5MDsOVaOMSEbA9CTIT8=
+	t=1711427606; cv=none; b=MbCOjV1Nr0LfrSzhpW3J+0ljS9Pu4O7kLx+wed6Andk4WXLZPitAkmp0l++BZVyhj0gPwdtzRlyqlxjBmE8YI/i/I3mJ+VAOHwhw3IQsbuEHppuTQoPb8aZeEto5X16iWw6HBv/f9fpVIJJlmEXGGkFfIckB2KbWGr0kum3NWtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711425022; c=relaxed/simple;
-	bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rLvMHGlVaVYwihgvhsLCqHkKiwph5XikeQsoJgXcrWHUi4GyTJEdchIcinx0zs7fAGsh+Lt/QoXa5/QyAwLtaQijyYH6Nrh9kMmgSpZhS2iHOLvrDNeFiaAe9mO8oKKH8YzS7tqaNpRgU3qj2wBn6W8IHP6CMdHJm/Oq4tLJIRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=pGuva+Ua; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1711427606; c=relaxed/simple;
+	bh=IhgcPJahWSRqfjJwBrShpUw5E2m43EnaA2Mt/ATePLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n62D9sa1fWfGYkCQVw5vBa7GonRGWzhNfW5HwEH9MhJYKHQCejevpmRPMVNOyk3BVEWDhzINXBxB5Z5Uz3+4csD09QcxcZDEORJevD5fdmnj7X27wOu1qJ4VvAOVamIUS/0gAu7lOAZg3AEHQdvRoJOst9HMRwcskZgzsLZQToo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=j++kSQ/g; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=L2eG5ok8; arc=none smtp.client-ip=64.147.123.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="pGuva+Ua"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1711425015;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=K9DFWcbSfaZCwj5K7OSlhvorCFoj07hKTzCP89IkAuA=;
-	b=pGuva+Uac4faL7cAdCOY51vt/AXVNR2AT7b/EsX4N4yx/vjM89RFH1EEGcZEH3zMLII4uc
-	TjKqbTX5GMWpmnIwbTrYuFNoBJ8SUxqFrqqbVFV0+l8METXSuEqMA6M42TLXNwhdaiWdAY
-	Av5q49y28YcZH/DQjgS3sFS8Gyk8SfXrm6AAV7KVVVTzMwzBxXceC4aOIvf3qaY5138gbf
-	MZa127VUNTNK1SaSmrOgEos5/JqP/knJyjS1MPKY8nKIX7BttNhgCo5V0dTlRIjZb/1MEx
-	TcPZX/JVDZ13nGn2bkb7MCCcvZyz30/vPq+MXSqnnQa+kbbrAwfOCLymn9bX2A==
-From: John Watts <contact@jookia.org>
-Date: Tue, 26 Mar 2024 14:50:03 +1100
-Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="j++kSQ/g";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="L2eG5ok8"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id 044F31C000A7;
+	Tue, 26 Mar 2024 00:33:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 26 Mar 2024 00:33:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1711427602; x=
+	1711514002; bh=J1PIXRG0tyhvH3hge9TpL3+zsAlh+77DoXH9DaFIs9c=; b=j
+	++kSQ/g5nHKE5YjDucGr5xoVotGPBsW1jkMQtS0eDswn6msQijgd4Vgo/P2R2FSU
+	hgI7URMx3qkYKaA1g7IAkFTGTjrxAXHVhgeRnwVuBV9Z+4KdVM5lJbdj4ZIk/4SI
+	2WxJRNhJu4npw8B8AUwCAxmzDikeIa2MPOZrlFUz4Gmsq92rmtCwxUT/tGObRyVZ
+	fRUpM+JObVAR4Qv+bLcvPDPjdMiCgjt1yhxdxVedJeifkJIx4RCr5jG12E3wY3gS
+	XSRN7BVsgV4fv74/xDdDCUwYAwBiHVJ+Dq8MMwHv/MDlBwxjxpQahyys7e5cj8g5
+	cg+xCtI4E8qO8T3aGIl6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1711427602; x=1711514002; bh=J1PIXRG0tyhvH3hge9TpL3+zsAlh
+	+77DoXH9DaFIs9c=; b=L2eG5ok8zkYt4QDNArV9lwAs2w4HfoYNzvCcifPRkmfT
+	Y5rOJq5blihrVCwwU8BpIj3xEAJcFXLnsThOcfytE9m1aHGcl1U+CRC1J2eT0Lq7
+	Hoaut4xU1plVUTK/oGB1gg9fVpJa7aAKnSDyMgYCu1KHx+GacRjqxG+8NwNO/Do/
+	RCucjFJS5kTM0SYHMwpkMc80aFXpfJhuyJirl+YA0K4t0EUOEQVxlkf9B+eUTkSC
+	ZUCE9ote0WSb/3hhx6K/NUqwzV8q4VYHI0pVi04R9eAGSg9shGbUxYCSP/5Uugxo
+	/aIYpqUCRpU9BaBoktENTVr8iaYe6KY8ayDjpkIs7Q==
+X-ME-Sender: <xms:EVACZmgHmhDsH4I1C3WHZh-z4rNYFVh9a7dQbSHrqgRMjOdLWlB8mA>
+    <xme:EVACZnCzEsBhx9Dp0icVi0CTTdMN37RGzryk_rsbsUuMDDu61ZCc6jdUKb6amDKS-
+    qkY791PODvpa4tujic>
+X-ME-Received: <xmr:EVACZuFezRcNC_YeXn6eKh_1lQ_nbsM_Ruxm57yZua5pI2GYzk6cQnZmyPXZAFflgyvBOFbhqn3hccBZ2OHKX2fIQW5bAsdsCxY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudduvddgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
+    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
+    hjpheqnecuggftrfgrthhtvghrnhepvdeugeejleeuhfeggeehieejhfefheeuledvfedv
+    fedtfeduvefgheehgefftddtnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrh
+    hnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+    rhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+X-ME-Proxy: <xmx:EVACZvT3_n-MhYpbtkopfVa5aZ3_ChW1_xcuI1taeMxraG_A6z-law>
+    <xmx:EVACZjyPiPvXPNr5STCXdOFtnkJ0hW-UPBWnCFLcVyvBaGLpkuPbQQ>
+    <xmx:EVACZt6AC14-EPQIMlS7NHcR6Jmjz9pe4cu4D3B6t_JzAs_zFHXlbg>
+    <xmx:EVACZgzk8iMyCUJn2XlB2cwWZnF3pgw2zrXhxFgAFxsfCor3l7yb4A>
+    <xmx:ElACZrf9UXW5o6B7lug2NVk4d3lvchLaArWvU7KUl69nHzrVjwb0VgCeDAc>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Mar 2024 00:33:19 -0400 (EDT)
+Date: Tue, 26 Mar 2024 13:33:17 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2][next] ALSA: firewire-lib: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <20240326043317.GA125304@workstation.local>
+Mail-Followup-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <ZgIsBqoMb7p3fMDr@neat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
-X-B4-Tracking: v=1; b=H4sIAOpFAmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDYyMz3eLSvIrM+GJjI900o8QkI9Mki1QzCwsloPqCotS0zAqwWdGxtbU
- AUQ+OeVsAAAA=
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- John Watts <contact@jookia.org>
-X-Developer-Signature: v=1; a=openssh-sha256; t=1711425003; l=1320;
- i=contact@jookia.org; h=from:subject:message-id;
- bh=bctQBJg26saGhxU9s8UlkMFaCikEYQsmHPO5D2q9/BE=;
- b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
- 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
- MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAWWEuABqUeoiIQmUDevKLBIs
- 55txNImjUfXyzNdEM4lMfiVhlRL7Fz/dVUvLSegPOrhOchxP+1vRLZ0uIkvZMDQUAAOcU
-X-Developer-Key: i=contact@jookia.org; a=openssh;
- fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZgIsBqoMb7p3fMDr@neat>
 
-The I2S driver already supports and checks for 32-bit sample sizes,
-so indicate this size is available for use in the DAI driver.
+Hi,
 
-This change has been tested on the T113-S3, but it should work just
-fine on older hardware as get_sr checks for sample size support
-correctly according to each core's datasheet.
+On Mon, Mar 25, 2024 at 07:59:34PM -0600, Gustavo A. R. Silva wrote:
+> Use the `DEFINE_FLEX()` helper for an on-stack definition of a
+> flexible structure where the size of the flexible-array member
+> is known at compile-time, and refactor the rest of the code,
+> accordingly.
+> 
+> So, with these changes, fix the following warning:
+> sound/firewire/amdtp-stream.c:1184:46: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> Link: https://github.com/KSPP/linux/issues/202
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+> Changes in v2:
+>  - Use DEFINE_FLEX() helper instead of a new tagged struct.
+> 
+> v1:
+>  - Link: https://lore.kernel.org/linux-hardening/d3a764eb76909b16b8a22d9ff530e5edf0e59e6b.1709658886.git.gustavoars@kernel.org/
+> 
+>  sound/firewire/amdtp-stream.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 
-Signed-off-by: John Watts <contact@jookia.org>
----
-This patch enables support for 32-bit audio in the sunxi I2S driver.
+It looks good to me.
 
-I have only tested this on the Allwinner T113 but I'm fairly
-certain it will work on older boards.
----
- sound/soc/sunxi/sun4i-i2s.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index a736f632bf0b..aeea852141c1 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -1103,7 +1103,8 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
- 
- #define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
- 			 SNDRV_PCM_FMTBIT_S20_LE | \
--			 SNDRV_PCM_FMTBIT_S24_LE)
-+			 SNDRV_PCM_FMTBIT_S24_LE | \
-+			 SNDRV_PCM_FMTBIT_S32_LE)
- 
- static struct snd_soc_dai_driver sun4i_i2s_dai = {
- 	.capture = {
+I remark that the change requires a commit d8e45f2929b9 "overflow: Change
+DEFINE_FLEX to take __counted_by member"), added to v6.9-rc1.
 
----
-base-commit: 72fb52fb0ac44b6a1edd9bc390e44bce3acccd26
-change-id: 20240326-sunxi_s32-f2ab25b8e688
 
-Best regards,
--- 
-John Watts <contact@jookia.org>
+Thanks
 
+Takashi Sakamoto
