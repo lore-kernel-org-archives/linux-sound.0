@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA3413CA9F;
-	Tue, 26 Mar 2024 15:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56DE13C8E7
+	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 15:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711466865; cv=none; b=cqKggLcT3e2U7TiRGpPdqaXwac4RyQIqf+RT3nOFyaJRbMAnDnQOW5pY9S7oWVLDLh34QHqWDpkjxbRdA/zh+272KtTgU575IuVOCUX54pGAR31gHuVh2c6ybjFIHY4AHEBjxzsHHUTm4J1xfU4r8qkpR1Orv24ZoEA1rkCRKTY=
+	t=1711466866; cv=none; b=Y+IbImFEkD7aszQ3K86Zdif95+kooYCYbqfn121Q9RuPr7SENtzeffy3ubgapFAQx670FLSMs4H7xxqLH8MRJ92TQHWwTvZoY4M9cvAM9SZzjwDUulGTswRXNlPX7CeIudGnjXEwMePRPkJcr0QqG1K3AfoJ282RecJ4wzE8vN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711466865; c=relaxed/simple;
-	bh=Dv7kla2wXTBWaUFc8gXermZZFBwCn4/sPhbYUztwuig=;
+	s=arc-20240116; t=1711466866; c=relaxed/simple;
+	bh=F6sUfcI9QR2xWONCcuwbnAKV6tmHdtr9+98sV20UKp8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MW55uVjZW9IVMVjJB+MDlRtSo1CT3OSPgynMy1DvRo1toVihsJLCqGbdmMf4qwlR5u3p7kJuqSBL6CtW91/ytzNb2dhFX4lD904OYttRjOoOIjV119TRZB1f9zu+IRZv+0twmyFPEb04NMMx4eUHKnf3/QkdU1CFojybySwYiFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMNxPmoG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=enmtZX7A+ZbC4ziPQmBVfJt/Bo8oOCF0JR1XsbEnYGp9VfpQQSnue+Yg4o1iNDu7shhHb8wc1RLcRS7TTu1iph5S+UZoiVcZ1c2KxlN/nIBqab03d9uru9zFZh4dnLummpGam3c/0MCxAD1XpOx3PqRDGXs4oM1IqHyUyLvgtX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bm4GiVxC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMNxPmoG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE75C433C7;
-	Tue, 26 Mar 2024 15:27:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bm4GiVxC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE24FC433A6;
+	Tue, 26 Mar 2024 15:27:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711466864;
-	bh=Dv7kla2wXTBWaUFc8gXermZZFBwCn4/sPhbYUztwuig=;
+	s=k20201202; t=1711466866;
+	bh=F6sUfcI9QR2xWONCcuwbnAKV6tmHdtr9+98sV20UKp8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PMNxPmoGnIkKBoxMQ7NlvSusSDWPx4IQBTVlGLdiZB5Ydgg3IR9sSfFXFFvIoBrVV
-	 tckzBX7YawyPRIpxIboyttm/BMHS6MpsBphw11xVj2qFiqaQdiqn8VkjkMu8052PI8
-	 kZuNQ0/SMOslKDmWxS81GlEpikjbcTuTnPGksi77GqrrJ51JVImhkth4CpdGcO9Hlz
-	 XPsqRDphqxclYhmEcfYyWsJPFqumvDW3fvvvIMwBXm8N5dDXT6dWL6lz7vdZrbCJoz
-	 EizinUnbCcXRYVtbWxKbl+HsGeViDLfKro0uv95jmaiIbzQhwmLgAUzgh8v7FIYGBf
-	 cXLQnInvJdCWQ==
+	b=Bm4GiVxCedja/Jx8UhogGl+SbWC1b8kpxvHFXqwIeUVUWSC5TyjUPkf/AgNxR7rvl
+	 Vt2DbbIDQfKO/AsUQr1ph7l1E59YeMCY7mTUo/i3tHUfjwwvHcW2cx5TJ2iqhSEGZF
+	 vv3goEkdkspcC3gxH46SyAhr5riikrbWM+3L8R1V8ZqmxDZalB3tbjrZaOBHlO/T/B
+	 OfXoJfpbqMft0kmLGiKDhULP7us89vMufHzSYHk9iSH1q0avNzCh6yjD5ukJ//TDdK
+	 Wh+ZFtWetwDNA/NKVNFtVcIqsQmQEZQZLuminZvR2hkXLn8fn3WpwMd1ClMbXDcOZy
+	 MFZyGYC8jeNQA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev
-In-Reply-To: <20240302140042.1990256-1-megi@xff.cz>
-References: <20240302140042.1990256-1-megi@xff.cz>
-Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present
- in A64 SoC
-Message-Id: <171146686191.132239.8280140430376443574.b4-ty@kernel.org>
-Date: Tue, 26 Mar 2024 15:27:41 +0000
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com
+In-Reply-To: <20240308090502.2136760-1-cezary.rojewski@intel.com>
+References: <20240308090502.2136760-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH v2 0/5] ASoC: Harden DAPM route checks and Intel fixes
+Message-Id: <171146686463.132239.1157973134119038922.b4-ty@kernel.org>
+Date: Tue, 26 Mar 2024 15:27:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,19 +43,22 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Sat, 02 Mar 2024 15:00:34 +0100, Ondřej Jirman wrote:
-> This series adds support for jack detection to this codec. I used
-> and tested this on Pinephone. It works quite nicely. I tested it
-> against Android headset mic button resistor specification.
+On Fri, 08 Mar 2024 10:04:57 +0100, Cezary Rojewski wrote:
+> Set of loosely connected patches. Most impactful change is dropping any
+> permisiveness when snd_soc_dapm_add_routes() fails in soc-topology.c To
+> do it safely, disable route checks for all skylake-driver boards.
 > 
-> The patches are a rewritten and debugged version of the original
-> ones from Arnaud Ferraris and Samuel Holland, improved to better
-> handle headset button presses and with more robust plug-in/out
-> event debouncing, and to use set_jack API instead of sniffing
-> the sound card widget names, to detect the type of jack connector.
+> Relevant background:
+> 
+> Since commit daa480bde6b3 ("ASoC: soc-core: tidyup for
+> snd_soc_dapm_add_routes()") route checks are no longer permissive. Probe
+> failures for Intel boards have been partially addressed by commit
+> a22ae72b86a4 ("ASoC: soc-core: isable route checks for legacy devices")
+> and its follow up but only skl_nau88l25_ssm4567.c is patched. The rest
+> of the boards still need fixing.
 > 
 > [...]
 
@@ -70,14 +68,16 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
-      commit: c0454d31e05062b1c7df7eef21855ba1f56c5158
-[2/4] ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
-      commit: c556814b926c3f16fdca3d18cac793ccf0d14c44
-[3/4] ASoC: sun50i-codec-analog: Enable jack detection on startup
-      commit: d5961e43b28668088087befbf4f7a043bd0ae65c
-[4/4] ASoC: sun8i-codec: Implement jack and accessory detection
-      commit: 21fa98f4197bb3365dda1417708b318f403c13c1
+[1/5] ASoC: Intel: Disable route checks for Skylake boards
+      commit: 0cb3b7fd530b8c107443218ce6db5cb6e7b5dbe1
+[2/5] ASoC: topology: Do not ignore route checks when parsing graphs
+      commit: 6974857c2b2c7e2d2db59c0e23cc42b0efc58cd8
+[3/5] ASoC: Intel: avs: ssm4567: Do not ignore route checks
+      commit: e6719d48ba6329536c459dcee5a571e535687094
+[4/5] ASoC: Intel: avs: ssm4567: Board cleanup
+      commit: 3a2be3f05110fa1a5c682ff72a26681ed4f54cef
+[5/5] ASoC: Intel: avs: i2s_test: Remove redundant dapm routes
+      commit: 60c10c678b582d41532fefa12667d8adca75811b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
