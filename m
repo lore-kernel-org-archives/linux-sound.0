@@ -1,81 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A9886AC6;
-	Tue, 26 Mar 2024 17:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEEF12E75;
+	Tue, 26 Mar 2024 17:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711472564; cv=none; b=MeHPMZkxjgFTWPEO0O2lf3znrS/ihn2jLlPS/xwPO9Nh2/qTOqc70RYFcth9Lf5edjRb9xiWAX+BDP2cUhLeS/xiSI1vtxCxGtxPZCscEEwNAHa7buiuuFf5jTfFH2kAo7cPFg55UK1eq04b+DrCqbKzs2xgY3R585EsK0wgDGg=
+	t=1711472845; cv=none; b=pe5MOYKRnmX9KFgic1isgK/ohElLOOhSRgB0CiFJy+oCIRNxnfrGv+0dx6AFECHg7IWDIaPeF4h/8u6YdH3Iq1USuc2Ba4qkrV/IFYV0eM21XQ7cfY1FKnvsj+tiFGtIPXCr5if8e1IN8WGmi6xlVzd1nvGl7Abb6Oj7/4QbUf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711472564; c=relaxed/simple;
-	bh=iW9y3Y/TknvOpcoz7uW/XS97+t+7Z94tavErQQRnGks=;
+	s=arc-20240116; t=1711472845; c=relaxed/simple;
+	bh=ORw11zggvPK3vCivrl1I+TdOEO2ouRBSNRl8iFMjGKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B8emi4DztKe6R6s6/GzV+Hzt/fCsGRkPITul4gPMuBE2hsxP0WU0540VVVZD/ke800LVkzCSd8PFnTT+JhtVuEna2J0IePb5rLwXpyqoed/0XQGb3SEsUiVQP1dXzAMM3+GZOilbZGqcLwbIV7iJA27bPUFA5zB/HM4J2l1iU70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NqX8/S0C; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=os+sPrUBfI+kyLWpzIx/YoFJT3N67E4c+5AsXhQsAi8gSyRgmiJ3slsh9OqD1hR0zVom8FoYMda0cmo+/nDP30x5tr6xX/TSEW0hLzi6HP2vrulGWORorn3yPvL7g7QIP6G9HnCsIMqyme2MfbwmYZ2W1AUjMXjlKTbKbRlgdK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+sTbZwO; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NqX8/S0C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34A5C433C7;
-	Tue, 26 Mar 2024 17:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711472563;
-	bh=iW9y3Y/TknvOpcoz7uW/XS97+t+7Z94tavErQQRnGks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NqX8/S0Cr025m2UVJ6ZF5OELiuVC8YSh/myEKVhF+y+Ms2r9gHFfcU1a7nUyFbYea
-	 +QEOXjuL59BJ7POFnyZCeOFlWYwXpXYkrjzVSvO6b3NkG4z24E0PfeYqwovWUTrYP+
-	 yS/SXdej8M+4Ncn6l5q+U+FQ8Xoy6T4//+CaIsicXEInGkv5OXeswww++8kQtYW6NP
-	 9uIEYNimRexQvoZkYmrrB5dR/qmlcLrUxz7HwciAiEO+GKTm2DHtcjvVRT/byQ9FJz
-	 J719ZDsQNo15GRCPvSrIAKIsINOP4Bk1Y0ClxlH3LcIBb9TsVK9sJQRkFRRlzUEoXs
-	 3Ymn380FSORuw==
-Date: Tue, 26 Mar 2024 17:02:39 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+sTbZwO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711472844; x=1743008844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ORw11zggvPK3vCivrl1I+TdOEO2ouRBSNRl8iFMjGKU=;
+  b=R+sTbZwObdNMy3zwe3v94XtttbornPlnINKIizSQINfIOdp+QLd772Mp
+   K4ZyNoZGut+LoA0+aG9WVfGVnGkKi7htfeQT2vjKED/E347FBLT0wJmI5
+   6XliK+JMTNQGoEmoqdv8WkCftXFmB7kXapepmsjRUfLghRzexYDhIx9nv
+   H24jnbVjCJAAAMmOFxHmhcHNxHylKIGWl7RAYbqN3NdG7+jbuxoAkFLDh
+   3p66B4TG2NLVb7P2aizJTJ02MQxoeITmceSLgro90IdeZE4teEEXzVoLb
+   n1iDOkYUmPF4M/rRl2Pa4KUvhZfp2WeV/GQHjIqCLJATaa9BRy7DrgFSB
+   g==;
+X-CSE-ConnectionGUID: kk/lkYmSQ3+leceaLXlVqA==
+X-CSE-MsgGUID: k8pEtSI/TQ21738NARFfuw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="24026961"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="24026961"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:07:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914885454"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="914885454"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:07:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rpAGd-0000000GOcv-0gSV;
+	Tue, 26 Mar 2024 19:07:19 +0200
+Date: Tue, 26 Mar 2024 19:07:18 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Subject: Re: [PATCH v2 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Message-ID: <986726af-ce6b-45a5-b173-f5fb041e9849@sirena.org.uk>
+Message-ID: <ZgMAxuNXQDHjUKrr@smile.fi.intel.com>
 References: <20240325143654.3305498-1-andriy.shevchenko@linux.intel.com>
  <ZgGvev-Wh7SkYnI7@smile.fi.intel.com>
  <ZgL_N1aMQiju3yaI@smile.fi.intel.com>
+ <986726af-ce6b-45a5-b173-f5fb041e9849@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M9Ukfix0yvhMC4bZ"
-Content-Disposition: inline
-In-Reply-To: <ZgL_N1aMQiju3yaI@smile.fi.intel.com>
-X-Cookie: Equal bytes for women.
-
-
---M9Ukfix0yvhMC4bZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <986726af-ce6b-45a5-b173-f5fb041e9849@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Mar 26, 2024 at 07:00:39PM +0200, Andy Shevchenko wrote:
+On Tue, Mar 26, 2024 at 05:02:39PM +0000, Mark Brown wrote:
+> On Tue, Mar 26, 2024 at 07:00:39PM +0200, Andy Shevchenko wrote:
+> 
+> > Okay, since the fix-patch had been applied, this one now is clean to go.
+> > Do I need to resend or any other work needs to be done?
+> 
+> Please resend.  If I've told you a patch failed to build it's gone from
+> my queue, I don't keep track of anything like that.
 
-> Okay, since the fix-patch had been applied, this one now is clean to go.
-> Do I need to resend or any other work needs to be done?
+Noted, will resend soon.
 
-Please resend.  If I've told you a patch failed to build it's gone from
-my queue, I don't keep track of anything like that.
+-- 
+With Best Regards,
+Andy Shevchenko
 
---M9Ukfix0yvhMC4bZ
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYC/64ACgkQJNaLcl1U
-h9BqfAf/YIgLoih+8I41bCwWifnh+1+tuCTGCG/TKdKID6+zknajNq68wDglFRNF
-wfctSb7xvtfgiUKjxBfKvkAimyYakfIPC9T9uHbyaHGXG7AkO97wnURHYv5kv+yS
-9WmjSeofuAHfGv6K8Tflzl+cVpzQP4x3ocVWXdYJfPb8nv5WRKpZBv5Kh7hvAlmb
-EMVnl0PT3jtWJFif9kdyopXQiUpVKkkZs8T2pPx5KzVBRfhdF8mMeyHZPRUJvw2n
-UOOs1K5g051Q+FIRlUVHNJYuL28uTMFXRzhaxp2HfU3FjOHQjRyeFbhhydc3c71d
-X0k6rK6Z+cI43VWsAJQD9a/Oql3foQ==
-=Egvd
------END PGP SIGNATURE-----
-
---M9Ukfix0yvhMC4bZ--
