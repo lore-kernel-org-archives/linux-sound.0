@@ -1,87 +1,74 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97B13C90A;
-	Tue, 26 Mar 2024 16:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6EF13C815;
+	Tue, 26 Mar 2024 16:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469202; cv=none; b=oXc16BktvjQ170fXoTe4NEI9HkwKAqnvPlk76AAK9NFCFbFVUezkZUXT8aHxbU8WsFMx+oOX+U61UE+ClaTxtJvEXJpQy57Gw69IaG5L6kSqFhz2bF7bwK34uQOTV+WrEHJ4Y1tQllxIi0kgKviqzYmeUVa8jzZjpESPMupz+lw=
+	t=1711469942; cv=none; b=JExfJiNYGxgOk1ExSpJKNv0/uvYJKkWsm4NpebNQW9b7m6PXP3FhcXujmhXEWaPn6287U/wuFkVv8VbCqOXH58tzCHqaPnc1g5QyYb5Q7A38HDK5mNkCG3ImPOBxpNI8O57kg1DoXm6A2h/CwYAtsy9iofpWOu6dw1nrUawRgbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469202; c=relaxed/simple;
-	bh=gZ7Oihytq6S7XooG8zMKvfOIFdioJ8AxamtfaSSQ1MY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=r8zy0Y2mzNg0Mq6c4NBxgdKnh3AiAcIcmNMGrbYct7jRYiW92fTzQ9jf6pQzZDDiZlaBnbIL6KyEIfNLFlC4BE2KXAdAso9gX6tNP8RtVo7GhjKY0BYB8XJXqHKvYtPHCFbAkVq4ZjlKD+4PX7wBzNtYrOZaSepn/RpepMnCvU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pA0tYaz3; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pA0tYaz3"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42Q7fAtd005126;
-	Tue, 26 Mar 2024 11:06:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=1HACJMPhmlTWowKJzBV1O8J9MaCLq8HycvFnllubDKc=; b=
-	pA0tYaz3U2FivdNdIPwlgSUagBJ+5mngy5LzOYPoWOt9a9Vsh6wjRNRVxPkb1sQm
-	XIDxj46NwehH3WcETDqFPKPE8kzWB8EFlkhNGi17HCltyrOv0+NY9sv8lQdpJYps
-	B5ctVqQl9uRv279+Oi0V/Qek9hXGxGOLiPDO1Ts6glSyZ3ngb6jXKqjR6JiUQqlI
-	yOWtTiss/OtxBAgAZO3U4SVhkRMrqHjSL10ulw1ZFgGUWN94NVoHQT7ik7RmtJJ/
-	PRmMxH/QbeS1Pmktt/PnWDRxs//XysCtwbWzYBjeCK0O+H/+d0tlzB+aDO7kRhM5
-	FQmQ9y819rGp/AtYf6/8bg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3x1ugm5j9g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Mar 2024 11:06:28 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 26 Mar
- 2024 16:06:26 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Tue, 26 Mar 2024 16:06:26 +0000
-Received: from [141.131.79.41] (unknown [141.131.79.41])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8C335820241;
-	Tue, 26 Mar 2024 16:06:24 +0000 (UTC)
-Message-ID: <853901e0-2fa4-4673-8461-63e40d6ca48a@opensource.cirrus.com>
-Date: Tue, 26 Mar 2024 11:06:23 -0500
+	s=arc-20240116; t=1711469942; c=relaxed/simple;
+	bh=S3l1dZyZnQC7nwH1O/0scw5bzhAI9A79lxA/h5x0VvI=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=j7Ypx9QRriCIcIhO5ccnl9YC5IOw/g5QDqW6fJp3RONCbxeXJmO+w+uQ/pqkR4D0enrQGW18XNCO+efH0cP23y+cZ5DB3TrH5k6zskZo265f4I9YlDqEA4h58wI2HFqn20J9wV3JB/Sf7lg3OCASzwRq8JvnXssxnwzUS3oqCrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 000000000007732E.000000006602F56D.0023D3A1; Tue, 26 Mar 2024 17:18:53 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v2 0/4] ALSA: hda/tas2781: fixes for 6.9-rc1
+Date: Tue, 26 Mar 2024 17:18:44 +0100
+Message-ID: <cover.1711469583.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
-Content-Language: en-US
-To: James Ogletree <jogletre@opensource.cirrus.com>,
-        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
-CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
- <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
-From: "Rhodes, David" <drhodes@opensource.cirrus.com>
-In-Reply-To: <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
-X-Proofpoint-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
-X-Proofpoint-Spam-Reason: safe
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On 3/20/24 2:29 PM, James Ogletree wrote:
-> Introduce support for Cirrus Logic Device CS40L50: a
-> haptic driver with waveform memory, integrated DSP,
-> and closed-loop algorithms.
-> 
-> The ASoC driver enables I2S streaming to the device.
-> 
-> Signed-off-by: James Ogletree<jogletre@opensource.cirrus.com>
-> ---
+Hi,
 
-Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
+This series removes the no longer needed digital gain kcontrol, which 
+caused problems in tas2563, because the register does not exists there.
 
-Thanks,
-David
+This series also adds locking and debug statements to the other 
+kcontrols. They sometimes ran in parallel with tasdev_fw_ready, and 
+caused weird sound problems.
+https://github.com/tomsom/yoga-linux/issues/58
+
+Regards,
+Gergo
+
+Changes in v2:
+ - Do not remove dvc_tlv scale from tas2781-tlv.h as it is also used by
+   sound/soc/codecs/tas2781-i2c.c
+ - Add kcontrol name to debug statements
+ - Add a new patch to remove a useless debug statement.
+
+[1]: https://lore.kernel.org/all/cover.1711401621.git.soyer@irl.hu/
+
+Gergo Koteles (4):
+  ALSA: hda/tas2781: remove digital gain kcontrol
+  ALSA: hda/tas2781: add locks to kcontrols
+  ALSA: hda/tas2781: add debug statements to kcontrols
+  ALSA: hda/tas2781: remove useless dev_dbg from playback_hook
+
+ sound/pci/hda/tas2781_hda_i2c.c | 118 +++++++++++++++++++++-----------
+ 1 file changed, 77 insertions(+), 41 deletions(-)
+
+
+base-commit: 4cece764965020c22cff7665b18a012006359095
+-- 
+2.44.0
+
