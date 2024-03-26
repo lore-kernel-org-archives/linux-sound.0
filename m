@@ -1,168 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661DE2110B;
-	Tue, 26 Mar 2024 17:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14898200CB;
+	Tue, 26 Mar 2024 17:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711473102; cv=none; b=pPrgetmpyOCyJbnQFziBNCID79IlzuH0EDcvc64YI5H9J4N4D97q+VR7buFVSOfV0r+bFdxI8ANG+2qTXCB5P0kMoe9hNSNbHnyc42qmFPMAnamnjJWvCAiC6snAsGiCy/SaRVDmHCDGm0FZcYX2jYZNaO1QiP1ZAeU72N49GLc=
+	t=1711473968; cv=none; b=aZ87cXW8zg227izgsMTFszDG8LZSa76HpJl2yQb5Pkvjr2OCCj3z7DAENOVMECiotGhjWm9NJPsNsEVhCRAIo+Hft2Inmv6A1eZrbcGcydGYdCPBPZGJkVO4XeEO3RXcw82lsn2gjXUzHRWIBooEAetitIPE4gY1xxicDvm9a+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711473102; c=relaxed/simple;
-	bh=54+WKa1ydkrk+oiWK74oAKFRtaRxLI8Zl8NhBv6zJZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GeZFco4O3nVRWUEkkfKI8r6xxghWItoJm3gR4VQ8jJ52XzHRJ53xAFoIU6LI5YLXRLJtvh50xzmJyJvjGREbj98m3aEY492BfEwMq1x4+Jbi68+toEPv7ndlIeIl3aqsXXQhDINTTmqariHSBLHSa1RjSgCYaKHvJbI0mARuMlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfiEDf8U; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfiEDf8U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711473100; x=1743009100;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=54+WKa1ydkrk+oiWK74oAKFRtaRxLI8Zl8NhBv6zJZ4=;
-  b=FfiEDf8UdnDLPXfdU2lHHsdpeS+AZoKL9R8WZC8vMtL9SJ66c+vgG+KZ
-   +LFCrT43jF965Z0sYKQ8V1VKcKbt2xB4khYXnj9lG0s67tIWGmWatGcjf
-   PsyIQin6dYIIUAF5hKchQS4/m+L6kiGUPCOb16C8R+ExEVE81DtK3PZcb
-   P0TtZhAdTCtkj5n/Nj6YDaCm/3Qa3sB/iX/RYy4vAk0IOMEFZ+Ob8TWDI
-   n+cGs6gj12Z/mc4a+GpwTYMZZ/gwKktkasvzpjSdoTerKOIzkcQl6wmmA
-   1uXYtQhuCh9eZyihuXgidDhIEuwS8RBUJNllpv80BH9Gk9eBXGMX9YpDE
-   Q==;
-X-CSE-ConnectionGUID: PHygj2LoQeyQEZHtXLWfBA==
-X-CSE-MsgGUID: K0Sz7JLGQEqM+wpQdSGrGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6732184"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="6732184"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:11:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="937072885"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="937072885"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Mar 2024 10:11:37 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 6BBDBE7; Tue, 26 Mar 2024 19:11:36 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	s=arc-20240116; t=1711473968; c=relaxed/simple;
+	bh=Ka0BqODwFrLwyN3SMEtrICxiPAvB0WKMvGb82tkKccg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C2JSPCH3eJ8xIUQEBkCWsjVdopmioIKCbJRRrvJqKKGTijIKMb9FMrahk1PyhvMmdLuijB347PnZiB9lWwOHOL7JA8y9Cq+vHPalSWj+CUVlMGPZiJGAnShtF00UfbxoM+NPuETQgT9QRA6OgYf75nN1tuyAPbQBKSwRCSUX8Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from [194.95.143.137] (helo=phil.dip.tu-dresden.de)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1rpAYb-000658-2p; Tue, 26 Mar 2024 18:25:53 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v3 1/1] ASoC: soc-jack: Get rid of legacy GPIO support
-Date: Tue, 26 Mar 2024 19:09:48 +0200
-Message-ID: <20240326171134.1414462-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: (subset) [PATCH v4 0/7] Add support for the internal RK3308 audio codec
+Date: Tue, 26 Mar 2024 18:25:50 +0100
+Message-Id: <171147393346.1162935.3469121716836265382.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240305-rk3308-audio-codec-v4-0-312acdbe628f@bootlin.com>
+References: <20240305-rk3308-audio-codec-v4-0-312acdbe628f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-No more users.
+On Tue, 05 Mar 2024 15:36:27 +0100, Luca Ceresoli wrote:
+> This series adds a driver for the internal audio codec of the Rockchip
+> RK3308 SoC, along with some related patches. This codec is internally
+> connected to the I2S peripherals on the same chip, and it has some
+> peculiarities arising from that interconnection.
+> 
+> For proper bidirectional operation with the internal codec at any possible
+> combination of sampling rates, the I2S peripheral needs two clock sources
+> (tx and rx), while connection with an external codec commonly needs only
+> one.
+> 
+> [...]
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v3: resent after imx-es8328 got fixed (Mark)
+Applied, thanks!
 
- include/sound/soc-jack.h              |  2 --
- sound/soc/generic/simple-card-utils.c |  2 --
- sound/soc/soc-jack.c                  | 23 ++++-------------------
- 3 files changed, 4 insertions(+), 23 deletions(-)
+[5/7] arm64: defconfig: enable Rockchip RK3308 internal audio codec driver
+      commit: 9fdd7b45da18b84d5e7d5a6b8b4b0167910f2d13
+[6/7] arm64: dts: rockchip: add i2s_8ch_2 and i2s_8ch_3
+      commit: b5ffc424360eaced41f405f0e38bcabe61fecf39
+[7/7] arm64: dts: rockchip: add the internal audio codec
+      commit: 30d72458624bb1ba7bab1c7a1d5f4c42f512010c
 
-diff --git a/include/sound/soc-jack.h b/include/sound/soc-jack.h
-index a0abb1ee5110..3a81d4b8ca8a 100644
---- a/include/sound/soc-jack.h
-+++ b/include/sound/soc-jack.h
-@@ -44,7 +44,6 @@ struct snd_soc_jack_zone {
- /**
-  * struct snd_soc_jack_gpio - Describes a gpio pin for jack detection
-  *
-- * @gpio:         legacy gpio number
-  * @idx:          gpio descriptor index within the function of the GPIO
-  *                consumer device
-  * @gpiod_dev:    GPIO consumer device
-@@ -59,7 +58,6 @@ struct snd_soc_jack_zone {
-  *		       ADC).
-  */
- struct snd_soc_jack_gpio {
--	unsigned int gpio;
- 	unsigned int idx;
- 	struct device *gpiod_dev;
- 	const char *name;
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index 81077d16d22f..b4876b4f259d 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -752,8 +752,6 @@ int simple_util_init_jack(struct snd_soc_card *card,
- 	if (!prefix)
- 		prefix = "";
- 
--	sjack->gpio.gpio = -ENOENT;
--
- 	if (is_hp) {
- 		snprintf(prop, sizeof(prop), "%shp-det", prefix);
- 		pin_name	= pin ? pin : "Headphones";
-diff --git a/sound/soc/soc-jack.c b/sound/soc/soc-jack.c
-index b2cc13b9c77b..63971396b708 100644
---- a/sound/soc/soc-jack.c
-+++ b/sound/soc/soc-jack.c
-@@ -8,7 +8,6 @@
- 
- #include <sound/jack.h>
- #include <sound/soc.h>
--#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/workqueue.h>
-@@ -345,21 +344,9 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
- 				goto undo;
- 			}
- 		} else {
--			/* legacy GPIO number */
--			if (!gpio_is_valid(gpios[i].gpio)) {
--				dev_err(jack->card->dev,
--					"ASoC: Invalid gpio %d\n",
--					gpios[i].gpio);
--				ret = -EINVAL;
--				goto undo;
--			}
--
--			ret = gpio_request_one(gpios[i].gpio, GPIOF_IN,
--					       gpios[i].name);
--			if (ret)
--				goto undo;
--
--			gpios[i].desc = gpio_to_desc(gpios[i].gpio);
-+			dev_err(jack->card->dev, "ASoC: Invalid gpio at index %d\n", i);
-+		        ret = -EINVAL;
-+		        goto undo;
- 		}
- got_gpio:
- 		INIT_DELAYED_WORK(&gpios[i].work, gpio_work);
-@@ -373,7 +360,7 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
- 					      gpios[i].name,
- 					      &gpios[i]);
- 		if (ret < 0)
--			goto err;
-+			goto undo;
- 
- 		if (gpios[i].wake) {
- 			ret = irq_set_irq_wake(gpiod_to_irq(gpios[i].desc), 1);
-@@ -401,8 +388,6 @@ int snd_soc_jack_add_gpios(struct snd_soc_jack *jack, int count,
- 	devres_add(jack->card->dev, tbl);
- 	return 0;
- 
--err:
--	gpio_free(gpios[i].gpio);
- undo:
- 	jack_free_gpios(jack, i, gpios);
- 	devres_free(tbl);
+Best regards,
 -- 
-2.43.0.rc1.1.gbec44491f096
-
+Heiko Stuebner <heiko@sntech.de>
