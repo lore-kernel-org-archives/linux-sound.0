@@ -1,139 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC5B13C9A2
-	for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 16:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97B13C90A;
+	Tue, 26 Mar 2024 16:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469145; cv=none; b=JhXQzO7z2pYBx1a/hUYfF7H85Fne60zxJ0vQEmqbkmqDNzpGqGmsjjQ2qXL36H0OdOxu+ZkjKm5Bxdkt1PwVL+LCE1+4Zb8r9/7CjVvkccXoVkvyF/tSEJ+582sSef4llbQ3S1xl/pxPhxOBhkljB1SauQSnRce9WuncecEHvB4=
+	t=1711469202; cv=none; b=oXc16BktvjQ170fXoTe4NEI9HkwKAqnvPlk76AAK9NFCFbFVUezkZUXT8aHxbU8WsFMx+oOX+U61UE+ClaTxtJvEXJpQy57Gw69IaG5L6kSqFhz2bF7bwK34uQOTV+WrEHJ4Y1tQllxIi0kgKviqzYmeUVa8jzZjpESPMupz+lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469145; c=relaxed/simple;
-	bh=ZgXWLJa803Tcz4lHMH5IzQhQvBYtscxSaM1zxM0uUrc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=vAxuC/3fiVeC59U0yMtKwaii8tPaWJ7LogoHKMGGyFoL819zuVsaKBANQu84hhJYN4f3Rfi/h00WeebfDNgy8XRmTlN92Tfr7mLKnfdLJglgHAR0l95YHqaQSiPnfkojLW/T8BrzXzVVp/pdU8MfEaXsy+vuwfwSJJI1q5dxBTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Af+zl8RV; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1711469202; c=relaxed/simple;
+	bh=gZ7Oihytq6S7XooG8zMKvfOIFdioJ8AxamtfaSSQ1MY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=r8zy0Y2mzNg0Mq6c4NBxgdKnh3AiAcIcmNMGrbYct7jRYiW92fTzQ9jf6pQzZDDiZlaBnbIL6KyEIfNLFlC4BE2KXAdAso9gX6tNP8RtVo7GhjKY0BYB8XJXqHKvYtPHCFbAkVq4ZjlKD+4PX7wBzNtYrOZaSepn/RpepMnCvU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pA0tYaz3; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Af+zl8RV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711469142; x=1743005142;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZgXWLJa803Tcz4lHMH5IzQhQvBYtscxSaM1zxM0uUrc=;
-  b=Af+zl8RVSzYM1V/06q7ZznC5+puGrZrN2xwHBVwruJg0odSfn4KvFHVm
-   Yu2gcJZelTHFExZbRSP27bhHzZMVFe/VV4IHpk/RQhDuyuZmqej0GBM9k
-   T3nB95zt8Po1UJKfIIGLzHGqkfUtUnv3upzRMAysXXVpSeozrt75tqeP5
-   yHJ9FojKZuRFN3GpJQLqZyEkjN5lYBV3WNC3MuFGI2E6glkAQhTmSGO/E
-   QFjZkSVUYnC7PU/QuC9lOwuJ2J6n5BHZuaJQmKDIbzZzv2o057Z6cUsAe
-   Nhtx6mFC3liFZGpsRZCVjO7ZgUDce/3EvhvlbGh/BuI1uN2irm+eaDq7B
-   A==;
-X-CSE-ConnectionGUID: tzfmpBwrS9uxwRkK/FOljQ==
-X-CSE-MsgGUID: ERy7K+JlSRCKT0al8pIV3A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17260574"
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="17260574"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:05:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
-   d="scan'208";a="20482510"
-Received: from bhubbert-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.65.108])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:05:06 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 33/34] ASoC: Intel: sof_sdw: Add quirk for optional codec speakers
-Date: Tue, 26 Mar 2024 11:04:28 -0500
-Message-Id: <20240326160429.13560-34-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
-References: <20240326160429.13560-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pA0tYaz3"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42Q7fAtd005126;
+	Tue, 26 Mar 2024 11:06:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=1HACJMPhmlTWowKJzBV1O8J9MaCLq8HycvFnllubDKc=; b=
+	pA0tYaz3U2FivdNdIPwlgSUagBJ+5mngy5LzOYPoWOt9a9Vsh6wjRNRVxPkb1sQm
+	XIDxj46NwehH3WcETDqFPKPE8kzWB8EFlkhNGi17HCltyrOv0+NY9sv8lQdpJYps
+	B5ctVqQl9uRv279+Oi0V/Qek9hXGxGOLiPDO1Ts6glSyZ3ngb6jXKqjR6JiUQqlI
+	yOWtTiss/OtxBAgAZO3U4SVhkRMrqHjSL10ulw1ZFgGUWN94NVoHQT7ik7RmtJJ/
+	PRmMxH/QbeS1Pmktt/PnWDRxs//XysCtwbWzYBjeCK0O+H/+d0tlzB+aDO7kRhM5
+	FQmQ9y819rGp/AtYf6/8bg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3x1ugm5j9g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 11:06:28 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 26 Mar
+ 2024 16:06:26 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Tue, 26 Mar 2024 16:06:26 +0000
+Received: from [141.131.79.41] (unknown [141.131.79.41])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8C335820241;
+	Tue, 26 Mar 2024 16:06:24 +0000 (UTC)
+Message-ID: <853901e0-2fa4-4673-8461-63e40d6ca48a@opensource.cirrus.com>
+Date: Tue, 26 Mar 2024 11:06:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 5/5] ASoC: cs40l50: Support I2S streaming to CS40L50
+Content-Language: en-US
+To: James Ogletree <jogletre@opensource.cirrus.com>,
+        <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>
+CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
+ <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
+From: "Rhodes, David" <drhodes@opensource.cirrus.com>
+In-Reply-To: <20240320192956.2395731-6-jogletre@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
+X-Proofpoint-GUID: 9TiNycXSLdrCH4LheZRKKMb-6IrtjRNr
+X-Proofpoint-Spam-Reason: safe
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+On 3/20/24 2:29 PM, James Ogletree wrote:
+> Introduce support for Cirrus Logic Device CS40L50: a
+> haptic driver with waveform memory, integrated DSP,
+> and closed-loop algorithms.
+> 
+> The ASoC driver enables I2S streaming to the device.
+> 
+> Signed-off-by: James Ogletree<jogletre@opensource.cirrus.com>
+> ---
 
-Some codecs have speaker drivers that may or may not be used in a
-given system. Add a quirk (SOF_CODEC_SPKR) that defines if a system
-uses the codec speaker, this is kept generic such that any codec
-with such a speaker DAI can reuse the quirk.
+Reviewed-by: David Rhodes <drhodes@opensource.cirrus.com>
 
-For implementation of this, add a quirk field into the
-sof_sdw_dai_info structure. This field is not used to specify
-if a system uses a particular quirk, that is still done through
-the sof_sdw_quirk variable, this field is used to flag a DAI as
-conditional on a certain quirk. This means the DAI will only be
-included in the card if sof_sdw_quirk and the DAI quirk field have
-a matching set bit.
-
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/intel/boards/sof_sdw.c        | 5 +++++
- sound/soc/intel/boards/sof_sdw_common.h | 3 +++
- 2 files changed, 8 insertions(+)
-
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 5a7014d82d6c..4fc15f597e28 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -37,6 +37,8 @@ static void log_quirks(struct device *dev)
- 			SOF_SSP_GET_PORT(sof_sdw_quirk));
- 	if (sof_sdw_quirk & SOF_SDW_NO_AGGREGATION)
- 		dev_err(dev, "quirk SOF_SDW_NO_AGGREGATION enabled but no longer supported\n");
-+	if (sof_sdw_quirk & SOF_CODEC_SPKR)
-+		dev_dbg(dev, "quirk SOF_CODEC_SPKR enabled\n");
- }
- 
- static int sof_sdw_quirk_cb(const struct dmi_system_id *id)
-@@ -1382,6 +1384,9 @@ static int parse_sdw_endpoints(struct snd_soc_card *card,
- 				dai_info = &codec_info->dais[adr_end->num];
- 				sof_dai = find_dailink(sof_dais, adr_end);
- 
-+				if (dai_info->quirk && !(dai_info->quirk & sof_sdw_quirk))
-+					continue;
-+
- 				dev_dbg(dev,
- 					"Add dev: %d, 0x%llx end: %d, %s, %c/%c to %s: %d\n",
- 					ffs(adr_link->mask) - 1, adr_dev->adr,
-diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
-index 8d8c2ca68a7f..81181627b406 100644
---- a/sound/soc/intel/boards/sof_sdw_common.h
-+++ b/sound/soc/intel/boards/sof_sdw_common.h
-@@ -52,6 +52,8 @@ enum {
- #define SOF_SSP_GET_PORT(quirk)	(((quirk) >> 7) & GENMASK(5, 0))
- /* Deprecated and no longer supported by the code */
- #define SOF_SDW_NO_AGGREGATION		BIT(14)
-+/* If a CODEC has an optional speaker output, this quirk will enable it */
-+#define SOF_CODEC_SPKR			BIT(15)
- 
- /* BT audio offload: reserve 3 bits for future */
- #define SOF_BT_OFFLOAD_SSP_SHIFT	15
-@@ -80,6 +82,7 @@ struct sof_sdw_dai_info {
- 	int (*exit)(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
- 	int (*rtd_init)(struct snd_soc_pcm_runtime *rtd);
- 	bool rtd_init_done; /* Indicate that the rtd_init callback is done */
-+	unsigned long quirk;
- };
- 
- struct sof_sdw_codec_info {
--- 
-2.40.1
-
+Thanks,
+David
