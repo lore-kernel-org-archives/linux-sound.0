@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E76140399;
-	Wed, 27 Mar 2024 12:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E9514A618;
+	Wed, 27 Mar 2024 12:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711541427; cv=none; b=G7jC0ne9ZsqfkaL/+MFQPsNpWSJxVE2r86/vCILcH9kxSLl2t/obw1Os3W/j1jJn1aZJo2Xr7cJLOiJyJaWiaSXjQXSTgWNEn4wPZ5ESJatyVQcSPy+4lDE6yqK6zhX9eI1XZ1k6yLmzWsq4lJzY12K/wfSpKDfgrelTv7of34M=
+	t=1711541597; cv=none; b=aO9NzhtZXi7fsgRmR2SoxVqsArcBU0ZoaaukukjdDj9u42rzFH+fH9pB05tTABj/iPLj1pdG2UdsRNEYAtXEnIHP562jKnmoqsgOJeMKIkGGAgO9LbMIEJzis2kkF52LUM0hcTBhtIqbsfSqHVl7kJkUjx9a+Q6dJOqpEQDDDCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711541427; c=relaxed/simple;
-	bh=Y2Z2ZR3fiSQfzSRc2diJb2S5rTn0C/g2LEO9b5VHaK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pcca3YqtGkDkz/E1mwqYuEDv1mJQZj2GcWZ8kb4NbLDQZ8cabtVQ5QQAuuhCuVEhVTJfslB3+Vt/APdzTg7L3bO4SI/O2Fchn17azQDmCj0XG4m4AgDPbiyhFZ0GLCuPDnb2ecE5mn6WV+KnJlEbnrkvBrObqg/P55qYb8qZghI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/wEybWO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711541597; c=relaxed/simple;
+	bh=9IOTd/DeSy7nw/KuL83BdyBarcazJuCkb4BvzI1jKhc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pqwCIUWNQmq50BI3Svm7ObxV6cnLpP5aG6lazUXsK5hsY0njciBZklQH6aaXAXjnHEKgq3yI8laFRC8ZeuJqTEgutukhvt8I3rIOvsbdz1pEcKFyPiQJ56CQoHa6WNyiJorPPVQMmF1sC2hsrJMv+ky72l2KqtcBIe2aMtd0ID0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4eAP0aj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/wEybWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1332BC433F1;
-	Wed, 27 Mar 2024 12:10:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h4eAP0aj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03F4FC433F1;
+	Wed, 27 Mar 2024 12:13:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711541427;
-	bh=Y2Z2ZR3fiSQfzSRc2diJb2S5rTn0C/g2LEO9b5VHaK4=;
+	s=k20201202; t=1711541596;
+	bh=9IOTd/DeSy7nw/KuL83BdyBarcazJuCkb4BvzI1jKhc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=I/wEybWOqSdZPsCxa3lRcujgyxTLFp0XgV89oV3g+v96ylhMFcPgVr5bBmqiSJOss
-	 PERjWNnBYRSa+EopMUwGm6AnzhMZIi8iF9Ceqc7f3xIl3UlFnAiUcO2lzeRcwUzCU2
-	 K4dFSXipBsMCVr4Du1ytr1BFLWq7fKR4giLAcGuBqidNEzAX2Fm1zxLAae5FI1ZGlg
-	 a2IbSpDTC85+XQ15hnfwyPjxUGN1tEXyz9TA1Yhcw/5himd3QNBI/RWzO2kRkvvYc1
-	 SyywQlAlARw/5dr1z6ebjNODR0Nnj4MSLTMbF/dEmW4fUCW0I+dthIbKwL40C4uDSK
-	 RmhoQDZqn2QMA==
+	b=h4eAP0ajmpERlZs0bb89cTFszOu+ebbrqRK/FVgfMnhrqqzX07JEOlSRgvpQ3k7pO
+	 OZQ645fuCFhkrvOJs1tiGT8l0ip5SpsismhhaoL7NRB/0P8vZCMaBPsiQQX29m+vck
+	 61OjRGvgr1ACoC7XyQTV1Ad7NywO3ZYtU1acai8286TOxN9XWYrECTl1abAzt5kkVQ
+	 evPkdEn3BshOCM5gZehLcao+tRGfgNwuPuYUFX4nrEm3Byqo/CKCq/HZgO1sLrfsl+
+	 95vHEXrhyF1BOg6YTkM9bSKvluc8sF4mEQx0NqQt/Lvg2eNu0NywkqPiCAZaFxfW5h
+	 5g7di5nPlmL8w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	faetalize@proton.me
 Cc: Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models" failed to apply to 6.6-stable tree
-Date: Wed, 27 Mar 2024 08:10:25 -0400
-Message-ID: <20240327121026.2827950-1-sashal@kernel.org>
+Subject: FAILED: Patch "ALSA: hda/realtek - ALC236 fix volume mute & mic mute LED on some HP models" failed to apply to 6.1-stable tree
+Date: Wed, 27 Mar 2024 08:13:14 -0400
+Message-ID: <20240327121315.2830164-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -45,7 +45,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.6-stable tree.
+The patch below does not apply to the 6.1-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
