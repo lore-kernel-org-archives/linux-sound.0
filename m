@@ -1,327 +1,155 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3FA15689D
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 13:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A73D12CD98;
+	Wed, 27 Mar 2024 13:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711545006; cv=none; b=Ta1GO6MOOvEkNryLi15Ftt2V0Z/Z8D584SJfOGic4wtQGw6b/wFs/HUXP1nv09zcwd6lGT8XuLb04VRMsOEPyWf957s7f0C7kwbeX/j1Nnrz/Gog3q0pls7mOSquJd+M/n5m7wzCPzgUnGWpcUc/80nJbycFbz+kFRF44MZGaJo=
+	t=1711545247; cv=none; b=YyHlqRMjLs+zgxD3TwJTQpITe3sFQAdFHiRUpNCSLyWjskPRAFGNkYs7iKWs4p14SLrf70PQ0ZsOiCcA7MfOwdmuc6HaXsALzHnPvIuH3ZE44qmvj3Q8Fxa4a28P+CGsWjZZqX3Hzzkrzn+DW718rwxWAGETwrgTeQTfCoYx2PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711545006; c=relaxed/simple;
-	bh=EIfAaG+8ChusQ7KuCbmqxqXGfMQafmgd9vGhe7mjxFs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I89dqkkO4AdnzetwGvZ1zjz8Hib9aB57dDxMIwxaMThKO+HYNSEddbPxmbX8EFjFzPnjKtFFvbyNspHZ0Vh5LorcRcQnlD819ZeQvj0sB6ooqQAP+jGL+lri2KfWMqxWFyWW2HIF7r5WOx0oGCXoz14wxe3gAIrEc9S8o1btfYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t8BiU5MV; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711545247; c=relaxed/simple;
+	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SzsEBDg+DUV1Ibu/mGTR8T7McDwRg09854+Zlk6zjSjVn6bEudNstt8Z1HJia9TaWfhc89ZSxWEJb7HMXM+/qhc/u+Hz/wikdgF7mvxUFEHp2noGWi0jYYoYtv/8pGHleWcLPs/ef6cAMApQxbNrKk33Q17h56/UAYnsq1VD9yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE8ecp20; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t8BiU5MV"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so6220482276.1
-        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 06:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711545002; x=1712149802; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lzCuQ38z5tEvKes8luQhWNfmBRoi0Op2h6rKQaV0U3o=;
-        b=t8BiU5MVQYeF/ET1h+1fgbuiRa1CN64fWsGnCfnRFskMyeZcQHF06TroG+fQIMe/4q
-         DvH2yJoj/Erarf0oiJMcz5SAn3dy9r/9yg+aU/1IR2ZrkmRFR43uk+2m1Y90EBKDPJE0
-         1M4T+l7nowAHuN7FaXqLjDnM+OMSe90ojtKiOOzBhPE4LDByzGneVrWVKfUyBQtGh8kq
-         FBZqunfIa0GUDbo9KGaZgw3x6hwJk72Mh+qz0d0XJHKCB1ZRbAj0zw5WnnGS6g0fsFA4
-         H+zMud+BfwAZQIVBc/TQOzh7caad9PUik7eeUZV3i4JPvffWb3SOayIuR8MlUQrtjiAi
-         d5lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711545002; x=1712149802;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lzCuQ38z5tEvKes8luQhWNfmBRoi0Op2h6rKQaV0U3o=;
-        b=XGqKkiW1fRr8lbDvLDJmNw+sTFYFG04nMFjLdtSwT4URLz2hFlokuNq5i/f7GMrYWV
-         X4Dk8zjlwo+w9IgSCN32sof4w2Q+c8KB1NoAaWmKuJeaNpOzQT/Pi1ZQlXY1s9QytBEf
-         mSAwACmyLCF/RIFEBCtNjJ8YTKqFZcYIEcMvpUmBny9ZESKG7xJx9Ozh8zIw0hDSHaX7
-         ABYnW/yaJocawbHzXJQJN745vvJuLLJVE+WxG8lywRjVFnAXvR29KOcKGq/4jBmaXa7c
-         FhOua+GQukLLGlUqmq/nz0D0/C3X5T78VOoNqeE5iwsEdC0QwUmibGjRhfhMvrlB5GfR
-         KRSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmz7nQYi9aFm0glzHLFjlylvkGrB+KiIBf4k+kla/8BXemVTKCroziD80L8BpOk+ZSWnWBnhP77kMLhuG9saliTMfk7kvunFerjhw=
-X-Gm-Message-State: AOJu0YzegUbQqBOrJ4wnYy3/AipIZfHFMWerU9CFXMqouqEb8xLCLZtB
-	f+Qx1HA4TG41FFQj8YSZtIe5cYzFNmx4srSrKduEl1GVQuX6B7PdlQmD110nxnJt32xVyMD5Pup
-	zvJG7rj0RBFU0X3UoLEDpQefLApFyypC19QyyXw==
-X-Google-Smtp-Source: AGHT+IFEFjTBVS4HBczGqVH75JCqDQR+t3W+i9jRyLyq5dNnFwQJkaqlnv27HDRa7w6hVneeKjVD/LRnNW7r5pdZrf0=
-X-Received: by 2002:a25:ac10:0:b0:dcb:e82c:f7d with SMTP id
- w16-20020a25ac10000000b00dcbe82c0f7dmr3861776ybi.41.1711545002212; Wed, 27
- Mar 2024 06:10:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE8ecp20"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71DF2C433C7;
+	Wed, 27 Mar 2024 13:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711545247;
+	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QE8ecp20wx1JqOfnBKrNrQ1A7il/EPdx7Qb2bU3tEQFAtdxchTsOko14YmIhTc65e
+	 0erb/xIg+6dFfPAs+oSBwJgWmwAEVWH9jcL4J987Qqj/IxyFEnRxHpTlftkEsoAcPI
+	 rHgpIj4isH57zbCSTvhbiZTT1f+uGS73wliYdL2sK2R/RX+FgDwxEC1gNQLiUp2svC
+	 4YuUkVTn9LYjuOz2FylQazVFjSrgANcIAeI0GKo4wsgMuz6M/8vbqKgl8MIVhdo+Il
+	 c9LCzVA++7q5ANbZro2hu+oLAbcmclN8aL7Rfs1tthIILl+9w4VZkFS1j/7Lt8jXPo
+	 GT+PFYbgVwa+A==
+Date: Wed, 27 Mar 2024 13:14:02 +0000
+From: Lee Jones <lee@kernel.org>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-leds@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
+ led_trigger_event() and simplify mute audio trigger
+Message-ID: <20240327131402.GQ13211@google.com>
+References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+ <170964052434.128456.128263499797916605.b4-ty@kernel.org>
+ <20240305120947.GD86322@google.com>
+ <20240305145454.GG86322@google.com>
+ <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
+ <20240305160626.GH86322@google.com>
+ <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240327113228.1706975-1-quic_mohs@quicinc.com> <20240327113228.1706975-3-quic_mohs@quicinc.com>
-In-Reply-To: <20240327113228.1706975-3-quic_mohs@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 27 Mar 2024 15:09:51 +0200
-Message-ID: <CAA8EJpqh0emOFUPSj8rPaKr2hZRWwOh9NNTco8fyJCtwXe9sSA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] ASoC: qcom: qcm6490: Add machine driver for qcm6490
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, broonie@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, lgirdwood@gmail.com, tiwai@suse.com, 
-	quic_rohkumar@quicinc.com, linux-kernel@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
 
-On Wed, 27 Mar 2024 at 13:34, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
->
-> Add machine driver for qcm6490 SoC.
->
-> This initial supports which includes WSA883x Speakers with onboard DMIC
-> connected to internal LPASS codec via VA macros respectively and also
-> WCD937x based headset.
->
-> Add compatible for sound card on Qualcomm qcs6490 boards.
+On Wed, 27 Mar 2024, Heiner Kallweit wrote:
 
-Granted that qcm6490 is similar to sc7280, is there any reason why you
-can not use one of the existing sound card drivers? Like sc7280.c or
-sc8280xp.c?
+> On 05.03.2024 17:06, Lee Jones wrote:
+> > On Tue, 05 Mar 2024, Heiner Kallweit wrote:
+> > 
+> >> On 05.03.2024 15:54, Lee Jones wrote:
+> >>> On Tue, 05 Mar 2024, Lee Jones wrote:
+> >>>
+> >>>> On Tue, 05 Mar 2024, Lee Jones wrote:
+> >>>>
+> >>>>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
+> >>>>>> If a simple trigger is assigned to a LED, then the LED may be off until
+> >>>>>> the next led_trigger_event() call. This may be an issue for simple
+> >>>>>> triggers with rare led_trigger_event() calls, e.g. power supply
+> >>>>>> charging indicators (drivers/power/supply/power_supply_leds.c).
+> >>>>>> Therefore persist the brightness value of the last led_trigger_event()
+> >>>>>> call and use this value if the trigger is assigned to a LED.
+> >>>>>> This change allows to use simple triggers in more cases.
+> >>>>>> As a first use case simplify handling of the mute audio trigger.
+> >>>>>>
+> >>>>>> [...]
+> >>>>>
+> >>>>> Applied, thanks!
+> >>>>>
+> >>>>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
+> >>>>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
+> >>>>> [2/3] ALSA: control-led: Integrate mute led trigger
+> >>>>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
+> >>>>> [3/3] leds: trigger: audio: Remove this trigger
+> >>>>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
+> >>>>
+> >>>> Submitted for build testing.
+> >>>>
+> >>>> Once succeeded, a PR will follow for other maintainers to pull from.
+> >>>
+> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' allmodconfig
+> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
+> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vclock_gettime-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
+> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vgetcpu-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
+> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c: In function 'dell_init':
+> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c:2255:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+> >>>    micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> >>>                                  ^~~~~~~~~~~~~~~~~
+> >>>                                  led_trigger_set
+> >>> cc1: all warnings being treated as errors
+> >>> make[7]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/dell/dell-laptop.o] Error 1
+> >>> make[7]: Target 'drivers/platform/x86/dell/' not remade because of errors.
+> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:481: drivers/platform/x86/dell] Error 2
+> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c: In function 'huawei_wmi_leds_setup':
+> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c:313:28: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+> >>>   huawei->cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> >>>                             ^~~~~~~~~~~~~~~~~
+> >>>                             led_trigger_set
+> >>> cc1: all warnings being treated as errors
+> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/huawei-wmi.o] Error 1
+> >>> /builds/linux/drivers/platform/x86/asus-wmi.c: In function 'asus_wmi_led_init':
+> >>> /builds/linux/drivers/platform/x86/asus-wmi.c:1623:34: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+> >>>    asus->micmute_led.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> >>>                                   ^~~~~~~~~~~~~~~~~
+> >>>                                   led_trigger_set
+> >>> cc1: all warnings being treated as errors
+> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/asus-wmi.o] Error 1
+> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c: In function 'mute_led_init':
+> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c:9288:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
+> >>>    mute_led_cdev[i].brightness = ledtrig_audio_get(i);
+> >>>                                  ^~~~~~~~~~~~~~~~~
+> >>>                                  led_trigger_set
+> >>>
+> >>> ############################3
+> >>>
+> >>> Errors were caused
+> >>>  
+> >>> [v6.8-rc1] ib-leds-mips-sound-6.9 2c61168294d0e ("leds: trigger: audio: Remove this trigger")
+> >>>
+> >>>  x86_64 allmodconfig gcc-8
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtQpYDimIIpMqO0Qm4AMAAPU/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhvxgZA6moBZmToTavyY4Eita/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9 
+> >>>
+> >>>  x86_64 allmodconfig gcc-9
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtYCYEqxnUFmoH73iKlcEIV8/ 	Pass (0 errors - 0 warnings) : v6.8-rc1
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw2i4B539YZXCoSN2LSRvsW8/ 	Fail (7 errors - 0 warnings) : ib-leds-mips-sound-6.9 
+> >>>
+> >>>  x86_64 allyesconfig gcc-8
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtTzCsCxRpl9loRyfPrD1uhR/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
+> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw1WQ2BIpJRoyK7ruVCtihSN/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9
+> >>>
+> >>
+> >> Right, I forgot, there are patches applied via a different tree end of January,
+> >> that this series depends on. I assume this means that the series can be applied
+> >> only after the merge window.
+> > 
+> > Yes, unless there is a succinct immutable branch I can pull from.
+> > 
+> Now that 6.9-rc1 is out, can this series be applied?
 
->
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> ---
->  sound/soc/qcom/Kconfig   |  13 +++
->  sound/soc/qcom/Makefile  |   2 +
->  sound/soc/qcom/qcm6490.c | 173 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 188 insertions(+)
->  create mode 100644 sound/soc/qcom/qcm6490.c
->
-> diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-> index 762491d6f2f2..0bc536766872 100644
-> --- a/sound/soc/qcom/Kconfig
-> +++ b/sound/soc/qcom/Kconfig
-> @@ -151,6 +151,19 @@ config SND_SOC_MSM8996
->           APQ8096 SoC-based systems.
->           Say Y if you want to use audio device on this SoCs
->
-> +config SND_SOC_QCM6490
-> +       tristate "SoC Machine driver for QCM6490 boards"
-> +       depends on QCOM_APR && SOUNDWIRE
-> +       depends on COMMON_CLK
-> +       select SND_SOC_QDSP6
-> +       select SND_SOC_QCOM_COMMON
-> +       select SND_SOC_QCOM_SDW
-> +       help
-> +         Add support for audio on Qualcomm Technologies Inc.
-> +         QCM6490 SoC-based systems.
-> +         To compile this driver say Y or M if you want to
-> +         use audio device on this SoCs.
-> +
->  config SND_SOC_SDM845
->         tristate "SoC Machine driver for SDM845 boards"
->         depends on QCOM_APR && I2C && SOUNDWIRE
-> diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
-> index 34f3fcb8ee9a..feb2c164be69 100644
-> --- a/sound/soc/qcom/Makefile
-> +++ b/sound/soc/qcom/Makefile
-> @@ -22,6 +22,7 @@ obj-$(CONFIG_SND_SOC_LPASS_SC7280) += snd-soc-lpass-sc7280.o
->  snd-soc-storm-objs := storm.o
->  snd-soc-apq8016-sbc-objs := apq8016_sbc.o
->  snd-soc-apq8096-objs := apq8096.o
-> +snd-soc-qcm6490-objs := qcm6490.o
->  snd-soc-sc7180-objs := sc7180.o
->  snd-soc-sc7280-objs := sc7280.o
->  snd-soc-sdm845-objs := sdm845.o
-> @@ -34,6 +35,7 @@ snd-soc-x1e80100-objs := x1e80100.o
->  obj-$(CONFIG_SND_SOC_STORM) += snd-soc-storm.o
->  obj-$(CONFIG_SND_SOC_APQ8016_SBC) += snd-soc-apq8016-sbc.o
->  obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
-> +obj-$(CONFIG_SND_SOC_QCM6490) += snd-soc-qcm6490.o
->  obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
->  obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
->  obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
-> diff --git a/sound/soc/qcom/qcm6490.c b/sound/soc/qcom/qcm6490.c
-> new file mode 100644
-> index 000000000000..5b0dc95963f5
-> --- /dev/null
-> +++ b/sound/soc/qcom/qcm6490.c
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> +
-> +#include <dt-bindings/sound/qcom,q6afe.h>
-> +#include <linux/input.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of_device.h>
-> +#include <sound/core.h>
-> +#include <sound/soc.h>
-> +#include <sound/soc-dapm.h>
-> +#include <sound/pcm.h>
-> +#include <linux/soundwire/sdw.h>
-> +#include <sound/jack.h>
-> +#include <sound/pcm_params.h>
-> +#include "lpass.h"
-> +#include "qdsp6/q6afe.h"
-> +#include "common.h"
-> +#include "sdw.h"
-> +
-> +struct qcm6490_snd_data {
-> +       bool stream_prepared[AFE_PORT_MAX];
-> +       struct snd_soc_card *card;
-> +       struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
-> +       struct snd_soc_jack jack;
-> +       bool jack_setup;
-> +};
-> +
-> +static int qcm6490_snd_init(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +
-> +       switch (cpu_dai->id) {
-> +       case TX_CODEC_DMA_TX_3:
-> +       case LPASS_CDC_DMA_TX3:
-> +       case RX_CODEC_DMA_RX_0:
-> +               return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-> +       case VA_CODEC_DMA_TX_0:
-> +       case WSA_CODEC_DMA_RX_0:
-> +               return 0;
-> +       default:
-> +               dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__, cpu_dai->id);
-> +       }
-> +
-> +       return -EINVAL;
-> +}
-> +
-> +static int qcm6490_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
-> +                                     struct snd_pcm_hw_params *params)
-> +{
-> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +       struct snd_interval *rate = hw_param_interval(params,
-> +                                       SNDRV_PCM_HW_PARAM_RATE);
-> +       struct snd_interval *channels = hw_param_interval(params,
-> +                                       SNDRV_PCM_HW_PARAM_CHANNELS);
-> +
-> +       rate->min = 48000;
-> +       rate->max = 48000;
-> +       channels->min = 2;
-> +       channels->max = 2;
-> +       switch (cpu_dai->id) {
-> +       case TX_CODEC_DMA_TX_0:
-> +       case TX_CODEC_DMA_TX_1:
-> +       case TX_CODEC_DMA_TX_2:
-> +       case TX_CODEC_DMA_TX_3:
-> +               channels->min = 1;
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int qcm6490_snd_hw_params(struct snd_pcm_substream *substream,
-> +                                struct snd_pcm_hw_params *params)
-> +{
-> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +       struct qcm6490_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
-> +
-> +       return qcom_snd_sdw_hw_params(substream, params, &pdata->sruntime[cpu_dai->id]);
-> +}
-> +
-> +static int qcm6490_snd_prepare(struct snd_pcm_substream *substream)
-> +{
-> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-> +       struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-> +
-> +       return qcom_snd_sdw_prepare(substream, sruntime,
-> +                                   &data->stream_prepared[cpu_dai->id]);
-> +}
-> +
-> +static int qcm6490_snd_hw_free(struct snd_pcm_substream *substream)
-> +{
-> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +       struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-> +
-> +       return qcom_snd_sdw_hw_free(substream, sruntime,
-> +                                   &data->stream_prepared[cpu_dai->id]);
-> +}
-> +
-> +static const struct snd_soc_ops qcm6490_be_ops = {
-> +       .hw_params = qcm6490_snd_hw_params,
-> +       .hw_free = qcm6490_snd_hw_free,
-> +       .prepare = qcm6490_snd_prepare,
-> +};
-> +
-> +static void qcm6490_add_be_ops(struct snd_soc_card *card)
-> +{
-> +       struct snd_soc_dai_link *link;
-> +       int i;
-> +
-> +       for_each_card_prelinks(card, i, link) {
-> +               if (link->no_pcm == 1) {
-> +                       link->init = qcm6490_snd_init;
-> +                       link->be_hw_params_fixup = qcm6490_be_hw_params_fixup;
-> +                       link->ops = &qcm6490_be_ops;
-> +               }
-> +       }
-> +}
-> +
-> +static int qcm6490_platform_probe(struct platform_device *pdev)
-> +{
-> +       struct snd_soc_card *card;
-> +       struct qcm6490_snd_data *data;
-> +       struct device *dev = &pdev->dev;
-> +       int ret;
-> +
-> +       card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
-> +       if (!card)
-> +               return -ENOMEM;
-> +       card->owner = THIS_MODULE;
-> +       /* Allocate the private data */
-> +       data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +       if (!data)
-> +               return -ENOMEM;
-> +
-> +       card->dev = dev;
-> +       dev_set_drvdata(dev, card);
-> +       snd_soc_card_set_drvdata(card, data);
-> +       ret = qcom_snd_parse_of(card);
-> +       if (ret)
-> +               return ret;
-> +
-> +       card->driver_name = of_device_get_match_data(dev);
-> +       qcm6490_add_be_ops(card);
-> +       return devm_snd_soc_register_card(dev, card);
-> +}
-> +
-> +static const struct of_device_id snd_qcm6490_dt_match[] = {
-> +       {.compatible = "qcom,qcm6490-sndcard", "qcm6490"},
-> +       {.compatible = "qcom,qcs6490-sndcard", "qcs6490"},
-> +       {}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, snd_qcm6490_dt_match);
-> +
-> +static struct platform_driver snd_qcm6490_driver = {
-> +       .probe  = qcm6490_platform_probe,
-> +       .driver = {
-> +               .name = "snd-qcm6490",
-> +               .of_match_table = snd_qcm6490_dt_match,
-> +       },
-> +};
-> +module_platform_driver(snd_qcm6490_driver);
-> +MODULE_DESCRIPTION("qcm6490 ASoC Machine Driver");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.25.1
->
->
-
+Catching up with upstream reviews in on my TODO list.
 
 -- 
-With best wishes
-Dmitry
+Lee Jones [李琼斯]
