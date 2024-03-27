@@ -1,150 +1,135 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2072.outbound.protection.outlook.com [40.107.100.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1E028DD3;
-	Wed, 27 Mar 2024 10:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711535135; cv=none; b=Q1qKyhh478xGUCqLbuzPbFbRSisaR6CMd3K1snKvzwvVREc6O4iGhDtsJrwVI1WLzMesGzbSEviw3c3BaaCQgDtNogXY5mnJD/VrCdM3Qr+S+bQ5MdogT2TdMzqjffXKuCVcBJB/+DfbyhCm9R/O9PTG+A6MBOw61re730hLKH4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711535135; c=relaxed/simple;
-	bh=0e2xfwb4U2fZ5mQQeSTGhasWsRxBW8LMen2Dviag7co=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YL1nIhw4esbKDa2O6H2Tz2Bnq5GW2R0ckrDDOC3MYZpiyiNoMmxIFpBaOqnPwn2KsKeHIHp/EStAmrcV/GC+dBCWRZgz8kiuMHsPEWPj0hbuHM+oAPhgUqI3Q68On0r3NaGOvn3JTRQH4ty2QrFWY7qR49P6N7GNSj9ljZMtbYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FwWQbeBu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fqycNERe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FwWQbeBu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fqycNERe; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605E5225D9;
+	Wed, 27 Mar 2024 10:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711536433; cv=fail; b=nR21JdgICxNZqxJOKYs8v43yeqnFXBdBzttdwMhGKvf4ldtx6pas9KIc7WrEAAFyajmsZ5WHWd8p/7w2WXAOtBFnqpsZyoktTYHZSG3oqm30h7/dU1zzAo6PDIGIaLnS6GCJvOwEh96iBOC0YUMjD7kml6/KLUaLTDpfImDecoA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711536433; c=relaxed/simple;
+	bh=i95u17899A8wT0fMxsIx12gK2zpFb5H1+xSB3vV5L8c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MGuCQupKobDxunx3XoDR+m8e73kZDhKVx8L5vJE3wWL6EHd7cB8teaAuNA9FyxzcsgOjIHYmZOW/M0gVW9fiwhvSqhTMV5Le2lHceLj5ztGfBGsGo7+LBx/fDB0Ht37vD3wuNPQctUGWqz143ZXKF2tzeWrfJyqoBqN+o+Y+eCE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lf6jOXsC; arc=fail smtp.client-ip=40.107.100.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FwWQbeBu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fqycNERe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FwWQbeBu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fqycNERe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CEF59383BC;
-	Wed, 27 Mar 2024 10:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711535131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/AkKqHDoToHVeJHWi3Rlrg9RTE/Xa/qdhkLZfkTRhEs=;
-	b=FwWQbeBu+jNh1KgAazBTY2eynypTX7882xhyrUyYy2h23a5I/AQsdGpN+lhrubcyKbeBSF
-	Zv4x3bnYWFaH8b3wOO/OaYVRFjn5aAGj/jOJ2DiluOKYdc3RI10nL4QnjBZnhfdU+fBbK/
-	lMveg3Mbc1HVuJArUmRXjkljhkx2Apc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711535131;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/AkKqHDoToHVeJHWi3Rlrg9RTE/Xa/qdhkLZfkTRhEs=;
-	b=fqycNEReW9SYIVyZliwWgZ11xC8NN9G6smTEkaAZxpF30up457SWgKj1GzyI2Z+jlsNMOm
-	VOGCYR3Xu/A7BPDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711535131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/AkKqHDoToHVeJHWi3Rlrg9RTE/Xa/qdhkLZfkTRhEs=;
-	b=FwWQbeBu+jNh1KgAazBTY2eynypTX7882xhyrUyYy2h23a5I/AQsdGpN+lhrubcyKbeBSF
-	Zv4x3bnYWFaH8b3wOO/OaYVRFjn5aAGj/jOJ2DiluOKYdc3RI10nL4QnjBZnhfdU+fBbK/
-	lMveg3Mbc1HVuJArUmRXjkljhkx2Apc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711535131;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/AkKqHDoToHVeJHWi3Rlrg9RTE/Xa/qdhkLZfkTRhEs=;
-	b=fqycNEReW9SYIVyZliwWgZ11xC8NN9G6smTEkaAZxpF30up457SWgKj1GzyI2Z+jlsNMOm
-	VOGCYR3Xu/A7BPDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76B1A1369F;
-	Wed, 27 Mar 2024 10:25:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J6ZxGxv0A2afJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Mar 2024 10:25:31 +0000
-Date: Wed, 27 Mar 2024 11:25:33 +0100
-Message-ID: <87edbw7yzm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] ALSA: hda/tas2781: fixes for 6.9-rc1
-In-Reply-To: <cover.1711469583.git.soyer@irl.hu>
-References: <cover.1711469583.git.soyer@irl.hu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lf6jOXsC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Df2DpoPNs8V6VsqCvOTcANTLU/Dj6kFCagLa1BjbLKX3axSFFIWcQhI+z4CmvxQIjZZTR8qTTAuF/ob7npc9IDl2zt0WCuIdtN+MXbthfHAZXKP1eLWw1HcQncml0ztmfYj7CPWOL5qZSbm8mGRHjNglijLrUHVE9SYd4//FbtA8H0S8xrV1cAiOdl0Bzc2OVRpVmOQo+mda0l6VmAxsrCZEHpMecVAS0t7D5K0tx634RopHqPUzROGKmn5qgiEtfgU9CmrMR6O28WlCe6UMJ4OSOGgkoXoL9yJTnTYE/RtBfFzQmg9ZhHMNWOqFT7fOUD14752AZnh9Up/9CfCgUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d5smLNZkQqJKveisiGZZQI4MfldQKbnc/49OGn0revQ=;
+ b=oCANT8tvkbUPdHJTdhnS8KkcJnBPzH8Od0f8V0bXajDrKg0zQ7ZZYpvIx4xuF3bFqPn/tYe3MPpXZzC5VboHKS3aUDNtstxwPSmoTdm4nfx2I0FAfuJUJXZ62XlyuzoIcTsXeo1SV8+JipEucPENyk73uNT+5fuV58r9IISN4b4vRAG/HgHpUyDDZ6gkjAP/PgdWQfGDz/f6oTAKqeXkJ8X8zJD94qqP6ehRVHHcSWIywY2TyHHQQ4QSMoyR32mCVuxWjefl37ptr6heWrLDULiAvIJ4CG/LTWxNHxekmeE0qH0L5UqLnn6JYKb+Ahe30TAPA4SPibparGELDrTMWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d5smLNZkQqJKveisiGZZQI4MfldQKbnc/49OGn0revQ=;
+ b=lf6jOXsCgd/fneaDO4NxiOFiKntI1lpQXMInwJwkXIGCyFu/Ppm+Bgq7Uy/DAVmJROy9vtz1WL+M5wW9FjhKTH5m9+iP83aLj5+tx/w5VEELjXcrUNzAL6Xe6Q+muqGbVFN6HBE1Y8HyrI8p8MrZZSXVv2Ln0sTQKFV4DWq0E80=
+Received: from MN2PR14CA0014.namprd14.prod.outlook.com (2603:10b6:208:23e::19)
+ by DM4PR12MB7549.namprd12.prod.outlook.com (2603:10b6:8:10f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Wed, 27 Mar
+ 2024 10:47:07 +0000
+Received: from MN1PEPF0000F0E0.namprd04.prod.outlook.com
+ (2603:10b6:208:23e:cafe::25) by MN2PR14CA0014.outlook.office365.com
+ (2603:10b6:208:23e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
+ Transport; Wed, 27 Mar 2024 10:47:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ MN1PEPF0000F0E0.mail.protection.outlook.com (10.167.242.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7409.10 via Frontend Transport; Wed, 27 Mar 2024 10:47:07 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 27 Mar
+ 2024 05:47:06 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.35
+ via Frontend Transport; Wed, 27 Mar 2024 05:47:03 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <venkataprasad.potturu@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Syed Saba
+ Kareem" <Syed.SabaKareem@amd.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, "open list:SOUND - SOC LAYER /
+ DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] ASoC: amd: acp: fix for acp_init function error handling
+Date: Wed, 27 Mar 2024 16:16:52 +0530
+Message-ID: <20240327104657.3537664-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -0.34
-X-Spamd-Result: default: False [-0.34 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.04)[57.58%]
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: Vijendar.Mukunda@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E0:EE_|DM4PR12MB7549:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10c85059-f079-494f-bb00-08dc4e4b3f43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	WNcgTA9p30QBN0pCc4Pl5QDBi6YfRqxbozOpcJWxh0akK6a3m7to4Ypm4opqBttKvHsgfbvqF25B9RH49QtRYh+3ljSt+MM+qe4TaaUsm5N3K7TTDNxotVU/VPjNQvvl4n6aTgP+gj/DIoMcqZtVoShMOBkoXOqNUVipO0Z2l9IZMphd2nqHV8/MUC4YH4fwfXF75O4xomg8vyUdrfBe2VR/+1AiNPs3TrCdWiM/TRJ8Nz90JyjOJVVSlEVfQAUA9iJoFBHO53pxgbyU+ZqxUf52oUqsAYYhyHTQxyJIjVjje+RK3O/UPK09fdanvqoo67sh5xto8O2b10hx2lWft5YoO+A8Y4P50dqkuBaWYenwr6tQ5NVWPqKPM6Qu60EK116W1NcOprDEmrYjZRiaZ5wu8BQNs/gip3pE4IpqvozhlmHd4smuQQcOReWoT2vyNGcJ7DmsdZXZV4VFXqpQBK5OWt9gykpSDF+Uw9Ik8fNQoK0fDsM14Bnzo+WS1tC7FTke7yVc8cDB/5zr653e+z+GSTwQNVPRX3oyWWxkQGQ0cQXMePkFnSB+vHmoYUrabCEVpVr+1JosrYL0aYiojHXGuT3FC7kSExe6fBIbOP9xu0xh+dzppH/v04zorECF92TAlwiMJqzsmOOWvi5vhSTpr5rKUrJPt5Y/15P9LytMepKV7/ccPISoe79o25m10Zmy98+tMz/iplT/SgWfch4TFc3RWHIcjIYP7yyzMLQ5yHxku4G2HZ4m/0m5sND9
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(82310400014)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 10:47:07.0216
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10c85059-f079-494f-bb00-08dc4e4b3f43
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000F0E0.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7549
 
-On Tue, 26 Mar 2024 17:18:44 +0100,
-Gergo Koteles wrote:
-> 
-> Hi,
-> 
-> This series removes the no longer needed digital gain kcontrol, which 
-> caused problems in tas2563, because the register does not exists there.
-> 
-> This series also adds locking and debug statements to the other 
-> kcontrols. They sometimes ran in parallel with tasdev_fw_ready, and 
-> caused weird sound problems.
-> https://github.com/tomsom/yoga-linux/issues/58
-> 
-> Regards,
-> Gergo
-> 
-> Changes in v2:
->  - Do not remove dvc_tlv scale from tas2781-tlv.h as it is also used by
->    sound/soc/codecs/tas2781-i2c.c
->  - Add kcontrol name to debug statements
->  - Add a new patch to remove a useless debug statement.
-> 
-> [1]: https://lore.kernel.org/all/cover.1711401621.git.soyer@irl.hu/
-> 
-> Gergo Koteles (4):
->   ALSA: hda/tas2781: remove digital gain kcontrol
->   ALSA: hda/tas2781: add locks to kcontrols
->   ALSA: hda/tas2781: add debug statements to kcontrols
->   ALSA: hda/tas2781: remove useless dev_dbg from playback_hook
+If acp_init() fails, acp pci driver probe should return error.
+Add acp_init() function return value check logic.
 
-Applied now.  Thanks.
+Fixes: e61b415515d3 ("ASoC: amd: acp: refactor the acp init and de-init sequence")
 
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/acp/acp-pci.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Takashi
+diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
+index 8c8b1dcac628..c1d4140f0746 100644
+--- a/sound/soc/amd/acp/acp-pci.c
++++ b/sound/soc/amd/acp/acp-pci.c
+@@ -115,7 +115,10 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
+ 		goto unregister_dmic_dev;
+ 	}
+ 
+-	acp_init(chip);
++	ret = acp_init(chip);
++	if (ret)
++		return ret;
++
+ 	res = devm_kcalloc(&pci->dev, num_res, sizeof(struct resource), GFP_KERNEL);
+ 	if (!res) {
+ 		ret = -ENOMEM;
+-- 
+2.34.1
+
