@@ -1,160 +1,217 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0331C5AAF
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 12:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDC212F38C
+	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 12:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711543604; cv=none; b=KGU/y8QMsVqZWyvpkqow2XQSHdmTVIuhmIf2h3OwPw1K0VmsejUBrdEWP/lEKgxqzVjBnYMjg2ZspgYlA6/LNLZDyoIV2DbliXayZTM2fSrGtXJHbnPbOCEKZ6wfm/3t2vwGMoRkHrFmmd9Uh+RCKiS6FBWKkE7A/XdJQPBPsAo=
+	t=1711544141; cv=none; b=QSUrR0P+UVF8IWkURiX0HHssV3UtVrCuMbYEm/2IF6daEQHg3rFuaWIr4ujqQtU+MeZmMnfPGsznO/GRha0DfgVmynoeWGBlSiXOudEKa2yYd/qjD4MN9UWgcuKo9KAdHOzDgX/S+6RqGvQQ2wVwO71/p0AlxlGfhJgSmPL/K/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711543604; c=relaxed/simple;
-	bh=+b7HD7blN2XR0vp569P7KUgZ+rP9RZRo3/7Ljc6RdPk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Gd7DEyjVvn7jE5unUkyJxQiObhcNke6PqXIlwNPKQEAOGP0xy6xjS1Uy2MHsMDYMFOvUt+cY1NLARzUyGVOs0CslecPDl2gZsLshohrGFBWBOTNj0vyBzRUgzOglj67s2wJ1i2luW3LKRSKJKlR7bDgLDxedbQP+KXMAyyCcd+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mB+8y+Mb; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711544141; c=relaxed/simple;
+	bh=7tvzWOMU15U3qLtaG45FvaCp1yBq+rNh+P9CuovlHu4=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=sX6BZPbj0nv1FwI1/ODOymBwnLAOu4ycFWXyX1hiEH5PV24ez0QvjsMNiGFDfidaeAXcf9/ktKP4o8bsiVzsy5PH83nGoc04ToNCkGZZp4AoQWsy686irTIlEk/dEoGFbrgJQ8xdouCKa2Quu5JSoRw+j3qyPXn207HsrOYeefM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=2njx6d1u; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mB+8y+Mb"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a470d7f77eeso848060466b.3
-        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:46:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2njx6d1u"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33ed4d8e9edso4919095f8f.2
+        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711543600; x=1712148400; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TImcoBJxfXGIQgqj3n4MKEXII2pXosMotms9pHsJzXs=;
-        b=mB+8y+MbQ5b4xCQhL5oKRf/rZChAFoUdzVzedv7+FxYhmcK1WhPa3CceQVP4wH8Tl/
-         zRBBH6OzQ7vSoMkaR8/Uj6h/5jXNMlCrTApGXivvLZ1Q2F3PWPVfnLVfWHeKbjn6AlmY
-         FyyilVRPS9xVI4gJ3jvyz8UDHCnjE2iIzBup9EEU+2JDYwcPxg0shBAPcU1o4GE6bQmq
-         1sh6idy/gO6T6Z37tvE8VjguVXMn04oueZYA7uiuYYJSPceMDdMS4XwEubfnB4xGQjp9
-         ZhRgsJIhI97DBOM6tnVIgSCPUziy4LkmNuJq8gAu3yKXvY9+tI1ksHuPbJc7H/bev3/7
-         K5Sg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711544137; x=1712148937; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vp48KocudoiGALvWKkmTWkUXKZEVfSQEtoMbBwrHz/0=;
+        b=2njx6d1uPGyngaldgk1CGD9vrdR2YnO1tXPHim/m1VkmmZzBSJRWXjp+aoglazTMwH
+         p247UGOOHwqU7q67mFhR7LhCIrXSwpXJchFzyicXRqtjEH3yvZEPqatr3YG2LGS9frsn
+         vFH12JNtYOlVUNR5M3DqcJvvFLySZeDGpUDORb1wmKUj5spX7EUfRwa0agnII31GMnVw
+         PKIiZK5vdV92JYnhO0pGDhK8X6OCQ0MGLW9vWNKSf6SwGAOlQ8tywrlFWDQKduDfzMYl
+         quyH7xmz9slAzNaE/F/JMpsZOYsdATV6MSkHjfb+7ibhKwJkavd2PTK/f4UmIDNpWpF2
+         Klug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711543600; x=1712148400;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TImcoBJxfXGIQgqj3n4MKEXII2pXosMotms9pHsJzXs=;
-        b=YK1oWhUI9bQNM/Z8HIXzm6LtLaZs5UzpA0tAQBIPbrm/94tj0dQHKzaES26IpNX5+p
-         GH6EtjSl/bHC1SeSugPYug/vCYR0b4SLXAvPpCGRn8vEQkK/MIQOwyqxUfr3hItqf51F
-         Lud2rxzGe91KmKzLH8UgAwBzpcelIzATmy+AfTLAG3YQ4nWzBjwPE+SU/LRXpiHsn3Nd
-         JEQ86qqcLZghMhrItuCcZ7nxWKaugjLW9Wv7UUhExXqfK0MgbQg7Neigou65UaLE2PXz
-         sYdnAlHYfr0Pmnf6w6RRxwjRJj7iNvvfGb1uJWD8rWpqrNDzObvmWtD9+l1mURyRG1HY
-         GE4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUK2QS1Coe2z+WW+B7++lxRYuAG9jdN18u8DqGv50II1gDiY/o6Ht/fg/Tm3HicjBYpep/0iZHQlDwOJid6lzJJ7b/HLTwipZhLUec=
-X-Gm-Message-State: AOJu0Yxs1ImhUDjO0Oj9uX5+TIgUdLX/kDJlP7EU52Rc0CAPt+g3pZO+
-	VGviY6bSrTXqQEHL7EYHbBBxHx6Ty2ArBM53dPYumvTZWdJ7hyW4VApTzWkQCYg=
-X-Google-Smtp-Source: AGHT+IHz3XNCa9vYxVdXv7C592UPDYjRtJdl/QW4qXpaVGK+f9EGoToWDlCo1tr4K4SuiD6SS2oOpw==
-X-Received: by 2002:a17:906:5847:b0:a47:1b77:7c4 with SMTP id h7-20020a170906584700b00a471b7707c4mr907960ejs.48.1711543599897;
-        Wed, 27 Mar 2024 05:46:39 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id gx16-20020a170906f1d000b00a4707ec7c34sm5379175ejb.166.2024.03.27.05.46.35
+        d=1e100.net; s=20230601; t=1711544137; x=1712148937;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vp48KocudoiGALvWKkmTWkUXKZEVfSQEtoMbBwrHz/0=;
+        b=rsocp3kVWU9rmEB9hjbCEVtWc+FE9+I2PFFWd+I67TlZXByUyPiyn2czHPknRSjCPA
+         U9Itpq0Y0FcZoF9DYvVqifWtPbDfi7f/7CIf1cdXCss5MQ1aGWOWF0UnFHJFPUfU83sI
+         +DOEg5RbWCteeq69XKZ8/mttU8hrhjTYEb0hNbMzLBMKAytS8SzVDdVamYg7DtR7vz59
+         JiIDiM7fR8WiXeq/i6fP60cCC0X/4R3EheiL9+aeuuAbmK4e5WBcXB1bI0kMCmWwASP8
+         Pi8DxlK61n583qUmOcVAFNRR/B7tvMfzVemWPuuqdMmKOCgj09g6a7C/HcAl1s53NOSp
+         vvBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSyMPwJiSkC6kqDz7wemq+u6nd0KEQrkAB5Oaf7WHF+fZz7ffjQY4tmeW7mbBSZMtuuRXgqL2wfy8ilI6d19LHwNK5/GBheqvaWs8=
+X-Gm-Message-State: AOJu0YxqLUsF6RvjXsFy/qjDL/9R0InI7RwlcnsmbQFEeyeh8iIx6Fb7
+	2l5U20hZmZ82x0PGrLSiNWlI/0Q+QsvewwKs3R77z87s1rsCjk/lF5MoL0m59LQ=
+X-Google-Smtp-Source: AGHT+IFNNxBDz2Tx/jpDPmwWEphhbXKgsW+qHx/Yz0edPYKGGY5dsGFKtIqCm7B13uhNEaK0FJ6NZA==
+X-Received: by 2002:adf:a3d0:0:b0:33e:1ee0:6292 with SMTP id m16-20020adfa3d0000000b0033e1ee06292mr4235689wrb.58.1711544137249;
+        Wed, 27 Mar 2024 05:55:37 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e2f0:34bb:2ffe:1a3b])
+        by smtp.gmail.com with ESMTPSA id h2-20020a5d5042000000b00341c162a6d4sm11641186wrt.107.2024.03.27.05.55.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 05:46:39 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 13:41:12 +0100
-Subject: [PATCH 19/22] rpmsg: virtio: drop owner assignment
+        Wed, 27 Mar 2024 05:55:36 -0700 (PDT)
+References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
+ <8734sf53kv.wl-kuninori.morimoto.gx@renesas.com>
+ <1j7chp9gbb.fsf@starbuckisacylon.baylibre.com>
+ <87v858cwki.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
+ =?utf-8?B?a2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+   Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Daniel Baluta
+ <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>, Jaroslav
+   Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin  Hilman <khilman@baylibre.com>, Liam  Girdwood
+ <lgirdwood@gmail.com>, Linus  Walleij <linus.walleij@linaro.org>, Mark
+ Brown <broonie@kernel.org>, Maso  Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Trevor Wu
+ <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>, Xiubo Li
+ <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 15/15] ASoC: soc-pcm: indicate warning if DPCM BE Codec
+ has no settings
+Date: Wed, 27 Mar 2024 13:30:32 +0100
+In-reply-to: <87v858cwki.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1jcyrfal6f.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-module-owner-virtio-v1-19-0feffab77d99@linaro.org>
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
-In-Reply-To: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Richard Weinberger <richard@nod.at>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Olivia Mackall <olivia@selenic.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>, 
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, 
- Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, 
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev, 
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=768;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=+b7HD7blN2XR0vp569P7KUgZ+rP9RZRo3/7Ljc6RdPk=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmBBPqAdq/eg/PtMCEKo1gva2x7VgdnMT6C6Tep
- 2wGqe9FMdyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgQT6gAKCRDBN2bmhouD
- 1/TJD/4qOl/HewPvOEL3qGcOWPCkSVABYFtSCCfDob4NTUwAYOsNZXbH02ywzlUMcBk5kU1U06e
- AkckuKvzdO/5ojXTRYDkDVHSyZ/6w/2Zete946WspuC9senP7Ez3D3YkNyAxCE+Sk2DVkmiCf2E
- CyINMhaAkygs+ceOFDbHwFTbo7vJVRYCTGaGRm542+GjfTkvYuWVg4xeDHg1ogRagShb3QsonMJ
- iM7hJlEEdxsNQj/ThY3v2hfTnTAx2YlEu+KeqadqilMq04KLM5rus3fTej4xY0P3Ne5G0IffMH1
- EveHiww1oViKjbvjP1s8KwwzV/hlVXkuLkEpSakHpjgTxlrBqrMB2RUdWwPDNaH/T6cC0lQxSHn
- PbZ7RdLNVmu6v4LPR9S1ncpMO//afg+3LNsPd20FwxOaCv3IEiUwKRbUqxkbjuSQH4iwKR6llkU
- IGcF4f5x4/q+EXK6r0Foa98dU3i91q5S1y0X+Fsyceaza2rKKZSTaxY46atCOCfkKWuYH+5+Uju
- 5UESG7t+HFinMBkI1h6Qjkyrz93J+YOK5IKd6DQYtK0YownJLLGBpupYua5HeUemtn1gA/b+4ci
- nrfmHTqXJfXn1sKxAPG+3hj2jFzFA2Ibj7vzIzNYNdcpR33XtvVIbUpTu2kE3HPXhlMaJh18Nxt
- 9eoqc6/7NrkIp+w==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain
 
-virtio core already sets the .owner, so driver does not need to.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Wed 27 Mar 2024 at 01:06, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
----
+> Hi Jerome
+>
+> Thank you for your feedback
+>
+>> I'm not quite sure what you mean by "should have validation" and what
+>> setting exactly we should validate ?
+>> 
+>> I know I should be able to able to understand that
+>> from the code below but, somehow I have trouble deciphering it.
+>
+> Current ASoC have validation for ^^^ part
+>
+> 	DPCM
+> 		[CPU/xxxx]-[xxxx/Codec]
+> 		^^^^                   (A)
+> 	Normal
+> 		[CPU/Codec]
+> 		^^^^^^^^^^^
+>
+> (In many case, this "xxxx" is "dummy")
 
-Depends on the first patch.
----
- drivers/rpmsg/virtio_rpmsg_bus.c | 1 -
- 1 file changed, 1 deletion(-)
+Yes for many DPCM user, you have:
 
-diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
-index 1062939c3264..e9e8c1f7829f 100644
---- a/drivers/rpmsg/virtio_rpmsg_bus.c
-+++ b/drivers/rpmsg/virtio_rpmsg_bus.c
-@@ -1053,7 +1053,6 @@ static struct virtio_driver virtio_ipc_driver = {
- 	.feature_table	= features,
- 	.feature_table_size = ARRAY_SIZE(features),
- 	.driver.name	= KBUILD_MODNAME,
--	.driver.owner	= THIS_MODULE,
- 	.id_table	= id_table,
- 	.probe		= rpmsg_probe,
- 	.remove		= rpmsg_remove,
+       DPCM
+               [CPU/dummy]-[dummy/Codec]
+
+FYI: on Amlogic it is mostly the following
+(only considering DCPM, omitting C2C ...)
+
+       DPCM
+               [CPU-FE/dummy]-[CPU-BE/Codec]
+
+With possibly several BE instances per FE, and several codecs per BE.
+
+And there is even this for loopbacks:
+
+       DPCM
+               [CPU-FE/dummy]-[CPU-BE/dummy]
+
+
+> By this patch-set, It will check all cases
+>
+> 	DPCM
+> 		[CPU/xxxx]-[xxxx/Codec]
+> 		^^^^^^^^^   ^^^^^^^^^^ (B)
+> 	Normal
+> 		[CPU/Codec]
+> 		^^^^^^^^^^^
+>
+> At first, in [CPU/xxxx] case, "xxxx" part should be also checked
+> (in many case, this "xxxx" is "dummy").
+>
+> And, because it didn't check (A) part before,
+> (B) part might be error on some board (at least Intel board).
+> To avoid such case, temporally it uses "dummy" instead of "Codec"
+> before [15/15]. This means (B) part checked as like below.
+>
+> 	[xxxx/Codec] -> [xxxx/dummy]
+>
+> Because "dummy" will pass all cases, (B) part is almost same as no check.
+> Yes, it is no meaning, but the code will be simple.
+>
+>> Where you have a CPU supporting both direction and 2 codecs, each
+>> supporting 1 stream direction ? This is a valid i2s configuration.
+> (snip)
+>> >  		/*
+>> > -		 * FIXME
+>> > +		 * FIXME / CLEAN-UP-ME
+>> >  		 *
+>> >  		 * DPCM BE Codec has been no checked before.
+>> >  		 * It should be checked, but it breaks compatibility.
+>> >  		 * It ignores BE Codec here, so far.
+>> >  		 */
+>> > -		if (dai_link->no_pcm)
+>> > -			codec_dai = dummy_dai;
+>> > +		if ((dai_link->no_pcm) &&
+>> > +		    ((cpu_play_t	&& !codec_play_t) ||
+>> > +		     (cpu_capture_t	&& !codec_capture_t))) {
+>> > +			dev_warn_once(rtd->dev, "DCPM BE Codec has no stream settings (%s)\n",
+>> > +				      codec_dai->name);
+>> 
+>> Taking one codec at a time, would you trigger a warning for the use case I
+>> described above ?
+>
+> Oops, indeed it will indicate warning in your case.
+> How about this ?
+>
+> 	if ((dai_link->no_pcm) &&
+                         ^ Actually my comment applies to all links, DPCM backend or not
+
+> 	    (!codec_play_t && !codec_capture_t)) {
+
+A codec that does not support playback and does not support capture does
+not support much, does it ? ;)
+
+I suppose you meant something like:
+
+>           (!cpu_play_t && !codec_capture_t)) { 
+
+Then at first glance, maybe ... CPU and codec seem to exclude each other but
+that will only work as long as DCPM is limited to a single CPU per link.
+
+> 		dev_warn_once(...)
+> 		...
+> 	}
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
+
 
 -- 
-2.34.1
-
+Jerome
