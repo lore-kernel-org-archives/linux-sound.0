@@ -1,61 +1,60 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF1A145B3D
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 12:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8AF146583
+	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 12:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711543322; cv=none; b=nrkhESSEbg7cyArxOkCN5Ny7WvDYYA3rVWAEpBAA0IigCm0NH7Z02b5s8tzynfGJhDrgRmL5i8ngRMzQ6YrxE06zxJPuJXXSVzpgZL8CZw8NfxT612RFdJ7ilHJFx8b5rZ/kfFFhzqL51NyPnh/I4rSqp1gtALzjK93QuwENnLo=
+	t=1711543332; cv=none; b=vEnUXbmdBqSjLf4zqxDtBTAv/8CPSHOHqG8m8Q8MzoKN4OJdn3PuL/msheWnzKrFAMQadet6J2YX5sVDbFktHej2HDnOe0bBBZpmlwtXPkYtzeet5iLg4rICQIh0SJdzyNAKafs/WG8P83aXrEFyHa/P24gaiHCPlnSe5fsxsxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711543322; c=relaxed/simple;
-	bh=fwrJWKj8nU797mE0IC4lY3eH4qtf6HIC5ncnQg0kcy4=;
+	s=arc-20240116; t=1711543332; c=relaxed/simple;
+	bh=i29GGpteKXJOT7Y7HQVb9d3eZ/9hZZ41eKapONuqqTs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZzMmLT7pP25sT3KRN7O8QclksLyJPs3bF8VXmL2fBoASbGn6RfVxR5h1IdtTqOW0lMllP0WN4QsUSTfHDa8oza7RjxV1FQdULd507ih7eVA7Y64WNRSu4AhyZpIgscsybd12E014WJ46hhPvUNJWHfXvye/tAqoiAAO9inS++oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lo/sogJB; arc=none smtp.client-ip=209.85.218.46
+	 In-Reply-To:To:Cc; b=fGqG7kikA1AlIe30QX8otIn8g3lo0fUG0IeEuUMK49OsEcMJy2Toyy8xWfVCh1fZotH0MJ8zzaftZXA+QZgc39oEio5ELsmkeJOhcimoEkxdNJtSJLqTe39GkoZKmuBX16aChSQ939MTucG8UbSLslj16X2j2DcDGZr16JtV3NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VTp8hAeQ; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lo/sogJB"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a4715d4c2cbso849855166b.1
-        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:41:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VTp8hAeQ"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so882216366b.0
+        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711543316; x=1712148116; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711543328; x=1712148128; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o4tr5NG48SIYjCNbZydnC9ylnwvR5SnVT2LtcwsiMwA=;
-        b=lo/sogJBDeHaOt5AVEmGxd6xrAIKwo/V10kczmEVBtugerjA9k/i60dccN+YNJ2dKU
-         ORV6KN1WqTw9flrYyC9MVWGryhB6M+jcI78Sa1eyhNNg7Mps/6mEAMPbWmlZjQjD3p3w
-         RUQzWjTg+52tLfGK7GDbhstwhWsSlHxRD3w55M6LLJfaxJHVPy7hoiWwrBbayQCf4La6
-         VHHOlPfY2C9LbvHTAlC+LnjaMb5iKXeCOvi6XqFfFWMqd/9Az6F/KFL631WMDUXJ+clK
-         lRxA3KMt0N6jjSbO/Rap/VxBTCDylPMvQ4xoImj8P7HU9syrjloqxCdjfcXfVH5D9ywN
-         poGQ==
+        bh=Z2N77S+83trKseWxbTwOaTLrIYXxobuVp9FyL/kFGQQ=;
+        b=VTp8hAeQhWIxGPk+fWvBhPZPMLW2rQiXpfA1OUa07cBe0tOT/W31mS9dUqsr54ipxD
+         FceoJcikL4WgnfQoOo+VKcU3Xg4ISVisGOGa4uaedOsuqz/aoq+gVfu7nl7v8mYBOSCm
+         Enz7YSGkK9FQ6mPT0Y7+AzKXRU6DNGK1RrATwV123OWT6R7pJIeNvMLAcPhU1WufWgNp
+         rFOCdnK1yULPMnduRO/QM61YXXUkkSNGhMe+jOwxyYsnUiDbfMlMHDNM0Bur9XnQUJsC
+         9gyuHvV5GwlpuC6pwLN6rYL1dwfSIK150D3nQs1IzCIFw/rS9Lb4fkSJgp5wrtHXoo8a
+         VunA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711543316; x=1712148116;
+        d=1e100.net; s=20230601; t=1711543328; x=1712148128;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o4tr5NG48SIYjCNbZydnC9ylnwvR5SnVT2LtcwsiMwA=;
-        b=eQxhBk57fCtye9E1EhYhcIYnZpghZWVFNcltQMZDuhhQu5nGIzqkQIEfPNU41U2EIk
-         Z+J5aiojYhiGOddtZLezqbbwgik/wt7ztkXIaS+VDdent+qgpb9qJ3h5F2E1ojrcaFUZ
-         ed1J3SK7KJ+PBwY3EXne24+miIqRGZMTUM/V4SSv+hFi+AYrzTCcEK1wDnzR2EXrQ1B8
-         GNB9dSLw7YLHYLw1qkC+eEj1Pm54C0AUntiYs9kO22B1/5pY9VXUOQ6Q8JtGBm7CUZ9i
-         zS4KO6qiwBYqUcoa0akrhxHStJwtfvsUqLCTu+UMfS6qF7aWBtsCUQExDEjjKKGTiM/4
-         ZdWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUr/+y8hrKNdOYMRnovibR/Qy26hRAmcpcS3e1OCuqiIjPZO23Z49VmtITBcXmvO2ydZEDGmuyOGZ7lgQm5FSfgjfk9G8mwYPUyQdU=
-X-Gm-Message-State: AOJu0Yx6jVJGavE5YQnwAiT59sXNU0FNwVn/BqRupju4rW3IG1FyTCLR
-	/Mprj5gNdmGJ4H1SA6e+HtD5pjcX/jl2h/iVMqS82OdvW3OHF7ytMC3Dxmb2q1c=
-X-Google-Smtp-Source: AGHT+IHGDex70EGchFACtzsm2nrHrUxeSKSSg9117jWaPs7ddpDO3oid2XR2oF47HXk5SLd38PbHNg==
-X-Received: by 2002:a17:907:970a:b0:a4d:f77a:b8d6 with SMTP id jg10-20020a170907970a00b00a4df77ab8d6mr3727212ejc.22.1711543315681;
-        Wed, 27 Mar 2024 05:41:55 -0700 (PDT)
+        bh=Z2N77S+83trKseWxbTwOaTLrIYXxobuVp9FyL/kFGQQ=;
+        b=JCWUwcf/HJYKILrEaqqIBnWKhxRnCcksBDT566Gq1rPYh13EvV+Q2wgKRB7Wrlw2T2
+         urpVT/cEaRF694aAXEG5VLxhBvERYUqLbbSl4lhJHhyuWIxnVW0DMLNobD6m5s4eBpYa
+         l5nCDvUEfD/dOCTOzefFlhG3bahntx3qRTLTgsj/ufzXDTRhzvw7dgoKRsz9o+QnIoWC
+         bIvNNHDALfn64wf9RX3zo9G5iTTklNraNubINnGrkgGy6fm03Lpy+zm4ikJgnhtxFglB
+         Y+uuQ1CIt9tFakDmo/fWImLoAxalfwDXag1OnJZp2nZ8Ox04XKTF51qxpYwQw7KHtE9N
+         rrOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUr6yVB2jhFqMzf1j6WZvVj3KOvLnuOMkya4TIEhfQksmnCx433xZuiOnXjjO4MudEysqXpMM7c0TUt5J64o4+8cSuhT4LyjAtvMHA=
+X-Gm-Message-State: AOJu0YyhfRcuqMtJXlX4mZbMW2t7mUPRIkA93ATPtitzwHUjSAULQCM3
+	eD9DHmMJses13lOOlAJ+lgmsVHvXElYrXZeYQr25HdFm7Ykgm99yz+uO299mwyc=
+X-Google-Smtp-Source: AGHT+IEkE4pNot1uzWqq/Dxu/KgO4mLE7QfsgLYuIObS5ATO5treG1hWzzYXKuUBzpsw7NHEclpATw==
+X-Received: by 2002:a17:906:718f:b0:a47:47fc:441e with SMTP id h15-20020a170906718f00b00a4747fc441emr836212ejk.47.1711543328069;
+        Wed, 27 Mar 2024 05:42:08 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.206.205])
-        by smtp.gmail.com with ESMTPSA id gx16-20020a170906f1d000b00a4707ec7c34sm5379175ejb.166.2024.03.27.05.41.39
+        by smtp.gmail.com with ESMTPSA id gx16-20020a170906f1d000b00a4707ec7c34sm5379175ejb.166.2024.03.27.05.41.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 05:41:55 -0700 (PDT)
+        Wed, 27 Mar 2024 05:42:07 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 27 Mar 2024 13:40:54 +0100
-Subject: [PATCH 01/22] virtio: store owner from modules with
- register_virtio_driver()
+Date: Wed, 27 Mar 2024 13:40:55 +0100
+Subject: [PATCH 02/22] um: virt-pci: drop owner assignment
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
+Message-Id: <20240327-module-owner-virtio-v1-2-0feffab77d99@linaro.org>
 References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
 In-Reply-To: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
@@ -114,101 +113,47 @@ Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
  linux-sound@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3444;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=718;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=fwrJWKj8nU797mE0IC4lY3eH4qtf6HIC5ncnQg0kcy4=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmBBPaF1JDzqTfV6cOXqJmyzXYsgEqPQATvYRQk
- WnQRf8t/LyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgQT2gAKCRDBN2bmhouD
- 1+oYD/42/c31q0OYiLqEi/06F54yokibXBcPIkZLpMFNOTFEC7z+HyQLH1rUQjhhXMgwJ7AzI8y
- 7NznQsKuUd6y2WCWJnFhBDts6kEHJvQU6E+xqGzP2vmAVnMROlQy/LkXQIRLZafz1m+V1KtGAHU
- DUddrXGe58/IULO6HGJXn5W88W87cHRhL+VzuPgLPSZ1r+2UgOJJPsXQHGSCBwzazewyJCPdVBL
- aVAs5/3SwH4JaBj0a2yWWmqghkUrpKThxS1Z9qlZ31JkNUvyUPD1Uw24FMkTdQgdD9gkACGcwn4
- EFpICaVxRC2a10UH4qf9NSqNkAU3FdzajlC/nA75p3AAU7+TsrHZzPNv/qF1IHIoP/W6eB/UKI7
- 3U4PWq1LIDq7UYmL9tMxbveghvTTu67p90AA2uJrI2tE9ZZq6zFMijWlDvHb+SS5hXLXuAj/oOg
- claga2VkfoNDU2HP3F4to11EblvFhdSfJJDnLzKLBnrbjnVM7dkqY3GavOlIslOcd2ZW8gHDi+Z
- bsYIHCHPTvSdrW+Rf96zy3s822rN2dtNm9bxU769KmiWXmCytk48eZlxVoITtSNZAoGPTmM7i3N
- Qk0Y5SRvJ/PnycrTHfKDykbvzTENDEK7+rErnq6incSGSqzmmVreGoc0RhcyC/e4specV3/cM1K
- s9oa3DKTSHa4YBA==
+ bh=i29GGpteKXJOT7Y7HQVb9d3eZ/9hZZ41eKapONuqqTs=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmBBPbywJQXZioM2grDNH1GhnbC9jT7FlHBu8Il
+ BXxYGwRjraJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgQT2wAKCRDBN2bmhouD
+ 141rD/4uo4AQiIOCl21dlkWWoVLjNoCmALlYeYWtYXDJLeS9+PR/4c2YDTN11rNGZIY/nuXht+R
+ 08R2mFazQGyBslNrJRa5JhTm27rGZioRY5wiYiHqxItX9wtbLBAaPUS9Nophm+R4wqOUhsZnpH2
+ iXQpVZU+WxzXQWPWb37iMmYzasbeW4glBRKXiiC3CiF8u0wRyTUDts0V602SqlnsxNufaQ8Fhkw
+ v2BkNkkV2fb7XDmngW8OJ0kdV0Jyz61GQTc1t+4KdTLSlm4BqGSDVopNAVcuGaanCqBF/52q9Vw
+ GwfqQB77dn2XOgo/ZR0RSXAr23vu/0OwanIMUXPmNtLP0HdBjsPDci1Vl6eBKtREXmXYWwbZZYz
+ CWS0C80pM9J/VlR5mCSMck3fBmEeDTvE8F9MpZEre2yc2Q29DVx/bpfm6ztE/EyVr0F9Up8O/Tr
+ VA6FaMUz1KovyBRE8weaVHwCZ12Ab+SEc/U7hZ50L35WTjMLlYVRdlVUmcIzP2KmiQnV3W6jpMz
+ orbUL5s/p8br6ozoNcPu5ZcZz+mLi4MpfFyp/6zJ+ciMyf/3IUkaehDBf8Q36omx98PhwP8KxB6
+ /565K/p5SNWNrrGqH3SAriemyZe8lv2MhxVq7qZ+7WqhhglZ3FWLG0w1uleUDxPVaxFkVFtntn7
+ qgSaAlhyRZ+9xPg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Modules registering driver with register_virtio_driver() might forget to
-set .owner field.  i2c-virtio.c for example has it missing.  The field
-is used by some of other kernel parts for reference counting
-(try_module_get()), so it is expected that drivers will set it.
-
-Solve the problem by moving this task away from the drivers to the core
-amba bus code, just like we did for platform_driver in
-commit 9447057eaff8 ("platform_device: use a macro instead of
-platform_driver_register").
+virtio core already sets the .owner, so driver does not need to.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/driver-api/virtio/writing_virtio_drivers.rst | 1 -
- drivers/virtio/virtio.c                                    | 6 ++++--
- include/linux/virtio.h                                     | 7 +++++--
- 3 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-index e14c58796d25..e5de6f5d061a 100644
---- a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-+++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-@@ -97,7 +97,6 @@ like this::
+---
+
+Depends on the first patch.
+---
+ arch/um/drivers/virt-pci.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/um/drivers/virt-pci.c b/arch/um/drivers/virt-pci.c
+index 97a37c062997..7cb503469bbd 100644
+--- a/arch/um/drivers/virt-pci.c
++++ b/arch/um/drivers/virt-pci.c
+@@ -752,7 +752,6 @@ MODULE_DEVICE_TABLE(virtio, id_table);
  
- 	static struct virtio_driver virtio_dummy_driver = {
- 		.driver.name =  KBUILD_MODNAME,
--		.driver.owner = THIS_MODULE,
- 		.id_table =     id_table,
- 		.probe =        virtio_dummy_probe,
- 		.remove =       virtio_dummy_remove,
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index f173587893cb..9510c551dce8 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -362,14 +362,16 @@ static const struct bus_type virtio_bus = {
- 	.remove = virtio_dev_remove,
- };
- 
--int register_virtio_driver(struct virtio_driver *driver)
-+int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
- {
- 	/* Catch this early. */
- 	BUG_ON(driver->feature_table_size && !driver->feature_table);
- 	driver->driver.bus = &virtio_bus;
-+	driver->driver.owner = owner;
-+
- 	return driver_register(&driver->driver);
- }
--EXPORT_SYMBOL_GPL(register_virtio_driver);
-+EXPORT_SYMBOL_GPL(__register_virtio_driver);
- 
- void unregister_virtio_driver(struct virtio_driver *driver)
- {
-diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-index b0201747a263..26c4325aa373 100644
---- a/include/linux/virtio.h
-+++ b/include/linux/virtio.h
-@@ -170,7 +170,7 @@ size_t virtio_max_dma_size(const struct virtio_device *vdev);
- 
- /**
-  * struct virtio_driver - operations for a virtio I/O driver
-- * @driver: underlying device driver (populate name and owner).
-+ * @driver: underlying device driver (populate name).
-  * @id_table: the ids serviced by this driver.
-  * @feature_table: an array of feature numbers supported by this driver.
-  * @feature_table_size: number of entries in the feature table array.
-@@ -208,7 +208,10 @@ static inline struct virtio_driver *drv_to_virtio(struct device_driver *drv)
- 	return container_of(drv, struct virtio_driver, driver);
- }
- 
--int register_virtio_driver(struct virtio_driver *drv);
-+/* use a macro to avoid include chaining to get THIS_MODULE */
-+#define register_virtio_driver(drv) \
-+	__register_virtio_driver(drv, THIS_MODULE)
-+int __register_virtio_driver(struct virtio_driver *drv, struct module *owner);
- void unregister_virtio_driver(struct virtio_driver *drv);
- 
- /* module_virtio_driver() - Helper macro for drivers that don't do
+ static struct virtio_driver um_pci_virtio_driver = {
+ 	.driver.name = "virtio-pci",
+-	.driver.owner = THIS_MODULE,
+ 	.id_table = id_table,
+ 	.probe = um_pci_virtio_probe,
+ 	.remove = um_pci_virtio_remove,
 
 -- 
 2.34.1
