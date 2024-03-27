@@ -1,232 +1,129 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4F317565
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261231EB3A;
+	Wed, 27 Mar 2024 05:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711516344; cv=none; b=gbnUrJ2IRsOAiLYkc/e/V7kJjWOhaClAJbbHa0l4me0LMsDmiwb8+XBwasSRWbMFdZGsL0yKoYsxDcZX9aInBX/3WqHHIKhcw3p6KQrtpzblVVFbvjkdgLxG4ouY8CLxaYx+1rNHi/g0+2+lHNpgf5iv4xi3mWLmnSbB84R6abI=
+	t=1711518746; cv=none; b=roj7EElc2lFD/YgjY0WtqklD2io26XcOqUKbldoUcmnN7WLLNvYPA3MAmn3uXQ24OLHswv3O4n4yP0yMBsC45dPDQHGfCoEs3jZM4FttGiP0dodu4P8So4QHQ0YBM4BzoMfrEnkXQZKWj4X0r04W0fS3wlu3ri49aRBqr9FGEp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711516344; c=relaxed/simple;
-	bh=IJHWOnTINFpZXZ9g/2/P87Myf9jBqm+cXzXz94G2KlE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KStyLu1G0fL8Ts3kkurj7+OOJOmcDoHsp3PH7id/qBrZbpyJQrSA6fxfoOqtWnAJLuV3oMNznHLy1ybamwHmcK/ar1FGda4T47y/C5/z5wuo2ywH8rEtg6PFzZmlxK2pfzruDwBK08+UmUGr1E5O8OHSAWvcFx9lkQ7h1+XK8cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bfODwxVA; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711518746; c=relaxed/simple;
+	bh=DUYsEBhufHuKKK6bUgS5bqEt21XUzht90M0sAt1R+Mo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=A51WMIr6OPMPY5XPH/zH3c0byN4ZmLCsM3Ucz0A+WZ7i0SvC2CZ5ieqcxksGqpfGDmihkcURo2o1rBS6hBzR6QYN8ladodChbweatrQdmaIPwsdRW9vJnQsXUt8W8eOoAtErebIfpxogcRkjieTSFOp4+G7oq70kXePWPgSOgiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeXiLPXo; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bfODwxVA"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a470d7f77eeso796415866b.3
-        for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 22:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711516341; x=1712121141; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dwtti/peMihUTMyAzlCIGMLulrpmjqLQzU4QpF2mNKU=;
-        b=bfODwxVA6gLQY/wRvXPxQwa9E0IzaOHTWuRX5OqVDBWTXaH+rr+xnko3IJ+KJaHnda
-         L5AfneDqzz6q2NDenZ06x68xUpar3pZaYmE0oFnRWUgpH5SVU1y3YKKEJA4hLP7iA7dW
-         tQM1s28LUDxSgTczcglAPprIqneGY70vXg5b4g3Cl+6wC8FXsJj9nW8vfXH7ocULLadT
-         6kwJhhEDzW/VXkalS+YQv5R2UhBvIFmZRlUk7ovY+E53WddIs3ZLfyEjXRI2QVEffopK
-         HWmIuXJuHP7i3MDYUDtdkcoDkbqQF7f5jheag/BiKgfZsHdgd3PUe+c1nGwWUyuSXrfF
-         QFrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711516341; x=1712121141;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dwtti/peMihUTMyAzlCIGMLulrpmjqLQzU4QpF2mNKU=;
-        b=TvQSb2MQpQvMB505SYOsnjWeu6ZKd8/dIkv7/hZCLWX4bVaMcZtLQysP5OOtGKgJ6/
-         zNlzrvHiCsyOYFtzP6bVr12yv/NIp3bGu4PKjR3eMTv+kQPGd2IbN8voxXNyZigZWFty
-         SqvBQWVSQ+GvZ+rI0E2pFkk4lb/fCr2791+jFJOB+8eB8Cmut2lFs10/4zR9RUmWcl7P
-         1AxxHTXlbtM+eLX+9LhsBD4itEM//GPO9+39XaQKud2oXy0MEVLO/QZMD6qOpMRSdZZU
-         dn0jounayDwSFa68zNY6UcpOHGfdjWH2XkmjjXq3fcGFeZAwZaB0W/xtBvVIg42j4pKz
-         eQIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVan6yGLUx3HZ7JdjYqf8F5nSW5iXosj+vsL2xpOQjhrWryu6EUocho2XBugLFrli5NKhb7++Y4ShhTCfG2QEyUYdhdMhCM9pOXIP0=
-X-Gm-Message-State: AOJu0YwVIKjjz9vuaH+BCdHi2XXZi/GGlBLu+FHKJDQOjUnYKUhXSJN8
-	dnNiTZxL3mnSNnMv9AHtmvqo1E6zjGuJTiVgLloyneugITNBF7w7iuIhHl2JVow=
-X-Google-Smtp-Source: AGHT+IElJpw3yCm9S4l81YiCAYTFbqQcMEaxlCe/Y/vun3hBezNkXoQkI96UNC8LRjTdHliw/4EueA==
-X-Received: by 2002:a17:906:dfd7:b0:a46:f6fc:1fda with SMTP id jt23-20020a170906dfd700b00a46f6fc1fdamr92944ejc.20.1711516340821;
-        Tue, 26 Mar 2024 22:12:20 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.44])
-        by smtp.gmail.com with ESMTPSA id kq1-20020a170906abc100b00a46a04d7dc4sm4957769ejb.61.2024.03.26.22.12.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 22:12:20 -0700 (PDT)
-Message-ID: <16f72b4a-2aa9-49d5-a4aa-ed94eea1f32a@linaro.org>
-Date: Wed, 27 Mar 2024 06:12:18 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeXiLPXo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711518743; x=1743054743;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DUYsEBhufHuKKK6bUgS5bqEt21XUzht90M0sAt1R+Mo=;
+  b=TeXiLPXoofhobFd2nlvewQ2n2qOzKpd88xnePb/yM2t8SB1AOB6mRssK
+   3XvFOHj7y740DcK8hgfwZdQRNvzDkrykOKSBYnaC/0TuFMpK6LlTZ7Zdd
+   TOq1zc0V52u3nYpjXzKmCsnXxc/ypkRQHRzCYN91kO57F/tTqvR7Kk7Bu
+   9BfE/sSiZ44/0bUgNoBFE1eZBHRK0/8yWUw/ULP+M04hgRZ92yoYTQaYq
+   3Bsfzzac/PeTj1evjrUuj5iGWqrkz2eEiZJlCSIWFIHhV0QeZbQzut/E7
+   h+mDGvf5a73CPz34G/uE9vwKdtehQe01dV2P+MY0u6oI7RvC3SUBOM/ct
+   Q==;
+X-CSE-ConnectionGUID: xG6sBxwRSUGtmVG8uaWXig==
+X-CSE-MsgGUID: qyD6Y8h1RuCgRGY+OFqL8A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6788885"
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="6788885"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 22:52:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="20669682"
+Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 22:52:22 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH] soundwire: intel: add intel_free_stream() back
+Date: Wed, 27 Mar 2024 05:52:15 +0000
+Message-Id: <20240327055215.1097559-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDEvMl0gQVNvQzogZHQtYmluZGlu?=
- =?UTF-8?Q?gs=3A_Add_bindings_for_Cadence_I2S-MC_controller?=
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Claudiu Beznea <Claudiu.Beznea@microchip.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
- <20240320090239.168743-2-xingyu.wu@starfivetech.com>
- <9d9efb8a-0b3c-4e7a-8673-07cd3b1f5f87@linaro.org>
- <NTZPR01MB0956BD6189974378958562D99F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
- <9b1a5100-8536-4b59-b2e7-d6ebd2ba9e66@linaro.org>
- <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 26/03/2024 14:43, Xingyu Wu wrote:
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    enum:
->>>>> +      - cdns,i2s-mc
->>>>
->>>> Why did this appear? Who asked for this? Usually these blocks are not
->>>> usable on their own.
->>>
->>> I wonder if I should keep the original IP compatible. Do I not need it?
->>
->> As I said, it is not usable on its own, so unless you have other arguments then no.
->> But my point was that no one asked for this.
-> 
-> I want to keep the original IP compatible which can distinguish from the JH8100 SoC.
-> Can I write it like this:
-> compatible:
->    enum:
->           - starfive,jh8100-i2s
->    const: cdns,i2s-mc
-> 
-> and I write this in the DTS:
-> compatible = "starfive,jh8100-i2s", "cdns,i2s-mc";
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Can you provide any rationale for this? I asked "unless you have other
-arguments", so where are the arguments?
+Add the intel_free_stream() callback to deal with the change in IPC that
+requires additional steps to be done to clear the gateway node_id.
 
-Nothing was explained in patch changelog. Nothing was provided in this
-email thread.
+Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ drivers/soundwire/intel.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-> 
->>
->>>
->>>>
->>>>> +      - starfive,jh8100-i2s
->>>>> +
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  interrupts:
->>>>> +    description:
->>>>> +      The interrupt line number for the I2S controller. Add this
->>>>> +      parameter if the I2S controller that you are using does not
->>>>> +      using DMA.
->>>>
->>>> That's still wrong. You already got comment on this. Either you have interrupt
->> or not.
->>>> You do not add interrupts, based on your choice or not of having DMA.
->>>> Drop the comment.
->>>
->>> Do I keep this property and drop this description?
->>
->> Drop description. Keep property, if your hardware has interrupts.
->>
-> 
-> Will drop.
-> 
->> ...
->>
->>>>
->>>>> +  - compatible
->>>>> +  - reg
->>>>> +  - clocks
->>>>> +  - clock-names
->>>>> +  - resets
->>>>> +
->>>>> +oneOf:
->>>>> +  - required:
->>>>> +      - dmas
->>>>> +      - dma-names
->>>>> +  - required:
->>>>> +      - interrupts
->>>>
->>>> This won't work. Provide both interrupts and dmas, and then test your DTS.
->>>
->>> I provided both properties in the DTS and test by dtbs_check. Then it printed
->> that:
->>> 'More than one condition true in one of shema: ...'
->>
->> Exactly. Having both properties is a correct DTS. Interrupts do not disappear just
->> because you decide to describe DMA. It is OS choice what to use if both are
->> provided.
->>
-> 
-> But this I2S can only use either DMA or interrupts.
-
-Just like many other components. DTS should reflect hardware. Hardware
-has interrupts and DMA, right?
-
-> 
-> Can I use the config (like SND_SOC_CADENCE_I2S_MC_PCM)  to choose DMA or
-> interrupt if having both them in DTS?
-
-Don't know, I tend to focus here on bindings.
-
-Best regards,
-Krzysztof
+diff --git a/drivers/soundwire/intel.c b/drivers/soundwire/intel.c
+index e15666962fe4..01e1a0f3ec39 100644
+--- a/drivers/soundwire/intel.c
++++ b/drivers/soundwire/intel.c
+@@ -700,6 +700,24 @@ static int intel_params_stream(struct sdw_intel *sdw,
+  * DAI routines
+  */
+ 
++static int intel_free_stream(struct sdw_intel *sdw,
++			     struct snd_pcm_substream *substream,
++			     struct snd_soc_dai *dai,
++			     int link_id)
++{
++	struct sdw_intel_link_res *res = sdw->link_res;
++	struct sdw_intel_stream_free_data free_data;
++
++	free_data.substream = substream;
++	free_data.dai = dai;
++	free_data.link_id = link_id;
++
++	if (res->ops && res->ops->free_stream && res->dev)
++		return res->ops->free_stream(res->dev, &free_data);
++
++	return 0;
++}
++
+ static int intel_hw_params(struct snd_pcm_substream *substream,
+ 			   struct snd_pcm_hw_params *params,
+ 			   struct snd_soc_dai *dai)
+@@ -831,6 +849,7 @@ static int
+ intel_hw_free(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+ {
+ 	struct sdw_cdns *cdns = snd_soc_dai_get_drvdata(dai);
++	struct sdw_intel *sdw = cdns_to_intel(cdns);
+ 	struct sdw_cdns_dai_runtime *dai_runtime;
+ 	int ret;
+ 
+@@ -851,6 +870,12 @@ intel_hw_free(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+ 		return ret;
+ 	}
+ 
++	ret = intel_free_stream(sdw, substream, dai, sdw->instance);
++	if (ret < 0) {
++		dev_err(dai->dev, "intel_free_stream: failed %d\n", ret);
++		return ret;
++	}
++
+ 	dai_runtime->pdi = NULL;
+ 
+ 	return 0;
+-- 
+2.34.1
 
