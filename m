@@ -1,138 +1,152 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C899ADF4D;
-	Wed, 27 Mar 2024 08:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0051CA9C;
+	Wed, 27 Mar 2024 09:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711526752; cv=none; b=GR95OIIrCo6Bp24YAn6UwUvtlCW79OXISh4+b4nsjzI3DeQFieUML1wsF4YFI7JiDrqCNDIMUoegeeRhbWhhFoGTbtU/FX24x8ooVut7myzPbQ0p2RTktjGME6OHMX+DohPUcA/18QeqAhcsWEPtvjjo/8m41hPSRh0PB9Z3jKY=
+	t=1711533254; cv=none; b=I8DOqZ2CflYjv91eSGbznQneeGdSY7Qd+6RKoDrag9CDBZ1eLAU77zp6ietafLlT23kSTvq9tpaRlm82P06jTEHwPEACCp0ivxJxdw31CTAFaKLQ/E8tZI8+EYaVxgRpCuRappyqGz77Y62yQGJxI+HlYDgZ/TmktWpStWFuV0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711526752; c=relaxed/simple;
-	bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxrrbZk9Q7UWtdzKQ/ywYKXC48xrhRzmsot0iW8ymu4ZCNou4CVOq/cOVditqOOLJx5XITg5xL1Il9oGlq7EsLUksiSBpbVOwqQxfAiZk8Xx+xeN+GDJT7XrRVjyO7V5hIf+35FG9IPGr2+Fj0lH4tG5kVO3+aSHD1X3rbohp+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FNs720Yz; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1711533254; c=relaxed/simple;
+	bh=/RSGL1gNTTk+E2Qxud2oSKiTaC1ct0/6iam11UaSoM4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ILg52E0p0mzqsuxccXJRdRWOst8jsqBhW1VKaWqDUsAo/j6VjbTF3NdC5t1XIfti03FV4vP8Ger0tVNqPO1cWk5/KVUKutzFoTBUEkWyEvNDI0GBL92LHFk4i+SIkoVXBzneSjDNI+iOGwsINSsL7+pdcYszDY3S1AOPNFyfYU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qZ2Pkttu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gG1XQHzO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qZ2Pkttu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gG1XQHzO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FNs720Yz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1711526745; bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FNs720YzlUVg+LJFcaUHuBsJLiF6gKZLE6FYoYAy+4PcQed1GZnX12dX5Ot6qHu6G
-	 hdcEfh1WJ0ZNPzzeDBZwkRSz24z4wz6wDvWgcIFpTKyzGRuhrgvph+d7GcZAhVRN8y
-	 /jNXuG0LdO6JsQlDpFHHPbmhnInQNrR/JVIC1yVs=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org
-Cc: Ondrej Jirman <megi@xff.cz>,
-	kernel test robot <lkp@intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qZ2Pkttu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gG1XQHzO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qZ2Pkttu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gG1XQHzO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B9078601E9;
+	Wed, 27 Mar 2024 09:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711533250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nYySJVDEu2ItYGQHILPTW390eiYeDpkVRciD4RPI5YM=;
+	b=qZ2PkttutCx3A9rM55tb41fQ0opeVQtVnXNICDaifyiWQ2jrBk7Wpkf56XZi7MUiFBjYig
+	dOS+pMYWboQDTEzoLFbq5MN90hcCMqZLpYhnqTIui3L0e4/6UQg2PTEPOSCB1R5Y0cD5bt
+	Pj3Ty139KnGos/+Nj8TZEfWymm0VRZU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711533250;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nYySJVDEu2ItYGQHILPTW390eiYeDpkVRciD4RPI5YM=;
+	b=gG1XQHzOzWGD2lMQFjyWo+j5As2FUbTuYo9fqU3Z/I+zh8rd88Fsp0okf2pfVfGczHGrVx
+	YFRmfQaFYu8O8BAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711533250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nYySJVDEu2ItYGQHILPTW390eiYeDpkVRciD4RPI5YM=;
+	b=qZ2PkttutCx3A9rM55tb41fQ0opeVQtVnXNICDaifyiWQ2jrBk7Wpkf56XZi7MUiFBjYig
+	dOS+pMYWboQDTEzoLFbq5MN90hcCMqZLpYhnqTIui3L0e4/6UQg2PTEPOSCB1R5Y0cD5bt
+	Pj3Ty139KnGos/+Nj8TZEfWymm0VRZU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711533250;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nYySJVDEu2ItYGQHILPTW390eiYeDpkVRciD4RPI5YM=;
+	b=gG1XQHzOzWGD2lMQFjyWo+j5As2FUbTuYo9fqU3Z/I+zh8rd88Fsp0okf2pfVfGczHGrVx
+	YFRmfQaFYu8O8BAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E1411369F;
+	Wed, 27 Mar 2024 09:54:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bs/bEcLsA2ZFHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 Mar 2024 09:54:10 +0000
+Date: Wed, 27 Mar 2024 10:54:12 +0100
+Message-ID: <87il1880fv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV disabled
-Date: Wed, 27 Mar 2024 09:05:34 +0100
-Message-ID: <20240327080542.3649840-1-megi@xff.cz>
+	Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Dawei Li <set_pte_at@outlook.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/9] ALSA: aoa: avoid false-positive format truncation warning
+In-Reply-To: <20240326223825.4084412-9-arnd@kernel.org>
+References: <20240326223825.4084412-1-arnd@kernel.org>
+	<20240326223825.4084412-9-arnd@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.10
+X-Spamd-Result: default: False [-1.10 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[17];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[lists.linux.dev,sipsolutions.net,perex.cz,suse.com,kernel.org,arndb.de,google.com,outlook.com,lists.ozlabs.org,alsa-project.org,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.80)[84.71%]
+X-Spam-Flag: NO
 
-From: Ondrej Jirman <megi@xff.cz>
+On Tue, 26 Mar 2024 23:38:07 +0100,
+Arnd Bergmann wrote:
+> 
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> clang warns about what it interprets as a truncated snprintf:
+> 
+> sound/aoa/soundbus/i2sbus/core.c:171:6: error: 'snprintf' will always be truncated; specified size is 6, but format string expands to at least 7 [-Werror,-Wformat-truncation-non-kprintf]
+> 
+> The actual problem here is that it does not understand the special
+> %pOFn format string and assumes that it is a pointer followed by
+> the string "OFn", which would indeed not fit.
+> 
+> Slightly increasing the size of the buffer to its natural alignment
+> avoids the warning, as it is now long enough for the correct and
+> the incorrect interprations.
+> 
+> Fixes: b917d58dcfaa ("ALSA: aoa: Convert to using %pOFn instead of device_node.name")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
-have 'type' field. We can't rely on this field being always present,
-so store the jack_type in the codec driver itself.
+Applied this one now to sound.git tree.  Thanks.
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@intel.com/
----
-This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
 
- sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 43795362fed0..b5dafb749c3f 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -232,6 +232,7 @@ struct sun8i_codec {
- 	struct delayed_work		jack_work;
- 	int				jack_irq;
- 	int				jack_status;
-+	int				jack_type;
- 	int				jack_last_sample;
- 	ktime_t				jack_hbias_ready;
- 	struct mutex			jack_mutex;
-@@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
- 						  jack_work.work);
- 	unsigned int mdata;
--	int type_mask = scodec->jack->jack->type;
- 	int type;
- 
- 	guard(mutex)(&scodec->jack_mutex);
-@@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 
- 		scodec->jack_last_sample = -1;
- 
--		if (type_mask & SND_JACK_MICROPHONE) {
-+		if (scodec->jack_type & SND_JACK_MICROPHONE) {
- 			/*
- 			 * If we were in disconnected state, we enable HBIAS and
- 			 * wait 600ms before reading initial HDATA value.
-@@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
- 		} else {
- 			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
--					    type_mask);
-+					    scodec->jack_type);
- 			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
- 		}
- 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
-@@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_struct *work)
- 		if (type == SND_JACK_HEADPHONE)
- 			sun8i_codec_set_hmic_bias(scodec, false);
- 
--		snd_soc_jack_report(scodec->jack, type, type_mask);
-+		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
- 		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
- 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
- 		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
- 			return;
- 
- 		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
--		if (type_mask & SND_JACK_MICROPHONE)
-+		if (scodec->jack_type & SND_JACK_MICROPHONE)
- 			sun8i_codec_set_hmic_bias(scodec, false);
- 
--		snd_soc_jack_report(scodec->jack, 0, type_mask);
-+		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
- 	}
- }
- 
-@@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
- 		if (scodec->jack_last_sample >= 0 &&
- 		    scodec->jack_last_sample == value)
- 			snd_soc_jack_report(scodec->jack, type,
--					    scodec->jack->jack->type);
-+					    scodec->jack_type);
- 
- 		scodec->jack_last_sample = value;
- 	}
--- 
-2.44.0
-
+Takashi
