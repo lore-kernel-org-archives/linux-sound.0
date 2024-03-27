@@ -1,75 +1,47 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2058.outbound.protection.outlook.com [40.107.215.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7714C600;
-	Wed, 27 Mar 2024 07:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711526289; cv=fail; b=REuGCfEwP6RaFGNRVGka17ls2G/YakFuQ1M0fEZ0a3p9rbTymU0jWUtb79fLk/eP7Es7rG15jxtsCeBhA3lZg3BFAKG1mMyO9p+RvjVetzBnGlP/geo0gSeUKEzhVCAA6sLXpB+hGQM4svi20OaLOfSVKB+EVI6sXMEPuFBLONs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711526289; c=relaxed/simple;
-	bh=KcpvCSLZRo8Nfh45hvHZk5IfZTlTMKSqQ7SJZTaumH0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uauZAY6I9q7M8IC8qQC/k2v1dud/FNEnGjYFQishE+j83NmB2VxC10APIC0Zz/rhgrnLHjs6m0LuUkRNl9YwNGpJp3bgR7g+pp3ikfFMD4+nl3CiLVZom7G2TDN0LWSlPlC1WPJyE5znKqRnKcCHlrO0LNQcJr9wUBH6xKe+XsQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=V+7XteFg; arc=fail smtp.client-ip=40.107.215.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C899ADF4D;
+	Wed, 27 Mar 2024 08:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711526752; cv=none; b=GR95OIIrCo6Bp24YAn6UwUvtlCW79OXISh4+b4nsjzI3DeQFieUML1wsF4YFI7JiDrqCNDIMUoegeeRhbWhhFoGTbtU/FX24x8ooVut7myzPbQ0p2RTktjGME6OHMX+DohPUcA/18QeqAhcsWEPtvjjo/8m41hPSRh0PB9Z3jKY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711526752; c=relaxed/simple;
+	bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxrrbZk9Q7UWtdzKQ/ywYKXC48xrhRzmsot0iW8ymu4ZCNou4CVOq/cOVditqOOLJx5XITg5xL1Il9oGlq7EsLUksiSBpbVOwqQxfAiZk8Xx+xeN+GDJT7XrRVjyO7V5hIf+35FG9IPGr2+Fj0lH4tG5kVO3+aSHD1X3rbohp+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=FNs720Yz; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="V+7XteFg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELjvAfb/DzucMGnSxv9tW0ijN0te/CnOCG78t7GKNDN4mo7Ln66MRVHmhr4cnH0dTa4gOJE4W94bJ3KV5iFUlJluqmbKrqECIWVid84mFBGO3+T07sqk7f6VBhWBqPvwJyMv4HH5eoClEk37oRBmy9FxYUkpLJGBgAnf0s57gmzHkK8ryqc1KMOiQiySmKtOYZkU3AWRiZ+VOOgCnpAqQii1Q151/Qtv4b/zVdaFGy0d5+BsFZGEsS8AdHL18AOWYqQ3/Ihe+2X+Um4EPKey3T3fMdz0wqLxa7dHdcaFq52ndscOuaTyq4veYsoOF3YiXtnfr0johTOZWofKIpb6Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VY54/bVH5xqZ+TsuTNHsbve5RcuM1pZy9jC43LA6+eE=;
- b=MOSBddc2lbdR5yDJs2HaxV3cAPZ1T1ELeMYz+7pTRHs892bs82qkpfp7EUIKa6Rp1a953Ck9LFEcCQEYEMNo5+NqQIfLy3SG+LLbCtPtpfS0IUamEKJsMDF6wl0mOlPzdD7PvfHwN71XCYyvNbwO/1NC6KL0DCzKSYShiSa7ZMpy63gngX0lZ8o3LXyz2ygowD752BxuYwNeCBc/gsEyUNhic57DUXTi9C4/WMsUq/ipWPa9ruy5TWoepG67kQbvI5/DI8H3STPBtHWyOs1J8b7UfolzkJNRgOM5CkPc6vEaog8gmucSkUoadj6oDAxN8UjXuJswAzudJSbcsLZV6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 175.98.123.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VY54/bVH5xqZ+TsuTNHsbve5RcuM1pZy9jC43LA6+eE=;
- b=V+7XteFgZFi0KhVArGdm8jvqq0oA62wbJ7kTQ4BUhl/VhnZlAVZgRWoed3Gbk55SztWgK8BP3z0ylGvucVOSRKHHJhorcGvMCFPl/UfYxhNUtC3G0U+YBYgj0b7x/PzJuQ434dI2kYnChjEbkzbwh/jyljBnNQv2o0SogYnx6+8=
-Received: from PSBPR02CA0007.apcprd02.prod.outlook.com (2603:1096:301::17) by
- SEZPR03MB6716.apcprd03.prod.outlook.com (2603:1096:101:64::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.23; Wed, 27 Mar 2024 07:58:00 +0000
-Received: from HK2PEPF00006FAE.apcprd02.prod.outlook.com
- (2603:1096:301:0:cafe::2e) by PSBPR02CA0007.outlook.office365.com
- (2603:1096:301::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
- Transport; Wed, 27 Mar 2024 07:57:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
- smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nuvoton.com;
-Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
- 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
-Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
- HK2PEPF00006FAE.mail.protection.outlook.com (10.167.8.4) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7409.10 via Frontend Transport; Wed, 27 Mar 2024 07:57:59 +0000
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
- (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 27 Mar
- 2024 15:57:57 +0800
-Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 27 Mar 2024 15:57:57 +0800
-From: Seven Lee <wtli@nuvoton.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
-	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <linux-kernel@vger.kernel.org>,
-	<robh+dt@kernel.org>, <conor+dt@kernel.org>, <perex@perex.cz>,
-	<tiwai@suse.com>, <YHCHuang@nuvoton.com>, <KCHSU0@nuvoton.com>,
-	<CTLIN0@nuvoton.com>, <SJLIN0@nuvoton.com>, <wtli@nuvoton.com>,
-	<scott6986@gmail.com>, <supercraig0719@gmail.com>, <dardar923@gmail.com>
-Subject: [PATCH v5 0/2] ASoC: nau8325: Modify driver code and dtschema.
-Date: Wed, 27 Mar 2024 15:57:53 +0800
-Message-ID: <20240327075755.3410381-1-wtli@nuvoton.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="FNs720Yz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1711526745; bh=r4JXMW58E7i8lNoJ31XYYNnSGQR/YuEX7KZrH5t3UyE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FNs720YzlUVg+LJFcaUHuBsJLiF6gKZLE6FYoYAy+4PcQed1GZnX12dX5Ot6qHu6G
+	 hdcEfh1WJ0ZNPzzeDBZwkRSz24z4wz6wDvWgcIFpTKyzGRuhrgvph+d7GcZAhVRN8y
+	 /jNXuG0LdO6JsQlDpFHHPbmhnInQNrR/JVIC1yVs=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org
+Cc: Ondrej Jirman <megi@xff.cz>,
+	kernel test robot <lkp@intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH] ASoC: sun8i-codec: Fix build with CONFIG_SND_JACK_INPUT_DEV disabled
+Date: Wed, 27 Mar 2024 09:05:34 +0100
+Message-ID: <20240327080542.3649840-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,70 +49,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NotSetDelaration: True
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FAE:EE_|SEZPR03MB6716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f61dfc5-d5de-4746-410d-08dc4e339efe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	PESunSWPWnuspWEH7OvekPgMIre2veKnrEgRl22veQgCqrAS6sbcGFc+UnJrqQLhwDEf9Af8NmkK4bZFKTCtEOajq12PsSyCkanEOc6CBEybBoy1ipUlnMPPokpwb+31odVp7vx4eQmV1xrGO5gdfz5SbK+xDHEj2mzEtSIHu7tnLHJO4zn8YH553cokx58lTroo5Hnl6Y6LnC21+tKw6XfCY1J4M6oBKv+vSZh4Ji5hKBc07c5JikgBqBGHh4OOtGeW1Vjzyddlx2qbKGneMvwPiIhIi6oAmPTOYIrtYkEHGP8J0YO1HKCU0WEl2lbWpNcL6JR8uKNaqjeX8HShxywsBNm341QvQqOdTk2PtnHW+/wavRzAZd/7QUYb2PK9p5KnK2XIWZ/hrdADcCkp9gNQGKOO9FNF6RmlFom9F0SMulJPRXBdWh9ngYw6wXcQhMfXBq5a2HmhY+dnrGnLcDTCju2lpNhKGJlCNIXXUZDZWDTrlPVTWjPKjI1lkw/4tBUE7bgaq2xuenxhJtcbFfknhZ9bIhCga/JWoAV7jiOZMz0e7e8DLG98SE1uajfMGZ69LW8HmoFMa4uw1OfwY04JWl/UR1Xw69Penhmd8gR/qbEi9VEyGWHV7Hh/2S5AdrWiUbqqULBFLldZs5FmZWKa3r7SBIuECrbIuAIxpX0ipuTUjN5Z3KtgfoZ99r8+OON/QaGbs+vR+PZM0u0dLEbV8y/j7pdwF3t5/ud/R6XhcS9OzgI9HzaAbF9pw8/F
-X-Forefront-Antispam-Report:
-	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230031)(82310400014)(7416005)(36860700004)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 07:57:59.7216
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f61dfc5-d5de-4746-410d-08dc4e339efe
-X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	HK2PEPF00006FAE.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB6716
 
-Revise properties description and use standard units in dtschema.
-The unit conversion driver based on the attribute must also be
-changed accordingly.
+From: Ondrej Jirman <megi@xff.cz>
 
-Change:
-V1 -> V2:
-- Revise the driver description part for the C++ comment.
-- In the nau8325_clkdet_put function, modify the max variable to hard code.
-- Removed "Clock Detection" switch control.
-- modify the "ALC Enable" switch name.
-- Revise the dtschema for "nuvoton,dac-vref".
+When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
+have 'type' field. We can't rely on this field being always present,
+so store the jack_type in the codec driver itself.
 
-V2 -> V3:
-- Properties use standard unit suffixes.
-- Modify the enum definition.
-- Driver code should be used dev_dbg().
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@intel.com/
+---
+This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
 
-V3 -> V4:
-- Properties use standard unit suffixes.
-- Modify the enum definition.
+ sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-V4->V5:
-- Properties use standard unit suffixes for vref-impedance and dac-vref.
-- Revise the enum definition.
-- Modify the code related to properties usage in the NAU8325 codec driver.
-- Re-arrange header files in alphabetical order.
-
-Seven Lee (2):
-  ASoC: dt-bindings: Added schema for "nuvoton,nau8325"
-  ASoC: nau8325: new driver
-
- .../bindings/sound/nuvoton,nau8325.yaml       |  80 ++
- sound/soc/codecs/nau8325.c                    | 893 ++++++++++++++++++
- sound/soc/codecs/nau8325.h                    | 391 ++++++++
- 3 files changed, 1364 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml
- create mode 100644 sound/soc/codecs/nau8325.c
- create mode 100644 sound/soc/codecs/nau8325.h
-
+diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+index 43795362fed0..b5dafb749c3f 100644
+--- a/sound/soc/sunxi/sun8i-codec.c
++++ b/sound/soc/sunxi/sun8i-codec.c
+@@ -232,6 +232,7 @@ struct sun8i_codec {
+ 	struct delayed_work		jack_work;
+ 	int				jack_irq;
+ 	int				jack_status;
++	int				jack_type;
+ 	int				jack_last_sample;
+ 	ktime_t				jack_hbias_ready;
+ 	struct mutex			jack_mutex;
+@@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+ 	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
+ 						  jack_work.work);
+ 	unsigned int mdata;
+-	int type_mask = scodec->jack->jack->type;
+ 	int type;
+ 
+ 	guard(mutex)(&scodec->jack_mutex);
+@@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+ 
+ 		scodec->jack_last_sample = -1;
+ 
+-		if (type_mask & SND_JACK_MICROPHONE) {
++		if (scodec->jack_type & SND_JACK_MICROPHONE) {
+ 			/*
+ 			 * If we were in disconnected state, we enable HBIAS and
+ 			 * wait 600ms before reading initial HDATA value.
+@@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+ 			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
+ 		} else {
+ 			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
+-					    type_mask);
++					    scodec->jack_type);
+ 			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
+ 		}
+ 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
+@@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+ 		if (type == SND_JACK_HEADPHONE)
+ 			sun8i_codec_set_hmic_bias(scodec, false);
+ 
+-		snd_soc_jack_report(scodec->jack, type, type_mask);
++		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
+ 		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
+ 	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
+ 		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
+ 			return;
+ 
+ 		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
+-		if (type_mask & SND_JACK_MICROPHONE)
++		if (scodec->jack_type & SND_JACK_MICROPHONE)
+ 			sun8i_codec_set_hmic_bias(scodec, false);
+ 
+-		snd_soc_jack_report(scodec->jack, 0, type_mask);
++		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
+ 	}
+ }
+ 
+@@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
+ 		if (scodec->jack_last_sample >= 0 &&
+ 		    scodec->jack_last_sample == value)
+ 			snd_soc_jack_report(scodec->jack, type,
+-					    scodec->jack->jack->type);
++					    scodec->jack_type);
+ 
+ 		scodec->jack_last_sample = value;
+ 	}
 -- 
-2.25.1
+2.44.0
 
