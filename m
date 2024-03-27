@@ -1,155 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A73D12CD98;
-	Wed, 27 Mar 2024 13:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E34613D257;
+	Wed, 27 Mar 2024 13:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711545247; cv=none; b=YyHlqRMjLs+zgxD3TwJTQpITe3sFQAdFHiRUpNCSLyWjskPRAFGNkYs7iKWs4p14SLrf70PQ0ZsOiCcA7MfOwdmuc6HaXsALzHnPvIuH3ZE44qmvj3Q8Fxa4a28P+CGsWjZZqX3Hzzkrzn+DW718rwxWAGETwrgTeQTfCoYx2PA=
+	t=1711546488; cv=none; b=JauUuAQu/M+/408e+aJRISYbM4gG2kN4vMJAehO5KFeYgUg/vImlaFCLxZDMl19G1xh6Q1x/F5ard8LVV5N/509CiqhEIrQ0JgXX7tI5WpAl78i7TpwW7RMw1lqQehsOh4CJ1f+RYmyCRIu7BXRKwVdm2+mJcwa12hVIL+dYsbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711545247; c=relaxed/simple;
-	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SzsEBDg+DUV1Ibu/mGTR8T7McDwRg09854+Zlk6zjSjVn6bEudNstt8Z1HJia9TaWfhc89ZSxWEJb7HMXM+/qhc/u+Hz/wikdgF7mvxUFEHp2noGWi0jYYoYtv/8pGHleWcLPs/ef6cAMApQxbNrKk33Q17h56/UAYnsq1VD9yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE8ecp20; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711546488; c=relaxed/simple;
+	bh=NZdy0X3liUqTEzRbInNe/vjDY6MNb1re1WUM40McVv8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LZ8Dln/zjOG72JEUOOS4hbQGPyqejul50l9nbRk1O9/j/Rfqp6RIUUwou18pshvK4NOIXs3J3ok3RAbi8dNC3PJur9gY/y88nXRfR7ArgDBrTakRHToQNEh89L2/kX4IQu3z6HSRuFamam4r/nlwqILxX7Is51TInAIiy4EKT8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=fntl9GJN; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE8ecp20"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71DF2C433C7;
-	Wed, 27 Mar 2024 13:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711545247;
-	bh=aPOuPtfFZvuUS61teESlTOGy3EScaFITJd6zIkdxh9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QE8ecp20wx1JqOfnBKrNrQ1A7il/EPdx7Qb2bU3tEQFAtdxchTsOko14YmIhTc65e
-	 0erb/xIg+6dFfPAs+oSBwJgWmwAEVWH9jcL4J987Qqj/IxyFEnRxHpTlftkEsoAcPI
-	 rHgpIj4isH57zbCSTvhbiZTT1f+uGS73wliYdL2sK2R/RX+FgDwxEC1gNQLiUp2svC
-	 4YuUkVTn9LYjuOz2FylQazVFjSrgANcIAeI0GKo4wsgMuz6M/8vbqKgl8MIVhdo+Il
-	 c9LCzVA++7q5ANbZro2hu+oLAbcmclN8aL7Rfs1tthIILl+9w4VZkFS1j/7Lt8jXPo
-	 GT+PFYbgVwa+A==
-Date: Wed, 27 Mar 2024 13:14:02 +0000
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-leds@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240327131402.GQ13211@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
- <20240305145454.GG86322@google.com>
- <f2e7d244-62f4-4dde-bffc-8d96e5a4bac1@gmail.com>
- <20240305160626.GH86322@google.com>
- <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="fntl9GJN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=NZdy0X3liUqTEzRbInNe/vjDY6MNb1re1WUM40McVv8=;
+	t=1711546486; x=1712756086; b=fntl9GJNw3T27S/XWxW9sEjOSV4SmrZcmhhd4YlmpmHI4Iq
+	mnOniwoR0IVjm9aWq+CRox56fWuhkne7MyGhcdaJ/k9N0CamgZPzcOV6zRF/pIndpPcw9Avuee9/t
+	Si10y0HmSlsxIerM6wXTBAQ/Rpd4MzPYYamUefqKMbXXytKdsw7G9N4p3a6Sra2uAATsNm1DhnV2I
+	/NO/SWUAN3iibTqe88eFukUDg6Zavwqp5anj0M1kJLYbYvKFNJKYt3LTnAYA6SoJQykU8Q/kZ0mAm
+	44zBsq7XBJ5QEBZqb6eJqoEbgQY27FyoA4YurKsX7p0fIloHRjrexNCFUtwOY0QQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1rpTPq-0000000H6pw-3l9Q;
+	Wed, 27 Mar 2024 14:34:07 +0100
+Message-ID: <46e9539f59c82762e3468a9519fa4123566910d5.camel@sipsolutions.net>
+Subject: Re: [PATCH 02/22] um: virt-pci: drop owner assignment
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>,  Richard Weinberger <richard@nod.at>, Anton
+ Ivanov <anton.ivanov@cambridgegreys.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe
+ <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von
+ Dentz <luiz.dentz@gmail.com>, Olivia Mackall <olivia@selenic.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Viresh Kumar <vireshk@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, David
+ Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Gurchetan
+ Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel
+ <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, Eric Dumazet
+ <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, Latchesar
+ Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,  Stefano Garzarella
+ <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, Dan Williams
+ <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Pankaj Gupta
+ <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Vivek Goyal <vgoyal@redhat.com>, Miklos
+ Szeredi <miklos@szeredi.hu>, Anton Yakovlev
+ <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>
+Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev, 
+ kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev,  linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+ alsa-devel@alsa-project.org,  linux-sound@vger.kernel.org
+Date: Wed, 27 Mar 2024 14:34:04 +0100
+In-Reply-To: <20240327-module-owner-virtio-v1-2-0feffab77d99@linaro.org>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+	 <20240327-module-owner-virtio-v1-2-0feffab77d99@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f18bb686-5e7c-446b-877c-b92a1dc70145@gmail.com>
+X-malware-bazaar: not-scanned
 
-On Wed, 27 Mar 2024, Heiner Kallweit wrote:
+On Wed, 2024-03-27 at 13:40 +0100, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
 
-> On 05.03.2024 17:06, Lee Jones wrote:
-> > On Tue, 05 Mar 2024, Heiner Kallweit wrote:
-> > 
-> >> On 05.03.2024 15:54, Lee Jones wrote:
-> >>> On Tue, 05 Mar 2024, Lee Jones wrote:
-> >>>
-> >>>> On Tue, 05 Mar 2024, Lee Jones wrote:
-> >>>>
-> >>>>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> >>>>>> If a simple trigger is assigned to a LED, then the LED may be off until
-> >>>>>> the next led_trigger_event() call. This may be an issue for simple
-> >>>>>> triggers with rare led_trigger_event() calls, e.g. power supply
-> >>>>>> charging indicators (drivers/power/supply/power_supply_leds.c).
-> >>>>>> Therefore persist the brightness value of the last led_trigger_event()
-> >>>>>> call and use this value if the trigger is assigned to a LED.
-> >>>>>> This change allows to use simple triggers in more cases.
-> >>>>>> As a first use case simplify handling of the mute audio trigger.
-> >>>>>>
-> >>>>>> [...]
-> >>>>>
-> >>>>> Applied, thanks!
-> >>>>>
-> >>>>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >>>>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> >>>>> [2/3] ALSA: control-led: Integrate mute led trigger
-> >>>>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> >>>>> [3/3] leds: trigger: audio: Remove this trigger
-> >>>>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
-> >>>>
-> >>>> Submitted for build testing.
-> >>>>
-> >>>> Once succeeded, a PR will follow for other maintainers to pull from.
-> >>>
-> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc' allmodconfig
-> >>> make --silent --keep-going --jobs=8 O=/home/tuxbuild/.cache/tuxmake/builds/1/build ARCH=x86_64 SRCARCH=x86 CROSS_COMPILE=x86_64-linux-gnu- 'CC=sccache x86_64-linux-gnu-gcc' 'HOSTCC=sccache gcc'
-> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vclock_gettime-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> >>> x86_64-linux-gnu-ld: warning: arch/x86/entry/vdso/vgetcpu-x32.o: corrupt GNU_PROPERTY_TYPE (5) size: 0x10
-> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c: In function 'dell_init':
-> >>> /builds/linux/drivers/platform/x86/dell/dell-laptop.c:2255:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                                  ^~~~~~~~~~~~~~~~~
-> >>>                                  led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[7]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/dell/dell-laptop.o] Error 1
-> >>> make[7]: Target 'drivers/platform/x86/dell/' not remade because of errors.
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:481: drivers/platform/x86/dell] Error 2
-> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c: In function 'huawei_wmi_leds_setup':
-> >>> /builds/linux/drivers/platform/x86/huawei-wmi.c:313:28: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>   huawei->cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                             ^~~~~~~~~~~~~~~~~
-> >>>                             led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/huawei-wmi.o] Error 1
-> >>> /builds/linux/drivers/platform/x86/asus-wmi.c: In function 'asus_wmi_led_init':
-> >>> /builds/linux/drivers/platform/x86/asus-wmi.c:1623:34: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    asus->micmute_led.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> >>>                                   ^~~~~~~~~~~~~~~~~
-> >>>                                   led_trigger_set
-> >>> cc1: all warnings being treated as errors
-> >>> make[6]: *** [/builds/linux/scripts/Makefile.build:243: drivers/platform/x86/asus-wmi.o] Error 1
-> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c: In function 'mute_led_init':
-> >>> /builds/linux/drivers/platform/x86/thinkpad_acpi.c:9288:33: error: implicit declaration of function 'ledtrig_audio_get'; did you mean 'led_trigger_set'? [-Werror=implicit-function-declaration]
-> >>>    mute_led_cdev[i].brightness = ledtrig_audio_get(i);
-> >>>                                  ^~~~~~~~~~~~~~~~~
-> >>>                                  led_trigger_set
-> >>>
-> >>> ############################3
-> >>>
-> >>> Errors were caused
-> >>>  
-> >>> [v6.8-rc1] ib-leds-mips-sound-6.9 2c61168294d0e ("leds: trigger: audio: Remove this trigger")
-> >>>
-> >>>  x86_64 allmodconfig gcc-8
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtQpYDimIIpMqO0Qm4AMAAPU/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhvxgZA6moBZmToTavyY4Eita/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9 
-> >>>
-> >>>  x86_64 allmodconfig gcc-9
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtYCYEqxnUFmoH73iKlcEIV8/ 	Pass (0 errors - 0 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw2i4B539YZXCoSN2LSRvsW8/ 	Fail (7 errors - 0 warnings) : ib-leds-mips-sound-6.9 
-> >>>
-> >>>  x86_64 allyesconfig gcc-8
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhtTzCsCxRpl9loRyfPrD1uhR/ 	Pass (0 errors - 2 warnings) : v6.8-rc1
-> >>>      https://storage.tuxsuite.com/public/google/lee.jones/builds/2dGhw1WQ2BIpJRoyK7ruVCtihSN/ 	Fail (7 errors - 2 warnings) : ib-leds-mips-sound-6.9
-> >>>
-> >>
-> >> Right, I forgot, there are patches applied via a different tree end of January,
-> >> that this series depends on. I assume this means that the series can be applied
-> >> only after the merge window.
-> > 
-> > Yes, unless there is a succinct immutable branch I can pull from.
-> > 
-> Now that 6.9-rc1 is out, can this series be applied?
+> All further patches depend on the first virtio patch, therefore please ac=
+k
+> and this should go via one tree: virtio?
 
-Catching up with upstream reviews in on my TODO list.
+Sure. Though it's not really actually necessary, you can set it in the
+core and merge the other patches in the next cycle; those drivers that
+_have_ an .owner aren't broken after all.
 
--- 
-Lee Jones [李琼斯]
+Acked-by: Johannes Berg <johannes@sipsolutions.net>
+
+johannes
