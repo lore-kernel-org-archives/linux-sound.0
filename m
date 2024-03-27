@@ -1,93 +1,82 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDC212F38C
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 12:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B904415251C;
+	Wed, 27 Mar 2024 12:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711544141; cv=none; b=QSUrR0P+UVF8IWkURiX0HHssV3UtVrCuMbYEm/2IF6daEQHg3rFuaWIr4ujqQtU+MeZmMnfPGsznO/GRha0DfgVmynoeWGBlSiXOudEKa2yYd/qjD4MN9UWgcuKo9KAdHOzDgX/S+6RqGvQQ2wVwO71/p0AlxlGfhJgSmPL/K/8=
+	t=1711544175; cv=none; b=lziqLRHkzMO5a/41BZ8RfBZKyw1ZuoMfnVoKhR67CCoLMpbT+pgHg/xfaPc27R1BgdUXoTwvTx5cwsHvbtovVaVliEkE5QM9PVyE4Ax3gh/NiMoVTNfST8x50dN9KYoeCDHFi+E+FmS/vZvGWjPCg7Z8HtKZuqJflWz2U3eGx+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711544141; c=relaxed/simple;
-	bh=7tvzWOMU15U3qLtaG45FvaCp1yBq+rNh+P9CuovlHu4=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=sX6BZPbj0nv1FwI1/ODOymBwnLAOu4ycFWXyX1hiEH5PV24ez0QvjsMNiGFDfidaeAXcf9/ktKP4o8bsiVzsy5PH83nGoc04ToNCkGZZp4AoQWsy686irTIlEk/dEoGFbrgJQ8xdouCKa2Quu5JSoRw+j3qyPXn207HsrOYeefM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=2njx6d1u; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1711544175; c=relaxed/simple;
+	bh=t5Dr+QPEU1FaZbxI2VzHHPUV33oVM25Zuyjp8wRwBxQ=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=iFm3YA9kLj68XOWKZcMRSYtsJmWzLlxAfwsXERyDsxAoNx3HWu2zAjq//C8KpfGHKaIh/1yL63SZodp8dOBqiUC8HIuV0k4HF8w5tUBXDozTAVIEki1Pmua8JBKKALMd37+APWhJMOPMcYPPQ5aWVRnaqtddhkPWUmIU1B2XmeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PeI1DRl9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2njx6d1u"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33ed4d8e9edso4919095f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711544137; x=1712148937; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vp48KocudoiGALvWKkmTWkUXKZEVfSQEtoMbBwrHz/0=;
-        b=2njx6d1uPGyngaldgk1CGD9vrdR2YnO1tXPHim/m1VkmmZzBSJRWXjp+aoglazTMwH
-         p247UGOOHwqU7q67mFhR7LhCIrXSwpXJchFzyicXRqtjEH3yvZEPqatr3YG2LGS9frsn
-         vFH12JNtYOlVUNR5M3DqcJvvFLySZeDGpUDORb1wmKUj5spX7EUfRwa0agnII31GMnVw
-         PKIiZK5vdV92JYnhO0pGDhK8X6OCQ0MGLW9vWNKSf6SwGAOlQ8tywrlFWDQKduDfzMYl
-         quyH7xmz9slAzNaE/F/JMpsZOYsdATV6MSkHjfb+7ibhKwJkavd2PTK/f4UmIDNpWpF2
-         Klug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711544137; x=1712148937;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vp48KocudoiGALvWKkmTWkUXKZEVfSQEtoMbBwrHz/0=;
-        b=rsocp3kVWU9rmEB9hjbCEVtWc+FE9+I2PFFWd+I67TlZXByUyPiyn2czHPknRSjCPA
-         U9Itpq0Y0FcZoF9DYvVqifWtPbDfi7f/7CIf1cdXCss5MQ1aGWOWF0UnFHJFPUfU83sI
-         +DOEg5RbWCteeq69XKZ8/mttU8hrhjTYEb0hNbMzLBMKAytS8SzVDdVamYg7DtR7vz59
-         JiIDiM7fR8WiXeq/i6fP60cCC0X/4R3EheiL9+aeuuAbmK4e5WBcXB1bI0kMCmWwASP8
-         Pi8DxlK61n583qUmOcVAFNRR/B7tvMfzVemWPuuqdMmKOCgj09g6a7C/HcAl1s53NOSp
-         vvBA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSyMPwJiSkC6kqDz7wemq+u6nd0KEQrkAB5Oaf7WHF+fZz7ffjQY4tmeW7mbBSZMtuuRXgqL2wfy8ilI6d19LHwNK5/GBheqvaWs8=
-X-Gm-Message-State: AOJu0YxqLUsF6RvjXsFy/qjDL/9R0InI7RwlcnsmbQFEeyeh8iIx6Fb7
-	2l5U20hZmZ82x0PGrLSiNWlI/0Q+QsvewwKs3R77z87s1rsCjk/lF5MoL0m59LQ=
-X-Google-Smtp-Source: AGHT+IFNNxBDz2Tx/jpDPmwWEphhbXKgsW+qHx/Yz0edPYKGGY5dsGFKtIqCm7B13uhNEaK0FJ6NZA==
-X-Received: by 2002:adf:a3d0:0:b0:33e:1ee0:6292 with SMTP id m16-20020adfa3d0000000b0033e1ee06292mr4235689wrb.58.1711544137249;
-        Wed, 27 Mar 2024 05:55:37 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:e2f0:34bb:2ffe:1a3b])
-        by smtp.gmail.com with ESMTPSA id h2-20020a5d5042000000b00341c162a6d4sm11641186wrt.107.2024.03.27.05.55.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 05:55:36 -0700 (PDT)
-References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
- <8734sf53kv.wl-kuninori.morimoto.gx@renesas.com>
- <1j7chp9gbb.fsf@starbuckisacylon.baylibre.com>
- <87v858cwki.wl-kuninori.morimoto.gx@renesas.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
- =?utf-8?B?a2k=?=
- <amadeuszx.slawinski@linux.intel.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Banajit Goswami
- <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
-   Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Daniel Baluta
- <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>, Jaroslav
-   Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin  Hilman <khilman@baylibre.com>, Liam  Girdwood
- <lgirdwood@gmail.com>, Linus  Walleij <linus.walleij@linaro.org>, Mark
- Brown <broonie@kernel.org>, Maso  Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Trevor Wu
- <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>, Xiubo Li
- <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org, imx@lists.linux.dev,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 15/15] ASoC: soc-pcm: indicate warning if DPCM BE Codec
- has no settings
-Date: Wed, 27 Mar 2024 13:30:32 +0100
-In-reply-to: <87v858cwki.wl-kuninori.morimoto.gx@renesas.com>
-Message-ID: <1jcyrfal6f.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeI1DRl9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59C93C43390;
+	Wed, 27 Mar 2024 12:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711544174;
+	bh=t5Dr+QPEU1FaZbxI2VzHHPUV33oVM25Zuyjp8wRwBxQ=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=PeI1DRl97jSBL5h+TjLof7OmsdrUn8XoRsGQVaXc1QrS2MsqMVnRRdmF+M5dmweaA
+	 Cf4i01dUWOny6pJ6QuLijRvpE44xS0PcZc1e9PeN+WBhzhBO4xJy/Ts3k409QwdVEV
+	 p+A11VpmypxO3Ps9Q8jXDfwY+GDNk4U7h2495MzupWAahXb3s6nMhf4xTbKbYBv9sH
+	 Qg2EVim4HGea+Pk1qx3RaNxw1jAVCalYFQ1zjH9SvFpUEhLNt2Q6UwcJWGcqLuJGpO
+	 jNEGpE3iLazGfTCtetqVqdY3FWUY6/vKk+gRsmlO3tArdLh8t7rKXHMt3Lo2FnfSbu
+	 armFDkXpy3JVQ==
+From: Kalle Valo <kvalo@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
+ <jasowang@redhat.com>,  Xuan Zhuo <xuanzhuo@linux.alibaba.com>,  Richard
+ Weinberger <richard@nod.at>,  Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>,  Johannes Berg
+ <johannes@sipsolutions.net>,  Paolo Bonzini <pbonzini@redhat.com>,  Stefan
+ Hajnoczi <stefanha@redhat.com>,  Jens Axboe <axboe@kernel.dk>,  Marcel
+ Holtmann <marcel@holtmann.org>,  Luiz Augusto von Dentz
+ <luiz.dentz@gmail.com>,  Olivia Mackall <olivia@selenic.com>,  Herbert Xu
+ <herbert@gondor.apana.org.au>,  Amit Shah <amit@kernel.org>,  Arnd
+ Bergmann <arnd@arndb.de>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Gonglei <arei.gonglei@huawei.com>,  "David
+ S. Miller" <davem@davemloft.net>,  Viresh Kumar <vireshk@kernel.org>,
+  Linus Walleij <linus.walleij@linaro.org>,  Bartosz Golaszewski
+ <brgl@bgdev.pl>,  David Airlie <airlied@redhat.com>,  Gerd Hoffmann
+ <kraxel@redhat.com>,  Gurchetan Singh <gurchetansingh@chromium.org>,
+  Chia-I Wu <olvaffe@gmail.com>,  Jean-Philippe Brucker
+ <jean-philippe@linaro.org>,  Joerg Roedel <joro@8bytes.org>,  Alexander
+ Graf <graf@amazon.com>,  Eric Dumazet <edumazet@google.com>,  Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Eric Van
+ Hensbergen <ericvh@kernel.org>,  Latchesar Ionkov <lucho@ionkov.net>,
+  Dominique Martinet <asmadeus@codewreck.org>,  Christian Schoenebeck
+ <linux_oss@crudebyte.com>,  Stefano Garzarella <sgarzare@redhat.com>,  Dan
+ Williams <dan.j.williams@intel.com>,  Vishal Verma
+ <vishal.l.verma@intel.com>,  Dave Jiang <dave.jiang@intel.com>,  Ira Weiny
+ <ira.weiny@intel.com>,  Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+  Bjorn Andersson <andersson@kernel.org>,  Mathieu Poirier
+ <mathieu.poirier@linaro.org>,  "Martin K. Petersen"
+ <martin.petersen@oracle.com>,  Vivek Goyal <vgoyal@redhat.com>,  Miklos
+ Szeredi <miklos@szeredi.hu>,  Anton Yakovlev
+ <anton.yakovlev@opensynergy.com>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  virtualization@lists.linux.dev,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-um@lists.infradead.org,  linux-block@vger.kernel.org,
+  linux-bluetooth@vger.kernel.org,  linux-crypto@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-gpio@vger.kernel.org,
+  dri-devel@lists.freedesktop.org,  iommu@lists.linux.dev,
+  netdev@vger.kernel.org,  v9fs@lists.linux.dev,  kvm@vger.kernel.org,
+  linux-wireless@vger.kernel.org,  nvdimm@lists.linux.dev,
+  linux-remoteproc@vger.kernel.org,  linux-scsi@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  alsa-devel@alsa-project.org,
+  linux-sound@vger.kernel.org
+Subject: Re: [PATCH 17/22] wireless: mac80211_hwsim: drop owner assignment
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+	<20240327-module-owner-virtio-v1-17-0feffab77d99@linaro.org>
+Date: Wed, 27 Mar 2024 14:55:58 +0200
+In-Reply-To: <20240327-module-owner-virtio-v1-17-0feffab77d99@linaro.org>
+	(Krzysztof Kozlowski's message of "Wed, 27 Mar 2024 13:41:10 +0100")
+Message-ID: <87plvf7s0x.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -96,122 +85,16 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 
-On Wed 27 Mar 2024 at 01:06, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
-
-> Hi Jerome
+> virtio core already sets the .owner, so driver does not need to.
 >
-> Thank you for your feedback
->
->> I'm not quite sure what you mean by "should have validation" and what
->> setting exactly we should validate ?
->> 
->> I know I should be able to able to understand that
->> from the code below but, somehow I have trouble deciphering it.
->
-> Current ASoC have validation for ^^^ part
->
-> 	DPCM
-> 		[CPU/xxxx]-[xxxx/Codec]
-> 		^^^^                   (A)
-> 	Normal
-> 		[CPU/Codec]
-> 		^^^^^^^^^^^
->
-> (In many case, this "xxxx" is "dummy")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Yes for many DPCM user, you have:
-
-       DPCM
-               [CPU/dummy]-[dummy/Codec]
-
-FYI: on Amlogic it is mostly the following
-(only considering DCPM, omitting C2C ...)
-
-       DPCM
-               [CPU-FE/dummy]-[CPU-BE/Codec]
-
-With possibly several BE instances per FE, and several codecs per BE.
-
-And there is even this for loopbacks:
-
-       DPCM
-               [CPU-FE/dummy]-[CPU-BE/dummy]
-
-
-> By this patch-set, It will check all cases
->
-> 	DPCM
-> 		[CPU/xxxx]-[xxxx/Codec]
-> 		^^^^^^^^^   ^^^^^^^^^^ (B)
-> 	Normal
-> 		[CPU/Codec]
-> 		^^^^^^^^^^^
->
-> At first, in [CPU/xxxx] case, "xxxx" part should be also checked
-> (in many case, this "xxxx" is "dummy").
->
-> And, because it didn't check (A) part before,
-> (B) part might be error on some board (at least Intel board).
-> To avoid such case, temporally it uses "dummy" instead of "Codec"
-> before [15/15]. This means (B) part checked as like below.
->
-> 	[xxxx/Codec] -> [xxxx/dummy]
->
-> Because "dummy" will pass all cases, (B) part is almost same as no check.
-> Yes, it is no meaning, but the code will be simple.
->
->> Where you have a CPU supporting both direction and 2 codecs, each
->> supporting 1 stream direction ? This is a valid i2s configuration.
-> (snip)
->> >  		/*
->> > -		 * FIXME
->> > +		 * FIXME / CLEAN-UP-ME
->> >  		 *
->> >  		 * DPCM BE Codec has been no checked before.
->> >  		 * It should be checked, but it breaks compatibility.
->> >  		 * It ignores BE Codec here, so far.
->> >  		 */
->> > -		if (dai_link->no_pcm)
->> > -			codec_dai = dummy_dai;
->> > +		if ((dai_link->no_pcm) &&
->> > +		    ((cpu_play_t	&& !codec_play_t) ||
->> > +		     (cpu_capture_t	&& !codec_capture_t))) {
->> > +			dev_warn_once(rtd->dev, "DCPM BE Codec has no stream settings (%s)\n",
->> > +				      codec_dai->name);
->> 
->> Taking one codec at a time, would you trigger a warning for the use case I
->> described above ?
->
-> Oops, indeed it will indicate warning in your case.
-> How about this ?
->
-> 	if ((dai_link->no_pcm) &&
-                         ^ Actually my comment applies to all links, DPCM backend or not
-
-> 	    (!codec_play_t && !codec_capture_t)) {
-
-A codec that does not support playback and does not support capture does
-not support much, does it ? ;)
-
-I suppose you meant something like:
-
->           (!cpu_play_t && !codec_capture_t)) { 
-
-Then at first glance, maybe ... CPU and codec seem to exclude each other but
-that will only work as long as DCPM is limited to a single CPU per link.
-
-> 		dev_warn_once(...)
-> 		...
-> 	}
->
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Renesas Electronics
-> Ph.D. Kuninori Morimoto
-
+We use "wifi:" in the title, not "wireless:". It would be nice if you
+can fix this during commit.
 
 -- 
-Jerome
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
