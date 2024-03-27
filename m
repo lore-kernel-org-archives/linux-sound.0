@@ -1,149 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4CA15624D;
-	Wed, 27 Mar 2024 13:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3FA15689D
+	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 13:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711544869; cv=none; b=MF4p7KiqxM+/K+GirUSOMmxnbLJGGMN2s6xzZ3ZInX4JWh6fwP/Gm7dTDsiFGL/nisE65mTDc5Da0SnpP9IP36zlbBWp/UnfURyFajN02K0VnaFWsqhXoMSeIkOA5UHhjQw0jhkPUlcIlCAI8fyg6iLSsEu2GNRV4HOK3Mvqlw4=
+	t=1711545006; cv=none; b=Ta1GO6MOOvEkNryLi15Ftt2V0Z/Z8D584SJfOGic4wtQGw6b/wFs/HUXP1nv09zcwd6lGT8XuLb04VRMsOEPyWf957s7f0C7kwbeX/j1Nnrz/Gog3q0pls7mOSquJd+M/n5m7wzCPzgUnGWpcUc/80nJbycFbz+kFRF44MZGaJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711544869; c=relaxed/simple;
-	bh=xhKg7hp+u1WND+c2bdO193Y6m+7ScB88u2D06vHhfNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hbJ89m19rQEzIp7pcDuci5l0PPLw3HzpRR7zMnHhH5EfgVL0XRR2wJD+lXv+1OzkJcuZGS40xEIUE4qLfpYoGmgSvy3ZRNW3gSfpHrR1nJcMpMFeFRJ53PLLwDd7oSLtaQZU5NawqubxrlFxBOK0lg/M0Q2IWtuI4RbElljCd7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXpYjYML; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711545006; c=relaxed/simple;
+	bh=EIfAaG+8ChusQ7KuCbmqxqXGfMQafmgd9vGhe7mjxFs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I89dqkkO4AdnzetwGvZ1zjz8Hib9aB57dDxMIwxaMThKO+HYNSEddbPxmbX8EFjFzPnjKtFFvbyNspHZ0Vh5LorcRcQnlD819ZeQvj0sB6ooqQAP+jGL+lri2KfWMqxWFyWW2HIF7r5WOx0oGCXoz14wxe3gAIrEc9S8o1btfYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t8BiU5MV; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BXpYjYML"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B54C43390;
-	Wed, 27 Mar 2024 13:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711544869;
-	bh=xhKg7hp+u1WND+c2bdO193Y6m+7ScB88u2D06vHhfNs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BXpYjYMLKiW4ENzwSPrRUhs3gmSOQtwVuaObdDRWar2yBx+Tl2cgUxgmysxaqsQ9z
-	 +aoWxkdS2+HLcRmotjg3sBcX/dQynDqIMB4WvEl0mpkoJEU4RWFwCy6imho4/g4boB
-	 K7pkLn2hdMa4NOEH51aueAtp0LYp+fEvlTP5k640s21+jrmooIgSKheQ0y6EI9KtmE
-	 XJRdZBQZ3sCulSmaMj88unM6Cob5mZ7EeCucqTNYMr0Ygy3US2oSUf+CkbJxnQbpGA
-	 YHwYbXwLLtsbQUDyqSd11aWgryWT5yNuwiZG9to/e/YnAdnbwmOXevE61N3Wvyx9AL
-	 6idpc4IfqdUqA==
-Message-ID: <d3d5933a-3f77-4596-8a6e-d4be63935b69@kernel.org>
-Date: Wed, 27 Mar 2024 14:07:15 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t8BiU5MV"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so6220482276.1
+        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 06:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711545002; x=1712149802; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lzCuQ38z5tEvKes8luQhWNfmBRoi0Op2h6rKQaV0U3o=;
+        b=t8BiU5MVQYeF/ET1h+1fgbuiRa1CN64fWsGnCfnRFskMyeZcQHF06TroG+fQIMe/4q
+         DvH2yJoj/Erarf0oiJMcz5SAn3dy9r/9yg+aU/1IR2ZrkmRFR43uk+2m1Y90EBKDPJE0
+         1M4T+l7nowAHuN7FaXqLjDnM+OMSe90ojtKiOOzBhPE4LDByzGneVrWVKfUyBQtGh8kq
+         FBZqunfIa0GUDbo9KGaZgw3x6hwJk72Mh+qz0d0XJHKCB1ZRbAj0zw5WnnGS6g0fsFA4
+         H+zMud+BfwAZQIVBc/TQOzh7caad9PUik7eeUZV3i4JPvffWb3SOayIuR8MlUQrtjiAi
+         d5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711545002; x=1712149802;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lzCuQ38z5tEvKes8luQhWNfmBRoi0Op2h6rKQaV0U3o=;
+        b=XGqKkiW1fRr8lbDvLDJmNw+sTFYFG04nMFjLdtSwT4URLz2hFlokuNq5i/f7GMrYWV
+         X4Dk8zjlwo+w9IgSCN32sof4w2Q+c8KB1NoAaWmKuJeaNpOzQT/Pi1ZQlXY1s9QytBEf
+         mSAwACmyLCF/RIFEBCtNjJ8YTKqFZcYIEcMvpUmBny9ZESKG7xJx9Ozh8zIw0hDSHaX7
+         ABYnW/yaJocawbHzXJQJN745vvJuLLJVE+WxG8lywRjVFnAXvR29KOcKGq/4jBmaXa7c
+         FhOua+GQukLLGlUqmq/nz0D0/C3X5T78VOoNqeE5iwsEdC0QwUmibGjRhfhMvrlB5GfR
+         KRSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmz7nQYi9aFm0glzHLFjlylvkGrB+KiIBf4k+kla/8BXemVTKCroziD80L8BpOk+ZSWnWBnhP77kMLhuG9saliTMfk7kvunFerjhw=
+X-Gm-Message-State: AOJu0YzegUbQqBOrJ4wnYy3/AipIZfHFMWerU9CFXMqouqEb8xLCLZtB
+	f+Qx1HA4TG41FFQj8YSZtIe5cYzFNmx4srSrKduEl1GVQuX6B7PdlQmD110nxnJt32xVyMD5Pup
+	zvJG7rj0RBFU0X3UoLEDpQefLApFyypC19QyyXw==
+X-Google-Smtp-Source: AGHT+IFEFjTBVS4HBczGqVH75JCqDQR+t3W+i9jRyLyq5dNnFwQJkaqlnv27HDRa7w6hVneeKjVD/LRnNW7r5pdZrf0=
+X-Received: by 2002:a25:ac10:0:b0:dcb:e82c:f7d with SMTP id
+ w16-20020a25ac10000000b00dcbe82c0f7dmr3861776ybi.41.1711545002212; Wed, 27
+ Mar 2024 06:10:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 17/22] wireless: mac80211_hwsim: drop owner assignment
-To: Kalle Valo <kvalo@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Olivia Mackall <olivia@selenic.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Pankaj Gupta
- <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-17-0feffab77d99@linaro.org>
- <87plvf7s0x.fsf@kernel.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <87plvf7s0x.fsf@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240327113228.1706975-1-quic_mohs@quicinc.com> <20240327113228.1706975-3-quic_mohs@quicinc.com>
+In-Reply-To: <20240327113228.1706975-3-quic_mohs@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 27 Mar 2024 15:09:51 +0200
+Message-ID: <CAA8EJpqh0emOFUPSj8rPaKr2hZRWwOh9NNTco8fyJCtwXe9sSA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] ASoC: qcom: qcm6490: Add machine driver for qcm6490
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, broonie@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org, 
+	konrad.dybcio@linaro.org, lgirdwood@gmail.com, tiwai@suse.com, 
+	quic_rohkumar@quicinc.com, linux-kernel@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 27/03/2024 13:55, Kalle Valo wrote:
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
-> 
->> virtio core already sets the .owner, so driver does not need to.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> We use "wifi:" in the title, not "wireless:". It would be nice if you
-> can fix this during commit.
+On Wed, 27 Mar 2024 at 13:34, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
+>
+> Add machine driver for qcm6490 SoC.
+>
+> This initial supports which includes WSA883x Speakers with onboard DMIC
+> connected to internal LPASS codec via VA macros respectively and also
+> WCD937x based headset.
+>
+> Add compatible for sound card on Qualcomm qcs6490 boards.
 
-Sure.
+Granted that qcm6490 is similar to sc7280, is there any reason why you
+can not use one of the existing sound card drivers? Like sc7280.c or
+sc8280xp.c?
 
-Best regards,
-Krzysztof
+>
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> ---
+>  sound/soc/qcom/Kconfig   |  13 +++
+>  sound/soc/qcom/Makefile  |   2 +
+>  sound/soc/qcom/qcm6490.c | 173 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 188 insertions(+)
+>  create mode 100644 sound/soc/qcom/qcm6490.c
+>
+> diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
+> index 762491d6f2f2..0bc536766872 100644
+> --- a/sound/soc/qcom/Kconfig
+> +++ b/sound/soc/qcom/Kconfig
+> @@ -151,6 +151,19 @@ config SND_SOC_MSM8996
+>           APQ8096 SoC-based systems.
+>           Say Y if you want to use audio device on this SoCs
+>
+> +config SND_SOC_QCM6490
+> +       tristate "SoC Machine driver for QCM6490 boards"
+> +       depends on QCOM_APR && SOUNDWIRE
+> +       depends on COMMON_CLK
+> +       select SND_SOC_QDSP6
+> +       select SND_SOC_QCOM_COMMON
+> +       select SND_SOC_QCOM_SDW
+> +       help
+> +         Add support for audio on Qualcomm Technologies Inc.
+> +         QCM6490 SoC-based systems.
+> +         To compile this driver say Y or M if you want to
+> +         use audio device on this SoCs.
+> +
+>  config SND_SOC_SDM845
+>         tristate "SoC Machine driver for SDM845 boards"
+>         depends on QCOM_APR && I2C && SOUNDWIRE
+> diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
+> index 34f3fcb8ee9a..feb2c164be69 100644
+> --- a/sound/soc/qcom/Makefile
+> +++ b/sound/soc/qcom/Makefile
+> @@ -22,6 +22,7 @@ obj-$(CONFIG_SND_SOC_LPASS_SC7280) += snd-soc-lpass-sc7280.o
+>  snd-soc-storm-objs := storm.o
+>  snd-soc-apq8016-sbc-objs := apq8016_sbc.o
+>  snd-soc-apq8096-objs := apq8096.o
+> +snd-soc-qcm6490-objs := qcm6490.o
+>  snd-soc-sc7180-objs := sc7180.o
+>  snd-soc-sc7280-objs := sc7280.o
+>  snd-soc-sdm845-objs := sdm845.o
+> @@ -34,6 +35,7 @@ snd-soc-x1e80100-objs := x1e80100.o
+>  obj-$(CONFIG_SND_SOC_STORM) += snd-soc-storm.o
+>  obj-$(CONFIG_SND_SOC_APQ8016_SBC) += snd-soc-apq8016-sbc.o
+>  obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
+> +obj-$(CONFIG_SND_SOC_QCM6490) += snd-soc-qcm6490.o
+>  obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
+>  obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
+>  obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
+> diff --git a/sound/soc/qcom/qcm6490.c b/sound/soc/qcom/qcm6490.c
+> new file mode 100644
+> index 000000000000..5b0dc95963f5
+> --- /dev/null
+> +++ b/sound/soc/qcom/qcm6490.c
+> @@ -0,0 +1,173 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> +
+> +#include <dt-bindings/sound/qcom,q6afe.h>
+> +#include <linux/input.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/of_device.h>
+> +#include <sound/core.h>
+> +#include <sound/soc.h>
+> +#include <sound/soc-dapm.h>
+> +#include <sound/pcm.h>
+> +#include <linux/soundwire/sdw.h>
+> +#include <sound/jack.h>
+> +#include <sound/pcm_params.h>
+> +#include "lpass.h"
+> +#include "qdsp6/q6afe.h"
+> +#include "common.h"
+> +#include "sdw.h"
+> +
+> +struct qcm6490_snd_data {
+> +       bool stream_prepared[AFE_PORT_MAX];
+> +       struct snd_soc_card *card;
+> +       struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+> +       struct snd_soc_jack jack;
+> +       bool jack_setup;
+> +};
+> +
+> +static int qcm6490_snd_init(struct snd_soc_pcm_runtime *rtd)
+> +{
+> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +
+> +       switch (cpu_dai->id) {
+> +       case TX_CODEC_DMA_TX_3:
+> +       case LPASS_CDC_DMA_TX3:
+> +       case RX_CODEC_DMA_RX_0:
+> +               return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+> +       case VA_CODEC_DMA_TX_0:
+> +       case WSA_CODEC_DMA_RX_0:
+> +               return 0;
+> +       default:
+> +               dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__, cpu_dai->id);
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+> +static int qcm6490_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+> +                                     struct snd_pcm_hw_params *params)
+> +{
+> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +       struct snd_interval *rate = hw_param_interval(params,
+> +                                       SNDRV_PCM_HW_PARAM_RATE);
+> +       struct snd_interval *channels = hw_param_interval(params,
+> +                                       SNDRV_PCM_HW_PARAM_CHANNELS);
+> +
+> +       rate->min = 48000;
+> +       rate->max = 48000;
+> +       channels->min = 2;
+> +       channels->max = 2;
+> +       switch (cpu_dai->id) {
+> +       case TX_CODEC_DMA_TX_0:
+> +       case TX_CODEC_DMA_TX_1:
+> +       case TX_CODEC_DMA_TX_2:
+> +       case TX_CODEC_DMA_TX_3:
+> +               channels->min = 1;
+> +               break;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int qcm6490_snd_hw_params(struct snd_pcm_substream *substream,
+> +                                struct snd_pcm_hw_params *params)
+> +{
+> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +       struct qcm6490_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
+> +
+> +       return qcom_snd_sdw_hw_params(substream, params, &pdata->sruntime[cpu_dai->id]);
+> +}
+> +
+> +static int qcm6490_snd_prepare(struct snd_pcm_substream *substream)
+> +{
+> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +       struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+> +
+> +       return qcom_snd_sdw_prepare(substream, sruntime,
+> +                                   &data->stream_prepared[cpu_dai->id]);
+> +}
+> +
+> +static int qcm6490_snd_hw_free(struct snd_pcm_substream *substream)
+> +{
+> +       struct snd_soc_pcm_runtime *rtd = substream->private_data;
+> +       struct qcm6490_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +       struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +       struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+> +
+> +       return qcom_snd_sdw_hw_free(substream, sruntime,
+> +                                   &data->stream_prepared[cpu_dai->id]);
+> +}
+> +
+> +static const struct snd_soc_ops qcm6490_be_ops = {
+> +       .hw_params = qcm6490_snd_hw_params,
+> +       .hw_free = qcm6490_snd_hw_free,
+> +       .prepare = qcm6490_snd_prepare,
+> +};
+> +
+> +static void qcm6490_add_be_ops(struct snd_soc_card *card)
+> +{
+> +       struct snd_soc_dai_link *link;
+> +       int i;
+> +
+> +       for_each_card_prelinks(card, i, link) {
+> +               if (link->no_pcm == 1) {
+> +                       link->init = qcm6490_snd_init;
+> +                       link->be_hw_params_fixup = qcm6490_be_hw_params_fixup;
+> +                       link->ops = &qcm6490_be_ops;
+> +               }
+> +       }
+> +}
+> +
+> +static int qcm6490_platform_probe(struct platform_device *pdev)
+> +{
+> +       struct snd_soc_card *card;
+> +       struct qcm6490_snd_data *data;
+> +       struct device *dev = &pdev->dev;
+> +       int ret;
+> +
+> +       card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+> +       if (!card)
+> +               return -ENOMEM;
+> +       card->owner = THIS_MODULE;
+> +       /* Allocate the private data */
+> +       data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +       if (!data)
+> +               return -ENOMEM;
+> +
+> +       card->dev = dev;
+> +       dev_set_drvdata(dev, card);
+> +       snd_soc_card_set_drvdata(card, data);
+> +       ret = qcom_snd_parse_of(card);
+> +       if (ret)
+> +               return ret;
+> +
+> +       card->driver_name = of_device_get_match_data(dev);
+> +       qcm6490_add_be_ops(card);
+> +       return devm_snd_soc_register_card(dev, card);
+> +}
+> +
+> +static const struct of_device_id snd_qcm6490_dt_match[] = {
+> +       {.compatible = "qcom,qcm6490-sndcard", "qcm6490"},
+> +       {.compatible = "qcom,qcs6490-sndcard", "qcs6490"},
+> +       {}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, snd_qcm6490_dt_match);
+> +
+> +static struct platform_driver snd_qcm6490_driver = {
+> +       .probe  = qcm6490_platform_probe,
+> +       .driver = {
+> +               .name = "snd-qcm6490",
+> +               .of_match_table = snd_qcm6490_dt_match,
+> +       },
+> +};
+> +module_platform_driver(snd_qcm6490_driver);
+> +MODULE_DESCRIPTION("qcm6490 ASoC Machine Driver");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.25.1
+>
+>
 
+
+-- 
+With best wishes
+Dmitry
