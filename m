@@ -1,55 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2217742A89
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 16:24:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AA1130ADA
+	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 16:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711556667; cv=none; b=uJUn9wrm3W2tscr4SBazT0Z2Oc2ZOrO3PDnWX0J1FQWPCx9nbpq64xJ7lR+ma6oa3URHwEGjHBLiYH9INZPIefdk/Cghjhk4p6dnjmY678eEdm2/kgOw2yCjNhmKIFqLu/E844RaKj0tRbnaQU0krn3xwLvEvtkSmqII1Z1etfI=
+	t=1711556669; cv=none; b=gopJcwjmBH5lMZ1JK3PudlBTK4eulcgtex5lWy6HYZkQhhd4wFZ/x0rlu5VLOpt0ZGM8Moe8d2KOAdRvDNuFIOcsKPI+K5GKrnxTNAsyRrQAv1BUDxU9qasXM8YlNn7IEJrsoFtBVLE85ziNN+QMfJ9MvEWYZ5kMzY+t6LxV64w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711556667; c=relaxed/simple;
-	bh=ehVOa6dAhlhoKEdMKTbm6D7iGxqzbJC4ouF1GiS0TGw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OUJW2pHmgDdSjjtCd6cwBn53B5snCNlWrS3QY7ClKMDVvGGaPp3Vdo7RSbygoB8pTFU+J+hpCFUqEzo53WabmX1JesS/CyIzhIOmnaV8fSRfyaIP8eTNapqB/SQE9SIgJ9cZTg8zOBCnAQA/ftSPHGjyZd2EmSUSNWsm+dfJfOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZEmasQZ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1711556669; c=relaxed/simple;
+	bh=3kkrMBxxqe8gX3azfqO+74/qGoMD7vgBEGBNeX8kchM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QXesFrfjLi4KAqMk4fdPRaqaJY7cWZ4PPSZzRgJ4GE+jfTqRALbD4lXoh60RQZFgptqPDjoTNs3YQc3NEiZw5CkviG9ha2XjfefVKO1I8JLMFLS4RpsNrcJ0pyKs4AnXYSC2Wc7va+bw/xBC8xUWrkuuDG0QPwlcp/o2gFioCeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nraTdopp; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZEmasQZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nraTdopp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711556667; x=1743092667;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ehVOa6dAhlhoKEdMKTbm6D7iGxqzbJC4ouF1GiS0TGw=;
-  b=RZEmasQZT5UyrwhIaw0zwzPENU7e8dpu27fNXE89pInBcUBGUZRqUanb
-   G/rteqVn3ZI79qVUHswHkH23Zm8zCr7BRHddHWdvs++5FWWuoClccMYLY
-   gByVFgUZzRR+DmtDWQX1ovZOzycrkNfwhwzXvXHSVW5yY/M/rzXXoKZsz
-   /tU3suZhpzK0PfJSmW0LhySUG4c5LRKYmdJhP3NNTF8/qlBFl9IVF+woK
-   RDOi3B7APalVlznXTW0ToLz5uMlsyILsFcfWSmGYI683sQ92WvQ1a94ly
-   zDY/7H7mgNFUJHzzYF68bxUI1xViCQa3zruHgtQJ2E+5EGg+60EzUc53Y
+  t=1711556668; x=1743092668;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3kkrMBxxqe8gX3azfqO+74/qGoMD7vgBEGBNeX8kchM=;
+  b=nraTdoppicybkQ/rK6onT1TJGR7uiN08st9sobqLWqoF/Xd0qNR5ZOBB
+   qdG/sD9jAfQEXeFJySsy2og8kLPi+/UAb2PrgGOUw8U83H4OoivtOrgvT
+   TnsqkFrJqlihsweUhx8rQZ/FP9SmPXzJiTe2vbNn18GoJZwzHuLtYcO60
+   tKzgs4qSJvnJf7sU7iEyTvBXzksUQCyBkqvHevm4DrY+hezAJeiqbAvKD
+   /XNjE/scw0t0iaw9aC4LAT+zVl6BzWIsA7mQlec8iMJxT+G9BHrlwn1fJ
+   hwrkfrDQsp/tCIEvB555O7yb0RnvHYTA686FAKHwcHThegW7z5dQYhyP2
    Q==;
-X-CSE-ConnectionGUID: kuKAQX26RfWHuzc73yPHNQ==
-X-CSE-MsgGUID: zDk53ZI7SLCb0ZxKAGBYQA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17221476"
+X-CSE-ConnectionGUID: KM1mVbTvS9aRAUtdeDCKAg==
+X-CSE-MsgGUID: VOWXAlETSaSmFjIDrZdZQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17221484"
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="17221476"
+   d="scan'208";a="17221484"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:24:26 -0700
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:24:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,159,1708416000"; 
-   d="scan'208";a="53821236"
+   d="scan'208";a="53821251"
 Received: from ssherman-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.117.1])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:24:25 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 09:24:27 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
+	Brent Lu <brent.lu@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 00/18] ASoC: Intel: boards: updates for 6.10 - part3
-Date: Wed, 27 Mar 2024 11:23:50 -0500
-Message-Id: <20240327162408.63953-1-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 02/18] ASoC: Intel: ssp-common: relocate header file
+Date: Wed, 27 Mar 2024 11:23:52 -0500
+Message-Id: <20240327162408.63953-3-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240327162408.63953-1-pierre-louis.bossart@linux.intel.com>
+References: <20240327162408.63953-1-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,58 +63,109 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This last part is the continuation of Brent Lu's cleanups. Multiple
-quirks have been removed to use "default" configurations and
-ACPI-based detection of codecs and selection of topology files.
+From: Brent Lu <brent.lu@intel.com>
 
-This cleanup has been done in multiple steps/phases since Fall 2023,
-thanks Brent for this contribution!
+Moving ssp-common header file from sound/soc/intel/common directory to
+include/sound directory and rename the file. Keep file content
+unchanged for tracking purpose.
 
-Brent Lu (18):
-  ASoC: Intel: ssp-common: relocate source file
-  ASoC: Intel: ssp-common: relocate header file
-  ASoC: Intel: ssp-common: naming convention change
-  ASoC: Intel: ssp-common: module name change
-  ASoC: Intel: ssp-common: delete module
-  ASoC: Intel: ssp-common: get codec tplg suffix function
-  ASoC: SOF: Intel: support tplg suffix detection
-  ASoC: Intel: sof_nau8825: mach cleanup for adl boards
-  ASoC: Intel: sof_nau8825: mach cleanup for rpl boards
-  ASoC: Intel: sof_nau8825: add mtl_nau8825_def for mtl boards
-  ASoC: Intel: sof_rt5682: mach cleanup for tgl boards
-  ASoC: Intel: sof_rt5682: mach cleanup for adl boards
-  ASoC: Intel: sof_rt5682: mach cleanup for rpl boards
-  ASoC: Intel: sof_rt5682: mach cleanup for mtl boards
-  ASoC: Intel: sof_cs42l42: board id cleanup for adl boards
-  ASoC: Intel: sof_cs42l42: mach cleanup for adl boards
-  ASoC: Intel: sof_cs42l42: add rpl_cs42l42_def for rpl boards
-  ASoC: Intel: sof_cs42l42: add mtl_cs42l42_def for mtl boards
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ .../sound/soc-acpi-intel-ssp-common.h                           | 0
+ sound/soc/intel/boards/sof_board_helpers.h                      | 2 +-
+ sound/soc/intel/boards/sof_cirrus_common.h                      | 2 +-
+ sound/soc/intel/boards/sof_maxim_common.h                       | 2 +-
+ sound/soc/intel/boards/sof_nuvoton_common.h                     | 2 +-
+ sound/soc/intel/boards/sof_realtek_common.h                     | 2 +-
+ sound/soc/intel/common/soc-acpi-intel-ssp-common.c              | 2 +-
+ 7 files changed, 6 insertions(+), 6 deletions(-)
+ rename sound/soc/intel/common/sof_ssp_common.h => include/sound/soc-acpi-intel-ssp-common.h (100%)
 
- .../sound/soc-acpi-intel-ssp-common.h         |  22 ++-
- include/sound/soc-acpi.h                      |  12 ++
- sound/soc/intel/boards/Kconfig                |  13 +-
- sound/soc/intel/boards/Makefile               |   3 -
- sound/soc/intel/boards/sof_board_helpers.c    |  15 +-
- sound/soc/intel/boards/sof_board_helpers.h    |   6 +-
- sound/soc/intel/boards/sof_cirrus_common.h    |   2 +-
- sound/soc/intel/boards/sof_cs42l42.c          |  17 +-
- sound/soc/intel/boards/sof_maxim_common.h     |   2 +-
- sound/soc/intel/boards/sof_nau8825.c          |   7 +
- sound/soc/intel/boards/sof_nuvoton_common.h   |   2 +-
- sound/soc/intel/boards/sof_realtek_common.h   |   2 +-
- sound/soc/intel/boards/sof_ssp_common.c       | 122 --------------
- sound/soc/intel/common/Makefile               |   2 +
- .../intel/common/soc-acpi-intel-adl-match.c   | 139 ++++-----------
- .../intel/common/soc-acpi-intel-mtl-match.c   |  52 +++---
- .../intel/common/soc-acpi-intel-rpl-match.c   |  90 ++++------
- .../intel/common/soc-acpi-intel-ssp-common.c  | 159 ++++++++++++++++++
- .../intel/common/soc-acpi-intel-tgl-match.c   |  50 ++----
- sound/soc/sof/intel/hda.c                     |  82 +++++++++
- 20 files changed, 423 insertions(+), 376 deletions(-)
- rename sound/soc/intel/boards/sof_ssp_common.h => include/sound/soc-acpi-intel-ssp-common.h (66%)
- delete mode 100644 sound/soc/intel/boards/sof_ssp_common.c
- create mode 100644 sound/soc/intel/common/soc-acpi-intel-ssp-common.c
-
+diff --git a/sound/soc/intel/common/sof_ssp_common.h b/include/sound/soc-acpi-intel-ssp-common.h
+similarity index 100%
+rename from sound/soc/intel/common/sof_ssp_common.h
+rename to include/sound/soc-acpi-intel-ssp-common.h
+diff --git a/sound/soc/intel/boards/sof_board_helpers.h b/sound/soc/intel/boards/sof_board_helpers.h
+index bd5c48cd0649..34ea974c8493 100644
+--- a/sound/soc/intel/boards/sof_board_helpers.h
++++ b/sound/soc/intel/boards/sof_board_helpers.h
+@@ -7,8 +7,8 @@
+ #define __SOF_INTEL_BOARD_HELPERS_H
+ 
+ #include <sound/soc.h>
++#include <sound/soc-acpi-intel-ssp-common.h>
+ #include "sof_hdmi_common.h"
+-#include "../common/sof_ssp_common.h"
+ 
+ /*
+  * Common board quirks: from bit 8 to 31, LSB 8 bits reserved for machine
+diff --git a/sound/soc/intel/boards/sof_cirrus_common.h b/sound/soc/intel/boards/sof_cirrus_common.h
+index 445621466f05..1c87637b9ef7 100644
+--- a/sound/soc/intel/boards/sof_cirrus_common.h
++++ b/sound/soc/intel/boards/sof_cirrus_common.h
+@@ -9,7 +9,7 @@
+ #define __SOF_CIRRUS_COMMON_H
+ 
+ #include <sound/soc.h>
+-#include "../common/sof_ssp_common.h"
++#include <sound/soc-acpi-intel-ssp-common.h>
+ 
+ /*
+  * Cirrus Logic CS35L41/CS35L53
+diff --git a/sound/soc/intel/boards/sof_maxim_common.h b/sound/soc/intel/boards/sof_maxim_common.h
+index 63054bcd287b..8886f985de68 100644
+--- a/sound/soc/intel/boards/sof_maxim_common.h
++++ b/sound/soc/intel/boards/sof_maxim_common.h
+@@ -11,7 +11,7 @@
+ #define __SOF_MAXIM_COMMON_H
+ 
+ #include <sound/soc.h>
+-#include "../common/sof_ssp_common.h"
++#include <sound/soc-acpi-intel-ssp-common.h>
+ 
+ /*
+  * Maxim MAX98373
+diff --git a/sound/soc/intel/boards/sof_nuvoton_common.h b/sound/soc/intel/boards/sof_nuvoton_common.h
+index af2e58b1d393..8a0f283260e7 100644
+--- a/sound/soc/intel/boards/sof_nuvoton_common.h
++++ b/sound/soc/intel/boards/sof_nuvoton_common.h
+@@ -9,7 +9,7 @@
+ #define __SOF_NUVOTON_COMMON_H
+ 
+ #include <sound/soc.h>
+-#include "../common/sof_ssp_common.h"
++#include <sound/soc-acpi-intel-ssp-common.h>
+ 
+ /*
+  * Nuvoton NAU8318
+diff --git a/sound/soc/intel/boards/sof_realtek_common.h b/sound/soc/intel/boards/sof_realtek_common.h
+index 99b23d96521a..289e85b61660 100644
+--- a/sound/soc/intel/boards/sof_realtek_common.h
++++ b/sound/soc/intel/boards/sof_realtek_common.h
+@@ -11,7 +11,7 @@
+ #define __SOF_REALTEK_COMMON_H
+ 
+ #include <sound/soc.h>
+-#include "../common/sof_ssp_common.h"
++#include <sound/soc-acpi-intel-ssp-common.h>
+ 
+ /*
+  * Realtek ALC1011
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
+index 96072790e9c0..37758f4e3f32 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
+@@ -4,7 +4,7 @@
+ 
+ #include <linux/device.h>
+ #include <sound/soc-acpi.h>
+-#include "sof_ssp_common.h"
++#include <sound/soc-acpi-intel-ssp-common.h>
+ 
+ /*
+  * Codec probe function
 -- 
 2.40.1
 
