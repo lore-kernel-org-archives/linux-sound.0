@@ -1,215 +1,112 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2104.outbound.protection.outlook.com [40.107.113.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929AD179AE
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 01:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.104
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711501604; cv=fail; b=FmhoxbHKZrG6kOFYbxQfOy5CEh3IYNq0WJ0QVwLwomAA6tCkbQo+DVwuscBRUaiPBUoeJ9I432HB+XiUUHPEGLZoTLM/jlEZcKmEUmfLEk7htXb5CS+970HuSKT5hiUWgvs6g2FfUebAj+g+6BPBUB4npUVnmWTgMAp6VZd29V8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711501604; c=relaxed/simple;
-	bh=Df7gKTjVUDlNa+P8NPyJ2RTpwy9f60CAS9pKlEhNK+8=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=X3HbVBWy/NZvqUfmahihistRogwTIc8mReDZBnp7LVh9qfkpdg0IR63M5D+ANzxI+IhAhLFDzPVBKuLaJLwx7vOGyndOWT5FpDUudFKcVSpxh/Xc8h8zW7RDsfsEJTaF6DCKChx9kYd/fz2e6yLx/gGGSADlLkvpcEogFivaEFA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=lAaoaHPJ; arc=fail smtp.client-ip=40.107.113.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="lAaoaHPJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IkzkRQcKxr/nx4nxwYlWajxtjV7Ft4RMxfe8Ph/Pi05gAW5Z7qsnhMPHyy+zbx2kzv388nKXLGC2OmLKfisjD/5GArzUiC4IbjZdfztgMP26qaHlZevwkXrBeR6sa6FJSzRxiGveFghYN3qshiZpwUKnVhka8wwBeg7swVZK68Gb97/VcSLcyqqsqhRE0CN6hM4k94uLonpyW7RIuXi6Q0nTsUxNMsOjqG4ykB7LcDMs0onEL1VVzlBZ1y0oMs3WO6ZCRl/YLKeG34DAviWbTGPN2QFXZgCpwe0UwnYn8Nn42VPPMMAw8u7A6GfySah3Z77oyxrH68Cc3ffwjh94OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IiMGB8tsN+BKlLNci6btHbI9YNlfMMkJm/A3SR46XmE=;
- b=JaSK7PkbqRYsuCMPtn5wcLkzZKmwkzLrBhbE+vIQ2XNh9eiP2+mKiKrOmWzJ7i833EufnWPq50+ok+rnTver6k3RqhcQBA/oko/t1BTPoeesavuEiOPduufgGHnv/CZenjYfGFzOHG3MJ1HRvIGH2E0W/N0qosEsfsQ35QtIXxxCRbK99bdnbXJM56jIYZLn7WSNcLbFa2PHig2QEXBHqWA11JSQcO2M9NxmDIbPAz9+/BrpzFqR0eCUdgn+z/cYlA4C5ZCvHNAYt6RuUaNdvRvt8NnAj/DsJPv/7jYZTOZYKr33mWKecQbp2XlOnMqI5/yD8qv1P0JuOilbTLXAxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IiMGB8tsN+BKlLNci6btHbI9YNlfMMkJm/A3SR46XmE=;
- b=lAaoaHPJV0+ZjMGHOhE1waaa4UlLkQEYhNE/sOk9tvxepzGQ71BYV83vP//A3v0HS0tAz0wOuI5NeS54h3XuCIz+2sAwGDJk4JrOXFHxIP6r3HUh5pPS0Zse4+nVzBwDF+VM9OYmYchN1yT/OmJJaf3ZDMPMotkZFGRBJW6xoKE=
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB11865.jpnprd01.prod.outlook.com
- (2603:1096:400:38c::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Wed, 27 Mar
- 2024 01:06:38 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Wed, 27 Mar 2024
- 01:06:38 +0000
-Message-ID: <87v858cwki.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent 
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,	Daniel Baluta
- <daniel.baluta@nxp.com>,	Hans de Goede <hdegoede@redhat.com>,	Jaroslav 
- Kysela <perex@perex.cz>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,	Kevin
- Hilman <khilman@baylibre.com>,	Liam  Girdwood <lgirdwood@gmail.com>,	Linus
- Walleij <linus.walleij@linaro.org>,	Mark Brown <broonie@kernel.org>,	Maso
- Huang <maso.huang@mediatek.com>,	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Trevor Wu
- <trevor.wu@mediatek.com>,	Vinod Koul <vkoul@kernel.org>,	Xiubo Li
- <Xiubo.Lee@gmail.com>,	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-sound@vger.kernel.org,	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 15/15] ASoC: soc-pcm: indicate warning if DPCM BE Codec has no settings
-In-Reply-To: <1j7chp9gbb.fsf@starbuckisacylon.baylibre.com>
-References: <87o7b353of.wl-kuninori.morimoto.gx@renesas.com>
-	<8734sf53kv.wl-kuninori.morimoto.gx@renesas.com>
-	<1j7chp9gbb.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 27 Mar 2024 01:06:37 +0000
-X-ClientProxiedBy: TYCP286CA0056.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b5::17) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id E5EB417554;
+	Wed, 27 Mar 2024 01:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.101.60.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711502136; cv=none; b=uuKxF5znhN+KoMkyWVUBP79lisYM2m4Pi3/05ZinEKDh5plP5FfowYYxqahsu7/+k1kM8YMgFRliZgZIZgWsHrPFC/qmYzmJc3rTec/A1JohyjLDTdei2roaHQ+2TVPzTSdPJRh0xvEODhm6tSbCGh3oNKQmh/dxzHviRyng1Qg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711502136; c=relaxed/simple;
+	bh=vlAURbsX5wpvGXqFwL0Rpdj7KYf37DTQ2Jtnu3oSU2o=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:In-Reply-To:
+	 Content-Type; b=c4gYT7ahV3DbABDXdJsIK5WWJfv/Uejnt/MwaOTQO3C6C1ukvqSXRj2uQrvbrO0NhtXoyeZvNkY48GguZ1reOHN9VoolHUelSYH09lD+ltdJV3BWFAxCbHwi5M/m0Ced/ltT/vuOjXAatARL5rK2mSQ7cgIBdsoScznzYI1gZPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com; spf=pass smtp.mailfrom=nfschina.com; arc=none smtp.client-ip=42.101.60.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nfschina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nfschina.com
+Received: from [172.30.11.106] (unknown [180.167.10.98])
+	by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id 3E1AC6019C949;
+	Wed, 27 Mar 2024 09:15:19 +0800 (CST)
+Message-ID: <a9bc4138-df79-112a-6470-90c86ba5bc95@nfschina.com>
+Date: Wed, 27 Mar 2024 09:15:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB11865:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	lMUiCreJCTgI04B+yy0gZHGATnFfsdBZUjrYkRVVWhruFrNWCjbtI6A4k8W1oZF/edoonBR6zgr0UPS9ibxAv0HaW8NqC/1FSCtACz4bm4X9wzdknVeTk3r64+FKWYBvHqh/gXL/bdyp89wMCfwcN7suo/Qlla0GfMrlNfMDfrSsX/vyyPJlYKOxV2fkTTpm8z1Eic4K4R3rbrroyDRU0J3DQ+KTjaXO+HAnnF3XNmjnR4a/7Yu6JO+WQ9yqPlypW/tgHhElv/tG/Z6iyS2PmXOk9gP9zzvn3lq7YeuaCavbN1Lwjm7gY/GhDSPLLUlNnIK1xgp/EkFHpF5BwtEZe7QQgUnZk5oCRXOnh775SGVguX8S5t4/G3wrzTa64dAJW60euGLAY9xyiWLv03Qd08VTSHbtATinbmwxNlPRIcvlo+SxWHB46gz6SVxK6slXz/STJyqh1NyAl1WU2i96NjwUwMX2o8YYsKmPpAaZMhzajr/hHl55nHowOAorms1CMPFHa8rJzRfl+YJDkXGTdkkMyh8HYZXwqQctjxusbUJJMevrEE5j/oChOmVjzHl5aRwHZ1gNHXWeNp0QnmBw2m3RooHFl1bJetErIt6Lx5F0ZvHQaXI6dz/koymqLIl8Y5mce4enUq9CI31qCS/BKHMGxFus3uCzkM4Qp2nBvsFlSIHogo46OIwF4d7PS/KJGYVzl1pxTIFADwoeI83guKg4lq0P1S5Oj2ZFRd6GTII=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6rlZrz/auiE+pUdDweyJ34GvVDXVwJTIpkzFwka3rkR1n5Yn0l/45ASYcxHr?=
- =?us-ascii?Q?hT1xgGGraJjKadqMNPPFKrRdXsiBdWU5jqJ8pe24rtXYwLDzHeWdCdu09VKi?=
- =?us-ascii?Q?vIEekOCmPD0kqxy03gelIBZiBrYB3C6XxNAwSJ43NOuB9oawtx4iB4rhLTFU?=
- =?us-ascii?Q?0IXL+xSNd1ty6PvSNn5kdm1pQDMPenhwxxgKD26+Ny6MN01VQGtG2n4Me3Pl?=
- =?us-ascii?Q?GFCFC6Fyf/ZRhlVt77Ep7uCg3zM0kjCWGL6BK/9cT1khS9e4BZk1RDX07vEu?=
- =?us-ascii?Q?BvSh4vz26z3MEzTHkes9zg6VBFnIfeBXHiuUkPfwsn2bWIOULgJDjFivoFf7?=
- =?us-ascii?Q?ihPovWoWojDq+0KJQVwJ360/haJxjH0IJyJ+qB2prgv7IbSsZePwSwF5uTKM?=
- =?us-ascii?Q?GqT05nCPk2PVUh+RtF+qBfqwO/p87nHCiu61gDKOx379bnxzYNJ/QnyCtDXQ?=
- =?us-ascii?Q?SGmau4lRP/7FND31Zf4SWYKUz8sIzVat1lrBhdO9iYJJYYZokaCs5Ow7/Gxh?=
- =?us-ascii?Q?Max9qdmvUoEUaPUZciwG5Evdm8Wrq4Vlkv8YD+rAyAKB1274kMdrkGCdMO/4?=
- =?us-ascii?Q?kL5E87+VUPdmX3pYYHvPrSlmZIVaWJ0Kl+aVm2e+uYS1tzKCQh46cBJt27fO?=
- =?us-ascii?Q?I3pgP9QA9B57u5Aao6SVnAKLYEfO/JGJath/l/y7vk76E/alJnQWfbMszWZQ?=
- =?us-ascii?Q?DQREnNIyAUg0fEEmG5zZksDUO8Luz6l6R3B4IJvkOnG2f3c+judig7Wzlet3?=
- =?us-ascii?Q?ofc9NQCLEF+/58z7VbhEhJpd0uPX/K+9hT7TVEl0Qj2HgGuNZvrjxwQZ0xzl?=
- =?us-ascii?Q?7ZISGqfw7/sEPcN0ycxSiJOMP5vH7cHAR51HiwmnUPC34AYSwvDgqS3X2zIS?=
- =?us-ascii?Q?R1YeDH1u8Bp5OLacMM2DBcVovyrNo7GEb9atFsadXZO0YXghQLZyTTDtVeAy?=
- =?us-ascii?Q?4sQTzLbDebAfzcAqW1u+wdAAvaP4dAo//0B+9v9Y8mJ/vZQ4f+3O1EPrDAKe?=
- =?us-ascii?Q?7lxjrShHUwF6qtsN7/g6Q/hYaUJn1b+HzQytFBruB2r8nczjXrWs8iQJA2U5?=
- =?us-ascii?Q?NOHKGdl2NILV1+bkDfBk9Xr58vqX6hW4JBVnA2yTC/qNAxAq83qGVvQhkM+l?=
- =?us-ascii?Q?xzBEBzdog6P0KVQdenvi9gaJ3H96nzOogT2jofRchm8CHuGdEIPwg1uNfM8t?=
- =?us-ascii?Q?D+3X1wKxGRligAE6KXiFttGpuey4eS0JrGfW6eWdiFb0/nY6sWVPiwMXFpSg?=
- =?us-ascii?Q?eWt5NvW1+H3G/XHXiGBiSYF1LWZtf0CQ7gF6LyfO8kvwlQysyQUGvNoIRUM4?=
- =?us-ascii?Q?IdLnb7yX/VtWLnK7y4+WRTTiUdHqqh6OlN4UKIeHtXawH0cIJNdmcN2hjsxn?=
- =?us-ascii?Q?58sxXjkS2WMaVNTdxprhJUShr/5XxubuNxKW2VgwEhlDVdENbNbLWK86b9aI?=
- =?us-ascii?Q?ouBo2yhh64DfpPbaiKFICu8EKOb3NeNv+N2RjhBG5Fgx7rnG3lsqKqQ7cEw2?=
- =?us-ascii?Q?VoSsY31thBl4rPKrmykeOSGQqHdgitqTfctcsPHmAfQ3zvfbXzh2rtA9+HYi?=
- =?us-ascii?Q?OJEjvnGCC2ET50AvS7mhkvJgxgz2ZTjeObg0inbOnjAwnxKcE4xMAj6tvGgI?=
- =?us-ascii?Q?qHU8qENI4K0+TOb55eoixSQ=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee997d3e-b223-45a5-5688-08dc4dfa279a
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 01:06:38.3075
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m9kUUKH6i/Quxa6my4RRGnvvZbTKhDU5pgiRbgKG9wuX2+1Xjsmpbh7TM82EvE4sFXFY70pI2YFB84gzGXWFG8fabLTQbrAaUyZ0qw0DIcq53mTsieXMRPuXsugbsaCo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11865
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] ASoC: sti: uniperif: fix the undefined bitwise shift
+ behavior problem
+Content-Language: en-US
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: arnaud.pouliquen@foss.st.com, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, nathan@kernel.org, ndesaulniers@google.com,
+ morbo@google.com, justinstitt@google.com, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, kernel-janitors@vger.kernel.org
+In-Reply-To: <e70c65b0-2e0d-613f-4f05-bda61377fc01@nfschina.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-Hi Jerome
-
-Thank you for your feedback
-
-> I'm not quite sure what you mean by "should have validation" and what
-> setting exactly we should validate ?
-> 
-> I know I should be able to able to understand that
-> from the code below but, somehow I have trouble deciphering it.
-
-Current ASoC have validation for ^^^ part
-
-	DPCM
-		[CPU/xxxx]-[xxxx/Codec]
-		^^^^                   (A)
-	Normal
-		[CPU/Codec]
-		^^^^^^^^^^^
-
-(In many case, this "xxxx" is "dummy")
-By this patch-set, It will check all cases
-
-	DPCM
-		[CPU/xxxx]-[xxxx/Codec]
-		^^^^^^^^^   ^^^^^^^^^^ (B)
-	Normal
-		[CPU/Codec]
-		^^^^^^^^^^^
-
-At first, in [CPU/xxxx] case, "xxxx" part should be also checked
-(in many case, this "xxxx" is "dummy").
-
-And, because it didn't check (A) part before,
-(B) part might be error on some board (at least Intel board).
-To avoid such case, temporally it uses "dummy" instead of "Codec"
-before [15/15]. This means (B) part checked as like below.
-
-	[xxxx/Codec] -> [xxxx/dummy]
-
-Because "dummy" will pass all cases, (B) part is almost same as no check.
-Yes, it is no meaning, but the code will be simple.
-
-> Where you have a CPU supporting both direction and 2 codecs, each
-> supporting 1 stream direction ? This is a valid i2s configuration.
-(snip)
-> >  		/*
-> > -		 * FIXME
-> > +		 * FIXME / CLEAN-UP-ME
-> >  		 *
-> >  		 * DPCM BE Codec has been no checked before.
-> >  		 * It should be checked, but it breaks compatibility.
-> >  		 * It ignores BE Codec here, so far.
-> >  		 */
-> > -		if (dai_link->no_pcm)
-> > -			codec_dai = dummy_dai;
-> > +		if ((dai_link->no_pcm) &&
-> > +		    ((cpu_play_t	&& !codec_play_t) ||
-> > +		     (cpu_capture_t	&& !codec_capture_t))) {
-> > +			dev_warn_once(rtd->dev, "DCPM BE Codec has no stream settings (%s)\n",
-> > +				      codec_dai->name);
-> 
-> Taking one codec at a time, would you trigger a warning for the use case I
-> described above ?
-
-Oops, indeed it will indicate warning in your case.
-How about this ?
-
-	if ((dai_link->no_pcm) &&
-	    (!codec_play_t && !codec_capture_t)) {
-		dev_warn_once(...)
-		...
-	}
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+This is a kindly resend email.
+Sorry for the error style of last email :(
+On 2024/3/26 13:30, Su Hui wrote:
+> Hi,
+> On 2024/3/25 22:25, Dan Carpenter wrote:
+>> On Mon, Mar 25, 2024 at 11:40:33AM +0800, Su Hui wrote:
+>>> --- a/sound/soc/sti/uniperif.h
+>>> +++ b/sound/soc/sti/uniperif.h
+>>> @@ -12,17 +12,28 @@
+>>>   
+>>>   #include <sound/dmaengine_pcm.h>
+>>>   
+>>> +#define SR_SHIFT(a, b)		({unsigned long __a = (a); \
+>>> +				unsigned int __b = (b); \
+>>> +				__b < BITS_PER_LONG ? \
+>>> +				__a >> __b : 0; })
+>> The code definitely looks buggy, but how do you know your solution is
+>> correct without testing it?
+> I only test some cases like SR_SHIFT(1, -1),SR_SHIFT(8,1), it seems have a right result.
+> Oh, maybe I understand it. When 'a' is a negative value like '(int)-1', SR_SHIFT(a, b) will
+> have some bugs.
+>> I don't like this solution at all.  This is basically a really
+>> complicated way of writing "if (b != -1)".  Instead of checking for -1,
+>> the better solution is to just stop passing -1.  If you review that
+>> file, every time it uses "-1" that's either dead code or a bug...
+> Agreed，some are dead codes which can be removed, but what should we do with the
+> following error codes like this one?
+> sound/soc/sti/uniperif.h
+>   415 #define UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip) \
+>   416         ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? 7 : -1)
+>   ...
+>   423 #define SET_UNIPERIF_CONFIG_BACK_STALL_REQ_DISABLE(ip) \
+>   424         SET_UNIPERIF_REG(ip, \
+>   425                 UNIPERIF_CONFIG_OFFSET(ip), \
+>   426                 UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip), \
+>                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> How about this solution? If the condition is false, just skip it.
+>
+> @@ -412,8 +412,7 @@
+>                  UNIPERIF_CONFIG_REPEAT_CHL_STS_MASK(ip), 1)
+>   
+>   /* BACK_STALL_REQ */
+> -#define UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip) \
+> -       ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? 7 : -1)
+> +#define UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip) 7
+>   #define UNIPERIF_CONFIG_BACK_STALL_REQ_MASK(ip) 0x1
+>   #define GET_UNIPERIF_CONFIG_BACK_STALL_REQ(ip) \
+>          GET_UNIPERIF_REG(ip, \
+> @@ -421,10 +420,11 @@
+>                  UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip), \
+>                  UNIPERIF_CONFIG_BACK_STALL_REQ_MASK(ip))
+>   #define SET_UNIPERIF_CONFIG_BACK_STALL_REQ_DISABLE(ip) \
+> +       ((ip)->ver < SND_ST_UNIPERIF_VERSION_UNI_PLR_TOP_1_0 ? -1 : \
+>          SET_UNIPERIF_REG(ip, \
+>                  UNIPERIF_CONFIG_OFFSET(ip), \
+>                  UNIPERIF_CONFIG_BACK_STALL_REQ_SHIFT(ip), \
+> -               UNIPERIF_CONFIG_BACK_STALL_REQ_MASK(ip), 0)
+> +               UNIPERIF_CONFIG_BACK_STALL_REQ_MASK(ip), 0))
+>   #define SET_UNIPERIF_CONFIG_BACK_STALL_REQ_ENABLE(ip) \
+>
+> Maybe should print some error log here.
+> I'm not sure about the safety of skipping SET_UNIPERIF_REG when the condition is false,
+>
+> Would it be better to make the result of undefined shift equal to zero?
+>
+> regards,
+> Su Hui
+>   
+>
