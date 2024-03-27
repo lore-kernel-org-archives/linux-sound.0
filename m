@@ -1,60 +1,60 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182DA524A
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4F317565
+	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 05:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711516057; cv=none; b=M/znpL6rEqQfdOAuLJFeTrj4yz0KmBRB7R2NXLoqB8o+16k0NgO40m9SqvbnfpraCnd5mStrrnTzfODnsCelZtf4YjbG7QtyfT4BRD1GVwvfyV7PNa0sOcP8FKMmrlhuXVWRTFHQRHSputP2H/eT8ZvKTDJyJn23v+AkLP1G2nQ=
+	t=1711516344; cv=none; b=gbnUrJ2IRsOAiLYkc/e/V7kJjWOhaClAJbbHa0l4me0LMsDmiwb8+XBwasSRWbMFdZGsL0yKoYsxDcZX9aInBX/3WqHHIKhcw3p6KQrtpzblVVFbvjkdgLxG4ouY8CLxaYx+1rNHi/g0+2+lHNpgf5iv4xi3mWLmnSbB84R6abI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711516057; c=relaxed/simple;
-	bh=6hRrPE77vMG9UB+u2FZ3N08FEfbvyAhJGxbSd6EuVlM=;
+	s=arc-20240116; t=1711516344; c=relaxed/simple;
+	bh=IJHWOnTINFpZXZ9g/2/P87Myf9jBqm+cXzXz94G2KlE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T3hOpFGCQaEO01zER6afWf6jhfoQlx9zY+LF+mSAX/88FIn+tZbUdMxlFsmnCOxxyurFJG5VcDxvMZMjAKehtMOMIi92nUHLwsWUxnE83aRU4DglknYpfAm+Z1W6wSjvYmIKhF/75UNa7JTl/qZ5w6AtS8mFboP9NVrxsH0Ei5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nJ4cvSY6; arc=none smtp.client-ip=209.85.218.52
+	 In-Reply-To:Content-Type; b=KStyLu1G0fL8Ts3kkurj7+OOJOmcDoHsp3PH7id/qBrZbpyJQrSA6fxfoOqtWnAJLuV3oMNznHLy1ybamwHmcK/ar1FGda4T47y/C5/z5wuo2ywH8rEtg6PFzZmlxK2pfzruDwBK08+UmUGr1E5O8OHSAWvcFx9lkQ7h1+XK8cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bfODwxVA; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nJ4cvSY6"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a46a7208eedso852840366b.0
-        for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 22:07:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bfODwxVA"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a470d7f77eeso796415866b.3
+        for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 22:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711516054; x=1712120854; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711516341; x=1712121141; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/j/wkfnU1VMtlD/kDo+x6lLCbpnn8+R/4k1WBBOkFIQ=;
-        b=nJ4cvSY6gnVf4RRHoeSMIHgnar5jPBgsCwbnnW6oSdwx6NrcvEb3w50No93GB2LVhf
-         /PlRabLRgZV5JZz1QhBJgs66UDJidTrOe2S86AanQ3O+meXq5lOY+06eQvicBhRpKyCR
-         kiqERp/I2widroPubgcF508ITqKMzG/TzXxwBKEVIa2ftAZTcoD6PgD/VhZ+v2TTV1tA
-         WirLlFulCjEX4/cMMsw6waqIzAh/Jo9GpCRmhsRxVGOhRF7lW9SwGz0P+MSgkW05suEe
-         jv+JKIdzG+S0oTXVXL5iybsv7XdoEzDTFkjr82ORR0Rkl3HkMmHx0DptNcGA+R9MArEC
-         wbdQ==
+        bh=Dwtti/peMihUTMyAzlCIGMLulrpmjqLQzU4QpF2mNKU=;
+        b=bfODwxVA6gLQY/wRvXPxQwa9E0IzaOHTWuRX5OqVDBWTXaH+rr+xnko3IJ+KJaHnda
+         L5AfneDqzz6q2NDenZ06x68xUpar3pZaYmE0oFnRWUgpH5SVU1y3YKKEJA4hLP7iA7dW
+         tQM1s28LUDxSgTczcglAPprIqneGY70vXg5b4g3Cl+6wC8FXsJj9nW8vfXH7ocULLadT
+         6kwJhhEDzW/VXkalS+YQv5R2UhBvIFmZRlUk7ovY+E53WddIs3ZLfyEjXRI2QVEffopK
+         HWmIuXJuHP7i3MDYUDtdkcoDkbqQF7f5jheag/BiKgfZsHdgd3PUe+c1nGwWUyuSXrfF
+         QFrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711516054; x=1712120854;
+        d=1e100.net; s=20230601; t=1711516341; x=1712121141;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/j/wkfnU1VMtlD/kDo+x6lLCbpnn8+R/4k1WBBOkFIQ=;
-        b=Fncpqw2CAtumnnZbPBK14virY3Z9grzJ88joOAqSbPajB7tHrcr5KiyV7C0hmg82ZB
-         HXzpuy7MkeAyET/WGLAUQH4iwN8kiMr+2Ovjuqzt/Yd+RVf8Lr4DE3abjMrwej7RKkAz
-         lcAsOdjkeppbYnBQ0EmYBmH50KNZoiwxzzOzVGtWglWa8KUZhnaXxdz2DHdnsvYy8J39
-         ttx1ClpuaEzBlQ6ewzFWURjyROUO66HGSzrNT4Gq/S9Ha/npQa6cGR0JkTteGMbXEwU1
-         Ti3iLSA364q3b/BG0zQ/qgHaGtTtObC3uGGNps73G7MFL1M9sHFGfUUII7dGEvoqVfN4
-         FBrw==
-X-Forwarded-Encrypted: i=1; AJvYcCWnuYgQ3zQfrkwQOwhHAVn+fHpdPyVqcTp1OLbKSr59Wg+iW9YwTwbchbIhKa1bhHUFlQB7DMDZBC79fDlMakiATTCv5gOQvd39WGI=
-X-Gm-Message-State: AOJu0Yyu/A6L1a3QsDVkbQsfMs7aibey3Sn5vinl0Vj9ra9xSMNcqveD
-	a5t29rVRPCMy46VFZSC3jJjYqV/YIUrxqyVvhrr3QaOKNx5qG8H+8zFkUN7ttLQ=
-X-Google-Smtp-Source: AGHT+IHlo+FYMJRDViGKDBKHGZt4C85CAdTPEoXLJs8oiXtdIa99YCUHjkKw6jicrE8R7Bo7TiFa/A==
-X-Received: by 2002:a17:906:7cd:b0:a4d:f2d9:cf1a with SMTP id m13-20020a17090607cd00b00a4df2d9cf1amr1965395ejc.63.1711516054468;
-        Tue, 26 Mar 2024 22:07:34 -0700 (PDT)
+        bh=Dwtti/peMihUTMyAzlCIGMLulrpmjqLQzU4QpF2mNKU=;
+        b=TvQSb2MQpQvMB505SYOsnjWeu6ZKd8/dIkv7/hZCLWX4bVaMcZtLQysP5OOtGKgJ6/
+         zNlzrvHiCsyOYFtzP6bVr12yv/NIp3bGu4PKjR3eMTv+kQPGd2IbN8voxXNyZigZWFty
+         SqvBQWVSQ+GvZ+rI0E2pFkk4lb/fCr2791+jFJOB+8eB8Cmut2lFs10/4zR9RUmWcl7P
+         1AxxHTXlbtM+eLX+9LhsBD4itEM//GPO9+39XaQKud2oXy0MEVLO/QZMD6qOpMRSdZZU
+         dn0jounayDwSFa68zNY6UcpOHGfdjWH2XkmjjXq3fcGFeZAwZaB0W/xtBvVIg42j4pKz
+         eQIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVan6yGLUx3HZ7JdjYqf8F5nSW5iXosj+vsL2xpOQjhrWryu6EUocho2XBugLFrli5NKhb7++Y4ShhTCfG2QEyUYdhdMhCM9pOXIP0=
+X-Gm-Message-State: AOJu0YwVIKjjz9vuaH+BCdHi2XXZi/GGlBLu+FHKJDQOjUnYKUhXSJN8
+	dnNiTZxL3mnSNnMv9AHtmvqo1E6zjGuJTiVgLloyneugITNBF7w7iuIhHl2JVow=
+X-Google-Smtp-Source: AGHT+IElJpw3yCm9S4l81YiCAYTFbqQcMEaxlCe/Y/vun3hBezNkXoQkI96UNC8LRjTdHliw/4EueA==
+X-Received: by 2002:a17:906:dfd7:b0:a46:f6fc:1fda with SMTP id jt23-20020a170906dfd700b00a46f6fc1fdamr92944ejc.20.1711516340821;
+        Tue, 26 Mar 2024 22:12:20 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.44])
-        by smtp.gmail.com with ESMTPSA id l19-20020a17090612d300b00a46cffe6d06sm4950533ejb.42.2024.03.26.22.07.31
+        by smtp.gmail.com with ESMTPSA id kq1-20020a170906abc100b00a46a04d7dc4sm4957769ejb.61.2024.03.26.22.12.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 22:07:33 -0700 (PDT)
-Message-ID: <a16f45c9-747c-4a19-98a3-aa5f47ee5c4d@linaro.org>
-Date: Wed, 27 Mar 2024 06:07:30 +0100
+        Tue, 26 Mar 2024 22:12:20 -0700 (PDT)
+Message-ID: <16f72b4a-2aa9-49d5-a4aa-ed94eea1f32a@linaro.org>
+Date: Wed, 27 Mar 2024 06:12:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,44 +62,25 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/38] ep93xx device tree conversion
-To: Andy Shevchenko <andy@kernel.org>
-Cc: nikita.shubin@maquefel.me, Hartley Sweeten
- <hsweeten@visionengravers.com>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDEvMl0gQVNvQzogZHQtYmluZGlu?=
+ =?UTF-8?Q?gs=3A_Add_bindings_for_Cadence_I2S-MC_controller?=
+To: Xingyu Wu <xingyu.wu@starfivetech.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Mark Brown <broonie@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Damien Le Moal <dlemoal@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Ralf Baechle <ralf@linux-mips.org>,
- "Wu, Aaron" <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>,
- Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
- netdev@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Andrew Lunn <andrew@lunn.ch>
-References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
- <dc3e2cb4-f631-4611-8814-0dc04c5502f0@linaro.org>
- <ZgLgY11N8dkpTZJB@smile.fi.intel.com>
+ Conor Dooley <conor.dooley@microchip.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
+ <20240320090239.168743-2-xingyu.wu@starfivetech.com>
+ <9d9efb8a-0b3c-4e7a-8673-07cd3b1f5f87@linaro.org>
+ <NTZPR01MB0956BD6189974378958562D99F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+ <9b1a5100-8536-4b59-b2e7-d6ebd2ba9e66@linaro.org>
+ <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -146,43 +127,105 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZgLgY11N8dkpTZJB@smile.fi.intel.com>
+In-Reply-To: <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 26/03/2024 15:49, Andy Shevchenko wrote:
-> On Tue, Mar 26, 2024 at 11:19:54AM +0100, Krzysztof Kozlowski wrote:
->> On 26/03/2024 10:18, Nikita Shubin via B4 Relay wrote:
->>> The goal is to recieve ACKs for all patches in series to merge it via Arnd branch.
+On 26/03/2024 14:43, Xingyu Wu wrote:
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    enum:
+>>>>> +      - cdns,i2s-mc
+>>>>
+>>>> Why did this appear? Who asked for this? Usually these blocks are not
+>>>> usable on their own.
 >>>
->>> Some changes since last version (v8):
->>>
->>> - Most important, fixed bug in Device Tree resulting in CS4271 not working by Alexander Sverdlin.
->>> - added #interrupt-cells to gpio nodes with interrupts-controller
->>> - fixed some EOF in dtsi files
->>> - fixed identation and type in ep93xx-keypad thanks to Andy Shevchenko
->>>
->>> Stephen Boyd, Vinod Koul PLEASE! give some comments on following, couse i hadn't one for a couple of iterations already:
->>>
->>> Following patches require attention from Stephen Boyd, as they were converted to aux_dev as suggested:
->>>
->>> - ARM: ep93xx: add regmap aux_dev
->>> - clk: ep93xx: add DT support for Cirrus EP93xx
->>>
->>> Following patches require attention from Vinod Koul:
->>>
->>> - dma: cirrus: Convert to DT for Cirrus EP93xx
->>> - dma: cirrus: remove platform code
+>>> I wonder if I should keep the original IP compatible. Do I not need it?
 >>
->> A lot of this could have been already merged if you split it... Just
->> saying...
+>> As I said, it is not usable on its own, so unless you have other arguments then no.
+>> But my point was that no one asked for this.
 > 
-> But you able to apply DT schema patches if you wish.
-> Just doing? :-)
+> I want to keep the original IP compatible which can distinguish from the JH8100 SoC.
+> Can I write it like this:
+> compatible:
+>    enum:
+>           - starfive,jh8100-i2s
+>    const: cdns,i2s-mc
+> 
+> and I write this in the DTS:
+> compatible = "starfive,jh8100-i2s", "cdns,i2s-mc";
 
-Me? Why? DT bindings are supposed to go via subsystem maintainers, not
-DT tree. Plus, I do not apply any bindings patches, except for managed
-subsystems and none of them are touched here.
+Can you provide any rationale for this? I asked "unless you have other
+arguments", so where are the arguments?
+
+Nothing was explained in patch changelog. Nothing was provided in this
+email thread.
+
+> 
+>>
+>>>
+>>>>
+>>>>> +      - starfive,jh8100-i2s
+>>>>> +
+>>>>> +  reg:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  interrupts:
+>>>>> +    description:
+>>>>> +      The interrupt line number for the I2S controller. Add this
+>>>>> +      parameter if the I2S controller that you are using does not
+>>>>> +      using DMA.
+>>>>
+>>>> That's still wrong. You already got comment on this. Either you have interrupt
+>> or not.
+>>>> You do not add interrupts, based on your choice or not of having DMA.
+>>>> Drop the comment.
+>>>
+>>> Do I keep this property and drop this description?
+>>
+>> Drop description. Keep property, if your hardware has interrupts.
+>>
+> 
+> Will drop.
+> 
+>> ...
+>>
+>>>>
+>>>>> +  - compatible
+>>>>> +  - reg
+>>>>> +  - clocks
+>>>>> +  - clock-names
+>>>>> +  - resets
+>>>>> +
+>>>>> +oneOf:
+>>>>> +  - required:
+>>>>> +      - dmas
+>>>>> +      - dma-names
+>>>>> +  - required:
+>>>>> +      - interrupts
+>>>>
+>>>> This won't work. Provide both interrupts and dmas, and then test your DTS.
+>>>
+>>> I provided both properties in the DTS and test by dtbs_check. Then it printed
+>> that:
+>>> 'More than one condition true in one of shema: ...'
+>>
+>> Exactly. Having both properties is a correct DTS. Interrupts do not disappear just
+>> because you decide to describe DMA. It is OS choice what to use if both are
+>> provided.
+>>
+> 
+> But this I2S can only use either DMA or interrupts.
+
+Just like many other components. DTS should reflect hardware. Hardware
+has interrupts and DMA, right?
+
+> 
+> Can I use the config (like SND_SOC_CADENCE_I2S_MC_PCM)  to choose DMA or
+> interrupt if having both them in DTS?
+
+Don't know, I tend to focus here on bindings.
 
 Best regards,
 Krzysztof
