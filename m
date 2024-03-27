@@ -1,143 +1,120 @@
-Received: from au-smtp-delivery-130.mimecast.com (au-smtp-delivery-130.mimecast.com [103.96.21.130])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093C920313
-	for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 02:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.96.21.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA5A23773;
+	Wed, 27 Mar 2024 04:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711505407; cv=none; b=ZNok9xpI5hSGQVU0F15Yl4pxYPKj1NXBlmWN2TcV1Wg/ODEhBPUNpy9fFInSV9Fa/hEAThaPfPBcLi4w3H8gnlQEyAha2PA7ERqyl5/xY7f+IOFcoNl0sbwTQZeIVkcHwGcAU+TxyjcXC382nb6kOg8NAOqh0xJei+eat/gc2y0=
+	t=1711513339; cv=none; b=kEcZGltCzEbFFujsfK4FD0DJ+PkMXNPLVhwlKimo5ciNNWPTcI8yC/4dCYiSZ9Hxla+1Er+A9EImmvjP5Ma+avpAklLQZrK0XL5P2sTQftFs2U+zN24MfXGZnBEzPRqrNzj6mzHd6gRbvM9UNuBwgrWMdyA7rZvpbhBQztBuYYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711505407; c=relaxed/simple;
-	bh=KXevlU52oQPoeRk6/V0k++bkJTQXpZNn9OTyeRmV6Hw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=M2yVtXAsCxUc55l7JryuUAbcyEyrnpYU72PZmnDVReI6i2HkJWXGWWHzWZWbpBFCX9A7VA2/sOhAodcFbBXAjGO2QxHIp1Xpu2xBuLkeWachhRhDM9nQhKxX6LSG+z0R3Dtc6gR3Gem/XaNciuDZznJTLA7epAtzwAz0SZOhHhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=student.unimelb.edu.au; spf=pass smtp.mailfrom=student.unimelb.edu.au; dkim=pass (1024-bit key) header.d=student.unimelb.edu.au header.i=@student.unimelb.edu.au header.b=IS/V9G8S; arc=none smtp.client-ip=103.96.21.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=student.unimelb.edu.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=student.unimelb.edu.au
+	s=arc-20240116; t=1711513339; c=relaxed/simple;
+	bh=HTItWPms0pqAtokhHLP7v+ctnR3icIkNDyzsM1SRPxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WHKWCoxRwpM3AUstcGqiWJV/NN+PhmyHdFeYVNxCrEMvQimuYOxW0cT3S0Mkozndcz1Ml01zOS6alSDzQU+hURsDCwxdeX7ndzX14ZaXDsUovjBVOyHnSL7TsjbsrLVjsnWtKejcaGiN3W74E7Ya66OIDiMPDxPlwBxhG6TBGPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdOe85eu; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=student.unimelb.edu.au header.i=@student.unimelb.edu.au header.b="IS/V9G8S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=student.unimelb.edu.au;
-	s=mimecast20230627; t=1711505400;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1GmpQFr/5kbnwFByeTtEMVdByVQroH+pusGCYRim3PU=;
-	b=IS/V9G8SowJuj00yWcCKvAnFQErpkzJ8euKw9ZWlauzECk73PoD3swpq41Y53SfTf1+yWj
-	2mEjDEKGyE31D8i88yjKTiUeCxtKFoJ57+K7Qv4giwiRalEieJQbLm+iecV+D15ansTiYV
-	0pDgcV9Xn+P9V+OZPwmk1rTfhMnxpS0=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- au-mta-80-o7Xqjc1dMt2dXhodCxUJEg-1; Wed, 27 Mar 2024 13:08:25 +1100
-X-MC-Unique: o7Xqjc1dMt2dXhodCxUJEg-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2a04fe4fd15so300754a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 26 Mar 2024 19:08:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711505303; x=1712110103;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1GmpQFr/5kbnwFByeTtEMVdByVQroH+pusGCYRim3PU=;
-        b=hNnRGH9VtJEIJMtXIb3TYo28Xau+ZoQPL22VTazHe7NZHtadPvwgWkcS7x0Eg9YSTf
-         VQLbgf6vrLFPSjo/La0Nl2zpy/U2DdMQUwbRL6FQmYbuHSgS9uaXV2CIK2z7tqRnd/i/
-         +sypS+MAzSQodqH5R3iUChenfmQryOmyBWIy5D/2ZjmHsXo3k7X2QcjXnT/TKUVd+uUv
-         9bLdwQ8KsEZEX7hIeW212NRb9JM0dj4ETi6/HqKXZMzrYvG+SyQ1dhNOLCvutrtw3dpp
-         +v8Hmi6iKDJ8B6CB9cIhqfMQCjfmPctk7W/NLAnNYEgg24kcUYyfQu4tyZbr8UQKSVrk
-         nfhQ==
-X-Gm-Message-State: AOJu0YyjBcoPyftK39PcQfLis2wsmRY9oBKqlGrLCXMTX4WdJCNK8Kre
-	iqx4x5A6g3e7/vUo1jlWUQ5uVA6RX3LOvkCHowVliOmcXwZsRfP1dIzW7v2Bm6LI9rkECQjfjb1
-	R0ca45gV8Gi3tjnKPXiOVE3oz5OcR4CzG0lb4+73Cyn8RmGxPzl3IT8gojlFLFxxmVBe1iEd5Le
-	iaI/6LmSeWJhR5VDVofN5ITqho5a+L1T12PfkCkzxjc+UGglGWm1m9dXB539pnHHkKVERiFfSmt
-	WnFf2URDa6+WCP6By/kFrEfFpZozptnz13SAuAhPW1APcbrOKVUh85jkl+o4hI=
-X-Received: by 2002:a17:90a:2f01:b0:2a0:8d17:948d with SMTP id s1-20020a17090a2f0100b002a08d17948dmr3764292pjd.1.1711505303281;
-        Tue, 26 Mar 2024 19:08:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLc36uQKvXlMthgWL0XJ89uqVPBnEmNLJ/Ve5Ko6UFH8112n36hfzK+lL+giy3C/cPhtdM7Y5CZX4ME0/r8OE=
-X-Received: by 2002:a17:90a:2f01:b0:2a0:8d17:948d with SMTP id
- s1-20020a17090a2f0100b002a08d17948dmr3764266pjd.1.1711505302791; Tue, 26 Mar
- 2024 19:08:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdOe85eu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711513337; x=1743049337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HTItWPms0pqAtokhHLP7v+ctnR3icIkNDyzsM1SRPxI=;
+  b=FdOe85euLdWIOv7xDQ+eVNo8u6zvemRufl8utXQV7lAGGR73wm2r6hjl
+   zlzgi9NBnTI7IPFc668zyTAvNSN2CDZyvbtsoj65glroM8u3e8Uh0MFrJ
+   hdw6eUsraLoNgWJfyLIyDvdZteGPgVT6Uz0QA/je/t6YhD6IaVN3Cit+a
+   FuaZ5mzej60lz+oOE2XocwJTgXZYZJirvz/4auYuhVZ+t6XXXxLC3t8Qb
+   0Wd41H0rzRYzwXSbIwjNR8qQstVcwZLGgp5WltAfJfd2Q7i144Yizudf6
+   vfCypPZL8GKyBdHKTbe/cbQ4mD9syzIh4NSrl80rNyKeqqASUncOHwsFV
+   A==;
+X-CSE-ConnectionGUID: 8uK4tGYMQHqLEJYVsMy/eA==
+X-CSE-MsgGUID: MNTMRv68SdK9+H6FjMX1nQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6458260"
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="6458260"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 21:22:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
+   d="scan'208";a="20892618"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 26 Mar 2024 21:22:14 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpKnj-0000kS-0U;
+	Wed, 27 Mar 2024 04:22:11 +0000
+Date: Wed, 27 Mar 2024 12:21:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] ALSA: hda/tas2781: remove digital gain kcontrol
+Message-ID: <202403271212.5Lxo4b20-lkp@intel.com>
+References: <313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAE1pm7Pn3p9-9N4CDDL6mnS2KBw62FYypvBVKPQzoS6_RSLJOQ@mail.gmail.com>
- <39f47d0d-337e-41f3-b110-2f6326f6f4ae@sirena.org.uk> <CAE1pm7OFXv9fC+Oxh3nWpxQNQCuNLZUGpmfY+aG+8HGhy4GFiA@mail.gmail.com>
-In-Reply-To: <CAE1pm7OFXv9fC+Oxh3nWpxQNQCuNLZUGpmfY+aG+8HGhy4GFiA@mail.gmail.com>
-From: Sukai Huang <sukaih@student.unimelb.edu.au>
-Date: Wed, 27 Mar 2024 13:08:11 +1100
-Message-ID: <CAE1pm7OGBNgpqOJg4DSLLd7g3JDm4iYRWGvJYkTBjHGUHF+2LA@mail.gmail.com>
-Subject: Fwd: Request to Add DMI Quirk for Lenovo IdeaPad Pro 5 16AHP9
-To: linux-sound@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: student.unimelb.edu.au
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer@irl.hu>
 
-this is a forward email due to HTML message rejection previously
+Hi Gergo,
 
----------- Forwarded message ---------
-From: Sukai Huang <sukaih@student.unimelb.edu.au>
-Date: Wed, Mar 27, 2024 at 10:48=E2=80=AFAM
-Subject: Re: Request to Add DMI Quirk for Lenovo IdeaPad Pro 5 16AHP9
-To: Mark Brown <broonie@kernel.org>
-Cc: <linux-sound@vger.kernel.org>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4cece764965020c22cff7665b18a012006359095]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ALSA-hda-tas2781-remove-digital-gain-kcontrol/20240326-052937
+base:   4cece764965020c22cff7665b18a012006359095
+patch link:    https://lore.kernel.org/r/313e00499eb2caadd23a92284fdec418b650b7f4.1711401621.git.soyer%40irl.hu
+patch subject: [PATCH 1/3] ALSA: hda/tas2781: remove digital gain kcontrol
+config: i386-randconfig-011-20240326 (https://download.01.org/0day-ci/archive/20240327/202403271212.5Lxo4b20-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271212.5Lxo4b20-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403271212.5Lxo4b20-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/codecs/tas2781-i2c.c:148:27: error: use of undeclared identifier 'dvc_tlv'
+     148 |                 tas2781_digital_putvol, dvc_tlv),
+         |                                         ^
+>> sound/soc/codecs/tas2781-i2c.c:595:19: error: invalid application of 'sizeof' to an incomplete type 'const struct snd_kcontrol_new[]'
+     595 |         .num_controls           = ARRAY_SIZE(tas2781_snd_controls),
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   2 errors generated.
 
 
-From bfe53271fce81b87b8a0ff63c94f05dba2f39d43 Mon Sep 17 00:00:00 2001
-Date: Wed, 27 Mar 2024 10:23:23 +1100
-Subject: Request to ASoC: amd: yc: Fix non-functional mic on Lenovo 83D5
+vim +/dvc_tlv +148 sound/soc/codecs/tas2781-i2c.c
 
-Like many other models, the Lenovo 83D5 (IdeaPad Pro 5 16AHP9) needs a
-quirk entry for the internal microphone to function. Once added, DMIC
-capture dmic-hifi-0 device can be found by `arecord -l`
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  141  
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  142  static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  143  	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  144  		1, 0, 20, 0, tas2781_amp_getvol,
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  145  		tas2781_amp_putvol, amp_vol_tlv),
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  146  	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  147  		0, 0, 200, 1, tas2781_digital_getvol,
+ef3bcde75d06d6 Shenghao Ding 2023-06-18 @148  		tas2781_digital_putvol, dvc_tlv),
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  149  	SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  150  		tas2781_force_fwload_get, tas2781_force_fwload_put),
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  151  };
+ef3bcde75d06d6 Shenghao Ding 2023-06-18  152  
 
-Reported by: Sukai Huang <sukaih@student.unimelb.edu.au>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 69c68d8e7a6b..a3fd83494e5a 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -269,6 +269,13 @@ static const struct dmi_system_id yc_acp_quirk_table[]=
- =3D {
-  DMI_MATCH(DMI_PRODUCT_NAME, "83AS"),
-  }
-  },
-+ {
-+ .driver_data =3D &acp6x_card,
-+ .matches =3D {
-+ DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+ DMI_MATCH(DMI_PRODUCT_NAME, "83D5"),
-+ }
-+ },
-  {
-  .driver_data =3D &acp6x_card,
-  .matches =3D {
---=20
-
-On Wed, Mar 27, 2024 at 3:45=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Wed, Mar 27, 2024 at 12:54:34AM +1100, Sukai Huang wrote:
->
-> > *I have taken the initiative to compile the kernel myself and can confi=
-rm
-> > that adding the DMI quirk for the Lenovo IdeaPad Pro 5 16AHP9 allows th=
-e
-> > internal microphone to function correctly. This testing indicates that =
-the
-> > addition of this specific quirk will resolve the microphone issue for o=
-ther
-> > users of this model.*
-> > I kindly request the addition of a DMI quirk for the Lenovo IdeaPad Pro=
- 5
-> > 16AHP9 to address the internal microphone functionality.
->
-> Please send a patch for this with the code you've tested following the
-> process in submitting-patches.rst (basically, format the patch with git
-> format-patch then send it to me and linux-sound@vger.kernel.org).
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
