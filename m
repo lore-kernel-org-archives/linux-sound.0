@@ -1,78 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2DE3C08E;
-	Thu, 28 Mar 2024 19:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8102C13A3E6
+	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 20:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711654130; cv=none; b=qDYtziT2drbvl4IS86sDsQOPcX1X9IBjwm5O5BqojgaaAmN98d6YC3esgQBLWeaGwIC+8Vidkrm8Qa4OPYZlZChTgw0unwei73d2cK5C5eKCCEAkMGPxA5OoJe+24pNpv/TWrEDvncvoyS56VftZECSH28CsGTU7OdoH/fBSNEA=
+	t=1711658076; cv=none; b=jdEA8SNp9+4gObsrHaw3AqRA69QqMuQ4/fpeMDWCQbf/KT91Eh8SKb1466WPm9iwmH7LCR/h2k/eXluk6vxk7Kb+hb/GxxTQ+PYKgoTO6/ScxDtWI2dY6GUtnO3PslMz3FttZ1+cZAMgBT1duvl/ogFB92UCnlvPm9VkfzGmNjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711654130; c=relaxed/simple;
-	bh=Nw7UVEH0a9tRFeHtk6dToEX6iVYCsePji0jVeTefwOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BSgpmCSzLA72YvzWidDUsb8qnD7XmVWr5TISHV00tugyEPfTpSuA/DXJYanjIgkgO7Yz0gkvWn5B88XSGeYcg8YokrQ2rexr0S2EbqbZ3OhcwnrIrj47tTvL+4US8U2s9bFRKznuWuH1af6Um0t/KqdcuOvnHPBWyOwLyvq6vJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5O94yj8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711658076; c=relaxed/simple;
+	bh=EZ6pFz2V/DRj+qMyZoOeq2lbUpexXlez3RxaoFi+MTs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oyxUgznwQcUbh9k/HEigsJ+Lqw9NlVMX/lkX6JyyjBlGlCzJ40hzbaMDJWu5qL5IvXBRA1Hc1Gd+Gq9lPJKzH0Yy3TpdllAFW7mIXxz8E+BZU4diERrra5Gp6CftfHDpk2iQTDkDWAh3rgfEQ5KV46RsOZyq168yHiS45gYXkMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etFj1VwD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5O94yj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C8EC433C7;
-	Thu, 28 Mar 2024 19:28:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etFj1VwD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1C1C433C7;
+	Thu, 28 Mar 2024 20:34:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711654129;
-	bh=Nw7UVEH0a9tRFeHtk6dToEX6iVYCsePji0jVeTefwOI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W5O94yj8jgo4OfsZ399hf3ZeVZFmihwlUWFwgqs8GpT4QyL8UeSlb4Z5kzFU6JWzp
-	 to2Ukwwl6F/oSvjgjn4jsfCLOFrlGwSVrUjRTMaxOnMNkz2tJL12uavg7zNxkz6CoI
-	 m+tq48/mYyYDSwRi0Xgt25Kb4VzEM0W21P/nMzgLAsfPVTrmTLl5batE5Yx1Qe2DHz
-	 KA3r4sHbMDKW9DxVQ44PLSVgHa1SHV0F9AHEDCsXnB7WDUZYo/AY19/Q05Xz9hnhLG
-	 LhFfy9tZ1xbFJ2IEtfaK0c8RgjFA1+NLhYM8YF+0nFKavBjCsXQ44c/FrcPibW2BTx
-	 d772wANjHfR3g==
-Date: Thu, 28 Mar 2024 19:28:44 +0000
+	s=k20201202; t=1711658076;
+	bh=EZ6pFz2V/DRj+qMyZoOeq2lbUpexXlez3RxaoFi+MTs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=etFj1VwDblqPoOCViaQ76mHoMshtJet5OHHeqs1+JnJqJSoJTnOaHUypSj3Z7zw4R
+	 Fajuz2PnfN9e7KjDtb/ciBRZemG3Bte/q/ycV69W0DaPtVWpX+FhGEgVqMhIy4o1DB
+	 GhIJe3/dKi19gGbZpgqPgQB10EhE+aYV114+Hgll+dj7MK9PGOPlMblVK8L3Coa6jP
+	 CdGut4kL4Y+AudZg/iEskRAEvZ2VAHkWpMU2dGAeDdka3lma+DiMl83g/12/hUP1e8
+	 VJ7dbFok91h8pZ5alHKK4ciUCfFWoWWUPokNPFo5Ry97tn/fJV9kyWqRoh6OeGxAFa
+	 tCnIi+3GJu9wQ==
 From: Mark Brown <broonie@kernel.org>
-To: Stephen Lee <slee08177@gmail.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, roman.gushchin@linux.dev,
-	dennis@kernel.org
-Subject: Re: [PATCH] ASoC: ops: Fix wraparound for mask in snd_soc_get_volsw
-Message-ID: <ad9088ab-cd55-4c59-b0af-65e44475124a@sirena.org.uk>
-References: <20240326010131.6211-1-slee08177@gmail.com>
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20240325221925.206507-1-pierre-louis.bossart@linux.intel.com>
+References: <20240325221925.206507-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH] ASoC: hdac_hda: improve error logs
+Message-Id: <171165807451.133067.5238673797323353251.b4-ty@kernel.org>
+Date: Thu, 28 Mar 2024 20:34:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fcY7Zu6uSdocuvCO"
-Content-Disposition: inline
-In-Reply-To: <20240326010131.6211-1-slee08177@gmail.com>
-X-Cookie: Yes, but which self do you want to be?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
+On Mon, 25 Mar 2024 17:19:25 -0500, Pierre-Louis Bossart wrote:
+> We have a couple of duplicate logs and missing information, add
+> __func__ consistently and make sure useful error codes are logged.
+> 
+> 
 
---fcY7Zu6uSdocuvCO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Mar 25, 2024 at 06:01:31PM -0700, Stephen Lee wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> This seems to show up in quite a few places in the alsa subsystem,
-> should they be addressed altogether?
+Thanks!
 
-Probably worth it, yes.
+[1/1] ASoC: hdac_hda: improve error logs
+      commit: ea5fee227ff3dae209062ac9544906debe1e9ac1
 
---fcY7Zu6uSdocuvCO
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFxOwACgkQJNaLcl1U
-h9AMpAf+O5E+hqTgoIg1rWfMJgpCMlfl5IMhAkNW2/BrrNnRk7dJokixpLb2HEIA
-PC2lh4j5vfmmGRtwF0SDdIrNuGAkTR5OGwm5wei4orBmS1HAVhBlu/+n85pBhG99
-WyQaaqLdzMii5PZ3xLB82bh+mRJF0jlvb/3wLkzDKqF9F3sssPgNOXXihZ2O1K14
-+wp5O0xoF0DYqsicJKEgPxTNU6GmW/ONkKuIeVkXGhTXnFQcbHGJ+nQzYzAIaWsC
-9b/+Oyn2s/6+qTM17dPiPrLhKvz6AZ5N3zaA3HplS+Nk/Mxq7vHcVfwb2NyBL+CS
-S9nQgr9W+PbToigTz3mN6t8tCL2lIg==
-=E4V/
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---fcY7Zu6uSdocuvCO--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
