@@ -1,198 +1,154 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191A2651AB;
-	Thu, 28 Mar 2024 08:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B1228DD2;
+	Thu, 28 Mar 2024 08:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711615949; cv=none; b=dlXab0CJgUKJJgjMmDjsmLcOuAiLiEdnVk7TJrdzAYrVlFLP8hHAhb9TWAjt8+Cf5VEVuBZv6GhWA6iODgqfp6OL1caDCIl1iD4KhQd0MzKRHF7g80Ht6pY1PBo5DOLrhu7PgOv3nReGRIJSNQAEIChGjM+9FSGO5sTpR2JVEo8=
+	t=1711616249; cv=none; b=Nt7xMmkwTxojxXVJqliA4aXWEg9Nsn5KeMrywGEVxgpi0M+TjAsipmaexs3Qru5RdCkXOPnfYsQ1CpjRhcZxOF3xSIeqzIQO7VK1N9cxzpT7GsIPUrkNdUov9v3q9ZNduPnKTeWlKSKISBUnNvb/nFeob8x2D7YqVyENpH0c0UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711615949; c=relaxed/simple;
-	bh=dsKxujkndwuIXXBgJmltW299ZElFVf2kBrZ2ot/Sd3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bBcPfmRw/wP+51uG/Em5whhD+vw9BFPJpnyqObuJ4RBFYDlOovh8jp9reBVahDHLha/o2nBxEiRUFx9NAyp5hh59ssapH60bzFllg3M3G91u560hVtMm2mjHD/6VjqEa02nR5nZVqOT15FNdKXTUSVS/OdrfxGw6FpOBiJ1Mcls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=qLMtLBgU; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1711616249; c=relaxed/simple;
+	bh=BK5QDCsJj7fk5pOeiP1Gm7vaJkCrnhRaNZpCaCU6zjI=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=Ks44v9GY2OFQAwCXuxCYM6HjbnR9sgTsmnYTLBJDs0ZH3M5z12eB2tD60OnDC4c08kXfqBY9CA1ZfnxGoZrn2fi35wjroucDpyVs/GbylC6G+yienQQLcKF9AmHZKOGjnyTl9yDOC7QZyzk5U5gaFhR16aecpxeUUinOWSqNVI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CjMdOJ7U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FJD0B/tE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CjMdOJ7U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FJD0B/tE; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="qLMtLBgU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1711615937; bh=dsKxujkndwuIXXBgJmltW299ZElFVf2kBrZ2ot/Sd3M=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=qLMtLBgUyLgoz9elITROY3qv7nsVk9kkjyeA7hgjLP88rrbIKJo4w037UezGlX+4q
-	 qsLE6CCNy9EwLhvU2Mol0QwwTUzfkEEin6DGPlixWDqoYlK3sFxi6PXobZrVUMogrq
-	 FvL4AafmQLdbZ/NZyEyTFo9EqIT/0jYsOlxaHl+w=
-Date: Thu, 28 Mar 2024 09:52:17 +0100
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH] ASoC: sun8i-codec: Fix build with
- CONFIG_SND_JACK_INPUT_DEV disabled
-Message-ID: <mr4oqcufxojw2jocj3hbjz6m6sthoauby5ggbps7ahy7hgxh75@2ztouzzmso4n>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20240327080542.3649840-1-megi@xff.cz>
- <1785985.VLH7GnMWUR@jernej-laptop>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CjMdOJ7U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FJD0B/tE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CjMdOJ7U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FJD0B/tE"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E08D20613;
+	Thu, 28 Mar 2024 08:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711616245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=tvr+LohFSR5FjAVMlXknd6aeS/Sg/TG0aaa5I7gqpas=;
+	b=CjMdOJ7UI00XT0zedpFSOpeqbayPwExdeQhvQhL/G9hfa75458v+pYmTj3pJ4QYX0X8BQk
+	m4ERwlfKhH1MRIrqymthvBVKkOAm9PYR7eP/VVSkGqTqBAdx4uMK671b+tuHOyUUOael99
+	7R+79wu1u/RZQEWCALMzzAh3DQZ/VD0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711616245;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=tvr+LohFSR5FjAVMlXknd6aeS/Sg/TG0aaa5I7gqpas=;
+	b=FJD0B/tEPmDL6o7CdhH0HTJl1VPEt5l3OmYU/8amerTcpCcYGkbq4XEKUArUCd6h4DJ0uI
+	hwCBwgDnnayFWtAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711616245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=tvr+LohFSR5FjAVMlXknd6aeS/Sg/TG0aaa5I7gqpas=;
+	b=CjMdOJ7UI00XT0zedpFSOpeqbayPwExdeQhvQhL/G9hfa75458v+pYmTj3pJ4QYX0X8BQk
+	m4ERwlfKhH1MRIrqymthvBVKkOAm9PYR7eP/VVSkGqTqBAdx4uMK671b+tuHOyUUOael99
+	7R+79wu1u/RZQEWCALMzzAh3DQZ/VD0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711616245;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=tvr+LohFSR5FjAVMlXknd6aeS/Sg/TG0aaa5I7gqpas=;
+	b=FJD0B/tEPmDL6o7CdhH0HTJl1VPEt5l3OmYU/8amerTcpCcYGkbq4XEKUArUCd6h4DJ0uI
+	hwCBwgDnnayFWtAw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 65A5B13AB3;
+	Thu, 28 Mar 2024 08:57:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Pv1WF/UwBWasZAAAn2gu4w
+	(envelope-from <tiwai@suse.de>); Thu, 28 Mar 2024 08:57:25 +0000
+Date: Thu, 28 Mar 2024 09:57:27 +0100
+Message-ID: <87ttkqag3s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.9-rc2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1785985.VLH7GnMWUR@jernej-laptop>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.95
+X-Spamd-Result: default: False [-2.95 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 TO_DN_ALL(0.00)[];
+	 NEURAL_HAM_SHORT(-0.17)[-0.844];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.68)[98.59%]
+X-Spam-Flag: NO
 
-Hello Jernej,
+Linus,
 
-On Wed, Mar 27, 2024 at 08:43:31PM +0100, Jernej Škrabec wrote:
-> Dne sreda, 27. marec 2024 ob 09:05:34 CET je Ondřej Jirman napisal(a):
-> > From: Ondrej Jirman <megi@xff.cz>
-> > 
-> > When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
-> > have 'type' field. We can't rely on this field being always present,
-> > so store the jack_type in the codec driver itself.
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@intel.com/
-> > ---
-> > This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
-> > 
-> >  sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-> > index 43795362fed0..b5dafb749c3f 100644
-> > --- a/sound/soc/sunxi/sun8i-codec.c
-> > +++ b/sound/soc/sunxi/sun8i-codec.c
-> > @@ -232,6 +232,7 @@ struct sun8i_codec {
-> >  	struct delayed_work		jack_work;
-> >  	int				jack_irq;
-> >  	int				jack_status;
-> > +	int				jack_type;
-> 
-> Where is this variable set? Below I see just usage of its value.
+please pull sound fixes for v6.9-rc2 from:
 
-It's going to be set in probe function, once generic DT bindings for jack-type
-are figured out. This is mentioned in the v3 cover letter for
-https://lore.kernel.org/lkml/20240302140042.1990256-1-megi@xff.cz/
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc2
 
-I plan on sending support for generic property mentioned here
-https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
-but it may need several iterations, and fail to get merged for various reasons
-and I may need to fall back to vendor DT property, then.
+The topmost commit is 1506d96119eb9454d64f5ae80ab8d04c1594ac25
 
-If you want to test/use the jack detection on some A64 board now, what's needed
-to enable this is to add:
+----------------------------------------------------------------
 
-  scodec->jack_type = SND_JACK_HEADSET | SUN8I_CODEC_BUTTONS;
+sound fixes for 6.9-rc2
 
-  (or just SND_JACK_HEADPHONE, depednding on jack type)
+A collection of device-specific small fixes: a series of fixes for
+TAS2781 HD-audio codec, ASoC SOF, Cirrus CS35L56 and a couple of
+legacy drivers.
 
-to probe function and add get_jack_type callback to sun8i_soc_component:
+----------------------------------------------------------------
 
-  static int sun8i_codec_component_get_jack_type(struct snd_soc_component *component)
-  {
-	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
+Arnd Bergmann (1):
+      ALSA: aoa: avoid false-positive format truncation warning
 
-	return scodec->jack_type;
-  }
+Brent Lu (2):
+      ALSA: hda: intel-nhlt: add intel_nhlt_ssp_device_type() function
+      ASoC: SOF: ipc4-topology: support NHLT device type
 
-Then detection will get enabled on A64 SoC based boards that use simple-audio-card.
-(if codec is in simple-audio-card,aux-devs)
+Duoming Zhou (1):
+      ALSA: sh: aica: reorder cleanup operations to avoid UAF bugs
 
-Simple card iterates through aux devices and adds jacks for the ones that return
-something from component's get_jack_type() callback:
+Gergo Koteles (4):
+      ALSA: hda/tas2781: remove digital gain kcontrol
+      ALSA: hda/tas2781: add locks to kcontrols
+      ALSA: hda/tas2781: add debug statements to kcontrols
+      ALSA: hda/tas2781: remove useless dev_dbg from playback_hook
 
-   https://elixir.bootlin.com/linux/latest/source/sound/soc/generic/simple-card-utils.c#L822
+Simon Trimmer (2):
+      ALSA: hda: cs35l56: Raise device name message log level
+      ALSA: hda: cs35l56: Set the init_done flag before component_add()
 
-kind regards,
-	o.
+---
+ include/sound/intel-nhlt.h       |  10 ++++
+ sound/aoa/soundbus/i2sbus/core.c |   2 +-
+ sound/hda/intel-nhlt.c           |  26 +++++++++
+ sound/pci/hda/cs35l56_hda.c      |   8 +--
+ sound/pci/hda/tas2781_hda_i2c.c  | 120 +++++++++++++++++++++++++--------------
+ sound/sh/aica.c                  |  17 +++++-
+ sound/soc/sof/ipc4-topology.c    |  19 ++++++-
+ 7 files changed, 149 insertions(+), 53 deletions(-)
 
-> Best regards,
-> Jernej
-> 
-> >  	int				jack_last_sample;
-> >  	ktime_t				jack_hbias_ready;
-> >  	struct mutex			jack_mutex;
-> > @@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struct *work)
-> >  	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
-> >  						  jack_work.work);
-> >  	unsigned int mdata;
-> > -	int type_mask = scodec->jack->jack->type;
-> >  	int type;
-> >  
-> >  	guard(mutex)(&scodec->jack_mutex);
-> > @@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
-> >  
-> >  		scodec->jack_last_sample = -1;
-> >  
-> > -		if (type_mask & SND_JACK_MICROPHONE) {
-> > +		if (scodec->jack_type & SND_JACK_MICROPHONE) {
-> >  			/*
-> >  			 * If we were in disconnected state, we enable HBIAS and
-> >  			 * wait 600ms before reading initial HDATA value.
-> > @@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
-> >  			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
-> >  		} else {
-> >  			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
-> > -					    type_mask);
-> > +					    scodec->jack_type);
-> >  			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
-> >  		}
-> >  	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
-> > @@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_struct *work)
-> >  		if (type == SND_JACK_HEADPHONE)
-> >  			sun8i_codec_set_hmic_bias(scodec, false);
-> >  
-> > -		snd_soc_jack_report(scodec->jack, type, type_mask);
-> > +		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
-> >  		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
-> >  	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
-> >  		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
-> >  			return;
-> >  
-> >  		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
-> > -		if (type_mask & SND_JACK_MICROPHONE)
-> > +		if (scodec->jack_type & SND_JACK_MICROPHONE)
-> >  			sun8i_codec_set_hmic_bias(scodec, false);
-> >  
-> > -		snd_soc_jack_report(scodec->jack, 0, type_mask);
-> > +		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
-> >  	}
-> >  }
-> >  
-> > @@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
-> >  		if (scodec->jack_last_sample >= 0 &&
-> >  		    scodec->jack_last_sample == value)
-> >  			snd_soc_jack_report(scodec->jack, type,
-> > -					    scodec->jack->jack->type);
-> > +					    scodec->jack_type);
-> >  
-> >  		scodec->jack_last_sample = value;
-> >  	}
-> > 
-> 
-> 
-> 
-> 
