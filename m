@@ -1,126 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE797E58F;
-	Thu, 28 Mar 2024 12:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89917EEEA;
+	Thu, 28 Mar 2024 12:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711627278; cv=none; b=NUFfEWX9r/AKf/mqcASCBR9MWxQD9KFlwATJ4gOtxs2tAvTOdXnP3f8ZAbbJk2S/ZsE3osVCK7w3DZqkSrMvp6GrSB0FHlb8IC8HPL6Crb+Uj/U2mvhWF+tjTKE7hhso1Nfzt+jFIE9HhqaWR5EModKWJUAa4tUZFt2EZXaHjHU=
+	t=1711628060; cv=none; b=CuzNnI0Zlc0JYNX4eoifDdBC73mUONZ9uBuRL/HKK+QRvA3x+Emd62rgo2BerT6jbb3WniG370+Q6dTQqGEzVpdKseWc8WJGTprI2ACwcrDs9doV/fh5+PVVr1u/HqNGc75pC2UmIwqP5xB7/PlxCOkaMpAgeYOtq29ETGpo9WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711627278; c=relaxed/simple;
-	bh=PeT1k7HFtdibwwcfqd/4kcbln3gTsY92u2mVuYqFY74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKqmDVUZj3jyy3ZKdJq//auBV9/8Ok2C+wdMGBInI+aVZ3UkHSYdRwEWb87QrfRFQw5kzp0hDeytqp/ozjveIY1PepRf64qUumI1rh7gCV9593QmZdTvNVPmAEYF0OtZIHhRKjOJMIKtc1vOMHZmGiI1+QoFxP+f0sh9i4w0knc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L10tab9S; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711628060; c=relaxed/simple;
+	bh=qfJIVtEGnV5PBDcNxLtv8PQ04/VnkAd3XqvIE+epqb4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h4eN4cJC18PQxvmcT7NlMzzQ78sgi7p+LnHJHNrPXPFg+AjC8lR0gUhSJIW7SaERimkNxjuefiWI8S0VdRAkKt5R7LkWiN+w//wrnM7Pd+xU2zgRhdb8N3MH/9RbWw6Qko+pQJvPQPBCHJeZWDDfgAKoQDV9kpB+N95P/vxmzmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=K+2h2g3O; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L10tab9S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711627276; x=1743163276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PeT1k7HFtdibwwcfqd/4kcbln3gTsY92u2mVuYqFY74=;
-  b=L10tab9S8OyKP5W7Oim6irs6a3t5WG4z6fXzvg4V67YNZ9g/PK8tVWfo
-   /GwEDPDUEUyggIYOfsttfvm9YXS51t3wS/4Y+VQIpJhU+sh4w7WOB+ymN
-   4UWstQK4sge3rHveu5h1X/5o4VbyMRM49FNU7f4Wa6a3mdonNQLFWtIZE
-   cd3C1s8/hHLDrCWaqIZoWynzQ0vRO0xjm/OsjlVTKQEPdoBeK/QnbZ5gr
-   aBYIUVQWEUP+LkGQhVJC4uqzD2YQRRvtgIdydBzVg1R1V7twTCJYHfPSs
-   sfcEg3DKYE4gqLOZIPnYOhlFlDc8d03iVfrMNW/ptzN+OuFc3tIgrJ5RU
-   Q==;
-X-CSE-ConnectionGUID: Qsij62tdSgiYkllHeqsHUg==
-X-CSE-MsgGUID: rFRiWotlST+9mNgV1lm3sw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17502925"
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="17502925"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 05:01:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="16556261"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Mar 2024 05:01:07 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpoRM-00026y-0v;
-	Thu, 28 Mar 2024 12:01:04 +0000
-Date: Thu, 28 Mar 2024 20:00:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
-	tiwai@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Subject: Re: [PATCH 3/3] ASoC: soc-card: Add KUnit test case for
- snd_soc_card_get_kcontrol
-Message-ID: <202403281952.Sz5iE5Tm-lkp@intel.com>
-References: <20240325125650.213913-4-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="K+2h2g3O"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42S80qwZ031605;
+	Thu, 28 Mar 2024 07:14:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=/
+	YcgOhBnjkdBqrLgF/BoqdsdMXoJw5NAe63KAucPw24=; b=K+2h2g3OHbggsdkiS
+	JyRxNyxDovd/rAg6P/5KnH2l4p2rEmEpKHJJD0tMys3gL3rkiRtMDCNIFSf8mSXr
+	NavMOLZYEDG1dV5W0EtwpGKLm/mVlo3qUTYx9azKkVjm87yLZaTA86SlppgAKd4Q
+	Od3R1CdlGDSwsUWKPR6MVpXBxwcPxqtrQys+VIhKb8PI1bJmR3H2TQS0n4pOf0Sp
+	qQMEKFEeJkfP6YIM4UsL8yfMWkAJv0CHZyaSI6kLOzm6gQHxQhZzYhXgpPjWFt+X
+	opiJym64Lzyg8WgPoODE0xXrUxbUyO3AmP/Nv8WD1rFCRoSxgWzS1QvHSR5EpfaL
+	IrqjQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x4k7k2ngu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Mar 2024 07:14:06 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 28 Mar
+ 2024 12:14:04 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Thu, 28 Mar 2024 12:14:04 +0000
+Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.19])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1D93D820243;
+	Thu, 28 Mar 2024 12:14:04 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l56: Add ACPI device match tables
+Date: Thu, 28 Mar 2024 12:13:55 +0000
+Message-ID: <20240328121355.18972-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240325125650.213913-4-rf@opensource.cirrus.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: BzIDj9hR-Rk9Q3hSWONBHy2LpF0DPg7R
+X-Proofpoint-ORIG-GUID: BzIDj9hR-Rk9Q3hSWONBHy2LpF0DPg7R
+X-Proofpoint-Spam-Reason: safe
 
-Hi Richard,
+Adding the ACPI HIDs to the match table triggers the cs35l56-hda modules
+to be loaded on boot so that Serial Multi Instantiate can add the
+devices to the bus and begin the driver init sequence.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
+---
+ sound/pci/hda/cs35l56_hda_i2c.c | 13 +++++++++++--
+ sound/pci/hda/cs35l56_hda_spi.c | 13 +++++++++++--
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9-rc1 next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ALSA-control-Introduce-snd_ctl_find_id_mixer_locked/20240325-210026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240325125650.213913-4-rf%40opensource.cirrus.com
-patch subject: [PATCH 3/3] ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol
-config: powerpc-randconfig-r081-20240328 (https://download.01.org/0day-ci/archive/20240328/202403281952.Sz5iE5Tm-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403281952.Sz5iE5Tm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403281952.Sz5iE5Tm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> sound/soc/soc-card-test.c:24:13: error: initializer element is not a compile-time constant
-           SOC_SINGLE(test_control_names[0], SND_SOC_NOPM, 0, 1, 0),
-                      ^~~~~~~~~~~~~~~~~~~~~
-   include/sound/soc.h:61:48: note: expanded from macro 'SOC_SINGLE'
-   {       .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
-                                                        ^~~~~
-   1 error generated.
-
-
-vim +24 sound/soc/soc-card-test.c
-
-    22	
-    23	static const struct snd_kcontrol_new test_card_controls[] = {
-  > 24		SOC_SINGLE(test_control_names[0], SND_SOC_NOPM, 0, 1, 0),
-    25		SOC_SINGLE(test_control_names[1], SND_SOC_NOPM, 1, 1, 0),
-    26		SOC_SINGLE(test_control_names[2], SND_SOC_NOPM, 2, 1, 0),
-    27		SOC_SINGLE(test_control_names[3], SND_SOC_NOPM, 3, 1, 0),
-    28		SOC_SINGLE(test_control_names[4], SND_SOC_NOPM, 4, 1, 0),
-    29		SOC_SINGLE(test_control_names[5], SND_SOC_NOPM, 5, 1, 0),
-    30		SOC_SINGLE(test_control_names[6], SND_SOC_NOPM, 6, 1, 0),
-    31		SOC_SINGLE(test_control_names[7], SND_SOC_NOPM, 7, 1, 0),
-    32		SOC_SINGLE(test_control_names[8], SND_SOC_NOPM, 8, 1, 0),
-    33		SOC_SINGLE(test_control_names[9], SND_SOC_NOPM, 9, 1, 0),
-    34		SOC_SINGLE(test_control_names[10], SND_SOC_NOPM, 10, 1, 0),
-    35		SOC_SINGLE(test_control_names[11], SND_SOC_NOPM, 11, 1, 0),
-    36	};
-    37	static_assert(ARRAY_SIZE(test_control_names) == ARRAY_SIZE(test_card_controls));
-    38	
-
+diff --git a/sound/pci/hda/cs35l56_hda_i2c.c b/sound/pci/hda/cs35l56_hda_i2c.c
+index 13beee807308..40f2f97944d5 100644
+--- a/sound/pci/hda/cs35l56_hda_i2c.c
++++ b/sound/pci/hda/cs35l56_hda_i2c.c
+@@ -56,10 +56,19 @@ static const struct i2c_device_id cs35l56_hda_i2c_id[] = {
+ 	{}
+ };
+ 
++static const struct acpi_device_id cs35l56_acpi_hda_match[] = {
++	{ "CSC3554", 0 },
++	{ "CSC3556", 0 },
++	{ "CSC3557", 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(acpi, cs35l56_acpi_hda_match);
++
+ static struct i2c_driver cs35l56_hda_i2c_driver = {
+ 	.driver = {
+-		.name		= "cs35l56-hda",
+-		.pm		= &cs35l56_hda_pm_ops,
++		.name		  = "cs35l56-hda",
++		.acpi_match_table = cs35l56_acpi_hda_match,
++		.pm		  = &cs35l56_hda_pm_ops,
+ 	},
+ 	.id_table	= cs35l56_hda_i2c_id,
+ 	.probe		= cs35l56_hda_i2c_probe,
+diff --git a/sound/pci/hda/cs35l56_hda_spi.c b/sound/pci/hda/cs35l56_hda_spi.c
+index a3b2fa76663d..7f02155fe61e 100644
+--- a/sound/pci/hda/cs35l56_hda_spi.c
++++ b/sound/pci/hda/cs35l56_hda_spi.c
+@@ -56,10 +56,19 @@ static const struct spi_device_id cs35l56_hda_spi_id[] = {
+ 	{}
+ };
+ 
++static const struct acpi_device_id cs35l56_acpi_hda_match[] = {
++	{ "CSC3554", 0 },
++	{ "CSC3556", 0 },
++	{ "CSC3557", 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(acpi, cs35l56_acpi_hda_match);
++
+ static struct spi_driver cs35l56_hda_spi_driver = {
+ 	.driver = {
+-		.name		= "cs35l56-hda",
+-		.pm		= &cs35l56_hda_pm_ops,
++		.name		  = "cs35l56-hda",
++		.acpi_match_table = cs35l56_acpi_hda_match,
++		.pm		  = &cs35l56_hda_pm_ops,
+ 	},
+ 	.id_table	= cs35l56_hda_spi_id,
+ 	.probe		= cs35l56_hda_spi_probe,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
