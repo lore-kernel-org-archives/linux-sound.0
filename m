@@ -1,71 +1,151 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD3AC8E1
-	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 02:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8860E3FBB8
+	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 05:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711592732; cv=none; b=lOedG8Mlx6CbNwKKe0VNsEKSOkKRGmATJSZxWUQ1BiYOecl6XjdtuslQHqf4m9zrCHPYlctXdV2lzd+U3FWTcnB6InkQCT+QfBX+IjV1u911I5ULDeKyrOr0wtl0QbDtDEL01WcNBqRfhtpsycuQ75hzA7Vm3eTl7nsxjLBla/g=
+	t=1711602998; cv=none; b=R3IEaOHpF/DlvTEn8TzX8Di2rOZiOYGAeVbf20vUz+F3inyGKu17VG/tY5ykmfUWLGgJdzBHIDFM5354s+88CHhl4LPpbhWSc6oFaYQfT+OHHekq8yfQkA12l4Mm0xRCztNqhk8d/yzYhavIM/y3LXzBBqT3Qf0r9B3DEbFQ2uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711592732; c=relaxed/simple;
-	bh=F+2PBUITY1EMreS647dj+r5aRdhFyJY4oSvc7+Zjjm0=;
+	s=arc-20240116; t=1711602998; c=relaxed/simple;
+	bh=sBPTJcGEYTbv3hcgUwqNauzYtskOKb+GWpnb7br0MOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3HRn7ogMI88MfAAhBHLtVSzRKwQtyxr0xKBFgwBPsWiAim36VcOcCNfJHYk8xeqnFe/ZmtFfBDuPSk6x0I3AsOHJx3DASEwFpCY3HlUMAlPigUmGNNFMneoi+IFjv2N58qoPAJJMIboXMkEodDWHJW8w8VybDQBMc7FRH+M/ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=G2OD3wfV; arc=none smtp.client-ip=95.215.58.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lbSKhW5A/+hpvvIL1eV++hH/cbKIwU4PeM849tC0zZfq6YP6K2P0umvdJ7Y8mrcxfFNssLMcygGXHWjHYuVrC6tUtTEIVrSbv/eBR3RPtl2deNwZ8Th02pL7PhmFmOL4qpj7QckhwOeRaEZzH+4cQF9NhwwWtfLZ8LB6IaIUFd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXPbjKTb; arc=none smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="G2OD3wfV"
-Date: Thu, 28 Mar 2024 13:21:21 +1100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1711592727;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVrUwsE3K2gkHszUejGPBHKGdhDZo6IS90T9be1UVRk=;
-	b=G2OD3wfVYM0ss3YS0/hftkRoFZurKH//5tklL8kaS1+kbz7cV9JwDJQEkjafN9YyOYVga7
-	iAtKt0h33dl4cqSGD9SpSVTKa5a2HZFKJDwhvXdHdu1Yg7PgnU5u12HM9DNO8jaFkGLDZ/
-	l9XiKSjm9JUd8hL3hHyG4+jDBX2AueMmetrPawbPGyroTIuOvJ57QrH3B6qjM0jWZT8sQI
-	YPCpwn8je+YSB8wN/v/oXVTFgKH7oL468NXorJ23NSdPiuRDKz32jVPRoh6x2/wi9MavwN
-	1doruKSlm1g2UntpnxUDvOn5+QJWriuYDpi/056MOyPWY/gjhSTeMT/JE5WaMg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXPbjKTb"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5a5362ceb7bso270893eaf.1
+        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 22:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711602994; x=1712207794; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NCBBqATkrmhAqNvcc7V5yUc6Bj0MDD2J9Hd2vuTQUac=;
+        b=gXPbjKTbrvtfpT6/qEmVUxns+A30LH6QOiAjT4F0xLZUPzUZg0ordNOvATabg2F/Wl
+         kPv7rlwtWOxfgPm2w1j9yiVchrEqiifXfpuqKbM3c55rO+d/cQmcOVsJtdO/BdsefRN9
+         RxOKLZQ8lQKHo0Up3S4+54dabwBIgvbFJlg0eTR2NGULCedimJYCVi8NEO/uINa2jv1N
+         m9SrGDUqniaEzEwLDKjTqPO6IIW3ujVusL7p6WPrXVYciMFtPwv7L9mAU+/qpWitn5fr
+         hH1CJycNEicAhv28MTJZUrDtXoqvUlSPCv54sDagwBcdt6nzOokgIGUCvI13cWlf71La
+         jDOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711602994; x=1712207794;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NCBBqATkrmhAqNvcc7V5yUc6Bj0MDD2J9Hd2vuTQUac=;
+        b=dT84Bd2egqHd3P/GEuOU6PGJd0bP1gJvQDtP85g+T/qs7wicEwsy6q3Ej1h7Ywt8/u
+         BywElNP7m8esLiIxpUxprAcYdUXIAmQlnFx9XSLVak5LUc3DbkS9tMwMVDA9ekHZnG/a
+         cjqN2VJwCg61oHhkQogyHDKYNXBUN1DVX7o+Qjp/n5E9uB/TXTddL53Gl46D6jRq/t2S
+         i5ULyYLXje2d4H+2TDDKytZEQDzNLsHug1nt0ndbgvZXPuc6B2hnLqOThPdB63i+iDtV
+         oImD1z1DDXVim2UrQE8HjZu+JUUaSE0qRdLMc14yAt8fRHKL7o9NWU6Q15Z70TiQEaZK
+         KTfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUy8XxYHkbD1aC/lnTtzZGofXRhyJnMSziGgaScIrZlRfg9BEWuGjQz9mtD5roJ5gVklNQkGY4u9tbcXcVxIG1MVLQOQwfrHhT3OQY=
+X-Gm-Message-State: AOJu0YyafHtLVjVkvJymn/QDz2myybU/Tyjti9SqOxbRJvQn3LxMU2UZ
+	Vq88W+rox2Dmo3Z8ZBMKnvvPtG0Fb5yI4EkgmslYFXa8bq7zwRbA0uTdEF898f8=
+X-Google-Smtp-Source: AGHT+IENjWm30W77Sho1F7STKjVDKRSghd/5qoLRwkalJNx2D7PN+W1+MnXgZZvq+TiwN/1tI/fojA==
+X-Received: by 2002:a05:6358:5307:b0:17e:8f90:dd31 with SMTP id n7-20020a056358530700b0017e8f90dd31mr1555244rwf.32.1711602994298;
+        Wed, 27 Mar 2024 22:16:34 -0700 (PDT)
+Received: from localhost ([122.172.85.206])
+        by smtp.gmail.com with ESMTPSA id u23-20020a63df17000000b005e857bba96csm433309pgg.10.2024.03.27.22.16.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 22:16:33 -0700 (PDT)
+Date: Thu, 28 Mar 2024 10:46:31 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gonglei <arei.gonglei@huawei.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
-Message-ID: <ZgTUIWh8qXH_7oxQ@titan>
-References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
- <23447395.6Emhk5qWAg@jernej-laptop>
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 09/22] gpio: virtio: drop owner assignment
+Message-ID: <20240328051631.c5eitp4mzaj4bh6i@vireshk-i7>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <23447395.6Emhk5qWAg@jernej-laptop>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
 
-On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej Škrabec wrote:
-> I wish it would be that simple. SUN4I_FORMATS is cross section of all I2S
-> variants that are supported by this driver. If you check A10, you'll see that
-> it doesn't support S32.
+On 27-03-24, 13:41, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
 > 
-> If you want to add support for S32, you'll have to add new quirk for each
-> variant.
-
-Yes, A10 doesn't support it. But it should error out in hw_params due to
-get_sr not supporting 32-bit, no?
-
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> Best regards,
-> Jernej
+> ---
+> 
+> Depends on the first patch.
+> ---
+>  drivers/gpio/gpio-virtio.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
+> index fcc5e8c08973..9fae8e396c58 100644
+> --- a/drivers/gpio/gpio-virtio.c
+> +++ b/drivers/gpio/gpio-virtio.c
+> @@ -653,7 +653,6 @@ static struct virtio_driver virtio_gpio_driver = {
+>  	.remove			= virtio_gpio_remove,
+>  	.driver			= {
+>  		.name		= KBUILD_MODNAME,
+> -		.owner		= THIS_MODULE,
+>  	},
+>  };
+>  module_virtio_driver(virtio_gpio_driver);
 
-John.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+
+-- 
+viresh
