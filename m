@@ -1,89 +1,141 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7179C7FBB2;
-	Thu, 28 Mar 2024 12:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA92852F6F;
+	Thu, 28 Mar 2024 13:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711629672; cv=none; b=rlYrl0QXe12l8+bgByjwIvJ96Amkf+q4CBpL1pIGCwXmbGV2r2ySnRo4ZTcvF1lQeEmaEBv6LTyygv8xSc6vyX+TxPT7BsEeNaveofcRvgWJM7KM0Kq70cho/3Hm2cq/ruahTeUwzOG5KY5F5E2/EVlCXScnKToLyk0aygUxbqw=
+	t=1711632356; cv=none; b=KlVZJBPEnq1/IPO1ocd/MMqB5051O9jTZRYTPnidtHJWf3/6Wm1Fv9XkaS6sf4Vvbr3j9bP1jiKveZsMd0AtvoYBAgmuDvBZOxvFRdd71PS6aj8htfr6FcBCPmkpSbq9vpHYtaq+r4jyD7RD8yyLLaWsZ5lkZ7HEOhhTPUfdASs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711629672; c=relaxed/simple;
-	bh=Jn6wq+9Xr3mn74xd/q0Un6JHaY21LvNhXdbrx6wuhUU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PbHGSbnz+UFvm96L9YZs64FK+7AZey0ELPaNjdVYrcQ5rUHg+hDeqiI748j2U73o7W1M6b6e1UHF0YthtO/U3EOU5wyhWXs53F/LGjhnYdKWu02r3DIK++EnmulFTs6ujLwNEgjEuTY5IT3bPOOLbHCOEzT0zsMly2Hjp44zhxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=QLgCbDzj; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1711632356; c=relaxed/simple;
+	bh=41Y7z6ebP/p4fGVZKrhTf1bgP3gMs7DUKhuoy4YKYzM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l+p/3u3wjHZ2dM2S3JYF3Q8+pnnVR+QSNldKscv+3izN/eYGxv2+6PjtHoHs+unJYpHWhcdDfq+7MiF0E4IwPUovuS31ddxpLJIbC3e9KhpUKvbGQ3/n75RilMEXUjiBGtQntjD83+LBYJyzPrlXtYm0ZpC7vCg+bIax1z8HQUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sxAPoSHk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H5uHIngv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sxAPoSHk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H5uHIngv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="QLgCbDzj"
-Received: from [192.168.42.20] (pd9e59192.dip0.t-ipconnect.de [217.229.145.146])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C90FE2FC0063;
-	Thu, 28 Mar 2024 13:41:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1711629662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sxAPoSHk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H5uHIngv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sxAPoSHk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H5uHIngv"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E92FB20951;
+	Thu, 28 Mar 2024 13:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711632352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6siALVMfEPEJpNoLpevoBQw2RtVVAom0abFD3I1ypZI=;
-	b=QLgCbDzjyhUPH/aw0w7bNV6J6yyJyVQETrdChkN7IGiq6QsQrBTeytp3fCHJLAf4QSvtgR
-	Bl/nmyvWaUthWcZsd4kLOmcmhYCv6ME1XxnVJp//s5XY7yHSpwer3QSRV6IuqboUuUisn5
-	Zmsxj6mLJ97C739Fc1fLMxkfXViFSRU=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <9c32995c-e73e-416d-958d-f9960ad24686@tuxedocomputers.com>
-Date: Thu, 28 Mar 2024 13:41:02 +0100
+	bh=4SmnT7lPBqfUIuBbGDpkvVsT3Swvb884jcOc++WNaIc=;
+	b=sxAPoSHkxCW7RZQ52km7JeH44I2CSXzil8NugxkB9BEOs44HdlChUg+Q3G+2j+VdPmIlo1
+	Y8fHSIC18w3/grxuApZ7/jZjSr/7jyKstDKPbxpe4JFXPIt3L46BvqqtVCqs/aGt/t57dH
+	Y5WwxtLKHRyaF/bPHEhTBCWznN+bUa4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711632352;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4SmnT7lPBqfUIuBbGDpkvVsT3Swvb884jcOc++WNaIc=;
+	b=H5uHIngvTQm23cgy/1vaE5HB46CDyIfY6cYe2lOfUcTLTuZ1nfT0TnNjs5HSiERxPegv4w
+	eKY/K9/XBqHr+1AQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711632352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4SmnT7lPBqfUIuBbGDpkvVsT3Swvb884jcOc++WNaIc=;
+	b=sxAPoSHkxCW7RZQ52km7JeH44I2CSXzil8NugxkB9BEOs44HdlChUg+Q3G+2j+VdPmIlo1
+	Y8fHSIC18w3/grxuApZ7/jZjSr/7jyKstDKPbxpe4JFXPIt3L46BvqqtVCqs/aGt/t57dH
+	Y5WwxtLKHRyaF/bPHEhTBCWznN+bUa4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711632352;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4SmnT7lPBqfUIuBbGDpkvVsT3Swvb884jcOc++WNaIc=;
+	b=H5uHIngvTQm23cgy/1vaE5HB46CDyIfY6cYe2lOfUcTLTuZ1nfT0TnNjs5HSiERxPegv4w
+	eKY/K9/XBqHr+1AQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id CDA1B13AF8;
+	Thu, 28 Mar 2024 13:25:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id gcmdMeBvBWZJPgAAn2gu4w
+	(envelope-from <tiwai@suse.de>); Thu, 28 Mar 2024 13:25:52 +0000
+Date: Thu, 28 Mar 2024 14:25:55 +0100
+Message-ID: <87il16a3oc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Christoffer Sandberg <cs@tuxedo.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek - Fix inactive headset mic jack
+In-Reply-To: <20240328102757.50310-1-wse@tuxedocomputers.com>
+References: <20240328102757.50310-1-wse@tuxedocomputers.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek - Fix inactive headset mic jack
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Christoffer Sandberg <cs@tuxedo.de>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240328102757.50310-1-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20240328102757.50310-1-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E92FB20951
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sxAPoSHk;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H5uHIngv
+X-Spamd-Result: default: False [-1.88 / 50.00];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	BAYES_HAM(-0.57)[81.33%];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,tuxedocomputers.com:email];
+	URIBL_BLOCKED(0.00)[tuxedo.de:email,suse.de:dkim,imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo,tuxedocomputers.com:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Score: -1.88
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi all,
-
-Forgot to add cc stable
-
-@Takashi can you do that on merge?
-
-Kind Regards,
-
-Werner
-
-Am 28.03.24 um 11:27 schrieb Werner Sembach:
+On Thu, 28 Mar 2024 11:27:57 +0100,
+Werner Sembach wrote:
+> 
 > From: Christoffer Sandberg <cs@tuxedo.de>
->
+> 
 > This patch adds the existing fixup to certain TF platforms implementing
 > the ALC274 codec with a headset jack. It fixes/activates the inactive
 > microphone of the headset.
->
+> 
 > Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
 > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->   sound/pci/hda/patch_realtek.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index a1facdb98d9a0..3b75934ee62c1 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10365,6 +10365,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->   	SND_PCI_QUIRK(0x1d05, 0x1147, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
->   	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
->   	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
-> +	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
->   	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
->   	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
->   	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+
+Applied now with Cc-to-stable.  Thanks.
+
+
+Takashi
