@@ -1,82 +1,89 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94BF12F392
-	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 15:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D38F8626D;
+	Thu, 28 Mar 2024 15:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711638047; cv=none; b=AHHhmRWj5+hFgXpsDwvtPS3wKCxOKM9W91Jqz15j+xIui/2dfxx5QxYjAGV+X7EnK2lE7MSwCyRwWG8ehfB5UD2Td284vg+/4hFGeF2KN/rV+jXUe4pV8OllHdn81iKX3d8+TreYivEqLe0OTvh1QWdOlcTq4R1pWoV14UOLbZM=
+	t=1711639334; cv=none; b=sC2sqq/BgY04pYIx9bDwgD6fkv5g+nHmftMXaJqhH01uXYbCL7gfj2Ccz8+X2nuxC938Bd6dLeY/FVCZEoPUL9E1nuA7NZfvXYxhAiKXzS/vZgtDJkYgwa9bVhKyKibby75lr9ewZiaDhWEcK6NDbnHVqYsL+OiI1PR47GRZkGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711638047; c=relaxed/simple;
-	bh=EoHim42owK348cZhl/I9M1pymb0CHHmvTuAnkh/utqo=;
+	s=arc-20240116; t=1711639334; c=relaxed/simple;
+	bh=vozNlw6gpO1XJWv36UdylIBiUWYDdoPfKk5/j4lfe/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXc7UNNj0QNbcY8op2f8VbVOv/K/vX0s1rE+vL9CmuIaL4Ov7BUFy1A9dsQx46ll6xzw9igKTA+x+UBrB/UY5YSygufZx9VRgMxXJCmn9g7ood8PbCQgcdndaxohj/ybCAOf6laWb+MD5bEc0jsfmeVTIGIAGm5Ja4Hy5ceJLFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=LGKHhnyS; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=nSG4Skujjf5hh2wiGbbtH00lZIwua+tbm+39UIukALFk4WqvYVdnRhYMTAOT6q4YJjptnFv8A8BMmDCimkqiZQaxVFXaoaA6Fg0lxmpvEmiqIyIOZ6msZV/D2v8hMJElhkaUv4R6XqtoVa1Seg8oxV5Bdsch0TnNAT6aTevtrL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qK2XdBMn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="LGKHhnyS"
-Date: Fri, 29 Mar 2024 01:56:24 +1100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1711638043;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fwp1Qw0/EtEt4456dlzV/Bdcj7tMPkZXlkry1Wr4Z8Y=;
-	b=LGKHhnySkPwGebCdv/mVHphyxvQc8crAcv2Oui6bANMhmRHEJY6K/I2Ih6ly5HFvYpnUHr
-	RaUk1/+0ZaAAyPuNk32vxYEQYx4aouN64DPVOXSzVM0WlRfOVF3VvetqnNrc7RB6mHZfUR
-	inf9ihorMeBYe1/lMJsjrHpxhqHn/RM3fcBpIbCgRU5OFMhfta4Roy8pnpjHXNQhBSuCtA
-	0ZUlE2egI+t8HpZUXQuAiqiYiO023tOnBUL8Gs0BxbWGG2YGwH2bL9q89kJuOAViz0zvBS
-	AEIE4C395ksCyP/I+kqd4xxYCwZBNHvU5GWaOirrFG3WcF3d3oxrDVehHlndWw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: John Watts <contact@jookia.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
-Message-ID: <ZgWFGHvjjGkRVubV@titan>
-References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
- <23447395.6Emhk5qWAg@jernej-laptop>
- <ZgTUIWh8qXH_7oxQ@titan>
- <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qK2XdBMn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88098C433F1;
+	Thu, 28 Mar 2024 15:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711639334;
+	bh=vozNlw6gpO1XJWv36UdylIBiUWYDdoPfKk5/j4lfe/8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qK2XdBMn83E6sWLnuqy7ufTtf7QtdwBq7TOHEVsVXuj5DlwqaNourPcQKQ7KkNUH7
+	 iKb7WcFSeJ5lVoMNpSKFH3eoZQ6N7u2BJdtKEp+iPj+/yfhvzsXcIP18BSzIqoGFRv
+	 sDchmBwBpXjAoI9EppNdn1uydU45Nbz+dXqDIfJ75JpuyPoyu5HXpY+oTjaidjUmqV
+	 EiInY6rBB+IvT3NSTC1ZDVBRlkukMHY2LocTlJFQS6W0ExtrSFaBry3/otf3xk9apo
+	 twLJNjuceeRGH8zrHTbAI0gPC3+sj8IhGE9iIhJOXO8orE6vpe60jIeLLAWjP6/Pu7
+	 qxnm0sHCBnKsw==
+Date: Thu, 28 Mar 2024 15:22:07 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Seven Lee <wtli@nuvoton.com>
+Cc: lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+	robh+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+	tiwai@suse.com, YHCHuang@nuvoton.com, KCHSU0@nuvoton.com,
+	CTLIN0@nuvoton.com, SJLIN0@nuvoton.com, scott6986@gmail.com,
+	supercraig0719@gmail.com, dardar923@gmail.com
+Subject: Re: [PATCH v5 2/2] ASoC: nau8325: new driver
+Message-ID: <8278611a-a46f-4d5e-9861-67ff1084db50@sirena.org.uk>
+References: <20240327075755.3410381-1-wtli@nuvoton.com>
+ <20240327075755.3410381-3-wtli@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EYfydwHOIW727Hww"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240327075755.3410381-3-wtli@nuvoton.com>
+X-Cookie: Yes, but which self do you want to be?
 
-On Thu, Mar 28, 2024 at 01:56:42PM +0000, Mark Brown wrote:
-> On Thu, Mar 28, 2024 at 01:21:21PM +1100, John Watts wrote:
-> > On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej Škrabec wrote:
-> 
-> > > I wish it would be that simple. SUN4I_FORMATS is cross section of all I2S
-> > > variants that are supported by this driver. If you check A10, you'll see that
-> > > it doesn't support S32.
-> 
-> > > If you want to add support for S32, you'll have to add new quirk for each
-> > > variant.
-> 
-> > Yes, A10 doesn't support it. But it should error out in hw_params due to
-> > get_sr not supporting 32-bit, no?
-> 
-> The constraints shouldn't be advertising things that hw_params() will
-> error out on, sometimes there are contingent constraints that prevent
-> this but something that just doesn't work isn't one of those times.
 
-Oh right! I'm not sure how I forgot about this, given I went through this
-exact discussion for my wm8782 patch.
+--EYfydwHOIW727Hww
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'll try and get v2 patch for this soon. :)
+On Wed, Mar 27, 2024 at 03:57:55PM +0800, Seven Lee wrote:
 
-John.
+> +static const char * const nau8325_dac_oversampl[] = {
+> +	"64", "256", "128", "", "32" };
+> +
+> +static const struct soc_enum nau8325_dac_oversampl_enum =
+> +	SOC_ENUM_SINGLE(NAU8325_R29_DAC_CTRL1, NAU8325_DAC_OVERSAMPLE_SFT,
+> +			ARRAY_SIZE(nau8325_dac_oversampl),
+> +			nau8325_dac_oversampl);
+
+This should really be a SOC_VALUE_ENUM so you can just hide the fourth
+value rather than having the empty (presumably invalid) option.  Please
+send an incremental patch doing this.
+
+--EYfydwHOIW727Hww
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFix8ACgkQJNaLcl1U
+h9BlSQf9EyTsgJpalcSaLea4nqxS0rWOxqW45DemoZI42X3n4+1V/McyJUdeRp4g
+uhtCOzVmY+IpsWRTjh7JkmXeCINHodUMWV9pJ5DNtnkssW0APQ3NTnNCcLfxyZMF
+jDAj/Bp6Q+uZSI5lmoEhZ21bzefN0ysYMtrzEym5lT3EA4RCKDuuJEBY248mT/y0
+21d/BmZpJfmbwqr5EkLBnYYSItkVtXu4+XRh8bPlL0RVGAv3EYLKLTq45wgsznbQ
+UUqTz1+NWfeETQDMV3m2RcEafHiE2DBkb9ZptqtObVuXsx5DUyrnjGpSocfv850C
+iPdllwLhZ2RkwVo1Rlaq17ockWjx2g==
+=j0PB
+-----END PGP SIGNATURE-----
+
+--EYfydwHOIW727Hww--
