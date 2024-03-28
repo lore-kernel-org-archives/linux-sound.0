@@ -1,134 +1,78 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193365F861
-	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 10:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06F2524BD;
+	Thu, 28 Mar 2024 10:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711620579; cv=none; b=GSmuFy3+fb9APH5SQFrEM4iOQsqjFbKggcHG1oZS/kT+cCiun0+ySW7ZmkZ5+qGsX47h+hLvbHdjit1saedbVnd953ePpBNh5ZswPDHjbXG0cw7f6XJ4uLR7K3rTNlbcmHWCpsA3S47VicMkq03NBbE8q19GViQRiXASyMEcrVg=
+	t=1711621695; cv=none; b=t1IeB1pMgZfaN3hPd8FUzSNYCrbC6vKlzioS0c2ZEDEE017l6EhPfXc/LJ7PWQ8wpkTTmrKUQzwGZiPt/ckZ4vqUwWtD1BEnhEvAQYPRhkhNbdLTkVkpRoHp6PRDVIeCkcnKu2LEC5IceZ/LMWRcHEFnqfDH3O4mG4vFJuoyj0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711620579; c=relaxed/simple;
-	bh=FrsEbllgu5nSWbKKPqP082m+wmXkceS/8bSVAZaHeLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pSyLxhZP858HW8USKkzTObwP3Vp932qeZ36A6MeD+qAKl2UtDQHld8kN0tjJuS4ZKTgRwUuQxXQTd9PVRL7Y9nFQMtVE/rZfLNCwRUy7JW548b77fXNF8pRPVUbNZuxX/mYPlq5ezFCqUZgY09L004t3wSOtVDAvQl+wPh31pdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=2FiZjsn4; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1711621695; c=relaxed/simple;
+	bh=hRMmT1sLzmHF/7FhuqfNWfb4CFWaZrFbF4da3Q1LaHY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OiYX1c9tNP9gK6oqVG47rRoa3kVZ5xazGFipG4iZhUSU/KDx9JnzJ4depakViJ0bQ6uAmCzo693wz8fN7I2toin85cvqqfwmikaSX1umy8r6ZGgJlaAnwI6Nfer3B/xeBwFK6E5Y16gn3EBow6gDfIIhlTNZ5leKV2GaoebwBaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=te5AfHjm; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="2FiZjsn4"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34100f4f9a2so465649f8f.2
-        for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 03:09:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711620574; x=1712225374; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
-        b=2FiZjsn4MJ87jzjepIbZmu/mDB5NHlpk2J0DU7pHikoV+lccS1VkhpjkI7om9XLyNb
-         ABJXpsAVquGp8pePCVL+OmGITO7+Pb67E8pbxLMronhgcKIW3e0SBiSDI36C8Je9twMI
-         ZPPX/zuSakN1NlvEciPnMHdTqgLNJCzosn7ed1AJtyfloX8ITMOz46QgePwTbwxHBLfT
-         7T2ccdCx9Ep0WUoIA3vLBoAhN326whA11b5MnqZkKh/saq/tSI8P93myCbqimgXb5BAj
-         1UbBM3Ox4gjLZoOBG3ZJtIfwg8WcDRtg8HyYKjA6zh1kHdfbQAF4+eBL/PFHIe5Qtk0p
-         e1Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711620574; x=1712225374;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f5wMiw22c5vII85IvPgCG/zbOc7PIefhra+kZ3K8oIE=;
-        b=InN9ph8n1CdUF9JwduvLd+8RuTb5SPbHtlMArE6kLzJ9UmjMbYrghkN746O2bqszPi
-         7Su93MIDvjk7o48gbVql22+agpM6HKUTriijh64IlCw7RMchjeagl5c4fYBJBZU3oc0V
-         ZWhAQaGqb9TUuktxlgrdYqTxF37iBJhbFODp3Qy8vfw0jjuP5jdbLoiaGLiowWsangsm
-         2S/OHJEEqeYUwWxOcb+4xuyNX/LqRE7mdYDBnvmwB/IXaDp5ScLDz3O1Q5mqeFTQXehk
-         7tjqWlkvHrcgI7IybXw9wd0Odi99cKYyN6wGYAnAuzwzR6OWGKCZ7ia72XOuIur7ofM5
-         n++g==
-X-Gm-Message-State: AOJu0YzHBtiDIcW/ho1gyrFz4la/mK/hdnEiv02H85cmko45n8DmaQdk
-	SQCce62Im9rRAIdpNQ4V/KIvxIXuhPMk/0cyYEd2wIbzo1TlnxzebglalIoYze8=
-X-Google-Smtp-Source: AGHT+IFGHWYadDJCgABhwjbgmr/G/9ahD5CWJZRFUjAkHe014xq2ZOOYv0q270M74EFrQt4il5g9rw==
-X-Received: by 2002:a5d:6d82:0:b0:33e:9292:b194 with SMTP id l2-20020a5d6d82000000b0033e9292b194mr2493550wrs.14.1711620574475;
-        Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
-Received: from [10.1.5.127] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id ea2-20020a0560000ec200b003432d79876esm1316197wrb.97.2024.03.28.03.09.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 03:09:34 -0700 (PDT)
-Message-ID: <4dba5a65-d1dc-4a80-bcaa-fe9ba02c5082@baylibre.com>
-Date: Thu, 28 Mar 2024 11:09:32 +0100
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="te5AfHjm"
+Received: from wse.fritz.box (pd9e59192.dip0.t-ipconnect.de [217.229.145.146])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 0521D2FC0063;
+	Thu, 28 Mar 2024 11:28:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1711621684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6DbZdGuizzKUHewxg7lVLF/Pgrh6G080aJGzF6C0T5M=;
+	b=te5AfHjmcieFmAhlRlxiejFR0f3VXBijNZmFEGDWPvauFyN1qHyseF4k5AzAHi6dMX+i0K
+	zJ6ed/FKNIXocQwV9fQFFzjQB0pS82ypwet3tdm/hSHyLzZwIXrqfbCtkZLssebry9JTkJ
+	7QXKM+TwpJSfwQb+9vnj9cwvpNJcywk=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek - Fix inactive headset mic jack
+Date: Thu, 28 Mar 2024 11:27:57 +0100
+Message-Id: <20240328102757.50310-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/18] Add audio support for the MediaTek Genio 350-evk
- board
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Conor Dooley
- <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-arm-kernel@lists.infradead.org, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>, Flora Fu <flora.fu@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nicolas Belin <nbelin@baylibre.com>, Fabien Parent <fparent@baylibre.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon <will@kernel.org>
-References: <20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com>
- <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <53671deb-9c11-43c1-8deb-93fe4708651a@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Angelo
+From: Christoffer Sandberg <cs@tuxedo.de>
 
-On 26/02/2024 15:54, AngeloGioacchino Del Regno wrote:
-> Il 26/02/24 15:01, Alexandre Mergnat ha scritto:
->> This serie aim to add the following audio support for the Genio 350-evk:
->> - Playback
->>    - 2ch Headset Jack (Earphone)
->>    - 1ch Line-out Jack (Speaker)
->>    - 8ch HDMI Tx
->> - Capture
->>    - 1ch DMIC (On-board Digital Microphone)
->>    - 1ch AMIC (On-board Analogic Microphone)
->>    - 1ch Headset Jack (External Analogic Microphone)
->>
->> Of course, HDMI playback need the MT8365 display patches [1] and a DTS
->> change documented in "mediatek,mt8365-mt6357.yaml".
->>
->> [1]: 
->> https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
->>
->> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> 
-> Actually, I am cooking a series (I'm finishing the testing....) that 
-> brings quite
-> a bit of cleanups in MTK ASoC, including the commonization of the 
-> machine driver
-> probe, with the dai-link DT nodes, and which also modernizes most of the 
-> existing
-> drivers to use that instead.
-> 
-> If you wait for a day or two, your mt8365-mt6357.c driver's probe 
-> function can be
-> shrunk to ~3 lines or something like that.. very easily :-)
+This patch adds the existing fixup to certain TF platforms implementing
+the ALC274 codec with a headset jack. It fixes/activates the inactive
+microphone of the headset.
 
-Just to inform you. I'm aware of your serie. Currently, I've fixed my 
-patches according to the comments. The next step will be to rebase my 
-serie over yours and do the changes to be aligned with your new 
-implementation.
+Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I've planned to review your serie during my last task, but it seems 
-already approved and already (partially) merged into linux-next, sorry.
-
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a1facdb98d9a0..3b75934ee62c1 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10365,6 +10365,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d05, 0x1147, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
+ 	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
+ 	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
++	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
 -- 
-Regards,
-Alexandre
+2.34.1
+
