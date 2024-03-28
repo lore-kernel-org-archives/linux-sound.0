@@ -1,86 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A50C52F6F;
-	Thu, 28 Mar 2024 10:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715DD7D3E7;
+	Thu, 28 Mar 2024 11:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711622557; cv=none; b=jFhn9osDjUbZqQ4ll9ED+RpH82XLivHli+fal81zSb6vON38oAVPuRyW335zieAvCYrskrQsfrcXyxXYC3iPEv5I5U1FLI8BcXm9oXlH2twy+sYoztI9sQv4vV0fseRRRWzoUw4aLQd7ss2sJDnwBbS6jAmnnG+YXjQp7kwNBao=
+	t=1711625648; cv=none; b=CbxhrCfqsL4iA3J5UhZIUfulFqYot15AcDH7DKgPn3jE1CWU7QSXOUc6PVz39liSRs3tX5mOLwQqp/zXmbiTjCVntxC2x7aEoY4WYlKGWJWW4xoctxkS6HrmyMiWE7KTbwpbBOh8YTZOPbeTJ6Jb53Xp/1F8A8YBFmlOL1jG98w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711622557; c=relaxed/simple;
-	bh=TLwY36m+qZUIug2QETpHdrHJjSCnPwwXo3SwxpZsk4E=;
+	s=arc-20240116; t=1711625648; c=relaxed/simple;
+	bh=Siq6kaxaVBIR62A+RO4MpSDHLY/IlSEjSEoHPEC7/m8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFrUp9p4phFzxIwpmSbrhKCGWYP2QxnllFnh7h/tNTJy3ryLpSL9SXnbNjX81KdaUXHmAFaBtVD/RPNsmNL6MDHHK1AEa7sG3VM/NtlSJqVN/UR69WHcvo7znFIzC3EDdMytoStCAUISqJzziDYYkIwB2J/e/EdERxiYC85jf9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZGk4Ooz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiOHmWNKGsUQY6hNtXH4DVLEpijPIdnQxOhI7nJnE2UjVy7AsIqV1f7wPR2NppNYXDxL9mdVZsWPtsgGOW9dAeTK+NYsltZeofK9UVuAs+3CItAwa7u/ayAgR3FzFujSlP/f+qpCQa3q2yECbVd1q7HmaRQGfS6j2u8DHUCl+5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GMusgAIl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZGk4Ooz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EED4C433C7;
-	Thu, 28 Mar 2024 10:42:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711622556;
-	bh=TLwY36m+qZUIug2QETpHdrHJjSCnPwwXo3SwxpZsk4E=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GMusgAIl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CA8C43390;
+	Thu, 28 Mar 2024 11:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1711625648;
+	bh=Siq6kaxaVBIR62A+RO4MpSDHLY/IlSEjSEoHPEC7/m8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZGk4OozBnsgiNryIE1NMlmvrHq9TidF1DKxZYUPUfNgEbPkRpqR0jxSthUT7HDh+
-	 xyCAPDkvZmVAiZ3cfmzOWwfSvmUnNcLfIsCf25sJ7Lt8Zng2zHJZwCnJoNc9IL1XQR
-	 Y/wSvNwwFH+2WcCt8/9lRTOzCw8lKEIbkpURnMT7SxdXwhpuzuqrcwIM514QHfJbnB
-	 5RSbDKSM3CA8pSXP+8tod/PRbWfQESIykxYIgqCc4z7qDwON5IRrfdWMnwcjOWhhkp
-	 TV2H1uZbWCv3pwWQA0U9BwkjBrTcw18/BLPd3M0d1clGkM/pDLYLcmfpSS9gMCpWrS
-	 +bf7iSDaNIA9g==
-Date: Thu, 28 Mar 2024 10:42:32 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240328104232.GZ13211@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
+	b=GMusgAIlmZmf9qJSVVmQNyMikMiSnVOWZUU2w8lqJJisdMh7Lz0F4IhRLLow1wLHL
+	 nh6Ttc34G+2ZzoAMNbiD9kMElcsHBytelLVB6En8RMjrOAaj47CKRmdP6T2jtgELQX
+	 7vu4zIuCxw83yXf9xmCjQ+c+F/9FbI+ateG3d47U=
+Date: Thu, 28 Mar 2024 12:34:04 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: Luca Stefani <luca.stefani.ge1@gmail.com>,
+	Sasha Levin <sashal@kernel.org>, Jiawei Wang <me@jwang.link>,
+	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 0/2] Revert "ASoC: amd: yc: add new YC platform variant
+ (0x63) support"
+Message-ID: <2024032853-drainage-deflator-5bae@gregkh>
+References: <20240312023326.224504-1-me@jwang.link>
+ <bc0c1a15-ba31-44ba-85be-273147472240@gmail.com>
+ <2024032722-transpose-unable-65d0@gregkh>
+ <465c52a1-2f61-4585-9622-80b8a30c715a@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240305120947.GD86322@google.com>
+In-Reply-To: <465c52a1-2f61-4585-9622-80b8a30c715a@amd.com>
 
-On Tue, 05 Mar 2024, Lee Jones wrote:
-
-> On Tue, 05 Mar 2024, Lee Jones wrote:
+On Thu, Mar 28, 2024 at 04:10:38PM +0530, Mukunda,Vijendar wrote:
+> On 27/03/24 23:39, Greg KH wrote:
+> > On Wed, Mar 27, 2024 at 06:56:18PM +0100, Luca Stefani wrote:
+> >> Hello everyone,
+> >>
+> >> Can those changes be pulled in stable? They're currently breaking mic input
+> >> on my 21K9CTO1WW, ThinkPad P16s Gen 2, and probably more devices in the
+> >> wild.
+> >
+> > <formletter>
+> >
+> > This is not the correct way to submit patches for inclusion in the
+> > stable kernel tree.  Please read:
+> >     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+> > for how to do this properly.
+> >
+> > </formletter>
+> These patches already got merged in V6.9-rc1 release.
+> Need to be cherry-picked for stable release.
 > 
-> > On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> > > If a simple trigger is assigned to a LED, then the LED may be off until
-> > > the next led_trigger_event() call. This may be an issue for simple
-> > > triggers with rare led_trigger_event() calls, e.g. power supply
-> > > charging indicators (drivers/power/supply/power_supply_leds.c).
-> > > Therefore persist the brightness value of the last led_trigger_event()
-> > > call and use this value if the trigger is assigned to a LED.
-> > > This change allows to use simple triggers in more cases.
-> > > As a first use case simplify handling of the mute audio trigger.
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> > [2/3] ALSA: control-led: Integrate mute led trigger
-> >       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> > [3/3] leds: trigger: audio: Remove this trigger
-> >       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
-> 
-> Submitted for build testing.
-> 
-> Once succeeded, a PR will follow for other maintainers to pull from.
 
-Rebased onto v6.9-rc1 and resubmitted for build testing.
+What changes exactly?  I do not see any git ids here.
 
--- 
-Lee Jones [李琼斯]
+confused,
+
+greg k-h
