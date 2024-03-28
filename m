@@ -1,151 +1,198 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8860E3FBB8
-	for <linux-sound@vger.kernel.org>; Thu, 28 Mar 2024 05:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191A2651AB;
+	Thu, 28 Mar 2024 08:52:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711602998; cv=none; b=R3IEaOHpF/DlvTEn8TzX8Di2rOZiOYGAeVbf20vUz+F3inyGKu17VG/tY5ykmfUWLGgJdzBHIDFM5354s+88CHhl4LPpbhWSc6oFaYQfT+OHHekq8yfQkA12l4Mm0xRCztNqhk8d/yzYhavIM/y3LXzBBqT3Qf0r9B3DEbFQ2uM=
+	t=1711615949; cv=none; b=dlXab0CJgUKJJgjMmDjsmLcOuAiLiEdnVk7TJrdzAYrVlFLP8hHAhb9TWAjt8+Cf5VEVuBZv6GhWA6iODgqfp6OL1caDCIl1iD4KhQd0MzKRHF7g80Ht6pY1PBo5DOLrhu7PgOv3nReGRIJSNQAEIChGjM+9FSGO5sTpR2JVEo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711602998; c=relaxed/simple;
-	bh=sBPTJcGEYTbv3hcgUwqNauzYtskOKb+GWpnb7br0MOg=;
+	s=arc-20240116; t=1711615949; c=relaxed/simple;
+	bh=dsKxujkndwuIXXBgJmltW299ZElFVf2kBrZ2ot/Sd3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lbSKhW5A/+hpvvIL1eV++hH/cbKIwU4PeM849tC0zZfq6YP6K2P0umvdJ7Y8mrcxfFNssLMcygGXHWjHYuVrC6tUtTEIVrSbv/eBR3RPtl2deNwZ8Th02pL7PhmFmOL4qpj7QckhwOeRaEZzH+4cQF9NhwwWtfLZ8LB6IaIUFd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXPbjKTb; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=bBcPfmRw/wP+51uG/Em5whhD+vw9BFPJpnyqObuJ4RBFYDlOovh8jp9reBVahDHLha/o2nBxEiRUFx9NAyp5hh59ssapH60bzFllg3M3G91u560hVtMm2mjHD/6VjqEa02nR5nZVqOT15FNdKXTUSVS/OdrfxGw6FpOBiJ1Mcls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=qLMtLBgU; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXPbjKTb"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5a5362ceb7bso270893eaf.1
-        for <linux-sound@vger.kernel.org>; Wed, 27 Mar 2024 22:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711602994; x=1712207794; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCBBqATkrmhAqNvcc7V5yUc6Bj0MDD2J9Hd2vuTQUac=;
-        b=gXPbjKTbrvtfpT6/qEmVUxns+A30LH6QOiAjT4F0xLZUPzUZg0ordNOvATabg2F/Wl
-         kPv7rlwtWOxfgPm2w1j9yiVchrEqiifXfpuqKbM3c55rO+d/cQmcOVsJtdO/BdsefRN9
-         RxOKLZQ8lQKHo0Up3S4+54dabwBIgvbFJlg0eTR2NGULCedimJYCVi8NEO/uINa2jv1N
-         m9SrGDUqniaEzEwLDKjTqPO6IIW3ujVusL7p6WPrXVYciMFtPwv7L9mAU+/qpWitn5fr
-         hH1CJycNEicAhv28MTJZUrDtXoqvUlSPCv54sDagwBcdt6nzOokgIGUCvI13cWlf71La
-         jDOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711602994; x=1712207794;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NCBBqATkrmhAqNvcc7V5yUc6Bj0MDD2J9Hd2vuTQUac=;
-        b=dT84Bd2egqHd3P/GEuOU6PGJd0bP1gJvQDtP85g+T/qs7wicEwsy6q3Ej1h7Ywt8/u
-         BywElNP7m8esLiIxpUxprAcYdUXIAmQlnFx9XSLVak5LUc3DbkS9tMwMVDA9ekHZnG/a
-         cjqN2VJwCg61oHhkQogyHDKYNXBUN1DVX7o+Qjp/n5E9uB/TXTddL53Gl46D6jRq/t2S
-         i5ULyYLXje2d4H+2TDDKytZEQDzNLsHug1nt0ndbgvZXPuc6B2hnLqOThPdB63i+iDtV
-         oImD1z1DDXVim2UrQE8HjZu+JUUaSE0qRdLMc14yAt8fRHKL7o9NWU6Q15Z70TiQEaZK
-         KTfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUy8XxYHkbD1aC/lnTtzZGofXRhyJnMSziGgaScIrZlRfg9BEWuGjQz9mtD5roJ5gVklNQkGY4u9tbcXcVxIG1MVLQOQwfrHhT3OQY=
-X-Gm-Message-State: AOJu0YyafHtLVjVkvJymn/QDz2myybU/Tyjti9SqOxbRJvQn3LxMU2UZ
-	Vq88W+rox2Dmo3Z8ZBMKnvvPtG0Fb5yI4EkgmslYFXa8bq7zwRbA0uTdEF898f8=
-X-Google-Smtp-Source: AGHT+IENjWm30W77Sho1F7STKjVDKRSghd/5qoLRwkalJNx2D7PN+W1+MnXgZZvq+TiwN/1tI/fojA==
-X-Received: by 2002:a05:6358:5307:b0:17e:8f90:dd31 with SMTP id n7-20020a056358530700b0017e8f90dd31mr1555244rwf.32.1711602994298;
-        Wed, 27 Mar 2024 22:16:34 -0700 (PDT)
-Received: from localhost ([122.172.85.206])
-        by smtp.gmail.com with ESMTPSA id u23-20020a63df17000000b005e857bba96csm433309pgg.10.2024.03.27.22.16.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 22:16:33 -0700 (PDT)
-Date: Thu, 28 Mar 2024 10:46:31 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gonglei <arei.gonglei@huawei.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	David Airlie <airlied@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
-	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 09/22] gpio: virtio: drop owner assignment
-Message-ID: <20240328051631.c5eitp4mzaj4bh6i@vireshk-i7>
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="qLMtLBgU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1711615937; bh=dsKxujkndwuIXXBgJmltW299ZElFVf2kBrZ2ot/Sd3M=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=qLMtLBgUyLgoz9elITROY3qv7nsVk9kkjyeA7hgjLP88rrbIKJo4w037UezGlX+4q
+	 qsLE6CCNy9EwLhvU2Mol0QwwTUzfkEEin6DGPlixWDqoYlK3sFxi6PXobZrVUMogrq
+	 FvL4AafmQLdbZ/NZyEyTFo9EqIT/0jYsOlxaHl+w=
+Date: Thu, 28 Mar 2024 09:52:17 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] ASoC: sun8i-codec: Fix build with
+ CONFIG_SND_JACK_INPUT_DEV disabled
+Message-ID: <mr4oqcufxojw2jocj3hbjz6m6sthoauby5ggbps7ahy7hgxh75@2ztouzzmso4n>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240327080542.3649840-1-megi@xff.cz>
+ <1785985.VLH7GnMWUR@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1785985.VLH7GnMWUR@jernej-laptop>
 
-On 27-03-24, 13:41, Krzysztof Kozlowski wrote:
-> virtio core already sets the .owner, so driver does not need to.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Depends on the first patch.
-> ---
->  drivers/gpio/gpio-virtio.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
-> index fcc5e8c08973..9fae8e396c58 100644
-> --- a/drivers/gpio/gpio-virtio.c
-> +++ b/drivers/gpio/gpio-virtio.c
-> @@ -653,7 +653,6 @@ static struct virtio_driver virtio_gpio_driver = {
->  	.remove			= virtio_gpio_remove,
->  	.driver			= {
->  		.name		= KBUILD_MODNAME,
-> -		.owner		= THIS_MODULE,
->  	},
->  };
->  module_virtio_driver(virtio_gpio_driver);
+Hello Jernej,
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+On Wed, Mar 27, 2024 at 08:43:31PM +0100, Jernej Škrabec wrote:
+> Dne sreda, 27. marec 2024 ob 09:05:34 CET je Ondřej Jirman napisal(a):
+> > From: Ondrej Jirman <megi@xff.cz>
+> > 
+> > When CONFIG_SND_JACK_INPUT_DEV is disabled, struct snd_jack doesn't
+> > have 'type' field. We can't rely on this field being always present,
+> > so store the jack_type in the codec driver itself.
+> > 
+> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202403261243.kcXCPAYs-lkp@intel.com/
+> > ---
+> > This is a followup for https://lore.kernel.org/lkml/2vhd45kylttgonosdcfn7ugwyy2vx56gijwf3ealz4tel65iqr@cs3kxrl6d2hh/
+> > 
+> >  sound/soc/sunxi/sun8i-codec.c | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+> > index 43795362fed0..b5dafb749c3f 100644
+> > --- a/sound/soc/sunxi/sun8i-codec.c
+> > +++ b/sound/soc/sunxi/sun8i-codec.c
+> > @@ -232,6 +232,7 @@ struct sun8i_codec {
+> >  	struct delayed_work		jack_work;
+> >  	int				jack_irq;
+> >  	int				jack_status;
+> > +	int				jack_type;
+> 
+> Where is this variable set? Below I see just usage of its value.
 
--- 
-viresh
+It's going to be set in probe function, once generic DT bindings for jack-type
+are figured out. This is mentioned in the v3 cover letter for
+https://lore.kernel.org/lkml/20240302140042.1990256-1-megi@xff.cz/
+
+I plan on sending support for generic property mentioned here
+https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+but it may need several iterations, and fail to get merged for various reasons
+and I may need to fall back to vendor DT property, then.
+
+If you want to test/use the jack detection on some A64 board now, what's needed
+to enable this is to add:
+
+  scodec->jack_type = SND_JACK_HEADSET | SUN8I_CODEC_BUTTONS;
+
+  (or just SND_JACK_HEADPHONE, depednding on jack type)
+
+to probe function and add get_jack_type callback to sun8i_soc_component:
+
+  static int sun8i_codec_component_get_jack_type(struct snd_soc_component *component)
+  {
+	struct sun8i_codec *scodec = snd_soc_component_get_drvdata(component);
+
+	return scodec->jack_type;
+  }
+
+Then detection will get enabled on A64 SoC based boards that use simple-audio-card.
+(if codec is in simple-audio-card,aux-devs)
+
+Simple card iterates through aux devices and adds jacks for the ones that return
+something from component's get_jack_type() callback:
+
+   https://elixir.bootlin.com/linux/latest/source/sound/soc/generic/simple-card-utils.c#L822
+
+kind regards,
+	o.
+
+> Best regards,
+> Jernej
+> 
+> >  	int				jack_last_sample;
+> >  	ktime_t				jack_hbias_ready;
+> >  	struct mutex			jack_mutex;
+> > @@ -1352,7 +1353,6 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+> >  	struct sun8i_codec *scodec = container_of(work, struct sun8i_codec,
+> >  						  jack_work.work);
+> >  	unsigned int mdata;
+> > -	int type_mask = scodec->jack->jack->type;
+> >  	int type;
+> >  
+> >  	guard(mutex)(&scodec->jack_mutex);
+> > @@ -1363,7 +1363,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+> >  
+> >  		scodec->jack_last_sample = -1;
+> >  
+> > -		if (type_mask & SND_JACK_MICROPHONE) {
+> > +		if (scodec->jack_type & SND_JACK_MICROPHONE) {
+> >  			/*
+> >  			 * If we were in disconnected state, we enable HBIAS and
+> >  			 * wait 600ms before reading initial HDATA value.
+> > @@ -1376,7 +1376,7 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+> >  			scodec->jack_status = SUN8I_JACK_STATUS_WAITING_HBIAS;
+> >  		} else {
+> >  			snd_soc_jack_report(scodec->jack, SND_JACK_HEADPHONE,
+> > -					    type_mask);
+> > +					    scodec->jack_type);
+> >  			scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
+> >  		}
+> >  	} else if (scodec->jack_status == SUN8I_JACK_STATUS_WAITING_HBIAS) {
+> > @@ -1417,17 +1417,17 @@ static void sun8i_codec_jack_work(struct work_struct *work)
+> >  		if (type == SND_JACK_HEADPHONE)
+> >  			sun8i_codec_set_hmic_bias(scodec, false);
+> >  
+> > -		snd_soc_jack_report(scodec->jack, type, type_mask);
+> > +		snd_soc_jack_report(scodec->jack, type, scodec->jack_type);
+> >  		scodec->jack_status = SUN8I_JACK_STATUS_CONNECTED;
+> >  	} else if (scodec->jack_status == SUN8I_JACK_STATUS_CONNECTED) {
+> >  		if (scodec->last_hmic_irq != SUN8I_HMIC_STS_JACK_OUT_IRQ_ST)
+> >  			return;
+> >  
+> >  		scodec->jack_status = SUN8I_JACK_STATUS_DISCONNECTED;
+> > -		if (type_mask & SND_JACK_MICROPHONE)
+> > +		if (scodec->jack_type & SND_JACK_MICROPHONE)
+> >  			sun8i_codec_set_hmic_bias(scodec, false);
+> >  
+> > -		snd_soc_jack_report(scodec->jack, 0, type_mask);
+> > +		snd_soc_jack_report(scodec->jack, 0, scodec->jack_type);
+> >  	}
+> >  }
+> >  
+> > @@ -1491,7 +1491,7 @@ static irqreturn_t sun8i_codec_jack_irq(int irq, void *dev_id)
+> >  		if (scodec->jack_last_sample >= 0 &&
+> >  		    scodec->jack_last_sample == value)
+> >  			snd_soc_jack_report(scodec->jack, type,
+> > -					    scodec->jack->jack->type);
+> > +					    scodec->jack_type);
+> >  
+> >  		scodec->jack_last_sample = value;
+> >  	}
+> > 
+> 
+> 
+> 
+> 
