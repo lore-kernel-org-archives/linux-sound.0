@@ -1,75 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715DD7D3E7;
-	Thu, 28 Mar 2024 11:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8D524BD;
+	Thu, 28 Mar 2024 11:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711625648; cv=none; b=CbxhrCfqsL4iA3J5UhZIUfulFqYot15AcDH7DKgPn3jE1CWU7QSXOUc6PVz39liSRs3tX5mOLwQqp/zXmbiTjCVntxC2x7aEoY4WYlKGWJWW4xoctxkS6HrmyMiWE7KTbwpbBOh8YTZOPbeTJ6Jb53Xp/1F8A8YBFmlOL1jG98w=
+	t=1711626277; cv=none; b=lNu2OOXF03J24e1dSaGTTUghjRSb1IoDs1IVbrE0vxnSIG0A6O02i2vt/VGv+czBqyYQUejLopQoz6IFTBUt7uILK1e06Ynlta9s4jrtlO70GoDwQUN3VWEuyqvMcjSNgnRr7idhJQcoZMZ30PWovsOUU5PMA8h7LBqos8h/LwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711625648; c=relaxed/simple;
-	bh=Siq6kaxaVBIR62A+RO4MpSDHLY/IlSEjSEoHPEC7/m8=;
+	s=arc-20240116; t=1711626277; c=relaxed/simple;
+	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uiOHmWNKGsUQY6hNtXH4DVLEpijPIdnQxOhI7nJnE2UjVy7AsIqV1f7wPR2NppNYXDxL9mdVZsWPtsgGOW9dAeTK+NYsltZeofK9UVuAs+3CItAwa7u/ayAgR3FzFujSlP/f+qpCQa3q2yECbVd1q7HmaRQGfS6j2u8DHUCl+5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GMusgAIl; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwOVAMHauvCn6QAHEAnst39zmDPMRMwpiMec7PbNYWdyHXcdR4Z516icFBo8r4oB5k0+7cFUjDeKIYgk8NKt2b9PwxgYLHvcIqlo6P/b32ke4C5FzPfq7QjvTGLbjYzURgfEBwVMQ+CaKcdLtXSd1xgSYaYNxuPxxYDabXIrtLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0V87NQs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GMusgAIl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CA8C43390;
-	Thu, 28 Mar 2024 11:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711625648;
-	bh=Siq6kaxaVBIR62A+RO4MpSDHLY/IlSEjSEoHPEC7/m8=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0V87NQs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30767C433C7;
+	Thu, 28 Mar 2024 11:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711626276;
+	bh=p/l9VIkENyT1OmY25HO3ekE387A0ApR8Gsw/jiLAWK4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GMusgAIlmZmf9qJSVVmQNyMikMiSnVOWZUU2w8lqJJisdMh7Lz0F4IhRLLow1wLHL
-	 nh6Ttc34G+2ZzoAMNbiD9kMElcsHBytelLVB6En8RMjrOAaj47CKRmdP6T2jtgELQX
-	 7vu4zIuCxw83yXf9xmCjQ+c+F/9FbI+ateG3d47U=
-Date: Thu, 28 Mar 2024 12:34:04 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Cc: Luca Stefani <luca.stefani.ge1@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, Jiawei Wang <me@jwang.link>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] Revert "ASoC: amd: yc: add new YC platform variant
- (0x63) support"
-Message-ID: <2024032853-drainage-deflator-5bae@gregkh>
-References: <20240312023326.224504-1-me@jwang.link>
- <bc0c1a15-ba31-44ba-85be-273147472240@gmail.com>
- <2024032722-transpose-unable-65d0@gregkh>
- <465c52a1-2f61-4585-9622-80b8a30c715a@amd.com>
+	b=q0V87NQsRixWt0dPQUP4wiEyCTi3RQUbUoHlZ3YjUUIytF9cN3IV4nx/CKutUGrZd
+	 t2xT/a1e3It5eNYhj0gf4BeFdtMOYYlE83J0xxW9SxuZa/XdcC63gS1fa2ga2ul0Em
+	 VheHSyLmCG3tlqmpnuNAkqX6j0UikLoMYtnAx/c0F58ldKXIFUYApS7lN7uM2sJ0cd
+	 TpIKG6eQGPCX5G134LP4947KkSFfWk4mUFHtl0+U9oZbxoEtnF2gsbpGM3hd/Xxtm2
+	 z+2EL4LxOPRbfi9ZVnCAezY7g2PnAaxm2KVWn0WqXvqfo1PvnVt0Vss7QMpWHugHKt
+	 v6PDqDCiHXFXA==
+Date: Thu, 28 Mar 2024 11:44:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <jogletre@opensource.cirrus.com>
+Cc: dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	broonie@kernel.org, jeff@labundy.com, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] Add support for CS40L50
+Message-ID: <20240328114431.GC13211@google.com>
+References: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <465c52a1-2f61-4585-9622-80b8a30c715a@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240320192956.2395731-1-jogletre@opensource.cirrus.com>
 
-On Thu, Mar 28, 2024 at 04:10:38PM +0530, Mukunda,Vijendar wrote:
-> On 27/03/24 23:39, Greg KH wrote:
-> > On Wed, Mar 27, 2024 at 06:56:18PM +0100, Luca Stefani wrote:
-> >> Hello everyone,
-> >>
-> >> Can those changes be pulled in stable? They're currently breaking mic input
-> >> on my 21K9CTO1WW, ThinkPad P16s Gen 2, and probably more devices in the
-> >> wild.
-> >
-> > <formletter>
-> >
-> > This is not the correct way to submit patches for inclusion in the
-> > stable kernel tree.  Please read:
-> >     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> > for how to do this properly.
-> >
-> > </formletter>
-> These patches already got merged in V6.9-rc1 release.
-> Need to be cherry-picked for stable release.
+On Wed, 20 Mar 2024, James Ogletree wrote:
+
+> Changes in v10:
+> - Minor refactoring and logical improvements all around
+> - Renamed and added supplies
 > 
+> Changes in v9:
+> - Fixed empty struct by utilizing cs_dsp's post_run callback
+> - Style fixes in MFD driver
+> 
+> Changes in v8:
+> - set_sysclk() -> set_bclk_ratio()
+> - Added ID table to codec driver
+> - Style improvements
+> - Fixed ordering of new write sequence operations
+> 
+> Changes in v7:
+> - Fixed sparse warning
+> - Moved write sequences to private data structure
+> - Logical and style improvements in write sequence interface
+> 
+> Changes in v6:
+> - Updated write sequencer interface to be control-name based
+> - Fixed a race condition and non-handling of repeats in playback callback
+> - Stylistic and logical improvements all around
+> 
+> Changes in v5:
+> - Added a codec sub-device to support I2S streaming
+> - Moved write sequencer code from cirrus_haptics to cs_dsp
+> - Reverted cirrus_haptics library; future Cirrus input
+>   drivers will export and utilize cs40l50_vibra functions
+> - Added more comments
+> - Many small stylistic and logical improvements
+> 
+> Changes in v4:
+> - Moved from Input to MFD
+> - Moved common Cirrus haptic functions to a library
+> - Incorporated runtime PM framework
+> - Many style improvements
+> 
+> Changes in v3:
+> - YAML formatting corrections
+> - Fixed typo in MAINTAINERS
+> - Used generic node name "haptic-driver"
+> - Fixed probe error code paths
+> - Switched to "sizeof(*)"
+> - Removed tree reference in MAINTAINERS
+> 
+> Changes in v2:
+> - Fixed checkpatch warnings
+> 
+> James Ogletree (5):
+>   firmware: cs_dsp: Add write sequence interface
+>   dt-bindings: input: cirrus,cs40l50: Add initial DT binding
+>   mfd: cs40l50: Add support for CS40L50 core driver
+>   Input: cs40l50 - Add support for the CS40L50 haptic driver
+>   ASoC: cs40l50: Support I2S streaming to CS40L50
+> 
+>  .../bindings/input/cirrus,cs40l50.yaml        |  68 +++
+>  MAINTAINERS                                   |  12 +
+>  drivers/firmware/cirrus/cs_dsp.c              | 278 +++++++++
+>  drivers/input/misc/Kconfig                    |  10 +
+>  drivers/input/misc/Makefile                   |   1 +
+>  drivers/input/misc/cs40l50-vibra.c            | 577 ++++++++++++++++++
+>  drivers/mfd/Kconfig                           |  30 +
+>  drivers/mfd/Makefile                          |   4 +
+>  drivers/mfd/cs40l50-core.c                    | 570 +++++++++++++++++
+>  drivers/mfd/cs40l50-i2c.c                     |  68 +++
+>  drivers/mfd/cs40l50-spi.c                     |  68 +++
+>  include/linux/firmware/cirrus/cs_dsp.h        |  27 +
+>  include/linux/mfd/cs40l50.h                   | 137 +++++
+>  sound/soc/codecs/Kconfig                      |  11 +
+>  sound/soc/codecs/Makefile                     |   2 +
+>  sound/soc/codecs/cs40l50-codec.c              | 308 ++++++++++
+>  16 files changed, 2171 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/cirrus,cs40l50.yaml
+>  create mode 100644 drivers/input/misc/cs40l50-vibra.c
+>  create mode 100644 drivers/mfd/cs40l50-core.c
+>  create mode 100644 drivers/mfd/cs40l50-i2c.c
+>  create mode 100644 drivers/mfd/cs40l50-spi.c
+>  create mode 100644 include/linux/mfd/cs40l50.h
+>  create mode 100644 sound/soc/codecs/cs40l50-codec.c
 
-What changes exactly?  I do not see any git ids here.
+MFD part looks okay.
 
-confused,
+I need Acks from all of the other maintainers before I can process the set.
 
-greg k-h
+-- 
+Lee Jones [李琼斯]
