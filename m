@@ -1,164 +1,126 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2066.outbound.protection.outlook.com [40.107.101.66])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC4043ABE;
-	Thu, 28 Mar 2024 11:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711627091; cv=fail; b=UrXtSEZK2abr+uUkyOXcnuSNq2mzIsyc6y1YLO6EAL6rDH7pVMA3BPZBtW3T+UzXXi9+a44tEouM19CfkTy1HnGQ3lhAe/DrKZuuyj0japKmGMA54McGKtp9qh8DUD7cn3t9qoReKxthGmiDupBMDOM97BFsa24lUeMK1m9hCYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711627091; c=relaxed/simple;
-	bh=w1uhxUcWlzKVu0VF03902lVNSR89oWdMWYEfxYFOD+s=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=l2wQqFdvlWsbWSOsgmJ309cTDQ7AkPSeDBsBuInWbW7NfkRb+x9HzJqc/SY83UsvuwNKapCkNmpM4IyaGs+U4XI94PzE67g79RsyZMFwQgJtfS0TIbFcajuamP5AxLpaWcXDaFrLFzvUBpKy3nBrk6aIqOZIobJaUYz1lcZ3NmQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bXs34ynI; arc=fail smtp.client-ip=40.107.101.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE797E58F;
+	Thu, 28 Mar 2024 12:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711627278; cv=none; b=NUFfEWX9r/AKf/mqcASCBR9MWxQD9KFlwATJ4gOtxs2tAvTOdXnP3f8ZAbbJk2S/ZsE3osVCK7w3DZqkSrMvp6GrSB0FHlb8IC8HPL6Crb+Uj/U2mvhWF+tjTKE7hhso1Nfzt+jFIE9HhqaWR5EModKWJUAa4tUZFt2EZXaHjHU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711627278; c=relaxed/simple;
+	bh=PeT1k7HFtdibwwcfqd/4kcbln3gTsY92u2mVuYqFY74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKqmDVUZj3jyy3ZKdJq//auBV9/8Ok2C+wdMGBInI+aVZ3UkHSYdRwEWb87QrfRFQw5kzp0hDeytqp/ozjveIY1PepRf64qUumI1rh7gCV9593QmZdTvNVPmAEYF0OtZIHhRKjOJMIKtc1vOMHZmGiI1+QoFxP+f0sh9i4w0knc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L10tab9S; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bXs34ynI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JUIXvHCw7L+G7MyvC6dSpXYm4jM9vxyaCAH4YiH4MZHZ+PAl5NzzHZI8nGdJZDFUyyXNcAkpIOOciSvKoL0aPwZD/VArn4R/NxbfdfiEyVxDQCr3FkSFuXbb4cmzf6ioEs0Y+m3OHvjpISUkeMkb0kEd/maeivQJ1gkcGDakoHdHuZ7yFhtZ8w8j7i5BIwpnuzmSi8EydW9BpfLmnezM2URy77DumoCxe0zqdFRUNHvZhzUaG0Y9+V+rm3T/3VR6vOSLuyuqS+UpoCYgdr9SnmjyELx0ldhFOrlU9Xu54nstawMTspqS0LJ7f44L2L+SBj2dWQBbUyU4Xm3N5aJjng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=77dwfFDOr3o9xKY3OHQ6Xr8AdoIlGMmcjveSf5sRCrw=;
- b=IFWdWAr13x4d/1KW+t+g1MuYKEMi4Ncu1+qv6Wy4b6ku7jfATz4LCcybuRI5O27mVt0y1a6VbnTaSCE+uRxeW3fH7ZIItMn6ippHo44Ary3aq6O1Gjz2Wqdk5F/ClScJERl5EMXYowldUH5Fq7srIXJxpIJ8sv7mPjEgs4HeEYGzrpgBF5vU/BUBRR6A8TUqvDGHC0JnVIkIahIPpElTkfx+zM6RaZ6oQd40BwSNxL8WmaHrKIyMGQaUvBmQ+8kLWkktCPWiSYjsXRVQU58AY0ljkjbvZmaFhAyZ5ob7o09YAtZbwHG65YcDnqX9exWxD+TstxBnyWSOTHjE17Q4Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=77dwfFDOr3o9xKY3OHQ6Xr8AdoIlGMmcjveSf5sRCrw=;
- b=bXs34ynIZw81cSVgwdPbei+w56RHrfdZQjcaqFmBKK/4ME261YxhHhFDZCo8jBs8bsjMfTUYnJUpfOOqE0zBaCVhooO6seM1XKH4u05x/TwDqhmpj9mXCalLmsLhIhtbxcjch/vnttLS15CfZtqUj49nASbVpTUoUGBaKxTAEY0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by LV8PR12MB9230.namprd12.prod.outlook.com (2603:10b6:408:186::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Thu, 28 Mar
- 2024 11:58:07 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::57a8:313:6bf6:ccb3]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::57a8:313:6bf6:ccb3%3]) with mapi id 15.20.7409.031; Thu, 28 Mar 2024
- 11:58:07 +0000
-Message-ID: <8e5127ff-0ffa-495a-bd6a-ca452375f5f6@amd.com>
-Date: Thu, 28 Mar 2024 17:27:58 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Revert "ASoC: amd: yc: add new YC platform variant
- (0x63) support"
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Luca Stefani <luca.stefani.ge1@gmail.com>, Sasha Levin
- <sashal@kernel.org>, Jiawei Wang <me@jwang.link>,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- stable@vger.kernel.org
-References: <20240312023326.224504-1-me@jwang.link>
- <bc0c1a15-ba31-44ba-85be-273147472240@gmail.com>
- <2024032722-transpose-unable-65d0@gregkh>
- <465c52a1-2f61-4585-9622-80b8a30c715a@amd.com>
- <2024032853-drainage-deflator-5bae@gregkh>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <2024032853-drainage-deflator-5bae@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0020.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:97::16) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L10tab9S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711627276; x=1743163276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PeT1k7HFtdibwwcfqd/4kcbln3gTsY92u2mVuYqFY74=;
+  b=L10tab9S8OyKP5W7Oim6irs6a3t5WG4z6fXzvg4V67YNZ9g/PK8tVWfo
+   /GwEDPDUEUyggIYOfsttfvm9YXS51t3wS/4Y+VQIpJhU+sh4w7WOB+ymN
+   4UWstQK4sge3rHveu5h1X/5o4VbyMRM49FNU7f4Wa6a3mdonNQLFWtIZE
+   cd3C1s8/hHLDrCWaqIZoWynzQ0vRO0xjm/OsjlVTKQEPdoBeK/QnbZ5gr
+   aBYIUVQWEUP+LkGQhVJC4uqzD2YQRRvtgIdydBzVg1R1V7twTCJYHfPSs
+   sfcEg3DKYE4gqLOZIPnYOhlFlDc8d03iVfrMNW/ptzN+OuFc3tIgrJ5RU
+   Q==;
+X-CSE-ConnectionGUID: Qsij62tdSgiYkllHeqsHUg==
+X-CSE-MsgGUID: rFRiWotlST+9mNgV1lm3sw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="17502925"
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="17502925"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 05:01:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
+   d="scan'208";a="16556261"
+Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 28 Mar 2024 05:01:07 -0700
+Received: from kbuild by be39aa325d23 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rpoRM-00026y-0v;
+	Thu, 28 Mar 2024 12:01:04 +0000
+Date: Thu, 28 Mar 2024 20:00:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
+	tiwai@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: Re: [PATCH 3/3] ASoC: soc-card: Add KUnit test case for
+ snd_soc_card_get_kcontrol
+Message-ID: <202403281952.Sz5iE5Tm-lkp@intel.com>
+References: <20240325125650.213913-4-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|LV8PR12MB9230:EE_
-X-MS-Office365-Filtering-Correlation-Id: d36ea1cf-3798-4a49-ab05-08dc4f1e548f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	FLDUgYW4Dki8AamvucW7caFNg+wbYpv6M9mtEMDDyQlCDOa/EIIh/N5pWKxIPsElfyhPftYz0s434XGigEDXb72uE5GSABxbSQM3IXcZ5U9dp2+OTpmIvaeupOVJcF+g1DrPC8K1EypvkQgtt+1z0OMCr0E7xO1m1hhVDNQpNv6x9+7Q+SkKuDFa4hPyG1kK6IBdzkbX6cIicxYolLwihrU6wuXIzgR5hINorOLdGVnS/pgOkm9+M45FrYi2bou18j0PG7rTVSyHzJaoYsaI476SbPfSjLy1+mRkRfGvAcHrDFK5ySUtUwf60rhdEGY26aBhi/V9RhG/vEGKPwhlManSdRSUhHO4GkbKOYzH4tG4EcNFea33p3tKj820twTycNjNTr2gQKmhA0baoMaWaEObUDKrBENB8Dj0ciGB2/dIHjGyZA2SqB2XlPBNczs2rbRoRXIxHGjFXFX6grjbS+O3AxOHaCs1n5dF4bJpaH3CtUnwx0BpL12dGbpNcp8IVUrs+100IvB22VQXIdLxZjmPvlJEh+XB7rkjAAfGkeQfolFr6alnqN/OPqEug9JxPfQlzN9RM+ajKwEVID67BMwJLnHDCb8TAawIfQN2cs4bwGDx0TGkTHcuzB73x7AzRWymO87LoV/IFnOwjFNmuD7nszcehLQhZDnb4sXc6zU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RHBYcHlNOEpKazdJS21zclFGN0J0ZzJKUnhTbEsxT3FraDF1SlBPTy9xQTNk?=
- =?utf-8?B?KzQzaVFaMmN3eStHOW5rMzhZbDN1WE5nMHd4dDZ2LzBvY3g2MVJTdW9vWWFh?=
- =?utf-8?B?Z3VFdUg2RTFUTEREZnI1Z0tDbFljNCtZWFZWekJWM0JFL0ZraGN0bk5mTkVO?=
- =?utf-8?B?c0VCQzRzalllUmxPajRnRFRhNGQrWjRVNzZPUWZRTVJrc1BFZjF6eHB3K1BR?=
- =?utf-8?B?RGNIWlJndkhpT05lYjRSb0JUODJOVCt0WlUrK0tHSUpJYkp3S1hRUitqVTJ5?=
- =?utf-8?B?T3A2M0QwTjFia0ZYZHNaSGhaZVNKdnkwTmt0d0l5WldEVU5pRVVXK29PL2or?=
- =?utf-8?B?NURRbkFVcGR3QXN6UnJaM3o4ZTU2TnpmU094U0ZDOTZYR3FiazgwdkFTTDNT?=
- =?utf-8?B?VDlTUVorWVgxVW5VTTREM3JqTjNYYjBOUCtWRUtUK3VTcjJjYnRrY0VDd1Za?=
- =?utf-8?B?K1ZncWl5Y01xWllUZGM5Vmd0aDFTQ2VYbXBIOWxxMGIrN0tVZEQ5Wk93U3I5?=
- =?utf-8?B?REtRWlEvRzZtcGw5M3NUQnBJWXdxbzNBaUFjeGNmdHRhTnNhcjR4RTVNc2JG?=
- =?utf-8?B?b3B6VTAvT0M0dmI5NDFJbllZTlk0OHRaVE9tMzhLOEhXTFI4eEtRQnVhbFdh?=
- =?utf-8?B?NUFjL1AxcHNDOUhXbmVNT2RGNHNBTnN6ajZuTXpYK1Bld0Z4VjU4aG0xUGFo?=
- =?utf-8?B?Q3JGODRaaXlIdGdReVZNV0ZiOWFsQ0FMNmppY1llTGZQRytPQlVKTlh2bVhn?=
- =?utf-8?B?dEVVMi81MWozUm9iQ292b0JNODUwNWNZMTMva2YwU0ZxVUFsc1lyNHMxYUo1?=
- =?utf-8?B?dGpFTzhITEhVSlBIM3hobitJWWlIbjFSdHYzMkFoaDNtb3lHcHBRZmNvSHhE?=
- =?utf-8?B?K3BPOTl3cWJQQzhLc2JENHlHMnZTZnlKRHhNSWluUzhkYlMwUkRUc09wOXl2?=
- =?utf-8?B?RjBDUThYSlZkZlZlSHJ1Y3hvOExzeDB2dFVrSGFOdldwZUJPZStKRWdMaVlP?=
- =?utf-8?B?SnBBc2laSHpFL0syTmphRzZhMFVWYjAwdmdTUVZNMHJidDZTVWtLd2d6WGkr?=
- =?utf-8?B?QXZqTktnQUpBNm00dnRxeWx1Zm5ZVEF3dlJDckpjVDJ1eXFORDdYbERCOFBK?=
- =?utf-8?B?VWpIcUNubHJrTE0wUmF4WjNYNkdvWDFiSVhyMUh1d001RmxVemhzWnM5SkUr?=
- =?utf-8?B?NFFXalB4aFZuV2dVcFB6M05xcjBPWmhCQ01nZUxLUkJ5NmVibTZJaDAwYXRh?=
- =?utf-8?B?U3pIaXgvSDhGeUc1Z3Q2bmpLZ1V0SmJxeklabVdQMUV2cjZrTmkxUWtIRFBS?=
- =?utf-8?B?RkdGVmpFSzJVeVFERkdnakFQdEFmd3loOWVrYlo3L3BzbnhnZHBYVTRHblBC?=
- =?utf-8?B?eWhlaVZiR0ZBNUxQaFhvVTVqMVJHQy9HRXk3ZUM2ZHVNcHNwNjc4NXc4aEx6?=
- =?utf-8?B?VWlHOS8yYjhrcitlU3Y1a0JwN2h2KzBSRzdmQTlVRVJDcUI2NnVIcHdBL0ZJ?=
- =?utf-8?B?YkdiUDVhTmJkOWdqY1ZLR2ExUXBxYXBXeDNKSzQ0Vm5zS29PQktoQm5YKzRo?=
- =?utf-8?B?M3l5VW15R3FhNTg3dllhcmdyTE1KblBacW9OcjFTYW5QUEJGQ1pKdEg4K2tE?=
- =?utf-8?B?L0puRk9rMlNTSlFxVHVHeC9ielkwb3pKZUFhWUY5VGdJQTQ3OVdwQWo1dS96?=
- =?utf-8?B?NG0wSHllY2dXWUtNZEFLdm5CSnMxYkdqOEFobjZqaWREV3lZMGp4U3NJWGpI?=
- =?utf-8?B?Wjdzc1hHLzlaZTFzVjVHUjM2UE9qdGQ3ZndTZDBaWFZucmdFM2lWSkdjUlF0?=
- =?utf-8?B?NEo0bnliMFk3K2JPenBlNHYyUWdXejhBY3BRbnpNcTlxV28wY1dnelRVT1Fp?=
- =?utf-8?B?UlhYU2orRkZzSVM3SmU5bmV3T1JXWGtjRzVXQjJkbklhTHFFQU1iTDRpenhU?=
- =?utf-8?B?MXpYekVPUmtsYklFaG05YXBSMGkxdVp5bDhQTTErZ1Y5TFhDS3hhaXBBbmhr?=
- =?utf-8?B?QWFIRzRwa0lZZWFoMGIrc2lJdjBYclpOWkNpaks5R3lENTFpcXdxc1QrUmZ3?=
- =?utf-8?B?am8xYmY2YTBsUklmNzBnMUUzeHdZaktiRkVCYWExQnQxRVlDb2x1NmROaitF?=
- =?utf-8?Q?7gGG13A4H7gPQs8pbzrcdQ2Yi?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d36ea1cf-3798-4a49-ab05-08dc4f1e548f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2024 11:58:06.9751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: isFPZKpEl4MRPuwnfieU19Kg7B8jYgqQsZJpEenTNGkmzuFYZ321FLmSzHzYfUjk4hqs3TKCOPNLODVya24XzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9230
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240325125650.213913-4-rf@opensource.cirrus.com>
 
-On 28/03/24 17:04, Greg KH wrote:
-> On Thu, Mar 28, 2024 at 04:10:38PM +0530, Mukunda,Vijendar wrote:
->> On 27/03/24 23:39, Greg KH wrote:
->>> On Wed, Mar 27, 2024 at 06:56:18PM +0100, Luca Stefani wrote:
->>>> Hello everyone,
->>>>
->>>> Can those changes be pulled in stable? They're currently breaking mic input
->>>> on my 21K9CTO1WW, ThinkPad P16s Gen 2, and probably more devices in the
->>>> wild.
->>> <formletter>
->>>
->>> This is not the correct way to submit patches for inclusion in the
->>> stable kernel tree.  Please read:
->>>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
->>> for how to do this properly.
->>>
->>> </formletter>
->> These patches already got merged in V6.9-rc1 release.
->> Need to be cherry-picked for stable release.
->>
-> What changes exactly?  I do not see any git ids here.
->
-> confused,
->
-> greg k-h
+Hi Richard,
 
-Below are the commits.
+kernel test robot noticed the following build errors:
 
-37bee1855d0e ASoC: amd: yc: Revert "add new YC platform variant (0x63) support"
-861b3415e4de ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2"
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9-rc1 next-20240328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ALSA-control-Introduce-snd_ctl_find_id_mixer_locked/20240325-210026
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240325125650.213913-4-rf%40opensource.cirrus.com
+patch subject: [PATCH 3/3] ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol
+config: powerpc-randconfig-r081-20240328 (https://download.01.org/0day-ci/archive/20240328/202403281952.Sz5iE5Tm-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403281952.Sz5iE5Tm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403281952.Sz5iE5Tm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/soc-card-test.c:24:13: error: initializer element is not a compile-time constant
+           SOC_SINGLE(test_control_names[0], SND_SOC_NOPM, 0, 1, 0),
+                      ^~~~~~~~~~~~~~~~~~~~~
+   include/sound/soc.h:61:48: note: expanded from macro 'SOC_SINGLE'
+   {       .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
+                                                        ^~~~~
+   1 error generated.
 
 
+vim +24 sound/soc/soc-card-test.c
+
+    22	
+    23	static const struct snd_kcontrol_new test_card_controls[] = {
+  > 24		SOC_SINGLE(test_control_names[0], SND_SOC_NOPM, 0, 1, 0),
+    25		SOC_SINGLE(test_control_names[1], SND_SOC_NOPM, 1, 1, 0),
+    26		SOC_SINGLE(test_control_names[2], SND_SOC_NOPM, 2, 1, 0),
+    27		SOC_SINGLE(test_control_names[3], SND_SOC_NOPM, 3, 1, 0),
+    28		SOC_SINGLE(test_control_names[4], SND_SOC_NOPM, 4, 1, 0),
+    29		SOC_SINGLE(test_control_names[5], SND_SOC_NOPM, 5, 1, 0),
+    30		SOC_SINGLE(test_control_names[6], SND_SOC_NOPM, 6, 1, 0),
+    31		SOC_SINGLE(test_control_names[7], SND_SOC_NOPM, 7, 1, 0),
+    32		SOC_SINGLE(test_control_names[8], SND_SOC_NOPM, 8, 1, 0),
+    33		SOC_SINGLE(test_control_names[9], SND_SOC_NOPM, 9, 1, 0),
+    34		SOC_SINGLE(test_control_names[10], SND_SOC_NOPM, 10, 1, 0),
+    35		SOC_SINGLE(test_control_names[11], SND_SOC_NOPM, 11, 1, 0),
+    36	};
+    37	static_assert(ARRAY_SIZE(test_control_names) == ARRAY_SIZE(test_card_controls));
+    38	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
