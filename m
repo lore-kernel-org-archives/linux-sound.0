@@ -1,133 +1,89 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89917EEEA;
-	Thu, 28 Mar 2024 12:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7179C7FBB2;
+	Thu, 28 Mar 2024 12:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711628060; cv=none; b=CuzNnI0Zlc0JYNX4eoifDdBC73mUONZ9uBuRL/HKK+QRvA3x+Emd62rgo2BerT6jbb3WniG370+Q6dTQqGEzVpdKseWc8WJGTprI2ACwcrDs9doV/fh5+PVVr1u/HqNGc75pC2UmIwqP5xB7/PlxCOkaMpAgeYOtq29ETGpo9WI=
+	t=1711629672; cv=none; b=rlYrl0QXe12l8+bgByjwIvJ96Amkf+q4CBpL1pIGCwXmbGV2r2ySnRo4ZTcvF1lQeEmaEBv6LTyygv8xSc6vyX+TxPT7BsEeNaveofcRvgWJM7KM0Kq70cho/3Hm2cq/ruahTeUwzOG5KY5F5E2/EVlCXScnKToLyk0aygUxbqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711628060; c=relaxed/simple;
-	bh=qfJIVtEGnV5PBDcNxLtv8PQ04/VnkAd3XqvIE+epqb4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h4eN4cJC18PQxvmcT7NlMzzQ78sgi7p+LnHJHNrPXPFg+AjC8lR0gUhSJIW7SaERimkNxjuefiWI8S0VdRAkKt5R7LkWiN+w//wrnM7Pd+xU2zgRhdb8N3MH/9RbWw6Qko+pQJvPQPBCHJeZWDDfgAKoQDV9kpB+N95P/vxmzmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=K+2h2g3O; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1711629672; c=relaxed/simple;
+	bh=Jn6wq+9Xr3mn74xd/q0Un6JHaY21LvNhXdbrx6wuhUU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PbHGSbnz+UFvm96L9YZs64FK+7AZey0ELPaNjdVYrcQ5rUHg+hDeqiI748j2U73o7W1M6b6e1UHF0YthtO/U3EOU5wyhWXs53F/LGjhnYdKWu02r3DIK++EnmulFTs6ujLwNEgjEuTY5IT3bPOOLbHCOEzT0zsMly2Hjp44zhxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=QLgCbDzj; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="K+2h2g3O"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42S80qwZ031605;
-	Thu, 28 Mar 2024 07:14:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=/
-	YcgOhBnjkdBqrLgF/BoqdsdMXoJw5NAe63KAucPw24=; b=K+2h2g3OHbggsdkiS
-	JyRxNyxDovd/rAg6P/5KnH2l4p2rEmEpKHJJD0tMys3gL3rkiRtMDCNIFSf8mSXr
-	NavMOLZYEDG1dV5W0EtwpGKLm/mVlo3qUTYx9azKkVjm87yLZaTA86SlppgAKd4Q
-	Od3R1CdlGDSwsUWKPR6MVpXBxwcPxqtrQys+VIhKb8PI1bJmR3H2TQS0n4pOf0Sp
-	qQMEKFEeJkfP6YIM4UsL8yfMWkAJv0CHZyaSI6kLOzm6gQHxQhZzYhXgpPjWFt+X
-	opiJym64Lzyg8WgPoODE0xXrUxbUyO3AmP/Nv8WD1rFCRoSxgWzS1QvHSR5EpfaL
-	IrqjQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x4k7k2ngu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 Mar 2024 07:14:06 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 28 Mar
- 2024 12:14:04 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
- via Frontend Transport; Thu, 28 Mar 2024 12:14:04 +0000
-Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.19])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1D93D820243;
-	Thu, 28 Mar 2024 12:14:04 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l56: Add ACPI device match tables
-Date: Thu, 28 Mar 2024 12:13:55 +0000
-Message-ID: <20240328121355.18972-1-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="QLgCbDzj"
+Received: from [192.168.42.20] (pd9e59192.dip0.t-ipconnect.de [217.229.145.146])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id C90FE2FC0063;
+	Thu, 28 Mar 2024 13:41:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1711629662;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6siALVMfEPEJpNoLpevoBQw2RtVVAom0abFD3I1ypZI=;
+	b=QLgCbDzjyhUPH/aw0w7bNV6J6yyJyVQETrdChkN7IGiq6QsQrBTeytp3fCHJLAf4QSvtgR
+	Bl/nmyvWaUthWcZsd4kLOmcmhYCv6ME1XxnVJp//s5XY7yHSpwer3QSRV6IuqboUuUisn5
+	Zmsxj6mLJ97C739Fc1fLMxkfXViFSRU=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <9c32995c-e73e-416d-958d-f9960ad24686@tuxedocomputers.com>
+Date: Thu, 28 Mar 2024 13:41:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: BzIDj9hR-Rk9Q3hSWONBHy2LpF0DPg7R
-X-Proofpoint-ORIG-GUID: BzIDj9hR-Rk9Q3hSWONBHy2LpF0DPg7R
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek - Fix inactive headset mic jack
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Christoffer Sandberg <cs@tuxedo.de>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240328102757.50310-1-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20240328102757.50310-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adding the ACPI HIDs to the match table triggers the cs35l56-hda modules
-to be loaded on boot so that Serial Multi Instantiate can add the
-devices to the bus and begin the driver init sequence.
+Hi all,
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
----
- sound/pci/hda/cs35l56_hda_i2c.c | 13 +++++++++++--
- sound/pci/hda/cs35l56_hda_spi.c | 13 +++++++++++--
- 2 files changed, 22 insertions(+), 4 deletions(-)
+Forgot to add cc stable
 
-diff --git a/sound/pci/hda/cs35l56_hda_i2c.c b/sound/pci/hda/cs35l56_hda_i2c.c
-index 13beee807308..40f2f97944d5 100644
---- a/sound/pci/hda/cs35l56_hda_i2c.c
-+++ b/sound/pci/hda/cs35l56_hda_i2c.c
-@@ -56,10 +56,19 @@ static const struct i2c_device_id cs35l56_hda_i2c_id[] = {
- 	{}
- };
- 
-+static const struct acpi_device_id cs35l56_acpi_hda_match[] = {
-+	{ "CSC3554", 0 },
-+	{ "CSC3556", 0 },
-+	{ "CSC3557", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, cs35l56_acpi_hda_match);
-+
- static struct i2c_driver cs35l56_hda_i2c_driver = {
- 	.driver = {
--		.name		= "cs35l56-hda",
--		.pm		= &cs35l56_hda_pm_ops,
-+		.name		  = "cs35l56-hda",
-+		.acpi_match_table = cs35l56_acpi_hda_match,
-+		.pm		  = &cs35l56_hda_pm_ops,
- 	},
- 	.id_table	= cs35l56_hda_i2c_id,
- 	.probe		= cs35l56_hda_i2c_probe,
-diff --git a/sound/pci/hda/cs35l56_hda_spi.c b/sound/pci/hda/cs35l56_hda_spi.c
-index a3b2fa76663d..7f02155fe61e 100644
---- a/sound/pci/hda/cs35l56_hda_spi.c
-+++ b/sound/pci/hda/cs35l56_hda_spi.c
-@@ -56,10 +56,19 @@ static const struct spi_device_id cs35l56_hda_spi_id[] = {
- 	{}
- };
- 
-+static const struct acpi_device_id cs35l56_acpi_hda_match[] = {
-+	{ "CSC3554", 0 },
-+	{ "CSC3556", 0 },
-+	{ "CSC3557", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, cs35l56_acpi_hda_match);
-+
- static struct spi_driver cs35l56_hda_spi_driver = {
- 	.driver = {
--		.name		= "cs35l56-hda",
--		.pm		= &cs35l56_hda_pm_ops,
-+		.name		  = "cs35l56-hda",
-+		.acpi_match_table = cs35l56_acpi_hda_match,
-+		.pm		  = &cs35l56_hda_pm_ops,
- 	},
- 	.id_table	= cs35l56_hda_spi_id,
- 	.probe		= cs35l56_hda_spi_probe,
--- 
-2.34.1
+@Takashi can you do that on merge?
 
+Kind Regards,
+
+Werner
+
+Am 28.03.24 um 11:27 schrieb Werner Sembach:
+> From: Christoffer Sandberg <cs@tuxedo.de>
+>
+> This patch adds the existing fixup to certain TF platforms implementing
+> the ALC274 codec with a headset jack. It fixes/activates the inactive
+> microphone of the headset.
+>
+> Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>   sound/pci/hda/patch_realtek.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index a1facdb98d9a0..3b75934ee62c1 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10365,6 +10365,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>   	SND_PCI_QUIRK(0x1d05, 0x1147, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
+>   	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
+>   	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
+> +	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
+>   	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+>   	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
+>   	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
