@@ -1,125 +1,96 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CC6224D0;
-	Thu, 28 Mar 2024 13:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8128B8175E;
+	Thu, 28 Mar 2024 13:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711632475; cv=none; b=FZXDFk6+69P8e4F7ziEhQ/0C4Rrg+pLWWkSM2M8Qo0AN54xD11Y8FEN5CfoXUAhhbqt7Tx3HnTE21gxXtnu7n6Ggb8uTX4vZnRTiBDHaC67jDlQm0Oj3OgnTdddmBk8Z7nbLGvFORSA3AuYp3gLasQQprU+VkiV3TkBDPWPv2q0=
+	t=1711634207; cv=none; b=Axc43XRQcA1i6B+7+oAN1dCWcvi9C+FDpija4U5BPGisn4ir/zPRgmbZmXaLwk2bgOwi+U8OlEA/8bI2xin+U8MPfPVcic0Y+uzkIGoDzuhjaXBczsWSwsxnFUcAamzgSB2dzs+OTGRFFZA3mkQXCyaZW+5gp4b+oAw/ueCyfVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711632475; c=relaxed/simple;
-	bh=g3tbt5A5BMQBDg79luNWj/TFKk1HHVRlABZgpMrFlOM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vf7QIBUZFn16Rs7rBWFImeQR578gvpsQ64PdT+I51bivspiFeCt31yvtaSgoJGxXN8iJ6FrHMV1MuXleZSPQp8b6O1TQTYFNcKYb+WEFn3c0xh6bPcTTogZBvaexFBRhQ3Slb7a/EjACWmb8TyROWJOwKAoLNHK4iN+7cv9sg5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xu+H7T4S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X3NrlaCY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xu+H7T4S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X3NrlaCY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1711634207; c=relaxed/simple;
+	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LO8J3ulSd21x43OpfVp7005+T9kHqJwAdPS03JeMLjcqaM/egsCVgmILvlTXYEv2q4F12eVwIaU9gEezK2jwEs/M3ueCG11DL782uK8z/nrzxDlmcUFTQafsz3Itsl5vfFhHLyCus3nTzTdppQ3F9U2EgUBrFDtjGg0cLiQni/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urzfM6hH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xu+H7T4S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X3NrlaCY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xu+H7T4S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X3NrlaCY"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 531B122108;
-	Thu, 28 Mar 2024 13:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711632472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D/5NMzBy++zM/SOjj+TwZy9DepUE4sr8/nvthOqPAGs=;
-	b=xu+H7T4Sioipv/D3TthJI14A0IFPe2Pm+ctqciosloGTkKLIzYjgBzSy97BRVtE5+easc/
-	3mdVQdfCk07eCMl2ogy3aH8PSYsCAY1hfpeHoAi9YmfrJIYRzM2ZTF/CSPftFgekVHYU6h
-	WzuSoSxZedpd06ayhHS8/2Nyobrv3Po=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711632472;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D/5NMzBy++zM/SOjj+TwZy9DepUE4sr8/nvthOqPAGs=;
-	b=X3NrlaCYLLAy4mgaqCn56VISB4nW4Kj/f4yxBAzZU62O3fCdmPEmPC8wkkFMk3NQoZ9/Cb
-	aN0w/kEmP6L3jNBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711632472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D/5NMzBy++zM/SOjj+TwZy9DepUE4sr8/nvthOqPAGs=;
-	b=xu+H7T4Sioipv/D3TthJI14A0IFPe2Pm+ctqciosloGTkKLIzYjgBzSy97BRVtE5+easc/
-	3mdVQdfCk07eCMl2ogy3aH8PSYsCAY1hfpeHoAi9YmfrJIYRzM2ZTF/CSPftFgekVHYU6h
-	WzuSoSxZedpd06ayhHS8/2Nyobrv3Po=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711632472;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D/5NMzBy++zM/SOjj+TwZy9DepUE4sr8/nvthOqPAGs=;
-	b=X3NrlaCYLLAy4mgaqCn56VISB4nW4Kj/f4yxBAzZU62O3fCdmPEmPC8wkkFMk3NQoZ9/Cb
-	aN0w/kEmP6L3jNBQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 3988F13AB3;
-	Thu, 28 Mar 2024 13:27:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 9qBrDVhwBWbVPgAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Thu, 28 Mar 2024 13:27:52 +0000
-Date: Thu, 28 Mar 2024 14:27:54 +0100
-Message-ID: <87h6gqa3l1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Add ACPI device match tables
-In-Reply-To: <20240328121355.18972-1-simont@opensource.cirrus.com>
-References: <20240328121355.18972-1-simont@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urzfM6hH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC42C433C7;
+	Thu, 28 Mar 2024 13:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711634207;
+	bh=45W0j0SQwEbF1WEVuZJq+yF57n0rEsuSxnYCwbsjyaA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=urzfM6hHSgtdOcXXX0qWKjzxnEn3cHDPfy8zymXAcdjTYxLfqY5EVLs2g9kLBrenh
+	 bO1mKJWrcFoSkDNSsJzqJFH2o9JhOI4dY8RPeTJQSUCKZMGc7F31+bFAS0yBzj3QIh
+	 cDtI7yrxHsaArBjZ/3YvR2RdvLhWObk2wuo+H0xTn+JxnKTH6b8jf4enVzudHN4mP3
+	 mqkKt9nLuChV3ZGzzt/c6CNGjrkuW6+fqpQa8gH93XK/JepaWZeA41OC5Xh5L5w/gI
+	 y1fKI0ajXiepiGfDur/A2zbxANS0QfV0oLoNCOhXahhoD8aLSNkTrEFaNR3vtIXN1F
+	 CWNI3jdLTxf8Q==
+Date: Thu, 28 Mar 2024 13:56:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: John Watts <contact@jookia.org>
+Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sunxi: sun4i-i2s: Enable 32-bit audio formats
+Message-ID: <9055efa5-8da6-47b2-b2db-d1f8e02d2267@sirena.org.uk>
+References: <20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org>
+ <23447395.6Emhk5qWAg@jernej-laptop>
+ <ZgTUIWh8qXH_7oxQ@titan>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.83 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.07)[61.99%];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Spam-Score: 0.83
-X-Spam-Level: 
-X-Spam-Flag: NO
-
-On Thu, 28 Mar 2024 13:13:55 +0100,
-Simon Trimmer wrote:
-> 
-> Adding the ACPI HIDs to the match table triggers the cs35l56-hda modules
-> to be loaded on boot so that Serial Multi Instantiate can add the
-> devices to the bus and begin the driver init sequence.
-> 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
-
-Thanks, applied now.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mhMUzKVvsxFenEfD"
+Content-Disposition: inline
+In-Reply-To: <ZgTUIWh8qXH_7oxQ@titan>
+X-Cookie: Yes, but which self do you want to be?
 
 
-Takashi
+--mhMUzKVvsxFenEfD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 28, 2024 at 01:21:21PM +1100, John Watts wrote:
+> On Wed, Mar 27, 2024 at 08:53:32PM +0100, Jernej =C5=A0krabec wrote:
+
+> > I wish it would be that simple. SUN4I_FORMATS is cross section of all I=
+2S
+> > variants that are supported by this driver. If you check A10, you'll se=
+e that
+> > it doesn't support S32.
+
+> > If you want to add support for S32, you'll have to add new quirk for ea=
+ch
+> > variant.
+
+> Yes, A10 doesn't support it. But it should error out in hw_params due to
+> get_sr not supporting 32-bit, no?
+
+The constraints shouldn't be advertising things that hw_params() will
+error out on, sometimes there are contingent constraints that prevent
+this but something that just doesn't work isn't one of those times.
+
+--mhMUzKVvsxFenEfD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFdxkACgkQJNaLcl1U
+h9CE1Af+O5zsMVBYtNcP/Zpm6ZYtaVlBfArlIiMyRHh/rU2sZcHctfvD/5FpomNB
+DX+B2CXJ54QN/AzVgK7q6QcMzryuK1xOLmjs6+THEHS8Tx6w4We32P2zGuGX655C
+mqkPWGWOltacPI/1Upb0PogW3a1qfXuhvBWPtNfkaBvgBICtbrJiJyEyNHJozq2v
+n94djp24WVSRt5Jjh0u6U/1Q7Eqt0FFiBtm10J8fdHjSt81CVIYz/jw5aZgCPY7l
+NVHn77XPjEccjdx5hNGpNAEZT8ZZbIF0sC/HOKDP/OvypWpV1GRyA0Y5XwaJWnnD
+NQcO169FnkN2RGXB1nbjkBEXAUbpQQ==
+=cayw
+-----END PGP SIGNATURE-----
+
+--mhMUzKVvsxFenEfD--
