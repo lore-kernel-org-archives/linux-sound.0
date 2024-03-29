@@ -1,112 +1,91 @@
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6291DA5E
-	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 18:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C0B1EEE4;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711738465; cv=none; b=ItJFzErIyPQHarj7dlXSdQ4sFFHFC4fNT2osQiVRZ2yforr1Ipdqns7XJKpkb7fUt8FF8a4g1fZO/fzZQIm98qBRxk5CN8d2G2gP+q3wUwk92vcHPPlrPpWBQYnL9Yd1Az3RFhW1bezYxdFXxwWKiwboO+RvW1vGK+FH1WnXGcU=
+	t=1711740633; cv=none; b=Y3AO3jOXTEgQYgdkbMV5ewrZXrVKIo6X4CYShjKv6NdKcjbw3VUuXTgX6iKbaKNUnVKVChX5FkkEdkpv3iXyTc2gQOx0ld+O0FfG7VjD1gKw/ao3DGZC7AyK12+hK3ag1Y2SAycLRM/tO1/Ih8FrgIdrAOgSzW7O5mNPsiyhcTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711738465; c=relaxed/simple;
-	bh=nyFd1gVD6IOaOkZxv+ijhnFzzD+61fz5CSxFthsNV08=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DYn9BZVmFQj+ciJQHbZZhRtETyi5hsQToqsk4JVVfFkYdBJp1z71QtdrggCPbatQdHnP+gByerTJqI1kf2V2BAy1k+KDgaWOMF7to9HCi2dLCM62NWHZW5L8bxVCBvLvpwIj0Fa8zlPigCUM29t4Q4qbaKpVTNQNjhPc8rrv36w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bendiksen.me; spf=pass smtp.mailfrom=bendiksen.me; dkim=pass (2048-bit key) header.d=bendiksen.me header.i=@bendiksen.me header.b=g3oQXPAi; arc=none smtp.client-ip=185.70.40.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bendiksen.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bendiksen.me
+	s=arc-20240116; t=1711740633; c=relaxed/simple;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UqowPDwocud2Wj+bZuOSSys0qv9GjoET7RZzSWGxGa3G6E/OBej94f4wXaAe8vZCZsubIQhZhS6gBt4K1VKYAff947m6odSezcJPV4n1DrxVukivW4s5hRZyS0HxXvAB5WBwYM8kjXxqlhP2jF38ZpDyzoX86MS8xRz258oc/PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVV3npmS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bendiksen.me header.i=@bendiksen.me header.b="g3oQXPAi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bendiksen.me;
-	s=protonmail; t=1711738459; x=1711997659;
-	bh=PbTlUZvfyW5EEgU8CtWt38HrMcQmW9XR3nwwcixiO80=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=g3oQXPAiCbXjswnX844LZUf4oeXU9jlHBfne70b0iKbXNkHOnm9woeDFRjisSLfQR
-	 RMAkPxLujCTyAbDZ8xGQyuIR44FNS3fb7V8CYnPSJK06F6HbYlMs95e066DkB58pOB
-	 jOYBwFwOoy5i/kVQcgRXQ/OuF92X8G2ZvtJPF9SoR05RnrkYacfsRXlvVkDIvF4tRp
-	 NebpEGV67yxan0KVxiD/TFK6QUlcW40Y4fs9b77C1OOwHkiUgmfUxmJDU+Nvt1LecF
-	 Hmze1cpO4Y9j3ZMS3yyHynVUH0n9LW8J5a7Xg71TCXkGug9RaphqBwM9EZFyi+BmKv
-	 8jSL/MbDMW7MQ==
-Date: Fri, 29 Mar 2024 18:54:14 +0000
-To: james.schulman@cirrus.com, david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com, sbinding@opensource.cirrus.com, kailang@realtek.com, luke@ljones.dev, shenghao-ding@ti.com, foss@athaariq.my.id, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Christian@bendiksen.me
-Cc: Christian Bendiksen <christian@bendiksen.me>
-Subject: [PATCH] Add sound quirks for Lenovo Legion slim 7 16ARHA7 models.
-Message-ID: <20240329185406.9802-1-christian@bendiksen.me>
-Feedback-ID: 100541561:user:proton
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVV3npmS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 293A4C43390;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711740633;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=IVV3npmSePL8advnxP77niTJn9r5VWn3Rp+dlR8NGJ9lX2oLIqkoGV+xDPWNxKxDQ
+	 Vy1L2g8YCGgRSXrLc/sQkv/2M4J9jxdAA8SAbhGR8ajFTlmfsqHLf0fvOTAPm2dcKv
+	 R1fVsKFXQ0PjDCVdjZFjTagXNRerIfdbo2okMOvrjklmOXE9qqZC9SCAN3EPi44fip
+	 ZCq07ahttvJ9JoOo07ITMoNBIgDCC6Y+Xv77EcLFfSARbiSqQFxIHg2hw6SwpkmRbP
+	 ts7yiXSanAtz/RnbfgXbCMeoFa7uggmPCtKepIwsnK9u0syfJQLIrvmxPSuoFye3BV
+	 B+EvADBhn/jTg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0FC90D2D0EE;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171174063305.18563.745216419087873927.git-patchwork-notify@kernel.org>
+Date: Fri, 29 Mar 2024 19:30:33 +0000
+References: <20240326223825.4084412-1-arnd@kernel.org>
+In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev, arnd@arndb.de, dmitry.torokhov@gmail.com,
+ claudiu.manoil@nxp.com, vladimir.oltean@nxp.com, kuba@kernel.org,
+ saeedm@nvidia.com, leon@kernel.org, aelior@marvell.com, manishc@marvell.com,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, luzmaximilian@gmail.com,
+ hare@kernel.org, martin.petersen@oracle.com, deller@gmx.de,
+ masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
+ johannes@sipsolutions.net, perex@perex.cz, tiwai@suse.com,
+ ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-From: Christian Bendiksen <christian@bendiksen.me>
+Hello:
 
-This fixes the sound not working from internal speakers on
-Lenovo Legion Slim 7 16ARHA7 models. The correct subsystem ID
-have been added to cs35l41_hda_property.c and patch_realtek.c.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Signed-off-by: Christian Bendiksen <christian@bendiksen.me>
----
- sound/pci/hda/cs35l41_hda_property.c | 4 ++++
- sound/pci/hda/patch_realtek.c        | 2 ++
- 2 files changed, 6 insertions(+)
+On Tue, 26 Mar 2024 23:37:59 +0100 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> With randconfig build testing, I found only eight files that produce
+> warnings with clang when -Wformat-truncation is enabled. This means
+> we can just turn it on by default rather than only enabling it for
+> "make W=1".
+> 
+> [...]
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_h=
-da_property.c
-index 72ec872afb8d..959864994eca 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -115,6 +115,8 @@ static const struct cs35l41_config cs35l41_config_table=
-[] =3D {
- =09{ "17AA38B5", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
- =09{ "17AA38B6", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
- =09{ "17AA38B7", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
-+=09{ "17AA3877", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
-+=09{ "17AA3878", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
- -1, 0, 0, 0 },
- =09{}
- };
-=20
-@@ -503,6 +505,8 @@ static const struct cs35l41_prop_model cs35l41_prop_mod=
-el_table[] =3D {
- =09{ "CSC3551", "17AA38B5", generic_dsd_config },
- =09{ "CSC3551", "17AA38B6", generic_dsd_config },
- =09{ "CSC3551", "17AA38B7", generic_dsd_config },
-+=09{ "CSC3551", "17AA3877", generic_dsd_config },
-+=09{ "CSC3551", "17AA3878", generic_dsd_config },
- =09{}
- };
-=20
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a17c36a36aa5..540868d6c602 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10347,6 +10347,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
-] =3D {
- =09SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35=
-L41_I2C_2),
- =09SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35=
-L41_I2C_2),
- =09SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35=
-L41_I2C_2),
-+=09SND_PCI_QUIRK(0x17aa, 0x3877, "Legion Slim 7 16ARHA7", ALC287_FIXUP_CS3=
-5L41_I2C_2),
-+=09SND_PCI_QUIRK(0x17aa, 0x3878, "Legion Slim 7 16ARHA7", ALC287_FIXUP_CS3=
-5L41_I2C_2),
- =09SND_PCI_QUIRK(0x17aa, 0x38ba, "Yoga S780-14.5 Air AMD quad YC", ALC287_=
-FIXUP_TAS2781_I2C),
- =09SND_PCI_QUIRK(0x17aa, 0x38bb, "Yoga S780-14.5 Air AMD quad AAC", ALC287=
-_FIXUP_TAS2781_I2C),
- =09SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual", ALC287_FIX=
-UP_TAS2781_I2C),
---=20
-2.44.0
+Here is the summary with links:
+  - [2/9] enetc: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/9046d581ed58
+  - [3/9] qed: avoid truncating work queue length
+    https://git.kernel.org/netdev/net-next/c/954fd908f177
+  - [4/9] mlx5: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/b324a960354b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
