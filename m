@@ -1,88 +1,144 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CA425777;
-	Fri, 29 Mar 2024 13:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C45142E8A
+	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 13:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711718653; cv=none; b=J9sSjPE/PIWueRrf3mc0Gz+doWHXM23cwayy/7d7ofclr+k6fYRInM6THrGQq7UDfE1Z0zaJrE9flVcLU1KcVxY77kramIb1cmwm4v0erc/MrJM97rfZ+8goNCRYtUWDMKCArHFQT+Ay3/mJVdmXWFQegfT8KHUHuVFPDWpLv38=
+	t=1711718923; cv=none; b=L88n9i8bHfB867QbZZEx8XGMaUtipbb19YNUsSpo6g5sM2V7inLIIiYHq1cfBxkikxQmBDD4UDdt4evahCqDn3D1ClZtPsENB+0JjlubF3IkQJ+AcKma7A/b1j+/T1mYIyHkDhTksyaamrrrGN1MNIahRlOtj5FNN5deRJIpr+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711718653; c=relaxed/simple;
-	bh=v8mIn4wI6Nk8yWeAoiTyvSclm6AdbmqShOByjQ1EiZc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FG/cnH8YZZ1I2yrbos280NLbVVeD+xqcLXGlfKGVSEos1i/dqAuIdY8SYO7NzFSwgabwrXi9lgtMXRCDvn6hxLUyTpz5EGbQVENJNgUrewl7pJzOnBHD8Ks7k2DFCP6b6OdLup0ouQUP6D4B+mgyTBbtkuIOqflgds38If3mjB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N8cvRHyP; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711718923; c=relaxed/simple;
+	bh=zlmV0sBDPPllGZWjPqa2/c1/r7nXDK5/rzJZO9Fvals=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=QM4RPqBatr5BraCkPaaqi+p8JrEJjdSLZ42eGwvIsKWkZ0NBuvbjoLRRtCIBrc7gx0YOZkXZdzv6MvgYsb9fbQhlCyD+TZ43TUx6JAcn4oDKC+WyrahIKdyRKjEKcl/81UhJ4LiJ/h02Inx+aeqq2ksrPpzuHKBQSugjFF855Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IBAQmM1I; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N8cvRHyP"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DFE1FE0008;
-	Fri, 29 Mar 2024 13:24:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711718648;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IBAQmM1I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711718921;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z8zwe634gu5wQNCVCxvtpKe0aX4n7o17eGhcQXcT/N4=;
-	b=N8cvRHyPJgw5j5LKkih7d26o4xz2NIuPQNXKFj8uupd470/nXWH0scfZaHHEl3j9CKrBex
-	Pbskzy//s8gOQPW0Q9RyQ6c6e6pf+5HxiHLme7pdkxLnOW5BEkSDlSNai8dTMispVpfws/
-	hLchxIIMJdRL9lZzAYWvm3+M0LJCFePBNb3hgl4yEe6YKKbSw+vwZuovy5Yywy4bpJw4mb
-	KIdJHjIhBxrWkPrLV2Q9PnSYK7cgJP063BauaJRtBMkA4rsytPkNKxJG5OQUu7EsZeBmQ5
-	XyV61Cs61Per8cmpSkvlDdInL17uL9nbTK8mu1ED+Jqje3CvdwTG/6T7JXVqIA==
-Message-ID: <106a9957-cf7f-4789-8edc-fdc641cd854a@bootlin.com>
-Date: Fri, 29 Mar 2024 14:24:07 +0100
+	bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
+	b=IBAQmM1I725BjlMbV6ElJkfPpDxIOkbK4+M5mEbUmRqeuxA7YnjZDuIGiNHwvyixMkQppZ
+	4lUJU17RxaG6iNglkEmXrXhxtPNnfBWVKwSP6iC04Djxj6q6CGIxwy+FWNuCrVF3CaMpD8
+	AXr1WMlDlVjbNWA51orRs9D9MIOWALE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-trCejyZzPgyLZEFcxp1_pQ-1; Fri, 29 Mar 2024 09:28:36 -0400
+X-MC-Unique: trCejyZzPgyLZEFcxp1_pQ-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-33ed44cb765so1145153f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 06:28:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711718915; x=1712323715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
+        b=vNb3SkziUjNxaPSaYDqLDMQmEeRv4zI00ph3NMNY9LXlPtibfkrMSo4TD4xz3lnICj
+         GEnrKRrswYxiBpd2pROlPvvFPgl5DWLy2Uy4lrlkQfdrFPYOxgfRZhf6QF3mTXTA4t9P
+         YNcvE2ZWe7wyZIZuCF3UrrzLocAfz53CA4nG7v70FhoVYGchSbWU+2GtPZhA7Jhea214
+         VgYaIznrLUa+53cYfc4Id37Bex1sr0V4tEZmPVWFqnr6BvQFgYHnHWV6+F5idYqMZsYX
+         IMWWCteSFDThypiIH6KeYLQOIgcCXIfri9y/DM48CuE0cimKRtsD+j/RIF6espGN91Qz
+         MLEg==
+X-Forwarded-Encrypted: i=1; AJvYcCXzFRMlaqQXnQ5AVaKzb7n3VXKA5X++y+RUk4NN7xPvc8cXfTvuA7+Sy4Ih5dWk6SKniMM16DTy9iCZk8yINxqbwZbZ+xR2gKyC3dE=
+X-Gm-Message-State: AOJu0Yy3pT+dj5CUOL3KVLr9Vrq/EpSKzohvhWX63vNJWZqt0SJGbmSZ
+	x/4X7dqR0XmyW6paS5kVmC1xIa//O6K1SJC1ktE6ADKoqyW6JxA6vpL8r515dbFGg8+/jj8YYvx
+	Q0twRrg8Et2dXip0IXtPIo6G4oZB/rN0FTTR4hRwiiasM8Lbd23lEGdU7HjEG
+X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405096wrz.55.1711718915576;
+        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0y693U6Mrafzyu7YFm6f17FVsvRLIAvGL111PeLg9URymVxfxN4rrw7+XNw571qiaGR1ycw==
+X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405040wrz.55.1711718915211;
+        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-33.business.telecomitalia.it. [87.12.25.33])
+        by smtp.gmail.com with ESMTPSA id e11-20020a056000194b00b00341c6b53358sm4171063wry.66.2024.03.29.06.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Mar 2024 06:28:34 -0700 (PDT)
+Date: Fri, 29 Mar 2024 14:28:27 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <vireshk@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, Kalle Valo <kvalo@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	v9fs@lists.linux.dev, kvm@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/22] virtio: store owner from modules with
+ register_virtio_driver()
+Message-ID: <e2xy5kjdctpitcrev2byqc5gcwntvsd6pfutrvp3l2kfe3llgs@l2xp5opj7xu2>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
+ <oaoiehcpkjs3wrhc22pwx676pompxml2z5dcq32a6fvsyntonw@hnohrbbp6wpm>
+ <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
- during capture streams
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
- christophercordahi@nanometrics.ca
-References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
- <20240315112745.63230-14-bastien.curutchet@bootlin.com>
- <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
- <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
- <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
- <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
- <5467add6-0099-4e54-a4f7-12aa149d03c7@bootlin.com>
- <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
- <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: bastien.curutchet@bootlin.com
+In-Reply-To: <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-Hi Péter,
-
->> Can you use aplay /dev/zero and a DT property to select T1 framing for
->> the playback? Or that would be too coarse for timing the start of
->> playback and capture?
+On Fri, Mar 29, 2024 at 01:07:31PM +0100, Krzysztof Kozlowski wrote:
+>On 29/03/2024 12:42, Stefano Garzarella wrote:
+>>> };
+>>>
+>>> -int register_virtio_driver(struct virtio_driver *driver)
+>>> +int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
+>>> {
+>>> 	/* Catch this early. */
+>>> 	BUG_ON(driver->feature_table_size && !driver->feature_table);
+>>> 	driver->driver.bus = &virtio_bus;
+>>> +	driver->driver.owner = owner;
+>>> +
 >>
-> 
-> That's a good idea, thank you. I'll try this and come back to you.
-> 
+>> `.driver.name =  KBUILD_MODNAME` also seems very common, should we put
+>> that in the macro as well?
 >
+>This is a bit different thing. Every driver is expected to set owner to
+>itself (THIS_MODULE), but is every driver name KBUILD_MODNAME?
 
-I tried it and it works fine, thank you.
+Nope, IIUC we have 2 exceptions:
+- drivers/firmware/arm_scmi/virtio.c
+- arch/um/drivers/virt-pci.c
 
-We still need to run some performance tests before fully adopting it but
-anyway I'll send a new iteration of the patch series that drops the
-drive-dx part and just keeps a DT property to select T1 framing.
+>Remember that this overrides whatever driver actually put there.
 
-Best regards,
-Bastien
+They can call __register_virtio_driver() where we can add the `name`
+parameter. That said, I don't have a strong opinion, we can leave it
+as it is.
+
+Thanks,
+Stefano
+
