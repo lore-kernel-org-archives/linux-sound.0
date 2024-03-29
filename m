@@ -1,75 +1,63 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936B61D68F;
-	Thu, 28 Mar 2024 22:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFFB11CA0;
+	Fri, 29 Mar 2024 00:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711666080; cv=none; b=AAizFBf8dgC8l5MarwZxu6EYdoz0QDs56addKZZry94yGHb/t3gh4SzIxy+nXUDdXxmchwut8iearyQeg0Ad4FVhNZl3syEIUtLticW/MEB2sidWV3Wx1yuGLf0Q5ZAykMTfUDk1V7hqc0oLL33RGe/braKQHgMo+mZ8+HWAQRI=
+	t=1711671594; cv=none; b=m4dsVLaBbEhKT3enrxkLuzxtngXe0YT3/d08He7ZaU1d3mdmdtI4cO49ZGZMZhSLoVibiy2vsABmjc4nsb2WOx089WO8cDBoetVrwqqEaRtAeR3ldnmM2coJextf6svLYppXKwCp4PnK5cI3jfmahTU4ariVp1khsaL2qhrVzVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711666080; c=relaxed/simple;
-	bh=4ad7yQtm68+AT2mdcchsQ2drGN+aCD6c8DrgJXxKOTI=;
-	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=RRDG6CCJjjHw4bXTTGdHk+wZ/Ro75Zyo/90Tf2omi1DKa3S58HGHs8HOGFGU/GO6Q4gEa1l8phqYrw4yK9brvbtl4mqUovxmDHiUxNO+8C6FqvvknQOGmr5rH8VceCGUZvPcOMN5OqTgrmJDfXlOtmPRsQZlKBb6l5mQFmv4KHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b68717.dsl.pool.telekom.hu [::ffff:81.182.135.23])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000069CB0.000000006605F396.0024401B; Thu, 28 Mar 2024 23:47:50 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org, Gergo Koteles <soyer@irl.hu>,
-  kernel test robot <lkp@intel.com>
-Subject: [PATCH] ASoC: tas2781: mark dvc_tlv with __maybe_unused
-Date: Thu, 28 Mar 2024 23:47:37 +0100
-Message-ID: <0e461545a2a6e9b6152985143e50526322e5f76b.1711665731.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1711671594; c=relaxed/simple;
+	bh=OCN5b3oKBqA5v8QFTEzu5JZAsBj8FlhKRX7u8VIemYc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=eCucArcJQ1zdM3mFGT6il+kAAOU7/tg8iuUSu7HcuSD9bIL7eweSckA5DCAFDxfHMcq7yTsjvagTHxbItejuZ3mdkaP1tU5YFZlwvc1hIYFxh2SNDedlTdQSHrrO8GQbLe/KQlRLEV+4uv1BeLAJnA2yKTR+b/XH3bDeUn3ex98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bsBV+tzJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bsBV+tzJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A8C4C433C7;
+	Fri, 29 Mar 2024 00:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711671594;
+	bh=OCN5b3oKBqA5v8QFTEzu5JZAsBj8FlhKRX7u8VIemYc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=bsBV+tzJZ/Q/RNuri/LAU8B42qRI4LvGQcNgzzV8lVyasAGqGQ997Ts2R/I5IJJ2H
+	 FecnZrBUVjgCooNxeesp/JjGKeh6Zndh90mCQ3vKAk2Zkow5d5d02RYwP2e76yZ+h+
+	 MNnaN2bi6KfxxdH7EzsfjqzsDeEM0eZflzfwvnm0GM7SXXJmI3/VvLkbnivbL/fhzY
+	 JpwDYFXl+S8HtfXfpAPi5reh57WHbjEUYo42oTquSFp4Ty8egyvAw/XPpJYuvrEzyN
+	 BwjWiwzL282aChn8diCAA9vjtAJp/d8GEDRMILgyQ/z857PEpr1WGJmJ97AwaJvBFp
+	 mGcneDoUHbv2A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 22DDED2D0EB;
+	Fri, 29 Mar 2024 00:19:54 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.9-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87ttkqag3s.wl-tiwai@suse.de>
+References: <87ttkqag3s.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87ttkqag3s.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc2
+X-PR-Tracked-Commit-Id: 1506d96119eb9454d64f5ae80ab8d04c1594ac25
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 529b10c0091d6bda6d54fc72711a28f3ea01a72c
+Message-Id: <171167159413.21457.6579665218232911518.pr-tracker-bot@kernel.org>
+Date: Fri, 29 Mar 2024 00:19:54 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Since we put dvc_tlv static variable to a header file it's copied to
-each module that includes the header. But not all of them are actually
-used it.
+The pull request you sent on Thu, 28 Mar 2024 09:57:27 +0100:
 
-Fix this W=1 build warning:
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc2
 
-include/sound/tas2781-tlv.h:18:35: warning: 'dvc_tlv' defined but not
-used [-Wunused-const-variable=]
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/529b10c0091d6bda6d54fc72711a28f3ea01a72c
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202403290354.v0StnRpc-lkp@intel.com/
-Fixes: ae065d0ce9e3 ("ALSA: hda/tas2781: remove digital gain kcontrol")
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- include/sound/tas2781-tlv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you!
 
-diff --git a/include/sound/tas2781-tlv.h b/include/sound/tas2781-tlv.h
-index 4038dd421150..1dc59005d241 100644
---- a/include/sound/tas2781-tlv.h
-+++ b/include/sound/tas2781-tlv.h
-@@ -15,7 +15,7 @@
- #ifndef __TAS2781_TLV_H__
- #define __TAS2781_TLV_H__
- 
--static const DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
- static const DECLARE_TLV_DB_SCALE(amp_vol_tlv, 1100, 50, 0);
- 
- #endif
-
-base-commit: 2d0401ee38d43ab0e4cdd02dfc9d402befb2b5c8
 -- 
-2.44.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
