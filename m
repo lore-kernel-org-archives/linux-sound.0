@@ -1,52 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8E8194C9E;
-	Fri, 29 Mar 2024 12:42:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3364B1494D7;
+	Fri, 29 Mar 2024 12:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716167; cv=none; b=mFvMrtUE5CZwxnqbFKDbCajcRMiZDeV3NaCuWbtuGGLTDipcr5nusEyb6Kgkkgy5VCA6btEyIx2yy/d/eKn8f9cSP9c4AywMs7COPfi3iH3m16usflqH5R9UHF7DTGfXTouZQxi3VsQl1iqr/SPEN+N1yVjJ4osIuYtd/T4eArc=
+	t=1711716219; cv=none; b=boBr+ycvwiXEtjsIDWPpQudsDnGMRUsMi+fbtrD/Cc+/5dHE67W/1U1gV28efrP7QZwe7WIyBI8lxe4MYZiKj9N18oATL9hm3k6zKfAR44iUndTcQv8PeYUlUHuAQ/mgR37xodk1Zz/xUOOiOW//AWVkhamEVbN931i7gkrLmB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716167; c=relaxed/simple;
-	bh=k5sDD4+Vpoaj/hvTPW+o2mryEI3k1nHt3V8TlXWV0rk=;
+	s=arc-20240116; t=1711716219; c=relaxed/simple;
+	bh=f9a8hiAIfNjFchr3MPnrQke3V+MD8iEbkKl7otahWz8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M4sF896cGhM2h6YhTkz6jMRle52I2GeNJBIBGqeqniY8c+8V64cz9YEAguycxrRWWrFYJtdi4/yKpfZavE3nlFLgPaSpnrNRGdJAE+PfEiaHdzoEMKOaV/dg3w6OGuNjpJ4O7ZCmxLL7kslI2znVpeNJRYXQB1xYNE5JJ8Rxbco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJKMM7z4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=YPNzKhmLOhPQoWAgHo7avfvZDErLWW1yqOaKLlWTOFsnLmLVZsxtilIILCe5rzghON0oYsLSh8qPKQSjCJaIidhmmp3HGstmpiwisz8HpEDUDIg64s9s7Du93iTWaS9IkN/b+8p4r4Ri1we56GnZ2GjkIMeLJptPX7vpQcPoDmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvZ2ztwM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJKMM7z4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2982CC433C7;
-	Fri, 29 Mar 2024 12:42:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvZ2ztwM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D86C433A6;
+	Fri, 29 Mar 2024 12:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716167;
-	bh=k5sDD4+Vpoaj/hvTPW+o2mryEI3k1nHt3V8TlXWV0rk=;
+	s=k20201202; t=1711716219;
+	bh=f9a8hiAIfNjFchr3MPnrQke3V+MD8iEbkKl7otahWz8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sJKMM7z4hccotL/CeZAsmO408lZxqnwqqK8KAY+er7CyWLiXiJmEZEGUtx4/XDvx0
-	 LyHUATOjjnfm5FF46x7cPmxJsufgDNJEiknR4garYaH+bP1iGtN3QdeT4/t4BzyONQ
-	 H4bfa2+YKiYmULweUtAjdgbmt3NX0VIX5mjKJlHsXTFvaHp4tT0qNt0LxpYp+QtAUJ
-	 LN1JzBS6yY716vpe1MC32+FqnJzUlE/l+Tbi1efd0jzfMLqEOq72H2u1D47yZvlehm
-	 8t1GLGOkjKekkoMFWJVMib3xhBP0y7Ulo6rS/Aw9tGBGRLmghnbC25Z25vUjKsFHaC
-	 6MalZICj3RUnw==
+	b=fvZ2ztwMb+UtcV3+17oV/Pb/Rcr3aWLEIHSUDp7cjXpxaG1jk5MyRwP3WDLS0vG3V
+	 t1yOSiFC9lXRmuaVRX/XB6yn1xF09nuJ+mj+ZehTtXZd4nL+G+hIanYwY4+vRMbCNa
+	 vSjxM1iZiCKO67LRhcDZ5dqgUUQaQ5tmjmrfgeEi/gILk5SICjDcYuxA7lTlC0xWIe
+	 bFOdvR2jLjTp/U0mMCYYPVR5vcEgiEDYJ3UcGLPGAH4PrnCxfsRX7KTzaYH8xjmis3
+	 KRuKvABUVvH6ibRIwbAhZ6CXAUYYdBIi7prjVeod8aVgnZM/4PMqtHmvaEv2CNHHwU
+	 EPFbVQRxTuYhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jichi Zhang <i@jichi.ca>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	pierre-louis.bossart@linux.intel.com,
+	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
+	Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	Mastan.Katragadda@amd.com,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 95/98] ALSA: hda/realtek: Add quirk for Lenovo Yoga 9 14IMH9
-Date: Fri, 29 Mar 2024 08:38:06 -0400
-Message-ID: <20240329123919.3087149-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 04/75] ASoC: SOF: amd: Optimize quirk for Valve Galileo
+Date: Fri, 29 Mar 2024 08:41:45 -0400
+Message-ID: <20240329124330.3089520-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
-References: <20240329123919.3087149-1-sashal@kernel.org>
+In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
+References: <20240329124330.3089520-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,60 +60,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.2
+X-stable-base: Linux 6.6.23
 Content-Transfer-Encoding: 8bit
 
-From: Jichi Zhang <i@jichi.ca>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-[ Upstream commit 9b714a59b719b1ba9382c092f0f7aa4bbe94eba1 ]
+[ Upstream commit a13f0c3c0e8fb3e61fbfd99c6b350cf9be0c4660 ]
 
-The speakers on the Lenovo Yoga 9 14IMH9 are similar to previous generations
-such as the 14IAP7, and the bass speakers can be fixed using similar methods
-with one caveat: 14IMH9 uses CS35L41 amplifiers which need to be activated
-separately.
+Valve's Steam Deck OLED is uniquely identified by vendor and product
+name (Galileo) DMI fields.
 
-Signed-off-by: Jichi Zhang <i@jichi.ca>
-Message-ID: <20240315081954.45470-3-i@jichi.ca>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Simplify the quirk by removing the unnecessary match on product family.
+
+Additionally, fix the related comment as it points to the old product
+variant.
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+Link: https://msgid.link/r/20231219030728.2431640-7-cristian.ciocaltea@collabora.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/soc/sof/amd/acp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a1facdb98d9a0..83a1d5c719be6 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7466,6 +7466,7 @@ enum {
- 	ALC287_FIXUP_LEGION_16ITHG6,
- 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
- 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
-+	ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN,
- 	ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS,
- 	ALC236_FIXUP_DELL_DUAL_CODECS,
- 	ALC287_FIXUP_CS35L41_I2C_2_THINKPAD_ACPI,
-@@ -9589,6 +9590,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK,
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 19a801908b56d..f3768651d6fd8 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -28,11 +28,10 @@ MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
+ 
+ const struct dmi_system_id acp_sof_quirk_table[] = {
+ 	{
+-		/* Valve Jupiter device */
++		/* Steam Deck OLED device */
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
+-			DMI_MATCH(DMI_PRODUCT_FAMILY, "Sephiroth"),
+ 		},
+ 		.driver_data = (void *)SECURED_FIRMWARE,
  	},
-+	[ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc287_fixup_yoga9_14iap7_bass_spk_pin,
-+		.chained = true,
-+		.chain_id = ALC287_FIXUP_CS35L41_I2C_2,
-+	},
- 	[ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc295_fixup_dell_inspiron_top_speakers,
-@@ -10320,6 +10327,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38c3, "Y980 DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38cb, "Y790 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38d2, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x38d7, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
- 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
 -- 
 2.43.0
 
