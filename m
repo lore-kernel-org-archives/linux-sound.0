@@ -1,54 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532AB145B00;
-	Fri, 29 Mar 2024 12:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29127178CF3;
+	Fri, 29 Mar 2024 12:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711715973; cv=none; b=Yyeryb0xUW3S67Oavg6Cj281PpzOPmY0nwSCyx2tO7oMt11IfEtHjE2HgR0Er2BaUtgkhC7+Dx++50nQDbYO6fV1WxWMMCXCzsYtMglckVPTqAxqlng+V2NZ11ZGxmSYiKEkLLHZ1mZA5wHSnxIa0uZG/KgMqllZ/fMYMvRpV24=
+	t=1711716046; cv=none; b=UcXDKk0jiJzUQWghbx8XaWctxAosccsvEOoKxrUjie8xMV1MjC0a60E0+DC5O/aVaf4uAIFnpGaGnjHsUg7AWwEhbohNocqkbB5Hpo2wmT96t2vTkKZGvQqQjQXLCanW3mz1+/+IYJ2nJmacnJH5WpCDXgrEbZ4OdTqBRfsj72Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711715973; c=relaxed/simple;
-	bh=OAWyBA7iMNPfP1ZPwLMADM0LatMIAyAS5d/vWVbn0Fs=;
+	s=arc-20240116; t=1711716046; c=relaxed/simple;
+	bh=Jeq9r5IKNEZOepJLLoxhHkdVWMA6SpDKq9T/qzbQ2zA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DMW+M3eaijfPpPYTKfbKVuD1dIRiTwAjE979kYKI10aQ3VTU0pgktvkSeNlFO8fGWny5N55AGbP+B7u/a61OZ9Jl7cWHLKx7V4HmsNhKcZ3Zr/csl354X2gibtP7WLm43JYtnoFS6coap3SY1uwNsXPPBqC8D1ZozwmcMveTx6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MRYbjh0z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UDNOU/8SS94qozs1GkWbktKS0lEMZ19rtj12WhWyJTIyCTKpOlIY01FC3lGuSkQJu8pBBJHuJ1LNYcZCqfTyEyEbn3WRCuZvj/7hEFm4xnlVXbWawHrww66aqyz6YZZLZnRnFrofbUMJmQuxlRIsabXy25v0a+r6j1RCr2OM2u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQRH69yK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MRYbjh0z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30EBAC433C7;
-	Fri, 29 Mar 2024 12:39:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQRH69yK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDECC433C7;
+	Fri, 29 Mar 2024 12:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711715973;
-	bh=OAWyBA7iMNPfP1ZPwLMADM0LatMIAyAS5d/vWVbn0Fs=;
+	s=k20201202; t=1711716046;
+	bh=Jeq9r5IKNEZOepJLLoxhHkdVWMA6SpDKq9T/qzbQ2zA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MRYbjh0zpPDmk0igJMT0RkX3RO34WvycQTyCr5Jy+pNdQ61JhFb54HFAnwssLOZoi
-	 qyLUNPhb7/jsYZcmYVtS3zbY0FjhvOd0ce2rt2+faYwkfY01nif5LlLUCTS09zGo/T
-	 u4W/tX/XhTxe0+1YrFlqvu65KdYJ8dFXiF4xWSB4V2Xkk6qUOHGw6uxBM8+4h7RCGU
-	 8ghNUk4HPPu71K26ZmcHwbafcs7jCbHqqw51ZZzcYaHswBFpBuDu2qa8DlFeIaJjKf
-	 +lv40E5KcUgThODxn6FpXWyj//jJmo30lgt1NYNbGIU6iJBxohD84SF4Skn9irDjHl
-	 4poxTByZ7SKAQ==
+	b=dQRH69yK2FEO7d7VmGonmnrVyADTuSgW1smwzCzFQQj+ilwke5NByzzUQ4T0NMDZJ
+	 LAKUIYIPChSNExPhqoIFD84dP+FoqdNZR/2eY3Pob83tQCxWrks6rGZnfiYJ5HihMz
+	 Wx4AUsD2lEtWr8w2FuS5/V6O2Mp8ri7WJTYgATkFnPy2JMIbE5PHrRszi3q0yQDADq
+	 w3XNAVLskNogZgEXOX3We6hPQh9fWghsRPsdvHoHgIxEPaXXpsHEo690snKjSTE7h4
+	 N+HaGd99vtq6q0o5SlwdWHsaUVvIp4ZRls+BOgTueqinynjp+LxWLl9iubYA3Ml9Zn
+	 WLzD/prnvgR/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Emil Velikov <emil.velikov@collabora.com>,
+Cc: Brent Lu <brent.lu@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	pierre-louis.bossart@linux.intel.com,
-	lgirdwood@gmail.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
 	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	Vijendar.Mukunda@amd.com,
-	venkataprasad.potturu@amd.com,
-	Mastan.Katragadda@amd.com,
-	sound-open-firmware@alsa-project.org,
+	htcheong@chromium.org,
+	uday.m.bhat@intel.com,
+	kuninori.morimoto.gx@renesas.com,
+	mac.chiang@intel.com,
+	apoorv@intel.com,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 06/98] ASoC: SOF: amd: Optimize quirk for Valve Galileo
-Date: Fri, 29 Mar 2024 08:36:37 -0400
-Message-ID: <20240329123919.3087149-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 26/98] ASoC: Intel: sof_rt5682: dmi quirk cleanup for mtl boards
+Date: Fri, 29 Mar 2024 08:36:57 -0400
+Message-ID: <20240329123919.3087149-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
 References: <20240329123919.3087149-1-sashal@kernel.org>
@@ -63,44 +65,74 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.2
 Content-Transfer-Encoding: 8bit
 
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+From: Brent Lu <brent.lu@intel.com>
 
-[ Upstream commit a13f0c3c0e8fb3e61fbfd99c6b350cf9be0c4660 ]
+[ Upstream commit 7a2a8730d51f95b263a1e8b888598dc6395220dc ]
 
-Valve's Steam Deck OLED is uniquely identified by vendor and product
-name (Galileo) DMI fields.
+Some dmi quirks are duplicated since codec and amplifier type are
+removed from board quirk. Remove redundant quirks.
 
-Simplify the quirk by removing the unnecessary match on product family.
-
-Additionally, fix the related comment as it points to the old product
-variant.
-
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
-Link: https://msgid.link/r/20231219030728.2431640-7-cristian.ciocaltea@collabora.com
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20240208165545.93811-7-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/amd/acp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/intel/boards/sof_rt5682.c | 40 -----------------------------
+ 1 file changed, 40 deletions(-)
 
-diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-index 07632ae6ccf5e..7bf5a12da1cea 100644
---- a/sound/soc/sof/amd/acp.c
-+++ b/sound/soc/sof/amd/acp.c
-@@ -28,11 +28,10 @@ MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
- 
- const struct dmi_system_id acp_sof_quirk_table[] = {
- 	{
--		/* Valve Jupiter device */
-+		/* Steam Deck OLED device */
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
--			DMI_MATCH(DMI_PRODUCT_FAMILY, "Sephiroth"),
- 		},
- 		.driver_data = (void *)SECURED_FIRMWARE,
+diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
+index cd50f26d1edbe..02705034e5713 100644
+--- a/sound/soc/intel/boards/sof_rt5682.c
++++ b/sound/soc/intel/boards/sof_rt5682.c
+@@ -154,46 +154,6 @@ static const struct dmi_system_id sof_rt5682_quirk_table[] = {
+ 					SOF_RT5682_SSP_AMP(2) |
+ 					SOF_RT5682_NUM_HDMIDEV(4)),
  	},
+-	{
+-		.callback = sof_rt5682_quirk_cb,
+-		.matches = {
+-			DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Rex"),
+-			DMI_MATCH(DMI_OEM_STRING, "AUDIO-MAX98360_ALC5682I_I2S"),
+-		},
+-		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
+-					SOF_RT5682_SSP_CODEC(2) |
+-					SOF_RT5682_SSP_AMP(0) |
+-					SOF_RT5682_NUM_HDMIDEV(3) |
+-					SOF_BT_OFFLOAD_SSP(1) |
+-					SOF_SSP_BT_OFFLOAD_PRESENT
+-					),
+-	},
+-	{
+-		.callback = sof_rt5682_quirk_cb,
+-		.matches = {
+-			DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Rex"),
+-			DMI_MATCH(DMI_OEM_STRING, "AUDIO-MAX98360_ALC5682I_DISCRETE_I2S_BT"),
+-		},
+-		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
+-					SOF_RT5682_SSP_CODEC(2) |
+-					SOF_RT5682_SSP_AMP(0) |
+-					SOF_RT5682_NUM_HDMIDEV(3) |
+-					SOF_BT_OFFLOAD_SSP(1) |
+-					SOF_SSP_BT_OFFLOAD_PRESENT
+-					),
+-	},
+-	{
+-		.callback = sof_rt5682_quirk_cb,
+-		.matches = {
+-			DMI_MATCH(DMI_PRODUCT_FAMILY, "Google_Rex"),
+-			DMI_MATCH(DMI_OEM_STRING, "AUDIO-ALC1019_ALC5682I_I2S"),
+-		},
+-		.driver_data = (void *)(SOF_RT5682_MCLK_EN |
+-					SOF_RT5682_SSP_CODEC(2) |
+-					SOF_RT5682_SSP_AMP(0) |
+-					SOF_RT5682_NUM_HDMIDEV(3)
+-					),
+-	},
+ 	{
+ 		.callback = sof_rt5682_quirk_cb,
+ 		.matches = {
 -- 
 2.43.0
 
