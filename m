@@ -1,54 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7106F1B251E;
-	Fri, 29 Mar 2024 12:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF941BB067;
+	Fri, 29 Mar 2024 12:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716241; cv=none; b=Dlo0h068b3rjNmODoKC6d3xegVVbaDv/J/J4pUncxQEKqr2ar8elv8uP/7+S3dzBExD4BhCWsQMPd4zSk5z3z5qbi+EEp/rpeG3z1kE2bS1XrO4hzVEvcS8otSCu6PU1cjXvcJ21NER/5agYmK7SYBQLLXVSkP1B8Z4vVOY5b70=
+	t=1711716269; cv=none; b=BVl1ytddMt4WMrUQZ5BMjbrSD9DYfUIvB67MW1u05SGfhoAGK2UsormBy7lWrApJZ2egJXzMBNV2V72zPRwAqL4vgV9TXjpk8d6VeRAeaMwIWe62mwG0msMmlRksMFNYJPUsncdW/em7Z4lVJQthnn8A28YObHgvxOmx95ulpoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716241; c=relaxed/simple;
-	bh=m0fZKpmsrS5/P6jiQgqtymoIVNQHI2xeq5VXDil035g=;
+	s=arc-20240116; t=1711716269; c=relaxed/simple;
+	bh=TNBHL7/cvZN2LXgjSXAmdR5FNyw6Z27zxWEH7K4CHH8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YDLBDjdlLxZDIulwAN/1bfnN4KAyqbwPAs9geyqukym/yQvIhl7n7vJOk9P3ucPy10zAzTIbn5iPwF4H/sa3WJAVrs2OqqIjuX7U2MK9qu/pheHV8HHXG0o3KLkVb/7VAYJyT7x6Pxqqv0rQ7KT0QxEv9By+JvxuHieFJOMaHT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JlsrtjJa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=okY6kEu3+ya0fiHsC5+yqZjSg8EJYRDNTXvG0JAcbh9o9ciIXzceIQk9T/eSwpBIV/ruwtzr1M2Z/qU44qbqEDXxACg046uXe5KKpdCdiGw1RMndI3Z/tCnkSoc+kvQ6rYfFp8asZTvOvbEttvwrEn50RrJ49d/EdPyMVRxYiSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4wSnxVj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JlsrtjJa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B56C433C7;
-	Fri, 29 Mar 2024 12:43:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4wSnxVj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9490EC43399;
+	Fri, 29 Mar 2024 12:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716241;
-	bh=m0fZKpmsrS5/P6jiQgqtymoIVNQHI2xeq5VXDil035g=;
+	s=k20201202; t=1711716269;
+	bh=TNBHL7/cvZN2LXgjSXAmdR5FNyw6Z27zxWEH7K4CHH8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JlsrtjJaiA/IA1GHq2xnyJQCdMv0r7hvz/H7YduS/rTYySQn2ja1y3SFoZWyMv3b5
-	 e+sgJdpdf8xoBVYp/bpZz06dEZogs+5uwTZK/YmWQniOLwSp1/z8f9CmRz54tmZ8yX
-	 164s99IMd8k/Ivb+zBLFfx4YSxFL+/EtOblI1danOQPtO1YhVoRla6cfzTW0Cdua27
-	 5v71lIhnWC3+8tR4xwXhlcTSHXp4sAfsEMqgnC8lu93Ro3P6Bw7YFPPBO3vpS1D9dx
-	 /WOJEWA08yQ04Ym9ru3WEEvnicMMhVQY8cl7/3AN3NNaU5D7sIjn5IuK0lJZhTJXrd
-	 WmXla3QxN9+cg==
+	b=P4wSnxVjT0yv/NvUh6z+dLNdxPZQHJRkYb+9J9LuTUPAvq8iNToZ2vYhYlpSYWeAw
+	 eWDgw8ZFSgKdd0mv+Puf/seZHPyMlYaOHUcYZ+v8hkHalDoJbRgZVPPlq6xuvhMpDn
+	 ILNAFnQ6barwwjV0VHLdsX+b1V0l2mkjVwVQG/Oll+GBm14MwnTrbaGiCfvvU2JXgt
+	 /lgPqQyGt3Ldeb48j1gz7ReVuswGZ6ALt30jTGFPYH7YxDMIh8B1J/MriSdQ8zVwbE
+	 HOx7xts8L++H1h6VH6Cr/b34iEgKKlpbl8omYYILJpN+Lbv5tA7gbiLlTIsDABz74H
+	 Rgt/aaJSZmwnQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: mosomate <mosomate@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	vkoul@kernel.org,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
+	clemens@ladisch.de,
 	perex@perex.cz,
 	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	uday.m.bhat@intel.com,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 17/75] ASoC: Intel: common: DMI remap for rebranded Intel NUC M15 (LAPRC710) laptops
-Date: Fri, 29 Mar 2024 08:41:58 -0400
-Message-ID: <20240329124330.3089520-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 32/75] ALSA: firewire-lib: handle quirk to calculate payload quadlets as data block counter
+Date: Fri, 29 Mar 2024 08:42:13 -0400
+Message-ID: <20240329124330.3089520-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240329124330.3089520-1-sashal@kernel.org>
 References: <20240329124330.3089520-1-sashal@kernel.org>
@@ -58,73 +49,74 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.23
 Content-Transfer-Encoding: 8bit
 
-From: mosomate <mosomate@gmail.com>
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-[ Upstream commit c13e03126a5be90781084437689724254c8226e1 ]
+[ Upstream commit 4a486439d2ca85752c46711f373b6ddc107bb35d ]
 
-Added DMI quirk to handle the rebranded variants of Intel NUC M15
-(LAPRC710) laptops. The DMI matching is based on motherboard
-attributes.
+Miglia Harmony Audio (OXFW970) has a quirk to put the number of
+accumulated quadlets in CIP payload into the dbc field of CIP header.
 
-Link: https://github.com/thesofproject/linux/issues/4218
-Signed-off-by: Máté Mosonyi <mosomate@gmail.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://lore.kernel.org/r/20240208165545.93811-20-pierre-louis.bossart@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+This commit handles the quirk in the packet processing layer.
+
+Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Link: https://lore.kernel.org/r/20240218074128.95210-4-o-takashi@sakamocchi.jp
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soundwire/dmi-quirks.c   |  8 ++++++++
- sound/soc/intel/boards/sof_sdw.c | 11 +++++++++++
- 2 files changed, 19 insertions(+)
+ sound/firewire/amdtp-stream.c | 12 ++++++++----
+ sound/firewire/amdtp-stream.h |  4 ++++
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
-index 9ebdd0cd0b1cf..91ab97a456fa9 100644
---- a/drivers/soundwire/dmi-quirks.c
-+++ b/drivers/soundwire/dmi-quirks.c
-@@ -130,6 +130,14 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
- 		},
- 		.driver_data = (void *)intel_rooks_county,
- 	},
-+	{
-+		/* quirk used for NUC15 LAPRC710 skew */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Intel Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "LAPRC710"),
-+		},
-+		.driver_data = (void *)intel_rooks_county,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 9ed572141fe5b..0ea7812125fee 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -243,6 +243,17 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 					SOF_SDW_PCH_DMIC |
- 					RT711_JD2_100K),
- 	},
-+	{
-+		/* NUC15 LAPRC710 skews */
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Intel Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "LAPRC710"),
-+		},
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
-+					SOF_SDW_PCH_DMIC |
-+					RT711_JD2_100K),
-+	},
- 	/* TigerLake-SDCA devices */
- 	{
- 		.callback = sof_sdw_quirk_cb,
+diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
+index 7be17bca257f0..c9f153f85ae6b 100644
+--- a/sound/firewire/amdtp-stream.c
++++ b/sound/firewire/amdtp-stream.c
+@@ -773,10 +773,14 @@ static int check_cip_header(struct amdtp_stream *s, const __be32 *buf,
+ 	} else {
+ 		unsigned int dbc_interval;
+ 
+-		if (*data_blocks > 0 && s->ctx_data.tx.dbc_interval > 0)
+-			dbc_interval = s->ctx_data.tx.dbc_interval;
+-		else
+-			dbc_interval = *data_blocks;
++		if (!(s->flags & CIP_DBC_IS_PAYLOAD_QUADLETS)) {
++			if (*data_blocks > 0 && s->ctx_data.tx.dbc_interval > 0)
++				dbc_interval = s->ctx_data.tx.dbc_interval;
++			else
++				dbc_interval = *data_blocks;
++		} else {
++			dbc_interval = payload_length / sizeof(__be32);
++		}
+ 
+ 		lost = dbc != ((*data_block_counter + dbc_interval) & 0xff);
+ 	}
+diff --git a/sound/firewire/amdtp-stream.h b/sound/firewire/amdtp-stream.h
+index b7ff44751ab93..a1ed2e80f91a7 100644
+--- a/sound/firewire/amdtp-stream.h
++++ b/sound/firewire/amdtp-stream.h
+@@ -37,6 +37,9 @@
+  *	the value of current SYT_INTERVAL; e.g. initial value is not zero.
+  * @CIP_UNAWARE_SYT: For outgoing packet, the value in SYT field of CIP is 0xffff.
+  *	For incoming packet, the value in SYT field of CIP is not handled.
++ * @CIP_DBC_IS_PAYLOAD_QUADLETS: Available for incoming packet, and only effective with
++ *	CIP_DBC_IS_END_EVENT flag. The value of dbc field is the number of accumulated quadlets
++ *	in CIP payload, instead of the number of accumulated data blocks.
+  */
+ enum cip_flags {
+ 	CIP_NONBLOCKING		= 0x00,
+@@ -51,6 +54,7 @@ enum cip_flags {
+ 	CIP_NO_HEADER		= 0x100,
+ 	CIP_UNALIGHED_DBC	= 0x200,
+ 	CIP_UNAWARE_SYT		= 0x400,
++	CIP_DBC_IS_PAYLOAD_QUADLETS = 0x800,
+ };
+ 
+ /**
 -- 
 2.43.0
 
