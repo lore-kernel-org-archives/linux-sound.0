@@ -1,91 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C0B1EEE4;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCCE225A8;
+	Fri, 29 Mar 2024 20:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711740633; cv=none; b=Y3AO3jOXTEgQYgdkbMV5ewrZXrVKIo6X4CYShjKv6NdKcjbw3VUuXTgX6iKbaKNUnVKVChX5FkkEdkpv3iXyTc2gQOx0ld+O0FfG7VjD1gKw/ao3DGZC7AyK12+hK3ag1Y2SAycLRM/tO1/Ih8FrgIdrAOgSzW7O5mNPsiyhcTQ=
+	t=1711745114; cv=none; b=gcVc9bxNdTNxL+VjkAwh1uy0RJ+lslmvCyEcmebaDePNC24aKMYE2+3PZn/0wc/ALnA2Fg07SOUYVtkzRKUmL/GlqNsjxBJcpOLLEtvmuaPaxQj+p6JrrQG6Cfp9ScelAowpgSG8VhLrRgnbqfM4gXR7zjIaVe68PijVgjP3/vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711740633; c=relaxed/simple;
-	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=UqowPDwocud2Wj+bZuOSSys0qv9GjoET7RZzSWGxGa3G6E/OBej94f4wXaAe8vZCZsubIQhZhS6gBt4K1VKYAff947m6odSezcJPV4n1DrxVukivW4s5hRZyS0HxXvAB5WBwYM8kjXxqlhP2jF38ZpDyzoX86MS8xRz258oc/PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVV3npmS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711745114; c=relaxed/simple;
+	bh=H/zfcDmDQXOBoDmRr5JMfKATjBOoYVT6ZhXGvrzN7JI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rEpMiIpRun2CC+eDc83429XyHMtq/2pd7VrsY9Du1ipoAfQts2ktl8O7/o2YKlxHSZBZPI7wdXm/WLy4usyEytRZ5gV+3YsXnNNnhgDJ7oZ0hwlhGVdWyYWhGuPZEPfU8hMVCtXrlh56OSFnY0KJQwB0ML2oBarX6/UqmpQ0nss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m8gmbQwA; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVV3npmS"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 293A4C43390;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711740633;
-	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=IVV3npmSePL8advnxP77niTJn9r5VWn3Rp+dlR8NGJ9lX2oLIqkoGV+xDPWNxKxDQ
-	 Vy1L2g8YCGgRSXrLc/sQkv/2M4J9jxdAA8SAbhGR8ajFTlmfsqHLf0fvOTAPm2dcKv
-	 R1fVsKFXQ0PjDCVdjZFjTagXNRerIfdbo2okMOvrjklmOXE9qqZC9SCAN3EPi44fip
-	 ZCq07ahttvJ9JoOo07ITMoNBIgDCC6Y+Xv77EcLFfSARbiSqQFxIHg2hw6SwpkmRbP
-	 ts7yiXSanAtz/RnbfgXbCMeoFa7uggmPCtKepIwsnK9u0syfJQLIrvmxPSuoFye3BV
-	 B+EvADBhn/jTg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0FC90D2D0EE;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m8gmbQwA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D0D97C0005;
+	Fri, 29 Mar 2024 20:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711745107;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2ob7oexU0WPFKtD5q27b6YgS6moQs0+/GXcEyW5ksS0=;
+	b=m8gmbQwADJ5OSc1wtL/EzI2JAcNXoG9SjWtLxhIM8dIic5Eff7C+KMnG+TADUJN4HlBKSi
+	syk9AmWJK9UcYABy9ULe/us068ab2tLew6y/dSVZDZc33fwP8jKBNsdv30BcsZHdgpTmH7
+	p9jIsDFnmYixZBnzu6jUIY+pUEaUTKgwvfxZvR7mggZfYHijzYmD8M7q3xFItynQYDBzqc
+	t2ZnPBliShNJIAn2LhXH6O9TViesw6za1Bm7I9MzPp8KI8TZjmS8OQLrW0O1+8H2s1vYwL
+	e0KibT/Py8FNRu6AUtlip1ri+buWtQeELOFaniO1D9jKpAd2Q7u5wMtZtYc8Pw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Fri, 29 Mar 2024 21:44:47 +0100
+Subject: [PATCH] ASoC: codecs: rk3308: add dependency on OF
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171174063305.18563.745216419087873927.git-patchwork-notify@kernel.org>
-Date: Fri, 29 Mar 2024 19:30:33 +0000
-References: <20240326223825.4084412-1-arnd@kernel.org>
-In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: llvm@lists.linux.dev, arnd@arndb.de, dmitry.torokhov@gmail.com,
- claudiu.manoil@nxp.com, vladimir.oltean@nxp.com, kuba@kernel.org,
- saeedm@nvidia.com, leon@kernel.org, aelior@marvell.com, manishc@marvell.com,
- hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, luzmaximilian@gmail.com,
- hare@kernel.org, martin.petersen@oracle.com, deller@gmx.de,
- masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
- johannes@sipsolutions.net, perex@perex.cz, tiwai@suse.com,
- ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240329-rk3308-audio-codec-fix-warning-v1-1-b9d177fcd6c9@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAD4oB2YC/x2NywqDMBAAf0X23IWYVKv9Fekhj1WXQiIb1ELw3
+ xs8DgMzBTIJU4Z3U0Do4MwpVmgfDfjVxoWQQ2XQSj+V0SPK1xg1oN0DJ/QpkMeZf3haiRwX7Fr
+ nupcmF8YeamQTqvoeTJ/r+gMib8qRcAAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hello:
+This driver is probed via device tree only, so depend on OF. Also remove
+the unneeded of_match_ptr().
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Fixes reported warnings:
 
-On Tue, 26 Mar 2024 23:37:59 +0100 you wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> With randconfig build testing, I found only eight files that produce
-> warnings with clang when -Wformat-truncation is enabled. This means
-> we can just turn it on by default rather than only enabling it for
-> "make W=1".
-> 
-> [...]
+  warning: 'rk3308_codec_of_match' defined but not used [-Wunused-const-variable=]
+  warning: unused variable 'rk3308_codec_of_match' [-Wunused-const-variable]
 
-Here is the summary with links:
-  - [2/9] enetc: avoid truncating error message
-    https://git.kernel.org/netdev/net-next/c/9046d581ed58
-  - [3/9] qed: avoid truncating work queue length
-    https://git.kernel.org/netdev/net-next/c/954fd908f177
-  - [4/9] mlx5: avoid truncating error message
-    https://git.kernel.org/netdev/net-next/c/b324a960354b
+Fixes: 9fdd7b45da18 ("arm64: defconfig: enable Rockchip RK3308 internal audio codec driver")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202403271905.BYbGJiPi-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202403271907.0z0uuG5I-lkp@intel.com/
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ sound/soc/codecs/Kconfig        | 1 +
+ sound/soc/codecs/rk3308_codec.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-You are awesome, thank you!
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 1c9d671a9848..7ee6c085bbc9 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1403,6 +1403,7 @@ config SND_SOC_PEB2466
+ 
+ config SND_SOC_RK3308
+ 	tristate "Rockchip RK3308 audio CODEC"
++	depends on OF
+ 	select REGMAP_MMIO
+ 	help
+ 	  This is a device driver for the audio codec embedded in the
+diff --git a/sound/soc/codecs/rk3308_codec.c b/sound/soc/codecs/rk3308_codec.c
+index 9d3e4691a7b5..6b1cb92997b4 100644
+--- a/sound/soc/codecs/rk3308_codec.c
++++ b/sound/soc/codecs/rk3308_codec.c
+@@ -962,7 +962,7 @@ MODULE_DEVICE_TABLE(of, rk3308_codec_of_match);
+ static struct platform_driver rk3308_codec_driver = {
+ 	.driver = {
+ 		.name = "rk3308-acodec",
+-		.of_match_table = of_match_ptr(rk3308_codec_of_match),
++		.of_match_table = rk3308_codec_of_match,
+ 	},
+ 	.probe = rk3308_codec_platform_probe,
+ };
+
+---
+base-commit: 534a5adb26b1924542f55643718a4b5ae601a4e5
+change-id: 20240329-rk3308-audio-codec-fix-warning-51bb572ebd96
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
