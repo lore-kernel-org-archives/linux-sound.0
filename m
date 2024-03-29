@@ -1,122 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316D416C6A2;
-	Fri, 29 Mar 2024 12:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CA425777;
+	Fri, 29 Mar 2024 13:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716494; cv=none; b=su/QPCNBKSvEA/a9FVuQ1ARdUCkEG0IYnDcwRHiV0fwGJCqwWxSmet17CzBtFuw/VylgEPlCZjCEF63Ed1gXvBp5SAZV5cJOcJ48wGbvKXCt08W0mLzD2vUpzun0pKKHh858ys7s9zkKpIi5ZoLf6qbVb8lbC5gBIfTB8wUVWtk=
+	t=1711718653; cv=none; b=J9sSjPE/PIWueRrf3mc0Gz+doWHXM23cwayy/7d7ofclr+k6fYRInM6THrGQq7UDfE1Z0zaJrE9flVcLU1KcVxY77kramIb1cmwm4v0erc/MrJM97rfZ+8goNCRYtUWDMKCArHFQT+Ay3/mJVdmXWFQegfT8KHUHuVFPDWpLv38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716494; c=relaxed/simple;
-	bh=24ZfbhX4pI7+/FQ2TTtmh8cVzbSFP7TYidogpYLdsoI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UctC8gazH6XTuQL5CcgoL3xN690qZO8URyVscwhvckCD/vV4hEazSlLEzLgMijuVvkuBcEDG2TZvM7l1o6JZQynN5alhqZ9VrWi4waVpq6pnIN8RUsMlzQsEoUgDsng0pcJ+Lbsh3GCijwO3Y6kp7hODD3YjnZzl0c2RxiaXEZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKasXNMv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711718653; c=relaxed/simple;
+	bh=v8mIn4wI6Nk8yWeAoiTyvSclm6AdbmqShOByjQ1EiZc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FG/cnH8YZZ1I2yrbos280NLbVVeD+xqcLXGlfKGVSEos1i/dqAuIdY8SYO7NzFSwgabwrXi9lgtMXRCDvn6hxLUyTpz5EGbQVENJNgUrewl7pJzOnBHD8Ks7k2DFCP6b6OdLup0ouQUP6D4B+mgyTBbtkuIOqflgds38If3mjB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N8cvRHyP; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKasXNMv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26C8C433F1;
-	Fri, 29 Mar 2024 12:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716494;
-	bh=24ZfbhX4pI7+/FQ2TTtmh8cVzbSFP7TYidogpYLdsoI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cKasXNMvd2fi9ZFinhLwPB+8oMkPSed3RdqKp3YVn09CFXZnm4CKrKarGTHA/5Cvf
-	 nXEB/Se5K58G4wj7FazzU3OETHBOw4lI57lFApQtcdmx9tW809VwtLQuAfKBALSunX
-	 enYLqbF3F2RmkyWJC5kycvgCPRJpkBwb067VjivVJCcbLbDc1cewYEJiFvpQOT0yXe
-	 yInUn+qcq7cyWUYCoR8z8dDAMl9BiSbGp3G3EbGMpqqK1y84fv5YEh4EakG0tQ6ABt
-	 Fcd8ue8ihX+OslvLb7edYySAjMe+8w5kZ9+qcswRuxCRyrTU5sT3OmrMwXMzioT3kz
-	 +H2/Ij9pEyi5g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	clemens@ladisch.de,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 13/34] ALSA: firewire-lib: handle quirk to calculate payload quadlets as data block counter
-Date: Fri, 29 Mar 2024 08:47:14 -0400
-Message-ID: <20240329124750.3092394-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124750.3092394-1-sashal@kernel.org>
-References: <20240329124750.3092394-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N8cvRHyP"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DFE1FE0008;
+	Fri, 29 Mar 2024 13:24:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711718648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z8zwe634gu5wQNCVCxvtpKe0aX4n7o17eGhcQXcT/N4=;
+	b=N8cvRHyPJgw5j5LKkih7d26o4xz2NIuPQNXKFj8uupd470/nXWH0scfZaHHEl3j9CKrBex
+	Pbskzy//s8gOQPW0Q9RyQ6c6e6pf+5HxiHLme7pdkxLnOW5BEkSDlSNai8dTMispVpfws/
+	hLchxIIMJdRL9lZzAYWvm3+M0LJCFePBNb3hgl4yEe6YKKbSw+vwZuovy5Yywy4bpJw4mb
+	KIdJHjIhBxrWkPrLV2Q9PnSYK7cgJP063BauaJRtBMkA4rsytPkNKxJG5OQUu7EsZeBmQ5
+	XyV61Cs61Per8cmpSkvlDdInL17uL9nbTK8mu1ED+Jqje3CvdwTG/6T7JXVqIA==
+Message-ID: <106a9957-cf7f-4789-8edc-fdc641cd854a@bootlin.com>
+Date: Fri, 29 Mar 2024 14:24:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.153
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] ASoC: ti: davinci-i2s: Opitonally drive DX pin
+ during capture streams
+From: Bastien Curutchet <bastien.curutchet@bootlin.com>
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+References: <20240315112745.63230-1-bastien.curutchet@bootlin.com>
+ <20240315112745.63230-14-bastien.curutchet@bootlin.com>
+ <00182d1d-ef29-457f-9e3e-6e9b57592118@gmail.com>
+ <0bb26153-8bcb-475f-8892-5eb925fec538@bootlin.com>
+ <7925bbe5-17e8-42cb-a5f0-4f3e06810a90@gmail.com>
+ <d20dc37c-13fa-43d1-af52-dce8d8dcdd75@gmail.com>
+ <5467add6-0099-4e54-a4f7-12aa149d03c7@bootlin.com>
+ <e6994ff1-6c32-4dac-846a-5f4f18b2f996@gmail.com>
+ <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <16e6cded-33c1-408c-9bfc-b0b9a8da4cbf@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: bastien.curutchet@bootlin.com
 
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Hi Péter,
 
-[ Upstream commit 4a486439d2ca85752c46711f373b6ddc107bb35d ]
+>> Can you use aplay /dev/zero and a DT property to select T1 framing for
+>> the playback? Or that would be too coarse for timing the start of
+>> playback and capture?
+>>
+> 
+> That's a good idea, thank you. I'll try this and come back to you.
+> 
+>
 
-Miglia Harmony Audio (OXFW970) has a quirk to put the number of
-accumulated quadlets in CIP payload into the dbc field of CIP header.
+I tried it and it works fine, thank you.
 
-This commit handles the quirk in the packet processing layer.
+We still need to run some performance tests before fully adopting it but
+anyway I'll send a new iteration of the patch series that drops the
+drive-dx part and just keeps a DT property to select T1 framing.
 
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Link: https://lore.kernel.org/r/20240218074128.95210-4-o-takashi@sakamocchi.jp
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/firewire/amdtp-stream.c | 12 ++++++++----
- sound/firewire/amdtp-stream.h |  4 ++++
- 2 files changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index f8b644cb9157a..8753125683692 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -771,10 +771,14 @@ static int check_cip_header(struct amdtp_stream *s, const __be32 *buf,
- 	} else {
- 		unsigned int dbc_interval;
- 
--		if (*data_blocks > 0 && s->ctx_data.tx.dbc_interval > 0)
--			dbc_interval = s->ctx_data.tx.dbc_interval;
--		else
--			dbc_interval = *data_blocks;
-+		if (!(s->flags & CIP_DBC_IS_PAYLOAD_QUADLETS)) {
-+			if (*data_blocks > 0 && s->ctx_data.tx.dbc_interval > 0)
-+				dbc_interval = s->ctx_data.tx.dbc_interval;
-+			else
-+				dbc_interval = *data_blocks;
-+		} else {
-+			dbc_interval = payload_length / sizeof(__be32);
-+		}
- 
- 		lost = dbc != ((*data_block_counter + dbc_interval) & 0xff);
- 	}
-diff --git a/sound/firewire/amdtp-stream.h b/sound/firewire/amdtp-stream.h
-index 1f957c946c956..cf9ab347277f2 100644
---- a/sound/firewire/amdtp-stream.h
-+++ b/sound/firewire/amdtp-stream.h
-@@ -37,6 +37,9 @@
-  *	the value of current SYT_INTERVAL; e.g. initial value is not zero.
-  * @CIP_UNAWARE_SYT: For outgoing packet, the value in SYT field of CIP is 0xffff.
-  *	For incoming packet, the value in SYT field of CIP is not handled.
-+ * @CIP_DBC_IS_PAYLOAD_QUADLETS: Available for incoming packet, and only effective with
-+ *	CIP_DBC_IS_END_EVENT flag. The value of dbc field is the number of accumulated quadlets
-+ *	in CIP payload, instead of the number of accumulated data blocks.
-  */
- enum cip_flags {
- 	CIP_NONBLOCKING		= 0x00,
-@@ -51,6 +54,7 @@ enum cip_flags {
- 	CIP_NO_HEADER		= 0x100,
- 	CIP_UNALIGHED_DBC	= 0x200,
- 	CIP_UNAWARE_SYT		= 0x400,
-+	CIP_DBC_IS_PAYLOAD_QUADLETS = 0x800,
- };
- 
- /**
--- 
-2.43.0
-
+Best regards,
+Bastien
