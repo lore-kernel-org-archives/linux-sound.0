@@ -1,47 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B14316D9C8;
-	Fri, 29 Mar 2024 12:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5B216E880
+	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 12:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711715649; cv=none; b=kYyWKSKUGOOMsTlFtGRLXP8oLkOWDSdMXHaq/qS3tnwcsZEiBiUINKg/VtCXNL+kzcoYBlBrtXfKD7s+ImhbiZiy9mBamK9uPAK4EJ4FAWBWQr908PqSTAvDlWgh7PQg9y6xmkPF0fu9acPuRMRjiaAKvPioTV2WpnnSmrgUn1U=
+	t=1711715650; cv=none; b=bNGGSZFPmm+dNZR/g6dIdLpBJkQTeFw7+Cds8dX1j/GSbTfiZAYhBuAMP+2rt6lJ9ticDTVI2g5VjxaOdCT+xC3Yv2/tA3fxYeOGce59iV/xHdYPLPIcO8ART1LwYZtwRAuQ0KVnTU5igIGZv6ZNouscKvD9+9kGUhHs4/Z2a4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711715649; c=relaxed/simple;
-	bh=07Im89H4tHbl47gQN4Y6CAqTRo++fE4Q9rVsVsY1nW0=;
+	s=arc-20240116; t=1711715650; c=relaxed/simple;
+	bh=RohNcsAhkui5AAi6xno0D/2X6go3eTFnCBjnGqNXUIY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fwZK8er058khVV0NKHFef38aQdFeK76s0dGwjnMCktApwsD5a0TJL5qrY79RVcQJMY5OWVssKal0msuFP/VnuTeN3uwcoywcT75AjmI5jX7bnDQ7vQXPM24/ExYZgOsrpmHnxoOcjxig+e1JyaOpBsXaSD0YGkAeTxv06/3T++o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJcORa8/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QLy8/8V3u8KCQiKEdbCUcctenhbge9GWo4mb7SzPwaROsBdPcA1qnCqZbNcZddrQIGoQYJjo4cQmn24xR/iqo3e2dt01Pa/dgDjxJXcq8fQsHG1zaaftT6vLl37YadyUWeSmY0T5zBBZrsf2FHGK9d7zPgyXiYgKhLMPeWmDFSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPWNlPf4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJcORa8/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C8C9C43399;
-	Fri, 29 Mar 2024 12:34:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPWNlPf4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BEEFC433C7;
+	Fri, 29 Mar 2024 12:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711715648;
-	bh=07Im89H4tHbl47gQN4Y6CAqTRo++fE4Q9rVsVsY1nW0=;
+	s=k20201202; t=1711715650;
+	bh=RohNcsAhkui5AAi6xno0D/2X6go3eTFnCBjnGqNXUIY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dJcORa8/SPhfnx6Lc3PvgaxYPdxcahiymbXYW8+no8GI9tFomloDoADyDaB/3TL8K
-	 K3SK86xefwZBHTqooPYhwX6cYjyBDmJvTp97/6xKAqBtxmf8p9RmOZ8qrEDE44DB7H
-	 MoOCuEqIFmsPQfDzskIC012ryHj6U4JXg6s49go8rWEX4OW16glDYTEO4rMwZH1EsP
-	 xLqHPaV12qWaYiACWEU0z0ZmGNfQXxONScEi5oRmPawLDHAbLjyih22ft5d2iXoeQa
-	 rAlxMfOmAdF3+8Cij5+mp6eS8WUefto0A2Hl1oDaQobq8paRpuAhfx0wjz6h/2uImD
-	 iefApBXfd9V4A==
+	b=KPWNlPf4DD+7KgZIoXPUG64PoVVaagbuPiFPkn9ZMepVV5t1NXaOqDOYfcpNyIvMl
+	 5IdJ6TYrcYLYZLi2Vh3ESyojBpb6pGkrQtrW4gkki1oht+H48OBZD7o/bLGZJw6GKr
+	 P2/hMWe7pirGqtDrBxgWEu6jW/2zGzAFd32y3KxcBvSwJnPwCBnjAiL4ZmIpc/DRY+
+	 R/5FizujxuidhpXkVebK8JporWrria0GxF7omins3hLuNefkSf2Gl9janBDrCuA1o0
+	 ETpmBpd4sF+pXz7mf0LC0Pn23PnpRT9LJdbCat8vJx5vcwVn+dPR6XLMRZVCYZM2fv
+	 +m7evwHqhj3zQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
- Frank Li <Frank.Li@nxp.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-In-Reply-To: <20240328-asrc_8qxp-v8-0-801cd6bb5be2@nxp.com>
-References: <20240328-asrc_8qxp-v8-0-801cd6bb5be2@nxp.com>
-Subject: Re: (subset) [PATCH v8 0/5] arm64: dts: imx8qxp add asrc and sai
-Message-Id: <171171564576.7557.13075267418118502846.b4-ty@kernel.org>
-Date: Fri, 29 Mar 2024 12:34:05 +0000
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de
+In-Reply-To: <20240325221817.206465-1-pierre-louis.bossart@linux.intel.com>
+References: <20240325221817.206465-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/6] ASoC: rt-sdw: fix locking and improve error logs
+Message-Id: <171171564910.7557.17157942559028240962.b4-ty@kernel.org>
+Date: Fri, 29 Mar 2024 12:34:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,12 +45,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Thu, 28 Mar 2024 10:51:32 -0400, Frank Li wrote:
-> Update binding doc to avoid warning.
-> Change from v1 to v2
-> - Fixed dts DTB_CHECK warning
+On Mon, 25 Mar 2024 17:18:11 -0500, Pierre-Louis Bossart wrote:
+> Fix a set of problematic locking sequences and update error messages,
+> tested on SOF/SoundWire platforms.
 > 
+> Pierre-Louis Bossart (6):
+>   ASoC: rt5682-sdw: fix locking sequence
+>   ASoC: rt711-sdca: fix locking sequence
+>   ASoC: rt711-sdw: fix locking sequence
+>   ASoC: rt712-sdca-sdw: fix locking sequence
+>   ASoC: rt722-sdca-sdw: fix locking sequence
+>   ASoC: rt-sdw*: add __func__ to all error logs
 > 
+> [...]
 
 Applied to
 
@@ -65,12 +65,18 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: dt-bindings: fsl,imx-asrc/spdif: Add power-domains property
-      commit: 9b21531866fced634bcc7fca33667c7ef258433f
-[2/5] ASoC: dt-bindings: fsl,imx-asrc: update max interrupt numbers
-      commit: 82330327ce03889f20072cef5167499d51cdf260
-[3/5] ASoC: dt-bindings: fsl-sai: allow only one dma-names
-      commit: 7b5f2072657a9041cbaf4ba139f672be11694ca3
+[1/6] ASoC: rt5682-sdw: fix locking sequence
+      commit: 310a5caa4e861616a27a83c3e8bda17d65026fa8
+[2/6] ASoC: rt711-sdca: fix locking sequence
+      commit: ee287771644394d071e6a331951ee8079b64f9a7
+[3/6] ASoC: rt711-sdw: fix locking sequence
+      commit: aae86cfd8790bcc7693a5a0894df58de5cb5128c
+[4/6] ASoC: rt712-sdca-sdw: fix locking sequence
+      commit: c8b2e5c1b959d100990e4f0cbad38e7d047bb97c
+[5/6] ASoC: rt722-sdca-sdw: fix locking sequence
+      commit: adb354bbc231b23d3a05163ce35c1d598512ff64
+[6/6] ASoC: rt-sdw*: add __func__ to all error logs
+      commit: f892e66fcabc6161cd38c0fc86e769208174b840
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
