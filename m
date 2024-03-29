@@ -1,154 +1,190 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648F47D086
-	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 10:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD356A037;
+	Fri, 29 Mar 2024 11:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711709894; cv=none; b=I2SkvXkms/el4eNYA5ZfHScPKdIePndLhy01zKUkJsPJ77rbl+fiAMaXSfohm98IGuqZksdUG9bc4kNjWM+ye33joNbTKZ5sdijulVRXqZTfGfHiqGeqWDdKOphUrJLgSL1a/CEVID0Ns2ZyexqdMrRE3m8Frw5PT+GH3oNxUrQ=
+	t=1711711709; cv=none; b=B5DErkXBUtbJS19jxCJGVOrpAxygKUqpciXHdnuLhM/wteqKzfrPKFTSPybJ8xXkYsL/9r+FbrBWeWEC+UlRX3qVQUFUEz44Dk4Nqvz2rgmTAfpQibA/lON8hrg8AkF3JO4lDIUhfPsZ8HeVFJWdP2IwW0aBx0v4sXZTcWhOc0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711709894; c=relaxed/simple;
-	bh=g8OQfrHBwhFx8ET7d7s7wkLQtKO+Fbki+HGAG42ZO84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=CBWpWI7MgLvUnZcMH6Dl83FZdAwkbKg2+OSVrzVQSvqx7VzQesx2BKW9eSibJfT4rVy7hW+ysUY/4LlI5ZONWJnnSvuUjZ3vHYnQmDYeyVoZUfGR36rn4JvQki9xq0+J3CbAR2Ik8PtHLhXDbt24gnhHHTyEWmNARl0cg0TB5hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GS8pjeRX; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711711709; c=relaxed/simple;
+	bh=ke/VUwIe1OO+bDbORJF1f8ePxj8H2rnfKHFV6nTnzfU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OiIjKl7hJSZ0o5L/N6V9gfmwgVXqMCm97D+0HkxP4b4rVvwnjf8eYHR7VjMNU4LScFrNqsy3i+cyEtFyuBdaTooViZ8/4DbDJOlXC/SK+F1gDBzXNxsnJ3LycPRnGRBq9cqzBs+MjdtVSNxits3rO4YFxut8wjS1Geu/xJ8G1w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pKCCSMsO; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GS8pjeRX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711709891;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ObmCChwbxI4fnx/oMY/3duoto3dJqKFQjwXK6r0ebbk=;
-	b=GS8pjeRXpuHXTXXpXCg2ns8t39s6nX3gMs2SgBbl2prc66kkPGtfBd19kJOmWxA4Ms0PXc
-	PuJP99fx8FgzaXP7EA8K1zC2uEmqkxmAOt2mdbqts+6fptiM8uGLqNnMMmDA6NsQlhcLJ/
-	fjfmE6l5USUwrzoWLnTMKFe6Xk8E8VQ=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-jIqTd3KCPIGA8IMp0jqE5Q-1; Fri, 29 Mar 2024 06:58:08 -0400
-X-MC-Unique: jIqTd3KCPIGA8IMp0jqE5Q-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-50e91f9d422so1922993e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 03:58:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711709887; x=1712314687;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ObmCChwbxI4fnx/oMY/3duoto3dJqKFQjwXK6r0ebbk=;
-        b=uypzu3S9gbte2zdvqfBaI9/sf1AWeuG9gxe9xJooTRXukVN+lq67mVLV+zwsDLQqnl
-         mYb1deusLWX0wkuBQEP2JV5ulKlgftwGIBO/4TUTtIYide/cPu0EdGp5f8FX2iSB5PpW
-         0sN0CzOF2pm9gcyQnBCWJ4sfVnSuLtB3hIVoyzssxNyAY01iti9OC4tDwdrNw+lWa3yF
-         aeNwEjfiTMFw0voLGIevHRxl6UqZKYmHZRLbqsCdKUzvY3CH/k0LLA1RP+0EbWVRPGx9
-         olzqBDXMWW7ZlcKH3qubXKAnFMg7NjnQKE/txQghrTjxposbb+FcPlRT76JIA7iw50ZD
-         BPCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwkgRwb+SolrwkShB5P6X2WX0fkonxQTzH8U7c8L6WA9buNVh7qJAtsjeg/v+WfgvoZG9pxT1V8hoHr6GKUFNgZiqM93xhIZNZru0=
-X-Gm-Message-State: AOJu0YxIbu3P5Pu4t1627uP/L6WWSQQqsMw5bsxzE60r3HvuoL29JjS1
-	rJM8aKxvQW1t1NnzFwuREdEw2MVNB/LNo9miZnIPriDSB4eyoe5+oo5Nv9TgOwavIPuG+cNmWaD
-	38pwC1AsNOnq1DUCKj520IQJlYn5nGdpgfnDW5D6eVsI91LDW8DK48jWsEql5
-X-Received: by 2002:ac2:4197:0:b0:513:d3c0:f66 with SMTP id z23-20020ac24197000000b00513d3c00f66mr1298024lfh.51.1711709886787;
-        Fri, 29 Mar 2024 03:58:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG29WemiigJFVRUgtZdZmONK+lboYNHffuMAIXm6vtZQPUrBU42pJdYIugnsyliFC3CMebqVw==
-X-Received: by 2002:ac2:4197:0:b0:513:d3c0:f66 with SMTP id z23-20020ac24197000000b00513d3c00f66mr1297956lfh.51.1711709886231;
-        Fri, 29 Mar 2024 03:58:06 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-12-25-33.business.telecomitalia.it. [87.12.25.33])
-        by smtp.gmail.com with ESMTPSA id f4-20020a056402194400b0056c4cdc987esm1879596edz.8.2024.03.29.03.58.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 03:58:05 -0700 (PDT)
-Date: Fri, 29 Mar 2024 11:58:00 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Olivia Mackall <olivia@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
-	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <vireshk@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, David Airlie <airlied@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
-	Chia-I Wu <olvaffe@gmail.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
-	Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, Kalle Valo <kvalo@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	v9fs@lists.linux.dev, kvm@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 09/22] gpio: virtio: drop owner assignment
-Message-ID: <wevexb25pa4cwa73tmmlpqyf527drjyfr56j46ddrglofh2mew@sv5hxdqpiu73>
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-9-0feffab77d99@linaro.org>
- <CAMRc=McY6PJj7fmLkNv07ogcYq=8fUb2o6w2uA1=D9cbzyoRoA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pKCCSMsO"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42TAeera029260;
+	Fri, 29 Mar 2024 06:28:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=x
+	SAFwG9CV4jLKTWXRdMat2YE8sxtFXXlUQvX5gSJWrE=; b=pKCCSMsO5/3Q/mXoh
+	BEPWhekyK5nrt/7Gm345mCDgUaeVw/uu9B5fDPInsELDjkZdZ75r6mzVWvbbMgbU
+	sUt/GhLa+Yj3z+XA6R1c9/NfTae0L2AlO6JIasOkPVtdeB4M2j9ZKcWGQJFXygbn
+	Dbjwo4bSHZOZ3e/UJlPc87yCT2l07ZWAoM55oKiJRBjUno5xJrNbMMCmKA7nQdg9
+	xDrIXfLniEW92Kpo1fTu9HtYjpykMcNU/ekBy0v9kT9y+YtcfaTffHe10KAaQXfs
+	ysgnh4EXZ3VxnfyXtn7E+ZWjevye1/J/2JO/sMFUTCPi9mpdnn/orIZ+wBLMy5uU
+	lEEPw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3x4et84ev4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Mar 2024 06:28:12 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 29 Mar
+ 2024 11:28:10 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4
+ via Frontend Transport; Fri, 29 Mar 2024 11:28:10 +0000
+Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.19])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3174F820244;
+	Fri, 29 Mar 2024 11:28:10 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Simon
+ Trimmer" <simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirks for ASUS Laptops using CS35L56
+Date: Fri, 29 Mar 2024 11:28:03 +0000
+Message-ID: <20240329112803.23897-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMRc=McY6PJj7fmLkNv07ogcYq=8fUb2o6w2uA1=D9cbzyoRoA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 7OkJ-kNs1QpHM4pRLS9A68IjO_-xygUH
+X-Proofpoint-ORIG-GUID: 7OkJ-kNs1QpHM4pRLS9A68IjO_-xygUH
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Mar 29, 2024 at 11:27:19AM +0100, Bartosz Golaszewski wrote:
->On Wed, Mar 27, 2024 at 1:45 PM Krzysztof Kozlowski
-><krzysztof.kozlowski@linaro.org> wrote:
->>
->> virtio core already sets the .owner, so driver does not need to.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Depends on the first patch.
->> ---
->>  drivers/gpio/gpio-virtio.c | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
->> index fcc5e8c08973..9fae8e396c58 100644
->> --- a/drivers/gpio/gpio-virtio.c
->> +++ b/drivers/gpio/gpio-virtio.c
->> @@ -653,7 +653,6 @@ static struct virtio_driver virtio_gpio_driver = {
->>         .remove                 = virtio_gpio_remove,
->>         .driver                 = {
->>                 .name           = KBUILD_MODNAME,
->> -               .owner          = THIS_MODULE,
->>         },
->>  };
->>  module_virtio_driver(virtio_gpio_driver);
->>
->> --
->> 2.34.1
->>
->
->Applied, thanks!
+These ASUS laptops use the Realtek HDA codec combined with a number of
+CS35L56 amplifiers.
 
-Did you also applied the first patch of this series?
+The SSID of the GA403U matches a previous ASUS laptop - we can tell them
+apart because they use different codecs.
 
-Without that I'm not sure it's a good idea to apply this patch as also
-Krzysztof mentioned after ---.
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+---
+ sound/pci/hda/patch_realtek.c | 53 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 1 deletion(-)
 
-Thanks,
-Stefano
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a17c36a36aa5..7d229f4a8aa6 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6875,11 +6875,38 @@ static void alc287_fixup_legion_16ithg6_speakers(struct hda_codec *cdc, const st
+ 	comp_generic_fixup(cdc, action, "i2c", "CLSA0101", "-%s:00-cs35l41-hda.%d", 2);
+ }
+ 
++static void cs35l56_fixup_i2c_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
++{
++	comp_generic_fixup(cdc, action, "i2c", "CSC3556", "-%s:00-cs35l56-hda.%d", 2);
++}
++
++static void cs35l56_fixup_i2c_four(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
++{
++	comp_generic_fixup(cdc, action, "i2c", "CSC3556", "-%s:00-cs35l56-hda.%d", 4);
++}
++
++static void cs35l56_fixup_spi_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
++{
++	comp_generic_fixup(cdc, action, "spi", "CSC3556", "-%s:00-cs35l56-hda.%d", 2);
++}
++
+ static void cs35l56_fixup_spi_four(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
+ {
+ 	comp_generic_fixup(cdc, action, "spi", "CSC3556", "-%s:00-cs35l56-hda.%d", 4);
+ }
+ 
++static void alc285_fixup_asus_ga403u(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
++{
++	/*
++	 * The same SSID has been re-used in different hardware, they have
++	 * different codecs and the newer GA403U has a ALC285.
++	 */
++	if (cdc->core.vendor_id == 0x10ec0285)
++		cs35l56_fixup_i2c_two(cdc, fix, action);
++	else
++		alc_fixup_inv_dmic(cdc, fix, action);
++}
++
+ static void tas2781_fixup_i2c(struct hda_codec *cdc,
+ 	const struct hda_fixup *fix, int action)
+ {
+@@ -7436,6 +7463,10 @@ enum {
+ 	ALC256_FIXUP_ACER_SFG16_MICMUTE_LED,
+ 	ALC256_FIXUP_HEADPHONE_AMP_VOL,
+ 	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
++	ALC285_FIXUP_CS35L56_SPI_2,
++	ALC285_FIXUP_CS35L56_I2C_2,
++	ALC285_FIXUP_CS35L56_I2C_4,
++	ALC285_FIXUP_ASUS_GA403U,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9643,6 +9674,22 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_spectre_x360_eu0xxx,
+ 	},
++	[ALC285_FIXUP_CS35L56_SPI_2] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cs35l56_fixup_spi_two,
++	},
++	[ALC285_FIXUP_CS35L56_I2C_2] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cs35l56_fixup_i2c_two,
++	},
++	[ALC285_FIXUP_CS35L56_I2C_4] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cs35l56_fixup_i2c_four,
++	},
++	[ALC285_FIXUP_ASUS_GA403U] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_asus_ga403u,
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -10096,7 +10143,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1a8f, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1b11, "ASUS UX431DA", ALC294_FIXUP_ASUS_COEF_1B),
+-	SND_PCI_QUIRK(0x1043, 0x1b13, "Asus U41SV", ALC269_FIXUP_INV_DMIC),
++	SND_PCI_QUIRK(0x1043, 0x1b13, "ASUS U41SV/GA403U", ALC285_FIXUP_ASUS_GA403U),
+ 	SND_PCI_QUIRK(0x1043, 0x1b93, "ASUS G614JVR/JIR", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1bbd, "ASUS Z550MA", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA", ALC287_FIXUP_CS35L41_I2C_2),
+@@ -10104,6 +10151,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1c33, "ASUS UX5304MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c43, "ASUS UX8406MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c62, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
++	SND_PCI_QUIRK(0x1043, 0x1c63, "ASUS GU605M", ALC285_FIXUP_CS35L56_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c92, "ASUS ROG Strix G15", ALC285_FIXUP_ASUS_G533Z_PINS),
+ 	SND_PCI_QUIRK(0x1043, 0x1c9f, "ASUS G614JU/JV/JI", ALC285_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1caf, "ASUS G634JY/JZ/JI/JG", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+@@ -10115,11 +10163,14 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1d42, "ASUS Zephyrus G14 2022", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606", ALC285_FIXUP_CS35L56_I2C_4),
+ 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
+ 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e51, "ASUS Zephyrus M15", ALC294_FIXUP_ASUS_GU502_PINS),
+ 	SND_PCI_QUIRK(0x1043, 0x1e5e, "ASUS ROG Strix G513", ALC294_FIXUP_ASUS_G513_PINS),
++	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALC285_FIXUP_CS35L56_I2C_2),
++	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALC285_FIXUP_CS35L56_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_ASUS_GA401),
+-- 
+2.34.1
 
