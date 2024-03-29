@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E864127BBA1;
-	Fri, 29 Mar 2024 12:46:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316D416C6A2;
+	Fri, 29 Mar 2024 12:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711716403; cv=none; b=YEQ0gTzMBO+OAkkiF2wcdLwnp6az1xxG9bc00oFoV5HkL9FHXC2vf2k1DkF9hBaC5eWhOS7zwGB/b3WTrXSkGpgcieB50ZarAvmgesa601fvoMUrbw97LvaJSrc4PWJRGeOOKDgF6NJnPErOQxW6uxuerbnkc2yzZ+QYiFWqu3E=
+	t=1711716494; cv=none; b=su/QPCNBKSvEA/a9FVuQ1ARdUCkEG0IYnDcwRHiV0fwGJCqwWxSmet17CzBtFuw/VylgEPlCZjCEF63Ed1gXvBp5SAZV5cJOcJ48wGbvKXCt08W0mLzD2vUpzun0pKKHh858ys7s9zkKpIi5ZoLf6qbVb8lbC5gBIfTB8wUVWtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711716403; c=relaxed/simple;
+	s=arc-20240116; t=1711716494; c=relaxed/simple;
 	bh=24ZfbhX4pI7+/FQ2TTtmh8cVzbSFP7TYidogpYLdsoI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aNRYk8KQiztZSBGTNAwaCohUlQrNZMCYFOHjW/nm4dT+4Xx3PE7Rnn0AK9FJ6AJ36d2fHg+QoDP1vLCOZGX699fVESPnOtUqc8LVAVC0rQ6P/Duu33915fKlHBIpvun/s6vkpgofz7F94jRxw43ehgUvrUd7Ovtxar5QCsarVHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u05kSsP3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UctC8gazH6XTuQL5CcgoL3xN690qZO8URyVscwhvckCD/vV4hEazSlLEzLgMijuVvkuBcEDG2TZvM7l1o6JZQynN5alhqZ9VrWi4waVpq6pnIN8RUsMlzQsEoUgDsng0pcJ+Lbsh3GCijwO3Y6kp7hODD3YjnZzl0c2RxiaXEZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKasXNMv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u05kSsP3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898B5C433C7;
-	Fri, 29 Mar 2024 12:46:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKasXNMv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26C8C433F1;
+	Fri, 29 Mar 2024 12:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711716402;
+	s=k20201202; t=1711716494;
 	bh=24ZfbhX4pI7+/FQ2TTtmh8cVzbSFP7TYidogpYLdsoI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u05kSsP3XMmwAi1gOWmybowXYvNJ79q/0IOKGS6W97PHtwqx6BE+fLZ2P0kKeX4pR
-	 6C2tJC4jLuB496GBRnUtENZKaPS8aYQzkd24ecWqn8n0cQb46050z6AfrbufwMZ6LB
-	 1pNbcbgyrmeEiC1iPlyMjjJL6bA4pNulIE1GyjwB7LvJr9o6N+OvWTQipTfCtRJpGj
-	 1DtD+JmoxnMa15dFbs+xILH+B5IZ8GSdj5LAPhGZveUuxV5M2DwDvQG5dOs0g12Xdb
-	 cEK7OQTJnWgMpUrMl1LkTRRAsULIEqYD388mx7xUEy2YM84lqOKURJEPBlH2Q6D/X3
-	 9AyoEX13qCpTg==
+	b=cKasXNMvd2fi9ZFinhLwPB+8oMkPSed3RdqKp3YVn09CFXZnm4CKrKarGTHA/5Cvf
+	 nXEB/Se5K58G4wj7FazzU3OETHBOw4lI57lFApQtcdmx9tW809VwtLQuAfKBALSunX
+	 enYLqbF3F2RmkyWJC5kycvgCPRJpkBwb067VjivVJCcbLbDc1cewYEJiFvpQOT0yXe
+	 yInUn+qcq7cyWUYCoR8z8dDAMl9BiSbGp3G3EbGMpqqK1y84fv5YEh4EakG0tQ6ABt
+	 Fcd8ue8ihX+OslvLb7edYySAjMe+8w5kZ9+qcswRuxCRyrTU5sT3OmrMwXMzioT3kz
+	 +H2/Ij9pEyi5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	tiwai@suse.com,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 20/52] ALSA: firewire-lib: handle quirk to calculate payload quadlets as data block counter
-Date: Fri, 29 Mar 2024 08:45:14 -0400
-Message-ID: <20240329124605.3091273-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 13/34] ALSA: firewire-lib: handle quirk to calculate payload quadlets as data block counter
+Date: Fri, 29 Mar 2024 08:47:14 -0400
+Message-ID: <20240329124750.3092394-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240329124605.3091273-1-sashal@kernel.org>
-References: <20240329124605.3091273-1-sashal@kernel.org>
+In-Reply-To: <20240329124750.3092394-1-sashal@kernel.org>
+References: <20240329124750.3092394-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.83
+X-stable-base: Linux 5.15.153
 Content-Transfer-Encoding: 8bit
 
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
