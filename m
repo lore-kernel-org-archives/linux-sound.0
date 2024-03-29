@@ -1,60 +1,60 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45BB1EF1E
-	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 15:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB2C54676
+	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 16:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711727906; cv=none; b=GOacTstC2hdYQIBB3Nss3EAwGKOGC1lYN0pocm6izRV5BOh1+o1v1sdr3VEcdzTb7o3VwVnOeJT5eJzXs7FyzI4ngreDtETLKro48zRu5LuHGeAQ2yxVMLQ0QPDlNXVXA3g0UlvAbQDKI//PPnQUjjgbOIARJEV9+hA+HdweVHc=
+	t=1711728123; cv=none; b=FcxCoqUuo3mbebw5ZlN5QXfXelsyz72bWoI7hbXtZqotLtaVt8nBuoAXmsrz7EWQaSQyc4B9w5vcwrK/vTBKULBazGae5eiCEjvqD5AjGJzJDl9i34mFfR1AraSnAdmeeQmhiCrfGbPdjkdNOCWsG8D867KvKAt4Iw2GIJgUrbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711727906; c=relaxed/simple;
-	bh=A1bgOcngoGNeuXrg9Irwhjmy26htvQefZYRFRk1Yg1s=;
+	s=arc-20240116; t=1711728123; c=relaxed/simple;
+	bh=L8+1iqD1UKDmdElfzLXxH11absC54R8ftjQtS/mWJyA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q0ibo8KXXejULdXO1gQ9yf4jNf6ilfd46ITUQJFq5WUa20L9wiEsyFXnOBivmr6ycxIpWflEzImKYn/icpcl8QO3Z3fWRDKu6DWioNfIgeL5j5jf/mwXQgu3htE9czkA8BnC0Fxon7XCMmihI2q0MIBFi6ssaky0od1ptUhQwW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cyoa8nM4; arc=none smtp.client-ip=209.85.128.46
+	 In-Reply-To:Content-Type; b=P9FWudLbQvIIsqeO6x6cg/Vrwf/JXejj660/WRDvxKGqjke9jJqUTKj+c76t3r2/rnXWrJvfI8ol9N68nXqzLb/gnzKfeFhFAHE4K++ZAiTyUJb+7+RjUBqMYrOy5dIDN7tK5bZnM0n9Tb+4X4vkCJa0xXQw8HgQjTD1Si0szRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=io2cJRWm; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cyoa8nM4"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-415482308f8so10091945e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 08:58:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="io2cJRWm"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41552f1fcd9so3085585e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 09:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711727903; x=1712332703; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1711728120; x=1712332920; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=5iRY6WBaoFR3Ut7RsgjjeOP69wD4aIaTAzv0eG7uu5Q=;
-        b=cyoa8nM4+fUVBbW9yu39VPN8k3q8rGk/wj2XCjkfaEPRx9UL2jWppO7hT7QRWEGZMM
-         3Y8V8bpa/keWDvqP7CBgBuDDZ4bN/K24YpWbBeW3t+AdvlsZ8WkoYkYC/OrN6mZ4DLE+
-         G2G4hlks0AFHZ296QA8oBYDwMRJc/YibIE1gx7DvmOVPCXjNLdJX0qFDTD+woG1rOcLB
-         R2oQE78EFZEcsjT7GJlI0SndWmniQuIdtxY6dSHAUqLddKeUZLe/zDu0oiJqU/dSnivk
-         Zlffc1wQAlLecGbwlpcVoONn2n4wZVOMKuKoOXVf9q3PaV23tubvN8W0zqUdOeVtSWje
-         MCZA==
+        bh=bFFHNWdBMBRnZh/Xixjl6/7JeoW3k4wZ85ixXvuMxUQ=;
+        b=io2cJRWmpHq704Gh0310L8S7G8PFglSCYEts+uLSebbnmqo352wpK2AkURoM3BwulF
+         bXveK/l2qXw0tyNvsfv7exPOU/2lL3L2JLXajNGMixWbOjcavBsT98mdlD807AM93kRk
+         MNpDIiNesgbDV79X4FCKdDJSMnaAIviHuMvw03bVkql9rEmG3S5cKCUTX3CkiWmPAYgo
+         PCiWJWWUbgoZxHW2MD/v2utK7J2dDYhjrG6fP0mocHmnG0oQ2Kp57DOSBpXtrx2dyVkf
+         vEghOaZBk6zLSnfgTeN1725UDfHrjvhXQ0dLrmOxmCu/U1CIc5pNF6b4YnD46jobxIhD
+         0ung==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711727903; x=1712332703;
+        d=1e100.net; s=20230601; t=1711728120; x=1712332920;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5iRY6WBaoFR3Ut7RsgjjeOP69wD4aIaTAzv0eG7uu5Q=;
-        b=uXPcfw1TNhtaHJi2R7esK2shSXQ0J3yRuf8YyXtmu3Ali5A0CqEt0r9Ic1BwlQlVtz
-         lGy1DqfWDDJ3Mtket7mp3H4joDx3aTBRD4sfgQfN2/Ou+Cs5+aGgyiBVHcItW0Tc36TS
-         M+Q7gmqdk7ayle9GXc8TDfGR/EHwVFQSqIwjjRp+qCQA8BWV7f6mTZOnzsoAM7mZgWUP
-         urEbalT66XLQ0x6YRwXMmclmt8XdF4zHXk3Kv7rbs5psItudtFw1iY80cvdMK1CbYaEA
-         nms7fP6nXtmX7ww3TDSpzKUnpBN8+VavghbGyBW7qE75TtJO7Xs7D2PuXhNylciEpFKe
-         VCYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsnXzzuIn/tdtDBx2prf2purT+YBsza09WkRJh6nWibrKnVwxI6QP+hGhhXVluWit/HzWpCWWPpEgfwJ9VOnkKOXzvqEw2FdU7VjE=
-X-Gm-Message-State: AOJu0YwC3XUSV/O+3tNHALcOgUzBbJnjOFoIieqoQSWJj3jl425J1Avb
-	19EE7ifdJIWrakyTJUbeRNw6NClvutVK8K6fxJjY5ZRonJg7UosukGHDOOEuecM=
-X-Google-Smtp-Source: AGHT+IGs8uMaED9NrwRWp6VqyH2obfV07nqS2HtPgQn6vsGCO8x4AzJBZmyKgceC6bz9Fi5is28FOw==
-X-Received: by 2002:a05:600c:3ba7:b0:414:8938:70ec with SMTP id n39-20020a05600c3ba700b00414893870ecmr2089688wms.27.1711727902900;
-        Fri, 29 Mar 2024 08:58:22 -0700 (PDT)
+        bh=bFFHNWdBMBRnZh/Xixjl6/7JeoW3k4wZ85ixXvuMxUQ=;
+        b=weyQ2MfC1c34ZTL7Kyo8IdtM63bdu+4Mdqz5fyk4oowR/RN1VkZPfb/Z6PmfzyhcmM
+         ZteqBlmR/oIORd0tviI65wB21tlxYw2LcHewMe/adXGLcf+viQu0smaQdxsTxjs9/6o7
+         X4viX0NuuPczX6T7U/M/uWOFPNUaFp+Fs4pHZV+6agz1vM1J8fTmkMzwSnDbI/6N2dyn
+         j38T6L+Yiw5biGNqboJi3nvxpAXT2V32h42LvtEMSl+QLiXXKicnxUqLqK2T8baNth1K
+         dE9RYkQGl5ZrhES40StV0yzdlqvACaF9Jn+NZOV899lg/8gb9V/k/6TWFHIDcBmw9d7g
+         vdpw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSftViR+3MnyRxhXxn1H3athKYBMtvsvZUav70xDgp5IYamHCIoeFMYjgqYsnQZjt72gLyDQHoLTfB+zvcB9zvXgZs7O7OprVUcHQ=
+X-Gm-Message-State: AOJu0YzBOKk7l6+JxIGq4hmOge4y0tr0peWHY4n/57AyhHzxhj1rEWMZ
+	8fPWNbMuJ1ZePbHNr/jsHvx/xMQeQOYsRdfW4IkMcEo/dbi1UF9SHQ4OcqTLBK4=
+X-Google-Smtp-Source: AGHT+IGlf76ZFo7enpn/TIJKsmshD5ys3tj2AM3CNMbcaOwbYvFNj6HA0V/ZJkHNSo7Pm5iUe6Bpog==
+X-Received: by 2002:a05:600c:4e8b:b0:414:c1b:4bbc with SMTP id f11-20020a05600c4e8b00b004140c1b4bbcmr1751398wmq.6.1711728119935;
+        Fri, 29 Mar 2024 09:01:59 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id t12-20020a05600c450c00b004154853f778sm4681379wmo.48.2024.03.29.08.58.21
+        by smtp.gmail.com with ESMTPSA id ay1-20020a05600c1e0100b0041554f8eafesm387365wmb.13.2024.03.29.09.01.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Mar 2024 08:58:22 -0700 (PDT)
-Message-ID: <a42c41aa-cbaa-463c-ade9-5083930dec64@linaro.org>
-Date: Fri, 29 Mar 2024 16:58:19 +0100
+        Fri, 29 Mar 2024 09:01:59 -0700 (PDT)
+Message-ID: <7297bd78-4f74-4d23-afb3-9b7aecbe451d@linaro.org>
+Date: Fri, 29 Mar 2024 17:01:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,20 +62,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: qcom: qcm6490: Add machine driver for
- qcm6490
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, broonie@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, lgirdwood@gmail.com, tiwai@suse.com,
- quic_rohkumar@quicinc.com, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240327113228.1706975-1-quic_mohs@quicinc.com>
- <20240327113228.1706975-3-quic_mohs@quicinc.com>
- <CAA8EJpqh0emOFUPSj8rPaKr2hZRWwOh9NNTco8fyJCtwXe9sSA@mail.gmail.com>
- <92b449da-1569-40f9-d8c9-48949c986853@quicinc.com>
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDEvMl0gQVNvQzogZHQtYmluZGlu?=
+ =?UTF-8?Q?gs=3A_Add_bindings_for_Cadence_I2S-MC_controller?=
+To: Mark Brown <broonie@kernel.org>
+Cc: Xingyu Wu <xingyu.wu@starfivetech.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
+ <20240320090239.168743-2-xingyu.wu@starfivetech.com>
+ <9d9efb8a-0b3c-4e7a-8673-07cd3b1f5f87@linaro.org>
+ <NTZPR01MB0956BD6189974378958562D99F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+ <9b1a5100-8536-4b59-b2e7-d6ebd2ba9e66@linaro.org>
+ <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+ <16f72b4a-2aa9-49d5-a4aa-ed94eea1f32a@linaro.org>
+ <NTZPR01MB09563633F5C3B5FBC95D61289F3AA@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+ <7b4a35d0-6764-4c6a-9f1d-57481324c680@linaro.org>
+ <ZgbDx6oD+mMUIvH1@finisterre.sirena.org.uk>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -122,37 +132,33 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <92b449da-1569-40f9-d8c9-48949c986853@quicinc.com>
+In-Reply-To: <ZgbDx6oD+mMUIvH1@finisterre.sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/03/2024 16:19, Mohammad Rafi Shaik wrote:
+On 29/03/2024 14:36, Mark Brown wrote:
+> On Fri, Mar 29, 2024 at 12:42:22PM +0100, Krzysztof Kozlowski wrote:
 > 
-> On 3/27/2024 6:39 PM, Dmitry Baryshkov wrote:
->> On Wed, 27 Mar 2024 at 13:34, Mohammad Rafi Shaik<quic_mohs@quicinc.com>  wrote:
->>> Add machine driver for qcm6490 SoC.
->>>
->>> This initial supports which includes WSA883x Speakers with onboard DMIC
->>> connected to internal LPASS codec via VA macros respectively and also
->>> WCD937x based headset.
->>>
->>> Add compatible for sound card on Qualcomm qcs6490 boards.
->> Granted that qcm6490 is similar to sc7280, is there any reason why you
->> can not use one of the existing sound card drivers? Like sc7280.c or
->> sc8280xp.c?
+>> I stated and I keep my statement that such block is usually not usable
+>> on its own and always needs some sort of quirks or SoC-specific
+>> implementation. At least this is what I saw in other similar cases, but
+>> not exactly I2S.
 > 
-> The qcs6490/qcm6490 has additional interfaces like MI2S, which requires 
-> additional machine driver modification.
-> 
-> Example : Required new DAPM widget change in machine driver for MI2S 
-> interface which is specific to qcs6490/qcm6490.
-> 
-> So, using new qcm6490 machine driver.
-> 
-> Will try to use existing sc8280xp.c machine driver.
+> I wouldn't be so pessimistic, especially not for I2S - a good portion of
+> quirks there are extra features rather than things needed for basic
+> operation, a lot of things that might in the past have been quirks for
+> basic operation are these days hidden behind the DT bindings.
 
-In that case, if it does not fit into sc8280xp, it looks fine for a new
-driver. Maybe just mention this in commit msg.
+OK, I trust your judgement, so cdns as fallback seems okay, but I don't
+think it warrants cdns as used alone. Not particularly because cdns is
+different, but because we expect specific SoC compatible always.
+
+Thus if cdns,i2s-mc stays, then:
+
+items:
+  - enum:
+      - starfive,jh8100-i2s
+  - cdns,i2s-mc
 
 Best regards,
 Krzysztof
