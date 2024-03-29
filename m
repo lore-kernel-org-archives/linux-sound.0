@@ -1,165 +1,88 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB2C54676
-	for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 16:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224AC13249F;
+	Fri, 29 Mar 2024 17:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711728123; cv=none; b=FcxCoqUuo3mbebw5ZlN5QXfXelsyz72bWoI7hbXtZqotLtaVt8nBuoAXmsrz7EWQaSQyc4B9w5vcwrK/vTBKULBazGae5eiCEjvqD5AjGJzJDl9i34mFfR1AraSnAdmeeQmhiCrfGbPdjkdNOCWsG8D867KvKAt4Iw2GIJgUrbo=
+	t=1711733729; cv=none; b=ehmPAa2/E6J/SAWfOYA9VbZ5SIqIDNIlwiE3lAMpecMnrDXsVCY+mj1o2yBTG2tr6Sd6QMpgUMsCbrHUQ7Cotq3CpHV4fUQg4Rs1EodYewutpZoUYdutg/ZSB3UOXzzHRhM9LQJ5spyVOr+0VR09i0IaEhGDfNXMlGU71Mx5EEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711728123; c=relaxed/simple;
-	bh=L8+1iqD1UKDmdElfzLXxH11absC54R8ftjQtS/mWJyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P9FWudLbQvIIsqeO6x6cg/Vrwf/JXejj660/WRDvxKGqjke9jJqUTKj+c76t3r2/rnXWrJvfI8ol9N68nXqzLb/gnzKfeFhFAHE4K++ZAiTyUJb+7+RjUBqMYrOy5dIDN7tK5bZnM0n9Tb+4X4vkCJa0xXQw8HgQjTD1Si0szRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=io2cJRWm; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711733729; c=relaxed/simple;
+	bh=IKp5hVryh+AhRCHQEkLVpXkjg9FXgRVlJMTHmJin/sw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DUfqktNV8rFCYZ/sbwpl80EdaJKSmrQjFp9vnd6woJBn4nLeotjM1UkILBLd7WIS3/Tdi03Z5ABSxaKwwLk/HXGpLhn5k84dLw0NjeMeVw8fwW3rfYbprhy036MApE5ttIvoLlFH6OlWOpRFNAu36snxsiBaKGuar9zFkdbPCMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dg9vyq4C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="io2cJRWm"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41552f1fcd9so3085585e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 29 Mar 2024 09:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711728120; x=1712332920; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=bFFHNWdBMBRnZh/Xixjl6/7JeoW3k4wZ85ixXvuMxUQ=;
-        b=io2cJRWmpHq704Gh0310L8S7G8PFglSCYEts+uLSebbnmqo352wpK2AkURoM3BwulF
-         bXveK/l2qXw0tyNvsfv7exPOU/2lL3L2JLXajNGMixWbOjcavBsT98mdlD807AM93kRk
-         MNpDIiNesgbDV79X4FCKdDJSMnaAIviHuMvw03bVkql9rEmG3S5cKCUTX3CkiWmPAYgo
-         PCiWJWWUbgoZxHW2MD/v2utK7J2dDYhjrG6fP0mocHmnG0oQ2Kp57DOSBpXtrx2dyVkf
-         vEghOaZBk6zLSnfgTeN1725UDfHrjvhXQ0dLrmOxmCu/U1CIc5pNF6b4YnD46jobxIhD
-         0ung==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711728120; x=1712332920;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bFFHNWdBMBRnZh/Xixjl6/7JeoW3k4wZ85ixXvuMxUQ=;
-        b=weyQ2MfC1c34ZTL7Kyo8IdtM63bdu+4Mdqz5fyk4oowR/RN1VkZPfb/Z6PmfzyhcmM
-         ZteqBlmR/oIORd0tviI65wB21tlxYw2LcHewMe/adXGLcf+viQu0smaQdxsTxjs9/6o7
-         X4viX0NuuPczX6T7U/M/uWOFPNUaFp+Fs4pHZV+6agz1vM1J8fTmkMzwSnDbI/6N2dyn
-         j38T6L+Yiw5biGNqboJi3nvxpAXT2V32h42LvtEMSl+QLiXXKicnxUqLqK2T8baNth1K
-         dE9RYkQGl5ZrhES40StV0yzdlqvACaF9Jn+NZOV899lg/8gb9V/k/6TWFHIDcBmw9d7g
-         vdpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSftViR+3MnyRxhXxn1H3athKYBMtvsvZUav70xDgp5IYamHCIoeFMYjgqYsnQZjt72gLyDQHoLTfB+zvcB9zvXgZs7O7OprVUcHQ=
-X-Gm-Message-State: AOJu0YzBOKk7l6+JxIGq4hmOge4y0tr0peWHY4n/57AyhHzxhj1rEWMZ
-	8fPWNbMuJ1ZePbHNr/jsHvx/xMQeQOYsRdfW4IkMcEo/dbi1UF9SHQ4OcqTLBK4=
-X-Google-Smtp-Source: AGHT+IGlf76ZFo7enpn/TIJKsmshD5ys3tj2AM3CNMbcaOwbYvFNj6HA0V/ZJkHNSo7Pm5iUe6Bpog==
-X-Received: by 2002:a05:600c:4e8b:b0:414:c1b:4bbc with SMTP id f11-20020a05600c4e8b00b004140c1b4bbcmr1751398wmq.6.1711728119935;
-        Fri, 29 Mar 2024 09:01:59 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id ay1-20020a05600c1e0100b0041554f8eafesm387365wmb.13.2024.03.29.09.01.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Mar 2024 09:01:59 -0700 (PDT)
-Message-ID: <7297bd78-4f74-4d23-afb3-9b7aecbe451d@linaro.org>
-Date: Fri, 29 Mar 2024 17:01:57 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dg9vyq4C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABF0C433F1;
+	Fri, 29 Mar 2024 17:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711733728;
+	bh=IKp5hVryh+AhRCHQEkLVpXkjg9FXgRVlJMTHmJin/sw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dg9vyq4CAACubfsARV5FqqZOVaoCSo5AIk6xvHC7VcmZQKN5RxfultGE3tRqXKq7Z
+	 L1ctud3gpB/s5Dz/RAiyTW4xeLlXy8BM41Ce4UaXZFBhlgUnI/n7o8Mdx0jAbyS0eD
+	 dPlIOGGaPbYGjK92cBPsEKjLeMf7a82kCQb4tyERAHpUIilVDPBODOcb2EjLe6Mwkw
+	 +PiHzhAlu3g3aUpqxrUfbCSauYQrV1NEdyVcY/GCqgkeXFQ9ChqEqKxASzCfAL3g00
+	 46A2+r0fjG8T3gOU3W0gewDA8jsmZPj8kNjsfzeOjSwHmY0Mk7xpOszDkw3LE8JZEz
+	 GkwcvhSAU26uQ==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, Sunil-kumar.Dommati@amd.com, 
+ Basavaraj.Hiregoudar@amd.com, venkataprasad.potturu@amd.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20240329053815.2373979-1-Vijendar.Mukunda@amd.com>
+References: <20240329053815.2373979-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH V2] ASoC: amd: acp: fix for acp_init function error
+ handling
+Message-Id: <171173372430.1605169.8973753810276675106.b4-ty@kernel.org>
+Date: Fri, 29 Mar 2024 17:35:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDEvMl0gQVNvQzogZHQtYmluZGlu?=
- =?UTF-8?Q?gs=3A_Add_bindings_for_Cadence_I2S-MC_controller?=
-To: Mark Brown <broonie@kernel.org>
-Cc: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Claudiu Beznea <Claudiu.Beznea@microchip.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
- <20240320090239.168743-2-xingyu.wu@starfivetech.com>
- <9d9efb8a-0b3c-4e7a-8673-07cd3b1f5f87@linaro.org>
- <NTZPR01MB0956BD6189974378958562D99F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
- <9b1a5100-8536-4b59-b2e7-d6ebd2ba9e66@linaro.org>
- <NTZPR01MB0956230296D881F112F92D119F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
- <16f72b4a-2aa9-49d5-a4aa-ed94eea1f32a@linaro.org>
- <NTZPR01MB09563633F5C3B5FBC95D61289F3AA@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
- <7b4a35d0-6764-4c6a-9f1d-57481324c680@linaro.org>
- <ZgbDx6oD+mMUIvH1@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZgbDx6oD+mMUIvH1@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-0438c
 
-On 29/03/2024 14:36, Mark Brown wrote:
-> On Fri, Mar 29, 2024 at 12:42:22PM +0100, Krzysztof Kozlowski wrote:
+On Fri, 29 Mar 2024 11:08:12 +0530, Vijendar Mukunda wrote:
+> If acp_init() fails, acp pci driver probe should return error.
+> Add acp_init() function return value check logic.
 > 
->> I stated and I keep my statement that such block is usually not usable
->> on its own and always needs some sort of quirks or SoC-specific
->> implementation. At least this is what I saw in other similar cases, but
->> not exactly I2S.
 > 
-> I wouldn't be so pessimistic, especially not for I2S - a good portion of
-> quirks there are extra features rather than things needed for basic
-> operation, a lot of things that might in the past have been quirks for
-> basic operation are these days hidden behind the DT bindings.
 
-OK, I trust your judgement, so cdns as fallback seems okay, but I don't
-think it warrants cdns as used alone. Not particularly because cdns is
-different, but because we expect specific SoC compatible always.
+Applied to
 
-Thus if cdns,i2s-mc stays, then:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-items:
-  - enum:
-      - starfive,jh8100-i2s
-  - cdns,i2s-mc
+Thanks!
 
-Best regards,
-Krzysztof
+[1/1] ASoC: amd: acp: fix for acp_init function error handling
+      commit: 2c603a4947a1247102ccb008d5eb6f37a4043c98
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
