@@ -1,138 +1,172 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EA3613C;
-	Sun, 31 Mar 2024 02:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E840E8F45
+	for <linux-sound@vger.kernel.org>; Sun, 31 Mar 2024 08:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711851617; cv=none; b=WuOjRNC6K9ocS4L/GvyAOo1T3kGjhCLjfjOK+KepOY+I9QpCSHrabUka7k0QI/1zMExjp8TlnTI6U7ShR9/3UIyl2UAEpNrKiwbmRRvhNEi4RAw2Ylwu/KnOEfJb2+vWzxjs7a2SG+Zy2Sn3zitb/CnNze825eP5XHLVLvlUVq4=
+	t=1711872921; cv=none; b=HW/HvqpNxaNqZxOpxIk+w/lMGwRImJ0Tm89fBEhjfG8+2TVBn2arOyrgrnWWWYkMLYTlYDOvicGKtyaTI1YdvIn0o0I4B//OW13VZ+X4TxG3tPiff9WKHR7bAB+Bwyfo7ESjRih2C00C+aJZpV9A0R/UViYctCGT8cYYgJ4+OlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711851617; c=relaxed/simple;
-	bh=wszhonbR5gvN2VcFZa8s+jUlda0D/jBmFLjKLmgNe1A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e+Gtn9mAMxcpJDeeMxoL8JoCCDF/X67RzyWIpyTPHolY++IGJtQ3QX0p26WdWWhv5oBpnTnUpMazMc5qy08OdtNaNISgBou2jQfulxmn59rGBDdhvqVsx66+d8NINgxQfkJc5fp7x4rOxi3KuMdgROD+r/et1INlCRoTU/P//Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WOSEjsZs; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1711872921; c=relaxed/simple;
+	bh=jwo6cfDvf3jFfMqcnF6otesm/6mEcOhzaNul8s+ISls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GjMd86pIldSeZJlJRuZmwBKMjKOJIgHFDShBwb5REh4e3b5i/kBd5NaRHhxdfEfbfFpi2TaTgEMw6LDJjZrOE+RfNl4MxbhwWT6kjUQUwEqzXbfGOvsJx71+4ppGpDBk8oDTuN6dEN6YDfguscEPVv7trBoD4/jgw9qxLgYUCiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UDLpZktB; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WOSEjsZs"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42V2J9dw065441;
-	Sat, 30 Mar 2024 21:19:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1711851549;
-	bh=LE6d0ZGSgs6B4tuelssU5HrfUCQjrn+kR854KY36ngU=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=WOSEjsZsifvr46poPf0V8j9sZTYonJOO73CQByNW4eGTl8J6b99wE801QQq6VfzA5
-	 OeP3lMNACmf3Pf9peyij9RkQ79hGc2LW0m4HC6+a1uoegA8/qdv/zg62nBB1CDydAW
-	 qUDGiTv65D8dQk5zq1g6UxdJjEmgAp26oHaOQ6jI=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42V2J9Vd128349
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 30 Mar 2024 21:19:09 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 30
- Mar 2024 21:19:09 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 30 Mar 2024 21:19:09 -0500
-Received: from LT5CG31242FY.dhcp.ti.com ([10.250.160.249])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42V2IcmC106026;
-	Sat, 30 Mar 2024 21:19:03 -0500
-From: Shenghao Ding <shenghao-ding@ti.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
-        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
-        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
-        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
-        <Baojun.Xu@fpt.com>, Shenghao Ding
-	<shenghao-ding@ti.com>
-Subject: [PATCH v7 3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
-Date: Sun, 31 Mar 2024 10:18:33 +0800
-Message-ID: <20240331021835.1470-4-shenghao-ding@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20240331021835.1470-1-shenghao-ding@ti.com>
-References: <20240331021835.1470-1-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UDLpZktB"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-415644e1969so5555e9.3
+        for <linux-sound@vger.kernel.org>; Sun, 31 Mar 2024 01:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711872918; x=1712477718; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=GLqRhp75hqcMq70uNQSU9yQJhrD6r55MJYxRY4a6Sjc=;
+        b=UDLpZktByYdTT1TcKbtqW6gT/C8Npq5seEYUnME8EetiM6zeDXpPfbEMGj1WhE0vhj
+         MoMk9j9wHWQmYSUBHeMBQXb+/1ejn7ae0s1U514bLE7s0WaqAQRC6126CowP79qtKTNs
+         52Tm+ZmdBQmdRopmANoLIVJHOCcqXU38YUz/58NUDsOJGJPk0dUaOwaViO0d4WM+MZSa
+         hidXT8BDvulx/FU60eSL1NjToogv/BJkfGCBvtpvPI+xyuMLYhHwUC7HcVsBQmiawXS7
+         bZcjlrIBqGlF/TRuAFCxqfTpmvSHezoNzHC5dTrKBszzvyHKG2LWi2zGnGSRcr05/Ab1
+         gPJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711872918; x=1712477718;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GLqRhp75hqcMq70uNQSU9yQJhrD6r55MJYxRY4a6Sjc=;
+        b=bilXfNqTpCj9P8S7Y2L0H+DT8xD+mI2Z77bmnSJLY8XMvuYo9shfe+YsVOYn+D4avm
+         326OdDT3S/14sr2wpCGzwRTgFMSlxWHnEJcLUjp4Pf9zDU5MBV4brbCqQMwgxvjpEndx
+         UgTcE7Nwk0AEl9tyI8WYCwdwy1PJnsps/kusE/A6ExKk7RN2B9i+sBdjc5+zRq+TydIg
+         k5VcvxgsVuThNoCO8K6Jp85URVw+QMBy16c3oOqhmMDCUTjdrXUCCoW3NMOtP3BYAg6e
+         g7QfyL7c0gdqGuIROtdGfJqfUwbAziq/ASs4fVcNP7Mif0voGIJBfoSngm6BE/KvfnKV
+         ta8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWAO2J/BT404ytYahGwKBHVyOKq++69FmtNQkA6zWLjMZ8ReuZ/GuIJin8e+no2ppZILyfWkEq+8bI3vLLa1jq8S942Q+D0893MHPE=
+X-Gm-Message-State: AOJu0YwLzwyYkYw65HY3CRCdG1hTuuqSjY29dVKD6cubw1AFDymNOHOY
+	TSHoRCgz6vGpL6SGtH3/5XteZSwOz2IhzuhgGgIQ/HPzLvidF0UnbRK0CTKYsaM=
+X-Google-Smtp-Source: AGHT+IEj4chibXJ3nlFP7Bu9V6ZYACWLCIaWSoNnJpklJoiCR8s38a0x+aNfDean6K7brvG3wVoBsQ==
+X-Received: by 2002:a05:600c:1f94:b0:415:5732:65d3 with SMTP id je20-20020a05600c1f9400b00415573265d3mr2471233wmb.37.1711872918184;
+        Sun, 31 Mar 2024 01:15:18 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id q9-20020adfab09000000b00341b9737fc5sm8411916wrc.96.2024.03.31.01.15.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Mar 2024 01:15:17 -0700 (PDT)
+Message-ID: <cc7a60c3-4a1e-4f32-b6ef-4a41d5c48eaf@linaro.org>
+Date: Sun, 31 Mar 2024 10:15:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
+To: Shenghao Ding <shenghao-ding@ti.com>, linux-kernel@vger.kernel.org
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, perex@perex.cz,
+ tiwai@suse.com, 13916275206@139.com, mohit.chawla@ti.com, soyer@irl.hu,
+ jkhuang3@ti.com, tiwai@suse.de, pdjuandi@ti.com, manisha.agrawal@ti.com,
+ s-hari@ti.com, aviel@ti.com, hnagalla@ti.com, praneeth@ti.com,
+ Baojun.Xu@fpt.com, Rob Herring <robh@kernel.org>
+References: <20240331021835.1470-1-shenghao-ding@ti.com>
+ <20240331021835.1470-5-shenghao-ding@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240331021835.1470-5-shenghao-ding@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-PCM6240 driver implements a flexible and configurable setting for register
-and filter coefficients, to one, two or even multiple PCM6240 Family Audio
-chips.
+On 31/03/2024 04:18, Shenghao Ding wrote:
+> PCM6240 family chips are popular among audio customers, in spite of only a
+> portion of the functionality of codec, such as ADC or DAC, and so on, for
+> different Specifications, range from Personal Electric to Automotive
+> Electric, even some professional fields. Yet their audio performance is far
+> superior to the codec's, and cost is lower than codec, and much easier to
+> program than codec.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+> 
+> ---
+> Change in v7:
+>  - Rewrite the subject to match something similar to other commits.
+>  - And none of them are compatible with something.
+>  - minItems, then maxItems.
+>  - Drop reset-gpios description
+>  - Remove the repeated reg descriptions and reg constraints.
+>  - Drop redundant spaces.
+>  - Add missing line breaks between blocks and additionalProperties.
+>  - Correct compatibility issue on adc6120 and pcm6240.
+>  - All these chips have only a portion of the functionality of codec,
+>    such as ADC or DAC, and so on, but their audio performance is far
+>    superior to the codec's, and cost is lower than codec, and much easier
+>    to program than codec. Simply one or two register settings can enable
+>    them to work. Init for these chips are hardware reset or software reset.
+>    As to some audio filter params for internal filters, it is up to the
+>    special user cases, which can be saved into the bin file. The default
+>    value also can work well.
+>  - Add blank line before reg.
+>  - remove unneeded items and if branches.
+>  - Add missing compatible devices, such as adc6120, etc.
+>  - Add necessary people into the list for DTS review
+>  - correct misaligned.
+>  - simplify the compatibility
+>  - remove sound-name-prefix and revert back
+>  - Add review information
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+All these changes in v7 and you still kept Rob's review? I think either
+review was not given or your changelog is just incorrect.
 
----
-Change in v7:
- - All these chips have only a portion of the codec's functionality, such
-   as ADC or DAC, and so on, but their audio performance is far superior
-   to the codec's, and cost is lower than codec, and much easier to
-   program than codec.
----
- sound/soc/codecs/Kconfig  | 10 ++++++++++
- sound/soc/codecs/Makefile |  2 ++
- 2 files changed, 12 insertions(+)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index f78ea2f86fa6..0c35cdfd4a47 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -179,6 +179,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_PCM5102A
- 	imply SND_SOC_PCM512x_I2C
- 	imply SND_SOC_PCM512x_SPI
-+	imply SND_SOC_PCM6240
- 	imply SND_SOC_PEB2466
- 	imply SND_SOC_RK3328
- 	imply SND_SOC_RK817
-@@ -1422,6 +1423,15 @@ config SND_SOC_PCM512x_SPI
- 	select SND_SOC_PCM512x
- 	select REGMAP_SPI
- 
-+config SND_SOC_PCM6240
-+	tristate "Texas Instruments PCM6240 Family Audio chips based on I2C"
-+	depends on I2C
-+	help
-+	  Enable support for Texas Instruments PCM6240 Family Audio chips.
-+	  Note the PCM6240 driver implements a flexible and configurable
-+	  setting for register and filter coefficients, to one, two or
-+	  even multiple PCM6240 Family Audio chips.
-+
- config SND_SOC_PEB2466
- 	tristate "Infineon PEB2466 quad PCM codec"
- 	depends on SPI
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 7c075539dc47..5553155b843b 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -204,6 +204,7 @@ snd-soc-pcm5102a-objs := pcm5102a.o
- snd-soc-pcm512x-objs := pcm512x.o
- snd-soc-pcm512x-i2c-objs := pcm512x-i2c.o
- snd-soc-pcm512x-spi-objs := pcm512x-spi.o
-+snd-soc-pcm6240-objs := pcm6240.o
- snd-soc-peb2466-objs := peb2466.o
- snd-soc-rk3328-objs := rk3328_codec.o
- snd-soc-rk817-objs := rk817_codec.o
-@@ -594,6 +595,7 @@ obj-$(CONFIG_SND_SOC_PCM5102A)	+= snd-soc-pcm5102a.o
- obj-$(CONFIG_SND_SOC_PCM512x)	+= snd-soc-pcm512x.o
- obj-$(CONFIG_SND_SOC_PCM512x_I2C)	+= snd-soc-pcm512x-i2c.o
- obj-$(CONFIG_SND_SOC_PCM512x_SPI)	+= snd-soc-pcm512x-spi.o
-+obj-$(CONFIG_SND_SOC_PCM6240)	+= snd-soc-pcm6240.o
- obj-$(CONFIG_SND_SOC_PEB2466)	+= snd-soc-peb2466.o
- obj-$(CONFIG_SND_SOC_RK3328)	+= snd-soc-rk3328.o
- obj-$(CONFIG_SND_SOC_RK817)	+= snd-soc-rk817.o
--- 
-2.34.1
+
+Best regards,
+Krzysztof
 
