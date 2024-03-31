@@ -1,110 +1,179 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 336FC146D65;
-	Sun, 31 Mar 2024 19:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9520C1E885
+	for <linux-sound@vger.kernel.org>; Sun, 31 Mar 2024 19:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711912498; cv=none; b=oh+O+MSTwZtz3rMb9RxAFvq0sd4dbREus/XhsuLVEwvCpQTa0MIRGF+UqVrNnoG30Se8RLjt/9svBVLIQwSTcs6ROPMAXbuJC66+3LztDAslqTJ1cUR2nFJYUhQR2BjAkgUW4+ulifnQrROPEpGN6KQR+M1bNjHp4Si+w5qw9Ro=
+	t=1711914152; cv=none; b=ap16FKDdbz/V/Wus9gtLMryqwpUyc+3Ij7To2k5BHxZgSV9v435068RvIZsuiYtsfD7DWgcPpgjREuJ9P3CliM+A1+ONsnjcBXyPTu42YSQRzKT2niHFXwMvOTM0TB8zXuuBsPDJ0LmtcWxyTNNsEvrae/a8Ct4iuN/kelg7EtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711912498; c=relaxed/simple;
-	bh=aisnBOSe6twHW7ZdfD8orcM1pcSwRgzSY+oaCtUg+fQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oaddLqaYhj38gbrRb+5S3E5fETBJnjBr6Oe8of6qM/G6vVUMM4YKHovxK8jjaJ5u8XfTSP/sRu6lpDw+EPm4+VjfIZjT9vV5i8mEol4eG4BPW189xl1Goget4l0Sw2IT2c6Bhe7+Do/Gopoy8uSbiQcDrmAxvXRg7IVmEiAF0+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA63713D5;
-	Sun, 31 Mar 2024 12:15:20 -0700 (PDT)
-Received: from bogus (unknown [10.57.81.195])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E84A3F64C;
-	Sun, 31 Mar 2024 12:14:34 -0700 (PDT)
-Date: Sun, 31 Mar 2024 20:14:32 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Hildenbrand <david@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gonglei <arei.gonglei@huawei.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	David Airlie <airlied@redhat.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Alexander Graf <graf@amazon.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
-	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 11/25] firmware: arm_scmi: virtio: drop owner
- assignment
-Message-ID: <20240331191432.sfp5dq6nyvf4yf34@bogus>
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
- <20240331-module-owner-virtio-v2-11-98f04bfaf46a@linaro.org>
+	s=arc-20240116; t=1711914152; c=relaxed/simple;
+	bh=4O449uDER9hGB7jNnSl8M++gFxwsOoKdZ44vmu91USg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uikzNpaHH9EQGPMjTh904xxMk8OlXLoJXKaKxYPSEaYRzjtTpUi9JbbdLp4KUdHBrZxKyfvDqW2NOneg1WGDOb/rKFdUJ390NIi7HSQYkziVmFd00do0QQPIsLtt/uJqurf7SW6SPg77K8tf3IQep9MN1RFC//r7F7C/ONBFNCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KADc3Rq9; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KADc3Rq9"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-41567ce7d3fso214505e9.2
+        for <linux-sound@vger.kernel.org>; Sun, 31 Mar 2024 12:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711914149; x=1712518949; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fgvq99cXWyahdPEeRKbwLZ856Z/nFUREvqBsKFF2cmM=;
+        b=KADc3Rq9UV+RO7D8mWm+yhiGj4GvQ5qGGhbrecKklaFccATa3kMc7IQfb7ki7cdpux
+         9iPz3qgQw9d364yU3e0F9uXgjJCm9qZJeWvbWCg+kCZZRmHrCVvNbJ6FMNeMoKVvTT10
+         3m+x/QlCoDH3j0OmB3LbyBTINWH8TWp1ZimndNe6ImsOS3LbnCq6P/b70VkHCLOvVT+M
+         xt7l1UURIEiE+/s36hAD7z5LD75RBbqBDrOS4jr1p0nVIIKiVxSZg9a+d2/ZSE/djDQG
+         i4Yo5pWWhVK173fAwB/Ev/yYnTo2g4iIILrNoFAxllqnkNnsq6cG5ypEfj1/qrYFXgdZ
+         Uw0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711914149; x=1712518949;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgvq99cXWyahdPEeRKbwLZ856Z/nFUREvqBsKFF2cmM=;
+        b=OzQI1sShhBBOzVaY9JB8gtbF0xURU7vjNfEwzD8ZJV3tS1AQObPmJsr4QD/eqp814/
+         pY33GHcm8Orl3kiPAWYd2XBdJn/jZ70Xs3ZO/r0N8i/sPl6YQ0LEXJ7z3PHZnAfbFaoD
+         3ciK7tZgE6q7TUPPm+1kVCrpPwtrncmqpqFrYCnMDya4XDcVGBT/ZZJMQyZ+mjYogC6L
+         iGT3lFaziieZ167ldnP4vs+oCWjyqMmWPaWulAOU66qqlmaSBjGw5DxPW6tWTAmRBuz7
+         z4lTY8OlwlmvKLW6yT2yCeexhsVyugk+1Litjb2HoI+t3SfR/65ddg9UERTtXJV21EWn
+         5vtw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZc+PwVDjOW0kR3XkADW7d4seSpB3vVzyAlTHp8CsDKJjc4C9gIhwAM6uG95jcBiXdbeai3WYOlF8byeE6imGKnB+awP9Z5lYumMQ=
+X-Gm-Message-State: AOJu0YzsFsPyph+CRcS0iucXSG3lZxQEYcMxnxn00Zy1aWYP0ID3i9+4
+	7983ZHLhMQfMIhTVlxBzHxWeWbRASebSNZ4N2O7PQBFUvQHv2YKwdPv31/J6Dos=
+X-Google-Smtp-Source: AGHT+IHMVRY4AMMDLr8mhs443QG4RDXTDC48pOBBpX6fpAmTnJdu5OwIkBcdfJjYnRG5qvNENBO7Og==
+X-Received: by 2002:a05:600c:1907:b0:414:8aaa:acb5 with SMTP id j7-20020a05600c190700b004148aaaacb5mr5360354wmq.16.1711914148801;
+        Sun, 31 Mar 2024 12:42:28 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id u8-20020a05600c19c800b0041478393b8fsm15444996wmq.42.2024.03.31.12.42.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Mar 2024 12:42:28 -0700 (PDT)
+Message-ID: <b26314d1-a059-4fd8-b52a-1234606bb7e5@linaro.org>
+Date: Sun, 31 Mar 2024 21:42:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240331-module-owner-virtio-v2-11-98f04bfaf46a@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v7 4/4] ASoc: dt-bindings: PCM6240: Add
+ initial DT binding
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "Chawla, Mohit" <mohit.chawla@ti.com>, "soyer@irl.hu" <soyer@irl.hu>,
+ "Huang, Jonathan" <jkhuang3@ti.com>, "tiwai@suse.de" <tiwai@suse.de>,
+ "Djuandi, Peter" <pdjuandi@ti.com>, "Agrawal, Manisha"
+ <manisha.agrawal@ti.com>, "Hari, Raj" <s-hari@ti.com>,
+ "Yashar, Avi" <aviel@ti.com>, "Nagalla, Hari" <hnagalla@ti.com>,
+ "Bajjuri, Praneeth" <praneeth@ti.com>, "Baojun.Xu@fpt.com"
+ <Baojun.Xu@fpt.com>, Rob Herring <robh@kernel.org>
+References: <20240331021835.1470-1-shenghao-ding@ti.com>
+ <20240331021835.1470-5-shenghao-ding@ti.com>
+ <cc7a60c3-4a1e-4f32-b6ef-4a41d5c48eaf@linaro.org>
+ <41797fe7d5bb41b4bdea4ee7f4957291@ti.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <41797fe7d5bb41b4bdea4ee7f4957291@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 31, 2024 at 10:43:58AM +0200, Krzysztof Kozlowski wrote:
-> virtio core already sets the .owner, so driver does not need to.
->
+On 31/03/2024 15:20, Ding, Shenghao wrote:
+> Hi Krzysztof
+> Answer inline
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Sunday, March 31, 2024 4:15 PM
+>> To: Ding, Shenghao <shenghao-ding@ti.com>; linux-kernel@vger.kernel.org
+>> Cc: lgirdwood@gmail.com; broonie@kernel.org; robh+dt@kernel.org;
+>> krzysztof.kozlowski+dt@linaro.org; conor+dt@kernel.org; linux-
+>> sound@vger.kernel.org; devicetree@vger.kernel.org; perex@perex.cz;
+>> tiwai@suse.com; 13916275206@139.com; Chawla, Mohit
+>> <mohit.chawla@ti.com>; soyer@irl.hu; Huang, Jonathan
+>> <jkhuang3@ti.com>; tiwai@suse.de; Djuandi, Peter <pdjuandi@ti.com>;
+>> Agrawal, Manisha <manisha.agrawal@ti.com>; Hari, Raj <s-hari@ti.com>;
+>> Yashar, Avi <aviel@ti.com>; Nagalla, Hari <hnagalla@ti.com>; Bajjuri,
+>> Praneeth <praneeth@ti.com>; Baojun.Xu@fpt.com; Rob Herring
+>> <robh@kernel.org>
+>> Subject: [EXTERNAL] Re: [PATCH v7 4/4] ASoc: dt-bindings: PCM6240: Add
+>> initial DT binding
+>>
+> .............................
+>>>  - remove unneeded items and if branches.
+>>>  - Add missing compatible devices, such as adc6120, etc.
+>>>  - Add necessary people into the list for DTS review
+>>>  - correct misaligned.
+>>>  - simplify the compatibility
+>>>  - remove sound-name-prefix and revert back
+>>>  - Add review information
+>>
+>> All these changes in v7 and you still kept Rob's review? I think either review
+>> was not given or your changelog is just incorrect.
+> Since Rob's review, nothing changed in yaml. Even in this patch, only removed kcontrol interfaces
+> in the code and added the mixer-test report in cover-letter as Mark suggested, which is no effect
+> on yaml file.
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+Then for the future, please use some reasonable format of changelog, e.g.:
+https://lore.kernel.org/all/20240210-topic-8280_pcie-v3-0-ee7af6f892a0@linaro.org/
 
--- 
-Regards,
-Sudeep
+Best regards,
+Krzysztof
+
