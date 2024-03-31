@@ -1,61 +1,60 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC50B200D9
-	for <linux-sound@vger.kernel.org>; Sat, 30 Mar 2024 19:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCADA5F;
+	Sun, 31 Mar 2024 02:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711826844; cv=none; b=pE+k34J74RtBotkwyDUS9uc1TaJQb8JMustiWR9jOPrdhrkIj2/OSsJT0goxCiM2FE+Swd0pmjUotA2Wz9qj90vPwMik0Sg3bE5xqsoNg8wdyueX14RNaKzfiRTcD38uY2kFehZC7vaOUaeXqHC1yxu3qgTNEjNRDF5xDqTV9fM=
+	t=1711851594; cv=none; b=F9A40dHtBdCI/T+rCbGZneRNh8c+mhnBnxdEUy6wzSoTuIKzF70DpZa25VFQoIlp5fSgeEUb7Mkbk7hPaTPCUhvWVsyCz3NPKMkfW8sqkXLkxIuEuLfYeqdyvAsQHLwQBHDmff1eOtN8J8CsKjFonEcPFYD71BiDk9amGHz2pMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711826844; c=relaxed/simple;
-	bh=7vXKpt5kMvjCw/Bc7RGx8qUv2326+xlY2fMwnqF4N4g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tzxJmUanLyb93N9QOKwkGDqZ6llo863FGuOIlA2i6vWFnaHeTTTWCsxAC/1tPoW2cVLlLWWmt1s6DdIfNwjTZalQtcUbUyTGS72erLoBAN6YjkxAHws+cdDJKkJx8XogvRcSwQ0ENIqh5HW78igddUfu66MHicqDfmk43kZzCPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kW+QkP4A; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711851594; c=relaxed/simple;
+	bh=yomuf4wkK7hH4Up2rIVQWisnRt7HZ+ENL8Z1fLklLBE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q5VycOxnz09pfV00AuVgOD2blCQnwsHASOyo2UVraSYRNsMtG0ZGVxijIWdA+guAk+sbIa/hCMTUtC6llzAL5QmmHpwgkoqPH/IBmNRUCu/btCY8MQw9WFvUU0j3Q9kyn/MRML5xDGZ3QE4c4xwITR4Ezaq1YYwPzrvCg9CTQE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rQmPuSUa; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kW+QkP4A"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d4360ab3daso36179691fa.3
-        for <linux-sound@vger.kernel.org>; Sat, 30 Mar 2024 12:27:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711826841; x=1712431641; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=srlPnSviOUwCOp87gd3on0IVNQFTAHaOJjEVsmn3f5k=;
-        b=kW+QkP4AjoV+xzhbTxUc/j7HHb5egqQz05D+k57ylhhW/9cMM41e1K6fKBZHuPEMgk
-         JjmARIt0/W6aDbZlrWELiA4iLrtKOG+ANQ2tL4EPkEEUS/Af+9rPX1pFfSYmIcTgWbNM
-         mRBaf+mlE7lR9ypSyH2ybQnidn+qomOEqycNL0GlDhj8fvDY88spBcwCCz6SroiIMoI5
-         yVIEPT7bPNywI3EYQRXdx7bMXfCp/U0/FcOfj2hHTgtk0+QyytUvY5sm+agAQe0jQelm
-         yCbJ3Cs62dfw+qlUqMRdiKUeOOcA8e5R1xnnPK2w8mNUEsx+FIf+f+DaCWOW4AjKytwN
-         Zmzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711826841; x=1712431641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=srlPnSviOUwCOp87gd3on0IVNQFTAHaOJjEVsmn3f5k=;
-        b=YOMltbRChu6Pr6W5GsPBtgX4IR3us3act8X5QoFkOl1UhkIVGqGOeQe8KG6K+byg9v
-         H6JXhNuS0MDcXvYy3/52eXDj6myx4t3/tufsUn3V3fwqcYazREs4pc2R0xjvD615h8C4
-         F+m4cjb5UeHMV12VuVNpnBCnWuoyF6Lre4n1yH7+82rLi3kwy/7G6tEDzpiQUtEqKAAk
-         iQTF7jKpg4xGJTyN7saDVqgD40UbMtrZAvGrnWRfyplX7PK/5x2oIYOqD2VjlgTaqS9N
-         bp6A3Z8dscLPGNwXq9wjPppu07fHPDmnHr+VqzKoH9mq9fcWgHkKWkwZvyOY67dlgG3n
-         5QYQ==
-X-Gm-Message-State: AOJu0YztXMGYwgUzcn7XKgthd5Q723Px7/zHMmQGPUKcrw6tUEltzrXY
-	QjykkHBdkoeMWRkwyIsFPpKO21SWUx2L0cruZ6xBbaQofTKiu3W/p3d5f1Di
-X-Google-Smtp-Source: AGHT+IF/CbJNRH218O+QLN5rib9IB1iSP+JihhK372QcrrexfYlvHq3qIJhgBtj3YdmRkBXk+f89WA==
-X-Received: by 2002:a2e:9f14:0:b0:2d6:c5cd:144a with SMTP id u20-20020a2e9f14000000b002d6c5cd144amr3166051ljk.16.1711826840475;
-        Sat, 30 Mar 2024 12:27:20 -0700 (PDT)
-Received: from archlinux.. ([5.104.47.249])
-        by smtp.gmail.com with ESMTPSA id h2-20020a2ea482000000b002d43dbab74esm955454lji.14.2024.03.30.12.27.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Mar 2024 12:27:20 -0700 (PDT)
-From: Dendi777 <starrynightowl2@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Dendi777 <river.blaze@mail.ru>
-Subject: [PATCH] Add support microphone from Acer Aspire 315-24p
-Date: Sat, 30 Mar 2024 22:27:17 +0300
-Message-ID: <20240330192717.2033-1-starrynightowl2@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rQmPuSUa"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42V2Ikea068473;
+	Sat, 30 Mar 2024 21:18:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1711851526;
+	bh=E9jrArP2IKtmwsCk5q7YN2on1sNGXBccHWbEIEhgr2g=;
+	h=From:To:CC:Subject:Date;
+	b=rQmPuSUaHSu730vdzCd0OQH7rdUqCFEl8st9M7HPjPrfGbHBAGC/onI16xVRsXf6m
+	 YKyb8scrt9bbBX2/oPuIo7BkKgviX5fi7q7wp+kgGFU6mdtbY19Qhr0v3KDzUamsdL
+	 cxXOAqjDZZl0P5reaJ1K+k/t0+R649z+MqqqIchg=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42V2IkTx076791
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sat, 30 Mar 2024 21:18:46 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 30
+ Mar 2024 21:18:45 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 30 Mar 2024 21:18:45 -0500
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.160.249])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42V2Icm9106026;
+	Sat, 30 Mar 2024 21:18:39 -0500
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <perex@perex.cz>, <tiwai@suse.com>, <13916275206@139.com>,
+        <mohit.chawla@ti.com>, <soyer@irl.hu>, <jkhuang3@ti.com>,
+        <tiwai@suse.de>, <pdjuandi@ti.com>, <manisha.agrawal@ti.com>,
+        <s-hari@ti.com>, <aviel@ti.com>, <hnagalla@ti.com>, <praneeth@ti.com>,
+        <Baojun.Xu@fpt.com>, Shenghao Ding
+	<shenghao-ding@ti.com>
+Subject: [PATCH v7 0/4] mixer-test report
+Date: Sun, 31 Mar 2024 10:18:30 +0800
+Message-ID: <20240331021835.1470-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,32 +62,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-From: Dendi777 <river.blaze@mail.ru>
+*** BLURB HERE ***
+mixer-test report:
+ root@am335x-evm:/bin# mixer-test
+ TAP version 13
+ # Card 0 - TI BeagleBone Black (TI BeagleBone Black)
+ 1..7
+ ok 1 get_value.0.0
+ # 0.0 pcmd3180-i2c-2 Profile id
+ ok 2 name.0.0
+ ok 3 write_default.0.0
+ ok 4 write_valid.0.0
+ ok 5 write_invalid.0.0
+ ok 6 event_missing.0.0
+ ok 7 event_spurious.0.0
+ # Totals: pass:7 fail:0 xfail:0 xpass:0 skip:0 error:0
+ root@am335x-evm:/bin#
 
----
- sound/soc/amd/yc/acp6x-mach.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Shenghao Ding (4):
+  ASoc: PCM6240: Create PCM6240 Family driver code
+  ASoc: PCM6240: Create header file for PCM6240 Family driver code
+  ASoc: PCM6240: Add compile item for PCM6240 Family driver
+  ASoc: dt-bindings: PCM6240: Add initial DT binding
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 69c68d8e7..332a68cde 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -430,6 +430,14 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "MRID6"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "MDC"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Herbag_MDU"),
-+		}
-+	},
-+
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+ .../devicetree/bindings/sound/ti,pcm6240.yaml |  177 ++
+ sound/soc/codecs/Kconfig                      |   10 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/pcm6240.c                    | 2071 +++++++++++++++++
+ sound/soc/codecs/pcm6240.h                    |  236 ++
+ 5 files changed, 2496 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+ create mode 100644 sound/soc/codecs/pcm6240.c
+ create mode 100644 sound/soc/codecs/pcm6240.h
+
 -- 
-2.44.0
+2.34.1
 
