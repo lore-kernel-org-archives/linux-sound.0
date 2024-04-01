@@ -1,130 +1,135 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFBB41A8F;
-	Mon,  1 Apr 2024 14:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7224596D;
+	Mon,  1 Apr 2024 15:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711982903; cv=none; b=DulTi8ASqGkMa2GJym70m9NayQ3maXtRQk5rpTPbOQ6xbumP47V58beVXPmO/cXZja1V7QwWW6Df9E+9sBfdaGZkmDW9kRU0XDBNv+wIItsb0ZICJpNAfz3Tcjh2R9tD6t3dflgS4ABgdJTotvbJ02tJoqKY9oALJZ919mk7wNg=
+	t=1711984457; cv=none; b=UqqIXY8nSOYSZHzH6Hc5khEOGUrn2FY8ZJJ+4rVX0CgEFTOVrkNsANvTukSckyZf0oBFLH6s/1hi4z1S6JirbntlAkbwjA/kY6qo5GqO3gS1GvxhFDKpz6TJVNTdbqXSbtT15gS2MmFQV63v93wEULMMLh7Pr1ffFjMD17wNS6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711982903; c=relaxed/simple;
-	bh=7ubcAZ53bNX8OmYuapcEIXIACrFpAoA1Ij/WMLDmqkM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I43VH28+/x35Xv6/O3BNCaR2mK9GoX5D0WvrJhYw5jgLOYkrFrQcuUpm2x3d5flZH/wrzLHC+gxeMKmBW8+S/2pK1suPK8T//+Lj8gbKCePqih5qxAfgcyOsEVOsMyX/MdPY0sovUVwk2tUTeTd6qu/cf8D8JOfB0YNOcQZpPWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=06EdeJK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DtMP8+pZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1711984457; c=relaxed/simple;
+	bh=JltTTo7L3Pqb7x/nOOqrDGh4IIDaFzvkM7xcA0ivsp8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kHFHJoPZhi4/rGBdnGLpt/42AQMkrvv6a9I138D2LvuIo4lpYgNcR2j+jvV8//8EIsVNVOcuxO7H19kQjBit4Bjz/uWl+OkNOzcjxOJ4QnhmWm5bGDv1CU6VAwk6Qo+t/T++lo5Wj0nlsduop05rK1tjnuuYLjrVhXqgcgoiIJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOYUl9Cp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="06EdeJK3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DtMP8+pZ"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D5EC72035C;
-	Mon,  1 Apr 2024 14:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711982899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Zgc2xnigK6/fmVr0xlhvZsS6Kf0WzeOKUYY3G7tjqw=;
-	b=06EdeJK3dovh93Ny2GCcG4VjWh6DAHhfj5FxMaxaGu2L0rdq/cGE/nZyjC1hhEdZ55V6SL
-	4Q7Sw/bhQM5cVswyQoCB6AOWJNjD1Md4htXUOzoBQHIY80gyCrwxYU+GqrVLjrkHRj8wBF
-	n412mn+9CNkU3vgpGp/LXLPmxJoxy8w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711982899;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Zgc2xnigK6/fmVr0xlhvZsS6Kf0WzeOKUYY3G7tjqw=;
-	b=DtMP8+pZtfuDpJbnD/Yz8NzX5dfloPU+8jEn0yVGKxKx4gHmVhfpDFkG0eykJypXMrtIRm
-	6kJ87/fgxxtn6UBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 87B7E1348C;
-	Mon,  1 Apr 2024 14:48:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 1lVVHzPJCmaiPgAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Mon, 01 Apr 2024 14:48:19 +0000
-Date: Mon, 01 Apr 2024 16:48:23 +0200
-Message-ID: <87h6glt9zc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592 decrease 30% of gaming performance
-In-Reply-To: <CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
-References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
-	<874jcl7e83.wl-tiwai@suse.de>
-	<CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
-	<87v851e2di.wl-tiwai@suse.de>
-	<CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOYUl9Cp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E47B0C433C7;
+	Mon,  1 Apr 2024 15:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711984457;
+	bh=JltTTo7L3Pqb7x/nOOqrDGh4IIDaFzvkM7xcA0ivsp8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AOYUl9CpeoWpySvUK2rUyJSDEeRhPXzAHbVHYDs5CFBnvRRj4DVrls0W7obkCxRwR
+	 EEPk4esZ4pUA7/dilS17s/Z4pT5eOIpZw8WrSqXNcLxS/gaZ/37r7LWPiAHNcMAnCw
+	 u6mahNDpuw8dv6REBM/9UnBLP5vur6pY73oGNmKEk75DENS31rw3hrBScSV3SGVLyq
+	 1p/WGUNP10x7qJdySPicK7tP2b4nhDZCi0rjatOUbLFrXJSIYXA5VjQjzFQP3dSlWb
+	 B7SLYw1B5HU/gFkCZ31mE4jx6eBMgFqPqYPIg9RIvohuUJMwNeZ6RM9zLp6LlA4eg0
+	 Qjq9Q5PfDa9/g==
+Date: Mon, 1 Apr 2024 10:14:14 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kartik Agarwala <agarwala.kartik@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] ASoC: dt-bindings: mt2701-wm8960: Convert to dtschema
+Message-ID: <20240401151414.GA706943-robh@kernel.org>
+References: <20240401043505.40972-1-agarwala.kartik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -1.11
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.11 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	 TO_DN_SOME(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D5EC72035C
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240401043505.40972-1-agarwala.kartik@gmail.com>
 
-On Mon, 01 Apr 2024 15:49:33 +0200,
-Mikhail Gavrilov wrote:
+On Mon, Apr 01, 2024 at 10:05:05AM +0530, Kartik Agarwala wrote:
+> Convert mt2701-wm890 bindings from text to dtschema. This is used by MediaTek mt77623a/n SoC.
+
+Wrap lines at 75.
+
 > 
-> On Mon, Apr 1, 2024 at 4:41 PM Takashi Iwai <tiwai@suse.de> wrote:
-> > The only code of the commit 587d67fd929a is the close of ALSA timer
-> > device.  If it really matters, it implies that the user-space seems
-> > trying to open/close the ALSA timer device so frequently.
-> >
-> > Are you using ALSA dmix/dsnoop?  It would explain.
+> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+> ---
+>  .../sound/mediatek,mt2701-wm8960.yaml         | 59 +++++++++++++++++++
+>  .../bindings/sound/mt2701-wm8960.txt          | 24 --------
+>  2 files changed, 59 insertions(+), 24 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
 > 
-> It's new words for me. I didn’t configure anything like this myself,
-> only if the maintainers of my distribution enable it by default.
-> I only know that Fedora Rawhide uses Pipewire for mixing sound.
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+> new file mode 100644
+> index 000000000..771f14a59
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt2701-wm8960.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT2701 with WM8960 CODEC
+> +
+> +maintainers:
+> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt2701-wm8960-machine
+> +
+> +  mediatek,platform:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: The phandle of MT2701 ASoC platform.
+> +
+> +  audio-routing:
+> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+> +    description: |
 
-Then it shouldn't be dmix/dsnoop.  You'd better try profiling what's
-going on there.  e.g. try to get perf results with and without the
-commit.
+Don't need '|'.
 
+> +      A list of the connections between audio components. Each entry is a
+> +      pair of strings, the first being the connection's sink, the second
+> +      being the connection's source.
+> +
+> +  mediatek,audio-codec:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: The phandle of the WM8960 audio codec.
+> +  
+> +  pinctrl-names:
+> +    const: default
+> +
+> +  pinctrl-0: true
 
-Takashi
+You can drop pinctrl properties. Those are implicitly supported.
+
+> +
+> +unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,platform
+> +  - audio-routing
+> +  - mediatek,audio-codec
+> +  - pinctrl-names
+> +  - pinctrl-0
+> +
+> +examples:
+> +  - |
+> +    sound {
+> +        compatible = "mediatek,mt2701-wm8960-machine";
+> +        mediatek,platform = <&afe>;
+> +        audio-routing =
+> +            "Headphone", "HP_L",
+> +            "Headphone", "HP_R",
+> +            "LINPUT1", "AMIC",
+> +            "RINPUT1", "AMIC";
+> +        mediatek,audio-codec = <&wm8960>;
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&aud_pins_default>;
+> +    };
