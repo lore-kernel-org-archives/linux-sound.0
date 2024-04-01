@@ -1,135 +1,308 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7224596D;
-	Mon,  1 Apr 2024 15:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D381C1C0DE7
+	for <linux-sound@vger.kernel.org>; Mon,  1 Apr 2024 16:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711984457; cv=none; b=UqqIXY8nSOYSZHzH6Hc5khEOGUrn2FY8ZJJ+4rVX0CgEFTOVrkNsANvTukSckyZf0oBFLH6s/1hi4z1S6JirbntlAkbwjA/kY6qo5GqO3gS1GvxhFDKpz6TJVNTdbqXSbtT15gS2MmFQV63v93wEULMMLh7Pr1ffFjMD17wNS6E=
+	t=1711989043; cv=none; b=rDM25McZVLFyBZhIntoxtTBCmJ/3+Z83vttLxtJl11KEAEo77qiNfZE4HrbhBBYCOA1UOnWWRTE48My2/COHOVwgosp58X9DCOfQPiip+FuuZZQxeQHdDSKGrRMjQkjOVdDbuZ6f8tfw0TxIZoNOJrUgkvpAHT0s0dRXRvcm0Sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711984457; c=relaxed/simple;
-	bh=JltTTo7L3Pqb7x/nOOqrDGh4IIDaFzvkM7xcA0ivsp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kHFHJoPZhi4/rGBdnGLpt/42AQMkrvv6a9I138D2LvuIo4lpYgNcR2j+jvV8//8EIsVNVOcuxO7H19kQjBit4Bjz/uWl+OkNOzcjxOJ4QnhmWm5bGDv1CU6VAwk6Qo+t/T++lo5Wj0nlsduop05rK1tjnuuYLjrVhXqgcgoiIJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOYUl9Cp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711989043; c=relaxed/simple;
+	bh=nYxRI4YPjJaafHMZxnvW480v5rMNRirBAjGbT0asLOU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=hpw+IJujcLNPXxAe3/LD7db3RbTIzn/sxVhWWgaoPPgNHVBMM0q6AegBeMPT/BtmgUCgUCYbPfn3SjY0gjBRKZ1QQEHvIipbE+iF/RzyAugTA6AYvzS0IGV6cnhjWOikE8zFa2G/oe6vfKmPnB3Ng5S+VBy5gal0CSIQuxAsb0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hU9mXv0T; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOYUl9Cp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E47B0C433C7;
-	Mon,  1 Apr 2024 15:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711984457;
-	bh=JltTTo7L3Pqb7x/nOOqrDGh4IIDaFzvkM7xcA0ivsp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AOYUl9CpeoWpySvUK2rUyJSDEeRhPXzAHbVHYDs5CFBnvRRj4DVrls0W7obkCxRwR
-	 EEPk4esZ4pUA7/dilS17s/Z4pT5eOIpZw8WrSqXNcLxS/gaZ/37r7LWPiAHNcMAnCw
-	 u6mahNDpuw8dv6REBM/9UnBLP5vur6pY73oGNmKEk75DENS31rw3hrBScSV3SGVLyq
-	 1p/WGUNP10x7qJdySPicK7tP2b4nhDZCi0rjatOUbLFrXJSIYXA5VjQjzFQP3dSlWb
-	 B7SLYw1B5HU/gFkCZ31mE4jx6eBMgFqPqYPIg9RIvohuUJMwNeZ6RM9zLp6LlA4eg0
-	 Qjq9Q5PfDa9/g==
-Date: Mon, 1 Apr 2024 10:14:14 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kartik Agarwala <agarwala.kartik@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] ASoC: dt-bindings: mt2701-wm8960: Convert to dtschema
-Message-ID: <20240401151414.GA706943-robh@kernel.org>
-References: <20240401043505.40972-1-agarwala.kartik@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hU9mXv0T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711989042; x=1743525042;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=nYxRI4YPjJaafHMZxnvW480v5rMNRirBAjGbT0asLOU=;
+  b=hU9mXv0TAAmVvzYU2IcuwNsMtP2jky1jH0+EhOOBI+4y3DRH33MyY6cc
+   KNrvbNjZyLLwWME0EF5QhTRqCB1jR5PfpN2r4HWmTO/PTGD9YJqweOxsT
+   kVW71Xehs2qvpq9MNMXuWsIwxdiDyvpfa0B+Rp1HnmTeuajD2QNO6nLCj
+   FMQT7gDya5FdZBNOEVdfoq7OewLixvKyM0AAEkhPUKxfsZMdISOMlKh3B
+   KR7fuU4J2cH3tT76NwYk95KhnsjZ0gnlf83mUOllMujnmb/0JMyxO+qKq
+   lT++R5cJcB1hFEdp+JrFa8X9ZuHOj58Q2o993mZ4wdsnu0YIKZnVf1PCi
+   g==;
+X-CSE-ConnectionGUID: aJx68vWITa6zc0FDz2EcUQ==
+X-CSE-MsgGUID: VNSr360zSu20IL6OHP6zMg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="10083704"
+X-IronPort-AV: E=Sophos;i="6.07,172,1708416000"; 
+   d="scan'208";a="10083704"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 09:30:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,172,1708416000"; 
+   d="scan'208";a="18224572"
+Received: from anahar-mobl.amr.corp.intel.com (HELO [10.212.2.239]) ([10.212.2.239])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 09:30:38 -0700
+Message-ID: <b4b37541-b67f-4593-9fd5-fc6242a0673a@linux.intel.com>
+Date: Mon, 1 Apr 2024 11:10:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240401043505.40972-1-agarwala.kartik@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/16] ASoC: soc-pcm.c: cleanup
+ soc_get_playback_capture()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+ <87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 01, 2024 at 10:05:05AM +0530, Kartik Agarwala wrote:
-> Convert mt2701-wm890 bindings from text to dtschema. This is used by MediaTek mt77623a/n SoC.
 
-Wrap lines at 75.
 
+On 3/31/24 19:30, Kuninori Morimoto wrote:
+> Current soc_get_playback_capture() (A) is checking playback/capture
+> availability for DPCM (X) / Normal (Y) / Codec2Codec (Z) connections.
 > 
-> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+> (A)	static int soc_get_playback_capture(...)
+> 	{
+> 		...
+>  ^		if (dai_link->dynamic || dai_link->no_pcm) {
+>  |			...
+>  |(a)			if (dai_link->dpcm_playback) {
+>  |				...
+>  | ^				for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+>  |(*)					...
+>  | v				}
+>  |				...
+> (X)			}
+>  |(b)			if (dai_link->dpcm_capture) {
+>  |				...
+>  | ^				for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+>  |(*)					...
+>  | v				}
+>  |				...
+>  v			}
+> 		} else {
+>  ^ ^			/* Adapt stream for codec2codec links */
+>  |(Z)			int cpu_capture = ...
+>  | v			int cpu_playback = ...
+> (Y)
+>  | ^			for_each_rtd_ch_maps(rtd, i, ch_maps) {
+>  |(*)				...
+>  v v			}
+> 		}
+> 		...
+> 	}
+> 
+> (*) part is checking each DAI's availability.
+> 
+> At first, (X) part is for DPCM, and it checks playback/capture
+> availability if dai_link has dpcm_playback/capture flag (a)(b).
+> But we are already using playback/capture_only flag for Normal (Y) and
+> Codec2Codec (Z). We can use this flags for DPCM too.
+> 
+> Before				After
+> 	dpcm_playback = 1;	=>	/* no flags */
+> 	dpcm_capture  = 1;
+> 
+> 	dpcm_playback = 1;	=>	playback_only = 1;
+> 
+> 	dpcm_capture  = 1;	=>	capture_only = 1;
+> 
+> 	dpcm_playback = 0;	=>	error
+> 	dpcm_capture  = 0;
+> 
+> This patch convert dpcm_ flags to _only flag, and dpcm_ flag will be
+> removed if all driver switched to _only flags.
+> 
+> Here, CPU <-> Codec relationship is like this
+> 
+> 	DPCM
+> 		[CPU/dummy]-[dummy/Codec]
+> 		^^^^         ^^^^^
+> 	Normal
+> 		[CPU/Codec]
+> 		^^^^^^^^^^^
+> 
+> DPCM   part (X) is checking only CPU       DAI, and
+> Normal part (Y) is checking both CPU/Codec DAI
+> 
+> Here, validation check on dummy DAI is always true,
+> Therefor we want to expand validation check to all cases.
+> 
+> One note here is that unfortunately DPCM BE Codec had been no validation
+> check before, but all cases validation check breaks compatibility on
+> some vender's devices. Thus this patch ignore it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  .../sound/mediatek,mt2701-wm8960.yaml         | 59 +++++++++++++++++++
->  .../bindings/sound/mt2701-wm8960.txt          | 24 --------
->  2 files changed, 59 insertions(+), 24 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
+>  sound/soc/soc-pcm.c | 90 +++++++++++++++++++--------------------------
+>  1 file changed, 38 insertions(+), 52 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
-> new file mode 100644
-> index 000000000..771f14a59
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt2701-wm8960.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+> index 77ee103b7cd1..8761ae8fc05f 100644
+> --- a/sound/soc/soc-pcm.c
+> +++ b/sound/soc/soc-pcm.c
+> @@ -2793,7 +2793,12 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
+>  				    int *playback, int *capture)
+>  {
+>  	struct snd_soc_dai_link *dai_link = rtd->dai_link;
+> +	struct snd_soc_dai_link_ch_map *ch_maps;
+>  	struct snd_soc_dai *cpu_dai;
+> +	struct snd_soc_dai *codec_dai;
+> +	struct snd_soc_dai *dummy_dai = snd_soc_find_dai(&snd_soc_dummy_dlc);
+> +	int cpu_playback;
+> +	int cpu_capture;
+>  	int has_playback = 0;
+>  	int has_capture  = 0;
+>  	int i;
+> @@ -2803,65 +2808,46 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* REMOVE ME */
+>  	if (dai_link->dynamic || dai_link->no_pcm) {
+> -		int stream;
+> -
+> -		if (dai_link->dpcm_playback) {
+> -			stream = SNDRV_PCM_STREAM_PLAYBACK;
+> -
+> -			for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+> -				if (snd_soc_dai_stream_valid(cpu_dai, stream)) {
+> -					has_playback = 1;
+> -					break;
+> -				}
+> -			}
+> -			if (!has_playback) {
+> -				dev_err(rtd->card->dev,
+> -					"No CPU DAIs support playback for stream %s\n",
+> -					dai_link->stream_name);
+> -				return -EINVAL;
+> -			}
+> +		if (dai_link->dpcm_playback && !dai_link->dpcm_capture)
+> +			dai_link->playback_only = 1;
+> +		if (!dai_link->dpcm_playback && dai_link->dpcm_capture)
+> +			dai_link->capture_only = 1;
+> +		if (!dai_link->dpcm_playback && !dai_link->dpcm_capture) {
+> +			dev_err(rtd->dev, "no dpcm_playback/capture are selected\n");
+> +			return -EINVAL;
+>  		}
+> -		if (dai_link->dpcm_capture) {
+> -			stream = SNDRV_PCM_STREAM_CAPTURE;
+> +	}
+>  
+> -			for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+> -				if (snd_soc_dai_stream_valid(cpu_dai, stream)) {
+> -					has_capture = 1;
+> -					break;
+> -				}
+> -			}
+> +	/* Adapt stream for codec2codec links */
+> +	cpu_playback = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_PLAYBACK);
+> +	cpu_capture  = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_CAPTURE);
+>  
+> -			if (!has_capture) {
+> -				dev_err(rtd->card->dev,
+> -					"No CPU DAIs support capture for stream %s\n",
+> -					dai_link->stream_name);
+> -				return -EINVAL;
+> -			}
+> -		}
+> -	} else {
+> -		struct snd_soc_dai_link_ch_map *ch_maps;
+> -		struct snd_soc_dai *codec_dai;
+> -
+> -		/* Adapt stream for codec2codec links */
+> -		int cpu_capture  = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_CAPTURE);
+> -		int cpu_playback = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_PLAYBACK);
+> +	/*
+> +	 * see
+> +	 *	soc.h :: [dai_link->ch_maps Image sample]
+> +	 */
+> +	for_each_rtd_ch_maps(rtd, i, ch_maps) {
+> +		cpu_dai	  = snd_soc_rtd_to_cpu(rtd,   ch_maps->cpu);
+> +		codec_dai = snd_soc_rtd_to_codec(rtd, ch_maps->codec);
+>  
+>  		/*
+> -		 * see
+> -		 *	soc.h :: [dai_link->ch_maps Image sample]
+> +		 * FIXME
+> +		 *
+> +		 * DPCM BE Codec has been no checked before.
+> +		 * It should be checked, but it breaks compatibility.
+> +		 * It ignores BE Codec here, so far.
+>  		 */
+> -		for_each_rtd_ch_maps(rtd, i, ch_maps) {
+> -			cpu_dai	  = snd_soc_rtd_to_cpu(rtd,   ch_maps->cpu);
+> -			codec_dai = snd_soc_rtd_to_codec(rtd, ch_maps->codec);
+> -
+> -			if (snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_PLAYBACK) &&
+> -			    snd_soc_dai_stream_valid(cpu_dai,   cpu_playback))
+> -				has_playback = 1;
+> -			if (snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_CAPTURE) &&
+> -			    snd_soc_dai_stream_valid(cpu_dai,   cpu_capture))
+> -				has_capture = 1;
+> -		}
+> +		if (dai_link->no_pcm)
+> +			codec_dai = dummy_dai;
 > +
-> +title: MediaTek MT2701 with WM8960 CODEC
-> +
-> +maintainers:
-> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt2701-wm8960-machine
-> +
-> +  mediatek,platform:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of MT2701 ASoC platform.
-> +
-> +  audio-routing:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description: |
+> +		if (snd_soc_dai_stream_valid(cpu_dai,   cpu_playback) &&
+> +		    snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_PLAYBACK))
+> +			has_playback = 1;
+> +		if (snd_soc_dai_stream_valid(cpu_dai,   cpu_capture) &&
+> +		    snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_CAPTURE))
+> +			has_capture = 1;
+>  	}
 
-Don't need '|'.
+The problem I have is with the following code (not shown with diff)
 
-> +      A list of the connections between audio components. Each entry is a
-> +      pair of strings, the first being the connection's sink, the second
-> +      being the connection's source.
-> +
-> +  mediatek,audio-codec:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the WM8960 audio codec.
-> +  
-> +  pinctrl-names:
-> +    const: default
-> +
-> +  pinctrl-0: true
+	if (dai_link->playback_only)
+		has_capture = 0;
 
-You can drop pinctrl properties. Those are implicitly supported.
+	if (dai_link->capture_only)
+		has_playback = 0;
 
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - mediatek,platform
-> +  - audio-routing
-> +  - mediatek,audio-codec
-> +  - pinctrl-names
-> +  - pinctrl-0
-> +
-> +examples:
-> +  - |
-> +    sound {
-> +        compatible = "mediatek,mt2701-wm8960-machine";
-> +        mediatek,platform = <&afe>;
-> +        audio-routing =
-> +            "Headphone", "HP_L",
-> +            "Headphone", "HP_R",
-> +            "LINPUT1", "AMIC",
-> +            "RINPUT1", "AMIC";
-> +        mediatek,audio-codec = <&wm8960>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&aud_pins_default>;
-> +    };
+So with this grand unification, all the loops above may make a decision
+that could be overridden by these two branches.
+
+This was not the case before for DPCM, all the 'has_capture' and
+'has_playback' variables were used as a verification of the dai_link
+settings with an error thrown e.g. if the dpcm_playback was set without
+any DAIs supporting playback.
+
+Now the dailink settings are used unconditionally. There is one warning
+added if there are no settings for a dailink, but we've lost the
+detection of a mismatch between dailink and the set of cpu/codec dais
+that are part of this dailink.
+
+
