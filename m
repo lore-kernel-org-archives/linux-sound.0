@@ -1,151 +1,186 @@
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11021007.outbound.protection.outlook.com [52.101.128.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEFC53BE;
-	Mon,  1 Apr 2024 04:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711944008; cv=fail; b=e42f5H/OM5FQfxuZLn5zh6W3mZLB+uGhxeI9a9qmqcP81G1ftfTGKpIq6+L4AgZNFEeLVbVB1z7pRPtz5YB0a/cOKjuBXOfA/ZreUGJeppba8PqUQiGtvxUSKl7S5u1NlptX2O1d/5NOlHXsuodha36VxP0XmhU8EjLYwVJ/Nyw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711944008; c=relaxed/simple;
-	bh=sZI6WY8O0zOMIY6pjFuOdzxteiQomX0hOAZYWbPR2dk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rdqvS2cGuj0qNBd+7U/+gA5r85l9OvE8WG/eLLKzfvZLC4/LvRcBfe0M319zYcBdKq+yhZtkX8EqIhhb9/nMjVf5PacV5cXvx01vrRJLljSKqR+dCZpVY9scW+ImROKemgnzOP5ZYdXYZVcbKxqy2M4JdYOVx9PP4jllW1hvwMI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=AsxaJR68; arc=fail smtp.client-ip=52.101.128.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9FB2581;
+	Mon,  1 Apr 2024 04:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711946180; cv=none; b=VX55o/VJqUr6tXQvf6DVP1aNOuPQl1FGYfIHL4s9RdagDseu+44jSzSNS9HUAT5dkHJRrRhMDOWYnoqBtpZU0RY5uhBX8XUogOiGor9h4gWhLmIoY5Jj5jTsKw6Ous/PgL8PKMsXregU89HT1Z7kIrhSDaVilZ+8JwMeVZJr2XU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711946180; c=relaxed/simple;
+	bh=+xnRB0MXYbWcOTORh8ezVjlkf9Npugu/WHWEWqiFl4k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FdVff+6Vskn+/MvesnZ1uvGIRE1FQnh98vnbOMVmuJsQSJOHO/DfU+Oo6o/w0T+RB5/4NbSMr0CNo2/w11kYhR9E2EevhtwzXahv1jhSTyDFeebVBupyf14l+iL8NvaPaeYvI2q5303h+HNLNTbXEGtHnpiqlGHj2j9pY/axfmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IXK6MtPK; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="AsxaJR68"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CI1MJHfdhZv2CvSRUTlAD19WiPp+9ueV4IfLQscx5NsMT+vjJ3AD0nvm3z/2xwFcYndjBxzXnLeXVjoAG7gE1kMEEnzYmnr6fSrNcc9yITa6akzHWT0jhvM0zEtr8oUeJm0D9rIsfcxmOrwZ1IowD4Qc8gudtEWtMfSiwN+/IXtGs9ITElmQHPK+a6m8qkNaj82z+lfElWPXW81dtUsA0DQP3pCv8vvBx6kTyTTVKQ1H114Ph/N8XjsUzE+XEqLI1NvVE4Sm2nYVtp4BEl8HvNTFm1MrvaJXi1urEXZcuso0sjNKJjH8TKL3XOgdFMtPLjO0rTrfskrEDe3l0iX/1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sZI6WY8O0zOMIY6pjFuOdzxteiQomX0hOAZYWbPR2dk=;
- b=EgR+53zfaiaWZQOx1YhJ8OOcZOolBx3sUqsy9u7wbGvGLhrkOiDtSSeVTvLMAu4u5u/wH5y4hJClHD8DLMe75hckq0if5NSZA8t3UAT8bRtK+x04FDJI8lpuCssFPdCDl4vZblytF6BdmMjePKzu6PKAvXr/hfySKTNUe29WQ271BaVkRiGTDFw4aGPxGVxBnxk5iVV5gJxsHEtbw8LTuOEXsAUAH53ky9bGp5VRiXrxWJOPS8sxZyCsd2eGcUdsb9K8xf5CMzY9oFtc+wrJm0OIjFXQ2YOPh63gy8sDw1kgUyTVVbSANHxgJSR2+U3kao3x+56PMHsAKu8llRIO3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nuvoton.com; dmarc=pass action=none header.from=nuvoton.com;
- dkim=pass header.d=nuvoton.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sZI6WY8O0zOMIY6pjFuOdzxteiQomX0hOAZYWbPR2dk=;
- b=AsxaJR68XgWWjSd6qCnuX1qwqyFAitWgyeS/DpmW/Ee1Agg9NyOIrMY2hNKnBNwJwHBK2VapD5mj3aJJp2prlHWhy4sV5wx7x4QNo9xnNIxRFUOE71YR8V8TRokEJ42kN0ex4s+f22Oxl9fkOfS65qsyzLx7H0EeUtwRbwuPpXc=
-Received: from SI6PR03MB8987.apcprd03.prod.outlook.com (2603:1096:4:235::7) by
- SEZPR03MB6761.apcprd03.prod.outlook.com (2603:1096:101:64::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.46; Mon, 1 Apr 2024 03:59:59 +0000
-Received: from SI6PR03MB8987.apcprd03.prod.outlook.com
- ([fe80::13be:c406:46ab:8d0e]) by SI6PR03MB8987.apcprd03.prod.outlook.com
- ([fe80::13be:c406:46ab:8d0e%5]) with mapi id 15.20.7409.042; Mon, 1 Apr 2024
- 03:59:59 +0000
-Message-ID: <7426929b-c92d-4020-a59e-20fddc753e98@nuvoton.com>
-Date: Mon, 1 Apr 2024 11:59:54 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/2] ASoC: nau8325: Modify driver code and dtschema.
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
- YHCHuang@nuvoton.com, KCHSU0@nuvoton.com, CTLIN0@nuvoton.com,
- SJLIN0@nuvoton.com, scott6986@gmail.com, supercraig0719@gmail.com,
- dardar923@gmail.com
-References: <20240329085402.3424749-1-wtli@nuvoton.com>
- <ZgbFv+c3fjME+x+Y@finisterre.sirena.org.uk>
-From: WTLI <wtli@nuvoton.com>
-In-Reply-To: <ZgbFv+c3fjME+x+Y@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: TYCP286CA0103.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::16) To SI6PR03MB8987.apcprd03.prod.outlook.com
- (2603:1096:4:235::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXK6MtPK"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1dee27acf7aso25826535ad.2;
+        Sun, 31 Mar 2024 21:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711946179; x=1712550979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wwE/tImZaiEw269ZV6D7aAgEnYEgHKfSAFMQ257qCzM=;
+        b=IXK6MtPKD8JSIrIZXWoWqc8F3U6XVHOe09FvuPNK9CWr5CTcMYAr9tt+JW5r+R7WGN
+         +pG6nSTC12uUWYfZGaCAdB1du5u2moEUNsp5WJ2zntUQny+kswT6ysoYAqT7vsYwL3fT
+         cMEu58DLHaT8CtKJYDeFeII6zzmSOk8MxYTpowk5RgFzyHJMe6ztDkdRryWZJv9GZq0n
+         OlOfcRzvCIEBbA3hZFUgTGQoihVFPFfyHO5mDPtfO1jKMlqXx9U1C1HXyaxbvO1sO47r
+         n67wpYz6O7DSDUh+50+e49j+5A91QF8Q3Zc4MydC1ee/lB6RREhETTBe17gbQ5xScjxP
+         wWUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711946179; x=1712550979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wwE/tImZaiEw269ZV6D7aAgEnYEgHKfSAFMQ257qCzM=;
+        b=K0ziUVk6ODBAVB+wpdxPSxhYxJp/afTTY3YO19yUZY3J9jtCW8u1DDJHcfzcAaDQz9
+         DCX/iVTuu8nLfE2VfjEaNKgZVzkEOeRG8KA+zwaNGi/yL/BaWh7aiJEgI7qAXNAi2XFe
+         gXMQEt35RL8msR5+5r56NAb6DDb8B91i77yjCSMGk13x4XmSt7oWf/+BJF0AvdDjEel9
+         PyeknOT12Pa0Em1YP4rwYGQWDghuse1rxcpxP6gWz0Vs9OvYxxW+MnHF8CKy9gmPtBa+
+         /cWibQSz5tOcrKcc9Bl3G33mYhzQ+rKc/22GWSTNsjEPQ0ERdqLTbr9lnWSDts+V2eXY
+         bmFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTsVMLWux2wB6WcavUhAUCb1/wov78lu5ydI0JrviaYPa2LNLp6RRb+x+VbNTCHje7ZywoJKVYO+dj1BbJMPB37b8AtQGiGObrUjy/x2p81s8vxxcPjkWRbbbsQwO1oqjc9AMiycaiJ/CUnC9ZoZwv8FWVdUcXt8eUuS9s7aAIk15ajRwk
+X-Gm-Message-State: AOJu0YwzjjK0SrJe0MBbi4KJxPT534BFRDT3XHik8Rq+/qEW5QVrtofM
+	8Oh1wCQsKHGS2be0hFmXwDKoGjM7oMfAMwnBgA/mFuU4/+JiaNk4
+X-Google-Smtp-Source: AGHT+IEPrRPcssxLAqfAranfcyHY9xgJrUdh96WohAZXPVnDF8gY+cKfMUA1ablelrfiFyNBcdPxHg==
+X-Received: by 2002:a17:902:db0e:b0:1e0:b5ee:e806 with SMTP id m14-20020a170902db0e00b001e0b5eee806mr10295230plx.10.1711946178553;
+        Sun, 31 Mar 2024 21:36:18 -0700 (PDT)
+Received: from localhost ([103.139.191.219])
+        by smtp.gmail.com with UTF8SMTPSA id t4-20020a170902e84400b001d8be6d1ec4sm7748324plg.39.2024.03.31.21.35.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Mar 2024 21:36:01 -0700 (PDT)
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: dt-bindings: mt2701-wm8960: Convert to dtschema
+Date: Mon,  1 Apr 2024 10:05:05 +0530
+Message-Id: <20240401043505.40972-1-agarwala.kartik@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI6PR03MB8987:EE_|SEZPR03MB6761:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	oe3v6VjabG1acXk0RPMoY2JrtJ2atCC3NZxl00uxTd0ecDJqgNV/KpZGqjOjgTGBAzqpRMccdpESAzDGaAVifsR3tnu83y+/BW9sEBJlX5j2bnR5cA45aGcJ83arVNG9xgI3xWXpAp4ibwjDSJag/8y6p+iBl7EaZG8GGkjnhBtMT6AJcg1/DQGFC3HldJAxr/Fe4Gvc/tJAbuVHfFqW0ejD5RfWpQhVg307wgOFUmVes8BbFRS2lFVOL+9RbDyGl/H2dC2h1vpWNSX6oLOsHJTFkUMGk9me4JECcOlORbEnQ2wSsiD7Bgi0ZfryABfCra3JW+4hqhnW92ZErFZUlSP8LttyqZyyHu187MjtHyZTT/R2SSzVWe1uNEIvAk0xyxnrTBVk3lWvDgi591ohlxrJWWPNRVwgcIRxo//o06/PqSKgygznDfOoXKltQ/Uymv9MRu/TMmGnDa+nZA5YaX/ieKXFNpQ1cMf/MjEshNnzShA3rQwqbnV7bKlphZCqigN0v9eiYShG5ahcqs7H87hczwGJ1HeoThgdPrtOD3fligc6M6Hke4Q6u48ZmgW//jlEjaldT9M0ofGiGyUtCVOZDbZMRnwyGj4Fk+ou3N4fIJmZU7VZH3f1/g+BnO0YlSCzjdyCRhqPSOF+JMmnirXESiBFlpwSLgKdJfs69D8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI6PR03MB8987.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(7416005)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b0EwOHI1eFRCMDdKQ2lFbERRQXNFanFzNUlsRGJPbEE0cmFrZFd3QjhYbmJG?=
- =?utf-8?B?cWZsSjVjMC9Mc0l3U3c0UUt5WmFIMEFDeVJmMDZiYUlTNjdrYk4vNWpUM2VD?=
- =?utf-8?B?a0pmcnl4OXdBU0pNZ3ovZnVRYnZWcHdGNWx2eFFDUHEvVTJlcGRzcGd0allW?=
- =?utf-8?B?a0Rxalhtd2Jsd2ZPUmp2bGcvdGwzYjBna3ZmcDhwMWxzVVdlMzU1MGpWT0E0?=
- =?utf-8?B?VEFIMEVzL05oOTE0ZWhXaWRwYTI4UE40UUdPeEUxbk95SnhVKzUrSUY4a2Qx?=
- =?utf-8?B?V2VvU3NxbGdWMW1tN1lNWEMxUVJtd1Zpb1FDdDBQcjVuckhsdHZ4VVlac1Fi?=
- =?utf-8?B?OWhmL0VKekxrZEV4ZkNqY0k0NzVBckExSEdSV3I1Rkx4eFBBTWE0bnJVd3VX?=
- =?utf-8?B?QU9DMWo2K3RmUnplc01iY2xHZ1ArN0tjcDZFZW82QlRobm9MeHVMcUF6aWFr?=
- =?utf-8?B?ZXh4NnJacU9VWFdaaE9CdWNiNTVTQ3JocG9IT3pHNWFURDBRTWZmWHIwcUlJ?=
- =?utf-8?B?Q2wwRVdPY20zdUxZMjVOM1NpUWNvNEpwMXVIV0pVY0FHVmc2dVJDZlk1Z1RR?=
- =?utf-8?B?cnZNcmlBMWs1d0RCM0N3RCs1ZHkzNzhyU3BHb2l2LzZTZnA1V0J1L0F4ZHZF?=
- =?utf-8?B?MUNIQnloL3dwUTVRdUpaTzRiK1dTQk9WMG52ejUrMHE2RERPTjhoU2NNcEVh?=
- =?utf-8?B?bDFNRnZWdVhNSUZ0SEhXb1F6aTNCaXdDbENwQnFDVTk2TmZHaEpsMWxJWHhX?=
- =?utf-8?B?NmM3WVhWTkN4a3plUjh4UFZJODJZa3Q5UThIemZsbVp3S2FrRlNJZTJrb2FY?=
- =?utf-8?B?OUF3dWt6VkRDdUZjTVo3YXd0dStWTkZqaXNvZUF4RXl5K2RPZEpQdE5lRVdj?=
- =?utf-8?B?UG9reXZTbVc1TVYvMVFpcjN1SDVvNHRoclpscHMzd3krVEtNemJMS3N1SWFq?=
- =?utf-8?B?ZWQ1TmhMVW5GVFkyY0ZXTGx0T3k3VjZXN21UNjJrSTRrQ2EzUEx5UEtscUdM?=
- =?utf-8?B?ejFkZHFITjFubEpQemlZbEhqTUlENzRMSW5iZkZHUE9aaTNsOE44UzVyQnlJ?=
- =?utf-8?B?bWtrcTB4NVBWTG1hTC9iaklXNTlLdDlOTGF2cStXckVxNkVFVUhLelJ4bnZt?=
- =?utf-8?B?OStPRXJ5OXJCNXR4d2ZpZmpCdlpYclZJMXBKQnVrOTQxaWJVemtGUXdaQmNs?=
- =?utf-8?B?ajlkU05YZVRzSThGVVBXaFcrb2VOQjl4czdraGdGeG96bzVIOCs5N3dYYzlH?=
- =?utf-8?B?YWJkcmtLcDA3Q1Z3OVVTVDgrU21Zb1pSSE9KaUdpWDRwQUp6Uy85TW5tRUhF?=
- =?utf-8?B?VzJMSlQwRkRZa3MxdmJxNGNCYXJvV3VjdTI5Q2w2MGFYOUhWL0d3R0l1eXZ4?=
- =?utf-8?B?cDdrVWg5S3ROZkR6bURYWUNVMXovaTk4NDBrR3doT3YxS3ZYK1ErTDRubXdh?=
- =?utf-8?B?MHhsS3N4eUdsNVRldmQrMWxxS2h2c1RJUU5CWlZ2T3lJRFhvTG43bGZFSEhO?=
- =?utf-8?B?RTZ3OTAwWjhpeCt2VDZ3UmMzUjh1eHRVWFc0NzY5ZzN4Y0RYeWlyTktHTFFW?=
- =?utf-8?B?ZU1NdVBBYmpNWWRNZUEwTStXdE1UaGxPTFFPUldtdjN1aUJHL3VyUk5nNHlS?=
- =?utf-8?B?ZHE4V0V5R2ludy9ZQ29QejdnRDZ5U3kwVjFvM1ZwUHJNdUxucHBHU24zcThv?=
- =?utf-8?B?VzdBWS9KbGhieWxpbnJyN1FEc2xDMVlsM0dWajI3Q2JkbmtYVll0TEdWQzlZ?=
- =?utf-8?B?M3VaYnA1bzZsYUN5ZDI0MnNJUTgzNXBVVGZxRmpvSS9OZ3c2RDJkd1dnOHdo?=
- =?utf-8?B?cndwcklZcFUrNDFoUm9rZnpwNUxSRmUyaTZGZ3krc2FEdHZra1JydFY3ZzU4?=
- =?utf-8?B?ZEg3QzBwaU5wRHVWaHFvdkJZdUU4bEc5WUEvR1FPakNxN1c4QWFQVGZUemcy?=
- =?utf-8?B?eW1WNlZLUzFWdkUvT0FvWUZFQ3l1cE4rQmYvc0hEYUxJbTNYMzE3dURWazA4?=
- =?utf-8?B?SGJCa1BXSnNSKzdzcndYRXNxZlVNeVJQNGZzcDZ4djVhNlQ3YmtINkhQTlVx?=
- =?utf-8?B?M2ZRanJZKzgxb21RVmkxRG52MkxxR2hPT1Z3SHZ3TTFJL1BYYmxpYVlHdGRH?=
- =?utf-8?Q?hyZojdcuIuzxUPSMYxXUqaZFW?=
-X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 519bf643-9e81-47a3-8507-08dc52003317
-X-MS-Exchange-CrossTenant-AuthSource: SI6PR03MB8987.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 03:59:59.2097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mlQqy8J9EFWxvdSAEJ0x/SpJsO1qr30N1qq5UkIz2QItrfNE35gXL+ENOnv4lpCFDxgiGr4N9XWNZAZ+WFkg+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB6761
+Content-Transfer-Encoding: 8bit
 
+Convert mt2701-wm890 bindings from text to dtschema. This is used by MediaTek mt77623a/n SoC.
 
-Mark Brown =E6=96=BC 3/29/2024 9:44 PM =E5=AF=AB=E9=81=93:
-> On Fri, Mar 29, 2024 at 04:54:00PM +0800, Seven Lee wrote:
->> Revise properties description and use standard units in dtschema.
->> The unit conversion driver based on the attribute must also be
->> changed accordingly.
-> My applying the prior version raced with you sending this new one, could
-> you please send incremental patches with the changes from your v6?
+Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+---
+ .../sound/mediatek,mt2701-wm8960.yaml         | 59 +++++++++++++++++++
+ .../bindings/sound/mt2701-wm8960.txt          | 24 --------
+ 2 files changed, 59 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
 
-Sorry, I misunderstood. I will send incremental patches with my v6.
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+new file mode 100644
+index 000000000..771f14a59
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt2701-wm8960.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MT2701 with WM8960 CODEC
++
++maintainers:
++  - Kartik Agarwala <agarwala.kartik@gmail.com>
++
++properties:
++  compatible:
++    const: mediatek,mt2701-wm8960-machine
++
++  mediatek,platform:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of MT2701 ASoC platform.
++
++  audio-routing:
++    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
++    description: |
++      A list of the connections between audio components. Each entry is a
++      pair of strings, the first being the connection's sink, the second
++      being the connection's source.
++
++  mediatek,audio-codec:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the WM8960 audio codec.
++  
++  pinctrl-names:
++    const: default
++
++  pinctrl-0: true
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - mediatek,platform
++  - audio-routing
++  - mediatek,audio-codec
++  - pinctrl-names
++  - pinctrl-0
++
++examples:
++  - |
++    sound {
++        compatible = "mediatek,mt2701-wm8960-machine";
++        mediatek,platform = <&afe>;
++        audio-routing =
++            "Headphone", "HP_L",
++            "Headphone", "HP_R",
++            "LINPUT1", "AMIC",
++            "RINPUT1", "AMIC";
++        mediatek,audio-codec = <&wm8960>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&aud_pins_default>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt b/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
+deleted file mode 100644
+index 809b609ea..000000000
+--- a/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-MT2701 with WM8960 CODEC
+-
+-Required properties:
+-- compatible: "mediatek,mt2701-wm8960-machine"
+-- mediatek,platform: the phandle of MT2701 ASoC platform
+-- audio-routing: a list of the connections between audio
+-- mediatek,audio-codec: the phandles of wm8960 codec
+-- pinctrl-names: Should contain only one value - "default"
+-- pinctrl-0: Should specify pin control groups used for this controller.
+-
+-Example:
+-
+-	sound:sound {
+-		compatible = "mediatek,mt2701-wm8960-machine";
+-		mediatek,platform = <&afe>;
+-		audio-routing =
+-			"Headphone", "HP_L",
+-			"Headphone", "HP_R",
+-			"LINPUT1", "AMIC",
+-			"RINPUT1", "AMIC";
+-		mediatek,audio-codec = <&wm8960>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&aud_pins_default>;
+-	};
+-- 
+2.34.1
 
-________________________________
-________________________________
- The privileged confidential information contained in this email is intende=
-d for use only by the addressees as indicated by the original sender of thi=
-s email. If you are not the addressee indicated in this email or are not re=
-sponsible for delivery of the email to such a person, please kindly reply t=
-o the sender indicating this fact and delete all copies of it from your com=
-puter and network server immediately. Your cooperation is highly appreciate=
-d. It is advised that any unauthorized use of confidential information of N=
-uvoton is strictly prohibited; and any information in this email irrelevant=
- to the official business of Nuvoton shall be deemed as neither given nor e=
-ndorsed by Nuvoton.
