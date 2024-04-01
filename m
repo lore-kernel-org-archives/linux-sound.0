@@ -1,87 +1,109 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6AF3F8F4;
-	Mon,  1 Apr 2024 13:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE951C0DF1;
+	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711979387; cv=none; b=kF640+JbG0/cOrKj9UnqbRioMIk6ERmTV23MyXqlDZX9sIkX+UTgHfUJ1ZR++2Phrs9nqgjX8XwtlM7CTn2SqWrFKSOFDOMwNHGCUVpRFsx0qvq1sVkF3SytFedEtKD2dmSaSwiETMC5yhs/mYFW3tu0RsIpKFzwD7dEGbttVGQ=
+	t=1711981913; cv=none; b=TXIR2N77lysChUDtrtUwgOC+OxvohGZsqTd0Ej7s8Xgbj08gJcpyu9hLJZfjb5xS+hBu5/RcRdnLHnXfeKjdWKt+DYFnv59B+qMjONgvV/jzHqe8Afm6nUl33ass46yIrAu+FO9iYGtdFlcW2tCJ89MSUPqwlmLpwxbcjXp1QHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711979387; c=relaxed/simple;
-	bh=VRBLb0H5LEzKv8/yGoomrhzv5ZJR0HMpMftcHhFvWu0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EFBj189FtFU9xwpI1E2bTUrgKkjaPo6MpH2QcV5K65Jy5HLlYlGKMxFTuUEJxkgmlGt9EVkdhlaZd7P0mfuVvYSYpTvsNP8ATuDH6MsM1ZAOCataRnmZHYGN7/NhrTHJ+chAkYQWlJG3vY8WtWkIdxkRfbYY/dP56RgG/3D0zPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AnoKuty3; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711981913; c=relaxed/simple;
+	bh=GZJ0qHPwhhIYdtdZ/yXQI/beI8+GkNE90kSPhqbSSQQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c5nuj+R4It1GDPRD4hlkDfSdkLEstTgkefmp5JpyzEiGuLQoCWi1LGt31v3TUDDTQCoXCXLlw8lejBJUBq4Zc/29lOS0pzESYF58Qa60AlHkC39ZPuT40q7KljwzgCXIYJTZIhXzm36S8u+HvjH4pJRunpeMAOFzQ0LZZxNgZfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cl3a4PFy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AnoKuty3"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-430c7898b91so12840841cf.1;
-        Mon, 01 Apr 2024 06:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711979385; x=1712584185; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jl+uIt64f57GTBJjXWFzhhuJgPbyMSgOea8HCMKPEdo=;
-        b=AnoKuty3rE9R209UlDBsqKqsnKlYFVc9Sd/ixo+EmEFb0yoeIuIZ1NJRc+GnaIwMMJ
-         Bd5sUlLvBmtFldyL8IYO8qswhBstMl7YOd0/0vzlGBA0ddKgkQUMCAevBlsANkDTU+V7
-         1JuDKQczksVMZEkzTxII2qqzeKctkqylB5/SA9nXdJXtLBocWvTYbzs9yiZA76XbFhIE
-         W0eHgK44zTorwd45Yrxh7WtSjD4CzR7RaWtYket6G+3GvBeYbJ1EFvFc07qGWU0trjCg
-         wKJ1x5cXg+luWDjf8kpRnP3j8xPJgNWcwB5LAWsMrpYSMxOWzueXgmcHUlPE+P8TMBAG
-         rbzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711979385; x=1712584185;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jl+uIt64f57GTBJjXWFzhhuJgPbyMSgOea8HCMKPEdo=;
-        b=HKHnzocSFOho/JwOhfRapneY6rfxlIwiD4G0m43kY+zfeXH5JMk9NjgD8iHLcfHe8P
-         3OcBRo+fnhoJhYOmOO+vHSfClAPH3ELKMa44n56v8s84oz/h671KcqB8lsgzZ6qCB45V
-         u9etjeHjZMi3MPfYiAHCyaENSK+W6R90H/LXsdDqYj5ElfjzJmYdKTXzRBEDjfV4g8uZ
-         08JBJ9wUK0fuk/lVnOYLLs++sEE1/xzO5xxNzPcRHDdg2Iu75pzG6n+oEBEOBS87gITO
-         cmT95/X1yCNSEzy68CZVS8E6vph6zw05uw5D36gzyXwwyVCa4/IfIG+di7kLHzxmMxIy
-         8Yrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVFInU8IKZ/3aZwKregG4mpEnkRiFGCstlJ876Fo6LeZ6Hvh/BhGiLjfVkOsbikbO/uaU1pHrWHbGOK/XN255y0wknr9NdGBIOrx9k=
-X-Gm-Message-State: AOJu0YxrerJZZfU1SlnfRq1Dgkup9gFsupHe5SzCd52NFpOML3zEX6/v
-	dO34v/PH+bCWK3O1ebduIlyyiC5Ac4t8KMYPO84VpbmifNTu27tVwaH4jHVc5/Cu1xMv0KRP6h2
-	jAwuqQaFHE1kD7ppFhyD3b6pyt0o=
-X-Google-Smtp-Source: AGHT+IG8xarylrtGVemOrXft3mFRDMyOj0shCAYvtM20xdIskXxlhuGdqBqt8ba47CFV4cZm2Uw9rhnam4BLDKbVCmY=
-X-Received: by 2002:a0c:fad0:0:b0:696:9892:fe29 with SMTP id
- p16-20020a0cfad0000000b006969892fe29mr8969407qvo.5.1711979384658; Mon, 01 Apr
- 2024 06:49:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cl3a4PFy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9970C433C7;
+	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711981912;
+	bh=GZJ0qHPwhhIYdtdZ/yXQI/beI8+GkNE90kSPhqbSSQQ=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=cl3a4PFy9rmvwyZfAgOdn+b8rU3y/xg5TOSBKtZ7unfD/DmGRn6bDLXCdIsEFhAXK
+	 2vBa0KbHLazy/ACncf6MPcfswdSwlgEyi+9+MecUuRkqc/73xlU2cGJiMcmpo6kQyj
+	 UkySuiN4i5CcMpFLNTsoRs5n0EtzoQdlYhSmBocsRTJbjzI0bv2dRcf8FYNbnyrF1e
+	 2RZgAiaqk+jzdRQZUVUmk3WWeCfa7+aK2jRw8zSffXhfLJClQdOrsIY3FmUGrza6gP
+	 2GMC/q5G2pq31VPz48Oi7TVGHid/TmhWQfHaGJRR/8miN4WVf00l2ZJ5gbsx7LmWqf
+	 AJxr7SEdCCJyA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB401CD1292;
+	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
+From: Daniel Berlin via B4 Relay <devnull+dberlin.dberlin.org@kernel.org>
+Date: Mon, 01 Apr 2024 10:31:30 -0400
+Subject: [PATCH] Add support for 2024 ROG Strix G634JZR
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
- <874jcl7e83.wl-tiwai@suse.de> <CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
- <87v851e2di.wl-tiwai@suse.de>
-In-Reply-To: <87v851e2di.wl-tiwai@suse.de>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Mon, 1 Apr 2024 18:49:33 +0500
-Message-ID: <CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
-Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592
- decrease 30% of gaming performance
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240401-add-rog-strix-16-g634jzr-v1-1-ac396095409e@dberlin.org>
+X-B4-Tracking: v=1; b=H4sIAEHFCmYC/x3MQQ5AMBBA0avIrE3SVkm4ilhUO2oskKmIEHfXW
+ L7F/w8kEqYEXfGA0MmJtzVDlwX42a2RkEM2GGWsskqjCwFli5gO4Qt1g7Gp7HILtlTbVnkXvBk
+ h57vQxNe/7of3/QAvzIPVagAAAA==
+To: James Schulman <james.schulman@cirrus.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Berlin <dberlin@dberlin.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711981912; l=1959;
+ i=dberlin@dberlin.org; s=20231103; h=from:subject:message-id;
+ bh=OkAb0mgem2LTUaEtI3QpWVORvUHuRQ4HTHDw+7mTmOo=;
+ b=YVpBuS/DPGPSMIvGvxBHJw3haqM0JyxXizPd9bNmgUQrCczpAtLBPuXOb2U+cilk8c/JMCLHZ
+ djiMPPPiofUCumZT2HN3Y3EM2dPYqLVSXN41TPEjDEE0IspYGoyAv1W
+X-Developer-Key: i=dberlin@dberlin.org; a=ed25519;
+ pk=cy2fotxgi42vqBilzDOe7Wq2+TsfMspPwg7pfE9Te+M=
+X-Endpoint-Received: by B4 Relay for dberlin@dberlin.org/20231103 with
+ auth_id=96
+X-Original-From: Daniel Berlin <dberlin@dberlin.org>
+Reply-To: dberlin@dberlin.org
 
-On Mon, Apr 1, 2024 at 4:41=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
-> The only code of the commit 587d67fd929a is the close of ALSA timer
-> device.  If it really matters, it implies that the user-space seems
-> trying to open/close the ALSA timer device so frequently.
->
-> Are you using ALSA dmix/dsnoop?  It would explain.
+From: Daniel Berlin <dberlin@dberlin.org>
 
-It's new words for me. I didn=E2=80=99t configure anything like this myself=
-,
-only if the maintainers of my distribution enable it by default.
-I only know that Fedora Rawhide uses Pipewire for mixing sound.
+The windows driver inf says it uses the exact same tunings and setup as the
+older G634, and then reuses the data for ID 1043:1CAF.
 
---=20
-Best Regards,
-Mike Gavrilov.
+We do the same here.
+Tested on an actual laptop, sound works fine with this patch plus
+default fallback firmware.
+
+Signed-off-by: Daniel Berlin <dberlin@dberlin.org>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 72ec872afb8d..25c117db3317 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -108,6 +108,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
+ 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
++	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+ 	{ "17AA38A9", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
+ 	{ "17AA38AB", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
+@@ -496,6 +497,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431F12", generic_dsd_config },
+ 	{ "CSC3551", "10431F1F", generic_dsd_config },
+ 	{ "CSC3551", "10431F62", generic_dsd_config },
++	{ "CSC3551", "10433A60", generic_dsd_config },
+ 	{ "CSC3551", "17AA386F", generic_dsd_config },
+ 	{ "CSC3551", "17AA38A9", generic_dsd_config },
+ 	{ "CSC3551", "17AA38AB", generic_dsd_config },
+
+---
+base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
+change-id: 20240401-add-rog-strix-16-g634jzr-9e5490cadc2b
+
+Best regards,
+-- 
+Daniel Berlin <dberlin@dberlin.org>
+
+
