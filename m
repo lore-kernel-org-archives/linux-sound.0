@@ -1,61 +1,73 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2060.outbound.protection.outlook.com [40.107.255.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B47414014;
-	Mon,  1 Apr 2024 10:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711965747; cv=none; b=dtvTIdglllVebGaqqCQtYd+6E6x4q9xt2Yu83ecgvLfefggJ/vR2IX9XO0pxiz56LH+olIfo7AV0E7a2CzxGmQJN+GhjHh5Qo0QCJ3LYXSafYZvlLhHu5shJft11Wz0D/O4dRpmVIVn5wvItXwqn78IdnLifGKgg8J79e87gdxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711965747; c=relaxed/simple;
-	bh=s/N/0MGnnbaI2ruainzBFAMTg5WL9GCIxZMR9Vo5V2w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oJOAk5zj1by0X2/VvbKFFoxMb9jYiQFxZ532NUdHyEGXiUvvz6uZrVffG3bW1EfEILkFE9OJSnZeHn5uTkTFaINOhMa6B7JVIGtksXbH5aaH6lHdKsKmzcAP7yKcbPUfNw17phzY80aWVd5oATWX3WV7+XH6ai88fypk3SfUKt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Wb4xgyCn; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB861854;
+	Mon,  1 Apr 2024 10:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711968489; cv=fail; b=p4TSFaRmBu+tYqpWTwcg1Ue0n5+25o56ZAsl+ws+PGvvNzH7Mq69AZAUNBGFt/Brs4vwbNvZDCdNBTUijOz9nWhDrfdXWbrKlFwLt/0PW101g2i0mO4+ceoRgEmE9zkKvLy5wIgTYvTpA6Nv31ezsqvqByU4sJH7632CZmukB2M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711968489; c=relaxed/simple;
+	bh=3YZMrhtwYYI/rnGzWlll5OdU/HM972Jq8AAD782CmWc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HLKXtLA1fJcSLOgTvV+S8dpI8tEyDktLnHJiZ7eDvfejYIfGvXfRb4rrRqcO2sxMpM+wuBJe7KOp8vGzLY+x3PDiwgyQhPfcUFxdpooJzUkdREtZYxHcruKXlDmWcR8FaaVVkiCItANRW/8oiOKfqaeIP87Xq6McIrShfC85M9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=I3iY7BLH; arc=fail smtp.client-ip=40.107.255.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Wb4xgyCn"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4319jd4e020490;
-	Mon, 1 Apr 2024 05:02:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=QyfgH0d6kp4gRp6HlUFJbwfDEHAE87v+bFNRFgBAiMM=; b=
-	Wb4xgyCnUQoxMSFoyqerBRoCGWcUAVRNlkSkUbIBp/nqlfKbfgIUjqHjgHLr3jMo
-	1Ry+UUmW2VPGvE4cwmLNzeYj8/XpnpJhz8Yc8KPJUkQbi9y6wHIngwWJiEm8P321
-	a63OgI//UR42usNwrsbKR3Nujl2rur9hgEiPLx1JtRygmHGv5xYNmWI7QwfQdjER
-	u4pToHG9w/E3hYG6bzMgw8+IrDvPHgzxa014Upm0zqI2Pb6BU/BMpqITHNRSjjE8
-	LIzQ+wWyMHJX6upZpJ8uJOncKMHlmSJmtAiEfhRRdhdoKdHwYuDjatq/zJEQREjj
-	OGohMwe8BWoz09wUc+uW2g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3x6g4xhtw7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Apr 2024 05:02:12 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 1 Apr 2024
- 11:02:10 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Mon, 1 Apr 2024 11:02:10 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3FD0A820270;
-	Mon,  1 Apr 2024 10:02:10 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH v2 2/3] ASoC: soc-card: Use snd_ctl_find_id_mixer() instead of open-coding
-Date: Mon, 1 Apr 2024 10:02:09 +0000
-Message-ID: <20240401100210.61277-3-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240401100210.61277-1-rf@opensource.cirrus.com>
-References: <20240401100210.61277-1-rf@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="I3iY7BLH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eix/u6Pxit3R4msU7vhVSpWXX3cej0Xbbn/tmwTutmjsdUtbr5y0iUDLgyO+/pbxUHwBjtzxkSAOv1GoTijrqjREhXw86uJh8BerSbkW0mSFCQUYSnHF6tZrkEj8nveJeU8V/One/8mfRcZwQHrOY100VrEVh4zgrqzMBsINi5GQHPaUjBJhStBzaydjMbwTCpTcguX136pRAAkYaVQC1rG9dtzYP2mkeFmEb1OGXu7e43JfEIAibKH1QY0PkEJKNMmOqaFNEDNm8hrObpDVMSGUw4mtc6zs1bJ84CEwz0qszrVf0QEkbHdNJDjQH/JxRaQ3qLRLm8Yoeg+4vAQOkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lorP0dzn7NGTO03moKq8Jv7MQ0XHkrxoTwW6S63kbug=;
+ b=XxXsQ9GXz7epWDlK51MIm9ZkQ4/bZ2lLW9aUXAmYPbkQixysJNP7Cgeyfogqp4VqQZOcUFu+Fr1BB8qaWZZXZf862jsMWcBcd6162qVLRA58wYYudERQ+P7HdZWUbBps6wQ9RUoCT16oe+Zd+P6p36U8UUK0y0q38I35AD2RWol8GxDCMwqRZsCmdUp+nUTaegqeay87iCTq1SDzNv33B5MIIbh9QUk1WHBiSIxJ8iimkzOWCG1rPu4cR9VuHuIotrgWZZs5G7Jey59hd0HpC0W5tB83C/tr2y5OphWuFWIcRUBLwd0bH+3t1nTcYpF/vVCbrbgH3GX9UlORLedWSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 175.98.123.7) smtp.rcpttodomain=gmail.com smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lorP0dzn7NGTO03moKq8Jv7MQ0XHkrxoTwW6S63kbug=;
+ b=I3iY7BLHeOgUQrYnme/W3mpLrKR9miuLSL/13s+ZxVFXlu/0cLv7GwUDvJ8s5kE5Yj2IGN0ai6ZH7w8LDMr4o8U/15xn9ZVUWiAtzLTmDOwmAwXkJuyZI26FYTyuMKjKw7/NEM1ir9qfHtePlkiGABxomuHO82FatObwjvU6hGk=
+Received: from SG2PR06CA0228.apcprd06.prod.outlook.com (2603:1096:4:68::36) by
+ SEYPR03MB8454.apcprd03.prod.outlook.com (2603:1096:101:203::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.31; Mon, 1 Apr 2024 10:47:59 +0000
+Received: from HK2PEPF00006FAF.apcprd02.prod.outlook.com
+ (2603:1096:4:68:cafe::1e) by SG2PR06CA0228.outlook.office365.com
+ (2603:1096:4:68::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Mon, 1 Apr 2024 10:47:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
+Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
+ HK2PEPF00006FAF.mail.protection.outlook.com (10.167.8.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7452.22 via Frontend Transport; Mon, 1 Apr 2024 10:47:58 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
+ (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 1 Apr
+ 2024 18:47:57 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Mon, 1 Apr 2024 18:47:57 +0800
+From: Seven Lee <wtli@nuvoton.com>
+To: <lgirdwood@gmail.com>
+CC: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<YHCHuang@nuvoton.com>, <KCHSU0@nuvoton.com>, <CTLIN0@nuvoton.com>,
+	<SJLIN0@nuvoton.com>, <wtli@nuvoton.com>, <scott6986@gmail.com>,
+	<supercraig0719@gmail.com>, <dardar923@gmail.com>
+Subject: [PATCH] ASoC: nau8325: Revise soc_enum structure definition.
+Date: Mon, 1 Apr 2024 18:47:53 +0800
+Message-ID: <20240401104753.3432507-1-wtli@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,61 +76,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Ts69AvBdsGy9ubWHypuuhOhtbMX5BcX-
-X-Proofpoint-GUID: Ts69AvBdsGy9ubWHypuuhOhtbMX5BcX-
-X-Proofpoint-Spam-Reason: safe
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK2PEPF00006FAF:EE_|SEYPR03MB8454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04e4ff95-f9cf-4dd6-846a-08dc5239323c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	eCUfdkkdb9QPyt19Pzvs8xZhL4nEyWY4Mz/P9JwspY4J7qcaLxl5RSz6Bz1nZLEiRDBpRARmVneT2FUCSoJau+fu7kDgDesI39CcH1lGB7c+iTauLZNnf50bmjmjlFv8sk7U5fysxlYMbkA3bA1lHfeWjZVE6SEclyfiPQezm/J37UMFwed932NDgmcgr2yzOpZjCASGj8mp3ZMQw0qn+XAc8dXX4t3b3gOGVQNdrfmKuHdzE7MT4bhlcd3ixXjpKDR4GKGOV4GxQk0mclARMlW/CRYIFijRKMY+WysW5VoMdmGsPGZzhLy7ibbdoSNRwpSOntKECA5OWWzHHbpNj/1f9JUN0d84xJsUla8KcUC8Xli9TI0pO8mI4Bat851phs6pN6J0dDutchFmR6W2V5jbLxz2vGh/6NuYytlrwsks14OompkLSecOFrTtwkkaSxowC1nXueFWeLh0K3g2z2IDNfrbA5K2ISu7tOjDRFP59fR5egqOcmN0F4Dai9tZcAoZmBWx/QeGHna1MiUWm3wlCw3do0CZ//5dA9Be9s+9qPl3+KCebVZuUlEamBNoUhzSlPZ9UAZoKx0uPijkrXurlYECSLVtf7LodZqEHXeNR6me6W60wwH1nmNu2xdFYdydNYyHMbmJdlMTDw/Nk7/Ft5SpZ4rACePlVqa6oDummzP/Uhc3LschhlJnwp2PXOcLPTBd5MrMwWqNyDJHGXfrMefet7LZszYLB9lJ1ZCqsF6WPYpDbfaM87Kb+C9e
+X-Forefront-Antispam-Report:
+	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230031)(36860700004)(1800799015)(82310400014)(376005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 10:47:58.8895
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04e4ff95-f9cf-4dd6-846a-08dc5239323c
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK2PEPF00006FAF.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB8454
 
-Use the snd_ctl_find_id_mixer[_locked]() wrapper in
-snd_soc_card_get_kcontrol[_locked]() instead of open-coding a custom
-list walk of the card controls list.
+This patch is modified nau8325_dac_oversampl_enum enumerated.
+Use SOC_VALUE_ENUM instead to hide empty (presumably invalid) options.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Signed-off-by: Seven Lee <wtli@nuvoton.com>
 ---
- sound/soc/soc-card.c | 21 ++++-----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ sound/soc/codecs/nau8325.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-index 8a2f163da6bc..0a3104d4ad23 100644
---- a/sound/soc/soc-card.c
-+++ b/sound/soc/soc-card.c
-@@ -32,33 +32,20 @@ static inline int _soc_card_ret(struct snd_soc_card *card,
- struct snd_kcontrol *snd_soc_card_get_kcontrol_locked(struct snd_soc_card *soc_card,
- 						      const char *name)
- {
--	struct snd_card *card = soc_card->snd_card;
--	struct snd_kcontrol *kctl;
--
--	/* must be held read or write */
--	lockdep_assert_held(&card->controls_rwsem);
--
- 	if (unlikely(!name))
- 		return NULL;
- 
--	list_for_each_entry(kctl, &card->controls, list)
--		if (!strncmp(kctl->id.name, name, sizeof(kctl->id.name)))
--			return kctl;
--	return NULL;
-+	return snd_ctl_find_id_mixer_locked(soc_card->snd_card, name);
+diff --git a/sound/soc/codecs/nau8325.c b/sound/soc/codecs/nau8325.c
+index a00a30364c89..d65f73144597 100644
+--- a/sound/soc/codecs/nau8325.c
++++ b/sound/soc/codecs/nau8325.c
+@@ -174,13 +174,20 @@ static bool nau8325_volatile_reg(struct device *dev, unsigned int reg)
+ 	}
  }
- EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol_locked);
  
- struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
- 					       const char *name)
- {
--	struct snd_card *card = soc_card->snd_card;
--	struct snd_kcontrol *kctl;
-+	if (unlikely(!name))
-+		return NULL;
+-static const char * const nau8325_dac_oversampl[] = {
+-	"64", "256", "128", "", "32" };
++static const char * const nau8325_dac_oversampl_texts[] = {
++	"64", "256", "128", "32",
++};
++
++static const unsigned int nau8325_dac_oversampl_values[] = {
++	0, 1, 2, 4,
++};
  
--	down_read(&card->controls_rwsem);
--	kctl = snd_soc_card_get_kcontrol_locked(soc_card, name);
--	up_read(&card->controls_rwsem);
--
--	return kctl;
-+	return snd_ctl_find_id_mixer(soc_card->snd_card, name);
- }
- EXPORT_SYMBOL_GPL(snd_soc_card_get_kcontrol);
+ static const struct soc_enum nau8325_dac_oversampl_enum =
+-	SOC_ENUM_SINGLE(NAU8325_R29_DAC_CTRL1, NAU8325_DAC_OVERSAMPLE_SFT,
+-			ARRAY_SIZE(nau8325_dac_oversampl),
+-			nau8325_dac_oversampl);
++	SOC_VALUE_ENUM_SINGLE(NAU8325_R29_DAC_CTRL1,
++			      NAU8325_DAC_OVERSAMPLE_SFT, 0x7,
++			      ARRAY_SIZE(nau8325_dac_oversampl_texts),
++			      nau8325_dac_oversampl_texts,
++			      nau8325_dac_oversampl_values);
+ 
+ static const DECLARE_TLV_DB_MINMAX_MUTE(dac_vol_tlv, -8000, 600);
  
 -- 
-2.39.2
+2.25.1
 
