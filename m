@@ -1,109 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE951C0DF1;
-	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFBB41A8F;
+	Mon,  1 Apr 2024 14:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711981913; cv=none; b=TXIR2N77lysChUDtrtUwgOC+OxvohGZsqTd0Ej7s8Xgbj08gJcpyu9hLJZfjb5xS+hBu5/RcRdnLHnXfeKjdWKt+DYFnv59B+qMjONgvV/jzHqe8Afm6nUl33ass46yIrAu+FO9iYGtdFlcW2tCJ89MSUPqwlmLpwxbcjXp1QHs=
+	t=1711982903; cv=none; b=DulTi8ASqGkMa2GJym70m9NayQ3maXtRQk5rpTPbOQ6xbumP47V58beVXPmO/cXZja1V7QwWW6Df9E+9sBfdaGZkmDW9kRU0XDBNv+wIItsb0ZICJpNAfz3Tcjh2R9tD6t3dflgS4ABgdJTotvbJ02tJoqKY9oALJZ919mk7wNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711981913; c=relaxed/simple;
-	bh=GZJ0qHPwhhIYdtdZ/yXQI/beI8+GkNE90kSPhqbSSQQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c5nuj+R4It1GDPRD4hlkDfSdkLEstTgkefmp5JpyzEiGuLQoCWi1LGt31v3TUDDTQCoXCXLlw8lejBJUBq4Zc/29lOS0pzESYF58Qa60AlHkC39ZPuT40q7KljwzgCXIYJTZIhXzm36S8u+HvjH4pJRunpeMAOFzQ0LZZxNgZfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cl3a4PFy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711982903; c=relaxed/simple;
+	bh=7ubcAZ53bNX8OmYuapcEIXIACrFpAoA1Ij/WMLDmqkM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I43VH28+/x35Xv6/O3BNCaR2mK9GoX5D0WvrJhYw5jgLOYkrFrQcuUpm2x3d5flZH/wrzLHC+gxeMKmBW8+S/2pK1suPK8T//+Lj8gbKCePqih5qxAfgcyOsEVOsMyX/MdPY0sovUVwk2tUTeTd6qu/cf8D8JOfB0YNOcQZpPWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=06EdeJK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DtMP8+pZ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cl3a4PFy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C9970C433C7;
-	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711981912;
-	bh=GZJ0qHPwhhIYdtdZ/yXQI/beI8+GkNE90kSPhqbSSQQ=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=cl3a4PFy9rmvwyZfAgOdn+b8rU3y/xg5TOSBKtZ7unfD/DmGRn6bDLXCdIsEFhAXK
-	 2vBa0KbHLazy/ACncf6MPcfswdSwlgEyi+9+MecUuRkqc/73xlU2cGJiMcmpo6kQyj
-	 UkySuiN4i5CcMpFLNTsoRs5n0EtzoQdlYhSmBocsRTJbjzI0bv2dRcf8FYNbnyrF1e
-	 2RZgAiaqk+jzdRQZUVUmk3WWeCfa7+aK2jRw8zSffXhfLJClQdOrsIY3FmUGrza6gP
-	 2GMC/q5G2pq31VPz48Oi7TVGHid/TmhWQfHaGJRR/8miN4WVf00l2ZJ5gbsx7LmWqf
-	 AJxr7SEdCCJyA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB401CD1292;
-	Mon,  1 Apr 2024 14:31:52 +0000 (UTC)
-From: Daniel Berlin via B4 Relay <devnull+dberlin.dberlin.org@kernel.org>
-Date: Mon, 01 Apr 2024 10:31:30 -0400
-Subject: [PATCH] Add support for 2024 ROG Strix G634JZR
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="06EdeJK3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DtMP8+pZ"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D5EC72035C;
+	Mon,  1 Apr 2024 14:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1711982899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Zgc2xnigK6/fmVr0xlhvZsS6Kf0WzeOKUYY3G7tjqw=;
+	b=06EdeJK3dovh93Ny2GCcG4VjWh6DAHhfj5FxMaxaGu2L0rdq/cGE/nZyjC1hhEdZ55V6SL
+	4Q7Sw/bhQM5cVswyQoCB6AOWJNjD1Md4htXUOzoBQHIY80gyCrwxYU+GqrVLjrkHRj8wBF
+	n412mn+9CNkU3vgpGp/LXLPmxJoxy8w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1711982899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Zgc2xnigK6/fmVr0xlhvZsS6Kf0WzeOKUYY3G7tjqw=;
+	b=DtMP8+pZtfuDpJbnD/Yz8NzX5dfloPU+8jEn0yVGKxKx4gHmVhfpDFkG0eykJypXMrtIRm
+	6kJ87/fgxxtn6UBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 87B7E1348C;
+	Mon,  1 Apr 2024 14:48:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id 1lVVHzPJCmaiPgAAn2gu4w
+	(envelope-from <tiwai@suse.de>); Mon, 01 Apr 2024 14:48:19 +0000
+Date: Mon, 01 Apr 2024 16:48:23 +0200
+Message-ID: <87h6glt9zc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592 decrease 30% of gaming performance
+In-Reply-To: <CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
+References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
+	<874jcl7e83.wl-tiwai@suse.de>
+	<CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
+	<87v851e2di.wl-tiwai@suse.de>
+	<CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240401-add-rog-strix-16-g634jzr-v1-1-ac396095409e@dberlin.org>
-X-B4-Tracking: v=1; b=H4sIAEHFCmYC/x3MQQ5AMBBA0avIrE3SVkm4ilhUO2oskKmIEHfXW
- L7F/w8kEqYEXfGA0MmJtzVDlwX42a2RkEM2GGWsskqjCwFli5gO4Qt1g7Gp7HILtlTbVnkXvBk
- h57vQxNe/7of3/QAvzIPVagAAAA==
-To: James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Berlin <dberlin@dberlin.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1711981912; l=1959;
- i=dberlin@dberlin.org; s=20231103; h=from:subject:message-id;
- bh=OkAb0mgem2LTUaEtI3QpWVORvUHuRQ4HTHDw+7mTmOo=;
- b=YVpBuS/DPGPSMIvGvxBHJw3haqM0JyxXizPd9bNmgUQrCczpAtLBPuXOb2U+cilk8c/JMCLHZ
- djiMPPPiofUCumZT2HN3Y3EM2dPYqLVSXN41TPEjDEE0IspYGoyAv1W
-X-Developer-Key: i=dberlin@dberlin.org; a=ed25519;
- pk=cy2fotxgi42vqBilzDOe7Wq2+TsfMspPwg7pfE9Te+M=
-X-Endpoint-Received: by B4 Relay for dberlin@dberlin.org/20231103 with
- auth_id=96
-X-Original-From: Daniel Berlin <dberlin@dberlin.org>
-Reply-To: dberlin@dberlin.org
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.11
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-1.11 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 TO_DN_SOME(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D5EC72035C
 
-From: Daniel Berlin <dberlin@dberlin.org>
+On Mon, 01 Apr 2024 15:49:33 +0200,
+Mikhail Gavrilov wrote:
+> 
+> On Mon, Apr 1, 2024 at 4:41 PM Takashi Iwai <tiwai@suse.de> wrote:
+> > The only code of the commit 587d67fd929a is the close of ALSA timer
+> > device.  If it really matters, it implies that the user-space seems
+> > trying to open/close the ALSA timer device so frequently.
+> >
+> > Are you using ALSA dmix/dsnoop?  It would explain.
+> 
+> It's new words for me. I didn’t configure anything like this myself,
+> only if the maintainers of my distribution enable it by default.
+> I only know that Fedora Rawhide uses Pipewire for mixing sound.
 
-The windows driver inf says it uses the exact same tunings and setup as the
-older G634, and then reuses the data for ID 1043:1CAF.
-
-We do the same here.
-Tested on an actual laptop, sound works fine with this patch plus
-default fallback firmware.
-
-Signed-off-by: Daniel Berlin <dberlin@dberlin.org>
----
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 72ec872afb8d..25c117db3317 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -108,6 +108,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431F12", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
- 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
-+	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
- 	{ "17AA38A9", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
- 	{ "17AA38AB", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
-@@ -496,6 +497,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10431F12", generic_dsd_config },
- 	{ "CSC3551", "10431F1F", generic_dsd_config },
- 	{ "CSC3551", "10431F62", generic_dsd_config },
-+	{ "CSC3551", "10433A60", generic_dsd_config },
- 	{ "CSC3551", "17AA386F", generic_dsd_config },
- 	{ "CSC3551", "17AA38A9", generic_dsd_config },
- 	{ "CSC3551", "17AA38AB", generic_dsd_config },
-
----
-base-commit: 39cd87c4eb2b893354f3b850f916353f2658ae6f
-change-id: 20240401-add-rog-strix-16-g634jzr-9e5490cadc2b
-
-Best regards,
--- 
-Daniel Berlin <dberlin@dberlin.org>
+Then it shouldn't be dmix/dsnoop.  You'd better try profiling what's
+going on there.  e.g. try to get perf results with and without the
+commit.
 
 
+Takashi
