@@ -1,121 +1,117 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A591CAA3;
-	Mon,  1 Apr 2024 11:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34AD28DC0
+	for <linux-sound@vger.kernel.org>; Mon,  1 Apr 2024 12:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711972062; cv=none; b=YOccW4mT1ev8jelLxNx6k4tSXfRo+CguXuR4lzf8hTZdQYgTSHi4ZQPd1wopviuTDJXQlh7SUXTiUegBFB5Hi0TdNKfX0xOxaw4DhnpBq8VLxBc+sMr6pSCXps9fepOuYI+/ppa5lJChC2eRVU7NOqJ7Pq3DHYXqaV/EOtsuM+E=
+	t=1711974382; cv=none; b=IDkr2lrxNWBqQbrbmxIt/fG8H88R0M2/Pn8E6En6dMztidxNbDOW9xDkUUjd8rLEy5aAHxubVfeZlYcLcqeeaFPGkhH+IU+Dw7+By4QUcVb4XLcB98bO9KoKtj6z2IgpOZP+0KzPlFlTi058VUT+3rxHVyZXcJsDXdCLAyvPnWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711972062; c=relaxed/simple;
-	bh=7IV2knxGQfNUpdNuZwZ08rjAGtpMP5xr8K29ecJ0rS8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q4Na8q/vSmTZrdl63B3pAaSF0o1ZhSsP2vGIGGt625Kn9wcbM4OgO9vtjYv2hfu4C0DUU63bihVWChVqF6YBRn1ATd2x6lYhyluQwGr8d5UDeHjVW+bnyNtNnfQUeG8bVv5h+WmLr6YhFGvxtj1TW16fJ+//vGDmYOZan9dMed0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BiUDXxaY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Pj08psOe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1711974382; c=relaxed/simple;
+	bh=S0uiI1l+bopCmJ8FboWrkmf9PiNBKaQEV65dZuKRil4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LHBS89odUh8fau0AlsSTg2MUoAdllMzIS0yRiakXQAz2YoHWZsYnczHF2U8TblTPyPlO4guCRedGV9UU666VBwm0pWtf7sr4akuPc7w9G1NZJjvs/kIxvxsdzcu0j1rWCEIP7IL3IMCwEktl2ZRE1bRuQyjJ8ahlKegFEc8SVwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bendiksen.me; spf=pass smtp.mailfrom=bendiksen.me; dkim=pass (2048-bit key) header.d=bendiksen.me header.i=@bendiksen.me header.b=J+73k5td; arc=none smtp.client-ip=185.70.40.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bendiksen.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bendiksen.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BiUDXxaY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Pj08psOe"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B9139201B9;
-	Mon,  1 Apr 2024 11:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1711972058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9eNOhj5DPUaY8XXAp3FrbW8Ni7SsR7Ff8ci5lixkFT8=;
-	b=BiUDXxaYlIecIbYejxYsLWQaMF6db8yo25uPTEqOyoniKmMyQu8ij+QkGT2q2yTKQGWD8f
-	AjiVZbtANzs+98XPm/4LMatjSlwUU5ZnRqXH7lPH5CjMGTldS59jBxYgLKLpju00x4fXKl
-	KvZf9LRANnxsxrszum31HLA8nhXSaho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1711972058;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9eNOhj5DPUaY8XXAp3FrbW8Ni7SsR7Ff8ci5lixkFT8=;
-	b=Pj08psOeuDjJzNU1iWxKadIolyUOWmTsJu+ATq44tXhNtmp7Ygbk+v7CskeFtV5n456LDW
-	M8fQzEeZMTGJZFAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 85153139BE;
-	Mon,  1 Apr 2024 11:47:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id WbEeH9qeCmaNEAAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Mon, 01 Apr 2024 11:47:38 +0000
-Date: Mon, 01 Apr 2024 13:47:42 +0200
-Message-ID: <87r0fpe23l.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH] OSS: dmasound/paula: Mark driver struct with __refdata to prevent section mismatch
-In-Reply-To: <c216a129aa88f3af5c56fe6612a472f7a882f048.1711748999.git.u.kleine-koenig@pengutronix.de>
-References: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
-	<c216a129aa88f3af5c56fe6612a472f7a882f048.1711748999.git.u.kleine-koenig@pengutronix.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bendiksen.me header.i=@bendiksen.me header.b="J+73k5td"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bendiksen.me;
+	s=protonmail; t=1711974376; x=1712233576;
+	bh=kxyHDz4wP5C31gmz6bpfh2rAfPvXOIaBKxhpx4lBACw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=J+73k5tdAKpfxvYIDSqm5S7feaMf/+lK0/2BwUeulWqszAgdy3CiDBBuTX/rMtKx/
+	 etpco59lG6hzBXOuVN/zGEYKvhikzrwJYEp/7yQxmlMjzhOF6KuIImXJZaIZQFsA3N
+	 YBOlH0/w0tDqeKsnHtjU1cSR7saRIKD5/ZtynKQcvZBZw78oWQ64arvtc74vSSZ07w
+	 5/XQE1WtrdyGhGKZap/TxV3Qa/h7aNMN9B5nGQ/fDzxbRE2A12i4GhYrwUC0IcfagI
+	 g0ioyQwQ3brx7vkoeuguYDxKrU9owPrwBiBv+EJXfSIzRjdGoorNdldM4dLYoRXkNl
+	 bwqxR8+os4gWA==
+Date: Mon, 01 Apr 2024 12:26:10 +0000
+To: james.schulman@cirrus.com, david.rhodes@cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, tiwai@suse.com, sbinding@opensource.cirrus.com, kailang@realtek.com, luke@ljones.dev, shenghao-ding@ti.com, foss@athaariq.my.id, alsa-devel@alsa-project.org, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Christian Bendiksen <Christian@bendiksen.me>
+Cc: Christian Bendiksen <christian@bendiksen.me>
+Subject: [PATCH v3] Add sound quirks for Lenovo Legion slim 7 16ARHA7 models.
+Message-ID: <20240401122603.6634-1-christian@bendiksen.me>
+In-Reply-To: <87y19x5wfs.wl-tiwai@suse.de>
+References: <20240329185406.9802-1-christian@bendiksen.me> <87r0fsnmky.wl-tiwai@suse.de> <20240330115554.27895-1-christian@bendiksen.me> <87y19x5wfs.wl-tiwai@suse.de>
+Feedback-ID: 100541561:user:proton
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: 1.89
-X-Spam-Flag: NO
-X-Spamd-Bar: +
-X-Spamd-Result: default: False [1.89 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-0.996];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.01)[45.58%]
-X-Spam-Level: *
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B9139201B9
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 Mar 2024 22:54:42 +0100,
-Uwe Kleine-König wrote:
-> 
-> As described in the added code comment, a reference to .exit.text is ok
-> for drivers registered via module_platform_driver_probe(). Make this
-> explicit to prevent the following section mismatch warning
-> 
-> 	WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x8 (section: .data) -> amiga_audio_remove (section: .exit.text)
-> 
-> that triggers on an allmodconfig W=1 build.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+This fixes the sound not working from internal speakers on
+Lenovo Legion Slim 7 16ARHA7 models. The correct subsystem ID
+have been added to cs35l41_hda_property.c and patch_realtek.c.
 
-Thanks, applied.
+Signed-off-by: Christian Bendiksen <christian@bendiksen.me>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 4 ++++
+ sound/pci/hda/patch_realtek.c        | 2 ++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_h=
+da_property.c
+index 72ec872afb8d..d6ea3ab72f75 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -109,6 +109,8 @@ static const struct cs35l41_config cs35l41_config_table=
+[] =3D {
+ =09{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1=
+, 0, 0, 0, 0 },
+ =09{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2,=
+ 0, 0, 0, 0 },
+ =09{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1=
+, -1, 0, 0, 0 },
++=09{ "17AA3877", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 0, 0, 0 },
++=09{ "17AA3878", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 0, 0, 0 },
+ =09{ "17AA38A9", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2,=
+ -1, 0, 0, 0 },
+ =09{ "17AA38AB", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2,=
+ -1, 0, 0, 0 },
+ =09{ "17AA38B4", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=
+ -1, 0, 0, 0 },
+@@ -497,6 +499,8 @@ static const struct cs35l41_prop_model cs35l41_prop_mod=
+el_table[] =3D {
+ =09{ "CSC3551", "10431F1F", generic_dsd_config },
+ =09{ "CSC3551", "10431F62", generic_dsd_config },
+ =09{ "CSC3551", "17AA386F", generic_dsd_config },
++=09{ "CSC3551", "17AA3877", generic_dsd_config },
++=09{ "CSC3551", "17AA3878", generic_dsd_config },
+ =09{ "CSC3551", "17AA38A9", generic_dsd_config },
+ =09{ "CSC3551", "17AA38AB", generic_dsd_config },
+ =09{ "CSC3551", "17AA38B4", generic_dsd_config },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a17c36a36aa5..124aaaa6cf76 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10333,6 +10333,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[=
+] =3D {
+ =09SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9=
+_14IAP7_BASS_SPK_PIN),
+ =09SND_PCI_QUIRK(0x17aa, 0x386f, "Legion 7i 16IAX7", ALC287_FIXUP_CS35L41_=
+I2C_2),
+ =09SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA=
+7_14ARB7_I2C),
++=09SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FI=
+XUP_CS35L41_I2C_2),
++=09SND_PCI_QUIRK(0x17aa, 0x3878, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FI=
+XUP_CS35L41_I2C_2),
+ =09SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP=
+_TAS2781_I2C),
+ =09SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_=
+TAS2781_I2C),
+ =09SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_T=
+AS2781_I2C),
+--=20
+2.44.0
 
 
-Takashi
