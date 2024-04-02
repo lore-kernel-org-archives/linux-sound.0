@@ -1,45 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB5114AD35;
-	Tue,  2 Apr 2024 16:12:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957B615A4A7;
+	Tue,  2 Apr 2024 17:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712074360; cv=none; b=ZPZRpSO59yR5lU5E118IAxUPxb+TwGp3Pbw4lyo6tjnaxVx4kZvlmBbql2psIhQJMGQX0RTbgVBauoFNvGRRl0iIfYgT8M8XBgGOhl94U5tw9gwo2M1FvJORBx8Nur6FWhaaSBJlW3QCn07hpSTqa+ABD/+gdK18hDSLeVAy/+E=
+	t=1712079148; cv=none; b=CgfddK0jGobcuCWgqshjIcqX/PDDL0TTqtAO8ZPQFvpuSpAc9E/tS9Q49BSeSasys9JAXbcfq2hZZFHpp/PjAasYeZsxPPjyNOtbkwW+h+rDfKmJTiLjhSJ/BI5k3g7Y4yH4BWJAnK/pyLViLozIDWNaiiooGcDXdMhvUyjXAYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712074360; c=relaxed/simple;
-	bh=GoS+A41EcPpbxG16cfUt+KE8yGdbrG9cCPQp1tPUxgI=;
+	s=arc-20240116; t=1712079148; c=relaxed/simple;
+	bh=aduyaipM5T0aY6bLSz+8o4Wc9lDD8Yn5NJTGROS+eYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNtvqiowS9yrNDJsOaDjmuiVwKyNkP6/52vVSXpsSrawlVzd0lTZHcE9KtCfb/dXmVaCxHJ1y9qvc/HwTA9nz6+PoRQenESC/7jmqkqeF+0fRRAxQkr2t5A24RlmN93i73t7R58U9WlD2E9IskBhD9s/C80hfxF46DgQN/MYFLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwCOAse1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fZL/HmTRjqFHfJZinJPffbb2Z8O44S9+P7Lg3xB23wTTklmHYykaQn3MQ7FQB58E3tQBejUBXCGPop95HUZj2ohYGZOVXPL2JpuJi9/7CaT0kuRYtDwZ2RhUlKr6Jii17c8Rh5H0Huh5KVjfQymFMwt2hx1TrXTpcCLk57HvXAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftwVH2lZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwCOAse1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D05C433C7;
-	Tue,  2 Apr 2024 16:12:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftwVH2lZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBACCC433C7;
+	Tue,  2 Apr 2024 17:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712074360;
-	bh=GoS+A41EcPpbxG16cfUt+KE8yGdbrG9cCPQp1tPUxgI=;
+	s=k20201202; t=1712079148;
+	bh=aduyaipM5T0aY6bLSz+8o4Wc9lDD8Yn5NJTGROS+eYQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DwCOAse1eCh7vo453eDS7eV2SZ28zDshR+MgeZjLK71eFtib4/9LOzRIzQMtS32kk
-	 PJn3L1K3mQvDhiPpzt7WDfqXpjIgHnsXX0Y9RCcec3tyIqlQ/4OXbdaFkfsRh1PHX7
-	 6zdYVMSJbVIvuvjoljh6mDuKust3BxExigY4j1sVXG4npesIbFliyE5vcEwuhxjV3C
-	 bSxdp8fbc9F3ysRt8wupzy4MOMMwZ9P0gU6CUTOfZ9DI/SXowS7t0pcAfEHey4iGoj
-	 XcKNxuErxtEgC6Q+mnwsgT6RUIfu8xGXezsCUbaT2eYMs9eXH/NNh70aq7pFV6TrNE
-	 YQLrRsqjIAQDQ==
-Date: Tue, 2 Apr 2024 11:12:37 -0500
+	b=ftwVH2lZZkE6NWKmyLWEpoXc+AXiKLggaHNTdHXUDYQWrKGMcU9xwWfM2Nze8kLn6
+	 eyjHIhskwQLsC9VZvfX3Beinz/6YA6GhqyEdaeILQdD1CmpjKtbM+nAlkpKUSCzpm8
+	 dHY6b8PTsjk/c+uBooXZQhvfMXmlj7G1VtDyc0a+o8FGZg//9+VXRYt2JZ3VhqVkPT
+	 WhEjkxiez2pONugapBTfLLB5XlqsipzkURfytbnfQgnykuxpu6nb13v4Z67ZaVyiXM
+	 rZ+zx9c9cOcQkEXR7xtsyiowmJ+WyTFcB/wnkjaGv5j00HKJhFoTsExDSZJIrjAYu8
+	 q4Wh/+l93ZkZQ==
+Date: Tue, 2 Apr 2024 12:32:25 -0500
 From: Rob Herring <robh@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: festevam@gmail.com, shengjiu.wang@gmail.com, shawnguo@kernel.org,
-	broonie@kernel.org, linux-kernel@vger.kernel.org,
-	robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	imx@lists.linux.dev, s.hauer@pengutronix.de, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, kernel@pengutronix.de,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ASoC: dt-bindings: fsl-asoc-card: convert to YAML
-Message-ID: <171207435593.237814.17122445408696943016.robh@kernel.org>
-References: <1711976056-19884-1-git-send-email-shengjiu.wang@nxp.com>
- <1711976056-19884-3-git-send-email-shengjiu.wang@nxp.com>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org, christophercordahi@nanometrics.ca,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	herve.codina@bootlin.com, Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 12/13] ASoC: dt-bindings: davinci-mcbsp: Add the
+ 'ti,T1-framing-{rx/tx}' flags
+Message-ID: <171207914341.324604.378399290864675575.robh@kernel.org>
+References: <20240402071213.11671-1-bastien.curutchet@bootlin.com>
+ <20240402071213.11671-13-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,56 +51,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1711976056-19884-3-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <20240402071213.11671-13-bastien.curutchet@bootlin.com>
 
 
-On Mon, 01 Apr 2024 20:54:16 +0800, Shengjiu Wang wrote:
-> Convert the fsl-asoc-card binding to YAML.
+On Tue, 02 Apr 2024 09:12:12 +0200, Bastien Curutchet wrote:
+> McBSP's data delay can be configured from 0 to 2 bit clock periods. 0 is
+> used for DSP_B format, 1 for DSP_A format. A data delay of 2 bit clock
+> periods can be used to interface to 'T1 framing' devices where data
+> stream is preceded by a 'framing bit'. This 2 bit clock data delay is
+> not described in the bindings.
 > 
-> When testing dtbs_check, found below compatible strings
-> are not listed in document:
+> Add two flags 'ti,T1-framing-[rx/tx]' to enable a data delay of 2
+> bit clock periods in reception or transmission.
 > 
-> fsl,imx-sgtl5000
-> fsl,imx53-cpuvo-sgtl5000
-> fsl,imx51-babbage-sgtl5000
-> fsl,imx53-m53evk-sgtl5000
-> fsl,imx53-qsb-sgtl5000
-> fsl,imx53-voipac-sgtl5000
-> fsl,imx6-armadeus-sgtl5000
-> fsl,imx6-rex-sgtl5000
-> fsl,imx6-sabreauto-cs42888
-> fsl,imx6-wandboard-sgtl5000
-> fsl,imx6dl-nit6xlite-sgtl5000
-> fsl,imx6q-ba16-sgtl5000
-> fsl,imx6q-nitrogen6_max-sgtl5000
-> fsl,imx6q-nitrogen6_som2-sgtl5000
-> fsl,imx6q-nitrogen6x-sgtl5000
-> fsl,imx6q-sabrelite-sgtl5000
-> fsl,imx6q-sabresd-wm8962
-> fsl,imx6q-udoo-ac97
-> fsl,imx6q-ventana-sgtl5000
-> fsl,imx6sl-evk-wm8962
-> fsl,imx6sx-sdb-mqs
-> fsl,imx6sx-sdb-wm8962
-> fsl,imx7d-evk-wm8960
-> karo,tx53-audio-sgtl5000
-> tq,imx53-mba53-sgtl5000
-> 
-> So add them in yaml file to pass the test.
-> 
-> Also correct the 'dai-format' to 'format' in document.
-> 
-> For 'audio-routing', the items are not listed. Because
-> this fsl-asoc-card is generic driver, which supports several
-> codecs, if list all the items, there will be a long list.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
 > ---
->  .../bindings/sound/fsl-asoc-card.txt          | 117 -----------
->  .../bindings/sound/fsl-asoc-card.yaml         | 195 ++++++++++++++++++
->  2 files changed, 195 insertions(+), 117 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
+>  .../devicetree/bindings/sound/davinci-mcbsp.yaml   | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
