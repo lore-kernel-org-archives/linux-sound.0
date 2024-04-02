@@ -1,82 +1,72 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A517CA73;
-	Tue,  2 Apr 2024 06:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EC7175A9;
+	Tue,  2 Apr 2024 06:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712037678; cv=none; b=azIWGNtFjmDMvWP0QqlDcuEyKLxSG2obY7W8PrfZwoIa45Zl2cOR9TzlzJ5aQhk2i1ryuWHwANPYbjWZBPsIzSDrPAjL/ZRlyqnetfDFi3HI1c3Ih+li1i8biw5xTUzXfNvYbC0hCc13eWmHjjbuVL3VoNZpQ7ByGg8Ftkzyitg=
+	t=1712038435; cv=none; b=oxrAp8fcQjZ+IFJ1EzGIOvExXE7G4hnBi9P/XUXQU1V/B4ltiQuJLh8DHmitP7P/NCdI6HxYE+FxveNZMvsdW0oeHK++WNL8RmLWhL+kyrPcwLUQGB6vsHu93SE9LPkAALmyceI37xVUWnF56ufuRF1k1xxDS1CDUUf3UZ1O8BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712037678; c=relaxed/simple;
-	bh=eiridHwvvbURq+mvxqaO4gwPnk3esqKxdtP2g93Ouao=;
+	s=arc-20240116; t=1712038435; c=relaxed/simple;
+	bh=44ajMa6ip820bdujnM/3HdMb6uWjK0gqCV+v3GKvT2o=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dar8NXhLBivdGqA038obNn34vLcbUOHfpVKcpSLlqkrbRQ3/cycJ5bgZsPvnfRu4slvuw8PgRzEl/xzyGc95+SJIUznaIM8DSWvgrsRZMnlZ29/JozUB/HfT4OzXfELATLkpgb3bnpB2/ZqjyhoY4O7cq+WOzFxbrDrFxIurW9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k+A+ZzBr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AdWEbvUs; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=jkjp04Wt8KoPXXOoI5bSJf7UlBld+8oPZG5BzKlXAEXvSMDITjksChRPu6mTql6qzoMzoUwBTH4OOoSAX3jR1YxKv8DtAo4ciu7Zj4rC+1K0OWwsqYvt8bvHbuXjbjs8pcVOIXGmNRQ1GuYj5uIOz0T3dPxZsmYpVU4/oJUT/lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tKbasdCg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/g1qMMXR; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k+A+ZzBr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AdWEbvUs"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tKbasdCg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/g1qMMXR"
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0CD7020C5B;
-	Tue,  2 Apr 2024 06:01:15 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A272F33A5D;
+	Tue,  2 Apr 2024 06:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712037675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1712038430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VvwV/vPDO9C36qfxeYCNdArujqghN+pnO3Hn3P4P7CQ=;
-	b=k+A+ZzBrOVaWOyt0Oi6MNmWYlVzMXUqkISZWqPpyXb02vyemWzlBrjaocDD5EEmjuVYc76
-	BI8V98eyCHFO1x4tm62W65+Wy3xwLk55484r2WX4i9i5/jyJcv/tziBbGwOXXgWns2FCWc
-	7IcK93QCa+90R3aa0Tcws5pVxFrSbmo=
+	bh=iv/fyWF76aNzLXkXj5zg/VBmnOb58Pp9Fu3oxtVHIm4=;
+	b=tKbasdCgwlRZSTm6TxA+igjJDysJI/GUokirb8LkTaS6SVgNOSOLfWdLQ1hlpoTjE73dIf
+	cRXB+bzDSyDi6WuMkgsoDOXk+2Ovz5vtE2LcC2YmVQbIE69EGjk7xPddc6x7WMbdwGhiU5
+	vs3gNVTEYX0NLHJpd3MK2LA3FlHY4CM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712037675;
+	s=susede2_ed25519; t=1712038430;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VvwV/vPDO9C36qfxeYCNdArujqghN+pnO3Hn3P4P7CQ=;
-	b=AdWEbvUse565Tjr+k0RsTBniaW1JGJapYSPagkXH9RcOMLMojRTnLSbS4EF1fKKYK7IO4I
-	ssGV6dl91IL3woAQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=iv/fyWF76aNzLXkXj5zg/VBmnOb58Pp9Fu3oxtVHIm4=;
+	b=/g1qMMXRLCb5m5gJyb0yaDUk51EtX0abpDdRPnFuNiDZ3fnhl5Uuh0GFdcQJTuFDKnyvz8
+	risxnqwZVcFjKyBw==
+Authentication-Results: smtp-out1.suse.de;
 	dkim=none
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EF7013A90;
-	Tue,  2 Apr 2024 06:01:14 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5DA8713A90;
+	Tue,  2 Apr 2024 06:13:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id o1uDISqfC2ZBMwAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Tue, 02 Apr 2024 06:01:14 +0000
-Date: Tue, 02 Apr 2024 08:01:19 +0200
-Message-ID: <875xx0tia8.wl-tiwai@suse.de>
+	id LPp5FR6iC2bcNgAAn2gu4w
+	(envelope-from <tiwai@suse.de>); Tue, 02 Apr 2024 06:13:50 +0000
+Date: Tue, 02 Apr 2024 08:13:54 +0200
+Message-ID: <871q7othp9.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Christian Bendiksen <Christian@bendiksen.me>
-Cc: james.schulman@cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	foss@athaariq.my.id,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christian Bendiksen <christian@bendiksen.me>
-Subject: Re: [PATCH v3] Add sound quirks for Lenovo Legion slim 7 16ARHA7 models.
-In-Reply-To: <20240401122603.6634-1-christian@bendiksen.me>
-References: <20240329185406.9802-1-christian@bendiksen.me>
-	<87r0fsnmky.wl-tiwai@suse.de>
-	<20240330115554.27895-1-christian@bendiksen.me>
-	<87y19x5wfs.wl-tiwai@suse.de>
-	<20240401122603.6634-1-christian@bendiksen.me>
+To: dberlin@dberlin.org
+Cc: James Schulman <james.schulman@cirrus.com>,
+    David Rhodes <david.rhodes@cirrus.com>,
+    Richard Fitzgerald <rf@opensource.cirrus.com>,
+    Jaroslav Kysela <perex@perex.cz>,
+    alsa-devel@alsa-project.org,
+    patches@opensource.cirrus.com,
+    linux-sound@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Add support for 2024 ROG Strix G634JZR
+In-Reply-To: <874jckti4o.wl-tiwai@suse.de>
+References: <20240401-add-rog-strix-16-g634jzr-v1-1-ac396095409e@dberlin.org>
+	<874jckti4o.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,10 +75,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: 1.87
+X-Spam-Score: 1.23
 X-Spam-Flag: NO
 X-Spamd-Bar: +
-X-Spamd-Result: default: False [1.87 / 50.00];
+X-Spamd-Result: default: False [1.23 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
@@ -96,34 +86,51 @@ X-Spamd-Result: default: False [1.87 / 50.00];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-0.997];
+	 NEURAL_HAM_LONG(-1.00)[-0.999];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 MX_GOOD(-0.01)[];
 	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[16];
+	 RCPT_COUNT_SEVEN(0.00)[9];
 	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[dberlin.org:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 R_DKIM_NA(2.20)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.02)[53.06%];
+	 BAYES_HAM(-0.66)[82.82%];
 	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
 X-Spam-Level: *
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 0CD7020C5B
+X-Rspamd-Queue-Id: A272F33A5D
 
-On Mon, 01 Apr 2024 14:26:10 +0200,
-Christian Bendiksen wrote:
+On Tue, 02 Apr 2024 08:04:39 +0200,
+Takashi Iwai wrote:
 > 
-> This fixes the sound not working from internal speakers on
-> Lenovo Legion Slim 7 16ARHA7 models. The correct subsystem ID
-> have been added to cs35l41_hda_property.c and patch_realtek.c.
+> On Mon, 01 Apr 2024 16:31:30 +0200,
+> Daniel Berlin via B4 Relay wrote:
+> > 
+> > From: Daniel Berlin <dberlin@dberlin.org>
+> > 
+> > The windows driver inf says it uses the exact same tunings and setup as the
+> > older G634, and then reuses the data for ID 1043:1CAF.
+> > 
+> > We do the same here.
+> > Tested on an actual laptop, sound works fine with this patch plus
+> > default fallback firmware.
+> > 
+> > Signed-off-by: Daniel Berlin <dberlin@dberlin.org>
 > 
-> Signed-off-by: Christian Bendiksen <christian@bendiksen.me>
+> Applied now.  Thanks.
 
-Thanks, applied.
+... and now I see that Luke has another patch that modified the entry
+in patch_realtek.c, and I took his version instead.
+  https://lore.kernel.org/r/20240402015126.21115-1-luke@ljones.dev
 
+Let me know if this causes problem for you.
+
+
+thanks,
 
 Takashi
