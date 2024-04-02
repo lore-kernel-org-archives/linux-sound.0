@@ -1,74 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957B615A4A7;
-	Tue,  2 Apr 2024 17:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131CC15B55A;
+	Tue,  2 Apr 2024 19:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712079148; cv=none; b=CgfddK0jGobcuCWgqshjIcqX/PDDL0TTqtAO8ZPQFvpuSpAc9E/tS9Q49BSeSasys9JAXbcfq2hZZFHpp/PjAasYeZsxPPjyNOtbkwW+h+rDfKmJTiLjhSJ/BI5k3g7Y4yH4BWJAnK/pyLViLozIDWNaiiooGcDXdMhvUyjXAYo=
+	t=1712086204; cv=none; b=nRjpRCBU54Na9qvZbQJDengsaJsLk5IkwcNAgubgeJMBUuUNIQD2UQo6X8BpDFodZTvHCa/SEgZbG9RHd7FOzVbWff09b9lqJZsloAWHvdbYzSNfBoR7Vgy3nUiwz/Q1Mrn+UgZaHZbSLIMR32q/r2T4Eox5OFf5xTqp5TmJcfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712079148; c=relaxed/simple;
-	bh=aduyaipM5T0aY6bLSz+8o4Wc9lDD8Yn5NJTGROS+eYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fZL/HmTRjqFHfJZinJPffbb2Z8O44S9+P7Lg3xB23wTTklmHYykaQn3MQ7FQB58E3tQBejUBXCGPop95HUZj2ohYGZOVXPL2JpuJi9/7CaT0kuRYtDwZ2RhUlKr6Jii17c8Rh5H0Huh5KVjfQymFMwt2hx1TrXTpcCLk57HvXAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftwVH2lZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712086204; c=relaxed/simple;
+	bh=sOk+iFeGrB7RJDCmCXpr4eaC6JFEv4sFYHZVkhAL1qA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=W4zf6KELMCHLPPeTDBWRGKd5QZSjaoxAP38k/xF8L5n3PZIhYjVM8bmZn0IwJpArbRqiH0qnuaDepr7LoWMpSpECHFFC2mVPGXiHsGSbY0ZVu2kHzyJdnArei6i1g8wLyM597FxX/y1Sq1rdODM/nbY3RJAv+9oTzUmdVEdJpF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DrqzinkJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftwVH2lZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBACCC433C7;
-	Tue,  2 Apr 2024 17:32:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrqzinkJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBDDC433C7;
+	Tue,  2 Apr 2024 19:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712079148;
-	bh=aduyaipM5T0aY6bLSz+8o4Wc9lDD8Yn5NJTGROS+eYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ftwVH2lZZkE6NWKmyLWEpoXc+AXiKLggaHNTdHXUDYQWrKGMcU9xwWfM2Nze8kLn6
-	 eyjHIhskwQLsC9VZvfX3Beinz/6YA6GhqyEdaeILQdD1CmpjKtbM+nAlkpKUSCzpm8
-	 dHY6b8PTsjk/c+uBooXZQhvfMXmlj7G1VtDyc0a+o8FGZg//9+VXRYt2JZ3VhqVkPT
-	 WhEjkxiez2pONugapBTfLLB5XlqsipzkURfytbnfQgnykuxpu6nb13v4Z67ZaVyiXM
-	 rZ+zx9c9cOcQkEXR7xtsyiowmJ+WyTFcB/wnkjaGv5j00HKJhFoTsExDSZJIrjAYu8
-	 q4Wh/+l93ZkZQ==
-Date: Tue, 2 Apr 2024 12:32:25 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bastien Curutchet <bastien.curutchet@bootlin.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org, christophercordahi@nanometrics.ca,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	herve.codina@bootlin.com, Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 12/13] ASoC: dt-bindings: davinci-mcbsp: Add the
- 'ti,T1-framing-{rx/tx}' flags
-Message-ID: <171207914341.324604.378399290864675575.robh@kernel.org>
-References: <20240402071213.11671-1-bastien.curutchet@bootlin.com>
- <20240402071213.11671-13-bastien.curutchet@bootlin.com>
+	s=k20201202; t=1712086203;
+	bh=sOk+iFeGrB7RJDCmCXpr4eaC6JFEv4sFYHZVkhAL1qA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DrqzinkJCwbtPSjQcw1FiH2Yl+aWDrNmmeOSvZGQyDCTEFu4X/Y1FTMeiDcnOg8Gc
+	 pEXBsEPOpUnQEIY0oHXqGwCM+/ehzi7dyV4/U6vWEarsM15r/WY+uUz/Lq8sMJTIqB
+	 FqWGmx6g7NGJpXtO1eFieK8HFfBRlC8VfVY8ZTsjRyA7nBggMrhhSCvrnf2td3+NM0
+	 xUEMNM71ReXaXzi9FJqpE0TZQbU8qUCSnp75u9s/B3YxNuHaMb205t8dkc4pD53KyB
+	 h3/GzV/ElUPqNWrk5cYPI8IMOJ2aGv/8AQ/MHVQn1TgCc64jIWha0ODZG+XUYXlq7V
+	 Qf64pHr1DrGUQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Seven Lee <wtli@nuvoton.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, YHCHuang@nuvoton.com, KCHSU0@nuvoton.com, 
+ CTLIN0@nuvoton.com, SJLIN0@nuvoton.com, scott6986@gmail.com, 
+ supercraig0719@gmail.com, dardar923@gmail.com
+In-Reply-To: <20240401104753.3432507-1-wtli@nuvoton.com>
+References: <20240401104753.3432507-1-wtli@nuvoton.com>
+Subject: Re: [PATCH] ASoC: nau8325: Revise soc_enum structure definition.
+Message-Id: <171208620085.89523.17981494000577046407.b4-ty@kernel.org>
+Date: Tue, 02 Apr 2024 20:30:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402071213.11671-13-bastien.curutchet@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-
-On Tue, 02 Apr 2024 09:12:12 +0200, Bastien Curutchet wrote:
-> McBSP's data delay can be configured from 0 to 2 bit clock periods. 0 is
-> used for DSP_B format, 1 for DSP_A format. A data delay of 2 bit clock
-> periods can be used to interface to 'T1 framing' devices where data
-> stream is preceded by a 'framing bit'. This 2 bit clock data delay is
-> not described in the bindings.
+On Mon, 01 Apr 2024 18:47:53 +0800, Seven Lee wrote:
+> This patch is modified nau8325_dac_oversampl_enum enumerated.
+> Use SOC_VALUE_ENUM instead to hide empty (presumably invalid) options.
 > 
-> Add two flags 'ti,T1-framing-[rx/tx]' to enable a data delay of 2
-> bit clock periods in reception or transmission.
-> 
-> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
-> ---
->  .../devicetree/bindings/sound/davinci-mcbsp.yaml   | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: nau8325: Revise soc_enum structure definition.
+      commit: 91ebd32eee6cd7714b49ca4463a0f315bc26ce0e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
