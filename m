@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131CC15B55A;
-	Tue,  2 Apr 2024 19:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C882115B97D
+	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 19:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712086204; cv=none; b=nRjpRCBU54Na9qvZbQJDengsaJsLk5IkwcNAgubgeJMBUuUNIQD2UQo6X8BpDFodZTvHCa/SEgZbG9RHd7FOzVbWff09b9lqJZsloAWHvdbYzSNfBoR7Vgy3nUiwz/Q1Mrn+UgZaHZbSLIMR32q/r2T4Eox5OFf5xTqp5TmJcfE=
+	t=1712086205; cv=none; b=KGe4vKNzwofMhXNNHIjx3b/6ioxtJkc3hlHEnPMGxB+IhAbR6fqRCxfvJBT4U3Inoo5sF5tGsfYgCCVCc9IwTNF5ZW7zvDpS+X/LGIo3dUTJPboFUa5SpHGoFDXqS2SHrS84/VcoTXDTTGzBro+tbn6d7kftBofg7L9i0lOqTo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712086204; c=relaxed/simple;
-	bh=sOk+iFeGrB7RJDCmCXpr4eaC6JFEv4sFYHZVkhAL1qA=;
+	s=arc-20240116; t=1712086205; c=relaxed/simple;
+	bh=irLkQWFufDbVi6k1LpDXZz/gHAQUlWWBaSIRfGXRKQM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=W4zf6KELMCHLPPeTDBWRGKd5QZSjaoxAP38k/xF8L5n3PZIhYjVM8bmZn0IwJpArbRqiH0qnuaDepr7LoWMpSpECHFFC2mVPGXiHsGSbY0ZVu2kHzyJdnArei6i1g8wLyM597FxX/y1Sq1rdODM/nbY3RJAv+9oTzUmdVEdJpF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DrqzinkJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e6UY48+hU5dxXR1u4/xUrWKzQbwRMm+j9JiWdjwNzGZ8UME9j6NUDfQSusBFSUEUykj2vZuLshfJP02x5m9IduWinnN0Q1P6JEM4K7i+cOKcAsTm/Unlact3dBRGWuX/5iGGYwIj05x/50qnateVWaXyTRQLNMOSOxymmYHuSAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHdbJpQj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrqzinkJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBDDC433C7;
-	Tue,  2 Apr 2024 19:30:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHdbJpQj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A220C43390;
+	Tue,  2 Apr 2024 19:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712086203;
-	bh=sOk+iFeGrB7RJDCmCXpr4eaC6JFEv4sFYHZVkhAL1qA=;
+	s=k20201202; t=1712086205;
+	bh=irLkQWFufDbVi6k1LpDXZz/gHAQUlWWBaSIRfGXRKQM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DrqzinkJCwbtPSjQcw1FiH2Yl+aWDrNmmeOSvZGQyDCTEFu4X/Y1FTMeiDcnOg8Gc
-	 pEXBsEPOpUnQEIY0oHXqGwCM+/ehzi7dyV4/U6vWEarsM15r/WY+uUz/Lq8sMJTIqB
-	 FqWGmx6g7NGJpXtO1eFieK8HFfBRlC8VfVY8ZTsjRyA7nBggMrhhSCvrnf2td3+NM0
-	 xUEMNM71ReXaXzi9FJqpE0TZQbU8qUCSnp75u9s/B3YxNuHaMb205t8dkc4pD53KyB
-	 h3/GzV/ElUPqNWrk5cYPI8IMOJ2aGv/8AQ/MHVQn1TgCc64jIWha0ODZG+XUYXlq7V
-	 Qf64pHr1DrGUQ==
+	b=aHdbJpQjlDhpNp7jtWLG8WFj8tIVE95YAbQ2u6oUY52J8w9m3PCWgOqRRwqac4e4R
+	 VuEGJjPPfFP9psTw3psm7XJpKXfKSOwMI/9K0lp1Lw0jjih3e+drk0OG8zqWrg/7+m
+	 AJxO8ye/RPdA9mz3d+V9qeplLqVV8htW4LPIOiIV4umC3HVRZ+yFIL01sFUBj7KS1n
+	 6BqYd+CvyFhdc55ksHXcWlhbpRgguCA+AeQakbIbsSg9dKTB/u+ZyosPxIT6xqfjMN
+	 1aB+i9CuPLTt9NnR2ClKrjvkDujkafMRmtgBT/xYiwEFrZw5YbacCzvPyu07w0nfQB
+	 kMbGulrGImJ8g==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Seven Lee <wtli@nuvoton.com>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, YHCHuang@nuvoton.com, KCHSU0@nuvoton.com, 
- CTLIN0@nuvoton.com, SJLIN0@nuvoton.com, scott6986@gmail.com, 
- supercraig0719@gmail.com, dardar923@gmail.com
-In-Reply-To: <20240401104753.3432507-1-wtli@nuvoton.com>
-References: <20240401104753.3432507-1-wtli@nuvoton.com>
-Subject: Re: [PATCH] ASoC: nau8325: Revise soc_enum structure definition.
-Message-Id: <171208620085.89523.17981494000577046407.b4-ty@kernel.org>
-Date: Tue, 02 Apr 2024 20:30:00 +0100
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240402130640.3310999-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240402130640.3310999-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: avs: boards: Add modules description
+Message-Id: <171208620375.89523.10607476689901938291.b4-ty@kernel.org>
+Date: Tue, 02 Apr 2024 20:30:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,12 +43,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14-dev
 
-On Mon, 01 Apr 2024 18:47:53 +0800, Seven Lee wrote:
-> This patch is modified nau8325_dac_oversampl_enum enumerated.
-> Use SOC_VALUE_ENUM instead to hide empty (presumably invalid) options.
+On Tue, 02 Apr 2024 15:06:40 +0200, Amadeusz Sławiński wrote:
+> Modpost warns about missing module description, add it.
 > 
 > 
 
@@ -59,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: nau8325: Revise soc_enum structure definition.
-      commit: 91ebd32eee6cd7714b49ca4463a0f315bc26ce0e
+[1/1] ASoC: Intel: avs: boards: Add modules description
+      commit: d619b0b70dc4f160f2b95d95ccfed2631ab7ac3a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
