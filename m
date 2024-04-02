@@ -1,253 +1,148 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E57FBB1
-	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 13:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DB885651
+	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 14:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712063198; cv=none; b=ZtASJZh/UxofcwF0K4Zlv6nnjCf2SASEyrd0APxk/DtXIHuFEv+KfR+OM2oJXPwSy/UT+dbDnrh3hwtk+AZ/VDKE9F8insAPwsq3C3yPInKZtH4olqOsjrnORgSK2/pkM6SjSV/sbmMWqx0aTNcQyaejHZQvTe1QqXTS/oqkRik=
+	t=1712066688; cv=none; b=T3HJaNdrlGr74NYynVgug7MmJaSkm3Q0P7fczVr7bED4vgohK6z97ChoAgh1zYX2LT1JY3S54qIckWWIam0763xjjcT24eoO1i75Pht9Q3926am3+1yDR1JLdryHYywlB2inrvoLZMNtRzViofM+y4T7C/2pIM7ht2qVTmeOJkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712063198; c=relaxed/simple;
-	bh=0v6rngEthMxvAl73g2mRwH4CJnyfERYbHAvHtC5JS08=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HSg8tSXRvrgb5VvomPIGBN4gzNQGkKgZnG/dwr+s9nHXDL2/nkrTl17raqfjsHsr/NCrO2qbfYnWPym4QCIxuyjz191xCaI6LBJHyr0MspnUDwNgmhD/udEwq8JopOjB8OyKn8BIo1h5yaCEwPuFTrI1qTC+M7YoSzXF66Alll8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ffQLlbpY; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1712066688; c=relaxed/simple;
+	bh=B/oDAGN+zjg91RMbs4nINoQUVzqt8+57JpoK0VRIYFA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ksS82KtQvGASD0GHiMeBA+0EykLd7GI07gEdfdOgDENnDKm3m8HX+paVV7KeXPVOwWA/X3fB6oINVX0WoFUz2QpyLvoPwTA6Dz0B7EebWYImOWNSDvTgMMI+oZPD4KiZs8JjHFZHYg4Z9EypVkUoYG0uaZNC50FoL02RVfrugNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9uh1YlN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ffQLlbpY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9uh1YlN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712063196; x=1743599196;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0v6rngEthMxvAl73g2mRwH4CJnyfERYbHAvHtC5JS08=;
-  b=ffQLlbpYRGMvc7FBJL2FHWUNcE2q260FrOdNTP+gCHmRdib6PzwPKgVI
-   MR4AzTZpl25dPPF0ArwYx1kUKcyL/JkEDYO4jTJqrgPIRmlqVk7QdSSrO
-   AxMeMa97DH8aSzslUpRj7gayhYxr7ccP1Uop46E213pa6Y6Dks+jQo2fb
-   Zli7YO04iMHwr03Bw5/2hgFdHq9o1jb8R9u82a1spNyz6ov6v6VrCZiPt
-   mstoWD64bPiCXbAW05YpO2yZdaz+2zK8POwf01pJrgQd9k46cvL5zUAzw
-   /nSb3rKfrwiSNOkBaGI+W5U+9yAz4EI8nUzqfIvTP9ylyqQ8+TE0H/vOS
-   w==;
-X-CSE-ConnectionGUID: LCBDEAjQQZ68oHTFgqdiYw==
-X-CSE-MsgGUID: a8WouUzURHKibMgjoxUG/g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11031"; a="7073912"
+  t=1712066687; x=1743602687;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=B/oDAGN+zjg91RMbs4nINoQUVzqt8+57JpoK0VRIYFA=;
+  b=F9uh1YlN/KG1nee7ZcY2cOSQu3unM4GItBKjy3eAGme7ug/eXj7cdYLr
+   WRAYp4BVQyt7Dzf16qF86eGmIApRUtd7CRMKwSLrUxMXHBmokLsYyWGmF
+   W6qFTT908A67fF1338LgJekIaTZedVuX0NX8t6cPDXvSRpKIEEBWC5zDy
+   ng9f426jcrY7YqjzbLuUhZG/p1mYc5heqA2hnOPeNvuJxQ/gismE7mJg3
+   PG3ZJfZAq6uZFXKLa2Set4jXTeeBG2M8Iy15a89KZ9NBMs/KoENZO3OZn
+   KqH0WEP3+3jBUQsueoPxsOkzQtoYNxKG+1miZDk5973KxGzTGvPp7l399
+   g==;
+X-CSE-ConnectionGUID: XTkrRAV7QCiX/nVw7cHivQ==
+X-CSE-MsgGUID: ROSU6o6TSfy6w9kuY04MHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7079727"
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7073912"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 06:06:27 -0700
-X-CSE-ConnectionGUID: 4b+R3QH1TwGZaj92ZK/ZWg==
-X-CSE-MsgGUID: 0oye78aMQV2AX3S3XvOsjg==
+   d="scan'208";a="7079727"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 07:04:46 -0700
+X-CSE-ConnectionGUID: j631GgZBSPWk9Tr6MaUbvg==
+X-CSE-MsgGUID: RS3FGhSFQRC5DVEGrLhdJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="22758988"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa005.jf.intel.com with ESMTP; 02 Apr 2024 06:06:25 -0700
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: avs: boards: Add modules description
-Date: Tue,  2 Apr 2024 15:06:40 +0200
-Message-Id: <20240402130640.3310999-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+   d="scan'208";a="18052994"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 07:04:38 -0700
+Message-ID: <25c75790-3866-4e48-bf66-b5406df6e707@linux.intel.com>
+Date: Tue, 2 Apr 2024 16:04:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/16] ASoC: Intel: Replace dpcm_playback/capture to
+ playback/capture_only
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+ <87r0fpudnq.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <87r0fpudnq.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Modpost warns about missing module description, add it.
+On 4/1/2024 2:31 AM, Kuninori Morimoto wrote:
+> soc_get_playback_capture() is now handling DPCM and normal comprehensively
+> for playback/capture stream. We can use playback/capture_only flag
+> instead of using dpcm_playback/capture. This patch replace these.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
- sound/soc/intel/avs/boards/da7219.c    | 1 +
- sound/soc/intel/avs/boards/dmic.c      | 1 +
- sound/soc/intel/avs/boards/es8336.c    | 1 +
- sound/soc/intel/avs/boards/i2s_test.c  | 1 +
- sound/soc/intel/avs/boards/max98357a.c | 1 +
- sound/soc/intel/avs/boards/max98373.c  | 1 +
- sound/soc/intel/avs/boards/max98927.c  | 1 +
- sound/soc/intel/avs/boards/nau8825.c   | 1 +
- sound/soc/intel/avs/boards/probe.c     | 1 +
- sound/soc/intel/avs/boards/rt274.c     | 1 +
- sound/soc/intel/avs/boards/rt286.c     | 1 +
- sound/soc/intel/avs/boards/rt298.c     | 1 +
- sound/soc/intel/avs/boards/rt5514.c    | 1 +
- sound/soc/intel/avs/boards/rt5663.c    | 1 +
- sound/soc/intel/avs/boards/rt5682.c    | 1 +
- sound/soc/intel/avs/boards/ssm4567.c   | 1 +
- 16 files changed, 16 insertions(+)
+...
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index c018f84fe0252..fc072dc58968c 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -296,5 +296,6 @@ static struct platform_driver avs_da7219_driver = {
- 
- module_platform_driver(avs_da7219_driver);
- 
-+MODULE_DESCRIPTION("Intel da7219 machine driver");
- MODULE_AUTHOR("Cezary Rojewski <cezary.rojewski@intel.com>");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/dmic.c b/sound/soc/intel/avs/boards/dmic.c
-index ba2bc7f689eb6..d9e5e85f52335 100644
---- a/sound/soc/intel/avs/boards/dmic.c
-+++ b/sound/soc/intel/avs/boards/dmic.c
-@@ -96,4 +96,5 @@ static struct platform_driver avs_dmic_driver = {
- 
- module_platform_driver(avs_dmic_driver);
- 
-+MODULE_DESCRIPTION("Intel DMIC machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
-index 1090082e7d5bf..5c90a60075773 100644
---- a/sound/soc/intel/avs/boards/es8336.c
-+++ b/sound/soc/intel/avs/boards/es8336.c
-@@ -326,4 +326,5 @@ static struct platform_driver avs_es8336_driver = {
- 
- module_platform_driver(avs_es8336_driver);
- 
-+MODULE_DESCRIPTION("Intel es8336 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/i2s_test.c b/sound/soc/intel/avs/boards/i2s_test.c
-index 282256d18cc69..d419556856643 100644
---- a/sound/soc/intel/avs/boards/i2s_test.c
-+++ b/sound/soc/intel/avs/boards/i2s_test.c
-@@ -125,4 +125,5 @@ static struct platform_driver avs_i2s_test_driver = {
- 
- module_platform_driver(avs_i2s_test_driver);
- 
-+MODULE_DESCRIPTION("Intel i2s test machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/max98357a.c b/sound/soc/intel/avs/boards/max98357a.c
-index a83b95f25129f..1ff85e4d8e160 100644
---- a/sound/soc/intel/avs/boards/max98357a.c
-+++ b/sound/soc/intel/avs/boards/max98357a.c
-@@ -154,4 +154,5 @@ static struct platform_driver avs_max98357a_driver = {
- 
- module_platform_driver(avs_max98357a_driver)
- 
-+MODULE_DESCRIPTION("Intel max98357a machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/max98373.c b/sound/soc/intel/avs/boards/max98373.c
-index 3b980a025e6f6..8d31586b73eae 100644
---- a/sound/soc/intel/avs/boards/max98373.c
-+++ b/sound/soc/intel/avs/boards/max98373.c
-@@ -211,4 +211,5 @@ static struct platform_driver avs_max98373_driver = {
- 
- module_platform_driver(avs_max98373_driver)
- 
-+MODULE_DESCRIPTION("Intel max98373 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/max98927.c b/sound/soc/intel/avs/boards/max98927.c
-index 86dd2b228df3a..572ec58073d06 100644
---- a/sound/soc/intel/avs/boards/max98927.c
-+++ b/sound/soc/intel/avs/boards/max98927.c
-@@ -208,4 +208,5 @@ static struct platform_driver avs_max98927_driver = {
- 
- module_platform_driver(avs_max98927_driver)
- 
-+MODULE_DESCRIPTION("Intel max98927 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
-index 1c1e2083f474d..55db75efae414 100644
---- a/sound/soc/intel/avs/boards/nau8825.c
-+++ b/sound/soc/intel/avs/boards/nau8825.c
-@@ -313,4 +313,5 @@ static struct platform_driver avs_nau8825_driver = {
- 
- module_platform_driver(avs_nau8825_driver)
- 
-+MODULE_DESCRIPTION("Intel nau8825 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/probe.c b/sound/soc/intel/avs/boards/probe.c
-index a9469b5ecb402..8be6887bbc6e8 100644
---- a/sound/soc/intel/avs/boards/probe.c
-+++ b/sound/soc/intel/avs/boards/probe.c
-@@ -69,4 +69,5 @@ static struct platform_driver avs_probe_mb_driver = {
- 
- module_platform_driver(avs_probe_mb_driver);
- 
-+MODULE_DESCRIPTION("Intel probe machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt274.c b/sound/soc/intel/avs/boards/rt274.c
-index bfcb8845fd15d..1cf5242160875 100644
---- a/sound/soc/intel/avs/boards/rt274.c
-+++ b/sound/soc/intel/avs/boards/rt274.c
-@@ -276,4 +276,5 @@ static struct platform_driver avs_rt274_driver = {
- 
- module_platform_driver(avs_rt274_driver);
- 
-+MODULE_DESCRIPTION("Intel rt274 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt286.c b/sound/soc/intel/avs/boards/rt286.c
-index 28d7d86b1cc99..4740bba105703 100644
---- a/sound/soc/intel/avs/boards/rt286.c
-+++ b/sound/soc/intel/avs/boards/rt286.c
-@@ -247,4 +247,5 @@ static struct platform_driver avs_rt286_driver = {
- 
- module_platform_driver(avs_rt286_driver);
- 
-+MODULE_DESCRIPTION("Intel rt286 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt298.c b/sound/soc/intel/avs/boards/rt298.c
-index 80f490b9e1184..6e409e29f6974 100644
---- a/sound/soc/intel/avs/boards/rt298.c
-+++ b/sound/soc/intel/avs/boards/rt298.c
-@@ -266,4 +266,5 @@ static struct platform_driver avs_rt298_driver = {
- 
- module_platform_driver(avs_rt298_driver);
- 
-+MODULE_DESCRIPTION("Intel rt298 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt5514.c b/sound/soc/intel/avs/boards/rt5514.c
-index 60105f453ae23..097ae5f73241e 100644
---- a/sound/soc/intel/avs/boards/rt5514.c
-+++ b/sound/soc/intel/avs/boards/rt5514.c
-@@ -192,4 +192,5 @@ static struct platform_driver avs_rt5514_driver = {
- 
- module_platform_driver(avs_rt5514_driver);
- 
-+MODULE_DESCRIPTION("Intel rt5514 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index b4762c2a7bf2d..1880c315cc4d1 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -265,4 +265,5 @@ static struct platform_driver avs_rt5663_driver = {
- 
- module_platform_driver(avs_rt5663_driver);
- 
-+MODULE_DESCRIPTION("Intel rt5663 machine driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/rt5682.c b/sound/soc/intel/avs/boards/rt5682.c
-index 243f979fda98a..594a971ded9eb 100644
---- a/sound/soc/intel/avs/boards/rt5682.c
-+++ b/sound/soc/intel/avs/boards/rt5682.c
-@@ -341,5 +341,6 @@ static struct platform_driver avs_rt5682_driver = {
- 
- module_platform_driver(avs_rt5682_driver)
- 
-+MODULE_DESCRIPTION("Intel rt5682 machine driver");
- MODULE_AUTHOR("Cezary Rojewski <cezary.rojewski@intel.com>");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/intel/avs/boards/ssm4567.c b/sound/soc/intel/avs/boards/ssm4567.c
-index abb87bb88fffe..9e78a3b912087 100644
---- a/sound/soc/intel/avs/boards/ssm4567.c
-+++ b/sound/soc/intel/avs/boards/ssm4567.c
-@@ -197,4 +197,5 @@ static struct platform_driver avs_ssm4567_driver = {
- 
- module_platform_driver(avs_ssm4567_driver)
- 
-+MODULE_DESCRIPTION("Intel ssm4567 machine driver");
- MODULE_LICENSE("GPL");
--- 
-2.34.1
+> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+> index b94835448b1b..34a9b2e52451 100644
+> --- a/sound/soc/intel/boards/sof_sdw.c
+> +++ b/sound/soc/intel/boards/sof_sdw.c
+> @@ -1151,8 +1151,8 @@ static void init_dai_link(struct device *dev, struct snd_soc_dai_link *dai_links
+>   	dai_links->num_cpus = cpus_num;
+>   	dai_links->codecs = codecs;
+>   	dai_links->num_codecs = codecs_num;
+> -	dai_links->dpcm_playback = playback;
+> -	dai_links->dpcm_capture = capture;
+> +	dai_links->playback_only = !playback;
+> +	dai_links->capture_only = !capture;
 
+Above seems weird? Should probably be:
+
+	dai_links->playback_only = playback && !capture;
+	dai_links->capture_only = capture && !playback;
+
+
+and while at it, I still wonder if it is best way to go about this 
+change, because it causes problems like one above due to need to do 
+boolean logic to know which direction is enabled. I would just modify 
+struct snd_soc_dai_link to have fields like:
+int playback_enabled;
+int capture_enabled;
+which would be far more understandable. And if we don't want to have two 
+variables then perhaps something like:
+#define ASOC_ENDPOINT_DISABLED BIT(0)
+#define ASOC_ENDPOINT_PLAYBACK BIT(1)
+#define ASOC_ENDPOINT_CAPTURE BIT(2)
+#define ASOC_ENDPOINT_BIDIRECTIONAL (ENDPOINT_PLAYBACK | ENDPOINT_CAPTURE)
+
+struct snd_soc_dai_link {
+	(...)
+	
+	int endpoint_type:2; // see ASOC_ENDPOINT
+
+	(...)
+};
+
+
+I like the idea of removing the duplication of variables, but if we are 
+trying to simplify things, let's try to not complicate them at the same 
+time.
+
+Thanks,
+Amadeusz
