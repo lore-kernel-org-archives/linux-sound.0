@@ -1,132 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5EF2C6B3
-	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 06:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3778321A0A;
+	Tue,  2 Apr 2024 06:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712039790; cv=none; b=HexwLZ7VaOYUR6IuouARonpqxWoImp8dhAnVeY7AN1XEbcXegB8G2E8s9SU+w8xprS6X8OOB9QLXB020FnYcfrvrW9BOEMvY9inIgP4FEwzew92jsOPWNdqYEpYklB9UsC395S+QKSmU7Sr++8GShyPfgi+ttQ1apki/iaS7CV0=
+	t=1712040061; cv=none; b=tiQ7UhAofiuDVbh/2JAJKhXBQi6iOD5hkVwho66KMgaDlREeBP0PIGAg0iKJfYkBZhmLq4gcpGCaD0y/CFKF8idyMGveS0ejI3DRPiCTnzFrmWpKkp+Zzt/iZHH0WMCmeoZX+f6wWu6CaEUfFS/2Fpm6Boxt5G8pQQhvq8YS/9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712039790; c=relaxed/simple;
-	bh=r1e59/YLhIlwqVxkuvH1UJ/ChHdQ8Ux6A+9ABApP+I0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=nbpfTKIr2uYce0o3y8pdva9Ics+DN0sRZQEtMtXrr7M4F64cFAyDCOeNUXMgYGXo0lBpr3C0M9Uv7n/orFiPDulHb60KV5FwQj0Y67vIYfLHtAJgCorIvzm92g7T4BFfDBFxQWSwgJDsOzbdP8+lHiuuSMJph4FQ03LiMcxDfmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=saTaPS6x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AL9dJL6W; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1712040061; c=relaxed/simple;
+	bh=qH0D3AhRYnb6bjEzB+stgfVObi4cQW3F92hHyMZ/AG4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uk2kbnCxjeAjfVEjie8ynuf3nDfDIObBzLhoKg9ij/PBScOMJIxW7aAPftLLET0sbzypQ9Ob5gT9x5GWf8/OYvA1ft13o5arMucQnDFD+7yRAPf91oJI4EQSoJXA0xg837FmcMd5qFgcoUpAQsGP7dXGkX4qHyKlw31GpwUjWAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BN9Pu55U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gODISPjK; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="saTaPS6x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AL9dJL6W"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BN9Pu55U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gODISPjK"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4762320CCE;
-	Tue,  2 Apr 2024 06:36:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 755CD34376;
+	Tue,  2 Apr 2024 06:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1712039787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Xqyt8HHNrbod4aJGG40vBHvnni+D+FchmPGnAOq+IdA=;
-	b=saTaPS6xatmC4VuxqdZE6ibYhiuOJgOGyLC9c4cnARWloKn1a5LiQvP9w3j8tzOc85UorG
-	+64l3/DH7h1ZFAFonkuN6LqAWgXDXDKiyUEUSdFdceXaGTM+msD9LVtBsN3BFbM8xqJUiH
-	/PCzFb0WL+Qf7UOoTEUZL8Ki2QOZzzA=
+	t=1712040058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4mzXMyPJdq2oR/609Gwa9Fp+XSu7c9aHRHlkUdrdW1g=;
+	b=BN9Pu55UEX5XoTzQN30DlZmr4seOr0zE2OtjRtTHpmQzfrbFv15Tnr/fQ6u4A8/1qKX3Jc
+	LjNdLEGWkJwpUNGAMHmzMViwuIMDUAADWwLClyKAesPucHbTWW6caGQYT8/vQquoZ2JC2F
+	rmNbP91e9mIBkUExOOBOYOgAuHFDnNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1712039787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Xqyt8HHNrbod4aJGG40vBHvnni+D+FchmPGnAOq+IdA=;
-	b=AL9dJL6Wxz2HWER1IpHqQUnY6CWmyxelHa/U0RA9O1+UlXUQMvAzLeBYJCRZ+Is5dxeEDE
-	cW/nuKpP/0bU28AA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	s=susede2_ed25519; t=1712040058;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4mzXMyPJdq2oR/609Gwa9Fp+XSu7c9aHRHlkUdrdW1g=;
+	b=gODISPjKHgAy9B8B+QMXz7vM5eMe+dvO4XanrpoGesUxpcAnaAL2dXAk3NJGrNXxvt/9ug
+	BLZIm42fFJyKRYCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=none
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 2667A13357;
-	Tue,  2 Apr 2024 06:36:27 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A32913AA3;
+	Tue,  2 Apr 2024 06:40:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id Oq5LB2unC2ZxPQAAn2gu4w
-	(envelope-from <tiwai@suse.de>); Tue, 02 Apr 2024 06:36:27 +0000
+	id Ga26DHqoC2btPgAAn2gu4w
+	(envelope-from <tiwai@suse.de>); Tue, 02 Apr 2024 06:40:58 +0000
+Date: Tue, 02 Apr 2024 08:41:02 +0200
+Message-ID: <87ttkks1vl.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: line6: Zero-initialize message buffers
-Date: Tue,  2 Apr 2024 08:36:25 +0200
-Message-ID: <20240402063628.26609-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: <broonie@kernel.org>,
+	<tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/3] ASoC: Use snd_ctl_find_id_mixer() instead of open-coding
+In-Reply-To: <20240401100210.61277-1-rf@opensource.cirrus.com>
+References: <20240401100210.61277-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.20 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.00)[20.81%];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:rdns,imap2.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: 1.20
-X-Spam-Level: *
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: 1.37
 X-Spam-Flag: NO
+X-Spamd-Bar: +
+X-Spamd-Result: default: False [1.37 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.02)[52.73%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-0.999];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:106:10:150:64:167:received];
+	 RCVD_TLS_ALL(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Spam-Level: *
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 755CD34376
 
-For shutting up spurious KMSAN uninit-value warnings, just replace
-kmalloc() calls with kzalloc() for the buffers used for
-communications.  There should be no real issue with the original code,
-but it's still better to cover.
+On Mon, 01 Apr 2024 12:02:07 +0200,
+Richard Fitzgerald wrote:
+> 
+> The first two patches change snd_soc_card_get_kcontrol() to use the
+> core snd_ctl_find_id_mixer() functionality instead of open-coding its
+> own list walk.
+> 
+> The last patch adds a KUnit test for this, which was tested on the
+> original and modified code.
+> 
+> Changes in V2:
+> Only change is in the KUnit test (patch #3) to make the const strings
+> more consty.
+> 
+> Richard Fitzgerald (3):
+>   ALSA: control: Introduce snd_ctl_find_id_mixer_locked()
+>   ASoC: soc-card: Use snd_ctl_find_id_mixer() instead of open-coding
+>   ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol
 
-Reported-by: syzbot+7fb05ccf7b3d2f9617b3@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/r/00000000000084b18706150bcca5@google.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/line6/driver.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I suppose this goes via Mark's tree.  Feel free to take my ack:
 
-diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index b67617b68e50..f4437015d43a 100644
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -202,7 +202,7 @@ int line6_send_raw_message_async(struct usb_line6 *line6, const char *buffer,
- 	struct urb *urb;
- 
- 	/* create message: */
--	msg = kmalloc(sizeof(struct message), GFP_ATOMIC);
-+	msg = kzalloc(sizeof(struct message), GFP_ATOMIC);
- 	if (msg == NULL)
- 		return -ENOMEM;
- 
-@@ -688,7 +688,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
- 	int ret;
- 
- 	/* initialize USB buffers: */
--	line6->buffer_listen = kmalloc(LINE6_BUFSIZE_LISTEN, GFP_KERNEL);
-+	line6->buffer_listen = kzalloc(LINE6_BUFSIZE_LISTEN, GFP_KERNEL);
- 	if (!line6->buffer_listen)
- 		return -ENOMEM;
- 
-@@ -697,7 +697,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
- 		return -ENOMEM;
- 
- 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
--		line6->buffer_message = kmalloc(LINE6_MIDI_MESSAGE_MAXLEN, GFP_KERNEL);
-+		line6->buffer_message = kzalloc(LINE6_MIDI_MESSAGE_MAXLEN, GFP_KERNEL);
- 		if (!line6->buffer_message)
- 			return -ENOMEM;
- 
--- 
-2.43.0
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
+
+thanks,
+
+Takashi
