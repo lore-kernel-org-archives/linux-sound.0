@@ -1,221 +1,82 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C03812BF26
-	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 14:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437BB17F3
+	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 15:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712068549; cv=none; b=FBEm+gDn0S9l7+sx2bhO5I3Tk3FtsnyRJDH62IuEnYnqWwo4PkMWopWByAE5zrfHD+IVqk6vCndzz0sJRL1fBM3NKIbtej7rg0ReHrxRPDKqkrlTxQ5y6xzCRWhwIPLRFHMjbLElGck5kKGxcgfZ+CiqBdsagWsLY56If/aGkpc=
+	t=1712070015; cv=none; b=NbHKTfmUshCciEUttGOhUYVEMgHvQaLk8hkXBBj4oOW/Y1Q5vdK14QIWY7LrgVV1IJClmoIVRroGS2kMtXMieaVBtyr9H8Sa/3nikNVysufGrofMbw3SZyL/YZwF3I3KHJ2fwDdRfrFlBNEZn2NE0XZFwD1jcmsj+d9WQlmSvo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712068549; c=relaxed/simple;
-	bh=fQLuhD36E/ci1+0Q+DKy+5OlypO0KV3ocMoLe8264mk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qNVormLXPyMghRpp3KUDhxIUYn7HbE7r2TCIyPqADpKUfyrNKfTgrb+vPlmOpGzz07QOR+9NOM/1aFApDdbAD1KX2v/1L4naJbLGCIXkZJmCkGo6o7m1cybVjuB0jq6hUBqlcnpRqSeZgxMIBYZCagb3SaNyFaQGNB7vC9m7228=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=chvZ2JUe; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712070015; c=relaxed/simple;
+	bh=f82dOPw9pkJ1NF8baBWwUGX/Wf0Zjl+Cupixo8XbQRI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VKaVKQQ1/ofkce1dG7afnvgAmu+aA+w3qew9O03QmjpF+Z/DOwWyOM+NGXkc9iE/F6quLkD2d+bVT9dF0ZFgL9QnRZ8sqUvQOp2GXO99xhZ5B3EUhqhaisVm6gbs4nIhnclC7Lf/tD2iq7PnxVtCT3DmFXNmFGyp+Hq+2DTe+BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd8ihB04; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="chvZ2JUe"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56dfb52d10cso107429a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 02 Apr 2024 07:35:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712068545; x=1712673345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KEJIrVUqbeyt98Ud1PwflhK4nwSINZjdOF29dDrsoo=;
-        b=chvZ2JUePsCzvwy1kefS5RqzJYb3n/9/cOkrCZp9TU2tP62LSBg7X/8RWNDNF0J6wS
-         Nc5F/8S6Y5rG4bH63JdDYJ2xUfE5580g5vXrA5c3l2eBr6rCdCMCWmg8NsIzbV65gShA
-         509/PDYryYtfdPi1OMZpzWQTH26IRL06Tf43Su7R0oU8AGFsHrOTfLUZQmZe2j6UwP1t
-         b+s2hLS87Mc5xkBKbQmrImZy14seh2QJwNKDd9w5MxpgFhWIAkEIuDjX/Desyn1Cz/9j
-         /JgoBxfgYwNC0TN0ZfcTmJJlQvGNQysijG5yww+Xn6j9JQpC49SOZSq2MI5insAqLFz7
-         XEKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712068545; x=1712673345;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7KEJIrVUqbeyt98Ud1PwflhK4nwSINZjdOF29dDrsoo=;
-        b=jz7IACdrpQG59MaFpg82Yqz8rv1VymU5doM1Dny3qIBa9r4Vgr85DxEu4hS7DNhaLv
-         nzL7bl2NSFWSIzDOEKy72dqkhbuLe0xn0FOA68ZHgEvnwMuv+IJVp31txFaTxzlccPFN
-         ogcyGJpfmH/UUQPj33jvdKyjGvjJ47GxtT3/p1tXs66vxH7yNw/tW0s6m2pzWWvaGWQm
-         WlIgXHthaXgoOKGCdgH4FbxXFVL7EK6TJxfPvGCK6R5sZoCiBvUFFaebM5NMazmdI9zB
-         McpKjL9fKsSvFO5IpRm1bqrmwKD+4DwCXl8vR9Q+pvJefmhUHZmdwinzikk9IH0v5IhM
-         ZrWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+dgtmzSID0eKkBKQIOOdyF42zQw4rcZGt/asnhhRl05GuvC2IwgM6YFETGtDNv1BufeFCxemArfHiTHtduX4xjgza1h16HcoQ1ZE=
-X-Gm-Message-State: AOJu0YxbnANdTlDJHGtOpKy+TOAUDeDjd2cUnlofXroHZ4vlCGWVFyDz
-	Bop/LtpB/i1MFYKWUbaxoxel0ifFj3JqhzXDPXB2gAh4uYuM0gKDt3TzMrg3ryaIThGbVfR4H81
-	t
-X-Google-Smtp-Source: AGHT+IHCofE7Xg160OG2egAJnKF0oiNZHZIWV3DkkXe2HP9pc/DI3G0pkED3atujIwRVqD0byi7FxQ==
-X-Received: by 2002:a17:906:9a8d:b0:a47:38c0:fb4e with SMTP id ag13-20020a1709069a8d00b00a4738c0fb4emr7710510ejc.19.1712068544411;
-        Tue, 02 Apr 2024 07:35:44 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id f13-20020a1709062c4d00b00a4df82aa6a7sm6554592ejh.219.2024.04.02.07.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 07:35:43 -0700 (PDT)
-Date: Tue, 2 Apr 2024 17:35:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Shenghao Ding <shenghao-ding@ti.com>,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com,
-	broonie@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	perex@perex.cz, tiwai@suse.com, 13916275206@139.com,
-	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
-	pdjuandi@ti.com, manisha.agrawal@ti.com, s-hari@ti.com,
-	aviel@ti.com, hnagalla@ti.com, praneeth@ti.com, Baojun.Xu@fpt.com,
-	Shenghao Ding <shenghao-ding@ti.com>
-Subject: Re: [PATCH v7 3/4] ASoc: PCM6240: Add compile item for PCM6240
- Family driver
-Message-ID: <c206cc39-27ad-4a4d-8703-220dc0bf7dab@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd8ihB04"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712070013; x=1743606013;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=f82dOPw9pkJ1NF8baBWwUGX/Wf0Zjl+Cupixo8XbQRI=;
+  b=Jd8ihB046zJ2v3dCFdT1KrGhmF4QEPJRoD8Eff2A+CTnkb7nKuPj9l7J
+   v/jkJvKG9PKO7bgVgTct5H68nzNRaQO2ncQUaf7pEFbTASF8fyo34xVzr
+   jmaGfbWeDLMCZm/C/JSETssxc7YbYscbaX78x2aGP4nexWI6CJp2n3uET
+   Wn+1cgDjCJImVATkLaRkpnRQJbiYa3y3DxqBdEEzHttv7AGlDn1QfY5Fv
+   Ox7ldfNR9W6NPphBHU47d7m1DNM8qKnEnaNVblnzNFfl/XuNv+2fLMBlS
+   aSAq7gOZQuaOdTiAK77qvNGcZ2ivtsGeo4vJDb9aUKi7uDFcie7GXrouN
+   g==;
+X-CSE-ConnectionGUID: BwgTDmfyRNytVJocXrxsKA==
+X-CSE-MsgGUID: l3tMS6F6RFC2TvGh0tK2iA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7433819"
+X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
+   d="scan'208";a="7433819"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:00:12 -0700
+X-CSE-ConnectionGUID: QRMKrjuhTaGXlxxYOcsSWw==
+X-CSE-MsgGUID: d48nDKVCSlaYin5wZxOCqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
+   d="scan'208";a="22558020"
+Received: from skhare-mobl5.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.8.83])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:00:12 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/4] ASoC: SOF: cppcheck fixes and debugfs addition
+Date: Tue,  2 Apr 2024 09:59:55 -0500
+Message-Id: <20240402145959.172619-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240331021835.1470-4-shenghao-ding@ti.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Shenghao,
+Small changes with 3 cppcheck fixes and the firmware version now
+visible with debugfs instead of only via dmesg logs.
 
-kernel test robot noticed the following build warnings:
+Pierre-Louis Bossart (3):
+  ASoC: SOF: amd: acp-loader: abort firmware download on write error
+  ASoC: SOF: ipc4-priv: align prototype and function declaration
+  ASoC: SOF: ipc4-topology: remove shadowed variable
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Yong Zhi (1):
+  ASoC: SOF: ipc4-loader: save FW version info to debugfs
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoc-PCM6240-Create-PCM6240-Family-driver-code/20240331-102303
-base:   v6.9-rc1
-patch link:    https://lore.kernel.org/r/20240331021835.1470-4-shenghao-ding%40ti.com
-patch subject: [PATCH v7 3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
-config: um-randconfig-r081-20240402 (https://download.01.org/0day-ci/archive/20240402/202404021225.mx5KlUlV-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404021225.mx5KlUlV-lkp@intel.com/
-
-smatch warnings:
-sound/soc/codecs/pcm6240.c:1715 pcmdevice_process_block() warn: inconsistent indenting
-
-vim +/fw_entry +1577 sound/soc/codecs/pcm6240.c
-
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1619  static int pcmdevice_process_block(void *ctxt, unsigned char *data,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1620  	unsigned char dev_idx, int sublocksize)
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1621  {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1622  	struct pcmdevice_priv *pcm_dev = (struct pcmdevice_priv *)ctxt;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1623  	int subblk_offset = 2, chn, chnend, ret;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1624  	unsigned char subblk_typ = data[1];
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1625  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1626  	if (dev_idx) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1627  		chn = dev_idx - 1;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1628  		chnend = dev_idx;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1629  	} else {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1630  		chn = 0;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1631  		chnend = pcm_dev->ndev;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1632  	}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1633  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1634  	for (; chn < chnend; chn++) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1635  		switch (subblk_typ) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1636  		case PCMDEVICE_CMD_SING_W: {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1637  			unsigned short len = get_unaligned_be16(&data[2]);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1638  			int i = 0;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1639  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1640  			subblk_offset += 2;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1641  			if (subblk_offset + 4 * len > sublocksize) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1642  				dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1643  					"%s: byt wr out of boundary\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1644  					__func__);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1645  				break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1646  			}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1647  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1648  			for (i = 0; i < len; i++) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1649  				ret = pcmdev_dev_write(pcm_dev, chn,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1650  					PCMDEVICE_REG(data[subblk_offset + 1],
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1651  						data[subblk_offset + 2]),
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1652  					data[subblk_offset + 3]);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1653  				if (ret < 0)
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1654  					dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1655  						"%s: single write error\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1656  						__func__);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1657  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1658  				subblk_offset += 4;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1659  			}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1660  		}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1661  		break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1662  		case PCMDEVICE_CMD_BURST: {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1663  			unsigned short len = get_unaligned_be16(&data[2]);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1664  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1665  			subblk_offset += 2;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1666  			if (subblk_offset + 4 + len > sublocksize) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1667  				dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1668  					"%s: burst Out of boundary\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1669  					__func__);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1670  				break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1671  			}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1672  			if (len % 4) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1673  				dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1674  					"%s: burst-len(%u) not div by 4\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1675  					__func__, len);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1676  				break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1677  			}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1678  			ret = pcmdev_dev_bulk_write(pcm_dev, chn,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1679  				PCMDEVICE_REG(data[subblk_offset + 1],
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1680  				data[subblk_offset + 2]),
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1681  				&(data[subblk_offset + 4]), len);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1682  			if (ret < 0)
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1683  				dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1684  					"%s: bulk_write err = %d\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1685  					__func__, ret);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1686  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1687  			subblk_offset += (len + 4);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1688  		}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1689  			break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1690  		case PCMDEVICE_CMD_DELAY: {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1691  			unsigned int delay_time = 0;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1692  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1693  			if (subblk_offset + 2 > sublocksize) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1694  				dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1695  					"%s: deley out of boundary\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1696  					__func__);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1697  				break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1698  			}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1699  			delay_time = get_unaligned_be16(&data[2]) * 1000;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1700  			usleep_range(delay_time, delay_time + 50);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1701  			subblk_offset += 2;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1702  		}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1703  			break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1704  		case PCMDEVICE_CMD_FIELD_W:
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1705  		if (subblk_offset + 6 > sublocksize) {
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1706  			dev_err(pcm_dev->dev,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1707  				"%s: bit write out of memory\n", __func__);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1708  			break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1709  		}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1710  			ret = pcmdev_dev_update_bits(pcm_dev, chn,
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1711  				PCMDEVICE_REG(data[subblk_offset + 3],
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1712  				data[subblk_offset + 4]),
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1713  				data[subblk_offset + 1],
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1714  				data[subblk_offset + 5]);
-
-This line is indented too far.
-
-051d749b6eaeb0 Shenghao Ding 2024-03-31 @1715  		if (ret < 0)
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1716  			dev_err(pcm_dev->dev, "%s: update_bits err = %d\n",
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1717  				__func__, ret);
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1718  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1719  		subblk_offset += 6;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1720  			break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1721  		default:
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1722  			break;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1723  		}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1724  	}
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1725  
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1726  	return subblk_offset;
-051d749b6eaeb0 Shenghao Ding 2024-03-31  1727  }
+ sound/soc/sof/amd/acp-loader.c | 2 ++
+ sound/soc/sof/ipc4-loader.c    | 8 ++++++++
+ sound/soc/sof/ipc4-priv.h      | 2 +-
+ sound/soc/sof/ipc4-topology.c  | 1 -
+ 4 files changed, 11 insertions(+), 2 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.40.1
 
