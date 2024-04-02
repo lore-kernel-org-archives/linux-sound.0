@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B111E531;
-	Tue,  2 Apr 2024 23:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6B147F60
+	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 23:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712100571; cv=none; b=OmbiBuxS5ErpTzHC2w9smv5JocB6O2JiS76h6+IUboGknwF/tlDcnJS3hYXqIdW04hi8CZ0B82NZp2jbUekaLNJLHuBSNN93yNTSTDQU34ChzzozaAxIVYrO+pcP4HglpKueMOXdHahwSlkYtBPxrCbzYfMXErYqCaO+eGLXqPs=
+	t=1712100572; cv=none; b=ZDGt4kImPE+nHxgs3w+6o6M+lY3Odp6hxPIWPGPGmxFDBFAxHEh6TMDoqWhepnExSYz9JfHX+YYLDtwEzI5K1JFxymJexqleeRVT3I2mgVRexEUd2v+IKVXYj8bjIdnPASNdiFKIhSncHouDSECvbS9+a2rGgo0s/rr2Ou74KjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712100571; c=relaxed/simple;
-	bh=oKQ0VJW7bHDzLwWr3TpWv+xHaaTKQu+N/4JyHM68B1I=;
+	s=arc-20240116; t=1712100572; c=relaxed/simple;
+	bh=vewoNZzwNO4E+3r1grBp+IiKHI12TK609zRpSn3opTs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uuCtRlY2fWdr4KaqCLAALvwVHqkxFLeKu3ShRPsoxxsNY46P4G2+dMa7DWbYi9K/p7shhgK4EGLHHCbtgFyUxnOk1inwrOuoxb+ClOPltmH0sjoLjvBn4UxIx67bvWLd7bBHbmyY/9i9Sfh9Z7faeH2ta04S6bxmrLj4xcSTuL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qLIyZLxX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=j5fgQVirj4c97a5/0aWzDFppXdZw9OCnn+Gq2END0EuJze02esXblx7NJZyUG05a0TZrpRbB+9IkssNgB/J0qKINKZ4qhUd0QuLhraNhT+BWJQSP9WmMZCPIjvUiGlTGNgAmtKPcHcDbmLpWu3ALjbuEkL987EMTZQBB+drRMCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gWFotQwm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qLIyZLxX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CE8C433F1;
-	Tue,  2 Apr 2024 23:29:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gWFotQwm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2B3C43390;
+	Tue,  2 Apr 2024 23:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712100570;
-	bh=oKQ0VJW7bHDzLwWr3TpWv+xHaaTKQu+N/4JyHM68B1I=;
+	s=k20201202; t=1712100572;
+	bh=vewoNZzwNO4E+3r1grBp+IiKHI12TK609zRpSn3opTs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qLIyZLxXLNgeDMDYzwXORviptrgRd1XrD0Ztt0yrpeG9RMOG0BJcK+JDVMxSRPbKS
-	 BTrFfmCBbwDsKNnVx4dTugJY79oySnTCD/A1PPZ/2tECgObRSd5Z86rFfRSUOGEHXU
-	 JB9w+8yVJhR/sit5Z8w+pKGyMF1asLdGnl7RWZVZUPOQju1CS56VESVB+a4OlFC0tP
-	 A85r0egfur7VqJGPSo4yhFktoE5l0N53v035eLS/z0cexa0SvSJp08IacvkWF0n4N1
-	 rZZa2DpVe7gHJUWMEjOou+mp/9/FtJMHn8NrHYxB2FhX8q7tZJwyQG1mYhA+jR10n4
-	 pHSkjh2gyjG3Q==
+	b=gWFotQwmFRHmWSIq8UAFv8EEkGWbzu546W4DRZ3CwXtYIKm96aU2bxtKVAefUw83V
+	 BntvPeq4s93fp7n1SqsIJqdYcDVinqPP+YLuNjYp3SwyMQyu5p1ORlkioR4i38aWta
+	 yLz+WXlNGxAcgnmUbvgLeJ0OxTr73wmpDKaAmZRV5JRDS3XZZJVxNXox4pOD/f+kZK
+	 1VGlPquBuI9734k/4eRG/M12VPOG1pvjKJyZ7PLyGHwFVJqNKZkAp7tv1PUD/KTzgv
+	 stmFb8uBtlXCIOOyQPL4vVMvltuHL5yGQRT1vcD/zMQNKdk+UCpp23Jxk0vcGh9SOT
+	 N4OcKAFyxT3Lw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240401100210.61277-1-rf@opensource.cirrus.com>
-References: <20240401100210.61277-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH v2 0/3] ASoC: Use snd_ctl_find_id_mixer() instead of
- open-coding
-Message-Id: <171210056940.279166.10362892119296653551.b4-ty@kernel.org>
-Date: Wed, 03 Apr 2024 00:29:29 +0100
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de
+In-Reply-To: <20240402145959.172619-1-pierre-louis.bossart@linux.intel.com>
+References: <20240402145959.172619-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: SOF: cppcheck fixes and debugfs addition
+Message-Id: <171210057103.279166.8183843160177110505.b4-ty@kernel.org>
+Date: Wed, 03 Apr 2024 00:29:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +45,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Mon, 01 Apr 2024 10:02:07 +0000, Richard Fitzgerald wrote:
-> The first two patches change snd_soc_card_get_kcontrol() to use the
-> core snd_ctl_find_id_mixer() functionality instead of open-coding its
-> own list walk.
+On Tue, 02 Apr 2024 09:59:55 -0500, Pierre-Louis Bossart wrote:
+> Small changes with 3 cppcheck fixes and the firmware version now
+> visible with debugfs instead of only via dmesg logs.
 > 
-> The last patch adds a KUnit test for this, which was tested on the
-> original and modified code.
+> Pierre-Louis Bossart (3):
+>   ASoC: SOF: amd: acp-loader: abort firmware download on write error
+>   ASoC: SOF: ipc4-priv: align prototype and function declaration
+>   ASoC: SOF: ipc4-topology: remove shadowed variable
 > 
 > [...]
 
@@ -62,12 +62,14 @@ Applied to
 
 Thanks!
 
-[1/3] ALSA: control: Introduce snd_ctl_find_id_mixer_locked()
-      commit: 08ea486a61451189b190c7b89e406b889cf693fa
-[2/3] ASoC: soc-card: Use snd_ctl_find_id_mixer() instead of open-coding
-      commit: 897cc72b08374c1224a9ded03c82dfc8e41f80c2
-[3/3] ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol
-      commit: ef7784e41db73f3d31ce545227ebba4483479a26
+[1/4] ASoC: SOF: ipc4-loader: save FW version info to debugfs
+      commit: f690cdcc01a5b549715fefe22a98962e7672516b
+[2/4] ASoC: SOF: amd: acp-loader: abort firmware download on write error
+      commit: dbb6ca68b55ddf23d0b6de782c7641624a285fc2
+[3/4] ASoC: SOF: ipc4-priv: align prototype and function declaration
+      commit: 458e3870507f7ebd26a2f5c7e925d5b31a873114
+[4/4] ASoC: SOF: ipc4-topology: remove shadowed variable
+      commit: c143cfe4f87070f11d7550b38f72625b51bf229f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
