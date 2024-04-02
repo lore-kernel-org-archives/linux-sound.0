@@ -1,160 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEECA126F16
-	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 15:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB5114AD35;
+	Tue,  2 Apr 2024 16:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071131; cv=none; b=o/X70HJuUGSJbxBwfqtEAimGk534oEjoe0NrKOZgpTwUMxU9DYmPulRYiuZocrbwhNGUOJNah3D3JrBUAEX+4WV/7a6wURqTUnZ9Vl1go98JeM+Gs3iCpAGmwd1iVplcASaHb75pT5Mr8bj4eDS3bL6pL5IJfhpyLkIBUcIx2kc=
+	t=1712074360; cv=none; b=ZPZRpSO59yR5lU5E118IAxUPxb+TwGp3Pbw4lyo6tjnaxVx4kZvlmBbql2psIhQJMGQX0RTbgVBauoFNvGRRl0iIfYgT8M8XBgGOhl94U5tw9gwo2M1FvJORBx8Nur6FWhaaSBJlW3QCn07hpSTqa+ABD/+gdK18hDSLeVAy/+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071131; c=relaxed/simple;
-	bh=O3Xjhr5i4oX12VFxWeKbSmbwSd+1rJmt2zqPFSMxbVQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T0+9JHSzzpbV3I2+rZ4cKL/Pmljr65P65zJf9uBUDvAxb/NQKy16804xEhCg5JdhejoJFoTSWUvkOseSmX7t84PylkTyXz7Ccs6qZBDw8NVTIwYPG5ot4w0b4WGcJGKJRX+J8udismy8JFplrG4o5GTrScod7kvGkeaqRf/ItoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWk7RnIZ; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712074360; c=relaxed/simple;
+	bh=GoS+A41EcPpbxG16cfUt+KE8yGdbrG9cCPQp1tPUxgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNtvqiowS9yrNDJsOaDjmuiVwKyNkP6/52vVSXpsSrawlVzd0lTZHcE9KtCfb/dXmVaCxHJ1y9qvc/HwTA9nz6+PoRQenESC/7jmqkqeF+0fRRAxQkr2t5A24RlmN93i73t7R58U9WlD2E9IskBhD9s/C80hfxF46DgQN/MYFLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwCOAse1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWk7RnIZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712071130; x=1743607130;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=O3Xjhr5i4oX12VFxWeKbSmbwSd+1rJmt2zqPFSMxbVQ=;
-  b=cWk7RnIZbPr2SJFwX2CA12QTBWYshwrjDtnIbiNh0mjXcxjaHCS0S6CV
-   pWF37rWWYkqRq8WksFuGcAQUku1faYCACXFQ6d322ShWl8wV4kL6ZY/FS
-   vL1US3LaAwNdsW4otIoiIPhFZfsmz1+3dyO4BMkq1c17xox0ey9GqbNK6
-   tt3FproyMM7wwNffKJ4MUCLgPB+kVMhWTAnyJ+3QYAaLnyOhI0M56MIJA
-   3EZ938bqJ2hhD6tA/UhyITo02enR9gTadPvp9aq6QrGGU1uZ9yCK0CePe
-   Zcdnfzl7+p4LlhXvnfnodd/1sizU0FFNlw/bGG/rQMBIWvuhWcnP//795
-   A==;
-X-CSE-ConnectionGUID: QjQAgy05RmqQWjuCVEwtqw==
-X-CSE-MsgGUID: +91OFSgwRWCsce3emossGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="29730251"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="29730251"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:49 -0700
-X-CSE-ConnectionGUID: l4OevL10SqmZXeq5OCFxhA==
-X-CSE-MsgGUID: 7l553nk0QIWtDyiIMrVUeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="22796559"
-Received: from skhare-mobl5.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.8.83])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:47 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Rander Wang <rander.wang@intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 17/17] ASoC: SOF: ipc4-topology: Save the ALH DAI index during hw_params
-Date: Tue,  2 Apr 2024 10:18:28 -0500
-Message-Id: <20240402151828.175002-18-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240402151828.175002-1-pierre-louis.bossart@linux.intel.com>
-References: <20240402151828.175002-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwCOAse1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D05C433C7;
+	Tue,  2 Apr 2024 16:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712074360;
+	bh=GoS+A41EcPpbxG16cfUt+KE8yGdbrG9cCPQp1tPUxgI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DwCOAse1eCh7vo453eDS7eV2SZ28zDshR+MgeZjLK71eFtib4/9LOzRIzQMtS32kk
+	 PJn3L1K3mQvDhiPpzt7WDfqXpjIgHnsXX0Y9RCcec3tyIqlQ/4OXbdaFkfsRh1PHX7
+	 6zdYVMSJbVIvuvjoljh6mDuKust3BxExigY4j1sVXG4npesIbFliyE5vcEwuhxjV3C
+	 bSxdp8fbc9F3ysRt8wupzy4MOMMwZ9P0gU6CUTOfZ9DI/SXowS7t0pcAfEHey4iGoj
+	 XcKNxuErxtEgC6Q+mnwsgT6RUIfu8xGXezsCUbaT2eYMs9eXH/NNh70aq7pFV6TrNE
+	 YQLrRsqjIAQDQ==
+Date: Tue, 2 Apr 2024 11:12:37 -0500
+From: Rob Herring <robh@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: festevam@gmail.com, shengjiu.wang@gmail.com, shawnguo@kernel.org,
+	broonie@kernel.org, linux-kernel@vger.kernel.org,
+	robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	imx@lists.linux.dev, s.hauer@pengutronix.de, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, kernel@pengutronix.de,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] ASoC: dt-bindings: fsl-asoc-card: convert to YAML
+Message-ID: <171207435593.237814.17122445408696943016.robh@kernel.org>
+References: <1711976056-19884-1-git-send-email-shengjiu.wang@nxp.com>
+ <1711976056-19884-3-git-send-email-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1711976056-19884-3-git-send-email-shengjiu.wang@nxp.com>
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-The node_id for multi-gateway ALH DAI's get overwritten with the
-group_id during the DAI copier's ipc_prepare op. So, save the ALH
-dai_index during the BE DAI hw_params in the dai_index field of struct
-ipc4_copier and use that to set the device ID in the configuration blob.
-This will avoid errors during copier init after an xrun.
+On Mon, 01 Apr 2024 20:54:16 +0800, Shengjiu Wang wrote:
+> Convert the fsl-asoc-card binding to YAML.
+> 
+> When testing dtbs_check, found below compatible strings
+> are not listed in document:
+> 
+> fsl,imx-sgtl5000
+> fsl,imx53-cpuvo-sgtl5000
+> fsl,imx51-babbage-sgtl5000
+> fsl,imx53-m53evk-sgtl5000
+> fsl,imx53-qsb-sgtl5000
+> fsl,imx53-voipac-sgtl5000
+> fsl,imx6-armadeus-sgtl5000
+> fsl,imx6-rex-sgtl5000
+> fsl,imx6-sabreauto-cs42888
+> fsl,imx6-wandboard-sgtl5000
+> fsl,imx6dl-nit6xlite-sgtl5000
+> fsl,imx6q-ba16-sgtl5000
+> fsl,imx6q-nitrogen6_max-sgtl5000
+> fsl,imx6q-nitrogen6_som2-sgtl5000
+> fsl,imx6q-nitrogen6x-sgtl5000
+> fsl,imx6q-sabrelite-sgtl5000
+> fsl,imx6q-sabresd-wm8962
+> fsl,imx6q-udoo-ac97
+> fsl,imx6q-ventana-sgtl5000
+> fsl,imx6sl-evk-wm8962
+> fsl,imx6sx-sdb-mqs
+> fsl,imx6sx-sdb-wm8962
+> fsl,imx7d-evk-wm8960
+> karo,tx53-audio-sgtl5000
+> tq,imx53-mba53-sgtl5000
+> 
+> So add them in yaml file to pass the test.
+> 
+> Also correct the 'dai-format' to 'format' in document.
+> 
+> For 'audio-routing', the items are not listed. Because
+> this fsl-asoc-card is generic driver, which supports several
+> codecs, if list all the items, there will be a long list.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  .../bindings/sound/fsl-asoc-card.txt          | 117 -----------
+>  .../bindings/sound/fsl-asoc-card.yaml         | 195 ++++++++++++++++++
+>  2 files changed, 195 insertions(+), 117 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
+> 
 
-Note that the dai_index is typically set in topology for DMIC/SSP, but
-it's not used for ALH. Reclaiming this dai_index field to store the
-node_id does not generate a conflict with topology-defined values.
-
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/sof/intel/hda.c     |  1 +
- sound/soc/sof/ipc4-topology.c | 12 ++++++++++--
- sound/soc/sof/ipc4-topology.h |  1 +
- 3 files changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 2c64c25d6f3b..d38dc43c2f1c 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -164,6 +164,7 @@ static int sdw_params_free(struct device *dev, struct sdw_intel_stream_free_data
- 		struct sof_ipc4_copier *ipc4_copier;
- 
- 		ipc4_copier = dai->private;
-+		ipc4_copier->dai_index = 0;
- 		copier_data = &ipc4_copier->data;
- 
- 		/* clear the node ID */
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index e0e4f356275f..c29c1de4e925 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -1732,6 +1732,8 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 			 */
- 			i = 0;
- 			list_for_each_entry(w, &sdev->widget_list, list) {
-+				u32 node_type;
-+
- 				if (w->widget->sname &&
- 				    strcmp(w->widget->sname, swidget->widget->sname))
- 					continue;
-@@ -1739,7 +1741,10 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 				dai = w->private;
- 				alh_copier = (struct sof_ipc4_copier *)dai->private;
- 				alh_data = &alh_copier->data;
--				blob->alh_cfg.mapping[i].device = alh_data->gtw_cfg.node_id;
-+				node_type = SOF_IPC4_GET_NODE_TYPE(alh_data->gtw_cfg.node_id);
-+				blob->alh_cfg.mapping[i].device = SOF_IPC4_NODE_TYPE(node_type);
-+				blob->alh_cfg.mapping[i].device |=
-+					SOF_IPC4_NODE_INDEX(alh_copier->dai_index);
- 
- 				/*
- 				 * The mapping[i] device in ALH blob should be the same as the
-@@ -2862,12 +2867,15 @@ static int sof_ipc4_dai_config(struct snd_sof_dev *sdev, struct snd_sof_widget *
- 		/*
- 		 * Do not clear the node ID when this op is invoked with
- 		 * SOF_DAI_CONFIG_FLAGS_HW_FREE. It is needed to free the group_ida during
--		 * unprepare.
-+		 * unprepare. The node_id for multi-gateway DAI's will be overwritten with the
-+		 * group_id during copier's ipc_prepare op.
- 		 */
- 		if (flags & SOF_DAI_CONFIG_FLAGS_HW_PARAMS) {
-+			ipc4_copier->dai_index = data->dai_node_id;
- 			copier_data->gtw_cfg.node_id &= ~SOF_IPC4_NODE_INDEX_MASK;
- 			copier_data->gtw_cfg.node_id |= SOF_IPC4_NODE_INDEX(data->dai_node_id);
- 		}
-+
- 		break;
- 	case SOF_DAI_INTEL_DMIC:
- 	case SOF_DAI_INTEL_SSP:
-diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
-index aa5122c3721d..6e33208a357f 100644
---- a/sound/soc/sof/ipc4-topology.h
-+++ b/sound/soc/sof/ipc4-topology.h
-@@ -45,6 +45,7 @@
- #define SOF_IPC4_NODE_INDEX_MASK	0xFF
- #define SOF_IPC4_NODE_INDEX(x)	((x) & SOF_IPC4_NODE_INDEX_MASK)
- #define SOF_IPC4_NODE_TYPE(x)  ((x) << 8)
-+#define SOF_IPC4_GET_NODE_TYPE(node_id) ((node_id) >> 8)
- 
- /* Node ID for SSP type DAI copiers */
- #define SOF_IPC4_NODE_INDEX_INTEL_SSP(x) (((x) & 0xf) << 4)
--- 
-2.40.1
+Reviewed-by: Rob Herring <robh@kernel.org>
 
