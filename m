@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6913F12F5B1
-	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 15:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3429512FB27
+	for <linux-sound@vger.kernel.org>; Tue,  2 Apr 2024 15:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071122; cv=none; b=MPTA8A/rulF20gzrJRL79FckGhANlgTefdut/jS1y48k/S7+xYBbpNSFcn0MCdqEfJa6MlJ8PsXXbOTAE6f71ZZ1CCyM77qTCA9KTV6A1fmFFFKuI3PFdNMQ4+aMuAoPbolLc5Wqj1Y3SYYVr7Mcn0VBT8p0fNGkRXsdyf7bF7w=
+	t=1712071123; cv=none; b=mydcdm8Nalnrf6qKcRN+bvqx9Gab9Z3q+wjLOVFnpVyjoo0BfxO6nEZKh/LS9/CxS//zkAQC1Bj85ym5DcY/L1d3HQ0IbHPq40zz8oW6WoO9YLcRlWhVR4iCf/AuJyXUd7C7HzG+GQDiHFCK3h65Y+9K9GQGkrNAtw4vXXfrsKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071122; c=relaxed/simple;
-	bh=AINXQ+oARNLK98XYvBhR8VR2hzFoyR1tT0x1hV7z2E8=;
+	s=arc-20240116; t=1712071123; c=relaxed/simple;
+	bh=UwtYxBJyt3wQGzqEI4KWrGa53H0S9tKuqrOmRnTF6Sc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Fy0cZaDVUbKpfb8R7KyMWBUKepbi5Y2FGhi2Mu5bTek54NMJLQg2XoeUrnaNzp86eKPmR+boggo2Hau2a7gchEITqTQd4LBi8/1xoN1D7k/AJfw0Ncf8FgyHAPiCUo8M6zkdLPEuSYvX+cby2oP9m3lRQ/6RqQ/9uiwswpFuOpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceYMuS77; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=PlmXNFf0OfrIkRYwbZ3v3jkdjrlNXC5eOtcNC3FBnbugL753RQQUUyt2qn1ZoOv3eXy9I9IfV3HQHiJ5jo8o+qO/wsHXmZ6BiXQuDpsB3TmBWK56Xiuq3gkMlvEMmDp+mXUiwcaDMOEOBfQYMD3xZN5DnLl5kdJHRuXOKnyYcYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0V7sX54; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceYMuS77"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0V7sX54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712071122; x=1743607122;
+  t=1712071123; x=1743607123;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AINXQ+oARNLK98XYvBhR8VR2hzFoyR1tT0x1hV7z2E8=;
-  b=ceYMuS77joulgfro/00ybRkXqckw9xLKXi1LUZxq4H7zcvoZo19HhMIR
-   ITPx9/juliF1mlfd0C9CGAnYexMEeIXROw9C+4rBP3TJvbIo83TpN52HK
-   l0LOfNhdNg1nredbFVAKJtdMMRwJ7mihDaG0hHfBslDOgLN2FBElu/C15
-   obiQ7xMRDkLqHB6oGdVoORWG0cORE9mxnKFCFBhsY5hSLDr2SlPiUR/G+
-   1cvPXHcv8OZaQuJwyt4kQJ3sKM697Vt28Lhu4ZKCSSzW+/jTCoPgFvf2z
-   Nfldd7KaceXQAT0sNXcC8FZz71BLOp+ML+TqpFYbfvc/1BHz67c1Q4hx3
-   g==;
-X-CSE-ConnectionGUID: QF/3fDTlQE6D1jk3mS/yiQ==
-X-CSE-MsgGUID: PpikNcpORSOqwvNYmsVdvQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="29729997"
+  bh=UwtYxBJyt3wQGzqEI4KWrGa53H0S9tKuqrOmRnTF6Sc=;
+  b=W0V7sX54gMcWfW9Loqac+PsJhefi8CB+hJEXzdko9g0+HSJS2nO6iCye
+   8zbg2L4vRk7hDbP87WJBD64LZt0mX3nJra9HfwCyjKwsfb1XMs6qi60zs
+   WlDVNJ1ygdJoX/8A5OS19zYNwvRhAy6kp/lXuJ8QILocgXsPIL9X6fO7M
+   NHWrp4gUa9Q+eNjcxBRE946mDWnSJaXClPuqUhJiXOtte+1OdeRjnzMRQ
+   hlHuyTJ/jex4YqJr3gGnDBQnuYxt5/SWD6MYShxn64eUoQ+7t99HC81ka
+   PJGHEow9JhPPylldviNKLYk2pKUzuWV5xCdvkgPJpSMDnn/NUFh1rV5dj
+   A==;
+X-CSE-ConnectionGUID: F43pAksITK6Tw29rf4DFZQ==
+X-CSE-MsgGUID: m4C/eCgsRP+XBC/1epmH0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="29730018"
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="29729997"
+   d="scan'208";a="29730018"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:41 -0700
-X-CSE-ConnectionGUID: m/9pMPszSXiJ+Mv0ygyftQ==
-X-CSE-MsgGUID: FhQk9oFbTNS6lGzab0KFyA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:42 -0700
+X-CSE-ConnectionGUID: zPRIZFbSSLWQAvUAgJ8+mQ==
+X-CSE-MsgGUID: BHW7BdmLR7aSh/HeLSBHFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="22796507"
+   d="scan'208";a="22796510"
 Received: from skhare-mobl5.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.8.83])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:40 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:18:41 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 07/17] ASoC: SOF: Intel: hda-dai: add helpers to set dai config
-Date: Tue,  2 Apr 2024 10:18:18 -0500
-Message-Id: <20240402151828.175002-8-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 08/17] ASoC: SOF: Intel: set the DMA TLV device as dai_index
+Date: Tue,  2 Apr 2024 10:18:19 -0500
+Message-Id: <20240402151828.175002-9-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240402151828.175002-1-pierre-louis.bossart@linux.intel.com>
 References: <20240402151828.175002-1-pierre-louis.bossart@linux.intel.com>
@@ -65,125 +65,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We need to be able to set the dai config differently for SoundWire.
+We've already defined the value for dai_index, let's use it instead of
+open-coding the same thing. No functionality change.
 
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/sof/intel/hda-dai.c | 51 ++++++++++++++++++++++++++---------
- 1 file changed, 38 insertions(+), 13 deletions(-)
+ sound/soc/sof/intel/hda-dai.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index de71e1595a78..c48ac931753c 100644
+index c48ac931753c..86efcbe8f0d8 100644
 --- a/sound/soc/sof/intel/hda-dai.c
 +++ b/sound/soc/sof/intel/hda-dai.c
-@@ -221,15 +221,15 @@ static int __maybe_unused hda_dai_hw_free(struct snd_pcm_substream *substream,
- 	return hda_link_dma_cleanup(substream, hext_stream, cpu_dai);
- }
+@@ -533,7 +533,7 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
+ 	ipc4_copier = widget_to_copier(w);
+ 	dma_config_tlv = &ipc4_copier->dma_config_tlv[cpu_dai_id];
+ 	dma_config = &dma_config_tlv->dma_config;
+-	dma_config->dma_stream_channel_map.mapping[0].device = link_id << 8 | cpu_dai->id;
++	dma_config->dma_stream_channel_map.mapping[0].device = data.dai_index;
+ 	dma_config->dma_stream_channel_map.mapping[0].channel_mask = ch_mask;
  
--static int __maybe_unused hda_dai_hw_params(struct snd_pcm_substream *substream,
--					    struct snd_pcm_hw_params *params,
--					    struct snd_soc_dai *dai)
-+static int __maybe_unused hda_dai_hw_params_data(struct snd_pcm_substream *substream,
-+						 struct snd_pcm_hw_params *params,
-+						 struct snd_soc_dai *dai,
-+						 struct snd_sof_dai_config_data *data,
-+						 unsigned int flags)
- {
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(dai, substream->stream);
- 	const struct hda_dai_widget_dma_ops *ops = hda_dai_get_ops(substream, dai);
- 	struct hdac_ext_stream *hext_stream;
--	struct snd_sof_dai_config_data data = { 0 };
--	unsigned int flags = SOF_DAI_CONFIG_FLAGS_HW_PARAMS;
- 	struct snd_sof_dev *sdev = widget_to_sdev(w);
- 	int ret;
- 
-@@ -249,9 +249,19 @@ static int __maybe_unused hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	hext_stream = ops->get_hext_stream(sdev, dai, substream);
- 
- 	flags |= SOF_DAI_CONFIG_FLAGS_2_STEP_STOP << SOF_DAI_CONFIG_FLAGS_QUIRK_SHIFT;
--	data.dai_data = hdac_stream(hext_stream)->stream_tag - 1;
-+	data->dai_data = hdac_stream(hext_stream)->stream_tag - 1;
- 
--	return hda_dai_config(w, flags, &data);
-+	return hda_dai_config(w, flags, data);
-+}
-+
-+static int __maybe_unused hda_dai_hw_params(struct snd_pcm_substream *substream,
-+					    struct snd_pcm_hw_params *params,
-+					    struct snd_soc_dai *dai)
-+{
-+	struct snd_sof_dai_config_data data = { 0 };
-+	unsigned int flags = SOF_DAI_CONFIG_FLAGS_HW_PARAMS;
-+
-+	return hda_dai_hw_params_data(substream, params, dai, &data, flags);
- }
- 
- /*
-@@ -341,9 +351,11 @@ static struct sof_ipc4_copier *widget_to_copier(struct snd_soc_dapm_widget *w)
- 	return ipc4_copier;
- }
- 
--static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
--				 struct snd_pcm_hw_params *params,
--				 struct snd_soc_dai *cpu_dai)
-+static int non_hda_dai_hw_params_data(struct snd_pcm_substream *substream,
-+				      struct snd_pcm_hw_params *params,
-+				      struct snd_soc_dai *cpu_dai,
-+				      struct snd_sof_dai_config_data *data,
-+				      unsigned int flags)
- {
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(cpu_dai, substream->stream);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-@@ -366,9 +378,9 @@ static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	}
- 
- 	/* use HDaudio stream handling */
--	ret = hda_dai_hw_params(substream, params, cpu_dai);
-+	ret = hda_dai_hw_params_data(substream, params, cpu_dai, data, flags);
- 	if (ret < 0) {
--		dev_err(cpu_dai->dev, "%s: hda_dai_hw_params failed: %d\n", __func__, ret);
-+		dev_err(cpu_dai->dev, "%s: hda_dai_hw_params_data failed: %d\n", __func__, ret);
- 		return ret;
- 	}
- 
-@@ -422,6 +434,16 @@ static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
-+static int non_hda_dai_hw_params(struct snd_pcm_substream *substream,
-+				 struct snd_pcm_hw_params *params,
-+				 struct snd_soc_dai *cpu_dai)
-+{
-+	struct snd_sof_dai_config_data data = { 0 };
-+	unsigned int flags = SOF_DAI_CONFIG_FLAGS_HW_PARAMS;
-+
-+	return non_hda_dai_hw_params_data(substream, params, cpu_dai, &data, flags);
-+}
-+
- static int non_hda_dai_prepare(struct snd_pcm_substream *substream,
- 			       struct snd_soc_dai *cpu_dai)
- {
-@@ -453,6 +475,8 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(cpu_dai, substream->stream);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct sof_ipc4_dma_config_tlv *dma_config_tlv;
-+	struct snd_sof_dai_config_data data = { 0 };
-+	unsigned int flags = SOF_DAI_CONFIG_FLAGS_HW_PARAMS;
- 	const struct hda_dai_widget_dma_ops *ops;
- 	struct sof_ipc4_dma_config *dma_config;
- 	struct sof_ipc4_copier *ipc4_copier;
-@@ -465,7 +489,8 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	int ret;
- 	int i;
- 
--	ret = non_hda_dai_hw_params(substream, params, cpu_dai);
-+	data.dai_index = (link_id << 8) | cpu_dai->id;
-+	ret = non_hda_dai_hw_params_data(substream, params, cpu_dai, &data, flags);
- 	if (ret < 0) {
- 		dev_err(cpu_dai->dev, "%s: non_hda_dai_hw_params failed %d\n", __func__, ret);
- 		return ret;
+ 	/*
 -- 
 2.40.1
 
