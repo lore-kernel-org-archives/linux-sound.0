@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEE444C97;
-	Wed,  3 Apr 2024 12:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA06146A7E
+	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 12:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712148624; cv=none; b=sLa1yWhwy7W8BRLKqeyj9IVoNAPljOpY+EwjZmQVRM6v0qHkHI9xlseSsUMWhdPCfwVQyt2N9JFxXhY9YXAbY1pDgB3CnXqHBEbNCVR8pCnJodpg2MArKxnur1nwfwYSay5yXMTspbVJKPhw64L7EkROFryn7ZN/Mq6jcNPaqFM=
+	t=1712148626; cv=none; b=GqJHMokjdZV/oeo0ZlkhxgSRoZcVUfmXoxNsHI0d10WLwhV2z0jjvyhz6cwHH4W1ib1o4SI7n5e4mw4cIvkIpixG5B3vBFPEGHDsBfB8NZs/r1hc8s2uGDYNV3EZcajhyZGEUZbQDbJjMHAs0Tk0CRFtZdJBtm/H+bo7appXhZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712148624; c=relaxed/simple;
-	bh=rhp7e6puQyVUMErtQ1wrKsDuOwsFw8HjdJrVLLq+GRo=;
+	s=arc-20240116; t=1712148626; c=relaxed/simple;
+	bh=4umRmk03vF9fr1bGI0vLvaFyerPGebWSjguYoGPrI8c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LPgI8W444QcA7qWQ38FKyiIMojUHDDAjaGcexJE2/46Dwb/u462DS15nDGAGx39Uqa8FkWzcWXMnzZizzX5s4mHLWPRYK0hCW0j8EQ59QjucFP+c3tBnF/i+NWHqc82uXabD5NDlorIExDEn2iyckO/CPnU/LC8lPKLucRknB78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkvbsMi0; arc=none smtp.client-ip=198.175.65.18
+	 In-Reply-To:Content-Type; b=blqLiggC+5J9+xFznqvbtd9+MhgXPWcFKBLeTcvC4pxzkG66SvyYFDWxpt7MU55HjBpzuYWjYxDhE7X8/iy2gJZcuXKJbbD/tlC3kbCwYLcOO2xfJ1tjPAncK2BCV/mSr071N62OeaRtMD7Rtm2ocJnRgy9953rfBsQOVKE61tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJtssfwa; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkvbsMi0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJtssfwa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712148623; x=1743684623;
+  t=1712148625; x=1743684625;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=rhp7e6puQyVUMErtQ1wrKsDuOwsFw8HjdJrVLLq+GRo=;
-  b=KkvbsMi0a3GwZQH6OS4qDkK6GKzMItf+9mMJQrlpnAi+meTSbsOpwtnP
-   FrSQJtA+D8R+fGZLlKi413OBM0d2wxX2d0lcMbdI3Xcf3x3UHIzwKGWMa
-   7QyqBahdXupDHXm+T9LRIA6BxqfPBAkL//QX8cuYRQRKr2Lc79jNTlGWM
-   7fCDKhToPD8wPp5EcPOImuBBgtO7EvHAd007FxI6BdVsZAeMU5U+AQ0f6
-   +o+PUOxWUIZCKnQtKtR4WYBmQWOfW7i/EC+Dklt+O0XhTn8fv+NXQIaeJ
-   8j1Ycl9ci1pAUy3adZT1gwjFLO+U4HDJWY2SQlWTpmT7Q9Xvh5Bdy3zPM
-   g==;
-X-CSE-ConnectionGUID: v9EQG/HkTBuqCVkMznfwog==
-X-CSE-MsgGUID: tsE9gVh+SEKW4sMbKWWVYQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7539277"
+  bh=4umRmk03vF9fr1bGI0vLvaFyerPGebWSjguYoGPrI8c=;
+  b=CJtssfwaryP91S9BreV/7sQNcvcpcXJDLpX5sD/A26kSy4uRlEMWOq+C
+   FRQpU7VXMn48+3gTuFyvhKuDUAHQu/J5tU4nqORKFjV2f0m7Jl7TyYLaz
+   1nzK/KoZHCdlcVRaap7Vzhqgz7lxUfHUuQzQDqoDlKyVoFgA0LDPB5s/f
+   kZ11LY4DYMefYDZhikCSarSlntXH3wtguJsq+Rt4xVirtXKmPz/fVvgZH
+   KuLMqS694yIDW7mJR4VgtY7wLbWvHTC3z9WPWQLk+2QwFJzmDl07YW2HU
+   WtJKABk61JEN6Gw0FIdO2dOQ9U68KrtkPNo1menx9vqRj52zL+ur8WCJU
+   A==;
+X-CSE-ConnectionGUID: E3N2hs7HSr2xNNc6eGkOaw==
+X-CSE-MsgGUID: abPUjGiTTaKpzxaoIe5qOg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="7539289"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="7539277"
+   d="scan'208";a="7539289"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:50:23 -0700
-X-CSE-ConnectionGUID: 1/2JH2STQ7WDV9dzV2GDbw==
-X-CSE-MsgGUID: R5MUllpuTCKa7NQ8b3XutA==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:50:24 -0700
+X-CSE-ConnectionGUID: BYDsrZNkTaC/LT2slJN6iw==
+X-CSE-MsgGUID: /OB8Lz1iQYq2CjAHV31VPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18343201"
+   d="scan'208";a="18343217"
 Received: from makulkar-mobl1.amr.corp.intel.com (HELO [10.212.52.18]) ([10.212.52.18])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:50:21 -0700
-Message-ID: <ef510647-c409-4da6-9cd4-ff4e54cbee74@linux.intel.com>
-Date: Tue, 2 Apr 2024 08:57:14 -0500
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 05:50:22 -0700
+Message-ID: <600cef67-ad90-4b67-8da7-2006339d430b@linux.intel.com>
+Date: Tue, 2 Apr 2024 09:02:26 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,104 +52,99 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDIvMl0gQVNvQzogY2RuczogQWRk?=
- =?UTF-8?Q?_drivers_of_Cadence_Multi-Channel_I2S_Controller?=
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Claudiu Beznea <Claudiu.Beznea@microchip.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
- <20240320090239.168743-3-xingyu.wu@starfivetech.com>
- <1d0399d2-684f-490e-8711-f636e987a0b8@linux.intel.com>
- <NTZPR01MB0956BFADB4B3DA507D938F669F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+Subject: Re: [PATCH v2 01/16] ASoC: soc-pcm.c: cleanup
+ soc_get_playback_capture()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+ <87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
+ <b4b37541-b67f-4593-9fd5-fc6242a0673a@linux.intel.com>
+ <87zfuc7gya.wl-kuninori.morimoto.gx@renesas.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <NTZPR01MB0956BFADB4B3DA507D938F669F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <87zfuc7gya.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
->>
->>> +#define PERIODS_MIN		2
->>> +
->>> +static unsigned int cdns_i2s_pcm_tx(struct cdns_i2s_dev *dev,
->>> +				    struct snd_pcm_runtime *runtime,
->>> +				    unsigned int tx_ptr, bool *period_elapsed,
->>> +				    snd_pcm_format_t format)
->>> +{
->>> +	unsigned int period_pos = tx_ptr % runtime->period_size;
->>
->> not following what the modulo is for, usually it's modulo the buffer size?
+
+On 4/1/24 19:21, Kuninori Morimoto wrote:
 > 
-> This is to see if the new data is divisible by period_size and to determine whether
-> it is enough for a period_size in the later loop.
-
-That didn't answer to my question, the position is usually between
-0..buffer_size.1.
-
-Doing increments on a modulo value then comparisons as done below seems
-rather questionable.
-	
->>> +
->>> +		iowrite32(data[0], dev->base + CDNS_FIFO_MEM);
->>> +		iowrite32(data[1], dev->base + CDNS_FIFO_MEM);
->>> +		period_pos++;
->>> +		if (++tx_ptr >= runtime->buffer_size)
->>> +			tx_ptr = 0;
->>> +	}
->>> +
->>> +	*period_elapsed = period_pos >= runtime->period_size;
->>> +	return tx_ptr;
->>> +}
-
->>> +	pm_runtime_enable(&pdev->dev);
->>> +	if (pm_runtime_enabled(&pdev->dev))
->>> +		cdns_i2s_runtime_suspend(&pdev->dev);
->>
->> that sequence looks suspicious.... Why would you suspend immediately during the
->> probe? You're probably missing all the autosuspend stuff?
+> Hi Pierre-Louis
 > 
-> Since I have enabled clocks before, and the device is in the suspend state after
-> pm_runtime_enable(), I need to disable clocks in cdns_i2s_runtime_suspend()
-> to match the suspend state.
+> Thank you for your review
+> 
+>> The problem I have is with the following code (not shown with diff)
+>>
+>> 	if (dai_link->playback_only)
+>> 		has_capture = 0;
+>>
+>> 	if (dai_link->capture_only)
+>> 		has_playback = 0;
+>>
+>> So with this grand unification, all the loops above may make a decision
+>> that could be overridden by these two branches.
+>>
+>> This was not the case before for DPCM, all the 'has_capture' and
+>> 'has_playback' variables were used as a verification of the dai_link
+>> settings with an error thrown e.g. if the dpcm_playback was set without
+>> any DAIs supporting playback.
+> 
+> I could understand so far.
+> 
+>> Now the dailink settings are used unconditionally. There is one warning
+>> added if there are no settings for a dailink, but we've lost the
+>> detection of a mismatch between dailink and the set of cpu/codec dais
+>> that are part of this dailink.
+> 
+> But sorry I could understand this.
+> 
+> 	"There is one warning added if there are no settings for a dailink"
+> 
+> By [01/16] patch ? I think no warning is added. Or do you mean by [15/16]
+> patch ?
 
-That is very odd on two counts
-a) if you haven't enabled the clocks, why do you need to disbale them?
-b) if you do a pm_runtime_enable(), then the branch if
-(pm_runtime_enabled) is always true.
-
+Yes I looked at the entire series, it's just too complicated to look
+with diff.
 
 > 
->>
->>> +
->>> +	dev_dbg(&pdev->dev, "I2S supports %d stereo channels with %s.\n",
->>> +		i2s->max_channels, ((i2s->irq < 0) ? "dma" : "interrupt"));
->>> +
->>> +	return 0;
->>> +
->>> +err:
->>> +	return ret;
->>> +}
->>> +
->>> +static int cdns_i2s_remove(struct platform_device *pdev) {
->>> +	pm_runtime_disable(&pdev->dev);
->>> +	if (!pm_runtime_status_suspended(&pdev->dev))
->>> +		cdns_i2s_runtime_suspend(&pdev->dev);
->>
->> ... and this one too. Once you've disabled pm_runtime, checking the status is
->> irrelevant...
+> 	"we've lost the detection of a mismatch between dailink and the
+> 	 set of cpu/codec dais that are part of this dailink"
 > 
-> I think the clocks need to be always enabled after probe if disable pm_runtime,
-> and should be disabled when remove. This will do that.
+> Sorry I couldn't understand about this.
+> Which mismatch detection we lost ?? Concrete sample / code / image
+> is very helpful for me to well understanding.
 
-if you are disabling pm_runtime, then the pm_runtime state becames invalid.
-When pm_runtime_disable() is added in remove operations, it's mainly to
-prevent the device from suspending.
+With the older code, if the dpcm_playback was set for the dailink but
+there isn't any dai connected to support playback, an error was thrown.
 
+With the new code, if playback_only is set but there isn't any dai
+connected, there is no error thrown, is there?
+
+The point is that these flags are sometimes set in the machine driver,
+sometimes set in the framework, and the open is which one has the priority.
