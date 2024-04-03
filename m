@@ -1,150 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835596FE1D
-	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 09:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4486EB60;
+	Wed,  3 Apr 2024 09:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712135705; cv=none; b=uWWYgWMp5OMIrNC5k7QSBq4toQ3rOfgfIl/qr69rufRN7L+bFhd/UTCtGrNWYa79HBVSglZXS8oTyvXuaOZppdpikl28DMgnKL+vj0BrPTWHTG95fPGfQIXdk0eqCXQl6JEzfb9/+VlDE/8gzjH05RnXc2J9p1VzJbZO3ndzcnU=
+	t=1712135726; cv=none; b=l8hOL1ywRTmM9q17jeE6HRLh8JenkZtecdCTJKJIBMHTgD1cYi42WgmNeGBPidbNvRZy5qqBdFORNSDSJq4q3dy/YoSp21JC8uaMCsg3++WeDDOLq5h7kHRRc3p0YvvzZCrJbarR/jamn6nAwAIkbDOEp6Oh2Ymj4KnmYECjqZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712135705; c=relaxed/simple;
-	bh=R42RWlWUefH9vHZVCaBl8MfoWeK8wmzlj0AXLYQx0F0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ko/usqCafPO5jrjnNekyex/0sCSrL5/EolPqrKRLM1iZpFECSgEnTBndV3h2uxLYlIxoGnGk6SOzpgOCb269Kc0gc4eXlAW/98R707Fa8GKsQBtfXdkLjy1l8tVDKbq/Sw9L+OXIxx7QAeQiyLwJCE7IkWvkPjunxXkBsV875wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KO/p8Lkz; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712135726; c=relaxed/simple;
+	bh=ZM/3Byxpxed4P8WSswonfevzf2brOiTU9TshRQSMaj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cjBen5D7rE5O6A1syZqpYOu33T8hMrMNjI+UU5B7Flhcr7TnHZaWAlVu5QMFDWNHedAjzCxXg4VF/6ECmsJXhirjsljjPaVcQsMJUbkFrqMYgdvx9QBznJpi1HShzbc3CHcAHTTYUUxQw9HRUHOv/6O7eRNUoNeHPskvOvs/Ynk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGAjwkYH; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KO/p8Lkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGAjwkYH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712135703; x=1743671703;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=R42RWlWUefH9vHZVCaBl8MfoWeK8wmzlj0AXLYQx0F0=;
-  b=KO/p8LkzoiZ5Upm8Z3LitSBDtwdLqQENtS0O6qieBGn5OESQNkFoy3me
-   6PHXYDJI/4s1neF4219jtPdKabdlTmzP8708FED0tVTe/TZRV3VgRkP+O
-   JKpRhpalJ5OS90M1XY2tOu2C+9BYX9NIg9GQrJjWeFx1F6iVMlqQf16iE
-   FeZIJ/q45KT8srrpNoZEweclqW6/IgDwILlrf2PhR3YRqmfgUjWw+JFJd
-   vnqR+qc7POau0F6ZjZBuEExxi2bYo4RdW/B59fZDFg9e4jRMNmaV0hxbY
-   4T9K5aT46xuVyZtpL0uCtPhWIjT3Fp3A3BdhLxBd8lUZW9ywQKEFXgotv
-   A==;
-X-CSE-ConnectionGUID: Z/yTwlNDRwOIckLxomg4uw==
-X-CSE-MsgGUID: h2adqAx2Q3uNVRKsNDCx1A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="10322573"
+  t=1712135725; x=1743671725;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZM/3Byxpxed4P8WSswonfevzf2brOiTU9TshRQSMaj0=;
+  b=dGAjwkYH5I0ZQvQufBH62Bhm+DYc5fVK0ul+WcdtHWsPLLg8pvceO2dT
+   0f0BJLwfgETlaV24hLp48fLFBPl645fQ1r9TzUJZKMfeKRKPhaMdN8XjQ
+   GqFntr4CFo2fG80BKWl6MYQqW9mOLQAS8vGnbc2SmN5K70dWphnAAIlYt
+   jHt4XKOW9xpVMgReY6SWkdUpbmkQ5VP5DVZRfRBVeWeeQwmFBbQtGTwi0
+   5kMrsAnk8FsAg8za7OGyJXMQn/gLL+3Q+BmQ47GZpmhSvh+pykOrVAURi
+   cZkIBr/jhdl+M/vf+T7A/R/2b6W8yC9qW7ltVPi0p0gxhYcroqtkbAW/U
+   g==;
+X-CSE-ConnectionGUID: rWKwYGhjTtWEeIfcwE9vaA==
+X-CSE-MsgGUID: RIsAhhNwT3KNaQTfJ7NIPg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7217305"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="10322573"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:15:03 -0700
-X-CSE-ConnectionGUID: 1OE4lx6oSeCzJPo6fSYBAg==
-X-CSE-MsgGUID: QMv4+h7xQCaxbQcEN5nmxw==
+   d="scan'208";a="7217305"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:15:24 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="915175371"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18410539"
-Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2024 02:15:01 -0700
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	pierre-louis.bossart@linux.intel.com,
-	hdegoede@redhat.com,
-	cujomalainey@chromium.org,
-	lmajczak@google.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 4/4] ASoC: topology: Remove obsolete ABI v4 structs
-Date: Wed,  3 Apr 2024 11:16:29 +0200
-Message-Id: <20240403091629.647267-5-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240403091629.647267-1-cezary.rojewski@intel.com>
-References: <20240403091629.647267-1-cezary.rojewski@intel.com>
+   d="scan'208";a="915175371"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:15:17 -0700
+Received: from andy by smile with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rrwiA-000000014UU-0axT;
+	Wed, 03 Apr 2024 12:15:14 +0300
+Date: Wed, 3 Apr 2024 12:15:13 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Yinchuan Guo <guoych37@mail2.sysu.edu.cn>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 32/34] ASoC: remove incorrect of_match_ptr/ACPI_PTR
+ annotations
+Message-ID: <Zg0eIZDS3F_PQLyB@smile.fi.intel.com>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+ <20240403080702.3509288-33-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403080702.3509288-33-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-There are no users of soc-topology ABI v4 since kernel v5.4 and no
-kernel code makes use of them.
+On Wed, Apr 03, 2024 at 10:06:50AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> When building with CONFIG_OF and/or CONFIG_ACPI disabled but W=1 extra
+> warnings enabled, a lot of driver cause a warning about an unused
+> ID table:
+> 
+> sound/soc/atmel/sam9x5_wm8731.c:187:34: error: unused variable 'sam9x5_wm8731_of_match' [-Werror,-Wunused-const-variable]
+> sound/soc/codecs/rt5514-spi.c:496:34: error: unused variable 'rt5514_of_match' [-Werror,-Wunused-const-variable]
+> sound/soc/samsung/aries_wm8994.c:524:34: error: unused variable 'samsung_wm8994_of_match' [-Werror,-Wunused-const-variable]
+> 
+> The fix is always to just remove the of_match_ptr() and ACPI_PTR() wrappers
+> that remove the reference, rather than adding another #ifdef just for build
+> testing for a configuration that doesn't matter in practice.
 
-Cc: Curtis Malainey <cujomalainey@chromium.org>
-Cc: Łukasz Majczak <lmajczak@google.com>
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- include/uapi/sound/asoc.h | 56 ---------------------------------------
- 1 file changed, 56 deletions(-)
+...
 
-diff --git a/include/uapi/sound/asoc.h b/include/uapi/sound/asoc.h
-index 10851bca7174..99333cbd3114 100644
---- a/include/uapi/sound/asoc.h
-+++ b/include/uapi/sound/asoc.h
-@@ -576,60 +576,4 @@ struct snd_soc_tplg_dai {
- 	struct snd_soc_tplg_private priv;
- } __attribute__((packed));
- 
--/*
-- * Old version of ABI structs, supported for backward compatibility.
-- */
--
--/* Manifest v4 */
--struct snd_soc_tplg_manifest_v4 {
--	__le32 size;		/* in bytes of this structure */
--	__le32 control_elems;	/* number of control elements */
--	__le32 widget_elems;	/* number of widget elements */
--	__le32 graph_elems;	/* number of graph elements */
--	__le32 pcm_elems;	/* number of PCM elements */
--	__le32 dai_link_elems;	/* number of DAI link elements */
--	struct snd_soc_tplg_private priv;
--} __packed;
--
--/* Stream Capabilities v4 */
--struct snd_soc_tplg_stream_caps_v4 {
--	__le32 size;		/* in bytes of this structure */
--	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
--	__le64 formats;	/* supported formats SNDRV_PCM_FMTBIT_* */
--	__le32 rates;		/* supported rates SNDRV_PCM_RATE_* */
--	__le32 rate_min;	/* min rate */
--	__le32 rate_max;	/* max rate */
--	__le32 channels_min;	/* min channels */
--	__le32 channels_max;	/* max channels */
--	__le32 periods_min;	/* min number of periods */
--	__le32 periods_max;	/* max number of periods */
--	__le32 period_size_min;	/* min period size bytes */
--	__le32 period_size_max;	/* max period size bytes */
--	__le32 buffer_size_min;	/* min buffer size bytes */
--	__le32 buffer_size_max;	/* max buffer size bytes */
--} __packed;
--
--/* PCM v4 */
--struct snd_soc_tplg_pcm_v4 {
--	__le32 size;		/* in bytes of this structure */
--	char pcm_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
--	char dai_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
--	__le32 pcm_id;		/* unique ID - used to match with DAI link */
--	__le32 dai_id;		/* unique ID - used to match */
--	__le32 playback;	/* supports playback mode */
--	__le32 capture;		/* supports capture mode */
--	__le32 compress;	/* 1 = compressed; 0 = PCM */
--	struct snd_soc_tplg_stream stream[SND_SOC_TPLG_STREAM_CONFIG_MAX]; /* for DAI link */
--	__le32 num_streams;	/* number of streams */
--	struct snd_soc_tplg_stream_caps_v4 caps[2]; /* playback and capture for DAI */
--} __packed;
--
--/* Physical link config v4 */
--struct snd_soc_tplg_link_config_v4 {
--	__le32 size;            /* in bytes of this structure */
--	__le32 id;              /* unique ID - used to match */
--	struct snd_soc_tplg_stream stream[SND_SOC_TPLG_STREAM_CONFIG_MAX]; /* supported configs playback and captrure */
--	__le32 num_streams;     /* number of streams */
--} __packed;
--
- #endif
+> index d6cdb6d9fdd6..ffc105759994 100644
+> --- a/sound/soc/amd/acp3x-rt5682-max9836.c
+> +++ b/sound/soc/amd/acp3x-rt5682-max9836.c
+> @@ -543,7 +543,7 @@ MODULE_DEVICE_TABLE(acpi, acp3x_audio_acpi_match);
+>  static struct platform_driver acp3x_audio = {
+>  	.driver = {
+>  		.name = "acp3x-alc5682-max98357",
+> -		.acpi_match_table = ACPI_PTR(acp3x_audio_acpi_match),
+> +		.acpi_match_table = acp3x_audio_acpi_match,
+>  		.pm = &snd_soc_pm_ops,
+>  	},
+>  	.probe = acp3x_probe,
+
+Replace acpi_match_device() by device_get_match_data() and acpi.h by
+mod_devicetable.h + property.h.
+
+I really would like to see agnostic drivers (when they don't need of*.h/acpi.h
+to be included as "proxy" headers).
+
+With this, the change probably needs to be separated from this patch.
+
+If you address as suggested,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+...
+
+The rest I haven't checked, it might be possible to do something similar there
+as well.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
