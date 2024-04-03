@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A65756471
-	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 09:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9126F08A
+	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 09:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712135700; cv=none; b=DFqfs1PvG6IcEApIbc5Doi1qdF2PXBO0ZWaWV09aRcozB3RfBz6ZKoiaYGpNM2GknXG7ktQBNfK8zIevPp1aDOwzvqWWPHGtXI6W5epR+xHl0LfxNuOSIWRBAu+C1XOvQc6I5GxO2aBW5DQQffUP5/6ZTVaYdAnMl7SnQVDHs8w=
+	t=1712135702; cv=none; b=KXTG3ZIkSBfBZckwyhJLdR4aDEOt04P8RYAmSZj1BKM7OQOeQBP7DRi7sSdKSPx8D4IRaL6qR2zhlcv5tOqxN10u2VNab3PQ98Gup/ShBE0SIElmXtNZXjviAXA1B8oKe76gq02cfxkSQhZ0prv2ac+iiUpax1DdROM07OMpqek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712135700; c=relaxed/simple;
-	bh=68Ebllns87Qtj6T741kWqjemPHFqRDgQfjhIbBcWx+k=;
+	s=arc-20240116; t=1712135702; c=relaxed/simple;
+	bh=iYFpr2MqS0B9WjuWG5dfN8QG1tQ6E7J2EnZtahGh85I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hv8KL3PnqzjFit/dMcDMREVcDjQCUQXAbeFA2l9N54vHkxNxieY8Z+CbRvVPE74RL/58S25BhyIS1j3GwJ0TC2BZ0ZGxdHR44NHWkd3wLse/BdbRpTu9/w6TKD8OpvL68NbtWNH7CYRXLBbyK/1ONWivEdK/WSIAsN+ql4nKka4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PksRDXIF; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=KF5zOawiWv5ioVqTCiY2Pnrvm+msoIqUrAMd2rsTN2TN+a88ijWUBM7DbybXBNsckoQBGOV1UNGa/XHf0y/6u7ziSMmIJZRjVfShakX/wWt5uqyF6mJUiRJ0UTYD5aDqCbddj5fYyKMXz5fcS82XKxi82ygfMlOzNjVT/RMUcW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m133iNYx; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PksRDXIF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m133iNYx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712135698; x=1743671698;
+  t=1712135701; x=1743671701;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=68Ebllns87Qtj6T741kWqjemPHFqRDgQfjhIbBcWx+k=;
-  b=PksRDXIF36C2DUA6SJRCWtqKdt+46uGs6OxaHzyA/w5ZZWCPF0xAypIy
-   3zZXOBqtSVhV6+1ZW/af83Hdil0UsO1Krp+53yX0Ae5rmhjmGvI2HlkzQ
-   Eyqd+9s6h7WztvZvXfOwibIg4Y5zdBwpdr+7GQMymJX1R1067v69fPp4T
-   l9lXIcoiu7f9DWmqaGbA+bEcIkFLdayfisDsK/EV+e+lGbAcS30BNICH7
-   TNagxQ8YJSu7uqi74AVkyRo1qFEYlPiprYvYSpGypzYalsTb3l7mQ3iJ7
-   CDIBz5GQa3cwdPrM1/5FEsr/5lICjPW6u+CVEXQkaJI/gPoD+75O6khL/
-   g==;
-X-CSE-ConnectionGUID: p4DwUes8SxO9iWDVoijj2A==
-X-CSE-MsgGUID: 12cqcgPzSi6/lxN1SCeY+w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="10322554"
+  bh=iYFpr2MqS0B9WjuWG5dfN8QG1tQ6E7J2EnZtahGh85I=;
+  b=m133iNYxeAWAiAiv/5N1ddlnTVFoRy3Ain5tTuosCnsPVu/0zo2mSRlW
+   XmUAA9vezKYZMeW+xjYg4T6osqlclGN09Bxcm4T61YK6/frVo3Atap5yB
+   55J6k5NhXnshBpBrD36aq3S5bK5gjop6y94e1VIRMbP/IwpL9GYdtAK5l
+   BvT7tdJvBCNtBMF8a4DfzUDbgVuuCPLpCX+RNuz6INigwrOWAwLO0soOj
+   aNVglcuQrLq2YjqBzhGqJFXAlqNf1oxhjXhf1jdUrRdMkrrvEBD6Mkek5
+   IH5UTEutblKX9hm522laHv13eZpjFqth3OEB2hFQ6zEwU5IwVfWpOw/4y
+   w==;
+X-CSE-ConnectionGUID: ycRaU7OOSISR2PJP6L9L6Q==
+X-CSE-MsgGUID: zYEkyjnbTPOEideJMMkwUQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="10322565"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="10322554"
+   d="scan'208";a="10322565"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:14:58 -0700
-X-CSE-ConnectionGUID: eQ90Fz6TQV+raAy9sMq6WQ==
-X-CSE-MsgGUID: SxMmx1MCQd+b3UfP1LJWBw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:15:00 -0700
+X-CSE-ConnectionGUID: slL1i1sHQiu17QNQsuEyzw==
+X-CSE-MsgGUID: plvU+xOBR0C+wzO6jAn6dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18410506"
+   d="scan'208";a="18410517"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2024 02:14:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Apr 2024 02:14:58 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -55,9 +55,9 @@ Cc: alsa-devel@alsa-project.org,
 	cujomalainey@chromium.org,
 	lmajczak@google.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 2/4] ASoC: topology: Remove ABI v4 support
-Date: Wed,  3 Apr 2024 11:16:27 +0200
-Message-Id: <20240403091629.647267-3-cezary.rojewski@intel.com>
+Subject: [PATCH 3/4] ASoC: topology: Cleanup after ABI v4 support removal
+Date: Wed,  3 Apr 2024 11:16:28 +0200
+Message-Id: <20240403091629.647267-4-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240403091629.647267-1-cezary.rojewski@intel.com>
 References: <20240403091629.647267-1-cezary.rojewski@intel.com>
@@ -70,287 +70,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There are no users of soc-topology ABI v4 since kernel v5.4 so remove
-all v4 -> v5 converters.
+Flag 'abi_match' along with several other local variables has no purpose
+with v4 related members removed.
 
 Cc: Curtis Malainey <cujomalainey@chromium.org>
 Cc: Łukasz Majczak <lmajczak@google.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/soc-topology.c | 210 +++------------------------------------
- 1 file changed, 16 insertions(+), 194 deletions(-)
+ sound/soc/soc-topology.c | 47 +++++++++-------------------------------
+ 1 file changed, 10 insertions(+), 37 deletions(-)
 
 diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-index fad9432a10f1..e73dc4e786ff 100644
+index e73dc4e786ff..90ca37e008b3 100644
 --- a/sound/soc/soc-topology.c
 +++ b/sound/soc/soc-topology.c
-@@ -1768,75 +1768,6 @@ static int soc_tplg_pcm_create(struct soc_tplg *tplg,
- 	return  soc_tplg_fe_link_create(tplg, pcm);
- }
- 
--/* copy stream caps from the old version 4 of source */
--static void stream_caps_new_ver(struct snd_soc_tplg_stream_caps *dest,
--				struct snd_soc_tplg_stream_caps_v4 *src)
--{
--	dest->size = cpu_to_le32(sizeof(*dest));
--	memcpy(dest->name, src->name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
--	dest->formats = src->formats;
--	dest->rates = src->rates;
--	dest->rate_min = src->rate_min;
--	dest->rate_max = src->rate_max;
--	dest->channels_min = src->channels_min;
--	dest->channels_max = src->channels_max;
--	dest->periods_min = src->periods_min;
--	dest->periods_max = src->periods_max;
--	dest->period_size_min = src->period_size_min;
--	dest->period_size_max = src->period_size_max;
--	dest->buffer_size_min = src->buffer_size_min;
--	dest->buffer_size_max = src->buffer_size_max;
--}
--
--/**
-- * pcm_new_ver - Create the new version of PCM from the old version.
-- * @tplg: topology context
-- * @src: older version of pcm as a source
-- * @pcm: latest version of pcm created from the source
-- *
-- * Support from version 4. User should free the returned pcm manually.
-- */
--static int pcm_new_ver(struct soc_tplg *tplg,
--		       struct snd_soc_tplg_pcm *src,
--		       struct snd_soc_tplg_pcm **pcm)
--{
--	struct snd_soc_tplg_pcm *dest;
--	struct snd_soc_tplg_pcm_v4 *src_v4;
--	int i;
--
--	*pcm = NULL;
--
--	if (le32_to_cpu(src->size) != sizeof(*src_v4)) {
--		dev_err(tplg->dev, "ASoC: invalid PCM size\n");
--		return -EINVAL;
--	}
--
--	dev_warn(tplg->dev, "ASoC: old version of PCM\n");
--	src_v4 = (struct snd_soc_tplg_pcm_v4 *)src;
--	dest = kzalloc(sizeof(*dest), GFP_KERNEL);
--	if (!dest)
--		return -ENOMEM;
--
--	dest->size = cpu_to_le32(sizeof(*dest)); /* size of latest abi version */
--	memcpy(dest->pcm_name, src_v4->pcm_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
--	memcpy(dest->dai_name, src_v4->dai_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
--	dest->pcm_id = src_v4->pcm_id;
--	dest->dai_id = src_v4->dai_id;
--	dest->playback = src_v4->playback;
--	dest->capture = src_v4->capture;
--	dest->compress = src_v4->compress;
--	dest->num_streams = src_v4->num_streams;
--	for (i = 0; i < le32_to_cpu(dest->num_streams); i++)
--		memcpy(&dest->stream[i], &src_v4->stream[i],
--		       sizeof(struct snd_soc_tplg_stream));
--
--	for (i = 0; i < 2; i++)
--		stream_caps_new_ver(&dest->caps[i], &src_v4->caps[i]);
--
--	*pcm = dest;
--	return 0;
--}
--
+@@ -1771,11 +1771,10 @@ static int soc_tplg_pcm_create(struct soc_tplg *tplg,
  static int soc_tplg_pcm_elems_load(struct soc_tplg *tplg,
  	struct snd_soc_tplg_hdr *hdr)
  {
-@@ -1852,8 +1783,7 @@ static int soc_tplg_pcm_elems_load(struct soc_tplg *tplg,
- 	/* check the element size and count */
- 	pcm = (struct snd_soc_tplg_pcm *)tplg->pos;
- 	size = le32_to_cpu(pcm->size);
--	if (size > sizeof(struct snd_soc_tplg_pcm)
--		|| size < sizeof(struct snd_soc_tplg_pcm_v4)) {
-+	if (size > sizeof(struct snd_soc_tplg_pcm)) {
- 		dev_err(tplg->dev, "ASoC: invalid size %d for PCM elems\n",
- 			size);
- 		return -EINVAL;
-@@ -1872,15 +1802,11 @@ static int soc_tplg_pcm_elems_load(struct soc_tplg *tplg,
- 		/* check ABI version by size, create a new version of pcm
- 		 * if abi not match.
- 		 */
--		if (size == sizeof(*pcm)) {
--			abi_match = true;
--			_pcm = pcm;
--		} else {
--			abi_match = false;
--			ret = pcm_new_ver(tplg, pcm, &_pcm);
--			if (ret < 0)
--				return ret;
--		}
-+		if (size != sizeof(*pcm))
-+			return -EINVAL;
-+
-+		abi_match = true;
-+		_pcm = pcm;
+-	struct snd_soc_tplg_pcm *pcm, *_pcm;
++	struct snd_soc_tplg_pcm *pcm;
+ 	int count;
+ 	int size;
+ 	int i;
+-	bool abi_match;
+ 	int ret;
  
+ 	count = le32_to_cpu(hdr->count);
+@@ -1805,24 +1804,15 @@ static int soc_tplg_pcm_elems_load(struct soc_tplg *tplg,
+ 		if (size != sizeof(*pcm))
+ 			return -EINVAL;
+ 
+-		abi_match = true;
+-		_pcm = pcm;
+-
  		/* create the FE DAIs and DAI links */
- 		ret = soc_tplg_pcm_create(tplg, _pcm);
-@@ -1972,49 +1898,6 @@ static void set_link_hw_format(struct snd_soc_dai_link *link,
- 	}
- }
- 
--/**
-- * link_new_ver - Create a new physical link config from the old
-- * version of source.
-- * @tplg: topology context
-- * @src: old version of phyical link config as a source
-- * @link: latest version of physical link config created from the source
-- *
-- * Support from version 4. User need free the returned link config manually.
-- */
--static int link_new_ver(struct soc_tplg *tplg,
--			struct snd_soc_tplg_link_config *src,
--			struct snd_soc_tplg_link_config **link)
--{
--	struct snd_soc_tplg_link_config *dest;
--	struct snd_soc_tplg_link_config_v4 *src_v4;
--	int i;
--
--	*link = NULL;
--
--	if (le32_to_cpu(src->size) !=
--	    sizeof(struct snd_soc_tplg_link_config_v4)) {
--		dev_err(tplg->dev, "ASoC: invalid physical link config size\n");
--		return -EINVAL;
--	}
--
--	dev_warn(tplg->dev, "ASoC: old version of physical link config\n");
--
--	src_v4 = (struct snd_soc_tplg_link_config_v4 *)src;
--	dest = kzalloc(sizeof(*dest), GFP_KERNEL);
--	if (!dest)
--		return -ENOMEM;
--
--	dest->size = cpu_to_le32(sizeof(*dest));
--	dest->id = src_v4->id;
--	dest->num_streams = src_v4->num_streams;
--	for (i = 0; i < le32_to_cpu(dest->num_streams); i++)
--		memcpy(&dest->stream[i], &src_v4->stream[i],
--		       sizeof(struct snd_soc_tplg_stream));
--
--	*link = dest;
--	return 0;
--}
--
- /**
-  * snd_soc_find_dai_link - Find a DAI link
-  *
-@@ -2131,8 +2014,7 @@ static int soc_tplg_link_elems_load(struct soc_tplg *tplg,
- 	/* check the element size and count */
- 	link = (struct snd_soc_tplg_link_config *)tplg->pos;
- 	size = le32_to_cpu(link->size);
--	if (size > sizeof(struct snd_soc_tplg_link_config)
--		|| size < sizeof(struct snd_soc_tplg_link_config_v4)) {
-+	if (size > sizeof(struct snd_soc_tplg_link_config)) {
- 		dev_err(tplg->dev, "ASoC: invalid size %d for physical link elems\n",
- 			size);
- 		return -EINVAL;
-@@ -2147,15 +2029,11 @@ static int soc_tplg_link_elems_load(struct soc_tplg *tplg,
- 	for (i = 0; i < count; i++) {
- 		link = (struct snd_soc_tplg_link_config *)tplg->pos;
- 		size = le32_to_cpu(link->size);
--		if (size == sizeof(*link)) {
--			abi_match = true;
--			_link = link;
--		} else {
--			abi_match = false;
--			ret = link_new_ver(tplg, link, &_link);
--			if (ret < 0)
--				return ret;
+-		ret = soc_tplg_pcm_create(tplg, _pcm);
+-		if (ret < 0) {
+-			if (!abi_match)
+-				kfree(_pcm);
++		ret = soc_tplg_pcm_create(tplg, pcm);
++		if (ret < 0)
+ 			return ret;
 -		}
-+		if (size != sizeof(*link))
-+			return -EINVAL;
-+
-+		abi_match = true;
-+		_link = link;
  
- 		ret = soc_tplg_link_config(tplg, _link);
- 		if (ret < 0) {
-@@ -2280,57 +2158,6 @@ static int soc_tplg_dai_elems_load(struct soc_tplg *tplg,
+ 		/* offset by version-specific struct size and
+ 		 * real priv data size
+ 		 */
+-		tplg->pos += size + le32_to_cpu(_pcm->priv.size);
+-
+-		if (!abi_match)
+-			kfree(_pcm); /* free the duplicated one */
++		tplg->pos += size + le32_to_cpu(pcm->priv.size);
+ 	}
+ 
+ 	dev_dbg(tplg->dev, "ASoC: adding %d PCM DAIs\n", count);
+@@ -2003,11 +1993,10 @@ static int soc_tplg_link_config(struct soc_tplg *tplg,
+ static int soc_tplg_link_elems_load(struct soc_tplg *tplg,
+ 	struct snd_soc_tplg_hdr *hdr)
+ {
+-	struct snd_soc_tplg_link_config *link, *_link;
++	struct snd_soc_tplg_link_config *link;
+ 	int count;
+ 	int size;
+ 	int i, ret;
+-	bool abi_match;
+ 
+ 	count = le32_to_cpu(hdr->count);
+ 
+@@ -2032,23 +2021,14 @@ static int soc_tplg_link_elems_load(struct soc_tplg *tplg,
+ 		if (size != sizeof(*link))
+ 			return -EINVAL;
+ 
+-		abi_match = true;
+-		_link = link;
+-
+-		ret = soc_tplg_link_config(tplg, _link);
+-		if (ret < 0) {
+-			if (!abi_match)
+-				kfree(_link);
++		ret = soc_tplg_link_config(tplg, link);
++		if (ret < 0)
+ 			return ret;
+-		}
+ 
+ 		/* offset by version-specific struct size and
+ 		 * real priv data size
+ 		 */
+-		tplg->pos += size + le32_to_cpu(_link->priv.size);
+-
+-		if (!abi_match)
+-			kfree(_link); /* free the duplicated one */
++		tplg->pos += size + le32_to_cpu(link->priv.size);
+ 	}
+ 
  	return 0;
- }
- 
--/**
-- * manifest_new_ver - Create a new version of manifest from the old version
-- * of source.
-- * @tplg: topology context
-- * @src: old version of manifest as a source
-- * @manifest: latest version of manifest created from the source
-- *
-- * Support from version 4. Users need free the returned manifest manually.
-- */
--static int manifest_new_ver(struct soc_tplg *tplg,
--			    struct snd_soc_tplg_manifest *src,
--			    struct snd_soc_tplg_manifest **manifest)
--{
--	struct snd_soc_tplg_manifest *dest;
--	struct snd_soc_tplg_manifest_v4 *src_v4;
--	int size;
--
--	*manifest = NULL;
--
--	size = le32_to_cpu(src->size);
--	if (size != sizeof(*src_v4)) {
--		dev_warn(tplg->dev, "ASoC: invalid manifest size %d\n",
--			 size);
--		if (size)
--			return -EINVAL;
--		src->size = cpu_to_le32(sizeof(*src_v4));
--	}
--
--	dev_warn(tplg->dev, "ASoC: old version of manifest\n");
--
--	src_v4 = (struct snd_soc_tplg_manifest_v4 *)src;
--	dest = kzalloc(sizeof(*dest) + le32_to_cpu(src_v4->priv.size),
--		       GFP_KERNEL);
--	if (!dest)
--		return -ENOMEM;
--
--	dest->size = cpu_to_le32(sizeof(*dest)); /* size of latest abi version */
--	dest->control_elems = src_v4->control_elems;
--	dest->widget_elems = src_v4->widget_elems;
--	dest->graph_elems = src_v4->graph_elems;
--	dest->pcm_elems = src_v4->pcm_elems;
--	dest->dai_link_elems = src_v4->dai_link_elems;
--	dest->priv.size = src_v4->priv.size;
--	if (dest->priv.size)
--		memcpy(dest->priv.data, src_v4->priv.data,
--		       le32_to_cpu(src_v4->priv.size));
--
--	*manifest = dest;
--	return 0;
--}
--
+@@ -2161,8 +2141,7 @@ static int soc_tplg_dai_elems_load(struct soc_tplg *tplg,
  static int soc_tplg_manifest_load(struct soc_tplg *tplg,
  				  struct snd_soc_tplg_hdr *hdr)
  {
-@@ -2341,16 +2168,11 @@ static int soc_tplg_manifest_load(struct soc_tplg *tplg,
+-	struct snd_soc_tplg_manifest *manifest, *_manifest;
+-	bool abi_match;
++	struct snd_soc_tplg_manifest *manifest;
+ 	int ret = 0;
+ 
  	manifest = (struct snd_soc_tplg_manifest *)tplg->pos;
+@@ -2171,15 +2150,9 @@ static int soc_tplg_manifest_load(struct soc_tplg *tplg,
+ 	if (le32_to_cpu(manifest->size) != sizeof(*manifest))
+ 		return -EINVAL;
  
- 	/* check ABI version by size, create a new manifest if abi not match */
--	if (le32_to_cpu(manifest->size) == sizeof(*manifest)) {
--		abi_match = true;
--		_manifest = manifest;
--	} else {
--		abi_match = false;
-+	if (le32_to_cpu(manifest->size) != sizeof(*manifest))
-+		return -EINVAL;
- 
--		ret = manifest_new_ver(tplg, manifest, &_manifest);
--		if (ret < 0)
--			return ret;
--	}
-+	abi_match = true;
-+	_manifest = manifest;
- 
+-	abi_match = true;
+-	_manifest = manifest;
+-
  	/* pass control to component driver for optional further init */
  	if (tplg->ops && tplg->ops->manifest)
+-		ret = tplg->ops->manifest(tplg->comp, tplg->index, _manifest);
+-
+-	if (!abi_match)	/* free the duplicated one */
+-		kfree(_manifest);
++		ret = tplg->ops->manifest(tplg->comp, tplg->index, manifest);
+ 
+ 	return ret;
+ }
 -- 
 2.25.1
 
