@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1B715B150;
-	Wed,  3 Apr 2024 17:18:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACB415ECF6;
+	Wed,  3 Apr 2024 17:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164720; cv=none; b=t7eVvEee0xeg12t69Pkjw7PAAnPNr8xUzRJxrX7X2DswAl7gZfkYj5yM+mfGcyXXwjvWcSnXjEipiy7hhtt9Zjr8wsBxyciQJLMxzglgQW8oJP+u60nHe2bgyo7LBERFjxPgWEEQtV7NUrDoYweRebvJG6lu2vjdcH2hwsTd/68=
+	t=1712164733; cv=none; b=e9v7HukVJWWka/MIDpOFhF63VKwXUAgrsbQIPUc0cKDGFVpy4kiQIXfn0WZyXRnbW6o9A2ymX3xYkAUJsRux7EK0TUoblUHj0LMaEM8KU39Goxe1HxysfrPyEelAn8yF7MXvV/CO/oMX6P/XGq0j7nho+7WqdlC8+pp33ZrFvQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164720; c=relaxed/simple;
-	bh=b7qKLuZBQpjm25EPq+FVreOT32w/S9PxL6a0xKugA5I=;
+	s=arc-20240116; t=1712164733; c=relaxed/simple;
+	bh=IO5bfVpA8a0Mn/rD2wrtLMak+zqf/ysRgkQLGQfThU8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zexeft6TPDHoqu9KvHCX+8wDQkDrbZYBiIbAm+k3smKmX/YRoiu7HaCLjmDGv2QIdh5k7zc4/LQkdUI0y6dNPPPGBRrioCncpVcuvb4/p5V1MbuIHStK/Mm6g2tLFOW8c0UX+9pOZVkDxqMgAmvCRGpJ7HNz7RtougX97WbqQWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+jb8dYY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=YpCU3TvyEPm9MLS1fBEWgiktZQnK/Qa04Gwr18R6xuwa3RUrifg3Iut2qqIhBdljqPN+K45BvWi4Uqo00DqcfvOfmM3WIxedyADIDjNivqQknM8wVd9HpYf9e2m3oIkPLU0ThKJ9l16zj1MzJgpNRcHyaVL1fbIChEb+sv6rX4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZqevel2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+jb8dYY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151AAC433F1;
-	Wed,  3 Apr 2024 17:18:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZqevel2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A01CC433F1;
+	Wed,  3 Apr 2024 17:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164720;
-	bh=b7qKLuZBQpjm25EPq+FVreOT32w/S9PxL6a0xKugA5I=;
+	s=k20201202; t=1712164732;
+	bh=IO5bfVpA8a0Mn/rD2wrtLMak+zqf/ysRgkQLGQfThU8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L+jb8dYYJ8/f6CcmGj2+vMRffYl6nRIS5pQrSq6PteGKBzHFt8u9I2ZJ72zEvso7J
-	 iRaiiXnyxVX766V27VvWlnSDQo3UA+L5kHxAdmBsZVREno5Q0f6HeoEztzCAnHq5nD
-	 a/yDesMxtA8x6KPiZj1l/C+NWGYH6bAbgXv4G9NTdpiVYI3f2lnZyE20UYQ6mmg74I
-	 z/Dq8/GXTPQaUiNAT04mcjZAhk6X9I9JZS3apW9KE4rth+dnEGgKvQap9gAjHcmb4B
-	 CfCoEdUVbxO8bnBOKd0VHCQHegnjTCfHy85DyzHhxx5VwekHsMk5ohyb2oYWxd8euO
-	 n3W/yJvBp5uew==
+	b=IZqevel22fw1HXfDxiz7HGGUmOICsKy8UsS77o/jwFm/4fl4oSvDb1XJM1FATHgAN
+	 6joZ/F897AWf1hF8xv7ZOiFfipuey8EKYRujESPi21phaMJtx9xDOHfMRATQIzW7qf
+	 jFqNys7iG4XjOg/EUAu4rh2f+9OLR3/YohmaGuqOYBL74PkGsWwL6lxctasLRfrbYy
+	 M3Y8QcTZFYd7seN6PFIzDvt0+Z2gbgSHa12mYT03Up4FbWtmZXeqSJZbWyhl3EtaUG
+	 G9GeB0Lm6wjXM+vdCiJQPjUZMUrEoPVcu0x12mtsngT69gDizj31Qig5tcCEfn7ymi
+	 nxhX+HB3S0Ipg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Chancel Liu <chancel.liu@nxp.com>,
-	Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Tim Crawford <tcrawford@system76.com>,
+	Jeremy Soller <jeremy@system76.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	shenghao-ding@ti.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 12/20] ASoC: soc-core.c: Skip dummy codec when adding platforms
-Date: Wed,  3 Apr 2024 13:17:53 -0400
-Message-ID: <20240403171815.342668-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 19/20] ALSA: hda/realtek: Add quirks for some Clevo laptops
+Date: Wed,  3 Apr 2024 13:18:00 -0400
+Message-ID: <20240403171815.342668-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240403171815.342668-1-sashal@kernel.org>
 References: <20240403171815.342668-1-sashal@kernel.org>
@@ -54,40 +59,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.24
 Content-Transfer-Encoding: 8bit
 
-From: Chancel Liu <chancel.liu@nxp.com>
+From: Tim Crawford <tcrawford@system76.com>
 
-[ Upstream commit 23fb6bc2696119391ec3a92ccaffe50e567c515e ]
+[ Upstream commit 33affa7fb46c0c07f6c49d4ddac9dd436715064c ]
 
-When pcm_runtime is adding platform components it will scan all
-registered components. In case of DPCM FE/BE some DAI links will
-configure dummy platform. However both dummy codec and dummy platform
-are using "snd-soc-dummy" as component->name. Dummy codec should be
-skipped when adding platforms otherwise there'll be overflow and UBSAN
-complains.
+Add audio quirks to fix speaker output and headset detection on some new
+Clevo models:
 
-Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-Link: https://msgid.link/r/20240305065606.3778642-1-chancel.liu@nxp.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+- L240TU (ALC245)
+- PE60SNE-G (ALC1220)
+- V350SNEQ (ALC245)
+
+Co-authored-by: Jeremy Soller <jeremy@system76.com>
+Signed-off-by: Tim Crawford <tcrawford@system76.com>
+Message-ID: <20240319212726.62888-1-tcrawford@system76.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-core.c | 3 +++
+ sound/pci/hda/patch_realtek.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 9de98c01d8151..e65fe3a7c3e42 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1105,6 +1105,9 @@ static int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
- 			if (!snd_soc_is_matching_component(platform, component))
- 				continue;
- 
-+			if (snd_soc_component_is_dummy(component) && component->num_dai)
-+				continue;
-+
- 			snd_soc_rtd_add_component(rtd, component);
- 		}
- 	}
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 88d006ac9568c..85d8c6cd27abb 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -2645,6 +2645,7 @@ static const struct snd_pci_quirk alc882_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1558, 0x65f1, "Clevo PC50HS", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x65f5, "Clevo PD50PN[NRT]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x66a2, "Clevo PE60RNE", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
++	SND_PCI_QUIRK(0x1558, 0x66a6, "Clevo PE60SN[CDE]-[GS]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x67d1, "Clevo PB71[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x67e1, "Clevo PB71[DE][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x67e5, "Clevo PC70D[PRS](?:-D|-G)?", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+@@ -10023,12 +10024,14 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x152d, 0x1082, "Quanta NL3", ALC269_FIXUP_LIFEBOOK),
++	SND_PCI_QUIRK(0x1558, 0x0353, "Clevo V35[05]SN[CDE]Q", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x1323, "Clevo N130ZU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x1325, "Clevo N15[01][CW]U", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x1401, "Clevo L140[CZ]U", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x1403, "Clevo N140CU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x1404, "Clevo N150CU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x14a1, "Clevo L141MU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1558, 0x2624, "Clevo L240TU", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x4018, "Clevo NV40M[BE]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x4019, "Clevo NV40MZ", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x4020, "Clevo NV40MB", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
 -- 
 2.43.0
 
