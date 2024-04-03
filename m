@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC84157494;
-	Wed,  3 Apr 2024 17:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B184F157A7F;
+	Wed,  3 Apr 2024 17:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164654; cv=none; b=tgBHbYJnbiSCFq99K/Z9zeLFDqMK3RZZ78TlzNSx3jEj8qw32x3WenjVZoZsSzTjKIfVUoALxrymadaGr2ho7TeStPc7l2n8CkrlW5+U7Vc0D3R5PN2GRKIRrbJLnHvUH/A6RzuP1DSeDzSlwkdh+Iso19xcRyW285N3GTV7a28=
+	t=1712164658; cv=none; b=Gz5nKmrkIu/5TC89lnvnadYyznHnKAa4gAI6mkNn75l+/H0SuGxbGalPmWg/C2lgGl+59nB4ECsKuIg5yKuPCUH76mQP9cvtCTHQYzhduAlUmTQfQzO6yZecl90tdAgPjmIWGjSpWWkuLdQ4VxX38J87VnmZUr9DIRNsu/Y9LO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164654; c=relaxed/simple;
-	bh=jDZXdNjG+msuVOBh1CPC0UAJj9LWGOlyG+98NmA8qCY=;
+	s=arc-20240116; t=1712164658; c=relaxed/simple;
+	bh=14ju8kaKPiLMQuaNs8+sYRsrdQWfGeWHA+5ZkSs0iKM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W0Say++w/kXVn7/G99fL7S2v5ZNUNjVFTAMckEeF4Vc3dqcJyOHguCEcPq/EZxFn/M+KohutLdkbi31fFAfwxtH5TdesVvo9LfJCTeach5iRVdrn0a/1WMzYAiS0iMORL+sf3UGv5KV1dt3XGg8CDI21dwwMneeyF8wsoIIXXzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEHfgFlN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=oMVn8px+YproLDEqu5nNGruBH6lWWgLMohMDhhON8KzNG8Rq+gCGkwMwKO/+stGYbh23K7jHeAPk3CVObMmmBTQUy82LaaLtAoqzdZgbBEuua/S5+uFSe+AsBfRjgh7EvRpel8lct6Zbh2ViqEukE0a+SYfMeIdGo3thl0jahwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHvQg2o7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEHfgFlN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6070C43390;
-	Wed,  3 Apr 2024 17:17:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHvQg2o7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D3FC433C7;
+	Wed,  3 Apr 2024 17:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164653;
-	bh=jDZXdNjG+msuVOBh1CPC0UAJj9LWGOlyG+98NmA8qCY=;
+	s=k20201202; t=1712164658;
+	bh=14ju8kaKPiLMQuaNs8+sYRsrdQWfGeWHA+5ZkSs0iKM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GEHfgFlNtzLImX+dB1Sn5R9z5iVFgHM7QF3UaYt8kzNiquKDzVWZ1rq8Ubfj/wMHj
-	 uJ2R2cx1cmVtisBXct+df+hDIXEIK0xO6LlKRmcB2hlagTGEf8dgccME8EjYkTrtkF
-	 rxXmGmOxpSzeY5LDcEPXajXtiy/08NtjEyMoTWQossRyn9PNYaNwv9WoP8MHOXv6KW
-	 9HSo5SnSRQQpIAozk5N5nrWCPquDTx9UknD39iP9LQZDL/9dnur/Uvjj/5Or+lHKmV
-	 FaBO/mYs0FF7ggz4TZFjUvhtHfiBsUsZTIGBXY+NnkqCDB14PhHP1rdNexNR5Sd+lF
-	 fcCZigHF8CS7A==
+	b=KHvQg2o7lFrc9aOyWsqM6T/xiO7Q0i6IyZZ61FT9NTcuJbqqTjIvMN0viMNMFXWu1
+	 EOqFA/YKQ4tuRuVmNwrv0LmOHgAINSQ+prWDfem17dZHY94n7+jhubt3zjgkor/bri
+	 lon4rBEcKwl1HQHU9l06WnhjjCXxxZPDC1zSzMRspH7K7h0N1CnH6kBBq541R/QSsI
+	 SKG6za1NOLyi5MUbVnpdw0ishugeE7SyE2ART1D2cqCWQyR1cvXJUDLyOqhnXu6Rtd
+	 /WYhjBORWUdB2sCyG8KtCMDCKiCGqEUQhpdPlcCVLOBckiX6R+5+ncdaoMVR+7hBTr
+	 KZ54DSt9pePxA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Chancel Liu <chancel.liu@nxp.com>,
-	Zhipeng Wang <zhipeng.wang_1@nxp.com>,
+Cc: Jiawei Wang <me@jwang.link>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	mario.limonciello@amd.com,
+	jeremy@system76.com,
+	git@augustwikerfors.se,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 17/28] ASoC: soc-core.c: Skip dummy codec when adding platforms
-Date: Wed,  3 Apr 2024 13:16:19 -0400
-Message-ID: <20240403171656.335224-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 19/28] ASoC: amd: yc: Revert "Fix non-functional mic on Lenovo 21J2"
+Date: Wed,  3 Apr 2024 13:16:21 -0400
+Message-ID: <20240403171656.335224-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240403171656.335224-1-sashal@kernel.org>
 References: <20240403171656.335224-1-sashal@kernel.org>
@@ -54,40 +56,54 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.3
 Content-Transfer-Encoding: 8bit
 
-From: Chancel Liu <chancel.liu@nxp.com>
+From: Jiawei Wang <me@jwang.link>
 
-[ Upstream commit 23fb6bc2696119391ec3a92ccaffe50e567c515e ]
+[ Upstream commit 861b3415e4dee06cc00cd1754808a7827b9105bf ]
 
-When pcm_runtime is adding platform components it will scan all
-registered components. In case of DPCM FE/BE some DAI links will
-configure dummy platform. However both dummy codec and dummy platform
-are using "snd-soc-dummy" as component->name. Dummy codec should be
-skipped when adding platforms otherwise there'll be overflow and UBSAN
-complains.
+This reverts commit ed00a6945dc32462c2d3744a3518d2316da66fcc,
+which added a quirk entry to enable the Yellow Carp (YC)
+driver for the Lenovo 21J2 laptop.
 
-Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-Link: https://msgid.link/r/20240305065606.3778642-1-chancel.liu@nxp.com
+Although the microphone functioned with the YC driver, it
+resulted in incorrect driver usage. The Lenovo 21J2 is not a
+Yellow Carp platform, but a Pink Sardine platform, which
+already has an upstreamed driver.
+
+The microphone on the Lenovo 21J2 operates correctly with the
+CONFIG_SND_SOC_AMD_PS flag enabled and does not require the
+quirk entry. So this patch removes the quirk entry.
+
+Thanks to Mukunda Vijendar [1] for pointing this out.
+
+Link: https://lore.kernel.org/linux-sound/023092e1-689c-4b00-b93f-4092c3724fb6@amd.com/ [1]
+
+Signed-off-by: Jiawei Wang <me@jwang.link>
+Link: https://lore.kernel.org/linux-sound/023092e1-689c-4b00-b93f-4092c3724fb6@amd.com/ [1]
+Link: https://msgid.link/r/20240313015853.3573242-2-me@jwang.link
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 516350533e73f..8b5b583a2bad0 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1218,6 +1218,9 @@ static int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
- 			if (!snd_soc_is_matching_component(platform, component))
- 				continue;
- 
-+			if (snd_soc_component_is_dummy(component) && component->num_dai)
-+				continue;
-+
- 			snd_soc_rtd_add_component(rtd, component);
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 1ab69a53174e6..69c68d8e7a6b5 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -199,13 +199,6 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21HY"),
  		}
- 	}
+ 	},
+-	{
+-		.driver_data = &acp6x_card,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "21J2"),
+-		}
+-	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.43.0
 
