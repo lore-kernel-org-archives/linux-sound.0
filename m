@@ -1,126 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38C5139585
-	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 10:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E7B136E3E;
+	Wed,  3 Apr 2024 11:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712141556; cv=none; b=nmkDtutu0LaUAE2wFGZjRp5hTG06pezQQ3/J7rzB1qiHTF9rNRZRDik+Z7cbEL08aq4DKMmQxH5JiMPoI3LxSO+Fr23mFTMFbAVNaoJDzAGULavXzD6XEJ5ybFoSQWfaheY6IxC2MyHBorHyxDjuqYfNYjoJJDHe3/LbkQepTeY=
+	t=1712142221; cv=none; b=H67dKGFeWcbs/77axGCPWBWssCN22sgtnHWOSfTzPDaGeuwdcwKILHAgxp/6jFP2TMJHjJxJOCNOVySF9X1VnIpcvVar+LkNb5w2FJMiw0GXDbgJ/ATpbV9r9NZcjWgSVUFoboylRngoc2SrS8muoH37tD0NUOfKbf6YXqvsY1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712141556; c=relaxed/simple;
-	bh=6OAmLxRPyz+/JOQG8xst8PhMV9OGmHODpf3KZq+9quY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GM73H4dh0YQRRC0HfnTgg8VvgvevlukxZIy3RyAy4DkbRcEgQjd8DL+W5NrahLHpSc0tfpHgTtMqf7NTW8L00jMlFx0L+V3rZSLYrAaCKB1Wb7Mi7YYWV4SJ278q9ahfS80gCPmYPyTlKkQem9cyo0UyhNuzsq36KRSvBTdZ8H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fOhK0HSY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712142221; c=relaxed/simple;
+	bh=C1mMyUpYX6wiqaj1KKueawdDp6xbLRZvPGadLfNBjCY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=E3SMdbboScF8rwYr2ODRX7s91tMfC4WvxJoYNSD/hDsVX3Zjeypt0yzDK5Zm5OtUrAQmXzWevYNZXmIeueodFDT/IOfq1cKIRqF/AZWqxMXd/xcT0B8qlEcXV2k08LDbYLpl3xupsxlYuFsZgbrGA1eNHkIH0ISJN/7HzOOWHz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PH9oOCug; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOhK0HSY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712141555; x=1743677555;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6OAmLxRPyz+/JOQG8xst8PhMV9OGmHODpf3KZq+9quY=;
-  b=fOhK0HSYGQECgR+tvwQv9a6fv4O+bEHCLpOGORzsfOxJbtI4gF0nntJU
-   XjzcYGFWXw2OlBVS2BvHxKXxnV1NpUWwuYtP72U5qd0DKkR2MaALzyzfo
-   F7F8WvJ+YMXZ2lKZt3UleqDO5b6BFpDebUd1CTbVi4CbwIVaOv/goPFdP
-   R6ejr2Fs4OfMPtgJg1yQpgaiKFToNhgGPFy4htfQFsvUbYK+77O4eFBz3
-   tDxOQ6gKIAcfW5ttXnSU45cNBJ55P3lUyhJA7jy4Xv7c5m+ueohf0Ooeh
-   IvcgkFmMltdEUrmMKlO5pU4sspCvHKI2jkmIufAhP9mmcU+fGoBuAbapW
-   w==;
-X-CSE-ConnectionGUID: M5yzdRtXRWS1nJ51XlHhng==
-X-CSE-MsgGUID: 6NA6A0NxRQK2fuEWzoJpDg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7212264"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="7212264"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 03:52:01 -0700
-X-CSE-ConnectionGUID: hOLGBBCLQxi1NeJDOHiPjQ==
-X-CSE-MsgGUID: 1aOf3eb4QMWNnYPYuRBySg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="49374825"
-Received: from aelgham-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.35.133])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 03:51:58 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	rander.wang@intel.com,
-	liam.r.girdwood@intel.com
-Subject: [PATCH 7/7] ASoC: SOF: Intel: mtl: Correct the mtl_dsp_dump output
-Date: Wed,  3 Apr 2024 13:52:10 +0300
-Message-ID: <20240403105210.17949-8-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240403105210.17949-1-peter.ujfalusi@linux.intel.com>
-References: <20240403105210.17949-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PH9oOCug"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C8701C0006;
+	Wed,  3 Apr 2024 11:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712142213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NxM7m7iXQdCV00+C0efugqMkr8tvqMWbpq9aXMsNUhI=;
+	b=PH9oOCugG1kEhsFe8oyieg1ZsBCVvR8TNUXCgT+67IQ3nV16N3USEHlkA+OyZwdOSCdZyj
+	Tp8Q02g0a3ia/vCfxTmuDBka1lt0V87lwG6hxjHLQbr4whcwZ/FEENnhYNnYPvIVziDIYy
+	wFfxYElRQItP7ZLE1eLgRb1YsEO0X84lQL2sVuJIs/uOA13osy1eghw4FxPLlkUp8DQOw7
+	pqyc2RYibNYiT79DCoRDwg8EHD1HGG9MLqj9Lzs5fYrecxYCRgoYsWNyOYvyZrB5LeQ84Y
+	vyGhEmmg8BJY8WMBmbyP6zdoKCph8obl58PlDqk4wV2ThAO3aS8yxKcxJ+XMzg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Wed, 03 Apr 2024 13:03:19 +0200
+Subject: [PATCH v2 2/2] ASoC: codecs: rk3308: depend on ARM64 ||
+ COMPILE_TEST
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240403-rk3308-audio-codec-fix-warning-v2-2-816bae4c1dc5@bootlin.com>
+References: <20240403-rk3308-audio-codec-fix-warning-v2-0-816bae4c1dc5@bootlin.com>
+In-Reply-To: <20240403-rk3308-audio-codec-fix-warning-v2-0-816bae4c1dc5@bootlin.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-The ROM/firmware state handling has changed between CAVS and ACE
-architecture:
-CAVS: ROM and firmware uses the SRAM window for the state and status/error
-code reporting
+This codec is only known to exist in the RK3308 ARM64 SoC, so depend on it
+except for compile test cases. Note that the driver won't probe without
+CONFIG_OF, but ARM64 selects OF already so it is not needed.
 
-ACE: ROM code is using two registers to report the state and error while
-the firmware is using the SRAM window to report states and status/error
-codes.
-
-Use the generic hda_dsp_get_state() to decode ROM state and error codes and
-print out the firmware state and status/error code only if the SRAM
-window is accessible - the firmware is booted and the Status readout is
-not 0xffffffff.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Rander Wang <rander.wang@intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Suggested-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- sound/soc/sof/intel/mtl.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ sound/soc/codecs/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
-index 5c9d14e5925d..dc203505536c 100644
---- a/sound/soc/sof/intel/mtl.c
-+++ b/sound/soc/sof/intel/mtl.c
-@@ -310,22 +310,16 @@ int mtl_dsp_post_fw_run(struct snd_sof_dev *sdev)
- void mtl_dsp_dump(struct snd_sof_dev *sdev, u32 flags)
- {
- 	char *level = (flags & SOF_DBG_DUMP_OPTIONAL) ? KERN_DEBUG : KERN_ERR;
--	u32 romdbgsts;
--	u32 romdbgerr;
- 	u32 fwsts;
- 	u32 fwlec;
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 1752814fffdd..4e47bb6850aa 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1436,6 +1436,7 @@ config SND_SOC_PEB2466
  
-+	hda_dsp_get_state(sdev, level);
- 	fwsts = snd_sof_dsp_read(sdev, HDA_DSP_BAR, MTL_DSP_ROM_STS);
- 	fwlec = snd_sof_dsp_read(sdev, HDA_DSP_BAR, MTL_DSP_ROM_ERROR);
--	romdbgsts = snd_sof_dsp_read(sdev, HDA_DSP_BAR, MTL_DSP_REG_HFFLGPXQWY);
--	romdbgerr = snd_sof_dsp_read(sdev, HDA_DSP_BAR, MTL_DSP_REG_HFFLGPXQWY_ERROR);
--
--	dev_err(sdev->dev, "ROM status: %#x, ROM error: %#x\n", fwsts, fwlec);
--	dev_err(sdev->dev, "ROM debug status: %#x, ROM debug error: %#x\n", romdbgsts,
--		romdbgerr);
--	romdbgsts = snd_sof_dsp_read(sdev, HDA_DSP_BAR, MTL_DSP_REG_HFFLGPXQWY + 0x8 * 3);
--	dev_printk(level, sdev->dev, "ROM feature bit%s enabled\n",
--		   romdbgsts & BIT(24) ? "" : " not");
-+
-+	if (fwsts != 0xffffffff)
-+		dev_err(sdev->dev, "Firmware state: %#x, status/error code: %#x\n",
-+			fwsts, fwlec);
- 
- 	sof_ipc4_intel_dump_telemetry_state(sdev, flags);
- }
+ config SND_SOC_RK3308
+ 	tristate "Rockchip RK3308 audio CODEC"
++	depends on ARM64 || COMPILE_TEST
+ 	select REGMAP_MMIO
+ 	help
+ 	  This is a device driver for the audio codec embedded in the
+
 -- 
-2.44.0
+2.34.1
 
