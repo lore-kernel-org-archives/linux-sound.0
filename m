@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6552B161324;
-	Wed,  3 Apr 2024 17:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D06155751;
+	Wed,  3 Apr 2024 17:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164772; cv=none; b=A2/6fQQ8CvFGB1+o/8jzIoSDALkJ1fX9tM5Y3ujFLWc1xpSEkeM2jTOW/CxggMkZLMaFoQDhsUcjMxrRZ0mplA0aW1cIo2n0vcFbTM2gLv4JkoekLfYyoFFiEFdD7RLMW6ghr51SRN4dpBlEXCfoZ0RFIZOzJnAIe/lcJipXubs=
+	t=1712164795; cv=none; b=RNyyj9FLRbIwStn8Wj+/Ja21U7DQhV1lN3MNpki1E0oq7WLJz+iKfLv/nefiid0jhSK6lFg8BjQvm3zWMSd8XAvOI7n/NSc4HxR/gCK9xJYExmB5D1mBOhlc9mJcO0Xd2xJv+rS5fhMXiyYjIhwokIDhgy8yoF6M3JC0AKzytbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164772; c=relaxed/simple;
-	bh=1s7e/iUP+fl2GBm1UpjFeevJLSutEOfjvsGAu3dHY6k=;
+	s=arc-20240116; t=1712164795; c=relaxed/simple;
+	bh=yEQHGfdTQfgueNzJukGN+SUJw0maNjlPoXSPO9Gk4Fw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZqRFOToRJzu+++SRbdEyxtqENn85MiUUTuSRb0/tqXGL/aar9kMTxsAut3X8dRFd+nI3LcQ5xkckUfOv5J9DzBNde/ySxwaGu6c3VYa8OKKLfmn0HHpTYmd0OQM1YER4nmbf6LFvH5/Y5NItnAlLpHGLKMZUtuWTZYZA9RJzFoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYjvBBC0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ViQGa3pFzpp4f0BVzS279/mldcpx6Y4RVpSQBCJE4hMvJKHidg17TY0o6/drDKabkRD+5nHEP9wK0VBZF5WfFM19CuVjPKptjlrXHqLBAYSKuRA36be/5ac2sYOgx+ebnemf007BvUARlYLUnGYSb4AtBbo2H7VAqRQnQvAMn/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPH4JaEx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYjvBBC0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2ADCC433A6;
-	Wed,  3 Apr 2024 17:19:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPH4JaEx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94B56C433B1;
+	Wed,  3 Apr 2024 17:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164770;
-	bh=1s7e/iUP+fl2GBm1UpjFeevJLSutEOfjvsGAu3dHY6k=;
+	s=k20201202; t=1712164794;
+	bh=yEQHGfdTQfgueNzJukGN+SUJw0maNjlPoXSPO9Gk4Fw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OYjvBBC0T8viwe7HErrdbrggZYno+SZBClskogs/PVY8+MOhiQH8fYkRKHxy+tdC8
-	 OkMzZcizBy900siNb+KyZFZ3nDYpkBwNGgH/4g6ZazxfV9L0+XVtNkofYvSWRes6So
-	 Tu3cWsafPyhlr/ECVTb/fRuPpJqdsDEaDlXA6hFHnTPrLBTQ/uv4tyKkPV4BqY4Rf2
-	 CjnYmkwGXN/niAbo+h8pxE5IG8VjNgmeEkPxv+de0v+F98lgqFJODUU8bs7lZXm+Tp
-	 K0le17efAetLz3U1n1xNgq7rK5tFGoE8+KZwZASHrg8ynjFOVZHTzKshbfhumcoUd0
-	 nECzg81XrJRgA==
+	b=BPH4JaExf5qRZT9G15NAfQHG6dR7kF78XSfVU7dr3zQEE7775KGfYlZb33WBCXCDh
+	 07sf4Koo9oyttl476zmU1oksbF5DVdY7nf51kHpQw8SZjeDdZwnIG6ILIHrsOdDdUw
+	 sgZNqQwBh4VfsPLJ1J/n/51R6EcTYqgQ1E75rHceMI6FBDtEbJXltQ0vLdnpyMQb0b
+	 yJOyQs2mJ3Is53sH5KOk2C0b1EGJkBmfmTY48mOBFsobGVjufDI3X8LOerBsilUdup
+	 eJcgTxL4IEaNTwuKfAZi5+jaHkBorvlVEO6lK9xJhP8LiyMvFpHHEem3tnD3QLANW6
+	 lW7nJACp2pRKw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Chancel Liu <chancel.liu@nxp.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 10/15] ASoC: soc-core.c: Skip dummy codec when adding platforms
-Date: Wed,  3 Apr 2024 13:18:54 -0400
-Message-ID: <20240403171909.345570-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 5/8] ASoC: soc-core.c: Skip dummy codec when adding platforms
+Date: Wed,  3 Apr 2024 13:19:38 -0400
+Message-ID: <20240403171945.350716-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240403171909.345570-1-sashal@kernel.org>
-References: <20240403171909.345570-1-sashal@kernel.org>
+In-Reply-To: <20240403171945.350716-1-sashal@kernel.org>
+References: <20240403171945.350716-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.84
+X-stable-base: Linux 5.15.153
 Content-Transfer-Encoding: 8bit
 
 From: Chancel Liu <chancel.liu@nxp.com>
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index a409fbed8f34c..6a4101dc15a54 100644
+index a5b3ee69fb886..1c4d8b96f77b1 100644
 --- a/sound/soc/soc-core.c
 +++ b/sound/soc/soc-core.c
-@@ -1020,6 +1020,9 @@ int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
+@@ -1042,6 +1042,9 @@ int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
  			if (!snd_soc_is_matching_component(platform, component))
  				continue;
  
