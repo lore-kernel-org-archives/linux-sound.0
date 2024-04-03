@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18B41369B0
-	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 09:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCEE1369BB
+	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 09:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712136675; cv=none; b=ZQYZZhq5thwEUzEMljB+J9PTFkz7arKDqdRX5wv6twBImGybPMqFkG6LF0TIeZqMhUTCB45rIlgkDEF52RpabWP9DJlu/ePux849vl3E3Hu8taSMqc1CyY/ankQGajpMzO533lB2d4/jPFLEH0/Xl6568wNCVqWhuCuhojx1pWk=
+	t=1712136676; cv=none; b=a0/+CmdaUH/i/hM3yScjrBb6DMc8ypu16Qx73TwjC9BL5cJfOj6v/Yfd8YQL4UMFO4POVu8aQC5wTr84AfzTnAnfHEDdXfegJefq4wT7UFeMklN55GUUY6BYY0Uuw1ySeAinlTV7V+ABGYT+ANlu6RKDm3VbBXkC05DWfWb/DdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712136675; c=relaxed/simple;
-	bh=40mSvovdxw4jGIUnLpVxakwvKHEA8sRzb5ALrIoAwMw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hr4VKgIJ4pok9rTMQ0JIq51s0KYAwki7KV3JoWNeXMZtQXU3WnyD6nVaTkAoi0zmo0BuoQSeaKYkOoh5qjxP0AXWpGiuods67ipe+8PCLf/7UWYehjbUeS0zN2wn1FWKstRe0Jxa8WvY1WuuExKPATATVaqwB8zZtHiQqeH2c7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V3nuV8nV; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1712136676; c=relaxed/simple;
+	bh=dyAOo+VFBsweUHd5Xag2bd447ewOnMyY3G3yMPwcU1o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HeX96YVnS3pMEeKCfHVWRjwe02zvGxSmuZEABwRu1JYqrxzhboTRhZQlj8E5x9O5ABvUWvKQ8kWfLD8IqpWcXz0uxWtnTX2+feDrrr8ZIyvLqwL1ycbXfCO+1/dOVSm+hhU657xGQOBcoueoG51pnTHBaN3OBrQ0dJDBiDVDOJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdD7e7zo; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V3nuV8nV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NdD7e7zo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712136674; x=1743672674;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=40mSvovdxw4jGIUnLpVxakwvKHEA8sRzb5ALrIoAwMw=;
-  b=V3nuV8nVCjzwgp5s/DGHYyFcNuxGtLT8agMRoM5ivBVQnkerr0C+6h4v
-   FsAYN4YsXKWoL7MfuP2+1pqQJs+5FIMq7tJNV21laRSkuz3NaK20iuNL/
-   Kewa1B78Zf8bw3DQWMwzblt0rSDFWBTLeHkOdojp5B6b4qSbntfyrTObE
-   XxZo9yNrluhRFE2P75J21YdVlzVmkOVZ3rLEgpKGyUtsrzlUgvRJT+Xt4
-   XV3gk7W5a+MeI9SdPNv1r4Ltoo6n7iwfaiHb517ra5HYuqps9YkJHhTLz
-   gMkob9ZD8Ml0g6pQs01XjWXdDhd4gFsmhq16vO+tmlg3DfKHIm2bw10hh
-   w==;
-X-CSE-ConnectionGUID: caGT/fCwTOWSrFPjaaXdSQ==
-X-CSE-MsgGUID: fYDqTXdPSRKLFohrPtwhzA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7218675"
+  t=1712136675; x=1743672675;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=dyAOo+VFBsweUHd5Xag2bd447ewOnMyY3G3yMPwcU1o=;
+  b=NdD7e7zo0YlsPWrPP726Uk/c9mMVmZVi7Ua+CED6+3N92+tSNlXZcCVX
+   CqLWv3io+Y4E8XFhyj049cwMMXBEeBWZsc1WqL5h6T0f5PSsXoZ5pmcKa
+   NW5+vPbWuINW2bs3P2jCu8RBfb3XzqqoG/vBmsZhaQRDfxPgfEDnm3yPL
+   YPoZRoDmHdnBTKQRb0XuEzl5vIH4dS1RmH3cvBzVLTEXKWGYqJx/qmNmf
+   6liWOiV8DEHNgU3N5WY2/+2nY989WirmFci10hZ9qO0/U1l/7y+pCSJ4T
+   ceV4LUl1W9u34y7T5XDAIJBnbcHraXmEjCN5F8pYGCTULUmPzs1t63gYI
+   Q==;
+X-CSE-ConnectionGUID: ekxQ/kxSRbKsvDNqOROgtw==
+X-CSE-MsgGUID: UCg6Y4K1TIeMmDstQtCQHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7218681"
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="7218675"
+   d="scan'208";a="7218681"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:31:13 -0700
-X-CSE-ConnectionGUID: 0uG/nLzbSla+T6GVNb0Q/g==
-X-CSE-MsgGUID: qAX4Qi05TnWODjytcOpwnA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 02:31:15 -0700
+X-CSE-ConnectionGUID: 947EalOQQeisSw3SqC2xCA==
+X-CSE-MsgGUID: r9tbWrhFRaCAYbzC1MClhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="18797531"
+   d="scan'208";a="18797535"
 Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa007.jf.intel.com with ESMTP; 03 Apr 2024 02:31:11 -0700
+  by orviesa007.jf.intel.com with ESMTP; 03 Apr 2024 02:31:13 -0700
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -50,10 +51,12 @@ Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH 00/10] Use const where applicable
-Date: Wed,  3 Apr 2024 11:31:35 +0200
-Message-Id: <20240403093145.3375857-1-amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH 01/10] ASoC: Intel: avs: hdaudio: Use devm_kstrdup_const
+Date: Wed,  3 Apr 2024 11:31:36 +0200
+Message-Id: <20240403093145.3375857-2-amadeuszx.slawinski@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240403093145.3375857-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240403093145.3375857-1-amadeuszx.slawinski@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,36 +66,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Use devm_kstrdup_const in few places to possibly save a bit of memory.
-Mark some of the structs as const, as they are not modified and used as
-is.
+HDA codec name is constant and we just duplicate it, use const variant
+of devm_kstrdup to possibly save a bit of memory.
 
-Amadeusz Sławiński (10):
-  ASoC: Intel: avs: hdaudio: Use devm_kstrdup_const
-  ASoC: Intel: avs: Use devm_kstrdup_const
-  ASoC: Intel: avs: hdaudio: Constify probing_link
-  ASoC: Intel: avs: es8336: Constify card_headset_pins
-  ASoC: Intel: avs: nau8825: Constify card_headset_pins
-  ASoC: Intel: avs: rt274: Constify card_headset_pins
-  ASoC: Intel: avs: rt286: Constify card_headset_pins
-  ASoC: Intel: avs: rt298: Constify card_headset_pins
-  ASoC: Intel: avs: rt5663: Constify card_headset_pins
-  ASoC: Intel: avs: rt5682: Constify card_headset_pins
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+---
+ sound/soc/intel/avs/boards/hdaudio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- sound/soc/intel/avs/avs.h            | 2 +-
- sound/soc/intel/avs/boards/es8336.c  | 2 +-
- sound/soc/intel/avs/boards/hdaudio.c | 6 +++---
- sound/soc/intel/avs/boards/nau8825.c | 2 +-
- sound/soc/intel/avs/boards/rt274.c   | 2 +-
- sound/soc/intel/avs/boards/rt286.c   | 2 +-
- sound/soc/intel/avs/boards/rt298.c   | 2 +-
- sound/soc/intel/avs/boards/rt5663.c  | 2 +-
- sound/soc/intel/avs/boards/rt5682.c  | 2 +-
- sound/soc/intel/avs/utils.c          | 8 ++++----
- 10 files changed, 15 insertions(+), 15 deletions(-)
-
-
-base-commit: 36d464cba8bdfd268282a97e9fdc701aca2ed8cb
+diff --git a/sound/soc/intel/avs/boards/hdaudio.c b/sound/soc/intel/avs/boards/hdaudio.c
+index 79b4aca413338..2de703b909c30 100644
+--- a/sound/soc/intel/avs/boards/hdaudio.c
++++ b/sound/soc/intel/avs/boards/hdaudio.c
+@@ -54,7 +54,7 @@ static int avs_create_dai_links(struct device *dev, struct hda_codec *codec, int
+ 		if (!dl[i].cpus->dai_name)
+ 			return -ENOMEM;
+ 
+-		dl[i].codecs->name = devm_kstrdup(dev, cname, GFP_KERNEL);
++		dl[i].codecs->name = devm_kstrdup_const(dev, cname, GFP_KERNEL);
+ 		if (!dl[i].codecs->name)
+ 			return -ENOMEM;
+ 
+@@ -191,7 +191,7 @@ static int avs_hdaudio_probe(struct platform_device *pdev)
+ 	if (!binder->platforms || !binder->codecs)
+ 		return -ENOMEM;
+ 
+-	binder->codecs->name = devm_kstrdup(dev, dev_name(&codec->core.dev), GFP_KERNEL);
++	binder->codecs->name = devm_kstrdup_const(dev, dev_name(&codec->core.dev), GFP_KERNEL);
+ 	if (!binder->codecs->name)
+ 		return -ENOMEM;
+ 
 -- 
 2.34.1
 
