@@ -1,48 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18525157468;
-	Wed,  3 Apr 2024 17:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC84157494;
+	Wed,  3 Apr 2024 17:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164651; cv=none; b=de5kbJSwdjpEzXrsG84OAxIU93kqgpnNcjv4Yq4kZ967RynjpMXtnhXvyoIxnlb6ml+Uo4j5GLJp9QFpEKAACtuRae013F0PwMFozSvmhS7fb3JbsZMXM2DgpTvOnbDzpDt52wM5t+cNPoSdWgABKjoMrmFT5DsPF8sa8PQv9Ds=
+	t=1712164654; cv=none; b=tgBHbYJnbiSCFq99K/Z9zeLFDqMK3RZZ78TlzNSx3jEj8qw32x3WenjVZoZsSzTjKIfVUoALxrymadaGr2ho7TeStPc7l2n8CkrlW5+U7Vc0D3R5PN2GRKIRrbJLnHvUH/A6RzuP1DSeDzSlwkdh+Iso19xcRyW285N3GTV7a28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164651; c=relaxed/simple;
-	bh=pSKtIhrEgfmgjAXnCxGmxTJj02e3TpZuMW53XL31DLY=;
+	s=arc-20240116; t=1712164654; c=relaxed/simple;
+	bh=jDZXdNjG+msuVOBh1CPC0UAJj9LWGOlyG+98NmA8qCY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gtY9bWCgTPdwC+fXHfoqsK4bf856SvtivhUd0QoVdat49ifVhgNF9IjLKUqZxdTy1NBkPKS+aG6S9XXEUBBr/f5wHDSZJI3l7j9FRbX/dhab3Fl3hSYWsNVb/5nEvl0OG7AIoDaVevXDbKmKsD2ZsF+8DzExQvcf3aKlQVkmT5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJxXL5Km; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=W0Say++w/kXVn7/G99fL7S2v5ZNUNjVFTAMckEeF4Vc3dqcJyOHguCEcPq/EZxFn/M+KohutLdkbi31fFAfwxtH5TdesVvo9LfJCTeach5iRVdrn0a/1WMzYAiS0iMORL+sf3UGv5KV1dt3XGg8CDI21dwwMneeyF8wsoIIXXzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEHfgFlN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJxXL5Km"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95282C433C7;
-	Wed,  3 Apr 2024 17:17:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEHfgFlN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6070C43390;
+	Wed,  3 Apr 2024 17:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164651;
-	bh=pSKtIhrEgfmgjAXnCxGmxTJj02e3TpZuMW53XL31DLY=;
+	s=k20201202; t=1712164653;
+	bh=jDZXdNjG+msuVOBh1CPC0UAJj9LWGOlyG+98NmA8qCY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iJxXL5Km6EnuSv+yT9KU+hC1T50iaQrNTrYIDPlJqTvxtJc8KyhS5MzFF8YOHSV4T
-	 FMlkS0WKf1mKMFqyKFiF/7TDUh8sCi7EQ8TTEkjd5ZZ9eCeZegBKPa6CduwiaMDEXt
-	 SAgZC+vdiq27lt+IPVTF4VTJZoDgQ1Onl1ckz5PVcH0wRUIq4lujhHitL4F/9BpB8C
-	 8farMxddIt3mkeAV0kAjXQEtQanB/Nlq1vHGsS5nbnNOeeLR3LWemo15blB/OP/LVr
-	 kxFnbPoV/xBQxAp9l8ibm88Rgl95NHKyHDGqWuTTW1DrI4sDnyuUYuW8rC7xxNML15
-	 g+3HYi0GbvLLA==
+	b=GEHfgFlNtzLImX+dB1Sn5R9z5iVFgHM7QF3UaYt8kzNiquKDzVWZ1rq8Ubfj/wMHj
+	 uJ2R2cx1cmVtisBXct+df+hDIXEIK0xO6LlKRmcB2hlagTGEf8dgccME8EjYkTrtkF
+	 rxXmGmOxpSzeY5LDcEPXajXtiy/08NtjEyMoTWQossRyn9PNYaNwv9WoP8MHOXv6KW
+	 9HSo5SnSRQQpIAozk5N5nrWCPquDTx9UknD39iP9LQZDL/9dnur/Uvjj/5Or+lHKmV
+	 FaBO/mYs0FF7ggz4TZFjUvhtHfiBsUsZTIGBXY+NnkqCDB14PhHP1rdNexNR5Sd+lF
+	 fcCZigHF8CS7A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: M Cooley <m.cooley.198@gmail.com>,
+Cc: Chancel Liu <chancel.liu@nxp.com>,
+	Zhipeng Wang <zhipeng.wang_1@nxp.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	me@jwang.link,
-	jeremy@system76.com,
-	git@augustwikerfors.se,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 15/28] ASoC: amd: yc: Fix non-functional mic on ASUS M7600RE
-Date: Wed,  3 Apr 2024 13:16:17 -0400
-Message-ID: <20240403171656.335224-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 17/28] ASoC: soc-core.c: Skip dummy codec when adding platforms
+Date: Wed,  3 Apr 2024 13:16:19 -0400
+Message-ID: <20240403171656.335224-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240403171656.335224-1-sashal@kernel.org>
 References: <20240403171656.335224-1-sashal@kernel.org>
@@ -57,40 +54,40 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.3
 Content-Transfer-Encoding: 8bit
 
-From: M Cooley <m.cooley.198@gmail.com>
+From: Chancel Liu <chancel.liu@nxp.com>
 
-[ Upstream commit db185362fca554b201e2c62beb15a02bb39a064b ]
+[ Upstream commit 23fb6bc2696119391ec3a92ccaffe50e567c515e ]
 
-The ASUS M7600RE (Vivobook Pro 16X OLED) needs a quirks-table entry for the
-internal microphone to function properly.
+When pcm_runtime is adding platform components it will scan all
+registered components. In case of DPCM FE/BE some DAI links will
+configure dummy platform. However both dummy codec and dummy platform
+are using "snd-soc-dummy" as component->name. Dummy codec should be
+skipped when adding platforms otherwise there'll be overflow and UBSAN
+complains.
 
-Signed-off-by: Mitch Cooley <m.cooley.198@gmail.com>
-
-Link: https://msgid.link/r/CALijGznExWW4fujNWwMzmn_K=wo96sGzV_2VkT7NjvEUdkg7Gw@mail.gmail.com
+Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+Link: https://msgid.link/r/20240305065606.3778642-1-chancel.liu@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/soc-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 90360f8b3e81b..1ab69a53174e6 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -318,6 +318,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "E1504FA"),
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 516350533e73f..8b5b583a2bad0 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1218,6 +1218,9 @@ static int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
+ 			if (!snd_soc_is_matching_component(platform, component))
+ 				continue;
+ 
++			if (snd_soc_component_is_dummy(component) && component->num_dai)
++				continue;
++
+ 			snd_soc_rtd_add_component(rtd, component);
  		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "M7600RE"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+ 	}
 -- 
 2.43.0
 
