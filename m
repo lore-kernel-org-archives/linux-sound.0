@@ -1,82 +1,156 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23BC139588;
-	Wed,  3 Apr 2024 11:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBAB1353E2
+	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 11:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712142222; cv=none; b=PT+Rsnz0abinWHqCX6iExKah48/9UJ0dcJv2hsX8BQNux583G8zFkr6YiuhK32F485NVovDEGYFWonP3sc0ya02R3B0epvCguFnlW/ebjBlkYtXY9rEp/LGmsUEV2QQYgoyuCVtHf2+mfBhZhEscARuCzLD8xSjx+/3PY9s7bWY=
+	t=1712143092; cv=none; b=PpFvlQDYmqDbLHueUwtoYT5cMwIdJAjv/+PxZDzWZnANwJhwhp8RrFhdomIYqA8MNYlLIjVCdO8HpFfn1cJQ/R7LTpvApk7UxNABrusPcOoj7dQCBZjrVBoq5SbWvr+uS8NYxhaV+aWhGRJm9N15Fn4B41L4xUQJBgUyOUUWB9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712142222; c=relaxed/simple;
-	bh=ND/CjkhRoWoq1S5wep3hrHMEuyRwnZ2aM5WQ8jAsR3g=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FQl/lRH3aa8Y264ajegYPjRGUkchhFZPjoTvxA8FHhujjDhtCJhB3PE2B3dADzWfjMQDsT7xXzCglI/k3V9iFReHSgSh9GDa1maLj+QmkpCHByk6O9oduQE1LFjuxLyrF3s6IetbBuHruz/ZjDx8+m06PtlprQRdl5HFs/4PTWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eQdBw5ze; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1712143092; c=relaxed/simple;
+	bh=U0YnkyqvKTmiWzp5ZiWHg30Zg5m4JdoP1HVDND8VNgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PTNcjDWScExs7o2wIfdT38Fi4pbFXeKhj9Dk5jNYwUHXbkOnVF41UtjvLlGo0gp4vr+6R5j7997opBnxtQsBNeDpUlVc5QK+OlcS60tx+kvQ5U1DQqB0MMa2ukTChiehgzHpqX/T1TTgmcGZwO+6UoJxj5i7TbZM7HnZDcD09cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uapp6yGl; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eQdBw5ze"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B45F21C0002;
-	Wed,  3 Apr 2024 11:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712142211;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=FJDsJZRZvPjpMG0mfcOCLmMwwx8LDlLdoozWcuEeQ9k=;
-	b=eQdBw5ze+KCVNTQz90sfBeP3bDwGQD2sAjgAzeQegUYHutgySLTbb8n4JJ/8X4AH9tXpWn
-	VR57ziMV8smv1ShV6M141wETe3jg4hhHzQdjd2v9J7tHbRjZ06DXtJke1l7Iq/TJpFoJpK
-	mbItQcoYkMHcNjKevkShT27uHwP+ktXPLMTBD/+sry/7Yub6E47CtUFVbwWZhAKDthBwW+
-	5tiL/DmneZ1nVvdZEwbwgaBRyO1+V/gkP7DMILpWKKut7466jx92t32r3wgqAD2DGCF2Ax
-	iUnch26U1ulzxbMcXmMqfNKfcg62W6NK/1HfKRGkq/OX9/ZvWmh4YLXvHYXrVg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH v2 0/2] ASoC: codecs: rk3308: fix build warning without OF
-Date: Wed, 03 Apr 2024 13:03:17 +0200
-Message-Id: <20240403-rk3308-audio-codec-fix-warning-v2-0-816bae4c1dc5@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uapp6yGl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712143090; x=1743679090;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U0YnkyqvKTmiWzp5ZiWHg30Zg5m4JdoP1HVDND8VNgY=;
+  b=Uapp6yGlWr0gvJGYfjneOztIIGNdhBcWY52zSfUClylgu6iCOOEu5Nwm
+   2lHGChMt8/yXQttDH0tH1p3CyrR+4NhOLZGKNNx3ZS2553d1y5x8Cc8Zk
+   sq2BnTiWXpUkuEQT4QhR6vEIr+ITFalpwJr2IQO6M9INq/0lN6pZGLSZZ
+   FYG523djgdzjevTBm4pJYjWnZ4rTyUUGUj5fJZro3s2/RvfM6OwoJkao3
+   71Z4n8DzLRPYF8WQ074LovQpHBglYj34gJQAcdHBlz3q2JhXq84KuQFNf
+   jvhpDeGVVlW299EyYwZ6rm96q+NBadqnkeWnyW+6mQ/gRYYJ4noSa8FHQ
+   w==;
+X-CSE-ConnectionGUID: 4KoNA4TwS6GzV9LaQwSsAQ==
+X-CSE-MsgGUID: FuZLN/XuTX6edrwt3t+FOw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7237879"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="7237879"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 04:18:09 -0700
+X-CSE-ConnectionGUID: vzPbm1TpQ9GmKFX0SPuejQ==
+X-CSE-MsgGUID: 8QRUj10uQUKrqp+EcPyTmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="55861689"
+Received: from aelgham-mobl2.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.249.35.133])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 04:18:07 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com
+Subject: [PATCH] ASoC: SOF: Intel: lnl: Disable DMIC/SSP offload on remove
+Date: Wed,  3 Apr 2024 14:18:39 +0300
+Message-ID: <20240403111839.27259-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHU3DWYC/42NTQ6CMBBGr0K6dgwtAtaV9zAs+jPARO2YFlFDu
- LuVE7h835e8t4iEkTCJU7GIiDMl4pBB7QrhRhMGBPKZhSrVoayUhnitqvII5umJwbFHBz294WV
- ioDBALa2tW4XW60ZkySNivrfApcs8Upo4frbeLH/r3+pZggSrvWzb3vnG6bNlnm4U9o7volvX9
- QuKO/h9zgAAAA==
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Heiko Stuebner <heiko@sntech.de>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-This small series fixes a build warning reported by kernel test robot
-<lkp@intel.com> and improves the Kconfig entry.
+During probe the DMIC/SSP offload is enabled and it is not reversed on
+remove.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Add a remove wrapper for LNL to disable the offload for DMIC and SSP
+similarly to what is done during probe.
+
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
-Changes in v2:
-- Replaced v1 implementation with __maybe_unused
-- Added patch to depend on || COMPILE_TEST
-- Link to v1: https://lore.kernel.org/r/20240329-rk3308-audio-codec-fix-warning-v1-1-b9d177fcd6c9@bootlin.com
+ sound/soc/sof/intel/lnl.c | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
----
-Luca Ceresoli (2):
-      ASoC: codecs: rk3308: fix "defined but not used" warning on !OF
-      ASoC: codecs: rk3308: depend on ARM64 || COMPILE_TEST
-
- sound/soc/codecs/Kconfig        | 1 +
- sound/soc/codecs/rk3308_codec.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
----
-base-commit: 4ed0915f5bc4bcc81bca783a5b984f3d81e9764e
-change-id: 20240329-rk3308-audio-codec-fix-warning-51bb572ebd96
-
-Best regards,
+diff --git a/sound/soc/sof/intel/lnl.c b/sound/soc/sof/intel/lnl.c
+index d1c73d407e68..aeb4350cce6b 100644
+--- a/sound/soc/sof/intel/lnl.c
++++ b/sound/soc/sof/intel/lnl.c
+@@ -29,15 +29,17 @@ static const struct snd_sof_debugfs_map lnl_dsp_debugfs[] = {
+ };
+ 
+ /* this helps allows the DSP to setup DMIC/SSP */
+-static int hdac_bus_offload_dmic_ssp(struct hdac_bus *bus)
++static int hdac_bus_offload_dmic_ssp(struct hdac_bus *bus, bool enable)
+ {
+ 	int ret;
+ 
+-	ret = hdac_bus_eml_enable_offload(bus, true,  AZX_REG_ML_LEPTR_ID_INTEL_SSP, true);
++	ret = hdac_bus_eml_enable_offload(bus, true,
++					  AZX_REG_ML_LEPTR_ID_INTEL_SSP, enable);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = hdac_bus_eml_enable_offload(bus, true,  AZX_REG_ML_LEPTR_ID_INTEL_DMIC, true);
++	ret = hdac_bus_eml_enable_offload(bus, true,
++					  AZX_REG_ML_LEPTR_ID_INTEL_DMIC, enable);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -52,7 +54,19 @@ static int lnl_hda_dsp_probe(struct snd_sof_dev *sdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev));
++	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev), true);
++}
++
++static void lnl_hda_dsp_remove(struct snd_sof_dev *sdev)
++{
++	int ret;
++
++	ret = hdac_bus_offload_dmic_ssp(sof_to_bus(sdev), false);
++	if (ret < 0)
++		dev_warn(sdev->dev,
++			 "Failed to disable offload for DMIC/SSP: %d\n", ret);
++
++	hda_dsp_remove(sdev);
+ }
+ 
+ static int lnl_hda_dsp_resume(struct snd_sof_dev *sdev)
+@@ -63,7 +77,7 @@ static int lnl_hda_dsp_resume(struct snd_sof_dev *sdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev));
++	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev), true);
+ }
+ 
+ static int lnl_hda_dsp_runtime_resume(struct snd_sof_dev *sdev)
+@@ -74,7 +88,7 @@ static int lnl_hda_dsp_runtime_resume(struct snd_sof_dev *sdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev));
++	return hdac_bus_offload_dmic_ssp(sof_to_bus(sdev), true);
+ }
+ 
+ static int lnl_dsp_post_fw_run(struct snd_sof_dev *sdev)
+@@ -97,9 +111,11 @@ int sof_lnl_ops_init(struct snd_sof_dev *sdev)
+ 	/* common defaults */
+ 	memcpy(&sof_lnl_ops, &sof_hda_common_ops, sizeof(struct snd_sof_dsp_ops));
+ 
+-	/* probe */
+-	if (!sdev->dspless_mode_selected)
++	/* probe/remove */
++	if (!sdev->dspless_mode_selected) {
+ 		sof_lnl_ops.probe = lnl_hda_dsp_probe;
++		sof_lnl_ops.remove = lnl_hda_dsp_remove;
++	}
+ 
+ 	/* shutdown */
+ 	sof_lnl_ops.shutdown = hda_dsp_shutdown;
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.44.0
 
