@@ -1,61 +1,219 @@
-Received: from mail-177131.yeah.net (mail-177131.yeah.net [123.58.177.131])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA2A5101C4;
-	Wed,  3 Apr 2024 01:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=123.58.177.131
+Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E272A3D76
+	for <linux-sound@vger.kernel.org>; Wed,  3 Apr 2024 03:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712107154; cv=none; b=HOYVWsgI0SYPQT+IPgE+Wdb1P+rUQDwGboyWrz1K4yDKAi8L2dR2F9jTRmmGumBDTjaGZ6KM6RhNKJrYDIGgDLSnoX8uXtNDxSOiRPuG0x+0b4osohU/xP1dQozyyXFr1dHXqvB4Q0oRBOYsA+EFwPIB8/f/kaKEIL340Ul0UM0=
+	t=1712116121; cv=none; b=U+VIrlX5XKZ6rY+i/BNHTjvleAnQFgsjKrYnyWSuM1U5c52zUjMuxWWMsoRFO4z1Oj240WJ6VP2s7OVPlnDMQeVR/ZYw400dV3wrNGrOI/7DfF+T3aSwB4yEAcBFEHJ0emci0RFaVXDbX5/Z3rb7mK/eiYvJ6DX9vfPWBGfVbNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712107154; c=relaxed/simple;
-	bh=ZWs884ey2K4gD9VzSZ1KT79c/6tK2wm2eNgFK8fp8Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCXXDJDDwrJRTwRPj7BuAlrpv5BfG3i3C7FLKeDrvpn1oH2vbkvGv0IuHwQhuZK4T7T8CRxI/MVzhcAMj1zcbDwaHQo0H3L0nbjmsRag0ORWjy9XwCUqDMdYW9fHRsxtX+ko6ZotJ7eiXvXrPoGBl3BE71fKY5X5uTRFM+tlgLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=cJRRIN21; arc=none smtp.client-ip=123.58.177.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1712116121; c=relaxed/simple;
+	bh=ndjWUkiQxFhB+YUyp9xI7yNVAxXlfZ48boxBHddhv54=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pb/UZjMscs7asQCFi+bNF0MDrDnQ7kF/UHKFhdc7fMpvyjgZJmrho4H1ziksaxJGVk5evG01YZ5eZl2vI7mmk6ug5ZG05P0Wtnp8NyDwsYtpDMtMj14z2iPte5wrRdSLG6KMSzTT7ekFFA9VhTlfK6ZeD9tI/L4XI7jyH8OJH6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=zyndQt1z; arc=none smtp.client-ip=95.215.58.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="cJRRIN21"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=2Sh4kkTKCe5vGuyfio0SMst+ujSu5NuGLGRn8SVVcsA=;
-	b=cJRRIN218Ltl+aNYhdtNDTjF9C+YkgO3+cqTthS3iIwvqFMB3JQQvquIhIsReH
-	AiAp9IMnglp2kTQGz1WflaNyFYI0mMS7TloFoWv/VufAPmamGIFX0v9Q20Euaw6e
-	eIn117euEjQv7Xr0T40NoMfXUla9P637qhDmuNJddVYG0=
-Received: from dragon (unknown [223.68.79.243])
-	by smtp1 (Coremail) with SMTP id ClUQrADXn0R2rgxmK0GtAQ--.49153S3;
-	Wed, 03 Apr 2024 09:18:47 +0800 (CST)
-Date: Wed, 3 Apr 2024 09:18:46 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] ARM: dts: imx6sx-nitrogen6sx: drop incorrect
- cpu-dai property
-Message-ID: <ZgyudlZqTBdMMLw+@dragon>
-References: <1711976056-19884-1-git-send-email-shengjiu.wang@nxp.com>
- <1711976056-19884-2-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="zyndQt1z"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1712116115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zfGNTdHGRpnjFOt+FjgvToOxrKfAVm82OlrQ9zXAjnQ=;
+	b=zyndQt1zIsMppv801JN1EM3Fn/QrlRg7s7TOA950YH4aq3M+3nlukvNKty36CjAMkG+GrI
+	In+1Z6RTcrwnGhlfmepyBZzGB+gfRDASmpMTpaSQcnKAG1pYKEGk+smKum12UDf9eHrr6X
+	hpm3GtyEOq/hIVAHDpOucZr5KecRLHrtc8dS2LnJBg9K0snCky8P4sS/T3Jr/yQB7GzPhG
+	99sQdPH+DWsSXFqiDZbeZVkuDwKfxQJrUeR4lsvdZ3e3farqcSPE5DmGbA5FVb/onj5sBD
+	ZvmMA5DPjXu/L0pN/bcIbCUk4D+wI92rJfEaMD7DY4ubb5bDIid/V1XV2YoanA==
+From: John Watts <contact@jookia.org>
+Date: Wed, 03 Apr 2024 14:47:35 +1100
+Subject: [PATCH v2] ASoC: sunxi: sun4i-i2s: Support 32-bit audio formats
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1711976056-19884-2-git-send-email-shengjiu.wang@nxp.com>
-X-CM-TRANSID:ClUQrADXn0R2rgxmK0GtAQ--.49153S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUIUGOUUUUU
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiGBi1ZV6NnqoiRQAAsQ
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
+X-B4-Tracking: v=1; b=H4sIAFbRDGYC/23MQQ7CIBCF4as0sxZTporUlfcwjYF2aEcTMKBNT
+ cPdxa5d/i8v3wqJIlOCc7VCpJkTB18CdxX0k/EjCR5KA9Z4qBtUIr39wrfUoHBoLB6tJqU1lP8
+ zkuNls65d6YnTK8TPRs/yt/5TZimk0G3rTnLorSR1uYfwYLMPcYQu5/wFlfHcUqMAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ John Watts <contact@jookia.org>
+X-Developer-Signature: v=1; a=openssh-sha256; t=1712116102; l=6016;
+ i=contact@jookia.org; h=from:subject:message-id;
+ bh=ndjWUkiQxFhB+YUyp9xI7yNVAxXlfZ48boxBHddhv54=;
+ b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
+ 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
+ MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAa930fEXUwIDvw7QRQA5oG7s
+ X21Y9PWXr+mPX/U2pgIrUnInsJrzVjEV7rxv0RgE6SCtfF2uHA9VEbGEedqfXCwUAAOgG
+X-Developer-Key: i=contact@jookia.org; a=openssh;
+ fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 01, 2024 at 08:54:15PM +0800, Shengjiu Wang wrote:
-> drop incorrect cpu-dai property, change it to ssi-controller
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+The I2S cores used in the H3 onwards support 32-bit sample rates.
+Support these by adding a per-variant PCM format list.
 
-Applied, thanks!
+Signed-off-by: John Watts <contact@jookia.org>
+---
+This patch enables support for 32-bit audio in the sunxi I2S driver.
+
+I have only tested this on the Allwinner T113 but I'm fairly
+certain it will work on older boards.
+---
+Changes in v2:
+- Specify PCM formats for each variant instead of failing in hw_params
+- Link to v1: https://lore.kernel.org/r/20240326-sunxi_s32-v1-1-899f71dcb1e6@jookia.org
+---
+ sound/soc/sunxi/sun4i-i2s.c | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+index a736f632bf0b..59830f2a0d30 100644
+--- a/sound/soc/sunxi/sun4i-i2s.c
++++ b/sound/soc/sunxi/sun4i-i2s.c
+@@ -156,6 +156,7 @@ struct sun4i_i2s;
+ /**
+  * struct sun4i_i2s_quirks - Differences between SoC variants.
+  * @has_reset: SoC needs reset deasserted.
++ * @pcm_formats: available PCM formats
+  * @reg_offset_txdata: offset of the tx fifo.
+  * @sun4i_i2s_regmap: regmap config to use.
+  * @field_clkdiv_mclk_en: regmap field to enable mclk output.
+@@ -175,6 +176,7 @@ struct sun4i_i2s;
+  */
+ struct sun4i_i2s_quirks {
+ 	bool				has_reset;
++	snd_pcm_format_t		pcm_formats;
+ 	unsigned int			reg_offset_txdata;	/* TX FIFO */
+ 	const struct regmap_config	*sun4i_i2s_regmap;
+ 
+@@ -1092,8 +1094,18 @@ static int sun4i_i2s_dai_probe(struct snd_soc_dai *dai)
+ 	return 0;
+ }
+ 
++static int sun4i_i2s_dai_startup(struct snd_pcm_substream *sub, struct snd_soc_dai *dai)
++{
++	struct sun4i_i2s *i2s = snd_soc_dai_get_drvdata(dai);
++	struct snd_pcm_runtime *runtime = sub->runtime;
++
++	return snd_pcm_hw_constraint_mask64(runtime, SNDRV_PCM_HW_PARAM_FORMAT,
++					    i2s->variant->pcm_formats);
++}
++
+ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+ 	.probe		= sun4i_i2s_dai_probe,
++	.startup	= sun4i_i2s_dai_startup,
+ 	.hw_params	= sun4i_i2s_hw_params,
+ 	.set_fmt	= sun4i_i2s_set_fmt,
+ 	.set_sysclk	= sun4i_i2s_set_sysclk,
+@@ -1101,9 +1113,10 @@ static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+ 	.trigger	= sun4i_i2s_trigger,
+ };
+ 
+-#define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
+-			 SNDRV_PCM_FMTBIT_S20_LE | \
+-			 SNDRV_PCM_FMTBIT_S24_LE)
++#define SUN4I_FORMATS_ALL (SNDRV_PCM_FMTBIT_S16_LE | \
++			   SNDRV_PCM_FMTBIT_S20_LE | \
++			   SNDRV_PCM_FMTBIT_S24_LE | \
++			   SNDRV_PCM_FMTBIT_S32_LE)
+ 
+ static struct snd_soc_dai_driver sun4i_i2s_dai = {
+ 	.capture = {
+@@ -1111,14 +1124,14 @@ static struct snd_soc_dai_driver sun4i_i2s_dai = {
+ 		.channels_min = 1,
+ 		.channels_max = 8,
+ 		.rates = SNDRV_PCM_RATE_8000_192000,
+-		.formats = SUN4I_FORMATS,
++		.formats = SUN4I_FORMATS_ALL,
+ 	},
+ 	.playback = {
+ 		.stream_name = "Playback",
+ 		.channels_min = 1,
+ 		.channels_max = 8,
+ 		.rates = SNDRV_PCM_RATE_8000_192000,
+-		.formats = SUN4I_FORMATS,
++		.formats = SUN4I_FORMATS_ALL,
+ 	},
+ 	.ops = &sun4i_i2s_dai_ops,
+ 	.symmetric_rate = 1,
+@@ -1340,8 +1353,12 @@ static int sun4i_i2s_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
++#define SUN4I_FORMATS_A10 (SUN4I_FORMATS_ALL & ~SNDRV_PCM_FMTBIT_S32_LE)
++#define SUN4I_FORMATS_H3 SUN4I_FORMATS_ALL
++
+ static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
+ 	.has_reset		= false,
++	.pcm_formats		= SUN4I_FORMATS_A10,
+ 	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+@@ -1360,6 +1377,7 @@ static const struct sun4i_i2s_quirks sun4i_a10_i2s_quirks = {
+ 
+ static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_A10,
+ 	.reg_offset_txdata	= SUN4I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+@@ -1383,6 +1401,7 @@ static const struct sun4i_i2s_quirks sun6i_a31_i2s_quirks = {
+  */
+ static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_A10,
+ 	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+@@ -1401,6 +1420,7 @@ static const struct sun4i_i2s_quirks sun8i_a83t_i2s_quirks = {
+ 
+ static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_H3,
+ 	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun8i_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+@@ -1419,6 +1439,7 @@ static const struct sun4i_i2s_quirks sun8i_h3_i2s_quirks = {
+ 
+ static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_H3,
+ 	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun4i_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 7, 7),
+@@ -1437,6 +1458,7 @@ static const struct sun4i_i2s_quirks sun50i_a64_codec_i2s_quirks = {
+ 
+ static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_H3,
+ 	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+@@ -1455,6 +1477,7 @@ static const struct sun4i_i2s_quirks sun50i_h6_i2s_quirks = {
+ 
+ static const struct sun4i_i2s_quirks sun50i_r329_i2s_quirks = {
+ 	.has_reset		= true,
++	.pcm_formats		= SUN4I_FORMATS_H3,
+ 	.reg_offset_txdata	= SUN8I_I2S_FIFO_TX_REG,
+ 	.sun4i_i2s_regmap	= &sun50i_h6_i2s_regmap_config,
+ 	.field_clkdiv_mclk_en	= REG_FIELD(SUN4I_I2S_CLK_DIV_REG, 8, 8),
+
+---
+base-commit: 13227c2baa6b345451128828c9c2b0ec3868bd0d
+change-id: 20240326-sunxi_s32-f2ab25b8e688
+
+Best regards,
+-- 
+John Watts <contact@jookia.org>
 
