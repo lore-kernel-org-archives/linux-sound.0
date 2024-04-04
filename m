@@ -1,115 +1,81 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B949271B4C
-	for <linux-sound@vger.kernel.org>; Thu,  4 Apr 2024 08:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F8B745DC;
+	Thu,  4 Apr 2024 09:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712220840; cv=none; b=GbuDGEnBHNdaVhwGRrYM1CEURSxUmnOfQ7xfDxNPtd2tl5Wdyj85Z6FHVQAgCM4NVtBR1eGorZNM3pVYpbkkbv5Bk3VSBP3w1vV+jDS0qxryByLA01vVaelIua2M5RLl6mUDJUo6v3Ar1q+oVXyjxseo+Z3q6f309WEu19ZcA8U=
+	t=1712224682; cv=none; b=Ma4HsQruuOYiDRK1swr4ZF9+ETcAMcCFOZbNiDmBnwS5NHnGd7g/XhJh/yNSnoWjjvzqS4oD7z4mbhEI4GGZpDkFqDCIij6R8vSyvb7nFfw3TloFpFTx+QBYI4HnkEMnRLyK6BEeShEpVd2Fno6dvwoQbEDy0NqXUGzMDrRylTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712220840; c=relaxed/simple;
-	bh=oN6L5F4339c8x9zBSAaPAAYbUmNj5mF92X0nhCMXYT8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L43D50pauQ2gqwMtyOAoFXa7TKQBIgQQnAtxoO1ixx1Z8vTYa4Z/4CCyOEOLVLrXfbJ5+X1LQfgJoorSXJXLqg9h/VwgTp6QgaNZanOJRV2P2VY/ocrwTnzBkbPL68mq06DHPRlHeFP8XREOOEysDB6HZcWFdCSFvFkBLWw7oro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mv5oojXJ; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712224682; c=relaxed/simple;
+	bh=17mEkdPvUNZVSmiPTDoEKoSyn8eH26ZHEB3ewee+IqE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rYns++U9AXJ6OUtucTb8Svhca6ZiyUtZpfBdCvX3S2rxvEEHaeS6/8+/fkgd4NI0l/bLKf+PPaYuMiM+61nxsONfUl6/YjtZAMjX3euPvBN1TKSrUeZAdmLX7vIX1NEJGUA62gVz9seB1uZQZte9Sa2eoErwVhNtSECYBF/QeL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ubs7MaYc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mv5oojXJ"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso781771276.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Apr 2024 01:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712220838; x=1712825638; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0saMo4QGYVfrGZY3BfXYJ+wYYPXK1vgxsVH3LduLhE=;
-        b=mv5oojXJQs/dZqQOhmlv9SMhqb2lHABRfOuVOazj+KbLtq6vLKnVn6KWdbZIHz9vqp
-         udi60YvI2iiiD/lI4W4tUhUD4NitfrqWYRPxlDPRCVJo0SHxpBLQ1Q2Of1WfrkEDz2Lr
-         dKH+ykmhgxoYfvS53r4hipq4zP7LxCgHkVCZlRg3R6aN+LeBCgrtn2+d/MaN2s/XU7od
-         9epamVS6V6fic0lsr+gpvKRxmCNHcx63REOVqjyXxknlcFGqP/orKTG7hb5u75aq7UTO
-         0ymfs5VFMt9nhk7zlwNKfweK2SXA5fHFZBg2jPaEtABerz5P+bWK7+hgSqw/nqRhI74x
-         2ClA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712220838; x=1712825638;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b0saMo4QGYVfrGZY3BfXYJ+wYYPXK1vgxsVH3LduLhE=;
-        b=KW/5Hi434iai89oHr4/WhWcmM/Slm1/RRlqW6dW1m+HxNYpjijk+O0fAomG8CNXbYW
-         DaolM+MckDT+yYsW1FRrG1sLu5V0E6VOQOf26dIfpTAn2c5C6crya11uxe2kgRdJ5Pls
-         h9QSMdHIqWM8ltySAuex0UF9Hk5xbMysof+3Pqk0zQc52oSlZl5lANd9IkSROwE6HX+x
-         BPFe0z9SdDtcQjFQ5knpyRs/m4FQkQD1gls1fdqcyql4EGI9TXWEuh4s3XDXv9BEb30+
-         G4eUNJrbCQ0nLRUYy2qPIP5l8z1C6JJDXdWaKr7aCD+FJnSpnxezUH6CRHAiAU5dzJmo
-         vAsA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+LnAc2uXYCVlGE6HmxqWorTdU7PiXif+ivIjvCid059PDukfEYAS5t368DEDwpFxsjRYGa6KPu5ad2cPLQkX1t1hLwvCP8KdsoaA=
-X-Gm-Message-State: AOJu0YzhVdrDm/r5CWF1gIH+2YsqKrdFLbeelMCJ0zLzqMF6Gxg++Zcv
-	eK+NgmYwfXp5IEPu/KqdmLxf+WAyKBW9NwSZOtStrFKVXzRQKpJbwEG/WSQkGagIg5emmxnA2Tr
-	AB3+63FC0Xrroh9esP8n7eu1e3XtsyQwvPt9mOg==
-X-Google-Smtp-Source: AGHT+IH7f3/xIqdGulCRGC9S2/T1fajzZP/pOTgqSEEM7kR4WSRQcksdbB122eHZa/2SpUYAsKQ5FgKEuYfHL4yMoGw=
-X-Received: by 2002:a25:5f51:0:b0:dc6:9d35:f9aa with SMTP id
- h17-20020a255f51000000b00dc69d35f9aamr2068959ybm.19.1712220837771; Thu, 04
- Apr 2024 01:53:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ubs7MaYc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74D1DC433C7;
+	Thu,  4 Apr 2024 09:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712224681;
+	bh=17mEkdPvUNZVSmiPTDoEKoSyn8eH26ZHEB3ewee+IqE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ubs7MaYcCK0B+GYrcVzd6Mebo9OgNtS07tIjn49URnebTW9cKbtwyzk6mUNagqIOG
+	 0HY4NWzLUZRHWdoubYzcWeBcG40XDmJznomC3Fs5FCbpVvr5DfvO8WzxR5chZ1ora3
+	 otO8abv7IcSfsJtUSLFZlv6p15J+j0XkZnttBjzN686qK2A+TUQEoynPzTRk3TBhFN
+	 vKiG7qGLG72GJQNd2XDWuMqm5ES8nCNAaOgqQgwqFRNxo69ymek4RGc84KzodczycA
+	 kT6laB/8cXwD2UkG1MpWo6iwGmvGlRbJbJD3KHQkDI8cABO+GM/gufsKgC9xvs/S51
+	 PkV7csNFN1YOA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: rk3308: fix building without CONFIG_OF
+Date: Thu,  4 Apr 2024 11:57:34 +0200
+Message-Id: <20240404095755.650364-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404084631.417779-1-quic_mohs@quicinc.com> <20240404084631.417779-2-quic_mohs@quicinc.com>
-In-Reply-To: <20240404084631.417779-2-quic_mohs@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 4 Apr 2024 11:53:46 +0300
-Message-ID: <CAA8EJpqWaYhzPKgTREtJnfdNZ4oSFZaRFM7Jhg+qd3AqadGOkA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd
- QCS6490 sound card
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_rohkumar@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 4 Apr 2024 at 11:48, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
->
-> Document the bindings for the Qualcomm QCM6490 IDP and QCS6490 RB3Gen2
-> soc platforms sound card.
->
-> The bindings are the same as for other newer Qualcomm ADSP sound cards,
-> thus keep them in existing qcom,sm8250.yaml file, even though Linux driver
-> is separate.
->
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> index 2ab6871e89e5..ff1a27f26bc2 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> @@ -29,6 +29,8 @@ properties:
->        - enum:
->            - qcom,apq8016-sbc-sndcard
->            - qcom,msm8916-qdsp6-sndcard
-> +          - qcom,qcm6490-sndcard
-> +          - qcom,qcs6490-rb3gen2-sndcard
+From: Arnd Bergmann <arnd@arndb.de>
 
-My 2c: you are adding one soundcard for the SoC family (qcm6490) and
-another one for the particular board kind (qcs6490-rb3gen2). That
-doesn't seem logical.
+The newly added codec has an extraneous of_match_ptr() annotation for
+the ID table:
 
->            - qcom,qrb5165-rb5-sndcard
->            - qcom,sc7180-qdsp6-sndcard
->            - qcom,sc8280xp-sndcard
-> --
-> 2.25.1
->
->
+sound/soc/codecs/rk3308_codec.c:956:34: error: 'rk3308_codec_of_match' defined but not used [-Werror=unused-const-variable=]
+  956 | static const struct of_device_id rk3308_codec_of_match[] = {
 
+Remove it to avoid introducing a warning when -Wunused-const-variable
+gets enabled by default:
 
+Fixes: 4ed0915f5bc4 ("ASoC: codecs: Add RK3308 internal audio codec driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/soc/codecs/rk3308_codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/rk3308_codec.c b/sound/soc/codecs/rk3308_codec.c
+index 9d3e4691a7b5..6b1cb92997b4 100644
+--- a/sound/soc/codecs/rk3308_codec.c
++++ b/sound/soc/codecs/rk3308_codec.c
+@@ -962,7 +962,7 @@ MODULE_DEVICE_TABLE(of, rk3308_codec_of_match);
+ static struct platform_driver rk3308_codec_driver = {
+ 	.driver = {
+ 		.name = "rk3308-acodec",
+-		.of_match_table = of_match_ptr(rk3308_codec_of_match),
++		.of_match_table = rk3308_codec_of_match,
+ 	},
+ 	.probe = rk3308_codec_platform_probe,
+ };
 -- 
-With best wishes
-Dmitry
+2.39.2
+
