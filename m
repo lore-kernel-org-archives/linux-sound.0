@@ -1,55 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAA176408;
-	Thu,  4 Apr 2024 15:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A371D559;
+	Thu,  4 Apr 2024 16:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712244262; cv=none; b=AtdfqWlNG+RsUfCxp0DU2DmiT/YBI+UxG39WgTTMMHQA92Dcu79/0LnsTmua59nGysdWYsSh2Tkv5JDfjlAwYV18IhhBK68jgecoxnEz/XDtGeVISCZNMa2W1mMeBvKT1aHDMvjSNt6Wd+dBoc+KoVNBM2YHLbNQOJHDUj4H/rA=
+	t=1712249927; cv=none; b=c2jBTOq9L/uP/4QbhpSfRHgyH8iWL6447CNdgrGjTEBn23KEDPoAJyZw1vhvFrukRxhFZQGvsfMfSU5gvduaVtSLCp486ST5dVhc0vCumN3vzSc9tNl+E5fDD18cy33B12dCQ3+/Aaq9XZIMrjC1MdV8XhyqnfYLQXGWnIp5+js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712244262; c=relaxed/simple;
-	bh=/knebWZeaaEDHH+qAZ96R0RgaVmS7oZA7zCTSzDKjuY=;
+	s=arc-20240116; t=1712249927; c=relaxed/simple;
+	bh=vYAdJExLD0Pba8+2LILXT/H49qXYZgBBf2Q0yYemBxA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d3EINFr/nDCuy2MQNZTgr3dLAnmyKTODPMnPVRQYDbeoAWiwrwAiBcdofBXORWjjCALKQxZ5DplZclbo8fzNl3kAPG9v36AORRsSxBdBDyUT9I4vl+f2UbnQNzN6exLeoob9l5uos3Xa6wJ/DDINVXQndHc+EZSI0YhAxoN+iok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZXS+h1j; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MgavfmxPvXZckqJPvaz1wrw3HOH4t6opBjKjHfimRQJtaB2AiGD47UNSG0MtwtA4+hHWVP3FNfxXwNAsyjP4XZa6QibxwFdVcypnZPGFcfdm79LnJegcZYFyAH6cEbTPZop/60cJvQrPER5avTOoef+NPS88lQZ4TU3ZZONbhD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0j3p/rQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZXS+h1j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F17C433C7;
-	Thu,  4 Apr 2024 15:24:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0j3p/rQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA94C433C7;
+	Thu,  4 Apr 2024 16:58:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712244261;
-	bh=/knebWZeaaEDHH+qAZ96R0RgaVmS7oZA7zCTSzDKjuY=;
+	s=k20201202; t=1712249926;
+	bh=vYAdJExLD0Pba8+2LILXT/H49qXYZgBBf2Q0yYemBxA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mZXS+h1jP5e1ftHIhw6bJjSrAeelq+ogn5rVYsS0ZEzBL8YQk0sYPi7wUmXZz/U9A
-	 JC49Q4Dnv0mHGisesAqspV6Oe/7jlbTa1VYbuSHc0QW+wUFaPdApNhtimMWjcrYfeO
-	 Z8ltojDLVGnzlHj4Ns2tDmni1R0zLmmCPZw57ezQyetvfqrcDs/3Auu/jtDOdkcnnZ
-	 2zESNKZQAg5lmR6nCXyvf7rYQPwi9EE23XUDYKS4TO4QaE1n6UsqOCYbcPexqDzjVn
-	 D+GbXGna9NjF8skj+FagEt4saLBrX+8HN8K1khNMAVtZ3VgXmPkxjHZ669ETTdauKg
-	 L6KktWSgGulig==
+	b=d0j3p/rQQpf1uHNZz+bARmhaiknJY5BzUDYV4N4dsxFM4zVkcJArJh1WkwhaYLxqM
+	 AfEFrRroN5hIbNAioWiZntCjm+6E5J8GIcRdwmm39bJUirtP6sfCTs6dDM2pSW6paH
+	 tlvIrgSg46q5k0OzND6gEuFBmlkVts0ml/JBSsjjKAt4qM7PzadZPdJgE/8yLOB5LV
+	 bJm7LhTy9mwO81Sy+JamcYyBcnbYduDE8El+PIq9hWLas/lxvOd1c/w7t2v20SP0Wn
+	 B/wwglprYs63C03p9F+FfZAnrdn0zVWfHptZ4S66KveekU/KiePcD4jfSFkvipA4Nx
+	 wljbKF520fP1A==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, Sunil-kumar.Dommati@amd.com, 
- Basavaraj.Hiregoudar@amd.com, venkataprasad.potturu@amd.com, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
  Bard Liao <yung-chuan.liao@linux.intel.com>, 
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
  Daniel Baluta <daniel.baluta@nxp.com>, 
  Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Emil Velikov <emil.velikov@collabora.com>, 
- Mastan Katragadda <Mastan.Katragadda@amd.com>, 
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20240404041717.430545-1-Vijendar.Mukunda@amd.com>
-References: <20240404041717.430545-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH] ASoC: SOF: amd: fix for false dsp interrupts
-Message-Id: <171224425713.53181.6209478455097069217.b4-ty@kernel.org>
-Date: Thu, 04 Apr 2024 16:24:17 +0100
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <9d2477cf-25aa-4d12-818f-fdafc9aaa28a@moroto.mountain>
+References: <9d2477cf-25aa-4d12-818f-fdafc9aaa28a@moroto.mountain>
+Subject: Re: [PATCH] ASoC: SOF: Disable pointless writes to debugfs file
+Message-Id: <171224992349.92541.12088841230483454478.b4-ty@kernel.org>
+Date: Thu, 04 Apr 2024 17:58:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,16 +53,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Thu, 04 Apr 2024 09:47:13 +0530, Vijendar Mukunda wrote:
-> Before ACP firmware loading, DSP interrupts are not expected.
-> Sometimes after reboot, it's observed that before ACP firmware is loaded
-> false DSP interrupt is reported.
-> Registering the interrupt handler before acp initialization causing false
-> interrupts sometimes on reboot as ACP reset is not applied.
-> Correct the sequence by invoking acp initialization sequence prior to
-> registering interrupt handler.
+On Thu, 04 Apr 2024 10:38:45 +0300, Dan Carpenter wrote:
+> The permissions on this debugfs file are 0444 so it can't be written to.
+> And writing to the file hasn't done anything since commit 6e9548cdb30e
+> ("ASoC: SOF: Convert the generic IPC flood test into SOF client").
+> Delete the write function.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -77,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: amd: fix for false dsp interrupts
-      commit: b9846a386734e73a1414950ebfd50f04919f5e24
+[1/1] ASoC: SOF: Disable pointless writes to debugfs file
+      commit: 84ae7d9cfa5f6ec284efccedcb7baf7c075774d4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
