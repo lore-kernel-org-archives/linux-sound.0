@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1424982C63
-	for <linux-sound@vger.kernel.org>; Thu,  4 Apr 2024 18:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787E412F590
+	for <linux-sound@vger.kernel.org>; Thu,  4 Apr 2024 18:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712256511; cv=none; b=sSSVruGe5uPsMDauz74MpCKs9HC48JlAeIoAsfxuapDIZ/s/5mePtxvxx6cPJ8my57Cd91QK9+LFmQMrIsPXwo5WVqU7r2SfwHlUXXfxi8/QcFwm4VC9dOrvy0IQzXWw3adgQ1Cjd0+LoVZOzANq7KbrpySbCzpdOOXp45KbJ/g=
+	t=1712256900; cv=none; b=aJV3tLGI/2pqLUoiEuGFhSxD9sPdokfE8EBWe2f4QByV8sM1FSiJKdjeN22HoC1UoOwEwDtmmoeyJbpX5lh50mswDhlv9UtYXQkLrl5QMca90PCrcsDMsmpkl7nUIFToKUIm3XLNqbkS/rjVyXkmV8c6lJKDqsb1XAm7kpZHIRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712256511; c=relaxed/simple;
-	bh=2+dgq3iM1tCDqIJsEHHG3CHI9NyitJ0gRuUJCe4auZ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HJCWpPPh2CKL6F0PIDeP6m68Fk8ZLB6JtvsO84XnOPzVZd8xu4fcVDXQxSh7cFirsM6YpTmW+BfEgUx7YFvb/VPdAufRMtumGCliUFHXYf7AF524bcaxB0Lpxz7B/iJbGNUsbKF+Vw5mKUfSvb1ewLUG3TnuOoltaDi99+dGLss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzY8RFh6; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1712256900; c=relaxed/simple;
+	bh=fPFoUzRC7yp0tHLHieUekcRDHzzgkJTA10VfyCjPKN0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=miqjub34avF3ihN4W3Bu8frk65HXUrWu8JxH2mC3E/3HNYwZ6D5/p2aDs1uln3h2YFTflUESWgrA5kAjCA9qgKau7DxkiR2gVayLsOGbC3OnV4uHeFa5cM3wr0Ar47oV44Y8nxXN/cRQPw7KYW3y4unXcPqiK91ef2Zxlbkc1w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blEBTrIS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzY8RFh6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blEBTrIS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712256510; x=1743792510;
+  t=1712256899; x=1743792899;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=2+dgq3iM1tCDqIJsEHHG3CHI9NyitJ0gRuUJCe4auZ8=;
-  b=YzY8RFh6jzRiiSudqCK12iajCuvJXy9R4VR1qAIibn0aYT3nTMFJfHYe
-   vnsFOmkDKgpq+e6azJmF4ssJZ5cK7U8PKlEKTJNtrR6CWPoLE0pGF79Ya
-   rNLpAyR9bEnEFJTiGpUNJZ0mH/aGOdPwYQu7KVRXsGrC7PtQRLH3kjfVN
-   9JCNlfvi1HnVHOHTkmGP3CwXVSQQZMSygl8tufmQNE5PI90CyUhET6wZO
-   WHCo/sA25wHhiXHBHVTzxfixM5fCdREgBArIB4wMgv+hbMjU8/qUlE37O
-   NvF4cYSoaHgOluPj5P+qMVn02h1MYJ69HdnziBacADp+gxduVh5lHiCpn
-   A==;
-X-CSE-ConnectionGUID: UHjwZTfFTEKkLdA0H/mFrQ==
-X-CSE-MsgGUID: nPNbVD5DSyiheRcIbgEgMw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7800024"
+  bh=fPFoUzRC7yp0tHLHieUekcRDHzzgkJTA10VfyCjPKN0=;
+  b=blEBTrISwL05O+PpfUiUgnn6ZCjqLOsYWCkLRo9+cfLWoGXByVtEyzFj
+   YAYsnnju2aDp6i9aGHQy4xvv8VaQE+2f7Q0tFGU8xRK5vGNHxDK2DuX30
+   Iu/IBi9FWZEXttElQPPXYdX5RvbsgXqbXzZ9YPgHuqRr7P4tQNZO/HLXW
+   WFF5URcPJXJbVRy3YuZmoQ46JR8uhD0DAG7cvAm6AR9A2m5V4VoyhIoNT
+   xOy7fIZRwp892KR9nJJ7/2na4fK7VXb8Esdnu3XX1dj1Uatj3zRvxUXTB
+   oSB+s6/STBwlLDPx6qhsVtfsVMJ8O3/vtiK/IHQKnUDkuroD1oK+0hORr
+   g==;
+X-CSE-ConnectionGUID: 1h5wlbZ/T9uefiTmcNuL2Q==
+X-CSE-MsgGUID: OpNUKU6YS1Gw8mMUDIjnlw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7432788"
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="7800024"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:48:29 -0700
-X-CSE-ConnectionGUID: w6WYMV8BTbWWdFrPXf1igQ==
-X-CSE-MsgGUID: O75NgDFEQIWV86cvnRCXNw==
+   d="scan'208";a="7432788"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:54:58 -0700
+X-CSE-ConnectionGUID: n68B0qNzTbeYvffkFS7usQ==
+X-CSE-MsgGUID: fnE6eCGqSOmAmYnVy7YiTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="23542014"
+   d="scan'208";a="23574615"
 Received: from sparrish-mobl1.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.119.106])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:48:27 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:54:57 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH] ASoC: SOF: Core: Add remove_late() to  sof_init_environment failure path
-Date: Thu,  4 Apr 2024 13:48:13 -0500
-Message-Id: <20240404184813.134566-1-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 0/4] ASoC: SOF: Intel: extend hda-loader for BTP/BRA transfers
+Date: Thu,  4 Apr 2024 13:54:44 -0500
+Message-Id: <20240404185448.136157-1-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -66,100 +61,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+For SoundWire BPT/BRA transfers, we need to reuse the HDaudio DMA
+infrastructure. This patchset extends the code used by the code
+loader. The BPT/BRA functionality will be provided in a follow-up
+contribution.
 
-In cases where the sof driver is unable to find the firmware and/or
-topology file [1], it exits without releasing the i915 runtime
-pm wakeref [2]. This results in dmesg warnings[3] during
-suspend/resume or driver unbind. Add remove_late() to the failure path
-of sof_init_environment so that i915 wakeref is released appropriately
+Pierre-Louis Bossart (4):
+  ASoC: SOF: Intel: hda-loader: add flag to tag ICCMAX stream
+  ASoC: SOF: Intel: hda-loader: change signature of code loader helpers
+  ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio transfers
+  ASoC: SOF: Intel: hda-stream: clarify comment
 
-[1]
+ sound/soc/sof/intel/hda-loader.c | 80 ++++++++++++++++++++++----------
+ sound/soc/sof/intel/hda-stream.c | 24 ++++++++--
+ sound/soc/sof/intel/hda.h        | 13 ++++--
+ 3 files changed, 85 insertions(+), 32 deletions(-)
 
-[    8.990366] sof-audio-pci-intel-mtl 0000:00:1f.3: SOF firmware and/or topology file not found.
-[    8.990396] sof-audio-pci-intel-mtl 0000:00:1f.3: Supported default profiles
-[    8.990398] sof-audio-pci-intel-mtl 0000:00:1f.3: - ipc type 1 (Requested):
-[    8.990399] sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file: intel/sof-ipc4/mtl/sof-mtl.ri
-[    8.990401] sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file: intel/sof-ace-tplg/sof-mtl-rt711-2ch.tplg
-[    8.990402] sof-audio-pci-intel-mtl 0000:00:1f.3: Check if you have 'sof-firmware' package installed.
-[    8.990403] sof-audio-pci-intel-mtl 0000:00:1f.3: Optionally it can be manually downloaded from:
-[    8.990404] sof-audio-pci-intel-mtl 0000:00:1f.3:    https://github.com/thesofproject/sof-bin/
-[    8.999088] sof-audio-pci-intel-mtl 0000:00:1f.3: error: sof_probe_work failed err: -2
-
-[2]
-
-ref_tracker: 0000:00:02.0@ffff9b8511b6a378 has 1/5 users at
-     track_intel_runtime_pm_wakeref.part.0+0x36/0x70 [i915]
-     __intel_runtime_pm_get+0x51/0xb0 [i915]
-     intel_runtime_pm_get+0x17/0x20 [i915]
-     intel_display_power_get+0x2f/0x70 [i915]
-     i915_audio_component_get_power+0x23/0x120 [i915]
-     snd_hdac_display_power+0x89/0x130 [snd_hda_core]
-     hda_codec_i915_init+0x3f/0x50 [snd_sof_intel_hda]
-     hda_dsp_probe_early+0x170/0x250 [snd_sof_intel_hda_common]
-     snd_sof_device_probe+0x224/0x320 [snd_sof]
-     sof_pci_probe+0x15b/0x220 [snd_sof_pci]
-     hda_pci_intel_probe+0x30/0x70 [snd_sof_intel_hda_common]
-     local_pci_probe+0x4c/0xb0
-     pci_device_probe+0xcc/0x250
-     really_probe+0x18e/0x420
-     __driver_probe_device+0x7e/0x170
-     driver_probe_device+0x23/0xa0
-
-[3]
-[  484.105070] ------------[ cut here ]------------
-[  484.108238] thunderbolt 0000:00:0d.2: PM: pci_pm_suspend_late+0x0/0x50 returned 0 after 0 usecs
-[  484.117106] i915 0000:00:02.0: i915 raw-wakerefs=1 wakelocks=1 on cleanup
-[  484.792005] WARNING: CPU: 2 PID: 2405 at drivers/gpu/drm/i915/intel_runtime_pm.c:444 intel_runtime_pm_driver_release+0x6c/0x80
-
-Tested-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/sof/core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
-index 9b00ede2a486..cc84d4c81be9 100644
---- a/sound/soc/sof/core.c
-+++ b/sound/soc/sof/core.c
-@@ -339,8 +339,7 @@ static int sof_init_environment(struct snd_sof_dev *sdev)
- 	ret = snd_sof_probe(sdev);
- 	if (ret < 0) {
- 		dev_err(sdev->dev, "failed to probe DSP %d\n", ret);
--		sof_ops_free(sdev);
--		return ret;
-+		goto err_sof_probe;
- 	}
- 
- 	/* check machine info */
-@@ -358,15 +357,18 @@ static int sof_init_environment(struct snd_sof_dev *sdev)
- 		ret = validate_sof_ops(sdev);
- 		if (ret < 0) {
- 			snd_sof_remove(sdev);
-+			snd_sof_remove_late(sdev);
- 			return ret;
- 		}
- 	}
- 
-+	return 0;
-+
- err_machine_check:
--	if (ret) {
--		snd_sof_remove(sdev);
--		sof_ops_free(sdev);
--	}
-+	snd_sof_remove(sdev);
-+err_sof_probe:
-+	snd_sof_remove_late(sdev);
-+	sof_ops_free(sdev);
- 
- 	return ret;
- }
 -- 
 2.40.1
 
