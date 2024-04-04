@@ -1,198 +1,158 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2116.outbound.protection.outlook.com [40.107.113.116])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C09182BB
-	for <linux-sound@vger.kernel.org>; Thu,  4 Apr 2024 02:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD21210E4;
+	Thu,  4 Apr 2024 04:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712197350; cv=fail; b=LeqS+DlRLSM4QXBK8gwblVkczuQcl/X/NTgCWyUJCitkAIOIvkr8JEKIbwv9wamDUd0DcHIGdS+MxsUcEbQ39dSmYlCsT/WZa/UUxK4bLbfD2ct9+TzxophBP5xGwZ2y/HeKZuSuuWLmv6B3h4JBZTj9qVoexJ7kwpvL9F/LkaI=
+	t=1712204250; cv=fail; b=P5Fgd1jKyoIc8qQQOokogpUB4rmGB03xcODgiA1QLKMRdyheqxUTsJUsm9nR8pv5MgB4ECOJctTxueOukI1XtR56gRRUIEeeZAvCn9lFX0nELoSGB6Ta+NCcacgEwZPPt2RclvEuRoApMf7i/YjyyJMvesiuc9jfQ1y9+kUVLIA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712197350; c=relaxed/simple;
-	bh=nT23ThxdTEXe90WlQLM6HHibwhWKcVoRrqZocQBxNL8=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=YsC2hsWYHXuZBoCKPlGVw/LPcsdqtS4BjewKh3/NW1v21ShVL49PGWRKpXIhnaI65OFNVKGNSQNyLn7pZTfE/mJmT0jmvJKxu+WvW62ChUm7psCRPMF/w9MmrlYT6m8t2Q78gP2bbrm2/hSCZuoAnxgblxKQ1TCfsyqiqATnjPA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mMqmd1lF; arc=fail smtp.client-ip=40.107.113.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1712204250; c=relaxed/simple;
+	bh=upbDgiA+zCOEh5rIdZlfJ4VyGQRR/fnBSIaZ8IluFD0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hwOIUHk93qjhWtOC1EVFAtZv7TwpooF8p4az97TrGJgWDYBmVfccxGzuT81p+QerxemI8QgV+yK6CVatqe340/h6r+lSUw2zvEPUW2gNoNSTuGCirr51WY7IPHAN7UA4SUaWIic5E8yGx1TonBFgFDsF8FrnH1llMFc7fp513Zw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MBE9KSp1; arc=fail smtp.client-ip=40.107.236.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mMqmd1lF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MBE9KSp1"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EWRDNq5qdWmEPer/1PCi2BOurFLTg36fwJDUEL1c+0jQBZN5yER5F/YqEquZMM8EwlxUTsm5l5Oh5ZO++eO6PYhiaNxo2K33hVlUY2WKiagRqzU9tFp3CyvbzaZe4B3YCypgmXh+z14Fh4xv8p5AWgoRfdM/oVclOBc9Puj2aN6JknxBy/fZ1Hs7KdQIoze5GPfEn2F01YzWuZ90t2WxAwNq+bFVQUWGbC3t33voODB+s1L3d/Fpbl19UvoQVKUsMHvkCa/chA2KdTqpSSC1jhRgiK1oBuBXmnB6ByRPhnRfMqAjbKUm/kTaKg3L/mQyN2TBG8VvHl8wwfxECt7N7g==
+ b=gm5iCLMu2VYyPJEJNRH3OsdwiyFejuEBNIcwHW+R41SIzMen0MJ9U4D+76sr9/z6/4lNXgfVDJG7HAX2+lQMr3wdD3ENUQ4D+0irga4vsv9Vd0xAAGRSUxti9/NaMBPPMEYMwoKcI5dHtVEo/SNWRluqGZPvbBTpMrKsq2oNbXhh/U52H3/On7WcRWAVTDdOZmTeqSdy13JAR3KKPSZrJX/+2cSyQ/NQf1ktUu42zB9G6ij1TPcPwvNXLy0pnq7O9lO/FUi/1awow3rXWdMwBpHkiV+LChNKtVFS7V/GhKv2CqZze5dXMUQExkuABWk9eu6n87QCZlr9gc07GM6lyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XH/zQQNEZzMfhpkCJiz5JeJw+q89TH6O5ykQrdLETbk=;
- b=ioX0xwDBMFNzV0P2jgUu+WBRUEg4wYqGhiVp0bf4FMCFVCXCMrM+T5VDJTd2JOWliGeJquehb3ZK0dmp/wEsc3SmHYaUbywX/cDUwk3QQAsJEhf0eN7jpFutVQknMR/PDuGahjArAIlMqtLL0V9GP9PDmVZ+kOTxoYC7mAv2M7qZ2mc2iS6BZIsttiDi6RjQyhHWPn/mUH/W8CxFN4cB8o1Yk2xHzZv5YaCE2bZrQNSx6ENm14ZVhnQ7L0vtHg7kj0v1pI2zeMGKO0rXxaia6D8X9Nnh4AfSX05KysMjgPDfN8dzKnY8NM2ENlNNuJKP3E23xQORz8+zKqj3e7J/YQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ bh=RJ8L2NOLCLTkgc2s6Gc1VnZNqEndYSbgtjRbPYJsRvY=;
+ b=g9QpH6T5U281Twqjh9jcB65jjniIFZEtSRs5eQajfVbd+8rkd5zLbgNWLYrFnfPMsLLiAPq2F53LcAlmxWc/2M0Dt4mkovnOMVUQ12IOGhZa8pI3ciNzITJ1cEqDx7bCTS3Rdw7R72Ry1JUEBP5DqK2D+OGNmxsg2eLOoYbxYrPeea0q/unDRcCpBMaBzSYOtvh1YKjz8tYUaKGU3jn3uL2Wbv25e+Dk9b5F2CAge1wY5jsSU5Fp7UfIkqmTCQPZoCjH8eXjHqWznbi2GRRPBvrpotjPgzlzVZ4Dqr0hCaW7LrbYPQRpVzwp73PD2qySTo7e9xx+g/yxxcXKM1VcpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XH/zQQNEZzMfhpkCJiz5JeJw+q89TH6O5ykQrdLETbk=;
- b=mMqmd1lFAlGj2H+V089HWT7O+QaFd5Zbyvvp+g4/wH32oM7dBbvlog9KlA09fzJMYWG3SAncqMXYIE4FjLYWwMLvzsyw8DGOXBUuGIPa4a3OFPKDiohEtCaA/83JwB2m7beyEwWk69iK3MshRQ0V20Gbzx4sf4QvKIDHcDYd/zE=
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSZPR01MB6277.jpnprd01.prod.outlook.com
- (2603:1096:604:e8::11) with Microsoft SMTP Server (version=TLS1_2,
+ bh=RJ8L2NOLCLTkgc2s6Gc1VnZNqEndYSbgtjRbPYJsRvY=;
+ b=MBE9KSp1gwizbXhPktSZwYEOQLQuZV8jHwiyHvRS3S/yPTQz5NFbnT9b768B3AgtNFT88hX64CBG/SzjzswZEUv0Tr17IkDbF6YttblJST7S2738ml4KlIlFfCrYzWO7lldK0P3oq02EbcqQBoX2Obn4sy4Yqa3CKwVnmCn5ioU=
+Received: from SA0PR13CA0009.namprd13.prod.outlook.com (2603:10b6:806:130::14)
+ by DM4PR12MB6637.namprd12.prod.outlook.com (2603:10b6:8:bb::14) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 4 Apr
- 2024 02:22:24 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Thu, 4 Apr 2024
- 02:22:24 +0000
-Message-ID: <871q7l989r.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,	Daniel Baluta
- <daniel.baluta@nxp.com>,	Hans de Goede <hdegoede@redhat.com>,	Jaroslav
- Kysela <perex@perex.cz>,	Jerome Brunet <jbrunet@baylibre.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Kevin Hilman <khilman@baylibre.com>,	Liam
- Girdwood <lgirdwood@gmail.com>,	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Trevor Wu
- <trevor.wu@mediatek.com>,	Vinod Koul <vkoul@kernel.org>,	Xiubo Li
- <Xiubo.Lee@gmail.com>,	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-sound@vger.kernel.org,	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 13/16] ASoC: remove snd_soc_dai_link_set_capabilities()
-In-Reply-To: <4c40b4bc-f2bd-45b7-8b14-456ddf1be94b@linux.intel.com>
-References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
-	<87h6gludmj.wl-kuninori.morimoto.gx@renesas.com>
-	<54ace545-8cdc-49aa-8214-5f07bee0e2f6@linux.intel.com>
-	<87y19w7gjq.wl-kuninori.morimoto.gx@renesas.com>
-	<4c40b4bc-f2bd-45b7-8b14-456ddf1be94b@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 4 Apr 2024 02:22:24 +0000
-X-ClientProxiedBy: TYCP286CA0110.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::17) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+ 2024 04:17:25 +0000
+Received: from SN1PEPF00026367.namprd02.prod.outlook.com
+ (2603:10b6:806:130:cafe::ea) by SA0PR13CA0009.outlook.office365.com
+ (2603:10b6:806:130::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.26 via Frontend
+ Transport; Thu, 4 Apr 2024 04:17:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SN1PEPF00026367.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7452.22 via Frontend Transport; Thu, 4 Apr 2024 04:17:24 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 3 Apr
+ 2024 23:17:23 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 3 Apr
+ 2024 21:17:23 -0700
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.35
+ via Frontend Transport; Wed, 3 Apr 2024 23:17:17 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <Sunil-kumar.Dommati@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <venkataprasad.potturu@amd.com>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.intel.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cristian Ciocaltea
+	<cristian.ciocaltea@collabora.com>, Emil Velikov
+	<emil.velikov@collabora.com>, Mastan Katragadda <Mastan.Katragadda@amd.com>,
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, "moderated list:SOUND - SOUND
+ OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, "open
+ list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: SOF: amd: fix for false dsp interrupts
+Date: Thu, 4 Apr 2024 09:47:13 +0530
+Message-ID: <20240404041717.430545-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSZPR01MB6277:EE_
+X-MS-TrafficTypeDiagnostic: SN1PEPF00026367:EE_|DM4PR12MB6637:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5228266-d63d-4bb9-8358-08dc545e2169
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	K/wiB3On3Tta/jllxj74PSD2c0EdtFt1aA5wjwrv6SLu9TWwQyftsaFwN1mDUKLg2j9/U0ST9l8ypN+d0DnD31aSG+7y1O9C1yGWx9sqqHg/hxbM2QiThqzx0cYvu9ns4+GAi0KGAz8F+RWaxvyAKMh7Nh/b3d7iyFpkzhNKvwDGiVd1wujxnFuffnh4C8dr2JzpKQJuW5KBz32i0LAz1Lrimhh9nQmNZNSWsc1VvObZbjErWvoBSY9jk6QUz/Ng7WBOAOOj2K7sLFSKA5rEQo5qxW50fZi1gm+Lx/LDV2RGDE0OkP/6symB1OpB5ACka0LxeZ2/9czloRZbemDg/oJ4xD+GD/SMuRlWjN5m8jREkC/G/VICX2pf8E8na8u22OHtBwmXMPloRfb96qtr1uSBYrSGNW5qidN4P2meyQ7b4Y0I1iHLE8uvdpWC9fel/FvX0OYJ0WG5oPbF2heRYR5vZ22tWMW18TZOZ3rjRWFEFna/aEACKhEAvsjqn8f101TXuXdE4K8/y8xJfSY2YGDmD9GgXUgmA/zW6wOhFAVj1Q2LLU6swzZHRsfmiDmHlnPqBi5Kk3oTbhfrdE77Mojb4/b6LG8aZ5HnFfFGdoUWmcVEXWZx7tVqHXfnRAimYtvI3A+GZz1Iwpp0Vps1wReL5tO6Q8l5DKMxCre2f0VOfg4u8hjxAoJLfcL8LrVvaCoEr4dAoO9Zh6c5uwbeGP+cFesT222t/AjwDg2ZfRA=
+	TVI17PCm5UUqPBNCmXCW8u0Rb2jTE/NosuAzQn1QlTyoyisYJIxMcQrDoQQomCCVX9DF29zMsgz2wzJKaOpFvuZneqgNkLCBTOWU+/6KHw8iM/kS/pGv1JK8iPNax/BB84a5U3lydWvb85j51h4nwbw3ytw6UkmEpqSYk8eJ04BmSEc390IMsSZp7BojDvzABeVlWmk2pLGUHcL+AKgr2ds8d2fINszF5+M1+9hkVGKqcYjXEvAIArmIMiATSJlU5nwlFQzADa0J2T8qNRhimFtWD3j+EqarEjKouSb2FCLuWSfSR9RfFPIHk6kSwDmbyzHSoCz0qXiyNO7v+accGqWyj6wyuIb3pWd+FM7nP/iAETbEni3R0i1Ic0b1B4MWFCcdVHjMIl32ydJGD4B/klCosZ5X4ND8Wyp5zUGHcTr1iLKdlDAu7a7DcNWMlcwoHQUKGRWZvziZAg3JU/9HaXFPhEGTNz/zHFGL3cMiJNd4wlFlybOdn4IjMZRLFH5XWa/ttYsPVORpw3kIXhF0hyBo1a+GRsztox56CqKGjQsRcUQUJ6yNf5NtRnyV1kb/4Es7sc849j4HSC86+8mZ/1488yWNm1xDOem8sytMa54eikghwYlUpiwse8jC4jgP0Ll7+CqLeeflgKQkXv0hYvmBsE+ayKmjDpWP9kydumqZpOHrRH5kzsOp3mLbS1qyBC4cicDgHc5UxL+L0+EtealWSYE+JvRmUfkFOceYI09EszC9QZ/0ksAE/+KJcefB
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(52116005)(7416005)(376005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cAQhYpAgu+SqiUm6lGzi4h4VtmER4PQx5uc9OU1Fxs5YqtqH91eoABpmCo15?=
- =?us-ascii?Q?5YeO1Z1tbSWEVnZrjn1u5qsRx3ZRcHgfHy0reG+I+txlBDXjr2PHxzS31/cw?=
- =?us-ascii?Q?JaMWvaNX1s0dovplOdPQnabDMQJYMn/VBqRo9OUwMEuytTlnY0RXezERTi+w?=
- =?us-ascii?Q?taDL0idvef5YvYj5ZIKsPoX2pa/EN9/E5qxzH70AnucPexO1yNXbUPFxscnf?=
- =?us-ascii?Q?vM7/E2mYCPoMvpfJdjcbpcIz6Px5OqXEw+MjwBFoYXlpn4+CCB4eQFFbPol1?=
- =?us-ascii?Q?HN4lmJtT8QRc97k8D8igcWmmqCWX4AmzwKkRkW/X2NVV7KrV3Ds7aJw9Wf6/?=
- =?us-ascii?Q?t0+DnefkPSJyvRkeNjCCVipHXmOlWdNdnZ8N32vdLCA7lSpk5D+cMTisjC/S?=
- =?us-ascii?Q?hXwkL77xkUY5oOcQwuho6xS09sAN298E17Q4n3x3tR1XhSISs/Eh7+UGh9Qm?=
- =?us-ascii?Q?k5lvMFp5cl1mn2OAwPmf/+97ccRz1gquGCXunpIkoAsgPbF2nnClgLF13GR5?=
- =?us-ascii?Q?9CvkAxRTJbU46ALdAcpsJ8ncytpwffai3NtN5WyTvZQ94qJtzFoKnMDCvLpr?=
- =?us-ascii?Q?KwAttmPk7v0y1gjfCyyFJMRLm1SWvIGrP3AHVQGk0b+E1GuC3hZ5X745NrG4?=
- =?us-ascii?Q?ze1m9EW9QT10aUBWTXzSTTAK4CHm+AQeSCDu/R1rhIDFobvLBbcI2Yo1zac7?=
- =?us-ascii?Q?heF3aarPJLvg/wQCZddBgPEWfFuikk1wqVNLk8Zhz1zSFjRlfHRSVNSi1ilY?=
- =?us-ascii?Q?ppvEPJk/6KbJHZVFRuUdqEiEK5pr9QbMQSi0RlSorPSD95eel0vNTET2j2mX?=
- =?us-ascii?Q?QhzWj3ckwK7IpKrY1u3VhTDaz5bg0xqrvabjhlcvmu1ePn9yeghRhMMNATUh?=
- =?us-ascii?Q?bdUImtFfNBLPF3pBn8cEkS/DMtGSrp+Ks3WvcgTJpY5xb05ae/uGrr7BBOGh?=
- =?us-ascii?Q?o077U4Jl/xxpFO4Ne1VJ1kSgP2L4CuOad1D0KkzM2zF3Y+xqRNREKWaLfMCC?=
- =?us-ascii?Q?Q/d7/HV/sUZHji0fnodt/7/Uv7veRpnQvAp2jf4JLXj3Dh4A9bk235MwNUub?=
- =?us-ascii?Q?swFv2/BufIXKhb2HBxK8kZVBBj/C/NhMMtZtkDzGiLE6ZSNOEGal1cIgI4Yh?=
- =?us-ascii?Q?SryzcOVURsy3PjWA47ktUvZeFQNezY8CwhlBjczGbzZxLBXMzUxZhaYrY9SR?=
- =?us-ascii?Q?BStirjheptsYXJbsKOD51vg1iRVJr2++3EzFW2hTMWLTfpSqXidz80cll8GK?=
- =?us-ascii?Q?i5H39NDVR1YTyV4urTLZLXYUCUjZYk/jYa7RqM+eIv69CJdvcEUMykdj6Mfl?=
- =?us-ascii?Q?k/XcIiecgj8pTUo0NPqDuZ3gQGInbdWdC3FRFF8FPp2/11jquqTEQcNIEHXm?=
- =?us-ascii?Q?rfOhd0UVvaUpLKvkrnXWkKAUSAJFuu66L9DxRfvOoOlqpc69SAsMTv2HHyau?=
- =?us-ascii?Q?D0U8kKYuP8PJ121PDE0jUZTX7B1I8BU8P+fYYZ4xRepQfQboF+M+MdpauGbA?=
- =?us-ascii?Q?qYdsp7ZFlcTPTNmWZWtxBJZg40kNds3yyLr93hzd2HScd1OFT7RQOsaTNoW8?=
- =?us-ascii?Q?P9QI+By5B9bmkbluaPb6g6m0+wlM39Fp9Sx/Y1gvn31aSM62w7ABdRgoTQXG?=
- =?us-ascii?Q?ll7WpwnHXLJxS1BtmWXDEhQ=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44aa97f9-2faf-44b9-875c-08dc544e10c0
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 02:22:24.6409
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(82310400014)(376005)(7416005)(36860700004)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 04:17:24.2583
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LhtESW9P8mUE+HLcgZA6AXFwB+a86LEeW8RwjBfGPluILUxiiX8JMJSqhVFHTUfqohpE39C9rRdhV/sbFfwgPpYoB+cd8O0/2Y4IKzsWdhjShTgR8rA9+EjnQ1ZKp5KG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6277
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5228266-d63d-4bb9-8358-08dc545e2169
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF00026367.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6637
 
+Before ACP firmware loading, DSP interrupts are not expected.
+Sometimes after reboot, it's observed that before ACP firmware is loaded
+false DSP interrupt is reported.
+Registering the interrupt handler before acp initialization causing false
+interrupts sometimes on reboot as ACP reset is not applied.
+Correct the sequence by invoking acp initialization sequence prior to
+registering interrupt handler.
 
-Hi Pierre-Louis
-
-Thank you for your feedback.
-
-> >>> 	void snd_soc_dai_link_set_capabilities(...)
-> >>> 	{
-> >>> 		...
-> >>> (X)		for_each_pcm_streams(direction) {
-> >>> 			...
-> >>> (Y)			for_each_link_cpus(dai_link, i, cpu) {
-> >>> 				...
-> >>> (A)				if (... snd_soc_dai_stream_valid(...)) {
-> >>> 					...
-> >>> 				}
-> >>> 			}
-> >>> (Z)			for_each_link_codecs(dai_link, i, codec) {
-> >>> 				...
-> >>> (A)				if (... snd_soc_dai_stream_valid(...)) {
-> >>> 					...
-> >>> 				}
-> >>> 			}
-> >>> 			...
-> >>> 		}
-> >>>
-> >>> (a)		dai_link->dpcm_playback = supported[...];
-> >>> (a)		dai_link->dpcm_capture  = supported[...];
-> >>> 	}
-(snip)
-> It's very hard to review because it comes as the 13th patch of a series
-> and you've already removed similar code earlier which precisely checked
-> the consistency between dailink and dais.
-
-Ah, OK, I see.
-Indeed this patch can be merged into [01/16] patch, or can be [02/16].
-
-> In this function, it's a similar case btw where the settings provided by
-> the machine drivers are overridden by the framework, so that's another
-> case of collision between machine driver and framework. Which of the two
-> should be trusted?
-
-I couldn't understand this comment, either.
-
-	In this function, it's a similar case btw where the settings
-	provided by the machine drivers are overridden by the framework,
-
-Do you mean dai_link->dpcm_xxx which was set by machine drivers
-is overridden/overwritten by this function
-(= snd_soc_dai_link_set_capabilities()) ??
-
-I think CPU/Codec driver can't set dai_link. And this function is
-basically called from Card driver, not from framework.
-And dpcm_xxx is no longer needed anyway, no collision happen any more by
-this patch. But am I misunderstanding ?
-
-Thank you for your help !!
-
-Best regards
+Fixes: 738a2b5e2cc9 ("ASoC: SOF: amd: Add IPC support for ACP IP block")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+ sound/soc/sof/amd/acp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index be7dc1e02284..c12c7f820529 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -704,6 +704,10 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 		goto unregister_dev;
+ 	}
+ 
++	ret = acp_init(sdev);
++	if (ret < 0)
++		goto free_smn_dev;
++
+ 	sdev->ipc_irq = pci->irq;
+ 	ret = request_threaded_irq(sdev->ipc_irq, acp_irq_handler, acp_irq_thread,
+ 				   IRQF_SHARED, "AudioDSP", sdev);
+@@ -713,10 +717,6 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 		goto free_smn_dev;
+ 	}
+ 
+-	ret = acp_init(sdev);
+-	if (ret < 0)
+-		goto free_ipc_irq;
+-
+ 	/* scan SoundWire capabilities exposed by DSDT */
+ 	ret = acp_sof_scan_sdw_devices(sdev, chip->sdw_acpi_dev_addr);
+ 	if (ret < 0) {
+-- 
+2.34.1
+
