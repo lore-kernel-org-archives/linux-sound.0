@@ -1,109 +1,81 @@
-Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85389127B51;
-	Thu,  4 Apr 2024 13:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B185B33EE;
+	Thu,  4 Apr 2024 14:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712238399; cv=none; b=YhbhwHpN/Z5vRFxLqKab89P4v86WVkcdTBVzN6awZ884aceenorjYFl4r6PgQPESjKRoqF0ldfDgnLCEb4sVcOklxyTc2+FZoeHmsFDh7FCBJgJvJQapPQy8A2xSmOCfxvQ1Ey0r6DyzXVWQ9+7IgAPOJPijVnN3xiTdWJIyFWQ=
+	t=1712241081; cv=none; b=emtvEz54RQhvtv9hUTPOwQWNvScT1YBqutApfslbnCJRUExBmZKHDuJVY/BfspEncIv9Y8ZQb7iU8rbw1/EADcLWYPsRWNH9BjVGzMrda0WtH4nv4xBDliAmg2B4ZMte66Vo29n62dIMgtBIfXweWnSMt5hltm83srP4qF5BpRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712238399; c=relaxed/simple;
-	bh=7GTmuvd/g+2kjXHqewtOzOMzM8ZbfD3h4Rj0AmhRtZ0=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=e2eopoQS6RdxTk5uuGpic/tHS9H2NFjyHSavdihzhHbo622S5XHIR5mWB1vK+Jx3mwLPcX3ZXsnodFwJlkTBa2shUhLvvy7FU7fpTjcqhsSmyLyeu1teN9ZK37smJZNvi2++qF0hUWqYpAg4MkBZcr9PFOH7nqwlp/HnR5Ho9Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ZpVvBkg+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uQJCVPyk; arc=none smtp.client-ip=64.147.123.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1712241081; c=relaxed/simple;
+	bh=Ew0qVCoEk5oCC/bKiRSVHHT4fMxz1dQQ346/Rx+dZu8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=d2QYiUbj7mk2TnI3uPKvF/6EJoSHpGeRIw3MfKsUTnt3tWKRVN1eLyNXowqb+FmFvu+Lsa4xuqOX8X253PiLRN2jKy/U0RpiR1pCczP5ZzDHRhoNgrp6C3bOrkg2phJNVWqEjZ07I4nZq6L6cVmVG5o6eiRoOn1GoYukIz4QpUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqpwGViM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ZpVvBkg+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uQJCVPyk"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id CE3C5180013B;
-	Thu,  4 Apr 2024 09:46:35 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 04 Apr 2024 09:46:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1712238395; x=1712324795; bh=xoNE/g7sSR
-	Ax9OKw6TErtL84rFmYT06tsQn/3tBy+mE=; b=ZpVvBkg+bK5HcrZb/FV7XSBBEd
-	Sy2kdiKrJB//Lv75+BTO767OD5xIOIikxRkiZ+MC8ljVG1NqvYhm3BeghFG5lk/b
-	4MUUPDiqkUCxkIh50O6j7mBwtWKqR+w4Rk4eXm2pYS/VUwcqEmEX0Es2OXdR9tKv
-	moDn2Mn9UG75tuYgOFccgs3wqNXnlIpJR/hMUNpsNmLa8jrmZ/r/iYNBtal5LvD6
-	duqq9MYGSWDMKMICzxAj8MvoPVD/mY/7Tqh/ew4cdEbcutfwANMyeZFGMR6W8Bqo
-	F9wZZxo5OC6mQg8rI/07l4XZ4AXLsDUSoquWRhCyBK6pMi5JhrQPQ/QGHwUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712238395; x=1712324795; bh=xoNE/g7sSRAx9OKw6TErtL84rFmY
-	T06tsQn/3tBy+mE=; b=uQJCVPyki2c5EEiyPfqTBlnKfhLMbg5YRqFDGw3Bx/Rl
-	vrppxL+kFBj3gdnerE5glOsriYa+tb8kX1HOMhKTjgOgeYRnoL2zHL1oa4SYjCi4
-	S7gSsfbzxcyl9DPXoXwQCsOcbmYJpHQHE9lvp7lxEtAkv1vvaQxPCjyKxtBDxl9z
-	pDAmEaLL9LyABs6cCWgLDBY5MM2JNe++P10hxs8AB31I87WHfHkqMeRbmCOoi2dD
-	oKCJDMdi5TgFvqbApEHGtJTTsah3cjVHA25YfFYOgW4rP/5ovw7LBlF9+fPLq7CF
-	r8ACgKPyUGBrZDv6Yxx5Py2EOtK9KiBaEfuOlvZcmg==
-X-ME-Sender: <xms:Oq8OZpmNEphzUfcfcrmhgWt8A4L4Nnk5YhINKHdhdd9r5SazKP1kSA>
-    <xme:Oq8OZk3cH-oKfcEAw8_DDMgwEMeuohUDg2oD8y37JvZC_NLoY6b1MEuGEbVorOLRF
-    tB9_WidU-jJCYizlEY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefkedgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:Oq8OZvpS2iMCIrpBX7i6G2Y1Ozp0-i1WaL8I7yh8eGBP_qFayflewg>
-    <xmx:Oq8OZplc3fnIXXLrv5t4-17emZiZhRjVg3wgD0tCW5-49B9L1zG1pA>
-    <xmx:Oq8OZn2nwYu25M3rFFDq5mhJlsZhjs16FtEop4KRiMjacaD4GqtS8w>
-    <xmx:Oq8OZos6Ecw3VpRWfyfv43-cFdmNajbx3FytOXLdFuT4tT3nUwmdSQ>
-    <xmx:O68OZgLuC2CpCM8enjn8KVUzNFEAuxjWxF0p38abnoR33b57Ruk8XTQ8>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 669BAB6008D; Thu,  4 Apr 2024 09:46:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqpwGViM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9A7CC433C7;
+	Thu,  4 Apr 2024 14:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712241081;
+	bh=Ew0qVCoEk5oCC/bKiRSVHHT4fMxz1dQQ346/Rx+dZu8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mqpwGViMLyGi6NnLUetpokYMKOu39b1lYBEQObNKOD5OG2rHXQ3nRVecBx5XRMM63
+	 4VxGZ+oSojVlexgfkeBtRrGKH1JsumV5ubOxLHIUz0OxyHJkjJMgrg5MIqa9RYvG6S
+	 evotnDPRRs764b8VbZEQpVp22qnTn3sAZRE2PcJjLrNFkFGWjFa5WF78QwPAMA+A2f
+	 y33S1HxWIviRncmZN1HsHv9ZvojOR38LbfU/DRCLRfdfy6RpH28Y2HfnkVuBqE+QBp
+	 WiO1w3Ab44YlX2U48Nrq7XmSgGt0C3ZIFueozUyu3APb/4/O2/cipxQHTEYhMxWupf
+	 rnSxk7Sv3NWzQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Francesco Dolcini <francesco@dolcini.it>
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240404111953.99287-1-francesco@dolcini.it>
+References: <20240404111953.99287-1-francesco@dolcini.it>
+Subject: Re: [PATCH v1] ASoC: nau8822: Remove unused member from struct
+Message-Id: <171224107961.46716.14189956703769244988.b4-ty@kernel.org>
+Date: Thu, 04 Apr 2024 15:31:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <0046b207-0f81-4fb9-b8d7-42cd69db9273@app.fastmail.com>
-In-Reply-To: <20240404153026.2aaa3797@booty>
-References: <20240404095755.650364-1-arnd@kernel.org>
- <20240404153026.2aaa3797@booty>
-Date: Thu, 04 Apr 2024 15:46:03 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Mark Brown" <broonie@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: rk3308: fix building without CONFIG_OF
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Thu, Apr 4, 2024, at 15:30, Luca Ceresoli wrote:
-> On Thu,  4 Apr 2024 11:57:34 +0200
->
-> Thanks for your report!
->
-> The warning has already been reported by the kernel test robot
-> <lkp@intel.com> and I have sent a patch to fix it:
-> https://lore.kernel.org/linux-sound/20240403-rk3308-audio-codec-fix-warning-v2-1-816bae4c1dc5@bootlin.com/
->
-> The approach I took is different though: I have added __maybe_unused
-> instead, which has the advantage of not adding a struct of_device_id
-> array to kernel built without CONFIG_OF.
->
-> My patch has already been taken by Mark. I hope this is fine as well for
-> you.
+On Thu, 04 Apr 2024 13:19:53 +0200, Francesco Dolcini wrote:
+> Remove unused mclk_idx struct member.
+> 
+> 
 
-We can clean it up later. Adding __maybe_unused is completely
-pointless here, as the purpose of the of_match_ptr() macro
-is just to deal with ID tables that were hidden behind an
-#ifdef, which yours is not.
+Applied to
 
-     Arnd
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: nau8822: Remove unused member from struct
+      commit: 9f1aeef4cbcb0e8c616e29cdce3232f9f102c2c1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
