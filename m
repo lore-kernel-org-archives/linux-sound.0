@@ -1,73 +1,121 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65AC80049;
-	Thu,  4 Apr 2024 11:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD15839F8
+	for <linux-sound@vger.kernel.org>; Thu,  4 Apr 2024 11:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712229604; cv=none; b=IjfCFYydrY0Dy/iKNkW855/7ai9mYYFQjWsJJxu/oZzdaDUTBJnEukhVf145fXSbH2ZLpWocHJzdKM6bDT6zDqIUExc9r4ldeDLK7tbOwlbCCqxkCo2PQuPAUYuLjwV4R47hJcZg/bH2RRFJCGzT1PdhqRpSdjvteWoWD6I8lbw=
+	t=1712230892; cv=none; b=lksV/AWpCJbZiUpYGFsNk8jNXavgz3oWFCi5zASFHXNdgCsVApxhaKcPMBF8zNc9t6FRM18O0FGgVC3KsIXUs+X89n2n+N+Et9z61/GkD8Vxka7RU8ykbKH+bicR1z28VriBNnZcQ+1ybd12r1er1OpM+/oPR5DuDJMNvxnCKCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712229604; c=relaxed/simple;
-	bh=t6d/PyHpVwkmewtMCsKlZKk/Gyvx6dW/FybD6AJAP1A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gyiwQAVzbjglB5oLKInV1ujCkx2V+zW8WSSvNXjggoUydxUfwrbVMVJHOthB2ghGV6IV8XFfK8BoEta5RQQefpIyqfz+372FhfRLMGFh4VEORk9elo1cl7zFVP+aD6qFaDjWekmEtxf2vfeLXD00nRMIctCbZKzj2HrqvZEXoh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=fPe3MZ6m; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1712230892; c=relaxed/simple;
+	bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cxNUye3WScm5H+r+2wccoZjJ+D84haG6kH/nX67a+dXWLAehcbhVKWo1EgYuVFINFfQd/9Ehj4MvpkbCJ5mJdY0je+TlWTHKGRQy5qAAjYxcjpN+5Xy1xhcK32ebKMg1LVQ6gySnizrFJTk9YJkrviT69IWOfz6CJ2h72GcchXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BzpYfce4; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="fPe3MZ6m"
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 12B2C1FA96;
-	Thu,  4 Apr 2024 13:19:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1712229599;
-	bh=y8c3dwgARBoHOS+ppSjIp8Ujo9TVdiGyzxhgn7bkyAs=; h=From:To:Subject;
-	b=fPe3MZ6m7Dor2GUvfZGemOoHMPbDAkZU3wNKIxkVNUGbph4gNL67mowN6+ymE3izp
-	 CKK5eXasbVXnDBUQj63l01uXUSSIaeK1FKWSdTQ6Ixu3bPoZTs9TUyc5e2X88QI7Ef
-	 k6mTvZH8MBGthuDwouv8rCNlknrKS2LE015qbLFuSZKD4rkE1C7P4jPRecriiO3tZf
-	 8GZYNIoE2pWIW2Bg99WScp/9zeAAQyRmqTR7DJyqUaIPaw9y0RjNRU+ZuqsYGEu5k8
-	 XceuAI6GwzARQh6BWVizbCqhgsNCgo4NKgP+FqQ9u2v5JeASSxdE8IfaET/DhQRodV
-	 7tzSbc5Tp+TXQ==
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] ASoC: nau8822: Remove unused member from struct
-Date: Thu,  4 Apr 2024 13:19:53 +0200
-Message-Id: <20240404111953.99287-1-francesco@dolcini.it>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BzpYfce4"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso977859276.1
+        for <linux-sound@vger.kernel.org>; Thu, 04 Apr 2024 04:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712230889; x=1712835689; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+        b=BzpYfce4q/zv0gCorIvWLSXuzW4HjLtqKmXuLtELMIG7pv5Gw5rD2es8aCVqQFqD//
+         8JggHBzNznjWgNLq2nD9WBWW0NsYaidmHqnL2ihAYJpv7o5gc1VJY6DJ0clWC7aekflL
+         okxkVaJGNSO0qVH2yOxsFJLCq+7hYpnwhkr7HgXgiRTKZmRNaOv51pSZ+2EvNJ7l32Ax
+         3rV1o60Rwqf7/3WoHSX+9OLMYTDALVEnxQwPAvQSTwkL+2+b5q+pMv+fOiTCP+zwNcc+
+         ViJk4rxb2Vw07nE8VHUP+XT2krjKR9JIgTGsriDdaif1hRFImGjHsjVSH1La3PcFbNJH
+         hkUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712230889; x=1712835689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+        b=uzEjjqlFqWSmC4XdSL85kUqYGRpoP3mQ68DL99z6aqdsW31KeM8v7MeaqJWfSW9jPI
+         bM7CbbEcTvIJfP6bj5pCm7Naesc3D1JNW9RnivblLl4Wg1FoBPVPGr8ijq7vxXgpErWS
+         mWbJ2euiUou4pEYWp3tm7rrJ+3uetH3XGLJ63s0xrZj9oTS8fE5oY4/e24Mjc7xp/MMP
+         2JD8cT/1tErjLzvC7Fn0UjVPkfIReieqj4XTeMhHYueuBoSL+xjrdAzCzS0jKd0DDmSQ
+         X9ytyUgWPiQfV+T2oFePx+xpudE8CLiTAqEQSyhpDYV9yNQD8pPmDHs753fetC9McJeZ
+         Z0AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4SA7y+HXYpsAwv16iF3MaRO/xPfwWBOV1FMdTxplsgWgHtNCLiIHkpv459W1akDesVT0VfOIrarPqZurJPB6oeInGlICSqT3y8E8=
+X-Gm-Message-State: AOJu0YxYDGXG1eMmRzw40j5Dqel/u6HixzeboHldS4CoAsH2vDprzMCb
+	KxNq2ZjMgKRBaIx4ffXqut36SxJuC2l/UnMg0n4JJuTn4odFmXNNb1a9u6xZ8iJsrY726/JTl5Z
+	/6RVENP3E6u5GROOIRg0xWHKdMUc6+86S+Nl2zg==
+X-Google-Smtp-Source: AGHT+IEhL+O4bSIOCRsSy+Vdywn61xtrVBJ3li47sHwN1FOt8H7g9W+tj2/Or7rao9/9euGeRsXbtXq4vPMz7+GnZRc=
+X-Received: by 2002:a25:ba86:0:b0:dd1:6fab:81e4 with SMTP id
+ s6-20020a25ba86000000b00dd16fab81e4mr2034373ybg.37.1712230889318; Thu, 04 Apr
+ 2024 04:41:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org> <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+In-Reply-To: <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Apr 2024 13:41:18 +0200
+Message-ID: <CACRpkdYpVUq1SgxnPVfRdTiNg3o8dcBePxoxu9GRYy6LdzUE5A@mail.gmail.com>
+Subject: Re: [PATCH v2 12/25] gpio: virtio: drop owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
+	David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>, 
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, virtualization@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+	netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
+On Sun, Mar 31, 2024 at 10:45=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-Remove unused mclk_idx struct member.
+> virtio core already sets the .owner, so driver does not need to.
+>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
----
- sound/soc/codecs/nau8822.h | 1 -
- 1 file changed, 1 deletion(-)
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/sound/soc/codecs/nau8822.h b/sound/soc/codecs/nau8822.h
-index 646f6bb64bc5..6ecd46e45923 100644
---- a/sound/soc/codecs/nau8822.h
-+++ b/sound/soc/codecs/nau8822.h
-@@ -215,7 +215,6 @@ struct nau8822_pll {
- struct nau8822 {
- 	struct device *dev;
- 	struct regmap *regmap;
--	int mclk_idx;
- 	struct nau8822_pll pll;
- 	int sysclk;
- 	int div_id;
--- 
-2.39.2
-
+Yours,
+Linus Walleij
