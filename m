@@ -1,129 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15316CDB7;
-	Fri,  5 Apr 2024 11:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F6016190F;
+	Fri,  5 Apr 2024 11:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712317652; cv=none; b=kvS399aZb206lunA3AyJ1rufJLClbVpawFYTvazKjTvutxk0peMWANFs4VewWgf2ksSFAPdrXDX8+1jhNwkiiIwhlMSt8hQ4dwTtm/POSteN90COtdSX66s4DXJHicSu9l5TQkTPB9srKQlHqRFPEVDqMJrOATG0sHFF+Nf5j2o=
+	t=1712317958; cv=none; b=kS1kQZ+BBnGsI8c0eZ8ckpkAFvC/rKQVNMs6qqVRDSKjrRVfqVax8YIfzsyraI7cEwJByM7TtgwQwwzCV+xeliaCl/SXXphIv5x1AdBmkgAAlr1ctlKqb6U2R5V/CPKsaL/wgHndlO8F7UXRyOWL6tuo121qW5ngQKZO64DyESs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712317652; c=relaxed/simple;
-	bh=DvKJWYggCWh8qsjlglovNAH159U7MAewA0OxcfyHmMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qSwweWDl+QnmO+ZWZVh4dwxFxQKPxhjzdjHu7h51Surb3kItIdkADJ+aMB06T1waWhJoUCk/KxUYUahF3ojOaB3Qbz+Di6TtZzwDWfbiFiqdh0bJk0XXkI2q3x0s3bYC/5SS2OSOJreyW7A0mTb5k2DT5M8G05Dty2+VGWtD56g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1r3AAq8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712317958; c=relaxed/simple;
+	bh=VTdpfj47qPvlRfaYIJ6AnZ627PVI0Cpj1YSwVeG0tVo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rl6gF0aSFJ5MXayObkGbyq8OZIpRzcBSgZihDxH6mfZjb4pSZwF2N7YKe6Vbgj/8wvvpEkbe78qIlBz+KMgR7s3POJJJ6sW65rKnjNztqaJZl0+aVa/ZVVV+v2/8h0ZIyjVnjKjYE9/HtfsvMTwPqgcQC9//ulifsTZ7MIiu8B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qyLZV4mj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1r3AAq8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19DDC433C7;
-	Fri,  5 Apr 2024 11:47:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qyLZV4mj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C44DC433C7;
+	Fri,  5 Apr 2024 11:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712317652;
-	bh=DvKJWYggCWh8qsjlglovNAH159U7MAewA0OxcfyHmMk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X1r3AAq8rG6agZ0h394b8G6DI2ZtudUMm5j9cuQBMv2siRMN6hTcARQq5HL4SQRS/
-	 1oTSxSBlMrI480L+ARtYPRsQ1kXqHkttxYZttBFhJ0XB+Ff+Mjg90yt+8rzZCp6oc5
-	 jOF7KMf9WzDhVmz5TbdiaL4QmZ/V2ja1KgySlkJW39kOkMCtogWGXcxxWJu0E5ZF81
-	 ttnqW1ByP09fTZshu0oiSi7JSig9dPJNOkQ/2QV6wTTIsTcIpZHDc11dIpg9GJacBt
-	 OU5PHa1CiI17EpbZFxoLsb4ou0gTiu7OEHhBsw3l+e3j8gS194NUO96i0XyWIPlqer
-	 QRDsvljyndIIw==
-Date: Fri, 5 Apr 2024 17:17:28 +0530
+	s=k20201202; t=1712317957;
+	bh=VTdpfj47qPvlRfaYIJ6AnZ627PVI0Cpj1YSwVeG0tVo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qyLZV4mjkjjTFNb5k9zPc+yBZnf1e9wMew3X0IXuVEwEuTCYhdjlURBiLXled9h3Q
+	 3UGGYQrc7kkQsayQYtNBtRDY6V2I/NHJcntmA3uZ4iz8GNXEAufhUM8Viczxrt1jW2
+	 GHjZpz9uQJKqhNbBmzk44BGMaM+/mt720jnVtCcNmp7gMhMfbro3JiNiGM93tJlmM2
+	 MTwB5HRGSS6xIL5N1W8hVVu2tX0GIW+ZCm8rcYaCwL7YpQtTCL8r2YjUoEZV08SLlA
+	 xEDRreco8TRHZUQwznQNKxWseh9kQOZMTU+DT/X69od9LDEecSTjvU868epmDya63y
+	 9bXz19tHky1Bg==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-Subject: Re: [PATCH 7/7] soundwire: bus: add stream refcount
-Message-ID: <Zg_k0IsnvjXlr1Jp@matsya>
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
+In-Reply-To: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
 References: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
- <20240326090122.1051806-8-yung-chuan.liao@linux.intel.com>
+Subject: Re: (subset) [PATCH 0/7] soundwire: add BTP/BRA prerequisites
+Message-Id: <171231795487.278895.10983950624595565432.b4-ty@kernel.org>
+Date: Fri, 05 Apr 2024 17:22:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326090122.1051806-8-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-On 26-03-24, 09:01, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> 
-> The notion of stream is by construction based on a multi-bus
-> capability, to allow for aggregation of Peripheral devices or
-> functions located on different segments. We currently count how many
-> master_rt contexts are used by a stream, but we don't have the dual
-> refcount of how many streams are allocated on a given bus. This
-> refcount will be useful to check if BTP/BRA streams can be allocated.
-> 
-> Note that the stream_refcount is modified in sdw_master_rt_alloc() and
-> sdw_master_rt_free() which are both called with the bus_lock mutex
-> held, so there's no need for refcount_ primitives for additional
-> protection.
 
-This lgtm, I would like to see this patch with its user when you
-allocate BTP/BRA streams
-
+On Tue, 26 Mar 2024 09:01:15 +0000, Bard Liao wrote:
+> Some prerequisites for BTP/BRA.
 > 
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Reviewed-by: Rander Wang <rander.wang@intel.com>
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> ---
->  drivers/soundwire/stream.c    | 5 +++++
->  include/linux/soundwire/sdw.h | 2 ++
->  2 files changed, 7 insertions(+)
+> Pierre-Louis Bossart (7):
+>   soundwire: cadence: fix invalid PDI offset
+>   soundwire: cadence: remove PDI offset completely
+>   soundwire: remove unused sdw_bus_conf structure
+>   soundwire: reconcile dp0_prop and dpn_prop
+>   soundwire: clarify maximum allowed address
+>   soundwire: debugfs: add interface to read/write commands
+>   soundwire: bus: add stream refcount
 > 
-> diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-> index 4e9e7d2a942d..7aa4900dcf31 100644
-> --- a/drivers/soundwire/stream.c
-> +++ b/drivers/soundwire/stream.c
-> @@ -1181,6 +1181,8 @@ static struct sdw_master_runtime
->  	m_rt->bus = bus;
->  	m_rt->stream = stream;
->  
-> +	bus->stream_refcount++;
-> +
->  	return m_rt;
->  }
->  
-> @@ -1217,6 +1219,7 @@ static void sdw_master_rt_free(struct sdw_master_runtime *m_rt,
->  			       struct sdw_stream_runtime *stream)
->  {
->  	struct sdw_slave_runtime *s_rt, *_s_rt;
-> +	struct sdw_bus *bus = m_rt->bus;
->  
->  	list_for_each_entry_safe(s_rt, _s_rt, &m_rt->slave_rt_list, m_rt_node) {
->  		sdw_slave_port_free(s_rt->slave, stream);
-> @@ -1226,6 +1229,8 @@ static void sdw_master_rt_free(struct sdw_master_runtime *m_rt,
->  	list_del(&m_rt->stream_node);
->  	list_del(&m_rt->bus_node);
->  	kfree(m_rt);
-> +
-> +	bus->stream_refcount--;
->  }
->  
->  /**
-> diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-> index e3a4bccc2a7e..71a7031f7b3a 100644
-> --- a/include/linux/soundwire/sdw.h
-> +++ b/include/linux/soundwire/sdw.h
-> @@ -902,6 +902,7 @@ struct sdw_master_ops {
->   * meaningful if multi_link is set. If set to 1, hardware-based
->   * synchronization will be used even if a stream only uses a single
->   * SoundWire segment.
-> + * @stream_refcount: number of streams currently using this bus
->   */
->  struct sdw_bus {
->  	struct device *dev;
-> @@ -931,6 +932,7 @@ struct sdw_bus {
->  	u32 bank_switch_timeout;
->  	bool multi_link;
->  	int hw_sync_min_links;
-> +	int stream_refcount;
->  };
->  
->  int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
-> -- 
-> 2.34.1
+> [...]
 
+Applied, thanks!
+
+[1/7] soundwire: cadence: fix invalid PDI offset
+      commit: 8ee1b439b1540ae543149b15a2a61b9dff937d91
+[2/7] soundwire: cadence: remove PDI offset completely
+      commit: 1845165fbd6e746c60e8f2e4fc88febd6a195143
+[3/7] soundwire: remove unused sdw_bus_conf structure
+      commit: 59401c3c08e1a306e29a8d6c826685e2c5c6c794
+[5/7] soundwire: clarify maximum allowed address
+      commit: bc13cf3f6e63dd708ccd160a28e6bb696af7e9f6
+
+Best regards,
 -- 
 ~Vinod
+
+
