@@ -1,90 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A2C16C843;
-	Fri,  5 Apr 2024 11:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C271B16D4F5;
+	Fri,  5 Apr 2024 13:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712317960; cv=none; b=urUa8R8/mbW3cOH3vyZnDDigJtNoVZML4SvNSL7lyUkE+OHYjqx7ayrVRVyx4AYsTbNzMErBnAibFFRpU3EhuPGaAoQbpDC4iExSbsh9J9LJchTMfKZS+VMmbHs7pkkgw+28Elo7ffmlrKRDbwZmzR/7dTqP/w/yV0Hny5Yl60I=
+	t=1712324423; cv=none; b=UoR5fSYqOgUiw5MGQmXMJRuo+9QpqCeFFi71wBuWz6y21EtWYgDLxOKLiK9lEddJvpcvdaMEh5HXOCZ8ghbkr61bJBqodmAh6K+J8bMsTQtolo9CRSQfX3UqiECp0SKT0lKsQpemtl9t6F+3pc+kVeLEnMDIXCq4YpzZ/YL4JgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712317960; c=relaxed/simple;
-	bh=iYJ2qgWwpyiw9ZpIe6TCSRFO2eBB+DAzhwOAZcKpxr4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ConR3+m+9eL1jewXcxYyEEJ5rp0lbktykByvFG9hOjIbYoSlIJw+Zs2ZaeSvU/FEE2ZYvX18fSbmoCzQaScI23ElaTGhu4z+ZfguLuGGoIrIXeFy2X+jd+bzrHd3qz92RQpBIwPQ/Ym/p33v0Z+kqZ8ffLQ/t6I1nej4YpcJlJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DIg4SUpZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712324423; c=relaxed/simple;
+	bh=KxZQ7ehx1DNyePhFG2kzZH/j/invOxWdsA6YprcZ8Aw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZQcECgC+iKTdmX11Ig0Vt0YhOQ8+pBUzckDGxj0oGkZ/3j9LuOvqMFBuhPGz609AZg4j1lBIagohxYJSZ3O2lKFd1xffPZyrQ/m1ldzdqDtZU2hIh1qFdRjv16Yl/XcXYfqyaRC/KxfQ5NJxRjtKajxzmA3wLRK/twOELr7mYT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rz1rhltk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DIg4SUpZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E623C433F1;
-	Fri,  5 Apr 2024 11:52:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rz1rhltk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E22BC433F1;
+	Fri,  5 Apr 2024 13:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712317960;
-	bh=iYJ2qgWwpyiw9ZpIe6TCSRFO2eBB+DAzhwOAZcKpxr4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DIg4SUpZ8TfNnVULf5iNlaGS2Mx3Ix4zXJWWad7du1vLGXiNGAIaERPqU14NQjwE2
-	 h0nTd2kzbaUnr2xy9311ZjOEXhJdoA92pmI6p/6JZY5Y7z+UenEkenoU0cONNX5ZJU
-	 AZWAGpszuwIDEnEO8kJunzyzujQrJVEJkGBS3QFMf0OBUsxsLF2kGGT1+bu3ZkZXAQ
-	 YHzkigV3aYgTBz1xJq3cb0gQyey8RjDdySc6UzSzk1s/8cd7FuK8RPZr4ztyCaMJ5t
-	 JUKhoHGK2nPRX2Gkhthlkve8jMklXbvV0s092jAoYHQPqjrD6pm6QtCfqxHAIITyWj
-	 j8Ile0+FT3yig==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-In-Reply-To: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
-References: <20240326092030.1062802-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/7] soundwire: add support for link clock source
- selection
-Message-Id: <171231795763.278895.15128022643962329162.b4-ty@kernel.org>
-Date: Fri, 05 Apr 2024 17:22:37 +0530
+	s=k20201202; t=1712324423;
+	bh=KxZQ7ehx1DNyePhFG2kzZH/j/invOxWdsA6YprcZ8Aw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rz1rhltkWxcNCP4HFVtDkm2b4YMwphSXw5Rse8DhpBG0tJ7kLZ7luQHF1oZVXU/Tu
+	 7Q5yFnAxuDpTeuEpSj3wYDqKiYqCauDgfU99AGiVxUWlMZ+ZSjZ2FP8UfoGnWsJELy
+	 wRwqibuER42W/3Qzw7luOSqilXNqOmuYDQZ8Huc54zuSpBY3wAyXUw+fSK4/QU/g63
+	 rQGk8VAE+zfiRp2lkt7yperviQPraW5at7cnCion4D8jxIrSxFk2p7eoUTRTk0wUTX
+	 J5Pofz7cuJvPVYtvt1hxuZrAHzvBk28/tz4rr30RbgZpb7+bFe8lYdrtdhe1WWWhqc
+	 LYsfzFGaqKlNQ==
+Date: Fri, 5 Apr 2024 14:40:16 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com, 13916275206@139.com,
+	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
+	pdjuandi@ti.com, manisha.agrawal@ti.com, aviel@ti.com,
+	hnagalla@ti.com, praneeth@ti.com, Baojun.Xu@fpt.com
+Subject: Re: [PATCH v8 0/4] ASoc: PCM6240: mixer-test report
+Message-ID: <11c55770-a306-45f6-91fd-2dd9918bb39a@sirena.org.uk>
+References: <20240403003159.389-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mnAkXzmNKO4zU4Z0"
+Content-Disposition: inline
+In-Reply-To: <20240403003159.389-1-shenghao-ding@ti.com>
+X-Cookie: Honk if you love peace and quiet.
 
 
-On Tue, 26 Mar 2024 09:20:23 +0000, Bard Liao wrote:
-> Since CannonLake, we've been using the XTAL oscillator as the link clock
-> source, but since MeteorLake the hardware offers two additional sources:
-> the audio cardinal clock and the internal audio PLL.
-> 
-> This series adds support for link clock source selection.
-> 
-> Pierre-Louis Bossart (7):
->   soundwire: cadence: show the bus frequency and frame shape
->   soundwire: bus: extend base clock checks to 96 MHz
->   soundwire: intel: add more values for SYNCPRD
->   soundwire: intel: add support for MeteorLake additional clocks
->   soundwire: intel_ace2x: move and extend clock selection
->   soundwire: intel_ace2.x: power-up first before setting SYNCPRD
->   soundwire: intel_ace2x: set the clock source
-> 
-> [...]
+--mnAkXzmNKO4zU4Z0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Applied, thanks!
+On Wed, Apr 03, 2024 at 08:31:54AM +0800, Shenghao Ding wrote:
+> mixer-test report:
+>  root@am335x-evm:/bin# mixer-test
+>  TAP version 13
+>  # Card 0 - TI BeagleBone Black (TI BeagleBone Black)
+>  1..7
+>  ok 1 get_value.0.0
+>  # 0.0 pcmd3180-i2c-2 Profile id
+>  ok 2 name.0.0
+>  ok 3 write_default.0.0
+>  ok 4 write_valid.0.0
+>  ok 5 write_invalid.0.0
+>  ok 6 event_missing.0.0
+>  ok 7 event_spurious.0.0
+>  # Totals: pass:7 fail:0 xfail:0 xpass:0 skip:0 error:0
+>  root@am335x-evm:/bin#
 
-[1/7] soundwire: cadence: show the bus frequency and frame shape
-      commit: 8292c815bbb71ea9f86331c3d07d2b9530b93565
-[2/7] soundwire: bus: extend base clock checks to 96 MHz
-      commit: 7eca9c722eed80f76cd272a52d9fa98f89322e7e
-[3/7] soundwire: intel: add more values for SYNCPRD
-      commit: d0a69cd0369a390cc1c100e52e78a273695a170c
-[4/7] soundwire: intel: add support for MeteorLake additional clocks
-      commit: 09ee49e3de6bcecc57028682c673d180ec2d436b
-[5/7] soundwire: intel_ace2x: move and extend clock selection
-      commit: 769d69812b42f0fc710bdf16b9f3979c959910b7
-[6/7] soundwire: intel_ace2.x: power-up first before setting SYNCPRD
-      commit: a206d2e3409f58733c9097523e5f62ebb920fbbf
-[7/7] soundwire: intel_ace2x: set the clock source
-      commit: 5b3f661b244973374626f7cc798cea91345786e8
+None of the additional %s-i2c-%d-dev%d-ch%d-ana-gain type controls
+appear to have shown up here - what's the story there?
 
-Best regards,
--- 
-~Vinod
+--mnAkXzmNKO4zU4Z0
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYP/z8ACgkQJNaLcl1U
+h9DR8wf+IM1zIAXw8sdz9hd6YBuO8aMFJqEjXokQWNsOQKBM2ZmkvI4cqaAubt/L
+v5HlYUHmXTV90zSlk7A0e/CFT3AGyiDwNXHmn4Y+2VIpTMIWfqLcqBc3tauCuK2M
+fKFuWcXeFygJ4XHQspODnVO2WubCALtnHEUjnnJFI60e649rxLyz8oYbVz+26MW8
+9zfM9Fmwk0Rl5PTN22TOQoDQ74WpEJq/ZjlrUqdsDDb1MOrw88KuWBIrbqqVA2cq
+tlomERUxQRkPJayASezXVk4FBEtmcdvwhNgBDD+HgBHgpebIr6EtS81IzfBLjqE+
+D9nqWsITMs8s9KguCxWmoHAUfF3ZPQ==
+=7dyz
+-----END PGP SIGNATURE-----
+
+--mnAkXzmNKO4zU4Z0--
