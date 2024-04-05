@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8685A22EF8
-	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 23:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E7022EF8
+	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 23:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712359202; cv=none; b=EonegVtmDk/Gdf22MlhtLbKI7jWpUkG1acrBPyHvmmx+3swuywosp5EB8ZeCkuyPhFZsNUHUurLK/1UMQUWw1uLGJXLjjth9P9D6XX8uQ+aAxmXLmY2atgr/Fh5dgh6FFsCkc5yxxLX1HN56z6EN1wpNO9iCHBUchXPHmfoV+6o=
+	t=1712359203; cv=none; b=f4yR7PiuXq4xu4nrf2XNQVV814UwhGj+KB0oE5oyeylh7MfGik33SOru8eGX8xgRTz1Gi0stQcda1/aijSw4AT5LK46lk2aMStPr8o48boN/0yCFW5TFDrXgiM/ZPx6Ce0lxyq7NXD1DUInHkEHFL1xuRNNQ3ZoC8bBRmmMrvmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712359202; c=relaxed/simple;
-	bh=WFv3K3AVVst1IxY787Ht1CDI+a4URo9vofeIU0fesY8=;
+	s=arc-20240116; t=1712359203; c=relaxed/simple;
+	bh=g/rg8hX2kW3QsCPiDjAfOeFUbjgmiQ/na7CgdZOszU0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oEwBrXSEskZVv+fl6Hq++vvXPU9NcZPExMwPwdeiVUYH5XpiuDebhO7g0lSM77718DDIb6chfH5yCI6PD3EmUgKBGdkLfPcB2LCf6FjLl37Rttc/61Qm+/oYJMZFMWmYjNqdOfgivIrrph/BXBmJLwbkjTQWz5XEU6sZNFcmbvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqcSDBN2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EI8HDbPf9ZYlq/m65gBrnsOJqI8Hd+KoMm50TJchA0N3E3n1Kr32FfwEHotlMGVNZmG9tQx3eTaRTGJR/siUAeORWY5GWdjUbwukcm3kHvJqT++rG9UWKyGBBqKU2mPVbY4qYRARTJGMG0eEtwqNAMMN6yuHDS0eoiE+47ILG/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBvlOjTV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqcSDBN2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22278C433C7;
-	Fri,  5 Apr 2024 23:20:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBvlOjTV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F9BC43390;
+	Fri,  5 Apr 2024 23:20:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712359202;
-	bh=WFv3K3AVVst1IxY787Ht1CDI+a4URo9vofeIU0fesY8=;
+	s=k20201202; t=1712359203;
+	bh=g/rg8hX2kW3QsCPiDjAfOeFUbjgmiQ/na7CgdZOszU0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=eqcSDBN2EGwvJYBRmeR1UTLWP/yiRWDKTvITpMsEDRQmUph5RAPwenRVWqmh7J0GH
-	 3l38jZdTj1CLQiSb97OYOtGYrFcMQZl5uH0vtU+AFsK0TZfZeySPLnaxuDAEnJgf2Z
-	 NOKdppWFod0+mzd4Ov3i2nXNvwPuHfVfEWMBE0gwmxXzPPcEjMmp/UPr/ZF+R1j70+
-	 uLQwOq/uor3nRpcnqolnlgR4Mg/ck8R5k96H/uWqlvOMwX+czL+/EYJ613qhhnag3N
-	 ojoohMOaptHUryR3JIPuXrFxBWyyH1CX9IpAsRyjMej0pPvbcaBbrUQcVG+DVKxTSI
-	 yf0w8502F65UA==
+	b=LBvlOjTVksE+FjM4+dIKfd8jdbcMpZiLqoUd+uGX3xq9apvFvo8oZsCBeDqC85FW1
+	 /KC3QH6GsAEdDDmgaPG31M8PJiAUJSws7yP9kovAKmjJK/i/MVZDP1vJLCBMS6U6kp
+	 j28fAzC5X1AT0qhDjBq+Jip12NOCEoFtkn14Fpn7jHLw73YAtSVPJ7JvTXuns/KcsC
+	 UnKeIUN786gONCpr8E3OP+nwH0xzru1E4tdsdKs5n0dqSdUiXW8UOUhlkI+SnHNpvs
+	 fv37O6i+v9pMpbeUmqq5CCNn7I1inPo/pcaknP9Kz5nrKnJhcxlma/VC1iCjL9ntyG
+	 YjBQl7IjPaG+w==
 From: Mark Brown <broonie@kernel.org>
 To: linux-sound@vger.kernel.org, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, tiwai@suse.de
-In-Reply-To: <20240404185448.136157-1-pierre-louis.bossart@linux.intel.com>
-References: <20240404185448.136157-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: Intel: extend hda-loader for BTP/BRA
- transfers
-Message-Id: <171235920085.198289.10612737509087722960.b4-ty@kernel.org>
-Date: Sat, 06 Apr 2024 00:20:00 +0100
+In-Reply-To: <20240404190357.138073-1-pierre-louis.bossart@linux.intel.com>
+References: <20240404190357.138073-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: SOF: Intel: improve and extend HDaudio-based
+ wakes
+Message-Id: <171235920219.198289.1128617567514278392.b4-ty@kernel.org>
+Date: Sat, 06 Apr 2024 00:20:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,17 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Thu, 04 Apr 2024 13:54:44 -0500, Pierre-Louis Bossart wrote:
-> For SoundWire BPT/BRA transfers, we need to reuse the HDaudio DMA
-> infrastructure. This patchset extends the code used by the code
-> loader. The BPT/BRA functionality will be provided in a follow-up
-> contribution.
+On Thu, 04 Apr 2024 14:03:53 -0500, Pierre-Louis Bossart wrote:
+> For LunarLake, the SoundWire in-band wake detection is reported with
+> the HDAudio WAKE_EN/WAKE_STS registers. In the existing code, these
+> registers are only handled for HDaudio codecs. Now the same registers
+> have to be handled with care as shared resources.
 > 
-> Pierre-Louis Bossart (4):
->   ASoC: SOF: Intel: hda-loader: add flag to tag ICCMAX stream
->   ASoC: SOF: Intel: hda-loader: change signature of code loader helpers
->   ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio transfers
->   ASoC: SOF: Intel: hda-stream: clarify comment
+> The in-band wake detection mainly used for jack detection. Without
+> this patchset, the SoundWire headset codecs signal an event that would
+> be ignored and not reported.
 > 
 > [...]
 
@@ -66,14 +64,14 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: SOF: Intel: hda-loader: add flag to tag ICCMAX stream
-      commit: e9ae5adce99e27ef29ea9ccb01afe260bf1c1408
-[2/4] ASoC: SOF: Intel: hda-loader: change signature of code loader helpers
-      commit: 6cbf086143cf9674c7f029e1cf435c65a537066a
-[3/4] ASoC: SOF: Intel: don't ignore IOC interrupts for non-audio transfers
-      commit: d5263dbbd8af026159b16a08a94bedfe51b5f67b
-[4/4] ASoC: SOF: Intel: hda-stream: clarify comment
-      commit: 716778b3d71fe1c799a4f5cf84faf4979f80b267
+[1/4] ASoC: SOF: Intel: hda-ctrl: add missing WAKE_STS clear
+      commit: bd5863f9ef12e26c2cfdce9c0adbf0222c731a3c
+[2/4] ASoC: SOF: Intel: lnl: add helper to detect SoundWire wakes
+      commit: ab9182441ee5a94dd6f47743ed1b7b6b07b63cb2
+[3/4] ASoC: SOF: Intel: hda-codec: preserve WAKEEN values
+      commit: b69480edf4eb71c6f754e3c4020e8dd72a330558
+[4/4] ASoC: SOF: Intel: hda-ctrl: only clear WAKESTS for HDaudio codecs
+      commit: 35b5806e2edee1741f6bd2de2a5c149a876c4a60
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
