@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C21611E
-	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 09:08:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4873215F30D
+	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 09:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712308089; cv=none; b=ZdZlMAaAL3oMWC2Vwr3Kizp7gSk6vyzNnM63/KCajQcmjuapWJGUIaU3Ltyue6wu9vuneTnysFsCDH/WTb+gVDouLncOj1W+O1lqG4uBd59xmztnZ8/7aSBs3CDOqpbQn8Z9cdVyT0cyvfVWtXqW6wIN/cetFZKCQPoTL3QnYe4=
+	t=1712308090; cv=none; b=uiIa/cq1lsy5PCduFbAWxsSbfWdnEqQHHN0OIfoHBQzJShTvIpGL7WJ8no0U1zc1/lLz2cpiF1Ktm8FO0vO99QNcqltSxHj4Eu1IKxshu7ED7ACXfqHOM1VUBn6NW2ZwVM5JiKw83ZBD4phd8rfsrl4J5Eg/PI/jXBI1BgYwiIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712308089; c=relaxed/simple;
-	bh=dxCLzaInWEDf5H8sovQbT5x3OpdikXTGyLfkyz6cQ0s=;
+	s=arc-20240116; t=1712308090; c=relaxed/simple;
+	bh=ZgplaqLEKcHbdbGlQoIaQOYnXMm8Ux7CECBvT2X2vUw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O6vpf1mPM19g7RLKaA5FAKAUqUvxdHIrJr3qJduocyQha+z8WymfOtH8P1kn5RnmB5Lg5doIQOaD3bm9YshmQHjnKobALPQD9v6KOmYaltZE8EAjIsZ+DSH2Xue8iH/+kEC/7dsKujp8hxpKhNkV8RSx2OQm6zl1YMpnLYhFAAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mv3U8p6q; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=KhqkgdHzEmdUabW59XbHka25YYEJKxyf974EPq5QfZKYRpHaO7QGcvyOF7K2tzPDSTqB7X3ApWR/EmZcioHGQZQ45KTe7Zi99znE7P5ceCt8Gl5R6ObqqtP3sjeMzPk9tqazBlRUzl0Z/8m9PQHCZV2bZLRcP9dAq14gR3eA8Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpyNBjzW; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mv3U8p6q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpyNBjzW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712308088; x=1743844088;
+  t=1712308090; x=1743844090;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=dxCLzaInWEDf5H8sovQbT5x3OpdikXTGyLfkyz6cQ0s=;
-  b=mv3U8p6qVuBLk5tyJIYKaIdgxYtaGwLziforeWXojqP2nU9aesLfQbgW
-   GDJWUQVVupaM6/R0DcxBNQ7UsHHlOqqop15OWb9PB++ONxOVxvOny/oh5
-   nH4mBKwqOGGaQ5Y8TOHkQPhEbMqgcdiHsoaQkztgmRWl+XjQBv8NwGr0I
-   z1HZV+tJSPbjBYOcxAwyVo5g9+0Z9c0nx0Z51XNoLWFIIL726FkdUHylZ
-   9f46yFrBnoJvqwDny4ir5NszScrvRn6VWZ+BFbsTKLX/hXkFAV25vlD0W
-   LOGlPBkXf2R47jZzvr4RdCa0moFUfiYf9qzwBJ2TEjQ9I9o/F3RdwbtPE
-   Q==;
-X-CSE-ConnectionGUID: Rs0oDMJnR5GPCKm4EgMtbA==
-X-CSE-MsgGUID: uKOHv+eaQSqq5Swxb+6STg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7787403"
+  bh=ZgplaqLEKcHbdbGlQoIaQOYnXMm8Ux7CECBvT2X2vUw=;
+  b=gpyNBjzWv2snsXPeEGtsUXVKhyQgHq99q62otK+fWtdqaH21QM0jJKh/
+   ayQrdqVvmkmpS4M8sM+kPHzkSdjzw+AnxILCgJ4sXpL6wokFn7nq5zcs2
+   Ma6PDe/7MvnkihcGhNdmCnBcWPl/Pn9W0aaIBNov0E7Cy29pwpQfBFs3T
+   Twvviep8qvkZd04LsWYtf+F9LFA1dI8yuqonU/7DAcO9vvPO/5gC395n4
+   ZOQITSqHkB8cLkDHKUBOhqNza8Q2W/hFb7lo/TSwz3RySJpah+04RsXu9
+   BulsO8B3S2Ewf6EIzZrGShos/6x8JQ3feI+etiNDptazulnf2TU1ZWYfW
+   g==;
+X-CSE-ConnectionGUID: XZzBu8mjRRKJklgwT0bb9w==
+X-CSE-MsgGUID: 8OQOZ+MgT9aQSNGH2EDlZQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7787413"
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="7787403"
+   d="scan'208";a="7787413"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 02:08:08 -0700
-X-CSE-ConnectionGUID: 2UhNxsTeSLyumSvGXGHIVg==
-X-CSE-MsgGUID: RZThk3YiQX2P0wyvKq62Dw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 02:08:10 -0700
+X-CSE-ConnectionGUID: 7wtEnBnqSO+hGljq1HrA+g==
+X-CSE-MsgGUID: nZVPK7doQn+TTQ1mUsHP8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19042412"
+   d="scan'208";a="19042415"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by orviesa009.jf.intel.com with ESMTP; 05 Apr 2024 02:08:05 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Apr 2024 02:08:08 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -52,9 +52,9 @@ Cc: alsa-devel@alsa-project.org,
 	amadeuszx.slawinski@linux.intel.com,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 01/13] ASoC: Intel: avs: Restore stream decoupling on prepare
-Date: Fri,  5 Apr 2024 11:09:17 +0200
-Message-Id: <20240405090929.1184068-2-cezary.rojewski@intel.com>
+Subject: [PATCH 02/13] ASoC: Intel: avs: Fix debug-slot offset calculation
+Date: Fri,  5 Apr 2024 11:09:18 +0200
+Message-Id: <20240405090929.1184068-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240405090929.1184068-1-cezary.rojewski@intel.com>
 References: <20240405090929.1184068-1-cezary.rojewski@intel.com>
@@ -64,50 +64,39 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+For resources with ID other than 0 the current calculus is incorrect.
 
-Revert changes from commit b87b8f43afd5 ("ASoC: Intel: avs: Drop
-superfluous stream decoupling") to restore working streaming during S3.
-
-Fixes: b87b8f43afd5 ("ASoC: Intel: avs: Drop superfluous stream decoupling")
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Fixes: 275b583d047a ("ASoC: Intel: avs: ICL-based platforms support")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/pcm.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/soc/intel/avs/icl.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 2cafbc392cdb..72f1bc3b7b1f 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -356,6 +356,7 @@ static int avs_dai_hda_be_prepare(struct snd_pcm_substream *substream, struct sn
- 					   stream_info->sig_bits);
- 	format_val = snd_hdac_stream_format(runtime->channels, bits, runtime->rate);
+diff --git a/sound/soc/intel/avs/icl.c b/sound/soc/intel/avs/icl.c
+index 9d9921e1cd4d..3e0716160f5a 100644
+--- a/sound/soc/intel/avs/icl.c
++++ b/sound/soc/intel/avs/icl.c
+@@ -66,7 +66,7 @@ struct avs_icl_memwnd2 {
+ 		struct avs_icl_memwnd2_desc slot_desc[AVS_ICL_MEMWND2_SLOTS_COUNT];
+ 		u8 rsvd[PAGE_SIZE];
+ 	};
+-	u8 slot_array[AVS_ICL_MEMWND2_SLOTS_COUNT][PAGE_SIZE];
++	u8 slot_array[AVS_ICL_MEMWND2_SLOTS_COUNT][SZ_4K];
+ } __packed;
  
-+	snd_hdac_ext_stream_decouple(bus, link_stream, true);
- 	snd_hdac_ext_stream_reset(link_stream);
- 	snd_hdac_ext_stream_setup(link_stream, format_val);
+ #define AVS_ICL_SLOT_UNUSED \
+@@ -89,8 +89,7 @@ static int avs_icl_slot_offset(struct avs_dev *adev, union avs_icl_memwnd2_slot_
  
-@@ -611,6 +612,7 @@ static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_so
- 	struct avs_dev *adev = to_avs_dev(dai->dev);
- 	struct hdac_ext_stream *host_stream;
- 	unsigned int format_val;
-+	struct hdac_bus *bus;
- 	unsigned int bits;
- 	int ret;
+ 	for (i = 0; i < AVS_ICL_MEMWND2_SLOTS_COUNT; i++)
+ 		if (desc[i].slot_id.val == slot_type.val)
+-			return offsetof(struct avs_icl_memwnd2, slot_array) +
+-			       avs_skl_log_buffer_offset(adev, i);
++			return offsetof(struct avs_icl_memwnd2, slot_array) + i * SZ_4K;
+ 	return -ENXIO;
+ }
  
-@@ -620,6 +622,8 @@ static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_so
- 	if (hdac_stream(host_stream)->prepared)
- 		return 0;
- 
-+	bus = hdac_stream(host_stream)->bus;
-+	snd_hdac_ext_stream_decouple(bus, data->host_stream, true);
- 	snd_hdac_stream_reset(hdac_stream(host_stream));
- 
- 	stream_info = snd_soc_dai_get_pcm_stream(dai, substream->stream);
 -- 
 2.25.1
 
