@@ -1,164 +1,143 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF9F142625
-	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 07:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F05D145B31
+	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 09:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712303685; cv=none; b=l/AfYEYU9cvlt/6+Ojonn3/wL0pQA8OAKVyrehkxyRX0AplF0XyHt7BX7m5ZYGYmnnVUsLhBOw49aqz2Cf0bmLUZgq/ANWSB3gvHEXUPAHyjiZFT0DsT6iCGk5npl2isVn77Vdd7rq/thRZeK0BttjflGpgL/L8upOqXLdyJPy0=
+	t=1712308031; cv=none; b=awgBhBITLJDT1wT58950uMlnA07Zg3geWADQkennIFBSSxr1zUrhLKecRng32LkMGwVhwrbItFG+03FjvEDj+OnMlSo8XVznngZ+asp9NZ1G2Hw8U7BKcaE6m6AAunLQCUqTZ7m426BOLkG+crEqeEGFnc+L9WZXw9rdp7O06a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712303685; c=relaxed/simple;
-	bh=oMZnFnjAx4DFtc8QSzozkHjcSyZizqklmKEOQxaJMSU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Zt6Et/Ujleb7HoCFBH/ZU8iHsAzbtjIaIP0mPlBNB36Mh/xIgFvwu/SU5IK4P9QqoTPNCOHJk3hY978PTBXUCxBvfzQDSrO3cNatZrBAcvsCbrrqnoAxdu7ekQ3o1ik8/arnNGNDu2ENuk+t2ZKs3t1iEUGx3LMFBO7Uv2wK2ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FP0ssAL8; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712308031; c=relaxed/simple;
+	bh=wgbkCTuBbl1v4iGyL5raRIfbmwPPU/O4ePJXdJnc/o8=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=kjPOKkmTTNZZZfeRb/N/uaHydpmI0AB6lImqsxVfT51YFQ0XCNCKJe0O2VdFGLws2drozjtQYkr/7rzgaAtog0Fn3gkV67rn8VRyi6Zrnwsq5SAPi0rqqAXclpyIvnfpR7wKzc7GmgrMwb0xmCh6hCDA9Le5B/go/WgvjFDlmrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C9R9cDmG; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FP0ssAL8"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4162e8210b6so3480645e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 05 Apr 2024 00:54:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C9R9cDmG"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d717603aa5so24083561fa.0
+        for <linux-sound@vger.kernel.org>; Fri, 05 Apr 2024 02:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712303681; x=1712908481; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GPTsDTaZWEDZD5eXOx+IgyDot64aAbYjUOhbFNZJJt8=;
-        b=FP0ssAL8UDZf7JoRXOHW3J4ttYXtKLQmBGKrs+c3XY6pVdQ3J5xVh9COQLHNQIRbRq
-         dGXNQoFnYBSR9AXl4D0zzWBQPdN0hyk6NTXwneOtBEHfKyIx+Sglg8yZNfCudjoKnjZb
-         wuRT0oCLEh582Zeluvm4p/J+naZ3BaWpCd5v9CA7wXdINYWn5QpIJmRQNsZybGTST9/T
-         cWZXR8ymjrDEpaEw9bp/B7qOW5LFIqXlB0hr/VhXhiosjqWrDnwqo9LExa7DSOcrbBdW
-         XgJPOY+yLp/j2vYQXZS7rkczeeRo0zbTCaSYq4sl1356Y9Q48RuiCt5XShtMwk1u1Gj9
-         t1xg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712308027; x=1712912827; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=dx7Q6iClG4dKjPFFAd0xEXzHEYFgFMGOrT79d2/WULs=;
+        b=C9R9cDmGdVmVPABB7C+XvrrlHmxV2araL0XH2McCsSRCYwbp1XV3YFgjutc0+CUc/y
+         KkjDLtue7UIZO1RqulmYDLDXhEdGuh3tf+GdCqpimD5Eqh5/yuYKzIdeMw58NgZCl1dw
+         CvJKAJ/U7JgPDXzR0a0bHh6DOirLXMyFlNQSjXuK+cPdeBr48lu8ag9McNFAAKwno2PL
+         7RXS1nBiujgZnKiMofdG6yup5r4jI6wbL2wSNt73urSSezD23pWukMi4ZcrhUKkcWrf2
+         CyRyzQ4Wpmg+JXJMtu6S2jCBTsb4Iu4vdt808ajDTXaYmVNKrYk4mS4oSyvk6EOL9a0Z
+         jUNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712303681; x=1712908481;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GPTsDTaZWEDZD5eXOx+IgyDot64aAbYjUOhbFNZJJt8=;
-        b=oAqpn3/+Lq6tlqgMID44odOoe/5ggUU38+XGqPPPb0OQdrVCQz/rSITzQImFb33cY8
-         BQKt8yy9aYa3YeGE/dmpQvuMJunnadfwy9A4HVeYD+yrK0Iro8CG3ofeeZcCBNiva2Nl
-         M4Em+47DnnpVzh0ANd72SVU6gvHpkpkz+eRwVzCvxGu0Z+6oquCzd4gAZAy6buEUhGqE
-         RBmi3UVJk4EdJYG16MAfjM7zDVoQuX/4GxfOFxv/6NdNREsSO16nT1rGgoMLJ7bQI98w
-         n2V+DZwUviEZLB5SlAXVWVHxy27CJVFIU6GCAQQDSpEvDOjXGVh1alOUQsMEvujxRtRY
-         jasw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwN2OAMqB5afZFcwQOBeCrXEdSZARrFT1CX/JH2NLAxYUTxeNcqdDn1LFGREUAMZwduaI1YkBLCmOanhhVv3z5rmIeD7p9Rcq8SS4=
-X-Gm-Message-State: AOJu0YxBMy0J/+YjZOqRXu4/Erhm9/SmBsY2GeMNTAcCpQ9izKZAjvrP
-	upJ0fl/Tp/TT4PfAI5qoYPBRwulZgWstN03CI4T1OJxvENcuHHj7ZBh+BqFbNgs=
-X-Google-Smtp-Source: AGHT+IE8OwWcCvoSNoRbTbgfpm6Z2mGwUHjAwWZsIEDD4PBil+AaWyEv7bLgb2wawJDMc2KNFFUC3A==
-X-Received: by 2002:adf:f592:0:b0:33e:d448:e48c with SMTP id f18-20020adff592000000b0033ed448e48cmr475898wro.15.1712303681268;
-        Fri, 05 Apr 2024 00:54:41 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8e64:fc77:aa3a:87a? ([2a01:e0a:982:cbb0:8e64:fc77:aa3a:87a])
-        by smtp.gmail.com with ESMTPSA id p1-20020a5d59a1000000b00341e24a586fsm1362739wrr.93.2024.04.05.00.54.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 00:54:40 -0700 (PDT)
-Message-ID: <15a31bf1-e0be-45e0-897b-d29a1af6d357@linaro.org>
-Date: Fri, 5 Apr 2024 09:54:38 +0200
+        d=1e100.net; s=20230601; t=1712308027; x=1712912827;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dx7Q6iClG4dKjPFFAd0xEXzHEYFgFMGOrT79d2/WULs=;
+        b=gU+/hnXuUI+qM1en+Xmnn5DtJ1jrOBbXuIFLirUKDXvVMd8ACGPhFr9FYkZaguB27H
+         Cxf2c6zcUqIzgQDlo0j682M4HJ22wdURio2pwxPS3c57Efl1ZlEJoe3hPUeqlqRRU27K
+         /+cerPviXsJkQUqUNaGUNGs5CZG7LhVEXhzrkVf+eOcV2epcMjKyB/vttrCJ+eXr0z1K
+         bPfmc82x7IIe7/U1yRjPOdt1PiRl/2RldE76gpsKw/7qflMFbGagGnZtK20aW1dVOI3D
+         IC/gdNUwy73DDCw3KWrn67Yrj/uM5eba+aEzU+mtmLA75FMm8cPG5al/31XKmS30Q3BY
+         69eg==
+X-Forwarded-Encrypted: i=1; AJvYcCXY5M8+eNEg9zdZO0A4VkFDFvIwn55glk2S8NUwJPnnUeNzw/Hb9BvEiThsCE8LvZugOs1pdxvRL+eY8nVFAOBzoxMPTDA618CgxgY=
+X-Gm-Message-State: AOJu0YzZtidhmQ0GEefF+q1ZleEWncUDr9dDNwceDKqV8ymwAA5w7Q0H
+	hnJrk6oidCMHLEUTdRk68Yv3MsYhZSZFWjWAmRrXwvu9coO+vYllaYA6bJQHv04=
+X-Google-Smtp-Source: AGHT+IFzNpI2nNYaTUkEnZn7gYRwkIeFIyuTNluFylKpIC0pmqbq+2qkk9YMdM/xrAATLZryy+1B1A==
+X-Received: by 2002:a2e:8084:0:b0:2d6:ec7b:b69b with SMTP id i4-20020a2e8084000000b002d6ec7bb69bmr693984ljg.7.1712308027074;
+        Fri, 05 Apr 2024 02:07:07 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:dd7a:d766:e9e8:454c])
+        by smtp.gmail.com with ESMTPSA id c24-20020a7bc018000000b00414887d9329sm2122868wmb.46.2024.04.05.02.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Apr 2024 02:07:06 -0700 (PDT)
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+ <1jil0xplcu.fsf@starbuckisacylon.baylibre.com>
+ <877chcraaa.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>, Takashi
+ Iwai <tiwai@suse.com>, Sylwester  Nawrocki <s.nawrocki@samsung.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Maso Huang <maso.huang@mediatek.com>, Mark Brown <broonie@kernel.org>,
+ Linux-ALSA <alsa-devel@alsa-project.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Kevin
+  Hilman <khilman@baylibre.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Jaroslav  Kysela <perex@perex.cz>, Hans de
+ Goede <hdegoede@redhat.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Cezary Rojewski
+ <cezary.rojewski@intel.com>, Brent  Lu <brent.lu@intel.com>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>, Banajit Goswami <bgoswami@quicinc.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sound@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2 00/16] ASoC: Replace dpcm_playback/capture to
+ playback/capture_only
+Date: Fri, 05 Apr 2024 10:59:20 +0200
+In-reply-to: <877chcraaa.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1j5xwwp491.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 7/7] arm64: dts: qcom: Add SM8550 Xperia 1 V
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>,
- Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
- Kees Cook <keescook@chromium.org>, Tony Luck <tony.luck@intel.com>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20240210-topic-1v-v1-0-fda0db38e29b@linaro.org>
- <20240210-topic-1v-v1-7-fda0db38e29b@linaro.org>
- <05e6f92c-388c-4bc6-a4cd-e9d981166d1c@linaro.org>
- <8f6236db-0692-44c9-b136-8e0dff714c55@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <8f6236db-0692-44c9-b136-8e0dff714c55@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 04/04/2024 21:41, Konrad Dybcio wrote:
-> 
-> 
-> On 2/12/24 18:26, Neil Armstrong wrote:
->> On 12/02/2024 14:10, Konrad Dybcio wrote:
->>> Add support for Sony Xperia 1 V, a.k.a PDX234. This device is a part
->>> of the SoMC SM8550 Yodo platform.
->>>
-> 
-> [...]
-> 
->>> +/* TODO: Only one SID of PMR735D seems accessible? */
->>
->>
->> What's reported by the cpuinfo pmic array  ?
-> 
-> PMK8550 2.1
-> PM8550 2.0
-> PM8550VS 2.0
-> PM8550VS 2.0
-> PM8550VS 2.0
-> PM8550VE 2.0
-> PM8550VS 2.0
-> PM8550B 2.0
-> PMR735D 2.0
-> PM8010 1.1
-> PM8010 1.1
-> 
-> Not sure if there's only one or the other one is secure?
-> 
->>
->> <snip>
->>
->> With the pcie thing fixed:
->> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> It's gonna be fine with the recent aux clock additions. If you
-> have no further comments, I'll happily ask for this to be merged ;)
 
-Sure LGTM
+On Thu 04 Apr 2024 at 23:13, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-> 
-> Konrad
+> Hi Jerome
+>
+> Thank you for your feedback
+>
+>> playback_only and capture_only have implication on each other. If one is
+>> set, the other can/must not be set. This leads to conditions which can
+>> be fairly hard to read and possibly bugs.
+> (snip)
+>> Wouldn't it be better to replace those 2 flags with a single bitfield ?
+>> 
+>> something like:
+>> 
+>> unsigned int directions;
+>> #define PLAYBACK_VALID	BIT(0)
+>> #define CAPTURE_VALID BIT(1)
+>
+> I think Amadeusz indicated similar idea, and basically I can agree about
+> it.
 
+I've seen it afterward. It is similar indeed but I don't think 'None' or
+'Both' should have a dedicated bit. That would be yet another
+redundance/implication between flags/bits ... so another source of
+bugs/complexity IMO.
+
+> But in this patch-set, I want focus to removing dpcm_xxx flag as 1st
+> step. So I'm happy to create such patch-set, but I want to handle it as
+> another patch-set.
+
+Fine by me ... at least for the Amlogic part.
+
+>
+> Thank you for your help !!
+>
+
+Thanks for your work !
+
+> Best regards
+> ---
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
+
+
+-- 
+Jerome
