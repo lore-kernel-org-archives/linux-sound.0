@@ -1,135 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4A816D331;
-	Fri,  5 Apr 2024 15:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612CB16F8E7;
+	Fri,  5 Apr 2024 17:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712329971; cv=none; b=KXbGSN0X6zgzRxI3H1NAJW+NNIePre2rqucNH5BhvDt6D14VzJU30oGu4eoTgZVSkyhPp5dhttokIMVFAG/AHQTu/TLFzOp/49w7SuwPsQsaaayApM2wo2EKzO6jE9jHvoKhK7+iuIK+STTeQTBA9Jotmei0eP/mffGRVdaquiI=
+	t=1712337125; cv=none; b=ZHhqr1cXgPR0DqTcXMXpa5p/+CJAzfAZmaVg2eVYocExSBY5P4fnSFE6wB90+u/8e3Mxx6fqpRiYwb8jvwXZNnzkUs450MBa7ZrJeeOC9+n+51/fzhs98GKqFUCUsJXL50qzSwn9+jxX1S6Kew+YFGL8Av5BkuebMwy/NZxmtLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712329971; c=relaxed/simple;
-	bh=JIVzB8EAS0X1yVhPxr3X0yBglPfuin2m7XG+z2ewpMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BkT4JAKyGLHQQXupQUZoOTdnOzvlYfHic3tE9jwLEnpg1fgZRHUVCXgaEkcRQX/1NkAhIzpeIk9Ugc6mIl3AbzDcQJbbzu3OOCYL+0H4Nqzu35+NwT1ORk0nf3py/J2/SEBeQGcn01RCMQNLy7o+/XR2h+30YnX6moM5F7KQJtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YfGaSh3Z; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712337125; c=relaxed/simple;
+	bh=jp/ItmKjNW3lwD3HqdoO06DYpz1adMSLKDyVPElM/+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fW2nq8efJPwoo6g4OzPKX1kqlvEH8v5KQK8j1jgJuTBF2anRIj3IS5Pv04QdNlE43DjROhvHKkih6YxFfjBMTKdENu5XN8fgwWpGbuZCcBbgB+TaOuM3cBGQp1mmUClFfvDfAazMdwCgXj/muZcYbK4erzcY0H70ZRE74pFgkUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=eVDQ7fDg; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YfGaSh3Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712329970; x=1743865970;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=JIVzB8EAS0X1yVhPxr3X0yBglPfuin2m7XG+z2ewpMI=;
-  b=YfGaSh3ZzQm0vrnVbF2HDG54o6T7MpGIxutAMYqSikYD39C6T9of8ZK1
-   EyhBYLLdjLX2ByIFteh0hjH3jS1yEuTY2WHXdMPp/pr8TbrKkJuTZPsRW
-   LZiE5k0EpIYWuQmGMdAOoXhk8mTZ7OIQ2ySs8G6P1d87QdVtagYxTz986
-   ee8cNTySYOOJpsFYqxsIqHcpQ7qITey82XKOGwEMcX2/SB9LK5JOtdElM
-   +kt0+c0Bmp3+q2ETiapn1yPh+yzRi4xDSMy8+xmWPv/0MhZXhTvhUhPsU
-   KU2jL9XdGAyoVvk12Jwkc/tLqqNciwlKkZA5Gt/UZi7kXVuVvY9cJJp9u
-   w==;
-X-CSE-ConnectionGUID: L+rRlzjMQpevZJW/y6aZiw==
-X-CSE-MsgGUID: olQf0ZgyRZ2Fl5bMV+fuHg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11035"; a="19096788"
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19096788"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 08:12:50 -0700
-X-CSE-ConnectionGUID: Fqt99sqcSSq+64XiV2ONnQ==
-X-CSE-MsgGUID: rhmB8fVWQw2CBkZNszo/rA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19120656"
-Received: from kmoorman-mobl.amr.corp.intel.com (HELO [10.212.57.192]) ([10.212.57.192])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 08:12:49 -0700
-Message-ID: <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
-Date: Fri, 5 Apr 2024 10:12:48 -0500
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="eVDQ7fDg"
+Received: from tundra.lovozera (unknown [178.176.73.54])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 33E7440737DC;
+	Fri,  5 Apr 2024 17:11:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 33E7440737DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1712337118;
+	bh=zxli1M6t4+mmVUuqsEAwsb92XAAipwuHZ0h0RJ1Q04E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eVDQ7fDg7MTjYAXLcnt/MpMf1pjj9763Prk9QR8SbfcHQDleljuaSVRU5eRdI3Ldu
+	 AHjNVIpvKJBaE2WOH9fFa900b5O5CoF32/I3cC7gHHTpsiUqS3zdGC95FFvSDvg48M
+	 MdE2Sds5BvS+ruCEmn7RDKwFLXyUbUYCKXi3FGrc=
+From: Mikhail Kobuk <m.kobuk@ispras.ru>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Mikhail Kobuk <m.kobuk@ispras.ru>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>,
+	Venkata Prasad Potturu <quic_potturu@quicinc.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	Fedor Pchelkin <pchelkin@ispras.ru>,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: Fix out of bounds access
+Date: Fri,  5 Apr 2024 20:11:47 +0300
+Message-ID: <20240405171148.12665-1-m.kobuk@ispras.ru>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] soundwire: debugfs: add interface to read/write
- commands
-To: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- bard.liao@intel.com
-References: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
- <20240326090122.1051806-7-yung-chuan.liao@linux.intel.com>
- <Zg_ka02zLnXrADGj@matsya>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <Zg_ka02zLnXrADGj@matsya>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Case values introduced in commit
+5f78e1fb7a3e ("ASoC: qcom: Add driver support for audioreach solution")
+cause out of bounds access in arrays of sc7280 driver data (e.g. in case
+of RX_CODEC_DMA_RX_0 in sc7280_snd_hw_params()).
 
+Redefine LPASS_MAX_PORTS to consider the maximum possible port id for
+q6dsp as sc7280 driver utilizes some of those values.
 
-On 4/5/24 06:45, Vinod Koul wrote:
-> On 26-03-24, 09:01, Bard Liao wrote:
->> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->>
->> We have an existing debugfs files to read standard registers
->> (DP0/SCP/DPn).
->>
->> This patch provides a more generic interface to ANY set of read/write
->> contiguous registers in a peripheral device. In follow-up patches,
->> this interface will be extended to use BRA transfers.
->>
->> The sequence is to use the following files added under the existing
->> debugsfs directory for each peripheral device:
->>
->> command (write 0, read 1)
->> num_bytes
->> start_address
->> firmware_file (only for writes)
->> read_buffer (only for reads)
->>
->> Example for a read command - this checks the 6 bytes used for
->> enumeration.
->>
->> cd /sys/kernel/debug/soundwire/master-0-0/sdw\:0\:025d\:0711\:01/
->> echo 1 > command
->> echo 6 > num_bytes
->> echo 0x50 > start_address
->> echo 1 > go
-> 
-> can we have a simpler interface? i am not a big fan of this kind of
-> structure for debugging.
-> 
-> How about two files read_bytes and write_bytes where you read/write
-> bytes.
-> 
-> echo 0x50 6 > read_bytes
-> cat read_bytes
-> 
-> in this format I would like to see addr and values (not need to print
-> address /value words (regmap does that too)
-> 
-> For write
-> 
-> echo start_addr N byte0 byte 1 ... byte N > write_bytes
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-I think you missed the required extension where we will add a new
-'command_type' to specify which of the regular or BTP/BRA accesses is used.
+Fixes: 77d0ffef793d ("ASoC: qcom: Add macro for lpass DAI id's max limit")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Mikhail Kobuk <m.kobuk@ispras.ru>
+---
+ sound/soc/qcom/lpass.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Also the bytes can come from a firmware file, it would be very odd to
-have a command line with 32k value, wouldn't it?
-
-I share your concern about making the interface as simple as possible,
-but I don't see how it can be made simpler really. We have to specify
-- read/write
-- access type (BRA or regular)
-- start address
-- number of bytes
-- a firmware file for writes
-- a means to see the read data.
-
-And I personally prefer one 1:1 mapping between setting and debugfs
-file, rather than a M:1 mapping that require users to think about the
-syntax and which value maps to what setting. At my age I have to define
-things that I will remember on the next Monday.
+diff --git a/sound/soc/qcom/lpass.h b/sound/soc/qcom/lpass.h
+index 27a2bf9a6613..10a507c95312 100644
+--- a/sound/soc/qcom/lpass.h
++++ b/sound/soc/qcom/lpass.h
+@@ -13,10 +13,11 @@
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <dt-bindings/sound/qcom,lpass.h>
++#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+ #include "lpass-hdmi.h"
+ 
+ #define LPASS_AHBIX_CLOCK_FREQUENCY		131072000
+-#define LPASS_MAX_PORTS			(LPASS_CDC_DMA_VA_TX8 + 1)
++#define LPASS_MAX_PORTS			(QUINARY_MI2S_TX + 1)
+ #define LPASS_MAX_MI2S_PORTS			(8)
+ #define LPASS_MAX_DMA_CHANNELS			(8)
+ #define LPASS_MAX_HDMI_DMA_CHANNELS		(4)
+-- 
+2.44.0
 
