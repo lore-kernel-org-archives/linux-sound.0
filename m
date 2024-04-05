@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31301465B4
-	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 09:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BD61465B4
+	for <linux-sound@vger.kernel.org>; Fri,  5 Apr 2024 09:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712308103; cv=none; b=i6+Uu5jmFSFNxeSYlzsd8qnzbUCwJGAYGfzroZpffyhwYxGyGhwFZG0ZOnh+HqoVezRxsD/FsUEJs4dPdNePtlxHixHXeZlwbqpEBXd53S71qyl0ufFad3aa9Ct64P0qWDUcqrEMIYHBsHoeD83zIvc6Hkpnuvqn7xs7I+jHSDE=
+	t=1712308105; cv=none; b=SfDOUzDfl0s8q33WETxXEIG3klN9Bi2vBr2io7tX/b4RQrLQYs//EONyMd1rr/XNabPJ+AhNPiP3Nz34q6l93+JfTZUFINK0XG4eTl3za/h+xczEG/jvzbmUOJk3MZ/VkSwBCWOO2UAgxi6oPkGpJiGXrOtleOcBYGTyKtSb11s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712308103; c=relaxed/simple;
-	bh=lBShL+hehblXjeItUaZJSU0+d9b1UISWY/cyd8pfpqg=;
+	s=arc-20240116; t=1712308105; c=relaxed/simple;
+	bh=/l8JmGiEYsduQSPVUJfW308+QOvtWeS4SnQ3Hl92vdM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SLp+YF/79dV4LUTDNjvVdqPYUoFB62N5j8Dk+sd5zcMsaUpcJUYkb8tWezCCh9BpTZhl6MdYyqiFtyx1MKeyMhXopYJO6VmWapHIjxzi5WNgnmZNlLghdNEnXGI3yVsPYeG8QyHNskZk6dT8FGf2Kfa0/kkkHSJBscrvUWxoVdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmAnPL6n; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=HHwThSarOLMC8ywFuUr3ZvLgyP0Ynml8jUl0sz3WTwYTBpGQIlNQr9vqdWlo0oylUO4t5z5bEtQQN/3QAl0gbJIYrPPcPFWMnpiasuStQ0cZHhDmeHG9Yv2pVracJzgr2Vo2JBctH9cueD4jHRS1AclUrwb6xUr/J4RdX9HXlxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XtFDBxBw; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmAnPL6n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtFDBxBw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712308102; x=1743844102;
+  t=1712308104; x=1743844104;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=lBShL+hehblXjeItUaZJSU0+d9b1UISWY/cyd8pfpqg=;
-  b=CmAnPL6n3ONh0wg5XE4WAK7sqlUuYYHKLvpOOPGuguLTSzQUZwyDswua
-   snp7t7BvOlePbsh4od1mpt+Rtl3b6KjKFCF6v1alH600JmViIsCA4F87R
-   NYVHQRLqvkJPKM38HmndfgjybBteL3XTvghMhSeEYKxDpLI+BiqKg5mSj
-   uwWfZC5C/M+uY/BZ4SsqfIirNlye1TNjZ8DBsGzymUw2B+vkjP2oSKtlf
-   k8XOZrlYSWulkqMs4vZrqLqHyYQAwS/AgOl3b/wEx2iq7+pXt6Ke/rDHR
-   K9KQ2vbujHPzfEYPNBKyxWmEu+4FsxFEardaB54OwTthoUXhoI3SYQuh0
-   g==;
-X-CSE-ConnectionGUID: y6dbbpIuSRCmTxAarH3TQg==
-X-CSE-MsgGUID: bUdWTAWDR62YoD46lGJO3g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7787458"
+  bh=/l8JmGiEYsduQSPVUJfW308+QOvtWeS4SnQ3Hl92vdM=;
+  b=XtFDBxBwa4ZCdIuyJIC3gxICoTRbZFKFvNH7hAAMAP3G+xyy879vDw1s
+   XvptNw6YjZHlEtZpIjnCRta+8N7/j7C67LVn4OULhCJ/kjwbT5y/8R+A+
+   cwMD4X85DYJTk1nAMUdCvWvLSNX5e9nZehuFVunwp5LQz0FIXrbUlGefL
+   hnJhk9NMQ7K0i5d7n9qG2NCI1GyGx9PEIJJUt/PPYKDnKfW/T4PSXoWap
+   oePijTCvPltwZ9xvpj4M4dItkYqii+GWvGeqGMazoJaOypssqhPabeKJB
+   oonNUR1ExYBT9xvmIZO5q2eYCzuAg/vbT6fW16vPN6jjfGaDCENGsC2TQ
+   Q==;
+X-CSE-ConnectionGUID: GqBetrxiTKuifzZ7bYk/XA==
+X-CSE-MsgGUID: d1xBFx8RTsa1eEp1IYotdg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7787466"
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="7787458"
+   d="scan'208";a="7787466"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 02:08:22 -0700
-X-CSE-ConnectionGUID: cGhFZmbzQvu/P6HmVY4FtQ==
-X-CSE-MsgGUID: wFPh7wH6Q/CZtRYYpiEwyw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 02:08:24 -0700
+X-CSE-ConnectionGUID: nmem/xb6S6qGGj8tgyE1aQ==
+X-CSE-MsgGUID: pV4bRyYsTg2Q8ULE1MHDGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19042437"
+   d="scan'208";a="19042443"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by orviesa009.jf.intel.com with ESMTP; 05 Apr 2024 02:08:20 -0700
+  by orviesa009.jf.intel.com with ESMTP; 05 Apr 2024 02:08:22 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -52,9 +52,9 @@ Cc: alsa-devel@alsa-project.org,
 	amadeuszx.slawinski@linux.intel.com,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 08/13] ASoC: Intel: avs: Test result of avs_get_module_entry()
-Date: Fri,  5 Apr 2024 11:09:24 +0200
-Message-Id: <20240405090929.1184068-9-cezary.rojewski@intel.com>
+Subject: [PATCH 09/13] ASoC: Intel: avs: Remove dead code
+Date: Fri,  5 Apr 2024 11:09:25 +0200
+Message-Id: <20240405090929.1184068-10-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240405090929.1184068-1-cezary.rojewski@intel.com>
 References: <20240405090929.1184068-1-cezary.rojewski@intel.com>
@@ -66,50 +66,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While PROBE_MOD_UUID is always part of the base AudioDSP firmware
-manifest, from maintenance point of view it is better to check the
-result.
+The result of list_next_entry()/list_last_entry() is never null.
 
-Fixes: dab8d000e25c ("ASoC: Intel: avs: Add data probing requests")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/probes.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ sound/soc/intel/avs/path.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
-index 817e543036f2..7e781a315690 100644
---- a/sound/soc/intel/avs/probes.c
-+++ b/sound/soc/intel/avs/probes.c
-@@ -19,8 +19,11 @@ static int avs_dsp_init_probe(struct avs_dev *adev, union avs_connector_node_id
- 	struct avs_probe_cfg cfg = {{0}};
- 	struct avs_module_entry mentry;
- 	u8 dummy;
-+	int ret;
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index 8dfd90587427..fa3fec339548 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -709,8 +709,6 @@ static int avs_path_pipeline_arm(struct avs_dev *adev,
+ 		/* bind current module to next module on list */
+ 		source = mod;
+ 		sink = list_next_entry(mod, node);
+-		if (!source || !sink)
+-			return -EINVAL;
  
--	avs_get_module_entry(adev, &AVS_PROBE_MOD_UUID, &mentry);
-+	ret = avs_get_module_entry(adev, &AVS_PROBE_MOD_UUID, &mentry);
-+	if (ret)
-+		return ret;
- 
- 	/*
- 	 * Probe module uses no cycles, audio data format and input and output
-@@ -39,11 +42,12 @@ static int avs_dsp_init_probe(struct avs_dev *adev, union avs_connector_node_id
- static void avs_dsp_delete_probe(struct avs_dev *adev)
- {
- 	struct avs_module_entry mentry;
-+	int ret;
- 
--	avs_get_module_entry(adev, &AVS_PROBE_MOD_UUID, &mentry);
--
--	/* There is only ever one probe module instance. */
--	avs_dsp_delete_module(adev, mentry.module_id, 0, INVALID_PIPELINE_ID, 0);
-+	ret = avs_get_module_entry(adev, &AVS_PROBE_MOD_UUID, &mentry);
-+	if (!ret)
-+		/* There is only ever one probe module instance. */
-+		avs_dsp_delete_module(adev, mentry.module_id, 0, INVALID_PIPELINE_ID, 0);
- }
- 
- static inline struct hdac_ext_stream *avs_compr_get_host_stream(struct snd_compr_stream *cstream)
+ 		ret = avs_ipc_bind(adev, source->module_id, source->instance_id,
+ 				   sink->module_id, sink->instance_id, 0, 0);
 -- 
 2.25.1
 
