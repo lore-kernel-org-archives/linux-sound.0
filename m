@@ -1,134 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0E016D9D1;
-	Fri,  5 Apr 2024 14:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C84E16D32D;
+	Fri,  5 Apr 2024 14:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712326193; cv=none; b=oDwmrRuw+scAn5SEinXbibRSvkkMeLrP4PN3forCw6W/Y8GolIUrTnCWtgrV8hqN6ghY0c3AzPlUXzEMF+h4Q9jo33LKBQp9FChEWZdkkCCPycd9BRqK7OvGr9jS7ztzEPqmeDFyGYLNHNx7bPq5yrT/BUdIAXNCxzntryYsNQo=
+	t=1712327283; cv=none; b=s2oC6FEtk/kkzfHwhcTxcXnfRBUFq6v2hAfCFfxl9ihEzOeNqzBWBHD6n5UunBsiGRANJJy76vEwEHzuEnsnEF+ZBT2bh+dUq/9H85gbtkgpWomfie8f89431kiGRTRr4J0XeRUZLxSpWaXgenRUFjY9B3tnR/BJXvFcRAPF8xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712326193; c=relaxed/simple;
-	bh=cnrxDzXd1/Zz7OjSfw40jDJ0E7JSzUp/GezENfo8XHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mP+u3ZPahpUkd9JG7l/rqzqr3EYjMhYYbuwyO/YpznvQ8SHI7ZNVXjCsp2aWoRSjjEzwrZ5Sr3QumvN8Y9LlUhC1v1W7HMp4ckA5oSJiLKsDwcK93AIkILhyIOueV8bViDiK9mzePhq4ynr3G1rimkUVm0F3rcNJnrWyBsGM1u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nh0miAyy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712327283; c=relaxed/simple;
+	bh=edtWDz0F9ERyIwkradda1dEIoOdPdwzXb2qVkEfqBV0=;
+	h=Content-Type:Mime-Version:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=lGaVtozIKtUSKp0J0xMug7Htbtd4OI5mF1kIX8tcpwlbNKz8eTaz966PrPM+ZI/jM6MjSoIu/GExIRa9Tt8TeesbUUFYVzCxbjyGVa53udrcgV8CFLf9+d7jGMKz8s3ENPEB7dz0r2E7i7MQ1Heud5JlNSnNE/Tql61dcUhno/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RIpag5M7; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nh0miAyy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B27AC433F1;
-	Fri,  5 Apr 2024 14:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712326193;
-	bh=cnrxDzXd1/Zz7OjSfw40jDJ0E7JSzUp/GezENfo8XHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nh0miAyy9/qk0l633k/apXAeuCAu0WCqUlCM5Dl+p/Lu3KpcT2Ozmm0u0DngGulRt
-	 fHWQhPOSUTNxHvH7L/ssLzPYMqbsnSZKOc673X1EMymNb8bM715PCfZH5K4FNrOqin
-	 uPefYhwuuZrs8Ps1Xx7IjK3bIRbucl53oIlgs47BSkWo94RWUSrKb0qU5iHq+ga40+
-	 Jq8va0mUr5Ead9a/N3lXvDmryg8hUKAlMnPQlHRAa6Y5FnkyPLneXUOIaN+COlZYQG
-	 gvX3cfMxtKfIBfTNhAqNdbo7PKYrCUZGG6+j6dSTbnWJ9UcqP/ISksVJ86Mlrh0DpQ
-	 403WyqEA359yQ==
-Date: Fri, 5 Apr 2024 15:09:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	perex@perex.cz, tiwai@suse.com, 13916275206@139.com,
-	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
-	pdjuandi@ti.com, manisha.agrawal@ti.com, aviel@ti.com,
-	hnagalla@ti.com, praneeth@ti.com, Baojun.Xu@fpt.com
-Subject: Re: [PATCH v8 1/4] ASoc: PCM6240: Create PCM6240 Family driver code
-Message-ID: <dc5dad72-09cc-4001-afdc-1cd92cac312e@sirena.org.uk>
-References: <20240403003159.389-1-shenghao-ding@ti.com>
- <20240403003159.389-2-shenghao-ding@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RIpag5M7"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4162ec14805so7510085e9.1;
+        Fri, 05 Apr 2024 07:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712327280; x=1712932080; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7LERPVCSW+Wfgv7Cf7Coboc+jfMXyoBnYaZV6ymz4A=;
+        b=RIpag5M78SHwP4RvqAZaWdnkoNPkr2eZb/5eFr103wlw3dNgXWAzesltU1F4er5EEl
+         0nswVIqpEcwDniyI9Xzii3tXzADjaYJaEE2Zfh9fbBSGXwuVsJLBondgZqBFbOG7pWbW
+         pLjAjiA+l6ErcJFXIpFIbmj2DaUpQvrYhs1sHodFarUndI3N8i3JxJXtFE0cczBl2hoU
+         qCBJN6lyIAyw1RrtDq2wgDgQqd4aWxEkE5lELHP82x9/64NT2BxoBlbv0WdvVSlzCE2+
+         lLlSDKoiLM4z3rfINIwJt42+ecK1l4H9FPkD/0mFRneo8LFG7XEJtachzsuUeD1FHGWp
+         +frg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712327280; x=1712932080;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O7LERPVCSW+Wfgv7Cf7Coboc+jfMXyoBnYaZV6ymz4A=;
+        b=QDPcJDN+Pp0oT//u4sF8zjQzRu9Joh8sweB8L5DXoCY8OWtM2LM0tA6NtjsGn23jsA
+         FsBY7D/OKfcFamCdAJ4+WlNYz4k5xzOhWCSj9g6Lu06ff3igoMs21FKXc/oj4+WAXuv7
+         mgswZn2LI4GmdoyEmrU1QcqzSw4nyCLnbL9bZgeCfZfxsAcE/hygeHoNZZs5+s+dR1/T
+         pqsUzILOv3UIjwf5WDGJpExE9aAxoKcGkGEZIOynraxoS5zu1unyk09c8uaor0NDARh1
+         bCeCBuJhxCd5MHWy3pk4UGJk6KZBZxXOQOzc8iWGUoimAScbIx05wTbml/7h+g5mDzNZ
+         IgMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpJi7gIpM8kan83r/qAPg2QRPWlrWpjoXpG487mQ9Qk08S/COYrtn7yvXSg97At30O3s7GAh/AFoA+vhkhuacjwzQlGhIGY9yJNLXF8lPxOg48e9MLnLzbRuylpkJk7g2i/jd06vjgOjAPM1ncnB4CnxKi6rnm+sa0IbzL3nddrz4=
+X-Gm-Message-State: AOJu0YzGVDts9PinOnfJYGRQyjgMb6f0RIwbDj9vaSS1t/6TPD7zUy3U
+	LgNRlAa0kdIWb+I6ktJZvAGhRqCu6BamYSxg1RHRgGfcOP2Znm+59mVZbJus
+X-Google-Smtp-Source: AGHT+IGmhovB4WvvEoGfhcQ7/7+9sQMUwNRkZ/ya0lVDZIypZ5bRpVOnEtbrPOgNbrIt2UzRbbBa6g==
+X-Received: by 2002:a05:6000:188a:b0:343:39f4:3f2e with SMTP id a10-20020a056000188a00b0034339f43f2emr2164436wri.5.1712327279625;
+        Fri, 05 Apr 2024 07:27:59 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id i6-20020a05600c354600b0041488691eb1sm6662907wmq.17.2024.04.05.07.27.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Apr 2024 07:27:59 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=2bced5962d6df3645374ca32f7e19dc7b5f911531a5e3e0d1afd7115069e;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zE+8122Hjp+Flwjb"
-Content-Disposition: inline
-In-Reply-To: <20240403003159.389-2-shenghao-ding@ti.com>
-X-Cookie: Honk if you love peace and quiet.
+Mime-Version: 1.0
+Date: Fri, 05 Apr 2024 16:27:58 +0200
+Message-Id: <D0C9D05HXLMP.PNF08QRPH8O2@gmail.com>
+To: "Sameer Pujar" <spujar@nvidia.com>, <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>
+Cc: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <lgirdwood@gmail.com>, <jonathanh@nvidia.com>, <mkumard@nvidia.com>,
+ <stable@vger.kernel.org>
+Subject: Re: [RESEND PATCH v2] ASoC: tegra: Fix DSPK 16-bit playback
+From: "Thierry Reding" <thierry.reding@gmail.com>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240405104306.551036-1-spujar@nvidia.com>
+In-Reply-To: <20240405104306.551036-1-spujar@nvidia.com>
 
+--2bced5962d6df3645374ca32f7e19dc7b5f911531a5e3e0d1afd7115069e
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
---zE+8122Hjp+Flwjb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri Apr 5, 2024 at 12:43 PM CEST, Sameer Pujar wrote:
+> DSPK configuration is wrong for 16-bit playback and this happens because
+> the client config is always fixed at 24-bit in hw_params(). Fix this by
+> updating the client config to 16-bit for the respective playback.
+>
+> Fixes: 327ef6470266 ("ASoC: tegra: Add Tegra186 based DSPK driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>  changes in v2:
+>   * moved common setting to S32_LE switch case.
+>
+>  sound/soc/tegra/tegra186_dspk.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 
-On Wed, Apr 03, 2024 at 08:31:55AM +0800, Shenghao Ding wrote:
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-> +static const char *const pcmdev_ctrl_name[] = {
-> +	"%s-i2c-%d-dev%d-ch%d-ana-gain",
-> +	"%s-i2c-%d-dev%d-ch%d-digi-gain",
-> +	"%s-i2c-%d-dev%d-ch%d-fine-gain",
-> +};
-> +
-> +static const char *const pcmdev_ctrl_name_with_prefix[] = {
-> +	"%s-dev%d-ch%d-ana-gain",
-> +	"%s-dev%d-ch%d-digi-gain",
-> +	"%s-dev%d-ch%d-fine-gain",
-> +};
-
-These still don't look like idiomatic ALSA control names, if nothing
-else volume controls should end with Volume but the whole all lower case
-with -s thing really isn't idiomatic.
-
-> +static int pcmdev_put_volsw(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol, int vol_ctrl_type)
-> +{
-
-> +	err = pcmdev_dev_update_bits(pcm_dev, dev_no, reg, val_mask, val);
-> +	if (err) {
-> +		dev_err(pcm_dev->dev, "%s: update_bits err = %d\n",
-> +			__func__, err);
-> +		err = 0;
-> +	}
-
-Why don't we report errors to users?
-
-> +		case PCMDEVICE_CMD_DELAY: {
-> +			unsigned int delay_time = 0;
-> +
-> +			if (subblk_offset + 2 > sublocksize) {
-> +				dev_err(pcm_dev->dev,
-> +					"%s: deley out of boundary\n",
-> +					__func__);
-> +				break;
-> +			}
-> +			delay_time = get_unaligned_be16(&data[2]) * 1000;
-> +			usleep_range(delay_time, delay_time + 50);
-> +			subblk_offset += 2;
-> +		}
-> +			break;
-> +		case PCMDEVICE_CMD_FIELD_W:
-> +		if (subblk_offset + 6 > sublocksize) {
-> +			dev_err(pcm_dev->dev,
-> +				"%s: bit write out of memory\n", __func__);
-> +			break;
-> +		}
-> +		ret = pcmdev_dev_update_bits(pcm_dev, chn,
-> +			PCMDEVICE_REG(data[subblk_offset + 3],
-> +			data[subblk_offset + 4]), data[subblk_offset + 1],
-> +			data[subblk_offset + 5]);
-
-The indentation here is all messed up, things not indented for the case
-blocks and so on.
-
---zE+8122Hjp+Flwjb
+--2bced5962d6df3645374ca32f7e19dc7b5f911531a5e3e0d1afd7115069e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYQBikACgkQJNaLcl1U
-h9Bstgf/fZgVu4w8dXZljCEZ/q4J2JEc9LqY60UgCz5OG6rDlq7Vngmm398tJIiX
-L+9sNepPJRkNh1QGaujU/yK/aB9WBkiQqEKAPmspBYbqDf1ypAPjOtP8pJeKiHc3
-MyLJ/NiblAMt3+rdt23gLWhy2LV6tLAj+b/sM09vwSCVy0eqnkt+R7awszCsxb7k
-ZmZ2I4JCC41iqzZlWg+8qgJTiVD8JfOHhINxj0wuYwqwtdQOqGj/sVsv3e0spq6L
-aZJs4WRnnFKJy8jkrCs4TIGe2qyqnBHECYd+68hdjwuoWIjoVPqpceAIjD/HhIPG
-XXfAKY4FRSJONbDd4A5685V5ctPODg==
-=prZg
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYQCm8ACgkQ3SOs138+
+s6HsnRAAnbvXUuFwGeAoUlndo/z+e8xofUaZP2R83hBnA3JyUK5SdmWuf44y6VoJ
+x0/RyQOZ20Wm0MGqRnalCMND9z5yNtfH0prJMBJlvhjKJFtMUI1+zpcfvqzMCxLJ
+4qtwzO324JwLnPMMV64aWfiHY5unR6wvwf2Angf60yWrD61RjJ0LPUfY/9a/zAGO
+ZKuGqslx+x7Xx3OZayaf/9sg+a1DcQEbCRsAzsWp22PGi52wp4PPgfDNUcTHGkhK
+bWFTkm46ZWV7DdUTCnJ50xc2lcz/9hDRou6sEbaZZYtWHjZTj5V4omVyteP0xIsL
+7dVC8lCT2Mf99iBcKlLRPy58NdWPnun5PCKMJ8s1GmFA+BYuGsUVxYko8Lnq5LDh
+GV9uzOIYwzs6LWJ2cMEKnR6uNXJEtLoq8YFoBvSHxaBnvAi0jO20Ak5UlO4YTwEo
+aUx8dpyjjCv6N+4U+9Y+rj0D7MsIvVbeBx8T8Ln6/0sw4mQ8qJe094/AzdU/UJEc
+8jnJFmkf1ae6CkTBpOrOR/KUQO6jcdENhqzUV4NAQPKJOm5mQ/0Zxd7hK8fYHWOB
+6ptE6q+mrMQJfsMdjl4X+MExHSX2LC8rCxawk0E4zoBQ7LBGDVLt5DtngAAVFBVP
+DpZMRBOvlDBSWQtdg3Gwlgq9Tw8VfyBihA0izA/HBugbXG9VrYg=
+=+hkQ
 -----END PGP SIGNATURE-----
 
---zE+8122Hjp+Flwjb--
+--2bced5962d6df3645374ca32f7e19dc7b5f911531a5e3e0d1afd7115069e--
