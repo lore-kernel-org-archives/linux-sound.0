@@ -1,101 +1,123 @@
-Received: from fallback17.i.mail.ru (fallback17.i.mail.ru [79.137.243.72])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B30437153
-	for <linux-sound@vger.kernel.org>; Sun,  7 Apr 2024 13:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916591E889
+	for <linux-sound@vger.kernel.org>; Sun,  7 Apr 2024 19:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712495442; cv=none; b=PJfm7Y/mGHjSP8bKh7NS2pUQgU+PFe7DkWxmrWt9NVvlTnqJpSten/DeS7crRItI7prpOkaNczXp7agjfmUyeCLFYC21oDp/Zn87+40thp8XT1fObCmcRDceisJ2W4WJnN4V8X4b0mAp1lcA9H0NgHhGtskSbExEurbRkuLkqvM=
+	t=1712517375; cv=none; b=nBYK7jLLnDBWA7OAjhvP1it53oMZQaKC+1pD1ZYsREfmfZ4ITfpbZDzNI4t9/KLIzsx6yvkr+BTNuAsaugrxq6jyig4GO6NDK1OBZQRDQkyG/WIomt5NVFbi1NbUFtSdGweIEbaZvTgF7wtanL6IC5cmLzDwmP4nuvf5MU2YlRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712495442; c=relaxed/simple;
-	bh=fRgtLU64VmPj1RO8aNoSSRiD5pgeaJ/c24+Azmvwe5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tuxFhosOTGHtSUYHElZ2j2jsMrmgigz52vLYkxcDcw7Er9xSKmf8CmU2YQ/4NRAuLpSjQoA2l2e+LydJH1m4wPVZ3DHsTBPcsRrVwmQWwb+2DoZ7+jXWS9PKABhw8XNNIhMvzH2A4WoEUrgT0JsqUuDXDPM0/jGUG/rMbb6gGn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=mail.ru; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=nW0AZX9D; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=0i19HpJR; arc=none smtp.client-ip=79.137.243.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ru
+	s=arc-20240116; t=1712517375; c=relaxed/simple;
+	bh=6bKAAaR7jFFzSP7Y4Fon17Txm1Te3K5K3l4MYTlPk80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f6clSN1llfyB4fL9uDg0nRpLxSyBBd5YoLe6H8VRwC2t8d9w2N89hNBzylA6HvxLyxYu9nT2GyIOVheZXzhEJ9tI80foVIrMUIXubvilIYS2jaqielIDbzu9L2WNPfcDjop0QHty96TeLuNiYAEV6wcQWYQZDAuigrzmuIehwdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eCidX9v7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="nW0AZX9D";
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="0i19HpJR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=pS0J51qkDW3l6yHbMntKpzwzWZ1OozH3qDAmrSmG5EM=;
-	t=1712495439;x=1712585439; 
-	b=nW0AZX9DqevyWSgccM2DjQC/TJ/wf5oRPdugXxihwDZ4gTgc4GgW2hn3LgyUEBi+HN9dmr4/Fe3KhrliJtUt5ol+TkpcszfZHq+GEAgKWBhCYtlTNPhPdm6z+L7TwudVTFS90gce9kgGVQ0dRB4553K8whB1qkXNWJQX58HS/g2lsBLvzYuP4JoivSsxQPl3PsB0ksZdCTn8zg/VbsW0KjyyCkBowWo5L9aY6Oimqs432eMbgP6OS2pmlHA3puwMrX7njlQ865HJyXG+aVl9AnlMqLrJFiwCE5/btXQgppXe3G6Am7LB2/1OLfBpXIduhiLplT+pL/Et2TWMcvkQ+g==;
-Received: from [10.12.4.5] (port=52846 helo=smtp31.i.mail.ru)
-	by fallback17.i.mail.ru with esmtp (envelope-from <end.to.start@mail.ru>)
-	id 1rtRoE-008Vq7-U4
-	for linux-sound@vger.kernel.org; Sun, 07 Apr 2024 15:39:43 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
-	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
-	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	X-Cloud-Ids:Disposition-Notification-To;
-	bh=pS0J51qkDW3l6yHbMntKpzwzWZ1OozH3qDAmrSmG5EM=; t=1712493582; x=1712583582; 
-	b=0i19HpJRBtjbMrAO+XSmjcZ9oEKJRf4N9whke10p3b8MsPa4z3mEzwfbtHN3f9+6kELAtnqRyMp
-	ZWMCPlflxsSneq0aZ86XgOzatwnVzCqeth3wiE++e3PU8+1qFWRMMWTSG2H9P6V17vSToaz9YsYGR
-	CQJGpTyDaTaS7t4NJo1Ok1tkWmtzUFfOJnPRaKEdcobJEWEC7Z0HqVsxLQ2GgSE5utIfTJ23lFo72
-	k57oMgYGF3vXzNxC4042pLfOWChc92hS9iFdcyW0zYpP8Qeig7eF92qbh9Ney4m77j9ZbsWbuxy1Z
-	i2kFJMJn5OI+NQc9OZqE90Zp8ZgjC3ivjkTg==;
-Received: by smtp31.i.mail.ru with esmtpa (envelope-from <end.to.start@mail.ru>)
-	id 1rtRo6-0000000HTcd-0w5P; Sun, 07 Apr 2024 15:39:34 +0300
-From: Dendi777 <end.to.start@mail.ru>
-To: linux-sound@vger.kernel.org
-Cc: Dendi777 <starrynightowl2@gmail.com>
-Subject: [PATCH] Add support microphone for Acer-315-24p
-Date: Sun,  7 Apr 2024 15:39:28 +0300
-Message-ID: <20240407123928.11948-1-end.to.start@mail.ru>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eCidX9v7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712517372;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QTDHqainzvNPMBV5LUdVRn1KPSwgHeCdFDZZO+P7J58=;
+	b=eCidX9v7LlPDzNVHSW6M5s03Gu347G15tXo4IZN7eLiK8Z4hz6WHvQORtuIfP2sMTXg3KQ
+	JDkGWfPkCOijqe4ITz5sBjA6EZCIYm/Dtzco+73uhF7gf/EiOiboS6OpEuAH5n5b1x8j5G
+	N6dqWkPkId4yqMHhaz8+OcczNRXmRBM=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-269-dh-xbKSpNBW2NXwxvY8GPQ-1; Sun,
+ 07 Apr 2024 15:16:07 -0400
+X-MC-Unique: dh-xbKSpNBW2NXwxvY8GPQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1BEB1C03148;
+	Sun,  7 Apr 2024 19:16:06 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 343A0C26A4A;
+	Sun,  7 Apr 2024 19:16:04 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to Asus T100TAM too
+Date: Sun,  7 Apr 2024 21:15:59 +0200
+Message-ID: <20240407191559.21596-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-4EC0790: 1
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD9517FD34F787F37912125E25EEC01EB219D8C9985169F22FF182A05F5380850408848717A6CE4D99E89CEA9C911D09995FC85C177A402F092098812AEB9E207D55D31DA4D2BDE68BB
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE78044725E6B9C7F2CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637F91103FA893F53AB8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8381895376B2BFDB615B72AB4ABBF629B18AFBBF4D7E899D520879F7C8C5043D14489FFFB0AA5F4BFA417C69337E82CC2CC7F00164DA146DAFE8445B8C89999728AA50765F7900637FBF931FEADDDACF0389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8A7DFDF579AB090EFF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C540F9B2D9BA47D5603F1AB874ED890284AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C343DC2DC31C5DEC88BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CFF7ED4D6813B5CA041DD303D21008E298D5E8D9A59859A8B64854413538E1713F75ECD9A6C639B01B78DA827A17800CE74AE2AEFFCE56D892731C566533BA786AA5CC5B56E945C8DA
-X-C1DE0DAB: 0D63561A33F958A5D1DE68FDEF1AD52A5002B1117B3ED696943F527A51BC2D0622DFD5397F446790823CB91A9FED034534781492E4B8EEAD3BF9A24AEF94352CC79554A2A72441328621D336A7BC284946AD531847A6065A17B107DEF921CE79BDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0AD93B9BA3C444D644977DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFD287DE0BDB1282B5033B63303960A1008E972AF00D9D2DC332D73DB2867940FB4905B00F5DFE93A21CFDFDFCAF5E4A4B899ACF0A82EAB2FBF24D238CF8B6908BCA1FEE5BE735DD13111DC66A97D0BFE2913E6812662D5F2A65982B5FD154E7DC8F0ECD54AF826900C3981EEBE9DB10F943082AE146A756F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj+HQIBMt8ajVkYCJNkFSBoQ==
-X-Mailru-Sender: F34414D909EE10BD7829694AFAC1E959884FE40052C1A2DEB951B70A5BD4BD8EE0ACF38177DBC1C96F956CAC0F52A8E5C773E5EF782A67EF9314192DE98EED7FA9800083D4B72A528C9769C13AF3BBAE440A67913D6ED084D7A14DD9E34ECE7467EA787935ED9F1B
-X-Mras: Ok
-X-4EC0790: 1
-X-7564579A: B8F34718100C35BD
-X-77F55803: 6242723A09DB00B4391B3D424BB050C88CA47C6C7B6271787469668418FAFBA1049FFFDB7839CE9ECE99CBBB6ECAA327B624DE5740E6A437A69EE80676A1ED18BC1B94D9C5B4873B
-X-7FA49CB5: 0D63561A33F958A50BCF10E0C73D888018A2FBEA98B64B3157449AA3E3297D9ACACD7DF95DA8FC8BD5E8D9A59859A8B6B737A621A50BC793CC7F00164DA146DAFE8445B8C89999728AA50765F79006378E5B25976F539216389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8C824672CB62AFFF2F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE7536DFA57D2E944E9731C566533BA786AA5CC5B56E945C8DA
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2bioj+HQIBMt8ajXXYJwO4E/aYA==
-X-Mailru-MI: 8002000000000800
-X-Mras: Ok
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-From: Dendi777 <starrynightowl2@gmail.com>
+The Asus T100TA quirk has been using an exact match on a product-name of
+"T100TA" but there are also T100TAM variants with a slightly higher
+clocked CPU and a metal backside which need the same quirk.
 
-Signed-off-by: Dendi777 <starrynightowl2@gmail.com>
+Sort the existing T100TA (stereo speakers) below the more specific
+T100TAF (mono speaker) quirk and switch from exact matching to
+substring matching so that the T100TA quirk will also match on
+the T100TAM models.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/intel/boards/bytcr_rt5640.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 69c68d8e7..9b1ae0314 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -430,6 +430,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "MRID6"),
- 		}
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 05f38d1f7d82..b41a1147f1c3 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -636,17 +636,7 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_USE_AMCR0F28),
+ 	},
+ 	{
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
+-		},
+-		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
+-					BYT_RT5640_JD_SRC_JD2_IN4N |
+-					BYT_RT5640_OVCD_TH_2000UA |
+-					BYT_RT5640_OVCD_SF_0P75 |
+-					BYT_RT5640_MCLK_EN),
+-	},
+-	{
++		/* Asus T100TAF, unlike other T100TA* models this one has a mono speaker */
+ 		.matches = {
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TAF"),
+@@ -660,6 +650,18 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF2 |
+ 					BYT_RT5640_MCLK_EN),
  	},
 +	{
-+		.driver_data = &acp6x_card,
++		/* Asus T100TA and T100TAM, must come after T100TAF (mono spk) match */
 +		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "MDC"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Herbag_MDU"),
-+		}
-+ },
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "T100TA"),
++		},
++		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
++					BYT_RT5640_JD_SRC_JD2_IN4N |
++					BYT_RT5640_OVCD_TH_2000UA |
++					BYT_RT5640_OVCD_SF_0P75 |
++					BYT_RT5640_MCLK_EN),
++	},
  	{
- 		.driver_data = &acp6x_card,
  		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
 -- 
 2.44.0
 
