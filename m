@@ -1,47 +1,48 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A119A52F87;
-	Mon,  8 Apr 2024 10:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAD65FEF9;
+	Mon,  8 Apr 2024 10:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712571513; cv=none; b=sBtr9N3+KxEt2/30hR1LmpnDvlFT8LIMJZTVainQT1XM85VhmMq9jhT2YnnOEMK9JS4D58R5riR5dcGxYel7y/uOSFRcoca/Lmsz2+nMBOauS/yhrBkzhmS83gF/QyMx+E0aM1U9bFLt4tIwLCTvFv9U9nVUBUy9V9clP6/uhFw=
+	t=1712573580; cv=none; b=FbKpIq2HGc7NnqI8ewSKfh70fjGJXarWG8hWJRCwlFqeuBfDP/tYsWptRLxfXlkZvPR0kzUcV4PuRbX4WpwgoOxixHWRj+UVOBtfse3CzgNIoO+xHI19mUXuAbQVs/DH0nWpKAASsbtkErL8/J2EZSnVlyylCpkhLSiJyWcggc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712571513; c=relaxed/simple;
-	bh=qa6qtoo91LrB1qaXiQb/QiFYyJioLMK1RUVQhdD5UvE=;
+	s=arc-20240116; t=1712573580; c=relaxed/simple;
+	bh=nPXVmptz56OdLEho6OfeI9Emay8PrdaXJx7f3Ty6vxI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=twMMPEIGlIZr4Decqsxve+LLFy/tkB05Fct43aoi3Bzb774cMoXTz692H167amStRwxEqvwMOAGOSG+wwolQ/kRguwkj3bvmnfk5pB70gSmfx+2hh0aDsZqphsh6RyT13TKZHU1JY9Y8qLGbVKjzyqr7yBOmV+EE0qEOa5Ya6Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ALgZkFIr; arc=none smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=GIfegbIPwkLe7pO0sx5f4sNTcCIByT4lhR1HU9/z2UEPcr1P0650BccwzvQRd3cG/neeJcet2IEj3HKr+ZQyqMxz8Y52U/8h6JjbgIWf3dE+owIRrEuZdIkYjszcZfDEfXqjJ3b5tAYtDrZ7HtND7jCbPU75IS1pUKgmKjrFhIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nu/qa6hv; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ALgZkFIr"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43850rVC005178;
-	Mon, 8 Apr 2024 05:18:07 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nu/qa6hv"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4385o0CV020277;
+	Mon, 8 Apr 2024 05:24:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=HP5jOhe9Z2fx8yJ8S42D1z6FwLnTIVOPjHt3pv7FB0Q=; b=
-	ALgZkFIr4XGDzWgvdCzkdNoWt4KyeDfgvoEjrjJ4SuXVwppwSpduMxn5lPpWCpve
-	ootVn4qB0shCwYhKWnI5zfT0V4U5TQCChPcM+Omr9feH/8FngpCarcs2BwhpX9t/
-	67rCSp52NoSkpXuef+J+Tx0Ece82vupw1I5YSTGyHCPW943WZ2MRiKjeSmaU9qxN
-	+MRoDYfhl2KRihXN19RUmppSbMHNSEykj8ivIIdGsR8/7lPLccLdyb61B52tnqXM
-	128vVtDWUq4D/ps4bGDCfuFysuQ4Q6GJT1iuYUPbgv5whF0w3SGRwtF+V8srEZaf
-	xuT4Rv1yQgc6q2QxdAg0yA==
+	PODMain02222019; bh=Ybaj5RNqmFluk/TOgHFDrpuyU98eEXfpsybGrhMcO78=; b=
+	nu/qa6hvqjt3Nj2p/N+kYUujZ8ReKl2OVSIo9L0Gl8SrCJ/x5IJ+AOi/QVB3FWJb
+	zKbKKz1lwSMkiaLSNHlsJjBuoHSzv1l1c+ZS0AHVesuIUqrr+8meLousuLn7uyjn
+	7MKwPtItGAeh1YeAlMJKmOwBmbP12/7ukWRM0bzxNX/NHIRybucbeltJAxFO1aWI
+	XYwNDk2nc8jrzvuXMkd+OjHdGfO/LRFjK5G72hksKB/VEYpQMdcenkq3s/flm2eK
+	GCYsu746pGr7ESmmUpzFiUs8YQJpUeyymVYKJcOgGMUw7PqDdrnhNAIhm9XDVqn9
+	KknY4CAK8f7x64CUPod+Mw==
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xb3sxhbbq-3
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xb2tjhp0e-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 05:18:07 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+	Mon, 08 Apr 2024 05:24:18 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 8 Apr 2024
- 11:18:03 +0100
+ 11:24:16 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 8 Apr 2024 11:18:03 +0100
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
+ via Frontend Transport; Mon, 8 Apr 2024 11:24:16 +0100
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 43ADE820258;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3398682024A;
 	Mon,  8 Apr 2024 10:18:03 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: <broonie@kernel.org>, <tiwai@suse.com>
@@ -49,9 +50,9 @@ CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         "Richard
  Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH 3/4] ASoC: cs35l56: Fix unintended bus access while resetting amp
-Date: Mon, 8 Apr 2024 11:18:02 +0100
-Message-ID: <20240408101803.43183-4-rf@opensource.cirrus.com>
+Subject: [PATCH 1/4] regmap: Add regmap_read_bypassed()
+Date: Mon, 8 Apr 2024 11:18:00 +0100
+Message-ID: <20240408101803.43183-2-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240408101803.43183-1-rf@opensource.cirrus.com>
 References: <20240408101803.43183-1-rf@opensource.cirrus.com>
@@ -63,179 +64,111 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Us6V62P_agtVZ1KfO10K_Oxc05tnbEsy
-X-Proofpoint-GUID: Us6V62P_agtVZ1KfO10K_Oxc05tnbEsy
+X-Proofpoint-ORIG-GUID: r1mKnv9K2x_btF63HBeaMCNqcEF-X3EN
+X-Proofpoint-GUID: r1mKnv9K2x_btF63HBeaMCNqcEF-X3EN
 X-Proofpoint-Spam-Reason: safe
 
-Use the new regmap_read_bypassed() so that the regmap can be left
-in cache-only mode while it is booting, but the driver can still
-read boot-status and chip-id information during this time.
+Add a regmap_read_bypassed() to allow reads from the hardware registers
+while the regmap is in cache-only mode.
 
-This fixes race conditions where some writes could be issued to the
-silicon while it is still rebooting, before the driver has determined
-that the boot is complete.
+This patch is a prerequisite for a bugfix to the ASoC cs35l56 driver.
 
-This is typically prevented by putting regmap into cache-only until the
-hardware is ready. But this assumes that the driver does not need to
-access device registers to determine when it is "ready". For cs35l56
-this involves polling a register and the original implementation relied
-on having special handlers to block racing callbacks until dsp_work()
-is complete. However, some cases were missed, most notably the ASP DAI
-functions.
+A typical use for this is to keep the cache in cache-only mode until
+the hardware has reached a valid state, but one or more status registers
+must be polled to determine when this state is reached.
 
-The regmap_read_bypassed() function allows the fix for this to be
-simplified to putting regmap into cache-only during the reset. The
-initial boot stages (poll HALO_STATE and read the chip ID) are all done
-bypassed. Only when the amp is seen to be booted is the cache-only
-revoked.
-
-Changes are:
-- cs35l56_system_reset() now leaves the regmap in cache-only status.
-
-- cs35l56_wait_for_firmware_boot() polls using regmap_read_bypassed().
-
-- cs35l56_init() revokes cache-only either via cs35l56_hw_init() or
-  when firmware has rebooted after a soft reset.
-
-- cs35l56_hw_init() exits cache-only after it has determined that the
-  amp has booted.
-
-- cs35l56_sdw_init() doesn't disable cache-only, since this must be
-  deferred to cs35l56_init().
-
-- cs35l56_runtime_resume_common() waits for firmware boot before exiting
-  cache-only.
-
-These changes cover three situations where the registers are not
-accessible:
-
-1) SoundWire first-time enumeration. The regmap is kept in cache-only
-   until the chip is fully booted. The original code had to exit
-   cache-only to read chip status in cs35l56_init() and cs35l56_hw_init()
-   but this is now deferred to after the firmware has rebooted.
-
-   In this case cs35l56_sdw_probe() leaves regmap in cache-only
-   (unchanged behaviour) and cs35l56_hw_init() exits cache-only after the
-   firmware is booted and the chip identified.
-
-2) Soft reset during first-time initialization. cs35l56_init() calls
-   cs35l56_system_reset(), which puts regmap into cache-only.
-   On I2C/SPI cs35l56_init() then flows through to call
-   cs35l56_wait_for_firmware_boot() and exit cache-only. On SoundWire
-   the re-enumeration will enter cs35l56_init() again, which then drops
-   down to call cs35l56_wait_for_firmware_boot() and exit cache-only.
-
-3) Soft reset after firmware download. dsp_work() calls
-   cs35l56_system_reset(), which puts regmap into cache-only. After this
-   the flow is the same as (2).
+For example, firmware download on the cs35l56 can take several seconds if
+there are multiple amps sharing limited bus bandwidth. This is too long
+to block in probe() so it is done as a background task. The device must
+be soft-reset to reboot the firmware and during this time the registers are
+not accessible, so the cache should be in cache-only. But the driver must
+poll a register to detect when reboot has completed.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 Fixes: 8a731fd37f8b ("ASoC: cs35l56: Move utility functions to shared file")
 ---
- sound/soc/codecs/cs35l56-sdw.c    |  2 --
- sound/soc/codecs/cs35l56-shared.c | 20 ++++++++++++--------
- sound/soc/codecs/cs35l56.c        |  2 ++
- 3 files changed, 14 insertions(+), 10 deletions(-)
+I have a kunit test case for this. But it's based on top of a chain of
+other changes I've made to the regmap kunit test, so I'll send it with
+that chain.
+---
+ drivers/base/regmap/regmap.c | 37 ++++++++++++++++++++++++++++++++++++
+ include/linux/regmap.h       |  8 ++++++++
+ 2 files changed, 45 insertions(+)
 
-diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
-index 14a5f86019aa..70ff55c1517f 100644
---- a/sound/soc/codecs/cs35l56-sdw.c
-+++ b/sound/soc/codecs/cs35l56-sdw.c
-@@ -188,8 +188,6 @@ static void cs35l56_sdw_init(struct sdw_slave *peripheral)
- 			goto out;
- 	}
- 
--	regcache_cache_only(cs35l56->base.regmap, false);
--
- 	ret = cs35l56_init(cs35l56);
- 	if (ret < 0) {
- 		regcache_cache_only(cs35l56->base.regmap, true);
-diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-index 08cac58e3ab2..a83317db75ed 100644
---- a/sound/soc/codecs/cs35l56-shared.c
-+++ b/sound/soc/codecs/cs35l56-shared.c
-@@ -307,10 +307,10 @@ int cs35l56_wait_for_firmware_boot(struct cs35l56_base *cs35l56_base)
- 		reg = CS35L56_DSP1_HALO_STATE;
- 
- 	/*
--	 * This can't be a regmap_read_poll_timeout() because cs35l56 will NAK
--	 * I2C until it has booted which would terminate the poll
-+	 * The regmap must remain in cache-only until the chip has
-+	 * booted, so use a bypassed read of the status register.
- 	 */
--	poll_ret = read_poll_timeout(regmap_read, read_ret,
-+	poll_ret = read_poll_timeout(regmap_read_bypassed, read_ret,
- 				     (val < 0xFFFF) && (val >= CS35L56_HALO_STATE_BOOT_DONE),
- 				     CS35L56_HALO_STATE_POLL_US,
- 				     CS35L56_HALO_STATE_TIMEOUT_US,
-@@ -362,7 +362,8 @@ void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire)
- 		return;
- 
- 	cs35l56_wait_control_port_ready();
--	regcache_cache_only(cs35l56_base->regmap, false);
-+
-+	/* Leave in cache-only. This will be revoked when the chip has rebooted. */
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 5cb425f6f02d..0a34dd3c4f38 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -2838,6 +2838,43 @@ int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val)
  }
- EXPORT_SYMBOL_NS_GPL(cs35l56_system_reset, SND_SOC_CS35L56_SHARED);
+ EXPORT_SYMBOL_GPL(regmap_read);
  
-@@ -577,14 +578,14 @@ int cs35l56_runtime_resume_common(struct cs35l56_base *cs35l56_base, bool is_sou
- 		cs35l56_issue_wake_event(cs35l56_base);
- 
- out_sync:
--	regcache_cache_only(cs35l56_base->regmap, false);
--
- 	ret = cs35l56_wait_for_firmware_boot(cs35l56_base);
- 	if (ret) {
- 		dev_err(cs35l56_base->dev, "Hibernate wake failed: %d\n", ret);
- 		goto err;
- 	}
- 
-+	regcache_cache_only(cs35l56_base->regmap, false);
++/**
++ * regmap_read_bypassed() - Read a value from a single register direct
++ *			    from the device, bypassing the cache
++ *
++ * @map: Register map to read from
++ * @reg: Register to be read from
++ * @val: Pointer to store read value
++ *
++ * A value of zero will be returned on success, a negative errno will
++ * be returned in error cases.
++ */
++int regmap_read_bypassed(struct regmap *map, unsigned int reg, unsigned int *val)
++{
++	int ret;
++	bool bypass, cache_only;
 +
- 	ret = cs35l56_mbox_send(cs35l56_base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
- 	if (ret)
- 		goto err;
-@@ -757,7 +758,7 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
- 	 * devices so the REVID needs to be determined before waiting for the
- 	 * firmware to boot.
- 	 */
--	ret = regmap_read(cs35l56_base->regmap, CS35L56_REVID, &revid);
-+	ret = regmap_read_bypassed(cs35l56_base->regmap, CS35L56_REVID, &revid);
- 	if (ret < 0) {
- 		dev_err(cs35l56_base->dev, "Get Revision ID failed\n");
- 		return ret;
-@@ -768,7 +769,7 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
- 	if (ret)
- 		return ret;
- 
--	ret = regmap_read(cs35l56_base->regmap, CS35L56_DEVID, &devid);
-+	ret = regmap_read_bypassed(cs35l56_base->regmap, CS35L56_DEVID, &devid);
- 	if (ret < 0) {
- 		dev_err(cs35l56_base->dev, "Get Device ID failed\n");
- 		return ret;
-@@ -787,6 +788,9 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
- 
- 	cs35l56_base->type = devid & 0xFF;
- 
-+	/* Silicon is now identified and booted so exit cache-only */
-+	regcache_cache_only(cs35l56_base->regmap, false);
++	if (!IS_ALIGNED(reg, map->reg_stride))
++		return -EINVAL;
 +
- 	ret = regmap_read(cs35l56_base->regmap, CS35L56_DSP_RESTRICT_STS1, &secured);
- 	if (ret) {
- 		dev_err(cs35l56_base->dev, "Get Secure status failed\n");
-diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-index 8d2f021fb362..5a4e0e479414 100644
---- a/sound/soc/codecs/cs35l56.c
-+++ b/sound/soc/codecs/cs35l56.c
-@@ -1531,6 +1531,8 @@ int cs35l56_init(struct cs35l56_private *cs35l56)
- 			return ret;
- 
- 		dev_dbg(cs35l56->base.dev, "Firmware rebooted after soft reset\n");
++	map->lock(map->lock_arg);
 +
-+		regcache_cache_only(cs35l56->base.regmap, false);
- 	}
++	bypass = map->cache_bypass;
++	cache_only = map->cache_only;
++	map->cache_bypass = true;
++	map->cache_only = false;
++
++	ret = _regmap_read(map, reg, val);
++
++	map->cache_bypass = bypass;
++	map->cache_only = cache_only;
++
++	map->unlock(map->lock_arg);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(regmap_read_bypassed);
++
+ /**
+  * regmap_raw_read() - Read raw data from the device
+  *
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index b743241cfb7c..d470303b1bbb 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -1230,6 +1230,7 @@ int regmap_multi_reg_write_bypassed(struct regmap *map,
+ int regmap_raw_write_async(struct regmap *map, unsigned int reg,
+ 			   const void *val, size_t val_len);
+ int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val);
++int regmap_read_bypassed(struct regmap *map, unsigned int reg, unsigned int *val);
+ int regmap_raw_read(struct regmap *map, unsigned int reg,
+ 		    void *val, size_t val_len);
+ int regmap_noinc_read(struct regmap *map, unsigned int reg,
+@@ -1739,6 +1740,13 @@ static inline int regmap_read(struct regmap *map, unsigned int reg,
+ 	return -EINVAL;
+ }
  
- 	/* Disable auto-hibernate so that runtime_pm has control */
++static inline int regmap_read_bypassed(struct regmap *map, unsigned int reg,
++				       unsigned int *val)
++{
++	WARN_ONCE(1, "regmap API is disabled");
++	return -EINVAL;
++}
++
+ static inline int regmap_raw_read(struct regmap *map, unsigned int reg,
+ 				  void *val, size_t val_len)
+ {
 -- 
 2.39.2
 
