@@ -1,113 +1,182 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BA6747F;
-	Mon,  8 Apr 2024 04:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529D57470;
+	Mon,  8 Apr 2024 05:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712550340; cv=none; b=RJWJfZKloErgUwwoE1QVn7gyaJQ5OgZ150FZfnzKxu31jh0W56yN4nOThoq9XdTI+md/AHB4DeBPSb8LCkz8/wB5waEt44jIPTZPBxbj3a1DRQBO0dVsnkN4kVhxRth+j/E2n5BaTql872oOtaOMV8+IpdZlBaTcHBK2DnnzAio=
+	t=1712553245; cv=none; b=aakpLeXoHYHECzaYI+e+ecLsVaVdtP2Luvw28U+k+vKXeQTTIc38fW5S1txkXKq/WFFcamMeY0GKt/e/BswXwZ+UIo0BhMpCVRg9xDwoZa4sbC3idDSKKIxb/qawT8U+08GLjGPyA/6EZ6+zNFDl/YjFJJOqnZHmK0HfFoFN0Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712550340; c=relaxed/simple;
-	bh=Z4CsF2281mZmL7xf7ynNJXP+RNbaJ8x8o9H19nrf1V8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NKZ7wwW/jrmzOnteRDcbNX5TsX1ZRWI/GjMznl268Axh1l6PWFdAI9M79V6xqEvb5KT8ZoKeSYjro08u/8SKO7aoFAL4nZdkBzebLBA83sS10/BUeh7dPehWMVxsneLd9r9m2wN4+BFPc9jy77yV2XMIFMvTAhOwADipS0yc8ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BhFaME95; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BhFaME95"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43840ENc012334;
-	Mon, 8 Apr 2024 04:25:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=6naomMVvQqPbfJJOQtxuDorZsTKMcpI7bZfiKtjJCgM=; b=Bh
-	FaME95INVlRnsXxHXEPxX/gca3zoc6GK08+tigqoYKhO1ZFgBY9poMAk0APHYAca
-	TL9gGn95LTZ0LneGpLfRk19v/4oPHekxQqavlz+dXOSV9ItvaniByiDKmhCtTYda
-	pKUwOunhpMCJd5jT4QsTAXp62Siwin15P5/GGwHXKeN8EOd87iZQ6lgOywOI8sbM
-	nbdvznLJUUfhbjTl9A+/sj3dcP1udoKGrq/njZ4rc3F46FnQMASrAq9bRghd3f1n
-	/+3FH1i91mY6jB0wNefSyQ+qoVnxzVpvJIADL757j1GEWTcUOymc+whnR4Gfkp/o
-	WLmQpMXet/aX0k+FY5eA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xawqpjnde-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 04:25:27 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4384PQsp000600
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Apr 2024 04:25:26 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Sun, 7 Apr 2024 21:25:21 -0700
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        "Mohammad Rafi
- Shaik" <quic_mohs@quicinc.com>
-Subject: [RESEND v3 2/2] ASoC: qcom: sc8280xp: Add support for QCM6490 and QCS6490
-Date: Mon, 8 Apr 2024 09:53:31 +0530
-Message-ID: <20240408042331.403103-3-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240408042331.403103-1-quic_mohs@quicinc.com>
-References: <20240408042331.403103-1-quic_mohs@quicinc.com>
+	s=arc-20240116; t=1712553245; c=relaxed/simple;
+	bh=DLwbCxfXbeWl6N3M1HF6ulR5vBBN4/iqyDlNh+AnF8k=;
+	h=From:To:Subject:Date:Message-Id; b=Pu2PhX98juSRx3SEXRr2hHAx/JJDl+Ls9/1xZmffOccveIgHhfkS70P8L/wuLa08gki87UggvjSuTpKcwhN+IOSRS1ddpJmw6UaAq8BFJW/tBfCvzgYASG2A9/XOzwNP1a2SkqwwJG69Vld6wL70uOcIW9SgqYH6w58Ic+LC808=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 644221A1276;
+	Mon,  8 Apr 2024 07:13:56 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 005931A08A6;
+	Mon,  8 Apr 2024 07:13:56 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 31AD31820F77;
+	Mon,  8 Apr 2024 13:13:54 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
+Date: Mon,  8 Apr 2024 12:55:42 +0800
+Message-Id: <1712552142-27055-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: HvRBedq2qORahbEhczr0KgIdfGpeQdl5
-X-Proofpoint-ORIG-GUID: HvRBedq2qORahbEhczr0KgIdfGpeQdl5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_02,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 suspectscore=0 spamscore=0 mlxscore=0
- lowpriorityscore=0 mlxlogscore=982 priorityscore=1501 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404080032
 
-Add compatibles for sound card on Qualcomm QCM6490 IDP and
-QCS6490 RB3Gen2 boards.
+Convert the imx-audio-spdif binding to YAML.
 
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+When testing dtbs_check, found below compatible strings
+are not listed in document:
+
+fsl,imx-sabreauto-spdif
+fsl,imx6sx-sdb-spdif
+
+So add them in yaml file to pass the test.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
- sound/soc/qcom/sc8280xp.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/sound/imx-audio-spdif.txt        | 36 -----------
+ .../bindings/sound/imx-audio-spdif.yaml       | 62 +++++++++++++++++++
+ 2 files changed, 62 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/imx-audio-spdif.yaml
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index b7fd503a1666..878bd50ad4a7 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -169,6 +169,8 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id snd_sc8280xp_dt_match[] = {
-+	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
-+	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
- 	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
- 	{.compatible = "qcom,sm8450-sndcard", "sm8450"},
- 	{.compatible = "qcom,sm8550-sndcard", "sm8550"},
+diff --git a/Documentation/devicetree/bindings/sound/imx-audio-spdif.txt b/Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
+deleted file mode 100644
+index da84a442ccea..000000000000
+--- a/Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Freescale i.MX audio complex with S/PDIF transceiver
+-
+-Required properties:
+-
+-  - compatible		: "fsl,imx-audio-spdif"
+-
+-  - model		: The user-visible name of this sound complex
+-
+-  - spdif-controller	: The phandle of the i.MX S/PDIF controller
+-
+-
+-Optional properties:
+-
+-  - spdif-out		: This is a boolean property. If present, the
+-			  transmitting function of S/PDIF will be enabled,
+-			  indicating there's a physical S/PDIF out connector
+-			  or jack on the board or it's connecting to some
+-			  other IP block, such as an HDMI encoder or
+-			  display-controller.
+-
+-  - spdif-in		: This is a boolean property. If present, the receiving
+-			  function of S/PDIF will be enabled, indicating there
+-			  is a physical S/PDIF in connector/jack on the board.
+-
+-* Note: At least one of these two properties should be set in the DT binding.
+-
+-
+-Example:
+-
+-sound-spdif {
+-	compatible = "fsl,imx-audio-spdif";
+-	model = "imx-spdif";
+-	spdif-controller = <&spdif>;
+-	spdif-out;
+-	spdif-in;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/imx-audio-spdif.yaml b/Documentation/devicetree/bindings/sound/imx-audio-spdif.yaml
+new file mode 100644
+index 000000000000..b29e024f553f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/imx-audio-spdif.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/imx-audio-spdif.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX audio complex with S/PDIF transceiver
++
++maintainers:
++  - Shengjiu Wang <shengjiu.wang@nxp.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - fsl,imx-audio-spdif
++          - enum:
++              - fsl,imx-sabreauto-spdif
++              - fsl,imx6sx-sdb-spdif
++      - items:
++          - enum:
++              - fsl,imx-audio-spdif
++
++  model:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: User specified audio sound card name
++
++  spdif-controller:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the i.MX S/PDIF controller
++
++  spdif-out:
++    type: boolean
++    description: |
++      If present, the transmitting function of S/PDIF will be enabled,
++      indicating there's a physical S/PDIF out connector or jack on the
++      board or it's connecting to some other IP block, such as an HDMI
++      encoder or display-controller.
++
++  spdif-in:
++    type: boolean
++    description: |
++      If present, the receiving function of S/PDIF will be enabled,
++      indicating there is a physical S/PDIF in connector/jack on the board.
++
++required:
++  - compatible
++  - model
++  - spdif-controller
++
++additionalProperties: false
++
++examples:
++  - |
++    sound-spdif {
++        compatible = "fsl,imx-audio-spdif";
++        model = "imx-spdif";
++        spdif-controller = <&spdif>;
++        spdif-out;
++        spdif-in;
++    };
 -- 
-2.25.1
+2.34.1
 
