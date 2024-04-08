@@ -1,117 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBF314294;
-	Mon,  8 Apr 2024 05:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B0C7470;
+	Mon,  8 Apr 2024 06:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712555806; cv=none; b=XVaH913R94LpPAKiAJaIOcd4pKEVmYTjf1dKTK0NSTe8nwVWLoFw/re4Wq+rqHFMtO8IZBrJuhS+49rddLPe4Zb9IvGqqGep9/9Ar+g+1EwRF+M850pJX2klQQbABLVcoNdOJteB2odstL1NufUiQ7gpZybDk4fHfBTVeNig9Vc=
+	t=1712557036; cv=none; b=uRM7bcd81ZrLY4f43DG9fBJmHucvD6yvAvTfHzhh02h5cPMZxiLXv4Yyakw2/DSDIJUjd2TlBYSaHHuIG6xuv+EkmwhWd8qqryDtfrkspIZDOBzbxvcVf4HigI5BUAUMGdRqSH/GWi40GYacogiocP7WX5bFLwnNgx1mPnS4jG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712555806; c=relaxed/simple;
-	bh=ELERn9z7UVJVqAQqBnZjr6HtxOQ+/5+MEqddAZiFo4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tLep/hgR/lJtzlDnDwFdaSK4c/LspNfPGDgaACJnGOY55gWQsuWN9pgdjZ9PtcOX/8GoW83AX5942s1F4TwfdxJs4TG4w2ZrI3SSvO0R69vN9Y3wei0vAAl4dNDpee54lJlsYm9gEUY3WrxmpqmasGnEYX7lGurauGTkv8GTOS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KMbvupMp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712557036; c=relaxed/simple;
+	bh=OziQqOlr0jwrXZHS75y+H+NpigCrK3eEQkFJgpX31s8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D9zOcz3i5XZqMRhwVqUwRmN4RHd/mnZyfkINdue9Nmy5hdK4yAfqtSHNp7/HSw0i1qT0+DOhDNbMv3zHHvPR8ihNIUwFO40T7cosTbXskCn25PII0V/XYPV56vHKvMyt5949MmiQ6KeUafD1NkVfZlnQ1ipwxoix0Sdq7I5smH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWwIsZOl; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KMbvupMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B83C43390;
-	Mon,  8 Apr 2024 05:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712555806;
-	bh=ELERn9z7UVJVqAQqBnZjr6HtxOQ+/5+MEqddAZiFo4s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KMbvupMpi0c75dd5qW5fkIraRqi2SUOOC80O5q2D9HXTifSn3Y7n25y29QMyC6enZ
-	 p0cXbUgyr2tdNLx/6k/ZepEYjwtING688cMGvV1IiVS0OWdR9WlBtGaQHywaFui0U4
-	 GM0mMWzOOiZYlBhiKKR7eIy8nNM0vsYKjWdZ/JNIuSGl2PP9FqmJegoEH/yYkdkYHz
-	 hlzNS5jAGrIHtCx2vow4u4sDEqCA4A9ojWDEnKYODZwgsgKDu8eVDxEIxOenS4yhtS
-	 ihIWXQF1kt+sAhzoF69DKPc/apanitXtxrPSjxS2z977j1jniiSI/GhOdLU/Qtl3PV
-	 rDwmyvhGNn3CA==
-Message-ID: <ff5fc4c2-de74-4a6b-a70c-a5f1bd0b5343@kernel.org>
-Date: Mon, 8 Apr 2024 07:56:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWwIsZOl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712557035; x=1744093035;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OziQqOlr0jwrXZHS75y+H+NpigCrK3eEQkFJgpX31s8=;
+  b=kWwIsZOl3nXmdUPzuCl4FiyD2AM6rqIBsh01DYACvVG3vUAlPMb4JjlI
+   AZxZLs3y4SeicrfYpLqcwilwkKqy4nUw87Q0bET4WQYFlW9cCCjWUFhcD
+   0TEkKAVQ5joq2mYDWRH9g3TmoK0+UlHqIXBDX8O7TTGp5AnWuSKa/Gohe
+   WaSCw/TQGhh58uvgcLg57uJBxUOxqeiejlroqrhcy1zJQCyLwRfVv3Edn
+   JvPpSmr2gwGzD4/rC2l8dd9IZLF7aC3OPVK2iBImeNbCuWt4ajjz938bz
+   jEPg8DpSY3vW3NoYIhXabZtpT+jZlHNiXJvWTyLgI7URo4oqCtAcDxGl8
+   Q==;
+X-CSE-ConnectionGUID: 6n/hSUNpSRSo7Or6vSOsCA==
+X-CSE-MsgGUID: r5IzjDzuSpeOtulo307mxQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7675326"
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="7675326"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:17:14 -0700
+X-CSE-ConnectionGUID: k+iup9NeRdGDWb5MrUb8oA==
+X-CSE-MsgGUID: xgJWaSzhSV+M+IbFAT+NkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
+   d="scan'208";a="24511953"
+Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:17:13 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH 0/2] soundwire: intel_ace2x: fix wakeup handling for LunarLake
+Date: Mon,  8 Apr 2024 06:16:41 +0000
+Message-Id: <20240408061643.420916-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v3 1/2] ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd
- QCS6490 sound card
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com
-References: <20240408042331.403103-1-quic_mohs@quicinc.com>
- <20240408042331.403103-2-quic_mohs@quicinc.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240408042331.403103-2-quic_mohs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 08/04/2024 06:23, Mohammad Rafi Shaik wrote:
-> Document the bindings for the Qualcomm QCM6490 IDP and QCS6490 RB3Gen2
-> board specific sound card.
-> 
-> The bindings are the same as for other newer Qualcomm ADSP sound cards,
-> thus keep them in existing qcom,sm8250.yaml file, even though Linux driver
-> is separate.
-> 
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> ---
+For LunarLake, the SoundWire in-band wake detection is reported with
+the HDAudio WAKE_EN/WAKE_STS registers.
 
+Pierre-Louis Bossart (2):
+  soundwire: intel_ace2x: fix wakeup handling
+  soundwire: intel_ace2x: simplify check_wake()
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+ drivers/soundwire/intel_ace2x.c | 43 +++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-Best regards,
-Krzysztof
+-- 
+2.34.1
 
