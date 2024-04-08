@@ -1,116 +1,107 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B44535B4;
-	Mon,  8 Apr 2024 08:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1176D45C18
+	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 09:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712565923; cv=none; b=X+c3srxOT0idB5EQpJZMCWrSU9s2MIjIMnQXRtGrvsLkB3KNCUSWjq1L/CNLtNCT6fDn63x/MAsKTKe9BGiO2z2BggeYqjnyxjMKZvcl2W0smAHSf8zB3Ch2hbAL4thZ7QhhuZZrFKfloBVWmuyS9RpaeJC+PoFmnC+uweH4Dnc=
+	t=1712567821; cv=none; b=mjrylA4aLIQ9VospcJ+UksalG2gh2C3XnLd99HKngjmW8mA2rl9goOsOT2nZd8IrheDF+WASVykdApLhvw2d8ZaLV/J/oN3VYc4JzOX03NHvdzqn1U9JHgghSvkZ9aS4NkHSPJX3tfCGillrHft7ryNC7uTkc/vdjS5YEVtYfIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712565923; c=relaxed/simple;
-	bh=nIn/zPewsG9q+wrG7O743ZFUtC6bgOwv5+buBPM+YFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EspLQ1jwGVI0ehFb9IIKIvBYZRhUUb44/D9S9cbwBURx4B85YzSVjzH2afYrfmfpOY3CRrrBEW28X5iMW5dxIXhPu5tY0SUDvw53Q8IaoC97mut0qtg5rhu5rsFGSIDPZCVtGVFwBRgtu/gRKqJ3C5AAfGD8u/NlL74oz9p/9IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UAVjRcBe; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1712567821; c=relaxed/simple;
+	bh=ydZJw7d35Ff9MPe3LKMKV9TaBpQgVGBrz9NBba+U30U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rFw1KOzXA7pDJLOYiq139SfkMoBnFbm0rFw8bAJgVR6XpNJiJXOudJLyryXc5q4dXMAdGzwr3a6W8G7LPl2BnBOlgvJn3JE58hoWyk4dG/7bhF4Lp8nOlXPVPPN8hAp2+znxG+QI6XA61ldqBYIwB5FsA2rrbvrgssK2fpxdGO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p+HA3Y1u; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UAVjRcBe"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4386dMxB009177;
-	Mon, 8 Apr 2024 08:45:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=wkPa/yuRBAbkzPtrxt9b+AV06OSilI8lIKaafg+mXV0=; b=UA
-	VjRcBeGe437/rmaw+JYZDjRpTQO7nPJVgLvp+NP1YzoZ5OVLk1UiFl25iTbAOKsc
-	fSY+kCxaBQ0iaNug+r+R2xrbzHTGfmBun4B6TKYnWk6SvFohYiSf/3TS8grLQDgo
-	941tT7rgXjCGFPtpe9dgtkfskgEZSlY0eKmsWnjsTisxGsgLKusNkznxdzRzTpry
-	J7LH4UF54xRxlpKGnx7h5mhuEfahR+xtF0QacxU+I2BUVjKOB7m16mnbITPbeOw8
-	pU/8uqyD2LXj8Z3/dQ7ShwY///bJ1UimqIF0xwWI/Yvb93o6CFZR+2a/OhiZDRHM
-	SO3VQofAdYgP54lEey1w==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xcbg307e0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 08:45:06 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4388j4fo010728
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Apr 2024 08:45:04 GMT
-Received: from [10.216.2.95] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 8 Apr 2024
- 01:44:58 -0700
-Message-ID: <c2708201-64ae-0e5a-edcc-08b8ad0e999d@quicinc.com>
-Date: Mon, 8 Apr 2024 14:14:52 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p+HA3Y1u"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-343f62d8124so1897247f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 08 Apr 2024 02:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712567818; x=1713172618; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kyn/nAbJTaoSC8qDBWXGUmDfOwA1IOLpAo8aFHObHYE=;
+        b=p+HA3Y1uGsNot0aTz+OdufmZB4YkQPySa3c4TJFx0rmI4E2PAgDSotgYw5J6nv8Ka5
+         pBC5b71Kpdu+DBeBhta0Akk3N4lmR296RQViEfKenMNtNEnCefGlX7Zm2jrL1/eG9X25
+         UMQubMkIoTEFnuxrNUMDjw6sBE7DvZyHRM+8zqMM8Mgdkuiktf+7+FFHiXVWgY1LmlBh
+         BsHJQKV1P0v5ma4qeKi9cmdcCTRUMMbIo1GNOsR7I8bAN9PbHOE/GdaUHRu1UE7URovu
+         CV2TQeyg3iQn14kN9A3T1sSwPHENxKnjxiCFR5aqXpmagGmxzqdNOAqKZG5pvIQTLOFV
+         g8XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712567818; x=1713172618;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kyn/nAbJTaoSC8qDBWXGUmDfOwA1IOLpAo8aFHObHYE=;
+        b=XM+m+pzBF1bhYnHCGPD+O74WKBVgOwyHtSunbWUkCKcmlPIdjmo4pX6N82sqtfta7C
+         +XZ+yZHoKcpuf59Pd0BdAHzFc12iw4/gf2o+/ARW+vM5MyWpT/lJsDMZWJU4YjLE/+Ii
+         7xp2dnZg+it5Ab1IfKiqNcJIBSS0eJbYSTUKKS8lSRigw4lVV6UdVJkuETMozmmn3zzA
+         LtA3FgLQH9ICeK6FdBtPZGuTjtqSp8VKEKwwSMC5jpvADsrakl8lHNHbkEznnfN333B7
+         2TlOZOnRGmoD+e+w/ZSSXRNyAXuQdy4rPjBsY2D80qQbaMQdOOfpfZcaEOSwgQps9TVS
+         HNWA==
+X-Forwarded-Encrypted: i=1; AJvYcCWLRvz0gBdIWNsX1XUglhkwhsYGEwiWFR7tICl00iYZqfK1cRAND20z6pb0l7YfXQcGzcVoq1dNyxWkaikP977ldTMO9/iq4Uwx+Ls=
+X-Gm-Message-State: AOJu0YzzgaBewX0V/ZjbvvUdwdfUSgmeTQlNJwdeZ++9uBSEnAq+tTtZ
+	RrC43UGzx9hq+AdefTVy7sRiqMACEuctjP2YsSoKYOrHLjU2/Ki2F6vJ/HPBE9g=
+X-Google-Smtp-Source: AGHT+IFbW+GZvWtDNwC+hUfv0CeQti5p0/4Lt39sOJliVc7683eESlFh87O+IacxG6iRBQDyz+nk9A==
+X-Received: by 2002:adf:f28e:0:b0:33e:3bf3:a097 with SMTP id k14-20020adff28e000000b0033e3bf3a097mr5598241wro.26.1712567818504;
+        Mon, 08 Apr 2024 02:16:58 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id q8-20020adfea08000000b00341c6440c36sm8586391wrm.74.2024.04.08.02.16.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Apr 2024 02:16:58 -0700 (PDT)
+Message-ID: <499dc405-a292-44c2-860f-db78ad7becc8@linaro.org>
+Date: Mon, 8 Apr 2024 10:16:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RESEND v3 0/2] Add support for QCM6490 and QCS6490
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>
-CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com
 References: <20240408042331.403103-1-quic_mohs@quicinc.com>
- <67ca18b4-0904-41e4-8218-ecb2016d532d@kernel.org>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <67ca18b4-0904-41e4-8218-ecb2016d532d@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20240408042331.403103-1-quic_mohs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 4T7kCvwu9m1rGFpH5T2dTAgYnEKoJnZb
-X-Proofpoint-GUID: 4T7kCvwu9m1rGFpH5T2dTAgYnEKoJnZb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_07,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
- priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 adultscore=0
- mlxlogscore=772 impostorscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404080067
 
-On 4/8/2024 11:26 AM, Krzysztof Kozlowski wrote:
-> On 08/04/2024 06:23, Mohammad Rafi Shaik wrote:
->> This patchset adds support for sound card on Qualcomm QCM6490 IDP and
->> QCS6490 RB3Gen2 boards.
->>
->> Changes since v2:
->> 	- Modify qcm6490 compatible name as qcm6490-idp. Suggested by Dmitry
->>
->> Changes since v1:
->> 	- Use existing sc8280xp machine driver instead of separate driver.
->> 	- Modify qcs6490 compatible name as qcs6490-rb3gen2.
->>
-> 
-> Why are you resending 15 minutes after previous round?
-> 
-> Best regards,
-> Krzysztof
-> 
-Found one mistake in cover-letter.
-Instead of qcm6490-idp given qcs6490-idp.
 
-Modified the cover-letter and reposted.
 
-Thanks & Regards,
-Rafi.
+On 08/04/2024 05:23, Mohammad Rafi Shaik wrote:
+> This patchset adds support for sound card on Qualcomm QCM6490 IDP and
+> QCS6490 RB3Gen2 boards.
+> 
+> Changes since v2:
+> 	- Modify qcm6490 compatible name as qcm6490-idp. Suggested by Dmitry
+> 
+> Changes since v1:
+> 	- Use existing sc8280xp machine driver instead of separate driver.
+> 	- Modify qcs6490 compatible name as qcs6490-rb3gen2.
+> 
+> Mohammad Rafi Shaik (2):
+>    ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd QCS6490 sound card
+>    ASoC: qcom: sc8280xp: Add support for QCM6490 and QCS6490
+> 
+
+LGTM,
+
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+--srini
+>   Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
+>   sound/soc/qcom/sc8280xp.c                                | 2 ++
+>   2 files changed, 4 insertions(+)
+> 
