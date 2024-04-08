@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0F1142906
-	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 17:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13115143893
+	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 17:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712596978; cv=none; b=f1QbaIvCxEUi6z5zPBo41Xg8atNd1LDiPxmhxVJBtOdT6P02ahUP8C2sx7uLuSadUjKUcOjnXogAAOxZa+/Qr+vabc6PdhI49eof4xMi1ZQbjrI2QqOl4WJv+xeRlT4XN+kNY3gMg0bvanIJ4221RQfGSzHsI6c1TlBpd0Fn4wQ=
+	t=1712596980; cv=none; b=GtgNVr2RIUmDAD966vFSa+87jpQZfoP/oJ7AW1EC0nhYCx54Nkrc02tbisDRZoeYiRXtdF8kHLjND1GqoZ2oiobKsfmS7fP1nXfk7FGDa10hZ5CYFkYdy7hs/d2s5jFWS1/6dLjoI01I/ALkwWi+ydTDiD9aJs/yPVy47lj4dUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712596978; c=relaxed/simple;
-	bh=cx3lvZtVCA4R6BXGBfL5aNQwMBLv2iVL2cgfzIFw1G4=;
+	s=arc-20240116; t=1712596980; c=relaxed/simple;
+	bh=9YZUFujOhMTTG62YTRxcfo0Pxm72VS2PmasBoZHfmRw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MnEp44A5kV98C0sQTY/pT12HSX+vQbo3vLrmwbwUlDJjwHePG18K30WvrzbuDEE8FtX/n/yN9WGFRmHEZhCXPk3mlLJKx17eF0Kvck6OZS59pQ/iMQTrWiSVnc9w7YoxJ9MD71BgiTxMFm37UThZzq9WlDBV38SGQHxFxyWBRCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBQn4hHf; arc=none smtp.client-ip=198.175.65.20
+	 In-Reply-To:Content-Type; b=GjdKqDZzojTHxwT6akrjRi+LpHVUkcExhzXKAZ1S3SD0oJCa+6XexEl0fsRlJPLOT9LcyGD7IG4IXh/r/KrXE5Bvu7XS3mL0snKcsea8w02Of+AIR13tOe/O0SrOh9HylRtddglZkOxss28i7A8IHHAFt0+2lm4gZAGultaf8Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M/lLj6tO; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBQn4hHf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M/lLj6tO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712596976; x=1744132976;
+  t=1712596979; x=1744132979;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=cx3lvZtVCA4R6BXGBfL5aNQwMBLv2iVL2cgfzIFw1G4=;
-  b=VBQn4hHf25eanTaohLPr8r5uie/R27lnnbVM2RMjepGFrwJ87iwTZEPn
-   fPKfs8Iznhie1qInJw5JzZiOqHvKpsTtVRfLrMvtW+aNKvf21Z8HRjWiV
-   KtmC8XswwtnwxTuDd7lIKd2bm2DUbswHUamDChjGeEIjWtKjYQXiaONlB
-   WvkRKpE/ezWI4pj8tFQd8MwaN8+sat+Kh3MHiOAjxZ+eCZwpw7ozAcFte
-   PVtcoMP8QmxvBsRUn4M80iwYw5LL+bhpL+0G84xsgodp6kIFTF48GXvGo
-   8Do57BCs/hzu0xVbBR6/FCH9J00fvcnK+nluMH9sIpyTnpf2zruSz3x9G
-   g==;
-X-CSE-ConnectionGUID: NJ6qpawITz+/uXBdx7ldyw==
-X-CSE-MsgGUID: XaG8CqDYQhaQ9vBhdL+QwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7757424"
+  bh=9YZUFujOhMTTG62YTRxcfo0Pxm72VS2PmasBoZHfmRw=;
+  b=M/lLj6tONj5+KriC41hsThKGT5lJ0EeXzHlsJNAPXt0TUsburfZCy8O6
+   fcdSYie0Dbpyr8+CXtUduB8blUZH6VREXHr2DkGsqPiecwkbL3nJmJNWw
+   063CnuGqlNkewrYwBLDfVhvvF9C4JzNWU3swUkpQxVh2GbMOP4nJa8kmX
+   iiIeD50vmcVMQdifWg3AAJPIhFFJz5Bu3VNvhdI9FBXqg43nYT/tImslv
+   acFTSsZa66Jhsy07OAe2PO2nNfSr2QfeDu2mO76zp7/DBDqkl0ocqCx3j
+   jQTytVco7zgIlcWQjFZtxnwvFwP7ojP0pxQzw1MJ1j1N0eOlrb/4bLMho
+   Q==;
+X-CSE-ConnectionGUID: JSb/YDPFTiO1O2vA1UcPzg==
+X-CSE-MsgGUID: pOL/rzLlQISBfG5sDqgrqg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7757439"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7757424"
+   d="scan'208";a="7757439"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:56 -0700
-X-CSE-ConnectionGUID: k+CtTFHrSM2tzYeIf8lcEQ==
-X-CSE-MsgGUID: GCF7GdmZT/GEnKt73nGffw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:58 -0700
+X-CSE-ConnectionGUID: fG6IZotJT4u76Vx3qwpS7A==
+X-CSE-MsgGUID: izqID2hnQtuQZJDnjXRadA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="24697432"
+   d="scan'208";a="24697450"
 Received: from shahsmit-mobl1.amr.corp.intel.com (HELO [10.212.101.141]) ([10.212.101.141])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:55 -0700
-Message-ID: <697e9cb7-8e10-469b-8d9a-6209ec7faf5a@linux.intel.com>
-Date: Mon, 8 Apr 2024 10:29:49 -0500
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:56 -0700
+Message-ID: <acf98b6b-7c18-4f1e-ab8f-039c88679ab9@linux.intel.com>
+Date: Mon, 8 Apr 2024 10:34:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,34 +52,129 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to
- Asus T100TAM too
-To: Hans de Goede <hdegoede@redhat.com>,
+Subject: Re: [PATCH v2 01/16] ASoC: soc-pcm.c: cleanup
+ soc_get_playback_capture()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
  Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <20240407191559.21596-1-hdegoede@redhat.com>
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
+ Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+ imx@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+ <87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
+ <b4b37541-b67f-4593-9fd5-fc6242a0673a@linux.intel.com>
+ <87zfuc7gya.wl-kuninori.morimoto.gx@renesas.com>
+ <600cef67-ad90-4b67-8da7-2006339d430b@linux.intel.com>
+ <874jch99m5.wl-kuninori.morimoto.gx@renesas.com>
+ <40e23972-6745-48e2-81ae-4b93f2ee2dcc@linux.intel.com>
+ <875xwwr60a.wl-kuninori.morimoto.gx@renesas.com>
+ <87sezwecf1.wl-kuninori.morimoto.gx@renesas.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240407191559.21596-1-hdegoede@redhat.com>
+In-Reply-To: <87sezwecf1.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 4/7/24 14:15, Hans de Goede wrote:
-> The Asus T100TA quirk has been using an exact match on a product-name of
-> "T100TA" but there are also T100TAM variants with a slightly higher
-> clocked CPU and a metal backside which need the same quirk.
+On 4/7/24 22:55, Kuninori Morimoto wrote:
 > 
-> Sort the existing T100TA (stereo speakers) below the more specific
-> T100TAF (mono speaker) quirk and switch from exact matching to
-> substring matching so that the T100TA quirk will also match on
-> the T100TAM models.
+> Hi Pierre-Louis, again
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> dpcm_xxx is used to declare that the DAI/dailink is possible to use
+>> playback/capture. For example dpcm_playback means the DAI / dailink
+>> should playback-able, if not it is error.
+>>
+>> xxx_only is used to limit the playback/capture.
+>> For example the DAI / dailink can use both playback and capture,
+>> but want to use playback only for some reasons, we can use playback_only.
+> 
+> My pervious patch-set was "try to merge dpcm_xxx and xxx_only flag",
+> but next patch will be "expand assertion flag to all connection".
+> This "assertion flag" was originaly dpcm_xxx.
+> 
+> In next patch-set, it will assume for example current "dpcm_playback"
+> as "playback_assertion". It can be used not only for DPCM, but
+> all connection, but is not mandatory option.
+> 
+> Its pseudo code is like below, but what do you think ?
+> 
+> 	soc_get_playback_capture(...)
+> 	{
+> 		...
+> 		/*
+> 		 * get HW / DAI availability
+> 		 */
+> 		for_each_rtd_ch_maps(...) {
+> 			...
+> 			has_playback = xxx;
+> 			has_capture  = xxx;
+> 		}
+> 
+> 		/*
+> 		 * "xxx_assersion" was "dpcm_xxx" before, but expand to
+> 		 * all connection. It is not mandatory option.
+> 		 * It will be error if dai_link has xxx_assersion flag,
+> 		 * but DAI was not valid
+> 		 */
+> 		if (dai_link->playback_assertion && !has_playback) {
+> 			dev_err(rtd->dev, ...);
+> 			return -EINVAL;
+>  		}
+> 		if (dai_link->capture_assertion  && !has_capture) {
+> 			dev_err(rtd->dev, ...);
+> 			return -EINVAL;
+> 		}
+> 
+> 		/*
+> 		 * xxx_only flag limits availability. It will indicate warning
+> 		 * if DAI was not valid.
+> 		 */
+> 		if (dai_link->playback_only) {
+> 			if (!has_capture)
+> 				dev_warn(rtd->dev, ...);
+> 			has_capture = 0;
+> 		}
+> 
+> 		if (dai_link->capture_only) {
+> 			if (!has_playback)
+> 				dev_warn(rtd->dev, ...);
+> 			has_playback = 0;
+> 		}
+> 
+> 		/*
+> 		 * No Playback, No Capture is error
+> 		 */
+> 		if (!has_playback && !has_capture) {
+> 			dev_err(rtd->dev, ...);
+> 			return -EINVAL;
+> 		}
+> 		...
+> 	}
 
-Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-
+The code looks fine, but what are we trying to achieve?
+I thought the idea was to have a single field at the dailink, and with
+the example above we would still have two - just like today.
+This looks like a lot of code churn in many drivers for limited
+benefits. Or I am missing something?
