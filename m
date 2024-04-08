@@ -1,129 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11020002.outbound.protection.outlook.com [52.101.228.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4386C145B1B
-	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 19:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712605321; cv=none; b=Rn8PQT1bZVX23DOowKWcaETRGP3l4AKDSht9RhKo3g2mnlMgY9+2Y//i1HM1qk4iUNgtyuIFS4w+epTixCOczj7Z9DDU0tmVD3UuCUxBgMMGuuCdThAgdFLmOh/ZXFZZZCv/8Gb1WaPAxsCfpuI4KlEmKmOnmEbaBFvvB0LYbuA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712605321; c=relaxed/simple;
-	bh=4qtLV05lDjmjdiMZgc2NNyc/kZf7iepOU2DsqdEnfJY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q0oSDkAnlRBlNPkF1tTyyfUaKGXdaA6z87QEZWt8Oph37m8yistfdMNvY1TRk2wLyWpNGVnpbcvYDsnbfIe10X73ORpbPVJ6vElaypgmsCZMBHkie8TGgH3vKUdMxH1UdG/tp/y+yXbzeJbDAVtR67gnjGD6Mg0T8J6OO7wZvpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfjxj2Gw; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC50171A1
+	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 23:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712619752; cv=fail; b=QD/+O594KPE3j+NnGh/GRQnsdTrqoeTtp/bFEhn6eEWMbdKD9xOXxG+WF9EMxQxbxmCTJ7DHKl74C/pEqGdziLdl9f8rC+AchX2ewo+HN13oPfzZQqjjyf8YWgw3FXXjFiLmnxmeTemuCsutpumg/ZgVUfTDe5EjhJZ1yKj6wMY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712619752; c=relaxed/simple;
+	bh=p8Cf++9r0RALugUXRoV7NtIWOs+okJdCzCnb/VCAAMY=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=npHyGafdc0+zlr38YrUYcLhiQvwmW0vfkwTMzVpM1MeFH4JesXKAEetjxDviA8eOrfWJHtEFRGN8Nhym/yl872Yo/Y7FLCU3Q6D7ePjV8Qeg1mgNjAq26hcf1N88hZ/pdnlG73D4/tVC/p3GXfmBjx0RQaAb9TFayOjdYp383Qc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TruZFrtP; arc=fail smtp.client-ip=52.101.228.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfjxj2Gw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712605320; x=1744141320;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4qtLV05lDjmjdiMZgc2NNyc/kZf7iepOU2DsqdEnfJY=;
-  b=cfjxj2GweEcKiuBBNmx7k60NSYndKMaxMEJpBXkyAD6aYfhXKCZc1z42
-   Hw2bkrFIIn6MSdZVV3k1s4VyahsIObFTTOgFUY8b2Si1ILDYY9/tLR8tR
-   1Zjk7viLoCs7AhFwJdcc+OomgbpOX+DEDhE2AWt3qYjNPxu3w9AAr28sO
-   hk2pEtZu1rKgLequ2t/mau8Hgbwtga5tvhuUkVTh5zkqHkBTqe12p2M7F
-   eH6xQiY6Nf6iFsJv2BxBmJCtRAD1WqEa7DCFfc9s6epooPUmhCKcEN8TS
-   9TZNVLIaLkv3wEMWl9Awqn3XpfhCgMOYoLuBi3TjNNyaVRs/4TzuX0EiA
-   Q==;
-X-CSE-ConnectionGUID: 7CJAlZNlR22FSs4/xtqisw==
-X-CSE-MsgGUID: hBtdnYOUR2yn3AnnEOe7ew==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="30390464"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="30390464"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 12:41:58 -0700
-X-CSE-ConnectionGUID: 5E3flx/pQbmZhNtM84gctg==
-X-CSE-MsgGUID: ZN/MqZMzTjegvfrnUmxRjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="24776971"
-Received: from aikuseru-mobl1.amr.corp.intel.com (HELO pbossart-mobl6.lan) ([10.212.40.188])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 12:41:58 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 3/3] ASoC: SOF: debug: show firmware/topology prefix/names
-Date: Mon,  8 Apr 2024 14:41:47 -0500
-Message-Id: <20240408194147.28919-4-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240408194147.28919-1-pierre-louis.bossart@linux.intel.com>
-References: <20240408194147.28919-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TruZFrtP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BFblZY4n564XnChTsSXzynCGs1npnzcMB95z36PHh0M/WM94GmzCn2GZByF8I5ny3Z4SuDFOZ8WBayqEMcXh9dx8w+qHs2V2ZzyGeyiLbAQ5eMwJ4vTfl0Mv9X9LQSLK80v+ROAcNxwjHfKIE7I05yQxwDIVp8HnChWysy97RK1OvExSMAhSsvvYe/tCdz0skL+EfURlFH29lg6zNCUVvc2cJzbg5UgjZoiI5dYCuaBlGDk3W6y1k/ud4Vg2U1lREFNxDaIGZeDXyH31k3ayMID3KF+RuDqBC+AFM7za1V1xXnnWSKaFlTCSseAiZ5asjQs4fo6EFEmhs6wYvoHR2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L5TdME1jhfzx7nCDeEi8jVtlcjWvi9Y86c2QpOHRFjA=;
+ b=GcSxs6Lij95ZMEfUBx5D6Dw2WRAv9MsQ5lhOOh2QGeaNeSVZiw4H4cJWdCiBAkIroqiJ3QBtaZQB5OvHZH+k0dHVYANjQ7eU825VLfyT3TlfDi8HuwX7mWbDehfskPSt2vUY2/QTutKKBySUzbAh0nAHb/QOUc1B4ox+ES7qV3olOkNoYk8QiAGKc7V8AA1qFmCVyDRNNVnimOJ7RQT5ptUIPy6aovBoVLW3uQTmLJwmx49N9NBVMW9pWMqome4HHx9xYyvaZFTqEdJ6c/A3CSGV+fMDZDMu810aXy6R6/ZyI+Zb3kGOY25QGug7V0Pm2FBVFt/RFxhvktMkWJKgbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L5TdME1jhfzx7nCDeEi8jVtlcjWvi9Y86c2QpOHRFjA=;
+ b=TruZFrtPMJWTaDs/DtK3wRzfhme0SbgIT5OSSUsryNNutiMTM2vORZFlVKR+5y7+iWKP1+195IOOnYhQNv5cdI1ip+kCf3hC0hjEUtNmWK3/OU3adTWCUeCrTqLwIkhglPyZ7pteQCELxPgC6wFLNt9+qLQYDfsiBAXQQARBmeo=
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB6995.jpnprd01.prod.outlook.com
+ (2603:1096:400:be::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Mon, 8 Apr
+ 2024 23:42:26 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 8 Apr 2024
+ 23:42:26 +0000
+Message-ID: <87h6gb4e1q.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
+ <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
+ Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,	Daniel Baluta
+ <daniel.baluta@nxp.com>,	Hans de Goede <hdegoede@redhat.com>,	Jaroslav
+ Kysela <perex@perex.cz>,	Jerome Brunet <jbrunet@baylibre.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Kevin Hilman <khilman@baylibre.com>,	Liam
+ Girdwood <lgirdwood@gmail.com>,	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
+ <neil.armstrong@linaro.org>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Trevor Wu
+ <trevor.wu@mediatek.com>,	Vinod Koul <vkoul@kernel.org>,	Xiubo Li
+ <Xiubo.Lee@gmail.com>,	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
+	linux-sound@vger.kernel.org,	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 01/16] ASoC: soc-pcm.c: cleanup soc_get_playback_capture()
+In-Reply-To: <acf98b6b-7c18-4f1e-ab8f-039c88679ab9@linux.intel.com>
+References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
+	<87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
+	<b4b37541-b67f-4593-9fd5-fc6242a0673a@linux.intel.com>
+	<87zfuc7gya.wl-kuninori.morimoto.gx@renesas.com>
+	<600cef67-ad90-4b67-8da7-2006339d430b@linux.intel.com>
+	<874jch99m5.wl-kuninori.morimoto.gx@renesas.com>
+	<40e23972-6745-48e2-81ae-4b93f2ee2dcc@linux.intel.com>
+	<875xwwr60a.wl-kuninori.morimoto.gx@renesas.com>
+	<87sezwecf1.wl-kuninori.morimoto.gx@renesas.com>
+	<acf98b6b-7c18-4f1e-ab8f-039c88679ab9@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 8 Apr 2024 23:42:26 +0000
+X-ClientProxiedBy: TYCP286CA0081.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::7) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB6995:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	32/yUpmjyU5V3ENXaXduESW3QOx6Ez+lIvQyTTCOJ6xGYHYov21hm7zJe7YxrbVJT1/fpU6ZR4QWIR4bClmclLM8SBTMcRIa//m1JxsvSoV320bF56yN0Fm7UVytxxYS6Be/NFXRPCHRTQkhs2yyGb08dY3kFVg8YMBggsOwgq7pWR9JYcn4aZykflpndh5bdE20tcos0PE0iveO5k4ZKZPc28dC5rwpCWeWEhiBRNOE16QFHxcAkjCNl5Hn5mRtIYvNIigFXblVBSNd3rzWZp9x4b1JUqSlFAHWMzHnf8jSl82ADfSPw/EaTMv3p+kvQKnKPhrCO2xJx4qlMQej41poTEg/8cAUYjQQYW513ZjCugG2YUWhrxZ/Ro2m8gDI8Pq8bpSLToB47dINSGml+2PG3g0tNJllz0Li3F/yMstkaF761GV3ejO8i4sdIFAgzmWSvU62A4iiRquCLFdgQWD+vNEtZOyjjxQHHCsrc6TABHQBRm5JUGC1HeXsn/D6qm/Ob1Jd2FthjEDWSbLuFQVPgtu4ILkgf6xkmdA8XfQoTc57b4IqYGLesbyJ7B97YG4gDbeyp07DKyPM6PHagfqOacY/TgCGMrm9e31dKwMLcZE+6qud4e1PpPlgco/8DcR9HOFocNc3cti4ZmXkzjaXTg9TVW38NyNOHNIBmgn1QL8WfzavZC3VT3JfBP89kzHGMqKWC31kGjIG87GwFNEMxp9Rv4eiGOnbDSaQdSM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(52116005)(1800799015)(7416005)(376005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?d2Q4I0spbGvOt7PtEG+6rGC2gpksZwqVJfSCFJ67vajJ93DMrs7INciQlflL?=
+ =?us-ascii?Q?N712az01EYyZqvRLkAqMh+3Pi52lMDYYsoRQRa1qloQlRYgqjM7DT4OxgDzP?=
+ =?us-ascii?Q?RdX2XMBE6PVgfgopeUwixhSZjjlEX6HHQqAGTuUJIKaNlfBWXI7C7WWrAp5C?=
+ =?us-ascii?Q?XTdp+OhHBTi4P6Haqn3G3rk6f2ZJ14Am9GsNScZEf9uI8gqhF1c6djZwXh4l?=
+ =?us-ascii?Q?RxpqrttHslwSECzmcuQWPYhSxDHKWDczz2rUFKe53idKNHWtrFCZvr32C/pX?=
+ =?us-ascii?Q?Ga1Z+Zr7eHlA9OqCiTu7ggkrWzpm9XZVKdS7OBjKzSZrKh2ZUad+B1LFc8sW?=
+ =?us-ascii?Q?njN+/1uiiHsDDC0KsEeXPmmmvxw0xH9YNGmBTzEW9D/ajJA+KZwTzilyvUuL?=
+ =?us-ascii?Q?ukmklty0ohzzcBVC3B/kDuHuUB0cjcVpYG+CN+1voppyH7Zi8/vNI9HSoDuo?=
+ =?us-ascii?Q?/ek9f3pR8ncsLGprkK4P+I3C2j5ZT86c0eitb60BIBroXXSCVTSkNvt329qQ?=
+ =?us-ascii?Q?7xtHADHuIW0tF19eOLubERUekCt4ta6A4mf6bwe9QAUC9M53zvLgGbPpOewp?=
+ =?us-ascii?Q?qdZ1zUP7bf7NHijTtRVuzVKTW7orrBeJz435xQDfpjYpmz1eLCfG0Ok0qsjp?=
+ =?us-ascii?Q?+DfI4xZuY0/EwGTB9X53MBmxYGrZX42P3O26PODLAxNaL0nUP8q5kHcnibXG?=
+ =?us-ascii?Q?OX+u/KA5b8RIsD5RB4vqZVlmtOYym95BsvN0CdiByTDF2IQHWSrcVOdlnFSW?=
+ =?us-ascii?Q?/xwtdOgTl8iD6AUeH1JGyVoRdWb95xzS36llFtm5AaZRQumUvidPD1cm1nlT?=
+ =?us-ascii?Q?Cav4ukyl0jIs1M0wJSO4KNsayWKJtkqfImnWQAkK55xHI9jof6Q4Uq9mKjgE?=
+ =?us-ascii?Q?uLqm+/jYoy2pN1bM7ILtjRJz9Ka0hjn0TxQtF+amiLGRbQwQUPWuG6t5g5zS?=
+ =?us-ascii?Q?lQoD4CdK+gaUl/48h8Jd7kuuxT8x+klk4DEm27vTIRgMIErifU+4P9G6tjuc?=
+ =?us-ascii?Q?uQ6Z7p1Os26P4e52T509VzhhP/M48nsUI77c6k8Ek7rsVmfpnxy2M+La/OEr?=
+ =?us-ascii?Q?5HeaTMkUrQB1hip/0fpoWPUb1Ch4X0Vlt0Q6CXu+ZfPhkgjgxxqSRMg1hnp/?=
+ =?us-ascii?Q?Nft3i37djwSRx2nNqDKL0wjjxYzWWyPzYghFK7XtOufF+uEizAGo3OBIDv12?=
+ =?us-ascii?Q?a6FF6Bykqvz1Oxc0+iho/JmqOzn3LRpXBosuvhFgZE9xNYMA0XW4UWBLzuzW?=
+ =?us-ascii?Q?2xl5yEd3dRk+debLi5CZYcfVynGxHtxhKO4rC0I9h3p9/qpAs2fuJ6dAcqSu?=
+ =?us-ascii?Q?oMAJabUb9rCd/ygQxiIMtpTz6G16mqUfGWwG+rsF6gAo/O/FIo49VcenirV6?=
+ =?us-ascii?Q?rZF2bff+dqBUmQfNC5w7ro3Di6SOtEYbOQw0sFUjpfjtHUQO4NFGkT9tiTOK?=
+ =?us-ascii?Q?9fwi9f97/LCAMbbbkJpmkBxwY8Ttp9yZoDaZnAUVRTu/Rs41qjfp6Fs71D/S?=
+ =?us-ascii?Q?yxO9deTUsTM6BuqY36Rt7b575jnTgar4ga9jvZFsO0zbPZix8KDnIWP4E5d0?=
+ =?us-ascii?Q?7LoqqX8u01DCwy3tQNPkc6vbip4RlMoscW05zF4gYdzuUpo6qQ3EvvMy16S2?=
+ =?us-ascii?Q?MPTCTj09b2l+2bjx1a58cjg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1059eca0-fb60-4be4-bc3c-08dc58258bd6
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2024 23:42:26.3939
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F5Rb3Ug3uh36DRdMbMuePc6J5okLykBFuuFrNWZMJHdQchrwrVwF5Gs/p1w+ZVPjoN4vMaN+UDS65uhigxQa/cyx+8LzQ2dXxBYBAG9lznrO6IbwF3D4e3LkoWjKXtUF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6995
 
-The SOF driver has multiple profiles to select firmware/topology
-prefix/names depending on the platform and ipc_type, and each of those
-fields can be overridden with kernel parameters. This results in some
-cases in confusion on what configuration is actually used in a given
-test.
 
-We currently log the firmware and topology names in the kernel logs,
-but there's been an ask to add the information in debugfs to simplify
-test scripts used by developers and CI.
+Hi Pierre-Louis
 
-This isn't meant to be a stable ABI used by apps, changes will be
-allowed as needed.
+Thank you for your feedback
 
-Closes: https://github.com/thesofproject/linux/issues/3867
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> The code looks fine, but what are we trying to achieve?
+> I thought the idea was to have a single field at the dailink, and with
+> the example above we would still have two - just like today.
+> This looks like a lot of code churn in many drivers for limited
+> benefits. Or I am missing something?
+
+Yeah.
+Main purpose of this patch-set is cleanup soc-pcm code which is
+very complex today.
+
+After sending mail, I noticed that xxx_only flag can be merged
+into new xxx_assertion flag. For example "playback_only" means
+it must playback available.
+
+One note here is that xxx_assertion flag is not mandatory
+
+	dpcm_playback -> playabck_assertion = 1
+
+	dpcm_capture  -> capture_assertion  = 1
+
+	playback_only -> playback_assertion = 1
+	                 capture_assertion  = 0
+
+	capture_only  -> playback_assertion = 0
+	                 capture_assertion  = 1
+
+	/*
+	 * Assertion check
+	 *
+	 * xxx_assertion flag is not mandatory
+	 */
+	if (dai_link->playback_assertion) {
+		if (!has_playback) {
+			dev_err(rtd->dev, ...);
+			return -EINVAL;
+		}
+		/* makes it plyaback only */
+		if (!dai_link->capture_assertion)
+			has_capture = 0;
+	}
+	if (dai_link->capture_assertion) {
+		if (!has_capture) {
+			dev_err(rtd->dev, ...);
+			return -EINVAL;
+		}
+		/* makes it capture only */
+		if (!dai_link->playback_assertion)
+			has_playback = 0;
+	}
+
+	/*
+	 * Detect Mismatch
+	 */
+	if (!has_playback && !has_capture) {
+		dev_err(rtd->dev, ...);
+		return -EINVAL;
+	}
+
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/sof/debug.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/sound/soc/sof/debug.c b/sound/soc/sof/debug.c
-index 937e51b02a24..cf282c8b18af 100644
---- a/sound/soc/sof/debug.c
-+++ b/sound/soc/sof/debug.c
-@@ -311,14 +311,32 @@ EXPORT_SYMBOL_GPL(snd_sof_dbg_memory_info_init);
- 
- int snd_sof_dbg_init(struct snd_sof_dev *sdev)
- {
-+	struct snd_sof_pdata *plat_data = sdev->pdata;
- 	struct snd_sof_dsp_ops *ops = sof_ops(sdev);
- 	const struct snd_sof_debugfs_map *map;
-+	struct dentry *fw_profile;
- 	int i;
- 	int err;
- 
- 	/* use "sof" as top level debugFS dir */
- 	sdev->debugfs_root = debugfs_create_dir("sof", NULL);
- 
-+	/* expose firmware/topology prefix/names for test purposes */
-+	fw_profile = debugfs_create_dir("fw_profile", sdev->debugfs_root);
-+
-+	debugfs_create_str("fw_path", 0444, fw_profile,
-+			   (char **)&plat_data->fw_filename_prefix);
-+	debugfs_create_str("fw_lib_path", 0444, fw_profile,
-+			   (char **)&plat_data->fw_lib_prefix);
-+	debugfs_create_str("tplg_path", 0444, fw_profile,
-+			   (char **)&plat_data->tplg_filename_prefix);
-+	debugfs_create_str("fw_name", 0444, fw_profile,
-+			   (char **)&plat_data->fw_filename);
-+	debugfs_create_str("tplg_name", 0444, fw_profile,
-+			   (char **)&plat_data->tplg_filename);
-+	debugfs_create_u32("ipc_type", 0444, fw_profile,
-+			   (u32 *)&plat_data->ipc_type);
-+
- 	/* init dfsentry list */
- 	INIT_LIST_HEAD(&sdev->dfsentry_list);
- 
--- 
-2.40.1
-
+Renesas Electronics
+Ph.D. Kuninori Morimoto
