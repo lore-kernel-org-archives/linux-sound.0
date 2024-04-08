@@ -1,211 +1,106 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742AA1E52F;
-	Mon,  8 Apr 2024 08:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4636A50261
+	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 08:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712563316; cv=none; b=m1zhC5SumayBVJCc6xWimODQbvFu5BkHarxegFf9z1ukAQUKLuo2aQvlpdwoDTsqm3W2MuwDdM7PcYesOjUWBGtK6dN4cfz5NwIB4aVjIhMTO7Y9WPUSeF9+tHkGIhfwawQ36JN36il/ZZeIC2zm4hwmzRGhPbdgyv44XyKDD94=
+	t=1712563822; cv=none; b=n8Cvwzw/DPM3+ZTPvIdhfXlEK4C1r0TDY3T1n3VuzsiYsmwiBZcmDPwcB8+AFNPiVzz3FivRPfHyhthQK7ZvG6eO14F8y7y8bTk0p7wcq8LVEMD9GbURdU1yAaUdWQLMapGLryHekcyKDAmI2v3wuJnMfxzLoRZzt5wMH9lbB48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712563316; c=relaxed/simple;
-	bh=TiFOgc2oAgSwbqK688qnJnLQqSOcAVNWdpjOqSnMCVU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jz/KMBINr9UaN1x5Oc9TaM2aT3SrxuGoQbflTiX5bMjnGwvJuJ06ukkIr4dEgO1DPcLY+YxPa7h2AEEHjfnqR2Ht/HO7Y1tLSbxYSQDI95f4cPC//auK577ZKeBsE166mzrj4BDYrUdxMwFHj9/W7fMLtq1MKgdVD9GV9Q29lzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS3bDvFl; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712563822; c=relaxed/simple;
+	bh=RRyqPnteX9svo/FeqH7qejShvl+Wu9J6rtShURC1Bwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TvwxsYZC4Nz7Pqhtk74MfaulvI7N3krKbJiQ5SL0h/u71hZqES5enw8eAsYF6vHakTB9Q1xJSmYA4V4D+6Ax2aQ0F/tnjXShDGRnuyZUtLrZUgCCRnO3KiSW6RWY9FX0EayNisDxAz4DXTdkoV8Lej8Ks4V47kjCJ89ixcQ6ktg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ECaDEgO5; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS3bDvFl"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-36a23d5c31bso3525045ab.2;
-        Mon, 08 Apr 2024 01:01:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ECaDEgO5"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a519ef3054bso335319066b.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Apr 2024 01:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712563313; x=1713168113; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DDxZaL1eNz/pYsN2HsEFyRR/2Zct5H5ENMhocXCfR6w=;
-        b=GS3bDvFlzi4HZ5FgYEVlIN10Z1p5OUmi1GzqX4J3QV4V/vbFLNs5ixGu6vIkPw29u6
-         1dZ2l+bjpfUrIX9b1ifuoAs1HCIEJK2ozuRjG5EIPufiVtzRZSE5LYVbbWK5Be2rtACX
-         cr0l60/E/wMZTmCyL9I88xjYu9aGNcZUK9xkspCUnS/zOR9D2TXhSUiFL6AzSj8DN7Pa
-         ku28TDTBpmtj7FOYUvz+u3AmgDK6dEPiG5y1Jh7NMfgkxI+PfJsK9Uysk2752Fmh+x+t
-         BC7VL7lkxP461S+piQLDeRtC63HVGYFbyuCpmuXeYApU3qatLuCHOomVv1oVSalcEe/n
-         gJHA==
+        d=linaro.org; s=google; t=1712563818; x=1713168618; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zrHqjLybF7CJnuNHXKR+lEoGvKA0pqz74L9RRTV+fT8=;
+        b=ECaDEgO5bVhvHkPP0coFC3v9GyoLAfoYLjWAQ90iQBKh9meLoBGsM2+DeO0ebiE9PB
+         zc8BxPE61FnUzDa/XQE16HfiFPJXCcn33EuCD4GXc0P2NTWmRl3S5CtHhRGf8xsS2Udf
+         jsFI/cybYV0cI1gowI7LfP7NuPkrZBJOPqvsKfIEeYqfpm/3x0jZkYSno8QbP6mUtALw
+         SIn7wodoAD1gpXjrRWl2qoZ93TCygzssTy/F0V/qbCiyJ8stk+xslLI0Pk9BMIG69AWv
+         D/rjxkSW+2KYBjaD4qaBTAMZ0cJnQ9V+uUWKoU0hymHSbMP7hjJdU3yseyf2nNSpDgyQ
+         gp7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712563313; x=1713168113;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DDxZaL1eNz/pYsN2HsEFyRR/2Zct5H5ENMhocXCfR6w=;
-        b=P6PbN2iWnvYw6c9/NBnVIDJ1qGxsiosG/2ZgM5PhGYlzCnQm3npJuybm4vmSSh8IG2
-         OMgExeuzLodo5JzJhiNTAhpEqAIRfIgAY/I5RyP2zcT91zVFesZZJMdxKquRShUx1Xb4
-         V2FSF58T9VWBQglGytGXEWs8IfheMfyI6S5sOjiTzCy75/y5R12+IsFuwGE+/yMiNaJr
-         RLCMsUFGTbeZ7F/a+VVMfZ6pbZOUVGUARuiUdNC2YKTx4J4XtMMTGe/B/0YR/aABI8zx
-         5KDvCa7eEFfR5TNJtrDdK5WC6g0oC91Bw03SC7SzW5e9/nyzObpQWYY0OiW48c47FSX9
-         kFug==
-X-Forwarded-Encrypted: i=1; AJvYcCWfR2WSSRXxaLaRdKZjojO22bQwc1gp5L7f4JyTKaE+0vs86IzCefgYZAcuWmBmxXVTQ6oDuFtc0ZAA3RRCgIyl9sqmK+MMcOC7zmsLocSBYersMUNWGXj6o60xso5fUCfsuwcDZoL3RlXvlvgrbChXxtmY44FJ4JAdbhXlm+p+YQX2GH+H
-X-Gm-Message-State: AOJu0YxLVdtH9CXXoMzXgk6rDrRG2fN7nGdm0NvnrxX2onDUR6WgIipj
-	Lv0rXp73jhn+bzK/eS4oJ5IW6TEB2k9P0nYes2sWcCYmlMQVzToZE5nh0Vvf/HzltSNQcejnZq5
-	4EfGsgjm0cvlJb+tshYgG7FUBw7zSjAZlpBvJtQ==
-X-Google-Smtp-Source: AGHT+IGmitR2sfI1XGgs4E3RjDYYX2R9JX0br64X+lHpxBgQOLGozFRPqRUTMIqDQViAk6dxwQiaWeeYM9obmjpPAn0=
-X-Received: by 2002:a05:6e02:15c7:b0:368:7e1e:7e00 with SMTP id
- q7-20020a056e0215c700b003687e1e7e00mr9956372ilu.7.1712563313596; Mon, 08 Apr
- 2024 01:01:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712563818; x=1713168618;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zrHqjLybF7CJnuNHXKR+lEoGvKA0pqz74L9RRTV+fT8=;
+        b=hhlHCNax5px9qgaasfF+ty6S9PjsRYf1GgyWssjkaSMNV5Nj57oH/2Q4Z3PsjKXbbp
+         cb8lSc+Ryz3Al8RoDlu9QkkRNjI5fmbjHyGzztOhfcFcqu2PpsSVIcnd4RrbYU180dhI
+         hmkoyP9LTUlbx1ko2TNlkb17zQXsjsZmckICncCW30ImErwHPapqqirLtSU0/h57L5AF
+         3AJ92E7SOglNWt4XP073KUVu8+ZMgNa7cT9nsA37rJeVnr+VVDGuGw108+pUmOwy+uiq
+         r1OEyJbKkzypnFNVVKgvPPWoFb9nNECKQyjPuXgqv9MttoR7d00JoPuPV76ih12KWn/Q
+         CxUw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9Jy34UR5pKaONL/XdDn513SJH1bI0uxbWSyiRvn71B2+g2KL2l2Gi7UIMNOyUpoXharqz3E4xHeElUJjgWFMZSZvp9EmJ+4JulvU=
+X-Gm-Message-State: AOJu0Yx+/MEW+xfZ2FEvOT3LBo0LZhZwihFEjszQRpyfPDlWHGtxEReH
+	hcHDI4ns35Uk+iDLGqQk/AemP5SlU30ygX75+wayRBi6EgkTPk/ASnPjPuQFTHY=
+X-Google-Smtp-Source: AGHT+IFaWJ0ko+880OE4+Ydorjjhc+EVFX8MZM5sS9kOSFgetr0n6d6xvsAp8RTPVZNNLK44nNU7nQ==
+X-Received: by 2002:a17:906:fcab:b0:a51:8a78:d2ff with SMTP id qw11-20020a170906fcab00b00a518a78d2ffmr5620413ejb.34.1712563818217;
+        Mon, 08 Apr 2024 01:10:18 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id my46-20020a1709065a6e00b00a4735e440e1sm4149587ejc.97.2024.04.08.01.10.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 01:10:17 -0700 (PDT)
+Date: Mon, 8 Apr 2024 10:35:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Brent Lu <brent.lu@intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Terry Cheong <htcheong@chromium.org>,
+	Uday M Bhat <uday.m.bhat@intel.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mac Chiang <mac.chiang@intel.com>, apoorv <apoorv@intel.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: Intel: sof_rt5682: Fix uninitialized variable in probe
+Message-ID: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com> <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
-In-Reply-To: <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 8 Apr 2024 16:01:42 +0800
-Message-ID: <CAA+D8ANiKH7Oc+KAjD_BMp9P2EVeM8Q6dLGFCC8a83bJXUpPEA@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On Mon, Apr 8, 2024 at 3:55=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 08/04/2024 09:27, Shengjiu Wang wrote:
-> > Convert the imx-audio-spdif binding to YAML.
-> >
-> > When testing dtbs_check, found below compatible strings
-> > are not listed in document:
-> >
-> > fsl,imx-sabreauto-spdif
-> > fsl,imx6sx-sdb-spdif
-> >
-> > So add them in yaml file to pass the test.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> > changes in v2:
-> > - change file name to imx-spdif.yaml
->
-> How does your compatible look like? fsl,imx-audio-spdif, so use that.
+Initialize "is_legacy_cpu" to false to prevent an uninitialized variable
+bug.
 
-Oh, it seems I misunderstood your meaning. you think the name should
-be the same as compatible string...
+Fixes: 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for sof_card_private initialization")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ sound/soc/intel/boards/sof_rt5682.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> > - remove |
-> > - add anyof for spdif-in and spdif-out requirement
-> > - change example name to sound
-> >
->
-> > diff --git a/Documentation/devicetree/bindings/sound/imx-spdif.yaml b/D=
-ocumentation/devicetree/bindings/sound/imx-spdif.yaml
-> > new file mode 100644
-> > index 000000000000..beb214b51a50
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/imx-spdif.yaml
-> > @@ -0,0 +1,70 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sound/imx-spdif.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Freescale i.MX audio complex with S/PDIF transceiver
-> > +
-> > +maintainers:
-> > +  - Shengjiu Wang <shengjiu.wang@nxp.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - fsl,imx-audio-spdif> +          - enum:
-> > +              - fsl,imx-sabreauto-spdif
-> > +              - fsl,imx6sx-sdb-spdif
->
-> This does not make much sense. You have mixed fallback with specific
-> compatible. I suggest you to fix your DTS and submit proper bindings.
+diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
+index aadd341a202c..966bcd3e8bdc 100644
+--- a/sound/soc/intel/boards/sof_rt5682.c
++++ b/sound/soc/intel/boards/sof_rt5682.c
+@@ -606,7 +606,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+ {
+ 	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
+ 	struct sof_card_private *ctx;
+-	bool is_legacy_cpu;
++	bool is_legacy_cpu = false;
+ 	int ret;
+ 
+ 	if (pdev->id_entry && pdev->id_entry->driver_data)
+-- 
+2.43.0
 
-ok.
-
->
-> > +      - enum:
-> > +          - fsl,imx-audio-spdif
-> > +
-> > +  model:
-> > +    $ref: /schemas/types.yaml#/definitions/string
-> > +    description: User specified audio sound card name
-> > +
-> > +  spdif-controller:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: The phandle of the i.MX S/PDIF controller
-> > +
-> > +  spdif-out:
-> > +    type: boolean
-> > +    description:
-> > +      If present, the transmitting function of S/PDIF will be enabled,
-> > +      indicating there's a physical S/PDIF out connector or jack on th=
-e
-> > +      board or it's connecting to some other IP block, such as an HDMI
-> > +      encoder or display-controller.
-> > +
-> > +  spdif-in:
-> > +    type: boolean
-> > +    description:
-> > +      If present, the receiving function of S/PDIF will be enabled,
-> > +      indicating there is a physical S/PDIF in connector/jack on the b=
-oard.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - model
-> > +  - spdif-controller
-> > +
-> > +anyOf:
-> > +  - required:
-> > +      - spdif-in
-> > +  - required:
-> > +      - spdif-out
-> > +  - required:
-> > +      - spdif-out
-> > +      - spdif-in
->
-> Do you need the last required block?
-
-Yes,  one of them or both are required.
-
->
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    sound {
->
-> That's a random change...
->
-> Instead of sending two patches per day, please carefully address the
-> feedback.
-
-In v1 you suggest to change it to spdif?  but spdif may conflict
-with the fsl,spdif.yaml.   so which name I should use?
-
-best regards
-wang shengjiu
->
-> > +        compatible =3D "fsl,imx-audio-spdif";
-> > +        model =3D "imx-spdif";
-> > +        spdif-controller =3D <&spdif>;
-> > +        spdif-out;
-> > +        spdif-in;
-> > +    };
->
-> Best regards,
-> Krzysztof
->
