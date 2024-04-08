@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA74920312;
-	Mon,  8 Apr 2024 06:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC611755B;
+	Mon,  8 Apr 2024 06:38:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712557337; cv=none; b=JvKOHe8+z12JlmIx8B/ettAEdNH+dhgTpcDAxW1V6X4KAble5IUk5pxzsnhjFhcVvY0BUCxlNsaXMYQ+zxvFkBsuiuIsZezsy4kxxXoTno+CGlCZb0k8VW260tswk/PX/fnYgVEZJnX96Y8oN/FJ0Kiqd+pPK5Qlz0sU6pGyvzU=
+	t=1712558311; cv=none; b=GVvtvgN29ijm097td2q5wGj4/9XzApnufcX2nXQIKzg6DzHRl0noYPRAN0R7qJ1bIIJLSUu4RE4LOYgouf+74zMTQlD526gRaBiuCR9+kU1BNV6nHEARdGI4kPTt983h1DvYR/YV1uEG5bLckZrLja+ShBoZgodaZ3N7KPw02sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712557337; c=relaxed/simple;
-	bh=Zrm/wvyh0xkh9uGwTCqa1YeOhLPuzSzzYRBCkJY6zAg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EeJjc5j/hfd/hnMIi8Ug17ugbuuHTkiy4FFVqs93Uh9y3M0oM9rjzNm8d9bk5VVgX3QgzC7Tp5R4zwZO0qcRWUoqNj7Bsp6Xl5RFXpASL7BTWalpxXJ6TkViZmMq4O/LAYXa8fsUHbKIg7p1DcbIbbCcA8hRbLrjCSXwFiQWiRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMulaKug; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1712558311; c=relaxed/simple;
+	bh=V51gHvSprZIHY9Mr6N9wyHn63LwMS3Sg3j8AjFjJFQ0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dS/HVzEgViGuNuRxqJS0qpmow7kj7X4NZRaw87ds39Et1eKxpL3b6GrcGH+nlHnrFK0GuNa3uXblFoBNrvZxtovgtu1oCgub1NXA9FUrcNPIT/2DpB9pJt7tJOC2S7nbYynw1TulKqtE8Q5SXBGW1dRSA4F5vmc/4FoD9oPfM/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T2PdKNkB; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMulaKug"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T2PdKNkB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712557336; x=1744093336;
+  t=1712558310; x=1744094310;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Zrm/wvyh0xkh9uGwTCqa1YeOhLPuzSzzYRBCkJY6zAg=;
-  b=aMulaKugh7UJai1u7w8wae9OJE5l3nJaO8cxtibgPxXmXCNadZifyUWi
-   a7kxdv/LJZ8XTqA2dTiZXI4GoEoX0l3WfF+yfAche23e8l3ePYJhGLdfe
-   suHRtnNBptLmyohnU16HeAzQl/s39I8v+DSOGLwHYvxnbvvhdcRDwfivE
-   xknUdF9VHHbSZDkjHHJjaSFXvloh1e6Dbfl/74rqaRWREimy9kfDEzkAB
-   HgTejkwbOCSZ3g520aK5Mp5G/f30JtWH68uv1ipWzOEuMvwZAbnnh7llr
-   uPya3LfGPznL92lMo6QcpbaMY7K5YCN0d5aigTwW/iABcz4FoaruJAvSd
-   g==;
-X-CSE-ConnectionGUID: 4DX4JlVfTvih4uWzRYbl1Q==
-X-CSE-MsgGUID: ielZVIqRRIaWUd9FjrESWA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="7940466"
+  bh=V51gHvSprZIHY9Mr6N9wyHn63LwMS3Sg3j8AjFjJFQ0=;
+  b=T2PdKNkB43tNH5uDz+oiZZHIm72kNs3cmvwui1xNAnDXQ9yglFCdsSEc
+   YhdsEj0XrGBJj/B/HcoQ6eDOLrnlbgQDYkLNDJ+IKa1Ck1inmzB3ipN/V
+   0BFclohYb81ILTyMx0A9GwmCxJr4hcf0YR6/GG7U0sWsfPM2pJfWaazfE
+   6Pd+6RpWwOTgwEJuJsq163rBxvjwg722SbJRe8/xhEIhE6+4PxoWglTyX
+   YZvQNlxWAqAWB8OcAEi3Aq0+i4oAcbdExzOdfXBDcLLzzuaUfYXayxKeT
+   I3JmYLZnR2ffCjDjeQrvSAhk4rBfSVZ1DVS3NSPrgLdyzfvkZgeAKBYXo
+   A==;
+X-CSE-ConnectionGUID: N6qyxxdVQCeGo+iu679xkA==
+X-CSE-MsgGUID: P5poqTAQRSyUc9350XXWxg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11037"; a="33216961"
 X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
-   d="scan'208";a="7940466"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:22:15 -0700
-X-CSE-ConnectionGUID: Pu0oYijaTpyA84VUyhTUPg==
-X-CSE-MsgGUID: 7yLmEzAxSROmn3MKm8uGmg==
+   d="scan'208";a="33216961"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:38:29 -0700
+X-CSE-ConnectionGUID: Q3ON63GPRzWV4DWNwInY/g==
+X-CSE-MsgGUID: dKQwETuIR8y3tdyTKhVEEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,186,1708416000"; 
-   d="scan'208";a="50977361"
+   d="scan'208";a="20344569"
 Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:22:14 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2024 23:38:28 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -49,9 +49,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH] soundwire: intel_ace2x: use legacy formula for intel_alh_id
-Date: Mon,  8 Apr 2024 06:22:06 +0000
-Message-Id: <20240408062206.421326-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v2] soundwire: reconcile dp0_prop and dpn_prop
+Date: Mon,  8 Apr 2024 06:38:22 +0000
+Message-Id: <20240408063822.421963-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,36 +63,40 @@ Content-Transfer-Encoding: 8bit
 
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Starting with Lunar Lake, the notion of ALH is mostly irrelevant,
-since the HDaudio DMAs are used. However the firmware still relies on
-an 'ALH gateway' with a 'node_id' based on the same formula.
-
-This patch in isolation has no functional impact, it's only when the
-ASoC parts use it that we will see a changed behavior.
+The definitions for DP0 are missing a set of fields that are required
+to reuse the same configuration code as DPn.
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- drivers/soundwire/intel_ace2x.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes in v2:
+ - Remove unnecessary leading space 
 
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 4910cab22273..75e629c938dc 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -302,6 +302,11 @@ static int intel_hw_params(struct snd_pcm_substream *substream,
- 		goto error;
- 	}
+---
+ include/linux/soundwire/sdw.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+index e5d0aa58e7f6..7bb9119f3069 100644
+--- a/include/linux/soundwire/sdw.h
++++ b/include/linux/soundwire/sdw.h
+@@ -235,6 +235,7 @@ enum sdw_clk_stop_mode {
+  * @BRA_flow_controlled: Slave implementation results in an OK_NotReady
+  * response
+  * @simple_ch_prep_sm: If channel prepare sequence is required
++ * @ch_prep_timeout: Port-specific timeout value, in milliseconds
+  * @imp_def_interrupts: If set, each bit corresponds to support for
+  * implementation-defined interrupts
+  *
+@@ -249,6 +250,7 @@ struct sdw_dp0_prop {
+ 	u32 *words;
+ 	bool BRA_flow_controlled;
+ 	bool simple_ch_prep_sm;
++	u32 ch_prep_timeout;
+ 	bool imp_def_interrupts;
+ };
  
-+	/* use same definitions for alh_id as previous generations */
-+	pdi->intel_alh_id = (sdw->instance * 16) + pdi->num + 3;
-+	if (pdi->num >= 2)
-+		pdi->intel_alh_id += 2;
-+
- 	/* the SHIM will be configured in the callback functions */
- 
- 	sdw_cdns_config_stream(cdns, ch, dir, pdi);
 -- 
 2.34.1
 
