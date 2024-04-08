@@ -1,97 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EACF51B;
-	Mon,  8 Apr 2024 18:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CCD14601F;
+	Mon,  8 Apr 2024 18:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712602402; cv=none; b=CgbeNlKLUMl3l1Ny+m8enG5cQdb/H2mnoVFoHpnXdmifMizzvlzT7QqS0/84tLml9zoFgR1bULwoMd85gm7bvumUHmaH8uGFINl5cVVQV9ErmCnrbx2CInqCgOp6RJm8AAwFbD+wcDcBWiDufdbvGoyN8LBsHmnVeN8eMTJWEbg=
+	t=1712602524; cv=none; b=Td5fJCFblRaA9ftT0PSfgkOINMYNCXCNl7k+qEoQevsSrxrokfLwdD+xyWbwcb3Lc882jolqKD2y/H0GdDgeiBYZ4QVdPIYYDVJ7e2gO69vv8+dKSXpM9KyT3ZwwCTEEI88VUI8p1S5d2Nmx5J+xHe1BnqgFZFBXZBdwQgk/jvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712602402; c=relaxed/simple;
-	bh=yS6GxyZzqXB2+xOaIOWtiFJnwGVsW8GrqXSYsIS0f/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CyK/NIH8MhkUimRdW591P5DSMfIeOtr6I00BK1QqID/MfMejsAWrM2zIKR7Cyu0OUgb4IDUNaalppGOpL9OW91CpIgy1WWfxuK9yDwaKW0WnfAB6QovZ9bgMbXLejfh1XV8EqUOvUyRXY2WvS1gjaZ2+UrSWbSCUPEa50VRP/xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPXRMtNI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712602524; c=relaxed/simple;
+	bh=WZI+UPEDXKp0AGVon/G5dC3J9SoMCzRad9Ln6loXDDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rvATP8OlPp3TqvK+hhrL4e7Te4dK6cmxzk9GzO3fXcqSmqGgoEiklMnPf2u7I4L16dx3YMd9txNGmTC9mj/S1mIQj03a0yKbSjIUh+ixCw00HdjozwtkhFZPi1UT6G/QlSVhPddSYJxKICMpB6yCIiDJ/z8d1dwN/G6XOkcnGUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhNQ54mo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPXRMtNI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339BFC43390;
-	Mon,  8 Apr 2024 18:53:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhNQ54mo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73412C43142;
+	Mon,  8 Apr 2024 18:55:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712602401;
-	bh=yS6GxyZzqXB2+xOaIOWtiFJnwGVsW8GrqXSYsIS0f/M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SPXRMtNIsALYYJhM8h3E4vweAGjKe8MxQZ+iRE6ReyAF+BQ0nbYrjR6r32jDl9k+P
-	 TZeuHRAjGFNXHgRa7hyfTtMW0Q0TZt7/uz9M3mC0juDNPxtHgeCCVnhgJAO7CAG0OA
-	 z0K4I/vFqZlAwl4N0O489RTdK0H9KauoUJHU4CA2UcQyWd0qQJ29IwVG3cflU/A3n2
-	 3N2bKKh1zSFGaXT2+nXt9NiE0KPuHLeG5zj2v2Si9Zn8sVVuaAlZeu6f37Mxean9xG
-	 MFKQ9PJayxWDoqBhhpDR2Gr3TN86dK8wvJps/ASKAQo+lyDB73ZMd9Cd9IC5Uk+loy
-	 NG0scg4BII4wQ==
-Date: Mon, 8 Apr 2024 19:53:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Rokosov <ddrokosov@salutedevices.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, neil.armstrong@linaro.org,
-	lgirdwood@gmail.com, conor+dt@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, perex@perex.cz, tiwai@suse.com,
-	khilman@baylibre.com, martin.blumenstingl@googlemail.com,
-	kernel@salutedevices.com, rockosov@gmail.com,
-	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 2/2] ASoC: meson: implement link-name optional
- property in meson card utils
-Message-ID: <412306b3-e428-45ac-8bf5-6121f638272d@sirena.org.uk>
-References: <20240408164947.30717-1-ddrokosov@salutedevices.com>
- <20240408164947.30717-3-ddrokosov@salutedevices.com>
- <1j1q7fpv1n.fsf@starbuckisacylon.baylibre.com>
- <20240408184041.3jcav5tabxiblpn4@CAB-WSD-L081021>
- <51b39153-d1a4-4e7f-9b30-8c77fc4ee46f@sirena.org.uk>
- <20240408184744.nfktcppdqewurmgg@CAB-WSD-L081021>
+	s=k20201202; t=1712602523;
+	bh=WZI+UPEDXKp0AGVon/G5dC3J9SoMCzRad9Ln6loXDDc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RhNQ54moQZojEdG9F2dwxx5Fj/5G+xI1NEfku+X5s7NrIxMeVWLg5uo9tZZMmbIjY
+	 gYoOYnEE+MlAzD820ldnRyIliImxOraEiLVEmChssnmX64QRIt2wImmnpUuF3SGH1J
+	 EBQMsqnD5Cz7CFi680qKwbkDKbUqvZY/M5o9ekREt4QB20zTkqywcTiUfsXCcsQBm0
+	 uW4YLbgr2QkjMGuMrg2fpFAOH5+lmrdL1U1k8FOxc6EimtlxeexrpdFxMbr1/qXHwD
+	 hcO5dlODNHLsSb0ihBA9LEtLI/4PDnN7k3l1JVnoxcKsnBu16K9nhnsiVOQcD9yiWf
+	 vSRbo+JMkzhmQ==
+From: Namhyung Kim <namhyung@kernel.org>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Kan Liang <kan.liang@linux.intel.com>
+Cc: Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-perf-users@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 4/9] tools/include: Sync uapi/sound/asound.h with the kernel sources
+Date: Mon,  8 Apr 2024 11:55:15 -0700
+Message-ID: <20240408185520.1550865-5-namhyung@kernel.org>
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+In-Reply-To: <20240408185520.1550865-1-namhyung@kernel.org>
+References: <20240408185520.1550865-1-namhyung@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HWk5+hm8t/wej2SK"
-Content-Disposition: inline
-In-Reply-To: <20240408184744.nfktcppdqewurmgg@CAB-WSD-L081021>
-X-Cookie: Drive defensively.  Buy a tank.
+Content-Transfer-Encoding: 8bit
 
+To pick up the changes from:
 
---HWk5+hm8t/wej2SK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  85df6b5a6658 ("ALSA: pcm: clarify and fix default msbits value for all formats")
 
-On Mon, Apr 08, 2024 at 09:47:44PM +0300, Dmitry Rokosov wrote:
-> On Mon, Apr 08, 2024 at 07:45:00PM +0100, Mark Brown wrote:
+This should be used to beautify sound syscall arguments and it addresses
+these tools/perf build warnings:
 
-> > I would expect that the place to fix names based on the userspace
-> > configuration is in whatever userspace is using to define it's
-> > configurations, like a UCM config.
+  Warning: Kernel ABI header differences:
+    diff -u tools/include/uapi/sound/asound.h include/uapi/sound/asound.h
 
-> Honestly, I have tried to find a way to rename the PCM device name or
-> mark it in some way (such as using a metainformation tag or any other
-> method), but unfortunately, my search has been unsuccessful.
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Namhyung Kim <namhyung@kernel.org>
+---
+ tools/include/uapi/sound/asound.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I'd not be at all surprised if there's no such facility yet in whatever
-userspace you're using and that it would need implementing, I'm just
-saying that that seems like a better place to solve the problem you're
-seeing.
+diff --git a/tools/include/uapi/sound/asound.h b/tools/include/uapi/sound/asound.h
+index d5b9cfbd9cea..628d46a0da92 100644
+--- a/tools/include/uapi/sound/asound.h
++++ b/tools/include/uapi/sound/asound.h
+@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
+  *                                                                           *
+  *****************************************************************************/
+ 
+-#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 16)
++#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
+ 
+ typedef unsigned long snd_pcm_uframes_t;
+ typedef signed long snd_pcm_sframes_t;
+@@ -416,7 +416,7 @@ struct snd_pcm_hw_params {
+ 	unsigned int rmask;		/* W: requested masks */
+ 	unsigned int cmask;		/* R: changed masks */
+ 	unsigned int info;		/* R: Info flags for returned setup */
+-	unsigned int msbits;		/* R: used most significant bits */
++	unsigned int msbits;		/* R: used most significant bits (in sample bit-width) */
+ 	unsigned int rate_num;		/* R: rate numerator */
+ 	unsigned int rate_den;		/* R: rate denominator */
+ 	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
+-- 
+2.44.0.478.gd926399ef9-goog
 
---HWk5+hm8t/wej2SK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYUPRoACgkQJNaLcl1U
-h9DJUgf+PtNQ01uTKkXCzFIX0QP1JVOK6eTnelaoRvequ7E9jlgWqkpwcmnmHGcG
-7JaIcW2gK6BEj0kLODIrk5HrWWvPmPzVkTYOanJ7FWeTtCV8bXJSpU3Y79Ywy5VI
-+Z3BPEH11EeIFF0PwWIH4p/oeUIJ4bgZ6p6IRujoBP1hY0bMlrkAlh6u4nOAM26O
-6vdyVjM1Tt1JU8OSBBwu8Yi7LwrjWkLve4fY+kr0ZmNBCpDWNzNW8SYc9Ruusjae
-rINMvZMEz886w85mpZ9km4tSVJmOUg1cEUBcQuhXufjdwHvk1L0QgcvbDG/5g0ai
-0q5+Vy4UezOdjjATWlHxdZEIEOh1HQ==
-=AHCz
------END PGP SIGNATURE-----
-
---HWk5+hm8t/wej2SK--
