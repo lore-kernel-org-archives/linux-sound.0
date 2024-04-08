@@ -1,237 +1,211 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F7438DE0
-	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 07:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742AA1E52F;
+	Mon,  8 Apr 2024 08:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712562942; cv=none; b=WWp2xLmHiCQE4+7V+QTDYjyBJR8nhifAfjnOUegD3koqydvKvL518KIAtlp/EiSkkg+1SR5Q+W6hszzKNWMotXnyjzznXvcYalFVRQfSqxfP0dUXhJHg5Jk3hkPmcTFkyX8a2CuhkLpFH7mPbvjr0yHcwN4qo5r1vM2bTPe0Y4Y=
+	t=1712563316; cv=none; b=m1zhC5SumayBVJCc6xWimODQbvFu5BkHarxegFf9z1ukAQUKLuo2aQvlpdwoDTsqm3W2MuwDdM7PcYesOjUWBGtK6dN4cfz5NwIB4aVjIhMTO7Y9WPUSeF9+tHkGIhfwawQ36JN36il/ZZeIC2zm4hwmzRGhPbdgyv44XyKDD94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712562942; c=relaxed/simple;
-	bh=bOYdvGgOXEu+B9DwkxPE7PclZR6s+7HiNzNdrJ6GbiI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=osAVPWbc58hdG4oKYP4tW3Le60koRCDh7+ZG5BE98WyLeQBn495wiVf42nW+HgC0VRkPK5Kqftj5cm9Yuzf4ZRcgtIJ4qhdigdv66cgTqkjsTfYhS51775ZFbsfTvfkwQNmfGf/TAzqsVwAsLruwJqhM+np0BuX77Vn2JMIVtoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NHD0i1Hj; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712563316; c=relaxed/simple;
+	bh=TiFOgc2oAgSwbqK688qnJnLQqSOcAVNWdpjOqSnMCVU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jz/KMBINr9UaN1x5Oc9TaM2aT3SrxuGoQbflTiX5bMjnGwvJuJ06ukkIr4dEgO1DPcLY+YxPa7h2AEEHjfnqR2Ht/HO7Y1tLSbxYSQDI95f4cPC//auK577ZKeBsE166mzrj4BDYrUdxMwFHj9/W7fMLtq1MKgdVD9GV9Q29lzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS3bDvFl; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NHD0i1Hj"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516d47ce662so4351528e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 08 Apr 2024 00:55:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS3bDvFl"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-36a23d5c31bso3525045ab.2;
+        Mon, 08 Apr 2024 01:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712562938; x=1713167738; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=uGVKRsfzElZhuiOUBPoS8tlbXX9PErhVKCskk8TAVI8=;
-        b=NHD0i1HjAqfzSxx+Cffi4ifQ+LENbObBmSOUoFrBrZi1hx3zSd31E6eBXvuL4n8n0L
-         IlpazIBtzYj2iYV12uE6BjT9lZT3ueMW9t5DehtVjlq4l+vMbCR13X9NzBVYib17Pvqa
-         Ea7U+pYWAhy4fXH9OqVj98xzZYq3YdIIbXR1MQ5rH82sBeod375VMJnldu49IC1ZO4kl
-         /qaTZ2ltwCFCZ62tuxVFZrQSyPuGHxyZ4i5eZmTUOzX5nihWRLA7X7oW+P2jG8bxVxLQ
-         FIsRD6UsyjxFtueTjYcDsNy3/XjaaWKcUItohrwFnxfXyAffXM6njDM1GWsuqTY9gJuC
-         u+eA==
+        d=gmail.com; s=20230601; t=1712563313; x=1713168113; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DDxZaL1eNz/pYsN2HsEFyRR/2Zct5H5ENMhocXCfR6w=;
+        b=GS3bDvFlzi4HZ5FgYEVlIN10Z1p5OUmi1GzqX4J3QV4V/vbFLNs5ixGu6vIkPw29u6
+         1dZ2l+bjpfUrIX9b1ifuoAs1HCIEJK2ozuRjG5EIPufiVtzRZSE5LYVbbWK5Be2rtACX
+         cr0l60/E/wMZTmCyL9I88xjYu9aGNcZUK9xkspCUnS/zOR9D2TXhSUiFL6AzSj8DN7Pa
+         ku28TDTBpmtj7FOYUvz+u3AmgDK6dEPiG5y1Jh7NMfgkxI+PfJsK9Uysk2752Fmh+x+t
+         BC7VL7lkxP461S+piQLDeRtC63HVGYFbyuCpmuXeYApU3qatLuCHOomVv1oVSalcEe/n
+         gJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712562938; x=1713167738;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uGVKRsfzElZhuiOUBPoS8tlbXX9PErhVKCskk8TAVI8=;
-        b=IFqNSxPTmp0YFAHNlWBVVw5Mo6brYLfnYmH014wooc3yCfSJCXvyoa3kMSq2jq/EwC
-         LMT0ijC3cqjsJ/M+9S4dNr/N2DshZuVjeomSTh0sXr44G9dyyTDAFFL5teQJ9Oku2/5x
-         Vyptn3IFRJsQI/oOkqCRrKXJYnCWfoqcUaEFkRWLZHHHopm4E2aJB3Echz290fK8sfti
-         1xxgQa9pgCJ8mU3l+eRkE1yVLtZc3Iukp/h+EwgySRWX4B+M+B0pYNwYF7yFm/LisUcj
-         YCtHEfxfpJMdsa9TyTPNs+r3MV62sOhWtoCBpICKb4KyEk6YrsURUESzB5yLKWV2VYxT
-         fnrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWWJq+6LV1qM6mjymrAEOyW8hE/1Je+jqarGBmCVM0zfKcZSj/RVPIsan9TvJSSj9h281TIe1vCDBRqAoE1BMszuC2exHLlb49mMk=
-X-Gm-Message-State: AOJu0YyYzg16K0gWIgPxF9m5alZxNIZ0ab61j8QNzNy1uualMpc+J9sT
-	tutTS7xkFmz5NrgSgK4q3vQa+gxJOqlC7W/AyUuFzuOTWGy7dMHRQPbW4fbRVUU=
-X-Google-Smtp-Source: AGHT+IG5fj7ZFdIyyAiLxezuDJ3duVyM4elViQE59ai+tbpBGEttaDRgy40oJg3eCLOBiZ24ZzBUmg==
-X-Received: by 2002:ac2:489b:0:b0:516:a6b2:f9eb with SMTP id x27-20020ac2489b000000b00516a6b2f9ebmr5761546lfc.69.1712562938010;
-        Mon, 08 Apr 2024 00:55:38 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id z16-20020a17090665d000b00a4e9cb0b620sm4109828ejn.158.2024.04.08.00.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Apr 2024 00:55:37 -0700 (PDT)
-Message-ID: <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
-Date: Mon, 8 Apr 2024 09:55:35 +0200
+        d=1e100.net; s=20230601; t=1712563313; x=1713168113;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DDxZaL1eNz/pYsN2HsEFyRR/2Zct5H5ENMhocXCfR6w=;
+        b=P6PbN2iWnvYw6c9/NBnVIDJ1qGxsiosG/2ZgM5PhGYlzCnQm3npJuybm4vmSSh8IG2
+         OMgExeuzLodo5JzJhiNTAhpEqAIRfIgAY/I5RyP2zcT91zVFesZZJMdxKquRShUx1Xb4
+         V2FSF58T9VWBQglGytGXEWs8IfheMfyI6S5sOjiTzCy75/y5R12+IsFuwGE+/yMiNaJr
+         RLCMsUFGTbeZ7F/a+VVMfZ6pbZOUVGUARuiUdNC2YKTx4J4XtMMTGe/B/0YR/aABI8zx
+         5KDvCa7eEFfR5TNJtrDdK5WC6g0oC91Bw03SC7SzW5e9/nyzObpQWYY0OiW48c47FSX9
+         kFug==
+X-Forwarded-Encrypted: i=1; AJvYcCWfR2WSSRXxaLaRdKZjojO22bQwc1gp5L7f4JyTKaE+0vs86IzCefgYZAcuWmBmxXVTQ6oDuFtc0ZAA3RRCgIyl9sqmK+MMcOC7zmsLocSBYersMUNWGXj6o60xso5fUCfsuwcDZoL3RlXvlvgrbChXxtmY44FJ4JAdbhXlm+p+YQX2GH+H
+X-Gm-Message-State: AOJu0YxLVdtH9CXXoMzXgk6rDrRG2fN7nGdm0NvnrxX2onDUR6WgIipj
+	Lv0rXp73jhn+bzK/eS4oJ5IW6TEB2k9P0nYes2sWcCYmlMQVzToZE5nh0Vvf/HzltSNQcejnZq5
+	4EfGsgjm0cvlJb+tshYgG7FUBw7zSjAZlpBvJtQ==
+X-Google-Smtp-Source: AGHT+IGmitR2sfI1XGgs4E3RjDYYX2R9JX0br64X+lHpxBgQOLGozFRPqRUTMIqDQViAk6dxwQiaWeeYM9obmjpPAn0=
+X-Received: by 2002:a05:6e02:15c7:b0:368:7e1e:7e00 with SMTP id
+ q7-20020a056e0215c700b003687e1e7e00mr9956372ilu.7.1712563313596; Mon, 08 Apr
+ 2024 01:01:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com> <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
+In-Reply-To: <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 8 Apr 2024 16:01:42 +0800
+Message-ID: <CAA+D8ANiKH7Oc+KAjD_BMp9P2EVeM8Q6dLGFCC8a83bJXUpPEA@mail.gmail.com>
 Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/04/2024 09:27, Shengjiu Wang wrote:
-> Convert the imx-audio-spdif binding to YAML.
-> 
-> When testing dtbs_check, found below compatible strings
-> are not listed in document:
-> 
-> fsl,imx-sabreauto-spdif
-> fsl,imx6sx-sdb-spdif
-> 
-> So add them in yaml file to pass the test.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
-> changes in v2:
-> - change file name to imx-spdif.yaml
+On Mon, Apr 8, 2024 at 3:55=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 08/04/2024 09:27, Shengjiu Wang wrote:
+> > Convert the imx-audio-spdif binding to YAML.
+> >
+> > When testing dtbs_check, found below compatible strings
+> > are not listed in document:
+> >
+> > fsl,imx-sabreauto-spdif
+> > fsl,imx6sx-sdb-spdif
+> >
+> > So add them in yaml file to pass the test.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> > changes in v2:
+> > - change file name to imx-spdif.yaml
+>
+> How does your compatible look like? fsl,imx-audio-spdif, so use that.
 
-How does your compatible look like? fsl,imx-audio-spdif, so use that.
+Oh, it seems I misunderstood your meaning. you think the name should
+be the same as compatible string...
 
-> - remove |
-> - add anyof for spdif-in and spdif-out requirement
-> - change example name to sound
-> 
+>
+> > - remove |
+> > - add anyof for spdif-in and spdif-out requirement
+> > - change example name to sound
+> >
+>
+> > diff --git a/Documentation/devicetree/bindings/sound/imx-spdif.yaml b/D=
+ocumentation/devicetree/bindings/sound/imx-spdif.yaml
+> > new file mode 100644
+> > index 000000000000..beb214b51a50
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/imx-spdif.yaml
+> > @@ -0,0 +1,70 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/imx-spdif.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX audio complex with S/PDIF transceiver
+> > +
+> > +maintainers:
+> > +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - fsl,imx-audio-spdif> +          - enum:
+> > +              - fsl,imx-sabreauto-spdif
+> > +              - fsl,imx6sx-sdb-spdif
+>
+> This does not make much sense. You have mixed fallback with specific
+> compatible. I suggest you to fix your DTS and submit proper bindings.
 
-> diff --git a/Documentation/devicetree/bindings/sound/imx-spdif.yaml b/Documentation/devicetree/bindings/sound/imx-spdif.yaml
-> new file mode 100644
-> index 000000000000..beb214b51a50
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/imx-spdif.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/imx-spdif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX audio complex with S/PDIF transceiver
-> +
-> +maintainers:
-> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - fsl,imx-audio-spdif> +          - enum:
-> +              - fsl,imx-sabreauto-spdif
-> +              - fsl,imx6sx-sdb-spdif
+ok.
 
-This does not make much sense. You have mixed fallback with specific
-compatible. I suggest you to fix your DTS and submit proper bindings.
+>
+> > +      - enum:
+> > +          - fsl,imx-audio-spdif
+> > +
+> > +  model:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description: User specified audio sound card name
+> > +
+> > +  spdif-controller:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: The phandle of the i.MX S/PDIF controller
+> > +
+> > +  spdif-out:
+> > +    type: boolean
+> > +    description:
+> > +      If present, the transmitting function of S/PDIF will be enabled,
+> > +      indicating there's a physical S/PDIF out connector or jack on th=
+e
+> > +      board or it's connecting to some other IP block, such as an HDMI
+> > +      encoder or display-controller.
+> > +
+> > +  spdif-in:
+> > +    type: boolean
+> > +    description:
+> > +      If present, the receiving function of S/PDIF will be enabled,
+> > +      indicating there is a physical S/PDIF in connector/jack on the b=
+oard.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - model
+> > +  - spdif-controller
+> > +
+> > +anyOf:
+> > +  - required:
+> > +      - spdif-in
+> > +  - required:
+> > +      - spdif-out
+> > +  - required:
+> > +      - spdif-out
+> > +      - spdif-in
+>
+> Do you need the last required block?
 
-> +      - enum:
-> +          - fsl,imx-audio-spdif
-> +
-> +  model:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description: User specified audio sound card name
-> +
-> +  spdif-controller:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the i.MX S/PDIF controller
-> +
-> +  spdif-out:
-> +    type: boolean
-> +    description:
-> +      If present, the transmitting function of S/PDIF will be enabled,
-> +      indicating there's a physical S/PDIF out connector or jack on the
-> +      board or it's connecting to some other IP block, such as an HDMI
-> +      encoder or display-controller.
-> +
-> +  spdif-in:
-> +    type: boolean
-> +    description:
-> +      If present, the receiving function of S/PDIF will be enabled,
-> +      indicating there is a physical S/PDIF in connector/jack on the board.
-> +
-> +required:
-> +  - compatible
-> +  - model
-> +  - spdif-controller
-> +
-> +anyOf:
-> +  - required:
-> +      - spdif-in
-> +  - required:
-> +      - spdif-out
-> +  - required:
-> +      - spdif-out
-> +      - spdif-in
+Yes,  one of them or both are required.
 
-Do you need the last required block?
+>
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    sound {
+>
+> That's a random change...
+>
+> Instead of sending two patches per day, please carefully address the
+> feedback.
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    sound {
+In v1 you suggest to change it to spdif?  but spdif may conflict
+with the fsl,spdif.yaml.   so which name I should use?
 
-That's a random change...
-
-Instead of sending two patches per day, please carefully address the
-feedback.
-
-> +        compatible = "fsl,imx-audio-spdif";
-> +        model = "imx-spdif";
-> +        spdif-controller = <&spdif>;
-> +        spdif-out;
-> +        spdif-in;
-> +    };
-
-Best regards,
-Krzysztof
-
+best regards
+wang shengjiu
+>
+> > +        compatible =3D "fsl,imx-audio-spdif";
+> > +        model =3D "imx-spdif";
+> > +        spdif-controller =3D <&spdif>;
+> > +        spdif-out;
+> > +        spdif-in;
+> > +    };
+>
+> Best regards,
+> Krzysztof
+>
