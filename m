@@ -1,85 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFDB73528;
-	Mon,  8 Apr 2024 12:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D306F065;
+	Mon,  8 Apr 2024 12:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712580194; cv=none; b=s4SYEfJt5D0e9ngMvSi/WiNqe/4Kx0Gg6C4vabdNoM4roUEvUkEjKwbsT+vxkTDSa2vT8hRiqfCkd/xfDCdMJ7IGzz5ZnWOA28KlV+yXT0K3vDrefCvEzhouyI+NAYnxy71r57pnwc+JpvJXvBSRKcCxCploFVzj4S1MJFERvyw=
+	t=1712580304; cv=none; b=hQvjJFP0Ne8MI9hIzzDDXS7qOlC3Fn0pS428BLIfP4LhYvxUYmgcJxwwfiZatWfMN0FSyN33aVv5JNBelakrS6j6BxcZbm2VI5dKym3rpYD9AijPxu3aedABLb90u6dwRdk08TqaQPVz2sZwxJRai5+puddyatNOsjHqeZd5QgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712580194; c=relaxed/simple;
-	bh=o/n/XAccFgkV88Qr6FGsWOys2YM7DrCPsQ3Jhs046CA=;
+	s=arc-20240116; t=1712580304; c=relaxed/simple;
+	bh=tfA9OCUUYmRBc/HfduGlcOEWNno6qBswTFUJs11/8Xo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ni8NfMjaSWAJJkCoztRDWiz77ci3H5ln0fsq8XcG6ToG6aI5Ijf5i6w+oU/18ZeaevvJRKaeDLTWKLbNr65rSmNLTcheAJk/yNs/g8JuLlrlIBKZtXBa49S9drN/I8+5/MNb/y5Qhij2x0ylP+JTb5G3QFYzdVoQYjFKUW/lXcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfnYN5dG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JwVkRI22gHFjReRx5TI/C9z1XZ9d6jhW4jnYRRk0DjWQ1ogCvYyabdvtcGclDwmn8TMN/1XJDuK/K0AUS+X+ecMZhukaYyFd98a+7B3K/2PZc6p61JbZOwW6YhGeL6mWmkUYqjEbKO0kk6Krr/I3XFviN3NQv4FBM0nvcOBwzQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQM+9khF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfnYN5dG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524EFC43390;
-	Mon,  8 Apr 2024 12:43:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQM+9khF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F782C433C7;
+	Mon,  8 Apr 2024 12:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712580194;
-	bh=o/n/XAccFgkV88Qr6FGsWOys2YM7DrCPsQ3Jhs046CA=;
+	s=k20201202; t=1712580303;
+	bh=tfA9OCUUYmRBc/HfduGlcOEWNno6qBswTFUJs11/8Xo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UfnYN5dG9atj25XdUli0yLnXOk6I6s2dpUmII/5SkH8ba38vp7aNeHO2xbJqK+fps
-	 sJ9NLYw8oXcjFWoI+4AIF+DC/PgfSq66WgXrFYFAMAhjOFA78jTi8Znq4ACGF+nwk/
-	 T4UG8o25SS0L2scTMoCVtdeRrtV9UmJeH/PIo14w0s8MYhScGevnfZXkuwDNU3+hkk
-	 yCn96Q95g1T5k5WnMPgPfJK+Cg9EVo+mnTfxo+KnDLn6PnF2lcml+8YQu/x4Unblw/
-	 DQvI7O4qlrhfmqCkil47MVQjOQ76zZbhJdRbc9DtDjfjGSmKW/u3zVkHPgHGauS/KN
-	 g49JeLf3Sh8mg==
-Date: Mon, 8 Apr 2024 13:43:09 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-card: Fix a reversed if condition
-Message-ID: <25771b56-8564-42c1-9a2d-408d91f23618@sirena.org.uk>
-References: <155bb76e-dc57-4a5c-b0eb-acee5ebde9f4@moroto.mountain>
+	b=aQM+9khFVzUOxlN8kWH6/Ua0hK+6TWyjo1t158gVxNaLnzWSbD+CfOLvDMaSVOk1S
+	 p4yrEToGN4+sy2F9Js4CY63FE/qYbPlpEPkAAqKFDc6lVmM8VbDLurDOH/FQhKA27X
+	 9EomU7+rrKF3MTc242A3SPlvFSFz1+ryQ8IEVea1MGYnWzCYaerP80Pt+JRbZrsct0
+	 A9eNlJvr4IdSrjXtEafomf6NH64Du3w9oWDfTt6NlaN8sfVaS7WdgSC4LImuFaMc6r
+	 wbsLGNYtw2H3Zhg6UYCqI2cd4Tyq1JxhN1IR6rU8a6hQCFpcacnY+KYHRoZ9T4qoQF
+	 JMOE4QShg0amA==
+Date: Mon, 8 Apr 2024 07:45:00 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com
+Subject: Re: [RESEND v3 2/2] ASoC: qcom: sc8280xp: Add support for QCM6490
+ and QCS6490
+Message-ID: <45yy3cvepk4uwi2jdmh4w6l5ac3dffqhbot6xzv2bwjvo637ss@pryzth2hghyu>
+References: <20240408042331.403103-1-quic_mohs@quicinc.com>
+ <20240408042331.403103-3-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UBthYBJrUXVgQDT2"
-Content-Disposition: inline
-In-Reply-To: <155bb76e-dc57-4a5c-b0eb-acee5ebde9f4@moroto.mountain>
-X-Cookie: Drive defensively.  Buy a tank.
-
-
---UBthYBJrUXVgQDT2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240408042331.403103-3-quic_mohs@quicinc.com>
 
-On Mon, Apr 08, 2024 at 10:38:02AM +0300, Dan Carpenter wrote:
+On Mon, Apr 08, 2024 at 09:53:31AM +0530, Mohammad Rafi Shaik wrote:
+> Add compatibles for sound card on Qualcomm QCM6490 IDP and
+> QCS6490 RB3Gen2 boards.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> ---
+>  sound/soc/qcom/sc8280xp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+> index b7fd503a1666..878bd50ad4a7 100644
+> --- a/sound/soc/qcom/sc8280xp.c
+> +++ b/sound/soc/qcom/sc8280xp.c
+> @@ -169,6 +169,8 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
+>  }
+>  
+>  static const struct of_device_id snd_sc8280xp_dt_match[] = {
+> +	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
+> +	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
 
->  	ret =3D snd_soc_register_card(priv->card);
-> -	if (!ret)
-> +	if (ret)
->  		return ret;
-> =20
->  	return 0;
+We now have 4 <platform>-sndcard and two <board>-sndcard compatibles
+here.
 
-Clearly a better fix here would just be to remove the conditional
-entirely.
+Not saying that your patch is wrong, but is this driver board-specific
+or soc-specific? Srinivas, Krzysztof?
 
---UBthYBJrUXVgQDT2
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Bjorn
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYT5lwACgkQJNaLcl1U
-h9BdVgf9Gspq62woabsu/dxrXY/4ffmusjwWnUNxtVs9udrENILi2P80owdU/EAZ
-/bEa1yhMg3mZrA0JkXwUkWwDE0ZEeH+e2mSmSsfxDiwlkgGhvuHo61fyuU/mql+n
-0v4LLqn9eOcT+B5+m+CU5cKkmUY2+zo7j5k06McNS+NK39PxXJxNX6OEZfTB+mTK
-JSQqCDkYV7R8UXe0WNIE2IkfrMcSMP7EHVt8itGe0P3J+1WtqR/ch/CmkrIZtYyn
-ca8u3XpfLWyiLu+lON4vs0QzLvTN1b2UId7XS+gZO4SteUiv3NqUOuABKl6Kgkoh
-Cz7Es53alHDgiEFj1/TZ8VkvzmhaRQ==
-=I361
------END PGP SIGNATURE-----
-
---UBthYBJrUXVgQDT2--
+>  	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
+>  	{.compatible = "qcom,sm8450-sndcard", "sm8450"},
+>  	{.compatible = "qcom,sm8550-sndcard", "sm8550"},
+> -- 
+> 2.25.1
+> 
+> 
