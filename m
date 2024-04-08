@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13115143893
-	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 17:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA15F14389C;
+	Mon,  8 Apr 2024 17:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712596980; cv=none; b=GtgNVr2RIUmDAD966vFSa+87jpQZfoP/oJ7AW1EC0nhYCx54Nkrc02tbisDRZoeYiRXtdF8kHLjND1GqoZ2oiobKsfmS7fP1nXfk7FGDa10hZ5CYFkYdy7hs/d2s5jFWS1/6dLjoI01I/ALkwWi+ydTDiD9aJs/yPVy47lj4dUk=
+	t=1712596982; cv=none; b=Ujd3PKRlPIA+r/xXwv1rVqLjwpns90Qf8l0CVQ0ETVoF43rQye98mOSxziPTG92IAgxrEZg1wMU0+s8UkVuk+lgSY+2ujxKgMEm+QRRH0F/yoSPeWq9LHN12glBs1+aI4Rq51merzxBwsksT5uha7fabah6frru7sLLefBvGpRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712596980; c=relaxed/simple;
-	bh=9YZUFujOhMTTG62YTRxcfo0Pxm72VS2PmasBoZHfmRw=;
+	s=arc-20240116; t=1712596982; c=relaxed/simple;
+	bh=PSdUNjxecv9/EH8TvrTsRyagADl80n4dir3Oe48bPOI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GjdKqDZzojTHxwT6akrjRi+LpHVUkcExhzXKAZ1S3SD0oJCa+6XexEl0fsRlJPLOT9LcyGD7IG4IXh/r/KrXE5Bvu7XS3mL0snKcsea8w02Of+AIR13tOe/O0SrOh9HylRtddglZkOxss28i7A8IHHAFt0+2lm4gZAGultaf8Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M/lLj6tO; arc=none smtp.client-ip=198.175.65.20
+	 In-Reply-To:Content-Type; b=Kfu7ZbcDYAMFKHi4mAh4FtzjwtXKKW2SQgl5VoMY/dYg/kXraCrx/MJTHZsi08H9EAutpi6tsWPip5ZEy4+XIgY82KT+oOkR9eIMFPV+WwkLFU1GDwCY02BLYBXVgqYlUgFa7yRt4olqVR72MxhJyXESgm4ndcEE+LK31PKrmNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZ4TR5Ma; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M/lLj6tO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZ4TR5Ma"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712596979; x=1744132979;
+  t=1712596981; x=1744132981;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=9YZUFujOhMTTG62YTRxcfo0Pxm72VS2PmasBoZHfmRw=;
-  b=M/lLj6tONj5+KriC41hsThKGT5lJ0EeXzHlsJNAPXt0TUsburfZCy8O6
-   fcdSYie0Dbpyr8+CXtUduB8blUZH6VREXHr2DkGsqPiecwkbL3nJmJNWw
-   063CnuGqlNkewrYwBLDfVhvvF9C4JzNWU3swUkpQxVh2GbMOP4nJa8kmX
-   iiIeD50vmcVMQdifWg3AAJPIhFFJz5Bu3VNvhdI9FBXqg43nYT/tImslv
-   acFTSsZa66Jhsy07OAe2PO2nNfSr2QfeDu2mO76zp7/DBDqkl0ocqCx3j
-   jQTytVco7zgIlcWQjFZtxnwvFwP7ojP0pxQzw1MJ1j1N0eOlrb/4bLMho
-   Q==;
-X-CSE-ConnectionGUID: JSb/YDPFTiO1O2vA1UcPzg==
-X-CSE-MsgGUID: pOL/rzLlQISBfG5sDqgrqg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7757439"
+  bh=PSdUNjxecv9/EH8TvrTsRyagADl80n4dir3Oe48bPOI=;
+  b=nZ4TR5MaekUhIy6cDlE9WHE8T+dN9+EtVSydQAII/uojo83l+ZwaYsVR
+   Jcd9TlCZQXZfEGm5VTRKBRsi+MIb2nIUA4K46QxdLoEZutGW0oseiTAEl
+   tjxzm202gQk0k+XioylUh5yxByoDZe8+wVb6F/htyrtuZXpfNqEdkYn+N
+   MupaR4/s3lDVHej3FfBgalVLD2TnHOTjFmJlo/3Nfge2d4jlmFyyhmQoL
+   6V7d/n1krPFCaMOgGnoNs+xjW1RrojKVzt2FKUIIIestBl0mZe+xuDKn3
+   g4oCh4jVb3sZh8b5n3vQt7IimLOSLwGv8S7UcNFUpSgbUPATljJGJgAL1
+   w==;
+X-CSE-ConnectionGUID: oghk6tjmQiakx4EFQSU6Ag==
+X-CSE-MsgGUID: RRXlIi+0SU6okRH0KXMJpA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7757467"
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7757439"
+   d="scan'208";a="7757467"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:58 -0700
-X-CSE-ConnectionGUID: fG6IZotJT4u76Vx3qwpS7A==
-X-CSE-MsgGUID: izqID2hnQtuQZJDnjXRadA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:23:00 -0700
+X-CSE-ConnectionGUID: a8sq+q/VRRmRTSHSWV6cuw==
+X-CSE-MsgGUID: OlpQj4e/SoSchFFOlUJeuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="24697450"
+   d="scan'208";a="24697460"
 Received: from shahsmit-mobl1.amr.corp.intel.com (HELO [10.212.101.141]) ([10.212.101.141])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:56 -0700
-Message-ID: <acf98b6b-7c18-4f1e-ab8f-039c88679ab9@linux.intel.com>
-Date: Mon, 8 Apr 2024 10:34:25 -0500
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:59 -0700
+Message-ID: <ba585faa-d761-45ed-9e44-784097b3439a@linux.intel.com>
+Date: Mon, 8 Apr 2024 10:37:29 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,129 +52,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/16] ASoC: soc-pcm.c: cleanup
- soc_get_playback_capture()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
- Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+Subject: Re: [PATCH] ASoC: Intel: sof_rt5682: Fix uninitialized variable in
+ probe
+To: Dan Carpenter <dan.carpenter@linaro.org>, Brent Lu <brent.lu@intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Trevor Wu <trevor.wu@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
- imx@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com>
- <87y19xudor.wl-kuninori.morimoto.gx@renesas.com>
- <b4b37541-b67f-4593-9fd5-fc6242a0673a@linux.intel.com>
- <87zfuc7gya.wl-kuninori.morimoto.gx@renesas.com>
- <600cef67-ad90-4b67-8da7-2006339d430b@linux.intel.com>
- <874jch99m5.wl-kuninori.morimoto.gx@renesas.com>
- <40e23972-6745-48e2-81ae-4b93f2ee2dcc@linux.intel.com>
- <875xwwr60a.wl-kuninori.morimoto.gx@renesas.com>
- <87sezwecf1.wl-kuninori.morimoto.gx@renesas.com>
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Terry Cheong <htcheong@chromium.org>,
+ Uday M Bhat <uday.m.bhat@intel.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mac Chiang <mac.chiang@intel.com>, apoorv <apoorv@intel.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87sezwecf1.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 4/7/24 22:55, Kuninori Morimoto wrote:
+On 4/8/24 02:35, Dan Carpenter wrote:
+> Initialize "is_legacy_cpu" to false to prevent an uninitialized variable
+> bug.
 > 
-> Hi Pierre-Louis, again
-> 
->> dpcm_xxx is used to declare that the DAI/dailink is possible to use
->> playback/capture. For example dpcm_playback means the DAI / dailink
->> should playback-able, if not it is error.
->>
->> xxx_only is used to limit the playback/capture.
->> For example the DAI / dailink can use both playback and capture,
->> but want to use playback only for some reasons, we can use playback_only.
-> 
-> My pervious patch-set was "try to merge dpcm_xxx and xxx_only flag",
-> but next patch will be "expand assertion flag to all connection".
-> This "assertion flag" was originaly dpcm_xxx.
-> 
-> In next patch-set, it will assume for example current "dpcm_playback"
-> as "playback_assertion". It can be used not only for DPCM, but
-> all connection, but is not mandatory option.
-> 
-> Its pseudo code is like below, but what do you think ?
-> 
-> 	soc_get_playback_capture(...)
-> 	{
-> 		...
-> 		/*
-> 		 * get HW / DAI availability
-> 		 */
-> 		for_each_rtd_ch_maps(...) {
-> 			...
-> 			has_playback = xxx;
-> 			has_capture  = xxx;
-> 		}
-> 
-> 		/*
-> 		 * "xxx_assersion" was "dpcm_xxx" before, but expand to
-> 		 * all connection. It is not mandatory option.
-> 		 * It will be error if dai_link has xxx_assersion flag,
-> 		 * but DAI was not valid
-> 		 */
-> 		if (dai_link->playback_assertion && !has_playback) {
-> 			dev_err(rtd->dev, ...);
-> 			return -EINVAL;
->  		}
-> 		if (dai_link->capture_assertion  && !has_capture) {
-> 			dev_err(rtd->dev, ...);
-> 			return -EINVAL;
-> 		}
-> 
-> 		/*
-> 		 * xxx_only flag limits availability. It will indicate warning
-> 		 * if DAI was not valid.
-> 		 */
-> 		if (dai_link->playback_only) {
-> 			if (!has_capture)
-> 				dev_warn(rtd->dev, ...);
-> 			has_capture = 0;
-> 		}
-> 
-> 		if (dai_link->capture_only) {
-> 			if (!has_playback)
-> 				dev_warn(rtd->dev, ...);
-> 			has_playback = 0;
-> 		}
-> 
-> 		/*
-> 		 * No Playback, No Capture is error
-> 		 */
-> 		if (!has_playback && !has_capture) {
-> 			dev_err(rtd->dev, ...);
-> 			return -EINVAL;
-> 		}
-> 		...
-> 	}
+> Fixes: 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for sof_card_private initialization")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-The code looks fine, but what are we trying to achieve?
-I thought the idea was to have a single field at the dailink, and with
-the example above we would still have two - just like today.
-This looks like a lot of code churn in many drivers for limited
-benefits. Or I am missing something?
+Good catch.
+
+Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+
+> ---
+>  sound/soc/intel/boards/sof_rt5682.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
+> index aadd341a202c..966bcd3e8bdc 100644
+> --- a/sound/soc/intel/boards/sof_rt5682.c
+> +++ b/sound/soc/intel/boards/sof_rt5682.c
+> @@ -606,7 +606,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+>  {
+>  	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
+>  	struct sof_card_private *ctx;
+> -	bool is_legacy_cpu;
+> +	bool is_legacy_cpu = false;
+>  	int ret;
+>  
+>  	if (pdev->id_entry && pdev->id_entry->driver_data)
