@@ -1,107 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA15F14389C;
-	Mon,  8 Apr 2024 17:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E741E489;
+	Mon,  8 Apr 2024 17:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712596982; cv=none; b=Ujd3PKRlPIA+r/xXwv1rVqLjwpns90Qf8l0CVQ0ETVoF43rQye98mOSxziPTG92IAgxrEZg1wMU0+s8UkVuk+lgSY+2ujxKgMEm+QRRH0F/yoSPeWq9LHN12glBs1+aI4Rq51merzxBwsksT5uha7fabah6frru7sLLefBvGpRY=
+	t=1712599144; cv=none; b=RvgO0nP55dlkAtj51PQJo3vm/85t5ETcvYJEY+44YGSSXLvupEKZwojsjfbgNjSHWy9HUkSeVwxKsEiGsFSD7FRyAKCwnfDHqPsbuWVqU/x8bCFFSuROgutCP14q3fPLWwajhj7rGEOkiQ7DTLV9UuRNsDSj5glWPuC4pmsgbRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712596982; c=relaxed/simple;
-	bh=PSdUNjxecv9/EH8TvrTsRyagADl80n4dir3Oe48bPOI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kfu7ZbcDYAMFKHi4mAh4FtzjwtXKKW2SQgl5VoMY/dYg/kXraCrx/MJTHZsi08H9EAutpi6tsWPip5ZEy4+XIgY82KT+oOkR9eIMFPV+WwkLFU1GDwCY02BLYBXVgqYlUgFa7yRt4olqVR72MxhJyXESgm4ndcEE+LK31PKrmNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZ4TR5Ma; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712599144; c=relaxed/simple;
+	bh=DMDhTUddn0z/kT6115csMSz16dwSMlBikZA7r7PGvHc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=g4K6x/8JjiZf4SEWc1aeY+qOh7J+UjnC0UScNpLzloaHX/ih7yKXsz1eJ8MGhNTLK6B73mMEoJAkkzhAo+B0GAkQYDhnSv0Hh5aIwoNKCgzf5j3t2lXD/7LK5O2uc1N4CRQ1OhCm0ZEQeM7jx2dP9c5VcGqkaLPF7sqNVcL1DJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVkqRQs+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZ4TR5Ma"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712596981; x=1744132981;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PSdUNjxecv9/EH8TvrTsRyagADl80n4dir3Oe48bPOI=;
-  b=nZ4TR5MaekUhIy6cDlE9WHE8T+dN9+EtVSydQAII/uojo83l+ZwaYsVR
-   Jcd9TlCZQXZfEGm5VTRKBRsi+MIb2nIUA4K46QxdLoEZutGW0oseiTAEl
-   tjxzm202gQk0k+XioylUh5yxByoDZe8+wVb6F/htyrtuZXpfNqEdkYn+N
-   MupaR4/s3lDVHej3FfBgalVLD2TnHOTjFmJlo/3Nfge2d4jlmFyyhmQoL
-   6V7d/n1krPFCaMOgGnoNs+xjW1RrojKVzt2FKUIIIestBl0mZe+xuDKn3
-   g4oCh4jVb3sZh8b5n3vQt7IimLOSLwGv8S7UcNFUpSgbUPATljJGJgAL1
-   w==;
-X-CSE-ConnectionGUID: oghk6tjmQiakx4EFQSU6Ag==
-X-CSE-MsgGUID: RRXlIi+0SU6okRH0KXMJpA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7757467"
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="7757467"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:23:00 -0700
-X-CSE-ConnectionGUID: a8sq+q/VRRmRTSHSWV6cuw==
-X-CSE-MsgGUID: OlpQj4e/SoSchFFOlUJeuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
-   d="scan'208";a="24697460"
-Received: from shahsmit-mobl1.amr.corp.intel.com (HELO [10.212.101.141]) ([10.212.101.141])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 10:22:59 -0700
-Message-ID: <ba585faa-d761-45ed-9e44-784097b3439a@linux.intel.com>
-Date: Mon, 8 Apr 2024 10:37:29 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVkqRQs+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31482C433C7;
+	Mon,  8 Apr 2024 17:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712599144;
+	bh=DMDhTUddn0z/kT6115csMSz16dwSMlBikZA7r7PGvHc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=WVkqRQs+vE4iD1ZVjoNt5CwtkG0CGRrhP0Hon1ObKqaA/c0aX+A0fRpnhk9wD2pto
+	 LZsrjdJ2pgn8XVTzms+dHEuCBG4bBaTvx/JHdj++E2CBj+vOw2VCKjvsS6WhDypNoq
+	 wFZk+gimyZFlScbJPL3AODFCVQ1gDAJSr1jNESSAC9nBf8us8t+HaEBGtfwhJN4ozy
+	 wtnLCVgG2hiIGgOBUIC+l03/jBSYTXa7JCA36D6D+zgkB7zVvOJD6I4PpSfBafVMB0
+	 8Q17gDfX6MGxzHj4N7BpwLFgjTFG/n/O/ZPv+R4A2C46n7IRHiNuoASeuXwEaQcddW
+	 w3T7EJTuWE/7Q==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com
+In-Reply-To: <20240408042331.403103-1-quic_mohs@quicinc.com>
+References: <20240408042331.403103-1-quic_mohs@quicinc.com>
+Subject: Re: [RESEND v3 0/2] Add support for QCM6490 and QCS6490
+Message-Id: <171259914092.121643.12184524914448906569.b4-ty@kernel.org>
+Date: Mon, 08 Apr 2024 18:59:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Intel: sof_rt5682: Fix uninitialized variable in
- probe
-To: Dan Carpenter <dan.carpenter@linaro.org>, Brent Lu <brent.lu@intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Terry Cheong <htcheong@chromium.org>,
- Uday M Bhat <uday.m.bhat@intel.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mac Chiang <mac.chiang@intel.com>, apoorv <apoorv@intel.com>,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-
-
-On 4/8/24 02:35, Dan Carpenter wrote:
-> Initialize "is_legacy_cpu" to false to prevent an uninitialized variable
-> bug.
+On Mon, 08 Apr 2024 09:53:29 +0530, Mohammad Rafi Shaik wrote:
+> This patchset adds support for sound card on Qualcomm QCM6490 IDP and
+> QCS6490 RB3Gen2 boards.
 > 
-> Fixes: 8efcd4864652 ("ASoC: Intel: sof_rt5682: use common module for sof_card_private initialization")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Good catch.
-
-Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-
-> ---
->  sound/soc/intel/boards/sof_rt5682.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes since v2:
+> 	- Modify qcm6490 compatible name as qcm6490-idp. Suggested by Dmitry
 > 
-> diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-> index aadd341a202c..966bcd3e8bdc 100644
-> --- a/sound/soc/intel/boards/sof_rt5682.c
-> +++ b/sound/soc/intel/boards/sof_rt5682.c
-> @@ -606,7 +606,7 @@ static int sof_audio_probe(struct platform_device *pdev)
->  {
->  	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
->  	struct sof_card_private *ctx;
-> -	bool is_legacy_cpu;
-> +	bool is_legacy_cpu = false;
->  	int ret;
->  
->  	if (pdev->id_entry && pdev->id_entry->driver_data)
+> Changes since v1:
+> 	- Use existing sc8280xp machine driver instead of separate driver.
+> 	- Modify qcs6490 compatible name as qcs6490-rb3gen2.
+> 
+> [...]
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd QCS6490 sound card
+      commit: c64c4e3f789123e82ffae3404d108cf826c9599a
+[2/2] ASoC: qcom: sc8280xp: Add support for QCM6490 and QCS6490
+      commit: 5485c3fa96f78314207a30e81dbe270424d70ede
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
