@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16F06CDA9;
-	Mon,  8 Apr 2024 12:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFDB73528;
+	Mon,  8 Apr 2024 12:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712580097; cv=none; b=SCq7Nhph9ArEiSBi2KYxWVLdVQbrFX7mttVUFG5YOnXqTGLeLB9gIGMlptWT4Mjs1mevPz3rzelZKuoor0VWuwHK1u8rYXZiKVYRSRLcUuGDcw/UfffxrZ1lobOsv86PbbRMJpso657J1KC6sifeHp0jAg2h5vMNw3gWk2RxZNI=
+	t=1712580194; cv=none; b=s4SYEfJt5D0e9ngMvSi/WiNqe/4Kx0Gg6C4vabdNoM4roUEvUkEjKwbsT+vxkTDSa2vT8hRiqfCkd/xfDCdMJ7IGzz5ZnWOA28KlV+yXT0K3vDrefCvEzhouyI+NAYnxy71r57pnwc+JpvJXvBSRKcCxCploFVzj4S1MJFERvyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712580097; c=relaxed/simple;
-	bh=84XOeCfBTbfAfttwzGK3yMdnjmXgpOzlJpVU1/u2iwY=;
+	s=arc-20240116; t=1712580194; c=relaxed/simple;
+	bh=o/n/XAccFgkV88Qr6FGsWOys2YM7DrCPsQ3Jhs046CA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AfoRikhNE4F1iKoGclla1rACLuXm3UdRbiVfZNFDKH5atux2oUNu/wGmbonjL3mgEHv1kXkVfzNYXVhY0Edk7XDojhuwCahAWRDaTMlERl1VheChChizO/koQHgpfIs+Dw3iBJ16pFEEg+VKTl8OmrEEB4QlWeFJrbHRIySht/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADo9i2gD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ni8NfMjaSWAJJkCoztRDWiz77ci3H5ln0fsq8XcG6ToG6aI5Ijf5i6w+oU/18ZeaevvJRKaeDLTWKLbNr65rSmNLTcheAJk/yNs/g8JuLlrlIBKZtXBa49S9drN/I8+5/MNb/y5Qhij2x0ylP+JTb5G3QFYzdVoQYjFKUW/lXcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UfnYN5dG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADo9i2gD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02028C433F1;
-	Mon,  8 Apr 2024 12:41:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UfnYN5dG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524EFC43390;
+	Mon,  8 Apr 2024 12:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712580097;
-	bh=84XOeCfBTbfAfttwzGK3yMdnjmXgpOzlJpVU1/u2iwY=;
+	s=k20201202; t=1712580194;
+	bh=o/n/XAccFgkV88Qr6FGsWOys2YM7DrCPsQ3Jhs046CA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ADo9i2gDRMK9fGFxuyRBtekoT/HW6XfvyyIBJPylgXOsjOWfer5glc+0FAA2Zgo9E
-	 KVq/2M72ncIn1oUdL/jiMVMN9tBKRDlXwGJvcM3UQr9b7TQ/EPfhREtdae0SiATLxc
-	 fhKNpEjk6++Z16otyBAZtL6H+O7a/k8SMDxKzttxkZdAptOzdTEGv1efESdTIyKnRz
-	 CwI70XxMnDpOkrxYWlzxgaRRc02ZtfNbGW0siFvn3tvd1QI/U60LaZvHOnFdl4fmcT
-	 Kr28iG7YF4YnfdfOWKZIdCEBDxGrsV2A/MwgcCMqSmZfQQDVtwZ0bzKNPI0WH57c0B
-	 e7oi/a/9Coefw==
-Date: Mon, 8 Apr 2024 13:41:33 +0100
+	b=UfnYN5dG9atj25XdUli0yLnXOk6I6s2dpUmII/5SkH8ba38vp7aNeHO2xbJqK+fps
+	 sJ9NLYw8oXcjFWoI+4AIF+DC/PgfSq66WgXrFYFAMAhjOFA78jTi8Znq4ACGF+nwk/
+	 T4UG8o25SS0L2scTMoCVtdeRrtV9UmJeH/PIo14w0s8MYhScGevnfZXkuwDNU3+hkk
+	 yCn96Q95g1T5k5WnMPgPfJK+Cg9EVo+mnTfxo+KnDLn6PnF2lcml+8YQu/x4Unblw/
+	 DQvI7O4qlrhfmqCkil47MVQjOQ76zZbhJdRbc9DtDjfjGSmKW/u3zVkHPgHGauS/KN
+	 g49JeLf3Sh8mg==
+Date: Mon, 8 Apr 2024 13:43:09 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 1/4] regmap: Add regmap_read_bypassed()
-Message-ID: <043a984a-db22-4216-96d9-1fefe4694d88@sirena.org.uk>
-References: <20240408101803.43183-1-rf@opensource.cirrus.com>
- <20240408101803.43183-2-rf@opensource.cirrus.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-card: Fix a reversed if condition
+Message-ID: <25771b56-8564-42c1-9a2d-408d91f23618@sirena.org.uk>
+References: <155bb76e-dc57-4a5c-b0eb-acee5ebde9f4@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,37 +44,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zejkK65P6uQG8f5B"
+	protocol="application/pgp-signature"; boundary="UBthYBJrUXVgQDT2"
 Content-Disposition: inline
-In-Reply-To: <20240408101803.43183-2-rf@opensource.cirrus.com>
+In-Reply-To: <155bb76e-dc57-4a5c-b0eb-acee5ebde9f4@moroto.mountain>
 X-Cookie: Drive defensively.  Buy a tank.
 
 
---zejkK65P6uQG8f5B
+--UBthYBJrUXVgQDT2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 08, 2024 at 11:18:00AM +0100, Richard Fitzgerald wrote:
+On Mon, Apr 08, 2024 at 10:38:02AM +0300, Dan Carpenter wrote:
 
-> I have a kunit test case for this. But it's based on top of a chain of
-> other changes I've made to the regmap kunit test, so I'll send it with
-> that chain.
+>  	ret =3D snd_soc_register_card(priv->card);
+> -	if (!ret)
+> +	if (ret)
+>  		return ret;
+> =20
+>  	return 0;
 
-The usual term is series or patch series...
+Clearly a better fix here would just be to remove the conditional
+entirely.
 
---zejkK65P6uQG8f5B
+--UBthYBJrUXVgQDT2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYT5fwACgkQJNaLcl1U
-h9Bd2gf/aVxNn0Us1Z5jnN3TVYqcd+LL0xVE5/jlXAQJmUIqyWBzWxzmqMTFHfaR
-CfWnsK6kciVGQdEfKJaWxWt0Xa4ouBC6N7k9AnUCtHVHe9ag6FMWaTOZAFPhczSi
-5hk6zPZOjdiZk9NRBUB5SkLX195zJtMpu92HOOvgb/EjahoI/Gqt0vHPag27rsgv
-5VnvTW3+HGkayPRoUVWCXgcm9A+SIpXMbS6sCYpA/1hHjUIa3UMd1R/ssoRuDjnR
-CagEvIqMNUS4JovbB8KKdaUsEyDfqjQfXXp5k0w24if+sCPXrbDwLBpYuZqs0pnu
-RrrfGlBL0NOgULLw3YOh3ZhTw2ADKw==
-=SuRZ
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYT5lwACgkQJNaLcl1U
+h9BdVgf9Gspq62woabsu/dxrXY/4ffmusjwWnUNxtVs9udrENILi2P80owdU/EAZ
+/bEa1yhMg3mZrA0JkXwUkWwDE0ZEeH+e2mSmSsfxDiwlkgGhvuHo61fyuU/mql+n
+0v4LLqn9eOcT+B5+m+CU5cKkmUY2+zo7j5k06McNS+NK39PxXJxNX6OEZfTB+mTK
+JSQqCDkYV7R8UXe0WNIE2IkfrMcSMP7EHVt8itGe0P3J+1WtqR/ch/CmkrIZtYyn
+ca8u3XpfLWyiLu+lON4vs0QzLvTN1b2UId7XS+gZO4SteUiv3NqUOuABKl6Kgkoh
+Cz7Es53alHDgiEFj1/TZ8VkvzmhaRQ==
+=I361
 -----END PGP SIGNATURE-----
 
---zejkK65P6uQG8f5B--
+--UBthYBJrUXVgQDT2--
