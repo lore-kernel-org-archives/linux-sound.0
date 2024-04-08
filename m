@@ -1,167 +1,87 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp30.i.mail.ru (smtp30.i.mail.ru [95.163.41.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204EC13F43B
-	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 15:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E611813F44E;
+	Mon,  8 Apr 2024 15:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.163.41.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712588787; cv=none; b=Y+BZDUVkIVSjdpLSIYadKLhfpv1r3KoQ5sVri1RsmH1CedU6K9G2D1ZU1eQrMhgM8XRIWi5vmm72GJPW2nOsf2IMDXmJM0+twosmYYgxguLnRa3JrwDV3cbaD8z+z+RNBaq7YdCmhdPIb/nTz0lUwbswuSFh6W0K3pedq7Y0h+Y=
+	t=1712589572; cv=none; b=aKfkfDMBgB1WheXIJGBu4/l93CFxnjJY9l5rlQY7xVgbtBRxhx/tZLITidvJKkRAhu58Rf1Jggikj4Ekhxvx2Xn7eh2FJ8EFcaZRy5nhJEHpe895cnWeQnK4mRvR5aEU4lueFJkmxhxOn8QRMms6SArp6WM3pBEohEBz7WnBVUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712588787; c=relaxed/simple;
-	bh=MsNpVO9pB/7MMcibh2I88NHwGOLe1uSWzf4L7HJ0tE0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KzycllFNlpdeDRB69wg5bs0pb8pSF2yHvUGUQgJVP5JAXbKRxGAuUy8LzW8s/H5tpOq8xULhDPQ2Bcijmy7UyGChNIXjj2NX44J7pFXG3jHyMd9/2c8F2EgC4zh4P68qLTTcv3uYs0mmLRr3Cwvm3p5W04QTkGVDeMdjxkZOAdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vCRYj0Zo; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712589572; c=relaxed/simple;
+	bh=p3uqGizp9xIMGF6CjhHwqsqD088dKF3LY0AdqM5qQiQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BFb5aM6DJzxfmgwN5bZCdoCTOWOSWiQGFDG28WdeL1RGk17hSlEq6IxvToNWJSJMLK/mjT/B6+wA+ZHzFh6dLZ8DI1AvTaByweWUj2z+CeMMK1qzdAQttTv3ebqmLAKH+ntAEy7jVtKjeMuAIwd2XCSoBAvLExYF52tf6hDm/B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=mail.ru; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=FcpHsEul; arc=none smtp.client-ip=95.163.41.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vCRYj0Zo"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-343d2b20c4bso2885811f8f.2
-        for <linux-sound@vger.kernel.org>; Mon, 08 Apr 2024 08:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712588784; x=1713193584; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dxs6cIQGM15UBhBDso3tA3kUyIdNuLINVbFD4GzTI/Q=;
-        b=vCRYj0Zo/VI9J8iHKRgyZJeNxW+CL7ZduogXCThyoMGKjHS0zyapKDeJ/mnZ9w5RLM
-         EITe3YeyXDofQ9m3U+4b8VBeGqGA4lAmD9B5RVNqD9Um8dwWgcT3PDg92UCKFeN9Mppn
-         JvSZCBZzYplhqELjw+kjDCFPYMlUFsCWAtiIt/ZdG705IiGTLf/LuePAv+y8LvirQlJI
-         VOHxNq9Z+eQlk+2rUZXeyZswzn6yAynjc5VYKCfU5/uUFfen2NRL3ccxMV3pyrKMm/s3
-         gHFFl77qyeMQpskKZrtBej35SeNW3UDNp5wOPwyMn5jWCrwmOJ8smHrY7OLlXuPwA4nA
-         WpWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712588784; x=1713193584;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dxs6cIQGM15UBhBDso3tA3kUyIdNuLINVbFD4GzTI/Q=;
-        b=ihFVP0ewJnYPPzENXiELnXDFqBtUM5b9OyEK8RJTrDaIGk1mYXPC+H9BhEvIfiJv5x
-         BHjdvkiH2B/ghHLp/+KhXQzxX0zpIYWVxpLy+K1psxYG7lD5ZO00+rRE8MAuMJsNJ/K+
-         +gKfRcQSZH3C9G2k4YkqIpaU+LDGBV3g8nEWbokldjFxlpfpeXLKtVU7GlU12X1aKKh3
-         oGRCwzNik0ItSEznEEBcjKm9PYsiuXNex0rDXvBmj3RYeROVkFXK9K6Vi2GXUOjisn+A
-         8+TPOZCf14FGQPv2GHFHHOX0eijcCTr6sbAuYcn/5IW0EwVsM9Hjx9OAigD1ISQdtbH9
-         PdJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXwGvNhD7F3hTIbiEdHv0qQfhhXmHhX7B+eTKQhZXysRBhlDT+JQcxcBCk+Z2gRJ8lFOW5Mt14YQVqLp5V+E4EHv+6+sCg2OJ5dc5k=
-X-Gm-Message-State: AOJu0YwVW+Pkx0+66ry3lXC1EW9caLix7F+xsentNXieUU6xV4DO9NM0
-	YAzrctaxl+HNydtaEJlodg2r9PeLvn+zgiW5sGOe/Ht9a7UvmboLgXDBX5GIBwk=
-X-Google-Smtp-Source: AGHT+IFnASuk0b7wQuK6k5VWyqkLb542+HkDjKIZIid0oTGMKzSJn6440x/462PKUtK4PX7NzyAtfA==
-X-Received: by 2002:a5d:6086:0:b0:343:d06e:51fe with SMTP id w6-20020a5d6086000000b00343d06e51femr6955094wrt.20.1712588784285;
-        Mon, 08 Apr 2024 08:06:24 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id n6-20020a5d6606000000b0033e745b8bcfsm9165815wru.88.2024.04.08.08.06.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Apr 2024 08:06:23 -0700 (PDT)
-Message-ID: <69ab2bd9-401a-42ff-90fa-6600dd071722@linaro.org>
-Date: Mon, 8 Apr 2024 17:06:21 +0200
+	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="FcpHsEul"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
+	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+	X-Cloud-Ids:Disposition-Notification-To;
+	bh=wx+/Kt3SIcMw3DZo1mkGE7FX70+jMpgo7G/HwD3+K2o=; t=1712589569; x=1712679569; 
+	b=FcpHsEul1rKfWo/Dct7yBjiBIVoFpc8lod+TQZ+7mLtSeGmvQvn2Ow4R+qd8mTwyMV5EpUYvqGz
+	2nUdWGEH+c42fO7M9u9KgHOtGQP8Br+q/CtVh0lurxJ2pUt/3Rwg1acXICpYI68rpwiLSDAQXCLYM
+	fd8Uw3euwIr+3e8wKco1+Fcy8h5hMJA3mPhhclm5nfbb+fkHI0lQkTNvxLL3jjswi2WoXfpdwGDon
+	aikQ4znIm/E6hejCNrgrA0AjC+JoOzxPHQhhYQkFhqiKVq59Dwo3VeqqgK1Or+JrSuyRQh+hfEaLk
+	Fp3WfYzWX0MyYHdZvadcbJvP8dbykpfqHfgg==;
+Received: by smtp30.i.mail.ru with esmtpa (envelope-from <end.to.start@mail.ru>)
+	id 1rtqmG-00000006bN0-0nLt; Mon, 08 Apr 2024 18:19:20 +0300
+From: "end.to.start" <end.to.start@mail.ru>
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: "end . to . start" <end.to.start@mail.ru>
+Subject: [PATCH 1/1] sound: Support microphone from device Acer 315-24p
+Date: Mon,  8 Apr 2024 18:19:14 +0300
+Message-ID: <20240408151914.44030-1-end.to.start@mail.ru>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com>
- <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org>
- <CAA+D8ANiKH7Oc+KAjD_BMp9P2EVeM8Q6dLGFCC8a83bJXUpPEA@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAA+D8ANiKH7Oc+KAjD_BMp9P2EVeM8Q6dLGFCC8a83bJXUpPEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp30.i.mail.ru; auth=pass smtp.auth=end.to.start@mail.ru smtp.mailfrom=end.to.start@mail.ru
+X-Mailru-Src: smtp
+X-4EC0790: 1
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD9D327C87852EB66D37A377202123D15E2FF4702E432B109B7182A05F538085040B9323BDBBFC7CCBD2EB5D77EF37489D18698FC1950636B7EF5BE69892C5964BCB9C4F2611CB3DCF4
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7492D3E4238663367EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637DEEC83A7CF8598608638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D800B9EE98F4FEBD2DF439883391C714277B47D1ECFEE2ACF220879F7C8C5043D14489FFFB0AA5F4BFA417C69337E82CC2CC7F00164DA146DAFE8445B8C89999728AA50765F79006372A3B24BF85B2E607389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8A9FF340AA05FB58CF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA73AA81AA40904B5D9A18204E546F3947C223C850C947643096136E347CC761E074AD6D5ED66289B523666184CF4C3C14F6136E347CC761E07725E5C173C3A84C3577BF6776F123B00BA3038C0950A5D36B5C8C57E37DE458B330BD67F2E7D9AF16D1867E19FE14079C09775C1D3CA48CFD6B8D1F75A55B56DE827F84554CEF50127C277FBC8AE2E8BF1175FABE1C0F9B6AAAE862A0553A3920E30A4C9C8E338DA207FAB6C32963C0243847C11F186F3C59DAA53EE0834AAEE
+X-C1DE0DAB: 0D63561A33F958A5C44FD24CCC68300E5002B1117B3ED696CB6082D8DACE180919AC5B239BAD4335823CB91A9FED034534781492E4B8EEAD5973B86847D985D2C79554A2A72441328621D336A7BC284946AD531847A6065A27ED053E960B195EBDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0AD93B9BA3C444D644977DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF45B00B261A430CA5BBCEDE6F76895AB947921DF39F88E614015E91357665F65FE98901B1639BBD631CFDFDFCAF5E4A4B332E52EB94E5ADE41C1AE82A563365E59F3DF397AF4625935F4332CA8FE04980913E6812662D5F2A65982B5FD154E7DC8F0ECD54AF826900C3981EEBE9DB10F943082AE146A756F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojabKNeIbMV3tT9US8tr4Y6g==
+X-Mailru-Sender: F34414D909EE10BD7829694AFAC1E959B249BAAA1DC6BB89B951B70A5BD4BD8E5BD28AA36A3542F6F817479B9098B064C773E5EF782A67EF9314192DE98EED7FA9800083D4B72A528C9769C13AF3BBAE440A67913D6ED084D7A14DD9E34ECE7467EA787935ED9F1B
+X-Mras: Ok
 
-On 08/04/2024 10:01, Shengjiu Wang wrote:
->>> +
->>> +anyOf:
->>> +  - required:
->>> +      - spdif-in
->>> +  - required:
->>> +      - spdif-out
->>> +  - required:
->>> +      - spdif-out
->>> +      - spdif-in
->>
->> Do you need the last required block?
-> 
-> Yes,  one of them or both are required.
+This patch adds microphone detection for the Acer 315-24p, after which a microphone appears on the device and starts working
 
-And? It's already there: that's the meaning of any. It is not oneOf...
-Before answering please test your changes and ideas. I pointed issue
-here and you responded just to close my comment. That does not make me
-happy, just wastes my time.
+Signed-off-by: end.to.start <end.to.start@mail.ru>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> 
->>
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    sound {
->>
->> That's a random change...
->>
->> Instead of sending two patches per day, please carefully address the
->> feedback.
-> 
-> In v1 you suggest to change it to spdif?  but spdif may conflict
-> with the fsl,spdif.yaml.   so which name I should use?
-
-I don't understand where is the conflict. That's a different binding.
-
-Best regards,
-Krzysztof
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 69c68d8e7..1760b5d42 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -430,6 +430,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "MRID6"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "MDC"),
++			DMI_MATCH(DMI_BOARD_NAME, "Herbag_MDU"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.44.0
 
