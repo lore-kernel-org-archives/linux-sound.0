@@ -1,95 +1,142 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2792E612F5;
-	Mon,  8 Apr 2024 10:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7622A64A9F;
+	Mon,  8 Apr 2024 12:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712573580; cv=none; b=oIKqspciKnVW+w35r2+Cd7N8MTyLBSfsCV3vW7LtD+PFCXbnWKGFGgs6tzQ45N94E95l/NW2CsGnCMpj91AGvLDtslN4SV/mLOKZWS3AO5uaY8ITiNHupBtwNzY9yAoL+hcBgFVKQD28xUyy2o9Tf5fnfg6qfItVmhBEkVaMqBM=
+	t=1712579318; cv=none; b=rHLC5IabbvDw2hQy/fRtp3iKv4NMJ6KVHev4yV/mUZ9mAfECY2pNY0ZVopw8X8770XnD3Rcu5C08t9qP+S6/TYx+dC0qC8jeo4ltd6GFuTllLLmle37n6wipIf8qWuGQS8rStIs26Q3I4Q8teeZbjmBuygbKSYCg1acv0wIQ+5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712573580; c=relaxed/simple;
-	bh=Ud0GI2flSvHcXw7VWyujx4h4/Y6ogZjhOy0fklopGM8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oc+plKWcso7QVPVme0LboA0VXRXiOiMp9BDM4PESkgj1MbZuC+eGbWLboDpGAD398Ua7d244C06di6BSCoYfe27Yi/+8wEyBxEcBuvsp220xOXyXiD5UkYSQ5kocwTIxlo035SzqmoGTuxosp+ySIAVOe+5bhhYJKuAeIAOYiCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nd7vMODY; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1712579318; c=relaxed/simple;
+	bh=hll3DacUxkX1DG2Z4CS8KDhqm+gORNkbU2vd95sIbds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VGPDauRaNt2HWQXRC+tmNqpYVfnxFpeCQsZuUraR+P4MCOTGeSbL4Jex3eezoEA1O2oaUp4yosvIHjpMMN8lS0FmSuRpa86dj2ZNqWGtxFMOgNmyDium/s65lFkGlvUapGeySxLsdlHGR8gjSPxcHwL7/NuK+a7q6thQLh+NABI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AjBPIqoq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nd7vMODY"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4385o0CU020277;
-	Mon, 8 Apr 2024 05:24:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=S
-	r7C9ozK7GY64+rWeoWTEytRlN75UgieuR9uJAm3Bpg=; b=nd7vMODYwFhmoPd/n
-	S+8tQkjyghOADqycT/Ql8dJZmI8aCqSpW+czmpdXFVA6A41kDuXRaOpJf0uOdBOc
-	nOrutklC/IYisxvYFiDJAQOWRpzx/cpUQli94/rCkJfDJOOPDla87cqLpVR4jW9f
-	ETRN+5KGcytFHyjMbCyDSgRfMTPXRCHo+SqGmP5SYYv13D5SthsgvQohDsjPtj8k
-	MmK9sHO9Rey2T8vRqyhyb2aPngY/BEgMedOa/YkQ3yqu+s2CRofUFG3DW39mDhLb
-	m2YjU+u0kQdG4uadsYTrflchULb6XIc8Gb4Be5GszBdk2akZ5s26KxJYrnDQQZ+o
-	Bo16w==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xb2tjhp0e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Apr 2024 05:24:18 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 8 Apr 2024
- 11:24:16 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Mon, 8 Apr 2024 11:24:16 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 25413820242;
-	Mon,  8 Apr 2024 10:18:03 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>
-Subject: [PATCH 0/4] ASoC: cs35l56: Fixes to handling of ASP1 config registers
-Date: Mon, 8 Apr 2024 11:17:59 +0100
-Message-ID: <20240408101803.43183-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AjBPIqoq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DD0C433C7;
+	Mon,  8 Apr 2024 12:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712579318;
+	bh=hll3DacUxkX1DG2Z4CS8KDhqm+gORNkbU2vd95sIbds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AjBPIqoqy4Jryx4KPSeMe1vNPYhMuUTMLOfA8GX1dYUBqdCh0h+PdGXfRpXtlKgG3
+	 roJcAofrtp/jG1lwtGsd8U6Cg4Gj5y7P27tKibdzqCII75Xsd0nDmfuFclj3bNhlM+
+	 hzNsJYinkfVqz/RVoL+K67CDPVu4K2beh9MceRluXYRSZkuFdw9ImcdFDs3+ad/0uQ
+	 fRlP1Bhiz1QZBFVmps8qRyfmCoZUo2vPKxeX5BX1w+nhB6PW0mFE4uxKXgRP7Td081
+	 mSDldBHF1k8W5889XPv/c/1c8dZ0cL649jAnAuep43BWWFWgOQka08GBEiehSmXwUh
+	 boQMX2ydrYr0A==
+Date: Mon, 8 Apr 2024 13:28:33 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: linux-next: build failure after merge of the sound-asoc tree
+Message-ID: <ccfe882c-652d-45d2-a9e3-d320ebe01834@sirena.org.uk>
+References: <20240408141216.3eb1128c@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: WqCasWKkO3re0xRWNkShxb2S27Q2THeC
-X-Proofpoint-GUID: WqCasWKkO3re0xRWNkShxb2S27Q2THeC
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8M0lz2wDOChcIaG7"
+Content-Disposition: inline
+In-Reply-To: <20240408141216.3eb1128c@canb.auug.org.au>
+X-Cookie: Drive defensively.  Buy a tank.
 
-This chain fixes some problems with some previous patches for handling
-the ASP1 config registers. The root of the problem is that the ownership
-of these registers can be either with the firmware or the driver, and that
-the chip has to be soft-reset after downloading the firmware.
 
-This chain adds and uses a regmap_read_bypassed() function so that the
-driver can leave the regmap in cache-only until the chip has rebooted,
-but still poll a register to detect when the chip has rebooted.
+--8M0lz2wDOChcIaG7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Richard Fitzgerald (4):
-  regmap: Add regmap_read_bypassed()
-  ALSA: hda: cs35l56: Exit cache-only after
-    cs35l56_wait_for_firmware_boot()
-  ASoC: cs35l56: Fix unintended bus access while resetting amp
-  ASoC: cs35l56: Prevent overwriting firmware ASP config
+On Mon, Apr 08, 2024 at 02:12:16PM +1000, Stephen Rothwell wrote:
+> Hi all,
+>=20
+> After merging the sound-asoc tree, today's linux-next build (powerpc
+> allyesconfig) failed like this:
 
- drivers/base/regmap/regmap.c      | 37 ++++++++++++++
- include/linux/regmap.h            |  8 +++
- include/sound/cs35l56.h           |  2 +
- sound/pci/hda/cs35l56_hda.c       |  4 ++
- sound/soc/codecs/cs35l56-sdw.c    |  2 -
- sound/soc/codecs/cs35l56-shared.c | 83 ++++++++++++++++++++-----------
- sound/soc/codecs/cs35l56.c        | 26 +++++++++-
- 7 files changed, 130 insertions(+), 32 deletions(-)
+Copying in Amadeusz and Cezary, this is from the recent AVS changes.
 
--- 
-2.39.2
+>=20
+> In file included from include/linux/bits.h:22,
+>                  from include/linux/gfp_types.h:5,
+>                  from include/linux/gfp.h:5,
+>                  from include/linux/slab.h:16,
+>                  from sound/soc/intel/avs/icl.c:9:
+> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(=
+struct avs_icl_memwnd2) =3D=3D 65536"
+>    78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>       |                                         ^~~~~~~~~~~~~~
+> include/linux/build_bug.h:77:34: note: in expansion of macro '__static_as=
+sert'
+>    77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARG=
+S__, #expr)
+>       |                                  ^~~~~~~~~~~~~~~
+> sound/soc/intel/avs/icl.c:73:1: note: in expansion of macro 'static_asser=
+t'
+>    73 | static_assert(sizeof(struct avs_icl_memwnd2) =3D=3D 65536);
+>       | ^~~~~~~~~~~~~
+>=20
+> Caused by commit
+>=20
+>   c2b10acb62c1 ("ASoC: Intel: avs: Add assert_static to guarantee ABI siz=
+es")
+>=20
+> PAGE_SIZE is 64K for this build.
+>=20
+> I have applied this patch for today:
+>=20
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Mon, 8 Apr 2024 13:50:53 +1000
+> Subject: [PATCH] ASoC: Intel: avs: stop building when PAGE_SIZE =3D=3D 64K
+>=20
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  sound/soc/intel/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
+> index 4b9e498e3303..abe5cba82d50 100644
+> --- a/sound/soc/intel/Kconfig
+> +++ b/sound/soc/intel/Kconfig
+> @@ -211,7 +211,7 @@ config SND_SOC_INTEL_KEEMBAY
+> =20
+>  config SND_SOC_INTEL_AVS
+>  	tristate "Intel AVS driver"
+> -	depends on X86 || COMPILE_TEST
+> +	depends on X86
+>  	depends on PCI
+>  	depends on COMMON_CLK
+>  	select SND_SOC_ACPI if ACPI
+> --=20
+> 2.43.0
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell
 
+
+
+--8M0lz2wDOChcIaG7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYT4vEACgkQJNaLcl1U
+h9Ayvgf/YAICd/vVUBHM+ODLX0Ene/RRxDnpjoWl4N3GLQpdZy9xAE0OTn8doxRe
+vUGOPjUnd8cLtOoztpk/6AyfJvfKo45WrsqFPu7yhw+XE/lvBtg7jdNVU5RttxeR
+znv+nK9ti6vv/jre6ziRDzIGk9eBP+jnitumWX8mVxDDNcwwMJ7T7GxXI8qN8KQu
+NOxyiyf2CxEGnO3ErDEAX+HcYIu7+ub01Mwvmitqj+8o9q7ErG+g29L29GhdhT2l
+vjJIcTnbVbprdBjV0ZlIxyhTfh9sBQ5lQ8jlSgD9KIYXORgDoOLlEwNgYkR8xhT7
+CAZuu3EfyMS+tiJbag+915R+3OaOeQ==
+=plHR
+-----END PGP SIGNATURE-----
+
+--8M0lz2wDOChcIaG7--
