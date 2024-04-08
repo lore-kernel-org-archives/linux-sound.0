@@ -1,140 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E766B6EB72;
-	Mon,  8 Apr 2024 12:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE68B77F11
+	for <linux-sound@vger.kernel.org>; Mon,  8 Apr 2024 12:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712580495; cv=none; b=tmz7UDBUimtCgDanCMyflKVIKYnBiQxA47xBevZi07dph1Ytg2CHIfXxcM4tUjjEVN4AdtVDzY513vIl72rta3+Fy7U2iYYjCsoFBa9tihaNeGohDEHO0LGoQsl6fQk1gsHUVlgmgMxHZ36/RbXC0OUAgU9oSoiDURhNfh/q38E=
+	t=1712580635; cv=none; b=QwImTQTpGVYPPg0TQV0uplD39eDfKTNEUjRq/RNeoZeRKHOyahhL+v+PJNaUJElyIHswdVD8ZkJyUNoqTdHLEQFfA6IR7gHLn43K0lNfC9VJ2LS75q9PF5hq6UDLRM6gJmTD9k6qytI7ngrhvAaL1u3n5G9kb7DlhvOEJiZPum4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712580495; c=relaxed/simple;
-	bh=Q7GITuY41W3ogDYnIOkjx+esojDwuo+Bt0JnS0VPjzM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FG1m2hDV/pOZl8uE7ovGLRkrtOpnoi0NufCHn83JJYHjuitAYSj38l8a9a1HLCDWFXFEPI4wQCgHJl9M1mxdC/wxER/sayoH4zeaS+JpADKGn5tDAz3YPcGXKn0enyFTteloIi+9ftn2s504uknI5o+P3maQdgUBaM3kQLJ+uw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okB7bNo5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712580635; c=relaxed/simple;
+	bh=+b1X+G4j5vg/g5sSVMIsG4l7qLj4/UnWr/Wp6hgV9mI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVdLwrF2010nf/lqdEz/4hzfErvK5PS+NIWCHjzcc2FXd2Gr5CLM7kbvfX6pqebykhnTyJ/xgUiXHKbix9jqIwbOsHYxEgd3heEbh2S0fDaRTAoOcVIRj9hu04vke8lzyTBMgjqF0wCWCwPS0+du5kHaCrbEtX5GB0of4GNj9UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OkMuKgvF; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okB7bNo5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB03C433F1;
-	Mon,  8 Apr 2024 12:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712580494;
-	bh=Q7GITuY41W3ogDYnIOkjx+esojDwuo+Bt0JnS0VPjzM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=okB7bNo5qZMw2r34Mrz+i13VEm63qG1ebCMW7wQcxPUTwYNA8ci2544eWmPQfXj8i
-	 FfBJmGDf3xOmD0GuQDstSY9GamWzd6c95SUVDdp8VG04xtFDBmXmkXTM55ZI/YDv2H
-	 uxljy8Pu6aEBRBD0pFlNSCHJsYri7tHxQ0802H1rE9JndcO2lhuq/t4HEdpxhfTVGU
-	 aVTAY8sBA/H/Ix0Fsjq6SWs2JO7+LDWpkslzsKeZ/IdqThbkXBR4+nO0tDs0VLbkR9
-	 jz53vhcM3fAOKQeW9dcYPtk7gvU3yuCIg+HRspVTjvt/MaUhHfCABCEz/rryWKvkmv
-	 4w59xnZJ73gwg==
-Message-ID: <ce975ce2-12da-46d0-9e91-a417819f0914@kernel.org>
-Date: Mon, 8 Apr 2024 14:48:05 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OkMuKgvF"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a4644bde1d4so616416166b.3
+        for <linux-sound@vger.kernel.org>; Mon, 08 Apr 2024 05:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712580632; x=1713185432; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Jqz2JncY/jtoTAT+GuKbSQdZrYRr+WWEpeeXtkbxJY=;
+        b=OkMuKgvFnYVc+IB28JRvs5iXdL6ltKA9RIhr//7rqw4TygeqhuSlJ/CF7XsuXKMDOX
+         FQaBdD/brMmhNGAKwymcm2pX+/kkV3KgQywea6uwGfK18G2+v+5zAZh0ChoFboikn2KF
+         PjfUYA8b6jK08fzbjWDJ2OEq2d5/PYhUn1NKiNLYiR5f0p1lR3m5HF4vL1mM/xc/B5ck
+         bP36qyCtZFCxjTAG66kunpKv6HzRYxge7csIQf5QWEhSZpXSv/rpf6RJY5hsZQ7S4G9y
+         b8IjoNMP6l0aFB2XPeoD/2ShTyTAgw21veNMCCSRttd6tr9BApDSPNZtoRMyf27jebK5
+         QqfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712580632; x=1713185432;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Jqz2JncY/jtoTAT+GuKbSQdZrYRr+WWEpeeXtkbxJY=;
+        b=w5+IzMgrEBR5v2uSMEnukGtFlOF4JJ7fRhP05snhlyPW8Wu8VtY1H+xwbkVw3Za2G6
+         fTtJx98MNi7yWw+TI+Wq+G2OVgufnP/nEJV61igPd3ecz8vRx3ZBs3BDB1nXrv1uqHsO
+         SRAqUXc5pDsBEy/wt97GId2az8anS4TEKtWrFqpYvtBYJMe0tBQXisIDEP4W7Ctq9wmr
+         lXsRY1NvIaghLi/UNQsODTllOq1mSIe1izMuZEMzocJm9Ba1CJT7sTFeQ/eDERevyFd4
+         eJfeN8iPAg0hKJIttjZ4W1BIVrcyS2RvdoIlyeXzd3T8TbMEo6KT4YQ3rGvxmFoJ2Of3
+         5rug==
+X-Forwarded-Encrypted: i=1; AJvYcCWwq/RS4zA+DhhYUn76k045tg3UlUh5q1+0MxGowHDJ7Hg5lvRHZuFmGHYbImyW5H0U/ICzQo5AAXpAGm8ogBGZU/DlpzttZrjlHx8=
+X-Gm-Message-State: AOJu0Yx8rN5Xn+AQKbR73+JYCSCRsZ3D2X3NJ/DM7wwdpHHqt0cPmdmw
+	Jb3Dpm6v4PXo/jwRfgUzWDV/9L0DjW6gwdXQWHQothb13Cp3LGR+1VqJ6+Dhubs=
+X-Google-Smtp-Source: AGHT+IGkACAAt6WrK3fdfk6qOQT1T9IleXUaTnuLuR3BsyNyAKeaVDfXwn5PTPwMGxSdOVxQ6RZO0w==
+X-Received: by 2002:a17:906:f58d:b0:a51:9f5b:b659 with SMTP id cm13-20020a170906f58d00b00a519f5bb659mr7056707ejd.34.1712580631945;
+        Mon, 08 Apr 2024 05:50:31 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id c22-20020a170906529600b00a51bbee7e55sm3058843ejm.53.2024.04.08.05.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 05:50:31 -0700 (PDT)
+Date: Mon, 8 Apr 2024 15:50:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-card: Fix a reversed if condition
+Message-ID: <b692071f-0c43-48eb-8faf-f9279c3d9439@moroto.mountain>
+References: <155bb76e-dc57-4a5c-b0eb-acee5ebde9f4@moroto.mountain>
+ <25771b56-8564-42c1-9a2d-408d91f23618@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v3 2/2] ASoC: qcom: sc8280xp: Add support for QCM6490 and
- QCS6490
-To: Bjorn Andersson <andersson@kernel.org>,
- Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- quic_rohkumar@quicinc.com
-References: <20240408042331.403103-1-quic_mohs@quicinc.com>
- <20240408042331.403103-3-quic_mohs@quicinc.com>
- <45yy3cvepk4uwi2jdmh4w6l5ac3dffqhbot6xzv2bwjvo637ss@pryzth2hghyu>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <45yy3cvepk4uwi2jdmh4w6l5ac3dffqhbot6xzv2bwjvo637ss@pryzth2hghyu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25771b56-8564-42c1-9a2d-408d91f23618@sirena.org.uk>
 
-On 08/04/2024 14:45, Bjorn Andersson wrote:
-> On Mon, Apr 08, 2024 at 09:53:31AM +0530, Mohammad Rafi Shaik wrote:
->> Add compatibles for sound card on Qualcomm QCM6490 IDP and
->> QCS6490 RB3Gen2 boards.
->>
->> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
->> ---
->>  sound/soc/qcom/sc8280xp.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
->> index b7fd503a1666..878bd50ad4a7 100644
->> --- a/sound/soc/qcom/sc8280xp.c
->> +++ b/sound/soc/qcom/sc8280xp.c
->> @@ -169,6 +169,8 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
->>  }
->>  
->>  static const struct of_device_id snd_sc8280xp_dt_match[] = {
->> +	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
->> +	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
+On Mon, Apr 08, 2024 at 01:43:09PM +0100, Mark Brown wrote:
+> On Mon, Apr 08, 2024 at 10:38:02AM +0300, Dan Carpenter wrote:
 > 
-> We now have 4 <platform>-sndcard and two <board>-sndcard compatibles
-> here.
+> >  	ret = snd_soc_register_card(priv->card);
+> > -	if (!ret)
+> > +	if (ret)
+> >  		return ret;
+> >  
+> >  	return 0;
 > 
-> Not saying that your patch is wrong, but is this driver board-specific
-> or soc-specific? Srinivas, Krzysztof?
+> Clearly a better fix here would just be to remove the conditional
+> entirely.
 
-To my understanding this is mostly board specific, but it is also
-partially a software construct thus we simplify it by using SoC
-compatible for all boards with given SoC.
+Hm...  Actually, it should be:
 
-I have no clue whether this applies here. I think we asked about
-clarifying the differences, but as you can see nothing improved in the
-commit msg.
+	if (ret) {
+		put_device(priv->card_dev);
+		return ret;
+	}
 
-Best regards,
-Krzysztof
+	return 0;
 
+Let me resend with that instead.
+
+regards,
+dan carpenter
