@@ -1,245 +1,169 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBEF13B2A8
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 13:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031008F77;
+	Tue,  9 Apr 2024 14:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712670165; cv=none; b=UpzDszp0aNnD3ghVcNvSHiiP+g3700QVA3qT2B4dul5WnuseyjmVEV+njItJuGvn0zPIr2dHuGZmOjPnUkLjtUiAkNqRAXU71YVfDqUWRVWFOYydU1yiTyBlgigMwblpwliB6JY1LRmHmX9WtiPX/qIHV1sT3VupdnDczrZa//s=
+	t=1712673569; cv=none; b=eATvGXoGIU0qY4q7Hr2N6T0gnhXZuDF/hqtFE8PLtuHXCBi8k3xmA96CzKtiGQs/5J/pH6J5SR9gyqTZxdkx7oEVxgtfNy6FcZtXpehiLLdwqI6m3EiRFKsVe6Q+nHpqGleBd2SeyHfoq9xhjD/KJ2Z6W5qwUtqqYam83CYJ9LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712670165; c=relaxed/simple;
-	bh=rmUU5KQQDjsuNrCnoS100FfCSVwtHEsMKsd4Yeoncng=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VpM7Jtz+19mqzhcSBEZMUAMR/dyXe8nPpL9vVTE15kSddwUuxHdwVK56okt9Fr1rtSlCDVrYtdECkl/PTlbsfVpsqaE8AgsObpN9T3kmLWs0k/fb9VooRe+udEajaUWEpTy3rtCnJ+0QNqw+hHVxOJz093rKgiyIqzNgopDfXkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fDiU7tqW; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1712673569; c=relaxed/simple;
+	bh=VsIhIpo9XbPHMfhPqNlNwCHGDoqMfYE2kWZHJaXVHvw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cge/6AJxLzbbwZqo0ynqyX3WzodxoEEZdjrXNlxvA2UB+pN7AsgI3u/2q136Wd4DN3ydIBCKDpTinksQ6SeOF4pL25eZxbiZ0oNGsZHN9xy307IbNKD6vm+EcnfccrNJ/WI8vN+ktUKV2iTxVAv58q3pNEZsRUl8zpu5OT0VSYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IIWFznCp; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fDiU7tqW"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4163de295f9so16379135e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 09 Apr 2024 06:42:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IIWFznCp"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51381021af1so9200204e87.0;
+        Tue, 09 Apr 2024 07:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712670160; x=1713274960; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IGsqJQWF1Ucte73TGgl0P2Cl+B2DHbp3lE/2oPwQwY0=;
-        b=fDiU7tqW9yACIDyus/0TmlQx71PfJm/NpMwjDI62SGyZ+6KAfpgcpP/WWM4vLYqX+p
-         51wrmgo1J4Hx7ZYZUP0MBvBtxmeJEXw/FR9wM1kfvt8rIl04W01veNv/Oz6ZIB2Fzo5R
-         u6ke+/bCsW2SQH7XD8LG6QDXr5Tb4qKDCrvWxPVLwKfVMccqNhmPWusC7/CB3U9GzgSM
-         y1UnY9N8QHAyuunVt7LKFc09Oo3wuKxp2f0MDj2r9s9EsUz01m9vvP8Abkbi+Bu+d+2b
-         N9gAk+dNRMVlVOygCBI44bPdGJp31sMMnC1zKPT2gFhTtK0bclgjLqtlBipVfz1DDoWi
-         zieg==
+        d=gmail.com; s=20230601; t=1712673566; x=1713278366; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YKneFpmrGWPkDYn40mrK/8lEAAuKeHF1X4WijCDVMIA=;
+        b=IIWFznCpURG66mpAy25tpJPS85vue2XNm1N7lv/7WcuI9aaFvn2DvQ1zTYzCkpG3XM
+         NbmXUS19evI1OGD3hLtDiJ4GekKbWepD4E//ZDBY8f63zyBuuuiJAjA85O5fS6Nh+h93
+         0X8uTW0seg+JSK84T48xAx5+oTtVVQ9ktkKL7MA0zs0mCdduj0EOnYDqojFlGkdU97YL
+         jzyFfwY2bUq9/pCNSJ4yxF2tESIB6v/+omBk1c73k2l2Y/KPAIFT+rMeuu+J1jHdRfek
+         ptNQz1BhStLU3PUFHQU3BcLWfer+1vvTBaAYFZdLX0Pp57AK9lhXkrDgoccc/7pakJQU
+         JTvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712670160; x=1713274960;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IGsqJQWF1Ucte73TGgl0P2Cl+B2DHbp3lE/2oPwQwY0=;
-        b=hxbIjPA3iowLSFTZvDZLkJeKmV19YUDoyv0j+2ckrT5xHXLez/AyQrjPAn6GGgYY7T
-         mYgKbeoo47bOOCELioQLu5CAcSCNzh3kSKz+UarT6f9UrIAO1qcSeH5vWpgkrbhBfcJh
-         WGmcmrDx8ODfWmRqujDz5mLvAk3OFZCFn5/jnaNKxciTk+vcpksY0IARwAMqGhg9UFTm
-         Kahr/nhS2RUpm3YGV/a0KinVTZMOQ7TvLSCEvt102GJUMf4NjREJm2GE9LIH8u5z3QUN
-         JhpJSZvty7lG3oFC3UUZD5qksJwkKRnjTdPSH3eBp2HCLyHkAWhGTOMm0G9QWZtbSUgu
-         y4Sg==
-X-Gm-Message-State: AOJu0Yx10UfPeABU/F5GJ//7d18q3pkbSsGFVUsNTYDXTtjC3ziW0jx5
-	hzVIpJo6QcFeVLY9FRwwvkL9vu9EQSHP/oW9lphqrzprf+oGKUtguVHMeO9SHTo=
-X-Google-Smtp-Source: AGHT+IG/iRx5ir5/ovsIbMfS8mk5u5aphffFDwTLsfaRoOPMCr5c7spDQQ+GP6mftM7G0850xXAw/w==
-X-Received: by 2002:a05:600c:4e0f:b0:416:7b2c:def5 with SMTP id b15-20020a05600c4e0f00b004167b2cdef5mr3740530wmq.2.1712670160253;
-        Tue, 09 Apr 2024 06:42:40 -0700 (PDT)
-Received: from [127.0.1.1] ([93.5.22.158])
-        by smtp.googlemail.com with ESMTPSA id j11-20020adff54b000000b003433bf6651dsm10753579wrp.75.2024.04.09.06.42.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 06:42:39 -0700 (PDT)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Tue, 09 Apr 2024 15:42:16 +0200
-Subject: [PATCH v3 18/18] arm64: dts: mediatek: add audio support for
- mt8365-evk
+        d=1e100.net; s=20230601; t=1712673566; x=1713278366;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YKneFpmrGWPkDYn40mrK/8lEAAuKeHF1X4WijCDVMIA=;
+        b=UaC5SRR0sDPP6bJIf5qwMgZ5J6lOgV03qTDRqAvPOTBrRpQt757SyO2+Tsp0l2Q5Nn
+         LAFPKs9bX5xRYLKO0Rf4CVEWdlcgQW7napLzFyaag4sT+pu4MkmsKcmKzjxOnmDNQRfm
+         Ho4r6XXdPiDUrK9SWqSc+dAcmS+LOKWj44ML/T/o0rCBgIRHkjjl7rVmHQ9XYen6N0k8
+         FOw0hJoZClryCyWTjQrA3FGbqVVWYoo+FuaP5cG0V527R1NWKfWsFkKbZVFyCuhnVcel
+         75btBTnPyTo8DOuB7lA55w0XlJvkSnrRbKH2nGzRalSXp1In7VLil4cKmLAIrP3pbQAI
+         cCgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiX0oeuiqPkyUM8KKOjf8mESPaanaRJ1VX5thDmy1JJYO3HiUIPGP3A3D1PB4DAHBs/ujZQ9ioL/oNA0oiNpfqCe4Pt2P+Mn/1XUKcp8kx5W4UFpf7dO+LC/35Oc7rRPscehaFyPluWw==
+X-Gm-Message-State: AOJu0Yy+vJimRWCJtLx24UeAz/TTy0aZmZDe4JasVHUq92R4Jac64vnN
+	QMO+qJgXAJ+JUFvznQRjkZgZkec5c9S0e5c9WQdeTZbDFSjkva3q
+X-Google-Smtp-Source: AGHT+IFNvQ/ssefNKErjmnIGx6yZ1F9nt1Qiw7IcOB3RIUN0vBkaXWO1MGpGc6B7hXDExOz5QM8pow==
+X-Received: by 2002:a05:6512:1188:b0:515:af1f:5bad with SMTP id g8-20020a056512118800b00515af1f5badmr12034231lfr.28.1712673565917;
+        Tue, 09 Apr 2024 07:39:25 -0700 (PDT)
+Received: from ?IPV6:2001:999:588:88e2:b205:90f0:e68f:63c6? ([2001:999:588:88e2:b205:90f0:e68f:63c6])
+        by smtp.gmail.com with ESMTPSA id a22-20020a195f56000000b00516d0aecc5esm1594774lfj.141.2024.04.09.07.39.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 07:39:25 -0700 (PDT)
+Message-ID: <e15d8d41-c4ad-4cfb-b10a-89e06a4ece11@gmail.com>
+Date: Tue, 9 Apr 2024 17:39:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] ASoC: ti: davinci-i2s: Add features to McBSP
+ driver
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, herve.codina@bootlin.com,
+ christophercordahi@nanometrics.ca
+References: <20240402071213.11671-1-bastien.curutchet@bootlin.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20240402071213.11671-1-bastien.curutchet@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240226-audio-i350-v3-18-16bb2c974c55@baylibre.com>
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
-In-Reply-To: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3971; i=amergnat@baylibre.com;
- h=from:subject:message-id; bh=rmUU5KQQDjsuNrCnoS100FfCSVwtHEsMKsd4Yeoncng=;
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmFUWs/X4+9lZbZVVrgUXvJF36fOR5nf9HCXtFKmub
- Eojk7WmJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZhVFrAAKCRArRkmdfjHURc0wD/
- 45bfDP54YfMymdYp1DrRTulxgf6GxTPMlbsmaYC/6cJOUqee8t+L9WtVMsNrp7t8LfGDU3lDY7DoRr
- 6vNEioghcUnEv+Mc+SYl7wFoedQoAppu/BpfM70howwkJ2UVm+SUAzqgTjvtOwwEC4VY2h8X56zN2a
- LfJm6Zfjo5fE8H7XpUOf7F5E7EUR+eDKbDRrgA96OEuRy99jQrKasVCr+2ZDGx06J2yHrMAItWA7lb
- sR4Hy+3BRmHw710Xr0eta3e+SAHhqmDqcg9GQz8edgyqoFrmfhDzrsKuaRgVJksRLvo0/fyJhh8BWm
- ggJ6j0JO/EvFhhPG8VtKzyOpEtPw87GXwpdiBAHKbfVAGFgbK5oX6uA0oP78kar8WPv1YAloDpEsx+
- oT+0QUuFzIu5TZjr2P00CZGUA+c1VVw7I5E1v7M1a0OwqRmjxd2H52CWPX0pxnkYQ+ZWfJOWqaZEfP
- JXM3aiqQLbew/R2iwVrMQlh0VkmWg0D5y+oSaN/yZFTY6Z12MNzp+ylKx34w6s4Nuw8dpsS1At7YxO
- Y3NzNjq61mtNk2oI6AIFWkeDyXsCWAYYySPd52T6MeQ79lwvWkBgUBURjyZQ0LiXHZomCM5OOEkckg
- 92hqaIi3kf8aFt6cxW2WzEKL1eAKxDEaYjMgHhcYn6CjpygtttRwko/+RTGw==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 
-Add the sound node which is linked to the MT8365 SoC AFE and
-the MT6357 audio codec.
+Hi Bastien,
 
-Update the file header.
+On 02/04/2024 10:12, Bastien Curutchet wrote:
+> This series aims to add some features to McBSP driver.
+> 
+> Convert bindings from .txt to .yaml.
+> Add possibility to use an external clock as sample rate generator's
+> input.
+> Add handling of new formats (TDM, S24_LE, BP_FC).
+> Enable the detection of unexpected frame pulses.
+> Set the clock free-running mode according to SND_SOC_DAIFMT_[GATED/CONT]
+> configuration in DAI format.
+> Add ti,T1-framing[tx/rx] properties in DT. They allow to set the data
+> delay to two bit-clock periods.
+> 
+> This has been tested on a platform designed off of the DAVINCI/OMAP-L138
+> connected to 3 daisy-chained AD7767. An external clock drives the
+> sample rate generator through the CLKS pin.
+> The hardware I have only allowed me to test acquisition side of McBSP.
+> It is connected to a 6 channels TDM and acts as Bit clock provider and
+> Frame clock consumer.
 
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 98 +++++++++++++++++++++++++++--
- 1 file changed, 94 insertions(+), 4 deletions(-)
+Nice and clean, thank you for the updates!
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 50cbaefa1a99..eb0c5f076dd4 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -1,9 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (c) 2021-2022 BayLibre, SAS.
-- * Authors:
-- * Fabien Parent <fparent@baylibre.com>
-- * Bernhard Rosenkränzer <bero@baylibre.com>
-+ * Copyright (c) 2024 BayLibre, SAS.
-+ * Authors: Fabien Parent <fparent@baylibre.com>
-+ *	    Bernhard Rosenkränzer <bero@baylibre.com>
-+ *	    Alexandre Mergnat <amergnat@baylibre.com>
-  */
- 
- /dts-v1/;
-@@ -86,6 +86,29 @@ optee_reserved: optee@43200000 {
- 			reg = <0 0x43200000 0 0x00c00000>;
- 		};
- 	};
-+
-+	sound: sound {
-+		compatible = "mediatek,mt8365-mt6357";
-+		pinctrl-names = "default",
-+				"dmic",
-+				"miso_off",
-+				"miso_on",
-+				"mosi_off",
-+				"mosi_on";
-+		pinctrl-0 = <&aud_default_pins>;
-+		pinctrl-1 = <&aud_dmic_pins>;
-+		pinctrl-2 = <&aud_miso_off_pins>;
-+		pinctrl-3 = <&aud_miso_on_pins>;
-+		pinctrl-4 = <&aud_mosi_off_pins>;
-+		pinctrl-5 = <&aud_mosi_on_pins>;
-+		mediatek,platform = <&afe>;
-+		status = "okay";
-+	};
-+};
-+
-+&afe {
-+	mediatek,dmic-mode = <1>;
-+	status = "okay";
- };
- 
- &cpu0 {
-@@ -174,6 +197,12 @@ &mmc1 {
- 	status = "okay";
- };
- 
-+&mt6357_codec {
-+	mediatek,micbias0-microvolt = <1900000>;
-+	mediatek,micbias1-microvolt = <1700000>;
-+	mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
-+};
-+
- &mt6357_pmic {
- 	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
- 	interrupt-controller;
-@@ -181,6 +210,67 @@ &mt6357_pmic {
- };
- 
- &pio {
-+	aud_default_pins: audiodefault-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-+			 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-+			 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-+			 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
-+		};
-+	};
-+
-+	aud_dmic_pins: audiodmic-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_117_DMIC0_CLK__FUNC_DMIC0_CLK>,
-+			 <MT8365_PIN_118_DMIC0_DAT0__FUNC_DMIC0_DAT0>,
-+			 <MT8365_PIN_119_DMIC0_DAT1__FUNC_DMIC0_DAT1>;
-+		};
-+	};
-+
-+	aud_miso_off_pins: misooff-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_GPIO53>,
-+			 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_GPIO54>,
-+			 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_GPIO55>,
-+			 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_GPIO56>;
-+		input-enable;
-+		bias-pull-down;
-+		drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_miso_on_pins: misoon-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_53_AUD_CLK_MISO__FUNC_AUD_CLK_MISO>,
-+			 <MT8365_PIN_54_AUD_SYNC_MISO__FUNC_AUD_SYNC_MISO>,
-+			 <MT8365_PIN_55_AUD_DAT_MISO0__FUNC_AUD_DAT_MISO0>,
-+			 <MT8365_PIN_56_AUD_DAT_MISO1__FUNC_AUD_DAT_MISO1>;
-+		drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
-+	aud_mosi_off_pins: mosioff-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_GPIO49>,
-+			 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_GPIO50>,
-+			 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_GPIO51>,
-+			 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_GPIO52>;
-+		input-enable;
-+		bias-pull-down;
-+		drive-strength = <MTK_DRIVE_2mA>;
-+		};
-+	};
-+
-+	aud_mosi_on_pins: mosion-pins {
-+		pins {
-+		pinmux = <MT8365_PIN_49_AUD_CLK_MOSI__FUNC_AUD_CLK_MOSI>,
-+			 <MT8365_PIN_50_AUD_SYNC_MOSI__FUNC_AUD_SYNC_MOSI>,
-+			 <MT8365_PIN_51_AUD_DAT_MOSI0__FUNC_AUD_DAT_MOSI0>,
-+			 <MT8365_PIN_52_AUD_DAT_MOSI1__FUNC_AUD_DAT_MOSI1>;
-+		drive-strength = <MTK_DRIVE_6mA>;
-+		};
-+	};
-+
- 	ethernet_pins: ethernet-pins {
- 		phy_reset_pins {
- 			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
+Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+
+PS: sorry for the delay.
+
+> 
+> Change log v1 -> v2:
+>   PATCH 1 (bindings):
+>      * Drop power-domains property's description
+>      * Drop the unused label 'mcbsp0' in example
+>      * Add <> around each entry of the 'dmas' property
+>      * Add 'Reviewed-by: Rob Herring <robh@kernel.org>'
+>   PATCH 2 (bindings):
+>      * Drop the 'ti,enable-sync-err' flag
+>      * Drop the 'ti,disable-free-run' flag
+>      * Add 'Reviewed-by: Rob Herring <robh@kernel.org>'
+>   PATCH 4:
+>      * In probe() use dev_err for fixed error
+>   PATCH 7 (TDM):
+>      * set playback.max_channels to 128
+>      * Add a check on tx_mask as the one done for rx_mask
+>      * Allow TDM with BP_FP format
+>   PATCH 9:
+>      * Detection of unexpected frame pulses is enabled by default
+>   PATCH 10:
+>      * Free-running mode is selected by the DAI format through
+>        SND_SOC_DAIFMT_[CONT/GATED]
+>   PATCH 12:
+>      * drop the 'ti,drive-dx' property
+>      * add 'ti,T1-framing-[rx/tx]' properties
+>   PATCH 13:
+>      * Drop the drive_dx part
+>      * Add support for 'T1 framing' with data delay set to 2 bit-clock
+>        periods
+> Bastien Curutchet (13):
+>   ASoC: dt-bindings: davinci-mcbsp: convert McBSP bindings to yaml
+>     schema
+>   ASoC: dt-bindings: davinci-mcbsp: Add optional clock
+>   ASoC: ti: davinci-i2s: Remove the unused clk_input_pin attribute
+>   ASoC: ti: davinci-i2s: Replace dev_err with dev_err_probe
+>   ASoC: ti: davinci-i2s: Use external clock to drive sample rate
+>     generator
+>   ASoC: ti: davinci-i2s: Delete unnecessary assignment
+>   ASoC: ti: davinci-i2s: Add TDM support
+>   ASoC: ti: davinci-i2s: Add handling of BP_FC format
+>   ASoC: ti: davinci-i2s: Enable unexpected frame pulses detection
+>   ASoC: ti: davinci-i2s: Link free-run mode to
+>     SND_SOC_DAIFMT_[GATED/CONT]
+>   ASoC: ti: davinci-i2s: Add S24_LE to supported formats
+>   ASoC: dt-bindings: davinci-mcbsp: Add the 'ti,T1-framing-{rx/tx}'
+>     flags
+>   ASoC: ti: davinci-i2s: Add T1 framing support
+> 
+>  .../bindings/sound/davinci-mcbsp.txt          |  50 ----
+>  .../bindings/sound/davinci-mcbsp.yaml         | 113 +++++++
+>  include/linux/platform_data/davinci_asp.h     |  15 -
+>  sound/soc/ti/davinci-i2s.c                    | 278 ++++++++++++++----
+>  4 files changed, 333 insertions(+), 123 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/davinci-mcbsp.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/davinci-mcbsp.yaml
+> 
 
 -- 
-2.25.1
-
+Péter
