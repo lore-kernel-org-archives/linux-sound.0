@@ -1,166 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7F48564A
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 11:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E95385C59;
+	Tue,  9 Apr 2024 11:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712660450; cv=none; b=ofqcl3E2GWDKCHKXH22wju41guruC79AgBD1HgQ6N8q3r9Qcp+jnYWMYf+tLG5A+YbkiPATSkrtHDzCgaDHBzWLc40qid7brLOBUhEdxenDvQdHCXf3aF8FoiAv6amwHtbi/p3oe8rNXOC+H6VXP/11ON7PLR86EHapFRNChxmw=
+	t=1712661733; cv=none; b=n3l1QtkC1s3GOb/i7LD74FPpzuiB3sa16h1JxqTCHrOf4BFGrggxW+n0a2W1mkNzvd9Kl3r0xyrYUPLh1XcH7Gow4+TfKH6VvgSSUUv0woz9qEK2Nx9FBjrPaUZUuQeFasLAUZqfldDHUP0aqxJny+YX44CAtcLbuR3Pv+yVd4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712660450; c=relaxed/simple;
-	bh=LdZzr318QrhbXPxu6mBGSuicgp2heuXrnpHng+bm9KU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mQKEcT/weUfLxGER52PRAKFw+w6RTX4rtEJY4omh97Qxq+uBDU/GzgGST/jAYFf0k3ElKYiqCkx7ag9egAPJja0AOkx9xQHN1MbPA3DO6YersFOAb+9MzEqluMEzc+/Dn5h/Y8g07pFmmWnV7N+H56fyw1MthwqqwLfy/46d+EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9pHlyzR; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712661733; c=relaxed/simple;
+	bh=z2BYcIxpPV7dA/hoWGZiUhKQFrHNrFSXIXX/wN3zASA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ul/tfcBBSP5sq+NJR6+SU3yZuV4QipnxcQH+AEdkh7383h4Q6GEAxYbpJI3pQDX8ryAK0BZG4m858d8/edmOlz1ZVeYhGN4RYcsr/mqINmpct6P4PIOBGP8iXBuEVw6TQaFtzKM6J/yqFb8LBiaAhuxKp2H4hMq/kFzNe+NKiJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m72dVVJR; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9pHlyzR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712660449; x=1744196449;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LdZzr318QrhbXPxu6mBGSuicgp2heuXrnpHng+bm9KU=;
-  b=f9pHlyzRvO67EicBe0tY5hfYv+DDJFyU5f/CiPGdCO8AOic1C+gax5UA
-   r/IrXizU3Dl2Hpq7c8SpMMN7bH94PDGeU16N7cm0CtSMLrIFPTMgfkm3x
-   /xrEuOyDNgtAAKd9Itad4VuQGAvvzq+kVX1lvPlUjOpmqPu3PR5098QyP
-   7Li/hw9rYVDmB23fzBxW+bAbgernLQI3BqqTnfHKRiTRd7OJpbaYerhc0
-   yvUzbqTaDpDtuUKELRe3ftGhP4JlIEk2n1mc/4Q7EjpoLL9/pXRFiG9kV
-   Bce0ohvxYviq4TgvCtUo0B6+mNvkpQGR3CTe6nlE9fBKprkDvuqSQ3KoI
-   g==;
-X-CSE-ConnectionGUID: qFgvRqDeSIi7gQuRTzAtMg==
-X-CSE-MsgGUID: /cK3PM0JTH2oCFHyGWWeCQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7813026"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="7813026"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:49 -0700
-X-CSE-ConnectionGUID: ggCHYw9ITwiH2497UmMsIw==
-X-CSE-MsgGUID: R3bwEb4LRLCFSxBQj+u4uQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="20309786"
-Received: from dpotapen-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.59.81])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:47 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 4/4] ASoC: SOF: ipc4-pcm: Do not reset the ChainDMA if it has not been allocated
-Date: Tue,  9 Apr 2024 14:00:36 +0300
-Message-ID: <20240409110036.9411-5-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
-References: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m72dVVJR"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7d5f90dfdaaso61431639f.0;
+        Tue, 09 Apr 2024 04:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712661731; x=1713266531; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cUPlYyCbnZyXJn6L4cZK1glpJcPHCmQEuO505nrY/Cg=;
+        b=m72dVVJRM7Cv0XqPsVsMkgjYf3Oy/fY9MOXwxznVEokLN0QIY02DzJXZOC217JsiWG
+         pKG++QOd6BeC/gCExKHM0yN0JBPfFLOt33N+gCJm/aBYinJTMW+d+lZ91McLrTZcdPAk
+         V5HOS37GNyYEk6wT8feUdHGO5adoL0/4kU1BU5TOGbQUb47PfZMERsKtRjOWqFXVbwlt
+         S7q4isI9IEZVV921gL9TJ9r61eRMTz7E1hmTt5WNoi76SoYGxtl4DDIeg78f7KHXruaI
+         2ZgClSZPvhVxpFUmkOXeDvTfD7aWAPqiRUyq/3i4zrQJCG0WDnG2UXI5L+fsLfI+aWPj
+         EKOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712661731; x=1713266531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cUPlYyCbnZyXJn6L4cZK1glpJcPHCmQEuO505nrY/Cg=;
+        b=XI9/TeZkkCy7mzELdn0kb7wmyfd+zRdcWfZSAIkUJeduILITweUQsl1WzgXrO+/Wso
+         ywcL+CoOnEr/71Y7JlJ9YcWus8UJd5wNDmpClzW3Y/KiAnNqufZ7VF7Yf0lVzg/EH9pC
+         0v7PyIyELEOdA0wkMQ3PKsr8zRSBG8PAPFQsvmNAupcVX1rKydkCY1SFN8ELEyEcYUJz
+         DWof2bTW4AJ+ZFAk5p+9s8tkM+4W9tnIWV7fmWM3qJweKSR5bbKP9xoP8dC4UdbwTAzF
+         LMkQnBXP6nMK3QT3f+V3qSycHW6fUmIbPgLNKR8b1N+u9mQ27dizcnR8pVeFU/+syL9J
+         kTVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmbRJ8lgVOOYgLQPc2deZ6NtN/z7IGEEO4jazcmwRRLEdW2vnOjUI9xd2UJFci1vSgAyhaEmgMXass1AHWhANjJIuL9GTj3emPYE65VTlpBb0+GdY79dC/IhhDqsJZ0aMYOMkjaVMZo6OSCEqBWY1zMrV7nHD1DxCANqPSekgbp5JIRzVE
+X-Gm-Message-State: AOJu0YwLk/WhWInoPWNc/CnF3j47aYD7tmFgCYqtqp8gYSAhUr8POBn5
+	COXNsDYSqozx1xeygPpILb7deL8EiCjmwIB9Hyk76LN2ahvWSIqXDJilIFOwNcHHupXwf2GsoNo
+	qmnJr7GNIL+vWEgtYlMoFvdjZZRw=
+X-Google-Smtp-Source: AGHT+IFwJhpIsKcZb+Asw4W/YnwlWjJ+/9Z/cP+F5xlsh0I1LU5T/T/6y3yuehkk3NNmH5hNvipHXtlY44zFA7XMvgU=
+X-Received: by 2002:a05:6e02:1ca5:b0:36a:190f:1932 with SMTP id
+ x5-20020a056e021ca500b0036a190f1932mr10670474ill.23.1712661731192; Tue, 09
+ Apr 2024 04:22:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1712652644-28887-1-git-send-email-shengjiu.wang@nxp.com>
+ <1712652644-28887-3-git-send-email-shengjiu.wang@nxp.com> <CAOMZO5Cku1kifsnWJOr0Zd-5+49j-KB67iHZDcvUsKwrhVPtLA@mail.gmail.com>
+ <CAOMZO5BfJBkyw2q3wi4q3yjEmQowg7Zsw8yEFyANMYYez3ai+w@mail.gmail.com>
+In-Reply-To: <CAOMZO5BfJBkyw2q3wi4q3yjEmQowg7Zsw8yEFyANMYYez3ai+w@mail.gmail.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 9 Apr 2024 19:22:00 +0800
+Message-ID: <CAA+D8AN+7Ca5wFzTKFDHDEgL5MeW62K4qLsmP6LrngiG75RPBg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: imx6: exchange fallback and specific
+ compatible string
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The ChainDMA operation differs from normal pipelines that it is only
-created when the stream started, in fact a PCM using ChainDMA has no
-pipelines, modules.
-To reset a ChainDMA, it needs to be first allocated in firmware. When
-PulseAudio/PipeWire starts, they will probe the PCMs by opening them, check
-hw_params and then close the PCM without starting audio.
-Unconditionally resetting the ChainDMA can result the following error:
+On Tue, Apr 9, 2024 at 6:06=E2=80=AFPM Fabio Estevam <festevam@gmail.com> w=
+rote:
+>
+> On Tue, Apr 9, 2024 at 7:02=E2=80=AFAM Fabio Estevam <festevam@gmail.com>=
+ wrote:
+> >
+> > On Tue, Apr 9, 2024 at 6:08=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp=
+.com> wrote:
+> > >
+> > > exchange fallback and specific compatible string for spdif sound card=
+.
+> >
+> > Ok, but please explain the reason.
+>
+> I mean, why can't these two .dts files be changed to
+>
+> compatible =3D  "fsl,imx-audio-spdif";
+>
+> , like all the others?
 
-ipc tx      : 0xe040000|0x0: GLB_CHAIN_DMA
-ipc tx reply: 0x2e000007|0x0: GLB_CHAIN_DMA
-FW reported error: 7 - Unsupported operation requested
-ipc error for msg 0xe040000|0x0
-sof_pcm_stream_free: pcm_ops hw_free failed -22
+The specific compatible string should be first place
+as the dts rules I think. This patch is just to fix this problem.
 
-Add a new chain_dma_allocated flag to sof_ipc4_pcm_stream_priv to store the
-ChainDMA allocation state and use this flag to skip sending the reset if
-the ChainDMA is not allocated.
+For removing the specific compatible string,  I think we can
+do that.  but this change may be out of the scope of this patch
+series I think.
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-pcm.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+So I just change the order of compatible strings
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 34ce6bb7f37d..4594470ed08b 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -40,9 +40,12 @@ struct sof_ipc4_timestamp_info {
- /**
-  * struct sof_ipc4_pcm_stream_priv - IPC4 specific private data
-  * @time_info: pointer to time info struct if it is supported, otherwise NULL
-+ * @chain_dma_allocated: indicates the ChainDMA allocation state
-  */
- struct sof_ipc4_pcm_stream_priv {
- 	struct sof_ipc4_timestamp_info *time_info;
-+
-+	bool chain_dma_allocated;
- };
- 
- static inline struct sof_ipc4_timestamp_info *
-@@ -269,14 +272,17 @@ sof_ipc4_update_pipeline_state(struct snd_sof_dev *sdev, int state, int cmd,
-  */
- 
- static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
--				      int direction,
-+				      struct snd_sof_pcm *spcm, int direction,
- 				      struct snd_sof_pcm_stream_pipeline_list *pipeline_list,
- 				      int state, int cmd)
- {
- 	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
-+	struct sof_ipc4_pcm_stream_priv *stream_priv;
- 	bool allocate, enable, set_fifo_size;
- 	struct sof_ipc4_msg msg = {{ 0 }};
--	int i;
-+	int ret, i;
-+
-+	stream_priv = spcm->stream[direction].private;
- 
- 	switch (state) {
- 	case SOF_IPC4_PIPE_RUNNING: /* Allocate and start chained dma */
-@@ -297,6 +303,11 @@ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
- 		set_fifo_size = false;
- 		break;
- 	case SOF_IPC4_PIPE_RESET: /* Disable and free chained DMA. */
-+
-+		/* ChainDMA can only be reset if it has been allocated */
-+		if (!stream_priv->chain_dma_allocated)
-+			return 0;
-+
- 		allocate = false;
- 		enable = false;
- 		set_fifo_size = false;
-@@ -354,7 +365,12 @@ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
- 	if (enable)
- 		msg.primary |= SOF_IPC4_GLB_CHAIN_DMA_ENABLE_MASK;
- 
--	return sof_ipc_tx_message_no_reply(sdev->ipc, &msg, 0);
-+	ret = sof_ipc_tx_message_no_reply(sdev->ipc, &msg, 0);
-+	/* Update the ChainDMA allocation state */
-+	if (!ret)
-+		stream_priv->chain_dma_allocated = allocate;
-+
-+	return ret;
- }
- 
- static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
-@@ -394,7 +410,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 	 * trigger function that handles the rest for the substream.
- 	 */
- 	if (pipeline->use_chain_dma)
--		return sof_ipc4_chain_dma_trigger(sdev, substream->stream,
-+		return sof_ipc4_chain_dma_trigger(sdev, spcm, substream->stream,
- 						  pipeline_list, state, cmd);
- 
- 	/* allocate memory for the pipeline data */
--- 
-2.44.0
-
+best regards
+wang shengjiu
