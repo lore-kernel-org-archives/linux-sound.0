@@ -1,83 +1,59 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D77130A7E;
-	Tue,  9 Apr 2024 11:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF939130AF5
+	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 11:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712662435; cv=none; b=MLq6wNaEXkfi1+x29aPOwQCXP7GqLpC1MxPEK/bJ5w5CEWvZDhzZPWgodDm+33JO67RbSKACYf9YXlR2YNAl9hGdRIaLUY0T4Xe6ygKvsEH+ETtp7jHptZk9Yhj12LGDkgige4gSSFGxrAn0AIrI9EPQBWma5NXBQyzBKiYfWPw=
+	t=1712662436; cv=none; b=fza4eT61WqPGzLvs/33G5oKMAWyUiv9DzOhm2mA2OxN1qb1PJEk9UTtUHIcLMFT2oUWXlSyLMJH0W3vNba2gLdA4mDDM058bkeJLhShjfa2jqnir6DnwPVZOtKPUp8mh0XDpTL4sLyFcCilwqCOatrI9ZxFboDMm/IZgCBv5rqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712662435; c=relaxed/simple;
-	bh=7dwcW721xQhnjT05thzylbyuJsM5PYC/qaTz/86b5ls=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t8dLC/l5IgOHLpoDz8xd6JofEI3bu5npPWDzy+bUEzttH2oP2NZ+0AJ/1R7dUuAX933bKm4ogZaqDX48zhpnqu5N18KrqmG3Un8fqeYGCSHIfRFOxZKbjZZPJWCyAhQphqThuopiAUPakVuqI+nGVAfjuhbH1jtZsaObiCceWAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=POa3k99V; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1712662436; c=relaxed/simple;
+	bh=Vl5tiIXZBrINfUp5wVrB5StyA3VNRqvvCj04G2ghCwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IM3B9aqouy8kchN6ajSpP9Ag/Ht0IBsSiSjH1jydQmyxknhupW+Tithwl2WdinN5UW4uQL/IEIiqcnuGb7UDjkIQiYwbC2KX/Cepg4KBBhqJ5nRynOz3M0AEMEvjEpnuVOD/YF20ldvkhuScm5tKE/2F6PuUKyxl/Q8YOVd2SMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaxu82HW; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="POa3k99V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712662431;
-	bh=7dwcW721xQhnjT05thzylbyuJsM5PYC/qaTz/86b5ls=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=POa3k99Vn7p8AZTqcrRL6QFEMTQVzOZu9r9uE5ahyTAU3R1IXGc+9csBeN5fgRm7K
-	 FGc8jUNFJM8jMLoUHJpSX7ulgiZ1LTcIb6HS/oaqADJnO02OzkMmB3gt1kSWLyeJou
-	 UcYxaXohxgZ42tvTwrK5vsymeuy5RupCCR879doMB5cPBFmKl5z42iZTlL9V/2Iufp
-	 luXC+hWDGwwskckVLCGVJnTdO5SG039wM1M0NxZQM4PXUgASJ65DXWJsir8YQR2iga
-	 o4QpDWZcjZqjmDE8sIW00S1QUuNK36WFART/PBZkojJx4mYG3SwwpGM0sSF7ENJ02/
-	 qxpZxpi39teSA==
-Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9C2AE37820FD;
-	Tue,  9 Apr 2024 11:33:49 +0000 (UTC)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: broonie@kernel.org
-Cc: wenst@chromium.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	trevor.wu@mediatek.com,
-	maso.huang@mediatek.com,
-	xiazhengqiao@huaqin.corp-partner.google.com,
-	arnd@arndb.de,
-	kuninori.morimoto.gx@renesas.com,
-	shraash@google.com,
-	amergnat@baylibre.com,
-	nicolas.ferre@microchip.com,
-	u.kleine-koenig@pengutronix.de,
-	dianders@chromium.org,
-	frank.li@vivo.com,
-	allen-kh.cheng@mediatek.com,
-	eugen.hristev@collabora.com,
-	claudiu.beznea@tuxon.dev,
-	jarkko.nikula@bitmer.com,
-	jiaxin.yu@mediatek.com,
-	alpernebiyasak@gmail.com,
-	ckeepax@opensource.cirrus.com,
-	zhourui@huaqin.corp-partner.google.com,
-	nfraprado@collabora.com,
-	alsa-devel@alsa-project.org,
-	shane.chien@mediatek.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v4 09/18] ASoC: mediatek: mt8192: Migrate to the common mtk_soundcard_startup
-Date: Tue,  9 Apr 2024 13:33:01 +0200
-Message-ID: <20240409113310.303261-10-angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaxu82HW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712662435; x=1744198435;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Vl5tiIXZBrINfUp5wVrB5StyA3VNRqvvCj04G2ghCwI=;
+  b=aaxu82HWswz+TdWX9D5tig/A5euAS8ZOwytkWGFq66sxd1zWS4KHfXBv
+   fJWqU28AYc36jqkVJxuHjgaRHWrIjznMkg2SozytfPZgowrO86w4BHkLJ
+   7fmrQ1JNMAqXMwszWprpuWMoMdUHtAMoC/drU5FJ1M5XAa2sdFskzfxRw
+   Obi5M+0gNy1tSHdsEEg2TNHqEeIt9b9fGMO0cnxLmPz7yytc04yddApWi
+   vtaXenS4W68mCyvaINZAwAK7wwRAm3bQy79UX7Z9RoL/sbyyAHiq8nBY5
+   kAHTkZViU/XbCLaTkZIdi1vM4G1DmArCkM1HlDxEP1k/fU3WL+dcfgjSy
+   w==;
+X-CSE-ConnectionGUID: /oOFsAFZQQiGFFp+nNAzJw==
+X-CSE-MsgGUID: bGBMDLZhR1OXn9L+DQ5brg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="18687786"
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="18687786"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:33:54 -0700
+X-CSE-ConnectionGUID: enV52UF3R2SlIAFmw3tWbA==
+X-CSE-MsgGUID: JHpEypZwSiux3kO2PSnULg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
+   d="scan'208";a="20241672"
+Received: from dpotapen-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.59.81])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:33:52 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com
+Subject: [PATCH 0/3] ASoC: SOF: Intel: Add fw_regs area to debugfs map for IPC4
+Date: Tue,  9 Apr 2024 14:33:46 +0300
+Message-ID: <20240409113349.21623-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
-References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -86,220 +62,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a const mtk_pcm_constraints_data struct array with all of the
-(again, constant) constraints for all of the supported usecases,
-remove the duplicated functions and call mtk_soundcard_startup()
-instead in all of the .startup() callbacks.
+Hi,
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+The beginning of the first SRAM window contains various fw registers and
+additional information which can be very beneficial to read to gather
+information on the current states to debug issues.
+
+Regards,
+Peter
 ---
- .../mt8192/mt8192-mt6359-rt1015-rt5682.c      | 139 ++++++------------
- 1 file changed, 41 insertions(+), 98 deletions(-)
+Peter Ujfalusi (3):
+  ASoC: SOF: Intel: tgl: Add fw_regs area to debugfs map for IPC4
+  ASoC: SOF: Intel: mtl: Add fw_regs area to debugfs map
+  ASoC: SOF: Intel: lnl: Add fw_regs area to debugfs map
 
-diff --git a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-index 645bc1aa67c7..5fb34a4834d2 100644
---- a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-+++ b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
-@@ -389,100 +389,6 @@ static int mt8192_i2s_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 	return 0;
- }
- 
--static int
--mt8192_mt6359_cap1_startup(struct snd_pcm_substream *substream)
--{
--	static const unsigned int channels[] = {
--		1, 2, 4
--	};
--	static const struct snd_pcm_hw_constraint_list constraints_channels = {
--		.count = ARRAY_SIZE(channels),
--		.list = channels,
--		.mask = 0,
--	};
--	static const unsigned int rates[] = {
--		8000, 16000, 32000, 48000, 96000, 192000
--	};
--	static const struct snd_pcm_hw_constraint_list constraints_rates = {
--		.count = ARRAY_SIZE(rates),
--		.list  = rates,
--		.mask = 0,
--	};
--
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_pcm_runtime *runtime = substream->runtime;
--	int ret;
--
--	ret = snd_pcm_hw_constraint_list(runtime, 0,
--					 SNDRV_PCM_HW_PARAM_CHANNELS,
--					 &constraints_channels);
--	if (ret < 0) {
--		dev_err(rtd->dev, "hw_constraint_list channels failed\n");
--		return ret;
--	}
--
--	ret = snd_pcm_hw_constraint_list(runtime, 0,
--					 SNDRV_PCM_HW_PARAM_RATE,
--					 &constraints_rates);
--	if (ret < 0) {
--		dev_err(rtd->dev, "hw_constraint_list rate failed\n");
--		return ret;
--	}
--
--	return 0;
--}
--
--static const struct snd_soc_ops mt8192_mt6359_capture1_ops = {
--	.startup = mt8192_mt6359_cap1_startup,
--};
--
--static int
--mt8192_mt6359_rt5682_startup(struct snd_pcm_substream *substream)
--{
--	static const unsigned int channels[] = {
--		1, 2
--	};
--	static const struct snd_pcm_hw_constraint_list constraints_channels = {
--		.count = ARRAY_SIZE(channels),
--		.list = channels,
--		.mask = 0,
--	};
--	static const unsigned int rates[] = {
--		48000
--	};
--	static const struct snd_pcm_hw_constraint_list constraints_rates = {
--		.count = ARRAY_SIZE(rates),
--		.list  = rates,
--		.mask = 0,
--	};
--
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	struct snd_pcm_runtime *runtime = substream->runtime;
--	int ret;
--
--	ret = snd_pcm_hw_constraint_list(runtime, 0,
--					 SNDRV_PCM_HW_PARAM_CHANNELS,
--					 &constraints_channels);
--	if (ret < 0) {
--		dev_err(rtd->dev, "hw_constraint_list channels failed\n");
--		return ret;
--	}
--
--	ret = snd_pcm_hw_constraint_list(runtime, 0,
--					 SNDRV_PCM_HW_PARAM_RATE,
--					 &constraints_rates);
--	if (ret < 0) {
--		dev_err(rtd->dev, "hw_constraint_list rate failed\n");
--		return ret;
--	}
--
--	return 0;
--}
--
--static const struct snd_soc_ops mt8192_mt6359_rt5682_ops = {
--	.startup = mt8192_mt6359_rt5682_startup,
--};
--
- /* FE */
- SND_SOC_DAILINK_DEFS(playback1,
- 		     DAILINK_COMP_ARRAY(COMP_CPU("DL1")),
-@@ -720,7 +626,7 @@ static struct snd_soc_dai_link mt8192_mt6359_dai_links[] = {
- 			    SND_SOC_DPCM_TRIGGER_PRE},
- 		.dynamic = 1,
- 		.dpcm_playback = 1,
--		.ops = &mt8192_mt6359_rt5682_ops,
-+		.ops = &mtk_soundcard_common_playback_ops,
- 		SND_SOC_DAILINK_REG(playback3),
- 	},
- 	{
-@@ -784,7 +690,7 @@ static struct snd_soc_dai_link mt8192_mt6359_dai_links[] = {
- 			    SND_SOC_DPCM_TRIGGER_PRE},
- 		.dynamic = 1,
- 		.dpcm_capture = 1,
--		.ops = &mt8192_mt6359_capture1_ops,
-+		.ops = &mtk_soundcard_common_capture_ops,
- 		SND_SOC_DAILINK_REG(capture1),
- 	},
- 	{
-@@ -794,7 +700,7 @@ static struct snd_soc_dai_link mt8192_mt6359_dai_links[] = {
- 			    SND_SOC_DPCM_TRIGGER_PRE},
- 		.dynamic = 1,
- 		.dpcm_capture = 1,
--		.ops = &mt8192_mt6359_rt5682_ops,
-+		.ops = &mtk_soundcard_common_playback_ops,
- 		SND_SOC_DAILINK_REG(capture2),
- 	},
- 	{
-@@ -1146,7 +1052,7 @@ static int mt8192_mt6359_legacy_probe(struct mtk_soc_card_data *soc_card_data)
- 	struct device *dev = card->dev;
- 	struct device_node *hdmi_codec, *headset_codec, *speaker_codec;
- 	struct snd_soc_dai_link *dai_link;
--	int ret, i;
-+	int i, ret = 0;
- 
- 	hdmi_codec = of_parse_phandle(dev->of_node, "mediatek,hdmi-codec", 0);
- 	if (!hdmi_codec)
-@@ -1235,11 +1141,44 @@ static int mt8192_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
- 	return 0;
- }
- 
-+static const unsigned int mt8192_pcm_playback_channels[] = { 1, 2 };
-+static const unsigned int mt8192_pcm_playback_rates[] = { 48000 };
-+
-+static const unsigned int mt8192_pcm_capture_channels[] = { 1, 2, 4 };
-+static const unsigned int mt8192_pcm_capture_rates[] = {
-+	8000, 16000, 32000, 48000, 96000, 192000
-+};
-+
-+static const struct mtk_pcm_constraints_data mt8192_pcm_constraints[MTK_CONSTRAINT_CAPTURE + 1] = {
-+	[MTK_CONSTRAINT_PLAYBACK] = {
-+		.channels = {
-+			.list = mt8192_pcm_playback_channels,
-+			.count = ARRAY_SIZE(mt8192_pcm_playback_channels)
-+		},
-+		.rates = {
-+			.list = mt8192_pcm_playback_rates,
-+			.count = ARRAY_SIZE(mt8192_pcm_playback_rates)
-+		}
-+	},
-+	[MTK_CONSTRAINT_CAPTURE] = {
-+		.channels = {
-+			.list = mt8192_pcm_capture_channels,
-+			.count = ARRAY_SIZE(mt8192_pcm_capture_channels)
-+		},
-+		.rates = {
-+			.list = mt8192_pcm_capture_rates,
-+			.count = ARRAY_SIZE(mt8192_pcm_capture_rates)
-+		}
-+	}
-+};
-+
- static const struct mtk_soundcard_pdata mt8192_mt6359_rt1015_rt5682_pdata = {
- 	.card_name = RT1015_RT5682_CARD_NAME,
- 	.card_data = &(struct mtk_platform_card_data) {
- 		.card = &mt8192_mt6359_rt1015_rt5682_card,
- 		.num_jacks = MT8192_JACK_MAX,
-+		.pcm_constraints = mt8192_pcm_constraints,
-+		.num_pcm_constraints = ARRAY_SIZE(mt8192_pcm_constraints),
- 	},
- 	.soc_probe = mt8192_mt6359_soc_card_probe
- };
-@@ -1249,6 +1188,8 @@ static const struct mtk_soundcard_pdata mt8192_mt6359_rt1015p_rt5682_pdata = {
- 	.card_data = &(struct mtk_platform_card_data) {
- 		.card = &mt8192_mt6359_rt1015p_rt5682x_card,
- 		.num_jacks = MT8192_JACK_MAX,
-+		.pcm_constraints = mt8192_pcm_constraints,
-+		.num_pcm_constraints = ARRAY_SIZE(mt8192_pcm_constraints),
- 	},
- 	.soc_probe = mt8192_mt6359_soc_card_probe
- };
-@@ -1258,6 +1199,8 @@ static const struct mtk_soundcard_pdata mt8192_mt6359_rt1015p_rt5682s_pdata = {
- 	.card_data = &(struct mtk_platform_card_data) {
- 		.card = &mt8192_mt6359_rt1015p_rt5682x_card,
- 		.num_jacks = MT8192_JACK_MAX,
-+		.pcm_constraints = mt8192_pcm_constraints,
-+		.num_pcm_constraints = ARRAY_SIZE(mt8192_pcm_constraints),
- 	},
- 	.soc_probe = mt8192_mt6359_soc_card_probe
- };
+ sound/soc/sof/intel/lnl.c |  1 +
+ sound/soc/sof/intel/mtl.c |  1 +
+ sound/soc/sof/intel/tgl.c | 15 +++++++++++----
+ 3 files changed, 13 insertions(+), 4 deletions(-)
+
 -- 
 2.44.0
 
