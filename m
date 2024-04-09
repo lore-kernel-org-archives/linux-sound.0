@@ -1,40 +1,40 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC6E3BBD8;
-	Tue,  9 Apr 2024 08:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C637E580
+	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 09:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712652440; cv=none; b=pJKVZI+Nw0RTCzHHyURpc9FuMB2CzrDlHulzJ/53yklA9AtCOH6S8cjdD3/nGo/bp8SgM0rA8Ljr3kcS7uomscpIp0fDrECwtkgGD+8NBT/nvQ4Ig3xCQtaBSDfXvxlpobPBZtk9u/ie7QqqmI7p7V0otX6XdazDx+hV9KwxtGg=
+	t=1712653211; cv=none; b=KnSPZ24kTRK19R4JtTipgmZY+J7K2VX8V60ypc+0iMPKGA1JniK/QCz6OcS+RBgCcWRGzH+0pxrym5DCHMDdBpGltJm+9ZSqx0xfMUripCv7tn2k06E9AKvRNyZ29aq3v+pj49IOZUre1bYJrkX/88XdPsJQWRkLL0IIFNx70DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712652440; c=relaxed/simple;
-	bh=zNYeRwmbY9ibM/E/WdKyfRjakHbPxIdF+O+2VcWRU2Y=;
+	s=arc-20240116; t=1712653211; c=relaxed/simple;
+	bh=hERP3YxhS61iIdsnycum5fAMgv4HNDMyUe9mz8PSSf4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QhhcCFHihG7Tkx4nNPn3BP1xKpQIg8zoFIdQ6ldugUjvDIJ4C90bLucQsl3CvU6RqEVFv0Yg4jADfCUL13OGexphlPD3xt6GE7+lFp6c4HCNWXSMcALb6BTE964h6yivRWmXJRUyFFxe5aSHfYDKP5tJM7cKf/EhsuxFFugO1Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eNPOB0Lf; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=TEFQt2qLUmJfMrw2VzgGYW6GWuVbh6IZg8FQrPAyEDDIjD5XexS7hBX4kTC1Xx8vkf5mU9xqZQ/KSg7lmYCz5gvvVlzu1Hp4+2l7Uokces7u52nKYvXPtOBUU16GhnB3DoE6qZJ5g7qj2cnVYvm3Hts3lRKJVOwswfF/61jiZJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=YdrZNLk6; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eNPOB0Lf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712652436;
-	bh=zNYeRwmbY9ibM/E/WdKyfRjakHbPxIdF+O+2VcWRU2Y=;
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="YdrZNLk6"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8D9DB2AAD;
+	Tue,  9 Apr 2024 10:53:54 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8D9DB2AAD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1712652834; bh=afBNXRUzYopfn9FuPZh42x7klPTxPKiCBoAcFPTnoI4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eNPOB0Lf5y31e5BZq9VuxBvLcBz0E+mr1TTF3gdqEBeUdeOvZtdf6kOye/HJxvv4O
-	 nqxy+USLJFrMjF8HvZfrLABGJSZyBw3bEG/qUUIfuIu8szxmTd8Hrnfgt6dwCKaxTR
-	 QX0bPtKJGc3ivsdNkGkc/Bi18Tqvl3gp3lb7jtf3y+16A3fw/vfU5Cz3+u3DPh6s0e
-	 z1zzybNZ2inPN4Y6Ejz8oYKglkIHYcFapV02MPjunhbdHCMl3G44wRMufCgR7xVdnz
-	 uFerMa93434KEQat/p6HL1Agho76oJ1fihkYO1tNaM/LKrLCelBiLP6V+dxsea2373
-	 M0napoSFU0nOQ==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	b=YdrZNLk6TVMHhECsajO3zOqMAjNHa7rBU+441H9NpL1qaqRnAtwXsUsmmCpbv34I1
+	 E3CXDewg7hM6plDUHz65Wcwx9v/7mZXMSA4OlMJrn2jI5kk6i3+1ub1okt9AjmPXDk
+	 3l1uSBZBziF8fHPHKqfYQJ4qyjfrTcbb/7QGIUns=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 81CF637820EE;
-	Tue,  9 Apr 2024 08:47:15 +0000 (UTC)
-Message-ID: <41b7170d-65b8-4d64-a1d3-7a0d09d79c45@collabora.com>
-Date: Tue, 9 Apr 2024 11:47:14 +0300
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue,  9 Apr 2024 10:53:44 +0200 (CEST)
+Message-ID: <1a9b4e05-9314-432b-a52e-133b0e5719c7@perex.cz>
+Date: Tue, 9 Apr 2024 10:53:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,105 +42,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: Steam Deck OLED 6.8.2 nau8821-max fails
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arun Gopal Kondaveeti <arungopal.kondaveeti@amd.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Daniel <dmanlfc@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Sound System <linux-sound@vger.kernel.org>
-References: <ZhFJZoful6nEFskW@archie.me>
- <4d231dc4-0183-47e1-8bfa-3dd225bf8ea3@leemhuis.info>
- <904ffa11-592a-4336-aed2-d6370bb01896@collabora.com>
- <b99e51de-3622-4360-b69d-0fd911ea2a7d@leemhuis.info>
- <9012f8d5-302a-4840-815a-22b1e85fda5c@collabora.com>
- <c0193bca-ea80-49eb-ab26-8256d07078df@leemhuis.info>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH 0/5] ALSA: hda / ASoC: SOF: Add support for PIO command
+ mode
 Content-Language: en-US
-In-Reply-To: <c0193bca-ea80-49eb-ab26-8256d07078df@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
+ kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ liam.r.girdwood@intel.com, ranjani.sridharan@linux.intel.com
+References: <20240409083812.14001-1-peter.ujfalusi@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240409083812.14001-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/9/24 11:04 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 09.04.24 09:42, Cristian Ciocaltea wrote:
->> On 4/9/24 7:44 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>> On 09.04.24 01:44, Cristian Ciocaltea wrote:
->>>> On 4/7/24 10:47 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>>> On 06.04.24 15:08, Bagas Sanjaya wrote:
->>>>>> On Bugzilla, Daniel <dmanlfc@gmail.com> reported topology regression
->>>>>> on Steam Deck OLED [1]. He wrote:
->>>>
->>>>>>> I'm adding this here, I hope it's the correct place.
->>>>>>> Currently the Steam Deck OLED fails with Kernel 6.8.2 when trying to initialise the topology for the device.
->>>>>>> I'm using the `sof-vangogh-nau8821-max.tplg` file from the Steam Deck OLED and associated firmware.
->>>>>> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218677
->>>>> A quick search made me find these posts/threads that foreshadow the problem:
->>>>>
->>>>> https://lore.kernel.org/lkml/20231219030728.2431640-1-cristian.ciocaltea@collabora.com/
->>>>> https://lore.kernel.org/all/a3357e1f-f354-4d4b-9751-6b2182dceea6@amd.com/
->>>>>
->>>>> From a quick look at the second discussion it seems a bit like we are
->>>>> screwed, as iiutc topology files are out in the wild for one or the
->>>>> other approach. So we might have to bite a bullet there and accept the
->>>>> regression -- but I might easily be totally mistaken here. Would be good
->>>>> in one of the experts (Venkata Prasad Potturu maybe?) could quickly
->>>>> explain what's up here.
->>>>
->>>> The problem here is that Steam Deck OLED provides a topology file which
->>>> uses an incorrect DAI link ID for BT codec. 
->>>>
->>>> Patch [1] moves BT_BE_ID to position 2 in the enum, as expected by the
->>>> topology, but this is not a change that can be accepted upstream as it
->>>> would break other devices which rely on BT_BE_ID set to 3.  
->>>>
->>>> The proper solution would be to update the topology file on Steam Deck,
->>>> but this is probably not straightforward to be accomplished as it would
->>>> break the compatibility with the currently released (downstream)
->>>> kernels.
->>>>
->>>> Hopefully, this sheds some more light on the matter.
->>>>
->>>> [1]: https://lore.kernel.org/all/20231209205351.880797-11-cristian.ciocaltea@collabora.com/
->>>
->>> Many thx, yes, this sheds some light on the matter. But there is one
->>> remaining question: can we make both camps happy somehow? E.g. something
->>> along the lines of "first detect if the topology file has BT_BE_ID in
->>> position 2 or 3 and then act accordingly?
->>
->> Right, I have this on my TODOs list but haven't managed to dig into it
->> yet. However, that would be most likely just another hack to be carried
->> on until the transition to a fixed topology is completed.
+On 09. 04. 24 10:38, Peter Ujfalusi wrote:
+> Hi,
 > 
-> Well, sure it's a hack, but the thing is, our number one rule is "no
-> regressions" and the reporter apparently faces one (see start of the
-> thread). So to fulfill this rule it would be ideal to have a fix
-> available soonish or revert the culprit and reply it later together with
-> the fix.
+> This series will introduce support for using PIO for commands (immediate
+> commands) instead of CORB while retaining the use of RIRB for unsolicited
+> responses (notifications).
 
-Hmm, unless I'm missing something, this shouldn't been considered a
-regression.  As I explained previously, the OLED model was launched with
- a downstream implementation of the Vangogh SOF drivers on top of v6.1,
-as there was no upstream support back then.
+Hi,
 
-When AMD eventually completed the upstreaming process of their SOF
-drivers in v6.6, we ended up with this unfortunate ID assignments
-incompatibility.  Hence I cannot see how the mainline kernel would have
-worked without applying patch [1] above, unless the reporter
-experimented with a different topology (which is not the case if I got
-this right).
+Could you elaborate, how this affects CPU usage (busy loops for I/O)? Do the 
+bus read operation wait until the data transfer on bus is finished?
 
-> Do we know which change that went into 6.8 caused this? Or is a revert
-> out-of-the question as it will likely break things for other users that
-> already upgraded to 6.8 and have a matching topology file? (/me fears
-> the answer to the latter question is "yes", but I have to ask :-/)
+> This mode of operation is the recommended one for Lunar Lake family.
 
-We need to understand how the reporter got this working with mainline
-kernels without applying any out-of-tree patches.
+A bit more explanation, please. It looks like a step back.
 
-Regards,
-Cristian
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
