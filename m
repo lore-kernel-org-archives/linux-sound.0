@@ -1,195 +1,210 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A1781751
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 10:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D1383A08;
+	Tue,  9 Apr 2024 10:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712658572; cv=none; b=IK0fNKT1wcnsL14D1hr9DT5ro8kWUAhh3oANyjtVpOXkR5e3N4Siv2sZy7PNOmoH5kxO9gIgNyEBtQqdga6+rJGR0aMF/65LuV2klz//q0HJtHBlmA4FucJttrVQNTACcPeI/yKVp0YMRrFhk33ddZykGDlT6xdAX6585jLlW7A=
+	t=1712660282; cv=none; b=jhLXHWymewAHLulDR90cjT4InqKevdOS7lYf+xbzNdEJ07iI3h6zkfnO4S5bpxSA5oj3ua0XX6nUpS0wgKqtHspfSmXNwry3vod418rzVdSNysjxjhQfTbzhljXfDPI/3xirMMr0CgJSldF7E9yeACcXmJGJHrgUv+fW7Q8EHc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712658572; c=relaxed/simple;
-	bh=dYhAReZ1vmDiZdobsjqXxIQmDiSdY/KMsiiQ8xms4CI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=YkkF6fRD5cfbxTJnMyggFYIi9y5Q13Z1du0edjdm/8/6SKgjYV4A+6smgknL9XuTTS3gv5a89YambjQJfNkEVooiWp4IuILyZW1K+ZhaK7DcRkfmxkprv85v9ywcfAYvQj0PfdYnc8FQh+RV372m8dEJ3UBj6mCF8ETgh+i9k70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HlygIwUu; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712660282; c=relaxed/simple;
+	bh=ya/MCMiaE1ggd5qVAUNHoR3erBVlClUkIgBYXaCFLUo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bfZMnYNNl4WBd0YsehSv2DJKqS7XpONzwQZpwV5ACe5psGEnC08ddpq1Z+JDCrmcdtvwcsyZ6KUduMrbMCwDBTfnH1c1KIGp6hDkAkae6CIZrXsBbiqjAlFFKKAWkXYDbJGCecL40gHWjsHpVorBcOzgO0G5OS2K/bfEjTukbA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mrEjQg7d; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HlygIwUu"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-343d1003106so3248846f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 09 Apr 2024 03:29:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mrEjQg7d"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dd161eb03afso4795514276.0;
+        Tue, 09 Apr 2024 03:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712658569; x=1713263369; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ykat5P5LfbO5un7nzciIKTkPn6WaTsCCKh0bvskUEKE=;
-        b=HlygIwUuxg8AsqWE8aR998va7qcfw2UU4WcrocBefN+UUj3Y6rlSwoS/6ztu1hKEYF
-         dY0vsuePXZGOUZlVQxFLeRDNUL0b6g2WnpDbO/wONGxMC4d3q27S4QadgwWGrmKH8lsO
-         kGXsF40qvs/4mHD6SMOWHFEyljYbrwXEmvYebLD61wSKe5BoPGkYPnB0LbNCtgjD5TkS
-         N6jLdtC2f13jO13uAzxZm8+a3FrN3cWi0mUfw5HZ3nUCWVdfmxlU0QWf1HrILqr8GIDJ
-         u7KY2Y1R3Utwz9raLtPFPGOhtsSARwqecJ6kfbGL63amfdDqrXNwmcX8lBF/ViENt1bP
-         Hs2w==
+        d=gmail.com; s=20230601; t=1712660279; x=1713265079; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aZEsFzW9LRR0XJd7CjP0zKGx1rfiXxStLnGZA0bf4Nw=;
+        b=mrEjQg7dbfA/IaGCZ4JICmeRIVQrX02cGg2N80hHGYBPbgoZ+7GsGVfMPiKZMzZzgv
+         hAkA1fYpoLKNGs9vQixcsf8x0x6FNH86nMBAaRNP5//6hKgI9EufPkB7WS0/0EVr9Ey8
+         /XLGhZ/QzWnVsgzh0DPqZG5qUInfxFSyf9yNVW8kq6WvsvmNklQ9UedkuuTWVk1aw8XJ
+         SACh2vIwVCt00cLOtkjee7aDUFL8HjPxJJznT4KYdYZOsmvtfjiU9v7aAt6k0YqAqyIl
+         F00dKRFHBXplzM3XBpyP+tTQFflb30XlA8gKZwhQ3ghfiVSnPgOey4A+d49fC2Gp74nL
+         UyuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712658569; x=1713263369;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1712660279; x=1713265079;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ykat5P5LfbO5un7nzciIKTkPn6WaTsCCKh0bvskUEKE=;
-        b=GwyD59pQGmjgr/BdIcdQJgMROrARv/E+J8gxgI7KJfttckbGjFxbYll3LwoSBje9AT
-         1PTQcuptV4o46GupC9KfMUdk2ZKpMSkt7n+XLlVlAN5BzsTVGU7QrmbOn16hT+KwrK4M
-         jlQhzo8oOzcpSv9rMPDeLFq9jFP65NBAjfx/wgjtr0Ni3Z2yyC2lX8YPGLRr3hrPXeAX
-         5jbOVHraPlG+Y9vgVr+bqwMAF26D7fzyEsM29EbfcABkDee68JFNf/T4fHdn3laBCtPD
-         Nnpr5hjcP6ZkQoDHeFbAHGzGV1KpUYI8UwV8Ps72ZQGaVeEi2HEFZw/ebFQSXpv/Wnlz
-         h4Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUxnsgFtK48UJehTh0qpvcP3kiNOmh39qWOptYwLqS7w8pmAluqae4M/DrRt19NkGR5qQzNdLp8mx0CSVVM4EenmgRJPxHx3nkV7rU=
-X-Gm-Message-State: AOJu0YwR1zXOr5V2IJlYp+rFLmqQjT3WU/rM5I/VBYZK5I6QQ30kbn5M
-	BhsqJtGFUp5t7t7oeqmQDo2Hu5QihTlH0TuGteZrJRIMElA/H8p8rzS3pOQsTAU=
-X-Google-Smtp-Source: AGHT+IHg/SYP1OwSQx1phS0Gr4gHr1mGzi2LrzlNYbGgaKVxscSxC6soUmqvYC9x1+rD989bWNX8kw==
-X-Received: by 2002:adf:e849:0:b0:343:e031:69b8 with SMTP id d9-20020adfe849000000b00343e03169b8mr9659991wrn.41.1712658568536;
-        Tue, 09 Apr 2024 03:29:28 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id r18-20020adfce92000000b00343d1d09550sm11145900wrn.60.2024.04.09.03.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 03:29:27 -0700 (PDT)
-Message-ID: <bad43869-b6d3-43ba-9509-8b1606c12969@linaro.org>
-Date: Tue, 9 Apr 2024 12:29:26 +0200
+        bh=aZEsFzW9LRR0XJd7CjP0zKGx1rfiXxStLnGZA0bf4Nw=;
+        b=hkQK3Kzfu1r5X+3mIQorwS/c/B+nG/BlRsN9yxiA8vAMGnjTNj6jYgkY4p+fYkNUt0
+         UuyR07rJuVV4lEcV+zu1u/WIUsOyyN+/XgHupyJi45eZ6Gli8ud4G71hL4j4pp+wv6IW
+         Hj/DEgvTrvFWuxwG9MUOLzQfzd/MS6lHpDsR67a2X2fdl6KPQ2wY7FmxCWet0fhA086l
+         kycnD8zwaAmoF22dSbwyDvzvQc+CU6tqu0tMnkDjAa2T9+jPLMBoj9uVlhZiNZWMFb95
+         Ia+qZpcsoZ+rCQssHbLS+0/JQ4wih5bGWu6nrasNFy8RInl3tZ4M9YTeCJdi5wPmC44y
+         f3bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWE3HJ+rIa/4S6rAz+TOJ/KlT4pa6WxQ2F1Me/lfOXT5eKFR857NSX+er8v0Mf+0oz34Tnuw73zWEyDKu4BGDk3Rls2y7e5bkfzxmuH8omFt3MPJ1YEZKmIrC3evRcIMrH2Py/G/cKJCyQ=
+X-Gm-Message-State: AOJu0YyJvRJYx9UGxC3d90LeLSDw+bfkAPsjiUYrtrBnE8XAGLEvB1vS
+	kIdz7I3v8zUfnK0UNIK3saX0gX4EVJseHXDZeFL9eyDpxdavP4rWi/fzTMbdOq/zlLkv6NadNpE
+	UW67FzeolVU880JkrU6/8hLcF9uc=
+X-Google-Smtp-Source: AGHT+IHk8vzL6Rj9EH+UpigARhru0dj56fO8DLqAIhRSdY6MaOWN9mqgHKht5kCPaBqcwNz6sgVuYTonTH7cPUYMQl8=
+X-Received: by 2002:a05:6902:1d0:b0:dcc:1062:47c0 with SMTP id
+ u16-20020a05690201d000b00dcc106247c0mr8231890ybh.56.1712660279410; Tue, 09
+ Apr 2024 03:57:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: imx-audio-spdif: convert to
- YAML
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <1712652644-28887-1-git-send-email-shengjiu.wang@nxp.com>
- <1712652644-28887-2-git-send-email-shengjiu.wang@nxp.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <1712652644-28887-2-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <ZhFJZoful6nEFskW@archie.me> <4d231dc4-0183-47e1-8bfa-3dd225bf8ea3@leemhuis.info>
+ <904ffa11-592a-4336-aed2-d6370bb01896@collabora.com> <b99e51de-3622-4360-b69d-0fd911ea2a7d@leemhuis.info>
+ <9012f8d5-302a-4840-815a-22b1e85fda5c@collabora.com> <c0193bca-ea80-49eb-ab26-8256d07078df@leemhuis.info>
+ <41b7170d-65b8-4d64-a1d3-7a0d09d79c45@collabora.com> <fa076f6f-5a19-4a6a-aaf4-8d9e36df8fea@leemhuis.info>
+ <682dfcc5-056c-4170-910b-64ae42370c52@collabora.com>
+In-Reply-To: <682dfcc5-056c-4170-910b-64ae42370c52@collabora.com>
+From: Daniel Martin <dmanlfc@gmail.com>
+Date: Tue, 9 Apr 2024 20:57:48 +1000
+Message-ID: <CAOyTmd0OWyOJGK3b5J322Ftxz=S8_qRmO=aC7mMeYXe76=w+Mg@mail.gmail.com>
+Subject: Re: Fwd: Steam Deck OLED 6.8.2 nau8821-max fails
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Arun Gopal Kondaveeti <arungopal.kondaveeti@amd.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Sound System <linux-sound@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/04/2024 10:50, Shengjiu Wang wrote:
-> Convert the imx-audio-spdif binding to YAML.
-> 
-> When testing dtbs_check, found below compatible strings
-> are not listed in document:
-> 
-> fsl,imx-sabreauto-spdif
-> fsl,imx6sx-sdb-spdif
-> 
-> So add them in yaml file to pass the test.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../bindings/sound/fsl,imx-audio-spdif.yaml   | 67 +++++++++++++++++++
->  .../bindings/sound/imx-audio-spdif.txt        | 36 ----------
->  2 files changed, 67 insertions(+), 36 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml b/Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
-> new file mode 100644
-> index 000000000000..fec008ffae43
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,imx-audio-spdif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX audio complex with S/PDIF transceiver
-> +
-> +maintainers:
-> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - fsl,imx-sabreauto-spdif
-> +              - fsl,imx6sx-sdb-spdif
-> +          - enum:
-> +              - fsl,imx-audio-spdif
-
-If there is going to be any new version/resend:
-This one should be const, not enum.
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The manual patches were worked from the Steam Deck kernel, trial &
+error with partial support in 6.6 at the time.
+6.8 sources where this has been implemented recently were not yet
+available or in linux-next.
+Suffice to say the code matches up almost perfectly apart from the
+enum issues which are thus being discussed.
+I still go back to the point, apart from the Steam Deck, who else is
+using this named topology file?
+I don't think anyone is, therefore the enum numbering should match the
+current Steam Deck kernel implementation & topology file.
 
 
----
+On Tue, 9 Apr 2024 at 19:55, Cristian Ciocaltea
+<cristian.ciocaltea@collabora.com> wrote:
+>
+> On 4/9/24 12:19 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
+> > On 09.04.24 10:47, Cristian Ciocaltea wrote:
+> >> On 4/9/24 11:04 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
+> >>> On 09.04.24 09:42, Cristian Ciocaltea wrote:
+> >>>> On 4/9/24 7:44 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
+> >>>>> On 09.04.24 01:44, Cristian Ciocaltea wrote:
+> >>>>>> On 4/7/24 10:47 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
+> >>>>>>> On 06.04.24 15:08, Bagas Sanjaya wrote:
+> >>>>>>>> On Bugzilla, Daniel <dmanlfc@gmail.com> reported topology regression
+> >>>>>>>> on Steam Deck OLED [1]. He wrote:
+> >>>>>>
+> >>>>>>>>> I'm adding this here, I hope it's the correct place.
+> >>>>>>>>> Currently the Steam Deck OLED fails with Kernel 6.8.2 when trying to initialise the topology for the device.
+> >>>>>>>>> I'm using the `sof-vangogh-nau8821-max.tplg` file from the Steam Deck OLED and associated firmware.
+> >>>>>>>> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218677
+> >>>>>>> A quick search made me find these posts/threads that foreshadow the problem:
+> >>>>>>>
+> >>>>>>> https://lore.kernel.org/lkml/20231219030728.2431640-1-cristian.ciocaltea@collabora.com/
+> >>>>>>> https://lore.kernel.org/all/a3357e1f-f354-4d4b-9751-6b2182dceea6@amd.com/
+> >>>>>>>
+> >>>>>>> From a quick look at the second discussion it seems a bit like we are
+> >>>>>>> screwed, as iiutc topology files are out in the wild for one or the
+> >>>>>>> other approach. So we might have to bite a bullet there and accept the
+> >>>>>>> regression -- but I might easily be totally mistaken here. Would be good
+> >>>>>>> in one of the experts (Venkata Prasad Potturu maybe?) could quickly
+> >>>>>>> explain what's up here.
+> >>>>>>
+> >>>>>> The problem here is that Steam Deck OLED provides a topology file which
+> >>>>>> uses an incorrect DAI link ID for BT codec.
+> >>>>>>
+> >>>>>> Patch [1] moves BT_BE_ID to position 2 in the enum, as expected by the
+> >>>>>> topology, but this is not a change that can be accepted upstream as it
+> >>>>>> would break other devices which rely on BT_BE_ID set to 3.
+> >>>>>>
+> >>>>>> The proper solution would be to update the topology file on Steam Deck,
+> >>>>>> but this is probably not straightforward to be accomplished as it would
+> >>>>>> break the compatibility with the currently released (downstream)
+> >>>>>> kernels.
+> >>>>>>
+> >>>>>> Hopefully, this sheds some more light on the matter.
+> >>>>>>
+> >>>>>> [1]: https://lore.kernel.org/all/20231209205351.880797-11-cristian.ciocaltea@collabora.com/
+> >>>>>
+> >>>>> Many thx, yes, this sheds some light on the matter. But there is one
+> >>>>> remaining question: can we make both camps happy somehow? E.g. something
+> >>>>> along the lines of "first detect if the topology file has BT_BE_ID in
+> >>>>> position 2 or 3 and then act accordingly?
+> >>>>
+> >>>> Right, I have this on my TODOs list but haven't managed to dig into it
+> >>>> yet. However, that would be most likely just another hack to be carried
+> >>>> on until the transition to a fixed topology is completed.
+> >>>
+> >>> Well, sure it's a hack, but the thing is, our number one rule is "no
+> >>> regressions" and the reporter apparently faces one (see start of the
+> >>> thread). So to fulfill this rule it would be ideal to have a fix
+> >>> available soonish or revert the culprit and reply it later together with
+> >>> the fix.
+> >>
+> >> Hmm, unless I'm missing something, this shouldn't been considered a
+> >> regression.  As I explained previously, the OLED model was launched with
+> >>  a downstream implementation of the Vangogh SOF drivers on top of v6.1,
+> >> as there was no upstream support back then.
+> >>
+> >> When AMD eventually completed the upstreaming process of their SOF
+> >> drivers in v6.6, we ended up with this unfortunate ID assignments
+> >> incompatibility.  Hence I cannot see how the mainline kernel would have
+> >> worked without applying patch [1] above, unless the reporter
+> >> experimented with a different topology (which is not the case if I got
+> >> this right).
+> >>
+> >>> Do we know which change that went into 6.8 caused this? Or is a revert
+> >>> out-of-the question as it will likely break things for other users that
+> >>> already upgraded to 6.8 and have a matching topology file? (/me fears
+> >>> the answer to the latter question is "yes", but I have to ask :-/)
+> >>
+> >> We need to understand how the reporter got this working with mainline
+> >> kernels without applying any out-of-tree patches.
+> >
+> > Ahh, okay, thx, now I understand this better. You are most likely
+> > correct. It also made me look at the initial report again where I
+> > noticed "When *I manually patched support* for the 6.6 or 6.7 mainline
+> > kernel it worked fine.", so yes, this likely is not a regression.
+>
+> It would be interesting to find out what the *manually patched support*
+> involved. FWIW, to get audio working with v6.8, it's also necessary to
+> backport several patches from v6.9-rc1 - I would consider the following:
+>
+> Fixes: f0f1021fc9cb ("ASoC: amd: acp: Drop redundant initialization of machine driver data")
+> Fixes: 68ab29426d88 ("ASoC: amd: acp: Make use of existing *_CODEC_DAI macros")
+> Fixes: d0ada20279db ("ASoC: amd: acp: Add missing error handling in sof-mach")
+> Fixes: 222be59e5eed ("ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()")
+> Fixes: a13f0c3c0e8f ("ASoC: SOF: amd: Optimize quirk for Valve Galileo")
+> Fixes: 369b997a1371 ("ASoC: SOF: core: Skip firmware test for custom loaders")
+> Fixes: d9cacc1a2af2 ("ASoC: SOF: amd: Compute file paths on firmware load")
+> Fixes: 33c3d8133307 ("ASoC: SOF: amd: Move signed_fw_image to struct acp_quirk_entry")
+> Fixes: 094d11768f74 ("ASoC: SOF: amd: Skip IRAM/DRAM size modification for Steam Deck OLED")
+>
+> I think most if not all of the mandatory fixes from the list above have been
+> already included in the latest v6.8 stable updates, but I haven't actually
+> tested.
+>
+> >
+> > Thx for your help and sorry for the trouble I caused!
+>
+> No problem at all!
+>
+> Regards,
+> Cristian
 
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
 
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
 
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+-- 
 
-Best regards,
-Krzysztof
+Kind Regards,
 
+Daniel
++61 (0)409611884
