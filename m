@@ -1,86 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B4915539C;
-	Tue,  9 Apr 2024 17:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E7155A45;
+	Tue,  9 Apr 2024 17:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712682844; cv=none; b=F+MAwZLqEfP3UyfQCRhaJIGk990iEikkC5NVq1eZadAN6YXx2nq6DyUQNJqfXDr5ILIisyrBV0BRemNObxjvJruCt9+yh9pDi5lcUWcrLjtx3nnqq67XQoRN5S/eK8hredTMkua2CgCN5N9jFcb/r2lasQoik92+Zcgb/vjg9Ys=
+	t=1712683626; cv=none; b=BXdNrSoUbRnOmPJxagfxuKpjvzQnFKep793aUs+9AfoIFFM8dpSeryDONK1aAMZ6MHpcG8WKzX+8drg7IYqhRbRbczflXws8po7Ux3gdNHSWrWySC+qa4Lx/0xaUk6WmD9BggOnwh+pD8xkphHPfLPA8nbLpx5K77THb04CONJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712682844; c=relaxed/simple;
-	bh=eLVIl7iYW4+J9rJxM3YqwKEmIf8e95ULiezgmaMUibw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U7m+g9fXm6QhbjuEpFcgaQ1MeRtLi21h2oUeMkm3o3JzaxqvEdIVpOpamoPua+Szj/PBYkoKkOpj0asuEr8C7qlaeJrdIfbPCa8tv6Ya8MhvH3/FSrf4OmevBP/Md75kPw0sOzPrXmSRkSb3Mw0lVAVjrsso7nA793HenO4R9B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Symclgfc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712683626; c=relaxed/simple;
+	bh=Kbut6EHysiAuN2pqwbI1Q3ysmlqsWX1b/pEAFMnt+eg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HiPP0NX/K2RcK3B2AqNgeyz21DFPFYq0jI8MlFWrtEf/HfsuB+9gW81Gb59iPU20uZKLYJMdDt4A2maugis6zjEU3n6dVarXvyIrG+O5nmY+KJH6q/Z3u6D6+T8rj4LqqioABwqOnb5+HPFRMGS1oKlCP5VYNP73cAuJoNipuII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOXtDKhU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Symclgfc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D516AC433F1;
-	Tue,  9 Apr 2024 17:14:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOXtDKhU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6636C433C7;
+	Tue,  9 Apr 2024 17:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712682843;
-	bh=eLVIl7iYW4+J9rJxM3YqwKEmIf8e95ULiezgmaMUibw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SymclgfcWVlic2Xo9YSpojdep8sD9sMRPugZF6LFfE2883Nq40JAB53fA5/6hzp9Y
-	 uWTNQ8wCXZ8Wc7nO0XqoofySluyiJSm127DmOuYYGQ/X3b+Z2CDD/pSu774EultFi7
-	 O3q8k2JBQTFAsheXDuaaTMOhTGfKYzEEaGfsV4XUJkhwpQZ/tGlU3Tfhd9wjN/ndEh
-	 NZejBTbED3PU42oWTX9BMCga6rgtgt2D5x03QiHuVp5AuETc/amP5vJGvlwCZMbyGi
-	 kLOD3QP0qiGdedKTkw22UgqDEIq7AY4sOv8lu+MwlcC1sCGefo+zRqXFrlcrwrV1KW
-	 53j+67mlzCoqA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <6cdbaf4afcf4d2059b257f6cb3a8a61bf5e17688.1712676714.git.geert+renesas@glider.be>
-References: <6cdbaf4afcf4d2059b257f6cb3a8a61bf5e17688.1712676714.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: codecs: Rockchip on-SoC codecs should depend on
- ARCH_ROCKCHIP
-Message-Id: <171268284155.51610.12348972415810451410.b4-ty@kernel.org>
-Date: Tue, 09 Apr 2024 18:14:01 +0100
+	s=k20201202; t=1712683625;
+	bh=Kbut6EHysiAuN2pqwbI1Q3ysmlqsWX1b/pEAFMnt+eg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MOXtDKhUSuGy06O0wOHEzMRUsMEx1PIpgQJfGYxuWXcCM0Hi03dVimVFkMGIujRJ3
+	 nnf9k4pl9WHvRGO24qbpJYe5cQPMAlNzXQnqaC5yB23mArWmjYIwoTLkAe3pHeAij7
+	 bVG/W9agnm3h+ORu1i468Ml2zhUUaDQ23Yr1D4nJprQjvE1GV6xLqsfRHLIKOfK+3q
+	 5WbVRukqkcBpuL0jIA799KCPPHH3S8qo1NW+hOFq4D1e/TJ7DFYKieiv1xGAljJsFj
+	 KNdM3guD0TBs5LxYi9iL3llXOJVY7wDUyizpGSx2sSGYlAGQpTxPcJT7ZnjWoES55A
+	 YlEg8mZ22GnFQ==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51381021af1so9546528e87.0;
+        Tue, 09 Apr 2024 10:27:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV4YrIlbxcpcD0Cqj4P1qr3fD3Zr96Bw1tsxsn9qcj1xdfx30Ri6i44HHNkXM9XETGq9owZIpSd705nmBhpPNc1WVfmIa47msYn4HNvpvmYNfrkxGHJKXNaSDyAflgbEHoYX8nTaY8T5Vr7+b6JZEe7h3tj5HEyHZeWipO55NsGb7Uqq1Cr
+X-Gm-Message-State: AOJu0YwLZFUlp0T+ZO/p4mawkGTHJdfdz/g3UsYFgFBNG0LdENfRz0/b
+	9RNrYaCPx5RvAch1Kq4ELIDFb+062mDsnDg4SShMLvSLoHNTSs1OtJzfC6CUvqaRWelyqKX5mRW
+	PjAIbL3fRFzv7onp4eakz3+VqUw==
+X-Google-Smtp-Source: AGHT+IEHcM0JD7ZqWipo4LWrXKbnA82iD02tShlGX9cvVnQUGGgSKaw7D46ABppnjB6v8ynWM6ZkjO5amGWWIwt6rYg=
+X-Received: by 2002:ac2:4c35:0:b0:516:9fab:75de with SMTP id
+ u21-20020ac24c35000000b005169fab75demr55819lfq.5.1712683624187; Tue, 09 Apr
+ 2024 10:27:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+References: <20240322145406.2613256-1-Frank.Li@nxp.com>
+In-Reply-To: <20240322145406.2613256-1-Frank.Li@nxp.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 9 Apr 2024 12:26:52 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLJDhJd_uoL05Z=s3Mc7PRkcJWsQGGjdG0Q0GFp0zA8xw@mail.gmail.com>
+Message-ID: <CAL_JsqLJDhJd_uoL05Z=s3Mc7PRkcJWsQGGjdG0Q0GFp0zA8xw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt
+ to yaml
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	imx@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 09 Apr 2024 17:34:56 +0200, Geert Uytterhoeven wrote:
-> The various Rockchip embedded audio codecs are only present on Rockchip
-> SoCs.  Hence add dependencies on ARCH_ROCKCHIP, to prevent asking the
-> user about these drivers when configuring a kernel without Rockchip SoC
-> support.
-> 
-> 
+On Fri, Mar 22, 2024 at 9:54=E2=80=AFAM Frank Li <Frank.Li@nxp.com> wrote:
+>
+> Convert fsl,esai.txt to yaml. So DTB_CHECK tools can verify dts file abou=
+t
+> esai part.
+>
+> clock-names 'spba' is optional according to description. So minItems of
+> clocks and clock-names is 3.
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>
+> Notes:
+>     Change from v1 to v2
+>     - alphabetical order compatible string according to rob's suggestion
+>     - clock description move under 'clock' according to kryszof's suggest=
+ion
+>     - fix descritpion indent according to rob's suggestion
+>
+>     Pass dt_binding check
+>      make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu- -j8  dt_binding=
+_check DT_SCHEMA_FILES=3Dfsl,esai.yaml
+>       DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dt=
+s
+>       LINT    Documentation/devicetree/bindings
+>       CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>       DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dt=
+b
 
-Applied to
+Did you run dtbs_check too? Probably not arm32 at least (first number
+is number of warnings):
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+    218  esai@2024000: clocks: [[2, 208], [2, 209], [2, 118], [2,
+208], [2, 156]] is too long
+    218  esai@2024000: clock-names:3: 'spba' was expected
+    218  esai@2024000: clock-names:2: 'fsys' was expected
+    218  esai@2024000: clock-names:1: 'extal' was expected
+    218  esai@2024000: clock-names: ['core', 'mem', 'extal', 'fsys',
+'spba'] is too long
 
-Thanks!
+Conversions can leave warnings, but any you think should be fixed in
+the binding should be fixed in the conversion.
 
-[1/1] ASoC: codecs: Rockchip on-SoC codecs should depend on ARCH_ROCKCHIP
-      commit: 9fd60615ad2835d8e0081fd2458721c8b994f28f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
