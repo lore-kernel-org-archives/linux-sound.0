@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D45D158DD5
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 23:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BF1158A28
+	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 23:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712705648; cv=none; b=p9AfYL1+ayS2MZh4V3MkWR0Bmt5LfwKkGZZEAd1mEK9IIp9SvX50p8sRW3hnFMIva02q/VhvTfZsuh89921lZGYevLURobYG9JNNotCMo4bT5ZBUaJWwP//pNWkDVPW6MR1Dv3jy8OKYjY5GXn7s+2P+Y1Z8MACLUeYdHjpi5ms=
+	t=1712705650; cv=none; b=PQa4M+ij1gnfzOUKRRnSOqJcWjES/+bRNTN6ENio/SPMod4u4/vU6dz/vFTNnQGF9JxQI1+uhzRIH6jXJwssLrUDJmi6fQjK//Y64hpcbCpSl83eHrf6j5vN8kh6LuVk0xxqAH4rGnqa/y9mammNxnYtWKK4wuueoTPE52agDS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712705648; c=relaxed/simple;
-	bh=GGZPp2CVjU917fj2XiVdNr1qQjyxhB0WLyitW5028Ps=;
+	s=arc-20240116; t=1712705650; c=relaxed/simple;
+	bh=vdm0R+f19uUxbs05f+bAWDWH2KSblO+9BtKcIj7ujg0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BFpBTeGQ7oNwHpkSy9cZCFgBmVzut/tHHK9Uj+ShrX7kofmpyXHlo92MifTj5+Ek9JICBz1brmryvR3XXHsBnB/UBY2qcedKX2iQnT92xj7T6sDFnQvS+mDYftpZqpWd7ZBSbyfo5NyX0xmc3nfY5J4viY2ISDL4Nsrxo5QqA/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzUWHUSj; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TZihqBeiB0kNkBCHfVdp/p3TwsNAofolBguyWRKTwNw529YuAvTfjYvO0qwM5VaF5hQuT0Ti71nSof2jJODVSNHGRdG8mOs/6CsRDvc0cSpZJvUO5/2Og1uCWtodaweM5KtdXgFc2lBJB5UfKbjPugRVJruyXnqoInBZYuyAO6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fc6X/zCs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzUWHUSj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3576C433F1;
-	Tue,  9 Apr 2024 23:34:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fc6X/zCs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A918C433A6;
+	Tue,  9 Apr 2024 23:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712705648;
-	bh=GGZPp2CVjU917fj2XiVdNr1qQjyxhB0WLyitW5028Ps=;
+	s=k20201202; t=1712705649;
+	bh=vdm0R+f19uUxbs05f+bAWDWH2KSblO+9BtKcIj7ujg0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jzUWHUSjzJslHISZMW2z2Wrafyyo402ieqWA2FJnkOFxNMR78mr4vx98Ea6USAJQ2
-	 +L6ny8/LhwkDuLMKFwQTLHH7SPg+ts/lgfnPrhIzVommQEJhUAN5nDB1srz8Xzq98K
-	 MGAGAiEOz8NFHNIgoFU7LJKY+D8pdiwEoO0LJCUPCb0ZnOG8fV78n4yRkJoZpIK9fz
-	 thmY8dTYv94o0yxDZHVzthewyS56tQbIJrtSPApHqlHu529d13DAvK33ggHUBJGqVV
-	 OwaEonwnALbm2nhhweWh/bHaSipqZH39ickUSuY3azE3ghaIPywOPhFHCQGHlWWzu1
-	 H9ikC1oecINFw==
+	b=Fc6X/zCsFZORdfgtO7ts5f9RHiKo+wT7pHwoDQK9GvLxxeTgju6O3vEyaCwMrgwY5
+	 I5BDhW+Xkp3dM034oE/DRgo9ZI/DencTNCdM4zhoD6onzUo3wTNCM8PYmpoMJUAOCZ
+	 OihwNsPPfGCtPu/uIhAx3O0uaEbyezgfzX6VGTT0ak9TkZDRLCU5O7qIXyauuiclSw
+	 NW0gZLZovmhvkzJFOSWAbHqWlP0Js5ZHgdeg/6fmKuLCV1mAlJwqDy9q51A+Shwkrd
+	 w7scKbE2DAyVSIc81dI/lfgAoGVz1wK3AVHt4dwUu/vWtLCleGCbCC9fEjfQ3Il6rL
+	 J+AZCx9NIjnVA==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com
-In-Reply-To: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
-References: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: ipc4-pcm: Do not reset ChainDMA if it
- is not allocated
-Message-Id: <171270564645.199334.1684630890281076233.b4-ty@kernel.org>
-Date: Wed, 10 Apr 2024 00:34:06 +0100
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com
+In-Reply-To: <20240409113349.21623-1-peter.ujfalusi@linux.intel.com>
+References: <20240409113349.21623-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: SOF: Intel: Add fw_regs area to debugfs map
+ for IPC4
+Message-Id: <171270564815.199334.13129775237817762538.b4-ty@kernel.org>
+Date: Wed, 10 Apr 2024 00:34:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,15 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Tue, 09 Apr 2024 14:00:32 +0300, Peter Ujfalusi wrote:
-> The current code will reset the ChainDMA on release unconditionally which
-> can result the following error when the CHainDMA is not allocated:
+On Tue, 09 Apr 2024 14:33:46 +0300, Peter Ujfalusi wrote:
+> The beginning of the first SRAM window contains various fw registers and
+> additional information which can be very beneficial to read to gather
+> information on the current states to debug issues.
 > 
-> ipc tx      : 0xe040000|0x0: GLB_CHAIN_DMA
-> ipc tx reply: 0x2e000007|0x0: GLB_CHAIN_DMA
-> FW reported error: 7 - Unsupported operation requested
-> ipc error for msg 0xe040000|0x0
-> sof_pcm_stream_free: pcm_ops hw_free failed -22
+> Regards,
+> Peter
 > 
 > [...]
 
@@ -64,14 +63,12 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: SOF: ipc4-pcm: Use consistent name for snd_sof_pcm_stream pointer
-      commit: 965e49cdf8c19f21b8308adeded3a8139cff5c84
-[2/4] ASoC: SOF: ipc4-pcm: Use consistent name for sof_ipc4_timestamp_info pointer
-      commit: 36e980050b0733829e4e0f97b97f7907ba9f00bb
-[3/4] ASoC: SOF: ipc4-pcm: Introduce generic sof_ipc4_pcm_stream_priv
-      commit: 551af3280c16166244425bbb1d73028f3a907e1f
-[4/4] ASoC: SOF: ipc4-pcm: Do not reset the ChainDMA if it has not been allocated
-      commit: 7211814f2adcf376b8db6321447a9725c33b6ae7
+[1/3] ASoC: SOF: Intel: tgl: Add fw_regs area to debugfs map for IPC4
+      commit: 25ab9c40e77ed4d73995fb6eef514e2e9c421dab
+[2/3] ASoC: SOF: Intel: mtl: Add fw_regs area to debugfs map
+      commit: d33a369ddad522eff40c6b9687db1488e19729d6
+[3/3] ASoC: SOF: Intel: lnl: Add fw_regs area to debugfs map
+      commit: 61faefa220262de60d652dd6b91fdcb7ecae2258
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
