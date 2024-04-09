@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF60F81AA5
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 11:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7F48564A
+	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 11:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712660448; cv=none; b=SZwUxvGKh5r97UA2Mn1R0ttXgaPf5HSOqWW86mrSVhs2jelTLmywBVtpY1sYBXQNk3q/EFb3X0mPj3TA2Nmcnog4K0TE+8jHP4sDkuFRXsdqE4sKyiPM603mcIXCMranIF3MgS3kXaGFJsyZnZC2brsVCYkgrRgizHiHw9a1iTA=
+	t=1712660450; cv=none; b=ofqcl3E2GWDKCHKXH22wju41guruC79AgBD1HgQ6N8q3r9Qcp+jnYWMYf+tLG5A+YbkiPATSkrtHDzCgaDHBzWLc40qid7brLOBUhEdxenDvQdHCXf3aF8FoiAv6amwHtbi/p3oe8rNXOC+H6VXP/11ON7PLR86EHapFRNChxmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712660448; c=relaxed/simple;
-	bh=HG0lw8XEW9Q/a1RHr7YyPvv9hmBbtb2nh94e8iCdYd0=;
+	s=arc-20240116; t=1712660450; c=relaxed/simple;
+	bh=LdZzr318QrhbXPxu6mBGSuicgp2heuXrnpHng+bm9KU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RHyBkJMqPbpRx2CljrufdbjyKoJzEBqUDjfFntMJpMf8PVZMMpeR5BLvvKBXZveD22BYw2D3ChaeXo9DXXtfOWMK+bI77caBG8Q5wM0DiP3nZlG+x/AWoo7AXCRyGc9LQcMq23XbyW8SukSBrSz9/VlVYjBFsvIyH3gnPuAlAfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyNeqm2S; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=mQKEcT/weUfLxGER52PRAKFw+w6RTX4rtEJY4omh97Qxq+uBDU/GzgGST/jAYFf0k3ElKYiqCkx7ag9egAPJja0AOkx9xQHN1MbPA3DO6YersFOAb+9MzEqluMEzc+/Dn5h/Y8g07pFmmWnV7N+H56fyw1MthwqqwLfy/46d+EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9pHlyzR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyNeqm2S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9pHlyzR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712660447; x=1744196447;
+  t=1712660449; x=1744196449;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HG0lw8XEW9Q/a1RHr7YyPvv9hmBbtb2nh94e8iCdYd0=;
-  b=HyNeqm2S4Y3I9LTdO1U1yB0YsAJK0YdqPqhnIyi+vCOSVAbNhTpr6kNv
-   vMO51P5izh06ksgk+cI6R8p+Aw6nH1yn8nqdDJJhTEK1ces6sqOQYAzJR
-   btF0ylHrOwMflsw6LY0RUyLKm6ccV1EwHqLcWipHXDfgjAbv60w2IMkAV
-   rS1RQRQod+ZTNPzklrFBGDtxG+gBKdiTawxI7rLSWjtNG7uKEG2pHKuqP
-   C2REIQ3Zsfz8zgrAc7lQMJizTQ2UhoMECG0unYLRYM5VHvCuhqBCNawE8
-   e9PSbKqsSHQeeFU/fm3ivrHr2do+5b4bqhErHm9N4aERYLWObPdKWMY4X
-   Q==;
-X-CSE-ConnectionGUID: r+TN2hAnTVWIGX8YAvBRPg==
-X-CSE-MsgGUID: JQbCnMPoSGe6ECj0vUCnLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7813019"
+  bh=LdZzr318QrhbXPxu6mBGSuicgp2heuXrnpHng+bm9KU=;
+  b=f9pHlyzRvO67EicBe0tY5hfYv+DDJFyU5f/CiPGdCO8AOic1C+gax5UA
+   r/IrXizU3Dl2Hpq7c8SpMMN7bH94PDGeU16N7cm0CtSMLrIFPTMgfkm3x
+   /xrEuOyDNgtAAKd9Itad4VuQGAvvzq+kVX1lvPlUjOpmqPu3PR5098QyP
+   7Li/hw9rYVDmB23fzBxW+bAbgernLQI3BqqTnfHKRiTRd7OJpbaYerhc0
+   yvUzbqTaDpDtuUKELRe3ftGhP4JlIEk2n1mc/4Q7EjpoLL9/pXRFiG9kV
+   Bce0ohvxYviq4TgvCtUo0B6+mNvkpQGR3CTe6nlE9fBKprkDvuqSQ3KoI
+   g==;
+X-CSE-ConnectionGUID: qFgvRqDeSIi7gQuRTzAtMg==
+X-CSE-MsgGUID: /cK3PM0JTH2oCFHyGWWeCQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="7813026"
 X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="7813019"
+   d="scan'208";a="7813026"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:47 -0700
-X-CSE-ConnectionGUID: dDQwH9nPTvqHIMs+oEv5Ig==
-X-CSE-MsgGUID: BIRIJfPPQdi/BycxtuRWGw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:49 -0700
+X-CSE-ConnectionGUID: ggCHYw9ITwiH2497UmMsIw==
+X-CSE-MsgGUID: R3bwEb4LRLCFSxBQj+u4uQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="20309778"
+   d="scan'208";a="20309786"
 Received: from dpotapen-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.252.59.81])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:45 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:00:47 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 3/4] ASoC: SOF: ipc4-pcm: Introduce generic sof_ipc4_pcm_stream_priv
-Date: Tue,  9 Apr 2024 14:00:35 +0300
-Message-ID: <20240409110036.9411-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 4/4] ASoC: SOF: ipc4-pcm: Do not reset the ChainDMA if it has not been allocated
+Date: Tue,  9 Apr 2024 14:00:36 +0300
+Message-ID: <20240409110036.9411-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
 References: <20240409110036.9411-1-peter.ujfalusi@linux.intel.com>
@@ -64,147 +64,103 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using the sof_ipc4_timestamp_info struct directly as sps->private data
-is too restrictive, add a new generic sof_ipc4_pcm_stream_priv struct
-containing the time_info to allow new information to be stored in a
-generic way.
+The ChainDMA operation differs from normal pipelines that it is only
+created when the stream started, in fact a PCM using ChainDMA has no
+pipelines, modules.
+To reset a ChainDMA, it needs to be first allocated in firmware. When
+PulseAudio/PipeWire starts, they will probe the PCMs by opening them, check
+hw_params and then close the PCM without starting audio.
+Unconditionally resetting the ChainDMA can result the following error:
+
+ipc tx      : 0xe040000|0x0: GLB_CHAIN_DMA
+ipc tx reply: 0x2e000007|0x0: GLB_CHAIN_DMA
+FW reported error: 7 - Unsupported operation requested
+ipc error for msg 0xe040000|0x0
+sof_pcm_stream_free: pcm_ops hw_free failed -22
+
+Add a new chain_dma_allocated flag to sof_ipc4_pcm_stream_priv to store the
+ChainDMA allocation state and use this flag to skip sending the reset if
+the ChainDMA is not allocated.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/ipc4-pcm.c | 43 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 8 deletions(-)
+ sound/soc/sof/ipc4-pcm.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 74b0d0d00270..34ce6bb7f37d 100644
+index 34ce6bb7f37d..4594470ed08b 100644
 --- a/sound/soc/sof/ipc4-pcm.c
 +++ b/sound/soc/sof/ipc4-pcm.c
-@@ -37,6 +37,22 @@ struct sof_ipc4_timestamp_info {
- 	snd_pcm_sframes_t delay;
+@@ -40,9 +40,12 @@ struct sof_ipc4_timestamp_info {
+ /**
+  * struct sof_ipc4_pcm_stream_priv - IPC4 specific private data
+  * @time_info: pointer to time info struct if it is supported, otherwise NULL
++ * @chain_dma_allocated: indicates the ChainDMA allocation state
+  */
+ struct sof_ipc4_pcm_stream_priv {
+ 	struct sof_ipc4_timestamp_info *time_info;
++
++	bool chain_dma_allocated;
  };
  
-+/**
-+ * struct sof_ipc4_pcm_stream_priv - IPC4 specific private data
-+ * @time_info: pointer to time info struct if it is supported, otherwise NULL
-+ */
-+struct sof_ipc4_pcm_stream_priv {
-+	struct sof_ipc4_timestamp_info *time_info;
-+};
-+
-+static inline struct sof_ipc4_timestamp_info *
-+sof_ipc4_sps_to_time_info(struct snd_sof_pcm_stream *sps)
-+{
-+	struct sof_ipc4_pcm_stream_priv *stream_priv = sps->private;
-+
-+	return stream_priv->time_info;
-+}
-+
- static int sof_ipc4_set_multi_pipeline_state(struct snd_sof_dev *sdev, u32 state,
- 					     struct ipc4_pipeline_set_state_data *trigger_list)
- {
-@@ -452,7 +468,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 		 * Invalidate the stream_start_offset to make sure that it is
- 		 * going to be updated if the stream resumes
- 		 */
--		time_info = spcm->stream[substream->stream].private;
-+		time_info = sof_ipc4_sps_to_time_info(&spcm->stream[substream->stream]);
- 		if (time_info)
- 			time_info->stream_start_offset = SOF_IPC4_INVALID_STREAM_POSITION;
+ static inline struct sof_ipc4_timestamp_info *
+@@ -269,14 +272,17 @@ sof_ipc4_update_pipeline_state(struct snd_sof_dev *sdev, int state, int cmd,
+  */
  
-@@ -706,12 +722,16 @@ static int sof_ipc4_pcm_dai_link_fixup(struct snd_soc_pcm_runtime *rtd,
- static void sof_ipc4_pcm_free(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm)
+ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
+-				      int direction,
++				      struct snd_sof_pcm *spcm, int direction,
+ 				      struct snd_sof_pcm_stream_pipeline_list *pipeline_list,
+ 				      int state, int cmd)
  {
- 	struct snd_sof_pcm_stream_pipeline_list *pipeline_list;
-+	struct sof_ipc4_pcm_stream_priv *stream_priv;
- 	int stream;
- 
- 	for_each_pcm_streams(stream) {
- 		pipeline_list = &spcm->stream[stream].pipeline_list;
- 		kfree(pipeline_list->pipelines);
- 		pipeline_list->pipelines = NULL;
-+
-+		stream_priv = spcm->stream[stream].private;
-+		kfree(stream_priv->time_info);
- 		kfree(spcm->stream[stream].private);
- 		spcm->stream[stream].private = NULL;
- 	}
-@@ -721,6 +741,7 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- {
- 	struct snd_sof_pcm_stream_pipeline_list *pipeline_list;
  	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
 +	struct sof_ipc4_pcm_stream_priv *stream_priv;
- 	struct sof_ipc4_timestamp_info *time_info;
- 	bool support_info = true;
- 	u32 abi_version;
-@@ -749,6 +770,14 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- 			return -ENOMEM;
- 		}
- 
-+		stream_priv = kzalloc(sizeof(*stream_priv), GFP_KERNEL);
-+		if (!stream_priv) {
-+			sof_ipc4_pcm_free(sdev, spcm);
-+			return -ENOMEM;
-+		}
+ 	bool allocate, enable, set_fifo_size;
+ 	struct sof_ipc4_msg msg = {{ 0 }};
+-	int i;
++	int ret, i;
 +
-+		spcm->stream[stream].private = stream_priv;
++	stream_priv = spcm->stream[direction].private;
+ 
+ 	switch (state) {
+ 	case SOF_IPC4_PIPE_RUNNING: /* Allocate and start chained dma */
+@@ -297,6 +303,11 @@ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
+ 		set_fifo_size = false;
+ 		break;
+ 	case SOF_IPC4_PIPE_RESET: /* Disable and free chained DMA. */
 +
- 		if (!support_info)
- 			continue;
++		/* ChainDMA can only be reset if it has been allocated */
++		if (!stream_priv->chain_dma_allocated)
++			return 0;
++
+ 		allocate = false;
+ 		enable = false;
+ 		set_fifo_size = false;
+@@ -354,7 +365,12 @@ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
+ 	if (enable)
+ 		msg.primary |= SOF_IPC4_GLB_CHAIN_DMA_ENABLE_MASK;
  
-@@ -758,7 +787,7 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- 			return -ENOMEM;
- 		}
+-	return sof_ipc_tx_message_no_reply(sdev->ipc, &msg, 0);
++	ret = sof_ipc_tx_message_no_reply(sdev->ipc, &msg, 0);
++	/* Update the ChainDMA allocation state */
++	if (!ret)
++		stream_priv->chain_dma_allocated = allocate;
++
++	return ret;
+ }
  
--		spcm->stream[stream].private = time_info;
-+		stream_priv->time_info = time_info;
- 	}
+ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+@@ -394,7 +410,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 	 * trigger function that handles the rest for the substream.
+ 	 */
+ 	if (pipeline->use_chain_dma)
+-		return sof_ipc4_chain_dma_trigger(sdev, substream->stream,
++		return sof_ipc4_chain_dma_trigger(sdev, spcm, substream->stream,
+ 						  pipeline_list, state, cmd);
  
- 	return 0;
-@@ -795,7 +824,7 @@ static void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pc
- 		return;
- 	}
- 
--	time_info = sps->private;
-+	time_info = sof_ipc4_sps_to_time_info(sps);
- 	time_info->host_copier = host_copier;
- 	time_info->dai_copier = dai_copier;
- 	time_info->llp_offset = offsetof(struct sof_ipc4_fw_registers,
-@@ -849,7 +878,7 @@ static int sof_ipc4_pcm_hw_params(struct snd_soc_component *component,
- 	if (!spcm)
- 		return -EINVAL;
- 
--	time_info = spcm->stream[substream->stream].private;
-+	time_info = sof_ipc4_sps_to_time_info(&spcm->stream[substream->stream]);
- 	/* delay calculation is not supported by current fw_reg ABI */
- 	if (!time_info)
- 		return 0;
-@@ -928,7 +957,7 @@ static int sof_ipc4_pcm_pointer(struct snd_soc_component *component,
- 		return -EOPNOTSUPP;
- 
- 	sps = &spcm->stream[substream->stream];
--	time_info = sps->private;
-+	time_info = sof_ipc4_sps_to_time_info(sps);
- 	if (!time_info)
- 		return -EOPNOTSUPP;
- 
-@@ -1030,15 +1059,13 @@ static snd_pcm_sframes_t sof_ipc4_pcm_delay(struct snd_soc_component *component,
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct sof_ipc4_timestamp_info *time_info;
--	struct snd_sof_pcm_stream *sps;
- 	struct snd_sof_pcm *spcm;
- 
- 	spcm = snd_sof_find_spcm_dai(component, rtd);
- 	if (!spcm)
- 		return 0;
- 
--	sps = &spcm->stream[substream->stream];
--	time_info = sps->private;
-+	time_info = sof_ipc4_sps_to_time_info(&spcm->stream[substream->stream]);
- 	/*
- 	 * Report the stored delay value calculated in the pointer callback.
- 	 * In the unlikely event that the calculation was skipped/aborted, the
+ 	/* allocate memory for the pipeline data */
 -- 
 2.44.0
 
