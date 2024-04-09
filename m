@@ -1,92 +1,80 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC618156897;
-	Tue,  9 Apr 2024 17:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87515156C4A;
+	Tue,  9 Apr 2024 18:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712685403; cv=none; b=uASiEGDQdNoFdj3Nn3fb3NIf1eqshRNGRYqjS8OLbIsWIdOHUjwd0jjFIbWAAuMymSdSRqZskQvOFh+gRLmzAuNo0uN7fqhgkM4wDodeosv8yq61T5BmLU48v82JlBJU1c4BlthEy3kD/IHDyz/5HbAYtL0wkP+9mViVWKn8ajk=
+	t=1712686100; cv=none; b=sBaNzQ+0fZuU0B9IkQ50VUh3WKBb67kKGBnxihbPBFYmLjW/6LroFvvDOZiYj+hZgii09k6g5BRPZbi7eAOXxHON6DzFA3LZDSWnlWgfsVI6WxgXNu/CgXNREzOYjtTJLqbSwKOtBkWE3T9RNOxPuRsfTKIbFjWWQDEkzMx+7d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712685403; c=relaxed/simple;
-	bh=+ImLdF/rPS1W8RZhaAMn68UmLxKGpvIDQLVmitYV350=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GwJL9rO8+OtrfF23MfVixLW6bwYulYB7mCZ37v1gH1hx7KXqeKehQ3fuHeqxBG2kGcNPfJZET7Z9DrtcpxDyXxP2FzE+vkU1GcYcFHXGDzWhlYONm2+4AIQsFlF8+fmr43pdblG/o5ruM/qQiDRoKadZGiV9mZrPGzA/qOXFlh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=RG5Vq7xE; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1712686100; c=relaxed/simple;
+	bh=HHFNJYwTjbYiNwN7KBQiqaYMGmiWrEeJk4tI3/073Ic=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CBtPB0s4KwPhebo6vdtr6OPbIYy1tw+gcVh6LaPpkqyecTNkXJiGE5u55TUP9f+gBRo2TNZ2tu7ZyyRtq8gwxxrdKlcH0C1B8HkYMLRFN4tV7jwPQhXrOckB4KXmfEL+VYvQKdfBI69hTigBHeUNo+SevpxeQ1iQ2EAv5Gx7H5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSqvynlO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="RG5Vq7xE"
-From: Dragan Simic <dsimic@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1712685400;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Mp691LpMMS/NnH46Pk6YFYILzDdopHOT6W8uUeHBmto=;
-	b=RG5Vq7xEw1eRHdUxPfxqe8n6w7RUti8z+zcVoqo/Ai3zJwrnrs8taBGBf7/xAHmwu9yAPs
-	pdyxXAgWmOcDYUBP+Eq5YVvkqe96rRR8lzMMw5bYPYUh2/VxB0ooC/3fybhIQvhXewogJR
-	SOV1o3GL6DwwoCZlW1Bfj7/MzXVNkhNEUDxssPBc3QI0xxPxkQWjUuI4axAJIX1vL9l/lx
-	5wvNwqs3UL7bP7bBXC4/jtRCusHn+PNZXTvNkjwdQwZPc7MH3Aw5CVhmD4JwZVYv5jM4jH
-	ZdqCk/PvvkHkpm0YjdJk+IcVPm7T/pD+BuiubkRBqAbjhgd7W0CNuuMyMD0qzQ==
-To: linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: pcm: perform power-down delay checks a bit faster
-Date: Tue,  9 Apr 2024 19:56:36 +0200
-Message-Id: <90ae761a5b99640ece48363a7099ac2cf402bd37.1712684592.git.dsimic@manjaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSqvynlO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B251DC433C7;
+	Tue,  9 Apr 2024 18:08:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712686100;
+	bh=HHFNJYwTjbYiNwN7KBQiqaYMGmiWrEeJk4tI3/073Ic=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MSqvynlO7AdmpCHYtNqlRDUVkxeAXpv3n8J3df1XEOeOwanWEi24e/T+VZ0xXbqAt
+	 SHdffs9CYQkkZW3ZLvputSyTwOzxpjRvriydwoqFoHxvIpTbH5V4StELvg8HVqKi3o
+	 Vb1Z5BBv7MSzg2L4NouiBqsC+f/Ug4hiZ0eGnFjcgrh85QJsl9TsM8Bc8tjZL8LQ8B
+	 H4LS9NjV45+kUHwD1M6Ig+rh/hQgshizEutTDc/RSc1k1It34zkqXKVotOCkBB4IXP
+	 0m80G1R5HKfcltGtpQEuzvcQllPpgAC2khZ0NqdWky+GJaZRNm8oEqSr4ex3FZg5FO
+	 UWWsQdNex29KQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "end.to.start" <end.to.start@mail.ru>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com
+In-Reply-To: <20240408152454.45532-1-end.to.start@mail.ru>
+References: <20240408152454.45532-1-end.to.start@mail.ru>
+Subject: Re: [PATCH 1/1] sound: Support microphone from device Acer 315-24p
+Message-Id: <171268609844.62778.6340689132993321193.b4-ty@kernel.org>
+Date: Tue, 09 Apr 2024 19:08:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-When checking whether the power-down delay should be ignored for a specific
-PCM runtime, there's no need to keep going through all DAI link components
-after any of them is found to be configured to use the power-down delay.
+On Mon, 08 Apr 2024 18:24:54 +0300, end.to.start wrote:
+> This patch adds microphone detection for the Acer 315-24p, after which a microphone appears on the device and starts working
+> 
+> 
 
-While there, fix a small typo in one of the comment blocks.
+Applied to
 
-Signed-off-by: Dragan Simic <dsimic@manjaro.org>
----
- sound/soc/soc-pcm.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 77ee103b7cd1..b0e1bd7f588b 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -315,23 +315,24 @@ EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
-  * @rtd: The ASoC PCM runtime that should be checked.
-  *
-  * This function checks whether the power down delay should be ignored for a
-- * specific PCM runtime. Returns true if the delay is 0, if it the DAI link has
-+ * specific PCM runtime. Returns true if the delay is 0, if the DAI link has
-  * been configured to ignore the delay, or if none of the components benefits
-  * from having the delay.
-  */
- bool snd_soc_runtime_ignore_pmdown_time(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_component *component;
--	bool ignore = true;
- 	int i;
- 
- 	if (!rtd->pmdown_time || rtd->dai_link->ignore_pmdown_time)
- 		return true;
- 
- 	for_each_rtd_components(rtd, i, component)
--		ignore &= !component->driver->use_pmdown_time;
-+		if (component->driver->use_pmdown_time)
-+			/* No need to go through all components */
-+			return false;
- 
--	return ignore;
-+	return true;
- }
- 
- /**
+Thanks!
+
+[1/1] sound: Support microphone from device Acer 315-24p
+      commit: 4b9a474c7c820391c0913d64431ae9e1f52a5143
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
