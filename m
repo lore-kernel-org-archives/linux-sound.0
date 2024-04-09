@@ -1,178 +1,81 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740B80038;
-	Tue,  9 Apr 2024 09:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEB85339A;
+	Tue,  9 Apr 2024 10:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712656506; cv=none; b=RTTswboAlWzjyxHoUwu661s/xPo/2yPucWclAd5W1lkVnR0ZzlgkPTb4SEOXzoBcDEkfXjvOa2bnEhmHsg1JauqZGIobi9wYliNBB2rsv2bIKWVMFVjlTsK5yWwIB/cX/zw7MhMr9IvIjnTnBoSmFLFMG+UYiWaJrWDTLM8LXOw=
+	t=1712656935; cv=none; b=AkOCN2T93PZtTpahEom1ecsWdquYgRx/7RkMClgDgKsXOxR1f03yzjAxHRUSZqbsHBf+/iYbfNn84NEKsknq1t+pBpWCPtOVJq5hYIIt3Ev7m2msczV6XbLOnOTvZKFSmK6E3uYxWN+Wj7LqJGfAwYF3GKF3GqqYPRsVrJNgZ/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712656506; c=relaxed/simple;
-	bh=CwmuuH6kUUg1tnSLRqMdKPmBbHsFnmCt9ISyji9uuQU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vEaWl/w9kzOqoxtCwd0bKiq1KRZRybfSnRwTY8ruNjEwJqNEl8AnB9CVeG0g0/7TP5JPd+HEWIENJjYE6w+LWYy9+LYHQQlEMyf8WlxM5cLYfANa058/5SC+TaXj/+cP/P/uIOWuKBob357L2M6NbqfdmABn/VOsJ9OZjniDJn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=a8hm4D8k; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1712656935; c=relaxed/simple;
+	bh=fMMPR+Yh9gYVL2djxLycCTl77gxWuXN3esxhzd6/Pb0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=seuQzkNIbspZJIoGav7DxarJNIE21BLq1oQOXu4e6X6iL6RmEpsavMP2VZqv3ieqBmoqtlJJJ5bUILRiHVglxg0oEyVeATm8gakk71MWrrx3jrEo/QLh8WaTN1SvpjKDILYVOHDwxJ1oZtkpGRuygOq/6ohI3uvPUaLQpngyONo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QAG70yXI; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a8hm4D8k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712656502;
-	bh=CwmuuH6kUUg1tnSLRqMdKPmBbHsFnmCt9ISyji9uuQU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a8hm4D8kaO5XmkvMphLI5aH2COy/5/m0rl+7Rkw8cg+WR4W0bv8sw+wKpC6Eo13oL
-	 tsQJ9+tknhxB9hPi9AEWge9q+JrLesnPCd28YhxzrIwiy5n4dSBxcY6baTkfakPjT3
-	 XF0R2xH9A6tdnjN7coR51ykb9Uf3HV98xQ6lD9r5go3azN1z1Wi6HT5KztD8a23+uO
-	 UHw9t6Lfn95znRSkxOlljUEP+Z6h5P5dKAifdAnWW2EW/4l8m35ElSPwa4a6glQKyX
-	 oOzrwdAOBLavioE8yUUc7Xv+ErDkWGp+ar9788IeVrH1DW+fmKMiNBdIAtwFgoHBHK
-	 S3RdztlUenF7A==
-Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7CE1437820AD;
-	Tue,  9 Apr 2024 09:55:01 +0000 (UTC)
-Message-ID: <682dfcc5-056c-4170-910b-64ae42370c52@collabora.com>
-Date: Tue, 9 Apr 2024 12:55:00 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QAG70yXI"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a2f2cd61cdso1398814a91.1;
+        Tue, 09 Apr 2024 03:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712656933; x=1713261733; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fMMPR+Yh9gYVL2djxLycCTl77gxWuXN3esxhzd6/Pb0=;
+        b=QAG70yXIdRaabEOkaV7rt3xO2LRwIqTORXZUBQ6qhdYfKFgBig8KNk1H2mzAyitV5D
+         Xsq+6KFowF3wR41pEdX95l52Bbf/wvf0uYcixNegDHH7f6KUBKF+9fGWt9t1Z0YDvaiU
+         ZVpg70uAkLWBSDUvMiM8xcA0V6plIubNuofvdYPWuqfkGK3xgzcuonPmxub9CF2MPmS1
+         dOYid5x3W6vFneJXYNJFEn2sBb0XUHEWgtYIXjj4QV+MnEbno22Ebi0UdyiaTkIxXhj3
+         ojVSCstSGSpzkQBGcnzVPFpyi16IRaNDxPqq6q4C1VHukGzgsi2XduL3FwxXrcUnX6Fp
+         EjKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712656933; x=1713261733;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fMMPR+Yh9gYVL2djxLycCTl77gxWuXN3esxhzd6/Pb0=;
+        b=xNCUhRkLn9PIgrTJFuMTpU6LyiKR4wXZvLtPQ5KTS4ra3KkAS5BdVW+IfNNQIevqyv
+         SYNCU3uE0bl8H6pKTENI/Ld/6WJMsKNEaz6uMtaUVYgDs6O8iH4FY9eckAhsJubHsyUH
+         1FS5+do60QAGhtFHESiABDfroHDpRvZseHl6apPCluSN5o1ViPBQ13siB+kGyf/ixqY4
+         O1S5HiMgQZeydSg9lcwF4mQKVhkDipAuT2pdb1wSS/ameKjkvDM9CpjTWy2itydDm1iw
+         qixaMGxF0u9gldLvczUzll59sddG3urZHsbEAXz/su6P95jhyT2dbYbuuWxtY9eBlgz0
+         z3fw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcEXxvhN8F7lKnhE2OTyIdhUcy5CeVM1cse222212VoHDoNH3IoAviyIgWNlSPx0j67BTtWjImfdcHXOVmFnSxr9/jlXUu0ic6wyZRYU6t8L4gye7/u900dH4wffxqcSRu75nk5Xw2ZcflSktUcdyq6D4Wm2eJJdiz6xxQyCNmVzBnMgu/
+X-Gm-Message-State: AOJu0YwmVIXwnRd8QvZFsNpcZG+OzE6jMiS/1a2oq66jXMiigV1IYjue
+	J9jPNOJcGJFCpLa16AZ1TWrzDHTOUcd1C5UX0f0j04IfvJ26S6k6hXB6JSaMTeiTm799dLwWHF/
+	nij0rbZ6G+gq/PX4QDisgY+9LfBU=
+X-Google-Smtp-Source: AGHT+IELrW9fVmzx05lKtSDUmKkTXNduR8F/EVQ4MLLoyqDY44OGDV7EXL3DQXLowx47WFC00/A9tFArob5eyFuseLA=
+X-Received: by 2002:a17:90b:211:b0:2a5:2b1c:90f4 with SMTP id
+ fy17-20020a17090b021100b002a52b1c90f4mr4238430pjb.3.1712656933108; Tue, 09
+ Apr 2024 03:02:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: Steam Deck OLED 6.8.2 nau8821-max fails
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arun Gopal Kondaveeti <arungopal.kondaveeti@amd.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Daniel <dmanlfc@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Sound System <linux-sound@vger.kernel.org>
-References: <ZhFJZoful6nEFskW@archie.me>
- <4d231dc4-0183-47e1-8bfa-3dd225bf8ea3@leemhuis.info>
- <904ffa11-592a-4336-aed2-d6370bb01896@collabora.com>
- <b99e51de-3622-4360-b69d-0fd911ea2a7d@leemhuis.info>
- <9012f8d5-302a-4840-815a-22b1e85fda5c@collabora.com>
- <c0193bca-ea80-49eb-ab26-8256d07078df@leemhuis.info>
- <41b7170d-65b8-4d64-a1d3-7a0d09d79c45@collabora.com>
- <fa076f6f-5a19-4a6a-aaf4-8d9e36df8fea@leemhuis.info>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <fa076f6f-5a19-4a6a-aaf4-8d9e36df8fea@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <1712652644-28887-1-git-send-email-shengjiu.wang@nxp.com> <1712652644-28887-3-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1712652644-28887-3-git-send-email-shengjiu.wang@nxp.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 9 Apr 2024 07:02:00 -0300
+Message-ID: <CAOMZO5Cku1kifsnWJOr0Zd-5+49j-KB67iHZDcvUsKwrhVPtLA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: imx6: exchange fallback and specific
+ compatible string
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/9/24 12:19 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 09.04.24 10:47, Cristian Ciocaltea wrote:
->> On 4/9/24 11:04 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>> On 09.04.24 09:42, Cristian Ciocaltea wrote:
->>>> On 4/9/24 7:44 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>>> On 09.04.24 01:44, Cristian Ciocaltea wrote:
->>>>>> On 4/7/24 10:47 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>>>>> On 06.04.24 15:08, Bagas Sanjaya wrote:
->>>>>>>> On Bugzilla, Daniel <dmanlfc@gmail.com> reported topology regression
->>>>>>>> on Steam Deck OLED [1]. He wrote:
->>>>>>
->>>>>>>>> I'm adding this here, I hope it's the correct place.
->>>>>>>>> Currently the Steam Deck OLED fails with Kernel 6.8.2 when trying to initialise the topology for the device.
->>>>>>>>> I'm using the `sof-vangogh-nau8821-max.tplg` file from the Steam Deck OLED and associated firmware.
->>>>>>>> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218677
->>>>>>> A quick search made me find these posts/threads that foreshadow the problem:
->>>>>>>
->>>>>>> https://lore.kernel.org/lkml/20231219030728.2431640-1-cristian.ciocaltea@collabora.com/
->>>>>>> https://lore.kernel.org/all/a3357e1f-f354-4d4b-9751-6b2182dceea6@amd.com/
->>>>>>>
->>>>>>> From a quick look at the second discussion it seems a bit like we are
->>>>>>> screwed, as iiutc topology files are out in the wild for one or the
->>>>>>> other approach. So we might have to bite a bullet there and accept the
->>>>>>> regression -- but I might easily be totally mistaken here. Would be good
->>>>>>> in one of the experts (Venkata Prasad Potturu maybe?) could quickly
->>>>>>> explain what's up here.
->>>>>>
->>>>>> The problem here is that Steam Deck OLED provides a topology file which
->>>>>> uses an incorrect DAI link ID for BT codec. 
->>>>>>
->>>>>> Patch [1] moves BT_BE_ID to position 2 in the enum, as expected by the
->>>>>> topology, but this is not a change that can be accepted upstream as it
->>>>>> would break other devices which rely on BT_BE_ID set to 3.  
->>>>>>
->>>>>> The proper solution would be to update the topology file on Steam Deck,
->>>>>> but this is probably not straightforward to be accomplished as it would
->>>>>> break the compatibility with the currently released (downstream)
->>>>>> kernels.
->>>>>>
->>>>>> Hopefully, this sheds some more light on the matter.
->>>>>>
->>>>>> [1]: https://lore.kernel.org/all/20231209205351.880797-11-cristian.ciocaltea@collabora.com/
->>>>>
->>>>> Many thx, yes, this sheds some light on the matter. But there is one
->>>>> remaining question: can we make both camps happy somehow? E.g. something
->>>>> along the lines of "first detect if the topology file has BT_BE_ID in
->>>>> position 2 or 3 and then act accordingly?
->>>>
->>>> Right, I have this on my TODOs list but haven't managed to dig into it
->>>> yet. However, that would be most likely just another hack to be carried
->>>> on until the transition to a fixed topology is completed.
->>>
->>> Well, sure it's a hack, but the thing is, our number one rule is "no
->>> regressions" and the reporter apparently faces one (see start of the
->>> thread). So to fulfill this rule it would be ideal to have a fix
->>> available soonish or revert the culprit and reply it later together with
->>> the fix.
->>
->> Hmm, unless I'm missing something, this shouldn't been considered a
->> regression.  As I explained previously, the OLED model was launched with
->>  a downstream implementation of the Vangogh SOF drivers on top of v6.1,
->> as there was no upstream support back then.
->>
->> When AMD eventually completed the upstreaming process of their SOF
->> drivers in v6.6, we ended up with this unfortunate ID assignments
->> incompatibility.  Hence I cannot see how the mainline kernel would have
->> worked without applying patch [1] above, unless the reporter
->> experimented with a different topology (which is not the case if I got
->> this right).
->>
->>> Do we know which change that went into 6.8 caused this? Or is a revert
->>> out-of-the question as it will likely break things for other users that
->>> already upgraded to 6.8 and have a matching topology file? (/me fears
->>> the answer to the latter question is "yes", but I have to ask :-/)
->>
->> We need to understand how the reporter got this working with mainline
->> kernels without applying any out-of-tree patches.
-> 
-> Ahh, okay, thx, now I understand this better. You are most likely
-> correct. It also made me look at the initial report again where I
-> noticed "When *I manually patched support* for the 6.6 or 6.7 mainline
-> kernel it worked fine.", so yes, this likely is not a regression.
+On Tue, Apr 9, 2024 at 6:08=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.com=
+> wrote:
+>
+> exchange fallback and specific compatible string for spdif sound card.
 
-It would be interesting to find out what the *manually patched support*
-involved. FWIW, to get audio working with v6.8, it's also necessary to
-backport several patches from v6.9-rc1 - I would consider the following:
-
-Fixes: f0f1021fc9cb ("ASoC: amd: acp: Drop redundant initialization of machine driver data")
-Fixes: 68ab29426d88 ("ASoC: amd: acp: Make use of existing *_CODEC_DAI macros")
-Fixes: d0ada20279db ("ASoC: amd: acp: Add missing error handling in sof-mach")
-Fixes: 222be59e5eed ("ASoC: SOF: amd: Fix memory leak in amd_sof_acp_probe()")
-Fixes: a13f0c3c0e8f ("ASoC: SOF: amd: Optimize quirk for Valve Galileo")
-Fixes: 369b997a1371 ("ASoC: SOF: core: Skip firmware test for custom loaders")
-Fixes: d9cacc1a2af2 ("ASoC: SOF: amd: Compute file paths on firmware load")
-Fixes: 33c3d8133307 ("ASoC: SOF: amd: Move signed_fw_image to struct acp_quirk_entry")
-Fixes: 094d11768f74 ("ASoC: SOF: amd: Skip IRAM/DRAM size modification for Steam Deck OLED")
-
-I think most if not all of the mandatory fixes from the list above have been
-already included in the latest v6.8 stable updates, but I haven't actually
-tested.
-
-> 
-> Thx for your help and sorry for the trouble I caused!
-
-No problem at all!
-
-Regards,
-Cristian
+Ok, but please explain the reason.
