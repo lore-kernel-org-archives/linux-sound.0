@@ -1,229 +1,86 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8488E13D63C
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 16:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B4915539C;
+	Tue,  9 Apr 2024 17:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712678422; cv=none; b=XvFkt97NJaFAsDmwNIGh6s7xVdbCg7+JVd76ATTHnVjf5HJI0R+oK55hEOBlk0enGsvDVohUkwKGf0jY2qUi3hI1qQyoYHPDxdq89KYkm5yISQ9cWaHATe27tY/ff4tdgB3gd9BMbiNFe02tuPFv1qYG1ZLyQyqHtbVCauPVLaQ=
+	t=1712682844; cv=none; b=F+MAwZLqEfP3UyfQCRhaJIGk990iEikkC5NVq1eZadAN6YXx2nq6DyUQNJqfXDr5ILIisyrBV0BRemNObxjvJruCt9+yh9pDi5lcUWcrLjtx3nnqq67XQoRN5S/eK8hredTMkua2CgCN5N9jFcb/r2lasQoik92+Zcgb/vjg9Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712678422; c=relaxed/simple;
-	bh=E3LQw7BIH6NFeKqXEwye3PeW+RQje2qB7r+WxoyVbG8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rVFfjmlGZiAOutCps0OGHr8305HvV8+xlwRI2yCgKWyC+79T0+t6ac5LLpkQLrEe/OXG5RssH+0Q8yye1sP9cDe4K1+eSc/DAWM56jONXSnMNYVosk2KJYfzuxfTry1Bc31ZjGuiVIqMcEVI6F7B9kNFC7O18D1fQtKFZ7k2rXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L5dHXokQ; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712682844; c=relaxed/simple;
+	bh=eLVIl7iYW4+J9rJxM3YqwKEmIf8e95ULiezgmaMUibw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=U7m+g9fXm6QhbjuEpFcgaQ1MeRtLi21h2oUeMkm3o3JzaxqvEdIVpOpamoPua+Szj/PBYkoKkOpj0asuEr8C7qlaeJrdIfbPCa8tv6Ya8MhvH3/FSrf4OmevBP/Md75kPw0sOzPrXmSRkSb3Mw0lVAVjrsso7nA793HenO4R9B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Symclgfc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L5dHXokQ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-416632343d0so17896705e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Apr 2024 09:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712678419; x=1713283219; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vl2WAWZiRqw9Ns4ylVujkmqdUMbnF+5lRwOPnf5XU7k=;
-        b=L5dHXokQ1nzXeoXdFV8LRViHdrbl5rmy8sgDV0c16Eax6paVFXhsc1mr/2T26UcyxR
-         mRbE2XXgMcdJTHg1cTxO4ro3O7sEmZucjtQJ5WI5koV3Nhdcc92Y7B6z8IB3uSblF7S3
-         GEx1mNo7crrsHocbjgXKkJWVxmAtlFl0onE+CYrLuJofhTXh7sWH0B4f84e6tfgc0ukD
-         hvzvN3sD/reOL5Jk0rUHzDSFWii65Sb/C/RuRvC+/+DjKEk5X/596aGDuqR16IsNTrWp
-         LQrI8CubTguLqUgUDQrvfec1pHEkbN9RIfUwlpTBzUYSsnWDc48VO6/OkyVhRZfGOFwa
-         rkbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712678419; x=1713283219;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vl2WAWZiRqw9Ns4ylVujkmqdUMbnF+5lRwOPnf5XU7k=;
-        b=BLEUNW6yP2kNEfTnIPNjqS8puE/BrEFMRgclEGb7d6QADvVT2lIKjp1qTtrSOOXvxl
-         UpBTJGh4o4383WAiZY5NfCMTb9CIX3RRHgayz74pfQj2n44gamxWDDca0uY3VE8IoKZU
-         C7TdZP+6CDm4SmyeAF7+UOH2qLg33/Z7ngpwBkhCwEIoLjZ6DcxCa7JBXGTXn+vT+45V
-         +HszT5TmUG/H0GTtuPspH5CV1K2EJ6sNHhgfEWBK5Sz8hU2iwFxTsBniS+3Nc0321HJ5
-         NRXlC+Ax57q1x0/8HhtFPzSkxcxAfZ2MNSxdPoQB46yp7FxyxrckSl6UF7JwTPyz0/Nj
-         jC7g==
-X-Gm-Message-State: AOJu0YwFeZwAGwNdupTwByvGcF31pdj4ocORHFCGuK+Iy2fYEziOxtLo
-	/ajf/w6wqJi0jvSz6vUgNx4+ZwbyWms/IAscwCzHKVBEf3QoOvHRtW57FDCSiKY=
-X-Google-Smtp-Source: AGHT+IHXyvG8mKfTY4naLXWGXb6e7X0FvCeImKpBuVDysC36RkLPoOdejDcQfesyOgvubSVgZ97dCw==
-X-Received: by 2002:adf:f1c4:0:b0:341:e4f4:4399 with SMTP id z4-20020adff1c4000000b00341e4f44399mr83235wro.68.1712678418814;
-        Tue, 09 Apr 2024 09:00:18 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id k2-20020adff282000000b0033e9d9f891csm11740838wro.58.2024.04.09.09.00.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 09:00:18 -0700 (PDT)
-Message-ID: <62b1f2fe-7892-405c-bbb9-4bc77173a801@linaro.org>
-Date: Tue, 9 Apr 2024 18:00:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Symclgfc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D516AC433F1;
+	Tue,  9 Apr 2024 17:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712682843;
+	bh=eLVIl7iYW4+J9rJxM3YqwKEmIf8e95ULiezgmaMUibw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SymclgfcWVlic2Xo9YSpojdep8sD9sMRPugZF6LFfE2883Nq40JAB53fA5/6hzp9Y
+	 uWTNQ8wCXZ8Wc7nO0XqoofySluyiJSm127DmOuYYGQ/X3b+Z2CDD/pSu774EultFi7
+	 O3q8k2JBQTFAsheXDuaaTMOhTGfKYzEEaGfsV4XUJkhwpQZ/tGlU3Tfhd9wjN/ndEh
+	 NZejBTbED3PU42oWTX9BMCga6rgtgt2D5x03QiHuVp5AuETc/amP5vJGvlwCZMbyGi
+	 kLOD3QP0qiGdedKTkw22UgqDEIq7AY4sOv8lu+MwlcC1sCGefo+zRqXFrlcrwrV1KW
+	 53j+67mlzCoqA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <6cdbaf4afcf4d2059b257f6cb3a8a61bf5e17688.1712676714.git.geert+renesas@glider.be>
+References: <6cdbaf4afcf4d2059b257f6cb3a8a61bf5e17688.1712676714.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: codecs: Rockchip on-SoC codecs should depend on
+ ARCH_ROCKCHIP
+Message-Id: <171268284155.51610.12348972415810451410.b4-ty@kernel.org>
+Date: Tue, 09 Apr 2024 18:14:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/18] arm64: dts: mediatek: add audio support for
- mt8365-evk
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-18-16bb2c974c55@baylibre.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240226-audio-i350-v3-18-16bb2c974c55@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On 09/04/2024 15:42, Alexandre Mergnat wrote:
-> Add the sound node which is linked to the MT8365 SoC AFE and
-> the MT6357 audio codec.
+On Tue, 09 Apr 2024 17:34:56 +0200, Geert Uytterhoeven wrote:
+> The various Rockchip embedded audio codecs are only present on Rockchip
+> SoCs.  Hence add dependencies on ARCH_ROCKCHIP, to prevent asking the
+> user about these drivers when configuring a kernel without Rockchip SoC
+> support.
 > 
-> Update the file header.
 > 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 98 +++++++++++++++++++++++++++--
->  1 file changed, 94 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> index 50cbaefa1a99..eb0c5f076dd4 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-> @@ -1,9 +1,9 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * Copyright (c) 2021-2022 BayLibre, SAS.
-> - * Authors:
-> - * Fabien Parent <fparent@baylibre.com>
-> - * Bernhard Rosenkränzer <bero@baylibre.com>
-> + * Copyright (c) 2024 BayLibre, SAS.
 
+Applied to
 
-What is happening with your copyrights? Why do you change existing ones?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> + * Authors: Fabien Parent <fparent@baylibre.com>
-> + *	    Bernhard Rosenkränzer <bero@baylibre.com>
-> + *	    Alexandre Mergnat <amergnat@baylibre.com>
->   */
->  
->  /dts-v1/;
-> @@ -86,6 +86,29 @@ optee_reserved: optee@43200000 {
->  			reg = <0 0x43200000 0 0x00c00000>;
->  		};
->  	};
-> +
-> +	sound: sound {
-> +		compatible = "mediatek,mt8365-mt6357";
-> +		pinctrl-names = "default",
-> +				"dmic",
-> +				"miso_off",
-> +				"miso_on",
-> +				"mosi_off",
-> +				"mosi_on";
-> +		pinctrl-0 = <&aud_default_pins>;
-> +		pinctrl-1 = <&aud_dmic_pins>;
-> +		pinctrl-2 = <&aud_miso_off_pins>;
-> +		pinctrl-3 = <&aud_miso_on_pins>;
-> +		pinctrl-4 = <&aud_mosi_off_pins>;
-> +		pinctrl-5 = <&aud_mosi_on_pins>;
-> +		mediatek,platform = <&afe>;
-> +		status = "okay";
+Thanks!
 
-Where did you disable the node?
+[1/1] ASoC: codecs: Rockchip on-SoC codecs should depend on ARCH_ROCKCHIP
+      commit: 9fd60615ad2835d8e0081fd2458721c8b994f28f
 
-> +	};
-> +};
-> +
-> +&afe {
-> +	mediatek,dmic-mode = <1>;
-> +	status = "okay";
->  };
->  
->  &cpu0 {
-> @@ -174,6 +197,12 @@ &mmc1 {
->  	status = "okay";
->  };
->  
-> +&mt6357_codec {
-> +	mediatek,micbias0-microvolt = <1900000>;
-> +	mediatek,micbias1-microvolt = <1700000>;
-> +	mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
-> +};
-> +
->  &mt6357_pmic {
->  	interrupts-extended = <&pio 145 IRQ_TYPE_LEVEL_HIGH>;
->  	interrupt-controller;
-> @@ -181,6 +210,67 @@ &mt6357_pmic {
->  };
->  
->  &pio {
-> +	aud_default_pins: audiodefault-pins {
-> +		pins {
-> +		pinmux = <MT8365_PIN_72_CMDAT4__FUNC_I2S3_BCK>,
-> +			 <MT8365_PIN_73_CMDAT5__FUNC_I2S3_LRCK>,
-> +			 <MT8365_PIN_74_CMDAT6__FUNC_I2S3_MCK>,
-> +			 <MT8365_PIN_75_CMDAT7__FUNC_I2S3_DO>;
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-You have broken indentation everywhere.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Best regards,
-Krzysztof
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
