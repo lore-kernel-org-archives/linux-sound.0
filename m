@@ -1,40 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87515156C4A;
-	Tue,  9 Apr 2024 18:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A7150275;
+	Tue,  9 Apr 2024 18:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712686100; cv=none; b=sBaNzQ+0fZuU0B9IkQ50VUh3WKBb67kKGBnxihbPBFYmLjW/6LroFvvDOZiYj+hZgii09k6g5BRPZbi7eAOXxHON6DzFA3LZDSWnlWgfsVI6WxgXNu/CgXNREzOYjtTJLqbSwKOtBkWE3T9RNOxPuRsfTKIbFjWWQDEkzMx+7d0=
+	t=1712689042; cv=none; b=hvVIpow3LJs/nfnJcuR2fKMkmhS7kFgo8FyePyV/m1lZUhtUjWdmRYBRmcCZdoXR+rW4JIumcNvxwsE9jQ0Q4Yf5Tpig0FEgf7D4BO8eDEEK11y16wyFWfyErGYutcSrnoI91lTNbIcdP3IU+OGROAodlUIp19tc96wl3xY/PfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712686100; c=relaxed/simple;
-	bh=HHFNJYwTjbYiNwN7KBQiqaYMGmiWrEeJk4tI3/073Ic=;
+	s=arc-20240116; t=1712689042; c=relaxed/simple;
+	bh=XEPl6rvMdUEJUxQcF63UGqxzYLQBf+b+068mHOKHyKo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CBtPB0s4KwPhebo6vdtr6OPbIYy1tw+gcVh6LaPpkqyecTNkXJiGE5u55TUP9f+gBRo2TNZ2tu7ZyyRtq8gwxxrdKlcH0C1B8HkYMLRFN4tV7jwPQhXrOckB4KXmfEL+VYvQKdfBI69hTigBHeUNo+SevpxeQ1iQ2EAv5Gx7H5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSqvynlO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=eMwUvGZJZ5ZyTpoGxYb7+GsXCm5D/MSfc1JgX7Tk1Kkomav2pox3NfA22WuKrXDqGn/rHGBZ9bA5WBPH/gkfHxoZqLXwKalzLHkVHgjXtYEsTFWldMPFqm7fBOOe1T+9aPDhVqd1QHNucMmON7DCIxDgBp0GBIEQviDwRTToXDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ri9oDrsK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSqvynlO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B251DC433C7;
-	Tue,  9 Apr 2024 18:08:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ri9oDrsK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A60C433C7;
+	Tue,  9 Apr 2024 18:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712686100;
-	bh=HHFNJYwTjbYiNwN7KBQiqaYMGmiWrEeJk4tI3/073Ic=;
+	s=k20201202; t=1712689041;
+	bh=XEPl6rvMdUEJUxQcF63UGqxzYLQBf+b+068mHOKHyKo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MSqvynlO7AdmpCHYtNqlRDUVkxeAXpv3n8J3df1XEOeOwanWEi24e/T+VZ0xXbqAt
-	 SHdffs9CYQkkZW3ZLvputSyTwOzxpjRvriydwoqFoHxvIpTbH5V4StELvg8HVqKi3o
-	 Vb1Z5BBv7MSzg2L4NouiBqsC+f/Ug4hiZ0eGnFjcgrh85QJsl9TsM8Bc8tjZL8LQ8B
-	 H4LS9NjV45+kUHwD1M6Ig+rh/hQgshizEutTDc/RSc1k1It34zkqXKVotOCkBB4IXP
-	 0m80G1R5HKfcltGtpQEuzvcQllPpgAC2khZ0NqdWky+GJaZRNm8oEqSr4ex3FZg5FO
-	 UWWsQdNex29KQ==
+	b=Ri9oDrsKK06MjsP2/S9PlJBEbNIckYh92Uv1G/Gmnkhr3bfO0N2QdqI05KYfFZZsZ
+	 E9wZSeOYWK24MzrQ5A92d6m+K9gYEWujsLt90AyZ5IZeE5MD3zwQo0bzcYXOUy3oKd
+	 iJ9Sdu+8T98pdzlgxnaPEGsmYHnui4FEvTQiPBCjI3UYPE0ZEgIJpJtMp/b2GWNbdZ
+	 AZDWH3qQJNa3C7rRonVq+jx2AfYjh78P9ntBBXdg+Wy49Y+lN8Pi3geg/jP2jYSzzl
+	 3rnbJLIA1L2Ke4csy+Fw1n9bE/vQ61P8no25P1/LX3akwobrJmfzPekpoBisHzwNHE
+	 iVOhXGEHPvpGA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "end.to.start" <end.to.start@mail.ru>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com
-In-Reply-To: <20240408152454.45532-1-end.to.start@mail.ru>
-References: <20240408152454.45532-1-end.to.start@mail.ru>
-Subject: Re: [PATCH 1/1] sound: Support microphone from device Acer 315-24p
-Message-Id: <171268609844.62778.6340689132993321193.b4-ty@kernel.org>
-Date: Tue, 09 Apr 2024 19:08:18 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, Sunil-kumar.Dommati@amd.com, 
+ Basavaraj.Hiregoudar@amd.com, venkataprasad.potturu@amd.com, 
+ kernel test robot <lkp@intel.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Lucas Tanure <lucas.tanure@collabora.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20240408180229.3287220-1-Vijendar.Mukunda@amd.com>
+References: <20240408180229.3287220-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: amd: fix for soundwire build dependencies for
+ legacy stack
+Message-Id: <171268903831.71903.8798252407593021756.b4-ty@kernel.org>
+Date: Tue, 09 Apr 2024 19:57:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,10 +53,23 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Mon, 08 Apr 2024 18:24:54 +0300, end.to.start wrote:
-> This patch adds microphone detection for the Acer 315-24p, after which a microphone appears on the device and starts working
+On Mon, 08 Apr 2024 23:32:26 +0530, Vijendar Mukunda wrote:
+> The SND_SOC_AMD_SOUNDWIRE Kconfig symbol has build dependency on
+> SOUNDWIRE_AMD. It gets it wrong for a configuration involving
+> SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE=y,SND_SOC_AMD_PS=y and SOUNDWIRE_AMD=m,
+> which results in a link failure:
 > 
+> ld: vmlinux.o: in function `amd_sdw_probe':
+> >> sound/soc/amd/ps/pci-ps.c:271:(.text+0x1d51eff):
+> 	undefined reference to `sdw_amd_probe'
+> ld: vmlinux.o: in function `acp63_sdw_machine_select':
+> >> sound/soc/amd/ps/pci-ps.c:294:(.text+0x1d525d5):
+> 	undefined reference to `sdw_amd_get_slave_info'
+> ld: vmlinux.o: in function `amd_sdw_exit':
+> >> sound/soc/amd/ps/pci-ps.c:280:(.text+0x1d538ce):
+> 	undefined reference to `sdw_amd_exit'
 > 
+> [...]
 
 Applied to
 
@@ -56,8 +77,8 @@ Applied to
 
 Thanks!
 
-[1/1] sound: Support microphone from device Acer 315-24p
-      commit: 4b9a474c7c820391c0913d64431ae9e1f52a5143
+[1/1] ASoC: amd: fix for soundwire build dependencies for legacy stack
+      commit: 56437a561fefab2be708dfebf80e31c4715eb52e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
