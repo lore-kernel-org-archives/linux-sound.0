@@ -1,107 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E7155A45;
-	Tue,  9 Apr 2024 17:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC618156897;
+	Tue,  9 Apr 2024 17:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712683626; cv=none; b=BXdNrSoUbRnOmPJxagfxuKpjvzQnFKep793aUs+9AfoIFFM8dpSeryDONK1aAMZ6MHpcG8WKzX+8drg7IYqhRbRbczflXws8po7Ux3gdNHSWrWySC+qa4Lx/0xaUk6WmD9BggOnwh+pD8xkphHPfLPA8nbLpx5K77THb04CONJ8=
+	t=1712685403; cv=none; b=uASiEGDQdNoFdj3Nn3fb3NIf1eqshRNGRYqjS8OLbIsWIdOHUjwd0jjFIbWAAuMymSdSRqZskQvOFh+gRLmzAuNo0uN7fqhgkM4wDodeosv8yq61T5BmLU48v82JlBJU1c4BlthEy3kD/IHDyz/5HbAYtL0wkP+9mViVWKn8ajk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712683626; c=relaxed/simple;
-	bh=Kbut6EHysiAuN2pqwbI1Q3ysmlqsWX1b/pEAFMnt+eg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HiPP0NX/K2RcK3B2AqNgeyz21DFPFYq0jI8MlFWrtEf/HfsuB+9gW81Gb59iPU20uZKLYJMdDt4A2maugis6zjEU3n6dVarXvyIrG+O5nmY+KJH6q/Z3u6D6+T8rj4LqqioABwqOnb5+HPFRMGS1oKlCP5VYNP73cAuJoNipuII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOXtDKhU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712685403; c=relaxed/simple;
+	bh=+ImLdF/rPS1W8RZhaAMn68UmLxKGpvIDQLVmitYV350=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GwJL9rO8+OtrfF23MfVixLW6bwYulYB7mCZ37v1gH1hx7KXqeKehQ3fuHeqxBG2kGcNPfJZET7Z9DrtcpxDyXxP2FzE+vkU1GcYcFHXGDzWhlYONm2+4AIQsFlF8+fmr43pdblG/o5ruM/qQiDRoKadZGiV9mZrPGzA/qOXFlh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=RG5Vq7xE; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOXtDKhU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6636C433C7;
-	Tue,  9 Apr 2024 17:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712683625;
-	bh=Kbut6EHysiAuN2pqwbI1Q3ysmlqsWX1b/pEAFMnt+eg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MOXtDKhUSuGy06O0wOHEzMRUsMEx1PIpgQJfGYxuWXcCM0Hi03dVimVFkMGIujRJ3
-	 nnf9k4pl9WHvRGO24qbpJYe5cQPMAlNzXQnqaC5yB23mArWmjYIwoTLkAe3pHeAij7
-	 bVG/W9agnm3h+ORu1i468Ml2zhUUaDQ23Yr1D4nJprQjvE1GV6xLqsfRHLIKOfK+3q
-	 5WbVRukqkcBpuL0jIA799KCPPHH3S8qo1NW+hOFq4D1e/TJ7DFYKieiv1xGAljJsFj
-	 KNdM3guD0TBs5LxYi9iL3llXOJVY7wDUyizpGSx2sSGYlAGQpTxPcJT7ZnjWoES55A
-	 YlEg8mZ22GnFQ==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51381021af1so9546528e87.0;
-        Tue, 09 Apr 2024 10:27:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV4YrIlbxcpcD0Cqj4P1qr3fD3Zr96Bw1tsxsn9qcj1xdfx30Ri6i44HHNkXM9XETGq9owZIpSd705nmBhpPNc1WVfmIa47msYn4HNvpvmYNfrkxGHJKXNaSDyAflgbEHoYX8nTaY8T5Vr7+b6JZEe7h3tj5HEyHZeWipO55NsGb7Uqq1Cr
-X-Gm-Message-State: AOJu0YwLZFUlp0T+ZO/p4mawkGTHJdfdz/g3UsYFgFBNG0LdENfRz0/b
-	9RNrYaCPx5RvAch1Kq4ELIDFb+062mDsnDg4SShMLvSLoHNTSs1OtJzfC6CUvqaRWelyqKX5mRW
-	PjAIbL3fRFzv7onp4eakz3+VqUw==
-X-Google-Smtp-Source: AGHT+IEHcM0JD7ZqWipo4LWrXKbnA82iD02tShlGX9cvVnQUGGgSKaw7D46ABppnjB6v8ynWM6ZkjO5amGWWIwt6rYg=
-X-Received: by 2002:ac2:4c35:0:b0:516:9fab:75de with SMTP id
- u21-20020ac24c35000000b005169fab75demr55819lfq.5.1712683624187; Tue, 09 Apr
- 2024 10:27:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="RG5Vq7xE"
+From: Dragan Simic <dsimic@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1712685400;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Mp691LpMMS/NnH46Pk6YFYILzDdopHOT6W8uUeHBmto=;
+	b=RG5Vq7xEw1eRHdUxPfxqe8n6w7RUti8z+zcVoqo/Ai3zJwrnrs8taBGBf7/xAHmwu9yAPs
+	pdyxXAgWmOcDYUBP+Eq5YVvkqe96rRR8lzMMw5bYPYUh2/VxB0ooC/3fybhIQvhXewogJR
+	SOV1o3GL6DwwoCZlW1Bfj7/MzXVNkhNEUDxssPBc3QI0xxPxkQWjUuI4axAJIX1vL9l/lx
+	5wvNwqs3UL7bP7bBXC4/jtRCusHn+PNZXTvNkjwdQwZPc7MH3Aw5CVhmD4JwZVYv5jM4jH
+	ZdqCk/PvvkHkpm0YjdJk+IcVPm7T/pD+BuiubkRBqAbjhgd7W0CNuuMyMD0qzQ==
+To: linux-sound@vger.kernel.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: pcm: perform power-down delay checks a bit faster
+Date: Tue,  9 Apr 2024 19:56:36 +0200
+Message-Id: <90ae761a5b99640ece48363a7099ac2cf402bd37.1712684592.git.dsimic@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322145406.2613256-1-Frank.Li@nxp.com>
-In-Reply-To: <20240322145406.2613256-1-Frank.Li@nxp.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 9 Apr 2024 12:26:52 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLJDhJd_uoL05Z=s3Mc7PRkcJWsQGGjdG0Q0GFp0zA8xw@mail.gmail.com>
-Message-ID: <CAL_JsqLJDhJd_uoL05Z=s3Mc7PRkcJWsQGGjdG0Q0GFp0zA8xw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] ASoC: dt-bindings: fsl-esai: Convert fsl,esai.txt
- to yaml
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, 
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	imx@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Fri, Mar 22, 2024 at 9:54=E2=80=AFAM Frank Li <Frank.Li@nxp.com> wrote:
->
-> Convert fsl,esai.txt to yaml. So DTB_CHECK tools can verify dts file abou=
-t
-> esai part.
->
-> clock-names 'spba' is optional according to description. So minItems of
-> clocks and clock-names is 3.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->
-> Notes:
->     Change from v1 to v2
->     - alphabetical order compatible string according to rob's suggestion
->     - clock description move under 'clock' according to kryszof's suggest=
-ion
->     - fix descritpion indent according to rob's suggestion
->
->     Pass dt_binding check
->      make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu- -j8  dt_binding=
-_check DT_SCHEMA_FILES=3Dfsl,esai.yaml
->       DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dt=
-s
->       LINT    Documentation/devicetree/bindings
->       CHKDT   Documentation/devicetree/bindings/processed-schema.json
->       SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->       DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dt=
-b
+When checking whether the power-down delay should be ignored for a specific
+PCM runtime, there's no need to keep going through all DAI link components
+after any of them is found to be configured to use the power-down delay.
 
-Did you run dtbs_check too? Probably not arm32 at least (first number
-is number of warnings):
+While there, fix a small typo in one of the comment blocks.
 
-    218  esai@2024000: clocks: [[2, 208], [2, 209], [2, 118], [2,
-208], [2, 156]] is too long
-    218  esai@2024000: clock-names:3: 'spba' was expected
-    218  esai@2024000: clock-names:2: 'fsys' was expected
-    218  esai@2024000: clock-names:1: 'extal' was expected
-    218  esai@2024000: clock-names: ['core', 'mem', 'extal', 'fsys',
-'spba'] is too long
+Signed-off-by: Dragan Simic <dsimic@manjaro.org>
+---
+ sound/soc/soc-pcm.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Conversions can leave warnings, but any you think should be fixed in
-the binding should be fixed in the conversion.
-
-Rob
+diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+index 77ee103b7cd1..b0e1bd7f588b 100644
+--- a/sound/soc/soc-pcm.c
++++ b/sound/soc/soc-pcm.c
+@@ -315,23 +315,24 @@ EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+  * @rtd: The ASoC PCM runtime that should be checked.
+  *
+  * This function checks whether the power down delay should be ignored for a
+- * specific PCM runtime. Returns true if the delay is 0, if it the DAI link has
++ * specific PCM runtime. Returns true if the delay is 0, if the DAI link has
+  * been configured to ignore the delay, or if none of the components benefits
+  * from having the delay.
+  */
+ bool snd_soc_runtime_ignore_pmdown_time(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct snd_soc_component *component;
+-	bool ignore = true;
+ 	int i;
+ 
+ 	if (!rtd->pmdown_time || rtd->dai_link->ignore_pmdown_time)
+ 		return true;
+ 
+ 	for_each_rtd_components(rtd, i, component)
+-		ignore &= !component->driver->use_pmdown_time;
++		if (component->driver->use_pmdown_time)
++			/* No need to go through all components */
++			return false;
+ 
+-	return ignore;
++	return true;
+ }
+ 
+ /**
