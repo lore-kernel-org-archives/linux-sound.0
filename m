@@ -1,100 +1,94 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE72157A42;
-	Tue,  9 Apr 2024 20:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A451B158A28;
+	Tue,  9 Apr 2024 23:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712695870; cv=none; b=AV3g9nTmBEoZ0USuVVysN9gHUHlpbu7KIYrqO2+rXwsratXoGBd8cZkZOAdJ2itXiokS5p5+HlKXMwJbpH53ZEiVPsDo/Un7meeHLxSrdZVw7RwrQJIFwosh0ck5ZqjX4mcCbDgju9r937LuyIJRWvYOHKq0nlyEHHVggOrWmWQ=
+	t=1712705646; cv=none; b=pKfzS/v62yohvzkOXLYpeOwlW6fgvuC6iUPtJAR6nb1vaincCENvJN49a+20kRKUsefs2maYgMLx7dZoiQYxsHQr3UACayLn1rU24gs3NGuR/SPxH5rIfdt6rdXjXAI7oym3UuVFCkaipJWbf5WkepWiNoBRMlpYO844yXx4vM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712695870; c=relaxed/simple;
-	bh=x9uTbMryrYRPeYaxZYL/4WdL+gBS4SrJV9Y1ktnDkeM=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=jR6RXY+LQlLNn/+4LMemRy2PmQGmfjF4q0FUtwB6ESMOEPmRgEMazQzO2VqSdJrNqukMlotlttpNJVRbiqHogV8YO65IamYiXNzm/S7UGqQo6CTyiOKi7KA3OWdzwYqdnY5vN6W1G2aasC9nV77edTZXt8VLuDTOx1rfzoUoAlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=UFHKvRUW; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1712705646; c=relaxed/simple;
+	bh=EHUY8OohkhvETd/zbs6k/hjYDaaHAvq8ARw7exxy4kM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=N9mpmdLnVfrl0c3WgEtCAgYFBr1J7IXp+DmoLMSxMCRq2+4sdoMNmol9opnqPKG8XEKbeRCe0mfZtJKKdRxRRNE2h2n8XLHmA5ILdn41XB9YYoFoLqetLGLEYaWwClZ24N2bRS8sBHYd0UjJ0QRi7s6JhgeiKaLaBAHdFqD0ogY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inKl7M5c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="UFHKvRUW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inKl7M5c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F9BC433C7;
+	Tue,  9 Apr 2024 23:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712705646;
+	bh=EHUY8OohkhvETd/zbs6k/hjYDaaHAvq8ARw7exxy4kM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=inKl7M5cC/hJXwHuKxuCIq+dO0q0yHjMdFH0yGnAN/XWT8eXHQNt6vbxbzfStqxMV
+	 0R01qb7pcoiVLwAoroGjjdK2yGi8JkQp0BpBI3ekqEZJ+Z6Nf6H44QxjU6HNF923bU
+	 izYYmenSfqW6b4S07q8lAHmd6t3+pVvI6TtNTXSR3qV9c0iuMupg0QgRCvsed4fvI4
+	 lNQfT5kkaok5oCFuVv3k0YgOkmJP9g+a7fLEzQlsZvlIeeZ6bylQD17sVC2p36iqBa
+	 JYmZ/vkRc4+808T0U4C+pFf+8t8njndsaxLK48CfNZQCM4yRgwO3VqIB6Q9aHvVMJH
+	 UsdRF6NZVAdxA==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20240408101803.43183-1-rf@opensource.cirrus.com>
+References: <20240408101803.43183-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/4] ASoC: cs35l56: Fixes to handling of ASP1 config
+ registers
+Message-Id: <171270564469.199334.16192675337091991799.b4-ty@kernel.org>
+Date: Wed, 10 Apr 2024 00:34:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1712695865;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W4vCLj0Ij2TkOJ/jGCoTYZdEj+p3YFGzHYBfUFoB3xI=;
-	b=UFHKvRUWJxaMo37hD9BdfQ1YuDYUiJ5kwlV0A6uIw4FYK1WugspdqPEZm4yzPlWdnWXhy8
-	ip5zmfp6NbNMBGt4VnPo4hLOYWTKpeRuzLiRPJhCbE8pPXvhPU1wfOl2+jFsB5HIMYTjfX
-	S0UBzMIYrx5KyH3T+6UOi1hBWVjz2eNIM873SRDVvGA1T4g1kROS5G6j1vnSPGTDgWUR7J
-	zxoJsaP63zW5dVsuz/W5T+S5RNC3iaW9dT4lBw0iO+ZKjlNtC54XXwBOiSldzc+sJnI1pk
-	jrR7mRfQA/hk74SPxl1ovibsw7XDboyk2C6FcJ0PdZoASTV8CJflw4uthuiRZw==
-Date: Tue, 09 Apr 2024 22:51:05 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: pcm: perform power-down delay checks a bit faster
-In-Reply-To: <171269542042.178415.9248384379060261944.b4-ty@kernel.org>
-References: <90ae761a5b99640ece48363a7099ac2cf402bd37.1712684592.git.dsimic@manjaro.org>
- <171269542042.178415.9248384379060261944.b4-ty@kernel.org>
-Message-ID: <772a45aeefeb0e63b85d9af17c971e2c@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+X-Mailer: b4 0.14-dev
 
-On 2024-04-09 22:43, Mark Brown wrote:
-> On Tue, 09 Apr 2024 19:56:36 +0200, Dragan Simic wrote:
->> When checking whether the power-down delay should be ignored for a 
->> specific
->> PCM runtime, there's no need to keep going through all DAI link 
->> components
->> after any of them is found to be configured to use the power-down 
->> delay.
->> 
->> While there, fix a small typo in one of the comment blocks.
->> 
->> 
->> [...]
+On Mon, 08 Apr 2024 11:17:59 +0100, Richard Fitzgerald wrote:
+> This chain fixes some problems with some previous patches for handling
+> the ASP1 config registers. The root of the problem is that the ownership
+> of these registers can be either with the firmware or the driver, and that
+> the chip has to be soft-reset after downloading the firmware.
 > 
-> Applied to
+> This chain adds and uses a regmap_read_bypassed() function so that the
+> driver can leave the regmap in cache-only until the chip has rebooted,
+> but still poll a register to detect when the chip has rebooted.
 > 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
-> for-next
-> 
-> Thanks!
-> 
-> [1/1] ASoC: pcm: perform power-down delay checks a bit faster
->       commit: f78bf2c933c9cb3b61215378664f83c5abd25374
+> [...]
 
-Great, thanks!
+Applied to
 
-> All being well this means that it will be integrated into the 
-> linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems 
-> and
-> send followup patches addressing any issues that are reported if 
-> needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/4] regmap: Add regmap_read_bypassed()
+      commit: 70ee853eec5693fefd8348a2b049d9cb83362e58
+[2/4] ALSA: hda: cs35l56: Exit cache-only after cs35l56_wait_for_firmware_boot()
+      commit: 73580ec607dfe125b140ed30c7c0a074db78c558
+[3/4] ASoC: cs35l56: Fix unintended bus access while resetting amp
+      commit: d4884fd48a44f3d7f0d4d7399b663b69c000233d
+[4/4] ASoC: cs35l56: Prevent overwriting firmware ASP config
+      commit: dfd2ffb373999630a14d7ff614440f1c2fcc704c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
