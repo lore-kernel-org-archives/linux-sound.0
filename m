@@ -1,44 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CB512E1F0
-	for <linux-sound@vger.kernel.org>; Tue,  9 Apr 2024 13:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068C512E1F2;
+	Tue,  9 Apr 2024 13:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712668077; cv=none; b=Ly1C07JLFmpErczwd8IImlz7Tsegl8iEEHPh1PVeOR57AsWBO0vMg8pjIwzLb1QbVkVuAYmUuBL4aMp0TOJBCcPJyNJKMLYKxFkgTILxnFmiOqT2d0HvmZYwXQRG+Ddo5S3uA2BY+3P1TuKZy//pu0qKYyCK8Oeu691O49ooYvM=
+	t=1712668082; cv=none; b=IGFDRJNnppaVvySswlnLJlRNGkK28bqHkelQ5+ONByavDVvBm50fnr5iZNk6vGuUiNSt8+doaKktCznlvDQez6M8PCeeTECO0gzkmMbnDMGsBq7RVNJZ1zX4zczgsyNVrkHjWyLZVd52BDyKBQntvU/5IO2F0wCfWUHBlXkUsPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712668077; c=relaxed/simple;
-	bh=bqwaqDPwZwF2/ArlMn7guYurYsRr70Krg4VvKA29s3Q=;
+	s=arc-20240116; t=1712668082; c=relaxed/simple;
+	bh=6UT6JdRmlSUWwWxh7sOA/sm5C8Rr31qoQNdkYTzvIrw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YkYbUnRC7hKW9cphFOQ6GV0f/QP5BIYCx/fLYyCREu4aiwQMrt4LGpL04pOT4b2VpnbLIPNphLpzSYYijJSCwSqbdTMelLhBKg7FlELHUvqZaziMSx1uixm/A38bSzrO+Bmc4iWoi2wIVFRJfky00ReqccYkHPPbhFJ65A2ZC6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRJW1/JE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=afji/0ICss3PyrTI6PQ+X1ad0zY1+FPoc2E4x5DV7qhN021ZM+IQNr8aJsZlWaYa/DaD5eejPmp5JdSRkE2MGDecyOLpLbJ63/+LmWrZMQtppVUCEtXFb78sgFOSegjtmzqTYUfNsMo9ktFFSn8eHD0CvL972jNQMPTjva249qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bx+QZYpi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRJW1/JE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEED4C43390;
-	Tue,  9 Apr 2024 13:07:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bx+QZYpi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD05BC433F1;
+	Tue,  9 Apr 2024 13:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712668077;
-	bh=bqwaqDPwZwF2/ArlMn7guYurYsRr70Krg4VvKA29s3Q=;
+	s=k20201202; t=1712668081;
+	bh=6UT6JdRmlSUWwWxh7sOA/sm5C8Rr31qoQNdkYTzvIrw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fRJW1/JET2KcykiHBgr7D75cc+0taxIalUKuY5B2dwbdcS8L7/izvDDh2dYPYeX9s
-	 0fHcpwVqLXf7a/XyB3WD8cIEIVqzUN6qiJb1eWRfmnwSGlanHG8uB0QqwsauxC0B41
-	 hXVkVNTcgwlTur7Kmq3NQGvqzg/zWK2rZjijD3v6pnVLto3CsqPC1yAXeG8XNPtma2
-	 +MfRNrQXjClifCCsYW3BHGjk/H7UsuJipp8Qocl5iXVu2BR2LzEcDxO/pc1AN8tLrp
-	 Uw3uxBWNAbPPrheBAXlrHxuTUFD0frtZOcte6FAtkgfKA1/U+gm+rql0BBO/KVrLhQ
-	 NzwEPTCWBCy4w==
+	b=Bx+QZYpiRMOXU7l9N991efCKp5nkeBbNXd8ijQiOJqbln0PQxAyKWoTs9PoERy8GS
+	 foyS9A9C2vtkiLcBycvGw672yJQ7VyRpPUtiGRIudYBo6CSmV8UqjpcbYCYdS8SdAi
+	 V3YWhkVe05zno8cUijUkt3Yye15l2+eG6RMmHmfGTnwLs9rTDzYJEii4YtJOx2o+QA
+	 Dv0N2hum8lfAXaaXU2HukBQltEE2zJGWoLn80+2Vip3VL0pALRJgWtKKyMpWIsC+I8
+	 ZsoxOdQ0l70D0QXjQipI1N4mQo6amL75z8T7hGE1g2oSgiR7hlO01KcEyREkt9H4+F
+	 rPGirVMDMturw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>, 
+To: Brent Lu <brent.lu@intel.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
  Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Hans de Goede <hdegoede@redhat.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240407191559.21596-1-hdegoede@redhat.com>
-References: <20240407191559.21596-1-hdegoede@redhat.com>
-Subject: Re: [PATCH] ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to
- Asus T100TAM too
-Message-Id: <171266807550.28088.15662614766655326891.b4-ty@kernel.org>
-Date: Tue, 09 Apr 2024 14:07:55 +0100
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Terry Cheong <htcheong@chromium.org>, Uday M Bhat <uday.m.bhat@intel.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Mac Chiang <mac.chiang@intel.com>, apoorv <apoorv@intel.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
+References: <6e16433f-1897-46a2-b3ee-e177e7d846b8@moroto.mountain>
+Subject: Re: [PATCH] ASoC: Intel: sof_rt5682: Fix uninitialized variable in
+ probe
+Message-Id: <171266807748.28088.3831139815604734848.b4-ty@kernel.org>
+Date: Tue, 09 Apr 2024 14:07:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,17 +57,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Sun, 07 Apr 2024 21:15:59 +0200, Hans de Goede wrote:
-> The Asus T100TA quirk has been using an exact match on a product-name of
-> "T100TA" but there are also T100TAM variants with a slightly higher
-> clocked CPU and a metal backside which need the same quirk.
+On Mon, 08 Apr 2024 10:35:59 +0300, Dan Carpenter wrote:
+> Initialize "is_legacy_cpu" to false to prevent an uninitialized variable
+> bug.
 > 
-> Sort the existing T100TA (stereo speakers) below the more specific
-> T100TAF (mono speaker) quirk and switch from exact matching to
-> substring matching so that the T100TA quirk will also match on
-> the T100TAM models.
 > 
-> [...]
 
 Applied to
 
@@ -67,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to Asus T100TAM too
-      commit: e50729d742ec364895f1c389c32315984a987aa5
+[1/1] ASoC: Intel: sof_rt5682: Fix uninitialized variable in probe
+      commit: 9cb83ed19b35e6c596b4e6644708ac4e011f32ab
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
