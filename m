@@ -1,213 +1,84 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A762012D772;
-	Tue,  9 Apr 2024 12:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A7F12E1F0;
+	Tue,  9 Apr 2024 13:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712665063; cv=none; b=lLCW1lotVgr7BAd7qtO3EDgkXd1WjKoAKtSNDo9wwkoyazisKAJOHDruQBcIVcb5QJWJAIOKmVUO68VP6arH4vYb5geInAg4/HoOElem4Mpxl6oAVj6fkrthnFXPsfQVO5OM5DeZ4EVr06KwlKE7nw0SjwV6UlVKlMWm9cseMU8=
+	t=1712668073; cv=none; b=t35JGuB4g17+QzGq0i4A4F+H+pa/j3DORaACAYBaPNm0ytzsxrxUHmpyzKKq9oVfIf7z1L2EtIOfnLb7yLw9/M4soBjS7yhl46LvFmfH6SrQ7Z3lFTo3jASlCSbMHNO4tZdG2gQyO0kLOGpkXIG2HkLBSE3V0dG/v8tarOqwjL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712665063; c=relaxed/simple;
-	bh=OJsRhoPc8vdarkRSJk7jY9fXve2LFn9ZQxpvvBIt4tI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uZQHU8VgIM6wRIb8LvUStYTX8S1RvRf41Lc22WpScHIqSgIP9e57pa4nfKLXw2UyZt3jMOqB4nAdWeU8y8w93MC7oXRz5vAbpJI0Nwa2geESTc2WdNbBp8CQGl06bO6vpsXlE8357XWp+iWqiTIZ/S+1JTbps6/Hcl0GPSEtT44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XKl9MmAi; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712668073; c=relaxed/simple;
+	bh=ouy2Y6x2V5/uoESyJnNA235PE5cU8gwdY/QEcC9jK9Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EE/X0h0p5ji8I2AzMRveXJmNfE0yJmrqn3Vvki3iop1wUPq2Yve4v0lWgBpxBqhz7rp34eJTKhOctiTcLshynXfMFStPL08h84Y/iDzT5F9oCIJCdVYROVTQoB2I+V/5s4f0ln9N8eG0y5O0QmVvNiZ7Pf8FJNqLut4Jc8KgM6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEUwV5u/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XKl9MmAi"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56e6acb39d4so2056019a12.1;
-        Tue, 09 Apr 2024 05:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712665059; x=1713269859; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BtF5y0EImJ4vW+W1H9mx+EhIAtOed3hLMOGBWnjGhFc=;
-        b=XKl9MmAiAlhWAy1jU3FCIQw4yMiXs9P7kMFp2UCcSvxjad73HyHHegukJHW/3SLVeQ
-         X0Z52FaTzcUupjvnIWwCpSbsY4rdlq8WMs3ePMGUbc0iV4LRhJu7CH8wFDOzKhsQM4+N
-         JhC3xc5xweUaAntkV5PDVeeItWzKJY2VSJuJ13qxzCOyObU03UIhSJraUHoMz8vUm4eV
-         mFKdVNH8+5gsuGVoQVJUMbuSG015/ojoMjgCUF49bVI3NnKbj2wc7aneRC5Sf693/mH4
-         zzFRoSYgNYs/BMig9f8pYyKI75//GSRjgNiYZwP1IACEqWZam8N3/yQ2QzrFjpO5dFOg
-         Cc0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712665059; x=1713269859;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BtF5y0EImJ4vW+W1H9mx+EhIAtOed3hLMOGBWnjGhFc=;
-        b=Hn5aq7FWmP4smvHiwMNuDzSp41VAJ+OUK7Cz5CEHeajf1gSzvNyfV3tRebTMh5n/b2
-         i+yj/PkkEze2as/10/E3Kg/QYmQmwoK9nhTgQCJV8iBrvUteQmSwbmW9xBYl3Qgt6Q3j
-         B10wca5FGwDBcbJJR363II8SAAeYUL9D18S5aC/3CyQsldpiI5yxx7H8XgSSK+u0AJjp
-         wXtjTn3bF4ljXL//urmXStPVRLuMqQVH/9u3A7LO98C98+LEpQEM0n5yCz6S3dUn7DXL
-         7hjfT7GnHeXYv+EmEQ+a5nDthOf2DscjobbDsYxQIkKqZBkv6BSJtU2baLjgX+2E1GMB
-         hT3A==
-X-Forwarded-Encrypted: i=1; AJvYcCX8DhPcJa0tSaj5NCXh6otaVmUlM3vwwurGQdrPF2xrHFrNrJa2z9Qd1+tm7QWEyrtBviYCLifCCv/2drOU5WyvE2RcSNg+j/ZJHXUY
-X-Gm-Message-State: AOJu0YxdR5ai1CEMTLsoQkXffjcNaMLbNzQt5iC6u2O5TF/JGqEvvKHC
-	IBz07KnFZppLbpF9dvnjatrj8+/NX/DpnaZzKuo+uwwZclocJC5GSy+2UYTpv98=
-X-Google-Smtp-Source: AGHT+IFQQpLWr9V3c9QgBn7s7I1wlCI5vVFOGVAIdAKDkaREqhSY71NorqFHAjUqkgOHY2yIRL/6vQ==
-X-Received: by 2002:a17:907:84b:b0:a51:df52:5a65 with SMTP id ww11-20020a170907084b00b00a51df525a65mr3379949ejb.2.1712665059324;
-        Tue, 09 Apr 2024 05:17:39 -0700 (PDT)
-Received: from andrejs-nb.int.toradex.com (77-59-154-235.dclient.hispeed.ch. [77.59.154.235])
-        by smtp.gmail.com with ESMTPSA id en1-20020a17090728c100b00a51adace6ebsm5030412ejc.79.2024.04.09.05.17.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 05:17:38 -0700 (PDT)
-From: Andrejs Cainikovs <andrejs.cainikovs@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
-Subject: [PATCH v1 2/2] ASoC: nau8822: add MCLK support
-Date: Tue,  9 Apr 2024 14:17:19 +0200
-Message-Id: <20240409121719.337709-3-andrejs.cainikovs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240409121719.337709-1-andrejs.cainikovs@gmail.com>
-References: <20240409121719.337709-1-andrejs.cainikovs@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEUwV5u/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E36BC433F1;
+	Tue,  9 Apr 2024 13:07:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712668073;
+	bh=ouy2Y6x2V5/uoESyJnNA235PE5cU8gwdY/QEcC9jK9Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jEUwV5u/RKtUi7ai+UUBmn1fKwYn+9jGR2SXBlyansUuEsQgR8HXXtm31IPJtost4
+	 QfA5GafyjBNcPOXqu+NrYi77jpsDrC+ZuPMcgFZjTNJ+6ARc7lsuGc+VDs3KHokycl
+	 sjHX+BV6Xn0IZ6E58P/whNgejKdwbqyK/FHtL0JhYcEYQJ/ZPhUYN/Mag1ER44pINz
+	 iYhCsEWtBBeCdWMpB+Ps65LDRILWcvdXg+bv4ZuENQJ92eGqXeL8GqUGSixfQTnUGJ
+	 oERhOfzi6CyWML3nUoZ3EoWjnwuaFCYcfFNquEqpZiDWcaCVocaTD01T/liOD92UYh
+	 ejo3unZrpJgIg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
+ Sameer Pujar <spujar@nvidia.com>
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ lgirdwood@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com, 
+ mkumard@nvidia.com, stable@vger.kernel.org
+In-Reply-To: <20240405104306.551036-1-spujar@nvidia.com>
+References: <20240405104306.551036-1-spujar@nvidia.com>
+Subject: Re: [RESEND PATCH v2] ASoC: tegra: Fix DSPK 16-bit playback
+Message-Id: <171266807089.28088.2212378797581391571.b4-ty@kernel.org>
+Date: Tue, 09 Apr 2024 14:07:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-From: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
+On Fri, 05 Apr 2024 10:43:06 +0000, Sameer Pujar wrote:
+> DSPK configuration is wrong for 16-bit playback and this happens because
+> the client config is always fixed at 24-bit in hw_params(). Fix this by
+> updating the client config to 16-bit for the respective playback.
+> 
+> 
 
-This change adds MCLK clock handling directly within driver.
-When used in combination with simple-audio-card, and mclk-fs is set,
-simple-audio-card will change MCLK frequency before configuring PLL.
-In some cases, however, MCLK reference clock should be static (see [1]),
-which means it needs to be moved away from simple-audio-card.
+Applied to
 
-[1]: https://lore.kernel.org/all/ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
----
- sound/soc/codecs/nau8822.c | 43 ++++++++++++++++++++++++++++++++++----
- sound/soc/codecs/nau8822.h |  1 +
- 2 files changed, 40 insertions(+), 4 deletions(-)
+Thanks!
 
-diff --git a/sound/soc/codecs/nau8822.c b/sound/soc/codecs/nau8822.c
-index 1046801a41ef..01db182434a4 100644
---- a/sound/soc/codecs/nau8822.c
-+++ b/sound/soc/codecs/nau8822.c
-@@ -14,6 +14,7 @@
- #include <linux/moduleparam.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-+#include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
-@@ -773,11 +774,26 @@ static int nau8822_set_dai_sysclk(struct snd_soc_dai *dai, int clk_id,
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
-+	unsigned long mclk_freq;
- 
- 	nau8822->div_id = clk_id;
- 	nau8822->sysclk = freq;
-+
-+	if (nau8822->mclk) {
-+		mclk_freq = clk_get_rate(nau8822->mclk);
-+		if (mclk_freq != freq) {
-+			int ret = nau8822_set_pll(dai, NAU8822_CLK_MCLK,
-+				NAU8822_CLK_MCLK, mclk_freq, freq);
-+			if (ret) {
-+				dev_err(component->dev, "Failed to set PLL\n");
-+				return ret;
-+			}
-+			nau8822->div_id = NAU8822_CLK_PLL;
-+		}
-+	}
-+
- 	dev_dbg(component->dev, "master sysclk %dHz, source %s\n", freq,
--		clk_id == NAU8822_CLK_PLL ? "PLL" : "MCLK");
-+		nau8822->div_id == NAU8822_CLK_PLL ? "PLL" : "MCLK");
- 
- 	return 0;
- }
-@@ -848,7 +864,7 @@ static int nau8822_hw_params(struct snd_pcm_substream *substream,
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
--	int val_len = 0, val_rate = 0;
-+	int div = 0, val_len = 0, val_rate = 0;
- 	unsigned int ctrl_val, bclk_fs, bclk_div;
- 
- 	/* make BCLK and LRC divide configuration if the codec as master. */
-@@ -915,8 +931,10 @@ static int nau8822_hw_params(struct snd_pcm_substream *substream,
- 	/* If the master clock is from MCLK, provide the runtime FS for driver
- 	 * to get the master clock prescaler configuration.
- 	 */
--	if (nau8822->div_id == NAU8822_CLK_MCLK)
--		nau8822_config_clkdiv(dai, 0, params_rate(params));
-+	if (nau8822->div_id != NAU8822_CLK_MCLK)
-+		div = nau8822->pll.mclk_scaler;
-+
-+	nau8822_config_clkdiv(dai, div, params_rate(params));
- 
- 	return 0;
- }
-@@ -940,12 +958,23 @@ static int nau8822_mute(struct snd_soc_dai *dai, int mute, int direction)
- static int nau8822_set_bias_level(struct snd_soc_component *component,
- 				 enum snd_soc_bias_level level)
- {
-+	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
-+
- 	switch (level) {
- 	case SND_SOC_BIAS_ON:
- 	case SND_SOC_BIAS_PREPARE:
- 		snd_soc_component_update_bits(component,
- 			NAU8822_REG_POWER_MANAGEMENT_1,
- 			NAU8822_REFIMP_MASK, NAU8822_REFIMP_80K);
-+		if (nau8822->mclk) {
-+			int ret = clk_prepare_enable(nau8822->mclk);
-+
-+			if (ret) {
-+				dev_err(component->dev,
-+					"Failed to enable MCLK: %d\n", ret);
-+				return ret;
-+			}
-+		}
- 		break;
- 
- 	case SND_SOC_BIAS_STANDBY:
-@@ -973,6 +1002,7 @@ static int nau8822_set_bias_level(struct snd_soc_component *component,
- 			NAU8822_REG_POWER_MANAGEMENT_2, 0);
- 		snd_soc_component_write(component,
- 			NAU8822_REG_POWER_MANAGEMENT_3, 0);
-+		clk_disable_unprepare(nau8822->mclk);
- 		break;
- 	}
- 
-@@ -1125,6 +1155,11 @@ static int nau8822_i2c_probe(struct i2c_client *i2c)
- 	}
- 	i2c_set_clientdata(i2c, nau8822);
- 
-+	nau8822->mclk = devm_clk_get_optional(&i2c->dev, "mclk");
-+	if (IS_ERR(nau8822->mclk))
-+		return dev_err_probe(&i2c->dev, PTR_ERR(nau8822->mclk),
-+			"Error getting mclk\n");
-+
- 	nau8822->regmap = devm_regmap_init_i2c(i2c, &nau8822_regmap_config);
- 	if (IS_ERR(nau8822->regmap)) {
- 		ret = PTR_ERR(nau8822->regmap);
-diff --git a/sound/soc/codecs/nau8822.h b/sound/soc/codecs/nau8822.h
-index 6ecd46e45923..13fe0a091e9e 100644
---- a/sound/soc/codecs/nau8822.h
-+++ b/sound/soc/codecs/nau8822.h
-@@ -215,6 +215,7 @@ struct nau8822_pll {
- struct nau8822 {
- 	struct device *dev;
- 	struct regmap *regmap;
-+	struct clk *mclk;
- 	struct nau8822_pll pll;
- 	int sysclk;
- 	int div_id;
--- 
-2.34.1
+[1/1] ASoC: tegra: Fix DSPK 16-bit playback
+      commit: 2e93a29b48a017c777d4fcbfcc51aba4e6a90d38
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
