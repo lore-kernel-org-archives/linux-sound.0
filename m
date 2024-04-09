@@ -1,141 +1,120 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DC679CC;
-	Tue,  9 Apr 2024 06:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37587BB11;
+	Tue,  9 Apr 2024 07:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712645553; cv=none; b=GK3rosStEUp9BXUF74vLtfzBBlMwFQSnMrKvv9ALJ5QNgDQjbI9H253SBJQ1H4HwalLmAt/5siZKAl5LdFQdwUwglPzFFaB3OCNYknC16j8OFOVhX5stWYXSW532Q16eMhfLCwoSeXuuNtal5dqTsnmx0V2AvR4NDQsybcd0JVU=
+	t=1712648558; cv=none; b=Su1ybohCiw1etMMHz8iM0XpZ7CA2ZuUGR3StYfcxus1B+Ux7BjLUH8D6l8DiEPvZG56DoK0yDDf9EcbT2qt+lq3wvHFpn5rUBY3OQvLRJwhP+y/HasdpkzNOBWNVTqUw8hoSz4MP14Ie66gVhSz8LAnFcie/rAUgx1PgQN7ryok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712645553; c=relaxed/simple;
-	bh=xoULbzlytF5RGrLomSCcvTJXxEPOJ61JtuUKMiYDaX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vls1WuvJ6kpTx3+bm4gPRFwbY2PZCzNEKzPgaZkBhiY6YUGExqxeLm/Mx67eJdtuVXT8ruShTKlIfLO8xm+MvMM5y1sLc6wLjYlQi8C1Kw9ui0+TCoEh1KNHtyAw1sIOoju3Uq4gCAu5lGHGDVJIFH/dnr1Om+LO7thJAvpkG5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aojo4/BD; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712648558; c=relaxed/simple;
+	bh=wWWDqi7kssbzxmlTz22Wcp6yLPhzsSk+wfMK0IOEF7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UGK/jpJscxYxk45yegAij+PkuvozTV8zngZ/yC71i7GqJMBfv/9502+nKNSAQygxr62YtajQtABeCdvf7i2+667HzIgnK1b6NcgcyiRrs91zDdwEGU14M6lt9PxovqqcDvnzyJUftOlTFybiC7hQMxr9Jv5tOzd/gl9B0TIMX4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m9Q7JlBV; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aojo4/BD"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-36a2fcb4075so2209655ab.2;
-        Mon, 08 Apr 2024 23:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712645551; x=1713250351; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b352HOzGF/NbEGXGXSDOWNzIVRBqY7hL8lL0mia73U8=;
-        b=aojo4/BDZvxmy9ZRpJ2jFkxMnncBYVcIO7EeaASKa35NqhK7o9HGxyXMUeM9eXeUCu
-         YNIH0gCcuaAOWa40Ar7NkJzXnTtR7dIOyLp4zAP4goptQ0I+wJ/JXJZkvqzezCYwwOL1
-         ZkOAh12YgTLrGeWoo6sh6uvcb16bY7pD22Jew7a3+39ZytK/ssuy3Nw80VuKtFyKNNLH
-         LVdFlZDV9EiOtUStmBJScZGimhf368S/WcQbmOqKEBImjuRD1X96hZpHlUVytdZcEZfF
-         zC9T9NK6H3MBHCbDKDQGAfwYYeUBwrgheMB+nv7LEQX3vFb34b6a2yjA/O8Q4qRaXQH6
-         n5LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712645551; x=1713250351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b352HOzGF/NbEGXGXSDOWNzIVRBqY7hL8lL0mia73U8=;
-        b=KA9bxIpjZ8M+Ajcig/bLouN40nyms1YL0yYpN2yIDkb3BWiVG6psuzrfMEyCwI5Loc
-         s+FxIDAbQQHNKOBaC7ijiKtS6T50PlOFC7sY3o3L/7Q+ISP2NZlAsutG/DmG0hxZ4ZIP
-         DvP8KEyfOUVwhTnjazdvil116ApVEqZkDl9y3EUM2LjBi5AiGZm2igd4njot6W6qVL7d
-         3tHXssMMn4FCizNMvq9QHp/Bupjofzzu0x6lGdpgi9ZHFrm5qxz9XwB8VdjtKLQwGufS
-         60yYw7nxb+xSAAhxZ5CZI1J93FTfo5MyzTihJl2VMTKHvwjY+BeDarmyglcYaxMhq6WA
-         x8JQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7APQwVpFyptlfoV2l1Vk0kPac8VqrPRartncrn/GafZyW2WAuSA+4r23wNXYOpOnCBvUrinXTQUnxi+7bjXxfcXYh4aLgE3TInGNPqWhRMWkGwTxlqTYwTIQv3Jet7WRZDq5XGzD7RClBP9sMPmGnpwAdHXagmoOpzOqeGzPYaVWXuGai
-X-Gm-Message-State: AOJu0YwnhIn0T4HSKBnDyZfINBxEjkCg2nGeSfLTZVrmbcLkVSzAwT8c
-	mT8c+f7pAlAp2XMmuqB6oqA7vxfsuSrxDVMk/aZt8EGqcbhhloF+6vrSRk0A3cvJbimp3Rhxz56
-	rJJgr+anmWQwl5ao7+SxMQuEMtpE=
-X-Google-Smtp-Source: AGHT+IHMPxlU5dxKgUHu5K8XuZe+qftwM2k80rxd63c4T1s7URnjvCONzf8sqUJd4pD7fgxGFHmmOvmrnrNpio20lb8=
-X-Received: by 2002:a05:6e02:13a8:b0:36a:2351:60a with SMTP id
- h8-20020a056e0213a800b0036a2351060amr6153201ilo.25.1712645550968; Mon, 08 Apr
- 2024 23:52:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m9Q7JlBV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712648554;
+	bh=wWWDqi7kssbzxmlTz22Wcp6yLPhzsSk+wfMK0IOEF7E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=m9Q7JlBVy54nlghxML/6BzlBi3raVoxAFHWjN2noJmfj35j7mWVTwia/5YsAKP1Z1
+	 hJ9emT5k3cSIRRpKFe9jk1GD8DErPOqsDWdhs7lPoKSwlNmVRQccyV9J6oO1KaLXEF
+	 F6PZIDmBm+eQCPBN91gRocBv+BWkYL5pAFl8ZPEpxVvbOwxQNEJH1HYK5gQjYK1qVY
+	 /qmtak97nDUMhHtz8q0Y+UxI7zX+NR6J7S463vy1OHT+sT0rdN4YlJUbfBc4IH3h5s
+	 vbuld1lxrjglZ9opGQP7rbVBBZwnLPop+KVCHyox21xxNFFoSd+0kOrh5a4Hh4W4ME
+	 bRKHX2tayIPkg==
+Received: from [100.115.223.179] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0C48B37820CD;
+	Tue,  9 Apr 2024 07:42:33 +0000 (UTC)
+Message-ID: <9012f8d5-302a-4840-815a-22b1e85fda5c@collabora.com>
+Date: Tue, 9 Apr 2024 10:42:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1712561233-27250-1-git-send-email-shengjiu.wang@nxp.com>
- <01734d96-bed2-4f7e-bbba-7068f14c822b@linaro.org> <CAA+D8ANiKH7Oc+KAjD_BMp9P2EVeM8Q6dLGFCC8a83bJXUpPEA@mail.gmail.com>
- <69ab2bd9-401a-42ff-90fa-6600dd071722@linaro.org> <CAA+D8AOP6D+xUNF_XJXt-8dMi2qFyVh-Sbe8k67CzvUbnzrwoQ@mail.gmail.com>
- <51e482b3-ffbf-46f9-972d-875d106c2474@linaro.org>
-In-Reply-To: <51e482b3-ffbf-46f9-972d-875d106c2474@linaro.org>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 9 Apr 2024 14:52:19 +0800
-Message-ID: <CAA+D8AOTtCvsaU4efkEq-7LwSACzuP9qf+e5KeV4OGFgU7OdBQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: Steam Deck OLED 6.8.2 nau8821-max fails
+To: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Arun Gopal Kondaveeti <arungopal.kondaveeti@amd.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Daniel <dmanlfc@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Sound System <linux-sound@vger.kernel.org>
+References: <ZhFJZoful6nEFskW@archie.me>
+ <4d231dc4-0183-47e1-8bfa-3dd225bf8ea3@leemhuis.info>
+ <904ffa11-592a-4336-aed2-d6370bb01896@collabora.com>
+ <b99e51de-3622-4360-b69d-0fd911ea2a7d@leemhuis.info>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <b99e51de-3622-4360-b69d-0fd911ea2a7d@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 9, 2024 at 2:30=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 09/04/2024 03:37, Shengjiu Wang wrote:
-> > On Mon, Apr 8, 2024 at 11:06=E2=80=AFPM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> >>
-> >> On 08/04/2024 10:01, Shengjiu Wang wrote:
-> >>>>> +
-> >>>>> +anyOf:
-> >>>>> +  - required:
-> >>>>> +      - spdif-in
-> >>>>> +  - required:
-> >>>>> +      - spdif-out
-> >>>>> +  - required:
-> >>>>> +      - spdif-out
-> >>>>> +      - spdif-in
-> >>>>
-> >>>> Do you need the last required block?
-> >>>
-> >>> Yes,  one of them or both are required.
-> >>
-> >> And? It's already there: that's the meaning of any. It is not oneOf...
-> >> Before answering please test your changes and ideas. I pointed issue
-> >> here and you responded just to close my comment. That does not make me
-> >> happy, just wastes my time.
-> >
-> > Maybe I didn't express clearly.
-> >
-> > we need at least one of them (spdif-in, spdif-out) in the node.  which =
-means
-> > that we need to select  "spdif-in",  or "spdif-out",  or "spdif-in and
-> > spdif-out".
-> >
-> > So my understanding is that need to use "anyOf", if it is wrong, please=
- let
-> > me know.
->
-> Third time: it is wrong.
->
-> Can you test the code instead continuing this discussion
+On 4/9/24 7:44 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 09.04.24 01:44, Cristian Ciocaltea wrote:
+>> On 4/7/24 10:47 AM, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> On 06.04.24 15:08, Bagas Sanjaya wrote:
+>>>>
+>>>> On Bugzilla, Daniel <dmanlfc@gmail.com> reported topology regression
+>>>> on Steam Deck OLED [1]. He wrote:
+>>
+>>>>> I'm adding this here, I hope it's the correct place.
+>>>>>
+>>>>> Currently the Steam Deck OLED fails with Kernel 6.8.2 when trying to initialise the topology for the device.
+>>>>> I'm using the `sof-vangogh-nau8821-max.tplg` file from the Steam Deck OLED and associated firmware.
+>>>>
+>>>> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218677
+>>>
+>>> A quick search made me find these posts/threads that foreshadow the problem:
+>>>
+>>> https://lore.kernel.org/lkml/20231219030728.2431640-1-cristian.ciocaltea@collabora.com/
+>>> https://lore.kernel.org/all/a3357e1f-f354-4d4b-9751-6b2182dceea6@amd.com/
+>>>
+>>> From a quick look at the second discussion it seems a bit like we are
+>>> screwed, as iiutc topology files are out in the wild for one or the
+>>> other approach. So we might have to bite a bullet there and accept the
+>>> regression -- but I might easily be totally mistaken here. Would be good
+>>> in one of the experts (Venkata Prasad Potturu maybe?) could quickly
+>>> explain what's up here.
+>>
+>> The problem here is that Steam Deck OLED provides a topology file which
+>> uses an incorrect DAI link ID for BT codec. 
+>>
+>> Patch [1] moves BT_BE_ID to position 2 in the enum, as expected by the
+>> topology, but this is not a change that can be accepted upstream as it
+>> would break other devices which rely on BT_BE_ID set to 3.  
+>>
+>> The proper solution would be to update the topology file on Steam Deck,
+>> but this is probably not straightforward to be accomplished as it would
+>> break the compatibility with the currently released (downstream)
+>> kernels.
+>>
+>> Hopefully, this sheds some more light on the matter.
+>>
+>> [1]: https://lore.kernel.org/all/20231209205351.880797-11-cristian.ciocaltea@collabora.com/
+> 
+> Many thx, yes, this sheds some light on the matter. But there is one
+> remaining question: can we make both camps happy somehow? E.g. something
+> along the lines of "first detect if the topology file has BT_BE_ID in
+> position 2 or 3 and then act accordingly?
 
-Every time I change I definitely do dtbs_check test.
-But There is no error reported by dtbs_check.
+Right, I have this on my TODOs list but haven't managed to dig into it
+yet. However, that would be most likely just another hack to be carried
+on until the transition to a fixed topology is completed.
 
-But finally I understand that
-anyOf:
-  - required:
-      - spdif-in
-  - required:
-      - spdif-out
-  - required:
-      - spdif-out
-      - spdif-in
-
-is equal to:
-anyOf:
-  - required:
-      - spdif-in
-  - required:
-      - spdif-out
-
-best regards
-Shengjiu Wang
+Regards,
+Cristian
