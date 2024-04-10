@@ -1,59 +1,50 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E88315EFAD
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 14:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100CD16F286;
+	Wed, 10 Apr 2024 14:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712759232; cv=none; b=Yoc/PCzBnTQs1NlhXft5O6M8IH+2yKfRoSq+81ypFUZZtbLvbfQ8QxjQ25YMYmbVdFFIpS/LFMVKXHhA0Y0rREAj+hhzToSD6N9MwdLZdkkU4pKOvIq3LK9lM86JiWFvtY0kfhbG88tTRwc3RJ44+U0WnBYdpjn64VJLkc7UgKI=
+	t=1712760256; cv=none; b=RK/Y0nrt8ps4ufdwpFJR7jOMs/Y7BEy+GNHw0amCKb8Pn6pNLKwm1hsJ/26b4SQkKVavEO8S3wLfQwLtHAgUqICZVzhxKJFydWaA4dNY/HCjp3oa87FtQotkI74XEDfZJWz7K1KxQoIKtYh1UpB9vBvxGO881zd1Ta+csB9XRxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712759232; c=relaxed/simple;
-	bh=ZQv+Cv6FtAbS0T/V0OLwICdE4U3tkVtKCw2XykvAM6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mz5MIRVPwf83eGzbChBmVHBgUMLZv1aqodn2Hn1SUPuMCrhKnUWNegf2gJ+nTAamblaU7BynzuYf78bzHPAKOGZL/Va6zwrOSHkDBnAWexELYix0i0oeK5Tpjlytgny4Y96pHyuBeG1QSzt7JHPAxHDvQ5fB6LvlTCrUa5K6ih8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=R6qshOfs; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1712760256; c=relaxed/simple;
+	bh=cSE/nADZUnwpjgd127H/SRAZZwR+/T1NTDUTegptNHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UY6uyK1UlkEEQuk77tosYSEJdzGJanZUxPMqo3GSQYSHCX1oddq9hsEXtgJGu/XFJvlGY5uETVQBWuj7z8LZCZ7QlLt1PRPoJ+pe+DwKoh3w2rMjUdktsqpQU6YB/2vb1KQvcf1i8tURkJG2PnuFvsWZ+lwsD/oU8p5yookJfbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=T3vtKfSK; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="R6qshOfs"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4165caf9b2dso36770185e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 07:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712759228; x=1713364028; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zFeYAr3tgWzelp4Qc502/jt9QrT83vOai+OT7e3SF3I=;
-        b=R6qshOfsJU7pmFY80xi8VFZwgh/Ivl7dRFAXLdXeoH97GbYFfhEgCAIOBN2XC+njzD
-         H4/BFFZ/Lx/Xk4eaN50r+4MMGwYoLdzG3QuLjHRuRN4d6gRU/PeCgjc/d/U6LmWpMXq5
-         UrZFHINvFfGnjNdCRi2JcyTyQiqjkZ8OSjgTG/DHdOttEGhhxR1AZY49IC1Mz6w4etow
-         1mCdzlfHhT6p7lBDO2+DPZuAFfbItc6mNGnitd252x39LR5HMCqmRwFscdfhlNe9LfFl
-         8D+jxh8S3L+Z4ZGX78QPU5Ijl5/Wgk0UjGmBcms4NkuN9kKTjYDsFyE8yAcaEzhaBt4X
-         r1eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712759228; x=1713364028;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zFeYAr3tgWzelp4Qc502/jt9QrT83vOai+OT7e3SF3I=;
-        b=GoEhekT5z7FX/9CzHxcTY4i+oLtjL3MgcVcbTK4UWbHlztLOkgtZ3JA4GiKQQyMcqX
-         cYHYuYusbmzQ2hD495zKu+kZfdkmy+AZw89mKI6rFfa++9QevizuH2IC7Ncse89C2d/i
-         ozpgDAN/K2t3vaBlY7lu5OrvZDHcQBdDjaLdAbWFuLnWq1EsK3WNrxQmY+iYLIwZgtCv
-         JJI1KMIuEzbQmfuq7T4UKgkFt54KYfCtdHq+O2Ugl7zd87iSAGPT8YktTlhjtHMDTB0M
-         abkpLip0qhAeZhW6mH9Y6Nvw+GAD9ITNOmwZbueRX/Csgan0lyasnC/56p9Lkf+UhvzL
-         tCmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBWYEHKcxSvmNT2BQJtBbTw69DLsKR+xtGntIO4QHXZSf6uVEl1TVTeJ7tj/dCaHmJGyPRIRX3zkgOp1+3Ss0AAZ7GnqQ20UrYrgc=
-X-Gm-Message-State: AOJu0YwlQX1SSVfOSxmdQc4IIniZBNTAQPm5AfTBviSwZwJXDcuxaGCh
-	Cjl6Irz5iOEWEqOLWywkbPJgN94PgGvXswasJ4AIYR2PhG0aXrME3LQqqBkM1Yg=
-X-Google-Smtp-Source: AGHT+IGSvVBdvyjiYeq1pMtO732y4Er6q/giXpAXAVvEFvGgI0ZjYjMZMlOGyJUSQFXanGM+QGMBOw==
-X-Received: by 2002:a05:6000:188a:b0:344:4bcc:ed28 with SMTP id a10-20020a056000188a00b003444bcced28mr3345746wri.32.1712759228609;
-        Wed, 10 Apr 2024 07:27:08 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id b17-20020a5d40d1000000b00343cad2a4d3sm13846851wrq.18.2024.04.10.07.27.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 07:27:08 -0700 (PDT)
-Message-ID: <d334ddc4-3c8e-49d7-8940-30f78bff823f@baylibre.com>
-Date: Wed, 10 Apr 2024 16:27:06 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="T3vtKfSK"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43A8gTd4014181;
+	Wed, 10 Apr 2024 09:43:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=2paSzqGxF3zDhh/x1qVgOOBa//AyVxnNV03nVR4Q7aE=; b=
+	T3vtKfSK3RVK1uyZ2qyCrH4y0aHhPijsPf6tXnvxrgMn5d7pU3vGJGqD6K4YkQOd
+	GNhi8ivVyCLrdHBnByKsnYlGoymcxpx2fxZLEk0XOT3PHjc+XF74qN4s6q+ElHxH
+	phI4j3Sa0C6/XBLZtF8KgwhCIHypr2zXJr60cVFC/rrl/wxC1Y9Mxe4R5NdNbptP
+	ZMWtKBC9oOAFBc0QVL/gpObdkLPBxW3509k2Eyc8n9/H54lhSlQnEp9Jmg/l6hu+
+	aebi/V/TDJL5UQNM8HqRJxKrgbduO7GGLiU1+kFhzAKRRzXsYTm/fRCpecpHW89s
+	WLH74vTJZocateKcrs88qg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xb2tjncy6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Apr 2024 09:43:47 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Apr
+ 2024 15:43:45 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 10 Apr 2024 15:43:45 +0100
+Received: from [198.61.64.213] (EDIN4L06LR3.ad.cirrus.com [198.61.64.213])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3B64782024A;
+	Wed, 10 Apr 2024 14:43:45 +0000 (UTC)
+Message-ID: <c8e9a7a0-6fcf-4bbe-a659-b2360f5980d8@opensource.cirrus.com>
+Date: Wed, 10 Apr 2024 15:43:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,44 +52,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/18] ASoC: mediatek: Add common snd_soc_ops
- .startup() callback
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- broonie@kernel.org
-Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
- trevor.wu@mediatek.com, maso.huang@mediatek.com,
- xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
- kuninori.morimoto.gx@renesas.com, shraash@google.com,
- nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
- dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
- eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
- jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
- ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
- nfraprado@collabora.com, alsa-devel@alsa-project.org,
- shane.chien@mediatek.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com
-References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-8-angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2] ASoC: soc-card: soc-card-test: Fix some error handling
+ in probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+References: <2db68591-64e2-4f43-a5e1-cb8849f0a296@moroto.mountain>
 Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20240409113310.303261-8-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <2db68591-64e2-4f43-a5e1-cb8849f0a296@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: dyBpEva414NQpTFU_ccy3iM0CX0Bee2e
+X-Proofpoint-GUID: dyBpEva414NQpTFU_ccy3iM0CX0Bee2e
+X-Proofpoint-Spam-Reason: safe
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+On 10/4/24 15:22, Dan Carpenter wrote:
+> Fix this reversed if statement and call put_device() before returning
+> the error code.
+> 
+> Fixes: ef7784e41db7 ("ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> v2: call put_device()
+> 
+>   sound/soc/soc-card-test.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/soc-card-test.c b/sound/soc/soc-card-test.c
+> index 075c52fe82e5..faf9a3d46884 100644
+> --- a/sound/soc/soc-card-test.c
+> +++ b/sound/soc/soc-card-test.c
+> @@ -148,8 +148,10 @@ static int soc_card_test_case_init(struct kunit *test)
+>   	priv->card->owner = THIS_MODULE;
+>   
+>   	ret = snd_soc_register_card(priv->card);
+> -	if (!ret)
+> +	if (ret) {
+> +		put_device(priv->card_dev);
+>   		return ret;
+> +	}
+>   
+>   	return 0;
+>   }
 
-On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
-> MediaTek platforms are typically setting PCM rate and channels
-> constraints for playback, capture and HDMI/DisplayPort playback:
-> commonize the startup callback by adding the PCM constraints data
-> to the mtk_platform_card_data structure and by reusing the common
-> mtk_soundcard_startup() function for all of them by getting back
-> the parameters from the aforementioned struct.
+Thanks.
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
--- 
-Regards,
-Alexandre
+I can see that put_device() is also missing earlier in the
+function:
+
+	if (!priv->card)
+		return -ENOMEM;
+
+I can send a fix for that.
