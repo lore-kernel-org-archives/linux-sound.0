@@ -1,59 +1,59 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A43A17555D
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 13:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6500F17965E
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 14:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712757601; cv=none; b=qt1Tw6gQKjXYdw3J10+lVPcqQ0NdNZQt3biRcrfO+fyFwZxOmG7OTWJOkxTXbZfxzrVl5rC+fEb/Jbt9nn+XXS+MeoGO4bgAB4410G2OSsP9pOTkh+mGHRRHiyQsrv11iCBik43J21yQ2gR0DK3GYctOBnqg2zyg7XUsxhwpYA0=
+	t=1712757740; cv=none; b=JSrrQoKKRw3Y6fZg10A46nfkhtmFfE8Gzb0zcEpP5YS5TtsgEZch+z+ZT9ekFhaxQ6hN1VTXtHP/kPm/DFnDtTSOgHWCIMiv2AbuIfgDVfhNf9e2WfwIXPoFe+90reKeFh32NKFfIZsIPtuzTgFE1c/T3VJSa6C115sgZzvpICQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712757601; c=relaxed/simple;
-	bh=9VfcLjEoMTpi7xm+VUn6B0UvA2/X0m8cCVXK0p51Jw4=;
+	s=arc-20240116; t=1712757740; c=relaxed/simple;
+	bh=rJB6/4cV26EW5syN+P1RUCaw8vdLd265D4NK23+6Ks8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o1RG2or8c+n1TMkxH+VtKBp756nZv+OEOZf2ZZMOhWLm+ctoXXlhWxCYWhF1P+4fL9EFD13fGZYl8FElvWxX9gf8leSKdT/xcOsea5KKPeygdHylt4AXWysbut4AhKXZ277UFN/NudeA9arkyoesGYVW8bV5pXC64zsNpB5ZrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=DPm3wpYw; arc=none smtp.client-ip=209.85.221.46
+	 In-Reply-To:Content-Type; b=Uf8dyeQS4f/IU4GdkzE9LYrhfZNUXZjrrqTEOtHaeh/VPpcOtYeZXQSdCqDJUdNk6oWy0PG2BiXv2U9jOMq2vfxsQ/H/IU0q5pmYBcOlagL7pJHLzU4ArCOT9AiRbCGE/tq1ikRTehRdy8tnRHK7w6SRSi18Flb5pnaIXRSEoAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Bxm8SVkL; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="DPm3wpYw"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-343f62d8124so3527135f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 06:59:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Bxm8SVkL"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-417c5aa361cso1070345e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 07:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712757597; x=1713362397; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712757737; x=1713362537; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=g67OSHlwNTDKaFrM3/uwoPsdE8uUwCxkLF5hYguHcs4=;
-        b=DPm3wpYwzLFBH4up7aj4PkCtaEjUUp4IPlYcSQMWgeQO+1WBJHx1tiBaFCgfFS1pSe
-         hkC5zZT/FI0S791G9HsFd1tq1oh6SRmJQgkluP0grplmHp8wjiB4kpkD+ZbkHjCQ7fX+
-         C9cvPD1UCdn3g8XGN7kjTnZ3O3QQ3PlZw2I8qaO0eB1uobmTTtW+JfqC8dAYWd1HR/f2
-         ZGd2YPOzvQLsl+2JOLrKv34lwB+dXuTc63Kvabjr9a3zeHu0YS8dcuaU/9I5LQZTm6QL
-         xh6f87WG4v4guGr/2AgmIt5ZuNv2bEfgDkFMneXdLfaT5JVnS4wigDcvCzZ43tMpQyEg
-         Z7pw==
+        bh=VMjbesMdn+qtLdaftXdet62uuV9p5A/VNrKt/cHgu0g=;
+        b=Bxm8SVkLt8V36Vy+qPdCoVsGbq9onluD++i9UlC0k2P8w4r/FFGDMPR+ClIR0LkDDl
+         15G4ToDULozD/4YGdYw63Q+nTRwlKR0/n/1rDVP4qphIPOhNbT+zdVOAgL8Of7Y3X5VJ
+         ggE4Kd3s9sTtOs91uYPdcBNi1yWqQF+DEgTXvmUZjbBXC30PF3UvvfcAQdFF7eMtgGGV
+         mbDgI27FZuFdV4w3IOY/brgHrlDYqzE5AmuYcXxnDpNFjGzfmx79Yl2P6gNVXd5W9VQ1
+         xXGURW257FRpiY8gmwgBC79tXJMlFYDzamYePmwxa1IU9Id3GnhHX85b2eggQAukIKMJ
+         c/4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712757597; x=1713362397;
+        d=1e100.net; s=20230601; t=1712757737; x=1713362537;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g67OSHlwNTDKaFrM3/uwoPsdE8uUwCxkLF5hYguHcs4=;
-        b=HhY9hG8riZTFVvgWYvXHGOTYHPJ1PIW2Lt+VVLyRby5p//hB9doHoqBR9XgpuiG/th
-         pt59hdeYFjLY2DutRTgwptzP7s4Eidw0RvOuBHJ3XvwBS5XQLaBdjTyjXY8RaK2eHaYS
-         TpmZM1uvPaoLEtgCh6v/Dqkn0Xlfsf6SNoUxYdCt477l+ZN/3kdJGcofTpqPHOj3n7Pl
-         CPggJ4A0nJPN2SuY8NKogvV6O/8tTd6xUHWnZXLmcK8QPsUZsicwII/NauJqCrgKh208
-         /SGm2POFxw/iHwTz7uAuGR1N/czsDUTIdDkW274TcFv3NpYmmDpD5p+06mwFAXD7Jtr4
-         /DZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWI/aqeYvfUYgrPmBIgVO6ly5lYUFvulywknxR4txZy4uGfIkaTdM5dNKYkfujVTDnvwf12+Qt1KNK4LEknS+e911BjJ0lxJxvBQZc=
-X-Gm-Message-State: AOJu0Yxxe7+u9jnkCWKJGsOxuFcme7Xtf/ufD7rFmR5T8//4Q6cmQk2Q
-	1hoqTpyZ6brz+klODTjBS1bbTcXGda7Vrb5o/3FvahGviHJkywC7OoJ53GFmC3k=
-X-Google-Smtp-Source: AGHT+IGRtn6DL2DEemnsBxsmvHHTd4nWEQsASvLDi6kfhHaIx+DPnIFaevFeAdtATqfu2OGeHdeMQw==
-X-Received: by 2002:a5d:620c:0:b0:343:98ee:524 with SMTP id y12-20020a5d620c000000b0034398ee0524mr1624742wru.36.1712757597439;
-        Wed, 10 Apr 2024 06:59:57 -0700 (PDT)
+        bh=VMjbesMdn+qtLdaftXdet62uuV9p5A/VNrKt/cHgu0g=;
+        b=p8rNCCpBCFPJiuEVSvkT2ulkTHqd1Sjq/ymrF1vholTB5ab4mk/CrwvVuv+lnykHw3
+         ecIdDMoaWYTKbwSWGhvB0s67eJUTZTs2dQii9iJ7qEZHbtxEupU6c2TM7ROmjsKwI/s0
+         3ciW4otZc3+PgCTr8w3b2EYgSRPHzo+JbCN1ok4iJ0t6t5ltJZ5SYaUOmX7bp6eYYAE/
+         ZeS0v7CTtvn8Sop5ij2TZIC8+1rGSuIg6L25zItIZcR+gkPvwctKytGxPy0gY1+uoeBL
+         b8D3nPjGvjZvgtxNIiGBfaV4b598CnxwdYSrbHN9U3xW8ZGo/7Zm9XbBbMYfeocxty7o
+         szlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXM7rQMQE77h89QTr6cwSYXNjDxYZ7lnQ8o8VvTq9bOS7lyUXmXJqA6kV61b0i00LbI8EnHAUz/7i8LRgt05WF/0Ymo1taGg4JDSPY=
+X-Gm-Message-State: AOJu0Yx2SQOQk2rQTsNsBYtb/jpwQyayfu+2dIyCloOfgD+vGygxQZaJ
+	/oJGgf8XbsVG9cxbqGZI3OD7k0m6vGrizfaYdnNUbvIecN5LfyGJj8jdZ54KrDY=
+X-Google-Smtp-Source: AGHT+IHDRsDMr0SXIA1BZFJa3MxdxnnQmiYZftYqYOsfFpe40vWDa1uC6IrsGh3VJIa1HBNRB3jl0Q==
+X-Received: by 2002:a5d:628d:0:b0:343:bccb:dbbb with SMTP id k13-20020a5d628d000000b00343bccbdbbbmr1888712wru.12.1712757736649;
+        Wed, 10 Apr 2024 07:02:16 -0700 (PDT)
 Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id j15-20020a5d452f000000b00343e825d679sm13385379wra.87.2024.04.10.06.59.55
+        by smtp.gmail.com with ESMTPSA id w5-20020a5d5445000000b003439d2a5f99sm13761613wrv.55.2024.04.10.07.02.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 06:59:56 -0700 (PDT)
-Message-ID: <cf0184c4-2b3e-4074-9e30-bf65ec7f0aaa@baylibre.com>
-Date: Wed, 10 Apr 2024 15:59:55 +0200
+        Wed, 10 Apr 2024 07:02:16 -0700 (PDT)
+Message-ID: <50bf4fb6-7ad8-40b7-ad95-c1fc5e292149@baylibre.com>
+Date: Wed, 10 Apr 2024 16:02:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/18] ASoC: mediatek: mt8192: Migrate to
+Subject: Re: [PATCH v4 06/18] ASoC: mediatek: mt8186: Migrate to
  mtk_soundcard_common_probe
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  broonie@kernel.org
@@ -82,94 +82,27 @@ Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  kernel@collabora.com
 References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-6-angelogioacchino.delregno@collabora.com>
+ <20240409113310.303261-7-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20240409113310.303261-6-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240409113310.303261-7-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
-> @@ -1211,52 +1196,85 @@ static int mt8192_mt6359_dev_probe(struct platform_device *pdev)
->   		if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
->   		    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
->   			dai_link->ops = &mt8192_rt1015_i2s_ops;
-> -
-> -		if (!dai_link->platforms->name)
-> -			dai_link->platforms->of_node = platform_node;
-> -	}
-> -
-> -	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> -	if (!priv) {
-> -		ret = -ENOMEM;
-> -		goto err_probe;
-> -	}
-> -	snd_soc_card_set_drvdata(card, priv);
-> -
-> -	ret = mt8192_afe_gpio_init(&pdev->dev);
-> -	if (ret) {
-> -		dev_err_probe(&pdev->dev, ret, "%s init gpio error\n", __func__);
-
-I don't think __func__ is necessary.
-
-> -		goto err_probe;
->   	}
->   
-> -	ret = devm_snd_soc_register_card(&pdev->dev, card);
-> -	if (ret)
-> -		dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail\n", __func__);
-
-I don't think __func__ is necessary.
-
-> -
-> -err_probe:
->   	of_node_put(headset_codec);
->   err_headset_codec:
->   	of_node_put(speaker_codec);
->   err_speaker_codec:
-> -	of_node_put(platform_node);
-> -err_platform_node:
-> -	of_node_put(hdmi_codec);
-> +	if (hdmi_codec)
-> +		of_node_put(hdmi_codec);
-> +
->   	return ret;
->   }
->   
-> +static int mt8192_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data, bool legacy)
-> +{
-> +	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
-> +	struct snd_soc_card *card = card_data->card;
-> +	int ret;
-> +
-> +	if (legacy) {
-> +		ret = mt8192_mt6359_legacy_probe(soc_card_data);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		struct snd_soc_dai_link *dai_link;
-> +		int i;
-> +
-> +		for_each_card_prelinks(card, i, dai_link)
-> +			if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
-> +			    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
-> +				dai_link->ops = &mt8192_rt1015_i2s_ops;
-> +	}
-> +
-> +	ret = mt8192_afe_gpio_init(card->dev);
-> +	if (ret)
-> +		return dev_err_probe(card->dev, ret, "%s init gpio error\n", __func__);
-
-I don't think __func__ is necessary.
-
-> +
-> +	return 0;
-> +}
-
-Beside that,
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Add mtk_soundcard_pdata platform data for the MediaTek common sound card
+> probe mechanism, including a driver/soc-specific probe extension (used
+> for bits that cannot be commonized  hence specific to this driver), and
+> change the probe function to mtk_soundcard_common_probe.
+> 
+> This is also adding the possibility of specifying the links and routing
+> with the audio-routing property and (x)-dai-link nodes in device trees
+> to stop hardcoding machine specific links in the card driver assupported
+> by the common probe function, but support for legacy device trees is
+> retained with a legacy_probe function, which is used only in case the
+> new properties are not found.
 
 -- 
 Regards,
