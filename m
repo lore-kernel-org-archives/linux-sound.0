@@ -1,169 +1,120 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F5615D5C0;
-	Wed, 10 Apr 2024 15:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF88C16E871
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 15:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712762929; cv=none; b=UBD+HwTDxdsl0+qtuylTyyz//6sCxzfvA90hlXAi7nQgpukh8m03OHauBOEDyne1xLqMlT/v1Q0HalyD0P9962fpWM6gfjjUq+ZvqHm8EdrVXDttiMgtyDelhW5xCnMqX9Ut+S8r7XuvlRegW8cUIqHDRWriP23KikJj68WKoe4=
+	t=1712763122; cv=none; b=D8/Stw65x+U6xwK7OMY8CHI8QUjPAxlf0aHZZB5vO28GWqDyO3aSO9N8IKAQPDyaWSaIc9MnyxomzdCnXmLvaDHAJMRYgAiXh/4WgPegMsbv2tBB/BMsPNTynNqWvNbxfAWKgtUwAyikt5lq1g+Vc5UR0kbzgA/WCJtFFkckHqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712762929; c=relaxed/simple;
-	bh=CKYJu7WyQjbgodgDBQk/bD0aZ+5Ih4b2bRRph8ajJNE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hUfXNTzDM+j2e+MTs1GZod6OhS0zB6zyLgeCRRXmv0db7/rc80xML9Z2ltTeQbogX5EQ6xp4idmSgqMhhyG+K+tvZHsB4/V6l2Sk+Ee9ZKis5aWc8Z8xlfDmzLoD0iu7MKmOSAqfYDv1pQucBSJU+sk7LKzH4KOwBPlEpUjm204=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=K1g8NZ9X; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1712763122; c=relaxed/simple;
+	bh=6Vog+dAt2cAMqsPI+yh28GngocmuMJI+7wvR2qyxv7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mfxTSN+kRrvCvW/NxY61WVh6P2OwAhv2NK3RGwdqXa5h5ppEKN64iMsKmd0br2YTtsEm+Zq/1lMLDlEA0BxDOWE+SSeTaTmpSqisF97T/2M0UrJD/NhrFy1DmJUwJo/UwkJ+Fg+gRwZCzP7gxDc69SN8OTH2ImXkX/ofZFBt8Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HCEe7uhe; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K1g8NZ9X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712762924;
-	bh=CKYJu7WyQjbgodgDBQk/bD0aZ+5Ih4b2bRRph8ajJNE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K1g8NZ9XR3lakU90fT945gzq+DiAo/FRpF8YT7T6u+aQZmErduUjLkdbPHkFjx8pu
-	 mzrRW1tBX48RU8nBach238E42fYVQLFIvISoTqSysZhQeyZRkdXYnEHB78EC60oPHs
-	 HcAah3gmFWgu5zRhllO7O8W1tC98QU5Xc6BgbldS76U0M9dPM1Vw68ZgGPP9D1G5R4
-	 dCTniLg2gjCeqAcr5rFQDwfICu23kOxzIWORkG44Xmu1YRVXkgd2ISRqssYHuleWcZ
-	 2riMyfqkOmZ9NXXLB+wUCSUs577ZiwKxtmL1FoSDrtAxskh8Uj1CoNZCDrihogfJW5
-	 HhS7bd8w+H66w==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 89F423780C13;
-	Wed, 10 Apr 2024 15:28:42 +0000 (UTC)
-Message-ID: <636411e6-05fd-4e32-8e3c-6bcc0c9ec063@collabora.com>
-Date: Wed, 10 Apr 2024 17:28:41 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HCEe7uhe"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56e56ee8d5cso5336788a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 08:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712763118; x=1713367918; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cTPhvP3A5r7MS8UL1VvzFtK1xJvz3SKxBGHHR0/FSwI=;
+        b=HCEe7uhet4O578NU7bREoB9lnXlswazrADXaijHRHIiiM43eEhpFQ2SmslgWH1lYXz
+         36jEE735iRRtHxBb2PPWYQ80tE1r45Bu/lnxOYuC4d3aKTtK+/5twZhPSkmADwafhsSo
+         zPWlRupNwHoy5osC92zpb+u363TsErKxqbWAH3BkwLLIR+Gl2wLc1jEccldxV0yaMLNj
+         mCBQ89Nz2oHyyrQMI6ljL1GY9zsdZa/WSU0quaEGMoMAqQrgaN4yB9rp62h4R/re7g7k
+         KTlXKjF7t0KXaNt/eV+Y9L3tcwvyZYBCPTdfF1IAwGuoFBYuU8cMenla6uOG74aDVAqU
+         4yPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712763118; x=1713367918;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cTPhvP3A5r7MS8UL1VvzFtK1xJvz3SKxBGHHR0/FSwI=;
+        b=gW7UrOSEFCv0T8AOU0992f2IBAflSMBrxu/8bD6goRgJUpkfWsindnJNXF0dF1Qm1P
+         6Y49ejiQFUwK+TflscaJ/xCJof60JswCctRMMRFN48G7jK+IdhsvL+zbrJsaHlHkmFgv
+         msb5oRRA9Yu/0ivQbl46bnqGhMT/G5iZRFa6NzUzAevPnbjl/ryszP6wTLJFpERGkbo2
+         otgWDwzMZQq76/nGE521t6+FAq5Wix6ncg/YG6xHcJHpha097Mh2ofFm3KyG/rur1AyJ
+         XUlag1z0wfZRgQTe88W4KCXvsuIZWmzWd9wQi2a8E2sXWwsplAMeRhBqkmPPgN4WP2tg
+         i80A==
+X-Forwarded-Encrypted: i=1; AJvYcCVqBfH6YLqthBqwdK4ixmnvTgopzKbX+amf0PoYkYCBeS1Kc6m8SUMQ9PWaoTvphujv/kjvPjYXciXdNch+dahWIiNROpIT8cPKau8=
+X-Gm-Message-State: AOJu0Yx6K214IZGsZWOXT2iNTjHK/UEVaGEOZRV9KwBw9y6Vr+B21Iz9
+	n4oTUw9osivnw01eUaYPLecAwtrH10d+vK6qcEqJVuOKrxxfAcszSucBdJACU+8=
+X-Google-Smtp-Source: AGHT+IHI2Ekpl25h0Yy4yKCuyZYB9KuHYXbJc3VeE6shatg6Hicrdayi5+NJC9iLQkC8NWx5z+JrZw==
+X-Received: by 2002:a50:a6d2:0:b0:56d:fdb3:bcc5 with SMTP id f18-20020a50a6d2000000b0056dfdb3bcc5mr2136474edc.12.1712763118023;
+        Wed, 10 Apr 2024 08:31:58 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id et6-20020a056402378600b0056b8dcdaca5sm6501104edb.73.2024.04.10.08.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 08:31:56 -0700 (PDT)
+Date: Wed, 10 Apr 2024 18:31:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: soc-card: soc-card-test: Fix some error
+ handling in probe()
+Message-ID: <6aaca4c3-46c4-475a-aecd-cf471370e97c@moroto.mountain>
+References: <2db68591-64e2-4f43-a5e1-cb8849f0a296@moroto.mountain>
+ <c8e9a7a0-6fcf-4bbe-a659-b2360f5980d8@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/18] ASoC: mediatek: mt8192: Migrate to
- mtk_soundcard_common_probe
-To: Alexandre Mergnat <amergnat@baylibre.com>, broonie@kernel.org
-Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
- trevor.wu@mediatek.com, maso.huang@mediatek.com,
- xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
- kuninori.morimoto.gx@renesas.com, shraash@google.com,
- nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
- dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
- eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
- jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
- ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
- nfraprado@collabora.com, alsa-devel@alsa-project.org,
- shane.chien@mediatek.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com
-References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-6-angelogioacchino.delregno@collabora.com>
- <cf0184c4-2b3e-4074-9e30-bf65ec7f0aaa@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <cf0184c4-2b3e-4074-9e30-bf65ec7f0aaa@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8e9a7a0-6fcf-4bbe-a659-b2360f5980d8@opensource.cirrus.com>
 
-Il 10/04/24 15:59, Alexandre Mergnat ha scritto:
+On Wed, Apr 10, 2024 at 03:43:45PM +0100, Richard Fitzgerald wrote:
+> On 10/4/24 15:22, Dan Carpenter wrote:
+> > Fix this reversed if statement and call put_device() before returning
+> > the error code.
+> > 
+> > Fixes: ef7784e41db7 ("ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> > v2: call put_device()
+> > 
+> >   sound/soc/soc-card-test.c | 4 +++-
+> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/sound/soc/soc-card-test.c b/sound/soc/soc-card-test.c
+> > index 075c52fe82e5..faf9a3d46884 100644
+> > --- a/sound/soc/soc-card-test.c
+> > +++ b/sound/soc/soc-card-test.c
+> > @@ -148,8 +148,10 @@ static int soc_card_test_case_init(struct kunit *test)
+> >   	priv->card->owner = THIS_MODULE;
+> >   	ret = snd_soc_register_card(priv->card);
+> > -	if (!ret)
+> > +	if (ret) {
+> > +		put_device(priv->card_dev);
+> >   		return ret;
+> > +	}
+> >   	return 0;
+> >   }
 > 
+> Thanks.
+> Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 > 
-> On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
->> @@ -1211,52 +1196,85 @@ static int mt8192_mt6359_dev_probe(struct platform_device 
->> *pdev)
->>           if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
->>               strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
->>               dai_link->ops = &mt8192_rt1015_i2s_ops;
->> -
->> -        if (!dai_link->platforms->name)
->> -            dai_link->platforms->of_node = platform_node;
->> -    }
->> -
->> -    priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
->> -    if (!priv) {
->> -        ret = -ENOMEM;
->> -        goto err_probe;
->> -    }
->> -    snd_soc_card_set_drvdata(card, priv);
->> -
->> -    ret = mt8192_afe_gpio_init(&pdev->dev);
->> -    if (ret) {
->> -        dev_err_probe(&pdev->dev, ret, "%s init gpio error\n", __func__);
+> I can see that put_device() is also missing earlier in the
+> function:
 > 
-> I don't think __func__ is necessary.
+> 	if (!priv->card)
+> 		return -ENOMEM;
 > 
->> -        goto err_probe;
->>       }
->> -    ret = devm_snd_soc_register_card(&pdev->dev, card);
->> -    if (ret)
->> -        dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail\n", 
->> __func__);
-> 
-> I don't think __func__ is necessary.
+> I can send a fix for that.
 
-I am removing the line, here :-P
+No.  Let me resend.  I'm sorry, this patch has not been up to proper
+standards.  Also I should fix Smatch to warn about missing put_device()
+calls to prevent this sort of thing going forward.
 
-> 
->> -
->> -err_probe:
->>       of_node_put(headset_codec);
->>   err_headset_codec:
->>       of_node_put(speaker_codec);
->>   err_speaker_codec:
->> -    of_node_put(platform_node);
->> -err_platform_node:
->> -    of_node_put(hdmi_codec);
->> +    if (hdmi_codec)
->> +        of_node_put(hdmi_codec);
->> +
->>       return ret;
->>   }
->> +static int mt8192_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data, 
->> bool legacy)
->> +{
->> +    struct mtk_platform_card_data *card_data = soc_card_data->card_data;
->> +    struct snd_soc_card *card = card_data->card;
->> +    int ret;
->> +
->> +    if (legacy) {
->> +        ret = mt8192_mt6359_legacy_probe(soc_card_data);
->> +        if (ret)
->> +            return ret;
->> +    } else {
->> +        struct snd_soc_dai_link *dai_link;
->> +        int i;
->> +
->> +        for_each_card_prelinks(card, i, dai_link)
->> +            if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
->> +                strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
->> +                dai_link->ops = &mt8192_rt1015_i2s_ops;
->> +    }
->> +
->> +    ret = mt8192_afe_gpio_init(card->dev);
->> +    if (ret)
->> +        return dev_err_probe(card->dev, ret, "%s init gpio error\n", __func__);
-> 
-> I don't think __func__ is necessary.
-> 
-
-That was on purpose.
-I'm migrating things, but I am leaving the prints as they were.
-
-Cheers,
-Angelo
-
->> +
->> +    return 0;
->> +}
-> 
-> Beside that,
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> 
-
-
-
+regards,
+dan carpenter
