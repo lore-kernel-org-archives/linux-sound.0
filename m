@@ -1,141 +1,198 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124B31553B7
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 09:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ACA15ADA9;
+	Wed, 10 Apr 2024 11:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712741357; cv=none; b=iz++2vVb/81XgCo5pwLNpyfuBuNELT0xiuGHS4ABrklspyEHV6L/8U4FEnIdE4w0Ahn2UXRTg3L/4V36qaOEH58KGBBVzzZeBh3fVEK6wQpYJMyWuj5hYi6V8+9YB7HCZ7HK96f0UsD4LRuyKexITpnU8NEFl7llpyScN9//8HY=
+	t=1712749720; cv=none; b=ai7WEMmwYOKmLQ/2D4z5rQ1XK3YMlVbOpgaA5mP4CgMZvsyB2V56QRxBJmPsRjf990eaWlGxqFdI4gtsuKZQfzywUrLg1rK6iAOfV0GWkEx9yrFi1MXSySj2ctvW15IoOPDVLZDfvYo6cINIMGFUoUuxG+F3d+u5BJBH4huU2CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712741357; c=relaxed/simple;
-	bh=6BEZbI7KV8B3eszDr0HfCNB0Z0sn1CHOU8k8kIi+hgY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SDA86qZVlt/IjRuL3zwPAztjf54dl5FVv9IlHqdj7K1g7Ty4Njdlzt5KPLCD7AvL+0AuzhLxq9DPFNImdZpBA4ta1HHLX38R7z6UQQTFYIsZ06FhU3yqd2yBL5XdLyE0QFQ4loanqnHZ421Ft05v93IFdBzCw6Td086EVdnrzvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=T9qHz4n4; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1712749720; c=relaxed/simple;
+	bh=souuJwWgY2tifwYTnw9HWDzS9btUpbdg1MYPZs6YGPU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G/ida+jCN0+AV4gJQ4hGaVn1FirStGn1AkTjdGkWZVwuFtNz2nv3wUr2EB7panOTwlrmnxAjgvf88sv4wwC6I/hkPq7JTChvZZW7dgOaPy/R+d/4/YK+4P4JjIr9okFVDtpiEaabrTqdYzuOIkzCHWO7u3DPOihE2RbuCsjg4to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFNn2GKt; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="T9qHz4n4"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-416c4767ae6so3816765e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 02:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712741353; x=1713346153; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
-        b=T9qHz4n4Foc7hRwTv8yZWgRFWk8UMS0PDxgLT9anc4rF9s/kddxFrngEaQhDamPwRA
-         97hEFJnVUD1GXCXBSb6oHYIcJ6gWwwEuVNzi1Qbtu5ExUEJOWn70tcc6mgeONlj52Jv0
-         +mmwolViO+G6iB/W1UfuAMYsaNmugR1WGg2YB/mUhJisDcFsAHD0I1OJvHRZRxCVX1G/
-         5aoU4oM6iXnxteFTnD0U3KSWukMYd+0Upr4tnLYacRqGqwUdikSfPT4qrob7RpoZqj3d
-         WS1KOIGsq1B1P5xiqfcd/2CrdYPfZxe+TWX9bBRMayTMp4PO6aGCyIF5PDKaBoNEEC/7
-         /bXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712741353; x=1713346153;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
-        b=CndKWSaY5SPQ+502mWtnOqz28qaJ89Dnrr0FXLjOfIiO64X4XMo+eULh/2tOdmUWRf
-         pskxucVaCAIdx10awS7G6Tma9XE4irtgF9CShVZqWMSyDm9p0vsUWV4af6yYTVAFUyU1
-         FMMGnfbZEdDVjr2wdC9mVABI1IjKagnfAAu3MR5aV8veBZH4dTTi5BYqJrucNbGk+nFd
-         cSPz21uFNhFqraNZTcb7WPsksh/WFqndziHBeU/QLljw9hZhjOAubAGzqxkY14yPIAOl
-         gzVrmZusV7S3BBwyobhswS4xLz5aPrSZpJtz9fPqOuHyVfJa7t4mv061+am7rKcoY/Pe
-         6SLQ==
-X-Gm-Message-State: AOJu0Yzn7gwv/klqv6tQRhvkvO98e2U49aUaiTMoIvxKJ+TkuJAxDKvr
-	kfZ/Ha6kzB4Zpm35+7T52giex3/StiM5eQizcYO29Ra2FyCB4LDcMGAuQZZ/96s=
-X-Google-Smtp-Source: AGHT+IFvXyauqU6yE1hhXxe+82hSR7xjimh79oxs60By+238847k+6MrB7Ys5sLNSFw6IjHtaU72FA==
-X-Received: by 2002:a05:600c:5252:b0:416:643c:8946 with SMTP id fc18-20020a05600c525200b00416643c8946mr1274626wmb.17.1712741353432;
-        Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id u15-20020a05600c19cf00b004168efc77d1sm1698186wmq.39.2024.04.10.02.29.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
-Message-ID: <9ecf2158-10d1-47b3-a02f-54a4cddbf426@baylibre.com>
-Date: Wed, 10 Apr 2024 11:29:11 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFNn2GKt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712749719; x=1744285719;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=souuJwWgY2tifwYTnw9HWDzS9btUpbdg1MYPZs6YGPU=;
+  b=BFNn2GKtXf8LdQM9b0P/PJ5MinIJFkYh/I561wnzFvLlfDAdBx/K4ZoF
+   XpNDKqoAfmovC94PbOQ8ptUIyDHb3+GaNj2/S6uZ3VK7i00dIbeLXkVyT
+   /4deT7HALqwiAtIqA7M8BIZtNoPdWby7Tn+zFMpw130lgvfoDDMkP3Ezj
+   Ae4Aat/BVATZf8fi982UzxnvzpXcPD9Cgj3XaN86vz3xp/UjYPUcwqg1D
+   LJc+5QxjmcYGRu/vNcgxcZg9szXc03unJtV0z5NjhvMVWdfeYOrNoqiox
+   6+aMGZz3wVsdYZ9+VbuaLXlQKFQUZwi2R4qFX2vdWd+xc+nBpKfn9x3Ry
+   A==;
+X-CSE-ConnectionGUID: cv2YMsRMQJyO7m9uHiWtSg==
+X-CSE-MsgGUID: jlJcBlthQCq/LJL81JSXmQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11944050"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="11944050"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:48:37 -0700
+X-CSE-ConnectionGUID: cShSBgw5Tu+rDMKH3Ibh4A==
+X-CSE-MsgGUID: nHnq7B66TIepyBTD5O5gWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="43769234"
+Received: from inlubt0316.iind.intel.com ([10.191.20.213])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Apr 2024 04:48:30 -0700
+From: lakshmi.sowjanya.d@intel.com
+To: tglx@linutronix.de,
+	jstultz@google.com,
+	giometti@enneenne.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	jesse.brandeburg@intel.com,
+	davem@davemloft.net,
+	alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com,
+	pandith.n@intel.com,
+	subramanian.mohan@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	lakshmi.sowjanya.d@intel.com
+Subject: [PATCH v6 00/11] Add support for Intel PPS Generator
+Date: Wed, 10 Apr 2024 17:18:17 +0530
+Message-Id: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add
- audio afe document
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-1-16bb2c974c55@baylibre.com>
- <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
+The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-On 09/04/2024 17:46, Krzysztof Kozlowski wrote:
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        afe@11220000 {
-> Did you implement the comment or decided to keep afe?
-> 
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
 
-Though it was clear according to [1]:
-"
-Audio Front End, this is the same name used for other MTK SoC, to be
-consistent.
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
 
-Cook a new patch serie to change "afe" by "audio-controller" for all MTK
-SoC would be great.
-"
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
 
-I want to keep it and fix it later with ALL other MTK SoC.
-You didn't answer after that, I though it was ok for you...
-So if you don't agree with that, just tell me to change it instead of 
-let me think I've the choice.
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second (PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low. 
 
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
 
-> BTW, whatever "consistency" you have in mind, it does not really matter
-> that much for that example. And for sure do not add incorrect code
-> intentionally just to fix it in next patch.
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
 
-I don't get your point.
-What do you mean by "do not add incorrect code intentionally" please ???
+Patch 1 adds base clock properties in clocksource structure
+Patch 2 adds function to convert realtime to base clock
+Patch 3 - 7 removes reference to convert_art_to_tsc function across
+drivers
+Patch 8 removes the convert art to tsc functions which are no longer
+used
+Patch 9 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 10 documentation and usage of the pps tio generator module.
+Patch 11 includes documentation for sysfs interface.
 
+Please help to review the changes.
 
-My PoV: I implement my bindings aligned to ALL other MTK SoC, which have 
-been validated by you in the past. I can understand the copied code is 
-wrong, but I've suggested a solution and you didn't NACK it.
+Thanks in advance,
+Sowjanya
 
-I fell like you bully me. Are you ok to stop insinuating bad things 
-please and tell me directly if a fix is mandatory and if you are waiting 
-for a specific one, tell me directly to avoid this kind of unpleasant 
-talk and waste of time, I know maintainers are busy persons.
+Changes from v2:
+ - Split patch 1 to remove the functions in later stages.
+ - Include required headers in pps_gen_tio.
 
-Beside that, thanks for your reviews.
+Changes from v3:
+ - Corrections in Documentation.
+ - Introducing non-RFC version of the patch series.
 
-[1]: 
-https://lore.kernel.org/all/eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com/
+Changes from v4:
+ - Setting id in ice_ptp
+ - Modified conversion logic in convert_base_to_cs.
+ - Included the usage of the APIs in the commit message of 2nd patch.
+
+Changes from v5:
+ - Change nsecs variable to use_nsecs.
+ - Change order of 1&2 patches and modify the commit message.
+ - Add sysfs abi file entry in MAINTAINERS file.
+ - Add check to find if any event is missed and diable hardware
+   accordingly.
+
+Lakshmi Sowjanya D (6):
+  x86/tsc: Add base clock properties in clocksource structure
+  x86/tsc: Remove art to tsc conversion functions which are obsolete
+  timekeeping: Add function to convert realtime to base clock
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+Thomas Gleixner (5):
+  e1000e: remove convert_art_to_tsc()
+  igc: remove convert_art_to_tsc()
+  stmmac: intel: remove convert_art_to_tsc()
+  ALSA: hda: remove convert_art_to_tsc()
+  ice/ptp: remove convert_art_to_tsc()
+
+ .../ABI/testing/sysfs-platform-pps-tio        |   7 +
+ Documentation/driver-api/pps.rst              |  22 ++
+ MAINTAINERS                                   |   1 +
+ arch/x86/include/asm/tsc.h                    |   3 -
+ arch/x86/kernel/tsc.c                         |  92 ++-----
+ drivers/net/ethernet/intel/e1000e/ptp.c       |   3 +-
+ drivers/net/ethernet/intel/ice/ice_ptp.c      |   3 +-
+ drivers/net/ethernet/intel/igc/igc_ptp.c      |   6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-intel.c |   3 +-
+ drivers/pps/generators/Kconfig                |  16 ++
+ drivers/pps/generators/Makefile               |   1 +
+ drivers/pps/generators/pps_gen_tio.c          | 258 ++++++++++++++++++
+ include/linux/clocksource.h                   |  27 ++
+ include/linux/clocksource_ids.h               |   1 +
+ include/linux/timekeeping.h                   |   6 +
+ kernel/time/timekeeping.c                     | 107 +++++++-
+ sound/pci/hda/hda_controller.c                |   3 +-
+ 17 files changed, 476 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
 
 -- 
-Regards,
-Alexandre
+2.35.3
+
