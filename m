@@ -1,80 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C43181D0E;
-	Wed, 10 Apr 2024 20:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CA1836E0;
+	Wed, 10 Apr 2024 21:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712782542; cv=none; b=RgmMsjJkfv9Hwajk/MHjXgS/v0DFiv7MuD3utFghwW5VKIghefLE00+s+zi7rtLZotqBiYDmanFpFqdmEHpT3mFkrA8F9sWyJ/TTTG0yiVKZnkaZ8v9Y5njiU90hs82NYipF+gXHfgJmDwbxmUwu5JnZqwFMyllN0cKlT05cy1A=
+	t=1712784048; cv=none; b=ohQeQS6ggrSH4r+FVqBQyKsSf2JO5AF4GpzrY1rjEpD1M9QCo5dbtBaV5fL6grJvpqe+7PAprMdrlKwGlSWhtxKEHTm/tGgIQs+s09iZ7aOrY4a8e5z7wtRAPpocVrluXGdrI8uM7066gINgHx8V/oWL9PJIN1rvX1cTJxCJNl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712782542; c=relaxed/simple;
-	bh=1fYUihKmz+w7nrA/FjAUTSJZtMWHKfN+hN2ym7MkZjs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jQf8r2Cqs0oaWKB5TGJKrMtbbI/E1/vun2JVxh5XnOO2vb9r6yCxje9nUezsHgKw6+pfnvzORW55OlHZf03r3wXvuysVzSBA9PqEpmU2v6hLNimD69Mo2Gn0F2B6X5pmizKHcGjR4hWkuqyj5mBcGgLSSh8ulkWnb2F74CydRq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5eAqxz5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712784048; c=relaxed/simple;
+	bh=yZahjj479XacXe+rCfUPbnex64OHH7QkFDRhj0D3+IY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VIlPaWxQ7Vx2uACWdB9wwuWwqaes+yeai+j/Rp//Cg7j3+7Fe9/Wh0PpH9HQekdawCASodRGBg1fRBUfY0gAlRxOMYAuw+8XpVFLt7qCw4gqBF6lpy3kuyfs4cIOZZmVIM+wPX7Nto5Lwa78/0t2I7JJQPy1qt4mUc3Jho/yb0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FwHViD6I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TNxLVhfT; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5eAqxz5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DAE1C433F1;
-	Wed, 10 Apr 2024 20:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712782542;
-	bh=1fYUihKmz+w7nrA/FjAUTSJZtMWHKfN+hN2ym7MkZjs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=K5eAqxz5q0e5EObEd5IkijNDnbvJmUPvi/B+Ab3V9XvW6Qvt1ESAaEuoEdX568kNj
-	 pEJJa285qRtMQ9MEmwiLnbqDG3HFx1ljDuni6Q3bXzpswlWbyckivHc61n/4NYn3oe
-	 ZlmWqn7arkxqPLJQiVqiuEHPdh04JGkQ+Sj+o3ABRvdDCmCliheE5HdMvlzyGveYsn
-	 gYBQbnbAuOcnzW/3bwzY84U4yse3R8hqcnu4907hdD7lT0zexUu2kBrL1m5guA7ZuU
-	 ePBJMLBS5FH6qLki7+L36qCVWMAF2lTuIS/i5orFB18tWerTcwQeUR1LqNKbxeuKEH
-	 G1OFuqrfzA7oA==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240410161312.22313-1-rf@opensource.cirrus.com>
-References: <20240410161312.22313-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: wm_adsp: Include array_size.h
-Message-Id: <171278254083.69181.1643120705707152702.b4-ty@kernel.org>
-Date: Wed, 10 Apr 2024 21:55:40 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FwHViD6I";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TNxLVhfT"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1712784045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
+	b=FwHViD6IqUH6Dt4mypFv+cxXod1xbN1HB4zKr64xGYPMeUgzzfMUVoJ3kvd+VB2CvQpdqb
+	fHo+D2Hfhz+bnR9R4itTegQZbQC9gWjqfNAP97Llf0WXcwoDD5xaImLbrPk+rqf6FjuFyB
+	fHpeCmy15bhH+oQNJH7DqekBYuMT//0O0aXrqBfHWIoAPFByXVaF9lHZVB2LgJDfSvlr0O
+	xM9V1b7QNSNIm8LxQB3w5XPt/I8/WZ58t03zkl9PF+P+kz8pp+8somxMWj8WR2dOCLhV3k
+	9zeaX8Ie/CHyXq55h5LUCieWmzP0hClz+gEEztT1OutcdXmqjLFiHcEhoESLog==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1712784045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
+	b=TNxLVhfTSGEjRdOUAJEdbT0v1iAfoxcexXJbxNXc0RJ2rOoS0urv9iS637SyXee84icb4A
+	v2DWCNmgXp4sKaDg==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, subramanian.mohan@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v6 01/11] x86/tsc: Add base clock properties in
+ clocksource structure
+In-Reply-To: <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
+References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+ <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 10 Apr 2024 23:20:44 +0200
+Message-ID: <87frvs3oer.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Content-Type: text/plain
 
-On Wed, 10 Apr 2024 17:13:12 +0100, Richard Fitzgerald wrote:
-> Explicitly #include array_size.h for the ARRAY_SIZE() macro.
-> 
-> 
+On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> Add base clock hardware abstraction in clocksource structure.
+>
+> Add clocksource ID for x86 ART(Always Running Timer). The newly added
+> clocksource ID and conversion parameters are used to convert time in a
+> clocksource domain to base clock and vice versa.
+>
+> Convert the base clock to the system clock using convert_base_to_cs() in
+> get_device_system_crosststamp().
 
-Applied to
+In https://lore.kernel.org/all/875xxhi1ty.ffs@tglx I asked you to
+provide a change log which explains the WHY and not the WHAT. The new
+change log still fails to explain WHY this change is needed and which
+problem it is trying to solve.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I further asked you to do:
 
-Thanks!
+    1) Add the clocksource_base struct and provide the infrastructure in
+       get_device_system_crosststamp()
 
-[1/1] ASoC: wm_adsp: Include array_size.h
-      commit: 4693b120299a5893034d1882ddbbe08af1d2ff07
+    2) Make TSC/ART use it
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+But this still does #1 and #2 in one go.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+If you don't understand my review comments, then please ask. If you
+disagree with them then please tell me and argue with me.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Just ignoring them is not an option.
 
 Thanks,
-Mark
 
+        tglx
