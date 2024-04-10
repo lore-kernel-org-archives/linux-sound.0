@@ -1,59 +1,59 @@
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD3D16EC07
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 14:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AE2174EE1
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 14:55:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712760853; cv=none; b=lwmbMm7c9c5HCKPzZw4UfRZQ/dNXzTDJsp130QGa3gVLR3eObV2/2SHxdjA4wqpYntcYHEdDccEkdfH2F/vj9hVMX13q6iNuufKuFLQqeCLKkfpLcklDavebENuJM9Pp3Lj3hsOD2TrZNsOsGKVlg4+pJqxALVUJcND7cyQDEhE=
+	t=1712760946; cv=none; b=dSqP6ednyHHDt/LrqZZWs1l8AhUvPSufKPvrJzQOfGj8X3yZCXTr35HW7vC/eXouW0tPJSmLFrnj3FTCLk/bejAmqipSbdhd1TUnZ8rVSugfnBGdaTTJI44HFtZxID39AiwY2mmuZtLC2Q/ksNbMl4a3FHlJ19NrwNDHObW7wuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712760853; c=relaxed/simple;
-	bh=lb+10Z0IsQP6fdKaH27sy53CFmYG4HdNoIjZt107yr4=;
+	s=arc-20240116; t=1712760946; c=relaxed/simple;
+	bh=UKOOA8/7HQj4e+/LtfW4BZ4tyj66iZmzmBjEbudutfI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dMUwOfmCzS4TKzO7LkL8twjVs9v7mYiTFXLptg5MT6Xkya03ZWK5YfRSDHNRPoVayZrq/4cGWOUtfDY2ZobdJraibiKwQzU22KuYjQh1GB5OOYiUMj/Qx/uoT4eik3Gjr9MZtQBlMluLKUrRGolXrbKm4g8vCb67eeC8KZOx/lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=FW+n/r2V; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:Content-Type; b=gAUOHyCd15iFQB4952Ft6rXNZIPSBAqzWxq2sFm045D1JbdjwFwq8cqaBoanWjJnGZ9i6LHNc9eO7vgg3sskqQ8GL1Cul0m6gfofS7ZtbbajKhOdqGLqdw+70TTBGcppdzdtbvRkFIbICVFgJC+GGY8Xw6oZ46Wh2maSVugz0e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1DX2RzVs; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FW+n/r2V"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-416b7f372b3so9985795e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 07:54:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1DX2RzVs"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-417c5763d3fso1828805e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 07:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712760849; x=1713365649; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712760943; x=1713365743; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UE+4Y18rqT6MP9pTdsa016UUd/maawQyVReuqUWJA2U=;
-        b=FW+n/r2VNGwSr8jy6K8k0RsiZW+t6puuD93D+Rfe6YX8yRF/g3JeluzOfCDtNuznN9
-         P/Mk/7kvItEmuoO4iXnubNtw9BbK87delR4UaKhXxG4qX3at5Df6CPXbT4QQrVsNylm6
-         19A7n0KSEEGRXAJB4lVwjdOJWNUFchPXn1X+B+mZquecUBg6zP05e/K1Ph++QjcBbpxl
-         P7F2J55ulTTXC5YpEm8HO/W/b8Ejev7JAFJmdoSMeArhS9xivH7CkzGJiTVeMAtAqq6b
-         hA08HXE5Vk4NddNG32PAOiyfM3hO63t8jUse8R+36y0zimDBRFdZEHENfZOgditSLENC
-         qayA==
+        bh=qkM79gW6w0NVDaaTQoSffcdoou57mwLCTgADK37diJ0=;
+        b=1DX2RzVshblQ96T0M9228b6U7oj5m0wslbjMdhsS8VzclEzlK/XXI1LSvnFv5BjESF
+         cB7CRok4aFWDyB23YFA61iZIzTx8lA2TecHfZzCIMpi+vvIy/FFW7AHXetURShSodPp6
+         lVV6WoLof2QYVNFAU4VqjWRxXv0MdRfGrHlEEDUi1vFyLCsOVXNsxR6dx9xpWntz+dnv
+         /tRhezyeFWQBmK3irrjPWxuM9o1TPQcN6vBK+K4StsfZPAiCWpHZ5173A5E9pKAift4S
+         pOac36TY7FtrdBIpRVBfy7Rb344t5t4bHgNcW8lIUCZmjonesbQPOn8mPw+ZtoB8vr3J
+         78Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712760849; x=1713365649;
+        d=1e100.net; s=20230601; t=1712760943; x=1713365743;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UE+4Y18rqT6MP9pTdsa016UUd/maawQyVReuqUWJA2U=;
-        b=r03MrKySiMQJmqjBK2vaQd0XWnyooyqOuKliNs2ujPW8dFferrhNaDALXGUuJZyRoK
-         TLD9xFmRhEWAjGxlh3oudgJuqxMa9Halcoha1EY67zhg62RPmZqANngdfnQG1/VdiF4Q
-         2oLi6oNNl1oLZjX0FUrFgWk5ryaaxX85nUpzrD4wPVvKFmLyHFj+2VqtNF4z3fS8P/Lj
-         lNi1OO0BVhZLxO2uxq19zulWzZsUcSql7HFoeXl5v994dEAHJ0BMNGjI0Gcz85dnheV/
-         J4DaTTKQgxFjD94SGkUHBugCXsdPEz5KSiyWR0ZhwZvSNKIFLeWWBWT3VLkQzn6EDmKe
-         Ts6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUdv7tV3EUdU0sMpa+wkqS/Ke6XPxsqirlQ+liMeXuVDHWbfBvzr65s4Bb17Ky6ngu99wX5BV8GHdKqia3KkSc21bPBNd9cUkWyFtI=
-X-Gm-Message-State: AOJu0YyMi07thfxCp44y2InmT7cQ9QyxOFTwVjiVeAQdv1n5iAOA1pgs
-	zR2mzbhnUyH0MSi7VbaDIbMimIEebaWBWWrCQQTUe+0CJgkx0pNdxUK/nirw9RM=
-X-Google-Smtp-Source: AGHT+IHCUNg5SsYHXd3cnIQYa7aR4oDCUcNCW6UqXLuavJoCReIkeODB8539jlTtqakTtMbi5H4ORw==
-X-Received: by 2002:a05:600c:4f44:b0:416:6abe:2975 with SMTP id m4-20020a05600c4f4400b004166abe2975mr2002047wmq.15.1712760848874;
-        Wed, 10 Apr 2024 07:54:08 -0700 (PDT)
+        bh=qkM79gW6w0NVDaaTQoSffcdoou57mwLCTgADK37diJ0=;
+        b=sJewwBoQ4M5efBsmZTzGjcbzcvVo6kSgis9oCQXJpQ1O2ra7dxzhjGF0il8YQ1UieK
+         2GtktWZ54ehwgnXhf3e1KPm+8jeGSUk0b0LUcv0V4kPAet0EqKSVpjT62FAdAB+t0YJP
+         xgoKcZE4YweuUgJW+TV+t/z5oPIMNb9h1clJM7zzIcdsyXLTuii6zCjEcSY/BNqYV4Q8
+         xkeN5YpWFvPWXCCzduC/ViXusp2HXHaxY7JRe6XjxCAQg+DTliqV3OAvqJ113xWoSHY5
+         pK1FcmH0ZR4XcbHmqFz1cSALViB9y9kyFMsc4BdIB0oqolrmWqPETxE5E1F6myErnHtq
+         7YKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEKEmYvqcYTwsgYU7UgmP5BNfUm80ME1gjX8yTYYxkRh/u3Sqxxn3OY+KSdQjWYW0j85++B5hOi/0FjRymlpQO9YthGwahJtlXBD4=
+X-Gm-Message-State: AOJu0YxZJMDmgPDrdmZN7Y56okkXXAkXU4Z9B+wDsPrBiw6MH4arqLRA
+	ZL5WY7yHJ8DbTdDI3MoNmbI2JwBfYDyxKJc4pOteIcxB5wKZJ8KWal91ToQG0Hw=
+X-Google-Smtp-Source: AGHT+IGNeLxOaiscREzifrbAz46PPEQrwOJh5pOyr0RZ/5W5R5nlpeialGLWcsM4T9o9oxKaQqjncg==
+X-Received: by 2002:a05:600c:4511:b0:415:8651:9b8e with SMTP id t17-20020a05600c451100b0041586519b8emr2356050wmo.39.1712760943089;
+        Wed, 10 Apr 2024 07:55:43 -0700 (PDT)
 Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id gw7-20020a05600c850700b004146e58cc35sm2526850wmb.46.2024.04.10.07.54.07
+        by smtp.gmail.com with ESMTPSA id bg25-20020a05600c3c9900b004162d06768bsm2523860wmb.21.2024.04.10.07.55.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 07:54:08 -0700 (PDT)
-Message-ID: <6506db51-121b-4579-bf14-0ab6e33fb048@baylibre.com>
-Date: Wed, 10 Apr 2024 16:54:06 +0200
+        Wed, 10 Apr 2024 07:55:42 -0700 (PDT)
+Message-ID: <c86fb571-fc66-4549-9592-9ea984f3e49b@baylibre.com>
+Date: Wed, 10 Apr 2024 16:55:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/18] ASoC: mediatek: mt8195: Migrate to the common
+Subject: Re: [PATCH v4 09/18] ASoC: mediatek: mt8192: Migrate to the common
  mtk_soundcard_startup
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  broonie@kernel.org
@@ -82,14 +82,12 @@ Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  kernel@collabora.com
 References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-9-angelogioacchino.delregno@collabora.com>
+ <20240409113310.303261-10-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20240409113310.303261-9-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240409113310.303261-10-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-
-Way better with common stuff ! :p
 
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
