@@ -1,42 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CA1836E0;
-	Wed, 10 Apr 2024 21:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E891836F3;
+	Wed, 10 Apr 2024 21:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712784048; cv=none; b=ohQeQS6ggrSH4r+FVqBQyKsSf2JO5AF4GpzrY1rjEpD1M9QCo5dbtBaV5fL6grJvpqe+7PAprMdrlKwGlSWhtxKEHTm/tGgIQs+s09iZ7aOrY4a8e5z7wtRAPpocVrluXGdrI8uM7066gINgHx8V/oWL9PJIN1rvX1cTJxCJNl0=
+	t=1712784771; cv=none; b=hEO78MJBwrh3jPn7aoKtiO0i8jxRdva++BftTt6UmFT5KkKrx6eAKlJWZliSMRqIeGNnELuYrgIM3nCulHAA+MW4pr2GeEXv0yILSxR8hM+Q7HUUSyXG1ClvRM6OEK9/6xRb8i9t8kyinMYp/mkK2tdxNhS6DJWdDLMGFoiAdnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712784048; c=relaxed/simple;
-	bh=yZahjj479XacXe+rCfUPbnex64OHH7QkFDRhj0D3+IY=;
+	s=arc-20240116; t=1712784771; c=relaxed/simple;
+	bh=uPaan8WWeNrf7KcvhIYFP+9mQ3Jap9iTRzy0ugpH7BU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VIlPaWxQ7Vx2uACWdB9wwuWwqaes+yeai+j/Rp//Cg7j3+7Fe9/Wh0PpH9HQekdawCASodRGBg1fRBUfY0gAlRxOMYAuw+8XpVFLt7qCw4gqBF6lpy3kuyfs4cIOZZmVIM+wPX7Nto5Lwa78/0t2I7JJQPy1qt4mUc3Jho/yb0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FwHViD6I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TNxLVhfT; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=dSWxhtMY4YIchHAPzwAfvkDt4R8w4qI8CLTgfxY46v3HCCCwlX6HVgcpV4yMDoXwkLHUCOlRRtl8QcZavVk4G7/Uinea7QPPn/swZ1dRaR/YFwXUzql0oAEo1UiwXm3ZYbMOBqgCyXbkIGs7xy96v68y/XUpDm34Djr8X/D/LrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cjZIlLaL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nV7PBw92; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FwHViD6I";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TNxLVhfT"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cjZIlLaL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nV7PBw92"
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1712784045;
+	s=2020; t=1712784767;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
-	b=FwHViD6IqUH6Dt4mypFv+cxXod1xbN1HB4zKr64xGYPMeUgzzfMUVoJ3kvd+VB2CvQpdqb
-	fHo+D2Hfhz+bnR9R4itTegQZbQC9gWjqfNAP97Llf0WXcwoDD5xaImLbrPk+rqf6FjuFyB
-	fHpeCmy15bhH+oQNJH7DqekBYuMT//0O0aXrqBfHWIoAPFByXVaF9lHZVB2LgJDfSvlr0O
-	xM9V1b7QNSNIm8LxQB3w5XPt/I8/WZ58t03zkl9PF+P+kz8pp+8somxMWj8WR2dOCLhV3k
-	9zeaX8Ie/CHyXq55h5LUCieWmzP0hClz+gEEztT1OutcdXmqjLFiHcEhoESLog==
+	bh=nh8OJkypTZN2dIacuWiBicR/c4idFBZIzTy0pVZ35ws=;
+	b=cjZIlLaL/PET73d27bxQlie5EjJ9KCuctB85P00To/7BKeKXkrRLZKwPkflv6XDInOeerx
+	SYrs+aLDhP34tezZuQ77WhJ/aBHrY9wjSRib7PnKXWawOBOLOaifubvCZOMmkA/WsWNrkH
+	tQPDQyPuOa+hNZjY8Bbl7N/vHusGJTFQYvRu6+DYQn1cNkZCNgSGbrJ+q6rNhhmb5lp3N+
+	3poKBGia6ReXtFAEA4uM2gTKqOROS+34+hyarZ5Njq9FjIiOQS3Gn6sCpsKF54Cv9Bxyp7
+	AyjUU/mnMozhgiNZV2MyTLzsjgOSXYlGwp+V4Y+1Zr/QadVb0yY+cso9P/ouwA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1712784045;
+	s=2020e; t=1712784767;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
-	b=TNxLVhfTSGEjRdOUAJEdbT0v1iAfoxcexXJbxNXc0RJ2rOoS0urv9iS637SyXee84icb4A
-	v2DWCNmgXp4sKaDg==
+	bh=nh8OJkypTZN2dIacuWiBicR/c4idFBZIzTy0pVZ35ws=;
+	b=nV7PBw924lPvBzqrI/DpQb1r5WYRKGXbBipF/QylDBVVWVk2N5W4vkOtRlhcxuBm8quLJH
+	XhR5wRV5qwpOLsDg==
 To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
  corbet@lwn.net, linux-kernel@vger.kernel.org
 Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -53,8 +53,8 @@ Subject: Re: [PATCH v6 01/11] x86/tsc: Add base clock properties in
 In-Reply-To: <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
 References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
  <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
-Date: Wed, 10 Apr 2024 23:20:44 +0200
-Message-ID: <87frvs3oer.ffs@tglx>
+Date: Wed, 10 Apr 2024 23:32:46 +0200
+Message-ID: <87cyqw3nup.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,35 +64,97 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->
-> Add base clock hardware abstraction in clocksource structure.
->
-> Add clocksource ID for x86 ART(Always Running Timer). The newly added
-> clocksource ID and conversion parameters are used to convert time in a
-> clocksource domain to base clock and vice versa.
->
-> Convert the base clock to the system clock using convert_base_to_cs() in
-> get_device_system_crosststamp().
+> @@ -48,6 +49,7 @@ struct module;
+>   * @archdata:		Optional arch-specific data
+>   * @max_cycles:		Maximum safe cycle value which won't overflow on
+>   *			multiplication
+> + * @freq_khz:		Clocksource frequency in khz.
+>   * @name:		Pointer to clocksource name
+>   * @list:		List head for registration (internal)
+>   * @rating:		Rating value for selection (higher is better)
+> @@ -70,6 +72,8 @@ struct module;
+>   *			validate the clocksource from which the snapshot was
+>   *			taken.
+>   * @flags:		Flags describing special properties
+> + * @base:		Hardware abstraction for clock on which a clocksource
+> + *			is based
+>   * @enable:		Optional function to enable the clocksource
+>   * @disable:		Optional function to disable the clocksource
+>   * @suspend:		Optional suspend function for the clocksource
+> @@ -105,12 +109,14 @@ struct clocksource {
+>  	struct arch_clocksource_data archdata;
+>  #endif
+>  	u64			max_cycles;
+> +	u32			freq_khz;
 
-In https://lore.kernel.org/all/875xxhi1ty.ffs@tglx I asked you to
-provide a change log which explains the WHY and not the WHAT. The new
-change log still fails to explain WHY this change is needed and which
-problem it is trying to solve.
+Q: Why is this a bad place to add this member?
 
-I further asked you to do:
+A: Because it creates a 4 byte hole in the data structure.
 
-    1) Add the clocksource_base struct and provide the infrastructure in
-       get_device_system_crosststamp()
+>  	const char		*name;
+>  	struct list_head	list;
 
-    2) Make TSC/ART use it
+While adding it here fills a 4 byte hole.
 
-But this still does #1 and #2 in one go.
+Hint:
 
-If you don't understand my review comments, then please ask. If you
-disagree with them then please tell me and argue with me.
+  pahole -c clocksource kernel/time/clocksource.o
 
-Just ignoring them is not an option.
+would have told you that.
+
+>  	int			rating;
+>  	enum clocksource_ids	id;
+>  	enum vdso_clock_mode	vdso_clock_mode;
+>  	unsigned long		flags;
+> +	struct clocksource_base *base;
+
+> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+> index b58dffc58a8f..2542cfefbdee 100644
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -1193,6 +1193,40 @@ static bool timestamp_in_interval(u64 start, u64 end, u64 ts)
+>  	return false;
+>  }
+>  
+> +static bool convert_clock(u64 *val, u32 numerator, u32 denominator)
+> +{
+> +	u64 rem, res;
+> +
+> +	if (!numerator || !denominator)
+> +		return false;
+> +
+> +	res = div64_u64_rem(*val, denominator, &rem) * numerator;
+> +	*val = res + div_u64(rem * numerator, denominator);
+> +	return true;
+> +}
+> +
+> +static bool convert_base_to_cs(struct system_counterval_t *scv)
+> +{
+> +	struct clocksource *cs = tk_core.timekeeper.tkr_mono.clock;
+> +	struct clocksource_base *base = cs->base;
+> +	u32 num, den;
+> +
+> +	/* The timestamp was taken from the time keeper clock source */
+> +	if (cs->id == scv->cs_id)
+> +		return true;
+> +
+> +	/* Check whether cs_id matches the base clock */
+> +	if (!base || base->id != scv->cs_id)
+> +		return false;
+> +
+> +	num = scv->use_nsecs ? cs->freq_khz : base->numerator;
+> +	den = scv->use_nsecs ? USEC_PER_SEC : base->denominator;
+> +
+> +	convert_clock(&scv->cycles, num, den);
+
+Q: Why does this ignore the return value of convert_clock() ?
+
+A: Because all drivers will correctly fill in everything.
+
+Q: Then why does convert_clock() bother to check and have a return
+   value?
+
+A: Because drivers will fail to correctly fill in everything
 
 Thanks,
 
