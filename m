@@ -1,50 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D2C13D504
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 08:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124B31553B7
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 09:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712739367; cv=none; b=lQvJGTj8heY3Wtqeny3zybjpuDEMsEIYQwlWMtb6Pss78Zp5u2PpuFZKvTqcGIs624oFMEkiVCuXxyviT0+/PydYl8v1+6Kg0dpvRA7MbEvXkH/BMClv32M7ULi+jt3syAGs1xPsDbcTVn9M44iZjGrYlHrRBkW9FJua2Ei5mAA=
+	t=1712741357; cv=none; b=iz++2vVb/81XgCo5pwLNpyfuBuNELT0xiuGHS4ABrklspyEHV6L/8U4FEnIdE4w0Ahn2UXRTg3L/4V36qaOEH58KGBBVzzZeBh3fVEK6wQpYJMyWuj5hYi6V8+9YB7HCZ7HK96f0UsD4LRuyKexITpnU8NEFl7llpyScN9//8HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712739367; c=relaxed/simple;
-	bh=k7E5js5nsahHbfadgGyTWzrhHeuRPfKiRU5hE/fkCXA=;
+	s=arc-20240116; t=1712741357; c=relaxed/simple;
+	bh=6BEZbI7KV8B3eszDr0HfCNB0Z0sn1CHOU8k8kIi+hgY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aJMoiZNcJYoJkKAfTZMKZFo7n8nIbg5BtAa43r8hGdZ+2k8t3KCjnbNjP+/7dV6raID2ybyDErtmqIk9sKWoqzxAlbkmKeKUqv2Rf8JyCp5iB0uH6maKxeprmSfdaYNlifxgrh1bnpkBl+Wp01pcXX4n6rgir9Lx49q0O2R3N/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bouDEDok; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=SDA86qZVlt/IjRuL3zwPAztjf54dl5FVv9IlHqdj7K1g7Ty4Njdlzt5KPLCD7AvL+0AuzhLxq9DPFNImdZpBA4ta1HHLX38R7z6UQQTFYIsZ06FhU3yqd2yBL5XdLyE0QFQ4loanqnHZ421Ft05v93IFdBzCw6Td086EVdnrzvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=T9qHz4n4; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bouDEDok"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712739366; x=1744275366;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k7E5js5nsahHbfadgGyTWzrhHeuRPfKiRU5hE/fkCXA=;
-  b=bouDEDokwSplUGrfu5HBjjeNEBP3uvJQ2OUy9yUi+AlJG5WDiItq4YKZ
-   meiS+23e0yKdcweJygOwYL9RL4ITk0h6k67l+8bjWhGEv/cdgs2b/Ukff
-   tbAT7oLu1ZpxHM6gBUkFAe3s6RkNhEf+fwpVTMUNtd5BKB9AoPAvC0Bxi
-   HwAAkzmTBiKG67p0XkWSfMKvmMQC4DfvfIAAHQD3le5aKzK3o6FPsM3DT
-   gAPHFg1twk87PJWrei4QHhen6lC+IztH7V34p82quDj+2Gt0PoU3v2YJV
-   UBJ3uzAoUWLe3+Bc3kqy/54EFs3klZ6hm5EwaqdEH4CXtQvo8FLTZ6WzP
-   g==;
-X-CSE-ConnectionGUID: Li+Ec6r8TkK+ApZ+JBb84Q==
-X-CSE-MsgGUID: eb5qjid1Qnic2zNfnO7Isg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="30571179"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="30571179"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 01:56:05 -0700
-X-CSE-ConnectionGUID: epc6rSWwSZe2LLRwd1TXQg==
-X-CSE-MsgGUID: E2EOwVS3QBu0D1vZIVSkeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="21061842"
-Received: from bfernan1-mobl.ger.corp.intel.com (HELO [10.249.37.122]) ([10.249.37.122])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 01:56:03 -0700
-Message-ID: <61fd0ebb-fe75-460a-a85c-e7c346be6113@linux.intel.com>
-Date: Wed, 10 Apr 2024 11:56:01 +0300
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="T9qHz4n4"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-416c4767ae6so3816765e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 02:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712741353; x=1713346153; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
+        b=T9qHz4n4Foc7hRwTv8yZWgRFWk8UMS0PDxgLT9anc4rF9s/kddxFrngEaQhDamPwRA
+         97hEFJnVUD1GXCXBSb6oHYIcJ6gWwwEuVNzi1Qbtu5ExUEJOWn70tcc6mgeONlj52Jv0
+         +mmwolViO+G6iB/W1UfuAMYsaNmugR1WGg2YB/mUhJisDcFsAHD0I1OJvHRZRxCVX1G/
+         5aoU4oM6iXnxteFTnD0U3KSWukMYd+0Upr4tnLYacRqGqwUdikSfPT4qrob7RpoZqj3d
+         WS1KOIGsq1B1P5xiqfcd/2CrdYPfZxe+TWX9bBRMayTMp4PO6aGCyIF5PDKaBoNEEC/7
+         /bXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712741353; x=1713346153;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z4kwkorErv8tb8SzoHtazPQP+BQoahujJfqdWOv/amk=;
+        b=CndKWSaY5SPQ+502mWtnOqz28qaJ89Dnrr0FXLjOfIiO64X4XMo+eULh/2tOdmUWRf
+         pskxucVaCAIdx10awS7G6Tma9XE4irtgF9CShVZqWMSyDm9p0vsUWV4af6yYTVAFUyU1
+         FMMGnfbZEdDVjr2wdC9mVABI1IjKagnfAAu3MR5aV8veBZH4dTTi5BYqJrucNbGk+nFd
+         cSPz21uFNhFqraNZTcb7WPsksh/WFqndziHBeU/QLljw9hZhjOAubAGzqxkY14yPIAOl
+         gzVrmZusV7S3BBwyobhswS4xLz5aPrSZpJtz9fPqOuHyVfJa7t4mv061+am7rKcoY/Pe
+         6SLQ==
+X-Gm-Message-State: AOJu0Yzn7gwv/klqv6tQRhvkvO98e2U49aUaiTMoIvxKJ+TkuJAxDKvr
+	kfZ/Ha6kzB4Zpm35+7T52giex3/StiM5eQizcYO29Ra2FyCB4LDcMGAuQZZ/96s=
+X-Google-Smtp-Source: AGHT+IFvXyauqU6yE1hhXxe+82hSR7xjimh79oxs60By+238847k+6MrB7Ys5sLNSFw6IjHtaU72FA==
+X-Received: by 2002:a05:600c:5252:b0:416:643c:8946 with SMTP id fc18-20020a05600c525200b00416643c8946mr1274626wmb.17.1712741353432;
+        Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id u15-20020a05600c19cf00b004168efc77d1sm1698186wmq.39.2024.04.10.02.29.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 02:29:13 -0700 (PDT)
+Message-ID: <9ecf2158-10d1-47b3-a02f-54a4cddbf426@baylibre.com>
+Date: Wed, 10 Apr 2024 11:29:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,51 +60,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] ALSA: hda / ASoC: SOF: Add support for PIO command
- mode
-To: Jaroslav Kysela <perex@perex.cz>, lgirdwood@gmail.com,
- broonie@kernel.org, tiwai@suse.de
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
- kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
- liam.r.girdwood@intel.com, ranjani.sridharan@linux.intel.com
-References: <20240409083812.14001-1-peter.ujfalusi@linux.intel.com>
- <1a9b4e05-9314-432b-a52e-133b0e5719c7@perex.cz>
+Subject: Re: [PATCH v3 01/18] ASoC: dt-bindings: mediatek,mt8365-afe: Add
+ audio afe document
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
+ <20240226-audio-i350-v3-1-16bb2c974c55@baylibre.com>
+ <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
 Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <1a9b4e05-9314-432b-a52e-133b0e5719c7@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <e0b48da7-b33c-45e4-b3f3-a6d71bb0afe2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jaroslav,
 
-On 09/04/2024 11:53, Jaroslav Kysela wrote:
-> On 09. 04. 24 10:38, Peter Ujfalusi wrote:
->> Hi,
->>
->> This series will introduce support for using PIO for commands (immediate
->> commands) instead of CORB while retaining the use of RIRB for unsolicited
->> responses (notifications).
-> 
-> Hi,
-> 
-> Could you elaborate, how this affects CPU usage (busy loops for I/O)? Do
-> the bus read operation wait until the data transfer on bus is finished?
-> 
->> This mode of operation is the recommended one for Lunar Lake family.
-> 
-> A bit more explanation, please. It looks like a step back.
 
-LunarLake is a different architecture compared to previous solutions, so
-some things are improved with e.g. all audio interfaces using the
-HDaudio DMA, and others are done differently (commands, wakes, etc).
-In practice, we have not found any cases where performance would be
-significantly impacted by the use of PIO v. DMA. The number of 'verbs'
-sent is usually fairly limited.
+On 09/04/2024 17:46, Krzysztof Kozlowski wrote:
+>> +    soc {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        afe@11220000 {
+> Did you implement the comment or decided to keep afe?
+> 
 
-The major concern we had initially was firmware download for Cirrus/TI
-amps behind an HDaudio bridge, but all of those solutions rely on a side
-I2C/SPI bus so the firmware does not rely on the HDaudio commands.
-Hope this answers to your questions
+Though it was clear according to [1]:
+"
+Audio Front End, this is the same name used for other MTK SoC, to be
+consistent.
+
+Cook a new patch serie to change "afe" by "audio-controller" for all MTK
+SoC would be great.
+"
+
+I want to keep it and fix it later with ALL other MTK SoC.
+You didn't answer after that, I though it was ok for you...
+So if you don't agree with that, just tell me to change it instead of 
+let me think I've the choice.
+
+
+> BTW, whatever "consistency" you have in mind, it does not really matter
+> that much for that example. And for sure do not add incorrect code
+> intentionally just to fix it in next patch.
+
+I don't get your point.
+What do you mean by "do not add incorrect code intentionally" please ???
+
+
+My PoV: I implement my bindings aligned to ALL other MTK SoC, which have 
+been validated by you in the past. I can understand the copied code is 
+wrong, but I've suggested a solution and you didn't NACK it.
+
+I fell like you bully me. Are you ok to stop insinuating bad things 
+please and tell me directly if a fix is mandatory and if you are waiting 
+for a specific one, tell me directly to avoid this kind of unpleasant 
+talk and waste of time, I know maintainers are busy persons.
+
+Beside that, thanks for your reviews.
+
+[1]: 
+https://lore.kernel.org/all/eeb3329b-0558-4237-8343-4e11f65a6a35@baylibre.com/
 
 -- 
-Péter
+Regards,
+Alexandre
