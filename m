@@ -1,118 +1,82 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA4A179212
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 13:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6291E16ABC4;
+	Wed, 10 Apr 2024 13:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712756778; cv=none; b=moXT3g9VkCaiJb/yBiwvIlkBnhjZ9r1bFqCKjJjW2XP3Q9KtpqlCfP8ZzYbn/2sj3chsiZpR5Pp+7HOA51swDhvyTdRsGELrA1EFEi21G9YDvXVZPO/TdPeZbZF7aQnRbm/m2GleY5HLKpRQVDoufdDLmQQejBli4UvVQC8mfSQ=
+	t=1712757028; cv=none; b=MXrkw9uh9eq6h4RI8AaRbl/3mxKaivDjA4mDr3x9d67cqOSTnNop8gZOksN1SD3Hh/dBBsjS7zhVZoX6mZ1kXHIhmjWjEZRahkhY4kozHMP2883KqpLG+xE2wDyDmFwoQLrehCKMNRDMNdVSgF3IOJsWiTU1bwc7dh5eq/bDZbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712756778; c=relaxed/simple;
-	bh=QvOn6cvji9QTSJm7bpuEUbJNN7acKTTuonvs3yRgL0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EJaYGiDJU6WazOjL7txh4OR36PM5z+G3Up0UvwqNM+Vm+sYBwYWWpSmEBjaGW5R6iJLG7j4NAs4HvU7Rs1isl7tc3IBqTbieKvrXRKytBWTOop9vHIgyUNSJGsn/tNmwG3N0WrFhPKh0839XRxlhgNWU5RofeTCRu5nBD8fUIug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kosRFtIz; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1712757028; c=relaxed/simple;
+	bh=ljr445iusAw39F2vSF8K2Sww11owRwWWcRfepDqn/3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=INo5NcHUsyeZOAg+R5xh0cexYKcnMPxI+fw4Nu+VDWmSIbLdTFJZYEGeg7+9AkeqskRBZooHiCoORpurkKSN0NaogAO2Ww7fW5kJvQkahokhgExnrlIR5vmdq2k+zoJfI4I8VL2Y9/bMb84NV5U7ymJLs3yFfNsEA636zavOQWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RN5UC6Kv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kosRFtIz"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-417c5cc6be0so1213175e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 06:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712756774; x=1713361574; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QNwy39mEHd5CSC3eirYZIbXLLfL+/dRw/DVFAe0gv+k=;
-        b=kosRFtIzXWMOjy6UyvSE09lRqzPywlytuBuK9KZsw+HUecFw3ulP8T4Hj1atCemzXp
-         fMELPqqsbOi1Oi4qEJUBGAIP/gpLrRL8oEOFfk6m3ep4wFj8laHEFqkAUQdXRNgRUhXP
-         P9Kt1satLlxq1NcEE3KUZX8sQvijWC4GZ+RaoqZy+oQCJNhaYx4ARlTEc2fWy8JEBWPw
-         60cTE9y2b7Ufmy06uXwZdOlv0g/J+V+f8RcHNmXnNYSNXPKLQ2QZtWjPfkwEv8++n0wd
-         Ku7EhaErnD3W+KowFxvKYCdstb4uL8Arpvrd9uzVPqoxw8nhAmyITzYyDGQhin6J5akF
-         vJoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712756774; x=1713361574;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QNwy39mEHd5CSC3eirYZIbXLLfL+/dRw/DVFAe0gv+k=;
-        b=VZ0puw7OGC9G1c6ZUYxE7V5kFZeLHGuVxCyhNYo8esaSIGWyvzBcjyGavQZEn+nona
-         t1HPDU5CGihbmWoywQTnKPC0nV87gxz/NuQIZqMeyYVkkkN9d60n+ZgU1U7kcnme2Vpe
-         xxWUyi1OyNAAuRG/4Mhs2Po4rS1mdlU6OTl5eApdEbZ/qGrB7WGlPlZ9jlodvzHsdaoT
-         04r6F0DvQx9Vh/qNSmILA+JRlB5A4jGXid0VXcb1Qw3CV/sb+yRvLLR+pfiphZ18dy8/
-         253VLE/vZn1w3+b+NfxJj2269n+pZW3HXaA9GHGdZrx8RzYpnHEJ0+ZeGGsZdOLpCRDS
-         eNig==
-X-Forwarded-Encrypted: i=1; AJvYcCXsG4Rb+w5wfrrLn/qINkW4cgOgbV5OIIvs+Wqe7Uu4P9oDYlnhwXcera/43DzZB0IcBUuX5eD61EX5+I6YbQvC+CUBc2XiyjeRtvY=
-X-Gm-Message-State: AOJu0Yxm7ykleY/E9T3Z/9Nvw8rxDMXQuJPYGKIaJkM//hOD0GML9GAd
-	cj3/D/Dum2cHcff9nqV3+6ojfEu8hgt0RXpQaFxCXxmLhDsaXvLbaA4rZ7M6OVQ=
-X-Google-Smtp-Source: AGHT+IGxsQggXycRi+dm4Bw4Xi8pQLO4aefRSNITx/omDNTFi8n4uULRx1pb1qcEcpuljXdkWzOSMA==
-X-Received: by 2002:a05:600c:4446:b0:416:c990:d668 with SMTP id v6-20020a05600c444600b00416c990d668mr1409845wmn.8.1712756774480;
-        Wed, 10 Apr 2024 06:46:14 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id o4-20020a05600c4fc400b004170e0aff7asm1931574wmq.35.2024.04.10.06.46.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 06:46:14 -0700 (PDT)
-Message-ID: <dba5a3d3-97ba-491a-9290-35ffd42c740b@baylibre.com>
-Date: Wed, 10 Apr 2024 15:46:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RN5UC6Kv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10870C43390;
+	Wed, 10 Apr 2024 13:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712757027;
+	bh=ljr445iusAw39F2vSF8K2Sww11owRwWWcRfepDqn/3Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RN5UC6KvcL2KelCAspbm3Ew/SAfruCtzSEZcjHpDuNjV/0+yr5pFYkW5M75Xs8IV6
+	 9F3gufe0UjwbZnUWqXaazv8zkOhlIwS7TMa1sNmM7iYNibKjQlIGcsesue9lhYNpkA
+	 z0NijGc0VxHCHon9TpzTObiYgP3eG4m1eRKSAn74Q84D8qLe6jiMloPtkodgwAy79n
+	 qwR/lj8RXHpSJz/fvV2Eo+tbj3bIt9ELjT/LLwp0khwBIIlOtaz243uTErtb0rdzkp
+	 FzCXuHqG/aQKVCN4Uo4gDaHjRfBi1IGIqpVHWBWqWk1oCvkagmCMF0F3k//STbysz3
+	 K0aZZsBe5j3WA==
+Date: Wed, 10 Apr 2024 14:50:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, vkoul@kernel.org, tiwai@suse.de,
+	vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
+Subject: Re: [PATCH 1/4] ASoC: SOF: Intel: hda: disable SoundWire interrupt
+ later
+Message-ID: <1b5da72f-755c-4440-a5df-c0d76252a2f9@sirena.org.uk>
+References: <20240410023438.487017-1-yung-chuan.liao@linux.intel.com>
+ <20240410023438.487017-2-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/18] ASoC: mediatek: mt8195: Migrate to
- mtk_soundcard_common_probe
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- broonie@kernel.org
-Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
- trevor.wu@mediatek.com, maso.huang@mediatek.com,
- xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
- kuninori.morimoto.gx@renesas.com, shraash@google.com,
- nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
- dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
- eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
- jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
- ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
- nfraprado@collabora.com, alsa-devel@alsa-project.org,
- shane.chien@mediatek.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com
-References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-5-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20240409113310.303261-5-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ukQ+x4zcJGz078s9"
+Content-Disposition: inline
+In-Reply-To: <20240410023438.487017-2-yung-chuan.liao@linux.intel.com>
+X-Cookie: A bachelor is an unaltared male.
 
 
+--ukQ+x4zcJGz078s9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
-> @@ -29,6 +30,13 @@
->   #define RT1019_SPEAKER_AMP_PRESENT		BIT(1)
->   #define MAX98390_SPEAKER_AMP_PRESENT		BIT(2)
->   
-> +#define DUMB_CODEC_INIT				BIT(0)
-> +#define MT6359_CODEC_INIT			BIT(1)
-> +#define RT1011_CODEC_INIT			BIT(2)
-> +#define RT1019_CODEC_INIT			BIT(3)
-> +#define MAX98390_CODEC_INIT			BIT(4)
-> +#define RT5682_CODEC_INIT			BIT(5)
-> +
+On Wed, Apr 10, 2024 at 02:34:35AM +0000, Bard Liao wrote:
+> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>=20
+> The SoundWire interrupts can be masked at two levels
+> a) in the Cadence IP
+> b) at the HDaudio controller level
 
-Why are you using defines+single variable to track inited parts in the 
-probe function but do it in the different way for legacy_probe using 
-bool: is5682s, init6359 ? AFAII, both can use the same method with the 
-defines above.
+Acked-by: Mark Brown <broonie@kernel.org>
 
->   #define RT1011_CODEC_DAI	"rt1011-aif"
->   #define RT1011_DEV0_NAME	"rt1011.2-0038"
->   #define RT1011_DEV1_NAME	"rt1011.2-0039"
+--ukQ+x4zcJGz078s9
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Regards,
-Alexandre
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYWmR4ACgkQJNaLcl1U
+h9CMSAf9GJpquDoyEOhACCD+Fz5niy4JzZEgRbXhbitqIWrI24YDbKHBRYzL1ukT
+8iNZwItYjgWzxfm8bKe7nmLHqLgpAyy4hW4Pr1wTUCfaVcmSrvKHABAE9trvVz7/
+hBkGphUuL8zR93o7GMUBH1yr6BQAnq3x9l1WGJwECxs/dDNBhNWDd30HglGFxyoC
+RX9ft0D/qZAhoU26CHrqwDJ3PMgoItNGSz3K3Veog1y+rIGU1Yn+GQNoPUj2hM6K
+xlIuXO5Yb9hdeXRKiML2UDfKDwt2R96gxBEWCtNdoDCKEBgsbD/OoAXGjqZ53/eI
+6wiZu4TGRETMl9nlKwK1y9fE5hc5Bw==
+=ZGeT
+-----END PGP SIGNATURE-----
+
+--ukQ+x4zcJGz078s9--
