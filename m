@@ -1,59 +1,59 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5347915D5DA
-	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 12:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA4A179212
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 13:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712753896; cv=none; b=oA6iIkFtI9psCsW5+lwtBjA5mjKT4KZfnAs5JGituYhmB0+8MYS6XvMcXyJyMETfBAcp4BAbcy0PPZTpfnGx96IXXCbW2lREDcOJ/RNscSizmzlmUtsncNlCYTW+ouQ+CjO4q6ZfEv5PJWN9y6OgchNZa8W3VjT1RS5fi5khjkc=
+	t=1712756778; cv=none; b=moXT3g9VkCaiJb/yBiwvIlkBnhjZ9r1bFqCKjJjW2XP3Q9KtpqlCfP8ZzYbn/2sj3chsiZpR5Pp+7HOA51swDhvyTdRsGELrA1EFEi21G9YDvXVZPO/TdPeZbZF7aQnRbm/m2GleY5HLKpRQVDoufdDLmQQejBli4UvVQC8mfSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712753896; c=relaxed/simple;
-	bh=XvD5fOS/hQ7HPF9KYvW4fabBNiId/tBgRPWvKt02DhA=;
+	s=arc-20240116; t=1712756778; c=relaxed/simple;
+	bh=QvOn6cvji9QTSJm7bpuEUbJNN7acKTTuonvs3yRgL0s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CO+FRkstnIlMZh/8ze0LBjHKNFkQpJnJ2pzvhaHNevSkkbEnV2mJJsWqJdnygg2wtIePR3kPC2oDglb5N1fTNsj7B/GZXHy+/4CleJyWx3jUc9oc4E4CNJE8YaWlOLPNbJlhdJLxCi5Zgo6AO+a+jhfksckO5nX23DINei/iI1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Qo/aNGXx; arc=none smtp.client-ip=209.85.221.44
+	 In-Reply-To:Content-Type; b=EJaYGiDJU6WazOjL7txh4OR36PM5z+G3Up0UvwqNM+Vm+sYBwYWWpSmEBjaGW5R6iJLG7j4NAs4HvU7Rs1isl7tc3IBqTbieKvrXRKytBWTOop9vHIgyUNSJGsn/tNmwG3N0WrFhPKh0839XRxlhgNWU5RofeTCRu5nBD8fUIug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kosRFtIz; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Qo/aNGXx"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-346359c8785so1021230f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 05:58:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kosRFtIz"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-417c5cc6be0so1213175e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 06:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712753892; x=1713358692; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712756774; x=1713361574; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SAPCyLKBSHRTWSRRoqdJH1JxTgNtm+xffvG0gyEDWQ8=;
-        b=Qo/aNGXxjrUKSLafOFe4kqGTXdywcDhIyb+D2RJoIL8MoP7akMSk1Mge0BuVmQQrpE
-         KwRQAWfrHVtVfWFINSlOgPAhA4f9Vfq3os839cFuU0aSfvRx6Eg4hxippPBgbyudFq6x
-         IDCyhs/jxVUs0IVXIOuTcfzwyzcsD6+zACc8BeYmW2rB4H/bdfkcnn1S39SnU7dlIMuI
-         1TtQ1lRl/1cys3h25u5vJJtceF4PxApK+6BQMdyDlJLwkti/hKf7DBXCtM6coIFk8AXl
-         VswfYJd1FxYFhUXinHRZ1VpcHd1eOzT+heN+JdkEeUkWh0tzUoKBLhixy+yRkjM5kjfV
-         fqCQ==
+        bh=QNwy39mEHd5CSC3eirYZIbXLLfL+/dRw/DVFAe0gv+k=;
+        b=kosRFtIzXWMOjy6UyvSE09lRqzPywlytuBuK9KZsw+HUecFw3ulP8T4Hj1atCemzXp
+         fMELPqqsbOi1Oi4qEJUBGAIP/gpLrRL8oEOFfk6m3ep4wFj8laHEFqkAUQdXRNgRUhXP
+         P9Kt1satLlxq1NcEE3KUZX8sQvijWC4GZ+RaoqZy+oQCJNhaYx4ARlTEc2fWy8JEBWPw
+         60cTE9y2b7Ufmy06uXwZdOlv0g/J+V+f8RcHNmXnNYSNXPKLQ2QZtWjPfkwEv8++n0wd
+         Ku7EhaErnD3W+KowFxvKYCdstb4uL8Arpvrd9uzVPqoxw8nhAmyITzYyDGQhin6J5akF
+         vJoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712753892; x=1713358692;
+        d=1e100.net; s=20230601; t=1712756774; x=1713361574;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SAPCyLKBSHRTWSRRoqdJH1JxTgNtm+xffvG0gyEDWQ8=;
-        b=wTA0JZF0pe4Dhv8nkzLH3TXvDDBIsO2eUWQUDyF5f1b+myNmXBT9ntl7ocFEl15r0M
-         UwKxhE96xC9xdkEiCx63I3XDpT8VcsSXyqqD4CWCaIf32X1FPMGt9KIIuyuPf73H/tfA
-         BnJUiea1x8O6WAwRe86ZySEh2q5rYfn25bn2xdObXvn3BTrnKTHGEnptHFUkbEa7rh45
-         t/GPykYrf2NaGZgmjKjUnqw2Vniacw/mlq2UsWR47OBj7dFNHh3SPpaxOuWFcPQmtNZZ
-         pJUe2zhoROmlPFLWwa1vAwFP6uwUVwSOSAA22L7zMXB3sLG/bLve/ssN8B2SsgqNyqnC
-         N2fg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2oatfMpJf8MeDN2rGumz2mxJm6qB2wkt9IuPeaZjB4V6oNKb5jYNwvU6eyG2yo0f0PZm/kXabp53wZ7Taewut5ATOP1qdGkqVxSw=
-X-Gm-Message-State: AOJu0YwIcGxOQn7ucPgXVORvn9W9fHXnGgM5MLKLmekhuBcyVLfXEdNs
-	bYgSPA1GMYrB99YP53qxGtVCqMqxBz07b7hxjqXQXaw2GcRI9GhtfSd0Fghuo8Q=
-X-Google-Smtp-Source: AGHT+IHfa120qRAfspKcAyRMy5PXxHlCGJzmW0vlTzwyQGnoeYFwCg8fQKa0TokP1NrBdWntPAlpFg==
-X-Received: by 2002:adf:ee8c:0:b0:346:47d6:5d17 with SMTP id b12-20020adfee8c000000b0034647d65d17mr1758280wro.57.1712753891611;
-        Wed, 10 Apr 2024 05:58:11 -0700 (PDT)
+        bh=QNwy39mEHd5CSC3eirYZIbXLLfL+/dRw/DVFAe0gv+k=;
+        b=VZ0puw7OGC9G1c6ZUYxE7V5kFZeLHGuVxCyhNYo8esaSIGWyvzBcjyGavQZEn+nona
+         t1HPDU5CGihbmWoywQTnKPC0nV87gxz/NuQIZqMeyYVkkkN9d60n+ZgU1U7kcnme2Vpe
+         xxWUyi1OyNAAuRG/4Mhs2Po4rS1mdlU6OTl5eApdEbZ/qGrB7WGlPlZ9jlodvzHsdaoT
+         04r6F0DvQx9Vh/qNSmILA+JRlB5A4jGXid0VXcb1Qw3CV/sb+yRvLLR+pfiphZ18dy8/
+         253VLE/vZn1w3+b+NfxJj2269n+pZW3HXaA9GHGdZrx8RzYpnHEJ0+ZeGGsZdOLpCRDS
+         eNig==
+X-Forwarded-Encrypted: i=1; AJvYcCXsG4Rb+w5wfrrLn/qINkW4cgOgbV5OIIvs+Wqe7Uu4P9oDYlnhwXcera/43DzZB0IcBUuX5eD61EX5+I6YbQvC+CUBc2XiyjeRtvY=
+X-Gm-Message-State: AOJu0Yxm7ykleY/E9T3Z/9Nvw8rxDMXQuJPYGKIaJkM//hOD0GML9GAd
+	cj3/D/Dum2cHcff9nqV3+6ojfEu8hgt0RXpQaFxCXxmLhDsaXvLbaA4rZ7M6OVQ=
+X-Google-Smtp-Source: AGHT+IGxsQggXycRi+dm4Bw4Xi8pQLO4aefRSNITx/omDNTFi8n4uULRx1pb1qcEcpuljXdkWzOSMA==
+X-Received: by 2002:a05:600c:4446:b0:416:c990:d668 with SMTP id v6-20020a05600c444600b00416c990d668mr1409845wmn.8.1712756774480;
+        Wed, 10 Apr 2024 06:46:14 -0700 (PDT)
 Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id l4-20020a5d4104000000b00343e392829dsm13404941wrp.97.2024.04.10.05.58.09
+        by smtp.gmail.com with ESMTPSA id o4-20020a05600c4fc400b004170e0aff7asm1931574wmq.35.2024.04.10.06.46.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 05:58:11 -0700 (PDT)
-Message-ID: <4c43eafe-f173-4a35-962f-a5f5f020a587@baylibre.com>
-Date: Wed, 10 Apr 2024 14:58:09 +0200
+        Wed, 10 Apr 2024 06:46:14 -0700 (PDT)
+Message-ID: <dba5a3d3-97ba-491a-9290-35ffd42c740b@baylibre.com>
+Date: Wed, 10 Apr 2024 15:46:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/18] ASoC: mediatek: mt8188: Migrate to
+Subject: Re: [PATCH v4 04/18] ASoC: mediatek: mt8195: Migrate to
  mtk_soundcard_common_probe
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  broonie@kernel.org
@@ -82,22 +82,36 @@ Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  kernel@collabora.com
 References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
- <20240409113310.303261-4-angelogioacchino.delregno@collabora.com>
+ <20240409113310.303261-5-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20240409113310.303261-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240409113310.303261-5-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Similar changes has been done for mt8365, it works.
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
-> Add mtk_soundcard_pdata platform data for the MediaTek common sound card
-> probe mechanism, including a driver/soc-specific probe extension (used
-> for bits that cannot be commonized  hence specific to this driver), and
-> change the probe function to mtk_soundcard_common_probe.
+> @@ -29,6 +30,13 @@
+>   #define RT1019_SPEAKER_AMP_PRESENT		BIT(1)
+>   #define MAX98390_SPEAKER_AMP_PRESENT		BIT(2)
+>   
+> +#define DUMB_CODEC_INIT				BIT(0)
+> +#define MT6359_CODEC_INIT			BIT(1)
+> +#define RT1011_CODEC_INIT			BIT(2)
+> +#define RT1019_CODEC_INIT			BIT(3)
+> +#define MAX98390_CODEC_INIT			BIT(4)
+> +#define RT5682_CODEC_INIT			BIT(5)
+> +
+
+Why are you using defines+single variable to track inited parts in the 
+probe function but do it in the different way for legacy_probe using 
+bool: is5682s, init6359 ? AFAII, both can use the same method with the 
+defines above.
+
+>   #define RT1011_CODEC_DAI	"rt1011-aif"
+>   #define RT1011_DEV0_NAME	"rt1011.2-0038"
+>   #define RT1011_DEV1_NAME	"rt1011.2-0039"
 
 -- 
 Regards,
