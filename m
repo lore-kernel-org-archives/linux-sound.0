@@ -1,93 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF82415E7E6;
-	Wed, 10 Apr 2024 13:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A43A17555D
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 13:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712757575; cv=none; b=XFOTsb3/77r0o2GCEDGZjazB4FEIBy6K4r8qnv5eUdKMWuOmFmHz+k9OFLEdtvAC8Nc2pXQC3YogpaBFKxIKM8HWIx7S1t+33c7zF8JU43+O88qQPkW2O0MM/jUkxEjXmCb9MtZi0JY5iwYNLGhMN2d7+cYGGU7o47vGqtiPIPU=
+	t=1712757601; cv=none; b=qt1Tw6gQKjXYdw3J10+lVPcqQ0NdNZQt3biRcrfO+fyFwZxOmG7OTWJOkxTXbZfxzrVl5rC+fEb/Jbt9nn+XXS+MeoGO4bgAB4410G2OSsP9pOTkh+mGHRRHiyQsrv11iCBik43J21yQ2gR0DK3GYctOBnqg2zyg7XUsxhwpYA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712757575; c=relaxed/simple;
-	bh=KzIwAs0WuSRVdxrxETt53ZODVPWPZANummHTPBLM92g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=btU3Gz6gq1I14cLFzpmqA2rJYObyucTUsgGpYC+U4hSti4beQqFibzKRTSYNPnOZTLPgTlKb88TQGQJtVbQwRT8r6sMDouhap1zFynHIYX6AULIV7UV4qolJYz9TNyS+Hasq3pbC5eShmPvzMkb2YvVD8WoILSwmMszGdQqMbsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L42VrYWg; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712757601; c=relaxed/simple;
+	bh=9VfcLjEoMTpi7xm+VUn6B0UvA2/X0m8cCVXK0p51Jw4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o1RG2or8c+n1TMkxH+VtKBp756nZv+OEOZf2ZZMOhWLm+ctoXXlhWxCYWhF1P+4fL9EFD13fGZYl8FElvWxX9gf8leSKdT/xcOsea5KKPeygdHylt4AXWysbut4AhKXZ277UFN/NudeA9arkyoesGYVW8bV5pXC64zsNpB5ZrnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=DPm3wpYw; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L42VrYWg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712757574; x=1744293574;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KzIwAs0WuSRVdxrxETt53ZODVPWPZANummHTPBLM92g=;
-  b=L42VrYWgU6IzUNSnkINbQMgH4duX2iZ591pjCnZ80afEty4yJJtjZMie
-   s6P0fWcePfbnMleZSFDGdaDnCGB7plOPWl9oB/kN2XOWV6lAHt50KxP2D
-   Kt5epZYmAyLYrgtw0DbWfgUp6XYnARBBJqccJjj7LKNmOu1tXPGlsN2YK
-   k2Sb2LnnnaY/5g7MACGZu+kcbvPz7ZblOOwzHFWSE49q0ULLpLVhbBbyf
-   cdAmSNQbz4vgCSzXTXTVphakAbjEAmp5MzQ9cEOND3c59YgdK5PBNXnU8
-   UyWbUs9W/Tz5zDY5jQm43wMn+odkdKPwFcIRwIyFUh7G0An/vG4XKYuFn
-   w==;
-X-CSE-ConnectionGUID: UoQNj6plTdqvTSajANgE4Q==
-X-CSE-MsgGUID: h9eqBgaCSiqIlkbNKePQYA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7993181"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="7993181"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:59:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915433717"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="915433717"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:59:28 -0700
-Received: from andy by smile with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ruYU0-000000035Gi-3T2g;
-	Wed, 10 Apr 2024 16:59:24 +0300
-Date: Wed, 10 Apr 2024 16:59:24 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
-	davem@davemloft.net, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com, pandith.n@intel.com,
-	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-Subject: Re: [PATCH v6 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Message-ID: <ZhabPIK_zDJgVf4c@smile.fi.intel.com>
-References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
- <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="DPm3wpYw"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-343f62d8124so3527135f8f.2
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 06:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712757597; x=1713362397; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g67OSHlwNTDKaFrM3/uwoPsdE8uUwCxkLF5hYguHcs4=;
+        b=DPm3wpYwzLFBH4up7aj4PkCtaEjUUp4IPlYcSQMWgeQO+1WBJHx1tiBaFCgfFS1pSe
+         hkC5zZT/FI0S791G9HsFd1tq1oh6SRmJQgkluP0grplmHp8wjiB4kpkD+ZbkHjCQ7fX+
+         C9cvPD1UCdn3g8XGN7kjTnZ3O3QQ3PlZw2I8qaO0eB1uobmTTtW+JfqC8dAYWd1HR/f2
+         ZGd2YPOzvQLsl+2JOLrKv34lwB+dXuTc63Kvabjr9a3zeHu0YS8dcuaU/9I5LQZTm6QL
+         xh6f87WG4v4guGr/2AgmIt5ZuNv2bEfgDkFMneXdLfaT5JVnS4wigDcvCzZ43tMpQyEg
+         Z7pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712757597; x=1713362397;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g67OSHlwNTDKaFrM3/uwoPsdE8uUwCxkLF5hYguHcs4=;
+        b=HhY9hG8riZTFVvgWYvXHGOTYHPJ1PIW2Lt+VVLyRby5p//hB9doHoqBR9XgpuiG/th
+         pt59hdeYFjLY2DutRTgwptzP7s4Eidw0RvOuBHJ3XvwBS5XQLaBdjTyjXY8RaK2eHaYS
+         TpmZM1uvPaoLEtgCh6v/Dqkn0Xlfsf6SNoUxYdCt477l+ZN/3kdJGcofTpqPHOj3n7Pl
+         CPggJ4A0nJPN2SuY8NKogvV6O/8tTd6xUHWnZXLmcK8QPsUZsicwII/NauJqCrgKh208
+         /SGm2POFxw/iHwTz7uAuGR1N/czsDUTIdDkW274TcFv3NpYmmDpD5p+06mwFAXD7Jtr4
+         /DZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWI/aqeYvfUYgrPmBIgVO6ly5lYUFvulywknxR4txZy4uGfIkaTdM5dNKYkfujVTDnvwf12+Qt1KNK4LEknS+e911BjJ0lxJxvBQZc=
+X-Gm-Message-State: AOJu0Yxxe7+u9jnkCWKJGsOxuFcme7Xtf/ufD7rFmR5T8//4Q6cmQk2Q
+	1hoqTpyZ6brz+klODTjBS1bbTcXGda7Vrb5o/3FvahGviHJkywC7OoJ53GFmC3k=
+X-Google-Smtp-Source: AGHT+IGRtn6DL2DEemnsBxsmvHHTd4nWEQsASvLDi6kfhHaIx+DPnIFaevFeAdtATqfu2OGeHdeMQw==
+X-Received: by 2002:a5d:620c:0:b0:343:98ee:524 with SMTP id y12-20020a5d620c000000b0034398ee0524mr1624742wru.36.1712757597439;
+        Wed, 10 Apr 2024 06:59:57 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id j15-20020a5d452f000000b00343e825d679sm13385379wra.87.2024.04.10.06.59.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 06:59:56 -0700 (PDT)
+Message-ID: <cf0184c4-2b3e-4074-9e30-bf65ec7f0aaa@baylibre.com>
+Date: Wed, 10 Apr 2024 15:59:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/18] ASoC: mediatek: mt8192: Migrate to
+ mtk_soundcard_common_probe
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ broonie@kernel.org
+Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
+ trevor.wu@mediatek.com, maso.huang@mediatek.com,
+ xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
+ kuninori.morimoto.gx@renesas.com, shraash@google.com,
+ nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
+ dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
+ eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
+ jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
+ ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
+ nfraprado@collabora.com, alsa-devel@alsa-project.org,
+ shane.chien@mediatek.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ kernel@collabora.com
+References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
+ <20240409113310.303261-6-angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20240409113310.303261-6-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 10, 2024 at 05:18:28PM +0530, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> 
-> Document sysfs interface for Intel Timed I/O PPS driver.
 
-...
 
-> +Date:		March 2024
-> +KernelVersion	6.9
+On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
+> @@ -1211,52 +1196,85 @@ static int mt8192_mt6359_dev_probe(struct platform_device *pdev)
+>   		if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
+>   		    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
+>   			dai_link->ops = &mt8192_rt1015_i2s_ops;
+> -
+> -		if (!dai_link->platforms->name)
+> -			dai_link->platforms->of_node = platform_node;
+> -	}
+> -
+> -	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> -	if (!priv) {
+> -		ret = -ENOMEM;
+> -		goto err_probe;
+> -	}
+> -	snd_soc_card_set_drvdata(card, priv);
+> -
+> -	ret = mt8192_afe_gpio_init(&pdev->dev);
+> -	if (ret) {
+> -		dev_err_probe(&pdev->dev, ret, "%s init gpio error\n", __func__);
 
-This boat is already sailed...
+I don't think __func__ is necessary.
+
+> -		goto err_probe;
+>   	}
+>   
+> -	ret = devm_snd_soc_register_card(&pdev->dev, card);
+> -	if (ret)
+> -		dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail\n", __func__);
+
+I don't think __func__ is necessary.
+
+> -
+> -err_probe:
+>   	of_node_put(headset_codec);
+>   err_headset_codec:
+>   	of_node_put(speaker_codec);
+>   err_speaker_codec:
+> -	of_node_put(platform_node);
+> -err_platform_node:
+> -	of_node_put(hdmi_codec);
+> +	if (hdmi_codec)
+> +		of_node_put(hdmi_codec);
+> +
+>   	return ret;
+>   }
+>   
+> +static int mt8192_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data, bool legacy)
+> +{
+> +	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
+> +	struct snd_soc_card *card = card_data->card;
+> +	int ret;
+> +
+> +	if (legacy) {
+> +		ret = mt8192_mt6359_legacy_probe(soc_card_data);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		struct snd_soc_dai_link *dai_link;
+> +		int i;
+> +
+> +		for_each_card_prelinks(card, i, dai_link)
+> +			if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
+> +			    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
+> +				dai_link->ops = &mt8192_rt1015_i2s_ops;
+> +	}
+> +
+> +	ret = mt8192_afe_gpio_init(card->dev);
+> +	if (ret)
+> +		return dev_err_probe(card->dev, ret, "%s init gpio error\n", __func__);
+
+I don't think __func__ is necessary.
+
+> +
+> +	return 0;
+> +}
+
+Beside that,
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Alexandre
