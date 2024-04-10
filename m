@@ -1,124 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3F815B990;
-	Wed, 10 Apr 2024 11:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422A9158DD4
+	for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 12:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712749791; cv=none; b=roAY/f74bVfmQYF7/jxVA5ImkeXrA9XgRZ/UZY8LRuYXu9kvEFXhyLl6rfFr1Dclz3/YBeZQms45w+Mue1mFKSCg/Aoin1NBdil4JP4WagoJCBw6zx3mWCTx8TOxUETsz1UE4ANNMoFNROaWBOB5mTHg0vz81M5bLtIsv0r+b+s=
+	t=1712752969; cv=none; b=WJQFfWj+sq7lG5S6w+x27f09stBDfjuXUECSpsyFnynD7XqcEui8JVeLyCKAjG1lF9gIuKAQfBQl4Nru3isW+w9IGa8qkuHnCszL4+PYrLYd7zjKsdqoEFqSuCOW6rop27oPPRW5rRJEa67Y9d8A2axnyzEvBjjIjvSvCU0oFOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712749791; c=relaxed/simple;
-	bh=hZSWgcp7GnBBKQ/ANmuBJ1lGoqRIvIkLrQj6268hnRY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eyhMzbfSTN2rgS6jeN1y5lVBxJXhei8YnI9cfTUPVvplNfM/DzylLw+9HETlXbJL2Aydd6+C93HDmHFio2EJv2U/DLfUc7DZ8jvhfAkUxwNRL6kZkhWiPHpLh4plPppfFM36gRNIPbKpw1ob0axzlOSeqJ3VkhlAELurOiSQqIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBmWg1Ej; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712752969; c=relaxed/simple;
+	bh=7ARq7CtkufCoSJtbuCqkwQo/bhan5+eThkCUX7hkdd4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fBHZ37/SarFUUbopEmi1zTf1WEas4ZDlsu3P68ifwkCVB1c+T5NB275BLPqc/Mr3t0hmL6ZquOSvqg1HMsVM3/ox4LHEwqiToK+j71EMFSUsF6aPtlbT4ozgLrQ01bU2YI57gklYpf4eL00mbPR7TYTZtPJwtviTcSpHDu9uYz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=t/WQ/oAT; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBmWg1Ej"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712749791; x=1744285791;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hZSWgcp7GnBBKQ/ANmuBJ1lGoqRIvIkLrQj6268hnRY=;
-  b=PBmWg1EjZrOXZKwQpe3+9Mz58iby46bu4mwDcdV8V369+0fUfuN2OgVJ
-   XrVylhGe54jkNyCHG0bkJhu0SqqFqEgufWZjSo/90hXdOAqigDQfOeMly
-   26kFezkNn1SizyPXGBZYPHpOTnFmTl5OGpiZUVH3GFh+ecSH+zUCKnLxC
-   ViI04zdtIT6oxxdG3RbVWvl9jaDK5NkpUvNYZAKwePp7NZnWkgHQTUuna
-   cRZn5sd+7UPFt2apkPiQVQpiCKkw3y00g1jyqiwztED/m//eg4swhdlUE
-   ipjIyRsUBhwgAHyBP3c9BVRumjmS5CV5RL/UXkYzEgZy+lzeO+/gnBhL+
-   g==;
-X-CSE-ConnectionGUID: b/dqFYzlTp2kw2Cs+oV3ZQ==
-X-CSE-MsgGUID: xzslro3WSQmtcgbPx8tUfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11944240"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="11944240"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:49:50 -0700
-X-CSE-ConnectionGUID: OT+wDgJGSJqHR+RwN/KXfA==
-X-CSE-MsgGUID: QtnGadiqSc2BPgOAsMkeig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="43769373"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Apr 2024 04:49:43 -0700
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com,
-	pandith.n@intel.com,
-	subramanian.mohan@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v6 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Date: Wed, 10 Apr 2024 17:18:28 +0530
-Message-Id: <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
-References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="t/WQ/oAT"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34175878e3cso4784097f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Apr 2024 05:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1712752965; x=1713357765; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s6I23qc5vtFfA69hwi5DwiHXGwJhre0eHDpmfJgJbQg=;
+        b=t/WQ/oATq6j2hHFcs4vT2QzflFqIi8geQYcDv6WyoEZ32loD5v9i4mwJISEjPy0fl5
+         yczxNzfJoHeS9NvutCsXI1fle3m3nyM1fvJ7P3UXmlKJdP+9XkarWArH9/6NuwLQ80ZL
+         5HLdwnltZ4B1DYgXdkZziLdU86q2tLoXqG8EIUDHaLBq5IB3B1EWrrniox8SEKDapvhJ
+         ki9uR5JlgLhTS6DgDwGfS9VQmGBlpXjXRxozrMG0aTZub7zYFVVWhIFSikhi2Hs1vvU1
+         mxo1OWdXCTI3xNG+dYJZxsoAxIbYQHCC4BN48qbh2IEE5NxmCYYm2Yf9LDFQcKSCEPZ8
+         rw3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712752965; x=1713357765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s6I23qc5vtFfA69hwi5DwiHXGwJhre0eHDpmfJgJbQg=;
+        b=QA+IUJcEhnULV7hk1gfUxa3mbV0nYzFM9auiRrQ39WUzmDrsHUfOgyqbza2j3SepFk
+         WMBCvQkN0MeyBMnpHJoPFQD/lN5Gx4B1vAharV92q2t7Rp6azqskz6bAQvS8rXu3pDcR
+         BsfvvQubODVDF6qYA4F/BXQZWjRm9ibnA5R8dwENJDntaeb8p4mIQFPOKCjTUBZJxUC1
+         sdBldSrpp8D/nnlXkfP2Ludxp09q24TxuUBAz6AbSfNDjGiy2nNK1UA9V/K6PzMaQ/hv
+         O12bvXW4qLTcPAt8PAqW1ag7bdrGTlixnUbAEZ215LWWAn6qXnlhL3CPnV1lPC6HpYPw
+         y7JA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlkVrcWk6d0qcfJYVcDLzNaLNflLhvTLIj5njdFOQE41FxRg7oldMkWuRwsqhOFp4CJglDLDGhPrhpIuzZgJoxPjrx1pUJWh4roFs=
+X-Gm-Message-State: AOJu0YxGu1mK9D/eBtobEa7KOZ3/JiQLfUzAYVKYorunMXp6tkVnvnhq
+	iiVGH38wcQp+9XbOomoz2TJSPb8QYIsVgQs75JPHK7dxaZuLFc0+ijagzAVFM0I=
+X-Google-Smtp-Source: AGHT+IGLIzv68MN2vk07ucSWBnQpWhzyZz3+w9au/M9OjAewrobTeMyExcozFPeCXalIxP/pVJHGdA==
+X-Received: by 2002:a5d:64c3:0:b0:33e:19ae:3716 with SMTP id f3-20020a5d64c3000000b0033e19ae3716mr2319146wri.11.1712752965497;
+        Wed, 10 Apr 2024 05:42:45 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id a17-20020a5d5091000000b00341ba91c1f5sm13702046wrt.102.2024.04.10.05.42.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 05:42:45 -0700 (PDT)
+Message-ID: <6ae5ed54-4205-46ae-b903-188a8138eaa4@baylibre.com>
+Date: Wed, 10 Apr 2024 14:42:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/18] ASoC: mediatek: Add common machine soundcard
+ driver probe mechanism
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ broonie@kernel.org
+Cc: wenst@chromium.org, lgirdwood@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com,
+ trevor.wu@mediatek.com, maso.huang@mediatek.com,
+ xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de,
+ kuninori.morimoto.gx@renesas.com, shraash@google.com,
+ nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de,
+ dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com,
+ eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev,
+ jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com,
+ ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com,
+ nfraprado@collabora.com, alsa-devel@alsa-project.org,
+ shane.chien@mediatek.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ kernel@collabora.com
+References: <20240409113310.303261-1-angelogioacchino.delregno@collabora.com>
+ <20240409113310.303261-2-angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20240409113310.303261-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+On 09/04/2024 13:32, AngeloGioacchino Del Regno wrote:
+> Add a common machine soundcard driver probe function that supports both
+> DSP and AFE-direct usecases and also provides a hook for legacy machine
+> soundcard driver probe mechanisms.
+> 
+> Note that the hook is there because, even for legacy probe, a lot of the
+> actual code can still be commonized, hence still reducing duplication
+> for the legacy devicetree retrocompatibility cases.
+> 
+> This common probe function deprecates all of the inconsistent previous
+> probe mechanisms and aims to settle all of the MediaTek card drivers on
+> consistent and common devicetree properties describing wanted DAIs,
+> device specific DAI configuration and DAI links to codecs found on
+> each device/board.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- MAINTAINERS                                      | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
-
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..b9b8c97a7840
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		March 2024
-+KernelVersion	6.9
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aea47e04c3a5..e63365a2d029 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17684,6 +17684,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
- L:	linuxpps@ml.enneenne.com (subscribers-only)
- S:	Maintained
- W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
-+F:	Documentation/ABI/testing/sysfs-platform-pps-tio
- F:	Documentation/ABI/testing/sysfs-pps
- F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
- F:	Documentation/driver-api/pps.rst
 -- 
-2.35.3
-
+Regards,
+Alexandre
