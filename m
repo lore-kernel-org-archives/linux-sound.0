@@ -1,95 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D7713FD76;
-	Thu, 11 Apr 2024 09:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253B613DDDD;
+	Thu, 11 Apr 2024 09:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712827344; cv=none; b=FhN/CX+grMW4PwkjcWem8czoAmaBuR4dSw31hrtORynjXkaWGJzlNPmCaOY81eS4xMyAXgZjBMXKK6P+gR01ODXbF2CD4fTL1Khx8xkGj49Fs245o1eDqj9FSGptAfogFAjNCL+RoKORHsPU/HJZ65NQyWLpbcH1BtSIVE9fRBE=
+	t=1712827737; cv=none; b=Zx73wKccsQbIskyKTU0plda4Ano+J69Z+6QjFDt1Z3dJJ8o05PaIY6BJtBrxzIsTt/nt9sgBKfjiUZ5ev6rVXBLdzibRnwMdxpx/VZRfNd5S+t3ukKpH7AxLQjam/ezqA1Ha3AoLVt1ghBQ7985dCgMiGOa015aoKDVTav9XtDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712827344; c=relaxed/simple;
-	bh=M44Zkp4UwKNeUl3v+NyzoK7eywLyI+1hmslOcmP1Tw0=;
+	s=arc-20240116; t=1712827737; c=relaxed/simple;
+	bh=2I1/4qZuQ40nFxqyqIJAUShzzfUDscacEy2/72jyb4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j5C6ou53NqOfcXJOcvxNgdcFB7aufQRCGlDBe8b0bAv8plSa2m1uBsu9T3h2VtXTpWTli4HtoX5J+FdJlErSgq5iCr1kIaVss8swZO3aPdev2wh8jGG7rjx3lc50fro2fq9L6BvvMEFtYicwYqsORvdAYcIXIfHp7Gv559hXVt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqAteOPO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOmUjGe7jMeuiIXV37j58TARFw5tt0KHNarfo65ea96vxu3oPb2AHVEinwrbsuenJN7UKO9uaKkL0/tB0qRKajSDYsjuV4GuG732FcgfKNxzubDTNRaV5mwiI2ysUt1l/oFckE5zO1xWWjYP0v52zzzDrCh6YPH0Wy+hm8r2CiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WP+U9tUy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqAteOPO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F02C433C7;
-	Thu, 11 Apr 2024 09:22:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WP+U9tUy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32392C433C7;
+	Thu, 11 Apr 2024 09:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712827344;
-	bh=M44Zkp4UwKNeUl3v+NyzoK7eywLyI+1hmslOcmP1Tw0=;
+	s=k20201202; t=1712827736;
+	bh=2I1/4qZuQ40nFxqyqIJAUShzzfUDscacEy2/72jyb4Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DqAteOPONxhXLzvknNGVIkhuSSp06hPF3xmxs4yBTAv93Gm5Ih5YufAUaKLxLldrW
-	 rMP+DCLywX88H/C5lkR2Bow5IyF/q5AI+jhQDpJ4ICqfVPV5//PiWnbKlFAMJlunTn
-	 DK9kbtbaKoNgKKmqQatlTvrYhQi1GmssAvBfed6XHq75bpg8ZXFrmKDDkH97e3K7wB
-	 XZlsfzn92Dq+BFO0/9BO4JThau2uti3tCanhJnxIrsQid/bQ1aqHi0vDRGhQZrghdP
-	 lgyK7UcJWrbkiL7oqu1KXq69kJcpEJnvs/QKLnUSCv2hH4MGW/a8xGLMWFlhJmDM+t
-	 DzssCpzsC3oYw==
-Date: Thu, 11 Apr 2024 10:22:19 +0100
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v2 0/3] leds: trigger: Improve handling of
- led_trigger_event() and simplify mute audio trigger
-Message-ID: <20240411092219.GG6194@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
- <170964052434.128456.128263499797916605.b4-ty@kernel.org>
- <20240305120947.GD86322@google.com>
- <20240328104232.GZ13211@google.com>
- <6c0a1792-50a2-4208-8f6e-fbf0295110c0@gmail.com>
+	b=WP+U9tUyFkgpFim5PCThH6Zs7yz+il51IuFchPawYBrBzEaUCUIfps/yhn62DS1lv
+	 1MuYp1UZ5xqR8b/rWRn0vLBlgMX9TMXXq+gvCAh61ZPRnUWJ/Kqk39hh3T3P6z+xWw
+	 lOCcDSPuI3GH03dwwzptgrvTt0oWz9/2FGYRSN/HzXf4sOYlQY3WFSfh8rgi+DIdd4
+	 Vpyctb/OmDMeQG8IDiNvP0zXkRuc02lgzo2llSPV7WhkP7ccMTeyvUXv4nXZ+zN9Dt
+	 4uM5QCPzXR9i/4euCSNFBTpZpkeccfvCwU5sHwnZG98b1Tpe9D4atHQ9nXFMFRIwlx
+	 nnXWduaJa6Kjw==
+Date: Thu, 11 Apr 2024 14:58:52 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bard.liao@intel.com
+Subject: Re: [PATCH 6/7] soundwire: debugfs: add interface to read/write
+ commands
+Message-ID: <ZhetVE6RQXmGQrVg@matsya>
+References: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
+ <20240326090122.1051806-7-yung-chuan.liao@linux.intel.com>
+ <Zg_ka02zLnXrADGj@matsya>
+ <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c0a1792-50a2-4208-8f6e-fbf0295110c0@gmail.com>
+In-Reply-To: <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
 
-On Fri, 05 Apr 2024, Heiner Kallweit wrote:
-
-> On 28.03.2024 11:42, Lee Jones wrote:
-> > On Tue, 05 Mar 2024, Lee Jones wrote:
-> > 
-> >> On Tue, 05 Mar 2024, Lee Jones wrote:
+On 05-04-24, 10:12, Pierre-Louis Bossart wrote:
+> On 4/5/24 06:45, Vinod Koul wrote:
+> > On 26-03-24, 09:01, Bard Liao wrote:
+> >> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 > >>
-> >>> On Mon, 04 Mar 2024 21:56:29 +0100, Heiner Kallweit wrote:
-> >>>> If a simple trigger is assigned to a LED, then the LED may be off until
-> >>>> the next led_trigger_event() call. This may be an issue for simple
-> >>>> triggers with rare led_trigger_event() calls, e.g. power supply
-> >>>> charging indicators (drivers/power/supply/power_supply_leds.c).
-> >>>> Therefore persist the brightness value of the last led_trigger_event()
-> >>>> call and use this value if the trigger is assigned to a LED.
-> >>>> This change allows to use simple triggers in more cases.
-> >>>> As a first use case simplify handling of the mute audio trigger.
-> >>>>
-> >>>> [...]
-> >>>
-> >>> Applied, thanks!
-> >>>
-> >>> [1/3] leds: trigger: Store brightness set by led_trigger_event()
-> >>>       commit: 575129855dee0e364af7df84a77ab5cca54b1442
-> >>> [2/3] ALSA: control-led: Integrate mute led trigger
-> >>>       commit: ba8adb1646ee498029ac12b20e792d9d0dd17920
-> >>> [3/3] leds: trigger: audio: Remove this trigger
-> >>>       commit: 2c61168294d0ea42a5542dbc864afb03a76bbc11
+> >> We have an existing debugfs files to read standard registers
+> >> (DP0/SCP/DPn).
 > >>
-> >> Submitted for build testing.
+> >> This patch provides a more generic interface to ANY set of read/write
+> >> contiguous registers in a peripheral device. In follow-up patches,
+> >> this interface will be extended to use BRA transfers.
 > >>
-> >> Once succeeded, a PR will follow for other maintainers to pull from.
+> >> The sequence is to use the following files added under the existing
+> >> debugsfs directory for each peripheral device:
+> >>
+> >> command (write 0, read 1)
+> >> num_bytes
+> >> start_address
+> >> firmware_file (only for writes)
+> >> read_buffer (only for reads)
+> >>
+> >> Example for a read command - this checks the 6 bytes used for
+> >> enumeration.
+> >>
+> >> cd /sys/kernel/debug/soundwire/master-0-0/sdw\:0\:025d\:0711\:01/
+> >> echo 1 > command
+> >> echo 6 > num_bytes
+> >> echo 0x50 > start_address
+> >> echo 1 > go
 > > 
-> > Rebased onto v6.9-rc1 and resubmitted for build testing.
+> > can we have a simpler interface? i am not a big fan of this kind of
+> > structure for debugging.
 > > 
-> Can the series be expected soon in linux-next for broader testing?
+> > How about two files read_bytes and write_bytes where you read/write
+> > bytes.
+> > 
+> > echo 0x50 6 > read_bytes
+> > cat read_bytes
+> > 
+> > in this format I would like to see addr and values (not need to print
+> > address /value words (regmap does that too)
+> > 
+> > For write
+> > 
+> > echo start_addr N byte0 byte 1 ... byte N > write_bytes
+> 
+> I think you missed the required extension where we will add a new
+> 'command_type' to specify which of the regular or BTP/BRA accesses is used.
+> 
+> Also the bytes can come from a firmware file, it would be very odd to
+> have a command line with 32k value, wouldn't it?
 
-Yes.  Catching-up today and this is on the list.
+ofc no one should expect that... it should be written directly from the firmware file
 
+> I share your concern about making the interface as simple as possible,
+> but I don't see how it can be made simpler really. We have to specify
+> - read/write
+> - access type (BRA or regular)
+> - start address
+> - number of bytes
+> - a firmware file for writes
+> - a means to see the read data.
+> 
+> And I personally prefer one 1:1 mapping between setting and debugfs
+> file, rather than a M:1 mapping that require users to think about the
+> syntax and which value maps to what setting. At my age I have to define
+> things that I will remember on the next Monday.
+
+Exactly, you won't remember all the files to write to, my idea was a
+simple format or addr, N and data.. a TLV kind of structure..
+
+What would happen if you issue go, but missed writing one of the files.
+Also I would expect you to do error checking of inputs...
+
+Thanks
 -- 
-Lee Jones [李琼斯]
+~Vinod
