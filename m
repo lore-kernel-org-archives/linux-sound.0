@@ -1,70 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F709145B0D;
-	Thu, 11 Apr 2024 09:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F045145330;
+	Thu, 11 Apr 2024 10:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712829082; cv=none; b=ViZZXOw0L38yZVPt8kPLWeUBOpTeHCHLP8k2Kuycf5jYvla+K6W9HbUP0GE1BieWssdLpTt1VkJZVEeMBgoL/tvUea4rqWongBrJzzy1UtB49he+qNfXkiJoIc5UpZPWIfbr02yAb9WhcDm4sDJ+g0xESonvEGxIfqUCQV2DSws=
+	t=1712831383; cv=none; b=iiqblv+JpQvSLDksIqhrZyHeC2/rVqyFdihL9MUbX2GCx4WA7aSyAwjdl55HemiNbBxjOVAHvHtWW+B+fCOhfU5FtJq+pYfo4zWxqdtv+pYU7kfcAXam0o4+yjS74ULoqruro8DwjE5evAchL/17SAbzTDMRLM4jQXLI1f3mvmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712829082; c=relaxed/simple;
-	bh=dDDFGxbzvsZ8WL2gkkU/z0FoC5P7riL8bCTBYIbhje8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ASZnhTZI8ZE1FzFsRoarZ81BQ+Ayeyv6WsPKDhGvMNiu2uMoPLKKHnE2ouFraYFRTxBqYwSvqDpiVXD/aLtvqjG5RrvhIdUugwY5lmC4lSuzYGW8mI8J9F6P67GhUDOlP6qzgrlJO6isfxJV3ml0fCzXsuVkmxntRI8FDLH7rLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iwii1Wfw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iwii1Wfw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B81DC433F1;
-	Thu, 11 Apr 2024 09:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712829082;
-	bh=dDDFGxbzvsZ8WL2gkkU/z0FoC5P7riL8bCTBYIbhje8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Iwii1WfwXAPhAr1zpMSkaTs9d6mvUukauGpIjCu2D2Z3sYtQvxREbfvxWY1n6HAis
-	 qW6hgxStloTXb3tv4fbZJjknFyR0/vVcvS3xCYLCOoT47cz2ZVjMw+WltcBeKSpy3u
-	 rlNVND71iPbdom3abq33lDRNIILDyBkkvnh0XnqKPtaYq5UikaMEHTWbO+qGE2ldM2
-	 VgFSKBz6FuD2f5lg7J4YTNWCzf0RyllNDR4pMDc98mq1Q7KvPyiPRV6CHARtOQeR40
-	 ALv3fQF/XtueCOb2/WEbGUEHMYUtuc+CCTJ+9IfOr14Nuw10EyUUPCxboZJPDN5iXx
-	 nM5lWrt2m0l6w==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
- pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
-In-Reply-To: <20240408062206.421326-1-yung-chuan.liao@linux.intel.com>
-References: <20240408062206.421326-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] soundwire: intel_ace2x: use legacy formula for
- intel_alh_id
-Message-Id: <171282908007.521900.190599081183352528.b4-ty@kernel.org>
-Date: Thu, 11 Apr 2024 15:21:20 +0530
+	s=arc-20240116; t=1712831383; c=relaxed/simple;
+	bh=zmStaJ3K2y1OHTUxUlaA8HgWp5SThfzUtWtIqXMw4FU=;
+	h=From:To:Subject:Date:Message-Id; b=bGvsfNfpwq1+m51DLPyy39T4qwjw/C2iN9qthYdVVi9l/01aC0tvyhxKEBwgY+UZ7eL305F+KvfNSPITVIN+QsSbCeOGroQFS4IYBDQdzUWQ1v1Z1Q0dInSc0cRMuSbiSFZpEzTOxyY4SIkagIotLjepjuucYAIB+1aoBcQ8GWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 7024B20053D;
+	Thu, 11 Apr 2024 12:29:35 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 28F63200D1A;
+	Thu, 11 Apr 2024 12:29:35 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 1DF70183AD14;
+	Thu, 11 Apr 2024 18:29:33 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/2] convert imx-audio-spdif.txt to YAML
+Date: Thu, 11 Apr 2024 18:11:43 +0800
+Message-Id: <1712830305-31350-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
 
+convert imx-audio-spdif.txt to YAML
 
-On Mon, 08 Apr 2024 06:22:06 +0000, Bard Liao wrote:
-> Starting with Lunar Lake, the notion of ALH is mostly irrelevant,
-> since the HDaudio DMAs are used. However the firmware still relies on
-> an 'ALH gateway' with a 'node_id' based on the same formula.
-> 
-> This patch in isolation has no functional impact, it's only when the
-> ASoC parts use it that we will see a changed behavior.
-> 
-> [...]
+changes in v4:
+- change the enmu to const
+- add more comments in commit message for second patch
 
-Applied, thanks!
+changes in v3:
+- change file name to fsl,imx-audio-spdif.yaml
+- change example name back to sound-spdif
+- exchange the fallback and specific compatible string
+- update anyOf content
 
-[1/1] soundwire: intel_ace2x: use legacy formula for intel_alh_id
-      commit: b18c25afabf80972b32a3918f6d7f16fbd54b18f
+changes in v2:
+- change file name to imx-spdif.yaml
+- remove |
+- add anyof for spdif-in and spdif-out requirement
+- change example name to sound
 
-Best regards,
+Shengjiu Wang (2):
+  ASoC: dt-bindings: imx-audio-spdif: convert to YAML
+  ARM: dts: imx6: exchange fallback and specific compatible string
+
+ .../bindings/sound/fsl,imx-audio-spdif.yaml   | 66 +++++++++++++++++++
+ .../bindings/sound/imx-audio-spdif.txt        | 36 ----------
+ .../boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi   |  4 +-
+ arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi     |  4 +-
+ 4 files changed, 70 insertions(+), 40 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
+
 -- 
-~Vinod
-
+2.34.1
 
