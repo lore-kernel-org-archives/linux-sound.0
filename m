@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2C73B798
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30993AC2B
 	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 22:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712873055; cv=none; b=FUpDPkYTlXjT/2kwZi/5WcTRhxvIEkWN8aLgMeUQ18vy52Ki77RQo5AIDn1E79KCjYSCwbsxaUCiZvLeikGBCKiP+0mJH84wcHVbH8e7gZ8j5209fvMTBiYUf3GiQ4VnVXgogxsVvjblNwuf9Je5Mdmb+UIAbruffOnG6OkNndE=
+	t=1712873056; cv=none; b=tOGly7owspU8R8eNUtRAjlSUSAraLr2Dc0Gi/FZycECqeVktEJHrUq0QPi95iVfPFgbPIqH7FZlImCF6F0QrgbO9iXU4RE0N4QtSiYVQAP41wW/xWC+uJAnMqVFikFlv/2+lsimZ3owMLmHWZYPox7/F+MoZ+zzFiIU19ht9uMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712873055; c=relaxed/simple;
-	bh=Kbiv77vxQq3VJjGZ7RvYiy7zJq+A+aZfJkXlW/grBDc=;
+	s=arc-20240116; t=1712873056; c=relaxed/simple;
+	bh=QpmYI3nCN/RiyTRwE47bcfkwM06N232vNmHtjvJJQbU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Rb0GYoRyekXTqItZcp3VemwNNRAmOarSFAC9nAXVq+1lMan5dkPUIBtrQhcRhHYtK5trv/zyAneWHQzJgfWUJoe16T7onxn7OtepF+pU02gZrT9QqoMkHaprw5DSUjoyrp/7T05YU37DbZ9McTxSYOQiF/XKrpv6hPEM1AxhXNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StEVZIPH; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=hYuQWLk0P8PDhaxgsj4kH+U8QcL0eQP3lGTFV7ABdEaP78NvptyO8DttTOjG05+Ld7zl1gEY40zaNRHYhcsEUi4fsZlbS1I/XO2UVPtnIGC0rhFVtgmHeQS++Y0HOWGHVljX5vZFiEGEo2LVCvm0uy5eQVZF/pWSqWNm/Htr0wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKX/IKhR; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StEVZIPH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKX/IKhR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712873054; x=1744409054;
+  t=1712873055; x=1744409055;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Kbiv77vxQq3VJjGZ7RvYiy7zJq+A+aZfJkXlW/grBDc=;
-  b=StEVZIPHHyKCUfGA/lV8GfPoP4duVnv5DgNDEF/2+GVx410IGvDcCUFb
-   Gf1QK2UDxNfpTWIgwVONVlWG1D8y8TmmpD9bbht3nC/EC0CCm1cN33pn+
-   Xpiy3UuSJOXouRyg7Le6hPpF1pHyeoaa/yuT0c9s1dZM27H0Uzieimg9m
-   kUOIskVnUl0dFXK5T0xBS6HXMaZZO5AG8IoOM9DGJz4tJ0PoOeTeLbDVf
-   Bq3hqgyTjF+gmF40m7pRMSKLlp81r3k8s/3Ydw367pN6e0t41om75y3kx
-   cm7Kd+P8X2PsQHWUF5NIHRVcllbNAwnFreXohG1RjBH42jelKdjTKnvkw
+  bh=QpmYI3nCN/RiyTRwE47bcfkwM06N232vNmHtjvJJQbU=;
+  b=iKX/IKhRejeprlX41WSOgcyUFySUPVTtSq4cYDsZ+XWZuEtOjMRQRFoi
+   BIvVhgVTXwMSSy17IdBgRPrS5gmTX73HmvlTvNKlQE2C79vd7CrBsfvpV
+   bhmJehHow5GCoRTLy1DpWS++Qa40WkZVltTnj4xj8Pytp+09xZWQioII7
+   wsF1BupKM8aZHNF2zBxIZIcsI8VMORlMM1i+9sIBMBvci5L3m3RgBAQyP
+   5BUHBiY18J3yn5HG8ZRsBDl+zkhzP70BC6vquB1f7IPuIn2LRkjeWGOeE
+   0MgXuiMPZf8h4JtHs0zgg6Z5qwZXEWcObxj/8gtCVDDiroPyIEdxM7f3i
    g==;
-X-CSE-ConnectionGUID: bjKdd8VjRkmJuAhNvJJdKg==
-X-CSE-MsgGUID: aPk178OmQYmShSYlGO44oA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19708341"
+X-CSE-ConnectionGUID: g5ezX6RHRxiuiHceQ8qGMw==
+X-CSE-MsgGUID: YE0RKXPmTxOD6d4g5iGyuw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19708347"
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="19708341"
+   d="scan'208";a="19708347"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:13 -0700
-X-CSE-ConnectionGUID: n0ovwgHsTQKoQzRwtPERSQ==
-X-CSE-MsgGUID: iX8eRg2NTPW/XSnD8RtMfw==
+X-CSE-ConnectionGUID: j2dPpetiTZ2o5SQfKuEuug==
+X-CSE-MsgGUID: 0shJCrDxQ+6W4/ovGEazMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="21628715"
+   d="scan'208";a="21628727"
 Received: from aramana1-mobl.amr.corp.intel.com (HELO pbossart-mobl6.lan) ([10.213.177.233])
   by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:13 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
@@ -49,9 +49,9 @@ Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 02/12] ASoC: Intel: soc-acpi: add support for HP Omen14 SoundWire configuration
-Date: Thu, 11 Apr 2024 17:03:37 -0500
-Message-Id: <20240411220347.131267-3-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 03/12] ASoC: Intel: sof_sdw: add JD2 quirk for HP Omen 14
+Date: Thu, 11 Apr 2024 17:03:38 -0500
+Message-Id: <20240411220347.131267-4-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240411220347.131267-1-pierre-louis.bossart@linux.intel.com>
 References: <20240411220347.131267-1-pierre-louis.bossart@linux.intel.com>
@@ -63,68 +63,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This platform has an RT711-sdca on link0 and RT1316 on link3
+The default JD1 does not seem to work, use JD2 instead.
 
-Closes: https://github.com/thesofproject/linux/issues/4880
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-mtl-match.c   | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 75935b454e5d..264f5c19af56 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -296,6 +296,15 @@ static const struct snd_soc_acpi_adr_device rt1316_2_group2_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt1316_3_single_adr[] = {
-+	{
-+		.adr = 0x000330025D131601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt1316-1"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt1318_1_group1_adr[] = {
- 	{
- 		.adr = 0x000130025D131801ull,
-@@ -562,6 +571,20 @@ static const struct snd_soc_acpi_link_adr mtl_rt713_l0_rt1316_l12[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr mtl_rt711_l0_rt1316_l3[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt711_sdca_0_adr),
-+		.adr_d = rt711_sdca_0_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt1316_3_single_adr),
-+		.adr_d = rt1316_3_single_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_adr_device mx8363_2_adr[] = {
- 	{
- 		.adr = 0x000230019F836300ull,
-@@ -703,6 +726,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt711-l0-rt1316-l23-rt714-l1.tplg",
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 8a2cd19d8be6..f191dc72bc3d 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -498,6 +498,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 					SOF_BT_OFFLOAD_SSP(1) |
+ 					SOF_SSP_BT_OFFLOAD_PRESENT),
  	},
 +	{
-+		.link_mask = 0x9, /* 2 active links required */
-+		.links = mtl_rt711_l0_rt1316_l3,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-rt711-l0-rt1316-l3.tplg",
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "OMEN Transcend Gaming Laptop"),
++		},
++		.driver_data = (void *)(RT711_JD2),
 +	},
++
+ 	/* LunarLake devices */
  	{
- 		.link_mask = BIT(0),
- 		.links = mtl_rt722_only,
+ 		.callback = sof_sdw_quirk_cb,
 -- 
 2.40.1
 
