@@ -1,128 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253B613DDDD;
-	Thu, 11 Apr 2024 09:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F4C13DDDD;
+	Thu, 11 Apr 2024 09:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712827737; cv=none; b=Zx73wKccsQbIskyKTU0plda4Ano+J69Z+6QjFDt1Z3dJJ8o05PaIY6BJtBrxzIsTt/nt9sgBKfjiUZ5ev6rVXBLdzibRnwMdxpx/VZRfNd5S+t3ukKpH7AxLQjam/ezqA1Ha3AoLVt1ghBQ7985dCgMiGOa015aoKDVTav9XtDc=
+	t=1712829081; cv=none; b=gJG6kNHoKCWqMeHvuSduJgNs5Cfv18GNld9e7oa2n6AKZeN1Y984LUez6fl66xGhT/kV6obY4Rd7aNqd7oC3hT3Ydi0n4bhAhhdyAAM0lAuqgUGQMq7Snu0PCzg4k9ItSLadNFamV9L3MrX1YBOcFTUOJyymN7DOATKpOU9RnAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712827737; c=relaxed/simple;
-	bh=2I1/4qZuQ40nFxqyqIJAUShzzfUDscacEy2/72jyb4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOmUjGe7jMeuiIXV37j58TARFw5tt0KHNarfo65ea96vxu3oPb2AHVEinwrbsuenJN7UKO9uaKkL0/tB0qRKajSDYsjuV4GuG732FcgfKNxzubDTNRaV5mwiI2ysUt1l/oFckE5zO1xWWjYP0v52zzzDrCh6YPH0Wy+hm8r2CiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WP+U9tUy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712829081; c=relaxed/simple;
+	bh=GwJOmyKS+qRIGAIfgbHrecjPAi5CzjfR2PXoi3m9S9Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ydvfp5IIj2Tu8+Fqgfq/6NRYhNsvPJCgicxkoWxWTOEiPK/Yrv9RhT9T3R4ltUHy0LeGJKmqyKAxoRLw+WYsA1XnuP7NYA2gkmLC9g2AJN9sxBJv885k73jRn5mppEhQ622UGGFXYf4fN1yCZJWXaRtqdwDG5TMOS33DoNRv+fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eC0Cxp8n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WP+U9tUy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32392C433C7;
-	Thu, 11 Apr 2024 09:28:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eC0Cxp8n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D34C433C7;
+	Thu, 11 Apr 2024 09:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712827736;
-	bh=2I1/4qZuQ40nFxqyqIJAUShzzfUDscacEy2/72jyb4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WP+U9tUyFkgpFim5PCThH6Zs7yz+il51IuFchPawYBrBzEaUCUIfps/yhn62DS1lv
-	 1MuYp1UZ5xqR8b/rWRn0vLBlgMX9TMXXq+gvCAh61ZPRnUWJ/Kqk39hh3T3P6z+xWw
-	 lOCcDSPuI3GH03dwwzptgrvTt0oWz9/2FGYRSN/HzXf4sOYlQY3WFSfh8rgi+DIdd4
-	 Vpyctb/OmDMeQG8IDiNvP0zXkRuc02lgzo2llSPV7WhkP7ccMTeyvUXv4nXZ+zN9Dt
-	 4uM5QCPzXR9i/4euCSNFBTpZpkeccfvCwU5sHwnZG98b1Tpe9D4atHQ9nXFMFRIwlx
-	 nnXWduaJa6Kjw==
-Date: Thu, 11 Apr 2024 14:58:52 +0530
+	s=k20201202; t=1712829079;
+	bh=GwJOmyKS+qRIGAIfgbHrecjPAi5CzjfR2PXoi3m9S9Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eC0Cxp8ntoz7FzmYOkORXBMuFF6O/lOoNuhsrD6G4mLEtQf1M4N2RQnMVlj2nbwKS
+	 7jDHIqg4+hmGRtpWRo7xTzOuj1y20LtHPMND3wDCIbpT9P28fAXmmTQXq5SPUGhQmY
+	 fW29aDEFqeE5JJtLK6WVhsZld5UaBTjCQdAvHAeYB+iVKbmLoKqZfAaxE/lGtPX4tM
+	 FUvo2JFeGEhsWDzKhqU9wFWHaKl9Z0UJFmGuotpV8tb68hpanvY0nUovOCPskkFdIj
+	 fXUQaMX3vLtZeWoVEQxlUg3dYV9MUNNI7kMA9wWIJOMVjTDbC+nkT6Q8JKzX5XkIHv
+	 +W7djfGAhVJrQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bard.liao@intel.com
-Subject: Re: [PATCH 6/7] soundwire: debugfs: add interface to read/write
- commands
-Message-ID: <ZhetVE6RQXmGQrVg@matsya>
-References: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
- <20240326090122.1051806-7-yung-chuan.liao@linux.intel.com>
- <Zg_ka02zLnXrADGj@matsya>
- <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
+In-Reply-To: <20240408063822.421963-1-yung-chuan.liao@linux.intel.com>
+References: <20240408063822.421963-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH v2] soundwire: reconcile dp0_prop and dpn_prop
+Message-Id: <171282907778.521900.3984632651431202720.b4-ty@kernel.org>
+Date: Thu, 11 Apr 2024 15:21:17 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-On 05-04-24, 10:12, Pierre-Louis Bossart wrote:
-> On 4/5/24 06:45, Vinod Koul wrote:
-> > On 26-03-24, 09:01, Bard Liao wrote:
-> >> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> >>
-> >> We have an existing debugfs files to read standard registers
-> >> (DP0/SCP/DPn).
-> >>
-> >> This patch provides a more generic interface to ANY set of read/write
-> >> contiguous registers in a peripheral device. In follow-up patches,
-> >> this interface will be extended to use BRA transfers.
-> >>
-> >> The sequence is to use the following files added under the existing
-> >> debugsfs directory for each peripheral device:
-> >>
-> >> command (write 0, read 1)
-> >> num_bytes
-> >> start_address
-> >> firmware_file (only for writes)
-> >> read_buffer (only for reads)
-> >>
-> >> Example for a read command - this checks the 6 bytes used for
-> >> enumeration.
-> >>
-> >> cd /sys/kernel/debug/soundwire/master-0-0/sdw\:0\:025d\:0711\:01/
-> >> echo 1 > command
-> >> echo 6 > num_bytes
-> >> echo 0x50 > start_address
-> >> echo 1 > go
-> > 
-> > can we have a simpler interface? i am not a big fan of this kind of
-> > structure for debugging.
-> > 
-> > How about two files read_bytes and write_bytes where you read/write
-> > bytes.
-> > 
-> > echo 0x50 6 > read_bytes
-> > cat read_bytes
-> > 
-> > in this format I would like to see addr and values (not need to print
-> > address /value words (regmap does that too)
-> > 
-> > For write
-> > 
-> > echo start_addr N byte0 byte 1 ... byte N > write_bytes
+
+On Mon, 08 Apr 2024 06:38:22 +0000, Bard Liao wrote:
+> The definitions for DP0 are missing a set of fields that are required
+> to reuse the same configuration code as DPn.
 > 
-> I think you missed the required extension where we will add a new
-> 'command_type' to specify which of the regular or BTP/BRA accesses is used.
 > 
-> Also the bytes can come from a firmware file, it would be very odd to
-> have a command line with 32k value, wouldn't it?
 
-ofc no one should expect that... it should be written directly from the firmware file
+Applied, thanks!
 
-> I share your concern about making the interface as simple as possible,
-> but I don't see how it can be made simpler really. We have to specify
-> - read/write
-> - access type (BRA or regular)
-> - start address
-> - number of bytes
-> - a firmware file for writes
-> - a means to see the read data.
-> 
-> And I personally prefer one 1:1 mapping between setting and debugfs
-> file, rather than a M:1 mapping that require users to think about the
-> syntax and which value maps to what setting. At my age I have to define
-> things that I will remember on the next Monday.
+[1/1] soundwire: reconcile dp0_prop and dpn_prop
+      commit: 8dfd00f7069c54db78463f2a8a8cb677844fdf1f
 
-Exactly, you won't remember all the files to write to, my idea was a
-simple format or addr, N and data.. a TLV kind of structure..
-
-What would happen if you issue go, but missed writing one of the files.
-Also I would expect you to do error checking of inputs...
-
-Thanks
+Best regards,
 -- 
 ~Vinod
+
+
