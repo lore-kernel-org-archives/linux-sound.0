@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E142317C8D;
-	Thu, 11 Apr 2024 22:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10803B2A8;
+	Thu, 11 Apr 2024 22:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712874958; cv=none; b=mQQHxakZgzIDA7paw6+AypYUNyuGIjyzTG3M1YRhyopYUZZbUUe5IfTi6GgOPQ80l0lb6zC2bqmJfMg/8LTKDYGydOUmcw2LuDhI5uaCL+dXzrwRj1O98W4/qQiIsY2dJepPjaO9dqj4W/r2F9w/A9PXjrcsAaRQLgBqLFYKSGE=
+	t=1712876269; cv=none; b=DYjjmgrJKx3jOTz5xMV13ByO/SsWOVdyapYSDEKMoLlyiUyJ8b3VZrUyebfzeLigu7VS2xgGm4nYiXkmyX5Kx3PMLqz/UgfB3omktns7CjorVtdHkAnahWibpLZ3c+wjpFQBVt14jIfnXieeraXFjEuWTpAIbvrGImUp8a9DjvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712874958; c=relaxed/simple;
-	bh=ZgKCfsWFqENGu2Mnw8GcJWs4r368JeG6kTQENU1jAkw=;
+	s=arc-20240116; t=1712876269; c=relaxed/simple;
+	bh=3PvQYrDxu5lunns0NauurjuD19jwN9atvmFEz3SB8N0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=m8fk8gcAOEUY8xjn8ps/Et0xIIZrukR6PxawXaKaBvcMvjiPS0SEpsK58TT9m94B17HZ4QMq10J1i+fFuGQ/hRUhZKzVN8Ci4nZBV4vz4+XcV5HO3dK4pWbykMdQICvtw4IKZuowQiTbVIYZVGt2UqcX4T41eIXZ2oQWIItBEVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOKeKENm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ln1j7wjiAHNZCP6f9E7p4Vr8JjCXGInXwnhCLnarHbZP8qGJyJkrf7CI+mi5XYOob+yMrhZwlGsGuw6sZHssuCVneJhTBywqLccTgJ9ra5PosL0VTaBZ0QQ8FLwCKPgjEKwQyVIn8oO2d5C/1LHb2GvmKEuQ3b3R2ZMbq1AsX1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGRR/YtR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOKeKENm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DD48C072AA;
-	Thu, 11 Apr 2024 22:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGRR/YtR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8852C072AA;
+	Thu, 11 Apr 2024 22:57:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712874957;
-	bh=ZgKCfsWFqENGu2Mnw8GcJWs4r368JeG6kTQENU1jAkw=;
+	s=k20201202; t=1712876269;
+	bh=3PvQYrDxu5lunns0NauurjuD19jwN9atvmFEz3SB8N0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GOKeKENm2iBE7FcHqURXogLvsi1VM/SOP+bnihaC34q1pf5cC0YxmAU3RB69q2IU7
-	 qRlB7GrGAhUthAcVE9Nb+kl2dD07dQreOwOlCWoM+EYYLtsT2X4qctULVfmYqEwa8i
-	 xBr9kt68BlyRlTaq8ueOR48JFobItbNt1zjQ7EKX7GxLn2cf5Hm/t+Z3FTgR5zaUH+
-	 p2dlk0GbzsCfoRVzOb5qPo8ISM5hSua+WNUC2KMfwSkYx7M3VcvHF/PXVjOHp75ohb
-	 ZXdVJ3aCvU4Y4NoFXN6tqIATZo0SncP7FXrA4HZs1SbEOVTKkduTIjYocK21umR2H3
-	 pbaVp7pVlDdqw==
+	b=iGRR/YtR1dsmPrG/414PoViHG8v9hGs7N/dQSej+xwSMIDqJ1Cfu2xJDxMJY6VeEq
+	 NVA2qyRbOWg/0tkLmjM4J+6HP0tOijXs+KsHD9/J2UXiEOnQ8dx2gb4KMIRrPEm8Wu
+	 5ub1HMvsd3KwD28RblmHBfSmMygicNQGpM0UkKJLONQ5cXVqz4TbhR0yHd0DFboTxd
+	 4KH2nwZRockj2MLgKqF1LIcYtc3UM9rSb6tnDIyZCnx1gjJpdM5dSCd3gk2TIFbROI
+	 PJZwsB1PiZ9u1f15pjNcH6Pr791qMKEwmMmWDoYyGxIryztZ+/uQ002PZL7dlotePX
+	 SMLxCJuVC4EFQ==
 From: Mark Brown <broonie@kernel.org>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
  Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Lukas Bulwahn <lukas.bulwahn@redhat.com>
-In-Reply-To: <20240411075803.53657-1-lukas.bulwahn@redhat.com>
-References: <20240411075803.53657-1-lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: adjust file entry in TEXAS INSTRUMENTS
- AUDIO (ASoC/HDA) DRIVERS
-Message-Id: <171287495520.96963.7535991617111488759.b4-ty@kernel.org>
-Date: Thu, 11 Apr 2024 23:35:55 +0100
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240411083332.304887-1-colin.i.king@gmail.com>
+References: <20240411083332.304887-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] ASoC: codecs: tas2780: remove redundant
+ assignments to variable ret
+Message-Id: <171287626663.99929.5680912373005541173.b4-ty@kernel.org>
+Date: Thu, 11 Apr 2024 23:57:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,24 +49,25 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Thu, 11 Apr 2024 09:58:03 +0200, Lukas Bulwahn wrote:
-> Commit 8167bd1c8a45 ("ASoC: dt-bindings: ti,pcm1681: Convert to dtschema")
-> converts ti,pcm1681.txt to ti,pcm1681.yaml, but misses to adjust the file
-> entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS.
+On Thu, 11 Apr 2024 09:33:32 +0100, Colin Ian King wrote:
+> Variable ret is being assigned a value that is never read in a couple
+> of places. The variable is being re-assigned later on. The assignments
+> are redundant and can be removed.
 > 
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-> broken reference.
+> Cleans up clang scan build warning:
+> sound/soc/codecs/tas2780.c:84:2: warning: Value stored to 'ret' is
+> never read [deadcode.DeadStores]
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[1/1] MAINTAINERS: adjust file entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS
-      commit: 82116e539ffb7ce0c317c208d53d2126cdcee687
+[1/1] ASoC: codecs: tas2780: remove redundant assignments to variable ret
+      commit: 1d165c5a1c85747bf48f37a80636a4a73e1576a1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
