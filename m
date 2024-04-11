@@ -1,79 +1,131 @@
-Received: from iam.tj (yes.iam.tj [109.74.197.121])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DBB22096
-	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 13:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.74.197.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488114D71B;
+	Thu, 11 Apr 2024 14:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712841101; cv=none; b=cISvU+bH+8H2rbw/anRLmzQEuQhX5ebFnBZlN6HIZ33hfdDIM1KYQFHXm3j3f4EzuRf1FccfgYWMxxyDjsHWUqn/wZIJX/j6rLHFhS7RlLjc4D9DrwHZguLsdtYW0F/NfsAc3ZsLZ6kMb5qt3KfzHUxMi+MmQs1sZmXCMvrdSWs=
+	t=1712845647; cv=none; b=UT7Y3ydQFqIfGLPG84E/55fAjPqHvhBMYBGBGAgZxjobRdg7R6rljUPwPbfB2hv+O4prEhHn379I6yRYCSJujSHlozvyizAemV7INXR9dj8nUPyMnn4dCleVTLSSN0A1gUHCfvA2K+6ykkyvShP3eXhlIyg5JxHmsGDCT95sA54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712841101; c=relaxed/simple;
-	bh=e7HU2rvjsH5+mvvAMWiCJ2wZ2UqrpCl+hlZnmCgNOSE=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=gKBYsQUkJUYoH5N6dilSiMu2RG8eHplKjz1X460Tmp1CHgEt0wRHGxAgsRAS+UdRc1J0fk8xwhFy912iHbdzkBKePsEpTw2EmgmxSOqh6Ak/RMnavaKnVvWq/xSkPHRwNIpdo3/Y6FvCD86JhGMLUWM6SkgZV7nWTWxW9zOe5Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iam.tj; spf=pass smtp.mailfrom=iam.tj; dkim=pass (2048-bit key) header.d=iam.tj header.i=@iam.tj header.b=K3GF7iD2; arc=none smtp.client-ip=109.74.197.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iam.tj
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iam.tj
+	s=arc-20240116; t=1712845647; c=relaxed/simple;
+	bh=ExoEEktZ0Q694B1jGfibfgqap3Fns8pq0px5FRmYhys=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mvLZLpm7LqVCH4KDzF+jWBPGsVN+eIgA3A/rK5d6y6tcozzCRRjxhROvBa6AeiyobulFafmHoaGMZMSxEaluGg6ASpL0DamX8a1OAAIRtPMIqCxoBMsDsNKfvinhavzROxs/gNeUveC6JXYf0zgscoZbOXccG7HjZcdwa2gZ7AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Y6xQRd3M; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iam.tj header.i=@iam.tj header.b="K3GF7iD2"
-Received: from [IPV6:2a0d:3344:11e:1ff0::ff] (unknown [IPv6:2a0d:3344:11e:1ff0::ff])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	by iam.tj (Postfix) with ESMTPSA id 254EB347BC;
-	Thu, 11 Apr 2024 14:11:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=iam.tj; s=2019;
-	t=1712841092; bh=e7HU2rvjsH5+mvvAMWiCJ2wZ2UqrpCl+hlZnmCgNOSE=;
-	h=Date:To:From:Subject:Cc:From;
-	b=K3GF7iD2SkNMATxt1SqFTl1LUwF7kbeUOzbGwUWJoFTLX47c/H+NcAdKQdDEONbGl
-	 WL0Kj8ZNwD7emPhWmbtY69576HQrYngdiYlVWyU+ECLnqq64nag9FcTyk3vaqD5EXG
-	 lJbXw42AAhgeWX9seKHupvCfsi3vNMGfjT+vU7xNtohsrz6a74RrXwkpHaOpTuj8Yr
-	 pfIJnYIkXVkVzVgJlmhZeHDCOlSfxoK+3gBE8j0wGpTEKJPBYLmSyhGskDp5miUY6C
-	 WSNMYauw2VzzpWenr1m5xpyuYYm8q25VqLmeO4UXPj6DO5EkQW/l0l5VQcMD0x05bp
-	 BiCmKjzfP9hjg==
-Message-ID: <ecf0f3a0-b83d-4aea-9fcb-8c411598f833@iam.tj>
-Date: Thu, 11 Apr 2024 14:11:28 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Y6xQRd3M"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43BAfAIA006316;
+	Thu, 11 Apr 2024 09:27:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=Z
+	Y+B99ld798igcjetqgoBpCqki2RZTaHQvRZhUJbx5E=; b=Y6xQRd3MOd0LGr/0m
+	o1vCjLrFX0XrR9ppDQHQm358RyeRnyuUkgJoIQPnHCY5QeywNyvKuiwWZaaSd9yS
+	bhxUQ4tlySv+vHY6bbaPu9+242KKOBW0M9kPsDlfA829kYfqy6pHrQXUgRiorf10
+	BLACJv16EKRESlievpRFIh5hipoxtpToSiujavQ7lXgJG5b7sh82Lf9X2xIgzAOd
+	FXZONU6m+sQ7ZWijrMogWMX2bG9yBM3PczodmWguL5BfzbKPaN84V/YgdSfhvbzA
+	hszr4zshDtjLwPG1u6BGZg094lR0eEcTBA2TDSVP9mwNFb73TnKTHvlmnh1eDY6T
+	IoWng==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xb3sxq55r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Apr 2024 09:27:17 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Apr
+ 2024 15:27:15 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
+ via Frontend Transport; Thu, 11 Apr 2024 15:27:15 +0100
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.140])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 35AFB820242;
+	Thu, 11 Apr 2024 14:27:15 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Stefan
+ Binding" <sbinding@opensource.cirrus.com>
+Subject: [PATCH v1] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
+Date: Thu, 11 Apr 2024 15:26:48 +0100
+Message-ID: <20240411142648.650921-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
-To: linux-sound@vger.kernel.org, Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>
-From: Tj <linux@iam.tj>
-Subject: Direct firmware load for TIAS2781RCA2.bin failed with error -2
-Cc: Mateus Kaduk <mateusz.kaduk@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 12Rhjm7ZXsn-PGLzIqvG5rshIIjAkxj5
+X-Proofpoint-GUID: 12Rhjm7ZXsn-PGLzIqvG5rshIIjAkxj5
+X-Proofpoint-Spam-Reason: safe
 
-After fixing an EFI e820 MMIO mapping issue for a Lenovo Legion 9i in
+Currently, all ASoC systems are set to use VPMON for DSP1RX5_SRC,
+however, this is required only for internal boost systems.
+External boost systems require VBSTMON instead of VPMON to be the
+input to DSP1RX5_SRC.
+Shared Boost Active acts like Internal boost (requires VPMON).
+Shared Boost Passive acts like External boost (requires VBSTMON)
+All systems require DSP1RX6_SRC to be set to VBSTMON.
 
-https://bugzilla.kernel.org/show_bug.cgi?id=218444
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs35l41.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-we see the error:
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index dfb4ce53491b..f8e57a2fc3e3 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -1094,6 +1094,7 @@ static int cs35l41_handle_pdata(struct device *dev, struct cs35l41_hw_cfg *hw_cf
+ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ {
+ 	struct wm_adsp *dsp;
++	uint32_t dsp1rx5_src;
+ 	int ret;
+ 
+ 	dsp = &cs35l41->dsp;
+@@ -1113,16 +1114,29 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ 		return ret;
+ 	}
+ 
+-	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC,
+-			   CS35L41_INPUT_SRC_VPMON);
++	switch (cs35l41->hw_cfg.bst_type) {
++	case CS35L41_INT_BOOST:
++	case CS35L41_SHD_BOOST_ACTV:
++		dsp1rx5_src = CS35L41_INPUT_SRC_VPMON;
++		break;
++	case CS35L41_EXT_BOOST:
++	case CS35L41_SHD_BOOST_PASS:
++		dsp1rx5_src = CS35L41_INPUT_SRC_VBSTMON;
++		break;
++	default:
++		dev_err(cs35l41->dev, "wm_halo_init failed - Invalid Boost Type: %d\n",
++			cs35l41->hw_cfg.bst_type);
++		goto err_dsp;
++	}
++
++	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC, dsp1rx5_src);
+ 	if (ret < 0) {
+-		dev_err(cs35l41->dev, "Write INPUT_SRC_VPMON failed: %d\n", ret);
++		dev_err(cs35l41->dev, "Write DSP1RX5_SRC: %d failed: %d\n", dsp1rx5_src, ret);
+ 		goto err_dsp;
+ 	}
+-	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC,
+-			   CS35L41_INPUT_SRC_CLASSH);
++	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC, CS35L41_INPUT_SRC_VBSTMON);
+ 	if (ret < 0) {
+-		dev_err(cs35l41->dev, "Write INPUT_SRC_CLASSH failed: %d\n", ret);
++		dev_err(cs35l41->dev, "Write CS35L41_INPUT_SRC_VBSTMON failed: %d\n", ret);
+ 		goto err_dsp;
+ 	}
+ 	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX7_SRC,
+-- 
+2.34.1
 
-tas2781-hda i2c-TIAS2781:00: Direct firmware load for TIAS2781RCA2.bin failed with error -2
-
-This is due to the incorrect path being used to request the firmware; in linux-firmware the file is in:
-
-/usr/lib/firmware/ti/tas2781/
-
-but in
-
-sound/soc/codecs/tas2781-comlib.c::tascodec_init()
-
-it does:
-
-scnprintf(tas_priv->rca_binaryname, 64, "%sRCA%d.bin",
-tas_priv->dev_name, tas_priv->ndev);
-
-Since no sub-directory is prepended here the kernel is looking for the file in:
-
-/usr/lib/firmware/
-
-We worked around it by adding a symbolic link:
-
-ln -s ti/tas2781/TIAS2781RCA2.bin /usr/lib/firmware/TIAS2781RCA2.bin
-
-There does not appear to be an easy fix for this since the function can be used by multiple devices with different paths; also there is no easy way to generate the path prefix from the device name. The most obvious fix is another field in struct tasdevice_priv to hold the path prefix.
