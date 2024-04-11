@@ -1,87 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4070205E11;
-	Thu, 11 Apr 2024 15:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210FB5813B;
+	Thu, 11 Apr 2024 15:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712850258; cv=none; b=QIkOX68C4DAFoHovVL86I0mXGYN8eDJG3zp0b9ihBQG3IzScZFVRKbjhBaia+w+21mOVcaWy7cquRGjjvCGWAeymo2i2HkWTnGVGXKVs8xMsMwf4eLAtjDDCah/155zhSUFyG4CNGL4tfMuyqsbzZuBFsohJ1MK+OTWzcs91Tsc=
+	t=1712850954; cv=none; b=hHTEuCUdGFMvVOIKwslyU/i+A/F8vM2eIg/PFgvRYQwLZXWcN7fGi/veR266LQ0l3UOJ5mJay+zZO1xnppv+mmIk55xhPiGWthf2FdQdypGr5tsHbTfDvMd8W3mQtzwNJPxSRGqk1YIMtlZu2LFB4iv0KO5wmKZPcQJ/uUhm2ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712850258; c=relaxed/simple;
-	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
+	s=arc-20240116; t=1712850954; c=relaxed/simple;
+	bh=0d1y9rY32N57eph8lfneQ9BlV1cLMrSb0BJ8cZM8V2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWrRl3B2rRNU1Y7LVc5zrR8/8gJwluEXarCLKljvtjcdDdd0f4xUSoeKOg0M5CNMYd9M4zhbQUndu5QeeJV+I9qpdF23WxEICOk3c+oMePYYLvejmjUzo7gEYeNuFOeOLl7TdZpkGFqv8n/GEfdotQPHMgkxzsexWOcjFufssio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbZ8w1WN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJc2uFpz7W+hSJOu/C79L/D4wprjdU6VOPjWkiq8OFPuT6/rCpIKplvH1nb36sfZR0BSHd1KgsZayoZNT+x0ZBwNv9/C+rksl5B0imfRN2SkueH2Utxfak/zq8AmIUck1HvCML5WAouUQVARFuShuwsOyrRrljE2mAszWj/YdbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riPvfi0l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbZ8w1WN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC88C072AA;
-	Thu, 11 Apr 2024 15:44:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riPvfi0l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94D39C072AA;
+	Thu, 11 Apr 2024 15:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712850257;
-	bh=e1dvSCg1omiFQogVZpulW6Xvv0upb7nj/qFDuBgjDAM=;
+	s=k20201202; t=1712850953;
+	bh=0d1y9rY32N57eph8lfneQ9BlV1cLMrSb0BJ8cZM8V2w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kbZ8w1WNmdaJATT3ZsRE6gEYKmsANWdKfvQFyHYcLQbngKRMqNHZyGVn44Ritnne5
-	 RrrIdNFBqXjPCvN8l4I19ujQkKrwbzfnWAaTjtPueu5BF0VmSM+5gtHV1ScRFUFpLE
-	 7UI+8sD6a9xT5L+Cttqa9TEFUFSjxh7/9+JpZ95pEAdedHiyIahKHj1GieC9vX+Rp0
-	 zc9Z1N9wilo5RsgYoUr8tZdcqbY7QbE+H26rXHrhfUT+bWD6oJ+T7HFvCFzCNV4UzF
-	 ug/lnkVqJaJsyv1SOeGFqGrtGWSfE83PEk8GhMcf+B80O3/bLxMJ5eU8AegsUUeaCT
-	 PcWZxVVtdqUxQ==
-Date: Thu, 11 Apr 2024 16:44:13 +0100
-From: Lee Jones <lee@kernel.org>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Pavel Machek <pavel@ucw.cz>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-	linux-sound@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between MFD, MIPS and Sound due for the
- v6.10 merge window
-Message-ID: <20240411154413.GG2399047@google.com>
-References: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+	b=riPvfi0l+sGQSD2yaCU3Dh2aTEUg27SIxctHQg9IWQ5r1/OWt2KxG4KfJ2wDoM5WF
+	 UWAn1O+DkIttQKY2r48vYT/q/TyO4ifV2UvrOFxVrHiBuGacBbdtLtoW1dZjs1oAYK
+	 qiANAWnF1NBAzbLW4vZQ248ys3oRJo//LSOynWbtzMdMPesyfmOfJW/3EmdbiPRsng
+	 kWO9fOo0YgCIqnf4uRkast+aVzWEE79npnS0pBXvIVUoBn9kwT0a8Xv7mFuVP6E50e
+	 NxQIFqLB0pkfRAvO3o1I8bYMrOCHZFznxLVaLaV9Ox3meybsc1/qRo5Q71EXoDI4gn
+	 D1rroa5C7drKg==
+Date: Thu, 11 Apr 2024 16:55:48 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 2/2] ARM: dts: imx6: exchange fallback and specific
+ compatible string
+Message-ID: <20240411-shelter-overact-ad518e6e7003@spud>
+References: <1712652644-28887-1-git-send-email-shengjiu.wang@nxp.com>
+ <1712652644-28887-3-git-send-email-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="G5/1QEQbSLLvAARd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3918a80c-b885-40f6-a96e-bcd4c53ff448@gmail.com>
+In-Reply-To: <1712652644-28887-3-git-send-email-shengjiu.wang@nxp.com>
 
-Enjoy!
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+--G5/1QEQbSLLvAARd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+On Tue, Apr 09, 2024 at 04:50:44PM +0800, Shengjiu Wang wrote:
+> exchange fallback and specific compatible string for spdif sound card.
+>=20
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-are available in the Git repository at:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git ib-leds-mips-sound-v6.10
+--G5/1QEQbSLLvAARd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-for you to fetch changes up to ab2ab9e69ef9734b875ce6d43fe3f9f90135daae:
+-----BEGIN PGP SIGNATURE-----
 
-  leds: trigger: audio: Remove this trigger (2024-03-28 10:40:24 +0000)
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhgIBAAKCRB4tDGHoIJi
+0mDpAP9K2EBBVizbp4vQtZXUyf2uWZ8OGON9EkZngwASFNWFGgEA3ImnyynBo61d
+ruuwXuqOjg13Kz+LlJ7nVIoY1Iy6EQg=
+=dmOF
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Immutable branch between MFD, MIPS and Sound due for the v6.10 merge window
-
-----------------------------------------------------------------
-Heiner Kallweit (3):
-      leds: trigger: Store brightness set by led_trigger_event()
-      ALSA: control-led: Integrate mute led trigger
-      leds: trigger: audio: Remove this trigger
-
- arch/mips/configs/ci20_defconfig     |  1 -
- drivers/leds/led-triggers.c          |  6 ++--
- drivers/leds/trigger/Kconfig         |  7 ----
- drivers/leds/trigger/Makefile        |  1 -
- drivers/leds/trigger/ledtrig-audio.c | 67 ------------------------------------
- include/linux/leds.h                 | 29 ++++++++--------
- sound/core/Kconfig                   |  1 -
- sound/core/control_led.c             | 20 +++++++++--
- 8 files changed, 36 insertions(+), 96 deletions(-)
- delete mode 100644 drivers/leds/trigger/ledtrig-audio.c
-
--- 
-Lee Jones [李琼斯]
+--G5/1QEQbSLLvAARd--
