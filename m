@@ -1,238 +1,179 @@
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2053.outbound.protection.outlook.com [40.107.22.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0E151C54
-	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 17:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712855019; cv=none; b=BsoyNjSzJbpg0lmrOT2mpP2Th1xJB89JdqwsgeSV5W8iAUX1bLC7FamCzvJ/mUow9dbbsiBMiWDXpmrjxnevgkhRxNBNK92ulfuV3TcRjBHVoyyqlNyQ1s2jgQjtFsIwMvsm9WAjgErh87ZCOt2e0IMEOdo25toMbiTugNNlzU4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712855019; c=relaxed/simple;
-	bh=dnaM3GqXhEndWfy7lmeLBcJFLVPFM0ewZGwnnAppOoo=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=tmp8PuiU1ktLZphGNTOVWRkjEQCNRegDpM2McaNhndJrSh2SpHubbwu9vX+jejxLafaLZUn9PhMeHmbAg9ojbH4+ZeRqHmBoL6NgKsHKeI4v50M9DHdv1YNs4Z7fMgV3QAmRfjsBj+r4cuL/SikrG2IY2JItKx0i7TqxQ2lfNi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7c7e21711d0so416939f.3
-        for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 10:03:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712855017; x=1713459817;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LD4Dej9wVib/8Ke490DpdvB28vLogXA7Za+Vfqj32gg=;
-        b=lUwPcwXf7hyv/UXkfgcRtsk7o9jY0ZHo7sjkoyPIFtlVB3wOCxm2yLoQukPm5kP1xN
-         f3stSIi3VGNKn6KZCNp/2hVNYPpDTKqthgW68TxfsWuD0u22A8poF9aqDgNkf4D7HMjD
-         7Zsm17w+wSbjtkX2PUOIeQm83MJcz7YUaIXSFIvHJS8Om1+V7xml/3oJHt9NwHMQdXdH
-         qEuI5WgLsq1An4GVjCndHtNi1cs8a+j/CpHOkm9OBcrKtoNJx/3CMcPtHBTenow963qh
-         DBU6rFv4v5X4SwXvINRf3zAqWlDMPeWAfbyr2+r9Wx5o2xDYer+eeziX0SdIpU4IkIGx
-         ZZVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPfc66VaHVBQ9E+2g4fk1KM48ZmVnvpo1BaIJvkKn8vpP14s4MQEXYSsKVGZmgOWPE0glxbKk+MtBpN63mwjKEtfXUkMW7z9+6wAI=
-X-Gm-Message-State: AOJu0YyJG/3SkdQNCECdp4dpPkD8fye1Jqv1Gh1O9PuGbeq95s6OJ7cw
-	nLG08RtdWBF7cRMN53H1+5SMgnzgIQ6n8cyTBzSmmBkGpZu1jOUFFKqXVA8c+QozCK5mWGw2xex
-	PQJB0FMndAFmIa3URmqDflGIS/8fUPGLgqxJImshQe/xWkwX8kj3uoPE=
-X-Google-Smtp-Source: AGHT+IFhOpaGIuYKeU+rjQv1gh2el87cA+XCD5vcAIwpZ5uvqwNODSZd2Sqydxkz77a9kHk6BB4Rcf6oqnGXlO33QhPWBxriAvNO
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0223524BE;
+	Thu, 11 Apr 2024 17:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712855294; cv=fail; b=piSmd/hS7jdlOuCw+ThbQ+iG0sDdD52ZpWInLDcbIlW5NbV9mtPLVqVDTxGu7BdZ2WpjO03Vuz4kEoTQVQxXdRt15YG0EMtx/khit4AfpUR5UK1ZOcZkeTbRGuPPWq6tv3lfitgkv57Wualmm7A0LCBADz3riBzp6Yo/PeeRT0M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712855294; c=relaxed/simple;
+	bh=OLS58S2IRnMDiwQwoZPn1sgiuqiS5FF05/iASQYUyDs=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=or+iHDFsANBUWEahyaJYlu4KD/0CChjePAN+W0ZE+dV8I9hNmLO2G551Y3AGectX1XNAk66RWunqy3q3Wzv37VhFkeSmE5fYaDCZdh2si7VY/pk1kkvAPCruGoht6vfVq+zOV9mLSgB85XrWzlKrfhrZudb4A/VjkRW0YKFS5JQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=nB6EaXvm; arc=fail smtp.client-ip=40.107.22.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="nB6EaXvm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DvVsL0VxNdaojkyzE5WeMav6GomZAkkF2Tu49xSyNL2gW8cbcfn7/gqt7cp6qiCY43kcBX29WD/MLZsat7QRYeHgdBPbJWU+5T+37wlueAdAVfNA2CPIdbNbZjF7HRU8FRZsnJrS6O7HA0mFL0JGcwI4EGpQZFIyjgBwMvCCmKAd+7DSr1Nnd/Bl4UMW5xgEClzIGfh6ENK8o5RMSfeYb6Hv8UIPTZqUr2Yh2BAm/uhUYP4Jp6I2cxS/PoqBRn6QXR6bIOcm3O0qJaJP2g4vrc8hh/VLyZDB64wP1DmUlyjHGzQYl4S+UA3yiFjvITXQswHlHkFyhWiClhVoGD8BEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2gEBQUzwMSWzsg1U9WvZGllyefjAt2wQO0omZfZt3SU=;
+ b=KIP5VN7QBS6Rh6xsKS0dhea/NgFrORBq7V6V2j5pgAFeFTndJL4wVw2fjD9Zvy65oL1kmYf7+I7TYr28/DjTE/Ipo/4aBaFtSfqWytqv1AzNncfkU/+YOVeIreXNRQ7qvDrYgln/+9zx1gZ/rslPvN7toWGt/JQ7/6mfmU5Fopgs36L9N0VbP03OKjlEYBNcsbiRSiA4MiQA8RboTPJIfvkXkPcXezJdwFNQ5G+NDjvJQ4BABHYi08F4Y/ptpPOjry+yz2SJWBV62Px6YjnpXOX8nidYsksv8yFr8D+/hfZxMAcZ4z1WhbYyKa7xx7DKdOLYspVpP61J0F7i/I/H5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2gEBQUzwMSWzsg1U9WvZGllyefjAt2wQO0omZfZt3SU=;
+ b=nB6EaXvmIgc4Aiav1UzVAZGLPJ/oE49PBzWsJz+4rS99Ezt4H/EF7zrCvUfCS3lg7JL6b6kaA89r1h57ywJ1tLyH1dfpfyAZj+FjTo1/UZo2TkD3E3y/bAcKNMwEvT+8twfdo3R7hmEmbkHKeu/F764GkgjY9LwfmMKdB86NzmI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+ by DB9PR04MB8394.eurprd04.prod.outlook.com (2603:10a6:10:244::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
+ 2024 17:08:08 +0000
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::1d91:1c96:1413:3ab0]) by DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::1d91:1c96:1413:3ab0%6]) with mapi id 15.20.7409.042; Thu, 11 Apr 2024
+ 17:08:08 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH 0/4] arm: dts: nxp: imx6: fix esai related dtb_check
+ warning
+Date: Thu, 11 Apr 2024 13:07:44 -0400
+Message-Id: <20240411-esai_arm_dts_warning-v1-0-5e1a7c7be9b9@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOAYGGYC/x3MTQ5AMBBA4avIrDVRf8VVRJqGwSyUzAiSxt01l
+ t/ivQCCTCjQJQEYLxLafYROExhX5xdUNEVDnuVlVmqtUBxZx5udTrG3Y09+UU1tqkK3ZjZtDTE
+ 9GGd6/m0/vO8Ht76jJGYAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.13-dev-e586c
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712855283; l=2149;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=OLS58S2IRnMDiwQwoZPn1sgiuqiS5FF05/iASQYUyDs=;
+ b=eSsORuf6K/PYcsv0GIh4g9ayoNC11cRozI2NEShhN0W+TLDDaSh5OXNIUOEZtG3oXZAIrNPIQ
+ bBsjPvJAL4UA3UDzptaqSaOffOCFmHObLfo0oHRIC004lkIhUQGQXod
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::46) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:ca0d:0:b0:36a:3615:33e4 with SMTP id
- j13-20020a92ca0d000000b0036a361533e4mr3698ils.4.1712855017321; Thu, 11 Apr
- 2024 10:03:37 -0700 (PDT)
-Date: Thu, 11 Apr 2024 10:03:37 -0700
-In-Reply-To: <0000000000000c4ce90615d48234@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dc09110615d5224e@google.com>
-Subject: Re: [syzbot] [sound?] inconsistent lock state in snd_timer_interrupt (3)
-From: syzbot <syzbot+0a26629966fddb6d4760@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|DB9PR04MB8394:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8334d7ee-210e-4db0-2b21-08dc5a49f517
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	0OCgSibJQx/kDZIxf4crK7t+AKQOUYqjaU4FLp/m7DGisKiUN6wvIVGAiw9ptp2qtm8vwmgUq7GfzR2YqUjWDGhc1GP+00/iBX1e72SYEaAcKaAi2vjiDvfi9oSAfWOEDUxdEhwVDazZ6RJTl/hynlQ6Ri+VXKGXj4kses6EfwQ+ihjlabbgoKN1+VsiywgUXXvBuMZEcsA4QU53C1snvPcRCk2A6xNhf+32E7Ii4Wz5UfjwZgWFFDywTPWZhWFSB8Qu0sHGqRaVwXteXAOIziu31X057a7N5fnCGxeAHU6ayGy2C0nK86xFpGfW6jIZ6Qm+xBLeZso4g4a1hRQciAjDX7h17/9w2vu5uJ5uvpsKEoRBay+khM+FR+RzhPUkKehAXJCCcDxquIrYWXmN3iVxWioAkujrYqmeHKrsKfgTvR880pJo9MAfLv07m9+DBu8sKBTKxcL0ElYiwwnvDyqzQRPXVvQ5cp7vykydyLoCLCl73AN7QTVt642OUz/5p+BnZwjcGHYovX8wjY75wQ0ntLiY9IDO9THVgVcpDuhXHif6otBQ6pN8sCrvdcXj0QvxMh0b4AMGaa8xMrMLbI0gdzs9142BmjJ4YGngTM1XXmoqtemsVHpaqquu3Gb78g2T00gig1ubWxdnXc23fSYKLJbiO5oUMQ0rNACiqqGnNcMzhqjDfjWFzGUDN+kcjNUg4/AHr8piyxHw00KEfH9+/vQrmJnosUpORooIajw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(52116005)(7416005)(38350700005)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eUlXRFdJSEJJeThIN0U2dEh1YSthdXQvaWJNVmRrUm9jUndjdTFGVEd5eVgr?=
+ =?utf-8?B?NTVLc2lXemVHRVVWaVdQNkV3TDhxenAxRWdTMlFHY09PVHV1dzVkSmZuZDZE?=
+ =?utf-8?B?MkMyOTlvdXRzZGhTb0wvc0pYaG5RY3FBK1g1a1dia0NaWjVuTko4bXp3SmFj?=
+ =?utf-8?B?U2s5Z3AwZnE1VFRKbE9KaVhjM2tQRzhHMGllUEhhZFFLZFltN2VUVSsrWFJ6?=
+ =?utf-8?B?SFlhalBaZ2tGaFVIcTRYaUxFRGx4dlJraWJTQ1NKV2k3a2FDM1Y4d3VDWnNF?=
+ =?utf-8?B?akxEenRaUkVKUzM3RTZnOTIwVi9NaGNab0Z4UnNQeTNYVkgzd3Z0TzFRcnp1?=
+ =?utf-8?B?VlBub1B1YWt6UG51ZjdTUEpOMTNodmMrc0x3bHFabDZvdklBRXRIT25xOWZE?=
+ =?utf-8?B?ZCt2bkxDcHlmTDJ6YTFXMmIvM0FHdVVpRFVoQ3c3eS9CSlI3cVhhRW1leWsy?=
+ =?utf-8?B?TE5mWlVSaUFudXRIYjNyRlZSSFB1OE9rZ1VyNEVkU3JXNERyMjlWOUtIaVkz?=
+ =?utf-8?B?QmxMVDlGbk9lOFRveVhUSis0OHVubVBzSnZsTkpyR3cveW5YQ1F4K3J0TzI3?=
+ =?utf-8?B?QUlaYTg2K3gzOW5aZ0hxQUxYZkQvSG0yZVByZmx5b3JveXAySWdWaVhaRjcw?=
+ =?utf-8?B?V3BjMFZ4VkFMU2VKbHRmQXlaa1pPVm1wMUFDbVg1L3FFeEx0YUtVdHRFY0xF?=
+ =?utf-8?B?MklpVjkrREFXYWt2dzJmT1FwT0h4WGZna1cwREs5WTRaWkVKc0lwRTdyZzIy?=
+ =?utf-8?B?OWdCVlZySm5rcThnS0hXeEw3aTBOL015MG9RQjk4RGR1TGhHek9GWXBjYjJF?=
+ =?utf-8?B?cWsxQzN5dUhwVkFsMmhOekF5WCs0WExjcEhGMXowMjVaSUdUN0ViZER3RHZO?=
+ =?utf-8?B?L080Unc3SXRDbFBDclg4MXJTSVdRaFB6bVRQY1JUdUNYcFVRS0djdTRqWmZY?=
+ =?utf-8?B?Y2JDdGYrdjhtV29WcFVTL2ZjdmlNeTYxUkkrZmY0OW5PMk5TVjMxSTNvUkpL?=
+ =?utf-8?B?SlFhZjdEWk9KYzV3azhYQjNJRDdDOXVTRVhCa2NTTjczbldaRk4rTEJoekhr?=
+ =?utf-8?B?UXpaQVBEL2pEQlkxNG5zVTdCY0VGWUx6cDIzSjlkZjU4bm1pQ2F6STJ4U3BZ?=
+ =?utf-8?B?dXJ4ZFhQU2ZtYlVWcjNJT1FtclpyN01QTnJHWEIzVEI0UTRjRUNndUNISTZv?=
+ =?utf-8?B?RTZqTVpIQ1ZuVkovKzRvS0Y2K2JuclNYRzFvRXdxeThNVUovSEV0amkyVThX?=
+ =?utf-8?B?Y2Q1Y1FWVWRLMnFaUy9pTExlcXhwTmFKM1NRSE9JS1ArRnpHRU1RN2ovMTNm?=
+ =?utf-8?B?cnArU3V0bGZ5NjBLRWxFS2hwRXlQNGIwNkFFL0VvWWpIcFd1emlNWmxkTEZm?=
+ =?utf-8?B?Q0Z2UlNvazFMVS9yMlU0QURXMjVNK21hejhHTzczbjl6MDJPckFkbzQzd2RW?=
+ =?utf-8?B?VUFuOEk3SCtoV3J1QVM1T1VVUmV5Qk9qdzRzUlhJeUV0N3NVZ2NRK1dFaFpz?=
+ =?utf-8?B?UWpWemRlZ2VxT21xZHh2cWhJWjNjbTlXSktsbjdyUGdtdnBLdm1hMW5nM21P?=
+ =?utf-8?B?dUlHNEJvbnp4Y0RPRVNiZU9sUDNPamdRNXA1K3IvL1pTeUI1cFcwb2UxdlpU?=
+ =?utf-8?B?aTg5RmREVFl4RkovbjFybHkxR2drSFlsck5EWWo2L3ZzSDBZeFUrTE5qcHVs?=
+ =?utf-8?B?Tml1U3VFbGw0NWRVa2hnWGlGK09GUW85WTJlU1l4MmtQWDVHYXM2U0N4NWty?=
+ =?utf-8?B?Ri9CNE9DS3J2UkhnajZwU2RIN0VaalVWUlllRExDUDBneDhHMTJSemxTcTN5?=
+ =?utf-8?B?Sk9sVXVSRk9uZ0E5UTYxSmZIRnI5c1pBNE1mSTNXZkRub0ozNzkzSDByZEcw?=
+ =?utf-8?B?WGtRQUpjeENRZE9FZE9va2xHK0t4Ym9Fc1BnQjJ1TDZUS21IUmxqOVJkaE0w?=
+ =?utf-8?B?QmhWSkZ5Z0cyTlZhZEZRL0hWRExpdzVWaXBNNXdVUXhRVFdoNldqamxzU2oz?=
+ =?utf-8?B?NDhCR2ZaTGZVb3R0ZUVQWDRYZ1c2c09uUFcwdXFRRW9ibjVwWnc2VGVWRjlH?=
+ =?utf-8?B?dW1kK2pGTk1zVWtkNjEySTdEb1JoSVVGdlJQRDMyWVBiVFlHSHpkYzlZa1Rh?=
+ =?utf-8?Q?ApFw=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8334d7ee-210e-4db0-2b21-08dc5a49f517
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 17:08:08.0419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YkJCTub2YN8mK1FXAuE69K4pP270vhCwwbYw9znoE42nXt8YKHN/OL9FTu4lx26Oa6KuMcFyDWBRUQ60c97bvw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8394
 
-syzbot has found a reproducer for the following issue on:
+two patches update binding doc. two patches fix dts file.
 
-HEAD commit:    fe46a7dd189e Merge tag 'sound-6.9-rc1' of git://git.kernel..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=121359f3180000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aef2a55903e5791c
-dashboard link: https://syzkaller.appspot.com/bug?extid=0a26629966fddb6d4760
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=108019d5180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17274c85180000
+dt_binding_check each patch.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/089e25869df5/disk-fe46a7dd.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/423b1787914f/vmlinux-fe46a7dd.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4c043e30c07d/bzImage-fe46a7dd.xz
+git rebase -i aa8a0e0038936 --exec "make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml"
+Executing: make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
+  LINT    Documentation/devicetree/bindings
+  DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dts
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+  DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dtb
+Executing: make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
+  DTEX    Documentation/devicetree/bindings/sound/fsl,esai.example.dts
+  LINT    Documentation/devicetree/bindings
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+  DTC_CHK Documentation/devicetree/bindings/sound/fsl,esai.example.dtb
+Executing: make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
+Executing: make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j8  dt_binding_check DT_SCHEMA_FILES=fsl,esai.yaml
+Successfully rebased and updated refs/heads/b4/esai_arm_dts_warning.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0a26629966fddb6d4760@syzkaller.appspotmail.com
-
-================================
-WARNING: inconsistent lock state
-6.8.0-syzkaller-08951-gfe46a7dd189e #0 Not tainted
---------------------------------
-inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
-swapper/1/0 [HC0[0]:SC1[1]:HE0:SE0] takes:
-ffff888029e8d948 (&timer->lock){+.?.}-{2:2}, at: class_spinlock_irqsave_constructor include/linux/spinlock.h:574 [inline]
-ffff888029e8d948 (&timer->lock){+.?.}-{2:2}, at: snd_timer_interrupt.part.0+0x31/0xd80 sound/core/timer.c:818
-{SOFTIRQ-ON-W} state was registered at:
-  lock_acquire kernel/locking/lockdep.c:5754 [inline]
-  lock_acquire+0x1b1/0x540 kernel/locking/lockdep.c:5719
-  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
-  _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
-  spin_lock include/linux/spinlock.h:351 [inline]
-  class_spinlock_constructor include/linux/spinlock.h:561 [inline]
-  snd_timer_close_locked+0x65/0xbd0 sound/core/timer.c:412
-  snd_timer_close+0x8b/0xf0 sound/core/timer.c:464
-  snd_timer_user_release+0x91/0x260 sound/core/timer.c:1468
-  __fput+0x270/0xb80 fs/file_table.c:422
-  task_work_run+0x14e/0x250 kernel/task_work.c:180
-  exit_task_work include/linux/task_work.h:38 [inline]
-  do_exit+0xa7d/0x2be0 kernel/exit.c:878
-  do_group_exit+0xd3/0x2a0 kernel/exit.c:1027
-  __do_sys_exit_group kernel/exit.c:1038 [inline]
-  __se_sys_exit_group kernel/exit.c:1036 [inline]
-  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1036
-  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-  do_syscall_64+0xd2/0x260 arch/x86/entry/common.c:83
-  entry_SYSCALL_64_after_hwframe+0x6d/0x75
-irq event stamp: 171005
-hardirqs last  enabled at (171004): [<ffffffff8ad60263>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-hardirqs last  enabled at (171004): [<ffffffff8ad60263>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
-hardirqs last disabled at (171005): [<ffffffff8ad60002>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
-hardirqs last disabled at (171005): [<ffffffff8ad60002>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:162
-softirqs last  enabled at (170994): [<ffffffff8ad63156>] softirq_handle_end kernel/softirq.c:400 [inline]
-softirqs last  enabled at (170994): [<ffffffff8ad63156>] __do_softirq+0x596/0x8de kernel/softirq.c:583
-softirqs last disabled at (171001): [<ffffffff8151a149>] invoke_softirq kernel/softirq.c:428 [inline]
-softirqs last disabled at (171001): [<ffffffff8151a149>] __irq_exit_rcu kernel/softirq.c:633 [inline]
-softirqs last disabled at (171001): [<ffffffff8151a149>] irq_exit_rcu+0xb9/0x120 kernel/softirq.c:645
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(&timer->lock);
-  <Interrupt>
-    lock(&timer->lock);
-
- *** DEADLOCK ***
-
-1 lock held by swapper/1/0:
- #0: ffffc90000a08cb0 ((&priv->tlist)){+.-.}-{0:0}, at: call_timer_fn+0x11a/0x5b0 kernel/time/timer.c:1789
-
-stack backtrace:
-CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.8.0-syzkaller-08951-gfe46a7dd189e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/27/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:114
- print_usage_bug kernel/locking/lockdep.c:3971 [inline]
- valid_state kernel/locking/lockdep.c:4013 [inline]
- mark_lock_irq kernel/locking/lockdep.c:4216 [inline]
- mark_lock+0x923/0xc60 kernel/locking/lockdep.c:4678
- mark_usage kernel/locking/lockdep.c:4567 [inline]
- __lock_acquire+0x13d4/0x3b30 kernel/locking/lockdep.c:5091
- lock_acquire kernel/locking/lockdep.c:5754 [inline]
- lock_acquire+0x1b1/0x540 kernel/locking/lockdep.c:5719
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x3a/0x60 kernel/locking/spinlock.c:162
- class_spinlock_irqsave_constructor include/linux/spinlock.h:574 [inline]
- snd_timer_interrupt.part.0+0x31/0xd80 sound/core/timer.c:818
- snd_timer_interrupt sound/core/timer.c:1107 [inline]
- snd_timer_s_function+0x14f/0x200 sound/core/timer.c:1107
- call_timer_fn+0x1a0/0x5b0 kernel/time/timer.c:1792
- expire_timers kernel/time/timer.c:1843 [inline]
- __run_timers+0x74b/0xab0 kernel/time/timer.c:2408
- __run_timer_base kernel/time/timer.c:2419 [inline]
- __run_timer_base kernel/time/timer.c:2412 [inline]
- run_timer_base+0x111/0x190 kernel/time/timer.c:2428
- run_timer_softirq+0x1a/0x40 kernel/time/timer.c:2438
- __do_softirq+0x218/0x8de kernel/softirq.c:554
- invoke_softirq kernel/softirq.c:428 [inline]
- __irq_exit_rcu kernel/softirq.c:633 [inline]
- irq_exit_rcu+0xb9/0x120 kernel/softirq.c:645
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
- sysvec_apic_timer_interrupt+0x95/0xb0 arch/x86/kernel/apic/apic.c:1043
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
-RIP: 0010:native_irq_disable arch/x86/include/asm/irqflags.h:37 [inline]
-RIP: 0010:arch_local_irq_disable arch/x86/include/asm/irqflags.h:72 [inline]
-RIP: 0010:acpi_safe_halt+0x1a/0x20 drivers/acpi/processor_idle.c:113
-Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 65 48 8b 05 d8 60 31 75 48 8b 00 a8 08 75 0c 66 90 0f 00 2d c8 73 a7 00 fb f4 <fa> c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90000197d58 EFLAGS: 00000246
-RAX: 0000000000004000 RBX: 0000000000000001 RCX: ffffffff8ad255f9
-RDX: 0000000000000001 RSI: ffff88801bef0800 RDI: ffff88801bef0864
-RBP: ffff88801bef0864 R08: 0000000000000001 R09: ffffed10172a6fdd
-R10: ffff8880b9537eeb R11: 0000000000000000 R12: ffff888017bbe000
-R13: ffffffff8e31fbc0 R14: 0000000000000001 R15: 0000000000000000
- acpi_idle_enter+0xc5/0x160 drivers/acpi/processor_idle.c:707
- cpuidle_enter_state+0x85/0x510 drivers/cpuidle/cpuidle.c:267
- cpuidle_enter+0x4e/0xa0 drivers/cpuidle/cpuidle.c:388
- cpuidle_idle_call kernel/sched/idle.c:236 [inline]
- do_idle+0x313/0x3f0 kernel/sched/idle.c:332
- cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:430
- start_secondary+0x220/0x2b0 arch/x86/kernel/smpboot.c:313
- common_startup_64+0x13e/0x148
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	90                   	nop
-   1:	90                   	nop
-   2:	90                   	nop
-   3:	90                   	nop
-   4:	90                   	nop
-   5:	90                   	nop
-   6:	90                   	nop
-   7:	90                   	nop
-   8:	90                   	nop
-   9:	90                   	nop
-   a:	90                   	nop
-   b:	90                   	nop
-   c:	90                   	nop
-   d:	90                   	nop
-   e:	90                   	nop
-   f:	90                   	nop
-  10:	65 48 8b 05 d8 60 31 	mov    %gs:0x753160d8(%rip),%rax        # 0x753160f0
-  17:	75
-  18:	48 8b 00             	mov    (%rax),%rax
-  1b:	a8 08                	test   $0x8,%al
-  1d:	75 0c                	jne    0x2b
-  1f:	66 90                	xchg   %ax,%ax
-  21:	0f 00 2d c8 73 a7 00 	verw   0xa773c8(%rip)        # 0xa773f0
-  28:	fb                   	sti
-  29:	f4                   	hlt
-* 2a:	fa                   	cli <-- trapping instruction
-  2b:	c3                   	ret
-  2c:	cc                   	int3
-  2d:	cc                   	int3
-  2e:	cc                   	int3
-  2f:	cc                   	int3
-  30:	90                   	nop
-  31:	90                   	nop
-  32:	90                   	nop
-  33:	90                   	nop
-  34:	90                   	nop
-  35:	90                   	nop
-  36:	90                   	nop
-  37:	90                   	nop
-  38:	90                   	nop
-  39:	90                   	nop
-  3a:	90                   	nop
-  3b:	90                   	nop
-  3c:	90                   	nop
-  3d:	90                   	nop
-  3e:	90                   	nop
-  3f:	90                   	nop
-
-
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Frank Li (4):
+      ASoC: dt-bindings: fsl-esai: Remove 'fsl,*' from required list
+      ASoC: dt-bindings: fsl-esai: Add ref: dai-common.yaml
+      arm: dts: nxp: imx6sx: fix esai related warning when do dtb_check
+      arm: dts: nxp: imx6qdl: fix esai clock warning when do dtb_check
+
+ Documentation/devicetree/bindings/sound/fsl,esai.yaml | 7 ++++---
+ arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi                | 3 +--
+ arch/arm/boot/dts/nxp/imx/imx6sx.dtsi                 | 5 ++---
+ 3 files changed, 7 insertions(+), 8 deletions(-)
+---
+base-commit: a053fd3ca5d1b927a8655f239c84b0d790218fda
+change-id: 20240411-esai_arm_dts_warning-86753197f796
+
+Best regards,
+---
+Frank Li <Frank.Li@nxp.com>
+
