@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3653BBDF
-	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 22:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D66B3D0D5
+	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 22:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712873057; cv=none; b=f5wOU69ZWJzAVmrWRswKIqyccsZKbYBQCliOyZiy9hW6u/11T7YnKTi+FbFYrEXqpA7Y4MSrYY+Di+g4/eG/oxAu+lq3Hz/2oxyvhgJP1NMF0hS3L+WTu+/dKOcxyV19gTdOhpA3xIHBEbK62mgijbYYeco+Yzn80A7tg+ob/b8=
+	t=1712873058; cv=none; b=dWvysAmA/Bvz1i4bU4YM3rc2CdC/SvFLvKGmGDP3F/VytV5nDURvZ0EDGUaKplNTPDifzfquVgM+MjeqryHS83k6srI1E1PG26c0u3Evzd+xohL9K1XdEWTpFw66uNU7f2LyckJZSI5abeA8GV21Ym8glkWQHTni0cKopOv0jJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712873057; c=relaxed/simple;
-	bh=TMR07NZyxBMzozdVg2PV5pehrtCgmfaAUxJuFw/xcPM=;
+	s=arc-20240116; t=1712873058; c=relaxed/simple;
+	bh=4ICqNi7vqhb2xGHusmpS/YlxcDHMkVyEnauN1AgKMlI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ntao59T4nYUzikl8LrRg9gMFJdYAwbnTiuq0mhesrEyLK5fuhjX+YuQyzFNsSE2QiRffwWdIo//fhWGlp++8uvh+QZuT3s41100d8OA/hudQqSEM3OXcBW5TiFuzBCOLvHrOM/1nHwzdMjCLNR2UU7iJ3oC60irLfpiV3c58Mhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3Y8wBKK; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=SWEcst2JTC64O4xkYZz0YhY1M9/+CvE4L95+oXyqbkO8WKUXvWT+Dy9tNGhonfQFQyAyq2vuYezdIwzG7mkTe6u3qW1t2svJMi4LDStH17Aa2yVaGTFqXJpCmhipZlyOu4idpVA3iLyeHFVzXYO5Y3ot1rKN43dHw5J/LnZXfgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUitF/Ir; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3Y8wBKK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUitF/Ir"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712873056; x=1744409056;
+  t=1712873057; x=1744409057;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TMR07NZyxBMzozdVg2PV5pehrtCgmfaAUxJuFw/xcPM=;
-  b=h3Y8wBKKFEXs8Bz4CtGaJnuBVev5lUhZTYLRl93bfqKRB3xL2iNv2sw0
-   MoP4aMptFuAlAlqVdeg7FpRjx9/6TCEbeVLo2t5RenbWkNSYcNEoRJubZ
-   I/Lq0gRnWr5lIw+gkcLQd1R6TR181EEfwyxVSwly/WWRmQmIP43Sl3TxI
-   911HAviFj7wMYirCOqtA3JyP6myFTVz5X3GV7DtWdQ3CSaIJl2usizcwT
-   Gcryl3v8ECOWWvTusaCOLmF8NR2kCn/t5pt/IWDHR8wYP4SjW3KUpOnxL
-   MSMEv9rUWZsn5PN+hCBB6k4XJmu1wPRKn+hvbc7U17jkOFydzS8FGggFu
+  bh=4ICqNi7vqhb2xGHusmpS/YlxcDHMkVyEnauN1AgKMlI=;
+  b=UUitF/IrXsNbmzh+5hXy+8zzhNjcDTJR5Xwx+Q3dXbZ4rh6wAlV2eYot
+   Nq2t8G5a+Vd9hsCLR8eOSDAbyoST/qxrHqhhzoHlzMloepJKEnVtx21mD
+   836QcVqv4iwTvFMqYIWYjYfmb7ORWLGOnl3BnzCLBQK5czpA79G9dUSyS
+   40/grZ0JKhW22egy4fW8umtoJPAYvr7/FoV8icszAAfzki5y8Q8I0fxkg
+   lEB/gr98tWk0qySAldZT2GBTO3tT1LCw9AfB7bpO8Xi335B3cczG39cc+
+   SGO7yoOLG0k/aSSQxJB2tA7t1D/2tjxELnjD6rD/Faaioxn3Civ62C4Gs
    A==;
-X-CSE-ConnectionGUID: Xgq4zmCsRiSr1BHsDcqcmA==
-X-CSE-MsgGUID: Yg+xHRTlRSWvhtDvjv71TQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19708357"
+X-CSE-ConnectionGUID: q3IOzbiPQbO5PoiXys39zA==
+X-CSE-MsgGUID: qpS6KFKUT8y1gh13YV079g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19708361"
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="19708357"
+   d="scan'208";a="19708361"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:15 -0700
-X-CSE-ConnectionGUID: PI80/Y/ZQDOGpo10emHSqw==
-X-CSE-MsgGUID: hwQG/UANRSiHyV2r4LRchQ==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:16 -0700
+X-CSE-ConnectionGUID: YC/usQsZQ3aFUwko6ZlbQg==
+X-CSE-MsgGUID: jsEjuBeCSaWcZHSqjiDOnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="21628738"
+   d="scan'208";a="21628746"
 Received: from aramana1-mobl.amr.corp.intel.com (HELO pbossart-mobl6.lan) ([10.213.177.233])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:15 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:04:16 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 05/12] ASoC: Intel: sof_sdw: remove FOUR_SPEAKER quirks
-Date: Thu, 11 Apr 2024 17:03:40 -0500
-Message-Id: <20240411220347.131267-6-pierre-louis.bossart@linux.intel.com>
+	Brent Lu <brent.lu@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 06/12] ASoC: Intel: sof_da7219: mach cleanup for adl boards
+Date: Thu, 11 Apr 2024 17:03:41 -0500
+Message-Id: <20240411220347.131267-7-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240411220347.131267-1-pierre-louis.bossart@linux.intel.com>
 References: <20240411220347.131267-1-pierre-louis.bossart@linux.intel.com>
@@ -64,278 +65,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch removes a confusion between speakers and amplifiers.
+From: Brent Lu <brent.lu@intel.com>
 
-The existing code keeps track of the number of amplifiers and reports
-it in the 'cfg-amp' component string.
+Add a common entry in enumeration table for all da7219 boards
+with/without speaker amplifier. All other adl_da7219_def entries
+become redundant so get removed.
 
-The number of speakers is defined with quirks, but those quirks are
-not consistently added: in the MeteorLake case, none of the supported
-platforms used such a quirk, and UCM does not use the values reported
-anyways. The notion of 'FOUR_SPEAKERS' is also obsolete now with some
-platforms having more than four speakers.
-
-Let's just remove all this and only report the number of amplifiers.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c        | 68 ++++++++-----------------
- sound/soc/intel/boards/sof_sdw_common.h |  1 +
- 2 files changed, 23 insertions(+), 46 deletions(-)
+ .../intel/common/soc-acpi-intel-adl-match.c   | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 6253fc464198..d65c5da49000 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -27,7 +27,7 @@ static void log_quirks(struct device *dev)
- 		dev_dbg(dev, "quirk realtek,jack-detect-source %ld\n",
- 			SOF_JACK_JDSRC(sof_sdw_quirk));
- 	if (sof_sdw_quirk & SOF_SDW_FOUR_SPK)
--		dev_dbg(dev, "quirk SOF_SDW_FOUR_SPK enabled\n");
-+		dev_err(dev, "quirk SOF_SDW_FOUR_SPK enabled but no longer supported\n");
- 	if (sof_sdw_quirk & SOF_SDW_TGL_HDMI)
- 		dev_dbg(dev, "quirk SOF_SDW_TGL_HDMI enabled\n");
- 	if (sof_sdw_quirk & SOF_SDW_PCH_DMIC)
-@@ -80,8 +80,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "098F"),
- 		},
--		.driver_data = (void *)(RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+		.driver_data = (void *)(RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -89,8 +88,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0990"),
- 		},
--		.driver_data = (void *)(RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+		.driver_data = (void *)(RT711_JD2),
- 	},
- 	/* IceLake devices */
- 	{
-@@ -141,8 +139,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0A5D")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -151,8 +148,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0A5E")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -162,7 +158,6 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
- 					SOF_SDW_PCH_DMIC |
--					SOF_SDW_FOUR_SPK |
- 					SOF_BT_OFFLOAD_SSP(2) |
- 					SOF_SSP_BT_OFFLOAD_PRESENT),
- 	},
-@@ -173,8 +168,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Ripto"),
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					SOF_SDW_PCH_DMIC |
--					SOF_SDW_FOUR_SPK),
-+					SOF_SDW_PCH_DMIC),
- 	},
- 	{
- 		/*
-@@ -258,8 +252,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0A32")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -290,7 +283,6 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
- 					SOF_SDW_PCH_DMIC |
--					SOF_SDW_FOUR_SPK |
- 					SOF_BT_OFFLOAD_SSP(2) |
- 					SOF_SSP_BT_OFFLOAD_PRESENT),
- 	},
-@@ -301,8 +293,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0AF0")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -311,8 +302,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0AF3"),
- 		},
- 		/* No Jack */
--		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					SOF_SDW_FOUR_SPK),
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -321,8 +311,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0AFE")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -331,8 +320,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0AFF")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -341,8 +329,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B00")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -351,8 +338,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B01")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -361,8 +347,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B11")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -371,8 +356,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B12")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -400,8 +384,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0B29"),
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -429,8 +412,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0BDA")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -449,8 +431,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C10"),
- 		},
- 		/* No Jack */
--		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					SOF_SDW_FOUR_SPK),
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -459,8 +440,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C11")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -469,8 +449,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C40")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -479,8 +458,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C4F")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	/* MeteorLake devices */
- 	{
-@@ -2010,9 +1988,7 @@ static int mc_probe(struct platform_device *pdev)
- 		amp_num += codec_info_list[i].amp_num;
- 
- 	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
--					  "cfg-spk:%d cfg-amp:%d",
--					  (sof_sdw_quirk & SOF_SDW_FOUR_SPK)
--					  ? 4 : 2, amp_num);
-+					  "cfg-amp:%d", amp_num);
- 	if (!card->components)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
-index 8468487a6bd6..89253938ebaa 100644
---- a/sound/soc/intel/boards/sof_sdw_common.h
-+++ b/sound/soc/intel/boards/sof_sdw_common.h
-@@ -45,6 +45,7 @@ enum {
+diff --git a/sound/soc/intel/common/soc-acpi-intel-adl-match.c b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
+index 1ea2d9c582ee..4167b2e9bc6a 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-adl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
+@@ -453,11 +453,6 @@ static const struct snd_soc_acpi_codecs adl_max98357a_amp = {
+ 	.codecs = {"MX98357A"}
  };
  
- #define SOF_JACK_JDSRC(quirk)		((quirk) & GENMASK(3, 0))
-+/* Deprecated and no longer supported by the code */
- #define SOF_SDW_FOUR_SPK		BIT(4)
- #define SOF_SDW_TGL_HDMI		BIT(5)
- #define SOF_SDW_PCH_DMIC		BIT(6)
+-static const struct snd_soc_acpi_codecs adl_max98360a_amp = {
+-	.num_codecs = 1,
+-	.codecs = {"MX98360A"}
+-};
+-
+ static const struct snd_soc_acpi_codecs adl_rt5682_rt5682s_hp = {
+ 	.num_codecs = 2,
+ 	.codecs = {RT5682_ACPI_HID, RT5682S_ACPI_HID},
+@@ -510,13 +505,6 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_machines[] = {
+ 					SND_SOC_ACPI_TPLG_INTEL_SSP_MSB |
+ 					SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
+ 	},
+-	{
+-		.id = "DLGS7219",
+-		.drv_name = "adl_da7219_def",
+-		.machine_quirk = snd_soc_acpi_codec_list,
+-		.quirk_data = &adl_max98360a_amp,
+-		.sof_tplg_filename = "sof-adl-max98360a-da7219.tplg",
+-	},
+ 	/* place boards for each headphone codec: sof driver will complete the
+ 	 * tplg name and machine driver will detect the amp type
+ 	 */
+@@ -527,6 +515,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_machines[] = {
+ 		.tplg_quirk_mask = SND_SOC_ACPI_TPLG_INTEL_AMP_NAME |
+ 					SND_SOC_ACPI_TPLG_INTEL_CODEC_NAME,
+ 	},
++	{
++		.id = DA7219_ACPI_HID,
++		.drv_name = "adl_da7219_def",
++		.sof_tplg_filename = "sof-adl", /* the tplg suffix is added at run time */
++		.tplg_quirk_mask = SND_SOC_ACPI_TPLG_INTEL_AMP_NAME |
++					SND_SOC_ACPI_TPLG_INTEL_CODEC_NAME,
++	},
+ 	{
+ 		.id = NAU8825_ACPI_HID,
+ 		.drv_name = "adl_nau8825_def",
 -- 
 2.40.1
 
