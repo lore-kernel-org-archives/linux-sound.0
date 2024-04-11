@@ -1,131 +1,194 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488114D71B;
-	Thu, 11 Apr 2024 14:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A210A12;
+	Thu, 11 Apr 2024 14:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712845647; cv=none; b=UT7Y3ydQFqIfGLPG84E/55fAjPqHvhBMYBGBGAgZxjobRdg7R6rljUPwPbfB2hv+O4prEhHn379I6yRYCSJujSHlozvyizAemV7INXR9dj8nUPyMnn4dCleVTLSSN0A1gUHCfvA2K+6ykkyvShP3eXhlIyg5JxHmsGDCT95sA54=
+	t=1712846603; cv=none; b=n/MgCPvqi+OIQz566ULeaYQmnoTxTv0qygiiHV12nVZtjTZ9pRZewSiMS5CdqEvgv7nn9v0cKLm87GtF6IRCWgym3kCPI6BJGJ5VCr5F9fFNbzWCXUdYq+RxpNvq7yeRwSTxWhxCTReNP1RiKnoqDDlBnlCkRyGJQcrSqqtq8Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712845647; c=relaxed/simple;
-	bh=ExoEEktZ0Q694B1jGfibfgqap3Fns8pq0px5FRmYhys=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mvLZLpm7LqVCH4KDzF+jWBPGsVN+eIgA3A/rK5d6y6tcozzCRRjxhROvBa6AeiyobulFafmHoaGMZMSxEaluGg6ASpL0DamX8a1OAAIRtPMIqCxoBMsDsNKfvinhavzROxs/gNeUveC6JXYf0zgscoZbOXccG7HjZcdwa2gZ7AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Y6xQRd3M; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1712846603; c=relaxed/simple;
+	bh=x/18Z9algBXQxM9quW+7AyCJRcmj23RiT3ilEq9hIAk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VZUxTx0J5seKsO1kbrwIf7SRYxeT3L1vWNuRFFfUNO7fDknKGuKaO0N0hnOIsuUHwYECzC/RnSowkVy/YjgLfyS7IImrhcoQb/keMMzhlTo3Z8oWmKCQ9aOZlPtw3vgMNKMAu4/0/GDT8JLsC+Iv7V83qYMu5oIAvEpU5hVrJuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=InRaF0wP; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Y6xQRd3M"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43BAfAIA006316;
-	Thu, 11 Apr 2024 09:27:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=Z
-	Y+B99ld798igcjetqgoBpCqki2RZTaHQvRZhUJbx5E=; b=Y6xQRd3MOd0LGr/0m
-	o1vCjLrFX0XrR9ppDQHQm358RyeRnyuUkgJoIQPnHCY5QeywNyvKuiwWZaaSd9yS
-	bhxUQ4tlySv+vHY6bbaPu9+242KKOBW0M9kPsDlfA829kYfqy6pHrQXUgRiorf10
-	BLACJv16EKRESlievpRFIh5hipoxtpToSiujavQ7lXgJG5b7sh82Lf9X2xIgzAOd
-	FXZONU6m+sQ7ZWijrMogWMX2bG9yBM3PczodmWguL5BfzbKPaN84V/YgdSfhvbzA
-	hszr4zshDtjLwPG1u6BGZg094lR0eEcTBA2TDSVP9mwNFb73TnKTHvlmnh1eDY6T
-	IoWng==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xb3sxq55r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 09:27:17 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Apr
- 2024 15:27:15 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Thu, 11 Apr 2024 15:27:15 +0100
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.140])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 35AFB820242;
-	Thu, 11 Apr 2024 14:27:15 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
-Date: Thu, 11 Apr 2024 15:26:48 +0100
-Message-ID: <20240411142648.650921-1-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="InRaF0wP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712846602; x=1744382602;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=x/18Z9algBXQxM9quW+7AyCJRcmj23RiT3ilEq9hIAk=;
+  b=InRaF0wPVfqTY0u+IqB+pPm50dc8keL2IDUc8yCyxg8+hJUxldS4+84q
+   uGjlUf0nQl24A7R7cQkTFrcVUW5hNOt2RPZuNjaOYZR1cnaUSNmTW+SSW
+   kvtcoyfjcUvYhnuswW4uFhcpjHgJMzb3+IIdQZr90jIGGuF0uCid4ZJuz
+   vi1TfxLZ5YRKHpgYRKIFa6Eg+fgUIILlW+MAaqyVKU8y7+3B12bL+OZGs
+   YpeZgP+AxNEQ8vOLO7suEirGVY6rx6Jgmrecbvgsafk027zTT2dhnKRZc
+   LQe9Ef8tB6sVnViED0eCcPuualxFLlZYkQ02ASpUegf7A9hnoB6FAtVs+
+   g==;
+X-CSE-ConnectionGUID: 9D6xSLu1Rh2kpEBl+4SD/w==
+X-CSE-MsgGUID: 4EW9GTblQX2X/ggDoeTlJg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8422089"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="8422089"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 07:43:21 -0700
+X-CSE-ConnectionGUID: il7oItqBTpS6AB0o+c+M2Q==
+X-CSE-MsgGUID: FCVgRjC5T7mnEpCgcjHhyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="20927053"
+Received: from npirooza-mobl1.amr.corp.intel.com (HELO [10.212.34.202]) ([10.212.34.202])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 07:43:21 -0700
+Message-ID: <3995e049-30db-4e31-a5fb-ca998b1822b6@linux.intel.com>
+Date: Thu, 11 Apr 2024 09:24:52 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 12Rhjm7ZXsn-PGLzIqvG5rshIIjAkxj5
-X-Proofpoint-GUID: 12Rhjm7ZXsn-PGLzIqvG5rshIIjAkxj5
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] soundwire: debugfs: add interface to read/write
+ commands
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bard.liao@intel.com
+References: <20240326090122.1051806-1-yung-chuan.liao@linux.intel.com>
+ <20240326090122.1051806-7-yung-chuan.liao@linux.intel.com>
+ <Zg_ka02zLnXrADGj@matsya>
+ <19f21879-885c-4120-9411-7022f526426f@linux.intel.com>
+ <ZhetVE6RQXmGQrVg@matsya>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <ZhetVE6RQXmGQrVg@matsya>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Currently, all ASoC systems are set to use VPMON for DSP1RX5_SRC,
-however, this is required only for internal boost systems.
-External boost systems require VBSTMON instead of VPMON to be the
-input to DSP1RX5_SRC.
-Shared Boost Active acts like Internal boost (requires VPMON).
-Shared Boost Passive acts like External boost (requires VBSTMON)
-All systems require DSP1RX6_SRC to be set to VBSTMON.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/soc/codecs/cs35l41.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
-index dfb4ce53491b..f8e57a2fc3e3 100644
---- a/sound/soc/codecs/cs35l41.c
-+++ b/sound/soc/codecs/cs35l41.c
-@@ -1094,6 +1094,7 @@ static int cs35l41_handle_pdata(struct device *dev, struct cs35l41_hw_cfg *hw_cf
- static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
- {
- 	struct wm_adsp *dsp;
-+	uint32_t dsp1rx5_src;
- 	int ret;
- 
- 	dsp = &cs35l41->dsp;
-@@ -1113,16 +1114,29 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
- 		return ret;
- 	}
- 
--	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC,
--			   CS35L41_INPUT_SRC_VPMON);
-+	switch (cs35l41->hw_cfg.bst_type) {
-+	case CS35L41_INT_BOOST:
-+	case CS35L41_SHD_BOOST_ACTV:
-+		dsp1rx5_src = CS35L41_INPUT_SRC_VPMON;
-+		break;
-+	case CS35L41_EXT_BOOST:
-+	case CS35L41_SHD_BOOST_PASS:
-+		dsp1rx5_src = CS35L41_INPUT_SRC_VBSTMON;
-+		break;
-+	default:
-+		dev_err(cs35l41->dev, "wm_halo_init failed - Invalid Boost Type: %d\n",
-+			cs35l41->hw_cfg.bst_type);
-+		goto err_dsp;
-+	}
-+
-+	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC, dsp1rx5_src);
- 	if (ret < 0) {
--		dev_err(cs35l41->dev, "Write INPUT_SRC_VPMON failed: %d\n", ret);
-+		dev_err(cs35l41->dev, "Write DSP1RX5_SRC: %d failed: %d\n", dsp1rx5_src, ret);
- 		goto err_dsp;
- 	}
--	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC,
--			   CS35L41_INPUT_SRC_CLASSH);
-+	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC, CS35L41_INPUT_SRC_VBSTMON);
- 	if (ret < 0) {
--		dev_err(cs35l41->dev, "Write INPUT_SRC_CLASSH failed: %d\n", ret);
-+		dev_err(cs35l41->dev, "Write CS35L41_INPUT_SRC_VBSTMON failed: %d\n", ret);
- 		goto err_dsp;
- 	}
- 	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX7_SRC,
--- 
-2.34.1
+On 4/11/24 04:28, Vinod Koul wrote:
+> On 05-04-24, 10:12, Pierre-Louis Bossart wrote:
+>> On 4/5/24 06:45, Vinod Koul wrote:
+>>> On 26-03-24, 09:01, Bard Liao wrote:
+>>>> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>>>>
+>>>> We have an existing debugfs files to read standard registers
+>>>> (DP0/SCP/DPn).
+>>>>
+>>>> This patch provides a more generic interface to ANY set of read/write
+>>>> contiguous registers in a peripheral device. In follow-up patches,
+>>>> this interface will be extended to use BRA transfers.
+>>>>
+>>>> The sequence is to use the following files added under the existing
+>>>> debugsfs directory for each peripheral device:
+>>>>
+>>>> command (write 0, read 1)
+>>>> num_bytes
+>>>> start_address
+>>>> firmware_file (only for writes)
+>>>> read_buffer (only for reads)
+>>>>
+>>>> Example for a read command - this checks the 6 bytes used for
+>>>> enumeration.
+>>>>
+>>>> cd /sys/kernel/debug/soundwire/master-0-0/sdw\:0\:025d\:0711\:01/
+>>>> echo 1 > command
+>>>> echo 6 > num_bytes
+>>>> echo 0x50 > start_address
+>>>> echo 1 > go
+>>>
+>>> can we have a simpler interface? i am not a big fan of this kind of
+>>> structure for debugging.
+>>>
+>>> How about two files read_bytes and write_bytes where you read/write
+>>> bytes.
+>>>
+>>> echo 0x50 6 > read_bytes
+>>> cat read_bytes
+>>>
+>>> in this format I would like to see addr and values (not need to print
+>>> address /value words (regmap does that too)
+>>>
+>>> For write
+>>>
+>>> echo start_addr N byte0 byte 1 ... byte N > write_bytes
+>>
+>> I think you missed the required extension where we will add a new
+>> 'command_type' to specify which of the regular or BTP/BRA accesses is used.
+>>
+>> Also the bytes can come from a firmware file, it would be very odd to
+>> have a command line with 32k value, wouldn't it?
+> 
+> ofc no one should expect that... it should be written directly from the firmware file
+> 
+>> I share your concern about making the interface as simple as possible,
+>> but I don't see how it can be made simpler really. We have to specify
+>> - read/write
+>> - access type (BRA or regular)
+>> - start address
+>> - number of bytes
+>> - a firmware file for writes
+>> - a means to see the read data.
+>>
+>> And I personally prefer one 1:1 mapping between setting and debugfs
+>> file, rather than a M:1 mapping that require users to think about the
+>> syntax and which value maps to what setting. At my age I have to define
+>> things that I will remember on the next Monday.
+> 
+> Exactly, you won't remember all the files to write to, my idea was a
+> simple format or addr, N and data.. a TLV kind of structure..
 
+So your updated proposal for a write is
+
+echo 1 0 0x50 6 test.bin > write_bytes
+
+Mine was
+
+echo 1 > command
+echo 0 > access
+echo 0x50 > start_addr
+echo 6 > num_bytes
+echo test.bin > firmware
+echo 1 > go
+
+I find the last version a lot more explicit and self-explanatory. There
+is no need to look-up the documentation of the list and order of arguments.
+You can argue that there are just three files needed (write command,
+read command, read results), but there's more work to parse arguments
+and remember the arguments order.
+
+There's also the scripting part. In my tests, I relied on scripts where
+I modified one line, it's just easier to visualize than modifying one
+argument in the middle of a line.
+
+The last point is extensibility. In the existing BPT/BRA tests, the data
+is sent by chunks in each frame. We know that some peripherals cannot
+tolerate back-to-back transfers in contiguous frames, that would require
+additional arguments to control the flow. If we have to do this with a
+list of arguments, it's not straightforward to do without a versioning
+scheme.
+
+The risk of getting things wrong is not really a concern, if the
+destination or number of bytes is incorrect the command will fail. It
+will not cause any issues. It's a debugfs interface to inject commands,
+it's expected that people will actually try to make things fail...
+
+Again, this is NOT how the BPT/BRA protocol would be used in a real
+product. The integration would rely on the codec driver initiating those
+transfers. What this debugfs interface helps with is only for initial
+integration tests between a host and peripheral to simulate that the
+codec driver will do in the final iteration.
+
+> What would happen if you issue go, but missed writing one of the files.
+> Also I would expect you to do error checking of inputs...
+
+Please see the patch, the inputs are checked when possible to avoid
+buffer overflows, etc, but as mentioned above it's important to allow
+for bad commands to be issued to test the robustness of the driver.
+There is e.g. no check on the start_addr, number of bytes, the interface
+allows access to any part of the peripheral memory space. That's a
+feature, not a bug.
