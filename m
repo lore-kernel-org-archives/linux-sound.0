@@ -1,256 +1,159 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09F21482E4;
-	Thu, 11 Apr 2024 11:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE2B28FD
+	for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 12:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712833713; cv=none; b=nI3y/jLc/GFXkbPlwyEKT6qGnYlZe+J7ojTzfrlf/RUUW2RNVM+wC2plaqncGkvfMCy7KwE+CrLJXXdOPbAo44PBu4y6z7tJ/lnspHTR42eCapWfkRGZkJZfvL6J3JFoMPl0wbUfd4XqYZeuspkSU9xtK6i3+Qxu+L/zrg7orRY=
+	t=1712840288; cv=none; b=BZJE1FZjthKAIKBuukr6M6/0QA/gskWLqcHEVJ9+XR0mlmxkyAM+IbwQ70EiNtJzzPrOMLU20fEj2NVfw03qlk4Gv6deb0Hv0DCXwbULwVNifA7s5lJ0k9xjnfBGJXlOQAT6aW2wNCEwKricXKo09DstfGAvpzVM6GezYW1ZJME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712833713; c=relaxed/simple;
-	bh=AMWp2LHHPlkid311uJ50F+pEQ152qqit1D1tRFBrxBs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hIXB4wrZkvfHUau9+Xtf4X7EX8fr2IOcskGGApjxmNiJ0IK16ALLu9HBcT9AznsVIyAlOopgYlXvyjPkMHw3baKe8a+mrcRrWwd3SduZkxp3UB4oJctZ3amZ8hl94SJdMRpvHHYaZVQRB9oPkz0tLtQ4hap1/8RK6P5UVYgkHyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DNZmS5Co; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1712840288; c=relaxed/simple;
+	bh=PkbTDsvUgpgonP08VF+4sMSC2FS5v1MP/JX1qm9aOMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UBL+yGwKRuOAoc2ubYEXELZfSxjMIATcSpHyeIQ4Q9kjzNyQvEVlL0xevp4EphVjiMnYVkuhfEGvi4kL0ynG+Wht56MlEW07JKBSrM1M/LA8MTWaqRMAmwF1IB8GgAUP9GPc8JpEiH2ZLlKgVhEEZAKPIt5bY0rLTQbIWwA+9s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aoUHGUq9; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DNZmS5Co"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43B40AxV009489;
-	Thu, 11 Apr 2024 06:08:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=hZy+g1IZf9QdRbbXbBeYAz5FpFJFKy2zhpm4F9dfA7Q=; b=
-	DNZmS5Co7Z/wHOqMydpv9jZNPegJAGwAcztyljhuf3SgHBkyAfg1gi6jiJqkvMvW
-	XI7i7QS1DR4QB0fvctwFvcb3FZiZ9vtuXfptWICyEuaA5fSPeINSY5P2PKBqsTVA
-	gtoZhiihI1K/6NqlfPsGPGF6e7PQ2MRnX2d5NKgPseb6kPjsT0JmJ6tRwGPieAVw
-	YCPqnbAV5R2P+EPaGBg44Rql/So5WJgbWuZpkzVMKgRxaV/mMAQLS9tOSHpuie2z
-	EuihAgTmXId1qN7bFFhKYZ9S4SP7uhD377BnzPAim8352hWD54kIOlPdqn5IaXla
-	/ba8Nve4ZhDYgjT/8dqWuQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xb3sxpva8-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Apr 2024 06:08:19 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Apr
- 2024 12:08:16 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Thu, 11 Apr 2024 12:08:16 +0100
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.140])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7C2B3820245;
-	Thu, 11 Apr 2024 11:08:16 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Richard
- Fitzgerald" <rf@opensource.cirrus.com>,
-        Stefan Binding
-	<sbinding@opensource.cirrus.com>
-Subject: [PATCH v2 6/7] ALSA: hda: cs35l41: Remove redundant argument to cs35l41_request_firmware_file()
-Date: Thu, 11 Apr 2024 12:08:12 +0100
-Message-ID: <20240411110813.330483-7-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240411110813.330483-1-sbinding@opensource.cirrus.com>
-References: <20240411110813.330483-1-sbinding@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoUHGUq9"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a519e1b0e2dso842208466b.2
+        for <linux-sound@vger.kernel.org>; Thu, 11 Apr 2024 05:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712840284; x=1713445084; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gri4PdKgdz3ZG/qiHXd0qH2Y0/rhqtaqkaRdh8lHmc=;
+        b=aoUHGUq999QF3a5t8/+BXemWsg6XnUQ5wiltPqbGitQJkshmt0qbo8WcbhZSHtnMzH
+         G1ehZwHCG9xQtubGnv6pZcaqv+UaRVv/9rd/dO+TRHsAxpDr4jhZpqpl0SLJ1DQxP2GJ
+         eN4aYexH4YenldACyW16Rpp8Gxn9lZfUoe1Qo4dXn7LGu4WpsvO7d0HGB7wE3ZOXf2fM
+         pcs7EJoX8NXUeFjMM/8tvsrb2GTGkEeF06hr7Amt0HhFQc/QYCF788zLxMAIiLqM4D6t
+         kOu7qaXcXD0R1A5iTc/52Q/ihBxwFsLPTx7987T63miwXvAbWfzGBLsJtDD7MonihvUl
+         Z6gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712840284; x=1713445084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+gri4PdKgdz3ZG/qiHXd0qH2Y0/rhqtaqkaRdh8lHmc=;
+        b=xPndn8nv3QKb3EcO3Y9+B4uPofyihr1O+Un+dDX5OeXMcD9wrioe8PGny84g+DJMPR
+         7CXJI3pTsAl3GXWjchA1pdjAJQLwcFajRbHur0lRMpcL5FdSFlxphPJuMSPJ26yEvuA4
+         yHprCAOdv1obLA7QVDYExP4/P7xOVQ/ZVnLhvScM0+ZCuqH2UiEES6E0bIreLLOsWCvX
+         e1iQsE+byYgRbOWdcYsclk9fDkyAeJrHW8bJ1wBKMv8PSXFqPBdTPuFh+vAxGrpKo80A
+         T/RdpBmoeoTlS8n4PCASWouoLR0IOfbTcas38ibssdkcre1h8ZMj77cwvE8AgEymrozF
+         O/ag==
+X-Forwarded-Encrypted: i=1; AJvYcCXLqABytf9qwah9sOe8KAEL5wK1D7WwE1kww/9uXP1KR1/pLU0VJ/jkuI1fxFtmgs2Cnx1p+Vc/bAfWbsQinYFACn8K+Ssw+xfMr7g=
+X-Gm-Message-State: AOJu0YzJugr2h1LEvJwrO6Q15xkVQQzMUZtBxg/eF8CyZkhZtyFRtbV8
+	OgRTLI4AoVgw/WFZz0s0/l5gl6hITjxx1IB9EVyd0IGS7x/gMYo=
+X-Google-Smtp-Source: AGHT+IGrsTs9TOhifPa6FLTL/fOZowXrP274UAsfbESeDDZxRaOSmuK/do8iwCGmobR/p2QZagzZEQ==
+X-Received: by 2002:a17:906:1393:b0:a51:98df:f669 with SMTP id f19-20020a170906139300b00a5198dff669mr3282529ejc.43.1712840284298;
+        Thu, 11 Apr 2024 05:58:04 -0700 (PDT)
+Received: from host ([45.89.89.120])
+        by smtp.gmail.com with ESMTPSA id dt3-20020a170907728300b00a4e23400982sm735191ejc.95.2024.04.11.05.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 05:58:03 -0700 (PDT)
+Received: from ltop by host with local (Exim 4.97.1)
+	(envelope-from <ltop@host>)
+	id 1ruu0E-000000004qV-0rY8;
+	Thu, 11 Apr 2024 15:58:06 +0300
+From: Vitalii Torshyn <vitaly.torshyn@gmail.com>
+To: tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: luke@ljones.dev,
+	Vitalii Torshyn <vitaly.torshyn@gmail.com>
+Subject: [PATCH] sound, hda/realtek: Fixes for Asus GU605M and GA403U sound
+Date: Thu, 11 Apr 2024 15:58:03 +0300
+Message-ID: <20240411125803.18539-1-vitaly.torshyn@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: BYf2bpTdIOn0pCeJ7RpuyoQmFmEJrJ3l
-X-Proofpoint-GUID: BYf2bpTdIOn0pCeJ7RpuyoQmFmEJrJ3l
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 7bit
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+Added the correct pin table for Asus GU605M and GA403U, enabling all
+speakers to be controlled with the master.
+Updated quirks for GU605M and GA403U by including the pin table patch
+in the chain.
 
-In every case the 'dir' argument to cs35l41_request_firmware_file() is passed
-the string "cirrus/", so this is a redundant argument and can be removed.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Signed-off-by: Vitalii Torshyn <vitaly.torshyn@gmail.com>
 ---
- sound/pci/hda/cs35l41_hda.c | 39 ++++++++++++++-----------------------
- 1 file changed, 15 insertions(+), 24 deletions(-)
+ sound/pci/hda/patch_realtek.c | 40 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index 4d4f1e1aca09..74076fa45dd6 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -23,7 +23,6 @@
- #include "hda_cs_dsp_ctl.h"
- #include "cs35l41_hda_property.h"
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d6940bc4e..4544b5039 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7467,6 +7467,10 @@ enum {
+ 	ALC285_FIXUP_CS35L56_I2C_2,
+ 	ALC285_FIXUP_CS35L56_I2C_4,
+ 	ALC285_FIXUP_ASUS_GA403U,
++	ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC,
++	ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1,
++	ALC285_FIXUP_ASUS_GU605_SPI_2_HEADSET_MIC,
++	ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1
+ };
  
--#define CS35L41_FIRMWARE_ROOT "cirrus/"
- #define CS35L41_PART "cs35l41"
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -9690,6 +9694,38 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc285_fixup_asus_ga403u,
+ 	},
++	[ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a11050 },
++			{ 0x1b, 0x03a11c30 },
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1
++	},
++	[ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_speaker2_to_dac1,
++		.chained = true,
++		.chain_id = ALC285_FIXUP_ASUS_GU605_SPI_2_HEADSET_MIC,
++	},
++	[ALC285_FIXUP_ASUS_GU605_SPI_2_HEADSET_MIC] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a11050 },
++			{ 0x1b, 0x03a11c30 },
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC285_FIXUP_CS35L56_SPI_2
++	},
++	[ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_speaker2_to_dac1,
++		.chained = true,
++		.chain_id = ALC285_FIXUP_ASUS_GA403U,
++	},
+ };
  
- #define HALO_STATE_DSP_CTL_NAME		"HALO_STATE"
-@@ -172,7 +171,7 @@ static int cs35l41_request_tuning_param_file(struct cs35l41_hda *cs35l41, char *
- 
- static int cs35l41_request_firmware_file(struct cs35l41_hda *cs35l41,
- 					 const struct firmware **firmware, char **filename,
--					 const char *dir, const char *ssid, const char *amp_name,
-+					 const char *ssid, const char *amp_name,
- 					 int spkid, const char *filetype)
- {
- 	const char * const dsp_name = cs35l41->cs_dsp.name;
-@@ -180,23 +179,23 @@ static int cs35l41_request_firmware_file(struct cs35l41_hda *cs35l41,
- 	int ret = 0;
- 
- 	if (spkid > -1 && ssid && amp_name)
--		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s-spkid%d-%s.%s", dir, CS35L41_PART,
-+		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-spkid%d-%s.%s", CS35L41_PART,
- 				      dsp_name, hda_cs_dsp_fw_ids[cs35l41->firmware_type],
- 				      ssid, spkid, amp_name, filetype);
- 	else if (spkid > -1 && ssid)
--		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s-spkid%d.%s", dir, CS35L41_PART,
-+		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-spkid%d.%s", CS35L41_PART,
- 				      dsp_name, hda_cs_dsp_fw_ids[cs35l41->firmware_type],
- 				      ssid, spkid, filetype);
- 	else if (ssid && amp_name)
--		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s-%s.%s", dir, CS35L41_PART,
-+		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-%s.%s", CS35L41_PART,
- 				      dsp_name, hda_cs_dsp_fw_ids[cs35l41->firmware_type],
- 				      ssid, amp_name, filetype);
- 	else if (ssid)
--		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s-%s.%s", dir, CS35L41_PART,
-+		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s.%s", CS35L41_PART,
- 				      dsp_name, hda_cs_dsp_fw_ids[cs35l41->firmware_type],
- 				      ssid, filetype);
- 	else
--		*filename = kasprintf(GFP_KERNEL, "%s%s-%s-%s.%s", dir, CS35L41_PART,
-+		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s.%s", CS35L41_PART,
- 				      dsp_name, hda_cs_dsp_fw_ids[cs35l41->firmware_type],
- 				      filetype);
- 
-@@ -237,13 +236,11 @@ static int cs35l41_request_firmware_files_spkid(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub<-spkidN><-ampname>.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT,
- 					    cs35l41->acpi_subsystem_id, cs35l41->amp_name,
- 					    cs35l41->speaker_id, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-spkidN><-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id, cs35l41->amp_name,
- 						    cs35l41->speaker_id, "bin");
- 		if (ret)
-@@ -254,12 +251,11 @@ static int cs35l41_request_firmware_files_spkid(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub<-ampname>.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, cs35l41->acpi_subsystem_id,
-+					    cs35l41->acpi_subsystem_id,
- 					    cs35l41->amp_name, -1, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-spkidN><-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id, cs35l41->amp_name,
- 						    cs35l41->speaker_id, "bin");
- 		if (ret)
-@@ -270,18 +266,17 @@ static int cs35l41_request_firmware_files_spkid(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub<-spkidN>.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, cs35l41->acpi_subsystem_id,
-+					    cs35l41->acpi_subsystem_id,
- 					    NULL, cs35l41->speaker_id, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-spkidN><-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id,
- 						    cs35l41->amp_name, cs35l41->speaker_id, "bin");
- 		if (ret)
- 			/* try cirrus/part-dspN-fwtype-sub<-spkidN>.bin */
- 			ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware,
--							    coeff_filename, CS35L41_FIRMWARE_ROOT,
-+							    coeff_filename,
- 							    cs35l41->acpi_subsystem_id, NULL,
- 							    cs35l41->speaker_id, "bin");
- 		if (ret)
-@@ -292,18 +287,17 @@ static int cs35l41_request_firmware_files_spkid(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, cs35l41->acpi_subsystem_id,
-+					    cs35l41->acpi_subsystem_id,
- 					    NULL, -1, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-spkidN><-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id, cs35l41->amp_name,
- 						    cs35l41->speaker_id, "bin");
- 		if (ret)
- 			/* try cirrus/part-dspN-fwtype-sub<-spkidN>.bin */
- 			ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware,
--							    coeff_filename, CS35L41_FIRMWARE_ROOT,
-+							    coeff_filename,
- 							    cs35l41->acpi_subsystem_id, NULL,
- 							    cs35l41->speaker_id, "bin");
- 		if (ret)
-@@ -330,13 +324,13 @@ static int cs35l41_fallback_firmware_file(struct cs35l41_hda *cs35l41,
- 
- 	/* fallback try cirrus/part-dspN-fwtype.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, NULL, NULL, -1, "wmfw");
-+					    NULL, NULL, -1, "wmfw");
- 	if (ret)
- 		goto err;
- 
- 	/* fallback try cirrus/part-dspN-fwtype.bin */
- 	ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--					    CS35L41_FIRMWARE_ROOT, NULL, NULL, -1, "bin");
-+					    NULL, NULL, -1, "bin");
- 	if (ret) {
- 		release_firmware(*wmfw_firmware);
- 		kfree(*wmfw_filename);
-@@ -365,12 +359,11 @@ static int cs35l41_request_firmware_files(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub<-ampname>.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, cs35l41->acpi_subsystem_id,
-+					    cs35l41->acpi_subsystem_id,
- 					    cs35l41->amp_name, -1, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id, cs35l41->amp_name,
- 						    -1, "bin");
- 		if (ret)
-@@ -381,18 +374,16 @@ static int cs35l41_request_firmware_files(struct cs35l41_hda *cs35l41,
- 
- 	/* try cirrus/part-dspN-fwtype-sub.wmfw */
- 	ret = cs35l41_request_firmware_file(cs35l41, wmfw_firmware, wmfw_filename,
--					    CS35L41_FIRMWARE_ROOT, cs35l41->acpi_subsystem_id,
-+					    cs35l41->acpi_subsystem_id,
- 					    NULL, -1, "wmfw");
- 	if (!ret) {
- 		/* try cirrus/part-dspN-fwtype-sub<-ampname>.bin */
- 		ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--						    CS35L41_FIRMWARE_ROOT,
- 						    cs35l41->acpi_subsystem_id,
- 						    cs35l41->amp_name, -1, "bin");
- 		if (ret)
- 			/* try cirrus/part-dspN-fwtype-sub.bin */
- 			ret = cs35l41_request_firmware_file(cs35l41, coeff_firmware, coeff_filename,
--							    CS35L41_FIRMWARE_ROOT,
- 							    cs35l41->acpi_subsystem_id, NULL, -1,
- 							    "bin");
- 		if (ret)
+ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+@@ -10145,7 +10181,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1a8f, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1b11, "ASUS UX431DA", ALC294_FIXUP_ASUS_COEF_1B),
+-	SND_PCI_QUIRK(0x1043, 0x1b13, "ASUS U41SV/GA403U", ALC285_FIXUP_ASUS_GA403U),
++	SND_PCI_QUIRK(0x1043, 0x1b13, "ASUS U41SV/GA403U", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1b93, "ASUS G614JVR/JIR", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1bbd, "ASUS Z550MA", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA", ALC287_FIXUP_CS35L41_I2C_2),
+@@ -10153,7 +10189,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1c33, "ASUS UX5304MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c43, "ASUS UX8406MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c62, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+-	SND_PCI_QUIRK(0x1043, 0x1c63, "ASUS GU605M", ALC285_FIXUP_CS35L56_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x1c63, "ASUS GU605M", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x1043, 0x1c92, "ASUS ROG Strix G15", ALC285_FIXUP_ASUS_G533Z_PINS),
+ 	SND_PCI_QUIRK(0x1043, 0x1c9f, "ASUS G614JU/JV/JI", ALC285_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1caf, "ASUS G634JY/JZ/JI/JG", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
 -- 
-2.34.1
+2.44.0
 
