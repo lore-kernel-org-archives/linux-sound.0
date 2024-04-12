@@ -1,124 +1,94 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538385B209;
-	Fri, 12 Apr 2024 13:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273681487F4;
+	Fri, 12 Apr 2024 15:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712927022; cv=none; b=I+8uop+HZ7gEETDG3Rv147qoGUXF1hwxbPt4uV55OwdVGFmatkHKg7Q0tvJpv0f59kYGZ7tGhDWnuaAvrc3Y1iykf8hHJeBXUJfXLpjB8Dus2vvifxO5Jwzi+TkaR+nnJm6Er2HRn9SkuK87Uppoip47gjyDJabXnXvOM5qeBJ4=
+	t=1712937143; cv=none; b=mfc3n5cdwB0zujEs/hv4idYD2OW9COceVj4f9ScAOGFfR/b0c/6t25965+T6wIIvi03Sv3fejBBSFJux7Z5yR0u1zmGE7Ikxiyz+DtqCaO/mbYsF6UiO5t9nHCrHvbUIMj6lFiC0pchg1LO2eNsM5bJWHTsg81/hE1iR3BuGeXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712927022; c=relaxed/simple;
-	bh=0YhlaO/sZ/lNFpDfyQm508LIh6BokOglMf/3nuV3KFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QX+xMAVpO/NfFsAak1NLSqwmx5KA3LpNct2CVkD4c1esgtHWlmmfqCqkk5oPklEy3dy/3wPUmomzn168UsWvA9RuV57sMjwzXf9zMRlnUEtVGJGD4rs/Yhsz9XPqajqxaecitjfqe7bLb/vOdW0PZZ7B2gri8x4tacX3aaVpQYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ge9ufb63; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1712937143; c=relaxed/simple;
+	bh=p8OAbH8ik4uO7b+Ydee6KnfTe8Pqv3txAKJdlPzFN+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JEU8B+yJqVXete+c7WrazGscBYFprHqkgAXcgtXThVA4SQYz+gR/o0IN3yYptLlSY89oWKQnw0GuU805tQQfVrqsn+IlZyy7LIfNAh1ByHwl/FSQ84V+RybBbh8s2ezU5+WoPW12k1ULA8KB/Veb+WkLCeHpZSeikhGAQ8BcVAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KO9P4/t2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ge9ufb63"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43C8iia5010918;
-	Fri, 12 Apr 2024 08:02:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=HtpTjQV+kePvQ/cWjDO7/zh0v/lMKFoQUpCxIgN6XBg=; b=
-	Ge9ufb63T+FLn4Pru+/xqqxb5nkjIdp3H3el4FDOATIo/7XJ3NyOoTWmdh7TXApJ
-	jMkx3BE76gq/V/6CZfz8OKy7baicZfLmEfdT8Sga+98GmjRE5BmnxcTthZli1Ll4
-	l3kaTme3JhRGXbRZfdiGPeNo5JpDhvCntstm7qVhTncO/HScvs6zulHRFxw+PgKh
-	rnLeapAWZ01oDRWYR1GDlMnwe4lTzy5LSVWnvckQ0WWG/4FCqkIaB8G6bVr0jR8K
-	jwXGuEcgHmCjs+jxKEKVU/y0KgcMruESTgW9ZVZZu7yJ17ZESx2GUfgnVVnSC8xl
-	S8or50whM3m2yvMrEz1iDg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xf1q6071d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Apr 2024 08:02:21 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 12 Apr
- 2024 14:02:20 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Fri, 12 Apr 2024 14:02:20 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1E4D8820270;
-	Fri, 12 Apr 2024 13:02:20 +0000 (UTC)
-Message-ID: <b66339af-1e07-4509-9fd8-12a927618172@opensource.cirrus.com>
-Date: Fri, 12 Apr 2024 14:02:20 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KO9P4/t2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B70AC113CC;
+	Fri, 12 Apr 2024 15:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712937142;
+	bh=p8OAbH8ik4uO7b+Ydee6KnfTe8Pqv3txAKJdlPzFN+s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KO9P4/t2cDRuWl80w6gOUAPjO0AMXVxD7gC6uP2mwU8ISqAgxs6VNhHozXIZqPg4f
+	 IxIfIc4IjyGe/b6QhzPnay8cP37wmaDZ88pFaCzUFOMc20t0ikqGC58OGZCV+GbyDz
+	 WI93KbnDGseDAwz/NNdCUc5f/9jmB7Vx+RyIICUCQGBUzTfY6Lc75/E09y4R2RQe2v
+	 XWWzyszKnIIXYWZ4k9iyjsQE/3nSlsJtdFf1/ZKtjaJr7IAxKHUFfK6JqE2B+fM4UJ
+	 OZ/+WvCY1aZ1Sqg+hD4vkU9ARhl7iAtiPJbP+z/NrQJ8/kN6A/VFrOg8z4i27eJ5hK
+	 Ci19pwIr5RJ6Q==
+Date: Fri, 12 Apr 2024 10:52:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: Seven Lee <wtli@nuvoton.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	YHCHuang@nuvoton.com, KCHSU0@nuvoton.com, CTLIN0@nuvoton.com,
+	SJLIN0@nuvoton.com, scott6986@gmail.com, supercraig0719@gmail.com,
+	dardar923@gmail.com, edson.drosdeck@gmail.com,
+	u.kleine-koenig@pengutronix.de
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: nau8821: Add delay control for ADC
+Message-ID: <20240412155220.GA2918590-robh@kernel.org>
+References: <20240412103554.3487290-1-wtli@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ASoC: soc-card: soc-card-test: Fix some error handling
- in init()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-References: <450dd21a-b24b-48ba-9aa4-c02e4617852f@moroto.mountain>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <450dd21a-b24b-48ba-9aa4-c02e4617852f@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: KH0pgunqufVkBEQtkVJJMIKs3hQ3mZVe
-X-Proofpoint-GUID: KH0pgunqufVkBEQtkVJJMIKs3hQ3mZVe
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240412103554.3487290-1-wtli@nuvoton.com>
 
-On 12/04/2024 13:07, Dan Carpenter wrote:
-> There are two issues here:
-> 1) The get_device() needs a matching put_device() on error paths.
-> 2) The "if (!ret)" was supposed to be "if (ret)".
+On Fri, Apr 12, 2024 at 06:35:52PM +0800, Seven Lee wrote:
+> Change the original fixed delay to the assignment from the property. It
+> will make it more flexible to different platforms to avoid pop noise at
+> the beginning of recording.
 > 
-> I re-arranged the code a bit to do the allocation before the
-> get_device().
-> 
-> Fixes: ef7784e41db7 ("ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Seven Lee <wtli@nuvoton.com>
 > ---
-> v2: add a put_device()
-> v3: move the kunit_kzalloc() to avoid a second put_device().  Btw,
->      kunit_kzalloc() is cleaned up automatically.
+>  .../devicetree/bindings/sound/nuvoton,nau8821.yaml        | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
->   sound/soc/soc-card-test.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/sound/soc/soc-card-test.c b/sound/soc/soc-card-test.c
-> index 075c52fe82e5..e4a4b101d743 100644
-> --- a/sound/soc/soc-card-test.c
-> +++ b/sound/soc/soc-card-test.c
-> @@ -134,22 +134,24 @@ static int soc_card_test_case_init(struct kunit *test)
->   
->   	test->priv = priv;
->   
-> +	priv->card = kunit_kzalloc(test, sizeof(*priv->card), GFP_KERNEL);
-> +	if (!priv->card)
-> +		return -ENOMEM;
+> diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
+> index 054b53954ac3..a726c5a9b067 100644
+> --- a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
+> +++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
+> @@ -103,6 +103,13 @@ properties:
+>          just limited to the left adc for design demand.
+>      type: boolean
+>  
+> +  nuvoton,adc-delay-ms:
+> +    description: Delay (in ms) to make input path stable and avoid pop noise.
+> +        The default value is 125 and range between 125 to 500 ms.
+
+No need to state constraints in prose.
+
+> +    minimum: 125
+> +    maximum: 500
+> +    default: 125
 > +
->   	priv->card_dev = kunit_device_register(test, "sound-soc-card-test");
->   	priv->card_dev = get_device(priv->card_dev);
->   	if (!priv->card_dev)
->   		return -ENODEV;
->   
-> -	priv->card = kunit_kzalloc(test, sizeof(*priv->card), GFP_KERNEL);
-> -	if (!priv->card)
-> -		return -ENOMEM;
-> -
->   	priv->card->name = "soc-card-test";
->   	priv->card->dev = priv->card_dev;
->   	priv->card->owner = THIS_MODULE;
->   
->   	ret = snd_soc_register_card(priv->card);
-> -	if (!ret)
-> +	if (ret) {
-> +		put_device(priv->card_dev);
->   		return ret;
-> +	}
->   
->   	return 0;
->   }
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+>    '#sound-dai-cells':
+>      const: 0
+>  
+> @@ -136,6 +143,7 @@ examples:
+>              nuvoton,jack-eject-debounce = <0>;
+>              nuvoton,dmic-clk-threshold = <3072000>;
+>              nuvoton,dmic-slew-rate = <0>;
+> +            nuvoton,nuvoton,adc-delay-ms = <125>;
+>              #sound-dai-cells = <0>;
+>          };
+>      };
+> -- 
+> 2.25.1
+> 
