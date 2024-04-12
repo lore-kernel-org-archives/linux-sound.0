@@ -1,94 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9DE54F89;
-	Fri, 12 Apr 2024 11:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94984C624
+	for <linux-sound@vger.kernel.org>; Fri, 12 Apr 2024 12:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712921793; cv=none; b=gdi2FHcb0Xysgn2nZJigvS1wvGB7uRpYtGx/z0aEtum1PEx6G11w2mG73JXI6Vlp8nfyqFO3QpRYqiSJ6o/WedfNE/zM4THIZ53xP60bMoCNTxDrlrwuzyoIi8HHSz3SIl7iX6ZaVaoiltVal/IRb2mpJXkmlqM0k5PR/17gWjc=
+	t=1712923630; cv=none; b=iQqE1vVIZQFUt+M4zus/egG7WcMke9sJfYi1eZTExO0WJwT3185AdE3SEayah2r+9bURnbGzyK8HOCi4XsGPHyqcQznoKVBQDA2M2P5zEIpANHTf4Gz2j4asPgsI+bmJo8ji1xLLyD9GCWHfWds7D9aORXNhKndDZuiac857H6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712921793; c=relaxed/simple;
-	bh=X7YXdle+xzTQt5DxzkCl6jE9JUBpdqUfFKAflv6dxmg=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lyJAV+6mBAFnN5HhJHwU9nmsIzG5QzfnkO8njZ0aITNDKstk+wGURkB6oYqS5PwGXpKqnWhyKL8xL7K5vy0+7kNb5xYEGS8qLMBh4LC9ypmD2DjQeY1gih4+gUGxd7EN5pzr8BrQV6P65r67V3Ept2egnFTqCZXyBXX9QDy1TAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/8FyDl0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712923630; c=relaxed/simple;
+	bh=IOTdpDcLctt+VkvAio8Kum20MmwxSQ0d9vkjIzuih3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mqYV6SXufHuP5TnkcZqGVLz3siAApgDx23eIfo0namreLIZRAb6jg6v9rBoxMiKwgzg+1mG2UZUCny7srhjWyok1VwalJ3x/LGLluKcUqEATHfl523oNrXmM1I+kv45+1fbSbcslVyKeT/Zsq/3Oet0S7AXShCcOFJLSOMOKW6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ppOi1gtU; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/8FyDl0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A5BC113CC;
-	Fri, 12 Apr 2024 11:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712921793;
-	bh=X7YXdle+xzTQt5DxzkCl6jE9JUBpdqUfFKAflv6dxmg=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=G/8FyDl0t6ngV1ufuRgKrSPBj4qoubXyHbyQoBQhVgie44vCIUjl5/LF4VFpURqcX
-	 S0HQJ6WK9v/gJfGmd6oI1jRTVDwuWkjj6226oOPpdM5Nn7OB0HfLA5FOYy5eRZyLP3
-	 xhe5pWIdzsauPERMWmQrSQTaJb3mfnQOhlMWPpy8bMB64MdmnxXmvTqrbnMOaCYSQd
-	 j/wOXmnqNiKIw/z6cR4aaCa2dNunJvQnyvk/DKc6wyNUhXqXbNw4eSozNBJ69XERMt
-	 OdpW8n7L/Uli1brqf7Ag39YggoaP13Q/WaYJK8qMwt7ij/BiGegW1Bvq2RLtbwN1nV
-	 VQxqwcQbDU7dw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <1712830305-31350-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1712830305-31350-1-git-send-email-shengjiu.wang@nxp.com>
-Subject: Re: (subset) [PATCH v4 0/2] convert imx-audio-spdif.txt to YAML
-Message-Id: <171292179033.6945.14805873606442129337.b4-ty@kernel.org>
-Date: Fri, 12 Apr 2024 12:36:30 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ppOi1gtU"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56e47843cc7so840935a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Apr 2024 05:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712923627; x=1713528427; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q1D1D/76pZL8xkvO+Zl4MfJEXAKiV0qu65MW+cm5Jkw=;
+        b=ppOi1gtUNTEP5zeDjfsFHKDccsLa0qh7gLcgqIRqBix5Tdr4RsHfUlh0HAhYVn3C0E
+         PnQUu7Z+TWWdsoabmzYuKSIsZCFfYEOrKgsFCGB4AOhQ16Ixo06FfFPxs/yuivcMDKZG
+         plTSHppuPXwH5X6AxWsHyKDJbonWAvFtwJh2td9hDhEvuAJSAOIhhpKVZOx8OkqYTBlK
+         lGMBrP2U39ws+aTb6xrHjAKmc105obVWYLtgx/D044CJNFpoNNuoWJZ/GahtKWxHJpFS
+         35Wkws0JM36W7nG5UGtxO+WZTjSLtRWeBhmk1TDB74vLE8UjNrpa+/fBEHSQ61pPgo11
+         piDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712923627; x=1713528427;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q1D1D/76pZL8xkvO+Zl4MfJEXAKiV0qu65MW+cm5Jkw=;
+        b=f7jrJY2breJWne1XJixFwGxY8RHLU0Sojx5j3gEJ1aEYr5YcDXa9UG2d9F+7q8Mtic
+         Zg6vXycwbJ4FJvC+bt+kAyKadTsOGOiR0OP8ws8HPHnJoqEhXGeCKfiAe15K+LoGS2k4
+         TE2OHR2wBOFjI/EcMPUghWDtEDMxmtnIbiqwMjLKi4u2Z42SPqBD2EXmWiQQHR4atRsS
+         /t86fJHnlcgSJ2zAyeINWOXf8kP7Qr8uYa9TfsH56wMq6OPPgEkycUvIKWButBVUNnDa
+         ZWJL8Y+Zd2uQOcxtfoDB4MlqC+gez/ivriDEpMZKeq5NHtRVGdc4w6U7BWlQ+hfSMOmO
+         6tlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVb8VPvdCwPBBJSOO7zGCQT1hUk3feCnlFmZCDABCSyvH8w/rykFS1ZvUgRIU/3S+vVu30sUB3Kb7Q8IEwVcYVu9Kb9DBOyVkK6IPE=
+X-Gm-Message-State: AOJu0YypAVhh3AvE5vfevFdz79lUqy8isJ30WISYPyzcdJI3bOJKcUgT
+	U00hk+ACO7eZHcfLpP55yYjCegnGDriGdLOjGN9/PIRkpx5XcneRkwHsee+9MTI=
+X-Google-Smtp-Source: AGHT+IHKWyLR01XM1uFwPEideIK/tNLMPLuxBY8bNXm6QEtfX+uaCUFJa38WK6GZtUqEJE6nT4Opaw==
+X-Received: by 2002:a17:907:da3:b0:a51:db9a:47ca with SMTP id go35-20020a1709070da300b00a51db9a47camr1816051ejc.28.1712923626736;
+        Fri, 12 Apr 2024 05:07:06 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id pj24-20020a170906d79800b00a46a3ad035esm1756964ejb.179.2024.04.12.05.07.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 05:07:06 -0700 (PDT)
+Date: Fri, 12 Apr 2024 15:07:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH v3] ASoC: soc-card: soc-card-test: Fix some error handling in
+ init()
+Message-ID: <450dd21a-b24b-48ba-9aa4-c02e4617852f@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On Thu, 11 Apr 2024 18:11:43 +0800, Shengjiu Wang wrote:
-> convert imx-audio-spdif.txt to YAML
-> 
-> changes in v4:
-> - change the enmu to const
-> - add more comments in commit message for second patch
-> 
-> changes in v3:
-> - change file name to fsl,imx-audio-spdif.yaml
-> - change example name back to sound-spdif
-> - exchange the fallback and specific compatible string
-> - update anyOf content
-> 
-> [...]
+There are two issues here:
+1) The get_device() needs a matching put_device() on error paths.
+2) The "if (!ret)" was supposed to be "if (ret)".
 
-Applied to
+I re-arranged the code a bit to do the allocation before the
+get_device().
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fixes: ef7784e41db7 ("ASoC: soc-card: Add KUnit test case for snd_soc_card_get_kcontrol")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+v2: add a put_device()
+v3: move the kunit_kzalloc() to avoid a second put_device().  Btw,
+    kunit_kzalloc() is cleaned up automatically.
 
-Thanks!
+ sound/soc/soc-card-test.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-[1/2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
-      commit: 62bef5df35a87d0f8464b1a8837540988cfaf5db
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/soc-card-test.c b/sound/soc/soc-card-test.c
+index 075c52fe82e5..e4a4b101d743 100644
+--- a/sound/soc/soc-card-test.c
++++ b/sound/soc/soc-card-test.c
+@@ -134,22 +134,24 @@ static int soc_card_test_case_init(struct kunit *test)
+ 
+ 	test->priv = priv;
+ 
++	priv->card = kunit_kzalloc(test, sizeof(*priv->card), GFP_KERNEL);
++	if (!priv->card)
++		return -ENOMEM;
++
+ 	priv->card_dev = kunit_device_register(test, "sound-soc-card-test");
+ 	priv->card_dev = get_device(priv->card_dev);
+ 	if (!priv->card_dev)
+ 		return -ENODEV;
+ 
+-	priv->card = kunit_kzalloc(test, sizeof(*priv->card), GFP_KERNEL);
+-	if (!priv->card)
+-		return -ENOMEM;
+-
+ 	priv->card->name = "soc-card-test";
+ 	priv->card->dev = priv->card_dev;
+ 	priv->card->owner = THIS_MODULE;
+ 
+ 	ret = snd_soc_register_card(priv->card);
+-	if (!ret)
++	if (ret) {
++		put_device(priv->card_dev);
+ 		return ret;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
