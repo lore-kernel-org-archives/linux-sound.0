@@ -1,89 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACC342064;
-	Fri, 12 Apr 2024 11:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9DE54F89;
+	Fri, 12 Apr 2024 11:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712920649; cv=none; b=WW6Q7ntxU2rub62n9MAGu8PFmnAw+zifgmoGgweb+72Ya0tErsON6Pqjf406PzmjmJu8+8t0T4F4rGQei42MbV4WDzp8PuOxqc7JCwGegr/rzeOrup+SiYg24bBXkoVzTPbJzW/Yov9ZeVjLYP1bHxo+zkCJ3lEUDY3+luOaR9Q=
+	t=1712921793; cv=none; b=gdi2FHcb0Xysgn2nZJigvS1wvGB7uRpYtGx/z0aEtum1PEx6G11w2mG73JXI6Vlp8nfyqFO3QpRYqiSJ6o/WedfNE/zM4THIZ53xP60bMoCNTxDrlrwuzyoIi8HHSz3SIl7iX6ZaVaoiltVal/IRb2mpJXkmlqM0k5PR/17gWjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712920649; c=relaxed/simple;
-	bh=SvdlhNNtUWHChB5l1joPBSlS4XqFexo2+rAXJJlhAE8=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=jEt38bIc/XlA4H3h79GI16jW4BUcON7TaKS5jfjgwu+YUeEuC+yZ46Z2FvxM1MQ0DGDMAnbsiTJi/pbOn//F88MYKtlxpQmOXbw2WPQkM1vZD+jzWLoTtes5N8wHN/IC48SZo2zJfOhZz4bBrTKb+HAel8QSY/oE28KyWOXzJ48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FVb1Fjbu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712921793; c=relaxed/simple;
+	bh=X7YXdle+xzTQt5DxzkCl6jE9JUBpdqUfFKAflv6dxmg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=lyJAV+6mBAFnN5HhJHwU9nmsIzG5QzfnkO8njZ0aITNDKstk+wGURkB6oYqS5PwGXpKqnWhyKL8xL7K5vy0+7kNb5xYEGS8qLMBh4LC9ypmD2DjQeY1gih4+gUGxd7EN5pzr8BrQV6P65r67V3Ept2egnFTqCZXyBXX9QDy1TAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/8FyDl0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FVb1Fjbu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7A7C113CC;
-	Fri, 12 Apr 2024 11:17:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/8FyDl0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A5BC113CC;
+	Fri, 12 Apr 2024 11:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712920649;
-	bh=SvdlhNNtUWHChB5l1joPBSlS4XqFexo2+rAXJJlhAE8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=FVb1FjbuIh0ACxAJQxzVk9u0EuMVSPdiXpsMhzvNDRhpiVlqEviQ9mzm6ZHvL+uiu
-	 LyPSyrh76UCV6BeRqUhXSHsnc73W+rmgc/FT0ya2cAkH+WHBG4tbyl4ds4AoL2lpdq
-	 NsBRgUzh8OSTyIuouYRSfCmZROhdqHr1I8zZssb14WoFS1Nv9rCIZUqLZZZNAoTA/T
-	 l+niw7ysStJGtIM+leJ/eiMY/oD2in17aYJjMUWf0SEDqEom61jE+lvF64NxoykFg7
-	 jaqw8SrgZTCEhL6QXuTiWcfsXOmMqDfUkcVpqt2I4A1y/ZobeVQ242TSVcBvPiucZC
-	 jIkpSYOezqtrg==
-Date: Fri, 12 Apr 2024 06:17:27 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1712921793;
+	bh=X7YXdle+xzTQt5DxzkCl6jE9JUBpdqUfFKAflv6dxmg=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=G/8FyDl0t6ngV1ufuRgKrSPBj4qoubXyHbyQoBQhVgie44vCIUjl5/LF4VFpURqcX
+	 S0HQJ6WK9v/gJfGmd6oI1jRTVDwuWkjj6226oOPpdM5Nn7OB0HfLA5FOYy5eRZyLP3
+	 xhe5pWIdzsauPERMWmQrSQTaJb3mfnQOhlMWPpy8bMB64MdmnxXmvTqrbnMOaCYSQd
+	 j/wOXmnqNiKIw/z6cR4aaCa2dNunJvQnyvk/DKc6wyNUhXqXbNw4eSozNBJ69XERMt
+	 OdpW8n7L/Uli1brqf7Ag39YggoaP13Q/WaYJK8qMwt7ij/BiGegW1Bvq2RLtbwN1nV
+	 VQxqwcQbDU7dw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1712830305-31350-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1712830305-31350-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: (subset) [PATCH v4 0/2] convert imx-audio-spdif.txt to YAML
+Message-Id: <171292179033.6945.14805873606442129337.b4-ty@kernel.org>
+Date: Fri, 12 Apr 2024 12:36:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Seven Lee <wtli@nuvoton.com>
-Cc: linux-kernel@vger.kernel.org, robh+dt@kernel.org, broonie@kernel.org, 
- linux-sound@vger.kernel.org, dardar923@gmail.com, 
- devicetree@vger.kernel.org, CTLIN0@nuvoton.com, lgirdwood@gmail.com, 
- krzysztof.kozlowski+dt@linaro.org, KCHSU0@nuvoton.com, perex@perex.cz, 
- SJLIN0@nuvoton.com, scott6986@gmail.com, alsa-devel@alsa-project.org, 
- edson.drosdeck@gmail.com, YHCHuang@nuvoton.com, conor+dt@kernel.org, 
- u.kleine-koenig@pengutronix.de, supercraig0719@gmail.com, tiwai@suse.com
-In-Reply-To: <20240412103554.3487290-1-wtli@nuvoton.com>
-References: <20240412103554.3487290-1-wtli@nuvoton.com>
-Message-Id: <171292064682.1830010.10520655676449462428.robh@kernel.org>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: nau8821: Add delay control for
- ADC
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-
-On Fri, 12 Apr 2024 18:35:52 +0800, Seven Lee wrote:
-> Change the original fixed delay to the assignment from the property. It
-> will make it more flexible to different platforms to avoid pop noise at
-> the beginning of recording.
+On Thu, 11 Apr 2024 18:11:43 +0800, Shengjiu Wang wrote:
+> convert imx-audio-spdif.txt to YAML
 > 
-> Signed-off-by: Seven Lee <wtli@nuvoton.com>
-> ---
->  .../devicetree/bindings/sound/nuvoton,nau8821.yaml        | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> changes in v4:
+> - change the enmu to const
+> - add more comments in commit message for second patch
 > 
+> changes in v3:
+> - change file name to fsl,imx-audio-spdif.yaml
+> - change example name back to sound-spdif
+> - exchange the fallback and specific compatible string
+> - update anyOf content
+> 
+> [...]
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Applied to
 
-yamllint warnings/errors:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/nuvoton,nau8821.example.dtb: codec@1b: Unevaluated properties are not allowed ('nuvoton,nuvoton,adc-delay-ms' was unexpected)
-	from schema $id: http://devicetree.org/schemas/sound/nuvoton,nau8821.yaml#
+Thanks!
 
-doc reference errors (make refcheckdocs):
+[1/2] ASoC: dt-bindings: imx-audio-spdif: convert to YAML
+      commit: 62bef5df35a87d0f8464b1a8837540988cfaf5db
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240412103554.3487290-1-wtli@nuvoton.com
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-pip3 install dtschema --upgrade
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Thanks,
+Mark
 
