@@ -1,87 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70DB205E14;
-	Fri, 12 Apr 2024 00:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A2E17C64;
+	Fri, 12 Apr 2024 04:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712882473; cv=none; b=kFymivb33fQDDepspufrqgqu288N+xJh9b/tmUpZBbAEpiqumIQSFvtusZAx8f6ggLC6WXwRzyPw03YxX0uqTLcklCXJnHSbdsbmySFa7wP25fX7Wo64VswtKFcYwresiQ9HNJaGGykoD9s+Vh11Q8LxwinvNsrKjyoMpTM0XgQ=
+	t=1712895292; cv=none; b=t1Xmz9FVptnyB7GG1L3nq+dRlUgLkApue72PY5vaviz5UI59dBc1x3PYCq7bgwTYfebSadOf4ow5M4Gb+gXWCGg9YIXEtf3U4RZUNxRg7MioDlgJiOQtCzs+Tykd3rZvklfvUHvB59th4OkkAtQkttCfdyQVJEjlOwE11qF9WVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712882473; c=relaxed/simple;
-	bh=tkAwC8xYx2SEMYsDRYYQ97QABsmy3xXHEjMopBbT+c8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=W6Oc1qylgm7O8LMUKrCt4ehEaIJy7kx29WKZSVJZfOkhT6ONlNGUe0L2x8YMDQPTZRAs/F2HGaRDNpi8UysaRu1Lfrh64VZbsYxDdP35gVe5wT7SqT8M3k6u7uPBa8EQ/KH/uzyy59ga5IKeG/PuMuVRY6W79wK8ULvPgq3qSao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNdyU1Ch; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bNdyU1Ch"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D1D8C072AA;
-	Fri, 12 Apr 2024 00:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712882473;
-	bh=tkAwC8xYx2SEMYsDRYYQ97QABsmy3xXHEjMopBbT+c8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bNdyU1ChaQuXySi1UCUMOwqufaYdRlPh3Y+g2ASclM16FitpF0x3TWGfDh1b4j6Fy
-	 gHaUvNHwpzh7tpoh5MlJIvdxgQ7QB9bdGEqtc2e4LlRSLbBsFxcu32AKqxs8QQ4nYJ
-	 G0zWoM7HT3nh/8KFZbrkFzrefPRMKAGJznuW1aCAgpRYIk5gqFzdU6+oC7veRazQh4
-	 sfUlK6sugnZjU8YhIgRPzJ9bzGlzP4h8B6GnwwWyDjk/y4kyYjSwNOa5urJ71yHKae
-	 B4mHUlDFoh0s5DiLY/Ab29znpyGzR3XxqRZFzFGrjlFiK3P/JgyVpGTkibqXxqD6BU
-	 SCLdwdeaZhlsQ==
-From: Mark Brown <broonie@kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240411142648.650921-1-sbinding@opensource.cirrus.com>
-References: <20240411142648.650921-1-sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v1] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP
- config
-Message-Id: <171288247200.110635.15927713546125669144.b4-ty@kernel.org>
-Date: Fri, 12 Apr 2024 01:41:12 +0100
+	s=arc-20240116; t=1712895292; c=relaxed/simple;
+	bh=gIvpBVDdOYjlbsqtGbic3vWnwDNFVdIU3HpLKyKZOzE=;
+	h=From:To:Subject:Date:Message-Id; b=gEhEXb1R7pv00+jg1B0ZD4cNzbpBqC+R8wRG0ahsFuQbv0FrGfdDgboSIS7/1KjCdcxtouxBOCkZ0V1Auf8MKblr4hUpG1SuvJGSYJpQnAo99NAm4vo/MGIcdYHw+rU17/de+m88z4Pxk8amCGBnjtSJN/Cvc1ZEPQ9PdHdJpeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id AE6922003B8;
+	Fri, 12 Apr 2024 06:14:46 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 770E0200383;
+	Fri, 12 Apr 2024 06:14:46 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 9D1F0181D0E5;
+	Fri, 12 Apr 2024 12:14:44 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v5 0/2] convert imx-audio-spdif.txt to YAML
+Date: Fri, 12 Apr 2024 11:56:50 +0800
+Message-Id: <1712894212-32283-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
 
-On Thu, 11 Apr 2024 15:26:48 +0100, Stefan Binding wrote:
-> Currently, all ASoC systems are set to use VPMON for DSP1RX5_SRC,
-> however, this is required only for internal boost systems.
-> External boost systems require VBSTMON instead of VPMON to be the
-> input to DSP1RX5_SRC.
-> Shared Boost Active acts like Internal boost (requires VPMON).
-> Shared Boost Passive acts like External boost (requires VBSTMON)
-> All systems require DSP1RX6_SRC to be set to VBSTMON.
-> 
-> [...]
+convert imx-audio-spdif.txt to YAML
 
-Applied to
+changes in v5:
+- fix typos in second commit message
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+changes in v4:
+- change the enmu to const
+- add more comments in commit message for second patch
 
-Thanks!
+changes in v3:
+- change file name to fsl,imx-audio-spdif.yaml
+- change example name back to sound-spdif
+- exchange the fallback and specific compatible string
+- update anyOf content
 
-[1/1] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
-      commit: eefb831d2e4dd58d58002a2ef75ff989e073230d
+changes in v2:
+- change file name to imx-spdif.yaml
+- remove |
+- add anyof for spdif-in and spdif-out requirement
+- change example name to sound
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Shengjiu Wang (2):
+  ASoC: dt-bindings: imx-audio-spdif: convert to YAML
+  ARM: dts: imx6: exchange fallback and specific compatible string
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+ .../bindings/sound/fsl,imx-audio-spdif.yaml   | 66 +++++++++++++++++++
+ .../bindings/sound/imx-audio-spdif.txt        | 36 ----------
+ .../boot/dts/nxp/imx/imx6qdl-sabreauto.dtsi   |  4 +-
+ arch/arm/boot/dts/nxp/imx/imx6sx-sdb.dtsi     |  4 +-
+ 4 files changed, 70 insertions(+), 40 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx-audio-spdif.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/imx-audio-spdif.txt
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.34.1
 
