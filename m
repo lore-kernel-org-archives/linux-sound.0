@@ -1,52 +1,81 @@
-Received: from fallback23.i.mail.ru (fallback23.i.mail.ru [79.137.243.77])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2081.outbound.protection.outlook.com [40.107.117.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E86B4D5B0;
-	Fri, 12 Apr 2024 07:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712908566; cv=none; b=IA764K7fFuLgc92D0QcqBfp76TQT+IOxZE2U3Ij0IERV5hoGA6Mt2dQJu2SpvTHGIrHSOUSKdFIXOmbNrog0ewiKmTqUYW8YQnyYQB2HoJ1CIgpdujnSZj5NJ0IfeILcJwHYzg8GjEu5GMlqBPIuGkkQEZcRYZ256HOb+sis8mI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712908566; c=relaxed/simple;
-	bh=kB1Waz8AUN0PHSbSmVoStQXkB/ZpKeNHH8pJoPL0nNw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a6IesL6V4QuwUCxmYpuNpqA54eFjBgay1sgDE/LSzcIfClSxYv1+8RjH7U1ZiFAtdiOfwy6Einuu4l8gSIJ0afFDPWJkz2Ppo4VQF4dDdi3QEF8fGtjTzvTjfMb969V0xDkm89bQ5t2pGWCBrBcwpp1jSV6FmoCTigG5rNJ/L84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru; spf=pass smtp.mailfrom=mail.ru; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=jwqe7mtf; dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b=UOmCLDNm; arc=none smtp.client-ip=79.137.243.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D798D1CAA3;
+	Fri, 12 Apr 2024 10:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712918168; cv=fail; b=QRU/NGY4XCwQlX7F3X+FzyZifum0T8Mq5rfc2nHZz6EF8kjLXhkhTx7UKnkSK0FtnkwPSzALj4Ql3jAU9EJjRiTVxb1Tzm94Yrm+PxwC/AxuJ2TLGkVwm4UxmBTqYZS7neiVXbIy7CgCVaBAi4cPx6k7xx5T3/qxy7qxxXr1lOE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712918168; c=relaxed/simple;
+	bh=6S416KwxLfCtEeZ6OyMeopnp0v2WlooLPqk1tgImJgE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lcfSkBVdynOENq5e9B3bFsLc42dlJsyjOQimYJtSBJdS6BSK1126p7Nrz/ej3wtk2ykY/R6j6Bkfa2hu6eaSshM9ki4iTDd9Ue2TFIeMuXNT2c9x28jQnGLDeuAphpkZdQMY0R+bEc0OV5Wss4TKTIRRwKMCUD10dBerRKZTw6k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=f/y3/o+O; arc=fail smtp.client-ip=40.107.117.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="jwqe7mtf";
-	dkim=pass (2048-bit key) header.d=mail.ru header.i=@mail.ru header.b="UOmCLDNm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=BV2c+il9OQ5tVjtXpgd2HOLpxQh2bl7++uI9FhX0auQ=;
-	t=1712908564;x=1712998564; 
-	b=jwqe7mtfgmFfARwcncruE3czTlIDUT1m3qUbmv2gPe0g8Fs9daQG3Dej4gC8ajUbk0mUXuWRyVrSWJjjl3YPCsZ2LAJbmXdKRhKFtCFBtBc0MIkogY6tXJ79dsdCn/erS1IlPnCRbw/dh7HdDaeW4Hnm3534TKU+ZhHtHx5BkWHGtO+RhkXaMtDVKtiyCrq6rmATa7eEIEZ+KvcTa2fxf7ZwqGYDRowHY5IxFP2jsOuwFT438CUE+Ej9Y/O2y7C8lhrLFy1ebaR3XK+vDj3zPTdkDXSLUgDeV5oZxqpZ8IMt6Sa0RrTPT9Y+Rp6UQce0wHpQ7Q9RLbMU18xH1LvxZg==;
-Received: from [10.12.4.15] (port=60664 helo=smtp40.i.mail.ru)
-	by fallback23.i.mail.ru with esmtp (envelope-from <end.to.start@mail.ru>)
-	id 1rvBlL-00FRcH-J1; Fri, 12 Apr 2024 10:55:55 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
-	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
-	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	X-Cloud-Ids:Disposition-Notification-To;
-	bh=BV2c+il9OQ5tVjtXpgd2HOLpxQh2bl7++uI9FhX0auQ=; t=1712908555; x=1712998555; 
-	b=UOmCLDNmnHum3rjtviMRqEWbJ3QW6FfePrHM7XWab5Q1T7i06zTSWHHDo2/Uv03+vpzaLv0aKH8
-	H99/0cUEoF11fSFCAzQKymWinduRlIyzylyuZi/xHQ92+HKF+3mxdNfnD2zg2X4rhDpdj3BKDOlx1
-	2nziiD+5pS5chOFasTsHueVHFm/+q4XZ3NNeaW84H+ZV9vjPRDGT651C0qBR1EljCXOTWsmDZCIkI
-	NgI0eRQWPaS4Puil4WHnMRJHeGzYxl7IjJvcOkrgUZuBk34X3bY/cV0xMZXlZqCLo5MNS2xM1Q+4O
-	2rvlET4Nt5TxJ7IXMBeThUvyo8/zI5hmrCWg==;
-Received: by smtp40.i.mail.ru with esmtpa (envelope-from <end.to.start@mail.ru>)
-	id 1rvBl8-000000068GU-1CoZ; Fri, 12 Apr 2024 10:55:42 +0300
-From: "end.to.start" <end.to.start@mail.ru>
-To: broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org,
-	"end.to.start" <end.to.start@mail.ru>
-Subject: [PATCH] Support microphone from Acer Aspire A315-24P
-Date: Fri, 12 Apr 2024 10:55:33 +0300
-Message-ID: <20240412075533.10214-1-end.to.start@mail.ru>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="f/y3/o+O"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RKImd7XeZh/fBOwxLz5MHI6E1T97lGnWmPvl+OZl6xbBoNKK3qqq2fzr+de7zoKbwR1zWI/cFsSd0OIQjsoN8yXBbWlS6IimD7bQo7bt7cOeWG5rmJVrPBgp1wP14rctqYGEiIVPbQOQ2twoAKzf80SpwyCd8LLCuwkvtTyEgxi0J9Iy9V/KUxSM/t0smu1oOO15olkT5Th2WixnwwY4oSppGkTw0+L9chrwWE7zJ+yKOWHnTNB1Lxzc3MmGiKjvJjdN//zt2OsXHVRNTB+g0OmV4WkO0p9Y6u46MnvGGcDtJtmPvjHSm0gfEfeWeGDF2KvqySpPfzkzJMcGbHL01g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EUvrX9jrmtMjpHmz6D8VLu5LDN7o/EHtoES/dsqqc4o=;
+ b=d+CkUYipw1S/5dmrLsw868rGaWs8yjSMLwR1A6GF/XY9qv5uHM6+ujoHeHtLCExuQDRM/37YJM2woGte3bUNbq5tE0ehnTUuC7N5g20zoHaavNAMaW2UrcdhHJn/8GmJVZVUINkqh4AVprWpHwmEX9Aiw43U83RTEpgjcYePGmIHOTCuw2bUatNDzBBO6UuGOgns2o5IDwxd4mB2XfS5TgxIR4dChrrqeo624pCPoBS2sd0si3J1VONgeLzXQNHkCJrpU9SzDR1pSUUi2zpo2+ziAeTIvs3dkS/sC5hnYfswNh3+AhwOQoiHvGiYFEti2g90S4mNdsBOag8nuqZ9bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EUvrX9jrmtMjpHmz6D8VLu5LDN7o/EHtoES/dsqqc4o=;
+ b=f/y3/o+O6NZqBha72xpiztySIv0B/HIl5kTTMi6Mu7IZUyZc8I9HlQXTf61IPJ1GMCV+ER4OdRWBjeM0h5MMABdfjdXHpajIWF1tLxCR/TiVnSI5yUazVZgwPQt44jY+lZkaqX/eeAoqhOzWDZJxGfCKopF1qnT2EMCfdK3TwmM=
+Received: from SG2PR02CA0035.apcprd02.prod.outlook.com (2603:1096:3:18::23) by
+ TY0PR03MB6536.apcprd03.prod.outlook.com (2603:1096:400:21c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Fri, 12 Apr
+ 2024 10:36:00 +0000
+Received: from SG2PEPF000B66CA.apcprd03.prod.outlook.com
+ (2603:1096:3:18:cafe::57) by SG2PR02CA0035.outlook.office365.com
+ (2603:1096:3:18::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.26 via Frontend
+ Transport; Fri, 12 Apr 2024 10:36:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
+Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
+ SG2PEPF000B66CA.mail.protection.outlook.com (10.167.240.22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7452.22 via Frontend Transport; Fri, 12 Apr 2024 10:36:00 +0000
+Received: from NTHCML01B.nuvoton.com (10.1.8.178) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 12 Apr
+ 2024 18:35:55 +0800
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01B.nuvoton.com
+ (10.1.8.178) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Fri, 12 Apr
+ 2024 18:35:55 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Fri, 12 Apr 2024 18:35:55 +0800
+From: Seven Lee <wtli@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <linux-kernel@vger.kernel.org>,
+	<robh+dt@kernel.org>, <conor+dt@kernel.org>, <perex@perex.cz>,
+	<tiwai@suse.com>, <YHCHuang@nuvoton.com>, <KCHSU0@nuvoton.com>,
+	<CTLIN0@nuvoton.com>, <SJLIN0@nuvoton.com>, <wtli@nuvoton.com>,
+	<scott6986@gmail.com>, <supercraig0719@gmail.com>, <dardar923@gmail.com>,
+	<edson.drosdeck@gmail.com>, <u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 1/3] ASoC: dt-bindings: nau8821: Add delay control for ADC
+Date: Fri, 12 Apr 2024 18:35:52 +0800
+Message-ID: <20240412103554.3487290-1-wtli@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,49 +83,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-4EC0790: 1
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9D327C87852EB66D37A377202123D15E2522C17BB21D33F58182A05F5380850408454703AA2CBF6152EB5D77EF37489D1F7457EF4EC70DEE14EEA2BC59F9313033EAE9E3EF2B3B1F1
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE74BE895B46187343CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006376602C647E39EFA3A8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8CA4CEC26D07D834D4548D2022A6A8DCF86087224137D367F20879F7C8C5043D14489FFFB0AA5F4BF176DF2183F8FC7C0D9442B0B5983000E8941B15DA834481FA18204E546F3947C744B801E316CB65FF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F790063793270F7220657A0A389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F79006373025A2C56EC5FF29D32BA5DBAC0009BE395957E7521B51C2330BD67F2E7D9AF1090A508E0FED62991661749BA6B97735BFC1D8BB4B114D1EB3661434B16C20ACC84D3B47A649675FE827F84554CEF5019E625A9149C048EE1E561CDFBCA1751F2315B90ADEC130413A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE493D1AC325EA934333D2219AA581D1B0840C4224003CC83647689D4C264860C145E
-X-C1DE0DAB: 0D63561A33F958A54372FD205B77D1E15002B1117B3ED696752432FECF638CF35D145BB8EF0DE66B823CB91A9FED034534781492E4B8EEADBD2EDBEAC172B1CCC79554A2A72441328621D336A7BC284946AD531847A6065A17B107DEF921CE79BDAD6C7F3747799A
-X-C8649E89: 1C3962B70DF3F0AD93B9BA3C444D644977DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF6464F64A29485441841A36B9D400164561D53AB837C2658DF1F8F3F0C39DC30B744A43F78FC6FA901E5F415AA55898CC5CDE3DBCACC57D11C7D2B8D7FCF3C3E9845E8EAF60D5B0B0C226CC413062362A913E6812662D5F2A65982B5FD154E7DC8F0ECD54AF826900C3981EEBE9DB10F943082AE146A756F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojj8Sl06kWf01z+rn20RGmsw==
-X-Mailru-Sender: 0EFB88FCB9539F62C512525400A14327F9B431478F2211232EB5D77EF37489D1F7457EF4EC70DEE187BBD21BC54961EB3F19AE7352BF46025A92E71CC7C3152D8D05DC8E9113C1AA6463BD5ADB651FAA6DC89CDB30474D55C77752E0C033A69E3453F38A29522196
-X-Mras: Ok
-X-4EC0790: 1
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B4DB7CCFC93CF1872E579AAE18C5595C6873652B6E47CFC31E68F3CF0E9FE49B69572DE16CB4682662A81AA93D5FB9131C9D39524722C14A502240B6AABC043C3F
-X-7FA49CB5: 0D63561A33F958A5A95A83A5097BF01E8F3FF00A5340CC8EFEBC3524DA186765CACD7DF95DA8FC8BD5E8D9A59859A8B6F9238D9F5226D930CC7F00164DA146DAFE8445B8C89999728AA50765F79006378E5B25976F539216389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8C824672CB62AFFF2F6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE73D680CD0B734B321731C566533BA786AA5CC5B56E945C8DA
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojj8Sl06kWf03MV+CH2kk3lg==
-X-Mailru-MI: 8002000000000800
-X-Mras: Ok
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CA:EE_|TY0PR03MB6536:EE_
+X-MS-Office365-Filtering-Correlation-Id: a69cfc3b-137e-494e-0841-08dc5adc586a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	p6jPcI/C54wRH3dO005Ca9wMFQ91G1IjHTLgq1B1oIKZtUqaPrMLnhJAC/dJuWKYCXCbS25yARR0M6tvbQKzTMrFVzAxXIFLE3mTHgmp2wdAbAQlDtMIYSUf155hRGXpucvTZaVkfJZnwTon5DpuWQjaV5GnrjDdEUtuCKzvm1NQs7RrVoulMKfzCZ7ODcq4Y8Qd7MH0fNEzt574J9ihJ7S+Fd/w2pgRSvayHDaag9TX05NFTm9m2Je1O424YCvZmtr9YwXxU871AKepabRxFw9sbx2dFQ90hN887a2bse0EA3gYYwvOjSTz9HjE5qvnk0Up6tjp8WmbumCfKB8uTXli2j+D/QW5LwSS/0nP7ts44der6lH7HPkpxhr4DW0lpMoTsNjFxGtXsfiYEEBUGPiDhzinZS+vbhRWnNLXvUjpxHDfJWksspXy7kTcFIiv0cAjoOn/T5Mt4qORQDzFTQSjiNEiEcTJLlYc/1DhAHorV5PtCMv8+a90hUprERgwHWFJcJFIHlg47HIMeZMR7VH/GTa6cDzm5chfGsL5jYs3S/1MLFdc3TGn++9wt0Gki5sK4460bpne22AEhK+GMwYrBP83JWFxpJ14NZJ0Bueck67otWBUVJrlqY+A8EwG6nEHOFT/kzghrPneq3QGJzEAqXnp4frTL1G2bBiFQBuG7yVIJf1rC8vmj0q3VdifCYRqb0cIhW/tXSS+Zs4k1ZA/VPGTuYcFUEMFgvaThHjRFtk8A7h5sLr/AvAb5krI
+X-Forefront-Antispam-Report:
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(36860700004)(7416005)(82310400014)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2024 10:36:00.1322
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a69cfc3b-137e-494e-0841-08dc5adc586a
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66CA.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR03MB6536
 
-Add support microphone from Acer Aspire A315-24P and for some other similar devices with such vendor
+Change the original fixed delay to the assignment from the property. It
+will make it more flexible to different platforms to avoid pop noise at
+the beginning of recording.
 
-Signed-off-by: end.to.start <end.to.start@mail.ru>
+Signed-off-by: Seven Lee <wtli@nuvoton.com>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../devicetree/bindings/sound/nuvoton,nau8821.yaml        | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 69c68d8e7a6b54fc1fcfc3fac3a73d58403071f5..1760b5d42460afe83f3d50dbcdd73daf9455fc12 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -430,6 +430,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "MRID6"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "MDC"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Herbag_MDU"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
+index 054b53954ac3..a726c5a9b067 100644
+--- a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
++++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
+@@ -103,6 +103,13 @@ properties:
+         just limited to the left adc for design demand.
+     type: boolean
+ 
++  nuvoton,adc-delay-ms:
++    description: Delay (in ms) to make input path stable and avoid pop noise.
++        The default value is 125 and range between 125 to 500 ms.
++    minimum: 125
++    maximum: 500
++    default: 125
++
+   '#sound-dai-cells':
+     const: 0
+ 
+@@ -136,6 +143,7 @@ examples:
+             nuvoton,jack-eject-debounce = <0>;
+             nuvoton,dmic-clk-threshold = <3072000>;
+             nuvoton,dmic-slew-rate = <0>;
++            nuvoton,nuvoton,adc-delay-ms = <125>;
+             #sound-dai-cells = <0>;
+         };
+     };
 -- 
-2.44.0
+2.25.1
 
