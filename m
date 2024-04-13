@@ -1,164 +1,95 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F8B335D3
-	for <linux-sound@vger.kernel.org>; Sat, 13 Apr 2024 08:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E29F3839A
+	for <linux-sound@vger.kernel.org>; Sat, 13 Apr 2024 11:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712998178; cv=none; b=dED+yQl4TS6ziRpx9y8CC9b5DVwQdIYNt6sRT0kBAsueQr4+zyIWZCRLtynXUkjbVVlnirWm9tEKOMJhW8dP6UbifT6ZgsGGU3oRFEXIWpJATrj3W+/DhmOcaFn3U+IiVb75ePpgHPWZFmVaBMQ7ab5KVkikbveMn7ixumIOfEA=
+	t=1713008594; cv=none; b=qVwtOqN5FvkY0c7lPbUI+CdKJMnVafpzW0acpOT1EUbTcQLQva9FPzqUNfSaHgxaXQ4A90rOvrzrf5c7+OaTNO7Wh2Q5bLF6xaNoIRK7yBzZPBFEGQyv9mdMwETDx6gE9D1pF48N9BX3HoAg+pJtyq7/zmvhUmDN0vs4T3248iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712998178; c=relaxed/simple;
-	bh=6FIPiQ594KFngeqpTnGrN4qG2Klq6DDn5xZjR0G3Pr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g9Klksn0AI3nCDxSuA2Asky8ZQOPw6AMJSLtwR437PowUV0vVpph8mXfI1k4oUDWUxGgDuKOCjI+il1kL9r2DH+sMVWaUqofjmZ63VolWrbJLeF2o5cpi53SPJJ8Hes102Wm6qdV7zEobyiwI7XK7Sn8HOfgdBiFQt7BuapV8xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvZ3g-00055f-W5; Sat, 13 Apr 2024 10:48:25 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvZ3a-00C201-5I; Sat, 13 Apr 2024 10:48:18 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvZ3a-000gB5-03;
-	Sat, 13 Apr 2024 10:48:18 +0200
-Date: Sat, 13 Apr 2024 10:48:17 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Nikita Shubin <nikita.shubin@maquefel.me>, 
-	Hartley Sweeten <hsweeten@visionengravers.com>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Lukasz Majewski <lukma@denx.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andy Shevchenko <andy@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Ralf Baechle <ralf@linux-mips.org>, Aaron Wu <Aaron.Wu@analog.com>, Lee Jones <lee@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, Niklas Cassel <cassel@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
-	linux-mtd@lists.infradead.org, linux-ide@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v9 00/38] ep93xx device tree conversion
-Message-ID: <izbjcqcvjjhwwbrrhk7jer536ydi5gr7gqdg5icsbmialrrepn@dp7q6jvjujrj>
-References: <20240326-ep93xx-v9-0-156e2ae5dfc8@maquefel.me>
- <66e1da99-5cf4-4506-b0bf-4bdf04959f41@app.fastmail.com>
+	s=arc-20240116; t=1713008594; c=relaxed/simple;
+	bh=S5SKxjqBLEazmK9VzoxpMLNUbW254TmsbmfvUiZKfkU=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=pilZmw2tznWEkNcF9EoPT9ZDuWMw5jJaks0y63Nfg3Go2yCPvaCLnrn+cclKmAMSWP0SWn0vxiJox2S4BEBGSfMKkrzV9QExT1UCivfPZeukbuTvRMdYWqRImJdAjE25G+Nzh8uJH8eZbO4n+z/7rT0ZBNjXjIMIMLUx4l2G+HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=bYJMRn00; arc=none smtp.client-ip=203.205.221.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="bYJMRn00"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1713008583; bh=buU/TI1ycm4oXmFV2yW1Moaxa/OBm98bV+Uw5KNRXxo=;
+	h=From:To:Cc:Subject:Date;
+	b=bYJMRn00I4nRCa+AIH7I1bch6+LHhqYLQ0ygD7voZSKk70F6BalU0pmenCuXxKutg
+	 dPVXm7Nh3qd+RTCRUHMsYN+Nv0LTjZFlfrV0oNXECwSGQcq1RCQmlACznMqHfDIqG1
+	 6zMRWZ/JuzqV+dBgfc6mZxIY/A0SMEj1B739m1po=
+Received: from levi-pc.. ([61.186.29.10])
+	by newxmesmtplogicsvrsza15-1.qq.com (NewEsmtp) with SMTP
+	id 92D1C830; Sat, 13 Apr 2024 19:36:45 +0800
+X-QQ-mid: xmsmtpt1713008205tvbhjow7w
+Message-ID: <tencent_1FEC358E200042A50F654401EFAF6CDE3005@qq.com>
+X-QQ-XMAILINFO: MfjpfBJIjGEYyQKna3BycqEjkVrbFg70sO1ENcrfb/jTGQFVo+L++lpRLjtdxr
+	 2THWD93pMZrYfKD+bj263CqkpKrELKL4Z9le+Vxa5WBMfYanifFP3N6xYlLZejCaJsdRFL4x08UT
+	 9wx+DOI4+b0fjnPiH+/B7rr2VL8AMm9nQUi0CDjPudvEOjwaQj90OPooOpfnEwA+ayJqxxNxutFm
+	 afKLRBx3yHTfau9dVf8sr9hrJcMxqj8Gq584HKr4u3Mysa0ct5KTbVXwJO4U7dltRyeWFpt8KET6
+	 SfZNYavL4j6x33scooQiQnVQLwFzURH0wNvJFB9Cz3GLJBZfLCmpaxEl+1V+D6iEIEV4Rgv6UeJh
+	 d3qvSbwKKvPB5DQBgGCOVUQbBdgGZBjq9A2CO7lwC1ZZieQ2lv9KXXpvf/Os8WKnEetpmSNdyKMV
+	 8WEjB+Kj7hbgQgx+3nO+qKM8JvzBVCXOKu2xThcbjPWBOQluZFwsArYhocW9V4YXyoKsaO0T21ZZ
+	 RDCj+5Ye1CdxYLi+gpbsfmppd+rJwjPm8/BOmhtYZdPB3ONzRfilgPYMZqal4PboK/vayrRdT2xD
+	 6BkLNFMgVyGqvxw2hPnzGGIqNihea/zgPzHtcyvGyXaCEznvXj5rP1Jqe5dmCIYB5aJxQ3Xl8nvK
+	 SpyXsNF0b4/uOh/dvp9O6OqnTUUO4FmJAb9QXvtq3P8DBbfCju/lu9KIitznMOKzLXaQTGJhW1qX
+	 El0zmtWycZSthJm310Hvp5m7I/1vh9u2z+KgE8AfkaxTD0uwMWe+CLaPH/Rgf3T4R9BiOEFBRNZu
+	 3DZCN4PxS/nzmin5YTP22Shq1MNHJfyWOaka6O5uByKK1YPxVxu3LcyiaS2RXuI/j8d8W9mLTv34
+	 WxW1M+8tvxHdNlx5TajbGjsOMSWQTUFb0V1fudts+UV5VaXI+8FLtH1D4vzARShJSYuA9qP/CxWq
+	 pTio/BPhWGR3n/Hxo7kEO3QFAUd3QsW9Saq2KPIHHC6D7terZVJdyexZu5qHxR0NfsTJqFz1hXZR
+	 2OkoaxQUR9NvLj4x6mPmm0lHKJ9yG6ArGGw6hbmEd1WqmXhaqTz2bEi+94h/beTxT+AbtjfXUR1I
+	 Nsiqyp7fHofSqKvFqnqnOHtx4goA==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+From: zhanghuayu1233@qq.com
+To: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	zhanghuayu.dev@gmail.com,
+	zhanghuayu1233@qq.com
+Subject: [PATCH] Fix volumn control of ThinkBook 16P Gen4
+Date: Sat, 13 Apr 2024 19:36:54 +0800
+X-OQ-MSGID: <20240413113654.22769-1-zhanghuayu1233@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pjwf7nurmhwqoh67"
-Content-Disposition: inline
-In-Reply-To: <66e1da99-5cf4-4506-b0bf-4bdf04959f41@app.fastmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+From: Huayu Zhang <zhanghuayu1233@qq.com>
 
---pjwf7nurmhwqoh67
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+change HDA & AMP configuration from ALC287_FIXUP_CS35L41_I2C_2 to
+ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD for ThinkBook 16P Gen4 models to fix volumn
+control issue (cannot fully mute).
 
-Hello Arnd,
+Signed-off-by: Huayu Zhang <zhanghuayu1233@qq.com>
+---
+ sound/pci/hda/patch_realtek.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Tue, Mar 26, 2024 at 11:07:06AM +0100, Arnd Bergmann wrote:
-> On Tue, Mar 26, 2024, at 10:18, Nikita Shubin via B4 Relay wrote:
-> > The goal is to recieve ACKs for all patches in series to merge it via=
-=20
-> > Arnd branch.
->=20
-> Thank you for the continued updates, I really hope we can merge
-> it all for 6.10. I've looked through it again and I'm pretty much
-> ready to just merge it, though I admit that the process is not
-> working out that great, and it would probably have been quicker
-> to add DT support to drivers individually through the subsystem
-> trees.
->=20
-> > Stephen Boyd, Vinod Koul PLEASE! give some comments on following, couse=
-=20
-> > i hadn't one for a couple of iterations already:
-> >
-> > Following patches require attention from Stephen Boyd, as they were=20
-> > converted to aux_dev as suggested:
-> >
-> > - ARM: ep93xx: add regmap aux_dev
-> > - clk: ep93xx: add DT support for Cirrus EP93xx
-> >
-> > Following patches require attention from Vinod Koul:
-> >
-> > - dma: cirrus: Convert to DT for Cirrus EP93xx
-> > - dma: cirrus: remove platform code
->=20
-> I suspect that Stephen and Vinod may be missing this, as reviewing
-> a 38 patch series tends to be a lot of work, and they may have
-> missed that they are on the critical path here. I certainly
-> tend to just ignore an entire thread when it looks like I'm not
-> immediately going to be reviewing it all and other people are
-> likely to have more comments first, so I'm not blaming them.
->=20
-> To better catch their attention, I would suggest you repost the
-> two smaller sets of patches as a separate series, with only the
-> relevant people on Cc. Please also include the respective
-> bindings when you send send these patches to Stephen and
-> Vinod.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d6940bc4ec39..1aef223307bb 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10396,8 +10396,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
+-	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x17aa, 0x38ab, "Thinkbook 16P", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	SND_PCI_QUIRK(0x17aa, 0x38ab, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.34.1
 
-It seems this happend for the clock series; it's at
-https://lore.kernel.org/all/20240408-ep93xx-clk-v1-0-1d0f4c324647@maquefel.=
-me/
-and received an ack by Stephen.
-
-Vinod gave some feedback in this thread with some remarks that need
-addressing.
-
-With the latter I wonder if the plan to get this as a whole into v6.10
-is screwed and if I should pick up the PWM bits (patches #12, #13 and
-maybe #38) via my tree. Patch #38 touches arch/arm and
-include/linux/soc, so I wouldn't pick that one up without an explicit
-ack by (I guess) Arnd.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---pjwf7nurmhwqoh67
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYaRtAACgkQj4D7WH0S
-/k4o+wgAuEjfWmNoFVoIX9NkVmNLAztPiy6Nh9yJ/HEcfVvrFbjsMvDotb4qsGsE
-zfAz7mfofpUhLaFIGx1Sr9p8Zx4eXf0lmRH68rTiXE/hV39TXWKgmf03FG3yPOzN
-1KouxDXOtKIiBxdhSBON/zWyYksJzI9WfjLtzPhcbS0N3CEWi7aTvVS7HmKStyAU
-8/YI17F/4ym1Rf8Zm6JqyzQy5lOmmjy+Sq+BHfkB0ZpNIHQSoaOWISL3Y9bsFSJX
-ALkkO6L4WJVqkAL718q6pYMtb9SiNVyQjyYgYddxFfM6c6cnhg1AV+QEk+VLTPHy
-OgUVpigrpDXH/2JTVvZ7VetbpnSGAg==
-=sCOf
------END PGP SIGNATURE-----
-
---pjwf7nurmhwqoh67--
