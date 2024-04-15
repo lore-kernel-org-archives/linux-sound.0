@@ -1,67 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3532157E6F;
-	Mon, 15 Apr 2024 22:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478941598FD;
+	Mon, 15 Apr 2024 23:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713220192; cv=none; b=VGSMNztqtYJfo9EnzFIxIGFe0qT53svV8SfPhcvcXtbhAIZ6mlMEcVzMco4gJNGWx0T4YwGbPLyKuhEQ8zakBpu0gS8QsKvlLdjiS3YRlPYkCw6ABsDI7FeYEnJebJMZByCMxc1yXctYef94zAOCWiy9HKhQR3SB4/H5tcC5w9c=
+	t=1713224593; cv=none; b=k3j7rmjzyAL6PxUYv1J0+DACpKjdwX25YX9cevRPcE38SoXgSmqoa/HCXXxJWH8mcQ+5MDxz2RtJ27tXeJKapMzacr/vpVaN3i90jW0ersxMhRkOgwfJueYdtQk6pKQuGHBhOW2DqCUWTIJJeWo/wK7zgjaqXgwmpxJLVEW9zuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713220192; c=relaxed/simple;
-	bh=oAL5hcyj9PlKOMaTqchiFLUGIOOaXgtmzzsS5gDVdbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N4z08FdzGiJhqlLZSU2IVj7TfE79OaTTOPCCmz+XsNu4Jx+8WewanFMhIf16Cq5YmIWBuvxVDF7K2shpe4Qg4OTYeU3kJU38+97rktiSEoRBCXsemTk9M38suSS9BaOX2EIS99PvKLGfKqfEjU9moMoqsbbd4oMaZgu8/5cIFXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrdKfelF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713224593; c=relaxed/simple;
+	bh=nSVDjyOsaXPwEFf4Masm5f7IC2GELOaFx6Wn5p9UtNU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Aq2W1Gdf6/S0m4ds6hHxkb1nzWDk/cfpQeXA9C3r6sHeOe769humK1KriRYGX2U7wTumJOlygGQ2r9etxIs8+E/j2v2KVWdggWPsb7V8Qim2r4SQJpElhV6DPt5cVDrad+8YyUa6wWS2TElLqPVh87p0DXsk/JpZCTCeWWRXIKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3seQHi3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrdKfelF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6CFC113CC;
-	Mon, 15 Apr 2024 22:29:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3seQHi3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA69CC2BD11;
+	Mon, 15 Apr 2024 23:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713220192;
-	bh=oAL5hcyj9PlKOMaTqchiFLUGIOOaXgtmzzsS5gDVdbU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jrdKfelFnMJM+mOrZ9Woko0MRxQTEfZZPD0KjmT8iYCHyzyvYMMkbtIXmyxd75vjI
-	 n/LsaDlomxyVM+mucYkE5dS/iPyp+sVtVCMYmTZ6lRdws87BbFfkv4aiQQ4PxEL5bl
-	 2rLp68JPBkFyyOFVTZfz4ZnlAKePXrhdEjafL1Dpzy3o4+6DzJuxPMwXwFjrAv+Cwf
-	 MsbVtEgXKQTkiQ6Awtf9oke66I5kFmDX5u9YeL0BfKdiUC5Np04E24GRBpRvmkRkxH
-	 f5mfV6IowsR8pXjTu1e/DY5atTVbgOMQpnj8z0y1akgmCkn5GsL4igB16Rnw6suVIc
-	 FyBtgo2pJFO4Q==
-Date: Mon, 15 Apr 2024 17:29:50 -0500
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: fsl-esai: Add ref: dai-common.yaml
-Message-ID: <171322018699.201530.3043276928508489838.robh@kernel.org>
-References: <20240411-esai_arm_dts_warning-v1-0-5e1a7c7be9b9@nxp.com>
- <20240411-esai_arm_dts_warning-v1-2-5e1a7c7be9b9@nxp.com>
+	s=k20201202; t=1713224592;
+	bh=nSVDjyOsaXPwEFf4Masm5f7IC2GELOaFx6Wn5p9UtNU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Z3seQHi3ftMKwRqU1M7bzr4We4qvJ0rgVoKLjTO6uSZMYA9OTTMGwEcZ6fbbQmtVI
+	 3kZrpyOVGeMd1TV5CNkaKmf3EDQdH56J2g/BhGeTLTkLkphvYI0Hp8BjKlChM8YHhB
+	 VYmbfFBE5vakqfGEqI0AdtqI522g93wZtfF8yld2Rvxk8jLWanTgzZeqgYshcnDGxD
+	 2qeiHOK6RHUTib9We9MNRF8GkZ7gGCWmq2T9EUhFAHpzxAi/Zw7hRoiZ+LhUTiARik
+	 etb0lJoqnKmXlsKLvk2tJE1WDDDIuwRb6LP45RmEWi2167JQ0ml/2OPthCej6amcxL
+	 lYN+YZOv8RfjQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
+References: <20240403-sunxi_s32-v2-1-29ebf6ad590a@jookia.org>
+Subject: Re: [PATCH v2] ASoC: sunxi: sun4i-i2s: Support 32-bit audio
+ formats
+Message-Id: <171322459009.1659018.15608590783585175158.b4-ty@kernel.org>
+Date: Tue, 16 Apr 2024 08:43:10 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240411-esai_arm_dts_warning-v1-2-5e1a7c7be9b9@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-
-On Thu, 11 Apr 2024 13:07:46 -0400, Frank Li wrote:
-> Add ref: dai-common.yaml to fix below warning.
-> arch/arm/boot/dts/nxp/imx/imx6q-sabreauto.dtb: esai@2024000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+On Wed, 03 Apr 2024 14:47:35 +1100, John Watts wrote:
+> The I2S cores used in the H3 onwards support 32-bit sample rates.
+> Support these by adding a per-variant PCM format list.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  Documentation/devicetree/bindings/sound/fsl,esai.yaml | 3 +++
->  1 file changed, 3 insertions(+)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: sunxi: sun4i-i2s: Support 32-bit audio formats
+      commit: 863f94ac5f4481a7c5665e8152d551701ac71bf3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
