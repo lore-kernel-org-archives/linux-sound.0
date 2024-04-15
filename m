@@ -1,103 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E3E137772;
-	Mon, 15 Apr 2024 12:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95CC74E11;
+	Mon, 15 Apr 2024 14:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185476; cv=none; b=K6IxOvYISdHhTEL9Gf2Zra+vzSmJz2+14EsPDueDpbcDXBl3r876KUxZyXMEgLi8GDDfIEs3MybRtsaFXenu1K8GJOn89Icbr9GzEwCwBLS9Fv7/mOhzKHzVtxTZXwRfr2rqdF5rwftz1EoRUdT0k4sI26u8oNzuUwMmTc0a0iE=
+	t=1713190765; cv=none; b=gI8nnxlDGeEj6YfpVHIXPJIPc0f+qdxZRs3sDD/xuHQ1cAmoSOc6yLLvweFy7mXhrgdevuaQt8JZ7fFA8bJnz9HQCWyxOyt120/kEcASYQRgtiUeq6ZXDH/XBhhgvorete2eRGaeyam9p/tPTVPC0aRm3/yLaKu2Uzp6FZDTTN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185476; c=relaxed/simple;
-	bh=uu+46JBT3zvw2c9/PefIG4AGdzXeYCSxhwWtOIoo9xI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPLO8d79ofKWaa6YKjglHkS2JxpkAzUV8dzV+i1v5tbNv1e+osbcsOMU9cPb71PyGWVydgh08bR08XVK+qXF8YjET1ILcVBp/XaL9vkbP3iniJAe52veVnYJfnTWS7kn42LAkTehsj6SxZTSerVT2MmedzgFlWygAVZiVgi4+t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4sRyVXY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713190765; c=relaxed/simple;
+	bh=WU5KDltuTt9aQCPYXF9+eq8jRI7Tg8SGbP0xqq6dmYs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KlAFA/sll742PK4ekbpHHURnUsgC2bJjP699ZRQUzUaT89nfUEiyMNnu84C5HwSoYbMWC/ptJE8SfwW1rbZImIB3B7lrYuckZHA+SmBQGEJgqaguHiAE3GX7cxY1fAgxL3tYZexgMRzM/X75WeKgdX+Nc7gpQZBR0HxRvHpNsCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPyvIXQv; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4sRyVXY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628FFC2BD10;
-	Mon, 15 Apr 2024 12:51:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713185476;
-	bh=uu+46JBT3zvw2c9/PefIG4AGdzXeYCSxhwWtOIoo9xI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Q4sRyVXYrUS764VhrNtxHvT4YFw6t4E7rY15RpPA8utDroe8o9a7zGLUc+4a6pbDI
-	 +bdhfjXqhr+XfD5cRrpHeURx7bHquuRiSbm8bacUE0S9MmEqqCftjpU83+7pKdN2/h
-	 o6pusiUQs9OY9i8MOfgkcy0jHHHDJAbrZG9VPv4i+9K3O137zBSeqEG6lKizdwzJ8V
-	 ngPiyoZmVINqcGTsRmXePHYWisZ+vMrUhIMc4jS+uJbI+OhuyZ2RvckG4yvbIFGEwM
-	 RG+DX/vxwqF//XN6LbQDTBrXBecQfZqAC0QKseXZCUfaDxSfAAbm2fb7tmhTl2fSAX
-	 C8GHowjA1/DQw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	syzbot+7fb05ccf7b3d2f9617b3@syzkaller.appspotmail.com,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/4] ALSA: line6: Zero-initialize message buffers
-Date: Mon, 15 Apr 2024 06:05:14 -0400
-Message-ID: <20240415100520.3127870-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPyvIXQv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713190764; x=1744726764;
+  h=message-id:date:mime-version:from:subject:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=WU5KDltuTt9aQCPYXF9+eq8jRI7Tg8SGbP0xqq6dmYs=;
+  b=UPyvIXQv2uyO0JtWYH+26IxxIcf4Ctq7gYkDCF1/iJQs9TLoCKZKLeqP
+   i1PPgExp/ZEXDY8sXOBqzKa2ZlfLfTrBykhqYZZzxDINBB+/txIhxIDx1
+   3lKwvl8I1FmlGQuk5nSIJ8eW5odQ14H/sqIxR7ZdnUKMczLSnEJn3VPw2
+   H/AVnGn8yV9c+6uwrMUJkbSgJZysLKrE6UVFNfWApHAOL9HfHejqmwMTU
+   LCYCjkuiRzo86NncDuobJDbI8T4yVxRwt6Ewn4C5AnnoDVsMZ5DjHziPH
+   SYKWy6JiAdNLaiXQyrVg2Ar19B+M5JUHBQHGYZ0sZnFyGj9HrMqk+XF6r
+   Q==;
+X-CSE-ConnectionGUID: AB2ntk9WQmuoWLuOafr0DQ==
+X-CSE-MsgGUID: ouemnF/vT2eNSfZR59siHg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8443592"
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="8443592"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:19:23 -0700
+X-CSE-ConnectionGUID: 1TdWzhgfSOmUQ40OtUKQlA==
+X-CSE-MsgGUID: dlzDrL9kQtGH1m7YQEahRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="26347149"
+Received: from sadhupha-mobl.amr.corp.intel.com (HELO [10.212.11.252]) ([10.212.11.252])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:19:22 -0700
+Message-ID: <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
+Date: Mon, 15 Apr 2024 09:19:21 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.312
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+To: Krzysztof Kozlowski <krzk@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit c4e51e424e2c772ce1836912a8b0b87cd61bc9d5 ]
+> The core code does not modify the 'struct snd_sof_dsp_ops' passed via
+> pointer in various places, so this can be made pointer to const.
 
-For shutting up spurious KMSAN uninit-value warnings, just replace
-kmalloc() calls with kzalloc() for the buffers used for
-communications.  There should be no real issue with the original code,
-but it's still better to cover.
+The structure itself is NOT always const - the initialization itself
+does have platform-specific changes, so what do we really gain from all
+this?
 
-Reported-by: syzbot+7fb05ccf7b3d2f9617b3@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/r/00000000000084b18706150bcca5@google.com
-Message-ID: <20240402063628.26609-1-tiwai@suse.de>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/usb/line6/driver.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index 2399d500b8812..8970d4b3b42c3 100644
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -216,7 +216,7 @@ int line6_send_raw_message_async(struct usb_line6 *line6, const char *buffer,
- 	struct urb *urb;
- 
- 	/* create message: */
--	msg = kmalloc(sizeof(struct message), GFP_ATOMIC);
-+	msg = kzalloc(sizeof(struct message), GFP_ATOMIC);
- 	if (msg == NULL)
- 		return -ENOMEM;
- 
-@@ -694,7 +694,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
- 	int ret;
- 
- 	/* initialize USB buffers: */
--	line6->buffer_listen = kmalloc(LINE6_BUFSIZE_LISTEN, GFP_KERNEL);
-+	line6->buffer_listen = kzalloc(LINE6_BUFSIZE_LISTEN, GFP_KERNEL);
- 	if (!line6->buffer_listen)
- 		return -ENOMEM;
- 
-@@ -703,7 +703,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
- 		return -ENOMEM;
- 
- 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
--		line6->buffer_message = kmalloc(LINE6_MIDI_MESSAGE_MAXLEN, GFP_KERNEL);
-+		line6->buffer_message = kzalloc(LINE6_MIDI_MESSAGE_MAXLEN, GFP_KERNEL);
- 		if (!line6->buffer_message)
- 			return -ENOMEM;
- 
--- 
-2.43.0
+some commit messages say the code is "a bit safer", but I personally
+find the 'const' more confusing since the information that the structure
+can be modified during initialization is lost.
 
