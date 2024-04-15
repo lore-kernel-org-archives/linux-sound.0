@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6E1327E5;
-	Mon, 15 Apr 2024 12:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE168132C19;
+	Mon, 15 Apr 2024 12:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185456; cv=none; b=Do4KcE3zewSTPssH84jtvybzrC1jsvw1Wyogy7EI1bVGUpUvxRzVCXTYoHokJJkDT+2RRz/9upi92LeSZJIK8OPo/rdAV7pCG/PIW4pXQGIrxDljRQQy2ykU/O60nhXUOOmLiRSOS09noSJo54aVLOwFkIQ615x6GusCTos4qmc=
+	t=1713185466; cv=none; b=NBOwh4T6FzGrGt0K/D6lDPZhhoh/GSZdmTmVbpnM4l6fIjnGGo2sQKsxxrYY1N6rhG956teADgmxXDQd66TkooCMecCN54ONO8qhieYi+qXERNfzQ/I8lRKtvH5QdNJ/5A4Y4RVSRS+FebQK5FObrEG0x17jQqoTQdaCEHeVldQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185456; c=relaxed/simple;
-	bh=9WgubhEyjIntDb8goamQgfEtmkM2n3g7m1ut+oETaNg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PnkZxZwAI2ReA/I21kYhZO68k8E2GwglyOUC1FxoKaO4NRFiBBOA3ZVyqJk1/vMOcFPDBPngQ/is/WXSESRHtRFb+bh+AuIYrJLLtvdXcROWNh+n6lwyPkbn0WVwZmA1UkJEwAACP4iKxrZ7Cc6WOlwv55BReOkEPdPiPK/bt3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K1Rc9G1o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713185466; c=relaxed/simple;
+	bh=rMTXzkrVMwHWTz+d7d9laA8+1YjXeVMCFa4NLOSuDQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qIQ8LLWP03CN6YAAo6q2J7kWZRyRhHvtcG2NW6zzx+EWZApFYYPLcytS5qSRLM9hMRH0dbqZa+Hy5kYVTK0RThb2c7r+oz0+fXSyR494YDy8EfOJXzx0sGTlScFSLlvi87pH/NJP7cHUonJBdazJCniRnsbvo1ZE5C4+nOVb6Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnMuy7yx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1Rc9G1o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9ACC2BD10;
-	Mon, 15 Apr 2024 12:50:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnMuy7yx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39EBAC113CC;
+	Mon, 15 Apr 2024 12:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713185455;
-	bh=9WgubhEyjIntDb8goamQgfEtmkM2n3g7m1ut+oETaNg=;
+	s=k20201202; t=1713185466;
+	bh=rMTXzkrVMwHWTz+d7d9laA8+1YjXeVMCFa4NLOSuDQc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=K1Rc9G1oooxQ8I5n5OLQ00pA7xBoU1/ACkGg1kdd1ZKdSHupQA7j0TfH/S8hSerSR
-	 6EnQmZ4THgDFnN4cQQl8kDOC99moeM28JipIqMqk49uIQei3yxn++kSajscHfIuhIf
-	 zl5DGe1JsqMSgeTu3fpTkKgKpAYTctlKSb6jQ57L9kU90Igb9ROeodWW2jOraPV7Dy
-	 77+5R+LqzDbAar8862gOkGmKaXaC0xG8SGWfnwflM5RiL6Inv8LeUzSw0CaQFGXUXG
-	 3w42RKpW9tCbGmYtwwrlasrLmbIZVTSCnNcX9YmKdufUaIwptgQfupSUjdcWWPp7bh
-	 MvSA9jQPizHrg==
+	b=mnMuy7yxHyf68CXLMPiKbia50BopUQmztH50wJAfqiV6W0TS25Lrx9LakcyXEdfcJ
+	 588eamT/DNV8hhgE8O/1DkVD+BQQKmYct2T+ZgqImVS39H4Eamy9fQS4cj0r1/JpFC
+	 +BvneNmZdYsH6MeQLL4EjebZdqxPcR+kBZeJuoN6wYcSJPY1f06gRK69E7I8dPiZGu
+	 ZVlYmtSn7+fMyfqHfvTAtwROXVKjkWiZwINZyLrIRjBaHUQOpRVREuufm4zkdyBWhK
+	 FgmPDhDrZF8FmWsWQ8X/PkIpqb8yCj8iyLvFJWeA6gMG2MwHbIaqKwnlbBi0CHbI0n
+	 0scRullUZGL8Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,9 +34,9 @@ Cc: Takashi Iwai <tiwai@suse.de>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 1/4] ALSA: line6: Zero-initialize message buffers
-Date: Mon, 15 Apr 2024 06:04:54 -0400
-Message-ID: <20240415100459.3127671-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/4] ALSA: line6: Zero-initialize message buffers
+Date: Mon, 15 Apr 2024 06:05:04 -0400
+Message-ID: <20240415100510.3127774-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.215
+X-stable-base: Linux 5.4.274
 Content-Transfer-Encoding: 8bit
 
 From: Takashi Iwai <tiwai@suse.de>
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index b67617b68e509..f4437015d43a7 100644
+index 22104cb84b1ca..efa8fb59d3ad2 100644
 --- a/sound/usb/line6/driver.c
 +++ b/sound/usb/line6/driver.c
-@@ -202,7 +202,7 @@ int line6_send_raw_message_async(struct usb_line6 *line6, const char *buffer,
+@@ -201,7 +201,7 @@ int line6_send_raw_message_async(struct usb_line6 *line6, const char *buffer,
  	struct urb *urb;
  
  	/* create message: */
@@ -80,7 +80,7 @@ index b67617b68e509..f4437015d43a7 100644
  	if (msg == NULL)
  		return -ENOMEM;
  
-@@ -688,7 +688,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
+@@ -679,7 +679,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
  	int ret;
  
  	/* initialize USB buffers: */
@@ -89,7 +89,7 @@ index b67617b68e509..f4437015d43a7 100644
  	if (!line6->buffer_listen)
  		return -ENOMEM;
  
-@@ -697,7 +697,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
+@@ -688,7 +688,7 @@ static int line6_init_cap_control(struct usb_line6 *line6)
  		return -ENOMEM;
  
  	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
