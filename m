@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010887581B;
-	Mon, 15 Apr 2024 12:50:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6E1327E5;
+	Mon, 15 Apr 2024 12:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185445; cv=none; b=RL1gxotVsRd6oLB60TpGmT3WLTgYzqQeaEHl6IhaAC7XBpj+R9qq/+VzGN1fMTZi1Su/KG3LdaAthceh+FQJBsQrFZhEUFCj0B0DSLzdbSAD2ZFGJBKshTniVTrZJZvkRCvFte8DYHXwKtcfa32ukaMz86o/az10I3Zc/h5lC2I=
+	t=1713185456; cv=none; b=Do4KcE3zewSTPssH84jtvybzrC1jsvw1Wyogy7EI1bVGUpUvxRzVCXTYoHokJJkDT+2RRz/9upi92LeSZJIK8OPo/rdAV7pCG/PIW4pXQGIrxDljRQQy2ykU/O60nhXUOOmLiRSOS09noSJo54aVLOwFkIQ615x6GusCTos4qmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185445; c=relaxed/simple;
+	s=arc-20240116; t=1713185456; c=relaxed/simple;
 	bh=9WgubhEyjIntDb8goamQgfEtmkM2n3g7m1ut+oETaNg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qc8SvhYc/nA4nOr8766llZnjrBnFvrDS/aTzauryy8TG1uwKeDxrGAVvJ+Ut4fK5gzOhyPxA07Ay+jPF3WLqiGO9aPMhrvIl8LM6VECZjvWJymOePddZnhykrdHmcw4/RVKSihY195/C9DivGUBjaiX+YqQJ7O6hHF38VBGHmu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocAQeneK; arc=none smtp.client-ip=10.30.226.201
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PnkZxZwAI2ReA/I21kYhZO68k8E2GwglyOUC1FxoKaO4NRFiBBOA3ZVyqJk1/vMOcFPDBPngQ/is/WXSESRHtRFb+bh+AuIYrJLLtvdXcROWNh+n6lwyPkbn0WVwZmA1UkJEwAACP4iKxrZ7Cc6WOlwv55BReOkEPdPiPK/bt3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K1Rc9G1o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocAQeneK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF86BC113CC;
-	Mon, 15 Apr 2024 12:50:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1Rc9G1o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9ACC2BD10;
+	Mon, 15 Apr 2024 12:50:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713185444;
+	s=k20201202; t=1713185455;
 	bh=9WgubhEyjIntDb8goamQgfEtmkM2n3g7m1ut+oETaNg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ocAQeneKpzKhpF99Tt/dEaC7PxMcQsj/vF/dL/kHf8Z1Iws/J6ivQHe4iveyGR3UM
-	 2xBGkiIzASN0AbQsqXYxwFu303Ye0uxV0Mr1RU+68vCcA6HIlfZvbJJ9fpO15qGgrC
-	 IxQD57wiBWoICprZrQsyJ0aHSqysjbbENNRQQcv7eaDBDTzXdRhPZgK2PdTFcMXm74
-	 /TVjr7ec+PaQ7bP7lx701VJBnPtza3cXC/6TjlTNxujccwbMulw91OvWT0AgGds6sl
-	 BcWZh1BGrCsoND9+H4wnylUPFSQ3DHpY2Z4Td8M3b5HRUlmSx6r4JRMiRkJ2Qc8rdv
-	 HiipbGnBGutwg==
+	b=K1Rc9G1oooxQ8I5n5OLQ00pA7xBoU1/ACkGg1kdd1ZKdSHupQA7j0TfH/S8hSerSR
+	 6EnQmZ4THgDFnN4cQQl8kDOC99moeM28JipIqMqk49uIQei3yxn++kSajscHfIuhIf
+	 zl5DGe1JsqMSgeTu3fpTkKgKpAYTctlKSb6jQ57L9kU90Igb9ROeodWW2jOraPV7Dy
+	 77+5R+LqzDbAar8862gOkGmKaXaC0xG8SGWfnwflM5RiL6Inv8LeUzSw0CaQFGXUXG
+	 3w42RKpW9tCbGmYtwwrlasrLmbIZVTSCnNcX9YmKdufUaIwptgQfupSUjdcWWPp7bh
+	 MvSA9jQPizHrg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,9 +34,9 @@ Cc: Takashi Iwai <tiwai@suse.de>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 1/4] ALSA: line6: Zero-initialize message buffers
-Date: Mon, 15 Apr 2024 06:04:43 -0400
-Message-ID: <20240415100449.3127574-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/4] ALSA: line6: Zero-initialize message buffers
+Date: Mon, 15 Apr 2024 06:04:54 -0400
+Message-ID: <20240415100459.3127671-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,7 +46,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.155
+X-stable-base: Linux 5.10.215
 Content-Transfer-Encoding: 8bit
 
 From: Takashi Iwai <tiwai@suse.de>
