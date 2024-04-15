@@ -1,78 +1,82 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C561D5D48D;
-	Mon, 15 Apr 2024 10:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CBC3FBB0;
+	Mon, 15 Apr 2024 10:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713178161; cv=none; b=gimwE4vQTbxQUZRuNrac5+ytiQM/gkK03hI11+XQhPNrqDJv7ErZuljKO/99MJFX8nYc1vDGBaZFjNv6QC4T/5C3Lm6nGeXar+Y9cDwo1U+ffAT0819kjkHQ+4rSLkaiqdToasJEE5S9Oe/kwxysKaZmY5Zkao7xkxbcHrdpk34=
+	t=1713178401; cv=none; b=oa5uoaylzv1/ZW4n5xOjNex6eTShXrxBh2qaXmu3RcLUueefxChmZaL5cuuIcJSvt+C8Nz0c4ke4uHf+z+zQeVhX7q50SMAQNhM1DvKwAIakbstvN8FSBWbfDwEhC65DN6imA7v2Jgro3FwPtXum0TaQR4gQ6BlDMpYp1cp16gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713178161; c=relaxed/simple;
-	bh=VkoLIjMfNZTvr+tRbMnom1duDqUONl1TjFQKiVbF0Lc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GlTgF3MPGf2VPr/1/fYDppDet5P7aDkv4jvZ35ycDCAHr/i4hVmGPtWuGRooP0bwPMZkwkTVeE4F38p2YcCZdd0gCJhyjBmFmnPCmPl6YZlSNZVCJYgjlGtq5jZK5CikwbmYAc/vQ3EkhRqN2uX848WXYxPDra+seKBu8B1+tno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HArTBWPx; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1713178401; c=relaxed/simple;
+	bh=kfvyNsCyNmGnY4Zz3DbNuf3727prsr30mDPRfXJwYQQ=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fCV4yvSDqeWqJRsvOFH/mKcwucPw1xWuXrey75wDAjFUDWSmqAgx8c55nblE8euWIVNoL8EBNL7zxzNfLhbHeLwgzWzj1H4Tnild7v8QnSStmSZwP2Jc6enrh/jUBeRg/l1dvvJWj8J9DiXZL2u0PXpM2tdE8GxShPawIwDulTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n6tjRIrH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HArTBWPx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1713178157;
-	bh=VkoLIjMfNZTvr+tRbMnom1duDqUONl1TjFQKiVbF0Lc=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=HArTBWPxAA1OrcKymipiXN8qbO9S5Bxwi1bJlVkM8V8CEkZnDLCO94fzTJ0dBEGNY
-	 QlZMhM3fFb70b7JfPkGeAQ3jSbFJ6ciXk/8T6RY59xgdsfEJvukShzBr/7ANPuZKb7
-	 Aa5jtJqJ5HqhIEcdHKWzetM2tg1esivxIAgdL0P0ZKOIdPsFZuMSVEe5MFET2v1sQ0
-	 1+bSPuq60FLiKHuKRSC0VjDMptnQZoHH2f4TqNuaCTkvzqISqtyqK6IxOZeTEWbLR0
-	 hhWFaOmsae1RfucFStqX8jcnICLgbORycGbAKGQQ3V48kXcMP9Alik/fdTjtlRj+5O
-	 dNRYZD8SDmzsQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D278037820AB;
-	Mon, 15 Apr 2024 10:49:15 +0000 (UTC)
-Message-ID: <47348f40-0902-4a52-8ec7-79b202916486@collabora.com>
-Date: Mon, 15 Apr 2024 12:49:15 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n6tjRIrH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04FC2C2BD11;
+	Mon, 15 Apr 2024 10:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713178400;
+	bh=kfvyNsCyNmGnY4Zz3DbNuf3727prsr30mDPRfXJwYQQ=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=n6tjRIrH24V/fmUUgV1+TVsJb2wPTk3Qw9a+4CZx5+Det9yD4eQWk+d++eImSpul2
+	 WzXn+G2nzon4+IrNE2bLs1U+z9a8FN/Ucy+/dcNQdVHL/JNwXtxecPpgs2XZdzCKst
+	 j+JV4FHPDtNnCJ56GELBJ1x76aHVuMbGebrnQnmPlcpnwFWUMawBJJAqGFnNB41pCh
+	 2098EoW5gL2vFk8rw7C1O3gFU6YMEZFUHrBhToavtuSQG8KtZl08nj8Cw+nZVYWzqX
+	 9VTX3Ki8GmvgLf+dYkmLqEUtIE0sMyShfx5aJlm5tMnG9fBijNddklrENiVX6uMNnO
+	 xhKMEzGLhiNJw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20240414164703.239851-1-krzk@kernel.org>
+References: <20240414164703.239851-1-krzk@kernel.org>
+Subject: Re: [PATCH] ASoC: amd: acp-da7219-max98357a: Constify
+ regulator_ops
+Message-Id: <171317839864.1652048.9391561381349380434.b4-ty@kernel.org>
+Date: Mon, 15 Apr 2024 19:53:18 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 13/14] ASoC: SOF: mediatek: mt8186: Constify
- snd_sof_dsp_ops
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
- <20240414-n-const-ops-var-v1-13-8f53ee5d981c@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20240414-n-const-ops-var-v1-13-8f53ee5d981c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-Il 14/04/24 20:47, Krzysztof Kozlowski ha scritto:
-> 'struct snd_sof_dsp_ops' is not modified by core code, so it can be made
-> const for increased code safety.
+On Sun, 14 Apr 2024 18:47:03 +0200, Krzysztof Kozlowski wrote:
+> Neither core nor the driver modifes 'struct regulator_ops', so it can be
+> const for code safety.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: amd: acp-da7219-max98357a: Constify regulator_ops
+      commit: dd8c3473bbb8b4fdc44ed3a5a864cfefab9038dd
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
