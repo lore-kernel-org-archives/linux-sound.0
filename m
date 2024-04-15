@@ -1,87 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB8A5D75F;
-	Mon, 15 Apr 2024 10:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993B871B44;
+	Mon, 15 Apr 2024 12:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713178403; cv=none; b=fIfGZ2JnH/cgNEiQdPrTCQQ8HqalEw+lG2hXwmVPVA7IsMN9L39h7Po2pbcnvMvLdtAGKfAw3zm+xH2Nk7tmzk/+SMozRyT5EDlGXrnOYOMePeCtrmb89goToMZz834oW/p4V+mfgHD9xI/FQbGJjGoNhgx25F0IVCzWT0sW5MU=
+	t=1713185348; cv=none; b=JHvhziKmgtmJOZjTq7f/fc16f1OCwIXNVaAr1cyXpSkl2E1fxnLyMr6tcuCWKMBmaaGUw8Bp8OHAKieChF9P/bYHJB5cRATMMRW5c8zPL+AoIhX9+ODfKJc7eTQrynevddRtp+Tz9H3XF0gyphd8ea2pT0jcqZLoM/6u5Qbv/dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713178403; c=relaxed/simple;
-	bh=rnyoSsMHQxr2FpuWYiyNFR/ZDGJBdTKFdNrtzd5MXvI=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=acoOoQEMcmi1ZtYGqqSSBOzopdi71TS+AS3c0VHMKFTbOOhS1ftFlTvv64bspCG/hsy6kXkVCvNCCswQXhMXNJgBWgH781xkanuHVAWvwmRtpTjEnoU5P5xQUGhJzyTSwsIU1wZaoTUXWmDFufBE2ecQmOb8Nm8PvsWqYZeFz6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8H1GZdS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713185348; c=relaxed/simple;
+	bh=vC/YQUO5EwZMe8J3Kp1GMB275WzEYkCYfIae53AZnHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z+xYu7YJj8itGygttsS7Ttw7eCHwli6gNRoh6P+ubhaeqlD0uv8aU2RjPElmv4IhD5uXJ0oZssXBsGhZhsbuW4wkFA4/drO4b6fCJh4ByyOVvAb1Y3fufuYYrHMjiDnS7OCSRVV9TSalFcxDM7MDwq6DsgeB/ZguzfDjDb3dSfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWO1CeD1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8H1GZdS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2EDFC3277B;
-	Mon, 15 Apr 2024 10:53:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWO1CeD1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0D41C2BD10;
+	Mon, 15 Apr 2024 12:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713178402;
-	bh=rnyoSsMHQxr2FpuWYiyNFR/ZDGJBdTKFdNrtzd5MXvI=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=f8H1GZdSXQsUopLuk7g5T7VRzyN2HLk8mfqZoMWBzWUN1CCl2JBGhgv4/zS8m4KF+
-	 fLiNBJGSZoM3GMmgDUsl801iV0bkPFgCcBZ269I1wF9wuB1W43xK7muyg47/i6dJYE
-	 5di4w8z+X2AjQ3yxV/ePFJFDrzpf5x1LkRrbEFBYhgP+fc18Te4lZ220I8evqejHSZ
-	 fMbg2K7mCZPlLjUSVUvwM1FuLOEmtnA4WLjLp05qYs1v4WGz9FSv/RZU4XP0gnrD4x
-	 htOtG6T51U9Jkya+Gnbv443xhpVqyL7Kxoeyu7xdortxcHQtzNFS/xbpAT7ZSDOQK6
-	 hYXRbUxPvg6PQ==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20240414154839.126852-1-krzk@kernel.org>
-References: <20240414154839.126852-1-krzk@kernel.org>
-Subject: Re: [PATCH 1/2] ASoC: wcd934x: Drop unneeded MODULE_ALIAS
-Message-Id: <171317840045.1652048.10866553206625890591.b4-ty@kernel.org>
-Date: Mon, 15 Apr 2024 19:53:20 +0900
+	s=k20201202; t=1713185348;
+	bh=vC/YQUO5EwZMe8J3Kp1GMB275WzEYkCYfIae53AZnHc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VWO1CeD1p5WOj/bLFFTooLjCqmAkFGn4/WD2XaXyQewzrUhobBQB6+PjHXiWLxKt+
+	 AY0sunwHV1Xp0D9RMaGFJiykgVXZv9OKrgYFhB4C+SxXKogu58nZKYWpZwvXUpO6rP
+	 Sv3ADUBTigWV6V0CXehhglqavTOKtoYNzJ0k+cUj1C3xke/jNXjYfaMEMzlTkvOrip
+	 kZREV1D66xzssu6wcO866Rft1saXX7TdpYWpMVmoQN1CvspwSFVdtueIBPofrlbtwU
+	 YolyWhZ8VjYD/W/AobqK08S4e1aAl+e4HKLlfbU/SNYvfCqrYGP2fn0Vase3VIXCTf
+	 3q1U/1WX32ExA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Rander Wang <rander.wang@intel.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	yung-chuan.liao@linux.intel.com,
+	daniel.baluta@nxp.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.8 01/15] ASoC: SOF: Intel: hda-dsp: Skip IMR boot on ACE platforms in case of S3 suspend
+Date: Mon, 15 Apr 2024 06:02:41 -0400
+Message-ID: <20240415100311.3126785-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.6
+Content-Transfer-Encoding: 8bit
 
-On Sun, 14 Apr 2024 17:48:38 +0200, Krzysztof Kozlowski wrote:
-> The ID table already has respective entry and MODULE_DEVICE_TABLE and
-> creates proper alias for platform driver.  Having another MODULE_ALIAS
-> causes the alias to be duplicated.
-> 
-> 
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Applied to
+[ Upstream commit c61115b37ff964d63191dbf4a058f481daabdf57 ]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+SoCs with ACE architecture are tailored to use s2idle instead deep (S3)
+suspend state and the IMR content is lost when the system is forced to
+enter even to S3.
+When waking up from S3 state the IMR boot will fail as the content is lost.
+Set the skip_imr_boot flag to make sure that we don't try IMR in this case.
 
-Thanks!
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Link: https://msgid.link/r/20240322112504.4192-1-peter.ujfalusi@linux.intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/sof/intel/hda-dsp.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-[1/2] ASoC: wcd934x: Drop unneeded MODULE_ALIAS
-      commit: 615169c727b13ff4ec6c43b62501f73f9f88a11a
-[2/2] ASoC: samsung: i2s: Drop unneeded MODULE_ALIAS
-      commit: 9d85ec4e91e354ed2d8291e1ea3ba76e660205a0
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
+index 2445ae7f6b2e9..1506982a56c30 100644
+--- a/sound/soc/sof/intel/hda-dsp.c
++++ b/sound/soc/sof/intel/hda-dsp.c
+@@ -681,17 +681,27 @@ static int hda_suspend(struct snd_sof_dev *sdev, bool runtime_suspend)
+ 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
+ 	const struct sof_intel_dsp_desc *chip = hda->desc;
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
++	bool imr_lost = false;
+ 	int ret, j;
+ 
+ 	/*
+-	 * The memory used for IMR boot loses its content in deeper than S3 state
+-	 * We must not try IMR boot on next power up (as it will fail).
+-	 *
++	 * The memory used for IMR boot loses its content in deeper than S3
++	 * state on CAVS platforms.
++	 * On ACE platforms due to the system architecture the IMR content is
++	 * lost at S3 state already, they are tailored for s2idle use.
++	 * We must not try IMR boot on next power up in these cases as it will
++	 * fail.
++	 */
++	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
++	    (chip->hw_ip_version >= SOF_INTEL_ACE_1_0 &&
++	     sdev->system_suspend_target == SOF_SUSPEND_S3))
++		imr_lost = true;
++
++	/*
+ 	 * In case of firmware crash or boot failure set the skip_imr_boot to true
+ 	 * as well in order to try to re-load the firmware to do a 'cold' boot.
+ 	 */
+-	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
+-	    sdev->fw_state == SOF_FW_CRASHED ||
++	if (imr_lost || sdev->fw_state == SOF_FW_CRASHED ||
+ 	    sdev->fw_state == SOF_FW_BOOT_FAILED)
+ 		hda->skip_imr_boot = true;
+ 
+-- 
+2.43.0
 
