@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0483A848D;
-	Mon, 15 Apr 2024 02:26:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF6E1864C;
+	Mon, 15 Apr 2024 02:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713147976; cv=none; b=egIieX4GoC6/Ajct+1IsmxZVpda3pOvzCsrUq60UuLeOd7W54n0i7qyZFKEEVqCqBA7qqn+XQhIpn+zxMGf4tgBDl+SEFZ4ihucuAMcsxhkwW+qIzF3f0cuE+jxu68Ui6FceiYEeSKoXo6Ulmo3PG8lXv86oM9qZW+VeHQEzGuY=
+	t=1713147978; cv=none; b=fpJ4OXvy/D8Kp4b6gVseaa6nVm5Ti92LZoiGWK88nbiupTPYtjHsRLED1wp/CRbnuV81f8M0sz7GqrQagp9px4E9y91F+SpkMl7AiFfOZdfXT7a4ifB92EwlbK9TXn+Ypropx7POtCtXDUb7+KcWSe6984MU8lZXr+G+uM1QIuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713147976; c=relaxed/simple;
-	bh=d+sWxRJcFYWDfl1g1hpky8Wk0cZLGATyDM6LOemMcEs=;
+	s=arc-20240116; t=1713147978; c=relaxed/simple;
+	bh=LAgK+StBnGkWbSGATqPLBF1s3gA6gg3TYn11vtSjrE0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=b7wJjcHLsgH+JZQ7/O26lf/aQsuY++iDJsnOieKghcwxZxZpvlEReElssWbClwvjZg9uJT9AAJ3D9gMtLGRo10t8Aw4GQw4Nv13fkex9XrIGeS+eOYKizidl1GOWi0WaBA+j0exkhIS8sxOkH5S+EWlCEGYaLk2yO6BAJ+RQNYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7lZRSEd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GucJNlygZIlswy8G4GCdUxd9Q2UyErAtdKLtWD+3p1Z3qgBpSj25zVAqsuAN2bYxrpwLR0bT8UbY9V/6b5xx6df+O0YoJU7cr8q6PomlDC5NOox9aHrJPBtn7zzu1zMnMLU0EYsZ8nuFVeTyyUvmYoOgh6JPGMyK2TJ+ANXUqWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AIoNh3Cv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7lZRSEd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8306C072AA;
-	Mon, 15 Apr 2024 02:26:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AIoNh3Cv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F065AC32781;
+	Mon, 15 Apr 2024 02:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713147975;
-	bh=d+sWxRJcFYWDfl1g1hpky8Wk0cZLGATyDM6LOemMcEs=;
+	s=k20201202; t=1713147977;
+	bh=LAgK+StBnGkWbSGATqPLBF1s3gA6gg3TYn11vtSjrE0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=c7lZRSEdzsr9Nn7/FXaeq0JgYid1V+ueNmv08TM4w20O7u2isRkZaFyTN0gTv1gcB
-	 fqyHyfU+Syw8NJXZaye4+LLW6qH9bOu1knw/wzrFgBsFI+l6RdK1I7bPTDDDZILTsU
-	 NzQtbQDWnGgVSY96N9+CtIxVzw1JQRh2K1rPP+TkgRNEKohtaDRDZsegsptcIrSURD
-	 ZFUkqCUOXuv+ot8BgXOsraZFEoF5sZOox0htdfFumc+5wgfsJuQys10/rPg86RcrMP
-	 U31q/+ivTZ02F/DhCUhUcTm9tlU6pNKt6ydIAwGSoLhR9jhEw3C5q4ghIaf6YD+/OT
-	 4tr3KWl6/r76Q==
+	b=AIoNh3CvaJscKxg5T5HrS1Fv3FZE+H+Til1Qf//LrWvcbg2n6T+OInjVhQsYSs2pp
+	 cR8uN4U/y/YbDwXKFUFxSeHdoHUr4m7gf90qpXcQ6fZ1Qwz8l4ZGX6IRGwZqBH/2Lu
+	 HPWZLYmvOm3mcF6EPUNyu0cee3LLzqO4aFRS8bSzoTTi6Zp8U4lv6+C/0Gp/ldhDWV
+	 6CWTIaS7xb+xrk2L9nNkZsncDWLaS1X/hY4u9H2iMdCfqG+6sJWwvG8UOUPIjkooN8
+	 1+q0hcGtMwkmjxhrhBJnvPeyO+OrySQZTU/So6aInTn0anWhZZHCwmfCr2dF7c0XVF
+	 kW18qA7vJH+rA==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-In-Reply-To: <450dd21a-b24b-48ba-9aa4-c02e4617852f@moroto.mountain>
-References: <450dd21a-b24b-48ba-9aa4-c02e4617852f@moroto.mountain>
-Subject: Re: [PATCH v3] ASoC: soc-card: soc-card-test: Fix some error
- handling in init()
-Message-Id: <171314797306.1649319.17265441558891168082.b4-ty@kernel.org>
-Date: Mon, 15 Apr 2024 11:26:13 +0900
+To: Fabio Estevam <festevam@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shengjiu.wang@nxp.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+In-Reply-To: <20240412121410.2948048-1-festevam@gmail.com>
+References: <20240412121410.2948048-1-festevam@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl-asoc-card: Document
+ fsl,imx25-pdk-sgtl5000
+Message-Id: <171314797539.1649319.16109271891144958377.b4-ty@kernel.org>
+Date: Mon, 15 Apr 2024 11:26:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Fri, 12 Apr 2024 15:07:01 +0300, Dan Carpenter wrote:
-> There are two issues here:
-> 1) The get_device() needs a matching put_device() on error paths.
-> 2) The "if (!ret)" was supposed to be "if (ret)".
+On Fri, 12 Apr 2024 09:14:10 -0300, Fabio Estevam wrote:
+> Document fsl,imx25-pdk-sgtl5000 to fix the following dt-schema warning:
 > 
-> I re-arranged the code a bit to do the allocation before the
-> get_device().
+> imx25-pdk.dtb: sound: compatible: 'oneOf' conditional failed, one must be fixed:
+> 	['fsl,imx25-pdk-sgtl5000', 'fsl,imx-audio-sgtl5000'] is too long
 > 
-> [...]
+> 
 
 Applied to
 
@@ -64,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-card: soc-card-test: Fix some error handling in init()
-      commit: a8cad4a4e431e250edc05242a8ca1be6e4b33749
+[1/1] ASoC: dt-bindings: fsl-asoc-card: Document fsl,imx25-pdk-sgtl5000
+      commit: 4be7bc275253c0f35c8f6362af1ee5d91d5d83e9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
