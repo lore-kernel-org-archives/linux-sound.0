@@ -1,48 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110BA70CDE;
-	Mon, 15 Apr 2024 12:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4863074409;
+	Mon, 15 Apr 2024 12:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713185375; cv=none; b=lRrWTNoAHqB5PxhndASMM2F7RGM5B6ktvnnYe2vkWv/Z/vdTYV78mgo/oL1eEvlwAepZ2LCnRFA+8dk9AFUvHmPBlfWJn8Gc7Ez8SR84Bw08QTOmksTPt7mG9Vs8EYSI1qgd7rhilCjDhGeePxhralU8QNzy4O0cW0wLjcyMBSE=
+	t=1713185395; cv=none; b=Nbyu96f4ra97wAQgWHTyay82zdUtmua2hDzR1RKFQ9TTqUcyy6Uv3IDCVS5iXiOs+zWt7PytwOEMjN/I3sBKHv67EkrNqWUyrHtk+LVZwH9aRVRoF1B/ju5J6QRA4ZNTUYtxtqeqnV3BLfakbPy6E+Pnc92Y9Kke0YOaBERZTqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713185375; c=relaxed/simple;
-	bh=Hkbqg3u5DORmc+Id5+eWoE5zJPzeijN0PqbXK/gojgc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LohjloNM1yoT3L8mo1cZxHoFvsxGtZJcXzeyMc1rcF6ZPGYFxd4DpQ0JTNrqurzak++5R5tWNYvlhUCqiS9E2c0XDKdf2BjolWj3UmOEUBlH49DAvsEhTAAR3r9A+WtCGQ03vtu5EEa51uwp7zxRN2UjmFotcS6WH72Ieq36Ur4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUUD9smI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713185395; c=relaxed/simple;
+	bh=UbhvOyBSRovO1dosND1/swfM8+xTn3uo7mFURnszkuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MtP0JNP6dbr0E+AkUXLO1z1qr0M0ss9By85YuwcS7Mu7zi1t5t+yaxkRL9FpzeBNsyNnBsI6c+hvQh9fnNZ89VDfEF45vT9pGFTNZPex7P/1scoGGMRot/DK4DMflDcNL3O8g84tnbIp16CDrmUYW+3n2b4h4dYozct9eSEXUQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k2079D80; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUUD9smI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15ABC4AF09;
-	Mon, 15 Apr 2024 12:49:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k2079D80"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 266CEC2BD11;
+	Mon, 15 Apr 2024 12:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713185374;
-	bh=Hkbqg3u5DORmc+Id5+eWoE5zJPzeijN0PqbXK/gojgc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DUUD9smItFfJBPVDR6qOLuglDxo/hWg7XEgGfDf2nlZxDI6UBYnuwJHVgme/W0qhV
-	 3MOBDW4A7n8fuPja5hU3KEYzmgjoWlq4sLXrHwzo0egg/hcMbCNVU4mA5BU5r/wxCm
-	 vT/Vob6jdHBPzAObbbNW6LAhtZWKu0zGsjU0NDDf9S1Rgf7u994Mp3dUoXgkVjN/v4
-	 FDBBpoCsE1GSDYD9jgS7yTkl4+rcylMXaLwH29317ShOi7nNBDjlc3lVmGNWC4Cynk
-	 YQRh6mXJYBVDyMFeI/con4JogQJ6C7ctdRjjrDk/T0VTd5OHFPgAFt/zd69a1GlZdW
-	 f7/Qs5+LV+4RA==
+	s=k20201202; t=1713185394;
+	bh=UbhvOyBSRovO1dosND1/swfM8+xTn3uo7mFURnszkuA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k2079D80ETAAp2jYLqCf2cY9xVB9DV0cxE0wxjYP4gUviwdSrqJthdKeBAQSwS6az
+	 advCU4q3h+DFh92ofczmqjkxg8nZWIXIy2oMS6HyaZjP5gwHHclN/nmQl9SR00QwZ4
+	 +pWaQyQ1pm8N5LVganrmv0xTsx4KUaQfzfprHNrkvnrkEAx4JZHznqEhy6F55rCDg7
+	 c2wIl4mZb2O5FXxA/Yb3i7lqZJKbxnyJdtBOVuTyyJN1tSzUoRcvF/+irkBvu9XD+F
+	 /podaM8z/edlKQf5skBGWeraAu6Sn5KQbVx7LagLbHi5NPsTPk93lnMDmyAKfcfie2
+	 icew9p7e5BqoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zhang Yi <zhangyi@everest-semi.com>,
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Rander Wang <rander.wang@intel.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
+	yung-chuan.liao@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	zhuning0077@gmail.com,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 11/15] ASoC: codecs: ES8326: modify clock table
-Date: Mon, 15 Apr 2024 06:02:51 -0400
-Message-ID: <20240415100311.3126785-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/12] ASoC: SOF: Intel: hda-dsp: Skip IMR boot on ACE platforms in case of S3 suspend
+Date: Mon, 15 Apr 2024 06:03:36 -0400
+Message-ID: <20240415100358.3127162-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240415100311.3126785-1-sashal@kernel.org>
-References: <20240415100311.3126785-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,85 +54,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.6
+X-stable-base: Linux 6.6.27
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Yi <zhangyi@everest-semi.com>
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-[ Upstream commit 4581468d071b64a2e3c2ae333fff82dc0391a306 ]
+[ Upstream commit c61115b37ff964d63191dbf4a058f481daabdf57 ]
 
-We got a digital microphone feature issue. And we fixed it by modifying
-the clock table. Also, we changed the marco ES8326_CLK_ON declaration
+SoCs with ACE architecture are tailored to use s2idle instead deep (S3)
+suspend state and the IMR content is lost when the system is forced to
+enter even to S3.
+When waking up from S3 state the IMR boot will fail as the content is lost.
+Set the skip_imr_boot flag to make sure that we don't try IMR in this case.
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
-Link: https://msgid.link/r/20240402062043.20608-3-zhangyi@everest-semi.com
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Rander Wang <rander.wang@intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Link: https://msgid.link/r/20240322112504.4192-1-peter.ujfalusi@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/es8326.c | 22 +++++++++++-----------
- sound/soc/codecs/es8326.h |  2 +-
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ sound/soc/sof/intel/hda-dsp.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
-index fd1af97412bdd..a3dbeebaeb0c9 100644
---- a/sound/soc/codecs/es8326.c
-+++ b/sound/soc/codecs/es8326.c
-@@ -326,9 +326,9 @@ static const struct _coeff_div coeff_div_v3[] = {
- 	{125, 48000, 6000000, 0x04, 0x04, 0x1F, 0x2D, 0x8A, 0x0A, 0x27, 0x27},
+diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
+index 44f39a520bb39..e80a2a5ec56a1 100644
+--- a/sound/soc/sof/intel/hda-dsp.c
++++ b/sound/soc/sof/intel/hda-dsp.c
+@@ -681,17 +681,27 @@ static int hda_suspend(struct snd_sof_dev *sdev, bool runtime_suspend)
+ 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
+ 	const struct sof_intel_dsp_desc *chip = hda->desc;
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
++	bool imr_lost = false;
+ 	int ret, j;
  
- 	{128, 8000, 1024000, 0x60, 0x00, 0x05, 0x75, 0x8A, 0x1B, 0x1F, 0x7F},
--	{128, 16000, 2048000, 0x20, 0x00, 0x31, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
--	{128, 44100, 5644800, 0xE0, 0x00, 0x01, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
--	{128, 48000, 6144000, 0xE0, 0x00, 0x01, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
-+	{128, 16000, 2048000, 0x20, 0x00, 0x31, 0x35, 0x08, 0x19, 0x1F, 0x3F},
-+	{128, 44100, 5644800, 0xE0, 0x00, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
-+	{128, 48000, 6144000, 0xE0, 0x00, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
- 	{144, 8000, 1152000, 0x20, 0x00, 0x03, 0x35, 0x8A, 0x1B, 0x23, 0x47},
- 	{144, 16000, 2304000, 0x20, 0x00, 0x11, 0x35, 0x8A, 0x1B, 0x23, 0x47},
- 	{192, 8000, 1536000, 0x60, 0x02, 0x0D, 0x75, 0x8A, 0x1B, 0x1F, 0x7F},
-@@ -337,10 +337,10 @@ static const struct _coeff_div coeff_div_v3[] = {
+ 	/*
+-	 * The memory used for IMR boot loses its content in deeper than S3 state
+-	 * We must not try IMR boot on next power up (as it will fail).
+-	 *
++	 * The memory used for IMR boot loses its content in deeper than S3
++	 * state on CAVS platforms.
++	 * On ACE platforms due to the system architecture the IMR content is
++	 * lost at S3 state already, they are tailored for s2idle use.
++	 * We must not try IMR boot on next power up in these cases as it will
++	 * fail.
++	 */
++	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
++	    (chip->hw_ip_version >= SOF_INTEL_ACE_1_0 &&
++	     sdev->system_suspend_target == SOF_SUSPEND_S3))
++		imr_lost = true;
++
++	/*
+ 	 * In case of firmware crash or boot failure set the skip_imr_boot to true
+ 	 * as well in order to try to re-load the firmware to do a 'cold' boot.
+ 	 */
+-	if (sdev->system_suspend_target > SOF_SUSPEND_S3 ||
+-	    sdev->fw_state == SOF_FW_CRASHED ||
++	if (imr_lost || sdev->fw_state == SOF_FW_CRASHED ||
+ 	    sdev->fw_state == SOF_FW_BOOT_FAILED)
+ 		hda->skip_imr_boot = true;
  
- 	{200, 48000, 9600000, 0x04, 0x04, 0x0F, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
- 	{250, 48000, 12000000, 0x04, 0x04, 0x0F, 0x2D, 0xCA, 0x0A, 0x27, 0x27},
--	{256, 8000, 2048000, 0x60, 0x00, 0x31, 0x35, 0x8A, 0x1B, 0x1F, 0x7F},
--	{256, 16000, 4096000, 0x20, 0x00, 0x01, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
--	{256, 44100, 11289600, 0xE0, 0x00, 0x30, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
--	{256, 48000, 12288000, 0xE0, 0x00, 0x30, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
-+	{256, 8000, 2048000, 0x60, 0x00, 0x31, 0x35, 0x08, 0x19, 0x1F, 0x7F},
-+	{256, 16000, 4096000, 0x20, 0x00, 0x01, 0x35, 0x08, 0x19, 0x1F, 0x3F},
-+	{256, 44100, 11289600, 0xE0, 0x01, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
-+	{256, 48000, 12288000, 0xE0, 0x01, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
- 	{288, 8000, 2304000, 0x20, 0x00, 0x01, 0x35, 0x8A, 0x1B, 0x23, 0x47},
- 	{384, 8000, 3072000, 0x60, 0x02, 0x05, 0x75, 0x8A, 0x1B, 0x1F, 0x7F},
- 	{384, 16000, 6144000, 0x20, 0x02, 0x03, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
-@@ -349,10 +349,10 @@ static const struct _coeff_div coeff_div_v3[] = {
- 
- 	{400, 48000, 19200000, 0xE4, 0x04, 0x35, 0x6d, 0xCA, 0x0A, 0x1F, 0x1F},
- 	{500, 48000, 24000000, 0xF8, 0x04, 0x3F, 0x6D, 0xCA, 0x0A, 0x1F, 0x1F},
--	{512, 8000, 4096000, 0x60, 0x00, 0x01, 0x35, 0x8A, 0x1B, 0x1F, 0x7F},
--	{512, 16000, 8192000, 0x20, 0x00, 0x30, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
--	{512, 44100, 22579200, 0xE0, 0x00, 0x00, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
--	{512, 48000, 24576000, 0xE0, 0x00, 0x00, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
-+	{512, 8000, 4096000, 0x60, 0x00, 0x01, 0x08, 0x19, 0x1B, 0x1F, 0x7F},
-+	{512, 16000, 8192000, 0x20, 0x00, 0x30, 0x35, 0x08, 0x19, 0x1F, 0x3F},
-+	{512, 44100, 22579200, 0xE0, 0x00, 0x00, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
-+	{512, 48000, 24576000, 0xE0, 0x00, 0x00, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
- 	{768, 8000, 6144000, 0x60, 0x02, 0x11, 0x35, 0x8A, 0x1B, 0x1F, 0x7F},
- 	{768, 16000, 12288000, 0x20, 0x02, 0x01, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
- 	{768, 32000, 24576000, 0xE0, 0x02, 0x30, 0x2D, 0xCA, 0x0A, 0x1F, 0x1F},
-diff --git a/sound/soc/codecs/es8326.h b/sound/soc/codecs/es8326.h
-index 4234bbb900c45..dfef808673f4a 100644
---- a/sound/soc/codecs/es8326.h
-+++ b/sound/soc/codecs/es8326.h
-@@ -101,7 +101,7 @@
- #define ES8326_MUTE (3 << 0)
- 
- /* ES8326_CLK_CTL */
--#define ES8326_CLK_ON (0x7e << 0)
-+#define ES8326_CLK_ON (0x7f << 0)
- #define ES8326_CLK_OFF (0 << 0)
- 
- /* ES8326_CLK_INV */
 -- 
 2.43.0
 
