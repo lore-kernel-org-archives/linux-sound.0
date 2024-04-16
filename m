@@ -1,40 +1,50 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193512BF2A
-	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 13:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC88412D219;
+	Tue, 16 Apr 2024 14:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713275405; cv=none; b=MXGW282TXqvGqXswGq2q+RRdnxTw5vMDPQytNowdNruAmhTaXvll3b6cFIx5vYyP3HxfF9aDEgra9xzrt+eXNs/MUlJ8i0xlilmjH5S8uxE7Y2gbddePLnSm4N7qWx3nhxC+ka6ngNYJGxq+mJCMlEMfAVsEWtBBJEQQcxM+85E=
+	t=1713276568; cv=none; b=YcbfuKCSd8NeKWg+WTR1TdUvp1xy74bSfmVtiz+lDTOrbuQu02/MNfvnVkYJJNKoJrKtnWktGgj0GKP5dUxi6sKY3nF0n8Y/qEEX8tQ1tTMgfuiRfbdzV3sTOa+cieKqlBxZ/jzK7UnnKJ5hBdeuJnhhmVaEHsavsJPGb7cWYS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713275405; c=relaxed/simple;
-	bh=DZ8xGj2mfGQVMwUvn/UdB51pHEBlP807wRoCvl7WPRg=;
+	s=arc-20240116; t=1713276568; c=relaxed/simple;
+	bh=xl5IPlI4/tfZkMhTro5AZJ5MrQh47xHxKI0qjQASmg4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z+Dj2CKcs1A7gIIt/NY9bk66U6b78elQPHiydteoI3/4E/gW73/2lnX6BM4bNz3gYZHgYwfnfSKtnjJ8q+OhyHlnrAOeOVdNImXgRdwhnfn3c7njWO2qVOBFQY8/PUiYXPKMZgD7to3gl6zeGdTMw9n44AMs1Fb03dUcjMXh0vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=zu2UHiPl; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	 In-Reply-To:Content-Type; b=QjVx5jSXSA4hs6q3ZB2iK3BrhpXt6zImeKZ3mr6j+D+Rig5GAOVIpOTCPg3ALufUEO1WV8aA5l0pdy3FSPtsDO/TUJNYWZ1ijqbk+fTrkv9EAnohtqLkaJhI6VedSc/AstI0PASTQODToNP8Ikwth6lI/JOAeZh3OVLhHTxkRi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jj2pxoSk; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="zu2UHiPl"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 3607C1D90;
-	Tue, 16 Apr 2024 15:49:51 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 3607C1D90
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1713275391; bh=CVoZoOXg8gPxTmRWe7t4e+iAZW0g195kriJUnVO+57c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=zu2UHiPlTkQg0arP/X1gw6dmSg3sttGHNk4xeci7kNM1B1fjD1Cnj4aETIxH5005i
-	 rBW+tudWqmMqT63iojQcYUYYpY6jmbE55/JkB6WZnh2D0cQ09MAJJ0op0zuGOiLBFe
-	 hP85mxVuCeWhsdniwH6NmKeRswyScglerz9JWilo=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 16 Apr 2024 15:49:47 +0200 (CEST)
-Message-ID: <9459e9ad-b23c-4b1e-8234-2c08e3813317@perex.cz>
-Date: Tue, 16 Apr 2024 15:49:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jj2pxoSk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713276567; x=1744812567;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=xl5IPlI4/tfZkMhTro5AZJ5MrQh47xHxKI0qjQASmg4=;
+  b=jj2pxoSkSaJGYmjYF1jgqvS/9iIQ8MwvmLKZ4+/A+78E8ILqaLvoLXp+
+   u46iXDSk6OIwUBeXid3HCsiE0xnzdPRzG2b0OOBOLw9v2QDMnKsUZfu88
+   G0RVhFi2wFsjEUtkJW5r4DVioEMiWv0ic0/40Wc29IG0ItMYZ7b1AGnfD
+   E6Q2bdu7Yx/5MCu6znJuRnSohex+JFi68+CJfQxvhWzO9d6B/Z57Vb67r
+   8q2JZ+2HVrmj1sgScckAg9ez3QyPyD0T4BGj/i8tZjmUAYJnlLmTuBp/O
+   YUj96O961DVgoOMMJBqNIV2mZNciAUy8ya7njK6I6rtVfJxrBeuvuke90
+   Q==;
+X-CSE-ConnectionGUID: G9/ymOaUT6WzS2/IZGABvg==
+X-CSE-MsgGUID: c+jtJor0R4GzhmRSsXQrJA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9268335"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="9268335"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 07:09:26 -0700
+X-CSE-ConnectionGUID: D37ivQksQBauF6ebrBBz0w==
+X-CSE-MsgGUID: 8CvRz0DHSZOhm7rXWB9uyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="22333136"
+Received: from sekosto-mobl.amr.corp.intel.com (HELO [10.213.183.148]) ([10.213.183.148])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 07:09:25 -0700
+Message-ID: <35d9f59e-3cc1-41a7-bb1d-f482c004d323@linux.intel.com>
+Date: Tue, 16 Apr 2024 08:51:07 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,80 +52,152 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] adding 705.6/768kHz rates; DSD and 768kHz in aloop
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIIHYyIDIvMl0gQVNvQzogY2RuczogQWRk?=
+ =?UTF-8?Q?_drivers_of_Cadence_Multi-Channel_I2S_Controller?=
+To: Xingyu Wu <xingyu.wu@starfivetech.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor.dooley@microchip.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <20240320090239.168743-1-xingyu.wu@starfivetech.com>
+ <20240320090239.168743-3-xingyu.wu@starfivetech.com>
+ <1d0399d2-684f-490e-8711-f636e987a0b8@linux.intel.com>
+ <NTZPR01MB0956BFADB4B3DA507D938F669F35A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+ <ef510647-c409-4da6-9cd4-ff4e54cbee74@linux.intel.com>
+ <NTZPR01MB09567BE742A91B8C9E02EF4F9F08A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
 Content-Language: en-US
-To: Pavel Hofman <pavel.hofman@ivitera.com>, alsa-devel@alsa-project.org
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-References: <20240416121726.628679-1-pavel.hofman@ivitera.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240416121726.628679-1-pavel.hofman@ivitera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <NTZPR01MB09567BE742A91B8C9E02EF4F9F08A@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16. 04. 24 14:17, Pavel Hofman wrote:
-> This patch series allows using the loopback driver in modern chains with
-> samplerates up to 768kHz and DSD formats.
+
+
+On 4/16/24 02:23, Xingyu Wu wrote:
+> On 02/04/2024 21:57, Pierre-Louis Bossart wrote:
+>>
+>>
+>>>>
+>>>>> +#define PERIODS_MIN		2
+>>>>> +
+>>>>> +static unsigned int cdns_i2s_pcm_tx(struct cdns_i2s_dev *dev,
+>>>>> +				    struct snd_pcm_runtime *runtime,
+>>>>> +				    unsigned int tx_ptr, bool *period_elapsed,
+>>>>> +				    snd_pcm_format_t format)
+>>>>> +{
+>>>>> +	unsigned int period_pos = tx_ptr % runtime->period_size;
+>>>>
+>>>> not following what the modulo is for, usually it's modulo the buffer size?
+>>>
+>>> This is to see if the new data is divisible by period_size and to
+>>> determine whether it is enough for a period_size in the later loop.
+>>
+>> That didn't answer to my question, the position is usually between
+>> 0..buffer_size.1.
 > 
-> The patch "ALSA:pcm: add support for 705.6kHz and 768kHz sample rates" is
-> basically a copy of commit 4cc4531c310e ("ALSA: pcm: add support for 352.8KHz and 384KHz sample rate").
+> Yes, this position will be used later in the cdns_i2s_pcm_pointer().
+> But this cdns_i2s_pcm_tx() is called by I2S hardware interrupt which
+> would be frequently called several times each period. The period_pos
+> is used to determine whether there is enough a period_size to call
+> snd_pcm_period_elapsed().
 > 
-> As of loopback performance at 768kHz - in my tests aloop runs OK event at
-> 12MHz samplerate.
+>>
+>> Doing increments on a modulo value then comparisons as done below seems
+>> rather questionable.
+>>
+>>>>> +
+>>>>> +		iowrite32(data[0], dev->base + CDNS_FIFO_MEM);
+>>>>> +		iowrite32(data[1], dev->base + CDNS_FIFO_MEM);
+>>>>> +		period_pos++;
+>>>>> +		if (++tx_ptr >= runtime->buffer_size)
+>>>>> +			tx_ptr = 0;
+>>>>> +	}
+>>>>> +
+>>>>> +	*period_elapsed = period_pos >= runtime->period_size;
+>>>>> +	return tx_ptr;
+>>>>> +}
+>>
+>>>>> +	pm_runtime_enable(&pdev->dev);
+>>>>> +	if (pm_runtime_enabled(&pdev->dev))
+>>>>> +		cdns_i2s_runtime_suspend(&pdev->dev);
+>>>>
+>>>> that sequence looks suspicious.... Why would you suspend immediately
+>>>> during the probe? You're probably missing all the autosuspend stuff?
+>>>
+>>> Since I have enabled clocks before, and the device is in the suspend
+>>> state after pm_runtime_enable(), I need to disable clocks in
+>>> cdns_i2s_runtime_suspend() to match the suspend state.
+>>
+>> That is very odd on two counts
+>> a) if you haven't enabled the clocks, why do you need to disbale them?
+>> b) if you do a pm_runtime_enable(), then the branch if
+>> (pm_runtime_enabled) is always true.
+>>
+> 
+> a) It must enable clocks first to read and write registers when I2S probe.
+> Then it is done to probe, the clocks are still enabled and the state of pm
+> is suspend. So it need to be disabled to match the state and will resume
+> and be enabled by ALSA.
 
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+I think you are missing a pm_runtime_set_active() to reconcile the pm
+state with the hardware state. The premise of pm_runtime is that on
+probe your device is active and later on it will suspend. Having
+pm_runtime_enabled with a suspended device without the framework
+involved to trigger the transition to suspend is asking for trouble.
 
-Note that the kernel patches should go through <linux-sound@vger.kernel.org> 
-mailing list (see MAINTAINERS) now.
+> b) Because CONFIG_PM would be disabled and pm_runtime_enabled()
+> return false , then it is no need to disable clock and I2S still can work.
 
-Link: 
-https://lore.kernel.org/alsa-devel/20240416121726.628679-1-pavel.hofman@ivitera.com/
+Again you are trying to make things more complicated than they need to
+be. Don't try to actively manage and query states, let the framework do
+it for you.
 
-					Jaroslav
+Try to probe and bring the device to an active state. Then use
+pm_runtime_mark_last_busy(), use pm_runtime_enable and let autosuspend
+do the work for you. If pm_runtime is not enabled the suspend will not
+happen.
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Also keep in mind that pm_runtime_enabled() will return false if the
+user mucks with the power state in sysfs, it's not only a case of
+CONFIG_PM being selected or not.
+> 
+>>
+>>>
+>>>>
+>>>>> +
+>>>>> +	dev_dbg(&pdev->dev, "I2S supports %d stereo channels with %s.\n",
+>>>>> +		i2s->max_channels, ((i2s->irq < 0) ? "dma" : "interrupt"));
+>>>>> +
+>>>>> +	return 0;
+>>>>> +
+>>>>> +err:
+>>>>> +	return ret;
+>>>>> +}
+>>>>> +
+>>>>> +static int cdns_i2s_remove(struct platform_device *pdev) {
+>>>>> +	pm_runtime_disable(&pdev->dev);
+>>>>> +	if (!pm_runtime_status_suspended(&pdev->dev))
+>>>>> +		cdns_i2s_runtime_suspend(&pdev->dev);
+>>>>
+>>>> ... and this one too. Once you've disabled pm_runtime, checking the
+>>>> status is irrelevant...
+>>>
+>>> I think the clocks need to be always enabled after probe if disable
+>>> pm_runtime, and should be disabled when remove. This will do that.
+>>
+>> if you are disabling pm_runtime, then the pm_runtime state becames invalid.
+>> When pm_runtime_disable() is added in remove operations, it's mainly to
+>> prevent the device from suspending.
+> 
+> Should I use the pm_runtime_enabled() before the pm_runtime_disable()?
+
+It doesn't matter, the problem is the second part where you try to check
+the status of pm_runtime *after* disabling it.
+
 
