@@ -1,38 +1,38 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C76F513;
-	Tue, 16 Apr 2024 05:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74793B7A8;
+	Tue, 16 Apr 2024 06:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713247037; cv=none; b=V+gWQBiTcKX9F95QE6UWL5INULpPfDkI6hRU90SQZAmFD9H1Bo7amP7yz6XNc/mMjWle5xglHxu8xHFta68pA60XEeTVxhShBb+VjtyXVqKq/e1jGwKVfvg86iv7PxgD2dtjysuq0O66XrQ9MePDAc+RmINpUiHYedFY6ZjJYqI=
+	t=1713247237; cv=none; b=LneSA4cY4EbRdf3zYDPSSbldsOokWpcBkfGG/99jtaS4OfRMkKytaSggOrhINpLrCW6cTQJ0SNji3WBypg8qpRQAxn6LT3/JnRrBK2sFXJ0ao8COaf7OdB0Juhf3RsJO4EK8k9DhSYciq+2P7lO/oAGgVYiF2ZNufVOLr7m6kzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713247037; c=relaxed/simple;
-	bh=BSiD45iHezRW5bA1OBXq4yRQdrMCdX7Kl7um3fjh6H8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qS/s+DhogQ0tNxDmmMuqV0yO+/3dKeYvwm2JLtXE+M9fW/hEFQCerDQ3ZTg8LibI0pM9rr0RlDQyHOcYC+rlT2wObQE1OdWtvGjl9I48Y2gwJQQUIbF6+WJYgBkfFpSQDfxVjnZ1B00+GqP2ISLIxzbNYqlP79QA1TLt8mplTJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R6lMXlNH; arc=none smtp.client-ip=217.70.183.193
+	s=arc-20240116; t=1713247237; c=relaxed/simple;
+	bh=T9KxgbXgW9cKGCmcDq/ArW9UZsCC3yRG5VB2U0tTrJE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SuOMVsPeySekroEX+QFBZZUN8umAvRyZWCRkSQ778jEhUlqzGszlVK/Iai3kxjk5Oh387MTextz3VXjrSYn4A/jvddWbL23BdsM1EKw9VXJ2Gmq3BuFANLC+9pTRByUlzfjyd/JpGq9DeFA5V30I2NNrfVu6EXqRGyGOR4Bo0dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LTJxWsn+; arc=none smtp.client-ip=217.70.183.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R6lMXlNH"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 25711240002;
-	Tue, 16 Apr 2024 05:57:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LTJxWsn+"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C328B1C0009;
+	Tue, 16 Apr 2024 06:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713247034;
+	t=1713247232;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6kUCOTU/KHoNeSRP9VYf4bLvh0d1EyGbb//Y+6ttp4=;
-	b=R6lMXlNHkx3gtA+mxyCTBUY7GsR81/Gr9OrY6Zk+YhszsFvXJ5qQP1FtxcnBY1ZtaWCzLU
-	fchP7KAvj1Okp1UnqAFmcXvXXFZrSOyHCLVF/vnjUt1BsQjBy6VnVSxTDZYIvqc6SRQncD
-	EBnveo4jzDuio7ldjDbs4aA8QOksxxxvQtZALjQrmhJls8MUKaQ0ux1See/Vnv63CLY2MV
-	H2U3ayIqb9IAxIZsFHLLs6C5H7ZtUP54Kq6XW5QVGwRKkQeJY+uJuuP2yxE77In8Ngq9QI
-	PJjnLD9gLQtbcXarPuIjb5tTVLG/C9GRIH45X44UTzwzoPE0Gfbq36w2h0BXMA==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=E5fFVE00qLSrpepHJZYFR5SmMhmRqNzf7Fm4bTsP25M=;
+	b=LTJxWsn+dY7BpyM1yBDB7GpvCrAgnoN/1SeCkb+u286pztigVBrz61qwuNcKVxyWbuyXfe
+	Q7wlt1ojVeq9j7d6SGrMRezeL6s2jkgaJS4AcP2pgDqpw8B4OAoTMwXrNbLAS2usFxTWgI
+	uMrXwEnQWhJ7oP3GcVJn5GudLsw8JDsivQOKw4ySEEJQwqbdX4wrF4fAyxpAABWdqIkWBW
+	h42pQkQU5Rk3/xuGa72Uhlfl/lebmEdcF1lZcWviBLhpy1FijOEI8tyHLBMuEzITsSiDWe
+	jqhC5SZs69XZCs6/J3p17zughThmzuXfru75kBZqc3C9gwq9yCd0KWdUEZ8jkQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Apr 2024 07:56:18 +0200
-Subject: [PATCH 12/12] ASoC: doc: dapm: update event types
+Subject: [PATCH 0/3] ASoC: dapm: improve debugfs output and introduce
+ dapm-graph
+Date: Tue, 16 Apr 2024 08:00:23 +0200
+Message-Id: <20240416-vizdapm-ng-v1-0-5d33c0b57bc5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,56 +41,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-dapm-docs-v1-12-a818d2819bf6@bootlin.com>
-References: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
-In-Reply-To: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAPcTHmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDEwNT3bLMqpTEglzdvHTdZHNTM8u0tESLVFMLJaCGgqLUtMwKsGHRsbW
+ 1ANvQk39cAAAA
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Dimitris Papastamos <dp@opensource.wolfsonmicro.com>, 
+ Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
+ Mihai Serban <mihai.serban@gmail.com>, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.13.0
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Some new event types now exist, so update the code fragment.
+This patch series improves the tools available to understand and debug
+DAPM.
+
+Patches 1-2 add more information to the widget files exposed in debugfs.
+
+Patch 3 introduces dapm-graph, a script to generate a picture of the DAPM
+state inspired to vizdapm.
+
+Patch 1 is required for dapm-graph to work, while patch 2 allows to enhance
+its features but it is not required.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- Documentation/sound/soc/dapm.rst | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+Luca Ceresoli (3):
+      ASoC: dapm: debugfs: add component to route lines
+      ASoC: dapm: debugfs: show the widget type
+      tools/sound/dapm-graph: new tool to visualize DAPM state
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index 75a85c9e33ff..f76fc97dd162 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -405,13 +405,16 @@ See soc-dapm.h for all other widgets that support events.
- Event types
- -----------
- 
--The following event types are supported by event widgets.
--::
-+The following event types are supported by event widgets::
- 
-   /* dapm event types */
--  #define SND_SOC_DAPM_PRE_PMU	0x1 	/* before widget power up */
--  #define SND_SOC_DAPM_POST_PMU	0x2		/* after widget power up */
--  #define SND_SOC_DAPM_PRE_PMD	0x4 	/* before widget power down */
--  #define SND_SOC_DAPM_POST_PMD	0x8		/* after widget power down */
--  #define SND_SOC_DAPM_PRE_REG	0x10	/* before audio path setup */
--  #define SND_SOC_DAPM_POST_REG	0x20	/* after audio path setup */
-+  #define SND_SOC_DAPM_PRE_PMU		0x1	/* before widget power up */
-+  #define SND_SOC_DAPM_POST_PMU		0x2	/* after  widget power up */
-+  #define SND_SOC_DAPM_PRE_PMD		0x4	/* before widget power down */
-+  #define SND_SOC_DAPM_POST_PMD		0x8	/* after  widget power down */
-+  #define SND_SOC_DAPM_PRE_REG		0x10	/* before audio path setup */
-+  #define SND_SOC_DAPM_POST_REG		0x20	/* after  audio path setup */
-+  #define SND_SOC_DAPM_WILL_PMU		0x40	/* called at start of sequence */
-+  #define SND_SOC_DAPM_WILL_PMD		0x80	/* called at start of sequence */
-+  #define SND_SOC_DAPM_PRE_POST_PMD	(SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMD)
-+  #define SND_SOC_DAPM_PRE_POST_PMU	(SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU)
+ MAINTAINERS            |   6 +
+ sound/soc/soc-dapm.c   |  54 ++++++++-
+ tools/sound/dapm-graph | 303 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 361 insertions(+), 2 deletions(-)
+---
+base-commit: 5568f556e601b02d673bc7edab8de0f11815eec7
+change-id: 20240405-vizdapm-ng-c7569ffa8e58
 
+Best regards,
 -- 
-2.34.1
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
