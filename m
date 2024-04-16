@@ -1,132 +1,121 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02EF811F1
-	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 12:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193512BF2A
+	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 13:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713271215; cv=none; b=EkfeTy9D3SYWtlf8JXFvivq4G7Q72fyFSB4ONMAIXbdnKzwwVM+/ukvmOQ2pRksrXdsAAjvieBrI5WB6DddB0yJI1oxcUueMieAxKl6LV6b6McQ6tDzsRBJ1lqW7ug1rzL5zCOi2lec2mAA5AhLR80VLLapjGab5rNOAfQ3TD+w=
+	t=1713275405; cv=none; b=MXGW282TXqvGqXswGq2q+RRdnxTw5vMDPQytNowdNruAmhTaXvll3b6cFIx5vYyP3HxfF9aDEgra9xzrt+eXNs/MUlJ8i0xlilmjH5S8uxE7Y2gbddePLnSm4N7qWx3nhxC+ka6ngNYJGxq+mJCMlEMfAVsEWtBBJEQQcxM+85E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713271215; c=relaxed/simple;
-	bh=qmhVGDCB3p9HB3TLlFjPrZ/6xvV+VH4aBoNpHmYC524=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P2vneIavOZfgOf3+JOR4kDHJy4QHEW6SnkGH7ujTqsU3Nnix+NPavO8GdEiNAZcznwGV4VJtYR41YusG1aSHp5zQnvcKSBOlf2/YpCvCoT6QjsXTcdTBlCQF2cHVBSLo4n8TwYdtaKrrZ/mmLwKyLf38i4v0/0iNb91fASYH8tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mWBYVw7R; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713275405; c=relaxed/simple;
+	bh=DZ8xGj2mfGQVMwUvn/UdB51pHEBlP807wRoCvl7WPRg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z+Dj2CKcs1A7gIIt/NY9bk66U6b78elQPHiydteoI3/4E/gW73/2lnX6BM4bNz3gYZHgYwfnfSKtnjJ8q+OhyHlnrAOeOVdNImXgRdwhnfn3c7njWO2qVOBFQY8/PUiYXPKMZgD7to3gl6zeGdTMw9n44AMs1Fb03dUcjMXh0vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=zu2UHiPl; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mWBYVw7R"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6d8bd618eso4151682276.3
-        for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 05:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713271212; x=1713876012; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XocEjulw3kAiCxPyVJw1Ya87AMjOi1KyGw4TtHVGXCk=;
-        b=mWBYVw7RCfJV1TzZT9Y+25z1rdh0Ea34oBx8ic3A13g2D4fw9qSpqHuoR4Ha7ooHEW
-         n3ZnCLcXgq9J0AY6FH1lknlJekuei4bw1SzbbXgQLf9iVST9FPPK/KvSji5ZzYXTXUfo
-         gOfFhBNtc8zjygZ3LbbAuc1GjNV+hRwH/r3oogmrM163wd/vqHeEK/dbaRl8+8xj2mAB
-         i9253NYcF9I8Q2QfBn9y7bLUw5q1fMoV1RDDERhDaL3GG9gIHToD7+m888uenc3Ggkr0
-         U5Qj3coGtfpVPeO+fiXjKGl3T2QNY6Zhlf25j+4DTOq2Trwu34XSWvit9PXpMYeap48R
-         VaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713271212; x=1713876012;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XocEjulw3kAiCxPyVJw1Ya87AMjOi1KyGw4TtHVGXCk=;
-        b=kG1fJ+pj/FpKhizCKIBgwrMIL+d9KXPEC+gh5sLDjdeW+buft2sT83i9YgQAaRd5qI
-         3c9Ygvk2fpBj1xVP+WRR8sDWmpZF/UtEolzQ/ZnF7XhGxlrlaro/h7HtzI2HFY40UTng
-         CpD6Da+6o51u/9lzb/ywC4lo3CLdM01vvBWCs6tckTCs594tM8LT+eu15qqWHkoH7vvQ
-         gj/Sdzicma+jCpwh3hudZKbcDPoBQ63FK+eNXaOwZNvqyKAlPNBXXLRXrY75XxlwHMHE
-         eYbyfwxONO5zqTreqsqLZM0Exbqjk0giBKqgC5Lb5ajDIq6sCT4n6HLLqgcjxV383NJH
-         6aGA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMxukj6ZbMK0cNPWbvgBIHQc73AwhfXQzOkFQB58sGhL5bRK8Nvnv2c6QXME1RcnRKhcG3sYiGYGPkc5Jq6XbmMMmt2hUzMdPSgbs=
-X-Gm-Message-State: AOJu0YzsjVsO9P9S0wqHnlOpPXt2RcLqsjTp097GIY9KRj5MEAQFSo/E
-	zeLDlfsBvYcxFOSlYWTyiTE/0FKsvdxQSVpkCLedbaQA1nMuxfRMY4ko1lVKJAmQieUJ4aQGLGR
-	anFaM+TUiV6ZuBr33UbNL2qnICiKuQzKz+xjwVg==
-X-Google-Smtp-Source: AGHT+IGJhFIyKEbY2TNHNPrCm3GRm5c6L7GB4Z/sH1BLsFZXKmx3pHDdVDxtNq7uyYtUlxMVzqOrk0oaE4WyfbJcIG8=
-X-Received: by 2002:a25:bc4c:0:b0:dcb:fe58:a08b with SMTP id
- d12-20020a25bc4c000000b00dcbfe58a08bmr11907548ybk.15.1713271212014; Tue, 16
- Apr 2024 05:40:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="zu2UHiPl"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 3607C1D90;
+	Tue, 16 Apr 2024 15:49:51 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 3607C1D90
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1713275391; bh=CVoZoOXg8gPxTmRWe7t4e+iAZW0g195kriJUnVO+57c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=zu2UHiPlTkQg0arP/X1gw6dmSg3sttGHNk4xeci7kNM1B1fjD1Cnj4aETIxH5005i
+	 rBW+tudWqmMqT63iojQcYUYYpY6jmbE55/JkB6WZnh2D0cQ09MAJJ0op0zuGOiLBFe
+	 hP85mxVuCeWhsdniwH6NmKeRswyScglerz9JWilo=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 16 Apr 2024 15:49:47 +0200 (CEST)
+Message-ID: <9459e9ad-b23c-4b1e-8234-2c08e3813317@perex.cz>
+Date: Tue, 16 Apr 2024 15:49:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240416063600.309747-1-quic_mohs@quicinc.com>
-In-Reply-To: <20240416063600.309747-1-quic_mohs@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 16 Apr 2024 15:40:01 +0300
-Message-ID: <CAA8EJprABOeWrAm-PyeLF1ZM95qC17bxyZvEVpGG1Wz97KLYWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] ASoC: codecs: wcd937x: add wcd937x audio codec support
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_rohkumar@quicinc.com, quic_pkumpatl@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] adding 705.6/768kHz rates; DSD and 768kHz in aloop
+Content-Language: en-US
+To: Pavel Hofman <pavel.hofman@ivitera.com>, alsa-devel@alsa-project.org
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20240416121726.628679-1-pavel.hofman@ivitera.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20240416121726.628679-1-pavel.hofman@ivitera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 16 Apr 2024 at 09:36, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
->
-> This patchset adds support for Qualcomm WCD937X codec.
->
-> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
-> connected over SoundWire. This device has two SoundWire devices, RX and
-> TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
-> 6 DMICs and MBHC.
->
-> For codec driver to be functional it would need both tx and rx Soundwire devices
-> to be up and this is taken care by using device component framework and device-links
-> are used to ensure proper pm dependencies. Ex tx does not enter suspend
-> before rx or codec is suspended.
->
-> This patchset along with other SoundWire patches on the list
-> have been tested on QCM6490 IDP device.
->
-> Changes since v8:
+On 16. 04. 24 14:17, Pavel Hofman wrote:
+> This patch series allows using the loopback driver in modern chains with
+> samplerates up to 768kHz and DSD formats.
+> 
+> The patch "ALSA:pcm: add support for 705.6kHz and 768kHz sample rates" is
+> basically a copy of commit 4cc4531c310e ("ALSA: pcm: add support for 352.8KHz and 384KHz sample rate").
+> 
+> As of loopback performance at 768kHz - in my tests aloop runs OK event at
+> 12MHz samplerate.
 
-I hope it's a typo here since the series is v2, not v9
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
 
->  - Split the patch per driver for easier review as suggested by Krzysztof
->  - Used devm_gpiod_get api to get reset gpio as suggested by Krzysztof
->
-> Prasad Kumpatla (8):
->   ASoC: dt-bindings: wcd937x: add bindings for wcd937x
->   ASoC: codecs: wcd937x: add wcd937x codec driver
->   ASoC: dt-bindings: wcd937x-sdw: add bindings for wcd937x-sdw
->   ASoC: codecs: wcd937x-sdw: add SoundWire driver
->   ASoC: codecs: wcd937x: add basic controls
->   ASoC: codecs: wcd937x: add playback dapm widgets
->   ASoC: codecs: wcd937x: add capture dapm widgets
->   ASoC: codecs: wcd937x: add audio routing and Kconfig
->
->  .../bindings/sound/qcom,wcd937x-sdw.yaml      |   71 +
->  .../bindings/sound/qcom,wcd937x.yaml          |  119 +
->  sound/soc/codecs/Kconfig                      |   20 +
->  sound/soc/codecs/Makefile                     |    7 +
->  sound/soc/codecs/wcd937x-sdw.c                | 1148 +++++++
->  sound/soc/codecs/wcd937x.c                    | 3036 +++++++++++++++++
->  sound/soc/codecs/wcd937x.h                    |  655 ++++
->  7 files changed, 5056 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
->  create mode 100644 sound/soc/codecs/wcd937x-sdw.c
->  create mode 100644 sound/soc/codecs/wcd937x.c
->  create mode 100644 sound/soc/codecs/wcd937x.h
->
->
-> base-commit: 6bd343537461b57f3efe5dfc5fc193a232dfef1e
-> --
-> 2.25.1
->
->
+Note that the kernel patches should go through <linux-sound@vger.kernel.org> 
+mailing list (see MAINTAINERS) now.
 
+Link: 
+https://lore.kernel.org/alsa-devel/20240416121726.628679-1-pavel.hofman@ivitera.com/
+
+					Jaroslav
 
 -- 
-With best wishes
-Dmitry
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
