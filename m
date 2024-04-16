@@ -1,91 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4F7127E23;
-	Tue, 16 Apr 2024 10:39:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B080C41C76
+	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 12:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713263944; cv=none; b=Q7aEJNBj5udm1PwFnyquyr6oDXBESNDVQ2p6H/8pXz0L0mSnAooWtkyhSSJp4HW1CXQM6PNn6eqcn3GHQYQxcGD4U4VK9LFe/UDeR605EaLN97Ei0jHhpOBznrBCjAoU/gtMc9HSPFkCHx+JeJ5yrd6qpgC4e35PjcK+6oqC6Vw=
+	t=1713270946; cv=none; b=u0OyZ6IblIl2mvt+zbA3zOSJ6Y0WWS+VkDl+h+RGTWVxHhzO3bjbXb2gjGelF8q9X8gs2GpN48nkP06p9Qb9J57EAngmf6nKHPejfgkTefSp/I4z7hCyA3mVT3sgkhkiX+wCbUyfcEjrTMP0ommErr8idNxPR0EpzdTkJ7v/3MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713263944; c=relaxed/simple;
-	bh=hNctvS/WLFpY8f2jueQ+vJMsiRhGdgQTThlnjXrGA70=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uGYXFWqPJH9ixeciiRTTo77FiV004R40RTqdMomsAOkqqpUdcQu/zmcDJRE8V+shaPanl91dtY5UmrMrFy5kr9U8g1JS3fTxGClkEXoImUvGhz+lyFo+CvyN7ZO7SM4OxIf4tvJ9tnc4dXFr3uTUyIbMGmTFPpy5zixWpi4t9Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZVPLla6S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713270946; c=relaxed/simple;
+	bh=eAJMUj6SegpYCtp7Y3WBSjRTzyew0Kix4O4cmieAVrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bx3XSUCyvHrkS92pQlSieaPChgWue144QhFMq2miv641sBECdJmL+m3nmqARo7/24KpGZGyiCuWmygzgLc7/dN6ir3V19qd7jTebqYcI4f2p5E86rMhV8voloFYGxBmJbWzJFMzfsxafEDllRQ8HptfeE9G0KnfhA2l999xlT5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8onMblO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZVPLla6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09477C2BD10;
-	Tue, 16 Apr 2024 10:39:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8onMblO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC48C113CE;
+	Tue, 16 Apr 2024 12:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713263944;
-	bh=hNctvS/WLFpY8f2jueQ+vJMsiRhGdgQTThlnjXrGA70=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=ZVPLla6S9+Tm1Fb+FVhWPDVKcuu+6k0rW8chZ8aT2kCKbVqG5LrvJTt9RKRoTRWhe
-	 v6i9WRn8wbd2K+AwPMonuYOfSG/rReMCZD0Z++Yx3f34NkGPAqRyiFZvZ4tOq6XKpF
-	 h9x+cEYVU9e9C0UWqfnE+CFL3rYOLabGy5JMr3Q2Wjg/4zfK6IIxFXprG3VUuxAaGC
-	 SDnxyILS5AHGbqwUC7iC8948jrTjpaIXw1Mv5m2pADi6d7+aysqrdufqU0LP+m81RA
-	 rmZm7QR+lO1q3BXqo6/hr++Mnt8qpZJSoW/noANqQAz+QRVtdl3ZBp8aig/sEtAopa
-	 IlrBn1zWSHrXQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
- perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
- linuxppc-dev@lists.ozlabs.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <1713165456-3494-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1713165456-3494-1-git-send-email-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl-asoc-card: add wm8904 codec support
-Message-Id: <171326394076.1668526.17357841814427298563.b4-ty@kernel.org>
-Date: Tue, 16 Apr 2024 19:39:00 +0900
+	s=k20201202; t=1713270946;
+	bh=eAJMUj6SegpYCtp7Y3WBSjRTzyew0Kix4O4cmieAVrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G8onMblOEVMmNt04Lh7fEuMTj5xH8BuzQ0MPVIjDE1Dvo3N34PWI48tES7hqipV0g
+	 81C+mjdYWIF0rDUrIzCDKT3kgXi/WHgMQYZnKmzBQXOZpZuX4TDbQhDNQu504I+Sn6
+	 zJbFYBQoNISRWbL+3fGVO1jbAo78O2CqkVlMzp321mg6e1k8banRduTzHtLbOSvJze
+	 Ui12qKSp1ipxDCq+joLJhKynLjvzkObvehXKrBJnGzK21CmxtkoCgkfUZiWAi38CJ+
+	 EGFIKInYHNFulNkfMPf3bmhiEyHtqRFGqwpJNUpmsLr3zxIeMiG+FKfEhU1dDtFw0v
+	 m1Jt+bnV2WvqQ==
+Date: Tue, 16 Apr 2024 13:35:41 +0100
+From: Lee Jones <lee@kernel.org>
+To: James Ogletree <James.Ogletree@cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
+ CS40L50
+Message-ID: <20240416123541.GW2399047@google.com>
+References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
+ <20240408153214.42368-6-jogletre@opensource.cirrus.com>
+ <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
 
-On Mon, 15 Apr 2024 15:17:34 +0800, Shengjiu Wang wrote:
-> add wm8904 codec support in fsl-asoc-card.
-> 
-> Shengjiu Wang (2):
->   ASoC: fsl-asoc-card: add wm8904 codec support
->   ASoC: dt-bindings: fsl-asoc-card: Add compatbile string for wm8904
->     codec
-> 
-> [...]
+On Fri, 12 Apr 2024, James Ogletree wrote:
+> All feedback to date has been addressed
 
-Applied to
+There are still MFD review comments left outstanding.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: fsl-asoc-card: add wm8904 codec support
-      commit: 51f67862ea6ea83f9fa4cda2e59d7bfd4387f63b
-[2/2] ASoC: dt-bindings: fsl-asoc-card: Add compatbile string for wm8904 codec
-      commit: 62c48dd33b4f2e037554d1322ae4f9f60e9461ef
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Lee Jones [李琼斯]
