@@ -1,60 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B080C41C76
-	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 12:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02EF811F1
+	for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 12:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713270946; cv=none; b=u0OyZ6IblIl2mvt+zbA3zOSJ6Y0WWS+VkDl+h+RGTWVxHhzO3bjbXb2gjGelF8q9X8gs2GpN48nkP06p9Qb9J57EAngmf6nKHPejfgkTefSp/I4z7hCyA3mVT3sgkhkiX+wCbUyfcEjrTMP0ommErr8idNxPR0EpzdTkJ7v/3MU=
+	t=1713271215; cv=none; b=EkfeTy9D3SYWtlf8JXFvivq4G7Q72fyFSB4ONMAIXbdnKzwwVM+/ukvmOQ2pRksrXdsAAjvieBrI5WB6DddB0yJI1oxcUueMieAxKl6LV6b6McQ6tDzsRBJ1lqW7ug1rzL5zCOi2lec2mAA5AhLR80VLLapjGab5rNOAfQ3TD+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713270946; c=relaxed/simple;
-	bh=eAJMUj6SegpYCtp7Y3WBSjRTzyew0Kix4O4cmieAVrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bx3XSUCyvHrkS92pQlSieaPChgWue144QhFMq2miv641sBECdJmL+m3nmqARo7/24KpGZGyiCuWmygzgLc7/dN6ir3V19qd7jTebqYcI4f2p5E86rMhV8voloFYGxBmJbWzJFMzfsxafEDllRQ8HptfeE9G0KnfhA2l999xlT5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8onMblO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713271215; c=relaxed/simple;
+	bh=qmhVGDCB3p9HB3TLlFjPrZ/6xvV+VH4aBoNpHmYC524=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P2vneIavOZfgOf3+JOR4kDHJy4QHEW6SnkGH7ujTqsU3Nnix+NPavO8GdEiNAZcznwGV4VJtYR41YusG1aSHp5zQnvcKSBOlf2/YpCvCoT6QjsXTcdTBlCQF2cHVBSLo4n8TwYdtaKrrZ/mmLwKyLf38i4v0/0iNb91fASYH8tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mWBYVw7R; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8onMblO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC48C113CE;
-	Tue, 16 Apr 2024 12:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713270946;
-	bh=eAJMUj6SegpYCtp7Y3WBSjRTzyew0Kix4O4cmieAVrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G8onMblOEVMmNt04Lh7fEuMTj5xH8BuzQ0MPVIjDE1Dvo3N34PWI48tES7hqipV0g
-	 81C+mjdYWIF0rDUrIzCDKT3kgXi/WHgMQYZnKmzBQXOZpZuX4TDbQhDNQu504I+Sn6
-	 zJbFYBQoNISRWbL+3fGVO1jbAo78O2CqkVlMzp321mg6e1k8banRduTzHtLbOSvJze
-	 Ui12qKSp1ipxDCq+joLJhKynLjvzkObvehXKrBJnGzK21CmxtkoCgkfUZiWAi38CJ+
-	 EGFIKInYHNFulNkfMPf3bmhiEyHtqRFGqwpJNUpmsLr3zxIeMiG+FKfEhU1dDtFw0v
-	 m1Jt+bnV2WvqQ==
-Date: Tue, 16 Apr 2024 13:35:41 +0100
-From: Lee Jones <lee@kernel.org>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
- CS40L50
-Message-ID: <20240416123541.GW2399047@google.com>
-References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
- <20240408153214.42368-6-jogletre@opensource.cirrus.com>
- <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mWBYVw7R"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6d8bd618eso4151682276.3
+        for <linux-sound@vger.kernel.org>; Tue, 16 Apr 2024 05:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713271212; x=1713876012; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XocEjulw3kAiCxPyVJw1Ya87AMjOi1KyGw4TtHVGXCk=;
+        b=mWBYVw7RCfJV1TzZT9Y+25z1rdh0Ea34oBx8ic3A13g2D4fw9qSpqHuoR4Ha7ooHEW
+         n3ZnCLcXgq9J0AY6FH1lknlJekuei4bw1SzbbXgQLf9iVST9FPPK/KvSji5ZzYXTXUfo
+         gOfFhBNtc8zjygZ3LbbAuc1GjNV+hRwH/r3oogmrM163wd/vqHeEK/dbaRl8+8xj2mAB
+         i9253NYcF9I8Q2QfBn9y7bLUw5q1fMoV1RDDERhDaL3GG9gIHToD7+m888uenc3Ggkr0
+         U5Qj3coGtfpVPeO+fiXjKGl3T2QNY6Zhlf25j+4DTOq2Trwu34XSWvit9PXpMYeap48R
+         VaKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713271212; x=1713876012;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XocEjulw3kAiCxPyVJw1Ya87AMjOi1KyGw4TtHVGXCk=;
+        b=kG1fJ+pj/FpKhizCKIBgwrMIL+d9KXPEC+gh5sLDjdeW+buft2sT83i9YgQAaRd5qI
+         3c9Ygvk2fpBj1xVP+WRR8sDWmpZF/UtEolzQ/ZnF7XhGxlrlaro/h7HtzI2HFY40UTng
+         CpD6Da+6o51u/9lzb/ywC4lo3CLdM01vvBWCs6tckTCs594tM8LT+eu15qqWHkoH7vvQ
+         gj/Sdzicma+jCpwh3hudZKbcDPoBQ63FK+eNXaOwZNvqyKAlPNBXXLRXrY75XxlwHMHE
+         eYbyfwxONO5zqTreqsqLZM0Exbqjk0giBKqgC5Lb5ajDIq6sCT4n6HLLqgcjxV383NJH
+         6aGA==
+X-Forwarded-Encrypted: i=1; AJvYcCWMxukj6ZbMK0cNPWbvgBIHQc73AwhfXQzOkFQB58sGhL5bRK8Nvnv2c6QXME1RcnRKhcG3sYiGYGPkc5Jq6XbmMMmt2hUzMdPSgbs=
+X-Gm-Message-State: AOJu0YzsjVsO9P9S0wqHnlOpPXt2RcLqsjTp097GIY9KRj5MEAQFSo/E
+	zeLDlfsBvYcxFOSlYWTyiTE/0FKsvdxQSVpkCLedbaQA1nMuxfRMY4ko1lVKJAmQieUJ4aQGLGR
+	anFaM+TUiV6ZuBr33UbNL2qnICiKuQzKz+xjwVg==
+X-Google-Smtp-Source: AGHT+IGJhFIyKEbY2TNHNPrCm3GRm5c6L7GB4Z/sH1BLsFZXKmx3pHDdVDxtNq7uyYtUlxMVzqOrk0oaE4WyfbJcIG8=
+X-Received: by 2002:a25:bc4c:0:b0:dcb:fe58:a08b with SMTP id
+ d12-20020a25bc4c000000b00dcbfe58a08bmr11907548ybk.15.1713271212014; Tue, 16
+ Apr 2024 05:40:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
+References: <20240416063600.309747-1-quic_mohs@quicinc.com>
+In-Reply-To: <20240416063600.309747-1-quic_mohs@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 16 Apr 2024 15:40:01 +0300
+Message-ID: <CAA8EJprABOeWrAm-PyeLF1ZM95qC17bxyZvEVpGG1Wz97KLYWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] ASoC: codecs: wcd937x: add wcd937x audio codec support
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	quic_rohkumar@quicinc.com, quic_pkumpatl@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 12 Apr 2024, James Ogletree wrote:
-> All feedback to date has been addressed
+On Tue, 16 Apr 2024 at 09:36, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
+>
+> This patchset adds support for Qualcomm WCD937X codec.
+>
+> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
+> connected over SoundWire. This device has two SoundWire devices, RX and
+> TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
+> 6 DMICs and MBHC.
+>
+> For codec driver to be functional it would need both tx and rx Soundwire devices
+> to be up and this is taken care by using device component framework and device-links
+> are used to ensure proper pm dependencies. Ex tx does not enter suspend
+> before rx or codec is suspended.
+>
+> This patchset along with other SoundWire patches on the list
+> have been tested on QCM6490 IDP device.
+>
+> Changes since v8:
 
-There are still MFD review comments left outstanding.
+I hope it's a typo here since the series is v2, not v9
+
+>  - Split the patch per driver for easier review as suggested by Krzysztof
+>  - Used devm_gpiod_get api to get reset gpio as suggested by Krzysztof
+>
+> Prasad Kumpatla (8):
+>   ASoC: dt-bindings: wcd937x: add bindings for wcd937x
+>   ASoC: codecs: wcd937x: add wcd937x codec driver
+>   ASoC: dt-bindings: wcd937x-sdw: add bindings for wcd937x-sdw
+>   ASoC: codecs: wcd937x-sdw: add SoundWire driver
+>   ASoC: codecs: wcd937x: add basic controls
+>   ASoC: codecs: wcd937x: add playback dapm widgets
+>   ASoC: codecs: wcd937x: add capture dapm widgets
+>   ASoC: codecs: wcd937x: add audio routing and Kconfig
+>
+>  .../bindings/sound/qcom,wcd937x-sdw.yaml      |   71 +
+>  .../bindings/sound/qcom,wcd937x.yaml          |  119 +
+>  sound/soc/codecs/Kconfig                      |   20 +
+>  sound/soc/codecs/Makefile                     |    7 +
+>  sound/soc/codecs/wcd937x-sdw.c                | 1148 +++++++
+>  sound/soc/codecs/wcd937x.c                    | 3036 +++++++++++++++++
+>  sound/soc/codecs/wcd937x.h                    |  655 ++++
+>  7 files changed, 5056 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+>  create mode 100644 sound/soc/codecs/wcd937x-sdw.c
+>  create mode 100644 sound/soc/codecs/wcd937x.c
+>  create mode 100644 sound/soc/codecs/wcd937x.h
+>
+>
+> base-commit: 6bd343537461b57f3efe5dfc5fc193a232dfef1e
+> --
+> 2.25.1
+>
+>
+
 
 -- 
-Lee Jones [李琼斯]
+With best wishes
+Dmitry
