@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9701474A1;
-	Wed, 17 Apr 2024 15:51:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF13147C7B;
+	Wed, 17 Apr 2024 15:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713369068; cv=none; b=gn5xE5Ri7xYRr2okYpr2dCPu4OtdsYdWGW4x8F44e6lKwY4O87fho6dysEnQS61uaw9YrpiVdk9vQxYajJrpHmvx5L6lOm2RptGHvTQTdzhUPHPTOD5ZFHoUzixdf9kVDeSecZPAz4WZreBxv/bGEHU93FII9HOBIKu99UdCjNw=
+	t=1713369155; cv=none; b=t7QH8VH5BQ3bcZffHvISubenOwN+Ta3eDsOMs55z7XPJYUKPK5Wgcj7QmqOGgXZcFQndeEA9xkCTb+4UfViyikC3GXqFtSNZZ1yr9iReCTkxd5OLNYP2jz/0IR2A1Qn8eojtg5+UcY7UwLHKswLsfhqVsTM7ZTAM6b66XUhm7Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713369068; c=relaxed/simple;
-	bh=5J0q06ubp9rRvfasDCdw5BJC+rg9Xl6czKSqrMj/mKw=;
+	s=arc-20240116; t=1713369155; c=relaxed/simple;
+	bh=7wb9H72Aj+y1YrETYNhTzY+E0Bau8VPmpQtR6PztyIk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iGHqhyK861tRQoMy6+JBddQ7Jz5POztoiB1eMvBepOvAAxmqWLdfwkozlVLPM5PUyzsUJVwvyvt4J8i7acQ09dCuN0KVgY2z/Dpu0XPgE3fAcE+dzlvJ8BVzcbOqGJl+mQf4mVnsbXLsE5qb4bL9hWz8D4pbbZL9if9p6N7enDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOkD+AqR; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=ghZa1z5KMRWVLEcpAvHysm5nwTBa7TAXBN/LMMGputizSSzc0yaEMOLCwVUjc92rdSPWgtIaCoCqJ9an9NQc60syZTkiL0c9INbfbtalgwcL6sS1zNeNWVmp54IJdEp9GJ1Fm865ahPgFHxDzxldKVnFmsjHRYVymmA94W59hNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayk+78ij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOkD+AqR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F24C072AA;
-	Wed, 17 Apr 2024 15:51:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayk+78ij"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8235FC072AA;
+	Wed, 17 Apr 2024 15:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713369067;
-	bh=5J0q06ubp9rRvfasDCdw5BJC+rg9Xl6czKSqrMj/mKw=;
+	s=k20201202; t=1713369154;
+	bh=7wb9H72Aj+y1YrETYNhTzY+E0Bau8VPmpQtR6PztyIk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QOkD+AqRQ04ajG1mBiEMBz3sn8SIiHb3tRJBnVJaD6H9tP/uBI7lnuuQwo/as659s
-	 pk5XWF4sYRTQgb3AFMYOql0A9L14xqNfooJIie5XuKtdptTtjMXz+lQ8R4bPXZbJPD
-	 c5bm4vMYMK740gG57SrXMjU3QnbOLikNpHyiA8xb7D9MRF9007qixxyBKaS9iE8Bhu
-	 ZvdBeEb4FTbO5pZIQWYRleEt1YAK9SaGGoC2oAVB41bInxUkS9FwPuDSusNXZRP2GY
-	 j7m9JkjMpAhsVQqVHerA5f4b4WfMIP5F1c04RC3IWwcRlF2p5YklTDk0WPbvSPdm8Q
-	 eiCzk2KGIskUA==
-Message-ID: <09410fa9-265e-4fb0-9814-35dee465dbec@kernel.org>
-Date: Wed, 17 Apr 2024 17:51:07 +0200
+	b=ayk+78ijXrawiR4kAXqOs0GiJcMWt+Zd77nW2/ETTzLnQdZcgqCu2wbwD8OdOq1Pw
+	 MzQoVUr8iIPuM7PU9Ry+4KAjsXsHBTq2EGqdrVPl4yA/4i9mqn1ZE/Y7WfPEa26/SA
+	 AVsw+R/uPyZUYzWXRQ6TGXshL88v1a0JxuqqXQBF5HBmF0WpSJ0J4/TVzBuTBxGA1b
+	 +Vy8g2XS4t9bjQHAEkM8ZobraS3/DQFBZ+WfG8tTyW1Jtja0AGy96Lse+Yy4Vz08m5
+	 QkPfgUL7wqggfDHe+8ZiDlzm+Roxd+Yq4qV/9F52xkUS9R8yhVw+ivlaiC87Z0ZeEo
+	 2lpPGJOg/ABCw==
+Message-ID: <38ed0465-5b29-4e81-8bbf-f5480bc27c7b@kernel.org>
+Date: Wed, 17 Apr 2024 17:52:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,21 +35,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] ASoC: dt-bindings: wcd937x: add bindings for
- wcd937x
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+Subject: Re: [PATCH v2 3/8] ASoC: dt-bindings: wcd937x-sdw: add bindings for
+ wcd937x-sdw
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>, Rob Herring <robh@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
- quic_pkumpatl@quicinc.com
+ Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ quic_rohkumar@quicinc.com, quic_pkumpatl@quicinc.com
 References: <20240416063600.309747-1-quic_mohs@quicinc.com>
- <20240416063600.309747-2-quic_mohs@quicinc.com>
+ <20240416063600.309747-4-quic_mohs@quicinc.com>
+ <20240416143237.GA2250258-robh@kernel.org>
+ <13bff1dd-d134-e5ab-6691-b2bcb0a786c8@quicinc.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,149 +95,72 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240416063600.309747-2-quic_mohs@quicinc.com>
+In-Reply-To: <13bff1dd-d134-e5ab-6691-b2bcb0a786c8@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/04/2024 08:35, Mohammad Rafi Shaik wrote:
-> From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+On 17/04/2024 10:17, Mohammad Rafi Shaik wrote:
+> On 4/16/2024 8:02 PM, Rob Herring wrote:
+>> On Tue, Apr 16, 2024 at 12:05:55PM +0530, Mohammad Rafi Shaik wrote:
+>>> From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+>>>
+>>> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
+>>> connected over SoundWire. This device has two SoundWire devices RX and
+>>> TX respectively.
+>>> This binding is for those slave devices on WCD9370/WCD9375.
+>>>
+>>> Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>>> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>>> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+>>> ---
+>>>   .../bindings/sound/qcom,wcd937x-sdw.yaml      | 71 +++++++++++++++++++
+>>>   1 file changed, 71 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> new file mode 100644
+>>> index 000000000000..2b7358e266ba
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> @@ -0,0 +1,71 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/sound/qcom,wcd937x-sdw.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Qualcomm SoundWire Slave devices on WCD9370
+>>> +
+>>> +maintainers:
+>>> +  - Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>> +
+>>> +description: |
+>>
+>> Don't need '|' if no formatting.
+>>
+>>> +  Qualcomm WCD9370 Codec is a standalone Hi-Fi audio codec IC.
+>>> +  It has RX and TX Soundwire slave devices. This bindings is for the
+>>> +  slave devices.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: sdw20217010a00
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  qcom,tx-port-mapping:
+>>> +    description: |
+>>> +      Specifies static port mapping between slave and master tx ports.
+>>> +      In the order of slave port index.
+>>
+>> Are there constraints on the values of the entries?
 > 
-> Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
-> connected over SoundWire. This device has two SoundWire device RX and
-> TX respectively, supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
-> 6 DMICs, MBHC.
-> 
-> Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-> ---
->  .../bindings/sound/qcom,wcd937x.yaml          | 119 ++++++++++++++++++
->  1 file changed, 119 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
-> new file mode 100644
-> index 000000000000..b45f823af04f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+> The port mapping entries are fixed values.
+> There is no constraints.
 
-No wildcards. This is wcd9370, right?
-
-> @@ -0,0 +1,119 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/qcom,wcd937x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm WCD9370 Audio Codec
-> +
-> +maintainers:
-> +  - Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> +
-> +description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +  Qualcomm WCD9370 Codec is a standalone Hi-Fi audio codec IC.
-> +  It has RX and TX Soundwire slave devices.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,wcd9370-codec
-
-Can it be anything else than codec?
-
-> +
-> +  reset-gpios:
-> +    description: GPIO spec for reset line to use
-> +    maxItems: 1
-> +
-> +  vdd-buck-supply:
-> +    description: A reference to the 1.8V buck supply
-> +
-> +  vdd-rxtx-supply:
-> +    description: A reference to the 1.8V rx supply
-> +
-> +  vdd-px-supply:
-> +    description: A reference to the 1.8V I/O supply
-> +
-> +  vdd-mic-bias-supply:
-> +    description: A reference to the 3.8V mic bias supply
-> +
-> +  qcom,tx-device:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: A reference to Soundwire tx device phandle
-
-"A reference to phandle" is not correct. Phandle is the reference.
-Anyway, both are redundant.
-
->
-> +  qcom,rx-device:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: A reference to Soundwire rx device phandle
-> +
-> +  qcom,micbias1-microvolt:
-> +    description: micbias1 voltage
-> +    minimum: 1800000
-> +    maximum: 2850000
-> +
-> +  qcom,micbias2-microvolt:
-> +    description: micbias2 voltage
-> +    minimum: 1800000
-> +    maximum: 2850000
-> +
-> +  qcom,micbias3-microvolt:
-> +    description: micbias3 voltage
-> +    minimum: 1800000
-> +    maximum: 2850000
-> +
-> +  '#sound-dai-cells':
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reset-gpios
-> +  - qcom,tx-device
-> +  - qcom,rx-device
-> +  - qcom,micbias1-microvolt
-> +  - qcom,micbias2-microvolt
-> +  - qcom,micbias3-microvolt
-> +  - "#sound-dai-cells"
-> +
-> +unevaluatedProperties: false
-
-This does not make sense without ref to dai-common, so this should point
-you to missing ref.
-
-> +
-> +examples:
-> +  - |
-> +    codec {
-> +        compatible = "qcom,wcd9370-codec";
-> +        pinctrl-names = "default", "sleep";
-> +        pinctrl-0 = <&wcd_reset_n>;
-> +        pinctrl-1 = <&wcd_reset_n_sleep>;
-> +        reset-gpios = <&tlmm 83 0>;
-> +        vdd-buck-supply = <&vreg_l17b_1p8>;
-> +        vdd-rxtx-supply = <&vreg_l18b_1p8>;
-> +        vdd-px-supply = <&vreg_l18b_1p8>;
-> +        vdd-mic-bias-supply = <&vreg_bob>;
-> +        qcom,micbias1-microvolt = <1800000>;
-> +        qcom,micbias2-microvolt = <1800000>;
-> +        qcom,micbias3-microvolt = <1800000>;
-> +        qcom,rx-device = <&wcd937x_rx>;
-> +        qcom,tx-device = <&wcd937x_tx>;
-> +        #sound-dai-cells = <1>;
-> +    };
-> +
-> +    /* ... */
-> +
-> +    soundwire@3210000 {
-> +        #address-cells = <2>;
-
-Drop this and other nodes.
+If they are fixed, then for sure you have constraints, because they are
+known. I really do not understand your response.
 
 Best regards,
 Krzysztof
