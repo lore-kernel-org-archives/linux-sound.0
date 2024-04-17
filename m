@@ -1,69 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA70171085;
-	Wed, 17 Apr 2024 18:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10191847B;
+	Wed, 17 Apr 2024 18:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713377131; cv=none; b=j3fXK1twyebw9d7jyWahS2+ljIBRa4skFVvOJTmeXA028N0DtjqG+3TVhLQFZEyGtUAmqyKbCCsJHd5P9/NBxq67SMm/b/4nHu+xgZSSTNxHivDtmlEIp66LcHm/oMAvkcbuKYTTaPx4BMitur9teQh+e7Qir19uQ0WxQ1X/nbU=
+	t=1713379331; cv=none; b=NkxFhdW5O9DXDHhY83hIvfvBZLZNSfNjzyV7Shj4QPapqE5J3fN4Uu3frQ011Wmv4RyP8/sRN15a0Ma+cUpO3MSko0JQhmS+h7DepgUkfBAKXhxn9cOWT9aTs8Lv15fbnOP42BGzokPiJF3mQkUgh9i/4qMFwSy2CjA3AIelCIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713377131; c=relaxed/simple;
-	bh=wWg0evY70j7O2ptDiIFqWXBFa8YgVMN0uY+QB1WSV3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jZU7owY4H1FiM2eM1KI20mc2OU45RlS2g0c72pNnMVbDvvSU0YqX4JOApzKRnh7vipc2DsGyyex4JQuaaesnLHC2ZF1tuPg7D0ciQF1JWveVI3J/PEWh7bRp0gSc+o6NaTu4g6l3b8D0xGKBARvWIBU9ygQq2SoxRfN3wcCTci8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKAUBtKX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713379331; c=relaxed/simple;
+	bh=8WkGnONM8NyXHIZlC0inPFTNaIF8xV/m3ME04BID7B0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W3X0U/eVXOmEN1ac76Fc4tH63KmOGrHnMxIu4mxXVDLqNbPspjHuz8DMXHw8vVTFMm8F/37g0LKzCsqNK71X7KJ0EIivAOYveFyHiy6clbDQSpulT8JAHGqQ82T7xtjo0J2Q/PJdz2xLwP/ZEF9TFKoueUjesDWzM+ERPKdUGBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkIhKoj6; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKAUBtKX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19319C072AA;
-	Wed, 17 Apr 2024 18:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713377131;
-	bh=wWg0evY70j7O2ptDiIFqWXBFa8YgVMN0uY+QB1WSV3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DKAUBtKXRILetMDDwlvRHJlMqgoFwzizrz2MSgdnkBQlA5ZVvXfo1ZOpir29lTQ0E
-	 cu+FtsLF7QiSnBQqCCVYSq/mdzPzJcY6kQwe2QnrXmOiom/F1h54f3CxMRaJmn5hGS
-	 dOb7I8XpPqhaNXSxK2g//5WSE/tQ1vfNDmiajSoHo4v+rguXwux7r8oTi11QJsmA9t
-	 NlOG9Hyx+7XvWbZBrWVnUTtKJlvEmvynw/nBkyhF3mwznaPhpU4g9NJkOLhhG09Ing
-	 Pi+9VaNqJZdcvDm4ldUjvgKr5lj9E0Z+Bse9fQ/U/zzX9rRRoBRrGNrOHTg4ppww1N
-	 0S3JI7ASdoeCg==
-Date: Wed, 17 Apr 2024 13:05:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Seven Lee <wtli@nuvoton.com>
-Cc: alsa-devel@alsa-project.org, robh+dt@kernel.org,
-	u.kleine-koenig@pengutronix.de, KCHSU0@nuvoton.com,
-	broonie@kernel.org, dardar923@gmail.com, edson.drosdeck@gmail.com,
-	CTLIN0@nuvoton.com, perex@perex.cz, lgirdwood@gmail.com,
-	YHCHuang@nuvoton.com, conor+dt@kernel.org,
-	linux-kernel@vger.kernel.org, supercraig0719@gmail.com,
-	scott6986@gmail.com, devicetree@vger.kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, tiwai@suse.com,
-	linux-sound@vger.kernel.org, SJLIN0@nuvoton.com
-Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: nau8821: Add delay control for
- ADC
-Message-ID: <171337709700.2869242.15474131281609320459.robh@kernel.org>
-References: <20240415070649.3496487-1-wtli@nuvoton.com>
- <20240415070649.3496487-2-wtli@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkIhKoj6"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e65a1370b7so686035ad.3;
+        Wed, 17 Apr 2024 11:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713379329; x=1713984129; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p6icFNRiHIPy7y0oehBoYWRS/JN2fyumo7JjrGWSgTc=;
+        b=WkIhKoj6yVp9YczycO1yb8Iq3kqnYLQlkX3r0/iz2fFc/jrwgd76f8+WOJ+aufkV5R
+         N0sVOFgKA1eZM8fmPikUsD6shscrNKjhxF9F9PePJJ5BU7qGiciiRDheffEWuOn1yyj/
+         dp0WPVM3PU2QUu73phxtckwxyZzVQtvnJhhE5j9BsYOfOXWJDX2EhRM5cukj+A5kjf9G
+         wEhsy0enT9KVfT634fnMEMjrlvEuNBIU8IJfRb3FBZf+Z5f5HHFtBO7kJSkOnEsZq0Ov
+         TIYbc4HPA0jEWWSc7ImCcIzHItVN6T2VqBPHAmtkv1yqjZxG0NmE7Ak67jZp4jOElpM4
+         lXLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713379329; x=1713984129;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p6icFNRiHIPy7y0oehBoYWRS/JN2fyumo7JjrGWSgTc=;
+        b=gesMoHHOH4puY8RrEaK/o0AqGHqa2JAonqUNQBYX5sJuDdhXq+mg647BV7wCsyE6QI
+         EcHyN1HxhgCGYxzDV2A2MfEyp0DftiCy9/dVKiCLepmGTnOCb4J75s5TmTfWsTGQijYD
+         79jc8a4/VavfsGwIvt5Qqq3sZU9aF5NrxultsPRU2LDigIDclOiqd2eNglKQANsrsS1W
+         lbE7ML21r9sY31Fy8B+LM9kVtStt8CeX1wrlirFNpUC2/pkdJSlplPIVGEv9oc95YGnq
+         SF3kFFC7te5SAH024hkTgtcjHGSH+5tAv2zpWOKEKR+qGZaky/JT69OKjAO05SAj3ue6
+         sDJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVasLu+cWct5Z4nmvUJ2EpEnRy8PsJ7OUKJkNRaKGromLlTjZ0pDgFPY3Ouij8BcMnVhfJSlreyMOGwQ4qUtsi7BGLjNIMKW+dgj5QN0MI5+i5AO+hmOd1RMR5t2EyBKUfiPwGVCPwEeyrPQQ9/FHpGOfe1vFNfdUMSdic0rhPbnjI=
+X-Gm-Message-State: AOJu0Ywt2Ua7x2VWamJB4FVAY/oLGbHtMDc3EKT+0AGRZMlRqGsBFacX
+	IGN0VFpJCX8LUAUrQJdreLryI2vBEFcd+CCxVvH/asrKe1ouYr/dppRmwM0H
+X-Google-Smtp-Source: AGHT+IEMhCcxW5qKw/Nqo4PSr+iM5I23X69j3QH1wQH6SLQ/joYej+do+lIb3YoB+gOh/fd+u/kDnw==
+X-Received: by 2002:a17:902:d4ce:b0:1e6:3494:61fc with SMTP id o14-20020a170902d4ce00b001e6349461fcmr570341plg.0.1713379329167;
+        Wed, 17 Apr 2024 11:42:09 -0700 (PDT)
+Received: from joaog-nb.corp.toradex.com ([201.82.41.210])
+        by smtp.gmail.com with ESMTPSA id c17-20020a170902d49100b001e0d6cd042bsm11873501plg.303.2024.04.17.11.42.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 11:42:08 -0700 (PDT)
+From: Joao Paulo Goncalves <jpaulo.silvagoncalves@gmail.com>
+To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+	Jai Luthra <j-luthra@ti.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: ti: davinci-mcasp: Fix race condition during probe
+Date: Wed, 17 Apr 2024 15:41:38 -0300
+Message-Id: <20240417184138.1104774-1-jpaulo.silvagoncalves@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240415070649.3496487-2-wtli@nuvoton.com>
+Content-Transfer-Encoding: 8bit
 
+From: Joao Paulo Goncalves <joao.goncalves@toradex.com>
 
-On Mon, 15 Apr 2024 15:06:47 +0800, Seven Lee wrote:
-> Change the original fixed delay to the assignment from the property. It
-> will make it more flexible to different platforms to avoid pop noise at
-> the beginning of recording.
-> 
-> Signed-off-by: Seven Lee <wtli@nuvoton.com>
-> ---
->  .../devicetree/bindings/sound/nuvoton,nau8821.yaml         | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+When using davinci-mcasp as CPU DAI with simple-card, there are some
+conditions that cause simple-card to finish registering a sound card before
+davinci-mcasp finishes registering all sound components. This creates a
+non-working sound card from userspace with no problem indication apart
+from not being able to play/record audio on a PCM stream. The issue
+arises during simultaneous probe execution of both drivers. Specifically,
+the simple-card driver, awaiting a CPU DAI, proceeds as soon as
+davinci-mcasp registers its DAI. However, this process can lead to the
+client mutex lock (client_mutex in soc-core.c) being held or davinci-mcasp
+being preempted before PCM DMA registration on davinci-mcasp finishes.
+This situation occurs when the probes of both drivers run concurrently.
+Below is the code path for this condition. To solve the issue, defer
+davinci-mcasp CPU DAI registration to the last step in the audio part of
+it. This way, simple-card CPU DAI parsing will be deferred until all
+audio components are registered.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Fail Code Path:
+
+simple-card.c: probe starts
+simple-card.c: simple_dai_link_of: simple_parse_node(..,cpu,..) returns EPROBE_DEFER, no CPU DAI yet
+davinci-mcasp.c: probe starts
+davinci-mcasp.c: devm_snd_soc_register_component() register CPU DAI
+simple-card.c: probes again, finish CPU DAI parsing and call devm_snd_soc_register_card()
+simple-card.c: finish probe
+davinci-mcasp.c: *dma_pcm_platform_register() register PCM  DMA
+davinci-mcasp.c: probe finish
+
+Cc: stable@vger.kernel.org
+Fixes: 9fbd58cf4ab0 ("ASoC: davinci-mcasp: Choose PCM driver based on configured DMA controller")
+Signed-off-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
+---
+ sound/soc/ti/davinci-mcasp.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
+index b892d66f78470..1e760c3155213 100644
+--- a/sound/soc/ti/davinci-mcasp.c
++++ b/sound/soc/ti/davinci-mcasp.c
+@@ -2417,12 +2417,6 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
+ 
+ 	mcasp_reparent_fck(pdev);
+ 
+-	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
+-					      &davinci_mcasp_dai[mcasp->op_mode], 1);
+-
+-	if (ret != 0)
+-		goto err;
+-
+ 	ret = davinci_mcasp_get_dma_type(mcasp);
+ 	switch (ret) {
+ 	case PCM_EDMA:
+@@ -2449,6 +2443,12 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
+ 		goto err;
+ 	}
+ 
++	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
++					      &davinci_mcasp_dai[mcasp->op_mode], 1);
++
++	if (ret != 0)
++		goto err;
++
+ no_audio:
+ 	ret = davinci_mcasp_init_gpiochip(mcasp);
+ 	if (ret) {
+-- 
+2.34.1
 
