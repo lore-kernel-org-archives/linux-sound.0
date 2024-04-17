@@ -1,95 +1,107 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D678C50264;
-	Wed, 17 Apr 2024 05:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD3252F6A
+	for <linux-sound@vger.kernel.org>; Wed, 17 Apr 2024 05:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713330516; cv=none; b=HTjXy+xGWVBQD0DFFAthybg2THEmAnm8SEkqotyLzyLZtvgYcGg2GiXaaRucuFr8S8EboRg5xGM0FLuy9Gd0hQEM0mC/HyDsdWKQLW+onOJzxVWOR8emfjw+dO0RTgLzH/YOlg04Odn637iEK0EYn4NSNM73jT+3Ma9MeoixL0Q=
+	t=1713330902; cv=none; b=EdWfI1ydo9KH0NyXa/8kwF6iIaDQumoUGVWQmCb8LA7ZB/mb2ao4mDOKAD101H2gEqcwc+cpgL5K8wLz2U4hIwIrXHnfhlgxbThLplpAIoeSzBZQjtvZU1hU9bh0VTOiGgsuoANauKk5j3KhA0D0vlgjq0/Pe0Pn8a1uESGGVO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713330516; c=relaxed/simple;
-	bh=kivKBm+AJbJeHjI252CbHSM6JyqAqX6T/vNgHy/wBXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DZ9BSKn3dgyyAwWb20rFOVWMweodBbN4ka/keROBXtXdFmwtI1d0ZvLmlwitzUisa/vItxNXGpuS5yBO4JvNvhVAJf3bUcj/tcH8T9wO/vnC7EW6UakStINCzZVS1bTKSuRDUrMJKBHk5BhLIOdv3A+73MHLUzhzbywMDHTkxIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fCjhDUeX; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713330902; c=relaxed/simple;
+	bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jl3VDrr6GXIEx6olprIy2bASHsUfKVI0Uu0RPc3ExISZLOfhf9ZBiNTwaYstASwKH5XeATj+sJJBR2BrfmxdYThsN7uFb8v1K8d++piiXm+YXCG+aj15qwAOGDYO9DtsmIA0QdaR6ECs1VXuJ3rdcF4ajFufZBhXftPXBsjMvm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=yV0cmB0j; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fCjhDUeX"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 91BC81C0004;
-	Wed, 17 Apr 2024 05:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713330506;
+	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="yV0cmB0j"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
+	t=1713330896;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sLz4QLC5Swmd9g2vMTOYCJ6WGpq8oN/I1V5mjTJgaRE=;
-	b=fCjhDUeXCuiFF6jO+IBaK8FrhfdDUCFIk3oI00WsvCHTe8VNh/LdS5f5FbNV+BT74Y3Nzt
-	DwlsyUcyscUmsWioL+/6PfsOX5lqVgmj89SELxfaTCtyYTMGzq1ySOkH1KzlhknmqazZtZ
-	EEth4Klh+jWUO/gKf6LDgNgXbfpqbJM0CyKnpSof1+NSq0Vl+6zsZdnOPn1H9RJObtoExg
-	FL51YtsP4ljc8IfgkA/TDZ31TFiC9NI+3LBe8HGPtOPCOLTVntoYIBgjpFwUuQ2rHZ6tgG
-	ayq3zYiWice6FYUpNyny/q2LBhz7JljjKlB+SLrrgCTKeJPN3AN1E8tDiqKftA==
-Date: Wed, 17 Apr 2024 07:08:19 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/12] ASoC: doc: dapm: improve section "Codec/DSP
- Widget Interconnections"
-Message-ID: <20240417070819.7dce3e37@booty>
-In-Reply-To: <Zh9RCMdihgSyZqTw@archie.me>
-References: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
-	<20240416-dapm-docs-v1-10-a818d2819bf6@bootlin.com>
-	<Zh9RCMdihgSyZqTw@archie.me>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+wO2NVJgGgKxL9AnuBOvlzeMvS5QSt87gBINoPwNkwE=;
+	b=yV0cmB0juL+gE4drGnEPB+Xk5XISypajXJXqLKpewPtGxn4U+IS7Zsfv9xgrhLvHVRljhd
+	/YAmLU+jDFgpV8fbY0JjP7Lq0fd3A4Rug6xYw2Xz+thgXdwe1EWLjykviCKDEvBTFBxZVY
+	65Y3HMcWmCh6MLGO7J28vBoVANlKoU5gvyQA0Y+P+azWNXK494UrVXoubWHbwLLwOOuhzB
+	sIkfP5DFotpKQZWdwlLW4P1hVoA8PwyJMKcix+fgc0zS16cjVVYDBMVNrwErWAlGmu3oIr
+	2m+rUm3qj8OiEOS92HavDCnPNeO+KzdqYwMqBNjVo9no3b1AXIFsGCFLerHqEA==
+From: John Watts <contact@jookia.org>
+Date: Wed, 17 Apr 2024 15:14:43 +1000
+Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Message-Id: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
+X-B4-Tracking: v=1; b=H4sIAMJaH2YC/x2MQQqAIBAAvxJ7TjBdCfpKRGSttRcLl0KQ/p50n
+ IGZAkKJSWBoCiR6WPiMFbq2gfVY4k6Kt8pgtEGNXa/kjplnsWYOnBUFZx161MEj1OZKVPX/G6f
+ 3/QDEL4kjXwAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ kernel test robot <lkp@intel.com>, John Watts <contact@jookia.org>
+X-Developer-Signature: v=1; a=openssh-sha256; t=1713330884; l=1490;
+ i=contact@jookia.org; h=from:subject:message-id;
+ bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
+ b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
+ 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
+ MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA0GgHA+q2gKda09EGULTSaiS
+ 2/DdtY5KQbmfXmCRvUveV9K+PrfFhcZr7UTMaGjmtXlHZf8vs8mEGa+TKZk6GDgUAAOoA
+X-Developer-Key: i=contact@jookia.org; a=openssh;
+ fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
+X-Migadu-Flow: FLOW_OUT
 
-Hello Bagas,
+pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
+SNDRV_PCM_FORMAT_*.
 
-thanks for reviewing!
+Also fix a small grammar error while we're here.
 
-On Wed, 17 Apr 2024 11:33:12 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202404170103.ySYwieqi-lkp@intel.com/
+Signed-off-by: John Watts <contact@jookia.org>
+---
+This is a quick fix for a type error found by the kernel test robot.
+---
+ sound/soc/sunxi/sun4i-i2s.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On Tue, Apr 16, 2024 at 07:56:16AM +0200, Luca Ceresoli wrote:
-> > -Each input in this example has a kcontrol associated with it (defined in example
-> > -above) and is connected to the output mixer via its kcontrol name. We can now
-> > -connect the destination widget (wrt audio signal) with its source widgets.
-> > -::
-> > +Each input in this example has a kcontrol associated with it (defined in
-> > +the example above) and is connected to the output mixer via its kcontrol
-> > +name. We can now connect the destination widget (wrt audio signal) with its
-> > +source widgets.  ::
-> > <snipped>...
-> > -Interconnections are created with a call to:
-> > -::
-> > +Interconnections are created with a call to::
-> >    
-> 
-> Not strictly related to this patch, but for consistency, I'd like
-> to write remaining literal block markers at the end of previous
-> paragraph:
+diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+index 59830f2a0d30..5f8d979585b6 100644
+--- a/sound/soc/sunxi/sun4i-i2s.c
++++ b/sound/soc/sunxi/sun4i-i2s.c
+@@ -156,7 +156,7 @@ struct sun4i_i2s;
+ /**
+  * struct sun4i_i2s_quirks - Differences between SoC variants.
+  * @has_reset: SoC needs reset deasserted.
+- * @pcm_formats: available PCM formats
++ * @pcm_formats: available PCM formats.
+  * @reg_offset_txdata: offset of the tx fifo.
+  * @sun4i_i2s_regmap: regmap config to use.
+  * @field_clkdiv_mclk_en: regmap field to enable mclk output.
+@@ -176,7 +176,7 @@ struct sun4i_i2s;
+  */
+ struct sun4i_i2s_quirks {
+ 	bool				has_reset;
+-	snd_pcm_format_t		pcm_formats;
++	u64				pcm_formats;
+ 	unsigned int			reg_offset_txdata;	/* TX FIFO */
+ 	const struct regmap_config	*sun4i_i2s_regmap;
+ 
 
-Makes sense, sure. I can add a patch doing this in v2, or send a
-separate patch after this series.
+---
+base-commit: 66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
+change-id: 20240417-sunxi_s32_fix-ef5354b40fb4
 
-Luca
-
+Best regards,
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+John Watts <contact@jookia.org>
+
