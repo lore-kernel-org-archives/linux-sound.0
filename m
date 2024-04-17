@@ -1,145 +1,131 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10191847B;
-	Wed, 17 Apr 2024 18:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778E72C6A3;
+	Wed, 17 Apr 2024 20:27:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713379331; cv=none; b=NkxFhdW5O9DXDHhY83hIvfvBZLZNSfNjzyV7Shj4QPapqE5J3fN4Uu3frQ011Wmv4RyP8/sRN15a0Ma+cUpO3MSko0JQhmS+h7DepgUkfBAKXhxn9cOWT9aTs8Lv15fbnOP42BGzokPiJF3mQkUgh9i/4qMFwSy2CjA3AIelCIM=
+	t=1713385662; cv=none; b=jfiZTGvSA4jvfjPTN/xkt90RYNeCsFqzYVSZMGclOwIrULyQEFWtnclkalqMyN1zf0+hyUHNixbJJU1wthb+u9sXaIbkNCyDTOgn26+IhaET7DRKgyLlrV0m1cSpIXHJFKuqz8zSoKx/lmryK/L9T820HWCnBikz/XaVkspCCW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713379331; c=relaxed/simple;
-	bh=8WkGnONM8NyXHIZlC0inPFTNaIF8xV/m3ME04BID7B0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W3X0U/eVXOmEN1ac76Fc4tH63KmOGrHnMxIu4mxXVDLqNbPspjHuz8DMXHw8vVTFMm8F/37g0LKzCsqNK71X7KJ0EIivAOYveFyHiy6clbDQSpulT8JAHGqQ82T7xtjo0J2Q/PJdz2xLwP/ZEF9TFKoueUjesDWzM+ERPKdUGBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkIhKoj6; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1713385662; c=relaxed/simple;
+	bh=Z9pNx1Mt7ZGOKQJxFKT2T5nxfBwahM5BD/lPw2d3TJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Rby56/REz1GdlTRLotMGSYNZPKLP4nFhy+dZnKKTG4Le9+84yybmhZUoZhDVeQ34wgW4Z0jECkyeGRCpF3dU2SXkZ8nh+a1zgivgY06pyFhXrH1TwXnA07xHuFYmqXXGirdil/bUgpqtTb9NEYvJUV+Fo2LJrtp1GSx3oW3OS88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdwuKo15; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkIhKoj6"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e65a1370b7so686035ad.3;
-        Wed, 17 Apr 2024 11:42:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdwuKo15"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-516d0161e13so89435e87.3;
+        Wed, 17 Apr 2024 13:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713379329; x=1713984129; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p6icFNRiHIPy7y0oehBoYWRS/JN2fyumo7JjrGWSgTc=;
-        b=WkIhKoj6yVp9YczycO1yb8Iq3kqnYLQlkX3r0/iz2fFc/jrwgd76f8+WOJ+aufkV5R
-         N0sVOFgKA1eZM8fmPikUsD6shscrNKjhxF9F9PePJJ5BU7qGiciiRDheffEWuOn1yyj/
-         dp0WPVM3PU2QUu73phxtckwxyZzVQtvnJhhE5j9BsYOfOXWJDX2EhRM5cukj+A5kjf9G
-         wEhsy0enT9KVfT634fnMEMjrlvEuNBIU8IJfRb3FBZf+Z5f5HHFtBO7kJSkOnEsZq0Ov
-         TIYbc4HPA0jEWWSc7ImCcIzHItVN6T2VqBPHAmtkv1yqjZxG0NmE7Ak67jZp4jOElpM4
-         lXLw==
+        d=gmail.com; s=20230601; t=1713385658; x=1713990458; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wogXkpt1TDERRUg+fbxNgUqpjHmEeqKge3cy0SLNVDM=;
+        b=XdwuKo15WT0/gLVdnQbabKaA79LZDPp0OyNdzivfpZzBsKx3Ra6q+TBZeuG5XSpKA8
+         YD3WrTr3HusxRZOD6R6PUzmLhq6PUo/Drks1Tw0eWRCQRLxJqejF2WrNp6NQ1vNzlf+d
+         OmU9aT4B4IrB0+NNBW38t7bKisVJLCR7vY6WYnfyCIRSWVDHiAZYiYnAKQoCRAu+SvjG
+         goa7L/X1pnW5XJcjS+fFeFS0UZ72TXr0K8YWENlY3Ql9aL7suOOLN3jO24Kh4qqSMz/+
+         Nac3bJ6DDyygjApWztotKeAjWdFU4gs32cdN/sfLvEP64941DZr4ZnWULD1Z8uQE3aJa
+         eobg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713379329; x=1713984129;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p6icFNRiHIPy7y0oehBoYWRS/JN2fyumo7JjrGWSgTc=;
-        b=gesMoHHOH4puY8RrEaK/o0AqGHqa2JAonqUNQBYX5sJuDdhXq+mg647BV7wCsyE6QI
-         EcHyN1HxhgCGYxzDV2A2MfEyp0DftiCy9/dVKiCLepmGTnOCb4J75s5TmTfWsTGQijYD
-         79jc8a4/VavfsGwIvt5Qqq3sZU9aF5NrxultsPRU2LDigIDclOiqd2eNglKQANsrsS1W
-         lbE7ML21r9sY31Fy8B+LM9kVtStt8CeX1wrlirFNpUC2/pkdJSlplPIVGEv9oc95YGnq
-         SF3kFFC7te5SAH024hkTgtcjHGSH+5tAv2zpWOKEKR+qGZaky/JT69OKjAO05SAj3ue6
-         sDJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVasLu+cWct5Z4nmvUJ2EpEnRy8PsJ7OUKJkNRaKGromLlTjZ0pDgFPY3Ouij8BcMnVhfJSlreyMOGwQ4qUtsi7BGLjNIMKW+dgj5QN0MI5+i5AO+hmOd1RMR5t2EyBKUfiPwGVCPwEeyrPQQ9/FHpGOfe1vFNfdUMSdic0rhPbnjI=
-X-Gm-Message-State: AOJu0Ywt2Ua7x2VWamJB4FVAY/oLGbHtMDc3EKT+0AGRZMlRqGsBFacX
-	IGN0VFpJCX8LUAUrQJdreLryI2vBEFcd+CCxVvH/asrKe1ouYr/dppRmwM0H
-X-Google-Smtp-Source: AGHT+IEMhCcxW5qKw/Nqo4PSr+iM5I23X69j3QH1wQH6SLQ/joYej+do+lIb3YoB+gOh/fd+u/kDnw==
-X-Received: by 2002:a17:902:d4ce:b0:1e6:3494:61fc with SMTP id o14-20020a170902d4ce00b001e6349461fcmr570341plg.0.1713379329167;
-        Wed, 17 Apr 2024 11:42:09 -0700 (PDT)
-Received: from joaog-nb.corp.toradex.com ([201.82.41.210])
-        by smtp.gmail.com with ESMTPSA id c17-20020a170902d49100b001e0d6cd042bsm11873501plg.303.2024.04.17.11.42.06
+        d=1e100.net; s=20230601; t=1713385658; x=1713990458;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wogXkpt1TDERRUg+fbxNgUqpjHmEeqKge3cy0SLNVDM=;
+        b=Ie6zXliLhKTUmYwsLqOnaBmzjhAHdE0JfLhESybb3BNQiU/OFwfjMp9tGMFb6j4ehB
+         AWQDeL4gZhunA/PzL1HJYlcauPHJcZqrcfecpMdo4pInrOB+xEvSjuGv36XDfAYjzGYl
+         5KYYn+j2JEaPa0hbAQzSLIDJrzTDIV+Tt0YWKQBC4/wMU4MPTwgPj3Gw2gwU90ZqzW18
+         Rr+D1tXd7Uop4pF3zlkREhHPsYz28K4ZbaFooH9yNBs8K51EN0KULL67+84/vd5W2wSv
+         JmLgZ9ehcw1NoMb6GHfNvJYdBOQgS6rX6+CSuHETORGZBcNlPDPbCTX8ejj1NPDRdbCS
+         ScUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUuglRWh60UmTfP7nN7bXohgbLtL6EwLqwrPfuZPLQzoiwnaWI6qPXiVgrf70Kd4Ci+dEUl4LiXyGNhjM8j0CLaryv9K93E6VG7+gi1
+X-Gm-Message-State: AOJu0YysVHBgkcbP6Jjq/2KyLx9MfiT75LG6YwHHjOtwsjPicjx1rGM1
+	65YKUuSXBeySnf+K+hmZIudixdWl5wRSyVSR4fRa09YusBsinzTv
+X-Google-Smtp-Source: AGHT+IG/8iinXPJHUp/FHMLm9h7bKgFee2CBaZRIwsGGMcMcE1cL9w9/psU5OtGrj9VtdAuVdUaNlg==
+X-Received: by 2002:a05:6512:158d:b0:519:591b:6d7a with SMTP id bp13-20020a056512158d00b00519591b6d7amr311208lfb.7.1713385658245;
+        Wed, 17 Apr 2024 13:27:38 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id s3-20020a056402164300b00562d908daf4sm1565edx.84.2024.04.17.13.27.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 11:42:08 -0700 (PDT)
-From: Joao Paulo Goncalves <jpaulo.silvagoncalves@gmail.com>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Joao Paulo Goncalves <joao.goncalves@toradex.com>,
-	Jai Luthra <j-luthra@ti.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: ti: davinci-mcasp: Fix race condition during probe
-Date: Wed, 17 Apr 2024 15:41:38 -0300
-Message-Id: <20240417184138.1104774-1-jpaulo.silvagoncalves@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 17 Apr 2024 13:27:37 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, John Watts <contact@jookia.org>
+Subject:
+ Re: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
+Date: Wed, 17 Apr 2024 22:27:36 +0200
+Message-ID: <1928580.taCxCBeP46@jernej-laptop>
+In-Reply-To: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
+References: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-From: Joao Paulo Goncalves <joao.goncalves@toradex.com>
+Dne sreda, 17. april 2024 ob 07:14:43 GMT +2 je John Watts napisal(a):
+> pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
+> SNDRV_PCM_FORMAT_*.
+> 
+> Also fix a small grammar error while we're here.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202404170103.ySYwieqi-lkp@intel.com/
+> Signed-off-by: John Watts <contact@jookia.org>
 
-When using davinci-mcasp as CPU DAI with simple-card, there are some
-conditions that cause simple-card to finish registering a sound card before
-davinci-mcasp finishes registering all sound components. This creates a
-non-working sound card from userspace with no problem indication apart
-from not being able to play/record audio on a PCM stream. The issue
-arises during simultaneous probe execution of both drivers. Specifically,
-the simple-card driver, awaiting a CPU DAI, proceeds as soon as
-davinci-mcasp registers its DAI. However, this process can lead to the
-client mutex lock (client_mutex in soc-core.c) being held or davinci-mcasp
-being preempted before PCM DMA registration on davinci-mcasp finishes.
-This situation occurs when the probes of both drivers run concurrently.
-Below is the code path for this condition. To solve the issue, defer
-davinci-mcasp CPU DAI registration to the last step in the audio part of
-it. This way, simple-card CPU DAI parsing will be deferred until all
-audio components are registered.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Fail Code Path:
+Best regards,
+Jernej
 
-simple-card.c: probe starts
-simple-card.c: simple_dai_link_of: simple_parse_node(..,cpu,..) returns EPROBE_DEFER, no CPU DAI yet
-davinci-mcasp.c: probe starts
-davinci-mcasp.c: devm_snd_soc_register_component() register CPU DAI
-simple-card.c: probes again, finish CPU DAI parsing and call devm_snd_soc_register_card()
-simple-card.c: finish probe
-davinci-mcasp.c: *dma_pcm_platform_register() register PCM  DMA
-davinci-mcasp.c: probe finish
+> ---
+> This is a quick fix for a type error found by the kernel test robot.
+> ---
+>  sound/soc/sunxi/sun4i-i2s.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+> index 59830f2a0d30..5f8d979585b6 100644
+> --- a/sound/soc/sunxi/sun4i-i2s.c
+> +++ b/sound/soc/sunxi/sun4i-i2s.c
+> @@ -156,7 +156,7 @@ struct sun4i_i2s;
+>  /**
+>   * struct sun4i_i2s_quirks - Differences between SoC variants.
+>   * @has_reset: SoC needs reset deasserted.
+> - * @pcm_formats: available PCM formats
+> + * @pcm_formats: available PCM formats.
+>   * @reg_offset_txdata: offset of the tx fifo.
+>   * @sun4i_i2s_regmap: regmap config to use.
+>   * @field_clkdiv_mclk_en: regmap field to enable mclk output.
+> @@ -176,7 +176,7 @@ struct sun4i_i2s;
+>   */
+>  struct sun4i_i2s_quirks {
+>  	bool				has_reset;
+> -	snd_pcm_format_t		pcm_formats;
+> +	u64				pcm_formats;
+>  	unsigned int			reg_offset_txdata;	/* TX FIFO */
+>  	const struct regmap_config	*sun4i_i2s_regmap;
+>  
+> 
+> ---
+> base-commit: 66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
+> change-id: 20240417-sunxi_s32_fix-ef5354b40fb4
+> 
+> Best regards,
+> 
 
-Cc: stable@vger.kernel.org
-Fixes: 9fbd58cf4ab0 ("ASoC: davinci-mcasp: Choose PCM driver based on configured DMA controller")
-Signed-off-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
----
- sound/soc/ti/davinci-mcasp.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-index b892d66f78470..1e760c3155213 100644
---- a/sound/soc/ti/davinci-mcasp.c
-+++ b/sound/soc/ti/davinci-mcasp.c
-@@ -2417,12 +2417,6 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 
- 	mcasp_reparent_fck(pdev);
- 
--	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
--					      &davinci_mcasp_dai[mcasp->op_mode], 1);
--
--	if (ret != 0)
--		goto err;
--
- 	ret = davinci_mcasp_get_dma_type(mcasp);
- 	switch (ret) {
- 	case PCM_EDMA:
-@@ -2449,6 +2443,12 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 		goto err;
- 	}
- 
-+	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
-+					      &davinci_mcasp_dai[mcasp->op_mode], 1);
-+
-+	if (ret != 0)
-+		goto err;
-+
- no_audio:
- 	ret = davinci_mcasp_init_gpiochip(mcasp);
- 	if (ret) {
--- 
-2.34.1
+
 
