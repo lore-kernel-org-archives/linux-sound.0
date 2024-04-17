@@ -1,269 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1011411EE;
-	Wed, 17 Apr 2024 14:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2F3146D7A;
+	Wed, 17 Apr 2024 15:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713363361; cv=none; b=eCc2O0iRDefxSb+v4NdBd2pO6SU5/dWtj26lcDpesXdGGxRvmxzhJYWeREOhltjVTzD9A5OzL1tGGJYbIOuopofu4/Q9S/UmJb3ayOkIZSrt0Z9TwpEuRI0BoaVuseWoDtgGmwxAtfjTQmq8TCiIsc8pBYiGW7XI847/1wNNyXE=
+	t=1713367105; cv=none; b=jc30cybiA916xzAv/joPLki4s4Hh8pEFuP19uFyJBdXTwOj/6LNFOA7ZgLMyUuTxXC7C4JqDGFnvwuOgBTXE0LbM/bzFzDs5MoLAkZp/SzoNWxbg7RvoD+MWF3WxCtJ5dIljPU+BTChndGeYkcoYy7HMgvCdHNUxsuLMhvCvWoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713363361; c=relaxed/simple;
-	bh=f39lfsHN5Os0P7FTVoBlrkp1C5yLiIyaNXce6Srsymw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=LQz5XnHTUtuu9JjrIFllfVuTJ97/7dCo1ZiII0wJ46cRfnlVDVurWCkvUMGCJ/aQ2KxRSkZjJ/HBSzm+E/pXdKiCI9ScxtuFSIRW8qygOZyT8t6KM0RvgsTMlPZkoqwaUCBNWwcXcxl2e0B0+I68nbmZY8Pjpf97XmlT/DhPC68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8LbVcby; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713367105; c=relaxed/simple;
+	bh=UCvKgH15XtcWuuJM3Et1GONeKzZjSa8bZhAbQjjlMj8=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LOaTwu32U2PLArFDmZ8jAfdHwgdqmPq+wG+XA3X+X2y570cPchgSKjNx81kXS01nFuyrxAxAnGE75u1HohCG41LzToSWpqRq994tQptchhGV8gEql5DWmpiDCpxWEJuxyp91fjcoYJ/x1Gwq6UUCa7/a76lgFZwBqm5J63UwEnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gTi0NYPs; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8LbVcby"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60B2C116B1;
-	Wed, 17 Apr 2024 14:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713363361;
-	bh=f39lfsHN5Os0P7FTVoBlrkp1C5yLiIyaNXce6Srsymw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=B8LbVcbyQmYQhv/ZuWhvwQ1lAitYwRhlKa/SmQXictKX7bC6JPUgUPOFJZmY0pwps
-	 divUejga0QX9/kzk6Nkl0gJgXfEUGppzx5fArDF8vyys9iS644LxwvZyO2B2EWW+2D
-	 5S0/NnVrt90WT5Sg4Slc3+S/wRLlVu1DJzjHg+1QCgjIZ5jpSZkU22pVH0qzeriEOa
-	 rYkR7xujtCTLNzQEXr4wWZyx9wa8Yy9aOnHhe2LjRPG8qjRPH/Yfg/o/JEbGaIyy64
-	 8xEejozNXhW/tN7z/hg7I7zylSzBfXEhjaMYM7Yk+v9nfCPgR6OrzB9DzkL8EmiKPd
-	 ZrPGcBqNBzwiQ==
-Message-ID: <c3bcefc9-61de-44aa-8412-17ea42e7048c@kernel.org>
-Date: Wed, 17 Apr 2024 16:16:00 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gTi0NYPs"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43HEOFsx006689;
+	Wed, 17 Apr 2024 10:18:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:references:in-reply-to:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=nrN3WbjM3RczYinOD+lIxoJ8mIYpDnnuJD9PvOqCy/A=; b=
+	gTi0NYPsGxp67YyQT8KcF1ra/p19m+AJ/ciU3WCICu5NkZGSXlb8XI47h2LF8w1R
+	bTOVMcBnTsPFaO6WioFmt72ZWnTi3uWv23MOONqEvW1QdYIIXOolHABv2cQOXqMp
+	PZU2u+8/tdmeTwvsHiwrXTi3HCcFTf+VCLlD+MT7Na+hYREIbVjtXePf4wmA7KMs
+	z5uCCywDJAa6t7qtrPbq8jUWSHGCU7vpL1zmAKCtzgLixTHaWf9jLnIBWvuvlE2X
+	sXJjbZde8VXSiaMAWN3JCSHpuU1z90Pl+DrDD7Z//GGOv2PzLtobxDZAax/HILz7
+	3AilllyD/5xQIFcgxFSYHQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xfpfhutkb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Apr 2024 10:18:11 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 17 Apr
+ 2024 16:18:09 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
+ via Frontend Transport; Wed, 17 Apr 2024 16:18:09 +0100
+Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.64.201])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 3C3B1820245;
+	Wed, 17 Apr 2024 15:18:09 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: 'ArcticLampyrid' <ArcticLampyrid@outlook.com>
+CC: <david.rhodes@cirrus.com>, <james.schulman@cirrus.com>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <rf@opensource.cirrus.com>,
+        <stable@vger.kernel.org>
+References: <335eb6d4-424e-43e5-8990-3d87ad579e7c@opensource.cirrus.com> <TYCP286MB25356BFBD3D67D4E1FD09732C4092@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+In-Reply-To: <TYCP286MB25356BFBD3D67D4E1FD09732C4092@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+Subject: RE: Re: [PATCH] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
+Date: Wed, 17 Apr 2024 16:18:09 +0100
+Message-ID: <003501da90da$7495b710$5dc12530$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: fsl,ssi: Convert to YAML
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1713345932-6408-1-git-send-email-shengjiu.wang@nxp.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <1713345932-6408-1-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQLIObYyTwZEKKzZlbkEcITlLVX1/QM8HhB0r3daXwA=
+X-Proofpoint-ORIG-GUID: 6IAQS1ViQKnTZA5g3nJzB0i56MgXvlqQ
+X-Proofpoint-GUID: 6IAQS1ViQKnTZA5g3nJzB0i56MgXvlqQ
+X-Proofpoint-Spam-Reason: safe
 
-On 17/04/2024 11:25, Shengjiu Wang wrote:
-> Convert the fsl,ssi binding to YAML.
+Hi,
+
+To clarify, was the log you attached here using:
+ 	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0,
+0}, 0, 2, -1, 0, 0, 0 },
+Or was it using your original value (index 1)?
+
+The Speaker ID for this laptop should be index 2, if my ACPI for this
+laptop is correct.
+Both amps use the same GPIO for the interrupt line, thus the interrupt
+is shared, and there is only a single interrupt line.
+Disabling the interrupt on the second laptop is not a good idea, since
+the interrupts are used to detect and recover from errors.
+
+For further investigation, can you create a bugzilla ticket at the
+below address and CC Cirrus Patches (patches@opensource.cirrus.com) to
+it.
+
+https://bugzilla.kernel.org/
+
+Can you also mention which distro you are using, as well which Kernel
+you are using.
+Also, can you please attach a dmesg of the error, as well as the
+acpidump of your laptop.
+($ acpidump > acpidump.out)
+(You may need to install acpica-tools to do this)
+
+Thanks,
+Stefan
+
+> -----Original Message-----
+> From: ArcticLampyrid <ArcticLampyrid@outlook.com>
+> Sent: Monday, April 15, 2024 5:50 PM
+> To: sbinding@opensource.cirrus.com
+> Cc: ArcticLampyrid@outlook.com; david.rhodes@cirrus.com;
+> james.schulman@cirrus.com; linux-kernel@vger.kernel.org; linux-
+> sound@vger.kernel.org; patches@opensource.cirrus.com;
+> rf@opensource.cirrus.com; stable@vger.kernel.org
+> Subject: Re: Re: [PATCH] ALSA: hda/realtek: Fix internal speakers
+for Legion
+> Y9000X 2022 IAH7
 > 
+> > According to the ACPI that I have access to, this is not correct -
+the
+> > Speaker ID is on index 2 not index 1.
+> > Index 1 has a reference to the interrupt line. Therefore this
+should be:
+> >
+> > 	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
+> }, 0, 2, -1, 0, 0, 0 },
+> 
+> Sorry, but I'm unable to retrieve the speaker ID index from my BIOS.
+> Please tell me how to check it, thanks.
+> 
+> I've tried using `spkid_gpio_index = 2`, but haven't noticed any
+changes.
+> 
+> > The reason for any issue you see may be
+> > because you have assigned the speaker id for the interrupt gpio in
+ACPI
+> > as mentioned above.
+> 
+> Despite changing `spkid_gpio_index` to 2, it hasn't worked with
+> `generic_dsd_config`.
+> 
+> The journal logs show:
+> ```log
+> kernel: Serial bus multi instantiate pseudo device driver
+CSC3551:00:
+> Instantiated 2 I2C devices.
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Adding DSD
+properties
+> for 17AA386E
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Using extra _DSD
+> properties, bypassing _DSD in ACPI
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Cirrus Logic
+CS35L41
+> (35a40), Revision: B2
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Adding DSD
+properties
+> for 17AA386E
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Using extra _DSD
+> properties, bypassing _DSD in ACPI
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Reset line busy,
+> assuming shared reset
+> kernel: genirq: Flags mismatch irq 58. 00002088 (cs35l41 IRQ1
+Controller)
+> vs. 00002088 (cs35l41 IRQ1 Controller)
+> kernel:  cs35l41_hda_probe+0x94b/0x9d0 [snd_hda_scodec_cs35l41
+> 5706d5af6d4d4abb9d294b49d5cd4cc8a51aad9d]
+> kernel:  ? __pfx_cs35l41_i2c_driver_init+0x10/0x10
+> [snd_hda_scodec_cs35l41_i2c
+> 8858b01ad506c8ac36ad9a656c7cb71d39d6ec09]
+> kernel: cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Failed to request
+IRQ
+> 58 for cs35l41 IRQ1 Controller: -16
+> kernel: cs35l41-hda: probe of i2c-CSC3551:00-cs35l41-hda.1 failed
+with
+> error -16
+> ```
+> 
+> I believe this error might be caused by the configuration of the
+same IRQ
+> multiple times.
+> 
+> Additionally, I checked the Cirrus SmartAMP driver on Windows, which
+> appears to use only one IRQ (ID 58) on my device.
+> Therefore, I don't believe there is a need to configure two IRQs on
+my
+> device.
+> 
+> The message `Flags mismatch 00002088 vs. 00002088` is confusing.
+> Further investigation reveals that the following check in
+`__setup_irq`
+> failed:
+> ```c
+> if (irqd_trigger_type_was_set(&desc->irq_data)) {
+>     oldtype = irqd_get_trigger_type(&desc->irq_data);
+> } else {
+>     oldtype = new->flags & IRQF_TRIGGER_MASK;
+>     irqd_set_trigger_type(&desc->irq_data, oldtype);
+> }
+> 
+> if (!((old->flags & new->flags) & IRQF_SHARED) ||
+>     (oldtype != (new->flags & IRQF_TRIGGER_MASK)))
+>     goto mismatch;
+> ```
+> 
+> While the previous request used flags `0x00002088 = IRQF_ONESHOT |
+> IRQF_SHARED | IRQF_TRIGGER_LOW`,
+> the `oldtype` was actually `IRQF_TRIGGER_RISING` (0x1) rather than
+> `IRQF_TRIGGER_LOW` (0x8), leading to the mismatch.
+> 
+> I am new to Linux Kernel, not sure if this is expected behavior or a
+bug for
+> `IRQF_SHARED`.
+> Ideally, a clearer message may be provided to facilitate
+understanding.
+> 
+> Sorry to bother you if I make some foolish mistakes.
 
-...
-
-> +description:
-> +  Notes on fsl,playback-dma and fsl,capture-dma
-> +  On SOCs that have an SSI, specific DMA channels are hard-wired for playback
-> +  and capture.  On the MPC8610, for example, SSI1 must use DMA channel 0 for
-> +  playback and DMA channel 1 for capture.  SSI2 must use DMA channel 2 for
-> +  playback and DMA channel 3 for capture.  The developer can choose which
-> +  DMA controller to use, but the channels themselves are hard-wired.  The
-> +  purpose of these two properties is to represent this hardware design.
-> +
-> +  The device tree nodes for the DMA channels that are referenced by
-> +  "fsl,playback-dma" and "fsl,capture-dma" must be marked as compatible with
-> +  "fsl,ssi-dma-channel".  The SOC-specific compatible string (e.g.
-> +  "fsl,mpc8610-dma-channel") can remain.  If these nodes are left as
-> +  "fsl,elo-dma-channel" or "fsl,eloplus-dma-channel", then the generic Elo DMA
-> +  drivers (fsldma) will attempt to use them, and it will conflict with the
-> +  sound drivers.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - fsl,imx50-ssi
-> +              - fsl,imx53-ssi
-> +          - enum:
-> +              - fsl,imx51-ssi
-> +          - enum:
-> +              - fsl,imx21-ssi
-
-That's a mess... you cannot have enums as fallbacks.
-
-> +      - items:
-> +          - enum:
-> +              - fsl,imx25-ssi
-> +              - fsl,imx27-ssi
-> +              - fsl,imx35-ssi
-> +              - fsl,imx51-ssi
-> +              - fsl,imx6q-ssi
-> +              - fsl,imx6sl-ssi
-> +              - fsl,imx6sx-ssi
-> +          - enum:
-> +              - fsl,imx21-ssi
-> +              - fsl,imx51-ssi
-> +      - items:
-> +          - const: fsl,mpc8610-ssi
-> +
-> +  cell-index:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1, 2]
-> +    description: The SSI index
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  fsl,fifo-depth:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      The number of elements in the transmit and receive FIFOs.
-> +      This number is the maximum allowed value for SFCSR[TFWM0].
-> +
-> +  clocks:
-> +    items:
-> +      - description: The ipg clock for register access
-> +      - description: clock for SSI master mode
-> +    minItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ipg
-> +      - const: baud
-> +    minItems: 1
-> +
-> +  dmas:
-> +    oneOf:
-> +      - items:
-> +          - description: DMA controller phandle and request line for RX
-> +          - description: DMA controller phandle and request line for TX
-> +      - items:
-> +          - description: DMA controller phandle and request line for RX0
-> +          - description: DMA controller phandle and request line for TX0
-> +          - description: DMA controller phandle and request line for RX1
-> +          - description: DMA controller phandle and request line for TX1
-> +
-> +  dma-names:
-> +    oneOf:
-> +      - items:
-> +          - const: rx
-> +          - const: tx
-> +      - items:
-> +          - const: rx0
-> +          - const: tx0
-> +          - const: rx1
-> +          - const: tx1
-> +
-> +  codec-handle:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to a 'codec' node that defines an audio
-> +      codec connected to this SSI.  This node is typically
-> +      a child of an I2C or other control node.
-> +
-> +  fsl,fiq-stream-filter:
-> +    type: boolean
-> +    description:
-> +      Disabled DMA and use FIQ instead to filter the codec stream.
-> +      This is necessary for some boards where an incompatible codec
-> +      is connected to this SSI, e.g. on pca100 and pcm043.
-> +
-> +  fsl,mode:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum: [ ac97-slave, ac97-master, i2s-slave, i2s-master,
-> +            lj-slave, lj-master, rj-slave, rj-master ]
-> +    description: |
-> +      "ac97-slave" - AC97 mode, SSI is clock slave
-> +      "ac97-master" - AC97 mode, SSI is clock master
-> +      "i2s-slave" - I2S mode, SSI is clock slave
-> +      "i2s-master" - I2S mode, SSI is clock master
-> +      "lj-slave" - Left justified mode, SSI is clock slave
-> +      "lj-master" - Left justified mode, SSI is clock master
-> +      "rj-slave" - Right justified mode, SSI is clock slave
-> +      "rj-master" - Right justified mode, SSI is clock master
-> +
-> +  fsl,ssi-asynchronous:
-> +    type: boolean
-> +    description: If specified, the SSI is to be programmed in asynchronous
-> +      mode.  In this mode, pins SRCK, STCK, SRFS, and STFS must
-> +      all be connected to valid signals.  In synchronous mode,
-> +      SRCK and SRFS are ignored.  Asynchronous mode allows
-> +      playback and capture to use different sample sizes and
-> +      sample rates.  Some drivers may require that SRCK and STCK
-> +      be connected together, and SRFS and STFS be connected
-> +      together.  This would still allow different sample sizes,
-> +      but not different sample rates.
-> +
-> +  fsl,playback-dma:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Phandle to a node for the DMA channel to use for
-> +      playback of audio.  This is typically dictated by SOC
-> +      design. Only used on Power Architecture.
-> +
-> +  fsl,capture-dma:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Phandle to a node for the DMA channel to use for
-> +      capture (recording) of audio.  This is typically dictated
-> +      by SOC design. Only used on Power Architecture.
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +    description: optional, some dts node didn't add it.
-
-The question is: is this DAI or not?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - fsl,fifo-depth
-> +
-> +unevaluatedProperties: false
-
-This must be additionalProperties:false. Use example-schema as
-reference... unless you want to reference dai-common.yaml, but then that
-one is missing.
-
-Best regards,
-Krzysztof
 
