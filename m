@@ -1,105 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D2F17F7
-	for <linux-sound@vger.kernel.org>; Wed, 17 Apr 2024 07:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1320E6F068;
+	Wed, 17 Apr 2024 08:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713340684; cv=none; b=gkB1wzE8suBx263Zjm/zjKb0uQjp8K9Gdms6fCFmJcdsjTEbpnP/aeIZO2QphpA2zH1XJOUIEOy5Vo9o89HOs4XoaHxzYrpwixXNKAv5GK1Ou82m6bgOs1zQNabM8zH48L0lgIryxKtFFXjwFvnSmOklrZ4gmbu44Mxego9s+Dw=
+	t=1713340890; cv=none; b=MG14JFPgRQgoW1/GDeEkxmQrhN9CeOqx+JrEytkGl+DQem98ebJDx3NjbCfnMhufemmsS1rOQ8soRb0USAIY9sWffsx4L8VYECAygZMgROgqs6mYUMluqW3yA3Dzd0eksN8qd4PmDCWaTdz7tFzLSZhEFx+KvlH3dV4fBMozy+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713340684; c=relaxed/simple;
-	bh=6CFLzASbWsy9j5PovUe2bZlIC18t8wN5CiLuLsKFLOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMBbkbjJByGhC4cwNrBHLZO7gsjLF5J9TR9hVt1RVID463K7hQ8DPu1DwlWMTFhn0n6QS2GSOasAH3x77fG4EnE8XYgXOej4/IcZh34xd0nMvNgmGa25/vrFUIWIIMaGCbKzwcd7h4eo5vPFa1/bBYVD881HFOJvqPPRym1Sq5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSCOanDL; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1713340890; c=relaxed/simple;
+	bh=+AHxkBxgK0JVVQSGYJS1zewwUaQq0VBfzWVYWCsdqJ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rTNgYcrgbbxGDYJdhI2j2cy7Z2Jje+n/oWEZ+rQe5hppXZ8cTdvRQqqh+LGsTFPJ5dlRHGWbWfHCmixIREVidxAKfI8GkB0yB4hBYchBbYYlXnOpp0+2KezdmWVQUGuu5O+S1S435AfiiLHVu86CUmLk6mcTrkG01BuoFqFonOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzMNYHiF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSCOanDL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzMNYHiF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713340684; x=1744876684;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6CFLzASbWsy9j5PovUe2bZlIC18t8wN5CiLuLsKFLOY=;
-  b=XSCOanDLDJ2mmGQeb22BZzxVJnLthPA5qWNoF+EKAD3R9bh0McttuyR2
-   PiDi9zC4XDAimqNP+VvumR7ahY+H0SF0Cf1iephIziCej+0vO2JNHDxuP
-   D/maRhZzIXZE0V3wTFuCEuFyuhRjxvH2H6ZqfFUuVWnA9dhDUlafGdoQ0
-   Gilyf9XXErvX1BfLzDL1Ks4WD0/nFclR1lt56gdKQEvbxesDe1yhHthtc
-   m1tok2GifuFsKfpLgVCGpHpSZ9xBC8bIREEu+nhd7XEFzVsrU4YZCiMu3
-   DgNd0kleLPS91P14uuokP7v1Yq5EMLqqV/RW0FEr8QW/chFmO9JP3O6CC
+  t=1713340889; x=1744876889;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+AHxkBxgK0JVVQSGYJS1zewwUaQq0VBfzWVYWCsdqJ0=;
+  b=mzMNYHiFIB3UQWJPN3grGTiBRUcZaBshJGEpUNghduJHcpM79o2+8HrO
+   W1Kp8Dw6K756ATSyTEsqweliioO5z8imzs0ZbBu7XPuYwBzHKBkK3M4rQ
+   C70tZXZCSTSQRzi/6r/Z+GCpXxVmJzT/Bf75bQxTv42ZIqKCbVe/CYeJW
+   OJTUfvHkKBWfIxZLLEPt8Oe+ex6/hYkA++t+xFh225+fISJxFJmcOUSEX
+   CDCVvPZOxbjJlOxM3Etyfz8laiNKNZGMttu4hB6HUKR2jOrR7K33X4Mec
+   slsgiQEKZsPA0tVw0IcGbpOGRxFCV5SfyeNXQqwksUTKFeBJN3XEItKf2
    g==;
-X-CSE-ConnectionGUID: mIo6dLCHQFycSva0C4I6pA==
-X-CSE-MsgGUID: k5T6gww7Rj2F4iJLG19Bnw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12602644"
+X-CSE-ConnectionGUID: FdCnuTpwQjSxuXsnHN0EQg==
+X-CSE-MsgGUID: pNXAYMt6QLKuwpksWjFJiA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8645469"
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="12602644"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 00:58:03 -0700
-X-CSE-ConnectionGUID: xAl/NlhBQGWCc+//yxi9MQ==
-X-CSE-MsgGUID: syg1YQEZQEK6ZMLPlO+Vcg==
+   d="scan'208";a="8645469"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 01:01:29 -0700
+X-CSE-ConnectionGUID: B+QfucwGScGx7lVtv3A5OA==
+X-CSE-MsgGUID: Fe65QYkKT6Cu91ekTALwTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
-   d="scan'208";a="53508852"
-Received: from vjihanak-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.251.216.41])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 00:58:01 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	chaitanya.kumar.borah@intel.com,
-	yung-chuan.liao@linux.intel.com,
-	rodrigo.vivi@intel.com
-Subject: [PATCH] ASoC: SOF: Core: Handle error returned by sof_select_ipc_and_paths
-Date: Wed, 17 Apr 2024 10:58:04 +0300
-Message-ID: <20240417075804.10829-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.44.0
+   d="scan'208";a="22619310"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 01:01:23 -0700
+Message-ID: <f75809bb-1594-4bcd-9362-5aee8df04375@linux.intel.com>
+Date: Wed, 17 Apr 2024 10:01:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 71/74] x86/cpu/vfm: Update
+ sound/soc/intel/avs/boards/es8336.c
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20240416211941.9369-1-tony.luck@intel.com>
+ <20240416212257.10009-1-tony.luck@intel.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240416212257.10009-1-tony.luck@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The patch which fixed the missing remove_late() calls missed a case
-when sof_select_ipc_and_paths() could return with error and in this
-case sof_init_environment() would just return with 0.
+On 4/16/2024 11:22 PM, Tony Luck wrote:
+> New CPU #defines encode vendor and family as well as model.
+> 
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
+>   sound/soc/intel/avs/boards/es8336.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
+> index 5c90a6007577..6c86c581877e 100644
+> --- a/sound/soc/intel/avs/boards/es8336.c
+> +++ b/sound/soc/intel/avs/boards/es8336.c
+> @@ -18,6 +18,7 @@
+>   #include <sound/pcm_params.h>
+>   #include <sound/soc.h>
+>   #include <sound/soc-acpi.h>
+> +#include <asm/cpu_device_id.h>
+>   #include <asm/intel-family.h>
+>   #include "../utils.h"
+>   
+> @@ -153,9 +154,9 @@ static int avs_es8336_hw_params(struct snd_pcm_substream *substream,
+>   	int clk_freq;
+>   	int ret;
+>   
+> -	switch (boot_cpu_data.x86_model) {
+> -	case INTEL_FAM6_KABYLAKE_L:
+> -	case INTEL_FAM6_KABYLAKE:
+> +	switch (boot_cpu_data.x86_vfm) {
+> +	case INTEL_KABYLAKE_L:
+> +	case INTEL_KABYLAKE:
+>   		clk_freq = 24000000;
+>   		break;
+>   	default:
 
-Do not ignore the error code returned by sof_select_ipc_and_paths().
-
-Fixes: 90f8917e7a15 ("ASoC: SOF: Core: Add remove_late() to sof_init_environment failure path")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
-Hi Mark,
-
-Can you queue this as a fix for 6.9 cycle as 90f8917e7a15 already present
-in 6.9-rc3
-
-Thank you,
-Peter
-
- sound/soc/sof/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
-index cc84d4c81be9..238bda5f6b76 100644
---- a/sound/soc/sof/core.c
-+++ b/sound/soc/sof/core.c
-@@ -350,7 +350,9 @@ static int sof_init_environment(struct snd_sof_dev *sdev)
- 	}
- 
- 	ret = sof_select_ipc_and_paths(sdev);
--	if (!ret && plat_data->ipc_type != base_profile->ipc_type) {
-+	if (ret) {
-+		goto err_machine_check;
-+	} else if (plat_data->ipc_type != base_profile->ipc_type) {
- 		/* IPC type changed, re-initialize the ops */
- 		sof_ops_free(sdev);
- 
--- 
-2.44.0
-
+Any chance we could adjust topic to follow subsystem rules?
+Something like:
+ASoC: Intel: avs: boards: Update defines used in es8336
+or something like that?
