@@ -1,59 +1,59 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06623C0C;
-	Wed, 17 Apr 2024 04:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB1F63A;
+	Wed, 17 Apr 2024 04:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713326705; cv=none; b=bC/MYT65VMzVJBiXlLOJiUC0z0xXE5Z4fLmBXr7aJnnqzbuGisVLN0PDfOjPVtoShSeV1fjoofawyjKAnELZNvtgIhvGZBFAH/hJpG071afBHafheMSJnEh0pyih+ggY24UFd/D7a3z9o57/oLaoxGqZnIMb2kJ7U8Ga9FtkPT4=
+	t=1713327150; cv=none; b=qw+gdgtfQLRxTyguRvrBuWjqe6TloZ+O+YnTOqWUnmdtfPsP2aTcNpfpyM3Tyv654DP0cixQH6qJYre9gzor/Syu9H6mYiaddGr42nVzI1snAfRt7JDqpzyQ+fc/rYUS9aU/DXvhUWZsqxJV5z0RlNdpzV89eO5cKwIubaxsYP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713326705; c=relaxed/simple;
-	bh=HOfPBSdVGNBfQOF+mbSVsnrPrK9o98qHLaKYRUCVpJY=;
+	s=arc-20240116; t=1713327150; c=relaxed/simple;
+	bh=NRngM+Q3roJ2Mxn9lpnA319f1CtQxNU1XyTjo+i/N3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOf4uT1JNOTXcbdsXO0KIXSv76mFv+VfK1fhjNaqkG5gSZrNC42zYpoKEOQtkqmMmqgGJzSKI69fp2YQSz0k7SrwdFzTHZxwqybS7+fQN/6ICkfw81c4bRR7hQonI/bFOUghdcmG01bZCH84jPWP6WwSkM5bv6jC4N8xkeQ9MMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwLxW4TE; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=iuIrN+nuTDZZ1S0dEJb/0i2FEI65viv7zlewdfOTyFPvtE/TTlCtlDH5X78RxczdJLd+pnMZfK3nDFxWWv7G9mfY/VxoKc8H9u6KXo0p4oP7imiDXUt1JmDivp5dq76JUySZucGmNPgnUQpPCltQ+DoxlauwGO0MqyQIW48uLDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gB+jkm2K; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwLxW4TE"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6eff2be3b33so2938983b3a.2;
-        Tue, 16 Apr 2024 21:05:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gB+jkm2K"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e2c725e234so3206825ad.1;
+        Tue, 16 Apr 2024 21:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713326704; x=1713931504; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713327148; x=1713931948; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=88i8hZp8WQwdMQpbE4p6Q/JZcugf1vEOIIe60eOyG/s=;
-        b=HwLxW4TEpi+nzd/SMLeBb9qLT+BAB1GkGWEGn9Y5jBStBJTmOebV5ArysDsMN8KfvD
-         Vs3g1gfpImgQNEZBTS7XEHtfSxOqZwyGL7QjkZ2mUaqKwoCM7h5it/Z91d+eUX/RNGy3
-         lwqqQ1vUSIs29eYUxdrXrkDNbh6CC4K3iWgR1YBBzDEocBSUO2wwdXDiM6FL/1nXAIox
-         F7HmrJ/tXR7kRKpHKfUMw1phjcAbg4dwcnxFjVphVZsk1kXfXSM2sCG/rRjdTM+kiHe4
-         67C0z3oZq0jA0gz3Xv19q48ut+PQxeh8x2vsosGymnoZ1sBkXf5EDsSPoG+llwZ1pqs0
-         sjjg==
+        bh=RhIYiXJVlB/Y7GnKLczcpNtj9joWX+r+4DAHAsHa+IE=;
+        b=gB+jkm2KoxVWWNadv8J3nniYIjVCVpcZTq927tU6CjDhLcstvvTD5AdnwPv8CF8fJb
+         CO8OL2qNusbMdhWeolp3MgXbT3vzQFYe2aXpt86fHN9iy5cuZiULsWglMm30Tul3U2GC
+         52gyMWrbrsYxbw7j6jcbzxXbnuGWevhCWCk1VbA+yJg4WnbxVJmlm8rIud9WlcPH4yog
+         qY5auwkUPRIZ14+9gngbXxM3vg2nUDOZCui9XrUaEC4IfCOpa3x6S2JjLAG5avwSH0dR
+         kK6W3z1wBssZ/gGJegBIVz/PLALgeFvl5TY9iPhM829SI0+/cVV4bOUzkjJDlzTUL+pi
+         q/VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713326704; x=1713931504;
+        d=1e100.net; s=20230601; t=1713327148; x=1713931948;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=88i8hZp8WQwdMQpbE4p6Q/JZcugf1vEOIIe60eOyG/s=;
-        b=KNprM/SpQicohyTC0R4qEeGD4bcNZUyjxsg+SRXnu2i/KjX8MhgVtbWMEdXllLsD9s
-         qdzgOM+pmpOVn2qisiTOIUlTWGgnDLbR+RI/U+525BTJqoiL6GOrAqrm1gZsbX8/2IsF
-         s+tIN5Jo2DvYA62m9Oua0GuKX6QxDsMB2K0p3vDr9lxZdt2RIFVMDiWsDWE+SRKJra7n
-         f2cLh4vbHrm7mAnYgKNrBEkLlI11KFuUuGiMGiYEpXbyjDegNCofpgGLMm+NOSwZIHDu
-         QUM/GyTI0/fAAT9a332fjibNEnnU811NaPN3+MDoYa1Zit2IyeKyoHH+eLL5hNJ3eqqU
-         GKMw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpJ6onPg/QWCyV70iriyWZgVJGLIT8UhmZBRC8lp6FubbXyDeKZ7JGGdWyWbDUbYEacamsmO7IzdEGfSwWz8xqa09ntDjMtKicoL4wrrC4NtkUH6HKzkC09RlT+GN8tNeAvpiF6C25ykzkYHBREx6a7BU5lT5kV81M/VdvR4Hk+DLLfCI=
-X-Gm-Message-State: AOJu0YxcZMElwR34/y790tM5cKvA3H/Gh0LkNywP/KGlCeoHaRi9PdR0
-	b1BlTV/xxvq/iacKy5K8FbHW/vcq+xcAlw3yeLjGrZlc4LpUXHTE
-X-Google-Smtp-Source: AGHT+IG4lCy17MAMJdr91slgJvozQbRVeKZwyRaPLCviMwH0pkRyd3v0fm+QKx7eZYJ7QWGbovn62w==
-X-Received: by 2002:a05:6a00:1945:b0:6ec:fc71:3be2 with SMTP id s5-20020a056a00194500b006ecfc713be2mr16258358pfk.21.1713326703733;
-        Tue, 16 Apr 2024 21:05:03 -0700 (PDT)
+        bh=RhIYiXJVlB/Y7GnKLczcpNtj9joWX+r+4DAHAsHa+IE=;
+        b=cQf4o5GZqsNyLHQNoc2jHUsmS/9Doh4n9uqssHRQnJwBl+MFaaimhaLRkI3Tw6fBQT
+         ZKMmU/UIMMng7LxE+Yq1Ij3jgv7JeiS43mJdMAr4FT4YmagVpwXqbsdqUqJ9np8qOMsc
+         dndjr/Kd5Q2fJPEVZhHiYxxWqqGN9HTE2pp9IyIj0AysN+Jp7u9+TCu7KvVJObJBbvG8
+         uYOes/N/e1rogp/uiIVfF/udElI5vVSUJRwYHFjYQbhQ2Einek7OAjT9Jempd4IgSnYX
+         DzFi0ciTnDhyxnEXVlNe4gxqWlvVXz12nLVZnA/LJQ0qY4ncNWyqndmu/2XwQzeacucS
+         Im7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVMpnvRV6zTSMNLx6XxoI8qSITAlBB5aRfru/sU1JaNHSUWwNk8P1ajx3lkeOEGz0TZOEp4SpyGciK0OEKpHbsmD0sVAXjG86z8k9/8KEGHLRkUVrEjPo89zEQpxsa6QZgsFojDRvjcBiRtw7Yge6UZ4YboubKL/Y41ooANsHTBBvWwV+Q=
+X-Gm-Message-State: AOJu0YzdzxJ79L3yjmr6egjVPtjRqOpxRKOreZSs7NvfcF0esJK1tg5t
+	vlcEioicdjnB1r4en/40/9LR7t4VYEpmCS1vAjEl5iF16aHFvD3y
+X-Google-Smtp-Source: AGHT+IH3VXuHxDsrpxsJ7sWHqqjcTS0Q0pPVzw2bwoKl+q7mPpPwjHg36Ib9b5hA2BPfPv3v4cTWng==
+X-Received: by 2002:a17:902:f684:b0:1e4:4679:ec9a with SMTP id l4-20020a170902f68400b001e44679ec9amr6837302plg.13.1713327147847;
+        Tue, 16 Apr 2024 21:12:27 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id m13-20020aa78a0d000000b006eaaaf5e0a8sm9690628pfa.71.2024.04.16.21.05.02
+        by smtp.gmail.com with ESMTPSA id b6-20020a170902d50600b001e4e8278847sm10605223plg.56.2024.04.16.21.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 21:05:03 -0700 (PDT)
+        Tue, 16 Apr 2024 21:12:27 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 470991860FA40; Wed, 17 Apr 2024 11:05:00 +0700 (WIB)
-Date: Wed, 17 Apr 2024 11:05:00 +0700
+	id 38F2C1860FA40; Wed, 17 Apr 2024 11:12:24 +0700 (WIB)
+Date: Wed, 17 Apr 2024 11:12:24 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -69,10 +69,11 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Linux Sound System <linux-sound@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 07/12] ASoC: doc: dapm: extend initial descrption
-Message-ID: <Zh9KbP0BUDUT3cKi@archie.me>
+Subject: Re: [PATCH 08/12] ASoC: doc: dapm: describe how widgets and routes
+ are registered
+Message-ID: <Zh9MKK20Sf9Hu8AU@archie.me>
 References: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
- <20240416-dapm-docs-v1-7-a818d2819bf6@bootlin.com>
+ <20240416-dapm-docs-v1-8-a818d2819bf6@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,93 +81,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b7GZU7fJlI7GZVHh"
+	protocol="application/pgp-signature"; boundary="awLH51WHILFbIBpJ"
 Content-Disposition: inline
-In-Reply-To: <20240416-dapm-docs-v1-7-a818d2819bf6@bootlin.com>
+In-Reply-To: <20240416-dapm-docs-v1-8-a818d2819bf6@bootlin.com>
 
 
---b7GZU7fJlI7GZVHh
+--awLH51WHILFbIBpJ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 16, 2024 at 07:56:13AM +0200, Luca Ceresoli wrote:
+On Tue, Apr 16, 2024 at 07:56:14AM +0200, Luca Ceresoli wrote:
 > diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/d=
 apm.rst
-> index cab40a6b4c96..3a2fde1d31bf 100644
+> index 3a2fde1d31bf..3aca913c99fc 100644
 > --- a/Documentation/sound/soc/dapm.rst
 > +++ b/Documentation/sound/soc/dapm.rst
-> @@ -17,9 +17,27 @@ recompiling are required for user space applications t=
-o use it. DAPM makes
->  power switching decisions based upon any audio stream (capture/playback)
->  activity and audio mixer settings within the device.
+> @@ -251,8 +251,42 @@ a virtual widget - a widget with no control bits e.g.
 > =20
-> -DAPM spans the whole machine. It covers power control within the entire
-> -audio subsystem, this includes internal codec power blocks and machine
-> -level power systems.
-> +DAPM is based on two basic elements, called widgets and routes:
+>  This can be used to merge two signal paths together in software.
+> =20
+> -After all the widgets have been defined, they can then be added to the D=
+APM
+> -subsystem individually with a call to snd_soc_dapm_new_control().
+> +Registering DAPM controls
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 > +
-> + * a **widget** is every part of the audio hardware that can be enabled =
-by
-> +   software when in use and disabled to save power when not in use
-> + * a **route** is an interconnection between widgets that exists when so=
-und
-> +   can flow from one widget to the other
-> +
-> +All DAPM power switching decisions are made automatically by consulting =
-an
-> +audio routing graph. This graph is specific to each sound card and spans
-> +the whole sound card, so some DAPM routes connect two widgets belonging =
-to
-> +different components (e.g. the LINE OUT pin of a CODEC and the input pin=
+> +In many cases the DAPM widgets implemented statically in a ``static const
+> +struct snd_soc_dapm_widget`` array and the routes connecting them in a
+> +``static const struct snd_soc_dapm_route`` array in a codec driver, and
+> +simply declared via the ``dapm_widgets`` and ``num_dapm_widgets`` fields=
  of
-> +an amplifier).
+> +the ``struct snd_soc_component_driver`` so the driver registration will
+> +take care of populating them::
 > +
-> +The graph for the STM32MP1-DK1 sound card is shown in picture:
+> +  static const struct snd_soc_dapm_widget wm2000_dapm_widgets[] =3D {
+> +  	SND_SOC_DAPM_OUTPUT("SPKN"),
+> +  	SND_SOC_DAPM_OUTPUT("SPKP"),
+> +  	...
+> +  };
 > +
-> +.. kernel-figure:: dapm-graph.svg
-> +    :alt:   Example DAPM graph
-> +    :align: center
+> +  /* Target, Path, Source */
+> +  static const struct snd_soc_dapm_route wm2000_audio_map[] =3D {
+> +  	{ "SPKN", NULL, "ANC Engine" },
+> +  	{ "SPKP", NULL, "ANC Engine" },
+> +	...
+> +  };
 > +
-> +DAPM power domains
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  static const struct snd_soc_component_driver soc_component_dev_wm2000 =
+=3D {
+> +	...
+> +  	.dapm_widgets		=3D wm2000_dapm_widgets,
+> +  	.num_dapm_widgets	=3D ARRAY_SIZE(wm2000_dapm_widgets),
+> +	...
+> +  };
+> +
+> +In more complex cases the list of DAPM widgets and/or routes can be only
+> +known at build time. This happens for example when a driver supports
+> +different models having a different set of features. In those cases
+> +separate widgets and routes arrays implementing the case-specific featur=
+es
+> +can be registered programmatically by calling snd_soc_dapm_new_controls()
+> +and snd_soc_dapm_add_routes().
 > =20
->  There are 4 power domains within DAPM:
 > =20
-> @@ -48,12 +66,6 @@ Stream domain
->        Enabled and disabled when stream playback/capture is started and
->        stopped respectively. e.g. aplay, arecord.
-> =20
-> -All DAPM power switching decisions are made automatically by consulting =
-an audio
-> -routing graph of the whole machine. This graph is specific to each machi=
-ne and
-> -consists of the interconnections between every audio component (including
-> -internal codec components). All audio components that affect power are c=
-alled
-> -widgets hereafter.
-> -
-> =20
->  DAPM Widgets
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  Codec/DSP Widget Interconnections
 >=20
 
-The wording LGTM, thanks!
+LGTM, thanks!
 
 Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---b7GZU7fJlI7GZVHh
+--awLH51WHILFbIBpJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh9KbAAKCRD2uYlJVVFO
-o0m+APwMHE1k0TJ9ucDIKEakmToYvHcKnjrWJmxuigR6GgEZJQD8D46fkvIO6nwE
-IClRwzNZSt8vlPLDGZdHcBs9SP3uVgQ=
-=PQFt
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh9MJwAKCRD2uYlJVVFO
+o33kAP41KG431lltgPQpDCbTxsQtcEoh+C2ynC6FPJvYCr6JcwD+LATHVFcQsdB8
+7DX108eTl0+2iV0olAuT870LaKZGEQ8=
+=ryaT
 -----END PGP SIGNATURE-----
 
---b7GZU7fJlI7GZVHh--
+--awLH51WHILFbIBpJ--
