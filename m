@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CB1140E46;
-	Wed, 17 Apr 2024 14:03:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1011411EE;
+	Wed, 17 Apr 2024 14:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713362627; cv=none; b=Xd733AFzdXketEM9JobTfrn5IG4i1AVIMPsSlx2c1UBBK3jt4RfZ7ZQmIc9Kqyh5dz8i5FeMjKlKVIptfBioTa/cVYXZwZF3ZIAAPyKnH3RycY9FdcJW84wDCMHAK5SXmkC2upH9rlf36Vqk4ivs86VkrWJlHoujYLg0+E4jggg=
+	t=1713363361; cv=none; b=eCc2O0iRDefxSb+v4NdBd2pO6SU5/dWtj26lcDpesXdGGxRvmxzhJYWeREOhltjVTzD9A5OzL1tGGJYbIOuopofu4/Q9S/UmJb3ayOkIZSrt0Z9TwpEuRI0BoaVuseWoDtgGmwxAtfjTQmq8TCiIsc8pBYiGW7XI847/1wNNyXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713362627; c=relaxed/simple;
-	bh=XqGzLS6YzWodUCVd0W9Hr/EsFe20DCrl+FpyLzZkJxU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sIpaQmPDzcAEqcvKTR/+zq/int2HWi+JlgH0lxKuUyDTqnZl5hxAJUbYJ+WtLmB45mQTEYfp0zpLtGvOjwjeN1N66XhD+E2BsnPIEsbpjdiezthRK9teUVVqxSYObTwofoUUIsTXKXDxyeBnWQkTe2DgubUa3mUmzzATsB1eDU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTCfYUSW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713363361; c=relaxed/simple;
+	bh=f39lfsHN5Os0P7FTVoBlrkp1C5yLiIyaNXce6Srsymw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=LQz5XnHTUtuu9JjrIFllfVuTJ97/7dCo1ZiII0wJ46cRfnlVDVurWCkvUMGCJ/aQ2KxRSkZjJ/HBSzm+E/pXdKiCI9ScxtuFSIRW8qygOZyT8t6KM0RvgsTMlPZkoqwaUCBNWwcXcxl2e0B0+I68nbmZY8Pjpf97XmlT/DhPC68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8LbVcby; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTCfYUSW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04B2C072AA;
-	Wed, 17 Apr 2024 14:03:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8LbVcby"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60B2C116B1;
+	Wed, 17 Apr 2024 14:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713362625;
-	bh=XqGzLS6YzWodUCVd0W9Hr/EsFe20DCrl+FpyLzZkJxU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pTCfYUSWOyYxRanDvsgEq/VVLADNHcYYhQ+GHHXyEm4ybKZ0NWnS/e4UgSOZ8qzfg
-	 stIy1tLX9LQZCZzmmcf+kQMUP/NWuxPRzgznx/DB7cSedPkZMNOG3KJC1j5TUjQGbn
-	 TMXWwfugIP077F9yDpEBa4PSI8i125fobGFywj63qwqGi//+ty2QKCSU5SpFIbqo3n
-	 Vj/WKCG0x/OLiAazIkNvDg1v0D/7MQoIGOVRKOlgSkCAq0iSO65rShi4SW8HnU0v6c
-	 R4yYO/zhmhqy3trG5VKBY0ktKmoc0K9dkPtaLbTCTBJK7ZRqtLL2/MKuFANXit4aac
-	 HaqoLx2VdvSYA==
-Message-ID: <2e179356-425d-48cc-84db-0ea3e6203fba@kernel.org>
-Date: Wed, 17 Apr 2024 16:03:45 +0200
+	s=k20201202; t=1713363361;
+	bh=f39lfsHN5Os0P7FTVoBlrkp1C5yLiIyaNXce6Srsymw=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=B8LbVcbyQmYQhv/ZuWhvwQ1lAitYwRhlKa/SmQXictKX7bC6JPUgUPOFJZmY0pwps
+	 divUejga0QX9/kzk6Nkl0gJgXfEUGppzx5fArDF8vyys9iS644LxwvZyO2B2EWW+2D
+	 5S0/NnVrt90WT5Sg4Slc3+S/wRLlVu1DJzjHg+1QCgjIZ5jpSZkU22pVH0qzeriEOa
+	 rYkR7xujtCTLNzQEXr4wWZyx9wa8Yy9aOnHhe2LjRPG8qjRPH/Yfg/o/JEbGaIyy64
+	 8xEejozNXhW/tN7z/hg7I7zylSzBfXEhjaMYM7Yk+v9nfCPgR6OrzB9DzkL8EmiKPd
+	 ZrPGcBqNBzwiQ==
+Message-ID: <c3bcefc9-61de-44aa-8412-17ea42e7048c@kernel.org>
+Date: Wed, 17 Apr 2024 16:16:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Mighty <bavishimithil@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl,ssi: Convert to YAML
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240417134237.23888-1-bavishimithil@gmail.com>
+References: <1713345932-6408-1-git-send-email-shengjiu.wang@nxp.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,150 +86,183 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240417134237.23888-1-bavishimithil@gmail.com>
+In-Reply-To: <1713345932-6408-1-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/04/2024 15:42, Mighty wrote:
-> From: Mithil Bavishi <bavishimithil@gmail.com>
+On 17/04/2024 11:25, Shengjiu Wang wrote:
+> Convert the fsl,ssi binding to YAML.
 > 
-> Convert the OMAP4+ McPDM bindings to DT schema.
-> 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-> ---
 
-Please provide the changelog under ---.
+...
 
-
->  .../devicetree/bindings/sound/omap-mcpdm.txt  | 30 ----------
->  .../bindings/sound/ti,omap4-mcpdm.yaml        | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 30 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/omap-mcpdm.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt b/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-> deleted file mode 100644
-> index ff98a0cb5..000000000
-> --- a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -* Texas Instruments OMAP4+ McPDM
-> -
-> -Required properties:
-> -- compatible: "ti,omap4-mcpdm"
-> -- reg: Register location and size as an array:
-> -       <MPU access base address, size>,
-> -       <L3 interconnect address, size>;
-> -- interrupts: Interrupt number for McPDM
-> -- ti,hwmods: Name of the hwmod associated to the McPDM
-> -- clocks:  phandle for the pdmclk provider, likely <&twl6040>
-> -- clock-names: Must be "pdmclk"
-> -
-> -Example:
-> -
-> -mcpdm: mcpdm@40132000 {
-> -	compatible = "ti,omap4-mcpdm";
-> -	reg = <0x40132000 0x7f>, /* MPU private access */
-> -	      <0x49032000 0x7f>; /* L3 Interconnect */
-> -	interrupts = <0 112 0x4>;
-> -	interrupt-parent = <&gic>;
-> -	ti,hwmods = "mcpdm";
-> -};
-> -
-> -In board DTS file the pdmclk needs to be added:
-> -
-> -&mcpdm {
-> -	clocks = <&twl6040>;
-> -	clock-names = "pdmclk";
-> -	status = "okay";
-> -};
-> diff --git a/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-> new file mode 100644
-> index 000000000..73fcfaf6e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/ti,omap4-mcpdm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: OMAP McPDM
-> +
-> +maintainers:
-> +  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-How did this happen? I see this was in v1, but I am quite surprised to
-be listed here. I am for sure not a maintainer of this binding. Choose
-driver maintainers or platform maintainers, worse case.
-
-
-> +
 > +description:
-> +  OMAP ALSA SoC DAI driver using McPDM port used by TWL6040
+> +  Notes on fsl,playback-dma and fsl,capture-dma
+> +  On SOCs that have an SSI, specific DMA channels are hard-wired for playback
+> +  and capture.  On the MPC8610, for example, SSI1 must use DMA channel 0 for
+> +  playback and DMA channel 1 for capture.  SSI2 must use DMA channel 2 for
+> +  playback and DMA channel 3 for capture.  The developer can choose which
+> +  DMA controller to use, but the channels themselves are hard-wired.  The
+> +  purpose of these two properties is to represent this hardware design.
+> +
+> +  The device tree nodes for the DMA channels that are referenced by
+> +  "fsl,playback-dma" and "fsl,capture-dma" must be marked as compatible with
+> +  "fsl,ssi-dma-channel".  The SOC-specific compatible string (e.g.
+> +  "fsl,mpc8610-dma-channel") can remain.  If these nodes are left as
+> +  "fsl,elo-dma-channel" or "fsl,eloplus-dma-channel", then the generic Elo DMA
+> +  drivers (fsldma) will attempt to use them, and it will conflict with the
+> +  sound drivers.
 > +
 > +properties:
 > +  compatible:
-> +    const: ti,omap4-mcpdm
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - fsl,imx50-ssi
+> +              - fsl,imx53-ssi
+> +          - enum:
+> +              - fsl,imx51-ssi
+> +          - enum:
+> +              - fsl,imx21-ssi
+
+That's a mess... you cannot have enums as fallbacks.
+
+> +      - items:
+> +          - enum:
+> +              - fsl,imx25-ssi
+> +              - fsl,imx27-ssi
+> +              - fsl,imx35-ssi
+> +              - fsl,imx51-ssi
+> +              - fsl,imx6q-ssi
+> +              - fsl,imx6sl-ssi
+> +              - fsl,imx6sx-ssi
+> +          - enum:
+> +              - fsl,imx21-ssi
+> +              - fsl,imx51-ssi
+> +      - items:
+> +          - const: fsl,mpc8610-ssi
+> +
+> +  cell-index:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2]
+> +    description: The SSI index
 > +
 > +  reg:
-> +    items:
-> +      - description: MPU access base address
-> +      - description: L3 interconnect address
+> +    maxItems: 1
 > +
 > +  interrupts:
 > +    maxItems: 1
 > +
-> +  ti,hwmods:
-> +    description: Name of the hwmod associated to the McPDM, likely "mcpdm"
-
-Not much improved here. You miss $ref and optionally constraints.
-
+> +  fsl,fifo-depth:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The number of elements in the transmit and receive FIFOs.
+> +      This number is the maximum allowed value for SFCSR[TFWM0].
 > +
 > +  clocks:
-> +    description: phandle for the pdmclk provider, likely <&twl6040>
-
-Missing constraints, so replace it with maxItems: 1
-
+> +    items:
+> +      - description: The ipg clock for register access
+> +      - description: clock for SSI master mode
+> +    minItems: 1
 > +
 > +  clock-names:
-> +    description: Must be "pdmclk"
+> +    items:
+> +      - const: ipg
+> +      - const: baud
+> +    minItems: 1
+> +
+> +  dmas:
+> +    oneOf:
+> +      - items:
+> +          - description: DMA controller phandle and request line for RX
+> +          - description: DMA controller phandle and request line for TX
+> +      - items:
+> +          - description: DMA controller phandle and request line for RX0
+> +          - description: DMA controller phandle and request line for TX0
+> +          - description: DMA controller phandle and request line for RX1
+> +          - description: DMA controller phandle and request line for TX1
+> +
+> +  dma-names:
+> +    oneOf:
+> +      - items:
+> +          - const: rx
+> +          - const: tx
+> +      - items:
+> +          - const: rx0
+> +          - const: tx0
+> +          - const: rx1
+> +          - const: tx1
+> +
+> +  codec-handle:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to a 'codec' node that defines an audio
+> +      codec connected to this SSI.  This node is typically
+> +      a child of an I2C or other control node.
+> +
+> +  fsl,fiq-stream-filter:
+> +    type: boolean
+> +    description:
+> +      Disabled DMA and use FIQ instead to filter the codec stream.
+> +      This is necessary for some boards where an incompatible codec
+> +      is connected to this SSI, e.g. on pca100 and pcm043.
+> +
+> +  fsl,mode:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [ ac97-slave, ac97-master, i2s-slave, i2s-master,
+> +            lj-slave, lj-master, rj-slave, rj-master ]
+> +    description: |
+> +      "ac97-slave" - AC97 mode, SSI is clock slave
+> +      "ac97-master" - AC97 mode, SSI is clock master
+> +      "i2s-slave" - I2S mode, SSI is clock slave
+> +      "i2s-master" - I2S mode, SSI is clock master
+> +      "lj-slave" - Left justified mode, SSI is clock slave
+> +      "lj-master" - Left justified mode, SSI is clock master
+> +      "rj-slave" - Right justified mode, SSI is clock slave
+> +      "rj-master" - Right justified mode, SSI is clock master
+> +
+> +  fsl,ssi-asynchronous:
+> +    type: boolean
+> +    description: If specified, the SSI is to be programmed in asynchronous
+> +      mode.  In this mode, pins SRCK, STCK, SRFS, and STFS must
+> +      all be connected to valid signals.  In synchronous mode,
+> +      SRCK and SRFS are ignored.  Asynchronous mode allows
+> +      playback and capture to use different sample sizes and
+> +      sample rates.  Some drivers may require that SRCK and STCK
+> +      be connected together, and SRFS and STFS be connected
+> +      together.  This would still allow different sample sizes,
+> +      but not different sample rates.
+> +
+> +  fsl,playback-dma:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle to a node for the DMA channel to use for
+> +      playback of audio.  This is typically dictated by SOC
+> +      design. Only used on Power Architecture.
+> +
+> +  fsl,capture-dma:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle to a node for the DMA channel to use for
+> +      capture (recording) of audio.  This is typically dictated
+> +      by SOC design. Only used on Power Architecture.
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +    description: optional, some dts node didn't add it.
 
-List the items. I asked to open existing bindings and take a look how it
-is there. Existing bindings would show you how we code this part.
+The question is: is this DAI or not?
 
 > +
-> +
-
-Just one blank line.
-
 > +required:
 > +  - compatible
 > +  - reg
 > +  - interrupts
-> +  - ti,hwmods
-> +  - clocks
-> +  - clock-names
+> +  - fsl,fifo-depth
 > +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pdm@0 {
+> +unevaluatedProperties: false
 
-That's wrong address. Old code does not have 0. Please do no change
-parts of code without reason. If there is a reason, explain it in the
-changelog.
-
-> +      compatible = "ti,omap4-mcpdm";
-> +      reg = <0x40132000 0x7f>, /* MPU private access */
-> +            <0x49032000 0x7f>; /* L3 Interconnect */
-> +      interrupts = <0 112 0x4>;
-
-Include header and use common defines for flags. Just like all other
-recent bindings.
-
+This must be additionalProperties:false. Use example-schema as
+reference... unless you want to reference dai-common.yaml, but then that
+one is missing.
 
 Best regards,
 Krzysztof
