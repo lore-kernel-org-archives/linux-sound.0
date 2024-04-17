@@ -1,107 +1,105 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD3252F6A
-	for <linux-sound@vger.kernel.org>; Wed, 17 Apr 2024 05:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D2F17F7
+	for <linux-sound@vger.kernel.org>; Wed, 17 Apr 2024 07:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713330902; cv=none; b=EdWfI1ydo9KH0NyXa/8kwF6iIaDQumoUGVWQmCb8LA7ZB/mb2ao4mDOKAD101H2gEqcwc+cpgL5K8wLz2U4hIwIrXHnfhlgxbThLplpAIoeSzBZQjtvZU1hU9bh0VTOiGgsuoANauKk5j3KhA0D0vlgjq0/Pe0Pn8a1uESGGVO4=
+	t=1713340684; cv=none; b=gkB1wzE8suBx263Zjm/zjKb0uQjp8K9Gdms6fCFmJcdsjTEbpnP/aeIZO2QphpA2zH1XJOUIEOy5Vo9o89HOs4XoaHxzYrpwixXNKAv5GK1Ou82m6bgOs1zQNabM8zH48L0lgIryxKtFFXjwFvnSmOklrZ4gmbu44Mxego9s+Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713330902; c=relaxed/simple;
-	bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jl3VDrr6GXIEx6olprIy2bASHsUfKVI0Uu0RPc3ExISZLOfhf9ZBiNTwaYstASwKH5XeATj+sJJBR2BrfmxdYThsN7uFb8v1K8d++piiXm+YXCG+aj15qwAOGDYO9DtsmIA0QdaR6ECs1VXuJ3rdcF4ajFufZBhXftPXBsjMvm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org; spf=none smtp.mailfrom=jookia.org; dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b=yV0cmB0j; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jookia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jookia.org
+	s=arc-20240116; t=1713340684; c=relaxed/simple;
+	bh=6CFLzASbWsy9j5PovUe2bZlIC18t8wN5CiLuLsKFLOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMBbkbjJByGhC4cwNrBHLZO7gsjLF5J9TR9hVt1RVID463K7hQ8DPu1DwlWMTFhn0n6QS2GSOasAH3x77fG4EnE8XYgXOej4/IcZh34xd0nMvNgmGa25/vrFUIWIIMaGCbKzwcd7h4eo5vPFa1/bBYVD881HFOJvqPPRym1Sq5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSCOanDL; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jookia.org header.i=@jookia.org header.b="yV0cmB0j"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jookia.org; s=key1;
-	t=1713330896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+wO2NVJgGgKxL9AnuBOvlzeMvS5QSt87gBINoPwNkwE=;
-	b=yV0cmB0juL+gE4drGnEPB+Xk5XISypajXJXqLKpewPtGxn4U+IS7Zsfv9xgrhLvHVRljhd
-	/YAmLU+jDFgpV8fbY0JjP7Lq0fd3A4Rug6xYw2Xz+thgXdwe1EWLjykviCKDEvBTFBxZVY
-	65Y3HMcWmCh6MLGO7J28vBoVANlKoU5gvyQA0Y+P+azWNXK494UrVXoubWHbwLLwOOuhzB
-	sIkfP5DFotpKQZWdwlLW4P1hVoA8PwyJMKcix+fgc0zS16cjVVYDBMVNrwErWAlGmu3oIr
-	2m+rUm3qj8OiEOS92HavDCnPNeO+KzdqYwMqBNjVo9no3b1AXIFsGCFLerHqEA==
-From: John Watts <contact@jookia.org>
-Date: Wed, 17 Apr 2024 15:14:43 +1000
-Subject: [PATCH] ASoC: sunxi: sun4i-i2s: Fix pcm_formats type specification
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSCOanDL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713340684; x=1744876684;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6CFLzASbWsy9j5PovUe2bZlIC18t8wN5CiLuLsKFLOY=;
+  b=XSCOanDLDJ2mmGQeb22BZzxVJnLthPA5qWNoF+EKAD3R9bh0McttuyR2
+   PiDi9zC4XDAimqNP+VvumR7ahY+H0SF0Cf1iephIziCej+0vO2JNHDxuP
+   D/maRhZzIXZE0V3wTFuCEuFyuhRjxvH2H6ZqfFUuVWnA9dhDUlafGdoQ0
+   Gilyf9XXErvX1BfLzDL1Ks4WD0/nFclR1lt56gdKQEvbxesDe1yhHthtc
+   m1tok2GifuFsKfpLgVCGpHpSZ9xBC8bIREEu+nhd7XEFzVsrU4YZCiMu3
+   DgNd0kleLPS91P14uuokP7v1Yq5EMLqqV/RW0FEr8QW/chFmO9JP3O6CC
+   g==;
+X-CSE-ConnectionGUID: mIo6dLCHQFycSva0C4I6pA==
+X-CSE-MsgGUID: k5T6gww7Rj2F4iJLG19Bnw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="12602644"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="12602644"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 00:58:03 -0700
+X-CSE-ConnectionGUID: xAl/NlhBQGWCc+//yxi9MQ==
+X-CSE-MsgGUID: syg1YQEZQEK6ZMLPlO+Vcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="53508852"
+Received: from vjihanak-mobl.ger.corp.intel.com (HELO pujfalus-desk.ger.corp.intel.com) ([10.251.216.41])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 00:58:01 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	chaitanya.kumar.borah@intel.com,
+	yung-chuan.liao@linux.intel.com,
+	rodrigo.vivi@intel.com
+Subject: [PATCH] ASoC: SOF: Core: Handle error returned by sof_select_ipc_and_paths
+Date: Wed, 17 Apr 2024 10:58:04 +0300
+Message-ID: <20240417075804.10829-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240417-sunxi_s32_fix-v1-1-d82e451565c0@jookia.org>
-X-B4-Tracking: v=1; b=H4sIAMJaH2YC/x2MQQqAIBAAvxJ7TjBdCfpKRGSttRcLl0KQ/p50n
- IGZAkKJSWBoCiR6WPiMFbq2gfVY4k6Kt8pgtEGNXa/kjplnsWYOnBUFZx161MEj1OZKVPX/G6f
- 3/QDEL4kjXwAAAA==
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, John Watts <contact@jookia.org>
-X-Developer-Signature: v=1; a=openssh-sha256; t=1713330884; l=1490;
- i=contact@jookia.org; h=from:subject:message-id;
- bh=ejYuVDMK8hQ3c3/RJmhQWa4DT0PpOPzvnbD7CuzTmag=;
- b=U1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgpGuA3uho2
- 8zVxm554DVLHyl4gq5/nBHglU5WIWN8/zYAAAAEc3NoOgAAAAZwYXRhdHQAAAAAAAAABnNoYTUx
- MgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA0GgHA+q2gKda09EGULTSaiS
- 2/DdtY5KQbmfXmCRvUveV9K+PrfFhcZr7UTMaGjmtXlHZf8vs8mEGa+TKZk6GDgUAAOoA
-X-Developer-Key: i=contact@jookia.org; a=openssh;
- fpr=SHA256:6LBQmZH5u7i/edmEZXzCTwCrpSevs/ZshZxNmlD1thY
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-pcm_formats should be a u64 as it is a SNDRV_PCM_FMTBIT_* not a
-SNDRV_PCM_FORMAT_*.
+The patch which fixed the missing remove_late() calls missed a case
+when sof_select_ipc_and_paths() could return with error and in this
+case sof_init_environment() would just return with 0.
 
-Also fix a small grammar error while we're here.
+Do not ignore the error code returned by sof_select_ipc_and_paths().
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202404170103.ySYwieqi-lkp@intel.com/
-Signed-off-by: John Watts <contact@jookia.org>
+Fixes: 90f8917e7a15 ("ASoC: SOF: Core: Add remove_late() to sof_init_environment failure path")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
-This is a quick fix for a type error found by the kernel test robot.
----
- sound/soc/sunxi/sun4i-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Mark,
 
-diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-index 59830f2a0d30..5f8d979585b6 100644
---- a/sound/soc/sunxi/sun4i-i2s.c
-+++ b/sound/soc/sunxi/sun4i-i2s.c
-@@ -156,7 +156,7 @@ struct sun4i_i2s;
- /**
-  * struct sun4i_i2s_quirks - Differences between SoC variants.
-  * @has_reset: SoC needs reset deasserted.
-- * @pcm_formats: available PCM formats
-+ * @pcm_formats: available PCM formats.
-  * @reg_offset_txdata: offset of the tx fifo.
-  * @sun4i_i2s_regmap: regmap config to use.
-  * @field_clkdiv_mclk_en: regmap field to enable mclk output.
-@@ -176,7 +176,7 @@ struct sun4i_i2s;
-  */
- struct sun4i_i2s_quirks {
- 	bool				has_reset;
--	snd_pcm_format_t		pcm_formats;
-+	u64				pcm_formats;
- 	unsigned int			reg_offset_txdata;	/* TX FIFO */
- 	const struct regmap_config	*sun4i_i2s_regmap;
+Can you queue this as a fix for 6.9 cycle as 90f8917e7a15 already present
+in 6.9-rc3
+
+Thank you,
+Peter
+
+ sound/soc/sof/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
+index cc84d4c81be9..238bda5f6b76 100644
+--- a/sound/soc/sof/core.c
++++ b/sound/soc/sof/core.c
+@@ -350,7 +350,9 @@ static int sof_init_environment(struct snd_sof_dev *sdev)
+ 	}
  
-
----
-base-commit: 66e4190e92ce0e4a50b2f6be0e5f5b2e47e072f4
-change-id: 20240417-sunxi_s32_fix-ef5354b40fb4
-
-Best regards,
+ 	ret = sof_select_ipc_and_paths(sdev);
+-	if (!ret && plat_data->ipc_type != base_profile->ipc_type) {
++	if (ret) {
++		goto err_machine_check;
++	} else if (plat_data->ipc_type != base_profile->ipc_type) {
+ 		/* IPC type changed, re-initialize the ops */
+ 		sof_ops_free(sdev);
+ 
 -- 
-John Watts <contact@jookia.org>
+2.44.0
 
