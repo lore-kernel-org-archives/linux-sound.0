@@ -1,274 +1,295 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazolkn19011003.outbound.protection.outlook.com [52.103.66.3])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2055.outbound.protection.outlook.com [40.107.113.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB1C537FC;
-	Thu, 18 Apr 2024 04:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EEE8C1F;
+	Thu, 18 Apr 2024 04:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713413014; cv=fail; b=jxyLCxefJGQwwWrACMlm0Bfz0YffKDclhjpVqIixGJi9j0x9Rn02V7xEXp/bZZFP0wHzVjUkqXwxvHY3KNQAsp/FFnbLLdJ40TFLqYCsWh3nqogDEKUgkQIS7nx2MrogzjeAD2mL2P3+SiWtfHy1ATZmXZaNOvDwIt+09pqJxGQ=
+	t=1713413502; cv=fail; b=Ym8Kx6HjO4NXeJrQ6qqAqK4M980Pt6SX9o3tm2Lx5HCrqeDu+cP3wicXeDgeLx/H4cqhxjxD1EtDmKVB5pKfhkxCAcqSIs6rzIPT1v+InPmy5A0UbKt3E5KI1NH88ti8LlrLfq10WfE6NBPQqGSeI5yjiay/QSey8YoVrpqnMnM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713413014; c=relaxed/simple;
-	bh=t8xp5apU8X+UApxP15kool4VAvFOg7C65GvCLLq0H00=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=McyUeQ/9Ur8zA9gofV/xmcAXqdjuTAP33pOTkJg0we3XjKyI0qjdxgBJ2Npx5mcZpqdtA5q1vEiIgJFfsDhWfThj0Zo3PauEW33aLYMSOI/YdLGH/YkwsHlVF1O6bPtGKg4WBDBt02NegTQhLOXRvRPUGzqElEG/7k3qXBEeRBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=fvAJJSoh; arc=fail smtp.client-ip=52.103.66.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	s=arc-20240116; t=1713413502; c=relaxed/simple;
+	bh=UBght8bpJ++Ea5k1ZzUWaNlBjjCZcFb2RfPDE9IUXCY=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=X0zx3E/d6z7l34w6LdE34st5l9oMd+uYUVLxsVxdVH+ygRsq4xvd+ZWayAoM1RzqKx8g0vG45HUTnyoxCBNaTE2aDi1HdEZbvH1z5WvYijPBuXDL46g22N3Jqa/Ru4cAixK7lDQa/KqG7Ep3xjhpCTPH+eAcdlVIIADsQ3HFXQM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Kg7uS2GN; arc=fail smtp.client-ip=40.107.113.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="fvAJJSoh"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Kg7uS2GN"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VOHzD2MARJyal1IwSt/td+FoSe1irbhwixj9iQ8ww2eoWV/DXtyMUwlQ5+9DgEGvwbkkngd3E0eRBTm3+id0aefUKed+9lnIXEUzNKzA1PPzV+B9Cw/oCuydhkBp78ccQOCVGU9GokTyiYZY0JAiKWr14sDGbQBXPa2U17fSRn1svzId/90SQ2b8N9SaC/a12677uyx2MzB2ROp7G+G1vnPoCTIRhB/yfDRsaBrOzaJeo4toF+/2VcZgRxxfzVObmg7A/qIW9l2vuRxhys0OguPxt9Y52bpB8mduqaX0iRErxVqDbIWQ8NLrc/KN4Py3tToPTYSEz7pWAe2pBretdg==
+ b=N1l2McHcn7ZGDCJh5N0e5cztJqT6YXrXo7l1xg1z0A8Cj6QiAgVr6BHxsAsz3+qKHgLWPFqiruLrd/1uaqzPmpvqMsVjQMcgp2og2J4wcfUGCIrTMbpis/h5wR2fG4pQj+H05x9QlWAG+IxrIBkbhc3Gv8QRILr5zSIMlyU/qZlkallyTKdboT4N7ffZ97vx3ZmTEkYb0XWpIL+PJoy8Vs3Rt9khRnf66nFrrH8mipZASQ+Zbax5h9PPa1xGsERb2hwnrGDq1ji0LiauSsoAvqagVsd2RZZHXBJf3seRIn0264zR89Hm6wPb8jWG95RB/H59Vp/BOp6MEAvpBgzZkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KuAVI16s5BB5VXUboJtA1/dc+fRBFo96cINyvpMMu7k=;
- b=h28GEePOqllhIAV1J5Up/Db9w4bZbaWoWaITKXDbKx3I9GoqYi8ArwMTh0Uaj86qf1P6yR7HD8DMFNtsNqZY9q9lqsgZNAcyfoIExONv/yJ+3moSJlgZmOu/0+3Oy1J6GHpo5TuFCrhN+xCwCfpGvW9bhpVGreD/ni9DF+Ez0cPnHKC5ak2OT68eI40vca0EzbipNUBkOLMJA30ywFbL1Ppz6I1ynsxYzXPAjeZORqvDrGE0dcDGDKLzzZ3q+rr1D2RcyoaNBCfwpPDDIl3fZfKjUTYRZnIQyIpQF0mfab9hcokkMa4GxAD0VNTt0ICxaP2FLf0jDk4MqbmelD3fmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ bh=9bBN895/hUfq7cTbVS0IR4Y8A7BolwuL5sh79h4s84A=;
+ b=SpWQE+h03r7V/Y+exf+MJSwgDDSHkM9lCptWOUONES02B1H/AW+wc5mSE9HUdl2NVNsRY/7IEDYU96w3oTJRPvKqS1ArEWudbsaD4dwXgZNW/VCjgPa4yy0i4THYyDsTXxaB8bZ7S0MCdmtPBsJlzLrmhw8ghnVMuMxx2fjlQS1I9VM2IxSqCsDcogNto96HEuE3b1nv1q7fmx1gRTBc3b3WIpLOEP2/aXSRIs7oiai+W2/eIrJTtWSw0+a7kwW2TgcvKy7R2JkssIuanNLFeOg7DHrlZEEcx7fXMQ5JChDYD22im7O/g8WQ3CDkWxZpnNmhLtGWLhlPOn0t6fcuvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KuAVI16s5BB5VXUboJtA1/dc+fRBFo96cINyvpMMu7k=;
- b=fvAJJSohAbpKnwXhsnC8YGOoyjL1dYPEXCYgw4L98Hoe/sNWmZ7LHLl6A2y+enJbva/ew9xmxsPL2X638RV2iap7CpPOX8x3e8HT9lYzPCEdvFHv2iephblKdvBPVKjFWSPV6SG6zpfUAQ61tNq6Ew/X+BuVR9aR0KgyRCbsMKThSW1orjly/QyPrEw0vBw92FSjNEHmeVKrcbKu4bbzMRjCnDHsThJel3H9t/sc5UEAi2aCwoivRVMPH44lx+1ZPyZQ1INOzWPgBRU9+gJumhECudbisrERASYS5mal3nx8qF3ejMuue0D5tlqmnr9SSLlxwwbLi5mJqSjSol3lcg==
-Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:209::11)
- by OS9P286MB3909.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:2ce::5) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=9bBN895/hUfq7cTbVS0IR4Y8A7BolwuL5sh79h4s84A=;
+ b=Kg7uS2GNgidMCsA44YYekbxXos6yOXGIWaQj4OZuytdYgdpoZYc/LHyXcWmczTLNIl9X/LI4URz57SO6NjZF/7f/cg82cy3jg0H7dKkZtgqxdj88whO+MyAD8A2lwRGNMB8XW6H9/gSOOG0pvDwQY0b+tvwFMP1K2UavPj9HowQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSAPR01MB7397.jpnprd01.prod.outlook.com
+ (2603:1096:604:142::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Thu, 18 Apr
- 2024 04:03:29 +0000
-Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- ([fe80::f2c3:e53f:2ea9:55c8]) by TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- ([fe80::f2c3:e53f:2ea9:55c8%4]) with mapi id 15.20.7452.050; Thu, 18 Apr 2024
- 04:03:29 +0000
-From: ArcticLampyrid <ArcticLampyrid@outlook.com>
-To: sbinding@opensource.cirrus.com
-Cc: ArcticLampyrid@outlook.com,
-	david.rhodes@cirrus.com,
-	james.schulman@cirrus.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	stable@vger.kernel.org
-Subject: Re: RE: Re: [PATCH] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-Date: Thu, 18 Apr 2024 12:03:17 +0800
-Message-ID:
- <TYCP286MB253572FE78870D62C35E6CACC40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <003501da90da$7495b710$5dc12530$@opensource.cirrus.com>
-References: <003501da90da$7495b710$5dc12530$@opensource.cirrus.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [MVByz4WUmy8Cw7nATttwZWtAGhEdLr1Lz93J//y3ho+NIxt+EJdxIw==]
-X-ClientProxiedBy: TYCP301CA0086.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::12) To TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:209::11)
-X-Microsoft-Original-Message-ID:
- <20240418040317.7779-1-ArcticLampyrid@outlook.com>
+ 2024 04:11:34 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7472.037; Thu, 18 Apr 2024
+ 04:11:34 +0000
+Message-ID: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+ Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>, Jonathan
+ Corbet <corbet@lwn.net>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH v3 00/23] ASoC: Replace dpcm_playback/capture to playback/capture_assertion
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 18 Apr 2024 04:11:33 +0000
+X-ClientProxiedBy: TYCP301CA0081.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7b::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCP286MB2535:EE_|OS9P286MB3909:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73b8acf3-0892-4a0c-f06d-08dc5f5c8158
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSAPR01MB7397:EE_
+X-MS-Office365-Filtering-Correlation-Id: 568833dc-43e2-4159-1d8f-08dc5f5da24f
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	+ifJSmX7MholYPde9ciazxGj1u2jDuf5tkoxoEE+ED46sP1HXboucmOVK1VauxujJTlIBkjcg0NtIgLoPsZ6154YqFNfH3e2HlpMgGcqH4806AHqVhUBtn1JCjHuFzym+mcPiVDRnfytxaMMjkHjyA8XGMcmolh0B4ErpELYZVuraL6SzsfMSkdRMQvyPTislIm8a4Bq8rcrbqW+7v//8BU3ttvOLqNYiRjlCRy26/gRA5UZwsE6YJHSRjTseZ9rjUuWeUlm0dV9fsZ9FKey18AGFqqfD0zmC1gw1QRqEWHdSy3FApUk5wTcFNiVHF32djW/vHVxFpzq3Z4N5GtcOU3bxtv0qz00VLtKeFXIuwvNs0urKZOalUFkrJvY4PyZfiZ/wjoVjajT/65IkxE9TTgXoLJKo/Sb/bapkcYzGtZEod6O53Qs8je8mpyMBT89f/7FV3B/Z/6c2S3LAKfaey1YwSelIIOKRepEgTebsK5rCYvfb+1L1GZbPVoBXVC/lgeETl55YqlONLcyAa/088a647m6Fy/wluUHZj/YamH7wD2jQyaAm3vaUg5AVGJmamNyVHd26mHbSkJbtcu4eORb3QZ8OJ9IqAWyNofxpniM4aFVNVlLCAn12HlDYjbfNE+9d/AyZPIiLmEAxedBQ43lbqHss/cjf2mX3PgjyMXFxPFc8/df2ud/RquApxfuEIWBYiH5sCnG2YixQFtNLWIxGoAiRIit4u3Q42SCoD3todBzwXE/uoPxXos/Tzod
+	/leMqX/Exe8NO+UOqsSU+YD1vcO/W0z4YFLSBoUHbpWpnE3txjsrKhCjWFlDqavb5k1yR4w9T+kHfdIcO0pwnTc6SqxPtUXu88MNOjp1BzJkl5vAGiFmVxJZpZbVRBKt0PqL8vsmz6Yjs4A79mhd7poMvA/hkAq0EVI2hG/fhXPa3FYPOE0ypf+lFYCkGK2/NfcNZ6h4K6OATp7nyM7LzOtqsFRKkVMPWhx0VLs0B9EsNUJdH5PuvDjUz75/encAWW7AadltEV/vDVuPdj96HqdBXTe4JIleRQEYMoTgWb+/ZPU82G5Yj35od1Cyv7GfApcZdl+TBcdfzot6BjDfI+xiZvCVKK3a4yppowliJNLON5J4U7iY8lCHyM/9doS2yoYphc1VzrbqixSUS4hZWsbk3aKfI1WzQuWg01H6YclbuLJf42YBcQMW6GfeFDz6LmXttTzDVZSYDql/o6MB0G4G/sj5y8EFyg4cVjIglvLMjahhZNMntBGi0QpTuDpgCic+VUyF8bj3QzJ778UKTwTIMUcphveuouStUTChlHZORBPcVGZiMZyOwLYnggCGh+MUkkaMkEIr9tJCNMutFBPpHovymaNArrZhkJbDdsE/HXowV3THJFvecfxXy/rCr2dNT5e5z3w8cgrDsD9O3hExS2RKg8b3I9ZtyjUS5lWF2bX2JxYwcSe6YLSFaqp+Rz8dfJmaR9utqZsNEsDtpz9JOQnozHAfD4orWrKU4zlvF6852vfs1uyqdZtAVujm
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(7416005)(1800799015)(376005)(366007)(38350700005)(921011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3nD+KQBqHQ4LLuTk/JIqFPTP388hgWuM799nakTrjwDiHr63Ic9vSlE7klTt?=
- =?us-ascii?Q?Wmnsfhx7YXWH9WLtF1+upfs1GVPOqRu+rbEXt48Lk5xL3KhCdjzGXUwKz2Rk?=
- =?us-ascii?Q?iUxIKkSu9LuTohvsrBvI2bOX1HcypXLDJzaPh0fTeu+FQiHBcm+b6+tjUz8M?=
- =?us-ascii?Q?vvvchuM2nS9o7uogucFw/qwSFYrDjjncM+V5zOd56nSe4OqbVv0qKoMNPY6e?=
- =?us-ascii?Q?JBenV1Tyzns2cqWiJ8PSPHEhuNhLML9r6p4NQlK5pqlMHPRIHWKId4eevWcE?=
- =?us-ascii?Q?LVW9BasqQHp/uDdy/pIe9fVC7kKa5+vFZntNsKXkBZlhsdnQS7Ct0iVUEFMo?=
- =?us-ascii?Q?yZEh8QQg/sG/8n/QD2DNmhUvSOEMhOodd4Alp4ROXzKxwiI05HiLEM9RNVMi?=
- =?us-ascii?Q?uPfIquy9JlesDUV0gcZoZdjKf09P5xCnBtKqyuFY9HnCFZ7D/hOxQk1nShQs?=
- =?us-ascii?Q?qH7zFgutmRzHc1fYg5DuzmBGZK2Sj3QxVyFaPnPpprUSTVOqoQsvd7lbIcc3?=
- =?us-ascii?Q?Rct/qLDgSKT8tDJZ2oZ1lS2g+d+Hyx94leXSLCSKkSsZXTkwA+2VWycOj1NN?=
- =?us-ascii?Q?82JxTQmg6qN4bhMKvFKlGo7gdMJwRkvMwtLKiprZ7GHCxxgGbuUdYwca6sbE?=
- =?us-ascii?Q?s/vnhsGN5OuLRk9pNP3SWUww8Ks09fuvNiDZlqd9pCWzQJFrFg84/hs/VtkO?=
- =?us-ascii?Q?RRlQmWTwQe34glLpK4xxdjae7f96Vr+8N09GCt0hLedn3HTiRPmGJJZmbqsv?=
- =?us-ascii?Q?aeWT+eHIOqoaQQS/+r7Wq+DQJ5YLwMKj5q3AgOz5MI0mxHP7sUNRU/8uqgtW?=
- =?us-ascii?Q?ZfhkIt/MRsz+IEOYEAVSWSoDmuU0g2kL18uUIKJMEs+FTQvkY3e9nG5ZFMQ2?=
- =?us-ascii?Q?oJlQcWPiEd8/JngZk1xU7wDTqX2+kfm4X5EZ292N0/l2FU5rCQBz1RzA9UVG?=
- =?us-ascii?Q?aUILKYjw6pm2yTRYQnSb2zXqhjiAys2dc4hL4HYO9SfK2xLu7JJsthRFMK7X?=
- =?us-ascii?Q?dYB2Qig8A/oKWFwfhgGDtWP34Ww/jHQ2pPzkwXWj6ft4f3XWk16DkwLBNNLJ?=
- =?us-ascii?Q?g1HwnjrSKooiTwdDH2aEfo+pHU4MsayS/b1YUfeYmhj0NcPlCMlYSFHDGlo1?=
- =?us-ascii?Q?vxMSNM4zWrp46j+z9Fkd9sv25eZTn1sIkFRYzKT5KfLzIU3uBS511CcR0t+l?=
- =?us-ascii?Q?wWmBR9Zrg45bM3utsV4C9Lm3nbtHmWtDGiKrKJ7uvWsKEUwlsJ7UPTVFu/61?=
- =?us-ascii?Q?Wj07bfR0h3F/7uzLZW1ifJzu9BKGg4RdXNvPqjQ6cw=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73b8acf3-0892-4a0c-f06d-08dc5f5c8158
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
+	=?us-ascii?Q?TTR52/CMN9o1dzdDYulkGmgHry3p3n91QYCtEpYSfq6CfOark571e1NaP9DR?=
+ =?us-ascii?Q?kCX6uwgWHYav5kSKo4E0eDTA2Q0JlTW9k8IrRocxkDSafsf1sdUdlDn5ESIw?=
+ =?us-ascii?Q?BUZUVo1CZCCJRy3C2H/OfLOhO2cQFt7KjQiLK2OLAONXmV+4I0zcMKAlfo3u?=
+ =?us-ascii?Q?Ls2fiHTzACFvz0IuCvSblLUH/DrR3CVNhj5Wi3pwRW1fGWzLmx+mwYw3Pv5p?=
+ =?us-ascii?Q?23XNH2qpaIDPCbXYUYRbmW8uXKjrbxxrtKLWANEpq1jE/XydNqwznaCk21VO?=
+ =?us-ascii?Q?3irKM/fT0d6g41zoUyhwOphzZPpoUW8gJi336Xy7ukhvc2dbJ1E+DMaqoVFU?=
+ =?us-ascii?Q?s4IGF22jCjkrdqDk8uQ/+sY0eCC29JVbd450zMk5Nr0q5NBb/51Gjfw1PufO?=
+ =?us-ascii?Q?cxzMty7blnrGXnYFxUF4TAnXSjD5A5Kw5fwQoaiiukYDMQbaRmSkntZe6gLU?=
+ =?us-ascii?Q?rBX5n5Q3K8CjvxH2hHNen4C7Cv9bKWuj3A8IuipYdkXQ3+JOPsj/Gr94HevG?=
+ =?us-ascii?Q?5xfWQeshJnXq8D7jzDD3UXKhfMJmCwMcMQptQKBtAeaoHd2QlhqCFTGA7+YX?=
+ =?us-ascii?Q?CkogAzsKmzHGQ1Q7j0U7MM1671tRwZMpRVP0auIc7tkxqM8WznT7gM4wo1xa?=
+ =?us-ascii?Q?HvriCWNaFlXTQSXD53UaMPVpXC+EfawvczAwgzADiDMg0MmKDIUIM/RiusIh?=
+ =?us-ascii?Q?hNpYw3koHm5lEI0NTlOpAq0VomtbjZ7uy4yvRZiVk1taktjywo6hoRx0E5Dm?=
+ =?us-ascii?Q?vISK2zupSA/fdcD8RXSvspZ3aafqpbenvDYzDuAXnrwuDI0RKNcW0b2gc9xh?=
+ =?us-ascii?Q?tlhl7JiBX8qenNOEpBjOfiz88HQVY8dyUnwQaTrs6IlDYwDpfirY6m4gbnBo?=
+ =?us-ascii?Q?aTnFnffn23ZmJMFcCJU4F41pqxwih1NufvmkwDCM+BKUNRkjou7EE+WQ0mkX?=
+ =?us-ascii?Q?izmcFPw1vAGTQHf2RKnuQcat6k1ni7TAPb/zONytcwJzz11iuEpO/3vN3FpD?=
+ =?us-ascii?Q?dXKq4q7qSzJ3G3pwVFfb7MRjGysMnSujUD+vgllKY8teA2JBfRuCNxolKPSF?=
+ =?us-ascii?Q?ijbecmiu3pYvdwitVCkpSc71NnF7RSAUFpwZHU/+xeuf9iiyu1Xjmhcyt/8V?=
+ =?us-ascii?Q?EctsIQ2Sh+v/t2sCdkn/vdGYsOM9ITcZe7R34ASMdL5iXe4yVpWLa6bP1OoF?=
+ =?us-ascii?Q?ED/6gQVfjUXTPYs7TbX5o9czGqAILoxa2A0rF2w+J7BqGT6+GoiP6aWg6655?=
+ =?us-ascii?Q?skLW1ERecr0BOKyzDJHOHHzYeFcm3E+5vyV+c/vidC5TrIrxaq5MRgZfKi+w?=
+ =?us-ascii?Q?IC2Vo3aOmuDbQc3Iccgd4/rXcsTHxzxG3X3HFvpj+CoYupJljmXbXFn+obhP?=
+ =?us-ascii?Q?art17U5PodsPU4iRktjkSZJpGuDyPf312yEDXuzvIDZEAWacOJS+Tp/oANF5?=
+ =?us-ascii?Q?+2bR0xqxGu0JZF+Ww/uXQ4Vql/nHGJN/Z6afRpmJBdcME0UsB/adBWDbhD2r?=
+ =?us-ascii?Q?FDvuKiQO/5NW+CbntSSJt5i7PRcbLpdJxQGbrrhOjgqQX0++vkTJpW/WxTlg?=
+ =?us-ascii?Q?ZtRB2DF5zwljix8Od8slSUm7Bs4ZO2Lt7XqmOH+ta1m0FnjhK70SNdmjEqRs?=
+ =?us-ascii?Q?0JkQL/5FtQtwKLsEUl0ziXQ=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 568833dc-43e2-4159-1d8f-08dc5f5da24f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 04:03:29.6800
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 04:11:34.0304
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9P286MB3909
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kcpI/7VmtxV0ufxrBInD2EoJig0JmTtlQx18JbzSrQIyYtk4m+TwB0oYwkoTk8WPAzsP2ID4b9R/eUfVQ+oyF00xqykGiHN9DWwkeHjMRt7ewr37SUaQvPuAfinP1kc8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7397
 
-> To clarify, was the log you attached here using:
->   { "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0}, 0, 2, -1, 0, 0, 0 },
-> Or was it using your original value (index 1)?
 
-Both get the same log.
+Hi Mark
 
-> For further investigation, can you create a bugzilla ticket at the
-> below address and CC Cirrus Patches (patches@opensource.cirrus.com) to
-> it.
+This is v3 patch-set
 
-OK. https://bugzilla.kernel.org/show_bug.cgi?id=218744
+When we use DPCM, we need to set dpcm_playback/capture flag.
+If these flag are set, soc_get_playback_capture() will check its
+availability, but non DPCM doesn't need such special flags.
 
-> Can you also mention which distro you are using, as well which Kernel you are using.
+OTOH, it cares playback/capture_only flag. It is needed.
 
-I'm using Arch Linux, the kernel is v6.8.5-arch1.
+This patch adds new assertion flag, and convert current dpcm_playback
+dpcm_capture flag and playback/capture_only flag to it.
 
-> Both amps use the same GPIO for the interrupt line, thus the interrupt is shared, and there is only a single interrupt line.
+v2 -> v3
+	- re-order patches
+	- add new playback/capture_assertion flag
+	  and covert both dpcm_xxx and xxx_only flag into it
 
-BTW, it's connected to APIC.
+v1 -> v2
+	- based on latest ASoC branch
+	- keep comment on Intel
+	- tidyup patch title
+	- tidyup DPCM BE warning output condition
+	- Add new patch for Document
 
-> Also, can you please attach a dmesg of the error
+Link: https://lore.kernel.org/r/87o7b353of.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com
 
-Without any patches, I got
-```log
-    Serial bus multi instantiate pseudo device driver CSC3551:00: Instantiated 2 I2C devices.
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Failed property cirrus,dev-index: -22
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: error -EINVAL: Platform not supported
-    cs35l41-hda: probe of i2c-CSC3551:00-cs35l41-hda.0 failed with error -22
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Failed property cirrus,dev-index: -22
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: error -EINVAL: Platform not supported
-    cs35l41-hda: probe of i2c-CSC3551:00-cs35l41-hda.1 failed with error -22
-```
+Kuninori Morimoto (23):
+  ASoC: soc-pcm: cleanup soc_get_playback_capture()
+  ASoC: soc-pcm: indicate warning if DPCM BE Codec has no settings
+  ASoC: soc-dai: remove snd_soc_dai_link_set_capabilities()
+  ASoC: amd: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: fsl: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: sof: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: meson: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: Intel: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: mediatek: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-core: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-topology: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-compress: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: Intel: avs: boards: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: ti: Replace playback/capture_only to playback/capture_assertion
+  ASoC: amd: Replace playback/capture_only to playback/capture_assertion
+  ASoC: fsl: Replace playback/capture_only to playback/capture_assertion
+  ASoC: mxs: Replace playback/capture_only to playback/capture_assertion
+  ASoC: atmel: Replace playback/capture_only to playback/capture_assertion
+  ASoC: Intel: Replace playback/capture_only to playback/capture_assertion
+  ASoC: samsung: Replace playback/capture_only to playback/capture_assertion
+  ASoC: generic: Replace playback/capture_only to playback/capture_assertion
+  ASoC: soc-pcm: remove dpcm_playback/capture and playback/capture_only
+  ASoC: doc: Replace dpcm_playback/capture to playback/capture_assertion
 
-With `generic_dsd_config` I got
-```log
-    kernel: genirq: Flags mismatch irq 58. 00002088 (cs35l41 IRQ1 Controller) vs. 00002088 (cs35l41 IRQ1 Controller)
-```
-as memtioned in the previous email.
+ Documentation/sound/soc/dpcm.rst              |  10 +-
+ include/sound/simple_card_utils.h             |   2 +-
+ include/sound/soc-dai.h                       |   1 -
+ include/sound/soc.h                           |  15 +-
+ sound/soc/amd/acp-da7219-max98357a.c          |  20 +--
+ sound/soc/amd/acp-es8336.c                    |   4 +-
+ sound/soc/amd/acp/acp-mach-common.c           |  34 ++---
+ sound/soc/amd/acp3x-rt5682-max9836.c          |   8 +-
+ sound/soc/amd/ps/ps-mach.c                    |   2 +-
+ sound/soc/amd/renoir/acp3x-rn.c               |   2 +-
+ sound/soc/amd/vangogh/acp5x-mach.c            |  14 +-
+ sound/soc/amd/yc/acp6x-mach.c                 |   2 +-
+ sound/soc/atmel/sam9g20_wm8731.c              |   2 +-
+ sound/soc/fsl/fsl-asoc-card.c                 |  20 +--
+ sound/soc/fsl/imx-audmix.c                    |   8 +-
+ sound/soc/fsl/imx-card.c                      |   7 +-
+ sound/soc/fsl/imx-hdmi.c                      |  12 +-
+ sound/soc/fsl/imx-rpmsg.c                     |  10 +-
+ sound/soc/fsl/imx-spdif.c                     |  10 +-
+ sound/soc/generic/audio-graph-card.c          |   2 -
+ sound/soc/generic/audio-graph-card2.c         |  10 +-
+ sound/soc/generic/simple-card-utils.c         |   6 +-
+ sound/soc/generic/simple-card.c               |   2 -
+ sound/soc/intel/avs/boards/da7219.c           |   4 +-
+ sound/soc/intel/avs/boards/dmic.c             |   4 +-
+ sound/soc/intel/avs/boards/es8336.c           |   4 +-
+ sound/soc/intel/avs/boards/hdaudio.c          |   8 +-
+ sound/soc/intel/avs/boards/i2s_test.c         |   4 +-
+ sound/soc/intel/avs/boards/max98357a.c        |   2 +-
+ sound/soc/intel/avs/boards/max98373.c         |   4 +-
+ sound/soc/intel/avs/boards/max98927.c         |   4 +-
+ sound/soc/intel/avs/boards/nau8825.c          |   4 +-
+ sound/soc/intel/avs/boards/rt274.c            |   4 +-
+ sound/soc/intel/avs/boards/rt286.c            |   4 +-
+ sound/soc/intel/avs/boards/rt298.c            |   4 +-
+ sound/soc/intel/avs/boards/rt5514.c           |   2 +-
+ sound/soc/intel/avs/boards/rt5663.c           |   4 +-
+ sound/soc/intel/avs/boards/rt5682.c           |   4 +-
+ sound/soc/intel/avs/boards/ssm4567.c          |   4 +-
+ sound/soc/intel/boards/bdw-rt5650.c           |   8 +-
+ sound/soc/intel/boards/bdw-rt5677.c           |  10 +-
+ sound/soc/intel/boards/bdw_rt286.c            |  14 +-
+ sound/soc/intel/boards/bxt_da7219_max98357a.c |  34 ++---
+ sound/soc/intel/boards/bxt_rt298.c            |  28 ++--
+ sound/soc/intel/boards/bytcht_cx2072x.c       |  10 +-
+ sound/soc/intel/boards/bytcht_da7213.c        |  10 +-
+ sound/soc/intel/boards/bytcht_es8316.c        |  10 +-
+ sound/soc/intel/boards/bytcht_nocodec.c       |  10 +-
+ sound/soc/intel/boards/bytcr_rt5640.c         |  10 +-
+ sound/soc/intel/boards/bytcr_rt5651.c         |  10 +-
+ sound/soc/intel/boards/bytcr_wm5102.c         |  10 +-
+ sound/soc/intel/boards/cht_bsw_max98090_ti.c  |  10 +-
+ sound/soc/intel/boards/cht_bsw_nau8824.c      |  10 +-
+ sound/soc/intel/boards/cht_bsw_rt5645.c       |  10 +-
+ sound/soc/intel/boards/cht_bsw_rt5672.c       |  10 +-
+ sound/soc/intel/boards/ehl_rt5660.c           |  16 +--
+ sound/soc/intel/boards/glk_rt5682_max98357a.c |  32 ++---
+ sound/soc/intel/boards/hsw_rt5640.c           |  14 +-
+ sound/soc/intel/boards/kbl_da7219_max98357a.c |  28 ++--
+ sound/soc/intel/boards/kbl_da7219_max98927.c  |  60 ++++----
+ sound/soc/intel/boards/kbl_rt5660.c           |  20 +--
+ sound/soc/intel/boards/kbl_rt5663_max98927.c  |  48 +++----
+ .../intel/boards/kbl_rt5663_rt5514_max98927.c |  26 ++--
+ sound/soc/intel/boards/skl_hda_dsp_common.c   |  18 +--
+ .../soc/intel/boards/skl_nau88l25_max98357a.c |  28 ++--
+ sound/soc/intel/boards/skl_nau88l25_ssm4567.c |  30 ++--
+ sound/soc/intel/boards/skl_rt286.c            |  28 ++--
+ sound/soc/intel/boards/sof_board_helpers.c    |  18 +--
+ sound/soc/intel/boards/sof_es8336.c           |  10 +-
+ sound/soc/intel/boards/sof_pcm512x.c          |   8 +-
+ sound/soc/intel/boards/sof_sdw.c              |   4 +-
+ sound/soc/intel/boards/sof_wm8804.c           |   4 +-
+ sound/soc/mediatek/mt2701/mt2701-cs42448.c    |  30 ++--
+ sound/soc/mediatek/mt2701/mt2701-wm8960.c     |   8 +-
+ sound/soc/mediatek/mt6797/mt6797-mt6351.c     |  34 ++---
+ sound/soc/mediatek/mt7986/mt7986-wm8960.c     |   8 +-
+ sound/soc/mediatek/mt8173/mt8173-max98090.c   |   8 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5514.c    |   8 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5676.c    |  12 +-
+ sound/soc/mediatek/mt8173/mt8173-rt5650.c     |  12 +-
+ .../mediatek/mt8183/mt8183-da7219-max98357.c  |  40 +++---
+ .../mt8183/mt8183-mt6358-ts3a227-max98357.c   |  40 +++---
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c     | 108 +++++++--------
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c     |  60 ++++----
+ .../mt8192/mt8192-mt6359-rt1015-rt5682.c      |  86 ++++++------
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c     |  62 ++++-----
+ sound/soc/meson/axg-card.c                    |   9 +-
+ sound/soc/meson/gx-card.c                     |   1 -
+ sound/soc/meson/meson-card-utils.c            |   4 +-
+ sound/soc/mxs/mxs-sgtl5000.c                  |   4 +-
+ sound/soc/qcom/common.c                       |   1 -
+ sound/soc/samsung/odroid.c                    |  12 +-
+ sound/soc/soc-compress.c                      |   8 +-
+ sound/soc/soc-core.c                          |  15 +-
+ sound/soc/soc-dai.c                           |  38 -----
+ sound/soc/soc-pcm.c                           | 130 ++++++++++--------
+ sound/soc/soc-topology-test.c                 |   4 +-
+ sound/soc/soc-topology.c                      |   4 +-
+ sound/soc/sof/nocodec.c                       |   4 +-
+ sound/soc/ti/j721e-evm.c                      |   8 +-
+ 100 files changed, 789 insertions(+), 832 deletions(-)
 
-With my initial patch:
-```log
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Adding DSD properties for 17AA386E
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Using extra _DSD properties, bypassing _DSD in ACPI
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Cirrus Logic CS35L41 (35a40), Revision: B2
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Adding DSD properties for 17AA386E
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Using extra _DSD properties, bypassing _DSD in ACPI
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Reset line busy, assuming shared reset
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Cirrus Logic CS35L41 (35a40), Revision: B2
-    Serial bus multi instantiate pseudo device driver CSC3551:00: Instantiated 2 I2C devices.
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Falling back to default firmware.
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: DSP1: Firmware version: 3
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: DSP1: cirrus/cs35l41-dsp1-spk-prot.wmfw: Fri 24 Jun 2022 14:55:56 GMT Daylight Time
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: DSP1: Firmware: 400a4 vendor: 0x2 v0.58.0, 2 algorithms
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: DSP1: cirrus/cs35l41-dsp1-spk-prot.bin: v0.58.0
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: DSP1: spk-prot: e:\workspace\workspace\tibranch_release_playback_6.76_2\ormis\staging\default_tunings\internal\CS35L53\Fixed_Attenuation_Mono_48000_29.78.0\full\Fixed_Attenuation_Mono_48000_29.78.0_full.bin
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 17AA386E, BST: 1, VSPK: 1, CH: L, FW EN: 1, SPKID: 1
-    snd_hda_codec_realtek ehdaudio0D0: bound i2c-CSC3551:00-cs35l41-hda.0 (ops cs35l41_hda_comp_ops [snd_hda_scodec_cs35l41])
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Falling back to default firmware.
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: Firmware version: 3
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: cirrus/cs35l41-dsp1-spk-prot.wmfw: Fri 24 Jun 2022 14:55:56 GMT Daylight Time
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: Firmware: 400a4 vendor: 0x2 v0.58.0, 2 algorithms
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: cirrus/cs35l41-dsp1-spk-prot.bin: v0.58.0
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: spk-prot: e:\workspace\workspace\tibranch_release_playback_6.76_2\ormis\staging\default_tunings\internal\CS35L53\Fixed_Attenuation_Mono_48000_29.78.0\full\Fixed_Attenuation_Mono_48000_29.78.0_full.bin
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: CS35L41 Bound - SSID: 17AA386E, BST: 1, VSPK: 1, CH: R, FW EN: 1, SPKID: 1
-    snd_hda_codec_realtek ehdaudio0D0: bound i2c-CSC3551:00-cs35l41-hda.1 (ops cs35l41_hda_comp_ops [snd_hda_scodec_cs35l41])
-```
-
-> as well as the acpidump of your laptop.
-
-The full acpi dump is shared via
-https://bugzilla.kernel.org/show_bug.cgi?id=218744
-
-The related item I think in DSDT table may be:
-```
-    Device (SPKR)
-    {
-        Name (_HID, "CSC3551")  // _HID: Hardware ID
-        Name (_SUB, "17AA386E")  // _SUB: Subsystem ID
-        Name (_UID, One)  // _UID: Unique ID
-        Name (SRS0, 0x09060000)
-        Name (SIN0, 0x0908000E)
-        Name (SID0, 0x09060001)
-        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-        {
-            Name (RBUF, ResourceTemplate ()
-            {
-                I2cSerialBusV2 (0x0040, ControllerInitiated, 0x000F4240,
-                    AddressingMode7Bit, "\\_SB.PC00.I2C3",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-                I2cSerialBusV2 (0x0041, ControllerInitiated, 0x000F4240,
-                    AddressingMode7Bit, "\\_SB.PC00.I2C3",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-                GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
-                    "\\_SB.GPI0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0000
-                    }
-                GpioIo (Shared, PullNone, 0x0064, 0x0000, IoRestrictionInputOnly,
-                    "\\_SB.GPI0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0000
-                    }
-                GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionInputOnly,
-                    "\\_SB.GPI0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0000
-                    }
-                Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, _Y58)
-                {
-                    0x00000000,
-                }
-            })
-            CreateWordField (RBUF, 0x59, RST0)
-            CreateWordField (RBUF, 0x7C, INT0)
-            CreateWordField (RBUF, 0x9F, PID0)
-            CreateDWordField (RBUF, \_SB.PC00.I2C3.SPKR._CRS._Y58._INT, INT1)  // _INT: Interrupts
-            RST0 = GNUM (SRS0)
-            INT0 = GNUM (SIN0)
-            PID0 = GNUM (SID0)
-            INT1 = INUM (SIN0)
-            Return (RBUF) /* \_SB_.PC00.I2C3.SPKR._CRS.RBUF */
-        }
-
-        Method (_INI, 0, NotSerialized)  // _INI: Initialize
-        {
-            SGRA (0x0908000E, One)
-            SGII (0x0908000E, Zero)
-            GRXE (0x0908000E, 0x03)
-        }
-
-        Method (_STA, 0, NotSerialized)  // _STA: Status
-        {
-            Return (0x0F)
-        }
-
-        Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
-        {
-        }
-
-        Method (_PS0, 0, Serialized)  // _PS0: Power State 0
-        {
-            ^^^LPCB.H_EC.ECWT (Zero, RefOf (^^^LPCB.H_EC.AM12))
-        }
-
-        Method (_PS2, 0, Serialized)  // _PS2: Power State 2
-        {
-            ^^^LPCB.H_EC.ECWT (One, RefOf (^^^LPCB.H_EC.AM12))
-        }
-
-        Method (_PS3, 0, Serialized)  // _PS3: Power State 3
-        {
-        }
-    }
-```
+-- 
+2.25.1
