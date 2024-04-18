@@ -1,161 +1,195 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACE317556D;
-	Thu, 18 Apr 2024 17:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713462538; cv=none; b=d6ToJzqW1sNgE8uiebeDNGsEM7MNB5/W1mbGGt9jGjtTfINGCtapDhsSBCkaL8CwK0Fx6fVaWE85fSxhRAYwEGGxpPLfAQqYaW6puL3/9nNLNdHre6ebpB36xDPWvFNa1zt4CuCzLSyXSufZ66hoVElzMBDqnvtulL47TYzWATc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713462538; c=relaxed/simple;
-	bh=P2+1M5xlz5nO98fQHEzHTaHBC6pZovHWDXMrzDKvvkk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i4oLWk/K1obeLYo5ZVeeVLFUUpSryVYrcRqr3eiXpOiIEOfavFyrgffrgQdUg1YURe+P/uhHMCL2TGY51Wj6B40/hIPSZbG+w/4Xus2cIuTLgIe3dkZTj6qda48fJDP+smHtpTYhalVxHMvh7Nex6h/t3vSUc5qtJWtrgqDNWNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lefzVpvd; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30003175550
+	for <linux-sound@vger.kernel.org>; Thu, 18 Apr 2024 18:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713463205; cv=fail; b=mc0u8wKPdoyDgHFSKIPREfDVN6oKgqYr0j6U9R6hq54WZXFIOQLnSOQFrAOn/nBjMMdPnYOW6Z53FFn/T56jW2+yI0opx9cOzpYsJbbTRU5JHox3LieYhEIK3FZvYSSU/+M/oxq0CAvUSZREOAaxVGZOt2T/B31exKmMz7sqlP8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713463205; c=relaxed/simple;
+	bh=bLqLXyQgaMBEn/A8An5TD3ahPlE2Ug+wNoeD/sH2SAQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Mc8huGlVuIsJfqQEpHXJ98bYP8kBD5K+3GoJMtq08qOUr+1HCuQH5o8LlOzI00IoN1IPgEwUIelAKHqK64WiEayeWyvkqiP3kdRCYjnUHVK5WcoJkVbo20vmEr4lZT3SWpv0adAw2lQlEiU1BRn/CQqRvay/PMZZuGGVr1X5PWo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=L0ufgJOW; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=XgMkRkmk; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lefzVpvd"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d9fe2b37acso15166511fa.2;
-        Thu, 18 Apr 2024 10:48:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="L0ufgJOW";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="XgMkRkmk"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43IHhJ9x024818;
+	Thu, 18 Apr 2024 12:59:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-id:content-transfer-encoding:mime-version;
+	 s=PODMain02222019; bh=bLqLXyQgaMBEn/A8An5TD3ahPlE2Ug+wNoeD/sH2S
+	AQ=; b=L0ufgJOWxGSWBD0x6C2JuQ0iIGd9pnCa/QR7kBAFpSylDmBwq3hCNdiY2
+	D7dAK3Nzke2dDKxoT4Xi63OLH01UxBZlBetfCyOwlV6hlvyo7yJMd0XBWbTkbNb3
+	4k5jAC6eh5R2Ztw1YYCBTofzzJum1yiQUfidnBBALzQtcvir4NYl+5n0jc/Zuccz
+	wzhzDUUJ7SBzXuKzHuRahFrjoki9Z5RdddfgDq532c5InG39cEHLrA8bDgKR0ScG
+	B7oJXGkLO13NzACeoUooVZbOj07KYoU/KIvGPcg5YrA0kLJqr4uuZs8SeDr8QeJ2
+	QXhmbkqna2aiV5l+xXzqlkPq3CbHg==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xfpfhw3wx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 18 Apr 2024 12:59:46 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jfRumkZtolLEsFlO2W2p/cMueAmukv95/aAeGMnN744WWySI3+1G020NDOF8c04TMegcf4KphsZu2QvafRHQtCvOHlrCkAytaHpJs/3AJf3E2/Lds25It5qg+Daf+QeKwKcvKH9LjzFvKojSAB3XRi+5hKSVaJX3kFlTlKE8Zc5S+H5sSdYZZGSW8uY7hPVtvCB8jotzzk3ko4g6NQJbTZSvPMuyVVOyrdXA2WBoa2RJ2h1+m7/jdpVu0sXq2DbAvFJO1B3lVk6Qz7ACUUvy17phjpaZMIEd/g+rdj/t/u1IeI4LE5y3J74HzXH6cVkkGGgHDPRNIo7gb4w0zZVB0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bLqLXyQgaMBEn/A8An5TD3ahPlE2Ug+wNoeD/sH2SAQ=;
+ b=g4UrCGyVC7B29F+iDn60shM1se3CK8vJUs+rJyfIVFtVpE1k5GEZCgeP290DeFuxyZdYEYhuMdR6izRN57qhsYPKDzA+dXHDYybJCpAjbPEHejXfqftjU2ps6oXULbrExwNtUM5Wv591NED+ulAZixujgeLqvolhQYqS8J3+Z8u+bKWvGrp3EEFrfeMnSGu9YPO1/fbm2ezGkb8s3Gu6KGGmbGc6lVthXGa9VVxTNTy2b+XBtkCIXMkMoKjGUJWN9694NBJUBLIS8u87I8NCFN2+uDg0Ysq4kTzqnPEv4kpOLqtvyxb9FE35r3CftCD5wn5o8+XZoeWJIaDP18C+pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cirrus.com; dmarc=pass action=none header.from=cirrus.com;
+ dkim=pass header.d=cirrus.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713462535; x=1714067335; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nWjRP/RRJQ8mM83fkHijl/axycbWYPWuBIUVY65UOGA=;
-        b=lefzVpvdhSmK89ZXjbG4ujrLhIF769iRqcnzoiAvU2S2q6T04padjjOVi4weBjduae
-         ZmZM0ldexer7TeynnsICi8pKc9UWMXqQS0UfJGXcoIHz8J3XKQv9ZRizwXl7cMUn6CV7
-         2QuDRtjdaWGojfZBFOpoyCQyGTXgsIkZ1ghBuRnN7IV0+GPSart/xOimzX06RqJwLB+E
-         Lvd5xaTDCrjwIJeo2w0mZhrHURsiftDX+HLg0zl8pfHxgQ4nlNK911UknkQ2/Amwnnq2
-         Ht+7VW7n/Haj9mlMbe8wnTXBdVEJN7m+atdn9RtvrqlknJYV4nZ0+Awv96fOoCmCz+Py
-         saOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713462535; x=1714067335;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWjRP/RRJQ8mM83fkHijl/axycbWYPWuBIUVY65UOGA=;
-        b=FN+1L6kZ9/1IHALKblwvVk8hJAxsVoxkNIl6dDfzUDUewhAKxBWKTV5Vy00frfDW41
-         5edzCCCDfSEfywlxnUkMEj9PGodLy5KmhgefIzDScjPi5VpFjLFbY2+bL7MvyvItvS1w
-         vGc9WtIwWadkYOwd0fhF9IpYmcuDolSKHfaiVyWtU23renthFtiYs+rWnWoUIwLMg2R2
-         DoWKhbrrWXexRcDsks72kvfcORaxJg1o8Zft+PGQ1F9r4sSc5g+sjbeQ88uSWRoDewei
-         TIQBMLk3pIma50YTrwraC0IdQc/fucQ+za/veUNznXZoGId+VBnWqXGbc5LfdrRvpWY1
-         6u4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWEzbOMhbPjEVLIVjD0QgbiLfGs9//NCovId+K2TCsS3srATyhq7toHPox52zfWDWDvAmdpCpjWK1EJh6ug4hUKu4ps/nvtxtuJlpy6SUbL7cN2S45SdFyu6DgnSATYbnI1qEAC0gy+ZUDkztNyFlNpzlY4bmmgksKCphHVLD/0Ayc=
-X-Gm-Message-State: AOJu0Yxbi2tw32ll7l47hVYQGOL/Wl4WNSUDvyXOtjv5SyfTam7FtlVJ
-	SNUhGWHrFpO0EfknIKbVAtzjWkWxdj4eF89a/hZSiBOzVbgrnHpq
-X-Google-Smtp-Source: AGHT+IFLN8AVKD6AbFTXCtyt/i2xPnyVSWhKPGW1JF/2/FqWjGy5naOgcXt0w7tJVCAdQgHvWpQApQ==
-X-Received: by 2002:a2e:8807:0:b0:2da:9ebe:e35f with SMTP id x7-20020a2e8807000000b002da9ebee35fmr1923468ljh.22.1713462534894;
-        Thu, 18 Apr 2024 10:48:54 -0700 (PDT)
-Received: from [10.0.0.100] (host-213-145-200-116.kaisa-laajakaista.fi. [213.145.200.116])
-        by smtp.gmail.com with ESMTPSA id p12-20020a2ea40c000000b002d80b78c1e0sm268671ljn.117.2024.04.18.10.48.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 10:48:54 -0700 (PDT)
-Message-ID: <f0dcab9a-1f9d-4db5-b886-0d2174070f37@gmail.com>
-Date: Thu, 18 Apr 2024 20:49:09 +0300
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bLqLXyQgaMBEn/A8An5TD3ahPlE2Ug+wNoeD/sH2SAQ=;
+ b=XgMkRkmk/ZfGJxKXba5YhhgDG07+xFvMq76sdEcoHMg5UlyVcYvlXMUtXZ/pHcjl1FBxq8Wq3Y97sR9boJKflmqiqwx0azGYYY7oSCfqJtiOScxeOM65MmKOp9cKIPPAClAyWQYpaV7Et5PxZKETKEQCc8G8PgZXrBxx09aufI8=
+Received: from DS7PR19MB5688.namprd19.prod.outlook.com (2603:10b6:8:73::14) by
+ BY3PR19MB5025.namprd19.prod.outlook.com (2603:10b6:a03:36e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.41; Thu, 18 Apr
+ 2024 17:59:41 +0000
+Received: from DS7PR19MB5688.namprd19.prod.outlook.com
+ ([fe80::8329:dcb9:4d7c:df1a]) by DS7PR19MB5688.namprd19.prod.outlook.com
+ ([fe80::8329:dcb9:4d7c:df1a%2]) with mapi id 15.20.7472.037; Thu, 18 Apr 2024
+ 17:59:41 +0000
+From: James Ogletree <James.Ogletree@cirrus.com>
+To: Lee Jones <lee@kernel.org>
+CC: Mark Brown <broonie@kernel.org>,
+        Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        "open
+ list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+        "open
+ list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+	<linux-sound@vger.kernel.org>
+Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
+ CS40L50
+Thread-Topic: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
+ CS40L50
+Thread-Index: AQHaicoHNR0TZU5ElUi1zSJTLRH+QrFk3KaAgAYE9YCAABxTAIABgLkAgAHiFwA=
+Date: Thu, 18 Apr 2024 17:59:41 +0000
+Message-ID: <9F7C82D1-1622-4FD8-9987-30236122E852@cirrus.com>
+References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
+ <20240408153214.42368-6-jogletre@opensource.cirrus.com>
+ <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
+ <20240416123541.GW2399047@google.com>
+ <F90648F7-BE0B-47DB-89C4-A8C91CD65D59@cirrus.com>
+ <20240417131402.GZ2399047@google.com>
+In-Reply-To: <20240417131402.GZ2399047@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR19MB5688:EE_|BY3PR19MB5025:EE_
+x-ms-office365-filtering-correlation-id: f15d6b66-b1bd-49c0-af19-08dc5fd1525c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ gmyGw8xu4nAtRTC1XLFcR96nOnv7zzNJNwgJMTUTCFB2rF+7tSZZjMU1d4vEiqARzNSoCgWpNh5ucRYx10J3c//t6Zn6NGtocw1Dq+O8YZMiuecST6dSTwncGAq722qkHV72OlZsjwEj1m5gprEjlqDNiCxJxoA51S+JdzGWvMt1FXQqL8B3saiT364WPmmP8GeSvmYNF5tZkkJPevKw8TxAyIvB8GTauMJYhB/LeKrKFyanyYEN6TkxqfPR1hR3RsuNAXnswpNvi8+lGbacU/nA7e9ntJ4c1ZFAau4jGEJIqiTWBLCZ8ptK+JvV5T15INloJtfYvboyk/GCslkNmCq3bZyJxS2ZRJm1LNLmimCSogjr9n+ntrjb7rlf3Uv0wX9/PTyGouB1CoPGBgDK2nYkDZe4esioZ248XqPhxhjpc2q0xuxKblp+oFu3Rb6hv8ElLQmE/yNra1BE4ApY8hpnlirSAg3BI3CFwXU6ktKK2zj5fHmVU8nz6j6ys+TLljGLVf6TFQHZwsdpTya4Tb3i6f2X3O+SPLev6oezRyXUN/q7btgAbrahQ9g1+nwdMkCYw2qZqVQF4xUz3F/fGH9yoGxnYdQcDocbsp0ctxlsmHei2EE7Z7CeCJA9/0zZNNHUKsaBKKC6Q5XKmeoDHJCoJPHx3fneM/oMrbOwW9XZHiKVzZJqmlQ/f6/dpT8UumJvJVP1WYJLH6fvi+EM9+hPgS/sM5aCsG3iPm47f3A=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR19MB5688.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?UW42bno5a0l4QzBqQ1lUMEJVQVl0dEJ5RjV1YWcydkRZN1o4bXFhWG1wa053?=
+ =?utf-8?B?SEZWeHg0bWVLY0xNNG5wSXhEcVZsY1hrc1VPTnVPR1kwYzlqL2ZRaFVFU1RR?=
+ =?utf-8?B?U015OHZFaWkrVVJ5MmYwQ0dUWlM2YWNsTml2aUFPMzhpTXhMY09GVDBiUzBo?=
+ =?utf-8?B?b28yNmt6ZjJYNTJRbzNpL3NtN1ZMU0JWTzd4UnpJUUw4QVdhS2N5WWE3UWpN?=
+ =?utf-8?B?dlhEbGdxZStGdlBPeTRtZnRvQk5oZDBFd00yZGVnQm5QbGFsaHJSeHhiM0Nw?=
+ =?utf-8?B?bUZuYmowckZERW84MTA3S2JTVUEzanZnL0FZaDlwWHBMUllDMHl3Vi9URHBo?=
+ =?utf-8?B?Z2lkd3Jncml0K0RLMk1aYU11ODZFREpBNjJZV1laYzFpMEF6NVlKSXBXaytP?=
+ =?utf-8?B?bGtnYTZGb01BOTFOZGxSait2SWdpY2UzOVpSWVJrc0Ixa1VMSDc0VTFoTTcx?=
+ =?utf-8?B?eWxnbGZjelJMTnNaRm42VFl3V0VxNlVPRnc0VUJQTU9UVzROSmhxeHJTSURh?=
+ =?utf-8?B?WktQeTl4a2RMNFpENHlrZ1ZkeE4wOEtEcjFXbzdUSzBhR0hIMXRSbURJOERZ?=
+ =?utf-8?B?ZG54VWRMYWFjcFIrN2hEM0xuaDEzWHFKVHdTYVpMaDFJbFZLdkdUb21IMTBO?=
+ =?utf-8?B?OWVlWEs2cnVvYU1kVzZmbkk5MnRMQ0JHK2JxcGdrelh0K1lFdXNqdWxrL0dw?=
+ =?utf-8?B?VTJYMXF6THlTYVZqMExRbjhlS0ZycGVjS01WTjA1L1gzVGwvRDBTQ3FqMGt1?=
+ =?utf-8?B?STBLQnlkYml5WmFsVzV1RllWbGkrZGRMcUJoVnpWMHAxMXR5NFVEcS9uZXB0?=
+ =?utf-8?B?NG12Q0tBNWtKRGpsSlZPSzhSbFZ5TDZsdTY3Qk5qVHpGU1BKV0hzSi9sK213?=
+ =?utf-8?B?cUU3elA3TXg5U2RyUmhKRExMWUNqTHlLUkJYWVNBbWd5a0pFZnhpQ3BBcU5X?=
+ =?utf-8?B?ODJaNzdlc3pMVW9md2VQTEp0ZkNlWHdOMzFIdkU1UXQ0Vm0vNDkxcWVLOSti?=
+ =?utf-8?B?c3RTS2tWUzdDOFA1N2hJYnhXUFI3NjBGRThLQkdlaTU2cHYrNEJIRTRIM0x4?=
+ =?utf-8?B?ZjgwMXBOZFFXNkhzdUp2a2sxTFNPZXVydWFCa2Fzc09VSlo3cUJGRi9XV1Rs?=
+ =?utf-8?B?em8wNWdtS1BrTzRoYTl2c1ZLNmhCcDZxb05Ga1Z6VnpzRGtVejg3VWExUnp5?=
+ =?utf-8?B?bjN2bTdUSGVKaGJtL3J2VFFQbUc1S2Q5b3FSWEZBekRma2xiYkJUVXRnQk9x?=
+ =?utf-8?B?ekMwNVczNVdMVUtRMXh1WjZyRXF4K0NDcG9Rc0ErSVl3VWIzYXdSa3Y0NGlL?=
+ =?utf-8?B?VDhFSGIxR0JhZlVBYlBnUzlPdkZWNkN3WlQxakxIN2liR0xTeFZrUlhKdzdz?=
+ =?utf-8?B?MUhsaFh3R3h1am4yYStxMFpVM3hSNjhMRjJUajRuQWpERTd6dksrdmlrSHJK?=
+ =?utf-8?B?dmV6R29iY2lnOENlR0RWWU1KRGlJVDhRNlY5TTNnZXBMbFJsWEJOeXg1NHRa?=
+ =?utf-8?B?ZEd4WUp0LzVVRWpTc2NVRmpaUjBWWXpVWU16MXJ0N1dyOWMydjlFZ1N3eC9M?=
+ =?utf-8?B?N0FXcUMybnBwU1ZtTlNTMG84ZFBya1VxRCtBV1llZWRaTGNDOWpKMUwrb3Fw?=
+ =?utf-8?B?YkdLNFp3ZUtGSjNmRjBZT2UyanB2UmJtWUNWR3pCTFJqdHhQaEpQMTN3NUgz?=
+ =?utf-8?B?WlVyN2NPRnNqemFTMmZuZTVoTi9NQ1kwaHhGcFNjRGVKYU1FN3FVNGpjQzAy?=
+ =?utf-8?B?YmFpV3ZHemJnM2MxdS9OOWhKZ255amcrajVDUHlxbVVSSlJNZTdOTEtPR2hM?=
+ =?utf-8?B?V2pIQ3Vpd2wxWk9Xa1ZWeHVpckhSOS92QlJhVzg3NjZGbENSM29yRkdjcDRY?=
+ =?utf-8?B?TzJhcUYrd00vTkNmMWRqVk5EUUZYOUttU1hlSDRDMVZIblNyQTJKbzVvdGww?=
+ =?utf-8?B?a1FGN3BzcE1MQ2lseWJMQnFuTHhudjNKaGZ5Uml5ZG1WVnl5azlBSC9NZTZt?=
+ =?utf-8?B?d2tvcnRpZjFMdUFHN2NDY0QxQmVaTEFJSi9NQ3p1eCtRUjI4RWVjSXR6cXZq?=
+ =?utf-8?B?RDFsdmY0RkhsbkJ5UEdxRXMzODk4VDl5cFRXeGNubzh1bWFwekNkRUU0ZU81?=
+ =?utf-8?B?cGpUZldlQ1BYcUNzMXduNi9TZFh4c0dldUk3bkVhRk9iOXBZQW9NdkVlQ25X?=
+ =?utf-8?B?cHc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D88FC9C0B5F05F43A6669E7A279B279E@namprd19.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Fix race condition during probe
-To: Joao Paulo Goncalves <jpaulo.silvagoncalves@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Joao Paulo Goncalves <joao.goncalves@toradex.com>,
- Jai Luthra <j-luthra@ti.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20240417184138.1104774-1-jpaulo.silvagoncalves@gmail.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20240417184138.1104774-1-jpaulo.silvagoncalves@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: cirrus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB5688.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f15d6b66-b1bd-49c0-af19-08dc5fd1525c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2024 17:59:41.3752
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /wJONKxBS0FCotV+jL6MBb6wgjaJD0Thq077+HEO9xmaDFLjhAqIV1OCp6zk4tLhxfyIxxSNux1sdZTieSwjN58fTjTj1ECe2w+nTidmOnY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR19MB5025
+X-Proofpoint-ORIG-GUID: mLnnwWhzUG8Z55gL8g1SxKEPmfY4PSaX
+X-Proofpoint-GUID: mLnnwWhzUG8Z55gL8g1SxKEPmfY4PSaX
+X-Proofpoint-Spam-Reason: safe
 
-
-
-On 17/04/2024 21:41, Joao Paulo Goncalves wrote:
-> From: Joao Paulo Goncalves <joao.goncalves@toradex.com>
-> 
-> When using davinci-mcasp as CPU DAI with simple-card, there are some
-> conditions that cause simple-card to finish registering a sound card before
-> davinci-mcasp finishes registering all sound components. This creates a
-> non-working sound card from userspace with no problem indication apart
-> from not being able to play/record audio on a PCM stream. The issue
-> arises during simultaneous probe execution of both drivers. Specifically,
-> the simple-card driver, awaiting a CPU DAI, proceeds as soon as
-> davinci-mcasp registers its DAI. However, this process can lead to the
-> client mutex lock (client_mutex in soc-core.c) being held or davinci-mcasp
-> being preempted before PCM DMA registration on davinci-mcasp finishes.
-> This situation occurs when the probes of both drivers run concurrently.
-> Below is the code path for this condition. To solve the issue, defer
-> davinci-mcasp CPU DAI registration to the last step in the audio part of
-> it. This way, simple-card CPU DAI parsing will be deferred until all
-> audio components are registered.
-> 
-> Fail Code Path:
-> 
-> simple-card.c: probe starts
-> simple-card.c: simple_dai_link_of: simple_parse_node(..,cpu,..) returns EPROBE_DEFER, no CPU DAI yet
-> davinci-mcasp.c: probe starts
-> davinci-mcasp.c: devm_snd_soc_register_component() register CPU DAI
-> simple-card.c: probes again, finish CPU DAI parsing and call devm_snd_soc_register_card()
-> simple-card.c: finish probe
-> davinci-mcasp.c: *dma_pcm_platform_register() register PCM  DMA
-> davinci-mcasp.c: probe finish
-
-Interesting... Thanks for the details.
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 9fbd58cf4ab0 ("ASoC: davinci-mcasp: Choose PCM driver based on configured DMA controller")
-
-Just to note that the DAI registration was always before the platform
-registration (ever since the DAI driver started to register the
-platform) and I think most TI (and probably other vendor's) driver does
-things this way. McASP does a bit of lifting by requesting a DMA channel
-to figure out the type of DMA...
-
-> Signed-off-by: Joao Paulo Goncalves <joao.goncalves@toradex.com>
-> ---
->  sound/soc/ti/davinci-mcasp.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-> index b892d66f78470..1e760c3155213 100644
-> --- a/sound/soc/ti/davinci-mcasp.c
-> +++ b/sound/soc/ti/davinci-mcasp.c
-> @@ -2417,12 +2417,6 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
->  
->  	mcasp_reparent_fck(pdev);
->  
-> -	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
-> -					      &davinci_mcasp_dai[mcasp->op_mode], 1);
-> -
-> -	if (ret != 0)
-> -		goto err;
-> -
->  	ret = davinci_mcasp_get_dma_type(mcasp);
->  	switch (ret) {
->  	case PCM_EDMA:
-> @@ -2449,6 +2443,12 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
->  		goto err;
->  	}
->  
-> +	ret = devm_snd_soc_register_component(&pdev->dev, &davinci_mcasp_component,
-> +					      &davinci_mcasp_dai[mcasp->op_mode], 1);
-> +
-> +	if (ret != 0)
-> +		goto err;
-> +
->  no_audio:
->  	ret = davinci_mcasp_init_gpiochip(mcasp);
->  	if (ret) {
-
--- 
-Péter
+SGkgTGVlLA0KDQo+IE9uIEFwciAxNywgMjAyNCwgYXQgODoxNOKAr0FNLCBMZWUgSm9uZXMgPGxl
+ZUBrZXJuZWwub3JnPiB3cm90ZToNCj4gDQo+IE9uIFR1ZSwgMTYgQXByIDIwMjQsIEphbWVzIE9n
+bGV0cmVlIHdyb3RlOg0KPiANCj4+PiBPbiBBcHIgMTYsIDIwMjQsIGF0IDc6MzXigK9BTSwgTGVl
+IEpvbmVzIDxsZWVAa2VybmVsLm9yZz4gd3JvdGU6DQo+Pj4gDQo+Pj4gT24gRnJpLCAxMiBBcHIg
+MjAyNCwgSmFtZXMgT2dsZXRyZWUgd3JvdGU6DQo+Pj4+IEFsbCBmZWVkYmFjayB0byBkYXRlIGhh
+cyBiZWVuIGFkZHJlc3NlZA0KPj4+IA0KPj4+IFRoZXJlIGFyZSBzdGlsbCBNRkQgcmV2aWV3IGNv
+bW1lbnRzIGxlZnQgb3V0c3RhbmRpbmcuDQo+PiANCj4+IEhpIExlZSwNCj4+IA0KPj4gQXMgYmVz
+dCBhcyBJIGNhbiB0ZWxsLCB0aGUgb25seSByZXZpZXcgY29tbWVudCBpbiB2MTAgaXMgZnJvbSB5
+b3UsDQo+PiBzYXlpbmcgdGhhdCB0aGUgTUZEIHBhcnQgbG9va3Mgb2theS4gVGhlbiBpbiB0aGlz
+IHJlc2VudCBzZXJpZXMsIHlvdQ0KPj4gY29tbWVudGVkIHRoYXQgdGhlIE1GRCBwYXJ0IGhhZCBu
+b3QgYmVlbiB1cGRhdGVkLiBJbmRlZWQsIHRoaXMgaXMNCj4+IGJlY2F1c2UgdGhlcmUgd2VyZSBu
+byBjb21tZW50cyB0byBhZGRyZXNzLiBQbGVhc2UgY29ycmVjdCBtZSBpZiBJDQo+PiBpbnRlcnBy
+ZXRlZCB5b3VyIGNvbW1lbnQgaW5jb3JyZWN0bHkuDQo+PiANCj4+IEkgaGF2ZSBhbHNvIGdvbmUg
+YmFjayBvdmVyIHY4IGFuZCB2OSBsb29raW5nIGZvciBvdXRzdGFuZGluZw0KPj4gY29tbWVudHMs
+IGFuZCBhbGwgb2YgdGhlIHJldmlldyBjb21tZW50cyBhcHBlYXIgdG8gYmUgYXBwbGllZC4NCj4+
+IFdvdWxkIHlvdSBraW5kbHkgbGluayBtZSB0byB0aGUgZW1haWwgd2l0aCB0aGUgbWlzc2luZyBy
+ZXZpZXcNCj4+IGNvbW1lbnRzIGlmIEkgYW0gbWlzdGFrZW4/DQo+IA0KPiBBdCB0aGUgdmVyeSBs
+ZWFzdCwgeW91IHN0aWxsIGhhdmUgdGhpcyBpbiBoZXJlOg0KPiANCj4gICAgLyogSWYgd3JpdGUg
+bmV2ZXIgb2NjdXJyZWQsIGRvbid0IGJvdGhlciBwb2xsaW5nIGZvciBBQ0sgKi8NCj4gDQo+IEFm
+dGVyIHJlYWxpc2luZyB0aGF0IEknZCBjb21tZW50ZWQgb24gdGhpcyBiZWZvcmUsIEkgc3RvcHBl
+ZCB0aGUNCj4gcmUtcmV2aWV3Lg0KDQpJdCBsb29rcyBsaWtlIEkgdG9vayBzb21lIGxpYmVydGll
+cyBoZXJlIHdpdGhvdXQgY29tbXVuaWNhdGluZyB0aGVtLA0Kc28gbXkgc2luY2VyZSBhcG9sb2dp
+ZXMuDQoNCkluIFY4IHRoZSBsaW5lIHdhczoNCg0KIklmIHdlIG5ldmVyIHdyb3RlLCBkb24ndCBi
+b3RoZXIgY2hlY2tpbmcgZm9yIEFDS+KAnQ0KDQpJbiB0aGF0IHJldmlldywgeW91IHByb3ZpZGVk
+IGFuIGltcHJvdmVkIHBocmFzaW5nOg0KDQoiSWYgdGhlIHdyaXRlIG5ldmVyIHRvb2sgcGxhY2Us
+IG5vIG5lZWQgdG8gY2hlY2sgZm9yIHRoZSBBQ0vigJ0NCg0KTXkgdGFrZWF3YXkgZnJvbSB5b3Vy
+IHBocmFzaW5nIHdhcyB0aGF0IHRoZSB1c2Ugb2YgdGhlIGZpcnN0LXBlcnNvbg0KcHJvbm91biDi
+gJx3ZSIgd2FzIGltcHJvcGVyLiBTbyBJIHJld3JvdGUgaXQgaW4gdGhlIHRoaXJkLXBlcnNvbiwg
+YnV0DQpzdGlsbCBpbiBteSBvd24gd29yZHMsIHJlc3VsdGluZyBpbiBpdHMgY3VycmVudCBmb3Jt
+Og0KDQoiSWYgd3JpdGUgbmV2ZXIgb2NjdXJyZWQsIGRvbid0IGJvdGhlciBwb2xsaW5nIGZvciBB
+Q0vigJ0NCg0KSXMgaXQgdGhhdCB0aGUgcGhyYXNlIOKAnGRvbuKAmXQgYm90aGVy4oCdIGlzIHRv
+byBpZGlvbWF0aWM/IElmIHNvIEkgd2lsbCBhcHBseQ0KeW91ciBwaHJhc2luZyB2ZXJiYXRpbSBp
+biBWMTEuDQoNCkJlc3QsDQpKYW1lcw0KDQoNCg==
