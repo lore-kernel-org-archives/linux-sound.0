@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881A616191A;
-	Thu, 18 Apr 2024 17:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABF7174ECD;
+	Thu, 18 Apr 2024 17:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713460488; cv=none; b=EmovJT0YuyueEvRK2yy905RItSk6U7/BCnF7D59sdgBozdwSa4RtoetuNjiiwnkWjs4FtL/zF1lV+yho6evyn0hG20QjFA1z5C3AYHF+mLZZGflBCIGmntlj1rQwy7qYiyrX7S1t1mWBB0NoouPIJSnvPFYoxjfYfuKO1Kb6QC8=
+	t=1713461811; cv=none; b=XeLJcZe+GuksJwWFOUfZXtJWjpZfYPGIZgEK6aoYMwjO4qmriaBNHpr0etrzADd9YvlTTpCyPg9VDmoHbBBP2g/97DabTtUES0mh+jr/iRfWsH3fXpjU/QyBdH0hO107O/PldssCFx1evlsIskc2BT1tAOirVVDmlqGh1bFMGug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713460488; c=relaxed/simple;
-	bh=1mTwj8VeXkd+XGauaB2PgqQy+CD5X3YLnyEDvnKgalA=;
+	s=arc-20240116; t=1713461811; c=relaxed/simple;
+	bh=7Fg4qmfyav8W8DJA7fUVWkxlTH5YJKwrM/ZlOrI7cKQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MC7UDCcszgLIxO+FpAj5ryUeYBJXvshe5edXXKfLu46sSEiKGDinInrQfiiBxW9ZOkxhM4M4kQp/JpNd6YMVFKhaNAVMG1StMXe3WvshmmDBfxHjaEw1V0D4MFUFmiqa3ZtN6aoK/HKn7Rde/ziOPvVWpyJCAaPaZUCG8HMsAWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6r+Z2Ir; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=DfcWXss/uU1r4I1huQNr03GvS5DoBhhm2XvsF+190ceONPb3CQE9z72VKy4+3FlKqNUu3cH/rUUuNHxVPnykOEsYOdwzipVAdThwD1qJDztGCaMgvJJRoCTljkht2ZjTDTAVeZaGa5smJ+os3m6LPFVl0fnUCG7XDqzOM7TcQ3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9e6EOjQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6r+Z2Ir"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3D0C113CC;
-	Thu, 18 Apr 2024 17:14:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9e6EOjQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3CFEC113CC;
+	Thu, 18 Apr 2024 17:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713460488;
-	bh=1mTwj8VeXkd+XGauaB2PgqQy+CD5X3YLnyEDvnKgalA=;
+	s=k20201202; t=1713461810;
+	bh=7Fg4qmfyav8W8DJA7fUVWkxlTH5YJKwrM/ZlOrI7cKQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=K6r+Z2Irk6oDB8aQ3h9uFR15Oie2W0D+Y9aDgfWtUxwS9olgQdBQNiYe0pXd5xFCB
-	 H2uPA/Z6qWBsYOUpY/TiDhO+1lZYWcKQNUDqXB3/jXjy7JCvhpOlfOyxHF0wRry58A
-	 5PZaFhAEp1mezpeX4pHNI2Dz/2teZdXymLf30A4rdKmeK3uBxKlSr7br4KonmCwsF0
-	 C/lSOMjpxoD9y3n3xHs+pwDuZChfIU3xCQ5oV2/Hz3dIZ6atqM8/VgmB4Azxa/RlwZ
-	 geDOVruKfIhUVQ1o2WjxOoCLjgtwJRrM9Uo3hCWzJCsc2a8svdCZQC5IzmaGjIOChF
-	 mFJstfln2IAQA==
-Message-ID: <47dea00a-79b5-452c-958d-eb56d4577119@kernel.org>
-Date: Thu, 18 Apr 2024 19:14:45 +0200
+	b=g9e6EOjQEl9d81+ImxD5y4to60yBX99x2cq0BJkyLMP4yKrAToif9oDEO8oIeKbdI
+	 9vN0ZjWRwpMqZyFLkMZtwRxmZnlUzFTCAlDQsbGOUjZrXyPeDfj2kMN4sNwJdQ1ylk
+	 89eIsuskFUPawrjTdtfmUgd3Ailah2ukj1xRCyHtOFO7EZDPKOGST36tBaF62Yj3+C
+	 h9k+tekrMTi77VVUW4W4gW4mUwNONT/eygnwFyXor+XAuk6dZN8oWXmtDgl8j+Pzeo
+	 hzUpg0qyiyTZ9Nrn5gDaS9kYmF+Ge1w+VJ1cUHTJ9Zv0UhflUrxhwBj48Y0at9Blw8
+	 /1dKokqpHXSFA==
+Message-ID: <5dd56713-74fa-46bd-a76f-1839c1800e88@kernel.org>
+Date: Thu, 18 Apr 2024 19:36:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,15 +35,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: fsl,ssi: Convert to YAML
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1713345932-6408-1-git-send-email-shengjiu.wang@nxp.com>
- <c3bcefc9-61de-44aa-8412-17ea42e7048c@kernel.org>
- <CAA+D8ANB1v1ei6ez6KSWoXLMqk+6CvThY3qrDsqO=tHOC0DNhg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: tegra20-das: Convert to schema
+To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240418163326.58365-1-sheharyaar48@gmail.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,37 +90,34 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAA+D8ANB1v1ei6ez6KSWoXLMqk+6CvThY3qrDsqO=tHOC0DNhg@mail.gmail.com>
+In-Reply-To: <20240418163326.58365-1-sheharyaar48@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 18/04/2024 05:04, Shengjiu Wang wrote:
+On 18/04/2024 18:33, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra20 DAS (Digital Audio Switch) binding to schema.
+> 
+> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 
->>> +  "#sound-dai-cells":
->>> +    const: 0
->>> +    description: optional, some dts node didn't add it.
->>
->> The question is: is this DAI or not?
-> 
-> Yes, it is a DAI. so, is there any issue here?
-> 
->>
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - fsl,fifo-depth
->>> +
->>> +unevaluatedProperties: false
->>
->> This must be additionalProperties:false. Use example-schema as
->> reference... unless you want to reference dai-common.yaml, but then that
->> one is missing.
-> 
-> As it is a DAI,  so I should include dai-common.yaml,  right?
 
-Yes and then unevaluated is correct.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+
+---
+
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
 Best regards,
 Krzysztof
