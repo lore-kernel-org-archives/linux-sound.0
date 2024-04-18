@@ -1,74 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2304165FCD;
-	Thu, 18 Apr 2024 14:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD3916EBFB;
+	Thu, 18 Apr 2024 15:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713451538; cv=none; b=P7/3B5i90PvuYUFd9gKU5lokecP7Jk034RY9lP+dMGWRP2e+vVGLp4W0VRjtURxxLF32Z7ECPlm/CyW/Uw2Zqi7MSY2vWAsmx4MhXqA1rw+U3F40SrnZbRDNMvP/JW89QcXxUEkIWU6nufS6GUl60EfUNDwwfXeDFX+ZORvdON4=
+	t=1713455487; cv=none; b=mvNMQK5ZJEDSmfTVZZgtRMEnac2XM8Gt2+7VE+a0WTOBhuqGIn4Q64KpMuwsEmaGWMoKD+J751u4QgVpB4yrm2H0sJp/dY8+0vBAp1TUtk4Nnyr+nF3LfaEp8yggg3sdIxxnxf/wCQjnPuDE7mRqgbymCs1ImU02WoknCHOGlJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713451538; c=relaxed/simple;
-	bh=nLbs8RL8++XhN2PB5brXy3kO4RizEvkxsXHyjVpr6sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ryHNxpNVGtV4c74+zgvKDoHfRytpYhvc41/5vggNo4mrS+D9YV/xCEvpT6DltItSNwAAhCfIV3qhltSnWLTmYMWkSTKzaFc1H3UW730OlNJF2jXQ9uxRHmE0Mq2IeJXx/4ilM5lYR5fRp2q32XJdJRQ4TWLWRWhNOK5rwkFiKWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sTSH1fOz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713455487; c=relaxed/simple;
+	bh=2gdhwgFNM0LV5/DhpOw5l/Tz9tLKHivDA52KLsPKnfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oXdlT4dU4DTpvGkiSLZHwtt2/UaXjnY3Qa4C1miT3gzxgZNrKB5lUG/YRw4b7y30hLmhSMEvCxYoz0IHV+D+57eXuyWqI7IeXVYG1r33mkQjqqmqr7V/24PoWPRzkBVWmpWKyzRih7tuMnh6g19Ymrzx09rXvgBbD/qTgldnDsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmBi38Yp; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sTSH1fOz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469D4C113CC;
-	Thu, 18 Apr 2024 14:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713451538;
-	bh=nLbs8RL8++XhN2PB5brXy3kO4RizEvkxsXHyjVpr6sc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sTSH1fOzGJ9UwFNYbWTkl1irr91yM3CjrwnlgH6gzP6HCmpkW+MfcYrbfU7wtWGs9
-	 1fnL9FlfOnCUp9G1HZkvV6thGNpDLag0NHNHiuqitVwLLQcEjvb4cPCRdmEIjIDhYp
-	 qdnArZywaCMR7NwnKNEy1APq5RbVdhf8nOmohKow=
-Date: Thu, 18 Apr 2024 16:45:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "ZiEnWBbvmWwKqytK@ediswmail9.ad.cirrus.com" <ZiEnWBbvmWwKqytK@ediswmail9.ad.cirrus.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	"sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
-	"david.rhodes@cirrus.com" <david.rhodes@cirrus.com>,
-	"james.schulman@cirrus.com" <james.schulman@cirrus.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
-	"rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] ALSA: hda/realtek: Fix internal speakers for
- Legion Y9000X 2022 IAH7
-Message-ID: <2024041810-juice-overfull-5222@gregkh>
-References: <TYCP286MB25357A4599E935F26A8AAB24C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
- <TYCP286MB25359B61BB685A4B3110BB44C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
- <ZiEnWBbvmWwKqytK@ediswmail9.ad.cirrus.com>
- <1883258.tdWV9SEqCh@qlaptoparch>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmBi38Yp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713455486; x=1744991486;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2gdhwgFNM0LV5/DhpOw5l/Tz9tLKHivDA52KLsPKnfE=;
+  b=lmBi38YpskEIOXaUS2N3oUXcw+ifZ00wOZsyV11mjQgx0UxzaVgx9HcM
+   TtfF4nTp/h9rl5L+ggBA07hp+t6wfwx+FUDznjQgMCj9t/nUssNPj1ZPV
+   MH2Qo0RrWxEj3I+iuUAV6rzc/y8ESNMTx+CLahMpIih4Gs2COM1GSRarj
+   yTYjgVZKGVp2ix3X3Zn0oGGx/d640SzqtR8vVAfNGURWMEYLQ7fSZXtH/
+   3gAY3vkKt2eUKcYo1lJxs+DPRxLwebQmkpHMKOt9ojGPgzkPd6cBcx3sV
+   E58YA2atFDECPQXQOwurgkb/U2LrpSWXD7FC1fm11Mzg97NKeQevUZkVk
+   A==;
+X-CSE-ConnectionGUID: caaG8fpJQ+CKsopAC0AwQg==
+X-CSE-MsgGUID: fKRZ4x+ORjOzhIKgSMx/iQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12849198"
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="12849198"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 08:51:26 -0700
+X-CSE-ConnectionGUID: kV+DTLX5TM2e1mcBMw+bfg==
+X-CSE-MsgGUID: lVQtMgJXRa2VAYNdoCWVFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="27606891"
+Received: from rswoodsx-mobl.amr.corp.intel.com (HELO [10.213.167.100]) ([10.213.167.100])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 08:51:24 -0700
+Message-ID: <848bcc94-3a31-4fb4-81bc-bd3f138e12f6@linux.intel.com>
+Date: Thu, 18 Apr 2024 08:24:10 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1883258.tdWV9SEqCh@qlaptoparch>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Huawei Matebook D14
+ NBLB-WAX9N quirk detection
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Brady Norander <bradynorander@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>, Mark Hasemeyer <markhas@chromium.org>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ stable@vger.kernel.org
+References: <5e6ba980c0738199589749b68b83f2d730512107.1713430105.git.mchehab@kernel.org>
+ <20240418110453.10efcb60@sal.lan>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240418110453.10efcb60@sal.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 18, 2024 at 02:19:04PM +0000, Qi Qi wrote:
-> > I would wait for Stefan to review the content before respinning
-> > but you need to use your real name for the Signed-off-by line as
-> > per Documentation/process/submitting-patches.rst, it's a legal
-> > thing.
+
+
+On 4/18/24 05:04, Mauro Carvalho Chehab wrote:
+> Em Thu, 18 Apr 2024 09:48:27 +0100
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 > 
-> Thanks for the reminder.
+>> Newer Matebook D14 model comes with essx8336 and supports SOF,
+>> but the initial models use the legacy driver, with a Realtek ALC 256
+>> AC97 chip on it.
+>>
+>> The BIOS seems to be prepared to be used by both models, so
+>> it contains an entry for ESSX8336 on its DSDT table.
+>>
+>> Add a quirk, as otherwise dspconfig driver will try to load
+>> SOF, causing audio probe to fail.
+>>
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > 
-> My real name is Junhao Pei. 
-> My PGP fingerprint is 7DA8815C10FCDAB8C6D11C4BDC72A2519E77D6CF.
+> Worth to mention that I opened an issue on Github about that:
 > 
-> I claim that I own the copyright of these patches, and agree to license them 
-> under GPL v2.0 or later.
+> https://github.com/thesofproject/linux/issues/4934
+> 
+> I added there the ACPI DSDT table as a reference.
 
-You still need to resend the patch with that information, don't make
-anyone have to "hand edit" your patch :(
+This sounds like an 'easy enough' fix, but I don't have a burning desire
+to start adding quirks of this nature. To be clear, the entire support
+of the ES8336 is an absolute nightmare that I've stopped looking at
+completely given the lack of support of vendor/OEMs.
 
-thanks,
+In this case, the ACPI table is completely wrong, we should try to
+'mark' the ES8336 device as 'not present' or detect the presence of HDaudio.
 
-greg k-h
+Andy, what do you think and what would be your recommendation?
+
+>> ---
+>>  sound/hda/intel-dsp-config.c | 16 ++++++++++++++++
+>>  1 file changed, 16 insertions(+)
+>>
+>> diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
+>> index 6a384b922e4f..8e728f0585dd 100644
+>> --- a/sound/hda/intel-dsp-config.c
+>> +++ b/sound/hda/intel-dsp-config.c
+>> @@ -46,6 +46,22 @@ static const struct snd_soc_acpi_codecs __maybe_unused essx_83x6 = {
+>>   * - the first successful match will win
+>>   */
+>>  static const struct config_entry config_table[] = {
+>> +	/* Quirks */
+>> +	{
+>> +		.flags = 0,	/* Model uses AC97 with Realtek ALC 256 */
+>> +		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
+>> +		.dmi_table = (const struct dmi_system_id []) {
+>> +			{
+>> +				.ident = "Huawei NBLB-WAX9N",
+>> +				.matches = {
+>> +					DMI_MATCH(DMI_SYS_VENDOR, "HUAWEI"),
+>> +					DMI_MATCH(DMI_PRODUCT_NAME, "NBLB-WAX9N"),
+>> +				}
+>> +			},
+>> +			{}
+>> +		}
+>> +	},
+>> +
+>>  /* Merrifield */
+>>  #if IS_ENABLED(CONFIG_SND_SOC_SOF_MERRIFIELD)
+>>  	{
