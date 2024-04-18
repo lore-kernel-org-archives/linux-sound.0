@@ -1,163 +1,119 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2358E15E1EE;
-	Thu, 18 Apr 2024 10:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAED315E214;
+	Thu, 18 Apr 2024 11:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713437966; cv=none; b=uUDNdTm13uvkiZqSRw4iUjBJh9424iy8zWJ7Hmd5SwBDAskIwQivG0MJx4Y/oZUq+FDR+E9VWWWA/6UPZ1j9TDkCAsd/Xz49YZFCJpRgxmVef5hmKutnoLFzkkyDy8yHcxKT+jsnTsuP8KwxBGjF7eXC0doTUaRCQ8Zo95wWYTE=
+	t=1713439167; cv=none; b=qV2g4TQmymLWSB472fMAhkt4cS1z3gxy0FljgfGG5yM3CRucghH+Rlicz+PdA4rQQrTUAEcNiktkMZrUywPMOYbmvcD6o5DVdQ+QbWMbpCBoHq3uCzbys+lICAE6L/1g8M4Qal0PwCXKG1jt7yBw7j0sM6TQhOcejUWX1zp9+fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713437966; c=relaxed/simple;
-	bh=Dmw2mzRePDDaTlpv0cyxsROjXNG2sIARTqcRZ94iPag=;
-	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mHZLlOArs3KxIbn2k/PGtKPDfJPI4Yoa7Q77XSv6J0neVOACiC7kykpvNC8JWJPAIHj/7A/KF43VYaK/hHT20vxV3GznNV7Y9FTLzbIuzMYI7WaGWzDRmpliy80hxT1yjWc2gjoLiu074FNe5beGZ1r9TVFL1fzCkuUw/POwbNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EsgIvVEN; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1713439167; c=relaxed/simple;
+	bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=nMqwtA7QL+S2SFZKLd91MTZxaGWDTt930LyGcV3F5r7utDnHOAhEhie4yZf8h+Exewl9yUG1DETb4671DBdvmj8uIxpMZs6ldY/dQ7WUW0rk3nTA/ZOrhFSAk+9e9xGiocxx5QM1KzX7sFGiP/RVSeS1ck2Kgk8B7QbG6uW7/x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFuLhO+7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EsgIvVEN"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43I7MKuD021498;
-	Thu, 18 Apr 2024 05:59:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:references:in-reply-to:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=RlY3ymPRlrecGeYIf3u9yTqQFB6fZZei6Z2kUrb0t0k=; b=
-	EsgIvVENbI5fwPQNQDDWrnF2zv15un8Qa81c955laK2qpLYdYRZ8kzMxEQDbZ+m0
-	BAy9kUU5T0YG7H+qEUeHz1ook4QeXsx+5Cx9zBYM/4EG9tHTfV7l6jdX995SMIGr
-	E5x53e4HfGn2uPHjz47E7BGllRK+pFsZmTBKwWo51Itj2Piqlv+EKD99b2kGmq7K
-	Ekkts8qKHUvDuhnK6OElr4sLEQKV0L6bG7k7ouFBuQ3emRlIhhRECEt7PbJtqTxV
-	0Q2GoVt5S23lCE4Qsw5B9j90rsxuy52W2BfhQVvHvOjSBKgFVD3AEm5VC7CalgkJ
-	sJUnN9fIkpaQccBJyfNg7A==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xfpfhvnad-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Apr 2024 05:59:21 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 18 Apr
- 2024 11:59:19 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Thu, 18 Apr 2024 11:59:19 +0100
-Received: from LONN2DGDQ73 (LONN2DGDQ73.ad.cirrus.com [198.61.64.201])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 36044820245;
-	Thu, 18 Apr 2024 10:59:19 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: 'ArcticLampyrid' <ArcticLampyrid@outlook.com>, <james.schulman@cirrus.com>,
-        <david.rhodes@cirrus.com>, <rf@opensource.cirrus.com>
-CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <TYCP286MB253523D85F6E0ECAA3E03D58C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM> <TYCP286MB25358BF2246DE04CE8D12BE8C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-In-Reply-To: <TYCP286MB25358BF2246DE04CE8D12BE8C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-Subject: RE: [PATCH v2 2/2] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-Date: Thu, 18 Apr 2024 11:59:19 +0100
-Message-ID: <002201da917f$766278d0$63276a70$@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFuLhO+7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713439164; x=1744975164;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
+  b=eFuLhO+7MWOwf3Be2FHhxYsGNnAtf8CSaPsJs0mEjKknFjM3s2tlZfN8
+   M9t13Wmk1krWAwEcbd5Cf9/VBFvahywr/i6O3DgiKoctwtcnlxS6WwJ6N
+   Qq1YHyabY+g/dHUM7e+zESHW03uhhhFjbfDP74Daqwugv1JaujCp6qi7b
+   pTb3ReldG1dY4bWBnKlt+9cwYZLyuOzeFYgj68tcjaH+oZBr4btPcDlg1
+   20nhkz4cSQScZX/7k5FURmZ2l4CwvHil2qGyj2kn5SbxkZ7sbK11M7+XA
+   3mEyocxHSdzmq6CBKX/md9xrS0WHS7Tze6TU/osZyn/JimvSIFkacFeJa
+   w==;
+X-CSE-ConnectionGUID: PA78uK40SkWGt96jKujomw==
+X-CSE-MsgGUID: BxG7aSLKT7yrNw/L4QtuTA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9097483"
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="9097483"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:24 -0700
+X-CSE-ConnectionGUID: isirGcN4S1iK1h9wO2dd9g==
+X-CSE-MsgGUID: 7OZ/fhyhQZOwpp+2HQcdxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="23008225"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:14 -0700
+Message-ID: <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
+Date: Thu, 18 Apr 2024 13:19:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
+ playback/capture_assertion
+Content-Language: en-US
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+ <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQJzUjqa4IlF22ZsXxMyjNS9IQLhdQGIbEcssDAWyjA=
-X-Proofpoint-ORIG-GUID: 6cGaL1IhxL8DSA0rTQRDX4c1sl7LL6Q3
-X-Proofpoint-GUID: 6cGaL1IhxL8DSA0rTQRDX4c1sl7LL6Q3
-X-Proofpoint-Spam-Reason: safe
 
-Hi,
-
-> -----Original Message-----
-> From: ArcticLampyrid <ArcticLampyrid@outlook.com>
-> Sent: Thursday, April 18, 2024 7:46 AM
-> To: james.schulman@cirrus.com; david.rhodes@cirrus.com;
-> rf@opensource.cirrus.com
-> Cc: patches@opensource.cirrus.com; linux-sound@vger.kernel.org;
-linux-
-> kernel@vger.kernel.org; ArcticLampyrid <ArcticLampyrid@outlook.com>;
-> stable@vger.kernel.org
-> Subject: [PATCH v2 2/2] ALSA: hda/realtek: Fix internal speakers for
-Legion
-> Y9000X 2022 IAH7
+On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
+> soc_get_playback_capture() is now handling DPCM and normal
+> comprehensively for playback/capture stream in same code.
+> This patch converts xxx_only flag to xxx_assertion.
 > 
-> This fixes the sound not working from internal speakers on
-> Lenovo Legion Y9000X 2022 IAH7 models.
-> 
-> Signed-off-by: ArcticLampyrid <ArcticLampyrid@outlook.com>
-> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  sound/pci/hda/cs35l41_hda_property.c | 2 ++
->  sound/pci/hda/patch_realtek.c        | 1 +
->  2 files changed, 3 insertions(+)
+>   sound/soc/intel/boards/bdw-rt5677.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/sound/pci/hda/cs35l41_hda_property.c
-> b/sound/pci/hda/cs35l41_hda_property.c
-> index 8fb688e41414..60ad2344488b 100644
-> --- a/sound/pci/hda/cs35l41_hda_property.c
-> +++ b/sound/pci/hda/cs35l41_hda_property.c
-> @@ -109,6 +109,7 @@ static const struct cs35l41_config
-> cs35l41_config_table[] = {
->  	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 1, -1, 0, 0, 0, 0 },
->  	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 1, 2, 0, 0, 0, 0 },
->  	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 1, 2, 0, 1000, 4500, 24 },
-> +	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 0, 1, -1, 0, 0, 0 },
+> diff --git a/sound/soc/intel/boards/bdw-rt5677.c b/sound/soc/intel/boards/bdw-rt5677.c
+> index 54e3c5d3c251..9170b1d509e2 100644
+> --- a/sound/soc/intel/boards/bdw-rt5677.c
+> +++ b/sound/soc/intel/boards/bdw-rt5677.c
+> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
+>   	{
+>   		.name = "Codec DSP",
+>   		.stream_name = "Wake on Voice",
+> -		.capture_only = 1,
+> +		.capture_assertion = 1,
+>   		.ops = &bdw_rt5677_dsp_ops,
+>   		SND_SOC_DAILINK_REG(dsp),
+>   	},
 
-Looking at your ACPI, its clear that the Speaker ID is at index 2 not
-index 1.
-Thus, this should be:
-
-	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-}, 0, 2, -1, 0, 0, 0 },
-
-Thanks,
-Stefan
-
->  	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 0, -1, -1, 0, 0, 0 },
->  	{ "17AA3877", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 0, 1, -1, 0, 0, 0 },
->  	{ "17AA3878", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0
-> }, 0, 1, -1, 0, 0, 0 },
-> @@ -500,6 +501,7 @@ static const struct cs35l41_prop_model
-> cs35l41_prop_model_table[] = {
->  	{ "CSC3551", "10431F1F", generic_dsd_config },
->  	{ "CSC3551", "10431F62", generic_dsd_config },
->  	{ "CSC3551", "10433A60", generic_dsd_config },
-> +	{ "CSC3551", "17AA386E", generic_dsd_config },
->  	{ "CSC3551", "17AA386F", generic_dsd_config },
->  	{ "CSC3551", "17AA3877", generic_dsd_config },
->  	{ "CSC3551", "17AA3878", generic_dsd_config },
-> diff --git a/sound/pci/hda/patch_realtek.c
-> b/sound/pci/hda/patch_realtek.c
-> index cdcb28aa9d7b..ac729187f6a7 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10382,6 +10382,7 @@ static const struct snd_pci_quirk
-> alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5",
-> ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
->  	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6",
-> ALC287_FIXUP_LEGION_16ITHG6),
->  	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7",
-> ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> +	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7",
-> ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion 7i 16IAX7",
-> ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7",
-> ALC287_FIXUP_YOGA7_14ARB7_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim
-> 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
-> --
-> 2.44.0
-> 
-
-
+Should this have been part of patch 8?
