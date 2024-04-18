@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F62616C858;
-	Thu, 18 Apr 2024 16:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4E416C858;
+	Thu, 18 Apr 2024 16:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713457772; cv=none; b=rM3YGhqhax8wlit8tgjnG+1lD9fp2hZj2Ef6/+sbcOAyVCgPaYp+fgUO02+8tjnkmLhgD02kvzM6EH552iWW7G7VNLIQfu/tBLrS2wVEnncgTNt2QPyMQtPFiDFTnpkznNw1y03wmq9p7ifuthOg6+gRnOwypSBw9/VeCYQrDUo=
+	t=1713457774; cv=none; b=BHA/eddxoTuON7OM/BNpX7kRIf6c0dZYdrOk9FV+jyiW1IU4vMYd8VpiY1/KE6tBuErHI6PO91WLeDfjoA1UapZi9bpI0Nj4Nwl5ypnWKkBFiZW5xxIQT4PMwUWm7y2PCYgDkJXTBGhWN5wVej7XchGDuBxWRcq2LWeKFNbjmTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713457772; c=relaxed/simple;
-	bh=0kP32U7Suy6uQoOJjorW965cKQphIdVvkl6Lvh1uZ0g=;
+	s=arc-20240116; t=1713457774; c=relaxed/simple;
+	bh=n5UTBwm9LwxWCwUD5WYTPdP8hKDjMr22biXL1uuugRA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=McddF+sbSByjIgZyl0iJDf8tnSGU+y1OaqW3sJQClMI+hZ7DK37gyNxNOCCYr++LvAo86WIrR2j/SQ50PLxyww/0eg1H/xtZrBGgbK90GQfaDccFHIZd8rAr5kZpLtIu3ewUw9JtZiDy5jEZhPOO2CDnldkD6SHQX/A1WYw+c+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbZFVEpA; arc=none smtp.client-ip=192.198.163.17
+	 In-Reply-To:Content-Type; b=S2t8+NpLO79tu7WqACQg8BKJufLAbSwSZWTP5ZF7WDHLk7UmBuN1rc/tp0M35oGAavpjn+HqlCCgYdP9spVcwsJvSWrPvgm0a4wiRbguBHYTYM4oFw8yiYxKKqy/jkwu3Pc0fQhcBpxFDoUwhE/gUh3P6Lhy2/D1PkGwlgDlOko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XoH46lTi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbZFVEpA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoH46lTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713457769; x=1744993769;
+  t=1713457772; x=1744993772;
   h=message-id:date:mime-version:subject:to:references:from:
    in-reply-to:content-transfer-encoding;
-  bh=0kP32U7Suy6uQoOJjorW965cKQphIdVvkl6Lvh1uZ0g=;
-  b=TbZFVEpAPaSDTNkyGKasqfrhzZZfFrHVRgE7wRoMYBEVLeyxv6M03Iyi
-   Ovw9AWqxW1wXBHsKBoO+EUHDm0qgizFW3UkDSUU9wYqafi70ApXjEs+S5
-   8+YHfW1Eqlqdwso8K5utwckqylybPSpd+gVdR9k/btH8O/hTZM4ifqQJb
-   sWzrldU4iv/sbq07DpyA6fFaQ1Xz6NcjASSSjV3w9vXqTP+VlMz/xISa2
-   ohF3HAaD5e/UzqG53jreY2fShy+46nDhVnlwBk3I9qgQzKikiKirs6v+n
-   xfUDUOOUoP+62Px5/2A9aUhrp+fwpRmybq8hzon8T23jpdh0qcih8ZtEh
-   A==;
-X-CSE-ConnectionGUID: sfv2omDmS0edDm7n2Yp5pg==
-X-CSE-MsgGUID: k74A/NDZTX2TCn+0BPxakA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8882333"
+  bh=n5UTBwm9LwxWCwUD5WYTPdP8hKDjMr22biXL1uuugRA=;
+  b=XoH46lTiQN7Z809wteNUddzuTyacce/RFSWOwA0nm/9wpm6xsq9kaSFF
+   JyWxNo89D46lxLr/zSOnffqEv8E5UWPxQ934m+iwZ8NPA009poSiL2XBD
+   zLMYWMuLS4yaej12DhT1tlXGgJYDRk/JhTaWqmZj7RNl6vI+eFfDkLS9r
+   RZKrX/Tzr1wZXHX7mUdoEYu9gnkgonA6fuPFkJg6rQ95DJlNLVGQS2Ocv
+   DRuodz1AtrCyd+FQkk1FUw9SiyirNNP6AwfaQQzW/2S4YBv5od1pI8zfb
+   EAHZvAPVD5Fyc/Oy4Tm2/c37zz3YqmVfIwBMs9fWlvSTlHWGadV7PCmhA
+   Q==;
+X-CSE-ConnectionGUID: UUdFCRE6Q+OeSIROFp0XrA==
+X-CSE-MsgGUID: sSneA3k0S2WqwsoN7AZrTg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8882359"
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="8882333"
+   d="scan'208";a="8882359"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:27:57 -0700
-X-CSE-ConnectionGUID: 0j6z5O/LTrGXaM4mMcGzeQ==
-X-CSE-MsgGUID: 6pcNHd1SRuG8qoQ9W8Rdxw==
+X-CSE-ConnectionGUID: QL+FsKavRtigEK3tKkR75g==
+X-CSE-MsgGUID: ZaFP6k8bT0OPD8LxfPhFXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="23105110"
+   d="scan'208";a="23105114"
 Received: from rswoodsx-mobl.amr.corp.intel.com (HELO [10.213.167.100]) ([10.213.167.100])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:27:50 -0700
-Message-ID: <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-Date: Thu, 18 Apr 2024 11:20:23 -0500
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:27:53 -0700
+Message-ID: <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
+Date: Thu, 18 Apr 2024 11:26:06 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,11 +52,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup
- soc_get_playback_capture()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
+ playback/capture_assertion
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
  <amadeuszx.slawinski@linux.intel.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Alper Nebi Yasak <alpernebiyasak@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -85,163 +85,54 @@ To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
+ <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+ <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
-> (X) part is for DPCM, and it checks playback/capture availability
-> if dai_link has dpcm_playback/capture flag (a)(b).
-> This availability check should be available not only for DPCM, but for
-> all connections. But it is not mandatory option. Let's name it as
-> assertion.
 
-I don't follow the 'not mandatory option'. Why not make these
-'assertions' mandatory? What happens in case the the option is not present?
-
-> In case of having assertion flag, non specific side will be disabled.
-
-Not following the wording, multiple negatives and not clear on what
-'side' refers to (direction or DPCM/non-DPCM).
-
-> For example if it has playback_assertion but not have capture_assertion,
-> capture will be force disabled.
+On 4/18/24 06:19, Amadeusz Sławiński wrote:
+> On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
+>> soc_get_playback_capture() is now handling DPCM and normal
+>> comprehensively for playback/capture stream in same code.
+>> This patch converts xxx_only flag to xxx_assertion.
+>>
+>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> ---
+>>   sound/soc/intel/boards/bdw-rt5677.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/sound/soc/intel/boards/bdw-rt5677.c
+>> b/sound/soc/intel/boards/bdw-rt5677.c
+>> index 54e3c5d3c251..9170b1d509e2 100644
+>> --- a/sound/soc/intel/boards/bdw-rt5677.c
+>> +++ b/sound/soc/intel/boards/bdw-rt5677.c
+>> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
+>>       {
+>>           .name = "Codec DSP",
+>>           .stream_name = "Wake on Voice",
+>> -        .capture_only = 1,
+>> +        .capture_assertion = 1,
+>>           .ops = &bdw_rt5677_dsp_ops,
+>>           SND_SOC_DAILINK_REG(dsp),
+>>       },
 > 
-> 	dpcm_playback -> playabck_assertion = 1
-> 
-> 	dpcm_capture  -> capture_assertion  = 1
-> 
-> 	playback_only -> playback_assertion = 1
-> 	                 capture_assertion  = 0
-> 
-> 	capture_only  -> playback_assertion = 0
-> 	                 capture_assertion  = 1
-> 
-> By expanding this assertion to all connections, we can use same code
-> for all connections, this means code can be more cleanup.
+> Should this have been part of patch 8?
 
-I see a contradiction between "expanding the assertion to all
-connections" and "not mandatory".
+Patch 8 deals with the following changes
 
-> Current validation check on DPCM ignores Codec DAI, but there is no
-> reason to do it.  We should check both CPU/Codec in all connection.
+-		.dpcm_playback = 1,
+-		.dpcm_capture = 1,
++		.playback_assertion = 1,
++		.capture_assertion = 1,
 
-"there's no reason to do so" ?
+This case is about
 
-> This patch expands validation check to all cases.
-> 
-> 	[CPU/xxxx]-[yyyy/Codec]
-> 	                 *****
-> 
-> In many case (not all case), above [xxxx][yyyy] part are "dummy" DAI
-> which is always valid for both playback/capture.
-> But unfortunately DPCM BE Codec (**** part) had been no validation
-> check before, and some Codec driver doesn't have necessary settings for
-> it. This means all cases validation check breaks compatibility on some
-> vender's drivers. Thus this patch temporary uses dummy DAI at BPCM BE
+> -        .capture_only = 1,
+> +        .capture_assertion = 1,
 
-vendor
-
-> Codec part, and avoid compatibility error. But it should be removed in
-> the future.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  include/sound/soc.h |   9 +++
->  sound/soc/soc-pcm.c | 143 +++++++++++++++++++++++++-------------------
->  2 files changed, 92 insertions(+), 60 deletions(-)
-> 
-> diff --git a/include/sound/soc.h b/include/sound/soc.h
-> index 0376f7e4c15d..e604d74f6e33 100644
-> --- a/include/sound/soc.h
-> +++ b/include/sound/soc.h
-> @@ -809,6 +809,15 @@ struct snd_soc_dai_link {
->  	unsigned int dpcm_capture:1;
->  	unsigned int dpcm_playback:1;
->  
-> +	/*
-> +	 * Capture / Playback support assertion. Having assertion flag is not mandatory.
-> +	 * In case of having assertion flag, non specific side will be disabled.
-
-again the 'not mandatory' and 'non specific side will be disabled' are
-confusing.
-
-
-> +	/*
-> +	 * Assertion check
-> +	 *
-> +	 * playback_assertion = 0	No assertion check.
-> +	 * capture_assertion  = 0	ASoC will use detected playback/capture as-is.
-> +	 *				No playback, No capture will be error.
-
-did you mean "this combination will be handled as an error" ?
-
-It's probably best to have a different presentation, to avoid
-confusions. Using multiple lines without a separator isn't great.
-
-Suggested example:
-
-playback_assertion = 0 capture_assertion  = 0
-this combination will be handled as an error
-
-playback_assertion = 1 capture_assertion  = 0
-the DAIs in this dailink must support playback.
-ASoC will disable capture.
-In other words "playback_only"
-
-
-> +	 *
-> +	 * playback_assertion = 1	DAI must playback available. ASoC will disable capture.
-> +	 * capture_assertion  = 0	In other words "playback_only"
-> +	 *
-> +	 * playback_assertion = 0	DAI must capture available. ASoC will disable playback.
-> +	 * capture_assertion  = 1	In other words "capture_only"
-> +	 *
-> +	 * playback_assertion = 1	DAI must both playback/capture available.
-> +	 * capture_assertion  = 1
-
-nit-pick: the 'must X available' does not read well, 'must support X' is
-probably what you meant.
-
-> +	 */
-> +	if (dai_link->playback_assertion) {
-> +		if (!has_playback) {
-> +			dev_err(rtd->dev, "%s playback assertion check error\n", dai_link->stream_name);
-
-"invalid playback_assertion" ?
-
-> +			return -EINVAL;
-> +		}
-> +		/* makes it plyaback only */
-
-typo: playback
-
-> +		if (!dai_link->capture_assertion)
-> +			has_capture = 0;
-> +	}
-> +	if (dai_link->capture_assertion) {
-> +		if (!has_capture) {
-> +			dev_err(rtd->dev, "%s capture assertion check error\n", dai_link->stream_name);
-> +			return -EINVAL;
-> +		}
-> +		/* makes it capture only */
-> +		if (!dai_link->playback_assertion)
-> +			has_playback = 0;
-> +	}
-
-we probably want a dev_ log when the has_playback/capture is overridden?
-
->  
-> +	/*
-> +	 * Detect Mismatch
-> +	 */
->  	if (!has_playback && !has_capture) {
->  		dev_err(rtd->dev, "substream %s has no playback, no capture\n",
->  			dai_link->stream_name);
-> -
->  		return -EINVAL;
->  	}
->  
+I think it's good to make this change separately.
