@@ -1,116 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FBA389
-	for <linux-sound@vger.kernel.org>; Fri, 19 Apr 2024 13:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F291272A2;
+	Fri, 19 Apr 2024 13:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713531607; cv=none; b=tK3t6vuKBI3oXl6waWFNuWBmIKqHjY+v2eo1gMNavJ+FYXdKTs2RvfNs+w7ujR4I/F/dA1PyYcTOoQOAxKQkzRO1WPFFP0nVIkU1ZdilPioKNyEBB8qG8Z0WBLZLAVVoeFuRUbCyvegmEo1psmRRCFvm4ehDrwvK2BwxrIs0DwI=
+	t=1713533236; cv=none; b=tnINLXJeENT3klxyR1Zhsltj18Uwyt/p0FvjEfl4njLekQKaawM6QuqWwI2NCogNGCr2fLR/oXlbDuEFNOV14uyg5gf5MMOD4ZbNFkOjpu+USjUHPcWVeNyxveXHmjDNiBkTl3z6VFji6bd9lqofHlIf7vTSObQGw9H1fPJGxZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713531607; c=relaxed/simple;
-	bh=Z69vjfsInQuMcoByr13ikyx2iTvAg2kC8I5T3Obx25M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K8xu5t1qQSU1DqplQVLa9IkxYSD06Qn+ReHF6FrlQB2g8UyVxzmuSEE6fTclkkD/adSIZl4oxxlH0f9/1IMUMScXXTDPM5E1EDbahSz41sH9w4+zJ+qPniEvfLGwfCnPGunk6mJwbCw24HBnIb6zWV0rO0MkiMbdTj1zzvhGqs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QS2fbgFf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713533236; c=relaxed/simple;
+	bh=Qnz9KkLZ0F/VZJLWO9UAiA4GTOIoA6FKmFggsIBghb0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FXb4wEqU98iB8nBi8z+pBcO/be2wFuJT9HCRca2LXWFIe9t2555PGHJ4jzjY8ARkrI4LH80YlDb49DKwHHcdEYTxviKg0MrivjqkUdTOfmhTMyBbeTrdI47N6xK9wE9031e+xRvjnf+Ob/C26VS/HcL6d7x7l6hDvlySJsenmRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtnKJzOp; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QS2fbgFf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CCFC072AA;
-	Fri, 19 Apr 2024 13:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713531606;
-	bh=Z69vjfsInQuMcoByr13ikyx2iTvAg2kC8I5T3Obx25M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QS2fbgFfdCVOfSPnaNx+gaePwtAe7jF4lsL5jvV+VdQJBg5E6OMN8t9qy+MSRJOsB
-	 WpTBg/TMs/w588FGU3t4ffPpNjXjgahGrhCKoomcUcgP9IiPIicwVPSYNAxcng98L+
-	 O11GncyknOOAUzAw04+kNDAcvJsiQ1Esq4NcBJn8MBlwnZoY21gY32h9cOcWkLbnqp
-	 vbcEubukfXFYSyGfa9CeekDTQqI/NdITAMLvTiA/el68w+VJYJ6JgfrbaWJwbXgxJl
-	 gmtMA+giOrkqhKg0sa+S9f3puWYXfLfjRCktcE3vMc/5CkaqIdMDSl/U64JHqN2ExD
-	 gAsQQV0CnZkmw==
-Date: Fri, 19 Apr 2024 14:00:01 +0100
-From: Lee Jones <lee@kernel.org>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
- CS40L50
-Message-ID: <20240419130001.GA109991@google.com>
-References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
- <20240408153214.42368-6-jogletre@opensource.cirrus.com>
- <F09C19F7-F3BC-44A8-B3F8-3064DF8E666F@cirrus.com>
- <20240416123541.GW2399047@google.com>
- <F90648F7-BE0B-47DB-89C4-A8C91CD65D59@cirrus.com>
- <20240417131402.GZ2399047@google.com>
- <9F7C82D1-1622-4FD8-9987-30236122E852@cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtnKJzOp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713533235; x=1745069235;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Qnz9KkLZ0F/VZJLWO9UAiA4GTOIoA6FKmFggsIBghb0=;
+  b=TtnKJzOpiIe+soN1mnfmg+5vOZyeXT8AMWLKKaEBAHd+i/aZ+N0VFXon
+   KPHwbhl9C5fbQum7oU4wUCOps3LZ+/zhoqFJtqgZGYuowexPnbo13wr52
+   FUlWN/6UBxF2EfM9fI0NPpf/NtbqipZ8aJsImtKXEl6S7LTqkJSUGUiOD
+   Q1uQL+1keHxYK76nMJfnU+o29XKidNY8GxwWE7Mn/icpn/OeqKUn+3Gsy
+   UnHyMvgKTe4HWZ98XS9VVJZWHZpHKROopaQHc61M+ACGTUUERhMWkvuum
+   8fFA79aSeTwv6VFTNI/csn/UGSPpyT6OPRxjqlJ8nrfRULEjNqG3X4mQy
+   w==;
+X-CSE-ConnectionGUID: DkqGC2ksRDe7F3pvWFYMiA==
+X-CSE-MsgGUID: LBWTeJt5SwW0TUTqAXujkw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="34531853"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="34531853"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 06:27:14 -0700
+X-CSE-ConnectionGUID: QABg7rpFSuq0ZKNqFoAQ5A==
+X-CSE-MsgGUID: 17elK82rR4SPLD6Vg+dLhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="23312212"
+Received: from ymahendr-mobl1.amr.corp.intel.com (HELO [10.212.85.57]) ([10.212.85.57])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 06:27:10 -0700
+Message-ID: <92054f87-dded-4b66-8108-8b2a10909883@linux.intel.com>
+Date: Fri, 19 Apr 2024 08:17:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9F7C82D1-1622-4FD8-9987-30236122E852@cirrus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup
+ soc_get_playback_capture()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+ <87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
+ <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
+ <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 18 Apr 2024, James Ogletree wrote:
 
-> Hi Lee,
+>>> (X) part is for DPCM, and it checks playback/capture availability
+>>> if dai_link has dpcm_playback/capture flag (a)(b).
+>>> This availability check should be available not only for DPCM, but for
+>>> all connections. But it is not mandatory option. Let's name it as
+>>> assertion.
+>>
+>> I don't follow the 'not mandatory option'. Why not make these
+>> 'assertions' mandatory? What happens in case the the option is not present?
 > 
-> > On Apr 17, 2024, at 8:14 AM, Lee Jones <lee@kernel.org> wrote:
-> > 
-> > On Tue, 16 Apr 2024, James Ogletree wrote:
-> > 
-> >>> On Apr 16, 2024, at 7:35 AM, Lee Jones <lee@kernel.org> wrote:
-> >>> 
-> >>> On Fri, 12 Apr 2024, James Ogletree wrote:
-> >>>> All feedback to date has been addressed
-> >>> 
-> >>> There are still MFD review comments left outstanding.
-> >> 
-> >> Hi Lee,
-> >> 
-> >> As best as I can tell, the only review comment in v10 is from you,
-> >> saying that the MFD part looks okay. Then in this resent series, you
-> >> commented that the MFD part had not been updated. Indeed, this is
-> >> because there were no comments to address. Please correct me if I
-> >> interpreted your comment incorrectly.
-> >> 
-> >> I have also gone back over v8 and v9 looking for outstanding
-> >> comments, and all of the review comments appear to be applied.
-> >> Would you kindly link me to the email with the missing review
-> >> comments if I am mistaken?
-> > 
-> > At the very least, you still have this in here:
-> > 
-> >    /* If write never occurred, don't bother polling for ACK */
-> > 
-> > After realising that I'd commented on this before, I stopped the
-> > re-review.
-> 
-> It looks like I took some liberties here without communicating them,
-> so my sincere apologies.
-> 
-> In V8 the line was:
-> 
-> "If we never wrote, don't bother checking for ACK”
-> 
-> In that review, you provided an improved phrasing:
-> 
-> "If the write never took place, no need to check for the ACK”
-> 
-> My takeaway from your phrasing was that the use of the first-person
-> pronoun “we" was improper. So I rewrote it in the third-person, but
-> still in my own words, resulting in its current form:
-> 
-> "If write never occurred, don't bother polling for ACK”
-> 
-> Is it that the phrase “don’t bother” is too idiomatic? If so I will apply
-> your phrasing verbatim in V11.
+> The big reason why "assertion flag" is not mandatory is that non-DPCM doesn't
+> have such flag before. I can't add such flags to all of non-DPCM,
+> because I don't know which direction (playback/capture) is available on
+> each DAIs.
 
-Yes, it's a pretty bothersome phrase. :)
+Your explanation seems to contradict the sentence above "This
+availability check should be available not only for DPCM, but for all
+connections."
 
--- 
-Lee Jones [李琼斯]
+Can we actually do this 'availability check' for non-DPCM connections.
+
+>>> In case of having assertion flag, non specific side will be disabled.
+>>
+>> Not following the wording, multiple negatives and not clear on what
+>> 'side' refers to (direction or DPCM/non-DPCM).
+> 
+> How about this ?
+> 
+> 	If either playback or capture assertion flag was presented,
+> 	not presented direction will be disabled by ASoC even if
+> 	it was available.
+
+Did you mean
+
+"
+The playback (resp. capture) direction will be disabled by ASoC if the
+playback_assertion (resp. capture) flag is false - even if this
+direction was available at the DAI level
+"
+
+
+> (playback_xxx, capture_xxx)
+> 
+> (0, 0) : Both are not must item. available direction is used as-is.
+>          But it will be error if nothing was available.
+
+That new wording makes me even more confused. What does 'available'
+refer to and at which level is this?
+
+This seems also to contradict the definitions above, "available
+direction is used as-is" is not aligned with "not presented direction
+will be disabled by ASoC even if it was available".
+> (1, 0) : DAI must support selected direction.
+> (0, 1)   Not selected direction will be disabled even though it was available
+> 
+> (1, 1) : Both must be supported.
+
