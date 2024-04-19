@@ -1,165 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2071.outbound.protection.outlook.com [40.107.113.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC7713D626;
-	Thu, 18 Apr 2024 20:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713471762; cv=none; b=rARuJyKe1IQEfHkTxnoDNtStBJBj7TvOr679CGcRSNjAsVO45z7VahwDdBqX4sh1/q94AIxg+PFHy0uwUtrwogH2yWJXZClGUZpVynooFUYXoNMJLEa4Shjmbdh2kbndN7S+++qoGFQEJndhBYvjmbMINBJOeYTkjbqCgtWMYgQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713471762; c=relaxed/simple;
-	bh=40SDlxrTEy1tKYcd/loaYV6z14zKTw8+g0WRYTiJ/ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hnHupSuURrIwTEo6wd+sdLD+j3SUJTCtI/FokMRRKvAPxuy8I7ddO7qPX1UaE1UxQrWYU8VPCP25PQ+11XV96Bpj7J4oxNnGp65Zcq6ZL6JVvkc2qMTXYZLj0qfM2QQ0ZWqsgTe0jBmxSULnjNaVFbHMmT8t4tUKQQI++ejuKbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHVRut7M; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C4387;
+	Fri, 19 Apr 2024 01:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713488959; cv=fail; b=YUr587klc3yC3SKBcvp/HgR7h7dPEASKn9YCRTlt1JTnlsEKduPVmqQ7p7cw5PmK3gi4SUeO1wUz8CLipN0g6geQ2W3NS1xOiNhq8tIHjBVshZ32kM8UjHnxEj9I0ItLIQoRYOdymb8a/eAIV0zRvjg7hL+U68CHBN7KDpKaKZs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713488959; c=relaxed/simple;
+	bh=/QP/77mYjTT7IO473cqzbItBE3x40OVpecupw+h36AU=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=CKipgadujoAJnrgcAt+Zb4ANwIwVWh54OxCP3B/uG4Gr/Le/VKlCis/Mv5luuWzG3IzOEhwV/5JBESsfXlbJt9QA8nsdBFoF3t3DoA5/HSD6FBes4xe1ClOq3wPDfMibW+hVgNsLW9Mjl2RzzRzwTElcY0M/HzyY416M/lk0OTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Hwh/u8Qm; arc=fail smtp.client-ip=40.107.113.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHVRut7M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB98BC113CC;
-	Thu, 18 Apr 2024 20:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713471761;
-	bh=40SDlxrTEy1tKYcd/loaYV6z14zKTw8+g0WRYTiJ/ks=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nHVRut7MRgBEAkVf8AHawXLsTxYwcLi9zi/FHqkACKu0XmdEJZcwvxmO7Tg3l2hJc
-	 kYOcW0eR7xm5UmiMUD0o3potGz1qT05c1CFdHQx1yTLCPFqp6HpAsmUtsmWNb8jabn
-	 9iZ/6h9TPocn6hF5c5W/ErWDI0L4fM5Z6OUOp6THhRp4RyLBl6Vq+ZZwGiGMWF9Kyh
-	 wW3N6GYbU9q8gfFi+GvW9zcvOy2m6dhqnEyanb1Pe93DwsbSBnc753somSKVUtX+dT
-	 BcaA+Om88/hUx9bPbFY7SnIB/xQIrc6eqfFjmlKNT3a9n9O7ZwKJSnyXFwxufYSeSP
-	 3UKuacSS4S/IQ==
-Date: Thu, 18 Apr 2024 21:22:35 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Hwh/u8Qm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RQQNYeUkddFO7tvhrIg9T9N4oKgfgaf4XVV/6GaWScPZZoErWy5b2egwXs1osh9ioVph8DPoFemwnakKxL86h1rDAwGnN937qCkJRRpZgouB7U3YujbUYicLKI59cTrDD3Uf1EO0KjApm35KpWFwb2MjveP9bmMTmg7i4hkp3K2NHKUaywAdYMZUe3jufklwIkXzCJGa1sW3sxtIhDKBYhxgz9dqEXnAQoERZlrz9F5QFxUdlQABj9XjZxhG4PKykUJ6a0Fz0EwIQW+43Ko5xW8Vp11B9C6Z0vdLLil8c2so0LP/5udnmJiS8yr7PYlJyG54wtMMPad/5xxCI3x4Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
+ b=M2UzIO1VRhV78SEAH+XObAFJ9wi8ZLgFFq5ki8wC66GiOEPqJX1gBuYxIx4HRNGDcKBA7GyNoco1uSTW0TgpMeQEeXYZOY5SwQuHsHfbK8R9UKmDO3F4EzaWHIFdRis/6rn2utXIofEX5b2ycj9QgfsRdgDrrCuNp3SvUbkY0OpNrKj0EwAu5Uv1vF5pqz/sZ+eRuckCtwpKkA59MAraSItyTtE5cf7+jCnZApffpfI2Qji5RAtPz/DF0moXv+o/9gsC9U/c5RB0j1ytTCN03QwkgwOsbf6/h9XQt3cw3dyMbtC2v3iYphIzbOCdo9My1uBd+Rnx+alLW6U7TcFSZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
+ b=Hwh/u8QmUqf1C5aYzqzSdMhYIhWEE22zfZ8UPugAQUIdmQkFQbPcgrgk7KP5NmsH4fC0a8nZmoTbttTe9DCIy/HnoCEEOR0C3SxLaW2FeAcfqbd6gatWNHTKkDiHsWPIORVoU7FfAOTXiRS10ih8pGI70Ulkqp86rkW9d3gfZ8M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS3PR01MB8667.jpnprd01.prod.outlook.com
+ (2603:1096:604:19b::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.43; Fri, 19 Apr
+ 2024 01:09:10 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7472.037; Fri, 19 Apr 2024
+ 01:09:10 +0000
+Message-ID: <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, Amadeusz =?UTF-8?B?U8WCYXdpxYRza2k=?=
- <amadeuszx.slawinski@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Bard Liao
- <yung-chuan.liao@linux.intel.com>, Brady Norander
- <bradynorander@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Mark Brown
- <broonie@kernel.org>, Mark Hasemeyer <markhas@chromium.org>, Takashi Iwai
- <tiwai@suse.com>, linux-sound@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Huawei Matebook D14
- NBLB-WAX9N quirk detection
-Message-ID: <20240418212235.6548447d@sal.lan>
-In-Reply-To: <848bcc94-3a31-4fb4-81bc-bd3f138e12f6@linux.intel.com>
-References: <5e6ba980c0738199589749b68b83f2d730512107.1713430105.git.mchehab@kernel.org>
-	<20240418110453.10efcb60@sal.lan>
-	<848bcc94-3a31-4fb4-81bc-bd3f138e12f6@linux.intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
+ <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
+ Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
+	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
+	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
+ Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
+ <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
+ <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
+	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
+	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup soc_get_playback_capture()
+In-Reply-To: <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+	<87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
+	<a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Fri, 19 Apr 2024 01:09:10 +0000
+X-ClientProxiedBy: TY2PR0101CA0042.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8000::28) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB8667:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	8IsxM2bIIBdKkVrmu3ktUN+Yzd/QIvdHzb5Uzz3Q5pZZ0z5V6NTZ0wwqTFiVy6P33QdpELZ3HWBJgSQw46/GSG4YoKLkSQczZjqCD7jpfqDkD9yzNBdAyefiUhz7fP+Gf99pDwr6imk/DR+Ih+XAK6CCo1NRBitkhFMjYlMm2Ui4pRzpQjNheq5yHHjWwuzyhSPWUvnXvBPD5cQGeD6Pfx0BvY/Uiv6s4xE1sPIhqTcoxOjGtYk/H2SpFJ5aebskcoMmobD61NDlayELwvdNoeoUgW8Gi5OhklcTyr2hSR5qhUWOqNcu525GV4kIZcAUd4AJTjAlVwtEoGnmOWa06sdxePxEn24ELeK03ry9vVhCmOTT9UucnAnNrSpq25DFdG//4mRmkJdXQ92X2QhQafy4VwdcDKLEd+Z3Ei1uviTbvNoND6ri6nMZE9G2RpGCELA6n+BX4j+o4rdrylzD942dxpHGYLwBfRWUr73ETzWSq5BxzJLa7JuiB9je/cR0lvcMy88BDxKiywb9v6rezu0g8gHbm1ExG++bai4A5fFjFylcvloEx+fghXPzNjdxg+isnpuc/u1E0B/tlljyB9BfQCKXjfwegXaw+hi2/7fwSKCQHdAMORUBnZGQgiKx8wsP8tey6thpIvZlozWrV83f/lpqx8d0NA0sovA5rq1P1TVJ2Q5bCGaB1eJwW6whmcDc4/hT3ZU2Y9J5ydaXWoD9rXFaVC5NNYlIV+/AJLQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pPxh9egKltHA6rrSPEin4OLmPDAm0Td5nlyNTPhkiLBXUwiiJuZ4DIcpAAFW?=
+ =?us-ascii?Q?8Tsqu/4MIjEVslTyXOfLK33oS0iDd3M5AHvB4OmTpV1JLpMvBp/CVDxrPujz?=
+ =?us-ascii?Q?7BB6vk0SbI/G+OYTnT2fHqMZWw1JLEg4daRL2n2wQdrC7b3yMWNSAhShMjDD?=
+ =?us-ascii?Q?V0rYLqJXv3O7LFK8rafOgOt5QsiC2LSBOL+2evkoCTlNf2zFvkQGgOiXmccX?=
+ =?us-ascii?Q?Cmk8hsQWlv4ve1hFikftEcOC8uAjT7lwCS2WzD8upnNN2hT28G+Re554BpS1?=
+ =?us-ascii?Q?Osz+4lqEPkJyPbiNUZNfrvVqPoQMRQejtGAwzPcKYf51fYHAxPIMbfGnzQ6U?=
+ =?us-ascii?Q?aaw800fw9tovxxdrqdYhLyathOU768IYtAbDY/YG6FJZAPQBAIJzKlU3ASiM?=
+ =?us-ascii?Q?7shVMCIIw6MigFTxZmx9L0myEd5eJGwjnBZSooDR1zdL57ywxOcUkHBrBPbu?=
+ =?us-ascii?Q?xNcJv2bFTATzPpNs6OIGIlWhwSB8BvJEnTYdYqG3YCYGSFfKcCKiML9/Mlzr?=
+ =?us-ascii?Q?pYoHPGqGGCQOuTvYwwsDk9MS10z5psUnPazaxi1AzWNUWXrWNCU1IptSa+rG?=
+ =?us-ascii?Q?yL2FG5ZsRYronVOJa7bRxcAcN4+Y60IU3G0En4YP0MYU7c5drE4q08/CF8lt?=
+ =?us-ascii?Q?l3ltZpm+Fie5ku6oUwvnZFg+wUQ5UluE6AzwnOnAukH3pfi4eakCPSQ/WQ7Z?=
+ =?us-ascii?Q?oA2nzrV95rJVAP0XinkBceuphKV9wr59AAxlhb35WYjVK/ozwqu7bydbyX29?=
+ =?us-ascii?Q?LA3oi/obRE0l4xWaXwQPDDWYfLajhWScNm7LhLte/tZn9ZDgm8ToaFBdOaok?=
+ =?us-ascii?Q?4V0hq63fc6F79EFmkYHc+POgx4dMWJeL12kin+jmugK+L+ymZhSInzJTx7Ke?=
+ =?us-ascii?Q?ERT/2pR1RoUyleY686rWVDqjx5ZsP1bbAjg2HW0KRRo+/3NG5KLDIdy3shIV?=
+ =?us-ascii?Q?C1n4IADXC/maLMpYqPAYaqVJaCNTdpDfFjuQfwaZ4/HbCTRGZIQCoLxRPT8g?=
+ =?us-ascii?Q?R5rYsBZFUPbqbMHg88v+QF73/4XcnKL5oJs8+RLFpwZqJITaimfvFw+W/SKC?=
+ =?us-ascii?Q?oNxvt+DJuOFRaqEQwiF7caSLb1RTAR6HHp9llFDvMG/gX0Jgjbka9+ULcdoW?=
+ =?us-ascii?Q?w1bqt3MuD2MHG8f3G/nseVjeHKbMEp/Tb3wN+0uLslTRRindUnt7YNeucBKy?=
+ =?us-ascii?Q?hnKTRarnSTrp1aBdM29Hb/QsNCXDGBuklRyBuhDx7MVi15vMqdMnbPSylIub?=
+ =?us-ascii?Q?B4bnltkRb4/5KitOL4Es8u/e0L+3NgKnJA9t6lMKoKLcD/MFpz+9/Uz3gzJr?=
+ =?us-ascii?Q?Cegqv60vuQtiqpEkbucvqApRhHAtviVCH8fISReoUGzAMBvjDljBm81BoRHm?=
+ =?us-ascii?Q?SWvkjZGUaW56LrvzTjuXLZ8xjwNSktMoAl8hXMlpXQ8qdXewcdkwq6WqBuy1?=
+ =?us-ascii?Q?sQFGdXHeizUvEsHYaxx6aCuh6SlOxHTcjWV6+zl+EJTp3xsetna0SGRNnRiH?=
+ =?us-ascii?Q?5I1AvpO8PjwY3m+3zyW98hgpQ7ssXCOLFh/VJhcZ8yE+OwND3hBTZGkAcdgV?=
+ =?us-ascii?Q?W36bmX4+QUa8oYKx+fgMCXbhdaFxYcp5hSpRx11TaYyzi+EX9SvQTCwRcAom?=
+ =?us-ascii?Q?KZjpAaImM8stBuHuv8CsPuI=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 01:09:10.5506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wvs+otRnFGBD4X7FhQJdMZiBGU02p8tY/y6DMlzabWS+2idq4Byg++IK6VGR0R9OqUqG8yiK6lg5i+cWSb23nXsta8Iaj3pOMZp4BXYbc/lTrwVogAQTfqp5ZlmWq83v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8667
 
-Em Thu, 18 Apr 2024 08:24:10 -0500
-Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com> escreveu:
 
-> On 4/18/24 05:04, Mauro Carvalho Chehab wrote:
-> > Em Thu, 18 Apr 2024 09:48:27 +0100
-> > Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> >   
-> >> Newer Matebook D14 model comes with essx8336 and supports SOF,
-> >> but the initial models use the legacy driver, with a Realtek ALC 256
-> >> AC97 chip on it.
-> >>
-> >> The BIOS seems to be prepared to be used by both models, so
-> >> it contains an entry for ESSX8336 on its DSDT table.
-> >>
-> >> Add a quirk, as otherwise dspconfig driver will try to load
-> >> SOF, causing audio probe to fail.
-> >>
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>  
-> > 
-> > Worth to mention that I opened an issue on Github about that:
-> > 
-> > https://github.com/thesofproject/linux/issues/4934
-> > 
-> > I added there the ACPI DSDT table as a reference.  
+Hi Pierre-Louis
+
+> > (X) part is for DPCM, and it checks playback/capture availability
+> > if dai_link has dpcm_playback/capture flag (a)(b).
+> > This availability check should be available not only for DPCM, but for
+> > all connections. But it is not mandatory option. Let's name it as
+> > assertion.
 > 
-> This sounds like an 'easy enough' fix, but I don't have a burning desire
-> to start adding quirks of this nature. To be clear, the entire support
-> of the ES8336 is an absolute nightmare that I've stopped looking at
-> completely given the lack of support of vendor/OEMs.
+> I don't follow the 'not mandatory option'. Why not make these
+> 'assertions' mandatory? What happens in case the the option is not present?
 
-Heh, I know the pain, having working myself to have some support for audio
-on two different notebooks with my siblings, both with es8336. On both 
-cases, the BIOS info was not really useful, requiring quirks to make device
-to work properly.
+The big reason why "assertion flag" is not mandatory is that non-DPCM doesn't
+have such flag before. I can't add such flags to all of non-DPCM,
+because I don't know which direction (playback/capture) is available on
+each DAIs.
 
-This is btw a common issue I'm aware for a long time: BIOS data is
-not reliable, as vendors tend to re-use BIOS from one device on others,
-without actually reflecting what it is on each device.
-
-The EDAC subsystem never relies on DMI data for memory banks - as even
-server BIOS from top tear manufacturers usually report wrong data for
-motherboard's DIMM labels. Instead, an userspace application reads
-DMI data and propose changes, but patches for rasdaemon are required
-to add such labels to a database.
-
--
-
-In any case, this specific device doesn't have es8336 ;-)
-
-Also, I don't think this problem will remain confined to es8336: any
-other SOF driver may have the same problem: a BIOS (or a BIOS update)
-may add non-existent _HID devices to DSDT, causing the driver to
-disable AC97 support, enabling SOF instead and causing regressions.
-
-As I wrote at the Github issue, one solution would be to do an I2C
-scan to detect if the SOF device(s) reported by BIOS are really
-present. This would require that, before calling 
-snd_intel_acpi_dsp_driver_probe():
-
-	- the I2C bus to be created;
-	- Runtime PM for the audio device needs to put resume the
-	  device and I2C bus controller, if suspended;
-	- the I2C address of the audio device needs to be known
-	  by sound/hda/intel-dsp-config.c
-
-With that, a zero-byte (or one-byte if zero-byte not support)
-read or write could detect if the device is there, before
-initializing it - or calling the device-specific driver.
-
-Another solution would be to probe the SOF driver, falling back
-to AC97 if SOF init fails.
-
+> > In case of having assertion flag, non specific side will be disabled.
 > 
-> In this case, the ACPI table is completely wrong, we should try to
-> 'mark' the ES8336 device as 'not present' or detect the presence of HDaudio.
+> Not following the wording, multiple negatives and not clear on what
+> 'side' refers to (direction or DPCM/non-DPCM).
+
+How about this ?
+
+	If either playback or capture assertion flag was presented,
+	not presented direction will be disabled by ASoC even if
+	it was available.
+
+> I see a contradiction between "expanding the assertion to all
+> connections" and "not mandatory".
+(snip)
+> again the 'not mandatory' and 'non specific side will be disabled' are
+> confusing.
+(snip)
+> > +	/*
+> > +	 * Assertion check
+> > +	 *
+> > +	 * playback_assertion = 0	No assertion check.
+> > +	 * capture_assertion  = 0	ASoC will use detected playback/capture as-is.
+> > +	 *				No playback, No capture will be error.
 > 
-> Andy, what do you think and what would be your recommendation?
+> did you mean "this combination will be handled as an error" ?
+
+Hmm... is it word selection issue ?? is "must_support" better ?
+
+(playback_xxx, capture_xxx)
+
+(0, 0) : Both are not must item. available direction is used as-is.
+         But it will be error if nothing was available.
+
+(1, 0) : DAI must support selected direction.
+(0, 1)   Not selected direction will be disabled even though it was available
+
+(1, 1) : Both must be supported.
+
+> It's probably best to have a different presentation, to avoid
+> confusions. Using multiple lines without a separator isn't great.
 > 
-> >> ---
-> >>  sound/hda/intel-dsp-config.c | 16 ++++++++++++++++
-> >>  1 file changed, 16 insertions(+)
-> >>
-> >> diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-> >> index 6a384b922e4f..8e728f0585dd 100644
-> >> --- a/sound/hda/intel-dsp-config.c
-> >> +++ b/sound/hda/intel-dsp-config.c
-> >> @@ -46,6 +46,22 @@ static const struct snd_soc_acpi_codecs __maybe_unused essx_83x6 = {
-> >>   * - the first successful match will win
-> >>   */
-> >>  static const struct config_entry config_table[] = {
-> >> +	/* Quirks */
-> >> +	{
-> >> +		.flags = 0,	/* Model uses AC97 with Realtek ALC 256 */
-> >> +		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
-> >> +		.dmi_table = (const struct dmi_system_id []) {
-> >> +			{
-> >> +				.ident = "Huawei NBLB-WAX9N",
-> >> +				.matches = {
-> >> +					DMI_MATCH(DMI_SYS_VENDOR, "HUAWEI"),
-> >> +					DMI_MATCH(DMI_PRODUCT_NAME, "NBLB-WAX9N"),
-> >> +				}
-> >> +			},
-> >> +			{}
-> >> +		}
-> >> +	},
-> >> +
-> >>  /* Merrifield */
-> >>  #if IS_ENABLED(CONFIG_SND_SOC_SOF_MERRIFIELD)
-> >>  	{  
+> Suggested example:
+> 
+> playback_assertion = 0 capture_assertion  = 0
+> this combination will be handled as an error
+> 
+> playback_assertion = 1 capture_assertion  = 0
+> the DAIs in this dailink must support playback.
+> ASoC will disable capture.
+> In other words "playback_only"
+
+Yeah, I agree
+
+> > +	 * playback_assertion = 1	DAI must playback available. ASoC will disable capture.
+> > +	 * capture_assertion  = 0	In other words "playback_only"
+> > +	 *
+> > +	 * playback_assertion = 0	DAI must capture available. ASoC will disable playback.
+> > +	 * capture_assertion  = 1	In other words "capture_only"
+> > +	 *
+> > +	 * playback_assertion = 1	DAI must both playback/capture available.
+> > +	 * capture_assertion  = 1
+> 
+> nit-pick: the 'must X available' does not read well, 'must support X' is
+> probably what you meant.
+
+Thanks. will fix in v4
+
+> > +	if (dai_link->capture_assertion) {
+> > +		if (!has_capture) {
+> > +			dev_err(rtd->dev, "%s capture assertion check error\n", dai_link->stream_name);
+> > +			return -EINVAL;
+> > +		}
+> > +		/* makes it capture only */
+> > +		if (!dai_link->playback_assertion)
+> > +			has_playback = 0;
+> > +	}
+> 
+> we probably want a dev_ log when the has_playback/capture is overridden?
+
+OK, will do in v4
+
+
+Thank you for your help !!
+
+Best regards
+---
+Renesas Electronics
+Ph.D. Kuninori Morimoto
