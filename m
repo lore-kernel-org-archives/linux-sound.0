@@ -1,158 +1,142 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0D037165;
-	Fri, 19 Apr 2024 06:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6B53FBB1;
+	Fri, 19 Apr 2024 07:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713509205; cv=none; b=Ye21eIqS/KXy0b6gDHt03YZfJSyukh9XVVsSdfHDNGWUPA2UtyTwYoGobj8L4pMWGkdk01Zkew2IdA7LGpsPOQpdd60dRCdULAjDjwqN8uQMXvS608sXt5tfMTMtEZTunagSoO6YUE1q2mjlO9CxhvDZgkBNJ5/oB/8QZ84/Mek=
+	t=1713511880; cv=none; b=hkl+HVEn8BrK6zU5TyW/YLiiFrEf8KNr+fF0SxetWE7uK0DZMElVdBWDR/y1k3qTcE3Uebj/pZ1KnuBrx211XzFkjvED1y3XbItv2CTFUxVUM6giIS+Saeg+RnHV36wd0M1Edg/qsMJZk8qHLuKVLMcFjUv3482bfcUnxKOJwXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713509205; c=relaxed/simple;
-	bh=rk5dYVTOEKcf8TieWS5krXZV5RTCOihx7uuqubWxOxo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iqOP4Fcz/wWnkhXQDI0SqekFjR0G5cMDvBsAGBfzVd+CHgH9YL4vk5o0A2U6/OIoScPGV0Ng4CO21CSzEplTIp1PwmFExF28t7RUj1eMBpt4NB5DNT66NHFO90DKtsQS8k02QM9DYB7cYP5qFdw1YYjjXRi4ESiibdwwyWSEt08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GfGoiyWl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7nYIMsGN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GfGoiyWl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7nYIMsGN; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1713511880; c=relaxed/simple;
+	bh=1W1wKmyjgUnLlO7H58gYIoT+uueMc19QlOOhLij24FM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=KPdhNgEhvGcGmB8MiBIXVpf1jJipSWbhC/W0zE+U6T4Yd2u4QfHUCLlmA9oQPdRtLRorhC2foDjUPbxuBB7UqUNQxbY7Wa69RqXkAWa/XOt/Q7cKBj+XdBdnsYgJoI7rmpiuoblga5rn8ZDVWiGAx02ultEFCTcPZICKD1mrwFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4fDgPKa; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GfGoiyWl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7nYIMsGN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GfGoiyWl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7nYIMsGN"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 415A15D3A0;
-	Fri, 19 Apr 2024 06:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713509202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
-	b=GfGoiyWlF88tWZKouoMgWbF7SKh+0j8aVEgv0L0dY0MnEv9yBX2BvIhYrfRqGVUDspN/XM
-	zdDxE8hzJyOeZ9e5URPaODXlw36w8fAIfhPVUYC3jGhHRhd/yCsn+cb89FFZTM/GFLSuN/
-	tfDZp2W+lreJ7UMkAgeybzJA2grjWk0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713509202;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
-	b=7nYIMsGNjkFwF1RowN4V7yzcnP2t4kaa0IoZJCD12w2k3z9uWDR6n+435fst6tA0AjrZDo
-	Ky+6o1lw4IQk4vBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GfGoiyWl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7nYIMsGN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713509202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
-	b=GfGoiyWlF88tWZKouoMgWbF7SKh+0j8aVEgv0L0dY0MnEv9yBX2BvIhYrfRqGVUDspN/XM
-	zdDxE8hzJyOeZ9e5URPaODXlw36w8fAIfhPVUYC3jGhHRhd/yCsn+cb89FFZTM/GFLSuN/
-	tfDZp2W+lreJ7UMkAgeybzJA2grjWk0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713509202;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
-	b=7nYIMsGNjkFwF1RowN4V7yzcnP2t4kaa0IoZJCD12w2k3z9uWDR6n+435fst6tA0AjrZDo
-	Ky+6o1lw4IQk4vBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD30313687;
-	Fri, 19 Apr 2024 06:46:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HKGPNFETImbLRgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 19 Apr 2024 06:46:41 +0000
-Date: Fri, 19 Apr 2024 08:46:49 +0200
-Message-ID: <877cgtvoh2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
-In-Reply-To: <20240419052803.339466-1-aichao@kylinos.cn>
-References: <20240419052803.339466-1-aichao@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4fDgPKa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713511879; x=1745047879;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=1W1wKmyjgUnLlO7H58gYIoT+uueMc19QlOOhLij24FM=;
+  b=m4fDgPKaVlSlGt5nt/3kxbBsXeqUCa2efoTxvDTe/RhyEcCwv4CxRcCY
+   ytbSlNn48Fu+/DXVdQz9ydoD9QKYSSggLW7sLZ1i+bnYYNWsXdqqkfsKh
+   MV2VstDONq8TPDcCAHhlGdcIrCjeaW89Bu2wVL94Aw7K2WUyeJYblTebl
+   rssGX3stYOa2MLYIr/jCxv7eRYwbZRZQ748DybZwrcMfivOytprnLyI/q
+   baIFI1UqPw8wGI8U4mM+W2grCIZBMh6jIQHiZ+GxpwJzn92D72/zvZVIT
+   rqzXBrdE2atAb9CCIQD4LVXEba/xx3mfg5ckd9NzJv9aRvl3/dp1ZpynI
+   Q==;
+X-CSE-ConnectionGUID: 79EedCTaSjKcdhzRRsQ21g==
+X-CSE-MsgGUID: qiM4vGCcQlOUY4pR1KgNtg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8972448"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="8972448"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 00:31:19 -0700
+X-CSE-ConnectionGUID: fCprXCqsQCC9GuV7KLXVkg==
+X-CSE-MsgGUID: 43memXPHTduSJHre2tY33Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="23285237"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 00:31:10 -0700
+Message-ID: <6bb27015-293d-403d-9144-b44454b6bc20@linux.intel.com>
+Date: Fri, 19 Apr 2024 09:31:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.54 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.03)[55.20%];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -0.54
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: 415A15D3A0
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
+ playback/capture_assertion
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+ <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+ <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
+ <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 19 Apr 2024 07:28:03 +0200,
-Ai Chao wrote:
+On 4/18/2024 6:26 PM, Pierre-Louis Bossart wrote:
 > 
-> The Haier Boyue G42 with ALC269VC cannot detect the MIC of headset,
-> the line out and internal speaker until
-> ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS quirk applied.
 > 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
+> On 4/18/24 06:19, Amadeusz Sławiński wrote:
+>> On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
+>>> soc_get_playback_capture() is now handling DPCM and normal
+>>> comprehensively for playback/capture stream in same code.
+>>> This patch converts xxx_only flag to xxx_assertion.
+>>>
+>>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>> ---
+>>>    sound/soc/intel/boards/bdw-rt5677.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/sound/soc/intel/boards/bdw-rt5677.c
+>>> b/sound/soc/intel/boards/bdw-rt5677.c
+>>> index 54e3c5d3c251..9170b1d509e2 100644
+>>> --- a/sound/soc/intel/boards/bdw-rt5677.c
+>>> +++ b/sound/soc/intel/boards/bdw-rt5677.c
+>>> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
+>>>        {
+>>>            .name = "Codec DSP",
+>>>            .stream_name = "Wake on Voice",
+>>> -        .capture_only = 1,
+>>> +        .capture_assertion = 1,
+>>>            .ops = &bdw_rt5677_dsp_ops,
+>>>            SND_SOC_DAILINK_REG(dsp),
+>>>        },
+>>
+>> Should this have been part of patch 8?
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index d6940bc4ec39..0ebdc676cfe1 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10473,6 +10473,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
->  	SND_PCI_QUIRK(0xf111, 0x0005, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
->  	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
-> +	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
+> Patch 8 deals with the following changes
+> 
+> -		.dpcm_playback = 1,
+> -		.dpcm_capture = 1,
+> +		.playback_assertion = 1,
+> +		.capture_assertion = 1,
+> 
+> This case is about
+> 
+>> -        .capture_only = 1,
+>> +        .capture_assertion = 1,
+> 
+> I think it's good to make this change separately.
 
-The table is sorted in PCI SSID order.  Could you try to put at the
-right place?
-
-
-thanks,
-
-Takashi
+Indeed, missed that.
