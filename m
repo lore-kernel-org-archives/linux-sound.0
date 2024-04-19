@@ -1,52 +1,80 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D45929A2;
-	Fri, 19 Apr 2024 05:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0D037165;
+	Fri, 19 Apr 2024 06:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713504499; cv=none; b=DEd6juOF+EN7QtEv0ok3wzXSs5LQZIidUAXlVabMBTYNP4KUVAWn54ZZtc/i6eec/cjREmz4FiRMtAxbiUAY/nmvCVHinhIcVVNc5uGBgRJV4+N+y7f6gDGNk2BGANOI0rPXgWUE3d/tyv7be8UcltvUnPQGsGhs99jImPKlmcM=
+	t=1713509205; cv=none; b=Ye21eIqS/KXy0b6gDHt03YZfJSyukh9XVVsSdfHDNGWUPA2UtyTwYoGobj8L4pMWGkdk01Zkew2IdA7LGpsPOQpdd60dRCdULAjDjwqN8uQMXvS608sXt5tfMTMtEZTunagSoO6YUE1q2mjlO9CxhvDZgkBNJ5/oB/8QZ84/Mek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713504499; c=relaxed/simple;
-	bh=7IGVTSQAk4wicxw2plkM2Kp9P2VeSa0dVyMdhziC9QI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uILSiXoyGznRL1DfnI3+Y3DvNvQK2v7Mv+jMjOaZN1m/gHY9hHhLaBxkcdyctOZOTHhHsFvcfy8zFili0b23zDXYOXHqXcnNcQuu1+GjmzcmwgI+6zpDvIqrYpuQ/i7yaRGbs1cUTcnX1VvQ5I8VI6ydlfZm1SCO+HdVjPiNdwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9a04411afe0d11ee9305a59a3cc225df-20240419
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: EDM_GE969F26
-X-CID-O-INFO: VERSION:1.1.37,REQID:5e2e88d5-d41d-40b3-b37d-43d2802ac73d,IP:20,
-	URL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,AC
-	TION:release,TS:-15
-X-CID-INFO: VERSION:1.1.37,REQID:5e2e88d5-d41d-40b3-b37d-43d2802ac73d,IP:20,UR
-	L:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:EDM_GE969F26,ACT
-	ION:release,TS:-15
-X-CID-META: VersionHash:6f543d0,CLOUDID:cc385bc7d28b59f6f3145aceb6268fa0,BulkI
-	D:2404191328082YIWLUXL,BulkQuantity:0,Recheck:0,SF:38|24|72|19|44|66|102,T
-	C:nil,Content:0,EDM:1,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,
-	COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FSD
-X-CTIC-Tags:
-	HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
-	AMN_C_BU, ABX_MISS_RDNS
-X-UUID: 9a04411afe0d11ee9305a59a3cc225df-20240419
-X-User: aichao@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1487590039; Fri, 19 Apr 2024 13:28:06 +0800
-From: Ai Chao <aichao@kylinos.cn>
-To: perex@perex.cz,
+	s=arc-20240116; t=1713509205; c=relaxed/simple;
+	bh=rk5dYVTOEKcf8TieWS5krXZV5RTCOihx7uuqubWxOxo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iqOP4Fcz/wWnkhXQDI0SqekFjR0G5cMDvBsAGBfzVd+CHgH9YL4vk5o0A2U6/OIoScPGV0Ng4CO21CSzEplTIp1PwmFExF28t7RUj1eMBpt4NB5DNT66NHFO90DKtsQS8k02QM9DYB7cYP5qFdw1YYjjXRi4ESiibdwwyWSEt08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GfGoiyWl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7nYIMsGN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GfGoiyWl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7nYIMsGN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GfGoiyWl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7nYIMsGN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GfGoiyWl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7nYIMsGN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 415A15D3A0;
+	Fri, 19 Apr 2024 06:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713509202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
+	b=GfGoiyWlF88tWZKouoMgWbF7SKh+0j8aVEgv0L0dY0MnEv9yBX2BvIhYrfRqGVUDspN/XM
+	zdDxE8hzJyOeZ9e5URPaODXlw36w8fAIfhPVUYC3jGhHRhd/yCsn+cb89FFZTM/GFLSuN/
+	tfDZp2W+lreJ7UMkAgeybzJA2grjWk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713509202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
+	b=7nYIMsGNjkFwF1RowN4V7yzcnP2t4kaa0IoZJCD12w2k3z9uWDR6n+435fst6tA0AjrZDo
+	Ky+6o1lw4IQk4vBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GfGoiyWl;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7nYIMsGN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713509202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
+	b=GfGoiyWlF88tWZKouoMgWbF7SKh+0j8aVEgv0L0dY0MnEv9yBX2BvIhYrfRqGVUDspN/XM
+	zdDxE8hzJyOeZ9e5URPaODXlw36w8fAIfhPVUYC3jGhHRhd/yCsn+cb89FFZTM/GFLSuN/
+	tfDZp2W+lreJ7UMkAgeybzJA2grjWk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713509202;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EeNeAuoW3dXuECUX3IUeU9F3dbFOKMP5qwJi1Qt8HHs=;
+	b=7nYIMsGNjkFwF1RowN4V7yzcnP2t4kaa0IoZJCD12w2k3z9uWDR6n+435fst6tA0AjrZDo
+	Ky+6o1lw4IQk4vBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD30313687;
+	Fri, 19 Apr 2024 06:46:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HKGPNFETImbLRgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 19 Apr 2024 06:46:41 +0000
+Date: Fri, 19 Apr 2024 08:46:49 +0200
+Message-ID: <877cgtvoh2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
 	kailang@realtek.com,
 	sbinding@opensource.cirrus.com,
@@ -57,40 +85,74 @@ To: perex@perex.cz,
 	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
-Date: Fri, 19 Apr 2024 13:28:03 +0800
-Message-Id: <20240419052803.339466-1-aichao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
+In-Reply-To: <20240419052803.339466-1-aichao@kylinos.cn>
+References: <20240419052803.339466-1-aichao@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.54 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	BAYES_HAM(-0.03)[55.20%];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -0.54
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 415A15D3A0
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-The Haier Boyue G42 with ALC269VC cannot detect the MIC of headset,
-the line out and internal speaker until
-ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS quirk applied.
+On Fri, 19 Apr 2024 07:28:03 +0200,
+Ai Chao wrote:
+> 
+> The Haier Boyue G42 with ALC269VC cannot detect the MIC of headset,
+> the line out and internal speaker until
+> ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS quirk applied.
+> 
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index d6940bc4ec39..0ebdc676cfe1 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10473,6 +10473,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+>  	SND_PCI_QUIRK(0xf111, 0x0005, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+>  	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+> +	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+The table is sorted in PCI SSID order.  Could you try to put at the
+right place?
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d6940bc4ec39..0ebdc676cfe1 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10473,6 +10473,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0005, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
- 
- #if 0
- 	/* Below is a quirk table taken from the old code.
--- 
-2.25.1
 
+thanks,
+
+Takashi
