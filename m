@@ -1,86 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B5210E3
-	for <linux-sound@vger.kernel.org>; Fri, 19 Apr 2024 01:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D45929A2;
+	Fri, 19 Apr 2024 05:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713489921; cv=none; b=AX8miF0rlINO1F4gMEaq8hVUD8cdYhmADMTumcCMjn3WdLw3gXTneEBB/cJSDP8Cx3EXnJnm8rg+TmgGzxGE3GfmQu9ELfIkPRTQW/HmfOZ8lMCHIiWri6mic2P3Wi+LWiDRaO4JvUK2FO4qFmjyvZ77mrT0GK30lFhuWsrZ3FI=
+	t=1713504499; cv=none; b=DEd6juOF+EN7QtEv0ok3wzXSs5LQZIidUAXlVabMBTYNP4KUVAWn54ZZtc/i6eec/cjREmz4FiRMtAxbiUAY/nmvCVHinhIcVVNc5uGBgRJV4+N+y7f6gDGNk2BGANOI0rPXgWUE3d/tyv7be8UcltvUnPQGsGhs99jImPKlmcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713489921; c=relaxed/simple;
-	bh=KGbKhUOEPigGgq2Jl8R0BeO4mee9gHipm6cfp8UjpCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rQzqP2OcWHmhJq+wbCYEBHN9DwHAIAdPKirpL7qwaczysHnH5iUC+lo/abX26lld76nJzhcIG2dfCj+resDRqBDoLGwkJLU/asC5+0Ytuc6wOoKT+f86RVIR1MjDzyZZVnHhMNR5eZNOBj88t0SMRA7Ts5Rglc9N3AclqCmx/W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7hTFuXW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7hTFuXW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D78C113CC;
-	Fri, 19 Apr 2024 01:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713489920;
-	bh=KGbKhUOEPigGgq2Jl8R0BeO4mee9gHipm6cfp8UjpCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U7hTFuXWS1rN4vRFGlZpm+5AcFc1ufUbobeGwi6IyoKnBzO1HQ8sc2yHfE5zY05N9
-	 S997pklLR0BUTD0HpPceeLvU8w9eidARmOkYShmhZAB0T9WJnLCj4FGsJfmqacqTfP
-	 BULyw+QCZfrr7OntnEyLb5Eis1eocVFSv5nWAF7FztMgqAabIClfSJx9bdGJeR5sql
-	 9i8Ie+ZzcKBmbmhh+eIcIZQg5lqlo3HlSrD5K/g+nnCt6TmQLPsxINBcVrNiYDMQ4R
-	 n52rLEpof1dysIbbHkpzte+Sf2kKESqkJGdgi6lu46Bt4nOCdP7MxMh/00B4qaNSAz
-	 ESCIJwrwgQP0Q==
-Date: Fri, 19 Apr 2024 10:25:17 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: Question: layout of a patchset dependent on another tree
-Message-ID: <ZiHH_ZG3YebvefRj@finisterre.sirena.org.uk>
-References: <2d1980e9-f5b2-4c9e-9348-af69166d0882@intel.com>
+	s=arc-20240116; t=1713504499; c=relaxed/simple;
+	bh=7IGVTSQAk4wicxw2plkM2Kp9P2VeSa0dVyMdhziC9QI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uILSiXoyGznRL1DfnI3+Y3DvNvQK2v7Mv+jMjOaZN1m/gHY9hHhLaBxkcdyctOZOTHhHsFvcfy8zFili0b23zDXYOXHqXcnNcQuu1+GjmzcmwgI+6zpDvIqrYpuQ/i7yaRGbs1cUTcnX1VvQ5I8VI6ydlfZm1SCO+HdVjPiNdwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9a04411afe0d11ee9305a59a3cc225df-20240419
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: EDM_GE969F26
+X-CID-O-INFO: VERSION:1.1.37,REQID:5e2e88d5-d41d-40b3-b37d-43d2802ac73d,IP:20,
+	URL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,AC
+	TION:release,TS:-15
+X-CID-INFO: VERSION:1.1.37,REQID:5e2e88d5-d41d-40b3-b37d-43d2802ac73d,IP:20,UR
+	L:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:EDM_GE969F26,ACT
+	ION:release,TS:-15
+X-CID-META: VersionHash:6f543d0,CLOUDID:cc385bc7d28b59f6f3145aceb6268fa0,BulkI
+	D:2404191328082YIWLUXL,BulkQuantity:0,Recheck:0,SF:38|24|72|19|44|66|102,T
+	C:nil,Content:0,EDM:1,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,
+	COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FSD
+X-CTIC-Tags:
+	HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
+	AMN_C_BU, ABX_MISS_RDNS
+X-UUID: 9a04411afe0d11ee9305a59a3cc225df-20240419
+X-User: aichao@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1487590039; Fri, 19 Apr 2024 13:28:06 +0800
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	luke@ljones.dev,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH] ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
+Date: Fri, 19 Apr 2024 13:28:03 +0800
+Message-Id: <20240419052803.339466-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Li+p0Qq5xCtvKgsP"
-Content-Disposition: inline
-In-Reply-To: <2d1980e9-f5b2-4c9e-9348-af69166d0882@intel.com>
-X-Cookie: TANSTAAFL
+Content-Transfer-Encoding: 8bit
 
+The Haier Boyue G42 with ALC269VC cannot detect the MIC of headset,
+the line out and internal speaker until
+ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS quirk applied.
 
---Li+p0Qq5xCtvKgsP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Thu, Apr 18, 2024 at 01:43:25PM +0200, Cezary Rojewski wrote:
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d6940bc4ec39..0ebdc676cfe1 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10473,6 +10473,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0005, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
+ 
+ #if 0
+ 	/* Below is a quirk table taken from the old code.
+-- 
+2.25.1
 
-> I'd like to send changes which do modify the avs-driver but are dependent on
-> ACPI/NHLT changes I've recently upstream [1] to Rafael's linux-acpi tree.
-> Thanks to Rafael, there's an immutable branch [2] that has all relevant
-> commits on the top.
-
-> Should I send both the NHLT+avs changes and have broonie/for-next as a base
-> for that or provide only the avs changes and state the dependency within the
-> cover-letter? The latter will fail to compile without its dependency
-> obviously.
-
-I'd send based on the immutable branch so long as that will merge into
-my tree easily enough (doesn't have to be perfect).  If it needs the
-immutable branch merging into the ASoC tree first then I'd send based on
-that merge with a note in the cover letter explaining this.
-
---Li+p0Qq5xCtvKgsP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYhx/0ACgkQJNaLcl1U
-h9CQ1Qf/R4/qXGOmW5XJw5wzcAFG9D51e/SNzL1ah9HEm0NexPfBt/omw5PzS/aZ
-abg8j9ZvPYpSxxhM/nGaJ0Qf5NzybfB1ebUkPIAVI/sXXyWJRqUIK3kLqQsyUQOx
-K6PWoezrCP6yWrKU3zEjApLMud+fgThArQnz5n0pfJd4eyu5gyojIaeg7NiurtDV
-IXchjctOsrWVAMzcoxh5NGjcfCMJQnsID6006jDazXp/aIiKevfUdtV45Yv1UTzr
-YhkLZi+G9kmfRBJ+xCP5mT1fjQNpeQuargnhPJu0x9U+zb1XKHApKstYRoYhbzyc
-FygHl6AsO8ynHIhMsMgRsDjRH0zPBw==
-=8PLJ
------END PGP SIGNATURE-----
-
---Li+p0Qq5xCtvKgsP--
