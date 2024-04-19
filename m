@@ -1,153 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F291272A2;
-	Fri, 19 Apr 2024 13:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1702C12BF2D;
+	Fri, 19 Apr 2024 13:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713533236; cv=none; b=tnINLXJeENT3klxyR1Zhsltj18Uwyt/p0FvjEfl4njLekQKaawM6QuqWwI2NCogNGCr2fLR/oXlbDuEFNOV14uyg5gf5MMOD4ZbNFkOjpu+USjUHPcWVeNyxveXHmjDNiBkTl3z6VFji6bd9lqofHlIf7vTSObQGw9H1fPJGxZM=
+	t=1713534882; cv=none; b=mGaeU2/1ns3syWHF8261L3yvDgFG8t2pb4c6WKnUdmCePAK5o/H2PZGfSknITrPS5yQY7L2l6Z0819pFe0L61m6TOlCwzZD7MxDIcdmSqu3frSmgIMOAny013DDaUlQn/Qs9KRDkUDYgbiiSYFAI6u3dUitgmFvrr/Br2rs2t1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713533236; c=relaxed/simple;
-	bh=Qnz9KkLZ0F/VZJLWO9UAiA4GTOIoA6FKmFggsIBghb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FXb4wEqU98iB8nBi8z+pBcO/be2wFuJT9HCRca2LXWFIe9t2555PGHJ4jzjY8ARkrI4LH80YlDb49DKwHHcdEYTxviKg0MrivjqkUdTOfmhTMyBbeTrdI47N6xK9wE9031e+xRvjnf+Ob/C26VS/HcL6d7x7l6hDvlySJsenmRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtnKJzOp; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713534882; c=relaxed/simple;
+	bh=0iCQEjvdSo7dJbP+XmqMqLfVWMWsjqqzLI7oVk9RW+E=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=Uyi2zmrZyv7U58Gut1plcasOUFThub9V1suYR4UOwtHPOAPToqKoDb3jSZzmik+dSRaS6o3W8FNCpeuCzkmxFFPG0qrgE+d3olr1F5cyMRgzoHeNs+mxbkihcwKAacfnj9eb8PY1YQPYDsU6B1QrpRD6/aCzdCJ+fqKo3NgHNDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rYaKbLON; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q5igHnKA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lVS6d393; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i0p7MQ0v; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtnKJzOp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713533235; x=1745069235;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Qnz9KkLZ0F/VZJLWO9UAiA4GTOIoA6FKmFggsIBghb0=;
-  b=TtnKJzOpiIe+soN1mnfmg+5vOZyeXT8AMWLKKaEBAHd+i/aZ+N0VFXon
-   KPHwbhl9C5fbQum7oU4wUCOps3LZ+/zhoqFJtqgZGYuowexPnbo13wr52
-   FUlWN/6UBxF2EfM9fI0NPpf/NtbqipZ8aJsImtKXEl6S7LTqkJSUGUiOD
-   Q1uQL+1keHxYK76nMJfnU+o29XKidNY8GxwWE7Mn/icpn/OeqKUn+3Gsy
-   UnHyMvgKTe4HWZ98XS9VVJZWHZpHKROopaQHc61M+ACGTUUERhMWkvuum
-   8fFA79aSeTwv6VFTNI/csn/UGSPpyT6OPRxjqlJ8nrfRULEjNqG3X4mQy
-   w==;
-X-CSE-ConnectionGUID: DkqGC2ksRDe7F3pvWFYMiA==
-X-CSE-MsgGUID: LBWTeJt5SwW0TUTqAXujkw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="34531853"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="34531853"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 06:27:14 -0700
-X-CSE-ConnectionGUID: QABg7rpFSuq0ZKNqFoAQ5A==
-X-CSE-MsgGUID: 17elK82rR4SPLD6Vg+dLhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23312212"
-Received: from ymahendr-mobl1.amr.corp.intel.com (HELO [10.212.85.57]) ([10.212.85.57])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 06:27:10 -0700
-Message-ID: <92054f87-dded-4b66-8108-8b2a10909883@linux.intel.com>
-Date: Fri, 19 Apr 2024 08:17:17 -0500
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rYaKbLON";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q5igHnKA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lVS6d393";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i0p7MQ0v"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0DC575D731;
+	Fri, 19 Apr 2024 13:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713534879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=1T1gY+959LBHI4IrkrYy7MTTOkwbZUKPUll4SaqfVL8=;
+	b=rYaKbLONZVez4cpfrWYBv4iI3DZN4xnP30wtpPJa0zUDR9HfuXaUNkXbGA1uZpm9+TxLBi
+	nhl8owcfGWYsoNEMP9ozNix9L5hYkrij3lPzKfeg0mAmV9j98MUIJrnUXMsrqWDdiwzdwe
+	73SD9us2M+5Z4xAZjLNk6uw/JkRArZM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713534879;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=1T1gY+959LBHI4IrkrYy7MTTOkwbZUKPUll4SaqfVL8=;
+	b=Q5igHnKARGfob1FoOmWDc7Ak/RwYWEGZ6tFSsdULN7LHeul4SS4cQx4MUwy5sLvmKqMmc3
+	G0ynUMUpLhbmtyBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lVS6d393;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=i0p7MQ0v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713534878; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=1T1gY+959LBHI4IrkrYy7MTTOkwbZUKPUll4SaqfVL8=;
+	b=lVS6d3938LQiqFRypcGJJz9hk3gfJl2GLt1qvkjq1qFccItXCrd3SiWHokKLVlGecwKnTU
+	SVwOdb5irNEeEFBqzodrmm3yckUkNwT7f5Gb2DKyQ5kr/OSTjnRsf+qnqD5yPAuKuGy8Yv
+	AgRggIQ9ZSpjYYTV5/JlnWbiSU5NDf0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713534878;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=1T1gY+959LBHI4IrkrYy7MTTOkwbZUKPUll4SaqfVL8=;
+	b=i0p7MQ0vcp8KAz+yxl1i9LbYZ8qZ1CcD2TEdQwTELLBC1NvfWbSc5/uZv94tBB4W+i5oXG
+	N4zpjdhTpsUs8tDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D9E50136CF;
+	Fri, 19 Apr 2024 13:54:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Nx7zM513ImZ3XwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 19 Apr 2024 13:54:37 +0000
+Date: Fri, 19 Apr 2024 15:54:45 +0200
+Message-ID: <87ttjxsbiy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.9-rc5
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup
- soc_get_playback_capture()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
- <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
- <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 0DC575D731
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	TO_DN_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 
+Linus,
 
->>> (X) part is for DPCM, and it checks playback/capture availability
->>> if dai_link has dpcm_playback/capture flag (a)(b).
->>> This availability check should be available not only for DPCM, but for
->>> all connections. But it is not mandatory option. Let's name it as
->>> assertion.
->>
->> I don't follow the 'not mandatory option'. Why not make these
->> 'assertions' mandatory? What happens in case the the option is not present?
-> 
-> The big reason why "assertion flag" is not mandatory is that non-DPCM doesn't
-> have such flag before. I can't add such flags to all of non-DPCM,
-> because I don't know which direction (playback/capture) is available on
-> each DAIs.
+please pull sound fixes for v6.9-rc5 from:
 
-Your explanation seems to contradict the sentence above "This
-availability check should be available not only for DPCM, but for all
-connections."
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc5
 
-Can we actually do this 'availability check' for non-DPCM connections.
+The topmost commit is f25f17dc5c6a5e3f2014d44635f0c0db45224efe
 
->>> In case of having assertion flag, non specific side will be disabled.
->>
->> Not following the wording, multiple negatives and not clear on what
->> 'side' refers to (direction or DPCM/non-DPCM).
-> 
-> How about this ?
-> 
-> 	If either playback or capture assertion flag was presented,
-> 	not presented direction will be disabled by ASoC even if
-> 	it was available.
+----------------------------------------------------------------
 
-Did you mean
+sound fixes for 6.9-rc5
 
-"
-The playback (resp. capture) direction will be disabled by ASoC if the
-playback_assertion (resp. capture) flag is false - even if this
-direction was available at the DAI level
-"
+Things look calm and normal, we got handful HD-audio-related small
+fixes and a fix for MIDI 2.0 UMP handling.
 
+----------------------------------------------------------------
 
-> (playback_xxx, capture_xxx)
-> 
-> (0, 0) : Both are not must item. available direction is used as-is.
->          But it will be error if nothing was available.
+Ai Chao (1):
+      ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
 
-That new wording makes me even more confused. What does 'available'
-refer to and at which level is this?
+Huayu Zhang (1):
+      ALSA: hda/realtek: Fix volumn control of ThinkBook 16P Gen4
 
-This seems also to contradict the definitions above, "available
-direction is used as-is" is not aligned with "not presented direction
-will be disabled by ASoC even if it was available".
-> (1, 0) : DAI must support selected direction.
-> (0, 1)   Not selected direction will be disabled even though it was available
-> 
-> (1, 1) : Both must be supported.
+Mauro Carvalho Chehab (1):
+      ALSA: hda/realtek: Add quirks for Huawei Matebook D14 NBLB-WAX9N
+
+Shenghao Ding (2):
+      ALSA: hda/tas2781: correct the register for pow calibrated data
+      ALSA: hda/tas2781: Add new vendor_id and subsystem_id to support ThinkPad ICE-1
+
+Takashi Iwai (1):
+      ALSA: seq: ump: Fix conversion from MIDI2 to MIDI1 UMP messages
+
+Vitalii Torshyn (1):
+      ALSA: hda/realtek: Fixes for Asus GU605M and GA403U sound
+
+Vitaly Rodionov (1):
+      ALSA: hda/realtek: Add quirk for HP SnowWhite laptops
+
+---
+ sound/core/seq/seq_ump_convert.c |  2 +-
+ sound/pci/hda/patch_realtek.c    | 49 ++++++++++++++++++++++++++++++++++++----
+ sound/pci/hda/tas2781_hda_i2c.c  |  4 ++--
+ 3 files changed, 48 insertions(+), 7 deletions(-)
 
