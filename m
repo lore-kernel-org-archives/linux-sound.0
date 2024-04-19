@@ -1,66 +1,61 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EB13EA8C;
-	Fri, 19 Apr 2024 08:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4E46519F
+	for <linux-sound@vger.kernel.org>; Fri, 19 Apr 2024 08:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713514936; cv=none; b=COZg3NAciwpgsP+PcWI/oqnE/KbbWO/shZtqDsF3sCWjia1/vTEfvE7ocWqub5cDN6azTjyeYhTJ/S4SThOTDGZiSdTBkSaeVBfKrND4OgUxv5XPNO00bUS9TsYJb9F4/f3khY9N1M48gIq2qk2WdUF0e9i8Vh4XMRmPgEsNZhI=
+	t=1713516109; cv=none; b=k+Mk4ftKCSvSyQ4lTbCsQk7J+0mvWGagJji9a58n+W6G9Fppdwdw0d7L3w+e1QB/7/PkfDSAkLlPJGmmf0kHcvxqacirLs3v18UeI4CZNV653J5fk767rUn1ASY7UMVH6ts7zJYElZeQctfaNZEFCjFsMB0wbjz7mU+ueuxBdCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713514936; c=relaxed/simple;
-	bh=t3SCUrZ2o3Y52u7QEjUQzxGE240wQXC1nL3Imm5gJaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gyYKNThVZjOsK+Vp6crzRia7rJiyFBcL/iaA6zTfDVO8cdPc/x7CFBLRQvyY+N54n2xDNfxu3Yzlr63LsnOIVBoKUkPL0Z9JUhyhcjmGC2mmLpWdlswph36LgTy6JtgLKzvvQ1oH1SLJJiA4oEarj01U0hVfngrIja+wTM9qBS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e5de372cfe2511ee9305a59a3cc225df-20240419
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: EDM_GE969F26
-X-CID-O-INFO: VERSION:1.1.37,REQID:37951164-f81b-4579-af14-799458eacc1e,IP:10,
-	URL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,AC
-	TION:release,TS:-25
-X-CID-INFO: VERSION:1.1.37,REQID:37951164-f81b-4579-af14-799458eacc1e,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:-25,RT:0,SF:-5,FILE:0,BULK:0,RULE:EDM_GE969F26,ACT
-	ION:release,TS:-25
-X-CID-META: VersionHash:6f543d0,CLOUDID:fa868064cdab46c0eba910d488f7676e,BulkI
-	D:24041916152019M4AR9V,BulkQuantity:1,Recheck:0,SF:38|24|72|19|44|66|102,T
-	C:nil,Content:0,EDM:1,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,C
-	OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-CTIC-Tags:
-	HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
-	AMN_C_BU, ABX_MISS_RDNS
-X-UUID: e5de372cfe2511ee9305a59a3cc225df-20240419
-X-User: aichao@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 751386315; Fri, 19 Apr 2024 16:22:01 +0800
-From: Ai Chao <aichao@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
+	s=arc-20240116; t=1713516109; c=relaxed/simple;
+	bh=h0KetJO9To1Cm7HgblSbAoEW0LeAk8mv3CuNxq3NfsU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iYwAdk2w3+Qqj/uGiWDNV3Hs3cOwShxduaLhZTf1LcLFlIshmG+4U/Yp50GGBuxZOGuSzjXFmZjohGtvQOEFDx2CJfNweRJgRpbURMPNjG3EVNiGTL6R77C8Snq8bbbwMXW6HHhJ14jDogAziiN+99NWYuBOm9IRY2N6sGlFNBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeNlOxDB; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeNlOxDB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713516107; x=1745052107;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=h0KetJO9To1Cm7HgblSbAoEW0LeAk8mv3CuNxq3NfsU=;
+  b=YeNlOxDBBcsYOHFnUcecDDs8ui06Kf4cb8NTqQ25EEoBlu0h8HVZN7R7
+   aE6VGNtoxgV2B2r6u9FhLbpnWRFSGbRLSnvQVlYwjU9F/4x+/BH35OZy4
+   Ik3VC4rOW1gM8AbpG89Ni0TxJlzytOgTz9fm0NA+COuF/ge66Ev4o7ydS
+   JdXcS/Oq5UGXJEeTqPR9TKTkefr2JM/Z5NRvtOWmfnhcdiW55P+1xZHm/
+   E4Z+e2bb195OWlirFyWQUZocR/KKdMaPZ5+GgypZ04NGd8i2X7P8v62Ql
+   GkYXyT2jgBAQng9nxxXBL7QAh9bJFzS56MXqktahDzrafXh3wSNHZeagq
+   w==;
+X-CSE-ConnectionGUID: tMq0XvNEQaCToEpemF1dYw==
+X-CSE-MsgGUID: F1VzkNVdSo6o6MvPzCQ4QQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9233732"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="9233732"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 01:41:47 -0700
+X-CSE-ConnectionGUID: K2cFY9h0Rlaa736nEfN2cQ==
+X-CSE-MsgGUID: svcevjaPSwS3jUMPJB+VWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="23353157"
+Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Apr 2024 01:41:44 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH v2] ALSA: hda/realtek - Enable audio jacks of Haier Boyue G42 with ALC269VC
-Date: Fri, 19 Apr 2024 16:21:59 +0800
-Message-Id: <20240419082159.476879-1-aichao@kylinos.cn>
+	tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com,
+	hdegoede@redhat.com,
+	rafael@kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/2] ASoC: Intel: avs: Switch to acpi-nhlt
+Date: Fri, 19 Apr 2024 10:43:05 +0200
+Message-Id: <20240419084307.2718881-1-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -68,31 +63,41 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Haier Boyue G42 with ALC269VC cannot detect the MIC of headset,
-the line out and internal speaker until
-ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS quirk applied.
+The change is based on rafael/acpi-nhlt [1] immutable branch which
+Rafael kindly prepared for me. Without the topmost changes to ACPI/NHLT,
+the patches present will fail to compile.
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
-v2: Follow PCI SSID order.
+Recent changes for the ACPI tree [2] refactored interfaces of the NHLT
+table. Currently we have two implementations - one found in acpi
+subsystem (unused) and one in sound/hda/. As NHLT is part of ACPI, idea
+is to make the former useful and then switch all users of existing
+sound/hda/intel-nhlt.c to this new interface over time and remove the
+duplicate afterward.
 
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Two patches present here migrate the avs-driver and the intel-dsp-config
+module.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d6940bc4ec39..325546b3e934 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10459,6 +10459,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
- 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/?h=acpi-nhlt
+[2]: https://lore.kernel.org/linux-acpi/20240319083018.3159716-1-cezary.rojewski@intel.com/
+
+Amadeusz Sławiński (2):
+  ALSA: hda: intel-dsp-config: Switch to ACPI NHLT
+  ASoC: Intel: avs: Switch to ACPI NHLT
+
+ sound/hda/Kconfig                     |  1 +
+ sound/hda/intel-dsp-config.c          | 16 ++++++++------
+ sound/soc/intel/Kconfig               |  1 +
+ sound/soc/intel/avs/avs.h             |  1 -
+ sound/soc/intel/avs/board_selection.c |  7 +++---
+ sound/soc/intel/avs/core.c            | 10 ++++-----
+ sound/soc/intel/avs/path.c            | 32 +++++++++++++--------------
+ 7 files changed, 34 insertions(+), 34 deletions(-)
+
+
+base-commit: a640acab545b21ed1f347376f34d34e461ea92ba
 -- 
 2.25.1
 
