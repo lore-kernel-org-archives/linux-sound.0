@@ -1,247 +1,86 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2071.outbound.protection.outlook.com [40.107.113.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C4387;
-	Fri, 19 Apr 2024 01:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713488959; cv=fail; b=YUr587klc3yC3SKBcvp/HgR7h7dPEASKn9YCRTlt1JTnlsEKduPVmqQ7p7cw5PmK3gi4SUeO1wUz8CLipN0g6geQ2W3NS1xOiNhq8tIHjBVshZ32kM8UjHnxEj9I0ItLIQoRYOdymb8a/eAIV0zRvjg7hL+U68CHBN7KDpKaKZs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713488959; c=relaxed/simple;
-	bh=/QP/77mYjTT7IO473cqzbItBE3x40OVpecupw+h36AU=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=CKipgadujoAJnrgcAt+Zb4ANwIwVWh54OxCP3B/uG4Gr/Le/VKlCis/Mv5luuWzG3IzOEhwV/5JBESsfXlbJt9QA8nsdBFoF3t3DoA5/HSD6FBes4xe1ClOq3wPDfMibW+hVgNsLW9Mjl2RzzRzwTElcY0M/HzyY416M/lk0OTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Hwh/u8Qm; arc=fail smtp.client-ip=40.107.113.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B5210E3
+	for <linux-sound@vger.kernel.org>; Fri, 19 Apr 2024 01:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713489921; cv=none; b=AX8miF0rlINO1F4gMEaq8hVUD8cdYhmADMTumcCMjn3WdLw3gXTneEBB/cJSDP8Cx3EXnJnm8rg+TmgGzxGE3GfmQu9ELfIkPRTQW/HmfOZ8lMCHIiWri6mic2P3Wi+LWiDRaO4JvUK2FO4qFmjyvZ77mrT0GK30lFhuWsrZ3FI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713489921; c=relaxed/simple;
+	bh=KGbKhUOEPigGgq2Jl8R0BeO4mee9gHipm6cfp8UjpCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQzqP2OcWHmhJq+wbCYEBHN9DwHAIAdPKirpL7qwaczysHnH5iUC+lo/abX26lld76nJzhcIG2dfCj+resDRqBDoLGwkJLU/asC5+0Ytuc6wOoKT+f86RVIR1MjDzyZZVnHhMNR5eZNOBj88t0SMRA7Ts5Rglc9N3AclqCmx/W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7hTFuXW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Hwh/u8Qm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RQQNYeUkddFO7tvhrIg9T9N4oKgfgaf4XVV/6GaWScPZZoErWy5b2egwXs1osh9ioVph8DPoFemwnakKxL86h1rDAwGnN937qCkJRRpZgouB7U3YujbUYicLKI59cTrDD3Uf1EO0KjApm35KpWFwb2MjveP9bmMTmg7i4hkp3K2NHKUaywAdYMZUe3jufklwIkXzCJGa1sW3sxtIhDKBYhxgz9dqEXnAQoERZlrz9F5QFxUdlQABj9XjZxhG4PKykUJ6a0Fz0EwIQW+43Ko5xW8Vp11B9C6Z0vdLLil8c2so0LP/5udnmJiS8yr7PYlJyG54wtMMPad/5xxCI3x4Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
- b=M2UzIO1VRhV78SEAH+XObAFJ9wi8ZLgFFq5ki8wC66GiOEPqJX1gBuYxIx4HRNGDcKBA7GyNoco1uSTW0TgpMeQEeXYZOY5SwQuHsHfbK8R9UKmDO3F4EzaWHIFdRis/6rn2utXIofEX5b2ycj9QgfsRdgDrrCuNp3SvUbkY0OpNrKj0EwAu5Uv1vF5pqz/sZ+eRuckCtwpKkA59MAraSItyTtE5cf7+jCnZApffpfI2Qji5RAtPz/DF0moXv+o/9gsC9U/c5RB0j1ytTCN03QwkgwOsbf6/h9XQt3cw3dyMbtC2v3iYphIzbOCdo9My1uBd+Rnx+alLW6U7TcFSZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
- b=Hwh/u8QmUqf1C5aYzqzSdMhYIhWEE22zfZ8UPugAQUIdmQkFQbPcgrgk7KP5NmsH4fC0a8nZmoTbttTe9DCIy/HnoCEEOR0C3SxLaW2FeAcfqbd6gatWNHTKkDiHsWPIORVoU7FfAOTXiRS10ih8pGI70Ulkqp86rkW9d3gfZ8M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB8667.jpnprd01.prod.outlook.com
- (2603:1096:604:19b::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.43; Fri, 19 Apr
- 2024 01:09:10 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7472.037; Fri, 19 Apr 2024
- 01:09:10 +0000
-Message-ID: <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup soc_get_playback_capture()
-In-Reply-To: <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
-	<87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
-	<a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 19 Apr 2024 01:09:10 +0000
-X-ClientProxiedBy: TY2PR0101CA0042.apcprd01.prod.exchangelabs.com
- (2603:1096:404:8000::28) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7hTFuXW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D78C113CC;
+	Fri, 19 Apr 2024 01:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713489920;
+	bh=KGbKhUOEPigGgq2Jl8R0BeO4mee9gHipm6cfp8UjpCw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U7hTFuXWS1rN4vRFGlZpm+5AcFc1ufUbobeGwi6IyoKnBzO1HQ8sc2yHfE5zY05N9
+	 S997pklLR0BUTD0HpPceeLvU8w9eidARmOkYShmhZAB0T9WJnLCj4FGsJfmqacqTfP
+	 BULyw+QCZfrr7OntnEyLb5Eis1eocVFSv5nWAF7FztMgqAabIClfSJx9bdGJeR5sql
+	 9i8Ie+ZzcKBmbmhh+eIcIZQg5lqlo3HlSrD5K/g+nnCt6TmQLPsxINBcVrNiYDMQ4R
+	 n52rLEpof1dysIbbHkpzte+Sf2kKESqkJGdgi6lu46Bt4nOCdP7MxMh/00B4qaNSAz
+	 ESCIJwrwgQP0Q==
+Date: Fri, 19 Apr 2024 10:25:17 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	linux-sound@vger.kernel.org
+Subject: Re: Question: layout of a patchset dependent on another tree
+Message-ID: <ZiHH_ZG3YebvefRj@finisterre.sirena.org.uk>
+References: <2d1980e9-f5b2-4c9e-9348-af69166d0882@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB8667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	8IsxM2bIIBdKkVrmu3ktUN+Yzd/QIvdHzb5Uzz3Q5pZZ0z5V6NTZ0wwqTFiVy6P33QdpELZ3HWBJgSQw46/GSG4YoKLkSQczZjqCD7jpfqDkD9yzNBdAyefiUhz7fP+Gf99pDwr6imk/DR+Ih+XAK6CCo1NRBitkhFMjYlMm2Ui4pRzpQjNheq5yHHjWwuzyhSPWUvnXvBPD5cQGeD6Pfx0BvY/Uiv6s4xE1sPIhqTcoxOjGtYk/H2SpFJ5aebskcoMmobD61NDlayELwvdNoeoUgW8Gi5OhklcTyr2hSR5qhUWOqNcu525GV4kIZcAUd4AJTjAlVwtEoGnmOWa06sdxePxEn24ELeK03ry9vVhCmOTT9UucnAnNrSpq25DFdG//4mRmkJdXQ92X2QhQafy4VwdcDKLEd+Z3Ei1uviTbvNoND6ri6nMZE9G2RpGCELA6n+BX4j+o4rdrylzD942dxpHGYLwBfRWUr73ETzWSq5BxzJLa7JuiB9je/cR0lvcMy88BDxKiywb9v6rezu0g8gHbm1ExG++bai4A5fFjFylcvloEx+fghXPzNjdxg+isnpuc/u1E0B/tlljyB9BfQCKXjfwegXaw+hi2/7fwSKCQHdAMORUBnZGQgiKx8wsP8tey6thpIvZlozWrV83f/lpqx8d0NA0sovA5rq1P1TVJ2Q5bCGaB1eJwW6whmcDc4/hT3ZU2Y9J5ydaXWoD9rXFaVC5NNYlIV+/AJLQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pPxh9egKltHA6rrSPEin4OLmPDAm0Td5nlyNTPhkiLBXUwiiJuZ4DIcpAAFW?=
- =?us-ascii?Q?8Tsqu/4MIjEVslTyXOfLK33oS0iDd3M5AHvB4OmTpV1JLpMvBp/CVDxrPujz?=
- =?us-ascii?Q?7BB6vk0SbI/G+OYTnT2fHqMZWw1JLEg4daRL2n2wQdrC7b3yMWNSAhShMjDD?=
- =?us-ascii?Q?V0rYLqJXv3O7LFK8rafOgOt5QsiC2LSBOL+2evkoCTlNf2zFvkQGgOiXmccX?=
- =?us-ascii?Q?Cmk8hsQWlv4ve1hFikftEcOC8uAjT7lwCS2WzD8upnNN2hT28G+Re554BpS1?=
- =?us-ascii?Q?Osz+4lqEPkJyPbiNUZNfrvVqPoQMRQejtGAwzPcKYf51fYHAxPIMbfGnzQ6U?=
- =?us-ascii?Q?aaw800fw9tovxxdrqdYhLyathOU768IYtAbDY/YG6FJZAPQBAIJzKlU3ASiM?=
- =?us-ascii?Q?7shVMCIIw6MigFTxZmx9L0myEd5eJGwjnBZSooDR1zdL57ywxOcUkHBrBPbu?=
- =?us-ascii?Q?xNcJv2bFTATzPpNs6OIGIlWhwSB8BvJEnTYdYqG3YCYGSFfKcCKiML9/Mlzr?=
- =?us-ascii?Q?pYoHPGqGGCQOuTvYwwsDk9MS10z5psUnPazaxi1AzWNUWXrWNCU1IptSa+rG?=
- =?us-ascii?Q?yL2FG5ZsRYronVOJa7bRxcAcN4+Y60IU3G0En4YP0MYU7c5drE4q08/CF8lt?=
- =?us-ascii?Q?l3ltZpm+Fie5ku6oUwvnZFg+wUQ5UluE6AzwnOnAukH3pfi4eakCPSQ/WQ7Z?=
- =?us-ascii?Q?oA2nzrV95rJVAP0XinkBceuphKV9wr59AAxlhb35WYjVK/ozwqu7bydbyX29?=
- =?us-ascii?Q?LA3oi/obRE0l4xWaXwQPDDWYfLajhWScNm7LhLte/tZn9ZDgm8ToaFBdOaok?=
- =?us-ascii?Q?4V0hq63fc6F79EFmkYHc+POgx4dMWJeL12kin+jmugK+L+ymZhSInzJTx7Ke?=
- =?us-ascii?Q?ERT/2pR1RoUyleY686rWVDqjx5ZsP1bbAjg2HW0KRRo+/3NG5KLDIdy3shIV?=
- =?us-ascii?Q?C1n4IADXC/maLMpYqPAYaqVJaCNTdpDfFjuQfwaZ4/HbCTRGZIQCoLxRPT8g?=
- =?us-ascii?Q?R5rYsBZFUPbqbMHg88v+QF73/4XcnKL5oJs8+RLFpwZqJITaimfvFw+W/SKC?=
- =?us-ascii?Q?oNxvt+DJuOFRaqEQwiF7caSLb1RTAR6HHp9llFDvMG/gX0Jgjbka9+ULcdoW?=
- =?us-ascii?Q?w1bqt3MuD2MHG8f3G/nseVjeHKbMEp/Tb3wN+0uLslTRRindUnt7YNeucBKy?=
- =?us-ascii?Q?hnKTRarnSTrp1aBdM29Hb/QsNCXDGBuklRyBuhDx7MVi15vMqdMnbPSylIub?=
- =?us-ascii?Q?B4bnltkRb4/5KitOL4Es8u/e0L+3NgKnJA9t6lMKoKLcD/MFpz+9/Uz3gzJr?=
- =?us-ascii?Q?Cegqv60vuQtiqpEkbucvqApRhHAtviVCH8fISReoUGzAMBvjDljBm81BoRHm?=
- =?us-ascii?Q?SWvkjZGUaW56LrvzTjuXLZ8xjwNSktMoAl8hXMlpXQ8qdXewcdkwq6WqBuy1?=
- =?us-ascii?Q?sQFGdXHeizUvEsHYaxx6aCuh6SlOxHTcjWV6+zl+EJTp3xsetna0SGRNnRiH?=
- =?us-ascii?Q?5I1AvpO8PjwY3m+3zyW98hgpQ7ssXCOLFh/VJhcZ8yE+OwND3hBTZGkAcdgV?=
- =?us-ascii?Q?W36bmX4+QUa8oYKx+fgMCXbhdaFxYcp5hSpRx11TaYyzi+EX9SvQTCwRcAom?=
- =?us-ascii?Q?KZjpAaImM8stBuHuv8CsPuI=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 01:09:10.5506
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wvs+otRnFGBD4X7FhQJdMZiBGU02p8tY/y6DMlzabWS+2idq4Byg++IK6VGR0R9OqUqG8yiK6lg5i+cWSb23nXsta8Iaj3pOMZp4BXYbc/lTrwVogAQTfqp5ZlmWq83v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8667
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Li+p0Qq5xCtvKgsP"
+Content-Disposition: inline
+In-Reply-To: <2d1980e9-f5b2-4c9e-9348-af69166d0882@intel.com>
+X-Cookie: TANSTAAFL
 
 
-Hi Pierre-Louis
+--Li+p0Qq5xCtvKgsP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> > (X) part is for DPCM, and it checks playback/capture availability
-> > if dai_link has dpcm_playback/capture flag (a)(b).
-> > This availability check should be available not only for DPCM, but for
-> > all connections. But it is not mandatory option. Let's name it as
-> > assertion.
-> 
-> I don't follow the 'not mandatory option'. Why not make these
-> 'assertions' mandatory? What happens in case the the option is not present?
+On Thu, Apr 18, 2024 at 01:43:25PM +0200, Cezary Rojewski wrote:
 
-The big reason why "assertion flag" is not mandatory is that non-DPCM doesn't
-have such flag before. I can't add such flags to all of non-DPCM,
-because I don't know which direction (playback/capture) is available on
-each DAIs.
+> I'd like to send changes which do modify the avs-driver but are dependent on
+> ACPI/NHLT changes I've recently upstream [1] to Rafael's linux-acpi tree.
+> Thanks to Rafael, there's an immutable branch [2] that has all relevant
+> commits on the top.
 
-> > In case of having assertion flag, non specific side will be disabled.
-> 
-> Not following the wording, multiple negatives and not clear on what
-> 'side' refers to (direction or DPCM/non-DPCM).
+> Should I send both the NHLT+avs changes and have broonie/for-next as a base
+> for that or provide only the avs changes and state the dependency within the
+> cover-letter? The latter will fail to compile without its dependency
+> obviously.
 
-How about this ?
+I'd send based on the immutable branch so long as that will merge into
+my tree easily enough (doesn't have to be perfect).  If it needs the
+immutable branch merging into the ASoC tree first then I'd send based on
+that merge with a note in the cover letter explaining this.
 
-	If either playback or capture assertion flag was presented,
-	not presented direction will be disabled by ASoC even if
-	it was available.
+--Li+p0Qq5xCtvKgsP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> I see a contradiction between "expanding the assertion to all
-> connections" and "not mandatory".
-(snip)
-> again the 'not mandatory' and 'non specific side will be disabled' are
-> confusing.
-(snip)
-> > +	/*
-> > +	 * Assertion check
-> > +	 *
-> > +	 * playback_assertion = 0	No assertion check.
-> > +	 * capture_assertion  = 0	ASoC will use detected playback/capture as-is.
-> > +	 *				No playback, No capture will be error.
-> 
-> did you mean "this combination will be handled as an error" ?
+-----BEGIN PGP SIGNATURE-----
 
-Hmm... is it word selection issue ?? is "must_support" better ?
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYhx/0ACgkQJNaLcl1U
+h9CQ1Qf/R4/qXGOmW5XJw5wzcAFG9D51e/SNzL1ah9HEm0NexPfBt/omw5PzS/aZ
+abg8j9ZvPYpSxxhM/nGaJ0Qf5NzybfB1ebUkPIAVI/sXXyWJRqUIK3kLqQsyUQOx
+K6PWoezrCP6yWrKU3zEjApLMud+fgThArQnz5n0pfJd4eyu5gyojIaeg7NiurtDV
+IXchjctOsrWVAMzcoxh5NGjcfCMJQnsID6006jDazXp/aIiKevfUdtV45Yv1UTzr
+YhkLZi+G9kmfRBJ+xCP5mT1fjQNpeQuargnhPJu0x9U+zb1XKHApKstYRoYhbzyc
+FygHl6AsO8ynHIhMsMgRsDjRH0zPBw==
+=8PLJ
+-----END PGP SIGNATURE-----
 
-(playback_xxx, capture_xxx)
-
-(0, 0) : Both are not must item. available direction is used as-is.
-         But it will be error if nothing was available.
-
-(1, 0) : DAI must support selected direction.
-(0, 1)   Not selected direction will be disabled even though it was available
-
-(1, 1) : Both must be supported.
-
-> It's probably best to have a different presentation, to avoid
-> confusions. Using multiple lines without a separator isn't great.
-> 
-> Suggested example:
-> 
-> playback_assertion = 0 capture_assertion  = 0
-> this combination will be handled as an error
-> 
-> playback_assertion = 1 capture_assertion  = 0
-> the DAIs in this dailink must support playback.
-> ASoC will disable capture.
-> In other words "playback_only"
-
-Yeah, I agree
-
-> > +	 * playback_assertion = 1	DAI must playback available. ASoC will disable capture.
-> > +	 * capture_assertion  = 0	In other words "playback_only"
-> > +	 *
-> > +	 * playback_assertion = 0	DAI must capture available. ASoC will disable playback.
-> > +	 * capture_assertion  = 1	In other words "capture_only"
-> > +	 *
-> > +	 * playback_assertion = 1	DAI must both playback/capture available.
-> > +	 * capture_assertion  = 1
-> 
-> nit-pick: the 'must X available' does not read well, 'must support X' is
-> probably what you meant.
-
-Thanks. will fix in v4
-
-> > +	if (dai_link->capture_assertion) {
-> > +		if (!has_capture) {
-> > +			dev_err(rtd->dev, "%s capture assertion check error\n", dai_link->stream_name);
-> > +			return -EINVAL;
-> > +		}
-> > +		/* makes it capture only */
-> > +		if (!dai_link->playback_assertion)
-> > +			has_playback = 0;
-> > +	}
-> 
-> we probably want a dev_ log when the has_playback/capture is overridden?
-
-OK, will do in v4
-
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+--Li+p0Qq5xCtvKgsP--
