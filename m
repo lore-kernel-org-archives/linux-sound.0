@@ -1,202 +1,158 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E605B134BD;
-	Sun, 21 Apr 2024 12:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF09D2941B
+	for <linux-sound@vger.kernel.org>; Sun, 21 Apr 2024 17:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713703299; cv=none; b=aBHTEoU7A16IT1D7tVei00Y6cEDR7+wSUXDzQvOlQl782TCvcu0McYX+iA803OuRhkfXVcCj+Nn3cof5zXN6LLqSop8bRhl9NI/9qveOnpKucp1byu0Jd7OVLMBRu619lQLtMazUXiFGqAETqDd793CkF823Z7x+7WmXjFbx52o=
+	t=1713720738; cv=none; b=XobCg2Wccq0lij84ES0lgPmx9fpsJaLetHc+J8bdANMQL4Xm+XNNCuI2HVBme8eC6YbcMKB0BgSTVlo0mKYxjesiOjHhce5Ce0PyO1kNlsApv5XXzCn+LkUEIXf/atBmvwbiaJAYJz0KM8wMaW4X0DGugGh/6MM/J++CYJcIhyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713703299; c=relaxed/simple;
-	bh=5nn5ZTbRNI17WXZk1uoDXhmQGmBLj4O06b+FRBZ6lbo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Le+hHgoY2KB6giTErVX5XC3ShN7oiSMwdH1RYU9GQ94nrARPlAV9ptSCYllAARCoVI2C3Rx7ZCPRy0AWRzXKddBr3+pUx7NqSKcaJ328nAjiyggS7mRdnU9ZdxvvcZX4DtIYj9335mqiLo/56XOBJTa1B5TB0q6xOPALM0GVvXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eMjiKE98; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713720738; c=relaxed/simple;
+	bh=TwI2qMXYuhhfaiqvQ31qVNyzCDr8DKrAOG+tEu9G14k=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sgT/ziHRrw5o6XT/eZE4AiQo0gTHOXqbsptWUra9aXpY1gDKkF66sBZ6xVyjGxejaWpcasimFzkhjE2X7niZoReW51SHVzhL++jyxu05DuXgM8TqoP1jtltRq98fH5GZzwz+tDOJSkmMqpXJXPuXljOPIOM04ZuT1wTHN0AsNMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goY/VTqX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q7TR+q6L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goY/VTqX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q7TR+q6L; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMjiKE98"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e8b03fa5e5so22912765ad.1;
-        Sun, 21 Apr 2024 05:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713703297; x=1714308097; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F6Ps2aN6MCZCIs2EOfKowy6au+rDDkfSq1Sb07wmGTE=;
-        b=eMjiKE98UeO/7NVK/dlQMY33jYAliYeGrfpIyc1kY4/mXiGMF/2VylynXk2gicCS9K
-         gKigoJRSSC70ryWIHvfUU2mjfQ0/h21y80RKID7D6cdR/c+gcuCPhepxzRwYXI5qp2wq
-         Ttk2ASbYmSG+DdOsxUAC1u4o6MvuuOg7ADi0ITVXPGNX0BFyRWtC/vkYsZpahBhSOL3V
-         lJYdNETaA0BjaURY2KHTb8IyvQl3ZCBX4MGVtE0GOlQcjyy3JRhQDVfGQ4iejTti03KD
-         HRJkO7RcdnY3YmvxQP6pY7Jmv1fcR4+Vux/v9wTtojSTbplJJzOdnJ9Um0TnRR8xkzYQ
-         Hl1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713703297; x=1714308097;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F6Ps2aN6MCZCIs2EOfKowy6au+rDDkfSq1Sb07wmGTE=;
-        b=f5q+6ccd+kF2PIbFG4n9LxevncUi13bttHAEHCSA2gyZgYgjPdUsIofmTo3lxfObCj
-         TwzfH1jKjaJq/HTJECvRRHEGTYPKxWVaEjMv6ncR5B45Iikw0ouf4SeRv40zCw7MbUHd
-         eBab/RFLuMdAYNiB4HeeaCmmX4S10WZfV4Hun+O8eOzdBCEEmpGJB0I4ZAQZIYOZXyY0
-         Mxbom0qGrZV+v+hYrwKBWOaWFKHCshoQMCYwMQFnoknPm7sp3SdfJFMOsqkG1fLSIFU0
-         ppaUYmOl3oSEeZr2HuBzlEumsn+ktqoD0hkCUFBypU9nXkD/qFMrmrGShji6B9ro4SJq
-         UvFw==
-X-Forwarded-Encrypted: i=1; AJvYcCW9tOHy8ySJFCFo5I1cMHaKEG225690G2Wsy3Da6Ib22Kv4sklSxdHWeJxebLsEeirYxpn0X5lk68rF1xtpe4jZ54XJcxUPOKcfSTPg7S5PUPK7kie/D34X5t2GORnxMnOECercVUo54b3knTQbahL4vk5BvknSoBVAZrV/XYDfw+bpOjRfdeL/l+he6lLVZFp6aFbyGXkBEKKOXTgIX0I1RUY=
-X-Gm-Message-State: AOJu0YyoJXmhiuGux4U0Ym1IFoIRsBt4M1F7TkyDqaPXUGa8oixbkhnw
-	xz7PMAlg38XxbQ+AkGZEmM44ENfL0QXNm0QSAmzHm4MLOskAkimX
-X-Google-Smtp-Source: AGHT+IG7HZMh1J7lM1Rs1GW1Qd7h6wDjUcDqMV/1KWhlbtkcxmI/8blJXFnTkatcRPMkoBQPLFeOdQ==
-X-Received: by 2002:a17:903:2441:b0:1e4:fd4:48db with SMTP id l1-20020a170903244100b001e40fd448dbmr11061791pls.43.1713703297232;
-        Sun, 21 Apr 2024 05:41:37 -0700 (PDT)
-Received: from [10.66.66.2] (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
-        by smtp.gmail.com with ESMTPSA id u7-20020a17090341c700b001e2a7fb6e01sm6275894ple.44.2024.04.21.05.41.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Apr 2024 05:41:34 -0700 (PDT)
-Message-ID: <0fa7ef43-29c2-439b-b82f-5c287001f850@gmail.com>
-Date: Sun, 21 Apr 2024 18:11:27 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goY/VTqX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q7TR+q6L";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goY/VTqX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q7TR+q6L"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C58C5BE8A;
+	Sun, 21 Apr 2024 17:32:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713720735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
+	b=goY/VTqX5KaRsFGcTIHPYjrOCFGEpkWZJtqsjB42hp6e5W/MXJTdbKND1vu4IAuk7zR2tq
+	kVJVG/vKaOSJk8BZFRsbKJZXb9yGC7YStSWkAmEuW3tWlLMV6fo8disEI7vsWDpYExAZ9k
+	5/QpatQ9QKd27+8mqxEfX3oOHPuwiIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713720735;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
+	b=Q7TR+q6Lo6V8GVD7ClDvnOiDr4ie4zbtgb5FA30cVpoqIwkP6CAoM49S+C3xeVKzzWtDZE
+	Mmuw31/TwiausEBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713720735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
+	b=goY/VTqX5KaRsFGcTIHPYjrOCFGEpkWZJtqsjB42hp6e5W/MXJTdbKND1vu4IAuk7zR2tq
+	kVJVG/vKaOSJk8BZFRsbKJZXb9yGC7YStSWkAmEuW3tWlLMV6fo8disEI7vsWDpYExAZ9k
+	5/QpatQ9QKd27+8mqxEfX3oOHPuwiIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713720735;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
+	b=Q7TR+q6Lo6V8GVD7ClDvnOiDr4ie4zbtgb5FA30cVpoqIwkP6CAoM49S+C3xeVKzzWtDZE
+	Mmuw31/TwiausEBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9CAC13687;
+	Sun, 21 Apr 2024 17:32:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 93PhK55NJWY2FAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 21 Apr 2024 17:32:14 +0000
+Date: Sun, 21 Apr 2024 19:32:23 +0200
+Message-ID: <87a5lm4o60.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: g@b4.vu,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	llvm@lists.linux.dev,
+	patches@lists.linux.dev
+Subject: Re: [PATCH] ALSA: scarlett2: Zero initialize ret in scarlett2_ag_target_ctl_get()
+In-Reply-To: <20240419-alsa-scarlett2-fix-wsometimes-uninitialized-v1-1-e2ace8642e08@kernel.org>
+References: <20240419-alsa-scarlett2-fix-wsometimes-uninitialized-v1-1-e2ace8642e08@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: [PATCH] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240420175008.140391-1-sheharyaar48@gmail.com>
-Content-Language: en-US
-From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
-In-Reply-To: <20240420175008.140391-1-sheharyaar48@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.24
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.24 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	BAYES_HAM(-0.94)[86.47%];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
 
-On 4/20/24 11:20 PM, Mohammad Shehar Yaar Tausif wrote:
-> Convert NVIDIA Tegra30 I2S binding to DT schema.
->
-> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+On Sat, 20 Apr 2024 02:25:59 +0200,
+Nathan Chancellor wrote:
+> 
+> Clang warns (or errors with CONFIG_WERROR):
+> 
+>   sound/usb/mixer_scarlett2.c:3697:6: error: variable 'err' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+>    3697 |         if (private->autogain_updated) {
+>         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>   sound/usb/mixer_scarlett2.c:3707:9: note: uninitialized use occurs here
+>    3707 |         return err;
+>         |                ^~~
+>   sound/usb/mixer_scarlett2.c:3697:2: note: remove the 'if' if its condition is always true
+>    3697 |         if (private->autogain_updated) {
+>         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   sound/usb/mixer_scarlett2.c:3688:9: note: initialize the variable 'err' to silence this warning
+>    3688 |         int err;
+>         |                ^
+>         |                 = 0
+>   1 error generated.
+> 
+> Initialize ret to zero to ensure ret is initialized in all paths within
+> scarlett2_ag_target_ctl_get(), which matches the style of other
+> functions in this driver.
+> 
+> Fixes: e30ea5340c25 ("ALSA: scarlett2: Add autogain target controls")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks, applied now.
+
 > ---
->   .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 --------
->   .../bindings/sound/nvidia,tegra30-i2s.yaml    | 68 +++++++++++++++++++
->   2 files changed, 68 insertions(+), 27 deletions(-)
->   delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
->   create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
->
-> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-> deleted file mode 100644
-> index 38caa936f6f8..000000000000
-> --- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -NVIDIA Tegra30 I2S controller
-> -
-> -Required properties:
-> -- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
-> -  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
-> -  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
-> -  tegra114 or tegra132.
-> -- reg : Should contain I2S registers location and length
-> -- clocks : Must contain one entry, for the module clock.
-> -  See ../clocks/clock-bindings.txt for details.
-> -- resets : Must contain an entry for each entry in reset-names.
-> -  See ../reset/reset.txt for details.
-> -- reset-names : Must include the following entries:
-> -  - i2s
-> -- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
-> -  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
-> -
-> -Example:
-> -
-> -i2s@70080300 {
-> -	compatible = "nvidia,tegra30-i2s";
-> -	reg = <0x70080300 0x100>;
-> -	nvidia,ahub-cif-ids = <4 4>;
-> -	clocks = <&tegra_car 11>;
-> -	resets = <&tegra_car 11>;
-> -	reset-names = "i2s";
-> -};
-> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-> new file mode 100644
-> index 000000000000..3809e4049fe1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA Tegra30 I2S controller
-> +
-> +maintainers:
-> +  - Thierry Reding <treding@nvidia.com>
-> +  - Jon Hunter <jonathanh@nvidia.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - enum:
-> +          - nvidia,tegra124-i2s
-> +          - nvidia,tegra30-i2s
-> +      - items:
-> +          - enum:
-> +              - nvidia,tegra114-i2s
-> +              - nvidia,tegra132-i2s
-> +          - const: nvidia,tegra124-i2s
-> +          - const: nvidia,tegra30-i2s
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    const: i2s
-> +
-> +  nvidia,ahub-cif-ids:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      The list of AHUB CIF IDs for this port, rx (playback)
-> +      first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
-> +    minItems: 2
-> +    maxItems: 2
-> +    items:
-> +      $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - reset-names
-> +  - nvidia,ahub-cif-ids
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2s@70080300 {
-> +            compatible = "nvidia,tegra30-i2s";
-> +            reg = <0x70080300 0x100>;
-> +            nvidia,ahub-cif-ids = <4 4>;
-> +            clocks = <&tegra_car 11>;
-> +            resets = <&tegra_car 11>;
-> +            reset-names = "i2s";
-> +    };
-> +...
+> FWIW, a lot of the functions that end in just 'mutex_unlock()' before
+> returning could probably benefit from the cleanup.h infrastructure,
+> which would help with the scope of err in this particular function, but
+> I decided to go with the most minimal fix here.
 
-There was a mistake in setting items type under 'nvidia, ahub-cif-ids'. 
-It has been fixed in v2 patch. Sorry for the mistake.
-v2 : 
-https://lore.kernel.org/all/20240421123037.75680-1-sheharyaar48@gmail.com
+Yeah, we can clean up lots of such code now.
 
+If it were a new code file, I'd suggest it, but since it was an
+extention of the existing code, I accepted as is.
+
+
+thanks,
+
+Takashi
