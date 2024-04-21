@@ -1,158 +1,240 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF09D2941B
-	for <linux-sound@vger.kernel.org>; Sun, 21 Apr 2024 17:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B29C10A35;
+	Sun, 21 Apr 2024 18:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713720738; cv=none; b=XobCg2Wccq0lij84ES0lgPmx9fpsJaLetHc+J8bdANMQL4Xm+XNNCuI2HVBme8eC6YbcMKB0BgSTVlo0mKYxjesiOjHhce5Ce0PyO1kNlsApv5XXzCn+LkUEIXf/atBmvwbiaJAYJz0KM8wMaW4X0DGugGh/6MM/J++CYJcIhyU=
+	t=1713723809; cv=none; b=C07Ys1AKPngwh/ddl3oscqsCcHH/dLKkcjO8u0vuY5iP0k7oFyfdM+9+iXW30jQNB8eJXd45OO+U1wM6wiWjm11dTMTM/UcR5u4RdNFPEegCa1e1/MgJLTJ1q7ry0nhrALCa+NJwi2wdAj1abIUmtJ8uZFKPpZH2s59pXP+SarY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713720738; c=relaxed/simple;
-	bh=TwI2qMXYuhhfaiqvQ31qVNyzCDr8DKrAOG+tEu9G14k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sgT/ziHRrw5o6XT/eZE4AiQo0gTHOXqbsptWUra9aXpY1gDKkF66sBZ6xVyjGxejaWpcasimFzkhjE2X7niZoReW51SHVzhL++jyxu05DuXgM8TqoP1jtltRq98fH5GZzwz+tDOJSkmMqpXJXPuXljOPIOM04ZuT1wTHN0AsNMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goY/VTqX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q7TR+q6L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goY/VTqX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q7TR+q6L; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1713723809; c=relaxed/simple;
+	bh=BV+7ZhZojp/eFlhUHpQbc4Yl9vwGklRIUscYmJ+Lehg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XE4PLaFCNoBVUU+yIRuSmuIrVwjnrN8UxPiP2xjIiUl8r/aQxlTf6nqY6GswtvoVyfPGu2IBuCZWudUStbPU8psb0P9sMQ6uwhDwtEEZGL2sQAdg2FXXUh3Lw1djLjIkVj/KjKYHEk/u/IbB52kvHJCyEYpTEbgTk2lkGHlcqN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FihFIFls; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goY/VTqX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q7TR+q6L";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goY/VTqX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q7TR+q6L"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C58C5BE8A;
-	Sun, 21 Apr 2024 17:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713720735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
-	b=goY/VTqX5KaRsFGcTIHPYjrOCFGEpkWZJtqsjB42hp6e5W/MXJTdbKND1vu4IAuk7zR2tq
-	kVJVG/vKaOSJk8BZFRsbKJZXb9yGC7YStSWkAmEuW3tWlLMV6fo8disEI7vsWDpYExAZ9k
-	5/QpatQ9QKd27+8mqxEfX3oOHPuwiIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713720735;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
-	b=Q7TR+q6Lo6V8GVD7ClDvnOiDr4ie4zbtgb5FA30cVpoqIwkP6CAoM49S+C3xeVKzzWtDZE
-	Mmuw31/TwiausEBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713720735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
-	b=goY/VTqX5KaRsFGcTIHPYjrOCFGEpkWZJtqsjB42hp6e5W/MXJTdbKND1vu4IAuk7zR2tq
-	kVJVG/vKaOSJk8BZFRsbKJZXb9yGC7YStSWkAmEuW3tWlLMV6fo8disEI7vsWDpYExAZ9k
-	5/QpatQ9QKd27+8mqxEfX3oOHPuwiIA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713720735;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cQUY+ukk88AS8JHZQuQVE/sQcI8MVSVlq2WdArJBT8M=;
-	b=Q7TR+q6Lo6V8GVD7ClDvnOiDr4ie4zbtgb5FA30cVpoqIwkP6CAoM49S+C3xeVKzzWtDZE
-	Mmuw31/TwiausEBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B9CAC13687;
-	Sun, 21 Apr 2024 17:32:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 93PhK55NJWY2FAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 21 Apr 2024 17:32:14 +0000
-Date: Sun, 21 Apr 2024 19:32:23 +0200
-Message-ID: <87a5lm4o60.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: g@b4.vu,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	llvm@lists.linux.dev,
-	patches@lists.linux.dev
-Subject: Re: [PATCH] ALSA: scarlett2: Zero initialize ret in scarlett2_ag_target_ctl_get()
-In-Reply-To: <20240419-alsa-scarlett2-fix-wsometimes-uninitialized-v1-1-e2ace8642e08@kernel.org>
-References: <20240419-alsa-scarlett2-fix-wsometimes-uninitialized-v1-1-e2ace8642e08@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FihFIFls"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2964CC113CE;
+	Sun, 21 Apr 2024 18:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713723809;
+	bh=BV+7ZhZojp/eFlhUHpQbc4Yl9vwGklRIUscYmJ+Lehg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FihFIFlsG/5RA5cmqQF1sjN9ATQO2E8Er2pZ2dIig5Msx4Qc3Ob/EkzVmuyBLiAi1
+	 PW12c/ws/Ovc9PjZZ6JYNq7wRs2fR/Bs2tpBsC4x9jz0RXGYwZTxwYCJf9QmW/HurH
+	 qLe+JJGehu7xVyDb6wv3DoEIezygPrfVd2Nn6ioM1iYbED9+x2OyV1qOohTpo+IWKx
+	 CvP1oFCDHk+inV1iyy5RzPT5PUFYszSLFA0HaHevk0tF8ZRgR/Lc3Lr7FXkZ3JCGNc
+	 +7PuaeGa1HvJsia06vufo37BZVxVVqaFWxIU8Cj99migq0diFEcGgAiRZRZ2ClEaUU
+	 nmn/4iKN+oErA==
+Message-ID: <f1c27992-5014-440b-a1e2-835744d51062@kernel.org>
+Date: Sun, 21 Apr 2024 20:23:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -1.24
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.24 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	BAYES_HAM(-0.94)[86.47%];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240421123037.75680-1-sheharyaar48@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240421123037.75680-1-sheharyaar48@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 20 Apr 2024 02:25:59 +0200,
-Nathan Chancellor wrote:
+On 21/04/2024 14:30, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra30 I2S binding to DT schema.
 > 
-> Clang warns (or errors with CONFIG_WERROR):
-> 
->   sound/usb/mixer_scarlett2.c:3697:6: error: variable 'err' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
->    3697 |         if (private->autogain_updated) {
->         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->   sound/usb/mixer_scarlett2.c:3707:9: note: uninitialized use occurs here
->    3707 |         return err;
->         |                ^~~
->   sound/usb/mixer_scarlett2.c:3697:2: note: remove the 'if' if its condition is always true
->    3697 |         if (private->autogain_updated) {
->         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   sound/usb/mixer_scarlett2.c:3688:9: note: initialize the variable 'err' to silence this warning
->    3688 |         int err;
->         |                ^
->         |                 = 0
->   1 error generated.
-> 
-> Initialize ret to zero to ensure ret is initialized in all paths within
-> scarlett2_ag_target_ctl_get(), which matches the style of other
-> functions in this driver.
-> 
-> Fixes: e30ea5340c25 ("ALSA: scarlett2: Add autogain target controls")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-Thanks, applied now.
-
+> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 > ---
-> FWIW, a lot of the functions that end in just 'mutex_unlock()' before
-> returning could probably benefit from the cleanup.h infrastructure,
-> which would help with the scope of err in this particular function, but
-> I decided to go with the most minimal fix here.
+> v1->v2:
+> - Removed incorrect item ref definition
+> 
+> Previous versions:
+> v1:
+> https://lore.kernel.org/all/20240420175008.140391-1-sheharyaar48@gmail.com/
+> ---
+>  .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 --------
+>  .../bindings/sound/nvidia,tegra30-i2s.yaml    | 66 +++++++++++++++++++
+>  2 files changed, 66 insertions(+), 27 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+> deleted file mode 100644
+> index 38caa936f6f8..000000000000
+> --- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -NVIDIA Tegra30 I2S controller
+> -
+> -Required properties:
+> -- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
+> -  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
+> -  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
+> -  tegra114 or tegra132.
+> -- reg : Should contain I2S registers location and length
+> -- clocks : Must contain one entry, for the module clock.
+> -  See ../clocks/clock-bindings.txt for details.
+> -- resets : Must contain an entry for each entry in reset-names.
+> -  See ../reset/reset.txt for details.
+> -- reset-names : Must include the following entries:
+> -  - i2s
+> -- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
+> -  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
+> -
+> -Example:
+> -
+> -i2s@70080300 {
+> -	compatible = "nvidia,tegra30-i2s";
+> -	reg = <0x70080300 0x100>;
+> -	nvidia,ahub-cif-ids = <4 4>;
+> -	clocks = <&tegra_car 11>;
+> -	resets = <&tegra_car 11>;
+> -	reset-names = "i2s";
+> -};
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> new file mode 100644
+> index 000000000000..b4cc0b0abfb8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra30 I2S controller
+> +
+> +maintainers:
+> +  - Thierry Reding <treding@nvidia.com>
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - nvidia,tegra124-i2s
+> +          - nvidia,tegra30-i2s
+> +      - items:
+> +          - enum:
+> +              - nvidia,tegra114-i2s
+> +              - nvidia,tegra132-i2s
+> +          - const: nvidia,tegra124-i2s
+> +          - const: nvidia,tegra30-i2s
 
-Yeah, we can clean up lots of such code now.
+That's not what the binding said and not what DTS is saying.
 
-If it were a new code file, I'd suggest it, but since it was an
-extention of the existing code, I accepted as is.
+This points to the fact you did not really test this binding on real DTS.
+
+When you convert the binding to DT schema, you *must* test all existing
+DTS. Especially that trivial one, like this case armv7 multiplatform boards.
+
+That's a requirement in DT conversion work.
 
 
-thanks,
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    const: i2s
+> +
+> +  nvidia,ahub-cif-ids:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      The list of AHUB CIF IDs for this port, rx (playback)
+> +      first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
+> +    minItems: 2
+> +    maxItems: 2
 
-Takashi
+Better list items with description
+items:
+ - description:
+ - description:
+
+Also provide proper constraints. Looks like RX and TX are max 5.
+
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - resets
+> +  - reset-names
+> +  - nvidia,ahub-cif-ids
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2s@70080300 {
+> +            compatible = "nvidia,tegra30-i2s";
+
+Use 4 spaces for example indentation.
+
+
+
+Best regards,
+Krzysztof
+
