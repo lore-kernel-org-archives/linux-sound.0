@@ -1,72 +1,73 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB048205E22;
-	Sun, 21 Apr 2024 03:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB12205E18;
+	Sun, 21 Apr 2024 11:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713670518; cv=none; b=cIA75QptwcsBBk4RYAYGk01PXizqUcK5KGcviMaPd4LgQ9Usiv8pTygQIDUEbwSlaJMqMVEqfNOAB/bjbyitkCOT9mqVIzviZrkWUuZUpO+xevtS2jrVVcY9dQ8lilHrgn4a1JMaZe5n8j26H+45hApbzYzGKkWKfOsVP/4duco=
+	t=1713697785; cv=none; b=b8P4uzLd0ec8cyP4uAJGADeycf01B3T+gRs99JiiCIpfU8RpC+/LCb31BV60O56En7bIVEODDrTCELJlxC270XPx4YEtHvtgZvKtF4tik5tF6rXt8Gf0FHOIPL+vPnBD20ZpjEIz/YIauUxjTD9k52OiwVPRloMiGUN3CmY5XK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713670518; c=relaxed/simple;
-	bh=w3BWd/Mb/cQJxsngUQxpZvCJqYSIFwkMtiPa2dhMohE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cp629rCXlm6zvTLQnnWOVsxn4te0LnINF5bAZpI44H+oSwDqTdJ6a6RYcw1EmTg/RYSDMnt0bS47jzAx5065hzHIBbfQiIu26bV3ks+6GrcoHCYQhRualLo6TJec/y+3/a9bV+e/SmU8eUYsQ/ritSV/w+1SDkRqI7umczKsuCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SE6E2bew; arc=none smtp.client-ip=209.85.167.176
+	s=arc-20240116; t=1713697785; c=relaxed/simple;
+	bh=4LIluELKsAg0RvjnTm13p6oqqf2Kl3p8f3JSIQo4YVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYCJEBKqlm5ktepZCDXKJus8nhjomAudpQLuN8RhAfRrIl9WC35LY/xeUm8k0GZoYosE5rQX1faW3PMeueV7iEETXlb7oTWFB6JYPHFlceBsEDYlp+ofjX+vVVI7HV8PsJpppckWVW881UpLZFr3XBBvukRZwdsYW3ox9Q0fgUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ba4BUY3O; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SE6E2bew"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c5ee4ce695so1079364b6e.0;
-        Sat, 20 Apr 2024 20:35:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ba4BUY3O"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e4266673bbso31106995ad.2;
+        Sun, 21 Apr 2024 04:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713670512; x=1714275312; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713697783; x=1714302583; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DqTFUStUgUgHwhHTzA1wLZlhW+xV4wEDyDdTFLtabz0=;
-        b=SE6E2bewEJBoRJy6o9B0J3nrA21kZO3PLaE8Wj8G05KO0itYF5782tm8yHUxlHg4Ot
-         e7NkC32sXu7Q3Gjb3RAgA7lIS2QxlNP1pUSrYx6M2n2ni6LUHoqJ0ITXE77PKefwHaRK
-         ox34ZWIIDGwrMRFXwvMEDhml7MD4IeOpaDFM2xmL3pE0ft7mmQvMQ80vvSr54NcUUfOj
-         jdvzUrA/CJeU22e0TxMqXnFrhWJ6PJw1mQ1E80ejU734xfkGb4MSQJfX/x4lsc4h9Mdt
-         gw7rVq7ceFh2wSPGSMayREjWp0UioGEon39gAAw3yEFyilBS94xB48nXgLY56ROd48f1
-         rGeQ==
+        bh=gCeM9ne1R4TNu8Re+QZrgQf9jfqwpZtPiiKgFbyNlW4=;
+        b=ba4BUY3OLh2KrmlZqfTyasfhw4rBut5lVD1GhG6CHRKLLSK+yjMq2MSfEKl0HEQxCY
+         2cIfEy5GUgjEjWrtnDNsCaZ0mPwXJctCKeADHjwFa5vaqj7V9jRR2MBLHP2mh8jIsQs0
+         qJjZXObVPtTa6oBGPdi8B0QF/PVFjeO+lAb99UU1noypIePw5jXFv74Tc+D3WPnsGtRE
+         WMmYGutNsuJELyhciKjQB1PC5y2xZcC8mgc6hyT4jND3jKtDCM/tYzQgYV5Fn7CH50mn
+         gf1OQyKwnW+Qzdu0vYySDb6wkvT9wU9HhA/EGdLBiXNMVQZ3kQ4Yilr1hkr5WZpn3MHt
+         /PJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713670512; x=1714275312;
+        d=1e100.net; s=20230601; t=1713697783; x=1714302583;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DqTFUStUgUgHwhHTzA1wLZlhW+xV4wEDyDdTFLtabz0=;
-        b=HlcQwhms+Tf0SsJiJZ6Jjn7Ml9XqEBrB/mFoLHitg6NHWrDwRaUkjTT9D3W9CxPAPv
-         1cab49hhomSGaG5rqUpwlq549jT6JCHOdyEflvk9xq0GO069qm6qgv3+axTf9XDqZGzy
-         EX2QXhXTSxIgXgATc+qWBO60cdxXHuH2fbsv6muuiVDkxx/+nqq9Cn6zZA8Hv8EM7aBf
-         qc4c+7M7S1KdON0ZtGtUj6rTCSwEnucxbbCJwPdh97SYSrhkVaFl9jp5gnRAmFEJq9kS
-         MXdQFdyre1t/amd2vg3IeQV5O/FnRcTRImqGNRlWSzZ4YZWsmeZ1gEecueUd5PmhdCK2
-         zsPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfBpW359XUPhxMa21AcgybOH8kC/xAslqUGiohluaaSTOW5Lnsk3k3uFZZjixGUozD0oETJUmuj0Ytwx3AqzcnwwKxALXPjTFZlEfoxvlTaO9xVh+pciI0DY1SaZIa/6HqNVmKnBjlVKIQkLRr5yES8BbGGQLrqgy+YbkaUaCdWSiquIYl
-X-Gm-Message-State: AOJu0YxGExj9m9LFV5CQDIdES69stICa2RKwpvyC2c70iT7bkDvZlZ8S
-	RSdsTlcQ1oj1tBiCfLYu4mWHLbjk7pTMX4Io9MJ/5spAB/Ysj8YB
-X-Google-Smtp-Source: AGHT+IEhIi5dpao0M7bfoPbGYTuQ9jJSf6VyRPSAaGoV0oTkl8Eb5w20BzCqE9x96m8tcu3YW0MIkQ==
-X-Received: by 2002:a05:6808:6c1:b0:3c6:4d7:abf9 with SMTP id m1-20020a05680806c100b003c604d7abf9mr7562694oih.55.1713670511864;
-        Sat, 20 Apr 2024 20:35:11 -0700 (PDT)
-Received: from localhost ([117.239.226.201])
-        by smtp.gmail.com with UTF8SMTPSA id b9-20020a056a00114900b006eaaaf5e0a8sm5517386pfm.71.2024.04.20.20.35.05
+        bh=gCeM9ne1R4TNu8Re+QZrgQf9jfqwpZtPiiKgFbyNlW4=;
+        b=NfgHeBj4wAvh3RYtqmZmfxaOTEK1vRcHvTYa+xVlaHeHoqoSEF3Tgimi5zNGCP/B5i
+         2FBaDacrmbUiQrphJtiAmSTM9CQtUCAUALzfdGKTbrI2xSFmDJTTrwQDBjxZBPh41wsO
+         ynzQhNC3Elgb8YhpaUtriHjnCMSavlmYg/803zOV7zOTthiZLHBffR3AwDxVzT/uG2mA
+         WxkdOOSHOLAuesFfpS/iSxnZGX9kSIWyHqsGB2kgJICuIeCjqEzhToSDzQHDQE1Uorgo
+         uC1yZO0Oi0rMsja04b8hO8dj+KqmuqaVyajmELgJvnfoJbE+pV38Zqs/YG6+lSeqIHni
+         susg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoUuk+uOTpIDbRU0hy2IE1uTocvBF9LTVXbF0m4oe4HdJrQGCqg64HlHDjHg7JpRsrxHQgmkel2UzOFhcGsJ2YHYxUbI4KUUiVuIvAaqUOf0ItGpt3VIbl1DAW3qVQ5PopEn1NNYX94bjNYxu2gHYJOV1jFW5kgdo6Sh2gTGAfAAiwHkmDaUd3KhT8eWrt3uQMC2sZHMqVyxOT6hCrountQM0=
+X-Gm-Message-State: AOJu0YyiAof1dqpH8ep4SSp/HbR7Vxf4KVwTzehYZ+XtM3V/6udV/g7D
+	qP1IkQj+PgXWy6xZyD9OapOcBo80a8MXFGy8khF/aM9yMo2Xa62Ks7UOU8hUmq4=
+X-Google-Smtp-Source: AGHT+IHyxcxKCNoIbIl6jQA5poxccSFgss/1TDc5IEDT+158XYAb96YfGxSAkztcPYCUhraYU1wpKA==
+X-Received: by 2002:a17:902:d2d0:b0:1e8:32ed:6f6d with SMTP id n16-20020a170902d2d000b001e832ed6f6dmr7851014plc.39.1713697782482;
+        Sun, 21 Apr 2024 04:09:42 -0700 (PDT)
+Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
+        by smtp.gmail.com with UTF8SMTPSA id r11-20020a170902c60b00b001e54f250ca9sm6154435plr.212.2024.04.21.04.09.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Apr 2024 20:35:11 -0700 (PDT)
-From: Kartik Agarwala <agarwala.kartik@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
+        Sun, 21 Apr 2024 04:09:40 -0700 (PDT)
+From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] ASoC: dt-bindings: mt2701-wm8960: Convert to dtschema
-Date: Sun, 21 Apr 2024 09:01:31 +0530
-Message-Id: <20240421033129.13076-1-agarwala.kartik@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: tegra20-ac97: convert to dt schema
+Date: Sun, 21 Apr 2024 16:39:25 +0530
+Message-ID: <20240421110929.139191-1-sheharyaar48@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,113 +76,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert mt2701-wm890 bindings from text to dtschema. This is used by
-MediaTek mt7623a/n SoC.
+Convert NVIDIA Tegra20 AC97 binding to DT schema.
 
-Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 ---
-Changes for v2:
-- Do not define pinctrl properties as they are implicitly supported.
+ .../bindings/sound/nvidia,tegra20-ac97.txt    | 36 ---------
+ .../bindings/sound/nvidia,tegra20-ac97.yaml   | 80 +++++++++++++++++++
+ 2 files changed, 80 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
 
-Previous versions:
-v1: https://lore.kernel.org/all/20240401043505.40972-1-agarwala.kartik@gmail.com/
----
- .../sound/mediatek,mt2701-wm8960.yaml         | 54 +++++++++++++++++++
- .../bindings/sound/mt2701-wm8960.txt          | 24 ---------
- 2 files changed, 54 insertions(+), 24 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
-
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
-new file mode 100644
-index 000000000..cf985461a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-wm8960.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt2701-wm8960.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT2701 with WM8960 CODEC
-+
-+maintainers:
-+  - Kartik Agarwala <agarwala.kartik@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: mediatek,mt2701-wm8960-machine
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of MT2701 ASoC platform.
-+
-+  audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description:
-+      A list of the connections between audio components. Each entry is a
-+      pair of strings, the first being the connection's sink, the second
-+      being the connection's source.
-+
-+  mediatek,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the WM8960 audio codec.
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - mediatek,platform
-+  - audio-routing
-+  - mediatek,audio-codec
-+  - pinctrl-names
-+  - pinctrl-0
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt2701-wm8960-machine";
-+        mediatek,platform = <&afe>;
-+        audio-routing =
-+            "Headphone", "HP_L",
-+            "Headphone", "HP_R",
-+            "LINPUT1", "AMIC",
-+            "RINPUT1", "AMIC";
-+        mediatek,audio-codec = <&wm8960>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&aud_pins_default>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt b/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
 deleted file mode 100644
-index 809b609ea..000000000
---- a/Documentation/devicetree/bindings/sound/mt2701-wm8960.txt
+index eaf00102d92c..000000000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
 +++ /dev/null
-@@ -1,24 +0,0 @@
--MT2701 with WM8960 CODEC
+@@ -1,36 +0,0 @@
+-NVIDIA Tegra 20 AC97 controller
 -
 -Required properties:
--- compatible: "mediatek,mt2701-wm8960-machine"
--- mediatek,platform: the phandle of MT2701 ASoC platform
--- audio-routing: a list of the connections between audio
--- mediatek,audio-codec: the phandles of wm8960 codec
--- pinctrl-names: Should contain only one value - "default"
--- pinctrl-0: Should specify pin control groups used for this controller.
+-- compatible : "nvidia,tegra20-ac97"
+-- reg : Should contain AC97 controller registers location and length
+-- interrupts : Should contain AC97 interrupt
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries:
+-  - ac97
+-- dmas : Must contain an entry for each entry in clock-names.
+-  See ../dma/dma.txt for details.
+-- dma-names : Must include the following entries:
+-  - rx
+-  - tx
+-- clocks : Must contain one entry, for the module clock.
+-  See ../clocks/clock-bindings.txt for details.
+-- nvidia,codec-reset-gpio : The Tegra GPIO controller's phandle and the number
+-  of the GPIO used to reset the external AC97 codec
+-- nvidia,codec-sync-gpio : The Tegra GPIO controller's phandle and the number
+-  of the GPIO corresponding with the AC97 DAP _FS line
 -
 -Example:
 -
--	sound:sound {
--		compatible = "mediatek,mt2701-wm8960-machine";
--		mediatek,platform = <&afe>;
--		audio-routing =
--			"Headphone", "HP_L",
--			"Headphone", "HP_R",
--			"LINPUT1", "AMIC",
--			"RINPUT1", "AMIC";
--		mediatek,audio-codec = <&wm8960>;
--		pinctrl-names = "default";
--		pinctrl-0 = <&aud_pins_default>;
--	};
+-ac97@70002000 {
+-	compatible = "nvidia,tegra20-ac97";
+-	reg = <0x70002000 0x200>;
+-	interrupts = <0 81 0x04>;
+-	nvidia,codec-reset-gpio = <&gpio 170 0>;
+-	nvidia,codec-sync-gpio = <&gpio 120 0>;
+-	clocks = <&tegra_car 3>;
+-	resets = <&tegra_car 3>;
+-	reset-names = "ac97";
+-	dmas = <&apbdma 12>, <&apbdma 12>;
+-	dma-names = "rx", "tx";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+new file mode 100644
+index 000000000000..e7ffa93eec30
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra20-ac97.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra20 AC97 controller
++
++maintainers:
++  - Thierry Reding <treding@nvidia.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++properties:
++  compatible:
++    const: nvidia,tegra20-ac97
++
++  reg:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  reset-names:
++    const: ac97
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++
++  dmas:
++    minItems: 2
++
++  dma-names:
++    items:
++      - const: rx
++      - const: tx
++
++  nvidia,codec-reset-gpio:
++    description: |
++      The Tegra GPIO controller's phandle and the number
++      of the GPIO used to reset the external AC97 codec
++    maxItems: 1
++
++  nvidia,codec-sync-gpio:
++    description: |
++      The Tegra GPIO controller's phandle and the number
++      of the GPIO corresponding with the AC97 DAP _FS line
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - resets
++  - reset-names
++  - interrupts
++  - clocks
++  - dmas
++  - dma-names
++  - nvidia,codec-reset-gpio
++  - nvidia,codec-sync-gpio
++
++additionalProperties: false
++
++examples:
++  - |
++    ac97@70002000 {
++            compatible = "nvidia,tegra20-ac97";
++            reg = <0x70002000 0x200>;
++            resets = <&tegra_car 3>;
++            reset-names = "ac97";
++            interrupts = <0 81 0x04>;
++            clocks = <&tegra_car 3>;
++            dmas = <&apbdma 12>, <&apbdma 12>;
++            dma-names = "rx", "tx";
++            nvidia,codec-reset-gpio = <&gpio 170 0>;
++            nvidia,codec-sync-gpio = <&gpio 120 0>;
++    };
++...
 -- 
-2.34.1
+2.44.0
 
