@@ -1,49 +1,52 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAF917C98
-	for <linux-sound@vger.kernel.org>; Sun, 21 Apr 2024 20:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E6F3FBB2
+	for <linux-sound@vger.kernel.org>; Sun, 21 Apr 2024 20:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713732443; cv=none; b=m119ecxFxbkvrrPP8DolKqxG7tJbbia9+11J/gyoeWAlis64KCi/L4Xky5MxTZJOp0AXoTJbAYVPMnfuhvFpFRfUZ8JS792fPYDm0tldvuQwkO+oQgSwqwKZzVnE1BkBXwTKhuXLJLXZshE7zllLKOlE2If7VkdZsI2OZqqTLtM=
+	t=1713732443; cv=none; b=s2Hxb1nUl6GvXx3Zcioai2WI/oJ9Kk2O7ookQWHN6FSDag2v6WjLboldSxrbvJ6sPaOK2tE/urg6VXT3YOl+db0PBFqpegavxNmUgOjfYS1sX0VnX1wGchjxYvM+QnruSCY1sgWLd+SKTQ7iSeM0wrPe3NltApjD2cqs+sGsqgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713732443; c=relaxed/simple;
-	bh=2Klus/fSfOSFDRsFitGZmgaJq0NcYroOgb1dgfVaQDQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=POQ75Wkt78ykpubXIP/TRO1vU5k7j3msMyZwEJdLvot6kLkK/43KkziXNDeXTsehKE/Log1K29+U/XjLaYlEthJ2WF0d6cHBA95WaqyfWiJ6IXs3siA6JPC5xn/MPzpMe4OM2H/7XKGAb1XWHueAo6HQakQcG5rbTxRcoq95pTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=deLeLkaQ; arc=none smtp.client-ip=212.227.17.21
+	bh=nColKKzV0soArb61v4X9w8QJe/4erO6BS6uJMMwIgVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gT+nkDfqr1CSpaaPqo2RgsA9+odCzIrUu/JdzZQOVWGs4pEZSBgTwYTqRmPMiiL0aNxH69x+X/MQnwjrf43Rke/s1eCBDH77AeCnP6Viu+C7wTbl9TWLC3mqn/lTL2o4QQAVAod+MvJHjBrzcfuuYwMhBEDXQLrXAcY59oVayGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=RPiyGBId; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="deLeLkaQ"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="RPiyGBId"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
 	s=s31663417; t=1713732428; x=1714337228;
 	i=oswald.buddenhagen@gmx.de;
-	bh=5FZa+VZFjlOTCrsWht1bIfeiVR/oumZ8B6qZl8p6I40=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	bh=1ZmXywRbewDSRLH05bIq+ZhQEmKuuatpJW1xITotxsU=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=deLeLkaQwmuoK7l/j4rPDwMunK/bsvovzPMiPpC+R6OYQsRgrulAvsQ5HUZANM1I
-	 sD0R7EPRUVG+3AGIuuEGMCgS/5c5oraRdPJfZb+2NUU+y5fSehMqwrzaXBml2IuT0
-	 2TE03RNpgzqHNF7ppTSJxGibslelIyzhtJFv+lrLUU5RnGRL53puVfTtNOcUr4Uqz
-	 O01w3Dz8AQ+NRY+5VDsAo6I/hP5v/jNKfHWjCwxqnTgrhUTadpx9OSwxa59ZM73Dx
-	 OPQEKuS6qqLQUFHTpMIy8qAkavcu+Ik8nxC3gPYx/KuvranhnlahOSg2J/ySAwdJZ
-	 jgYg+ZYeMPC06yJKmw==
+	b=RPiyGBIdmrbGq0Fzn6ohFXu2vNYbI1UGrLOiVEDOhso+9sty+BUGmnN0J/W5bIC4
+	 jhkE3H7mMG1AmIncOfOxdHIrQgr2C5AAF0yA0J9s9GnUcSS8VVuEqeXVglLGIwldC
+	 XDpYaA3MK/dueuLwkw0vTNwzUU1zsXIHJfkh1FpNM8OPORHmI1R8IO9SlgixT6h6z
+	 7kk7ENfLLqf5N6yjk4Mzs3yxWE/1Q5hPz9CYrw56pVTEZj1Poprie1Ku7IplpNeDz
+	 GRoEZXOIi8wbnVduXQbpGoScLHZgcvFfVSV9V6FWkTLVbCaHLVthGIzDHsOYqCree
+	 t46hkYhEkiIzVvxwRA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ugly.fritz.box ([89.247.162.112]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M42nY-1rye5c2JJg-0004Oq; Sun, 21
+Received: from ugly.fritz.box ([89.247.162.112]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MjS5A-1sRt2c20ug-00kvRg; Sun, 21
  Apr 2024 22:47:08 +0200
 Received: by ugly.fritz.box (masqmail 0.3.6-dev, from userid 1000)
-	id 1rye5b-RAH-00; Sun, 21 Apr 2024 22:47:07 +0200
+	id 1rye5b-RAl-00; Sun, 21 Apr 2024 22:47:07 +0200
 From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Pietro Caruso <pietrocaruso50@gmail.com>
-Subject: [PATCH 00/10] ALSA: emu10k1: fixes related to uploading firmware to the E-MU dock
-Date: Sun, 21 Apr 2024 22:46:57 +0200
-Message-ID: <20240421204707.2487686-1-oswald.buddenhagen@gmx.de>
+Subject: [PATCH 06/10] ALSA: emu10k1: simplify E-MU card FPGA reset sequence
+Date: Sun, 21 Apr 2024 22:47:03 +0200
+Message-ID: <20240421204707.2487686-7-oswald.buddenhagen@gmx.de>
 X-Mailer: git-send-email 2.44.0.701.g2cf7baacf3.dirty
+In-Reply-To: <20240421204707.2487686-1-oswald.buddenhagen@gmx.de>
+References: <20240421204707.2487686-1-oswald.buddenhagen@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,69 +54,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3FyyRUWWlPKnI6dEMYNBJzenU1nrhf05psq6jiwuaRTQsHRzo3b
- jFczDaj8M8viXS5eRpg676X9WKw2CcC/o9DUD2jglo1KQQ+A1DT8lRNVqDvt44TURAoo667
- dxYYiSK1sAejYL912ZKq+NThS9fNAtYocwYo01q4lOuo7tJMbNypqMGa54zdo1o3ztwEtPZ
- 7W/DUmOfJAO2D5T0H6CFQ==
+X-Provags-ID: V03:K1:WkY8KSUUE/FO7WAAn2uk/KI66pw5EWuG2l+2bL0XJhA9UBtB0FN
+ hpSiNV8VfgI8di7Jry0PRzeJWEWlQQBr90Ake1vQk9ex9rHJPd3PpmN3opgx7Bhg0ZY9P/C
+ SSFYyjGnUlDjVOgkFBICpiykmSsgzwF8mb+5eP76mNyVW+A9MFLoj/rIR6r5Wy1vEGf/WR2
+ UjCEaTcxMyNcArBqQh52w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:0eC6M+qYmT8=;gYz/vFaxvBQdC65iQ7+I+qY8HX/
- iEktEceMwdx5aKgWGmNnQ0QaKuOJc1/sfCUHlYtcEV8IiYL+favWvFeW2SHEvUv66PV8QD4vn
- e99LMmX7qA5k5gDM7IIEOA4TNWA+9Spbk+TRiojzBi+UJZhuUCu6wHoCGXhlA0f4VmppskDSF
- No9M1ty3Gd25EEQBqSRoGYNtC5uhSvfkcz1nF0IfAGtHMkbDwyzzBpT5mOLsCw6RPFz2Pn+HE
- ZxQYBj8JOMQGeIY69fSEDmDxRS/1SZ6tdocHJWR0K4HkEszQdD5Y5BJZ28HQqVyu7d8d/VcQK
- aJj76I4EhqxiFm5qImt+KuV9LDK+md8jqh1rmaxUZzIdzQIgMKRlNgpA+NMLG+1qn/fu7uAOC
- EL963vMD1gRezhqLd43w5sr2kFdupac0dvq3AevYxgHpiiL1dFRPEqG6fQL2hDfR8s5JXKi2i
- 7/wnkSmcIDFDOihhLoYEaU9Q89S6GD8+eg8nebXBW2poTuZ5R+IRSsHBjHBGZx8ZCWksw9mTK
- JMkMEndwtDM3S0kwYh/g0JVb8U3p7gEElcCeqj+WHiV2hBN/rzx4vDwYbY8njTm5zue5ltKsC
- GtvvmDSYgraRMNxkbW16qlhtKB3HlG4tYFoU/FJYjqavRUq+hNAMuR2YHXxHkCemvK7sm12A1
- E0dofbL4gpTM/USeGrWS7dGZ+rOUNnFeweAjYv+Iaq8Uypk7kGDmcnipdj826S1rhyxGfkDD6
- I6nOHKDt8ILvrKSBa6apm+KY2cmMx7ZcVFhuJzJDc59UwmToEPFGiMIkfgG2/Lm7WaoeN/Si+
- GwHoWl1L/4f8sHcqijob+jM66tSbCxkHueIJ9Rrt2jYNc=
+UI-OutboundReport: notjunk:1;M01:P0:Qs8OENc7/uM=;OeKdXyLQVu07XgCHCNnOtthojz/
+ lxHrzphhD3zkV+MMjDg1lV/ldVvhJ3LTuCZ5wt8xx0TU5Lpbq5Z1oqAqvl7plPGW+IMW8j3E8
+ IbW7uJN+JRYOF6N7ZGx2gpEZZ7tQO7KOPGTbUnfntapbBP/A54us5yBXCrs3et3KiGhWThisl
+ VjOR/nCLYPSzy5CT7pHSXcEEVFefxq+SiWUFZ06FoLqGEyRLVUr0uYeG/wxZs1y/UqD+6qUpo
+ g2hjK4qvWOfV/DEvy/w2gxtWHI3OzpHJQyj5Oa/Abt9oubehqQsAHvzrRRicU803D0oH+zdlr
+ gy2VzhKkjnP6G3FVmy5jZAoj7ohnLIWkmjHsrgx62avDM5cTowtcq8vvRlTDImsaaflgXF8gl
+ wMj1IXOXRimlpIwY+8trvkqXlb8OurxTskxchqoUzbqzvB/mQY5IU1xyvfeETam3b5j8WdScI
+ ROfBvKy5x2ZAyjOhvJXOP+MZZi0iYTbnLRs/gxdyZ/wGmaY8yjFxEP/5h2xXdYM+434wgLRUE
+ FyeFEo24I9pk7OAqiSndDl46esMc2DgxmymtatGGEsYQY30Au8xQ9Zt9VeiH+5OP8GIL2A/xp
+ ZWvieK92ez1Lb6kn0F3G/uuOX1YlGMOtEMU9RKOwZAfOGHHXx/3g8Cx01pedc+2iw9f59ztkh
+ rleLqH3IlM9iaMYp96cUH5FJDCpXlyhi9iUQW/gkuunsmxIUkuQnQW1vt/53PRX1chKl4W8VI
+ KN2GnkQQNzFdcQB43x6mZZa1hTh0AGOyodLhqqUsjAp/2joNRWivdzU5uYRvKdtS16F+d87C0
+ 831uij89ovV+wi+PQiV6kWSLO0qWXdsSotpIAf/ewRWuY=
 
-patches 1-3 & 5 fix the regression(s), patch 4 fixes a related pre-existing
-problem, while patches 6-10 are "only" improvements.
+Firstly, it is pointless to explicitly disable the power to the dock
+prior to resetting the FPGA, as the latter will do the former anyway.
 
-i don't think it really makes sense to revert fbb64eedf5a3 (ALSA: emu10k1: =
-make
-E-MU dock monitoring interrupt-driven) and re-do things from scratch, as we=
-'d
-also need to revert the unrelated c960b012ec47 (ALSA: emu10k1: track loss of
-external clock on E-MU cards) first.
+Secondly, it doesn't make much sense to check whether the FPGA is
+already programmed. It's much simpler to just presume it is, and issue
+the self-reset command. If it isn't, the effect isn't worse than the
+checks themselves. As a side effect, we lose the info if the reset
+fails, but there is no plausible way how that could happen unless the
+card burns out while operating, and in that case we'll detect a firmware
+upload failure a bit later anyway.
 
-so i'd just go with the series as-is, and cherry-pick the four (or preferab=
-ly
-five) patches to stable.
-
+Signed-off-by: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
 ---
+ sound/pci/emu10k1/emu10k1_main.c | 25 +++----------------------
+ 1 file changed, 3 insertions(+), 22 deletions(-)
 
-the series (and a bunch of failed experiments) is fully tested by pietro wi=
-th
-both rev1 and rev2 1010 cards, a 0202 cardbus card, and their respective do=
-cks.
-he'll get permanent testing credits in the card capability table later on (=
-if
-he so wishes), so i didn't bother adding a tested-by footer to each patch.
-
-Oswald Buddenhagen (10):
-  ALSA: emu10k1: fix E-MU card dock presence monitoring
-  ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
-  ALSA: emu10k1: move the whole GPIO event handling to the workqueue
-  ALSA: emu10k1: use mutex for E-MU FPGA access locking
-  ALSA: emu10k1: fix E-MU dock initialization
-  ALSA: emu10k1: simplify E-MU card FPGA reset sequence
-  ALSA: emu10k1: make snd_emu1010_load_firmware_entry() void
-  ALSA: emu10k1: move entering E-MU card FPGA programming mode
-  ALSA: emu10k1: move snd_emu1010_load_firmware_entry() to io.c
-  ALSA: emu10k1: make E-MU FPGA writes potentially more reliable
-
- include/sound/emu10k1.h          |   8 +-
- sound/pci/emu10k1/emu10k1.c      |   3 +-
- sound/pci/emu10k1/emu10k1_main.c | 225 +++++++++++++------------------
- sound/pci/emu10k1/emumixer.c     |  18 ++-
- sound/pci/emu10k1/emuproc.c      |   9 ++
- sound/pci/emu10k1/io.c           | 104 ++++++++++----
- 6 files changed, 195 insertions(+), 172 deletions(-)
-
+diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_m=
+ain.c
+index 8ccc0178360c..353dd3b61c61 100644
+--- a/sound/pci/emu10k1/emu10k1_main.c
++++ b/sound/pci/emu10k1/emu10k1_main.c
+@@ -864,28 +864,9 @@ static int snd_emu10k1_emu1010_init(struct snd_emu10k1=
+ *emu)
+=20
+ 	snd_emu1010_fpga_lock(emu);
+=20
+-	/* Disable 48Volt power to Audio Dock */
+-	snd_emu1010_fpga_write(emu, EMU_HANA_DOCK_PWR, 0);
+-
+-	/* ID, should read & 0x7f =3D 0x55. (Bit 7 is the IRQ bit) */
+-	snd_emu1010_fpga_read(emu, EMU_HANA_ID, &reg);
+-	dev_dbg(emu->card->dev, "reg1 =3D 0x%x\n", reg);
+-	if ((reg & 0x3f) =3D=3D 0x15) {
+-		/* FPGA netlist already present so clear it */
+-		/* Return to programming mode */
+-
+-		snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG, EMU_HANA_FPGA_CONFIG_H=
+ANA);
+-	}
+-	snd_emu1010_fpga_read(emu, EMU_HANA_ID, &reg);
+-	dev_dbg(emu->card->dev, "reg2 =3D 0x%x\n", reg);
+-	if ((reg & 0x3f) =3D=3D 0x15) {
+-		/* FPGA failed to return to programming mode */
+-		dev_info(emu->card->dev,
+-			 "emu1010: FPGA failed to return to programming mode\n");
+-		return -ENODEV;
+-	}
+-	dev_info(emu->card->dev, "emu1010: EMU_HANA_ID =3D 0x%x\n", reg);
+-
++	dev_info(emu->card->dev, "emu1010: Loading Hana Firmware\n");
++	snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG,
++			       EMU_HANA_FPGA_CONFIG_HANA);
+ 	err =3D snd_emu1010_load_firmware(emu, 0, &emu->firmware);
+ 	if (err < 0) {
+ 		dev_info(emu->card->dev, "emu1010: Loading Firmware failed\n");
 --=20
 2.44.0.701.g2cf7baacf3.dirty
 
