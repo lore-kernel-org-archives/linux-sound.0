@@ -1,139 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB1A13E8B2;
-	Mon, 22 Apr 2024 15:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA611154430;
+	Mon, 22 Apr 2024 18:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713798922; cv=none; b=CnbpmaWzPmakHBCHp7OFNaaYnueoFNFt5kV0nHSP0Es/ZqyhM8GsRg/qkx9gIkOFDX+f80dgExEZXC54ghCe+9hnXYzrsUke780hNzA+b4rhyR1j2yRMAW9oCw5sOgaiyoBXoRKgXqVuaZVYSy2p6pSuih1hLygWCq+sUK0D8Ag=
+	t=1713812027; cv=none; b=CSmEUoh0wgtbamWYcXAK8eKQsqXTtsl4qqnbFWQRMiQqv+oaL9o/cRALXpNVV1UOdawJovO1cUu7GSd1JmZOpHfj3heT0KBqvdr69LQ8Ug8MRZhUtKSpqAki5baDZH7Z0cttxSDt/CcILQr+Lzef4R0qcNZWF2MKilcfCAqfkDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713798922; c=relaxed/simple;
-	bh=QvCJ68qrNmktK+1RElI+xrQxhN3qOPjuTTX6hAZbtIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YGYrST4q2QqMbt7rJKaz4fNiC+LBx9QYl+n3bPE0ZN268USuS40Mt4/kVqU8FMU3JpY1HT8Lz+8iQLdv8fHLB4VFePdcE+XQcjeGysvSesMN5iWjTvF058CBFg9kdLmCsmH63GotHK/2Qrr/zEOAqkqBy0H8kC9qBiscz2gHG0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMotJ4d7; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1713812027; c=relaxed/simple;
+	bh=KdeYjdGtcF1JNqWj59Djb+4HReLocTqors5w6qaChgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bndTInB1gttlnzPkeMY9b10AYVK+huf1aDzgmhVxmO4gB7HL9vx93mrYxzeXVCOH/dxMLftVTeNthXftPaGrZQcf6KRzz9NWjZU9uHiR8JMorE+NULuM/OxlMfE+R7/yAkkWYFIh7obESGnjIM8folcwZpyNlEdWV+HDwsqBeB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FF+OoRLd; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMotJ4d7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FF+OoRLd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713798921; x=1745334921;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QvCJ68qrNmktK+1RElI+xrQxhN3qOPjuTTX6hAZbtIc=;
-  b=XMotJ4d7OQwcQptNwhmsU2NmhsVrQd/47hcp6rISL8sWFbrE5KE2NV9k
-   8yxHvpZe58DpEgyQCEmfj+VjwA/Snq2uOcawBc7g1GIlBwwm2MVrWaI1s
-   JuuR333xVzeKmJmngMzrtNGIdwFWboGGZOeq3s5n1LRjbrgP1GCAPBylc
-   8JkTHpwhAZnpA28J5mKdgUl0zc0wu+jRFMDlPJITBakCwYD2alrvie5D/
-   kOly4w6Q6hRSUcXXc6w4R+AOIOkKX67iHgR4P7RE/qOhPglH+hffqIUwm
-   sJga83un30hUmhO18DRpLI2LJ7ytblfEPdK9MdZh8ETU2s8UrAIfv6oa9
-   Q==;
-X-CSE-ConnectionGUID: l2dC6HRuTPCEizZdXeP4gQ==
-X-CSE-MsgGUID: z5DZh7k4RDKXMrdoH7W1FA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13178098"
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="13178098"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 08:15:20 -0700
-X-CSE-ConnectionGUID: jLkbddDbQwinK0r2Q6A8kA==
-X-CSE-MsgGUID: o6MKjEI3QuKxDklZzuuzJQ==
+  t=1713812026; x=1745348026;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=KdeYjdGtcF1JNqWj59Djb+4HReLocTqors5w6qaChgk=;
+  b=FF+OoRLd1cwzMOBvP9UouXojG9MOaIF24OceqMWfiEdps6gz3MEX+VJb
+   ip1Sb8ZTPtYMLBtaWen4xQYvlvEJNQxvW53/nf/6lgxGPn8aWgQ8nUQ7f
+   4r3308M6EEAohSJzxw9LoALVeSOZmhs89zqsSTSIrjzSdAsXNkWYDML1d
+   PKhIeusoV+eMZObEaj7ehaqNqA9NoijMHNF66nMwFptzkO6jECaqHgAah
+   irHhZzt1i9bY3BtJezvmYLCRrSGIH2o3fmbIfYNE7JbFSAdHcW3M3iVhH
+   wAKgIHt6nYzXYEie0SvZLCWv9kK0++kPXJZsyOgQmoMZ0X84GAwr+Hm+f
+   A==;
+X-CSE-ConnectionGUID: 6In1p2+MQcSRvkzw3d1WKA==
+X-CSE-MsgGUID: EkAYlep3TrWxFBXQTC3jFA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="19977729"
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="19977729"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 11:53:45 -0700
+X-CSE-ConnectionGUID: tFsgZtNdQGydqYsVjb23aA==
+X-CSE-MsgGUID: /jA5vIZxQ96OJPcbpGXLLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,220,1708416000"; 
-   d="scan'208";a="23926265"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa010.jf.intel.com with ESMTP; 22 Apr 2024 08:15:17 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id E24ACFD; Mon, 22 Apr 2024 18:15:15 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] ASoC: soc.h: Don't use "proxy" headers
-Date: Mon, 22 Apr 2024 18:15:13 +0300
-Message-ID: <20240422151513.2052167-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
+   d="scan'208";a="24621373"
+Received: from leozhang-mobl.amr.corp.intel.com (HELO [10.212.37.174]) ([10.212.37.174])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 11:53:44 -0700
+Message-ID: <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
+Date: Mon, 22 Apr 2024 10:52:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+To: Krzysztof Kozlowski <krzk@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+ <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
+ <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Update header inclusions to follow IWYU (Include What You Use)
-principle.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/sound/soc.h | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 0376f7e4c15d..2a1b6c198547 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -11,20 +11,30 @@
- #define __LINUX_SND_SOC_H
- 
- #include <linux/args.h>
--#include <linux/of.h>
--#include <linux/platform_device.h>
--#include <linux/types.h>
--#include <linux/notifier.h>
--#include <linux/workqueue.h>
-+#include <linux/array_size.h>
-+#include <linux/device.h>
-+#include <linux/errno.h>
- #include <linux/interrupt.h>
--#include <linux/kernel.h>
--#include <linux/regmap.h>
-+#include <linux/lockdep.h>
- #include <linux/log2.h>
--#include <sound/core.h>
--#include <sound/pcm.h>
-+#include <linux/mutex.h>
-+#include <linux/notifier.h>
-+#include <linux/of.h>
-+#include <linux/types.h>
-+#include <linux/workqueue.h>
-+
-+#include <sound/ac97_codec.h>
- #include <sound/compress_driver.h>
- #include <sound/control.h>
--#include <sound/ac97_codec.h>
-+#include <sound/core.h>
-+#include <sound/pcm.h>
-+
-+struct module;
-+struct platform_device;
-+
-+/* For the current users of sound/soc.h to avoid build issues */
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
- 
- /*
-  * Convenience kcontrol builders
-@@ -412,7 +422,6 @@
- #define SOC_ENUM_SINGLE_VIRT_DECL(name, xtexts) \
- 	const struct soc_enum name = SOC_ENUM_SINGLE_VIRT(ARRAY_SIZE(xtexts), xtexts)
- 
--struct device_node;
- struct snd_jack;
- struct snd_soc_card;
- struct snd_soc_pcm_stream;
-@@ -427,6 +436,7 @@ struct soc_enum;
- struct snd_soc_jack;
- struct snd_soc_jack_zone;
- struct snd_soc_jack_pin;
-+
- #include <sound/soc-dapm.h>
- #include <sound/soc-dpcm.h>
- #include <sound/soc-topology.h>
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+On 4/22/24 00:43, Krzysztof Kozlowski wrote:
+> On 15/04/2024 16:19, Pierre-Louis Bossart wrote:
+>>
+>>> The core code does not modify the 'struct snd_sof_dsp_ops' passed via
+>>> pointer in various places, so this can be made pointer to const.
+>>
+>> The structure itself is NOT always const - the initialization itself
+>> does have platform-specific changes, so what do we really gain from all
+>> this?
+> 
+> In the context of these patches, the structure is *always* const. In
+> other drivers, it is not, but they are not really relevant here.
+> 
+>>
+>> some commit messages say the code is "a bit safer", but I personally
+>> find the 'const' more confusing since the information that the structure
+>> can be modified during initialization is lost.
+> 
+> Functions which take some data and do not modify it are easier to read
+> if the pointed data is marked as const. Then it is obvious that
+> functions for example is re-entrant. Or that it does not affect the
+> state of other devices/core structures.
+> 
+> Additionally, the static data is safer when is const, because it cannot
+> be used in some attacks.
 
+agree, but here you are marking as 'const' non-static data.
+
+> I really do not understand which information you lost here? Core does
+> not change the ops, so the data should be passed as const as often as
+> possible. If anyone wants to write a driver which does not use static
+> ops, but somehow dynamically allocated and changed, nothing stops him.
+> This patch did not make it less readable/doable.
+> 
+> The point is that these ops do not differ from other ops or some other
+> driver-passed structures, which we have around 100 already in checkpatch.
+
+I am so old that I remember times where we had to put things in ROM.
+That's what 'const' means to me: a dedicated memory space for immutable
+values.
+
+that's a different interpretation to the 'software' view you're
+describing. "this structure will not modified by this function" is not
+the same thing as "this structure CANNOT be modified".
+
+I am not going to lay on the tracks, if Mark wants to apply the patches
+that's fine. I just wanted to highlight that the reason we did not use
+'const' was that the data is dynamically allocated/modified and not
+constant at all.
