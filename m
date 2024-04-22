@@ -1,149 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EEB18EA1;
-	Mon, 22 Apr 2024 21:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D2A1401C;
+	Mon, 22 Apr 2024 22:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713821081; cv=none; b=nQGtMBwfJje025ZdIwuHA3Gbj71zGfOMpXqcwvLLg7G7+kS0ynUjSxiOH2OSYL07l0/IkSHPgZH6bxmTs/TAhoZGV7bFf3IGL8hnU6goquTPDxqLhYlIk0owoTrmmhwpJ3im3WwyvSvU3QtawOAkEH3dG7lUCP/MpPj8i8SDM/o=
+	t=1713826200; cv=none; b=FGq6LzbNRLxW9NnUhoZ4rfJ6vugOLnY4E6BoJB4+X26YZ2ZQRbQZuOqMgWO13UfQNDX3IY70Ct3s1nZm5RxuVMggePEtmSYYexcTnAG63h7k8DNzldG93CsdcZYZd43HmP3c3ywOBrErw2L41zqdzg6Yn6OkVsviBDLD4Ph2W5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713821081; c=relaxed/simple;
-	bh=KeQhQEZ8pRcakTBQ9PKDBftDt52xxSsucNhl6xG9XeA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S5AQUTFnRs6wC5HPKEhOHSd+se99J1SianRBhX0Z52VbBLCnJvp58hQsAoFjDNM4fRJKgqXqkQgu4cX1327yxlOh9lwOz9p+MQ9vR4NPzSD1rsRxXhcgW7Vir09HgFyADhLM0bzPTsojocveDbu6sJZIl9IG0GCSpyQ68Zbk7XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gc3VZ3EH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713826200; c=relaxed/simple;
+	bh=nCfaXQKjVF52n+UdvJaBQMLni4Yc4r7EoaITJoVMs3E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Fd5ovheIV/IlniySJw6llLbQpDdE1ZdYTJn/+cc2c6FzfImvvI4cnnMnQl1SJGCwct5aTwramdDcmmAxy9vCSKkWVvc4Znkil/7QWtN7LzL1WZSxu0wE3FWniYycNevW3llb9z2kkjXJsLFUqB45cQXNxeACDMKKRf9g/t1HnJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aKpEOALS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gc3VZ3EH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713821080; x=1745357080;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KeQhQEZ8pRcakTBQ9PKDBftDt52xxSsucNhl6xG9XeA=;
-  b=gc3VZ3EHil+uqRi111FQRIHbchAgKAkUTtdUrQ8w7vo2fwdnRvYAbrvt
-   vOD+cbP1bYa7W/WonbHxmvXrpizdb/WGT9o5ESN8OsP/CAYIoWzQ0eRY5
-   9QYub9CbGy2NjOvAfCUMzL3Nr5sHYfdV1+6Gp84BxHVsktVAGOtYBRjwp
-   Q8HY4rf8dr2g/8M0HRNlVNGnfTehaDrrfaRkiZ9mQxCiDfKhMFhxjwiiT
-   P4btRI77ic95a8cE7oqVbKQ1n4zRxrSQjk89Xva9DIMSbNAeq1bnSIAOg
-   SKGBrCbCZddiHnF5K98XQUHZr4Y7HL/JaOkr5sXUBAw7lwTw0fayfw1kn
-   w==;
-X-CSE-ConnectionGUID: 4wS88JDaS/Kf2/VEkscUCQ==
-X-CSE-MsgGUID: Y3Wfka8TQbKC6zLHtFyRFg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9491469"
-X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="9491469"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 14:24:39 -0700
-X-CSE-ConnectionGUID: wTTDihldRN6BR80zwReOvg==
-X-CSE-MsgGUID: fSmU2ufDRNW71eOumkykEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,221,1708416000"; 
-   d="scan'208";a="24764444"
-Received: from leozhang-mobl.amr.corp.intel.com (HELO [10.212.37.174]) ([10.212.37.174])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 14:24:37 -0700
-Message-ID: <eaa0c99a-3b41-4444-906c-d2f005d326b9@linux.intel.com>
-Date: Mon, 22 Apr 2024 16:24:36 -0500
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aKpEOALS"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43MLpS3m032402;
+	Mon, 22 Apr 2024 22:49:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type; s=qcppdkim1; bh=mL1d9of0fYQNr1X8ZHr/
+	nFQmz8o9xxbVoHzFoYQwCnU=; b=aKpEOALSB5guIs5AYL/FOGT/L4pVcsRz51oE
+	8dbNJXWVhTLvfWShLuO5mxe5CeEma+lf3NfjTIHUtqJR9TIsIzREQ61L6p+1Pk+B
+	Gu5bEdmnj5xEIJn0DkRMbA2QjsoYwF3Dm1kA6EHQQx0WM8ilGoFFFgrRmG1MbfVw
+	70xJ7HK0c5tHr3l5qMRax0MF54N5Qu6GcALEXYlKx+HBY+jK7YPd3bZZt4gKYxOf
+	1lRIDAkbve19AefTTd2IOEqs/6Gwc3OLLhb+QokR1VD9gf26xXIIXtb1dxABZfKQ
+	0ezjdTn1cpFEhrj7OSencpJiHfoT7vWZz7jnJOWAFFft09qIqQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xnn82ssju-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Apr 2024 22:49:42 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43MMnQp4027791
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 22 Apr 2024 22:49:26 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 22 Apr 2024 15:49:26 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v19 37/41] ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
+Date: Mon, 22 Apr 2024 15:49:02 -0700
+Message-ID: <20240422224906.15868-38-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20240422224906.15868-1-quic_wcheng@quicinc.com>
+References: <20240422224906.15868-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
-To: Krzysztof Kozlowski <krzk@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
- <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
- <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
- <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
- <138ac465-1576-4e86-a05d-63f8acc6fb70@kernel.org>
- <3acfbe3c-8b83-4c40-83c2-437f963fd25a@linux.intel.com>
- <7490bce3-3bd6-4beb-b8be-d47a6b0a30f0@kernel.org>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <7490bce3-3bd6-4beb-b8be-d47a6b0a30f0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: hYdksnXCrP5YWzGxiDGZNk1NSF57dNxz
+X-Proofpoint-ORIG-GUID: hYdksnXCrP5YWzGxiDGZNk1NSF57dNxz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-22_16,2024-04-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404220096
 
+In case of notifying SND platform drivers of connection events, some of
+these use cases, such as offloading, require an ASoC USB backend device to
+be initialized before the events can be handled.  If the USB backend device
+has not yet been probed, this leads to missing initial USB audio device
+connection events.
 
+Expose an API that traverses the usb_chip array for connected devices, and
+to call the respective connection callback registered to the SND platform
+driver.
 
->>> There are multiple reasons and benefits for const, like compiler
->>> optimization, code readability (meaning) up to security improvements,
->>> e.g. by some GCC plugins or marking rodata as really non-writeable, so
->>> closing some ways of exploits. There are many opportunities here, even
->>> if they are not yet enabled.
->>
->> Possibly, but the SOF core does not know if the structure it uses is
->> rodata or not. Using the 'const' identifier would be misleading.
-> 
-> How so? If core does not modify structure, it should take it via ops,
-> just like 100 other widely known structures (see checkpatch). Why is
-> this different?
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/usb/card.c                  | 21 +++++++++++++++++++++
+ sound/usb/card.h                  |  1 +
+ sound/usb/qcom/qc_audio_offload.c |  2 ++
+ 3 files changed, 24 insertions(+)
 
-I don't understand "it should take it via ops"
-
-We are already fetching the structure with private_data.
-
->>>> that's a different interpretation to the 'software' view you're
->>>> describing. "this structure will not modified by this function" is not
->>>> the same thing as "this structure CANNOT be modified".
->>>
->>> Yes, but can we please discuss specific patchset then? Patches which
->>> change pointers to const have one "interpretation". Patches which modify
->>> static or global data have another.
->>
->> Just look at sound/soc/sof/intel/mtl.c... The core will sometimes use a
-> 
-> That's a driver (or specific implementation), not core.
-
-You are making an assumption on what the SOF core is. The core is used
-by ACPI or PCI drivers as a library. The structures are all allocated in
-ACPI/PCI drivers and passed to the core library.
-
->> constant structure and sometimes not, depending on the PCI ID reported
->> by hardware. This was intentional to override common defaults and make
->> the differences limited in scope between hardware generations.
-> 
-> 
->>
->> int sof_mtl_ops_init(struct snd_sof_dev *sdev)
->> {
->> 	struct sof_ipc4_fw_data *ipc4_data;
->>
->> 	/* common defaults */
->> 	memcpy(&sof_mtl_ops, &sof_hda_common_ops, sizeof(struct
->> snd_sof_dsp_ops)); <<<< THE BASELINE IS CONSTANT
-> 
-> Yes, I saw it and such users are not changed. They won't receive any
-> safety. But all others are getting safer.
-
-
-Maybe there's a misunderstanding on what the 'SOF core' is. This is just
-a helper library that are used by the PCI drivers. The core has zero
-knowledge on anything really.
-
-> I really do not understand what is the problem here. In entire Linux all
-> of such changes are welcomed with open arms. So what is different here?
-Adding 'const' at the SOF core level does not mean that we can treat
-structures as rodata. It only means that the structure is not modified
-by the core library. Not the same thing.
-
-
-
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1ad99a462038..8364c5b8fbbf 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -186,6 +186,27 @@ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+ }
+ EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
+ 
++/*
++ * in case the platform driver was not ready at the time of USB SND
++ * device connect, expose an API to discover all connected USB devices
++ * so it can populate any dependent resources/structures.
++ */
++void snd_usb_rediscover_devices(void)
++{
++	int i;
++
++	guard(mutex)(&register_mutex);
++
++	if (!platform_ops || !platform_ops->connect_cb)
++		return;
++
++	for (i = 0; i < SNDRV_CARDS; i++) {
++		if (usb_chip[i])
++			platform_ops->connect_cb(usb_chip[i]);
++	}
++}
++EXPORT_SYMBOL_GPL(snd_usb_rediscover_devices);
++
+ /*
+  * disconnect streams
+  * called from usb_audio_disconnect()
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 3c900e5afbce..140928dd9d63 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -221,4 +221,5 @@ int snd_usb_unregister_platform_ops(void);
+ 
+ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+ 				struct snd_pcm_hw_params *params, int direction);
++void snd_usb_rediscover_devices(void);
+ #endif /* __USBAUDIO_CARD_H */
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 6a25a390f8ae..9695bf0ac1cd 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1879,6 +1879,8 @@ static int __init qc_usb_audio_offload_init(void)
+ 	if (ret < 0)
+ 		goto release_qmi;
+ 
++	snd_usb_rediscover_devices();
++
+ 	return 0;
+ 
+ release_qmi:
