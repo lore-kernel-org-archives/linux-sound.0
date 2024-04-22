@@ -1,217 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.schimsalabim.eu (vps01.schimsalabim.eu [85.214.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4086D4C630;
-	Mon, 22 Apr 2024 13:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDA3136988;
+	Mon, 22 Apr 2024 15:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713792161; cv=none; b=iy2wqF1Ru7d2IKTDaCxWYFLU1qX9jUz5PnDzDzFdAkqEsipKHjg5MvQ0WSrPrUKTyr07krkFQXSRo8vdQFpCBEwOw3+oK7BNYjMaYNqymNK0to2Z4xD+pvNKklQv1UMW+cBg94DdLb8xzc+3vtqRzUle45T/NUrUJX1j1KzkhbI=
+	t=1713798236; cv=none; b=S2o/oSvX7r81lt5MCD1l0sgKi7OwQLH2RVjvpHEYtu+EPmQXIHDXLNL6W+3C6WV0DkAifrHB6dBW/SBhiUv7t+YZ1TE22VxFmQoVpXzxgJVlKQMcZR4abysDfPJb1PJxWzVDLj+uTav52dGWU/dH31s0MxQJNGALCX+hTKn5YvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713792161; c=relaxed/simple;
-	bh=V5v1mv0syfUL9hf4lzpJIFgUDfn6B3jnvVrBoegJ1gw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mluuEVsoopdYoZGqurQfoLbsPuVJ9jxQ5a7zCE4hz9L+DWZ/DroNu4GbPTCKzcLvZfip5l7+tBCE9RYQEg/355vFgxhlCH1L9SoJPxCYTEiGly5Qjv1puWvOFROljOp1XeIopSU2+UycPGpgb90U+daQEkee4mEYQzWcd6mAScA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+HdBtew; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+HdBtew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD414C3277B;
-	Mon, 22 Apr 2024 13:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713792160;
-	bh=V5v1mv0syfUL9hf4lzpJIFgUDfn6B3jnvVrBoegJ1gw=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=X+HdBtewFlJovkZX6VegIyu0BZ1Kop7pNqfAiZJK9cdLe0TP2ncc2qyskXrge+wrE
-	 GVAGjG66AO5dmnHEgNv7Y12iJ1WYHc1QyB5jpGVu5zoj3xAxJtuJIbuKTgkeCHJFEK
-	 CZczLsI7fFPg1qgKggznUpssqBJY74cdxGegtP5OkGCvZd7qEVgRqsOVzSd262Mji9
-	 VNBDOh+fLLcIlHUrLeXqz6+4Si8PWK8j2SMKu+Smid6Tg7BfI1h5eqSbQcF05lq2YW
-	 0Q4BPQ+D8fOQld4o3mYWUd+TgiSWuUbr+s0CJYcIRFbaGYu0K7/ZuWCEDkPz7hAAvh
-	 VEe9ShRENJAig==
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso4619169276.0;
-        Mon, 22 Apr 2024 06:22:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbdjl6rkV4+sAvWA2b28XB43NjgbC4Hj91rd0npkA0wMUfLWryRWShhmWCmSeOQuT0brpbam/ypNF6pc5ine9cyTYQwTB3FIkRyk5TY1wk5V4FcBQVjMo1CJpf0YuITaZBAUpELaE8J5c=
-X-Gm-Message-State: AOJu0YwgerR2Ukc42EiCN7//IyW6OTLneHHijFVxaIoBwkLZBZ01XMeg
-	GTmobt/B8eXrrqgvbyy618BAp8GMaPxPfLOLhhL1ucPIAnCCyJoUAnWABOpGJOhnjUAl/rbb21u
-	F+QQ8EuF/wE6aXRwsq8Jd/XlD3Rg=
-X-Google-Smtp-Source: AGHT+IF5cwytP1Auk/hSy8wQjQvS4nqcITwWP2mAVOTdg5Vs/c+BAsWvH9n1RxgOg46nEpLGlDx91tWoFCQtNvUnEjo=
-X-Received: by 2002:a05:6902:e09:b0:dcc:ebb4:fdc0 with SMTP id
- df9-20020a0569020e0900b00dccebb4fdc0mr8951259ybb.65.1713792160086; Mon, 22
- Apr 2024 06:22:40 -0700 (PDT)
+	s=arc-20240116; t=1713798236; c=relaxed/simple;
+	bh=F/+y69IMWZmu8UjWDvp6UxTy1wPIZeZF1pVBGeoqVHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WtBmlfUX5gp5dAGuKreQqMoXbj8h528ugxemmR1KWefmGe0jeTeYKUvvMe64PFkC3YO+UFFVFyPXhH+2SwLH4kp6dLceQhFl/pd+DBwMp5zUydsruk3OCLQ4dRTFd9icPHiiFKSjgBR1EeJDj552gF+IkWGAB3wQcLAQEdwnhGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu; spf=pass smtp.mailfrom=schimsalabim.eu; arc=none smtp.client-ip=85.214.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schimsalabim.eu
+Received: from localhost.localdomain (82-217-109-137.cable.dynamic.v4.ziggo.nl [82.217.109.137])
+	(authenticated bits=0)
+	by h2374449.stratoserver.net (8.14.7/8.14.7) with ESMTP id 43MF2Io9001087
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 22 Apr 2024 17:02:24 +0200
+From: Joao Schim <joao@schimsalabim.eu>
+To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
+Date: Mon, 22 Apr 2024 17:02:13 +0200
+Message-Id: <20240422150213.4040734-1-joao@schimsalabim.eu>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240420025051.1079-1-shenghao-ding@ti.com>
-In-Reply-To: <20240420025051.1079-1-shenghao-ding@ti.com>
-From: Josh Boyer <jwboyer@kernel.org>
-Date: Mon, 22 Apr 2024 09:22:29 -0400
-X-Gmail-Original-Message-ID: <CA+5PVA6nZmvvBroQgHRW+yj-VEEF9kwD5kXg3mbH+yjomgdtLQ@mail.gmail.com>
-Message-ID: <CA+5PVA6nZmvvBroQgHRW+yj-VEEF9kwD5kXg3mbH+yjomgdtLQ@mail.gmail.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: Add dsp firmware for Thinkpad ICE-1 laptop
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: linux-firmware@kernel.org, kevin-lu@ti.com, baojun.xu@ti.com, 
-	13916275206@139.com, v-po@ti.com, linux-sound@vger.kernel.org, 
-	robinchen@ti.com, linux-kernel@vger.kernel.org, mimperial@lenovo.com, 
-	cchen50@lenovo.com, soyer@irl.hu, navada@ti.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Merged and pushed out.
+The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
+the gain (left + right) of each of the four supported channels.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/198
+Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
+---
+ sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-josh
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index c76628bc86c6..f8613d8c3462 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -14,6 +14,7 @@
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
++#include <sound/tlv.h>
+ 
+ #define SUN50I_DMIC_EN_CTL			(0x00)
+ 	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
+@@ -43,6 +44,17 @@
+ 	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
+ #define SUN50I_DMIC_CNT				(0x2c)
+ 	#define SUN50I_DMIC_CNT_N				(1 << 0)
++#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
++#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
++
+ #define SUN50I_DMIC_HPF_CTRL			(0x38)
+ #define SUN50I_DMIC_VERSION			(0x50)
+ 
+@@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
+ 
++static const DECLARE_TLV_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
++
++static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++
++        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++
++
++};
++
+ static const struct snd_soc_component_driver sun50i_dmic_component = {
+ 	.name           = "sun50i-dmic",
++	.controls	= sun50i_dmic_controls,
++	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
+ };
+ 
+ static int sun50i_dmic_runtime_suspend(struct device *dev)
+-- 
+2.25.1
 
-On Fri, Apr 19, 2024 at 10:51=E2=80=AFPM Shenghao Ding <shenghao-ding@ti.co=
-m> wrote:
->
-> Add tas2781 dsp firmware for Thinkpad ICE-1 laptop.
->
-> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-> ---
->  WHENCE                     |   2 ++
->  ti/tas2781/TAS2XXX2234.bin | Bin 0 -> 35220 bytes
->  2 files changed, 2 insertions(+)
->  create mode 100644 ti/tas2781/TAS2XXX2234.bin
->
-> diff --git a/WHENCE b/WHENCE
-> index f8760d3d..8e84401d 100644
-> --- a/WHENCE
-> +++ b/WHENCE
-> @@ -7848,6 +7848,7 @@ Originates from https://git.codelinaro.org/linaro/q=
-comlt/audioreach-topology.git
->  ------------------------------------------------------------------------=
---
->
->  Driver: ti-tas2781 - tas2781 firmware
-> +File: ti/tas2781/TAS2XXX2234.bin
->  File: ti/tas2781/TAS2XXX387D.bin
->  File: ti/tas2781/TAS2XXX387E.bin
->  File: ti/tas2781/TAS2XXX387F.bin
-> @@ -7876,6 +7877,7 @@ File: ti/tas2781/TAS2XXX38DF.bin
->  File: ti/tas2781/TAS2XXX38E0.bin
->  File: ti/tas2781/TIAS2781RCA2.bin
->  File: ti/tas2781/TIAS2781RCA4.bin
-> +Link: TAS2XXX2234.bin -> ti/tas2781/TAS2XXX2234.bin
->  Link: TAS2XXX387D.bin -> ti/tas2781/TAS2XXX387D.bin
->  Link: TAS2XXX387E.bin -> ti/tas2781/TAS2XXX387E.bin
->  Link: TAS2XXX387F.bin -> ti/tas2781/TAS2XXX387F.bin
-> diff --git a/ti/tas2781/TAS2XXX2234.bin b/ti/tas2781/TAS2XXX2234.bin
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..48d5332b0648743947e3fd6ee=
-670cb6f07d8b16b
-> GIT binary patch
-> literal 35220
-> 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
-ybF
-> ztn00q7=3D+<)zvf#+v%xzE9v7Or+D7XwBJ8~S4|<D8Ild^__Dolt-M8K%vfd)n-#x15
-> zEuxE$Yvmr09^8cd`g5#Xlr8m)MSrz9*3h=3DGu6FUVan@MWdKdFz?`wuAob@i|xi>KX
-> zSKh_6#-iV0P3?-ji)oET|Np*=3DX^lm#cQMVeXYCu9b-k4-*Yz*5&VOz!dQC_-%FbVO
-> Mu2sW}@t0!$8{<JnWdHyG
->
-> literal 0
-> HcmV?d00001
->
-> --
-> 2.34.1
->
