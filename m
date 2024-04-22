@@ -1,186 +1,181 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A975025E
-	for <linux-sound@vger.kernel.org>; Mon, 22 Apr 2024 19:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2CF155335;
+	Mon, 22 Apr 2024 19:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713814176; cv=none; b=uuInIXfa050d5FGkCCC6zyEQxjFlgjQ8JetNxDchQDjsv77QaqBTF78+4aAUImirxmVo8OXmtTw+gvrY5sZk9X+ZEUWFXE1PCh6/YkRNEVm0mZeOu9Vzq9BRRdfXN5B4qz5pTTATllu2ojDzPhO0LSBNN+SfxMzub8PJG7xsmt4=
+	t=1713815131; cv=none; b=niuxGwsTcdWU8RBb3+o5xzSoIQjNGt5tVEkBBfV+spiARI9kmGTjSbP+avSdOQ3Mx2VCQrMDja0QLlbHEz0x285PRQ/cQ08MkoC7mc+unJt3hWGS57Ax/E7CwVgiFMCRpGgg4eEJs1tMuBvT2LZEzaFose9OUDsLhE0fBpaIxVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713814176; c=relaxed/simple;
-	bh=0R+SxEX/H4+XOCB2Tygd74ocTAUukM2K5JEZ9yqkhYA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EyRuudJ8TtmFTG65D8be5Readh+/jwSL2g/e3FUMkkLAFqh/Tjyh8qdo2j3UdGo4zX1wtKBVGLTCu6wzE1r1IVq4BOysBMmsckb0zu0ziud0Oy/yaz7JXuX2LY2NGNFNgkJOrAEWo0h1uJSyUFGv9ziydN3pfGVhwuXd3Kj+Bxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VlwZkIlw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QHdscLEg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VlwZkIlw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QHdscLEg; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1713815131; c=relaxed/simple;
+	bh=jA8EbIxkn0jYEYRo1b3nNwvkaBXoHQ5RVS21ZJPQkQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZUG7o2hXAspbGQGD0m36DjLsaEq1xggIBf9Jc9j/CVdlHUJY7zlFBhOmEaaHM5RKIxMxXetE+miBTbUHuGrwmXqmqPPeEWGszaFpf8otONJ1syTRtIPIAZmz/cdqinINJ2QroO1amRS/TboASR6UwdFuRx2yicTnqfqD3P6/lBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKVM+2Ih; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VlwZkIlw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QHdscLEg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VlwZkIlw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QHdscLEg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B544C3737A;
-	Mon, 22 Apr 2024 19:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713814166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l3BQZ5+Yh5SqgNfqJlXLEzuYvoQjXpFPhqTRJr9su3k=;
-	b=VlwZkIlwy/EvBwrCZITJT+0mte79oElCX2ssnsv7ZW6u/lKP82+yoQt480Qu36iwgenOFp
-	gp2Dv58PK7s4+yP7Acr8/NnZ9TNl26wEKbRDaA/5XzkVRjGm2ZImBKN0ErpOuKA+8i8QzI
-	q8kxLPTWDJn71P0reHJYY89WZNOCu+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713814166;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l3BQZ5+Yh5SqgNfqJlXLEzuYvoQjXpFPhqTRJr9su3k=;
-	b=QHdscLEg1o2aTKQbYLe/ELuR+Wj7tTsxPn8txgVDKhL1xsj4UOj3QUMq0kXpBYW6Uz6hOX
-	pYEV1sLa4kaOXkAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VlwZkIlw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QHdscLEg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713814166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l3BQZ5+Yh5SqgNfqJlXLEzuYvoQjXpFPhqTRJr9su3k=;
-	b=VlwZkIlwy/EvBwrCZITJT+0mte79oElCX2ssnsv7ZW6u/lKP82+yoQt480Qu36iwgenOFp
-	gp2Dv58PK7s4+yP7Acr8/NnZ9TNl26wEKbRDaA/5XzkVRjGm2ZImBKN0ErpOuKA+8i8QzI
-	q8kxLPTWDJn71P0reHJYY89WZNOCu+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713814166;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l3BQZ5+Yh5SqgNfqJlXLEzuYvoQjXpFPhqTRJr9su3k=;
-	b=QHdscLEg1o2aTKQbYLe/ELuR+Wj7tTsxPn8txgVDKhL1xsj4UOj3QUMq0kXpBYW6Uz6hOX
-	pYEV1sLa4kaOXkAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96F3D136ED;
-	Mon, 22 Apr 2024 19:29:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eNjpI5a6JmZRQAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 22 Apr 2024 19:29:26 +0000
-Date: Mon, 22 Apr 2024 21:29:27 +0200
-Message-ID: <871q6xjiw8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Pietro Caruso <pietrocaruso50@gmail.com>
-Subject: Re: [PATCH 00/10] ALSA: emu10k1: fixes related to uploading firmware to the E-MU dock
-In-Reply-To: <20240421204707.2487686-1-oswald.buddenhagen@gmx.de>
-References: <20240421204707.2487686-1-oswald.buddenhagen@gmx.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKVM+2Ih"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B54C113CC;
+	Mon, 22 Apr 2024 19:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713815131;
+	bh=jA8EbIxkn0jYEYRo1b3nNwvkaBXoHQ5RVS21ZJPQkQQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GKVM+2Ih8rza3HC0WzMydQA0HRN+CpwKn21eo7HS1YMjUv7GUp85v0aPQgY60oLKx
+	 1WrQiuRPMEh/JPcosJkQW/n6T9scAfCit7Zfkgf2qb4KgqrOUcRXf4xkdjJsvq6Ihx
+	 T9Gi/0mDC8Yg3yixV2IiZENuuSZDZIGmFXJr/qCqSSX7TXVh+PW3fnUbVh9H2W+k0j
+	 znaLq/LFfBTVFtABAC/gCYQH/Wcz06Qr7XFO+tPe94tgywViC47isvdicdPG8JoWL/
+	 cdzEtd+xUDq6aYvklAwzz7XgVMw/be6uJxMOOjEhT6GP50kk51eknFrQM9AbI1ynNX
+	 zbwG5ehCPI3LA==
+Message-ID: <138ac465-1576-4e86-a05d-63f8acc6fb70@kernel.org>
+Date: Mon, 22 Apr 2024 21:45:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: B544C3737A
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,perex.cz,gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+ <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
+ <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
+ <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 21 Apr 2024 22:46:57 +0200,
-Oswald Buddenhagen wrote:
+On 22/04/2024 17:52, Pierre-Louis Bossart wrote:
 > 
-> patches 1-3 & 5 fix the regression(s), patch 4 fixes a related pre-existing
-> problem, while patches 6-10 are "only" improvements.
 > 
-> i don't think it really makes sense to revert fbb64eedf5a3 (ALSA: emu10k1: make
-> E-MU dock monitoring interrupt-driven) and re-do things from scratch, as we'd
-> also need to revert the unrelated c960b012ec47 (ALSA: emu10k1: track loss of
-> external clock on E-MU cards) first.
+> On 4/22/24 00:43, Krzysztof Kozlowski wrote:
+>> On 15/04/2024 16:19, Pierre-Louis Bossart wrote:
+>>>
+>>>> The core code does not modify the 'struct snd_sof_dsp_ops' passed via
+>>>> pointer in various places, so this can be made pointer to const.
+>>>
+>>> The structure itself is NOT always const - the initialization itself
+>>> does have platform-specific changes, so what do we really gain from all
+>>> this?
+>>
+>> In the context of these patches, the structure is *always* const. In
+>> other drivers, it is not, but they are not really relevant here.
+>>
+>>>
+>>> some commit messages say the code is "a bit safer", but I personally
+>>> find the 'const' more confusing since the information that the structure
+>>> can be modified during initialization is lost.
+>>
+>> Functions which take some data and do not modify it are easier to read
+>> if the pointed data is marked as const. Then it is obvious that
+>> functions for example is re-entrant. Or that it does not affect the
+>> state of other devices/core structures.
+>>
+>> Additionally, the static data is safer when is const, because it cannot
+>> be used in some attacks.
 > 
-> so i'd just go with the series as-is, and cherry-pick the four (or preferably
-> five) patches to stable.
+> agree, but here you are marking as 'const' non-static data.
 
-If a few of the series are rather regression fixes that should be
-merged to Linus tree sooner, please separate them and send two patch
-sets instead.  I don't see Fixes tag in the patch 2, for example, so
-I'm not sure whether I should pick up.
-
-Also, your Fixes tag usage is incorrect.  It should be
-  Fixes: $ID ("subject...")
-while yours missing the quotes.  Some people are picky about those
-formats, so let's be strict.
-
-Could you resubmit two patch sets with those corrections?
-
-
-thanks,
-
-Takashi
+What do you mean? Entire point of this patchset is for static and global
+data. Which patches are you reviewing?
 
 > 
-> ---
+>> I really do not understand which information you lost here? Core does
+>> not change the ops, so the data should be passed as const as often as
+>> possible. If anyone wants to write a driver which does not use static
+>> ops, but somehow dynamically allocated and changed, nothing stops him.
+>> This patch did not make it less readable/doable.
+>>
+>> The point is that these ops do not differ from other ops or some other
+>> driver-passed structures, which we have around 100 already in checkpatch.
 > 
-> the series (and a bunch of failed experiments) is fully tested by pietro with
-> both rev1 and rev2 1010 cards, a 0202 cardbus card, and their respective docks.
-> he'll get permanent testing credits in the card capability table later on (if
-> he so wishes), so i didn't bother adding a tested-by footer to each patch.
+> I am so old that I remember times where we had to put things in ROM.
+> That's what 'const' means to me: a dedicated memory space for immutable
+> values.
+
+There are multiple reasons and benefits for const, like compiler
+optimization, code readability (meaning) up to security improvements,
+e.g. by some GCC plugins or marking rodata as really non-writeable, so
+closing some ways of exploits. There are many opportunities here, even
+if they are not yet enabled.
+
+
 > 
-> Oswald Buddenhagen (10):
->   ALSA: emu10k1: fix E-MU card dock presence monitoring
->   ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
->   ALSA: emu10k1: move the whole GPIO event handling to the workqueue
->   ALSA: emu10k1: use mutex for E-MU FPGA access locking
->   ALSA: emu10k1: fix E-MU dock initialization
->   ALSA: emu10k1: simplify E-MU card FPGA reset sequence
->   ALSA: emu10k1: make snd_emu1010_load_firmware_entry() void
->   ALSA: emu10k1: move entering E-MU card FPGA programming mode
->   ALSA: emu10k1: move snd_emu1010_load_firmware_entry() to io.c
->   ALSA: emu10k1: make E-MU FPGA writes potentially more reliable
+> that's a different interpretation to the 'software' view you're
+> describing. "this structure will not modified by this function" is not
+> the same thing as "this structure CANNOT be modified".
+
+Yes, but can we please discuss specific patchset then? Patches which
+change pointers to const have one "interpretation". Patches which modify
+static or global data have another.
+
 > 
->  include/sound/emu10k1.h          |   8 +-
->  sound/pci/emu10k1/emu10k1.c      |   3 +-
->  sound/pci/emu10k1/emu10k1_main.c | 225 +++++++++++++------------------
->  sound/pci/emu10k1/emumixer.c     |  18 ++-
->  sound/pci/emu10k1/emuproc.c      |   9 ++
->  sound/pci/emu10k1/io.c           | 104 ++++++++++----
->  6 files changed, 195 insertions(+), 172 deletions(-)
-> 
-> -- 
-> 2.44.0.701.g2cf7baacf3.dirty
-> 
+> I am not going to lay on the tracks, if Mark wants to apply the patches
+> that's fine. I just wanted to highlight that the reason we did not use
+> 'const' was that the data is dynamically allocated/modified and not
+> constant at all.
+
+Best regards,
+Krzysztof
+
