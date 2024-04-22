@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E655027B;
-	Mon, 22 Apr 2024 08:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9285348CF2
+	for <linux-sound@vger.kernel.org>; Mon, 22 Apr 2024 08:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713773361; cv=none; b=NRm7CJ6/RZdDw8YGczQ6FI7ROdGYruPFQieT2xC97OtH9wCfGupVFXFabroAugOauL17JT6IjhTpHsR0eHiwnFiHCJ+mUqvcRgYbPvSoB2P9COqszIuRw107dMfhMmm9w1k5m/Boz3xb0uD1KEvoRaZp6al1ECZSTp8e0zyniww=
+	t=1713773363; cv=none; b=PRCRKojl/soOvz0IddPa7U5OywmWfBxWkEh1zG2SnygmLMiTZ8RNPqjiN+rVSgx2Fbal1rbowAtMdfhG5u5oWDxjQ+Friwu3O5ZpgbVl2pKMtevtWtiqlCN4thEWCupBf5zLxcgrnJkUXFP19qFt9eKrm0L+gxWD4OGV/Kv6H78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713773361; c=relaxed/simple;
-	bh=Z+gobst+gl3RwD4kqNC/52sndjOYrZEr5SeXwVNmrL4=;
+	s=arc-20240116; t=1713773363; c=relaxed/simple;
+	bh=tiunuwwIr+bT8wSKpR0JU0OLDOp21MSUyCfID33k7mE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ydy5cArqV0GZ5ss+rL/dTCEUA/w02hesg7xhcE4iA7b9dZBfORFHFrXhxql5rZJr2blg5n5t5k7wqhz8v5RJrl4MkaPlFWHuHSnxG5X0n1N67M9dJ59wIHDOWpe2lTN35r15tjbmMh5qBXaFpRt5fPN/8nclr0uaz88mEeNtIc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGryFtmC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=m7itFCGesjWin3nEtT4CAkjmRFxg1xcPeAC35RMwwPeJNPZ1jICop4bROWeJGmy/55yH1ZRM5AAptE8a7FNFUEAIE1YGOQD7z9dOZ7oZFt9E9D6gEa2nnOaVqpuFk/9TGNE0vT0INnSiVvQqwhKP1sF5b5SqGbkXEukj08nI27I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=naI0badn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGryFtmC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02D3C32783;
-	Mon, 22 Apr 2024 08:09:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naI0badn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CDAC3277B;
+	Mon, 22 Apr 2024 08:09:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713773360;
-	bh=Z+gobst+gl3RwD4kqNC/52sndjOYrZEr5SeXwVNmrL4=;
+	s=k20201202; t=1713773363;
+	bh=tiunuwwIr+bT8wSKpR0JU0OLDOp21MSUyCfID33k7mE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=iGryFtmCiyuRTfDlwWMA5QuI0ue7v1nIbLXHhOU8wMIrMtIlIj8iOB1MdAXnvNT17
-	 fgqOJwwAuWm+KAaxYi4sFCs4MTM/B5vUP3mk8riAZ7rcxJvuZiydhxs1XiZG9t8i07
-	 FLerPVvSsK5d11ujBo5WYgh4qDuZFcG3CCmCq5j37aZwW/34sjaoMDjNOi/wKlhac2
-	 MLypzJ/khRgXaSMU5HTiDoBhswql80K5RkGwNTpAdVQZhg8QRc3sJF3bq3Jigqvsth
-	 8fxoMFA2wlE0qLcoPfsgopWGAdE3l/ItVZMrri7q11+O8vVPZuiuXM+MoK6Btp19FT
-	 8a2KC1P3B256Q==
+	b=naI0badn9M+zP1N20U8ONn8PYfBYNNNF3mY0EQMaidlznFfldtdbTsKqYImW9zkBZ
+	 bCom4HawD65gcwUR3a4P0xMVu1TwizouXYGDnON+Jhxb/AOfxv/s4pJQ0nNUE5FLN1
+	 /8fPzzxUAw8TDFk0jRb9grhSDEeqMSomK693ElBoGrnoh1uvmlj+d3lf0l/+OeDxBy
+	 0I7kYBd8w4K6lWDBEJH0IQHgiqNrhW4rGUh+43bxJ9AAaUwTCv36/uaa9WRQyvU4nK
+	 edYoF291g4S9xuoqx4RxG3z6WPptn841qCqUSI0clSlDga8+Y8l1BElMzyP7hLVV8S
+	 YiVJaMvvFHhBQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, Shenghao Ding <shenghao-ding@ti.com>
-Cc: lgirdwood@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, perex@perex.cz, 
- tiwai@suse.com, 13916275206@139.com, mohit.chawla@ti.com, soyer@irl.hu, 
- jkhuang3@ti.com, tiwai@suse.de, pdjuandi@ti.com, manisha.agrawal@ti.com, 
- aviel@ti.com, hnagalla@ti.com, praneeth@ti.com, Baojun.Xu@fpt.com
-In-Reply-To: <20240407091846.1299-1-shenghao-ding@ti.com>
-References: <20240407091846.1299-1-shenghao-ding@ti.com>
-Subject: Re: [PATCH v9 0/4] ASoc: PCM6240: mixer-test report
-Message-Id: <171377335622.1755143.2290939269459235170.b4-ty@kernel.org>
-Date: Mon, 22 Apr 2024 17:09:16 +0900
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com, 
+ rafael@kernel.org
+In-Reply-To: <20240419084307.2718881-1-cezary.rojewski@intel.com>
+References: <20240419084307.2718881-1-cezary.rojewski@intel.com>
+Subject: Re: (subset) [PATCH 0/2] ASoC: Intel: avs: Switch to acpi-nhlt
+Message-Id: <171377336060.1755143.11859734715680324302.b4-ty@kernel.org>
+Date: Mon, 22 Apr 2024 17:09:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,13 +47,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Sun, 07 Apr 2024 17:18:41 +0800, Shenghao Ding wrote:
-> v9:
->  - Retest with the code with Volume kcontrol
-> v8:
->  - use some reasonable format of changelog.
->  - fixed the format of subject
->  - remove *** BLURB HERE ***
+On Fri, 19 Apr 2024 10:43:05 +0200, Cezary Rojewski wrote:
+> The change is based on rafael/acpi-nhlt [1] immutable branch which
+> Rafael kindly prepared for me. Without the topmost changes to ACPI/NHLT,
+> the patches present will fail to compile.
+> 
+> Recent changes for the ACPI tree [2] refactored interfaces of the NHLT
+> table. Currently we have two implementations - one found in acpi
+> subsystem (unused) and one in sound/hda/. As NHLT is part of ACPI, idea
+> is to make the former useful and then switch all users of existing
+> sound/hda/intel-nhlt.c to this new interface over time and remove the
+> duplicate afterward.
 > 
 > [...]
 
@@ -65,14 +67,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoc: PCM6240: Create PCM6240 Family driver code
-      commit: 1324eafd37aa5c5b970c1b48a857acc81f0685c8
-[2/4] ASoc: PCM6240: Create header file for PCM6240 Family driver code
-      commit: d537f7b52d71110a98cd7230cce1b56ae7c8ea71
-[3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
-      commit: 6bb1b70690766367e166b8ff59f4b5f9739f7964
-[4/4] ASoc: dt-bindings: PCM6240: Add initial DT binding
-      commit: cee56a8e9cf89fd690e18eb2e6f09d3f8a6442fb
+[2/2] ASoC: Intel: avs: Switch to ACPI NHLT
+      commit: f5d20b253d1a51aadb8881d899caaaa989217e89
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
