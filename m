@@ -1,108 +1,102 @@
-Received: from mailrelay3-1.pub.mailoutpod3-cph3.one.com (mailrelay3-1.pub.mailoutpod3-cph3.one.com [46.30.211.242])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5579513DDA5
-	for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 18:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B95142909;
+	Tue, 23 Apr 2024 21:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713895356; cv=none; b=AoxBh/BOmXYLemu1y2rAhq4UVCGxu5D3ei2xvLXSDhJoyv17YHmJsNaLxpu4n8hpmpXlrPe8uo4PlkKsQin7uWGA2utsynkxUplwSK0qtBnxTFDAWzuD6++fybMHYINEnPr18WsldzfzvnGIL9n+X2IrnuYnw4cT2mzXkMkoL6I=
+	t=1713906670; cv=none; b=aY8sXqD40IdL2Zvr3mBWyYVS1wCBIU3cDKEHNbbtU1eRKCaVFbQ4KYqK4vU7NNLUn38ukYkLC6hGN2gg9ic4BrVw+Mx7z8OMGQqOFryNoF/hkR+um1fjhlTJLIQm0atpb6ya8F0HKczrf3mDqeBATmkh3BhYJc0++AzIHJL/E74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713895356; c=relaxed/simple;
-	bh=mmtsBmibN1yGrAOOBOq7tt4DhIUx2MTlpkSj1eOKU5s=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oMypfB5gLAq/QHJYiy2r9qAqxY8JZqr6BzCFP0t/x/Fz1SyVJVnvq1/q1wtAbIcckrQYxCw8bSIIWKcZcF5M7lqpnKNJG/kQTb7ZXvDe3p48pl6e+0pv3svZzV2RV6W5+74hP4GEs2U66dUgNQ82hoOSiR5x77+E6QLPpwwtjh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org; spf=none smtp.mailfrom=ravnborg.org; dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=tiXjiwul; dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=HfWeE/u/; arc=none smtp.client-ip=46.30.211.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
+	s=arc-20240116; t=1713906670; c=relaxed/simple;
+	bh=d7TVE296PHJP44llwt9u2h0wBexxmfsPmyLF5+Hwt7I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E4UalLPHmkkd1v0Bzvc4E/tMJqXLMVLS6F6jZursuWCuhUrNZg5225VxbiehtpB00vUOYNv02rqlUxWxjhosLOgtn524lWRvndYo3dvmZ3aaSS17gCEnZlcoBgpSp7b1xJb0kxil9WzobqScfPRYJdPvMGnTtfa4y2WF5+1itHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQAjUcRu; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="tiXjiwul";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="HfWeE/u/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=QCtZv2hKR4TC2H8Xchi6BYje0EdwUJ959Ulh1BBi7BU=;
-	b=tiXjiwulObS5EhcPzBhcVI2b7lyYjbhyrN+eScXsvRPf4CNWM0mzep8evt/KlX081DuECo1DQzvk1
-	 wh1MmubDWKPpi1oCcXnnTeTwWGiaHZvyWX54QHWQETldd7n02Dy7XeAZxJXbF62UeR4Y8ovwmTG2h/
-	 zR7q3kIBfD44p/kz90excP2SMKqNX3fsDfoQhA9jSaZsFcdlhVIn9hXhLQ0zTkmC0yJhb1xUrfO8nr
-	 97Y/6MTQX2EPS+R3oWPQM8B+4lRwr4FvsPIelDz4z87plAov9qBeXcBLWVtOs9U2guU+NGPpN8TE/F
-	 JPgrGgj1BwmyI3XjPqR/8abBf7BSYHg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=QCtZv2hKR4TC2H8Xchi6BYje0EdwUJ959Ulh1BBi7BU=;
-	b=HfWeE/u/gBKw47N8oqIKQ7L5OJBjREBgJDf8mNUmiG3dJJPOazjw4Bgsd5yuaEF2d3z7H8kD48Zbl
-	 QMi8vYgAQ==
-X-HalOne-ID: 9dd17742-019b-11ef-8cb9-5166eb5bc2d3
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay3.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
-	id 9dd17742-019b-11ef-8cb9-5166eb5bc2d3;
-	Tue, 23 Apr 2024 18:02:26 +0000 (UTC)
-Date: Tue, 23 Apr 2024 20:02:16 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "David S. Miller" <davem@davemloft.net>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Kjetil Oftedal <oftedal@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/28] sparc32: sunset sun4m and sun4d
-Message-ID: <20240423180216.GA906720@ravnborg.org>
-References: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQAjUcRu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713906669; x=1745442669;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d7TVE296PHJP44llwt9u2h0wBexxmfsPmyLF5+Hwt7I=;
+  b=cQAjUcRuarWhpaUSy9KiiyXAYGO6NW6SUQoz2Mwn8lvXtYnif5ini6vL
+   QHBLuXUQkU344W4af6LS3NeVwtVVX6Pt21aX4EfQBHqDixQqsOu/4w91d
+   eXN3YORv28DjhWFZCUvnTV+L39XQQw04St8fvklnjNrdpkBAH6w9e0PAI
+   Kf0q8kl1ONGc2AqBpsuqhHsEGqqVaPR6CzQV9L21kvBe6ZXxNrdETImDs
+   8x6gWvHCmSFO3CVVKaYmxpwdH6TswCSPrzqUuHMtDNJ9xVybLbhJ3Kjp3
+   zVXlgSvpWh2icwh0TNSi4I3/Tahdaty1TxD5n//VaS9zl2dInij6fMF7E
+   w==;
+X-CSE-ConnectionGUID: 68w5/Q2ISY2oyr+TZDe5NQ==
+X-CSE-MsgGUID: pWvGqNhBS8eMatlJqDyblA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13304611"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="13304611"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 14:11:08 -0700
+X-CSE-ConnectionGUID: votKh3BHQgOzYJN5Hbz8zA==
+X-CSE-MsgGUID: f9jACy/KQGaiBd4uSpPCTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24494406"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 14:11:06 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 8524528A; Wed, 24 Apr 2024 00:11:05 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/1] ALSA: control: Use list_for_each_entry_safe()
+Date: Wed, 24 Apr 2024 00:10:22 +0300
+Message-ID: <20240423211102.3785556-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240309-sunset-v2-0-f09912574d2c@ravnborg.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Andreas,
+Instead of reiterating the list, use list_for_each_entry_safe()
+that allows to continue without starting over.
 
-On Sat, Mar 09, 2024 at 07:15:21PM +0100, Sam Ravnborg via B4 Relay wrote:
-> This is the second attempt to sunset sun4m and sun4d.
-> See [1] for the inital attempt.
-> 
-> The sun4m and sun4d parts of the kernel have seen no real interest
-> for several years now. Last time a few people surfaced, but it was
-> either due to a personal project or for nostalgic reasons.
-> It is time to let go and drop the parts of sparc32 that in reality
-> are not in use.
-> 
-> LEON from Frontgrade Gaisler is the only real user of sparc32,
-> and this patchset reduces sparc32 to what is required by LEON.
-> 
-> The defconfig is first adapted to the one used by Gaisler.
-> Then the patches removes sun4m and sun4d specific
-> implementations such as small drivers, SMP support, IRQ suppor etc.
-> 
-> Removing sun4m and sun4d support allowed removal of the run time
-> patching of the code as well as a lot of assembler code.
-> The result is a much cleaner assembler code that is easier to
-> understand and thus maintain and extend.
-> 
-> Changes in v2:
->   - Rebased on top of Andreas' for-next branch
->   - Collected ack's
->   - Added patch to remove cpuid patching (Andreas)
->   - Run-time testing using qemu (Andreas, Mark Cave-Ayland)
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+---
+v2: added tag (Jaroslav)
+ sound/core/control_led.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Please let me know if you expect me to rebase this on for-next.
-I have not yet tried if there are merge conflicts but can take a look in
-a some days if required.
+diff --git a/sound/core/control_led.c b/sound/core/control_led.c
+index 061a8ea23340..ea95405c76a4 100644
+--- a/sound/core/control_led.c
++++ b/sound/core/control_led.c
+@@ -290,16 +290,13 @@ static void snd_ctl_led_clean(struct snd_card *card)
+ {
+ 	unsigned int group;
+ 	struct snd_ctl_led *led;
+-	struct snd_ctl_led_ctl *lctl;
++	struct snd_ctl_led_ctl *lctl, *_lctl;
+ 
+ 	for (group = 0; group < MAX_LED; group++) {
+ 		led = &snd_ctl_leds[group];
+-repeat:
+-		list_for_each_entry(lctl, &led->controls, list)
+-			if (!card || lctl->card == card) {
++		list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
++			if (!card || lctl->card == card)
+ 				snd_ctl_led_ctl_destroy(lctl);
+-				goto repeat;
+-			}
+ 	}
+ }
+ 
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
-That is assuming you agree with the sunset of the sun platforms...
-
-	Sam
