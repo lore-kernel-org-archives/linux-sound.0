@@ -1,156 +1,222 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2096.outbound.protection.partner.outlook.cn [139.219.146.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E1322F11;
-	Tue, 23 Apr 2024 10:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713866819; cv=fail; b=OlS6iKQ8diRd3piR2ord5Ppfa+biHCa+FP0Ahc4WcA0RTDSvkb8pGH/p34LTM7JQM8/z99L0qt/v7O/XZzQXxWKWmiVcBQrPHw38wE/6N47bVfbCmILMNlmBBQG4iUvut9KQECUURwNktZCJVn23hxTtj99o3I070f7zXY25peU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713866819; c=relaxed/simple;
-	bh=oEUss2ccXYRZxmK7FlKr7P/HE54Io0MA7b24o5uGmkc=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=kSHm2Uf+uWWQrll0CdOciVU7MlAdVBWGdIS2C3r5QTQxrSwzz+theaP3+fOJrprZCURKUs30c4psGbsuclKtOD2TrlEs3yEhc1Z+NFkW6rFzgqwitRl/JNVH0z8MBTTRrSbXgd3EFqvXF1+AS4BbST5TGOIcBjaDzdPCsX4C/ik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V5kYxKv+bFxoFAeipVqbmWRSRsQQyVPhdZoDeJtmMd+EdJkxK2KnKv1W/ZKnXWZ7NvGFOOFMowPlEshUlD42cDWmteXQdX5VfSBWznwfpeOE1DBXgW7xHa0e091ZoA+aEJN2QCR5i6bjd/j72hUTuRIXDf8/PNyEB1EptvEKNiM3KZrx6Y3SadbE/wSD3dlRu9Vjp7q6x6Q2Q3onS2cH8gL5aN9TmEFLFzij4nfS+2lWka6NB9rOwGGu3R6wSW6p6vtbhGFy7MSbN8TA+ujxDoT5Nv3HDZs6YKgbtJeTH+w38hPPdQPf99mLpAc6F4d11QDPaV1rf1ZzaMfCLKnVzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q1P2lrXNJOZN2ADl4PxctyLQ6KvEk3oVIfydM72cSqs=;
- b=KucinErgQAOZU6T9sbD99u3QD0fU1dvN3sufEFQP6xROAY5Vd8sZvWYZ9J7RYVZz49gYfCArK+lJFoB5aeBB3Esb28Qln5p6U/9FXHaaEJ6vAjB7J2daHEM/DJVsEZXLWPaQHAG83HXhSTWMq3nUEci87i8oyeM03b1f3GEXzMUX2hMOFz+SNdzmlg0fwCNss7X5hdg+PhrFxVohHHdwAtdssEp62l2/pM77GGPcEa8Qxv/OAS2sf1fK6pAeHL7zl2O0iuuRkjfrYIfzufQFgGLcs2NnGKtoLzs/qWCNPg6+GnfqvX1hR5rIdKxtWTEv7AFbSoja7aQ6khSfo3gFNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510:8::10) by NTZPR01MB1002.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510:b::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.33; Tue, 23 Apr
- 2024 08:34:17 +0000
-Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
- ([fe80::e903:99a6:10b7:304d]) by
- NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn ([fe80::e903:99a6:10b7:304d%6])
- with mapi id 15.20.7472.044; Tue, 23 Apr 2024 08:34:17 +0000
-From: Xingyu Wu <xingyu.wu@starfivetech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26AB84A2E;
+	Tue, 23 Apr 2024 11:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713873483; cv=none; b=Qg8QlEi7x89T7ePfr3+qTlZeA65cqSn/jWPZ697do2MaKQSMyyrzha5aBU2OuYWnf3nkJqvpznkklFt+4oB6dpIlsdvLwZJLAIKkeaJsec/kLpyjPjQEtlZnM3CVlXF0v4DQRRkBN8XrMGO7LI/PF5U7syjwEf36ieSbgCllmgU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713873483; c=relaxed/simple;
+	bh=FQXhx2R1lSfWR/ArLZ33NLR2SrABIM6HJonvYmtWnuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J39T0bWzMyduY4aYHmlXRDbZLHY4hbIRPQbZMrwpJz5XBnfQPwb96LZT45EDqF1AGCFL/uikqRCTntmAEUFL5Kn5BnuNY/Eyt14vcC+y07r37Nhv3tWuJNtUYpEq03x9Ok4Co50bMgteFSgwXyB7Q7cjI+4S04BWcMGk9F6HoL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ro8zqk+U; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ro8zqk+U"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2a564ca6f67so4578020a91.2;
+        Tue, 23 Apr 2024 04:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713873481; x=1714478281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MLBJVL6Zs6xX5RgPPoHakdz0gIokn0SzcSKDDSlz0Kk=;
+        b=Ro8zqk+UYS4sPhc5abNHAJ9asqsXin2PTesad+bWsEhH03ffp3IsE87RsZwUZEM0Gb
+         MNPhHqrFAce53aIiOd7nkBL9anwhGm80IBarPF3x2aBpQPAIhp/jwFjh0yxrCTwRsQYL
+         lGJD52nAKDqYtLU8skRU9DLKozMWFJldk0BQWOsCytS5J7+Q7aVSLEV/rXk0wR9VKuH5
+         /NfobUcyVyElc1BtwHs+wLmEdXpNnppL0m4nRpKwFjpBKU4bchzR7e4JQog7lEe06JAr
+         qJ5mThsP4nBhTOUJ/FkekCbngET9WIYUGjCk7f9gXOhlSWxKYv0NrgcAhUSqE5t7mSXQ
+         dpmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713873481; x=1714478281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MLBJVL6Zs6xX5RgPPoHakdz0gIokn0SzcSKDDSlz0Kk=;
+        b=fa8zTjbW3SiljQhoGfwot4Uy17k9/y/vcQO5ylJD2NajQR6thF3oiATbTC02D+BiSk
+         xut2IaZ0gV4CWaIIz5dOG9F7FetzPsP9JGC5omlgNEQdU2IFhRiP4UAyJDb6olISJI+y
+         zWga75VURl0jcN758XttwZe9xNIXHHEuFTnqfC0UHI8QuVgxujI095d23gcTtjlPBvFJ
+         9IXnjkKyQviMDUB9O6qy3bz4w06p3jQT325Fl5pOvVPmSOrFhtPL4gViSaKqs71RrlGP
+         26bfv8AwPcDjsdnvod32Z65/YkWZda1qJhAMgp8097pa8bySuBshzdukx8NqdCCCS8/g
+         ygjA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEmWA1oVIxxKZUEgHVdWwFYg6MaE9FQrWmOgGbCqs3vZkLfsxwzeSkgBDF/jTKXuMtNAZmqH079YoShwecY6SQaiV9IfzHYH0q93FP7DFDOUVjA3r+GAPgpqH73O1GNa02YmatY7vxHYrxcXMqsly2/f+AVjF3Q447h1pjOhwGATEkP6MqlHHfMkb1djkQ2utM0TXGt2at8nnR1uU3udVNG6k=
+X-Gm-Message-State: AOJu0YzN1IMjPrFKgctWK+Gmle8bhXOU+bQUGR3TSKVnSAGpI8bBn44e
+	jZEDOozQB12/4kmeAxXMwgfxeXG4IGSTDq6pstiLRX/8PeUJOfRtEmqWPzsszi8=
+X-Google-Smtp-Source: AGHT+IGpezawsi7L9yl9OuiRmpihUZN+0NbXr2MY7scA1VG7GrpEXzz/DrnVMZgNJQI0bxaEdi+dAQ==
+X-Received: by 2002:a17:90a:9e8:b0:2a2:ba9:ba61 with SMTP id 95-20020a17090a09e800b002a20ba9ba61mr13715610pjo.34.1713873480825;
+        Tue, 23 Apr 2024 04:58:00 -0700 (PDT)
+Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
+        by smtp.gmail.com with UTF8SMTPSA id e14-20020a17090ab38e00b002a03456ccabsm10952427pjr.30.2024.04.23.04.57.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 04:58:00 -0700 (PDT)
+From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Cc: Walker Chen <walker.chen@starfivetech.com>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2 0/2] Add PDM controller for StarFive JH8100 SoC
-Date: Tue, 23 Apr 2024 16:34:03 +0800
-Message-Id: <20240423083405.263912-1-xingyu.wu@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHXPR01CA0022.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1b::31) To NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510:8::10)
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ASoC: dt-bindings: tegra20-ac97: convert to dt schema
+Date: Tue, 23 Apr 2024 17:27:47 +0530
+Message-ID: <20240423115749.15786-1-sheharyaar48@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: NTZPR01MB0956:EE_|NTZPR01MB1002:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22d19776-5bc8-4d1b-b201-08dc637029db
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	W4IAc+0H0Fq7oNciOuV8MvlMffp5bEoHm+qwzBBtErEJcNleyOiDUM3hZwv47YsoGKQ+KZP/nZz45Xep17UnuABD8EIjPxpPmsg9JB2A1puW+dKNJmMYD/1SxLa14CP69VbSbXsMxjt4Lj6cn7O61q3EYjblfDzsR+TbWRKgu94EgvY7DXRNt4FrbVn/hImtCWrcFdIk4/TGTh+uVsGlSBUDYPau66j6z1I221dFni968kvrjDz9Y2yS2GWQSgTEgk0Ce5XffuBLT5dmCGtlJxJg3ahnoc5T2O8ilnQBRSbFEcX2yz75isnQgqav1Nzra58g38dV2/Sa/5zNk6sUjSB3hdynEIQQ3HKzWj16bgLVi0E3U2/d99y+Vr64weIxWAgzfb1eNvGLD3H5FkXv12zOTrNzLyXXKBnaqzxHxT8ajyDKisBjmmECMcNOjwUvLTfwTAj5UeUFSFpa5VJE0N2oF3rJvzdThZsEii736HoLWGcsihuCsDa3hZ3xDE0ZQlKoVkCF5ssKGLTpgbFresuTX9J7yi1SNTLDJBdzxBaG3k5SypBcBMA9j9xFCR8oP9L2rJpK0P4Kzy0m2uxTjWxKcsZM645dq8BIbiQ6OC7JE5Z85SLkllQ332ohD6p/
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(52116005)(366007)(1800799015)(7416005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LQZoTE48Bw7ANet3o9Di2c2xPIW1EbudG7FELyM9yniuJtxOYMDZS8akcVJL?=
- =?us-ascii?Q?GwdVp2cV7XAdSeKbUDG6lgK8hZm4VsAK+bUdwbz2SsY2OopGyQk/QM5E6hZG?=
- =?us-ascii?Q?QK1z4uN02pUzoEtJMtD9JzCpHs/3pJ98DvGQ94Y21WgKHGomfQMe+gJdKolv?=
- =?us-ascii?Q?ZV0zBYpbTYrfPCao4FYj++opg2PIT54wvZ7Zm2tVgeHMeh+mSKNr3sVHUmG+?=
- =?us-ascii?Q?GtXZU6VWOpcOxnMw1G2py0EIyWcAqFoPn+S1ZHTKCHdoIM7rTgBj6/a3oQBL?=
- =?us-ascii?Q?nNzP7QS94JWNpiYh+7+wumcmiI1iXEXpt83nj4uGySG0rwJ3Bj8CvuSuk3nq?=
- =?us-ascii?Q?9UtGfzO8RPDVZEwaFQcyq3E0TfHY4ZAu0tWuCEnS358dKIHsZHfqR6Yw4Gvj?=
- =?us-ascii?Q?qbKELWIupr9nOxNScvTWsh+NIc1Ztn2PrfJWz4Uz5WWbfOmZyia5oV/QKtzc?=
- =?us-ascii?Q?xJupcspySWRwVaYMT2QGBNdtDtCoeXCbIVQPOLXorcgv/lh8E9BkJH6s6e7r?=
- =?us-ascii?Q?XZTQCTjq+T3Lv3u0fY3ElE6lZbMtqGHKXgxQ21/qGAY3nv5iQtJh3f7wUU7R?=
- =?us-ascii?Q?0RpNj5B5Zc+qU4MSQ5oSnGDA02mQ0CSZj97Ow/Ujdxi95XHu5eC7RbN+sPnI?=
- =?us-ascii?Q?HLFDwZ5tbhyVaagw4iMWefHy1Xzn/XmgFm5Bj/GSUPDg2rmlueA2ETAU9OSO?=
- =?us-ascii?Q?DetVIfWbLiYJR1ubQtHUYL5GLGqUB0hRPyvpv5itvm68NJzAvltu7DNgfbR1?=
- =?us-ascii?Q?joi1aGfiMME3i7rfukDAob4j4ewfHxVnafTKusq3pqX2dPs1R8QnD3lees3/?=
- =?us-ascii?Q?EzWuIOFnKHKiR7tRXJreiF3iaY44fdvKwdb1w7waT1DMg427/rxkIHvZqcxY?=
- =?us-ascii?Q?5omEEJHIlDFaPbWULLEBDLuhU4xGrr2VCN1rdKZiK+L7jgDdOwQDw31a5xDa?=
- =?us-ascii?Q?T8t2i0cOGuXjoNcOGDpVsFiU4pHPj/geA3zuPSuyRv67Bp3ghEXFJJByhz5V?=
- =?us-ascii?Q?uZwXtiYtpTg6LGrwpyNVdpfttbxUo8z6o6L86nC/Ynnq1HI9mOXcHiOzHm/z?=
- =?us-ascii?Q?T9YKCLx/f4SKXCdyFOkMnxP8g/7fVOC4z/oHrmTbWZX13j7JM7btHcIt+C6T?=
- =?us-ascii?Q?V7zTwUftLBRD6PQqh1KBIc4NDJkq+1Iwv/X5YbervekxUdxQ7k/rlfrayLe2?=
- =?us-ascii?Q?5k0ur2xOYZNi75WPde20bM0E2+Aph2yF6mhn1+k/20qAlFzKO+9StFSnK7f5?=
- =?us-ascii?Q?p6wNas/jNI/lDJu4TgirRITVSN+El4mqdkDihZWHy/er8I0b6KazHJwupBtm?=
- =?us-ascii?Q?PI3RkTtnomHIBGvLIa75kxiGhIOUEU/INRadeGNx1N0KPfisekpRW/Qr6Kpu?=
- =?us-ascii?Q?uPu6jmTmel/mrBlIb3Lysr4YJ73Jji1ovZBmdKhRWUGl/sRrratG4diFSPDV?=
- =?us-ascii?Q?obYfuhs+xgV3fHgPzCuz5jfWNeO14ugPcU5psuskDcTDhyalU/di4G2i/2p0?=
- =?us-ascii?Q?VepZRAJWMoEhssE52AaP38rfKiyqfj/HsdYdZdC5SxZBsn/6f13a/6Ti9DGl?=
- =?us-ascii?Q?UZ0pbDeJDeKU9tkcPu7UjHLwCexqR6tSCloe9YOtfM4rqNF+OXAZanUAqS3K?=
- =?us-ascii?Q?Zg=3D=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22d19776-5bc8-4d1b-b201-08dc637029db
-X-MS-Exchange-CrossTenant-AuthSource: NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 08:34:17.1466
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: th2KknMJl81kk4uq9OWWVlYWmFISM9v7ckHG/FDH/lP4oIhdshw8kZ1LhGwcSnTdgZsOde8r3CGhMKtZ+ZDO/Trp3o5/Qco1/5p6+5XaBcs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: NTZPR01MB1002
+Content-Transfer-Encoding: 8bit
 
-The Pulse Density Modulation (PDM) controller is a digital PDM 
-microphone interface controller and decoder that supports both
-mono/stereo PDM format, and a Inter-IC Sound (I2S) transmitter
-that outputs standard stereo audio data to another device. The 
-PDM controller includes two PDM blocks, each PDM block can drive
-one bitstream sampling clock and two bitstream coming data
-(mono/stereo) with sampling clock rising and falling edge.
+Convert NVIDIA Tegra20 AC97 binding to DT schema.
+Change -gpio to -gpios in schema as "gpio" suffix is deprecated.
 
-The first patch adds documentation to describe PDM controller
-bindings. And the second patch adds PDM driver for the StarFive
-JH8100 SoC. The DTS patch of PDM controller will be submitted
-after the patchs of JH8100 DTS are accepted.
+Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+---
+ .../bindings/sound/nvidia,tegra20-ac97.txt    | 36 --------
+ .../bindings/sound/nvidia,tegra20-ac97.yaml   | 82 +++++++++++++++++++
+ 2 files changed, 82 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
 
-Changes since v1:
-- Changed the subject prefix of the bindings.
-- Dropped the confused property in the bindings.
-- Added the $ref to dai-common.
-- Changed the kcontrol names and put it into ops.
-- Added the reset when device resume.
-- Modified two blocks into a whole PDM which supports up to 4
-  channels of recorder.
-
-v1: https://lore.kernel.org/all/20240307033708.139535-1-xingyu.wu@starfivetech.com/
-
-Xingyu Wu (2):
-  ASoC: dt-bindings: Add PDM controller for the StarFive JH8100 SoC
-  ASoC: starfive: Add PDM controller support
-
- .../bindings/sound/starfive,jh8100-pdm.yaml   |  82 ++++
- MAINTAINERS                                   |   7 +
- sound/soc/starfive/Kconfig                    |   7 +
- sound/soc/starfive/Makefile                   |   1 +
- sound/soc/starfive/jh8100_pdm.c               | 447 ++++++++++++++++++
- 5 files changed, 544 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml
- create mode 100644 sound/soc/starfive/jh8100_pdm.c
-
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
+deleted file mode 100644
+index eaf00102d92c..000000000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-NVIDIA Tegra 20 AC97 controller
+-
+-Required properties:
+-- compatible : "nvidia,tegra20-ac97"
+-- reg : Should contain AC97 controller registers location and length
+-- interrupts : Should contain AC97 interrupt
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries:
+-  - ac97
+-- dmas : Must contain an entry for each entry in clock-names.
+-  See ../dma/dma.txt for details.
+-- dma-names : Must include the following entries:
+-  - rx
+-  - tx
+-- clocks : Must contain one entry, for the module clock.
+-  See ../clocks/clock-bindings.txt for details.
+-- nvidia,codec-reset-gpio : The Tegra GPIO controller's phandle and the number
+-  of the GPIO used to reset the external AC97 codec
+-- nvidia,codec-sync-gpio : The Tegra GPIO controller's phandle and the number
+-  of the GPIO corresponding with the AC97 DAP _FS line
+-
+-Example:
+-
+-ac97@70002000 {
+-	compatible = "nvidia,tegra20-ac97";
+-	reg = <0x70002000 0x200>;
+-	interrupts = <0 81 0x04>;
+-	nvidia,codec-reset-gpio = <&gpio 170 0>;
+-	nvidia,codec-sync-gpio = <&gpio 120 0>;
+-	clocks = <&tegra_car 3>;
+-	resets = <&tegra_car 3>;
+-	reset-names = "ac97";
+-	dmas = <&apbdma 12>, <&apbdma 12>;
+-	dma-names = "rx", "tx";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+new file mode 100644
+index 000000000000..4ea0a303d995
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra20-ac97.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra20 AC97 controller
++
++maintainers:
++  - Thierry Reding <treding@nvidia.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++properties:
++  compatible:
++    const: nvidia,tegra20-ac97
++
++  reg:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  reset-names:
++    const: ac97
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  dmas:
++    maxItems: 2
++
++  dma-names:
++    items:
++      - const: rx
++      - const: tx
++
++  nvidia,codec-reset-gpios:
++    description: Reset pin of external AC97 codec
++    maxItems: 1
++
++  nvidia,codec-sync-gpios:
++    description: AC97 DAP _FS line
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - resets
++  - reset-names
++  - interrupts
++  - clocks
++  - dmas
++  - dma-names
++  - nvidia,codec-reset-gpios
++  - nvidia,codec-sync-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/tegra20-car.h>
++    #include <dt-bindings/gpio/tegra-gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    ac97@70002000 {
++        compatible = "nvidia,tegra20-ac97";
++        reg = <0x70002000 0x200>;
++        resets = <&tegra_car 3>;
++        reset-names = "ac97";
++        interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&tegra_car 3>;
++        dmas = <&apbdma 12>, <&apbdma 12>;
++        dma-names = "rx", "tx";
++        nvidia,codec-reset-gpios = <&gpio TEGRA_GPIO(V, 2) GPIO_ACTIVE_HIGH>;
++        nvidia,codec-sync-gpios = <&gpio TEGRA_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
++    };
++...
 -- 
-2.25.1
+2.44.0
 
