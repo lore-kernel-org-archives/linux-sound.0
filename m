@@ -1,33 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D369C131BAA;
-	Tue, 23 Apr 2024 12:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5201332B0
+	for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 13:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713876563; cv=none; b=tdn3JYxO8F+ELUKgDmUFE7lwUEHHJRK6yFqfZmN05KVLNEVXRtOy4acRe59/A8z9PJb01MVq0bsIa9eLtvMgqnuo364DF59+SD4d2UOBZ1mIoiVZ/0kDxadTBdx8J+mZGbsCPZMqIdEDf/wgOnNaFGtZHDHb4mym0VgOXKQNwmQ=
+	t=1713877556; cv=none; b=eHwNW2rItOjjn5Tp1tbjFWI+RC+Mdub8Xx47qvBKr57lqffvpDnapRlLzxdzE+AyLkQq8KLqstwqyflDYEYDaSQIRzP3ZFPxeqw3QKvWqnbllelfEPo8KbavcQMl2eUZGr2lB6dzMLXFKQvtUDX3llBh5DkfkAWN3mmSr/BJFkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713876563; c=relaxed/simple;
-	bh=f9NCOevLr4FT0lUYOrbKssqBjD7WPD7B9YwdZXrMtTk=;
+	s=arc-20240116; t=1713877556; c=relaxed/simple;
+	bh=5A2UR8bAkghWUWUfYypbaxzizbaVYfwCvDQzO4rNSP0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NLkvy2RtXmekAbOk655s/F50BmutX/c3dhn5/GbTrw7al1uMRLNiR/yxF3sPGO94mL1OCR2QExdLGRG/fYmXdCy7fbTHuSBk4ODdheoMrzM8TihnYNonIjKZQjkmuwG5VO63GZ+UDHjR0Ihpv9JNrIF+dxgyzdzqnuNcuDIedYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQeMKzvv; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=S6Vbhf24EUrIXcjsJ9oA0Vk8tEkd35LgvIb+gm0qz1M5a94BPwaPE3WwP5mFOPj1ni3hUtn33FwHmpbcSRtE62Nd9LtLSbSAc7UXUsl6Zx/+KW5ZOjnoAUKa31GkRESKPOiKH0AW1q0zEqH5U9fM1aX93Umx1Ft/fXwKb6lSH5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gmwV2cAI; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQeMKzvv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E56C32782;
-	Tue, 23 Apr 2024 12:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713876563;
-	bh=f9NCOevLr4FT0lUYOrbKssqBjD7WPD7B9YwdZXrMtTk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HQeMKzvvI0vEdvCNtwx1OEB9E4E73jzWOhiCj79q4RHfDqRuBABJf18N7owbV+Cee
-	 dB0htYRr/aiyoNpY851XO8igK+NY0B1deeq3c+trEZp5IlIu3KCJkKgqGWVxqPB/LD
-	 AbNMmvwZPF2qqB361+EwkmJLFDaBNBPbZ1cE7L95iSRw10PBjWNWE453U8o4QSZeBI
-	 A7Ts5CP8J0QMsAX3J4mRLzwMxadkFi2MSvsTFjpYZWd0T+QrVo4rXXeqcIv4d76+bK
-	 iaoftgLLrWOgY9FLTMT6KBFAEoSEZRS8pY7R1Gu1WDHexS7RfnDFkqVUtyatdKJ2ho
-	 TuPl45wT1jmgA==
-Message-ID: <1d73ac93-5438-4e52-9498-1d0a4e450687@kernel.org>
-Date: Tue, 23 Apr 2024 14:49:17 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gmwV2cAI"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51ab4ee9df8so5681497e87.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 06:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713877553; x=1714482353; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2ehJp8IGQP8Qz6G2XT2Fya++YL6jKhQgUh1xIVBOWrI=;
+        b=gmwV2cAI0ANBK8V2A7Z6NfGtNzNhdoLKcI+/txt7g7M9Jrcof+wo0f0chHaXUZyZPR
+         epGusd5h5V1hVkPpPaWD5N7/jc6lEMTSjzz4pATgneDXPCJnhDMDH5t8oka5fRA2L3Ei
+         fM/EdSMVtbiZ/ckO+1c3NBB53Au/Ws6I1D+PDWdthjBnliqJQgT5QGVEr0XBBcaDKYDg
+         5XuXxFLzh+s8jmh4ZONw0dgeAM6CfcmtEQNwnE4D7nz5du/aAd9Td32e/XuSfRXlDOTw
+         vMy7CJO1mMucMgfp1tTfurPhjDyquQqlrv+/FKr6CkmFoqTOU4Dr1qtJZ5YjdptDGD5b
+         vCJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713877553; x=1714482353;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ehJp8IGQP8Qz6G2XT2Fya++YL6jKhQgUh1xIVBOWrI=;
+        b=CcxdtLnpzw850p+1KbcPa8Bt9Rch95dkw531qOO59yvc512KY4m5FKJAvoGzCFC9FU
+         IlIf1pbGPF/TmxDsK2xNbvLJ8MqswIn+/tNDhTnSpQKLzwqz9PwTsSMU/fJfxanoTs6H
+         Aesd289PR5SMU5U49nvbcCtMD3pRapk0zwWn+wcMzd/+Gy45TcLJkv+PXnPEu7pX8xGG
+         CcTIspQTu7b2dYEftNkqbG9N6XUDv/bSdm2YImg8Y3DxSE3qpqXRW1uANBRO56GYhJwP
+         cxcccLY8dnUc4Gvwvk1LeJLJIbClOiorrMQecoJgne/L18i4dPRWNjDt2LnqQBVMpkgn
+         6fEg==
+X-Forwarded-Encrypted: i=1; AJvYcCXckbuGbnmUwE5g8rJHM+Oqi1GTEX/UyWsd4BYVV38vPTHqngokxRBm+w1klrhvzN9ym03G4ffBHwAZciiPZAhrDxxz1uWFuhQKpcs=
+X-Gm-Message-State: AOJu0YyZDj97CjVoDFqtiMEnJplOdRjv49DczotI88wRdMjTDs7VXtdN
+	Fo9TQxA+mkn5bEGShxDDij4tKFitlGbx3d2y7Ij5N5PTJLDDjIPqdlL7fd79J9I=
+X-Google-Smtp-Source: AGHT+IENCG+XV+ZCFF5kX7q625s4qkEBma4kX9+9/15z/8XLIss/sw3nHGITXHXQKBO7wKPP3HP5RA==
+X-Received: by 2002:a05:6512:74b:b0:518:be31:9c33 with SMTP id c11-20020a056512074b00b00518be319c33mr8152823lfs.55.1713877553046;
+        Tue, 23 Apr 2024 06:05:53 -0700 (PDT)
+Received: from [172.30.205.0] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id ep6-20020a056512484600b00519609524b4sm2008216lfb.69.2024.04.23.06.05.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 06:05:52 -0700 (PDT)
+Message-ID: <330dd13e-3ed3-4582-abce-b3bd99898bc3@linaro.org>
+Date: Tue, 23 Apr 2024 15:05:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,86 +61,75 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: renesas: Fix R-Car Gen4 SoC-specific
- compatibles
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v1 2/2] ASoC: qcom: qcm6490: Add machine driver for
+ qcm6490
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, broonie@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, quic_rohkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20240327113228.1706975-1-quic_mohs@quicinc.com>
+ <20240327113228.1706975-3-quic_mohs@quicinc.com>
+ <CAA8EJpqh0emOFUPSj8rPaKr2hZRWwOh9NNTco8fyJCtwXe9sSA@mail.gmail.com>
+ <92b449da-1569-40f9-d8c9-48949c986853@quicinc.com>
+ <CAA8EJprLB6+i4H5tK9LbJYOEH8v9QF78u-+HMmqPqfpvz5J8zw@mail.gmail.com>
+ <7cd89939-e0d0-c43b-fa2a-224bf60f4166@quicinc.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <7cd89939-e0d0-c43b-fa2a-224bf60f4166@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 23/04/2024 14:19, Geert Uytterhoeven wrote:
-> make dtbs_check:
+
+
+On 4/2/24 11:20, Mohammad Rafi Shaik wrote:
+> On 3/30/2024 12:09 AM, Dmitry Baryshkov wrote:
+>> Hi,
+>>
+>> On Fri, 29 Mar 2024 at 17:20, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
+>>>
+>>>
+>>> On 3/27/2024 6:39 PM, Dmitry Baryshkov wrote:
+>>>
+>>> On Wed, 27 Mar 2024 at 13:34, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
+>>
+>> Please turn off HTML mail composition and never ever send HTML email
+>> to OSS mailing lists.
+>> Now quotation levels are broken...
+>>
+>>>
+>>> Add machine driver for qcm6490 SoC.
+>>>
+>>> This initial supports which includes WSA883x Speakers with onboard DMIC
+>>> connected to internal LPASS codec via VA macros respectively and also
+>>> WCD937x based headset.
+>>>
+>>> Add compatible for sound card on Qualcomm qcs6490 boards.
+>>>
+>>> Granted that qcm6490 is similar to sc7280, is there any reason why you
+>>> can not use one of the existing sound card drivers? Like sc7280.c or
+>>> sc8280xp.c?
+>>>
+>>> The qcs6490/qcm6490 has additional interfaces like MI2S, which requires additional machine driver modification.
+>>>
+>>> Example : Required new DAPM widget change in machine driver for MI2S interface which is specific to qcs6490/qcm6490.
+>>>
+>>> So, using new qcm6490 machine driver.
+>>>
+>>> Will try to use existing sc8280xp.c machine driver.
+>>
+>> What about sc7280? In the end, qcm6490 is sc7280 with different firmware / spin.
+>>
+>>
 > 
->     arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: sound@ec5a0000: compatible: 'oneOf' conditional failed, one must be fixed:
-> 	    ['renesas,rcar_sound-r8a779g0', 'renesas,rcar_sound-gen4'] is too short
-> 	    ...
-> 	    'renesas,rcar_sound-r8a779h0' was expected
-> 
-> The list of SoC-specific compatible values for R-Car Gen4 SoCs is
-> mutually-exclusive, just like for other R-Car SoC generations, so it
-> should use an enum.
-> 
-> Fixes: d6e792ed7dd022a1 ("ASoC: dt-bindings: renesas: add R8A779H0 V4M")
+> The sc7280 is tightly linked with realtek codec. which will only support for chrome.
 
-Offending commit was never tested (testing means dtbs_check and
-dt_binding_check)... Just like many other patches from Kuninori
-regarding bindings, it was not sent for automation. I don't understand
-why. get_maintainers clearly asks for this...
+Perhaps we should rename it and stop suggesting it's for all 7280-like platforms then..
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> The sc8280xp.c machine driver is more suitable for qcm6490, will use same sc8280xp.
 
-Best regards,
-Krzysztof
+This in turn, should it become something like snd-qcom-audioreach?
 
+Konrad
