@@ -1,216 +1,156 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2096.outbound.protection.partner.outlook.cn [139.219.146.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36DF55E45
-	for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 09:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713865777; cv=none; b=kpVSme5Go8b5LpntHKaVWngnMK3XuyQmQHvoopUh7c9WzriL80ofecFmAjaN7xZta1M/Chq5ZoYkCZu4+RX2OehpKs58B9PxTWHGqCJO+ht/nViVfZ6U5BZUiPIdIzxSeIIbQnIKg0oczpTTojzq5z7nWj/r4qXvnrK25TWPTdY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713865777; c=relaxed/simple;
-	bh=NwPBsU1LTEWXKuj15xiSO/1zVXaOkdb9/phHy+RmCfE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MDn/PYkUiX4qCVKIOzGT3j+KDNuilFGGuJUHmKCDdPtIqU7vncHmJnOIxzrBw/E9mcICA+exddcsp9v+GoP8XvVzNjeR9yCGg++lQDbjQOsJzmBieXF/x7Cfo53UFoUqDy92CYdOmRFOxPNphyUoVd3QJzXNoq8DHNYlO2MRc1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nIy9VsGk; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nIy9VsGk"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41a442c9dcbso15926475e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 02:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713865773; x=1714470573; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Igu1DHe9/mbdgePnFlKk0Kt8J0+Ygp+bDiGAG2bpm6A=;
-        b=nIy9VsGkGvUCtPYD9yqOtpnLq7wefroEckWccWVvQXShHCU9uVSJ0sbgDtePyiB2wX
-         HOOiY3BAMBa/e/8CHYDicu/Fulz30OYhW7C5k8ZO/+RgwR7cwcbpfmcMxrDf72Lf+LOO
-         X89bPgoZQ90g3KU758hPPtzGXrSqCoV6Jxo/jdTqP51DN5Dg+A0Ni5mvwS2SMnTMcf/O
-         F5Wtg1NAcd87cM6SrqopldA9y/6t3aZeiI4udnrxlQYuv7mduFT31V3MLwGLH8QnyK7m
-         OQ5gqNgUQ3scNY1BW7ZnfCGyKMjDsr+cYXMzE6gjHuYtRXoikR3DcKSb/TJDH9khF13R
-         kqww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713865773; x=1714470573;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Igu1DHe9/mbdgePnFlKk0Kt8J0+Ygp+bDiGAG2bpm6A=;
-        b=Fl1zzDcs1Bz2q+BVZZI8V3Yf3UgnNR1iaYcLN4jid5D/FujPM1k76AxTNoPVEgLrDH
-         nQ7um9BIdmapvwW7mvqLBQF4pKQhcdVldRjAWFluZo2bwdO+gwJfAL+mWNr7G7j0Q6NJ
-         C6YTGhVXXClxMKPrW/Fv7J0HjPo9vCi2SNot1Q+WmhmvCNswfIC1sIP8tf/QBpOHApeS
-         b41ax2f1iXo+6rz5Iz6ZgQThUuJEdchsYV9KRvbUr85gWaPmNyUh3oCdM8mhfC1VvGnn
-         VxmWhXo9jk46oof8nXHzzUS8+NqdKcIdTyVZfCqtD2OTWEZewV8rA2719qx/DmcgMkSd
-         F6rg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+3H9WGCuc//iSa9ZfmO7WaAtZmMTny75nw24DyFbN1b1MQHl0mi2SfYaT2Av0Owtb92AIML3qymT0qiTBjBqEoeMUGJScq8mgITk=
-X-Gm-Message-State: AOJu0YwxfB3tYFbCV1padGP5rICtBdCpuLRbFxpUdH+/ukCHNMAJdq9s
-	Q2fSqRMRsbY9Lago3ZnjRU8LgiLfCHFsEJ9OLTuRlhhfQoxQRdafdVprMTfhL+4=
-X-Google-Smtp-Source: AGHT+IHRgo8HGU7FZWnB41V7PjyatID5UWrOs8dLpeBKw2fehyBq06F7/Ka8YFaKJRJjS5uYDUGJxw==
-X-Received: by 2002:a5d:4082:0:b0:343:b5f0:f511 with SMTP id o2-20020a5d4082000000b00343b5f0f511mr7052352wrp.12.1713865771621;
-        Tue, 23 Apr 2024 02:49:31 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id j6-20020adff006000000b00349856b640bsm14183531wro.67.2024.04.23.02.49.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 02:49:30 -0700 (PDT)
-Message-ID: <a5f8746f-14f8-4e56-9ac7-30c7ba6fad30@linaro.org>
-Date: Tue, 23 Apr 2024 11:49:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E1322F11;
+	Tue, 23 Apr 2024 10:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713866819; cv=fail; b=OlS6iKQ8diRd3piR2ord5Ppfa+biHCa+FP0Ahc4WcA0RTDSvkb8pGH/p34LTM7JQM8/z99L0qt/v7O/XZzQXxWKWmiVcBQrPHw38wE/6N47bVfbCmILMNlmBBQG4iUvut9KQECUURwNktZCJVn23hxTtj99o3I070f7zXY25peU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713866819; c=relaxed/simple;
+	bh=oEUss2ccXYRZxmK7FlKr7P/HE54Io0MA7b24o5uGmkc=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=kSHm2Uf+uWWQrll0CdOciVU7MlAdVBWGdIS2C3r5QTQxrSwzz+theaP3+fOJrprZCURKUs30c4psGbsuclKtOD2TrlEs3yEhc1Z+NFkW6rFzgqwitRl/JNVH0z8MBTTRrSbXgd3EFqvXF1+AS4BbST5TGOIcBjaDzdPCsX4C/ik=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V5kYxKv+bFxoFAeipVqbmWRSRsQQyVPhdZoDeJtmMd+EdJkxK2KnKv1W/ZKnXWZ7NvGFOOFMowPlEshUlD42cDWmteXQdX5VfSBWznwfpeOE1DBXgW7xHa0e091ZoA+aEJN2QCR5i6bjd/j72hUTuRIXDf8/PNyEB1EptvEKNiM3KZrx6Y3SadbE/wSD3dlRu9Vjp7q6x6Q2Q3onS2cH8gL5aN9TmEFLFzij4nfS+2lWka6NB9rOwGGu3R6wSW6p6vtbhGFy7MSbN8TA+ujxDoT5Nv3HDZs6YKgbtJeTH+w38hPPdQPf99mLpAc6F4d11QDPaV1rf1ZzaMfCLKnVzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q1P2lrXNJOZN2ADl4PxctyLQ6KvEk3oVIfydM72cSqs=;
+ b=KucinErgQAOZU6T9sbD99u3QD0fU1dvN3sufEFQP6xROAY5Vd8sZvWYZ9J7RYVZz49gYfCArK+lJFoB5aeBB3Esb28Qln5p6U/9FXHaaEJ6vAjB7J2daHEM/DJVsEZXLWPaQHAG83HXhSTWMq3nUEci87i8oyeM03b1f3GEXzMUX2hMOFz+SNdzmlg0fwCNss7X5hdg+PhrFxVohHHdwAtdssEp62l2/pM77GGPcEa8Qxv/OAS2sf1fK6pAeHL7zl2O0iuuRkjfrYIfzufQFgGLcs2NnGKtoLzs/qWCNPg6+GnfqvX1hR5rIdKxtWTEv7AFbSoja7aQ6khSfo3gFNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:8::10) by NTZPR01MB1002.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:b::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.33; Tue, 23 Apr
+ 2024 08:34:17 +0000
+Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ ([fe80::e903:99a6:10b7:304d]) by
+ NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn ([fe80::e903:99a6:10b7:304d%6])
+ with mapi id 15.20.7472.044; Tue, 23 Apr 2024 08:34:17 +0000
+From: Xingyu Wu <xingyu.wu@starfivetech.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>
+Cc: Walker Chen <walker.chen@starfivetech.com>,
+	Xingyu Wu <xingyu.wu@starfivetech.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2 0/2] Add PDM controller for StarFive JH8100 SoC
+Date: Tue, 23 Apr 2024 16:34:03 +0800
+Message-Id: <20240423083405.263912-1-xingyu.wu@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHXPR01CA0022.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1b::31) To NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:8::10)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add PDM controller for the
- StarFive JH8100 SoC
-To: Xingyu Wu <xingyu.wu@starfivetech.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: Walker Chen <walker.chen@starfivetech.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20240423083405.263912-1-xingyu.wu@starfivetech.com>
- <20240423083405.263912-2-xingyu.wu@starfivetech.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240423083405.263912-2-xingyu.wu@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: NTZPR01MB0956:EE_|NTZPR01MB1002:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22d19776-5bc8-4d1b-b201-08dc637029db
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	W4IAc+0H0Fq7oNciOuV8MvlMffp5bEoHm+qwzBBtErEJcNleyOiDUM3hZwv47YsoGKQ+KZP/nZz45Xep17UnuABD8EIjPxpPmsg9JB2A1puW+dKNJmMYD/1SxLa14CP69VbSbXsMxjt4Lj6cn7O61q3EYjblfDzsR+TbWRKgu94EgvY7DXRNt4FrbVn/hImtCWrcFdIk4/TGTh+uVsGlSBUDYPau66j6z1I221dFni968kvrjDz9Y2yS2GWQSgTEgk0Ce5XffuBLT5dmCGtlJxJg3ahnoc5T2O8ilnQBRSbFEcX2yz75isnQgqav1Nzra58g38dV2/Sa/5zNk6sUjSB3hdynEIQQ3HKzWj16bgLVi0E3U2/d99y+Vr64weIxWAgzfb1eNvGLD3H5FkXv12zOTrNzLyXXKBnaqzxHxT8ajyDKisBjmmECMcNOjwUvLTfwTAj5UeUFSFpa5VJE0N2oF3rJvzdThZsEii736HoLWGcsihuCsDa3hZ3xDE0ZQlKoVkCF5ssKGLTpgbFresuTX9J7yi1SNTLDJBdzxBaG3k5SypBcBMA9j9xFCR8oP9L2rJpK0P4Kzy0m2uxTjWxKcsZM645dq8BIbiQ6OC7JE5Z85SLkllQ332ohD6p/
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(52116005)(366007)(1800799015)(7416005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?LQZoTE48Bw7ANet3o9Di2c2xPIW1EbudG7FELyM9yniuJtxOYMDZS8akcVJL?=
+ =?us-ascii?Q?GwdVp2cV7XAdSeKbUDG6lgK8hZm4VsAK+bUdwbz2SsY2OopGyQk/QM5E6hZG?=
+ =?us-ascii?Q?QK1z4uN02pUzoEtJMtD9JzCpHs/3pJ98DvGQ94Y21WgKHGomfQMe+gJdKolv?=
+ =?us-ascii?Q?ZV0zBYpbTYrfPCao4FYj++opg2PIT54wvZ7Zm2tVgeHMeh+mSKNr3sVHUmG+?=
+ =?us-ascii?Q?GtXZU6VWOpcOxnMw1G2py0EIyWcAqFoPn+S1ZHTKCHdoIM7rTgBj6/a3oQBL?=
+ =?us-ascii?Q?nNzP7QS94JWNpiYh+7+wumcmiI1iXEXpt83nj4uGySG0rwJ3Bj8CvuSuk3nq?=
+ =?us-ascii?Q?9UtGfzO8RPDVZEwaFQcyq3E0TfHY4ZAu0tWuCEnS358dKIHsZHfqR6Yw4Gvj?=
+ =?us-ascii?Q?qbKELWIupr9nOxNScvTWsh+NIc1Ztn2PrfJWz4Uz5WWbfOmZyia5oV/QKtzc?=
+ =?us-ascii?Q?xJupcspySWRwVaYMT2QGBNdtDtCoeXCbIVQPOLXorcgv/lh8E9BkJH6s6e7r?=
+ =?us-ascii?Q?XZTQCTjq+T3Lv3u0fY3ElE6lZbMtqGHKXgxQ21/qGAY3nv5iQtJh3f7wUU7R?=
+ =?us-ascii?Q?0RpNj5B5Zc+qU4MSQ5oSnGDA02mQ0CSZj97Ow/Ujdxi95XHu5eC7RbN+sPnI?=
+ =?us-ascii?Q?HLFDwZ5tbhyVaagw4iMWefHy1Xzn/XmgFm5Bj/GSUPDg2rmlueA2ETAU9OSO?=
+ =?us-ascii?Q?DetVIfWbLiYJR1ubQtHUYL5GLGqUB0hRPyvpv5itvm68NJzAvltu7DNgfbR1?=
+ =?us-ascii?Q?joi1aGfiMME3i7rfukDAob4j4ewfHxVnafTKusq3pqX2dPs1R8QnD3lees3/?=
+ =?us-ascii?Q?EzWuIOFnKHKiR7tRXJreiF3iaY44fdvKwdb1w7waT1DMg427/rxkIHvZqcxY?=
+ =?us-ascii?Q?5omEEJHIlDFaPbWULLEBDLuhU4xGrr2VCN1rdKZiK+L7jgDdOwQDw31a5xDa?=
+ =?us-ascii?Q?T8t2i0cOGuXjoNcOGDpVsFiU4pHPj/geA3zuPSuyRv67Bp3ghEXFJJByhz5V?=
+ =?us-ascii?Q?uZwXtiYtpTg6LGrwpyNVdpfttbxUo8z6o6L86nC/Ynnq1HI9mOXcHiOzHm/z?=
+ =?us-ascii?Q?T9YKCLx/f4SKXCdyFOkMnxP8g/7fVOC4z/oHrmTbWZX13j7JM7btHcIt+C6T?=
+ =?us-ascii?Q?V7zTwUftLBRD6PQqh1KBIc4NDJkq+1Iwv/X5YbervekxUdxQ7k/rlfrayLe2?=
+ =?us-ascii?Q?5k0ur2xOYZNi75WPde20bM0E2+Aph2yF6mhn1+k/20qAlFzKO+9StFSnK7f5?=
+ =?us-ascii?Q?p6wNas/jNI/lDJu4TgirRITVSN+El4mqdkDihZWHy/er8I0b6KazHJwupBtm?=
+ =?us-ascii?Q?PI3RkTtnomHIBGvLIa75kxiGhIOUEU/INRadeGNx1N0KPfisekpRW/Qr6Kpu?=
+ =?us-ascii?Q?uPu6jmTmel/mrBlIb3Lysr4YJ73Jji1ovZBmdKhRWUGl/sRrratG4diFSPDV?=
+ =?us-ascii?Q?obYfuhs+xgV3fHgPzCuz5jfWNeO14ugPcU5psuskDcTDhyalU/di4G2i/2p0?=
+ =?us-ascii?Q?VepZRAJWMoEhssE52AaP38rfKiyqfj/HsdYdZdC5SxZBsn/6f13a/6Ti9DGl?=
+ =?us-ascii?Q?UZ0pbDeJDeKU9tkcPu7UjHLwCexqR6tSCloe9YOtfM4rqNF+OXAZanUAqS3K?=
+ =?us-ascii?Q?Zg=3D=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22d19776-5bc8-4d1b-b201-08dc637029db
+X-MS-Exchange-CrossTenant-AuthSource: NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 08:34:17.1466
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: th2KknMJl81kk4uq9OWWVlYWmFISM9v7ckHG/FDH/lP4oIhdshw8kZ1LhGwcSnTdgZsOde8r3CGhMKtZ+ZDO/Trp3o5/Qco1/5p6+5XaBcs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NTZPR01MB1002
 
-On 23/04/2024 10:34, Xingyu Wu wrote:
-> Add bindings about the PDM controller for the StarFive JH8100 SoC.
-> 
-> Signed-off-by: Xingyu Wu <xingyu.wu@starfivetech.com>
+The Pulse Density Modulation (PDM) controller is a digital PDM 
+microphone interface controller and decoder that supports both
+mono/stereo PDM format, and a Inter-IC Sound (I2S) transmitter
+that outputs standard stereo audio data to another device. The 
+PDM controller includes two PDM blocks, each PDM block can drive
+one bitstream sampling clock and two bitstream coming data
+(mono/stereo) with sampling clock rising and falling edge.
 
-If there is going to be resend/new version, three nits. Anyway:
+The first patch adds documentation to describe PDM controller
+bindings. And the second patch adds PDM driver for the StarFive
+JH8100 SoC. The DTS patch of PDM controller will be submitted
+after the patchs of JH8100 DTS are accepted.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Changes since v1:
+- Changed the subject prefix of the bindings.
+- Dropped the confused property in the bindings.
+- Added the $ref to dai-common.
+- Changed the kcontrol names and put it into ops.
+- Added the reset when device resume.
+- Modified two blocks into a whole PDM which supports up to 4
+  channels of recorder.
 
-...
+v1: https://lore.kernel.org/all/20240307033708.139535-1-xingyu.wu@starfivetech.com/
 
-> +
-> +title: StarFive JH8100 PDM controller
-> +
-> +description: |
+Xingyu Wu (2):
+  ASoC: dt-bindings: Add PDM controller for the StarFive JH8100 SoC
+  ASoC: starfive: Add PDM controller support
 
-Do not need '|' unless you need to preserve formatting.
+ .../bindings/sound/starfive,jh8100-pdm.yaml   |  82 ++++
+ MAINTAINERS                                   |   7 +
+ sound/soc/starfive/Kconfig                    |   7 +
+ sound/soc/starfive/Makefile                   |   1 +
+ sound/soc/starfive/jh8100_pdm.c               | 447 ++++++++++++++++++
+ 5 files changed, 544 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/starfive,jh8100-pdm.yaml
+ create mode 100644 sound/soc/starfive/jh8100_pdm.c
 
-> +  The Pulse Density Modulation (PDM) controller is a digital PDM out
-> +  microphone interface controller and decoder that supports both up to 4
-> +  channels, and an Inter-IC Sound (I2S) transmitter that outputs standard
-> +  stereo audio data to another device. The I2S transmitter can be
-> +  configured to operate either a master or a slave (default mode). The PDM
-> +  controller includes two PDM blocks, each PDM block can drive one
-> +  bitstream sampling clock and two bitstream coming data (mono/stereo)
-> +  with sampling clock rising and falling edge.
-> +
-> +maintainers:
-> +  - Xingyu Wu <xingyu.wu@starfivetech.com>
-> +  - Walker Chen <walker.chen@starfivetech.com>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh8100-pdm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: DMIC output clock
-> +      - description: Main ICG clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: dmic
-> +      - const: icg
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  starfive,syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to System Register Controller sys_syscon_ne node.
-> +          - description: PDM source enabled control offset of SYS_SYSCON_NE register.
-> +          - description: PDM source enabled control mask
-> +    description:
-> +      The phandle to System Register Controller syscon node and the PDM source
-> +      from I2S enabled control offset and mask of SYS_SYSCON_NE register.
-
-This description duplicates items. Drop redundant parts (there is really
-never a need to say phandle is a phandle because it cannot be anything
-else). Instead say what is it used for.
-
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - '#sound-dai-cells'
-
-Use consistent quotes, either ' or "
-
-
-
-Best regards,
-Krzysztof
+-- 
+2.25.1
 
