@@ -1,134 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A5513CA9A;
-	Tue, 23 Apr 2024 16:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298B013BACF;
+	Tue, 23 Apr 2024 16:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713888380; cv=none; b=exSvXFSx9kGMw3Qm1miWyY6UJ/T3uWO+enWgd6oAAyNrRSPHauslmo044B9aOOz3dAAJSX/rRHXgDOnlqQ6wCgwLIwv8nL4AYANa3P53KCRs+l/Z6bvbVEJCNSlC3+3JPy+uaBQ4zHG+OHmZBOV+fN0jdepF79g34pCwhOhqsFw=
+	t=1713889411; cv=none; b=KZOHdUfiA4sZ4kbQtaVAxWNiieZjQ/pCgegxRZGaEt1tXh34UJfX6mEqXanol787vZaoixGQGcFFx8VpOGMFZ+g7kOPcb6sZ479Udrx5UVueP1gqGlhQk4PV6FiwlZa/eVGUFxEUCdFpWOabba3w8I+k2R7Ed29FiS7pmn/ZGvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713888380; c=relaxed/simple;
-	bh=FILwAsaRHkKwgnboUD/MLg9UllwBZKLDBYUVOBIO2yo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CIVB6XEydQGoQzZ6ObDLwYCHP6S56zK2GW8x66oK/yclx+9j7QxF7H3mCbMJ7xYd0yTT+iRE1oc/kMNCO9cqyI/WeylQrbR4kQOL0D/MajL5hr4NbG0cU/SD+BhqWz4B4nz/BfnrQUqp5DikCBka77nSOhXZs69m7y0u8xkVhtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CYCCJUWe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713889411; c=relaxed/simple;
+	bh=Q5pBomNvNNt1A3Rnzxx0LXPI2/v2/y+Z2n+2/IhawV0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sZp1g6R0o/nNICXo5RE1DFx4WtKWUHvcCCAoULZq2xqDfTgx9JSU5j5YMiCBnvzp57Pnt9ok33ecWNd9v1rrSQwSB7bMmNzT8oAXtt+pQ5pOalfFmuvXKtCeGj0caj/vNwruEsxsZcI/B3Fn35ND0VC4HErskKaON1j2BkeUG2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LnrtMU63; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYCCJUWe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A23C116B1;
-	Tue, 23 Apr 2024 16:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713888379;
-	bh=FILwAsaRHkKwgnboUD/MLg9UllwBZKLDBYUVOBIO2yo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CYCCJUWehvGRdDBW6aSv1u1pkOGUGXUETugEA5BpBk3AwUtHxXYpMGry4HKyCMI2b
-	 fMQ3Ba5KKzUZnSGntJBdmQsU5YCUr05t1lvH0SZDKv3SmYOHJ/UMRCf+V2eA+bAugm
-	 V/Cs0cNG9FHQm3l4+x0Rnhbq/nrBfcItn8mGJsXT5i6+LY3FKow7GmI5DJtEQTf1o6
-	 b8h5n25r+Tsk1oCZEJRyH2kVLIYFS2tGS8r5CJXN3cpXC5PTeLMViML+K+0KBFb4Y4
-	 Z3emvA9y+ia3s84M5DvlCACUI1gx44PFa99VvwvFd+ynSt1ws1o3c+azFX7R6M057H
-	 qgtXdF1gGQv+Q==
-Message-ID: <65a5837d-36b3-41bd-b03f-d4f93b30d5c8@kernel.org>
-Date: Tue, 23 Apr 2024 18:06:13 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LnrtMU63"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N5kTvC011470;
+	Tue, 23 Apr 2024 11:23:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PODMain02222019; bh=otNxeYr92ucuR9gMxp7zxkbmIictW4XHCCuOxcBR5hk=; b=
+	LnrtMU63bmIKnphai52NBYUnpOBuKZyslWuwXBJczcIbuFGRKBX7sP4rzrKh5El7
+	VJP8/NDYBL04uOtUZEPrwFpjPlZ/XXyTDwo+hKnckI1XcLiIV9OEek9GX78vML38
+	aXkss7ZmGQKZgQ6PsZI4jI6k0NMtJBVcjQtES7yRfDNISd8wldkmrhj764xz575i
+	pCdPjhVAJNbrUS5BM3OBfIcEByC2GYnfjr7c5w20VW3Kdkc8kUm3yCOEboKZUSEp
+	PzXXa+kK7ugC3xCBlRYxH1App29QX8/nRcyIrgO2BnIFjnhG8rkh1II3zZQChBDP
+	RRy0U0wGcexgGHTyEIxubQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xmqmh2b8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Apr 2024 11:23:09 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 23 Apr
+ 2024 17:23:07 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 23 Apr 2024 17:23:07 +0100
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.201])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id DB00282024B;
+	Tue, 23 Apr 2024 16:23:06 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Stefan
+ Binding" <sbinding@opensource.cirrus.com>
+Subject: [PATCH v1 1/2] ALSA: hda: cs35l41: Support Lenovo 13X laptop without _DSD
+Date: Tue, 23 Apr 2024 17:23:02 +0100
+Message-ID: <20240423162303.638211-2-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
+References: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
- <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
- <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
- <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
- <138ac465-1576-4e86-a05d-63f8acc6fb70@kernel.org>
- <3acfbe3c-8b83-4c40-83c2-437f963fd25a@linux.intel.com>
- <7490bce3-3bd6-4beb-b8be-d47a6b0a30f0@kernel.org>
- <eaa0c99a-3b41-4444-906c-d2f005d326b9@linux.intel.com>
- <aef907ab-1087-4f49-bea4-d43ee6cebb73@kernel.org>
- <735d6dbc-86e4-4747-9bd9-2574ead7d039@linux.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <735d6dbc-86e4-4747-9bd9-2574ead7d039@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: r4eWeIrplgezRGoBV1jN_RxwbYzy5l1S
+X-Proofpoint-GUID: r4eWeIrplgezRGoBV1jN_RxwbYzy5l1S
+X-Proofpoint-Spam-Reason: safe
 
-On 23/04/2024 17:57, Pierre-Louis Bossart wrote:
-> 
->> Are we talking about basic C now? Of course it does not mean that and I
->> already explained what is the goal of this - the static or global memory
->> in the driver can be moved to rodata.
-> 
-> the dsp_ops used by the Intel drivers cannot be moved to rodata in all
-> cases. the baseline is constant, all extensions for TGL+ are dynamically
-> allocated and modified.
+This laptop does not have the correct _DSD settings, so needs to
+obtain its configuration from the configuration table.
 
-Yes and these drivers will not benefit. Did I changed them here? I think
-I didn't, because then it would not compile.
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Can we discuss specific patches in this patchset? Which constifying of
-static or global data is not correct, is misleading or is not beneficial
-at all?
-
-Best regards,
-Krzysztof
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 6f82b28e26dd..be97e973accb 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -111,6 +111,8 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
+ 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
++	{ "17AA3865", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
++	{ "17AA3866", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+ 	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+ 	{ "17AA3877", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+ 	{ "17AA3878", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+@@ -504,6 +506,8 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431F1F", generic_dsd_config },
+ 	{ "CSC3551", "10431F62", generic_dsd_config },
+ 	{ "CSC3551", "10433A60", generic_dsd_config },
++	{ "CSC3551", "17AA3865", generic_dsd_config },
++	{ "CSC3551", "17AA3866", generic_dsd_config },
+ 	{ "CSC3551", "17AA386F", generic_dsd_config },
+ 	{ "CSC3551", "17AA3877", generic_dsd_config },
+ 	{ "CSC3551", "17AA3878", generic_dsd_config },
+-- 
+2.34.1
 
