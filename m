@@ -1,102 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B95142909;
-	Tue, 23 Apr 2024 21:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF532C1AE;
+	Tue, 23 Apr 2024 22:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713906670; cv=none; b=aY8sXqD40IdL2Zvr3mBWyYVS1wCBIU3cDKEHNbbtU1eRKCaVFbQ4KYqK4vU7NNLUn38ukYkLC6hGN2gg9ic4BrVw+Mx7z8OMGQqOFryNoF/hkR+um1fjhlTJLIQm0atpb6ya8F0HKczrf3mDqeBATmkh3BhYJc0++AzIHJL/E74=
+	t=1713912553; cv=none; b=b7OokKEkPmnaxM8srujaUYlOBPx3lLkmNeHMHTYcAW6Jq+N51PhyMgVXH7MxIOnetMMCpZWkd17Yly0IgpdyWZ/PmzUAvHhYYnL3G7FpDZV+5GFeTXnZ1e/GT0OnSti2NAlVMdMAbNUk3iCRi/0A/VdRpNjLn9NeP+aVJKR3X0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713906670; c=relaxed/simple;
-	bh=d7TVE296PHJP44llwt9u2h0wBexxmfsPmyLF5+Hwt7I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E4UalLPHmkkd1v0Bzvc4E/tMJqXLMVLS6F6jZursuWCuhUrNZg5225VxbiehtpB00vUOYNv02rqlUxWxjhosLOgtn524lWRvndYo3dvmZ3aaSS17gCEnZlcoBgpSp7b1xJb0kxil9WzobqScfPRYJdPvMGnTtfa4y2WF5+1itHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQAjUcRu; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713912553; c=relaxed/simple;
+	bh=TRuX/tTAJzD7cSBZjxwlCUN8qWsw1eNS9r8xYN+qJVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=baLxLM0L8VDXWH/WXp4y2hLtmg7dzh8TkDdro9ynLsYSzNxopFtYDjcs2csxUpEuVZhM1O7LZ7P44FPHKq9eQVIxUGqxqpN2OPnnZOQKQfpVa3VQMuG24SApKxHPnKUrG5Hrpeujc147NUx1CqVTeLx2TTf+Oj/piJDYSFPJCHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cBW+NGtN; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQAjUcRu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713906669; x=1745442669;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=d7TVE296PHJP44llwt9u2h0wBexxmfsPmyLF5+Hwt7I=;
-  b=cQAjUcRuarWhpaUSy9KiiyXAYGO6NW6SUQoz2Mwn8lvXtYnif5ini6vL
-   QHBLuXUQkU344W4af6LS3NeVwtVVX6Pt21aX4EfQBHqDixQqsOu/4w91d
-   eXN3YORv28DjhWFZCUvnTV+L39XQQw04St8fvklnjNrdpkBAH6w9e0PAI
-   Kf0q8kl1ONGc2AqBpsuqhHsEGqqVaPR6CzQV9L21kvBe6ZXxNrdETImDs
-   8x6gWvHCmSFO3CVVKaYmxpwdH6TswCSPrzqUuHMtDNJ9xVybLbhJ3Kjp3
-   zVXlgSvpWh2icwh0TNSi4I3/Tahdaty1TxD5n//VaS9zl2dInij6fMF7E
-   w==;
-X-CSE-ConnectionGUID: 68w5/Q2ISY2oyr+TZDe5NQ==
-X-CSE-MsgGUID: pWvGqNhBS8eMatlJqDyblA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="13304611"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="13304611"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 14:11:08 -0700
-X-CSE-ConnectionGUID: votKh3BHQgOzYJN5Hbz8zA==
-X-CSE-MsgGUID: f9jACy/KQGaiBd4uSpPCTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24494406"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Apr 2024 14:11:06 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 8524528A; Wed, 24 Apr 2024 00:11:05 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/1] ALSA: control: Use list_for_each_entry_safe()
-Date: Wed, 24 Apr 2024 00:10:22 +0300
-Message-ID: <20240423211102.3785556-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cBW+NGtN"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43NM5IQN015367;
+	Tue, 23 Apr 2024 22:48:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=DDXZUb9B2qp1xMWb0EroroBnTTf58sdaiaj+26UKu5I=; b=cB
+	W+NGtNYFM1GqoOmyCowtmgRlTJaC2dalqNTOCyIa1B4tBeynyAvca5C5fvTmmvcj
+	jDzKC/l6wzG/EaGZeQsMwjMqjAbaK9a0N4MG4gnHxZDdi2eiebpl/LPBKUtl1PcM
+	9g5x2oV6G1gZNpF8XFXy6R2n9vLcAClfUSksV36DkTDoWKgb7esBgqdxbKNqLSUP
+	HTuZby/22SS/haVSE4yq6RwshxKOOxWekycPAEqRmAgmFJiSI3Z0EH7cW3RF8OKS
+	vPGA3ZU5xoPc2Zc6ueVlzG8ZQcTFaWMYeNVcu3jR2SXFxsaEn+8AAMJizpXhg1xB
+	5hmtyvO22MVROv/Cgd9Q==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpjp8gqp4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Apr 2024 22:48:45 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43NMmit4014980
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Apr 2024 22:48:44 GMT
+Received: from [10.110.64.215] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 23 Apr
+ 2024 15:48:43 -0700
+Message-ID: <32ea2ffa-5ee4-5344-826d-3572085af705@quicinc.com>
+Date: Tue, 23 Apr 2024 15:48:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v19 41/41] ASoC: doc: Add documentation for SOC USB
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240422224906.15868-1-quic_wcheng@quicinc.com>
+ <20240422224906.15868-42-quic_wcheng@quicinc.com>
+ <ZicSOzE8KyaYGi0v@archie.me>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <ZicSOzE8KyaYGi0v@archie.me>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: W15zYV3-qeG-OQ9c9nb1NdmLHuOGZuDd
+X-Proofpoint-ORIG-GUID: W15zYV3-qeG-OQ9c9nb1NdmLHuOGZuDd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-23_18,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 phishscore=0 spamscore=0 clxscore=1011 bulkscore=0
+ impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404230061
 
-Instead of reiterating the list, use list_for_each_entry_safe()
-that allows to continue without starting over.
+Hi Bagas,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
----
-v2: added tag (Jaroslav)
- sound/core/control_led.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+On 4/22/2024 6:43 PM, Bagas Sanjaya wrote:
+> On Mon, Apr 22, 2024 at 03:49:06PM -0700, Wesley Cheng wrote:
+>> +.. code-block:: rst
+>> +
+>> +int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
+>> +					struct snd_soc_jack *jack)
+>> +..
+> 
+> You forget to indent snd_soc_usb_setup_offload_jack() prototype:
+> 
+> ---- >8 ----
+> diff --git a/Documentation/sound/soc/usb.rst b/Documentation/sound/soc/usb.rst
+> index 3f7c3ef6a0c03c..0b6da0be9f317f 100644
+> --- a/Documentation/sound/soc/usb.rst
+> +++ b/Documentation/sound/soc/usb.rst
+> @@ -218,8 +218,8 @@ state.
+>   
+>   .. code-block:: rst
+>   
+> -int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
+> -					struct snd_soc_jack *jack)
+> +        int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
+> +        					struct snd_soc_jack *jack)
+>   ..
+>   
+>     - ``component``: ASoC component to add the jack
+> 
+>> +USB Offload Playback Route Select Kcontrol
+>> +-----------------------------------
+> 
+> USB offload playback heading underlines are not long enough to cover heading
+> titles, so I have to extend them:
+> 
+> ---- >8 ----
+> diff --git a/Documentation/sound/soc/usb.rst b/Documentation/sound/soc/usb.rst
+> index 0b6da0be9f317f..5e0e9fad131b24 100644
+> --- a/Documentation/sound/soc/usb.rst
+> +++ b/Documentation/sound/soc/usb.rst
+> @@ -482,7 +482,7 @@ into the physical USB port and enumerated.  The kcontrols are defined as:
+>       kcontrol exposed by the platform card.
+>   
+>   USB Offload Playback Route Select Kcontrol
+> ------------------------------------
+> +------------------------------------------
+>   In order to allow for vendor specific implementations on audio offloading device
+>   selection, the SOC USB layer exposes the following:
+>   
+> @@ -545,7 +545,7 @@ along to the external DSP.
+>   
+>   
+>   USB Offload Playback Route Status
+> --------------------
+> +---------------------------------
+>   SOC USB exposes APIs for keeping track of the offloading state, and expects this
+>   to be maintained by the BE DAI link that created/added the SOC USB device.
+>   
+> @@ -573,7 +573,7 @@ When executing the kcontrol get callback, it will loop across the active_list ar
+>   and report to the application for active USB sound card and USB PCM device indexes.
+>   
+>   USB Offload Playback Capable Card
+> --------------------------------
+> +---------------------------------
+>   USB sound also creates a kcontrol for applications to help determine which platform
+>   sound card USB offloading is linked to.  This will allow applications to further
+>   query the platform sound card for specific information about the current USB offload
+> 
+> Thanks.
+> 
 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index 061a8ea23340..ea95405c76a4 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -290,16 +290,13 @@ static void snd_ctl_led_clean(struct snd_card *card)
- {
- 	unsigned int group;
- 	struct snd_ctl_led *led;
--	struct snd_ctl_led_ctl *lctl;
-+	struct snd_ctl_led_ctl *lctl, *_lctl;
- 
- 	for (group = 0; group < MAX_LED; group++) {
- 		led = &snd_ctl_leds[group];
--repeat:
--		list_for_each_entry(lctl, &led->controls, list)
--			if (!card || lctl->card == card) {
-+		list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-+			if (!card || lctl->card == card)
- 				snd_ctl_led_ctl_destroy(lctl);
--				goto repeat;
--			}
- 	}
- }
- 
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+Thanks for the review.  Will fix these all in the next revision.
 
+Thanks
+Wesley Cheng
