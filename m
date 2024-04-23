@@ -1,82 +1,175 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C3113D52B;
-	Tue, 23 Apr 2024 16:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDD513D8B2
+	for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 17:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713889416; cv=none; b=NjLAq8gUu6zlpdXq/QAn9sEspEvTSGvkl9GoNFFhNNoVRG8y11x40QrSMoMPwh/OoQ0PSnlfHXx6yY91KzwrHtPwEvR6D0rbYuO9eZd4KA38tZq8iaEdg9wnEa7EOZU6oScSCGN8/9FP6u0kbhFL1KkqfAB1d20ECLdjhF7/OCk=
+	t=1713892068; cv=none; b=KJAApwe0KIIxqdJgJxZMdmfLabA5cMC6ALZEhJpn1Xv5P54yCrKeoFoTE2pED+rRk7029XuOERBgu9o7nW1AMxrWllrnoFRpt0WyFcuEyhaWeNqvIDv8fZJZNKLyAh3DoEGWfb7arYujDZpns/HbE9p9MDSkuSBBnsooHhPSy8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713889416; c=relaxed/simple;
-	bh=/+Ngmq/dET1hRbcDzT+tPPqrN7PjBb3QJe6Y4gicig8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Fusssjh4rI4U9BM+Fec4z0Q8kPkwGC4fW3sBnurD5nb34MlQESANOuxQF3LoOAnnaIV9oB8cTbNN0u/P2CeFrmoQ/Hgf4t57jem0tapdq1RHmW5bsKu8OoYOrumhyEwtoQ0qYQFrHpZ/Q0NXFckGfaMIIi7Osl7DYDheR1R6+oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PECz7F2M; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1713892068; c=relaxed/simple;
+	bh=OAHaHyyh2fhBZH5xqokk86R7KZUiwv6CRGGIa0SBRtw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jWQWqYdhgpHTUP/svPjN9oNQHlaQSJrgvsleP+2TWHIB25XG+a+kF1QRKmrHR1gkuoGf0tVEnqmGW9r444mDb5xnlyvBU9nZWkNuhO9FnGEH9C9lBf96BHryUht5Qz6sDp5U08fvOYyR3av9wSjhdQlgbOH9XE/hEY5Kr7/Qcyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fW2PF3qo; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PECz7F2M"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43N5gEEP003890;
-	Tue, 23 Apr 2024 11:23:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=G
-	JNcEy25j5fMRCp89ONq4zKfqjl5XmVRq/GtbPMf+60=; b=PECz7F2MtzUtpcDpf
-	hP3F/a0n679BKHSX0MWAk/JXJJBdcGYCzuAT0iqL9htBoOsVq+3eo8HycVzx9jFc
-	eJhMpihuAVd/BCtK0XZ6xQEmPtpVAnq+je9xn31LjEiuhD58OTP4rlYlGkYWULcD
-	RteJyO/xNNMS8KUQKb6Wul8N8GfdH0B6hRjHAhUVA03HkSptSLBjMUCpwkDC68B2
-	7VIP5xfmopuNRmJL/gIdGIumMY4oT3wJ0gVIBCRYgBOoTu7MNgyTy8x5kg5rX4cc
-	jju6UOR83HKjha08Pek6QN3mR55nuQeNcI7X5CZC9E9lWvZfhQrdy01plY/jz/9V
-	V0uNw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xmb3xttdm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Apr 2024 11:23:09 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 23 Apr
- 2024 17:23:07 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 23 Apr 2024 17:23:06 +0100
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.64.201])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 98769820243;
-	Tue, 23 Apr 2024 16:23:06 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1 0/2] Add support for Lenovo Thinkbook 13X
-Date: Tue, 23 Apr 2024 17:23:01 +0100
-Message-ID: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fW2PF3qo"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41aa2f6ff01so10225235e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Apr 2024 10:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1713892063; x=1714496863; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4HfFEhDy7wrc1JJ4JwN66dtF2lU/7GHQL5ceh8i2rCk=;
+        b=fW2PF3qoa74jX0ldC2Gm5OVz9ubizI4xKHnylwgv8n8oUrA6mB21P/5OBguxjXAUfv
+         SQ8T1oymQZFkwEs+I+Gia1EMjgOBH7VArmIFq6GSVg8qis0Bh/M8zGTi7SRL8tDYsizU
+         4aPa7bireHxPPbKzsVqMcOqV0pK061jnU/OAbdksMm/h+S+ZtvE5MsJoXZB3V/Ty38Fi
+         vHJalUlmFZ/IeQW2Js8nDPFsBoRLQoEoOGQCMyULZDiPzWx/+URU1OqHUmhVontQFO6L
+         ZjrxEdtAoeUTG6C/LOtFxh6ALiqegIuS82pdMGSdE9HRtAR4BijhP2jT9TnIQZ7pT59L
+         rCfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713892063; x=1714496863;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4HfFEhDy7wrc1JJ4JwN66dtF2lU/7GHQL5ceh8i2rCk=;
+        b=sc9NXJ9ZA22UMpT6QJ+sgv+azsQpZVgm++RGFuT+zmKmB1Hr6EaaHDnKQyROu4C+/h
+         cwetlktAv308KLWb+sTmLQOZl2RPkpsszmfipHKss3Z5QDnjpRrE4hefrH2CuOinA5KP
+         SK+LtZXK3pYZUDcIQB3JJWyB/9zjwIEczIViAnLkA59Ea771TvpMWWMaheSqOL1ekdJM
+         QriDRp4VQ0oilbrsiHY8cVwXyI2XMiv2mwpgAoWoqHLfgQzg9MGb7behRSNmRmAC0w3m
+         ZPo/vLdUZ3rtnY/NwVKI5gvfIn5S5tK9BrTWsmpo8m11s2ZHIdNZDqiCuZfcVr1jPPxs
+         VgBg==
+X-Gm-Message-State: AOJu0YwuUouSJWQFGE+eoXWFRkPwBYJ4AYGOwE12/NG7/081j+DIdgA6
+	JqGspMfaFthTjLuLUeH/naJ8+TrAf/p7nZuKMEHm3w0y0PJzH5KlvPkkD/sbKqA=
+X-Google-Smtp-Source: AGHT+IEeml7xlDPvKVEJlBPjkyqYO1K/a3UWyW6pbqsDEH7Dp3zHkT8MMXjVjKAP5avnRrImiMosWg==
+X-Received: by 2002:a05:600c:a001:b0:418:a7a7:9bd7 with SMTP id jg1-20020a05600ca00100b00418a7a79bd7mr8084322wmb.24.1713892063377;
+        Tue, 23 Apr 2024 10:07:43 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b00414659ba8c2sm20996935wmq.37.2024.04.23.10.07.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 10:07:42 -0700 (PDT)
+Message-ID: <a8730bb5-4f51-4c75-b049-6f00e3de5855@baylibre.com>
+Date: Tue, 23 Apr 2024 19:07:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: xkSXrS6qGavWCwbf3HrUTDjbD150W0Od
-X-Proofpoint-ORIG-GUID: xkSXrS6qGavWCwbf3HrUTDjbD150W0Od
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/18] ASoC: dt-bindings: mt6357: Add audio codec
+ document
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
+ <20240226-audio-i350-v3-3-16bb2c974c55@baylibre.com>
+ <481abafd-33af-44a6-8460-068b4a85d764@linaro.org>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <481abafd-33af-44a6-8460-068b4a85d764@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This laptop does not contain _DSD required to support CS35L41 HDA.
-To workaround this, add support for this laptop into the configuration
-table in cs35l41_hda_property.c.
-Also add the required entry into patch_realtek for this SSID.
 
-Stefan Binding (2):
-  ALSA: hda: cs35l41: Support Lenovo 13X laptop without _DSD
-  ALSA: hda/realtek: Add quirks for Lenovo 13X
 
- sound/pci/hda/cs35l41_hda_property.c | 4 ++++
- sound/pci/hda/patch_realtek.c        | 2 ++
- 2 files changed, 6 insertions(+)
+On 09/04/2024 17:55, Krzysztof Kozlowski wrote:
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    codec {
+>> +        mediatek,micbias0-microvolt = <1900000>;
+>> +        mediatek,micbias1-microvolt = <1700000>;
+>> +        mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
+> Sorry, this does not work. Change voltage to 1111111 and check the results.
+
+Actually it's worst ! I've removed the required property (vaud28-supply) but the dt check pass.
+Same behavior for some other docs like mt6359.yaml
+
+The at24.yaml doc works as expected, then I tried compare an find the issue, without success...
+
+I've replaced "codec" by "audio-codec", according to [1].
+I've tried multiple manner to implement the example code, without success. I'm wondering if what I 
+try to do is the correct way or parse-able by the dt_check.
+
+If I drop this file and implement all these new properties into the MFD PMIC documentation directly, 
+I've the expected dt_check result (function to good or wrong parameters)
+
+
++++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+@@ -37,9 +37,32 @@ properties:
+    "#interrupt-cells":
+      const: 2
+
+-  codec:
++  audio-codec:
+      type: object
+-    $ref: /schemas/sound/mt6357.yaml
++    properties:
++      vaud28-supply:
++        description: 2.8 volt supply phandle for the audio codec
++
++      mediatek,hp-pull-down:
++        description:
++          Earphone driver positive output stage short to
++          the audio reference ground.
++        type: boolean
++
++      mediatek,micbias0-microvolt:
++        description: Selects MIC Bias 0 output voltage.
++        enum: [1700000, 1800000, 1900000, 2000000,
++               2100000, 2500000, 2600000, 2700000]
++        default: 1700000
++
++      mediatek,micbias1-microvolt:
++        description: Selects MIC Bias 1 output voltage.
++        enum: [1700000, 1800000, 1900000, 2000000,
++               2100000, 2500000, 2600000, 2700000]
++        default: 1700000
++
++    required:
++      - vaud28-supply
+      unevaluatedProperties: false
+
+    regulators:
+@@ -88,6 +111,12 @@ examples:
+              interrupt-controller;
+              #interrupt-cells = <2>;
+
++            audio-codec {
++                mediatek,micbias0-microvolt = <1700000>;
++                mediatek,micbias1-microvolt = <1700000>;
++                vaud28-supply = <&mt6357_vaud28_reg>;
++            };
++
+              regulators {
+
+
+Is the implementation above looks good for you ?
+
+
+[1] 
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
 -- 
-2.34.1
-
+Regards,
+Alexandre
