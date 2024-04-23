@@ -1,85 +1,217 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2247C59161;
-	Tue, 23 Apr 2024 09:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D015FBA0;
+	Tue, 23 Apr 2024 09:42:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713863523; cv=none; b=VQJ9xWzVstKb11RrZbecOZwg2xJJOzoacQmv+04/OVzFeRSqsUYzLvwkBVfvmbSRYZ8XP8LJefufqwDsKyX8I0FIAbYkK1W1hn7oFUhgn1+ICT3v6Q37dij5ae1f4lh/HCfOXanM5dBqTtcWGgPLphtKFmRqHFeUodE1jMvfBiU=
+	t=1713865362; cv=none; b=sbSUN88sQ07extI6xqCm7kPUho1wCtv63lujQp31+HreTJmaklr7rT/ta2jISH+NKWHpBk15dYRjXBwXdhx3DfJOw+wEyo+06rAPEpGKn4AQzZeGk4kbvKAUxAx1zdjLWCPSpsPqlQ/EXahnJPow4LHbd3cPx3wCggN6+2O1Tuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713863523; c=relaxed/simple;
-	bh=P1+SzEkEbUxqtmErfXAFNFg5Ku/NbRzwah/IbK5buKo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IdSyDDM0BRLMWzTM5KG7NhE+w7fjQnDZxBzl62Y6L7SlKqV+NfDHRgy7WcWEWKWRJof1dDeUNxqrknV8RLDtxv5GPmILV/pxRK90684Nq9H8PRlMIqqCELpH4YMLlmpeC2K4+oas27A6iKH1uxTeGXHM6z+RoOApEQFlEkOaA9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OG3we8e6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713865362; c=relaxed/simple;
+	bh=Ls/UifY5Dz1wJAlodWBpmzK5RW2Ga9GWujeLPVUWApE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f5gekUayicBEMipOi1k8RV80kLKh5YCx4z9S2rY0/FopporVaYB0YnTSRAFf1Nx0x/i2ZXuBIvniZz1YldLSPJsUfH7Go/3ozH6O8M9M713I3Cf72pLsnwhrkcXz4JWd8W8NyJV4uTHIK5Kb1DobsiP3raIR4UW0YoxrVIWV+k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3sUCms4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OG3we8e6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38067C116B1;
-	Tue, 23 Apr 2024 09:11:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3sUCms4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235C1C116B1;
+	Tue, 23 Apr 2024 09:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713863522;
-	bh=P1+SzEkEbUxqtmErfXAFNFg5Ku/NbRzwah/IbK5buKo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OG3we8e63RR7aBIv4n3fJsal430Fth8ths23XaenqeJbGWSq2YgbxSpP4Qik2ypcz
-	 0Q7BlU1KlIKV6QK1Pvr8dIuo7kNyPFBA4xq5E/qjRcvyLaoWwQyh82l7QWTSIcioUs
-	 M5dAk6rbW1dWFx6LTBEag3wvlmzx8i+uCwjKAVMj47HWYGFsBm2PqBkgRjG40tnRru
-	 4aeAm5wBMls8vR1MasCo5fQlPArDTcqQP6Wh9hxoNbY9PT4u4X4vzr+0AT553Mmu6c
-	 1PiJaHrKw1xsbNpV84wYeroaE4Vi9DzJe7KQh+qY2y1Wj0Ycj632uo3VX7v9+V8Zud
-	 ulsYPhpYaFMnQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
- conor+dt@kernel.org, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, 
- Kartik Agarwala <agarwala.kartik@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20240421033129.13076-1-agarwala.kartik@gmail.com>
-References: <20240421033129.13076-1-agarwala.kartik@gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: mt2701-wm8960: Convert to
- dtschema
-Message-Id: <171386351991.1781735.5122768330810491305.b4-ty@kernel.org>
-Date: Tue, 23 Apr 2024 18:11:59 +0900
+	s=k20201202; t=1713865361;
+	bh=Ls/UifY5Dz1wJAlodWBpmzK5RW2Ga9GWujeLPVUWApE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t3sUCms4mYpMabtasGNhGocxGbl4sFKtiI5xMv3GUseqBt8syt6ltOpJw5h+mhkm9
+	 aFw/mfjIIPxTOgX3aSOEh8CQ9MDDltzwMmO7D/WChVF9JWgnNlfVL892FNWud09dKb
+	 FSA60+icHOuitAqK+1F/rbKWBFDweKEPHeGK3ckswBDSwzaQs+WEOy7vQNwL9Y8luP
+	 xYndgb4wDz00KwaLl7Uhr0PI6sa3C6nq5pot9Z3qY6+LMLbM+8e/iSegNeK7NbIhHP
+	 +qqwJies09VxEMlzq045chEuTCG3ApsAakzZW3oCkuQ9Zt7KVPauqvMQOtnyBHP4I0
+	 PSMBeRefA9q6g==
+Message-ID: <aef907ab-1087-4f49-bea4-d43ee6cebb73@kernel.org>
+Date: Tue, 23 Apr 2024 11:42:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+ <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
+ <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
+ <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
+ <138ac465-1576-4e86-a05d-63f8acc6fb70@kernel.org>
+ <3acfbe3c-8b83-4c40-83c2-437f963fd25a@linux.intel.com>
+ <7490bce3-3bd6-4beb-b8be-d47a6b0a30f0@kernel.org>
+ <eaa0c99a-3b41-4444-906c-d2f005d326b9@linux.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <eaa0c99a-3b41-4444-906c-d2f005d326b9@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
 
-On Sun, 21 Apr 2024 09:01:31 +0530, Kartik Agarwala wrote:
-> Convert mt2701-wm890 bindings from text to dtschema. This is used by
-> MediaTek mt7623a/n SoC.
+On 22/04/2024 23:24, Pierre-Louis Bossart wrote:
 > 
 > 
+>>>> There are multiple reasons and benefits for const, like compiler
+>>>> optimization, code readability (meaning) up to security improvements,
+>>>> e.g. by some GCC plugins or marking rodata as really non-writeable, so
+>>>> closing some ways of exploits. There are many opportunities here, even
+>>>> if they are not yet enabled.
+>>>
+>>> Possibly, but the SOF core does not know if the structure it uses is
+>>> rodata or not. Using the 'const' identifier would be misleading.
+>>
+>> How so? If core does not modify structure, it should take it via ops,
+>> just like 100 other widely known structures (see checkpatch). Why is
+>> this different?
+> 
+> I don't understand "it should take it via ops"
+> 
+> We are already fetching the structure with private_data.
 
-Applied to
+I meant, drivers using such core library functions or directly calling
+to the core, pass some private data structure with "struct foo_ops".
+Sometimes pass directly "struct foo_ops". This is happening everywhere
+and is common pattern.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+And everywhere we try to make it const, where following conditions are met:
+1. the driver allocates "struct foo_ops" statically,
+2. the driver does not change it,
+3. the core (or library) does not change it.
 
-Thanks!
 
-[1/1] ASoC: dt-bindings: mt2701-wm8960: Convert to dtschema
-      commit: ab371a026a1a4ad81817d82ba433c19934082894
+> 
+>>>>> that's a different interpretation to the 'software' view you're
+>>>>> describing. "this structure will not modified by this function" is not
+>>>>> the same thing as "this structure CANNOT be modified".
+>>>>
+>>>> Yes, but can we please discuss specific patchset then? Patches which
+>>>> change pointers to const have one "interpretation". Patches which modify
+>>>> static or global data have another.
+>>>
+>>> Just look at sound/soc/sof/intel/mtl.c... The core will sometimes use a
+>>
+>> That's a driver (or specific implementation), not core.
+> 
+> You are making an assumption on what the SOF core is. The core is used
+> by ACPI or PCI drivers as a library. The structures are all allocated in
+> ACPI/PCI drivers and passed to the core library.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+The same as everywhere else. The distinction, that this is "library" and
+in other cases often is "core framework" or "subsystem", does not
+matter. Behaves the same.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> 
+>>> constant structure and sometimes not, depending on the PCI ID reported
+>>> by hardware. This was intentional to override common defaults and make
+>>> the differences limited in scope between hardware generations.
+>>
+>>
+>>>
+>>> int sof_mtl_ops_init(struct snd_sof_dev *sdev)
+>>> {
+>>> 	struct sof_ipc4_fw_data *ipc4_data;
+>>>
+>>> 	/* common defaults */
+>>> 	memcpy(&sof_mtl_ops, &sof_hda_common_ops, sizeof(struct
+>>> snd_sof_dsp_ops)); <<<< THE BASELINE IS CONSTANT
+>>
+>> Yes, I saw it and such users are not changed. They won't receive any
+>> safety. But all others are getting safer.
+> 
+> 
+> Maybe there's a misunderstanding on what the 'SOF core' is. This is just
+> a helper library that are used by the PCI drivers. The core has zero
+> knowledge on anything really.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+The "core" or the "library" either modifies the structure or not. That
+is only that matters from the core point of view.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
 
-Thanks,
-Mark
+> 
+>> I really do not understand what is the problem here. In entire Linux all
+>> of such changes are welcomed with open arms. So what is different here?
+> Adding 'const' at the SOF core level does not mean that we can treat
+> structures as rodata. It only means that the structure is not modified
+> by the core library. Not the same thing.
+
+Are we talking about basic C now? Of course it does not mean that and I
+already explained what is the goal of this - the static or global memory
+in the driver can be moved to rodata.
+
+Just like everywhere else.
+
+I keep repeating the same arguments and keep repeating the same: please
+bring me any argument why this should be different than all other 100
+structs (or more, I count based on checkpatch). So far you did not bring
+any argument for this, so I don't know how to provide any other
+technical feedback.
+
+According to my knowledge and easily visible here, this is exactly the
+same as in all other cases. Drivers have some static or global struct
+which can be moved to rodata, because nothing modifies it.
+
+Best regards,
+Krzysztof
 
