@@ -1,68 +1,43 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE477E107;
-	Tue, 23 Apr 2024 12:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1082898;
+	Tue, 23 Apr 2024 12:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713874159; cv=none; b=g744XnMyuMvJViRviMCiYtvxuFs5pVL610c/uTz+NqE7MFYpsbKHKdvBejUl/y0tJ+OC/Rr+U4b3YytWGlurJErWPhXpalmpS9WuQSiG+CMo5agFuQNo2KLYg5tp7LexyEGwZ+gOwFHKC1/HDUf3SW/g0AD/q2206//OwTVKXZU=
+	t=1713874239; cv=none; b=jKgnW9qmri6e9ei9P3/AylythbH45hjmpIL3pXe4CVn1G3YUKOmqSXQctTNS+Mgf9JLKzMBbA4XTz0oVVUzt+ifE9c4mpy5m+ny30hMCupcAVSDXlrldubVWBTVDArb8hEbQNrWFu92BoLYbnrK3amWwkI2ifWyWhySnHdsatQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713874159; c=relaxed/simple;
-	bh=DqAxcZojSFBpoMldO48rTRcAj9CJRVYlNxxwmZ+KCYE=;
+	s=arc-20240116; t=1713874239; c=relaxed/simple;
+	bh=57X0JJu/+mVaWcKCLO7Zhzink6AC/E+FmTys3gYEpX8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c2WLxD7r0QPx3u3Pn3ZsG8uSsKBVnry5FY0UWaYoWXgUNf9JsPCXSi70hp/GupjvaaXbkiO7KdQDJEew/Rk8phCsgmOwLoOhH1dc7GgmUateYL+7CGHRqMxeOYbZgt3g/vERf78q40XulJ1Yc30ua6sCH9KL8qoQL/Qzc3+KIZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyQViz9F; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=MnNJkcSCTlbgllv34p5Ycvu5mZq1FauFfjRfcX8EUjK8dPNXALhTbn8+E0OhJuBX72xzs67i/2tf5gCL6QuUZta7bb2Vf+v2tIPJLPuCwLwIwspE1983EhpVx64SDBuLAjOGN0ttD3x0BdPlfuQcf/YVriVTSdKkghqUAJdozV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2DsS/eV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyQViz9F"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ed9fc77bbfso4370663b3a.1;
-        Tue, 23 Apr 2024 05:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713874158; x=1714478958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JD8KzsjwQNW5Mdt9sS+9e+K7nGb99FJ60SB1TmA7vGU=;
-        b=iyQViz9FzqGmLR7cX/x+2TaACY4eJAkrYArxJEgJYOeJ67DSQDFzvyfG2mEWT628fV
-         UrErwFgujF3ppNJ+x2IoLoST+Wa8KJrWcZJ7L7v/+Ps0vhHa68xpTHgXSi9esDPr7gqz
-         j9eGv8CSsMJHx2JUjG64k1LODUJos9SHPsudirC/0TNAEO+c7C0DRnGa8+6ARNS3vQC+
-         99vol4YjyHcNsdtFVsl6PcXCU5dcteqBj887aFP2kRRIJUREXXP8RZ0xjCMDXcDlldji
-         sx+bvxIp9WQIAfQ+wngSHLgWSt0d4tAjWuV2TxOZEq+q+QdWF8o2mYO57nKWwhHWJdSl
-         YQxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713874158; x=1714478958;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JD8KzsjwQNW5Mdt9sS+9e+K7nGb99FJ60SB1TmA7vGU=;
-        b=bzA/G6bb2JGrjYdGlHp+9KeJ5Wf4v5yroEyvT1XXY5I+BL88o7ZClRZ8WcU0ZQtH5o
-         PfOIAv0Sv++oQS1nyoTGwO5E7195SIMdV9ohL15RsH8f1l3kydVUlJ12bBRJ9ExlDHQg
-         Nfa9htIADTQz82Bmnkux+h8rsRtu6xlIOiddYXSZ4j0ZCP+tseOQ2+MeH4bE0Kf3Yeqw
-         jD4xrzmaINoJR5si6zJ/os2Sf1DgAKRK6Aag+CPUOBLuJeuKHPrw0snm8i4vQw3lZmiq
-         +AnwnTzH5Uq7qMaasFNZ03yQYFTjxjjXUJDbV2fQQu89tcPYfvS0QDTizJILXmoFnuUx
-         OzdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVF0RRBCDH/ZMqJjN4TaRuGrwUFRStZN9t6LoSblk74dY+fn6e0hqjzVV81Y1KYxkb7JYIdo05sEvx6L7Dfbu6SAI/OEQvaVaOXG2HrjngKTcEcR4j3e4cvYQc1oeOXJ3F9CJxM2sVR2cxixyDhjDy0WOK+Gb3VelcnoGm1MqB7Y/k//6NH+kyHYjXUikeGS8G2piQ6/JgvnYDEWE5MT0Jp2II=
-X-Gm-Message-State: AOJu0YzYjM3z/jVzLeWrAjhm8fRnm13vDHZ+67EVU0i7RCQcO65kFdkJ
-	J2aICd8QEJpRVlzK4XDpfpxLgM6dkkVkYvXZ5khS9WpeW3vFxuD6
-X-Google-Smtp-Source: AGHT+IE40ykf+mEpl55K6A02/SSlpDeuDZCZGKRaz7HDtT4vnfBrFszi0oyTjRw6NqOoIH4PKxYGYw==
-X-Received: by 2002:a05:6a00:14d3:b0:6ea:f05d:d2ec with SMTP id w19-20020a056a0014d300b006eaf05dd2ecmr14857159pfu.2.1713874157996;
-        Tue, 23 Apr 2024 05:09:17 -0700 (PDT)
-Received: from [10.66.66.2] (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
-        by smtp.gmail.com with ESMTPSA id 9-20020a630b09000000b005dbed0ffb10sm9292598pgl.83.2024.04.23.05.09.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 05:09:16 -0700 (PDT)
-Message-ID: <7560e32a-7142-4022-90dd-938777fea0d9@gmail.com>
-Date: Tue, 23 Apr 2024 17:39:10 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2DsS/eV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE46C2BD11;
+	Tue, 23 Apr 2024 12:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713874238;
+	bh=57X0JJu/+mVaWcKCLO7Zhzink6AC/E+FmTys3gYEpX8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b2DsS/eVXByCFce6qWc8zzqysTsk/FEJ87pzVex6XTw8Wv5vyp1/JiRVrjBYyib9E
+	 /rOf7lnc8Fq1PqVxmA3V1QxAHdBedqzc+q5mpwM+JJDUyyq5bcRTtELWTyTnWmqDwE
+	 7tAxl1iOAlIY0YNPkj2kEHplKWVYCAthlileX317gFlXoY5GmPW2sOYFGxi6GXDlDa
+	 uMamAtX5nP3v2NCuNKYbx4/t/08HF9NDDMdnv4mPzVe6n1HZtj7P22hiazSnyrPdy1
+	 pou/EwXwMr7ja5fbpqyfEcfW6Y0OUsIFtoKYHziZacnm1EWHoyN+hbBct+vDMznLcx
+	 NU2uThuG9gBVg==
+Message-ID: <e401ce93-091c-4733-ab95-1aa21996d54d@kernel.org>
+Date: Tue, 23 Apr 2024 14:10:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] ASoC: dt-bindings: tegra20-ac97: convert to dt schema
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
@@ -70,11 +45,70 @@ Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240423115749.15786-1-sheharyaar48@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
 In-Reply-To: <20240423115749.15786-1-sheharyaar48@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-For dtsi changes, I have created another patch : 
-https://lore.kernel.org/all/20240423120630.16974-1-sheharyaar48@gmail.com
+On 23/04/2024 13:57, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra20 AC97 binding to DT schema.
+> Change -gpio to -gpios in schema as "gpio" suffix is deprecated.
+> 
+> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+> ---
+>  .../bindings/sound/nvidia,tegra20-ac97.txt    | 36 --------
+>  .../bindings/sound/nvidia,tegra20-ac97.yaml   | 82 +++++++++++++++++++
+>  2 files changed, 82 insertions(+), 36 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,t
+
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
