@@ -1,87 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CDD157478;
-	Wed, 24 Apr 2024 07:24:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31001E4A9;
+	Wed, 24 Apr 2024 08:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713943484; cv=none; b=P1aQBYrDA8qlggUNqbSWbEwijhtLQ7QnCZAX5Swa0kqXeGl/5NSZdLESNvXxx2xzB1PlRSVrJuZqp73WcuH/ga6ai7J/eo9uZai2OwHIU3XRcXRefouWESTKOHD5wdjIlhiBpYVpGBvGeq5wg8DgJPkeyYvalA82gXbh9JX45p0=
+	t=1713947719; cv=none; b=P22+wxV0Z2W85QlpXVuuGFrExtdq75A1R/n1yMxG1AE3jFBwgyA7nVk0jOnQ6gaWCox6b5CwJapZ3nAVeIfGdW3ObWz9sj7OwkkWnxaP/Zr38Da6Wp4SM9/UpMNMAGbfMO1DX8nlH3Rnm9t5ACSDaF52JYqxShNv3Q73hdcX9lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713943484; c=relaxed/simple;
-	bh=YbZB/+5TpAoCnauXoU3cpYQqczYGgGL2RNOzRj9VfK4=;
+	s=arc-20240116; t=1713947719; c=relaxed/simple;
+	bh=Diwxh7oYymnJcN+8qW/fo95XYZ0IL5WSPMdte6hs+Ds=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fTZ0gIm3G1iPDlcCTgH0oCwYjBBjcLvPMfrqsM/6H0bwKjD4s47oGS5ZaajPOkUHgiZgUwRjijo+GJZoMKNOyvxPaqGX+BNx2QEEAhbNdLEFae+8VHQzTyrOiJJV/eIbHDHkbzik1BT0eO9LeWxzo6FTfDHtD6WxaTotywG+m3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iJUFihmQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=052F/Kuj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iJUFihmQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=052F/Kuj; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=bTQpyGYbrJIxr8FDIqENcf6gKlFShIq6HqDfbGYSaSBvdtD2+5qAACETQCl5mLBf5EO0522whJ561K7GoU0lFdmVswKburXk68TaSHL/ioOTQTrAhUbvw4cX2Y3yrSWNA2KASOEIgBeVIsBUqr+PfU0hd0SjNFQo+0GztEo0e8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z+fi5877; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DyW8cLV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z+fi5877; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DyW8cLV; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iJUFihmQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="052F/Kuj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iJUFihmQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="052F/Kuj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z+fi5877";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DyW8cLV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z+fi5877";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DyW8cLV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 45D76610CB;
-	Wed, 24 Apr 2024 07:24:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B3F2A611F1;
+	Wed, 24 Apr 2024 08:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713943480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713947713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xykwgGOYFauBfbd8C637dSjyaIqoLTSspkq4htR5Jok=;
-	b=iJUFihmQX81Ptjdvcn3qwDRebaPni3L+YmUvEdyBvpKKhq0FJLWTWynRM/fXOpPDu6u8jH
-	CVD4tr5U30SC0xuWWxm4Oox6mXP2eCzqKH4tTceY1QWWsRwbr9AjZz6dtB3CXMcCa5wy6u
-	DNb8lMR2s84mNHvzavZxnH4pRqu1lKo=
+	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
+	b=Z+fi5877P1yRb5OnHCTwGKdKWopshyLSofJgIRzvxIrzDqmJ9mTx1p2ynY2q8zSYxEiryl
+	Wg0nTecO0P3olrNTwRs4B2yTxhpr4vU/0kQhYWid4JIpwbdHqCXFmgcJfB3QaqHl1o4Lha
+	lu1Rw0qz7uonv7zhqwJyB6p0grTdBCk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713943480;
+	s=susede2_ed25519; t=1713947713;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xykwgGOYFauBfbd8C637dSjyaIqoLTSspkq4htR5Jok=;
-	b=052F/KujTMP5lyDzv7MOpQFUxTYC0kUzj5wA35LSevtTnwN0oaz5+y3ubQOwRGBBwNPXtB
-	q7LXzs2jODqqLWAA==
+	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
+	b=6DyW8cLVMVbUb/MEmadxQ/VFqiQ6Z0besAc/QjIxj9cAx6C82avzUQrBfNhvuEItFiyEcC
+	eF43mJWiaUkbs7Dw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iJUFihmQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="052F/Kuj"
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713943480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1713947713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xykwgGOYFauBfbd8C637dSjyaIqoLTSspkq4htR5Jok=;
-	b=iJUFihmQX81Ptjdvcn3qwDRebaPni3L+YmUvEdyBvpKKhq0FJLWTWynRM/fXOpPDu6u8jH
-	CVD4tr5U30SC0xuWWxm4Oox6mXP2eCzqKH4tTceY1QWWsRwbr9AjZz6dtB3CXMcCa5wy6u
-	DNb8lMR2s84mNHvzavZxnH4pRqu1lKo=
+	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
+	b=Z+fi5877P1yRb5OnHCTwGKdKWopshyLSofJgIRzvxIrzDqmJ9mTx1p2ynY2q8zSYxEiryl
+	Wg0nTecO0P3olrNTwRs4B2yTxhpr4vU/0kQhYWid4JIpwbdHqCXFmgcJfB3QaqHl1o4Lha
+	lu1Rw0qz7uonv7zhqwJyB6p0grTdBCk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713943480;
+	s=susede2_ed25519; t=1713947713;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xykwgGOYFauBfbd8C637dSjyaIqoLTSspkq4htR5Jok=;
-	b=052F/KujTMP5lyDzv7MOpQFUxTYC0kUzj5wA35LSevtTnwN0oaz5+y3ubQOwRGBBwNPXtB
-	q7LXzs2jODqqLWAA==
+	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
+	b=6DyW8cLVMVbUb/MEmadxQ/VFqiQ6Z0besAc/QjIxj9cAx6C82avzUQrBfNhvuEItFiyEcC
+	eF43mJWiaUkbs7Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21BB613690;
-	Wed, 24 Apr 2024 07:24:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 847C71393C;
+	Wed, 24 Apr 2024 08:35:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id d1ZOB7izKGakFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 24 Apr 2024 07:24:40 +0000
-Date: Wed, 24 Apr 2024 09:24:49 +0200
-Message-ID: <87h6frdxz2.wl-tiwai@suse.de>
+	id wZmgH0HEKGaIKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 24 Apr 2024 08:35:13 +0000
+Date: Wed, 24 Apr 2024 10:35:23 +0200
+Message-ID: <87cyqfdupg.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v2 1/1] ALSA: control: Use list_for_each_entry_safe()
-In-Reply-To: <20240423211102.3785556-1-andriy.shevchenko@linux.intel.com>
-References: <20240423211102.3785556-1-andriy.shevchenko@linux.intel.com>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	<alsa-devel@alsa-project.org>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH v1 0/2] Add support for Lenovo Thinkbook 13X
+In-Reply-To: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
+References: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,82 +90,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -2.12
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 45D76610CB
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.12 / 50.00];
-	BAYES_HAM(-1.61)[92.50%];
+X-Spamd-Result: default: False [-1.45 / 50.00];
+	BAYES_HAM(-1.15)[88.70%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -1.45
+X-Spam-Flag: NO
 
-On Tue, 23 Apr 2024 23:10:22 +0200,
-Andy Shevchenko wrote:
+On Tue, 23 Apr 2024 18:23:01 +0200,
+Stefan Binding wrote:
 > 
-> Instead of reiterating the list, use list_for_each_entry_safe()
-> that allows to continue without starting over.
+> This laptop does not contain _DSD required to support CS35L41 HDA.
+> To workaround this, add support for this laptop into the configuration
+> table in cs35l41_hda_property.c.
+> Also add the required entry into patch_realtek for this SSID.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Jaroslav Kysela <perex@perex.cz>
-> ---
-> v2: added tag (Jaroslav)
+> Stefan Binding (2):
+>   ALSA: hda: cs35l41: Support Lenovo 13X laptop without _DSD
+>   ALSA: hda/realtek: Add quirks for Lenovo 13X
 
-We have a similar repeat in snd_ctl_led_reset().
-Wouldn't it be better to catch both?
+Applied both patches now to for-next branch.
 
 
 thanks,
 
 Takashi
-
->  sound/core/control_led.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-> index 061a8ea23340..ea95405c76a4 100644
-> --- a/sound/core/control_led.c
-> +++ b/sound/core/control_led.c
-> @@ -290,16 +290,13 @@ static void snd_ctl_led_clean(struct snd_card *card)
->  {
->  	unsigned int group;
->  	struct snd_ctl_led *led;
-> -	struct snd_ctl_led_ctl *lctl;
-> +	struct snd_ctl_led_ctl *lctl, *_lctl;
->  
->  	for (group = 0; group < MAX_LED; group++) {
->  		led = &snd_ctl_leds[group];
-> -repeat:
-> -		list_for_each_entry(lctl, &led->controls, list)
-> -			if (!card || lctl->card == card) {
-> +		list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-> +			if (!card || lctl->card == card)
->  				snd_ctl_led_ctl_destroy(lctl);
-> -				goto repeat;
-> -			}
->  	}
->  }
->  
-> -- 
-> 2.43.0.rc1.1336.g36b5255a03ac
-> 
