@@ -1,47 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3601315D5D8;
-	Wed, 24 Apr 2024 14:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D73E15D5A9;
+	Wed, 24 Apr 2024 14:02:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713967343; cv=none; b=m1sMDPxN9qYqy4cyhj/rx5qxTzjtm2TiEdu6b/9IpFsld5Wou4iNU+0oWxQtm4St6WJXrsLOd82BSdPd4EZI9uwfy9DJlHLr2wavIhlHZpBvJZdy9CCd4j1W5+bfOc7nOBn2uvxyEv6DdrBN/V5Wm8tUsGNbiZEVOIO6DskT5L8=
+	t=1713967347; cv=none; b=ZHYiDdcXk6jrbV5v5oz07TcWIrMOkaU+tyO3pWX4ZL/owd4PwkvhlF5iIZBxsQ/yVKOm5HGpf8HJBQ98Yu34kgtWbHcTEccUcgS5A+gmM/eOUeutJSiiEW/hWL56kqKo5MEKNKPqsznWSqPaJwZVLh7qdDJHKX8mejsUDIjHh4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713967343; c=relaxed/simple;
-	bh=Fh5MCAn/CD6jBI814D1jnEu75NoL8cNXPO4vwBfUu/A=;
+	s=arc-20240116; t=1713967347; c=relaxed/simple;
+	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZLuYbiBFEV7TBRCG9af+ZSANDdZuVvA9mZsKK+XJiPJya6ymYufQx1Lw2wVr/74HPzCYC4+00gRDwQiI1kWQJCzhZBJz/P6CmI1Oon/puW3X+qx/hx3s8U/6WDNn1ednxq32JMtxExZ9tJpzXKAw6yQbf0+f66Zvv3+1GYrhZkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ix6QGTVr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=imd2GBHRn2sdXLMUfgPVxpANER3+Aw+TUnrWojsObjKyjCh1z3VuyYEujGDnTL9ryxF08DVioqd//Dd1x2X8SYBTA32Z1JsnStZpX2OY6rqtYcxY5CVVCTs5UDhX30TXLUaItz/CCyqPBjwkz1DlGpQd93jNhR/pTi1O/24hp5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPgv5GFM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ix6QGTVr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D00FC2BBFC;
-	Wed, 24 Apr 2024 14:02:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPgv5GFM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733D7C2BD10;
+	Wed, 24 Apr 2024 14:02:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713967342;
-	bh=Fh5MCAn/CD6jBI814D1jnEu75NoL8cNXPO4vwBfUu/A=;
+	s=k20201202; t=1713967347;
+	bh=J/W8G6AHYtkJeU6pLXpJpuJehmlnpDVucXxX4M9+OAM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ix6QGTVrgjY824PwxrRwDye4DpweBSEsMd+APji9fFffzBQ6SvWkbub4lb4tHZvow
-	 aaq+F2YkHFz8roTKYMwo74WP/8DLWLDN7NCXVIcfg8l7BlB3iNSLNeFxwrUj7HtdUW
-	 kzS61XMTnckY8oorjbMd/GrgvRYDASjpA8F433a+iSyDSAQirsRjF2t0XmlrfoKLa1
-	 O7igBzDcbljb6yfFkzB3tu9Ig99ZRbelYFFaHnm0qgdjsj3bro4rPhDoizPfYDkgV0
-	 fo6/TiMUSc5AYJ9Gq0lzx2a3dmuJ2IunCVFSRRuRlTh3goYAkwaNqphMDSxDahDMGs
-	 6D2C+hpyuYwkw==
+	b=aPgv5GFM3MBU/uHSthEl00TQLnlV9LDi19rpNBqoL6qdJTk5uaIcvYVcDzjDj+t11
+	 EFNu/YdwHp5nSiE51L/YmcD2ASYYjhqnKXjrTBafhuOw5XG4uePUOo5tnd/Iw1CFkB
+	 zroCbcaem2v7xhOVGoQRgxm6NeXu6/cK6mH6mGWbisN/gBemS1+CNq1lzTbbAxshIr
+	 xa2cGIqLlwynuZfTTFHFs92EWC6Uxlg+x+4dhOFRDN0SOA/Ln7BzjqzoSpSul+pKA5
+	 u+/qy6WNCSsTeaCDQOmbQc2Mg5xwGHJgV1l7tdyG29BIV46yAQOYMuI7YpeXXYRo/2
+	 KVphWvlTMOXVg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
-Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240423115749.15786-1-sheharyaar48@gmail.com>
-References: <20240423115749.15786-1-sheharyaar48@gmail.com>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: tegra20-ac97: convert to dt
- schema
-Message-Id: <171396733863.1799261.10850188731294136998.b4-ty@kernel.org>
-Date: Wed, 24 Apr 2024 23:02:18 +0900
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
+References: <b3a6cf12c46b23a501b0d54c6892b969e2a55145.1713874657.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas: Fix R-Car Gen4
+ SoC-specific compatibles
+Message-Id: <171396734270.1799261.6189828462792087587.b4-ty@kernel.org>
+Date: Wed, 24 Apr 2024 23:02:22 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,11 +50,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Tue, 23 Apr 2024 17:27:47 +0530, Mohammad Shehar Yaar Tausif wrote:
-> Convert NVIDIA Tegra20 AC97 binding to DT schema.
-> Change -gpio to -gpios in schema as "gpio" suffix is deprecated.
+On Tue, 23 Apr 2024 14:19:26 +0200, Geert Uytterhoeven wrote:
+> make dtbs_check:
 > 
+>     arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: sound@ec5a0000: compatible: 'oneOf' conditional failed, one must be fixed:
+> 	    ['renesas,rcar_sound-r8a779g0', 'renesas,rcar_sound-gen4'] is too short
+> 	    ...
+> 	    'renesas,rcar_sound-r8a779h0' was expected
 > 
+> [...]
 
 Applied to
 
@@ -64,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: tegra20-ac97: convert to dt schema
-      commit: 701a22fd9ffaa409bbd45c2936870341b3ad9fdb
+[1/1] ASoC: dt-bindings: renesas: Fix R-Car Gen4 SoC-specific compatibles
+      commit: 466c8c46b4ba763435b2a787b7824d9f0fd3e76e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
