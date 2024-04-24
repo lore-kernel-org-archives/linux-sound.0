@@ -1,133 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31001E4A9;
-	Wed, 24 Apr 2024 08:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2325C15821F;
+	Wed, 24 Apr 2024 13:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713947719; cv=none; b=P22+wxV0Z2W85QlpXVuuGFrExtdq75A1R/n1yMxG1AE3jFBwgyA7nVk0jOnQ6gaWCox6b5CwJapZ3nAVeIfGdW3ObWz9sj7OwkkWnxaP/Zr38Da6Wp4SM9/UpMNMAGbfMO1DX8nlH3Rnm9t5ACSDaF52JYqxShNv3Q73hdcX9lE=
+	t=1713964899; cv=none; b=cIRYZ21OFjZaxDZyX1HAV6BqfXduP0uSUwXGErUjykEywE9nOIkRjjwWK2aDCxT9qatjqSmm8nIllxE3BCnZABl4kWzyKxhvbPk1e3ZZXzqsGhNvLjqgz7dRxE/TKH4fidJyi1PPXMMoY6hKsYSGE8vydIYwBnmf9xoNowfCLmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713947719; c=relaxed/simple;
-	bh=Diwxh7oYymnJcN+8qW/fo95XYZ0IL5WSPMdte6hs+Ds=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bTQpyGYbrJIxr8FDIqENcf6gKlFShIq6HqDfbGYSaSBvdtD2+5qAACETQCl5mLBf5EO0522whJ561K7GoU0lFdmVswKburXk68TaSHL/ioOTQTrAhUbvw4cX2Y3yrSWNA2KASOEIgBeVIsBUqr+PfU0hd0SjNFQo+0GztEo0e8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z+fi5877; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DyW8cLV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z+fi5877; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DyW8cLV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1713964899; c=relaxed/simple;
+	bh=PJb7aHAZTGNRgu0ckayfF/yub4XepCE5tuhF1zIWTiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WaTfbFSb81IxzyC9ZwkY0fjJsHpFr9ti5iuMEpRta6uiOeMr2ov5h7Rz3wjkK/+u59n6bG1e9MBrv7wTSzUNA5ztjfkzc9Fxrbc+I4TJQwABUweb5ROc32ju8tv3LS3vm/dftV6ONLDDh1msx4iVl56NNblhnZalrU2RzHH20kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fW6lI8te; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z+fi5877";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DyW8cLV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z+fi5877";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DyW8cLV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B3F2A611F1;
-	Wed, 24 Apr 2024 08:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713947713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
-	b=Z+fi5877P1yRb5OnHCTwGKdKWopshyLSofJgIRzvxIrzDqmJ9mTx1p2ynY2q8zSYxEiryl
-	Wg0nTecO0P3olrNTwRs4B2yTxhpr4vU/0kQhYWid4JIpwbdHqCXFmgcJfB3QaqHl1o4Lha
-	lu1Rw0qz7uonv7zhqwJyB6p0grTdBCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713947713;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
-	b=6DyW8cLVMVbUb/MEmadxQ/VFqiQ6Z0besAc/QjIxj9cAx6C82avzUQrBfNhvuEItFiyEcC
-	eF43mJWiaUkbs7Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713947713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
-	b=Z+fi5877P1yRb5OnHCTwGKdKWopshyLSofJgIRzvxIrzDqmJ9mTx1p2ynY2q8zSYxEiryl
-	Wg0nTecO0P3olrNTwRs4B2yTxhpr4vU/0kQhYWid4JIpwbdHqCXFmgcJfB3QaqHl1o4Lha
-	lu1Rw0qz7uonv7zhqwJyB6p0grTdBCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713947713;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=elRg1WfuYIh3UN/+CGdWJcbo9zKqZDeKyAmj66ffYL0=;
-	b=6DyW8cLVMVbUb/MEmadxQ/VFqiQ6Z0besAc/QjIxj9cAx6C82avzUQrBfNhvuEItFiyEcC
-	eF43mJWiaUkbs7Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 847C71393C;
-	Wed, 24 Apr 2024 08:35:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wZmgH0HEKGaIKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 24 Apr 2024 08:35:13 +0000
-Date: Wed, 24 Apr 2024 10:35:23 +0200
-Message-ID: <87cyqfdupg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH v1 0/2] Add support for Lenovo Thinkbook 13X
-In-Reply-To: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
-References: <20240423162303.638211-1-sbinding@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fW6lI8te"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c6f785223fso273179b6e.1;
+        Wed, 24 Apr 2024 06:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713964897; x=1714569697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wiv6Ur85tzjJM8dSRsKgLVS3vAahPk5DSGQsWuI+AAc=;
+        b=fW6lI8tebGG7/w/zbI+fiOo/mU7sEuDu0HRVbx3K8x+sBcSSAKLwV1fbP2Ne7HDEjR
+         QW6skUgm5IvDbvGHLVRjXCXzHgjOLR+t8YMrI5YAhbHxF/AoKJXvjmHndjGJD6ikCwYz
+         H/+UDdHrQQz7Ua3SC/uioOJT3/AGYGPnTc6UBr90O59pJdW0RTexqF5RlNkqsQY9C/1v
+         HNCopS8m8P2kk/qukQyHKNzgVXEmmfT8df+qo8cur0K19TcZCZTgc6d53JIpyVesjl/v
+         tbXSV/aL6LX/UYOKP/vvCGLshrrrcH9yaavTUsLnJquGETd1W1+Op8Ld2wpsjF6mDf3D
+         Qq8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713964897; x=1714569697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wiv6Ur85tzjJM8dSRsKgLVS3vAahPk5DSGQsWuI+AAc=;
+        b=SXdnukk0F9XbeJAYpb50A6YvyR2P16hNm+9UGoDmZQiH/P7HJMnSD+JBC9ZCn91ZUB
+         5fhbqFoEmYMPnMdl97OIoO+8/skgmrrrlJOjrHOTmOnmsS8Bs1h9rgx4fzaP6NjJFbXX
+         1vaIQrVsis7VUTjxuRWGIhs1ltK5cF5nwrrgOq07txBgAl8YfbdmMzDRcO8hWzXEKTRK
+         Vpnkf3mQTwf4cEVhRR+HvMDLllei1oZFIaPP/h9ENg2lok2o3V2Rc9PGV6WLxrB+0cdX
+         ljAGA4n5+kfj/MLsTu/jbX1T8r/g7MgOXo6P6AgM6ZgQbYFcA2hooo6xDj2+C0NeTJtl
+         elTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSs6r0+DaLK6ZouBRbvNXac0pCI8/D2ThpJEui8rBcRyx7dK9W5utt17Ej2OYAJ6PHfmiBKwA/8FZ2oN33uqFq/U2dzOAhmX2CPRw=
+X-Gm-Message-State: AOJu0YwgRv2Bypqp1gk3XcY581kcToganf0LPY/kI7QLUGohDowVuVfg
+	HQZ8y7yyCzjumEaLhOaBaO0M0AGeNzr53Ds8Y6cOz1PmoV6rTkApZVyn6uJoY3ZVZBofvPl690l
+	y2fpZNkjRX/YJ/6l2dm5bPjgO37QwCon5ohf8gAvR
+X-Google-Smtp-Source: AGHT+IEGm4DC6PtDuqmtZywGCS4SdK012A7q67NCec7GTwwIxO9u+x9A90G1cJIOZJ6W3zMWnz+oTPEryI8qZy7CSDc=
+X-Received: by 2002:a05:6808:201e:b0:3c5:f29a:5fda with SMTP id
+ q30-20020a056808201e00b003c5f29a5fdamr2757356oiw.3.1713964897050; Wed, 24 Apr
+ 2024 06:21:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.45 / 50.00];
-	BAYES_HAM(-1.15)[88.70%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: -1.45
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
+ <874jcl7e83.wl-tiwai@suse.de> <CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
+ <87v851e2di.wl-tiwai@suse.de> <CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
+ <87h6glt9zc.wl-tiwai@suse.de> <CABXGCsMcazRvmiN4XtiHQCE9=dB=M=VsRqB=v+RPmtuhBL29DA@mail.gmail.com>
+ <a6f4e20ea2a68f56a7d2c4d76280bca44d6bf421.camel@gmail.com> <CABXGCsPdqfXeZUw1ocx8O3NdOEb+h4yQ77+zdNpcwP_4JrYXuQ@mail.gmail.com>
+In-Reply-To: <CABXGCsPdqfXeZUw1ocx8O3NdOEb+h4yQ77+zdNpcwP_4JrYXuQ@mail.gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Wed, 24 Apr 2024 18:21:26 +0500
+Message-ID: <CABXGCsMTbmU4CP8CHUqRVXWkGiErFtEVG4COy6RSRWsAuK_-CQ@mail.gmail.com>
+Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592
+ decrease 30% of gaming performance
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 23 Apr 2024 18:23:01 +0200,
-Stefan Binding wrote:
-> 
-> This laptop does not contain _DSD required to support CS35L41 HDA.
-> To workaround this, add support for this laptop into the configuration
-> table in cs35l41_hda_property.c.
-> Also add the required entry into patch_realtek for this SSID.
-> 
-> Stefan Binding (2):
->   ALSA: hda: cs35l41: Support Lenovo 13X laptop without _DSD
->   ALSA: hda/realtek: Add quirks for Lenovo 13X
+On Thu, Apr 18, 2024 at 11:22=E2=80=AFAM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
+>
+> On Tue, Apr 2, 2024 at 12:29=E2=80=AFAM <mikhail.v.gavrilov@gmail.com> wr=
+ote:
+> >
+> > On Mon, 2024-04-01 at 21:50 +0500, Mikhail Gavrilov wrote:
+> > > On Mon, Apr 1, 2024 at 7:48=E2=80=AFPM Takashi Iwai <tiwai@suse.de> w=
+rote:
+> > > >
+> > > >
+> > > > Then it shouldn't be dmix/dsnoop.  You'd better try profiling
+> > > > what's
+> > > > going on there.  e.g. try to get perf results with and without the
+> > > > commit.
+> > >
+> > >
+> > > Here is original perf files:
+> > > [1] perf-with-revert-587d67fd929a.data -
+> > > https://mega.nz/file/EpZmXbgL#vEnxuODoB__jM6TwV6XbwC_TWMMqvT7qaWkJU22=
+JY48
+> > > [2] perf-with-revert-587d67fd929a-beb45974dd49.data -
+> > > https://mega.nz/file/0lI31CDA#hKsv6vX7t5u-Sx1_p2E7-Y32-z5VFPlW2Y793oM=
+-JRU
+> > >
+>
+> Excuse me. Can you have time to look in my perf files?
+>
 
-Applied both patches now to for-next branch.
+This is a friendly reminder
 
-
-thanks,
-
-Takashi
+--=20
+Best Regards,
+Mike Gavrilov.
