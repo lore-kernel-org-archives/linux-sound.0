@@ -1,249 +1,69 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2077.outbound.protection.outlook.com [40.107.113.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A653A268
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 05:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714023165; cv=fail; b=GceW6pLtJ56KTSfK+Kn0gSbFp/na6oAvXzF/eYPumtyp531thbRuC84epF08E/vCYCTud+eteY1liFm36mt89Fd4cM7tamufah3AV3pPsJRZ+Lb1fgj0wgbf4W6rQUPX4oatnReVkdrr7h8W7CoqqMo0cLgs96rpd+O+Jh2QYEk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714023165; c=relaxed/simple;
-	bh=Ggwep8nMiwo+Aglr5IHs10LnuxmS/+iA9rpz1tsfgEE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TrGf8rAMw/vCGeA4upUuV2JsfR9+1ed3P+i/+NR7XzPmqTqKMzwe2L9ZE1kEt6PyyhZXmDC2FC9NvfeGc3yfyhzsUSzoNv2fKrg3Q+1majDC7EduR/F+TIgIOANizcU7iFo6kn/6/30qsX3T9EJZy+mWIprErpTGb8mvPHzXcCk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Z4xswkO6; arc=fail smtp.client-ip=40.107.113.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+Received: from mail-177132.yeah.net (mail-177132.yeah.net [123.58.177.132])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E34ED3BBF1;
+	Thu, 25 Apr 2024 06:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=123.58.177.132
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714025101; cv=none; b=m1okDRjbh/mCzoVCkQL/fvXHEfAwBeJ82YxwndVG9cWfm88TfxYqdcFyfN5Ih0yrQ2nKibVevPUjyanYAe1YQ2go90GZOAW8fYnz6fxWaxBVBziGF2W0hEtNV+qU48lX7ssNeH2fqzNqBSJH6nZF/eiwl2qeSUNzpPP5WDONxzs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714025101; c=relaxed/simple;
+	bh=QUQG+Au4nyfmFO8jA9DZFlZEoXZH4qWYwBsqjio9lYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnM69y9pohppJfoN63aQJzb/DY+kbKAtZRHUyhCpWC1mvVp9O15Pr+zTUIM3sp/CZ/2QOAhAm+9xHsY1FVmqeeLQqRi7Cw0FVjE5gExv3sOHOMslOzsijxmd6IIqFKfpGArvHJK/0On2DjIjbVgURShUc5DsO/aWQk8WTstqqQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=NPXOfC2K; arc=none smtp.client-ip=123.58.177.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Z4xswkO6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fe+1gZjnWDPaVaaxqslIxn0EWp6H+tMQ3xOS/6HQWoCXpsnqlA84HGQD08TKBRC0yZX/2eYPya93Qk6dtEaos1c6Gnh3JAEIblc5WZSPGtg9uLENDOXedFZZBKJymTZrJoazxBLd/v+pdRfRMKLpn+dRHwjd7LbiwOaQ4Dt5i67dtcnFyzSGI2Cn6IN4+EsDvq9ErK8jl+zDtYR/oKlSgF2O1lQPZT/kw7Cy3YyfHtSr77IXUhhvCERy+ll9WDcKYBdFl1/7TWvbvxMU/B56htZ6IehMWklam4LUr7VyGUmIVQhcgIl2UMb3I/4tV4Q14jeb6bfbCAJdXiJa1xed3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KOpXbb1cyYk77DpU2X8neU1jMem0/+GMcVgwFq52pQI=;
- b=X+3zaNT4HnSMzJ2Xx7HZoN9azZkS7VTPu1JINqvZSYFx1uhby+KWGcrjKMw+aREyd1Y6zgxS/UunkjBj7hXwfcBmXpGZ/3UF+o9fm23UPmP9dpH84tOkrgJ7xxy6eBvgGSZbk2qiKCIUYceqEN4aTaWMCUE0/jTOO3tkBFcyVgCSQ1K+ytXQ+h1mzN4rAPSfikmkbYPjuVj2YVS++zDhivjOeokCmLAOgcYGDtqL3qltssBW8k/RxCJsJrjxJqTlcttVENkjtTcBUbtSqAiriqpvr+do1fZF2SThDmvIJjqC9suCZAXpYQA7qt4gsV72BWbf1/XdGa+E4hhJXFQ2aQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KOpXbb1cyYk77DpU2X8neU1jMem0/+GMcVgwFq52pQI=;
- b=Z4xswkO6/SRBaWJLFTc/p5b/nVLgf8L7ZhSfTxg2q4TyXRxdwcfIjG9ZDmIJn39Qjt5EZcMZ3agOneqRRdkO19ljXRPP28bBVJWEDatqpcsZwQ4C4Mg9Bm+VjuIwLy7Mbm6t0FYIWNDUUg8GXNS8Lv1SZCyV2Vun9/AE7aaevSs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS0PR01MB5508.jpnprd01.prod.outlook.com
- (2603:1096:604:95::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.24; Thu, 25 Apr
- 2024 05:32:38 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7519.021; Thu, 25 Apr 2024
- 05:32:38 +0000
-Date: Thu, 25 Apr 2024 14:32:38 +0900
-Message-ID: <87plueovm1.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup soc_get_playback_capture()
-In-Reply-To: <87h6fsisn8.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
-	<87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
-	<a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-	<87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
-	<92054f87-dded-4b66-8108-8b2a10909883@linux.intel.com>
-	<87edaym2cg.wl-kuninori.morimoto.gx@renesas.com>
-	<93294e52-97e5-4441-a849-867429da6573@linux.intel.com>
-	<87h6fsisn8.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: TYCPR01CA0183.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="NPXOfC2K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=2C6s/85da0RJSSvd67KCawJgQFPLGk3aFoMgtZIA07M=;
+	b=NPXOfC2KCL7xEYNz1EvZHBo1DlzqOegVGr9frQA1NigmvYj9f1uyfQX56FAQWk
+	7N4BF0z4VXDpp7sQjU5PqaLrMum/7pCCY9m09mm0LdxKn/YcftzF8ofJjtu3pHNb
+	TOh5SbL2Drp7fLXxImJl88ff4J6ACI+td1iBzGji8aALE=
+Received: from dragon (unknown [223.68.79.243])
+	by smtp2 (Coremail) with SMTP id C1UQrADX31Bd8ilmYzhzBA--.7650S3;
+	Thu, 25 Apr 2024 14:04:16 +0800 (CST)
+Date: Thu, 25 Apr 2024 14:04:13 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/4] arm: dts: nxp: imx6: fix esai related dtb_check
+ warning
+Message-ID: <ZinyXZ6NhhX1ETlI@dragon>
+References: <20240416-esai_arm_dts_warning-v2-0-879e59c0c3b8@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS0PR01MB5508:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4882d7d6-8e9e-488b-a415-08dc64e91e8d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|52116005|1800799015|376005|366007|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?aOiuQEhYCVDlZMMxf791q9TPVPmD94GL/djpXUFHo6TQuft31YAIv5++vYBI?=
- =?us-ascii?Q?xyp2tBEUHYQ6EVDPF3fqsqaVkw5ZXbyTV1Pyf37Hj2jCdA9PWZO6EwgHH423?=
- =?us-ascii?Q?yP3gk+ztw8Qxk49g6EaW3zRqnvgtQN7h6C5dUzpKhGK0SBmIrGUFEJR91B8A?=
- =?us-ascii?Q?eLPUEFgLrjouY18/VvsA88tc3N5Pg8jLah2qENqxtbOC5OhQwUU5ZiiKE4pF?=
- =?us-ascii?Q?8pZfTAO2LTbqV7eeB/uf/CZdx7jzCO6l0slKCahVKBuGl6/OFgi/m6eYflSN?=
- =?us-ascii?Q?+vcCCK+X8d+uuVM+CzzCWofnicfr0DFxiFI4G+ynuYHUxneJG5RQhYx5iUGi?=
- =?us-ascii?Q?voWgy+yku7fOMq1gEUBI5m16fVG0ZFvicRDD+63TYbmA7dzSXzUEROML7J5u?=
- =?us-ascii?Q?O8Cp2UjYKaTs0nxxYxvNXAgp2soOIbMTooaNYRZ7bYFPCIRf+JO5C9qlSsxr?=
- =?us-ascii?Q?F/8SXN4SY7zySUAIHfJe5lnvRfDyaMO+FIjOAAJaFbRsHIejQG+VCl9UPkQN?=
- =?us-ascii?Q?/2hMZ/1n+KGyT0IXjKcevNwo9NApA3R3p35s8jGmj2XWKvVZed+B8bFjfVyT?=
- =?us-ascii?Q?6TeWwS04YYLZZPDOG0tuaNkMqtOlaACBGAx79lLkkg8Y43gkuLX9lgxqFQtS?=
- =?us-ascii?Q?3VlCcwLZbER7315z8lnKkf2f/unRqs1GmPji7eGoSMTadIBQL/H8WutODE7p?=
- =?us-ascii?Q?iWeRs/gLg7QSgBPlNJzEMCjs0Xl/u6t6LZgDi34sb39j0NIIwayo4xey/Baj?=
- =?us-ascii?Q?htmQg3dhwh4sk61NxUncl39laWIh7/4GB5/uHy0OBaDvXI90JdKaMWQrz3a3?=
- =?us-ascii?Q?8pbgOTlPJk2YByOlqVrZFR+Ygix/ONMirgJe/numDHwK3tIQPDS9QoCK09+K?=
- =?us-ascii?Q?lg1bjEPFDxHhIdgXeo5yoncYTtwYkiZb5x6WSYYa6IDJPnzcphck0hXqbeiN?=
- =?us-ascii?Q?8QhlZeD32X8pnRhPWIeu+4qZR7ES93Hkl6Mlxqe+2Sywq0EuH+i8/zRQ2uTi?=
- =?us-ascii?Q?em9zZQ9Fv9neDjdCZ4T4Kgn5CQCaptEfx1U4BmEZLw0dKoqmbjyARxWJmQ+E?=
- =?us-ascii?Q?NdF18olhywejqcMmUA5Dyr10amXm3uxQ53SyLoaJJbwcllVSAgXqcFnD2udz?=
- =?us-ascii?Q?1i2DF2ewSz9sWjiue2scK6vNqjA6/7TMdqMZD41/1lCYf5vtkZVjXXaWzLM8?=
- =?us-ascii?Q?NINkjor96Q1IAmjQz1M9lE4SdX49Sle9cAVg9O8f/yGneid6Rs4hya6e/liB?=
- =?us-ascii?Q?BFn9diC6HQNlsZ6FxJcpJjfhxpkrUIpb/sZaoyR7wQz9HubNrQIk8oWs5RvA?=
- =?us-ascii?Q?ossJ0WzVrhqhF2MEuTPpacZBakBs+3u4CGMJe2WjidjXRg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(1800799015)(376005)(366007)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BS/SSje9yyWzvgupKlKxBg4Dj2PZ64GNZT/1CpnPf+Dc/b3hYUE8e18PeKKA?=
- =?us-ascii?Q?LKbA4bVcMb4IsHU5W0oB1StKpQPlInGRXgb0uCiA+JvNXOzWuEtbCOFg8cxx?=
- =?us-ascii?Q?ZtHxIy4qe4UFVjY1mWLK+sd5moQSUaGm3Of0FU4GTa3h/N63CIfdRZIUlvBQ?=
- =?us-ascii?Q?XCS3mXkBMHepEH4UEe/i3xRWrl6MPJ/QomAoq1RwOdmS/jJoHIMHWnmWdJCR?=
- =?us-ascii?Q?5rp8wSP9f30PrXZKsyDu2NLGsr+gASz/Z6MeCFYb9swiJllQ3qkT9xb4z4+z?=
- =?us-ascii?Q?2vK6gTkpMfV9Os+YNY3jMN/QKbXtrH2G6hcmojOwdXV0XTxxHUQWDqTpV4m7?=
- =?us-ascii?Q?1YVOUwno1mvIOA9iN3GTGwR6jv/WQn1cbMVNzxGtUuz5PwwMXhrgats0olSZ?=
- =?us-ascii?Q?rvd5iICqd39CiFS+MjaLTfwyWSN8tG70WaplaRI1ZGHLE/doSCM0EPQRv8jg?=
- =?us-ascii?Q?jehWt2y0Su5RmckQmPmVspZqgSFfo23sQcugtgLl7E/Ia7IWZ29irRDZuEcR?=
- =?us-ascii?Q?G+XjXVsBPUpDk7JmCm3txqO7hfxFlE1lEYvG92Zc+TwjQt8mDaffGQ76G4kW?=
- =?us-ascii?Q?k8CFpAO1rRdzTpgf8viYXH5ZzJe++Ez7bvWeiBNoSbQudYPRCrdtglk+UCeP?=
- =?us-ascii?Q?v4FISKcaugNoWs8Ys1dpaTgc4czo+dAGi4r13hS0vzmT6oTmYK3cR6QHF1dx?=
- =?us-ascii?Q?FDxU9oehCFYGbxplRBjxBbR5UkE3xczxCVzQ7K9G6FTzxt0BsLs0YEPt/Wy3?=
- =?us-ascii?Q?ZXsTRhnMRW/Ig8F/kyT3kGBGM1FEE4QGWQNTedw3yPbHYCag7MHtFuafwEgn?=
- =?us-ascii?Q?oHs1dAAky6tQBlpV2cl+5VPHCLvjpmy1USVoA2XpmLWS58T8FayDaStO0ph0?=
- =?us-ascii?Q?3TxhI9MWHPlGtNl5Zht6d5U7alOxRpu0EUZjqfE3GrhZO1FHUGeY15vCdYkV?=
- =?us-ascii?Q?okq7HK3bJWi+UhKqbAQk2gKIgIkX9djFGSjprsRtIHfWu302wQMLC+vnjOU/?=
- =?us-ascii?Q?oxL7zTcvODsGlSRzQVX3iezK4+8OUkBJlHXhO8s1VEktnu6AvZu0io7t2Vjk?=
- =?us-ascii?Q?IXYqw8YYzhFdKvWs9TwxZKaVDMBXLaRXKa3x4uhEKnX3R+BDSEisA9KDutHt?=
- =?us-ascii?Q?A6cAKdkBBtG5vsA1Ytc++d3MBbg+FLtBbmWm29ecIEAkQEOzc1nagCBcOplN?=
- =?us-ascii?Q?5+VX2/PabwrCqSjhE67DiOgfvOxZLC1Cm3+1hZhpLYK9gdI9YfXNf6tuYbB+?=
- =?us-ascii?Q?XFHWb+tsJpurGdrr1kr8Wy6pEmQzLF3NQ6ozQ974aJdW3iR4MpXaPXk/DtnX?=
- =?us-ascii?Q?mj63pUa93vXSZ+OZYhAhjLpX6GsQ6tPxjU7CJXgt33gCpg+FSyH6Lie3WK0F?=
- =?us-ascii?Q?4Tw9+7x5fEywPCSRxTFPLxKcnATKu9AgYItUN+6TyAW4FO1Zd5hL8gwgOPtU?=
- =?us-ascii?Q?BBKcc+w9J2EgaoMnS+57SR84u5W9LhmyeyAsVaH27G7Swx5niGJCzB5r/yCe?=
- =?us-ascii?Q?S06FcrWJxaptVp3N1UGFLEznuPSTGrEfVf55tbeN4aM9kAB61jq56jYaZKfE?=
- =?us-ascii?Q?5Bo2i+yW0iclwwhAvS6/qBivJczmmgmapv4HidPznNo3mBxkvqLzoRHUDdHl?=
- =?us-ascii?Q?7Vsl64LbyWKA7B4G4MNkoKk=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4882d7d6-8e9e-488b-a415-08dc64e91e8d
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2024 05:32:38.3957
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +57Wl0/uZM22hG1CsQ4FUO0hOVNmjMsLBzZAezgrvE/twO0V2/XeX0VwHQNxOG3oF9Dc9C+4HzVZ/3n4/R3AmSNAf7DyGUbICdxRlEcn0YWe8X6/S+oOFDcxJneaLQUh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5508
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416-esai_arm_dts_warning-v2-0-879e59c0c3b8@nxp.com>
+X-CM-TRANSID:C1UQrADX31Bd8ilmYzhzBA--.7650S3
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUV73kDUUUU
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiGAHLZV6Nnuy2QQAAsh
 
+On Tue, Apr 16, 2024 at 10:47:46AM -0400, Frank Li wrote:
+> Frank Li (4):
+...
+>       arm: dts: nxp: imx6sx: fix esai related warning when do dtb_check
+>       arm: dts: nxp: imx6qdl: fix esai clock warning when do dtb_check
 
-Hi Pierre-Louis, Mark
+We historically use prefix "ARM: dts: ..." for i.MX arm DTS changes.
 
-Because Japanese will dive into long vacation since next week,
-I want to post mail before that. I will back at 7th May.
+Fixed them up and applied.
 
-> > > (B) commit 1e9de42f4324b91ce2e9da0939cab8fc6ae93893
-> > > ("Explicitly set BE DAI link supported stream directions") force use to
-> > > dpcm_xxx flag
-> > > 
-> > > 	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
-> > > 		playback = rtd->dai_link->dpcm_playback;
-> > > 		capture = rtd->dai_link->dpcm_capture;
-> > 
-> > The reason for this (B) addition is very clear from the commit message
-> > 
-> > "
-> > Some BE DAIs can be "dummy" (when the DSP is controlling the DAI) and as
-> > such wont have set a minimum number of playback or capture channels
-> > required for BE DAI registration (to establish supported stream directions).
-> > "
-> 
-> I'm still not yet 100% understand around this "dummy" DAI, but is it
-> *not* soc-utils.c :: dummy_dai, but some original dummy DAI is used
-> somewhere ?
-> 
-> I know ${LINUX}/sound/soc/codecs/hda.c :: card_binder_dai is one of
-> the DAI which is used but doesn't have channels_min.
-> I think it is used as BE "Codec", but code is checking "CPU" side.
-> 
-> Do you know what does this "BE dummy DAI" specifically means here?
+Shawn
 
-	(A) : checked CPU capabilities
-	(B) : uses dpcm_xxx flag
-	(C) : checks both dpcm_xxx and capabilities
-	...
-
-In my understanding, in summary, this dpcm_xxx flag was added to rescue
-dummy DAI which is used on DCPM BE as CPU at (B), because some of them
-might not have channels_min (This "dummy DAI" is not same as soc-utils's
-dummy DAI). Let's name it as "no_chan_DAI" here.
-In this patch, it was added as "mandatory flag", not "option flag",
-thus all DPCM needed to use this dpcm_xxx flag.
-
-After that (C) was added, but it was contradiction, because
-it checks both dpcm_xxx and channels_min.
-If my understanding was correct, original "no_chan_DAI" was supposed to
-stop working, because it doesn't have channels_min. But there is no
-such report after (C), during this 4 years.
-We don't know which DAI is the "no_chan_DAI" (?)
-
-Possibilities are as follows
-	- No one is using "no_chan_DAI"
-	- "no_chan_DAI" is no longer exist : it was removed ?
-	- "no_chan_DAI" is no longer exist : it has channels_min ?
-
-If my expectation was correct, we don't need dpcm_xxx anymore.
-
-But because we have been used dpcm_xxx for 10 years since (B),
-I understand to feel anxious to suddenly remove dpcm_xxx.
-I think it should be removed anyway, but want to have grace time ?
-If so, the idea is that we can use it as "option flag" instead of
-"mandatory flag" for a while, like below
-
-	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
-		playback = (cpu_dai->driver->playback.channels_min > 0) ||
-			   rtd->dai_link->dpcm_playback;
-		capture  = (cpu_dai->driver->capture.channels_min  > 0) ||
-			   rtd->dai_link->dpcm_capture;
-
-* maybe we want to indicate message like "place re-check the flag and
-  remove it" via dev_info() if dpcm_xxx flag was used ?
-
-I think +2 kernel version or so is enough for grace time ?
-After that, we can remove dpcm_xxx flag.
-
-When we consider it very detail, above code can't 100% keep compatibility
-if the user have been used this dpcm_xxx flag to limit availability,
-for example in case of DAI can use both playback/capture, but it had
-dpcm_playback flag only. But it can use playback_only flag, instead.
-But it is very difficult to find such DAI. Each user need to check.
-
-I personally think that remove dpcm_xxx directly is no ploblem, but what
-do you think ? I'm happy to hear any opinion, and happy to create
-grace time code if someone want, but if there was no comment during
-Japanese long vacation, I will create patch to remove dpcm_xxx directly.
-
-
-BTW, I would like to know detail things around this topic. I'm happy if
-someone knows it.
-
-* Why dummy DAI doesn't/can't have channels_min ?
-
-* Why it checks CPU side channels_min only when DPCM ?
-  I think it should check both CPU and Codec.
-  I could understand if it checks FE:CPU and BE:Codec (it is assuming
-  other side was dummy), but both (FE/BE) check CPU side only...
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
