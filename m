@@ -1,45 +1,45 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C72C180A65;
-	Thu, 25 Apr 2024 21:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB7D181CF0;
+	Thu, 25 Apr 2024 21:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714081944; cv=none; b=bya6iGLOetHOTuba+MXqFPj/xIcviR9Ny77Vx46HL9Lzt8HvJtOUu+eHIv5r9MLt7TSbtxcRenZytX7TwChKs97Te61n4mHzLVsxsnDSx0QiU7LFz7toWf0QMpgDtZJ1j8HqL7YoWNM9CJ8nDP4VXUkJgIz/xCo7LwZD1rNVayE=
+	t=1714081944; cv=none; b=Dcmsp5vOZ32H1TnOG6gGDik5uVJPxLe/xnFTHijE6NppOeNQyqxiG9j/Kmc46FVmxprv/lztXSu8m1NoeH/OVEMTKkpy7jxdy4RD5kda7fFsRXM2rNJDSM8T6P61s/J3H6EoPDO1aKIGkchDhIIqW6+khSeZl3cSUAbz7ultVzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714081944; c=relaxed/simple;
-	bh=PWlGUkiEah+19M8MQ+t1Y+mIvoQFQL9/weVYTUqVCZ4=;
+	bh=HatCXrKbB2dW03v6FFj4WAg4Ef2LAgC0P7KuQ+/6pw4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QdgfiT/VYnba72KEq2c0lQLXUxJKMal0Fp4xeexmjyN/NMqzKMcL/vbEnkxk5VzXlDQKZmTWbStv1qEt/ZmVNBzNymGnmIz63S2w/H8zyLrwHoxPXcjedFFzB6saknttpELiUeGU0O9S825YkzZ2tT/kLhsag2k29oXcmRHLgBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kHI7XXeJ; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=X1jEA5+wbn2kz124W40W74VlPvfVfmSW3TG8Sjqk5E987wlB5waAYu5cTBmrFqoW4UohD5ZEa/y1kOq1r2OH/L2HDz+gzNuRtmjcIiW9MbG/mYYi4K7aLBv/ymX9H2k8KDxvkq+eTivJyw7QwVTYE6lEvIEqeTgAIv0T/fbEZmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XrYwrGJy; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kHI7XXeJ"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PKjNq6018208;
-	Thu, 25 Apr 2024 21:51:38 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XrYwrGJy"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PLS2on030011;
+	Thu, 25 Apr 2024 21:51:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=hGMyLj4sD62XEViOiB5k
-	V0hkdAt6DBAt8+CP08yeTHM=; b=kHI7XXeJZFbf48VoLGKQm0lnnF/aYCKHbR2S
-	YcD/OQaT0Hpy8LDdBHoMybmbDCYx1Tqj28Cu6cP0zibhsvWWf26ZfhfI4WsetboA
-	SyfS2FWaKSUj4/5z6oJ5Y8YzdtxjnoP0/zHfxWA28IHc7JZK3rJG3x/VK9EpNUTx
-	JfoDrp2dZ2T/S564b/rsgw/8xDRNe6e3L+vjsLSCKfnwb2edFpQAhugjgMLWxsH7
-	I0BgM6QPz2OYiJeaiP4Ukz2Y5o8ZZKE1ruQ1Sx3eQ/AfGV52gXkz508T7VkBimcr
-	ZQtoduy9vyHUN1Y4mQlf3LFLjwKek9ab0j5AAFaHDVEMpWf6Hw==
+	:mime-version:content-type; s=qcppdkim1; bh=eYqTxR4oahFBxiAY8wO2
+	h810DsVvVFBwbpackgBgnJk=; b=XrYwrGJyKzY0+pmBL3VHh/kabw3x8yGR1wtk
+	3bi6Y20fswy941ju81EJrj1EAv5fIH9w9mmGjYd29MbTq6MFo/UWggi93iSRVOZp
+	O1Dd353fUhWOYWkTINAvybMobpvlk09wfydBm1R107vhnrvBx86vsF59BFHK7hni
+	7S0S4gPY0WyxJXiDjq/gBj9jhSFQxPKY7lgeqNMQCQvfL/MsQsK6kvUAv5EWrmjv
+	J65qTXLga10+oCullZ7idyVYdLrGVn+vIcSZuPW6F7CToI8oYsNigyoRJTBY3TFz
+	W440fgFFBFQmxdKmaAM/KgGni9k3mM6Gkh0d0OI+ykxefvKMiw==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqenh3s5w-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqenkks43-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 21:51:38 +0000 (GMT)
+	Thu, 25 Apr 2024 21:51:47 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PLpbZQ015419
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PLpkZm015489
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 21:51:37 GMT
+	Thu, 25 Apr 2024 21:51:46 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 25 Apr 2024 14:51:37 -0700
+ 15.2.1544.9; Thu, 25 Apr 2024 14:51:45 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -52,9 +52,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v20 02/41] usb: host: xhci: Export enable and disable interrupter APIs
-Date: Thu, 25 Apr 2024 14:50:46 -0700
-Message-ID: <20240425215125.29761-3-quic_wcheng@quicinc.com>
+Subject: [PATCH v20 33/41] ASoC: usb: Create SOC USB SND jack kcontrol
+Date: Thu, 25 Apr 2024 14:51:17 -0700
+Message-ID: <20240425215125.29761-34-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240425215125.29761-1-quic_wcheng@quicinc.com>
 References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
@@ -69,69 +69,116 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 5zUTMpf3tQDZtCDX9lO085TbFdhvysvd
-X-Proofpoint-GUID: 5zUTMpf3tQDZtCDX9lO085TbFdhvysvd
+X-Proofpoint-ORIG-GUID: -jkTvdWAaae0itUboYrRKLHyZmSHYuEx
+X-Proofpoint-GUID: -jkTvdWAaae0itUboYrRKLHyZmSHYuEx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-04-25_21,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- mlxlogscore=671 bulkscore=0 clxscore=1015 suspectscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ mlxlogscore=852 priorityscore=1501 impostorscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2404010003 definitions=main-2404250159
 
-Secondary interrupters can be OS owned, so expose the enable and disable
-interrupter APIs, so that the interrupts can be configured as requested
-depending on the client.
+Expose API for creation of a jack control for notifying of available
+devices that are plugged in/discovered, and that support offloading.  This
+allows for control names to be standardized across implementations of USB
+audio offloading.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci.c | 6 ++++--
- drivers/usb/host/xhci.h | 2 ++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ include/sound/soc-usb.h | 10 ++++++++++
+ sound/soc/soc-usb.c     | 37 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 0680f4703c92..061cb60ffac1 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -320,7 +320,7 @@ static void xhci_zero_64b_regs(struct xhci_hcd *xhci)
- 		xhci_info(xhci, "Fault detected\n");
+diff --git a/include/sound/soc-usb.h b/include/sound/soc-usb.h
+index 5e6076f65a41..3137f538270f 100644
+--- a/include/sound/soc-usb.h
++++ b/include/sound/soc-usb.h
+@@ -6,6 +6,8 @@
+ #ifndef __LINUX_SND_SOC_USB_H
+ #define __LINUX_SND_SOC_USB_H
+ 
++#include <sound/soc.h>
++
+ enum snd_soc_usb_kctl {
+ 	SND_SOC_USB_KCTL_CARD_ROUTE,
+ 	SND_SOC_USB_KCTL_PCM_ROUTE,
+@@ -88,6 +90,8 @@ int snd_soc_usb_prepare_session(struct snd_soc_usb *usb, int card_idx, int pcm_i
+ int snd_soc_usb_shutdown_session(struct snd_soc_usb *usb, int session_id);
+ int snd_soc_usb_set_session_state(struct snd_soc_usb *usb, int session_id,
+ 				  enum snd_soc_usb_dai_state state);
++int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++					struct snd_soc_jack *jack);
+ 
+ struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+ 					      int num_streams, void *data);
+@@ -143,6 +147,12 @@ static inline int snd_soc_usb_set_session_state(struct snd_soc_usb *usb,
+ 	return -EINVAL;
  }
  
--static int xhci_enable_interrupter(struct xhci_interrupter *ir)
-+int xhci_enable_interrupter(struct xhci_interrupter *ir)
++static inline int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++						 struct snd_soc_jack *jack)
++{
++	return -ENODEV;
++}
++
+ static inline struct snd_soc_usb *snd_soc_usb_allocate_port(
+ 					      struct snd_soc_component *component,
+ 					      int num_streams, void *data)
+diff --git a/sound/soc/soc-usb.c b/sound/soc/soc-usb.c
+index e291f146a79d..27c76a33da32 100644
+--- a/sound/soc/soc-usb.c
++++ b/sound/soc/soc-usb.c
+@@ -4,8 +4,10 @@
+  */
+ #include <linux/of.h>
+ #include <linux/usb.h>
+-#include <sound/soc.h>
++
++#include <sound/jack.h>
+ #include <sound/soc-usb.h>
++
+ #include "../usb/card.h"
+ 
+ static DEFINE_MUTEX(ctx_mutex);
+@@ -42,6 +44,39 @@ static struct snd_soc_usb *snd_soc_find_usb_ctx(struct device_node *node)
+ }
+ 
+ /* SOC USB sound kcontrols */
++/**
++ * snd_soc_usb_setup_offload_jack() - Create USB offloading jack
++ * @component: USB DPCM backend DAI component
++ * @jack: jack structure to create
++ *
++ * Creates a jack device for notifying userspace of the availability
++ * of an offload capable device.
++ *
++ * Returns 0 on success, negative on error.
++ *
++ */
++int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
++					struct snd_soc_jack *jack)
++{
++	int ret;
++
++	ret = snd_soc_card_jack_new(component->card, "USB Offload Playback Jack",
++					SND_JACK_HEADPHONE, jack);
++	if (ret < 0) {
++		dev_err(component->card->dev, "Unable to add USB offload jack\n");
++		return ret;
++	}
++
++	ret = snd_soc_component_set_jack(component, jack, NULL);
++	if (ret) {
++		dev_warn(component->card->dev, "Failed to set jack: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_soc_usb_setup_offload_jack);
++
+ static int snd_soc_usb_get_offload_card_status(struct snd_kcontrol *kcontrol,
+ 				   struct snd_ctl_elem_value *ucontrol)
  {
- 	u32 iman;
- 
-@@ -332,8 +332,9 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(xhci_enable_interrupter);
- 
--static int xhci_disable_interrupter(struct xhci_interrupter *ir)
-+int xhci_disable_interrupter(struct xhci_interrupter *ir)
- {
- 	u32 iman;
- 
-@@ -345,6 +346,7 @@ static int xhci_disable_interrupter(struct xhci_interrupter *ir)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(xhci_disable_interrupter);
- 
- /* interrupt moderation interval imod_interval in nanoseconds */
- static int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 0f3ae08507ed..dbed0199aa5c 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1873,6 +1873,8 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
- 		struct xhci_virt_device *virt_dev,
- 		struct usb_device *hdev,
- 		struct usb_tt *tt, gfp_t mem_flags);
-+int xhci_enable_interrupter(struct xhci_interrupter *ir);
-+int xhci_disable_interrupter(struct xhci_interrupter *ir);
- 
- /* xHCI ring, segment, TRB, and TD functions */
- dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
