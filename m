@@ -1,184 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6FB1494DB
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 15:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D910149E0A;
+	Thu, 25 Apr 2024 15:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714058446; cv=none; b=OfKx3jlmYXZ0Ba9Z6wqoz+unSd4SrzU14+ayaGw80/HTgz1ikrALEeVLcQFz5NIpBKlbi25bAVCNwGPpNWzA8D/clR9JBN7Qks2bHyQG4AzEVKFhCqa/MYrM8D2yLK79+/72TrisSLJnOEYlpMe97tBn/deSXGHNhARcMRn8nEU=
+	t=1714059082; cv=none; b=sucFJyRnqszt37jUZw8tCBlNCG1WSgNRF3VMsIdjSyR8H1miErAN42iv8hly5FrmS7p3bHqyhnLuXevJGVxoAQWBI5YOJVE8f0N+eNMCkhmdLhKjryMxTBMEA+lUzStEiHOm5CTecZK8AV/s25mQ272Ld72W1HXTRpXY2i78VKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714058446; c=relaxed/simple;
-	bh=mmLsdfjl+vt5s+WbAbjRVO5Rv2WciQMRN+lZc7QYbGI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6AT2qn1XKwC7Jm1nCyYlblhD/gtLw15SuIhMlDzsx9bNsw6RacI8EYA9s+Eoohh2mCALYtNG/DUDo2vFy+PThem0y4HDJm/2PqKvLRZk/pdMXehXgjcIz2EUYIkDIfgodpe1IihZ3komBwYjuls43jBq+XzVqwfI98X3B5KxFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQyTmgCH; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714059082; c=relaxed/simple;
+	bh=kx5+gE45WMQP6pGFUjecoShicQtKbjBVqw5ZcMyBzA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KSESe+52VEjC7lzCpcWqT7Q5t9jRtOpsGM+8kEt61K0Gxluj6tNKIrUiEd4g+LDCS5H+4l+NKnum2BA1NIwyeVmnZHlGFPpxEFrxT6bvshx55hc3Q47kJHkul/FJHSD0QX4nfksAaC5M4ffPdIFVmgmm9hZYOgBgAd/50FWmWQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fy8KimcW; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQyTmgCH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714058445; x=1745594445;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=mmLsdfjl+vt5s+WbAbjRVO5Rv2WciQMRN+lZc7QYbGI=;
-  b=OQyTmgCH9JYY/SWZWJ1mumRH7OvQRQFw5bg8VB7gW0hSqfp7S2HDJO+u
-   d28w3DkJ1n6NjT67yAY4pLdUgr9w38JvRBz60/LASnUFUa6gD/UHMTrt0
-   ONpR7Q7ytngj94sqP6Hxm+XvgKCU13v5DeRgSOk4NmzPy2y/PSB4YyiPG
-   L/AJHOvNyFShYry/zixfCfc0gjfe7J+ismCZY7X+2IUaNtisFaFCs2pCG
-   KxA8qVc0+MfM/3KJsJXQ1nN/LwF5zxPKtqW22IElQMfFVHKoW3G9M865K
-   OqiLOIXr26PdxSeYbvB6d9QakxHczOZVo+y5eQ6ran2bOEQia+ITQ9jV7
-   w==;
-X-CSE-ConnectionGUID: MsaTSyRHRGO5GLY5OoEXcg==
-X-CSE-MsgGUID: aLhYtdq9RtmKziMNE7kZ7A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="21160638"
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="21160638"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 08:20:44 -0700
-X-CSE-ConnectionGUID: UNOZuSbNRQmT8vF2T00TrQ==
-X-CSE-MsgGUID: 1j5XIcEYSZ2SAI43Ch6clA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="25170934"
-Received: from shivapri-mobl.amr.corp.intel.com (HELO [10.209.176.73]) ([10.209.176.73])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 08:20:44 -0700
-Message-ID: <f65efc7b-d268-4b39-8665-5c4fe8e3ca1a@linux.intel.com>
-Date: Thu, 25 Apr 2024 10:20:43 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fy8KimcW"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f26588dd5eso1004899b3a.0;
+        Thu, 25 Apr 2024 08:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714059080; x=1714663880; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rBERq5/uHp8GRTEc93jIGVH7PZTLRmKPZLsYuH5mF3k=;
+        b=fy8KimcWyBO1+ZNq+di8d2eFfPi3nH3sPaJ5TVKMquEKJqRzIxmb0z8xySwbY/ndma
+         gfllyCyn6yEzGYsW4l6wmG7ftVELXVQgtAdwptMgSJqEY10ZgCOdLN4MmNIBOnvqaDXN
+         3GPPH1NFY6WMyKl3rpQ9ktUm37Yl/+7+EjhfjmQbxBQcMEB3XY4t1+6u+71n1eJrJiLO
+         J7Ye6mdw/AaJF0BqoF1LM04fwJGR66xxEIhja+xscMyQ8F+kFhHmlRMO17td8DbL8bij
+         B0Ep1dIgZFed86fY4Z4bI5OQGCIebN67n4GnSZ9gpYWWbLxXQWVBYA7QCmtg17aMy3cd
+         JHPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714059080; x=1714663880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rBERq5/uHp8GRTEc93jIGVH7PZTLRmKPZLsYuH5mF3k=;
+        b=i9NY1WiRmqhHiH2lLwG5vuVBjOQtkaQ6VBvyr+nxnV5Sxy321de9D31Rv+h0QZobqH
+         UbXPYufvV0NVcQtbjSSzxRpfEBs3TszF+7f5WDWsW0VfBDALSa3LP9PvMsourwlfjwdH
+         W+yGgFZYJZxXsjFMJUWG4RBAvefhFq+8lqtJW+WwogiC4hITYTPiHfAL2YrGEXCGxg0+
+         z6NA0xSkwAXfXB/6nK5l84teWspJCjjdsnRS9T1q/nRWXtxdEVGjsgrafrHh3fN6typX
+         z+NBL3QQvulGLejByi6OdKvTqPndL3U9w4UvRhjMBbtAOGTqRDvCXbK4X5upc2CZcB2K
+         r6VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5TkWKrn9LpDMBEBS1eTwnkKKTRxOQH2dKWGgdMHm0K7wvHQ9/clMG0oZ+Hz5JY/Kmpev/1lYwlgkF1iQ51iYYz11lwIvSNv3WbUNIqJjjqC20l8mfpFFfSl3JFfgkzgz07VaJevEKSdb7RRxIYrgH5TplWi1sDHXVaaa1/hgnNGNfiAYU2b6PMGid0LXKC7ugk6ljymWf6W+VzEAROq5fNAQ=
+X-Gm-Message-State: AOJu0Yz4exfomqlB+dOEbhxdkLFNwvPc2Bvok3IRxZ0++ZiAnhkw8K66
+	m5GAmz0n0SAaIQHXrCt7snexOrLO2lO7HWyhb1gRwJVYKpkT8EXe
+X-Google-Smtp-Source: AGHT+IHlGWIXHIsV6x+Fn8uMP/x32pOhS4eia4ZjTF6cFW3rXTkhjaEK7imtaLKQ6B9z0Fwsf3z4Bw==
+X-Received: by 2002:a05:6a20:de93:b0:1ad:47c1:7a53 with SMTP id la19-20020a056a20de9300b001ad47c17a53mr4870353pzb.54.1714059079631;
+        Thu, 25 Apr 2024 08:31:19 -0700 (PDT)
+Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
+        by smtp.gmail.com with UTF8SMTPSA id b19-20020a056a000a9300b006eae3aac040sm13269777pfl.31.2024.04.25.08.31.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Apr 2024 08:31:19 -0700 (PDT)
+From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+Date: Thu, 25 Apr 2024 21:00:43 +0530
+Message-ID: <20240425153045.49939-1-sheharyaar48@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup
- soc_get_playback_capture()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
- <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
- <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
- <92054f87-dded-4b66-8108-8b2a10909883@linux.intel.com>
- <87edaym2cg.wl-kuninori.morimoto.gx@renesas.com>
- <93294e52-97e5-4441-a849-867429da6573@linux.intel.com>
- <87h6fsisn8.wl-kuninori.morimoto.gx@renesas.com>
- <87plueovm1.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87plueovm1.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Convert NVIDIA Tegra30 I2S binding to DT schema and
+add "clock-names" property used by multiple tegra i2s blocks
+in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
+required property by the binding.
 
+Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+---
+Changes v3->v4:
+- removed redundant example
+- defined clock-names property
 
+v3:
+https://lore.kernel.org/all/20240425090716.176818-1-sheharyaar48@gmail.com/
+---
+ .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 ------
+ .../bindings/sound/nvidia,tegra30-i2s.yaml    | 83 +++++++++++++++++++
+ 2 files changed, 83 insertions(+), 27 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
 
-> Because Japanese will dive into long vacation since next week,
-> I want to post mail before that. I will back at 7th May.
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+deleted file mode 100644
+index 38caa936f6f8..000000000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
++++ /dev/null
+@@ -1,27 +0,0 @@
+-NVIDIA Tegra30 I2S controller
+-
+-Required properties:
+-- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
+-  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
+-  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
+-  tegra114 or tegra132.
+-- reg : Should contain I2S registers location and length
+-- clocks : Must contain one entry, for the module clock.
+-  See ../clocks/clock-bindings.txt for details.
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries:
+-  - i2s
+-- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
+-  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
+-
+-Example:
+-
+-i2s@70080300 {
+-	compatible = "nvidia,tegra30-i2s";
+-	reg = <0x70080300 0x100>;
+-	nvidia,ahub-cif-ids = <4 4>;
+-	clocks = <&tegra_car 11>;
+-	resets = <&tegra_car 11>;
+-	reset-names = "i2s";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+new file mode 100644
+index 000000000000..13cee366f5b3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra30 I2S controller
++
++maintainers:
++  - Thierry Reding <treding@nvidia.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - nvidia,tegra124-i2s
++          - nvidia,tegra30-i2s
++      - items:
++          - enum:
++              - nvidia,tegra114-i2s
++              - nvidia,tegra132-i2s
++          - enum:
++              - nvidia,tegra124-i2s
++              - nvidia,tegra30-i2s
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: i2s
++
++  resets:
++    maxItems: 1
++
++  reset-names:
++    const: i2s
++
++  nvidia,ahub-cif-ids:
++    description: list of AHUB CIF IDs
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    items:
++      - description: rx (playback)
++      - description: tx (capture)
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - resets
++  - reset-names
++  - nvidia,ahub-cif-ids
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/tegra30-car.h>
++
++    i2s@70080300 {
++        compatible = "nvidia,tegra30-i2s";
++        reg = <0x70080300 0x100>;
++        nvidia,ahub-cif-ids = <4 4>;
++        clocks = <&tegra_car TEGRA30_CLK_I2S0>;
++        resets = <&tegra_car 30>;
++        reset-names = "i2s";
++    };
++  - |
++    #include <dt-bindings/clock/tegra124-car.h>
++
++    i2s@70301100 {
++        compatible = "nvidia,tegra124-i2s";
++        reg = <0x70301100 0x100>;
++        nvidia,ahub-cif-ids = <5 5>;
++        clocks = <&tegra_car TEGRA124_CLK_I2S1>;
++        clock-names = "i2s";
++        resets = <&tegra_car 11>;
++        reset-names = "i2s";
++    };
++...
+-- 
+2.44.0
 
-Enjoy!
-
->>>> (B) commit 1e9de42f4324b91ce2e9da0939cab8fc6ae93893
->>>> ("Explicitly set BE DAI link supported stream directions") force use to
->>>> dpcm_xxx flag
->>>>
->>>> 	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
->>>> 		playback = rtd->dai_link->dpcm_playback;
->>>> 		capture = rtd->dai_link->dpcm_capture;
->>>
->>> The reason for this (B) addition is very clear from the commit message
->>>
->>> "
->>> Some BE DAIs can be "dummy" (when the DSP is controlling the DAI) and as
->>> such wont have set a minimum number of playback or capture channels
->>> required for BE DAI registration (to establish supported stream directions).
->>> "
->>
->> I'm still not yet 100% understand around this "dummy" DAI, but is it
->> *not* soc-utils.c :: dummy_dai, but some original dummy DAI is used
->> somewhere ?
->>
->> I know ${LINUX}/sound/soc/codecs/hda.c :: card_binder_dai is one of
->> the DAI which is used but doesn't have channels_min.
->> I think it is used as BE "Codec", but code is checking "CPU" side.
->>
->> Do you know what does this "BE dummy DAI" specifically means here?
-> 
-> 	(A) : checked CPU capabilities
-> 	(B) : uses dpcm_xxx flag
-> 	(C) : checks both dpcm_xxx and capabilities
-> 	...
-> 
-> In my understanding, in summary, this dpcm_xxx flag was added to rescue
-> dummy DAI which is used on DCPM BE as CPU at (B), because some of them
-> might not have channels_min (This "dummy DAI" is not same as soc-utils's
-> dummy DAI). Let's name it as "no_chan_DAI" here.
-> In this patch, it was added as "mandatory flag", not "option flag",
-> thus all DPCM needed to use this dpcm_xxx flag.
-> 
-> After that (C) was added, but it was contradiction, because
-> it checks both dpcm_xxx and channels_min.
-> If my understanding was correct, original "no_chan_DAI" was supposed to
-> stop working, because it doesn't have channels_min. But there is no
-> such report after (C), during this 4 years.
-> We don't know which DAI is the "no_chan_DAI" (?)
-> 
-> Possibilities are as follows
-> 	- No one is using "no_chan_DAI"
-> 	- "no_chan_DAI" is no longer exist : it was removed ?
-> 	- "no_chan_DAI" is no longer exist : it has channels_min ?
-> 
-> If my expectation was correct, we don't need dpcm_xxx anymore.
-
-I agree with your analysis. We don't have a clear memory/understanding
-of which "no_chan_DAI" platforms (B) was supposed to handle, and why no
-one reported them as broken by (C).
-
-> But because we have been used dpcm_xxx for 10 years since (B),
-> I understand to feel anxious to suddenly remove dpcm_xxx.
-
-Indeed we err on the side of paranoia with such changes!
-
-> I think it should be removed anyway, but want to have grace time ?
-> If so, the idea is that we can use it as "option flag" instead of
-> "mandatory flag" for a while, like below
-> 
-> 	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
-> 		playback = (cpu_dai->driver->playback.channels_min > 0) ||
-> 			   rtd->dai_link->dpcm_playback;
-> 		capture  = (cpu_dai->driver->capture.channels_min  > 0) ||
-> 			   rtd->dai_link->dpcm_capture;
-> 
-> * maybe we want to indicate message like "place re-check the flag and
->   remove it" via dev_info() if dpcm_xxx flag was used ?
-> 
-> I think +2 kernel version or so is enough for grace time ?
-> After that, we can remove dpcm_xxx flag.
-
-I am good with that plan, but I'll need to investigate first why we had
-a failure with one of the Chromebooks on this v3 patchset. That may give
-us some insights on "special" uses of those flags.
-
-> When we consider it very detail, above code can't 100% keep compatibility
-> if the user have been used this dpcm_xxx flag to limit availability,
-> for example in case of DAI can use both playback/capture, but it had
-> dpcm_playback flag only. But it can use playback_only flag, instead.
-> But it is very difficult to find such DAI. Each user need to check.
-> 
-> I personally think that remove dpcm_xxx directly is no ploblem, but what
-> do you think ? I'm happy to hear any opinion, and happy to create
-> grace time code if someone want, but if there was no comment during
-> Japanese long vacation, I will create patch to remove dpcm_xxx directly.
-> 
-> 
-> BTW, I would like to know detail things around this topic. I'm happy if
-> someone knows it.
-> 
-> * Why dummy DAI doesn't/can't have channels_min ?
-> 
-> * Why it checks CPU side channels_min only when DPCM ?
->   I think it should check both CPU and Codec.
->   I could understand if it checks FE:CPU and BE:Codec (it is assuming
->   other side was dummy), but both (FE/BE) check CPU side only...
