@@ -1,73 +1,66 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246A7FBB0;
-	Thu, 25 Apr 2024 09:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB9484E06;
+	Thu, 25 Apr 2024 09:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714036045; cv=none; b=b/jPi9bi5gnt0lRn7J43O+RhzH7IPsYoBPkIu8X86kfyaZUmVE4xppQM483ekssCMA5Vlt8wXSORqwuxj4RFQugo2hz+kQEn9GfQHv/c3NsoX5y1Vjo/FjcSOHuYwGi5XHjCauzN0P27Oonlyri9K7i1LMW0exwxDZhqHrk/twQ=
+	t=1714036827; cv=none; b=R4fy3G6NL5KZyF2lSf9jnrLsBrEYLJ8Uys0ENnCG7d43WJq2rj2gosNwIKylMmgJQObN9hTNXcjREg+Box9W75g71xPmSF9JlflCRxwEcKcrZBAvTjvI+2oJ6cl8rh3iAzSa8vFHIL2Hcj4ak2tXP68rlTlLjS9R/kvbdADFncE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714036045; c=relaxed/simple;
-	bh=mMZvfoqcQBTuRChmieZa5D5b5PaDayZKxY7BssiNplg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oljQc1NmSaZhKm/xwjo/82cgYCbINpkrEcYpDPy9uaabwYOPdOo6lKugI4dgvUlYimUMZ6jd0fSfuwPXA97GGG9i27OuHx5WUEmSPnZJ+ZyLn+lSJPRU4QSk9fFXUpZSM32d23PMYt9rBk6Q4/K7CCXoR6m98/Iher/wJToYXtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGCL9toV; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714036827; c=relaxed/simple;
+	bh=sTm+PpZ6Ap0xhC7BqDac2mgtIkGMWqrMZth1L9PQtPc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K+D+f7gdzyiA2fNnfSCT+TefD0e3VT/7MMwYh10t4rS5noKxz9J13aiJeRXb2lJdBnj9Kx/bcc0Z6zSjKy2Kq2zFpH53aPiC0JpxUQP53mt2+k7P9eQoB4h08Eb7GLRw12WM+x2YuVZCmBpTsUk+lQHpsfCiCoFNHs4fTybeW/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DbnQadNM; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGCL9toV"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e8b03fa5e5so6346405ad.1;
-        Thu, 25 Apr 2024 02:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714036043; x=1714640843; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FJ9FQCx0e5TdFMZpfO8erltXPtH4u8W7h6Ha1qbTBNM=;
-        b=UGCL9toVQVKAYq+/uta99VX9a4SVCobCbUdvnad9S+SFA5eyS6Zm2HsfTd4kq36kYK
-         1GRg4I4KUTWrxoBG8KdfsA3IDhYxs4rUIJw2Qcgpz/90uhzHGI9LKQiBXGzaxyMzFNTB
-         U8i5PUKVcGzIGcf/Ll5YJmR008xfluwmBDnhBowtLkJ6yyfYfFbSpMaj3N8barM0iA9M
-         v43H2phExDdLHZPptFor3glKVunuO2R1/Wq0fpcTxsUeD4IqN4qPbrlwdxhcrcNckkDZ
-         I2UJIgE+/6Tbb2xBHTtsv45kv+uddpPZk7JlW8sbV+EkXXJrfBk6OdAm4Mz6ZO1XMKOJ
-         gJ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714036043; x=1714640843;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FJ9FQCx0e5TdFMZpfO8erltXPtH4u8W7h6Ha1qbTBNM=;
-        b=g8WRSZXCA3MRz2+f4DwsSbhOnmsTo7LPBIf1Ujrx4B32GoTN6njR8NVzj/5y+NH54+
-         nRKFpFY9MufqOmatV/oZtx0s6CgA9qEj9SkJZIJ96vrNR57+4lRibVfN6Esb3JV54ddW
-         VisbPqKJ26R55ezd4e1e50nYYRzSzVIPjK38uTwCjI7VvCgKq6PkHCPwv/CjGnfZq6m7
-         ES9V1SnSxs2hCBU5N5jkEAEZ1jskYqyLBZTlwXeoi1pjJZrViDaWFnznExqk1UEt1NSD
-         g4AjsZGvieh1WM+DFKye+444v5z3SC4t9IxOoFRb2bCA8UDnsbvuF30OAtJDwSdvdt5r
-         e31A==
-X-Forwarded-Encrypted: i=1; AJvYcCUHrCngptbi3PXZz/CBMb/AChozBPaPVx+/y2vtibkRSbi8s88vpnVHVi5Nm731idSogNyg8jLq2U5MfOJrunDHUFdv7ciCIwYc46aSVR9TRYOXEWECrOiR6XQCUyi/4n/vDu4jf1s+Bo7ZHPDJapckIZUiFHqUpP1emg6+6f77gzrz4u3ZxM6pdeLd6ksZxb2+mhoM9svYi1G6REtbyz+N4VU=
-X-Gm-Message-State: AOJu0YzttbahK7wYDfQeS18W241Vskx7gaz8Q3er2IBV0ZuB1LhS7XMX
-	+2EtgqjnypMAV2jf+ciLMbxJYDw5CH9Nz9u0xdx02afi23uEw88l
-X-Google-Smtp-Source: AGHT+IEw0+L7Uo9RJkt0QNIEhz/BNr5odMWcoZTgSX9rieBovsk+suyD7cQDqYRF1qTh9d7WIF0l2g==
-X-Received: by 2002:a17:902:efc2:b0:1e3:e1d5:c680 with SMTP id ja2-20020a170902efc200b001e3e1d5c680mr5453428plb.63.1714036043165;
-        Thu, 25 Apr 2024 02:07:23 -0700 (PDT)
-Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
-        by smtp.gmail.com with UTF8SMTPSA id t10-20020a170902e84a00b001e5a5ea5287sm13251722plg.208.2024.04.25.02.07.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Apr 2024 02:07:22 -0700 (PDT)
-From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
-Date: Thu, 25 Apr 2024 14:37:14 +0530
-Message-ID: <20240425090716.176818-1-sheharyaar48@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DbnQadNM"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43P9Ihnf020018;
+	Thu, 25 Apr 2024 09:20:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=TBTKZrt
+	UVFKfLaVcB4puOBOrdyhWFnI8hrjDAzeTHZ0=; b=DbnQadNMxgJrSDqUYZRxzgM
+	az+LVfmRiLuDfoG8zuKdpzOR/iQkvt2Lo1iDvhefabcYCt3Kec4VTgYD7S+7n4ql
+	+PV/7Iruh4zyHhxMeVmvVqX9Fq/KSdR6itT6tuYM/RxY3I04pyCGmne9YML6GQVm
+	vLl8dbap+gK1Tp/PRNJ0eHz6aajF2KfnULB4VPMTFOdKt352kP10YdS7yVK08eEl
+	KELJ3bqHenSjLzcyIOlP90slBsWAViTA0qNM1Kd1P33p+IkwbDvVZ+flIY0wKmQv
+	jYOhTYJD73YDjFQVXZ9QgNwjL1ZwJ82IwtE2wmD2OCbmyH389zIpnuJjKS0DK9Q=
+	=
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqenghk89-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 09:20:07 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43P9K6KV032065
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 09:20:06 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 25 Apr 2024 02:20:01 -0700
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami
+	<bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
+        <quic_pkumpatl@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v3 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec support
+Date: Thu, 25 Apr 2024 14:48:50 +0530
+Message-ID: <20240425091857.2161088-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,160 +68,74 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 280RT4kbRjzCyZQpAd9oV2kETDLFx3SO
+X-Proofpoint-ORIG-GUID: 280RT4kbRjzCyZQpAd9oV2kETDLFx3SO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-25_09,2024-04-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ mlxlogscore=705 priorityscore=1501 phishscore=0 adultscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404250066
 
-Convert NVIDIA Tegra30 I2S binding to DT schema and
-add new examples.
+This patchset adds support for Qualcomm WCD9370/WCD9375 codec.
 
-Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
----
-Changes v2->v3:
-- Fixed example indentation
-- Fix compatible logic
-- Add new examples from existing dts
-- Add clock-names in properties
+Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
+connected over SoundWire. This device has two SoundWire devices, RX and
+TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
+6 DMICs and MBHC.
 
-v2:
-https://lore.kernel.org/all/20240421123037.75680-1-sheharyaar48@gmail.com/
----
- .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 ------
- .../bindings/sound/nvidia,tegra30-i2s.yaml    | 94 +++++++++++++++++++
- 2 files changed, 94 insertions(+), 27 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+For codec driver to be functional it would need both tx and rx Soundwire devices
+to be up and this is taken care by using device component framework and device-links
+are used to ensure proper pm dependencies. Ex tx does not enter suspend
+before rx or codec is suspended.
 
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-deleted file mode 100644
-index 38caa936f6f8..000000000000
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-+++ /dev/null
-@@ -1,27 +0,0 @@
--NVIDIA Tegra30 I2S controller
--
--Required properties:
--- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
--  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
--  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
--  tegra114 or tegra132.
--- reg : Should contain I2S registers location and length
--- clocks : Must contain one entry, for the module clock.
--  See ../clocks/clock-bindings.txt for details.
--- resets : Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names : Must include the following entries:
--  - i2s
--- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
--  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
--
--Example:
--
--i2s@70080300 {
--	compatible = "nvidia,tegra30-i2s";
--	reg = <0x70080300 0x100>;
--	nvidia,ahub-cif-ids = <4 4>;
--	clocks = <&tegra_car 11>;
--	resets = <&tegra_car 11>;
--	reset-names = "i2s";
--};
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-new file mode 100644
-index 000000000000..3d8d56c666d7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-@@ -0,0 +1,94 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra30 I2S controller
-+
-+maintainers:
-+  - Thierry Reding <treding@nvidia.com>
-+  - Jon Hunter <jonathanh@nvidia.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra124-i2s
-+          - nvidia,tegra30-i2s
-+      - items:
-+          - enum:
-+              - nvidia,tegra114-i2s
-+              - nvidia,tegra132-i2s
-+          - enum:
-+              - nvidia,tegra124-i2s
-+              - nvidia,tegra30-i2s
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: i2s
-+
-+  nvidia,ahub-cif-ids:
-+    description: list of AHUB CIF IDs
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    items:
-+      - description: rx (playback)
-+      - description: tx (capture)
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - resets
-+  - reset-names
-+  - nvidia,ahub-cif-ids
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra30-car.h>
-+
-+    i2s@70080300 {
-+        compatible = "nvidia,tegra30-i2s";
-+        reg = <0x70080300 0x100>;
-+        nvidia,ahub-cif-ids = <4 4>;
-+        clocks = <&tegra_car TEGRA30_CLK_I2S0>;
-+        resets = <&tegra_car 30>;
-+        reset-names = "i2s";
-+    };
-+  - |
-+    #include <dt-bindings/clock/tegra124-car.h>
-+
-+    i2s@70301100 {
-+        compatible = "nvidia,tegra124-i2s";
-+        reg = <0x70301100 0x100>;
-+        nvidia,ahub-cif-ids = <5 5>;
-+        clocks = <&tegra_car TEGRA124_CLK_I2S1>;
-+        clock-names = "i2s";
-+        resets = <&tegra_car 11>;
-+        reset-names = "i2s";
-+    };
-+  - |
-+    #include <dt-bindings/clock/tegra114-car.h>
-+
-+    i2s@70080500 {
-+        compatible = "nvidia,tegra114-i2s", "nvidia,tegra30-i2s";
-+        reg = <0x70080500 0x100>;
-+        nvidia,ahub-cif-ids = <6 6>;
-+        clocks = <&tegra_car TEGRA114_CLK_I2S2>;
-+        resets = <&tegra_car 18>;
-+        reset-names = "i2s";
-+    };
-+...
+This patchset along with other SoundWire patches on the list
+have been tested on QCM6490 IDP device.
+
+Changes since v2:
+ - Used common qcom,wcd93xx-common.yaml. removed duplicate properties.
+ - Merged bindings patches "v2-0001" and "v2-0003" in single patch for easy review.
+ - Fixed dt binding check errors.
+ - Added missing "qcom,wcd9375-codec" in v3-0001 dt binding patch.
+ - Added constraints on values in v3-0001 binding patch as suggested by Krzysztof
+ - Fix the typo mistake in v2 cover letter
+ 
+Changes since v1:
+ - Split the patch per driver for easier review as suggested by Krzysztof
+ - Used devm_gpiod_get api to get reset gpio as suggested by Krzysztof
+
+Prasad Kumpatla (7):
+  ASoC: dt-bindings: document wcd937x Audio Codec
+  ASoC: codecs: wcd937x: add wcd937x codec driver
+  ASoC: codecs: wcd937x-sdw: add SoundWire driver
+  ASoC: codecs: wcd937x: add basic controls
+  ASoC: codecs: wcd937x: add playback dapm widgets
+  ASoC: codecs: wcd937x: add capture dapm widgets
+  ASoC: codecs: wcd937x: add audio routing and Kconfig
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      |   78 +
+ .../bindings/sound/qcom,wcd937x.yaml          |   58 +
+ sound/soc/codecs/Kconfig                      |   20 +
+ sound/soc/codecs/Makefile                     |    7 +
+ sound/soc/codecs/wcd937x-sdw.c                | 1147 +++++++
+ sound/soc/codecs/wcd937x.c                    | 3036 +++++++++++++++++
+ sound/soc/codecs/wcd937x.h                    |  653 ++++
+ 7 files changed, 4999 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+ create mode 100644 sound/soc/codecs/wcd937x-sdw.c
+ create mode 100644 sound/soc/codecs/wcd937x.c
+ create mode 100644 sound/soc/codecs/wcd937x.h
+
+
+base-commit: 5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
 -- 
-2.44.0
+2.25.1
 
