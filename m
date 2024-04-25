@@ -1,177 +1,169 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5D567A1A
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 08:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C18B6EB56
+	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 08:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714034462; cv=none; b=WwFzqtStYdL0n7BJJOgd4e/0cJm+dt1JwocRpPSxPYkHXHfF0g+X/0RsN73Id+q8ADDVU2VdrwL8avtlnjANTZ6anyaZDCqY9IPkfyJJ2QXH2/LHriImRttkO5hcc+ZG1ZVj6X3J5wpn2U/vM/RPzFw5Vu2L1u6irpt2qgkFiNw=
+	t=1714034733; cv=none; b=ALuYEFFdWxaQZV5Xm42cBlQqNe3TyLFq4F/gXPK0C3VmzU9GSl0W4Nik89pYp8KGWHC/4aaurgJ/fK5thClnOTzUtjMQ8UAPE4dq2lp/iH9YSujd6nh+xppJ9/kt+J2C6SzX2u8/sNPefZGGOV3MFbsmVWnU7UiOKZ72ehRNItQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714034462; c=relaxed/simple;
-	bh=sP7++6OAzaPFWsPsSpkIZpMrzB9xWv+ocfnpCqEGOs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I5WwWxeeqKedt2GQFW4uZy3Mpu6DZmzkTdYRjESL1bVZ8L2G3Am78LWkXENva6ossgADRKVr6aWzJlZE22gKfYDrpCKeYQIbP1NVUx3at93LXRVEBJWFnBkKbPjvLTc9NSntoW8ywvCyGforIq7iWJqW48WtJJhlX2cpMISFIdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=d8xKjkKY; arc=none smtp.client-ip=185.125.188.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1714034733; c=relaxed/simple;
+	bh=4ZwS23tJmBQ7rn5u9jMGRugfkV8QmnG5WYrW71x+JmU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SWGOYcUjMEYxGDWnZRrSuBH98upmw9HOMNz1Qu57w6Xun8vkTPQmAgD9HeKpmKyXBZ/USK8dynCv0ZCDEZABcb9G/HiQLghdhVEu0s6H2txFwgNzzvWdU/LkF+5RyFCTwzlcfYIqeS+QB6jIxNIs/87qw9/2bZI6r6BY+xGQJJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NgQTp7Sv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iq3h0us4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NgQTp7Sv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iq3h0us4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="d8xKjkKY"
-Received: from [192.168.1.152] (unknown [222.129.33.118])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NgQTp7Sv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iq3h0us4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NgQTp7Sv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iq3h0us4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 97B1D3F07E;
-	Thu, 25 Apr 2024 08:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1714034457;
-	bh=gWDfLqsgq1EVCLKRekHfR8XJ9SA7eQ9+zvXhglVtoNw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=d8xKjkKY5PHWGp81Bo12uZtpEybIct5SI1SqqTPIw76NgIA++vJ+URLBoeg2c9sbu
-	 pp2Cf9dlZSB/+9wtbh3YFqkx5eC2foW4e2dZ490XR/PFQPbJpyPd0JGccfd2B32H+H
-	 xKiTcHWj9837e2jczb+TKD0IA1w52yYrvUI9lvpn312zW5Ybz0KqUr2oMtDTGyb5eb
-	 0sdEGz4dqPU9jPtWC2IUWI6WnXYUtRPpFFTM2RtwAN61JKYl5dVmQmaEVzZ2O55XS4
-	 o24/DKsVEMHiRppT4bOIm/vw8v23MQ3T9W+IfWqugIrx/3yrZxabqWzRP0CGa3pc6E
-	 o0AElLKr9v/1g==
-Message-ID: <11d5d3db-d5ba-4a02-9c58-400075f2918e@canonical.com>
-Date: Thu, 25 Apr 2024 16:40:50 +0800
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B9AC121A3E;
+	Thu, 25 Apr 2024 08:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714034729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dNDJ4DzALde89Y14WJrBYkitz3hfwwSaY+lFmcZW88w=;
+	b=NgQTp7SvCnpMAUopn8g0eiemr/FLaHi8KziKh3QbLZMl7WficSwoQZTLZkvshxyelMr96/
+	L2fiYuDJYdNlxXIWv6TlyN+YlMRPw2ewa5IBDzFcB9S33H7vkxLCNgHdNBRkNN//I97kqn
+	ALJH9WYLCIPj1Ps1tuOVX27ru9FUJb4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714034729;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dNDJ4DzALde89Y14WJrBYkitz3hfwwSaY+lFmcZW88w=;
+	b=iq3h0us4TJqrYSxk6yo5Wl3Sv9nradCa/JqirV2fjznHwhm8GpKl/N9+9lPFzWgZaMijl4
+	ygvRKXeqAmndHZBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NgQTp7Sv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=iq3h0us4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714034729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dNDJ4DzALde89Y14WJrBYkitz3hfwwSaY+lFmcZW88w=;
+	b=NgQTp7SvCnpMAUopn8g0eiemr/FLaHi8KziKh3QbLZMl7WficSwoQZTLZkvshxyelMr96/
+	L2fiYuDJYdNlxXIWv6TlyN+YlMRPw2ewa5IBDzFcB9S33H7vkxLCNgHdNBRkNN//I97kqn
+	ALJH9WYLCIPj1Ps1tuOVX27ru9FUJb4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714034729;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dNDJ4DzALde89Y14WJrBYkitz3hfwwSaY+lFmcZW88w=;
+	b=iq3h0us4TJqrYSxk6yo5Wl3Sv9nradCa/JqirV2fjznHwhm8GpKl/N9+9lPFzWgZaMijl4
+	ygvRKXeqAmndHZBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 865D513991;
+	Thu, 25 Apr 2024 08:45:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Q8MkICkYKmYGIgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Apr 2024 08:45:29 +0000
+Date: Thu, 25 Apr 2024 10:45:36 +0200
+Message-ID: <87a5lhbzkf.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Aaron Ma <aaron.ma@canonical.com>
+Cc: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: hda/ASOC tas2781: align the path of firmware
+In-Reply-To: <11d5d3db-d5ba-4a02-9c58-400075f2918e@canonical.com>
+References: <20240425072000.22284-1-aaron.ma@canonical.com>
+	<87h6fpc21p.wl-tiwai@suse.de>
+	<3ba54d1d-7b09-4257-9f05-9a1182bf03dc@canonical.com>
+	<87edatc001.wl-tiwai@suse.de>
+	<11d5d3db-d5ba-4a02-9c58-400075f2918e@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH] ALSA: hda/ASOC tas2781: align the path of firmware
-To: Takashi Iwai <tiwai@suse.de>
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, perex@perex.cz,
- tiwai@suse.com
-References: <20240425072000.22284-1-aaron.ma@canonical.com>
- <87h6fpc21p.wl-tiwai@suse.de>
- <3ba54d1d-7b09-4257-9f05-9a1182bf03dc@canonical.com>
- <87edatc001.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Aaron Ma <aaron.ma@canonical.com>
-Autocrypt: addr=aaron.ma@canonical.com; keydata=
- xsBNBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
- 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
- BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
- MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
- ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
- AAHNIUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPsLAdwQTAQgAIQUCV994uQIb
- AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
- LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
- GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
- 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
- V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
- cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrazsBNBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
- sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
- +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
- 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
- mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
- Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAHCwF8EGAEIAAkFAlffeLkCGwwACgkQzcQs
- 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
- VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
- NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
- 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
- nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
-In-Reply-To: <87edatc001.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: B9AC121A3E
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 
-
-On 4/25/24 16:36, Takashi Iwai wrote:
-> On Thu, 25 Apr 2024 09:54:17 +0200,
-> Aaron Ma wrote:
->>
->>
->> On 4/25/24 15:52, Takashi Iwai wrote:
->>
->>      On Thu, 25 Apr 2024 09:20:00 +0200,
->>      Aaron Ma wrote:
->>      
->>          TI upstream the files in ti/tas2781 for linux-firmware.
->>          Make the driver find the correct files.
->>          
->>      Note that the upstream linux-firmware provides symlinks to
->>      ti/tas2781/* files, so it's not "incorrect", so far :)
->>
->> $ find . -iname TIAS2781RCA2.bin
->> ./ti/tas2781/TIAS2781RCA2.bin
->>
->> Only one bin file found.
->> Could you point it out clearly?
-> 
-> See WHENCE file.  It has "Link:" entries, and copy-firmware.sh creates
-> corresponding symlinks.
-
-Oh, missed it.
-Retrieve the patch.
-
-Thanks,
-Aaron
-
+On Thu, 25 Apr 2024 10:40:50 +0200,
+Aaron Ma wrote:
 > 
 > 
-> HTH,
+> On 4/25/24 16:36, Takashi Iwai wrote:
+> > On Thu, 25 Apr 2024 09:54:17 +0200,
+> > Aaron Ma wrote:
+> >> 
+> >> 
+> >> On 4/25/24 15:52, Takashi Iwai wrote:
+> >> 
+> >>      On Thu, 25 Apr 2024 09:20:00 +0200,
+> >>      Aaron Ma wrote:
+> >>               TI upstream the files in ti/tas2781 for
+> >> linux-firmware.
+> >>          Make the driver find the correct files.
+> >>               Note that the upstream linux-firmware provides
+> >> symlinks to
+> >>      ti/tas2781/* files, so it's not "incorrect", so far :)
+> >> 
+> >> $ find . -iname TIAS2781RCA2.bin
+> >> ./ti/tas2781/TIAS2781RCA2.bin
+> >> 
+> >> Only one bin file found.
+> >> Could you point it out clearly?
+> > 
+> > See WHENCE file.  It has "Link:" entries, and copy-firmware.sh creates
+> > corresponding symlinks.
 > 
-> Takashi
-> 
->>
->> Thanks,
->> Aaron
->>
->>      thanks,
->>      
->>      Takashi
->>
->>          Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
->>          ---
->>           include/sound/tas2781.h           | 1 +
->>           sound/pci/hda/tas2781_hda_i2c.c   | 2 +-
->>           sound/soc/codecs/tas2781-comlib.c | 2 +-
->>           3 files changed, 3 insertions(+), 2 deletions(-)
->>          
->>          diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
->>          index 99ca3e401fd1..72119cc32c0f 100644
->>          --- a/include/sound/tas2781.h
->>          +++ b/include/sound/tas2781.h
->>          @@ -21,6 +21,7 @@
->>           /* version number */
->>           #define TAS2781_DRV_VER                                                1
->>           #define SMARTAMP_MODULE_NAME                                           "tas2781"
->>          +#define TAS2781_FIRMWARE_ROOT                                          "ti/tas2781/"
->>           #define TAS2781_GLOBAL_ADDR                      0x40
->>           #define TAS2563_GLOBAL_ADDR                      0x48
->>           #define TASDEVICE_RATES                                                (SNDRV_PCM_RATE_44100 |\
->>          diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
->>          index 75f7674c66ee..72dc1469655f 100644
->>          --- a/sound/pci/hda/tas2781_hda_i2c.c
->>          +++ b/sound/pci/hda/tas2781_hda_i2c.c
->>          @@ -649,7 +649,7 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
->>                tasdevice_dsp_remove(tas_priv);
->>           
->>                tas_priv->fw_state = TASDEVICE_DSP_FW_PENDING;
->>          -     scnprintf(tas_priv->coef_binaryname, 64, "TAS2XXX%04X.bin",
->>          +     scnprintf(tas_priv->coef_binaryname, 64, "%sTAS2XXX%04X.bin", TAS2781_FIRMWARE_ROOT,
->>                                      codec->core.subsystem_id & 0xffff);
->>                ret = tasdevice_dsp_parser(tas_priv);
->>                if (ret) {
->>          diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
->>          index 3aa81514dad7..96fe1b855ec9 100644
->>          --- a/sound/soc/codecs/tas2781-comlib.c
->>          +++ b/sound/soc/codecs/tas2781-comlib.c
->>          @@ -277,7 +277,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
->>                 */
->>                mutex_lock(&tas_priv->codec_lock);
->>           
->>          -     scnprintf(tas_priv->rca_binaryname, 64, "%sRCA%d.bin",
->>          +     scnprintf(tas_priv->rca_binaryname, 64, "%s%sRCA%d.bin", TAS2781_FIRMWARE_ROOT,
->>                                      tas_priv->dev_name, tas_priv->ndev);
->>                crc8_populate_msb(tas_priv->crc8_lkp_tbl, TASDEVICE_CRC8_POLYNOMIAL);
->>                tas_priv->codec = codec;
->>          --
->>          2.34.1
->>
+> Oh, missed it.
+> Retrieve the patch.
 
+OK.  I guess ti/*/* is a better place for newer firmware files
+(and likely intended by TI), but it's up to TI whether we should
+update or not for newer chips.  Let's see.
+
+
+thanks,
+
+Takashi
