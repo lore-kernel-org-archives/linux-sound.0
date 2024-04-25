@@ -1,104 +1,88 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967E56BFCC
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 07:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5E46D1A3;
+	Thu, 25 Apr 2024 07:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714030208; cv=none; b=uAEO0sPtw5Zo6yayFTLU3fqao6I/XdQBywGYcUFMvgeFUqYn7qPFqFxCbgXlmmDQoWEFqh8tH7qRQuY4v8i1SHPO43BZ/92Nt3bht1YKWh5UbrLHJWPu2nWO/oLE1qgULPQaKWNWm6tilM5NI5m4RGSQhGg43p2a10B29pglsYs=
+	t=1714030786; cv=none; b=RWnDkyO6nVmfauppAlE19War5Gu2CwF9M+CzM1JTl6Zyn0YNMvFXs5tzzC8I0oVOwF5t9vDWxV0E00io4mFGomBrcy41tD8C5Slq/7ixN5IL1/tkg63cUaiV6p7RIiWCtlwpEMqIvg1ON0C1XSOP6JotS3vwnsm+qCnZsB6GC7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714030208; c=relaxed/simple;
-	bh=65cWIqqFlMmIyMOsBipC9dRn0tASPdwax90byUebSto=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tQ+DsUB3v22c4gp3NRBpZ6e3U+SqyQ19aeNgG2rzzkdT38UmfLXiqVbvwy/i1gpvBSL4VoPcMXR7rmnj882qXYPoUbHCMTbntCb+PgY/HVP7L7gCJXrxS1066mzbQ5YTZA1flv5wWAGYSCX+wjn+fvspY0KXx8Xi0Ixbi/0RUCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=ZUIcpL1U; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1714030786; c=relaxed/simple;
+	bh=5PBcStouiAL0LL01bVFaRv1aQRBdnBtOYC7EAUalJIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dcorYYHYMsX3Fm3wna/9Xfn6QdBoDumcePptUB8RE/7Fj+YjddDYdMJvHd9wkViZMviW2q5Q6KmxFBcUtg4rkqyngZZYyD8XRwW7gGWQrft/GCUgPjf6T8E5JRcGJjUZN/K0W5fo+7wJqf8jdfVX5iQzgOKJn/3q1/D1dRzpUE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGlez0nR; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="ZUIcpL1U"
-Received: from localhost.localdomain (unknown [222.129.33.118])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 55FAC3F6D2;
-	Thu, 25 Apr 2024 07:20:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1714029620;
-	bh=S6WlPjrzv7yv//Pb94QcMjZ/iQsiWsVrpMWt6N4gcAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=ZUIcpL1UTSjuH+uCURCsADWzjhSXK+gJA1Gu8a173QIW45Yotp4d2KSBYnjp7wCPq
-	 x42spTsd9BNvPyHiFCxn6e1jUcstBPa/dU1CnkF9EyuuUeTUJ815thpQ7ZCSRJGXC1
-	 6qvecQsRVASM+13ZAYb3hB53uobtGzOoBh8VQjHZILfPZ4M8o7pvnMwEHOHVL/k/yG
-	 RssVApKcNa1o3fNrvQoje7/v/0RuTXlwmQXFzxCSs/7MjQlz3IpeGochyvvqw13Li8
-	 h22jlPCdpscvQnNvrr9fCLZyZlIi3i3LHExD/aonUgjicRhspkRHEralrokoa6rifA
-	 0Yy7LrF3rfoZg==
-From: Aaron Ma <aaron.ma@canonical.com>
-To: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com
-Subject: [PATCH] ALSA: hda/ASOC tas2781: align the path of firmware
-Date: Thu, 25 Apr 2024 15:20:00 +0800
-Message-ID: <20240425072000.22284-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGlez0nR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714030784; x=1745566784;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=5PBcStouiAL0LL01bVFaRv1aQRBdnBtOYC7EAUalJIs=;
+  b=ZGlez0nRdLGzuIiHFuriZVQnAlKcbNU0AXTK5I6dhQfXaPdCu9q9e+am
+   3kYjxbn9pN4rmhLl1I19NYm3sxykpV2kv8L12FLQtIljoOow91f7dtQ/4
+   M+2HjeaxNiNWyqEJpM+sGSaI3e4xFIk6Qx4OOLwGENJTJ/fKsGwW4dfL/
+   EqYNEp48NufyTbWTUK+aoATZyXOOji2CdsdN3j5P1TGmfoJqf19rYvXWd
+   4AiqyYu1Et8pNUsaZ+8ZD1SJbaT7/9t5nyL9s3s0UpZ2eJ2gG9dwW0Zo7
+   Q5EEdql6NkQqN1eq1fh3AkflyzKSs8yeogVxyOMBoo+pb0NIRizwKR7mP
+   g==;
+X-CSE-ConnectionGUID: DX0rT5GhSH6ZTfmBDoimMQ==
+X-CSE-MsgGUID: M5FAfVIzTW+yCzoxDnoMtQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="13483131"
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="13483131"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 00:39:43 -0700
+X-CSE-ConnectionGUID: H8E5lNTsSWaGPcjdPXBkEw==
+X-CSE-MsgGUID: Bp1BJxZUTxCddboCRR0itA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="29614232"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 00:39:38 -0700
+Message-ID: <cf878edb-2e99-4e21-9ccb-a1867b37feaf@linux.intel.com>
+Date: Thu, 25 Apr 2024 09:39:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 68/71] ASoC: Intel: avs: es8336: Switch to new Intel
+ CPU model defines
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20240424181245.41141-1-tony.luck@intel.com>
+ <20240424181550.42466-1-tony.luck@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240424181550.42466-1-tony.luck@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-TI upstream the files in ti/tas2781 for linux-firmware.
-Make the driver find the correct files.
+On 4/24/2024 8:15 PM, Tony Luck wrote:
+> New CPU #defines encode vendor and family as well as model.
+> 
+> Signed-off-by: Tony Luck <tony.luck@intel.com>
+> ---
 
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- include/sound/tas2781.h           | 1 +
- sound/pci/hda/tas2781_hda_i2c.c   | 2 +-
- sound/soc/codecs/tas2781-comlib.c | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+Thanks!
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index 99ca3e401fd1..72119cc32c0f 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -21,6 +21,7 @@
- /* version number */
- #define TAS2781_DRV_VER			1
- #define SMARTAMP_MODULE_NAME		"tas2781"
-+#define TAS2781_FIRMWARE_ROOT		"ti/tas2781/"
- #define TAS2781_GLOBAL_ADDR	0x40
- #define TAS2563_GLOBAL_ADDR	0x48
- #define TASDEVICE_RATES			(SNDRV_PCM_RATE_44100 |\
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 75f7674c66ee..72dc1469655f 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -649,7 +649,7 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
- 	tasdevice_dsp_remove(tas_priv);
- 
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_PENDING;
--	scnprintf(tas_priv->coef_binaryname, 64, "TAS2XXX%04X.bin",
-+	scnprintf(tas_priv->coef_binaryname, 64, "%sTAS2XXX%04X.bin", TAS2781_FIRMWARE_ROOT,
- 		codec->core.subsystem_id & 0xffff);
- 	ret = tasdevice_dsp_parser(tas_priv);
- 	if (ret) {
-diff --git a/sound/soc/codecs/tas2781-comlib.c b/sound/soc/codecs/tas2781-comlib.c
-index 3aa81514dad7..96fe1b855ec9 100644
---- a/sound/soc/codecs/tas2781-comlib.c
-+++ b/sound/soc/codecs/tas2781-comlib.c
-@@ -277,7 +277,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
- 	 */
- 	mutex_lock(&tas_priv->codec_lock);
- 
--	scnprintf(tas_priv->rca_binaryname, 64, "%sRCA%d.bin",
-+	scnprintf(tas_priv->rca_binaryname, 64, "%s%sRCA%d.bin", TAS2781_FIRMWARE_ROOT,
- 		tas_priv->dev_name, tas_priv->ndev);
- 	crc8_populate_msb(tas_priv->crc8_lkp_tbl, TASDEVICE_CRC8_POLYNOMIAL);
- 	tas_priv->codec = codec;
--- 
-2.34.1
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
