@@ -1,174 +1,389 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CD653E15
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 06:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2125A116;
+	Thu, 25 Apr 2024 06:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714027115; cv=none; b=hcsTX2nHMcurtlFTKzSYwztZAbgIUdeWwGaeDI/yNOX956xcZaux5q4GgfE1a/Y2Yc/z7JG9rw4567P6q1vi7Icj5OI96mHd+DZnLxarauXnsjSEwHCOhilewd0CF/2zsBZ7+R9qwEaKkPXAnxgKUfp5QnVTykk3MMpmBydxQrQ=
+	t=1714028021; cv=none; b=bGQSORqsIwzb8jcXHKFjnglxzZqUysM5Ze9H90ZO2aU9VP1k6crod0mavUOi2FiPy0fNQEwnrOKw5TKamV5QVgOEJRnykPjYG9fx2IMKSbsuSsySQKwu09Qhd+tawL7XtZHbFwE51nWFA0nJhw5uYwXVUOQ1F5m0f40moYdWOiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714027115; c=relaxed/simple;
-	bh=B5T6uCGj1pDni/NYsT6MdLthxu8xoernrZuqK8Jxlm0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d7MeQam8jdzsguSlu8/FZctG4+iSqeCjc2KQBepuv/UyGej2gAKpT10M9RSpr5bk7hVq4QWcH580cgwdi/gf2/AbrfLvzrDxjn/jH0VzR0JZ+JFEUCvh5CdksrZ2PtAA5yJGq+hdui3BdmrDcrIGvDW9lngZDC91kaG7Y2SeZeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xVLD9/r2; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xVLD9/r2"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-34b029296f5so687444f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 24 Apr 2024 23:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714027112; x=1714631912; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=lHjKbzlAg7ZCvrMat5Fqytbf+Mh+26KkLocKS948pTo=;
-        b=xVLD9/r2tavlsiErcdb+gZW/7kZBUqYQHc/AVhpr1qu+TJdIsPgXgSq7WZlTiSHOED
-         0ryifCpM8NyyhXY2H8Trw8OawDhI20sd7LNe2W1et/DOF6LDVhQpG1UsxVFASpQY0qgv
-         IzcFmiUdtXZUgtm+HBGKOaAqx8Mur6kV4/P5TvdT3cMBs7brB+1j08Ry5SyKfvi5K/5e
-         1U69HR4xYhmzKntqUAayWpZmfBrO01Cp7AeuWOcdCBDA0f79Uxe04Ga8VcE5DpawVLmO
-         X8jTEtWsyAPZYrh21CgKmATUUr2K762mVw7IVc4JoG9u2apc7dsU7hqI8s2nz6EedesJ
-         WLGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714027112; x=1714631912;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lHjKbzlAg7ZCvrMat5Fqytbf+Mh+26KkLocKS948pTo=;
-        b=hK4lIjhIE2NYj7UAeiNsGfLweinHZKqoiCMObfQ496Vz4SSRukU4MO80wBENUCYKID
-         SzTkFA1usYKGlNbINVU+tcIwqYucUBDTJczMzNUiARvM2obaC6lyyRr/DE3abx73qhCQ
-         J2zdWKxsEGZodLY65eAuyP7FUqElu89z9JpzmJDveI/QwhOm2jPhZhEIEt80zZvFnh6S
-         mug6tBpJsoxw/QD/9TOCXyITEklkjyDkeEbeiNLQ6de8a+8ezvni2QJ9I4PSxtcybz22
-         Goj+OL5ToRHRkghPU+e/ZwpENRyBSrQ2II6K7Kg8BXPqTvoFao3naAl8dkb6w958KpMd
-         i2ig==
-X-Gm-Message-State: AOJu0Yyw11cfQz9nU3nAi7lWZQ90SnKUgj8Vop9Il831By6rXA4NeF8J
-	18dlGbOQzhBMYIAUVD87IntxXS6oN86pfOILG5HT2+e/hCkAuD4sR5bYy7ag7VM=
-X-Google-Smtp-Source: AGHT+IGAV0jSkFBvjQwGcfN5R6cF2rleJPcC0UdBWzMm/ZOSgnWSL6fQgwLcT8Eyq4spq4H/nIW2/w==
-X-Received: by 2002:a05:6000:12c3:b0:34a:d130:611b with SMTP id l3-20020a05600012c300b0034ad130611bmr3858845wrx.17.1714027112250;
-        Wed, 24 Apr 2024 23:38:32 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id d2-20020a5d6442000000b003479bec98cesm18858772wrw.115.2024.04.24.23.38.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 23:38:31 -0700 (PDT)
-Message-ID: <b48d5d30-61b0-4c11-8afd-1c07cbe05400@linaro.org>
-Date: Thu, 25 Apr 2024 08:38:29 +0200
+	s=arc-20240116; t=1714028021; c=relaxed/simple;
+	bh=5NHjR4r9zlXYGlJoGx2jHRHl7LB5Vt/SZKBRU9smnOU=;
+	h=From:To:Subject:Date:Message-Id; b=elgDsCeZM0FxaLsLICCbWCV+nDVidR7sDQ5jB8xMpCPz3qRJ6uyhNjsLU9WvlsbP0G9ct1x/kS81LEL0/KqEBgv2FxfWX/g4QzoVYAy2thjC8jKKk2KF+vmTuMdGmcpFntR+HX/oZuAizsX31AYqcpZUvc4jctY/H0yP4wDBLL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 19F1B1A0048;
+	Thu, 25 Apr 2024 08:53:28 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 82C361A007A;
+	Thu, 25 Apr 2024 08:53:27 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id D4271180222F;
+	Thu, 25 Apr 2024 14:53:25 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ASoC: dt-bindings: fsl,ssi: Convert to YAML
+Date: Thu, 25 Apr 2024 14:35:06 +0800
+Message-Id: <1714026906-16723-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/18] ASoC: dt-bindings: mt6357: Add audio codec
- document
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com>
- <20240226-audio-i350-v3-3-16bb2c974c55@baylibre.com>
- <481abafd-33af-44a6-8460-068b4a85d764@linaro.org>
- <a8730bb5-4f51-4c75-b049-6f00e3de5855@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <a8730bb5-4f51-4c75-b049-6f00e3de5855@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 23/04/2024 19:07, Alexandre Mergnat wrote:
-> 
-> 
-> On 09/04/2024 17:55, Krzysztof Kozlowski wrote:
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    codec {
->>> +        mediatek,micbias0-microvolt = <1900000>;
->>> +        mediatek,micbias1-microvolt = <1700000>;
->>> +        mediatek,vaud28-supply = <&mt6357_vaud28_reg>;
->> Sorry, this does not work. Change voltage to 1111111 and check the results.
-> 
-> Actually it's worst ! I've removed the required property (vaud28-supply) but the dt check pass.
-> Same behavior for some other docs like mt6359.yaml
+Convert the fsl,ssi binding to YAML.
 
-Yeah, the schema is not applied. There is nothing selecting it, so this
-is no-op schema. I don't know what exactly you want to describe, but
-usually either you miss compatible or this should be just part of parent
-node.
+Add below compatible strings which were not listed
+in document:
 
-> 
-> The at24.yaml doc works as expected, then I tried compare an find the issue, without success...
-> 
-> I've replaced "codec" by "audio-codec", according to [1].
-> I've tried multiple manner to implement the example code, without success. I'm wondering if what I 
-> try to do is the correct way or parse-able by the dt_check.
-> 
-> If I drop this file and implement all these new properties into the MFD PMIC documentation directly, 
-> I've the expected dt_check result (function to good or wrong parameters)
+fsl,imx50-ssi
+fsl,imx53-ssi
+fsl,imx25-ssi
+fsl,imx27-ssi
+fsl,imx6q-ssi
+fsl,imx6sl-ssi
+fsl,imx6sx-ssi
 
-Yes.
+Add below fsl,mode strings which were not listed.
 
-Best regards,
-Krzysztof
+i2s-slave
+i2s-master
+lj-slave
+lj-master
+rj-slave
+rj-master
+
+Add 'ac97-gpios' property which were not listed.
+Then dtbs_check can pass.
+
+And remove the 'codec' description which should be
+in the 'codec' binding doc.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+changes in v3:
+- change fallback string to const
+- split fallback for imx21 and imx51
+- update orders of properties
+- add constraint for fsl,fifo-depth
+- minor change for example
+
+changes in v2:
+- change fallback string to const.
+- add dai-common.yaml
+- add ac97-gpios property
+
+ .../devicetree/bindings/sound/fsl,ssi.txt     |  87 --------
+ .../devicetree/bindings/sound/fsl,ssi.yaml    | 194 ++++++++++++++++++
+ 2 files changed, 194 insertions(+), 87 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/fsl,ssi.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,ssi.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/fsl,ssi.txt b/Documentation/devicetree/bindings/sound/fsl,ssi.txt
+deleted file mode 100644
+index 7e15a85cecd2..000000000000
+--- a/Documentation/devicetree/bindings/sound/fsl,ssi.txt
++++ /dev/null
+@@ -1,87 +0,0 @@
+-Freescale Synchronous Serial Interface
+-
+-The SSI is a serial device that communicates with audio codecs.  It can
+-be programmed in AC97, I2S, left-justified, or right-justified modes.
+-
+-Required properties:
+-- compatible:       Compatible list, should contain one of the following
+-                    compatibles:
+-                      fsl,mpc8610-ssi
+-                      fsl,imx51-ssi
+-                      fsl,imx35-ssi
+-                      fsl,imx21-ssi
+-- cell-index:       The SSI, <0> = SSI1, <1> = SSI2, and so on.
+-- reg:              Offset and length of the register set for the device.
+-- interrupts:       <a b> where a is the interrupt number and b is a
+-                    field that represents an encoding of the sense and
+-                    level information for the interrupt.  This should be
+-                    encoded based on the information in section 2)
+-                    depending on the type of interrupt controller you
+-                    have.
+-- fsl,fifo-depth:   The number of elements in the transmit and receive FIFOs.
+-                    This number is the maximum allowed value for SFCSR[TFWM0].
+- - clocks:          "ipg" - Required clock for the SSI unit
+-                    "baud" - Required clock for SSI master mode. Otherwise this
+-		      clock is not used
+-
+-Required are also ac97 link bindings if ac97 is used. See
+-Documentation/devicetree/bindings/sound/soc-ac97link.txt for the necessary
+-bindings.
+-
+-Optional properties:
+-- codec-handle:     Phandle to a 'codec' node that defines an audio
+-                    codec connected to this SSI.  This node is typically
+-                    a child of an I2C or other control node.
+-- fsl,fiq-stream-filter: Bool property. Disabled DMA and use FIQ instead to
+-		    filter the codec stream. This is necessary for some boards
+-		    where an incompatible codec is connected to this SSI, e.g.
+-		    on pca100 and pcm043.
+-- dmas:		    Generic dma devicetree binding as described in
+-		    Documentation/devicetree/bindings/dma/dma.txt.
+-- dma-names:	    Two dmas have to be defined, "tx" and "rx", if fsl,imx-fiq
+-		    is not defined.
+-- fsl,mode:         The operating mode for the AC97 interface only.
+-                    "ac97-slave" - AC97 mode, SSI is clock slave
+-                    "ac97-master" - AC97 mode, SSI is clock master
+-- fsl,ssi-asynchronous:
+-                    If specified, the SSI is to be programmed in asynchronous
+-                    mode.  In this mode, pins SRCK, STCK, SRFS, and STFS must
+-                    all be connected to valid signals.  In synchronous mode,
+-                    SRCK and SRFS are ignored.  Asynchronous mode allows
+-                    playback and capture to use different sample sizes and
+-                    sample rates.  Some drivers may require that SRCK and STCK
+-                    be connected together, and SRFS and STFS be connected
+-                    together.  This would still allow different sample sizes,
+-                    but not different sample rates.
+-- fsl,playback-dma: Phandle to a node for the DMA channel to use for
+-                    playback of audio.  This is typically dictated by SOC
+-                    design.  See the notes below.
+-                    Only used on Power Architecture.
+-- fsl,capture-dma:  Phandle to a node for the DMA channel to use for
+-                    capture (recording) of audio.  This is typically dictated
+-                    by SOC design.  See the notes below.
+-                    Only used on Power Architecture.
+-
+-Child 'codec' node required properties:
+-- compatible:       Compatible list, contains the name of the codec
+-
+-Child 'codec' node optional properties:
+-- clock-frequency:  The frequency of the input clock, which typically comes
+-                    from an on-board dedicated oscillator.
+-
+-Notes on fsl,playback-dma and fsl,capture-dma:
+-
+-On SOCs that have an SSI, specific DMA channels are hard-wired for playback
+-and capture.  On the MPC8610, for example, SSI1 must use DMA channel 0 for
+-playback and DMA channel 1 for capture.  SSI2 must use DMA channel 2 for
+-playback and DMA channel 3 for capture.  The developer can choose which
+-DMA controller to use, but the channels themselves are hard-wired.  The
+-purpose of these two properties is to represent this hardware design.
+-
+-The device tree nodes for the DMA channels that are referenced by
+-"fsl,playback-dma" and "fsl,capture-dma" must be marked as compatible with
+-"fsl,ssi-dma-channel".  The SOC-specific compatible string (e.g.
+-"fsl,mpc8610-dma-channel") can remain.  If these nodes are left as
+-"fsl,elo-dma-channel" or "fsl,eloplus-dma-channel", then the generic Elo DMA
+-drivers (fsldma) will attempt to use them, and it will conflict with the
+-sound drivers.
+diff --git a/Documentation/devicetree/bindings/sound/fsl,ssi.yaml b/Documentation/devicetree/bindings/sound/fsl,ssi.yaml
+new file mode 100644
+index 000000000000..4ab10cd3b520
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/fsl,ssi.yaml
+@@ -0,0 +1,194 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/fsl,ssi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale Synchronous Serial Interface
++
++maintainers:
++  - Shengjiu Wang <shengjiu.wang@nxp.com>
++
++description:
++  Notes on fsl,playback-dma and fsl,capture-dma
++  On SOCs that have an SSI, specific DMA channels are hard-wired for playback
++  and capture.  On the MPC8610, for example, SSI1 must use DMA channel 0 for
++  playback and DMA channel 1 for capture.  SSI2 must use DMA channel 2 for
++  playback and DMA channel 3 for capture.  The developer can choose which
++  DMA controller to use, but the channels themselves are hard-wired.  The
++  purpose of these two properties is to represent this hardware design.
++
++  The device tree nodes for the DMA channels that are referenced by
++  "fsl,playback-dma" and "fsl,capture-dma" must be marked as compatible with
++  "fsl,ssi-dma-channel".  The SOC-specific compatible string (e.g.
++  "fsl,mpc8610-dma-channel") can remain.  If these nodes are left as
++  "fsl,elo-dma-channel" or "fsl,eloplus-dma-channel", then the generic Elo DMA
++  drivers (fsldma) will attempt to use them, and it will conflict with the
++  sound drivers.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - fsl,imx50-ssi
++              - fsl,imx53-ssi
++          - const: fsl,imx51-ssi
++          - const: fsl,imx21-ssi
++      - items:
++          - enum:
++              - fsl,imx25-ssi
++              - fsl,imx27-ssi
++              - fsl,imx35-ssi
++              - fsl,imx51-ssi
++          - const: fsl,imx21-ssi
++      - items:
++          - enum:
++              - fsl,imx6q-ssi
++              - fsl,imx6sl-ssi
++              - fsl,imx6sx-ssi
++          - const: fsl,imx51-ssi
++      - items:
++          - const: fsl,imx21-ssi
++      - items:
++          - const: fsl,mpc8610-ssi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: The ipg clock for register access
++      - description: clock for SSI master mode
++    minItems: 1
++
++  clock-names:
++    items:
++      - const: ipg
++      - const: baud
++    minItems: 1
++
++  dmas:
++    oneOf:
++      - items:
++          - description: DMA controller phandle and request line for RX
++          - description: DMA controller phandle and request line for TX
++      - items:
++          - description: DMA controller phandle and request line for RX0
++          - description: DMA controller phandle and request line for TX0
++          - description: DMA controller phandle and request line for RX1
++          - description: DMA controller phandle and request line for TX1
++
++  dma-names:
++    oneOf:
++      - items:
++          - const: rx
++          - const: tx
++      - items:
++          - const: rx0
++          - const: tx0
++          - const: rx1
++          - const: tx1
++
++  "#sound-dai-cells":
++    const: 0
++    description: optional, some dts node didn't add it.
++
++  cell-index:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1, 2]
++    description: The SSI index
++
++  ac97-gpios:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: Please refer to soc-ac97link.txt
++
++  codec-handle:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Phandle to a 'codec' node that defines an audio
++      codec connected to this SSI.  This node is typically
++      a child of an I2C or other control node.
++
++  fsl,fifo-depth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      The number of elements in the transmit and receive FIFOs.
++      This number is the maximum allowed value for SFCSR[TFWM0].
++    enum: [8, 15]
++
++  fsl,fiq-stream-filter:
++    type: boolean
++    description:
++      Disabled DMA and use FIQ instead to filter the codec stream.
++      This is necessary for some boards where an incompatible codec
++      is connected to this SSI, e.g. on pca100 and pcm043.
++
++  fsl,mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [ ac97-slave, ac97-master, i2s-slave, i2s-master,
++            lj-slave, lj-master, rj-slave, rj-master ]
++    description: |
++      "ac97-slave" - AC97 mode, SSI is clock slave
++      "ac97-master" - AC97 mode, SSI is clock master
++      "i2s-slave" - I2S mode, SSI is clock slave
++      "i2s-master" - I2S mode, SSI is clock master
++      "lj-slave" - Left justified mode, SSI is clock slave
++      "lj-master" - Left justified mode, SSI is clock master
++      "rj-slave" - Right justified mode, SSI is clock slave
++      "rj-master" - Right justified mode, SSI is clock master
++
++  fsl,ssi-asynchronous:
++    type: boolean
++    description: If specified, the SSI is to be programmed in asynchronous
++      mode.  In this mode, pins SRCK, STCK, SRFS, and STFS must
++      all be connected to valid signals.  In synchronous mode,
++      SRCK and SRFS are ignored.  Asynchronous mode allows
++      playback and capture to use different sample sizes and
++      sample rates.  Some drivers may require that SRCK and STCK
++      be connected together, and SRFS and STFS be connected
++      together.  This would still allow different sample sizes,
++      but not different sample rates.
++
++  fsl,playback-dma:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: Phandle to a node for the DMA channel to use for
++      playback of audio.  This is typically dictated by SOC
++      design. Only used on Power Architecture.
++
++  fsl,capture-dma:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: Phandle to a node for the DMA channel to use for
++      capture (recording) of audio.  This is typically dictated
++      by SOC design. Only used on Power Architecture.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - fsl,fifo-depth
++
++allOf:
++  - $ref: dai-common.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/imx6qdl-clock.h>
++    ssi@2028000 {
++        compatible = "fsl,imx6q-ssi", "fsl,imx51-ssi";
++        reg = <0x02028000 0x4000>;
++        interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clks IMX6QDL_CLK_SSI1_IPG>,
++                 <&clks IMX6QDL_CLK_SSI1>;
++        clock-names = "ipg", "baud";
++        dmas = <&sdma 37 1 0>, <&sdma 38 1 0>;
++        dma-names = "rx", "tx";
++        #sound-dai-cells = <0>;
++        fsl,fifo-depth = <15>;
++    };
+-- 
+2.34.1
 
