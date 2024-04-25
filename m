@@ -1,96 +1,113 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C32E12C466;
-	Thu, 25 Apr 2024 16:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A6914C58E;
+	Thu, 25 Apr 2024 16:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714061278; cv=none; b=uLUgL934LwGmfzdWkUWf0iJsu48QTUG+rvPmlrxyBek4F2DOx9GNxYmWxKqZ7mzihcU+7u4lqv58CPzLfyqD9JtxhQ/151fZMj3FBNTGTndY/TjNMbCeL+RFa6b9n5qIvNAksNN3Mqon6bPaZA2Tv881jbhHNo1N8w/Bsc5zHTc=
+	t=1714061559; cv=none; b=EqH5u8dpd6TDMyZMVVsVlb/mg1vf8rl1y5wnYxnHoOSz6/pbsWKJ1Lf9AVS1Egf5cKtTjv9bvwBbI/zcSJTBosvAnOsTrqd5Oqa1Uk3zWcW27Lj5ViLZ/XqaVLO8HnFmjxYXQPbP1g2ECcRYmcEqTAnf3nz2LK1rSnGVhcqAMYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714061278; c=relaxed/simple;
-	bh=kZSoVnPwHh86m3NoOdlMADSlVu0ywdgka1QLhDZJ0Ec=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gDw6HX9mxALQ71JjbwOhGOgRHoSeauYhslgUm/CDuOPiSdprQUduvBPaIr8hb9/t8EVOosW7JD2JC1SL25LyuALqB+AS1+ewocfPQ0GjNx4mArurUVDlXs+GYtM4mxW8wWduqHu0GjPFVoP35nMZzvAECWJkq1QkYpdVDtkxGtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JuESLOa/; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714061559; c=relaxed/simple;
+	bh=5NE/lyOaUfLlW/OASHe3DgI9W5o4P0QFA65CKeaSAiM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gFxfAEow8uxDRR402JXvdHNcoVriCX80pAVaDmijKPseYDm3CxgF35ouUfkQGWPjxNNPXTmkCD+c8Lz3yU3VdmSKjcAY3/cJWi+sqt3dTPrHQg4Vut/LkpSRoOsMoTZV7vuSrWhHH33CnXAA07CCUjabD2yKnW2syjJGKcYYk+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5/K6bIR; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JuESLOa/"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-41a1d88723bso8336075e9.0;
-        Thu, 25 Apr 2024 09:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714061276; x=1714666076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gN8Y1W7KR/HV28QZoX9RNXIwZmbdrRKuGKHOSEwdMx8=;
-        b=JuESLOa/kdXz/mhcAg+eFEEbCqabNIuEDmwqLQdH4UdzDNJ1dt3jvZVSuqBuewzxcE
-         m+g7x5oKe6Z+n9TFPgz4SvHpVC4Ww6aM/4P5XRQRvAPi8qDyaEAjbJT3xHWh/Hf3bkXw
-         TYnKDPDbN0YqlI/EMKUqAxzT3/8A8J5y90AChJdbWhjYi7fQ5R/plNPRTA8mdilBivWY
-         mh6Q6DMc8Q5HkkjwjsJ/AXMnuBq8kXEVS443vdtAddIjB5KHDIY12Hs3pUcJTAJO9ypo
-         EyRg0FxpTuMqBDHSnXmAJMMYQHorYORVf6gae7V0splzVI694WxzEj1sX8TUw04ly/5J
-         Z8Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714061276; x=1714666076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gN8Y1W7KR/HV28QZoX9RNXIwZmbdrRKuGKHOSEwdMx8=;
-        b=H4Ref1xZ+UCyKvq1319KqfrDC3Fd6Z0PhsndViWibqz95cQAjaAu7Bt/NNsxeyXSIO
-         o+Maqzt8uDbm8zchgM4kvFaJWAj7sGd/Z/ZPulhLEPTeUp69SMemGIS53LOi0B408eMB
-         0BDbdhsXuCiOy5F3qnigyTQJsIq45o6YP3QGXNdR53f9Kb1FWoTMBYDTh4caLAEY0foH
-         F4M612XzWppJ88iVyNtbd4KIpmLqqOYmO9JIxqKTjPhgxaHXKXPeWhew2lBGrg/W8DI9
-         +YX9UdH8MC4wM56Li4clklqg84L7Gh00u+kMz5JmteLEUOJa6qwtvnYHKXnNScEVDKi3
-         pztA==
-X-Forwarded-Encrypted: i=1; AJvYcCWBU6fPsd3QNRk6Zonuv108KaF9XE85jmOxbptIrmn1IC+rZQvQs7kDAf9l+5/K+Vq6G/uHCdnMn2CM+J2ICrfiRbiScraKOzX365En6n9O6Irt/QRfZQnztCLq+DWK9M/GymwI4dnf/Y4=
-X-Gm-Message-State: AOJu0Yy0ntNBtpX6LfLD6qkZB61VjbCdp/tGeXLtnEZKm2JYSE/Z3uXm
-	gSVpRY0aqNXISxB/hL2ct3BQmSMy9ygy0Lzd1ahGBVKKUFHek8jnzDcYDY4m
-X-Google-Smtp-Source: AGHT+IFlDxeIzTLQZ6oCjoR8SMYSRVnEsMxbx1edkXUA0vtbs8bw/ldbshuE6Rzl5C3HS2QqZZNG5A==
-X-Received: by 2002:a05:600c:1554:b0:418:a620:15a1 with SMTP id f20-20020a05600c155400b00418a62015a1mr4465333wmg.30.1714061275261;
-        Thu, 25 Apr 2024 09:07:55 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id j2-20020a05600c1c0200b0041ac3e13f1esm9643536wms.37.2024.04.25.09.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 09:07:54 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ALSA: kunit: make read-only array buf_samples static const
-Date: Thu, 25 Apr 2024 17:07:54 +0100
-Message-Id: <20240425160754.114716-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5/K6bIR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714061557; x=1745597557;
+  h=message-id:date:mime-version:from:subject:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=5NE/lyOaUfLlW/OASHe3DgI9W5o4P0QFA65CKeaSAiM=;
+  b=g5/K6bIRKrGeq7LymE/tnim8X81Rp7a8IYeaNsldawIEWaiHj256paxo
+   dByl3UATZowu1RcoaosdbzsPNrRuMSWPP0RvxAkOs4W0PFjHNn+coT36y
+   995gkT52hH84oMdTxa+3oBaDA/Fl1i7Y7ORjxDtxqQI7590LlMPVA8XF7
+   laCTYY9uAIjMy23Sf/iV5PMuFRiy2r7Tg2j1C46a7SoZQjJfI/TNXja3w
+   RmOgxo1PzTTPgOVaxaU7ORFcx3sasypAG6SIWcPBbcNPdlFXDYXXjwFOg
+   7AFQJrqU3VVzmBeLtIlOnhSTF5TelebnZtmJru1kfwaaNLdfiJib5k1Vp
+   g==;
+X-CSE-ConnectionGUID: aWI2pbaNRriy95fzpqz8Lw==
+X-CSE-MsgGUID: vscR/ERlTXKA4RAyTWFVMA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20376425"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="20376425"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 09:12:36 -0700
+X-CSE-ConnectionGUID: 55tzMgBXTLCWFo6GfzAnFw==
+X-CSE-MsgGUID: 1uyU9cEuQeOv5TAheGc1BQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="62607732"
+Received: from mhillikx-mobl.amr.corp.intel.com (HELO [10.212.81.51]) ([10.212.81.51])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 09:12:34 -0700
+Message-ID: <2f7f0dd1-14de-428f-94ce-fa03cce313fd@linux.intel.com>
+Date: Thu, 25 Apr 2024 11:12:33 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+To: Krzysztof Kozlowski <krzk@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+ <89f8f0be-2534-46c8-9058-cabea4f68568@linux.intel.com>
+ <9d1eda85-32a0-4e53-86ca-ce3137439bd7@kernel.org>
+ <d046d195-6fa3-4c52-bc5f-3e5e763bc692@linux.intel.com>
+ <138ac465-1576-4e86-a05d-63f8acc6fb70@kernel.org>
+ <3acfbe3c-8b83-4c40-83c2-437f963fd25a@linux.intel.com>
+ <7490bce3-3bd6-4beb-b8be-d47a6b0a30f0@kernel.org>
+ <eaa0c99a-3b41-4444-906c-d2f005d326b9@linux.intel.com>
+ <aef907ab-1087-4f49-bea4-d43ee6cebb73@kernel.org>
+ <735d6dbc-86e4-4747-9bd9-2574ead7d039@linux.intel.com>
+ <65a5837d-36b3-41bd-b03f-d4f93b30d5c8@kernel.org>
+Content-Language: en-US
+In-Reply-To: <65a5837d-36b3-41bd-b03f-d4f93b30d5c8@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Don't populate the read-only array buf_samples on the stack at
-run time, instead make it static const.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/core/sound_kunit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-index eb90f62228c0..e34c4317f5eb 100644
---- a/sound/core/sound_kunit.c
-+++ b/sound/core/sound_kunit.c
-@@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
- 
- static void test_format_fill_silence(struct kunit *test)
- {
--	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
-+	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
- 	u8 *buffer;
- 	u32 i, j;
- 
--- 
-2.39.2
+On 4/23/24 11:06, Krzysztof Kozlowski wrote:
+> On 23/04/2024 17:57, Pierre-Louis Bossart wrote:
+>>
+>>> Are we talking about basic C now? Of course it does not mean that and I
+>>> already explained what is the goal of this - the static or global memory
+>>> in the driver can be moved to rodata.
+>>
+>> the dsp_ops used by the Intel drivers cannot be moved to rodata in all
+>> cases. the baseline is constant, all extensions for TGL+ are dynamically
+>> allocated and modified.
+> 
+> Yes and these drivers will not benefit. Did I changed them here? I think
+> I didn't, because then it would not compile.
 
+So we do agree that's there's no benefit on any Intel platform released
+in the last 4 years...
+
+The CI tests [1] don't show any regression, nothing was broken on our
+devices so I guess there's no further objection.
+
+Tested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+
+[1] https://github.com/thesofproject/linux/pull/4949
