@@ -1,146 +1,151 @@
-Received: from mail.schimsalabim.eu (vps01.schimsalabim.eu [85.214.219.45])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084841CFA9;
-	Thu, 25 Apr 2024 11:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D211A12BEB6;
+	Thu, 25 Apr 2024 11:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714043122; cv=none; b=YHMfctuccjCXs+rP2Ct0qa6l4Cjnte6vt0YQcei/qSgXDOntB3YB+Om4wcbLA2C4/96C8bdAiOG/idi1+K8IiJCOBA1VGa03nS8sb389+tGnBUjv4TnpMbsaNrNCcsTEQLwv49SWpIKFobHMK21Lq3snQZ36N2qQSe+V5QlNLNc=
+	t=1714045694; cv=none; b=qy8OePd/RwEtoBPt6MVYQRJDT4FeWaQuNjPX0Nmrc61NgymN4y3nWh+dreuwf8OVwz7bqO2BOrvXnadsmfX7lPA6c+PcmlDuywrUt19gb0W7cqBb20vVbBAivM+00CeSHrIvRGkGDkDkLuXsL9z2MW64OBS0SHtUzZ8Men7JRGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714043122; c=relaxed/simple;
-	bh=R6sayboPC5Q+DTt0RvBB94u+E4yjWkvlzV6GPTzDwAY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V7pWA9bVlxngX1PmgHlVeC/26bR17VKI+mDdYRqAdctrMrUIewNTcwnsRkNFIWUASSvWiJXs4x+DvngxamBSG6HlhiQhsNWnes/O9eI/TodIO16ltg5ohHoB+ytHcFye2JNr7PzX646/lPj+gd1kW7NjjaIGUPf8qPfNZbzPbE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu; spf=pass smtp.mailfrom=schimsalabim.eu; arc=none smtp.client-ip=85.214.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schimsalabim.eu
-Received: from [192.168.0.158] (82-217-109-137.cable.dynamic.v4.ziggo.nl [82.217.109.137])
-	(authenticated bits=0)
-	by h2374449.stratoserver.net (8.14.7/8.14.7) with ESMTP id 43PB42GA030072
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 25 Apr 2024 13:04:02 +0200
-Message-ID: <e256942d-eba1-4800-bd02-c490167dea12@schimsalabim.eu>
-Date: Thu, 25 Apr 2024 13:03:56 +0200
+	s=arc-20240116; t=1714045694; c=relaxed/simple;
+	bh=HwCUhii1v+UVg/w9fnfv1IVtkJsyAJk/WRu0RrIN9fg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ngttJ6BNJLtQ7dCW+KWN9K01iJo6FfKsTv+PXjkvENJ5+ibZK9cBLmr78TkwR9GOKtRMEXgmcgJukIe1hNPLb+G+Wy3pLmyMUOeyfrW3lpn5SP1VEccLMywBz5qBy93tKTbd6o23h+1Aao6WIv6HCaX4yAk6IZHp/xBXPuzFNw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aW501Lv9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aW501Lv9"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43P9wuFT032483;
+	Thu, 25 Apr 2024 11:47:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=lU20Dpc0Wn36bS3HRI03h5cXxSl5AqSMPuJYeo3zz2Q=; b=aW
+	501Lv9eGYZN6Q/nqLPxyBLz9jiqiR2OSSF3ajSYhm7Biw23Idog4oiBm9iz05+vJ
+	mjY6KgQthlPSJ16rJQfMTrCyaHxrXb0beoTT5mKa/BhnZ3a256Rhf4uSGOfc4SLV
+	ebM53eqD/RM93G4NbRVt9/lFSp4bv22WGUvWRmpu0uLl2hSZL17aQP9SJv71ntIt
+	X7IOpSxBdVY3RhyY1jquzS2uaNAM5MLMQcPsLvfoWbISvzHub+qAHLngSLa/UZtz
+	aLHgOXHCslUu5qXvhLMQxPv3ixNuZj4bJ3qNGMwGsFnQi373DYuQMqBvebWPUEPL
+	8BnW20qWpKaGWFtmbuGQ==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqn0wgfx2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 11:47:56 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PBluGN004162
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 11:47:56 GMT
+Received: from [10.216.8.145] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 25 Apr
+ 2024 04:47:50 -0700
+Message-ID: <89c29d6c-173d-5b19-ce7d-9c2b7cec40f2@quicinc.com>
+Date: Thu, 25 Apr 2024 17:17:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: sunxi: DMIC: Add controls for adjusting the mic
- gains
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20240422150213.4040734-1-joao@schimsalabim.eu>
- <5772237.DvuYhMxLoT@jernej-laptop>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 1/7] ASoC: dt-bindings: document wcd937x Audio Codec
 Content-Language: en-US
-From: Joao Schim <joao@schimsalabim.eu>
-In-Reply-To: <5772237.DvuYhMxLoT@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Banajit Goswami <bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>
+CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
+        <quic_pkumpatl@quicinc.com>
+References: <20240425091857.2161088-1-quic_mohs@quicinc.com>
+ <20240425091857.2161088-2-quic_mohs@quicinc.com>
+ <3f961aca-6dff-4d51-bb0b-c974ed80b646@kernel.org>
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+In-Reply-To: <3f961aca-6dff-4d51-bb0b-c974ed80b646@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: WAC75izVg2jaJXu22yxmMqVvbJbvqI1R
+X-Proofpoint-GUID: WAC75izVg2jaJXu22yxmMqVvbJbvqI1R
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-25_11,2024-04-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 bulkscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404250085
 
-On 4/24/24 20:42, Jernej Škrabec wrote:
-> Hi Joao,
-Hi Jernej,  thanks for your prompt response.
->
-> Dne ponedeljek, 22. april 2024 ob 17:02:13 GMT +2 je Joao Schim napisal(a):
->> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
->> the gain (left + right) of each of the four supported channels.
+On 4/25/2024 4:31 PM, Krzysztof Kozlowski wrote:
+> On 25/04/2024 11:18, Mohammad Rafi Shaik wrote:
+>> From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
 >>
->> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
-> Add SoB tag.
-Yeah, i realized that too late. Thanks for bringing that to my 
-attention. I will add it in v1.
->
->> ---
->>   sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 34 insertions(+)
+>> Document the Qualcomm WCD9370/WCD9375 Audio Codec and the soundwire
+>> devices can be found on Qualcomm QCM6490 based platforms.
 >>
->> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
->> index c76628bc86c6..f8613d8c3462 100644
->> --- a/sound/soc/sunxi/sun50i-dmic.c
->> +++ b/sound/soc/sunxi/sun50i-dmic.c
->> @@ -14,6 +14,7 @@
->>   #include <sound/dmaengine_pcm.h>
->>   #include <sound/pcm_params.h>
->>   #include <sound/soc.h>
->> +#include <sound/tlv.h>
->>   
->>   #define SUN50I_DMIC_EN_CTL			(0x00)
->>   	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
->> @@ -43,6 +44,17 @@
->>   	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
->>   #define SUN50I_DMIC_CNT				(0x2c)
->>   	#define SUN50I_DMIC_CNT_N				(1 << 0)
->> +#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
->> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
->> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
->> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
->> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
->> +#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
->> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
->> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
->> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
->> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
->> +
->>   #define SUN50I_DMIC_HPF_CTRL			(0x38)
->>   #define SUN50I_DMIC_VERSION			(0x50)
->>   
->> @@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
->>   };
->>   MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
->>   
->> +static const DECLARE_TLV_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
-> DECLARE_TLV_DB_SCALE is old name, SNDRV_CTL_TLVD_DECLARE_DB_SCALE should be
-> used instead.
-I can't seem to find that define in HEAD. what code-base are you 
-referring to that i should checkout ?
->
-> Other than that, it looks fine.
+>> The Qualcomm WCD9370/WCD9375 Audio Codec communicates
+>> with the host SoC over 2 Soundwire links to provide:
+>> - 3 TX ADC paths with 4 differential AMIC inputs
+>> - 6 DMIC inputs that are shared with AMIC input
+>> - 4 Microphone BIAS
+>> - RX paths with 4 PAs – HPHL/R, EAR and AUX
+>> - Stereo Headphone output
+>> - MBHC engine for Headset Detection
+>>
+>> Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> 
+> 1. That's odd order of tags. Who created the first patch?
 
-Thanks.
+    First patch is created by : Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> 
+> 2. Last time you received report that this was not tested. Now there is
+> again report.
+> Are you sure you test patches before sending?
+> 
+   Yes i have tested patches multiple times before sending.
+
+   In my setup the "make dt_binding_check"  became success, there is no 
+errors.
+
+   log:
+
+   DTC     Documentation/devicetree/bindings/sound/zl38060.example.dtb
+   DTEX 
+Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.example.dts
+   DTC 
+Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.example.dtb
+   DTEX    Documentation/devicetree/bindings/sound/qcom,wcd937x.example.dts
+   DTC     Documentation/devicetree/bindings/sound/qcom,wcd937x.example.dtb
+   DTEX 
+Documentation/devicetree/bindings/soundwire/qcom,soundwire.example.dts
+   DTC 
+Documentation/devicetree/bindings/soundwire/qcom,soundwire.example.dtb
+
+   Not sure why errors not coming in my setup,
+   Will check in different Machine.
 
 > Best regards,
-> Jernej
->
->> +
->> +static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
->> +
->> +        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
->> +                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
->> +                       0xFF, 0, sun50i_dmic_vol_scale),
->> +        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
->> +                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
->> +                       0xFF, 0, sun50i_dmic_vol_scale),
->> +        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
->> +                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
->> +                       0xFF, 0, sun50i_dmic_vol_scale),
->> +        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
->> +                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
->> +                       0xFF, 0, sun50i_dmic_vol_scale),
->> +
->> +
->> +};
->> +
->>   static const struct snd_soc_component_driver sun50i_dmic_component = {
->>   	.name           = "sun50i-dmic",
->> +	.controls	= sun50i_dmic_controls,
->> +	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
->>   };
->>   
->>   static int sun50i_dmic_runtime_suspend(struct device *dev)
->>
->
->
->
-Kind regards,
+> Krzysztof
 
-Joao
+Thanks and regards,
+Rafi
+> 
+
 
