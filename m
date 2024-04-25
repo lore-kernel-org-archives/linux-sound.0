@@ -1,45 +1,45 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5206C171663;
-	Thu, 25 Apr 2024 21:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2616817F384;
+	Thu, 25 Apr 2024 21:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714081941; cv=none; b=oLHFmGnlMQtZm2wiJDVH/4RNvN4e0sjUT4/N6WkeVJZr5L7a6NLnTuw6T1943XUu7cM9aBrAWUE+3MwTi1vP+lEbj3Br2zI6wtee4WCdEOr+MRD+ohofNfNhY3cEL7j/F3AeTSmDUj20rIylFxaMTP/JA8NUs+82c1i6eeJHMx0=
+	t=1714081941; cv=none; b=q3SLrBtvxdW2aCrPICxJt6p1g6jsgO2CgwRBXtk6Drpdj8B2V7DQ/2Re63RRAT1JU3ikCnDuL66xU+SbfS5uQ2oyhnPY1wsRX2NVIHpsn/gAeK41kTklnjpn7FDwPBoYEmTd5kB2JxYqCnKznoYIyAmigluYPQkQR5BYAdLGNJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714081941; c=relaxed/simple;
-	bh=+5mctwiPbGJWIC8A878mTRFjfB1bsvH1gd7x5+K/epQ=;
+	bh=nCfaXQKjVF52n+UdvJaBQMLni4Yc4r7EoaITJoVMs3E=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fe2ByPXUz7Rz2hPtfdKeZ9bFEQrGyAtzbZ0jzujurKEevXKE/02E4uUOhtF5YP4+4uttJBVEWskhvjUSdGuXLmv6XGLQ2QRu6WzGro48I0I/Essg6XykEkrOOEFkgM/mZJBHpDjCVDYIYtfJ4mJxoN1RnufvE22n6+mJ8fh5v8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=M+o8lX3r; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=i0Ugfc368vyxVQm6kHLelxA4vLu9I+KXptiCB3GPRbx7dRxVHV9FFQr+AOziq2UD6elTPkz5abTMqSQEFz/BwkaO+G3bCx/LTFZP5WVxoUY+x/x6IPKfoNMCNgZJrj6SCoDuI2KG4CYOGxrnHWFi6YSQJCyCfFbAGtoWi8jClBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bhlxQ7yK; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="M+o8lX3r"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PLcY7h021747;
-	Thu, 25 Apr 2024 21:51:49 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bhlxQ7yK"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43PKi3Fr018778;
+	Thu, 25 Apr 2024 21:51:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type; s=qcppdkim1; bh=5uoGJwSD9C2YGZyRc+IK
-	0V5FTPw3VvdAlOyGPREG8wI=; b=M+o8lX3rIs/NI4mJZZogyS30JFnPC5md+NJv
-	krxvQq4Vmk+2LoyT0L+yQj4IzjtsZ0zZwpUwQqq9K5azK/ot1NNaDrJ5Z1B5+dbx
-	VlEclfMfWGxL8UOOdsEHzeUxuYmekKDVA/ijUekx/HUZQrBXR5xo/k40MoQ2Pk8c
-	Uxa+4CJmppPh2LIr8xaFutJhKR74xY/CsHRqb9Y6DrMkK27o6D5yi2KCito0lzLs
-	XygGcR7RezPew9hPtnM6y+GhDF2Te7olxfFHSYYlPJmTpUK2FteavfoSYVKtAQBt
-	jQJVma59yyRKZMUjWanllDtXtz9ES6KBEAUBn1P7bnfolgCw8g==
+	:mime-version:content-type; s=qcppdkim1; bh=mL1d9of0fYQNr1X8ZHr/
+	nFQmz8o9xxbVoHzFoYQwCnU=; b=bhlxQ7yKlVfIp9rTkIwJS3hZX/6qnKjXDRVl
+	+XlhuqbdslsrhOt2P2Pp0prVqA8B4Gx2p3m5wsiH1BO5JVJh+8JVJ/Kjr/cmZVSk
+	fYNgtUBOdYOEKJr9jE1iBGT7op4wZry/TUYbCYKnJiJR8wrTrAHY/Mg7OHzGC78D
+	t1h/p75/wHh9MtjfT/DwdqTdGAEmS+haN8hYfVfbe0mGCBQwvf7t673L34ZUxHl5
+	XVBpb80dk/yaFw4TFwDoY6aTycPojn3+iFOlxBzbrcHWC514QhdhPk6IfRYSQMOS
+	uoj4NkXxtc6y2QOreyIcY6G4YpiKCA7JbdEAZqoyBlKka05AvQ==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqengktbc-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xqn0whx55-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 25 Apr 2024 21:51:48 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PLpmSE015500
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43PLplLQ015492
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 21:51:48 GMT
+	Thu, 25 Apr 2024 21:51:47 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 25 Apr 2024 14:51:47 -0700
+ 15.2.1544.9; Thu, 25 Apr 2024 14:51:46 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
@@ -52,9 +52,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <alsa-devel@alsa-project.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v20 40/41] ASoC: qcom: Populate SoC components string
-Date: Thu, 25 Apr 2024 14:51:24 -0700
-Message-ID: <20240425215125.29761-41-quic_wcheng@quicinc.com>
+Subject: [PATCH v20 37/41] ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
+Date: Thu, 25 Apr 2024 14:51:21 -0700
+Message-ID: <20240425215125.29761-38-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240425215125.29761-1-quic_wcheng@quicinc.com>
 References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
@@ -69,93 +69,86 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EcL9enN48hUF8Wul_5x1oHqsgIFlzaYN
-X-Proofpoint-ORIG-GUID: EcL9enN48hUF8Wul_5x1oHqsgIFlzaYN
+X-Proofpoint-ORIG-GUID: rmzKTa2HSmMghMxetE-f7YXdbl98aFrz
+X-Proofpoint-GUID: rmzKTa2HSmMghMxetE-f7YXdbl98aFrz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-04-25_21,2024-04-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 bulkscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2404010003 definitions=main-2404250159
 
-For userspace to know about certain capabilities of the current platform
-card, add tags to the components string that it can use to enable support
-for that audio path.  In case of USB offloading, the "usboffldplybk: 1" tag
-is added to the string.
+In case of notifying SND platform drivers of connection events, some of
+these use cases, such as offloading, require an ASoC USB backend device to
+be initialized before the events can be handled.  If the USB backend device
+has not yet been probed, this leads to missing initial USB audio device
+connection events.
+
+Expose an API that traverses the usb_chip array for connected devices, and
+to call the respective connection callback registered to the SND platform
+driver.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/soc/qcom/sm8250.c            |  3 +++
- sound/soc/qcom/usb_offload_utils.c | 22 ++++++++++++++++++++++
- sound/soc/qcom/usb_offload_utils.h |  6 ++++++
- 3 files changed, 31 insertions(+)
+ sound/usb/card.c                  | 21 +++++++++++++++++++++
+ sound/usb/card.h                  |  1 +
+ sound/usb/qcom/qc_audio_offload.c |  2 ++
+ 3 files changed, 24 insertions(+)
 
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index a4e87dfb1b93..5e3007e2e061 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -39,6 +39,9 @@ static int sm8250_snd_init(struct snd_soc_pcm_runtime *rtd)
- 						&data->usb_offload_jack_setup);
- 	else
- 		ret = qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-+
-+	qcom_snd_add_components_string(rtd);
-+
- 	return ret;
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1ad99a462038..8364c5b8fbbf 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -186,6 +186,27 @@ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
  }
+ EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
  
-diff --git a/sound/soc/qcom/usb_offload_utils.c b/sound/soc/qcom/usb_offload_utils.c
-index 0be05c1f87a9..8b137e1593e5 100644
---- a/sound/soc/qcom/usb_offload_utils.c
-+++ b/sound/soc/qcom/usb_offload_utils.c
-@@ -26,4 +26,26 @@ int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(qcom_snd_usb_offload_jack_setup);
-+
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd)
++/*
++ * in case the platform driver was not ready at the time of USB SND
++ * device connect, expose an API to discover all connected USB devices
++ * so it can populate any dependent resources/structures.
++ */
++void snd_usb_rediscover_devices(void)
 +{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+	const char *prev = card->components;
++	int i;
 +
-+	switch (cpu_dai->id) {
-+	case USB_RX:
-+		card->components = devm_kasprintf(card->dev, GFP_KERNEL, "%s %s",
-+					  card->components,
-+					  snd_soc_usb_get_components_tag(true));
-+	default:
-+		break;
++	guard(mutex)(&register_mutex);
++
++	if (!platform_ops || !platform_ops->connect_cb)
++		return;
++
++	for (i = 0; i < SNDRV_CARDS; i++) {
++		if (usb_chip[i])
++			platform_ops->connect_cb(usb_chip[i]);
 +	}
-+
-+	if (prev && prev != card->components)
-+		devm_kfree(card->dev, prev);
-+
-+	return 0;
 +}
-+EXPORT_SYMBOL_GPL(qcom_snd_add_components_string);
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/qcom/usb_offload_utils.h b/sound/soc/qcom/usb_offload_utils.h
-index 283e81f57f43..03780a12a326 100644
---- a/sound/soc/qcom/usb_offload_utils.h
-+++ b/sound/soc/qcom/usb_offload_utils.h
-@@ -10,11 +10,17 @@
- #if IS_ENABLED(CONFIG_SND_SOC_QCOM_OFFLOAD_UTILS)
- int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
-+int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd);
- #else
- static inline int qcom_snd_usb_offload_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup)
- {
- 	return -ENODEV;
- }
++EXPORT_SYMBOL_GPL(snd_usb_rediscover_devices);
 +
-+static inline int qcom_snd_add_components_string(struct snd_soc_pcm_runtime *rtd)
-+{
-+	return -ENODEV;
-+}
- #endif /* IS_ENABLED(CONFIG_SND_SOC_QCOM_OFFLOAD_UTILS) */
- #endif /* __QCOM_SND_USB_OFFLOAD_UTILS_H__ */
+ /*
+  * disconnect streams
+  * called from usb_audio_disconnect()
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 3c900e5afbce..140928dd9d63 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -221,4 +221,5 @@ int snd_usb_unregister_platform_ops(void);
+ 
+ struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+ 				struct snd_pcm_hw_params *params, int direction);
++void snd_usb_rediscover_devices(void);
+ #endif /* __USBAUDIO_CARD_H */
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 6a25a390f8ae..9695bf0ac1cd 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1879,6 +1879,8 @@ static int __init qc_usb_audio_offload_init(void)
+ 	if (ret < 0)
+ 		goto release_qmi;
+ 
++	snd_usb_rediscover_devices();
++
+ 	return 0;
+ 
+ release_qmi:
