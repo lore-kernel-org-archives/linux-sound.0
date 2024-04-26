@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB6B149C41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E21148FED
 	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714144902; cv=none; b=tjVMltFI+NKPk6+KmlRb1IJn03jo9zd2Q7avjbKUXskQ1sM1G3ySZsmtc/4ZhF2L7Pf74dZe5wunJMZiwVUdNueWrsERds4eKjF3ggmcR0PXUge6pRSDglVry01B3BrPShTWkjjf+r0KdsBB+FIcSy9eOm8svTHEGBa8AhgjcJc=
+	t=1714144902; cv=none; b=soSMEVeorYGwibujv22QO6pOGfT8knX2+ubHX5ZDZf+52qCA9NdV4SnBFS5TJdJTlRhIDld2gUL3mjisV/pMCMQkzAXVW2OVCU3sBfbKQGkT2GhpmgLcF9zKJsrIyduRr8Q+CLreuQ7BoG6bIlQFHevVFhZ//WPHCNorqK35/30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714144902; c=relaxed/simple;
-	bh=mkPPo4cmXEwCG5YJSWVnWIbjUUOV62VUhBtNpvDcliE=;
+	bh=HubybkhRbfo/I4Z9f4ZL9Jl07Vz/hlhXaq7GSFqYs28=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ueqV3pPyhvhhZFuCZFJSkXsB3bhi0uhuAWGECbD0Iz81ryvywr/sDHmsblWb3y6v5ZQBNdVFKhDNxhyjS66LNR8k2uEWurCgQP4pWcWXEuPCAHuLHE65j/qEq7qa/hhsnmD6967Mdo1zkyNFHnqC6jrd8lePG+gs6ts2E+IrVc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9xSOaEJ; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=cOk3nDHyGf5CnssfzSP3+HeX6s1ypGIukXv+Pm34Ll6ro2o9Lx6Hwh4RMHQ5Rc3qzbLrvEyV36tmpffXzC2ZKbb1DJJMKDGUbTwCyf/eKDjy7lF5hLHbeuqTWTgNKdLzX+aIuZQuvojg+b36NH3Sgj4xwhoR2qMI2NI5TNpGq5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5nCJ/Vk; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9xSOaEJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5nCJ/Vk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1714144901; x=1745680901;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mkPPo4cmXEwCG5YJSWVnWIbjUUOV62VUhBtNpvDcliE=;
-  b=K9xSOaEJ4mrgUPLhZW2ZJN1kxXC9U5TIlh6783XA02LLscGw3JbQsH58
-   qaQEGx+AjsbjdZ88yaShSBKH4sKMSfOt1oMJlUPnMMH382tz2Aehbn6c6
-   UzEtS7HrQOmKNfeeFhOJEHe/cEtEOz+9ZsyWNrbufetW5v4N0h/7FSuCX
-   5vp7QcWfQrY4AdlWFbViFFL0pBGrVDHNra/g+qozuLfmbuPvTO6OLip3a
-   tT6v8fAzP7Hu1MqjZeUeaEIT4T0yRT5IV97eSG3P2NPNkoXmHmho7bAkj
-   hMmfDurxq1CjHaC3am/Csgx3H+NvrKIGnBAgmi5DhoxquryBf/kidIA4t
-   Q==;
-X-CSE-ConnectionGUID: pYE4kqxSQ+SlwI00En9w5Q==
-X-CSE-MsgGUID: tMHtfxG2RkKVCtYx0cV52g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21290593"
+  bh=HubybkhRbfo/I4Z9f4ZL9Jl07Vz/hlhXaq7GSFqYs28=;
+  b=g5nCJ/VkU+0pxiVnPC7JatKU//R5zF587v8nkYAtfzaH8NbUbpxKLyEa
+   1VrJv9tKJfcGj9tSpkO50Sc4+r75rpl9CeRR9Gw3mNExqIoY1EE6PMagr
+   X4YTQoNHCAOBz5cLARxtMcLA4k6uEdPa5P8R75HTIpttdPNdsmDdVCk4X
+   IOx5gwjgw0dujFeZ+gNccgGf1biSdQU6yQKasEBZH/IFBq+7GIRp84UTu
+   6Mx4zOqvS9v3AktP8qAnPKv59Kuxohnn58LC/ovWRnTvAkTa1cljaqkcZ
+   bO1FlHJeY2gyO2vATEtN3L3HqU730Wp8LfNZ6Sbx0liaBtQbiZ9j15qAq
+   g==;
+X-CSE-ConnectionGUID: 4HnHHlYEQMyn1iI1i+ck2Q==
+X-CSE-MsgGUID: TL59GKGvSGm9UxROHsES8A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21290589"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="21290593"
+   d="scan'208";a="21290589"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:40 -0700
-X-CSE-ConnectionGUID: mI/xbSpZSAivebQ/hXRUEg==
-X-CSE-MsgGUID: lM7woBPGTi6TglTya21fBg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:39 -0700
+X-CSE-ConnectionGUID: DLM2Grf3Rz68RvkKcQjYCw==
+X-CSE-MsgGUID: lp2Fd53FSIKI76PkW97tPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="30259024"
+   d="scan'208";a="30259023"
 Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
   by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:39 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
@@ -53,9 +53,9 @@ Cc: alsa-devel@alsa-project.org,
 	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
 	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 02/12] ASoC: Intel: skl_hda_dsp_generic: Use devm_kasprintf for the components string
-Date: Fri, 26 Apr 2024 10:21:13 -0500
-Message-Id: <20240426152123.36284-3-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 01/12] ASoC: Intel: skl_hda_dsp_generic: Allocate snd_soc_card dynamically
+Date: Fri, 26 Apr 2024 10:21:12 -0500
+Message-Id: <20240426152123.36284-2-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240426152123.36284-1-pierre-louis.bossart@linux.intel.com>
 References: <20240426152123.36284-1-pierre-louis.bossart@linux.intel.com>
@@ -69,8 +69,19 @@ Content-Transfer-Encoding: 8bit
 
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Instead of using a global char array, allocate the string with
-devm_kasprintf if needed.
+The static hda_soc_card might be modified during runtime which might cause
+issues on next time when the card is created.
+For example if the dmic_num was set with module parameter then removed for
+the next module loading then the card's components will still going to
+point to the previous boot's cfg-dmics:X string.
+
+There might be other places where devm allocated memory have been freed but
+the hda_soc_card still pointing to the now unallocated memory (the memory
+is freed when the platform device is removed).
+
+Fix this issue by moving the snd_soc_card into skl_hda_private and use it
+for the card registration to ensure that it is correctly initialized every
+time.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
@@ -78,37 +89,115 @@ Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/skl_hda_dsp_generic.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/soc/intel/boards/skl_hda_dsp_common.h  |  1 +
+ sound/soc/intel/boards/skl_hda_dsp_generic.c | 42 ++++++++++----------
+ 2 files changed, 22 insertions(+), 21 deletions(-)
 
+diff --git a/sound/soc/intel/boards/skl_hda_dsp_common.h b/sound/soc/intel/boards/skl_hda_dsp_common.h
+index 4b0b3959182e..19b814dee4ad 100644
+--- a/sound/soc/intel/boards/skl_hda_dsp_common.h
++++ b/sound/soc/intel/boards/skl_hda_dsp_common.h
+@@ -28,6 +28,7 @@ struct skl_hda_hdmi_pcm {
+ };
+ 
+ struct skl_hda_private {
++	struct snd_soc_card card;
+ 	struct list_head hdmi_pcm_list;
+ 	int pcm_count;
+ 	int dai_index;
 diff --git a/sound/soc/intel/boards/skl_hda_dsp_generic.c b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-index 208395872d8b..88d91c0280bb 100644
+index 4aa7fd2a05e4..208395872d8b 100644
 --- a/sound/soc/intel/boards/skl_hda_dsp_generic.c
 +++ b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-@@ -92,8 +92,6 @@ skl_hda_add_dai_link(struct snd_soc_card *card, struct snd_soc_dai_link *link)
+@@ -92,17 +92,6 @@ skl_hda_add_dai_link(struct snd_soc_card *card, struct snd_soc_dai_link *link)
  	return ret;
  }
  
--static char hda_soc_components[30];
+-static struct snd_soc_card hda_soc_card = {
+-	.name = "hda-dsp",
+-	.owner = THIS_MODULE,
+-	.dai_link = skl_hda_be_dai_links,
+-	.dapm_widgets = skl_hda_widgets,
+-	.dapm_routes = skl_hda_map,
+-	.add_dai_link = skl_hda_add_dai_link,
+-	.fully_routed = true,
+-	.late_probe = skl_hda_card_late_probe,
+-};
 -
- #define IDISP_DAI_COUNT		3
- #define HDAC_DAI_COUNT		2
- #define DMIC_DAI_COUNT		2
-@@ -231,9 +229,11 @@ static int skl_hda_audio_probe(struct platform_device *pdev)
- 		card->disable_route_checks = true;
+ static char hda_soc_components[30];
  
- 	if (mach->mach_params.dmic_num > 0) {
--		snprintf(hda_soc_components, sizeof(hda_soc_components),
--				"cfg-dmics:%d", mach->mach_params.dmic_num);
--		card->components = hda_soc_components;
-+		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+						  "cfg-dmics:%d",
-+						  mach->mach_params.dmic_num);
-+		if (!card->components)
-+			return -ENOMEM;
+ #define IDISP_DAI_COUNT		3
+@@ -115,9 +104,9 @@ static char hda_soc_components[30];
+ 
+ #define HDA_CODEC_AUTOSUSPEND_DELAY_MS 1000
+ 
+-static int skl_hda_fill_card_info(struct snd_soc_acpi_mach_params *mach_params)
++static int skl_hda_fill_card_info(struct snd_soc_card *card,
++				  struct snd_soc_acpi_mach_params *mach_params)
+ {
+-	struct snd_soc_card *card = &hda_soc_card;
+ 	struct skl_hda_private *ctx = snd_soc_card_get_drvdata(card);
+ 	struct snd_soc_dai_link *dai_link;
+ 	u32 codec_count, codec_mask;
+@@ -199,6 +188,7 @@ static int skl_hda_audio_probe(struct platform_device *pdev)
+ {
+ 	struct snd_soc_acpi_mach *mach;
+ 	struct skl_hda_private *ctx;
++	struct snd_soc_card *card;
+ 	int ret;
+ 
+ 	dev_dbg(&pdev->dev, "entry\n");
+@@ -213,32 +203,42 @@ static int skl_hda_audio_probe(struct platform_device *pdev)
+ 	if (!mach)
+ 		return -EINVAL;
+ 
+-	snd_soc_card_set_drvdata(&hda_soc_card, ctx);
++	card = &ctx->card;
++	card->name = "hda-dsp",
++	card->owner = THIS_MODULE,
++	card->dai_link = skl_hda_be_dai_links,
++	card->dapm_widgets = skl_hda_widgets,
++	card->dapm_routes = skl_hda_map,
++	card->add_dai_link = skl_hda_add_dai_link,
++	card->fully_routed = true,
++	card->late_probe = skl_hda_card_late_probe,
+ 
+-	ret = skl_hda_fill_card_info(&mach->mach_params);
++	snd_soc_card_set_drvdata(card, ctx);
++
++	ret = skl_hda_fill_card_info(card, &mach->mach_params);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Unsupported HDAudio/iDisp configuration found\n");
+ 		return ret;
  	}
  
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	ctx->pcm_count = hda_soc_card.num_links;
++	ctx->pcm_count = card->num_links;
+ 	ctx->dai_index = 1; /* hdmi codec dai name starts from index 1 */
+ 	ctx->platform_name = mach->mach_params.platform;
+ 	ctx->common_hdmi_codec_drv = mach->mach_params.common_hdmi_codec_drv;
+ 
+-	hda_soc_card.dev = &pdev->dev;
++	card->dev = &pdev->dev;
+ 	if (!snd_soc_acpi_sof_parent(&pdev->dev))
+-		hda_soc_card.disable_route_checks = true;
++		card->disable_route_checks = true;
+ 
+ 	if (mach->mach_params.dmic_num > 0) {
+ 		snprintf(hda_soc_components, sizeof(hda_soc_components),
+ 				"cfg-dmics:%d", mach->mach_params.dmic_num);
+-		hda_soc_card.components = hda_soc_components;
++		card->components = hda_soc_components;
+ 	}
+ 
+-	ret = devm_snd_soc_register_card(&pdev->dev, &hda_soc_card);
++	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (!ret)
+-		skl_set_hda_codec_autosuspend_delay(&hda_soc_card);
++		skl_set_hda_codec_autosuspend_delay(card);
+ 
+ 	return ret;
+ }
 -- 
 2.40.1
 
