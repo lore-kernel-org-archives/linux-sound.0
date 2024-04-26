@@ -1,206 +1,224 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6763924B21;
-	Fri, 26 Apr 2024 17:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74A516D9D2
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 17:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714151025; cv=none; b=p9nFLPZJ/RBPjps0TYxJv1wauMWGhVM66tfiUNyEdFjUZqSlqPxOsN/gjDZACeLS5whR9sftCYUiHiaXVWC3YgF0Av1IcNcBhZj2iz06+jBpLfEi/DXiAqNLMHnTc75I7xtx1r2Pt12ONy84IEYx9+lNSYZZRcyC48fuWiOJG+Q=
+	t=1714152161; cv=none; b=adxxN7jHjpqfLuvC4RQmNyDvuJ8wjaw6nBBerme1S41qpjzUw6wVygZfgxcpOACNbpFnxd1DXLULlTgzd7X8h9VqGk1LoYNUz4uYX9I/qYvjKBeiPPKOeIdDkSaXDeRCk5pfpM2l49TrhlGlIXDrvvMypK2s21giOhQQtDrEVoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714151025; c=relaxed/simple;
-	bh=E5Zo0clvt55KvUvDKEImazN2BO8g7JyqxoRuWQ3jSVo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CVRCvGA8/7uC9OxkHSlvoWbERd/4Ly7+5VDzAase0MiWZzIrQS1ZyAjbokaQs3rsw2+KOHfhJXzed5f/JLEXuutNzhRpIv9jz+hRdJNk1/+bKCzsG38Uc91U+GV226fvQPnwrV3ozQXM5IGsAU0xRb1OVqB3IgoNhJQR3RuwD0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9ZPMW0G; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714152161; c=relaxed/simple;
+	bh=mQ0BYdLeInE8BFr/mP/QEGIogjhZGjK/zMNc0uGi9AI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ec14wEywQUEdH64X5a61Vp0dKds9jzw6kqCyMS3CNslzudrHo0v9ebd23IK+Hg2UJKevapFSSwXJDc6YBtKP/bQDzrUN0lykIOEGoVJheR4alFI+gNPqUzGdb4zU+l9ZlHW0cKDmEespUpeOP8eJAWA4ES+ZniORoVwYW/NeCRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yHmgU9w2; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9ZPMW0G"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so1634284a12.0;
-        Fri, 26 Apr 2024 10:03:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yHmgU9w2"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51abd9fcbf6so4176744e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 10:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714151023; x=1714755823; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sv58Qd5ksYyhASH2QCPLwEVVVgnFfv8OH/VM1sHFeck=;
-        b=B9ZPMW0GDTQCMIRczKzxuPN6HXJWO+R+c0htN3vLm6cBgWCrPOvREXurOSjwpa4nZ+
-         GP52eVtWC+PlvkGEgCU1x3IlHpgNIbXz9xh6MfsUFqX0VCdp0rgu/biS8GXTzY5U6Fsa
-         dChdgXU3eFkW2GlNui5KBYnYqhz+oWaC8ZGQJHvY5thWX6U3G4Jx4InwLWkTlKOrr0iL
-         XsZSPP2ndKf8vuHxHNAvZ6HSErVYzrHvv5XkPDHBaovwzUcDjJRrNhORos0mnuXXmWSk
-         32HOvaksHtkc4WqHUWfIdG54juvY/47/s6VDKzEyacN63JnXNUHg9de4b/iBA6E4I0DL
-         4r9A==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714152157; x=1714756957; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k71hSoN15yH9F3aB+h2wTv9pphh17yQUdnB0/yDtnY0=;
+        b=yHmgU9w24uIAIRwkIymVQY/xcNOYARJ3Qx0A+rspsxrG+6CFQOJ41ZvBu6Obe1jRKz
+         7byXihOiaomlt+S3/Mu7mHa9bGacg+Prua3hQJeupu7ZlA10JdauSaf8duE+3/1Zc1A3
+         3hfFaiQXrQwcbeA1cWVTVGT1PdM1zyMqaDtBno+tYF2+loxAMtYMuOvrPBCP382DQPYQ
+         nQHcL4N3jbAgpcioUkeLkKekR3KkGbimgSF5R7T+cJTnjwa/dqo9a0EkEEVe0dPQLnF2
+         /fErtIE3afdufiTiH771ZX+WlHOKuwxmouI3NLTiNrh/vLJIU+sbA3VNZ1QqAUJQ/0M7
+         kYPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714151023; x=1714755823;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1714152157; x=1714756957;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sv58Qd5ksYyhASH2QCPLwEVVVgnFfv8OH/VM1sHFeck=;
-        b=t7aGaMVbTozerWNrMI3U8cSC3EI5VP3RitR8K0+QAsO8S/L4s0vQ3g2Z4MaDHfHsYa
-         m/iZqiwjhqEtjTUAZswA+gPjOuECMBHUV+KvKwa2hSjBr9CPNHAtftWJWE6xtgmF6GWm
-         WoXIaJLFV0Kryj8DtGe64y0Y3sVKgTJNUvX9f2qUNapHk67Ktxd1AXnWZpPTDzXJmiL6
-         owBaZQNMvGbe44GppV+epcKYTrTfXa0KQvjrG63t/spdXgKuOz66mf3eAoTW2kbtk7X6
-         HrDzrxkwoqg2Zi/lJSL6+2LAOD8RpmV5BzD0id2JYhw9BMo1t5tZ1CyXOima9uHFRRW/
-         8a8g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7qB7/bIeUA4UXwCfs2Ef+ZnJ5gu4U57pJ1T+6CsgYtuSHbsN9aAcg4uaFRiWAGNOT5Js5AQjKeBmQaJ0VS7/BN5O3WR9hGr1YARn6YFNL1JIQYp4+ZIJ5PTQ4PLWgbquYzbPEOsYeC78YnMpQHjN/zwLR3VNKacsQiaNoH1sxOKAcCxABLiQf8Z8CkTymRiCdO6iCqzsBvHlx06hig1oJC2A=
-X-Gm-Message-State: AOJu0YyViMM7Y2n8JLuW3ebdMGceOkJXnZ8SiIHt2PGhMO+TIn7UXlUz
-	mcnOPIbA6Qi85Ev5yRL95leMfChGxw7HGfth7rQtWCIOTHvZnC7Q
-X-Google-Smtp-Source: AGHT+IFMceCZFif0B91YDqZNtx0yyR5xJSzTuZu5RE4WXIT/MpFQHon3MPffBxjB1nXZzggujq4OYw==
-X-Received: by 2002:a17:90b:3614:b0:2a3:acc:a97e with SMTP id ml20-20020a17090b361400b002a30acca97emr3427120pjb.20.1714151023400;
-        Fri, 26 Apr 2024 10:03:43 -0700 (PDT)
-Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
-        by smtp.gmail.com with UTF8SMTPSA id x6-20020a17090ad68600b002a20c0dcebbsm14976192pju.31.2024.04.26.10.03.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Apr 2024 10:03:43 -0700 (PDT)
-From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
-Date: Fri, 26 Apr 2024 22:33:18 +0530
-Message-ID: <20240426170322.36273-1-sheharyaar48@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        bh=k71hSoN15yH9F3aB+h2wTv9pphh17yQUdnB0/yDtnY0=;
+        b=AoUNCagGJRmKsd9a2JvEUVeRgelviIcAr2dkM9pK1JJqByrqQA0guXWiqLSpko3NFD
+         gnVyNczA9IJrzpOkCk4OVittdBJMHfzXOjQcNUgHesBgSFZrKZXgbI3cSn7lRykRLSzg
+         mF5Rm60UVUWUUyUHDNOWkrNEVWida9v6hnGsc+p131BW87DFdZmT6a2ZD7jsNZ7ztJB/
+         MoTor7r8qD5DPAy44UWoRw6fNpJmv+aG35E072p0/nx7XgcYES4FTYMKgojkLZuPF+If
+         aGn4KnIe8Pmi8Won36irm06LQGjqHboUsdBEqdiMb2m2CiciFb6Y9r5bx3nPT381d8gf
+         kM9A==
+X-Gm-Message-State: AOJu0Yyo2tD1DybAa6edoRbEQaSoh/l//yxF4QAhL4fpneSasAL30sVH
+	AlG7k7RVbu+4m7I3uJhTq732JpmjR7MxM0VhHsRlrhzjSfQeEx1Rf5v3JpMEwAmQHWIcdMvFCLZ
+	axcU=
+X-Google-Smtp-Source: AGHT+IGGmltkw3FmOHr203oPQ7PadAy3RzH/8PcaNuMZJezQtl+Y6hzfXyYMaq2zC3qzqc9g35yFQw==
+X-Received: by 2002:ac2:48b5:0:b0:519:60da:56fa with SMTP id u21-20020ac248b5000000b0051960da56famr2471353lfg.42.1714152156558;
+        Fri, 26 Apr 2024 10:22:36 -0700 (PDT)
+Received: from [127.0.1.1] ([93.5.22.158])
+        by smtp.googlemail.com with ESMTPSA id ot15-20020a170906cccf00b00a5239720044sm10763363ejb.8.2024.04.26.10.22.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 10:22:36 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH v4 00/16] Add audio support for the MediaTek Genio 350-evk
+ board
+Date: Fri, 26 Apr 2024 19:22:29 +0200
+Message-Id: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANbiK2YC/3XOTYoCMRAF4KtI1hPNv62ruccgUkmq7QJNS6JBk
+ b676V4OunwF33v1YgUzYWH71YtlrFRoTC2YnxULA6QTcootMyWUEUo5DvdIIydtBTcoZQTRdWg
+ ta8BDQe4zpDDMBC6YTwlum+rWHc9BbhZ7DGeEdL/O4pqxp8cy/3doeaByG/Nz+abK+fpxuEre1
+ nuQAUE6t+1/PTzP5DOuw3hhc1NV37VqWgujo+l0RBE/aP1d66al816F3dYEa//paZremeg4HVU
+ BAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Nicolas Belin <nbelin@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5460; i=amergnat@baylibre.com;
+ h=from:subject:message-id; bh=mQ0BYdLeInE8BFr/mP/QEGIogjhZGjK/zMNc0uGi9AI=;
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBmK+LaBBB9GBTBfqJRRntnZS0wN4RhMFnbwrVXpvKv
+ 4RbT6smJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZivi2gAKCRArRkmdfjHURTukD/
+ 9ZA1bVQD8tdglKELx0M3xSVDXl47/YL1/2elfF64Arp1qCSdF7Van1DdKyb3ieKkVPCU4olo/xBUqW
+ cftyKa0PRqNKM9ATv4y2tKV50HdA9f4nhKUm6nExjNyiUZlUsdN67DcbfZxYcVcm/Fyt6fPTGL7vrj
+ E/oYmOV2e2QwUvijE0K/Q17zfOspVPBZd+ycv2EJ0EDEjTSTj+OqfKP37I6jYAs0kRDwPL9aZtZa1m
+ /4A6ZYehxVx25/BhdcOW3gM++4YY48FTdGOaxlbSR69YCWSXVbV7kR4xEHDSKUdKon9naiL8m2Cws6
+ CCoo8oyKbrMXXcT4DPf+MpRfxLFaot8PN9esfQ1r/oSHzr3u1jMxvSNMfEfqoeyKkKOPZv1lq0x+Cz
+ 2kk52JFdh0zGunuPMOL+UHtV/vPLnEllWTo4NOvJ6H4A3JJIzqnSFKqt9e8hfaaMNc4e456wCuvHUg
+ 6Ubn7mVX4HcY26XWXYy7bzSV0PuZoYU8M602dUTQ3ZEzBVZn7ZA7SnQMMuobZYHkypU4dDZKuBXziU
+ pgNAvdID5d3vSjY092Kv4aSPqhEejO/Rn4itpLT4p9La231ZP7bC88JWHSruGQQi3vgL+sdLzi26OD
+ NT5imPmWAdw29ibUw5PPTWZxp+ANduIBrQjZIpE828wRyylw9vvzYGMkmTxg==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 
-Convert NVIDIA Tegra30 I2S binding to DT schema and
-add "clock-names" property used by multiple tegra i2s blocks
-in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
-required property by the binding.
+This serie aim to add the following audio support for the Genio 350-evk:
+- Playback
+  - 2ch Headset Jack (Earphone)
+  - 1ch Line-out Jack (Speaker)
+  - 8ch HDMI Tx
+- Capture
+  - 1ch DMIC (On-board Digital Microphone)
+  - 1ch AMIC (On-board Analogic Microphone)
+  - 1ch Headset Jack (External Analogic Microphone)
 
-Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+Of course, HDMI playback need the MT8365 display patches [1] and a DTS
+change documented in "mediatek,mt8365-mt6357.yaml".
+
+Applied patch:
+- mfd: mt6397-core: register mt6357 sound codec
+
+Test passed:
+- mixer-test log: [3]
+- pcm-test log: [4]
+
+[1]: https://lore.kernel.org/all/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com/
+[2]: https://lore.kernel.org/all/20240313110147.1267793-1-angelogioacchino.delregno@collabora.com/
+[3]: https://pastebin.com/pc43AVrT
+[4]: https://pastebin.com/cCtGhDpg
+[5]: https://gitlab.baylibre.com/baylibre/mediatek/bsp/linux/-/commits/sound/for-next/add-i350-audio-support
+
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
-Changes v4->v5:
-- removed redundant example
-- removed redundant compatible
+Changes in v4:
+- Rebase to "next-20240422" branch.
+- Re-pass dt_binding_check, functionnal tests, mixer test and pcm test.
+- Remove copyright changes.
+- Move mt6357 audio codec documention from mt6357.yaml
+  to mediatek,mt6357.yaml
+- Fix broken indentation in mt8365-evk.dts
+- Remove empty node.
+- Add more dai link name according to the HW capability.
+- Remove spurious property (mediatek,topckgen)
+  from mediatek,mt8365-afe.yaml
+- Rename "afe" to "audio-controller" in the documentation.
+- Link to v3: https://lore.kernel.org/r/20240226-audio-i350-v3-0-16bb2c974c55@baylibre.com
 
-v4 : https://lore.kernel.org/all/20240425153045.49939-1-sheharyaar48@gmail.com/
+Changes in v3:
+- Re-order documentation commit to fix dt_binding_check error.
+- Remove $ref and add "mediatek," prefix to vaud28-supply property.
+- Link to v2: https://lore.kernel.org/r/20240226-audio-i350-v2-0-3043d483de0d@baylibre.com
+
+Changes in v2:
+- Documentation fixed:
+  - Remove spurious description.
+  - Change property order to fit with dts coding style rules.
+  - micbias property: use microvolt value instead of index.
+  - mediatek,i2s-shared-clock property removed.
+  - mediatek,dmic-iir-on property removed.
+  - mediatek,dmic-irr-mode property removed.
+  - Change dmic-two-wire-mode => dmic-mode to be aligned with another SoC
+  - Remove the spurious 2nd reg of the afe.
+- Manage IIR filter feature using audio controls.
+- Fix audio controls to pass mixer-test and pcm-test.
+- Refactor some const name according to feedbacks.
+- Rework the codec to remove spurious driver data.
+- Use the new common MTK probe functions for AFE PCM and sound card.
+- Rework pinctrl probe in the soundcard driver.
+- Remove spurious "const" variables in all files.
+- Link to v1: https://lore.kernel.org/r/20240226-audio-i350-v1-0-4fa1cea1667f@baylibre.com
+
 ---
- .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 --------
- .../bindings/sound/nvidia,tegra30-i2s.yaml    | 67 +++++++++++++++++++
- 2 files changed, 67 insertions(+), 27 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+Alexandre Mergnat (14):
+      ASoC: dt-bindings: mediatek,mt8365-afe: Add audio afe document
+      ASoC: dt-bindings: mediatek,mt8365-mt6357: Add audio sound card document
+      dt-bindings: mfd: mediatek: Add codec property for MT6357 PMIC
+      ASoC: mediatek: mt8365: Add common header
+      SoC: mediatek: mt8365: support audio clock control
+      ASoC: mediatek: mt8365: Add I2S DAI support
+      ASoC: mediatek: mt8365: Add ADDA DAI support
+      ASoC: mediatek: mt8365: Add DMIC DAI support
+      ASoC: mediatek: mt8365: Add PCM DAI support
+      ASoC: mediatek: mt8365: Add platform driver
+      ASoC: mediatek: Add MT8365 support
+      arm64: defconfig: enable mt8365 sound
+      arm64: dts: mediatek: add afe support for mt8365 SoC
+      arm64: dts: mediatek: add audio support for mt8365-evk
 
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-deleted file mode 100644
-index 38caa936f6f8..000000000000
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
-+++ /dev/null
-@@ -1,27 +0,0 @@
--NVIDIA Tegra30 I2S controller
--
--Required properties:
--- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
--  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
--  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
--  tegra114 or tegra132.
--- reg : Should contain I2S registers location and length
--- clocks : Must contain one entry, for the module clock.
--  See ../clocks/clock-bindings.txt for details.
--- resets : Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names : Must include the following entries:
--  - i2s
--- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
--  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
--
--Example:
--
--i2s@70080300 {
--	compatible = "nvidia,tegra30-i2s";
--	reg = <0x70080300 0x100>;
--	nvidia,ahub-cif-ids = <4 4>;
--	clocks = <&tegra_car 11>;
--	resets = <&tegra_car 11>;
--	reset-names = "i2s";
--};
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-new file mode 100644
-index 000000000000..89c3c6414ab1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
-@@ -0,0 +1,67 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra30 I2S controller
-+
-+maintainers:
-+  - Thierry Reding <treding@nvidia.com>
-+  - Jon Hunter <jonathanh@nvidia.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra124-i2s
-+          - nvidia,tegra30-i2s
-+      - items:
-+          - const: nvidia,tegra114-i2s
-+          - const: nvidia,tegra30-i2s
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: i2s
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: i2s
-+
-+  nvidia,ahub-cif-ids:
-+    description: list of AHUB CIF IDs
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    items:
-+      - description: rx (playback)
-+      - description: tx (capture)
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - resets
-+  - reset-names
-+  - nvidia,ahub-cif-ids
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra30-car.h>
-+
-+    i2s@70080300 {
-+        compatible = "nvidia,tegra30-i2s";
-+        reg = <0x70080300 0x100>;
-+        nvidia,ahub-cif-ids = <4 4>;
-+        clocks = <&tegra_car TEGRA30_CLK_I2S0>;
-+        resets = <&tegra_car 30>;
-+        reset-names = "i2s";
-+    };
-+...
+Nicolas Belin (2):
+      ASoc: mediatek: mt8365: Add a specific soundcard for EVK
+      ASoC: codecs: add MT6357 support
+
+ .../devicetree/bindings/mfd/mediatek,mt6357.yaml   |   34 +
+ .../bindings/sound/mediatek,mt8365-afe.yaml        |  130 ++
+ .../bindings/sound/mediatek,mt8365-mt6357.yaml     |  107 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts        |   89 +
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi           |   43 +-
+ arch/arm64/configs/defconfig                       |    2 +
+ sound/soc/codecs/Kconfig                           |    7 +
+ sound/soc/codecs/Makefile                          |    2 +
+ sound/soc/codecs/mt6357.c                          | 1898 ++++++++++++++++
+ sound/soc/codecs/mt6357.h                          |  662 ++++++
+ sound/soc/mediatek/Kconfig                         |   20 +
+ sound/soc/mediatek/Makefile                        |    1 +
+ sound/soc/mediatek/mt8365/Makefile                 |   15 +
+ sound/soc/mediatek/mt8365/mt8365-afe-clk.c         |  443 ++++
+ sound/soc/mediatek/mt8365/mt8365-afe-clk.h         |   49 +
+ sound/soc/mediatek/mt8365/mt8365-afe-common.h      |  491 +++++
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c         | 2275 ++++++++++++++++++++
+ sound/soc/mediatek/mt8365/mt8365-dai-adda.c        |  315 +++
+ sound/soc/mediatek/mt8365/mt8365-dai-dmic.c        |  347 +++
+ sound/soc/mediatek/mt8365/mt8365-dai-i2s.c         |  854 ++++++++
+ sound/soc/mediatek/mt8365/mt8365-dai-pcm.c         |  293 +++
+ sound/soc/mediatek/mt8365/mt8365-mt6357.c          |  348 +++
+ sound/soc/mediatek/mt8365/mt8365-reg.h             |  991 +++++++++
+ 23 files changed, 9414 insertions(+), 2 deletions(-)
+---
+base-commit: f529a6d274b3b8c75899e949649d231298f30a32
+change-id: 20240226-audio-i350-4e11da088e55
+
+Best regards,
 -- 
-2.44.0
+Alexandre Mergnat <amergnat@baylibre.com>
 
