@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533A914901F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDFC149C4B
 	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:39:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145956; cv=none; b=dO6fZUZLj6Ue4tq+Lq4Oqa5wqkJdkFTSGf21u0RiJjBCUWFhAIWr9Tjfcb5gRfI6fARH4qIO0oLVkhDRwE6KPrZushEBx1Wa6Bo6lrpEbzm4kWJ/7F1DInajG0jjjUPjlw3F+P8lbEn+Q34xYlKZOya3zQWRRfrImeqOEb7/ikc=
+	t=1714145956; cv=none; b=ljkjPVALdn72IR7b4voKx+GeCaM7gtnQnvAKi7eyu2q1oFgVaBVa/TXyvtBaChBW7pSNSiu3WOBXQvlL1iWROsJ1WtEK5Uk5JeKVFyakDiQzo87GAK3JJXC++Sb0bj9SqAujEobg3NI6iOFirbrYP8aJ1NShhTJTb9pOnFt8IgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714145956; c=relaxed/simple;
-	bh=v4RrR4ZevIdejO++X3NJ7yMsgRZ5oysDLZ7RLMPgM4U=;
+	bh=wI9fs7bgOEAA0afP8UWfMGEmXEEIps2sXvmF8aVgK6g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L4fL3TaVmxoLUnf4JVF7pRJkhHr6V1/V3/I5gI9tyCKm4mMZb7LQERKC08maLz2WxDCL7TH2xbIFPgOzEO1u6tKjPlQ95pUxfswclSKVv7FA37HfwfeNFwoe6CvERuMCdTaDBq11SKehK83l6gVcKZ/k+xBivUUGQQe5WB3GD18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYytR8/l; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=ZPrPiutCKZKdOX99nYTAinHii3Yrnfm4AaqPqNFw9vPQCJTAqSU/Vtd4G9BAtla+hPTS6Zik7oBVT2eBYCiWBwxIQ6GEW+Fq1Jw711GMsc6OqRPqlfqKQpYE9jhCFY8xvz4SFWOAtMTZH3UOwfmkAQS16Yet6uqjP3gmifUiZf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tjv8GJ/4; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYytR8/l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tjv8GJ/4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1714145955; x=1745681955;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=v4RrR4ZevIdejO++X3NJ7yMsgRZ5oysDLZ7RLMPgM4U=;
-  b=gYytR8/lxT83WIugkuuT31osTsUi2sxadKoOOuuDskLq4j3YdqR+SbZy
-   qD3bVEq+2uzr36hQH00PuD4XQCxxH4mq3TLHpiWiF58vUkjac8gtRSl2V
-   BzbKoIaqy9Qlev4fjy8mLf2Q144czXG5rRt4C4lgXAw/9ZXF5dVlp16zD
-   gR1gAlmiWtntPDS+uxE7zjSCv358e2x0cHtTFLLVJ2Ibft1IkMIcMk9Kg
-   A0CzgpJ5ouW+r5hBGUN3eDQ1BnSLZdsJPfYMYbVLs+c1gnH8Aw7G1v95y
-   3Z1z0QFyf+uj6tQgShoSrCkl7gM7xV8b7Z/kdEuvtceRopMYw/6VvDoYv
-   w==;
-X-CSE-ConnectionGUID: coFvGpaOShWYW4RF9/Ir7g==
-X-CSE-MsgGUID: CZoc5cvqQKGc0fmWQzVAaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9718441"
+  bh=wI9fs7bgOEAA0afP8UWfMGEmXEEIps2sXvmF8aVgK6g=;
+  b=Tjv8GJ/4IRcvYkYSa9aDPe/lVDsYr2/XLWvNY9p1UdYq6LIRnsZil9sY
+   wgi7gkW5/xqxN3XCPXBq4jnjwB2lf8je/cagJ13byvNuV7ABtdPNOoKEt
+   1QM8ldlX54fvU0/8Uie5NWTd+pglrxDBwGA42O/vGgZtOjkIVJnTi64Z6
+   +Letz8qr7cDYYlYmPiZEvFPdiF8tPn3ulDBaQEmR8k/gN7nIpEoDWO7iQ
+   cJePsqLtOb/3J+f9p6qJWl1yyhdf/lwIzVcKQfheqtDp1MbuUzl5dg1/E
+   6MT+JrFjde1PA3knilLC8xE0g6zC6QgYq89L4DMsUlqys+wHf2nhbMqQh
+   Q==;
+X-CSE-ConnectionGUID: TBURry68SQeFGdbWT50Zbg==
+X-CSE-MsgGUID: YFvy0MhjRZigfd/PUvkqxg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9718450"
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="9718441"
+   d="scan'208";a="9718450"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:11 -0700
-X-CSE-ConnectionGUID: dArphcUpTHu0MWM01xvL6g==
-X-CSE-MsgGUID: rKXOU+QqQPGxrrRIVFB3kw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:12 -0700
+X-CSE-ConnectionGUID: fX3s3AjXS8KoheNEiPO6EQ==
+X-CSE-MsgGUID: hdG1BTC5TUCJVMdKkP2OEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="56623541"
+   d="scan'208";a="56623543"
 Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:11 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:12 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 3/5] ASoC: SOF: Intel: hda: simplify and reduce indentation for hda_sdw_machine_select()
-Date: Fri, 26 Apr 2024 10:39:00 -0500
-Message-Id: <20240426153902.39560-4-pierre-louis.bossart@linux.intel.com>
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 5/5] ASoC: SOF: ipc4-topology: Advertise passthrough capable PCMs (using ChainDMA)
+Date: Fri, 26 Apr 2024 10:39:02 -0500
+Message-Id: <20240426153902.39560-6-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
 References: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
@@ -64,183 +65,91 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Simplify code to return when no links are enabled. No functional
-change, just code cleanup before updates.
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
+If a PCM is set to use ChainDMA then add it to the card->components string
+after a marker of iec61937-pcm:, for example on current HDA platforms where
+HDMI is set to use ChainDMA:
+iec61937-pcm:5,4,3 (the order of the PCM ids can differ)
+
+UCM is expected to parse and use this property to allow applications to
+use bytestream passthrough in a standard way.
+
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/sof/intel/hda.c | 139 +++++++++++++++++++-------------------
- 1 file changed, 71 insertions(+), 68 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 50 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 4d0fe706ebc1..8ddc1b0ca3c9 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1653,92 +1653,95 @@ static struct snd_soc_acpi_mach *hda_sdw_machine_select(struct snd_sof_dev *sdev
- 	hdev = pdata->hw_pdata;
- 	link_mask = hdev->info.link_mask;
- 
-+	if (!link_mask) {
-+		dev_info(sdev->dev, "SoundWire links not enabled\n");
-+		return NULL;
-+	}
-+
- 	/*
- 	 * Select SoundWire machine driver if needed using the
- 	 * alternate tables. This case deals with SoundWire-only
- 	 * machines, for mixed cases with I2C/I2S the detection relies
- 	 * on the HID list.
- 	 */
--	if (link_mask) {
--		for (mach = pdata->desc->alt_machines;
--		     mach && mach->link_mask; mach++) {
--			/*
--			 * On some platforms such as Up Extreme all links
--			 * are enabled but only one link can be used by
--			 * external codec. Instead of exact match of two masks,
--			 * first check whether link_mask of mach is subset of
--			 * link_mask supported by hw and then go on searching
--			 * link_adr
--			 */
--			if (~link_mask & mach->link_mask)
--				continue;
-+	for (mach = pdata->desc->alt_machines;
-+	     mach && mach->link_mask; mach++) {
-+		/*
-+		 * On some platforms such as Up Extreme all links
-+		 * are enabled but only one link can be used by
-+		 * external codec. Instead of exact match of two masks,
-+		 * first check whether link_mask of mach is subset of
-+		 * link_mask supported by hw and then go on searching
-+		 * link_adr
-+		 */
-+		if (~link_mask & mach->link_mask)
-+			continue;
- 
--			/* No need to match adr if there is no links defined */
--			if (!mach->links)
--				break;
-+		/* No need to match adr if there is no links defined */
-+		if (!mach->links)
-+			break;
- 
--			link = mach->links;
--			for (i = 0; i < hdev->info.count && link->num_adr;
--			     i++, link++) {
--				/*
--				 * Try next machine if any expected Slaves
--				 * are not found on this link.
--				 */
--				if (!snd_soc_acpi_sdw_link_slaves_found(sdev->dev, link,
--									hdev->sdw->ids,
--									hdev->sdw->num_slaves))
--					break;
--			}
--			/* Found if all Slaves are checked */
--			if (i == hdev->info.count || !link->num_adr)
-+		link = mach->links;
-+		for (i = 0; i < hdev->info.count && link->num_adr;
-+		     i++, link++) {
-+			/*
-+			 * Try next machine if any expected Slaves
-+			 * are not found on this link.
-+			 */
-+			if (!snd_soc_acpi_sdw_link_slaves_found(sdev->dev, link,
-+								hdev->sdw->ids,
-+								hdev->sdw->num_slaves))
- 				break;
- 		}
--		if (mach && mach->link_mask) {
--			int dmic_num = 0;
--			bool tplg_fixup;
--			const char *tplg_filename;
--
--			mach->mach_params.links = mach->links;
--			mach->mach_params.link_mask = mach->link_mask;
--			mach->mach_params.platform = dev_name(sdev->dev);
--
--			if (pdata->tplg_filename) {
--				tplg_fixup = false;
--			} else {
--				tplg_fixup = true;
--				tplg_filename = mach->sof_tplg_filename;
--			}
-+		/* Found if all Slaves are checked */
-+		if (i == hdev->info.count || !link->num_adr)
-+			break;
-+	}
-+	if (mach && mach->link_mask) {
-+		int dmic_num = 0;
-+		bool tplg_fixup;
-+		const char *tplg_filename;
- 
--			/*
--			 * DMICs use up to 4 pins and are typically pin-muxed with SoundWire
--			 * link 2 and 3, or link 1 and 2, thus we only try to enable dmics
--			 * if all conditions are true:
--			 * a) 2 or fewer links are used by SoundWire
--			 * b) the NHLT table reports the presence of microphones
--			 */
--			if (hweight_long(mach->link_mask) <= 2) {
--				int ret;
-+		mach->mach_params.links = mach->links;
-+		mach->mach_params.link_mask = mach->link_mask;
-+		mach->mach_params.platform = dev_name(sdev->dev);
- 
--				ret = dmic_detect_topology_fixup(sdev, &tplg_filename, "",
--								 &dmic_num, tplg_fixup);
--				if (ret < 0)
--					return NULL;
--			}
--			if (tplg_fixup)
--				pdata->tplg_filename = tplg_filename;
--			mach->mach_params.dmic_num = dmic_num;
-+		if (pdata->tplg_filename) {
-+			tplg_fixup = false;
-+		} else {
-+			tplg_fixup = true;
-+			tplg_filename = mach->sof_tplg_filename;
-+		}
- 
--			dev_dbg(sdev->dev,
--				"SoundWire machine driver %s topology %s\n",
--				mach->drv_name,
--				pdata->tplg_filename);
-+		/*
-+		 * DMICs use up to 4 pins and are typically pin-muxed with SoundWire
-+		 * link 2 and 3, or link 1 and 2, thus we only try to enable dmics
-+		 * if all conditions are true:
-+		 * a) 2 or fewer links are used by SoundWire
-+		 * b) the NHLT table reports the presence of microphones
-+		 */
-+		if (hweight_long(mach->link_mask) <= 2) {
-+			int ret;
- 
--			return mach;
-+			ret = dmic_detect_topology_fixup(sdev, &tplg_filename, "",
-+							 &dmic_num, tplg_fixup);
-+			if (ret < 0)
-+				return NULL;
- 		}
-+		if (tplg_fixup)
-+			pdata->tplg_filename = tplg_filename;
-+		mach->mach_params.dmic_num = dmic_num;
-+
-+		dev_dbg(sdev->dev,
-+			"SoundWire machine driver %s topology %s\n",
-+			mach->drv_name,
-+			pdata->tplg_filename);
- 
--		dev_info(sdev->dev, "No SoundWire machine driver found\n");
-+		return mach;
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index c29c1de4e925..a972b2b5122a 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -407,6 +407,52 @@ static void sof_ipc4_widget_update_kcontrol_module_id(struct snd_sof_widget *swi
  	}
- 
-+	dev_info(sdev->dev, "No SoundWire machine driver found\n");
-+
- 	return NULL;
  }
- #else
+ 
++static int
++sof_ipc4_update_card_components_string(struct snd_sof_widget *swidget,
++				       struct snd_sof_pcm *spcm, int dir)
++{
++	struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
++	struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
++	struct snd_soc_component *scomp = spcm->scomp;
++	struct snd_soc_card *card = scomp->card;
++	const char *pt_marker = "iec61937-pcm";
++
++	/*
++	 * Update the card's components list with iec61937-pcm and a list of PCM
++	 * ids where ChainDMA is enabled.
++	 * These PCMs can be used for bytestream passthrough.
++	 */
++	if (!pipeline->use_chain_dma)
++		return 0;
++
++	if (card->components) {
++		const char *tmp = card->components;
++
++		if (strstr(card->components, pt_marker))
++			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++							  "%s,%d",
++							  card->components,
++							  spcm->pcm.pcm_id);
++		else
++			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++							  "%s %s:%d",
++							  card->components,
++							  pt_marker,
++							  spcm->pcm.pcm_id);
++
++		devm_kfree(card->dev, tmp);
++	} else {
++		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++						  "%s:%d", pt_marker,
++						  spcm->pcm.pcm_id);
++	}
++
++	if (!card->components)
++		return -ENOMEM;
++
++	return 0;
++}
++
+ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ {
+ 	struct sof_ipc4_available_audio_format *available_fmt;
+@@ -452,6 +498,10 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 	if (!spcm)
+ 		goto skip_gtw_cfg;
+ 
++	ret = sof_ipc4_update_card_components_string(swidget, spcm, dir);
++	if (ret)
++		goto free_available_fmt;
++
+ 	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
+ 		struct snd_sof_pcm_stream *sps = &spcm->stream[dir];
+ 
 -- 
 2.40.1
 
