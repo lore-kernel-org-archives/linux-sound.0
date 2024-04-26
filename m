@@ -1,106 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456E213D500;
-	Fri, 26 Apr 2024 09:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5B213EFEC
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 09:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714122396; cv=none; b=jbO8yB/HvxU4r2wkbDTNvnids6QEAdESL3aIWRfbV7Fx/REiUdW2pSe0XK5tG85mKJQ8MM+NTvKA8GeUFrgy4N9E4Aw82JW22k/Y5z5CQyhTvOcW0rqjE+U5EPWvzAnnk/c5OnoJ0YwDrRHJhIKIOX56hfaEGMqq+idyCbXdh5k=
+	t=1714125411; cv=none; b=eziSZ+J8KqSvJ5njRq8XxLBFP7S2XGE9+Ch5oax9uDPtyJAfw4tLy/8waEYW/HPtK+ZAN6z5CYQlsvw7n/RMcay3Aod9hOLh7uKGuYuld6cjY7mAztkeQsevp7z2MuPRhjNsyw3U26/k5NgM8vKPfilWAyIaeEGrimnwzIob8KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714122396; c=relaxed/simple;
-	bh=1j45APt84Z2XIlLb4CgSXht8+Dv+bV1Rc+4llmd3nOU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PkQj1GYzqs2unCJX6y7Kjks/IcMHxbIyzKkoe/12STFQAvD8HoQOzk0h3UTDkED5j/Ug6lEhhhTHVJO483wOSZxP6FX2ERiexYGFDESZOYWQDKAEADb6T5amrFdMEQvH0B0pw1GzeaeIHe6FwsZfKQQwIcNWpKWNfSLLXedTmlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQehXKrr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714125411; c=relaxed/simple;
+	bh=S0Y14cS9v8T8Hz+iw6/hHSZd+jbr1t3NSc0nj1YWyuY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G5/qCQzoiyxdMHZgeOuf8pJ3+EA4/Iaqpd50MOH1uHXux4Wq2YszesHcoc/cbaflTQe1VYJHQZQ+bPT7pokbsH1k7sjpwosx3ryQL3NqQVaxRGJRLmXaHsiQK9yvonNQqkW8DgUiknRfokdzsfOXof+wUcCSHrp3JVp9pwQSb8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qs88OeCb; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQehXKrr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F039AC2BD10;
-	Fri, 26 Apr 2024 09:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714122395;
-	bh=1j45APt84Z2XIlLb4CgSXht8+Dv+bV1Rc+4llmd3nOU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YQehXKrr/O/mDKcnEZ/VzzQIguHqfHe3LKofGVlscwcbsgubsTX5zxKFuh6luz/uZ
-	 x5QOEM64z9voC8y7xCFEfsScljgkOzCOORs5FaB2kBMLjXa328uZOUQ4Cc0vf/ftt7
-	 pCQRpP0M4CoeX20h+PraWWEdYcWtwHB9uLP+cRvTwa1LcT2sZm28NmT2tCRdSbpk+o
-	 Kt2ixUBwlffHVhUkMnuvdCaPu+4qcjJ4xbPnPzOqVSvNJcB+u6/KRm0gXnT43X6Mfs
-	 ET1okh6qQUwzrUjqbwwmQeMKpR5+FXRSp5va0PlCO42WRDjS7e1eoTIODOXevTJI0s
-	 uyl0UUt2rOfYw==
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Fri, 26 Apr 2024 11:04:01 +0200
-Subject: [PATCH v2 14/14] ASoC: SOF: mediatek: mt8195: Constify
- snd_sof_dsp_ops
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qs88OeCb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714125410; x=1745661410;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=S0Y14cS9v8T8Hz+iw6/hHSZd+jbr1t3NSc0nj1YWyuY=;
+  b=Qs88OeCbw2+NT7djmPdyAAIfZLtX15w/4L/kmnTgZ1W0MoLvlVKYqCWi
+   2G+dHybmev70a4z3Y1rsvZyzq3YD/seHjQaV3vdzgzf0Pn7uVl/Wi6Yk7
+   28zKFGe17hiBBnIFqzskMHuhUsMf3sfszUBeey54XnMQAaO9DiitwImND
+   jIq30thOZ0Bi0Oe1lWZ3NbpO9P62XBp77CY31fFb4xXN3pdJMc8ZK26nY
+   u1iUny1NOLvSLVZSziVfmVdRRGAtNCUaIPWMAP5eA4NY4xh9kMPjSCh8A
+   KhZEnHIyKTvOmw+UZM6K0/Cr4Km2zx5YK5lRsPmVpQstDIfaoisx4RaiY
+   A==;
+X-CSE-ConnectionGUID: jsD8U6ooR4aLfFgvIgI3oA==
+X-CSE-MsgGUID: lSCZrC6LR/uYy7r3atVSVQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20409176"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="20409176"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 02:56:50 -0700
+X-CSE-ConnectionGUID: oKRUPPqGQMO4N8oKYUN0JA==
+X-CSE-MsgGUID: aJLiadZ6SDK4FcscLUKDYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="25460535"
+Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2024 02:56:48 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/8] ASoC: Intel: avs: PCM code cleanup
+Date: Fri, 26 Apr 2024 11:57:25 +0200
+Message-Id: <20240426095733.3946951-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240426-n-const-ops-var-v2-14-e553fe67ae82@kernel.org>
-References: <20240426-n-const-ops-var-v2-0-e553fe67ae82@kernel.org>
-In-Reply-To: <20240426-n-const-ops-var-v2-0-e553fe67ae82@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=960; i=krzk@kernel.org;
- h=from:subject:message-id; bh=1j45APt84Z2XIlLb4CgSXht8+Dv+bV1Rc+4llmd3nOU=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmK24ri5hbvvP8DkjdiR3gDZ/o/lD3rZTZSVmyL
- 9OhKlqW3dWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZituKwAKCRDBN2bmhouD
- 1wyvD/979AcclNlfz3AHCAc7yWzJwuKG99G5B/V3GZmbbF/Q10mefin+IcW+1AAGJx2Ay8WQH06
- /gJnJMTc3D4r/w/4atnDj/NHGDbxk3muVAtK2hnvsR0839UYh5KzKhXGo1/6mOyClf6pbRaFPb1
- 8jViXGzLcqMaBMKNWSCn7JwanyBjPd6O/O1J1Y5+cQvx5G94upsOAULNXWUOewj0xXSuTWXx4th
- gSgRLwfnoz+P1gVvurneJUtyWMOFYLINjNVclWPllOnNff328w3UN9Oi5rlxpJttkKV3EvOevXA
- D6M2gp7LsDUCyBHBVDe8ENUm9reCFKuFACkUnU6Gb3vF4AdUbVglglpD9+UHNr/MQMGNgc4n2g3
- ARGqfKiz9ibJC5AzsUnsErKtnJvNl9riPrMHpTxo9kyk5HDPSIg10LMOmzGp6ONl+8KBfGIuqgF
- 6byJO3lHB14IYBAL77WuIUDDjUT9gIW5NzklFSiTcJys/0UWJ/zg1CnxJlTbq/1mzugQw+bOTeZ
- rpDZWvYtaNvQVTNIvr5WcZUUR2Pv4bPIf4D15CgtHKvTtbhBoFQqdkyqdvk/GIKXdjLqM2ShDRh
- OINLugwKjkJTmgFR6c+03NS9CXETbG+wymA6nbTIrHLhl9JrwVOoAxysfBELBVJLlzdCuokBjqv
- +kpjVSBdxdC1Z4Q==
-X-Developer-Key: i=krzk@kernel.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-'struct snd_sof_dsp_ops' is not modified by core code, so it can be made
-const for increased code safety.
+A set of changes that aims to improve readability of cohesiveness of the
+pcm code for the avs-driver.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Tested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- sound/soc/sof/mediatek/mt8195/mt8195.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Start off with a change that synchronizes DAI open/close - DAIs are
+started up in ascending order yet their shutdown does not follow the
+scheme - it is done in the ascending order too, rather than desceding
+one. This patch is a dependency for the next one in line.
 
-diff --git a/sound/soc/sof/mediatek/mt8195/mt8195.c b/sound/soc/sof/mediatek/mt8195/mt8195.c
-index 8ee7ee246344..fc1c016104ae 100644
---- a/sound/soc/sof/mediatek/mt8195/mt8195.c
-+++ b/sound/soc/sof/mediatek/mt8195/mt8195.c
-@@ -505,7 +505,7 @@ static struct snd_soc_dai_driver mt8195_dai[] = {
- };
- 
- /* mt8195 ops */
--static struct snd_sof_dsp_ops sof_mt8195_ops = {
-+static const struct snd_sof_dsp_ops sof_mt8195_ops = {
- 	/* probe and remove */
- 	.probe		= mt8195_dsp_probe,
- 	.remove		= mt8195_dsp_remove,
+To align the HDAudio DAI startup/shutdown with the non-HDAudio
+equivalents, relocate the code from component to DAI. The reason above
+is a dependency stems from codec driver requirements - HDAudio code
+found in sound/pci/hda/ expects substream->runtime->private_data to
+point to a valid stream (HOST) pointer.
+
+With the hard part done, the follow up changes update the existing code
+to reduce it is complexity - removal of duplicates, renaming of
+ambiguous functions and adding new fields to DAI-data object so that the
+number of local variables and casts is reduced.
+
+Cezary Rojewski (8):
+  ASoC: pcm: Reverse iterate DAIs when shutting them down
+  ASoC: Intel: avs: Relocate HDA BE DAI specific operations
+  ASoC: Intel: avs: Remove redundancy around DAI shutdown
+  ASoC: Intel: avs: Store pointer to adev in DAI dma_data
+  ASoC: Intel: avs: Remove redundancy around DAI startup
+  ASoC: Intel: avs: Remove redundancy around DAI prepare
+  ASoC: Intel: avs: Store pointer to link_stream in dma_data
+  ASoC: Intel: avs: Clean up hw constraints initialization
+
+ include/sound/soc.h       |   4 +
+ sound/soc/intel/avs/pcm.c | 250 +++++++++++++++++---------------------
+ sound/soc/soc-pcm.c       |   2 +-
+ 3 files changed, 117 insertions(+), 139 deletions(-)
 
 -- 
-2.43.0
+2.25.1
 
