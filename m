@@ -1,166 +1,109 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D3814885D;
-	Fri, 26 Apr 2024 15:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A5D2E639
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714144125; cv=none; b=B211gA+zjNMN6X0PTfIT41S0H2TOR0d+qM0WzYnCQlEUc+tnOGKxBd5eXRIjxMNxUzNx2JgxKF8L0P7A9MxLxpwStM4PK3pHw/XaNa8eAp0PqEoYP9RZjAA0r6Jkm4+q2U+gweMvRLkTvx+v7LOzgGMjbbIfKs/YAKySbjpjUI4=
+	t=1714144900; cv=none; b=sBqldTaqKRl9rnAgr/NRsVrxRirWD20ASIRKjipVZecnHb+3QJJlnr7vKl+O8h+QSbKLQTwpkr3gI4amwPfOdSUwkmPVOPgtCuoeSYcCUfN6a2LR35alj+nCnyZsljHda8/tivJK8zzoZqa86ECTeoOUUapa2jlaSMENHaB5vMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714144125; c=relaxed/simple;
-	bh=UGBS6UWaXM1p5rTzuuVlN3dBmXfGiZm+cK1RKFexZvc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RSaFNx43RiYZl1+qjZaCkQSZeAPHQFAoV21wteuwf7FFuNiyrPAzXu5Yf/tD25K0W4lLG0TPYtZr57dAXkZQpxY+RA9uLdiV9r/LarpaRpfsgwJJq11Z6qn9mTu0r7u8EYR9iHIQAZjuwBHZqgYTSp0I8aG7im7/59jBDrxhEj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=evDT79gS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VbIG4GZT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XxlbJUAG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lXxQTYOC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714144900; c=relaxed/simple;
+	bh=Bc9QP0c31IBlHyJP5tGfFWIZJj8F1WYLFIKBuzXx+B8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jPXES4PWsM5TXf1447vWTF8pWEBh5NtWM2F7yfKju+5dZfMpZfLdoUlPoJOw1kGPeJ7bJyaQ61j3OtugpiM8nGJAF57hRzJbKk444bT5D/hEmBKwqx0+s0TpzW9AL7STxI/R58wHI68kI1ZBsL7XmRVoWvyNCWhS4J5RPxmhcCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSDmP1dl; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="evDT79gS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VbIG4GZT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XxlbJUAG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lXxQTYOC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EB8135D23E;
-	Fri, 26 Apr 2024 15:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714144114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/RIal2x/fOxrYv19regwNkcgG8g/gUeT8uDQISy/Mj8=;
-	b=evDT79gSCBT5QeOYt6WVCxDps7iHTc4O2FfiaTNK6t+g3H79iGVj5r9Y6Lkgo6Avfsn/Pi
-	uzKqICSkLFBBBrP5ekfOrdkguCd38w2xluYyG9TsGq+SkVQl7I2oYFsMR/IZKZ5YoviFUt
-	FkqiNpjsA+3rHux+P4o85rYe6BsRyCg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714144114;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/RIal2x/fOxrYv19regwNkcgG8g/gUeT8uDQISy/Mj8=;
-	b=VbIG4GZTMxUGY62z/vBjGhiRgYa31nl+h7HIVDvexGZpg1/cmvqmeATiHQyFC81htXazYz
-	/mHhv7ItLdJlJYDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714144113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/RIal2x/fOxrYv19regwNkcgG8g/gUeT8uDQISy/Mj8=;
-	b=XxlbJUAGF3muCA8b0lx1Xqty/94yLat2QlpNGpZLiCwHe6wzP6VNaW6BUEdRCOKFHZUjjv
-	69cI+s9qhvfVJcglT8mzXQAZW1szOiQ9gM0j0d3CWsCcMvYOHa2mRRZl8ENfO71rVSA8pI
-	AeT6w0zR6QEp/re9BWgwWiffwDkFAnU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714144113;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/RIal2x/fOxrYv19regwNkcgG8g/gUeT8uDQISy/Mj8=;
-	b=lXxQTYOCCXo18CBHN+JZqzwBFes4+s7brVZT6E30GjfK+VjLQnthnHH9JyM0TGASmUuDYd
-	+GAoQmslDCZjdaBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC7A81398B;
-	Fri, 26 Apr 2024 15:08:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qBhYKHHDK2b1fAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Apr 2024 15:08:33 +0000
-Date: Fri, 26 Apr 2024 17:08:44 +0200
-Message-ID: <87il042mbn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] ALSA: kunit: make read-only array buf_samples static const
-In-Reply-To: <81a9e3c2-2c44-406e-af19-90d9dcfe4a92@gmail.com>
-References: <20240425160754.114716-1-colin.i.king@gmail.com>
-	<20240425232250.GA205425@workstation.local>
-	<81a9e3c2-2c44-406e-af19-90d9dcfe4a92@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSDmP1dl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714144899; x=1745680899;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Bc9QP0c31IBlHyJP5tGfFWIZJj8F1WYLFIKBuzXx+B8=;
+  b=WSDmP1dlaWSn7zd5Db1Hl3jTRJzLdPrCAyjuWEbp8Uslm1sXUF9QG3an
+   k+wkoQeELEcyGCGdPsh/WHQdRo61qPTd57cPZKcjnSOqGEHzyU+U7sp4P
+   YCeUNGD6KqwqDrQI+0aIvJQhuVSf5dTY5MiMGu5zq9TvyGRwLXHsMBPWi
+   6u9BW+s0x9oIEgrrdfD/uIGdkcuZfXSkf0/pWLKTRegE8Xt37B1+ul8Ee
+   sGPqi8vdG9XBc5XlUDkDw1OCmnXUVjwFZmu/hDjl3MkaDdF1Q8NghmxOv
+   yS3dAdzsSBvG2GV1JbQrE33DKQLmT4+aiz4+PLHmWVyx/XanaRYzjZd3H
+   A==;
+X-CSE-ConnectionGUID: OH7b4oViSkezKZ8wPK6s8w==
+X-CSE-MsgGUID: AMSuMohgS2+GFnsWNB6BsQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21290584"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="21290584"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:38 -0700
+X-CSE-ConnectionGUID: j/FPtnQIQ7+uUjz4L6M29Q==
+X-CSE-MsgGUID: EKH9C/YiS6Wenei928mHcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="30259021"
+Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:38 -0700
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	broonie@kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 00/12] ASoC: Intel: updates for 6.10 - part5
+Date: Fri, 26 Apr 2024 10:21:11 -0500
+Message-Id: <20240426152123.36284-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[sakamocchi.jp,gmail.com,perex.cz,suse.com,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Apr 2024 14:05:34 +0200,
-Ivan Orlov wrote:
-> 
-> On 4/26/24 00:22, Takashi Sakamoto wrote:
-> > Hi,
-> > 
-> > On Thu, Apr 25, 2024 at 05:07:54PM +0100, Colin Ian King wrote:
-> >> Don't populate the read-only array buf_samples on the stack at
-> >> run time, instead make it static const.
-> >> 
-> >> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> >> ---
-> >>   sound/core/sound_kunit.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >> 
-> >> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-> >> index eb90f62228c0..e34c4317f5eb 100644
-> >> --- a/sound/core/sound_kunit.c
-> >> +++ b/sound/core/sound_kunit.c
-> >> @@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
-> >>     static void test_format_fill_silence(struct kunit *test)
-> >>   {
-> >> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
-> >> +	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
-> >>   	u8 *buffer;
-> >>   	u32 i, j;
-> > 
-> > Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> > 
-> > We can see the other similar cases in the kunit file. I'll post the fix
-> > later.
-> > 
-> 
-> Hi Takashi,
-> 
-> Hmm, correct me if I'm wrong, but I don't see any other significant
-> allocations on the stack in the test.
+This patchset corrects a couple of mistakes corrected, improves
+snd_soc_card allocation.  The new functionality is mostly for
+SoundWire platforms, with new SKUs for Dell and Acer, and support for
+the Cirrus Logic bridge/sidecar amplifier topology.
 
-I guess he meant slightly different ones
-  https://lore.kernel.org/r/20240425233653.218434-1-o-takashi@sakamocchi.jp
+Bard Liao (1):
+  ASoC: Intel: sof_sdw: add a space before cfg-amp in components
 
+Charles Keepax (2):
+  ASoC: Intel: sof_sdw: Delay update of the codec_conf array
+  ASoC: Intel: sof_sdw: Add callbacks to register sidecar devices
 
-Takashi
+Mac Chiang (1):
+  ASoC: Intel: soc-acpi-intel-lnl-match: adds RT714 and RT1318 support
+
+Maciej Strozek (1):
+  ASoC: intel: sof_sdw: Add support for cs42l43-cs35l56 sidecar amps
+
+Peter Ujfalusi (3):
+  ASoC: Intel: skl_hda_dsp_generic: Allocate snd_soc_card dynamically
+  ASoC: Intel: skl_hda_dsp_generic: Use devm_kasprintf for the
+    components string
+  ASoC: Intel: sof_sdw: Allocate snd_soc_card dynamically
+
+Pierre-Louis Bossart (4):
+  ASoC: Intel: soc-acpi: mtl: add Dell SKU 0C64 and 0CC6
+  ASoC: Intel: soc-acpi: mtl: add support for Acer Swift Go 14
+  ASoC: Intel: sof-sdw: don't set card long_name
+  ASoC: Intel: sof-sdw: really remove FOUR_SPEAKER quirk
+
+ sound/soc/intel/boards/Kconfig                |   1 +
+ sound/soc/intel/boards/Makefile               |   1 +
+ sound/soc/intel/boards/bridge_cs35l56.c       | 137 ++++++++++++++++++
+ sound/soc/intel/boards/skl_hda_dsp_common.h   |   1 +
+ sound/soc/intel/boards/skl_hda_dsp_generic.c  |  50 +++----
+ sound/soc/intel/boards/sof_sdw.c              | 106 ++++++++------
+ sound/soc/intel/boards/sof_sdw_common.h       |  27 ++++
+ sound/soc/intel/boards/sof_sdw_cs42l43.c      |  14 +-
+ .../intel/common/soc-acpi-intel-lnl-match.c   |  52 +++++++
+ .../intel/common/soc-acpi-intel-mtl-match.c   |  83 ++++++++++-
+ 10 files changed, 397 insertions(+), 75 deletions(-)
+ create mode 100644 sound/soc/intel/boards/bridge_cs35l56.c
+
+-- 
+2.40.1
+
