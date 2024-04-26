@@ -1,59 +1,59 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7424B142621;
-	Fri, 26 Apr 2024 10:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F32F14533F;
+	Fri, 26 Apr 2024 12:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714127012; cv=none; b=g35bJbV3fzDNLM312754Zh7tT2cRNULc6fOxR75Z+p6sFzIsLyOSRNpxRlUbQO79lWz2+pA6ngI0Pp6j5Kgoz4ZRlA5CAKkOxTW+CHPishhWLDFrG5YnARB7mZPF/6SzOF9yCyO/C1NlhKF5WJpqSgmg2VEUEhYNM5q/heRYpf4=
+	t=1714133143; cv=none; b=i6b0c9jbxEFaB8OXJOYC2+x/CzybjiYVh+ECNS8B+rZ35dsvtcof0KdHQU8hLJ3pFik2vpjRR4vSvb+5Lyrt3e9YMnv0cse99oM/rvmuxjA/rW//d6Q1GrWrr650A3tPI2lMQ0RKQMaG9zL9QEJ7pVDq0APIyslHxx7SfY7hEgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714127012; c=relaxed/simple;
-	bh=dSaUlQxpkYSG9t64O77hJy2hL1wLPGYBXMMSLyVDkkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WCwMTYcqHhJshjgbKYQn8QFylFPRwhtQd7I9A4eAaPDThk1V29t3YpLnkHhGbde65uzldXg5uUcA5zIXmDs8WCMXqZKd/f5MfD3MnFqwhHwGWxpBTHoDgN8cDsNAh5rE1XG+1OFns/Z5qf4wmXti1fwq17Uo54fdInPay4YX5SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPPbeAeB; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1714133143; c=relaxed/simple;
+	bh=VZ4dyN6HsEQTrAuuWJizHwgtH2IUGnz23LHLcnDqNXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=FNiQf8EvZ0fvdXAZffGL6TxZGA0MgK0U0pKDDjEekNEDAaqs2JkcLHI12H7u9pEUzTh1+5nd6QuQLqn1dzMQqgRFF759I9/EZkfEec0I5lX1wFWlskaugF9Qn4ErqJKnoLkXNCf+MNTRga7jRphUk7ZA1s23EFYaS3KiWHYlz9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T/99TpxJ; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPPbeAeB"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-349a33a9667so309324f8f.3;
-        Fri, 26 Apr 2024 03:23:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/99TpxJ"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2dd80401e81so4791371fa.3;
+        Fri, 26 Apr 2024 05:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714127009; x=1714731809; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1714133140; x=1714737940; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ErKC1DJY0VpHeLwTsb/v59LZhBRdBYfq9YYqdX84OHA=;
-        b=YPPbeAeBdNVCU9bSjdY3GmGdEg3V07I6EqL/RwmPk8ui8ijsa6gCA/2LbXctCh2m5U
-         eFDpdvjz+wraO/P2N9SzXgUuQITOYpp+1+DY7rhMnXKKzqmLkkD+rUwqZfdTg+G0qiZ2
-         y0xCTgTBBCAKXFAXApNt83V3r+D7ksvS3NoLJpZnex/cR7UJkATPvx4btdweOUfvCUoW
-         jwQQp20DTg7TD9UnTKSxnCs0qK5RZljeZWiTuLhA1/RjP4ealr/Fst6xFnp+IECj2ko1
-         jPQtTJHx4jZ58xd4fl0JmBDRn9UIvM9HtguidwlDjKOvzmIbDuR0ThL4tF2OFTuo1o6M
-         oCXA==
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IFRgbloGhVnIKWuDRlSJQNjAIv7cIETH3l3I8D/RWn0=;
+        b=T/99TpxJQ+o7rKczf5e7s3PcFO1hyjncMqloVg1ECYnr+swynjeq45H4KkyemaEtDN
+         JrFGInHVrqTttNL63shSOeRcXxO7TqHbJGL1Pmy7ekIERifgg+sgpsmfstMeOIPh88ud
+         xvGSK+HH8qaeLRiRBz2NWsUC58D5Rjgl96h1CHAa5QefuO0JFnHqpyhUIHSZqWOGPhKx
+         tehh8Y8Hf238eeGR+5HS0au6ySs7VR/TZynmVnwimcPrkkGElU/jzi02gbfE5fQdxBmy
+         ZZPVtSIBB+u1/m9B1FpRGzEWYYrEynO75LR1lKzFv2muvPMuuZjr0fuOF4ylEPLnN0AV
+         CBdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714127009; x=1714731809;
+        d=1e100.net; s=20230601; t=1714133140; x=1714737940;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ErKC1DJY0VpHeLwTsb/v59LZhBRdBYfq9YYqdX84OHA=;
-        b=u0FW+ZxV7mQB25beBtLHHCOqR5AlVrGmsZPRyP5kN6eQkSDaw8ftx3yKR9GzdMc2NW
-         XMrTeiYOIW93CDQsGnRSOGmR2xApLVG/eiauqZAEgk8Ep6yfhlaNxrAIfjQ40eokYnqX
-         JTVv+KSposYSgwjJxPLgOD+Z8DE46JB160rsDdq42iI+9fGPMjBTAGFStqOBoVERlJvm
-         1n9kz6Egn/UMBoyfMbyoPzrIF4duOjjWoJRVjoD6lHBskujD/J96dMA0jYLhoyDqwKLW
-         pa4zhL0QM0tJImSt6dZyb+IgjrqvGzbmU5VMUOY2KOUv1fb8zGhdlgvLLQMJBVxjIWtB
-         WcXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ4K9tqZcS6dx30UMiZuU8UzT16LK4hzZyKMbXlNO2waLX1lEFKVgao80oSiyLtik5L22FtTgr9bJkiYOOnfA0/ovaIFZBeSZpe8bT7d+wCMVamqdX6ztbi0nOmWMsLJmXGPdaGEHGZxs=
-X-Gm-Message-State: AOJu0YwJ6Y6aUaW6HvvllO/mi8rejL15X5Xq7Q66UCbUk+h/pX6g989n
-	+Jsr3FwmT0h1wZUkt8xpfWkEKSQDURe3dzNd4WOmZupMTAxxFtb9QENY/g==
-X-Google-Smtp-Source: AGHT+IER+zTu22RykLhtlZnWcnvPrKERAd8cxK+eIm1my+RfqDoYY/RbgcsAD1hSqqNV6o0l69Zbfw==
-X-Received: by 2002:a05:600c:3b96:b0:41a:c4fe:b0a5 with SMTP id n22-20020a05600c3b9600b0041ac4feb0a5mr1494943wms.4.1714127008526;
-        Fri, 26 Apr 2024 03:23:28 -0700 (PDT)
+        bh=IFRgbloGhVnIKWuDRlSJQNjAIv7cIETH3l3I8D/RWn0=;
+        b=SJWxFoK0TW2g2iBitbViKC+VM+k4DUSLAr0Fg/+8NnrrO08H9eAQBISrdDv3tVisKh
+         fklvXjp2XFNRtDsRo6XgsgsX5b35O/xSB3hSHCtbxH+KGCeHi2Bkp3KZZtO8bFwqmPDB
+         Eve+WPTYTnC4hne7+X/WRNpPibtWaob74D4QxAjxb/zkk4hMmb1bbdxOKoMg5isAZdIc
+         AgJWVjaIKcsqcfMEQRioBU9Fzthuim3nhXKoYnvTjnskmA+0Ypvb3C96zbXtJIOgilxr
+         SOvuQ6lqLqE9ttASKSIrXILYTU86YN4ksrdD2YpxsKPfvFaVvwK5L5EONt4rVR/YYC1P
+         u2rA==
+X-Forwarded-Encrypted: i=1; AJvYcCUV58/Xui6L7AfEuHx6NewiiNxoEX0ZoIk/lFlX8FVkzxlu5eBF29plLpGakKPQDjECtgvkSoVcTl1oP/PMlQUHTfgE5T07+OSb/Fc5wWwDwwRCZyfroJzD6NPawExeXeA4494PkPCDkJWek7Oo9nBXNl1fwhZJI1PhQIc9jkUC+jA2VwMrFM3tq94=
+X-Gm-Message-State: AOJu0Yyeg1mmqXyaKSg2HBz+oqzHRvpD7qPwK9jyunZ5mDgQbNRLHS2q
+	BNNoa91HiGvce4rWDO6ORfgDcxHFKSrJ9z8zBCb6oh76Mr8Nt4M/
+X-Google-Smtp-Source: AGHT+IEe8mldUM2Wv5ZRNT6Twg6RekMttRFRq1NWmP7m1iCts+MYJNSTfm41RqGdQjLEgw0/c8z1VQ==
+X-Received: by 2002:a2e:b61a:0:b0:2dc:759e:981 with SMTP id r26-20020a2eb61a000000b002dc759e0981mr1615343ljn.4.1714133139789;
+        Fri, 26 Apr 2024 05:05:39 -0700 (PDT)
 Received: from [172.16.102.219] ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id q12-20020adfcd8c000000b00343cad2a4d3sm21883976wrj.18.2024.04.26.03.23.26
+        by smtp.gmail.com with ESMTPSA id k41-20020a05600c1ca900b00417e8be070csm30937272wms.9.2024.04.26.05.05.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Apr 2024 03:23:28 -0700 (PDT)
-Message-ID: <75e82637-9e09-4bf5-a3d4-c3c2001c63c9@gmail.com>
-Date: Fri, 26 Apr 2024 11:23:23 +0100
+        Fri, 26 Apr 2024 05:05:39 -0700 (PDT)
+Message-ID: <81a9e3c2-2c44-406e-af19-90d9dcfe4a92@gmail.com>
+Date: Fri, 26 Apr 2024 13:05:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,44 +63,53 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH][next] ALSA: kunit: make read-only array buf_samples
  static const
-To: Colin Ian King <colin.i.king@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Colin Ian King <colin.i.king@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240425160754.114716-1-colin.i.king@gmail.com>
+ <20240425232250.GA205425@workstation.local>
 Content-Language: en-US
 From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20240425160754.114716-1-colin.i.king@gmail.com>
+In-Reply-To: <20240425232250.GA205425@workstation.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/25/24 17:07, Colin Ian King wrote:
-> Don't populate the read-only array buf_samples on the stack at
-> run time, instead make it static const.
+On 4/26/24 00:22, Takashi Sakamoto wrote:
+> Hi,
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->   sound/core/sound_kunit.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Apr 25, 2024 at 05:07:54PM +0100, Colin Ian King wrote:
+>> Don't populate the read-only array buf_samples on the stack at
+>> run time, instead make it static const.
+>>
+>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>> ---
+>>   sound/core/sound_kunit.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+>> index eb90f62228c0..e34c4317f5eb 100644
+>> --- a/sound/core/sound_kunit.c
+>> +++ b/sound/core/sound_kunit.c
+>> @@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
+>>   
+>>   static void test_format_fill_silence(struct kunit *test)
+>>   {
+>> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
+>> +	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
+>>   	u8 *buffer;
+>>   	u32 i, j;
 > 
-> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-> index eb90f62228c0..e34c4317f5eb 100644
-> --- a/sound/core/sound_kunit.c
-> +++ b/sound/core/sound_kunit.c
-> @@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
->   
->   static void test_format_fill_silence(struct kunit *test)
->   {
-> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
-> +	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->   	u8 *buffer;
->   	u32 i, j;
->   
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> 
+> We can see the other similar cases in the kunit file. I'll post the fix
+> later.
+> 
 
-Hi Colin,
+Hi Takashi,
 
-Thank you for fixing this issue.
-
-Acked-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+Hmm, correct me if I'm wrong, but I don't see any other significant 
+allocations on the stack in the test.
 
 -- 
 Kind regards,
