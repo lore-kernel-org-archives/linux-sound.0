@@ -1,98 +1,206 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAEA16FF50;
-	Fri, 26 Apr 2024 16:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6763924B21;
+	Fri, 26 Apr 2024 17:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714150621; cv=none; b=GkZlafysaXj+nDS56Neroa4ATyS0vKNs2qqrpuYJfE2XYNJkeO38LUHRRNUr88i6aHtDtdJpIKQcKKN8bSMJQrRg8QkNvTgesFAYF/nU6QKLzbWe74mGPe/TVHI/aC+RclpOPneOMYFXEH8r+M1fikogE7GU96xKLlVmk+1sdEo=
+	t=1714151025; cv=none; b=p9nFLPZJ/RBPjps0TYxJv1wauMWGhVM66tfiUNyEdFjUZqSlqPxOsN/gjDZACeLS5whR9sftCYUiHiaXVWC3YgF0Av1IcNcBhZj2iz06+jBpLfEi/DXiAqNLMHnTc75I7xtx1r2Pt12ONy84IEYx9+lNSYZZRcyC48fuWiOJG+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714150621; c=relaxed/simple;
-	bh=wnFgu9dI3D2py+XrxISiUUb14iuf8bUF3qAQUXBua9Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eQbmxGz6GKCDMEZyfWHfPW0jRbyL9/RcUlB2881qcBMIThH/Qhzr/gtQXq/eM9fRlR8R9/RyGzQHBt6ydNFKw4+n0q04tpzsVV4W4LWBlX1OlZziExg6cyQ2MwM88CTjM5+N8jTqIb8d2zy+XrYoN1FuqVGNjhCWBWwSxmJwK6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iF2KkeQB; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1714151025; c=relaxed/simple;
+	bh=E5Zo0clvt55KvUvDKEImazN2BO8g7JyqxoRuWQ3jSVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CVRCvGA8/7uC9OxkHSlvoWbERd/4Ly7+5VDzAase0MiWZzIrQS1ZyAjbokaQs3rsw2+KOHfhJXzed5f/JLEXuutNzhRpIv9jz+hRdJNk1/+bKCzsG38Uc91U+GV226fvQPnwrV3ozQXM5IGsAU0xRb1OVqB3IgoNhJQR3RuwD0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9ZPMW0G; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iF2KkeQB"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 139A4FF80C;
-	Fri, 26 Apr 2024 16:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1714150618;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50K17wTh30wqpE0frf03Mw6JWq1YiGmGGG3UJIVv2+c=;
-	b=iF2KkeQBRDLsiVMmuXwQZSZExzcC31z+QcrhaeQ9K6rmeSEdpFAKFgiu5ZoSJeGmk6bD5g
-	KO5C9RUJrb28v3De1uJT0SyYBhHYYiyLWBYAQPX5YPuWmpPi3tbHKzwyxe2wvute8oGuMI
-	2LVucLcjOe7DPfsk+uEBxMw0w42XClDduTxfy3B8v3m7KmBwWuyZTbccsaaikw3OUQ97kR
-	Spu2ksyCasIUr/NmWz9ciC4pwRRWJ00b+kWDS31rp6EEiX7CM07E9U51r4RXaqm1IfDDRE
-	Mzr2FHYIB6qlh6h6g/qwFITJH6eUnFNOWAZSlvAPLZ9r6HXCp66YcovtSpEq+Q==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 26 Apr 2024 18:56:45 +0200
-Subject: [PATCH v2 12/12] ASoC: doc: dapm: update event types
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9ZPMW0G"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so1634284a12.0;
+        Fri, 26 Apr 2024 10:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714151023; x=1714755823; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sv58Qd5ksYyhASH2QCPLwEVVVgnFfv8OH/VM1sHFeck=;
+        b=B9ZPMW0GDTQCMIRczKzxuPN6HXJWO+R+c0htN3vLm6cBgWCrPOvREXurOSjwpa4nZ+
+         GP52eVtWC+PlvkGEgCU1x3IlHpgNIbXz9xh6MfsUFqX0VCdp0rgu/biS8GXTzY5U6Fsa
+         dChdgXU3eFkW2GlNui5KBYnYqhz+oWaC8ZGQJHvY5thWX6U3G4Jx4InwLWkTlKOrr0iL
+         XsZSPP2ndKf8vuHxHNAvZ6HSErVYzrHvv5XkPDHBaovwzUcDjJRrNhORos0mnuXXmWSk
+         32HOvaksHtkc4WqHUWfIdG54juvY/47/s6VDKzEyacN63JnXNUHg9de4b/iBA6E4I0DL
+         4r9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714151023; x=1714755823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sv58Qd5ksYyhASH2QCPLwEVVVgnFfv8OH/VM1sHFeck=;
+        b=t7aGaMVbTozerWNrMI3U8cSC3EI5VP3RitR8K0+QAsO8S/L4s0vQ3g2Z4MaDHfHsYa
+         m/iZqiwjhqEtjTUAZswA+gPjOuECMBHUV+KvKwa2hSjBr9CPNHAtftWJWE6xtgmF6GWm
+         WoXIaJLFV0Kryj8DtGe64y0Y3sVKgTJNUvX9f2qUNapHk67Ktxd1AXnWZpPTDzXJmiL6
+         owBaZQNMvGbe44GppV+epcKYTrTfXa0KQvjrG63t/spdXgKuOz66mf3eAoTW2kbtk7X6
+         HrDzrxkwoqg2Zi/lJSL6+2LAOD8RpmV5BzD0id2JYhw9BMo1t5tZ1CyXOima9uHFRRW/
+         8a8g==
+X-Forwarded-Encrypted: i=1; AJvYcCU7qB7/bIeUA4UXwCfs2Ef+ZnJ5gu4U57pJ1T+6CsgYtuSHbsN9aAcg4uaFRiWAGNOT5Js5AQjKeBmQaJ0VS7/BN5O3WR9hGr1YARn6YFNL1JIQYp4+ZIJ5PTQ4PLWgbquYzbPEOsYeC78YnMpQHjN/zwLR3VNKacsQiaNoH1sxOKAcCxABLiQf8Z8CkTymRiCdO6iCqzsBvHlx06hig1oJC2A=
+X-Gm-Message-State: AOJu0YyViMM7Y2n8JLuW3ebdMGceOkJXnZ8SiIHt2PGhMO+TIn7UXlUz
+	mcnOPIbA6Qi85Ev5yRL95leMfChGxw7HGfth7rQtWCIOTHvZnC7Q
+X-Google-Smtp-Source: AGHT+IFMceCZFif0B91YDqZNtx0yyR5xJSzTuZu5RE4WXIT/MpFQHon3MPffBxjB1nXZzggujq4OYw==
+X-Received: by 2002:a17:90b:3614:b0:2a3:acc:a97e with SMTP id ml20-20020a17090b361400b002a30acca97emr3427120pjb.20.1714151023400;
+        Fri, 26 Apr 2024 10:03:43 -0700 (PDT)
+Received: from localhost (ec2-3-111-32-5.ap-south-1.compute.amazonaws.com. [3.111.32.5])
+        by smtp.gmail.com with UTF8SMTPSA id x6-20020a17090ad68600b002a20c0dcebbsm14976192pju.31.2024.04.26.10.03.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Apr 2024 10:03:43 -0700 (PDT)
+From: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+Date: Fri, 26 Apr 2024 22:33:18 +0530
+Message-ID: <20240426170322.36273-1-sheharyaar48@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240426-dapm-docs-v2-12-87b07547eb5b@bootlin.com>
-References: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-In-Reply-To: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Some new event types now exist, so update the code fragment.
+Convert NVIDIA Tegra30 I2S binding to DT schema and
+add "clock-names" property used by multiple tegra i2s blocks
+in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
+required property by the binding.
 
-Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
 ---
- Documentation/sound/soc/dapm.rst | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+Changes v4->v5:
+- removed redundant example
+- removed redundant compatible
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index da9313e10fd4..574667f3aabe 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -405,13 +405,16 @@ See soc-dapm.h for all other widgets that support events.
- Event types
- -----------
- 
--The following event types are supported by event widgets.
--::
-+The following event types are supported by event widgets::
- 
-   /* dapm event types */
--  #define SND_SOC_DAPM_PRE_PMU	0x1 	/* before widget power up */
--  #define SND_SOC_DAPM_POST_PMU	0x2		/* after widget power up */
--  #define SND_SOC_DAPM_PRE_PMD	0x4 	/* before widget power down */
--  #define SND_SOC_DAPM_POST_PMD	0x8		/* after widget power down */
--  #define SND_SOC_DAPM_PRE_REG	0x10	/* before audio path setup */
--  #define SND_SOC_DAPM_POST_REG	0x20	/* after audio path setup */
-+  #define SND_SOC_DAPM_PRE_PMU		0x1	/* before widget power up */
-+  #define SND_SOC_DAPM_POST_PMU		0x2	/* after  widget power up */
-+  #define SND_SOC_DAPM_PRE_PMD		0x4	/* before widget power down */
-+  #define SND_SOC_DAPM_POST_PMD		0x8	/* after  widget power down */
-+  #define SND_SOC_DAPM_PRE_REG		0x10	/* before audio path setup */
-+  #define SND_SOC_DAPM_POST_REG		0x20	/* after  audio path setup */
-+  #define SND_SOC_DAPM_WILL_PMU		0x40	/* called at start of sequence */
-+  #define SND_SOC_DAPM_WILL_PMD		0x80	/* called at start of sequence */
-+  #define SND_SOC_DAPM_PRE_POST_PMD	(SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMD)
-+  #define SND_SOC_DAPM_PRE_POST_PMU	(SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU)
+v4 : https://lore.kernel.org/all/20240425153045.49939-1-sheharyaar48@gmail.com/
+---
+ .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 --------
+ .../bindings/sound/nvidia,tegra30-i2s.yaml    | 67 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 27 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
 
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+deleted file mode 100644
+index 38caa936f6f8..000000000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
++++ /dev/null
+@@ -1,27 +0,0 @@
+-NVIDIA Tegra30 I2S controller
+-
+-Required properties:
+-- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
+-  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
+-  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
+-  tegra114 or tegra132.
+-- reg : Should contain I2S registers location and length
+-- clocks : Must contain one entry, for the module clock.
+-  See ../clocks/clock-bindings.txt for details.
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries:
+-  - i2s
+-- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
+-  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
+-
+-Example:
+-
+-i2s@70080300 {
+-	compatible = "nvidia,tegra30-i2s";
+-	reg = <0x70080300 0x100>;
+-	nvidia,ahub-cif-ids = <4 4>;
+-	clocks = <&tegra_car 11>;
+-	resets = <&tegra_car 11>;
+-	reset-names = "i2s";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+new file mode 100644
+index 000000000000..89c3c6414ab1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra30 I2S controller
++
++maintainers:
++  - Thierry Reding <treding@nvidia.com>
++  - Jon Hunter <jonathanh@nvidia.com>
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - nvidia,tegra124-i2s
++          - nvidia,tegra30-i2s
++      - items:
++          - const: nvidia,tegra114-i2s
++          - const: nvidia,tegra30-i2s
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: i2s
++
++  resets:
++    maxItems: 1
++
++  reset-names:
++    const: i2s
++
++  nvidia,ahub-cif-ids:
++    description: list of AHUB CIF IDs
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    items:
++      - description: rx (playback)
++      - description: tx (capture)
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - resets
++  - reset-names
++  - nvidia,ahub-cif-ids
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/tegra30-car.h>
++
++    i2s@70080300 {
++        compatible = "nvidia,tegra30-i2s";
++        reg = <0x70080300 0x100>;
++        nvidia,ahub-cif-ids = <4 4>;
++        clocks = <&tegra_car TEGRA30_CLK_I2S0>;
++        resets = <&tegra_car 30>;
++        reset-names = "i2s";
++    };
++...
 -- 
-2.34.1
+2.44.0
 
