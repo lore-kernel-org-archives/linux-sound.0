@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F085014F109
-	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6A615217A
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714144906; cv=none; b=WlcXwFGTA2oTy4JdmGgH9niAB2BJFTFwmI2i111toXIVptsPYmRVJ20A77hF9DcV6BF35DPJjSmbua92yQ/Fdo+ahwaPmQJgB8isAeTrTbx+fUkQAhcBSIwoc8DmZyhGAwNMKeSrKM95GjYqeH69qXGqBf0fTw7i6BQNvfYqc0k=
+	t=1714144907; cv=none; b=HLlbU13dRRlgwiZudHSyxBu0kzmNsdPUdIMOYxebp9y5pAi8SHx15DHhBX+KIb+/Zy0G7+DyN+g1aY5FwCdd3si+qLrQ5S/w342Ca3RwDd50cyTT7gIZuIQ01FHPORZJF2VBtTv5KuejzgZkjrIGmnOHsAOC+0TLhCNlYsf8SPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714144906; c=relaxed/simple;
-	bh=UJY7grWSVVzmt71CoQKUJ8Ty1qxgNvohbcE1hvLC7tk=;
+	s=arc-20240116; t=1714144907; c=relaxed/simple;
+	bh=RZNfJj9F38dpuilu8NRrmzX3jZ+dUkuFYYD7MAVqxbc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EBohwkw20ZAftaSidpoSUw+3dYwpmngfZSqvKowDYDzj+XgtDMuptqb5WuGXRFk59F7ecjNVA47hLCmZ6zxe6QyiHxoRF8ysfc+IfFFeHfzcKr4j1xe0jKI8OqI1/1f32NBNDGyL2IodH6xG3R8mrJlrVyuNzecOyQEO7m9h+0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LE6ku8Bd; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=tQVKLtrDfWqoot5W5bAoHbgQyzUkHt4YjEbDSF6jCNinqnHOU1UsGS4BAJowgQQAexc0p41+2deu5WPeSWHIcTEZoSMgzlsJXByZiQP9Id32RasveZ5KKsQ6nfE3w3K1pBWO/Eh3Fl7qt+na81ToB20Jm6aYEOX92RX4gLdhWiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XyfKSDSt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LE6ku8Bd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyfKSDSt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714144905; x=1745680905;
+  t=1714144906; x=1745680906;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=UJY7grWSVVzmt71CoQKUJ8Ty1qxgNvohbcE1hvLC7tk=;
-  b=LE6ku8BdTHrH7XfZW6mQa6t85pS879fK4bAwMQylAoVvunFACmPUUWBi
-   HNIIARKbnTPun8cRsvAcx+tgaGaM1HG0ykNbZyenfwaBfTTmQS5rYwauE
-   B7mqQpHWGz3kP7pe2VyopVtxkwGCT5ACEsM3seYRsLekO+UltjEd48lbg
-   buXPHYsdDYgpeGC7+ffkJrZyqgRf2ii/RsINvHgvdfcpTuYGUKWpBdDmg
-   WIILSnM2Qe+DU7UfaFaV8w9L1nS/YJ4VKKQimt57/A92IsdtLin2VTtuM
-   xoRy49D58LE9lkODFwKPEp+Oss8pqsqPH3p9nJ52+17awk1hOG1b/0EFt
-   A==;
-X-CSE-ConnectionGUID: mYxR7ChUTpOT82YdOI6rmA==
-X-CSE-MsgGUID: tWHMnd+6S0u/efewWzeYNQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21290633"
+  bh=RZNfJj9F38dpuilu8NRrmzX3jZ+dUkuFYYD7MAVqxbc=;
+  b=XyfKSDStp+YKDzJAvIeLuuVTtjvje2YJVcIXPAgpUoT+/Y8A2yTMrbyY
+   Dw8zrsfYlfNo7Jbj9zrdAAzLyqcv2MIdgZjtKvuMLWslToua631udoIBF
+   649RkaXPI2azE71PKkTEdHy2V66Ua8RX8VNI0n7bdchqV473Z28F5QSvs
+   3G4hsNRu4DHwqWfL6Cg7UJUosz1YNpXkykvfhF1o4/R3K6Ax4fD0SFuTd
+   rITyGc0DjeWBhj/sFiMa5GS1Vslc9jJEgbnymns7L9n0PpDR4I+YTqzRE
+   GKOY59uYNpynlYK0LzTressPbUzpH961QKB4yZaGuDt7xU8wnmUeT1Dsi
+   Q==;
+X-CSE-ConnectionGUID: EnbsNjh8SzSCI1py7FoONg==
+X-CSE-MsgGUID: Xeg9Ho1ZQdKLFQ1/tCucfw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="21290643"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="21290633"
+   d="scan'208";a="21290643"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:44 -0700
-X-CSE-ConnectionGUID: gt9LVAm6QmiwgOr3gOQCRw==
-X-CSE-MsgGUID: RwChO4oNRTmnwcKIe8RYNw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:46 -0700
+X-CSE-ConnectionGUID: 06E7xQTIQ5iaw7c1jIzf3A==
+X-CSE-MsgGUID: ObVN4uEdSZmAcHeOR4472w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="30259034"
+   d="scan'208";a="30259037"
 Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:44 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:21:46 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 09/12] ASoC: Intel: sof-sdw: really remove FOUR_SPEAKER quirk
-Date: Fri, 26 Apr 2024 10:21:20 -0500
-Message-Id: <20240426152123.36284-10-pierre-louis.bossart@linux.intel.com>
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 11/12] ASoC: Intel: sof_sdw: Add callbacks to register sidecar devices
+Date: Fri, 26 Apr 2024 10:21:22 -0500
+Message-Id: <20240426152123.36284-12-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240426152123.36284-1-pierre-louis.bossart@linux.intel.com>
 References: <20240426152123.36284-1-pierre-louis.bossart@linux.intel.com>
@@ -64,30 +65,115 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two independent GitHub PRs let to the addition of one quirk after it
-was removed..
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Fixes: b10cb955c6c0 ("ASoC: Intel: sof_sdw: add quirk for Dell SKU 0C0F")
+Add support for systems that have additional non-SoundWire devices
+(sidecars) connected to one of the SoundWire devices in the
+system. This is done through the addition of two callbacks, one used
+at endpoint parsing time that will return the number of devices and
+DAI links to be added, and another called later as the DAI links are
+created that will populate those devices into the appropriate arrays.
+
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c        | 22 ++++++++++++++++++++--
+ sound/soc/intel/boards/sof_sdw_common.h |  6 ++++++
+ 2 files changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index f0622aa1b748..86bbf1c66ce8 100644
+index bf5f46a4c4aa..eaa79e29f5c2 100644
 --- a/sound/soc/intel/boards/sof_sdw.c
 +++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -421,8 +421,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C0F")
- 		},
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
--					RT711_JD2 |
--					SOF_SDW_FOUR_SPK),
-+					RT711_JD2),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
+@@ -1280,6 +1280,7 @@ struct sof_sdw_endpoint {
+ 	u32 link_mask;
+ 	const char *codec_name;
+ 	const char *name_prefix;
++	bool include_sidecar;
+ 
+ 	struct sof_sdw_codec_info *codec_info;
+ 	const struct sof_sdw_dai_info *dai_info;
+@@ -1335,7 +1336,8 @@ static struct sof_sdw_dailink *find_dailink(struct sof_sdw_dailink *dailinks,
+ 
+ static int parse_sdw_endpoints(struct snd_soc_card *card,
+ 			       struct sof_sdw_dailink *sof_dais,
+-			       struct sof_sdw_endpoint *sof_ends)
++			       struct sof_sdw_endpoint *sof_ends,
++			       int *num_devs)
+ {
+ 	struct device *dev = card->dev;
+ 	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
+@@ -1345,6 +1347,7 @@ static int parse_sdw_endpoints(struct snd_soc_card *card,
+ 	struct sof_sdw_endpoint *sof_end = sof_ends;
+ 	int num_dais = 0;
+ 	int i, j;
++	int ret;
+ 
+ 	for (adr_link = mach_params->links; adr_link->num_adr; adr_link++) {
+ 		int num_link_dailinks = 0;
+@@ -1381,6 +1384,14 @@ static int parse_sdw_endpoints(struct snd_soc_card *card,
+ 
+ 			sof_end->name_prefix = adr_dev->name_prefix;
+ 
++			if (codec_info->count_sidecar && codec_info->add_sidecar) {
++				ret = codec_info->count_sidecar(card, &num_dais, num_devs);
++				if (ret)
++					return ret;
++
++				sof_end->include_sidecar = true;
++			}
++
+ 			for (j = 0; j < adr_dev->num_endpoints; j++) {
+ 				const struct snd_soc_acpi_endpoint *adr_end;
+ 				const struct sof_sdw_dai_info *dai_info;
+@@ -1453,6 +1464,7 @@ static int create_sdw_dailink(struct snd_soc_card *card,
+ 	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
+ 	struct sof_sdw_endpoint *sof_end;
+ 	int stream;
++	int ret;
+ 
+ 	list_for_each_entry(sof_end, &sof_dai->endpoints, list) {
+ 		if (sof_end->name_prefix) {
+@@ -1460,6 +1472,12 @@ static int create_sdw_dailink(struct snd_soc_card *card,
+ 			(*codec_conf)->name_prefix = sof_end->name_prefix;
+ 			(*codec_conf)++;
+ 		}
++
++		if (sof_end->include_sidecar) {
++			ret = sof_end->codec_info->add_sidecar(card, dai_links, codec_conf);
++			if (ret)
++				return ret;
++		}
+ 	}
+ 
+ 	for_each_pcm_streams(stream) {
+@@ -1757,7 +1775,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 		goto err_dai;
+ 	}
+ 
+-	ret = parse_sdw_endpoints(card, sof_dais, sof_ends);
++	ret = parse_sdw_endpoints(card, sof_dais, sof_ends, &num_devs);
+ 	if (ret < 0)
+ 		goto err_end;
+ 
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index 853278c6e525..9dd42a8da8d7 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -98,6 +98,12 @@ struct sof_sdw_codec_info {
+ 	const int dai_num;
+ 
+ 	int (*codec_card_late_probe)(struct snd_soc_card *card);
++
++	int  (*count_sidecar)(struct snd_soc_card *card,
++			      int *num_dais, int *num_devs);
++	int  (*add_sidecar)(struct snd_soc_card *card,
++			    struct snd_soc_dai_link **dai_links,
++			    struct snd_soc_codec_conf **codec_conf);
+ };
+ 
+ struct mc_private {
 -- 
 2.40.1
 
