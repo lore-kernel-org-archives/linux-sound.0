@@ -1,117 +1,112 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F32F14533F;
-	Fri, 26 Apr 2024 12:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E9114535C;
+	Fri, 26 Apr 2024 12:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714133143; cv=none; b=i6b0c9jbxEFaB8OXJOYC2+x/CzybjiYVh+ECNS8B+rZ35dsvtcof0KdHQU8hLJ3pFik2vpjRR4vSvb+5Lyrt3e9YMnv0cse99oM/rvmuxjA/rW//d6Q1GrWrr650A3tPI2lMQ0RKQMaG9zL9QEJ7pVDq0APIyslHxx7SfY7hEgU=
+	t=1714134367; cv=none; b=EISiH7ahcGl5V2lOvHHOfez7SlP1Zh1wP9hibuStpANSkkXfi9dpUF4Vqi4HgtTc6HlQGO7FEEotPIXHi+TeKTBXSEH7lm3NwkgDTHMTkT27qWcqb8+ZggVUB8BJtcQGC3w8mxtuZsaSoguXDsrbCoTrD5DWCTwWD03/MyaBb2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714133143; c=relaxed/simple;
-	bh=VZ4dyN6HsEQTrAuuWJizHwgtH2IUGnz23LHLcnDqNXo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FNiQf8EvZ0fvdXAZffGL6TxZGA0MgK0U0pKDDjEekNEDAaqs2JkcLHI12H7u9pEUzTh1+5nd6QuQLqn1dzMQqgRFF759I9/EZkfEec0I5lX1wFWlskaugF9Qn4ErqJKnoLkXNCf+MNTRga7jRphUk7ZA1s23EFYaS3KiWHYlz9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T/99TpxJ; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714134367; c=relaxed/simple;
+	bh=dYh57E6ZQFNHZXIEQC6AnVwy5RS0Foaz8BUdG7uKogU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j02TNXSiUSWtH8fwTLATSsaHHuHWJt617A0tQdqjDykN4ygVI5tkROko3bqdmo2BxD2ynhKg3IfcsgJVXc2/oQR4/sU4ls/6yNnQKeANQovdz9yRRQ175kqaSf1SYcJ4fvCvpLoO36YvVs1OEqLSGFD+hWjhF1PsPE4BydseyvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q/okE3gT; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/99TpxJ"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2dd80401e81so4791371fa.3;
-        Fri, 26 Apr 2024 05:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714133140; x=1714737940; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IFRgbloGhVnIKWuDRlSJQNjAIv7cIETH3l3I8D/RWn0=;
-        b=T/99TpxJQ+o7rKczf5e7s3PcFO1hyjncMqloVg1ECYnr+swynjeq45H4KkyemaEtDN
-         JrFGInHVrqTttNL63shSOeRcXxO7TqHbJGL1Pmy7ekIERifgg+sgpsmfstMeOIPh88ud
-         xvGSK+HH8qaeLRiRBz2NWsUC58D5Rjgl96h1CHAa5QefuO0JFnHqpyhUIHSZqWOGPhKx
-         tehh8Y8Hf238eeGR+5HS0au6ySs7VR/TZynmVnwimcPrkkGElU/jzi02gbfE5fQdxBmy
-         ZZPVtSIBB+u1/m9B1FpRGzEWYYrEynO75LR1lKzFv2muvPMuuZjr0fuOF4ylEPLnN0AV
-         CBdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714133140; x=1714737940;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFRgbloGhVnIKWuDRlSJQNjAIv7cIETH3l3I8D/RWn0=;
-        b=SJWxFoK0TW2g2iBitbViKC+VM+k4DUSLAr0Fg/+8NnrrO08H9eAQBISrdDv3tVisKh
-         fklvXjp2XFNRtDsRo6XgsgsX5b35O/xSB3hSHCtbxH+KGCeHi2Bkp3KZZtO8bFwqmPDB
-         Eve+WPTYTnC4hne7+X/WRNpPibtWaob74D4QxAjxb/zkk4hMmb1bbdxOKoMg5isAZdIc
-         AgJWVjaIKcsqcfMEQRioBU9Fzthuim3nhXKoYnvTjnskmA+0Ypvb3C96zbXtJIOgilxr
-         SOvuQ6lqLqE9ttASKSIrXILYTU86YN4ksrdD2YpxsKPfvFaVvwK5L5EONt4rVR/YYC1P
-         u2rA==
-X-Forwarded-Encrypted: i=1; AJvYcCUV58/Xui6L7AfEuHx6NewiiNxoEX0ZoIk/lFlX8FVkzxlu5eBF29plLpGakKPQDjECtgvkSoVcTl1oP/PMlQUHTfgE5T07+OSb/Fc5wWwDwwRCZyfroJzD6NPawExeXeA4494PkPCDkJWek7Oo9nBXNl1fwhZJI1PhQIc9jkUC+jA2VwMrFM3tq94=
-X-Gm-Message-State: AOJu0Yyeg1mmqXyaKSg2HBz+oqzHRvpD7qPwK9jyunZ5mDgQbNRLHS2q
-	BNNoa91HiGvce4rWDO6ORfgDcxHFKSrJ9z8zBCb6oh76Mr8Nt4M/
-X-Google-Smtp-Source: AGHT+IEe8mldUM2Wv5ZRNT6Twg6RekMttRFRq1NWmP7m1iCts+MYJNSTfm41RqGdQjLEgw0/c8z1VQ==
-X-Received: by 2002:a2e:b61a:0:b0:2dc:759e:981 with SMTP id r26-20020a2eb61a000000b002dc759e0981mr1615343ljn.4.1714133139789;
-        Fri, 26 Apr 2024 05:05:39 -0700 (PDT)
-Received: from [172.16.102.219] ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id k41-20020a05600c1ca900b00417e8be070csm30937272wms.9.2024.04.26.05.05.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Apr 2024 05:05:39 -0700 (PDT)
-Message-ID: <81a9e3c2-2c44-406e-af19-90d9dcfe4a92@gmail.com>
-Date: Fri, 26 Apr 2024 13:05:34 +0100
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q/okE3gT"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43QBdJgL011896;
+	Fri, 26 Apr 2024 12:25:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=fHEAhtk
+	w2wOoewJBYMs/2MEtu56/1mA6pRiADYx7uCk=; b=Q/okE3gTGMdnRj5Q6etX5yv
+	OWmDLBFHKWmhfBMmRImGE0JvHEPulvsghahGPWjUWsA+D/2OVkjimZk8nQimLnIj
+	r5gCIxXMlYlOWVzZZzPFJxs2a5qkE2DcKPfOAaK/1rvPmfR5SUwg1s4YPbyjpyIF
+	oQGXbtucyrk5EFeCSkvjKD8lBEWoMOVFW4BdQIdM+ErOB8v7M6SH6W79cBZ/2Ybq
+	L5Ot9ZqTtmdm5iFJOuafZNIlznc9IxKE+xkO+akwHdgMtQ8AkQA0UDh8WG420dpL
+	GdtSn/03nM1cSMxqAgSF55Ko92TZR5BjMYhF7TJXnyzRDWC0ckG2b3GYNzHk8yg=
+	=
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xr3591t0v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Apr 2024 12:25:43 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43QCPf37005147
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Apr 2024 12:25:41 GMT
+Received: from hu-kuruva-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 26 Apr 2024 05:25:35 -0700
+From: Rajashekar kuruva <quic_kuruva@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Rajashekar kuruva <quic_kuruva@quicinc.com>
+Subject: [PATCH] [RFC PATCH] ALSA: usb-audio: endpoint: Prevent NULL pointer deference in snd_usb_endpoint_close
+Date: Fri, 26 Apr 2024 17:55:11 +0530
+Message-ID: <20240426122511.547755-1-quic_kuruva@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] ALSA: kunit: make read-only array buf_samples
- static const
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Colin Ian King <colin.i.king@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240425160754.114716-1-colin.i.king@gmail.com>
- <20240425232250.GA205425@workstation.local>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20240425232250.GA205425@workstation.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3qfEpPMRQq5Ur703ay_jX8btNchQt73f
+X-Proofpoint-ORIG-GUID: 3qfEpPMRQq5Ur703ay_jX8btNchQt73f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-26_12,2024-04-26_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 phishscore=0 mlxlogscore=968
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404260082
 
-On 4/26/24 00:22, Takashi Sakamoto wrote:
-> Hi,
-> 
-> On Thu, Apr 25, 2024 at 05:07:54PM +0100, Colin Ian King wrote:
->> Don't populate the read-only array buf_samples on the stack at
->> run time, instead make it static const.
->>
->> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->> ---
->>   sound/core/sound_kunit.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
->> index eb90f62228c0..e34c4317f5eb 100644
->> --- a/sound/core/sound_kunit.c
->> +++ b/sound/core/sound_kunit.c
->> @@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
->>   
->>   static void test_format_fill_silence(struct kunit *test)
->>   {
->> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->> +	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->>   	u8 *buffer;
->>   	u32 i, j;
-> 
-> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> 
-> We can see the other similar cases in the kunit file. I'll post the fix
-> later.
-> 
+When multiple plug-in and plug-out events occur,
+there is a risk of encountering a NULL pointer dereference
+leading to a kernel panic during a headset use-case.
+this issue arises in the snd_usb_endpoint_close function
 
-Hi Takashi,
+To avoid check if ep->iface_ref is not null before decrementing
+its opened count. If ep->iface_ref is null, we skip the decrement
+and the subsequent logic.
 
-Hmm, correct me if I'm wrong, but I don't see any other significant 
-allocations on the stack in the test.
+Signed-off-by: Rajashekar kuruva <quic_kuruva@quicinc.com>
+---
+ sound/usb/endpoint.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 8f65349a06d3..0e3101b7e392 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -950,7 +950,7 @@ void snd_usb_endpoint_close(struct snd_usb_audio *chip,
+ 	usb_audio_dbg(chip, "Closing EP 0x%x (count %d)\n",
+ 		      ep->ep_num, ep->opened);
+ 
+-	if (!--ep->iface_ref->opened &&
++	if (ep->iface_ref && !--ep->iface_ref->opened &&
+ 		!(chip->quirk_flags & QUIRK_FLAG_IFACE_SKIP_CLOSE))
+ 		endpoint_set_interface(chip, ep, false);
+ 
 -- 
-Kind regards,
-Ivan Orlov
+2.25.1
 
