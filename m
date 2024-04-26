@@ -1,133 +1,244 @@
-Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2059.outbound.protection.outlook.com [40.107.113.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D4078C86
-	for <linux-sound@vger.kernel.org>; Thu, 25 Apr 2024 23:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714088221; cv=none; b=dpcRqvSkn20KO0H2Q0IxzDJCIiM5hs7wFNhkq/+RePRlaKLyknFjHGg39mhudB4eMN6l9LnDMgzLNfRfBs4NmP20F+l9/7qukgOfvP4K/NYMIBfzWAxt9OMxBaZM1TvhL1N8hg/z/m51jKuAEfG3n6w0PVMieFKPkowwYH4P/J4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714088221; c=relaxed/simple;
-	bh=gQy5iACbjcX5O7jsgDQ3FVGylm0q2hukUdZr74jVA1I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s/X5LEWSk35mEfpuRu7j313ziTMJSiF11UkBJlavIwuYH1LTorZhSxi53ejjZPNBUF/gu4tXRmz4rHKEbR5GoN3AiV+msx68a0FAfUFCGlCkXHLS89ldiBAqF9LRUrz208hviEiUfN1tl02svscdFB9YeGphxSltY4+tEznWou0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=QSe0BXHx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=enpYAzQn; arc=none smtp.client-ip=64.147.123.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB03D7EC
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 00:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714091066; cv=fail; b=JtjoBdqt06SpRDe7HwNSTdPdbMQm5mCHuBeP+kbI5KvPNZjSTpI39cPTEhO32AIn/la5cgSuaQYlKynWftgeHsijFRarDzO7YLWnIdEcFEOPKNbmnj7ZygPiKrQshjzHAYpKAt7r7I4xBWy4EXDj7dJkWDw381oagJEMjW2hRtE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714091066; c=relaxed/simple;
+	bh=sY0DTKJU27sTmMXX9k0KQ3iPXJL4MFFJXdV42juREcc=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=FvjjXhLafrJKXLpqOOy9fh/rGPNdlE4s+MByXbiWXd73y7VFr007vMF+9SEltVvDAstgfmimUifid9IDnWFdBpaF2xDMa/ndlqACKRskzXh368NvEs758qpKv/vlCr8yu3xOP7y3iEqp4YysqZbBjFLXWLpSfVPNfuVOomzPOD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=j3KAIb57; arc=fail smtp.client-ip=40.107.113.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="QSe0BXHx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="enpYAzQn"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 6DA15180010A;
-	Thu, 25 Apr 2024 19:36:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 25 Apr 2024 19:36:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm3; t=1714088217; x=1714174617; bh=Dncjll9djb
-	uohPp5iWgAZ3YlHNvTzU4+/xquUwe6VMI=; b=QSe0BXHxkTmQlmQs5gVw4QLYlc
-	xe0aQF92K+ag+6JENWHbTSwXEftREubY3XdwJXRrnvN1GEXzYLAu1lhMZ+d2gc33
-	BRP5qSom1QauxrRkL2zgvMXsEXX3m++mWuTdhLxKOF2IGp5LcRI1gynAl+7M53Zi
-	IGgb8/la7saDdIWBH3VCkdN0FDBRygVloN6+fSytGBAr/wVIx1Hi/wrveDuxKuya
-	0NB4s6/s7JVDzdlmmeG945rR2JxSKETAhqfN/WhP7Y8a9Hagv1b189UvsYasxRL0
-	Oj6v35YW8JvZ2UDlEOnbNcw9I2fPrvW2kpcoRTGbQjHKD9WmzdpNtXPjnzLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1714088217; x=1714174617; bh=Dncjll9djbuohPp5iWgAZ3YlHNvT
-	zU4+/xquUwe6VMI=; b=enpYAzQndf4PXoDHfY4Ze8mUev6iitfaAv7O4iNwlgTS
-	8BPz9xghlpsKCOIMUQw9B+Ah90dHxWEAmC6NvvJHJHJIcNwuHwtpBYOEaJy8mRYZ
-	XqrgO6G8zOHlhDd1VcLd12q+Tr8gATzoEpJHN+Vk2/F+ptGZKC03dN8EYI0DDaKS
-	Q8gZfVGzEIn2Ejv9C/9Hbq/zsE8G3iKzWluEtz0PC/yhr0kF2XmLE7tFb64mgLjk
-	BQG0ZJm+auUObCijSzQLQjyfBfr+llX7+CmCHIICCkmBvQSdtujvabddmmWOFsuP
-	UWf6vv999RSjEc+VrsrA+ci7jNAqh8/zNiMls+Yz8g==
-X-ME-Sender: <xms:GekqZuZNnX6uDsGDg19Gp62LT5SrR-XdBr5LKhONasyrjlAAygCyFw>
-    <xme:GekqZhbr9Mhb2iBnR9y1lqI8WgdId-WUqa5YXyiJQuih9iM4_35kvMOjT1z9UoZ44
-    I3vGHSlbL0qnT354TY>
-X-ME-Received: <xmr:GekqZo80Jl8GkGoHJdb28YTnXiAI1PudPoi2gLZT3WKVxl-YWlLX4tLzcUnC6yWsA8T8rSxiDbovs8VuZVkpHYy2uErKluRnn-2y3W9-eQRknQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudelkedgvddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
-    hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeffvdeuleffve
-    ekudfhteejudffgefhtedtgfeutdfgvdfgueefudehveehveekkeenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrg
-    hkrghmohgttghhihdrjhhp
-X-ME-Proxy: <xmx:GekqZgpHNJFMVC434Cj5M8hX5g-y6Sx1YIY7VnPrX7Znqi8xhs7bCw>
-    <xmx:GekqZpr_kDAvz8fEDFt3kMPpytn7ped23XNDB87STP8QiEtipZ0pvA>
-    <xmx:GekqZuTMP6JuMEEbsLq0vCrbY8o8VOtbhydK6Trxd_k4OYRVACNuwQ>
-    <xmx:GekqZpqmDHTMxdNtsrjJpNDXAt_l3Z1wxcZ2K2sLBoEY2Fg6NHqMdw>
-    <xmx:GekqZgVrF6m4Dxs0Gb10QJgh9Tb6bkcUTHBOEnPcsj2u4CtmKiuzhsJk>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Apr 2024 19:36:56 -0400 (EDT)
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	colin.i.king@gmail.com
-Subject: [PATCH] ALSA: kunit: use const qualifier for immutable data
-Date: Fri, 26 Apr 2024 08:36:53 +0900
-Message-ID: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="j3KAIb57"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YYX1P3raN+wx5xd1RR7AUpkkpKytdr/qzPgsA5SwhCSiYs74pqmNR2RL262hlZhctReJ/nCPCpRgEmZLsHk3ivT77+MKBf2cnysA9k4C1QXlZzz2bKlfn3in3davhl8q13pd/lXLGXcZaEKCWS0OI6O8qkBN0nhqiZzS/32NysUqL43qpZSYuLFfKgLkkPJ2gFIn8CDWQH13zefo5WfpqixthP4UheV2aygxIiQokGBClKsA0yocJ0mwg/k+9ILWytPHJcMinmAUpPIhbCb/WGGbC1zeQF3Wu63HOs7UtEawpXt3n4rwS5XU1llhKBCb8jArpM98BnbM90ID79XqXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zzOhTG3boytDfpNeuvR9H8B4QWL4hPgjdVikFFlp9JA=;
+ b=N0xkUfvgB19/+eczIAjpwgU/DkFegKzNXkp/S+vG00KxQm1kU/mr2TEDb7NnwY+hzvNlM+VeOvbYpmNOJXPxabCPtfsUV8PKtJXt7wLCcYBpo8cay1PWOQaHFr97+AiR8j/BiKCNSfQvi/5lGeguevff53RGcayJ4ToB3U5fZv3fUGvSWxQ8syydQRDrmnNI/B5vIN62R5risst+vn8U+BCArhTqhYsTTuWB9oSvqZE3GGEODmOsf9Zbrcq2D/5KIXA96/lTWVLKuYGtJ7DxPpDZqojz0wjpW0gyvjuCoLrLUE8H5QXER9hQz19Ut8e8QdEe8zQ4tUxKDLFxOYA9lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zzOhTG3boytDfpNeuvR9H8B4QWL4hPgjdVikFFlp9JA=;
+ b=j3KAIb57xoNwmBVwOf9+o/zPt1WHfrPnmxaacoN79haaYygLOJLXc0LwdvG8ct9YNMc8L/34FDuc4Yz0vvqA6eSRiD3OcWSInKIUjhU7OuthGJN+3QJTNiiWi7TQtC0ozVE64RlE7t28iaxQo4kChOo4HIhNOawTEqL4gjvFfcw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB7902.jpnprd01.prod.outlook.com
+ (2603:1096:400:113::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.24; Fri, 26 Apr
+ 2024 00:24:18 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7519.021; Fri, 26 Apr 2024
+ 00:24:18 +0000
+Message-ID: <87v845gee1.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup soc_get_playback_capture()
+In-Reply-To: <bdf31350-1f99-4588-8d6d-f4b9c8bad96f@linux.intel.com>
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+	<87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
+	<a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
+	<87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
+	<92054f87-dded-4b66-8108-8b2a10909883@linux.intel.com>
+	<87edaym2cg.wl-kuninori.morimoto.gx@renesas.com>
+	<93294e52-97e5-4441-a849-867429da6573@linux.intel.com>
+	<87h6fsisn8.wl-kuninori.morimoto.gx@renesas.com>
+	<87plueovm1.wl-kuninori.morimoto.gx@renesas.com>
+	<f65efc7b-d268-4b39-8665-5c4fe8e3ca1a@linux.intel.com>
+	<bdf31350-1f99-4588-8d6d-f4b9c8bad96f@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Fri, 26 Apr 2024 00:24:18 +0000
+X-ClientProxiedBy: TYAPR01CA0118.jpnprd01.prod.outlook.com
+ (2603:1096:404:2a::34) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB7902:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5ba9fbb-9f04-40c8-9671-08dc6587360f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|366007|376005|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3BhVn2+fBA0T04giV7S0Hz1n76S+wcmNMk1wzqT1u3JfHnI+ysuO6+1T6hjU?=
+ =?us-ascii?Q?RzQBgl7sIgceFGuuxX2qqqBTfBZQdU3JpFUBVcTd37f4fGbnTmo06U1r4GiG?=
+ =?us-ascii?Q?K6WeS1bLT3JHWr1x71adaMxFQLHIFUvbTg7SMn/gsHj/jPgvP9A8mkpQ75nu?=
+ =?us-ascii?Q?iXkP35azqtvN18eohwn4rfwaiFAQoZSWBcWyWqXgoP2nyDpWXFME8C865VhJ?=
+ =?us-ascii?Q?ryh3Ubz05EhNlKnokrUQKhFDE/lSu6AWVGjQQOSI2tXP1EY+IaQLeQcU3eSo?=
+ =?us-ascii?Q?+iWmRcp716WxCW1O6e0a9B6If5H53iYGlpbsPt4jtpHDq9Y0uokZWHVXpz7N?=
+ =?us-ascii?Q?E8n7VMbex//yBRZYdzlFocDCNGR6XZxvuL8mZr6zwSdJw84KR0KtY25yHW+T?=
+ =?us-ascii?Q?Wm+Wa++sKfFljRvPX2JL/ggcY1+5oDr4Rr5w15PQsnntwQYRpas5BTYyfGSS?=
+ =?us-ascii?Q?zFf0Rmjbn43k5yIc/3rO6bnxSN6kbhfdsPAyEFZcNJBLVjP0QkM36vTAdTdJ?=
+ =?us-ascii?Q?6b1oXdyjh4bF99BY7Z826YGGUIqnbYnHLRHZ0D3GK6KHWo4MJJoxK7Mnqfdw?=
+ =?us-ascii?Q?dn7aCHPdKfceyur1MIF83OyRFB1p/EQLLk+T2FGTzipW9t8PLWpQplo8yHQL?=
+ =?us-ascii?Q?dvGmOPjKAaTtojD8nkn09zCPhntA1PuFTt6Vhe4jI3Zu48OHOtEYPVWzXDHc?=
+ =?us-ascii?Q?umHOsgRzzs6OJ6oOcLpiUS8RqdUdYuTqVL+/Ahfln0cytLzAXK1NIJg6bXKe?=
+ =?us-ascii?Q?0asMjGPFKEu9ykmENMeSKB4Yb3kAYnyHe0jQLC2pfPcc6s+abv42XAyeOy2A?=
+ =?us-ascii?Q?qC211q+H8aJCGVf0s70YeYNsJV4m07ZhQDnudwfx0p4WFeo5b8N+ARRkvv87?=
+ =?us-ascii?Q?TeI/QoKIPXnr9JVAXBXG5U/g8/Jtq+57pZVee76X3hloqWrkzB/43PKTJHab?=
+ =?us-ascii?Q?kPBZFD1jpvsJFzdadlL/Bo9tvGqvYjyUYFjU11A9cRGZO7E/V5etjVMWEnze?=
+ =?us-ascii?Q?SnBbz3fq1lpETHySbLNGYxDwQLgaPG3Dh0i7NNb3b5zo0l5YPaDvLMkI5/OV?=
+ =?us-ascii?Q?tlY4NQ0SyHq1k3FalBIw/IHex5RyYuf68nB/cYu0oT2JAPEgI27tA/fUdbv9?=
+ =?us-ascii?Q?QHQxE1+SEpGwBPUx0SJpxmsU84wSPjwIfPgd/C07e7HF827i9H6Cd2IKePR7?=
+ =?us-ascii?Q?gCvA6qAzKByv4ILZGBMkKkitOUERNQxbaYAAka2K/A9lqtTmedpbMhgZCf6v?=
+ =?us-ascii?Q?pIRmgF2jX/ZKgOvcrxgui8+7J65yQFiZf7UvmpD1sHXR4u6bQYyF52rSjkD3?=
+ =?us-ascii?Q?uz3Wc47ejuJADMJYPQzn5X2VK1iuaJ/EL5gIYm12huO2ZA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Io++xt34XPlJXnh/ocYaKGeBORWnzEY9ME/qy35iLiatvsNYAwu8Po6vsqmF?=
+ =?us-ascii?Q?ral+aytFg7cTwWG/F45li7T1PSIyyKFYv42fZxUXOGmqJDqlxZaWmqFoBs29?=
+ =?us-ascii?Q?PFAV41N6CfLR9Cv5dlxw2lx6ex52oRyA45UkCm0nkKAr4R0ldNSJIOdy7RFu?=
+ =?us-ascii?Q?WjY+PSfd6qqNjpBJA++gAD2UigX0dFUXjSBENOC1tgYsBDcM+9h/DBsW/fww?=
+ =?us-ascii?Q?/VS66QWfjAP8geTlUhYBUxayvOSbYVKABNqvkx2nnMuzWEKRmimORChA4g/D?=
+ =?us-ascii?Q?wPD3n1cXqJS1Ivu6f8a2EHkb7gOZuFCKn7uGoRqkzvEp3haOXo84dmEVnkTl?=
+ =?us-ascii?Q?PcluUgB2oiGrnD6n6i4klXqf497E9nWjankDmUBBY+hkoniEOQkuJEJixnah?=
+ =?us-ascii?Q?h5aICdIlozRSLzy/c+AVAYYGirbxTn9eyw1DcM+Kh3ai6oQ1fGpJq87pL4I0?=
+ =?us-ascii?Q?wgVsqwurld3zRvwH8OKuGBTOCXFEXs4Ht+fcYshZNxJ4APDvQU6Itto3xKfh?=
+ =?us-ascii?Q?Hq+bYbKRVCHdYWhdNF5C1k/K6zcL6GwagSKnFSGZp7lZolfwQTb7ExlE7mSf?=
+ =?us-ascii?Q?Ah95yMIHEemU6K8wuA3KuPPcnX18GX952LTq2IFfbqT0xnHLuwg9+xarnOru?=
+ =?us-ascii?Q?+njtYNgDKObzMZPrdngVZkQfraMzsehh1+nwZ2WAwq9Q4y1IeytFyD7hNkDl?=
+ =?us-ascii?Q?yunc+4mo8EgY9jIs1qqh9G2N0CDUgQiyK77RqwLZwazl4MZm7dn5qrMjn1n6?=
+ =?us-ascii?Q?r53Ox4KtXyVNfvNwm+4sT/Vwo0AyGljvlIdbC5dPE17zJQRz+91onlHgkJRU?=
+ =?us-ascii?Q?vEcY7ICGriia/qrRuK5OfVcDzG16NzohGlUoEKJRGTQwQwryKec5laORCgrU?=
+ =?us-ascii?Q?scmmaA9iJIpCXtAGHUzivljn6FuFWdN6IDVWX6uwPh1U2ZT8kOyEpQ25qYIx?=
+ =?us-ascii?Q?g5kBUuwWleRiMT2/Lh1rqXtDaOtLULYSVme8a0T2GthQXWee+9KBLM+plbdI?=
+ =?us-ascii?Q?GBeN0Zq43ZvnYu9YjFQ7b9UE8wGL+pcqyLDX1prHt/u0DJ/g10KyEb/gSlfk?=
+ =?us-ascii?Q?0PKbBmsvPL5i8LSQL2XLprVnj70H8w+MkuXIfAnyPh2KkIkxwNDj8fdDIxBe?=
+ =?us-ascii?Q?MhP6MBN5a0sFrPd25aUV2gTd509UDJsUOqN1M8smi8bIOKpAwfrVJnLGM2TA?=
+ =?us-ascii?Q?Ad97tANDai91aY6TztQkEtmBCfmp+QxsFFcpuKbZ4ANRbHguO90PwYpFY1WC?=
+ =?us-ascii?Q?jBKrAMBo6I+EGtlSwL4fen+NYcVlbHrtNvzm7URlJvYesSbVUjODXDvnbKB/?=
+ =?us-ascii?Q?X7IsQ8s7tPQvX6DN2+1okiZL9HmMD4jjj6yit6iISOUBLmFyo/XKaDXxhZMe?=
+ =?us-ascii?Q?qkpupKaN0VbOfrsmVwmRXW+t0j7MRCupotPpHIY9hNoyeo6OfFyHkSa9uXjU?=
+ =?us-ascii?Q?Md751ndddePN/NOphq2513AH9H4YSKpC9N6wPHpb1Gv0hiOPbniw9THSAZ6G?=
+ =?us-ascii?Q?8PjeeLBgGNoJ9s03Zb/vOk3nD0WdyntU8nMN3YQ+91ZCegmoLfdTyw1ZS/Tr?=
+ =?us-ascii?Q?vvjhukF8GnX0/znEcoBo4c6Quof9Lx7+xRwb4IHqTrrHWsDmKv7CmZ9KbWXG?=
+ =?us-ascii?Q?PbpyNzzXszmIRgvBjIQFOJU=3D?=
+Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5ba9fbb-9f04-40c8-9671-08dc6587360f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2024 00:24:18.5039
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X/rrTykxMnI7j6Q/0+OPYCcifwSOvl6cPl1UR3ftJzmqerEuUSDIo1RTQ68rHsXouNbhaehzaehdabIVXDufRcRR46bg7E6EamFi/eCzXl06LJWo3SJ4w4kiZTZ3oiv3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7902
 
-Some data for testing is immutable. In the case, the const qualifier is
-available for any loader to place it to read-only segment.
 
-Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Hi Pierre-Louis
+
+Thank you for your feedback and report
+
+> On some Chromebooks, we tag a dailink as supporting capture for echo
+> reference, but that echo reference is generated by the Intel firmware.
+> The amplifiers only support playback.
+> 
+> see https://github.com/thesofproject/linux/pull/4937 for details, I
+> added a clear log:
+> 
+> [  807.304740] kernel:  SSP1-Codec: CPU dai SSP1 Pin supports capture
+> but codec DAI rt1011-aif does not
+> 
+> So I think for now we probably want to avoid this stricter criterion and
+> only check the supported direction with the cpu-dais. Or we add an
+> escape mechanism to let the core know that the capture support was
+> intentional.
+
+I think my patch have escape mechanism, but it was for BE Codec.
+If my understand was correct, above is FE Codec ?
+
+One question is that is it just a mistake (no one noticed) ? or is there
+some reasons it can't support capture (but use it ?). If it was just a
+mistake, is it possible to update driver during the grace time ?
+Or do you think we need "escape mechanism" permanently ?
+
+> I agree with your analysis. We don't have a clear memory/understanding
+> of which "no_chan_DAI" platforms (B) was supposed to handle, and why no
+> one reported them as broken by (C).
+(snip)
+> I am good with that plan, but I'll need to investigate first why we had
+> a failure with one of the Chromebooks on this v3 patchset. That may give
+> us some insights on "special" uses of those flags.
+
+Thanks.
+It seems the code was just complicated, and we have been missing
+important check. Let's break out my patch-set into small pieces,
+and go more slowly.
+
+I think it will be like below. Can you agree about this ?
+
+Step1
+	dpcm_xxx flag will be "option flag" instead of "mandatory flag"
+	for a while to keep compatibility and avoide confusion.
+	But it will be removed in Step3. To indicate such things,
+	it will have dev_warn() if dpcm_xxx flag was used. like below
+
+	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
+		has_playback = /* at least one of CPU DAI supports playback */
+		has_capture  = ...
+
+		if (!playback && rtd->dai_link->dpcm_playback) {
+			dev_warn(dev, "Playback is requested, but CPU doesn't support it\n")
+			has_playback = 1;
+		}
+		...
+
+Step2 (In case of "escape mechanism" is not needed)
+
+	Current DPCM is checking CPU side only. Indicate warning until
+	Step4 if Codec is not match . warning only, not error for a while.
+	
+	if (rtd->dai_link->dynamic || rtd->dai_link->no_pcm) {
+		...
+
+		if (has_playback && /* no Codec DAI supports playback */)
+			dev_warn(dev, "Playback is requested, but Codec doesn't support it\n")
+		...
+
+Step3
+
+	Step1 deadline
+	remove dpcm_xxx flag
+
+Step4
+	Step2 deadline
+	CPU / Codec mismatch will be error.
+	It will be "at least one of CPU/Codec pair supports playback/capture"
+
+Step5
+
+	There is no big diff between DPCM / non-DPCM check.
+	Merge these, and clean-up code (soc_get_playback_capture())
+
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/core/sound_kunit.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-index e34c4317f5eb..165bd0f5338a 100644
---- a/sound/core/sound_kunit.c
-+++ b/sound/core/sound_kunit.c
-@@ -45,7 +45,7 @@ struct avail_test_data {
- 	snd_pcm_uframes_t expected_avail;
- };
- 
--static struct snd_format_test_data valid_fmt[] = {
-+static const struct snd_format_test_data valid_fmt[] = {
- 	DEFINE_FORMAT(S8, 8, 8, -1, 1, SILENCE()),
- 	DEFINE_FORMAT(U8, 8, 8, -1, 0, SILENCE(0x80)),
- 	DEFINE_FORMAT(S16_LE, 16, 16, 1, 1, SILENCE()),
-@@ -154,7 +154,7 @@ static void test_format_endianness(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_2), -EINVAL);
- }
- 
--static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *data,
-+static void _test_fill_silence(struct kunit *test, const struct snd_format_test_data *data,
- 			       u8 *buffer, size_t samples_count)
- {
- 	size_t sample_bytes = data->physical_bits >> 3;
-@@ -191,7 +191,7 @@ static snd_pcm_uframes_t calculate_boundary(snd_pcm_uframes_t buffer_size)
- 	return boundary;
- }
- 
--static struct avail_test_data p_avail_data[] = {
-+static const struct avail_test_data p_avail_data[] = {
- 	/* buf_size + hw_ptr < appl_ptr => avail = buf_size + hw_ptr - appl_ptr + boundary */
- 	{ 128, 1000, 1129, 1073741824UL - 1 },
- 	/*
-@@ -220,7 +220,7 @@ static void test_playback_avail(struct kunit *test)
- 	}
- }
- 
--static struct avail_test_data c_avail_data[] = {
-+static const struct avail_test_data c_avail_data[] = {
- 	/* hw_ptr - appl_ptr < 0 => avail = hw_ptr - appl_ptr + boundary */
- 	{ 128, 1000, 1001, 1073741824UL - 1 },
- 	/* standard case: avail = hw_ptr - appl_ptr */
--- 
-2.43.0
-
+Renesas Electronics
+Ph.D. Kuninori Morimoto
