@@ -1,144 +1,141 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D470125AE;
-	Fri, 26 Apr 2024 21:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDF63F9D4
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 23:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714168536; cv=none; b=C7aZq+tPx/zjr2ASyFMDBVAZsjRI2YtuLr7q3OsB4XRlbIeGH3P02+TwXh3Lzn6x0CNpZQE7p2wRaTaLZKshavasVSwZwNnNAyeRWMm8VfGI/dBAK5uU1cC7V/HVJcMbv+zO9BuB/2jK+kAwxEMDZGTLXBcX7sHuIviwRGi3GM4=
+	t=1714173576; cv=none; b=mSdZPhRwDN/sv/xiorNkJrOOU63Os/+2JOI/z2N01mtKbp8VnEFdrbG/WsCbuvqCKuup3cfx/U2td5S6dMe75NEpeRMTUeWtu76T6kE+TyIMVfrBlv3XQpnWIn8E0xpGW+PSglh3k3WwQhmd1OYVhD7VjsA8b0mF8s20U5DySsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714168536; c=relaxed/simple;
-	bh=7/12lQ8m5ACp3C54KCnXpyWNuV5AkXC4wJVhYXCnf8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HX1VSI8KBPyevNrW23YUZstXijuSaF1qK/9x2YAjEwTgcv8/kcAhXeKpJ0rOnaPoizE3iZBAAYWc6DmsBTVF6Wgqu1J0vB7xzZxLiiX7wKkQFx9mfKbeHQoEHOIBJKgh4K3icm3isOjI9vBHktCOfLDwAWL5vZIYFFhO4Oo/ECI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UB1c/KyQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714173576; c=relaxed/simple;
+	bh=bbLgy3NZ+5Ad04ubmZHz3Hl5chOfWzcraCy2z/jyQW8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UUM4qgMagP/ZX52fhd6FdDpw0TQzsgZttAvHleCNV0dEGHCVUDwgZ+Lu1XFCDP/iiD4SL0LaOydFUdhZbyTQk1f7vRRw1jN7LwrhR+T7sYVvAYH96x5YattBj780zkFkO4VQQqAd6KanNnW3rnheckpPIWcrhvigHlljZtsroPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OevwW86j; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UB1c/KyQ"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43QLqmWU024490;
-	Fri, 26 Apr 2024 21:55:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=CoaUWkpf4ziyf5/z5HH9Em0tl4jcL6HqmjBiVk7KXP0=; b=UB
-	1c/KyQ8V2QkCCL7+hSWaN1MmFJUooEw7xjJQRzhC+Qia9tFlPoljc5Q45qI97+xe
-	ApPCubZg1MjaYW3I7gUECUXYIJXaOQOt8dmuKb3G9KTmKLJwYVVf4aR+9z2OpahB
-	vU8rZdBpCsv+KdJUXkMj8zX8XnEKsg2tf2RDVxQjp1ikFadKI4YeSHk3S3YXYC4n
-	eemk8dc0DeTuaOlo3MtyQVf7LpZn+IRf7o3bVb8qprvPF6nAK+GZ4QhbdFaNy84+
-	oQZ07TDe/IU6q9FqCH2cQyuN+PvTYvo3gwRD8qoRGNBVh880QEnsTK+RLx4GJ09j
-	m6VX/Pkudy5y7M2cijYw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xr35eu06j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 21:55:14 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43QLtBOi024640
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 21:55:11 GMT
-Received: from [10.110.6.235] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Apr
- 2024 14:55:10 -0700
-Message-ID: <f128feb6-4be2-2f14-b4cb-8bf1d0908892@quicinc.com>
-Date: Fri, 26 Apr 2024 14:55:09 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OevwW86j"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-346407b8c9aso628574f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 16:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714173573; x=1714778373; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3gcMe8guOHwR8NewzVOejSu+gPJAKchRWOcy6ZA+Pa8=;
+        b=OevwW86jg/YfYf1fcGfiZszyTa4TrL4D1S228N/6XAXzrGb9x4Fb43zTQLuoKu9KnN
+         IZwDS8EE9adNZopowu81mkiKWUuKnox7pEiDr8sQ5iIqThGwQr5IJPzgXm3y/49RMgBg
+         9sc5Bg5Cofw3XMxDIi3QBP1AxH+0MeZcdVmUL143UC+q4jCjDueSXzGh51BxzR4m8QLj
+         wTA1xkrywSc8Q/m4bsyyWE9xbV6jsGEqfIORws3pi5w4kEZ8gWFF7xLJ9bpNF1Vdx5KD
+         dQm86ipdmXpk/NXQLI6OVQ0KRrj8Zlw362oksphBrzFZbxtK4K+elXayfTPhwGSrLlb9
+         iUwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714173573; x=1714778373;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3gcMe8guOHwR8NewzVOejSu+gPJAKchRWOcy6ZA+Pa8=;
+        b=UVa67S/PM71Ek8ejyEfoEyTd5IWGuwSA3/jkjjWwD9JzjWHMDUGEjFBWBFUMwv82Yf
+         vmWX0fhTVHbX5XmxiMfRb2YayZwpaulSKXUDv1D6muf1riLcfuq7Jsau+yyn/mhggKP6
+         fMiM1cabR5ARHTqQ/LZkvp0RC5yAgHQVxaQwxLp/dZjX8Wai8UjtML3/sBxWIcgnfpBw
+         LB9YFwjUSwD2ViyrBUV+SR+tCBv+2QZtIs7+FQG0yv4bW0VuiTE0Y4jojzDxg0gKIBK/
+         eI1F0pNu2KfYLTvLFzFn1BPZ1jOuR6ibKGosA074bHL5VxT5PQ/wYHA7Z2pkQO5JjeUs
+         V10w==
+X-Gm-Message-State: AOJu0YwLdt9+Gpx56jN2xbhcskcZBDGZFTr0sU/c3doItRAqe91bil6S
+	zvKZHxwnMIkpJxErQQ/UL2GrryJ7p0SDazsrPhPazdJ7JPknsoPn
+X-Google-Smtp-Source: AGHT+IFYrWsEG7mp3i8L9Dle+I47rFh1J8AExeG6zxBz0tiNFo/L65wAhoex7DwFPNgUU0UUFXVKcQ==
+X-Received: by 2002:a05:600c:1d26:b0:41a:c04a:8021 with SMTP id l38-20020a05600c1d2600b0041ac04a8021mr2773551wms.0.1714173572315;
+        Fri, 26 Apr 2024 16:19:32 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:d20e:7300:f1d3:7133:ba99:885d? ([2a01:4b00:d20e:7300:f1d3:7133:ba99:885d])
+        by smtp.gmail.com with ESMTPSA id s7-20020a5d5107000000b0034c61e211a5sm2309300wrt.63.2024.04.26.16.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Apr 2024 16:19:31 -0700 (PDT)
+Message-ID: <a9e30b43-cd34-42e6-8940-e79922234d06@gmail.com>
+Date: Sat, 27 Apr 2024 00:19:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v20 09/41] ASoC: Add SOC USB APIs for adding an USB
- backend
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: kunit: use const qualifier for immutable data
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, colin.i.king@gmail.com
+References: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
 Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-10-quic_wcheng@quicinc.com>
- <b8ff8777-6bcb-4fd7-9480-231536d23759@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <b8ff8777-6bcb-4fd7-9480-231536d23759@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: R74DSglKBDCBfnJ5wNDAeCcJ3-qNHc_Q
-X-Proofpoint-ORIG-GUID: R74DSglKBDCBfnJ5wNDAeCcJ3-qNHc_Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-26_18,2024-04-26_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404260154
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Amadeusz,
-
-On 4/26/2024 6:25 AM, Amadeusz Sławiński wrote:
-> On 4/25/2024 11:50 PM, Wesley Cheng wrote:
->> Some platforms may have support for offloading USB audio devices to a
->> dedicated audio DSP.  Introduce a set of APIs that allow for 
->> management of
->> USB sound card and PCM devices enumerated by the USB SND class driver.
->> This allows for the ASoC components to be aware of what USB devices are
->> available for offloading.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
-> 
-> (...)
-> 
->> +const char *snd_soc_usb_get_components_tag(bool playback)
->> +{
->> +    if (playback)
->> +        return "usbplybkoffld: 1";
->> +    else
->> +        return "usbcapoffld: 1";
->> +}
->> +EXPORT_SYMBOL_GPL(snd_soc_usb_get_components_tag);
-> 
-> Is this used to expose some information to userspace?
-> Can those be some more readable strings if so, like:
-> usbplaybackoffload, usbcaptureoffload
+On 4/26/24 00:36, Takashi Sakamoto wrote:
+> Some data for testing is immutable. In the case, the const qualifier is
+> available for any loader to place it to read-only segment.
 > 
 
-Sure we can make it a bit more complete.  Was trying to keep it short, 
-but if the intention isn't clear on the tag, then we can keep the full form.
+Hi Takashi,
 
-> (...)
-> 
->> +
->> +    node = snd_soc_find_phandle(usbdev);
->> +    if (IS_ERR(node))
->> +        return -ENODEV;
->> +
->> +    ctx = snd_soc_find_usb_ctx(node);
->> +    of_node_put(node);
->> +    if (!ctx)
->> +        return -ENODEV;
-> 
-> Perhaps introduce some helper function, you do this 
-> snd_soc_find_phandle() followed by snd_soc_find_usb_ctx() in few places...
-> 
+Thank you for sending this patch. It would be good if you add me and 
+Jaroslav into the recipients list as well next time.
 
-Will do.  Will make a helper and replace instances with this.
+> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
 
-Thanks
-Wesley Cheng
+I'm not sure if the "Fixes" tag is applicable here, since this patch 
+doesn't fix a bug.
+
+Anyway,
+
+Acked-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+
+> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> ---
+>   sound/core/sound_kunit.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+> index e34c4317f5eb..165bd0f5338a 100644
+> --- a/sound/core/sound_kunit.c
+> +++ b/sound/core/sound_kunit.c
+> @@ -45,7 +45,7 @@ struct avail_test_data {
+>   	snd_pcm_uframes_t expected_avail;
+>   };
+>   
+> -static struct snd_format_test_data valid_fmt[] = {
+> +static const struct snd_format_test_data valid_fmt[] = {
+>   	DEFINE_FORMAT(S8, 8, 8, -1, 1, SILENCE()),
+>   	DEFINE_FORMAT(U8, 8, 8, -1, 0, SILENCE(0x80)),
+>   	DEFINE_FORMAT(S16_LE, 16, 16, 1, 1, SILENCE()),
+> @@ -154,7 +154,7 @@ static void test_format_endianness(struct kunit *test)
+>   	KUNIT_EXPECT_EQ(test, snd_pcm_format_big_endian(WRONG_FORMAT_2), -EINVAL);
+>   }
+>   
+> -static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *data,
+> +static void _test_fill_silence(struct kunit *test, const struct snd_format_test_data *data,
+>   			       u8 *buffer, size_t samples_count)
+>   {
+>   	size_t sample_bytes = data->physical_bits >> 3;
+> @@ -191,7 +191,7 @@ static snd_pcm_uframes_t calculate_boundary(snd_pcm_uframes_t buffer_size)
+>   	return boundary;
+>   }
+>   
+> -static struct avail_test_data p_avail_data[] = {
+> +static const struct avail_test_data p_avail_data[] = {
+>   	/* buf_size + hw_ptr < appl_ptr => avail = buf_size + hw_ptr - appl_ptr + boundary */
+>   	{ 128, 1000, 1129, 1073741824UL - 1 },
+>   	/*
+> @@ -220,7 +220,7 @@ static void test_playback_avail(struct kunit *test)
+>   	}
+>   }
+>   
+> -static struct avail_test_data c_avail_data[] = {
+> +static const struct avail_test_data c_avail_data[] = {
+>   	/* hw_ptr - appl_ptr < 0 => avail = hw_ptr - appl_ptr + boundary */
+>   	{ 128, 1000, 1001, 1073741824UL - 1 },
+>   	/* standard case: avail = hw_ptr - appl_ptr */
+
+-- 
+Kind regards,
+Ivan Orlov
+
