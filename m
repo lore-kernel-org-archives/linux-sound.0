@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F673140386
-	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 09:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC5514036A
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 09:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714125417; cv=none; b=p2pTzkjJu68JFlsNoyq9r5DONgfixBfmvXKChRAV2EUYdHnCKAgqE37j4fIZvAqGewd+os8u6KVQfMXRRBC6hwH9KL9u7AK3hh+bqTAk81lUvrEhTGNwzLHQ3TD2oXpMU/HZUErMX5MEM3ERx2fI2IBp3qaqt+HZDmHbdKELEhE=
+	t=1714125418; cv=none; b=WEjMgNlgTV866xOtS9KXOmZFeH93k6VrIiEjcgkzk0Gu2U0IhjZlyiMZOT/VHBJBVs61bLETa4xaW9kF8pALfqZC/xEVshDP+GRN952H/eR8kicPq+WO4vp9NPB3JeseUvxUqrbmRXT0S80aDqhecdrD9NeyhmL8xuAPEymN5V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714125417; c=relaxed/simple;
-	bh=/OpGaXKLK/xKmfeJNxX3PuUmLBLHR9is3aONCN7HtOU=;
+	s=arc-20240116; t=1714125418; c=relaxed/simple;
+	bh=T4nHsF9OKK9PpS+tpyMCag09I+TatdAfIymTICQ28jw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Lp1HwoGqfzm0BtRtxoIdE/ldNkbdxGY1FHMxfH1nzP0MgLQQJ8ARWk0uk5niMH+/eAT28Y/PO6lFSzm5v4kdVxqwoCewn7E2wP+p5NyaNsdBEn4zqWy6Bj3Zlc9NSNRAI3u45EBNbkbhCO8jdXU2cfNUrU/otVICsvaYtkX5RMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iBp5A6ho; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=XR7xnagTqlIwT8Y8inGppJS5ifdvtHQiFFqmXkqiz1iMKJ/6c3RU+mbVjA4wejz0zan8CL7N6QcOks/WO0r7qPMQKjM06WTJsjqD5ikN65oYQYA9WoNZs3iTJ50NFcvF34Er6ZsdGu3Q+bWuARueiFIN3We/SJEccBchVMoJ230=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mv2a2Z5V; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBp5A6ho"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mv2a2Z5V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714125415; x=1745661415;
+  t=1714125418; x=1745661418;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/OpGaXKLK/xKmfeJNxX3PuUmLBLHR9is3aONCN7HtOU=;
-  b=iBp5A6hoxvhwcbTjF+IWtGkggP6xxZSjLhfgCHIubWTLdB0WYHoEc+bF
-   CF474J+OJwnsyLnrke42x34Dl7Uo/51x7GVCo0kRcekQTp/z+pCvOE1MW
-   HXOcJKX7Jm4IrTHyKrtO1Wi5lCbO5rWn9S931uxoXtL8cqYRQ73Bx1aiW
-   M/ArRPaTQNmwWjHubsQ6JCxTGPCbms6BZsAVQZu5syG9I00hOo6m0MPjF
-   IhE7LGPkAEkV9Lj/xf5iPxL9AYPP2w/ph07p6ObFn01YXftpEZdtWL3XZ
-   zZGqIQTPdV2TWUlXYs+S5FVLM75qnUk4wNPlicppv5og9PXMl+ot7jeFy
-   Q==;
-X-CSE-ConnectionGUID: 9UdqRjXhTam7zKJxCbZ3MQ==
-X-CSE-MsgGUID: jyH72M9+RUyVmV1mc6PqDQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20409197"
+  bh=T4nHsF9OKK9PpS+tpyMCag09I+TatdAfIymTICQ28jw=;
+  b=Mv2a2Z5VmvGzbA+JDTnA0yXY3DFi9OeZffhAwdYoJBFo8k4GNmkI1Epg
+   UFoN7fe4eSSPcCFiSaeoPMBUgoNNgRFIhAZgZ03Iru0uV9W+ogGE3kaZb
+   8oPIe0YtfTYy0KR+Voki/A42zb8BF9RszD2ollRGbj/6ppe1uLgbGMHZe
+   MqhPGB5+2rjH2cVUGH7Hhr8K/XXhzDbYuOHJq6iAayRoLnvtbVJtA4Roq
+   6LfrJHpjwFbaJiBSlCNsCQxaB1Dy/akuD6T35BRzdYc5Yi7lfkPtQ+s5r
+   x4Xjjdtbx9RCRrRecbZC42FtaQqDeN0twROua9CSL1UKkiBua4+r6H+y0
+   w==;
+X-CSE-ConnectionGUID: BPA1fkkjSkGE98MQUdKimg==
+X-CSE-MsgGUID: txsMBF3LTk2eG7QJlDjBHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20409202"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="20409197"
+   d="scan'208";a="20409202"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 02:56:55 -0700
-X-CSE-ConnectionGUID: Ie1GZPzITB+CkM5Yut6EyA==
-X-CSE-MsgGUID: l5cldLv6RrCbbDwW43KaZA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 02:56:57 -0700
+X-CSE-ConnectionGUID: eGWsMj9aTv2AUPXSi/+nxw==
+X-CSE-MsgGUID: 29Vqh8b6StOyno+65ujRbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="25460573"
+   d="scan'208";a="25460588"
 Received: from crojewsk-ctrl.igk.intel.com ([10.102.9.28])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2024 02:56:53 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2024 02:56:55 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	perex@perex.cz,
 	amadeuszx.slawinski@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 3/8] ASoC: Intel: avs: Remove redundancy around DAI shutdown
-Date: Fri, 26 Apr 2024 11:57:28 +0200
-Message-Id: <20240426095733.3946951-4-cezary.rojewski@intel.com>
+Subject: [PATCH 4/8] ASoC: Intel: avs: Store pointer to adev in DAI dma_data
+Date: Fri, 26 Apr 2024 11:57:29 +0200
+Message-Id: <20240426095733.3946951-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240426095733.3946951-1-cezary.rojewski@intel.com>
 References: <20240426095733.3946951-1-cezary.rojewski@intel.com>
@@ -65,112 +65,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move avs_dai_nonhda_be_shutdown() to avs_dai_shutdown() as the function
-is common for all transfer types, not just non-HDAudio ones. Use it
-to simplify avs_dai_fe_shutdown().
-
-While at it, fix explicit kfree(data) and use the destructor instead.
+Reduce the number of to_avs_dev() casts by storing the driver context in
+DAI's dma_data.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/pcm.c | 44 +++++++++++++++++----------------------
- 1 file changed, 19 insertions(+), 25 deletions(-)
+ sound/soc/intel/avs/pcm.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index f3cd54f355ef..23f7e0fae817 100644
+index 23f7e0fae817..a3a04115216c 100644
 --- a/sound/soc/intel/avs/pcm.c
 +++ b/sound/soc/intel/avs/pcm.c
-@@ -85,6 +85,21 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
- 	return 0;
- }
- 
-+static void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct avs_dev *adev = to_avs_dev(dai->dev);
-+	struct avs_dma_data *data;
-+
-+	data = snd_soc_dai_get_dma_data(dai, substream);
-+
-+	if (rtd->dai_link->ignore_suspend)
-+		adev->num_lp_paths--;
-+
-+	snd_soc_dai_set_dma_data(dai, substream, NULL);
-+	kfree(data);
-+}
-+
- static int avs_dai_hw_params(struct snd_pcm_substream *substream,
- 			     struct snd_pcm_hw_params *fe_hw_params,
- 			     struct snd_pcm_hw_params *be_hw_params, struct snd_soc_dai *dai,
-@@ -166,21 +181,6 @@ static int avs_dai_nonhda_be_startup(struct snd_pcm_substream *substream, struct
- 	return avs_dai_startup(substream, dai, false, &avs_dai_nonhda_be_ops);
- }
- 
--static void avs_dai_nonhda_be_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
--{
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+@@ -22,6 +22,7 @@
+ struct avs_dma_data {
+ 	struct avs_tplg_path_template *template;
+ 	struct avs_path *path;
++	struct avs_dev *adev;
+ 	/*
+ 	 * link stream is stored within substream's runtime
+ 	 * private_data to fulfill the needs of codec BE path
+@@ -60,7 +61,7 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ 			   const struct snd_soc_dai_ops *ops)
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
 -	struct avs_dev *adev = to_avs_dev(dai->dev);
--	struct avs_dma_data *data;
--
--	if (rtd->dai_link->ignore_suspend)
--		adev->num_lp_paths--;
--
--	data = snd_soc_dai_get_dma_data(dai, substream);
--
--	snd_soc_dai_set_dma_data(dai, substream, NULL);
--	kfree(data);
--}
--
- static int avs_dai_nonhda_be_hw_params(struct snd_pcm_substream *substream,
- 				       struct snd_pcm_hw_params *hw_params, struct snd_soc_dai *dai)
++	struct avs_dev *adev = to_avs_dev(dai->component->dev);
+ 	struct avs_tplg_path_template *template;
+ 	struct avs_dma_data *data;
+ 
+@@ -77,6 +78,7 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ 
+ 	data->substream = substream;
+ 	data->template = template;
++	data->adev = adev;
+ 	snd_soc_dai_set_dma_data(dai, substream, data);
+ 
+ 	if (rtd->dai_link->ignore_suspend)
+@@ -88,13 +90,12 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ static void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
  {
-@@ -266,7 +266,7 @@ static int avs_dai_nonhda_be_trigger(struct snd_pcm_substream *substream, int cm
- 
- static const struct snd_soc_dai_ops avs_dai_nonhda_be_ops = {
- 	.startup = avs_dai_nonhda_be_startup,
--	.shutdown = avs_dai_nonhda_be_shutdown,
-+	.shutdown = avs_dai_shutdown,
- 	.hw_params = avs_dai_nonhda_be_hw_params,
- 	.hw_free = avs_dai_nonhda_be_hw_free,
- 	.prepare = avs_dai_nonhda_be_prepare,
-@@ -290,7 +290,7 @@ static int avs_dai_hda_be_startup(struct snd_pcm_substream *substream, struct sn
- 	link_stream = snd_hdac_ext_stream_assign(&codec->bus->core, substream,
- 						 HDAC_EXT_STREAM_TYPE_LINK);
- 	if (!link_stream) {
--		avs_dai_nonhda_be_shutdown(substream, dai);
-+		avs_dai_shutdown(substream, dai);
- 		return -EBUSY;
- 	}
- 
-@@ -306,7 +306,7 @@ static void avs_dai_hda_be_shutdown(struct snd_pcm_substream *substream, struct
- 	snd_hdac_ext_stream_release(link_stream, HDAC_EXT_STREAM_TYPE_LINK);
- 	substream->runtime->private_data = NULL;
- 
--	avs_dai_nonhda_be_shutdown(substream, dai);
-+	avs_dai_shutdown(substream, dai);
- }
- 
- static int avs_dai_hda_be_hw_params(struct snd_pcm_substream *substream,
-@@ -558,18 +558,12 @@ static int avs_dai_fe_startup(struct snd_pcm_substream *substream, struct snd_so
- 
- static void avs_dai_fe_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
- {
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
 -	struct avs_dev *adev = to_avs_dev(dai->dev);
  	struct avs_dma_data *data;
  
--	if (rtd->dai_link->ignore_suspend)
--		adev->num_lp_paths--;
--
  	data = snd_soc_dai_get_dma_data(dai, substream);
  
--	snd_soc_dai_set_dma_data(dai, substream, NULL);
- 	snd_hdac_ext_stream_release(data->host_stream, HDAC_EXT_STREAM_TYPE_HOST);
--	kfree(data);
-+	avs_dai_shutdown(substream, dai);
- }
+ 	if (rtd->dai_link->ignore_suspend)
+-		adev->num_lp_paths--;
++		data->adev->num_lp_paths--;
  
- static int avs_dai_fe_hw_params(struct snd_pcm_substream *substream,
+ 	snd_soc_dai_set_dma_data(dai, substream, NULL);
+ 	kfree(data);
+@@ -107,7 +108,6 @@ static int avs_dai_hw_params(struct snd_pcm_substream *substream,
+ {
+ 	struct avs_dma_data *data;
+ 	struct avs_path *path;
+-	struct avs_dev *adev = to_avs_dev(dai->dev);
+ 	int ret;
+ 
+ 	data = snd_soc_dai_get_dma_data(dai, substream);
+@@ -124,7 +124,7 @@ static int avs_dai_hw_params(struct snd_pcm_substream *substream,
+ 		params_rate(be_hw_params), params_channels(be_hw_params),
+ 		params_width(be_hw_params), params_physical_width(be_hw_params));
+ 
+-	path = avs_path_create(adev, dma_id, data->template, fe_hw_params, be_hw_params);
++	path = avs_path_create(data->adev, dma_id, data->template, fe_hw_params, be_hw_params);
+ 	if (IS_ERR(path)) {
+ 		ret = PTR_ERR(path);
+ 		dev_err(dai->dev, "create path failed: %d\n", ret);
+@@ -505,8 +505,7 @@ static int avs_dai_fe_startup(struct snd_pcm_substream *substream, struct snd_so
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct avs_dma_data *data;
+-	struct avs_dev *adev = to_avs_dev(dai->dev);
+-	struct hdac_bus *bus = &adev->base.core;
++	struct hdac_bus *bus;
+ 	struct hdac_ext_stream *host_stream;
+ 	int ret;
+ 
+@@ -515,6 +514,7 @@ static int avs_dai_fe_startup(struct snd_pcm_substream *substream, struct snd_so
+ 		return ret;
+ 
+ 	data = snd_soc_dai_get_dma_data(dai, substream);
++	bus = &data->adev->base.core;
+ 
+ 	host_stream = snd_hdac_ext_stream_assign(bus, substream, HDAC_EXT_STREAM_TYPE_HOST);
+ 	if (!host_stream) {
+@@ -655,7 +655,6 @@ static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_so
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_soc_pcm_stream *stream_info;
+ 	struct avs_dma_data *data;
+-	struct avs_dev *adev = to_avs_dev(dai->dev);
+ 	struct hdac_ext_stream *host_stream;
+ 	unsigned int format_val;
+ 	struct hdac_bus *bus;
+@@ -685,7 +684,7 @@ static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_so
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = avs_dai_prepare(adev, substream, dai);
++	ret = avs_dai_prepare(data->adev, substream, dai);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.25.1
 
