@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA63824B3
-	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E44115623B
+	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145317; cv=none; b=IlmEioCcaZ0ruzcpsNZajVZ5dFp/8cJ3jxC7CBUYyq2rsBZniz3IsoB+fABc48fmh6RFO0MgQM2MWHd34jnnDk1aUF2n+5EWHg12T//FSvYn++kRoP+vqRQ8SC0APsRR/6TIB4vNHhJjV4q+Ydl3r8RK25WgMkmmQ0/Brv0RCVY=
+	t=1714145409; cv=none; b=RKCSCO5dkBMM87noLyUGbeSAl0rQe9HFr73Zq4eIZ1qt8hJLBS5MK5P286F9AIoT2XzDFzhKT8Lg4f457fcolTxVNnmc1AtWNvPY9p3OzxyaCX6pigkXnLMWt6rGeDbXEPeWEDPQcdy/dMVHurmyM9DQRNkiD9TjY4QdijdZ/fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714145317; c=relaxed/simple;
-	bh=V8qQRyxQ4EsnHZfZSyfBBhj9fV9onTfLS3y/sSthVA8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WtsjkNmLbXXawbG2Hc0TssLnq/Jzz4CYuEFCK9oo9/fhcRFukkBk5JhFAbHUfaLBudMNFL7t7JxcVhNrVJ94dnlRUr0Fs4CEPgDL26p1qodiBlHu98ToajZyNVxIR3zl+fKJamM577GOewk+Q/gFYqslH1vTUynkF8ItIYkTyds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMfOVYeq; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1714145409; c=relaxed/simple;
+	bh=E8SBpjlUE0ziTNnq8DnhOzI49IUmjroDksM8NxVFNMM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bZzQFw49wSO9LoT6BWu2Y3bEbA7EoppTWY2sY6CItiyqi9w4hmn4R/76vAW//cAMmgPMoXYuEn+JdO3wia7bZoa34tt+IetI+3W/8FMxiyVFYMuwdyXeJO/oqF3GfjDGBmpjbEGvHoXRUcLpQiJQXcUjdgkeZoiSQGmH0Fxo3hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOdphpC8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMfOVYeq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOdphpC8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714145316; x=1745681316;
+  t=1714145409; x=1745681409;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=V8qQRyxQ4EsnHZfZSyfBBhj9fV9onTfLS3y/sSthVA8=;
-  b=OMfOVYeq0FVQCUKhAqFkyGb/ckP37u+ZAEtS2Mc4Q6r5VcAyyXfDDJ98
-   nVF6VevFjruLU/4Mc4YHU1+TWPe4s8fnuE2xbktXpzehsvpNK87UYTgpV
-   YBOQS0jn8mTrtkY7a8apb98/DlK3DJDlUBsWmJ9Jaj8MmiWMT7FMOiZ7m
-   /KtsAAZo3IlxIuUiJE54tHYB0GQP9UcuqYxKdiIpF4UJvIWUm8K0iXJuB
-   hGxXF1T/MaD8IWKe6gKnPKSJbz/KA1tx5dYWSsVGnt6BtghfF+krIy/NW
-   pXWG0iWyJY7dcAHzDxBcURZZiDRp4XP5t9XTqELLX1JQ4TNx6Z/JRgnBT
+  bh=E8SBpjlUE0ziTNnq8DnhOzI49IUmjroDksM8NxVFNMM=;
+  b=cOdphpC8RNN+VFgsPxJPyw05ypDPiUDJ261AeH6XQDcCXPrwp4iXbQOO
+   bZ8vX1Q5ulF1gNJuChAxDXU/0Oe/azI2MBT6+oWxcdiFGR7LKs9st5R4r
+   MZrYxH+VqkUdSRPaao5yGlaMvYhTY38u8KuYBdWhhvYzP9mGNwp/JMTyO
+   BtP3UQ7XNqNTlpJ2+XwXl73z3OFA9IqqRB+6+DtDFteCAXBmzHb2dUvcu
+   +7BOJKCZXDIXiobUiWyIe9aSDrItkU+AXXGARsNn6YOwmgoPfcqeQFhOZ
+   7KQkNff+vAT7fIINSCePWLJen+ThkDok+RXQ/E294lIhJSRTau8SGWFyA
    A==;
-X-CSE-ConnectionGUID: zgwMmVHGSi+MiKbOAX7hpQ==
-X-CSE-MsgGUID: JXiVsWs8RQmf203Yf2QMEw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="35272027"
+X-CSE-ConnectionGUID: ufwHHG1rRwuZehLtbJvbew==
+X-CSE-MsgGUID: thgSVHVwScyBOFe8sgAN4A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="27339936"
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="35272027"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:28:36 -0700
-X-CSE-ConnectionGUID: RGMX/zuFRkCGAmcJrRUCCA==
-X-CSE-MsgGUID: 7bCb/w8wQNqlD2D0P90Y3g==
+   d="scan'208";a="27339936"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:29:57 -0700
+X-CSE-ConnectionGUID: /8m65k2+SQG1LP+9NRX2wQ==
+X-CSE-MsgGUID: /rhV1HVyTmmPASL0YTTFvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="25523682"
+   d="scan'208";a="25332806"
 Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:28:35 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:29:56 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH] ALSA: hda: intel-dsp-config: harden I2C/I2S codec detection
-Date: Fri, 26 Apr 2024 10:28:18 -0500
-Message-Id: <20240426152818.38443-1-pierre-louis.bossart@linux.intel.com>
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH] ASoC: cs35l56: fix usages of device_get_named_child_node()
+Date: Fri, 26 Apr 2024 10:29:39 -0500
+Message-Id: <20240426152939.38471-1-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,75 +60,84 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The SOF driver is selected whenever specific I2C/I2S HIDs are reported
-as 'present' in the ACPI DSDT. In some cases, an HID is reported but
-the hardware does not actually rely on I2C/I2S.  This false positive
-leads to an invalid selection of the SOF driver and as a result an
-invalid topology is loaded.
+The documentation for device_get_named_child_node() mentions this
+important point:
 
-This patch hardens the detection with a check that the NHLT table is
-consistent with the report of an I2S-based codec in DSDT. This table
-should expose at least one SSP endpoint configured for an I2S-codec
-connection.
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
 
-Tested on Huawei Matebook D14 (NBLB-WAX9N) using an HDaudio codec with
-an invalid ES8336 ACPI HID reported:
+Add fwnode_handle_put() to avoid leaked references.
 
-[    7.858249] snd_hda_intel 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040380
-[    7.858312] snd_hda_intel 0000:00:1f.3: snd_intel_dsp_find_config: no valid SSP found for HID ESSX8336, skipped
-
-Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Closes: https://github.com/thesofproject/linux/issues/4934
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/hda/intel-dsp-config.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ sound/soc/codecs/cs35l56.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-index 6a384b922e4f..d1f6cdcf1866 100644
---- a/sound/hda/intel-dsp-config.c
-+++ b/sound/hda/intel-dsp-config.c
-@@ -557,9 +557,32 @@ static const struct config_entry *snd_intel_dsp_find_config
- 		if (table->codec_hid) {
- 			int i;
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index dfd703d9e12f..758dfdf9d3ea 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -1361,6 +1361,7 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private *cs35l5
+ 				    "spk-id-gpios", ACPI_TYPE_PACKAGE, &obj);
+ 	if (ret) {
+ 		dev_dbg(cs35l56->base.dev, "Could not get spk-id-gpios package: %d\n", ret);
++		fwnode_handle_put(af01_fwnode);
+ 		return -ENOENT;
+ 	}
  
--			for (i = 0; i < table->codec_hid->num_codecs; i++)
--				if (acpi_dev_present(table->codec_hid->codecs[i], NULL, -1))
-+			for (i = 0; i < table->codec_hid->num_codecs; i++) {
-+				struct nhlt_acpi_table *nhlt;
-+				bool ssp_found = false;
-+
-+				if (!acpi_dev_present(table->codec_hid->codecs[i], NULL, -1))
-+					continue;
-+
-+				nhlt = intel_nhlt_init(&pci->dev);
-+				if (!nhlt) {
-+					dev_warn(&pci->dev, "%s: NHLT table not found, skipped HID %s\n",
-+						 __func__, table->codec_hid->codecs[i]);
-+					continue;
-+				}
-+
-+				if (intel_nhlt_has_endpoint_type(nhlt, NHLT_LINK_SSP) &&
-+				    intel_nhlt_ssp_endpoint_mask(nhlt, NHLT_DEVICE_I2S))
-+					ssp_found = true;
-+
-+				intel_nhlt_free(nhlt);
-+
-+				if (ssp_found)
- 					break;
-+
-+				dev_warn(&pci->dev, "%s: no valid SSP found for HID %s, skipped\n",
-+					 __func__, table->codec_hid->codecs[i]);
-+			}
- 			if (i == table->codec_hid->num_codecs)
- 				continue;
+@@ -1368,6 +1369,7 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private *cs35l5
+ 	if (obj->package.count != 4) {
+ 		dev_warn(cs35l56->base.dev, "Unexpected spk-id element count %d\n",
+ 			 obj->package.count);
++		fwnode_handle_put(af01_fwnode);
+ 		return -ENOENT;
+ 	}
+ 
+@@ -1382,6 +1384,7 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private *cs35l5
+ 		 */
+ 		ret = acpi_dev_add_driver_gpios(adev, cs35l56_af01_spkid_gpios_mapping);
+ 		if (ret) {
++			fwnode_handle_put(af01_fwnode);
+ 			return dev_err_probe(cs35l56->base.dev, ret,
+ 					     "Failed to add gpio mapping to AF01\n");
  		}
+@@ -1389,14 +1392,17 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private *cs35l5
+ 		ret = devm_add_action_or_reset(cs35l56->base.dev,
+ 					       cs35l56_acpi_dev_release_driver_gpios,
+ 					       adev);
+-		if (ret)
++		if (ret) {
++			fwnode_handle_put(af01_fwnode);
+ 			return ret;
++		}
+ 
+ 		dev_dbg(cs35l56->base.dev, "Added spk-id-gpios mapping to AF01\n");
+ 	}
+ 
+ 	desc = fwnode_gpiod_get_index(af01_fwnode, "spk-id", 0, GPIOD_IN, NULL);
+ 	if (IS_ERR(desc)) {
++		fwnode_handle_put(af01_fwnode);
+ 		ret = PTR_ERR(desc);
+ 		return dev_err_probe(cs35l56->base.dev, ret, "Get GPIO from AF01 failed\n");
+ 	}
+@@ -1405,9 +1411,12 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private *cs35l5
+ 	gpiod_put(desc);
+ 
+ 	if (ret < 0) {
++		fwnode_handle_put(af01_fwnode);
+ 		dev_err_probe(cs35l56->base.dev, ret, "Error reading spk-id GPIO\n");
+ 		return ret;
+-		}
++	}
++
++	fwnode_handle_put(af01_fwnode);
+ 
+ 	dev_info(cs35l56->base.dev, "Got spk-id from AF01\n");
+ 
 -- 
 2.40.1
 
