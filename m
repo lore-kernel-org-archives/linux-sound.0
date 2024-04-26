@@ -1,121 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FFC13AA31;
-	Fri, 26 Apr 2024 06:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C404542A9B;
+	Fri, 26 Apr 2024 07:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714113644; cv=none; b=ef3x9QNVbMqeeKDUn0uBrDHoWgIgCejtKNXHRSDgk/4ABNdy010ERb17XEKd0M9jA31bNcpijHKjbN1deKjJ5ckS8rkG0s2KzQQ1zXvMFhLt8fpjYdVPRB1XwuU69ofpkvvTKEHyuxGUy8qM614hVNs4o4elnAs8dPHbi/yFYmA=
+	t=1714118338; cv=none; b=TJCnnSAeiGUPAjNAyDsekh/Q02rUeWTjzmXfy1Tq9A5m+2SWG76pAQtufzxyFmF//AzUMQz1ZnQBdjNFTq37SNOkB3WSNbnFAuuaXvZqp9u+vgRAWnTstV3T9cdY3j1THqSj0QDM7H8FNGwUz+dkkyo/BAeT5/xL8iM9mXoXO28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714113644; c=relaxed/simple;
-	bh=10H4S20sO62kKq9BD7lzNSalZU2xlXNz9QAxvCzyf9k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wfl7iEvJA0OjYYDXXCdRsKI1ALSREhgEhew4rVmxU9pyGvlYxo8uS7S5eo9zXK0AEpUg/aDP6dtR1YZMNTdcFVBFJDFwD+Dmx+XqM96d6K/MDg1Uqm7QKTQabM2ZnMkvGhraGFrG8lVTAocYo5dTs3vkf/jiUL/AAOt8vY7guO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKi8CvVx; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714118338; c=relaxed/simple;
+	bh=PjXM/VHLqOfGEcVAlmekIEtEwKN06QA23qVCed5GPBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cdXhXbxacDe/mgq1XOjh+tCLcpxO0VyS59khtj052DG6ZlymrGZSu9E78UofNGa7b4ohnc1yF6DVo6XZZxbBJElC6TBcqToRn+ppb8dsYiDgU78MpzbNOpHZVyZY1nMlRjL99iyZw6FxD12KNbNBF2AwCuZSCVd0tQpcsUkNB2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmS4ThGG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKi8CvVx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714113643; x=1745649643;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=10H4S20sO62kKq9BD7lzNSalZU2xlXNz9QAxvCzyf9k=;
-  b=UKi8CvVxXNEtzzmZPG/sg/MNagXjVIiIWu/FV8H5gQ0yGlGXMWlpyneh
-   AGDdwXUxQOXJC5DPCPjgrNKlja0P6XKh+wAFs6YFXKOyYfc0h2woDCe5N
-   PwodYYMF64/heXI3bbg0aEMnZLc1ybNLdqqQeAVAp0QqsKJtD15jM5HDs
-   fEY+G7yZ1oBm03YSJZCtv8nCohENsa89pc5txsXnOsh+anIPrngUUydNL
-   kq28ep1JvGX1SZupIq+gr6FfJKxBWGefij4Ms1TGHGtmeJM4xA0n0LqDF
-   i2t2RRtuJ2AajMeQAYaTGhjirhfQqJNDa5xan+/Ja1yQtgvvaftGB+/wU
-   g==;
-X-CSE-ConnectionGUID: kZkXFkl8TnucxuuE/vrAhg==
-X-CSE-MsgGUID: FciQic7fS1iF4pmpi0/+xg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="20526098"
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="20526098"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 23:40:40 -0700
-X-CSE-ConnectionGUID: g5wA7+IwTRWzOAoaud2ppw==
-X-CSE-MsgGUID: XYGWmrzNQCqq1s+iIVQ13g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,231,1708416000"; 
-   d="scan'208";a="25399054"
-Received: from yungchua-ws.ostc.intel.com (HELO yungchua-ws.intel.com) ([10.54.69.90])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 23:40:40 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH RESEND 2/2] soundwire: intel_ace2x: simplify check_wake()
-Date: Fri, 26 Apr 2024 06:40:30 +0000
-Message-Id: <20240426064030.2305343-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240426064030.2305343-1-yung-chuan.liao@linux.intel.com>
-References: <20240426064030.2305343-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmS4ThGG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BADC113CE;
+	Fri, 26 Apr 2024 07:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714118338;
+	bh=PjXM/VHLqOfGEcVAlmekIEtEwKN06QA23qVCed5GPBI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HmS4ThGGV/w38F/ZOrmODyE6mohgRfsxfBjoWkzG6ha2wTtw+nlSKd7r+EOL0tRJY
+	 0jbjARam1eLs5LoBOvGxr7lUzx/mr2jEfQvQKN94VMU9+0BfktL4W97qFKZssEkTSn
+	 kG6HZYEm17F49h1ShNYUr5ojHKh1tTzELvEEEydk2cfF3bPY82P+tT/1PH/WbfNhhq
+	 0JxZ8AvFbccxP6OJMvmwoN5tWOPvmia9fxzRdsggQMlopMy0xCp67HRW5cWj++iRjo
+	 OmnVdrcITDxphQ9H+jEvyKXXsECQl2eklID4JQbTYxfcEYMR1UHjlSuyRginsT5Tvf
+	 8dN4WACld+jWQ==
+Message-ID: <e24367e8-3c40-4422-8b7e-810e1ba376e7@kernel.org>
+Date: Fri, 26 Apr 2024 09:58:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/14] ASoC: SOF: debug: Constify local snd_sof_dsp_ops
+To: Mark Brown <broonie@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+ <20240414-n-const-ops-var-v1-1-8f53ee5d981c@kernel.org>
+ <ZisMvJORIdqttoeF@finisterre.sirena.org.uk>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ZisMvJORIdqttoeF@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On 26/04/2024 04:09, Mark Brown wrote:
+> On Sun, Apr 14, 2024 at 08:47:26PM +0200, Krzysztof Kozlowski wrote:
+>> Constify the pointer to 'struct snd_sof_dsp_ops' to annotate that
+>> functioon does not modify pointed data.
+> 
+> This doesn't apply against current code, please check and resend.
 
-Since LunarLake, we use the HDadio WAKEEN/WAKESTS to detect wakes for
-SoundWire codecs. This patch follows the HDaudio example and
-simplifies the behavior on wake-up by unconditionally waking up all
-links.
+Maybe I am basing on wrong tree. I applied now on for-next of your
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/ and
+b4 did not complain - no hunk rejects.
 
-This behavior makes a lot of sense when removing the jack, which may
-signal that the user wants to start rendering audio using the local
-amplifiers. Resuming all links helps make sure the amplifiers are
-ready to be used. Worst case, the pm_runtime suspend would kick-in
-after several seconds of inactivity.
+I will resend based on that tree, but I expect same result. Let me know
+if I should use different tree.
 
-Closes: https://github.com/thesofproject/linux/issues/4687
-Co-developed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Keqiao Zhang <keqiao.zhang@intel.com>
----
- drivers/soundwire/intel_ace2x.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 8812527af4a8..75e629c938dc 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -51,22 +51,12 @@ static void intel_shim_vs_set_clock_source(struct sdw_intel *sdw, u32 source)
- 
- static int intel_shim_check_wake(struct sdw_intel *sdw)
- {
--	u16 lsdiid = 0;
--	u16 wake_sts;
--	int ret;
--
--	/* find out which bits are set in LSDIID for this sublink */
--	ret = hdac_bus_eml_sdw_get_lsdiid_unlocked(sdw->link_res->hbus, sdw->instance, &lsdiid);
--	if (ret < 0)
--		return ret;
--
- 	/*
--	 * we need to use the global HDaudio WAKEEN/STS to be able to detect
--	 * wakes in low-power modes
-+	 * We follow the HDaudio example and resume unconditionally
-+	 * without checking the WAKESTS bit for that specific link
- 	 */
--	wake_sts = snd_hdac_chip_readw(sdw->link_res->hbus, STATESTS);
- 
--	return wake_sts & lsdiid;
-+	return 1;
- }
- 
- static void intel_shim_wake(struct sdw_intel *sdw, bool wake_enable)
--- 
-2.34.1
+Best regards,
+Krzysztof
 
