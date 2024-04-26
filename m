@@ -1,136 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDDC18C1F
-	for <linux-sound@vger.kernel.org>; Fri, 26 Apr 2024 15:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECA7148FE5;
+	Fri, 26 Apr 2024 15:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714145957; cv=none; b=LrScE8SQxOEte2dVqiP/93SbkQ1KoHCLzOXz9Mntdz4hajUbEzWF04sdqasJOBczCI+Cu0zYjpmuoSZog0TDUeF4YTuHIrsLbRiPOGpcYWNhN2Ydrhp+quPaP9yo/mk3uR3ThqrRJrmihXGTsV4Yf2b0ZfjNznQ5T29EFcqcZyg=
+	t=1714146302; cv=none; b=Cyp4noI2gpt4oLIowWtXufGDVBNoLrU3werm4UwwwC6z9NrO1Aowqe+zvgkLcsrnRC7uvaROR0yEhkER/YFNvq8mk7cfnRC68u9ExiXG4xN18enXa0gixJrUdIxsPyf74J/BTHVBZkIJ3dCHMnm0155RMTh9khQkYjrRKtCS0AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714145957; c=relaxed/simple;
-	bh=UQPrNln96b4xHk91nmowdoB7FfPTrZkZDGSoZjVsfKg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ayqywviLT1AIT9Eifref6uQzMQ6tg4E5QpkVf23lLhbeA+HphhW1SlF7/r57R/5Q3F/0P4+8W0nikRDnWgH2kLHsQxV1rsL/fbQ2e+xADkv5dq32R8iInO46HsTT8U3xOeo3w4h1F1L66ryLcEwlxn/NQL997ru5p6bwPnGiDw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/1St6qG; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714146302; c=relaxed/simple;
+	bh=eOP2/U4Vd5DzPmdW0xejV5wEgvRGsN/4+Hk2GtsLxhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJGJp7ilVWMaQyS9/tfVs8MnVgdy8vSoKwgvMKiZG0LA9hunBCnaDA4jreoErmJZiGepB4UqngMVqzvWPFe+ZbXGouq+IDPmVaQaFl5MIOsA1Z1tchHm6KHeUDPGr2KSztlSEkg4uipPiMy63NeGMgrbGv8u7gpe8IsmLJu9oXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/gwIiX3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/1St6qG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714145956; x=1745681956;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UQPrNln96b4xHk91nmowdoB7FfPTrZkZDGSoZjVsfKg=;
-  b=e/1St6qGjNINot5s/bNbteJ8xEdJyZFzCqoyQ6KJtyJJagP5ncoZy61C
-   4xvM88pLVdGugZhdIHaTfvnL8Z2cMR+26SRia/EOm9xuzdp1q5emYj4hn
-   nOc9HcgnzblUye6L7VJAImpZUNWXHwiUfBQ1MBCgkDogQDW15VuP+JbcY
-   EPF4UlpVUE3aDyooHkwEh13HT1GuP+pr41TTQFdVkoV7adaLyFDrBMK9Z
-   v0Ei2cpw/OYKcgB7Rk/CV8UN1gDSMGwqKQSrKsrJmM7P27460NyVPmNBX
-   tY8xSN49vSbBnHTY6sMKLk0Pq6T17B2VEkVfi2Tgh1B6NQb7URTvI0Bme
-   g==;
-X-CSE-ConnectionGUID: taxGYrtqQbCuiP+gc/M+PQ==
-X-CSE-MsgGUID: FXuZPImrToeRTI4xbmFzGQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9718445"
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="9718445"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:11 -0700
-X-CSE-ConnectionGUID: 9njKNL6uTtKogg1KL4lPsQ==
-X-CSE-MsgGUID: 6PJtELB4S26GsJ9+ow8Qsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,233,1708416000"; 
-   d="scan'208";a="56623542"
-Received: from atarkhan-mobl2.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.33.33])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 08:39:11 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 4/5] ASoC: SOF: Intel: hda: list SoundWire peripherals on mismatch
-Date: Fri, 26 Apr 2024 10:39:01 -0500
-Message-Id: <20240426153902.39560-5-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
-References: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/gwIiX3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86CB2C113CD;
+	Fri, 26 Apr 2024 15:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714146301;
+	bh=eOP2/U4Vd5DzPmdW0xejV5wEgvRGsN/4+Hk2GtsLxhE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/gwIiX36LDs2I9/Z1NuMFucOvQCei1MAXd+b28yCja93zW8rs3K36b2ifWD+p/sh
+	 YdrablzWIkEWpsiAry8zadTIEddCuvv7yQ/nbH8YPvuCsDQ94Qk/kOeebuV9q6dftB
+	 +5VpqNDteiE6rs4saJM3xoHCaRSOtwrUMC5LgaQ7+j5l2z38oGa7diu7lN+0xvOcu+
+	 4L7x+6SWLJ1PMiP462dzHqxy1woJVywKaa9Uig8xbDl1pI8vIrnWhrUo+6M4wKxQ7T
+	 GoRh0sUP3ne4TeZu3fJNZLK/NrgtxhxZNMpEdNlDLT5PkVifWoBC1KMRHN/igePNyF
+	 M0yn5bBNfR16Q==
+Date: Fri, 26 Apr 2024 10:44:58 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+Message-ID: <20240426154458.GA1964057-robh@kernel.org>
+References: <20240425153045.49939-1-sheharyaar48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240425153045.49939-1-sheharyaar48@gmail.com>
 
-Most of the SoundWire support issues come from bad ACPI information,
-or configuration reported by ACPI that are not supported by the SOF
-driver/topology. The users see a "No SoundWire machine driver found"
-message without any details, and the fallback to HDaudio w/ HDMI is
-used.
+On Thu, Apr 25, 2024 at 09:00:43PM +0530, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra30 I2S binding to DT schema and
+> add "clock-names" property used by multiple tegra i2s blocks
+> in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
+> required property by the binding.
+> 
+> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+> ---
+> Changes v3->v4:
+> - removed redundant example
+> - defined clock-names property
+> 
+> v3:
+> https://lore.kernel.org/all/20240425090716.176818-1-sheharyaar48@gmail.com/
+> ---
+>  .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 ------
+>  .../bindings/sound/nvidia,tegra30-i2s.yaml    | 83 +++++++++++++++++++
+>  2 files changed, 83 insertions(+), 27 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+> deleted file mode 100644
+> index 38caa936f6f8..000000000000
+> --- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -NVIDIA Tegra30 I2S controller
+> -
+> -Required properties:
+> -- compatible : For Tegra30, must contain "nvidia,tegra30-i2s".  For Tegra124,
+> -  must contain "nvidia,tegra124-i2s".  Otherwise, must contain
+> -  "nvidia,<chip>-i2s" plus at least one of the above, where <chip> is
+> -  tegra114 or tegra132.
+> -- reg : Should contain I2S registers location and length
+> -- clocks : Must contain one entry, for the module clock.
+> -  See ../clocks/clock-bindings.txt for details.
+> -- resets : Must contain an entry for each entry in reset-names.
+> -  See ../reset/reset.txt for details.
+> -- reset-names : Must include the following entries:
+> -  - i2s
+> -- nvidia,ahub-cif-ids : The list of AHUB CIF IDs for this port, rx (playback)
+> -  first, tx (capture) second. See nvidia,tegra30-ahub.txt for values.
+> -
+> -Example:
+> -
+> -i2s@70080300 {
+> -	compatible = "nvidia,tegra30-i2s";
+> -	reg = <0x70080300 0x100>;
+> -	nvidia,ahub-cif-ids = <4 4>;
+> -	clocks = <&tegra_car 11>;
+> -	resets = <&tegra_car 11>;
+> -	reset-names = "i2s";
+> -};
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> new file mode 100644
+> index 000000000000..13cee366f5b3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/nvidia,tegra30-i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra30 I2S controller
+> +
+> +maintainers:
+> +  - Thierry Reding <treding@nvidia.com>
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - nvidia,tegra124-i2s
+> +          - nvidia,tegra30-i2s
 
-We can reduce our support load with a clear dev_info() log that will
-give us a clear hint on the mismatch and why a machine driver/topology
-were not found.
+> +      - items:
+> +          - enum:
+> +              - nvidia,tegra114-i2s
+> +              - nvidia,tegra132-i2s
+> +          - enum:
+> +              - nvidia,tegra124-i2s
+> +              - nvidia,tegra30-i2s
 
-Example log on a MTL device:
-[   13.158599] sof-audio-pci-intel-mtl 0000:00:1f.3: No SoundWire machine driver found for the ACPI-reported configuration:
-[   13.158603] sof-audio-pci-intel-mtl 0000:00:1f.3: link 0 mfg_id 0x025d part_id 0x0713 version 0x3
-[   13.158606] sof-audio-pci-intel-mtl 0000:00:1f.3: link 1 mfg_id 0x025d part_id 0x1316 version 0x3
-[   13.158608] sof-audio-pci-intel-mtl 0000:00:1f.3: link 2 mfg_id 0x025d part_id 0x1316 version 0x3
+This allows 4 possible combinations for 2 SoCs. That may be how the old 
+binding was worded, but that's not valid.
 
-In parallel, we will also provide an update to `alsa-info` to log all
-SoundWire peripherals found in ACPI tables.
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: i2s
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    const: i2s
+> +
+> +  nvidia,ahub-cif-ids:
+> +    description: list of AHUB CIF IDs
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    items:
+> +      - description: rx (playback)
+> +      - description: tx (capture)
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - resets
+> +  - reset-names
+> +  - nvidia,ahub-cif-ids
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/tegra30-car.h>
+> +
+> +    i2s@70080300 {
+> +        compatible = "nvidia,tegra30-i2s";
+> +        reg = <0x70080300 0x100>;
+> +        nvidia,ahub-cif-ids = <4 4>;
+> +        clocks = <&tegra_car TEGRA30_CLK_I2S0>;
+> +        resets = <&tegra_car 30>;
+> +        reset-names = "i2s";
+> +    };
+> +  - |
+> +    #include <dt-bindings/clock/tegra124-car.h>
+> +
+> +    i2s@70301100 {
+> +        compatible = "nvidia,tegra124-i2s";
+> +        reg = <0x70301100 0x100>;
+> +        nvidia,ahub-cif-ids = <5 5>;
+> +        clocks = <&tegra_car TEGRA124_CLK_I2S1>;
+> +        clock-names = "i2s";
+> +        resets = <&tegra_car 11>;
+> +        reset-names = "i2s";
+> +    };
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/sof/intel/hda.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 8ddc1b0ca3c9..8ac8c10b83bd 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1645,6 +1645,7 @@ static struct snd_soc_acpi_mach *hda_sdw_machine_select(struct snd_sof_dev *sdev
- {
- 	struct snd_sof_pdata *pdata = sdev->pdata;
- 	const struct snd_soc_acpi_link_adr *link;
-+	struct sdw_extended_slave_id *ids;
- 	struct snd_soc_acpi_mach *mach;
- 	struct sof_intel_hda_dev *hdev;
- 	u32 link_mask;
-@@ -1658,6 +1659,16 @@ static struct snd_soc_acpi_mach *hda_sdw_machine_select(struct snd_sof_dev *sdev
- 		return NULL;
- 	}
- 
-+	if (!hdev->sdw) {
-+		dev_dbg(sdev->dev, "SoundWire context not allocated\n");
-+		return NULL;
-+	}
-+
-+	if (!hdev->sdw->num_slaves) {
-+		dev_warn(sdev->dev, "No SoundWire peripheral detected in ACPI tables\n");
-+		return NULL;
-+	}
-+
- 	/*
- 	 * Select SoundWire machine driver if needed using the
- 	 * alternate tables. This case deals with SoundWire-only
-@@ -1740,7 +1751,11 @@ static struct snd_soc_acpi_mach *hda_sdw_machine_select(struct snd_sof_dev *sdev
- 		return mach;
- 	}
- 
--	dev_info(sdev->dev, "No SoundWire machine driver found\n");
-+	dev_info(sdev->dev, "No SoundWire machine driver found for the ACPI-reported configuration:\n");
-+	ids = hdev->sdw->ids;
-+	for (i = 0; i < hdev->sdw->num_slaves; i++)
-+		dev_info(sdev->dev, "link %d mfg_id 0x%04x part_id 0x%04x version %#x\n",
-+			 ids[i].link_id, ids[i].id.mfg_id, ids[i].id.part_id, ids[i].id.sdw_version);
- 
- 	return NULL;
- }
--- 
-2.40.1
-
+I didn't check what you removed, but this is still 1 example too many. 
+They are almost the same.
