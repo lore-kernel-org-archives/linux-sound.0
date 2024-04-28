@@ -1,126 +1,155 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7656EB5C
-	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 15:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B253173513
+	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 18:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714318328; cv=none; b=iL9SWYOUnFsP5AhOMmERktGNi5GAR23HZwDT8CgAxSvZJpnpgAEr/Hw4Y9FbmDSZ0YYOiR4JwgHUi/SmOYvziDxH3f2j2pZjVKk6/drVx7ZSgzTZ3HpFEtZyKaoBD0lWe1Bvxdk4fehGRcFELE1uT7hBEMFTRcEBSABjCzVsRxE=
+	t=1714328146; cv=none; b=F0n8wBNkKUrGZJVP7eSbJrcFdiqE8QM/Q6QaYIm2Iume5Oe/FC61Z6W1nAQtCHIHL7wfW4wT1axreoI2/2KLYV0IrtUzI5W5BqLae/rRMd97sFsxJU9rN8HAOgqksO0Rr8JGsdBPzgDxiajO4Fqn0xYgoP505cQmjdVgYk8tGXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714318328; c=relaxed/simple;
-	bh=fBeYTF/ok3UxBtPwI+q3QQsrFXPmBVBnjuiX8J3VMQo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PoFmxSfeYwIX81duxCNoh5ihoR5/fAunahsPUxPlCiOD3ZMM2CgVv2+di+X9HusqfE8qZdPlzu9k240cO3Lp7HGDiNmUsJkVlSc1fwa/U4CCteMLEuCOZKVA32jfh5/pL4OJxZiO3rpM2Fnk420cRVSBw37WOycjNmyqLq81fMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=U2pnp+G/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1714328146; c=relaxed/simple;
+	bh=JhqAP2OMKRA0CLfhzoj+MYDgDKW78mwRST3e9bPVOV8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vlm8Gax+1R92CIgG1RokIzP3lIrT2mZu3a369nc0Q9agmLqcx8lctiiWFT2tKzwwwjywJ63PBTnqCu/HtBXSIHPdEmU9JrCIYX8c7q5/6yBDi66xosC9omwNeNoPVJCgZdCxiZNPf5DLjIP3uui6tLFRWmcAB3oitt4jm2H5H8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ou9/Z51k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bg2xVVm0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ou9/Z51k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bg2xVVm0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U2pnp+G/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714318326;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ou9/Z51k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bg2xVVm0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ou9/Z51k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bg2xVVm0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BD2221C62;
+	Sun, 28 Apr 2024 18:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714328142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p2rk3b82daJR4aYDGTiBOVZojg+15MWPW8M7QHsi7Yo=;
-	b=U2pnp+G/pD8QtAwK6Il1GL4lHigEs2hVDiRrleSN3hiNj6qJwyj/+rF4EmhGIDj9fe8VKM
-	n37NOLAJhYb2MG3N2cfNtF9HM3K2WIMcYzMhr+0afQN94y4hnOogcohJ60cJ9tYz5zbQpY
-	cHah0gQQOHndrW4yfRuiZ6K4dFjsZvU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-TwU8mg3sN6-S9U4DzC1KOg-1; Sun, 28 Apr 2024 11:32:04 -0400
-X-MC-Unique: TwU8mg3sN6-S9U4DzC1KOg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a58b9cf05afso190959766b.1
-        for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 08:32:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714318323; x=1714923123;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p2rk3b82daJR4aYDGTiBOVZojg+15MWPW8M7QHsi7Yo=;
-        b=bGHPHpThM3j3HIXASFh+t+u6a2/8NamB00pC0Af0W8EUJ7eEz8cyilon7PRVZWXnBf
-         hgiq9WnK0rr1iF1Z8SEtYNXbF8j5KHBSQx7JoGSQts5f5+SCEhjClD1vYwCPIS41lWFh
-         cVqwflB9qwaKs5aIG+jLPx+Op3OmSEYoaaIpCRNk/UrHRWwIbupB2iqLtGas/pbJEj9J
-         niGAYl3iCj9Sbvwn0rwHqieyMNlEpizeTlBsEcS5LpHdKsLwxs/zrWqucUYq/nK5cToX
-         rNYsCTmtbNHBT4QDE71E5HwJ+7Aoj/DiMfqck8tmL2vDjAoWwa1VbDbNH4DTUpzp3V83
-         VKCQ==
-X-Gm-Message-State: AOJu0Yxg8d7EzKRYjBStm4rA6GmktINasjflMLJp+RQS4hqO2L6+2chx
-	9esrEWqil3sBRSjYKYzdC2nD54qN2Bto0mj0HEK2kK6Fl3tjAUEVRfIxh62zY5zV4VtsWdu6nab
-	1AONbssP3cpvzw9g4Utkln1WhDrdpr+qB+/M4JmcMDbbOnH9CCX7e0bQLF4BY
-X-Received: by 2002:a17:906:b349:b0:a55:6f69:a939 with SMTP id cd9-20020a170906b34900b00a556f69a939mr7066713ejb.41.1714318323498;
-        Sun, 28 Apr 2024 08:32:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSqo1+9e38+j2Yobyx4qaDwbP/uzsPiGry1td2UWbf6KNEhx420b/YNJS3ifJw2jXvgysT+Q==
-X-Received: by 2002:a17:906:b349:b0:a55:6f69:a939 with SMTP id cd9-20020a170906b34900b00a556f69a939mr7066700ejb.41.1714318323150;
-        Sun, 28 Apr 2024 08:32:03 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id q10-20020a170906388a00b00a46aba003eesm12830416ejd.215.2024.04.28.08.32.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Apr 2024 08:32:02 -0700 (PDT)
-Message-ID: <6027e255-0bd1-4be2-ab69-19cb91ed3db4@redhat.com>
-Date: Sun, 28 Apr 2024 17:32:01 +0200
+	bh=ev5evniS7K6Wt360nEgyOUbMrLS3tF+cG5KPifvsvNc=;
+	b=Ou9/Z51kmSzXDlplX6x9eK/lbOlq2pcHWL31FD4xtrDhOmIQFkLCdV+qv7B47cui+tLbCg
+	C0MhBvXgqjxxckEjXmh2nVUZ41BViaS0PtsCqi8ir62zv8yw9YBSrxsImXt21ZmIruJjhq
+	6f5E674Ijyr2fnXoLc3NeKNq3yISDxg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714328142;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ev5evniS7K6Wt360nEgyOUbMrLS3tF+cG5KPifvsvNc=;
+	b=bg2xVVm06rH2Zn2CDZ6oiLLEP6CBKwnbtU6+QwuPFpIvpo6EDFu+W+PB0JjOc/5KtZZtin
+	vOO+JRXpdZjjBCBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Ou9/Z51k";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bg2xVVm0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714328142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ev5evniS7K6Wt360nEgyOUbMrLS3tF+cG5KPifvsvNc=;
+	b=Ou9/Z51kmSzXDlplX6x9eK/lbOlq2pcHWL31FD4xtrDhOmIQFkLCdV+qv7B47cui+tLbCg
+	C0MhBvXgqjxxckEjXmh2nVUZ41BViaS0PtsCqi8ir62zv8yw9YBSrxsImXt21ZmIruJjhq
+	6f5E674Ijyr2fnXoLc3NeKNq3yISDxg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714328142;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ev5evniS7K6Wt360nEgyOUbMrLS3tF+cG5KPifvsvNc=;
+	b=bg2xVVm06rH2Zn2CDZ6oiLLEP6CBKwnbtU6+QwuPFpIvpo6EDFu+W+PB0JjOc/5KtZZtin
+	vOO+JRXpdZjjBCBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ACC7136DB;
+	Sun, 28 Apr 2024 18:15:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EwRBEE6SLmYXNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 28 Apr 2024 18:15:42 +0000
+Date: Sun, 28 Apr 2024 20:15:53 +0200
+Message-ID: <87sez51hgm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Pietro Caruso <pietrocaruso50@gmail.com>
+Subject: Re: [PATCH v2 0/6] ALSA: emu10k1: fixes related to uploading firmware to the E-MU dock
+In-Reply-To: <20240428093716.3198666-1-oswald.buddenhagen@gmx.de>
+References: <20240428093716.3198666-1-oswald.buddenhagen@gmx.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] bytcr_rt5640 : inverse jack detect for Archos 101 cecium
-To: Thomas GENTY <tomlohave@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240428130736.877917-1-tomlohave@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240428130736.877917-1-tomlohave@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.34 / 50.00];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	BAYES_HAM(-1.83)[93.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmx.de];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,perex.cz,gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7BD2221C62
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.34
 
-Hi,
-
-On 4/28/24 3:07 PM, Thomas GENTY wrote:
-> When headphones are plugged in, they appear absent; when they are removed,
-> they appear present.
-> Add a specific entry in bytcr_rt5640 for this device
+On Sun, 28 Apr 2024 11:37:10 +0200,
+Oswald Buddenhagen wrote:
 > 
-> Signed-off-by: Thomas GENTY <tomlohave@gmail.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
+> patches 1, 3 & 5 fix the regression(s), patch 4 fixes a related pre-existing
+> problem, patch 6 is a speculative fix on top of patch 4, and patch 2 is
+> logically part of patch 3, just factored out for legibility.
+> 
+> i don't think it really makes sense to revert fbb64eedf5a3 (ALSA: emu10k1: make
+> E-MU dock monitoring interrupt-driven) and re-do things from scratch, as we'd
+> also need to revert the unrelated c960b012ec47 (ALSA: emu10k1: track loss of
+> external clock on E-MU cards) first.
+> 
+> so i'd just fast-track the series as-is, and cherry-pick it to stable.
+> 
 > ---
->  sound/soc/intel/boards/bytcr_rt5640.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
 > 
-> diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-> index 05f38d1f7d82..12c90cb2a782 100644
-> --- a/sound/soc/intel/boards/bytcr_rt5640.c
-> +++ b/sound/soc/intel/boards/bytcr_rt5640.c
-> @@ -610,6 +610,17 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
->  					BYT_RT5640_SSP0_AIF1 |
->  					BYT_RT5640_MCLK_EN),
->  	},
-> +	{
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ARCHOS 101 CESIUM"),
-> +		},
-> +		.driver_data = (void *)(BYTCR_INPUT_DEFAULTS |
-> +					BYT_RT5640_JD_NOT_INV |
-> +					BYT_RT5640_DIFF_MIC |
-> +					BYT_RT5640_SSP0_AIF1 |
-> +					BYT_RT5640_MCLK_EN),
-> +	},
->  	{
->  		.matches = {
->  			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
+> the series (and a bunch of failed experiments) is fully tested by pietro with
+> both rev1 and rev2 1010 cards, a 0202 cardbus card, and their respective docks.
+> he'll get permanent testing credits in the card capability table later on, so i
+> didn't bother adding a tested-by footer to each patch.
+> 
+> ---
+> v2:
+> - split off non-bugfix part of the series
+> - add quotes around summaries in Fixes footers
 
+Applied to for-linus branch.  Thanks.
+
+
+Takashi
