@@ -1,49 +1,49 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5219B54F86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FE754F92
 	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 09:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714297047; cv=none; b=uK29nz9P49BrYCGXDacakDDJp4sC7AKvqxxhxPap4cI+ALuh/N94FjBx7dGL2LxxzvAg5kIh4Wu+GefoV8/ww/0UhshKh8k0BuZW6jMj5Wk+I+KEsJuTOHKTu1osYkeKb6cf5I7uhe7CPut5Gmz++DrpLUfe8tfxgeEVZUbeFcE=
+	t=1714297047; cv=none; b=df4xO0YTPwxyNtFOx5vc7ked7pmgLzJU+F5Ng0XFe528V958VgQBbdPhV1shjsEPAgWkYiQvRzPCkN/2O1zFwTn3YByJg5FU17qHHiDX3Xv8gwttmwC3msRSBeDL2yD5DHK9/GVjqKU1ITaFN49ORb9fBGMfablAstK7UizYmYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714297047; c=relaxed/simple;
-	bh=ZjlktYOkymbuVC/0Yq1DisTzunF2Vvg5gIYZDC9QWrY=;
+	bh=Wzv4gj0mV9Z58lx920WEk0lWIzjM971IT7wlVNeuh88=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cIN3VDqcSny3h8gDTK0kB3QLrZcGPUrfoufafsmlJokr2XeBhZ2dhIVdBaCKAsiUQVwZl//cWrlQpBWbDml2wiJ1SdUIcO6M8bKqktEI2H63aa4W1FfAMEc3/6Ii84gWsByGb+zUn0RNGXkKsl0/qXvr9OmUXSOVDHOFP4scajU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=O15hEXE7; arc=none smtp.client-ip=212.227.17.21
+	 MIME-Version; b=MtB3q2DnFtRzYds6B33irdFOlpCARUQxqjrRnCWaeQ0TcUUWFDLl7iwL2hvgOvCItb2mJeeKCdD00FIcHnlpDMQPmRzqyjhfLxvY+DCIdZ/MsOQvPKl4i2nW+TpsN+GTFAvNNUwr2p006trSCT6IyLpbsR/IJl29agCG999080w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=mgYqIPcG; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="O15hEXE7"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="mgYqIPcG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
 	s=s31663417; t=1714297037; x=1714901837;
 	i=oswald.buddenhagen@gmx.de;
-	bh=d1y2Sl4aPtixLg10f/epbjxh9byB+m2lFU0ZQvAkpMs=;
+	bh=fGHERi1PjWp+/PQ5g1r8VQ2KTJJr7IvUwf0ttM0VbIE=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=O15hEXE79uxKNJbre5v85jMT4hEj5fA0oXUnJnCQFpIig+Hl4dW3T0vrIaLWr5zr
-	 uwyJIueYptbvCbEAgo8vQ78PDP0nq5QRDjlmJxB1XoW044L477phk/LW6TfdIuVb9
-	 d7Lz12FS7OjhEhaYwkM6Yt3c7xrLVn4LbeWTRiq6ddst0MURCUlKpbrYs9St9l77V
-	 tjNZyJPSIkJV9nsn+N2ZFQNTfiq6Fp46iCMxPx5ZLjmF1eupZxO9l23U4qBu4itCP
-	 1QwoaNZ+38JKskEqeWFA3gFtCjZTtwmiimvmLsL++N9yB8LC/i/NpuZpKdmaV0g48
-	 wBULjYfwjzcMdmC1PA==
+	b=mgYqIPcGH629HjkK63IXN31XVBck/4XSIRBjOcuTAidCTtmbodnQuIhhjgKDDNCu
+	 CpJ+Fqh3abWhUKJrtNsNn+ijzLKeO8cbnsOUm9lraYWlwQJSmzX70f9w1jOrFJiRS
+	 h0BOec50r0kPIZgdj2EygLKvEclT9EVkdFlaBWD68fGOCcmfNdorTuS+i8tJdvu27
+	 ogoQbN26eWn+CdBs9q4qOP0CQNuTiivxa5VHMTd6MlPDsxxPmGYNuOQdbkny29/aX
+	 5D6g5TM9EM3p2IKvsoXamoAlX4I/TkBG/T8kiZZkJC+6KisjFcn0SR3xm9vHC184u
+	 FUdTL4QPm97bmddm8g==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from ugly.fritz.box ([89.247.162.124]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N17YY-1sgUmV0goc-012Wog; Sun, 28
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEFvp-1rrQjI0fAL-00AHjH; Sun, 28
  Apr 2024 11:37:17 +0200
 Received: by ugly.fritz.box (masqmail 0.3.6-dev, from userid 1000)
-	id 1s10yC-Q7i-00; Sun, 28 Apr 2024 11:37:16 +0200
+	id 1s10yC-Q7n-00; Sun, 28 Apr 2024 11:37:16 +0200
 From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Pietro Caruso <pietrocaruso50@gmail.com>
-Subject: [PATCH v2 1/6] ALSA: emu10k1: fix E-MU card dock presence monitoring
-Date: Sun, 28 Apr 2024 11:37:11 +0200
-Message-ID: <20240428093716.3198666-2-oswald.buddenhagen@gmx.de>
+Subject: [PATCH v2 2/6] ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
+Date: Sun, 28 Apr 2024 11:37:12 +0200
+Message-ID: <20240428093716.3198666-3-oswald.buddenhagen@gmx.de>
 X-Mailer: git-send-email 2.44.0.701.g2cf7baacf3.dirty
 In-Reply-To: <20240428093716.3198666-1-oswald.buddenhagen@gmx.de>
 References: <20240428093716.3198666-1-oswald.buddenhagen@gmx.de>
@@ -54,80 +54,141 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ePNZuKFlcBP7sZfHG9OW1IWcnPTQzjBCBVD8CCaqGHsinBfzej2
- a9pXbiS03zud+YkSfKjHUw57IV/bboejlMjWLSZ3rqWVPSOSU67rfH/mr0ub4rG6FcrSs+V
- ZiEUQMuTp7hINLqlny4yTuwaKeVYVunabYb+UtBIqkEjnUMlUydvynuODg3+g9/tylFGVJW
- bA7l0AIFYU3+4HqePvo6Q==
+X-Provags-ID: V03:K1:8KEv9t2mHzAHEkx7SPIwS6SQmhAl8YsEzbvbRkzdsIXl6TFm7T4
+ nAh2n9cT+FwXqV+tS0csmo7ISOO6htmnXIrerQVvI28BvpCsjRW+LE+Sf0o25bspAOOuQNH
+ E2xLI8TUIm79AGqOEfHJotriCO9ERq33psjNv/a63Gqeb0OtUL1PBPTcdmaae13S+aH6Ik4
+ CtJP95mpm7iMrqYzukSIw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:783CvpRIXU0=;upyYVDiFVCCmkvPeznzctJVAt9s
- IQwKK9SSKHRA+ony+iD6zCkyyz98TYGfD0/YdX5iXdK3nRhgIqJ76GkY8wPvccYIHUUYkocXJ
- wtZGoJ5U9AZfXkfQGZmKb2fXJJsQiP5c0tEyNu2tONCgKcDTLTzT6Vxfq/VC3JNTU9Uv+/ah2
- pWG6RbXCUoknqJGkhERxPiM7RM/RoGYWWObLBikAIdsBzFBkIGG1LsKKWjUWr0qAqbUtgWCcE
- hJ0seUTgJt43hcsVL/XfEWyptzdEMEDeJ8CaR/PGoLCtpVWOcSTkyxXdziWCTllAhzdqGhTYx
- iLuip/mKRIoiNduYqmjBa/Lum6IJ+nK7y6KIrSmQwC9qbOI2vlpChZzo2UaOZXiER7EAiNaJa
- aZr3aEqtK6PDwDciDL4Lm6Yt4Uv0S/xXMn84wG/GIZmp7Yc4wBLt6lTyI2IIgiK9iyqEGVXrj
- nEb2sDQwATRWBajDVi2esVLqPnYih/0hclh8Kz/dv3lFBeALQkGIdDTQ5aom8gA3PswHvOSzD
- BxdXeqaCfP88TvJKJJ+ygVLIk5fES+ND43cLDY4RNx5olXWZG/WQ0dvMpzHvvk3dK+eWhVWhs
- eNlgImF+BnYc7f9z8Jw3Tg515BlOVaDGzC8oE3ukd1YEvs0c/gx7UYEJzyepacAS/y4XdqaxS
- 23bxv/w+WOVLU4c0SUs3j6PMMAmd8UZAaf7V7TNFctRn5nLyXtb3DBYDs06IbKQVjqWlccR56
- IP3mBkj6deHixGQHOazrq83leZIt2dAuL1kbOMx0G+LE75WT39Zs2M0NVmc+48tYv+92MuR+p
- 7z8cau6txo9sUBDtm5jLWlx2xQ0eJmspvuIL6ijtXLD3Y=
+UI-OutboundReport: notjunk:1;M01:P0:uWplMJV8fAI=;nr5G/Z419vIXtuZaqCAbu2dgUmg
+ rrSc9euPlePqUp8p4SC86z5NwmVI1BExd8uNc+/IT5pqxbzFLf7B1xmctSaG5m8jKmW+uNAZG
+ J1lqPRqeupCUCt1uAE0gC6TS5qvFyLgC5SAf+teGjVA5EZrGGR+Demz4hv7ii4oM7CxT4mqKc
+ JI5HMCDDzh2Cutywl3jOkFgb/KDKdgNRn+TBxxsn7k5NpIJRk9r3IAsFZY7A/gyXjQPq/e8Ux
+ uxo+Fb0BUhBVG0S487xBRQrEPnAPosp9pXjjR9+WLV6+zeQGkR2HSHWB3v7l51BwRYAKcz0uM
+ x2HM4fBuPr/u1R+uuEJ3ttuTK/ujTYqnwsVUf0W5DL08SpuOi+59eIeC7FdGtZuN6OGBwAEXR
+ l1vwnN2UyGxqQQsnUUTrtBb+IfG2sG+Zjdx3JhnRxFS0h+uEBEfiryY+o8mKHN3vxd+tlZOaI
+ aX7Z6ufiljaLrbVMhhWAOxn1S6P4yW4x2eNapmOXqkarUcUqKnOrCh9PCR9Nv4Nd3hkdcUysr
+ V4k9OMyEpSRF5el+CW4NH+aoz4IOnaWX22ospj8+1dcJpwTUiKEiBUqSvO2AS0oiOyfz9cEOQ
+ Z0QzcDWVxtR+o45lRuc8BWJzDIW884wXH2pSn7E5lPeZD3EMFNiT5XgdHvP26S4Ep5swxYYJh
+ dz1kVaclgk8JjcIUscaaomIpGOHuY4NqVkT5jJfQkrrlOdNyOii89TOarjw5UtLQYB0ca8TsW
+ 0DLHkIkZX34k6cAZpCPyO/a7m/GT9FkRU+TlymM1J4r8gtvONCXdNf0FdFMHfjC395v3Bd2wd
+ 0cZq6JmDbXPbOJcKgsNwR5KrNbo96VWPkOfcKUe3GeT6g=
 
-While there are two separate IRQ status bits for dock attach and detach,
-the hardware appears to mix them up more or less randomly, making them
-useless for tracking what actually happened. It is much safer to check
-the dock status separately and proceed based on that, as the old polling
-code did.
+Pulled out of the next patch to improve its legibility.
 
-Note that the code assumes that only the dock can be hot-plugged - if
-other option card bits changed, the logic would break.
+As the function is now available, call it directly from
+snd_emu10k1_emu1010_init(), thus making the MicroDock firmware loading
+synchronous - there isn't really a reason not to. Note that this does
+not affect the AudioDocks of rev1 cards, as these have no independent
+power supplies, and thus come up only a while after the main card is
+initialized.
 
-Fixes: fbb64eedf5a3 ("ALSA: emu10k1: make E-MU dock monitoring interrupt-dr=
-iven")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D218584
+As a drive-by, adjust the priorities of two messages to better reflect
+their impact.
+
 Signed-off-by: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
 ---
- sound/pci/emu10k1/emu10k1_main.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ sound/pci/emu10k1/emu10k1_main.c | 66 +++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 30 deletions(-)
 
 diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_m=
 ain.c
-index de5c41e578e1..85f70368a27d 100644
+index 85f70368a27d..6265fc9ae260 100644
 --- a/sound/pci/emu10k1/emu10k1_main.c
 +++ b/sound/pci/emu10k1/emu10k1_main.c
-@@ -778,6 +778,11 @@ static void emu1010_firmware_work(struct work_struct *=
+@@ -732,11 +732,43 @@ static int snd_emu1010_load_firmware(struct snd_emu10=
+k1 *emu, int dock,
+ 	return snd_emu1010_load_firmware_entry(emu, *fw);
+ }
+=20
++static void snd_emu1010_load_dock_firmware(struct snd_emu10k1 *emu)
++{
++	u32 tmp, tmp2;
++	int err;
++
++	dev_info(emu->card->dev, "emu1010: Loading Audio Dock Firmware\n");
++	/* Return to Audio Dock programming mode */
++	snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG,
++			       EMU_HANA_FPGA_CONFIG_AUDIODOCK);
++	err =3D snd_emu1010_load_firmware(emu, 1, &emu->dock_fw);
++	if (err < 0)
++		return;
++	snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG, 0);
++
++	snd_emu1010_fpga_read(emu, EMU_HANA_ID, &tmp);
++	dev_dbg(emu->card->dev, "emu1010: EMU_HANA+DOCK_ID =3D 0x%x\n", tmp);
++	if ((tmp & 0x1f) !=3D 0x15) {
++		/* FPGA failed to be programmed */
++		dev_err(emu->card->dev,
++			"emu1010: Loading Audio Dock Firmware failed, reg =3D 0x%x\n",
++			tmp);
++		return;
++	}
++	dev_info(emu->card->dev, "emu1010: Audio Dock Firmware loaded\n");
++
++	snd_emu1010_fpga_read(emu, EMU_DOCK_MAJOR_REV, &tmp);
++	snd_emu1010_fpga_read(emu, EMU_DOCK_MINOR_REV, &tmp2);
++	dev_info(emu->card->dev, "Audio Dock ver: %u.%u\n", tmp, tmp2);
++
++	/* Allow DLL to settle, to sync clocking between 1010 and Dock */
++	msleep(10);
++}
++
+ static void emu1010_firmware_work(struct work_struct *work)
+ {
+ 	struct snd_emu10k1 *emu;
+-	u32 tmp, tmp2, reg;
+-	int err;
++	u32 reg;
+=20
+ 	emu =3D container_of(work, struct snd_emu10k1,
+ 			   emu1010.firmware_work);
+@@ -749,33 +781,7 @@ static void emu1010_firmware_work(struct work_struct *=
 work)
- 		msleep(10);
+ 	snd_emu1010_fpga_read(emu, EMU_HANA_OPTION_CARDS, &reg); /* OPTIONS: Whic=
+h cards are attached to the EMU */
+ 	if (reg & EMU_HANA_OPTION_DOCK_OFFLINE) {
+ 		/* Audio Dock attached */
+-		/* Return to Audio Dock programming mode */
+-		dev_info(emu->card->dev,
+-			 "emu1010: Loading Audio Dock Firmware\n");
+-		snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG,
+-				       EMU_HANA_FPGA_CONFIG_AUDIODOCK);
+-		err =3D snd_emu1010_load_firmware(emu, 1, &emu->dock_fw);
+-		if (err < 0)
+-			return;
+-		snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG, 0);
+-		snd_emu1010_fpga_read(emu, EMU_HANA_ID, &tmp);
+-		dev_info(emu->card->dev,
+-			 "emu1010: EMU_HANA+DOCK_ID =3D 0x%x\n", tmp);
+-		if ((tmp & 0x1f) !=3D 0x15) {
+-			/* FPGA failed to be programmed */
+-			dev_info(emu->card->dev,
+-				 "emu1010: Loading Audio Dock Firmware file failed, reg =3D 0x%x\n",
+-				 tmp);
+-			return;
+-		}
+-		dev_info(emu->card->dev,
+-			 "emu1010: Audio Dock Firmware loaded\n");
+-		snd_emu1010_fpga_read(emu, EMU_DOCK_MAJOR_REV, &tmp);
+-		snd_emu1010_fpga_read(emu, EMU_DOCK_MINOR_REV, &tmp2);
+-		dev_info(emu->card->dev, "Audio Dock ver: %u.%u\n", tmp, tmp2);
+-		/* Sync clocking between 1010 and Dock */
+-		/* Allow DLL to settle */
+-		msleep(10);
++		snd_emu1010_load_dock_firmware(emu);
  		/* Unmute all. Default is muted after a firmware load */
  		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
-+	} else if (!(reg & EMU_HANA_OPTION_DOCK_ONLINE)) {
-+		/* Audio Dock removed */
-+		dev_info(emu->card->dev, "emu1010: Audio Dock detached\n");
-+		/* The hardware auto-mutes all, so we unmute again */
-+		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
- 	}
- }
-=20
-@@ -810,14 +815,12 @@ static void emu1010_interrupt(struct snd_emu10k1 *emu)
- 	u32 sts;
-=20
- 	snd_emu1010_fpga_read(emu, EMU_HANA_IRQ_STATUS, &sts);
--	if (sts & EMU_HANA_IRQ_DOCK_LOST) {
--		/* Audio Dock removed */
--		dev_info(emu->card->dev, "emu1010: Audio Dock detached\n");
--		/* The hardware auto-mutes all, so we unmute again */
--		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
--	} else if (sts & EMU_HANA_IRQ_DOCK) {
-+
-+	// The distinction of the IRQ status bits is unreliable,
-+	// so we dispatch later based on option card status.
-+	if (sts & (EMU_HANA_IRQ_DOCK | EMU_HANA_IRQ_DOCK_LOST))
- 		schedule_work(&emu->emu1010.firmware_work);
--	}
-+
- 	if (sts & EMU_HANA_IRQ_WCLK_CHANGED)
- 		schedule_work(&emu->emu1010.clock_work);
- }
+ 	} else if (!(reg & EMU_HANA_OPTION_DOCK_ONLINE)) {
+@@ -892,7 +898,7 @@ static int snd_emu10k1_emu1010_init(struct snd_emu10k1 =
+*emu)
+ 	snd_emu1010_fpga_read(emu, EMU_HANA_OPTION_CARDS, &reg);
+ 	dev_info(emu->card->dev, "emu1010: Card options =3D 0x%x\n", reg);
+ 	if (reg & EMU_HANA_OPTION_DOCK_OFFLINE)
+-		schedule_work(&emu->emu1010.firmware_work);
++		snd_emu1010_load_dock_firmware(emu);
+ 	if (emu->card_capabilities->no_adat) {
+ 		emu->emu1010.optical_in =3D 0; /* IN_SPDIF */
+ 		emu->emu1010.optical_out =3D 0; /* OUT_SPDIF */
 --=20
 2.44.0.701.g2cf7baacf3.dirty
 
