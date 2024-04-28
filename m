@@ -1,119 +1,136 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E44455C2E
-	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 09:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1374450E2
+	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 09:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714297051; cv=none; b=Uo4J16M+8VnzC1N04byJyKx9sueDWsaTTDej8joRbe7DZ1+EXBrOQc4+tYGCOB18fr9THogG8RKAiVH9Dy1LFyw2qa3q1QsF4sLRLf2UBiS49VKvhv2qu15q72YvCUe4zINGQzazyAp3q7RkNUGQItrXz+DvheajkVus7sFkeW0=
+	t=1714298224; cv=none; b=kn8pMYB8NROHLvn+K029o6wZd9B112UBXuZ0VUKVrRMbzMZXQTnHR3WFbYfuzjgNf5TlnSXYO6e5BG+2UIPsQoQo9iQ7kcTQIIHmiS9Dxe3w9Et/UG8g/5xRNkPG9a3wXP9IEPqcoMGXr5NDj+jRXEeL3gmuyM6x9lkR5iaifZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714297051; c=relaxed/simple;
-	bh=/VWMnyWMQNKQ9OS33OE0stKKSQIJwNxtPZUaRxakBzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QXpFKJwsfWI4eKGSCl90MLwqGJjmYz4Of6ORrOoYS0O8R3V2F90P4YKzpF+jL6y5iUC68hjIKAA6xXaALVpNh4/U3kLz2DDapSG7Twecsha73zEZlEGN8StlWNWAEmTpr+X7DdDvF0UOVQuQ57nDhEr/kDZ0lQ/noZI3mExlAnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=uC63zqEi; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1714298224; c=relaxed/simple;
+	bh=+S4Dg3uf+XhQZEPpsdQVe3KQpPWn9TcixzrUaVmChh4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DsGPF01LoW0FBaRP6i9p/7pRphnZLfGIRCr0zfGotBNBTy9/cMNqDw5wwlCnYam3IdR8eqPwHwlJSwxb66xaiwBpet3cOsJ3NVJfvvriJyCjJcbVKt1XsUF45bSMBrWab/ugUKI8fakak/JuTlxbKOOzzv/Qp181U9kQPBQe3Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ebxdh/rg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bqMLVqAT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ebxdh/rg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bqMLVqAT; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="uC63zqEi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1714297037; x=1714901837;
-	i=oswald.buddenhagen@gmx.de;
-	bh=BaDioJJvx5SP2DKddmfPkbklNxD9FGkeF2ayGtHG2VA=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=uC63zqEiard8OSqCoESOlCseBUktN5qdJPVzhoHYCNLJhEMBQ40FoIhtctS+pvFv
-	 6MiH8dlpJ1T4YyIMVUI+mkfU9rR8QY9VJFgAsH9icJCPBJpBTH7GWTTvre2nPtJt7
-	 Mrql92Rrl8Forn3obkXDJpOlQrYxDJLy0gkwi5tpxQ7QAwsnCAZyDb49f1azEhmjI
-	 Y0yz+MIi/JscTThTdHz2ZCUVaPAH+YkWSdC3g1hpt3l5h5hHcA7kpfMsnB5GWhAMJ
-	 pDObCBsglCH3K52ytun89l/T11s3k10PD8IYFiXU1GmagFeQDGmTNt+fg8az+/TPh
-	 i+kK/POOf8KB0Y/GNg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ugly.fritz.box ([89.247.162.124]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmlT2-1sPwOx0JxG-00iNzQ; Sun, 28
- Apr 2024 11:37:17 +0200
-Received: by ugly.fritz.box (masqmail 0.3.6-dev, from userid 1000)
-	id 1s10yC-Q7d-00; Sun, 28 Apr 2024 11:37:16 +0200
-From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Pietro Caruso <pietrocaruso50@gmail.com>
-Subject: [PATCH v2 0/6] ALSA: emu10k1: fixes related to uploading firmware to the E-MU dock
-Date: Sun, 28 Apr 2024 11:37:10 +0200
-Message-ID: <20240428093716.3198666-1-oswald.buddenhagen@gmx.de>
-X-Mailer: git-send-email 2.44.0.701.g2cf7baacf3.dirty
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ebxdh/rg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bqMLVqAT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ebxdh/rg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bqMLVqAT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9496E6095C;
+	Sun, 28 Apr 2024 09:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714298214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
+	b=Ebxdh/rgJzB0XWz21spWqHVoL52mvJDyomi4Qu6Ct/n/1TweHc9mWQxEJWnD1jxfwrIh5l
+	cF/CpGCOkpCf6oRLnFTag4idFVHrLGNNxQB94wd8XlSxlRFgiXPoTgn75+IITYoxDwW0Z4
+	XGGnnsnHSJ82b2m9QUx1NhpqFr7NHYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714298214;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
+	b=bqMLVqATyE2y48PaImDom6sxJTJtNy712mvN4KmLpmSNuDah8welDCyVl6tY3KWwaq/Oo3
+	URAG+1frjpc/+tBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Ebxdh/rg";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bqMLVqAT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714298214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
+	b=Ebxdh/rgJzB0XWz21spWqHVoL52mvJDyomi4Qu6Ct/n/1TweHc9mWQxEJWnD1jxfwrIh5l
+	cF/CpGCOkpCf6oRLnFTag4idFVHrLGNNxQB94wd8XlSxlRFgiXPoTgn75+IITYoxDwW0Z4
+	XGGnnsnHSJ82b2m9QUx1NhpqFr7NHYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714298214;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
+	b=bqMLVqATyE2y48PaImDom6sxJTJtNy712mvN4KmLpmSNuDah8welDCyVl6tY3KWwaq/Oo3
+	URAG+1frjpc/+tBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CABA138A7;
+	Sun, 28 Apr 2024 09:56:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lNLNGGYdLmZrRwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 28 Apr 2024 09:56:54 +0000
+Date: Sun, 28 Apr 2024 11:57:05 +0200
+Message-ID: <87v84124jy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: tiwai@suse.de,
+	linux-sound@vger.kernel.org,
+	colin.i.king@gmail.com
+Subject: Re: [PATCH] ALSA: kunit: use const qualifier for immutable data
+In-Reply-To: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
+References: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HYP4akhJ+ehEFUfIp0luxZDbjaWobcLvkHg4V7Y72RxPZpzHS4z
- Ze6vfwzXeoCAOOrx8lQc5KEhUpyb6tLJJoJzJzCwbvpIcVasFkM/ZV2r0B4u+7AOVSSjlwJ
- 3r2cvcvJdD6685J7gO8Z4evHWGWZn+eWk28ss5xArbiGPcZN284SVzy9r0GL0Q2dALoWRVZ
- OBSeH2lGv9tezMtYzGH6w==
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vidOd6ABscU=;wWNQKblq5J++MKjHLPn8JpQLpLW
- rJ1OI5HrE9Rte5Pec2/IGdBxqduA3P+k904637pFrBQDYejKBKkywbw5gG/kbQs4wHbEaQqmW
- RRkcExVo9CIwo3GYVpv7m90bKYe9/Vt/MZs9rNt0Mky+TL10rLOhay3bOKau8uC3LNzXya+q9
- NOEsxglxXWfh/tGiQAwJj6yLlrLQkQGkRtfstsxYeFt4Q6eK5QN2CgzJBfPQLeTGLLWocu6PR
- tiMmiUaTfyXW24ySFuRBIpTUcIXdIlA9XHWjx3bAfXnCv66+l0mJ9/0YvA71wd5xSabH4uJjY
- byhAkYgdo+cy2/6DzwN3Ej5Qm32ISdK2WBu5CHge9PJlz+GwN928kORftBMtJii9q2htOiEHw
- 7/ywVT/2X1cPXouizINyM4JxNzCT0TYRz/yX6i0gh5Z9knioTTlbrV2MJ1NLErfcsLJP+6btp
- fM8qmzYcYmOIBjZOPJR2zaluCNnrLdokRnTZV7VcmXhQ+CzertzrG/vLEJlvaWYbMRiX5kos0
- b/qk3ijJi2w+i4Sfohxsk/uHvwoyoNXPgtrJ7tGX/BLNgrGCLpzGGfUPDJvgrmC3DIX8BXRwa
- NeR2mi0lBvLxeMalV6bUIb9XZGuAV7PIHwy4rgPNhTC1kgf0TjV2R9r/LnoVShfYs+WHtUHHT
- p2EkYESdXZEIKhggWFObcc2l7lGRvZ42ihru65vmNlIIEHsEYCkCBvHB3/3W+8JfBEsg89koZ
- DoqC4Gj4xfgT2nLAAyJ6OsOem0rQDhp4dSWh5hPChTCZnIfXIFR2ONtJikvAfMK/fZT+i4oOd
- eo+dtcjxaTHuKQtjZs2L0QT7XqPT1vFoz6apK1R8M0I+c=
+X-Spam-Score: -2.00
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9496E6095C
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.00 / 50.00];
+	BAYES_HAM(-2.99)[99.96%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,vger.kernel.org,gmail.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-patches 1, 3 & 5 fix the regression(s), patch 4 fixes a related pre-existing
-problem, patch 6 is a speculative fix on top of patch 4, and patch 2 is
-logically part of patch 3, just factored out for legibility.
+On Fri, 26 Apr 2024 01:36:53 +0200,
+Takashi Sakamoto wrote:
+> 
+> Some data for testing is immutable. In the case, the const qualifier is
+> available for any loader to place it to read-only segment.
+> 
+> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
+> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-i don't think it really makes sense to revert fbb64eedf5a3 (ALSA: emu10k1: =
-make
-E-MU dock monitoring interrupt-driven) and re-do things from scratch, as we=
-'d
-also need to revert the unrelated c960b012ec47 (ALSA: emu10k1: track loss of
-external clock on E-MU cards) first.
+Applied now.  Thanks.
 
-so i'd just fast-track the series as-is, and cherry-pick it to stable.
 
----
-
-the series (and a bunch of failed experiments) is fully tested by pietro wi=
-th
-both rev1 and rev2 1010 cards, a 0202 cardbus card, and their respective do=
-cks.
-he'll get permanent testing credits in the card capability table later on, =
-so i
-didn't bother adding a tested-by footer to each patch.
-
----
-v2:
-- split off non-bugfix part of the series
-- add quotes around summaries in Fixes footers
-
-Oswald Buddenhagen (6):
-  ALSA: emu10k1: fix E-MU card dock presence monitoring
-  ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
-  ALSA: emu10k1: move the whole GPIO event handling to the workqueue
-  ALSA: emu10k1: use mutex for E-MU FPGA access locking
-  ALSA: emu10k1: fix E-MU dock initialization
-  ALSA: emu10k1: make E-MU FPGA writes potentially more reliable
-
- include/sound/emu10k1.h          |   7 +-
- sound/pci/emu10k1/emu10k1.c      |   3 +-
- sound/pci/emu10k1/emu10k1_main.c | 158 ++++++++++++++++++-------------
- sound/pci/emu10k1/emumixer.c     |  18 +++-
- sound/pci/emu10k1/emuproc.c      |   9 ++
- sound/pci/emu10k1/io.c           |  51 +++++-----
- 6 files changed, 142 insertions(+), 104 deletions(-)
-
---=20
-2.44.0.701.g2cf7baacf3.dirty
-
+Takashi
