@@ -1,136 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1374450E2
-	for <linux-sound@vger.kernel.org>; Sun, 28 Apr 2024 09:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FCF56B67;
+	Sun, 28 Apr 2024 13:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714298224; cv=none; b=kn8pMYB8NROHLvn+K029o6wZd9B112UBXuZ0VUKVrRMbzMZXQTnHR3WFbYfuzjgNf5TlnSXYO6e5BG+2UIPsQoQo9iQ7kcTQIIHmiS9Dxe3w9Et/UG8g/5xRNkPG9a3wXP9IEPqcoMGXr5NDj+jRXEeL3gmuyM6x9lkR5iaifZY=
+	t=1714309671; cv=none; b=bXEkxdJaUjnrlP9qzydwATMQmUdB7r/9uYbjCBXFTHdHOVZlcjaxPuhFnI0deMrb2FQb7WaHmfQUSgyk1uGEojqiQ34o3l1wzO+zSqw5r9mWwg1UOQ7nCGzSjicCDulVOJAo7fvRyjny3f3UiUn1bSwVaH7KQarXRdVotKcsW0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714298224; c=relaxed/simple;
-	bh=+S4Dg3uf+XhQZEPpsdQVe3KQpPWn9TcixzrUaVmChh4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DsGPF01LoW0FBaRP6i9p/7pRphnZLfGIRCr0zfGotBNBTy9/cMNqDw5wwlCnYam3IdR8eqPwHwlJSwxb66xaiwBpet3cOsJ3NVJfvvriJyCjJcbVKt1XsUF45bSMBrWab/ugUKI8fakak/JuTlxbKOOzzv/Qp181U9kQPBQe3Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ebxdh/rg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bqMLVqAT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ebxdh/rg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bqMLVqAT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714309671; c=relaxed/simple;
+	bh=qJiPzaCHgpBOVM6yCV+xmpVFt9aLiLDftr3YDd+v0ds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKnWO8SOCyFIaDtaW6vLT9WgIveR3yPPBsep7PkkLkCNqf333Oq0EhyZShzm2yu+RlEjrAg3DTjd7juN9UgkvM9f4ZqaWxPncyCppmwml3pB6CxhkrJKB26wJf5sc0W+CkUZpRMyOil2S/WJz8NRUWL0GcA6QMRzWOem7Zurei8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NScmQQYc; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ebxdh/rg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bqMLVqAT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ebxdh/rg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bqMLVqAT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9496E6095C;
-	Sun, 28 Apr 2024 09:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714298214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
-	b=Ebxdh/rgJzB0XWz21spWqHVoL52mvJDyomi4Qu6Ct/n/1TweHc9mWQxEJWnD1jxfwrIh5l
-	cF/CpGCOkpCf6oRLnFTag4idFVHrLGNNxQB94wd8XlSxlRFgiXPoTgn75+IITYoxDwW0Z4
-	XGGnnsnHSJ82b2m9QUx1NhpqFr7NHYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714298214;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
-	b=bqMLVqATyE2y48PaImDom6sxJTJtNy712mvN4KmLpmSNuDah8welDCyVl6tY3KWwaq/Oo3
-	URAG+1frjpc/+tBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Ebxdh/rg";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bqMLVqAT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714298214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
-	b=Ebxdh/rgJzB0XWz21spWqHVoL52mvJDyomi4Qu6Ct/n/1TweHc9mWQxEJWnD1jxfwrIh5l
-	cF/CpGCOkpCf6oRLnFTag4idFVHrLGNNxQB94wd8XlSxlRFgiXPoTgn75+IITYoxDwW0Z4
-	XGGnnsnHSJ82b2m9QUx1NhpqFr7NHYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714298214;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sBgpVp7tDZ8Dn6Cugs3ZGFXi93iPJ/++C3/8thAvv5M=;
-	b=bqMLVqATyE2y48PaImDom6sxJTJtNy712mvN4KmLpmSNuDah8welDCyVl6tY3KWwaq/Oo3
-	URAG+1frjpc/+tBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CABA138A7;
-	Sun, 28 Apr 2024 09:56:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lNLNGGYdLmZrRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 28 Apr 2024 09:56:54 +0000
-Date: Sun, 28 Apr 2024 11:57:05 +0200
-Message-ID: <87v84124jy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: tiwai@suse.de,
-	linux-sound@vger.kernel.org,
-	colin.i.king@gmail.com
-Subject: Re: [PATCH] ALSA: kunit: use const qualifier for immutable data
-In-Reply-To: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
-References: <20240425233653.218434-1-o-takashi@sakamocchi.jp>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NScmQQYc"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-41ba1ba55ebso13881815e9.1;
+        Sun, 28 Apr 2024 06:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714309668; x=1714914468; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E9ZvuRd4f88ObhLFiN+dWlmTukj+GNweC07d13EWQyc=;
+        b=NScmQQYcJXOxhtg5+gan/JomJJECcAXuyYKA1ianjRs09sQIxWtoAUwXXUwjZIZncT
+         JaFdiqlH9xNrk4c6UvFdwKirgpKRRa345kwIdVY9EaAyiTb4GVsCnMEBfZ4QqvtiLWRW
+         sRRC+bRCDHi6DnL6cLXs/gYEgbjAnCYnTDQvCVtlDQzjvcYLkYfF8PjkdNpQjzf1Ziex
+         Ie1Pq05V01QLUm5B5w5bfRdBPRXuA789E2pxIbWo3fFI1v8IkwuOfQAPLd5/6TZ95dJq
+         9lyDQYqZzptaCg04qGYmnlKmtZbIVnTw39nq7mkhxUsCkFzQiBVAJZ7ZJ975VeVaBh9D
+         oYhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714309668; x=1714914468;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E9ZvuRd4f88ObhLFiN+dWlmTukj+GNweC07d13EWQyc=;
+        b=UvgmZc+ArJL5spG6IfeAtcPLVWhSUKkyvhBxfBcAhCrmQEK+4QX66RC7JpIcma9nje
+         xJIp0y6thUlbQlV4wK8nt6UAFdWyfntvwat6Ksht/k1n9/g8EbPDy+M1UX6iKmDarw3T
+         l1UXslZp0rCdwtdGt1/RiRQ+m56VnPLCMxme6LXF460fI910fLLfGJ6GU8N7vEbZNba1
+         OKYPblEdkowh6U2stZafA1EP5ZawzDAS+hkE/J7RZ+N2BxgDbH7hxZCUuhgplUpg1C9U
+         ZUkfv1p0/vCN1loCnrjPo2WbiG25pY03rU8NSIcWwjxztZGKhLW2Ihl2oFpgxuACm8Fd
+         du3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUJYM3zgdUwbFRtBcjKr2EELSty3OxLrokNo1zL5TBb7qvHlBYZlymrkqX3BuYOl+jlhPXINFDHo7PEIOh0s5mAbgIzVw/R4+c/hesk
+X-Gm-Message-State: AOJu0Yz/xXmU8Nhya0O9+8wKGkdZoymI/7vJYq+ntZ1yGfOFkukBPTg/
+	dpMhArHkDtIz8+K3wKMymgbDJkRzLd/78f3/9pqEEW+6dD7Pt/b2
+X-Google-Smtp-Source: AGHT+IFl9PLyWAf9UGyn9+0VvGAYZp4lWlEyMOeuf/EUWbihkMw5bmJGK5uVxDjoe8u1aFafeHZ7yQ==
+X-Received: by 2002:a05:600c:1d2a:b0:419:f630:57c2 with SMTP id l42-20020a05600c1d2a00b00419f63057c2mr7257986wms.37.1714309668373;
+        Sun, 28 Apr 2024 06:07:48 -0700 (PDT)
+Received: from fedora.. ([2a01:e0a:a9f:60f0:5d0b:d730:cb58:674c])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0a4700b0041b434e5869sm12827996wmq.43.2024.04.28.06.07.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Apr 2024 06:07:48 -0700 (PDT)
+From: Thomas GENTY <tomlohave@gmail.com>
+To: hdegoede@redhat.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tomlohave@gmail.com
+Subject: [PATCH] bytcr_rt5640 : inverse jack detect for Archos 101 cecium
+Date: Sun, 28 Apr 2024 15:07:36 +0200
+Message-ID: <20240428130736.877917-1-tomlohave@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -2.00
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 9496E6095C
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.00 / 50.00];
-	BAYES_HAM(-2.99)[99.96%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,vger.kernel.org,gmail.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Apr 2024 01:36:53 +0200,
-Takashi Sakamoto wrote:
-> 
-> Some data for testing is immutable. In the case, the const qualifier is
-> available for any loader to place it to read-only segment.
-> 
-> Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+When headphones are plugged in, they appear absent; when they are removed,
+they appear present.
+Add a specific entry in bytcr_rt5640 for this device
 
-Applied now.  Thanks.
+Signed-off-by: Thomas GENTY <tomlohave@gmail.com>
+---
+ sound/soc/intel/boards/bytcr_rt5640.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 05f38d1f7d82..12c90cb2a782 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -610,6 +610,17 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF1 |
+ 					BYT_RT5640_MCLK_EN),
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ARCHOS 101 CESIUM"),
++		},
++		.driver_data = (void *)(BYTCR_INPUT_DEFAULTS |
++					BYT_RT5640_JD_NOT_INV |
++					BYT_RT5640_DIFF_MIC |
++					BYT_RT5640_SSP0_AIF1 |
++					BYT_RT5640_MCLK_EN),
++	},
+ 	{
+ 		.matches = {
+ 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ARCHOS"),
+-- 
+2.44.0
 
-Takashi
