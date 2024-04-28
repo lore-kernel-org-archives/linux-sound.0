@@ -1,129 +1,319 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17583A29A;
-	Fri, 26 Apr 2024 23:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC64A5F;
+	Sun, 28 Apr 2024 00:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714173753; cv=none; b=H0M78zT9eL8b3pO7SMbpSerzr4nnXoPW73aO29EBtMIX0n0oSt6YKrT8cLVRUBVWfLe59iR1VB42OXf4hy22Z9x+u/Tn1p+hIHzp1nbzvuGluaZOeNbiowI2cVCMhRYzz6b5rd07zFhgUIloeqG7N2FGL1MUKwqoKAlZ48i+vh0=
+	t=1714265880; cv=none; b=Y0IcKCE/rrg6eRLJTIs2UViPfu/VTOf4EKipfAY0gJPoXKEHl2ccJJ2BQJBZZAcMGishLXreCFf+Ri0NwrYDNCzkg1XE7ZlO7rUK48Q6JBAYcPUfYxY2yLBSNtP/2lwLwYoYFE95D0Ug9SUlApLhrlsHPK1BRHgzOFaE7syGMz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714173753; c=relaxed/simple;
-	bh=40TMRkC/fuLPx/5ddsriVxpu2/8lWWIfnIWnMa9CuOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EmTk2hCEywnz/AAI59157sNBGS3ECdRw/cZUptufXEC5SOwc70EaomUURir1zfG/5hzCPH4USoFbolyyMaFIHeXV2yHkK9kBLbUpeNCDlVVjvF/CNuaV6Vwkg8lH7JYYUpJL0CFT9UTStAe5lAclCjAtu+R3S5ACAwZ5ZFsMUZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=enGuhxas; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1714265880; c=relaxed/simple;
+	bh=aeZV4VkHFBd56GPAQ6Hk0pRkNPw80Fcm4EJgz9bw0pM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gGAmiotMidnBUWS2OGALhtzYwGat4YMu2BVZEEOh6MhkPaFV9Mokgf5gpb0hD6plFRHQLltJKkiRY7dhUIsMJRyB7B1LGAE2sXsupqZHLgtj+SwzP05BStNifR0Vib/XO/f7wkIfk7UXWt+x4lYxmo5+Yqmh1VEKT9jO5naEFXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKQJU6WI; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="enGuhxas"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4188cda2e77so48915e9.2;
-        Fri, 26 Apr 2024 16:22:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKQJU6WI"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ee13f19e7eso3218353b3a.1;
+        Sat, 27 Apr 2024 17:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714173750; x=1714778550; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iY/WWi0Cde+1RuQH0g65soHztJhsZe8t9qNdEVQN2vc=;
-        b=enGuhxasl7OaVpWz9IC9C0EKPFa0Wp7J8mA0glJHj7nH/zo0nu3PDLrDMIZ+MiZ44k
-         iuDLuaKWA7gn/YPFr5odbj8PWTECj52ryl3LbhoS0PJMHRYVhEsFaT3QQS+oIGT2fS+L
-         CBAP3H8oWYCOq2QN+puI+S29jr3MYI80Nx/aenOQkZsdEC5n6e4RV7Q/Ezu5LO04Yhrt
-         jIM5XBIMs7VMmXaekZ9z5Ir60gG2tvUZLyBO3KEo5fSfmdK99o1hf1T2YBtyNSlfxCOZ
-         ZZlJZJ/pPRgWY7KCJkOTrccUUJfCAdYcluAco2PTAnyX7XvunDNAgu+AWDM8vNiIIPHj
-         fxmQ==
+        d=gmail.com; s=20230601; t=1714265878; x=1714870678; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8O+z1hsIAadgTFETxDS1vCHvfH0Dq8uKuo3sDo2uaLg=;
+        b=KKQJU6WIKIjpAbisXlwMmzITE+VrtzHDSvo3B503UHAGE7PNX6N0c/9zfAZyd6ZOJG
+         NEgDbBcJdGFX5tDp9b12uqHxJVtDhzAgwi2jtt2j0mrIN6rsjeEdEemcopPqU7FvGbq8
+         fzJXK3U5/bUasnpOvPn8yEhG4H+aE2/gmBwn3ehW+C/EYbrbsBEp/WbD96aAJ93aKPZo
+         LDXlk+ZaYzRtsZ32RObhbdjCWBomaBQqc6ji+BQwSThaOSuJaQOl8Tbr/uHFDs8FZ8Mu
+         FGatAvErqHtsnTbGOJ5otW/5g5T1fXZeF0CIz2UdZG932Qffhu2l0VV1g92EIIO90CX9
+         iZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714173750; x=1714778550;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iY/WWi0Cde+1RuQH0g65soHztJhsZe8t9qNdEVQN2vc=;
-        b=wjeJNeW2kR4PLFT21QCi4KATbg5tkCtbJOI0VP0u+T65lB+LVcQbu/z4WBFiFzrisP
-         phMsDE5dUGsgI0t/8G670aOrBBjsEo4l0/7sOL4aLVmhJQuxMP8+cw6Q5zA9eUUlqr7Z
-         jhvOE2xXu7z44IrTSzTKKWC4dBOz4CFO41HB3bzQmSnMZ2yP9EQMoTnBm0/QWunf4o/M
-         bZp5/HOTNPXHe2i2rcsrk/4w0Jaw0bu/faw7pCZ5bx0MLGyePTC8BFoWIW12GZ3CU8TE
-         wLNxrjpzVDdx5J1eYSUGEtqIO5cZAre/7BggKX6RzXG/mum/At4WauyxvlbBaCKLQxhx
-         uKsA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7MF2me/lJ296h9vRXLmYknCbLsSrqvVjPFmCHfX8h8EXAytoGdjHnkHjGmn4dQp/1c67WnRpkdHM40XK9T/WSwvvbNOJVke/wWBW1SgTVtJSPnTVcBkbJR7zTLTJ2F46TsFQsBIxP/V6UjL1OYGFf/bhD2/XXzxaZpYvqbizzh29wFVRq9ScgobY=
-X-Gm-Message-State: AOJu0Yy6WI7BaG0bRPgSydtGk6WDNGkqxvMt1FpExZih7z0qJj5cZrnH
-	6rD55iIdQuWoM2Hf1YLa5sRZ6+YY6Em4hTXSgyXcivyZQtrqrRjy
-X-Google-Smtp-Source: AGHT+IE89/bvkFG+6ShpcqPuCTvy7/Aglbbu9aLaprfqPHDvl17E4830gcwMAX5pfWZo0/eA/bXuLw==
-X-Received: by 2002:a05:600c:1c9e:b0:419:f4d6:5044 with SMTP id k30-20020a05600c1c9e00b00419f4d65044mr2895218wms.2.1714173749966;
-        Fri, 26 Apr 2024 16:22:29 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:f1d3:7133:ba99:885d? ([2a01:4b00:d20e:7300:f1d3:7133:ba99:885d])
-        by smtp.gmail.com with ESMTPSA id k41-20020a05600c1ca900b00417e8be070csm32632799wms.9.2024.04.26.16.22.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Apr 2024 16:22:29 -0700 (PDT)
-Message-ID: <f97f2dfc-38d0-47be-aef2-6d3baf481a5e@gmail.com>
-Date: Sat, 27 Apr 2024 00:22:28 +0100
+        d=1e100.net; s=20230601; t=1714265878; x=1714870678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8O+z1hsIAadgTFETxDS1vCHvfH0Dq8uKuo3sDo2uaLg=;
+        b=wcjQjB2mGNybL9o8DQ66Pi7ZRHCINKQ6VugfjwTp6nznLFb18rJlgVzZKUICRF+qcA
+         2Ts/XeesRD62D0cYcCnoohbqOT5adHLdbCw6Io4mYDfUsTstrh6I3nxjoQK8XUpDHqOb
+         pL+Z1eSAqfa6I16rjBmomNgr09odjRsUvcHnFs6Oghb/k6QvqJk7yBqeqP+0WIa/W2fd
+         ncWKyKuoUMiWejYJzLpXSGRBOXSdrAFzic74FMblVRlLA/cxxxJj68K14LYKK+/EQaop
+         c99SiIxiMti9Q0H1e6mZ7e3QY4YLuyqs6oi6ec0b1Xd+caiGJ359Ospp3+fuTLcJUcBh
+         MRgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvKsbCKK3U7eqFmVFcKrjeYLVIfm8izdn3qzicCj+e4N3EVFWVQBovKZ2anNbIjeFQron7snDGFPc4Qcmjp0SXqSkmbNTPI+KszK7lsxocT3jCG6DSmtRRR5aM4kRwDwm3KwOSkscKwVg=
+X-Gm-Message-State: AOJu0Yy24aT51wEY28eIie4juQ+1wOYQvZeXUjDJRvdic7VCPm83YceP
+	olQH5NieMDHo6G6VohC47nlb+MJC067+ldd4fNliPvrMf9D4qEzR
+X-Google-Smtp-Source: AGHT+IHcYlDQ+Qw3kc756nQlZxyezBVWXDm1Y9z3jz9sDj5e5RdNu96Hkrz6pHf7nxTVbsgEAfqJ3Q==
+X-Received: by 2002:a05:6a20:da9e:b0:1ac:4fca:23c2 with SMTP id iy30-20020a056a20da9e00b001ac4fca23c2mr8444563pzb.8.1714265877639;
+        Sat, 27 Apr 2024 17:57:57 -0700 (PDT)
+Received: from thought.. ([186.139.89.143])
+        by smtp.gmail.com with ESMTPSA id g11-20020aa7818b000000b006ecfd0bf326sm15771013pfi.99.2024.04.27.17.57.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Apr 2024 17:57:57 -0700 (PDT)
+From: ManuLinares <mbarriolinares@gmail.com>
+To: alsa-devel@alsa-project.org
+Cc: ManuLinares <mbarriolinares@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	dengxiang <dengxiang@nfschina.com>,
+	Geraldo Nascimento <geraldogabriel@gmail.com>,
+	Max McCarthy <mmccarthy@mcintoshlabs.com>,
+	WhaleChang <whalechang@google.com>,
+	Lukasz Tyl <ltyl@hem-e.com>,
+	Jeremie Knuesel <knuesel@gmail.com>,
+	Alexander Tsoy <alexander@tsoy.me>,
+	Jussi Laako <jussi@sonarnerd.net>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add sampling rates support for Mbox3
+Date: Sat, 27 Apr 2024 21:57:29 -0300
+Message-ID: <20240428005733.202978-1-mbarriolinares@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] ALSA: kunit: make read-only array buf_samples
- static const
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Colin Ian King <colin.i.king@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240425160754.114716-1-colin.i.king@gmail.com>
- <20240425232250.GA205425@workstation.local>
- <81a9e3c2-2c44-406e-af19-90d9dcfe4a92@gmail.com>
- <87il042mbn.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <87il042mbn.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/26/24 16:08, Takashi Iwai wrote:
-> On Fri, 26 Apr 2024 14:05:34 +0200,
-> Ivan Orlov wrote:
->>
->> On 4/26/24 00:22, Takashi Sakamoto wrote:
->>> Hi,
->>>
->>> On Thu, Apr 25, 2024 at 05:07:54PM +0100, Colin Ian King wrote:
->>>> Don't populate the read-only array buf_samples on the stack at
->>>> run time, instead make it static const.
->>>>
->>>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->>>> ---
->>>>    sound/core/sound_kunit.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
->>>> index eb90f62228c0..e34c4317f5eb 100644
->>>> --- a/sound/core/sound_kunit.c
->>>> +++ b/sound/core/sound_kunit.c
->>>> @@ -167,7 +167,7 @@ static void _test_fill_silence(struct kunit *test, struct snd_format_test_data *
->>>>      static void test_format_fill_silence(struct kunit *test)
->>>>    {
->>>> -	u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->>>> +	static const u32 buf_samples[] = { 10, 20, 32, 64, 129, SILENCE_BUFFER_MAX_FRAMES };
->>>>    	u8 *buffer;
->>>>    	u32 i, j;
->>>
->>> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
->>>
->>> We can see the other similar cases in the kunit file. I'll post the fix
->>> later.
->>>
->>
->> Hi Takashi,
->>
->> Hmm, correct me if I'm wrong, but I don't see any other significant
->> allocations on the stack in the test.
-> 
-> I guess he meant slightly different ones
->    https://lore.kernel.org/r/20240425233653.218434-1-o-takashi@sakamocchi.jp
-> 
+This adds support for all sample rates supported by the hardware,
+Digidesign Mbox 3 supports: {44100, 48000, 88200, 96000}
 
-Ah, alright, found it. Thank you!
+Fixes syncing clock issues that presented as pops. To test this, without
+this patch playing 440hz tone produces pops.
 
+Clock is now synced between playback and capture interfaces so no more
+latency drift issue when using pipewire pro-profile.
+(https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3900)
+
+Signed-off-by: ManuLinares <mbarriolinares@gmail.com>
+---
+ sound/usb/quirks-table.h | 37 +++++++++++-------
+ sound/usb/quirks.c       | 84 +++++++++++++++++++++++++++++++---------
+ 2 files changed, 88 insertions(+), 33 deletions(-)
+
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 5d72dc8441cb..5228afbc00e3 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -3013,21 +3013,28 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
+ 				.data = &(const struct audioformat) {
+ 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.fmt_bits = 24,
+ 					.channels = 4,
+ 					.iface = 2,
+ 					.altsetting = 1,
+ 					.altset_idx = 1,
+ 					.attributes = 0x00,
+-					.endpoint = 0x01,
++					.endpoint = USB_RECIP_INTERFACE | USB_DIR_OUT,
+ 					.ep_attr = USB_ENDPOINT_XFER_ISOC |
+ 						USB_ENDPOINT_SYNC_ASYNC,
+-					.rates = SNDRV_PCM_RATE_48000,
+-					.rate_min = 48000,
+-					.rate_max = 48000,
+-					.nr_rates = 1,
++					.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
++							SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
++					.rate_min = 44100,
++					.rate_max = 96000,
++					.nr_rates = 4,
+ 					.rate_table = (unsigned int[]) {
+-						48000
+-					}
++						44100, 48000, 88200, 96000
++					},
++					.sync_ep = USB_RECIP_INTERFACE | USB_DIR_IN,
++					.sync_iface = 3,
++					.sync_altsetting = 1,
++					.sync_ep_idx = 1,
++					.implicit_fb = 1,
+ 				}
+ 			},
+ 			{
+@@ -3035,22 +3042,24 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
+ 				.data = &(const struct audioformat) {
+ 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.fmt_bits = 24,
+ 					.channels = 4,
+ 					.iface = 3,
+ 					.altsetting = 1,
+ 					.altset_idx = 1,
+-					.endpoint = 0x81,
+ 					.attributes = 0x00,
++					.endpoint = USB_RECIP_INTERFACE | USB_DIR_IN,
+ 					.ep_attr = USB_ENDPOINT_XFER_ISOC |
+ 						USB_ENDPOINT_SYNC_ASYNC,
+ 					.maxpacksize = 0x009c,
+-					.rates = SNDRV_PCM_RATE_48000,
+-					.rate_min = 48000,
+-					.rate_max = 48000,
+-					.nr_rates = 1,
++					.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
++							SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
++					.rate_min = 44100,
++					.rate_max = 96000,
++					.nr_rates = 4,
+ 					.rate_table = (unsigned int[]) {
+-						48000
+-					}
++						44100, 48000, 88200, 96000
++					},
+ 				}
+ 			},
+ 			{
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 09712e61c606..279b80874f6a 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -984,21 +984,13 @@ static int snd_usb_axefx3_boot_quirk(struct usb_device *dev)
+ 	return 0;
+ }
+ 
+-static void mbox3_setup_48_24_magic(struct usb_device *dev)
++static void mbox3_setup_defaults(struct usb_device *dev)
+ {
+ 	/* The Mbox 3 is "little endian" */
+ 	/* max volume is: 0x0000. */
+ 	/* min volume is: 0x0080 (shown in little endian form) */
+ 
+-
+-	/* Load 48000Hz rate into buffer */
+-	u8 com_buff[4] = {0x80, 0xbb, 0x00, 0x00};
+-
+-	/* Set 48000Hz sample rate */
+-	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+-			0x01, 0x21, 0x0100, 0x0001, &com_buff, 4);  //Is this really needed?
+-	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+-			0x01, 0x21, 0x0100, 0x8101, &com_buff, 4);
++	u8 com_buff[2];
+ 
+ 	/* Deactivate Tuner */
+ 	/* on  = 0x01*/
+@@ -1008,6 +1000,8 @@ static void mbox3_setup_48_24_magic(struct usb_device *dev)
+ 		0x01, 0x21, 0x0003, 0x2001, &com_buff, 1);
+ 
+ 	/* Set clock source to Internal (as opposed to S/PDIF) */
++	/* Internal  = 0x01*/
++	/* S/PDIF    = 0x02*/
+ 	com_buff[0] = 0x01;
+ 	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 			1, 0x21, 0x0100, 0x8001, &com_buff, 1);
+@@ -1113,9 +1107,11 @@ static void mbox3_setup_48_24_magic(struct usb_device *dev)
+ 			1, 0x21, 0x0107, 0x4201, &com_buff, 2);
+ 
+ 	/* Toggle allowing host control */
++	/* Not needed
+ 	com_buff[0] = 0x02;
+ 	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 			3, 0x21, 0x0000, 0x2001, &com_buff, 1);
++	 */
+ 
+ 	/* Do not dim fx returns */
+ 	com_buff[0] = 0x00;
+@@ -1259,26 +1255,27 @@ static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
+ 	descriptor_size = le16_to_cpu(get_cfg_desc(config)->wTotalLength);
+ 
+ 	if (descriptor_size != MBOX3_DESCRIPTOR_SIZE) {
+-		dev_err(&dev->dev, "Invalid descriptor size=%d.\n", descriptor_size);
++		dev_err(&dev->dev, "MBOX3: Invalid descriptor size=%d.\n", descriptor_size);
+ 		return -ENODEV;
+ 	}
+ 
+-	dev_dbg(&dev->dev, "device initialised!\n");
++	dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
+ 
+ 	err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+ 		&dev->descriptor, sizeof(dev->descriptor));
+ 	config = dev->actconfig;
+-	if (err < 0)
+-		dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
++	if (err < 0) 
++		dev_dbg(&dev->dev, "MBOX3: error usb_get_descriptor: %d\n", err);
+ 
+ 	err = usb_reset_configuration(dev);
+-	if (err < 0)
+-		dev_dbg(&dev->dev, "error usb_reset_configuration: %d\n", err);
+-	dev_dbg(&dev->dev, "mbox3_boot: new boot length = %d\n",
++	if (err < 0) 
++		dev_dbg(&dev->dev, "MBOX3: error usb_reset_configuration: %d\n", err);
++
++	dev_dbg(&dev->dev, "MBOX3: new boot length = %d\n",
+ 		le16_to_cpu(get_cfg_desc(config)->wTotalLength));
+ 
+-	mbox3_setup_48_24_magic(dev);
+-	dev_info(&dev->dev, "Digidesign Mbox 3: 24bit 48kHz");
++	mbox3_setup_defaults(dev);
++	dev_info(&dev->dev, "MBOX3: Initialized.");
+ 
+ 	return 0; /* Successful boot */
+ }
+@@ -1734,6 +1731,52 @@ static int pioneer_djm_set_format_quirk(struct snd_usb_substream *subs,
+ 	return 0;
+ }
+ 
++static void mbox3_set_format_quirk(struct snd_usb_substream *subs,
++									const struct audioformat *fmt)
++{
++	// Set rate only for one interface
++	//u8 iface = subs->data_endpoint->iface;
++	//if (iface != 2) return;
++
++	u8 buffer[4] = {0};
++	u32 new_rate = subs->data_endpoint->cur_rate;
++
++	// Get current rate from card and check if changing it is needed
++	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
++					0x01, 0x21 | USB_DIR_IN, 0x0100, 0x8101, &buffer, 4);
++	//u32 current_rate = le32_to_cpu(*(u32 *)buffer);
++	dev_dbg(&subs->dev->dev,
++			 "MBOX3: Current configured sample rate: %d", le32_to_cpu(*(u32 *)buffer));
++	if (le32_to_cpu(*(u32 *)buffer) == new_rate) {
++		dev_dbg(&subs->dev->dev,
++			"MBOX3: No change needed, current rate:%d == new rate:%d",
++			le32_to_cpu(*(u32 *)buffer), new_rate);
++		return;
++	}
++
++	// Set new rate
++	dev_info(&subs->dev->dev,
++			 "MBOX3: Changing sample rate to: %d", new_rate);
++	__le32 set_rate = cpu_to_le32(new_rate);
++	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
++					0x01, 0x21, 0x0100, 0x8101, &set_rate, 4);
++
++	// Set clock source to Internal
++	buffer[0] = 0x01;
++	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
++					0x01, 0x21, 0x0100, 0x8001, &buffer[0], 1);
++
++	// Check whether the change was successful
++	buffer[0] = 0; buffer[1] = 0; buffer[2] = 0; buffer[3] = 0;
++	snd_usb_ctl_msg(subs->dev,
++					usb_sndctrlpipe(subs->dev, 0),
++					0x01, 0x21 | USB_DIR_IN, 0x0100, 0x8101, &buffer, 4);
++	//set_rate = *(int *)buffer;
++	set_rate = le32_to_cpu(*(u32 *)buffer);
++	if (new_rate != set_rate)
++		dev_warn(&subs->dev->dev, "MBOX3: Couldn't set the sample rate");
++}
++
+ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
+ 			      const struct audioformat *fmt)
+ {
+@@ -1755,6 +1798,9 @@ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
+ 	case USB_ID(0x08e4, 0x0163): /* Pioneer DJM-850 */
+ 		pioneer_djm_set_format_quirk(subs, 0x0086);
+ 		break;
++	case USB_ID(0x0dba, 0x5000):
++		mbox3_set_format_quirk(subs, fmt); /* Digidesign Mbox 3 */
++		break;
+ 	}
+ }
+ 
 -- 
-Kind regards,
-Ivan Orlov
+2.44.0
 
