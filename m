@@ -1,78 +1,36 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.schimsalabim.eu (vps01.schimsalabim.eu [85.214.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6979013BC0B;
-	Mon, 29 Apr 2024 19:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7DF13D88C;
+	Mon, 29 Apr 2024 19:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714419357; cv=none; b=pXCrwjkA3eI+6YYfzR8hdFkb0kZE+p32tss0jqGQ/061dPW2VoKD/0xNBFC2DxGCL4n6YtkwzbpzKEiCqGV1ta4KGCUn/BjsHNh3/27T1mou+xmbgEvFcUEveePgITUMXjIpA4pQv0ExEWEuniCtZMbY/7BwiuFkduMpfSXM7qc=
+	t=1714420210; cv=none; b=JODHLSuzkihBHnpbCJDbMVsNsjZ5t47zbPtBK3FMLDwRVqXNyVyZPVoxBU2vUg4AbUR6aGg7rz5HMy1V0KcXCZyvFFvoeOMas1ZF56SqTBwtlDTsi0jT279G2wesZPZjOhl81RzAPmL2e5IbZUPasbWblWHQzK8rT8quOyeMMDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714419357; c=relaxed/simple;
-	bh=sOL4C2CD6D6nECoTaUzRWarkuT1bhXHq9ZTnsG5db60=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RU0eLayEWkGbO4UDrbp4jR4Fb6h5G12gnnk3beJtWsoCkNzUOvjaWvqno5dqbj8sRn89wDg9v58vWvlIhPIRcEMTQPFEyJ8ehuu56Tu2WOiIbAPVStjfg3te508CqqvlIebJKd7sKQulyByBsYtccNSmqxRd36fZmea0qoZ/uOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwsXo9I2; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwsXo9I2"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2b2768f5bb4so72906a91.0;
-        Mon, 29 Apr 2024 12:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714419356; x=1715024156; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XF8yuZv+DK2aAgaoYhc3ri4A9rf79jjwQh6bAXq7ZuI=;
-        b=dwsXo9I2/zn8nAk06oyc+KpfIr1pvJD/+pU6HeViBGOECGRRKrvAm/kdWf+G/ny5BW
-         b+MQ+tA0WXUib/3cHQaHcsX8Hafa8QxnF8aV5DKNbHpqBDKVifxBhzro79Brts4MrTDI
-         Jrb6krSNahL1lPkNFQiBxp/6VHYQjsdHAxWxl2Kszi4N8lPYdFjHQ0KwVF9T4peTPBcS
-         lpRi8EqWISU3nexg8ZqBimK6JCIlBs20n5RqfaOFh6I84USS68YPyehDGS/XR+ixVwO9
-         sTf23BISiRCHHokYJ1BhQw04+mp2DoQxQchhFSTmWhhORc+w9nLbap9aHmhsnWe3Mcfa
-         1gsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714419356; x=1715024156;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XF8yuZv+DK2aAgaoYhc3ri4A9rf79jjwQh6bAXq7ZuI=;
-        b=vBGxM8FN0gyyblFN6uufKnmZyXbpy3zOBfHWZVlPyWMrmLNZUZ9fiSDhfqJWrpQq/V
-         v6A7ZgVcE2L7dSoSYCvU8gntItvjWMqYEiv5rWVotm1ZG7TH19FYx/+TThtxQ4dALSMN
-         qy67tZm4w2bwSsHXB6bfdmCtMUWcplopRJxxtC5PB6GOhMg/9d0XNFYapKq3X1vTM4/X
-         4w2uSQOxTOT6A/hz40dVF45oqPgoIrP60Os9jUGNj7RBO9ae0cCFsslfGvt8icgYCGwu
-         H1fLj5n/4Lu79to54Eff6Z35DyuAOWz/ePODzh1GKiSEJQwcINocH1qeVa3RyCMbR271
-         UpXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpaOIuoRz4vKOrMD+QjF1sxY7XYShhJDW9ZGvjv5F9vlCPbwf8P9ZTbuhFoyi26s7YF5/SCySCEsFanN0NKxbSFTO1X95nIc2um2eyNqkNxNmCskM7jVZ3T3vlLMERLbwBo0e3zKxlBoM=
-X-Gm-Message-State: AOJu0Yz/qKZYNvZ3Hl3owzEfYWP73XBXm1B0iCnHy0CSc+4eZjNVRbqN
-	Mk11l/jwLJ7rwEFTY2J36bmhU/2nGZ72nokUn+bPVNhVyjGqrHOq
-X-Google-Smtp-Source: AGHT+IF5zQ0Hxo/Bgon8qAIy4p/42q6waPaSFtNDf3tfATu2HShb3HbeJXsp6TjkfjMxGCO48vSG1g==
-X-Received: by 2002:a17:90a:68cd:b0:2ad:1e60:502a with SMTP id q13-20020a17090a68cd00b002ad1e60502amr10608331pjj.38.1714419355573;
-        Mon, 29 Apr 2024 12:35:55 -0700 (PDT)
-Received: from thought.. ([186.139.89.143])
-        by smtp.gmail.com with ESMTPSA id x5-20020a17090a388500b002a53b33afa3sm23516755pjb.8.2024.04.29.12.35.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 12:35:54 -0700 (PDT)
-From: Manuel Barrio Linares <mbarriolinares@gmail.com>
-To: 
-Cc: Manuel Barrio Linares <mbarriolinares@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Geraldo Nascimento <geraldogabriel@gmail.com>,
-	dengxiang <dengxiang@nfschina.com>,
-	Jussi Laako <jussi@sonarnerd.net>,
-	Christos Skevis <xristos.thes@gmail.com>,
-	Alexander Tsoy <alexander@tsoy.me>,
-	Jeremie Knuesel <knuesel@gmail.com>,
-	WhaleChang <whalechang@google.com>,
-	Sean Young <sean@mess.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: usb-audio: Add sampling rates support for Mbox3
-Date: Mon, 29 Apr 2024 16:35:00 -0300
-Message-ID: <20240429193522.10380-1-mbarriolinares@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <87il00pdsz.wl-tiwai@suse.de>
-References: <87il00pdsz.wl-tiwai@suse.de>
+	s=arc-20240116; t=1714420210; c=relaxed/simple;
+	bh=zj3KU5WojxV+uFClMlpfJ5QoCeWL4Ou+kVZkLfofrs4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iO4x0ai8BPCoKxrzJ+rRWD4/YPSqt7a835Zf5gdFWqnMYOM+uCgSpnfpJl2clROXhMr8FEG3QUJQal0jp9nK6Hie8CJ8nGnSAZoBXYzUzBcKXDOBKELViSVOLJqTvAuDBeIMOgOA4DYj2V8bggOFyDj6PBriHjSZgft5fhj2tbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu; spf=pass smtp.mailfrom=schimsalabim.eu; arc=none smtp.client-ip=85.214.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schimsalabim.eu
+Received: from localhost.localdomain (82-217-109-137.cable.dynamic.v4.ziggo.nl [82.217.109.137])
+	(authenticated bits=0)
+	by h2374449.stratoserver.net (8.14.7/8.14.7) with ESMTP id 43TJnPPQ000764
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 29 Apr 2024 21:49:30 +0200
+From: Joao Schim <joao@schimsalabim.eu>
+To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
+Date: Mon, 29 Apr 2024 21:49:20 +0200
+Message-Id: <20240429194920.1596257-1-joao@schimsalabim.eu>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,236 +39,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds support for all sample rates supported by the hardware,
-Digidesign Mbox 3 supports: {44100, 48000, 88200, 96000}
+The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
+the gain (left + right) of each of the four supported channels.
 
-Fixes syncing clock issues that presented as pops. To test this, without
-this patch playing 440hz tone produces pops.
+Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
 
-Clock is now synced between playback and capture interfaces so no more
-latency drift issue when using pipewire pro-profile.
-(https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3900)
-
-Signed-off-by: Manuel Barrio Linares <mbarriolinares@gmail.com>
+Signed-off-by: Joao Schim <joao@schimsalabim.eu>
 ---
- sound/usb/quirks-table.h | 38 +++++++++++++--------
- sound/usb/quirks.c       | 74 +++++++++++++++++++++++++++++++---------
- 2 files changed, 81 insertions(+), 31 deletions(-)
+ sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 5d72dc8441cb..73abc38a5400 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3013,21 +3013,28 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
- 				.data = &(const struct audioformat) {
- 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.fmt_bits = 24,
- 					.channels = 4,
- 					.iface = 2,
- 					.altsetting = 1,
- 					.altset_idx = 1,
- 					.attributes = 0x00,
--					.endpoint = 0x01,
-+					.endpoint = USB_RECIP_INTERFACE | USB_DIR_OUT,
- 					.ep_attr = USB_ENDPOINT_XFER_ISOC |
- 						USB_ENDPOINT_SYNC_ASYNC,
--					.rates = SNDRV_PCM_RATE_48000,
--					.rate_min = 48000,
--					.rate_max = 48000,
--					.nr_rates = 1,
-+					.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+							SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
-+					.rate_min = 44100,
-+					.rate_max = 96000,
-+					.nr_rates = 4,
- 					.rate_table = (unsigned int[]) {
--						48000
--					}
-+						44100, 48000, 88200, 96000
-+					},
-+					.sync_ep = USB_RECIP_INTERFACE | USB_DIR_IN,
-+					.sync_iface = 3,
-+					.sync_altsetting = 1,
-+					.sync_ep_idx = 1,
-+					.implicit_fb = 1,
- 				}
- 			},
- 			{
-@@ -3035,22 +3042,25 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 				.type = QUIRK_AUDIO_FIXED_ENDPOINT,
- 				.data = &(const struct audioformat) {
- 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.fmt_bits = 24,
- 					.channels = 4,
- 					.iface = 3,
- 					.altsetting = 1,
- 					.altset_idx = 1,
--					.endpoint = 0x81,
- 					.attributes = 0x00,
-+					.endpoint = USB_RECIP_INTERFACE | USB_DIR_IN,
- 					.ep_attr = USB_ENDPOINT_XFER_ISOC |
- 						USB_ENDPOINT_SYNC_ASYNC,
- 					.maxpacksize = 0x009c,
--					.rates = SNDRV_PCM_RATE_48000,
--					.rate_min = 48000,
--					.rate_max = 48000,
--					.nr_rates = 1,
-+					.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+							SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
-+					.rate_min = 44100,
-+					.rate_max = 96000,
-+					.nr_rates = 4,
- 					.rate_table = (unsigned int[]) {
--						48000
--					}
-+						44100, 48000, 88200, 96000
-+					},
-+					.implicit_fb = 0,
- 				}
- 			},
- 			{
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 09712e61c606..71190d732e0e 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -984,21 +984,13 @@ static int snd_usb_axefx3_boot_quirk(struct usb_device *dev)
- 	return 0;
- }
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index c76628bc86c6..dd32780fb6a4 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -14,6 +14,7 @@
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
++#include <sound/tlv.h>
  
--static void mbox3_setup_48_24_magic(struct usb_device *dev)
-+static void mbox3_setup_defaults(struct usb_device *dev)
- {
- 	/* The Mbox 3 is "little endian" */
- 	/* max volume is: 0x0000. */
- 	/* min volume is: 0x0080 (shown in little endian form) */
- 
--
--	/* Load 48000Hz rate into buffer */
--	u8 com_buff[4] = {0x80, 0xbb, 0x00, 0x00};
--
--	/* Set 48000Hz sample rate */
--	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
--			0x01, 0x21, 0x0100, 0x0001, &com_buff, 4);  //Is this really needed?
--	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
--			0x01, 0x21, 0x0100, 0x8101, &com_buff, 4);
-+	u8 com_buff[2];
- 
- 	/* Deactivate Tuner */
- 	/* on  = 0x01*/
-@@ -1008,6 +1000,8 @@ static void mbox3_setup_48_24_magic(struct usb_device *dev)
- 		0x01, 0x21, 0x0003, 0x2001, &com_buff, 1);
- 
- 	/* Set clock source to Internal (as opposed to S/PDIF) */
-+	/* Internal  = 0x01*/
-+	/* S/PDIF    = 0x02*/
- 	com_buff[0] = 0x01;
- 	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
- 			1, 0x21, 0x0100, 0x8001, &com_buff, 1);
-@@ -1113,9 +1107,11 @@ static void mbox3_setup_48_24_magic(struct usb_device *dev)
- 			1, 0x21, 0x0107, 0x4201, &com_buff, 2);
- 
- 	/* Toggle allowing host control */
-+	/* Not needed
- 	com_buff[0] = 0x02;
- 	snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
- 			3, 0x21, 0x0000, 0x2001, &com_buff, 1);
-+	 */
- 
- 	/* Do not dim fx returns */
- 	com_buff[0] = 0x00;
-@@ -1259,26 +1255,27 @@ static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
- 	descriptor_size = le16_to_cpu(get_cfg_desc(config)->wTotalLength);
- 
- 	if (descriptor_size != MBOX3_DESCRIPTOR_SIZE) {
--		dev_err(&dev->dev, "Invalid descriptor size=%d.\n", descriptor_size);
-+		dev_err(&dev->dev, "MBOX3: Invalid descriptor size=%d.\n", descriptor_size);
- 		return -ENODEV;
- 	}
- 
--	dev_dbg(&dev->dev, "device initialised!\n");
-+	dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
- 
- 	err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
- 		&dev->descriptor, sizeof(dev->descriptor));
- 	config = dev->actconfig;
- 	if (err < 0)
--		dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
-+		dev_dbg(&dev->dev, "MBOX3: error usb_get_descriptor: %d\n", err);
- 
- 	err = usb_reset_configuration(dev);
- 	if (err < 0)
--		dev_dbg(&dev->dev, "error usb_reset_configuration: %d\n", err);
--	dev_dbg(&dev->dev, "mbox3_boot: new boot length = %d\n",
-+		dev_dbg(&dev->dev, "MBOX3: error usb_reset_configuration: %d\n", err);
+ #define SUN50I_DMIC_EN_CTL			(0x00)
+ 	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
+@@ -43,6 +44,17 @@
+ 	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
+ #define SUN50I_DMIC_CNT				(0x2c)
+ 	#define SUN50I_DMIC_CNT_N				(1 << 0)
++#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
++	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
++#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
++        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
 +
-+	dev_dbg(&dev->dev, "MBOX3: new boot length = %d\n",
- 		le16_to_cpu(get_cfg_desc(config)->wTotalLength));
+ #define SUN50I_DMIC_HPF_CTRL			(0x38)
+ #define SUN50I_DMIC_VERSION			(0x50)
  
--	mbox3_setup_48_24_magic(dev);
--	dev_info(&dev->dev, "Digidesign Mbox 3: 24bit 48kHz");
-+	mbox3_setup_defaults(dev);
-+	dev_info(&dev->dev, "MBOX3: Initialized.");
+@@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
  
- 	return 0; /* Successful boot */
- }
-@@ -1734,6 +1731,46 @@ static int pioneer_djm_set_format_quirk(struct snd_usb_substream *subs,
- 	return 0;
- }
++static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
++
++static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++
++        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
++                       0xFF, 0, sun50i_dmic_vol_scale),
++
++
++};
++
+ static const struct snd_soc_component_driver sun50i_dmic_component = {
+ 	.name           = "sun50i-dmic",
++	.controls	= sun50i_dmic_controls,
++	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
+ };
  
-+static void mbox3_set_format_quirk(struct snd_usb_substream *subs,
-+				const struct audioformat *fmt)
-+{
-+	__le32 buff4 = 0;
-+	__le32 set_rate;
-+	u8 buff1 = 0x01;
-+	u32 new_rate = subs->data_endpoint->cur_rate;
-+
-+	// Get current rate from card and check if changing it is needed
-+	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
-+					0x01, 0x21 | USB_DIR_IN, 0x0100, 0x8101, &buff4, 4);
-+	dev_dbg(&subs->dev->dev,
-+			 "MBOX3: Current configured sample rate: %d", le32_to_cpu(buff4));
-+	if (le32_to_cpu(buff4) == new_rate) {
-+		dev_dbg(&subs->dev->dev,
-+			"MBOX3: No change needed, current rate:%d == new rate:%d",
-+			le32_to_cpu(buff4), new_rate);
-+		return;
-+	}
-+
-+	// Set new rate
-+	dev_info(&subs->dev->dev,
-+			 "MBOX3: Changing sample rate to: %d", new_rate);
-+	set_rate = cpu_to_le32(new_rate);
-+	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
-+					0x01, 0x21, 0x0100, 0x8101, &set_rate, 4);
-+
-+	// Set clock source to Internal
-+	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
-+					0x01, 0x21, 0x0100, 0x8001, &buff1, 1);
-+
-+	// Check whether the change was successful
-+	buff4 = 0;
-+	snd_usb_ctl_msg(subs->dev, usb_sndctrlpipe(subs->dev, 0),
-+					0x01, 0x21 | USB_DIR_IN, 0x0100, 0x8101, &buff4, 4);
-+	set_rate = le32_to_cpu(buff4);
-+	if (new_rate != set_rate)
-+		dev_warn(&subs->dev->dev, "MBOX3: Couldn't set the sample rate");
-+}
-+
- void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
- 			      const struct audioformat *fmt)
- {
-@@ -1755,6 +1792,9 @@ void snd_usb_set_format_quirk(struct snd_usb_substream *subs,
- 	case USB_ID(0x08e4, 0x0163): /* Pioneer DJM-850 */
- 		pioneer_djm_set_format_quirk(subs, 0x0086);
- 		break;
-+	case USB_ID(0x0dba, 0x5000):
-+		mbox3_set_format_quirk(subs, fmt); /* Digidesign Mbox 3 */
-+		break;
- 	}
- }
- 
+ static int sun50i_dmic_runtime_suspend(struct device *dev)
 -- 
-2.44.0
+2.25.1
 
