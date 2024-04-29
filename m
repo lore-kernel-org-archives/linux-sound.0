@@ -1,153 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC187BAF0
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 15:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6596B82C76;
+	Mon, 29 Apr 2024 15:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714404766; cv=none; b=Qh97AzWMiuZm5avResLFgOK61NR0QCifYi+tKp1Ibe1MkRJgYjsQX3eh6nK5X0o5BPKhAiuqVmgUnkZPCUjK02It4OwXu0oXiQG2kgcfplqApFiZPAyVGiocXX8eL5lFZZSZrNekzyFR6BHDSWHmTVFcL41eUPlNa7SCFOenXAI=
+	t=1714405758; cv=none; b=UI+D1nHJ1Qfx9Ic5Wfm70fjg2kfUcbHXP4HAFGmytlE0oQpCOF9gipsb58wxU/dkNiZF+kFukZjghrndgDZGhJFNJgLCehxkFr7UQInBdOkKQruuZ5t+fpR0S+nvNtW3EUBBMom34F+XRpSXER4AWSCehpQBHMWWiZVjYjcjGZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714404766; c=relaxed/simple;
-	bh=8IECo8OkMTR2jelHnyvI2VwFXrbvedpGsArS08GD99Y=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H7Zw7efjII3IjsY9GmXsbFkMJueEEZY2YiAc7G5Fc9MliS5bECqiE7v2OCSP29V2LxykbS0NF0NoSojGgSEsnkOoksZNTFzX6vmPBHYlu4SNkdN3qZxDf+ggwPokVph7CYJtWExlVWU7adSDjHXPjsTE79E/rp51cp4DgRair5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IWogoiFK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rWuqhu8+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IWogoiFK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rWuqhu8+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714405758; c=relaxed/simple;
+	bh=R25+vm62+Ne8uiOdiOfEZlbX4DfhAhHpc4l0dOcBfxY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kQXHIof7RsH25WjylrdjOYhkiwK88J5PKawlXhP28ALVHmR9HQ2nEI3ERJSrsM52qlbUHWfzTiXioHU6y7XGVG/hzJrOnA1LyuCKc7BUEGmt03iBf75IToGEDPT3vGqC0a77vk5c0DvCp0Ms5g1HerkUqTbklU0BbgbHb+WlKsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cDOcxxid; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IWogoiFK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rWuqhu8+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IWogoiFK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rWuqhu8+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B743338C1;
-	Mon, 29 Apr 2024 15:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714404763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k94lh0MxCewUqNQNuEIjURmcuvKGiUnWiBKGbbZqaCo=;
-	b=IWogoiFKwVnJ/2PNvQ5vCNAiOqt0mNfnwZPKz+tABKEcQh1BmASgdw8xoQgDbxWGi6TCq7
-	kJ2HtQ7uq69zJBs+Enawck/Qz+32LQNPxtbLu0coO2Bual+AUeC4ZrSsB+xbkADkrNgrW/
-	++DhDForMxxUBNOIzC+qv1nNsW4BUx4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714404763;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k94lh0MxCewUqNQNuEIjURmcuvKGiUnWiBKGbbZqaCo=;
-	b=rWuqhu8+ThLq4TqXjXigevPI4T7vYkZh4Y1tugcfTXogxVRX1R4yU+R3cNkfj0zjlRw47m
-	LInzEBeKXxMa4VAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714404763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k94lh0MxCewUqNQNuEIjURmcuvKGiUnWiBKGbbZqaCo=;
-	b=IWogoiFKwVnJ/2PNvQ5vCNAiOqt0mNfnwZPKz+tABKEcQh1BmASgdw8xoQgDbxWGi6TCq7
-	kJ2HtQ7uq69zJBs+Enawck/Qz+32LQNPxtbLu0coO2Bual+AUeC4ZrSsB+xbkADkrNgrW/
-	++DhDForMxxUBNOIzC+qv1nNsW4BUx4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714404763;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k94lh0MxCewUqNQNuEIjURmcuvKGiUnWiBKGbbZqaCo=;
-	b=rWuqhu8+ThLq4TqXjXigevPI4T7vYkZh4Y1tugcfTXogxVRX1R4yU+R3cNkfj0zjlRw47m
-	LInzEBeKXxMa4VAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 290ED138A7;
-	Mon, 29 Apr 2024 15:32:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MxfYCJu9L2ZdIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 15:32:43 +0000
-Date: Mon, 29 Apr 2024 17:32:55 +0200
-Message-ID: <87wmognpzs.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	broonie@kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel-sdw-acpi: fix usage of device_get_named_child_node()
-In-Reply-To: <8c87a931-9e9b-4922-a126-867da5e0b3df@linux.intel.com>
-References: <20240426152731.38420-1-pierre-louis.bossart@linux.intel.com>
-	<874jbkp5zz.wl-tiwai@suse.de>
-	<8c87a931-9e9b-4922-a126-867da5e0b3df@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cDOcxxid"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43T6w4ko002816;
+	Mon, 29 Apr 2024 10:48:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=9
+	Z+InM3fGAIBxOq1qrvLElfhG+iCwLb2LgUarZtzndg=; b=cDOcxxidzkxxjOt5M
+	11bdj7m5rDHIVLMxFkB8THi62G5cbFL8edirJQ3WCNfYaeWz2V1+kRbL/ZDQj7w/
+	l3P5w1cvABbQlqMWhSS/uryoYvCIH/zTGpTQbuQZK95b78T4flBRA58rgH6PsMJe
+	tW/bpXiuoHmzGzn6cIZvBOakzEDh3ZqZpefuDOyd9Eq5U3x3aclWg48ZYuPLd1Bv
+	g7cSblqrBjHI1wgnQOhp1R8BvtLFdSQ+BAHJW5TVWrZu6JSYQSrU6pVI+Rj5N1mX
+	/OEa6NChESpErmE2x1dvV+N/sS23clr5ZrfzbLGlipKTt3Ft950VjdPB0L3W7myL
+	yTUaw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xrwsjj2yj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Apr 2024 10:48:57 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 29 Apr
+ 2024 16:48:56 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 29 Apr 2024 16:48:55 +0100
+Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.65.105])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id AB8D282024A;
+	Mon, 29 Apr 2024 15:48:55 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        "Stefan
+ Binding" <sbinding@opensource.cirrus.com>
+Subject: [PATCH v1 0/2] ALSA: hda: cs35l41: Ignore errors when configuring interrupts to allow laptops with bad ACPI to play audio
+Date: Mon, 29 Apr 2024 16:48:51 +0100
+Message-ID: <20240429154853.9393-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.29 / 50.00];
-	BAYES_HAM(-2.99)[99.97%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email]
-X-Spam-Score: -3.29
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: WkX4U-jiJGlRsx0YqXNZ_OE5832k4UuM
+X-Proofpoint-GUID: WkX4U-jiJGlRsx0YqXNZ_OE5832k4UuM
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 29 Apr 2024 17:15:19 +0200,
-Pierre-Louis Bossart wrote:
-> 
-> Hi Takashi,
-> 
-> >> The documentation for device_get_named_child_node() mentions this
-> >> important point:
-> >>
-> >> "
-> >> The caller is responsible for calling fwnode_handle_put() on the
-> >> returned fwnode pointer.
-> >> "
-> >>
-> >> Add fwnode_handle_put() to avoid a leaked reference.
-> >>
-> >> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> > 
-> > Can we have a corresponding Fixes tag?
-> 
-> Good question.
-> 
-> The initial code was in
-> 
-> 6d2c66695bf3 ("soundwire: intel: transition to 3 steps initialization")
-> 
-> but then moved with
-> 
-> 08c2a4bc9f2a ("ALSA: hda: move Intel SoundWire ACPI scan to dedicated
-> module")
-> 
-> I guess a Fixes tag for the latter is good enough, it's a 2021 commit
-> and that would probably cover most SoundWire platforms.
+Some laptops have a bad _CRS defined for its interrupt.
+This errors out inside the driver probe for CS35L41 HDA.
+However, there is no fix in software for this bad configuration,
+and it is unlikely to get a new BIOS, therefore it is better to
+allow the laptop to continue probe, instead of erroring out inside
+the probe. The interrupt is only used for Error Detection and
+recovery, without the interrupt the driver will continue to function,
+but errors will not be detected, and recovery will require a reboot.
 
-OK, let's take it, then.  Applied now.
+Also add support for ASUS ROG 2024 laptops.
+These laptops were released without _DSD, so need to be added into
+the CS35L41 config table. Quirks for these laptops already exist.
 
+Stefan Binding (2):
+  ALSA: hda: cs35l41: Ignore errors when configuring IRQs
+  ALSA: hda: cs35l41: Add support for ASUS ROG 2024 Laptops
 
-thanks,
+ sound/pci/hda/cs35l41_hda.c          | 69 +++++++++++++++++++---------
+ sound/pci/hda/cs35l41_hda_property.c | 10 ++++
+ 2 files changed, 57 insertions(+), 22 deletions(-)
 
-Takashi
+-- 
+2.34.1
+
