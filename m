@@ -1,59 +1,60 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAC04CE19
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 11:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5412B44377
+	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 11:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714391340; cv=none; b=UG32grk17FOxceNvB+CTGxUIVUDtOifaxqqp9wmdx8hdMSnlzeCLf58wu8VgRZYFYpytmeC93oQp3jKb2mGAYzCi8d8i68nL6HrBTqPfB7m4zMstvZGC+/R0d9qwwo/QyohALX80xdLKhAlS/zw2zthI90e8cZRWreiHEnfkKcc=
+	t=1714391348; cv=none; b=XHyakdpg5KrUKJEG/kJtO7l3AxcafruXqwUHhqkaLk6Py8LBil4vRwg6sYw3u9GPHUsHHSE4lFE1nWe7xetbjwxEl72iPHuV/gca2ZnCHn0dOHwiwa2J7T6/Db8uSOPpniamq6vlP1y9SancOIN+EuPKPKr0jOcX1Zk8gsjjnXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714391340; c=relaxed/simple;
-	bh=8hlbxDVsli5Uho2Dc9zk1d5MLlzWuHE+5PgzBXH717k=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Fi2fDNzM2VDogRI6t1BhxPch5VX/PHR4WMTckV7/AShFnamEgPExQs2FuhMLVZ07ZAa/995RSTtFqcjztJN8vJ485ZmI7JuFMHUC1ve5QIOU9P8R3kDwKYle1N0qkc3dTZNEH5MPxEr1IGD3yY1KoCZv1YYDGo6wuzYc38baLt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z3VpVOp/; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1714391348; c=relaxed/simple;
+	bh=L+z19Mflj6dbjsuY/oyg7M2Nl7bx7birqfaMqqiWFh4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=t7la0KVAiCwIu7ggUg8nGbuapE9rYksUjOyfuYR8+U8z532h+5UMaJAXHNkl2ua3foGXyKFNc7yMULa0kwhB1eFRt9wapeqkfO5Jj/6/K3Setb7Ar0W/TiVWLZ4hMQjjKil38qL3YplvfVgbLqKjN2Jr+NpBiiPkt7RQb87vjfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wykbk2UP; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z3VpVOp/"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a51f9ad7684so304370666b.2
-        for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 04:48:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wykbk2UP"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57222fc625aso4854067a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 04:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714391337; x=1714996137; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zgF7uDK3ODdULvp2AprCnsXD0Ii385XkEkpICxLIUP8=;
-        b=Z3VpVOp/fj9skUzNvQ2I4DpBywBiTsU2dpEHUtnsnHt0gxrb11EmBY8BXUzkzwGk+A
-         Dh63MlkW5TzpYLqy8o+EO2dKXMh6Cal/C8F8sN8FpqvA3A0ty27v5cPmcrwr2vOg7IL8
-         m1XsKekfTnCTXl9FMeJO9u5i1dZi3G6FLtfx2J4EBTi6Dve1ET4Gz7LPWmaTJ41DcWtF
-         7y8vaxQPSghUs68i/PBet4TrpEM9D8B802vn99G28aZlIKCgDIL44SJ0B4yQ/mPl1xIu
-         lOS0UWyMYXW7GrEzo5GUGjb664LMsghQdVKqqKBZ0Ys8e3rg0JJ1N2usE0e3YryvYx1x
-         fGxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714391337; x=1714996137;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1714391345; x=1714996145; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zgF7uDK3ODdULvp2AprCnsXD0Ii385XkEkpICxLIUP8=;
-        b=tXCyESGKchxmyB7GOuhMzTmaYAG+EHOhzV32qZQlMQB34RvyZH6IRAIdwcnEkWmCON
-         zGgh9ItR8Wvkiy/nJFKxd29CtVpfIDHP6A+nT+Ha6Zr0h7tN/1g16rp7MiOajcYUelvV
-         TTgDAwlONt5CQKX1ArguMGnO2OF00GRxPoYf6tAmng+ncHlYDvAseQNK/4xnsZ6ckuOc
-         i0StNZts2r/NYVQHmLf4+2lWFo20YNhWtXtGXDEqHbQHqAd0vyqHYEcsgzswUJLVXV/M
-         KVrST02hyCLFNsbcg1Z6PGbVLscEU4GXJ+QlL8C1OqXVC+hmd3rBP5TygcTZ8Gc2b5E/
-         slRw==
-X-Forwarded-Encrypted: i=1; AJvYcCU48GN5fCCR30DvN1tkI27h5XfiD5tZ3rhS5cO2DhuERBpKDIeGELuPkcm/X7kgDtDRkCasuEx2ZOS9maraahANnUHcosHBWk+LPz0=
-X-Gm-Message-State: AOJu0Yyu0Cq6o7Rp2lnU4YHY1mw/oxCk5cIphav9hYKIyqNzOc3aOhKE
-	ml44a/aBULTLJujWF26aJe2G896M5BNbkY8UOg1HECCZM05kZ5CXPG5Bp41sS6k=
-X-Google-Smtp-Source: AGHT+IFMulAQp2dFZ0Q7CZL4pR5DvDvO/9NEVxfbIybQWLY3FZZ5OUXvmdGImHkWL/GlP/fLlPTrQA==
-X-Received: by 2002:a50:99c7:0:b0:572:3f41:25aa with SMTP id n7-20020a5099c7000000b005723f4125aamr8735212edb.11.1714391336676;
-        Mon, 29 Apr 2024 04:48:56 -0700 (PDT)
+        bh=r2TryCs7KoAc+knf+2Iegg4aToZXu71FrGOJZxalZRo=;
+        b=wykbk2UPezXCQ5Jq99+zHVZUhmV1Ldjz0rWJWkLnrzk4ijy/VRULsv4QY69Y7YwQTh
+         A8KBLHcI1Z0bNkuVqnYIVGIWejzyhkJeefMw/Ei8hirFJQi8ZM0d9HIM/YIZDWSIGbX2
+         cUs2jlyYjeMldBsa6LVBiogMzZyI4DpJx07YpEoDdMQdEFv0sBSa2Hu3ema+KkiNbAue
+         ARTI2iYxJzw6mbR+CB6xQwEEpsldtTc8aDhyzCz6NQomUu2Y7dvXfCyP+lKQYowmIICQ
+         fyyUGXOH2CZxFvMayLxxB0XbDwBr45y1GDmcyXSk3YwhM3ZC/rf1IkD52nYcixlUydwn
+         1rAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714391345; x=1714996145;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r2TryCs7KoAc+knf+2Iegg4aToZXu71FrGOJZxalZRo=;
+        b=MK+tuL7bYmLC/mMtGCxwrHXItgQ/R/H7UnHeJxXfUjgi2Ao21/3o4ySAfW30UcfmS9
+         iqHBX0ERR5TIF+UGiFkLyRFp17Po/i1rxnDY6F7D1gV6ooJm6gcIxulZPbn/NL9gO5/H
+         QQegS6i847lUaBanWRL3EWUW55KYgcqwjrRVPNKjt9ki/kCOcONdjHFd3igYJqXQ1qIc
+         3Q2CWmL7JBW0nUI1fluPpCt17ksIbcMeAUAlUVpzjqLu3ymqiSo9+nun+tJKUdwBQARP
+         HfRJneaSnOk8RUUW4u0H7sdDYe6VPX64as6VGrI7CctfE9oxDhbTN2vWxNabxYXjs/bZ
+         utQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/JximD2AXax1dPjDG5lEpKNDeFHO7+KufSEypgV++wVMSC3uDAyDd1BTJMrwQQ9HqxsDJZA0GavhfbEDRyi5N+blohXr+Uro1c68=
+X-Gm-Message-State: AOJu0YxiknoEJ0ulTeCbSMuC8MCP2gbnSsgfix3YUdU0Rk/qcuKGzNDQ
+	41P4NX0RsNg23myvwUKLRN9YyT9QbJxOBKbrGz8oHcKf0MaAFlubmzLv5JhtAtc=
+X-Google-Smtp-Source: AGHT+IE7Wa1uhxiwDIcwEN93hp17bsG0rm9iXFrpgirDNmmGz9BzEYEL+4mFW282MhhBjXekfPbkUA==
+X-Received: by 2002:a50:c34d:0:b0:572:4e6b:958 with SMTP id q13-20020a50c34d000000b005724e6b0958mr8878245edb.2.1714391338535;
+        Mon, 29 Apr 2024 04:48:58 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id y43-20020a50bb2e000000b0057000a2cb5bsm13549651ede.18.2024.04.29.04.48.55
+        by smtp.gmail.com with ESMTPSA id y43-20020a50bb2e000000b0057000a2cb5bsm13549651ede.18.2024.04.29.04.48.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 04:48:56 -0700 (PDT)
+        Mon, 29 Apr 2024 04:48:58 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 0/4] ASoC: Constify static snd_pcm_hardware
-Date: Mon, 29 Apr 2024 13:48:45 +0200
-Message-Id: <20240429-n-asoc-const-snd-pcm-hardware-v1-0-c6ce60989834@linaro.org>
+Date: Mon, 29 Apr 2024 13:48:46 +0200
+Subject: [PATCH 1/4] ASoC: qcom: Constify static snd_pcm_hardware
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,9 +63,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB2JL2YC/x3MQQqDQAwAwK9Izg1sFwXrV8RDyMaaQ7OSFFsQ/
- 96lx7nMCSGuEjB1J7gcGlqt4X7rgDeyp6CWZsgp96nPDzSkqIxcLd4YVnDnF27k5UMuuCYaqMg
- 4DkzQjt1l1e//n5fr+gFMAIkPbwAAAA==
+Message-Id: <20240429-n-asoc-const-snd-pcm-hardware-v1-1-c6ce60989834@linaro.org>
+References: <20240429-n-asoc-const-snd-pcm-hardware-v1-0-c6ce60989834@linaro.org>
+In-Reply-To: <20240429-n-asoc-const-snd-pcm-hardware-v1-0-c6ce60989834@linaro.org>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
  Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
  Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
@@ -85,54 +86,70 @@ Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
  linux-amlogic@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1038;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2057;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=8hlbxDVsli5Uho2Dc9zk1d5MLlzWuHE+5PgzBXH717k=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmL4kgxXlqNnnMKJpg2EaIkw0QWwus3XmTLMuWB
- hWfdwwddXWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZi+JIAAKCRDBN2bmhouD
- 14MsD/4wk/fFPGuo07Tc6t4ZBVVny/yf56kqMyV3UPs7GTN7fgENz4Vs5Gin8llVwv9nvvbIrfh
- cBrBJ53HMb7tMNtKDhoCjXLKV6y/XFF3OcjnUu8dFKF9+HWsntLk2pUa7XZf/m3xuCoFz+I2+2X
- FtEvt7tK7J1L1CbOP082IC4ZkhfTVvhN7VjqiC1AcntknqAwCKb5II6RAtl044X2cAgHBFXI7B1
- Qo/+a8PGKa0K0uBnIoHoNp75nHACjabA/jn601auP/o6zvNEBbjmG/1jviOgBIo6/+12fvjPqxx
- E9EcND0vFAI4b2W8IiR2Xg4uWuTtkzGOQ8gVmSQMUY/Xqhgulo8rrUYpnIV5JlSObZpNZstIdHZ
- 3di//AnjPfGRIgVC0kO6jiOPGtCi/WnZe8zyg1tkArBgsmXLIXbuACRbR90yWnYeWGk0Ny8w76f
- T0pJ7kVVgxhVy84se9GzdxXC3V4bBs8KB0UmtCrmfQTKLG/ZcYUIptvLIejPfxSNAnOYcSN4XMu
- DF8BifoTInlQ+Xw9QYLBMmT5zOa2kXfIiS04T/C0Z55+ur3NPpX35/hwD93URXyFfrBLnClmjbo
- PHSEi6tWOFhgJAg8kZWEuqJOx4/8mOJxKL+LiIkCVek5bgHt7OxbuIiY10JdZB1Gy6BujtRGdnc
- RzHz8OsHOxt8zBQ==
+ bh=L+z19Mflj6dbjsuY/oyg7M2Nl7bx7birqfaMqqiWFh4=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmL4kjQtqus+caDsWogKmeSbNLXw+geB1/pDh6h
+ zr4LbfsFbuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZi+JIwAKCRDBN2bmhouD
+ 14b0D/0V8sY+FV/qujbJc2MZicjp6syHrzotc7cYVvSeV+dkb439YYh+NaGaaqpeJUxjyJb2iwN
+ g80bspO9f4x8zDrj33iaDX6i3PTrzUfqIdX9sdjRVTV3Fr4uwKC3aCbsFa2Vxiv17HN44sBJGNk
+ xcWehLqO4B7ywwZItmOd80D5xro3XPgXNLdKOH0MdqlZklYl6hO+1xNLiPfWpip/W612624D8iQ
+ 9cP+3JFtg/WOs8bs1pw19ck/erjsxcK5agwdvb8/PBDqzGw+thqtLTiyhfNYkK84HIQRMnr/HAB
+ zZ2imnBm+Sq/JYviHRnhDisoAwtJIMJjkKz5LVikIN/ZncgetLX/XtHcabi9PUe8u1UVTlQI35t
+ p8N0ddiiugWxBSwUqeB0l/oUYVGD25BM7rw6FvLyxGRRbq6wNHIF2FM5L+CvTbf4Cjj7en2yqIe
+ YAmbAszVP1IJinxReJfTLotoI8eOEInUmx5Oi6/RtoiA8PrGDx91vg9sv8+GHiPKwyUq86gzY56
+ lnNPaYQ7rkZ3xUUxNfiaxz3bU/Xfdd5mCFC9bVihIo/K+xYvtE7VpBIULyS/kS+qAUaKjOPuTWS
+ nSbxB6Ep7ZaUfi/J8Le0Job8rTy/m6gU/Q+TRR6KLg0Fp6FzUP4wqvblu8wCjozXsnk7ZvM43r7
+ Qo+Ozchtl/HeR4w==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-No dependencies.
-
-Static 'struct snd_pcm_hardware' is not modified by few drivers and its
+Static 'struct snd_pcm_hardware' is not modified by the driver and its
 copy is passed to the core, so it can be made const for increased code
 safety.
 
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (4):
-      ASoC: qcom: Constify static snd_pcm_hardware
-      ASoC: fsl: Constify static snd_pcm_hardware
-      ASoC: meson: Constify static snd_pcm_hardware
-      ASoC: uniphier: Constify static snd_pcm_hardware
-
- sound/soc/fsl/imx-pcm-rpmsg.c    | 2 +-
- sound/soc/meson/aiu-fifo-i2s.c   | 2 +-
- sound/soc/meson/aiu-fifo-spdif.c | 2 +-
- sound/soc/meson/aiu-fifo.h       | 2 +-
- sound/soc/meson/axg-fifo.c       | 2 +-
  sound/soc/qcom/qdsp6/q6apm-dai.c | 4 ++--
  sound/soc/qcom/qdsp6/q6asm-dai.c | 2 +-
- sound/soc/uniphier/aio-dma.c     | 2 +-
- 8 files changed, 9 insertions(+), 9 deletions(-)
----
-base-commit: ebbaba914053d8bcadd7d64eb8d2555299509a27
-change-id: 20240429-n-asoc-const-snd-pcm-hardware-f0a5ade885ca
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Best regards,
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index 00bbd291be5c..3c78440a2f0f 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -85,7 +85,7 @@ struct q6apm_dai_data {
+ 	long long sid;
+ };
+ 
+-static struct snd_pcm_hardware q6apm_dai_hardware_capture = {
++static const struct snd_pcm_hardware q6apm_dai_hardware_capture = {
+ 	.info =                 (SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_BLOCK_TRANSFER |
+ 				 SNDRV_PCM_INFO_MMAP_VALID | SNDRV_PCM_INFO_INTERLEAVED |
+ 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
+@@ -104,7 +104,7 @@ static struct snd_pcm_hardware q6apm_dai_hardware_capture = {
+ 	.fifo_size =            0,
+ };
+ 
+-static struct snd_pcm_hardware q6apm_dai_hardware_playback = {
++static const struct snd_pcm_hardware q6apm_dai_hardware_playback = {
+ 	.info =                 (SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_BLOCK_TRANSFER |
+ 				 SNDRV_PCM_INFO_MMAP_VALID | SNDRV_PCM_INFO_INTERLEAVED |
+ 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+index aeb6a9d479ab..3913706ccdc5 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -103,7 +103,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_capture = {
+ 	.fifo_size =            0,
+ };
+ 
+-static struct snd_pcm_hardware q6asm_dai_hardware_playback = {
++static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
+ 	.info =                 (SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_BATCH |
+ 				SNDRV_PCM_INFO_BLOCK_TRANSFER |
+ 				SNDRV_PCM_INFO_MMAP_VALID |
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
