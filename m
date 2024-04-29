@@ -1,222 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CD7D530;
-	Mon, 29 Apr 2024 06:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B995744C6B;
+	Mon, 29 Apr 2024 11:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714373827; cv=none; b=HTg8oxnaY1YQEo2QjmsL6Mkv6kIK5ISagP8jkXjnrni5/kzhR+GSYKMXFM2Umg8dtx9A/TuEcMJddZKilniJQdesLHOD810SPld7z9Px5n+xUfI4tEFa6bnSqzwFGvtFUhYR5I08zovYAEVoc8+ugxgwkwb7hhhRwb90Fu3CfFs=
+	t=1714390300; cv=none; b=Cf4ktxzGG0G9S+oivuSljMXiDkX6eq0GmLJdguiGzL9w1ylwYzWCXDiHFx/Zta0lPyoebGNFKKJ0Mj0n4bFxgpc6OeHeCkXS95HM20wSClRjL/EoHfscyxdEoD73lOZf6oEBGAmMDr17DjqoFS19cvL9qLlxnIwW7O3y/5QJ30Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714373827; c=relaxed/simple;
-	bh=09FThBTM6Hwa/xsabgjmzwu4MaDIcTHSgg/+eqvr7L8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W7+L4VNe3vFj/2MIY2PNPUc1j+Wd1dy5Cc8C9qlyh9hDbPaMKPObXLEq5YUsM4KqwwTvKJgqE+6q7ivwoNWcKPLDhIC0Hk3fplTv6tz1ESy5eVqd3gSzhkkaKrY3F67uQCeMnHqALAXMy+t2c5e4QOQEV89gVkMTAudz4pnrix8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OJtApqpI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GNFMWpF+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OJtApqpI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GNFMWpF+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714390300; c=relaxed/simple;
+	bh=0uLfgTMcNbd+pdeUouC2Y0xOddmRRcjPQZY/ZRdLJmQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=KCq6G8/WqGQx6aNwq6jRFmHYhTgF2NobQDbdP0FixSpnVoki4UBEIfziyNXdsI7BN6si7dMHngXwIM9oMM3Fbcc7i1foBKADJpQwjxy6qhsQ3ckAvq/DyAlO8isgD4lhBurq7IfLLsfSBM+T58qubP8bZirspYwFVcKr5Yn1YZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vDhViy4i; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OJtApqpI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GNFMWpF+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OJtApqpI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GNFMWpF+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 73D4D229E1;
-	Mon, 29 Apr 2024 06:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714373821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=OJtApqpIPGDK99iFXGxcMgAEKKSpnM04GzeAMgKa2KYTtHV2N5fgr5FwKZcqya773HSXu6
-	51Yuz6es2QA/gM88Razf4OefFkQliUzDjRexy4Q5ImYaQlh0Z1SWxn5VN348qvzftAkX1H
-	xMYJpgUYptBOswYZmmf2ysYF9QoScuI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714373821;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=GNFMWpF+hD8jdZO3NGTur7+AX8P0TG8hhl97FjQtoFv8BAptI92Y6TI4srZUqvpGhG56FQ
-	OaByZXcdFnunNzDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714373821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=OJtApqpIPGDK99iFXGxcMgAEKKSpnM04GzeAMgKa2KYTtHV2N5fgr5FwKZcqya773HSXu6
-	51Yuz6es2QA/gM88Razf4OefFkQliUzDjRexy4Q5ImYaQlh0Z1SWxn5VN348qvzftAkX1H
-	xMYJpgUYptBOswYZmmf2ysYF9QoScuI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714373821;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=GNFMWpF+hD8jdZO3NGTur7+AX8P0TG8hhl97FjQtoFv8BAptI92Y6TI4srZUqvpGhG56FQ
-	OaByZXcdFnunNzDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1700138A7;
-	Mon, 29 Apr 2024 06:57:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gBRzMbxEL2YQbQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 06:57:00 +0000
-Date: Mon, 29 Apr 2024 08:57:12 +0200
-Message-ID: <87o79s1ws7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Rajashekar Kuruva (Temp)" <quic_kuruva@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH] [RFC PATCH] ALSA: usb-audio: endpoint: Prevent NULL pointer deference in snd_usb_endpoint_close
-In-Reply-To: <64ed9496-577c-4f31-b061-9f3dcaca4b26@quicinc.com>
-References: <20240426122511.547755-1-quic_kuruva@quicinc.com>
-	<877cgks399.wl-tiwai@suse.de>
-	<64ed9496-577c-4f31-b061-9f3dcaca4b26@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vDhViy4i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1714390278; x=1714995078; i=markus.elfring@web.de;
+	bh=mp94rsiMqyk5KJpEbmeyEviB3UAF09TrKYhrCegkeSA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=vDhViy4irgbJd9dZh9MZYJVlL3mLYnYd1s1fYEH2ridVSb4sIylCmcmyy+h5ZU+q
+	 oKw615tp8FN/NVHsI/QOOHPNk0TeAzo7pW/2EL2QGn1L8sAwz5AesJOmf0jkTkv1T
+	 EtVBLw9gPSezJee/+HvdpuE+WBLYIGhjiwdt9Qnd3XkhJTKyOmx4XcR/F5gLHDHTV
+	 H7iV2KV3anSpfZCKbTiWxWsFFIiTMlnZXg0gwkgm3lpPehtfAs1LxMFJ0bnXfXhtM
+	 RZ0AGwUrJHHXElnG2kqX/a4fTUbBqXL/4aaLqfc6PlU/BnkmlZV2iUY8UmBmonBnj
+	 F1+oe2wiqwOmhf6JRw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N7gXQ-1snErk37rO-015JnL; Mon, 29
+ Apr 2024 13:31:18 +0200
+Message-ID: <eb15ab0a-e416-4ae9-98bb-610fdc04492c@web.de>
+Date: Mon, 29 Apr 2024 13:31:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Bard Liao <bard.liao@intel.com>,
+ Vinod Koul <vinod.koul@linaro.org>
+References: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] soundwire: fix usages of device_get_named_child_node()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:RzU0WiIB2IobPNhDkD5pLC0dmfIgrwhxgRWcFvNuulnDfeLtDFO
+ kjPAAeOQPdMizy8LFpSRF0+Lo5CPHGjffnEngcief7ELEQzLWk3ZUckmESZp3/Q5wUUXeIS
+ bInyKTrmmaopfqLG+y5OJC5OZdWsm95w0R3X03NQ/I44G7ebBF3sRujrF+AqO/8YqxnmiK1
+ kX2riS1pMpemm38gqNE8A==
 X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[]
+UI-OutboundReport: notjunk:1;M01:P0:c8GE1h8qdHE=;VvLBTWnInpeRHE/89SbHNIXQ+eG
+ GcJSp6rzdek4ag5G/VInqebJFNI45zC40MyuHoeDRZbROtt5CJW8RUL8/gEEHmEtxdCbPWwRO
+ g41YqhN8k8QmKygQhCLarb7X3jYveI7TBA6Ke+CBz2Eq24jHENJKU6RDu8V0/RcVYdp6N5egY
+ LRMSpn96iybJEEgnynNdOLj0QGghw0V+CRPX0qZ7Fll3a8Ut03ErsSRvOioI3kh342tyoqjTn
+ zI4xgcypA47CrOO5JEWFXwPLyru247ZIUoQPfmUsxq2ucZjx7qBBxm2bIlc+OWcLJoydPfQpp
+ 4BggJd5S8qwEI78aYN6I+PDh3bpwQyd6DWdMAWCHRUEHMQhoBsjLpaF0L4oQXQwXtr72gumJK
+ kT0KtJZceTrpZDIDCPdIvA78FhzHcKAWj/ua1K2zSUoy/4p50P+K9cRi6aqiI4vp3+TmjJ0K4
+ 6VrGfbbpXKmhMjAWggCbOD8Op+XJyptHFE89MlVhNjdm8yAIURa8EKXue4oTNk9zqlyHz7RUK
+ uld87BjG5fJQ9CmK24siwsZYGrukMuwDqJeNJ40OzA5pUs1hA5wgtFQQbgufm6yWfjmy67q6Q
+ pdFvsrQ8K4do0dAcBufkdfSaKa4EshT5o4Vu3LhZ+A8iBpvds6CvoxO6qYuyzO5zzUlaoNatJ
+ hdFV+7iN8LpQAoyVywMHeyuBGpVEVsUM3eCvAz2eXSMHD0GAY5JzfxB7YWCJHEibwlu8ARwyI
+ +kDum47ykBhCRMc2sHIO7cVeqhwRtHDJ7WwbBFzgL4eftg6spzF8zzN/AKAYfMTvJkxsaUbMz
+ 2xZ298IaXjjJi9HMeAqTi7rRc0Px/fFsk4lXLjMKjjPpw=
 
-On Mon, 29 Apr 2024 08:23:27 +0200,
-Rajashekar Kuruva (Temp) wrote:
-> 
-> 
-> On 4/26/2024 6:13 PM, Takashi Iwai wrote:
-> > On Fri, 26 Apr 2024 14:25:11 +0200,
-> > Rajashekar kuruva wrote:
-> >> When multiple plug-in and plug-out events occur,
-> >> there is a risk of encountering a NULL pointer dereference
-> >> leading to a kernel panic during a headset use-case.
-> >> this issue arises in the snd_usb_endpoint_close function
-> > Such a scenario can't happen: ep->iface_ref is changed only in
-> > chip->mutex lock, hence it can't be NULL there.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> 
-> Hi Takashi,
-> 
-> Actually we are facing NULL pointer deference while running headset
-> case when i checked call trace the last running function is
-> snd_usb_endpoint_close where iface_ref and clock_ref both are 0x0
-> 
-> [75703.933104][T10585] Unable to handle kernel NULL pointer
-> dereference at virtual address 0000000000000004
-> [75703.933113][T10585] [RB/E]rb_sreason_str_set: sreason_str set NULL
-> pointer dereference
-> [75703.933116][T10585] Mem abort info:
-> [75703.933117][T10585]   ESR = 0x0000000096000005
-> [75703.933119][T10585]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [75703.933120][T10585]   SET = 0, FnV = 0
-> [75703.933121][T10585]   EA = 0, S1PTW = 0
-> [75703.933123][T10585]   FSC = 0x05: level 1 translation fault
-> [75703.933124][T10585] Data abort info:
-> [75703.933124][T10585]   ISV = 0, ISS = 0x00000005
-> [75703.933125][T10585]   CM = 0, WnR = 0
-> …
-> [75703.933676][T10585] CPU: 3 PID: 10585 Comm: kworker/u17:0 Tainted:
-> G S      W  OE 6.1.43-android14-11-ga2fa77d36d26-ab11204829 #1
-> [75703.933697][T10585] pstate: 62400005 (nZCv daif +PAN -UAO +TCO -DIT
-> -SSBS BTYPE=--)
-> [75703.933700][T10585] pc : snd_usb_endpoint_close+0x30/0x104
-> [75703.933721][T10585] lr : snd_usb_endpoint_close+0x28/0x104
-> [75703.933724][T10585] sp : ffffffc04b2bb740
-> [75703.933725][T10585] x29: ffffffc04b2bb740 x28: ffffff8024e3ba78
-> x27: ffffffd266e91da0
-> [75703.933728][T10585] x26: ffffffc04b2bb7a8 x25: ffffff89bec5be00
-> x24: 00000000ffffffea
-> [75703.933730][T10585] x23: 0000000000000002 x22: ffffff885d568008
-> x21: ffffff8024e3ba78
-> [75703.933732][T10585] x20: ffffff885d568000 x19: ffffff8024e3bb18
-> x18: ffffffd26db2d140
-> [75703.933734][T10585] x17: 00000000f01b0818 x16: 00000000f01b0818
-> x15: 0000000000000008
-> [75703.933736][T10585] x14: ffffff8a3e2b5780 x13: ffffff8a3e2b5780
-> x12: ffffffd26cbd2770
-> [75703.933738][T10585] x11: 0000000000000001 x10: ffffff8984320000 x9
-> : 4f43b86e946b4e00
-> [75703.933740][T10585] x8 : 0000000000000000 x7 : 0000000000000001 x6
-> : fffffffdef8e8b70
-> [75703.933742][T10585] x5 : 0000000000000001 x4 : 0000000000000000 x3
-> : ffffff8024e3bb28
-> [75703.933743][T10585] x2 : 00000001011fa7c9 x1 : ffffffc04b2bb680 x0
-> : 0000000000000000
-> [75703.933746][T10585] Call trace:
-> [75703.933747][T10585]  snd_usb_endpoint_close+0x30/0x104
+=E2=80=A6
+> Add fwnode_handle_put() to avoid leaked references.
 
-Who is actually calling snd_usb_endpoint_close()?
-I guess that's rather a bug in the call pattern, not the code in
-USB-audio driver itself.
+                          calls?
 
-snd_usb_endpoint_close() is supposed to be called only for a really
-opened endpoint.  So, if any, it's rather a race (or a bug) in the
-caller side, and it should be addressed there instead.
+Would you like to add the tag =E2=80=9CFixes=E2=80=9D accordingly?
 
 
-thanks,
+=E2=80=A6
+> +++ b/drivers/soundwire/mipi_disco.c
+=E2=80=A6
+> @@ -236,8 +244,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *sla=
+ve,
+>  						       dpn[i].num_channels,
+>  						       sizeof(*dpn[i].channels),
+>  						 GFP_KERNEL);
+> -			if (!dpn[i].channels)
+> +			if (!dpn[i].channels) {
+> +				fwnode_handle_put(node);
+>  				return -ENOMEM;
+> +			}
+>
+>  			fwnode_property_read_u32_array(node,
+>  					"mipi-sdw-channel-number-list",
+> @@ -251,8 +261,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *sla=
+ve,
+>  					dpn[i].num_ch_combinations,
+>  					sizeof(*dpn[i].ch_combinations),
+>  					GFP_KERNEL);
+> -			if (!dpn[i].ch_combinations)
+> +			if (!dpn[i].ch_combinations) {
+> +				fwnode_handle_put(node);
+>  				return -ENOMEM;
+> +			}
+>
+>  			fwnode_property_read_u32_array(node,
+>  					"mipi-sdw-channel-combination-list",
+=E2=80=A6
 
-Takashi
+* Would you like to complete the exception handling by using goto chains?
+
+* How do you think about to increase the application of scope-based resour=
+ce management?
+
+
+Regards,
+Markus
