@@ -1,95 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CCC53378;
-	Mon, 29 Apr 2024 12:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC21F535A2;
+	Mon, 29 Apr 2024 12:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714392787; cv=none; b=Y7biPPqprOGgaXNM4qA+UVnE5EvTdNBa/RKLJ2geXmSEO4nk8aJDn3Suzmb2NeGQJ5YJBUA31+v2jJaEqEOi5UWLzp/OEG8Z1d6ShrFQ1tNBWYtOdCQm7uoCT8MnqSQ77+GkFYHSEYiRJx/A8sMrcC1s/5j7DaNm9AbbTCEBU8g=
+	t=1714392944; cv=none; b=HyfDvdkJanhEnBfpVdVQi7VFUIEIPrZ9cCC00bJ5/MxM8IzacKBEdukIzlRUjQuzlD4ComQGr/uTzpu3np6GhJCSl7d7KGto+yE7u1BP5VZrQMt9JvYadgdK/v1VM1Zv5SIQAO2MKigtbPOGkVAZU/GmVK5UqsD49ETcNxCV7Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714392787; c=relaxed/simple;
-	bh=is+ZZRR1qjQpcT+IviiIaio3XkpSgD8LftCNzbntfDU=;
+	s=arc-20240116; t=1714392944; c=relaxed/simple;
+	bh=cYOL1tJRTvgRsSRBeQI6fqJ4MHgAImgZfkWcYgXM/18=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gcfi1w3+WppYsLpfqVNWFY2rPi19YZao1PZzxKXDYFL0Zytwhgjtb8I6sXuvRjdhUcR+PwNsFZRaKthIyUyq9iQQuM1SM5/INZFhGyyOtdmb8gsuse7h9pLJPvUqR3rfNhFT4WEwDSCcCLw7OQ1lIOleieAS58+3tJdOVQwB3Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u3z3yMXW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YdzBQ9nR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u3z3yMXW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YdzBQ9nR; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=rQzDyk76Gkcq67B1QCotABw5rmyxyghevJbct1dQrIE5i/NGuXZclSDnfyyX1McFem42yzSoWInrBdMSfiXnQxhY45iFvmSztfu7IBkqMN3h3EUGLa+kVymBdSWOxop43j9ImpJhLuddpHY873oMX+jMCnq3XtyrUN11oGvMLCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LE0uEKnI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m62Jjwkg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LE0uEKnI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m62Jjwkg; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3z3yMXW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YdzBQ9nR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3z3yMXW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YdzBQ9nR"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LE0uEKnI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m62Jjwkg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LE0uEKnI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m62Jjwkg"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 93FD233743;
-	Mon, 29 Apr 2024 12:13:04 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E61FA1F397;
+	Mon, 29 Apr 2024 12:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714392784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714392940; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ta/xgiOSdujgYrMackSTdmdnjtlcI/U1edyYAhI44nw=;
-	b=u3z3yMXWNO1peNgfA6o0JOXiHGnAkbUREtR7LKVaUrARitgKPwq17nahal7yzRHFrLQ69s
-	CrBdf+jL8oXheHO5lI9ijJ4PmQC/FmHC+/3fN1sWC9MgL14ddkJ2fpPxkYellyfaiVW/tl
-	tY4p++rSyiULhpzQD2fndc9Nxn98Egg=
+	bh=IYgTSu72KpDPtvQDnavAwUGYEuGoWQ7yKpTecDsft60=;
+	b=LE0uEKnIpYFoXEoUitHs6NjEUAj40vLGcOLSUDUJjY4tJVP9YTUBl6i69Jr2otTtdRbgTR
+	/yqvXREKMqBqkCatsLRTyS0rOZUEv7ajUElN79CoxBFk1K5Y0ZpuMqU7N+L2UZ/vHpoZM6
+	GQWadIHI1e14s4vMWbfa8K3JtXGCuPM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714392784;
+	s=susede2_ed25519; t=1714392940;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ta/xgiOSdujgYrMackSTdmdnjtlcI/U1edyYAhI44nw=;
-	b=YdzBQ9nR91L3a8xEkKxAtGDdrD7etwTeKKJAmILTesf7JWrO1gBB8AmUdafI7HcBnXjUVr
-	rBSYifoEGomkUBBg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=IYgTSu72KpDPtvQDnavAwUGYEuGoWQ7yKpTecDsft60=;
+	b=m62Jjwkgh1l/akcWa9BF63Cjfk2voe0v/1LgrADmJDNHdQ8tuF5bNOBPVNRiEzmLXEQv0p
+	dBHZoQWKPoXtR+Cw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714392784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714392940; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ta/xgiOSdujgYrMackSTdmdnjtlcI/U1edyYAhI44nw=;
-	b=u3z3yMXWNO1peNgfA6o0JOXiHGnAkbUREtR7LKVaUrARitgKPwq17nahal7yzRHFrLQ69s
-	CrBdf+jL8oXheHO5lI9ijJ4PmQC/FmHC+/3fN1sWC9MgL14ddkJ2fpPxkYellyfaiVW/tl
-	tY4p++rSyiULhpzQD2fndc9Nxn98Egg=
+	bh=IYgTSu72KpDPtvQDnavAwUGYEuGoWQ7yKpTecDsft60=;
+	b=LE0uEKnIpYFoXEoUitHs6NjEUAj40vLGcOLSUDUJjY4tJVP9YTUBl6i69Jr2otTtdRbgTR
+	/yqvXREKMqBqkCatsLRTyS0rOZUEv7ajUElN79CoxBFk1K5Y0ZpuMqU7N+L2UZ/vHpoZM6
+	GQWadIHI1e14s4vMWbfa8K3JtXGCuPM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714392784;
+	s=susede2_ed25519; t=1714392940;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ta/xgiOSdujgYrMackSTdmdnjtlcI/U1edyYAhI44nw=;
-	b=YdzBQ9nR91L3a8xEkKxAtGDdrD7etwTeKKJAmILTesf7JWrO1gBB8AmUdafI7HcBnXjUVr
-	rBSYifoEGomkUBBg==
+	bh=IYgTSu72KpDPtvQDnavAwUGYEuGoWQ7yKpTecDsft60=;
+	b=m62Jjwkgh1l/akcWa9BF63Cjfk2voe0v/1LgrADmJDNHdQ8tuF5bNOBPVNRiEzmLXEQv0p
+	dBHZoQWKPoXtR+Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 37A28139DE;
-	Mon, 29 Apr 2024 12:13:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2D9A139DE;
+	Mon, 29 Apr 2024 12:15:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +REoDNCOL2Z2VwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 12:13:04 +0000
-Date: Mon, 29 Apr 2024 14:13:16 +0200
-Message-ID: <87il00pdsz.wl-tiwai@suse.de>
+	id wl7tLWyPL2Z4WAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 12:15:40 +0000
+Date: Mon, 29 Apr 2024 14:15:52 +0200
+Message-ID: <87frv4pdon.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: ManuLinares <mbarriolinares@gmail.com>
-Cc: alsa-devel@alsa-project.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	dengxiang <dengxiang@nfschina.com>,
-	Geraldo Nascimento <geraldogabriel@gmail.com>,
-	Max McCarthy <mmccarthy@mcintoshlabs.com>,
-	WhaleChang <whalechang@google.com>,
-	Lukasz Tyl <ltyl@hem-e.com>,
-	Jeremie Knuesel <knuesel@gmail.com>,
-	Alexander Tsoy <alexander@tsoy.me>,
-	Jussi Laako <jussi@sonarnerd.net>,
+To: Aman Dhoot <amandhoot12@gmail.com>
+Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add sampling rates support for Mbox3
-In-Reply-To: <87jzkgpdvm.wl-tiwai@suse.de>
-References: <20240428005733.202978-1-mbarriolinares@gmail.com>
-	<87jzkgpdvm.wl-tiwai@suse.de>
+Subject: Re: Patch for mute led of HP Laptop 15 da3001TU
+In-Reply-To: <CAMTp=B+3NG65Z684xMwHqdXDJhY+DJK-kuSw4adn6xwnG+b5JA@mail.gmail.com>
+References: <CAMTp=B+3NG65Z684xMwHqdXDJhY+DJK-kuSw4adn6xwnG+b5JA@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -97,12 +90,13 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-Spam-Score: -2.53
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spamd-Result: default: False [-2.53 / 50.00];
+	BAYES_HAM(-2.23)[96.36%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
@@ -110,42 +104,41 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[alsa-project.org,perex.cz,suse.com,nfschina.com,gmail.com,mcintoshlabs.com,google.com,hem-e.com,tsoy.me,sonarnerd.net,vger.kernel.org];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4]
 
-On Mon, 29 Apr 2024 14:11:41 +0200,
-Takashi Iwai wrote:
+On Wed, 24 Apr 2024 18:06:42 +0200,
+Aman Dhoot wrote:
 > 
-> On Sun, 28 Apr 2024 02:57:29 +0200,
-> ManuLinares wrote:
-> > 
-> > This adds support for all sample rates supported by the hardware,
-> > Digidesign Mbox 3 supports: {44100, 48000, 88200, 96000}
-> > 
-> > Fixes syncing clock issues that presented as pops. To test this, without
-> > this patch playing 440hz tone produces pops.
-> > 
-> > Clock is now synced between playback and capture interfaces so no more
-> > latency drift issue when using pipewire pro-profile.
-> > (https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3900)
-> > 
-> > Signed-off-by: ManuLinares <mbarriolinares@gmail.com>
+> 
+> Hello there,
+> 
+> This patch is for fixing the volume mute LED on HP Laptop 15 da3001TU,
+> this patch adds SND_PCI_QUIRK for HP Laptop 15-da3001TU, please review this
+> patch & add this patch to the mainline kernel.
+> 
+> I have tested this patch on the latest kernel 6.8.7 & it is working without
+> any problem.
+> 
+> From 12108ce794465925c9dc184253356d1daaa9f509 Mon Sep 17 00:00:00 2001
+> From: Aman Dhoot <amandhoot12@gmail.com>
+> Date: Mon, 22 Apr 2024 18:08:23 +0530
+> Subject: [PATCH] Fix mute led of HP Laptop 15-da3001TU.
+> 
+> This patch simply add SND_PCI_QUIRK for HP Laptop 15-da3001TU to fixed mute led of laptop.
+> 
+> Signed-off-by: Aman Dhoot <amandhoot12@gmail.com>
 
-Also, put a space between Manu and Linares (supposing it's your real
-name).  Signed-off-by is a legal requirement, hence it should be
-properly spelled.
+Applied now.  Thanks.
 
-
-thanks,
 
 Takashi
