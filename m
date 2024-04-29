@@ -1,85 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B442A7E0E8
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 15:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DDE8121A
+	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 15:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714402904; cv=none; b=gGc+8gVVXKrjaGehbCsr2q6J3v5F0CnKhz6QwFPSSnaFWV+MyXxb6kGP2sO0Dk4eZo3fdkZQ1GTH5AFUDFnuzOJbKG8EWNGcEj3yhsw6Y3/s6OAY8AV9D+foReaqTtlLmR8zHSx6a9UVeQguToWOsAlV4rIslaUbOflSXpqvmSk=
+	t=1714402976; cv=none; b=RnUuh6hNTalE/GrgUJYFPqtkpqE6AZ+IDCzOeFKpHihiIjSJ4zNpXVI5UiSv9D/SWt7cOLVAFLKUZ5wtdudwSzmI0kfcWWFr/moCHquUAIML/1LiQYZFGZDUNBS+J8aY4Kj+QW4WPSrXQPAj+htENVPWvFOC7wLvMFzi79jizp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714402904; c=relaxed/simple;
-	bh=9hJM6F2TFogmBi4KenmGHTTLDTpj9que+mqroCekLH4=;
+	s=arc-20240116; t=1714402976; c=relaxed/simple;
+	bh=miTWxwVdZbDlZpdmKVl7wyYlLIVCGSI4AfkWRG9XsGs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OnjuFqvmTupwEvJCO0lCqGBetLyIeLjCyELH/HaMqMhZqBroC5RUe917UeSKsFhwsfueHPelLKHMWF5Ci0it9ILt2qiw4iiXa3rwPHGIAQvNT847CYDCA4xXhzH5rnIjsvMbcAMMFLZnKnz4J8esqxW00B4JigweQ9HouNEDbOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2U/VscsN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V5SyXtyx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vWbn/RJ4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FBZUYEsG; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=pPqKtTEarYTKwy++azs+p6o0Nqh/sq6OvK5oC1OrRmewKCL4wWyW03AjfWSknqepyRACyKCuhzHgLMZresOVjh6tR3k0akVJoY7s6rGbqa4aX+Qi5bj1gdJZZgwElUC88NfzQbRiOe6H8ljXscaFZ//EQrSS2ujms7hbOsoebDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rCnAq+p9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wh4NHGGF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lpCbELZ3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PgYvQ55k; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2U/VscsN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5SyXtyx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vWbn/RJ4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FBZUYEsG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rCnAq+p9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wh4NHGGF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lpCbELZ3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PgYvQ55k"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D353233878;
-	Mon, 29 Apr 2024 15:01:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A25511F449;
+	Mon, 29 Apr 2024 15:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714402901; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714402973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqVHpd8nPRDh1CV1X5AwFaVB+V0j3kK7QZlJNrwv8AY=;
-	b=2U/VscsN3vFhPIb3XWpNCl38Nf3vyj2/1L9ObAw35m2FY8uYB2HFtksfmmyGxeM/lpWiXl
-	Rlh/dsKCPsEDs8NV99iu99maBALA7MB2VQTSFe6XUvNu0rfvzyK90cxTTfIZwuf81Gf/wF
-	JdNBc5b4xnqCvXeWxSB1e/WaifnWDH0=
+	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
+	b=rCnAq+p9D5b+dI02+/FS+IpKWGEMQNpZOVGWiTdijhGy501pz3tIOxAUeOn3QYvrNhe84B
+	4WYTmiGuPkq6CRjEMdge60HGc5TCbgi2zoGb0EU7lx51yp4lvozAfp0xqcXmzuHt24hmUA
+	EWguxiL/ipGKV82fQFDV+xhkPMu6OC0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714402901;
+	s=susede2_ed25519; t=1714402973;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqVHpd8nPRDh1CV1X5AwFaVB+V0j3kK7QZlJNrwv8AY=;
-	b=V5SyXtyxOKHvxYNUEtc/dJ3SGn6QOE1KLnJYxIx2oDKl/rnqYLOycXSWoYl1Tbts+TQ3qn
-	c/88y94ujtYf6+DQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="vWbn/RJ4";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FBZUYEsG
+	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
+	b=Wh4NHGGF6ocVUqNMvsE6IbZvRwoQ1f1UXpSCAoqd8LQB5pzuPE/Meuq/KLSOC6hI30/+uz
+	QUKYK3r9SNkRcmAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714402900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714402972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqVHpd8nPRDh1CV1X5AwFaVB+V0j3kK7QZlJNrwv8AY=;
-	b=vWbn/RJ47o/ZKkmGu7Y4pCI5NcqkgvXV4PRIofqYZ2wBa64wZ4J2hD52EHEPaEgvjFKOws
-	m6sC1Zm0RLi7L5cqRR3EGbwoIdNrBMnfFK9QibNxAvBxSusBkA4gVBby18dvrCjBo0ctxh
-	OvV6l7nsa2JHdfOFZb/p2+lQ919n4BI=
+	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
+	b=lpCbELZ3ONDfQjS5d+T26NqEf8z6WF0f5zzZw6pmQyY09qmwp8sVnNB6HkCKyaMMiwHd7L
+	dhjq6YCOlfZScATikMf7ctuJRaDTGv2H884SICt7C7/pi145zwn7w+yhre1EYS7oRQrkNQ
+	SW1lNkhaSQu9BXHpOKFkUiPQju371kk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714402900;
+	s=susede2_ed25519; t=1714402972;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqVHpd8nPRDh1CV1X5AwFaVB+V0j3kK7QZlJNrwv8AY=;
-	b=FBZUYEsGb7gcXmlM87ZLBgfLuK0ObF5IPIqcvmsQA3EGJ+oN7sRsS/cgnoIAXfVws5lcMD
-	tEpuRJrEivdLDVCQ==
+	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
+	b=PgYvQ55kKm4HSARxg/u1W8jqh9cXFFfnZTb5LUzaUCVCcTQmuOwIjtwxRxroElqw9YvzOU
+	6UgA9pOtinnv8mCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF409138A7;
-	Mon, 29 Apr 2024 15:01:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E9C2138A7;
+	Mon, 29 Apr 2024 15:02:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YjaSKVS2L2bAFQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 15:01:40 +0000
-Date: Mon, 29 Apr 2024 17:01:52 +0200
-Message-ID: <874jbkp5zz.wl-tiwai@suse.de>
+	id 2k2xGZy2L2YvFgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 15:02:52 +0000
+Date: Mon, 29 Apr 2024 17:03:04 +0200
+Message-ID: <8734r4p5xz.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	broonie@kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel-sdw-acpi: fix usage of device_get_named_child_node()
-In-Reply-To: <20240426152731.38420-1-pierre-louis.bossart@linux.intel.com>
-References: <20240426152731.38420-1-pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,	alsa-devel@alsa-project.org,
+	broonie@kernel.org,	Mauro Carvalho Chehab <mchehab@kernel.org>,	Bard Liao
+ <yung-chuan.liao@linux.intel.com>,	=?ISO-8859-1?Q?P=E9ter?= Ujfalusi
+ <peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: harden I2C/I2S codec detection
+In-Reply-To: <20240426152818.38443-1-pierre-louis.bossart@linux.intel.com>
+References: <20240426152818.38443-1-pierre-louis.bossart@linux.intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,76 +91,59 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.83
 X-Spam-Level: 
-X-Spamd-Result: default: False [-5.31 / 50.00];
-	BAYES_HAM(-2.80)[99.14%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+X-Spamd-Result: default: False [-2.83 / 50.00];
+	BAYES_HAM(-2.53)[97.89%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,intel.com:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D353233878
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.31
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email]
 
-On Fri, 26 Apr 2024 17:27:31 +0200,
+On Fri, 26 Apr 2024 17:28:18 +0200,
 Pierre-Louis Bossart wrote:
 > 
-> The documentation for device_get_named_child_node() mentions this
-> important point:
+> The SOF driver is selected whenever specific I2C/I2S HIDs are reported
+> as 'present' in the ACPI DSDT. In some cases, an HID is reported but
+> the hardware does not actually rely on I2C/I2S.  This false positive
+> leads to an invalid selection of the SOF driver and as a result an
+> invalid topology is loaded.
 > 
-> "
-> The caller is responsible for calling fwnode_handle_put() on the
-> returned fwnode pointer.
-> "
+> This patch hardens the detection with a check that the NHLT table is
+> consistent with the report of an I2S-based codec in DSDT. This table
+> should expose at least one SSP endpoint configured for an I2S-codec
+> connection.
 > 
-> Add fwnode_handle_put() to avoid a leaked reference.
+> Tested on Huawei Matebook D14 (NBLB-WAX9N) using an HDaudio codec with
+> an invalid ES8336 ACPI HID reported:
 > 
+> [    7.858249] snd_hda_intel 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040380
+> [    7.858312] snd_hda_intel 0000:00:1f.3: snd_intel_dsp_find_config: no valid SSP found for HID ESSX8336, skipped
+> 
+> Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Closes: https://github.com/thesofproject/linux/issues/4934
 > Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Can we have a corresponding Fixes tag?
+Applied now.  Thanks.
 
-
-thanks,
 
 Takashi
-
-> ---
->  sound/hda/intel-sdw-acpi.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/hda/intel-sdw-acpi.c b/sound/hda/intel-sdw-acpi.c
-> index 5f60658c6051..d7417a40392b 100644
-> --- a/sound/hda/intel-sdw-acpi.c
-> +++ b/sound/hda/intel-sdw-acpi.c
-> @@ -45,6 +45,8 @@ static bool is_link_enabled(struct fwnode_handle *fw_node, u8 idx)
->  				 "intel-quirk-mask",
->  				 &quirk_mask);
->  
-> +	fwnode_handle_put(link);
-> +
->  	if (quirk_mask & SDW_INTEL_QUIRK_MASK_BUS_DISABLE)
->  		return false;
->  
-> -- 
-> 2.40.1
-> 
