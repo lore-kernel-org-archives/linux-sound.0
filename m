@@ -1,123 +1,138 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B995744C6B;
-	Mon, 29 Apr 2024 11:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAC04CE19
+	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 11:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714390300; cv=none; b=Cf4ktxzGG0G9S+oivuSljMXiDkX6eq0GmLJdguiGzL9w1ylwYzWCXDiHFx/Zta0lPyoebGNFKKJ0Mj0n4bFxgpc6OeHeCkXS95HM20wSClRjL/EoHfscyxdEoD73lOZf6oEBGAmMDr17DjqoFS19cvL9qLlxnIwW7O3y/5QJ30Y=
+	t=1714391340; cv=none; b=UG32grk17FOxceNvB+CTGxUIVUDtOifaxqqp9wmdx8hdMSnlzeCLf58wu8VgRZYFYpytmeC93oQp3jKb2mGAYzCi8d8i68nL6HrBTqPfB7m4zMstvZGC+/R0d9qwwo/QyohALX80xdLKhAlS/zw2zthI90e8cZRWreiHEnfkKcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714390300; c=relaxed/simple;
-	bh=0uLfgTMcNbd+pdeUouC2Y0xOddmRRcjPQZY/ZRdLJmQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=KCq6G8/WqGQx6aNwq6jRFmHYhTgF2NobQDbdP0FixSpnVoki4UBEIfziyNXdsI7BN6si7dMHngXwIM9oMM3Fbcc7i1foBKADJpQwjxy6qhsQ3ckAvq/DyAlO8isgD4lhBurq7IfLLsfSBM+T58qubP8bZirspYwFVcKr5Yn1YZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=vDhViy4i; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1714391340; c=relaxed/simple;
+	bh=8hlbxDVsli5Uho2Dc9zk1d5MLlzWuHE+5PgzBXH717k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Fi2fDNzM2VDogRI6t1BhxPch5VX/PHR4WMTckV7/AShFnamEgPExQs2FuhMLVZ07ZAa/995RSTtFqcjztJN8vJ485ZmI7JuFMHUC1ve5QIOU9P8R3kDwKYle1N0qkc3dTZNEH5MPxEr1IGD3yY1KoCZv1YYDGo6wuzYc38baLt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z3VpVOp/; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="vDhViy4i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1714390278; x=1714995078; i=markus.elfring@web.de;
-	bh=mp94rsiMqyk5KJpEbmeyEviB3UAF09TrKYhrCegkeSA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=vDhViy4irgbJd9dZh9MZYJVlL3mLYnYd1s1fYEH2ridVSb4sIylCmcmyy+h5ZU+q
-	 oKw615tp8FN/NVHsI/QOOHPNk0TeAzo7pW/2EL2QGn1L8sAwz5AesJOmf0jkTkv1T
-	 EtVBLw9gPSezJee/+HvdpuE+WBLYIGhjiwdt9Qnd3XkhJTKyOmx4XcR/F5gLHDHTV
-	 H7iV2KV3anSpfZCKbTiWxWsFFIiTMlnZXg0gwkgm3lpPehtfAs1LxMFJ0bnXfXhtM
-	 RZ0AGwUrJHHXElnG2kqX/a4fTUbBqXL/4aaLqfc6PlU/BnkmlZV2iUY8UmBmonBnj
-	 F1+oe2wiqwOmhf6JRw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N7gXQ-1snErk37rO-015JnL; Mon, 29
- Apr 2024 13:31:18 +0200
-Message-ID: <eb15ab0a-e416-4ae9-98bb-610fdc04492c@web.de>
-Date: Mon, 29 Apr 2024 13:31:13 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z3VpVOp/"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a51f9ad7684so304370666b.2
+        for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 04:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714391337; x=1714996137; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgF7uDK3ODdULvp2AprCnsXD0Ii385XkEkpICxLIUP8=;
+        b=Z3VpVOp/fj9skUzNvQ2I4DpBywBiTsU2dpEHUtnsnHt0gxrb11EmBY8BXUzkzwGk+A
+         Dh63MlkW5TzpYLqy8o+EO2dKXMh6Cal/C8F8sN8FpqvA3A0ty27v5cPmcrwr2vOg7IL8
+         m1XsKekfTnCTXl9FMeJO9u5i1dZi3G6FLtfx2J4EBTi6Dve1ET4Gz7LPWmaTJ41DcWtF
+         7y8vaxQPSghUs68i/PBet4TrpEM9D8B802vn99G28aZlIKCgDIL44SJ0B4yQ/mPl1xIu
+         lOS0UWyMYXW7GrEzo5GUGjb664LMsghQdVKqqKBZ0Ys8e3rg0JJ1N2usE0e3YryvYx1x
+         fGxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714391337; x=1714996137;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zgF7uDK3ODdULvp2AprCnsXD0Ii385XkEkpICxLIUP8=;
+        b=tXCyESGKchxmyB7GOuhMzTmaYAG+EHOhzV32qZQlMQB34RvyZH6IRAIdwcnEkWmCON
+         zGgh9ItR8Wvkiy/nJFKxd29CtVpfIDHP6A+nT+Ha6Zr0h7tN/1g16rp7MiOajcYUelvV
+         TTgDAwlONt5CQKX1ArguMGnO2OF00GRxPoYf6tAmng+ncHlYDvAseQNK/4xnsZ6ckuOc
+         i0StNZts2r/NYVQHmLf4+2lWFo20YNhWtXtGXDEqHbQHqAd0vyqHYEcsgzswUJLVXV/M
+         KVrST02hyCLFNsbcg1Z6PGbVLscEU4GXJ+QlL8C1OqXVC+hmd3rBP5TygcTZ8Gc2b5E/
+         slRw==
+X-Forwarded-Encrypted: i=1; AJvYcCU48GN5fCCR30DvN1tkI27h5XfiD5tZ3rhS5cO2DhuERBpKDIeGELuPkcm/X7kgDtDRkCasuEx2ZOS9maraahANnUHcosHBWk+LPz0=
+X-Gm-Message-State: AOJu0Yyu0Cq6o7Rp2lnU4YHY1mw/oxCk5cIphav9hYKIyqNzOc3aOhKE
+	ml44a/aBULTLJujWF26aJe2G896M5BNbkY8UOg1HECCZM05kZ5CXPG5Bp41sS6k=
+X-Google-Smtp-Source: AGHT+IFMulAQp2dFZ0Q7CZL4pR5DvDvO/9NEVxfbIybQWLY3FZZ5OUXvmdGImHkWL/GlP/fLlPTrQA==
+X-Received: by 2002:a50:99c7:0:b0:572:3f41:25aa with SMTP id n7-20020a5099c7000000b005723f4125aamr8735212edb.11.1714391336676;
+        Mon, 29 Apr 2024 04:48:56 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id y43-20020a50bb2e000000b0057000a2cb5bsm13549651ede.18.2024.04.29.04.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 04:48:56 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/4] ASoC: Constify static snd_pcm_hardware
+Date: Mon, 29 Apr 2024 13:48:45 +0200
+Message-Id: <20240429-n-asoc-const-snd-pcm-hardware-v1-0-c6ce60989834@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Bard Liao <bard.liao@intel.com>,
- Vinod Koul <vinod.koul@linaro.org>
-References: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] soundwire: fix usages of device_get_named_child_node()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RzU0WiIB2IobPNhDkD5pLC0dmfIgrwhxgRWcFvNuulnDfeLtDFO
- kjPAAeOQPdMizy8LFpSRF0+Lo5CPHGjffnEngcief7ELEQzLWk3ZUckmESZp3/Q5wUUXeIS
- bInyKTrmmaopfqLG+y5OJC5OZdWsm95w0R3X03NQ/I44G7ebBF3sRujrF+AqO/8YqxnmiK1
- kX2riS1pMpemm38gqNE8A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:c8GE1h8qdHE=;VvLBTWnInpeRHE/89SbHNIXQ+eG
- GcJSp6rzdek4ag5G/VInqebJFNI45zC40MyuHoeDRZbROtt5CJW8RUL8/gEEHmEtxdCbPWwRO
- g41YqhN8k8QmKygQhCLarb7X3jYveI7TBA6Ke+CBz2Eq24jHENJKU6RDu8V0/RcVYdp6N5egY
- LRMSpn96iybJEEgnynNdOLj0QGghw0V+CRPX0qZ7Fll3a8Ut03ErsSRvOioI3kh342tyoqjTn
- zI4xgcypA47CrOO5JEWFXwPLyru247ZIUoQPfmUsxq2ucZjx7qBBxm2bIlc+OWcLJoydPfQpp
- 4BggJd5S8qwEI78aYN6I+PDh3bpwQyd6DWdMAWCHRUEHMQhoBsjLpaF0L4oQXQwXtr72gumJK
- kT0KtJZceTrpZDIDCPdIvA78FhzHcKAWj/ua1K2zSUoy/4p50P+K9cRi6aqiI4vp3+TmjJ0K4
- 6VrGfbbpXKmhMjAWggCbOD8Op+XJyptHFE89MlVhNjdm8yAIURa8EKXue4oTNk9zqlyHz7RUK
- uld87BjG5fJQ9CmK24siwsZYGrukMuwDqJeNJ40OzA5pUs1hA5wgtFQQbgufm6yWfjmy67q6Q
- pdFvsrQ8K4do0dAcBufkdfSaKa4EshT5o4Vu3LhZ+A8iBpvds6CvoxO6qYuyzO5zzUlaoNatJ
- hdFV+7iN8LpQAoyVywMHeyuBGpVEVsUM3eCvAz2eXSMHD0GAY5JzfxB7YWCJHEibwlu8ARwyI
- +kDum47ykBhCRMc2sHIO7cVeqhwRtHDJ7WwbBFzgL4eftg6spzF8zzN/AKAYfMTvJkxsaUbMz
- 2xZ298IaXjjJi9HMeAqTi7rRc0Px/fFsk4lXLjMKjjPpw=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB2JL2YC/x3MQQqDQAwAwK9Izg1sFwXrV8RDyMaaQ7OSFFsQ/
+ 96lx7nMCSGuEjB1J7gcGlqt4X7rgDeyp6CWZsgp96nPDzSkqIxcLd4YVnDnF27k5UMuuCYaqMg
+ 4DkzQjt1l1e//n5fr+gFMAIkPbwAAAA==
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1038;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=8hlbxDVsli5Uho2Dc9zk1d5MLlzWuHE+5PgzBXH717k=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmL4kgxXlqNnnMKJpg2EaIkw0QWwus3XmTLMuWB
+ hWfdwwddXWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZi+JIAAKCRDBN2bmhouD
+ 14MsD/4wk/fFPGuo07Tc6t4ZBVVny/yf56kqMyV3UPs7GTN7fgENz4Vs5Gin8llVwv9nvvbIrfh
+ cBrBJ53HMb7tMNtKDhoCjXLKV6y/XFF3OcjnUu8dFKF9+HWsntLk2pUa7XZf/m3xuCoFz+I2+2X
+ FtEvt7tK7J1L1CbOP082IC4ZkhfTVvhN7VjqiC1AcntknqAwCKb5II6RAtl044X2cAgHBFXI7B1
+ Qo/+a8PGKa0K0uBnIoHoNp75nHACjabA/jn601auP/o6zvNEBbjmG/1jviOgBIo6/+12fvjPqxx
+ E9EcND0vFAI4b2W8IiR2Xg4uWuTtkzGOQ8gVmSQMUY/Xqhgulo8rrUYpnIV5JlSObZpNZstIdHZ
+ 3di//AnjPfGRIgVC0kO6jiOPGtCi/WnZe8zyg1tkArBgsmXLIXbuACRbR90yWnYeWGk0Ny8w76f
+ T0pJ7kVVgxhVy84se9GzdxXC3V4bBs8KB0UmtCrmfQTKLG/ZcYUIptvLIejPfxSNAnOYcSN4XMu
+ DF8BifoTInlQ+Xw9QYLBMmT5zOa2kXfIiS04T/C0Z55+ur3NPpX35/hwD93URXyFfrBLnClmjbo
+ PHSEi6tWOFhgJAg8kZWEuqJOx4/8mOJxKL+LiIkCVek5bgHt7OxbuIiY10JdZB1Gy6BujtRGdnc
+ RzHz8OsHOxt8zBQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-=E2=80=A6
-> Add fwnode_handle_put() to avoid leaked references.
+No dependencies.
 
-                          calls?
+Static 'struct snd_pcm_hardware' is not modified by few drivers and its
+copy is passed to the core, so it can be made const for increased code
+safety.
 
-Would you like to add the tag =E2=80=9CFixes=E2=80=9D accordingly?
+Best regards,
+Krzysztof
 
+---
+Krzysztof Kozlowski (4):
+      ASoC: qcom: Constify static snd_pcm_hardware
+      ASoC: fsl: Constify static snd_pcm_hardware
+      ASoC: meson: Constify static snd_pcm_hardware
+      ASoC: uniphier: Constify static snd_pcm_hardware
 
-=E2=80=A6
-> +++ b/drivers/soundwire/mipi_disco.c
-=E2=80=A6
-> @@ -236,8 +244,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *sla=
-ve,
->  						       dpn[i].num_channels,
->  						       sizeof(*dpn[i].channels),
->  						 GFP_KERNEL);
-> -			if (!dpn[i].channels)
-> +			if (!dpn[i].channels) {
-> +				fwnode_handle_put(node);
->  				return -ENOMEM;
-> +			}
->
->  			fwnode_property_read_u32_array(node,
->  					"mipi-sdw-channel-number-list",
-> @@ -251,8 +261,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *sla=
-ve,
->  					dpn[i].num_ch_combinations,
->  					sizeof(*dpn[i].ch_combinations),
->  					GFP_KERNEL);
-> -			if (!dpn[i].ch_combinations)
-> +			if (!dpn[i].ch_combinations) {
-> +				fwnode_handle_put(node);
->  				return -ENOMEM;
-> +			}
->
->  			fwnode_property_read_u32_array(node,
->  					"mipi-sdw-channel-combination-list",
-=E2=80=A6
+ sound/soc/fsl/imx-pcm-rpmsg.c    | 2 +-
+ sound/soc/meson/aiu-fifo-i2s.c   | 2 +-
+ sound/soc/meson/aiu-fifo-spdif.c | 2 +-
+ sound/soc/meson/aiu-fifo.h       | 2 +-
+ sound/soc/meson/axg-fifo.c       | 2 +-
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 4 ++--
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 2 +-
+ sound/soc/uniphier/aio-dma.c     | 2 +-
+ 8 files changed, 9 insertions(+), 9 deletions(-)
+---
+base-commit: ebbaba914053d8bcadd7d64eb8d2555299509a27
+change-id: 20240429-n-asoc-const-snd-pcm-hardware-f0a5ade885ca
 
-* Would you like to complete the exception handling by using goto chains?
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-* How do you think about to increase the application of scope-based resour=
-ce management?
-
-
-Regards,
-Markus
