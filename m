@@ -1,184 +1,77 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AA281736;
-	Mon, 29 Apr 2024 15:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823AB84E15;
+	Mon, 29 Apr 2024 16:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714405759; cv=none; b=D0RFOqFgikljlftthTQay4uqVxF4Ac98v59ND2+I3PErO+06CHpUz99PtSNwnU7/bNV2DJYTVbE2+JMZWEqnMF2d+NkwRH9zYHRNTMfMuEXpVzoGrmBEQ08SwBgRxHvvdtnQ9zpkbHmTwxc0ud2bJGxXnDQMAIyrCQUgR+XnNhI=
+	t=1714407272; cv=none; b=ezZALn8cFa+Z3XFCRyEtl2lWNEwFZvX+oZov7qxrovSB0eDLnQmnNVcn4mA86b0wXuceZvYXGyDStkHAQtePBCyEQ8q73L0dT/e3NxAnscqcUN0BfYKXVKnSBSQivlXZYWGB7CPLZH0t+iY+MfCCQ1fjp9Ej4R4dKBWpQXQlha8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714405759; c=relaxed/simple;
-	bh=fbDcR+863ldEgPUTug85jUVOFlRj10PC6IzPWMpGIyY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TZ4JBuQ7j67PtYbdMH78yOlRE4//TxJJu8SDoOG6lUs1UBUQwvWkfxTeZZ0VrkI5THK4kvtdy3aPeMd61vDXaOzIaL6raB5rKk8Gw1X7+9WdEG4sMw2S+PROPeP5RNs4GLg6sLjQxEt6fCiF6cnyvGoMc2XlmTJZsMPLUU45fj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dzTkWg1L; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1714407272; c=relaxed/simple;
+	bh=8TgknXW2nRuCRYEDQcohbK1tjflgHkvvO4mslMioqVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYTkImdrMjq39SbiHW9dQfOVRoE/774n6RZyXYF0EcW74rXvDJXpOHR/gZc5faUk2eSuOiO5Rp4+/MIbluyTVtJ0s/zwDV9KdQ1V5qd3SpcMFiDSscLoDhQ3Jpk9dqZmlV2knFDhGpV59RXtMH9pE2DIlFYVji3vkhoTYWXW40o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opFG75l1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dzTkWg1L"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43T6vDHQ000342;
-	Mon, 29 Apr 2024 10:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PODMain02222019; bh=9rX3omQGqJf9uWnpTwa2t45+ZXn6wK3xOMXrQuWrcNw=; b=
-	dzTkWg1LKXAWZe+YQl6RjhOj87dzoHypa4NhKE2mdg+2Ih9tnoP11wxQ0ADxxnBw
-	VzGtjRVqQ+kG+DBGJbI8nbAOFUnusUj0FTJgHeib5A0qc8v3HyofQOERWkEUounp
-	JG1kkSEeh26aPMis1vpB8Ov+Ip+Udxs/9f9D34mRRoP8RAO7TXCDiFriuBDN7tFJ
-	k4sT8bt958igKlDeDBnKZGLWRjdqpA6QPeCCAwVML+XFVVVsYyJpBzolDbKviuV2
-	G/VCszd5RRkwxFKeJyxtABuOEcatoNZny25kKgdXXkOvGhGpSQVSPydy7fyWiSCh
-	b4/yOHT72kJQ0tJNDBy8dg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xrxry21tq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Apr 2024 10:48:58 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 29 Apr
- 2024 16:48:56 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 29 Apr 2024 16:48:56 +0100
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.65.105])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id F379F82025A;
-	Mon, 29 Apr 2024 15:48:55 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors when configuring IRQs
-Date: Mon, 29 Apr 2024 16:48:52 +0100
-Message-ID: <20240429154853.9393-2-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240429154853.9393-1-sbinding@opensource.cirrus.com>
-References: <20240429154853.9393-1-sbinding@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opFG75l1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9061C4AF19;
+	Mon, 29 Apr 2024 16:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714407272;
+	bh=8TgknXW2nRuCRYEDQcohbK1tjflgHkvvO4mslMioqVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=opFG75l15B4u2m1seEWAdfME4XBzWmXYYhz4UqZlVy+JM4dQNi5Ao05N6EFMEAbMD
+	 lbWnpOpH+OOSF+6Q8836kuXsmOeWBme5lHERzLUYGYsQ6mnG8YJVmcDgo3SsAjtAfr
+	 Q/INyLbjWlKR2UiXLRFWdHyLUW+oUjTe5KChDKa6yuI4Dsoq1s8RU5n8yZScND56Di
+	 O/inyLh6dLPBm2LjuRCv4akJDqqZr7mLMB+axLNw6D8TjbTQeTTSsdRYESYhSg9Ruh
+	 49xj0v0RR2/YEfRw4sKsi55mDzCzXH4rJPAFymXBxv7IqlfUZ/Y9GLfWsUr/eU8zZU
+	 /OhekKRkJMZKg==
+Date: Mon, 29 Apr 2024 11:14:28 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-tegra@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+Message-ID: <171440724894.1987444.14829061739938565881.robh@kernel.org>
+References: <20240426170322.36273-1-sheharyaar48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: wWmmPx3iVyvJE8xCrS5BBZUIkpxVXHdi
-X-Proofpoint-GUID: wWmmPx3iVyvJE8xCrS5BBZUIkpxVXHdi
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240426170322.36273-1-sheharyaar48@gmail.com>
 
-IRQs used for CS35L41 HDA are used to detect and attempt to recover
-from errors. Without these interrupts, the driver should behave as
-normal.
 
-For laptops which contain a bad configuration for the interrupt in the
-BIOS, the current behaviour of failing when trying to configure the
-interrupt means the probe fails, and audio is broken.
+On Fri, 26 Apr 2024 22:33:18 +0530, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra30 I2S binding to DT schema and
+> add "clock-names" property used by multiple tegra i2s blocks
+> in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
+> required property by the binding.
+> 
+> Signed-off-by: Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+> ---
+> Changes v4->v5:
+> - removed redundant example
+> - removed redundant compatible
+> 
+> v4 : https://lore.kernel.org/all/20240425153045.49939-1-sheharyaar48@gmail.com/
+> ---
+>  .../bindings/sound/nvidia,tegra30-i2s.txt     | 27 --------
+>  .../bindings/sound/nvidia,tegra30-i2s.yaml    | 67 +++++++++++++++++++
+>  2 files changed, 67 insertions(+), 27 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+> 
 
-It is better for the user experience if the driver instead warns that
-no interrupt is configured rather than simply failing.
-The drawback is that if an error occurs without the interrupt, we
-firstly would not be able to trace the issue, and secondly would not
-be able to attempt to recover from the issue, but this is better than
-failing immediately.
-
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/cs35l41_hda.c | 69 +++++++++++++++++++++++++------------
- 1 file changed, 47 insertions(+), 22 deletions(-)
-
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index 74076fa45dd6..6c49e5c6cd20 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -1594,13 +1594,56 @@ static struct regmap_irq_chip cs35l41_regmap_irq_chip = {
- 	.runtime_pm = true,
- };
- 
-+static void cs35l41_configure_interrupt(struct cs35l41_hda *cs35l41, int irq_pol)
-+{
-+	int irq;
-+	int ret;
-+	int i;
-+
-+	if (!cs35l41->irq) {
-+		dev_warn(cs35l41->dev, "No Interrupt Found");
-+		goto err;
-+	}
-+
-+	ret = devm_regmap_add_irq_chip(cs35l41->dev, cs35l41->regmap, cs35l41->irq,
-+					IRQF_ONESHOT | IRQF_SHARED | irq_pol,
-+					0, &cs35l41_regmap_irq_chip, &cs35l41->irq_data);
-+	if (ret) {
-+		dev_dbg(cs35l41->dev, "Unable to add IRQ Chip: %d.", ret);
-+		goto err;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(cs35l41_irqs); i++) {
-+		irq = regmap_irq_get_virq(cs35l41->irq_data, cs35l41_irqs[i].irq);
-+		if (irq < 0) {
-+			ret = irq;
-+			dev_dbg(cs35l41->dev, "Unable to map IRQ %s: %d.", cs35l41_irqs[i].name,
-+				ret);
-+			goto err;
-+		}
-+
-+		ret = devm_request_threaded_irq(cs35l41->dev, irq, NULL,
-+						cs35l41_irqs[i].handler,
-+						IRQF_ONESHOT | IRQF_SHARED | irq_pol,
-+						cs35l41_irqs[i].name, cs35l41);
-+		if (ret) {
-+			dev_dbg(cs35l41->dev, "Unable to allocate IRQ %s:: %d.",
-+				cs35l41_irqs[i].name, ret);
-+			goto err;
-+		}
-+	}
-+	return;
-+err:
-+	dev_warn(cs35l41->dev,
-+		 "IRQ Config Failed. Amp errors may not be recoverable without reboot.");
-+}
-+
- static int cs35l41_hda_apply_properties(struct cs35l41_hda *cs35l41)
- {
- 	struct cs35l41_hw_cfg *hw_cfg = &cs35l41->hw_cfg;
- 	bool using_irq = false;
--	int irq, irq_pol;
-+	int irq_pol;
- 	int ret;
--	int i;
- 
- 	if (!cs35l41->hw_cfg.valid)
- 		return -EINVAL;
-@@ -1643,26 +1686,8 @@ static int cs35l41_hda_apply_properties(struct cs35l41_hda *cs35l41)
- 
- 	irq_pol = cs35l41_gpio_config(cs35l41->regmap, hw_cfg);
- 
--	if (cs35l41->irq && using_irq) {
--		ret = devm_regmap_add_irq_chip(cs35l41->dev, cs35l41->regmap, cs35l41->irq,
--					       IRQF_ONESHOT | IRQF_SHARED | irq_pol,
--					       0, &cs35l41_regmap_irq_chip, &cs35l41->irq_data);
--		if (ret)
--			return ret;
--
--		for (i = 0; i < ARRAY_SIZE(cs35l41_irqs); i++) {
--			irq = regmap_irq_get_virq(cs35l41->irq_data, cs35l41_irqs[i].irq);
--			if (irq < 0)
--				return irq;
--
--			ret = devm_request_threaded_irq(cs35l41->dev, irq, NULL,
--							cs35l41_irqs[i].handler,
--							IRQF_ONESHOT | IRQF_SHARED | irq_pol,
--							cs35l41_irqs[i].name, cs35l41);
--			if (ret)
--				return ret;
--		}
--	}
-+	if (using_irq)
-+		cs35l41_configure_interrupt(cs35l41, irq_pol);
- 
- 	return cs35l41_hda_channel_map(cs35l41->dev, 0, NULL, 1, &hw_cfg->spk_pos);
- }
--- 
-2.34.1
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
