@@ -1,105 +1,160 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB53412BF18
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 19:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CB613DBBF;
+	Mon, 29 Apr 2024 20:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714420228; cv=none; b=Z5cCGEl50AIMpSzvFiANQo6cJ1MtUhD5T8Tk+sKyryAv/088juTZA64tCQsg/30Z6vrcuyOzyLasxmYAaMBXXIZS+tdX+PIZMpsEhbdUzf717aGrx5cFo7zqpxUBbZrNqCAP8RQMJHjYUrjJUsO5gLyh0txWdmG0gXO153o1zvM=
+	t=1714420949; cv=none; b=h9K85U4MWNqIe9gZG9GJt6JdPjzuAoisHA1PdnI9z5sX0EkVga12ffWuujdojxL8eGxpcM5I0LsbZbkMec/1Ak+RXS+2Jmtx/BKYReJJ5kJmdQp9f2hev1tElyv2nrijcj6Gjs/kLSr0qVN3RHdj856qcqpcGV65QJ+p37occUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714420228; c=relaxed/simple;
-	bh=eVY5B9TKSEJHZydMdH45kMqzzeNFXqTEx/rOwKxe4KM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SeiQ1po3+Gm8WwJC+e8ib1ACpKHfDoWgd6MlmYzIKTALFQVjGxZcxxk50Bfa1AWg3+d/5QpCeTv09FuWxtRm93nM+U+bRD8/gi1TqAUHejso4bFBFc5roeY2Cx5RihB9nBAtl1STjbsH7uIt3rgUKm6+fnKKPWr8VpMHUkI2RqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=X1iLXXi0; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1714420949; c=relaxed/simple;
+	bh=v+dxWNWY34GkaZ5wYOrRbLg5bO3DUAUxb8ICY4EgA1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NLn2N1RKGMSEEOOtnJ8a3voHsqjoyyBjt200GDBgiA6zKiO9xFZXVFOA1nyw1H73ibl/1orOblENRfNcH5geK0ZWiHlu2SrBs7OSrPFFZz8UX6jf0wnZn9CklFIYWJnsXukRJJzTPWuO4Za6fxMU9cy1yUutdhNReO77Nsccuzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REU937Cx; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="X1iLXXi0"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e8fce77bb2so37860815ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 12:50:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REU937Cx"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a58e787130fso396002466b.0;
+        Mon, 29 Apr 2024 13:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714420225; x=1715025025; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t66m2yC6w51sUPxTLrw0e9BFXrR1zy7lTroSpOOOXcU=;
-        b=X1iLXXi0MX+8PwCMrN2iN7K9/Zl3V4KsI6RzyNa1mvlctnAycjOzFwib9SZsHVb1UP
-         QLtypdBLTJK4UZzKpctrh6L5HXRV9C2gDBRqq0KbQscfWvoS5iUc29+uFewm3eh5nnXP
-         6KOiXLVpCOx6cgtmo+8The9Sebsi0EHwKJhks=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714420225; x=1715025025;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1714420946; x=1715025746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t66m2yC6w51sUPxTLrw0e9BFXrR1zy7lTroSpOOOXcU=;
-        b=q7EGe1tlY+RJIY1RnI30flen33/pkTJWoMYPSMGrgK8p8s+bvrkInCn5JJhwevTeWo
-         h34eLjCCj1MHq+w1fDWJNcv+MLcreipiCxt/7uOADSxIGE4sLoDa+9/dxcaRAbkR6gsu
-         7FpWdwzwn+kGvs1XqAsbAKobeufB9GAVtd4Fu/1b5KnTK9Gtuze3dbIJnTOxG0FJRwHP
-         jmk6r0VovE9fJ11Ys2Famwq5fi5017fEjOWO0jO6PPBxrabmJWAdqDvhG1NFBA/xqDz7
-         Phy5sOAKYYAq1LYtgdbVPY5Qw6ij6s+8AvQsgs5JcPTqMn1OXXrZ2QOK10YNozgRfkA+
-         FkIg==
-X-Forwarded-Encrypted: i=1; AJvYcCWo4ysJLnMxPSRUKMZU/MJEOFBOPxIMKifiAM40cEIfJd6nF40CoarujokeLIGVwEUrp0/FchG42Rwzxk5PecHncHuJkGG+3jKVkQI=
-X-Gm-Message-State: AOJu0YxfgoVQELBDjqGl6DkIi9JQPxURqIhYSzmvYx0ZKK//CzCYzFnw
-	oSjO+nkCu7IdwfSPqSrd5lzyzzv239FLvC2gs2iarNa42MQy/BcRtmfssa4hLFbCP6xRPKTm8IA
-	=
-X-Google-Smtp-Source: AGHT+IE+SteDEJUNTAb7/nI8MNDpW/XVg8ijQNerSCdwLAPwwr/v5RyMt4I/w7vZ1LzWcXiblxshPA==
-X-Received: by 2002:a17:902:f7d4:b0:1eb:5b59:fab9 with SMTP id h20-20020a170902f7d400b001eb5b59fab9mr618246plw.53.1714420225318;
-        Mon, 29 Apr 2024 12:50:25 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id jj1-20020a170903048100b001e2526a5cc3sm20699547plb.307.2024.04.29.12.50.24
+        bh=VsKE8r7F5xni1GwzY6+eg4w0O41Z5E2Stz6sTWPm390=;
+        b=REU937CxFn9boL4+gwSAq6+MJdzoG5EnZtEtEhXgLOE7/qqXP5c11xnIi/3aMuySGS
+         MxDLlP+ng1R0xcsRvrZ7jrifxuK+neVzfOW58IflRX3cv+EPw7yNeGZJoqG7NA0e/gk6
+         avMUEeqMT+eK0rmWfnFR5ROTiXWNXdcfO2s8SnRXsAuGpi9NRQJ9myiIiN0gGacwf7Ft
+         BlsOZfLZA5eP8/ZfqG7+TcVa5aGoqksOKKAi1w6mC5eaT2jLATfXNgtlVEmc+TfSZR3d
+         ygopN/DDrvMnQtAut3Y+FmEphlukeMKARbLItAOOvvnkymaW1B0n6X6hosVCvN3YIJqU
+         NRTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714420946; x=1715025746;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VsKE8r7F5xni1GwzY6+eg4w0O41Z5E2Stz6sTWPm390=;
+        b=oAaMoCv6386RtEiuUUPZSko+Hau87FyQo7J8Yaedc9rXlZUcADXMKWdvivEMVUpvCF
+         3UZIjIa8rVTv+rUyd4FjRPsriXXqVM6NNTIkqtPdwLasxy08YN1WM/haSF4U1Bvu9iuo
+         LgdwG7+EnDpTMs4MVm4++HeWyEHlz7bdSJGGAGM8PeulM5FjU1EUvADPO5J4O+kweW/+
+         ewZbSMpZKAQS28F7KxkfHAcq53vuMMuKi+q9KBRtFO1EvX1b8YXAkyFHOVFg+L5amnbB
+         nt/2YX3rn7JMh2dYUpGEqR1ZjszR9l+3Pk5+gxVEhnYVijukJ6svgdTvsqf1oB6rEmOd
+         ne4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUum9hKs80GmtgObNqPgBzogCViGRqKgqxQ5OBYIlH/d8VAHDTo+XgHwjGQP4CRKiFRslZoUD+aOA+yXIWKt37vVcSR9o0uc0ebIZdzsBhDghCqizhUBaR54mpCxrDhxgN/4RyUpgWZQso=
+X-Gm-Message-State: AOJu0Yzql7J2KU+eis3BMxBcvVBo9giLCRVHPzd06BrpKSVUJlpviqx0
+	wspZvXXdZxkxTxmTwxS7j6QWfmGSozefGiCG7S/eipV4/JyFxBFe
+X-Google-Smtp-Source: AGHT+IHIKx0SyAjsW4Smx5uzNZpKk0OnRHPvT5Zv6XPyI3hdLPyaGW8TdxmJ1VY4Gefq40RqnxSymg==
+X-Received: by 2002:a17:907:7e9e:b0:a58:e8cf:664f with SMTP id qb30-20020a1709077e9e00b00a58e8cf664fmr718919ejc.23.1714420945336;
+        Mon, 29 Apr 2024 13:02:25 -0700 (PDT)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id r20-20020a170906705400b00a555ef55ab5sm14215787ejj.218.2024.04.29.13.02.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 12:50:24 -0700 (PDT)
-Date: Mon, 29 Apr 2024 12:50:24 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH 0/2][next] firewire: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <202404291250.FA94E630@keescook>
-References: <cover.1709658886.git.gustavoars@kernel.org>
- <20240306011030.GA71684@workstation.local>
- <6a7854af-a183-4db2-8400-4d9eb0cc4308@embeddedor.com>
- <202404291129.F261DEA21F@keescook>
- <90ddce3b-1ad5-49be-89f9-2f3e48d73e19@embeddedor.com>
+        Mon, 29 Apr 2024 13:02:24 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Joao Schim <joao@schimsalabim.eu>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH v2] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
+Date: Mon, 29 Apr 2024 22:02:23 +0200
+Message-ID: <2931892.e9J7NaK4W3@jernej-laptop>
+In-Reply-To: <20240429194920.1596257-1-joao@schimsalabim.eu>
+References: <20240429194920.1596257-1-joao@schimsalabim.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90ddce3b-1ad5-49be-89f9-2f3e48d73e19@embeddedor.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Apr 29, 2024 at 12:42:23PM -0600, Gustavo A. R. Silva wrote:
+Dne ponedeljek, 29. april 2024 ob 21:49:20 GMT +2 je Joao Schim napisal(a):
+> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
+> the gain (left + right) of each of the four supported channels.
 > 
+> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
 > 
-> On 4/29/24 12:30, Kees Cook wrote:
-> > On Wed, Mar 06, 2024 at 10:18:59AM -0600, Gustavo A. R. Silva wrote:
-> > > 
-> > > > Thanks for the improvements, however we are mostly at the end of
-> > > > development period for v6.8 kernel. Let me postpone applying the patches
-> > > > until closing the next merge window (for v6.9), since we need the term to
-> > > > evaluate the change. I mean that it goes to v6.10 kernel.
-> > > 
-> > > Sure, no problem.
-> > > 
-> > > Actually, I'll send a v2 with DEFINE_FLEX(), instead.
-> > 
-> > I was just going through the patch tracker to make sure stuff got
-> > handled -- did a v2 of these ever get posted? I don't see anything in
-> > the tracker nor changes here in -next.
-> 
-> Yes, it's in linux-next already:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=1d717123bb1a7555a432e51a41709badf8545dba
+> Signed-off-by: Joao Schim <joao@schimsalabim.eu>
 
-Ah-ha! Thank you! :)
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
--- 
-Kees Cook
+Best regards,
+Jernej
+
+> ---
+>  sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+> index c76628bc86c6..dd32780fb6a4 100644
+> --- a/sound/soc/sunxi/sun50i-dmic.c
+> +++ b/sound/soc/sunxi/sun50i-dmic.c
+> @@ -14,6 +14,7 @@
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+> +#include <sound/tlv.h>
+>  
+>  #define SUN50I_DMIC_EN_CTL			(0x00)
+>  	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
+> @@ -43,6 +44,17 @@
+>  	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
+>  #define SUN50I_DMIC_CNT				(0x2c)
+>  	#define SUN50I_DMIC_CNT_N				(1 << 0)
+> +#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
+> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
+> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
+> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
+> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
+> +#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
+> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
+> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
+> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
+> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
+> +
+>  #define SUN50I_DMIC_HPF_CTRL			(0x38)
+>  #define SUN50I_DMIC_VERSION			(0x50)
+>  
+> @@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
+>  
+> +static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
+> +
+> +static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
+> +
+> +        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+> +                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
+> +                       0xFF, 0, sun50i_dmic_vol_scale),
+> +        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+> +                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
+> +                       0xFF, 0, sun50i_dmic_vol_scale),
+> +        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+> +                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
+> +                       0xFF, 0, sun50i_dmic_vol_scale),
+> +        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+> +                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
+> +                       0xFF, 0, sun50i_dmic_vol_scale),
+> +
+> +
+> +};
+> +
+>  static const struct snd_soc_component_driver sun50i_dmic_component = {
+>  	.name           = "sun50i-dmic",
+> +	.controls	= sun50i_dmic_controls,
+> +	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
+>  };
+>  
+>  static int sun50i_dmic_runtime_suspend(struct device *dev)
+> 
+
+
+
+
