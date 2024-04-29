@@ -1,45 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38867D414;
-	Mon, 29 Apr 2024 14:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D0A745C5;
+	Mon, 29 Apr 2024 14:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714401750; cv=none; b=mZgoj3vg44CyYj42OTlRPFEYWGg/MWDzLqOv5RRQh3qJzRhsGJCBK3J2vfySVCxFCHSRLVoC3V4fnnfcbszj4VtcDUlclzxJBOB1D19HDMrrL9QzufsW8NhIKQgESitNOwaoLvppAdUS9FDDp4oaK2ZUMAXmQJr2iK0qqLH+4v4=
+	t=1714401854; cv=none; b=Ap5SmytI9+2VlB77C+By00g0qmp9nq24SrLmKdFO9tqn6vRFPmMUOLEyPnnGZ/bujBcDsPkRG9WR41AdnG8yReBQ5yvJawmMz1qwNDO4iEGz6wou65M9vTUVYz14rtKS+/B+XuXXk+YyNOjJLrlJ+JC8dTPzIUk/uzBZ2GTH300=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714401750; c=relaxed/simple;
-	bh=ESPEiYovVv3XkYy8Mx42aYeRfwJkKA0HprZUzwWWUZ0=;
+	s=arc-20240116; t=1714401854; c=relaxed/simple;
+	bh=OJZ8QasGzmijXQVkG9V9fKJa/f1XqrNRU4PDTZrp2Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sG8uorCzlYe9ZmzMgpb3mHpJAK3txXTqxoA6YQBGf8l5DqwcvXcdtKHniUOphk2IEoNMo2PPLteYh4DOj3UCp7t+5M/AO/KPqxOMhKpH4lgO17p+JR/yW9XCfZ1PsYtcDzb7pq7tekdGTZ3+5sbYoh6A7tPzh33hvrX7xM5Cxb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCKmi2iE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=enLhwMWtDh2OI2tSJaW+skMgVDmrWMlrWMcvIc2rMH+YEtugHojo3N+hDDCHg02H/A5dabnAU0Yp0F/cJIG1vSnH8LNsf8wz+NQB0UcRHeHqgaaZQXoGik9kZ0tXxlh2gdfn96J+A36+TEND2v7/oPeDxAdhcJv6IB50JBdwrP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Un7qa4q1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NCKmi2iE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C50C113CD;
-	Mon, 29 Apr 2024 14:42:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Un7qa4q1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331BFC113CD;
+	Mon, 29 Apr 2024 14:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714401750;
-	bh=ESPEiYovVv3XkYy8Mx42aYeRfwJkKA0HprZUzwWWUZ0=;
+	s=k20201202; t=1714401853;
+	bh=OJZ8QasGzmijXQVkG9V9fKJa/f1XqrNRU4PDTZrp2Uc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NCKmi2iE/eif5hjX2tMjSqXi793M4C1rGm9/PNK6djMIA9Mle8wqm/bBFZergzFFT
-	 jVuRI1HQhc2lzlF2+g5HJUktV1xKmgf+scuO6FY4bjHxSd0X3RgtkXdkrA+XNug7HN
-	 W/yGABM1bSmBdT8B8Gfy/xsngcopdZmKSQv+IZn0bBiQovF1g8HsminZ6oHWM55rdy
-	 0I4Im9t0ezdKBihNbpPMHJWJ7q4PGperbJkATZTtiwe99vGAuGR9VGz4qy1p6OZtOe
-	 W878PBdjG8kCJN/zjeD/g2hqmTWvTnKfL6my+qJWq1AWHo3vHTTKo2rdNJTKtiu5nk
-	 DZeVf6oGIHJmw==
-Date: Mon, 29 Apr 2024 23:42:28 +0900
+	b=Un7qa4q1crb9OyUCdLgWWFuWgrAJiyu10NlOIPbgqHlSAu5OabyJzuympIYoUdPs6
+	 ZOpE/xD0zuKphaxaryHG5bX1bslKr9WWvdK7Qpo3CePYkL5edQ6vIMaDCCeuKMaJdG
+	 Unr+BrxRThdxZ9xwq3c70enLrL+2Z6xLcLI/4VOVQ39KBlwa/j7No45GvCubpp0ET3
+	 0JFK/No4MqUSECJUFjAqu4Ok8TM2rPhxD3StLSH56Ij34VDbWB68a5+JgJWsQcdk6l
+	 tP21IlUe9bKrXVI6yJuibFAAzun3HDtIbtNAN9RGOUgLXlMeq2k7kEvKuOPQI3i4QZ
+	 T5cyBQycWYnnQ==
+Date: Mon, 29 Apr 2024 23:44:11 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 05/12] ASoC: doc: dapm: clarify it's an internal API
-Message-ID: <Zi-x1FAWnCgjT5RD@finisterre.sirena.org.uk>
-References: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
- <20240426-dapm-docs-v2-5-87b07547eb5b@bootlin.com>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 05/16] SoC: mediatek: mt8365: support audio clock
+ control
+Message-ID: <Zi-yOzFhgKQXx9tk@finisterre.sirena.org.uk>
+References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
+ <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,38 +57,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="okcnfWCniRhdttra"
+	protocol="application/pgp-signature"; boundary="LT6g6VETYU3X2f5e"
 Content-Disposition: inline
-In-Reply-To: <20240426-dapm-docs-v2-5-87b07547eb5b@bootlin.com>
+In-Reply-To: <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
 X-Cookie: TANSTAAFL
 
 
---okcnfWCniRhdttra
+--LT6g6VETYU3X2f5e
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Apr 26, 2024 at 06:56:38PM +0200, Luca Ceresoli wrote:
+On Fri, Apr 26, 2024 at 07:22:34PM +0200, Alexandre Mergnat wrote:
+> Add audio clock wrapper and audio tuner control.
 
-> Clarify DAPM does not expose any API to user space, and adapt the paragraph
-> accordingly.
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-That's not strictly true, there's a couple of sysfs tuneables and all
-the routing is via userspace controls plus we've got stuff like pin
-switches.
-
---okcnfWCniRhdttra
+--LT6g6VETYU3X2f5e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYvsdMACgkQJNaLcl1U
-h9CHKgf+NI5rxfj0/p54kNQfC7O+ab8f85GuVlJbbMOwKx+k+/OSh0NuEsmhMbbS
-JD8IM8Xo0Cx0GlhJdHTIgvje9Cib4mgl095NUSW/rWNGY551iXGQ2B3zSQwtqBfh
-P2LXCDMKglpnSF2pH8TlgrH6mTFGgMlTYEyn6+8jzo1NnzkkK8wNrewo2c1Vto+B
-Hp81aYEOnNTlKO0Df6K0+VXRuhoOwftJcao5JIKwnweXtvjwaUtTKRxgY9DSg/yQ
-2eFUuSt8NsQcoBku5qTdJeKVst4auxTbjnhENeGtEMCuoDNOyoAZK5QHC+4aHmsh
-XV3AJuUbIKzVYkvNEXjjwMJnzyZ1fA==
-=YaVk
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYvsjoACgkQJNaLcl1U
+h9CAlAf7BkKtB98FNb4ZDCugUcYlYByugcjzPafZiPbUVpmYfmvJYoiOrSDEXePb
+NRZWBGpWUDpa1l+TOGWwcOQegbbwV48nDMyJnQn+CXRUvUg0dePpRmUSLsXCwB0+
+X6Z+EJ9hoQ3OrqBmt1mTld6Uk5GoZWkhoJ+OcEKXoLtQJcfUUL8uCqjciW9ySs+g
+ibgnMTOqccfOfUoZNYTGIKKYypfUnQHFcKV5Lk03UtWeatQXk5SUe131QsK2w5xB
+8uFXF4PuB9RiX0OQEtKgENtVVwajA3M6z3euJ2RkXwqtR+klGzgUJFFnJKjJQmye
+wr8Eom+wgxxY7GyPGD3aRCnBuFDyHg==
+=ccn2
 -----END PGP SIGNATURE-----
 
---okcnfWCniRhdttra--
+--LT6g6VETYU3X2f5e--
