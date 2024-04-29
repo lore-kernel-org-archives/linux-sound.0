@@ -1,94 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D0A745C5;
-	Mon, 29 Apr 2024 14:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3616D81729;
+	Mon, 29 Apr 2024 15:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714401854; cv=none; b=Ap5SmytI9+2VlB77C+By00g0qmp9nq24SrLmKdFO9tqn6vRFPmMUOLEyPnnGZ/bujBcDsPkRG9WR41AdnG8yReBQ5yvJawmMz1qwNDO4iEGz6wou65M9vTUVYz14rtKS+/B+XuXXk+YyNOjJLrlJ+JC8dTPzIUk/uzBZ2GTH300=
+	t=1714402828; cv=none; b=phCuGUeI27lq9Lcvn77L0/qCTKdbvz4o/YLNEEshvtDyoxmC3M91q9m/POx/BW4uM/5OBFdN7L6mMzizrvmmCbqTzhqCz5MvnRDpTVSXLsd0Svyi6icOkfHE25kRWQyg8YvDum42jG5YcJaqKSC3DWexuNHDOCYheqUW+e3i+k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714401854; c=relaxed/simple;
-	bh=OJZ8QasGzmijXQVkG9V9fKJa/f1XqrNRU4PDTZrp2Uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enLhwMWtDh2OI2tSJaW+skMgVDmrWMlrWMcvIc2rMH+YEtugHojo3N+hDDCHg02H/A5dabnAU0Yp0F/cJIG1vSnH8LNsf8wz+NQB0UcRHeHqgaaZQXoGik9kZ0tXxlh2gdfn96J+A36+TEND2v7/oPeDxAdhcJv6IB50JBdwrP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Un7qa4q1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714402828; c=relaxed/simple;
+	bh=AoEcZWPaPmzELVD9CbCwfoVXprt2zSFSuipKEKqMbz4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XW7FFoZy6+A6rdLXqp1isLr6hGrLmxS2SH4PmJqB83ve6tRsDrP59hVJen+jdgUT+cXzDKHBellvsZrhCDVK/vRpn5LJz0OCFNR9nkcGNw2axeCy737sdGrzzfLaNMMAqgFlGpe3a4bw9u/mL4k/FdMMpC3Ae7HXJlGjq4WZ0Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e2lHkh/1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LV3TJBbF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e2lHkh/1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LV3TJBbF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Un7qa4q1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331BFC113CD;
-	Mon, 29 Apr 2024 14:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714401853;
-	bh=OJZ8QasGzmijXQVkG9V9fKJa/f1XqrNRU4PDTZrp2Uc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Un7qa4q1crb9OyUCdLgWWFuWgrAJiyu10NlOIPbgqHlSAu5OabyJzuympIYoUdPs6
-	 ZOpE/xD0zuKphaxaryHG5bX1bslKr9WWvdK7Qpo3CePYkL5edQ6vIMaDCCeuKMaJdG
-	 Unr+BrxRThdxZ9xwq3c70enLrL+2Z6xLcLI/4VOVQ39KBlwa/j7No45GvCubpp0ET3
-	 0JFK/No4MqUSECJUFjAqu4Ok8TM2rPhxD3StLSH56Ij34VDbWB68a5+JgJWsQcdk6l
-	 tP21IlUe9bKrXVI6yJuibFAAzun3HDtIbtNAN9RGOUgLXlMeq2k7kEvKuOPQI3i4QZ
-	 T5cyBQycWYnnQ==
-Date: Mon, 29 Apr 2024 23:44:11 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 05/16] SoC: mediatek: mt8365: support audio clock
- control
-Message-ID: <Zi-yOzFhgKQXx9tk@finisterre.sirena.org.uk>
-References: <20240226-audio-i350-v4-0-082b22186d4c@baylibre.com>
- <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e2lHkh/1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LV3TJBbF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e2lHkh/1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LV3TJBbF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 107DE1F445;
+	Mon, 29 Apr 2024 15:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714402824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+6ISOxBlAV6CDQEEnStu0qtNtqvx4/HjkaEqq8aneuI=;
+	b=e2lHkh/1yUv8ZHdX2ry60AaD6xgrs6pdjSud8tisrs8VriJV6sk4EnVnflfqvPx2E5G+oe
+	VmQV01B93zU/0DRHkPWU4TrKmaQGaDC+VllVnqfLbIql4z3DoCtm5wHgKLOqRsNMLPOIoM
+	7ND7IZ06ZyVrmMFqPQPFcBqEnZ34QaI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714402824;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+6ISOxBlAV6CDQEEnStu0qtNtqvx4/HjkaEqq8aneuI=;
+	b=LV3TJBbFwtRB0h9S76K2/GSkJ532TdH4vtPe1dA2QLBuRPDezgNp7W/66cYfmiROsf8jMw
+	wdJ8UjwAFDkYVHCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714402824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+6ISOxBlAV6CDQEEnStu0qtNtqvx4/HjkaEqq8aneuI=;
+	b=e2lHkh/1yUv8ZHdX2ry60AaD6xgrs6pdjSud8tisrs8VriJV6sk4EnVnflfqvPx2E5G+oe
+	VmQV01B93zU/0DRHkPWU4TrKmaQGaDC+VllVnqfLbIql4z3DoCtm5wHgKLOqRsNMLPOIoM
+	7ND7IZ06ZyVrmMFqPQPFcBqEnZ34QaI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714402824;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+6ISOxBlAV6CDQEEnStu0qtNtqvx4/HjkaEqq8aneuI=;
+	b=LV3TJBbFwtRB0h9S76K2/GSkJ532TdH4vtPe1dA2QLBuRPDezgNp7W/66cYfmiROsf8jMw
+	wdJ8UjwAFDkYVHCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD2D0138A7;
+	Mon, 29 Apr 2024 15:00:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WKavKAe2L2Y7FQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 15:00:23 +0000
+Date: Mon, 29 Apr 2024 17:00:35 +0200
+Message-ID: <875xw0p624.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,	Takashi Iwai
+ <tiwai@suse.de>,	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Bard Liao
+ <yung-chuan.liao@linux.intel.com>,	Brady Norander
+ <bradynorander@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,	Mark Brown
+ <broonie@kernel.org>,	Mark Hasemeyer <markhas@chromium.org>,	Takashi Iwai
+ <tiwai@suse.com>,	linux-sound@vger.kernel.org,	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Huawei Matebook D14 NBLB-WAX9N quirk detection
+In-Reply-To: <c0120da6-ac95-46c6-94d5-471f31e7c857@linux.intel.com>
+References: <5e6ba980c0738199589749b68b83f2d730512107.1713430105.git.mchehab@kernel.org>
+	<20240418110453.10efcb60@sal.lan>
+	<848bcc94-3a31-4fb4-81bc-bd3f138e12f6@linux.intel.com>
+	<87edaopdlt.wl-tiwai@suse.de>
+	<Zi-RpauZjcWg0t_q@smile.fi.intel.com>
+	<c0120da6-ac95-46c6-94d5-471f31e7c857@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LT6g6VETYU3X2f5e"
-Content-Disposition: inline
-In-Reply-To: <20240226-audio-i350-v4-5-082b22186d4c@baylibre.com>
-X-Cookie: TANSTAAFL
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,suse.de,kernel.org,vger.kernel.org,gmail.com,perex.cz,chromium.org,suse.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
+
+On Mon, 29 Apr 2024 15:51:03 +0200,
+Pierre-Louis Bossart wrote:
+> 
+> 
+> 
+> On 4/29/24 07:25, Andy Shevchenko wrote:
+> > On Mon, Apr 29, 2024 at 02:17:34PM +0200, Takashi Iwai wrote:
+> >> On Thu, 18 Apr 2024 15:24:10 +0200,
+> >> Pierre-Louis Bossart wrote:
+> >>> On 4/18/24 05:04, Mauro Carvalho Chehab wrote:
+> > 
+> > ...
+> > 
+> >>> Andy, what do you think and what would be your recommendation?
+> >>
+> >> This one is still pending, and I'd like to hear the decision from
+> >> Intel people.  Let me know if this hack is acceptable.
+> > 
+> > IIRC it was resolved on GitHub by Pierre, anything else I need to contribute?
+> 
+> This initial patch was replaced by the one I sent on Friday
+> "[PATCH] ALSA: hda: intel-dsp-config: harden I2C/I2S codec detection"
+> 
+> I should have made it clearer in the commit message, sorry.
+
+OK, thanks for the updates!
 
 
---LT6g6VETYU3X2f5e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Apr 26, 2024 at 07:22:34PM +0200, Alexandre Mergnat wrote:
-> Add audio clock wrapper and audio tuner control.
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---LT6g6VETYU3X2f5e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYvsjoACgkQJNaLcl1U
-h9CAlAf7BkKtB98FNb4ZDCugUcYlYByugcjzPafZiPbUVpmYfmvJYoiOrSDEXePb
-NRZWBGpWUDpa1l+TOGWwcOQegbbwV48nDMyJnQn+CXRUvUg0dePpRmUSLsXCwB0+
-X6Z+EJ9hoQ3OrqBmt1mTld6Uk5GoZWkhoJ+OcEKXoLtQJcfUUL8uCqjciW9ySs+g
-ibgnMTOqccfOfUoZNYTGIKKYypfUnQHFcKV5Lk03UtWeatQXk5SUe131QsK2w5xB
-8uFXF4PuB9RiX0OQEtKgENtVVwajA3M6z3euJ2RkXwqtR+klGzgUJFFnJKjJQmye
-wr8Eom+wgxxY7GyPGD3aRCnBuFDyHg==
-=ccn2
------END PGP SIGNATURE-----
-
---LT6g6VETYU3X2f5e--
+Takashi
