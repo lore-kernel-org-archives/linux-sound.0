@@ -1,149 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DDE8121A
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 15:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703307E0F2;
+	Mon, 29 Apr 2024 15:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714402976; cv=none; b=RnUuh6hNTalE/GrgUJYFPqtkpqE6AZ+IDCzOeFKpHihiIjSJ4zNpXVI5UiSv9D/SWt7cOLVAFLKUZ5wtdudwSzmI0kfcWWFr/moCHquUAIML/1LiQYZFGZDUNBS+J8aY4Kj+QW4WPSrXQPAj+htENVPWvFOC7wLvMFzi79jizp4=
+	t=1714403503; cv=none; b=SmC1off2nnKvtaXfyyPJ1C9oj5wlH+4dAV6M0u0k+G9jcE4v4pDDjqCkZEeJ2TNyvSODxrUmTdRSH7+Qfh1I4K1aFfB0YnTengavqCQbk3ZtWoiLmIUmd1NoSg5hB6PPM88m5l+yFeIKTbpSDpkO4fr/6M6rQVbzrVpvTo0nR7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714402976; c=relaxed/simple;
-	bh=miTWxwVdZbDlZpdmKVl7wyYlLIVCGSI4AfkWRG9XsGs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pPqKtTEarYTKwy++azs+p6o0Nqh/sq6OvK5oC1OrRmewKCL4wWyW03AjfWSknqepyRACyKCuhzHgLMZresOVjh6tR3k0akVJoY7s6rGbqa4aX+Qi5bj1gdJZZgwElUC88NfzQbRiOe6H8ljXscaFZ//EQrSS2ujms7hbOsoebDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rCnAq+p9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wh4NHGGF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lpCbELZ3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PgYvQ55k; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714403503; c=relaxed/simple;
+	bh=CIXcvwGpFixZBreh058VGVZ+NOH7kWo7gvJMk6mMaT0=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TFfL+SVBncP76GNMDEBNGwYXnqUDH2NVtrrGzQZqp7KOK7SlxxGZpzZEiMTVGKb0rVpWuEduMEDfCaqfNcOyf0Iru6Qu1S2v4O6MleWVrqNIXkkE48H7AeZRRV1Ow44qOQtpg5i3xJsqI2zRVv0ouf3FslV2b2uaVcLAWZfbwEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLJPYumP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rCnAq+p9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wh4NHGGF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lpCbELZ3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PgYvQ55k"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A25511F449;
-	Mon, 29 Apr 2024 15:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714402973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
-	b=rCnAq+p9D5b+dI02+/FS+IpKWGEMQNpZOVGWiTdijhGy501pz3tIOxAUeOn3QYvrNhe84B
-	4WYTmiGuPkq6CRjEMdge60HGc5TCbgi2zoGb0EU7lx51yp4lvozAfp0xqcXmzuHt24hmUA
-	EWguxiL/ipGKV82fQFDV+xhkPMu6OC0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714402973;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
-	b=Wh4NHGGF6ocVUqNMvsE6IbZvRwoQ1f1UXpSCAoqd8LQB5pzuPE/Meuq/KLSOC6hI30/+uz
-	QUKYK3r9SNkRcmAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714402972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
-	b=lpCbELZ3ONDfQjS5d+T26NqEf8z6WF0f5zzZw6pmQyY09qmwp8sVnNB6HkCKyaMMiwHd7L
-	dhjq6YCOlfZScATikMf7ctuJRaDTGv2H884SICt7C7/pi145zwn7w+yhre1EYS7oRQrkNQ
-	SW1lNkhaSQu9BXHpOKFkUiPQju371kk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714402972;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rhynKhGQ4JRaS+p7qeBOoKEeBflNlibc5Py6TFNuPSY=;
-	b=PgYvQ55kKm4HSARxg/u1W8jqh9cXFFfnZTb5LUzaUCVCcTQmuOwIjtwxRxroElqw9YvzOU
-	6UgA9pOtinnv8mCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E9C2138A7;
-	Mon, 29 Apr 2024 15:02:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2k2xGZy2L2YvFgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 15:02:52 +0000
-Date: Mon, 29 Apr 2024 17:03:04 +0200
-Message-ID: <8734r4p5xz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,	alsa-devel@alsa-project.org,
-	broonie@kernel.org,	Mauro Carvalho Chehab <mchehab@kernel.org>,	Bard Liao
- <yung-chuan.liao@linux.intel.com>,	=?ISO-8859-1?Q?P=E9ter?= Ujfalusi
- <peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: harden I2C/I2S codec detection
-In-Reply-To: <20240426152818.38443-1-pierre-louis.bossart@linux.intel.com>
-References: <20240426152818.38443-1-pierre-louis.bossart@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLJPYumP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253CEC113CD;
+	Mon, 29 Apr 2024 15:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714403502;
+	bh=CIXcvwGpFixZBreh058VGVZ+NOH7kWo7gvJMk6mMaT0=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=hLJPYumPEJljAUpSPqB51Tw+uwapqs/KBo9lShECozqJ4aDIqpBSZo7L6/mnlw5rM
+	 5pRa1OSV220E6k9izAnlr/re74u/QJt3AHX83ZB3dsKBxHQYZTJQfgyJ+cuk0s2M5K
+	 4N6ga9msjiTrxEFMhAtcRSQ6QxeNfLB+LiHJGiR2j/WOkbOiBGjGFcO6xDTsvYnFqF
+	 eAYC9xpDPwgyAnLOM22W0e1jHI9fpugp77mMC9TK9D2fMdoqnFefQN2lra44ccFFSD
+	 ad2/pP+ui/dy5IuchWSPBCRK4f6JnkVYWkd6P/JWgQjZMDBLIFXW6ktDHxi5F6a1oc
+	 RP8ErvancuySQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1714026906-16723-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1714026906-16723-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: fsl,ssi: Convert to YAML
+Message-Id: <171440350070.1835960.10169386594914544102.b4-ty@kernel.org>
+Date: Tue, 30 Apr 2024 00:11:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.83
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.83 / 50.00];
-	BAYES_HAM(-2.53)[97.89%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Fri, 26 Apr 2024 17:28:18 +0200,
-Pierre-Louis Bossart wrote:
+On Thu, 25 Apr 2024 14:35:06 +0800, Shengjiu Wang wrote:
+> Convert the fsl,ssi binding to YAML.
 > 
-> The SOF driver is selected whenever specific I2C/I2S HIDs are reported
-> as 'present' in the ACPI DSDT. In some cases, an HID is reported but
-> the hardware does not actually rely on I2C/I2S.  This false positive
-> leads to an invalid selection of the SOF driver and as a result an
-> invalid topology is loaded.
+> Add below compatible strings which were not listed
+> in document:
 > 
-> This patch hardens the detection with a check that the NHLT table is
-> consistent with the report of an I2S-based codec in DSDT. This table
-> should expose at least one SSP endpoint configured for an I2S-codec
-> connection.
+> fsl,imx50-ssi
+> fsl,imx53-ssi
+> fsl,imx25-ssi
+> fsl,imx27-ssi
+> fsl,imx6q-ssi
+> fsl,imx6sl-ssi
+> fsl,imx6sx-ssi
 > 
-> Tested on Huawei Matebook D14 (NBLB-WAX9N) using an HDaudio codec with
-> an invalid ES8336 ACPI HID reported:
-> 
-> [    7.858249] snd_hda_intel 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040380
-> [    7.858312] snd_hda_intel 0000:00:1f.3: snd_intel_dsp_find_config: no valid SSP found for HID ESSX8336, skipped
-> 
-> Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Closes: https://github.com/thesofproject/linux/issues/4934
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> [...]
 
-Applied now.  Thanks.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: dt-bindings: fsl,ssi: Convert to YAML
+      commit: 2da01ca3674c6e90dbeeda02168849e2ec877edc
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
