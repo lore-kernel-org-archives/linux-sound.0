@@ -1,96 +1,168 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.schimsalabim.eu (vps01.schimsalabim.eu [85.214.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFF8129E80
-	for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 18:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A08067A14;
+	Mon, 29 Apr 2024 18:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714415430; cv=none; b=uu4+UyMbZNgd/7X0aHYGjG8gMkKM6IN9rGIQuzzzS52krjPAFwjpWgYGDpJOa+cP7yzeYgFKfvooRbJcf3a7iqkZ79k17pel1o26nlIHhP2LN/VrmFeVS17a8h5gpvv5+mcxwJTpoV8lXjCo5JKVwHJ/ll0Rz+t4WOBeLReX740=
+	t=1714416038; cv=none; b=oWi/e7cHWJZlFY5/mPV67YebLcgprx2xJf9FQBiAmvQ5cZdudL2taieC7miiryB5iZ+pFC2vYuRYiX0S/pLwrcZo+Nwjz61lsBOva+TCcT1VvdQ/rRsHPvFVtjiQffsca6Mzkw1e1zSW51DOnIXdhypb/5zv66l1AU0kbRwC54c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714415430; c=relaxed/simple;
-	bh=owUnCLYoRPgs0mrdKX/Pm+hC5u4zNv8hMMak4UZoZHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L7ynEKmwY0kpGXM43bnSMkVD2U3yoZMndFpYTmHqiRxc/IkAzCG+MxoJ/yy7mLAekvbe6+QIEQTMB+BVGPwwUFGs7y0OPJnbIqcZsBrdUl17T/t/4iVjftQGeTQmrB3KaFi9oaPxnyILLuwYK0V9Y3JaraTSaYIBgbBUjce/Kqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=L5T46d4r; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L5T46d4r"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ed01c63657so4678504b3a.2
-        for <linux-sound@vger.kernel.org>; Mon, 29 Apr 2024 11:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714415428; x=1715020228; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TkpFuoY5aQyyw+nrgLES9BJOsJzkqq/5/Ik8pmOE86s=;
-        b=L5T46d4rZ22Ep/ShI9b3mC+yVO3/GqJSPuvSTC+PqjKPi4nyqt6uy589JBFIshTcTf
-         rHAj+zTHGphhM9DcOjt18v0c8Dno5csFvRvnC6L34cM9UWXPwVSyIbTY3mmiRNdJN4eN
-         DUiKYdhG4+3OCYXDq1HsQqbtFgKIhphGvhn3c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714415428; x=1715020228;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TkpFuoY5aQyyw+nrgLES9BJOsJzkqq/5/Ik8pmOE86s=;
-        b=aB2wrO9MlOAwGYF/OfAHmoEBiRLYr855hLQB1ZwRVeYYyS0/5e5t6FHsu7dEKhVc6k
-         rhqqvJdthplHkrWU3C4uim6Vajs0AFiNHsOP2uleM/apClFMd4IlwWbXcFbsOKNfZfNm
-         uKa4gZAd+SBgOfpkhJR06v6Egk2uS+m/oNiphx6q0a64szDtgQ2PAY4cqcOfLkIwmof9
-         KKz8dewD5r6RZORIW7m7qbGE8unnyiJYeXXJPDxXYuYtsnK9PoKTPZbaC/DhO4xd2Hwf
-         z3SxumfL6j7XUbdqs3rMd69sTerDLs+Gx5Il8cUO+vJ8J8ulNGNLMvjlikBpMbltAe5G
-         LJyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYPsF5odEo6FbMwo/vfT0ahxZ6F3tyIzWES0RyQUggqkW0DH4rbndzUm1SKmaVaHhQdga89UcHdn7kmljHSdvyR+OeX5CFIL6IVMk=
-X-Gm-Message-State: AOJu0Yzcg1r5JENgODticZlRzidF4HwmRpm23Ojt05cqJpogjq7gciI5
-	8wzNX9wTAcFUZd3hJi6+M3/AkV8VmyNmbSLaguKuhN4dKVVZZZxaUiY288FA4w==
-X-Google-Smtp-Source: AGHT+IFm/F0nByuRkm7UdHH7GTHif1EcCEbCwry9uts5YLa+VEPBdJBvu/5Z6ZOh3u/DAHGVzCektg==
-X-Received: by 2002:a05:6a00:4b4a:b0:6eb:40:6bff with SMTP id kr10-20020a056a004b4a00b006eb00406bffmr8812728pfb.14.1714415428214;
-        Mon, 29 Apr 2024 11:30:28 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id fu16-20020a056a00611000b006ecca2f2a32sm19545034pfb.168.2024.04.29.11.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 11:30:26 -0700 (PDT)
-Date: Mon, 29 Apr 2024 11:30:26 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH 0/2][next] firewire: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <202404291129.F261DEA21F@keescook>
-References: <cover.1709658886.git.gustavoars@kernel.org>
- <20240306011030.GA71684@workstation.local>
- <6a7854af-a183-4db2-8400-4d9eb0cc4308@embeddedor.com>
+	s=arc-20240116; t=1714416038; c=relaxed/simple;
+	bh=JKKbafSuoPn8Q0v0LpzntyGjrFoJpfFeVfyKmby/OBg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PChfq4ldKHa26U5AEC/oEwbl4mlxeEdpsyjDj2G1EvTHIMW14PNktKjzY5kKSyac3JglpR1ZFnuRzy10hyEbHNd1ko42IWIyB8QP7YpwhxdhaLcEAHI6Q8GBx9euuwZ+GLOeKThm7R8RvCVQYTUVnv1fq/9rhONv2+76GdFY3/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu; spf=pass smtp.mailfrom=schimsalabim.eu; arc=none smtp.client-ip=85.214.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=schimsalabim.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schimsalabim.eu
+Received: from [192.168.0.158] (82-217-109-137.cable.dynamic.v4.ziggo.nl [82.217.109.137])
+	(authenticated bits=0)
+	by h2374449.stratoserver.net (8.14.7/8.14.7) with ESMTP id 43TIdTVN028081
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 29 Apr 2024 20:39:29 +0200
+Message-ID: <534a73a7-bc41-42a7-a060-bc1465f3a21e@schimsalabim.eu>
+Date: Mon, 29 Apr 2024 20:39:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a7854af-a183-4db2-8400-4d9eb0cc4308@embeddedor.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: sunxi: DMIC: Add controls for adjusting the mic
+ gains
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20240422150213.4040734-1-joao@schimsalabim.eu>
+ <5772237.DvuYhMxLoT@jernej-laptop>
+ <e256942d-eba1-4800-bd02-c490167dea12@schimsalabim.eu>
+ <2262648.iZASKD2KPV@jernej-laptop>
+Content-Language: en-US
+From: Joao Schim <joao@schimsalabim.eu>
+In-Reply-To: <2262648.iZASKD2KPV@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 06, 2024 at 10:18:59AM -0600, Gustavo A. R. Silva wrote:
-> 
-> > Thanks for the improvements, however we are mostly at the end of
-> > development period for v6.8 kernel. Let me postpone applying the patches
-> > until closing the next merge window (for v6.9), since we need the term to
-> > evaluate the change. I mean that it goes to v6.10 kernel.
-> 
-> Sure, no problem.
-> 
-> Actually, I'll send a v2 with DEFINE_FLEX(), instead.
+On 4/26/24 16:39, Jernej Škrabec wrote:
+> Dne četrtek, 25. april 2024 ob 13:03:56 GMT +2 je Joao Schim napisal(a):
+>> On 4/24/24 20:42, Jernej Škrabec wrote:
+>>> Hi Joao,
+>> Hi Jernej,  thanks for your prompt response.
+>>> Dne ponedeljek, 22. april 2024 ob 17:02:13 GMT +2 je Joao Schim napisal(a):
+>>>> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
+>>>> the gain (left + right) of each of the four supported channels.
+>>>>
+>>>> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
+>>> Add SoB tag.
+>> Yeah, i realized that too late. Thanks for bringing that to my
+>> attention. I will add it in v1.
+>>>> ---
+>>>>    sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 34 insertions(+)
+>>>>
+>>>> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+>>>> index c76628bc86c6..f8613d8c3462 100644
+>>>> --- a/sound/soc/sunxi/sun50i-dmic.c
+>>>> +++ b/sound/soc/sunxi/sun50i-dmic.c
+>>>> @@ -14,6 +14,7 @@
+>>>>    #include <sound/dmaengine_pcm.h>
+>>>>    #include <sound/pcm_params.h>
+>>>>    #include <sound/soc.h>
+>>>> +#include <sound/tlv.h>
+>>>>    
+>>>>    #define SUN50I_DMIC_EN_CTL			(0x00)
+>>>>    	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
+>>>> @@ -43,6 +44,17 @@
+>>>>    	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
+>>>>    #define SUN50I_DMIC_CNT				(0x2c)
+>>>>    	#define SUN50I_DMIC_CNT_N				(1 << 0)
+>>>> +#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
+>>>> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
+>>>> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
+>>>> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
+>>>> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
+>>>> +#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
+>>>> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
+>>>> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
+>>>> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
+>>>> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
+>>>> +
+>>>>    #define SUN50I_DMIC_HPF_CTRL			(0x38)
+>>>>    #define SUN50I_DMIC_VERSION			(0x50)
+>>>>    
+>>>> @@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
+>>>>    };
+>>>>    MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
+>>>>    
+>>>> +static const DECLARE_TLV_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
+>>> DECLARE_TLV_DB_SCALE is old name, SNDRV_CTL_TLVD_DECLARE_DB_SCALE should be
+>>> used instead.
+>> I can't seem to find that define in HEAD. what code-base are you
+>> referring to that i should checkout ?
+> Here is define:
+> https://elixir.bootlin.com/linux/v6.9-rc1/source/include/uapi/sound/tlv.h#L52
+>
+> However, I'm not sure if this message means DECLARE_TLV_DB_SCALE is
+> deprecated or not:
+> https://elixir.bootlin.com/linux/v6.9-rc1/source/include/sound/tlv.h#L12
 
-I was just going through the patch tracker to make sure stuff got
-handled -- did a v2 of these ever get posted? I don't see anything in
-the tracker nor changes here in -next.
+Right, apparently i sneaked in another D in the name. That explains i 
+could not find it.
 
-Thanks!
+Will send v1 in a few minutes. Thanks.
 
--Kees
+Kind regards,
 
--- 
-Kees Cook
+Joao
+
+> Best regards,
+> Jernej
+>
+>>> Other than that, it looks fine.
+>> Thanks.
+>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>>> +
+>>>> +static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
+>>>> +
+>>>> +        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+>>>> +                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
+>>>> +                       0xFF, 0, sun50i_dmic_vol_scale),
+>>>> +        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+>>>> +                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
+>>>> +                       0xFF, 0, sun50i_dmic_vol_scale),
+>>>> +        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+>>>> +                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
+>>>> +                       0xFF, 0, sun50i_dmic_vol_scale),
+>>>> +        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+>>>> +                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
+>>>> +                       0xFF, 0, sun50i_dmic_vol_scale),
+>>>> +
+>>>> +
+>>>> +};
+>>>> +
+>>>>    static const struct snd_soc_component_driver sun50i_dmic_component = {
+>>>>    	.name           = "sun50i-dmic",
+>>>> +	.controls	= sun50i_dmic_controls,
+>>>> +	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
+>>>>    };
+>>>>    
+>>>>    static int sun50i_dmic_runtime_suspend(struct device *dev)
+>>>>
+>>>
+>>>
+>> Kind regards,
+>>
+>> Joao
+>>
+>>
+>
+>
+>
