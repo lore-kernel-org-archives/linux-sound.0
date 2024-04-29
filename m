@@ -1,160 +1,193 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CB613DBBF;
-	Mon, 29 Apr 2024 20:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C1A1E886;
+	Mon, 29 Apr 2024 23:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714420949; cv=none; b=h9K85U4MWNqIe9gZG9GJt6JdPjzuAoisHA1PdnI9z5sX0EkVga12ffWuujdojxL8eGxpcM5I0LsbZbkMec/1Ak+RXS+2Jmtx/BKYReJJ5kJmdQp9f2hev1tElyv2nrijcj6Gjs/kLSr0qVN3RHdj856qcqpcGV65QJ+p37occUA=
+	t=1714431621; cv=none; b=o96EjoWBfCYptOSwkWqnt//hJyZiiTa/XJ+2bf0iGKEMHxHPeRsNOQ2sMbHvk/psFqWas/x20QCm1SKSlKEOSL7jgSEZKKNPhcthWRIVh9NwSd0aDWKLLK2CR7KSEDZpu+9VM5ghSCwmdPV5JansJTV4Mll4DAbhloPW1bIvCVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714420949; c=relaxed/simple;
-	bh=v+dxWNWY34GkaZ5wYOrRbLg5bO3DUAUxb8ICY4EgA1I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NLn2N1RKGMSEEOOtnJ8a3voHsqjoyyBjt200GDBgiA6zKiO9xFZXVFOA1nyw1H73ibl/1orOblENRfNcH5geK0ZWiHlu2SrBs7OSrPFFZz8UX6jf0wnZn9CklFIYWJnsXukRJJzTPWuO4Za6fxMU9cy1yUutdhNReO77Nsccuzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REU937Cx; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1714431621; c=relaxed/simple;
+	bh=dL0o/ufwJBiUqRbb02bZCxha9ZSzutJqJcs3mS4kp+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ajtDMfR2/8wri7LP8dPmGKlZNGnlr6bqxOX+OqGHcLp08W+4XvokduCk/whzQvDgE6+P87KncKp1I+ImEWYnhvwerzs9dpdBQkM4fZxEkL/qqWnJWRimz5G2z5HdlqAfH6d+GE4saff9m/+2mbt7sCsgZH9yjqzwmG4wGBx5w2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=enbfHYXn; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REU937Cx"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a58e787130fso396002466b.0;
-        Mon, 29 Apr 2024 13:02:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="enbfHYXn"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6a0c3b691bfso782386d6.3;
+        Mon, 29 Apr 2024 16:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714420946; x=1715025746; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1714431618; x=1715036418; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VsKE8r7F5xni1GwzY6+eg4w0O41Z5E2Stz6sTWPm390=;
-        b=REU937CxFn9boL4+gwSAq6+MJdzoG5EnZtEtEhXgLOE7/qqXP5c11xnIi/3aMuySGS
-         MxDLlP+ng1R0xcsRvrZ7jrifxuK+neVzfOW58IflRX3cv+EPw7yNeGZJoqG7NA0e/gk6
-         avMUEeqMT+eK0rmWfnFR5ROTiXWNXdcfO2s8SnRXsAuGpi9NRQJ9myiIiN0gGacwf7Ft
-         BlsOZfLZA5eP8/ZfqG7+TcVa5aGoqksOKKAi1w6mC5eaT2jLATfXNgtlVEmc+TfSZR3d
-         ygopN/DDrvMnQtAut3Y+FmEphlukeMKARbLItAOOvvnkymaW1B0n6X6hosVCvN3YIJqU
-         NRTQ==
+        bh=7IxfdkyFt5OLCIS5OAJXlji6swH3nvqAQmnUqjM0TX4=;
+        b=enbfHYXnyOnTNCccYJmmpRFp6uFyjA243AHy4XskE53WXTQo2tyoPSUvRZnwqvQ1jl
+         aoCDUSY/jXKyKtrx0ROiJWJ2zI/apl3iaPZi2aYRpvEtNjqlEQj/PULEf1DSFMFxhKB7
+         Vcj/Rq+Z7CQw9XpM/xR0IRhbx/KAWvd2F4dEhzvMGWDs/3ytPW3Mactsk39ue3DCX/Y+
+         4733kUyeLLuPq4HAobfu7NnGAxHE+OK6tjNSla3tILnMWKuiH2JbGeRJASx6zyUy7RaC
+         UUwfPwQ6QbDg8LnsrqDuebNklpVH5MJ60D731SriQKCj4l417d/VdFqO4T+f6Ot747nn
+         AWSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714420946; x=1715025746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1714431618; x=1715036418;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VsKE8r7F5xni1GwzY6+eg4w0O41Z5E2Stz6sTWPm390=;
-        b=oAaMoCv6386RtEiuUUPZSko+Hau87FyQo7J8Yaedc9rXlZUcADXMKWdvivEMVUpvCF
-         3UZIjIa8rVTv+rUyd4FjRPsriXXqVM6NNTIkqtPdwLasxy08YN1WM/haSF4U1Bvu9iuo
-         LgdwG7+EnDpTMs4MVm4++HeWyEHlz7bdSJGGAGM8PeulM5FjU1EUvADPO5J4O+kweW/+
-         ewZbSMpZKAQS28F7KxkfHAcq53vuMMuKi+q9KBRtFO1EvX1b8YXAkyFHOVFg+L5amnbB
-         nt/2YX3rn7JMh2dYUpGEqR1ZjszR9l+3Pk5+gxVEhnYVijukJ6svgdTvsqf1oB6rEmOd
-         ne4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUum9hKs80GmtgObNqPgBzogCViGRqKgqxQ5OBYIlH/d8VAHDTo+XgHwjGQP4CRKiFRslZoUD+aOA+yXIWKt37vVcSR9o0uc0ebIZdzsBhDghCqizhUBaR54mpCxrDhxgN/4RyUpgWZQso=
-X-Gm-Message-State: AOJu0Yzql7J2KU+eis3BMxBcvVBo9giLCRVHPzd06BrpKSVUJlpviqx0
-	wspZvXXdZxkxTxmTwxS7j6QWfmGSozefGiCG7S/eipV4/JyFxBFe
-X-Google-Smtp-Source: AGHT+IHIKx0SyAjsW4Smx5uzNZpKk0OnRHPvT5Zv6XPyI3hdLPyaGW8TdxmJ1VY4Gefq40RqnxSymg==
-X-Received: by 2002:a17:907:7e9e:b0:a58:e8cf:664f with SMTP id qb30-20020a1709077e9e00b00a58e8cf664fmr718919ejc.23.1714420945336;
-        Mon, 29 Apr 2024 13:02:25 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id r20-20020a170906705400b00a555ef55ab5sm14215787ejj.218.2024.04.29.13.02.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 13:02:24 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Joao Schim <joao@schimsalabim.eu>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v2] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
-Date: Mon, 29 Apr 2024 22:02:23 +0200
-Message-ID: <2931892.e9J7NaK4W3@jernej-laptop>
-In-Reply-To: <20240429194920.1596257-1-joao@schimsalabim.eu>
-References: <20240429194920.1596257-1-joao@schimsalabim.eu>
+        bh=7IxfdkyFt5OLCIS5OAJXlji6swH3nvqAQmnUqjM0TX4=;
+        b=oND4ADQbbvpY4F9QtnnBH81Kxea3ls8E5Y1xnsYUFUjaWhQF+rsm13ozD6Fn3kpaQL
+         QAQLjP9ynr1q6PD5yr4TPaqZTWhby6fDyjm2o3QQB9bgD1o2fo6zcbXRR+pFjmNW5Grg
+         cKbG0k0QN4l26CdLG0rJe81xhPutW7CCtce895T5dlAuzlZKWKuzS8IFYufdp5FemrXk
+         ygnlbbyDOaVqxGRR2VoaEc78vN60r+mnofmizn9Gg5As0ASonEqRVcwgU7tvCTBVvI9E
+         5rYvFXxJbGy4RlQidoKz2Tcr789H2/dVc+54bSxG0zuv17I7EMT6YnmtDAXEWqdiauUo
+         RNZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgKpCOj9sxVMfqz1YhEgtpm/kzhfppz6qjBZNfkBu06K0R0lZ2An62kbc6x60rLTANPTWJvgBFAPHXSRdDnQbJxe7vTTMtkktt1Io=
+X-Gm-Message-State: AOJu0YyZ+yqBxWboClRCf5i9G0ayNspI0yFk9Zqyu+g0W0gh/UDL3BzA
+	LF7clbo0AFeIReegD4Ozgw4gdMmpJhkgvMNCxsgH5qmfzVn0MuFQ1uLdzEsmQX36tSwXtfuFNFp
+	6HB2VkVwd92MnKxr8NLwIrLPRIDXinHeQN9uTi8F9
+X-Google-Smtp-Source: AGHT+IEbjAosZC96d/RanqA+wzMVaXf7eMoXt3QgxJ9NiYNBKA7eEMc7GzluIcM0vbIdj53OskB+0EmZKREdPwd3iCU=
+X-Received: by 2002:ad4:4a70:0:b0:6a0:a98a:487b with SMTP id
+ cn16-20020ad44a70000000b006a0a98a487bmr12731802qvb.2.1714431618334; Mon, 29
+ Apr 2024 16:00:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
+ <874jcl7e83.wl-tiwai@suse.de> <CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
+ <87v851e2di.wl-tiwai@suse.de> <CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
+ <87h6glt9zc.wl-tiwai@suse.de> <CABXGCsMcazRvmiN4XtiHQCE9=dB=M=VsRqB=v+RPmtuhBL29DA@mail.gmail.com>
+ <a6f4e20ea2a68f56a7d2c4d76280bca44d6bf421.camel@gmail.com>
+ <CABXGCsPdqfXeZUw1ocx8O3NdOEb+h4yQ77+zdNpcwP_4JrYXuQ@mail.gmail.com>
+ <CABXGCsMTbmU4CP8CHUqRVXWkGiErFtEVG4COy6RSRWsAuK_-CQ@mail.gmail.com>
+ <87pluedgx5.wl-tiwai@suse.de> <87jzkmdghh.wl-tiwai@suse.de>
+In-Reply-To: <87jzkmdghh.wl-tiwai@suse.de>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Tue, 30 Apr 2024 04:00:07 +0500
+Message-ID: <CABXGCsP-e5CjqCFztiym=zjQ=Z00uxYcQPFACEbTwjV=BHEdJQ@mail.gmail.com>
+Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592
+ decrease 30% of gaming performance
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne ponedeljek, 29. april 2024 ob 21:49:20 GMT +2 je Joao Schim napisal(a):
-> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
-> the gain (left + right) of each of the four supported channels.
-> 
-> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
-> 
-> Signed-off-by: Joao Schim <joao@schimsalabim.eu>
+On Wed, Apr 24, 2024 at 6:42=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> That said, maybe the first thing you can try would be to check who is
+> actually calling the corresponding function
+> (snd_timer_close_locked()).  Put a debug print or a tracing hook to
+> watch out for figuring out.  If the commit was really relevant, it
+> must be called very frequently and concurrently, and I don't know
+> really who does it except for dmix/dsnoop.
+>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+It's madness.
+Yes I added printk to snd_timer_close_locked and saw that function
+invoked only 3 times when the system booted.
+And never invoked during benchmark.
 
-Best regards,
-Jernej
+> git diff
+diff --git a/Makefile b/Makefile
+index 40fb2ca6fe4c..3ecff79a23b8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION =3D 6
+ PATCHLEVEL =3D 9
+ SUBLEVEL =3D 0
+-EXTRAVERSION =3D -rc6
++EXTRAVERSION =3D -rc6-test-build
+ NAME =3D Hurr durr I'ma ninja sloth
 
-> ---
->  sound/soc/sunxi/sun50i-dmic.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-> index c76628bc86c6..dd32780fb6a4 100644
-> --- a/sound/soc/sunxi/sun50i-dmic.c
-> +++ b/sound/soc/sunxi/sun50i-dmic.c
-> @@ -14,6 +14,7 @@
->  #include <sound/dmaengine_pcm.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
-> +#include <sound/tlv.h>
->  
->  #define SUN50I_DMIC_EN_CTL			(0x00)
->  	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
-> @@ -43,6 +44,17 @@
->  	#define SUN50I_DMIC_CH_NUM_N_MASK			GENMASK(2, 0)
->  #define SUN50I_DMIC_CNT				(0x2c)
->  	#define SUN50I_DMIC_CNT_N				(1 << 0)
-> +#define SUN50I_DMIC_D0D1_VOL_CTR		(0x30)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0R			(0)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_0L			(8)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1R			(16)
-> +	#define SUN50I_DMIC_D0D1_VOL_CTR_1L			(24)
-> +#define SUN50I_DMIC_D2D3_VOL_CTR                (0x34)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2R                     (0)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_2L                     (8)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3R                     (16)
-> +        #define SUN50I_DMIC_D2D3_VOL_CTR_3L                     (24)
-> +
->  #define SUN50I_DMIC_HPF_CTRL			(0x38)
->  #define SUN50I_DMIC_VERSION			(0x50)
->  
-> @@ -273,8 +285,30 @@ static const struct of_device_id sun50i_dmic_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
->  
-> +static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
-> +
-> +static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
-> +
-> +        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-> +                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
-> +                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-> +                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
-> +                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
-> +                       0xFF, 0, sun50i_dmic_vol_scale),
-> +
-> +
-> +};
-> +
->  static const struct snd_soc_component_driver sun50i_dmic_component = {
->  	.name           = "sun50i-dmic",
-> +	.controls	= sun50i_dmic_controls,
-> +	.num_controls	= ARRAY_SIZE(sun50i_dmic_controls),
->  };
->  
->  static int sun50i_dmic_runtime_suspend(struct device *dev)
-> 
+ # *DOCUMENTATION*
+diff --git a/sound/core/timer.c b/sound/core/timer.c
+index 4d2ee99c12a3..59d8e4698b0b 100644
+--- a/sound/core/timer.c
++++ b/sound/core/timer.c
+@@ -407,7 +407,7 @@ static void snd_timer_close_locked(struct
+snd_timer_instance *timeri,
+                                   struct device **card_devp_to_put)
+ {
+        struct snd_timer *timer =3D timeri->timer;
+-
++       printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
+        if (timer) {
+                guard(spinlock_irq)(&timer->lock);
+                timeri->flags |=3D SNDRV_TIMER_IFLG_DEAD;
 
+[Tue Apr 30 03:33:25 2024] igc 0000:0a:00.0 eno1: NIC Link is Up 1000
+Mbps Full Duplex, Flow Control: RX/TX
+[Tue Apr 30 03:33:33 2024] rfkill: input handler disabled
+[Tue Apr 30 03:33:36 2024] DEBUG: Passed snd_timer_close_locked 410
+[Tue Apr 30 03:33:36 2024] Bluetooth: RFCOMM TTY layer initialized
+[Tue Apr 30 03:33:36 2024] Bluetooth: RFCOMM socket layer initialized
+[Tue Apr 30 03:33:36 2024] Bluetooth: RFCOMM ver 1.11
+[Tue Apr 30 03:33:51 2024] systemd-journald[949]:
+/var/log/journal/1b6a399fb0874de8b095a739fe2ff323/user-1000.journal:
+Journal file uses a different sequence number ID, rotating.
+[Tue Apr 30 03:33:52 2024] rfkill: input handler enabled
+[Tue Apr 30 03:33:55 2024] DEBUG: Passed snd_timer_close_locked 410
+[Tue Apr 30 03:33:55 2024] rfkill: input handler disabled
+[Tue Apr 30 03:33:57 2024] input: solaar-keyboard as
+/devices/virtual/input/input18
+[Tue Apr 30 03:34:08 2024] DEBUG: Passed snd_timer_close_locked 410
+[Tue Apr 30 03:34:11 2024] input: Noble FoKus Mystique (AVRCP) as
+/devices/virtual/input/input19
+[Tue Apr 30 03:34:23 2024] show_signal: 8 callbacks suppressed
+[Tue Apr 30 03:34:23 2024] traps: gldriverquery[4464] general
+protection fault ip:7ff83958c76f sp:7ffc464e0e00 error:0 in
+libLLVM.so.18.1[7ff83920c000+3afd000]
+[Tue Apr 30 03:34:25 2024] workqueue: gc_worker [nf_conntrack] hogged
+CPU for >10000us 5 times, consider switching to WQ_UNBOUND
+[Tue Apr 30 03:34:26 2024] workqueue: gc_worker [nf_conntrack] hogged
+CPU for >10000us 7 times, consider switching to WQ_UNBOUND
+[Tue Apr 30 03:35:27 2024] workqueue: gc_worker [nf_conntrack] hogged
+CPU for >10000us 11 times, consider switching to WQ_UNBOUND
+[Tue Apr 30 03:36:28 2024] workqueue: gc_worker [nf_conntrack] hogged
+CPU for >10000us 19 times, consider switching to WQ_UNBOUND
+[Tue Apr 30 03:39:33 2024] workqueue: gc_worker [nf_conntrack] hogged
+CPU for >10000us 35 times, consider switching to WQ_UNBOUND
 
+I saw a similar picture with ftrace.
+I had no experience with ftrace, so I am laying out everything here
+for you to see if I am doing something wrong or not.
 
+# echo "snd_timer_close_locked" > /sys/kernel/tracing/set_ftrace_filter
 
+# echo "function" > /sys/kernel/tracing/current_tracer
+
+# echo 1 > /sys/kernel/tracing/tracing_on
+
+/*  Benchmark the game here  */
+
+# echo 0 > /sys/kernel/tracing/tracing_on
+
+# cat /sys/kernel/tracing/trace
+# tracer: function
+#
+# entries-in-buffer/entries-written: 0/0   #P:32
+#
+#                                _-----=3D> irqs-off/BH-disabled
+#                               / _----=3D> need-resched
+#                              | / _---=3D> hardirq/softirq
+#                              || / _--=3D> preempt-depth
+#                              ||| / _-=3D> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+
+# cat /sys/kernel/tracing/set_ftrace_filter
+snd_timer_close_locked [snd_timer]
+
+Now I am tormented by the question: how can reverting code that is not
+invoked directly during a benchmark affect the benchmark result so
+much?
+I'm afraid that I won't be able to figure this out on my own.
+
+--=20
+Best Regards,
+Mike Gavrilov.
