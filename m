@@ -1,102 +1,217 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F0E168A9
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 12:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9855D168A9;
+	Tue, 30 Apr 2024 12:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714479033; cv=none; b=t46MPFvWitw6f5DXjnkXianfOslHhw677OeunGRSUunNg+k7hkKu3JCiaMMAnFn6cvIX/QDvPQGQkRlnXEYF46vgFXkDSVQwfD4S+VTCVb40kYPlVs8Dhb77iQrAbzizwc78VzWOWNHxBZoaCJ61OiHkvXDJ574dhjmQEc8Vius=
+	t=1714479135; cv=none; b=Qy7FhSwvFi/qvrvnJVVGAH+VkZ7Bx13sZQRXmFMUtARIfpmQr0czCqRJI8aRh+kcVbzDoC3nGZh9FTBAWh05FT3lTQYlKfu74AiC520xLkSgCfYF8WpzygVexFLat8I52tPrTtYlO8271bxSVWHHg4ItCxyLhBC1W8PlWFAcxEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714479033; c=relaxed/simple;
-	bh=fjGYOTfQaev/sG7B+dCuEUURcaZ6RPsvq/Kn6R5WNA4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qRFHYjj7+zRH/vsySFtWmsSLok/nSXlKIcWGkrTOASgsVLgtJBTPJc4lZa5Psa8qlKoC1rVgvRTVucUIuyuQQQ2ePJsFgOdEn+l82yQhgNFTKWuji/w5cyXhyTu6ClbvpDlU9fn4E5fuPpSNacB/tf6MVjb4ePk5S7ldcO6n8pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NC7lA5mm; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1714479135; c=relaxed/simple;
+	bh=hJm9DDBBeDPeOGhUdgcevRiGerimoe1kP5QSDiYDWt4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jdLDoiirJb7WZdv1shmcvmJ8+/PImcxx/9fFEGskWbXQcOn/WNgU++9SW1/NH8CM+vXaHlEhTzZUb7HfeN4aOe/6XQXnf+iWejIjT9/kfA693MMXzpq+SIV6FlnTFsJGJtBV4k10YxbPBiNPA1mwNaD0bvM6Qzv7nCewEObvokg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qwNc6rkY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZsGFxiLM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qwNc6rkY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZsGFxiLM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NC7lA5mm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=V+732hzn1l15Eh
-	TbXn3tkfLxL3DCfbD6/48+e8dQkGs=; b=NC7lA5mmCa8iyeQTDcuyxglnUmYDfO
-	e+gXEdceVW1jtNvmiJb7dxHaTlqu6jwVijUEULxJSyu048MoqIRPR2y4ci7aN4Hx
-	4xuGqKjg1xdWiXPwNA4pZG9atSmjIaXJsiIJp+XghabDOR4tjCAP+zvsJ9mlnm0c
-	eQQseMtXBAIbrdOcfXqcWutpVGY9imomP90dymVPbdKoy4B9cdiU3UQFU2rT4hCt
-	p5YDZsun2mHSCzDKjoOTrXcCqi55OIRs81ySfdFSExFC77VqyCOil4JH02XWq/1w
-	iIxVnJGhJmzpQeKY9W2y+mmH3eMcI1/OSYoa+ot8KtGhh6prSKaB7oRA==
-Received: (qmail 2626393 invoked from network); 30 Apr 2024 14:10:28 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 14:10:28 +0200
-X-UD-Smtp-Session: l3s3148p1@I/N0QU8XZMtehhrb
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: alsa-devel@alsa-project.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linuxppc-dev@lists.ozlabs.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qwNc6rkY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZsGFxiLM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qwNc6rkY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZsGFxiLM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE34533FC3;
+	Tue, 30 Apr 2024 12:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714479131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYzILj7G3DDHTdpeslHvGKR36PqiiumYG/XzPBAZkPk=;
+	b=qwNc6rkYl95dVOBqRQzy+uG4A8MXJj7kkQZrRPRmpfGaIgMrayOUUkFdi20F1kDGv0DDwv
+	eKIc4ZbNCiQu8p00oiX8rhS+USrxuYY62ZcIVAR4pzIkqHxexc2Pz+mJHSdpJc1l2cBF73
+	ObDfwNUzZ/IUxZQBti7reE9pVLYUVPI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714479131;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYzILj7G3DDHTdpeslHvGKR36PqiiumYG/XzPBAZkPk=;
+	b=ZsGFxiLM81pMLOrrkbgBDdqt/aimWCGbMJWQvIF8NcneepHLCeex8Doivb6E+i1GVAnhPL
+	o+bhytX8yIaPukDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714479131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYzILj7G3DDHTdpeslHvGKR36PqiiumYG/XzPBAZkPk=;
+	b=qwNc6rkYl95dVOBqRQzy+uG4A8MXJj7kkQZrRPRmpfGaIgMrayOUUkFdi20F1kDGv0DDwv
+	eKIc4ZbNCiQu8p00oiX8rhS+USrxuYY62ZcIVAR4pzIkqHxexc2Pz+mJHSdpJc1l2cBF73
+	ObDfwNUzZ/IUxZQBti7reE9pVLYUVPI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714479131;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYzILj7G3DDHTdpeslHvGKR36PqiiumYG/XzPBAZkPk=;
+	b=ZsGFxiLM81pMLOrrkbgBDdqt/aimWCGbMJWQvIF8NcneepHLCeex8Doivb6E+i1GVAnhPL
+	o+bhytX8yIaPukDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 966EC136A8;
+	Tue, 30 Apr 2024 12:12:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qkC4IxvgMGa+GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 30 Apr 2024 12:12:11 +0000
+Date: Tue, 30 Apr 2024 14:12:23 +0200
+Message-ID: <87r0enm4m0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 1/1] ALSA: aoa: soundbus: i2sbus: pcm: use 'time_left' variable with wait_for_completion_timeout()
-Date: Tue, 30 Apr 2024 14:10:27 +0200
-Message-ID: <20240430121028.30443-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: regression/bisected/6.9 commit 587d67fd929ad89801bcc429675bda90d53f6592 decrease 30% of gaming performance
+In-Reply-To: <CABXGCsMPLWm8xVZ3mk-e8FJht4FjdxEREov0DFKMooMD0BvRyw@mail.gmail.com>
+References: <CABXGCsNmEtrN9DK-XmESaPm_1xpXm8A+juE+44Jf6AK5JE0+TQ@mail.gmail.com>
+	<874jcl7e83.wl-tiwai@suse.de>
+	<CABXGCsMmRFW3EYJ3UvNd-LO7ZTOyoNqjc_3OAmaCDSL=LuxJqg@mail.gmail.com>
+	<87v851e2di.wl-tiwai@suse.de>
+	<CABXGCsNMBRUaY-V8mhUQKdq+CQW5+eGUWL_YCJWXo0cgh9bGJQ@mail.gmail.com>
+	<87h6glt9zc.wl-tiwai@suse.de>
+	<CABXGCsMcazRvmiN4XtiHQCE9=dB=M=VsRqB=v+RPmtuhBL29DA@mail.gmail.com>
+	<a6f4e20ea2a68f56a7d2c4d76280bca44d6bf421.camel@gmail.com>
+	<CABXGCsPdqfXeZUw1ocx8O3NdOEb+h4yQ77+zdNpcwP_4JrYXuQ@mail.gmail.com>
+	<CABXGCsMTbmU4CP8CHUqRVXWkGiErFtEVG4COy6RSRWsAuK_-CQ@mail.gmail.com>
+	<87pluedgx5.wl-tiwai@suse.de>
+	<87jzkmdghh.wl-tiwai@suse.de>
+	<CABXGCsP-e5CjqCFztiym=zjQ=Z00uxYcQPFACEbTwjV=BHEdJQ@mail.gmail.com>
+	<87jzkfo0ty.wl-tiwai@suse.de>
+	<CABXGCsMPLWm8xVZ3mk-e8FJht4FjdxEREov0DFKMooMD0BvRyw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_for_completion_timeout() causing patterns like:
+On Tue, 30 Apr 2024 12:54:36 +0200,
+Mikhail Gavrilov wrote:
+> 
+> On Tue, Apr 30, 2024 at 10:50 AM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > It implies that it's not about the revert that influences on the
+> > result.  It might be rather the fact that you built the kernel by
+> > yourself.  Try to build the kernel again with a debug print but
+> > without the revert of the spinlock.
+> 
+> It was built without reverting the spinlock.
+> With revert in the kernel log appears "WARNING: possible irq lock
+> inversion dependency detected"
 
-	timeout = wait_for_completion_timeout(...)
-	if (!timeout) return -ETIMEDOUT;
+Where and how...?  That important piece is missing in you info...
+And, it's likely a false-positive detection by lockdep.
 
-with all kinds of permutations. Use 'time_left' as a variable to make the code
-self explaining.
+When you disable lockdep, does it still show any performance down?
 
-Fix to the proper variable type 'unsigned long' while here.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- sound/aoa/soundbus/i2sbus/pcm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Takashi
 
-diff --git a/sound/aoa/soundbus/i2sbus/pcm.c b/sound/aoa/soundbus/i2sbus/pcm.c
-index 07df5cc0f2d7..98b812ffbde6 100644
---- a/sound/aoa/soundbus/i2sbus/pcm.c
-+++ b/sound/aoa/soundbus/i2sbus/pcm.c
-@@ -255,24 +255,24 @@ static void i2sbus_wait_for_stop(struct i2sbus_dev *i2sdev,
- {
- 	unsigned long flags;
- 	DECLARE_COMPLETION_ONSTACK(done);
--	long timeout;
-+	unsigned long time_left;
- 
- 	spin_lock_irqsave(&i2sdev->low_lock, flags);
- 	if (pi->dbdma_ring.stopping) {
- 		pi->stop_completion = &done;
- 		spin_unlock_irqrestore(&i2sdev->low_lock, flags);
--		timeout = wait_for_completion_timeout(&done, HZ);
-+		time_left = wait_for_completion_timeout(&done, HZ);
- 		spin_lock_irqsave(&i2sdev->low_lock, flags);
- 		pi->stop_completion = NULL;
--		if (timeout == 0) {
-+		if (time_left == 0) {
- 			/* timeout expired, stop dbdma forcefully */
- 			printk(KERN_ERR "i2sbus_wait_for_stop: timed out\n");
- 			/* make sure RUN, PAUSE and S0 bits are cleared */
- 			out_le32(&pi->dbdma->control, (RUN | PAUSE | 1) << 16);
- 			pi->dbdma_ring.stopping = 0;
--			timeout = 10;
-+			time_left = 10;
- 			while (in_le32(&pi->dbdma->status) & ACTIVE) {
--				if (--timeout <= 0)
-+				if (--time_left <= 0)
- 					break;
- 				udelay(1);
- 			}
--- 
-2.43.0
-
+> I suppose commit 587d67fd929a fixes just this.
+> About calls of snd_timer_close_locked, I again see only 3 invokes when
+> the system booted:
+> [Tue Apr 30 15:09:40 2024] igc 0000:0a:00.0 eno1: NIC Link is Up 1000
+> Mbps Full Duplex, Flow Control: RX/TX
+> [Tue Apr 30 15:09:42 2024] input: Denon PerL Pro 772 (AVRCP) as
+> /devices/virtual/input/input18
+> [Tue Apr 30 15:09:45 2024] rfkill: input handler disabled
+> [Tue Apr 30 15:09:49 2024] Bluetooth: RFCOMM TTY layer initialized
+> [Tue Apr 30 15:09:49 2024] Bluetooth: RFCOMM socket layer initialized
+> [Tue Apr 30 15:09:49 2024] Bluetooth: RFCOMM ver 1.11
+> [Tue Apr 30 15:09:49 2024] DEBUG: Passed snd_timer_close_locked 410
+> [Tue Apr 30 15:09:51 2024] systemd-journald[947]:
+> /var/log/journal/1b6a399fb0874de8b095a739fe2ff323/user-1000.journal:
+> Journal file uses a different sequence number ID, rotating.
+> [Tue Apr 30 15:09:52 2024] rfkill: input handler enabled
+> [Tue Apr 30 15:09:55 2024] DEBUG: Passed snd_timer_close_locked 410
+> [Tue Apr 30 15:09:55 2024] rfkill: input handler disabled
+> [Tue Apr 30 15:09:55 2024] input: Denon PerL Pro 772 (AVRCP) as
+> /devices/virtual/input/input19
+> [Tue Apr 30 15:09:57 2024] input: solaar-keyboard as
+> /devices/virtual/input/input20
+> [Tue Apr 30 15:10:08 2024] DEBUG: Passed snd_timer_close_locked 410
+> [Tue Apr 30 15:10:23 2024] show_signal_msg: 8 callbacks suppressed
+> [Tue Apr 30 15:10:23 2024] gldriverquery[4423]: segfault at 0 ip
+> 0000000000000000 sp 00007fff2ee18c38 error 14 in
+> gldriverquery[55c135c00000+14000] likely on CPU 11 (core 11, socket 0)
+> [Tue Apr 30 15:10:23 2024] Code: Unable to access opcode bytes at
+> 0xffffffffffffffd6.
+> [Tue Apr 30 15:10:40 2024] workqueue: gc_worker [nf_conntrack] hogged
+> CPU for >10000us 7 times, consider switching to WQ_UNBOUND
+> [Tue Apr 30 15:10:40 2024] workqueue: gc_worker [nf_conntrack] hogged
+> CPU for >10000us 11 times, consider switching to WQ_UNBOUND
+> 
+> And no invokes during benchmark.
+> root@primary-ws ~# cat /sys/kernel/tracing/trace
+> # tracer: function
+> #
+> # entries-in-buffer/entries-written: 0/0   #P:32
+> #
+> #                                _-----=> irqs-off/BH-disabled
+> #                               / _----=> need-resched
+> #                              | / _---=> hardirq/softirq
+> #                              || / _--=> preempt-depth
+> #                              ||| / _-=> migrate-disable
+> #                              |||| /     delay
+> #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> #              | |         |   |||||     |         |
+> 
+> I attached here two kernel logs both with printk debug. One is clean
+> 6.9.0-rc6 the other 6.9.0-rc6 with revert 587d67fd929a.
+> I didn't see any difference between kernel logs.
+> I only see that without 587d67fd929a at some point a possible irq lock
+> inversion dependency is detected and the benchmark improves results up
+> to 30%.
+> 
+> -- 
+> Best Regards,
+> Mike Gavrilov.
+> 
+> 
