@@ -1,46 +1,50 @@
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CD2134412
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 11:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D9212D77F
+	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 11:54:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714478083; cv=none; b=Y3XiciPwbY8KfXDHdFMsBLo27YTprhQEINg4vSEkRbHb7Q3s8ZZZyQo1fg2VGX8POl/1FVP5ENwLOqzc7fRxAmP0E8ZN1XjhuMqGT1UG2FJr9U9rTvL5oJSNsdvpYbCJhwBRuXSfCtsu1sbyZTRY1zZDDOpytlBI31dsJVhjbCY=
+	t=1714478084; cv=none; b=OsIF7sCFTZT4ESOq0Jd6kbh2vsONsgARTrl+Aj0rZh/7sv9woB1ZB315XxQI8XqT73va2UfNnz2nrSbip9g18s24Zin8GI4Dbs1SN+hUnqoMqC7baQQSMW81BvQVGvGzd9HNbbtt+Wp+eWFZ5vTtKsNDPuK2ZAwgRLY7QPzgVsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714478083; c=relaxed/simple;
-	bh=uLSlj939XV8NBcLkdHeM4WkD/CoBnFZy5OTyuh04CxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ek1qXcOzhpWfZhpz4CGhHKe6vJcXcSzJbWrWqHA+I/i2czi2anshCIQmYyVNOVwQ6HuKa3nKwK2EwtQAAVuVLh/7zA0KqlF6AXESvNIFgVWpCfsR5RlUDxtCytJe+ZO6SXUnlQSFjYmqRcilBeYeOYyVhSPXUChseV1r1j7jcGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ehtc5jzT; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1714478084; c=relaxed/simple;
+	bh=MM2TeqomfLXF5s7OrDSUWwcq6LVqngUnCrjYhWJ7hBA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nqI1yhHiKwC/UjIoc8lniTuKxMKPHwffOredAkvVhhcjk4LXTz81QYTIvmqnmwt9cCK9/P+5GqQ8FnElEDMpMRMqkwB0qvqvgCveqvXJ8CK9QcGYwIuYPnU2eO0iaX0ccU2aqO1+qhLZjZnUcc7s3HY0EXj6RmNGiFxwYWnSfh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Wd/kYC5C; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ehtc5jzT"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Wd/kYC5C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=wu/qhcWtV7OY0J
-	N4E7D/iNzNkQ/EkgfsbfNGnSZA7Go=; b=Ehtc5jzTSgAhzTN+5VDaHzhJ3CIZkf
-	yjvF+nachfocPY+LnBFurXN11ZR28tr1kUdMMiuQp96tvCdxCiyr6SQRNKVIdTfa
-	+rG0KknZdCgD0cVxwGgBRktJehHz1JnyFzRegOO0YMb+JF4cRRzKGdkaRFXZdti0
-	HG+BF1Lzt/+PLw8+Q3yVa5OPZUNGV44vRXIWY2CA+ZD4XHbhH/jKD7L+gedFGX+z
-	3HH6p4vFWQCLqQ8LSm7jA0hOkumEZspJhI3nhWUu0ax/xw4D3C9ko9zd3Tdonj+D
-	4+iTCQcKS0zgMwulq4rWfOMl3y9QM3R9k7cVPl+V9f7s5h/Dgmt32aRQ==
-Received: (qmail 2621450 invoked from network); 30 Apr 2024 13:54:38 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 13:54:38 +0200
-X-UD-Smtp-Session: l3s3148p1@b+DXCE8XMKtehhrb
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=vYs2g0fBsI7wQB63+nPXWqKZGlsYANFKOFZ/hv64BS0=; b=Wd/kYC
+	5CQ6oeRH1lqxcink1OFkJq7SK9ydmWIuUkfwhtsubJG1896kvaWoX2vXY22Vy8mq
+	9gNjDiNQWVpSdWZdd+S8n5Nt5lNFD8AGaiP3U+ymnyw2DjvJw2zCq5FGFn6ugXbB
+	9IDqbeEss2MsSMJkXz1wNe6fi9pPlTgvic2iXNTfLiSCqPkulPLQ2C1XZdPZqLsL
+	0WcZXPESAZB+ucHhEG654zIVG7RRmBrcmc6ef+Csu6MKCW2wMxvByGw7FseR+sX2
+	5Dxob1ituo1N5ADvDIRK7gag83hNCNJUbTKrHMkPbzKUmezhz3vFIL7NT6E8kcD4
+	sEew3XPoKODvfVbA==
+Received: (qmail 2621543 invoked from network); 30 Apr 2024 13:54:40 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Apr 2024 13:54:40 +0200
+X-UD-Smtp-Session: l3s3148p1@DWnvCE8XQqtehhrb
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: alsa-devel@alsa-project.org
 Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jaroslav Kysela <perex@perex.cz>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	patches@opensource.cirrus.com,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH 0/4] ASoC: use 'time_left' instead of 'timeout' with wait_for_*() functions
-Date: Tue, 30 Apr 2024 13:54:33 +0200
-Message-ID: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] ASoC: codecs: wm8993: use 'time_left' variable with wait_for_completion_timeout()
+Date: Tue, 30 Apr 2024 13:54:35 +0200
+Message-ID: <20240430115438.29134-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
+References: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,39 +54,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_for_*() functions causing patterns like:
+store the result of wait_for_completion_timeout() causing patterns like:
 
-        timeout = wait_for_completion_timeout(...)
-        if (!timeout) return -ETIMEDOUT;
+	timeout = wait_for_completion_timeout(...)
+	if (!timeout) return -ETIMEDOUT;
 
 with all kinds of permutations. Use 'time_left' as a variable to make the code
-obvious and self explaining.
+self explaining.
 
-This is part of a tree-wide series. The rest of the patches can be found here
-(some parts may still be WIP):
+Fix to the proper variable type 'unsigned long' while here.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/time_left
-
-Because these patches are generated, I audit them before sending. This is why I
-will send series step by step. Build bot is happy with these patches, though.
-No functional changes intended.
-
-Wolfram Sang (4):
-  ASoC: codecs: wm8962: use 'time_left' variable with
-    wait_for_completion_timeout()
-  ASoC: codecs: wm8993: use 'time_left' variable with
-    wait_for_completion_timeout()
-  ASoC: codecs: wm8994: use 'time_left' variable with
-    wait_for_completion_timeout()
-  ASoC: codecs: wm8996: use 'time_left' variable with
-    wait_for_completion_timeout()
-
- sound/soc/codecs/wm8962.c | 12 ++++++------
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
  sound/soc/codecs/wm8993.c | 12 ++++++------
- sound/soc/codecs/wm8994.c |  8 ++++----
- sound/soc/codecs/wm8996.c | 14 +++++++-------
- 4 files changed, 23 insertions(+), 23 deletions(-)
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/sound/soc/codecs/wm8993.c b/sound/soc/codecs/wm8993.c
+index 5b788f35e5e4..dcc6301223bc 100644
+--- a/sound/soc/codecs/wm8993.c
++++ b/sound/soc/codecs/wm8993.c
+@@ -470,7 +470,7 @@ static int _wm8993_set_fll(struct snd_soc_component *component, int fll_id, int
+ 	struct i2c_client *i2c = to_i2c_client(component->dev);
+ 	u16 reg1, reg4, reg5;
+ 	struct _fll_div fll_div;
+-	unsigned int timeout;
++	unsigned long time_left;
+ 	int ret;
+ 
+ 	/* Any change? */
+@@ -543,19 +543,19 @@ static int _wm8993_set_fll(struct snd_soc_component *component, int fll_id, int
+ 
+ 	/* If we've got an interrupt wired up make sure we get it */
+ 	if (i2c->irq)
+-		timeout = msecs_to_jiffies(20);
++		time_left = msecs_to_jiffies(20);
+ 	else if (Fref < 1000000)
+-		timeout = msecs_to_jiffies(3);
++		time_left = msecs_to_jiffies(3);
+ 	else
+-		timeout = msecs_to_jiffies(1);
++		time_left = msecs_to_jiffies(1);
+ 
+ 	try_wait_for_completion(&wm8993->fll_lock);
+ 
+ 	/* Enable the FLL */
+ 	snd_soc_component_write(component, WM8993_FLL_CONTROL_1, reg1 | WM8993_FLL_ENA);
+ 
+-	timeout = wait_for_completion_timeout(&wm8993->fll_lock, timeout);
+-	if (i2c->irq && !timeout)
++	time_left = wait_for_completion_timeout(&wm8993->fll_lock, time_left);
++	if (i2c->irq && !time_left)
+ 		dev_warn(component->dev, "Timed out waiting for FLL\n");
+ 
+ 	dev_dbg(component->dev, "FLL enabled at %dHz->%dHz\n", Fref, Fout);
 -- 
 2.43.0
 
