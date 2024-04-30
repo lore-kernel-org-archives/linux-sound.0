@@ -1,142 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214A017167F;
-	Tue, 30 Apr 2024 13:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F1172BD6
+	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 14:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714485220; cv=none; b=fBkXrj4WTPWoVQpFWN0UAbImvJQJbNpL2zJZbVqOMBnqqdoHbHggsm/da0hoTRidbhf0b3KgG4ju6Jlftz6d3ZMqAuKV0eO+3h8pAk/HdUUn07kF4bVG3fCTYk7OATggQRpOXmW9ffiHSJhTgHAzjPg/zBL8UqpDzpIK4O0Piu0=
+	t=1714485761; cv=none; b=V3C4DR445v+AhMASPiTN0xyF8ZPEhOy6UM0PT54yaGvo3GvT+JSUsDmbg9XDUhNIv0uaQD1zuVVORDZR//wriIwkauaf6rejgMPdBzxPsaID7Oy0SPJzHjpV5y3H/n2UJc6CGivGcrapGhcq41dZarctyKcaibeOBML4r6Clpis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714485220; c=relaxed/simple;
-	bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAdnrwCrrSBxAdXNC5Xvh1ask3aJofvTyi5Rr4FCEU+MXQ3X5ymfpp93YLANVZDu45kjIy7wv6ty9jgxorYPO83Xt16fcfS1PIO2Wqe7Bohl/Z658XVwjOplGriW4QCqGkdWlnGXDMHJ3DWVvVDTLVlu36SffJAWcPjdqvViTxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WO6ovsvn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714485761; c=relaxed/simple;
+	bh=nmVD9KKu0onQCo4+scSWvtThsneJsuva2ZwAC2itQ+Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=l8kjgQ/MOruIfcuQgrXVYcu4gc2cZWe255nI/Pr1sBElRDvspxLMI045HX340WtaFJPOI8bOSV0S7UzvHEMhIRxp2o2EMGO9cOdGQeNVZ2HZl2MDfQfLC+P/ms2yhgqhLfVUk3GouqHkQxFtAoZlSPhJYrgZHzH6dykZ3TDZCUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uURYEKHs; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WO6ovsvn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714485209; x=1746021209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
-  b=WO6ovsvnXQQnMUi7k7ybacRzQ1SJoSamDypiZMm6Xk7nrkKTuQfcirws
-   NN5Lu3wcvBeGtDYmuCwS2kLDl9TmC/pgJkNfOWmjds5T4qydWV62qAI86
-   v+o7KYurfGeNLyEBkt69mYjssWo5PctUxvNCFeLnUvPCBUjd9YKW7V+VW
-   LtAPl/+ym0jJLXWOq+142OSl7jaCA4XA2xL6NVWGhTlnqOulJ6FtGFx3K
-   h2Bn7Zl47QRk5Ot757FQXxVGhObGMKc0CvgIWfHuZmH5mUazuqWgSaX3j
-   Uz4W6MAvjhp82juiuop2QlGxweKW4FTvR4vR9wtXdwQmYAiJF4xK4ggRI
-   g==;
-X-CSE-ConnectionGUID: Cd2XlXhrRY62rp9njJrnYA==
-X-CSE-MsgGUID: 2geQL9DoQbmcQt78lpU5PQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="27713347"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="27713347"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:28 -0700
-X-CSE-ConnectionGUID: 5eOKwBEpSferwc2RTJ/a9g==
-X-CSE-MsgGUID: 9kf4TRh7TgypIABzvykqNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="26967408"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:23 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s1nv5-00000002gCo-0Ukb;
-	Tue, 30 Apr 2024 16:53:19 +0300
-Date: Tue, 30 Apr 2024 16:53:18 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
-	davem@davemloft.net, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com, pandith.n@intel.com,
-	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-Subject: Re: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driver
-Message-ID: <ZjD3ztepVkb5RlVE@smile.fi.intel.com>
-References: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
- <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uURYEKHs"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5176f217b7bso10094675e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 07:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714485756; x=1715090556; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ziKPpXLYR2zn3+NU5Pk66H9ism9mr6GLdkSFbxKAZ4=;
+        b=uURYEKHs0OmqJtN9EAn5CF/TOc9bYf9qtp+CQ32+UL4VhuHQW8e6TaSz/C7Ioqzdjx
+         r5vp9oWDKWGKK6l9wGBldJH2x/K/1gi6Cv8ZqS61aWEHQTBJhuTrx2UWbImcLaAnll5e
+         AY1MbP4st8kxB2g4/nysu0/GrDciwxWjFtjuSFEjDR9LPDZLji7MphpuDvlbBGJvO4G2
+         mbp7QeepcGOI95KaCUD22gxFbtpYmglCzELqSPSeN3ZWtovrYdoJLFuF5TdmoSmuxalC
+         9YfluVoanlW/7OYSPRqY7OUQz8kI4QdIVaVmgUrLCu6zT+G44qBZ37acAC7HSqV6KMSE
+         GJdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714485756; x=1715090556;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ziKPpXLYR2zn3+NU5Pk66H9ism9mr6GLdkSFbxKAZ4=;
+        b=R/K2RrbTy7avXd/sZOOgbnUKvsQCGmc41R6s23AILQYlDRiui7zDeCL/PHAB0DXPml
+         dzDg1hH8fJhANbrQd/OhI9UNfwiGslyb/o0TV+fO3h7Wv+K6mHEFnrdKf4Ia8C1JDlGC
+         UytesBocYHsGntZemGJhVEao2a8gE5+er7f0v+CTod9k75nZWmd2zg1uli88Upd3gtnE
+         90gPqQ5JktUk1tx7WdOkZclQW+dfCsJhW+jbTlgb7VWYx64E88GzOZqrIcXjw5neWWWU
+         gL1j0iXBvtMtxHGDzWpafZ06czeH0GpI6NzDhche4fPCey6cMrK9FDnP8qzZmkab3S7A
+         PCpA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8uOlX9BAVOgAb/YxOM04X5GOtTMUWJOx/6EojDj8htp0xuxpvmBGcbNR7y7UrwxiFRD6LM0VZox0jBbiy7KfKDOYjONZWH6Bzoro=
+X-Gm-Message-State: AOJu0YzWMQq2+EqOQimmco/Bj5Z/azODytaut+LNySdmSQy5v2vdAWAR
+	haa8q1xDMjB9add0RRJFOCCnO7G8y5DNXD6IsKDziupg5IplIwTr2lgMrd8rVoc=
+X-Google-Smtp-Source: AGHT+IFxX6RMrPFkE+iKjGFWGX6uNErIhwrc6ioCbIidZRB0tmw4GxAmrC5NZWl96iLeoUrVLfRGvw==
+X-Received: by 2002:ac2:47f0:0:b0:51d:70d9:f844 with SMTP id b16-20020ac247f0000000b0051d70d9f844mr5882908lfp.22.1714485756019;
+        Tue, 30 Apr 2024 07:02:36 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id pv27-20020a170907209b00b00a5940af3f67sm31434ejb.16.2024.04.30.07.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 07:02:35 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/13] ASoC: Use snd_soc_substream_to_rtd() for accessing
+ private_data
+Date: Tue, 30 Apr 2024 16:02:09 +0200
+Message-Id: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOL5MGYC/x3MTQrCMBBA4auUWTuQxEhqryIu8jPRgZqUTBWh5
+ O4Gl9/ivQOEGpPAMh3Q6MPCtQzo0wTx6cuDkNMwGGWssmeFXmpEKQnlHWRv5F8YV/IFr8YGp12
+ a88XCyLdGmb//9e3e+w9CANGvagAAAA==
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Ban Tao <fengzheng923@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3547;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=nmVD9KKu0onQCo4+scSWvtThsneJsuva2ZwAC2itQ+Q=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmMPnp5GgNlhBx+/I3aG9tNIg/czLIulpjsgqB+
+ gIo9+t++USJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjD56QAKCRDBN2bmhouD
+ 1/7LEACEfk8kijEA2LTMQcsqwb/zKSF+KUnI8xKuCriVzrabC5ANnLec53cOfXlJiZr0ORRQZu1
+ 470KfeDgCK0rPa+5rmHArn0RjNORLJGv3UY9o33TRjgnRKnhemsjjVBOY2q2aSGa12PGCdgZZ2W
+ 9lYT6gbghyhPF8NwejTYWU67cXXHzw57qZrigi06wTI2UMEzGCAPqjVhM2lDMHiEyCTYsFh5fZC
+ rR2QeMZ5pK1z03KZd5SaMByAHa4DJKQOESKs+zVprbQfv5lzpQpn0EVjmxu4IuLRoQxBzfNJhPt
+ 36FgoerUfQRcpNoGC21+oBlav8jvX4KPs07WDOuNAmbmOtgXCpWnMgFcFwHmF3waXKQHwzOjK+/
+ 2KrHGzOUV9Xbz/fFxxDvcrJ9KdrqfbWpHM0xl7iwulLPWb1KsQr+/NFKNg6MfijGBKz4sC0Zqt8
+ vQP4on/GzYRbye0DENyAmvUZGrWaBcF6ARh875j/Wtbgf4akwjlz1IziblIY+5XW/H1pl10EmuK
+ rZVUZawHpK9VaDDe13ybwYLFC6jLwchoLTS52Pq2adjWzHJ+DAX0kMA60ACfugVQyPnugr0zBEz
+ B7kqe01ESwCaFe3059W+GzYuXFpqQpOOJOqIoNfu7R23l0QqyopaR9hd/2Y62EwfsI/mkovGRET
+ HqyQWjcO1YItmKQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Tue, Apr 30, 2024 at 02:22:23PM +0530, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> 
-> The Intel Timed IO PPS generator driver outputs a PPS signal using
-> dedicated hardware that is more accurate than software actuated PPS.
-> The Timed IO hardware generates output events using the ART timer.
-> The ART timer period varies based on platform type, but is less than 100
-> nanoseconds for all current platforms. Timed IO output accuracy is
-> within 1 ART period.
-> 
-> PPS output is enabled by writing '1' the 'enable' sysfs attribute. The
-> driver uses hrtimers to schedule a wake-up 10 ms before each event
-> (edge) target time. At wakeup, the driver converts the target time in
-> terms of CLOCK_REALTIME to ART trigger time and writes this to the Timed
-> IO hardware. The Timed IO hardware generates an event precisely at the
-> requested system time without software involvement.
+Hi,
 
-...
+Do not open-code snd_soc_substream_to_rtd() when accessing
+snd_pcm_substream->private_data.  This makes code more consistent with
+rest of ASoC and allows in the future to move the field to any other
+place or add additional checks in snd_soc_substream_to_rtd().
 
-> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
-> +{
-> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
-> +	ktime_t expires, now;
-> +	u32 event_count;
-> +
-> +	guard(spinlock)(&tio->lock);
-> +
-> +	/* Check if any event is missed. If an event is missed, TIO will be disabled*/
-> +	event_count = pps_tio_read(tio, TIOEC);
-> +	if (tio->prev_count && tio->prev_count == event_count)
-> +		goto err;
-> +	tio->prev_count = event_count;
-> +	expires = hrtimer_get_expires(timer);
-> +	now = ktime_get_real();
+Best regards,
+Krzysztof
 
-> +	if (now - expires < SAFE_TIME_NS) {
-> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
-> +			return HRTIMER_NORESTART;
-> +	} else {
+---
+Krzysztof Kozlowski (13):
+      ASoC: qcom: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: tegra: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: ti: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: arm: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: amd: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: fsl: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: img: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: kirkwood: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: loongson: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: mediatek: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: meson: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: samsung: Use snd_soc_substream_to_rtd() for accessing private_data
+      ASoC: sunxi: Use snd_soc_substream_to_rtd() for accessing private_data
 
-Redundant.
+ sound/arm/pxa2xx-pcm-lib.c                 |  4 ++--
+ sound/soc/amd/acp/acp-mach-common.c        |  2 +-
+ sound/soc/amd/acp3x-rt5682-max9836.c       |  2 +-
+ sound/soc/amd/ps/ps-sdw-dma.c              |  2 +-
+ sound/soc/fsl/fsl-asoc-card.c              |  2 +-
+ sound/soc/fsl/imx-card.c                   |  6 +++---
+ sound/soc/fsl/imx-hdmi.c                   |  2 +-
+ sound/soc/fsl/imx-pcm-rpmsg.c              |  6 +++---
+ sound/soc/img/img-i2s-in.c                 |  2 +-
+ sound/soc/img/img-i2s-out.c                |  2 +-
+ sound/soc/kirkwood/kirkwood-dma.c          |  2 +-
+ sound/soc/loongson/loongson_card.c         |  2 +-
+ sound/soc/loongson/loongson_dma.c          |  2 +-
+ sound/soc/mediatek/mt7986/mt7986-afe-pcm.c |  4 ++--
+ sound/soc/mediatek/mt8186/mt8186-afe-pcm.c | 14 +++++++-------
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c  |  2 +-
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c |  8 ++++----
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c  |  6 +++---
+ sound/soc/mediatek/mt8195/mt8195-afe-pcm.c | 10 +++++-----
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c  |  4 ++--
+ sound/soc/meson/aiu-fifo.c                 |  2 +-
+ sound/soc/meson/axg-fifo.c                 |  2 +-
+ sound/soc/qcom/apq8016_sbc.c               |  4 ++--
+ sound/soc/qcom/qdsp6/q6apm-dai.c           |  2 +-
+ sound/soc/qcom/sc7180.c                    | 10 +++++-----
+ sound/soc/qcom/sc7280.c                    | 12 ++++++------
+ sound/soc/qcom/sc8280xp.c                  |  8 ++++----
+ sound/soc/qcom/sdw.c                       |  8 ++++----
+ sound/soc/qcom/sm8250.c                    | 10 +++++-----
+ sound/soc/qcom/x1e80100.c                  |  8 ++++----
+ sound/soc/samsung/midas_wm1811.c           |  2 +-
+ sound/soc/sunxi/sun50i-dmic.c              |  2 +-
+ sound/soc/tegra/tegra_asoc_machine.c       |  2 +-
+ sound/soc/tegra/tegra_pcm.c                |  6 +++---
+ sound/soc/ti/omap-hdmi.c                   |  2 +-
+ 35 files changed, 82 insertions(+), 82 deletions(-)
+---
+base-commit: 82415cf72c7e224be7a6496f3a53c0b365c2fe9d
+change-id: 20240430-asoc-snd-substream-clean-924b717d8f54
 
-> +		goto err;
-> +	}
-
-	if (now - expires >= SAFE_TIME_NS)
-		goto err;
-
-	if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
-		return HRTIMER_NORESTART;
-
-
-> +	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
-> +	return HRTIMER_RESTART;
-> +err:
-> +	dev_err(tio->dev, "Event missed, Disabling Timed I/O");
-> +	pps_tio_disable(tio);
-> +	return HRTIMER_NORESTART;
-> +}
-
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
