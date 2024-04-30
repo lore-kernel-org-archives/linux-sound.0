@@ -1,55 +1,55 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C9721018E
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 23:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694531C660D
+	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 23:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714521117; cv=none; b=P3Tsr/3CAeqtRcuxplyqrPqJ6Rw4jWHKJZhoEKC4GhGJZzzw/bsV0BhpK3/yDADERXQQH4GDf43m01/bb7NAyUTR1LOJodWqAlPlmtnjayOmPT/2Xv12NC13TWhOPR2HzVe7bG3rdrJSZrWrCeZYVKVUaDiH2DVhYRxB75OZ+KI=
+	t=1714521121; cv=none; b=XwzUFdO9XehlwIPheXDR3Q2cqUZgRmwdiXJI60KRnf2eCjEKTkfbByU8820yIRiQhuJOvho1+TeHFPTJ1B2gweQ7//vnfWx7ifIA0FKQXwyZa0Yrg/7CMxE3FCLkrCwyYBgkTC/uALG5o4qXXBCeBgF5bPFLW70KJb/wK3o/o1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714521117; c=relaxed/simple;
-	bh=q4hPe+xh62Uhmba9PSnhrp62is8QeTzw3cIQCnwAJEs=;
+	s=arc-20240116; t=1714521121; c=relaxed/simple;
+	bh=2QdI2TgmxQKTHiSdbJTZcZLPJCgb3K62uskVNaaDbcM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LWXjp+qzNYUficZ2v6rIJwK/BE6x8wUFP2Fmnlgf5lvyvTm6ibXsp6VlN+nxdnMNIo4FoSR0fcraJxIeJeRBXE+BXovrk4vc4dFCqE9Y3uIPmeUyM9D4BKgOHjq0Im802hHBoi0BuyYO6EJT4b/ayvQ7R3HAxel0ana0Kv/CHls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fWHplws+; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=nqfDtWWc/zKu91ehPIuVE4SQJNMVi8qUtkiSGTedVL7W5Rnae9P9pl9zc0We75yOgaLuHnDUSdMN1DmdliK7Y4SbmCF/XQxP+T1g6+dZKY27JPuZpzL3j5Oe8ZRBW+6DwbFmCs3fbr+1Db5YNAtA/g4bBsPkMChMRwKbTmuHHC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=keeEguSY; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fWHplws+"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-6ed03216b70so5448777b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 16:51:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="keeEguSY"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-de74a2635e2so1741164276.3
+        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 16:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714521114; x=1715125914; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1714521119; x=1715125919; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q4hPe+xh62Uhmba9PSnhrp62is8QeTzw3cIQCnwAJEs=;
-        b=fWHplws+HuPMbth/LpVBuYyCKV3VezSbPCuMynJ43py3TiLLFXs0XF6Zy7+UAKBkcL
-         L6xvJNDKll/sKysPKHifQgWCRNbdG2S9fAFMBoQ1RiM8q7kEGKLo9/g9VfwA4up+ccU+
-         JPI1GPoNCpiP/Q/NNHke0c/iScOO1zickkY5GCKqyuioIv48OVzJICbW3OPGqolkl9CL
-         GPvycfDVQMuGRh3q3I3/O8leXrGeMdvQSwX4ovya18su1I8vgWwUfXcZivIXRuV7jXlP
-         GQKv+NkS/BPF/K6sfmc4mFoF3TkE3N5k48KyKFCzUpLDTrmxRIbBuTcwBA62o49TM2oF
-         lVKQ==
+        bh=2QdI2TgmxQKTHiSdbJTZcZLPJCgb3K62uskVNaaDbcM=;
+        b=keeEguSYKiYQkwXHyB2MrirM7L4y/Sp1KZdZTe1Eb1jtwQtnCsDWIpXRReCNmzLntV
+         LaN1vRGXt8Ee/+WveDn79hkXqdatNUKk7+0m0ApxnwA8jk6DQGuWU5HiRiaL6ymJyGyO
+         Yt0PhkFkEGuLIC0ibsKHgbJN1rI4ul6Y52GkoerHsIkVg62N96JuJrvtFG+j6kgZdV0O
+         81+cIaFsJxjWfMEVeJs2y9JYP7Iwp0gOmXtZCf1DO8OjYA9PRLcQ1pnT3fkcWLCI4g2a
+         Us1YG8JSmxTJ2OQb9puJS6qNWWaBllS5bnXGdD7qVSx55UTthCEPpOmyKbbveYBZJqEZ
+         f5hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714521114; x=1715125914;
+        d=1e100.net; s=20230601; t=1714521119; x=1715125919;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q4hPe+xh62Uhmba9PSnhrp62is8QeTzw3cIQCnwAJEs=;
-        b=rxy6yvHEeu5eZrmV6qzmROOSva1hgs9o9jfSTpeNc7GrDk6CmrR1MnQsldSPqPa8w8
-         K2DSxKcpMlkb/x2uNg31rYRJ5lYbjTj1vP2KjpOfhyA0WqLb/ZImbVgi4xINPoJ5bBoM
-         Epx2h77k7t3hieyHklDyBq9Y0absdCtjvCE6IfnfTTswmNqYYue6FkxAIOgxQxpUiPNq
-         kIv7/2Xaqofr7+I//b8O6/eDn8McuEtXmQIs0nN0z3xTWAGUsP+9p0Gibrokn5/2HcRK
-         Ak907Xtnd7cJeIs/av/wTt04YUQM9SNnLc90rCA6CFEVHZIJbhv3t/Ub/XpB+3h7Wg0+
-         ckKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0ajpclC5VU9ESmDbtFVgartQCI+fRbs9VIaS7H5/o1GEXskHVXoqzgfZYUWnu8NiOgwtns4c6XBkcC0/mE8g1DcUwnbTlPBUmUbM=
-X-Gm-Message-State: AOJu0Yx2rkOef3iQzQPYmxEzfk0kdqfMUSTAfpzWCXmKr5FTbVEdnNuK
-	sCF0jmC9DS4jpPZwluA/mvJU5A2S5JV4VYAoP7clOMKOriUdJFw0DJ5KXVN0yCVsEoQr/ZmbFOP
-	xxg==
-X-Google-Smtp-Source: AGHT+IHPv5XeMbDkvtBTnEts/QdkOCkwWDd40+iQpyVBsIIp17OfrlSk+SNOnAl1YwhsfOoviBzkyHBxHOU=
+        bh=2QdI2TgmxQKTHiSdbJTZcZLPJCgb3K62uskVNaaDbcM=;
+        b=dKSsxVtQmuqYYzSWMVotCTE7COxJ33ABA/ojSn84EZcSAKO0VC1iOASxQHGGio5c4+
+         QHl8Z2fSTrGlFadVIiBBnCaY4C8jusJJklX7uILeo9u6ZwlzU1Ic1dOAAovYM4ybPEnH
+         s//6xyMttVTBZxw72rJ6ij75b06lqTHmoqhOLle1tB9bx1Miu9cfHWc7nJDa0VMZbmuT
+         MaZOxFjVrZ4lMtjTy9jFiF8GEVmjrn4AsbIATNdIJ2LBfKPStNu4wWJJ093dRg9xMtpW
+         umrlHnNzn0w8j3gh77t1yWroUKHZz8OzbcOXqNGBfLTnUjSLGHFAJRVrFt0WHe+4+F1w
+         4QuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWt1m/F52Y3+Bk1VBdaGsTL4eMp1apG/UvKlv/wJEgQLh+wFIZ0qdK+rDbHSF7yvAOqriGlTbLZiu0Rvkhjjsx30QfLHj3Pv/4oxNg=
+X-Gm-Message-State: AOJu0YwTKJKVQyptsvA0NsZfWEkeVInpRyehqytvE/LQeXEL85LBN1Qn
+	95jppsmO/KbZPeOj1NJlBri2Ie6CJv7frLN0n3J+dH1V9NRe1SLngJni1o3p5C81mR/+3iYcHPT
+	FhA==
+X-Google-Smtp-Source: AGHT+IGe0w5VioNgUdFLQOVwPulyr7LeCwc9ZxlwAi+xzV7TnsXxdL7cdDTZYaAKG9NQO48kQtKteAJhBhA=
 X-Received: from edliaw.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:305d])
- (user=edliaw job=sendgmr) by 2002:a05:6a00:13a3:b0:6f3:854c:de57 with SMTP id
- t35-20020a056a0013a300b006f3854cde57mr83407pfg.3.1714521114135; Tue, 30 Apr
- 2024 16:51:54 -0700 (PDT)
-Date: Tue, 30 Apr 2024 23:50:17 +0000
+ (user=edliaw job=sendgmr) by 2002:a05:6902:2b83:b0:de5:1e69:642c with SMTP id
+ fj3-20020a0569022b8300b00de51e69642cmr175231ybb.5.1714521119181; Tue, 30 Apr
+ 2024 16:51:59 -0700 (PDT)
+Date: Tue, 30 Apr 2024 23:50:18 +0000
 In-Reply-To: <20240430235057.1351993-1-edliaw@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240430235057.1351993-1-edliaw@google.com>
 X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
-Message-ID: <20240430235057.1351993-9-edliaw@google.com>
-Subject: [PATCH v1 08/10] selftests/rtc: Compile with -D_GNU_SOURCE
+Message-ID: <20240430235057.1351993-10-edliaw@google.com>
+Subject: [PATCH v1 09/10] selftests/tdx: Compile with -D_GNU_SOURCE
 From: Edward Liaw <edliaw@google.com>
 To: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
 	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>, 
@@ -86,20 +86,21 @@ _GNU_SOURCE to either be defined prior to including headers or with the
 Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
 Signed-off-by: Edward Liaw <edliaw@google.com>
 ---
- tools/testing/selftests/rtc/Makefile | 2 +-
+ tools/testing/selftests/tdx/Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/rtc/Makefile b/tools/testing/selftests/rtc/Makefile
-index 55198ecc04db..4ef7ee969003 100644
---- a/tools/testing/selftests/rtc/Makefile
-+++ b/tools/testing/selftests/rtc/Makefile
-@@ -1,5 +1,5 @@
+diff --git a/tools/testing/selftests/tdx/Makefile b/tools/testing/selftests/tdx/Makefile
+index 306e9c4d5ef7..5a084a792a21 100644
+--- a/tools/testing/selftests/tdx/Makefile
++++ b/tools/testing/selftests/tdx/Makefile
+@@ -1,6 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
--CFLAGS += -O3 -Wl,-no-as-needed -Wall
-+CFLAGS += -O3 -Wl,-no-as-needed -Wall -D_GNU_SOURCE
- LDLIBS += -lrt -lpthread -lm
 
- TEST_GEN_PROGS = rtctest
+-CFLAGS += -O3 -Wl,-no-as-needed -Wall $(KHDR_INCLUDES) -static
++CFLAGS += -O3 -Wl,-no-as-needed -Wall -D_GNU_SOURCE $(KHDR_INCLUDES) -static
+
+ TEST_GEN_PROGS := tdx_guest_test
+
 --
 2.45.0.rc0.197.gbae5840b3b-goog
 
