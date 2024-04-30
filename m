@@ -1,128 +1,94 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2061A38F0
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 21:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882011A0AF9;
+	Tue, 30 Apr 2024 21:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714512574; cv=none; b=V2AVPPPJ8Gu6De5CP23ud3wFdfkJdUZNx+us7PNYnIMkYKb1Q+EdCDkFYyFcvkt8C4rPu7xyxyAMxZNy0yDm0lM+omWCJO/DPqghnUSEfqVyACt2OtA78IHTLEwpbHVBH2IAmq1KY70UJGrgt4U/1qMU+4SKVuaMVXssxdFO2X8=
+	t=1714513580; cv=none; b=ao2mZ8GfwrGj3ccQoEHD6Yx+q3OQNjHrUlviqVuc21BRtahESQgRkpNBDJ4bd6C3jvdhzwpYYfMFTI/F3Q3igvygrD5jMZjPanh8f4tgSLtMxhOOD/U9GjGqHFFnynU+xeJ7zxcLMJ+pAFCtCU8fmmFsK+EZcgjayGcQmLjjV6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714512574; c=relaxed/simple;
-	bh=6U9unJGTfc7UWu3ejff7Z+GgZ9ABtAxR/MMYNspzo1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JntCJAzoePcBTti9wAmu1OJGPBrTXkigm3FLrtg25cs+KgM7FK5fGDZKL0gDedyi10mtUOntRqUrVlWZN/BUgKXtYCoptidFes8QkZA6LG888Q3ILHPvIkFIjbb0crqyVKoV8fGrS/mjFZVSTQbqTYYC9CAfBJJC1m6PGNN/1eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V61RWo3K; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1714513580; c=relaxed/simple;
+	bh=78qG5kqlkVDltvHppEYJ+XTjcIg/mL/fOmO9DvbnYJc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VzatIDIhz3M3xnqWiKHMCnCoTtfmw/VP9GJly69lSLLQuJRxO4bAhJvciZ/Hjumuava8IHiMSFcRiJOXOQlNI9S2FOsHgIjGfGBBg4cdGdQdJ10OISlqyiX3UFs9gWWj3OJahlmAyAt35k7Kpud2FBTiWStOp5+aA4zJIF4xZnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQq31YhL; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V61RWo3K"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e8bbcbc2b7so56161745ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 14:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714512572; x=1715117372; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PEjf4f0YZskVbYs/23zDtacUAhJaOjxP+1cZSas3wIY=;
-        b=V61RWo3KVc17E2cd58KASJ+tz5SI/fakcT/CsuWKtjb/W55mq/vic3FPuplvHzSbBp
-         ol0KXdoAraiTCU4yJnnWztroQNKcbRnp4ZB/++Y7zDtWdFACl6/OZn/S1C69J/Nd0SSO
-         aNVs4hQoLM9THQ/eLOKSWbLhgsNVsQofFd1s0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714512572; x=1715117372;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PEjf4f0YZskVbYs/23zDtacUAhJaOjxP+1cZSas3wIY=;
-        b=o+peEz2B0cS8kLibu9IxNNl/b2NXh/avfANnwG+3MOyq9CVRCf25Xv4S0ast9xJTtT
-         rIvxQf1aVZqxhS2PVlvme+vS3TmMEvChmOFvvNfGH9E5MPlxhrIJq7mwqTWFgR6B3DFJ
-         lxXnj2ftu4b/MvYaFFFo5tSWgGYUrDZbWJnrluLBe31lIGkMF0ta6n/xdNpRsWHwiKCr
-         GtxVIq6rgLJx67ZoEdHJ/zZ+WU4ssTJmoAHKRR8PyhiIlPuQzDs2i4cGi2EwNCpZDIV/
-         9iRuGcMp4eJk6L5A2C2OxtJigtJZlBj87eKnNYaqC8JMkjU12jcA5j5F/Wa04mmKBM8W
-         oA2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVvGCAM0uFCafXWuR3t78OXdpolfwIhCiD9iyK5uLwwesp4KGKxm3iSPqYrQKxtz8cTP3UIyIV8HNSVNqM06nHpDqPcg5NslzBfia4=
-X-Gm-Message-State: AOJu0Yw63fd51i+nruy8TmwEdlQ6QAi8eEPhxowHmJqYQ83rrZ8o24ON
-	zNEvgRrMjRu7TSICXjwuPUxWWjMO9MEnc+PPGE6/1EmYkQadYMrZhd0ynPdK3w==
-X-Google-Smtp-Source: AGHT+IHE3zAOxQdE5LzNdBkq8h+2IF29Scc8fzT8qdg0sTbbJ2ptRGBHW/FSU1Cuv496q9Ut2T8Hcg==
-X-Received: by 2002:a17:903:120b:b0:1e5:a025:12f9 with SMTP id l11-20020a170903120b00b001e5a02512f9mr873908plh.28.1714512571923;
-        Tue, 30 Apr 2024 14:29:31 -0700 (PDT)
-Received: from ballway1.c.googlers.com.com (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
-        by smtp.gmail.com with ESMTPSA id a8-20020a170902ecc800b001e944fc9248sm18684579plh.194.2024.04.30.14.29.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 14:29:31 -0700 (PDT)
-From: Allen Ballway <ballway@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Brady Norander <bradynorander@gmail.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Allen Ballway <ballway@chromium.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org,
-	Mark Hasemeyer <markhas@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH] ALSA: hda: intel-dsp-config: Fix Azulle Access 4 quirk detection
-Date: Tue, 30 Apr 2024 21:28:42 +0000
-Message-ID: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
-X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQq31YhL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714513579; x=1746049579;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=78qG5kqlkVDltvHppEYJ+XTjcIg/mL/fOmO9DvbnYJc=;
+  b=AQq31YhLCAzTXJebnPveQbJjc8OOH2dyKLPa2o6GE6PcOyKlrbW9j/hi
+   70uZCBxQVEPZrIiwfk64IHEM4Tx/rZeUkGloFkfFwzV+1NxLKQ908tv5B
+   GaxZ9VPfNoZoofwWMiAoi1173KAPljcP4sN1FdufjAKr+W8NtJSJpoSkF
+   bP55vKsy6TPyVhA5ZdWOCpakzZOcvv9rakpm6/v7nGNaNeSI+h6ehVDIZ
+   678IJ5D7VICOKWtsbiWrTfPpOEeJUQ4NK0R7g4F3zJzGOklIiyX+0EUQm
+   YbzSuwcCBi3GsBQxZH7kYfRPbpoW8Jseg1eKzt8fgPf5QcffUSaQ1fNsN
+   A==;
+X-CSE-ConnectionGUID: D18PihHDTFGMcTVUPusHeg==
+X-CSE-MsgGUID: Inh9/keLSB2SJpAxRRYB1w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="10173417"
+X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
+   d="scan'208";a="10173417"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 14:46:18 -0700
+X-CSE-ConnectionGUID: 9X0W5HnRT12ypdpykBlBdw==
+X-CSE-MsgGUID: Vgw6QLO2QsmyY7OWS+21xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,243,1708416000"; 
+   d="scan'208";a="31209312"
+Received: from kyeoh3-mobl.amr.corp.intel.com (HELO [10.212.18.64]) ([10.212.18.64])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 14:46:17 -0700
+Message-ID: <83e218f9-29f5-4f35-bd0c-b298e3bb9e8c@linux.intel.com>
+Date: Tue, 30 Apr 2024 16:46:16 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Fix Azulle Access 4 quirk
+ detection
+To: Allen Ballway <ballway@chromium.org>, LKML <linux-kernel@vger.kernel.org>
+Cc: Brady Norander <bradynorander@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>,
+ linux-sound@vger.kernel.org, Mark Hasemeyer <markhas@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>
+References: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240430212838.1.I77b0636d5df17c275042fd66cfa028de8ad43532@changeid>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-This device has an audio card which is quirked for force SOF use but the
-device does not support SOF so the card is not usable and audio can't
-play through the HDMI output.
 
-Add another quirk detection that matches the Azulle Access 4 in the DMI
-info.
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
----
+On 4/30/24 16:28, Allen Ballway wrote:
+> This device has an audio card which is quirked for force SOF use but the
+> device does not support SOF so the card is not usable and audio can't
+> play through the HDMI output.
+> 
+> Add another quirk detection that matches the Azulle Access 4 in the DMI
+> info.
 
- sound/hda/intel-dsp-config.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+Please try the patch "ALSA: hda: intel-dsp-config: harden I2C/I2S codec
+detection" shared last week.
 
-diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
-index 6a384b922e4fa..cf4e25d031d56 100644
---- a/sound/hda/intel-dsp-config.c
-+++ b/sound/hda/intel-dsp-config.c
-@@ -142,7 +142,9 @@ static const struct config_entry config_table[] = {
+https://lore.kernel.org/linux-sound/20240426152818.38443-1-pierre-louis.bossart@linux.intel.com/
 
- /*
-  * Geminilake uses legacy HDAudio driver except for Google
-- * Chromebooks and devices based on the ES8336 codec
-+ * Chromebooks and devices based on the ES8336 codec. The Azulle Access 4
-+ * uses the same audio card but does not support ES8336 and should use
-+ * the legacy HDAudio driver.
-  */
- /* Geminilake */
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_GEMINILAKE)
-@@ -159,6 +161,20 @@ static const struct config_entry config_table[] = {
- 			{}
- 		}
- 	},
-+	{
-+		.flags = 0,
-+		.device = PCI_DEVICE_ID_INTEL_HDA_GML,
-+		.dmi_table = (const struct dmi_system_id []) {
-+			{
-+				.ident = "Azulle Access 4",
-+				.matches = {
-+					DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Azulle"),
-+					DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Access4"),
-+				}
-+			},
-+		{}
-+		}
-+	},
- 	{
- 		.flags = FLAG_SOF,
- 		.device = PCI_DEVICE_ID_INTEL_HDA_GML,
---
-2.45.0.rc0.197.gbae5840b3b-goog
+I really don't want to maintain a long list of ES8336 false detections
+due to broken ACPI tables.
+
+Thanks!
+
+
 
