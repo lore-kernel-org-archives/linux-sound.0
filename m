@@ -1,218 +1,113 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE131A0AF9;
-	Tue, 30 Apr 2024 21:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BC91C0DF9
+	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 23:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714514279; cv=none; b=bR0fxVDTSQK+SxALJGOAM3TB2ZqO650mqFxw2yGatATq/plzmo7rqbSuh3lZlSpHZgqTy7R6OXUO9mpkzIKX8bF2vWVIrb47IBspns3bJcPd0HcFruPKtYUO9hTLD6iBH/F2fDST5gU2Our4z4NxEWldLk/C14IAOOyKqXkOFBI=
+	t=1714521077; cv=none; b=df8FSeL4IAOZbVTqz5zuvrBV5aaU/jDyIZeb0DqNVSIOdBDXdv2Zkm4wiDLf69e5952unY+ZsVp/UFmVjJb5CFhKgueOED34wqQytxK+r3iG3lNcYf57eLNDGARwTFAPb1CeWJBlhn3axKAGqI0E+bH8iU4kyD3O38UiSVwpw+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714514279; c=relaxed/simple;
-	bh=i/PgM4+9YzpPI2JE/sWr4KRAmUULs5TogIsWAyenxRU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Z5Jk6IVwFp+IMsxPBD5COcj0Mbda4X5GhRLW6NFQYLlEGDDwslI0o3S2cYZf3CPIYjzbUJh/GV+T6Idq2+XhenESN4nLe4vxmTW4z/VLY3nFips2HXPZKsUgHyz4S3uZWWaaGGzhYd1d5whnFDWjA1nUTm9QGnX7TK0omSdqe1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=coTFXNn6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714521077; c=relaxed/simple;
+	bh=/OcbhMlACXwRbL6eMCAvatfg5p5nh1NZCgFVS7GD4sU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=mh0U5m/1E/LQDJJ00n3Mgcd3L0Bt1qaJNhQrVzVfw1X6ZN+icUvplpg1ZI1XBmY/ZHPKjEpyRyw4XiFOx3tF3n+kpJMm40Jj9Z1z7wRJCGS0m5as0qynXoLlPXCdZpd3VM58X2ymbyd51PzJ3PTVae0KQux596ERCB9gFtYe+R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MuiAn0/q; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="coTFXNn6"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43UKethg001390;
-	Tue, 30 Apr 2024 21:57:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=7jhPW16fQo6HuFqRFyf89B8cImkfjn+GX5pu77TR1SI=; b=co
-	TFXNn60mugFAdEwR/rk1bX9OZnL0IrglDSqwbRyCM86GmPpHuDz8D0AEPLEIXReI
-	hdo9LmpsbFHukvu2xZ9atp14ezXNnTYbWP600jSfTAst8TMmNSfwvTFJqQaIlyCS
-	AxHxwzGIbBkA9vT+53N6ZPeu96VsEbU3gGW1yLs/518ZmDXChX/vllnHDBttyval
-	FdTGHaG1DNdJJdUNpgSkmGNxKuSKEPR+x2NvlWmruNelZwUc9lMZelrmsEhuoxo3
-	DDW3E02DL2ys3efX7CFnBDfF2LEwvPevTQoQisg1jnuAoMr3UzlDJRSSNLgXjdJn
-	YRgCp0Rzr0momctfL7cw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xthgvv80b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Apr 2024 21:57:31 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43ULvTaL030479
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Apr 2024 21:57:29 GMT
-Received: from [10.110.61.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
- 2024 14:57:29 -0700
-Message-ID: <33dfa0c5-c43f-79f6-2700-beee2e5d389f@quicinc.com>
-Date: Tue, 30 Apr 2024 14:57:28 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MuiAn0/q"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-61be23bb01aso44257047b3.2
+        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 16:51:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1714521073; x=1715125873; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YOEM0xvLtojrhcgEFvmPYdUJPLv6ivSzHSsLdLUXzrI=;
+        b=MuiAn0/qsBtu3KzYeWQ6rO0SKehAfnui30iwYKoNWfpt5LKwPXeceP3tXZ1Dh36CJV
+         +HJ3D6AyRPPquGH7WVhc8jLK+6E+W8V34lcQMUZyEgfYiyXXNn8amasvLx5zxjRnqhip
+         hPA8KsZMNuJhheC0i2LP8KB1c2KhlgxRB5KJjAmbz6Yjr4sCQbG+UuCfX5e0wzVjWhvV
+         0+c8jtWHRxIYxPza8yXL8alsS1dyRAdqVExY5PL4V3HUlN/k5rSETrWWylh2NfA5uitp
+         PWi8OJO/T4GyWtiamrxFEQS2NdLMj3maWYe9Rt5muEw3LUfB5hmOpIrRVeBBkZsGyN2i
+         7/2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714521073; x=1715125873;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YOEM0xvLtojrhcgEFvmPYdUJPLv6ivSzHSsLdLUXzrI=;
+        b=VmReHMjcMu+i9cMiIB+vrr0B+uOWQzKQZ33nBbj3i1hk864KhmC7fuveyZv0d/KShT
+         FKRYGir7CuF+eGJfYSlwUfMFqYR8CVPESimmuyMyzSCQS252UYunMUBXxWy2UKSSLRMJ
+         IODqfeq/C9Qz58JnKDvk0QqpcRWB8OXvDqRVQ/Zkz1ZA6wIbOcx1ZbYT9x7t1fE1b79y
+         N8yco9uOb8Gxtp0BVF4U0HJGuYxV1wO5Mfn6JKmGGg99PFyHoAgZiTxrQYBK9ewdP0Uu
+         E56dtsV+3BMWtFf1NISqXde6unPJVT+86jrzJIQyTHDcZmVkw8yHNrrxv9qjPSPL7wgd
+         sj9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUgPNY2zEhf8NMFCkiGxmD0kIfsL/PQTHmKykY5yTUm0bFfqGADWlfVyutkjq8b8NDOQZP12Nkn0G89QYYGSdOGgjJwm1s1Kqq7izc=
+X-Gm-Message-State: AOJu0Yws/x5wkrvtOxPPs/0owxqJP0CVpV+hEyDqr5c90iTKCfw8U87D
+	gmvQUCbsha/EmE7wCGabOyZBD47g9HYfE5z87+pCXg9BKn2qsKIt+h2tVWDep15F6AO0HryJLOF
+	z+Q==
+X-Google-Smtp-Source: AGHT+IFJXIs/Lt+BtxjY7jBxKzzWVBtTxh64x30GUOCc5Tw5J5fH56D2Gr2lUi2tRLPjityAGVOjM5YrN70=
+X-Received: from edliaw.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:305d])
+ (user=edliaw job=sendgmr) by 2002:a0d:d614:0:b0:61c:89a4:dd5f with SMTP id
+ y20-20020a0dd614000000b0061c89a4dd5fmr271833ywd.0.1714521073133; Tue, 30 Apr
+ 2024 16:51:13 -0700 (PDT)
+Date: Tue, 30 Apr 2024 23:50:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v20 03/41] usb: host: xhci: Repurpose event handler for
- skipping interrupter events
-Content-Language: en-US
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-4-quic_wcheng@quicinc.com>
- <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: UId7krUyvkycsAgm6iTt_AwrnACSfBku
-X-Proofpoint-GUID: UId7krUyvkycsAgm6iTt_AwrnACSfBku
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-30_13,2024-04-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- adultscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 priorityscore=1501 phishscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404300156
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
+Message-ID: <20240430235057.1351993-1-edliaw@google.com>
+Subject: [PATCH v1 00/10] Define _GNU_SOURCE for sources using
+From: Edward Liaw <edliaw@google.com>
+To: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Edward Liaw <edliaw@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kernel-team@android.com, linux-sound@vger.kernel.org, 
+	linux-input@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mathias,
+809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+asprintf into kselftest_harness.h, which is a GNU extension and needs
+_GNU_SOURCE to either be defined prior to including headers or with the
+-D_GNU_SOURCE flag passed to the compiler.
 
-On 4/30/2024 4:02 AM, Mathias Nyman wrote:
-> On 26.4.2024 0.50, Wesley Cheng wrote:
->> Depending on the interrupter use case, the OS may only be used to handle
->> the interrupter event ring clean up.  In these scenarios, event TRBs 
->> don't
->> need to be handled by the OS, so introduce an xhci interrupter flag to 
->> tag
->> if the events from an interrupter needs to be handled or not.
-> 
-> Could you elaborate on this a bit.
-> 
-> If I understood correctly the whole point of requesting a secondary xhci 
-> interrupter
-> for the sideband device without ever requesting a real interrupt for it 
-> was to avoid
-> waking up the cpu and calling the interrupt handler.
-> 
+Edward Liaw (10):
+  selftests/sgx: Compile with -D_GNU_SOURCE
+  selftests/alsa: Compile with -D_GNU_SOURCE
+  selftests/hid: Compile with -D_GNU_SOURCE
+  selftests/kvm: Define _GNU_SOURCE
+  selftests/nci: Compile with -D_GNU_SOURCE
+  selftests/net: Define _GNU_SOURCE
+  selftests/prctl: Compile with -D_GNU_SOURCE
+  selftests/rtc: Compile with -D_GNU_SOURCE
+  selftests/tdx: Compile with -D_GNU_SOURCE
+  selftests/user_events: Compiled with -D_GNU_SOURCE
 
-Yes, this is the correct understanding.  We don't currently register the 
-separate interrupt line (from GIC) for the secondary interrupter, so the 
-main apps proc doesn't get interrupted on events generated on the 
-secondary interrupter.
+ tools/testing/selftests/alsa/Makefile                   | 1 +
+ tools/testing/selftests/hid/Makefile                    | 2 +-
+ tools/testing/selftests/kvm/x86_64/fix_hypercall_test.c | 2 ++
+ tools/testing/selftests/nci/Makefile                    | 2 +-
+ tools/testing/selftests/net/bind_wildcard.c             | 1 +
+ tools/testing/selftests/net/ip_local_port_range.c       | 1 +
+ tools/testing/selftests/net/reuseaddr_ports_exhausted.c | 2 ++
+ tools/testing/selftests/prctl/Makefile                  | 1 +
+ tools/testing/selftests/rtc/Makefile                    | 2 +-
+ tools/testing/selftests/sgx/Makefile                    | 2 +-
+ tools/testing/selftests/sgx/sigstruct.c                 | 2 --
+ tools/testing/selftests/tdx/Makefile                    | 2 +-
+ tools/testing/selftests/user_events/Makefile            | 2 +-
+ tools/testing/selftests/user_events/abi_test.c          | 1 -
+ 14 files changed, 14 insertions(+), 9 deletions(-)
 
-> with this flag is seems the normal xhci interrupt handler does get 
-> called for
-> sideband transfer events.
-> 
+--
+2.45.0.rc0.197.gbae5840b3b-goog
 
-Main intention was to utilize the refactoring you did to expose the 
-xhci_handle_event_trb() for both handling events on the main 
-interrupter, as well as the logic to skip events on the secondary 
-interrupter.
-
-https://lore.kernel.org/linux-usb/44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com/
-
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
->>   drivers/usb/host/xhci.h      |  1 +
->>   2 files changed, 14 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
->> index 52278afea94b..6c7a21f522cd 100644
->> --- a/drivers/usb/host/xhci-ring.c
->> +++ b/drivers/usb/host/xhci-ring.c
->> @@ -2973,14 +2973,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
->>   }
->>   /*
->> - * This function handles one OS-owned event on the event ring. It may 
->> drop
->> - * xhci->lock between event processing (e.g. to pass up port status 
->> changes).
->> + * This function handles one OS-owned event on the event ring, or 
->> ignores one event
->> + * on interrupters which are non-OS owned. It may drop xhci->lock 
->> between event
->> + * processing (e.g. to pass up port status changes).
->>    */
->>   static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct 
->> xhci_interrupter *ir,
->>                    union xhci_trb *event)
->>   {
->>       u32 trb_type;
->> +    /*
->> +     * Some interrupters do not need to handle event TRBs, as they 
->> may be
->> +     * managed by another entity, but rely on the OS to clean up.
->> +     */
->> +    if (ir->skip_events)
->> +        return 0;
->> +
-> 
-> I think we need another solution than a skip_events flag.
-> 
-> To make secondary xhci interrupters more useful in general it would make 
-> more
-> sense to add an interrupt handler function pointer to struct 
-> xhci_interrupter.
-> 
-> Then call that function instead of xhci_handle_event_trb()
->
-
-I agree that is how it should be for when support for actually utilizing 
-secondary interrupters for routing events to different targets (instead 
-of offloading).  However, since I don't have an existing use case that 
-will exercise this functionality, its a bit difficult to verify that it 
-should be working the way it was intended.
-
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
-> @@ -3098,8 +3098,8 @@ static int xhci_handle_events(struct xhci_hcd 
-> *xhci, struct xhci_interrupter *ir
-> 
->          /* Process all OS owned event TRBs on this event ring */
->          while (unhandled_event_trb(ir->event_ring)) {
-> -               err = xhci_handle_event_trb(xhci, ir, 
-> ir->event_ring->dequeue);
-> -
-> +               if (ir->handle_event_trb)
-> +                       err = ir->handle_event_trb(xhci, ir, 
-> ir->event_ring->dequeue);
->                  /*
->                   * If half a segment of events have been handled in one 
-> go then
->                   * update ERDP, and force isoc trbs to interrupt more 
-> often
-> 
-> The handler function would be passed to, and function pointer set in
-> xhci_create_secondary_interrupter()
-> 
-> For primary interrupter it would always be set to xhci_handle_event_trb()
-> 
-
-Yes, definitely agree with this for when we introduce support for 
-handling the secondary interrupter GIC line within the apps proc itself. 
-  Would prefer if we took up that effort in another series, but willing 
-to go back to the skip events loop previously implemented if the above 
-change isn't where you want to go with this.
-
-Thanks
-Wesley Cheng
-
-> Thanks
-> Mathias
-> 
