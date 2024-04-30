@@ -1,87 +1,95 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759613F9FC;
-	Tue, 30 Apr 2024 07:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A084338DFC;
+	Tue, 30 Apr 2024 07:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462153; cv=none; b=Epw96ETnZwVE++brdkz8kJIEAdVc81UPI+nkvLv6PbjmyjZKQpJRiOs/UVxi4iAQT/TRSKMiWQ9mO2RRlaMOoRLwxo4y0jCKxKl3tuP6S2zEWNkiZLN4wHdnDRW3jnylB0665jruxxrusX1N4K5Xg40cmycdDNUHWy3zwwOPJbE=
+	t=1714462474; cv=none; b=MkpNJAg0w/uK86HKolLowmQQyXznlhrSVOlgEzbUMQ5arO0+F0Oz0TVsuwVFVw5E8I1th0gEo6fISeAiN9nauXH8sYJ9N0Z3ZhbA3bv6h8AVf2ej20Z0og4bCevdxSpoRIxW+FosjRgM/dG+6Jz3GmZu7j0vMOcy+TolfuQqB2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462153; c=relaxed/simple;
-	bh=lweGfDIlGI2nmsgmRB1WBR7R2QWr5hP78T1d5i2qsj8=;
+	s=arc-20240116; t=1714462474; c=relaxed/simple;
+	bh=9BdL5rz1siwVikdm61Qcl+hhIn7YQCw3RRQ5IFAXeD4=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLLu3o2MUeco4fqenRIy6KoTvLkO8RZqXciYqOhKIlHRYN9rcqUDWlxNCVuGQL/ByW7A/2B5XsDvQALOidffJJ7+f8+p1gfg54t8Vi4UqPNfUjxtasz7XQGQw29CdYN52vXq3DZYZr7AgD+X7rou+tCRGvsLetqMAv0vf8nFchI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kEySrfs2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gCvtzm7i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kEySrfs2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gCvtzm7i; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=MyChhcAx0e1YHWpNdDMMX+uU/S2yLxJl7cPIFqjr6EOQ25n9ssOSukLItkavmQvPNR5a9QkLGPXrxM0YiNRmvlrexPYXqWL4uwbvCdxjI5LLyn2qtg/vW5ciFyAxJCekrmPd4yhoJkKiIvykMTPV9ypzZObx8TgeWlcrNVPCsOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZswrpLQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVxkGGSI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZswrpLQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVxkGGSI; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kEySrfs2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gCvtzm7i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kEySrfs2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gCvtzm7i"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZswrpLQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVxkGGSI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZswrpLQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVxkGGSI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D2C41F7C7;
-	Tue, 30 Apr 2024 07:29:09 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CA30C1F7C6;
+	Tue, 30 Apr 2024 07:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714462149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714462470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=69ZdtCtJjvr3V5TXSmtMXF57C4EjGwdpN/08M8Ut6SQ=;
-	b=kEySrfs2e/papNB7c33RAcjpYFHuM0BbA6aXi0jYdZpKfmTX36UURTU4tlNO2fjcma9CnQ
-	VC5IXT4Fp1hnnndqiWaBDVsB9U9N6lV/eVdl92/cjeJt1IwbNBIT7GyB/ZRpjUg+YJf6if
-	vAkQhQ9PIZTDH3CseWUz2FY3GbozWLk=
+	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
+	b=ZswrpLQ+ieWPRt1Eok+gO8PidsBh1j9m32vFqBj0b+9U1Y9tyf0FotzPgxdEfZbyk5lh9Z
+	CislQ5L3mWZd5ZIr1yGIRX5aUlWY+9Dx6PdeVYJVnE4zeTUW0lA/m/3cEzBcwCD042x64m
+	KXMV0J3u7xgRlT91U9W016pMe2MtmT0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714462149;
+	s=susede2_ed25519; t=1714462470;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=69ZdtCtJjvr3V5TXSmtMXF57C4EjGwdpN/08M8Ut6SQ=;
-	b=gCvtzm7iVM1AABXqCJvvc2njO8UJCGR3lLVj8/SREf69eae9eJTWfcZ1ZqmPsApGBuRjX9
-	qoqsyj7Ftsg+PWCA==
+	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
+	b=JVxkGGSI4nJShR/JrRSMO3a3J7TH71N+5Jf8K1arv4T62Vrz8V4GHn/+sEGvFADa25JNeR
+	tnfmHp9juR+cGmBQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZswrpLQ+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JVxkGGSI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714462149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714462470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=69ZdtCtJjvr3V5TXSmtMXF57C4EjGwdpN/08M8Ut6SQ=;
-	b=kEySrfs2e/papNB7c33RAcjpYFHuM0BbA6aXi0jYdZpKfmTX36UURTU4tlNO2fjcma9CnQ
-	VC5IXT4Fp1hnnndqiWaBDVsB9U9N6lV/eVdl92/cjeJt1IwbNBIT7GyB/ZRpjUg+YJf6if
-	vAkQhQ9PIZTDH3CseWUz2FY3GbozWLk=
+	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
+	b=ZswrpLQ+ieWPRt1Eok+gO8PidsBh1j9m32vFqBj0b+9U1Y9tyf0FotzPgxdEfZbyk5lh9Z
+	CislQ5L3mWZd5ZIr1yGIRX5aUlWY+9Dx6PdeVYJVnE4zeTUW0lA/m/3cEzBcwCD042x64m
+	KXMV0J3u7xgRlT91U9W016pMe2MtmT0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714462149;
+	s=susede2_ed25519; t=1714462470;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=69ZdtCtJjvr3V5TXSmtMXF57C4EjGwdpN/08M8Ut6SQ=;
-	b=gCvtzm7iVM1AABXqCJvvc2njO8UJCGR3lLVj8/SREf69eae9eJTWfcZ1ZqmPsApGBuRjX9
-	qoqsyj7Ftsg+PWCA==
+	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
+	b=JVxkGGSI4nJShR/JrRSMO3a3J7TH71N+5Jf8K1arv4T62Vrz8V4GHn/+sEGvFADa25JNeR
+	tnfmHp9juR+cGmBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49239133A7;
-	Tue, 30 Apr 2024 07:29:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A64D133A7;
+	Tue, 30 Apr 2024 07:34:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X5C2EMWdMGYRNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Apr 2024 07:29:09 +0000
-Date: Tue, 30 Apr 2024 09:29:21 +0200
-Message-ID: <87edannwa6.wl-tiwai@suse.de>
+	id 4i4kGAafMGbyNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 30 Apr 2024 07:34:30 +0000
+Date: Tue, 30 Apr 2024 09:34:42 +0200
+Message-ID: <87cyq7nw19.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Manuel Barrio Linares <mbarriolinares@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	<alsa-devel@alsa-project.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH v1 0/2] ALSA: hda: cs35l41: Ignore errors when configuring interrupts to allow laptops with bad ACPI to play audio
-In-Reply-To: <20240429154853.9393-1-sbinding@opensource.cirrus.com>
-References: <20240429154853.9393-1-sbinding@opensource.cirrus.com>
+	Geraldo Nascimento <geraldogabriel@gmail.com>,
+	dengxiang <dengxiang@nfschina.com>,
+	Jussi Laako <jussi@sonarnerd.net>,
+	Christos Skevis <xristos.thes@gmail.com>,
+	Alexander Tsoy <alexander@tsoy.me>,
+	Jeremie Knuesel <knuesel@gmail.com>,
+	WhaleChang <whalechang@google.com>,
+	Sean Young <sean@mess.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add sampling rates support for Mbox3
+In-Reply-To: <20240429193522.10380-1-mbarriolinares@gmail.com>
+References: <87il00pdsz.wl-tiwai@suse.de>
+	<20240429193522.10380-1-mbarriolinares@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,49 +99,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
-X-Spam-Score: -2.58
+X-Spam-Score: -3.98
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: CA30C1F7C6
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.58 / 50.00];
-	BAYES_HAM(-2.28)[96.64%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.98 / 50.00];
+	BAYES_HAM(-2.97)[99.88%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,nfschina.com,sonarnerd.net,tsoy.me,google.com,mess.org,vger.kernel.org];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 
-On Mon, 29 Apr 2024 17:48:51 +0200,
-Stefan Binding wrote:
+On Mon, 29 Apr 2024 21:35:00 +0200,
+Manuel Barrio Linares wrote:
 > 
-> Some laptops have a bad _CRS defined for its interrupt.
-> This errors out inside the driver probe for CS35L41 HDA.
-> However, there is no fix in software for this bad configuration,
-> and it is unlikely to get a new BIOS, therefore it is better to
-> allow the laptop to continue probe, instead of erroring out inside
-> the probe. The interrupt is only used for Error Detection and
-> recovery, without the interrupt the driver will continue to function,
-> but errors will not be detected, and recovery will require a reboot.
-> 
-> Also add support for ASUS ROG 2024 laptops.
-> These laptops were released without _DSD, so need to be added into
-> the CS35L41 config table. Quirks for these laptops already exist.
-> 
-> Stefan Binding (2):
->   ALSA: hda: cs35l41: Ignore errors when configuring IRQs
->   ALSA: hda: cs35l41: Add support for ASUS ROG 2024 Laptops
+> +	set_rate = le32_to_cpu(buff4);
+> +	if (new_rate != set_rate)
 
-Thanks, applied both patches to for-next branch now.
+Those two lines cause sparse warnings, unfortunately.
+You can't assign int to __le32 type directly, and you can't compare
+between those types directly, either.
 
+That said, it should be rather like
+
+	if (new_rate != le32_to_cpu(buff4))
+		dev_warn(...);
+
+
+You can check the sparse warning by yourself by passing C=1 argument
+to make, too.
+
+
+thanks,
 
 Takashi
