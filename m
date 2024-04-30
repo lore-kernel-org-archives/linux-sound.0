@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639FF1A0AF4
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 14:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755943AC16;
+	Tue, 30 Apr 2024 14:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714487494; cv=none; b=N1Mz08N26XFJpB3KlZeIsoBDoStDUhSB9uNFLectLlw4NX5uNV8Sgkm9DJgHu675zKcVbEeJbuUsBu+9Iham1cUjgtto9J6pJ1GN9ONl607JW+pAXQbHfEdQSIjkob0FpOC27KJzoejOOLm2lLGIgkUo8QwhCc36XtjLGSWs3tc=
+	t=1714487497; cv=none; b=jCSU8w0xHjeHz4nv67t2l33g7kjeQwelf6ibk7TdgqZa95JlWXjjulHFvwZ/YrVs5jFLiessYlxSUpnVexi0LkdWvd1njGlrvhuDq1elqXiEKhhivCBNI+TJ3ITsdbKl4n7cmzA9n/ciehRgJFupEIaA0GJpWIaBA6o0Sn6rMRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714487494; c=relaxed/simple;
-	bh=P/HYWi/LV077z/N4A+ZZFfgcNLE/hTASIK4wgh7zsPU=;
+	s=arc-20240116; t=1714487497; c=relaxed/simple;
+	bh=rAZcmLCKs6C3ZgBBEHG7AWSAjm/WmGO8airtDzp/QGk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IKMwFYmdCu0ZwpZTzMkx9M2C46p1/raKVy/93go0gfDqIYwTbjL9mJMpRMHTaedRSUrsQs8JIpxIB9vQy00kX3ver2U/o69l+nhGTEIMDy7HDzEv+IYOEl1/Bn1f7Yq5nh44y3ptk7VKWEB75IyHI7WcQh8LhnJ+RBeC73zzbk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LK+YxBbP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=f6Q10fQGj141PsuxPpgWcjCqZgXDIDVAJ+napG6yU3COAMGqVwmcNl3x9jA4w/sR+UK7gfiyZyB2Z8qxxRpNTvLdjU44KAqGkQMq2fQWZJMjG3ZxcDP7+A18uvMbdjlVbupk2U/HrOdDR8+wjTTu2NBtdQwzVXittzzFsOUr6BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDLYhQNv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LK+YxBbP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15ADEC4AF19;
-	Tue, 30 Apr 2024 14:31:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDLYhQNv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FBF9C4AF1D;
+	Tue, 30 Apr 2024 14:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714487493;
-	bh=P/HYWi/LV077z/N4A+ZZFfgcNLE/hTASIK4wgh7zsPU=;
+	s=k20201202; t=1714487496;
+	bh=rAZcmLCKs6C3ZgBBEHG7AWSAjm/WmGO8airtDzp/QGk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LK+YxBbPqxXLUdS2eBmf/gK0xn3SWu1zTu+GSvZ6K4hmjd89eFab2s1Vv1VtVFCFm
-	 +DTyf/Q/X+Rya8uKNgdfx776lXc8tyQZK2vEPwfHtqyJbenDRX8QHNzkCFwrcIOLoh
-	 u4fcQrB4W2uZroJfqMFX+ZpSnSy6qcPXApjeae3Ikeq4M4Suj0y3h2ULirXX7iMHOS
-	 r1FVkPeha5HCkHKetmMyM4aIC+9RoppHFqHnBZFll3m0chIcy53+ViMbZttnNyuDOd
-	 jOibllnSk9BGWrXYST6DYCd5e34+2f1hZTt6wgZiUYL65k3XKngd9rGTsMZVw72SlI
-	 8YFCXkLT3sRWQ==
+	b=WDLYhQNvf2fu44bGta60FeP2ltWuqBq25yIETMyjyaRLOf0R0dBo3EkBFcjSGYYKl
+	 sjZHjwCmwL7y2zunGhlRgrA9L5PD5yGRwBQqpFpI0vHYcw9dPrilRXDxHSYRLIty6M
+	 eCPTh+REpLaMHnsPNucEPeSLJHfiIEWNdTywAgPYi35Sjx53lK+SPmmwpCqgnFhmED
+	 UMuniQnAz5+7tCJD4m4bl3JH73h9+muxvPBhRwEo2Z87PWvoZuoQkNUTrHeGO6AUCy
+	 w7wf01nrJILxMHp4lPHq9Nw0VvUv3q5YxFeMRvpT0rBg5jawK3SQT+RrjnZgabGkc4
+	 EaNnnu/rqisow==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de
-In-Reply-To: <20240426153033.38500-1-pierre-louis.bossart@linux.intel.com>
-References: <20240426153033.38500-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] ASoC: da7219-aad: fix usage of
- device_get_named_child_node()
-Message-Id: <171448749253.1870439.912738117860341147.b4-ty@kernel.org>
-Date: Tue, 30 Apr 2024 23:31:32 +0900
+To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Joao Schim <joao@schimsalabim.eu>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240429194920.1596257-1-joao@schimsalabim.eu>
+References: <20240429194920.1596257-1-joao@schimsalabim.eu>
+Subject: Re: [PATCH v2] ASoC: sunxi: DMIC: Add controls for adjusting the
+ mic gains
+Message-Id: <171448749392.1870439.1399491803158865203.b4-ty@kernel.org>
+Date: Tue, 30 Apr 2024 23:31:33 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,16 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Fri, 26 Apr 2024 10:30:33 -0500, Pierre-Louis Bossart wrote:
-> The documentation for device_get_named_child_node() mentions this
-> important point:
+On Mon, 29 Apr 2024 21:49:20 +0200, Joao Schim wrote:
+> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
+> the gain (left + right) of each of the four supported channels.
 > 
-> "
-> The caller is responsible for calling fwnode_handle_put() on the
-> returned fwnode pointer.
-> "
+> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
 > 
-> [...]
+> 
 
 Applied to
 
@@ -63,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: da7219-aad: fix usage of device_get_named_child_node()
-      commit: e8a6a5ad73acbafd98e8fd3f0cbf6e379771bb76
+[1/1] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
+      commit: 9a8cadddd9303ae15d1d518c4f2ddf00ee668729
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
