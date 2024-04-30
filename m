@@ -1,143 +1,191 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B363175550
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 15:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4DD171E67
+	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 16:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714492366; cv=none; b=WAZ23pLzaR1Qdb2nitN11t3Pr2Hcb5va17lqsrjo5YTUrZQn3w7D2+Do90rIaaeWgmZihzBDpqAd1NZz+1uad9Ezzk+z26r1DBKVhqjwvqQ3RR8rAeT9v21GbiTmZgASX85vhEZAo0sDVwB4wg8J1eO3pqzKM1lSKr23TNkkpXk=
+	t=1714493435; cv=none; b=UjlIH3GJ91CmyaVpxRk/nhx1Sb7G6YORoMeSOBIOgmeP5n0nj344vGvz8SzsuOkFE1tjZ4+ORcaZaYSUeWxpT27c9XBbD8DVFAcfQAalyTevjyG0AtwPrJZ3FGoZiE+2UjLGMBB6uMioAFs/CS/8jeOrctsqsUeZV19vXrW8I3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714492366; c=relaxed/simple;
-	bh=Mkpq73gjTR73XctiXfrax6+J2t85xFnNqnCf3gtMt8E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pcvnACyCD+2ykBCEERmD4NOs82UhybjVoYNYuHjl0EoeXcMqG82L/d990GJcadDcGrcM5CGMm+V2r2af7CGODaI9U4A8iHRuL7bs2yfFdGhvKZvnULQYuv5LLBTmuW2vOTWgYOlhwv2mNfIrQfvSHBE7wTGkN/xdA3kp+EKydp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ek2Xr3go; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714493435; c=relaxed/simple;
+	bh=5YrcsA9BSVaMcEtecwvuipTc+x5BO5KTBuSw3kYvP5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o/EAoRz6UwNBGLJCTanDIURagTwCqJ6yjA8NRex1q2e6gm4Q9MYAtHU6QMiluWph++dlGi9K1/9KA4D3GHp1eBXYESBex941Xn2GY4i2CZTAYuRi57G/B72GpVf0LGQGsGB8z2DGLiaf6ewUBSMTM6EveatAvMN5dNwXKK84eOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=1ctABKIw; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ek2Xr3go"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56e1bbdb362so6308019a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 08:52:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714492362; x=1715097162; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9KfFTLch5XOI/EXaMHo6LvMOjKJ+8XzavvpoQj96RFg=;
-        b=Ek2Xr3golc9WphS9Tn65KPQLQfXjxsJXDhvdgUjn3k0aCeB4jSaITGEnkNr/1v85PN
-         5y4ypd4radS9WoCSTs3Je1hXsEfMEejUQTHsA8lV5QMBBsguAM6gcdPnDUzK73yFjT44
-         7IGkUJWDjXs5eur4My3RC8oxKC2xgGHyUpdktnExlPQ2ietPdpUTS5LOrq9cZ1F4jVvS
-         ibe2SzgsFgUD0k1wS7baNu7wN0OssBRpZ+maFTfnpTAG4VQcrLPHlR2X/M+Pdze7CWy1
-         n1A/v71deurLX2/F+1Gq4crMNcY2aaYYQMywBLOqEeLZ1W+Fg+33CNjnq6dpd6sBLcre
-         nY4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714492362; x=1715097162;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9KfFTLch5XOI/EXaMHo6LvMOjKJ+8XzavvpoQj96RFg=;
-        b=SNH6gy7R/sUVB0reQD4SKR6t7PeMbQDPgzeGM5X6NjnsQtx2k8pqDr8Gmgt8PffI6T
-         1fYMpraH6LLxtwMaXTHNC5gxQdfINY8iyq25wfhrEAIC19+AjVZURVWDNjeeizMCPZuu
-         5bit5YNx8LYelbvYOhLc1MF5BjYu930i/ngZz/KjNY2tyY49L5OrlqaAnBsoSViEf9uM
-         Q9zE/tyZ0jWBGCzkn9mBrpQhfpNYZ0m9xRQVU/jZOWHWkWkcZbaRgX2y6JNS1q+0276I
-         AmBALSca7uz1KWEsZ78nn//hhhjmF/82pFpnFs8bRc5VoWak1lotZKcfICv2bak9yaVA
-         nkBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfWkBqStziY98wNI7CKL5bX7ReFgzJQcKUhizVADpedu8Rebbk8OT2NoTCy6VWsF9Gq1XUjvytt8/EDFOktreQLqKyiTgUBkHMMlM=
-X-Gm-Message-State: AOJu0YyC6pOABPx/WxX23a9ds8bOyTzdVUZoEbXD8KxpaEI/V+ZN/1mF
-	Cwpfk8VyUmCPcMsEu3aeVH5q5M5fkLsIKyldHbDIZPGs38GnbMC2jI4af2Uzhy0=
-X-Google-Smtp-Source: AGHT+IHFTyIexNzvxZiGhhOcmFLgu03pKkJlmVV0dJGT012IkIEX0JCk3Mjl5RDo92gsR+zbugN9MA==
-X-Received: by 2002:a50:9f45:0:b0:568:cdd8:cf60 with SMTP id b63-20020a509f45000000b00568cdd8cf60mr167719edf.8.1714492362588;
-        Tue, 30 Apr 2024 08:52:42 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id c7-20020a0564021f8700b0057000ecadb0sm14368961edc.8.2024.04.30.08.52.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 08:52:42 -0700 (PDT)
-Message-ID: <41e2ac7b-3f24-493d-a244-1848ec8b079e@linaro.org>
-Date: Tue, 30 Apr 2024 17:52:39 +0200
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="1ctABKIw"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 4B64711FD;
+	Tue, 30 Apr 2024 18:10:27 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 4B64711FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1714493427; bh=OPZlDan8rnZIWcXcMDyEuVfAUg8r4KZEGniIm236+LY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=1ctABKIwEuOXbe+vbOHxgKHLuZMm/CYaxoxSpqddfQ3lJ4JgE3giTb7fkfxdXPEBT
+	 YH7z4pI2C1yTM3uGXpAEjUFGSVmNfbNQ6roTMEjhF6TVKtla23/RXEz7l966CDek23
+	 LcLusiPJOJl7Sglqa1RCci0XqlDFJyeZEYmUYEeM=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 30 Apr 2024 18:10:23 +0200 (CEST)
+From: Jaroslav Kysela <perex@perex.cz>
+To:  <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
+Date: Tue, 30 Apr 2024 18:10:12 +0200
+Message-ID: <20240430161012.4011064-1-perex@perex.cz>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: use inline function for type safety in
- snd_soc_substream_to_rtd()
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240430140938.328088-1-krzysztof.kozlowski@linaro.org>
- <ZjEGrnlQfFeDyLUc@finisterre.sirena.org.uk>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZjEGrnlQfFeDyLUc@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 30/04/2024 16:56, Mark Brown wrote:
-> On Tue, Apr 30, 2024 at 04:09:38PM +0200, Krzysztof Kozlowski wrote:
-> 
->> -#define snd_soc_substream_to_rtd(substream) \
->> -	(struct snd_soc_pcm_runtime *)snd_pcm_substream_chip(substream)
->> +
->> +static inline struct snd_soc_pcm_runtime *
->> +snd_soc_substream_to_rtd(const struct snd_pcm_substream *substream)
->> +{
->> +	return substream->private_data;
->> +}
-> 
-> This is not an obvious direct substitution, we've skipped the
-> snd_pcm_subsystem_chip() (which is also a macro, but that just suggests
-> it could do with it's own cleanup) and the commit log didn't mention it.
+Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+internal command"), there was a possibility to pass information
+about the synchronized streams to the user space. The mentioned
+commit removed blindly the appropriate code with an irrelevant comment.
 
-Yes, you're right. I should keep snd_pcm_substream_chip().
+The revert may be appropriate, but since this API was lost for several
+years without any complains, it's time to improve it. The hardware
+parameters may change the used stream clock source (e.g. USB hardware)
+so move this synchronization ID to hw_params as read-only field.
 
-Best regards,
-Krzysztof
+It seems that pipewire can benefit from this API (disable adaptive
+resampling for perfectly synchronized PCM streams) now.
+
+Cc: Takashi Sakamoto <takaswie@kernel.org>
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ include/sound/pcm.h         |  9 +++++++++
+ include/uapi/sound/asound.h |  8 +++++---
+ sound/core/pcm_lib.c        | 13 +++++++++++++
+ sound/core/pcm_native.c     |  6 ++++++
+ 4 files changed, 33 insertions(+), 3 deletions(-)
+
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 210096f124ee..f716e0d0d174 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -93,6 +93,7 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_IOCTL1_CHANNEL_INFO	2
+ /* 3 is absent slot. */
+ #define SNDRV_PCM_IOCTL1_FIFO_SIZE	4
++#define SNDRV_PCM_IOCTL1_SYNC_ID	5
+ 
+ #define SNDRV_PCM_TRIGGER_STOP		0
+ #define SNDRV_PCM_TRIGGER_START		1
+@@ -1565,6 +1566,14 @@ static inline u64 pcm_format_to_bits(snd_pcm_format_t pcm_format)
+ 	     (__force int)(f) <= (__force int)SNDRV_PCM_FORMAT_LAST;	\
+ 	     (f) = (__force snd_pcm_format_t)((__force int)(f) + 1))
+ 
++/**
++ * is sync id (clock id) empty?
++ */
++static inline bool pcm_sync_empty(union snd_pcm_sync_id *sync)
++{
++	return sync->id64[0] == 0 && sync->id64[1] == 0;
++}
++
+ /* printk helpers */
+ #define pcm_err(pcm, fmt, args...) \
+ 	dev_err((pcm)->card->dev, fmt, ##args)
+diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+index 628d46a0da92..13f8a08f3f33 100644
+--- a/include/uapi/sound/asound.h
++++ b/include/uapi/sound/asound.h
+@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
+  *                                                                           *
+  *****************************************************************************/
+ 
+-#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
++#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
+ 
+ typedef unsigned long snd_pcm_uframes_t;
+ typedef signed long snd_pcm_sframes_t;
+@@ -334,6 +334,7 @@ union snd_pcm_sync_id {
+ 	unsigned char id[16];
+ 	unsigned short id16[8];
+ 	unsigned int id32[4];
++	__u64 id64[2];
+ };
+ 
+ struct snd_pcm_info {
+@@ -348,7 +349,7 @@ struct snd_pcm_info {
+ 	int dev_subclass;		/* SNDRV_PCM_SUBCLASS_* */
+ 	unsigned int subdevices_count;
+ 	unsigned int subdevices_avail;
+-	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
++	unsigned char pad1[16];		/* was: hardware synchronization ID */
+ 	unsigned char reserved[64];	/* reserved for future... */
+ };
+ 
+@@ -420,7 +421,8 @@ struct snd_pcm_hw_params {
+ 	unsigned int rate_num;		/* R: rate numerator */
+ 	unsigned int rate_den;		/* R: rate denominator */
+ 	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
+-	unsigned char reserved[64];	/* reserved for future */
++	union snd_pcm_sync_id sync;	/* R: synchronization ID (perfect sync - one clock source) */
++	unsigned char reserved[48];	/* reserved for future */
+ };
+ 
+ enum {
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 6f73b3c2c205..8ae63e4cc5a5 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -1810,6 +1810,17 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
++static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
++				     void *arg)
++{
++	struct snd_pcm_hw_params *params = arg;
++	union snd_pcm_sync_id *sync = &params->sync;
++
++	if (pcm_sync_empty(sync))
++		memcpy(sync, &substream->runtime->sync, sizeof(*sync));
++	return 0;
++}
++
+ /**
+  * snd_pcm_lib_ioctl - a generic PCM ioctl callback
+  * @substream: the pcm substream instance
+@@ -1831,6 +1842,8 @@ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+ 		return snd_pcm_lib_ioctl_channel_info(substream, arg);
+ 	case SNDRV_PCM_IOCTL1_FIFO_SIZE:
+ 		return snd_pcm_lib_ioctl_fifo_size(substream, arg);
++	case SNDRV_PCM_IOCTL1_SYNC_ID:
++		return snd_pcm_lib_ioctl_sync_id(substream, arg);
+ 	}
+ 	return -ENXIO;
+ }
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 0b76e76823d2..63fcb08ee93d 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -533,6 +533,12 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
+ 					  SNDRV_PCM_INFO_MMAP_VALID);
+ 	}
+ 
++	err = snd_pcm_ops_ioctl(substream,
++				SNDRV_PCM_IOCTL1_SYNC_ID,
++				params);
++	if (err < 0)
++		return err;
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
 
