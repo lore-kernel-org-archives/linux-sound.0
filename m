@@ -1,161 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A084338DFC;
-	Tue, 30 Apr 2024 07:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA5B405F2;
+	Tue, 30 Apr 2024 08:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462474; cv=none; b=MkpNJAg0w/uK86HKolLowmQQyXznlhrSVOlgEzbUMQ5arO0+F0Oz0TVsuwVFVw5E8I1th0gEo6fISeAiN9nauXH8sYJ9N0Z3ZhbA3bv6h8AVf2ej20Z0og4bCevdxSpoRIxW+FosjRgM/dG+6Jz3GmZu7j0vMOcy+TolfuQqB2I=
+	t=1714464143; cv=none; b=TS/BRL83nWDXZ3misLstPqMCHBMIl5bn3g53Rz2LXiuDLxg4Ctx5FgnMcpXc66xXcVvqBMo9I5tCdIWRH/dAt/seMJcljmrx+g7R5DB1Ps3ktD8rTApiV3CemQcweCwiwv8tPur4r0GcDnEYP+tEb/JpyjLbGR2xfGix+wJmn0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462474; c=relaxed/simple;
-	bh=9BdL5rz1siwVikdm61Qcl+hhIn7YQCw3RRQ5IFAXeD4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MyChhcAx0e1YHWpNdDMMX+uU/S2yLxJl7cPIFqjr6EOQ25n9ssOSukLItkavmQvPNR5a9QkLGPXrxM0YiNRmvlrexPYXqWL4uwbvCdxjI5LLyn2qtg/vW5ciFyAxJCekrmPd4yhoJkKiIvykMTPV9ypzZObx8TgeWlcrNVPCsOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZswrpLQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVxkGGSI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZswrpLQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JVxkGGSI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714464143; c=relaxed/simple;
+	bh=yVJdK01yhCnUukA30JdDhN5ZSKoRK85R+ezjnS2GijM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lSKnzHzOYFnnCllhcrl8M7Y9GT0WGUkGu2fSjKoQlbxtSZQyyiUxDZ1WThwPDz+xdveFqIxbpvv5N1aZMuzqAOLBSQnIRurJMCTxGHjgULfaX6T+3+ka1tbK/yHSOdC0E9Prcc/l2lCssNX6DfsBDmfRaRhrqjUmHouo/UfiNMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Wci2KBcs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZswrpLQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVxkGGSI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZswrpLQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JVxkGGSI"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CA30C1F7C6;
-	Tue, 30 Apr 2024 07:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714462470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
-	b=ZswrpLQ+ieWPRt1Eok+gO8PidsBh1j9m32vFqBj0b+9U1Y9tyf0FotzPgxdEfZbyk5lh9Z
-	CislQ5L3mWZd5ZIr1yGIRX5aUlWY+9Dx6PdeVYJVnE4zeTUW0lA/m/3cEzBcwCD042x64m
-	KXMV0J3u7xgRlT91U9W016pMe2MtmT0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714462470;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
-	b=JVxkGGSI4nJShR/JrRSMO3a3J7TH71N+5Jf8K1arv4T62Vrz8V4GHn/+sEGvFADa25JNeR
-	tnfmHp9juR+cGmBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZswrpLQ+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JVxkGGSI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714462470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
-	b=ZswrpLQ+ieWPRt1Eok+gO8PidsBh1j9m32vFqBj0b+9U1Y9tyf0FotzPgxdEfZbyk5lh9Z
-	CislQ5L3mWZd5ZIr1yGIRX5aUlWY+9Dx6PdeVYJVnE4zeTUW0lA/m/3cEzBcwCD042x64m
-	KXMV0J3u7xgRlT91U9W016pMe2MtmT0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714462470;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=71/GVDgdlfEFcv6CwQsH1RgBK1dMGCf8k3QOq5VUuuA=;
-	b=JVxkGGSI4nJShR/JrRSMO3a3J7TH71N+5Jf8K1arv4T62Vrz8V4GHn/+sEGvFADa25JNeR
-	tnfmHp9juR+cGmBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A64D133A7;
-	Tue, 30 Apr 2024 07:34:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4i4kGAafMGbyNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Apr 2024 07:34:30 +0000
-Date: Tue, 30 Apr 2024 09:34:42 +0200
-Message-ID: <87cyq7nw19.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Manuel Barrio Linares <mbarriolinares@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Geraldo Nascimento <geraldogabriel@gmail.com>,
-	dengxiang <dengxiang@nfschina.com>,
-	Jussi Laako <jussi@sonarnerd.net>,
-	Christos Skevis <xristos.thes@gmail.com>,
-	Alexander Tsoy <alexander@tsoy.me>,
-	Jeremie Knuesel <knuesel@gmail.com>,
-	WhaleChang <whalechang@google.com>,
-	Sean Young <sean@mess.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: Add sampling rates support for Mbox3
-In-Reply-To: <20240429193522.10380-1-mbarriolinares@gmail.com>
-References: <87il00pdsz.wl-tiwai@suse.de>
-	<20240429193522.10380-1-mbarriolinares@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Wci2KBcs"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43U3tGxi028667;
+	Tue, 30 Apr 2024 08:01:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=GbwTd6BSjMG9RMTPFLFiWPip1PAsE7tlTno/hl5oWyc=; b=Wc
+	i2KBcsfht+cUMJKoqoB3EdqTZh6AduhAAH+HsCPqs5ajqiGHVRVpTEMkvclbRipM
+	x09kwYuCYoH0le70E6aLmknVp5fvTLvFgXtNFPZ7aa4bQrrorhiMQw9KgUCzufqf
+	/EJ8beUBFumjECZNGB2kWcGPZnldJjPpLVvoWcK6MT/nFRW5rdE1uqgn247NZ/L1
+	/u2qvAjm7wAuttXX1UlLjv+qlDlV0Jo33cRjEnus+jxbxZPVk7mhXxvzdb+h0JJe
+	4GzVe105ObdfaMfYAP4Pae6Jke554uusHFVOJniLhL7lroaRMam1HCO3uihVsAAs
+	nsXnUdkHSu52Hwz5c95Q==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xtqkr8vc6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Apr 2024 08:01:36 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43U81Z3I021417
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Apr 2024 08:01:35 GMT
+Received: from [10.110.61.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
+ 2024 01:01:34 -0700
+Message-ID: <9707364c-9743-83e2-2fc6-86c76322a1da@quicinc.com>
+Date: Tue, 30 Apr 2024 01:01:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.98
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: CA30C1F7C6
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.98 / 50.00];
-	BAYES_HAM(-2.97)[99.88%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,nfschina.com,sonarnerd.net,tsoy.me,google.com,mess.org,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v20 22/41] ASoC: usb: Add PCM format check API for USB
+ backend
+To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
+	<amadeuszx.slawinski@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-23-quic_wcheng@quicinc.com>
+ <3d70c19f-bab8-4e50-9551-de406a0e0314@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <3d70c19f-bab8-4e50-9551-de406a0e0314@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: btr3Xp9rudx4won1D-9fWNtZMOuVnQ-Y
+X-Proofpoint-ORIG-GUID: btr3Xp9rudx4won1D-9fWNtZMOuVnQ-Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-30_04,2024-04-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 mlxlogscore=874 malwarescore=0
+ phishscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404300057
 
-On Mon, 29 Apr 2024 21:35:00 +0200,
-Manuel Barrio Linares wrote:
+Hi Amadeusz,
+
+On 4/26/2024 6:25 AM, Amadeusz Sławiński wrote:
+> On 4/25/2024 11:51 PM, Wesley Cheng wrote:
+>> Introduce a helper to check if a particular PCM format is supported by 
+>> the
+>> USB audio device connected.  If the USB audio device does not have an
+>> audio profile which can support the requested format, then notify the USB
+>> backend.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
 > 
-> +	set_rate = le32_to_cpu(buff4);
-> +	if (new_rate != set_rate)
+> (...)
+> 
+>> +/**
+>> + * snd_soc_usb_find_format() - Check if audio format is supported
+>> + * @card_idx: USB sound chip array index
+>> + * @params: PCM parameters
+>> + * @direction: capture or playback
+>> + *
+>> + * Ensure that a requested audio profile from the ASoC side is able 
+>> to be
+>> + * supported by the USB device.
+>> + *
+>> + * Return 0 on success, negative on error.
+>> + *
+>> + */
+>> +int snd_soc_usb_find_format(int card_idx, struct snd_pcm_hw_params 
+>> *params,
+>> +            int direction)
+> 
+> Perhaps name function similar to its snd_usb equivalent, so 
+> snd_soc_usb_find_supported_format?
+> 
 
-Those two lines cause sparse warnings, unfortunately.
-You can't assign int to __le32 type directly, and you can't compare
-between those types directly, either.
+Will do.
 
-That said, it should be rather like
-
-	if (new_rate != le32_to_cpu(buff4))
-		dev_warn(...);
-
-
-You can check the sparse warning by yourself by passing C=1 argument
-to make, too.
-
-
-thanks,
-
-Takashi
+Thanks
+Wesley Cheng
