@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755943AC16;
-	Tue, 30 Apr 2024 14:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5341A38C3;
+	Tue, 30 Apr 2024 14:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714487497; cv=none; b=jCSU8w0xHjeHz4nv67t2l33g7kjeQwelf6ibk7TdgqZa95JlWXjjulHFvwZ/YrVs5jFLiessYlxSUpnVexi0LkdWvd1njGlrvhuDq1elqXiEKhhivCBNI+TJ3ITsdbKl4n7cmzA9n/ciehRgJFupEIaA0GJpWIaBA6o0Sn6rMRs=
+	t=1714487500; cv=none; b=X0KETe4nPz1a/BeFNLgKzf2tAkxipKVrDps5mgJvceXVSkAH3EBxShIYz2UR3M/nr3OZ91ShK9U2S0YXb+A5UNrDlHDLitiN9dcdlOCdkiePzqhMu7psoCKMsdeZyWEjEW/DQWqq+FMqaLOOdkVddyckWOAduDtjrdkAJTwvmdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714487497; c=relaxed/simple;
-	bh=rAZcmLCKs6C3ZgBBEHG7AWSAjm/WmGO8airtDzp/QGk=;
+	s=arc-20240116; t=1714487500; c=relaxed/simple;
+	bh=HNbDuaW8oEBQ64Jwa1SAb+ct56UECAT4LCJMhkAgEkg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f6Q10fQGj141PsuxPpgWcjCqZgXDIDVAJ+napG6yU3COAMGqVwmcNl3x9jA4w/sR+UK7gfiyZyB2Z8qxxRpNTvLdjU44KAqGkQMq2fQWZJMjG3ZxcDP7+A18uvMbdjlVbupk2U/HrOdDR8+wjTTu2NBtdQwzVXittzzFsOUr6BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDLYhQNv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fNP2HIvcFvt2mPO0eW5u7x/Gm17XK9URNem7dZybGBHEAe8nRuFuCipt7GQFZ+vJH5z1ixamyy8o2ma0EwY9xBQoZP44zMqGEfsC01P2ODGBoVA9Yd1QQUkEocGj+bKrOthY+NW5OAvH4RTq4497EPwp2n8mr/gIOoIRgO3ohEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=On+hvumZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDLYhQNv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FBF9C4AF1D;
-	Tue, 30 Apr 2024 14:31:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="On+hvumZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F498C2BBFC;
+	Tue, 30 Apr 2024 14:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714487496;
-	bh=rAZcmLCKs6C3ZgBBEHG7AWSAjm/WmGO8airtDzp/QGk=;
+	s=k20201202; t=1714487499;
+	bh=HNbDuaW8oEBQ64Jwa1SAb+ct56UECAT4LCJMhkAgEkg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WDLYhQNvf2fu44bGta60FeP2ltWuqBq25yIETMyjyaRLOf0R0dBo3EkBFcjSGYYKl
-	 sjZHjwCmwL7y2zunGhlRgrA9L5PD5yGRwBQqpFpI0vHYcw9dPrilRXDxHSYRLIty6M
-	 eCPTh+REpLaMHnsPNucEPeSLJHfiIEWNdTywAgPYi35Sjx53lK+SPmmwpCqgnFhmED
-	 UMuniQnAz5+7tCJD4m4bl3JH73h9+muxvPBhRwEo2Z87PWvoZuoQkNUTrHeGO6AUCy
-	 w7wf01nrJILxMHp4lPHq9Nw0VvUv3q5YxFeMRvpT0rBg5jawK3SQT+RrjnZgabGkc4
-	 EaNnnu/rqisow==
+	b=On+hvumZtL6lpnFCDWC4MieupvYouOMRTjPStureRgJPbvqcIje8+eADPGlKfj9+3
+	 NsuBKV56kErxT31XIqBo0a6+zyWVPplY1ZlOAMZWsJWOZiKuq/dRflNEswgPs/j0oW
+	 AoXZvAQwz/55mLEbQ+bcKlEqKpixaYGaanxz+/xL+6+cyZk/eO2M5wcbu5LgV1ZWMu
+	 9W2U3gqZLsQOtyZEW7IoTMbCXuD8Zh4LjCCMHeNcwMRyFoCpDSI9ACj+Vscn4u1oQJ
+	 hWqi9/DbvbSetf3bO3AhNYslRIGeE4bqb15bHMWylosHox9l1YOG2hPYMfgnpme3Pd
+	 /il60Gmk7Fmrg==
 From: Mark Brown <broonie@kernel.org>
-To: Ban Tao <fengzheng923@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Joao Schim <joao@schimsalabim.eu>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mohammad Shehar Yaar Tausif <sheharyaar48@gmail.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20240429194920.1596257-1-joao@schimsalabim.eu>
-References: <20240429194920.1596257-1-joao@schimsalabim.eu>
-Subject: Re: [PATCH v2] ASoC: sunxi: DMIC: Add controls for adjusting the
- mic gains
-Message-Id: <171448749392.1870439.1399491803158865203.b4-ty@kernel.org>
-Date: Tue, 30 Apr 2024 23:31:33 +0900
+In-Reply-To: <20240426170322.36273-1-sheharyaar48@gmail.com>
+References: <20240426170322.36273-1-sheharyaar48@gmail.com>
+Subject: Re: [PATCH v5] ASoC: dt-bindings: tegra30-i2s: convert to dt
+ schema
+Message-Id: <171448749697.1870439.10977766992919745808.b4-ty@kernel.org>
+Date: Tue, 30 Apr 2024 23:31:36 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,11 +52,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Mon, 29 Apr 2024 21:49:20 +0200, Joao Schim wrote:
-> The AllWinner H6 and later SoCs that sport a DMIC block contain a set of registers to control
-> the gain (left + right) of each of the four supported channels.
-> 
-> Add ASoC controls for changing each of the stereo channel gains using alsamixer and alike
+On Fri, 26 Apr 2024 22:33:18 +0530, Mohammad Shehar Yaar Tausif wrote:
+> Convert NVIDIA Tegra30 I2S binding to DT schema and
+> add "clock-names" property used by multiple tegra i2s blocks
+> in arch/arm64/boot/dts/nvidia/tegra132.dtsi. This is not a
+> required property by the binding.
 > 
 > 
 
@@ -64,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sunxi: DMIC: Add controls for adjusting the mic gains
-      commit: 9a8cadddd9303ae15d1d518c4f2ddf00ee668729
+[1/1] ASoC: dt-bindings: tegra30-i2s: convert to dt schema
+      commit: 4a1baeefd1d5a955b5a55a75539244e03e623b0b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
