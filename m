@@ -1,57 +1,76 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from wfout1-smtp.messagingengine.com (wfout1-smtp.messagingengine.com [64.147.123.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF9448CE0;
-	Wed,  1 May 2024 11:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC677629E4
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 11:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714562302; cv=none; b=At4i6PtlnOcLQSvMFe4Bw+XbfZdUuDwtQNQvfHOtsdccu8WmvEgRcD6vNa2VY0rHey3uhe1jfETcZ/Ehrdd+ohML9ibNoT3Ha4i9nJiG2qEaJiqRgDh+2J7if0W937NVtIHr3OixGGJ5Mscb+OG7uLWGkbaJ2wzGYv0bn7x/TmQ=
+	t=1714563293; cv=none; b=fpkvtShMuLEErXzFsASDKuxruJMMMCE9mH2RAAC2Ol2kin1lDp6CPCEYSdy9mSGyPD4btpSrivS9yroHfDETIhuEusVJmY+30XuxSNWUlFC6BAQbEKkDWrKF0cIozUWtH2SAyGcB1wcHedjlTKIIVp2qGQyYRP5fgSORTgUo7jU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714562302; c=relaxed/simple;
-	bh=gVtZDWeL0GnKDnv1K0d/qPXgVxF/piULjqvfFsfeBlM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uONMhYh4CaqRoRdPf4Nd2Kt2R2auboW/P79nkC7rWQ2HBtARj9sWdfdlTrWtgra4wgTMGj3hy8jqi1goN7/TSuxP06EHZUtWXWWMo4UZewOdN3kecakcmDkDk+mXq8V38s9NBwDBf/yiVTZlFNVJF0kqhQQFfbVUvLsPduCF1vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Pmmg8EE6; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1714563293; c=relaxed/simple;
+	bh=WCmTWgNK9QbDRjUX0Lhb8J0LAdq7qNWgJ1luZbRbFTw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SGgqwcbJxm3Xqh7xZCKNgJP1xAsGt2Eq9oHNn7IlztDjDdgfVYuTS4gvVON9pnhCaPKjHDF3sRh4FaVkclPgyJ8xwZsJVBFVXIaH7gcjxpCZFfB/e9aSrnz2CxYg9y25SERvpdEtsFzjyP4hyq6cv3ity6kjMdwfYIA9EkWMNnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=KZkAuAwa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WQDT1cAe; arc=none smtp.client-ip=64.147.123.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Pmmg8EE6"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4417Um2j022501;
-	Wed, 1 May 2024 06:18:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=0
-	qg2zDno4xP0F8pSdjIJ1Qbjok+FbP9CVsl5H/bP8FA=; b=Pmmg8EE6t5AwdNNCl
-	ZaX3f8kQXvBPyuXt2veLchRouIofE3yusKtreKQ8a64wMNv6We4RE86zs6zhVZzd
-	s4dcbVDYvI1RkyHB0wb/TwYuTUaQeLCZdDfBcS0g8RYqT0t8QUo/6viaYQBblnZF
-	p8fOnf31vGt6nTb+Veb+dK4KvnhJ7xWePnauubYx3ZJ4ltXWrlAk++3Bly7vwNlF
-	mhxekI7S1CQCZZKqPhILDSbxJonImsBbq42v+KJLtt4ft8+srXV89dqk6IZ9C3Jw
-	TU1fiHYcK/R8fc2QldbsOsH32Otpz+TbllfCBddi+Vamw8qC6JSjw+M9oBTHYX1h
-	cp0FQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xrxry4f6d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 May 2024 06:18:08 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 1 May 2024
- 12:18:05 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 1 May 2024 12:18:05 +0100
-Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.231])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7A0C4820249;
-	Wed,  1 May 2024 11:18:05 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Simon
- Trimmer" <simont@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the background
-Date: Wed, 1 May 2024 12:17:55 +0100
-Message-ID: <20240501111755.21231-1-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="KZkAuAwa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WQDT1cAe"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfout.west.internal (Postfix) with ESMTP id C86191C000E3;
+	Wed,  1 May 2024 07:34:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 01 May 2024 07:34:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1714563290; x=1714649690; bh=Ys3qwsRWjt
+	pSd5vFGNKCQVp3X5FcMqy+VlDp49YYPs4=; b=KZkAuAwag5PQNldZUxgWK4c0er
+	vgNjvcEahSB7Avyf5SVJjIFoGoGXZikcKHsr/dyXO0Qc1UP2L5gXKhJKI8WKCSoS
+	OuOTqAsgptzHgP08XNTR0Gi7UI++MHmOkiSDoAXPvw7F9AA9bu3eYAvbRaCNiHuN
+	ktyF1Bd6vsdaib7WzqEV+dXqenykeNGJ7/y9Xy497I3tod+vG7SiTEcGc+p6siFh
+	ybh4z7fiVX6LFGTvzEhkaXidGrD0Nf5b5K5yA8kuN5+V3TVkr1lkjYORLNWHjr9b
+	ZX+W9WaDmFyuGlR/c/RYsvs0mcAImGIaNper93Kbv7gt0ic2wc+3mxnYYM9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714563290; x=1714649690; bh=Ys3qwsRWjtpSd5vFGNKCQVp3X5Fc
+	Mqy+VlDp49YYPs4=; b=WQDT1cAeOWUelw7LsHImlWKJ8pLJIKkH0n1tyqExyFNW
+	b8qJLHEwKEM6HxyS6qjGzB4BDBzG4QyGu72lXha53WOs65FA349fARBVJYus0ljp
+	hv5yrSDLQ6cc/pvlNInw4q+ZEwTFTGcdIGAchF0mgOo6y+DUZUEkTsuXhd9TqNZI
+	Lqh31ZwfIFj0PyeaK39DUr24xWjwJH5CilaZ3f4Q4PU3fBHMZL21nvFDWdXqwG2J
+	LO6+0oy+kQjea87cV7LkcNptEWdL3/9NAzqysGMNSN2LJfW+5B3xgXr74tCCXZiU
+	UtF38LZjnLXpIAo+CnufdMAku0gxErEJy69QVyn50A==
+X-ME-Sender: <xms:2SgyZjtZodkbL0hBSViTPOgnBWS4oDRDpLgPIe4f5YGoCXkJ5ggMaQ>
+    <xme:2SgyZkccOFQqcecP2Bs0hXNC4Ggce7Uy-m_m3C7XUQr3XdgbWWoc7wfUMJoiu8xjb
+    G1zQVADdD0VbzAhD3s>
+X-ME-Received: <xmr:2SgyZmwsIOAO-h1z0NNzNpeDglgKxfzoq0a3qoKp8TtIVL8N1gHm7P8D9uFiJpfyCS_EnBTsZaxMt_J6dUUDPSBmoOqf1Tee_oeSMSh7qYsTthc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdduhedgjeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghs
+    hhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeeggfehleehje
+    eileehveefkefhtdeffedtfeeghfekffetudevjeegkeevhfdvueenucffohhmrghinhep
+    khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+X-ME-Proxy: <xmx:2SgyZiNeDzZvTiM-IF_-B8PAfC4PMWbfRF8W0Ghxi_40DfX9zD4noQ>
+    <xmx:2SgyZj9LpjGtopYo2RY8ytUMgaLzacr-n8dtAQnaTberYAZe1KargA>
+    <xmx:2SgyZiVAYwyWP7JfnQV8esI_yla6ajoUyK3RukAw7vPUN6TvdWE1tQ>
+    <xmx:2SgyZkcfnRzZlGNjyfrAdgTxso_AsCLNrYMbBb4RH0nYNWGJXPegQA>
+    <xmx:2igyZmalo2PYi2K2UXDBCG2ngS0WLVm1joZlQpevsDGh_oOgAy3JLH2h>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 May 2024 07:34:48 -0400 (EDT)
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: tiwai@suse.de
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/4] ALSA: pcm: obsolete sync member in runtime structure
+Date: Wed,  1 May 2024 20:34:41 +0900
+Message-ID: <20240501113445.100817-1-o-takashi@sakamocchi.jp>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,294 +78,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 3jV06D9VjIG1xtvpJ7uynvOvj50QpCJV
-X-Proofpoint-GUID: 3jV06D9VjIG1xtvpJ7uynvOvj50QpCJV
-X-Proofpoint-Spam-Reason: safe
 
-It is possible that during system boot when there multiple devices
-attempting simultaneous initialization on a slow control bus the
-download of firmware and tuning data may take a user perceivable amount
-of time.
+Hi,
 
-Adopt a pattern used in the ASoC driver and perform this activity in a
-background thread so that interactive performance is not impaired.
+Seven years ago, in Linux kernel version 4.13, the data of
+snd_pcm_sync_id union is not exposed to user space anymore, by a commit
+e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO internal command").
+From then, we have received no issued related to it. It means that the
+data is neither used by any practical applications nor drivers, thus it
+can be removed.
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
----
- sound/pci/hda/cs35l56_hda.c | 89 ++++++++++++++++++++++++++++++-------
- sound/pci/hda/cs35l56_hda.h |  4 ++
- 2 files changed, 76 insertions(+), 17 deletions(-)
+This series of change is to obsolete the usage of the union data
+in PCM core function. The kernel API, snd_pcm_set_sync(), is removed.
+and the 'sync' member of snd_pcm_runtime structure is removed. Finally,
+some notes are added to UAPI header.
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 1a3f84599cb5..042c2407c007 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -13,6 +13,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
-+#include <linux/workqueue.h>
- #include <sound/core.h>
- #include <sound/cs-amp-lib.h>
- #include <sound/hda_codec.h>
-@@ -50,11 +51,19 @@ static const struct reg_sequence cs35l56_hda_dai_config[] = {
- 
- };
- 
-+static void cs35l56_hda_wait_dsp_ready(struct cs35l56_hda *cs35l56)
-+{
-+	/* Wait for patching to complete */
-+	flush_work(&cs35l56->dsp_work);
-+}
-+
- static void cs35l56_hda_play(struct cs35l56_hda *cs35l56)
- {
- 	unsigned int val;
- 	int ret;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	pm_runtime_get_sync(cs35l56->base.dev);
- 	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_PLAY);
- 	if (ret == 0) {
-@@ -180,6 +189,8 @@ static int cs35l56_hda_mixer_get(struct snd_kcontrol *kcontrol,
- 	unsigned int reg_val;
- 	int i;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	regmap_read(cs35l56->base.regmap, kcontrol->private_value, &reg_val);
- 	reg_val &= CS35L56_ASP_TXn_SRC_MASK;
- 
-@@ -203,6 +214,8 @@ static int cs35l56_hda_mixer_put(struct snd_kcontrol *kcontrol,
- 	if (item >= CS35L56_NUM_INPUT_SRC)
- 		return -EINVAL;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	regmap_update_bits_check(cs35l56->base.regmap, kcontrol->private_value,
- 				 CS35L56_INPUT_MASK, cs35l56_tx_input_values[item],
- 				 &changed);
-@@ -227,6 +240,8 @@ static int cs35l56_hda_posture_get(struct snd_kcontrol *kcontrol,
- 	unsigned int pos;
- 	int ret;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	ret = regmap_read(cs35l56->base.regmap, CS35L56_MAIN_POSTURE_NUMBER, &pos);
- 	if (ret)
- 		return ret;
-@@ -248,6 +263,8 @@ static int cs35l56_hda_posture_put(struct snd_kcontrol *kcontrol,
- 	    (pos > CS35L56_MAIN_POSTURE_MAX))
- 		return -EINVAL;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	ret = regmap_update_bits_check(cs35l56->base.regmap,
- 				       CS35L56_MAIN_POSTURE_NUMBER,
- 				       CS35L56_MAIN_POSTURE_MASK,
-@@ -291,6 +308,8 @@ static int cs35l56_hda_vol_get(struct snd_kcontrol *kcontrol,
- 	int vol;
- 	int ret;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	ret = regmap_read(cs35l56->base.regmap, CS35L56_MAIN_RENDER_USER_VOLUME, &raw_vol);
- 
- 	if (ret)
-@@ -323,6 +342,8 @@ static int cs35l56_hda_vol_put(struct snd_kcontrol *kcontrol,
- 	raw_vol = (vol + CS35L56_MAIN_RENDER_USER_VOLUME_MIN) <<
- 		  CS35L56_MAIN_RENDER_USER_VOLUME_SHIFT;
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
- 	ret = regmap_update_bits_check(cs35l56->base.regmap,
- 				       CS35L56_MAIN_RENDER_USER_VOLUME,
- 				       CS35L56_MAIN_RENDER_USER_VOLUME_MASK,
-@@ -539,8 +560,9 @@ static void cs35l56_hda_release_firmware_files(const struct firmware *wmfw_firmw
- 	kfree(coeff_filename);
- }
- 
--static void cs35l56_hda_add_dsp_controls(struct cs35l56_hda *cs35l56)
-+static void cs35l56_hda_create_dsp_controls_work(struct work_struct *work)
- {
-+	struct cs35l56_hda *cs35l56 = container_of(work, struct cs35l56_hda, control_work);
- 	struct hda_cs_dsp_ctl_info info;
- 
- 	info.device_name = cs35l56->amp_name;
-@@ -566,7 +588,7 @@ static void cs35l56_hda_apply_calibration(struct cs35l56_hda *cs35l56)
- 		dev_info(cs35l56->base.dev, "Calibration applied\n");
- }
- 
--static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
-+static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- {
- 	const struct firmware *coeff_firmware = NULL;
- 	const struct firmware *wmfw_firmware = NULL;
-@@ -574,15 +596,27 @@ static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 	char *wmfw_filename = NULL;
- 	unsigned int preloaded_fw_ver;
- 	bool firmware_missing;
--	int ret = 0;
-+	bool add_dsp_controls_required = false;
-+	int ret;
- 
--	/* Prepare for a new DSP power-up */
-+	/*
-+	 * Prepare for a new DSP power-up. If the DSP has had firmware
-+	 * downloaded previously then it needs to be powered down so that it
-+	 * can be updated and if hadn't been patched before then the controls
-+	 * will need to be added once firmware download succeeds.
-+	 */
- 	if (cs35l56->base.fw_patched)
- 		cs_dsp_power_down(&cs35l56->cs_dsp);
-+	else
-+		add_dsp_controls_required = true;
- 
- 	cs35l56->base.fw_patched = false;
- 
--	pm_runtime_get_sync(cs35l56->base.dev);
-+	ret = pm_runtime_resume_and_get(cs35l56->base.dev);
-+	if (ret < 0) {
-+		dev_err(cs35l56->base.dev, "Failed to resume and get %d\n", ret);
-+		return;
-+	}
- 
- 	/*
- 	 * The firmware can only be upgraded if it is currently running
-@@ -606,7 +640,6 @@ static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 	 */
- 	if (!coeff_firmware && firmware_missing) {
- 		dev_err(cs35l56->base.dev, ".bin file required but not found\n");
--		ret = -ENOENT;
- 		goto err_fw_release;
- 	}
- 
-@@ -657,6 +690,15 @@ static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 			  CS35L56_FIRMWARE_MISSING);
- 	cs35l56->base.fw_patched = true;
- 
-+	/*
-+	 * Adding controls is deferred to prevent a lock inversion - ALSA takes
-+	 * the controls_rwsem when adding a control, the get() / put()
-+	 * functions of a control are called holding controls_rwsem and those
-+	 * that depend on running firmware wait for dsp_work() to complete.
-+	 */
-+	if (add_dsp_controls_required)
-+		queue_work(cs35l56->dsp_wq, &cs35l56->control_work);
-+
- 	ret = cs_dsp_run(&cs35l56->cs_dsp);
- 	if (ret)
- 		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
-@@ -676,15 +718,19 @@ static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 					   coeff_firmware, coeff_filename);
- err_pm_put:
- 	pm_runtime_put(cs35l56->base.dev);
-+}
- 
--	return ret;
-+static void cs35l56_hda_dsp_work(struct work_struct *work)
-+{
-+	struct cs35l56_hda *cs35l56 = container_of(work, struct cs35l56_hda, dsp_work);
-+
-+	cs35l56_hda_fw_load(cs35l56);
- }
- 
- static int cs35l56_hda_bind(struct device *dev, struct device *master, void *master_data)
- {
- 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
- 	struct hda_component *comps = master_data;
--	int ret;
- 
- 	if (!comps || cs35l56->index < 0 || cs35l56->index >= HDA_MAX_COMPONENTS)
- 		return -EINVAL;
-@@ -698,12 +744,9 @@ static int cs35l56_hda_bind(struct device *dev, struct device *master, void *mas
- 	strscpy(comps->name, dev_name(dev), sizeof(comps->name));
- 	comps->playback_hook = cs35l56_hda_playback_hook;
- 
--	ret = cs35l56_hda_fw_load(cs35l56);
--	if (ret)
--		return ret;
-+	queue_work(cs35l56->dsp_wq, &cs35l56->dsp_work);
- 
- 	cs35l56_hda_create_controls(cs35l56);
--	cs35l56_hda_add_dsp_controls(cs35l56);
- 
- #if IS_ENABLED(CONFIG_SND_DEBUG)
- 	cs35l56->debugfs_root = debugfs_create_dir(dev_name(cs35l56->base.dev), sound_debugfs_root);
-@@ -720,6 +763,9 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
- 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
- 	struct hda_component *comps = master_data;
- 
-+	cancel_work_sync(&cs35l56->dsp_work);
-+	cancel_work_sync(&cs35l56->control_work);
-+
- 	cs35l56_hda_remove_controls(cs35l56);
- 
- #if IS_ENABLED(CONFIG_SND_DEBUG)
-@@ -747,6 +793,10 @@ static int cs35l56_hda_system_suspend(struct device *dev)
- {
- 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
- 
-+	cs35l56_hda_wait_dsp_ready(cs35l56);
-+
-+	flush_work(&cs35l56->control_work);
-+
- 	if (cs35l56->playing)
- 		cs35l56_hda_pause(cs35l56);
- 
-@@ -842,11 +892,8 @@ static int cs35l56_hda_system_resume(struct device *dev)
- 
- 	ret = cs35l56_is_fw_reload_needed(&cs35l56->base);
- 	dev_dbg(cs35l56->base.dev, "fw_reload_needed: %d\n", ret);
--	if (ret > 0) {
--		ret = cs35l56_hda_fw_load(cs35l56);
--		if (ret)
--			return ret;
--	}
-+	if (ret > 0)
-+		queue_work(cs35l56->dsp_wq, &cs35l56->dsp_work);
- 
- 	if (cs35l56->playing)
- 		cs35l56_hda_play(cs35l56);
-@@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
- 	mutex_init(&cs35l56->base.irq_lock);
- 	dev_set_drvdata(cs35l56->base.dev, cs35l56);
- 
-+	cs35l56->dsp_wq = create_singlethread_workqueue("cs35l56-dsp");
-+	if (!cs35l56->dsp_wq) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+	INIT_WORK(&cs35l56->dsp_work, cs35l56_hda_dsp_work);
-+	INIT_WORK(&cs35l56->control_work, cs35l56_hda_create_dsp_controls_work);
-+
- 	ret = cs35l56_hda_read_acpi(cs35l56, hid, id);
- 	if (ret)
- 		goto err;
-diff --git a/sound/pci/hda/cs35l56_hda.h b/sound/pci/hda/cs35l56_hda.h
-index 464e4aa63cd1..d207e4e0d167 100644
---- a/sound/pci/hda/cs35l56_hda.h
-+++ b/sound/pci/hda/cs35l56_hda.h
-@@ -14,6 +14,7 @@
- #include <linux/firmware/cirrus/cs_dsp.h>
- #include <linux/firmware/cirrus/wmfw.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/workqueue.h>
- #include <sound/cs35l56.h>
- 
- struct dentry;
-@@ -21,6 +22,9 @@ struct dentry;
- struct cs35l56_hda {
- 	struct cs35l56_base base;
- 	struct hda_codec *codec;
-+	struct work_struct dsp_work;
-+	struct work_struct control_work;
-+	struct workqueue_struct *dsp_wq;
- 
- 	int index;
- 	const char *system_name;
+The removal of sync field has a side effect for emu10k driver, since p16v
+chip code sets the data by hand. Its removal requires any deliberate
+discussion, but the calm in seven years would satisfy the condition of
+it.
+
+
+The patch comment sent by Jaroslav[1] refers to the reinvention of the
+union data, but as the part of hardware configuration step. If it
+proceeds, the UAPI note would be modified simply.
+
+[1] https://lore.kernel.org/linux-sound/20240430161012.4011064-1-perex@perex.cz/
+
+Takashi Sakamoto (4):
+  ALSA: pcm: delete snd_pcm_set_sync() in .open callback
+  ALSA: pci: emu10k: delete usage of 'struct snd_pcm_runtime.sync'
+  ALSA: core: delete sync member from snd_pcm_runtime structure
+  ALSA: pcm: add notes to deprecate snd_pcm_sync_id in PCM interface for
+    user space
+
+ include/sound/pcm.h                      |  3 ---
+ include/uapi/sound/asound.h              |  5 +++--
+ sound/core/pcm_lib.c                     | 17 -----------------
+ sound/firewire/bebob/bebob_pcm.c         |  1 -
+ sound/firewire/dice/dice-pcm.c           |  1 -
+ sound/firewire/digi00x/digi00x-pcm.c     |  1 -
+ sound/firewire/fireface/ff-pcm.c         |  1 -
+ sound/firewire/fireworks/fireworks_pcm.c |  1 -
+ sound/firewire/motu/motu-pcm.c           |  1 -
+ sound/firewire/oxfw/oxfw-pcm.c           |  1 -
+ sound/firewire/tascam/tascam-pcm.c       |  1 -
+ sound/isa/wss/wss_lib.c                  |  2 --
+ sound/pci/ali5451/ali5451.c              |  1 -
+ sound/pci/asihpi/asihpi.c                |  2 --
+ sound/pci/ca0106/ca0106_main.c           |  1 -
+ sound/pci/echoaudio/echoaudio.c          |  1 -
+ sound/pci/emu10k1/p16v.c                 | 11 +----------
+ sound/pci/ens1370.c                      |  3 ---
+ sound/pci/hda/hda_controller.c           |  1 -
+ sound/pci/ice1712/ice1712.c              |  2 --
+ sound/pci/ice1712/ice1724.c              |  5 -----
+ sound/pci/lx6464es/lx6464es.c            |  1 -
+ sound/pci/oxygen/oxygen_pcm.c            |  1 -
+ sound/pci/pcxhr/pcxhr.c                  |  1 -
+ sound/pci/rme32.c                        |  4 ----
+ sound/pci/rme96.c                        |  4 ----
+ sound/pci/rme9652/hdsp.c                 |  2 --
+ sound/pci/rme9652/hdspm.c                |  1 -
+ sound/pci/rme9652/rme9652.c              |  2 --
+ sound/pci/sis7019.c                      |  2 --
+ sound/pci/trident/trident_main.c         |  2 --
+ sound/soc/intel/avs/pcm.c                |  1 -
+ sound/soc/intel/skylake/skl-pcm.c        |  1 -
+ sound/sparc/cs4231.c                     |  2 --
+ 34 files changed, 4 insertions(+), 82 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
