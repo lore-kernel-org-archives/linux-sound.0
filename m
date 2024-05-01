@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D509512DDBC
-	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 13:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CC712F39A
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 13:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714571001; cv=none; b=kz35HERfBg61dGhsnoqeO8iiaS2Zk1WoXcPiw4dGcTmeH/YuQt9LQYzsN5v4poNXE6v93eKU2bHP4EnIjfg3D9zdD92SnuILNl7/57QFUkjcQ4JJn2Lc8mspnN5TPFzp5pzXhbLPKL7WnBTRlJTW0dDAsEyC1WqPKcANsO9G8rY=
+	t=1714571004; cv=none; b=Ra3ySNxVNK8Xwa5OmV6rx+JIRzBld3xHiOj0peq6cwVppP+3oq2FsvayBnFgaRRl5N2kBlI7vlq4/hM1x89ff87i1PQ2d8d3aD+QQtLIjTxP5ZRDHPV0tLHdXJJSwlKYflMsksGg2i9qYLFifv+1P6Dki2vBdmbxx2Ok4bPG8zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714571001; c=relaxed/simple;
-	bh=vXcDcxtnSs/apJuU11xn+Yb+fqjx2BAQ0xsxIB3/Fe0=;
+	s=arc-20240116; t=1714571004; c=relaxed/simple;
+	bh=z2VFJH9/TTaHh5ejO6dlfSh3KL6ufSg57ZzswSlInCU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cSMm2p6cnAIRkZEtFS83FKrzlP/JLkx6bTE1NOPCL1odVdRZC6xEcxHA1TSqp32DqduAADfMidVZTfPjjrtxurQ3GJsEclJEySDuAHBfQHoHPyOpRNReWs9+wuQ3+dKZzjYQn1YffHW9YGoH780goZflh0Dr6j/xjcDPgqFb2rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amDgI5Ro; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=p4AuCjeSOMusTB9Sta1DQ1hyBpm4kj76Cpburb7116vn/PlW5X0sYmTySFbpG8c5W0shUccJnKBU/P17KLBOzoYIMRySjwZpnMQfjeJAOgLhaMuOo4VhVM5A/yyoTqCXrmo4R8D58Q74hYmXGzA1nOn+rx85DTRpSlI1JoPYdoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MdCJnQdv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amDgI5Ro"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E112C4AF18;
-	Wed,  1 May 2024 13:43:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MdCJnQdv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D20C4AF18;
+	Wed,  1 May 2024 13:43:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714571001;
-	bh=vXcDcxtnSs/apJuU11xn+Yb+fqjx2BAQ0xsxIB3/Fe0=;
+	s=k20201202; t=1714571004;
+	bh=z2VFJH9/TTaHh5ejO6dlfSh3KL6ufSg57ZzswSlInCU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=amDgI5RoQy9yqB66pcrgP0Nw4V1kiXuB06mPrZRrmNMkxeb7lBF12yRCmzI1m+w3Z
-	 3pjCuYXsu7ouGsyAYCjeK1mYUzBPvTDcuZdxCt9qe9pJ4Sf481tkwOp+PGrWR/wdB/
-	 odK6nWimy0OecG4fsTMaktEvoexTN6DIUeFXtRCvkuI1+5PnR212uc4VELbPuGBBz6
-	 wAXnc7DYC7vcOE/DFiT6XHeDmM/NCx50ShJaLYuYyhFx1LL4IP2MWpLgfFBtt/d7Gz
-	 JOR71woW/3kbwLwiOxNZqLc/yS1bUvwFid4U33wbJOnT7rKXDhxdmnO5tMXC8IxM7Z
-	 5sUDhDxzBbVvQ==
+	b=MdCJnQdv/gUcZN1c5Yyf/QFREAwgMxKWcx/RZBt/53Gv87EGHiRpZwKLIYVTDEyQK
+	 PVae/futdrj/8WA1LpqUiViYnBPJj1ibq6tllvIGAPd1d3j+rblbxnBbazeKemOdAn
+	 ZoKDy/GWqVGqW16FAa9XEuKpqfcRATcwxYu0Wmh/XEaXH/QQ0REKIW+3pDoXN0QhbC
+	 OmUIQ08CpkeQDpabv4IWnRMKbq18tEWLQDzcoxg6ZcDgNP0YkAo6Uu59pY1dA9R5di
+	 ZlF6KwU/yJuB3TWgkesra5mCtWRKYSnVnCRLZd4vhV4AQpUOWZvCF8W6cDOboWp0A/
+	 GrZF6bFJA57tQ==
 From: Mark Brown <broonie@kernel.org>
 To: linux-sound@vger.kernel.org, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Cc: alsa-devel@alsa-project.org, tiwai@suse.de
-In-Reply-To: <20240426152529.38345-1-pierre-louis.bossart@linux.intel.com>
-References: <20240426152529.38345-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 00/23] ASoC: Intel: updates for 6.10 - part6
-Message-Id: <171457100000.1888704.11793810516095524416.b4-ty@kernel.org>
-Date: Wed, 01 May 2024 22:43:20 +0900
+In-Reply-To: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
+References: <20240426153902.39560-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/5] ASoc: SOF: misc updates for 6.10
+Message-Id: <171457100276.1888704.18305360939038421630.b4-ty@kernel.org>
+Date: Wed, 01 May 2024 22:43:22 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,36 +45,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev
 
-On Fri, 26 Apr 2024 10:25:06 -0500, Pierre-Louis Bossart wrote:
-> Last batch of cleanups from Brent Lu, with Chromebooks now supported
-> with fewer modular machine drivers.
+On Fri, 26 Apr 2024 10:38:57 -0500, Pierre-Louis Bossart wrote:
+> Fixes when fw_lib_prefix is not set, updated error messages, improved
+> dmesg logs to SoundWire configurations not supported by ACPI
+> tables/topology and support for IEC61937 passthrough.
 > 
-> Bard Liao (1):
->   ASoC: Intel: sof_rt5682: add missing MAX98357A config
-> 
-> Brent Lu (22):
->   ASoC: Intel: nau8825/rt5682: move speaker widget to common modules
->   ASoC: Intel: sof_maxim_common: support MAX98390 on cml boards
->   ASoC: Intel: sof_da7219: support MAX98390
->   ASoC: Intel: sof_da7219: add cml_da7219_def for cml boards
->   ASoC: Intel: sof_da7219: support MAX98390 on cml boards
->   ASoC: Intel: bxt_da7219_max98357a: remove MAX98390 support
->   ASoC: Intel: sof_da7219: support MAX98357A
->   ASoC: Intel: sof_da7219: support MAX98357A on cml boards
->   ASoC: Intel: bxt_da7219_max98357a: remove cml support
->   ASoC: Intel: sof_da7219: add glk_da7219_def for glk boards
->   ASoC: Intel: sof_da7219: support MAX98357A on glk boards
->   ASoC: Intel: bxt_da7219_max98357a: remove glk support
->   ASoC: Intel: sof_rt5682: add glk_rt5682_def for glk boards
->   ASoC: Intel: sof_rt5682: support MAX98357A on glk boards
->   ASoC: Intel: glk_rt5682_max98357a: delete driver
->   ASoC: Intel: sof-rt5682: add mclk_en to sof_rt5682_private
->   ASoC: Intel: sof-rt5682: remove SOF_RT5682_MCLK_BYTCHT_EN
->   ASoC: Intel: sof_rt5682: add icl_rt5682_def for icl boards
->   ASoC: Intel: sof-rt5682: add driver_data to sof_rt5682 board
->   ASoC: Intel: sof-rt5682: setup pll_id only when needed
->   ASoC: Intel: sof-rt5682: get bclk frequency from topology
->   ASoC: Intel: sof-rt5682: support bclk as PLL source on rt5682s
+> Peter Ujfalusi (2):
+>   ASoC: SOF: debug: Handle cases when fw_lib_prefix is not set, NULL
+>   ASoC: SOF: ipc4-topology: Advertise passthrough capable PCMs (using
+>     ChainDMA)
 > 
 > [...]
 
@@ -84,52 +63,16 @@ Applied to
 
 Thanks!
 
-[01/23] ASoC: Intel: nau8825/rt5682: move speaker widget to common modules
-        commit: d2d377fc22d23fd38188ea90b051584069a299a2
-[02/23] ASoC: Intel: sof_maxim_common: support MAX98390 on cml boards
-        commit: 3b3ed4752600b6462c184edc3284dcc277891aa6
-[03/23] ASoC: Intel: sof_da7219: support MAX98390
-        commit: b7654a7e217704694ed3e484f0a3c415f8678896
-[04/23] ASoC: Intel: sof_da7219: add cml_da7219_def for cml boards
-        commit: a0cf86d813d22d80046d83e9b36c1c2308903956
-[05/23] ASoC: Intel: sof_da7219: support MAX98390 on cml boards
-        commit: 5a2bc761fab23e47ef20a847476d504548dfb417
-[06/23] ASoC: Intel: bxt_da7219_max98357a: remove MAX98390 support
-        commit: 12e5fe68d0bb079cc5228d09280c1d82a61f0d18
-[07/23] ASoC: Intel: sof_rt5682: add missing MAX98357A config
-        commit: 5b093b0b47efefbb928c4d3a5e982bbeaefda44c
-[08/23] ASoC: Intel: sof_da7219: support MAX98357A
-        commit: 7873252c0e44ef5c0e04cf3c7c25f5e2c5180272
-[09/23] ASoC: Intel: sof_da7219: support MAX98357A on cml boards
-        commit: e895d16f4e8f0e5d90d7188e8fd9c507a97fb8b7
-[10/23] ASoC: Intel: bxt_da7219_max98357a: remove cml support
-        commit: 35ca48662cdf0749a2b9931d625690967fbce032
-[11/23] ASoC: Intel: sof_da7219: add glk_da7219_def for glk boards
-        commit: c7f9523d21d49b56498ac58e4b1afcb930eb551a
-[12/23] ASoC: Intel: sof_da7219: support MAX98357A on glk boards
-        commit: f46b768b7281e4ef784d06788be2f941c13eddde
-[13/23] ASoC: Intel: bxt_da7219_max98357a: remove glk support
-        commit: 8d6114b81d72c522f1ad55cd84ed37699d58c840
-[14/23] ASoC: Intel: sof_rt5682: add glk_rt5682_def for glk boards
-        commit: 44567d3d62dfe9df514299a98429a59129e0a2d0
-[15/23] ASoC: Intel: sof_rt5682: support MAX98357A on glk boards
-        commit: 5498a4edbf314532b7138aabe705faa34fb5df8d
-[16/23] ASoC: Intel: glk_rt5682_max98357a: delete driver
-        commit: 0cb6a8134c1cb59d8f41d84968c2e20cfbd7f6cc
-[17/23] ASoC: Intel: sof-rt5682: add mclk_en to sof_rt5682_private
-        commit: e91d54f8b1bd3393d91fd754a1c40df6f408e84b
-[18/23] ASoC: Intel: sof-rt5682: remove SOF_RT5682_MCLK_BYTCHT_EN
-        commit: 207255f3ae4d0cf5034666652668be572d9c5c1e
-[19/23] ASoC: Intel: sof_rt5682: add icl_rt5682_def for icl boards
-        commit: 76fb0d3221833e87b9150ba06728cdde215ec687
-[20/23] ASoC: Intel: sof-rt5682: add driver_data to sof_rt5682 board
-        commit: 76f33e2f93d63eaac93458fdfde3a505b8e73fa2
-[21/23] ASoC: Intel: sof-rt5682: setup pll_id only when needed
-        commit: b5aaf6a56dcafc2aeefdc7da1f9f86fa5cfa8df7
-[22/23] ASoC: Intel: sof-rt5682: get bclk frequency from topology
-        commit: 4524b1e3ef7884e0a54484dce8d921be7a06af13
-[23/23] ASoC: Intel: sof-rt5682: support bclk as PLL source on rt5682s
-        commit: 3d84e070253eb853e3190a23994aa3074615efd1
+[1/5] ASoC: SOF: debug: Handle cases when fw_lib_prefix is not set, NULL
+      commit: b32487ca7b51ce430f15ec785269f11c25a6a560
+[2/5] ASoC: SOF: topology: remove incorrect widget id in error message
+      commit: 490e6c9b81e0c22087d250246717aee26ac5002e
+[3/5] ASoC: SOF: Intel: hda: simplify and reduce indentation for hda_sdw_machine_select()
+      commit: 5d4788b2647fabeaeeaf331e53451e0ed6241252
+[4/5] ASoC: SOF: Intel: hda: list SoundWire peripherals on mismatch
+      commit: 7ff01ca730f240811c13d9c3f8f8030211b3c911
+[5/5] ASoC: SOF: ipc4-topology: Advertise passthrough capable PCMs (using ChainDMA)
+      commit: eed4872a4220f30de37aeca695d2881630410b66
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
