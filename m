@@ -1,118 +1,168 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E9F21C18E
-	for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 23:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A3646;
+	Wed,  1 May 2024 00:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714521126; cv=none; b=nC6Q+1NfrZhIToTbLM19v5WgB1Zm6HDI2X0RTdy3szxJmIpkLOZP/bA0XjUhXRIRYuAcksPqIg+rWUADzMZ6d++uXutWb9Xx/Z3BONzb5jqQXrdiJgFRUZaMD5jfb+vfWz7oBw0pCZc2htf0pipylTD+xlLNDtovIbIYJ2TzGRg=
+	t=1714523619; cv=none; b=aR7QeBWL7TTQMBbON2pSxyjcnayHwBkWYNyrzSrYKmBecl199+Gzpv4e7XjXflNPRMOh5uLO0yepB/SZtcR0Zp1ybL7KGsvETQG/F1+pvrO9+LTiV0VxlThFHDHhrVqKZjDG+LhahiNMxNDxfX4K641/MReiKOMEz0llvtKc/nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714521126; c=relaxed/simple;
-	bh=Cwp4S5VNvQqFtoPw/nroKEGF2YpUUdO6wVGQiqGsbAY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=d7Y+7r/PnTeVzZOb159FDv5IiQfUG4Nz1WcxLvU2wgT4JqN5Kql0Uj8VyuhulrA1MRGxLtdfPprONfz0z3uuMXHvefpEsJZhTGTRMYnTL0xmvWqr8jjdjpxdfhsuuZxXtPbsnNDP/kWI5Wr0OyfoQbHLv29C3OVCv/lQqXm7Beo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=folleoKM; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--edliaw.bounces.google.com
+	s=arc-20240116; t=1714523619; c=relaxed/simple;
+	bh=3GxgYzbam8HgNyK+VdtYgp46UreAUNvtQ0s3h2WWRpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kwusV+vIE7JcjYgm3CUKJwJRdOPAG4tHbXLOlgZZ7rXt2J58kI4k039jZsGjgGkCEvVex/zF4C0Ukyb7axrkMKxbXRIEE49cG9dXtHIkimU19pIwSIrKR9G2pW09B4fL6PacPr2e5jxOc7zuIz96NuF5itzyFEoBSM8Qt6AMYC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D0fGt0cW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="folleoKM"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc64f63d768so12483134276.2
-        for <linux-sound@vger.kernel.org>; Tue, 30 Apr 2024 16:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714521124; x=1715125924; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eMZD6S1LecT7yIEbG0UvTaidEBINYi20NzKFmLDZVV4=;
-        b=folleoKMFVRvi8dW0bCiqpuMPxaVBXHSqPGhHmRQaNl6zqayRuzzzaiG2Tb3zA83iP
-         morx19xZkRe6kEGkwp1Zt+otnWqi/wra9Jb0bO1/Cm/jVdJepjsIOnu97ooL44chizIz
-         H/v35//62TlWRSkl0h+OKxiamUjvRTtlnlfn8QDJNf8qbRLbdsmF+tZPhYYzgXZZ/RSo
-         YEKSrhK5D5pa9B/One0ZHUJcy8B1+rkGOQPtDSHsZwe9h8sMxuMuxxn/eXV1AwN3nQo0
-         wbJ4oDqc8rKxRh8+Zo96DUlmHEPSLi+8zvO0fX9aMDpyv+Eyc3XFv7dDyoeSRtKfGd5h
-         YqdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714521124; x=1715125924;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eMZD6S1LecT7yIEbG0UvTaidEBINYi20NzKFmLDZVV4=;
-        b=W8yDPVs8ee6w6mpcLqPRwamuGRjUQEApatUiC80UFjfAudqf3L00lUO08iF6q+wLE9
-         pj/MXSE4SKQ0DzSIzTAuDh0y05nnca2TfRIF3eWb8NES1NlJU2dMLrCu35jH0/ctfp6k
-         ENs3gfrjdKs2el+rb7uHLRBO1gGY6Qa1bePaO+JTeYKnxY+jzRWRjFFYC/M0rcQ7RwCo
-         WcOb/f+Ut0X3CKamQDSTU3UdPNJp9aJDzXLtYTkMmireveup/oYdJPYLzayOverTF0Uc
-         u02f6UsdaevnqjWXtiwGwjhk349tpY3F6AgTg6/evnW1aBkBHUT5wEeFeXet2pPTP3Br
-         gFfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOCNtWZVArj1/zTOhg+o0XjbHMp8DDEesZJdZq0HT5PUicmkUSFw5ruobZjnDSx+6X3UbtYBhTDtFLwvQyQ7aSjAqehhXCeXEsM1M=
-X-Gm-Message-State: AOJu0Yzb1HUgVcqKCe01wqSqvUdEoERgQPSyw14yb21ndVOqh2oYm+5+
-	YPNRe06syTTOA3Eq/rXjN+Qy9QOnK8GllP0QA8G3ArqT35vouk66Lw+X49R0FXDmJ/GxnFC9jNh
-	JAg==
-X-Google-Smtp-Source: AGHT+IH4VJpB6ZdNUNwNGYphVaIrnOi2jx2Xja9WJZJclJ5U3AS0GX9uELFDr7+Yl08gZsB5HUor9KgguaE=
-X-Received: from edliaw.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:305d])
- (user=edliaw job=sendgmr) by 2002:a05:6902:154b:b0:de5:3003:4b7b with SMTP id
- r11-20020a056902154b00b00de530034b7bmr333229ybu.1.1714521124169; Tue, 30 Apr
- 2024 16:52:04 -0700 (PDT)
-Date: Tue, 30 Apr 2024 23:50:19 +0000
-In-Reply-To: <20240430235057.1351993-1-edliaw@google.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D0fGt0cW"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43UNxo8v005742;
+	Wed, 1 May 2024 00:32:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=LRnPNBK8fB5m3Wd6M+Ba4l+Ai4vlC8s1ZRRcL3qyiV8=; b=D0
+	fGt0cWBkZIPWOJq1/d0Q52iDWMscdVnrML7zq7Mbq2eSO79vTDbgEhppVdmaZYB9
+	W07e1ZyXYOAC1U9O8EZLDsYzZ/bpdB97r9bWIItYRofzjyHE/VY7+6V/JdLo6Fcx
+	qY6g+5mkCVUTLisci98ZNdXtuwDMVR/rULDTu38jVUqwYaFijmmKAWZOdbSUYj+A
+	pYi+sHTXkQW6eM6eGzbhl6MQ8jRsvz3fHaUHJahsaQ7ouVkBfc/FbF1I3Vi+BM9X
+	h/s/nmOZbCRG4RGgMyTr+0iRCMdVjCr8fjnAXGop8Z5xU3QP8wIKGtaT/Ukm7qVz
+	v/FZnk2+9pAbCBnH4CrA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xtw1hj6qf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 01 May 2024 00:32:27 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4410WQEC025873
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 1 May 2024 00:32:26 GMT
+Received: from [10.110.61.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
+ 2024 17:32:25 -0700
+Message-ID: <a1115d39-b60e-a5da-5c7e-79266d6ced17@quicinc.com>
+Date: Tue, 30 Apr 2024 17:32:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240430235057.1351993-1-edliaw@google.com>
-X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
-Message-ID: <20240430235057.1351993-11-edliaw@google.com>
-Subject: [PATCH v1 10/10] selftests/user_events: Compiled with -D_GNU_SOURCE
-From: Edward Liaw <edliaw@google.com>
-To: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Edward Liaw <edliaw@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@android.com, linux-sound@vger.kernel.org, 
-	linux-input@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v20 33/41] ASoC: usb: Create SOC USB SND jack kcontrol
+Content-Language: en-US
+To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
+	<amadeuszx.slawinski@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-34-quic_wcheng@quicinc.com>
+ <c8bd16e8-b204-471b-a702-36e14c8695c5@linux.intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <c8bd16e8-b204-471b-a702-36e14c8695c5@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ciB1uOnPTSzQscrGnEx8GYc3pFB6UvC6
+X-Proofpoint-ORIG-GUID: ciB1uOnPTSzQscrGnEx8GYc3pFB6UvC6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-30_16,2024-04-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ mlxlogscore=877 clxscore=1015 bulkscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405010002
 
-809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-asprintf into kselftest_harness.h, which is a GNU extension and needs
-_GNU_SOURCE to either be defined prior to including headers or with the
--D_GNU_SOURCE flag passed to the compiler.
+Hi Amadeusz,
 
-Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
-Signed-off-by: Edward Liaw <edliaw@google.com>
----
- tools/testing/selftests/user_events/Makefile   | 2 +-
- tools/testing/selftests/user_events/abi_test.c | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+On 4/26/2024 6:26 AM, Amadeusz Sławiński wrote:
+> On 4/25/2024 11:51 PM, Wesley Cheng wrote:
+>> Expose API for creation of a jack control for notifying of available
+>> devices that are plugged in/discovered, and that support offloading.  
+>> This
+>> allows for control names to be standardized across implementations of USB
+>> audio offloading.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+> 
+> (...)
+> 
+>>   /* SOC USB sound kcontrols */
+>> +/**
+>> + * snd_soc_usb_setup_offload_jack() - Create USB offloading jack
+>> + * @component: USB DPCM backend DAI component
+>> + * @jack: jack structure to create
+>> + *
+>> + * Creates a jack device for notifying userspace of the availability
+>> + * of an offload capable device.
+>> + *
+>> + * Returns 0 on success, negative on error.
+>> + *
+>> + */
+>> +int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
+>> +                    struct snd_soc_jack *jack)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = snd_soc_card_jack_new(component->card, "USB Offload 
+>> Playback Jack",
+>> +                    SND_JACK_HEADPHONE, jack);
+>> +    if (ret < 0) {
+>> +        dev_err(component->card->dev, "Unable to add USB offload 
+>> jack\n");
+>> +        return ret;
+>> +    }
+>> +
+>> +    ret = snd_soc_component_set_jack(component, jack, NULL);
+>> +    if (ret) {
+>> +        dev_warn(component->card->dev, "Failed to set jack: %d\n", ret);
+>> +        return ret;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(snd_soc_usb_setup_offload_jack);
+>> +
+>>   static int snd_soc_usb_get_offload_card_status(struct snd_kcontrol 
+>> *kcontrol,
+>>                      struct snd_ctl_elem_value *ucontrol)
+>>   {
+>>
+> 
+> I'm not sure if this should be handled in generic USB API, this feels 
+> like something that should be handled in specific device driver side, 
+> like all users currently do.
+> 
 
-diff --git a/tools/testing/selftests/user_events/Makefile b/tools/testing/selftests/user_events/Makefile
-index 10fcd0066203..344a71769113 100644
---- a/tools/testing/selftests/user_events/Makefile
-+++ b/tools/testing/selftests/user_events/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--CFLAGS += -Wl,-no-as-needed -Wall $(KHDR_INCLUDES)
-+CFLAGS += -Wl,-no-as-needed -Wall -D_GNU_SOURCE $(KHDR_INCLUDES)
- LDLIBS += -lrt -lpthread -lm
+In some of the previous comments, it was mentioned that maybe it was 
+better to have more consistent/defined naming across devices that do 
+have support for audio offload.  Initially, I did have these within our 
+vendor specific ASoC platform driver also.
 
- TEST_GEN_PROGS = ftrace_test dyn_test perf_test abi_test
-diff --git a/tools/testing/selftests/user_events/abi_test.c b/tools/testing/selftests/user_events/abi_test.c
-index 7288a05136ba..3e3a0327afdc 100644
---- a/tools/testing/selftests/user_events/abi_test.c
-+++ b/tools/testing/selftests/user_events/abi_test.c
-@@ -5,7 +5,6 @@
-  * Copyright (c) 2022 Beau Belgrave <beaub@linux.microsoft.com>
-  */
+> Anyway I think there should also be some function that tears jack down, 
+> by calling:
+> snd_soc_component_set_jack(component, NULL, NULL);
+> so it can get cleaned up properly?
 
--#define _GNU_SOURCE
- #include <sched.h>
+I can add that.  I didn't realize there were some situations where maybe 
+components would want to disable the jack.  I will leave the cleanup 
+part to ASoC when the platform card is removed.
 
- #include <errno.h>
---
-2.45.0.rc0.197.gbae5840b3b-goog
-
+Thanks
+Wesley Cheng
