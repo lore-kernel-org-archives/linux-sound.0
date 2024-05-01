@@ -1,128 +1,130 @@
-Received: from wfhigh3-smtp.messagingengine.com (wfhigh3-smtp.messagingengine.com [64.147.123.154])
+Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FBB745D6
-	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 11:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742CC1758D
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 11:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714563303; cv=none; b=WxrK8rO7cYc0M0irPIc79aMA/DadwMG0BpkLxWIkJEsmSUk812DQYRdajGFVXhrdr/JcgYikG9ceOJeVI7b6z5jgQfrgSn5bfSzCDsg+6TFGS2ajOCK0oX86k/Dk/jUejIs+4Ytz7TZSTzVbClFQpSjpZT2EGZKYXpBC3lBg69c=
+	t=1714563871; cv=none; b=uUTRtKBuK+j+hS51hywNjZDI3PBpaBs5KGtMgPcfTG+Tptj41iqg1PSSmiUlDEXm1Itp73r4e03P/l6rNQRLkfWNiuFzRyer9+GCBkxbO7/YAeiZgDXpuhJCRX1le/jFRBWgLS7J3Z9om+E6Z3NAPT/Qe8WjLRct34zXj/ptidg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714563303; c=relaxed/simple;
-	bh=gruLy3m1RCmrSeQJdfsgrPJfl2yRT+6R7h09atzpoMw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lQQhNq6Nld54vzc1dsWdl00vPWNk7h07o648mkrFB/qZz1lmX3zQbu/0vjzOnMUzzeTeBK41QoLGf6yeliXXKP2Syh8ndgs5kPuWkZ+HahdH85yfSCl597wNuHtGlUiKdZSS94jKYA1VhiN4dqzztGGBnJcci3iPNoj/rHx3rQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=myy2R+02; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TKcdjyiw; arc=none smtp.client-ip=64.147.123.154
+	s=arc-20240116; t=1714563871; c=relaxed/simple;
+	bh=9n0ipes3a+K1rLWUQUJFWMsYgjdi1oVlI02gGSrkneY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDaz+LvW0wtlZX8YGfJyQB2BUHwt85zO46bYBzy4Wt3GQxKjwdoaGIKmBhu3rG8mk42SJSv7h7p9mFMgags2wIZQvu5LXvj4H0frpV23WdnyRcu7v3Ha/UCPq30LhxDGJEz3ThqXrtRGhu2tzBz2yeGmTp2luNvOmByGtguLiRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=EzDHgoQp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Pyf2z8SI; arc=none smtp.client-ip=64.147.123.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="myy2R+02";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TKcdjyiw"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 0A2ED1800137;
-	Wed,  1 May 2024 07:35:00 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="EzDHgoQp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Pyf2z8SI"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id 97D0A1C000F7;
+	Wed,  1 May 2024 07:44:28 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 01 May 2024 07:35:01 -0400
+  by compute6.internal (MEProxy); Wed, 01 May 2024 07:44:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1714563300; x=
-	1714649700; bh=+T0qESd22wfjemce9MboOByzb50Sme4gctTshXpGbQY=; b=m
-	yy2R+02lS4jDhaW93ftgQBFDB1OWfobZqbZ9TpkRQT3HWOirFaSS9UR4dTwVRWO1
-	4vD4JbDcwjZ3U/xPVMWkUXQQt1rPJ/8uVDSG3cF29XoejRU9wKxJfQRkRDo5E6Kr
-	/6iL9Wqv50ZTdM75WLdRQ5Ya+9omOEmQ5fakj0UrIpXYAuZ51+KOzffWQr6TejlR
-	Jmj/j0RzBj9RG1iBh9bBhDAvBfa+RffsmE/5tJrKgwO6vQDJNNTJLy2LQRUWXNLi
-	pZzw4a/r4IAeQlGmaRjgmXic9kDkTyptIx1xVbIhPtH8bWUqPnWsrGLEkzTafERC
-	w9mvGcXbCXJuVqtfc6Npw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
+	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1714563300; x=
-	1714649700; bh=+T0qESd22wfjemce9MboOByzb50Sme4gctTshXpGbQY=; b=T
-	Kcdjyiwuy23cjdbFU648Dw0XVFVIs/JyxcLFuny8u8cLpSM8XiHP4PmZPX24U6XS
-	PtUy37Xg9Ev5qpJ1H4A0Q3XOArtaNEFqeT0xfC+z4oCGrOLAXhz5tfVwzRG68M3I
-	H1CSSNiO/vIvoB8NVbU4HSIqVUTwQG/9YK9008zrwhNFHWuLhWyDXTvjsvR31z3l
-	/Oxxp/jSiEPN3nW96uX0pYJJ7AAP2XStuaw+GAaN2nFyVLQacBqUPGx4TB2806vN
-	0YhylUclWPlGVwHkiWg3EMo/Vu446IBVgDP1k/2E/iFBxsGP6xWzqhk+1VM+dA8n
-	3Ha1R/CVk+tyOtyIMzeng==
-X-ME-Sender: <xms:5CgyZoMJXRaKYl2UUZAmlsUDTVbbCfqSCpUv1_bW5hRiFLxy2jO2wg>
-    <xme:5CgyZu_a4sIN4L25VHZxIGXsyQr5L-ykSl35YQo-5CoSsVi9n8wYnGff9jRxRGmQ1
-    jJIvWn9jsUznwDQfg8>
-X-ME-Received: <xmr:5CgyZvRJ_tgxUviVHl2uIMFyicqXBOs6OIbVxWfe4EyRJH9B8Ub7ZZaph1twvnsc40ZkxbSbiKeJi2L_gXrP_ylfBT4As4MQT_UlHKCsbX4Hhys>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdduhedgjeejucetufdoteggodetrfdotf
+	:reply-to:subject:subject:to:to; s=fm3; t=1714563868; x=
+	1714650268; bh=yTqmmL9F1KXe5l5FZs/v8LTxAq9C75hF1YjZkMDAzqg=; b=E
+	zDHgoQpO5UUow+MC7wpFbOUUxsH5N4VaouS2Fn5fJ0TGQ7DNs6qDTFp8El00gZtF
+	M3wheMlm9LfI2ZcinF+3tqOm+g3VAZmF6fDe/5vE/aGyjPKLGzbytIX3eZeeFqjC
+	kUnVXdVn3UL9KDVlSnMLRKucPSdJukGHa85inlZ3G2xO561oFPSDIQEq6EgWT6ph
+	/B8y3dVW6oCrb6Exs3UjMZoP16nWhRL+jnREHlesViRB/PyKEHs6kRZ0Xkj2oHhU
+	gr48WER2fuStKtaK7wCyt0SywImscwu5FyFQl90/IL113RyyDEpMpXe3AMtGMXhU
+	4cRdud1LcbLtdI8+h32jg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1714563868; x=1714650268; bh=yTqmmL9F1KXe5l5FZs/v8LTxAq9C
+	75hF1YjZkMDAzqg=; b=Pyf2z8SI3UeyZYi4gQ/k1H/6v2Q3Fo+MKgD8QHAafPJP
+	xYenXYHeYnn4otufxroB1XBu6UTJ4Xw501xwPv4LA4ZYr9nP+tuql8gZPGaT2tVC
+	+fxRft2zcwimFZKyIPtsG7xsPudqlnjURC8PqWYn+Myb+a4lXLBfaZ4K6FJ/ag8b
+	dhZDXtjtPIENLQATrq+ReIVhYVqk15Yc4gThDUfewm2bzwT4iKv1K7i/huySVV0v
+	nYN1gBLjS2k47hxyP/01YTiC9DuFPnA9KDs5o9qWpK+Gj64x6sFQ12P8VaKzoz1o
+	a5RG3W2b9/INNGVWl3wLSlYzoa7z+6HEqWRd+9aWHA==
+X-ME-Sender: <xms:GysyZgllHuYLhDzCFbUSd2FqTcXuZTEbW5OvnGDVdYdXJ5RcyXD9Cg>
+    <xme:GysyZv02-YODyCzH7n7u2HBydqmZ_5oUrFehWJztaaUklUOrkkZ52Zy2Ls-wxz_xm
+    SuCVoHYJzDu_0gBNBg>
+X-ME-Received: <xmr:GysyZuoPICfV39X4jYegORUA8vj8TsBmXnPBNXGqCEOv8GKSpMeiCPk-5hEdYbT0lcSzdTRtMngVqH3JzQIk4wNYmyKLZ7YQT9Ue>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdduhedgjeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghk
-    rghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpedvjefgje
-    euvdfguddukeelveetgfdtvefhtdfffeeigfevueetffeivdffkedvtdenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhise
-    hsrghkrghmohgttghhihdrjhhp
-X-ME-Proxy: <xmx:5CgyZgshiuShhJHJwjLZNohbekF6Buhx4CWwopxxDuRwTsizk3qemg>
-    <xmx:5CgyZge456TpxspaebPysWhBIMl5mDkpTVuSKizd8sfgLdvrYvkOWg>
-    <xmx:5CgyZk1BWp-pMqECl85viL4BHJLAKgPghlH6oIeCjTicE69uiZ6Wog>
-    <xmx:5CgyZk-NslukQ7gJgchF0LmWoA9p0nf2MYNu37dhO8td5AiW3KktnQ>
-    <xmx:5CgyZo6j-sFs2uw3zUdumJd5QYmdBeuhpY0CVDMcD8CqBJzwYLubprhd>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
+    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
+    hjpheqnecuggftrfgrthhtvghrnhepveeilefhudekffehkeffudduvedvfeduleelfeeg
+    ieeljeehjeeuvdeghfetvedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghs
+    hhhisehsrghkrghmohgttghhihdrjhhp
+X-ME-Proxy: <xmx:GysyZslujlNuzWr9v5hjoyOmD2wvCbLxzY2sdSO2otIH_tSlaDWMiw>
+    <xmx:GysyZu2FvTZ1CDhCGxo2-brDstgkaVJeKMjO2AdWfppuH7FMp9CgcA>
+    <xmx:GysyZjuQZxLJXdDbwovDxq-OLYIeOGOH-N0qas3Z9xUyoa0JIpZSkQ>
+    <xmx:GysyZqX8rnQyUQF-OpN_6HUb2R_whd05CSxcPDoU365zjkNMb5N8yw>
+    <xmx:HCsyZjyiHRUszhxEsOjG-ixE2VtAOS2RCKpY5c5_15D3Hm9tYOKPaRkN>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 May 2024 07:34:59 -0400 (EDT)
+ 1 May 2024 07:44:26 -0400 (EDT)
+Date: Wed, 1 May 2024 20:44:24 +0900
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 4/4] ALSA: pcm: add notes to deprecate snd_pcm_sync_id in PCM interface for user space
-Date: Wed,  1 May 2024 20:34:45 +0900
-Message-ID: <20240501113445.100817-5-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240501113445.100817-1-o-takashi@sakamocchi.jp>
-References: <20240501113445.100817-1-o-takashi@sakamocchi.jp>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
+Message-ID: <20240501114424.GA100916@workstation.local>
+References: <20240430161012.4011064-1-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240430161012.4011064-1-perex@perex.cz>
 
-In PCM core function, the snd_pcm_sync_id union is not used anymore.
+Hi,
 
-This commit adds some notes about it in UAPI header.
-
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
----
- include/uapi/sound/asound.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-index 628d46a0da92..8252c7ac6896 100644
---- a/include/uapi/sound/asound.h
-+++ b/include/uapi/sound/asound.h
-@@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
-  *                                                                           *
-  *****************************************************************************/
+On Tue, Apr 30, 2024 at 06:10:12PM +0200, Jaroslav Kysela wrote:
+> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+> internal command"), there was a possibility to pass information
+> about the synchronized streams to the user space. The mentioned
+> commit removed blindly the appropriate code with an irrelevant comment.
+> 
+> The revert may be appropriate, but since this API was lost for several
+> years without any complains, it's time to improve it. The hardware
+> parameters may change the used stream clock source (e.g. USB hardware)
+> so move this synchronization ID to hw_params as read-only field.
+> 
+> It seems that pipewire can benefit from this API (disable adaptive
+> resampling for perfectly synchronized PCM streams) now.
+> 
+> Cc: Takashi Sakamoto <takaswie@kernel.org>
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> ---
+>  include/sound/pcm.h         |  9 +++++++++
+>  include/uapi/sound/asound.h |  8 +++++---
+>  sound/core/pcm_lib.c        | 13 +++++++++++++
+>  sound/core/pcm_native.c     |  6 ++++++
+>  4 files changed, 33 insertions(+), 3 deletions(-)
  
--#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
-+#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
- 
- typedef unsigned long snd_pcm_uframes_t;
- typedef signed long snd_pcm_sframes_t;
-@@ -330,6 +330,7 @@ enum {
- #endif
- };
- 
-+/* This union is not used anymore since PCM interface version 2.18. */
- union snd_pcm_sync_id {
- 	unsigned char id[16];
- 	unsigned short id16[8];
-@@ -348,7 +349,7 @@ struct snd_pcm_info {
- 	int dev_subclass;		/* SNDRV_PCM_SUBCLASS_* */
- 	unsigned int subdevices_count;
- 	unsigned int subdevices_avail;
--	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-+	union snd_pcm_sync_id sync;	/* Deprecated since PCM interface version 2.18. */
- 	unsigned char reserved[64];	/* reserved for future... */
- };
- 
--- 
-2.43.0
+Thanks for the reference to the commit to cancel exposing the data of
+snd_pcm_sync_id union in runtime of PCM substream. I'm waiting for seven
+years and it is time to delete it from the runtime structure and post the
+series of changes for it[1].
 
+I have no objection about the reinvention of some parts of UAPI to
+provide any information between several PCM substreams. However, the reuse
+of snd_pcm_sync_id union is a bit disapproving idea, since the data have
+not been utilized effectively past 25 years or so. The re-introduction
+would be a kind of 'history repeats'.
+
+I think this is a good opportunity to invent for your purpose. Let us
+work for more sophisticated way?
+
+[1] https://lore.kernel.org/linux-sound/20240501113445.100817-1-o-takashi@sakamocchi.jp/
+
+
+Regards
+
+Takashi Sakamoto (not sound subsystem maintainer)
