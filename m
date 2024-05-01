@@ -1,95 +1,126 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EDF12E1EE
-	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 13:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05671758D;
+	Wed,  1 May 2024 13:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714570022; cv=none; b=qTAlnTQCka1VWPnjYkcVQBRvhBRcOjqjP9WfiPV0wIImXgxVNvvAxTEDIC62CI99gwOyHbfA2O7knvj5ioylMidYNyp9jirqH73gPSZGLsLLUXXGwapNunzHKWRBdmMOjQjWuXhbnqhAjliN62WuuXC2378LhGg1YoqBz47OQP8=
+	t=1714570993; cv=none; b=sWd+MTrJMECKYugSMgO2f/QHVYboKIff0O38GsaicrLpwpr5bSQmpOPf2+7AIuwQnM6OH/OXFj9TQVcInG68xEs8HhHDyi6IVDXfivfenHHQeddAxD+2Uev+mO49nqIiZHJSiqHvC3XIIKVuuSbMG2tFNIFuhntyR8e53V+Bais=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714570022; c=relaxed/simple;
-	bh=ehw6SAG+kbHsliF4OQ8Xm50055J6yx3+DlaZFnM29tg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=lbcFPOdnPxlHQRAjhhFA/aBs5PSk/beujFLB0tJ/aG7CJsnEz4LUGPpfom3ovoGaHbkAkOO3TEISmN/uwgmbV5TC7SuPq4PNaR1TLCUH7Vjayxf+hO8kHva/QGBdRSZ6wUCshZtlEYNONVeTTS78oh3CpGXBS6jSQE8s9FTgQJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uTNPffqV; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1714570993; c=relaxed/simple;
+	bh=9cGe0fO91KEJ6yS3wODvzOfUdBBRbhupeiudrh94mnc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HDMnx1ggc9Uwn35AUSvsrWg+w3VOSCWhiG92PBj7xJ3lxBrHajlQnhXWBdniByTFkQyt0CCkKHOIEM9Mr5XPqmQXcDBmRcZGOwOsJ9+TDogqR3sCeufxIwpCT1JTxbaUvdsweaqR8ElNoVXNu9n45iuT9QqT6HxQSrlUNCDVWI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITWn/E1n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uTNPffqV"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc693399655so13513864276.1
-        for <linux-sound@vger.kernel.org>; Wed, 01 May 2024 06:27:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714570019; x=1715174819; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DBcVje7sQJG8s2uu2fApbOLUVVFcT0/1pZS1Vx+f9Y=;
-        b=uTNPffqVlUqLjz+4jQmUnI5a0s4/9svKkZ7q3Xq9K4igc+YHeaqeK0fL+B55w91y6B
-         Ws0eQFfS7SutYbDXBRzID+gUIKuRL9pQjQ9uCDf52iQLC5EoxTcofh3DGKsfZENz8Kqd
-         ynpzjhOsyW7G1MWnMADNHCQ02mwVaxZ6qm7EFcgTs6SCsLvawFiHjVKx6/omS5TNXCx4
-         nlzgLixhCgvllAHX067FwE2iVs1riNyLNT7R8Sow1HE5fl4Vm1dbDYCdIPGS29H9g7/u
-         cxh2tbc/Gl3qn/BMWHz+kxJDx68QhRb6ZMdQjW6KKxvI9ZudKygzgHDzOaujEEU4Wu3r
-         fteQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714570019; x=1715174819;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DBcVje7sQJG8s2uu2fApbOLUVVFcT0/1pZS1Vx+f9Y=;
-        b=aTZwCkbH+PyJa48eturwH7tdI9vKwMCKfbEIsYJ85wzrgc1DBBzb1gHowgSXtUhrt+
-         0jUW0FtxefVWeYmEZMExMLJtPfM5iED1SC3N6RFUWwUE8/aEtmzV8ubaZzAyeLcMHsSh
-         m7yx168zqMqWzQ8GRigtCiNrNpH/QJKwpLg5352W36eaAFk1MEdvwPYp/4L46IUy5z9Z
-         I91tm9xNYpBklsWxC5fxoGdrPbB4VJMgjbBd9W0dJ2+kogZ5JMSFD5ri6X/NIpaRm7DF
-         hl8/TKY5dw8R3bIogG73wqSSuMxXVgiZEbRPnIdNmjHet8s+Nih76nBOWcMcy/Sgkz0n
-         6IFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJcwfPBa0GSLcCr5dyf7s94ZdTLWO4iD3GFMq48X1sJekMDOhFtUII5oPOK4+W4fC4oTDd+TQ3d/EETXk+srU+uP5lthiM7kKCv4Y=
-X-Gm-Message-State: AOJu0YyAmlNC2tpAMGnncQOtFifl3lOBik8GGJuexjlQD+i7nZaTWZyo
-	95vJTYKnut0mZh/g/V9fflzrPIGGBt38YnseHGNgdlZj+q4TYwSE9iFeBndnCMzphk5p/x4aMSC
-	Gnw==
-X-Google-Smtp-Source: AGHT+IEJWGpbrUgjXt0agMfxl6uH0KA2xXXQIskrVStdJjQn0+KbWAVgSKalUCRrBzWfmm3VN3uGF/mvoZE=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:74d1:0:b0:de5:9ebb:bfc9 with SMTP id
- p200-20020a2574d1000000b00de59ebbbfc9mr716769ybc.9.1714570019532; Wed, 01 May
- 2024 06:26:59 -0700 (PDT)
-Date: Wed, 1 May 2024 06:26:58 -0700
-In-Reply-To: <20240430235057.1351993-5-edliaw@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITWn/E1n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE152C113CC;
+	Wed,  1 May 2024 13:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714570993;
+	bh=9cGe0fO91KEJ6yS3wODvzOfUdBBRbhupeiudrh94mnc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ITWn/E1nz33/c5D9HMjtgTlHCOKh8uHiSsWlcU7X2vEshClmoQlbx/PgYa84ZDIkS
+	 yq3B4KxtOb898TC/lqnTjDbhiUQ6YgHe9Po5zF8NrCZpjdKlRhjL5rg7gF2At2efQ+
+	 sx/nqhp6glcPOdmuPhlnvqBbuoxqeV0kUcvf92TBFOaMZUfkcP+jcApQ+JB0NIqPsB
+	 vmB/fijPtAZi3Vv06ppSDS7q2v+C3pYe5fwPHiemVQTTUXvP9LmWWbLFzP2UYPqKmK
+	 kaZJtMAlbG846ICqAnbP3RfNjRZpt+U2Ik09fpcxjKJwkQlicDe08Knh3cczjvK1rw
+	 qG3X7TESfD11A==
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+References: <20240414-n-const-ops-var-v1-0-8f53ee5d981c@kernel.org>
+Subject: Re: [PATCH 00/14] ASoC: Constify local snd_sof_dsp_ops
+Message-Id: <171457098826.1888704.13609756563875437820.b4-ty@kernel.org>
+Date: Wed, 01 May 2024 22:43:08 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240430235057.1351993-1-edliaw@google.com> <20240430235057.1351993-5-edliaw@google.com>
-Message-ID: <ZjJDIlQCkzIjP189@google.com>
-Subject: Re: [PATCH v1 04/10] selftests/kvm: Define _GNU_SOURCE
-From: Sean Christopherson <seanjc@google.com>
-To: Edward Liaw <edliaw@google.com>
-Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Bongsu Jeon <bongsu.jeon@samsung.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, kvm@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Tue, Apr 30, 2024, Edward Liaw wrote:
-> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> asprintf into kselftest_harness.h, which is a GNU extension and needs
-> _GNU_SOURCE to either be defined prior to including headers or with the
-> -D_GNU_SOURCE flag passed to the compiler.
+On Sun, 14 Apr 2024 20:47:25 +0200, Krzysztof Kozlowski wrote:
+> The core code does not modify the 'struct snd_sof_dsp_ops' passed via
+> pointer in various places, so this can be made pointer to const.
 > 
-> Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
-> Signed-off-by: Edward Liaw <edliaw@google.com>
-> ---
->  tools/testing/selftests/kvm/x86_64/fix_hypercall_test.c | 2 ++
->  1 file changed, 2 insertions(+)
+> All further patches depend on the first four patches.
+> 
+> Best regards,
+> Krzysztof
+> 
+> [...]
 
-Regardless of where this series ends up going, this patch can be dropped as I
-already have a fix applied for all KVM selftests[*].
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
 Thanks!
 
-[*] https://lore.kernel.org/all/20240423190308.2883084-1-seanjc@google.com
+[01/14] ASoC: SOF: debug: Constify local snd_sof_dsp_ops
+        commit: ffca099bbff1978bc9c97b076f0d35b4fe6ddf27
+[02/14] ASoC: SOF: ipc3: Constify local snd_sof_dsp_ops
+        commit: ee5acc1e035ec5ed5d9f0f63fda9d627220090c2
+[03/14] ASoC: SOF: pcm: Constify local snd_sof_dsp_ops
+        commit: a0db037df9630edad76153c7937c6f5ca04ed44f
+[04/14] ASoC: SOF: Constify stored pointer to snd_sof_dsp_ops
+        commit: 8bbc692d1abce5bc949dea9acba85fc686601c04
+[05/14] ASoC: SOF: intel: pci-tng: Constify snd_sof_dsp_ops
+        commit: 8f2b0d55abc44676b076128903a5dc730aab23c6
+[06/14] ASoC: SOF: intel: hda: Constify snd_sof_dsp_ops
+        commit: 6032eefc2c478243a511352dda04495c9a9fec6a
+[07/14] ASoC: SOF: amd: acp: Constify snd_sof_dsp_ops
+        commit: 04f2f516be09d5493d764e0020a771c46b5470d8
+[08/14] ASoC: SOF: imx8: Constify snd_sof_dsp_ops
+        commit: ab85c44973298b69eb32795de11ce4d426705532
+[09/14] ASoC: SOF: imx8m: Constify snd_sof_dsp_ops
+        commit: 66d49ab5fb51bb8d1b4c2c9c8fa0fbe8e4c8ca1c
+[10/14] ASoC: SOF: imx8ulp: Constify snd_sof_dsp_ops
+        commit: 232e0da9fa778233358586617bd22173bcac6bcc
+[11/14] ASoC: SOF: intel: bdw: Constify snd_sof_dsp_ops
+        commit: 936cc56044a87ae7fbd0e4098a7daefa0f2f4e8e
+[12/14] ASoC: SOF: intel: byt: Constify snd_sof_dsp_ops
+        commit: 48d5f1800d0cbda0212c5a58177918c419a24f8a
+[13/14] ASoC: SOF: mediatek: mt8186: Constify snd_sof_dsp_ops
+        commit: fe80673f59da01776a1402e4b508a66fca43a24d
+[14/14] ASoC: SOF: mediatek: mt8195: Constify snd_sof_dsp_ops
+        commit: 8b6d678fede700db6466d73f11fcbad496fa515e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
