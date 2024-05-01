@@ -1,130 +1,107 @@
-Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742CC1758D
-	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 11:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF42212E1CE
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 13:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714563871; cv=none; b=uUTRtKBuK+j+hS51hywNjZDI3PBpaBs5KGtMgPcfTG+Tptj41iqg1PSSmiUlDEXm1Itp73r4e03P/l6rNQRLkfWNiuFzRyer9+GCBkxbO7/YAeiZgDXpuhJCRX1le/jFRBWgLS7J3Z9om+E6Z3NAPT/Qe8WjLRct34zXj/ptidg=
+	t=1714569880; cv=none; b=bw3+E3XZ7pYteuXbq/LZS7y/kA7wDVG77e+SYgaBZbKxZCK9DUueYdTRo6Z1EPTosDq1SV57VX1YZ69RfFIR8eq92TSz6iAApyjL82c6f4C4fbN+5D/EsenTFX/UE8NSfMRcGZ2u3FzWiKDRtfcqLjIzbI2cq+ao6KIrKA9NZao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714563871; c=relaxed/simple;
-	bh=9n0ipes3a+K1rLWUQUJFWMsYgjdi1oVlI02gGSrkneY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NDaz+LvW0wtlZX8YGfJyQB2BUHwt85zO46bYBzy4Wt3GQxKjwdoaGIKmBhu3rG8mk42SJSv7h7p9mFMgags2wIZQvu5LXvj4H0frpV23WdnyRcu7v3Ha/UCPq30LhxDGJEz3ThqXrtRGhu2tzBz2yeGmTp2luNvOmByGtguLiRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=EzDHgoQp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Pyf2z8SI; arc=none smtp.client-ip=64.147.123.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1714569880; c=relaxed/simple;
+	bh=krrfckqjbeQlFLb67v3IVek4EQvt8apnoVfcRYoUsg8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FdaJrMpq6NmKkHaxP2OKJwo+WSx6uThUoxQuBlmnvqOBxwYMgDEZOuJnzeul9LJ9xf3XkEPXUL78OyYSSc7Ra+5R/YGyG4harsSdblhrpeLhFgpr9xZZMaLvBTO9ivaMR1fTDCRfmhLHDg5630nNGUur59aeJbuymhzomFBbhNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=z4PSvnZZ; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="EzDHgoQp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Pyf2z8SI"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfout.west.internal (Postfix) with ESMTP id 97D0A1C000F7;
-	Wed,  1 May 2024 07:44:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 01 May 2024 07:44:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1714563868; x=
-	1714650268; bh=yTqmmL9F1KXe5l5FZs/v8LTxAq9C75hF1YjZkMDAzqg=; b=E
-	zDHgoQpO5UUow+MC7wpFbOUUxsH5N4VaouS2Fn5fJ0TGQ7DNs6qDTFp8El00gZtF
-	M3wheMlm9LfI2ZcinF+3tqOm+g3VAZmF6fDe/5vE/aGyjPKLGzbytIX3eZeeFqjC
-	kUnVXdVn3UL9KDVlSnMLRKucPSdJukGHa85inlZ3G2xO561oFPSDIQEq6EgWT6ph
-	/B8y3dVW6oCrb6Exs3UjMZoP16nWhRL+jnREHlesViRB/PyKEHs6kRZ0Xkj2oHhU
-	gr48WER2fuStKtaK7wCyt0SywImscwu5FyFQl90/IL113RyyDEpMpXe3AMtGMXhU
-	4cRdud1LcbLtdI8+h32jg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1714563868; x=1714650268; bh=yTqmmL9F1KXe5l5FZs/v8LTxAq9C
-	75hF1YjZkMDAzqg=; b=Pyf2z8SI3UeyZYi4gQ/k1H/6v2Q3Fo+MKgD8QHAafPJP
-	xYenXYHeYnn4otufxroB1XBu6UTJ4Xw501xwPv4LA4ZYr9nP+tuql8gZPGaT2tVC
-	+fxRft2zcwimFZKyIPtsG7xsPudqlnjURC8PqWYn+Myb+a4lXLBfaZ4K6FJ/ag8b
-	dhZDXtjtPIENLQATrq+ReIVhYVqk15Yc4gThDUfewm2bzwT4iKv1K7i/huySVV0v
-	nYN1gBLjS2k47hxyP/01YTiC9DuFPnA9KDs5o9qWpK+Gj64x6sFQ12P8VaKzoz1o
-	a5RG3W2b9/INNGVWl3wLSlYzoa7z+6HEqWRd+9aWHA==
-X-ME-Sender: <xms:GysyZgllHuYLhDzCFbUSd2FqTcXuZTEbW5OvnGDVdYdXJ5RcyXD9Cg>
-    <xme:GysyZv02-YODyCzH7n7u2HBydqmZ_5oUrFehWJztaaUklUOrkkZ52Zy2Ls-wxz_xm
-    SuCVoHYJzDu_0gBNBg>
-X-ME-Received: <xmr:GysyZuoPICfV39X4jYegORUA8vj8TsBmXnPBNXGqCEOv8GKSpMeiCPk-5hEdYbT0lcSzdTRtMngVqH3JzQIk4wNYmyKLZ7YQT9Ue>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdduhedgjeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
-    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
-    hjpheqnecuggftrfgrthhtvghrnhepveeilefhudekffehkeffudduvedvfeduleelfeeg
-    ieeljeehjeeuvdeghfetvedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghs
-    hhhisehsrghkrghmohgttghhihdrjhhp
-X-ME-Proxy: <xmx:GysyZslujlNuzWr9v5hjoyOmD2wvCbLxzY2sdSO2otIH_tSlaDWMiw>
-    <xmx:GysyZu2FvTZ1CDhCGxo2-brDstgkaVJeKMjO2AdWfppuH7FMp9CgcA>
-    <xmx:GysyZjuQZxLJXdDbwovDxq-OLYIeOGOH-N0qas3Z9xUyoa0JIpZSkQ>
-    <xmx:GysyZqX8rnQyUQF-OpN_6HUb2R_whd05CSxcPDoU365zjkNMb5N8yw>
-    <xmx:HCsyZjyiHRUszhxEsOjG-ixE2VtAOS2RCKpY5c5_15D3Hm9tYOKPaRkN>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 May 2024 07:44:26 -0400 (EDT)
-Date: Wed, 1 May 2024 20:44:24 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
-Message-ID: <20240501114424.GA100916@workstation.local>
-References: <20240430161012.4011064-1-perex@perex.cz>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z4PSvnZZ"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2b2ab6bab07so1645747a91.2
+        for <linux-sound@vger.kernel.org>; Wed, 01 May 2024 06:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1714569878; x=1715174678; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4j6TmQ6ZgTGCAdIqQxwPqCx/nTzh+QyhXiuMiXZrc1A=;
+        b=z4PSvnZZow+6cwPT+0ewrIkZ1zd7BDzLa+B4BwRbWfQeul8nzOsi19rm0gzFJB29a5
+         X1qrmI4UmTxNrE8laFdrt5n0s1LOcdAQUyN8KlFjksLa19gdfLjN9rdxS7rkHH6wHmSx
+         Dt6vno8vuOBbKIVaNd/ZSN209Qkb/aM/VBPR0OgIPrRnR7/vkHGp68RZbNptbw41mTFa
+         3d043BKnXcNsJkhd/u6ytclKWj9RxAZpUPm0bNkT0+lSbw6W9UH6MMOoIsVtz9Jxpx/l
+         0NrMuyLM5KyCds8FWf26I6GWndEOa1VsaXVD1/lqiTKKSTp/prHyQE9HYEcdSmd7GLiI
+         2DfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714569878; x=1715174678;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4j6TmQ6ZgTGCAdIqQxwPqCx/nTzh+QyhXiuMiXZrc1A=;
+        b=S0AIV5wlUYWGXLmrZsCdaEnKIt0i0AvpVwync1/A/mLPt291vdppI23Q4KxeZwp39j
+         I7eHCOeOtcpHUKoxjzMx59qbYN+fE0nJE7K3j9ur2pEz4qnLi96rWTmHHHjsR0KWj6eA
+         1d6BP+IiNNhZRrOJBabGreZSXZ5F4Z3hj0TLJYkAV+x5aZnPMTlZvuVFluHZsJI80L+v
+         UuSrdrY1wcu4EuBoCDBRBZKp4SH9SNcUHgr+y/cZo1mFg9+Wg5sSBsM7nhW/951fqbY8
+         FwiubM7D1zGpWk7BUeCHYstJHo6yFwoyQGMK9hHVOdvkJhh0a08uxSVtWl1ttueHRo1g
+         XyWw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+1YztR3JY6VDPFljWHQvADIQ3LbNwLTVSVWiCnmqUso7SywKZYpLuS4oxXQDU9+Q5MX11+fwHblll6KdtijzKo4cp3azVaMYoc9M=
+X-Gm-Message-State: AOJu0Yy2w+bm5S4tTy4ml5vXYJAZe6erv7h10N/tdGnl5gLTBZKSiX8U
+	ksK7NYErRShUf4YE53YVcl2YYjT/bVj6LHa47TS+ml2GQDehFs3XMAxNZAoWphCnohdOP45hiO6
+	BJQ==
+X-Google-Smtp-Source: AGHT+IF3937EXGaxRuC2iwKEsqWkwYndGF2ruoyJWYYFvQeb8jNS6z1A7kQ93TL3uURuwu8bhUtDSRxNorw=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90b:b0f:b0:2b0:14bf:3f45 with SMTP id
+ bf15-20020a17090b0b0f00b002b014bf3f45mr7454pjb.0.1714569878155; Wed, 01 May
+ 2024 06:24:38 -0700 (PDT)
+Date: Wed, 1 May 2024 06:24:36 -0700
+In-Reply-To: <ZjGiGq-_kUVht63m@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240430161012.4011064-1-perex@perex.cz>
+Mime-Version: 1.0
+References: <20240430235057.1351993-1-edliaw@google.com> <ZjGiGq-_kUVht63m@finisterre.sirena.org.uk>
+Message-ID: <ZjJClMYEIyGEo37e@google.com>
+Subject: Re: [PATCH v1 00/10] Define _GNU_SOURCE for sources using
+From: Sean Christopherson <seanjc@google.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Edward Liaw <edliaw@google.com>, shuah@kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Bongsu Jeon <bongsu.jeon@samsung.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, kvm@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+On Wed, May 01, 2024, Mark Brown wrote:
+> On Tue, Apr 30, 2024 at 11:50:09PM +0000, Edward Liaw wrote:
+> > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> > asprintf into kselftest_harness.h, which is a GNU extension and needs
+> > _GNU_SOURCE to either be defined prior to including headers or with the
+> > -D_GNU_SOURCE flag passed to the compiler.
+> 
+> This seems like something that should be handled centrally rather than
+> having to go round and audit the users every time some update is made.
 
-On Tue, Apr 30, 2024 at 06:10:12PM +0200, Jaroslav Kysela wrote:
-> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-> internal command"), there was a possibility to pass information
-> about the synchronized streams to the user space. The mentioned
-> commit removed blindly the appropriate code with an irrelevant comment.
-> 
-> The revert may be appropriate, but since this API was lost for several
-> years without any complains, it's time to improve it. The hardware
-> parameters may change the used stream clock source (e.g. USB hardware)
-> so move this synchronization ID to hw_params as read-only field.
-> 
-> It seems that pipewire can benefit from this API (disable adaptive
-> resampling for perfectly synchronized PCM streams) now.
-> 
-> Cc: Takashi Sakamoto <takaswie@kernel.org>
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-> ---
->  include/sound/pcm.h         |  9 +++++++++
->  include/uapi/sound/asound.h |  8 +++++---
->  sound/core/pcm_lib.c        | 13 +++++++++++++
->  sound/core/pcm_native.c     |  6 ++++++
->  4 files changed, 33 insertions(+), 3 deletions(-)
++1.
+
+And if for some reason unilaterally defining _GNU_SOURCE in
+tools/testing/selftests/lib.mk isn't an option, we should at least have
+kselftest_harness.h assert instead of making a futile attempt to provide its own
+definition, e.g.
+
+diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
+index 4fd735e48ee7..6741b4f20f25 100644
+--- a/tools/testing/selftests/kselftest_harness.h
++++ b/tools/testing/selftests/kselftest_harness.h
+@@ -51,7 +51,7 @@
+ #define __KSELFTEST_HARNESS_H
  
-Thanks for the reference to the commit to cancel exposing the data of
-snd_pcm_sync_id union in runtime of PCM substream. I'm waiting for seven
-years and it is time to delete it from the runtime structure and post the
-series of changes for it[1].
-
-I have no objection about the reinvention of some parts of UAPI to
-provide any information between several PCM substreams. However, the reuse
-of snd_pcm_sync_id union is a bit disapproving idea, since the data have
-not been utilized effectively past 25 years or so. The re-introduction
-would be a kind of 'history repeats'.
-
-I think this is a good opportunity to invent for your purpose. Let us
-work for more sophisticated way?
-
-[1] https://lore.kernel.org/linux-sound/20240501113445.100817-1-o-takashi@sakamocchi.jp/
-
-
-Regards
-
-Takashi Sakamoto (not sound subsystem maintainer)
+ #ifndef _GNU_SOURCE
+-#define _GNU_SOURCE
++static_assert(0, "Using the kselftests harness requires building with _GNU_SOURCE");
+ #endif
+ #include <asm/types.h>
+ #include <ctype.h>
