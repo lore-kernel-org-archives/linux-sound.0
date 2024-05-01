@@ -1,87 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9644D9FD;
-	Wed,  1 May 2024 07:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3A84D9FD
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 07:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714550141; cv=none; b=OyVzXDDt0vGxb/LjOlU5Mlayu9OA6BDqIx02DbvnFR+v00xJ/SoI5YbMnsU7u2NU5wwXf9khk6GAnl9KfGODCSf9GyQ1+9U1t435HTKHVjrSqqHwTogNRVNdK95t9rIF8eYW9U9uM3XhCgLC/E3ioCdWAbroxANRfxBY2WfJmf8=
+	t=1714550194; cv=none; b=D4rupKaAQY25dsw9BzQZ3aubQ4bVzz/YmypD9s39ukSrKdeYPiyEPoVH9FM6hjUoAVvfWg7YQ3lOI7DSr0owt6tfT5DhzJLzQwMY/KTjIyW9KP1nuMR1o03nhpy3hvMK0MC9BLfq8Nle0ljCwDx4m3bR4Ybhz3r7cVQau7KjzMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714550141; c=relaxed/simple;
-	bh=uMttE0qhbz8kzX+Cp4ePSzGxNRWzrM6vWLazjFTdaDo=;
+	s=arc-20240116; t=1714550194; c=relaxed/simple;
+	bh=gwdIyEa5KnTIH9TjCdQLW1RthD6r6amy2at0A9QHilY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lw/uZ6UHEHv/fzKmE4+1QnQ4kdGiLGj9Gn2MD1HT1A/Pytm7OYbjEGij67e/VXWn5MO4h3GgQe6epjbuGlMiKEPtb4qWDCjqXsbBLtxqZ/NHKJw6QfQIWO+kZ5WFs3m0sH6MFKFYQvssvJJ0BtlzbWY4/JWk00YnPyEvAaj8RSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TL3RjE1C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d3YZLuBK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yNcB27fz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IaD1OLW0; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=kKFOoMQKU4iV7gWOXXVpmLcUV1Qby0uYlng5oaTjgGcXDDZKQpOYcBM6xz98cM/eT4V3z2JTSHBeGJ8krXFpzxIVdlLJVPWIk/Y9WvyckpylJBrwxl6XKibtHzEAJr2xfpGsiHDFiMDnxE2/VwjwB4oUhkD8MwF8kJ2QFBAyr1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ao7lYAn1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N/zem7HC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ao7lYAn1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N/zem7HC; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TL3RjE1C";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d3YZLuBK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yNcB27fz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IaD1OLW0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ao7lYAn1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N/zem7HC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ao7lYAn1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N/zem7HC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E64EB2222C;
-	Wed,  1 May 2024 07:55:37 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 384851F83F;
+	Wed,  1 May 2024 07:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714550138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714550191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fKP9IUsaQw2KIKjb+xbduzrCjX0eQanRZdwpyhbMhl8=;
-	b=TL3RjE1CfebbYCYIdHhjhyoiHYUQiYGu5CGDS+jPn5wpKl7JTG4/v76fvdvGRVb+yDtUYK
-	QY1kJdVnJ75ClmkJ+31ySov/LkK1gnmngd3SydUQ4Dg0awjnALZnCZYBXEdTYDqtNfTSl8
-	Fm9bjQ3H2V+bLNeAa2/erAQdYBrTfPo=
+	bh=LbShhzRvkENSkAajAqPQX9B40UecySTKTXDv62B0uN8=;
+	b=Ao7lYAn10PD+5FWN0jRiSPTtVBxL/ky3byfP5NL/poVBLSVp4FXesnvF67ifuKwFWsdaKD
+	sZLwRAD09wb/QEpQmy1IxLibpuaaiwscptV3dTDmjId7LfJ/3VmIkPeXScNzY+HrWn01cK
+	fvib3Hz1xo27rK1v4rJ08LV6zIQf2rA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714550138;
+	s=susede2_ed25519; t=1714550191;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fKP9IUsaQw2KIKjb+xbduzrCjX0eQanRZdwpyhbMhl8=;
-	b=d3YZLuBKoC3OyF/3grO6HSkQY4lrJaVbBVmqNgLnUG+HWxgTE73gciDvyoGtzwrGXWBkAq
-	0ZSGXZlxxnS9CQBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=LbShhzRvkENSkAajAqPQX9B40UecySTKTXDv62B0uN8=;
+	b=N/zem7HCRmliPV3qv0CSc5qlI/2iAU1B5jORt8yTJHIm8irdfhv44+syE9KXtJyDECmabu
+	yz1x6X+7P93z+0Cg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ao7lYAn1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="N/zem7HC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714550137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1714550191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fKP9IUsaQw2KIKjb+xbduzrCjX0eQanRZdwpyhbMhl8=;
-	b=yNcB27fzZ9y9hRiCrcRQSPrI+zmAn+qatan8//V+JRR4fXNNci/hMUCwMGDlovThgXAHmj
-	iVIhfYeRPyV7b/NziapG70onXRRLwOa0I8A0KAxw3N+nj/SxupMxsvVZB+7wF2nzNnnDDJ
-	l6jQ+78LJ6eUmWPWp7RwB6XxB1npqxo=
+	bh=LbShhzRvkENSkAajAqPQX9B40UecySTKTXDv62B0uN8=;
+	b=Ao7lYAn10PD+5FWN0jRiSPTtVBxL/ky3byfP5NL/poVBLSVp4FXesnvF67ifuKwFWsdaKD
+	sZLwRAD09wb/QEpQmy1IxLibpuaaiwscptV3dTDmjId7LfJ/3VmIkPeXScNzY+HrWn01cK
+	fvib3Hz1xo27rK1v4rJ08LV6zIQf2rA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714550137;
+	s=susede2_ed25519; t=1714550191;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fKP9IUsaQw2KIKjb+xbduzrCjX0eQanRZdwpyhbMhl8=;
-	b=IaD1OLW0J3FQikd8cIFP4cBc5W7NBnwFGXJ7rQIGpw7iXY2D8IHiMVwphPLna1sfntlQOX
-	SyXd3m7fZb9dqzCQ==
+	bh=LbShhzRvkENSkAajAqPQX9B40UecySTKTXDv62B0uN8=;
+	b=N/zem7HCRmliPV3qv0CSc5qlI/2iAU1B5jORt8yTJHIm8irdfhv44+syE9KXtJyDECmabu
+	yz1x6X+7P93z+0Cg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ACAC613942;
-	Wed,  1 May 2024 07:55:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F287F13942;
+	Wed,  1 May 2024 07:56:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D+BlKHn1MWbnYwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 May 2024 07:55:37 +0000
-Date: Wed, 01 May 2024 09:55:50 +0200
-Message-ID: <87mspakltl.wl-tiwai@suse.de>
+	id HnsDOq71MWYyZAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 01 May 2024 07:56:30 +0000
+Date: Wed, 01 May 2024 09:56:43 +0200
+Message-ID: <87le4ukls4.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Manuel Barrio Linares <mbarriolinares@gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: alsa-devel@alsa-project.org,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ALSA: usb-audio: Add sampling rates support for Mbox3
-In-Reply-To: <20240430171020.192285-1-mbarriolinares@gmail.com>
-References: <87cyq7nw19.wl-tiwai@suse.de>
-	<20240430171020.192285-1-mbarriolinares@gmail.com>
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/1] ALSA: aoa: soundbus: i2sbus: pcm: use 'time_left' variable with wait_for_completion_timeout()
+In-Reply-To: <20240430121028.30443-1-wsa+renesas@sang-engineering.com>
+References: <20240430121028.30443-1-wsa+renesas@sang-engineering.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,46 +91,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.84
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 384851F83F
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.28 / 50.00];
-	BAYES_HAM(-2.98)[99.90%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.84 / 50.00];
+	BAYES_HAM(-2.83)[99.25%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Spam-Score: -3.28
-X-Spam-Flag: NO
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
 
-On Tue, 30 Apr 2024 19:10:18 +0200,
-Manuel Barrio Linares wrote:
+On Tue, 30 Apr 2024 14:10:27 +0200,
+Wolfram Sang wrote:
 > 
-> This adds support for all sample rates supported by the
-> hardware,Digidesign Mbox 3 supports: {44100, 48000, 88200, 96000}
+> There is a confusing pattern in the kernel to use a variable named 'timeout' to
+> store the result of wait_for_completion_timeout() causing patterns like:
 > 
-> Fixes syncing clock issues that presented as pops. To test this, without
-> this patch playing 440hz tone produces pops.
+> 	timeout = wait_for_completion_timeout(...)
+> 	if (!timeout) return -ETIMEDOUT;
 > 
-> Clock is now synced between playback and capture interfaces so no more
-> latency drift issue when using pipewire pro-profile.
-> (https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3900)
+> with all kinds of permutations. Use 'time_left' as a variable to make the code
+> self explaining.
 > 
-> Signed-off-by: Manuel Barrio Linares <mbarriolinares@gmail.com>
+> Fix to the proper variable type 'unsigned long' while here.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Applied to for-next branch now.  Thanks!
+Thanks, applied now to for-next branch.
 
 
 Takashi
