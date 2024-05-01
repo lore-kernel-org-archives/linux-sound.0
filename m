@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35C412EBEE
-	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 14:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD0F2581
+	for <linux-sound@vger.kernel.org>; Wed,  1 May 2024 14:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714572987; cv=none; b=UGnI0yuyB7qPnt/sGuC5yDTGju9VQbiaLWzdjwFnmhNrqPm637UmWTN3eSnTk8ZrRmFk9l1AS+5KNYOMGs+mGSm45B8v44g+4sJXbWCpeNbFqb8U2K51iNjHkaC1QJrSxsgjBYSjQkLuyZ0cyru1IOhHe67LbNEoHoH4OrXOELM=
+	t=1714573054; cv=none; b=EmFbIE3SSue9M5tEFlGIBDBom8bZ8HKsqYE2JEmOj8F00zTVRWkCdVnl/CmQbMvv5TrPcJKNJQgeED5QjdoMBqc18/jOI6pAxppiN5i5MHIgCmgt83nZrniJ9BVxiXy/JVf9rwHS8EQ7X8D8xqSBA9bbiSqBYPvsQyy+xdxoiAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714572987; c=relaxed/simple;
-	bh=crHFFNgnnZogzj4vs5FNKAF7UA4nf7Do5hXSX1IalkM=;
+	s=arc-20240116; t=1714573054; c=relaxed/simple;
+	bh=6sTkdOiaOvL2c3EDiOJttVCIwQFAjWPPSbMRJsPKcFU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QCyPAfKwo3LMa4gXKhMqXc3LPbv/W9e/F13A6zcWc72zJS2qAw3HP0TfMiQ1X6OcT6ycBH19ReLjxaHTMG9BNJbA6rBuZiVTbPBhOTtSPSAz7cVSdvFYKpggz/YTpgq7Dci91zoHAVVEYrmmSm+Uz7Ymxv3+69eKXgAx6hVF0bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=LU/1QXEv; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=OAsfxs+EbxlaeFDG7Q0PwiE90N3xckyxSGKMec+YjxxjrtoGUskaxDpdaDWtA9tcLT2QeNq+mruz50+A37v3ndQi2mLaAgvxJzmSS8VXMR90regc2o2Urhg+NTNh1z4CGhQfdrE8knWL2Bnd88zSg5rtk8cgkQxK+II5h730/SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=nPG7lPG3; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="LU/1QXEv"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="nPG7lPG3"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8014D3CDF;
-	Wed,  1 May 2024 16:16:19 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8014D3CDF
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id A7B023CE1;
+	Wed,  1 May 2024 16:17:27 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz A7B023CE1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1714572979; bh=q4YbFYFT7wfXigqKH37cyixA9OkX81ASgEaeFk476Jc=;
+	t=1714573047; bh=rsICHZIMQs5nzVZDXtsHoa85nO4WvG2eaEz7OkSYt/8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LU/1QXEvjtF1DDAv0/GkGvZuv4QYLyy9e8XfToT4gtd6NzPQyhtFIv3cR/ifilxSv
-	 xTxHwGxPlDxeZostzHBoIMeoPyigJSW9qr6t2+O+K5g3U+s0nt79/3EbDHdNhiTOZ2
-	 bxf4agtHbGBt9Rs2fV6yv8pmfgF7ntDSODVeDqag=
+	b=nPG7lPG3EEwMAjtX28vHgeL0nUaJpguOYK5NUPwLNsD3HuB2sBkDVrbJwoE1y5zpr
+	 jLWw+1G941tyLC+8cSQfoTv/lkDrf3tvwg4gUMkGX8Jiw3QzjEeX32HEKurb2VkmBp
+	 4ucijXhPNFuo0PxohJjtXFt9sbU7vDSEAOygLgNk=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed,  1 May 2024 16:16:16 +0200 (CEST)
-Message-ID: <b914d5b5-2c7e-42a2-8c48-b366fc1fa41a@perex.cz>
-Date: Wed, 1 May 2024 16:16:15 +0200
+	Wed,  1 May 2024 16:17:24 +0200 (CEST)
+Message-ID: <b131a0e1-1531-41e2-8545-71f63108c1fd@perex.cz>
+Date: Wed, 1 May 2024 16:17:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,11 +42,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] ALSA: pcm: obsolete sync member in runtime structure
+Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
 Content-Language: en-US
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, tiwai@suse.de
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, Takashi Iwai <tiwai@suse.de>
 Cc: linux-sound@vger.kernel.org
-References: <20240501113445.100817-1-o-takashi@sakamocchi.jp>
+References: <20240430161012.4011064-1-perex@perex.cz>
+ <20240501114424.GA100916@workstation.local>
 From: Jaroslav Kysela <perex@perex.cz>
 Autocrypt: addr=perex@perex.cz; keydata=
  xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
@@ -91,36 +92,58 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <20240501113445.100817-1-o-takashi@sakamocchi.jp>
+In-Reply-To: <20240501114424.GA100916@workstation.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01. 05. 24 13:34, Takashi Sakamoto wrote:
+On 01. 05. 24 13:44, Takashi Sakamoto wrote:
 > Hi,
 > 
-> Seven years ago, in Linux kernel version 4.13, the data of
-> snd_pcm_sync_id union is not exposed to user space anymore, by a commit
-> e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO internal command").
->>From then, we have received no issued related to it. It means that the
-> data is neither used by any practical applications nor drivers, thus it
-> can be removed.
+> On Tue, Apr 30, 2024 at 06:10:12PM +0200, Jaroslav Kysela wrote:
+>> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+>> internal command"), there was a possibility to pass information
+>> about the synchronized streams to the user space. The mentioned
+>> commit removed blindly the appropriate code with an irrelevant comment.
+>>
+>> The revert may be appropriate, but since this API was lost for several
+>> years without any complains, it's time to improve it. The hardware
+>> parameters may change the used stream clock source (e.g. USB hardware)
+>> so move this synchronization ID to hw_params as read-only field.
+>>
+>> It seems that pipewire can benefit from this API (disable adaptive
+>> resampling for perfectly synchronized PCM streams) now.
+>>
+>> Cc: Takashi Sakamoto <takaswie@kernel.org>
+>> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+>> ---
+>>   include/sound/pcm.h         |  9 +++++++++
+>>   include/uapi/sound/asound.h |  8 +++++---
+>>   sound/core/pcm_lib.c        | 13 +++++++++++++
+>>   sound/core/pcm_native.c     |  6 ++++++
+>>   4 files changed, 33 insertions(+), 3 deletions(-)
+>   
+> Thanks for the reference to the commit to cancel exposing the data of
+> snd_pcm_sync_id union in runtime of PCM substream. I'm waiting for seven
+> years and it is time to delete it from the runtime structure and post the
+> series of changes for it[1].
 > 
-> This series of change is to obsolete the usage of the union data
-> in PCM core function. The kernel API, snd_pcm_set_sync(), is removed.
-> and the 'sync' member of snd_pcm_runtime structure is removed. Finally,
-> some notes are added to UAPI header.
+> I have no objection about the reinvention of some parts of UAPI to
+> provide any information between several PCM substreams. However, the reuse
+> of snd_pcm_sync_id union is a bit disapproving idea, since the data have
+> not been utilized effectively past 25 years or so. The re-introduction
+> would be a kind of 'history repeats'.
 > 
-> The removal of sync field has a side effect for emu10k driver, since p16v
-> chip code sets the data by hand. Its removal requires any deliberate
-> discussion, but the calm in seven years would satisfy the condition of
-> it.
-> 
-> 
-> The patch comment sent by Jaroslav[1] refers to the reinvention of the
-> union data, but as the part of hardware configuration step. If it
-> proceeds, the UAPI note would be modified simply.
+> I think this is a good opportunity to invent for your purpose. Let us
+> work for more sophisticated way?
 
-Strong NAK until we have another API replacement.
+Sorry, but I really do not follow your intention. You're proposing to remove 
+something which can be used in pipewire those days and I just proposed to use 
+this sync_id scheme. If you propose different API, implement it as first and 
+then remove the current proposed and implemented scheme (at least in the old 
+drivers).
+
+Removal and no replacement looks as no good solution. If you have a better API 
+proposal, just go ahead.
 
 					Jaroslav
 
