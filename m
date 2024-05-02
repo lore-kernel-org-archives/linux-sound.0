@@ -1,176 +1,133 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00953373;
-	Thu,  2 May 2024 10:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F65FEF2;
+	Thu,  2 May 2024 11:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714645542; cv=none; b=EZPLJEblAa4gt42UHWXGhccx7cp4xNjqfxdfC5ySX+j4gH1+9j70UB+NeFbXCnBu9b/OSVTNHu2wmoYEGOww5yIDWef9dkDorbgfAzIkuuN47JGOWfjevYRjvXhmfsurxYlZegGopiFm9mPeOZRKue3q8QagHW5H4O67DmcPkIU=
+	t=1714647941; cv=none; b=QHIcBTsMeRKPjzg2cR9KiBWyHeRIURKzkC7qdzLyhRXml0ebE36uYfo4ojmdK59CXVBNuW56CQ19lVglD4aMjnaU0eoGw4BZVgFImSTgkuRmObRdFNjVlEYfli4h1jXWxXW0pNB8W5A8/QGUszOEBGEx2jt4wPGpN8BVqnZuzOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714645542; c=relaxed/simple;
-	bh=9TkTZ57YAAxNkPWthAJ9DpDRSGTHMSlyYmnHgN70MRQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tJqfetCmssahrIofnKYQm/V/rQUd7iLba4caWyNEebH7TYjEoGXgggYV8W92JvnB61NNSnaxmaew2A0tQ06pF/Vfns4VF2ORHhDjvcNsAoGq1qKZ10W41PVHyZjcto+QrKLHHIfp4LZHC1SYICSO1S8+7DGFBBvuLLe3HOCI+oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wtklsYGQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8PRz+hei; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wtklsYGQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8PRz+hei; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714647941; c=relaxed/simple;
+	bh=EluTdDMIMNhKZ/EkpupaemH1PZsrZoO5k/Ow1fEItns=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=hgudez0EHh1lSeBgMrnyQ6P9F1uXbbhzXjgkjErC+XGidjJggXOQuOFhqRUe7FScZ8oNkbb02EnlTlY+cm7+T82zHuDJ80hmIVfNQhBMV3G7jIVcFvVruLygQHSbb62YEZhXn/LmQvsAYnwhp/T+Vv1L5n2kCBDEoxzyzvXvEe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftuPKS2c; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wtklsYGQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8PRz+hei";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wtklsYGQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8PRz+hei"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B4BA3351D9;
-	Thu,  2 May 2024 10:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714645538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nRNsEWuTL5AgiSXgw65Rfs9x849N3wWjfMiLj4+bsbA=;
-	b=wtklsYGQzF6Cm63lDgSKIu0L0JY8LoTvP/AoFzxBCbF7xkEdqOu8IoVjaVNhcRDeNdrioN
-	bJJwrfzuegzGjd6bTgMHDhQxVEuMAadiuII9QGkOkzPzgTTF3C8/QIxw6uIcFTG1O18LZQ
-	NbJy+b+lmDtrQE9wqfFV9McxLM7uqm0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714645538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nRNsEWuTL5AgiSXgw65Rfs9x849N3wWjfMiLj4+bsbA=;
-	b=8PRz+heicRrv7NM8CC8qiY3ggk0EhJQwXI5W/UqEXFvRTSNhVMPZlK9eW2jHn+gOV+C63V
-	/UhLosmJ02y38vBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714645538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nRNsEWuTL5AgiSXgw65Rfs9x849N3wWjfMiLj4+bsbA=;
-	b=wtklsYGQzF6Cm63lDgSKIu0L0JY8LoTvP/AoFzxBCbF7xkEdqOu8IoVjaVNhcRDeNdrioN
-	bJJwrfzuegzGjd6bTgMHDhQxVEuMAadiuII9QGkOkzPzgTTF3C8/QIxw6uIcFTG1O18LZQ
-	NbJy+b+lmDtrQE9wqfFV9McxLM7uqm0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714645538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nRNsEWuTL5AgiSXgw65Rfs9x849N3wWjfMiLj4+bsbA=;
-	b=8PRz+heicRrv7NM8CC8qiY3ggk0EhJQwXI5W/UqEXFvRTSNhVMPZlK9eW2jHn+gOV+C63V
-	/UhLosmJ02y38vBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7080B1386E;
-	Thu,  2 May 2024 10:25:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xj3uGSJqM2bfDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 10:25:38 +0000
-Date: Thu, 02 May 2024 12:25:51 +0200
-Message-ID: <87edakjys0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: 'Richard Fitzgerald'
-	<rf@opensource.cirrus.com>,
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the background
-In-Reply-To: <001401da9c79$fb9f2de0$f2dd89a0$@opensource.cirrus.com>
-References: <20240501111755.21231-1-simont@opensource.cirrus.com>
-	<87ttjgk6ph.wl-tiwai@suse.de>
-	<a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
-	<87h6fgk0ba.wl-tiwai@suse.de>
-	<001401da9c79$fb9f2de0$f2dd89a0$@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftuPKS2c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714647940; x=1746183940;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=EluTdDMIMNhKZ/EkpupaemH1PZsrZoO5k/Ow1fEItns=;
+  b=ftuPKS2c6s6Q6BcO03FR5MvmaWT642aql9qTd4VwhhM615excS1TAHcF
+   c9zmc2rp/d0eBS0bjC/PpknfcH5DXWZ9MzCAskdkPdyMLUx+W88fFRv8A
+   GNrGBdEeB3YFR5ywBb8QUnjYDV7ylN+kCa+mErnVhsnOAOeTw9f6dfkou
+   T8LVGsgHgUnIYaEeN/yyJMYy3wfWIO1wtlVVs5LCPc3W1CVfFTsIc2AYj
+   yj3f4C0tAdSo09qyIPsEnNGI4e+qnKQBawITc/+WQpVfk3sMjS/+7sMgL
+   SzPA72pIQdUBhv1bfnYw1btn3TkEE/U/AnrehM2eNl4AW99WmaXG1oPuC
+   Q==;
+X-CSE-ConnectionGUID: oUmZip18Tjm7AxchHOyvjA==
+X-CSE-MsgGUID: QnUiwb2NQxGOBAcRY3am0g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21813489"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="21813489"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 04:05:39 -0700
+X-CSE-ConnectionGUID: RNrykgpXQNOhcPL/BW4gnA==
+X-CSE-MsgGUID: 8wdqEQM1TVOscvvgR0xz0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="50280954"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa002.fm.intel.com with ESMTP; 02 May 2024 04:05:34 -0700
+Message-ID: <ddd682da-5cfd-db09-e316-3c54939caf90@linux.intel.com>
+Date: Thu, 2 May 2024 14:07:26 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,cirrus.com:email,alsa-project.org:email]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ tiwai@suse.com, robh@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-7-quic_wcheng@quicinc.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v20 06/41] usb: host: xhci-sideband: Expose a sideband
+ interrupter enable API
+In-Reply-To: <20240425215125.29761-7-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 02 May 2024 12:17:48 +0200,
-Simon Trimmer wrote:
+On 26.4.2024 0.50, Wesley Cheng wrote:
+> Some use cases maybe require that the secondary interrupter's events to
+> be handled by the OS.  In this case, configure the IMOD and the
+> skip_events property to enable the interrupter's events.  By default,
+> assume that the secondary interrupter doesn't want to enable OS event
+> handling.
 > 
-> > -----Original Message-----
-> > From: Takashi Iwai <tiwai@suse.de>
-> > Sent: Thursday, May 2, 2024 10:53 AM
-> > To: Richard Fitzgerald <rf@opensource.cirrus.com>
-> > Cc: Simon Trimmer <simont@opensource.cirrus.com>; tiwai@suse.com; linux-
-> > sound@vger.kernel.org; alsa-devel@alsa-project.org; linux-
-> > kernel@vger.kernel.org; patches@opensource.cirrus.com
-> > Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the
-> > background
-> > 
-> > On Thu, 02 May 2024 11:21:36 +0200,
-> > Richard Fitzgerald wrote:
-> > >
-> > > On 02/05/2024 08:34, Takashi Iwai wrote:
-> > > > On Wed, 01 May 2024 13:17:55 +0200,
-> > > > Simon Trimmer wrote:
-> > > >> @@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct
-> > cs35l56_hda *cs35l56, int hid, int id)
-> > > >>   	mutex_init(&cs35l56->base.irq_lock);
-> > > >>   	dev_set_drvdata(cs35l56->base.dev, cs35l56);
-> > > >>   +	cs35l56->dsp_wq =
-> > > >> create_singlethread_workqueue("cs35l56-dsp");
-> > > >> +	if (!cs35l56->dsp_wq) {
-> > > >> +		ret = -ENOMEM;
-> > > >> +		goto err;
-> > > >> +	}
-> > > >
-> > > > Do we really need a dedicated workqueue?  In most usages, simple
-> > > > schedule_work*() works fine and is recommended.
-> > > >
-> > >
-> > > On a slow I2C bus with 4 amps this work could take over 2 seconds.
-> > > That seems too long to be blocking a global system queue. We use a
-> > > dedicated queue in the ASoC driver.
-> > >
-> > > Also if we queue work on an ordered (single-threaded) system queue the
-> > > firmware won't be downloaded to multiple amps in parallel, so we don't
-> > > get the best use of the available bus bandwidth.
-> > 
-> > OK, that sounds like a sensible argument.
-> > 
-> > But the patch has no call of a queue destructor.  Won't it leak
-> > resources?
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/xhci-sideband.c  | 28 ++++++++++++++++++++++++++++
+>   include/linux/usb/xhci-sideband.h |  2 ++
+>   2 files changed, 30 insertions(+)
 > 
-> Oops that's a good spot - I missed that and will send a v2
+> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+> index 255feae33c6e..6fdae9840c11 100644
+> --- a/drivers/usb/host/xhci-sideband.c
+> +++ b/drivers/usb/host/xhci-sideband.c
+> @@ -237,6 +237,30 @@ xhci_sideband_get_event_buffer(struct xhci_sideband *sb)
+>   }
+>   EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
+>   
+> +/**
+> + * xhci_sideband_enable_interrupt - enable interrupt for secondary interrupter
+> + * @sb: sideband instance for this usb device
+> + * @imod_interval: number of event ring segments to allocate
+> + *
+> + * Enables OS owned event handling for a particular interrupter if client
+> + * requests for it.  In addition, set the IMOD interval for this particular
+> + * interrupter.
+> + *
+> + * Returns 0 on success, negative error otherwise
+> + */
+> +int xhci_sideband_enable_interrupt(struct xhci_sideband *sb, u32 imod_interval)
+> +{
+> +	if (!sb || !sb->ir)
+> +		return -ENODEV;
+> +
+> +	xhci_set_interrupter_moderation(sb->ir, imod_interval);
 
-If you submit a newer version, it'd be appreciated to explain about
-the workqueue usage in the patch description, too.
+Is there a need to adjust the moderation after initial setup?
+
+If not then maybe we could pass the imod_interval as a parameter to
+xhci_create_secondary_interrupter(), and avoid exporting
+xhci_set_interrupter_moderation()
 
 
-thanks,
+> +	sb->ir->skip_events = false;
+> +	xhci_enable_interrupter(sb->ir);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt);
 
-Takashi
+I can't find the place where xhci_sideband_enable_interrupt() is called in
+this series. How is it planned to be used?
+
+Thanks
+Mathias
