@@ -1,164 +1,166 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3DB56766;
-	Thu,  2 May 2024 09:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD6D56770
+	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 09:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714643552; cv=none; b=qB06eNuh/hhFqD1REYa+zZx0Ac1zFOMmbP2R1wX6+kiEHNquURfU11eNuVAxiT8xo7lWaH9t0AHYHpWY2YN1WtQOrkx9y1LWJSy8ASfNbIY2CnSJqO2nOMO5M9mCQ8v7RM2XDn27g+T9Y7UbmEiDVy0xW1rkfgWp1DeseMnJ//o=
+	t=1714643982; cv=none; b=S/TU1MAW1ggJsh6MmL8o8UEpfjJaxb4M9bX4OGTqGW2HpbMS3qHY2gPOxqqUqsEXRDdNvGkxBFXQaJPm3JjB/vcJCQQ7+2j9zKTL/uD9H8M2OewRapY2+zLc4xwTlIdAVAGoYlhvzbonQBAXnT585L3/xHpZC5bLm+00A3AAoIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714643552; c=relaxed/simple;
-	bh=vITXKoMtPN6CljACjRovE4Q9eiO6CiuoWCW2T4ojjQU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mdxr8vmRteN+D3WbnPxIuKZgndLjpvXyMpdLqBdALSSArb3SX9+xO5yvtDiknq4zUf9917sQ13mzYiA6E7Taohc2FZl5r7W8MUeiw0b6S5t2gH9MAOlLs+baf0DiJWAEhoYlp3mSLEBEwK41kwy/KLdrW8+5N4VJjCurv/i6+Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LUnS+/TV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g79upUkd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LUnS+/TV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g79upUkd; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714643982; c=relaxed/simple;
+	bh=0VwrMUO3X+y6UpEoWe11LsUQtiTXlZrdy2wyBSrCHUk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=npVQA6HuukRtpNa2HZPfTWNlbwez7VLfI88mEfSfTtTm/Lz76r5rgy4hbSUReON99dVsPIT3buPnnhj8MPB7vXzEct+I0Gb7S1qDZyBTodwKOM4tqJkjFduq3QU6t6NMaP+Xi7WbOTOcw+QmnyuOoRLTaMPVcLr0eZLjkO2V2FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PCnEpblM; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LUnS+/TV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g79upUkd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LUnS+/TV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g79upUkd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C76D21FB79;
-	Thu,  2 May 2024 09:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714643548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
-	b=LUnS+/TVSf5LwASnqw0/CLTNtkxsRKWb8pZZPOLXhfRBePYDzUjhoVGfctSCo3wKVmqlKj
-	qq0XTuaWQXHoY41HPXctervNoTKfgrrFjP8IFxxyvD9hQa6WLAHIBSUV3R54iJL4ZF0AU7
-	JC4W6IYA/f/p47iXIMX9YypJQkK9SA8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714643548;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
-	b=g79upUkdIzPMIzIFCPogoZ30i5uuKqxIsOiDKBcSRozI6Mzg9HcrxXP4P2y0JYgPLg6UyD
-	j2xkcQRUc4OD3IBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="LUnS+/TV";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=g79upUkd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714643548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
-	b=LUnS+/TVSf5LwASnqw0/CLTNtkxsRKWb8pZZPOLXhfRBePYDzUjhoVGfctSCo3wKVmqlKj
-	qq0XTuaWQXHoY41HPXctervNoTKfgrrFjP8IFxxyvD9hQa6WLAHIBSUV3R54iJL4ZF0AU7
-	JC4W6IYA/f/p47iXIMX9YypJQkK9SA8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714643548;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
-	b=g79upUkdIzPMIzIFCPogoZ30i5uuKqxIsOiDKBcSRozI6Mzg9HcrxXP4P2y0JYgPLg6UyD
-	j2xkcQRUc4OD3IBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9354D13957;
-	Thu,  2 May 2024 09:52:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U81mIlxiM2aIAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 09:52:28 +0000
-Date: Thu, 02 May 2024 11:52:41 +0200
-Message-ID: <87h6fgk0ba.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Simon Trimmer <simont@opensource.cirrus.com>,
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the background
-In-Reply-To: <a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
-References: <20240501111755.21231-1-simont@opensource.cirrus.com>
-	<87ttjgk6ph.wl-tiwai@suse.de>
-	<a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PCnEpblM"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51f57713684so70667e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 02 May 2024 02:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714643979; x=1715248779; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IAWzFtfBZwMQoHv84/W+JImIB5vAq9WxgZXxmYPg6EU=;
+        b=PCnEpblMIvnfYoI0CBfMTAacBznA4ZpfckEWfCi/HFn8+IqJAFj8dZGlrFi4bt6m/1
+         0lB9E3F0FN8eII3mGwxBfPsHsN7vXZvn9vz2kpc/xQScgMN2bdINWP9up0EZTvh0Iejg
+         +idOA/bY83LCw4EIkIPPZM9BKJ97hY1zBbC78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714643979; x=1715248779;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IAWzFtfBZwMQoHv84/W+JImIB5vAq9WxgZXxmYPg6EU=;
+        b=fcaBdOaafpJFt9TLdRjc7C4cnVCIGx1+bAJexp/HoCtr8ueGr1tre1cgWgH5Tn86WS
+         MMxsjmmGcZMnR5qeR2GrI4+2I1O/FSd30yE7emb+xFOFzJgXvBGDGYADlAwN+d/nLl5s
+         yWipAkESsLFGj6IHl0XcuMJnxX8FI05bGV402fC7Lywu8VjWAkz7z2lnyrMmL4xrotIu
+         TCUW8bK8ey/bkEQJGq9ZR668zR0iqaJjvrA8f5K0qMTUMxjaJ3Wh1l9xxCTy+JAvSs3P
+         bebeUTilcYtjQBIGX0Mf/cFEP1k2utKkSuNIWLuZW5eDcWIcZB7Jy942L06NVrOEwu8B
+         r4gw==
+X-Forwarded-Encrypted: i=1; AJvYcCVx+qguIIQC7TC5ey4hQB3Pj9B9LnXD51mPfaQXn11d5CZwEwteSUEIhqlDFn+oETseXXJ/Mb2vx4/qxlsSv45kgEWlba9XRkbQY+U=
+X-Gm-Message-State: AOJu0YyszijC6PabiE2gHnZOZjgckR0NPiJmlgYHn1qqJ2Oe6An3I8Ku
+	OM99kZR1vyWFMXdVgjmSbkpgug+YvrJqHO9F1OA/tCk5/qAEP8GQPDPg6G8CFihXYnrieSoKVbO
+	PkrJeAmxIm9cU/m64FaJR3hOF1r/0ay1dB0WJ
+X-Google-Smtp-Source: AGHT+IEGkMy9wnAsRv/sjRzs/mP6zDLzjdxZZenS550ahLeLjpaIxqNlXTywDzD62yFQysa3FGIxwKwuDOr1BNgiH+Q=
+X-Received: by 2002:a05:6512:3c87:b0:51c:cd8d:2865 with SMTP id
+ h7-20020a0565123c8700b0051ccd8d2865mr4075910lfv.44.1714643978564; Thu, 02 May
+ 2024 02:59:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -5.51
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: C76D21FB79
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+MIME-Version: 1.0
+References: <20240416071410.75620-1-angelogioacchino.delregno@collabora.com> <20240416071410.75620-19-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240416071410.75620-19-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 2 May 2024 17:59:27 +0800
+Message-ID: <CAGXv+5GddLeYr-CZBFUcpUMR_NV0=0fu6Qp71hvKO6tJdJjF6w@mail.gmail.com>
+Subject: Re: [PATCH v5 18/18] arm64: dts: mediatek: mt8186-corsola: Specify
+ sound DAI links and routing
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	matthias.bgg@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	trevor.wu@mediatek.com, maso.huang@mediatek.com, 
+	xiazhengqiao@huaqin.corp-partner.google.com, arnd@arndb.de, 
+	kuninori.morimoto.gx@renesas.com, shraash@google.com, amergnat@baylibre.com, 
+	nicolas.ferre@microchip.com, u.kleine-koenig@pengutronix.de, 
+	dianders@chromium.org, frank.li@vivo.com, allen-kh.cheng@mediatek.com, 
+	eugen.hristev@collabora.com, claudiu.beznea@tuxon.dev, 
+	jarkko.nikula@bitmer.com, jiaxin.yu@mediatek.com, alpernebiyasak@gmail.com, 
+	ckeepax@opensource.cirrus.com, zhourui@huaqin.corp-partner.google.com, 
+	nfraprado@collabora.com, alsa-devel@alsa-project.org, 
+	shane.chien@mediatek.com, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 02 May 2024 11:21:36 +0200,
-Richard Fitzgerald wrote:
-> 
-> On 02/05/2024 08:34, Takashi Iwai wrote:
-> > On Wed, 01 May 2024 13:17:55 +0200,
-> > Simon Trimmer wrote:
-> >> @@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
-> >>   	mutex_init(&cs35l56->base.irq_lock);
-> >>   	dev_set_drvdata(cs35l56->base.dev, cs35l56);
-> >>   +	cs35l56->dsp_wq =
-> >> create_singlethread_workqueue("cs35l56-dsp");
-> >> +	if (!cs35l56->dsp_wq) {
-> >> +		ret = -ENOMEM;
-> >> +		goto err;
-> >> +	}
-> > 
-> > Do we really need a dedicated workqueue?  In most usages, simple
-> > schedule_work*() works fine and is recommended.
-> > 
-> 
-> On a slow I2C bus with 4 amps this work could take over 2 seconds.
-> That seems too long to be blocking a global system queue. We use a
-> dedicated queue in the ASoC driver.
-> 
-> Also if we queue work on an ordered (single-threaded) system queue the
-> firmware won't be downloaded to multiple amps in parallel, so we don't
-> get the best use of the available bus bandwidth.
+On Tue, Apr 16, 2024 at 3:15=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> The drivers and bindings acquired support for specifying audio hardware
+> and links in device tree: describe and link the sound related HW of this
+> machine.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> ---
+>  .../boot/dts/mediatek/mt8186-corsola.dtsi     | 42 ++++++++++++++++---
+>  1 file changed, 37 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi b/arch/arm6=
+4/boot/dts/mediatek/mt8186-corsola.dtsi
+> index 1807e9d6cb0e..afdab5724eaa 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
+> @@ -42,7 +42,7 @@ backlight_lcd0: backlight-lcd0 {
+>                 default-brightness-level =3D <576>;
+>         };
+>
+> -       bt-sco-codec {
+> +       bt-sco {
 
-OK, that sounds like a sensible argument.
+I remember changing this node from "bt-sco" to "bt-sco-codec" because
+of a review comment when I submitted the Corsola dts series.
 
-But the patch has no call of a queue destructor.  Won't it leak
-resources?
-
-
-thanks,
-
-Takashi
+>                 compatible =3D "linux,bt-sco";
+>                 #sound-dai-cells =3D <0>;
+>         };
+> @@ -223,12 +223,44 @@ sound: sound {
+>                 mediatek,adsp =3D <&adsp>;
+>                 mediatek,platform =3D <&afe>;
+>
+> -               playback-codecs {
+> -                       sound-dai =3D <&it6505dptx>, <&rt1019p>;
+> +               audio-routing =3D
+> +                       "Headphone", "HPOL",
+> +                       "Headphone", "HPOR",
+> +                       "IN1P", "Headset Mic",
+> +                       "Speakers", "Speaker",
+> +                       "HDMI1", "TX";
+> +
+> +               hs-playback-dai-link {
+> +                       link-name =3D "I2S0";
+> +                       dai-format =3D "i2s";
+> +                       mediatek,clk-provider =3D "cpu";
+> +                       codec {
+> +                               sound-dai =3D <&rt5682s 0>;
+> +                       };
+> +               };
+> +
+> +               hs-capture-dai-link {
+> +                       link-name =3D "I2S1";
+> +                       dai-format =3D "i2s";
+> +                       mediatek,clk-provider =3D "cpu";
+> +                       codec {
+> +                               sound-dai =3D <&rt5682s 0>;
+> +                       };
+>                 };
+>
+> -               headset-codec {
+> -                       sound-dai =3D <&rt5682s 0>;
+> +               spk-share-dai-link {
+> +                       link-name =3D "I2S2";
+> +                       mediatek,clk-provider =3D "cpu";
+> +               };
+> +
+> +               spk-hdmi-playback-dai-link {
+> +                       link-name =3D "I2S3";
+> +                       dai-format =3D "i2s";
+> +                       mediatek,clk-provider =3D "cpu";
+> +                       /* RT1019P and IT6505 connected to the same I2S l=
+ine */
+> +                       codec {
+> +                               sound-dai =3D <&it6505dptx>, <&rt1019p>;
+> +                       };
+>                 };
+>         };
+>
+> --
+> 2.44.0
+>
