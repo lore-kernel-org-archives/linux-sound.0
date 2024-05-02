@@ -1,158 +1,163 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C791C6AE
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 06:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E490721A04
+	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 07:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714631077; cv=none; b=RX2VEjSlz0XxnuplNNbgBGcxWmTnvf4WUAQM/EAYZ2ePQmB2pnmKR2t5azqMpYcvXcUz/dGxz3YWOOdvnJdR93rpw1SjYq8DwubRvreuciZQNNdbE0bHWEGTpSMhmcRig2lVZ26+JRgsJn9wYbVt/70SgJO5Oyi3TwqtFIgj7sA=
+	t=1714635087; cv=none; b=pk8b1j5xgYks60sEK3chBvVTvMgKhaEfCF3whrXO0pMo+VMqJEDlWf0Hxzk+bbXRhHNghTRD+c8Zm4enXznVMvWKIX5g4U2HCYLLRClYUVuCHff9MCn/1IYjqvgXTBuODcf51ynnB/wNi/bmUPJgEml7kwwbz+V7B8CDH/h49Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714631077; c=relaxed/simple;
-	bh=cWS5F88k+QHRV4iBcBOq6dql56KtqZwyiEDobMulaz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rplLhwZbIxqLp7IXuWJwE/6THx5VRvBqWLyKs+N3freGpt5B+sDodnXAaSXsccd32OF0odTNIJdThbIrH6rq5QKd5/AhU4/JAJy49QRqb5Gm8sYlFRWZonc1dfmP8ldZ2cGTzx09jG46pF8sTn1rWBRDP+1MITsTqke2b3+U5yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qXioxU1b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d8QqicPh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L1fhICeI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SxNHxWu6; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1714635087; c=relaxed/simple;
+	bh=BqiBwAw5yqAHE+j0zdewiTNyEITmcBLjOY+uBc+x798=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QELWrTlZJlftUzb0T1AmyFQppRXJShLs2/yrP+Xid4a5ZXgta2p3Vu6et3XwuTP6eCcuTbxFalZFwYd6WQcg7+BONJUDmMuBKzct1ixflqKB8J3SUMi93u+ekiwGE+ah/yf6RIfSx4x9Nh5zwH08YoSyQN/KgjQMHfoFTyKRR1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tkgjT535; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qj0iegL5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tkgjT535; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qj0iegL5; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qXioxU1b";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d8QqicPh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L1fhICeI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SxNHxWu6"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tkgjT535";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qj0iegL5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tkgjT535";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qj0iegL5"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C205E35018;
-	Thu,  2 May 2024 06:24:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3145135082;
+	Thu,  2 May 2024 07:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714631073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Jfnop1axcFZ6gH9KOUcYnspcg0C1uDNwt0YnMmBj2rw=;
-	b=qXioxU1bwtE5xfF21QqutuhsHPD99PzFNJdCamf+nFBE+g+u4/jZhs5KNRNI6D4duBRn8v
-	oEYbfZj9pA/d2IQT3vs+c7v95COkYfv1lzopHWgAJbqkOi6Hv0I+K0UpBH0wka+/WAfJP6
-	aMWrvfPCsW9mYxyFWK+qSKhQmY0GuKE=
+	t=1714635084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pb4dl9miviLjn0JKb2vgCkSKs5YZJ6qwOBpIFjEzmLA=;
+	b=tkgjT535sSLagqOFdZ58ZYA7ARQ+Wlzbpjl8xRyULc8xQhzGvJfZAT6FHgjqkSMOJWxNai
+	ddszPPDHisqiD85OIxKpTL6UOItPmdk+Nxe1fmqDPQZnbdPDR+0l5/DsGB7n4Gcfa+m5jn
+	Yre8TtCotc+ZfQ+vgCSyG3vY/CToIwA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714631073;
+	s=susede2_ed25519; t=1714635084;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Jfnop1axcFZ6gH9KOUcYnspcg0C1uDNwt0YnMmBj2rw=;
-	b=d8QqicPhpZNIVb8zbbL1TFSXL7P+J57YEkRdRIUur18MGbTUkFLZCYEe79Th+UoBqz+yGt
-	j6rRsoZQqH4QQ1Bw==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pb4dl9miviLjn0JKb2vgCkSKs5YZJ6qwOBpIFjEzmLA=;
+	b=Qj0iegL5EhrW5OFLJYUDTPj3QnrRvpPOnsi4sVy/CsDgBzocKhDoNCEQ+QCPhcjnyxrwaL
+	QcUa+YdO2hJNOBDA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L1fhICeI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SxNHxWu6
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tkgjT535;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Qj0iegL5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714631071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Jfnop1axcFZ6gH9KOUcYnspcg0C1uDNwt0YnMmBj2rw=;
-	b=L1fhICeICZdt43zVZjJ7JgxuL8p7J0ZasbEoTYTgb7Vib+Ngoyjzr0MmrVSB8oiw3jR7rf
-	GeesmOk8E/cOY4Tbof+o1rfwI4/H1XV9TcrJD/rRThLnMrGiPF5XBGGXpFMcTREnq/v8HT
-	2dHyEtGfyUGTS35zd0VpURiqrOb57+Y=
+	t=1714635084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pb4dl9miviLjn0JKb2vgCkSKs5YZJ6qwOBpIFjEzmLA=;
+	b=tkgjT535sSLagqOFdZ58ZYA7ARQ+Wlzbpjl8xRyULc8xQhzGvJfZAT6FHgjqkSMOJWxNai
+	ddszPPDHisqiD85OIxKpTL6UOItPmdk+Nxe1fmqDPQZnbdPDR+0l5/DsGB7n4Gcfa+m5jn
+	Yre8TtCotc+ZfQ+vgCSyG3vY/CToIwA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714631071;
+	s=susede2_ed25519; t=1714635084;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Jfnop1axcFZ6gH9KOUcYnspcg0C1uDNwt0YnMmBj2rw=;
-	b=SxNHxWu6r7+TR4hG3LOmCQYO8k5LtLfFbsmJSjEqdquUVk7Kw+G06mPxmp7HG793KS5GVT
-	QXyXByrvCUsCmhAQ==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pb4dl9miviLjn0JKb2vgCkSKs5YZJ6qwOBpIFjEzmLA=;
+	b=Qj0iegL5EhrW5OFLJYUDTPj3QnrRvpPOnsi4sVy/CsDgBzocKhDoNCEQ+QCPhcjnyxrwaL
+	QcUa+YdO2hJNOBDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DB231386E;
-	Thu,  2 May 2024 06:24:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0AF2813957;
+	Thu,  2 May 2024 07:31:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QNn3JJ8xM2ZzOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 06:24:31 +0000
+	id X39sAUxBM2YcTwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 07:31:24 +0000
+Date: Thu, 02 May 2024 09:31:37 +0200
+Message-ID: <87v83wk6ue.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Kailang Yang <kailang@realtek.com>
-Subject: [PATCH v2] ALSA: hda/realtek: Fix build error without CONFIG_PM
-Date: Thu,  2 May 2024 08:24:42 +0200
-Message-ID: <20240502062442.30545-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: <linux-sound@vger.kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
+In-Reply-To: <20240430161012.4011064-1-perex@perex.cz>
+References: <20240430161012.4011064-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.05
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3145135082
 X-Spam-Level: 
-X-Spamd-Result: default: False [-0.10 / 50.00];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.05 / 50.00];
+	BAYES_HAM(-2.54)[97.94%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.09)[64.46%];
 	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: C205E35018
-X-Spam-Flag: NO
-X-Spam-Score: -0.10
-X-Spamd-Bar: /
 
-The alc_spec.power_hook is defined only with CONFIG_PM, and the recent
-fix overlooked it, resulting in a build error without CONFIG_PM.
-Fix it with the simple ifdef and set __maybe_unused for the function.
+On Tue, 30 Apr 2024 18:10:12 +0200,
+Jaroslav Kysela wrote:
+> 
+> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
+> internal command"), there was a possibility to pass information
+> about the synchronized streams to the user space. The mentioned
+> commit removed blindly the appropriate code with an irrelevant comment.
+> 
+> The revert may be appropriate, but since this API was lost for several
+> years without any complains, it's time to improve it. The hardware
+> parameters may change the used stream clock source (e.g. USB hardware)
+> so move this synchronization ID to hw_params as read-only field.
 
-We may drop the whole CONFIG_PM dependency there, but it should be
-done in a separate cleanup patch later.
+What's the benefit of moving to hw_params?  The current inquiry via
+ioctl can also follow the dynamic change, no?  I'm not entirely
+objecting to the idea, but need to understand better.
 
-Fixes: 1e707769df07 ("ALSA: hda/realtek - Set GPIO3 to default at S4 state for Thinkpad with ALC1318")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202405012104.Dr7h318W-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-v1->v2: add __maybe_unused for another warning
+> It seems that pipewire can benefit from this API (disable adaptive
+> resampling for perfectly synchronized PCM streams) now.
 
- sound/pci/hda/patch_realtek.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+If the support by pipewire is planned, it'd be good to revive the
+feature, yes.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index e704425788eb..b29739bd330b 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7204,7 +7204,7 @@ static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stream *hinfo,
- 	}
- }
- 
--static void alc287_s4_power_gpio3_default(struct hda_codec *codec)
-+static void __maybe_unused alc287_s4_power_gpio3_default(struct hda_codec *codec)
- {
- 	if (is_s4_suspend(codec)) {
- 		alc_write_coef_idx(codec, 0x10, 0x8806); /* Change MLK to GPIO3 */
-@@ -7219,7 +7219,9 @@ static void alc287_fixup_lenovo_thinkpad_with_alc1318(struct hda_codec *codec,
- 
- 	if (action != HDA_FIXUP_ACT_PRE_PROBE)
- 		return;
-+#ifdef CONFIG_PM
- 	spec->power_hook = alc287_s4_power_gpio3_default;
-+#endif
- 	spec->gen.pcm_playback_hook = alc287_alc1318_playback_pcm_hook;
- }
- 
--- 
-2.43.0
+> 
+> --- a/include/uapi/sound/asound.h
+> +++ b/include/uapi/sound/asound.h
+(snip)
+> @@ -334,6 +334,7 @@ union snd_pcm_sync_id {
+>  	unsigned char id[16];
+>  	unsigned short id16[8];
+>  	unsigned int id32[4];
+> +	__u64 id64[2];
+>  };
 
+What's the reason for this __u64 addition?  For the easiness of
+zero-compare?
+
+
+thanks,
+
+Takashi
