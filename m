@@ -1,101 +1,106 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD9954735;
-	Thu,  2 May 2024 09:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F4B50291
+	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 09:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714641713; cv=none; b=JZ5GFQyv3x5OK2EOx27sJNHmUkt09F016sOSJG8GoVT/GhCuoJu03ZsMOO0y1oE5fmo4O7ENp2TjG7AClNMA+C1BsbU/p8QcJXEcuq/xyHVT4WkGJfxxKHXxgazmH1Sqa0+b1GxSVHZmWJst9f92jrqWg37gNqVAzWlCW3Ap1Dw=
+	t=1714641924; cv=none; b=q7DJTwbSpv8ESRJBOwV8AJX/WJGQT+RwbZk+YE9GVTFvnwUccju/YOdAl1GbTJW6fQGKIjwvjVqp5jxHuZXOIgVwONB2YHCftXL/QwQ4hSuDeLzi40xFJNdU6eBRuj6y3eRM1b9qOJt216u2/LfCxssFWEIrRSZNOGP7/JcfeZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714641713; c=relaxed/simple;
-	bh=w8QjHcrlLNytid75AMyv9vPhb5KjwI82qLWvBRClbC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iKBjomY5J2F+192Jk/JQa7EBNxv0PAbErMLjZm9ccV6/cNKjsLLhv98Ckyw/FnP8oApBe8Ozb+dhWJ9iRi8j4rw29Yi0rITyKpi7o44rkOmHgyWTOZKB2dm/RbwHld2M9iACqN0QHGvKAIwakbl5P6oH6uzrRk+jj/bEK6DXViU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BlgmQBCu; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BlgmQBCu"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4426fe2X018298;
-	Thu, 2 May 2024 04:21:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	PODMain02222019; bh=VJrjKuSFrH1gRBcvsZN1w75FIo5Vye6zZ77H/zyS4h8=; b=
-	BlgmQBCuVZvnR+1s/J4qr3vY3zxRjADbfA9OUr1rCg8tHfnfISvx+jsC5KGT7tlc
-	doL7BpRkb5CdOswy2vzLDRshsqAN4kzshlV6zJEqxtKQBxKIckWBk1o/Ebnjxqfx
-	jacP6QLS9sqxmPEhLIC+GAfuHsAn/eQpkPAcI79XgXmZmuR3agjQLM5rHPszPOqd
-	Naq/pNw+FGtM+AF79MPniht721kSHrOLA2ppfNrEhE6pgjlC+tCKKzveh9wf74VI
-	vcWYRlkQwMYXoAmSvojOfKCcA7Tye3qMR16bMEQasKbrsNNXnN/GL+UXP48YE5Px
-	3ua7m5gx5FN7NZ9iduirFg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xv0e8g9bf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 May 2024 04:21:38 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
- 10:21:36 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 2 May 2024 10:21:36 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 57C8D820244;
-	Thu,  2 May 2024 09:21:36 +0000 (UTC)
-Message-ID: <a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
-Date: Thu, 2 May 2024 10:21:36 +0100
+	s=arc-20240116; t=1714641924; c=relaxed/simple;
+	bh=L+8MSxbbC4GA7RzAdnfcmEm04PpjGSEE0FJmumIjkUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qpj4BGejAa/CwUzggpy+0S31F8qumRDRMkBS73DtvCRaQdxK7YVWeGLZzHMgx7CaCB7HwThwH2+FOo2QDD9EDnnzt1S1I+nY5qFnKGmpIo5ljN5YTi2K+Da7iPRKxQf6fWXVbYmpYJSaxCDycJeEJruG6gA0FWbGPC7M475mPPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s2Sgk-0001lU-P1; Thu, 02 May 2024 11:25:14 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s2Sgj-00FUhj-Vr; Thu, 02 May 2024 11:25:13 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s2Sgj-00Daal-2t;
+	Thu, 02 May 2024 11:25:13 +0200
+Date: Thu, 2 May 2024 11:25:13 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, alsa-devel@alsa-project.org, 
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de, Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] ASoC: codecs: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Message-ID: <6uj2suuiu7tpomecii65f5lxuwgkhxnqs3lrpa54s2ptsorkh3@lzmnapdw4cri>
+References: <20240502074722.1103986-2-u.kleine-koenig@pengutronix.de>
+ <CAHp75VfTzbQaU-i5VTeh3aZ0KSyNu8Xnbkr1PMvAty=rLQ0oVQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the
- background
-To: Takashi Iwai <tiwai@suse.de>, Simon Trimmer <simont@opensource.cirrus.com>
-CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-References: <20240501111755.21231-1-simont@opensource.cirrus.com>
- <87ttjgk6ph.wl-tiwai@suse.de>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <87ttjgk6ph.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 5r_XGd3UwelsfKl2wpH1nWx0Tm5vaTNb
-X-Proofpoint-GUID: 5r_XGd3UwelsfKl2wpH1nWx0Tm5vaTNb
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6hbkefkyasb7fug6"
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfTzbQaU-i5VTeh3aZ0KSyNu8Xnbkr1PMvAty=rLQ0oVQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On 02/05/2024 08:34, Takashi Iwai wrote:
-> On Wed, 01 May 2024 13:17:55 +0200,
-> Simon Trimmer wrote:
->> @@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
->>   	mutex_init(&cs35l56->base.irq_lock);
->>   	dev_set_drvdata(cs35l56->base.dev, cs35l56);
->>   
->> +	cs35l56->dsp_wq = create_singlethread_workqueue("cs35l56-dsp");
->> +	if (!cs35l56->dsp_wq) {
->> +		ret = -ENOMEM;
->> +		goto err;
->> +	}
-> 
-> Do we really need a dedicated workqueue?  In most usages, simple
-> schedule_work*() works fine and is recommended.
-> 
 
-On a slow I2C bus with 4 amps this work could take over 2 seconds.
-That seems too long to be blocking a global system queue. We use a
-dedicated queue in the ASoC driver.
+--6hbkefkyasb7fug6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also if we queue work on an ordered (single-threaded) system queue the
-firmware won't be downloaded to multiple amps in parallel, so we don't
-get the best use of the available bus bandwidth.
+Hello Andy,
 
-> 
-> thanks,
-> 
-> Takashi
+On Thu, May 02, 2024 at 12:02:50PM +0300, Andy Shevchenko wrote:
+> On Thu, May 2, 2024 at 10:47=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > These drivers don't use the driver_data member of struct i2c_device_id,
+> > so don't explicitly initialize this member.
+> >
+> > This prepares putting driver_data in an anonymous union which requires
+> > either no initialization or named designators. But it's also a nice
+> > cleanup on its own.
+>=20
+> There are some drivers that have other (than I=C2=B2C) ID tables, which
+> follow the same format. Can you also do the same with them for the
+> sake of consistency?
 
+I'm aware of these and plan to address them in a separate quest once I'm
+done with the i2c bits.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6hbkefkyasb7fug6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYzW/gACgkQj4D7WH0S
+/k6TEAf/cw0zTMhVbRaMJYPm3VRPiLAt22Znb0NVIN/ufUGYr42GXzCYXb0OQFOd
+4hPA8IzOqykKjp2ZE2oDKEUfA/I8xhBJNSFtiKmVaKgq3VqMNY+hgVSLTeJvENbX
+fDJqWLPd9x1sIDjAzIymZQLC+y3OmL/iXfaoaez31Oc4RRHsRhLyombWapJz13jz
+CVdaBQMNq9gztxt8iXiaBcws9mabQJdkrzeC7Fv+RzlnTfnTI5T8teN8N3AqBBVP
+JO9hISzB2cgrhUrqvYgFbeMjqfFq7QEpQZMNTbZYajJLB7P+l1rMZVN4K/pxD3wt
+YyHWQPa/UchR+EysxeN7f2vdtAK25w==
+=emKf
+-----END PGP SIGNATURE-----
+
+--6hbkefkyasb7fug6--
