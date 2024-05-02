@@ -1,88 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C17958AC3
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 10:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A549856440;
+	Thu,  2 May 2024 10:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714644865; cv=none; b=dz4be/BBYnA4b3KvwNjUGbv2Qk+IfO4i55r/hiVW2yOEysdIHDy+5f3/ITIdJPuS+31qeGFNbztxN8sJR0snDA1aRpRqjLPEyA3Hy4DhQLkrC3G30wNjABorW9ge66+V4J5XqkXXnK9QPbbJPOzb2FsXaOrt7Nb8wElPd4cs64Q=
+	t=1714645080; cv=none; b=WlCe91D3tsdqbt7FYkfmCQ5r6htq9gxPVeDu1eSRdjNC7j4yF8lNHV9zdupfOVP6Mc9JAJ6hiRwHho8x+sCGbQJCDf11F+xz3VZy+Acqq6d2y1USJsrDeS4ijcnkorkDs7XPzXRno+qtRN3RyYc9mLqux6f1D6jakKgElUa3mQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714644865; c=relaxed/simple;
-	bh=cAlBEvn7Zdg3rycQRTm8ybO0vKp0Bzcel9WMD2FX8MU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egHFZCU7CLt81fQFsbTOXfzUNV+DJwJcw2xpS0V8QQKflKHpWOQRI7PSe4tHIq5ZdpcKd9o7WDJgtJkflMWX7ipJ/2kVjBH5qppJ6motUkCpWXSducSsDgOyD0t9ZcNfpwAcfKSLS443nSE9LTEn8DyWWCadTvCZR6XeKjmBaco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-CSE-ConnectionGUID: hrAGkB62SEG6kyJQFjZugA==
-X-CSE-MsgGUID: v6nJUTQfSuWXxcqxEk8HQA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10263028"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10263028"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 03:14:24 -0700
-X-CSE-ConnectionGUID: fnZO5GPrQnya113tbA4d3g==
-X-CSE-MsgGUID: higjDwRMTc6kA2VzZ5EfVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27477637"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 03:14:21 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1s2TSE-00000003HFH-14oE;
-	Thu, 02 May 2024 13:14:18 +0300
-Date: Thu, 2 May 2024 13:14:18 +0300
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH] ASoC: codecs: Drop explicit initialization of struct
- i2c_device_id::driver_data to 0
-Message-ID: <ZjNnekOAhhjGh-Ph@smile.fi.intel.com>
-References: <20240502074722.1103986-2-u.kleine-koenig@pengutronix.de>
- <CAHp75VfTzbQaU-i5VTeh3aZ0KSyNu8Xnbkr1PMvAty=rLQ0oVQ@mail.gmail.com>
- <6uj2suuiu7tpomecii65f5lxuwgkhxnqs3lrpa54s2ptsorkh3@lzmnapdw4cri>
+	s=arc-20240116; t=1714645080; c=relaxed/simple;
+	bh=sbIV7C29RJ+T1lX+E8sZCLiaBYd2zk0Nq7Q0l2njHYc=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=P7+ijyb8BYB3e8CjW6lI2dDDs9uxJthPPkgckde4N5qhP8RlaWIv1fBw/1PcS2R/yamwZofUPIydUfliZQaitAu0TeN36cYqvKObniObfOFu1dfm5xGg8JIXadLVrVlo7n9MqgpbmhMegJcxJhvXNeBCqQuq0VXoTFhDmkCoSpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EE2eePhF; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EE2eePhF"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4426QJF9029883;
+	Thu, 2 May 2024 05:17:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:references:in-reply-to:subject:date:message-id
+	:mime-version:content-type:content-transfer-encoding; s=
+	PODMain02222019; bh=JdCKGuzvpPEqIMdCQbeQSVDZQ5P0ciLsz3huW76jYp8=; b=
+	EE2eePhFPzsI7/YYwR5McN4859a9PNTQSg9lbQsFwtzusPmyb/B93xdyjYka+m9D
+	Rh4rZpxJW6mwC+QACdnwDHdSjIqKeTGLsh0+zjlAi6q5eGhyi1dWBLN6lbDZ8aD1
+	3U6Blx67/CVKVc0YOP/2W4oJU0+VPqAAAWn7P7EdMSTaJM4QlvIl8lf49H0TEf85
+	4ZtwdNOKYcPK8UvtNyKE62Rz1rREPEI3vLs5EzqhBy5xB26FqKr4K5hR69tL46p+
+	F8RF6tAP2qLpjo8cfNnTLcuhA4z/KPWJSBxxWVSbnGg1y2RaKO6vOuMkEvcSq1kq
+	BmkiNk50xLSJmCnpYakrwQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xv0e8gaw7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 May 2024 05:17:50 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
+ 11:17:48 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
+ via Frontend Transport; Thu, 2 May 2024 11:17:48 +0100
+Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.231])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 5FC71820244;
+	Thu,  2 May 2024 10:17:48 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: 'Takashi Iwai' <tiwai@suse.de>,
+        'Richard Fitzgerald'
+	<rf@opensource.cirrus.com>
+CC: <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+References: <20240501111755.21231-1-simont@opensource.cirrus.com>	<87ttjgk6ph.wl-tiwai@suse.de>	<a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com> <87h6fgk0ba.wl-tiwai@suse.de>
+In-Reply-To: <87h6fgk0ba.wl-tiwai@suse.de>
+Subject: RE: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the background
+Date: Thu, 2 May 2024 11:17:48 +0100
+Message-ID: <001401da9c79$fb9f2de0$f2dd89a0$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6uj2suuiu7tpomecii65f5lxuwgkhxnqs3lrpa54s2ptsorkh3@lzmnapdw4cri>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQBvb2ocE+GAzujRRIysQCID0b/eEwD72286AkBBwPkCXIFon7QtT9tg
+X-Proofpoint-ORIG-GUID: 5tfCnV5rEW5f9pYu0v8QANcb2UyW5qKv
+X-Proofpoint-GUID: 5tfCnV5rEW5f9pYu0v8QANcb2UyW5qKv
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, May 02, 2024 at 11:25:13AM +0200, Uwe Kleine-König wrote:
-> Hello Andy,
+> -----Original Message-----
+> From: Takashi Iwai <tiwai@suse.de>
+> Sent: Thursday, May 2, 2024 10:53 AM
+> To: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Cc: Simon Trimmer <simont@opensource.cirrus.com>; tiwai@suse.com; linux-
+> sound@vger.kernel.org; alsa-devel@alsa-project.org; linux-
+> kernel@vger.kernel.org; patches@opensource.cirrus.com
+> Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the
+> background
 > 
-> On Thu, May 02, 2024 at 12:02:50PM +0300, Andy Shevchenko wrote:
-> > On Thu, May 2, 2024 at 10:47 AM Uwe Kleine-König
-> > <u.kleine-koenig@pengutronix.de> wrote:
+> On Thu, 02 May 2024 11:21:36 +0200,
+> Richard Fitzgerald wrote:
+> >
+> > On 02/05/2024 08:34, Takashi Iwai wrote:
+> > > On Wed, 01 May 2024 13:17:55 +0200,
+> > > Simon Trimmer wrote:
+> > >> @@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct
+> cs35l56_hda *cs35l56, int hid, int id)
+> > >>   	mutex_init(&cs35l56->base.irq_lock);
+> > >>   	dev_set_drvdata(cs35l56->base.dev, cs35l56);
+> > >>   +	cs35l56->dsp_wq =
+> > >> create_singlethread_workqueue("cs35l56-dsp");
+> > >> +	if (!cs35l56->dsp_wq) {
+> > >> +		ret = -ENOMEM;
+> > >> +		goto err;
+> > >> +	}
 > > >
-> > > These drivers don't use the driver_data member of struct i2c_device_id,
-> > > so don't explicitly initialize this member.
+> > > Do we really need a dedicated workqueue?  In most usages, simple
+> > > schedule_work*() works fine and is recommended.
 > > >
-> > > This prepares putting driver_data in an anonymous union which requires
-> > > either no initialization or named designators. But it's also a nice
-> > > cleanup on its own.
-> > 
-> > There are some drivers that have other (than I²C) ID tables, which
-> > follow the same format. Can you also do the same with them for the
-> > sake of consistency?
+> >
+> > On a slow I2C bus with 4 amps this work could take over 2 seconds.
+> > That seems too long to be blocking a global system queue. We use a
+> > dedicated queue in the ASoC driver.
+> >
+> > Also if we queue work on an ordered (single-threaded) system queue the
+> > firmware won't be downloaded to multiple amps in parallel, so we don't
+> > get the best use of the available bus bandwidth.
 > 
-> I'm aware of these and plan to address them in a separate quest once I'm
-> done with the i2c bits.
+> OK, that sounds like a sensible argument.
+> 
+> But the patch has no call of a queue destructor.  Won't it leak
+> resources?
 
-With this being promised, FWIW,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Oops that's a good spot - I missed that and will send a v2
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+Cheers,
+-Simon
 
