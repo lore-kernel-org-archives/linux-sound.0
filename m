@@ -1,130 +1,123 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A61315B988
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 17:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EEC1B27D
+	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 22:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714669563; cv=none; b=em39bZ5BZ+fpgHNXg437s0d+IgMGGVSE+LUwcYbIxoZaA1mU6RSXD5EjoYoV7kH2wC1tn3zwZ2VxDzFhl2AawcDJBW7GLcJ92k6ozyB1QLE+yBaJItwxyE4zUTzkWN5jG2ZLehL46HZFrl+xSxKy8Z3FJWPcc5qXKyblLZdJA+s=
+	t=1714689663; cv=none; b=JFkCBwSvA1AsZK4Ou63NMAXs67NHtF8Mq9dE9PpYkdU0/mYkYcJ8nq5xzgqbLrC5yjSTQRVH4oytcf1w1Zcbcn6T2M1x7HroxUDWrKetsbt5+eyy8pUzwPV0e/J+OuiLgack45eBzfIuFNUwTpVe3aQ1WRVhIIuzzrvcwCOQ/74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714669563; c=relaxed/simple;
-	bh=KeTyCzNRWk6vBKSvQSbZZKEQNgnJhx4xYttDo/zoy1A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WJKbfHZRUyHVS6ANkb0lZUxVy/uoiBTLSC4IK5liW3hDNyLq3Hg09gqVZpJmJbJwjqQnf9+VXujh3muf/dGCWDumTA3JIhdm9oo99ZXlXI1YWOLOZxl4VZZcoRmgckyK/lqZCu+s7AsqN+qgyrOJh12gr/O24mthMn3Ukv19DX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=xMhjGj8s; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1714689663; c=relaxed/simple;
+	bh=bzyP4Xdw6nGRMa8O/ZIWOZc2YGpey8Rpt1THkkiSlKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NSwJh+U4mYWVDJaVIJnEl1GtyaQ2ET1vnZZW8y65CNYRq4foUcH58od7SnAuVX4sB8GtC0iJcrc0Kt3qtAtQ5soyDWC41g40K0W2dQlSrYXxOFWc4Xn6P/fWLMZEieNEWtKeuMk8Dm+UsmTK5C9VevdEnIGe87Dn96yd/x+Gj+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J8qjv+4O; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="xMhjGj8s"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 03AA83CDD;
-	Thu,  2 May 2024 19:05:56 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 03AA83CDD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1714669556; bh=n8d3enQ080clP9MGEBWEXmp4esWjgsZl0OuLWHcFzg0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=xMhjGj8scBjWxP9nu+And3z4kCHdG/emGRa0rk936doqYV8yafsvmQ4z8HWTROsaS
-	 /RzWpWcgsoCuYlUw1/M7U4sKkKqySrbN6ohHtXStI3S0ng/L2XXXvNBOb1V56nmw1H
-	 ya+MGLIZD4uirlSoCofhLyllWFeNKmwuk29TGmYk=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu,  2 May 2024 19:05:52 +0200 (CEST)
-Message-ID: <7994deb1-d215-4e66-9d46-2e92f712a76e@perex.cz>
-Date: Thu, 2 May 2024 19:05:52 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J8qjv+4O"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f44b390d5fso170681b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 02 May 2024 15:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714689661; x=1715294461; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/L9jD35jpO4uNtUxWEojKtoKI6VMvNDOlsLmuwoeTBY=;
+        b=J8qjv+4OwWekS+smq2pAOO2aD+7G0zxDDskE6DxYIMEFCqOJDEWRbgw67BNbn/LqVp
+         /dF4BxMfu/exf8AdUS3KFyACeksI+tvM7dHgD2xT2KgOJi96dSQomKCnPmIE7NeiHkcA
+         3qUG8xEx6vCC85Cn4OMcuMtdSxHYd464PTSqM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714689661; x=1715294461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/L9jD35jpO4uNtUxWEojKtoKI6VMvNDOlsLmuwoeTBY=;
+        b=aUZsWtX0Q8Zkkop8VRFaipWyfWafhPwxbgsK48EIYWQt1EU3rOeZTun1qaSk7Qkx4e
+         fj0F0WAMPNj6yXyfpyn8asH19CVb6I9kz7NGeSR3i31lXMXS3hgtTDQ2m1ep5oGtVAyx
+         kexdDBBuEcvmiCgkw5iJITMVcgMywF27oiFchGVgVkQ3QsPgJuloCRbU2jK8zwPjRQWb
+         0wNmB21ysaWQhs3vzP8pwNOQcnU1+f2gADemkjfAFBhOVafihqZ+srtVkJtLDZGDGIKU
+         97g6eCOK/icwzfsN3tXEESJRGvrkCFGBRrlDuYMideE+rn7MRoMJuw/67FsWj7wWwr3M
+         CZkA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9jTL3Of/B6R142a++Cruu2Z/ZnlljmxdfxEKAxWLKaxwFH4tlJMheNTmcO2XH0OxEGE/K/SvDlhYS4a+CZR1MfZasjXMNseWGiz4=
+X-Gm-Message-State: AOJu0Yzzg18PnDV6f5KtlpPrQWendPrzAUYwq8v2yexdQKpHC1QrN2G6
+	YEK16OUkXXQ9EheriSWy22l/R5qnAvaXXspYKjxeC/j8ez2HCZLy2zENoc1OxQ==
+X-Google-Smtp-Source: AGHT+IHT/crKZRZ/k6RhvANBVZPADnzOe9chhI8JjANxhrQb7VX4JbkZba2YNbbf5dsZ8cKd3o/FlQ==
+X-Received: by 2002:a05:6a20:5530:b0:1ad:8606:6484 with SMTP id ko48-20020a056a20553000b001ad86066484mr1120307pzb.8.1714689661156;
+        Thu, 02 May 2024 15:41:01 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id s185-20020a625ec2000000b006ed64f4767asm1845468pfb.112.2024.05.02.15.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 15:41:00 -0700 (PDT)
+Date: Thu, 2 May 2024 15:41:00 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Mark Brown <broonie@kernel.org>, Edward Liaw <edliaw@google.com>,
+	shuah@kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Bongsu Jeon <bongsu.jeon@samsung.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kernel-team@android.com, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, kvm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sgx@vger.kernel.org
+Subject: Re: [PATCH v1 00/10] Define _GNU_SOURCE for sources using
+Message-ID: <202405021540.3FF73DF47@keescook>
+References: <20240430235057.1351993-1-edliaw@google.com>
+ <ZjGiGq-_kUVht63m@finisterre.sirena.org.uk>
+ <ZjJClMYEIyGEo37e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Takashi Sakamoto <takaswie@kernel.org>
-References: <20240430161012.4011064-1-perex@perex.cz>
- <87v83wk6ue.wl-tiwai@suse.de> <a2fc16aa-387d-47e2-8000-1a502e6da7ac@perex.cz>
- <87o79oi68y.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <87o79oi68y.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZjJClMYEIyGEo37e@google.com>
 
-On 02. 05. 24 17:27, Takashi Iwai wrote:
-
->>>> --- a/include/uapi/sound/asound.h
->>>> +++ b/include/uapi/sound/asound.h
->>> (snip)
->>>> @@ -334,6 +334,7 @@ union snd_pcm_sync_id {
->>>>    	unsigned char id[16];
->>>>    	unsigned short id16[8];
->>>>    	unsigned int id32[4];
->>>> +	__u64 id64[2];
->>>>    };
->>>
->>> What's the reason for this __u64 addition?  For the easiness of
->>> zero-compare?
->>
->> Basically yes, but this extensions is aligned with other fields. Also,
->> I think that it may be usable to work with 64-bit words here. Perhaps,
->> other fields may use __uXX declarations, too.
+On Wed, May 01, 2024 at 06:24:36AM -0700, Sean Christopherson wrote:
+> On Wed, May 01, 2024, Mark Brown wrote:
+> > On Tue, Apr 30, 2024 at 11:50:09PM +0000, Edward Liaw wrote:
+> > > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> > > asprintf into kselftest_harness.h, which is a GNU extension and needs
+> > > _GNU_SOURCE to either be defined prior to including headers or with the
+> > > -D_GNU_SOURCE flag passed to the compiler.
+> > 
+> > This seems like something that should be handled centrally rather than
+> > having to go round and audit the users every time some update is made.
 > 
-> IMO, if we are allowed to redesign, it'd be better to avoid a union
-> for an API call.  It's a nightmare if one needs a conversion of API
-> (e.g. between different endianess for emulator).
+> +1.
+> 
+> And if for some reason unilaterally defining _GNU_SOURCE in
+> tools/testing/selftests/lib.mk isn't an option, we should at least have
+> kselftest_harness.h assert instead of making a futile attempt to provide its own
+> definition, e.g.
+> 
+> diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
+> index 4fd735e48ee7..6741b4f20f25 100644
+> --- a/tools/testing/selftests/kselftest_harness.h
+> +++ b/tools/testing/selftests/kselftest_harness.h
+> @@ -51,7 +51,7 @@
+>  #define __KSELFTEST_HARNESS_H
+>  
+>  #ifndef _GNU_SOURCE
+> -#define _GNU_SOURCE
+> +static_assert(0, "Using the kselftests harness requires building with _GNU_SOURCE");
+>  #endif
+>  #include <asm/types.h>
+>  #include <ctype.h>
 
-It makes sense. I'll keep only unsigned char id then.
-
-					Jaroslav
+Yeah, let's fix centrally. I like this approach.
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+Kees Cook
