@@ -1,156 +1,111 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA758364D2
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 08:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79D61BF54;
+	Thu,  2 May 2024 08:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714636973; cv=none; b=aw5Fd0+w8jErLjBm0w6I8KolR+73rWUyY/SwgSDLjsByaPhk2FlWCZgaqxoAesoDYVoCXKnFVAqfmRPJQwhzxeqKaPc5Np1YiZjg1trfKpxJ6ek7VjXE5s+wZns2k+RD0p/9u7CSQ+UKlHp9Jy0cPsNZLDYunbtlLDWhJJy1OiE=
+	t=1714637927; cv=none; b=Blu6WY5YbnQDsXQEwB7O8Tgfch4B4ibq9jBPkf5S76+tqjYQPaO3YJOhQNZDAWbnEFlB0DOQLvLaIpPCgXLYCRQcp1Bvtp79eJrp5dsRA5Ls3AErfSTsc71fIfV56JBdAO+bnmlIqP+jfYuHMxEkW2DNJ7Kp8jdOUM0Cm5lCgNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714636973; c=relaxed/simple;
-	bh=BzY1wpsfAeganyYmgPtL8R8fKwdRae+3ydAQczPu8AY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aKCrv4Q1H/RFqP/SqWCgj85G0PtXGuSiNP4/CGegR8Ric1mrhdlV3Gq7eHKeOkP7qiqIxhjhHXljWRh1CYx6T25tYd2JQPFursS2UdVY1/zg4K3TB5byrxis3rISPqIPJUh7IvxHMcRL01Z8vQnnesycWEBHUBU8VR8pl6Aqm4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=UXabCJTa; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1714637927; c=relaxed/simple;
+	bh=OsPDvE3Lc6w3KXCcRc+fZ2cjA8Mhoib7g1iA5Vr9FoA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tO6gjTFcYNhVi77kApOUv8DeyFCjZ7iPtQ68btt/CFvCZAng8DbaI4b5DcLpKGed7qj+HGCv9bBr19gescRFvLQFRKej7A/M04Ec67mgHxczpVuNtnTdtH93AWK9rhoWtiN2se0VQp2wdTSbn61mU/X4Muq60DvdXWOmBvB4Kb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nh7BA6x1; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="UXabCJTa"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DC5929B1;
-	Thu,  2 May 2024 10:02:40 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DC5929B1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1714636960; bh=5W6UAsS7msezh7UospoxsxQWw5Pf++cOlMp6vW3dCEE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UXabCJTaUpB/UYkg9gWAKGrbYFNCDwOWGCQGkZ3ijwqlKU2YDTjjnusnG9JIyy6AY
-	 5MPH8tuVto4A/DZsEdAO+9uSPkX6/he3zdXn7WnFknh0mvwrFBTjRyQikuTNEEQze4
-	 w6M8BEwJNbjzYZ+R7YJnmciJWiSlOkYV7OVkzTio=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu,  2 May 2024 10:02:37 +0200 (CEST)
-Message-ID: <a2fc16aa-387d-47e2-8000-1a502e6da7ac@perex.cz>
-Date: Thu, 2 May 2024 10:02:36 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nh7BA6x1"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4425jDSB017800;
+	Thu, 2 May 2024 03:18:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=EhWtohCGUIZ/Xrs
+	7gzkRSrh00jig+0JIKfHJVexSxuE=; b=nh7BA6x1vW4FSvjCjnWDe9HfSSwZM9R
+	zYs75gPDPPv4UqASOTqALlq3POj1T9sBiPAB5ke27j78uFdcsw5JDYsv4BK47h1F
+	GU3c+DG1MWcmNtAXY7siGmOESWjr+RBAtwb4S6ynT1jkMBpy3ExMirsls9Gp3237
+	iz8qTZ99lIr06a+tsdDU0e+BGa+8jQSUqzwSWpA/oesISuXMPPw3kLWjw+QnVLHq
+	t15zyEacoYqqB8felAhx7FkjP47ghFRs7ZVhy8BfwEg7YKSexKNXA4zku35h9kUZ
+	cP6ErkVwCTDJjOtEGcB0TMXLjjDDyUtZFpjXC/ibo/UwZg+/spTaxFw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xrxry5fdb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 May 2024 03:18:08 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
+ 09:18:05 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 2 May 2024 09:18:05 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 5F4CD820244;
+	Thu,  2 May 2024 08:18:05 +0000 (UTC)
+Date: Thu, 2 May 2024 08:18:04 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC: <alsa-devel@alsa-project.org>, Jaroslav Kysela <perex@perex.cz>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+        <patches@opensource.cirrus.com>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH 0/4] ASoC: use 'time_left' instead of 'timeout' with
+ wait_for_*() functions
+Message-ID: <ZjNMPOOFg9myFSz3@opensource.cirrus.com>
+References: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Takashi Sakamoto <takaswie@kernel.org>
-References: <20240430161012.4011064-1-perex@perex.cz>
- <87v83wk6ue.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <87v83wk6ue.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
+X-Proofpoint-ORIG-GUID: eedWidXVslVxbzPC805TxwhRqVampm1s
+X-Proofpoint-GUID: eedWidXVslVxbzPC805TxwhRqVampm1s
+X-Proofpoint-Spam-Reason: safe
 
-On 02. 05. 24 9:31, Takashi Iwai wrote:
-> On Tue, 30 Apr 2024 18:10:12 +0200,
-> Jaroslav Kysela wrote:
->>
->> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
->> internal command"), there was a possibility to pass information
->> about the synchronized streams to the user space. The mentioned
->> commit removed blindly the appropriate code with an irrelevant comment.
->>
->> The revert may be appropriate, but since this API was lost for several
->> years without any complains, it's time to improve it. The hardware
->> parameters may change the used stream clock source (e.g. USB hardware)
->> so move this synchronization ID to hw_params as read-only field.
+On Tue, Apr 30, 2024 at 01:54:33PM +0200, Wolfram Sang wrote:
+> There is a confusing pattern in the kernel to use a variable named 'timeout' to
+> store the result of wait_for_*() functions causing patterns like:
 > 
-> What's the benefit of moving to hw_params?  The current inquiry via
-> ioctl can also follow the dynamic change, no?  I'm not entirely
-> objecting to the idea, but need to understand better.
-
-In the removed code, there was a comment from Abramo that this ioctl is not so 
-much appropriate to carry this information because it depends on the runtime 
-status. Also, this info ioctl is callable through the control API thus the 
-result depends on the stream open state. The revert is just a simple solution, 
-but given the fact that the API was suspended for several years, we can do 
-this cleanup now IMHO.
-
->> It seems that pipewire can benefit from this API (disable adaptive
->> resampling for perfectly synchronized PCM streams) now.
+>         timeout = wait_for_completion_timeout(...)
+>         if (!timeout) return -ETIMEDOUT;
 > 
-> If the support by pipewire is planned, it'd be good to revive the
-> feature, yes.
-
-Pipewire would like to be able to detect the synchronized streams and Wim is 
-aware about sync_id API, but it does not work now without obsoleting this in 
-alsa-lib. I think that we did a wrong job here.
-
->> --- a/include/uapi/sound/asound.h
->> +++ b/include/uapi/sound/asound.h
-> (snip)
->> @@ -334,6 +334,7 @@ union snd_pcm_sync_id {
->>   	unsigned char id[16];
->>   	unsigned short id16[8];
->>   	unsigned int id32[4];
->> +	__u64 id64[2];
->>   };
+> with all kinds of permutations. Use 'time_left' as a variable to make the code
+> obvious and self explaining.
 > 
-> What's the reason for this __u64 addition?  For the easiness of
-> zero-compare?
+> This is part of a tree-wide series. The rest of the patches can be found here
+> (some parts may still be WIP):
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/time_left
+> 
+> Because these patches are generated, I audit them before sending. This is why I
+> will send series step by step. Build bot is happy with these patches, though.
+> No functional changes intended.
+> 
+> Wolfram Sang (4):
+>   ASoC: codecs: wm8962: use 'time_left' variable with
+>     wait_for_completion_timeout()
+>   ASoC: codecs: wm8993: use 'time_left' variable with
+>     wait_for_completion_timeout()
+>   ASoC: codecs: wm8994: use 'time_left' variable with
+>     wait_for_completion_timeout()
+>   ASoC: codecs: wm8996: use 'time_left' variable with
+>     wait_for_completion_timeout()
+> 
+>  sound/soc/codecs/wm8962.c | 12 ++++++------
+>  sound/soc/codecs/wm8993.c | 12 ++++++------
+>  sound/soc/codecs/wm8994.c |  8 ++++----
+>  sound/soc/codecs/wm8996.c | 14 +++++++-------
+>  4 files changed, 23 insertions(+), 23 deletions(-)
+> 
 
-Basically yes, but this extensions is aligned with other fields. Also, I think 
-that it may be usable to work with 64-bit words here. Perhaps, other fields 
-may use __uXX declarations, too.
+All look good to me.
 
-					Jaroslav
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
-
+Thanks,
+Charles
