@@ -1,182 +1,130 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CF413C670
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 15:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A61315B988
+	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 17:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714663636; cv=none; b=SIOIeJSWYjHdeYtRm8J9xqd7buaokfxQZF41l96GJpewv97bf0zR3JKao/EHqC+6G+UMrQCFLEosiMEqwSFC1zyKVNBfho889G07YfimgD8FjSe/Sb56CK0adrfN079Q8f8y2aYJLREn4D67WhcsDbRYuH5N94YOVxLuT5M/TSU=
+	t=1714669563; cv=none; b=em39bZ5BZ+fpgHNXg437s0d+IgMGGVSE+LUwcYbIxoZaA1mU6RSXD5EjoYoV7kH2wC1tn3zwZ2VxDzFhl2AawcDJBW7GLcJ92k6ozyB1QLE+yBaJItwxyE4zUTzkWN5jG2ZLehL46HZFrl+xSxKy8Z3FJWPcc5qXKyblLZdJA+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714663636; c=relaxed/simple;
-	bh=j7vODRgsuiB/Ca9qGwk+qpWBTaadhJpWpioZFTeJKwU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QtYCv0a5VX4gw6yC/riNDfy5/YnSwJkxIRd8c/v7tkd5f1dDNMHE3jpfekVkv6XVpFG9UW1WUYRyxLTm6wtK4ceJy32HUtomR6gglqzCA299TJUK7EiBxxhOaV0XWIAJ5Z5EoJp9FvT2vTmZcIl0RfiTFZKZe5LAaU34sMrgXtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JxW/01zt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+1AjGP9A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JxW/01zt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+1AjGP9A; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714669563; c=relaxed/simple;
+	bh=KeTyCzNRWk6vBKSvQSbZZKEQNgnJhx4xYttDo/zoy1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WJKbfHZRUyHVS6ANkb0lZUxVy/uoiBTLSC4IK5liW3hDNyLq3Hg09gqVZpJmJbJwjqQnf9+VXujh3muf/dGCWDumTA3JIhdm9oo99ZXlXI1YWOLOZxl4VZZcoRmgckyK/lqZCu+s7AsqN+qgyrOJh12gr/O24mthMn3Ukv19DX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=xMhjGj8s; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JxW/01zt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+1AjGP9A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JxW/01zt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+1AjGP9A"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="xMhjGj8s"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 03AA83CDD;
+	Thu,  2 May 2024 19:05:56 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 03AA83CDD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1714669556; bh=n8d3enQ080clP9MGEBWEXmp4esWjgsZl0OuLWHcFzg0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xMhjGj8scBjWxP9nu+And3z4kCHdG/emGRa0rk936doqYV8yafsvmQ4z8HWTROsaS
+	 /RzWpWcgsoCuYlUw1/M7U4sKkKqySrbN6ohHtXStI3S0ng/L2XXXvNBOb1V56nmw1H
+	 ya+MGLIZD4uirlSoCofhLyllWFeNKmwuk29TGmYk=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E0DA31FCDE;
-	Thu,  2 May 2024 15:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714663632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGJD/YyA4z6rkzoAH898JvRW14GwNoddsy8ZX0z3eok=;
-	b=JxW/01ztpqQmgWHmPvAdIExbs/iEDFaGcNFt2gg26LVjMeZgpSuEUrCLpFZvZ1Rttod7aU
-	FQMYztLq5dVH+npKNsOyiVjpOqdKNidNzasy1dvyV2SBMfAmYVhMIuIyy2+LeZqFXcw9SR
-	C15XF9AtBadUEhyGKEMkrXA8iizAIrg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714663632;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGJD/YyA4z6rkzoAH898JvRW14GwNoddsy8ZX0z3eok=;
-	b=+1AjGP9A2DF68BR3WLJdiUVYghTQOa5/OFik+LLYvwtGGs1KPJoEai3oOluVth/pUk7qT1
-	ijHjLw5kYemM4rCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714663632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGJD/YyA4z6rkzoAH898JvRW14GwNoddsy8ZX0z3eok=;
-	b=JxW/01ztpqQmgWHmPvAdIExbs/iEDFaGcNFt2gg26LVjMeZgpSuEUrCLpFZvZ1Rttod7aU
-	FQMYztLq5dVH+npKNsOyiVjpOqdKNidNzasy1dvyV2SBMfAmYVhMIuIyy2+LeZqFXcw9SR
-	C15XF9AtBadUEhyGKEMkrXA8iizAIrg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714663632;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uGJD/YyA4z6rkzoAH898JvRW14GwNoddsy8ZX0z3eok=;
-	b=+1AjGP9A2DF68BR3WLJdiUVYghTQOa5/OFik+LLYvwtGGs1KPJoEai3oOluVth/pUk7qT1
-	ijHjLw5kYemM4rCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB6B513957;
-	Thu,  2 May 2024 15:27:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jspZLNCwM2bndwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 15:27:12 +0000
-Date: Thu, 02 May 2024 17:27:25 +0200
-Message-ID: <87o79oi68y.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Takashi Sakamoto <takaswie@kernel.org>
-Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
-In-Reply-To: <a2fc16aa-387d-47e2-8000-1a502e6da7ac@perex.cz>
-References: <20240430161012.4011064-1-perex@perex.cz>
-	<87v83wk6ue.wl-tiwai@suse.de>
-	<a2fc16aa-387d-47e2-8000-1a502e6da7ac@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu,  2 May 2024 19:05:52 +0200 (CEST)
+Message-ID: <7994deb1-d215-4e66-9d46-2e92f712a76e@perex.cz>
+Date: Thu, 2 May 2024 19:05:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: reinvent the stream synchronization ID API
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Takashi Sakamoto <takaswie@kernel.org>
+References: <20240430161012.4011064-1-perex@perex.cz>
+ <87v83wk6ue.wl-tiwai@suse.de> <a2fc16aa-387d-47e2-8000-1a502e6da7ac@perex.cz>
+ <87o79oi68y.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87o79oi68y.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 02 May 2024 10:02:36 +0200,
-Jaroslav Kysela wrote:
+On 02. 05. 24 17:27, Takashi Iwai wrote:
+
+>>>> --- a/include/uapi/sound/asound.h
+>>>> +++ b/include/uapi/sound/asound.h
+>>> (snip)
+>>>> @@ -334,6 +334,7 @@ union snd_pcm_sync_id {
+>>>>    	unsigned char id[16];
+>>>>    	unsigned short id16[8];
+>>>>    	unsigned int id32[4];
+>>>> +	__u64 id64[2];
+>>>>    };
+>>>
+>>> What's the reason for this __u64 addition?  For the easiness of
+>>> zero-compare?
+>>
+>> Basically yes, but this extensions is aligned with other fields. Also,
+>> I think that it may be usable to work with 64-bit words here. Perhaps,
+>> other fields may use __uXX declarations, too.
 > 
-> On 02. 05. 24 9:31, Takashi Iwai wrote:
-> > On Tue, 30 Apr 2024 18:10:12 +0200,
-> > Jaroslav Kysela wrote:
-> >> 
-> >> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-> >> internal command"), there was a possibility to pass information
-> >> about the synchronized streams to the user space. The mentioned
-> >> commit removed blindly the appropriate code with an irrelevant comment.
-> >> 
-> >> The revert may be appropriate, but since this API was lost for several
-> >> years without any complains, it's time to improve it. The hardware
-> >> parameters may change the used stream clock source (e.g. USB hardware)
-> >> so move this synchronization ID to hw_params as read-only field.
-> > 
-> > What's the benefit of moving to hw_params?  The current inquiry via
-> > ioctl can also follow the dynamic change, no?  I'm not entirely
-> > objecting to the idea, but need to understand better.
-> 
-> In the removed code, there was a comment from Abramo that this ioctl
-> is not so much appropriate to carry this information because it
-> depends on the runtime status. Also, this info ioctl is callable
-> through the control API thus the result depends on the stream open
-> state. The revert is just a simple solution, but given the fact that
-> the API was suspended for several years, we can do this cleanup now
-> IMHO.
+> IMO, if we are allowed to redesign, it'd be better to avoid a union
+> for an API call.  It's a nightmare if one needs a conversion of API
+> (e.g. between different endianess for emulator).
 
-OK, makes sense.
+It makes sense. I'll keep only unsigned char id then.
 
-> >> It seems that pipewire can benefit from this API (disable adaptive
-> >> resampling for perfectly synchronized PCM streams) now.
-> > 
-> > If the support by pipewire is planned, it'd be good to revive the
-> > feature, yes.
-> 
-> Pipewire would like to be able to detect the synchronized streams and
-> Wim is aware about sync_id API, but it does not work now without
-> obsoleting this in alsa-lib. I think that we did a wrong job here.
+					Jaroslav
 
-OK.
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
-> >> --- a/include/uapi/sound/asound.h
-> >> +++ b/include/uapi/sound/asound.h
-> > (snip)
-> >> @@ -334,6 +334,7 @@ union snd_pcm_sync_id {
-> >>   	unsigned char id[16];
-> >>   	unsigned short id16[8];
-> >>   	unsigned int id32[4];
-> >> +	__u64 id64[2];
-> >>   };
-> > 
-> > What's the reason for this __u64 addition?  For the easiness of
-> > zero-compare?
-> 
-> Basically yes, but this extensions is aligned with other fields. Also,
-> I think that it may be usable to work with 64-bit words here. Perhaps,
-> other fields may use __uXX declarations, too.
-
-IMO, if we are allowed to redesign, it'd be better to avoid a union
-for an API call.  It's a nightmare if one needs a conversion of API
-(e.g. between different endianess for emulator).
-
-
-thanks,
-
-Takashi
