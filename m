@@ -1,106 +1,164 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F4B50291
-	for <linux-sound@vger.kernel.org>; Thu,  2 May 2024 09:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3DB56766;
+	Thu,  2 May 2024 09:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714641924; cv=none; b=q7DJTwbSpv8ESRJBOwV8AJX/WJGQT+RwbZk+YE9GVTFvnwUccju/YOdAl1GbTJW6fQGKIjwvjVqp5jxHuZXOIgVwONB2YHCftXL/QwQ4hSuDeLzi40xFJNdU6eBRuj6y3eRM1b9qOJt216u2/LfCxssFWEIrRSZNOGP7/JcfeZM=
+	t=1714643552; cv=none; b=qB06eNuh/hhFqD1REYa+zZx0Ac1zFOMmbP2R1wX6+kiEHNquURfU11eNuVAxiT8xo7lWaH9t0AHYHpWY2YN1WtQOrkx9y1LWJSy8ASfNbIY2CnSJqO2nOMO5M9mCQ8v7RM2XDn27g+T9Y7UbmEiDVy0xW1rkfgWp1DeseMnJ//o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714641924; c=relaxed/simple;
-	bh=L+8MSxbbC4GA7RzAdnfcmEm04PpjGSEE0FJmumIjkUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qpj4BGejAa/CwUzggpy+0S31F8qumRDRMkBS73DtvCRaQdxK7YVWeGLZzHMgx7CaCB7HwThwH2+FOo2QDD9EDnnzt1S1I+nY5qFnKGmpIo5ljN5YTi2K+Da7iPRKxQf6fWXVbYmpYJSaxCDycJeEJruG6gA0FWbGPC7M475mPPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s2Sgk-0001lU-P1; Thu, 02 May 2024 11:25:14 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s2Sgj-00FUhj-Vr; Thu, 02 May 2024 11:25:13 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s2Sgj-00Daal-2t;
-	Thu, 02 May 2024 11:25:13 +0200
-Date: Thu, 2 May 2024 11:25:13 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, alsa-devel@alsa-project.org, 
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH] ASoC: codecs: Drop explicit initialization of struct
- i2c_device_id::driver_data to 0
-Message-ID: <6uj2suuiu7tpomecii65f5lxuwgkhxnqs3lrpa54s2ptsorkh3@lzmnapdw4cri>
-References: <20240502074722.1103986-2-u.kleine-koenig@pengutronix.de>
- <CAHp75VfTzbQaU-i5VTeh3aZ0KSyNu8Xnbkr1PMvAty=rLQ0oVQ@mail.gmail.com>
+	s=arc-20240116; t=1714643552; c=relaxed/simple;
+	bh=vITXKoMtPN6CljACjRovE4Q9eiO6CiuoWCW2T4ojjQU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mdxr8vmRteN+D3WbnPxIuKZgndLjpvXyMpdLqBdALSSArb3SX9+xO5yvtDiknq4zUf9917sQ13mzYiA6E7Taohc2FZl5r7W8MUeiw0b6S5t2gH9MAOlLs+baf0DiJWAEhoYlp3mSLEBEwK41kwy/KLdrW8+5N4VJjCurv/i6+Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LUnS+/TV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g79upUkd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LUnS+/TV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g79upUkd; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LUnS+/TV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g79upUkd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LUnS+/TV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g79upUkd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C76D21FB79;
+	Thu,  2 May 2024 09:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714643548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
+	b=LUnS+/TVSf5LwASnqw0/CLTNtkxsRKWb8pZZPOLXhfRBePYDzUjhoVGfctSCo3wKVmqlKj
+	qq0XTuaWQXHoY41HPXctervNoTKfgrrFjP8IFxxyvD9hQa6WLAHIBSUV3R54iJL4ZF0AU7
+	JC4W6IYA/f/p47iXIMX9YypJQkK9SA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714643548;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
+	b=g79upUkdIzPMIzIFCPogoZ30i5uuKqxIsOiDKBcSRozI6Mzg9HcrxXP4P2y0JYgPLg6UyD
+	j2xkcQRUc4OD3IBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="LUnS+/TV";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=g79upUkd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714643548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
+	b=LUnS+/TVSf5LwASnqw0/CLTNtkxsRKWb8pZZPOLXhfRBePYDzUjhoVGfctSCo3wKVmqlKj
+	qq0XTuaWQXHoY41HPXctervNoTKfgrrFjP8IFxxyvD9hQa6WLAHIBSUV3R54iJL4ZF0AU7
+	JC4W6IYA/f/p47iXIMX9YypJQkK9SA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714643548;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4eGmpuaeDMzhLfyJ1oPJc4iz3E5Oauzqw7fHW9MAvVU=;
+	b=g79upUkdIzPMIzIFCPogoZ30i5uuKqxIsOiDKBcSRozI6Mzg9HcrxXP4P2y0JYgPLg6UyD
+	j2xkcQRUc4OD3IBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9354D13957;
+	Thu,  2 May 2024 09:52:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id U81mIlxiM2aIAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 02 May 2024 09:52:28 +0000
+Date: Thu, 02 May 2024 11:52:41 +0200
+Message-ID: <87h6fgk0ba.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>,
+	<tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<alsa-devel@alsa-project.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Perform firmware download in the background
+In-Reply-To: <a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
+References: <20240501111755.21231-1-simont@opensource.cirrus.com>
+	<87ttjgk6ph.wl-tiwai@suse.de>
+	<a9345d24-af36-42b4-9139-0701a0dbe1a3@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6hbkefkyasb7fug6"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfTzbQaU-i5VTeh3aZ0KSyNu8Xnbkr1PMvAty=rLQ0oVQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -5.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: C76D21FB79
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+
+On Thu, 02 May 2024 11:21:36 +0200,
+Richard Fitzgerald wrote:
+> 
+> On 02/05/2024 08:34, Takashi Iwai wrote:
+> > On Wed, 01 May 2024 13:17:55 +0200,
+> > Simon Trimmer wrote:
+> >> @@ -964,6 +1011,14 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+> >>   	mutex_init(&cs35l56->base.irq_lock);
+> >>   	dev_set_drvdata(cs35l56->base.dev, cs35l56);
+> >>   +	cs35l56->dsp_wq =
+> >> create_singlethread_workqueue("cs35l56-dsp");
+> >> +	if (!cs35l56->dsp_wq) {
+> >> +		ret = -ENOMEM;
+> >> +		goto err;
+> >> +	}
+> > 
+> > Do we really need a dedicated workqueue?  In most usages, simple
+> > schedule_work*() works fine and is recommended.
+> > 
+> 
+> On a slow I2C bus with 4 amps this work could take over 2 seconds.
+> That seems too long to be blocking a global system queue. We use a
+> dedicated queue in the ASoC driver.
+> 
+> Also if we queue work on an ordered (single-threaded) system queue the
+> firmware won't be downloaded to multiple amps in parallel, so we don't
+> get the best use of the available bus bandwidth.
+
+OK, that sounds like a sensible argument.
+
+But the patch has no call of a queue destructor.  Won't it leak
+resources?
 
 
---6hbkefkyasb7fug6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-Hello Andy,
-
-On Thu, May 02, 2024 at 12:02:50PM +0300, Andy Shevchenko wrote:
-> On Thu, May 2, 2024 at 10:47=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > These drivers don't use the driver_data member of struct i2c_device_id,
-> > so don't explicitly initialize this member.
-> >
-> > This prepares putting driver_data in an anonymous union which requires
-> > either no initialization or named designators. But it's also a nice
-> > cleanup on its own.
->=20
-> There are some drivers that have other (than I=C2=B2C) ID tables, which
-> follow the same format. Can you also do the same with them for the
-> sake of consistency?
-
-I'm aware of these and plan to address them in a separate quest once I'm
-done with the i2c bits.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6hbkefkyasb7fug6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYzW/gACgkQj4D7WH0S
-/k6TEAf/cw0zTMhVbRaMJYPm3VRPiLAt22Znb0NVIN/ufUGYr42GXzCYXb0OQFOd
-4hPA8IzOqykKjp2ZE2oDKEUfA/I8xhBJNSFtiKmVaKgq3VqMNY+hgVSLTeJvENbX
-fDJqWLPd9x1sIDjAzIymZQLC+y3OmL/iXfaoaez31Oc4RRHsRhLyombWapJz13jz
-CVdaBQMNq9gztxt8iXiaBcws9mabQJdkrzeC7Fv+RzlnTfnTI5T8teN8N3AqBBVP
-JO9hISzB2cgrhUrqvYgFbeMjqfFq7QEpQZMNTbZYajJLB7P+l1rMZVN4K/pxD3wt
-YyHWQPa/UchR+EysxeN7f2vdtAK25w==
-=emKf
------END PGP SIGNATURE-----
-
---6hbkefkyasb7fug6--
+Takashi
