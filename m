@@ -1,111 +1,278 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B95DF5B;
-	Fri,  3 May 2024 01:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D70C148FEA;
+	Fri,  3 May 2024 08:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714700811; cv=none; b=hRq6vBYf9cFOof9/+Twza/+vVQJejzZSlzxN+ln2C0CQcDspjuN9iF9AQv3oHYIylt8M9fE9/fyywwLNXapcWfgdr66hWlLFqirC2GXIxcmZo844P95+epZZAFL9bDB31e9TyETuZ60KZziG6d0369jMSSNXo8vyC95O1UCdOhM=
+	t=1714724904; cv=none; b=QElzXBCkG1QDO5wkD/k4ZJGho6svXNvSLDJltaFTRVVACrwa3bOHGjzAHctdkIx/cHRgEHCUELgLoDsB7LGuYtrMJ5+egrF55SPjoZELfu9X+btSewr2xPnHgJYDEyvjpj4s/NCsYmfytKwnPgA93c2WES6TQgKgVixxO4adjCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714700811; c=relaxed/simple;
-	bh=JKgTE6YUHTKq659Fh+4WxOwvtYqFaO/UHPdHf0PyxU8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=RJ4/L/ZJJSRT/o+dlvt/gOFYSILX/mwZESqCh5/MzQeJPNZgvPkPR5RRIYomfkwQBmtfnvVogUrmlWqyAKlFOINpp5ULJaz3xKJf0UzXy3MSm/geQAinPyMhsqix4iyq3chN5hufVf39WImVSpQsbVu/ML3KR+YqnD9V6mxcMEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPjALbxq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714724904; c=relaxed/simple;
+	bh=Xaz/e0SDPcyiqESy32W44FFRd0uvgAjWmvtsu44aftE=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=hDzDWMlQMyM29991qHodpYwPnDX3PMvv9gVtzY2JbV85L9/K1lWNxqJpSrdPv+WU6jeT388BVzUyNJF+0gozOL7nrvbHeRWY5VErRdtcSxbysoY3iszdCVCkq/tcHChilL8V6T9gxsOsa5RnNpHuqk4haaMfz1uQNS9x1Ofu/qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gt2/CZj2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UyLpMJIf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gt2/CZj2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UyLpMJIf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPjALbxq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D76EC113CC;
-	Fri,  3 May 2024 01:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714700810;
-	bh=JKgTE6YUHTKq659Fh+4WxOwvtYqFaO/UHPdHf0PyxU8=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=PPjALbxqtye4I1DIDKjHVl3qcro5MlE9tek/ju94lTHQ9wY/pjbVv71TylRbsvFvW
-	 CreAHaLMHr1FL/n18IY54+vHGoxxHhpj2LSSdkdGE2XA5WU4uy97Bq/ZcEdTxqTaJu
-	 Nr5j403GWzpYiPXxaJV0a73HDuaPrDeeRiTQAyNx0x50uJCVjldPII9JL+L7BRBCF7
-	 VOEwB9bAfcnBooec5W605A00+FEMqc97nE1f9fjytDNUkxb0cxbgGBDl+GZY4E4r6t
-	 Qqc4adGqWtNz7GkLUA41T2o/j6mF1PCbadNmSnqlRreB2PpKAqYryTJoC3Nnbgq+N7
-	 BCl62C/NQ2Row==
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gt2/CZj2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UyLpMJIf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gt2/CZj2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UyLpMJIf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 876201FEF2;
+	Fri,  3 May 2024 08:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714724899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=17c6zPQSHaQHAyr87PcNMLXzI5ceMlsPO6xumZ53h28=;
+	b=Gt2/CZj2YvUWAzUSuN20M6rTSbI4yFVIfCYmlFkk/0ZxoFcyT41Z3jIFJoCf+WvHyPeazj
+	mbeIGlkEec9+ywlx6oiE88MFBwHn5XWWCFBdOwgKRbAAXdWBXwQwN2repMsw+hLnUVzERd
+	cjvVQRbRUUlW/B/uL+H0lNQK/87vN/E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714724899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=17c6zPQSHaQHAyr87PcNMLXzI5ceMlsPO6xumZ53h28=;
+	b=UyLpMJIfzQIxbkZUUcI13mGZKbRv8+gBfOIKU0NRpxmoggSNNtkWCWMGF9vorulKkgXg98
+	hBN+6lMUQr4GV2Bw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Gt2/CZj2";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UyLpMJIf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714724899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=17c6zPQSHaQHAyr87PcNMLXzI5ceMlsPO6xumZ53h28=;
+	b=Gt2/CZj2YvUWAzUSuN20M6rTSbI4yFVIfCYmlFkk/0ZxoFcyT41Z3jIFJoCf+WvHyPeazj
+	mbeIGlkEec9+ywlx6oiE88MFBwHn5XWWCFBdOwgKRbAAXdWBXwQwN2repMsw+hLnUVzERd
+	cjvVQRbRUUlW/B/uL+H0lNQK/87vN/E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714724899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=17c6zPQSHaQHAyr87PcNMLXzI5ceMlsPO6xumZ53h28=;
+	b=UyLpMJIfzQIxbkZUUcI13mGZKbRv8+gBfOIKU0NRpxmoggSNNtkWCWMGF9vorulKkgXg98
+	hBN+6lMUQr4GV2Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E98C13991;
+	Fri,  3 May 2024 08:28:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UQ/kFSOgNGaCHAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 03 May 2024 08:28:19 +0000
+Date: Fri, 03 May 2024 10:28:32 +0200
+Message-ID: <87y18rguz3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.9-rc7
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 May 2024 04:46:43 +0300
-Message-Id: <D0ZMPEICUP93.YHFFOSJBS27X@kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <kernel-team@android.com>, <linux-sound@vger.kernel.org>,
- <linux-input@vger.kernel.org>, <kvm@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-sgx@vger.kernel.org>, "kernel test robot" <oliver.sang@intel.com>
-Subject: Re: [PATCH v1 01/10] selftests/sgx: Compile with -D_GNU_SOURCE
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Edward Liaw" <edliaw@google.com>, <shuah@kernel.org>, "Mark Brown"
- <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, "Jiri Kosina" <jikos@kernel.org>, "Benjamin Tissoires"
- <bentiss@kernel.org>, "Sean Christopherson" <seanjc@google.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, "Bongsu Jeon" <bongsu.jeon@samsung.com>,
- "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
- <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni"
- <pabeni@redhat.com>, "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Muhammad Usama Anjum"
- <usama.anjum@collabora.com>
-X-Mailer: aerc 0.17.0
-References: <20240430235057.1351993-1-edliaw@google.com>
- <20240430235057.1351993-2-edliaw@google.com>
-In-Reply-To: <20240430235057.1351993-2-edliaw@google.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 876201FEF2
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Wed May 1, 2024 at 2:50 AM EEST, Edward Liaw wrote:
-> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> asprintf into kselftest_harness.h, which is a GNU extension and needs
-> _GNU_SOURCE to either be defined prior to including headers or with the
-> -D_GNU_SOURCE flag passed to the compiler.
->
-> Fixes: 809216233555 ("selftests/harness: remove use of LINE_MAX")
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202404301040.3bea5782-oliver.sang@=
-intel.com
-> Signed-off-by: Edward Liaw <edliaw@google.com>
-> ---
->  tools/testing/selftests/sgx/Makefile    | 2 +-
->  tools/testing/selftests/sgx/sigstruct.c | 2 --
->  2 files changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/tools/testing/selftests/sgx/Makefile b/tools/testing/selftes=
-ts/sgx/Makefile
-> index 867f88ce2570..272da790d9ae 100644
-> --- a/tools/testing/selftests/sgx/Makefile
-> +++ b/tools/testing/selftests/sgx/Makefile
-> @@ -12,7 +12,7 @@ OBJCOPY :=3D $(CROSS_COMPILE)objcopy
->  endif
->
->  INCLUDES :=3D -I$(top_srcdir)/tools/include
-> -HOST_CFLAGS :=3D -Wall -Werror -g $(INCLUDES) -fPIC
-> +HOST_CFLAGS :=3D -Wall -Werror -g $(INCLUDES) -fPIC -D_GNU_SOURCE
->  HOST_LDFLAGS :=3D -z noexecstack -lcrypto
->  ENCL_CFLAGS +=3D -Wall -Werror -static-pie -nostdlib -ffreestanding -fPI=
-E \
->  	       -fno-stack-protector -mrdrnd $(INCLUDES)
-> diff --git a/tools/testing/selftests/sgx/sigstruct.c b/tools/testing/self=
-tests/sgx/sigstruct.c
-> index d73b29becf5b..a0c2de7c5302 100644
-> --- a/tools/testing/selftests/sgx/sigstruct.c
-> +++ b/tools/testing/selftests/sgx/sigstruct.c
-> @@ -1,7 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*  Copyright(c) 2016-20 Intel Corporation. */
-> -
-> -#define _GNU_SOURCE
->  #include <assert.h>
->  #include <getopt.h>
->  #include <stdbool.h>
-> --
-> 2.45.0.rc0.197.gbae5840b3b-goog
+Linus,
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+please pull sound fixes for v6.9-rc7 from:
 
-BR, Jarkko
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.9-rc7
+
+The topmost commit is fdb3f29dfe0d51bdb8e7b3a6d876ea8339d44df8
+
+----------------------------------------------------------------
+
+sound fixes for 6.9-rc7
+
+As usual in a late stage, we received a fair amount of fixes for ASoC,
+and it became bigger than wished.  But all fixes are rather device-
+specific, and they look pretty safe to apply.
+
+A major par of changes are series of fixes for ASoC meson and SOF
+drivers as well as for Realtek and Cirrus codecs.  In addition,
+recent emu10k1 regression fixes and usual HD-audio quirks are
+included.
+
+----------------------------------------------------------------
+
+Amadeusz S³awiñski (1):
+      ASoC: Intel: avs: Set name of control as in topology
+
+Aman Dhoot (1):
+      ALSA: hda/realtek: Fix mute led of HP Laptop 15-da3001TU
+
+Cezary Rojewski (1):
+      ASoC: Intel: avs: Fix debug window description
+
+Derek Fang (2):
+      ASoC: rt5645: Fix the electric noise due to the CBJ contacts floating
+      ASoC: dt-bindings: rt5645: add cbj sleeve gpio property
+
+Hans de Goede (1):
+      ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to Asus T100TAM too
+
+Jack Yu (4):
+      ASoC: rt722-sdca: modify channel number to support 4 channels
+      ASoC: rt722-sdca: add headset microphone vrefo setting
+      ASoC: rt715: add vendor clear control register
+      ASoC: rt715-sdca: volume step modification
+
+Jerome Brunet (5):
+      ASoC: meson: axg-fifo: use threaded irq to check periods
+      ASoC: meson: axg-card: make links nonatomic
+      ASoC: meson: axg-tdm-interface: manage formatters in trigger
+      ASoC: meson: axg-tdm: add continuous clock support
+      ASoC: meson: cards: select SND_DYNAMIC_MINORS
+
+Joao Paulo Goncalves (1):
+      ASoC: ti: davinci-mcasp: Fix race condition during probe
+
+Kailang Yang (1):
+      ALSA: hda/realtek - Set GPIO3 to default at S4 state for Thinkpad with ALC1318
+
+Oswald Buddenhagen (6):
+      ALSA: emu10k1: fix E-MU card dock presence monitoring
+      ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
+      ALSA: emu10k1: move the whole GPIO event handling to the workqueue
+      ALSA: emu10k1: use mutex for E-MU FPGA access locking
+      ALSA: emu10k1: fix E-MU dock initialization
+      ALSA: emu10k1: make E-MU FPGA writes potentially more reliable
+
+Peter Ujfalusi (5):
+      ASoC: SOF: ipc4-pcm: Use consistent name for snd_sof_pcm_stream pointer
+      ASoC: SOF: ipc4-pcm: Use consistent name for sof_ipc4_timestamp_info pointer
+      ASoC: SOF: ipc4-pcm: Introduce generic sof_ipc4_pcm_stream_priv
+      ASoC: SOF: ipc4-pcm: Do not reset the ChainDMA if it has not been allocated
+      ASoC: SOF: Core: Handle error returned by sof_select_ipc_and_paths
+
+Pierre-Louis Bossart (6):
+      ASoC: SOF: Intel: add default firmware library path for LNL
+      ASoC: SOF: debug: show firmware/topology prefix/names
+      ASoC: da7219-aad: fix usage of device_get_named_child_node()
+      ASoC: cs35l56: fix usages of device_get_named_child_node()
+      ALSA: hda: intel-dsp-config: harden I2C/I2S codec detection
+      ALSA: hda: intel-sdw-acpi: fix usage of device_get_named_child_node()
+
+Ranjani Sridharan (1):
+      ASoC: SOF: pcm: Restrict DSP D0i3 during S0ix to IPC3
+
+Richard Fitzgerald (4):
+      regmap: Add regmap_read_bypassed()
+      ALSA: hda: cs35l56: Exit cache-only after cs35l56_wait_for_firmware_boot()
+      ASoC: cs35l56: Fix unintended bus access while resetting amp
+      ASoC: cs35l56: Prevent overwriting firmware ASP config
+
+Sameer Pujar (1):
+      ASoC: tegra: Fix DSPK 16-bit playback
+
+Simon Trimmer (1):
+      ASoC: cs35l56: Avoid static analysis warning of uninitialised variable
+
+Srinivas Kandagatla (1):
+      ASoC: codecs: wsa881x: set clk_stop_mode1 flag
+
+Stefan Binding (1):
+      ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
+
+Takashi Iwai (2):
+      ALSA: hda/realtek: Fix conflicting PCI SSID 17aa:386f for Lenovo Legion models
+      ALSA: hda/realtek: Fix build error without CONFIG_PM
+
+end.to.start (1):
+      ASoC: acp: Support microphone from device Acer 315-24p
+
+---
+ Documentation/devicetree/bindings/sound/rt5645.txt |   6 +
+ drivers/base/regmap/regmap.c                       |  37 +++++
+ include/linux/regmap.h                             |   8 ++
+ include/sound/cs35l56.h                            |   2 +
+ include/sound/emu10k1.h                            |   7 +-
+ sound/hda/intel-dsp-config.c                       |  27 +++-
+ sound/hda/intel-sdw-acpi.c                         |   2 +
+ sound/pci/emu10k1/emu10k1.c                        |   3 +-
+ sound/pci/emu10k1/emu10k1_main.c                   | 158 ++++++++++++---------
+ sound/pci/emu10k1/emumixer.c                       |  18 ++-
+ sound/pci/emu10k1/emuproc.c                        |   9 ++
+ sound/pci/emu10k1/io.c                             |  51 +++----
+ sound/pci/hda/cs35l56_hda.c                        |   4 +
+ sound/pci/hda/patch_realtek.c                      |  78 +++++++++-
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 +
+ sound/soc/codecs/cs35l41.c                         |  28 +++-
+ sound/soc/codecs/cs35l56-sdw.c                     |   2 -
+ sound/soc/codecs/cs35l56-shared.c                  |  85 +++++++----
+ sound/soc/codecs/cs35l56.c                         |  39 ++++-
+ sound/soc/codecs/da7219-aad.c                      |   6 +-
+ sound/soc/codecs/rt5645.c                          |  25 ++++
+ sound/soc/codecs/rt715-sdca.c                      |   8 +-
+ sound/soc/codecs/rt715-sdw.c                       |   1 +
+ sound/soc/codecs/rt722-sdca.c                      |  27 +++-
+ sound/soc/codecs/rt722-sdca.h                      |   3 +
+ sound/soc/codecs/wsa881x.c                         |   1 +
+ sound/soc/intel/avs/icl.c                          |   2 +-
+ sound/soc/intel/avs/topology.c                     |   2 +
+ sound/soc/intel/boards/bytcr_rt5640.c              |  24 ++--
+ sound/soc/meson/Kconfig                            |   1 +
+ sound/soc/meson/axg-card.c                         |   1 +
+ sound/soc/meson/axg-fifo.c                         |  31 ++--
+ sound/soc/meson/axg-tdm-formatter.c                |  40 ++++++
+ sound/soc/meson/axg-tdm-interface.c                |  38 +++--
+ sound/soc/meson/axg-tdm.h                          |   5 +
+ sound/soc/sof/core.c                               |   4 +-
+ sound/soc/sof/debug.c                              |  18 +++
+ sound/soc/sof/intel/pci-lnl.c                      |   3 +
+ sound/soc/sof/ipc3-pcm.c                           |   1 +
+ sound/soc/sof/ipc4-pcm.c                           | 121 +++++++++++-----
+ sound/soc/sof/pcm.c                                |  13 +-
+ sound/soc/sof/sof-audio.h                          |   2 +
+ sound/soc/tegra/tegra186_dspk.c                    |   7 +-
+ sound/soc/ti/davinci-mcasp.c                       |  12 +-
+ 44 files changed, 715 insertions(+), 252 deletions(-)
+
