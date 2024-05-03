@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C604153833
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3362C14F9F9
 	for <linux-sound@vger.kernel.org>; Fri,  3 May 2024 14:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714745061; cv=none; b=HV1EcyPKGBYeKQcxbbiWJ/kyMPmZ7ljeHBlD835C3NskHKFlnp9gsIUK8cFb0P34xcDRoGooxQOnHpu+1FiEZyozwJtyxqQw4Vs91EBNpS//NYViPqu/lFe7xWdZ04r/mh2Vo+2IIxsoFAfAkPGG71Lz2VU+CGfQ7N/q/E0MBBM=
+	t=1714745062; cv=none; b=NGxWwzay02CLPZRkxoFQQ7HEA4Yd47cvV+FLKw3xvAzJNYWxSajRRnf5VfOzqB8if+MtabQ29YYQcIfBA9t06AnawSkbOpHsRaO3xFjSyRzH3lj5luQD1RRhELbtyAMXv9TWSDV0xIiiqc4Zvi75LJSpvI+T72hXgdBYujFzDE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714745061; c=relaxed/simple;
-	bh=0H2zSOR0rKxo2NoMTNKq1Y9+E//VFKuom/IJErWjXFs=;
+	s=arc-20240116; t=1714745062; c=relaxed/simple;
+	bh=+HI8RYLmUHciNMVJCenuLW56C8Es8SqMQLQaU3IKZV0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bq4QGS3uFo2ufFWHovFSgy/9nD4bnIm8Zea6dL4+pDiRD4kMVXLypxwMsBDkVpefzzPk8nmsKOXZbWYLjjw+hZpfp6y5Xu5T7MuH5SxLLhdKagXwZaNAo89dF30ghPEiksXZe9eNVPIiqyPP26dz403m3MtoBbLFaxZAAcaREhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1kKzqci; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=BD6CaLvvVMFh7TZzVki/tUGCeYWEpgGEYTBstTPBsbt5QPbdwYwjSs+ZKC2xAbkPTBEsoEE9N0uTg6kxJ6TUFR+Y+6rB4TLcneemM8tQorO+rY0y62qYaINK9vn+NmMpjvQhXLMy9pMdEPkMDqdeaDPTR1f0JiM/1Trk977tZuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkPOE3yi; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1kKzqci"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkPOE3yi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714745060; x=1746281060;
+  t=1714745061; x=1746281061;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0H2zSOR0rKxo2NoMTNKq1Y9+E//VFKuom/IJErWjXFs=;
-  b=h1kKzqci6brOlx9g9YaJy9VY2/upMHsIMGaCyQPaZT3UVhDfJArmEPEB
-   V22IlKjZjEEW7CqFTihtsXl5LkK6MOPwpiANlCPkxva/W857mXTlToZEO
-   jlboKFlK/BKwOn4GVxQrjLFWdyXvwm/VkX4Kwg4MPt9pJcwbpTcCFCmr8
-   DobcMf1sWe4eJd07KDJkdFbiBWX7xe8BZWDgMLocHI6wWL0CozLjGGBpr
-   vx8vrqy6qySsI9UjKaKtNv5qaxyconzemUxLVxPstj/PNYxxXXUXccecw
-   v4ydZLel4DmfY9SGRZlbx6MGFOQP749wHGD3A8/YtADciaePOn9WOeo3H
+  bh=+HI8RYLmUHciNMVJCenuLW56C8Es8SqMQLQaU3IKZV0=;
+  b=JkPOE3yiM2Dy9Y28mSQTy/ea7fFhvcZL9bjomPdCjx7LxOpby43EhWim
+   FQmLZ5tQu2m0oOMYlFp7r4cmiWc7NGq21JYiQcFuQW9pYbD1wb6GzeiUO
+   T7G/gBYMxZmKJol0VXGdnHKq2tJLr7s9hSwfAUVwBn0jptA23Rf0jSuNh
+   JVxAXLmmhowJcrJqBwW9VjaJvds31oqVkdVcb2nnDYK6wDH4vPWn2Kwib
+   4KTMqx9icxVyavspsqIw0wGkeltO848GnuFQc3/rRngiZtS5CXur/ptiD
+   PkwY5HUe+yEH9hZIfm1KrjtyaJ0068TAzVRI8dyHxD/6Zb3Y4HmnEiqbv
    w==;
-X-CSE-ConnectionGUID: KDgLe6ALTV+8S6cIhVbcYw==
-X-CSE-MsgGUID: XPNt3q5JT3KcNmZJHb5T8w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14369512"
+X-CSE-ConnectionGUID: /xf01FzPS5S8+9KbVtZoNQ==
+X-CSE-MsgGUID: YzirwcztTnuiRVFIXkSylw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14369516"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="14369512"
+   d="scan'208";a="14369516"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:19 -0700
-X-CSE-ConnectionGUID: a64iTUUaQn+Rxc5lwbv9CQ==
-X-CSE-MsgGUID: HiayOhVySIO++8f0Lraviw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:20 -0700
+X-CSE-ConnectionGUID: WYfwx+c3Qe2vZBZiiU9tgQ==
+X-CSE-MsgGUID: GIjuGTf6RC6qMqH9h44SXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="64908076"
+   d="scan'208";a="64908084"
 Received: from sjslinke-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.113.3])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:19 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:20 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -52,9 +52,9 @@ Cc: alsa-devel@alsa-project.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH 2/9] ASoC: Intel: boards: clarify Copyright information
-Date: Fri,  3 May 2024 09:03:52 -0500
-Message-Id: <20240503140359.259762-3-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 3/9] ASoC: Intel: common: clarify Copyright information
+Date: Fri,  3 May 2024 09:03:53 -0500
+Message-Id: <20240503140359.259762-4-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
 References: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
@@ -78,224 +78,92 @@ Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/bdw_rt286.c                  | 2 +-
- sound/soc/intel/boards/bxt_da7219_max98357a.c       | 2 +-
- sound/soc/intel/boards/bxt_rt298.c                  | 2 +-
- sound/soc/intel/boards/hda_dsp_common.c             | 2 +-
- sound/soc/intel/boards/hsw_rt5640.c                 | 2 +-
- sound/soc/intel/boards/kbl_rt5663_max98927.c        | 2 +-
- sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c | 2 +-
- sound/soc/intel/boards/skl_nau88l25_max98357a.c     | 2 +-
- sound/soc/intel/boards/skl_nau88l25_ssm4567.c       | 4 ++--
- sound/soc/intel/boards/skl_rt286.c                  | 4 ++--
- sound/soc/intel/boards/sof_board_helpers.c          | 2 +-
- sound/soc/intel/boards/sof_maxim_common.c           | 2 +-
- sound/soc/intel/boards/sof_realtek_common.c         | 2 +-
- sound/soc/intel/boards/sof_ssp_amp.c                | 2 +-
- sound/soc/intel/common/soc-acpi-intel-ssp-common.c  | 2 +-
- 15 files changed, 17 insertions(+), 17 deletions(-)
+ sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 2 +-
+ sound/soc/intel/common/sst-dsp-priv.h             | 2 +-
+ sound/soc/intel/common/sst-dsp.c                  | 2 +-
+ sound/soc/intel/common/sst-dsp.h                  | 2 +-
+ sound/soc/intel/common/sst-ipc.c                  | 2 +-
+ sound/soc/intel/common/sst-ipc.h                  | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/intel/boards/bdw_rt286.c b/sound/soc/intel/boards/bdw_rt286.c
-index 7f20159c23e5..58db09d9b6e1 100644
---- a/sound/soc/intel/boards/bdw_rt286.c
-+++ b/sound/soc/intel/boards/bdw_rt286.c
+diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+index 0318c1a46f3c..0c08859c4773 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
 @@ -2,7 +2,7 @@
  /*
-  * Sound card driver for Intel Broadwell Wildcat Point with Realtek 286
+  * soc-acpi-intel-lnl-match.c - tables and support for LNL ACPI enumeration.
+  *
+- * Copyright (c) 2023, Intel Corporation. All rights reserved.
++ * Copyright (c) 2023, Intel Corporation
+  *
+  */
+ 
+diff --git a/sound/soc/intel/common/sst-dsp-priv.h b/sound/soc/intel/common/sst-dsp-priv.h
+index de2b44568feb..de32bb9afccb 100644
+--- a/sound/soc/intel/common/sst-dsp-priv.h
++++ b/sound/soc/intel/common/sst-dsp-priv.h
+@@ -2,7 +2,7 @@
+ /*
+  * Intel Smart Sound Technology
   *
 - * Copyright (C) 2013, Intel Corporation. All rights reserved.
 + * Copyright (C) 2013, Intel Corporation
   */
  
- #include <linux/module.h>
-diff --git a/sound/soc/intel/boards/bxt_da7219_max98357a.c b/sound/soc/intel/boards/bxt_da7219_max98357a.c
-index 57e75f87bea6..e1082bfe5ca9 100644
---- a/sound/soc/intel/boards/bxt_da7219_max98357a.c
-+++ b/sound/soc/intel/boards/bxt_da7219_max98357a.c
+ #ifndef __SOUND_SOC_SST_DSP_PRIV_H
+diff --git a/sound/soc/intel/common/sst-dsp.c b/sound/soc/intel/common/sst-dsp.c
+index 229d09d61afb..cdd2f7cf50ae 100644
+--- a/sound/soc/intel/common/sst-dsp.c
++++ b/sound/soc/intel/common/sst-dsp.c
 @@ -2,7 +2,7 @@
  /*
-  * Intel Broxton-P I2S Machine Driver
-  *
-- * Copyright (C) 2016, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2016, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Skylake I2S Machine driver
-diff --git a/sound/soc/intel/boards/bxt_rt298.c b/sound/soc/intel/boards/bxt_rt298.c
-index afc499be8db2..dce6a2086f2a 100644
---- a/sound/soc/intel/boards/bxt_rt298.c
-+++ b/sound/soc/intel/boards/bxt_rt298.c
-@@ -2,7 +2,7 @@
- /*
-  * Intel Broxton-P I2S Machine Driver
-  *
-- * Copyright (C) 2014-2016, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2014-2016, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Skylake I2S Machine driver
-diff --git a/sound/soc/intel/boards/hda_dsp_common.c b/sound/soc/intel/boards/hda_dsp_common.c
-index 04b7d4f7f9e2..fda5a92b0006 100644
---- a/sound/soc/intel/boards/hda_dsp_common.c
-+++ b/sound/soc/intel/boards/hda_dsp_common.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2019 Intel Corporation. All rights reserved.
-+// Copyright(c) 2019 Intel Corporation
- 
- #include <linux/module.h>
- #include <sound/pcm.h>
-diff --git a/sound/soc/intel/boards/hsw_rt5640.c b/sound/soc/intel/boards/hsw_rt5640.c
-index 2a2fe27dff0e..1826a4dfd0f3 100644
---- a/sound/soc/intel/boards/hsw_rt5640.c
-+++ b/sound/soc/intel/boards/hsw_rt5640.c
-@@ -2,7 +2,7 @@
- /*
-  * Sound card driver for Intel Haswell Lynx Point with Realtek 5640
+  * Intel Smart Sound Technology (SST) DSP Core Driver
   *
 - * Copyright (C) 2013, Intel Corporation. All rights reserved.
 + * Copyright (C) 2013, Intel Corporation
   */
  
- #include <linux/module.h>
-diff --git a/sound/soc/intel/boards/kbl_rt5663_max98927.c b/sound/soc/intel/boards/kbl_rt5663_max98927.c
-index 646e8ff8e961..e16c42e81eca 100644
---- a/sound/soc/intel/boards/kbl_rt5663_max98927.c
-+++ b/sound/soc/intel/boards/kbl_rt5663_max98927.c
-@@ -3,7 +3,7 @@
-  * Intel Kabylake I2S Machine Driver with MAXIM98927
-  * and RT5663 Codecs
+ #include <linux/slab.h>
+diff --git a/sound/soc/intel/common/sst-dsp.h b/sound/soc/intel/common/sst-dsp.h
+index f111fd3f334b..998b1a052281 100644
+--- a/sound/soc/intel/common/sst-dsp.h
++++ b/sound/soc/intel/common/sst-dsp.h
+@@ -2,7 +2,7 @@
+ /*
+  * Intel Smart Sound Technology (SST) Core
   *
-- * Copyright (C) 2017, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2017, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Skylake I2S Machine driver
-diff --git a/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c b/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-index 924d5d1de03a..a9501cd106ff 100644
---- a/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-+++ b/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-@@ -3,7 +3,7 @@
-  * Intel Kabylake I2S Machine Driver with MAXIM98927
-  * RT5514 and RT5663 Codecs
-  *
-- * Copyright (C) 2017, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2017, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Kabylake I2S Machine driver supporting MAXIM98927 and
-diff --git a/sound/soc/intel/boards/skl_nau88l25_max98357a.c b/sound/soc/intel/boards/skl_nau88l25_max98357a.c
-index e4630c33176e..91fe9834aab4 100644
---- a/sound/soc/intel/boards/skl_nau88l25_max98357a.c
-+++ b/sound/soc/intel/boards/skl_nau88l25_max98357a.c
-@@ -3,7 +3,7 @@
-  * Intel Skylake I2S Machine Driver with MAXIM98357A
-  * and NAU88L25
+- * Copyright (C) 2013, Intel Corporation. All rights reserved.
++ * Copyright (C) 2013, Intel Corporation
+  */
+ 
+ #ifndef __SOUND_SOC_SST_DSP_H
+diff --git a/sound/soc/intel/common/sst-ipc.c b/sound/soc/intel/common/sst-ipc.c
+index 89c10724d2a3..6b2c83f9f010 100644
+--- a/sound/soc/intel/common/sst-ipc.c
++++ b/sound/soc/intel/common/sst-ipc.c
+@@ -2,7 +2,7 @@
+ /*
+  * Intel SST generic IPC Support
   *
 - * Copyright (C) 2015, Intel Corporation. All rights reserved.
 + * Copyright (C) 2015, Intel Corporation
   */
  
- #include <linux/module.h>
-diff --git a/sound/soc/intel/boards/skl_nau88l25_ssm4567.c b/sound/soc/intel/boards/skl_nau88l25_ssm4567.c
-index fadc25a536b4..d53bf3516c0d 100644
---- a/sound/soc/intel/boards/skl_nau88l25_ssm4567.c
-+++ b/sound/soc/intel/boards/skl_nau88l25_ssm4567.c
-@@ -2,12 +2,12 @@
+ #include <linux/types.h>
+diff --git a/sound/soc/intel/common/sst-ipc.h b/sound/soc/intel/common/sst-ipc.h
+index 77d651e888f9..86d44ceadc92 100644
+--- a/sound/soc/intel/common/sst-ipc.h
++++ b/sound/soc/intel/common/sst-ipc.h
+@@ -2,7 +2,7 @@
  /*
-  * Intel Skylake I2S Machine Driver for NAU88L25+SSM4567
+  * Intel SST generic IPC Support
   *
 - * Copyright (C) 2015, Intel Corporation. All rights reserved.
 + * Copyright (C) 2015, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Skylake I2S Machine Driver for NAU88L25 and SSM4567
-  *
-- *   Copyright (C) 2015, Intel Corporation. All rights reserved.
-+ *   Copyright (C) 2015, Intel Corporation
   */
  
- #include <linux/module.h>
-diff --git a/sound/soc/intel/boards/skl_rt286.c b/sound/soc/intel/boards/skl_rt286.c
-index 9a8044274908..3ea03f814403 100644
---- a/sound/soc/intel/boards/skl_rt286.c
-+++ b/sound/soc/intel/boards/skl_rt286.c
-@@ -2,12 +2,12 @@
- /*
-  * Intel Skylake I2S Machine Driver
-  *
-- * Copyright (C) 2014-2015, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2014-2015, Intel Corporation
-  *
-  * Modified from:
-  *   Intel Broadwell Wildcatpoint SST Audio
-  *
-- *   Copyright (C) 2013, Intel Corporation. All rights reserved.
-+ *   Copyright (C) 2013, Intel Corporation
-  */
- 
- #include <linux/module.h>
-diff --git a/sound/soc/intel/boards/sof_board_helpers.c b/sound/soc/intel/boards/sof_board_helpers.c
-index eb140e13153f..7519c545cbe2 100644
---- a/sound/soc/intel/boards/sof_board_helpers.c
-+++ b/sound/soc/intel/boards/sof_board_helpers.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2023 Intel Corporation. All rights reserved.
-+// Copyright(c) 2023 Intel Corporation
- 
- #include <sound/soc.h>
- #include "../common/soc-intel-quirks.h"
-diff --git a/sound/soc/intel/boards/sof_maxim_common.c b/sound/soc/intel/boards/sof_maxim_common.c
-index bb12aab15ad5..7e1f485dce7a 100644
---- a/sound/soc/intel/boards/sof_maxim_common.c
-+++ b/sound/soc/intel/boards/sof_maxim_common.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2020 Intel Corporation. All rights reserved.
-+// Copyright(c) 2020 Intel Corporation
- #include <linux/module.h>
- #include <linux/string.h>
- #include <sound/pcm.h>
-diff --git a/sound/soc/intel/boards/sof_realtek_common.c b/sound/soc/intel/boards/sof_realtek_common.c
-index 1476daa96a95..dda346e0f737 100644
---- a/sound/soc/intel/boards/sof_realtek_common.c
-+++ b/sound/soc/intel/boards/sof_realtek_common.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2020 Intel Corporation. All rights reserved.
-+// Copyright(c) 2020 Intel Corporation
- 
- #include <linux/device.h>
- #include <linux/kernel.h>
-diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index 206c9b723805..f51f1008e016 100644
---- a/sound/soc/intel/boards/sof_ssp_amp.c
-+++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2022 Intel Corporation. All rights reserved.
-+// Copyright(c) 2022 Intel Corporation
- 
- /*
-  * sof_ssp_amp.c - ASoc Machine driver for Intel platforms
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
-index a887f019afe2..75d0b931d895 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ssp-common.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- //
--// Copyright(c) 2023 Intel Corporation. All rights reserved.
-+// Copyright(c) 2023 Intel Corporation
- 
- #include <linux/device.h>
- #include <sound/soc-acpi.h>
+ #ifndef __SST_GENERIC_IPC_H
 -- 
 2.40.1
 
