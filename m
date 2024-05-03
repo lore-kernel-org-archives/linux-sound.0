@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3362C14F9F9
-	for <linux-sound@vger.kernel.org>; Fri,  3 May 2024 14:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27D8154431
+	for <linux-sound@vger.kernel.org>; Fri,  3 May 2024 14:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714745062; cv=none; b=NGxWwzay02CLPZRkxoFQQ7HEA4Yd47cvV+FLKw3xvAzJNYWxSajRRnf5VfOzqB8if+MtabQ29YYQcIfBA9t06AnawSkbOpHsRaO3xFjSyRzH3lj5luQD1RRhELbtyAMXv9TWSDV0xIiiqc4Zvi75LJSpvI+T72hXgdBYujFzDE8=
+	t=1714745063; cv=none; b=bbweHpASpqiodhAvKrLgjRUGlRHCjtx+QSH84As+gKMrcqII70dT6+h4HUacGABZ6b7rGixN9iJpvf/36mn+ySoAf6jobTl878U8Jx0tfqAN8SvgLrbiP9TdfJkbntQxDpyNTBSTtsZsPbYirUNSTYq0zgtfP8cSCmZnMd8qZ2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714745062; c=relaxed/simple;
-	bh=+HI8RYLmUHciNMVJCenuLW56C8Es8SqMQLQaU3IKZV0=;
+	s=arc-20240116; t=1714745063; c=relaxed/simple;
+	bh=qMWnTN+SructwynBCFegp/6wrzsKpLa8rhUnYzjvDEI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BD6CaLvvVMFh7TZzVki/tUGCeYWEpgGEYTBstTPBsbt5QPbdwYwjSs+ZKC2xAbkPTBEsoEE9N0uTg6kxJ6TUFR+Y+6rB4TLcneemM8tQorO+rY0y62qYaINK9vn+NmMpjvQhXLMy9pMdEPkMDqdeaDPTR1f0JiM/1Trk977tZuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkPOE3yi; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=ZBf288B2/lau4X0CpKU4/Oen0WhulohVkmeyMihEJuV3gk5gLwesXarNt8x2060tXQElfkAT29wCcmWPwIY+uJqQWCvDinLK9gSDjBbc0S8a/ad4MqTdaTDEjcX4KgAIx4Rof97arhuIfBMnx6yzFIvq7vuKx8p32GB+kqj3b/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UW9PZnKj; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkPOE3yi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UW9PZnKj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1714745061; x=1746281061;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+HI8RYLmUHciNMVJCenuLW56C8Es8SqMQLQaU3IKZV0=;
-  b=JkPOE3yiM2Dy9Y28mSQTy/ea7fFhvcZL9bjomPdCjx7LxOpby43EhWim
-   FQmLZ5tQu2m0oOMYlFp7r4cmiWc7NGq21JYiQcFuQW9pYbD1wb6GzeiUO
-   T7G/gBYMxZmKJol0VXGdnHKq2tJLr7s9hSwfAUVwBn0jptA23Rf0jSuNh
-   JVxAXLmmhowJcrJqBwW9VjaJvds31oqVkdVcb2nnDYK6wDH4vPWn2Kwib
-   4KTMqx9icxVyavspsqIw0wGkeltO848GnuFQc3/rRngiZtS5CXur/ptiD
-   PkwY5HUe+yEH9hZIfm1KrjtyaJ0068TAzVRI8dyHxD/6Zb3Y4HmnEiqbv
-   w==;
-X-CSE-ConnectionGUID: /xf01FzPS5S8+9KbVtZoNQ==
-X-CSE-MsgGUID: YzirwcztTnuiRVFIXkSylw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14369516"
+  bh=qMWnTN+SructwynBCFegp/6wrzsKpLa8rhUnYzjvDEI=;
+  b=UW9PZnKjFV0isxRVLR0qWEo3apRrZjWpSYMLUh8qXjZsrjzctuQm9la6
+   AocK56x0oEt9SXhrGV84uCe02NIQPk8r5lJj4LSa0PsgCHTykP/vkN2GJ
+   kE6cNazsCC9lre+wp/rC4Ckq+i4DPhS1nmWKkIZbpH4kyj34mBJxpR5/u
+   VzYA1g7XceQy7rtPJ25p6Wsb4oG2R2l26j3La3hzcZUYYlgbLs+peWB9W
+   lhf6i+hY7z+CwhYch9EOnpwa4srfpKVOzDGnGIPLkoKOu6MtzmehXsRHN
+   zZCVt73tHzIe7bNFWIS1J8am0VC4GLyHbDEdW2OqdwF6RsbIGvnW89mTS
+   g==;
+X-CSE-ConnectionGUID: Si9HfRZLQDGrTUtZCCwSHQ==
+X-CSE-MsgGUID: iAql09BERHevUwl70E2zUw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="14369521"
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="14369516"
+   d="scan'208";a="14369521"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:20 -0700
-X-CSE-ConnectionGUID: WYfwx+c3Qe2vZBZiiU9tgQ==
-X-CSE-MsgGUID: GIjuGTf6RC6qMqH9h44SXg==
+X-CSE-ConnectionGUID: a5AG6LEJScKWilLTCmy/wQ==
+X-CSE-MsgGUID: C5pOhJxtRpqoc1FnLYHSMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
-   d="scan'208";a="64908084"
+   d="scan'208";a="64908098"
 Received: from sjslinke-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.212.113.3])
   by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 07:04:20 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
@@ -52,9 +52,9 @@ Cc: alsa-devel@alsa-project.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH 3/9] ASoC: Intel: common: clarify Copyright information
-Date: Fri,  3 May 2024 09:03:53 -0500
-Message-Id: <20240503140359.259762-4-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 4/9] ASoC: codecs: Intel: clarify Copyright information
+Date: Fri,  3 May 2024 09:03:54 -0500
+Message-Id: <20240503140359.259762-5-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
 References: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
@@ -78,92 +78,47 @@ Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 2 +-
- sound/soc/intel/common/sst-dsp-priv.h             | 2 +-
- sound/soc/intel/common/sst-dsp.c                  | 2 +-
- sound/soc/intel/common/sst-dsp.h                  | 2 +-
- sound/soc/intel/common/sst-ipc.c                  | 2 +-
- sound/soc/intel/common/sst-ipc.h                  | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ sound/soc/codecs/hda-dai.c | 2 +-
+ sound/soc/codecs/hda.c     | 2 +-
+ sound/soc/codecs/hda.h     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index 0318c1a46f3c..0c08859c4773 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -2,7 +2,7 @@
+diff --git a/sound/soc/codecs/hda-dai.c b/sound/soc/codecs/hda-dai.c
+index 7bd7ddcd810f..b9caae7e4817 100644
+--- a/sound/soc/codecs/hda-dai.c
++++ b/sound/soc/codecs/hda-dai.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ //
+-// Copyright(c) 2021-2022 Intel Corporation. All rights reserved.
++// Copyright(c) 2021-2022 Intel Corporation
+ //
+ // Author: Cezary Rojewski <cezary.rojewski@intel.com>
+ //
+diff --git a/sound/soc/codecs/hda.c b/sound/soc/codecs/hda.c
+index 5a58723dc0e9..ddc00927313c 100644
+--- a/sound/soc/codecs/hda.c
++++ b/sound/soc/codecs/hda.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ //
+-// Copyright(c) 2021-2022 Intel Corporation. All rights reserved.
++// Copyright(c) 2021-2022 Intel Corporation
+ //
+ // Author: Cezary Rojewski <cezary.rojewski@intel.com>
+ //
+diff --git a/sound/soc/codecs/hda.h b/sound/soc/codecs/hda.h
+index 78a2be4945b1..59308cc6afef 100644
+--- a/sound/soc/codecs/hda.h
++++ b/sound/soc/codecs/hda.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
  /*
-  * soc-acpi-intel-lnl-match.c - tables and support for LNL ACPI enumeration.
+- * Copyright(c) 2021-2022 Intel Corporation. All rights reserved.
++ * Copyright(c) 2021-2022 Intel Corporation
   *
-- * Copyright (c) 2023, Intel Corporation. All rights reserved.
-+ * Copyright (c) 2023, Intel Corporation
-  *
+  * Author: Cezary Rojewski <cezary.rojewski@intel.com>
   */
- 
-diff --git a/sound/soc/intel/common/sst-dsp-priv.h b/sound/soc/intel/common/sst-dsp-priv.h
-index de2b44568feb..de32bb9afccb 100644
---- a/sound/soc/intel/common/sst-dsp-priv.h
-+++ b/sound/soc/intel/common/sst-dsp-priv.h
-@@ -2,7 +2,7 @@
- /*
-  * Intel Smart Sound Technology
-  *
-- * Copyright (C) 2013, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2013, Intel Corporation
-  */
- 
- #ifndef __SOUND_SOC_SST_DSP_PRIV_H
-diff --git a/sound/soc/intel/common/sst-dsp.c b/sound/soc/intel/common/sst-dsp.c
-index 229d09d61afb..cdd2f7cf50ae 100644
---- a/sound/soc/intel/common/sst-dsp.c
-+++ b/sound/soc/intel/common/sst-dsp.c
-@@ -2,7 +2,7 @@
- /*
-  * Intel Smart Sound Technology (SST) DSP Core Driver
-  *
-- * Copyright (C) 2013, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2013, Intel Corporation
-  */
- 
- #include <linux/slab.h>
-diff --git a/sound/soc/intel/common/sst-dsp.h b/sound/soc/intel/common/sst-dsp.h
-index f111fd3f334b..998b1a052281 100644
---- a/sound/soc/intel/common/sst-dsp.h
-+++ b/sound/soc/intel/common/sst-dsp.h
-@@ -2,7 +2,7 @@
- /*
-  * Intel Smart Sound Technology (SST) Core
-  *
-- * Copyright (C) 2013, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2013, Intel Corporation
-  */
- 
- #ifndef __SOUND_SOC_SST_DSP_H
-diff --git a/sound/soc/intel/common/sst-ipc.c b/sound/soc/intel/common/sst-ipc.c
-index 89c10724d2a3..6b2c83f9f010 100644
---- a/sound/soc/intel/common/sst-ipc.c
-+++ b/sound/soc/intel/common/sst-ipc.c
-@@ -2,7 +2,7 @@
- /*
-  * Intel SST generic IPC Support
-  *
-- * Copyright (C) 2015, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2015, Intel Corporation
-  */
- 
- #include <linux/types.h>
-diff --git a/sound/soc/intel/common/sst-ipc.h b/sound/soc/intel/common/sst-ipc.h
-index 77d651e888f9..86d44ceadc92 100644
---- a/sound/soc/intel/common/sst-ipc.h
-+++ b/sound/soc/intel/common/sst-ipc.h
-@@ -2,7 +2,7 @@
- /*
-  * Intel SST generic IPC Support
-  *
-- * Copyright (C) 2015, Intel Corporation. All rights reserved.
-+ * Copyright (C) 2015, Intel Corporation
-  */
- 
- #ifndef __SST_GENERIC_IPC_H
 -- 
 2.40.1
 
