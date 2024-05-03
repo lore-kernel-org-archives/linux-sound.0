@@ -1,174 +1,274 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB98615358F;
-	Thu,  2 May 2024 23:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98CD363
+	for <linux-sound@vger.kernel.org>; Fri,  3 May 2024 00:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714693065; cv=none; b=uhF/maXTh/bfPMXgY9etLh/poCzmCKeinXElNVaBjl0ayA+DEsBfmutHvN65bedRitP3IqLU5e+el/PMSN06qhaxs4DV5y6lO7/wVrmTwaiGwhtQgLJnXlIhRm5SMRQStrlkKK0KqjRsGlJk/JrfioQm6NiFxxQWyjkDpHHV33o=
+	t=1714694889; cv=none; b=gF2rBknszpVBO4GP3xfXct7sUkQ++u+y+422ldZ3EvZTeq7DXPXS6v0jhXvnLIoaaag95ZDjah08zhfBzU16Ml+NoYM0bPH6luwv9ZCj1hCi/+AJZl9xB19OUqtVV33gAdajsLpBRdr8ctchk36eGYvhAsVoUlPZi7gDkmIh85o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714693065; c=relaxed/simple;
-	bh=ScmNimVD55HCJMpU1ZPTM6tr5t4G+wAg/gscjQhbxFA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WSivMeyunEo7vEOE5+cCG4sLDze6/9zRMcT+UIymclU58t0PQNbZzez5atj9uleEdgu1NAtECYAJ+g1lJIcY67TUib+DQoamdOVtdQk5qS98pZO9DorFqlk1RlgJHybpZujtpZRI4GnbkJzGGDbS53pf1FJ4JXyNZNlNKG+coAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O2/n/1nn; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714694889; c=relaxed/simple;
+	bh=yib5xUMqQQofyMxpPpDzCOp2cfPhO1yno98M6Ju0fmo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e211i8LSihbdo5R453dd4AdFmOXwjKGeu9TURxFYXLjFTaTlYJFtSIOk3g5fK+Aq2NMoRWMwZzj5iCcDv2/h7jOnmkUjEyIZK+JQPtLVrT0u1KoElfCI4vyKioUJk9C08bptpzQiqd88TWFAUxSR/mCDoICRmZdrgx9uJL7EVU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mF73EXzs; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O2/n/1nn"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 442NKMxO019950;
-	Thu, 2 May 2024 23:37:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=yRahZediyJwd+8tFnCwYNOlw++FRljCtETICqi0KlLs=; b=O2
-	/n/1nnkgzSroG5Sq+vOV2/J4HinUGZrLvxhaAONmKDPAQOgn9WUHzYJPDSt0QYpA
-	EFUBbWzML+H3epFcUwj3FPH+XY3XjvGnlqYZZUdT05ll8lkzvQkzcQdbtVJvhIcQ
-	YJqojw/vXeRHVRMBF4PLrTuWePYkHVoANXOTSTHaHMSJBazzvDgUYC6aRbwUI5kQ
-	Wt1zKVXPuZct2q7KHJ2bBtEgVwdE5ymRVmlm+HadKZxLHG5/x+o+bsf7vNaLJzn8
-	2aNjbYa+m2DaOOVxzlxaM+jxAL9qlvYSUmeePIy/D5uN5iKmvR3EcsIgRPeTWIyT
-	qfyHgkPnafCjNKbG+rUw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xvawbhapu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 May 2024 23:37:17 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 442NbGor013135
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 2 May 2024 23:37:16 GMT
-Received: from [10.71.112.114] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 May 2024
- 16:37:15 -0700
-Message-ID: <a88b41f4-7e53-e162-5a6a-2d470e29c0bb@quicinc.com>
-Date: Thu, 2 May 2024 16:37:15 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mF73EXzs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714694888; x=1746230888;
+  h=date:from:to:cc:subject:message-id;
+  bh=yib5xUMqQQofyMxpPpDzCOp2cfPhO1yno98M6Ju0fmo=;
+  b=mF73EXzshJxiR5dg5XCTUetE0c7mUmMfeAzU6eXAxwR5rnYjm4+/a4MA
+   BM+AGlj6fJffDdeG9XW7Dr1mtO3BFbJJpqMZuM5dBu4KP/TM4KaqMJ1fV
+   CVCvDKLOXIGBdM3BTiYmcFjbkuLHD2bTmhcf57Ps38R0ATXHt4Bc+/DD6
+   F9kaX20au8cMUzpGptFnvbrsqIEoHlwqlGfR7eaZ7Mp6oy38vThVtf+Yd
+   PQxlt+Cweo3Ft6z5RYcS1ac5+KqFWqWp1ciK3exKEPHuRkBpRyxv03Hl1
+   cPwYFCHYk01ieHUktZOOl9WpcLD2ZyIYw4JbJiqWr06PUdw2BMgnaG8sE
+   w==;
+X-CSE-ConnectionGUID: uIaxtRmbQR+FFwQt6varLQ==
+X-CSE-MsgGUID: GjWSNB/fQ2mSYM/qxy0x1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="21049436"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="21049436"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 17:08:08 -0700
+X-CSE-ConnectionGUID: txVyS3NPQPC73TF8/th/EA==
+X-CSE-MsgGUID: 5d23RkBoTo2476aGeJCK7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27372836"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 02 May 2024 17:08:06 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s2gT5-000B9S-2K;
+	Fri, 03 May 2024 00:08:03 +0000
+Date: Fri, 03 May 2024 08:07:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ linux-sound@vger.kernel.org
+Subject: [linux-next:pending-fixes] BUILD SUCCESS WITH WARNING
+ 609939ebb81cc404d3b90ce94838f6edb5c599ed
+Message-ID: <202405030814.sXQGwbr7-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v20 06/41] usb: host: xhci-sideband: Expose a sideband
- interrupter enable API
-Content-Language: en-US
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-7-quic_wcheng@quicinc.com>
- <ddd682da-5cfd-db09-e316-3c54939caf90@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <ddd682da-5cfd-db09-e316-3c54939caf90@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: RmyOpgti89lDhFfWlfBLnFZdjZ9mBcru
-X-Proofpoint-ORIG-GUID: RmyOpgti89lDhFfWlfBLnFZdjZ9mBcru
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-02_14,2024-05-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- malwarescore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405020159
 
-Hi Mathias,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+branch HEAD: 609939ebb81cc404d3b90ce94838f6edb5c599ed  Merge branch 'for-linux-next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
 
-On 5/2/2024 4:07 AM, Mathias Nyman wrote:
-> On 26.4.2024 0.50, Wesley Cheng wrote:
->> Some use cases maybe require that the secondary interrupter's events to
->> be handled by the OS.  In this case, configure the IMOD and the
->> skip_events property to enable the interrupter's events.  By default,
->> assume that the secondary interrupter doesn't want to enable OS event
->> handling.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   drivers/usb/host/xhci-sideband.c  | 28 ++++++++++++++++++++++++++++
->>   include/linux/usb/xhci-sideband.h |  2 ++
->>   2 files changed, 30 insertions(+)
->>
->> diff --git a/drivers/usb/host/xhci-sideband.c 
->> b/drivers/usb/host/xhci-sideband.c
->> index 255feae33c6e..6fdae9840c11 100644
->> --- a/drivers/usb/host/xhci-sideband.c
->> +++ b/drivers/usb/host/xhci-sideband.c
->> @@ -237,6 +237,30 @@ xhci_sideband_get_event_buffer(struct 
->> xhci_sideband *sb)
->>   }
->>   EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
->> +/**
->> + * xhci_sideband_enable_interrupt - enable interrupt for secondary 
->> interrupter
->> + * @sb: sideband instance for this usb device
->> + * @imod_interval: number of event ring segments to allocate
->> + *
->> + * Enables OS owned event handling for a particular interrupter if 
->> client
->> + * requests for it.  In addition, set the IMOD interval for this 
->> particular
->> + * interrupter.
->> + *
->> + * Returns 0 on success, negative error otherwise
->> + */
->> +int xhci_sideband_enable_interrupt(struct xhci_sideband *sb, u32 
->> imod_interval)
->> +{
->> +    if (!sb || !sb->ir)
->> +        return -ENODEV;
->> +
->> +    xhci_set_interrupter_moderation(sb->ir, imod_interval);
-> 
-> Is there a need to adjust the moderation after initial setup?
-> 
-> If not then maybe we could pass the imod_interval as a parameter to
-> xhci_create_secondary_interrupter(), and avoid exporting
-> xhci_set_interrupter_moderation()
-> 
-> 
+Warning reports:
 
-Let me preface my comments by saying that I was trying to include some 
-aspects of enabling the secondary interrupter line within the main apps 
-proc.  If this gets too confusing, I can remove these mechanisms for 
-now.  For example, as you mentioned below 
-xhci_sideband_enable_interrupt() isn't going to be used in the offload path.
+https://lore.kernel.org/oe-kbuild-all/202405021426.kd3Wut93-lkp@intel.com
 
-However, I decided to add it so we can have some corresponding function 
-that will utilize/set skip_events = false. (as it is "true" by default) 
-Again, I can remove this part and revisit later when we actually have a 
-use case to handle secondary interrupts on apps.
+Warning: (recently discovered and may have been fixed)
 
-As for the IMOD setting, depending on what you think, I can add it as 
-part of xhci_create_secondary_interrupter()
+sound/pci/hda/patch_realtek.c:7207:13: warning: 'alc287_s4_power_gpio3_default' defined but not used [-Wunused-function]
 
->> +    sb->ir->skip_events = false;
->> +    xhci_enable_interrupter(sb->ir);
->> +
->> +    return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt);
-> 
-> I can't find the place where xhci_sideband_enable_interrupt() is called in
-> this series. How is it planned to be used?
-> 
-> Thanks
-> Mathias
+Warning ids grouped by kconfigs:
 
-Thanks
-Wesley Cheng
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- csky-allmodconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- csky-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- m68k-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- nios2-randconfig-001-20240503
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- openrisc-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- parisc-allmodconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- parisc-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- parisc-randconfig-002-20240503
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- s390-allyesconfig
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- s390-randconfig-001-20240503
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+|-- sparc-randconfig-001-20240503
+|   `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+`-- xtensa-randconfig-001-20240503
+    `-- sound-pci-hda-patch_realtek.c:warning:alc287_s4_power_gpio3_default-defined-but-not-used
+
+elapsed time: 1459m
+
+configs tested: 161
+configs skipped: 4
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240503   gcc  
+arc                   randconfig-002-20240503   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240503   clang
+arm                   randconfig-002-20240503   clang
+arm                   randconfig-003-20240503   clang
+arm                   randconfig-004-20240503   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240503   clang
+arm64                 randconfig-002-20240503   gcc  
+arm64                 randconfig-003-20240503   clang
+arm64                 randconfig-004-20240503   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240503   gcc  
+csky                  randconfig-002-20240503   gcc  
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240503   clang
+hexagon               randconfig-002-20240503   clang
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240502   gcc  
+i386         buildonly-randconfig-002-20240502   gcc  
+i386         buildonly-randconfig-003-20240502   clang
+i386         buildonly-randconfig-004-20240502   gcc  
+i386         buildonly-randconfig-005-20240502   clang
+i386         buildonly-randconfig-006-20240502   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240502   gcc  
+i386                  randconfig-002-20240502   clang
+i386                  randconfig-003-20240502   clang
+i386                  randconfig-004-20240502   gcc  
+i386                  randconfig-005-20240502   gcc  
+i386                  randconfig-006-20240502   clang
+i386                  randconfig-011-20240502   gcc  
+i386                  randconfig-012-20240502   clang
+i386                  randconfig-013-20240502   clang
+i386                  randconfig-014-20240502   gcc  
+i386                  randconfig-015-20240502   clang
+i386                  randconfig-016-20240502   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240503   gcc  
+loongarch             randconfig-002-20240503   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240503   gcc  
+nios2                 randconfig-002-20240503   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240503   gcc  
+parisc                randconfig-002-20240503   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240503   clang
+powerpc               randconfig-002-20240503   clang
+powerpc               randconfig-003-20240503   gcc  
+powerpc64             randconfig-001-20240503   clang
+powerpc64             randconfig-002-20240503   clang
+powerpc64             randconfig-003-20240503   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240503   gcc  
+riscv                 randconfig-002-20240503   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240503   gcc  
+s390                  randconfig-002-20240503   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240503   gcc  
+sh                    randconfig-002-20240503   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240503   gcc  
+sparc64               randconfig-002-20240503   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240503   clang
+um                    randconfig-002-20240503   clang
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240502   gcc  
+x86_64       buildonly-randconfig-002-20240502   gcc  
+x86_64       buildonly-randconfig-003-20240502   clang
+x86_64       buildonly-randconfig-004-20240502   gcc  
+x86_64       buildonly-randconfig-005-20240502   gcc  
+x86_64       buildonly-randconfig-006-20240502   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240502   gcc  
+x86_64                randconfig-002-20240502   clang
+x86_64                randconfig-003-20240502   clang
+x86_64                randconfig-004-20240502   gcc  
+x86_64                randconfig-005-20240502   clang
+x86_64                randconfig-006-20240502   clang
+x86_64                randconfig-011-20240502   clang
+x86_64                randconfig-012-20240502   clang
+x86_64                randconfig-013-20240502   gcc  
+x86_64                randconfig-014-20240502   gcc  
+x86_64                randconfig-015-20240502   gcc  
+x86_64                randconfig-016-20240502   clang
+x86_64                randconfig-071-20240502   gcc  
+x86_64                randconfig-072-20240502   gcc  
+x86_64                randconfig-073-20240502   gcc  
+x86_64                randconfig-074-20240502   clang
+x86_64                randconfig-075-20240502   clang
+x86_64                randconfig-076-20240502   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240503   gcc  
+xtensa                randconfig-002-20240503   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
