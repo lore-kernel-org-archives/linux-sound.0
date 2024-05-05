@@ -1,134 +1,85 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C2566A;
-	Sun,  5 May 2024 11:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9F41DA3D;
+	Sun,  5 May 2024 14:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714909762; cv=none; b=JTksgPwrz1KbpFt7mR8ADtRrYhAoUk/miJxzr3XVTK9fYOPk5Sc8rPJZgcRkRiFI4gO1Cd1M7j5f6gXHD+CO5XhlHpa6aQ61bneUQb6ehjO6h8FF4sG9FVpFsP7MpYxTxb5T1BShyCQlVrTZL6J+E9P85IOAIC8x5HX6Bv3oFXo=
+	t=1714919864; cv=none; b=oSxofkor/9+ipoVfuDlNrZhB0XBTaOxOaHKyaCGbMyGDwaWX9401yHETnwGezS/h+BJD290xDebSTktpD8FXpLVonlNL70fr+z9H0UNpQaTI3RLSc4x+Z+mxeX/CBt3CgbfrRzCnZBqb8yACR+Cgcw7O/UWwdW/+1q0pRCpTe9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714909762; c=relaxed/simple;
-	bh=nZ9DoDxIAHGkGfKZpRm9W0RNc9mhT7mYOsvGO4dGogw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GKaOGDKDnUFy/YqyUbD8ir5XX+VoYJQTcYf/8qboMZoYhxOWzwX1/Cgx3HJ7pQ8xfMpL5R/sTkHWxsAHphrhj7cG1bC+u+ZLa9Kto6Z5QZjcH7X+HxQ0JZFlYrkhc7dnyqAMqrnEx9TGgNiOi+OY5+AAf4BsXJo8/t/TBHa9/OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMWe2S5e; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714919864; c=relaxed/simple;
+	bh=rIPum/FL5LeMcCcKG4Ukuj0FvMTsFLCFQUeQWnP4g/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I+ecAg+F7UBfLiUY4aG9hNatUAtTvCqzWrIgFgGscElW6eTt6xX4dNlRsCd/VCa647M3TlUyNP48gmzJ/xCVPKevBK1AVkkNLctZHEiPJyqVfC7mFjadUIUHSSA6b6PkXetsVXtLnibfWdMeu36GZTSN8mEKeXv6hKZogDhKnCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME86TJqO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMWe2S5e"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51f0602bc58so3206168e87.0;
-        Sun, 05 May 2024 04:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714909759; x=1715514559; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j91vB77d38iXmPuLzDqrLJwLXMLQrd7oPNcj1a35vlo=;
-        b=TMWe2S5eAWed7Pisw/0fXuNrK4RF9gexq5rF0FEn33cI4JQPSv5cdlx13eBpz9cVhR
-         cDoOiUAxqhUWFjXKj2Vdfj0wQ1rFG8ILYjwMJlP8knLlFd7URqj7eO4v7rDpPptlZshR
-         ogVgWIaVZVDR4Y9racwNSjLUeXKosXjhzN151H8KCmR2SfMgumENJU776yLWTeK0aXaT
-         NDXP178Ew5VBdKsJBnMp824ZaMrzpSAZXy6eXlZfCKSj+fLb3iN1rlM0jNjCJVOiljoc
-         EoKlEm0dpR2on0LDDO3iLbI/Wg+oiwohOASVkey1VByVJDsdGPXPeHv0LK9NNOsEFhN2
-         289g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714909759; x=1715514559;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j91vB77d38iXmPuLzDqrLJwLXMLQrd7oPNcj1a35vlo=;
-        b=KRO574Z9k2yGzPmGBtvRzXlzb4FQ1ofoliEeti7dNqNhosQR6MC7JL2xGhcDJtqo/5
-         Tbm1UmDED1mvs953QHyWf2FVYEkeqSZV4mQ2SLaT7plUVJfap3Es8xluij0FxkoGdUx1
-         dg3OZlTePQaAKA8vnj3uwuVG+zRsXPeBWNYchRiuqt6Vxx7sAVwVEFpImGC1AUWKn2fv
-         OiQmECeEeupzQ4XQTteCsnaxgUVBbPqE4eG6CMVOiEnqvO6CHS0rhV/x4845UcZIcUfL
-         eUpnZtmEKNEVfNgTTs1cmlOen5jWyTKxTOZVIb85Eh2fvuL1AgGsy2E9hPlF2v+cmmzt
-         lI+g==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Bz2kYYTEYyTnFOa8fP16AlrdUmZAn8/hRBvIDO+PZY9zHP+CIs7PNgE2ZBUs6DF8lamycoA4I9winA1XpIfosCGPnFB8U0mTR4xqYgB1y5ZIXmHNInQ3sqtNheWlIPWM+vake3XYAAytQBbQ7rV1Wg0GVyTF9TdZ6tKgeNNt8EUS8PRv
-X-Gm-Message-State: AOJu0YwnCkrFb2IZv6eBo3ERe+Uzjy2Cuv6U11JaMbQSCxdkdcbMUWdM
-	zACNDqjQenzXKwgN/5BbIKEFY0/uRKIBwggonTp+lvPu/+oCEmUsVjbtfIhbRBACfvizcKrpUJw
-	IWDjicwKPvY62s7KRRXFC6kf0rK1xdcYQQCvLXg==
-X-Google-Smtp-Source: AGHT+IHsdpwx3ip29NRHURwclH3Ar8qkby318NuJiCi8aLlLedYRsGKEWTiTF8yVLTEHPsDeXT5s4afAo5891NfAZEc=
-X-Received: by 2002:a05:6512:3ba5:b0:51b:a86:ab57 with SMTP id
- g37-20020a0565123ba500b0051b0a86ab57mr3556776lfv.22.1714909758530; Sun, 05
- May 2024 04:49:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME86TJqO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52354C113CC;
+	Sun,  5 May 2024 14:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714919864;
+	bh=rIPum/FL5LeMcCcKG4Ukuj0FvMTsFLCFQUeQWnP4g/c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ME86TJqO6LIWxxFZtpCONGaZ04hcxEZnyGCFlNWhTwMaxtAK56mCU/Tiy2M/0VNFL
+	 i738/LJLn/GYdNuZJXap5kG0YuK8Zme7Hm+ECwn9uHipeZplljBckgekjMQPag5lzs
+	 Qc7dR+Q/yYrQfKE6ooPmuLECGNJqy8hZ7WUyjq++qVIpW0SY83yqf4KmWWdP8hZP/C
+	 Ua2gdNRTsWwP0/xPEDvPPjwwVYuNxBFO5/kRnoOyBrIQ+KfhVoxdIVnxdKNZF4Uug6
+	 Oc4zwnHHcPLusjs1Tb9OATHp2M7DH9h/I4/N+ON2oIxXXKhyU/REY9dRy4z4bl7ECm
+	 qHvIjrLVTVDRg==
+Date: Sun, 5 May 2024 23:37:41 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"end.to.start" <end.to.start@mail.ru>, lgirdwood@gmail.com,
+	tiwai@suse.com
+Subject: Re: [PATCH 1/1] sound: Support microphone from device Acer 315-24p
+Message-ID: <ZjeZtXgs84Y6ukW0@finisterre.sirena.org.uk>
+References: <20240408152454.45532-1-end.to.start@mail.ru>
+ <171268609844.62778.6340689132993321193.b4-ty@kernel.org>
+ <9a683d7f-8bde-47f4-9f63-97b65744711b@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240417134237.23888-1-bavishimithil@gmail.com>
- <2e179356-425d-48cc-84db-0ea3e6203fba@kernel.org> <CAGzNGR=pvv67UJtNnkDUMhrpnPjNCCYEGeCaM7e_9=4G+Lcfgw@mail.gmail.com>
- <676ce61c-e850-4046-ad0f-e3382be3fe0c@kernel.org> <CAGzNGR=rDrd6LyAC2yB4XUcxn=H1VdY8LQO99NEOBR1sLGGT0Q@mail.gmail.com>
- <3425732a-390b-4c0f-ba1b-2a7e2219d581@kernel.org>
-In-Reply-To: <3425732a-390b-4c0f-ba1b-2a7e2219d581@kernel.org>
-From: Mithil <bavishimithil@gmail.com>
-Date: Sun, 5 May 2024 17:19:06 +0530
-Message-ID: <CAGzNGRmF8K7UDDERE_7UQw1EdC=J_jvvXqefU=M0v6FQcsnbhA@mail.gmail.com>
-Subject: Re: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qN3lN1697Vc+bRLk"
+Content-Disposition: inline
+In-Reply-To: <9a683d7f-8bde-47f4-9f63-97b65744711b@perex.cz>
+X-Cookie: lisp, v.:
 
-On Sun, May 5, 2024 at 5:02=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
->
-> On 05/05/2024 11:59, Mithil wrote:
-> >>>> Missing constraints, so replace it with maxItems: 1
-> >>> Similar to how clock-names are handled?
-> >>>
-> >>>> List the items. I asked to open existing bindings and take a look ho=
-w it
-> >>>> is there. Existing bindings would show you how we code this part.
-> >>>   clock-names:
-> >>>     items:
-> >>>       - const: pdmclk
-> >>>     minItems: 1
-> >>>     maxItems: 1
-> >>> Something like this?
-> >>
-> >> No. Do you see code like this anywhere? Please only list the items,
-> >> although without context impossible to judge.
-> >>
-> > Quick search on sources gave me
-> > Documentation/devicetree/bindings/usb/dwc2.yaml
->
-> Above code is different - it does not have maxItems, which you want to ad=
-d.
->
-> > which I used as reference for this prop
-> > clock-names:
-> >   description: Must be "pdmclk"
->
-> Again, no, please list the items.
-> items:
->  - const: foo
-Yep that was the old code for reference. Just items (no
-maxItems/minItems as well)
 
-> > compatible =3D "ti,omap4-mcpdm";
-> > reg =3D <0x40132000 0x7f>, /* MPU private access */
-> >         <0x49032000 0x7f>; /* L3 Interconnect */
-> > interrupts =3D <0 112 0x4>;
-> > Not really constants as they do change with platforms (omap4 vs 5 for
-> > example) but
->
-> That is not really relevant... This is not pi or other math constant.
->
-> > So do i just make up the constants for it then? Those just seem like
-> > magic numbers.
->
-> Hm? Did you look around for other SoC nodes? 0 looks like SPI, 4 like
-> LEVEL_HIGH, but it depends on number of meaning of the interrupt cells,
-> so who is parent interrupt controller.
->
-Ah the irq values, correct, I thought you meant the reg values.
-It should be <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>; not sure about 112 though.
+--qN3lN1697Vc+bRLk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I suppose these changes are enough right?
+On Fri, May 03, 2024 at 01:23:28PM +0200, Jaroslav Kysela wrote:
+> On 09. 04. 24 20:08, Mark Brown wrote:
+> > On Mon, 08 Apr 2024 18:24:54 +0300, end.to.start wrote:
 
-Best regards,
-Mithil
+> > [1/1] sound: Support microphone from device Acer 315-24p
+> >        commit: 4b9a474c7c820391c0913d64431ae9e1f52a5143
+
+> Shall we really accept those anonymous contributions?
+
+I was on the edge here, what pushed me towards accepting it was that the
+change was just a data based quirk addition which is almost if not quite
+a trivial change.
+
+--qN3lN1697Vc+bRLk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY3mbIACgkQJNaLcl1U
+h9D2QAf+OiMn33FIcy3GPYrEa5D9jknEuuokne8mUn80hPwRpNOvHA6Tx0xRj20u
+fNPeECswt2yZNoI/wgito13RlG0ODbltycO82Ps4C/S5PxP951IWU6O88/VbIcq9
+Ng15mK3V+PaSusUUWnj5TM75lPmESeee/2Z1KyiJYgnA9/K/neK1xcKcX8cuAcc+
+y1EWCQnpFWdxqytJcloN5l6JLtxyOJPtUTW++5OdFLfMBwezXg3DchVWz1el4efv
+UMKb//k8X4gDrbLA4ctBI7jTmhOyF7eq0lPaIBLWq1kEIZj7XxsWM54M8g0Oqdq2
+BxEJxWMgdJdbL63Eaf5G6PghFperCw==
+=0K7l
+-----END PGP SIGNATURE-----
+
+--qN3lN1697Vc+bRLk--
