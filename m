@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9F41DA3D;
-	Sun,  5 May 2024 14:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C57A1E48A;
+	Sun,  5 May 2024 14:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714919864; cv=none; b=oSxofkor/9+ipoVfuDlNrZhB0XBTaOxOaHKyaCGbMyGDwaWX9401yHETnwGezS/h+BJD290xDebSTktpD8FXpLVonlNL70fr+z9H0UNpQaTI3RLSc4x+Z+mxeX/CBt3CgbfrRzCnZBqb8yACR+Cgcw7O/UWwdW/+1q0pRCpTe9U=
+	t=1714920774; cv=none; b=rxr++/w1vLFFJlCQLyMomgPGTbtzN6Pvq5x0GqYzTRDTRbdf77vAzWPRyZhNQXjeT1lN3OPLTNScRdwOIjkC9iM0idwFRaNIwLHh81s0JiZztFax/u8tXewtjn6TG9+4CUWRZylaw0BtX9nZMui/mZZJEq18ZmFVdi0DfOEM76Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714919864; c=relaxed/simple;
-	bh=rIPum/FL5LeMcCcKG4Ukuj0FvMTsFLCFQUeQWnP4g/c=;
+	s=arc-20240116; t=1714920774; c=relaxed/simple;
+	bh=2KU9PdnxsTmlZXzYE8CTMxfSaPGkR5IcACPvprUSSq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I+ecAg+F7UBfLiUY4aG9hNatUAtTvCqzWrIgFgGscElW6eTt6xX4dNlRsCd/VCa647M3TlUyNP48gmzJ/xCVPKevBK1AVkkNLctZHEiPJyqVfC7mFjadUIUHSSA6b6PkXetsVXtLnibfWdMeu36GZTSN8mEKeXv6hKZogDhKnCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME86TJqO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kyV9OmAMXEFK1qMtrDskQ4ahAnRfKkVAb6/lwnqmAjuTiOAfO7D+5GNgmWZ9KQkJEAiJUcTHwuplt0aanhJn14OqCJNvK4wpfSwPV0oYAKVzx/mghLNMUN1W1v0+c/5Mnhtwx80IY91V9s95fdspvv4QPZNRlaWinzwfTInvciM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QI52Dk0Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME86TJqO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52354C113CC;
-	Sun,  5 May 2024 14:37:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QI52Dk0Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFB0C113CC;
+	Sun,  5 May 2024 14:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714919864;
-	bh=rIPum/FL5LeMcCcKG4Ukuj0FvMTsFLCFQUeQWnP4g/c=;
+	s=k20201202; t=1714920773;
+	bh=2KU9PdnxsTmlZXzYE8CTMxfSaPGkR5IcACPvprUSSq0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ME86TJqO6LIWxxFZtpCONGaZ04hcxEZnyGCFlNWhTwMaxtAK56mCU/Tiy2M/0VNFL
-	 i738/LJLn/GYdNuZJXap5kG0YuK8Zme7Hm+ECwn9uHipeZplljBckgekjMQPag5lzs
-	 Qc7dR+Q/yYrQfKE6ooPmuLECGNJqy8hZ7WUyjq++qVIpW0SY83yqf4KmWWdP8hZP/C
-	 Ua2gdNRTsWwP0/xPEDvPPjwwVYuNxBFO5/kRnoOyBrIQ+KfhVoxdIVnxdKNZF4Uug6
-	 Oc4zwnHHcPLusjs1Tb9OATHp2M7DH9h/I4/N+ON2oIxXXKhyU/REY9dRy4z4bl7ECm
-	 qHvIjrLVTVDRg==
-Date: Sun, 5 May 2024 23:37:41 +0900
+	b=QI52Dk0YUZc7D+PeFsxlJUIDmpv3vsEMhjBn2zw+xFlLNqeE6JY0Ze8xufnRyBdYN
+	 +GqdN3jdJ1h7hZu2crL0ETWQKfpnxMoofqpcZJZjJkD06jIfs3J0pFfK+zi01Amb11
+	 85RBEDfZO5FfUz3xrotyUUD3js3REtpmCFe847aLa7E6IDb2tvQLwdWdsQCVZX1WPT
+	 r0q8WAh2+65jymiZO2XOvBL4nh/viqDvmpFUDC9s/aQNNluzrf5JSq7PycFFYly4V8
+	 ztBGAtCp1GLaPtLIf1IMLgAhXpl6ZDUks3a/TCwV3kJnzNU56kns6zLpvlfe3JC+Al
+	 /o5dsaMkHtiKg==
+Date: Sun, 5 May 2024 23:52:51 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"end.to.start" <end.to.start@mail.ru>, lgirdwood@gmail.com,
-	tiwai@suse.com
-Subject: Re: [PATCH 1/1] sound: Support microphone from device Acer 315-24p
-Message-ID: <ZjeZtXgs84Y6ukW0@finisterre.sirena.org.uk>
-References: <20240408152454.45532-1-end.to.start@mail.ru>
- <171268609844.62778.6340689132993321193.b4-ty@kernel.org>
- <9a683d7f-8bde-47f4-9f63-97b65744711b@perex.cz>
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-sound@vger.kernel.org,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kselftest@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
+Subject: Re: [PATCH] selftests/alsa: fix a build warning: return a value in
+ all cases
+Message-ID: <ZjedQ6ZH4p_4QI54@finisterre.sirena.org.uk>
+References: <20240504021330.33429-1-jhubbard@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,42 +46,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qN3lN1697Vc+bRLk"
+	protocol="application/pgp-signature"; boundary="kc7/Yw5jYfcwspOn"
 Content-Disposition: inline
-In-Reply-To: <9a683d7f-8bde-47f4-9f63-97b65744711b@perex.cz>
+In-Reply-To: <20240504021330.33429-1-jhubbard@nvidia.com>
 X-Cookie: lisp, v.:
 
 
---qN3lN1697Vc+bRLk
+--kc7/Yw5jYfcwspOn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 03, 2024 at 01:23:28PM +0200, Jaroslav Kysela wrote:
-> On 09. 04. 24 20:08, Mark Brown wrote:
-> > On Mon, 08 Apr 2024 18:24:54 +0300, end.to.start wrote:
+On Fri, May 03, 2024 at 07:13:30PM -0700, John Hubbard wrote:
+> dump_config_tree() is declared to return an int, but the compiler cannot
+> prove that it always returns any value at all. This leads to a clang
+> warning, when building via:
+>=20
+>     make LLVM=3D1 -C tools/testing/selftests
+>=20
+> Fix this by unconditionally returning the "err" variable if the code
+> reaches the end of the function.
 
-> > [1/1] sound: Support microphone from device Acer 315-24p
-> >        commit: 4b9a474c7c820391c0913d64431ae9e1f52a5143
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-> Shall we really accept those anonymous contributions?
-
-I was on the edge here, what pushed me towards accepting it was that the
-change was just a data based quirk addition which is almost if not quite
-a trivial change.
-
---qN3lN1697Vc+bRLk
+--kc7/Yw5jYfcwspOn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY3mbIACgkQJNaLcl1U
-h9D2QAf+OiMn33FIcy3GPYrEa5D9jknEuuokne8mUn80hPwRpNOvHA6Tx0xRj20u
-fNPeECswt2yZNoI/wgito13RlG0ODbltycO82Ps4C/S5PxP951IWU6O88/VbIcq9
-Ng15mK3V+PaSusUUWnj5TM75lPmESeee/2Z1KyiJYgnA9/K/neK1xcKcX8cuAcc+
-y1EWCQnpFWdxqytJcloN5l6JLtxyOJPtUTW++5OdFLfMBwezXg3DchVWz1el4efv
-UMKb//k8X4gDrbLA4ctBI7jTmhOyF7eq0lPaIBLWq1kEIZj7XxsWM54M8g0Oqdq2
-BxEJxWMgdJdbL63Eaf5G6PghFperCw==
-=0K7l
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY3nUIACgkQJNaLcl1U
+h9A0DQf/Sm4T5cLBFo1crAijqgYhia2UFGRUbgX25oBNtteEGtseMCPCna58C8ZE
+qsKSLsvmhh69Af7mOs4LAp7b8tlp1tOvTEgbNPIZcHCM9mHJ7c5IHIiZ0gfr50hw
+eImQhq5m7nsbQzUoCcpV/e/1W6dL7F8ifAC0zfoa5d4pCpB/G9Vcyvi/efmgENCL
+NY6zclPKKNl34shTqOYbxid8Dnj+bad7197D8uAvL933qXxAOeBRwcjeFkSOEqsQ
+3xhBdnD1mBk5qfLgz3LNinaLVWQWr3jucVMhYyYlYjODJy631dDT1zv0obK7n3+a
+fDF8SNhye8zKNxN6QNnL9BK0VkxQgg==
+=CkGU
 -----END PGP SIGNATURE-----
 
---qN3lN1697Vc+bRLk--
+--kc7/Yw5jYfcwspOn--
