@@ -1,82 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E142D044;
-	Sun,  5 May 2024 14:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FAF1D555;
+	Sun,  5 May 2024 15:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714920819; cv=none; b=KLlcPpyxsGO2FrI6JAOOd4yabzK4c54Wh1DZdpAYCpo3mtCCTsnGLC7OtiSR9vdYaGKvb/KW589Cc5JrxdbpaoWSrff6U+9ZxgdYXcO2gw89qp7qkrunrHzg30mrWa37BAY+Vw9z62ff4SiOgN4eMy3QqdIFspR2gXXO2Pb33TM=
+	t=1714921389; cv=none; b=fcq8DpeFYBB6V+f2+DQ/JzHWEWT6N4wYeWDfxyV6OyJTVfdtjPjm3JNfV+F3GLh5FxuzZEskIKiaFgy3YBpjcAon9yGPkp2AHV+RTM9HkrH+7HK8shVXsuXwWojllqvB0tC2WrJD20XqCQ+2CDe2Nz+MCpRlxB/5U3sqes0X76c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714920819; c=relaxed/simple;
-	bh=gfr6J8JaI0FQSBkoFj/QKJrcZ1kMMUOIbnAK47RI06o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EmIsiGw1g9BUHSGWroiNhKYv53WyOcoxvDu4hqXwfCB6Y+jcLqvVzJvQzV03NMk5nIOUKxOlmxLxztU1I1Nw/yreR7jPf5hoMLevMVZ0xPYkDY3SEXjwgGek1wVYC8szULaHDN7qVW+85o76WGyuQBH89D4hMdij5y2wacHEEgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rONx/UNK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714921389; c=relaxed/simple;
+	bh=cDCbqGq4PYQvTiMigUTFtTPKjHRT31+tOJuaLyRVt6Y=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kEW04DxGMKeakGU0wkqIo5dlPejIMJOhnc647U+u7qJSeRiKwpqFrrTO/y3otsqT4aoMUKnvxNk8tvtCRhUxx5dgunkxhbRD1UDubCkRtjM/vMvr/gJy4UsEQdr0hjJroM2nMh4PVhiznF2mDA/XzBKVBeVxvNZbwU2ikA0GxjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CzXH59Z/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rONx/UNK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 860EDC113CC;
-	Sun,  5 May 2024 14:53:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CzXH59Z/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14CD4C113CC;
+	Sun,  5 May 2024 15:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714920818;
-	bh=gfr6J8JaI0FQSBkoFj/QKJrcZ1kMMUOIbnAK47RI06o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rONx/UNK4fw/FNu8BIef7/Qx2Wlw4fTdIijYCTe41usY7p1zpLbtpQPrGWntvqCt4
-	 JZrpK422ntuev4jf2Re8uD5+2CSv9rQRsOabscJkzGOD9lav7Gc60718Doxjh6Mfh5
-	 Dq7tAh95kxelOg6WlG+VZ8uaRw4J4AZ8isuh2byflT/yHOoZ0vGmPxgoBIqfA8r9DI
-	 TdrG0ZzlUYLNDRcLO++qP5gHvRJ4iMtUXZF+MeS9/d+PbLM0ok6TtKDKkOXQ6D7/bW
-	 oqz48Ll/XY8wPSvQ0+lZdVAcAXGVHvqHHFiBu5FOl9ArRbhlVQuMk4u3THA/vkPuOq
-	 HBDXDG15zQRRQ==
-Date: Sun, 5 May 2024 23:53:36 +0900
+	s=k20201202; t=1714921388;
+	bh=cDCbqGq4PYQvTiMigUTFtTPKjHRT31+tOJuaLyRVt6Y=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=CzXH59Z/++xMm24MJj7aUh0VZgQii1lcxPVDI6FCQEN3nRBcJzgNncL2NVZ7lEqy4
+	 MQndcsRsvaG4qfiSVV4D6dewqU5WDQgkUohfu76uCckYmPbMoJCsMa9SeCx91d5yQC
+	 a9135QZvjsVKojDbHbF0ZKaFghZWCZOgZAarVKrNcZCeXZFDHnREg/ldS05qNpy5wv
+	 rM9FevbtNnGpJideGTWk67dhg3lgXildxXOaqsxc+5DNJd1VTkT14ENjUAXB0d9cGs
+	 QyKx+RIyaqQ7sAQwbU3NCVf9b+sDOzI+4dXVl/8ZndExhmBVtWjUU6xO8c/EMtDSmg
+	 fKGP5Do86Ubjg==
 From: Mark Brown <broonie@kernel.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Shuah Khan <shuah@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-sound@vger.kernel.org,
-	Valentin Obst <kernel@valentinobst.de>,
-	linux-kselftest@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH] selftests/alsa: fix a build warning: return a value in
- all cases
-Message-ID: <ZjedcAW6ITmo9pXp@finisterre.sirena.org.uk>
-References: <20240504021330.33429-1-jhubbard@nvidia.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240501175127.34301-1-krzysztof.kozlowski@linaro.org>
+References: <20240501175127.34301-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] ASoC: Use inline function for type safety in
+ snd_soc_substream_to_rtd()
+Message-Id: <171492138663.1933443.10503961369232756319.b4-ty@kernel.org>
+Date: Mon, 06 May 2024 00:03:06 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FQLEYbDtCxwwEBJN"
-Content-Disposition: inline
-In-Reply-To: <20240504021330.33429-1-jhubbard@nvidia.com>
-X-Cookie: lisp, v.:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
+On Wed, 01 May 2024 19:51:27 +0200, Krzysztof Kozlowski wrote:
+> A common pattern in sound drivers is getting 'struct snd_soc_pcm_runtime'
+> from 'struct snd_pcm_substream' opaque pointer private_data field with
+> snd_soc_substream_to_rtd().  However 'private_data' appears in several
+> other structures as well, including 'struct snd_compr_stream'.  The
+> field might not hold the same type for every structure, although seems
+> the case at least for 'struct snd_compr_stream', so code can easily make
+> a mistake by using macro for wrong structure passed as argument.
+> 
+> [...]
 
---FQLEYbDtCxwwEBJN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, May 03, 2024 at 07:13:30PM -0700, John Hubbard wrote:
-> dump_config_tree() is declared to return an int, but the compiler cannot
-> prove that it always returns any value at all. This leads to a clang
-> warning, when building via:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Though given that the function isn't referenced we could also just
-delete it.
+Thanks!
 
---FQLEYbDtCxwwEBJN
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: Use inline function for type safety in snd_soc_substream_to_rtd()
+      commit: 9723cab054d59d770cd1927f92fe315c26cc6a78
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY3nXAACgkQJNaLcl1U
-h9DBvAf/Tmp6oAlXkJLinQYYWlHXd/+lMb0PVv5TalZyil2L+ifp0pZbyknBloWc
-k8NEvKofzBymkugbsGsvrTBN9E4dLl2Nr6XHPBoADVT5IQx0mrXZYd6pdyZXYil0
-WaMGDMEDwMDFAkfTdVvvEntz2CRTUFNPVMzCZVmQYM3m0vCjPRY3ibI04z00SASb
-iHwq6VaX9lkIs4knd1XGb8amrWpABwSiZD6iE6MDmD/7xP309WkOpx9jBhy6607h
-PJsgk3k0mkhSTvKXoIN8HYtfIJlpHKzN9mOV2vhh9IlGG6zKa95rIWnq4iAbkTHF
-sxx38aBbSc9GBcSA4yHJJqFg0n6/9g==
-=lp+W
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---FQLEYbDtCxwwEBJN--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
