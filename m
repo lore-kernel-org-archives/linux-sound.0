@@ -1,124 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB19142E75
-	for <linux-sound@vger.kernel.org>; Mon,  6 May 2024 05:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F8148CCD;
+	Mon,  6 May 2024 06:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714973488; cv=none; b=CulBQjRRal4avjBox8LQFIhYz7E/Io9lDTibhybGbbc+MKFnVMg9+VACNmhavmjrYXboQbRIyuFjNRQIJ4GnW6uLTAZJk9GBbYTywG7X7a6Gl5CtYWwjcegzMaUBgdl/Z/vyzC2PlJfNKb+kADJiBzHZTjqrvzFfU1w2OYGYG9g=
+	t=1714976946; cv=none; b=Snmcc9iigauXaa12OQUop+dvY5tp2xMe+X2fS5L50nQ/IYiH6Li48ePcg9nc3SFVvW3QAZcRqAAYpADd/RcoMHHCwkzALs2uxeJ3Ad5Oh7VO1X0BQb1oNgFQu1uJOHpo1hSXaWXVe/ldKrpQ6f68GfibPKeWNWBQNnpOs4HRlSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714973488; c=relaxed/simple;
-	bh=IMso6YyTi3Ak72iVWYL0ZEM1Ah8zdCqQp2wAuBynAv8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YtXVLHk1C9eUXjGRE2YKx6GUqhmTFsnumpEY0lV7AFTYHmnni4g6nsqN4X71wsPF4b40xZ52Fs8ONG64dUC8WwWgLP1pVVnFZWXmUCvM1RWnT8l+WogNBCcUajV5U0goAlBz1yU+xaAADX/DF+qWrV+aQgijXrLrC/zsQZJ5IjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a2JKgknk; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714976946; c=relaxed/simple;
+	bh=Wp8V1xbEsuIb8axNQCbpMXR4ddHlcSxKFTYvwFrK4jY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ovb53TEcWAKGbjgbiGwWwFLj3g36IEqC7vQz0uunTH1WQVBVwcwRBNZdZbGTyiuLVR/wt3MMDGtzDD87BgSvJ9sQu5C9hl8Tbtl7mQ3IDpm1B1Ja/iKWl0gCmPrPrnjLWpCDXmDHwdQcNyNuVMMrt6hclR4o0smXv618HTAm1eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZpWFdlrQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2JKgknk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714973487; x=1746509487;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IMso6YyTi3Ak72iVWYL0ZEM1Ah8zdCqQp2wAuBynAv8=;
-  b=a2JKgknkimqxlAzAiI3Gz4qThs0Acs14qbYOjI3Ep0lHKPI150CxeryU
-   nJhMeK3GRLLJlISjkuiuxnhyZxpu1w50Hw4z2NtchTupPCnTWdejYAsgJ
-   AGtUw68iCMmCVSPQI8wt/Ktrxz0ud1xk0glU2uv4lzuTowyfJ25GOyWak
-   +A9fAxtN8kek620uLMvZLyv78hT1Ga1RThcFm/Qq7GpzfAoVtuUuzfgKE
-   qjrCSmTYXkTn3AseE0yOdSF8M3byhdurZ1lUgKCMaUstXg35gfjlsv1Fr
-   6EJbQfL+kezlt/29wndQ2X5l2jXzAKHncOIsEsHsBruJFX+ssn3yoLDaJ
-   A==;
-X-CSE-ConnectionGUID: 60sfRDwbRtWRza0k9m7uEw==
-X-CSE-MsgGUID: 4H1mmB7bQHWoIegB+G4sZw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22111323"
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="22111323"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 22:31:26 -0700
-X-CSE-ConnectionGUID: j87jTdywRm6kqMl/PCqDyw==
-X-CSE-MsgGUID: d8+dsFZKQ7qCqd4vz+rJzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="28162781"
-Received: from dut-2a59.iind.intel.com ([10.190.239.113])
-  by fmviesa006.fm.intel.com with ESMTP; 05 May 2024 22:31:24 -0700
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-To: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	kai.vehmanen@linux.intel.com,
-	uma.shankar@intel.com
-Subject: [PATCH] ALSA: hda: Add Intel BMG PCI ID and HDMI codec vid
-Date: Mon,  6 May 2024 10:55:31 +0530
-Message-Id: <20240506052531.1150062-1-chaitanya.kumar.borah@intel.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZpWFdlrQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4705CC116B1;
+	Mon,  6 May 2024 06:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714976946;
+	bh=Wp8V1xbEsuIb8axNQCbpMXR4ddHlcSxKFTYvwFrK4jY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZpWFdlrQ3sfPb0TgPY+L2ht9cjLQDbaPrZ0snx2q4iQgsjHkkxuNbdGXuBAMXiSpR
+	 AlZ3Wsj3W7eTjQErU5BUddROrvn7GfMpcPxRmLNwCNqnQfdkBeCfQJ/xGvxVZnTzX2
+	 P5f5N7CuXzLnaSKJqLgognRdlUqQQjSyOUo/W2A+b7eNs0kiH3fMAghBucwgp/aGiN
+	 LCH/0YFS8mzDaMo3lTs8HUL9hUWoO4uIOiVjmbFesH1ZhwVAsSrS7ANprVyt+A+nDj
+	 nQOvfwKMLkOVUXmrGxfzlGg/FdTjM5d3O+cwRIQqpa7KkLXvV46uex5rV+8r16pL9o
+	 /zv7X10ycP8rg==
+Message-ID: <2efe0393-11ce-448d-81a9-eb2383bc1e4b@kernel.org>
+Date: Mon, 6 May 2024 08:28:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: samsung,midas-audio: Add
+ GPIO-based headset jack detection
+To: Artur Weber <aweber.kernel@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20240503-midas-wm1811-gpio-jack-v1-0-e8cddbd67cbf@gmail.com>
+ <20240503-midas-wm1811-gpio-jack-v1-1-e8cddbd67cbf@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240503-midas-wm1811-gpio-jack-v1-1-e8cddbd67cbf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add HD Audio PCI ID and HDMI codec vendor ID for Intel Battlemage.
+On 03/05/2024 20:55, Artur Weber wrote:
+> Some Samsung devices that share the midas-audio driver use a GPIO-based
+> approach to headset jack detection, as opposed to using the built-in
+> jack detection provided by the wm8994 driver.
+> 
+> Add DT configuration values that allow for describing these setups.
+> 
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> ---
+>  .../bindings/sound/samsung,midas-audio.yaml        | 30 ++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml b/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> index 6ec80f529d84..9f521131f2b3 100644
+> --- a/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> +++ b/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml
+> @@ -61,6 +61,36 @@ properties:
+>      maxItems: 1
+>      description: GPIO pin for line out selection
+>  
+> +  headset-detect-gpios:
+> +    maxItems: 1
+> +    description: GPIO for detection of headset insertion
+> +
+> +  headset-key-gpios:
+> +    maxItems: 1
+> +    description: GPIO for detection of headset key press
+> +
+> +  io-channels:
+> +    maxItems: 1
+> +    description: IO channel to read micbias voltage for headset detection
+> +
+> +  io-channel-names:
+> +    const: headset-detect
+> +
+> +  headset-4pole-threshold-microvolt:
 
-Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
----
- include/linux/pci_ids.h    | 1 +
- include/sound/hdaudio.h    | 1 +
- sound/pci/hda/hda_intel.c  | 2 ++
- sound/pci/hda/patch_hdmi.c | 1 +
- 4 files changed, 5 insertions(+)
+You need vendor prefix for this and next property.
 
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index a0c75e467df3..ae8e66242927 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -3106,6 +3106,7 @@
- #define PCI_DEVICE_ID_INTEL_HDA_CML_S	0xa3f0
- #define PCI_DEVICE_ID_INTEL_HDA_LNL_P	0xa828
- #define PCI_DEVICE_ID_INTEL_S21152BB	0xb152
-+#define PCI_DEVICE_ID_INTEL_HDA_BMG	0xe2f7
- #define PCI_DEVICE_ID_INTEL_HDA_CML_R	0xf0c8
- #define PCI_DEVICE_ID_INTEL_HDA_RKL_S	0xf1c8
- 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index a73d7f34f4e5..07638111b28f 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -731,6 +731,7 @@ static inline unsigned int snd_array_index(struct snd_array *array, void *ptr)
- 			{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_HDA_DG2_0) }, \
- 			{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_HDA_DG2_1) }, \
- 			{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_HDA_DG2_2) }, \
-+			{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_HDA_BMG) }, \
- 			{ } \
- 		}, pci) || HDA_CONTROLLER_IS_HSW(pci))
- 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 9ea5925401f9..1d8171b11720 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2499,6 +2499,8 @@ static const struct pci_device_id azx_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_RPL_M, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_RPL_PX, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	{ PCI_DEVICE_DATA(INTEL, HDA_MTL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
-+	/* Battlemage */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_BMG, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Lunarlake-P */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_LNL_P, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Arrow Lake-S */
-diff --git a/sound/pci/hda/patch_hdmi.c b/sound/pci/hda/patch_hdmi.c
-index 495d63101186..0a00c5ea42e0 100644
---- a/sound/pci/hda/patch_hdmi.c
-+++ b/sound/pci/hda/patch_hdmi.c
-@@ -4642,6 +4642,7 @@ HDA_CODEC_ENTRY(0x8086281a, "Jasperlake HDMI",	patch_i915_icl_hdmi),
- HDA_CODEC_ENTRY(0x8086281b, "Elkhartlake HDMI",	patch_i915_icl_hdmi),
- HDA_CODEC_ENTRY(0x8086281c, "Alderlake-P HDMI", patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281d, "Meteor Lake HDMI",	patch_i915_adlp_hdmi),
-+HDA_CODEC_ENTRY(0x8086281e, "Battlemage HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x8086281f, "Raptor Lake P HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862820, "Lunar Lake HDMI",	patch_i915_adlp_hdmi),
- HDA_CODEC_ENTRY(0x80862880, "CedarTrail HDMI",	patch_generic_hdmi),
--- 
-2.25.1
+> +    minItems: 2
+> +    maxItems: 2
+> +    description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+
+
+Best regards,
+Krzysztof
 
