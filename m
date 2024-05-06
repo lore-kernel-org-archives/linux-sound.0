@@ -1,133 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69FB1DA3A;
-	Mon,  6 May 2024 06:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7844D9E2;
+	Mon,  6 May 2024 07:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714977081; cv=none; b=NcynJ8d1aQt2kCCQqy25gpfOVKfqeZceJhY3FhmqXSWs9plPJFOVMMVPTTxKTEsx+V36okYOdQM58ilz8crW8CeF0e9/l4+Rtzfh1cFk9rHYCnCaIqbUQS8GAI9XKCN0HnClWue6ac3vemJXZgMge+EYDi3Ksab3xU6QdJKQ7C0=
+	t=1714979961; cv=none; b=NIleP9RFG2VaGMjfCFjwTC2KxylbQ9QIsVtYbUy5x/Utjn5v0v8UWsEajzomF8o/tGh0GAiLAzZ4F3uoR6Rw37VQ3Q7Uf1buqnShvhlkaeELXQV3lsDNwX+gT2DFHq8NevCRiJdXjbC3rV8O1N3ahzGQV+8il4ofAOHOlUj/e98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714977081; c=relaxed/simple;
-	bh=98CZgcPITCcuTQw9PaLYngGhKk7ByyJnqdpGUvkpohE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ci5Lz9y4px6nHcLY8PrRwosJwLTh5kmRgxiOcQH662MN7vlN8jTdc8a7AXhxPSxVqddyD9UV5W2QIlUItuH0I8i64N+fm+oYCeqRHlhC/Ilbjge7bbBXvDGiXRxrweMa/NJlbxAnKUnS2Rt7NfDUad1UgfYbJVEO+mvuQt7DG3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NIYwTZ0s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714979961; c=relaxed/simple;
+	bh=2qf5MESMKz0rbf+sBoiM5dawaPuX0O13HjmplCWnva8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gt6mBtVw0Jaga6dC2vXUzhGsm7+VnTGNzj+rGMDsDb8vDaSxvMy4h87kvtbt9jJhJqMCik4KYZlsT/yivtfWXd2FLF18ZSS/E8kOQoWuNs9os8I53i42HTutNKfjnp8vl1USqLk4NCGTKroQy56gK0VHcTUTfC8/hEdLNJ5ndNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SdPpOIwq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pIUBUnAB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SdPpOIwq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pIUBUnAB; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NIYwTZ0s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5920DC116B1;
-	Mon,  6 May 2024 06:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714977081;
-	bh=98CZgcPITCcuTQw9PaLYngGhKk7ByyJnqdpGUvkpohE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NIYwTZ0sMNmZQ0/caCTXDnTJKAKp4j4sHY3xv2SPqTpajy8TiwWGP6Fe3NKzufutV
-	 lyjsHcLtypy7M59/QbgtwOK3b0UCk/H7vB1THe2uWHXOq8/xhiVCDZGNYG+t8jjc84
-	 U0FQsvZED10xvAPGtBowYrVXFvV0NDfKO7PjqoLsG4gw/5QE8u0adNSCz5O1ZBXr/w
-	 CaU/uflFtlj4ovUvKprPk82H9RSZnx/6a6sY6F1kgutFrb/xqmP/ZLtor2tY+NkEkn
-	 9ijwfDfp7Y5ZIubHN4wUQfltJRU9uWhJuBMvAgnOe1sylvrrJ19cWqwMSx0UzIyGp0
-	 8Ba75TQA1GCqQ==
-Message-ID: <d1007753-bdcf-4db9-bb01-b36e742cee4b@kernel.org>
-Date: Mon, 6 May 2024 08:31:14 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SdPpOIwq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pIUBUnAB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SdPpOIwq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pIUBUnAB"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9D0E75F913;
+	Mon,  6 May 2024 07:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714979957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IcLvCNWG1BpMQqyznUL8QmAGxy+Av9osQDupzzbn2/U=;
+	b=SdPpOIwqkOVpjDLEBurmdDR5GNv1CLLUPiytFFC2JytOISY1j1ak+gIHyXN1k0EYEnFrIU
+	00MmXlUXYzz0M1e6r6DkQIkCmFc9nWSQUk9PVGIUiLy04XpqMdXW6ajQbr2l+0r7Y1l+Qi
+	YfYv32Sd8qDgHAt6wvxlsF/yAV1VVYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714979957;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IcLvCNWG1BpMQqyznUL8QmAGxy+Av9osQDupzzbn2/U=;
+	b=pIUBUnABkD51ctrCllCiIm8e8a9fVgJEolYDruV5OfPfbPDK5cjnuNCBA1Q3pQj1Z/hDDk
+	LVxZPxC7qbra9KBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714979957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IcLvCNWG1BpMQqyznUL8QmAGxy+Av9osQDupzzbn2/U=;
+	b=SdPpOIwqkOVpjDLEBurmdDR5GNv1CLLUPiytFFC2JytOISY1j1ak+gIHyXN1k0EYEnFrIU
+	00MmXlUXYzz0M1e6r6DkQIkCmFc9nWSQUk9PVGIUiLy04XpqMdXW6ajQbr2l+0r7Y1l+Qi
+	YfYv32Sd8qDgHAt6wvxlsF/yAV1VVYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714979957;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IcLvCNWG1BpMQqyznUL8QmAGxy+Av9osQDupzzbn2/U=;
+	b=pIUBUnABkD51ctrCllCiIm8e8a9fVgJEolYDruV5OfPfbPDK5cjnuNCBA1Q3pQj1Z/hDDk
+	LVxZPxC7qbra9KBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3810313A25;
+	Mon,  6 May 2024 07:19:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HAZcDHWEOGZXVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 07:19:17 +0000
+Date: Mon, 06 May 2024 09:19:31 +0200
+Message-ID: <875xvrif0c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Shuah Khan <shuah@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kselftest@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] selftests/alsa: missing a return value in unused dump_config_tree()
+In-Reply-To: <20240505210824.55392-1-jhubbard@nvidia.com>
+References: <20240505210824.55392-1-jhubbard@nvidia.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ARM: dts: samsung: exynos4212-tab3: Fix headset mic,
- add jack detection
-To: Artur Weber <aweber.kernel@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240503-midas-wm1811-gpio-jack-v1-0-e8cddbd67cbf@gmail.com>
- <20240503-midas-wm1811-gpio-jack-v1-3-e8cddbd67cbf@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240503-midas-wm1811-gpio-jack-v1-3-e8cddbd67cbf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.32
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.32 / 50.00];
+	BAYES_HAM(-2.52)[97.82%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,vger.kernel.org,valentinobst.de,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 
-On 03/05/2024 20:55, Artur Weber wrote:
-> Add the necessary properties to the samsung,midas-audio node to allow
-> for headset jack detection, set up the mic bias regulator GPIO and fix
-> some other small issues with the sound setup.
+On Sun, 05 May 2024 23:08:24 +0200,
+John Hubbard wrote:
 > 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> dump_config_tree() is declared to return an int, but the compiler cannot
+> prove that it always returns any value at all. This leads to a clang
+> warning, when building via:
+> 
+>     make LLVM=1 -C tools/testing/selftests
+> 
+> Furthermore, Mark Brown noticed that dump_config_tree() isn't even used
+> anymore, so just delete the entire function.
+> 
+> Cc: Mark Brown <broonie@kernel.org>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-...
-
-> +
->  &bus_acp {
->  	devfreq = <&bus_dmc>;
->  	status = "okay";
-> @@ -505,12 +521,11 @@ &i2c_4 {
->  	wm1811: audio-codec@1a {
->  		compatible = "wlf,wm1811";
->  		reg = <0x1a>;
-> -		clocks = <&pmu_system_controller 0>;
-> -		clock-names = "MCLK1";
-> +		clocks = <&pmu_system_controller 0>,
-> +			 <&s5m8767_osc S2MPS11_CLK_BT>;
-> +		clock-names = "MCLK1", "MCLK2";
->  		interrupt-controller;
->  		#interrupt-cells = <2>;
-> -		interrupt-parent = <&gpx3>;
-> -		interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
-
-Does not look related at all to the patch.
+Thanks, applied now.
 
 
-Best regards,
-Krzysztof
-
+Takashi
