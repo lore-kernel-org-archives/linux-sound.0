@@ -1,83 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5820E155A59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BB0155A52
 	for <linux-sound@vger.kernel.org>; Mon,  6 May 2024 16:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715012033; cv=none; b=oFAJOIfer/VJ1Ek4Ju9wc6/CGckK0laFx0Irqr24EanujpEza9rWL72Yz4FFlhV4+mGZXUz3QJva7LSOUCr39wdFcknrl+PRcJBGgTkfI+T8oXRxToNyeROBHp6O/dM/11otxMEFB8HbAcB1qnP6cbEsAestrVJcY88A4oPHKXo=
+	t=1715012033; cv=none; b=DuEDv4s4F23S9VfGHfSGdvMMWZIZoAZS+VfwZTJ8n3GLCJETDP5F+Z6JDGtx11O3sGpEarCFONbXm3MKBZr7S/AsriHwKnYYhJkmvcYDEqNObmHk4lY4SUtEfXC41y51NwXIsOmvqfXjgG6ITR5V5zX5T+pqhpGttpkTDb5UKL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715012033; c=relaxed/simple;
-	bh=Z5yV8BHOiA2Y/WdXnLz7KIeCjNG8B/wEoV+ZQYhz1ps=;
+	bh=Oqce4MVGd+h8s81wdwAGkjCHHfwBD+g0MGpFE3mjZyI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q0b4AMjVMBhfHa6HqH9xpFRejVDp/ifRE403H8kmQFQ46X/lj01DeZ3Qv7FDCom2pkRANEsXik+YnPoyJd/892lBhgmW0ka9Eg8EWhLp/u9px28YW75SWbwlWPmZocfuPb4hiKpvf9uWvRuI0XoJVjShu/G2c981PSjxUEyXPmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yShuTUrh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJEM6e33; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yShuTUrh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJEM6e33; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=HdCWgIRh9S4zicuIlQqM243XIV54U+SN9sXt3dCJ6xy3D6h/xSxqtb2IcA2lMgmUY7LDzG9pC5vh/7M6UfkCAjpo0v2/tpj1tvbfB0YuZ4SuxIRrvT6LyjE3jDvFDDbdT6eJrrsPDf0zjlVJzXU6ucNvVvrImndjlTYScLm/BoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jnLYjRL+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTVB5bZk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jnLYjRL+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTVB5bZk; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yShuTUrh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJEM6e33";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yShuTUrh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJEM6e33"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jnLYjRL+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTVB5bZk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jnLYjRL+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTVB5bZk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A0D3D385DF;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E0D441F7A2;
 	Mon,  6 May 2024 16:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1715012029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/6uUUasKMijLTZn54Z5UXQyA/tVYhi/Hut9fV7jXYlU=;
-	b=yShuTUrhjZmpQqqiYLnJJrPjHN/pWHJAHNBZ97xPCYGI4LzJdMmfEbECSKVLgD6xkP7M5b
-	E3xraye8eUXIk0iGP5yO3OVVfYYTycXfiCAAC0tjuIyyO6nJ9QqhpYrBHYO5J5w/ZwK50Z
-	YMOLEtyP3ghAmJwl49AvXn2X0k+Omqo=
+	bh=QYyzocnRP5NxBuHRd65vHtzN30F0NDwxFhddvypb/FQ=;
+	b=jnLYjRL+usVckM5c38jLLZwREAk3zkb64YkP5vKcM24Q4P3xmiYa368wfwO8fqr6Q3FvAW
+	Jl8WhhORlMjrk0AgKwYULoz7lvI/uXecY1RBxKMZyfyAcKQeVsR4byJoA4brS/Ijpp+VNf
+	1ii3NsGzRKWkCz6hNJQHgg4syYbjfFg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1715012029;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/6uUUasKMijLTZn54Z5UXQyA/tVYhi/Hut9fV7jXYlU=;
-	b=xJEM6e33StYJpYAB1JoZ/zi3R6/W5B2V8kCg5BT8rBWVoATnFq4C7012cpmOuj6nW+oMix
-	aZeWfjYObLsyxQBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=QYyzocnRP5NxBuHRd65vHtzN30F0NDwxFhddvypb/FQ=;
+	b=NTVB5bZk5zClsr0l0uBPu/U9FoD2xvncDaUPU5DE5GfmKC5gr3iJTsSKhwSSJcqFtmpokD
+	gbt2kjg+VAVPABBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jnLYjRL+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NTVB5bZk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1715012029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/6uUUasKMijLTZn54Z5UXQyA/tVYhi/Hut9fV7jXYlU=;
-	b=yShuTUrhjZmpQqqiYLnJJrPjHN/pWHJAHNBZ97xPCYGI4LzJdMmfEbECSKVLgD6xkP7M5b
-	E3xraye8eUXIk0iGP5yO3OVVfYYTycXfiCAAC0tjuIyyO6nJ9QqhpYrBHYO5J5w/ZwK50Z
-	YMOLEtyP3ghAmJwl49AvXn2X0k+Omqo=
+	bh=QYyzocnRP5NxBuHRd65vHtzN30F0NDwxFhddvypb/FQ=;
+	b=jnLYjRL+usVckM5c38jLLZwREAk3zkb64YkP5vKcM24Q4P3xmiYa368wfwO8fqr6Q3FvAW
+	Jl8WhhORlMjrk0AgKwYULoz7lvI/uXecY1RBxKMZyfyAcKQeVsR4byJoA4brS/Ijpp+VNf
+	1ii3NsGzRKWkCz6hNJQHgg4syYbjfFg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1715012029;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/6uUUasKMijLTZn54Z5UXQyA/tVYhi/Hut9fV7jXYlU=;
-	b=xJEM6e33StYJpYAB1JoZ/zi3R6/W5B2V8kCg5BT8rBWVoATnFq4C7012cpmOuj6nW+oMix
-	aZeWfjYObLsyxQBw==
+	bh=QYyzocnRP5NxBuHRd65vHtzN30F0NDwxFhddvypb/FQ=;
+	b=NTVB5bZk5zClsr0l0uBPu/U9FoD2xvncDaUPU5DE5GfmKC5gr3iJTsSKhwSSJcqFtmpokD
+	gbt2kjg+VAVPABBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 873621386E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C78511386E;
 	Mon,  6 May 2024 16:13:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iJXRH70BOWbwFQAAD6G6ig
+	id yFdCL70BOWbwFQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 16:13:49 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 02/12] ALSA: hda: codec: Reduce CONFIG_PM dependencies
-Date: Mon,  6 May 2024 18:13:45 +0200
-Message-ID: <20240506161359.6960-3-tiwai@suse.de>
+Subject: [PATCH 04/12] ALSA: hda: analog: Reduce CONFIG_PM dependencies
+Date: Mon,  6 May 2024 18:13:47 +0200
+Message-ID: <20240506161359.6960-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240506161359.6960-1-tiwai@suse.de>
 References: <20240506161359.6960-1-tiwai@suse.de>
@@ -89,270 +90,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-1.58 / 50.00];
+	BAYES_HAM(-1.57)[92.22%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.983];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E0D441F7A2
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Score: -1.58
 
-CONFIG_PM is almost mandatory nowadays for real systems, but we have
-lots of CONFIG_PM dependent code in snd-hda-codec helper code.
+CONFIG_PM dependencies got reduced in HD-audio codec core driver, and
+now it's time to reduce in HD-audio analog codec driver, too.
 
-Let's reduce the dependencies of CONFIG_PM now.  The only visible
-drawback would be a couple of superfluous trace entries for runtime
-PM, but we can live with that.
+Simply drop CONFIG_PM ifdefs.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/hda_codec.h      | 11 ----------
- sound/pci/hda/hda_codec.c      | 37 +++++++++-------------------------
- sound/pci/hda/hda_controller.c |  2 --
- sound/pci/hda/hda_sysfs.c      |  4 ----
- 4 files changed, 10 insertions(+), 44 deletions(-)
+ sound/pci/hda/patch_analog.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-index 9c94ba7c183d..575e55aa08ca 100644
---- a/include/sound/hda_codec.h
-+++ b/include/sound/hda_codec.h
-@@ -109,11 +109,9 @@ struct hda_codec_ops {
- 	void (*unsol_event)(struct hda_codec *codec, unsigned int res);
- 	void (*set_power_state)(struct hda_codec *codec, hda_nid_t fg,
- 				unsigned int power_state);
--#ifdef CONFIG_PM
- 	int (*suspend)(struct hda_codec *codec);
- 	int (*resume)(struct hda_codec *codec);
- 	int (*check_power_status)(struct hda_codec *codec, hda_nid_t nid);
--#endif
- 	void (*stream_pm)(struct hda_codec *codec, hda_nid_t nid, bool on);
- };
- 
-@@ -259,11 +257,9 @@ struct hda_codec {
- 	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
- 	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
- 
--#ifdef CONFIG_PM
- 	unsigned long power_on_acct;
- 	unsigned long power_off_acct;
- 	unsigned long power_jiffies;
--#endif
- 
- 	/* filter the requested power state per nid */
- 	unsigned int (*power_filter)(struct hda_codec *codec, hda_nid_t nid,
-@@ -481,10 +477,8 @@ extern const struct dev_pm_ops hda_codec_driver_pm;
- static inline
- int hda_call_check_power_status(struct hda_codec *codec, hda_nid_t nid)
- {
--#ifdef CONFIG_PM
- 	if (codec->patch_ops.check_power_status)
- 		return codec->patch_ops.check_power_status(codec, nid);
--#endif
- 	return 0;
- }
- 
-@@ -495,14 +489,9 @@ int hda_call_check_power_status(struct hda_codec *codec, hda_nid_t nid)
- #define snd_hda_power_up_pm(codec)	snd_hdac_power_up_pm(&(codec)->core)
- #define snd_hda_power_down(codec)	snd_hdac_power_down(&(codec)->core)
- #define snd_hda_power_down_pm(codec)	snd_hdac_power_down_pm(&(codec)->core)
--#ifdef CONFIG_PM
- void snd_hda_codec_set_power_save(struct hda_codec *codec, int delay);
- void snd_hda_set_power_save(struct hda_bus *bus, int delay);
- void snd_hda_update_power_acct(struct hda_codec *codec);
--#else
--static inline void snd_hda_codec_set_power_save(struct hda_codec *codec, int delay) {}
--static inline void snd_hda_set_power_save(struct hda_bus *bus, int delay) {}
--#endif
- 
- static inline bool hda_codec_need_resume(struct hda_codec *codec)
- {
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 2cac337f5263..325e8f0b99a8 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -616,7 +616,6 @@ void snd_hda_shutup_pins(struct hda_codec *codec)
- }
- EXPORT_SYMBOL_GPL(snd_hda_shutup_pins);
- 
--#ifdef CONFIG_PM
- /* Restore the pin controls cleared previously via snd_hda_shutup_pins() */
- static void restore_shutup_pins(struct hda_codec *codec)
- {
-@@ -634,7 +633,6 @@ static void restore_shutup_pins(struct hda_codec *codec)
- 	}
- 	codec->pins_shutup = 0;
- }
--#endif
- 
- static void hda_jackpoll_work(struct work_struct *work)
- {
-@@ -1001,9 +999,7 @@ int snd_hda_codec_device_new(struct hda_bus *bus, struct snd_card *card,
- 	codec->card = card;
- 	codec->addr = codec_addr;
- 
--#ifdef CONFIG_PM
- 	codec->power_jiffies = jiffies;
--#endif
- 
- 	snd_hda_sysfs_init(codec);
- 
-@@ -1238,7 +1234,6 @@ static void purify_inactive_streams(struct hda_codec *codec)
- 	}
- }
- 
--#ifdef CONFIG_PM
- /* clean up all streams; called from suspend */
- static void hda_cleanup_all_streams(struct hda_codec *codec)
- {
-@@ -1250,7 +1245,6 @@ static void hda_cleanup_all_streams(struct hda_codec *codec)
- 			really_cleanup_stream(codec, p);
- 	}
- }
--#endif
- 
- /*
-  * amp access functions
-@@ -2858,7 +2852,6 @@ static void hda_exec_init_verbs(struct hda_codec *codec)
- static inline void hda_exec_init_verbs(struct hda_codec *codec) {}
+diff --git a/sound/pci/hda/patch_analog.c b/sound/pci/hda/patch_analog.c
+index 8afe6000f7da..1e9dadcdc51b 100644
+--- a/sound/pci/hda/patch_analog.c
++++ b/sound/pci/hda/patch_analog.c
+@@ -72,7 +72,6 @@ static int create_beep_ctls(struct hda_codec *codec)
+ #define create_beep_ctls(codec)		0
  #endif
  
 -#ifdef CONFIG_PM
- /* update the power on/off account with the current jiffies */
- static void update_power_acct(struct hda_codec *codec, bool on)
+ static void ad198x_power_eapd_write(struct hda_codec *codec, hda_nid_t front,
+ 				hda_nid_t hp)
  {
-@@ -2966,9 +2959,6 @@ static int hda_codec_runtime_resume(struct device *dev)
+@@ -118,7 +117,6 @@ static int ad198x_suspend(struct hda_codec *codec)
+ 	ad198x_power_eapd(codec);
  	return 0;
  }
+-#endif
  
--#endif /* CONFIG_PM */
--
--#ifdef CONFIG_PM_SLEEP
- static int hda_codec_pm_prepare(struct device *dev)
- {
- 	struct hda_codec *codec = dev_to_hda_codec(dev);
-@@ -3023,22 +3013,19 @@ static int hda_codec_pm_restore(struct device *dev)
- 	dev->power.power_state = PMSG_RESTORE;
- 	return pm_runtime_force_resume(dev);
- }
--#endif /* CONFIG_PM_SLEEP */
- 
- /* referred in hda_bind.c */
- const struct dev_pm_ops hda_codec_driver_pm = {
--#ifdef CONFIG_PM_SLEEP
--	.prepare = hda_codec_pm_prepare,
--	.complete = hda_codec_pm_complete,
--	.suspend = hda_codec_pm_suspend,
--	.resume = hda_codec_pm_resume,
--	.freeze = hda_codec_pm_freeze,
--	.thaw = hda_codec_pm_thaw,
--	.poweroff = hda_codec_pm_suspend,
--	.restore = hda_codec_pm_restore,
--#endif /* CONFIG_PM_SLEEP */
--	SET_RUNTIME_PM_OPS(hda_codec_runtime_suspend, hda_codec_runtime_resume,
--			   NULL)
-+	.prepare = pm_sleep_ptr(hda_codec_pm_prepare),
-+	.complete = pm_sleep_ptr(hda_codec_pm_complete),
-+	.suspend = pm_sleep_ptr(hda_codec_pm_suspend),
-+	.resume = pm_sleep_ptr(hda_codec_pm_resume),
-+	.freeze = pm_sleep_ptr(hda_codec_pm_freeze),
-+	.thaw = pm_sleep_ptr(hda_codec_pm_thaw),
-+	.poweroff = pm_sleep_ptr(hda_codec_pm_suspend),
-+	.restore = pm_sleep_ptr(hda_codec_pm_restore),
-+	.runtime_suspend = pm_ptr(hda_codec_runtime_suspend),
-+	.runtime_resume = pm_ptr(hda_codec_runtime_resume),
+ /* follow EAPD via vmaster hook */
+ static void ad_vmaster_eapd_hook(void *private_data, int enabled)
+@@ -158,10 +156,8 @@ static const struct hda_codec_ops ad198x_auto_patch_ops = {
+ 	.init = snd_hda_gen_init,
+ 	.free = snd_hda_gen_free,
+ 	.unsol_event = snd_hda_jack_unsol_event,
+-#ifdef CONFIG_PM
+ 	.check_power_status = snd_hda_gen_check_power_status,
+ 	.suspend = ad198x_suspend,
+-#endif
  };
  
- /* suspend the codec at shutdown; called from driver's shutdown callback */
-@@ -3425,7 +3412,6 @@ int snd_hda_add_new_ctls(struct hda_codec *codec,
- }
- EXPORT_SYMBOL_GPL(snd_hda_add_new_ctls);
  
--#ifdef CONFIG_PM
- /**
-  * snd_hda_codec_set_power_save - Configure codec's runtime PM
-  * @codec: codec device to configure
-@@ -3516,7 +3502,6 @@ int snd_hda_check_amp_list_power(struct hda_codec *codec,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_check_amp_list_power);
--#endif
- 
- /*
-  * input MUX helper
-@@ -4060,12 +4045,10 @@ void snd_hda_bus_reset_codecs(struct hda_bus *bus)
- 		/* FIXME: maybe a better way needed for forced reset */
- 		if (current_work() != &codec->jackpoll_work.work)
- 			cancel_delayed_work_sync(&codec->jackpoll_work);
--#ifdef CONFIG_PM
- 		if (hda_codec_is_power_on(codec)) {
- 			hda_call_codec_suspend(codec);
- 			hda_call_codec_resume(codec);
- 		}
--#endif
- 	}
- }
- 
-diff --git a/sound/pci/hda/hda_controller.c b/sound/pci/hda/hda_controller.c
-index 206306a0eb82..c7142eee9f35 100644
---- a/sound/pci/hda/hda_controller.c
-+++ b/sound/pci/hda/hda_controller.c
-@@ -1075,11 +1075,9 @@ irqreturn_t azx_interrupt(int irq, void *dev_id)
- 	bool active, handled = false;
- 	int repeat = 0; /* count for avoiding endless loop */
- 
--#ifdef CONFIG_PM
- 	if (azx_has_pm_runtime(chip))
- 		if (!pm_runtime_active(chip->card->dev))
- 			return IRQ_NONE;
--#endif
- 
- 	spin_lock(&bus->reg_lock);
- 
-diff --git a/sound/pci/hda/hda_sysfs.c b/sound/pci/hda/hda_sysfs.c
-index 69ebc37a4d6f..265fd4737893 100644
---- a/sound/pci/hda/hda_sysfs.c
-+++ b/sound/pci/hda/hda_sysfs.c
-@@ -26,7 +26,6 @@ struct hda_hint {
- 	const char *val;	/* contained in the same alloc as key */
- };
- 
--#ifdef CONFIG_PM
- static ssize_t power_on_acct_show(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
-@@ -47,7 +46,6 @@ static ssize_t power_off_acct_show(struct device *dev,
- 
- static DEVICE_ATTR_RO(power_on_acct);
- static DEVICE_ATTR_RO(power_off_acct);
--#endif /* CONFIG_PM */
- 
- #define CODEC_INFO_SHOW(type, field)				\
- static ssize_t type##_show(struct device *dev,			\
-@@ -745,10 +743,8 @@ static struct attribute *hda_dev_attrs[] = {
- 	&dev_attr_modelname.attr,
- 	&dev_attr_init_pin_configs.attr,
- 	&dev_attr_driver_pin_configs.attr,
--#ifdef CONFIG_PM
- 	&dev_attr_power_on_acct.attr,
- 	&dev_attr_power_off_acct.attr,
--#endif
- #ifdef CONFIG_SND_HDA_RECONFIG
- 	&dev_attr_init_verbs.attr,
- 	&dev_attr_hints.attr,
 -- 
 2.43.0
 
