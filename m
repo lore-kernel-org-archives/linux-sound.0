@@ -1,140 +1,155 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazolkn19010000.outbound.protection.outlook.com [52.103.66.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0481E127E3B;
-	Mon,  6 May 2024 07:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980785; cv=fail; b=M5eZRatG2u3thIPzEU79Xv71hC3Rv7L0t2L8UgFDCw3J4WONleCCciQvsEd35XhJBsiLszxj6qEsEo6d1LFRtoxG2YTdvaOi6mgeg1+qFDVG4SzD+NzRPbg9jlgvfpJBgWGGwVFtIeV2MqWHxXzaV0DJRJkSEi8AtAhEp+CZbpo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980785; c=relaxed/simple;
-	bh=QWQepTr9HCBQbPnpPpOL2vIhU1/9nQ6mXKQCD+2+ft4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iuL65h6b4Jwrf61SiZ7mO1F9FBQGF3uAfcvRVcxH9i/5Z4oGLEUUPfWPF9EzE+Fkw2H2D8Xfrlpc7ol7IL6JzgTOUrzO8nGXT3wlvG2O8jooJddBv6Ocbwrwmo+fjGL7+5i8dHvQJUVw1aV399AGma6HS+gztVf2Epf4kQjlXPA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=SSp0jwKk; arc=fail smtp.client-ip=52.103.66.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A5F5A0E1;
+	Mon,  6 May 2024 07:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714981512; cv=none; b=L9c7r+0rrU7b4kA09e9X1iAOz3GcoojQIrV9c9s7wjaLlekwYeXahyt3zMCNbkQGiAGPqXI6fGeM2y8RWukI/jBFPrWRS2Hb9Hcxf/4Xl0CVKgW775QfXAzvm+3beqICYpF6pJzxTR9dj5e8KaNhPlgHzrmpc1RHsXQoO/zj6o4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714981512; c=relaxed/simple;
+	bh=hbk+KfVwD07Qx/5jw2FufoF+HQqBivDwwUKf9HHF5Gw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AjEfcdYq/U5KP1aeC49YBS6shU6cteGBMG22hjFTdOF0GyGQjUakD5cB1WhCwNtRjh9EDS6b66F1lLe0W18dii256VBifHjCIDVdm7I3eImqPpWOvHjLY/hDwWicHRcUynRODewX9YfM+HSP714w8IyU8Reh3GbAnQAtQcaFAUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZEVw2SwU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FhvHSAqv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n6GhvFeT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LoDu9hAr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="SSp0jwKk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eUa+4ph6riv/v5qmyBol+X0kVDxEsQMhCAEJnRgWhh2YySMXktdHrcm0tg58wGeq5DDTyyez4ZioIRRhJcUhqmyt9c9pgZMiOLlEUyL4L7xH6XBdPZwBKLHE9AYDu+deUi5WWvjy0pIszUTJVwv5cW7xkOK9w9EX8oirj43aejE/EmtdL1oZNZgKicT6br8HHr5iWB4m5DwmhmbmBgw+IlWhP7m9IcpBI7fwQTCY75ynjp43+KeH8o6fDR0Qyt3bG92iH57d88+taPlA7nVKQPNFaJ4jWfozjfJDzzq3RvOXHR0167BS7Dd42c2ec/BhGZaqyen8IXc471JG9rkpCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ooUvmidyDfcicUqHx4t4j6+vqcGKs/pdj6DnF+bzZ1I=;
- b=lFsWcs3jsSgovLjdHmCKeIXC8r7VFg8KRF7sNX336l8Nl8WpjfN2zVnDa+zzxaqNXmYDZvTaANmYfepXaHzuRg5S+oTB+Ay76/MSk5t9WWKJAZ5Gi8aC/QqGaTR0oLD68bn79DiDjKFygB8a9JZ/M5/TnvkdLZ2kcffxEn+GazT4s2X+g1Fu73EC1up8/y1grzL/xatocJGj8RbZVDGL4m0nEMS5I1KHx6K1ehtr89Bzbb3IwKnWOh6u488n5UFa0QtfGhIIt5vYuYUntT8z6nvD/BQ/SGmYwD0B2wIIHyYcvEtgztR0Tjvfu4f62joPZycwcnG1Z8bFy+5siu7VNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ooUvmidyDfcicUqHx4t4j6+vqcGKs/pdj6DnF+bzZ1I=;
- b=SSp0jwKkO0iKI/IxFFdI8PstzXS6GU6saeoDyPoHniJjBullyJ6UVmYQLgCRD6czvL/a3Aff0OUWXO8yTjS2Q7f058bS4axMINx4yj8bcUQTzfIhYo6FdZ+KJ9nGQXO7FLXD0MEliblrwlfrH2mZVNF7UdbA0PJESWUj+exKxo4UBYV/i7qBHiVolpIPIocGR+8DOgAhqxgavBH4t8YNj9X+LAiT2+rng6Pf6L/AcyPesKNQZbbjXui7vFRvrM+vrwQwfpTcEUEbIOYUFC/UD5Nz9yhVyoP/6jCmhSR+kOaNZ1tZVghN9X0Ks9mJkVwIriOFDnk2l7LiYm9D7Bc9Hw==
-Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:209::11)
- by TYYP286MB1643.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:114::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
- 2024 07:33:01 +0000
-Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- ([fe80::f2c3:e53f:2ea9:55c8]) by TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- ([fe80::f2c3:e53f:2ea9:55c8%6]) with mapi id 15.20.7544.041; Mon, 6 May 2024
- 07:33:01 +0000
-From: ArcticLampyrid <ArcticLampyrid@outlook.com>
-To: tiwai@suse.de, Jaroslav Kysela <perex@perex.cz>
-Cc: sbinding@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- rf@opensource.cirrus.com
-Subject:
- Re: [PATCH v4 0/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X
- 2022 IAH7
-Date: Mon, 06 May 2024 15:32:56 +0800
-Message-ID:
- <TYCP286MB2535FAD4F73A78C410CE11F0C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-In-Reply-To: <05819798-2ac2-4aed-9f4f-0494c4c24159@perex.cz>
-References:
- <TYCP286MB2535F8C34EB5E3D826B74C17C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
- <05819798-2ac2-4aed-9f4f-0494c4c24159@perex.cz>
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-TMN: [h1URPMT38gAYzGf8zUtKQE/nwqfjz/a/dIOlNP54JqM=]
-X-ClientProxiedBy: TY2PR06CA0036.apcprd06.prod.outlook.com
- (2603:1096:404:2e::24) To TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:209::11)
-X-Microsoft-Original-Message-ID: <2763980.mvXUDI8C0e@qlaptoparch>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZEVw2SwU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FhvHSAqv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n6GhvFeT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LoDu9hAr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F08E65F971;
+	Mon,  6 May 2024 07:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714981508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A8NhZ5Z++Xyx8ycFFvX5+HcsU9P3SaLsiqRdiI3IPaY=;
+	b=ZEVw2SwUfMrUiAbA/C0PQARZG1+2mEULj+ogwY00PnSzxv8n3XbAD7p0oSjJUPJV49vhyi
+	l0lyD9/hOPCdZh25TOQptixkW4LRaihlRMibf5vrwHVxRI9esvH3/FPnWcAFJMr3Es+i6h
+	jkU/RXCSCip4wYP25HCeoiwQ+UzJVW0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714981508;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A8NhZ5Z++Xyx8ycFFvX5+HcsU9P3SaLsiqRdiI3IPaY=;
+	b=FhvHSAqvlBOCf3pBYOM7ewfRIkQlM7/bNdA7ET5J+UxJTnlzFjXbLJoXddGk9c3GYYHObI
+	RTwTEQDm+LZoU0AA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1714981506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A8NhZ5Z++Xyx8ycFFvX5+HcsU9P3SaLsiqRdiI3IPaY=;
+	b=n6GhvFeTvZLhw6DOAciUhZSNHWlXUcrX3TrM2yXiURUPGhAW3bAzpxjtd8sXtwV3nDp17m
+	PyoNmrZ1P8BFpltJPSM9hdgdtb8Y0q8m96MtFAmhHZjwfz4q8U41DYSpJAFic4Sd47t4Ll
+	3Yz1DGNIiVmunhuHJECcxWwP1pmy6Vs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1714981506;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A8NhZ5Z++Xyx8ycFFvX5+HcsU9P3SaLsiqRdiI3IPaY=;
+	b=LoDu9hAr2qw6VHTydgDo63ELGjlIT/gkRfiuhXF548fhNfeaGM266uSegnnVSmVVmknqyD
+	omoJT6E4CjZK0fBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D00113A25;
+	Mon,  6 May 2024 07:45:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yCkdJYKKOGbnXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 07:45:06 +0000
+Date: Mon, 06 May 2024 09:45:21 +0200
+Message-ID: <87zft3gz8u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kselftest@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] selftests/alsa: missing a return value in unused dump_config_tree()
+In-Reply-To: <a80cb2a2-735d-4539-a758-a536296975cd@perex.cz>
+References: <20240505210824.55392-1-jhubbard@nvidia.com>
+	<875xvrif0c.wl-tiwai@suse.de>
+	<a80cb2a2-735d-4539-a758-a536296975cd@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCP286MB2535:EE_|TYYP286MB1643:EE_
-X-MS-Office365-Filtering-Correlation-Id: 385501bb-6a92-4b6f-7754-08dc6d9ec21e
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199019|1602099003|440099019|3412199016;
-X-Microsoft-Antispam-Message-Info:
-	SgYh9TPojyFgm1UtUrgnM+WAXJ63WRxn9yuXflXhAAMsjVY9Y4urfUlol3TGY5FDah0Yu60DB2zFGx6zVzK4YS0XDt430rzE0MINGHLCVzIL/46VTzi83RyQDnjkk/G4H9fhTaOVLZxBWGB1+Ajm8S6ol8LUFKc24kWAP47Mka36QAzvz5MVlRPTDB4GJXOkC+OHDs67sw801Ktm929Flpc9/QgbrZMMKRLh6adwTOYdh0IV0ujLM7WiSGjtlBHeq61wjK+f9vWfkKVJ6UfOufiqSKWG66YPG4U3ktTXjdWJESD/UK8kSR5SPo4Y+g/ZKT0qXSb42nF1OMgdmjOnDiFYIejneNUBSTpU4Bbp/LQgarQQ+Jl4BCYGbaG4VFui39NqQF+WzFTY8xBkdQosvJN51fR4woBV5RLgJS8WQDJyLwnv1fhsiz4rBp11JWc9m5RRUgujaK0VWaGLFrnwnYSNWpFEFmF8tu11jaq7FiXgxfAxHERypuqHm5jFpHL72+Jl/+bTzPXpe6OiAeMwo7FOrttkhdnUfirooFNJyG4MAskc2krViOr2yVi2gQXuDTHOBBt++flV5ch9Xulk+ggyXCdhmLdRAkfGyX135KsrPTI/atEdlNEfk2qPouy+3G9c/wfmy8lDaIjzHMxSZM81FfhY2ZaZQQd0hNaRn5c=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Qi9lNXJ5NnhrU1Rsb3RNRTZoQU5MampsVnZjazl6TGJhTkRqOURCQW43QitI?=
- =?utf-8?B?QWNvOFF2SVFWWk4xY0cxN1NjcDI3UXkvTXY2aW1wNEJUQ28wWmJYRDJia0xa?=
- =?utf-8?B?dm5uOHNlaGgzU2RMcnVvSEtPQUNaU3VWQjhzTVBETGRNc016bnp2UDBJOXpQ?=
- =?utf-8?B?QW1SY1hnU3hDWXREbi9sbDN0bHN5S1EzbVgxMDhLTzVaRmNSUzdCdmUrMWpM?=
- =?utf-8?B?WXhqaVh3TWdxekFFc01iTUZZd3VZYlR5emV6L3V5bk9IY1JOM3pXc3gzRUN2?=
- =?utf-8?B?d2FhUDB2dmlybU1ScllIaHB6cmp3NjJuUGhDZTRvKzczUDZRRU1pcnlhZUFE?=
- =?utf-8?B?Z05Yc2R3QmltUU05bFlENkUycDV2MnZhK2t3VWlDZURlbGlOU2JJMVBOQy81?=
- =?utf-8?B?ZHNvdU1naGVuYmdKU1plWkg4QmpqMWhTSUc2RUZTUWFXNURnbmYyLzJzeXo0?=
- =?utf-8?B?NzBLRXJWdjBWSDFtdU5qSmRNUU9TU29sN1I2VFRnNERQaEJRRDFHcFBqMi9Q?=
- =?utf-8?B?OUo5Z0c4S0ZLQjlXcmF4WVh3NEVXSGhNRDF3Yld0c1FIZE92M2FYbWN6NVIr?=
- =?utf-8?B?VnRjZ0JnYytnQWVlQVQ3VlB5ZTJWT3ZWeGNyeEhzOStxZnM2NUJ0aE1hMWU3?=
- =?utf-8?B?RzZLVzlaMVBybTdXbFE0eGlqaStNMnd0NC9lS2I2R1RHOGEySVUybUI0NjZx?=
- =?utf-8?B?Nzh5ZkNoNWt3THZPZXBkVFpiNm1CaEVSTmY4MHJma29PcFBrZEpvYUJyRkp6?=
- =?utf-8?B?UHJ6SWcxUzhXQmFFb095OWpIZEFtQzlvbU95UjBFNnREWm4rOUxnTUJpbTl2?=
- =?utf-8?B?bk8raGg2a2haUVBUVm1YcjJHd2l4Qm5aY05VZWlGbldOeGRLV0JObFdzVzc2?=
- =?utf-8?B?MTh0Q21ISklMaXVDWkVNT0tYSFFUcW0wUStESm5seGRIM1YyMXhBSDlTdkhZ?=
- =?utf-8?B?MzZuRS9iQ2hCaVNoV2U2dUVwSFJUMXZMVUNkQnlYRWhSRE5MVDN5UStZbmM1?=
- =?utf-8?B?aWlWVm4vWXlxRW1SU05IdUxrMHBqdXZMd0JIR2VWKzRCbmwxMTJvelE5OXBZ?=
- =?utf-8?B?MU5TSDUwOXNZeHExSWN6eVo0Q2RzaFBIYTdWczZybldHemlMeUdUc3NERGt1?=
- =?utf-8?B?cGxOaVBiMHdOeE1aL2JIY2R2NHdNQ0F2b084RDB3TnlvRWs5eDlwZUtXRGZS?=
- =?utf-8?B?T09tRHpmRWpYN1Y5M0dCYzRLYWJ3M052NDArSnFJTHhtUmJvMzhJNDVCSXEv?=
- =?utf-8?B?dGkrQVJ0YUNjckNaS2QxdUlyaWNVaXo1eGtmd2xXZWxIUUZzZUFyajVYeXla?=
- =?utf-8?B?TDIyaWE5WWJ3VE9nOVlhUDVsTmtIT01iQXpjYnBIbjFqbUZrOURLRzR5UDVK?=
- =?utf-8?B?M0pBZHgzZGRhZXJPeVFyTkVaNXZyRDJvOVRoZ1dEdit2R1hkYlo2cE9WYWxV?=
- =?utf-8?B?SDhzNTViUWRiVVdqVlQ5bHBGUm5ZU21JWUE0T0QzSVJuV1F0YlFDa3p0UjJv?=
- =?utf-8?B?STFwZ1UrUmROVHZKQ0cvcllwbldkWnRCRHZjOHJDbkM1Rm81cklHV2E3RkND?=
- =?utf-8?B?SzAvV2lOSlBCbGNsQWdBWnJuU3BvUzZYM0NOYUk5TmtCc2VWRmp6SERpMzRj?=
- =?utf-8?B?blBrSm1FM1hjUG1Ec1p6aUhybmRpbFN1Z1JLNE43T0VRRjVSU0loOStidGoz?=
- =?utf-8?Q?wQQ6IZFNi1orBMKdZySN?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 385501bb-6a92-4b6f-7754-08dc6d9ec21e
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 07:33:01.0341
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYP286MB1643
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,nvidia.com,kernel.org,suse.com,gmail.com,vger.kernel.org,valentinobst.de,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-> On 06. 05. 24 9:27, ArcticLampyrid wrote:
-> > This fixes the sound not working from internal speakers on
-> > Lenovo Legion Y9000X 2022 IAH7 models.
-> > 
-> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218744
-> > 
-> > This patch depends on [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors
-> > when configuring IRQs (by Stefan Binding) See also
-> > <https://lore.kernel.org/lkml/20240429154853.9393-2-sbinding@opensource.c
-> > irrus.com/>
-> We don't accept commits from anonymous sources. Please, follow
-> Documentation/process/submitting-patches.rst .
+On Mon, 06 May 2024 09:27:38 +0200,
+Jaroslav Kysela wrote:
 > 
-> 					Jaroslav
+> On 06. 05. 24 9:19, Takashi Iwai wrote:
+> > On Sun, 05 May 2024 23:08:24 +0200,
+> > John Hubbard wrote:
+> >> 
+> >> dump_config_tree() is declared to return an int, but the compiler cannot
+> >> prove that it always returns any value at all. This leads to a clang
+> >> warning, when building via:
+> >> 
+> >>      make LLVM=1 -C tools/testing/selftests
+> >> 
+> >> Furthermore, Mark Brown noticed that dump_config_tree() isn't even used
+> >> anymore, so just delete the entire function.
+> >> 
+> >> Cc: Mark Brown <broonie@kernel.org>
+> >> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> > 
+> > Thanks, applied now.
+> 
+> This function is nice for debugging. I'd prefer to keep it with the fix.
 
-I've signed it off in commit message.
-> Signed-off-by: Junhao Pei <ArcticLampyrid@outlook.com>
+I'm find in either way; just submit a fix patch, then.
 
 
+thanks,
 
+Takashi
