@@ -1,47 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE12153512;
-	Mon,  6 May 2024 14:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C4A153569
+	for <linux-sound@vger.kernel.org>; Mon,  6 May 2024 14:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715006669; cv=none; b=o6UsoqFOsgf7QHkMe3sfGLs887SxskvXrKqJ0/KqLlGdCrHK+E+xYgfZQZsBtWDuSc5yX1+wpWk9w4LwsI9Yh+yk7RlYIryTyz01YhuIgGy3tZTFXDGw5krFqubYk229MWfFUkmYzulSvTtqXzoXSHxqGrqetF32Ym0OMqToeX8=
+	t=1715006706; cv=none; b=ksvTJSiW55Ee+ZOFn/rpEIABXaYVOuLzvK5okazmmDn0CYa7GDOA6/Vff8BXuhw2EmXvN1WQY0twxJJp1KtQ0v3WT19hsWlU6KQ5WTsvC/OouN9RqJ1IKUEijsMwc11z8CpqcHG5RKb7ZfWBQJukgLKfg21PjBH6AjqLTsjWq3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715006669; c=relaxed/simple;
-	bh=uq6oZxeBr7WCufTCHeNPAoz1p+qOGlvaP1M3ucdx7Qs=;
+	s=arc-20240116; t=1715006706; c=relaxed/simple;
+	bh=WuSI/Erb+YdvpVlRysKYfgJc0VtPZaAYuckoNHF0PrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WnMQfY4zpy2R81vYT9hL0awhE5bq2VPMXLmWZibQD7rvkNEkTuskLnVw9X/EhpyFBD/yeSfAukT5CdIvO4D+9CLTjXzLQYic3dXwPUIpJBfedi4tz2N6qCpHp+W1utp61dO3i6+P/QqTdCEfAaNj0KzUyHE6ppQ2QU97dxvNmLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2gQ737D; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P12oA6V9QKQOLv7eyt0l27ZL+PkSb/IBhR6pt8tIcbwaJjjfOa58C08hh3k9R3rmnGyT3rFI7CmKpPtaUK6NqGAE9gmZq/g+SfO/W2LECBjwre3vJHVw/wVZnjWOqHKr+9//QbYOxTQOaZ9KHt/DBQT44rrUMQj9hWg6Aw+JL3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZT1sohq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2gQ737D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41F52C116B1;
-	Mon,  6 May 2024 14:44:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZT1sohq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53582C116B1;
+	Mon,  6 May 2024 14:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715006668;
-	bh=uq6oZxeBr7WCufTCHeNPAoz1p+qOGlvaP1M3ucdx7Qs=;
+	s=k20201202; t=1715006705;
+	bh=WuSI/Erb+YdvpVlRysKYfgJc0VtPZaAYuckoNHF0PrU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K2gQ737D9gG4vUqBYrskOUvA1/bDrCFQRMFYyq2EzdrAtAes5SS1C4TG7BvgZr74L
-	 oalrop/fxRAnzVjQQyg27IzRO7bqt6jvjdVKbgB/sL8GTRS4VUMmWmEd4IlFFd6HyR
-	 UhO6sS5QiKRru1qShuj1fjd7yxCEE8qEwMVKozwoKorON93quWPjxfgNLjUcgVkST7
-	 nvQL7cQi1aMnMjHQzLd2i0wAmuU0wgdiess/XRgexR8voWEpWh2gyiV9yozyNCvdiz
-	 TMCSRP2gekL/1LunQHsdLAfkrmDBvOPKEgArR9aelW8s7UFGe1nIEjMnNAerMjEoNa
-	 Qs+rabREHT6Yg==
-Date: Mon, 6 May 2024 23:44:25 +0900
+	b=bZT1sohq6SB+ivGjmmVMO8IFtrjWevL8z8KX1edKx/CWc9PWHamVu6yZ0u2ltlnUk
+	 KtuUNObJE3LAVgMrayiw3F7xz4W8a5WKr+Q/PcaEHtXNdO66YpvVAdAcP55nwJrje5
+	 D092MMfffVpNsEBJCQrXg1dQpEzBOdQmvEyl6unhnAHQm0sJ1unvHo9+UKRlZXOiPN
+	 3vGQ+CNE3ZjLC/+8XfzBe1oMlFIaubts64hgmGrwDgAkO8Y+w09N5nzYJDPKDD2DK8
+	 VBgQTBR6GsfGpUFRh13w6pAM64hIfQFq0fBY1SwSa5hdCnbpJyZWFwf9t2wvaFFQBS
+	 bddCkOsqZaWrg==
+Date: Mon, 6 May 2024 23:45:03 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, John Hubbard <jhubbard@nvidia.com>,
-	Shuah Khan <shuah@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-sound@vger.kernel.org,
-	Valentin Obst <kernel@valentinobst.de>,
-	linux-kselftest@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
-Subject: Re: [PATCH v2] selftests/alsa: missing a return value in unused
- dump_config_tree()
-Message-ID: <ZjjsybLA3VyY0r_N@finisterre.sirena.org.uk>
-References: <20240505210824.55392-1-jhubbard@nvidia.com>
- <875xvrif0c.wl-tiwai@suse.de>
- <a80cb2a2-735d-4539-a758-a536296975cd@perex.cz>
- <87zft3gz8u.wl-tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+	John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH] selftests/alsa: make dump_config_tree() as void function
+Message-ID: <Zjjs79x9hF0-YFBm@finisterre.sirena.org.uk>
+References: <20240506075419.301780-1-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,39 +41,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WzfPT8Mcv1MPlK5X"
+	protocol="application/pgp-signature"; boundary="oM3NpSiJMjLcASJi"
 Content-Disposition: inline
-In-Reply-To: <87zft3gz8u.wl-tiwai@suse.de>
+In-Reply-To: <20240506075419.301780-1-perex@perex.cz>
 X-Cookie: lisp, v.:
 
 
---WzfPT8Mcv1MPlK5X
+--oM3NpSiJMjLcASJi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, May 06, 2024 at 09:45:21AM +0200, Takashi Iwai wrote:
-> Jaroslav Kysela wrote:
+On Mon, May 06, 2024 at 09:54:19AM +0200, Jaroslav Kysela wrote:
+> dump_config_tree() is declared to return an int, but the compiler cannot
+> prove that it always returns any value at all. This leads to a clang
+> warning, when building via:
 
-> > This function is nice for debugging. I'd prefer to keep it with the fix.
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-> I'm find in either way; just submit a fix patch, then.
-
-The fix was already submitted as v1, I noticed that the function was
-unused in review.
-
---WzfPT8Mcv1MPlK5X
+--oM3NpSiJMjLcASJi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY47MYACgkQJNaLcl1U
-h9C8bAf+LC3W5csuXsXkW345oPaJXG/mlVRt0y6r3fozBgx8Cq5DdPfTJaUQiYRW
-iZ2f4WDQs5odkSrZ63+uzCuEYl4Go47zHwHiqygtP5Yrk5Yq45VJ2T7lq05mQO8e
-GMaGefQf1Lg3xNK1+bl996iAQxbipI+Z0cWnyylNKujLsCI9Z04AQzCVGdk85qfO
-MxtEj1XlncY8uvocr9zl//g0D2LZ0+FBdoFAf8QFa1xQOXTIcHkCGZpLRmQ0TeFQ
-juk/8jfnhQUYGjw0ihnojiAlSmHfYG0Sq7EnJBMu2Ap3hcJ+uUk356gaHDhz8OfT
-FiaklaOKMNV9+a47NG7ma+lvHF5wHg==
-=P5PN
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmY47O4ACgkQJNaLcl1U
+h9BFgAf/aC1LYWpU7UQf6evBFuaf9qoxD7434YgDgGX9vOnOrj+b7JcVgaUg+VXZ
+OSMIOzpXOYyaT7lwPwdkRxmrkbymLArAXf+4QBBuzUy0xgLJDsXztIzu3XKuCaUS
+cVhX6fz46OoNhth2QmLPWXu7SCjMYxsqk4R4/3kLGzysWb+GFYJz+eO/fQuTvOE4
+s95sOZgeJel4t1TN/HlpqeXmj1KXMFFRkxiV5LDykrbdxsw46Mv8bVz9IxqBZkF5
+9K1Qc82ahaAm1PcDCMIeE03tRQ282iHEqsV+MkUCs90t50AMg36SYscuMgonDRFW
+OUoN2RskOOW7pbTAzowWJVytY79a5A==
+=MfDQ
 -----END PGP SIGNATURE-----
 
---WzfPT8Mcv1MPlK5X--
+--oM3NpSiJMjLcASJi--
