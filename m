@@ -1,148 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCE314039E;
-	Mon,  6 May 2024 07:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C314D2942A
+	for <linux-sound@vger.kernel.org>; Mon,  6 May 2024 07:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714981884; cv=none; b=lrtzUQ0fkvbU7usPPaPyKfLLyQ/1soQZNAfAm5ibTTKJYyD21bRbOqU4h1JeowcGPaAt8Bs/aK2nTxmj24Up3IV8ZJtqa4runw60srKFF6G1wQLLuwV0MQfNfMv+inChxXFsejCVg5IbVlJyqTCQQVEW8XoApOOHGx5WvB1FU3M=
+	t=1714982077; cv=none; b=Nh8BvbfkyYUOa1ZQuN/BMJ4wx77senRu+nI64XDOgX5OuAv+ruOjIeaoRyaLAash3TYplyavFqgoygKweE0pMdrKb25WzFxrMk5Cc68kYdLfihu+6MKFN6XjbnRBtW/aArcoBE+uARBFeu/B72QSgLRPtRbEvVebzGdisr8PyHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714981884; c=relaxed/simple;
-	bh=Yi1qwZhhBmPO560FIdmxT+mud+5dEx4hOqdd2jyqSzs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eD1EoH3cbfGMRaeca+tu03rd9g6soyK/7WiBI0Tw6sbZQaMouJsWvqO4L6+B9ftx8GiP96cWkJUlmO17qUrv9zuAlyH5DSmJqFbzIi2H/Oqm+9M4cXowxXeMXTkhP7y7hhieDkSGdStFwcWE/JHLS+ToE267xWdT8+KoB15ZR4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yhFFlPJx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xrGO7U3n; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yhFFlPJx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xrGO7U3n; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714982077; c=relaxed/simple;
+	bh=ZHldMi+XR5zOl3Nj2R4xBkvfjPjjz18cENRxNKylRQQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ISsNqp6KWyieO5hMBRj16Vpb4ddQdWEZIfv3URmDk9y/W0Nf3DTFTHQWisp+lQBbwQmjE6GdW44kDnr58eJGFdI6VGaQy5oGYYUnqcAAFpcPHCE723CuphYkJc37/3Kxl/vt4sIGkc/qtBoQDjZMShmFufO1YeCyI/foNC/v9Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=XTg0mGta; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yhFFlPJx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xrGO7U3n";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yhFFlPJx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xrGO7U3n"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="XTg0mGta"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 982BF43F5;
+	Mon,  6 May 2024 09:54:30 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 982BF43F5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1714982070; bh=FfaWgzpdSWU/5zJSB0jPdg4i6oCnWwGE7LBN5dTnST8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XTg0mGta513dkeCu69DPwBmoVLEEF/UpJ8RfohKUNcHuc1inpgFyC1vKTcZKQecw7
+	 9Mdq191VA/aDxch3my2GyxirOng0rwyNHnG6Yyaw5Ws+S63O9Grb5dP70UovcULaSM
+	 uZgO619px5UgVl27yN7zQRmJqXG3/CoYhb9kKb8I=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 826F85F983;
-	Mon,  6 May 2024 07:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714981881; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6AEMocBpEuQxKMzcluqSd6YGePkkcrRGPGY8X/G3p8o=;
-	b=yhFFlPJxe0hkHTweCAJqXxgEBtvyik4+jxjmebutSOzfbal0sNkr2WIEexZ0AWBLTMLIYL
-	airlFYBzNriVTYGjioJkBCYpJ2kJlRBpkffIw6WggnYs/2qqo6nswFGvKHTphWjhzf4vBP
-	asvcPRFSLLKkQHvop3ZLbzmvtvz0NBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714981881;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6AEMocBpEuQxKMzcluqSd6YGePkkcrRGPGY8X/G3p8o=;
-	b=xrGO7U3ncdNxBnh+hJ0Q81pUoPnFiHS+6QqV1Rs9Qpn8rRnD+7a5PxwdFomKpeb7VWge5F
-	78FIUrilgoTbAWAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714981881; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6AEMocBpEuQxKMzcluqSd6YGePkkcrRGPGY8X/G3p8o=;
-	b=yhFFlPJxe0hkHTweCAJqXxgEBtvyik4+jxjmebutSOzfbal0sNkr2WIEexZ0AWBLTMLIYL
-	airlFYBzNriVTYGjioJkBCYpJ2kJlRBpkffIw6WggnYs/2qqo6nswFGvKHTphWjhzf4vBP
-	asvcPRFSLLKkQHvop3ZLbzmvtvz0NBo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714981881;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6AEMocBpEuQxKMzcluqSd6YGePkkcrRGPGY8X/G3p8o=;
-	b=xrGO7U3ncdNxBnh+hJ0Q81pUoPnFiHS+6QqV1Rs9Qpn8rRnD+7a5PxwdFomKpeb7VWge5F
-	78FIUrilgoTbAWAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46F4313A25;
-	Mon,  6 May 2024 07:51:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j4UvEPmLOGbFYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 07:51:21 +0000
-Date: Mon, 06 May 2024 09:51:35 +0200
-Message-ID: <87y18ngyyg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: ArcticLampyrid <ArcticLampyrid@outlook.com>
-Cc: tiwai@suse.de,
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon,  6 May 2024 09:54:25 +0200 (CEST)
+From: Jaroslav Kysela <perex@perex.cz>
+To:  <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
-	sbinding@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com
-Subject: Re: [PATCH v4 0/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-In-Reply-To: <TYCP286MB2535FAD4F73A78C410CE11F0C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-References: <TYCP286MB2535F8C34EB5E3D826B74C17C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-	<05819798-2ac2-4aed-9f4f-0494c4c24159@perex.cz>
-	<TYCP286MB2535FAD4F73A78C410CE11F0C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	John Hubbard <jhubbard@nvidia.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH] selftests/alsa: make dump_config_tree() as void function
+Date: Mon,  6 May 2024 09:54:19 +0200
+Message-ID: <20240506075419.301780-1-perex@perex.cz>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.26
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.26 / 50.00];
-	BAYES_HAM(-2.96)[99.84%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[outlook.com];
-	FREEMAIL_ENVRCPT(0.00)[outlook.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,outlook.com:email]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 06 May 2024 09:32:56 +0200,
-ArcticLampyrid wrote:
-> 
-> > On 06. 05. 24 9:27, ArcticLampyrid wrote:
-> > > This fixes the sound not working from internal speakers on
-> > > Lenovo Legion Y9000X 2022 IAH7 models.
-> > > 
-> > > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218744
-> > > 
-> > > This patch depends on [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors
-> > > when configuring IRQs (by Stefan Binding) See also
-> > > <https://lore.kernel.org/lkml/20240429154853.9393-2-sbinding@opensource.c
-> > > irrus.com/>
-> > We don't accept commits from anonymous sources. Please, follow
-> > Documentation/process/submitting-patches.rst .
-> > 
-> > 					Jaroslav
-> 
-> I've signed it off in commit message.
-> > Signed-off-by: Junhao Pei <ArcticLampyrid@outlook.com>
+dump_config_tree() is declared to return an int, but the compiler cannot
+prove that it always returns any value at all. This leads to a clang
+warning, when building via:
 
-The From line doesn't match with your Signed-off-by line.
-Please align it and resubmit.
+    make LLVM=1 -C tools/testing/selftests
 
+Suggested-by: John Hubbard <jhubbard@nvidia.com>
+Cc: Mark Brown <broonie@kernel.org>
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ tools/testing/selftests/alsa/conf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/tools/testing/selftests/alsa/conf.c b/tools/testing/selftests/alsa/conf.c
+index 89e3656a042d..e2b3a5810f47 100644
+--- a/tools/testing/selftests/alsa/conf.c
++++ b/tools/testing/selftests/alsa/conf.c
+@@ -105,7 +105,7 @@ static struct card_cfg_data *conf_data_by_card(int card, bool msg)
+ 	return NULL;
+ }
+ 
+-static int dump_config_tree(snd_config_t *top)
++static void dump_config_tree(snd_config_t *top)
+ {
+ 	snd_output_t *out;
+ 	int err;
+-- 
+2.43.0
 
-Takashi
