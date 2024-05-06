@@ -1,132 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D3713CAAD;
-	Mon,  6 May 2024 14:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED3F13D289;
+	Mon,  6 May 2024 14:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715004802; cv=none; b=tKxOgihaxJvl2eBybtQDJ35KXfnZEBQPcMSa8NTFBjmP7VH+Zi7yBJNQPmYUFsXZBvQ3oz3GggMXx6b3kElIdgI04RMvZyjSyGErKiLwlGRed6E19MJ9deYYMt0UwXwsNt8y8fJecJWL3/QFiTAP4t/7seQB5CGt0dHBznvpox8=
+	t=1715005557; cv=none; b=q3oIWrE2srGYB9gD1lap4S2u3eydfzjuwaWoO+f5tMiKeaTw80hYcKXbQzBA6u94NbOOmRjW8SnpeuPlgXk/c662akceoQR1L/s1LDknc1SK4DNqNHaLWQGAw0QWwv5Uy/+cMwJEV7aWEzoHSliM10tychy9IPoKmgMqYRnc0Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715004802; c=relaxed/simple;
-	bh=QRbq6H4DwuT9gwWhZhUd8BbIWyf3EoJfoxV0DVP1gA0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QtX7gjtDQXuoh1Pf1+waAHlz/Y7bjtxeJ8shrpJV0FWbjv9wq70J3YMzIFuFS9Se42/LaRFpJ1aA5GB0RrBiORjnq8kOa1DK4TDBi47j6p8NZAJ5Q47fA7K8PCUd7ubzlcdxM8n1+L5Os2DWoZL8injKrPz22nkHKSF6u52jsqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0MhZXtvV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6P2WRc2X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0MhZXtvV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6P2WRc2X; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715005557; c=relaxed/simple;
+	bh=EnQPE3FwCk5Ns+k1JljGSjyT4ERWWDmlzGdgIeUIZJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgH6PtMUIxK2X5GCl99J1ZQ1rai33M823y7ZI2v7/D5PvqRDtbBCrj5TS8XCxELJv2DVfAC+qRZvVqVNJWvYY9Z1r/hURCG/dmaLH0Kq2Z4GD7lnFI1sls4Yjyn0n/f/v7sTlIG75ApSVvJVv/HO/tKKyw5DoRz0eMXgWGUk3aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTQxxFHB; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0MhZXtvV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6P2WRc2X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0MhZXtvV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6P2WRc2X"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 79BB03846B;
-	Mon,  6 May 2024 14:13:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715004799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
-	b=0MhZXtvVAvMpqpdq8QPxgXxe7s3ZxyX6Y4PLqXRKwXjAC5ss9zBPWzCUA7FhbsTbFTfd3X
-	X1qYMDopMYE8DnmEP9M28Pd4+Ruur2dVz13QkdxGszk1g0Wq1UF5qbxH1wKgiKdVZIY77D
-	kZvRQRrWfxtjbbIa5RnCdeocyDRyYo4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715004799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
-	b=6P2WRc2X3AQ3RnfLS8PE9CV81oUyC3RccalrCGVu2569DdtPhTckPC1Shw3ev+Dn/DOqu0
-	trV1Sy+PeS1MobAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715004799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
-	b=0MhZXtvVAvMpqpdq8QPxgXxe7s3ZxyX6Y4PLqXRKwXjAC5ss9zBPWzCUA7FhbsTbFTfd3X
-	X1qYMDopMYE8DnmEP9M28Pd4+Ruur2dVz13QkdxGszk1g0Wq1UF5qbxH1wKgiKdVZIY77D
-	kZvRQRrWfxtjbbIa5RnCdeocyDRyYo4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715004799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
-	b=6P2WRc2X3AQ3RnfLS8PE9CV81oUyC3RccalrCGVu2569DdtPhTckPC1Shw3ev+Dn/DOqu0
-	trV1Sy+PeS1MobAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C2691386E;
-	Mon,  6 May 2024 14:13:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 47GQDX/lOGbFaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 14:13:19 +0000
-Date: Mon, 06 May 2024 16:13:33 +0200
-Message-ID: <878r0ngh9u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTQxxFHB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715005556; x=1746541556;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EnQPE3FwCk5Ns+k1JljGSjyT4ERWWDmlzGdgIeUIZJg=;
+  b=HTQxxFHB7i062trcxj0lIbBlxlrYs2WhBsrDs5XG53C2F1yUGLlG7lI0
+   oXjjRsS2FypCybNCabKleh4+p47b8fUlurmyyHC32Nbr7N6etbXCEzt2I
+   sVjTpW1hQB5unDpmwwY1SEm6biQeR0nrk6G1b2fGb8gkksAvB3JF3pWm7
+   IsTwj5BY44bJThVi++4ETmfDNR9GsWRfDArt+6+LNTZ2PKfqFpShDIC+M
+   Wcaln9FIpIoEwTK27FuzaBXrqWg5lPsXcdHs+feF4zJWMtTL4qOUpF0Nj
+   1DjoFSzTmZnQEF/MNmrWWlmQCiWOdALw+BzM3leVIm2qx9ImSb4iFJQ3p
+   g==;
+X-CSE-ConnectionGUID: bPDmbS/GSYWOtIrL/jcE7A==
+X-CSE-MsgGUID: Tt60eOY+RHGwKIFCEAnslg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="14534828"
+X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
+   d="scan'208";a="14534828"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 07:25:56 -0700
+X-CSE-ConnectionGUID: CiJSTNs9R3Oi9MI8OGmVJA==
+X-CSE-MsgGUID: 19i6sOY5RcK6PGp2uu2OEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
+   d="scan'208";a="28182208"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 07:25:53 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s3zHq-00000004iso-3Ur8;
+	Mon, 06 May 2024 17:25:50 +0300
+Date: Mon, 6 May 2024 17:25:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
 	baojun.xu@ti.com
 Subject: Re: [PATCH v1 1/1] ALSA: Correct the kernel object suffix of target
-In-Reply-To: <20240506085219.3403731-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <Zjjobmw7UIv9LXim@smile.fi.intel.com>
 References: <20240506085219.3403731-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+ <878r0ngh9u.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.27 / 50.00];
-	BAYES_HAM(-2.97)[99.86%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email]
-X-Spam-Score: -3.27
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878r0ngh9u.wl-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, 06 May 2024 10:52:19 +0200,
-Andy Shevchenko wrote:
+On Mon, May 06, 2024 at 04:13:33PM +0200, Takashi Iwai wrote:
+> On Mon, 06 May 2024 10:52:19 +0200,
+> Andy Shevchenko wrote:
+> > 
+> > The correct suffix is 'y' for the kernel code and
+> > 'objs' for the user space. Update documentation.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > 
-> The correct suffix is 'y' for the kernel code and
-> 'objs' for the user space. Update documentation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Applied now.  I added a suffix to the subject to indicate it's a
+> documentation fix, too.
 
-Applied now.  I added a suffix to the subject to indicate it's a
-documentation fix, too.
+Thank you!
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-thanks,
-
-Takashi
