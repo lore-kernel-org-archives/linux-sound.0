@@ -1,43 +1,44 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2049.outbound.protection.outlook.com [40.92.99.49])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01olkn2027.outbound.protection.outlook.com [40.92.99.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7628757EF;
-	Mon,  6 May 2024 07:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.99.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3756137747;
+	Mon,  6 May 2024 07:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.99.27
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980494; cv=fail; b=PYj/pM0IwGrIy7JC6cDQiliRFmxpsANBzuwLqjN5P7HtGAPdgHxU7XN3o0IxDyuWlojDQ/IH0/Cdr+2kYHoivRD7GNGyGEpRSiMrGYHm/HhpaiDOTXcPMPw2mh0kO7wCcl4ZgjNpu8CzbOCxn7nHR9Pg/aspjs+C1kOBxw1CmGo=
+	t=1714980593; cv=fail; b=e3WIzta5brzDbwsih1aze8V50MtQTf7BQf+JVWXc3n/BiI9PWFsoZ6WGP57cKj/a04nEgX0AKEG/E8EpyOEoLyKppTIgZtCQUrZNp8vJ9a5BUZQyVbHouYTOGHoy6336jeeJlVHFt+dj9GDAPJEszPz4Zn+gpYEQhkr0ET4BsbM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980494; c=relaxed/simple;
-	bh=VV0DbhIye8Cf4ocFNllZFQ6ke00TjkTonNE5kfdFMqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=GydjjlRPe+/M83LTJ10yb9x/RzCD3DE9GdEMzzRYaLbC5HZCihBMqz9AJ+8BquSgL3YIIeHsyYsLGaGXa6AqqYiaNjBHE6jk/9eRzHPrHk2bQi9J/ADZNg1O1pGSQ04FQZJuDepyqjExFcADJqbjh4GiU3148ySxKCX+Sde2Abc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=h1n782Bn; arc=fail smtp.client-ip=40.92.99.49
+	s=arc-20240116; t=1714980593; c=relaxed/simple;
+	bh=1N1aR7JQCOwYa+dfTwPn3wRV4vy2PH6vJrQmOEnth0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Mpf1xs7sWcGR+q77UgXqqEgJV1C2gCivxzrxVRLhNomefDnDY9Zj/KWlvPiF7gEGy4ykToM3PE5XqYp5qUikJwhlFOy1j72asnKm1hbBGMzfSSDqEicvCqQkIUqbO0gHuqnJGbGaMzpb+OyhI1tHcQKEiEjPiZNHXwr6jfB02pg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=lRANuV1w; arc=fail smtp.client-ip=40.92.99.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="h1n782Bn"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="lRANuV1w"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MDnS45pP22iSIMU7KSW/Zz2+RNFWyNN62S4Dug72iGSGEyApZXS8y7A0Aj/yMOdBLW/9LqNuNMjwSQnacUsR2DLygkdf3o1Uq+a1OvSeM4ZV6UY1QhCa8uyEOt8PwYe4n09ZtW/YZAObFNqFBSI8UY47H5jUAVNGtV8vyOVq+79D0nxqkj+sHU7FepCu5M+ufnFj78DRzSSvHUMSI8s/4mfHDQP+ZqC4OgOVWX9BaUn/k7AvgKMvODDKroLFgwBNVdwjTkinmA5cp3e3dytjeTP8hm+qlHDafvUdBbmw/dNjXALc8qKGtJu0TSI2N1Od6xhQqZfU/gZ9AozRLuqwbA==
+ b=TbGc/XKOJhpmlCwaRYmXxAvAr5BHUN3TKB68u9DL8BxdSHL4njo3HqqSslvRCc+Es4Mim3ZJ4Xbm1UQlW6MQ8QDQcKSpzHPzkaZtj46cuT3CBdUmxkPoPoyJPccs0D5Un6uTESI1uEb7tRtDjHFS3aNvgjjeLjO2EQPj6AFKrWcCqMm7gVdAPcm2lO3bxHOlOH0glcLi5oIzcZHR9q9JH3iMeIb0xojX0BLYPM3CdZXDvd/Xq9KQsu5VFxsKnxcpoAirIpclGKUCSSCSK4YoxBj3ji6f0N5Z79Fc7m7kAGfBNFS1AC+4EQKILvWD1PPQ8aVXyvcbyePgBfvBDhX4Cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v72WQHyTPhGrYIzCgQdtiEl3r4rL1dd5Q0WuJyabzkY=;
- b=iU+FfYRbYu+wgSVHgSZ0jIBxwnrhYg9dd3ZbEdRGlSEYfBfv25P6SXwqYBwLYnp1EvvuRQknrgmPAYvS5xGoJnhhVlauGhHLg+BxhLBEJefPoXCQ4MQeLxoHT6A9LdhoXhVtklhJcj1E8zTIBRum8r3YeIch8L3CyLNzO5a5pmXVWlR2qu5z6haW1kNcgp0ywoTLdk7veLZmSabQFR11unm3UQc92rbACWsI/CWjWFusN7TvtUQQ24ERLxGE3TpNnHy96J3KpZK1H/pyxyCi9zHw8Pc26z+n6Ri5J5M3a35WmaR6qzYtz5081Emq5BR2CrP22p4RvfZ13u0iEUM0Og==
+ bh=c6luzOSUPRdWp3nncD5HM3XEkvoQI0vXxyvSXy0p2u0=;
+ b=V/ekIliTtxGOIOiD07i7jvstbk3jB6PuXETSJaL9fkPxnjHoXlHdzE9oxF441n5gdqrC0HyBhdyCu8aF0+IKo9NzDWiyIsolH1ggUtoYztpDtdS5qIxQ4f+y3k8i9NfnD6phDx4EQiWaZYCKJGpc0ji0JQ1JmpvSGTe+F4nkIS60/xmkn8yK1yEOUX0NAYYwDZJxWoKO9GXehvHt4eREvdC3quBAUcp/ixyEtzsPx2VcYZckjX5Rs7A+/EouGkBZHMTs9Qf7jv5vKof14z0P3aBWNk6WQm1vLvkvy1n4gghpB3UYAAHfjRholKpxgO3N89gp/McnroEH5KsTv+M+Mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v72WQHyTPhGrYIzCgQdtiEl3r4rL1dd5Q0WuJyabzkY=;
- b=h1n782BnBkyne1EwsrYjHYUnhVqrrkafNAgvxqskHuzEEpLnMpWB5oEXyjxkd1Tu850sZjJ9aGQfPRm2eG6rHpBPIIdlM7USrYoHRATXi2EhHwCcHHq3HfKaZqyRxIG22zP38TVh/2BTJuqOjA6pMY8H95a30IRkmkJs/etIpa4DcBdHyEAxxZGEmaxERlX43lyY9YTxQVTmqEapidgC6d9aKmkE06JfbnsqRY8KFW/DhyWsf2V46/BEuus34Jn0JBgcxwIwcC83qjGG0QqI9oYCxYqfKd9ghT+PT2DJ0MZrVpsUVidViK9ZJYMYmxayUK7mwJjIHpjfsYrW0P2YAg==
+ bh=c6luzOSUPRdWp3nncD5HM3XEkvoQI0vXxyvSXy0p2u0=;
+ b=lRANuV1wnwkEFfkqURisVWtAuJMxoSzocJg/UdWCcOhz7floPIQf5A1ukcDU/8AN7jfK/22wPZkzorn7ns6w2Cde6qT+NdkpEUMxIjMXfbkptJ7obhqtZBiEprmS6TE0/sRgbOyPX3ymtNJT3snOncpwAoazZ+/o/KKJxuDrGPtujiV8zH9fy8nKpjW5a+0JuW6o3NlQtPE3E2Pc55vtdVL1EBLSiVdvSc0bhcKuFgQVEakXIfsAkhIB3VitPZYO9tDZ8oDEX+PtvAkuKBk9kuZdUa0KLGTnspoBmmyYJjRy9Tojh0yyAT0EWiq8h4rC3r0VyVmengpOTk7qBtCwKg==
 Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:209::11)
  by TYCP286MB2880.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:307::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
- 2024 07:28:10 +0000
+ 2024 07:29:49 +0000
 Received: from TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
  ([fe80::f2c3:e53f:2ea9:55c8]) by TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
  ([fe80::f2c3:e53f:2ea9:55c8%6]) with mapi id 15.20.7544.041; Mon, 6 May 2024
- 07:28:10 +0000
+ 07:29:49 +0000
 From: ArcticLampyrid <ArcticLampyrid@outlook.com>
 To: tiwai@suse.de
 Cc: sbinding@opensource.cirrus.com,
@@ -46,19 +47,21 @@ Cc: sbinding@opensource.cirrus.com,
 	patches@opensource.cirrus.com,
 	rf@opensource.cirrus.com,
 	ArcticLampyrid <ArcticLampyrid@outlook.com>
-Subject: [PATCH v4 0/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-Date: Mon,  6 May 2024 15:27:50 +0800
+Subject: [PATCH v4 1/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
+Date: Mon,  6 May 2024 15:29:39 +0800
 Message-ID:
- <TYCP286MB2535F8C34EB5E3D826B74C17C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+ <TYCP286MB25352DD7AD08FD3C0F6F01A4C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.45.0
+In-Reply-To: <TYCP286MB2535F8C34EB5E3D826B74C17C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+References: <TYCP286MB2535F8C34EB5E3D826B74C17C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [/ZbDCzQmffZeUlJlrGGptitwpnRMvvQR]
-X-ClientProxiedBy: PU1PR04CA0012.apcprd04.prod.outlook.com
- (2603:1096:803:29::24) To TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
+X-TMN: [JXLz9AdoOHaSbjfh4UnyoikYSd+/ch88]
+X-ClientProxiedBy: PU1PR04CA0011.apcprd04.prod.outlook.com
+ (2603:1096:803:29::23) To TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:209::11)
 X-Microsoft-Original-Message-ID:
- <20240506072750.37272-1-ArcticLampyrid@outlook.com>
+ <20240506072939.38255-1-ArcticLampyrid@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,40 +71,40 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCP286MB2535:EE_|TYCP286MB2880:EE_
-X-MS-Office365-Filtering-Correlation-Id: 399e6aee-a76a-4976-a2a0-08dc6d9e1495
+X-MS-Office365-Filtering-Correlation-Id: 372cdca7-e5af-4410-b86d-08dc6d9e4faf
 X-Microsoft-Antispam:
 	BCL:0;ARA:14566002|461199019|1602099003|440099019|3412199016|1710799017;
 X-Microsoft-Antispam-Message-Info:
-	+9Yf+p+kZICbxfHULDTbwCegLaO5OlS2Fazr5Q79xZ0Pv7uT4zYrY3r3bwblIZ1XCBHgtf12K6JTHv5+ZZhaTYq8YdJndjsp/uesdIY3BzQTzM6jMAvCzonO9fAYKNz944yNhugTSMYCWZneSztkKckkD5YRbZGWQm1nAtoHIQEmdGPaymZ0H6uT+fr7uQwHnW/AAFbSYrbW26tiCy1p9JLfGRsGl2ndnqHWIVmo3Re1psOpIx0MQ4LJB5DSa7PMA7T7k92CwUUSaKJleGGEkUGijWBz+iwTJLFsBE9+snEewdqGqwLxtRMsWjhtmOgz9HxMLWck/EPOh/T9M7hW0/VK+Hel5f34xWiGFbV7ePm9oWduNrebBdc9QhwIZmFBO9+0WmCTS5ZIpsfZtnzLEv2SR5sBYwYaqNogYX7+ECg7mf/HeSFG78NrujzCzUGI/RGYygMY/1rVsHk7BRRRMPs3Fm5afpGeX8GQ1O/7uMfhNEs7Ffxi4waF0bcjVyCNBOKRyjADfD2PuB728uqCIyMFN0F3XJul3cZbXgA3WRstTV7UmIbmx5nKZoMZMBa5s7d5BsoW2pAgTVf1b0tcfoHCc+bgoPUMispOHVyCOVBzVU+t1PfOM8ryZ7XbdT9rAh1yKqRbB4KvtX4mu0HW899dOs5IZRppZALWv2seaHoqJW9CaSCdBDeHtHGOKzWHY330J8ZH41qXzV1rTUe5vg==
+	WsaNzUgXwkU9AScE6FOyuJ/eJFc3i6Ry6STbYUU0KnDOBwmyuJGwRnQhxug1NV1S1RpYPukhVqJfldw70ri0dAzjm5YnY1rM3rciHlHc74mZhrQPFa58ZxU+V+ObGAYBDs4RQ0mwg3rMYQFFtbl7udJCeZof8Esy/GlWmWr7ZCiawA5XqAGvCuT/uWq7hCz9OR/i3ClLnXPCiTBANDWa6udM0zL298ja8WMf1K+4cLDzbHmobqJN6ahaWHGlOQXL/rzfcW8k/WeStqrtLYbQiCr0FnLQ0Lho2/qq1hYeedpBeJJ9yRfoFaL+wXsZcoXoanlnxQZOLpRFzT1tsL8XiX+jy9q9hdvZNF4pY/u9mnYUWZVq75YXxLkfare9wID5wIIKAuaFaImZz90ElPaGfrkXwhBDM58etQmifBckqNtq0tu9KNkiGsg3faE5TY56XZukyqvd8Sa+NcVoho6+FboavYgma+DXnDit5AEmGUIVN6fr20Nn96JU/LzdXUalfXwXJyY5WbtgB49e5D6nnZggz0BJjx6J28H7vEqjfwlKnukboN3c+hL3r6zLtH1vhvodqhOVbrjGtkh6DaJOm8Ry61OT/p3BhAj73LRPijdck+90xV1Y/7sqJmWkhU12lo5S7WeZ58xfjSDmmKmPZ8anaeF6Rfe2go77iQEg5zwQ6SqfTp/pCt40h6/AJHPX
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZIEkEdByEHpNAxA5qGFidDODLtgZ+p43Ua5ausDZYWIKf8M8VYpJrHQjaMwn?=
- =?us-ascii?Q?qOcC/P2g0LZJh3s1Sfp2HJzDKYls9NEjUN0UzmOxRDyDEh/4fdnSDrero+Hf?=
- =?us-ascii?Q?RGIb+qVrahc28MdporIByip+9oSxR69HAVwkTJbEVjttswIDEuTF8czQp/Cl?=
- =?us-ascii?Q?2hQ5Afrt/seFldF9bVtHdro/Asjfr4ys6PhNumFC0XFEuldObUNlYlnJYdJU?=
- =?us-ascii?Q?CFeKgznz6cpFWYfNjuY3Kmadml/nUpw6COwf+YiWStLdgNVV5hg4t/mWb5qP?=
- =?us-ascii?Q?hyt/k4vubzF/gaG61JI1pHiilaBSxpbq8WG2/Z1dN+67EIslxJ0BM7yantRE?=
- =?us-ascii?Q?yoHKuWjZy+QriInn0wkpK0U/syDkGK4kF89ue0B0PNGgBLekX3z+DI+6dExx?=
- =?us-ascii?Q?s7/VFsns4GOd/zkeovh8Ju+GG3a21AC0ARDrk5oyKbIHmb/ML++7IAIrE46/?=
- =?us-ascii?Q?NlJ1/ja7+eqYQO7lb8h1dbiKqJVDsjxelogmRVeFcwTe+n13eLn4a9VA2PtS?=
- =?us-ascii?Q?y3RTxmaNTh0DYABd6tTpxLF6XdZmHDYu4a0juntJFyRHmzsCcQtCX1ew9KLm?=
- =?us-ascii?Q?j4vyXE2zY3cJozWVSqK2tQWz3oe7weCC2/ig8LIx5vLpeDfPYM/BX3QkbUip?=
- =?us-ascii?Q?h+wQoaETlzyLmuKJU2DHX/SZi0cwr2DM+FdPNTYMn5g3FkjQlS0InnypVPLd?=
- =?us-ascii?Q?Ldd05xOZcMhgvRgV2vFKkJAeXKdtVXRza/t+SqeuKqo5S3BASTr/jsGS13sb?=
- =?us-ascii?Q?fNzwN1Z1W4URVDo1Pw0ooZ5RrI1MDNC/EFGUUMyUJtcgoyh2pf+zpKoXOL9/?=
- =?us-ascii?Q?FRK2DB66TMw7DncRvGkZaG1OdW7imGEdVBbJVY8dkS8W/cGa8BB8BNosgJ8o?=
- =?us-ascii?Q?Qr2L8QuDKoSGNcfagY3g5pMeGoAN+BDu3RJiLFMD0uYVOQZS+O/qwS18TURW?=
- =?us-ascii?Q?xMuuS9gGIyA3Ht59iyyeSKuvoML9eL1ccu2Wtj0rxdahutUtN+3BTJjfVsbJ?=
- =?us-ascii?Q?uPSbO5xoebuTeASP0IpeZ4QOA3cVJjYvJLtzUM31QAgM1dnLs12Hcwn6P7xw?=
- =?us-ascii?Q?3Gq9BAiRcDj5shUKJ4dgdKPw+sX2YjcK3WWs1WZEa/llzEupLrmvWZr6F5pH?=
- =?us-ascii?Q?siIuL56PA6ZIU2e1HPtN0vRNaZ3p6JUQpaDl/zPJaRkR9zFJwXYJhdftsvGv?=
- =?us-ascii?Q?WJUqQ25tsO/rjkxFAg9Ap6PtGKTQL3uBmj+XrahU7oN0qeJSdqJ1mcm3B2uf?=
- =?us-ascii?Q?2HV8Oj8RLp33z1ix10J4?=
+	=?us-ascii?Q?TVeWoQEbGErcwlWH5Xz+J5/kAZO1lFWFgW8QVdLqrr2DhjTJP4WbSemjlMga?=
+ =?us-ascii?Q?zQyQF/i87kzuTCq1zMnC9UZMUhs3yNQ84mD+tfnBXTjRyZ9WSIvIJt/KWRc0?=
+ =?us-ascii?Q?mDmg45t88LEDLFmELgZFi29QoymePDQ5ludNt0JN10RA2zld3i96HMBsmt3E?=
+ =?us-ascii?Q?BQgcfvTFX4McIjVqYbsIysTYB9bzfBo5F4FS9eVSw78cYa9aw1k1yN7Z9EAW?=
+ =?us-ascii?Q?qtyvep0Y0wOPonNjLWHtYZoiDrxsG0wiA7KhVQh72BhUdQ2ZEwHfrOCWMcRR?=
+ =?us-ascii?Q?YY6keJUkWVO7AJDXB8Ho9kiYKUKBPr4+EJ+OeN9kDlJOa0tegCZxMxZMO7no?=
+ =?us-ascii?Q?SZDN+GWvh3jTshgx3UNUBZPq26tVREd+iWUSjBbe+NBlJbg17LSVT1cZPLVr?=
+ =?us-ascii?Q?A8X8+8aNuPEOWFCYWlLq2Ab9Vra5kAYrg0q/VEJBEnTb4UJocMOF5GFgHGs8?=
+ =?us-ascii?Q?QmqdTfQOlL1W+s4BKcYhleH7PvJoixK/VxCV765M7nMqR6t/zNFWOZ4TQ6AZ?=
+ =?us-ascii?Q?PE9hymh83ulK8mo4pfE+JeB5Id+nhV+87wG9ng2yENYbRR+Mmvj3gDi65cOG?=
+ =?us-ascii?Q?dBwk7Putc48jTjvcccJn+vUN6QdNPJYpJH5fUlVGBd8h22K7ilPMFahIni+4?=
+ =?us-ascii?Q?SWrssS7bLr6YCqke2H/83HN+7NcxlzcxiIAXJDCcoKg7ZvdDk8cNBMP7AcVM?=
+ =?us-ascii?Q?rLYFM6ZLFi4/B6U3kKJmSOfs2fKFrVK+ATjIjjpdBZXLMM3kJwFdT3cGyWCz?=
+ =?us-ascii?Q?6LHLOW6L078SLX+HxrMbOUZEwPphOqxY7pgfHuevxNi7bIKzHw3JdTFxLpPD?=
+ =?us-ascii?Q?mr6CsJH0bsxZICOAAMyPJO5QMqyVEYB+ylixMPDWbSNyEdiDn9X4QMpIl/Yn?=
+ =?us-ascii?Q?QtEF3/N8oT9JC5NvlM4iSVOYQR8VjR+/y3I3Y4g6uarfY9ehV0TuME4m9cbw?=
+ =?us-ascii?Q?EIw7dRX5uk+W9FTYWTivfglzi24eGoW+koeK+3GoX13v9zEYkDMV9W2xPjwC?=
+ =?us-ascii?Q?VGzGWVPgx3e4GJPFUoVjvXNqpcJoFFHXuf8KM5D10MYG9a+ac2wOzRcqjeos?=
+ =?us-ascii?Q?lXH31y6SXk4du64og4WbzcTZTTewtbjeNz8j1bC25CK+Tjgzu+nYuEQlcHJH?=
+ =?us-ascii?Q?XkiZv1ijrZP1kzRnb+8M/f/yn1XOAqaU02HSWxP673HITZUgx5Zac/uVsazD?=
+ =?us-ascii?Q?TVNIcTYu6CQ6bN3T2ISgMx40UIo+Pkdvi1hpuHQzNYXrGGI3BzVUKYYcB8uT?=
+ =?us-ascii?Q?YN4u/okyngm+IFBsPKzZ?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 399e6aee-a76a-4976-a2a0-08dc6d9e1495
+X-MS-Exchange-CrossTenant-Network-Message-Id: 372cdca7-e5af-4410-b86d-08dc6d9e4faf
 X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 07:28:09.9696
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 07:29:49.0570
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -113,31 +116,44 @@ This fixes the sound not working from internal speakers on
 Lenovo Legion Y9000X 2022 IAH7 models.
 
 Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218744
-
-This patch depends on [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors when configuring IRQs (by Stefan Binding)
-See also <https://lore.kernel.org/lkml/20240429154853.9393-2-sbinding@opensource.cirrus.com/>
-
-Change from v3 <https://lore.kernel.org/lkml/TYCP286MB25357A4599E935F26A8AAB24C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-- Remove the patch for cs35l41 to obey the trigger type from DSDT, for it is rarely used, and
-  the existing samples (Y9000X 2022 IAH7) has wrong trigger type in DSDT, which makes this change
-  useless.
-- Instead, ignore errors when configuring interrupts to allow laptops with bad ACPI to play audio.
-  (via a patch from Stefan Binding)
-
-Change from v2 <https://lore.kernel.org/lkml/TYCP286MB253523D85F6E0ECAA3E03D58C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-- Correct spkid gpio index.
-
-Change from v1 <https://lore.kernel.org/lkml/TYCP286MB25352F3E995FED9CCE90F1F6C40B2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-- Add a patch for cs35l41 to obey the trigger type from DSDT.
-- Avoid disabling interupts for second amps.
-
-ArcticLampyrid (1):
-  ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-
+Signed-off-by: Junhao Pei <ArcticLampyrid@outlook.com>
+---
  sound/pci/hda/cs35l41_hda_property.c | 2 ++
  sound/pci/hda/patch_realtek.c        | 1 +
  2 files changed, 3 insertions(+)
 
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 8fb688e41414..ee195737d388 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -109,6 +109,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "10431F1F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
+ 	{ "10431F62", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 0, 0, 0 },
+ 	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
++	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
+ 	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
+ 	{ "17AA3877", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+ 	{ "17AA3878", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
+@@ -500,6 +501,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "10431F1F", generic_dsd_config },
+ 	{ "CSC3551", "10431F62", generic_dsd_config },
+ 	{ "CSC3551", "10433A60", generic_dsd_config },
++	{ "CSC3551", "17AA386E", generic_dsd_config },
+ 	{ "CSC3551", "17AA386F", generic_dsd_config },
+ 	{ "CSC3551", "17AA3877", generic_dsd_config },
+ 	{ "CSC3551", "17AA3878", generic_dsd_config },
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index b29739bd330b..5c13af8a11a4 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10496,6 +10496,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7/7i", ALC287_FIXUP_LENOVO_LEGION_7),
+ 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
 2.45.0
 
