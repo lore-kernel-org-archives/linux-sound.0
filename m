@@ -1,152 +1,143 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17D7161313;
-	Tue,  7 May 2024 15:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A6C16DEA5
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715094766; cv=none; b=u2ouEjI0vpIHItQhSpav5qICHHZ2bDI8ifW5vbMgOmXaqibVQ4mEGjBI/riQpX3sJ5IWfrjbHBK6Kh3nKjm/RKs49DAS5w0txIX4eAIkbVOXAbEyteFs6a509XLIxArlD5KC0M4SWU9lqoXpS4IiEo9qypU3ZIWILRoBRgU00nY=
+	t=1715097334; cv=none; b=M2KhkTqbNOld3TY+h8h6O7l4QVMa8eoA+Y4nrDIHeOivTfW6AJO9DI6Vfi53gP32wDrDiub64TuquVi9o0+MjRY8eXpGhn9LkUwM+q7QrwxzmWRwFPHVrOb7/pZqBNPypKC+Q2ZWSjRn4oREcCZPW0vDf2cqqkZichaoRdSvtYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715094766; c=relaxed/simple;
-	bh=AeQpyOACUEH32G+Z9i3H6jfYrCothtxTZY2nD1bb05g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kkwvL1Xm/b29Hlq4s0QFih/CkPLnzquJvTPHA7eqlRnYjCmTbMF4XhBUYhZP12dBwsKVrdHCsKCyON8lbrgMfVXPzo231xCkbuStrdJewDw0Puv5HatP8OmkWxRFec4T0iv22h3m8+iiLOfT4qF4Np7cuvR7Q2p1uETgHcwiuJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsqPFWQ/; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715097334; c=relaxed/simple;
+	bh=0RS2nJYBhCSgeHQ5QwKP9my6kSU3bEtV+JPr2nCRrMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Jk3Vidz5fzFp29KmZHPO6CXG5Wr0xAb+sgKTaX2IHUStTh9Gz6Pg3V0aoMCwbKcqfWjK+amj7VI28IzK8euLVlnzqUvrN35DZRmAxHncu1pKKRsbVHEaF9yMa+LqJcGDIQM2bhEKHJeUJ7lZgwlmTFdo6s7Tw323DD1nHkgoHDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y4eHe5oC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w3WY5Flu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y4eHe5oC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w3WY5Flu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsqPFWQ/"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e43c481b53so2424271fa.2;
-        Tue, 07 May 2024 08:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715094763; x=1715699563; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l0XnUy7N7GmzfhRBhUIrbtF1Olv4xCz/CaIdT4eaN4M=;
-        b=RsqPFWQ/h2p0fgtOkqeDpDJLl8keWM3tn/KyqMXZsV2w5Jduue/LZPyJHLJsZc9bW+
-         iejdWK7A3ChMGS8HAVrXlcch4jpLhxi7qETTiqTNTbspG7OoMdVnmb+fPJXp0SSPv6Rc
-         rzsM4XP3JEr/qaBdsTC4TOD1dJOI8AaQX46KyGMyBWKTO+MOzG/93F8+Vz3ZSO54yo4l
-         5TJ9n2b6Pw6drqqk9HqMFT3Z9mdCSWwzrJ53+19lsPIdH8pMnfZV3yNiTn3TWJJe1YNp
-         eGzdmo+FUfaxQpNk5CRpy/IEMoXNpM8e0yKtdR5abovJ7hi6PjJN32/iqwrJn7ii0yut
-         qcvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715094763; x=1715699563;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l0XnUy7N7GmzfhRBhUIrbtF1Olv4xCz/CaIdT4eaN4M=;
-        b=WFIKfnuZEzNWo/1B1maSOtWx5KDOv0Yu8d1mYiEUV4yELNQr0wy6KDw+X1h7yXE4dF
-         Xf3dOAgwITm3Ik3Axt2A4dTSAHsrDrUVnahZ8fpzQoxKcCv4xpdbNlPjlqDn3XNEYvmh
-         E8m/+GtEyEAtqv4oPF5vw33zD2sq4S9Qg43vuNoTCIO5wAiE374HjzxyZmFmg0XmA7GE
-         mfLO+KSm0qKZpKjm+FNfJrfCsv1mRIM4ssKALj4DQFOTdgS/yyKIjOPh9BRjBDJsGinB
-         yfdvuOLCT/6YHuK7hnT+cGtBQnVx7hno4qqbrrF7KzidX1wNXnpzJykJzZps1REl+wBb
-         Kg9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXAPwtNahVX+vZnbhc4mWScJHEHFZfwy6yNtDKf7dF615AJjHw+iuP7jTzCTJjGpEQdGtFQIQ2ltiKDro2TByTDpPcd+LQK+rbsYt6EZmppBZezK5yw3yofRpipJIMa6eOc29Xa0BxMDsflKiM4Cv7RstGI1Tou/rF/30UBfZkuJEmG7fgQ
-X-Gm-Message-State: AOJu0YyHK4YbH44GtoI4UYfndBt84wlJJTq+7LaVsEYm2Owf3vUKt5yu
-	oj98boFfjg/n/YZ5W6vBTcKNvhyiXHSd6+H+M4UTBPKH9q31T7UAXLqJ4o9PyuBUJZTGUZTkmmh
-	jM3raXYiiFNUzbGgw6cXPmBQ3xcOte2P94mE=
-X-Google-Smtp-Source: AGHT+IGG3otomvjTjqDrNJOeIRme01d0y8iKublirhdl/ykvSpRNO81I30xRl+f0DqUm4Z6jhxb9ZetVuFmB/uInhc4=
-X-Received: by 2002:a2e:a9a4:0:b0:2dc:f188:a073 with SMTP id
- x36-20020a2ea9a4000000b002dcf188a073mr11287501ljq.35.1715094762470; Tue, 07
- May 2024 08:12:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y4eHe5oC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w3WY5Flu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y4eHe5oC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w3WY5Flu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DF08E20C90;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SmlLoPt/m59lUhMr71NVm/L/lEYigeP3RrU7DhSPoQ=;
+	b=y4eHe5oC5pd6El08i7bOdCvKve8/E2o/j+JVVR7RdwiJNhZXyTLEDw9wcae7C55UKHDcTT
+	BNBbN6wkhnFDEwoSHsB9Q+pycqy5QYivsVEqcTNE438qYYG6Cf5Nt+GfvUikfH4HlsziaS
+	NkrUdcSQ/XYpVPoBKAFEqKXNkHVcKr4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715097330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SmlLoPt/m59lUhMr71NVm/L/lEYigeP3RrU7DhSPoQ=;
+	b=w3WY5FluBA+OP8UDtccNRTil9RcCMk3o9sw1RwlJT0QNHok0B9DkX2QNuazsceqwfCiG8u
+	lfAaLLAYaP/njkBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SmlLoPt/m59lUhMr71NVm/L/lEYigeP3RrU7DhSPoQ=;
+	b=y4eHe5oC5pd6El08i7bOdCvKve8/E2o/j+JVVR7RdwiJNhZXyTLEDw9wcae7C55UKHDcTT
+	BNBbN6wkhnFDEwoSHsB9Q+pycqy5QYivsVEqcTNE438qYYG6Cf5Nt+GfvUikfH4HlsziaS
+	NkrUdcSQ/XYpVPoBKAFEqKXNkHVcKr4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715097330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SmlLoPt/m59lUhMr71NVm/L/lEYigeP3RrU7DhSPoQ=;
+	b=w3WY5FluBA+OP8UDtccNRTil9RcCMk3o9sw1RwlJT0QNHok0B9DkX2QNuazsceqwfCiG8u
+	lfAaLLAYaP/njkBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEAC613A3A;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8AjkLPJOOmaNXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:30 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH 03/34] ASoC: adi: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:07 +0200
+Message-ID: <20240507155540.24815-4-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
+References: <20240507155540.24815-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240417134237.23888-1-bavishimithil@gmail.com>
- <2e179356-425d-48cc-84db-0ea3e6203fba@kernel.org> <CAGzNGR=pvv67UJtNnkDUMhrpnPjNCCYEGeCaM7e_9=4G+Lcfgw@mail.gmail.com>
- <676ce61c-e850-4046-ad0f-e3382be3fe0c@kernel.org> <CAGzNGR=rDrd6LyAC2yB4XUcxn=H1VdY8LQO99NEOBR1sLGGT0Q@mail.gmail.com>
- <3425732a-390b-4c0f-ba1b-2a7e2219d581@kernel.org> <CAGzNGRmF8K7UDDERE_7UQw1EdC=J_jvvXqefU=M0v6FQcsnbhA@mail.gmail.com>
-In-Reply-To: <CAGzNGRmF8K7UDDERE_7UQw1EdC=J_jvvXqefU=M0v6FQcsnbhA@mail.gmail.com>
-From: Mithil <bavishimithil@gmail.com>
-Date: Tue, 7 May 2024 20:42:30 +0530
-Message-ID: <CAGzNGRmB5yYyVVDQZ0PaL7k0rie8TQAySwpzDx=QokUAV1NGug@mail.gmail.com>
-Subject: Re: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -6.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-6.80 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 
-Hey, before making a new patch I'll just list the changes that need to
-be done according to this discussion.
-Change maintainer
-Change clocks to only include maxItems: 1
-Change clock-names to include
-items:
- - const: pdmclk
-Use correct address in example
-Use flags for interrupt in example
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+*-objs suffix is reserved rather for (user-space) host programs while
+usually *-y suffix is used for kernel drivers (although *-objs works
+for that purpose for now).
 
-Best regards,
-Mithil
+Let's correct the old usages of *-objs in Makefiles.
+---
+ sound/soc/adi/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/sound/soc/adi/Makefile b/sound/soc/adi/Makefile
+index 125f667b0e08..0d2db8d05806 100644
+--- a/sound/soc/adi/Makefile
++++ b/sound/soc/adi/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-snd-soc-adi-axi-i2s-objs := axi-i2s.o
+-snd-soc-adi-axi-spdif-objs := axi-spdif.o
++snd-soc-adi-axi-i2s-y := axi-i2s.o
++snd-soc-adi-axi-spdif-y := axi-spdif.o
+ 
+ obj-$(CONFIG_SND_SOC_ADI_AXI_I2S) += snd-soc-adi-axi-i2s.o
+ obj-$(CONFIG_SND_SOC_ADI_AXI_SPDIF) += snd-soc-adi-axi-spdif.o
+-- 
+2.43.0
 
-On Sun, May 5, 2024 at 5:19=E2=80=AFPM Mithil <bavishimithil@gmail.com> wro=
-te:
->
-> On Sun, May 5, 2024 at 5:02=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
-> >
-> > On 05/05/2024 11:59, Mithil wrote:
-> > >>>> Missing constraints, so replace it with maxItems: 1
-> > >>> Similar to how clock-names are handled?
-> > >>>
-> > >>>> List the items. I asked to open existing bindings and take a look =
-how it
-> > >>>> is there. Existing bindings would show you how we code this part.
-> > >>>   clock-names:
-> > >>>     items:
-> > >>>       - const: pdmclk
-> > >>>     minItems: 1
-> > >>>     maxItems: 1
-> > >>> Something like this?
-> > >>
-> > >> No. Do you see code like this anywhere? Please only list the items,
-> > >> although without context impossible to judge.
-> > >>
-> > > Quick search on sources gave me
-> > > Documentation/devicetree/bindings/usb/dwc2.yaml
-> >
-> > Above code is different - it does not have maxItems, which you want to =
-add.
-> >
-> > > which I used as reference for this prop
-> > > clock-names:
-> > >   description: Must be "pdmclk"
-> >
-> > Again, no, please list the items.
-> > items:
-> >  - const: foo
-> Yep that was the old code for reference. Just items (no
-> maxItems/minItems as well)
->
-> > > compatible =3D "ti,omap4-mcpdm";
-> > > reg =3D <0x40132000 0x7f>, /* MPU private access */
-> > >         <0x49032000 0x7f>; /* L3 Interconnect */
-> > > interrupts =3D <0 112 0x4>;
-> > > Not really constants as they do change with platforms (omap4 vs 5 for
-> > > example) but
-> >
-> > That is not really relevant... This is not pi or other math constant.
-> >
-> > > So do i just make up the constants for it then? Those just seem like
-> > > magic numbers.
-> >
-> > Hm? Did you look around for other SoC nodes? 0 looks like SPI, 4 like
-> > LEVEL_HIGH, but it depends on number of meaning of the interrupt cells,
-> > so who is parent interrupt controller.
-> >
-> Ah the irq values, correct, I thought you meant the reg values.
-> It should be <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>; not sure about 112 though=
-.
->
-> I suppose these changes are enough right?
->
-> Best regards,
-> Mithil
