@@ -1,59 +1,59 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C57A158D6D;
-	Tue,  7 May 2024 12:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852DC15E5A2
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715085845; cv=none; b=YnS/nEOlR78G6JiJD+MIf1n5o1vQqHbG6Td94RuxicTIJF0nnhKUCC0XPl8wH3VmmFvRbGffxRLkrmcMFzfs0Mg+aGuZtVASpGu9JeGmqEnuayxLXTQMMowMwhRHQnebieGtLqMqJg8+2h7pOTMaeDKVy08Fn7M2KQSxo8+LoSU=
+	t=1715088047; cv=none; b=qpil2urA45QSw2PthHE+4KYCQNCuBzppGcIuaP/l2dleP8SQQdMUNSqqjiC7Dv0vrJhg/7XY1aj/5nlL1pT0bnkEc+ZAGqd2btetQX2RwNRbuGefo4KKf3cg9ACpjbCu9/SpO3R/ZQjVIYvJfxkaSlj1pQY1nWf9bJXxBNMR7nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715085845; c=relaxed/simple;
-	bh=KnIVJedJHZe3sxJyLX2GN7WsyXIrdkUeKLWLWsv/Q5w=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Wv98+nLuKCg/A1YF6zZrSwqQB6FTUXxUjLWRdIyAGutBdJoZdBJPD2ftSXgU+gDluyw/GCmLsIsTjo979Sh9jnhW9CZe9qBzrdYEF+czu6B+26Ezddje4K0cuv/u4YUj7H33W2IBAXJbifWthMNSZFIpM7DPD5rIxRB6tI3fkxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUBPrksF; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715088047; c=relaxed/simple;
+	bh=mamtRdpVuLvc5n7H5rO8CzIxnBOX+3m2jzq6NAnyw8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ksSezIVIrps4I9BBnuog3760FVsyY3A9IgCiJYb4+U4SpQKzVXxrSbYlHmXXGqLm1VyZHYutqeYis2+q5iSgDZAm8z2GEAW3Fi9RT/+X+rvu/XC2fJdoUtoIySqy5g1N0HcPXnk2TCrXa2bjAAlLhUHs9TfeNbo1k7ZgPayXTxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I9lm/B7J; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUBPrksF"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a59a0e4b773so735686466b.2;
-        Tue, 07 May 2024 05:44:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I9lm/B7J"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51f4d2676d1so3481528e87.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 06:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715085842; x=1715690642; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=F/oIRhG5AjkWY6V2xiSuojwWNRWmfLxMa4/7v40uDqE=;
-        b=JUBPrksF9DGIlQKXKffGpnOwTILazMKwBaW85OXD6Q5ECOs5WZflFg74eOq3gFI56/
-         l5AH8OU48RdF1MVLlfhgRwfEenxwak11LX5Fa4jmXRoewLe85/keS+MlwCEThsujKIOn
-         JszboVzfThsZLioAmctGXFJYfmLwc7pTe7JVoDm90pIvAa+/pLXyEFdQpsvZ78syR8Ya
-         SEXD2FAZWrtEAiCsrztej8RbtHI0TnF+RB1sjrYKXTKeTgW+pQcyzbNKlKxDavpIa6hA
-         r6+BnIv4hnCNV3eekUsz9lUEXCcYvJAUN1m/y07TH+t4F3tVJJrqUSb8R/2+RLF3ntGr
-         CR9w==
+        d=linaro.org; s=google; t=1715088044; x=1715692844; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K752O0Pcm3pbK7QoMDyqSQ3O3yzgRSedQhsNAlMKLtQ=;
+        b=I9lm/B7JeM6zCxEnqG9ogfOlR4YvRk2h64PjUiVbUsMyzt+ZHPB5WypBd2ikN44reo
+         YsBaCqBwXU7ixmFaBFPO3AL7Id2DHszD0m9OVnOTNgJquy7zyrlatO7bxBhw1OGcFIa2
+         Rv5u4k0HZOmVPT4JgmEUfe9kgAjkkKVu0+jUzzMPtlTNQIDFOQvGdxl1gynmg0x0H8sj
+         pEgenzVepqG/Ra3EsNvj9qO3XQ0dopJsojfroyat7rOttrl/2QsWEyzk2UJHzOK6r/D9
+         cAcuTadS2+T31PF/c4CvMU2RfTD4QYKnQnIQ9mB1QguqoVVjXWXQJKG3JrpoiI8eCcrh
+         ynfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715085842; x=1715690642;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1715088044; x=1715692844;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F/oIRhG5AjkWY6V2xiSuojwWNRWmfLxMa4/7v40uDqE=;
-        b=A3SU6gbxgYIj6PqE9IdkSVNEiwZzUNw669gSnMmNrSEmW0kma1Fiut/o9kvuUo3qfy
-         9pgOpWNal/5DF+NdrRKVKXkzTjsGW6aWtbMjm6ttI5Z/hIfQtXwM6ux+Vs2b2Gy9eGGJ
-         Xs3ti7HKJ2n9bvnA841C444DQLOeZPGy2AA4+O69IzAgy6bhTAvXEbgaHEZQYChexzqw
-         ukxtD7dYzrwvIo6j/73Ad8RPla0tWHRLFmPLh+N7Q6v4aMCyoj01PpLNwPlkw2cQk1Dw
-         oM8vKJCnb0VleSzITvRlGDDYXMrzCClrIweAKZtUXVgZopVziC0jN4eBeTi5K/HO0/hf
-         QtFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAMUqQcH/N3Ju0eydv6fl4WUFGuOe1vAVtNtVnJQfJke1DQ2+ruq0AJ5tsuAIj5kbpvWb83/0SRNHkUupfLfR12tYURUYAQjupS2zQeVrlW/F3d0lbVnkziyfakvFvxqJ7ILrV2fDmH5y3c9NusMs4dNXPaI+hSTvlXqsmtdQ5YVSi+rwVNJtawQsVmN/cuqeABMG2+TRKIha7fIBUoq0ba/XUsBjf39Q=
-X-Gm-Message-State: AOJu0Yy4/l++5IfgeLUvHpEuorSkl55K5burhe1T3mWjFQOsCxkcK81h
-	YzSRWvLOhNdQ/fqKjftt4F5TFUso4xUsVhoPGlhm62Da+X/K5k0V
-X-Google-Smtp-Source: AGHT+IEH520oqokwkCG16wuOPDMKOF55ptHNw2OadsqHHoYygvWVxSH9Lxsegkq6WAFM/BF8tPoVtw==
-X-Received: by 2002:a17:906:6a1e:b0:a59:b8e2:a0cd with SMTP id qw30-20020a1709066a1e00b00a59b8e2a0cdmr5656811ejc.59.1715085842060;
-        Tue, 07 May 2024 05:44:02 -0700 (PDT)
-Received: from [192.168.50.244] (83.8.126.253.ipv4.supernova.orange.pl. [83.8.126.253])
-        by smtp.gmail.com with ESMTPSA id lb14-20020a170906adce00b00a59bc8c01b1sm3321340ejb.82.2024.05.07.05.44.00
+        bh=K752O0Pcm3pbK7QoMDyqSQ3O3yzgRSedQhsNAlMKLtQ=;
+        b=IByB5wLHihzH1Yx1m+GziapfBa81JS3SdINLPTPIQd3MIN/0ngiqJ2XZAt5AKAu+PX
+         MRPfykv7qymdthPEhb6gAOcbRE2yWIvwRmO1sEKSbyh/ZKpmBC8mYnjuxcWvSPd2UFNb
+         p51h73cEfUKsJC/uI0zAb0uXLzb3l7FU12EDazfZODbvRyZ7K8POvY1LuDGK3Rwp7lWo
+         cTDviln1d7BNoFjCAHv7o+wV8jsdpoIbjJxiB4+KEiKUtgskukPW7ClGbc+xhSnCfCn4
+         9K36uoNJgryHRjDlpnKCOj20Gjubgefvo9nt+yXz9yX121wINFk7RZSV0ZsOcSxRGGWV
+         GiEw==
+X-Forwarded-Encrypted: i=1; AJvYcCU731eSXgapS3HwyuGKizaDGFQivheJmBaZ8E/qZLRU8teMgPH57gtkTZ0DbrJndmVktB+0Zz7L4NXnJon9iEpyCv8H7WkuEXGJuks=
+X-Gm-Message-State: AOJu0Yz6ZldS8FOIE4N8Zz43wsVOKR6I36lkReDeRiYu9a4OvCpGStAi
+	agT2RygzOiIdk061CktP9fAw6gIqLJxiG4mPf+2p28r0iVBlWbE0ir2ALeZzwjE=
+X-Google-Smtp-Source: AGHT+IEGgqheSj5TrFbScUYvwODCUxXLu8LisrOI8dAlAhc9ZxNegHyZOZbMATbWnAgxeOagu8p+xA==
+X-Received: by 2002:ac2:490b:0:b0:51e:fd97:af89 with SMTP id n11-20020ac2490b000000b0051efd97af89mr8145136lfi.16.1715088043422;
+        Tue, 07 May 2024 06:20:43 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id a6-20020a05600c348600b0041c14e42e2bsm19558165wmq.44.2024.05.07.06.20.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 05:44:01 -0700 (PDT)
-Message-ID: <c76fa2cc-d41e-45c5-891a-b83d5d0634b1@gmail.com>
-Date: Tue, 7 May 2024 14:44:00 +0200
+        Tue, 07 May 2024 06:20:42 -0700 (PDT)
+Message-ID: <738045d2-a445-4f93-abfd-203348a538d1@linaro.org>
+Date: Tue, 7 May 2024 14:20:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,71 +61,135 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Artur Weber <aweber.kernel@gmail.com>
-Subject: Re: [PATCH 3/3] ARM: dts: samsung: exynos4212-tab3: Fix headset mic,
- add jack detection
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+Subject: Re: [PATCH 4/4] ASoC: qcom: x1e80100: Correct channel mapping
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240503-midas-wm1811-gpio-jack-v1-0-e8cddbd67cbf@gmail.com>
- <20240503-midas-wm1811-gpio-jack-v1-3-e8cddbd67cbf@gmail.com>
- <d1007753-bdcf-4db9-bb01-b36e742cee4b@kernel.org>
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Banajit Goswami <bgoswami@quicinc.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
+ <20240507-asoc-x1e80100-4-channel-mapping-v1-4-b12c13e0a55d@linaro.org>
 Content-Language: en-US
-In-Reply-To: <d1007753-bdcf-4db9-bb01-b36e742cee4b@kernel.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-4-b12c13e0a55d@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6.05.2024 08:31, Krzysztof Kozlowski wrote:
-> On 03/05/2024 20:55, Artur Weber wrote:
->> Add the necessary properties to the samsung,midas-audio node to allow
->> for headset jack detection, set up the mic bias regulator GPIO and fix
->> some other small issues with the sound setup.
->>
->> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+Thanks Krzystof for the patch.
+
+On 07/05/2024 11:27, Krzysztof Kozlowski wrote:
+> X1E80100 CRD board comes with four speakers arranged as left front+back
+> and then right front+back.  Using default channel mapping causes front
+> right speaker to play left back stream.
 > 
-> ...
+> Adjust the channel maps for frontend DAIs to fix stereo and four-channel
+> playback.
 > 
->> +
->>   &bus_acp {
->>   	devfreq = <&bus_dmc>;
->>   	status = "okay";
->> @@ -505,12 +521,11 @@ &i2c_4 {
->>   	wm1811: audio-codec@1a {
->>   		compatible = "wlf,wm1811";
->>   		reg = <0x1a>;
->> -		clocks = <&pmu_system_controller 0>;
->> -		clock-names = "MCLK1";
->> +		clocks = <&pmu_system_controller 0>,
->> +			 <&s5m8767_osc S2MPS11_CLK_BT>;
->> +		clock-names = "MCLK1", "MCLK2";
->>   		interrupt-controller;
->>   		#interrupt-cells = <2>;
->> -		interrupt-parent = <&gpx3>;
->> -		interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   sound/soc/qcom/x1e80100.c | 37 +++++++++++++++++++++++++++++++++++--
+>   1 file changed, 35 insertions(+), 2 deletions(-)
 > 
-> Does not look related at all to the patch.
+> diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
+> index c3c8bf7ffb5b..e90c68815b5c 100644
+> --- a/sound/soc/qcom/x1e80100.c
+> +++ b/sound/soc/qcom/x1e80100.c
+> @@ -12,6 +12,7 @@
+>   
+>   #include "common.h"
+>   #include "qdsp6/q6afe.h"
+> +#include "qdsp6/q6dsp-common.h"
+>   #include "sdw.h"
+>   
+>   struct x1e80100_snd_data {
+> @@ -74,7 +75,7 @@ static int x1e80100_snd_hw_params(struct snd_pcm_substream *substream,
+>   	return qcom_snd_sdw_hw_params(substream, params, &data->sruntime[cpu_dai->id]);
+>   }
+>   
+> -static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
+> +static int x1e80100_snd_be_prepare(struct snd_pcm_substream *substream)
+>   {
+>   	struct snd_soc_pcm_runtime *rtd = substream->private_data;
+>   	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> @@ -96,12 +97,34 @@ static int x1e80100_snd_hw_free(struct snd_pcm_substream *substream)
+>   				    &data->stream_prepared[cpu_dai->id]);
+>   }
+>   
+> +static int x1e80100_snd_fe_prepare(struct snd_pcm_substream *substream)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +
+> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> +		const unsigned int rx_slot[4] = { PCM_CHANNEL_FL,
+> +						  PCM_CHANNEL_LB,
+> +						  PCM_CHANNEL_FR,
+> +						  PCM_CHANNEL_RB };
+> +
+> +		snd_soc_dai_set_channel_map(cpu_dai, 0, NULL, ARRAY_SIZE(rx_slot),
+> +					    rx_slot);
 
-I rolled up two small changes to the wm1811 audio codec config here:
+Channel mapping are specific to backend dais rather than front end pcm dais.
 
-- Dropped incorrect interrupt parent - GPX3-6 is the headset key GPIO,
-   and does not seem to be the interrupt parent like on Midas (downstream
-   calls it GPIO_HDMI_CEC on Midas, whereas for Tab 3 it's
-   GPIO_EAR_SEND_END, so they definitely serve different functions).
+This will set all the playback pcms with this channel maps, which is a 
+problem.
 
-- Added the MCLK2 clock as specified in the schematics, to more
-   accurately describe the hardware.
+example the 2 channel headset we will endup with data of front channel 
+and zeros on the right channel, however a speaker might work as you have 
+4 speakers in your system.
 
-I included them here since the whole patch modifies properties related
-to audio (this section is what "fix some other small issues with the
-sound setup" in the commit message refers to), but I can split it up
-into a separate commit if it's necessary.
 
-Best regards
-Artur
+So No for this approach.
+
+
+--srini
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct snd_soc_ops x1e80100_be_ops = {
+>   	.startup = qcom_snd_sdw_startup,
+>   	.shutdown = x1e80100_snd_shutdown,
+>   	.hw_params = x1e80100_snd_hw_params,
+>   	.hw_free = x1e80100_snd_hw_free,
+> -	.prepare = x1e80100_snd_prepare,
+> +	.prepare = x1e80100_snd_be_prepare,
+> +};
+> +
+> +static const struct snd_soc_ops x1e80100_fe_ops = {
+> +	.prepare = x1e80100_snd_fe_prepare,
+>   };
+>   
+>   static void x1e80100_add_be_ops(struct snd_soc_card *card)
+> @@ -118,6 +141,15 @@ static void x1e80100_add_be_ops(struct snd_soc_card *card)
+>   	}
+>   }
+>   
+> +static int x1e80100_add_dai_link(struct snd_soc_card *card, struct snd_soc_dai_link *link)
+> +{
+> +	/* Add ops for Frontend DAIs coming from Topology */
+> +	if (link->dynamic && !link->no_pcm && !link->ops)
+> +		link->ops = &x1e80100_fe_ops;
+> +
+> +	return 0;
+> +}
+> +
+>   static int x1e80100_platform_probe(struct platform_device *pdev)
+>   {
+>   	struct snd_soc_card *card;
+> @@ -135,6 +167,7 @@ static int x1e80100_platform_probe(struct platform_device *pdev)
+>   
+>   	card->owner = THIS_MODULE;
+>   	card->dev = dev;
+> +	card->add_dai_link = x1e80100_add_dai_link;
+>   	dev_set_drvdata(dev, card);
+>   	snd_soc_card_set_drvdata(card, data);
+>   
+> 
