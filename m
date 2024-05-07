@@ -1,85 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8790216D4F1
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200D016DEB4
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097335; cv=none; b=SAa5FTOv9cGbF/emTaauJ3ar8k8VIW1DYj4zeF6CpXt0lqcwKYv1Xi1lM0IGSqBvcYaDt+Hg8WJpgo4o+D+MmCtqEzEz1BQzpsNofxyl0fAO4cvAGv6NI6Hy/eRUKyk7geHW0+PJMmn1N0NZmlMCnYnO+q3j8Xf1VZESLjHIAa0=
+	t=1715097335; cv=none; b=ROceSNofy6JUzw5p+E2r1Z3zNb7rNtFClUngORL9hkHuzQBCnl88OaInoK3Jm/UjaJlz0VVqpH8OdflGo+M6gLV7SSB1NxdVqrVxTIRgurtP5oUdK47M9b3V8AaSBbxeUpdLWQzENtyZ2V4Gwant6OxhumXbFGLzREVgEmj6shE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715097335; c=relaxed/simple;
-	bh=BkxA0jx/rZHGslxekmjC8PD+uWkxbRGVQDIOcMv1YGw=;
+	bh=2VzBqHLn7k9WWjfgOeVAQVnLTtNV/GtI9EN9/4+FKt4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u4i7NL4JWHJTGGvqGSG1GCDPgXdWhri5GCQOSQzcuLN3bXOzZ1+w1PffsjwkoxJavBQzD20dNgTXEEZxS2rn5TmgOF01qd0pmINEXFOLCbQezU9EOgHEO8jctAYkYiFg8LhnY+gw0nFjvrMox2Kc7Ix49t64gNNVknoccpbqCXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pJFjmoma; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QBcPFEsY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pJFjmoma; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QBcPFEsY; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=gkc8F19H5WYOsQZbvo68LZklnQTrP6B+sb7gcRqUTKlrqsFKe1OnNtTfJjHOEhDv9Ey86LCTzGJ8hg3f6FuklEdjDy6MohP3WgPcxQzBTk/VSXnxn5deVPQH2QnXrvRQL+JzFC74jPx8xWZVIZ6Lkm4A7qkWwhave8rriheZsZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ze0cqeio; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6k9qJBCs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ze0cqeio; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6k9qJBCs; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pJFjmoma";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QBcPFEsY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pJFjmoma";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QBcPFEsY"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ze0cqeio";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6k9qJBCs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ze0cqeio";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6k9qJBCs"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B805B20C92;
-	Tue,  7 May 2024 15:55:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8967F21CBE;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GJrfQTslRggapD81hq1xUbVgwlHha7leit0FEOd/p4c=;
-	b=pJFjmomarJ6xjUXMXOKddM6Nvf8WxASJWihCbU+DUaSE63X7lcuNBlu1KoK/Ntv30umth4
-	E1XKwUQFxfojm4QwhGsdPlt7rDuQKD/4PEjmFU13AiqQg79y6gcW++qV6acahBB8CMczu+
-	m2NaiXFUNNpAiE096Dq2CPbg216F72U=
+	bh=JG67kNB8JKaSIbc+Jw94OCcObvWxW3YhRIPBPpvrDt0=;
+	b=Ze0cqeiodG9HBJO6cZQcBh7329spVVHjMyKNx6dScD485ns2io/wwOt+2pCWIQzb6qYov/
+	xn5FB2REg7Dr+1knJNBvzQMFzscrUQpnyY0ZYb8YNJ3dPaMcVXLo8k7JOUY7S5USc5OVZn
+	QEiOg+ytYVByqQKfbrPlZJPNBN591LU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097331;
+	s=susede2_ed25519; t=1715097330;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GJrfQTslRggapD81hq1xUbVgwlHha7leit0FEOd/p4c=;
-	b=QBcPFEsY65jjsIlZIU0c0CgfrzrA1WFhRuM5WFYo54+AGmw8saJNE3ORtmMkUgZ/H1lY0e
-	81Ur2mf6LqKlmXAg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=JG67kNB8JKaSIbc+Jw94OCcObvWxW3YhRIPBPpvrDt0=;
+	b=6k9qJBCshWTyf3uV0/gvXKi8bY5F7BM0zh/uLRJZaMlnGgoLJwQFwa/92vu4N4QMJoiPgJ
+	3JeBLYBtEYS0UtAQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GJrfQTslRggapD81hq1xUbVgwlHha7leit0FEOd/p4c=;
-	b=pJFjmomarJ6xjUXMXOKddM6Nvf8WxASJWihCbU+DUaSE63X7lcuNBlu1KoK/Ntv30umth4
-	E1XKwUQFxfojm4QwhGsdPlt7rDuQKD/4PEjmFU13AiqQg79y6gcW++qV6acahBB8CMczu+
-	m2NaiXFUNNpAiE096Dq2CPbg216F72U=
+	bh=JG67kNB8JKaSIbc+Jw94OCcObvWxW3YhRIPBPpvrDt0=;
+	b=Ze0cqeiodG9HBJO6cZQcBh7329spVVHjMyKNx6dScD485ns2io/wwOt+2pCWIQzb6qYov/
+	xn5FB2REg7Dr+1knJNBvzQMFzscrUQpnyY0ZYb8YNJ3dPaMcVXLo8k7JOUY7S5USc5OVZn
+	QEiOg+ytYVByqQKfbrPlZJPNBN591LU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097331;
+	s=susede2_ed25519; t=1715097330;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GJrfQTslRggapD81hq1xUbVgwlHha7leit0FEOd/p4c=;
-	b=QBcPFEsY65jjsIlZIU0c0CgfrzrA1WFhRuM5WFYo54+AGmw8saJNE3ORtmMkUgZ/H1lY0e
-	81Ur2mf6LqKlmXAg==
+	bh=JG67kNB8JKaSIbc+Jw94OCcObvWxW3YhRIPBPpvrDt0=;
+	b=6k9qJBCshWTyf3uV0/gvXKi8bY5F7BM0zh/uLRJZaMlnGgoLJwQFwa/92vu4N4QMJoiPgJ
+	3JeBLYBtEYS0UtAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99D8013A2D;
-	Tue,  7 May 2024 15:55:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69EE313A3A;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aNVIJPNOOmaNXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:31 +0000
+	id WARZGPJOOmaNXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:30 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 08/34] ASoC: bcm: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 17:55:12 +0200
-Message-ID: <20240507155540.24815-9-tiwai@suse.de>
+Subject: [PATCH 01/34] ASoC: core: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:05 +0200
+Message-ID: <20240507155540.24815-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
 References: <20240507155540.24815-1-tiwai@suse.de>
@@ -90,8 +90,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
 X-Spam-Level: 
 X-Spamd-Result: default: False [-6.80 / 50.00];
 	REPLY(-4.00)[];
@@ -114,6 +112,8 @@ X-Spamd-Result: default: False [-6.80 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.80
+X-Spam-Flag: NO
 
 *-objs suffix is reserved rather for (user-space) host programs while
 usually *-y suffix is used for kernel drivers (although *-objs works
@@ -123,33 +123,57 @@ Let's correct the old usages of *-objs in Makefiles.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/bcm/Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/Makefile | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/bcm/Makefile b/sound/soc/bcm/Makefile
-index 7c2d7899603b..0c1325a97b70 100644
---- a/sound/soc/bcm/Makefile
-+++ b/sound/soc/bcm/Makefile
-@@ -1,15 +1,15 @@
- # SPDX-License-Identifier: GPL-2.0-only
- # BCM2835 Platform Support
--snd-soc-bcm2835-i2s-objs := bcm2835-i2s.o
-+snd-soc-bcm2835-i2s-y := bcm2835-i2s.o
+diff --git a/sound/soc/Makefile b/sound/soc/Makefile
+index f90f5300b36e..fd61847dd1eb 100644
+--- a/sound/soc/Makefile
++++ b/sound/soc/Makefile
+@@ -1,14 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0
+-snd-soc-core-objs := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
+-snd-soc-core-objs += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
++snd-soc-core-y := soc-core.o soc-dapm.o soc-jack.o soc-utils.o soc-dai.o soc-component.o
++snd-soc-core-y += soc-pcm.o soc-devres.o soc-ops.o soc-link.o soc-card.o
+ snd-soc-core-$(CONFIG_SND_SOC_COMPRESS) += soc-compress.o
  
- obj-$(CONFIG_SND_BCM2835_SOC_I2S) += snd-soc-bcm2835-i2s.o
+ ifneq ($(CONFIG_SND_SOC_TOPOLOGY),)
+-snd-soc-core-objs += soc-topology.o
++snd-soc-core-y += soc-topology.o
+ endif
  
- # CYGNUS Platform Support
--snd-soc-cygnus-objs := cygnus-pcm.o cygnus-ssp.o
-+snd-soc-cygnus-y := cygnus-pcm.o cygnus-ssp.o
+ ifneq ($(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST),)
+-# snd-soc-test-objs := soc-topology-test.o
++# snd-soc-test-y := soc-topology-test.o
+ obj-$(CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST) += soc-topology-test.o
+ endif
  
- obj-$(CONFIG_SND_SOC_CYGNUS) += snd-soc-cygnus.o
+@@ -17,20 +17,20 @@ obj-$(CONFIG_SND_SOC_CARD_KUNIT_TEST) += soc-card-test.o
+ endif
  
- # BCM63XX Platform Support
--snd-soc-63xx-objs := bcm63xx-i2s-whistler.o bcm63xx-pcm-whistler.o
-+snd-soc-63xx-y := bcm63xx-i2s-whistler.o bcm63xx-pcm-whistler.o
+ ifneq ($(CONFIG_SND_SOC_UTILS_KUNIT_TEST),)
+-# snd-soc-test-objs := soc-utils-test.o
++# snd-soc-test-y := soc-utils-test.o
+ obj-$(CONFIG_SND_SOC_UTILS_KUNIT_TEST) += soc-utils-test.o
+ endif
  
- obj-$(CONFIG_SND_BCM63XX_I2S_WHISTLER) += snd-soc-63xx.o
-\ No newline at end of file
+ ifneq ($(CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM),)
+-snd-soc-core-objs += soc-generic-dmaengine-pcm.o
++snd-soc-core-y += soc-generic-dmaengine-pcm.o
+ endif
+ 
+ ifneq ($(CONFIG_SND_SOC_AC97_BUS),)
+-snd-soc-core-objs += soc-ac97.o
++snd-soc-core-y += soc-ac97.o
+ endif
+ 
+ ifneq ($(CONFIG_SND_SOC_ACPI),)
+-snd-soc-acpi-objs := soc-acpi.o
++snd-soc-acpi-y := soc-acpi.o
+ endif
+ 
+ obj-$(CONFIG_SND_SOC_ACPI) += snd-soc-acpi.o
 -- 
 2.43.0
 
