@@ -1,85 +1,44 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5337B16C447
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C07616DEA2
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097336; cv=none; b=LzyGpUKNJtGDSfquuoyzNu/bsRqNF/JnflwYYgIkz35sPU9Tod+un6zd01x4nxVFvcbZUEoC1NIh0urX+l1+bTOkreSciSrku4IpsIdUJg4rCEjWGY+2T2E8gCe/8eAbzImePQZHBUk528MIrbaI3TzUnvVCXUVwsWCDSfPgBD4=
+	t=1715097337; cv=none; b=e/Gng2Jynr5+x332PNotl15APsjsSZevYKUcrnMipAVtkyDfU9td53dA68Ux2kmyGSz4yzC+W8XQsjJAaR3y0012MbCstWNTeVWtCN10gKJPu9z73k0gCXcFPdH8IRYyGZe64A6dtmXtOkRICuoH34M9d/qGXsoWlVrRAijgqjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715097336; c=relaxed/simple;
-	bh=2TFyXGfG8dugeqaDM+9v8uoiknAS82ujTivHSDsVy5s=;
+	s=arc-20240116; t=1715097337; c=relaxed/simple;
+	bh=NfzmtCfTscqjeSS/mZCq5Wh++dc9MlwfcsuYbiCoLY4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PaRKG8vYTQsgL1J3UoRk94xn2yai7yRYdsXBKkZrTblOXWesi2QNmFVlZ6d3DwwPwqUfndTLorkFWQul8Kawx6rC3HxX3aqnQ7wJZlokN7CTMTUb2Em8auJBMIf4HjdszMIFtEQ6HlfcSnV73MBB55RzO/wT6ClLSDUd7VWYOJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hVVHGBfY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oBGDmcms; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hVVHGBfY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oBGDmcms; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=B3iKWOHMXgVEfU6p9c8ZS+mIhkXiZHT9o1lLWCmfVlA0XIGST1NkSDjF25qw1gqtP2ymLtQhOcaUy+dFHyDeTYRl7g/zAIaw5SbcBhDdSU4EjpbaTmOPUaJg7GLIwcaSuBfdR38Znum9uov2YxKCYseZ+y5mite7rHZeFJFonFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hVVHGBfY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oBGDmcms";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hVVHGBfY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oBGDmcms"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 765C320C94;
-	Tue,  7 May 2024 15:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d2M8eYUBK+yr/rAc1uaLtl/TiufBWB2MpN1ewqpgyg4=;
-	b=hVVHGBfYVqORfAriY7t5cpMRbUQMbCSzUDBPVbVjVzxqS9HmoOQVy75zz9fbPO9+2Apprp
-	0sWQVD8d68cfRLflSMBnsXOEf9I8Huv3sBeccDFDbcLpE2vFWF8gQmWOwcVXhNTEZO4rmG
-	6h36wf3pEhpXIMixL07gQoTxPf4++d8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097332;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d2M8eYUBK+yr/rAc1uaLtl/TiufBWB2MpN1ewqpgyg4=;
-	b=oBGDmcmsrFOwh2yIGSL0BaGv1GLl7EIPx4KKG0Rg4lCfixNzXZJGUeZGdXSSATzC0GVS8X
-	vKBsBg7PxApP5DCQ==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B5A3020C8F;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
 Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d2M8eYUBK+yr/rAc1uaLtl/TiufBWB2MpN1ewqpgyg4=;
-	b=hVVHGBfYVqORfAriY7t5cpMRbUQMbCSzUDBPVbVjVzxqS9HmoOQVy75zz9fbPO9+2Apprp
-	0sWQVD8d68cfRLflSMBnsXOEf9I8Huv3sBeccDFDbcLpE2vFWF8gQmWOwcVXhNTEZO4rmG
-	6h36wf3pEhpXIMixL07gQoTxPf4++d8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097332;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d2M8eYUBK+yr/rAc1uaLtl/TiufBWB2MpN1ewqpgyg4=;
-	b=oBGDmcmsrFOwh2yIGSL0BaGv1GLl7EIPx4KKG0Rg4lCfixNzXZJGUeZGdXSSATzC0GVS8X
-	vKBsBg7PxApP5DCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56D6C13A2D;
-	Tue,  7 May 2024 15:55:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9068413A2D;
+	Tue,  7 May 2024 15:55:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eCPnE/ROOmaNXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:32 +0000
+	id qFEHIvJOOmaNXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:30 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 12/34] ASoC: intel: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 17:55:16 +0200
-Message-ID: <20240507155540.24815-13-tiwai@suse.de>
+Subject: [PATCH 02/34] ASoC: codecs: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:06 +0200
+Message-ID: <20240507155540.24815-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
 References: <20240507155540.24815-1-tiwai@suse.de>
@@ -90,30 +49,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
 X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: B5A3020C8F
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 
 *-objs suffix is reserved rather for (user-space) host programs while
 usually *-y suffix is used for kernel drivers (although *-objs works
@@ -123,289 +72,805 @@ Let's correct the old usages of *-objs in Makefiles.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/intel/atom/Makefile       |  2 +-
- sound/soc/intel/atom/sst/Makefile   |  6 +--
- sound/soc/intel/avs/Makefile        | 10 ++--
- sound/soc/intel/avs/boards/Makefile | 34 ++++++------
- sound/soc/intel/boards/Makefile     | 84 ++++++++++++++---------------
- sound/soc/intel/catpt/Makefile      |  2 +-
- sound/soc/intel/common/Makefile     |  8 +--
- sound/soc/intel/keembay/Makefile    |  2 +-
- sound/soc/intel/skylake/Makefile    |  6 +--
- 9 files changed, 77 insertions(+), 77 deletions(-)
+ sound/soc/codecs/Makefile | 784 +++++++++++++++++++-------------------
+ 1 file changed, 392 insertions(+), 392 deletions(-)
 
-diff --git a/sound/soc/intel/atom/Makefile b/sound/soc/intel/atom/Makefile
-index c66f03f5d8d6..38e4876025c7 100644
---- a/sound/soc/intel/atom/Makefile
-+++ b/sound/soc/intel/atom/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-soc-sst-atom-hifi2-platform-objs :=	sst-mfld-platform-pcm.o \
-+snd-soc-sst-atom-hifi2-platform-y :=	sst-mfld-platform-pcm.o \
- 					sst-mfld-platform-compress.o \
- 					sst-atom-controls.o
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index cddb16cd6a4c..b4df22186e25 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -1,399 +1,399 @@
+ # SPDX-License-Identifier: GPL-2.0
+-snd-soc-88pm860x-objs := 88pm860x-codec.o
+-snd-soc-ab8500-codec-objs := ab8500-codec.o
+-snd-soc-ac97-objs := ac97.o
+-snd-soc-ad1836-objs := ad1836.o
+-snd-soc-ad193x-objs := ad193x.o
+-snd-soc-ad193x-spi-objs := ad193x-spi.o
+-snd-soc-ad193x-i2c-objs := ad193x-i2c.o
+-snd-soc-ad1980-objs := ad1980.o
+-snd-soc-ad73311-objs := ad73311.o
+-snd-soc-adau-utils-objs := adau-utils.o
+-snd-soc-adau1372-objs := adau1372.o
+-snd-soc-adau1372-i2c-objs := adau1372-i2c.o
+-snd-soc-adau1372-spi-objs := adau1372-spi.o
+-snd-soc-adau1373-objs := adau1373.o
+-snd-soc-adau1701-objs := adau1701.o
+-snd-soc-adau17x1-objs := adau17x1.o
+-snd-soc-adau1761-objs := adau1761.o
+-snd-soc-adau1761-i2c-objs := adau1761-i2c.o
+-snd-soc-adau1761-spi-objs := adau1761-spi.o
+-snd-soc-adau1781-objs := adau1781.o
+-snd-soc-adau1781-i2c-objs := adau1781-i2c.o
+-snd-soc-adau1781-spi-objs := adau1781-spi.o
+-snd-soc-adau1977-objs := adau1977.o
+-snd-soc-adau1977-spi-objs := adau1977-spi.o
+-snd-soc-adau1977-i2c-objs := adau1977-i2c.o
+-snd-soc-adau7002-objs := adau7002.o
+-snd-soc-adau7118-objs := adau7118.o
+-snd-soc-adau7118-i2c-objs := adau7118-i2c.o
+-snd-soc-adau7118-hw-objs := adau7118-hw.o
+-snd-soc-adav80x-objs := adav80x.o
+-snd-soc-adav801-objs := adav801.o
+-snd-soc-adav803-objs := adav803.o
+-snd-soc-ads117x-objs := ads117x.o
+-snd-soc-ak4104-objs := ak4104.o
+-snd-soc-ak4118-objs := ak4118.o
+-snd-soc-ak4375-objs := ak4375.o
+-snd-soc-ak4458-objs := ak4458.o
+-snd-soc-ak4535-objs := ak4535.o
+-snd-soc-ak4554-objs := ak4554.o
+-snd-soc-ak4613-objs := ak4613.o
+-snd-soc-ak4641-objs := ak4641.o
+-snd-soc-ak4642-objs := ak4642.o
+-snd-soc-ak4671-objs := ak4671.o
+-snd-soc-ak5386-objs := ak5386.o
+-snd-soc-ak5558-objs := ak5558.o
+-snd-soc-arizona-objs := arizona.o arizona-jack.o
+-snd-soc-audio-iio-aux-objs := audio-iio-aux.o
+-snd-soc-aw8738-objs := aw8738.o
+-snd-soc-aw87390-objs := aw87390.o
+-snd-soc-aw88395-lib-objs := aw88395/aw88395_lib.o
+-snd-soc-aw88395-objs := aw88395/aw88395.o \
++snd-soc-88pm860x-y := 88pm860x-codec.o
++snd-soc-ab8500-codec-y := ab8500-codec.o
++snd-soc-ac97-y := ac97.o
++snd-soc-ad1836-y := ad1836.o
++snd-soc-ad193x-y := ad193x.o
++snd-soc-ad193x-spi-y := ad193x-spi.o
++snd-soc-ad193x-i2c-y := ad193x-i2c.o
++snd-soc-ad1980-y := ad1980.o
++snd-soc-ad73311-y := ad73311.o
++snd-soc-adau-utils-y := adau-utils.o
++snd-soc-adau1372-y := adau1372.o
++snd-soc-adau1372-i2c-y := adau1372-i2c.o
++snd-soc-adau1372-spi-y := adau1372-spi.o
++snd-soc-adau1373-y := adau1373.o
++snd-soc-adau1701-y := adau1701.o
++snd-soc-adau17x1-y := adau17x1.o
++snd-soc-adau1761-y := adau1761.o
++snd-soc-adau1761-i2c-y := adau1761-i2c.o
++snd-soc-adau1761-spi-y := adau1761-spi.o
++snd-soc-adau1781-y := adau1781.o
++snd-soc-adau1781-i2c-y := adau1781-i2c.o
++snd-soc-adau1781-spi-y := adau1781-spi.o
++snd-soc-adau1977-y := adau1977.o
++snd-soc-adau1977-spi-y := adau1977-spi.o
++snd-soc-adau1977-i2c-y := adau1977-i2c.o
++snd-soc-adau7002-y := adau7002.o
++snd-soc-adau7118-y := adau7118.o
++snd-soc-adau7118-i2c-y := adau7118-i2c.o
++snd-soc-adau7118-hw-y := adau7118-hw.o
++snd-soc-adav80x-y := adav80x.o
++snd-soc-adav801-y := adav801.o
++snd-soc-adav803-y := adav803.o
++snd-soc-ads117x-y := ads117x.o
++snd-soc-ak4104-y := ak4104.o
++snd-soc-ak4118-y := ak4118.o
++snd-soc-ak4375-y := ak4375.o
++snd-soc-ak4458-y := ak4458.o
++snd-soc-ak4535-y := ak4535.o
++snd-soc-ak4554-y := ak4554.o
++snd-soc-ak4613-y := ak4613.o
++snd-soc-ak4641-y := ak4641.o
++snd-soc-ak4642-y := ak4642.o
++snd-soc-ak4671-y := ak4671.o
++snd-soc-ak5386-y := ak5386.o
++snd-soc-ak5558-y := ak5558.o
++snd-soc-arizona-y := arizona.o arizona-jack.o
++snd-soc-audio-iio-aux-y := audio-iio-aux.o
++snd-soc-aw8738-y := aw8738.o
++snd-soc-aw87390-y := aw87390.o
++snd-soc-aw88395-lib-y := aw88395/aw88395_lib.o
++snd-soc-aw88395-y := aw88395/aw88395.o \
+ 			aw88395/aw88395_device.o
+-snd-soc-aw88261-objs := aw88261.o
+-snd-soc-aw88399-objs := aw88399.o
+-snd-soc-bd28623-objs := bd28623.o
+-snd-soc-bt-sco-objs := bt-sco.o
+-snd-soc-chv3-codec-objs := chv3-codec.o
+-snd-soc-cpcap-objs := cpcap.o
+-snd-soc-cq93vc-objs := cq93vc.o
+-snd-soc-cros-ec-codec-objs := cros_ec_codec.o
+-snd-soc-cs-amp-lib-objs := cs-amp-lib.o
+-snd-soc-cs-amp-lib-test-objs := cs-amp-lib-test.o
+-snd-soc-cs35l32-objs := cs35l32.o
+-snd-soc-cs35l33-objs := cs35l33.o
+-snd-soc-cs35l34-objs := cs35l34.o
+-snd-soc-cs35l35-objs := cs35l35.o
+-snd-soc-cs35l36-objs := cs35l36.o
+-snd-soc-cs35l41-lib-objs := cs35l41-lib.o
+-snd-soc-cs35l41-objs := cs35l41.o
+-snd-soc-cs35l41-spi-objs := cs35l41-spi.o
+-snd-soc-cs35l41-i2c-objs := cs35l41-i2c.o
+-snd-soc-cs35l45-objs := cs35l45.o cs35l45-tables.o
+-snd-soc-cs35l45-spi-objs := cs35l45-spi.o
+-snd-soc-cs35l45-i2c-objs := cs35l45-i2c.o
+-snd-soc-cs35l56-objs := cs35l56.o
+-snd-soc-cs35l56-shared-objs := cs35l56-shared.o
+-snd-soc-cs35l56-i2c-objs := cs35l56-i2c.o
+-snd-soc-cs35l56-spi-objs := cs35l56-spi.o
+-snd-soc-cs35l56-sdw-objs := cs35l56-sdw.o
+-snd-soc-cs42l42-objs := cs42l42.o
+-snd-soc-cs42l42-i2c-objs := cs42l42-i2c.o
+-snd-soc-cs42l42-sdw-objs := cs42l42-sdw.o
+-snd-soc-cs42l43-objs := cs42l43.o cs42l43-jack.o
+-snd-soc-cs42l43-sdw-objs := cs42l43-sdw.o
+-snd-soc-cs42l51-objs := cs42l51.o
+-snd-soc-cs42l51-i2c-objs := cs42l51-i2c.o
+-snd-soc-cs42l52-objs := cs42l52.o
+-snd-soc-cs42l56-objs := cs42l56.o
+-snd-soc-cs42l73-objs := cs42l73.o
+-snd-soc-cs42l83-i2c-objs := cs42l83-i2c.o
+-snd-soc-cs4234-objs := cs4234.o
+-snd-soc-cs4265-objs := cs4265.o
+-snd-soc-cs4270-objs := cs4270.o
+-snd-soc-cs4271-objs := cs4271.o
+-snd-soc-cs4271-i2c-objs := cs4271-i2c.o
+-snd-soc-cs4271-spi-objs := cs4271-spi.o
+-snd-soc-cs42xx8-objs := cs42xx8.o
+-snd-soc-cs42xx8-i2c-objs := cs42xx8-i2c.o
+-snd-soc-cs43130-objs := cs43130.o
+-snd-soc-cs4341-objs := cs4341.o
+-snd-soc-cs4349-objs := cs4349.o
+-snd-soc-cs47l15-objs := cs47l15.o
+-snd-soc-cs47l24-objs := cs47l24.o
+-snd-soc-cs47l35-objs := cs47l35.o
+-snd-soc-cs47l85-objs := cs47l85.o
+-snd-soc-cs47l90-objs := cs47l90.o
+-snd-soc-cs47l92-objs := cs47l92.o
+-snd-soc-cs53l30-objs := cs53l30.o
+-snd-soc-cx20442-objs := cx20442.o
+-snd-soc-cx2072x-objs := cx2072x.o
+-snd-soc-da7210-objs := da7210.o
+-snd-soc-da7213-objs := da7213.o
+-snd-soc-da7218-objs := da7218.o
+-snd-soc-da7219-objs := da7219.o da7219-aad.o
+-snd-soc-da732x-objs := da732x.o
+-snd-soc-da9055-objs := da9055.o
+-snd-soc-dmic-objs := dmic.o
+-snd-soc-es7134-objs := es7134.o
+-snd-soc-es7241-objs := es7241.o
+-snd-soc-es83xx-dsm-common-objs := es83xx-dsm-common.o
+-snd-soc-es8316-objs := es8316.o
+-snd-soc-es8326-objs := es8326.o
+-snd-soc-es8328-objs := es8328.o
+-snd-soc-es8328-i2c-objs := es8328-i2c.o
+-snd-soc-es8328-spi-objs := es8328-spi.o
+-snd-soc-framer-objs := framer-codec.o
+-snd-soc-gtm601-objs := gtm601.o
+-snd-soc-hdac-hdmi-objs := hdac_hdmi.o
+-snd-soc-hdac-hda-objs := hdac_hda.o
+-snd-soc-hda-codec-objs := hda.o hda-dai.o
+-snd-soc-ics43432-objs := ics43432.o
+-snd-soc-idt821034-objs := idt821034.o
+-snd-soc-inno-rk3036-objs := inno_rk3036.o
+-snd-soc-isabelle-objs := isabelle.o
+-snd-soc-jz4740-codec-objs := jz4740.o
+-snd-soc-jz4725b-codec-objs := jz4725b.o
+-snd-soc-jz4760-codec-objs := jz4760.o
+-snd-soc-jz4770-codec-objs := jz4770.o
+-snd-soc-lm4857-objs := lm4857.o
+-snd-soc-lm49453-objs := lm49453.o
+-snd-soc-lochnagar-sc-objs := lochnagar-sc.o
+-snd-soc-lpass-macro-common-objs := lpass-macro-common.o
+-snd-soc-lpass-rx-macro-objs := lpass-rx-macro.o
+-snd-soc-lpass-tx-macro-objs := lpass-tx-macro.o
+-snd-soc-lpass-wsa-macro-objs := lpass-wsa-macro.o
+-snd-soc-lpass-va-macro-objs := lpass-va-macro.o
+-snd-soc-madera-objs := madera.o
+-snd-soc-max9759-objs := max9759.o
+-snd-soc-max9768-objs := max9768.o
+-snd-soc-max98088-objs := max98088.o
+-snd-soc-max98090-objs := max98090.o
+-snd-soc-max98095-objs := max98095.o
+-snd-soc-max98357a-objs := max98357a.o
+-snd-soc-max98371-objs := max98371.o
+-snd-soc-max9867-objs := max9867.o
+-snd-soc-max98925-objs := max98925.o
+-snd-soc-max98926-objs := max98926.o
+-snd-soc-max98927-objs := max98927.o
+-snd-soc-max98520-objs := max98520.o
+-snd-soc-max98363-objs := max98363.o
+-snd-soc-max98373-objs := max98373.o
+-snd-soc-max98373-i2c-objs := max98373-i2c.o
+-snd-soc-max98373-sdw-objs := max98373-sdw.o
+-snd-soc-max98388-objs := max98388.o
+-snd-soc-max98390-objs := max98390.o
+-snd-soc-max98396-objs := max98396.o
+-snd-soc-max9850-objs := max9850.o
+-snd-soc-max9860-objs := max9860.o
+-snd-soc-mc13783-objs := mc13783.o
+-snd-soc-ml26124-objs := ml26124.o
+-snd-soc-msm8916-analog-objs := msm8916-wcd-analog.o
+-snd-soc-msm8916-digital-objs := msm8916-wcd-digital.o
+-snd-soc-mt6351-objs := mt6351.o
+-snd-soc-mt6358-objs := mt6358.o
+-snd-soc-mt6359-objs := mt6359.o
+-snd-soc-mt6359-accdet-objs := mt6359-accdet.o
+-snd-soc-mt6660-objs := mt6660.o
+-snd-soc-nau8315-objs := nau8315.o
+-snd-soc-nau8540-objs := nau8540.o
+-snd-soc-nau8810-objs := nau8810.o
+-snd-soc-nau8821-objs := nau8821.o
+-snd-soc-nau8822-objs := nau8822.o
+-snd-soc-nau8824-objs := nau8824.o
+-snd-soc-nau8825-objs := nau8825.o
+-snd-soc-hdmi-codec-objs := hdmi-codec.o
+-snd-soc-pcm1681-objs := pcm1681.o
+-snd-soc-pcm1789-codec-objs := pcm1789.o
+-snd-soc-pcm1789-i2c-objs := pcm1789-i2c.o
+-snd-soc-pcm179x-codec-objs := pcm179x.o
+-snd-soc-pcm179x-i2c-objs := pcm179x-i2c.o
+-snd-soc-pcm179x-spi-objs := pcm179x-spi.o
+-snd-soc-pcm186x-objs := pcm186x.o
+-snd-soc-pcm186x-i2c-objs := pcm186x-i2c.o
+-snd-soc-pcm186x-spi-objs := pcm186x-spi.o
+-snd-soc-pcm3008-objs := pcm3008.o
+-snd-soc-pcm3060-objs := pcm3060.o
+-snd-soc-pcm3060-i2c-objs := pcm3060-i2c.o
+-snd-soc-pcm3060-spi-objs := pcm3060-spi.o
+-snd-soc-pcm3168a-objs := pcm3168a.o
+-snd-soc-pcm3168a-i2c-objs := pcm3168a-i2c.o
+-snd-soc-pcm3168a-spi-objs := pcm3168a-spi.o
+-snd-soc-pcm5102a-objs := pcm5102a.o
+-snd-soc-pcm512x-objs := pcm512x.o
+-snd-soc-pcm512x-i2c-objs := pcm512x-i2c.o
+-snd-soc-pcm512x-spi-objs := pcm512x-spi.o
+-snd-soc-pcm6240-objs := pcm6240.o
+-snd-soc-peb2466-objs := peb2466.o
+-snd-soc-rk3308-objs := rk3308_codec.o
+-snd-soc-rk3328-objs := rk3328_codec.o
+-snd-soc-rk817-objs := rk817_codec.o
+-snd-soc-rl6231-objs := rl6231.o
+-snd-soc-rl6347a-objs := rl6347a.o
+-snd-soc-rt1011-objs := rt1011.o
+-snd-soc-rt1015-objs := rt1015.o
+-snd-soc-rt1015p-objs := rt1015p.o
+-snd-soc-rt1016-objs := rt1016.o
+-snd-soc-rt1017-sdca-objs := rt1017-sdca-sdw.o
+-snd-soc-rt1019-objs := rt1019.o
+-snd-soc-rt1305-objs := rt1305.o
+-snd-soc-rt1308-objs := rt1308.o
+-snd-soc-rt1308-sdw-objs := rt1308-sdw.o
+-snd-soc-rt1316-sdw-objs := rt1316-sdw.o
+-snd-soc-rt1318-sdw-objs := rt1318-sdw.o
+-snd-soc-rt274-objs := rt274.o
+-snd-soc-rt286-objs := rt286.o
+-snd-soc-rt298-objs := rt298.o
+-snd-soc-rt5514-objs := rt5514.o
+-snd-soc-rt5514-spi-objs := rt5514-spi.o
+-snd-soc-rt5616-objs := rt5616.o
+-snd-soc-rt5631-objs := rt5631.o
+-snd-soc-rt5640-objs := rt5640.o
+-snd-soc-rt5645-objs := rt5645.o
+-snd-soc-rt5651-objs := rt5651.o
+-snd-soc-rt5659-objs := rt5659.o
+-snd-soc-rt5660-objs := rt5660.o
+-snd-soc-rt5663-objs := rt5663.o
+-snd-soc-rt5665-objs := rt5665.o
+-snd-soc-rt5668-objs := rt5668.o
+-snd-soc-rt5670-objs := rt5670.o
+-snd-soc-rt5677-objs := rt5677.o
+-snd-soc-rt5677-spi-objs := rt5677-spi.o
+-snd-soc-rt5682-objs := rt5682.o
+-snd-soc-rt5682-sdw-objs := rt5682-sdw.o
+-snd-soc-rt5682-i2c-objs := rt5682-i2c.o
+-snd-soc-rt5682s-objs := rt5682s.o
+-snd-soc-rt700-objs := rt700.o rt700-sdw.o
+-snd-soc-rt711-objs := rt711.o rt711-sdw.o
+-snd-soc-rt711-sdca-objs := rt711-sdca.o rt711-sdca-sdw.o
+-snd-soc-rt712-sdca-objs := rt712-sdca.o rt712-sdca-sdw.o
+-snd-soc-rt712-sdca-dmic-objs := rt712-sdca-dmic.o
+-snd-soc-rt715-objs := rt715.o rt715-sdw.o
+-snd-soc-rt715-sdca-objs := rt715-sdca.o rt715-sdca-sdw.o
+-snd-soc-rt722-sdca-objs := rt722-sdca.o rt722-sdca-sdw.o
+-snd-soc-rt9120-objs := rt9120.o
+-snd-soc-rtq9128-objs := rtq9128.o
+-snd-soc-sdw-mockup-objs := sdw-mockup.o
+-snd-soc-sgtl5000-objs := sgtl5000.o
+-snd-soc-alc5623-objs := alc5623.o
+-snd-soc-alc5632-objs := alc5632.o
+-snd-soc-sigmadsp-objs := sigmadsp.o
+-snd-soc-sigmadsp-i2c-objs := sigmadsp-i2c.o
+-snd-soc-sigmadsp-regmap-objs := sigmadsp-regmap.o
+-snd-soc-si476x-objs := si476x.o
+-snd-soc-sma1303-objs := sma1303.o
+-snd-soc-spdif-tx-objs := spdif_transmitter.o
+-snd-soc-spdif-rx-objs := spdif_receiver.o
+-snd-soc-src4xxx-objs := src4xxx.o
+-snd-soc-src4xxx-i2c-objs := src4xxx-i2c.o
+-snd-soc-ssm2305-objs := ssm2305.o
+-snd-soc-ssm2518-objs := ssm2518.o
+-snd-soc-ssm2602-objs := ssm2602.o
+-snd-soc-ssm2602-spi-objs := ssm2602-spi.o
+-snd-soc-ssm2602-i2c-objs := ssm2602-i2c.o
+-snd-soc-ssm3515-objs := ssm3515.o
+-snd-soc-ssm4567-objs := ssm4567.o
+-snd-soc-sta32x-objs := sta32x.o
+-snd-soc-sta350-objs := sta350.o
+-snd-soc-sta529-objs := sta529.o
+-snd-soc-stac9766-objs := stac9766.o
+-snd-soc-sti-sas-objs := sti-sas.o
+-snd-soc-tas5086-objs := tas5086.o
+-snd-soc-tas571x-objs := tas571x.o
+-snd-soc-tas5720-objs := tas5720.o
+-snd-soc-tas5805m-objs := tas5805m.o
+-snd-soc-tas6424-objs := tas6424.o
+-snd-soc-tda7419-objs := tda7419.o
+-snd-soc-tas2770-objs := tas2770.o
+-snd-soc-tas2781-comlib-objs := tas2781-comlib.o
+-snd-soc-tas2781-fmwlib-objs := tas2781-fmwlib.o
+-snd-soc-tas2781-i2c-objs := tas2781-i2c.o
+-snd-soc-tfa9879-objs := tfa9879.o
+-snd-soc-tfa989x-objs := tfa989x.o
+-snd-soc-tlv320adc3xxx-objs := tlv320adc3xxx.o
+-snd-soc-tlv320aic23-objs := tlv320aic23.o
+-snd-soc-tlv320aic23-i2c-objs := tlv320aic23-i2c.o
+-snd-soc-tlv320aic23-spi-objs := tlv320aic23-spi.o
+-snd-soc-tlv320aic26-objs := tlv320aic26.o
+-snd-soc-tlv320aic31xx-objs := tlv320aic31xx.o
+-snd-soc-tlv320aic32x4-objs := tlv320aic32x4.o tlv320aic32x4-clk.o
+-snd-soc-tlv320aic32x4-i2c-objs := tlv320aic32x4-i2c.o
+-snd-soc-tlv320aic32x4-spi-objs := tlv320aic32x4-spi.o
+-snd-soc-tlv320aic3x-objs := tlv320aic3x.o
+-snd-soc-tlv320aic3x-i2c-objs := tlv320aic3x-i2c.o
+-snd-soc-tlv320aic3x-spi-objs := tlv320aic3x-spi.o
+-snd-soc-tlv320dac33-objs := tlv320dac33.o
+-snd-soc-tlv320adcx140-objs := tlv320adcx140.o
+-snd-soc-tscs42xx-objs := tscs42xx.o
+-snd-soc-tscs454-objs := tscs454.o
+-snd-soc-ts3a227e-objs := ts3a227e.o
+-snd-soc-twl4030-objs := twl4030.o
+-snd-soc-twl6040-objs := twl6040.o
+-snd-soc-uda1334-objs := uda1334.o
+-snd-soc-uda1380-objs := uda1380.o
+-snd-soc-wcd-classh-objs := wcd-clsh-v2.o
+-snd-soc-wcd-mbhc-objs := wcd-mbhc-v2.o
+-snd-soc-wcd9335-objs := wcd9335.o
+-snd-soc-wcd934x-objs := wcd934x.o
+-snd-soc-wcd938x-objs := wcd938x.o
+-snd-soc-wcd938x-sdw-objs := wcd938x-sdw.o
+-snd-soc-wcd939x-objs := wcd939x.o
+-snd-soc-wcd939x-sdw-objs := wcd939x-sdw.o
+-snd-soc-wl1273-objs := wl1273.o
+-snd-soc-wm-adsp-objs := wm_adsp.o
+-snd-soc-wm0010-objs := wm0010.o
+-snd-soc-wm1250-ev1-objs := wm1250-ev1.o
+-snd-soc-wm2000-objs := wm2000.o
+-snd-soc-wm2200-objs := wm2200.o
+-snd-soc-wm5100-objs := wm5100.o wm5100-tables.o
+-snd-soc-wm5102-objs := wm5102.o
+-snd-soc-wm5110-objs := wm5110.o
+-snd-soc-wm8350-objs := wm8350.o
+-snd-soc-wm8400-objs := wm8400.o
+-snd-soc-wm8510-objs := wm8510.o
+-snd-soc-wm8523-objs := wm8523.o
+-snd-soc-wm8524-objs := wm8524.o
+-snd-soc-wm8580-objs := wm8580.o
+-snd-soc-wm8711-objs := wm8711.o
+-snd-soc-wm8727-objs := wm8727.o
+-snd-soc-wm8728-objs := wm8728.o
+-snd-soc-wm8731-objs := wm8731.o
+-snd-soc-wm8731-i2c-objs := wm8731-i2c.o
+-snd-soc-wm8731-spi-objs := wm8731-spi.o
+-snd-soc-wm8737-objs := wm8737.o
+-snd-soc-wm8741-objs := wm8741.o
+-snd-soc-wm8750-objs := wm8750.o
+-snd-soc-wm8753-objs := wm8753.o
+-snd-soc-wm8770-objs := wm8770.o
+-snd-soc-wm8776-objs := wm8776.o
+-snd-soc-wm8782-objs := wm8782.o
+-snd-soc-wm8804-objs := wm8804.o
+-snd-soc-wm8804-i2c-objs := wm8804-i2c.o
+-snd-soc-wm8804-spi-objs := wm8804-spi.o
+-snd-soc-wm8900-objs := wm8900.o
+-snd-soc-wm8903-objs := wm8903.o
+-snd-soc-wm8904-objs := wm8904.o
+-snd-soc-wm8996-objs := wm8996.o
+-snd-soc-wm8940-objs := wm8940.o
+-snd-soc-wm8955-objs := wm8955.o
+-snd-soc-wm8960-objs := wm8960.o
+-snd-soc-wm8961-objs := wm8961.o
+-snd-soc-wm8962-objs := wm8962.o
+-snd-soc-wm8971-objs := wm8971.o
+-snd-soc-wm8974-objs := wm8974.o
+-snd-soc-wm8978-objs := wm8978.o
+-snd-soc-wm8983-objs := wm8983.o
+-snd-soc-wm8985-objs := wm8985.o
+-snd-soc-wm8988-objs := wm8988.o
+-snd-soc-wm8990-objs := wm8990.o
+-snd-soc-wm8991-objs := wm8991.o
+-snd-soc-wm8993-objs := wm8993.o
+-snd-soc-wm8994-objs := wm8994.o wm8958-dsp2.o
+-snd-soc-wm8995-objs := wm8995.o
+-snd-soc-wm8997-objs := wm8997.o
+-snd-soc-wm8998-objs := wm8998.o
+-snd-soc-wm9081-objs := wm9081.o
+-snd-soc-wm9090-objs := wm9090.o
+-snd-soc-wm9705-objs := wm9705.o
+-snd-soc-wm9712-objs := wm9712.o
+-snd-soc-wm9713-objs := wm9713.o
+-snd-soc-wm-hubs-objs := wm_hubs.o
+-snd-soc-wsa881x-objs := wsa881x.o
+-snd-soc-wsa883x-objs := wsa883x.o
+-snd-soc-wsa884x-objs := wsa884x.o
+-snd-soc-zl38060-objs := zl38060.o
++snd-soc-aw88261-y := aw88261.o
++snd-soc-aw88399-y := aw88399.o
++snd-soc-bd28623-y := bd28623.o
++snd-soc-bt-sco-y := bt-sco.o
++snd-soc-chv3-codec-y := chv3-codec.o
++snd-soc-cpcap-y := cpcap.o
++snd-soc-cq93vc-y := cq93vc.o
++snd-soc-cros-ec-codec-y := cros_ec_codec.o
++snd-soc-cs-amp-lib-y := cs-amp-lib.o
++snd-soc-cs-amp-lib-test-y := cs-amp-lib-test.o
++snd-soc-cs35l32-y := cs35l32.o
++snd-soc-cs35l33-y := cs35l33.o
++snd-soc-cs35l34-y := cs35l34.o
++snd-soc-cs35l35-y := cs35l35.o
++snd-soc-cs35l36-y := cs35l36.o
++snd-soc-cs35l41-lib-y := cs35l41-lib.o
++snd-soc-cs35l41-y := cs35l41.o
++snd-soc-cs35l41-spi-y := cs35l41-spi.o
++snd-soc-cs35l41-i2c-y := cs35l41-i2c.o
++snd-soc-cs35l45-y := cs35l45.o cs35l45-tables.o
++snd-soc-cs35l45-spi-y := cs35l45-spi.o
++snd-soc-cs35l45-i2c-y := cs35l45-i2c.o
++snd-soc-cs35l56-y := cs35l56.o
++snd-soc-cs35l56-shared-y := cs35l56-shared.o
++snd-soc-cs35l56-i2c-y := cs35l56-i2c.o
++snd-soc-cs35l56-spi-y := cs35l56-spi.o
++snd-soc-cs35l56-sdw-y := cs35l56-sdw.o
++snd-soc-cs42l42-y := cs42l42.o
++snd-soc-cs42l42-i2c-y := cs42l42-i2c.o
++snd-soc-cs42l42-sdw-y := cs42l42-sdw.o
++snd-soc-cs42l43-y := cs42l43.o cs42l43-jack.o
++snd-soc-cs42l43-sdw-y := cs42l43-sdw.o
++snd-soc-cs42l51-y := cs42l51.o
++snd-soc-cs42l51-i2c-y := cs42l51-i2c.o
++snd-soc-cs42l52-y := cs42l52.o
++snd-soc-cs42l56-y := cs42l56.o
++snd-soc-cs42l73-y := cs42l73.o
++snd-soc-cs42l83-i2c-y := cs42l83-i2c.o
++snd-soc-cs4234-y := cs4234.o
++snd-soc-cs4265-y := cs4265.o
++snd-soc-cs4270-y := cs4270.o
++snd-soc-cs4271-y := cs4271.o
++snd-soc-cs4271-i2c-y := cs4271-i2c.o
++snd-soc-cs4271-spi-y := cs4271-spi.o
++snd-soc-cs42xx8-y := cs42xx8.o
++snd-soc-cs42xx8-i2c-y := cs42xx8-i2c.o
++snd-soc-cs43130-y := cs43130.o
++snd-soc-cs4341-y := cs4341.o
++snd-soc-cs4349-y := cs4349.o
++snd-soc-cs47l15-y := cs47l15.o
++snd-soc-cs47l24-y := cs47l24.o
++snd-soc-cs47l35-y := cs47l35.o
++snd-soc-cs47l85-y := cs47l85.o
++snd-soc-cs47l90-y := cs47l90.o
++snd-soc-cs47l92-y := cs47l92.o
++snd-soc-cs53l30-y := cs53l30.o
++snd-soc-cx20442-y := cx20442.o
++snd-soc-cx2072x-y := cx2072x.o
++snd-soc-da7210-y := da7210.o
++snd-soc-da7213-y := da7213.o
++snd-soc-da7218-y := da7218.o
++snd-soc-da7219-y := da7219.o da7219-aad.o
++snd-soc-da732x-y := da732x.o
++snd-soc-da9055-y := da9055.o
++snd-soc-dmic-y := dmic.o
++snd-soc-es7134-y := es7134.o
++snd-soc-es7241-y := es7241.o
++snd-soc-es83xx-dsm-common-y := es83xx-dsm-common.o
++snd-soc-es8316-y := es8316.o
++snd-soc-es8326-y := es8326.o
++snd-soc-es8328-y := es8328.o
++snd-soc-es8328-i2c-y := es8328-i2c.o
++snd-soc-es8328-spi-y := es8328-spi.o
++snd-soc-framer-y := framer-codec.o
++snd-soc-gtm601-y := gtm601.o
++snd-soc-hdac-hdmi-y := hdac_hdmi.o
++snd-soc-hdac-hda-y := hdac_hda.o
++snd-soc-hda-codec-y := hda.o hda-dai.o
++snd-soc-ics43432-y := ics43432.o
++snd-soc-idt821034-y := idt821034.o
++snd-soc-inno-rk3036-y := inno_rk3036.o
++snd-soc-isabelle-y := isabelle.o
++snd-soc-jz4740-codec-y := jz4740.o
++snd-soc-jz4725b-codec-y := jz4725b.o
++snd-soc-jz4760-codec-y := jz4760.o
++snd-soc-jz4770-codec-y := jz4770.o
++snd-soc-lm4857-y := lm4857.o
++snd-soc-lm49453-y := lm49453.o
++snd-soc-lochnagar-sc-y := lochnagar-sc.o
++snd-soc-lpass-macro-common-y := lpass-macro-common.o
++snd-soc-lpass-rx-macro-y := lpass-rx-macro.o
++snd-soc-lpass-tx-macro-y := lpass-tx-macro.o
++snd-soc-lpass-wsa-macro-y := lpass-wsa-macro.o
++snd-soc-lpass-va-macro-y := lpass-va-macro.o
++snd-soc-madera-y := madera.o
++snd-soc-max9759-y := max9759.o
++snd-soc-max9768-y := max9768.o
++snd-soc-max98088-y := max98088.o
++snd-soc-max98090-y := max98090.o
++snd-soc-max98095-y := max98095.o
++snd-soc-max98357a-y := max98357a.o
++snd-soc-max98371-y := max98371.o
++snd-soc-max9867-y := max9867.o
++snd-soc-max98925-y := max98925.o
++snd-soc-max98926-y := max98926.o
++snd-soc-max98927-y := max98927.o
++snd-soc-max98520-y := max98520.o
++snd-soc-max98363-y := max98363.o
++snd-soc-max98373-y := max98373.o
++snd-soc-max98373-i2c-y := max98373-i2c.o
++snd-soc-max98373-sdw-y := max98373-sdw.o
++snd-soc-max98388-y := max98388.o
++snd-soc-max98390-y := max98390.o
++snd-soc-max98396-y := max98396.o
++snd-soc-max9850-y := max9850.o
++snd-soc-max9860-y := max9860.o
++snd-soc-mc13783-y := mc13783.o
++snd-soc-ml26124-y := ml26124.o
++snd-soc-msm8916-analog-y := msm8916-wcd-analog.o
++snd-soc-msm8916-digital-y := msm8916-wcd-digital.o
++snd-soc-mt6351-y := mt6351.o
++snd-soc-mt6358-y := mt6358.o
++snd-soc-mt6359-y := mt6359.o
++snd-soc-mt6359-accdet-y := mt6359-accdet.o
++snd-soc-mt6660-y := mt6660.o
++snd-soc-nau8315-y := nau8315.o
++snd-soc-nau8540-y := nau8540.o
++snd-soc-nau8810-y := nau8810.o
++snd-soc-nau8821-y := nau8821.o
++snd-soc-nau8822-y := nau8822.o
++snd-soc-nau8824-y := nau8824.o
++snd-soc-nau8825-y := nau8825.o
++snd-soc-hdmi-codec-y := hdmi-codec.o
++snd-soc-pcm1681-y := pcm1681.o
++snd-soc-pcm1789-codec-y := pcm1789.o
++snd-soc-pcm1789-i2c-y := pcm1789-i2c.o
++snd-soc-pcm179x-codec-y := pcm179x.o
++snd-soc-pcm179x-i2c-y := pcm179x-i2c.o
++snd-soc-pcm179x-spi-y := pcm179x-spi.o
++snd-soc-pcm186x-y := pcm186x.o
++snd-soc-pcm186x-i2c-y := pcm186x-i2c.o
++snd-soc-pcm186x-spi-y := pcm186x-spi.o
++snd-soc-pcm3008-y := pcm3008.o
++snd-soc-pcm3060-y := pcm3060.o
++snd-soc-pcm3060-i2c-y := pcm3060-i2c.o
++snd-soc-pcm3060-spi-y := pcm3060-spi.o
++snd-soc-pcm3168a-y := pcm3168a.o
++snd-soc-pcm3168a-i2c-y := pcm3168a-i2c.o
++snd-soc-pcm3168a-spi-y := pcm3168a-spi.o
++snd-soc-pcm5102a-y := pcm5102a.o
++snd-soc-pcm512x-y := pcm512x.o
++snd-soc-pcm512x-i2c-y := pcm512x-i2c.o
++snd-soc-pcm512x-spi-y := pcm512x-spi.o
++snd-soc-pcm6240-y := pcm6240.o
++snd-soc-peb2466-y := peb2466.o
++snd-soc-rk3308-y := rk3308_codec.o
++snd-soc-rk3328-y := rk3328_codec.o
++snd-soc-rk817-y := rk817_codec.o
++snd-soc-rl6231-y := rl6231.o
++snd-soc-rl6347a-y := rl6347a.o
++snd-soc-rt1011-y := rt1011.o
++snd-soc-rt1015-y := rt1015.o
++snd-soc-rt1015p-y := rt1015p.o
++snd-soc-rt1016-y := rt1016.o
++snd-soc-rt1017-sdca-y := rt1017-sdca-sdw.o
++snd-soc-rt1019-y := rt1019.o
++snd-soc-rt1305-y := rt1305.o
++snd-soc-rt1308-y := rt1308.o
++snd-soc-rt1308-sdw-y := rt1308-sdw.o
++snd-soc-rt1316-sdw-y := rt1316-sdw.o
++snd-soc-rt1318-sdw-y := rt1318-sdw.o
++snd-soc-rt274-y := rt274.o
++snd-soc-rt286-y := rt286.o
++snd-soc-rt298-y := rt298.o
++snd-soc-rt5514-y := rt5514.o
++snd-soc-rt5514-spi-y := rt5514-spi.o
++snd-soc-rt5616-y := rt5616.o
++snd-soc-rt5631-y := rt5631.o
++snd-soc-rt5640-y := rt5640.o
++snd-soc-rt5645-y := rt5645.o
++snd-soc-rt5651-y := rt5651.o
++snd-soc-rt5659-y := rt5659.o
++snd-soc-rt5660-y := rt5660.o
++snd-soc-rt5663-y := rt5663.o
++snd-soc-rt5665-y := rt5665.o
++snd-soc-rt5668-y := rt5668.o
++snd-soc-rt5670-y := rt5670.o
++snd-soc-rt5677-y := rt5677.o
++snd-soc-rt5677-spi-y := rt5677-spi.o
++snd-soc-rt5682-y := rt5682.o
++snd-soc-rt5682-sdw-y := rt5682-sdw.o
++snd-soc-rt5682-i2c-y := rt5682-i2c.o
++snd-soc-rt5682s-y := rt5682s.o
++snd-soc-rt700-y := rt700.o rt700-sdw.o
++snd-soc-rt711-y := rt711.o rt711-sdw.o
++snd-soc-rt711-sdca-y := rt711-sdca.o rt711-sdca-sdw.o
++snd-soc-rt712-sdca-y := rt712-sdca.o rt712-sdca-sdw.o
++snd-soc-rt712-sdca-dmic-y := rt712-sdca-dmic.o
++snd-soc-rt715-y := rt715.o rt715-sdw.o
++snd-soc-rt715-sdca-y := rt715-sdca.o rt715-sdca-sdw.o
++snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
++snd-soc-rt9120-y := rt9120.o
++snd-soc-rtq9128-y := rtq9128.o
++snd-soc-sdw-mockup-y := sdw-mockup.o
++snd-soc-sgtl5000-y := sgtl5000.o
++snd-soc-alc5623-y := alc5623.o
++snd-soc-alc5632-y := alc5632.o
++snd-soc-sigmadsp-y := sigmadsp.o
++snd-soc-sigmadsp-i2c-y := sigmadsp-i2c.o
++snd-soc-sigmadsp-regmap-y := sigmadsp-regmap.o
++snd-soc-si476x-y := si476x.o
++snd-soc-sma1303-y := sma1303.o
++snd-soc-spdif-tx-y := spdif_transmitter.o
++snd-soc-spdif-rx-y := spdif_receiver.o
++snd-soc-src4xxx-y := src4xxx.o
++snd-soc-src4xxx-i2c-y := src4xxx-i2c.o
++snd-soc-ssm2305-y := ssm2305.o
++snd-soc-ssm2518-y := ssm2518.o
++snd-soc-ssm2602-y := ssm2602.o
++snd-soc-ssm2602-spi-y := ssm2602-spi.o
++snd-soc-ssm2602-i2c-y := ssm2602-i2c.o
++snd-soc-ssm3515-y := ssm3515.o
++snd-soc-ssm4567-y := ssm4567.o
++snd-soc-sta32x-y := sta32x.o
++snd-soc-sta350-y := sta350.o
++snd-soc-sta529-y := sta529.o
++snd-soc-stac9766-y := stac9766.o
++snd-soc-sti-sas-y := sti-sas.o
++snd-soc-tas5086-y := tas5086.o
++snd-soc-tas571x-y := tas571x.o
++snd-soc-tas5720-y := tas5720.o
++snd-soc-tas5805m-y := tas5805m.o
++snd-soc-tas6424-y := tas6424.o
++snd-soc-tda7419-y := tda7419.o
++snd-soc-tas2770-y := tas2770.o
++snd-soc-tas2781-comlib-y := tas2781-comlib.o
++snd-soc-tas2781-fmwlib-y := tas2781-fmwlib.o
++snd-soc-tas2781-i2c-y := tas2781-i2c.o
++snd-soc-tfa9879-y := tfa9879.o
++snd-soc-tfa989x-y := tfa989x.o
++snd-soc-tlv320adc3xxx-y := tlv320adc3xxx.o
++snd-soc-tlv320aic23-y := tlv320aic23.o
++snd-soc-tlv320aic23-i2c-y := tlv320aic23-i2c.o
++snd-soc-tlv320aic23-spi-y := tlv320aic23-spi.o
++snd-soc-tlv320aic26-y := tlv320aic26.o
++snd-soc-tlv320aic31xx-y := tlv320aic31xx.o
++snd-soc-tlv320aic32x4-y := tlv320aic32x4.o tlv320aic32x4-clk.o
++snd-soc-tlv320aic32x4-i2c-y := tlv320aic32x4-i2c.o
++snd-soc-tlv320aic32x4-spi-y := tlv320aic32x4-spi.o
++snd-soc-tlv320aic3x-y := tlv320aic3x.o
++snd-soc-tlv320aic3x-i2c-y := tlv320aic3x-i2c.o
++snd-soc-tlv320aic3x-spi-y := tlv320aic3x-spi.o
++snd-soc-tlv320dac33-y := tlv320dac33.o
++snd-soc-tlv320adcx140-y := tlv320adcx140.o
++snd-soc-tscs42xx-y := tscs42xx.o
++snd-soc-tscs454-y := tscs454.o
++snd-soc-ts3a227e-y := ts3a227e.o
++snd-soc-twl4030-y := twl4030.o
++snd-soc-twl6040-y := twl6040.o
++snd-soc-uda1334-y := uda1334.o
++snd-soc-uda1380-y := uda1380.o
++snd-soc-wcd-classh-y := wcd-clsh-v2.o
++snd-soc-wcd-mbhc-y := wcd-mbhc-v2.o
++snd-soc-wcd9335-y := wcd9335.o
++snd-soc-wcd934x-y := wcd934x.o
++snd-soc-wcd938x-y := wcd938x.o
++snd-soc-wcd938x-sdw-y := wcd938x-sdw.o
++snd-soc-wcd939x-y := wcd939x.o
++snd-soc-wcd939x-sdw-y := wcd939x-sdw.o
++snd-soc-wl1273-y := wl1273.o
++snd-soc-wm-adsp-y := wm_adsp.o
++snd-soc-wm0010-y := wm0010.o
++snd-soc-wm1250-ev1-y := wm1250-ev1.o
++snd-soc-wm2000-y := wm2000.o
++snd-soc-wm2200-y := wm2200.o
++snd-soc-wm5100-y := wm5100.o wm5100-tables.o
++snd-soc-wm5102-y := wm5102.o
++snd-soc-wm5110-y := wm5110.o
++snd-soc-wm8350-y := wm8350.o
++snd-soc-wm8400-y := wm8400.o
++snd-soc-wm8510-y := wm8510.o
++snd-soc-wm8523-y := wm8523.o
++snd-soc-wm8524-y := wm8524.o
++snd-soc-wm8580-y := wm8580.o
++snd-soc-wm8711-y := wm8711.o
++snd-soc-wm8727-y := wm8727.o
++snd-soc-wm8728-y := wm8728.o
++snd-soc-wm8731-y := wm8731.o
++snd-soc-wm8731-i2c-y := wm8731-i2c.o
++snd-soc-wm8731-spi-y := wm8731-spi.o
++snd-soc-wm8737-y := wm8737.o
++snd-soc-wm8741-y := wm8741.o
++snd-soc-wm8750-y := wm8750.o
++snd-soc-wm8753-y := wm8753.o
++snd-soc-wm8770-y := wm8770.o
++snd-soc-wm8776-y := wm8776.o
++snd-soc-wm8782-y := wm8782.o
++snd-soc-wm8804-y := wm8804.o
++snd-soc-wm8804-i2c-y := wm8804-i2c.o
++snd-soc-wm8804-spi-y := wm8804-spi.o
++snd-soc-wm8900-y := wm8900.o
++snd-soc-wm8903-y := wm8903.o
++snd-soc-wm8904-y := wm8904.o
++snd-soc-wm8996-y := wm8996.o
++snd-soc-wm8940-y := wm8940.o
++snd-soc-wm8955-y := wm8955.o
++snd-soc-wm8960-y := wm8960.o
++snd-soc-wm8961-y := wm8961.o
++snd-soc-wm8962-y := wm8962.o
++snd-soc-wm8971-y := wm8971.o
++snd-soc-wm8974-y := wm8974.o
++snd-soc-wm8978-y := wm8978.o
++snd-soc-wm8983-y := wm8983.o
++snd-soc-wm8985-y := wm8985.o
++snd-soc-wm8988-y := wm8988.o
++snd-soc-wm8990-y := wm8990.o
++snd-soc-wm8991-y := wm8991.o
++snd-soc-wm8993-y := wm8993.o
++snd-soc-wm8994-y := wm8994.o wm8958-dsp2.o
++snd-soc-wm8995-y := wm8995.o
++snd-soc-wm8997-y := wm8997.o
++snd-soc-wm8998-y := wm8998.o
++snd-soc-wm9081-y := wm9081.o
++snd-soc-wm9090-y := wm9090.o
++snd-soc-wm9705-y := wm9705.o
++snd-soc-wm9712-y := wm9712.o
++snd-soc-wm9713-y := wm9713.o
++snd-soc-wm-hubs-y := wm_hubs.o
++snd-soc-wsa881x-y := wsa881x.o
++snd-soc-wsa883x-y := wsa883x.o
++snd-soc-wsa884x-y := wsa884x.o
++snd-soc-zl38060-y := zl38060.o
+ # Amp
+-snd-soc-max9877-objs := max9877.o
+-snd-soc-max98504-objs := max98504.o
+-snd-soc-simple-amplifier-objs := simple-amplifier.o
+-snd-soc-tpa6130a2-objs := tpa6130a2.o
+-snd-soc-tas2552-objs := tas2552.o
+-snd-soc-tas2562-objs := tas2562.o
+-snd-soc-tas2764-objs := tas2764.o
+-snd-soc-tas2780-objs := tas2780.o
++snd-soc-max9877-y := max9877.o
++snd-soc-max98504-y := max98504.o
++snd-soc-simple-amplifier-y := simple-amplifier.o
++snd-soc-tpa6130a2-y := tpa6130a2.o
++snd-soc-tas2552-y := tas2552.o
++snd-soc-tas2562-y := tas2562.o
++snd-soc-tas2764-y := tas2764.o
++snd-soc-tas2780-y := tas2780.o
+ # Mux
+-snd-soc-simple-mux-objs := simple-mux.o
++snd-soc-simple-mux-y := simple-mux.o
  
-diff --git a/sound/soc/intel/atom/sst/Makefile b/sound/soc/intel/atom/sst/Makefile
-index 5761d30a5f9d..16be0463424d 100644
---- a/sound/soc/intel/atom/sst/Makefile
-+++ b/sound/soc/intel/atom/sst/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-intel-sst-core-objs := sst.o sst_ipc.o sst_stream.o sst_drv_interface.o sst_loader.o sst_pvt.o
--snd-intel-sst-pci-objs += sst_pci.o
--snd-intel-sst-acpi-objs += sst_acpi.o
-+snd-intel-sst-core-y := sst.o sst_ipc.o sst_stream.o sst_drv_interface.o sst_loader.o sst_pvt.o
-+snd-intel-sst-pci-y += sst_pci.o
-+snd-intel-sst-acpi-y += sst_acpi.o
- 
- obj-$(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM) += snd-intel-sst-core.o
- obj-$(CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_PCI) += snd-intel-sst-pci.o
-diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
-index 5480500337f8..5139a019a4ad 100644
---- a/sound/soc/intel/avs/Makefile
-+++ b/sound/soc/intel/avs/Makefile
-@@ -1,17 +1,17 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--snd-soc-avs-objs := dsp.o ipc.o messages.o utils.o core.o loader.o \
-+snd-soc-avs-y := dsp.o ipc.o messages.o utils.o core.o loader.o \
- 		    topology.o path.o pcm.o board_selection.o control.o \
- 		    sysfs.o
--snd-soc-avs-objs += cldma.o
--snd-soc-avs-objs += skl.o apl.o cnl.o icl.o tgl.o
-+snd-soc-avs-y += cldma.o
-+snd-soc-avs-y += skl.o apl.o cnl.o icl.o tgl.o
- 
--snd-soc-avs-objs += trace.o
-+snd-soc-avs-y += trace.o
- # tell define_trace.h where to find the trace header
- CFLAGS_trace.o := -I$(src)
- 
- ifneq ($(CONFIG_DEBUG_FS),)
--snd-soc-avs-objs += probes.o debugfs.o
-+snd-soc-avs-y += probes.o debugfs.o
- endif
- 
- obj-$(CONFIG_SND_SOC_INTEL_AVS) += snd-soc-avs.o
-diff --git a/sound/soc/intel/avs/boards/Makefile b/sound/soc/intel/avs/boards/Makefile
-index 0ff21d55be24..4fbd936ffb3e 100644
---- a/sound/soc/intel/avs/boards/Makefile
-+++ b/sound/soc/intel/avs/boards/Makefile
-@@ -1,22 +1,22 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--snd-soc-avs-da7219-objs := da7219.o
--snd-soc-avs-dmic-objs := dmic.o
--snd-soc-avs-es8336-objs := es8336.o
--snd-soc-avs-hdaudio-objs := hdaudio.o
--snd-soc-avs-i2s-test-objs := i2s_test.o
--snd-soc-avs-max98927-objs := max98927.o
--snd-soc-avs-max98357a-objs := max98357a.o
--snd-soc-avs-max98373-objs := max98373.o
--snd-soc-avs-nau8825-objs := nau8825.o
--snd-soc-avs-probe-objs := probe.o
--snd-soc-avs-rt274-objs := rt274.o
--snd-soc-avs-rt286-objs := rt286.o
--snd-soc-avs-rt298-objs := rt298.o
--snd-soc-avs-rt5514-objs := rt5514.o
--snd-soc-avs-rt5663-objs := rt5663.o
--snd-soc-avs-rt5682-objs := rt5682.o
--snd-soc-avs-ssm4567-objs := ssm4567.o
-+snd-soc-avs-da7219-y := da7219.o
-+snd-soc-avs-dmic-y := dmic.o
-+snd-soc-avs-es8336-y := es8336.o
-+snd-soc-avs-hdaudio-y := hdaudio.o
-+snd-soc-avs-i2s-test-y := i2s_test.o
-+snd-soc-avs-max98927-y := max98927.o
-+snd-soc-avs-max98357a-y := max98357a.o
-+snd-soc-avs-max98373-y := max98373.o
-+snd-soc-avs-nau8825-y := nau8825.o
-+snd-soc-avs-probe-y := probe.o
-+snd-soc-avs-rt274-y := rt274.o
-+snd-soc-avs-rt286-y := rt286.o
-+snd-soc-avs-rt298-y := rt298.o
-+snd-soc-avs-rt5514-y := rt5514.o
-+snd-soc-avs-rt5663-y := rt5663.o
-+snd-soc-avs-rt5682-y := rt5682.o
-+snd-soc-avs-ssm4567-y := ssm4567.o
- 
- obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_DA7219) += snd-soc-avs-da7219.o
- obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_DMIC) += snd-soc-avs-dmic.o
-diff --git a/sound/soc/intel/boards/Makefile b/sound/soc/intel/boards/Makefile
-index 963005055730..dc6fe110f279 100644
---- a/sound/soc/intel/boards/Makefile
-+++ b/sound/soc/intel/boards/Makefile
-@@ -1,40 +1,40 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-soc-hsw-rt5640-objs := hsw_rt5640.o
--snd-soc-sst-bdw-rt5650-mach-objs := bdw-rt5650.o
--snd-soc-sst-bdw-rt5677-mach-objs := bdw-rt5677.o
--snd-soc-bdw-rt286-objs := bdw_rt286.o
--snd-soc-sst-bxt-da7219_max98357a-objs := bxt_da7219_max98357a.o
--snd-soc-sst-bxt-rt298-objs := bxt_rt298.o
--snd-soc-sst-sof-pcm512x-objs := sof_pcm512x.o
--snd-soc-sst-sof-wm8804-objs := sof_wm8804.o
--snd-soc-sst-bytcr-rt5640-objs := bytcr_rt5640.o
--snd-soc-sst-bytcr-rt5651-objs := bytcr_rt5651.o
--snd-soc-sst-bytcr-wm5102-objs := bytcr_wm5102.o
--snd-soc-sst-cht-bsw-rt5672-objs := cht_bsw_rt5672.o
--snd-soc-sst-cht-bsw-rt5645-objs := cht_bsw_rt5645.o
--snd-soc-sst-cht-bsw-max98090_ti-objs := cht_bsw_max98090_ti.o
--snd-soc-sst-cht-bsw-nau8824-objs := cht_bsw_nau8824.o
--snd-soc-sst-byt-cht-cx2072x-objs := bytcht_cx2072x.o
--snd-soc-sst-byt-cht-da7213-objs := bytcht_da7213.o
--snd-soc-sst-byt-cht-es8316-objs := bytcht_es8316.o
--snd-soc-sst-byt-cht-nocodec-objs := bytcht_nocodec.o
--snd-soc-sof_rt5682-objs := sof_rt5682.o
--snd-soc-sof_cs42l42-objs := sof_cs42l42.o
--snd-soc-sof_es8336-objs := sof_es8336.o
--snd-soc-sof_nau8825-objs := sof_nau8825.o
--snd-soc-sof_da7219-objs := sof_da7219.o
--snd-soc-kbl_da7219_max98357a-objs := kbl_da7219_max98357a.o
--snd-soc-kbl_da7219_max98927-objs := kbl_da7219_max98927.o
--snd-soc-kbl_rt5663_max98927-objs := kbl_rt5663_max98927.o
--snd-soc-kbl_rt5663_rt5514_max98927-objs := kbl_rt5663_rt5514_max98927.o
--snd-soc-kbl_rt5660-objs := kbl_rt5660.o
--snd-soc-skl_rt286-objs := skl_rt286.o
--snd-soc-skl_hda_dsp-objs := skl_hda_dsp_generic.o skl_hda_dsp_common.o
--snd-skl_nau88l25_max98357a-objs := skl_nau88l25_max98357a.o
--snd-soc-skl_nau88l25_ssm4567-objs := skl_nau88l25_ssm4567.o
--snd-soc-ehl-rt5660-objs := ehl_rt5660.o
--snd-soc-sof-ssp-amp-objs := sof_ssp_amp.o
--snd-soc-sof-sdw-objs += sof_sdw.o				\
-+snd-soc-hsw-rt5640-y := hsw_rt5640.o
-+snd-soc-sst-bdw-rt5650-mach-y := bdw-rt5650.o
-+snd-soc-sst-bdw-rt5677-mach-y := bdw-rt5677.o
-+snd-soc-bdw-rt286-y := bdw_rt286.o
-+snd-soc-sst-bxt-da7219_max98357a-y := bxt_da7219_max98357a.o
-+snd-soc-sst-bxt-rt298-y := bxt_rt298.o
-+snd-soc-sst-sof-pcm512x-y := sof_pcm512x.o
-+snd-soc-sst-sof-wm8804-y := sof_wm8804.o
-+snd-soc-sst-bytcr-rt5640-y := bytcr_rt5640.o
-+snd-soc-sst-bytcr-rt5651-y := bytcr_rt5651.o
-+snd-soc-sst-bytcr-wm5102-y := bytcr_wm5102.o
-+snd-soc-sst-cht-bsw-rt5672-y := cht_bsw_rt5672.o
-+snd-soc-sst-cht-bsw-rt5645-y := cht_bsw_rt5645.o
-+snd-soc-sst-cht-bsw-max98090_ti-y := cht_bsw_max98090_ti.o
-+snd-soc-sst-cht-bsw-nau8824-y := cht_bsw_nau8824.o
-+snd-soc-sst-byt-cht-cx2072x-y := bytcht_cx2072x.o
-+snd-soc-sst-byt-cht-da7213-y := bytcht_da7213.o
-+snd-soc-sst-byt-cht-es8316-y := bytcht_es8316.o
-+snd-soc-sst-byt-cht-nocodec-y := bytcht_nocodec.o
-+snd-soc-sof_rt5682-y := sof_rt5682.o
-+snd-soc-sof_cs42l42-y := sof_cs42l42.o
-+snd-soc-sof_es8336-y := sof_es8336.o
-+snd-soc-sof_nau8825-y := sof_nau8825.o
-+snd-soc-sof_da7219-y := sof_da7219.o
-+snd-soc-kbl_da7219_max98357a-y := kbl_da7219_max98357a.o
-+snd-soc-kbl_da7219_max98927-y := kbl_da7219_max98927.o
-+snd-soc-kbl_rt5663_max98927-y := kbl_rt5663_max98927.o
-+snd-soc-kbl_rt5663_rt5514_max98927-y := kbl_rt5663_rt5514_max98927.o
-+snd-soc-kbl_rt5660-y := kbl_rt5660.o
-+snd-soc-skl_rt286-y := skl_rt286.o
-+snd-soc-skl_hda_dsp-y := skl_hda_dsp_generic.o skl_hda_dsp_common.o
-+snd-skl_nau88l25_max98357a-y := skl_nau88l25_max98357a.o
-+snd-soc-skl_nau88l25_ssm4567-y := skl_nau88l25_ssm4567.o
-+snd-soc-ehl-rt5660-y := ehl_rt5660.o
-+snd-soc-sof-ssp-amp-y := sof_ssp_amp.o
-+snd-soc-sof-sdw-y += sof_sdw.o				\
- 			sof_sdw_maxim.o sof_sdw_rt_amp.o	\
- 			bridge_cs35l56.o			\
- 			sof_sdw_rt5682.o sof_sdw_rt700.o	\
-@@ -83,20 +83,20 @@ obj-$(CONFIG_SND_SOC_INTEL_SOUNDWIRE_SOF_MACH) += snd-soc-sof-sdw.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_SSP_AMP_MACH) += snd-soc-sof-ssp-amp.o
- 
- # common modules
--snd-soc-intel-hda-dsp-common-objs := hda_dsp_common.o
-+snd-soc-intel-hda-dsp-common-y := hda_dsp_common.o
- obj-$(CONFIG_SND_SOC_INTEL_HDA_DSP_COMMON) += snd-soc-intel-hda-dsp-common.o
- 
--snd-soc-intel-sof-maxim-common-objs += sof_maxim_common.o
-+snd-soc-intel-sof-maxim-common-y += sof_maxim_common.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_MAXIM_COMMON) += snd-soc-intel-sof-maxim-common.o
- 
--snd-soc-intel-sof-realtek-common-objs += sof_realtek_common.o
-+snd-soc-intel-sof-realtek-common-y += sof_realtek_common.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_REALTEK_COMMON) += snd-soc-intel-sof-realtek-common.o
- 
--snd-soc-intel-sof-cirrus-common-objs += sof_cirrus_common.o
-+snd-soc-intel-sof-cirrus-common-y += sof_cirrus_common.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_CIRRUS_COMMON) += snd-soc-intel-sof-cirrus-common.o
- 
--snd-soc-intel-sof-nuvoton-common-objs += sof_nuvoton_common.o
-+snd-soc-intel-sof-nuvoton-common-y += sof_nuvoton_common.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_NUVOTON_COMMON) += snd-soc-intel-sof-nuvoton-common.o
- 
--snd-soc-intel-sof-board-helpers-objs += sof_board_helpers.o
-+snd-soc-intel-sof-board-helpers-y += sof_board_helpers.o
- obj-$(CONFIG_SND_SOC_INTEL_SOF_BOARD_HELPERS) += snd-soc-intel-sof-board-helpers.o
-diff --git a/sound/soc/intel/catpt/Makefile b/sound/soc/intel/catpt/Makefile
-index c393a45795da..f5f6a7e956ce 100644
---- a/sound/soc/intel/catpt/Makefile
-+++ b/sound/soc/intel/catpt/Makefile
-@@ -1,4 +1,4 @@
--snd-soc-catpt-objs := device.o dsp.o loader.o ipc.o messages.o pcm.o sysfs.o
-+snd-soc-catpt-y := device.o dsp.o loader.o ipc.o messages.o pcm.o sysfs.o
- 
- # tell define_trace.h where to find the trace header
- CFLAGS_device.o := -I$(src)
-diff --git a/sound/soc/intel/common/Makefile b/sound/soc/intel/common/Makefile
-index a86457674726..40a74a19c508 100644
---- a/sound/soc/intel/common/Makefile
-+++ b/sound/soc/intel/common/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-soc-sst-dsp-objs := sst-dsp.o
--snd-soc-sst-ipc-objs := sst-ipc.o
--snd-soc-acpi-intel-match-objs := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-match.o \
-+snd-soc-sst-dsp-y := sst-dsp.o
-+snd-soc-sst-ipc-y := sst-ipc.o
-+snd-soc-acpi-intel-match-y := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-match.o \
- 	soc-acpi-intel-hsw-bdw-match.o \
- 	soc-acpi-intel-skl-match.o soc-acpi-intel-kbl-match.o \
- 	soc-acpi-intel-bxt-match.o soc-acpi-intel-glk-match.o \
-@@ -15,7 +15,7 @@ snd-soc-acpi-intel-match-objs := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-m
- 	soc-acpi-intel-hda-match.o \
- 	soc-acpi-intel-sdw-mockup-match.o
- 
--snd-soc-acpi-intel-match-objs += soc-acpi-intel-ssp-common.o
-+snd-soc-acpi-intel-match-y += soc-acpi-intel-ssp-common.o
- 
- obj-$(CONFIG_SND_SOC_INTEL_SST) += snd-soc-sst-dsp.o snd-soc-sst-ipc.o
- obj-$(CONFIG_SND_SOC_ACPI_INTEL_MATCH) += snd-soc-acpi-intel-match.o
-diff --git a/sound/soc/intel/keembay/Makefile b/sound/soc/intel/keembay/Makefile
-index 9084e8c63854..3da9a6f9ba2a 100644
---- a/sound/soc/intel/keembay/Makefile
-+++ b/sound/soc/intel/keembay/Makefile
-@@ -1,4 +1,4 @@
--snd-soc-kmb_platform-objs := \
-+snd-soc-kmb_platform-y := \
- 	        kmb_platform.o
- 
- obj-$(CONFIG_SND_SOC_INTEL_KEEMBAY) += snd-soc-kmb_platform.o
-diff --git a/sound/soc/intel/skylake/Makefile b/sound/soc/intel/skylake/Makefile
-index 1c4649bccec5..ad9be6168428 100644
---- a/sound/soc/intel/skylake/Makefile
-+++ b/sound/soc/intel/skylake/Makefile
-@@ -1,15 +1,15 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-soc-skl-objs := skl.o skl-pcm.o skl-nhlt.o skl-messages.o skl-topology.o \
-+snd-soc-skl-y := skl.o skl-pcm.o skl-nhlt.o skl-messages.o skl-topology.o \
- 		skl-sst-ipc.o skl-sst-dsp.o cnl-sst-dsp.o skl-sst-cldma.o \
- 		skl-sst.o bxt-sst.o cnl-sst.o skl-sst-utils.o
- 
- ifdef CONFIG_DEBUG_FS
--  snd-soc-skl-objs += skl-debug.o
-+  snd-soc-skl-y += skl-debug.o
- endif
- 
- obj-$(CONFIG_SND_SOC_INTEL_SKYLAKE_COMMON) += snd-soc-skl.o
- 
- #Skylake Clock device support
--snd-soc-skl-ssp-clk-objs := skl-ssp-clk.o
-+snd-soc-skl-ssp-clk-y := skl-ssp-clk.o
- 
- obj-$(CONFIG_SND_SOC_INTEL_SKYLAKE_SSP_CLK) += snd-soc-skl-ssp-clk.o
+ obj-$(CONFIG_SND_SOC_88PM860X)	+= snd-soc-88pm860x.o
+ obj-$(CONFIG_SND_SOC_AB8500_CODEC)	+= snd-soc-ab8500-codec.o
 -- 
 2.43.0
 
