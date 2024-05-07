@@ -1,143 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1866156C6A;
-	Tue,  7 May 2024 14:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17D7161313;
+	Tue,  7 May 2024 15:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715093620; cv=none; b=M9i8DZM7ryTUknu1el/6YVezrDm5Rwb937usP82XQV1/+V5OVQ75egHlG+7+8WW40a+0NZPeKIyfR+U5+PARRrh984P4nei8KOiwPsgdX/KZ94WbW/iv0SPQJwTTSx4nXwlQtjioqXpY76UypygkHfZ+M175r9xTlwhVKxkDxSQ=
+	t=1715094766; cv=none; b=u2ouEjI0vpIHItQhSpav5qICHHZ2bDI8ifW5vbMgOmXaqibVQ4mEGjBI/riQpX3sJ5IWfrjbHBK6Kh3nKjm/RKs49DAS5w0txIX4eAIkbVOXAbEyteFs6a509XLIxArlD5KC0M4SWU9lqoXpS4IiEo9qypU3ZIWILRoBRgU00nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715093620; c=relaxed/simple;
-	bh=mifg95j6vMi6i0U3kvqVfsZok1b6cRwUjaejQFe3tmc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lqfQ4SqIlDWX+lvrTqL/a5u8dxQ7jTCNHxmA3RZNgdqHo9KD58PGhTFBmG7Nb8sIasTorYDFJPWYfHcf8GkcVFBu8wAFR4Wkw9Ks25Xrrw/OjgzFv8upOGwE8cQVhk/dCWMD5oB/8+RxKYDLe3JmhWjRUzWgkbCQNKOWPcL+YD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVJZqZbO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715094766; c=relaxed/simple;
+	bh=AeQpyOACUEH32G+Z9i3H6jfYrCothtxTZY2nD1bb05g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kkwvL1Xm/b29Hlq4s0QFih/CkPLnzquJvTPHA7eqlRnYjCmTbMF4XhBUYhZP12dBwsKVrdHCsKCyON8lbrgMfVXPzo231xCkbuStrdJewDw0Puv5HatP8OmkWxRFec4T0iv22h3m8+iiLOfT4qF4Np7cuvR7Q2p1uETgHcwiuJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsqPFWQ/; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVJZqZbO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B52B2C4AF18;
-	Tue,  7 May 2024 14:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715093620;
-	bh=mifg95j6vMi6i0U3kvqVfsZok1b6cRwUjaejQFe3tmc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KVJZqZbOp1Mm5+5nreIunI8P4khD7SC2zW2LmEFSs7abqKasjKjDMWQp4PK9qjEZY
-	 LEZmb0PfJ+QsD1UNpax58S/o+7+qdrp5gHqDyhYZH75t8Ik2iJ/LCeR9O7mhHZBU7m
-	 hxoWxXY9nCpsFGDUq9+tzBLdhGCkGvDWpeK3k3yHUm7GPSjkWkYmyScd3ibZXQyn86
-	 5MkaP25YeSZmsI3UrVKBvp0c0AqBJm6xj/YBeywPkRe5rMJb+hNGiG4iI6wXr5JgpQ
-	 lAhzS/IL7aN7koM+GuHH1zdJ8S25NlY2gb7JvKQjKou+7uVNS0XUos9tCI/xhV0Lap
-	 /0OAqWwkpsSsQ==
-Message-ID: <7143551f-b149-40d6-933d-be4c28994607@kernel.org>
-Date: Tue, 7 May 2024 16:53:33 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsqPFWQ/"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e43c481b53so2424271fa.2;
+        Tue, 07 May 2024 08:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715094763; x=1715699563; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l0XnUy7N7GmzfhRBhUIrbtF1Olv4xCz/CaIdT4eaN4M=;
+        b=RsqPFWQ/h2p0fgtOkqeDpDJLl8keWM3tn/KyqMXZsV2w5Jduue/LZPyJHLJsZc9bW+
+         iejdWK7A3ChMGS8HAVrXlcch4jpLhxi7qETTiqTNTbspG7OoMdVnmb+fPJXp0SSPv6Rc
+         rzsM4XP3JEr/qaBdsTC4TOD1dJOI8AaQX46KyGMyBWKTO+MOzG/93F8+Vz3ZSO54yo4l
+         5TJ9n2b6Pw6drqqk9HqMFT3Z9mdCSWwzrJ53+19lsPIdH8pMnfZV3yNiTn3TWJJe1YNp
+         eGzdmo+FUfaxQpNk5CRpy/IEMoXNpM8e0yKtdR5abovJ7hi6PjJN32/iqwrJn7ii0yut
+         qcvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715094763; x=1715699563;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l0XnUy7N7GmzfhRBhUIrbtF1Olv4xCz/CaIdT4eaN4M=;
+        b=WFIKfnuZEzNWo/1B1maSOtWx5KDOv0Yu8d1mYiEUV4yELNQr0wy6KDw+X1h7yXE4dF
+         Xf3dOAgwITm3Ik3Axt2A4dTSAHsrDrUVnahZ8fpzQoxKcCv4xpdbNlPjlqDn3XNEYvmh
+         E8m/+GtEyEAtqv4oPF5vw33zD2sq4S9Qg43vuNoTCIO5wAiE374HjzxyZmFmg0XmA7GE
+         mfLO+KSm0qKZpKjm+FNfJrfCsv1mRIM4ssKALj4DQFOTdgS/yyKIjOPh9BRjBDJsGinB
+         yfdvuOLCT/6YHuK7hnT+cGtBQnVx7hno4qqbrrF7KzidX1wNXnpzJykJzZps1REl+wBb
+         Kg9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXAPwtNahVX+vZnbhc4mWScJHEHFZfwy6yNtDKf7dF615AJjHw+iuP7jTzCTJjGpEQdGtFQIQ2ltiKDro2TByTDpPcd+LQK+rbsYt6EZmppBZezK5yw3yofRpipJIMa6eOc29Xa0BxMDsflKiM4Cv7RstGI1Tou/rF/30UBfZkuJEmG7fgQ
+X-Gm-Message-State: AOJu0YyHK4YbH44GtoI4UYfndBt84wlJJTq+7LaVsEYm2Owf3vUKt5yu
+	oj98boFfjg/n/YZ5W6vBTcKNvhyiXHSd6+H+M4UTBPKH9q31T7UAXLqJ4o9PyuBUJZTGUZTkmmh
+	jM3raXYiiFNUzbGgw6cXPmBQ3xcOte2P94mE=
+X-Google-Smtp-Source: AGHT+IGG3otomvjTjqDrNJOeIRme01d0y8iKublirhdl/ykvSpRNO81I30xRl+f0DqUm4Z6jhxb9ZetVuFmB/uInhc4=
+X-Received: by 2002:a2e:a9a4:0:b0:2dc:f188:a073 with SMTP id
+ x36-20020a2ea9a4000000b002dcf188a073mr11287501ljq.35.1715094762470; Tue, 07
+ May 2024 08:12:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ARM: dts: samsung: exynos4212-tab3: Fix headset mic,
- add jack detection
-To: Artur Weber <aweber.kernel@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240503-midas-wm1811-gpio-jack-v1-0-e8cddbd67cbf@gmail.com>
- <20240503-midas-wm1811-gpio-jack-v1-3-e8cddbd67cbf@gmail.com>
- <d1007753-bdcf-4db9-bb01-b36e742cee4b@kernel.org>
- <c76fa2cc-d41e-45c5-891a-b83d5d0634b1@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <c76fa2cc-d41e-45c5-891a-b83d5d0634b1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240417134237.23888-1-bavishimithil@gmail.com>
+ <2e179356-425d-48cc-84db-0ea3e6203fba@kernel.org> <CAGzNGR=pvv67UJtNnkDUMhrpnPjNCCYEGeCaM7e_9=4G+Lcfgw@mail.gmail.com>
+ <676ce61c-e850-4046-ad0f-e3382be3fe0c@kernel.org> <CAGzNGR=rDrd6LyAC2yB4XUcxn=H1VdY8LQO99NEOBR1sLGGT0Q@mail.gmail.com>
+ <3425732a-390b-4c0f-ba1b-2a7e2219d581@kernel.org> <CAGzNGRmF8K7UDDERE_7UQw1EdC=J_jvvXqefU=M0v6FQcsnbhA@mail.gmail.com>
+In-Reply-To: <CAGzNGRmF8K7UDDERE_7UQw1EdC=J_jvvXqefU=M0v6FQcsnbhA@mail.gmail.com>
+From: Mithil <bavishimithil@gmail.com>
+Date: Tue, 7 May 2024 20:42:30 +0530
+Message-ID: <CAGzNGRmB5yYyVVDQZ0PaL7k0rie8TQAySwpzDx=QokUAV1NGug@mail.gmail.com>
+Subject: Re: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/05/2024 14:44, Artur Weber wrote:
-> On 6.05.2024 08:31, Krzysztof Kozlowski wrote:
->> On 03/05/2024 20:55, Artur Weber wrote:
->>> Add the necessary properties to the samsung,midas-audio node to allow
->>> for headset jack detection, set up the mic bias regulator GPIO and fix
->>> some other small issues with the sound setup.
->>>
->>> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
->>
->> ...
->>
->>> +
->>>   &bus_acp {
->>>   	devfreq = <&bus_dmc>;
->>>   	status = "okay";
->>> @@ -505,12 +521,11 @@ &i2c_4 {
->>>   	wm1811: audio-codec@1a {
->>>   		compatible = "wlf,wm1811";
->>>   		reg = <0x1a>;
->>> -		clocks = <&pmu_system_controller 0>;
->>> -		clock-names = "MCLK1";
->>> +		clocks = <&pmu_system_controller 0>,
->>> +			 <&s5m8767_osc S2MPS11_CLK_BT>;
->>> +		clock-names = "MCLK1", "MCLK2";
->>>   		interrupt-controller;
->>>   		#interrupt-cells = <2>;
->>> -		interrupt-parent = <&gpx3>;
->>> -		interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
->>
->> Does not look related at all to the patch.
-> 
-> I rolled up two small changes to the wm1811 audio codec config here:
-
-
-https://elixir.bootlin.com/linux/v6.8-rc5/source/Documentation/process/submitting-patches.rst#L171
-
-
+Hey, before making a new patch I'll just list the changes that need to
+be done according to this discussion.
+Change maintainer
+Change clocks to only include maxItems: 1
+Change clock-names to include
+items:
+ - const: pdmclk
+Use correct address in example
+Use flags for interrupt in example
 
 Best regards,
-Krzysztof
+Mithil
 
+
+On Sun, May 5, 2024 at 5:19=E2=80=AFPM Mithil <bavishimithil@gmail.com> wro=
+te:
+>
+> On Sun, May 5, 2024 at 5:02=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
+> >
+> > On 05/05/2024 11:59, Mithil wrote:
+> > >>>> Missing constraints, so replace it with maxItems: 1
+> > >>> Similar to how clock-names are handled?
+> > >>>
+> > >>>> List the items. I asked to open existing bindings and take a look =
+how it
+> > >>>> is there. Existing bindings would show you how we code this part.
+> > >>>   clock-names:
+> > >>>     items:
+> > >>>       - const: pdmclk
+> > >>>     minItems: 1
+> > >>>     maxItems: 1
+> > >>> Something like this?
+> > >>
+> > >> No. Do you see code like this anywhere? Please only list the items,
+> > >> although without context impossible to judge.
+> > >>
+> > > Quick search on sources gave me
+> > > Documentation/devicetree/bindings/usb/dwc2.yaml
+> >
+> > Above code is different - it does not have maxItems, which you want to =
+add.
+> >
+> > > which I used as reference for this prop
+> > > clock-names:
+> > >   description: Must be "pdmclk"
+> >
+> > Again, no, please list the items.
+> > items:
+> >  - const: foo
+> Yep that was the old code for reference. Just items (no
+> maxItems/minItems as well)
+>
+> > > compatible =3D "ti,omap4-mcpdm";
+> > > reg =3D <0x40132000 0x7f>, /* MPU private access */
+> > >         <0x49032000 0x7f>; /* L3 Interconnect */
+> > > interrupts =3D <0 112 0x4>;
+> > > Not really constants as they do change with platforms (omap4 vs 5 for
+> > > example) but
+> >
+> > That is not really relevant... This is not pi or other math constant.
+> >
+> > > So do i just make up the constants for it then? Those just seem like
+> > > magic numbers.
+> >
+> > Hm? Did you look around for other SoC nodes? 0 looks like SPI, 4 like
+> > LEVEL_HIGH, but it depends on number of meaning of the interrupt cells,
+> > so who is parent interrupt controller.
+> >
+> Ah the irq values, correct, I thought you meant the reg values.
+> It should be <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>; not sure about 112 though=
+.
+>
+> I suppose these changes are enough right?
+>
+> Best regards,
+> Mithil
