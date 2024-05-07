@@ -1,149 +1,103 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4670E158D6D;
-	Tue,  7 May 2024 12:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA20E15B995;
+	Tue,  7 May 2024 12:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715084607; cv=none; b=uNlh/R8oaPxnatvXDzmervj/MfTPeV0BroCSivkPFdLpWKLlBbb92OA/vJDiiPtXaU6WzioDHFO65s7sg9ONj0umhKZWa5z8060qj4talYs8HUB7QUToQrrzo3yeY8FiMbxm0z4I5788+ImgYal8em/7duLxJLT9lsTTvYHEQr8=
+	t=1715084704; cv=none; b=VtccfAYZQ0qjKj1ZkTc+oE1ee4u75SOv2ZSP/kW66Ym9jzlE9RMEtggKq8IXzt4NbGltrDkRYUmXbtuT48dwyzlFvThWXMAVIKC1TcWoHjP9GrWmFllUenVC8kyynv1l0usR6Fdam2tkuWw11igTNMNrCE9NHEhY0Ko/gMsyWfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715084607; c=relaxed/simple;
-	bh=2jFVexOgDEd4e1eXCSwvP7UB75DW2FjYVEgTn+wjHEA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mFQ+fFP+IG3xzLHJxYpAYcgwM7GKvpIqYj/K9ajS2Eq6Qgui5bp7NOnodvSCkHpWXyMS/y0GGvoY968EFNHyzNME/WupB/WFvZvZGtvf6hIXDk7JfVwaQJl/HY6BhAVCkV44Ejif6BXiNi32TYZpgkQZ+mTvARyA8snXU1+pEwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHGf+pT/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VbbVc2ek; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHGf+pT/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VbbVc2ek; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715084704; c=relaxed/simple;
+	bh=7SblqolKjySmEc6V7cBH+cBlOqX473FOdbBoGQaq4bk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMo+Ylvgm8p3tlpsLDi55vG+FA1vWY3SMkeAuOZILkzCVdgZIheg8cDSsXxr0BwNqQZkFAs/NuTQ0fYPbsrwKtS7LCO/DNqp5N2dZlZQzorCDwtqNm2a9v5H7Yv1kRrOMJnfrk+yzCVDVCUI1kxH7vEc1XFREfcCgIuQmWjcSjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dj+djPZm; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHGf+pT/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VbbVc2ek";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHGf+pT/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VbbVc2ek"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5229833E6C;
-	Tue,  7 May 2024 12:23:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715084604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
-	b=nHGf+pT/d5ghnLrHlEuONJ0yTuxo1fkZwdGtC9BBcEhKSV/KoGxK+EilrO6Sv5E9limwDc
-	MwicSK3aU0roKNWJX0CC6s3iF3/GZ6ZFPqjy6yoArWF3YCSrKJ5aJLPjgkuJXLCMAcS36/
-	3IiX2g+jcudNWYaMrQMLcsk212eh0pU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715084604;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
-	b=VbbVc2ek/x0uJe85ay27tmyFBIJVoL2NSakUAExZgt8VGh3ccqeoJPcqFbzFgKTw7dLpPU
-	Hw7HI3/k1S+6cgBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715084604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
-	b=nHGf+pT/d5ghnLrHlEuONJ0yTuxo1fkZwdGtC9BBcEhKSV/KoGxK+EilrO6Sv5E9limwDc
-	MwicSK3aU0roKNWJX0CC6s3iF3/GZ6ZFPqjy6yoArWF3YCSrKJ5aJLPjgkuJXLCMAcS36/
-	3IiX2g+jcudNWYaMrQMLcsk212eh0pU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715084604;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
-	b=VbbVc2ek/x0uJe85ay27tmyFBIJVoL2NSakUAExZgt8VGh3ccqeoJPcqFbzFgKTw7dLpPU
-	Hw7HI3/k1S+6cgBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3748A13A2D;
-	Tue,  7 May 2024 12:23:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hYjLDDwdOmYpEQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 12:23:24 +0000
-Date: Tue, 07 May 2024 14:23:38 +0200
-Message-ID: <87o79herp1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Junhao Pei <ArcticLampyrid@outlook.com>
-Cc: tiwai@suse.de,
-	sbinding@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com
-Subject: Re: [PATCH v4 0/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
-In-Reply-To: <TYCP286MB2535E8C7B2F9E7EDD75C4382C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-References: <TYCP286MB2535E8C7B2F9E7EDD75C4382C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dj+djPZm"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4475oO0n004102;
+	Tue, 7 May 2024 06:57:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=ftBlVY/8+8MJLqv
+	he1wF4ZSuv2MhawQfCqt8ygN3VQI=; b=dj+djPZm7UuJ4P1+gdmrC6npbftpIzV
+	Cn7oGOBQ94BeHYmQqp5rYZKlYgM6FZqeYDcR0h4yd2qreGTqIAQFKVvlZe51PSn5
+	fEQEUE28InOBFMIi7968yoZkf1ecC/VLfi0Wa6UFogK6XdidF5inddpDg+ZBy5Pj
+	yJs6PDiB+QDDarDxVILc53kk6pslk4FY7Sm5CZJWddfSLoTtXIrk2SVOXtLlwMew
+	D3YprLNu8d+EHHyfaDiirnemaycRdSUB4Lg+wCPFoSWYmL2+WNGXYkPnu2UcNgHy
+	Q/r7wIyubU0Csb6k0N7Oa6i30Lwmx9pmDSAl2j9uAPuPdcAIKsphE/w==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xy2cmh154-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 May 2024 06:57:13 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
+ 12:57:11 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 7 May 2024 12:57:11 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F1C16820244;
+	Tue,  7 May 2024 11:57:10 +0000 (UTC)
+Date: Tue, 7 May 2024 11:57:09 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC: James Schulman <james.schulman@cirrus.com>,
+        David Rhodes
+	<david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        "Liam
+ Girdwood" <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Lars-Peter
+ Clausen" <lars@metafoo.de>,
+        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami
+	<bgoswami@quicinc.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] ASoC: Constify channel mapping array arguments in
+ set_channel_map()
+Message-ID: <ZjoXFedPicgq8fyP@opensource.cirrus.com>
+References: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
+ <20240507-asoc-x1e80100-4-channel-mapping-v1-1-b12c13e0a55d@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.26 / 50.00];
-	BAYES_HAM(-2.96)[99.81%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[outlook.com];
-	FREEMAIL_ENVRCPT(0.00)[outlook.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: -3.26
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-1-b12c13e0a55d@linaro.org>
+X-Proofpoint-ORIG-GUID: _LFPFoz0pvkHmcCFOZwADU6UMjJP1mf7
+X-Proofpoint-GUID: _LFPFoz0pvkHmcCFOZwADU6UMjJP1mf7
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 06 May 2024 10:09:27 +0200,
-Junhao Pei wrote:
+On Tue, May 07, 2024 at 12:27:30PM +0200, Krzysztof Kozlowski wrote:
+> There is no need for implementations of DAI set_channel_map() to modify
+> contents of passed arrays with actual channel mapping.  Additionally,
+> the caller keeps full ownership of the array.
 > 
-> This fixes the sound not working from internal speakers on
-> Lenovo Legion Y9000X 2022 IAH7 models.
+> Constify these pointer arguments so the code will be safer and easier to
+> read (documenting the caller's ownership).
 > 
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218744
-> 
-> This patch depends on [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors when configuring IRQs (by Stefan Binding)
-> See also <https://lore.kernel.org/lkml/20240429154853.9393-2-sbinding@opensource.cirrus.com/>
-> 
-> Change from v3 <https://lore.kernel.org/lkml/TYCP286MB25357A4599E935F26A8AAB24C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-> - Remove the patch for cs35l41 to obey the trigger type from DSDT, for it is rarely used, and
->   the existing samples (Y9000X 2022 IAH7) has wrong trigger type in DSDT, which makes this change
->   useless.
-> - Instead, ignore errors when configuring interrupts to allow laptops with bad ACPI to play audio.
->   (via a patch from Stefan Binding)
-> 
-> Change from v2 <https://lore.kernel.org/lkml/TYCP286MB253523D85F6E0ECAA3E03D58C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-> - Correct spkid gpio index.
-> 
-> Change from v1 <https://lore.kernel.org/lkml/TYCP286MB25352F3E995FED9CCE90F1F6C40B2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
-> - Add a patch for cs35l41 to obey the trigger type from DSDT.
-> - Avoid disabling interupts for second amps.
-> 
-> Junhao Pei (1):
->   ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  include/sound/cs35l41.h                 |  4 ++--
+>  include/sound/soc-dai.h                 |  8 ++++----
+>  sound/soc/codecs/adau7118.c             |  6 ++++--
+>  sound/soc/codecs/cs35l41-lib.c          |  4 ++--
+>  sound/soc/codecs/cs35l41.c              |  3 ++-
 
-Applied to for-next branch now.  Thanks.
+For the cs35l41 bits:
 
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Takashi
+Thanks,
+Charles
