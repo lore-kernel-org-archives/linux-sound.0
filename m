@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6D11350E4;
-	Tue,  7 May 2024 23:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B9D1428F0;
+	Tue,  7 May 2024 23:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123329; cv=none; b=Ysjb7ymWu07ne5ieL0ohPS8f3Z8Ii35J667l6eAGp66GvczwSB3XZeVhQjaQxIdMZUyTV5yFt3xfTzSUebyJTWTReALv1R6xpBcT4oucC1aeOBqWzGnmZSjG3zkUY0OcXm64E3jeTNPOZecwkUn+VYivSeMWsZ2v1IkdoWoNKsM=
+	t=1715123340; cv=none; b=KqDYgK5/oMkxneq/mdvRwT14ZTarbtLjF9d0Xv75olSyS1xgJ92hwSIvIiUXb+vnL7LLpjYJFek+JnwurM4wtKzBJkOaLv5LUhQhHzBsV65IqLhhIgLWmH2R3SyQOcOj1ILh33ayfMHZNK8BsRxMcIl4jO2cen5Yzy2CS9cT1KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123329; c=relaxed/simple;
-	bh=xexA27Mt4oEuII0u/q/FpJT4grps7/6vevw9C19Zmiw=;
+	s=arc-20240116; t=1715123340; c=relaxed/simple;
+	bh=OYk/SNP9waEvg4CJG+FcCKBNcvA+ivNahBseQJQNfLY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LK8NkuIy1XZpUZ/jfKsVdmNEKAiRtJyKn5IqmIie6wEcduXy5tHd4336wANVrqX8FtCyCt7bNlSNhpXeH/90Gsxr9cYVpymxRogQERDGVJMLT3hPrcL7eBCLZhVLnOjx1jJDSF6fkL2hTN+1eQa2ra9QNjn083KmrLa7z5O0HyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X6qguEtH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=EC8IvJJhR6IglZTNxit6UJqcZ46JLkClgjKVVsXuBDShacnEKGM6Wq3jMiqnG1aRdw1hhAHAf8tKDlT0WEpteHtPAD9X/S6Pu6aIHMm1hdkMQq+TmmW+Ys6jeIoLKQkmJiHBylHFRcvmJRUX7OzJeK5TbpTOWkjnd5EDCAB6P1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NOw+Nm6W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6qguEtH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C1FC4AF63;
-	Tue,  7 May 2024 23:08:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NOw+Nm6W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74008C4AF68;
+	Tue,  7 May 2024 23:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123329;
-	bh=xexA27Mt4oEuII0u/q/FpJT4grps7/6vevw9C19Zmiw=;
+	s=k20201202; t=1715123339;
+	bh=OYk/SNP9waEvg4CJG+FcCKBNcvA+ivNahBseQJQNfLY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X6qguEtHtDUN04SmTGlJiPdm49qdoKE1DvMqVR4jyK8z5KxVlaiHamkqv1xzVRXhk
-	 +g87L4g2bCefrhI3G6k3/ymDuQG54ciRochXyU6r7LWJYCRCciQ/1s96A88W97YRoL
-	 B6HY+eYNFrsWDta2Z+OIWQ8IQmpNhZbuVlyWVVg0Te2BP4qHYbYxPMzb7HUP3+0If+
-	 mZ8IPAXVawvn5jXWvirFnhU9mKG6n/jgijZ3ME9Tx6dBHIiu3J/x/RzQOssNJj4Vye
-	 mmr3SO4v6XiG/C/wmKcGOpM7cuwUNY89TccCQ9S6et+OS7gWuecmsjzrhaZXnUj5og
-	 9f3Kx7yRD2l0A==
+	b=NOw+Nm6W9KXanPK1YtDXRntVZR8K3BCNhpAlqqkFetjIGtnvyNSYJaTuuEwBEYrHn
+	 +drlawEC9illhYr5/xpYfUOwdcgDwDX2ewH4DRLMNoGbXQqWQAHB4P+r69uQfbPlWg
+	 LhmSx1U/ZGqDTr6f3p/QEhoxoFemI7ocNu8vCKOTpMeCsiWwHvYaoK3guFcCD42cPL
+	 rm60wLW60V/SJoJpEqWeekSRK8nb/9I1lPleReAg80RqZzxfpfNt56Iz+aztGaaJxw
+	 roxR6HPy1aTema1Ads6MaJsd1G/M6NIy+Jfut9UIk9F4RGc885J8w1Uwmt88B11Ya2
+	 FtXSCAD2ssidw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	support.opensource@diasemi.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 25/52] ALSA: emu10k1: make E-MU FPGA writes potentially more reliable
-Date: Tue,  7 May 2024 19:06:51 -0400
-Message-ID: <20240507230800.392128-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 31/52] ASoC: da7219-aad: fix usage of device_get_named_child_node()
+Date: Tue,  7 May 2024 19:06:57 -0400
+Message-ID: <20240507230800.392128-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507230800.392128-1-sashal@kernel.org>
 References: <20240507230800.392128-1-sashal@kernel.org>
@@ -52,38 +54,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.9
 Content-Transfer-Encoding: 8bit
 
-From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit 15c7e87aa88f0ab2d51c2e2123b127a6d693ca21 ]
+[ Upstream commit e8a6a5ad73acbafd98e8fd3f0cbf6e379771bb76 ]
 
-We did not delay after the second strobe signal, so another immediately
-following access could potentially corrupt the written value.
+The documentation for device_get_named_child_node() mentions this
+important point:
 
-This is a purely speculative fix with no supporting evidence, but after
-taking out the spinlocks around the writes, it seems plausible that a
-modern processor could be actually too fast. Also, it's just cleaner to
-be consistent.
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
 
-Signed-off-by: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Message-ID: <20240428093716.3198666-7-oswald.buddenhagen@gmx.de>
+Add fwnode_handle_put() to avoid a leaked reference.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20240426153033.38500-1-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/emu10k1/io.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/codecs/da7219-aad.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/emu10k1/io.c b/sound/pci/emu10k1/io.c
-index 74df2330015f6..5cb8acf5b158c 100644
---- a/sound/pci/emu10k1/io.c
-+++ b/sound/pci/emu10k1/io.c
-@@ -285,6 +285,7 @@ static void snd_emu1010_fpga_write_locked(struct snd_emu10k1 *emu, u32 reg, u32
- 	outw(value, emu->port + A_GPIO);
- 	udelay(10);
- 	outw(value | 0x80 , emu->port + A_GPIO);  /* High bit clocks the value into the fpga. */
-+	udelay(10);
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index 6bc068cdcbe2a..15e5e3eb592b3 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -671,8 +671,10 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct device *dev)
+ 		return NULL;
+ 
+ 	aad_pdata = devm_kzalloc(dev, sizeof(*aad_pdata), GFP_KERNEL);
+-	if (!aad_pdata)
++	if (!aad_pdata) {
++		fwnode_handle_put(aad_np);
+ 		return NULL;
++	}
+ 
+ 	aad_pdata->irq = i2c->irq;
+ 
+@@ -753,6 +755,8 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct device *dev)
+ 	else
+ 		aad_pdata->adc_1bit_rpt = DA7219_AAD_ADC_1BIT_RPT_1;
+ 
++	fwnode_handle_put(aad_np);
++
+ 	return aad_pdata;
  }
  
- void snd_emu1010_fpga_write(struct snd_emu10k1 *emu, u32 reg, u32 value)
 -- 
 2.43.0
 
