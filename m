@@ -1,59 +1,60 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852DC15E5A2
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEB615E803
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715088047; cv=none; b=qpil2urA45QSw2PthHE+4KYCQNCuBzppGcIuaP/l2dleP8SQQdMUNSqqjiC7Dv0vrJhg/7XY1aj/5nlL1pT0bnkEc+ZAGqd2btetQX2RwNRbuGefo4KKf3cg9ACpjbCu9/SpO3R/ZQjVIYvJfxkaSlj1pQY1nWf9bJXxBNMR7nc=
+	t=1715088337; cv=none; b=e5WXTfMxqXUAlNz42j7Sgcx+cIMRK6NzyzUyOq0d3RWxLkiIhQe4pXeRyGe4eaxg+XqNuCBXtR47qTE8iahtw8DkcaB2zw57ETrMthGjdVMvzUmRxSLU9qCYYjV8QPJ3zBW2PpMcFno7G3yJGAiZum7eiCHFucYnpACZRhxGmVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715088047; c=relaxed/simple;
-	bh=mamtRdpVuLvc5n7H5rO8CzIxnBOX+3m2jzq6NAnyw8I=;
+	s=arc-20240116; t=1715088337; c=relaxed/simple;
+	bh=1YdTwfuNwxYNe8Mmuq702r1+TT9SLoVk7UjbXryhPHA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ksSezIVIrps4I9BBnuog3760FVsyY3A9IgCiJYb4+U4SpQKzVXxrSbYlHmXXGqLm1VyZHYutqeYis2+q5iSgDZAm8z2GEAW3Fi9RT/+X+rvu/XC2fJdoUtoIySqy5g1N0HcPXnk2TCrXa2bjAAlLhUHs9TfeNbo1k7ZgPayXTxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I9lm/B7J; arc=none smtp.client-ip=209.85.167.42
+	 In-Reply-To:Content-Type; b=R6ZpPY8peKquFkFnL4lAMkLQPtB9OfNa0hY7CDzLqcInPQTNhrs4Xf26GuJlQLBGJGiwa6lEk4lz4dvNlO1fzBj+voisqiuay0kGijBMQhrMnmrbFa3pwmdfG63pwtkA+CqiqpDjJ8QSZaBXX5H3VckKGEMpR1xGSgUzMrL4mwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WRp7wQVR; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I9lm/B7J"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51f4d2676d1so3481528e87.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 06:20:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WRp7wQVR"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-41ba0bb5837so21775475e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 06:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715088044; x=1715692844; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1715088333; x=1715693133; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=K752O0Pcm3pbK7QoMDyqSQ3O3yzgRSedQhsNAlMKLtQ=;
-        b=I9lm/B7JeM6zCxEnqG9ogfOlR4YvRk2h64PjUiVbUsMyzt+ZHPB5WypBd2ikN44reo
-         YsBaCqBwXU7ixmFaBFPO3AL7Id2DHszD0m9OVnOTNgJquy7zyrlatO7bxBhw1OGcFIa2
-         Rv5u4k0HZOmVPT4JgmEUfe9kgAjkkKVu0+jUzzMPtlTNQIDFOQvGdxl1gynmg0x0H8sj
-         pEgenzVepqG/Ra3EsNvj9qO3XQ0dopJsojfroyat7rOttrl/2QsWEyzk2UJHzOK6r/D9
-         cAcuTadS2+T31PF/c4CvMU2RfTD4QYKnQnIQ9mB1QguqoVVjXWXQJKG3JrpoiI8eCcrh
-         ynfQ==
+        bh=wlNzM09ry4x5F/SvfwoA6Cda7LNRXq8+feF1giEA3Z4=;
+        b=WRp7wQVRDonbMfkem1T93yUB/lPd4r/1yObNUWYsOZTIYUwHIvFDZXfqJLtn4rs8UR
+         diSJbyxi0hBBXfOkmrpnqT9XxHmzycFyfrRmu3g6hYEOZ0w1jxEhxCH95ImZUtZMeGMA
+         P/1JLblSxR8C/lH8r+iE0TmFEOtwH+a7o08BNG09Niwjrg4vI4kBDtVO5lcBN3UL8HLc
+         mSAc3pk1nAuq1PVVS5MlfuEPnJZNQx+pPG6yTXDhT5vRFtLNNNmyngIm5eAB9WOal4SC
+         gKw2jTVsxruUrGbCBCr/S33zrEkYamME4bGTrMpzc2Rdh9e1nis1FJNLGjaSHm236ABm
+         D+IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715088044; x=1715692844;
+        d=1e100.net; s=20230601; t=1715088333; x=1715693133;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K752O0Pcm3pbK7QoMDyqSQ3O3yzgRSedQhsNAlMKLtQ=;
-        b=IByB5wLHihzH1Yx1m+GziapfBa81JS3SdINLPTPIQd3MIN/0ngiqJ2XZAt5AKAu+PX
-         MRPfykv7qymdthPEhb6gAOcbRE2yWIvwRmO1sEKSbyh/ZKpmBC8mYnjuxcWvSPd2UFNb
-         p51h73cEfUKsJC/uI0zAb0uXLzb3l7FU12EDazfZODbvRyZ7K8POvY1LuDGK3Rwp7lWo
-         cTDviln1d7BNoFjCAHv7o+wV8jsdpoIbjJxiB4+KEiKUtgskukPW7ClGbc+xhSnCfCn4
-         9K36uoNJgryHRjDlpnKCOj20Gjubgefvo9nt+yXz9yX121wINFk7RZSV0ZsOcSxRGGWV
-         GiEw==
-X-Forwarded-Encrypted: i=1; AJvYcCU731eSXgapS3HwyuGKizaDGFQivheJmBaZ8E/qZLRU8teMgPH57gtkTZ0DbrJndmVktB+0Zz7L4NXnJon9iEpyCv8H7WkuEXGJuks=
-X-Gm-Message-State: AOJu0Yz6ZldS8FOIE4N8Zz43wsVOKR6I36lkReDeRiYu9a4OvCpGStAi
-	agT2RygzOiIdk061CktP9fAw6gIqLJxiG4mPf+2p28r0iVBlWbE0ir2ALeZzwjE=
-X-Google-Smtp-Source: AGHT+IEGgqheSj5TrFbScUYvwODCUxXLu8LisrOI8dAlAhc9ZxNegHyZOZbMATbWnAgxeOagu8p+xA==
-X-Received: by 2002:ac2:490b:0:b0:51e:fd97:af89 with SMTP id n11-20020ac2490b000000b0051efd97af89mr8145136lfi.16.1715088043422;
-        Tue, 07 May 2024 06:20:43 -0700 (PDT)
+        bh=wlNzM09ry4x5F/SvfwoA6Cda7LNRXq8+feF1giEA3Z4=;
+        b=YdnCtO9BRU5Nbmsc2PEW26ZO1h/dOqJjeNHN9Z05TbXn9C3C4iKjFIderGf/AfQQrs
+         8Pp/lp8oS5Mv4zjMQb6q8EKZi7fJmAySR4NbMl+9Oo9ZdGh2EiqmIOS/+8jeePSnh2GC
+         7Apl+BYNSoQ6kxyJPLnBDogpMA5XgylxN/qHCO0ywD3jruhjRk81yAvKl9kni4DTXvlP
+         RBBxsB21ItbcOSiEtjZX75fj1vdWXxhhYnjTz1T4Orw+4uT0A9/qfGv6cVQwBDeh5BMk
+         wOwwF4wxg8VaFwB40Ez033RvJLVPHVGTdg0lm4Q+wEYXr8q35iZCx4SYbM6CTNfs4Zf+
+         MhdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWcjHxjiVyFCo+HFo76/ABIy7FI7Hkh8NrV4wdTboTMY0S+GcVA+cjSIYAI9kY/Qcb0BluUJ4foy0zlOGbtJAb6z3TKY2OceW3s/8=
+X-Gm-Message-State: AOJu0Ywrq3kkZlu1Qylj4ZTwzArnIyTsS0RuKgudZmyrwFJV7OO1yW77
+	hb1ErMiqAnLTpPhd8bXwKz/vtMqlvI+pFDnVkrIPRd3mPUDTAJ9h8bpP9jNAi1UuRCheQcF8iT+
+	k
+X-Google-Smtp-Source: AGHT+IFlwogjnVk5W12TDpiJhf3o1G5wSzPvFgFvrXCif+LH31aJHWpIuIozCpHtIE/PUCFHrT5uaw==
+X-Received: by 2002:a05:600c:1d9c:b0:41b:dafe:ff78 with SMTP id p28-20020a05600c1d9c00b0041bdafeff78mr9340116wms.20.1715088333342;
+        Tue, 07 May 2024 06:25:33 -0700 (PDT)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id a6-20020a05600c348600b0041c14e42e2bsm19558165wmq.44.2024.05.07.06.20.41
+        by smtp.googlemail.com with ESMTPSA id p9-20020a05600c1d8900b0041563096e15sm23691996wms.5.2024.05.07.06.25.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 06:20:42 -0700 (PDT)
-Message-ID: <738045d2-a445-4f93-abfd-203348a538d1@linaro.org>
-Date: Tue, 7 May 2024 14:20:41 +0100
+        Tue, 07 May 2024 06:25:32 -0700 (PDT)
+Message-ID: <89cf75d8-1f85-43d8-9c33-377a04b36121@linaro.org>
+Date: Tue, 7 May 2024 14:25:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,7 +62,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] ASoC: qcom: x1e80100: Correct channel mapping
+Subject: Re: [PATCH 2/4] ASoC: qcom: q6dsp: Implement proper channel mapping
+ in Audioreach
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  James Schulman <james.schulman@cirrus.com>,
  David Rhodes <david.rhodes@cirrus.com>,
@@ -73,123 +75,186 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
- <20240507-asoc-x1e80100-4-channel-mapping-v1-4-b12c13e0a55d@linaro.org>
+ <20240507-asoc-x1e80100-4-channel-mapping-v1-2-b12c13e0a55d@linaro.org>
 Content-Language: en-US
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-4-b12c13e0a55d@linaro.org>
+In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-2-b12c13e0a55d@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Thanks Krzystof for the patch.
+
 
 On 07/05/2024 11:27, Krzysztof Kozlowski wrote:
-> X1E80100 CRD board comes with four speakers arranged as left front+back
-> and then right front+back.  Using default channel mapping causes front
-> right speaker to play left back stream.
+> Instead of relying on default channel mapping in all Audioreach
+> platforms, implement set_channel_map() callback to allow sound cards
+> customize the mapping depending on needs.
 > 
-> Adjust the channel maps for frontend DAIs to fix stereo and four-channel
-> playback.
+> The channel mapping is set on frontend DAIs coming from the topology,
+> not DTS, thus need to add DAI ops in topology dai_load() callback.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   sound/soc/qcom/x1e80100.c | 37 +++++++++++++++++++++++++++++++++++--
->   1 file changed, 35 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-> index c3c8bf7ffb5b..e90c68815b5c 100644
-> --- a/sound/soc/qcom/x1e80100.c
-> +++ b/sound/soc/qcom/x1e80100.c
-> @@ -12,6 +12,7 @@
->   
->   #include "common.h"
->   #include "qdsp6/q6afe.h"
-> +#include "qdsp6/q6dsp-common.h"
->   #include "sdw.h"
->   
->   struct x1e80100_snd_data {
-> @@ -74,7 +75,7 @@ static int x1e80100_snd_hw_params(struct snd_pcm_substream *substream,
->   	return qcom_snd_sdw_hw_params(substream, params, &data->sruntime[cpu_dai->id]);
->   }
->   
-> -static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
-> +static int x1e80100_snd_be_prepare(struct snd_pcm_substream *substream)
->   {
->   	struct snd_soc_pcm_runtime *rtd = substream->private_data;
->   	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> @@ -96,12 +97,34 @@ static int x1e80100_snd_hw_free(struct snd_pcm_substream *substream)
->   				    &data->stream_prepared[cpu_dai->id]);
->   }
->   
-> +static int x1e80100_snd_fe_prepare(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		const unsigned int rx_slot[4] = { PCM_CHANNEL_FL,
-> +						  PCM_CHANNEL_LB,
-> +						  PCM_CHANNEL_FR,
-> +						  PCM_CHANNEL_RB };
-> +
-> +		snd_soc_dai_set_channel_map(cpu_dai, 0, NULL, ARRAY_SIZE(rx_slot),
-> +					    rx_slot);
+>   sound/soc/qcom/qdsp6/audioreach.c |  2 +-
+>   sound/soc/qcom/qdsp6/audioreach.h |  1 +
+>   sound/soc/qcom/qdsp6/q6apm.c      | 28 +++++++++++++++++++++++++++-
+>   sound/soc/qcom/qdsp6/q6apm.h      |  8 ++++++++
+>   sound/soc/qcom/qdsp6/topology.c   | 12 ++++++++++++
+>   5 files changed, 49 insertions(+), 2 deletions(-)
+Please use the existing q6dma_set_channel_map() and set the channel map 
+for the backend dai from machine driver, this should work.
 
-Channel mapping are specific to backend dais rather than front end pcm dais.
+setting channels on FE is not a scalable one.
 
-This will set all the playback pcms with this channel maps, which is a 
-problem.
-
-example the 2 channel headset we will endup with data of front channel 
-and zeros on the right channel, however a speaker might work as you have 
-4 speakers in your system.
-
-
-So No for this approach.
-
+Please take a look at some of the patches that I shared privately.
 
 --srini
-
-> +	}
+> 
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+> index c655f0213723..8175678d8843 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+> @@ -267,7 +267,7 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
+>   }
+>   EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
+>   
+> -static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
+> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
+>   {
+>   	if (num_channels == 1) {
+>   		ch_map[0] =  PCM_CHANNEL_FL;
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+> index 2c82917b7162..cef9a9015dcc 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.h
+> +++ b/sound/soc/qcom/qdsp6/audioreach.h
+> @@ -767,6 +767,7 @@ struct audioreach_module_config {
+>   /* Packet Allocation routines */
+>   void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t
+>   				    token);
+> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels);
+>   void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
+>   			       uint32_t token, uint32_t src_port,
+>   			       uint32_t dest_port);
+> diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
+> index 2a2a5bd98110..c29a2dd36992 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm.c
+> @@ -13,6 +13,7 @@
+>   #include <linux/soc/qcom/apr.h>
+>   #include <linux/wait.h>
+>   #include <sound/soc.h>
+> +#include <sound/soc-dai.h>
+>   #include <sound/soc-dapm.h>
+>   #include <sound/pcm.h>
+>   #include "audioreach.h"
+> @@ -29,6 +30,29 @@ struct apm_graph_mgmt_cmd {
+>   
+>   static struct q6apm *g_apm;
+>   
+> +static int q6apm_dai_set_channel_map(struct snd_soc_dai *dai,
+> +				     unsigned int tx_num,
+> +				     const unsigned int *tx_ch_mask,
+> +				     unsigned int rx_num,
+> +				     const unsigned int *rx_ch_mask)
+> +{
+> +	struct q6apm *apm = dev_get_drvdata(dai->dev);
+> +	int i;
+> +
+> +	if (dai->id >= ARRAY_SIZE(apm->dai_config))
+> +		return -EINVAL;
+> +
+> +	apm->dai_config[dai->id].num_channels = rx_num;
+> +	for (i = 0; i < rx_num; i++)
+> +		apm->dai_config[dai->id].channel_map[i] = rx_ch_mask[i];
 > +
 > +	return 0;
 > +}
 > +
->   static const struct snd_soc_ops x1e80100_be_ops = {
->   	.startup = qcom_snd_sdw_startup,
->   	.shutdown = x1e80100_snd_shutdown,
->   	.hw_params = x1e80100_snd_hw_params,
->   	.hw_free = x1e80100_snd_hw_free,
-> -	.prepare = x1e80100_snd_prepare,
-> +	.prepare = x1e80100_snd_be_prepare,
+> +const struct snd_soc_dai_ops q6apm_dai_ops = {
+> +	.set_channel_map	= q6apm_dai_set_channel_map,
 > +};
 > +
-> +static const struct snd_soc_ops x1e80100_fe_ops = {
-> +	.prepare = x1e80100_snd_fe_prepare,
+>   int q6apm_send_cmd_sync(struct q6apm *apm, struct gpr_pkt *pkt, uint32_t rsp_opcode)
+>   {
+>   	gpr_device_t *gdev = apm->gdev;
+> @@ -722,7 +746,7 @@ static int apm_probe(gpr_device_t *gdev)
+>   {
+>   	struct device *dev = &gdev->dev;
+>   	struct q6apm *apm;
+> -	int ret;
+> +	int ret, i;
+>   
+>   	apm = devm_kzalloc(dev, sizeof(*apm), GFP_KERNEL);
+>   	if (!apm)
+> @@ -733,6 +757,8 @@ static int apm_probe(gpr_device_t *gdev)
+>   	mutex_init(&apm->lock);
+>   	apm->dev = dev;
+>   	apm->gdev = gdev;
+> +	for (i = 0; i < ARRAY_SIZE(apm->dai_config); i++)
+> +		audioreach_set_channel_mapping(apm->dai_config[i].channel_map, 4);
+>   	init_waitqueue_head(&apm->wait);
+>   
+>   	INIT_LIST_HEAD(&apm->widget_list);
+> diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
+> index c248c8d2b1ab..0e2e7b6cd6c1 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm.h
+> +++ b/sound/soc/qcom/qdsp6/q6apm.h
+> @@ -47,6 +47,11 @@
+>   #define APM_LAST_BUFFER_FLAG			BIT(30)
+>   #define NO_TIMESTAMP				0xFF00
+>   
+> +struct q6apm_dai_config {
+> +	unsigned int num_channels;
+> +	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
+> +};
+> +
+>   struct q6apm {
+>   	struct device *dev;
+>   	gpr_port_t *port;
+> @@ -65,6 +70,7 @@ struct q6apm {
+>   	struct idr sub_graphs_idr;
+>   	struct idr containers_idr;
+>   	struct idr modules_idr;
+> +	struct q6apm_dai_config dai_config[4];
 >   };
 >   
->   static void x1e80100_add_be_ops(struct snd_soc_card *card)
-> @@ -118,6 +141,15 @@ static void x1e80100_add_be_ops(struct snd_soc_card *card)
->   	}
+>   struct audio_buffer {
+> @@ -108,6 +114,8 @@ struct q6apm_graph {
+>   	struct audioreach_graph_info *info;
+>   };
+>   
+> +extern const struct snd_soc_dai_ops q6apm_dai_ops;
+> +
+>   /* Graph Operations */
+>   struct q6apm_graph *q6apm_graph_open(struct device *dev, q6apm_cb cb,
+>   				     void *priv, int graph_id);
+> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+> index 70572c83e101..9708d200568d 100644
+> --- a/sound/soc/qcom/qdsp6/topology.c
+> +++ b/sound/soc/qcom/qdsp6/topology.c
+> @@ -1034,6 +1034,17 @@ static int audioreach_tplg_complete(struct snd_soc_component *component)
+>   	return 0;
 >   }
 >   
-> +static int x1e80100_add_dai_link(struct snd_soc_card *card, struct snd_soc_dai_link *link)
+> +static int audioreach_dai_load(struct snd_soc_component *cmp, int index,
+> +			       struct snd_soc_dai_driver *dai_drv,
+> +			       struct snd_soc_tplg_pcm *pcm,
+> +			       struct snd_soc_dai *dai)
 > +{
-> +	/* Add ops for Frontend DAIs coming from Topology */
-> +	if (link->dynamic && !link->no_pcm && !link->ops)
-> +		link->ops = &x1e80100_fe_ops;
+> +	if (pcm)
+> +		dai_drv->ops = &q6apm_dai_ops;
 > +
 > +	return 0;
 > +}
 > +
->   static int x1e80100_platform_probe(struct platform_device *pdev)
->   {
->   	struct snd_soc_card *card;
-> @@ -135,6 +167,7 @@ static int x1e80100_platform_probe(struct platform_device *pdev)
+>   /* DAI link - used for any driver specific init */
+>   static int audioreach_link_load(struct snd_soc_component *component, int index,
+>   				struct snd_soc_dai_link *link,
+> @@ -1251,6 +1262,7 @@ static struct snd_soc_tplg_ops audioreach_tplg_ops  = {
+>   	.widget_unload = audioreach_widget_unload,
 >   
->   	card->owner = THIS_MODULE;
->   	card->dev = dev;
-> +	card->add_dai_link = x1e80100_add_dai_link;
->   	dev_set_drvdata(dev, card);
->   	snd_soc_card_set_drvdata(card, data);
+>   	.complete = audioreach_tplg_complete,
+> +	.dai_load = audioreach_dai_load,
+>   	.link_load = audioreach_link_load,
 >   
+>   	.dapm_route_load	= audioreach_route_load,
 > 
