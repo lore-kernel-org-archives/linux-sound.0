@@ -1,88 +1,67 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE54168AF1;
-	Tue,  7 May 2024 16:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B360310E6;
+	Tue,  7 May 2024 17:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097815; cv=none; b=ti7SSfYLQfloMgc+D/mUu1gxf53IbUYhxzDDdbuePOV6e00bCctPYQikVbs86UuwiShM3SXn+fb/QUOvzDCoTXK0ncoj4o1cUwRM6gkOX7lQgont3eRgriaD4vV8IJfUJROPMEVjPf8DCoxHEDPloZ7xALO3nPcBlFCKPNknFLA=
+	t=1715101614; cv=none; b=TLlgZWhcBuKg1p1yFjEoWMcYTI9B7x54O5V9Klon/ooiIHYtcyl+xmYoryG1J7KGBGST3873yupxkIZu6ruBxzWlYyhJBtvVYWqCzE1ObqoYXDN260UgYCq9aGtLtTmDOdYF7PMBjIJF33u1rtmgdCGxcOu/TAGGzxJjlI24t18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715097815; c=relaxed/simple;
-	bh=Xx7Ej+9S8evVgDf2z9EGwZnJvMuS9cGkKNaqI+0ELtk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YLG4nFG7wzGEbBo7mhLEGZUomu555d2f/ND+gJp38HP9mj9H7LS+ye+3/cnGrCG/7/tJB4nZMKZyj6qIn6Vul70lzGFZWtZ1UTKwmkqAY8/98u6wNLOgXVzlENoHJp61qbugtK3kuxSZ2Q6srG3zBzRMKN8XTQAqiv7XyfQv404=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nFVPttSH; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1715101614; c=relaxed/simple;
+	bh=I0KMSR0IFxJb+Wy8F+KtnXz3CBw9IWvYTFV+wlDZT6U=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=rboW+HPmoxEOe0yvdjYrfz9wofFji+FwM7avRJK2eCRIDtmO+TzHtpM1nroN3EjOT6kQi/ZXTzvrwMFST8cjvVryP7fQlcQwSsV4ZgEwZVjucnbguJmJK8pvnHx2zkz4FwiZ21d/1jhYpUSrjJe9oaDG0uRaWZ4A8LkZh0i792c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=VSu0IwKO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nFVPttSH"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 447EWXPR028438;
-	Tue, 7 May 2024 11:01:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=j
-	tTiHU6Lrbbii6hLYj4QMHgZinWZVyyt0Dx+k7hmrAw=; b=nFVPttSHSfcNq1Jsu
-	jLJs/RRTgPTLtdRDLJEJgAxc6g5VBkef9AWQFy1LF0Z7Egj36Lwh00aLaF6LJUW2
-	ev58XGFHZkH/oPLRFSgp51B7R2DOs7PGfA23xsNWRvu00xKBx/ZDKQBzB6GLZvGD
-	VvnedakDIfZuJKwgjPtRBYGtC74l5VZHNawBxsK0Cu8lQtlzZbLP6oW5DbygQYAp
-	MqOCsMC8flRzw6C08eOBVd6dc7+dkv/U/n31rsE4+UMfbX8duQclTW1/Lvu497fb
-	cf5NfYlYp7SSWVxQFu+psdtURePhGIJorpW2PG8ynBQQpbGgX2QcpYVj+v0T/MwB
-	Vc37g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xy2cmhaug-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 May 2024 11:01:38 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
- 17:01:35 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 7 May 2024 17:01:35 +0100
-Received: from sbinding-cirrus-dsktp2.ad.cirrus.com (unknown [198.61.65.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 81891820249;
-	Tue,  7 May 2024 16:01:35 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        "Stefan
- Binding" <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1] ALSA: hda/realtek: Add support for ASUS Zenbook 2024 HN7306W
-Date: Tue, 7 May 2024 17:01:31 +0100
-Message-ID: <20240507160131.356114-1-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VSu0IwKO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F757C2BBFC;
+	Tue,  7 May 2024 17:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1715101613;
+	bh=I0KMSR0IFxJb+Wy8F+KtnXz3CBw9IWvYTFV+wlDZT6U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VSu0IwKOE9sV4S/ghP+sxGR0Jv2NdyntyQAFtt6BVEYsxV/CGNKOJ9MWPv/kRgZ3z
+	 FdP8B57RwJGeV7eAELA2EIFb6WOhTNr3/EZ/9WyZZJHlQoNlkfN+rOuSPZTEMdZ/ae
+	 Fme0jRVdrq5/DGMwy4M+o29G/QQUziGnPgYCBIYw=
+Date: Tue, 7 May 2024 10:06:51 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Tao Su <tao1.su@linux.intel.com>
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, edliaw@google.com,
+ ivan.orlov0322@gmail.com, broonie@kernel.org, perex@perex.cz,
+ tiwai@suse.com, shuah@kernel.org, seanjc@google.com, pbonzini@redhat.com,
+ bongsu.jeon@samsung.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, alexandre.belloni@bootlin.com,
+ jarkko@kernel.org, dave.hansen@linux.intel.com
+Subject: Re: [PATCH] selftests: Add _GNU_SOURCE definition when including
+ kselftest_harness.h
+Message-Id: <20240507100651.8faca09c7af34de28f830f03@linux-foundation.org>
+In-Reply-To: <20240507063534.4191447-1-tao1.su@linux.intel.com>
+References: <20240507063534.4191447-1-tao1.su@linux.intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: eH9MVN0oIpQj7gMEwNvdblta-VVel0L3
-X-Proofpoint-GUID: eH9MVN0oIpQj7gMEwNvdblta-VVel0L3
-X-Proofpoint-Spam-Reason: safe
 
-This laptop uses CS35L41 HDA with 2 amps using I2C and Internal Boost.
+On Tue,  7 May 2024 14:35:34 +0800 Tao Su <tao1.su@linux.intel.com> wrote:
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+> asprintf() is declared in stdio.h when defining _GNU_SOURCE, but stdio.h
+> is so common that many files don’t define _GNU_SOURCE before including
+> stdio.h, and defining _GNU_SOURCE after including stdio.h will no longer
+> take effect.
+> 
+> Since kselftest_harness.h introduces asprintf(), it is necessary to add
+> _GNU_SOURCE definition in all selftests including kselftest_harness.h,
+> otherwise, there will be warnings or even errors during compilation.
+> There are already many selftests that define _GNU_SOURCE or put the
+> include of kselftest_harness.h at the very beginning of the .c file, just
+> add the _GNU_SOURCE definition in the tests that have compilation warnings.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 8502b30d5d5d..8c157158f1cb 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10276,6 +10276,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALC285_FIXUP_CS35L56_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALC285_FIXUP_CS35L56_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
-+	SND_PCI_QUIRK(0x1043, 0x1ed3, "ASUS HN7306W", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA401),
--- 
-2.34.1
-
+That asprintf() continues to cause problems.  How about we just remove
+it? Do the malloc(snprintf(str, 0, ...)) separately?
