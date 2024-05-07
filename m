@@ -1,53 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F44A7FBA6;
-	Tue,  7 May 2024 23:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612121369A6;
+	Tue,  7 May 2024 23:10:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123436; cv=none; b=EtG0Do653801mD/bjwLy3B8+/WUoQDkCO830Vw743PrFO836rBkHZ8eFND7uDfkeFP9YTbtaGtKLCXTwnpQWfL4oCGKXbJQK9PWuPCJK2voPVUd+2fhktFj2blXmCELgh6FIOc6ZrefT6EHd2Y8oy1Nd5fapjFz/lyNOL0JWqZE=
+	t=1715123439; cv=none; b=YMxdfrg5kGvr9reFgRk9TsddRSmGDp/qW1gAmqBNUEO36bzFdDl6AAqlM5CgYF1eVNvw9p2PBjfmwcgsVAPZu42RgbUzNpzwu+LZbjEhnIJVA+A0Jx/woJnmHBzJrFd5idoEPrph5hOg8XXLoSCXtOWktMs8Pv5ZS0Ya+qVGzLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123436; c=relaxed/simple;
-	bh=mlO1AB1Iz8VdqHcNQzJ0eSmS0bKUqYyoUn6XIjE4TJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=crKyXivCvcFx+Mp0qV70zLY0lJ0ciiKJq2Mmu7tSkwTRr+Da3Ke9oUbhJcXswZErFyOPpJXGQ/xnpLx537fPqN9scGECKuO2BKJXYYtyldLjnzfr2SjaBJM9qWOzG8NL5dOXLeTji+/2ls5vfjuXjx2abwYL2mhA0Hozm4vTT8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrLFjPaO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715123439; c=relaxed/simple;
+	bh=R4A3Jb9aZLMRVk1H1aorfEqnyalruYt56W9sJFqjOhg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=W6+Y4BHz9lD6EP/zzb94ZxrzcnamrTS1dMy8ECdROPm8tu+nOrJCpwOtwKBy8lvAkIhefdjTNCgIkzeWHNgKaUQSX9PbkkhAAq88J8Kcbprzt5QnObnwguz5EQIHZmGWxlZGtymXdlj59Bfc3xQEvQGDpW/0NKokuDaXoRWmT/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0KHw/2L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrLFjPaO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900ABC2BBFC;
-	Tue,  7 May 2024 23:10:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0KHw/2L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 046D4C4DDE5;
+	Tue,  7 May 2024 23:10:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123436;
-	bh=mlO1AB1Iz8VdqHcNQzJ0eSmS0bKUqYyoUn6XIjE4TJM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=JrLFjPaOdJ6/C1eBKUy1ozF8req+Fdq64njZH5RtwZXxUnCzCs1Gz8uAU6gXTPSMj
-	 svjPJo2txJuZ5/8LAkWA6yJD3KLyNqDuZSY1iR1eaquGu+S4K9hcy7+CK3AQHCIm56
-	 emoAv0L1noh+nhDBP2IKo/gdm4VDp48G1EGgPpJqU4iJ+7I6G7g9WeX2JtKRVzxrFk
-	 UhNlbwfgBGnCYx0u3gMWCsCuC+hxWsgqy7+oGkS1BdsMf2ZV8Y7/rjZ+OUKtCROwza
-	 QQE+LKXM4WwDZKL4CoyfcO9gsQaSYB8QRnwl3yiLQQSfn6OMZr/6YG2fyTxsgQ0CS2
-	 I/7VCZDseSqsw==
+	s=k20201202; t=1715123439;
+	bh=R4A3Jb9aZLMRVk1H1aorfEqnyalruYt56W9sJFqjOhg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=j0KHw/2LVbdoNLEHXA4KYd7f7hnIRbeVueZ7T+AjfGhs1TdaIv4DdjCo96Hwnwnjr
+	 jg8XctyWzcEGH4UxuoKLbk8GypEHAySq25J8/4OezBaAO3alBsh1gENfRScFlr5Qmc
+	 +3GsHk+1rodkxrtrVCXolz5fUsYKKw4Fx2VPDqAMA1mKDTfyloxmnLtS2zWyIafo8o
+	 OSUfWhMyhL/mJQ4j7ec8B04wEG5sb5HDsCRDFUz5cOUu+72QxWCGTDdRlyVRpJ3073
+	 4fv1RGEkBJI1valR2jHmEpYsyswBjizNLo+qYtCqg+fBwUBnlKfx6R2ydggj3FXjap
+	 SRHGUWV37r+Bw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	pierre-louis.bossart@linux.intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
+	james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
-	alban.boye@protonmail.com,
 	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 01/43] ASoC: Intel: bytcr_rt5640: Apply Asus T100TA quirk to Asus T100TAM too
-Date: Tue,  7 May 2024 19:09:22 -0400
-Message-ID: <20240507231033.393285-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 03/43] ALSA: hda: cs35l56: Exit cache-only after cs35l56_wait_for_firmware_boot()
+Date: Tue,  7 May 2024 19:09:24 -0400
+Message-ID: <20240507231033.393285-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507231033.393285-1-sashal@kernel.org>
+References: <20240507231033.393285-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,68 +56,48 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.30
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit e50729d742ec364895f1c389c32315984a987aa5 ]
+[ Upstream commit 73580ec607dfe125b140ed30c7c0a074db78c558 ]
 
-The Asus T100TA quirk has been using an exact match on a product-name of
-"T100TA" but there are also T100TAM variants with a slightly higher
-clocked CPU and a metal backside which need the same quirk.
+Adds calls to disable regmap cache-only after a successful return from
+cs35l56_wait_for_firmware_boot().
 
-Sort the existing T100TA (stereo speakers) below the more specific
-T100TAF (mono speaker) quirk and switch from exact matching to
-substring matching so that the T100TA quirk will also match on
-the T100TAM models.
+This is to prepare for a change in the shared ASoC module that will
+leave regmap in cache-only mode after cs35l56_system_reset(). This is
+to prevent register accesses going to the hardware while it is
+rebooting.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://msgid.link/r/20240407191559.21596-1-hdegoede@redhat.com
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://msgid.link/r/20240408101803.43183-3-rf@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/bytcr_rt5640.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ sound/pci/hda/cs35l56_hda.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index e609249cc38d5..651408c6f399d 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -636,28 +636,30 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
- 					BYT_RT5640_USE_AMCR0F28),
- 	},
- 	{
-+		/* Asus T100TAF, unlike other T100TA* models this one has a mono speaker */
- 		.matches = {
- 			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
--			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TAF"),
- 		},
- 		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
- 					BYT_RT5640_JD_SRC_JD2_IN4N |
- 					BYT_RT5640_OVCD_TH_2000UA |
- 					BYT_RT5640_OVCD_SF_0P75 |
-+					BYT_RT5640_MONO_SPEAKER |
-+					BYT_RT5640_DIFF_MIC |
-+					BYT_RT5640_SSP0_AIF2 |
- 					BYT_RT5640_MCLK_EN),
- 	},
- 	{
-+		/* Asus T100TA and T100TAM, must come after T100TAF (mono spk) match */
- 		.matches = {
--			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
--			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TAF"),
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "T100TA"),
- 		},
- 		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
- 					BYT_RT5640_JD_SRC_JD2_IN4N |
- 					BYT_RT5640_OVCD_TH_2000UA |
- 					BYT_RT5640_OVCD_SF_0P75 |
--					BYT_RT5640_MONO_SPEAKER |
--					BYT_RT5640_DIFF_MIC |
--					BYT_RT5640_SSP0_AIF2 |
- 					BYT_RT5640_MCLK_EN),
- 	},
- 	{
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index 27848d6469636..05b1412868fc0 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -603,6 +603,8 @@ static int cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
+ 		if (ret)
+ 			goto err_powered_up;
++
++		regcache_cache_only(cs35l56->base.regmap, false);
+ 	}
+ 
+ 	/* Disable auto-hibernate so that runtime_pm has control */
+@@ -942,6 +944,8 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int id)
+ 	if (ret)
+ 		goto err;
+ 
++	regcache_cache_only(cs35l56->base.regmap, false);
++
+ 	ret = cs35l56_set_patch(&cs35l56->base);
+ 	if (ret)
+ 		goto err;
 -- 
 2.43.0
 
