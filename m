@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C91201255;
-	Tue,  7 May 2024 23:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5FD20FAAB;
+	Tue,  7 May 2024 23:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123618; cv=none; b=e/Xk9be49LoVbpNywA0dG+YlwzRI3fdtf1t5zqYOUZVTLYjNSosSRT9DxKRGr2pXSHq6E0hRnqt574WULw4CNBEHTVlL2zqfrtUdTQDQwPW/d/xylFqa+cwbDZyDzyzZUi+rIOUYoNaUGKQnDEZxZ7Kg4WNgJUZrmBo3t7j3q/Q=
+	t=1715123622; cv=none; b=qafgxTiyOBVBc84skghx7eI72HS5bgts5KhDJtrLLj/SPg1ivEfYQwYo2jA5qtT4EhgV6xVTX2P62GwkLD4mzvCph9cO4maVhLgggIkFmuSV+cfd8bnuZ/iCTKrO8vOd0moYi7bEOM33T6UoTpY6/ROdv2ufKawqhgLfqhAf6oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123618; c=relaxed/simple;
-	bh=V9xwPCi2BbHqvXbn+HBOTFHYtgRml7I7/V1s2BHN2qA=;
+	s=arc-20240116; t=1715123622; c=relaxed/simple;
+	bh=vxPIpeBoZyEHEzotlPWiyTd9qS05CqhWAd3mkWYwmKs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mJ6kinWwL27WR1b4keY/BaAMZJUVpWRJH5LfmjrzEZh4RxHlyfXZ19nTZEYC+lfhTdi9pxGVhHKGTB0UHoBc9fBYyZhjcUTJFXxkO5Ba1IqWYTjGB0Y6RdFQE1Xo7hwKB43PldJCGo9kMqdldj/nS5kQahLnrPhbxRsCVRUeXcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDek9ubd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=h3IStaVgJzwJosEUm5jmu8F2NAthd3yP5Efsg5wSt2LXhNx7Soz8X+JsD2bkMt+/1PCfDZTEt6jvoh26DJqhozGovRpWJlrueV/aatQxr4u+Fumkbh17rHZanRI1El0rfmODaZTuxyf1FrAF5qsXARPsw3GN7iaQPBlJ4kmVAzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFW5RrXl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDek9ubd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ECF0C2BBFC;
-	Tue,  7 May 2024 23:13:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFW5RrXl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B239C3277B;
+	Tue,  7 May 2024 23:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123618;
-	bh=V9xwPCi2BbHqvXbn+HBOTFHYtgRml7I7/V1s2BHN2qA=;
+	s=k20201202; t=1715123621;
+	bh=vxPIpeBoZyEHEzotlPWiyTd9qS05CqhWAd3mkWYwmKs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fDek9ubdtnmpydOIP6XxdPUjEjKpCb+qDPrffLG8OiyC1SgBrBiK/QPM2u56ZoPz9
-	 Hr7Z1B8O9JCljGsgiU8yYV1B3tY+UaV907XoevznjeOEcofLwD9TP8BDrBryUVTKeM
-	 MydkcixPYA696OET4QvlRtROHKMTbePctaNcjCaAi/hTN6XB1mEEZQj6v5p4zdymL0
-	 jVx3mAbCdcYTJuyFJdwXkf8Ug4isHysqtH58t1w+H3Cb4ShkIZQC++Pj3mECnDxrEh
-	 iRQtibtaWCfVv7L4kJGlvuCtR5a++t6HXHYxzNI6GYt4/yTvqiJV0Szz+pICFwEBRh
-	 ByoQvCYosNDJQ==
+	b=AFW5RrXlFUh3VbpRSrvKU1Y7pu5gP42bYLOL4iJxSXreE7tBlsMUBAX106aKSy6A9
+	 2MpkPsUqSu5Xxzqrwm2AHksiNJCwEWYFwuwTjZTEasbgyBnoHthdhsQPkrtwWyH/We
+	 17ErJH0+zSQyfOdIGGP8IjhI12+Fomr9IM1pR2TIAn+4Qb7lE7y2r7rCnIZAbESaMJ
+	 LHyCI1tkToqQNviezgTKx+u1c8x/Zs1nQHpAGOVX9VwOyZaBGwYEdEgKlWRUE/LICL
+	 PoWte5xYujQC1EbT5FwEe+UxQKr1I0000R9zIUfQyn0hKpR0lUH1VKNEaaT0qnZuFr
+	 TrYlzePe+sLbQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Derek Fang <derek.fang@realtek.com>,
+Cc: Jack Yu <jack.yu@realtek.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
 	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 03/15] ASoC: dt-bindings: rt5645: add cbj sleeve gpio property
-Date: Tue,  7 May 2024 19:13:12 -0400
-Message-ID: <20240507231333.394765-3-sashal@kernel.org>
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 05/15] ASoC: rt715: add vendor clear control register
+Date: Tue,  7 May 2024 19:13:14 -0400
+Message-ID: <20240507231333.394765-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231333.394765-1-sashal@kernel.org>
 References: <20240507231333.394765-1-sashal@kernel.org>
@@ -55,46 +55,36 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.158
 Content-Transfer-Encoding: 8bit
 
-From: Derek Fang <derek.fang@realtek.com>
+From: Jack Yu <jack.yu@realtek.com>
 
-[ Upstream commit 306b38e3fa727d22454a148a364123709e356600 ]
+[ Upstream commit cebfbc89ae2552dbb58cd9b8206a5c8e0e6301e9 ]
 
-Add an optional gpio property to control external CBJ circuits
-to avoid some electric noise caused by sleeve/ring2 contacts floating.
+Add vendor clear control register in readable register's
+callback function. This prevents an access failure reported
+in Intel CI tests.
 
-Signed-off-by: Derek Fang <derek.fang@realtek.com>
-
-Link: https://msgid.link/r/20240408091057.14165-2-derek.fang@realtek.com
+Signed-off-by: Jack Yu <jack.yu@realtek.com>
+Closes: https://github.com/thesofproject/linux/issues/4860
+Tested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/6a103ce9134d49d8b3941172c87a7bd4@realtek.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/devicetree/bindings/sound/rt5645.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/soc/codecs/rt715-sdw.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/rt5645.txt b/Documentation/devicetree/bindings/sound/rt5645.txt
-index 41a62fd2ae1ff..c1fa379f5f3ea 100644
---- a/Documentation/devicetree/bindings/sound/rt5645.txt
-+++ b/Documentation/devicetree/bindings/sound/rt5645.txt
-@@ -20,6 +20,11 @@ Optional properties:
-   a GPIO spec for the external headphone detect pin. If jd-mode = 0,
-   we will get the JD status by getting the value of hp-detect-gpios.
- 
-+- cbj-sleeve-gpios:
-+  a GPIO spec to control the external combo jack circuit to tie the sleeve/ring2
-+  contacts to the ground or floating. It could avoid some electric noise from the
-+  active speaker jacks.
-+
- - realtek,in2-differential
-   Boolean. Indicate MIC2 input are differential, rather than single-ended.
- 
-@@ -68,6 +73,7 @@ codec: rt5650@1a {
- 	compatible = "realtek,rt5650";
- 	reg = <0x1a>;
- 	hp-detect-gpios = <&gpio 19 0>;
-+	cbj-sleeve-gpios = <&gpio 20 0>;
- 	interrupt-parent = <&gpio>;
- 	interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
- 	realtek,dmic-en = "true";
+diff --git a/sound/soc/codecs/rt715-sdw.c b/sound/soc/codecs/rt715-sdw.c
+index b047bf87a100c..e269026942e17 100644
+--- a/sound/soc/codecs/rt715-sdw.c
++++ b/sound/soc/codecs/rt715-sdw.c
+@@ -111,6 +111,7 @@ static bool rt715_readable_register(struct device *dev, unsigned int reg)
+ 	case 0x839d:
+ 	case 0x83a7:
+ 	case 0x83a9:
++	case 0x752001:
+ 	case 0x752039:
+ 		return true;
+ 	default:
 -- 
 2.43.0
 
