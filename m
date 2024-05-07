@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD80F131BD0;
-	Tue,  7 May 2024 23:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B12B1332A0;
+	Tue,  7 May 2024 23:08:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123305; cv=none; b=Yf5PFmB9nglKj4MDs/DrtpfAcSZ4MNB6AIkFO4XLvpvhL1RMpZjDGmujGkyEt6p/ddFUWseUl3p9xhnzOKep0q81kfkMAr7Ybho0RjcbHNahqi97LIciQqOnJO4eaQwpXMsyj1ImH2564J8SNTDF1useUSZcnHppO97RIk3nq4s=
+	t=1715123309; cv=none; b=ck+4eytWntDXz9Suw7cuyq0U58b/tsQB7DG54Lrujv4zdUOSqiqEUDLuBEaQ96Bkwt8rCpxyE8XCd66rAR/6yELZCjupGhATgHla02gwl5LwwLZCtfD0v8biaLLHPy3DYDUJNYitlGidcF0aTcqD3uCk0KdRQKwE61uqpL2kuq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123305; c=relaxed/simple;
-	bh=8flEoGuR5cknPXB6dawqgRqhe1hzDJzH/am2PZMz4Cg=;
+	s=arc-20240116; t=1715123309; c=relaxed/simple;
+	bh=KqH/EllT2nZhX3OizGudEvwDJBGY4WN0GkKk4gjgHcg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qpsEjosx6tusgwc9ASfHq10rsMRo2Y+UN5sP1V1fkNmlLNxNc0ZzeiETL/ydJwxGEsErFd3Zhe98xbmhuBCSCcNv6mvBQRv68diS7RxMeNwer73Nl9d8+v0iOehbmejS6aGNUc1ZsKDGVnFNkeo7TTGL424aC9xR8YGE36JjeHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tIgxBHFs; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=fZrearPLBq3QFeb87kHa0d7aeSy3wARAdmoipLoMidJxh0RIsJPBNM8vBypspS4Egl49xqo59+PxkZ7FUCT3MzqS06Avn0Vsil/4KWdLi1MalqyVQ0yg9ctXEfQyNJTDyvA9c5WOxnAB4JgAnI5xDiDW4NsNYy4sFcEXwKpiVfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTKb2ilb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tIgxBHFs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CF7C2BBFC;
-	Tue,  7 May 2024 23:08:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTKb2ilb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD0AC2BBFC;
+	Tue,  7 May 2024 23:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123304;
-	bh=8flEoGuR5cknPXB6dawqgRqhe1hzDJzH/am2PZMz4Cg=;
+	s=k20201202; t=1715123309;
+	bh=KqH/EllT2nZhX3OizGudEvwDJBGY4WN0GkKk4gjgHcg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tIgxBHFsL27ydIYjy00uUpdNBraMgQB9Ecf9VKscxeYPsw1Eg7WuYRm4Y8LEvutTO
-	 CJWOkGX8LGvMvqD5lhLufhL92UYLiN0L6jb/OQLuddfhCWZBB4Zrww0g9C6D8Y6gXn
-	 ZrWiMHFlUmTa7FNJzVxhk6z/gRXdoc/xeZ42d6YfxNoPfeBum+aSIJDnBEm9MVdQ0R
-	 WIwTmZMzP1WpsvZMBlarcZqsoSMg3GsLIbpybqVx3JD4pcGfXlxwZ4xmgPjVvAg+Wj
-	 MfvTnKgeiogaaPo2VEuCc+gvHp/179YN4b3IGF3vuni7t17Cuxfz50Z4rEE/J2Z1al
-	 9YGjoQWU7TQcw==
+	b=BTKb2ilbwb+rE3RM9BJBjbUJ8IMXx4dIFfqkk9zLFG/Ho/6M3gGOVxKUFOMGzdMDt
+	 F1T2ErrY3k1ny0hybSmz12rvLWPZh/VWTzjcrWwvvwxFCqTC2M/laduJ68XLqUG0ov
+	 EMAd0+izTSEXqQY3q3+lbHYvjoXQ6aFQlcfFOxnwPusqfoM35ZKmMjtpKSVIMfTpO1
+	 +k9itD5ywZMWF4/x6a4mqDl3q/11MeDSLwC9YrHuis10OkKQoLsExhLiCVW9alwsuA
+	 o9zJx4+2vyEoxFsSqkU4OMwRMhFP1Jhoc4nvtB+eMKiLltCYfhsJ1g/iMZMOChVdnb
+	 l80kbHAwh5xuw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jack Yu <jack.yu@realtek.com>,
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
+	james.schulman@cirrus.com,
+	david.rhodes@cirrus.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 12/52] ASoC: rt722-sdca: add headset microphone vrefo setting
-Date: Tue,  7 May 2024 19:06:38 -0400
-Message-ID: <20240507230800.392128-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 15/52] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
+Date: Tue,  7 May 2024 19:06:41 -0400
+Message-ID: <20240507230800.392128-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507230800.392128-1-sashal@kernel.org>
 References: <20240507230800.392128-1-sashal@kernel.org>
@@ -54,94 +58,75 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.8.9
 Content-Transfer-Encoding: 8bit
 
-From: Jack Yu <jack.yu@realtek.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
 
-[ Upstream commit 140e0762ca055d1aa84b17847cde5d9e47f56f76 ]
+[ Upstream commit eefb831d2e4dd58d58002a2ef75ff989e073230d ]
 
-Add vrefo settings to fix jd and headset mic recording issue.
+Currently, all ASoC systems are set to use VPMON for DSP1RX5_SRC,
+however, this is required only for internal boost systems.
+External boost systems require VBSTMON instead of VPMON to be the
+input to DSP1RX5_SRC.
+Shared Boost Active acts like Internal boost (requires VPMON).
+Shared Boost Passive acts like External boost (requires VBSTMON)
+All systems require DSP1RX6_SRC to be set to VBSTMON.
 
-Signed-off-by: Jack Yu <jack.yu@realtek.com>
-Link: https://msgid.link/r/727219ed45d3485ba8f4646700aaa8a8@realtek.com
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://msgid.link/r/20240411142648.650921-1-sbinding@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt722-sdca.c | 25 +++++++++++++++++++------
- sound/soc/codecs/rt722-sdca.h |  3 +++
- 2 files changed, 22 insertions(+), 6 deletions(-)
+ sound/soc/codecs/cs35l41.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
-index 4338cdb3a7917..9ff607984ea19 100644
---- a/sound/soc/codecs/rt722-sdca.c
-+++ b/sound/soc/codecs/rt722-sdca.c
-@@ -1438,9 +1438,12 @@ static void rt722_sdca_jack_preset(struct rt722_sdca_priv *rt722)
- 	int loop_check, chk_cnt = 100, ret;
- 	unsigned int calib_status = 0;
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index dfb4ce53491bb..f8e57a2fc3e32 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -1094,6 +1094,7 @@ static int cs35l41_handle_pdata(struct device *dev, struct cs35l41_hw_cfg *hw_cf
+ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ {
+ 	struct wm_adsp *dsp;
++	uint32_t dsp1rx5_src;
+ 	int ret;
  
--	/* Read eFuse */
--	rt722_sdca_index_write(rt722, RT722_VENDOR_SPK_EFUSE, RT722_DC_CALIB_CTRL,
--		0x4808);
-+	/* Config analog bias */
-+	rt722_sdca_index_write(rt722, RT722_VENDOR_REG, RT722_ANALOG_BIAS_CTL3,
-+		0xa081);
-+	/* GE related settings */
-+	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_GE_RELATED_CTL2,
-+		0xa009);
- 	/* Button A, B, C, D bypass mode */
- 	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_UMP_HID_CTL4,
- 		0xcf00);
-@@ -1474,9 +1477,6 @@ static void rt722_sdca_jack_preset(struct rt722_sdca_priv *rt722)
- 		if ((calib_status & 0x0040) == 0x0)
- 			break;
+ 	dsp = &cs35l41->dsp;
+@@ -1113,16 +1114,29 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ 		return ret;
  	}
--	/* Release HP-JD, EN_CBJ_TIE_GL/R open, en_osw gating auto done bit */
--	rt722_sdca_index_write(rt722, RT722_VENDOR_REG, RT722_DIGITAL_MISC_CTRL4,
--		0x0010);
- 	/* Set ADC09 power entity floating control */
- 	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_ADC0A_08_PDE_FLOAT_CTL,
- 		0x2a12);
-@@ -1489,8 +1489,21 @@ static void rt722_sdca_jack_preset(struct rt722_sdca_priv *rt722)
- 	/* Set DAC03 and HP power entity floating control */
- 	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_DAC03_HP_PDE_FLOAT_CTL,
- 		0x4040);
-+	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_ENT_FLOAT_CTRL_1,
-+		0x4141);
-+	rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_FLOAT_CTRL_1,
-+		0x0101);
- 	/* Fine tune PDE40 latency */
- 	regmap_write(rt722->regmap, 0x2f58, 0x07);
-+	regmap_write(rt722->regmap, 0x2f03, 0x06);
-+	/* MIC VRefo */
-+	rt722_sdca_index_update_bits(rt722, RT722_VENDOR_REG,
-+		RT722_COMBO_JACK_AUTO_CTL1, 0x0200, 0x0200);
-+	rt722_sdca_index_update_bits(rt722, RT722_VENDOR_REG,
-+		RT722_VREFO_GAT, 0x4000, 0x4000);
-+	/* Release HP-JD, EN_CBJ_TIE_GL/R open, en_osw gating auto done bit */
-+	rt722_sdca_index_write(rt722, RT722_VENDOR_REG, RT722_DIGITAL_MISC_CTRL4,
-+		0x0010);
- }
  
- int rt722_sdca_io_init(struct device *dev, struct sdw_slave *slave)
-diff --git a/sound/soc/codecs/rt722-sdca.h b/sound/soc/codecs/rt722-sdca.h
-index 44af8901352eb..2464361a7958c 100644
---- a/sound/soc/codecs/rt722-sdca.h
-+++ b/sound/soc/codecs/rt722-sdca.h
-@@ -69,6 +69,7 @@ struct rt722_sdca_dmic_kctrl_priv {
- #define RT722_COMBO_JACK_AUTO_CTL2		0x46
- #define RT722_COMBO_JACK_AUTO_CTL3		0x47
- #define RT722_DIGITAL_MISC_CTRL4		0x4a
-+#define RT722_VREFO_GAT				0x63
- #define RT722_FSM_CTL				0x67
- #define RT722_SDCA_INTR_REC			0x82
- #define RT722_SW_CONFIG1			0x8a
-@@ -127,6 +128,8 @@ struct rt722_sdca_dmic_kctrl_priv {
- #define RT722_UMP_HID_CTL6			0x66
- #define RT722_UMP_HID_CTL7			0x67
- #define RT722_UMP_HID_CTL8			0x68
-+#define RT722_FLOAT_CTRL_1			0x70
-+#define RT722_ENT_FLOAT_CTRL_1		0x76
- 
- /* Parameter & Verb control 01 (0x1a)(NID:20h) */
- #define RT722_HIDDEN_REG_SW_RESET (0x1 << 14)
+-	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC,
+-			   CS35L41_INPUT_SRC_VPMON);
++	switch (cs35l41->hw_cfg.bst_type) {
++	case CS35L41_INT_BOOST:
++	case CS35L41_SHD_BOOST_ACTV:
++		dsp1rx5_src = CS35L41_INPUT_SRC_VPMON;
++		break;
++	case CS35L41_EXT_BOOST:
++	case CS35L41_SHD_BOOST_PASS:
++		dsp1rx5_src = CS35L41_INPUT_SRC_VBSTMON;
++		break;
++	default:
++		dev_err(cs35l41->dev, "wm_halo_init failed - Invalid Boost Type: %d\n",
++			cs35l41->hw_cfg.bst_type);
++		goto err_dsp;
++	}
++
++	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC, dsp1rx5_src);
+ 	if (ret < 0) {
+-		dev_err(cs35l41->dev, "Write INPUT_SRC_VPMON failed: %d\n", ret);
++		dev_err(cs35l41->dev, "Write DSP1RX5_SRC: %d failed: %d\n", dsp1rx5_src, ret);
+ 		goto err_dsp;
+ 	}
+-	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC,
+-			   CS35L41_INPUT_SRC_CLASSH);
++	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC, CS35L41_INPUT_SRC_VBSTMON);
+ 	if (ret < 0) {
+-		dev_err(cs35l41->dev, "Write INPUT_SRC_CLASSH failed: %d\n", ret);
++		dev_err(cs35l41->dev, "Write CS35L41_INPUT_SRC_VBSTMON failed: %d\n", ret);
+ 		goto err_dsp;
+ 	}
+ 	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX7_SRC,
 -- 
 2.43.0
 
