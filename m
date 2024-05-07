@@ -1,138 +1,118 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6FC15E218
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E5815F32E
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715089172; cv=none; b=roZAVNYpW4voBFcOVCsgrRVx/XweiX6C9Lrhuatzi+F5QdXZUSKAPC58SSmPtY/0AegvTS5q2tRR2lrp1S9t4fpOOeNhlZADGdD2Dim2ryU1WpGdSuHNCdVNdGQmYg0ob2s/SOShggjGX8XOdp545delRJ1DBB69y5z2pn292v0=
+	t=1715090114; cv=none; b=sjyrQXAlHtEdyhmtyGIDh25DsGfLdiQbDyQaYRFJwnBugrKw6CkZo9LI4/+mfd6Af8v+sTtcSl1PPQEAmFliXBE1fTF595lROul6hp5jJ/1d+h6U9XRlqkUTstsrTP3cH8s7tEQj3M6qWdYvcxdg6jokNCTLfjFZmu+wJu2gXQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715089172; c=relaxed/simple;
-	bh=baf6s4YBJQXtGF6yVbVmcaRCAeJ7yXP22l+WvKXqF8U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sYoEWOUYgOhzgGPT9EX1kpA4WraTxBj4SptgghwJ5qxirVvh3wa3ZQtGIxzNZdU86zi0YZdda3tZmVzrilLgSd0Q5sJdioB3X87C7iP6CWFqHZ/rSE2V9vnEf9tSKumKl270y850hBzzEgKosnYGjiY/7/QwO5ukuYt4jfP9CHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dduAIDOz; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dduAIDOz"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a59b81d087aso671553066b.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 06:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715089169; x=1715693969; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gfjodg5xhhVfFwSuFvBk8ppZYk42EBGXqtKBhUMnRPA=;
-        b=dduAIDOzWjLhIcBh1rjQwYSOoawfBS4MLxGEAJQ/ovKT2d7XzBeuy2eSnk54UOI9Uu
-         gmbiB6kX1VeDmGGyBInXy46PCgSB01f/xMJQV7vJ5ONWaeEPncFNz8uI26GbZ2jdx0Lr
-         zFRqhVJx2RvhWel698f0u+bKzxJX6qfBHuvX6Ht+I0P4iTaBdqbMycKT6O2Stf/z289/
-         vLnUPYbcTZZaz84PM6CbP3ripYuvJbGol3tKIks5C9a5YrLLPu0Ki47wi0cys+pnJcM5
-         4hM0x9iM6hT0FfnFKeBnvz6gXwoF+3Y1zlZgSplM6YHmlTYbsKapn3AUWUqoXvuCtrAU
-         iWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715089169; x=1715693969;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gfjodg5xhhVfFwSuFvBk8ppZYk42EBGXqtKBhUMnRPA=;
-        b=hptf1MBVlYkNe+Exa4Xy1sXethxwZewFv64Y4xXZJglLOkGtHtHNejkcjrrHDToStV
-         c8IZH3N0jemimc771+g4vRgsuMmQPjVlCZrw3W6723OEXSPl8BRZxayGxMA5RHtGizW1
-         vidopEB0aHQFUSYiWxwJYpLeQf4bs63wOpbfqqphn8d1mtfgodmF/KcSOTE4VoXMVjKU
-         crQ6PpwfJ6hJE0C5b4Dc8gPR+4mhmO287SFAEpzRuGbvXh7jZc5/iyYkSxiJ5QFSrdYX
-         2j9VkYkj544xbdiVLa6sELZOqKWziFreEtWc2d8hAwDvATu2w4R/IPnioigVpEo85MdI
-         myZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXuGpW+cvcFTEZsFbza7OpbYG0klMklsgCHi7QQdR1kTxpGAF5kpzA1m7GdOtP2fyFMhdu2PH9nFDbq0U7+ZdlvqSkMVibeHl/FTZI=
-X-Gm-Message-State: AOJu0YzCg2ljCuUhR7PFaHReBzMsMXB6R6eLbyHiB092iD2+eCWVjuN+
-	TnJkbMLjmlf3oomGYsYM3Hglb4JxudAU8NpxvgBkvdE+PP2uCRDQQjfNFObkga8=
-X-Google-Smtp-Source: AGHT+IF3KIQBzWdEnZYP4BGYN86rEOXtmA+76dUovczh8JI+wGtSxkrE9J9eINymv4bPRWgRAnCpIg==
-X-Received: by 2002:a17:906:b746:b0:a59:a05c:b553 with SMTP id fx6-20020a170906b74600b00a59a05cb553mr9573163ejb.17.1715089169099;
-        Tue, 07 May 2024 06:39:29 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id b13-20020a1709062b4d00b00a59e377f197sm1195893ejg.197.2024.05.07.06.39.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 06:39:28 -0700 (PDT)
-Message-ID: <a065216a-b533-4804-93c8-c871c6d549d9@linaro.org>
-Date: Tue, 7 May 2024 15:39:26 +0200
+	s=arc-20240116; t=1715090114; c=relaxed/simple;
+	bh=y5Gai643MMpxC5h2Vjwq6EcooruT66EtsVktgjM7938=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ncvAriEoM/rExWhFZhpOfsNHx8P51rxyYH/WguH4FCIaWyfZ9Zg2NwzEdbPS79e/+ki2uTuJs6vtDMekCucDVSLXWgT5gUc7KhFz0r9PoUawdlAMzI5lGUqtes96Ynjjec5moprEJiXeB8+BMHbyNH7U/guZPsSudqyfmTaSUgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A7CB933FB7;
+	Tue,  7 May 2024 13:55:08 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97C5A13A2D;
+	Tue,  7 May 2024 13:55:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UAx/JLwyOmagMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 13:55:08 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH 3/9] ALSA: hda: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 15:55:03 +0200
+Message-ID: <20240507135513.14919-4-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507135513.14919-1-tiwai@suse.de>
+References: <20240507135513.14919-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: audioreach: Correct mapping of back speakers
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-References: <20240507100209.610436-1-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240507100209.610436-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: A7CB933FB7
 
-On 07/05/2024 12:02, Krzysztof Kozlowski wrote:
-> Qualcomm DSP, according to downstream sources, expects back speakers to
-> be mapped as "back", not "surround".  The surround is used only for 8+
-> speakers configuration.
-> 
-> Reported-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Fixes: 3c5fcb20e07e ("ASoC: qcom: audioreach: Add 4 channel support")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+*-objs suffix is reserved rather for (user-space) host programs while
+usually *-y suffix is used for kernel drivers (although *-objs works
+for that purpose for now).
 
-I just figured out that I duplicated Srini's patch, so I should instead
-sent his one to preserve author of original report.
+Let's correct the old usages of *-objs in Makefiles.
 
-Best regards,
-Krzysztof
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/hda/Makefile     | 8 ++++----
+ sound/hda/ext/Makefile | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/sound/hda/Makefile b/sound/hda/Makefile
+index 78f487a635f8..83cceafe0d4c 100644
+--- a/sound/hda/Makefile
++++ b/sound/hda/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+-snd-hda-core-objs := hda_bus_type.o hdac_bus.o hdac_device.o hdac_sysfs.o \
++snd-hda-core-y := hda_bus_type.o hdac_bus.o hdac_device.o hdac_sysfs.o \
+ 	hdac_regmap.o hdac_controller.o hdac_stream.o array.o hdmi_chmap.o
+ 
+-snd-hda-core-objs += trace.o
++snd-hda-core-y += trace.o
+ CFLAGS_trace.o := -I$(src)
+ 
+ # for sync with i915 gfx driver
+@@ -14,9 +14,9 @@ obj-$(CONFIG_SND_HDA_CORE) += snd-hda-core.o
+ #extended hda
+ obj-$(CONFIG_SND_HDA_EXT_CORE) += ext/
+ 
+-snd-intel-dspcfg-objs := intel-dsp-config.o
++snd-intel-dspcfg-y := intel-dsp-config.o
+ snd-intel-dspcfg-$(CONFIG_SND_INTEL_NHLT) += intel-nhlt.o
+ obj-$(CONFIG_SND_INTEL_DSP_CONFIG) += snd-intel-dspcfg.o
+ 
+-snd-intel-sdw-acpi-objs := intel-sdw-acpi.o
++snd-intel-sdw-acpi-y := intel-sdw-acpi.o
+ obj-$(CONFIG_SND_INTEL_SOUNDWIRE_ACPI) += snd-intel-sdw-acpi.o
+diff --git a/sound/hda/ext/Makefile b/sound/hda/ext/Makefile
+index 154779bdc0ba..05883fb28d28 100644
+--- a/sound/hda/ext/Makefile
++++ b/sound/hda/ext/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-snd-hda-ext-core-objs := hdac_ext_bus.o hdac_ext_controller.o hdac_ext_stream.o
++snd-hda-ext-core-y := hdac_ext_bus.o hdac_ext_controller.o hdac_ext_stream.o
+ 
+ obj-$(CONFIG_SND_HDA_EXT_CORE) += snd-hda-ext-core.o
+-- 
+2.43.0
 
