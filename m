@@ -1,103 +1,146 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA20E15B995;
-	Tue,  7 May 2024 12:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D7671B4F
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 12:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715084704; cv=none; b=VtccfAYZQ0qjKj1ZkTc+oE1ee4u75SOv2ZSP/kW66Ym9jzlE9RMEtggKq8IXzt4NbGltrDkRYUmXbtuT48dwyzlFvThWXMAVIKC1TcWoHjP9GrWmFllUenVC8kyynv1l0usR6Fdam2tkuWw11igTNMNrCE9NHEhY0Ko/gMsyWfs=
+	t=1715085176; cv=none; b=Y+jz5+/w9Vw3Xrdxr4jucC/hQkNJ0FbnpnRvhmPqCxYvsbEnqocBv5DjhNDoCKedHwUQl4hqECyyspvjriGjDkXgPSOVVMlFzSfscOBoEyoynzePF5Em5i4yz5V9ki3sT3BMxC362p0jI2gphhh9J9SsA2DwJ/sqovOKt/2EJl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715084704; c=relaxed/simple;
-	bh=7SblqolKjySmEc6V7cBH+cBlOqX473FOdbBoGQaq4bk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMo+Ylvgm8p3tlpsLDi55vG+FA1vWY3SMkeAuOZILkzCVdgZIheg8cDSsXxr0BwNqQZkFAs/NuTQ0fYPbsrwKtS7LCO/DNqp5N2dZlZQzorCDwtqNm2a9v5H7Yv1kRrOMJnfrk+yzCVDVCUI1kxH7vEc1XFREfcCgIuQmWjcSjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dj+djPZm; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1715085176; c=relaxed/simple;
+	bh=Um2uX4tCIb0NjzSFee/c26JKu0947CpAStT7bJDXGrE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k7niLtZp815hzd56toBNEZlQj8ovJ27Xc0Itj57FVoOUjerDaEAgsdEZgQRIn9dX/6IkJZeCg3FoWGKgN4Ddj4FQypLG/O2v0i0fpkniN0jdx0ObGX7d0p3MlOqYMujQstyUAQHRCcmB1wffoAaomsHc1l1uo9M63QRCyQ578Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ib83HnA4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E8HokFyi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ib83HnA4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E8HokFyi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dj+djPZm"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4475oO0n004102;
-	Tue, 7 May 2024 06:57:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=ftBlVY/8+8MJLqv
-	he1wF4ZSuv2MhawQfCqt8ygN3VQI=; b=dj+djPZm7UuJ4P1+gdmrC6npbftpIzV
-	Cn7oGOBQ94BeHYmQqp5rYZKlYgM6FZqeYDcR0h4yd2qreGTqIAQFKVvlZe51PSn5
-	fEQEUE28InOBFMIi7968yoZkf1ecC/VLfi0Wa6UFogK6XdidF5inddpDg+ZBy5Pj
-	yJs6PDiB+QDDarDxVILc53kk6pslk4FY7Sm5CZJWddfSLoTtXIrk2SVOXtLlwMew
-	D3YprLNu8d+EHHyfaDiirnemaycRdSUB4Lg+wCPFoSWYmL2+WNGXYkPnu2UcNgHy
-	Q/r7wIyubU0Csb6k0N7Oa6i30Lwmx9pmDSAl2j9uAPuPdcAIKsphE/w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xy2cmh154-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 May 2024 06:57:13 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
- 12:57:11 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Tue, 7 May 2024 12:57:11 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F1C16820244;
-	Tue,  7 May 2024 11:57:10 +0000 (UTC)
-Date: Tue, 7 May 2024 11:57:09 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: James Schulman <james.schulman@cirrus.com>,
-        David Rhodes
-	<david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "Liam
- Girdwood" <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "Lars-Peter
- Clausen" <lars@metafoo.de>,
-        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>, <alsa-devel@alsa-project.org>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/4] ASoC: Constify channel mapping array arguments in
- set_channel_map()
-Message-ID: <ZjoXFedPicgq8fyP@opensource.cirrus.com>
-References: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
- <20240507-asoc-x1e80100-4-channel-mapping-v1-1-b12c13e0a55d@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ib83HnA4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E8HokFyi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ib83HnA4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E8HokFyi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF313209BA;
+	Tue,  7 May 2024 12:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715085172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2zDOphM0pW2gPAKXk4WSFCkrZC0mEj/vVBj7FRQlO9k=;
+	b=ib83HnA4wrlxboCromPZl12W8qRmKc5TGgUoFhuk3YFbNj/GQh6eB2ovfB6/nK0neuy94L
+	L2Ad3M81MrU0FKRoOukBfwBgN51m6OrPfF28Z0LoCFqx8NaqB5qQ+27yHZBSIXDOO6a5sl
+	1nFLbcuBa777cp8vhRj6LflbBqFeJ0g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715085172;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2zDOphM0pW2gPAKXk4WSFCkrZC0mEj/vVBj7FRQlO9k=;
+	b=E8HokFyiaXXJ9Qp7VVaShri/Ywz7pKunlEI+iAvhQM7wConCWDqp4jvmG2WcWNOz7zVUcf
+	l+/ED1/K3+m591Dg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715085172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2zDOphM0pW2gPAKXk4WSFCkrZC0mEj/vVBj7FRQlO9k=;
+	b=ib83HnA4wrlxboCromPZl12W8qRmKc5TGgUoFhuk3YFbNj/GQh6eB2ovfB6/nK0neuy94L
+	L2Ad3M81MrU0FKRoOukBfwBgN51m6OrPfF28Z0LoCFqx8NaqB5qQ+27yHZBSIXDOO6a5sl
+	1nFLbcuBa777cp8vhRj6LflbBqFeJ0g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715085172;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2zDOphM0pW2gPAKXk4WSFCkrZC0mEj/vVBj7FRQlO9k=;
+	b=E8HokFyiaXXJ9Qp7VVaShri/Ywz7pKunlEI+iAvhQM7wConCWDqp4jvmG2WcWNOz7zVUcf
+	l+/ED1/K3+m591Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB38413A2D;
+	Tue,  7 May 2024 12:32:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lnspKXQfOmaYFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 12:32:52 +0000
+Date: Tue, 07 May 2024 14:33:07 +0200
+Message-ID: <87msp1er98.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: <linux-sound@vger.kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Takashi Sakamoto <takaswie@kernel.org>
+Subject: Re: [PATCH v3 1/2] ALSA: pcm: reinvent the stream synchronization ID API
+In-Reply-To: <20240507083142.557299-2-perex@perex.cz>
+References: <20240507083142.557299-1-perex@perex.cz>
+	<20240507083142.557299-2-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-1-b12c13e0a55d@linaro.org>
-X-Proofpoint-ORIG-GUID: _LFPFoz0pvkHmcCFOZwADU6UMjJP1mf7
-X-Proofpoint-GUID: _LFPFoz0pvkHmcCFOZwADU6UMjJP1mf7
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Tue, May 07, 2024 at 12:27:30PM +0200, Krzysztof Kozlowski wrote:
-> There is no need for implementations of DAI set_channel_map() to modify
-> contents of passed arrays with actual channel mapping.  Additionally,
-> the caller keeps full ownership of the array.
-> 
-> Constify these pointer arguments so the code will be safer and easier to
-> read (documenting the caller's ownership).
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  include/sound/cs35l41.h                 |  4 ++--
->  include/sound/soc-dai.h                 |  8 ++++----
->  sound/soc/codecs/adau7118.c             |  6 ++++--
->  sound/soc/codecs/cs35l41-lib.c          |  4 ++--
->  sound/soc/codecs/cs35l41.c              |  3 ++-
+On Tue, 07 May 2024 10:26:18 +0200,
+Jaroslav Kysela wrote:
+> +/**
+> + * is sync id (clock id) empty?
+> + */
+> +static inline bool pcm_sync_empty(const unsigned char *sync)
+> +{
+> +	return get_unaligned((__u64 *)(sync + 0)) == 0 && get_unaligned((__u64 *)(sync + 8)) == 0;
+> +}
 
-For the cs35l41 bits:
+This helper is needed only in one place, so we don't have to put in
+the common header.  Let's move to a local place (together with
+unaligned.h inclusion).
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Thanks,
-Charles
+> @@ -1810,6 +1808,16 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
+>  	return 0;
+>  }
+>  
+> +static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
+> +				     void *arg)
+> +{
+> +	struct snd_pcm_hw_params *params = arg;
+> +
+> +	if (pcm_sync_empty(params->sync))
+> +		memcpy(params->sync, &substream->runtime->sync, sizeof(params->sync));
+
+Since sync is an array now, shouldn't we drop '&' here?
+
+
+thanks,
+
+Takashi
