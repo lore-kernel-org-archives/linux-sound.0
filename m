@@ -1,16 +1,16 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F016C439
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFF416EC00
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097340; cv=none; b=h/yH489Lt9uTK526wOcYMakHoPxerCGfMx5ktknfVGqrvtk4Zw/qa5gxTPoLgYGnqxcvUFYIK3E7HFICWJPjXya2uCZ2imlpqob54QB0Tlbk77Woj/pZbTaTkYxu6acdb4htKhrlA4UhD/B8vV3fcIHgt0xEtjMOnIgKA/g2imE=
+	t=1715097341; cv=none; b=SoREY11wF9JLliYOv/M2+NShBMPnKQFG1OrbJzPtSmv16pJnAgf8+mdkzsdWqJuzn8nfglfKc1gzF0pSH8YtNT8jAWv1RZ0c7dbgzpQ08VG6ZJCKoHpf0Qoo8na9bEux1cZVwi3EQa30e8vPclv+Zk74yons+TyMpFgEMrvxv/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715097340; c=relaxed/simple;
-	bh=TWJ4zzx2R+r7d5rNKAfsU/EpZ0NfqkPtZpdh+CLdFgc=;
+	s=arc-20240116; t=1715097341; c=relaxed/simple;
+	bh=sYF0mHC88+gSJPbZ8lLa0mrCZr4Zwy9NZtVneQe4Qcs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pd06YQNHYE2B245byKEsQaXjCeN3xyTgjxSoHCINY56Qr8tqD7tH/ycn5z1bd1tS5kQFTfFAkEQ7PI3k0kulHLFY9NNi8VqzgnUbCO8WToHNhQxH0j/ttddV4GL/Vnptff45rQiywbZ4A8J5D105QKIapkvaFxkjfZ08UBPK+1w=
+	 MIME-Version; b=kCRJtSylz57tDPdaaC3QkE1FXMdRntP5Po3LcjCQFZAiIPX5B69fo7T4Wx3RDh5vOl+zQRGUC35EMeP4nUY8mdZfxx0RgrbO/2nOEJtxah5RuHRzSIgCXHhiwZQP47R3twx2YG16Hi74WlqPtq6aGWYbCOsNMY4Whl1nM5/1cIc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
@@ -18,27 +18,27 @@ Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EA8F922167;
-	Tue,  7 May 2024 15:55:33 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1C73A2216F;
+	Tue,  7 May 2024 15:55:34 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C97D413A3A;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0F6813A2D;
 	Tue,  7 May 2024 15:55:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sF79L/VOOmaNXQAAD6G6ig
+	id gAKoOfVOOmaNXQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:33 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 21/34] ASoC: rockchip: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 17:55:25 +0200
-Message-ID: <20240507155540.24815-22-tiwai@suse.de>
+Subject: [PATCH 22/34] ASoC: samsung: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:26 +0200
+Message-ID: <20240507155540.24815-23-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
 References: <20240507155540.24815-1-tiwai@suse.de>
@@ -52,17 +52,17 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: EA8F922167
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1C73A2216F
 
 *-objs suffix is reserved rather for (user-space) host programs while
 usually *-y suffix is used for kernel drivers (although *-objs works
@@ -72,41 +72,64 @@ Let's correct the old usages of *-objs in Makefiles.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/rockchip/Makefile | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ sound/soc/samsung/Makefile | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/sound/soc/rockchip/Makefile b/sound/soc/rockchip/Makefile
-index 30c57c0d7660..2ee9c08131d1 100644
---- a/sound/soc/rockchip/Makefile
-+++ b/sound/soc/rockchip/Makefile
-@@ -1,19 +1,19 @@
+diff --git a/sound/soc/samsung/Makefile b/sound/soc/samsung/Makefile
+index f5d327b90a4e..8d5f09147900 100644
+--- a/sound/soc/samsung/Makefile
++++ b/sound/soc/samsung/Makefile
+@@ -1,10 +1,10 @@
  # SPDX-License-Identifier: GPL-2.0
- # ROCKCHIP Platform Support
--snd-soc-rockchip-i2s-objs := rockchip_i2s.o
--snd-soc-rockchip-i2s-tdm-objs := rockchip_i2s_tdm.o
--snd-soc-rockchip-pdm-objs := rockchip_pdm.o
--snd-soc-rockchip-spdif-objs := rockchip_spdif.o
-+snd-soc-rockchip-i2s-y := rockchip_i2s.o
-+snd-soc-rockchip-i2s-tdm-y := rockchip_i2s_tdm.o
-+snd-soc-rockchip-pdm-y := rockchip_pdm.o
-+snd-soc-rockchip-spdif-y := rockchip_spdif.o
+ # S3c24XX Platform Support
+-snd-soc-s3c-dma-objs := dmaengine.o
+-snd-soc-idma-objs := idma.o
+-snd-soc-samsung-spdif-objs := spdif.o
+-snd-soc-pcm-objs := pcm.o
+-snd-soc-i2s-objs := i2s.o
++snd-soc-s3c-dma-y := dmaengine.o
++snd-soc-idma-y := idma.o
++snd-soc-samsung-spdif-y := spdif.o
++snd-soc-pcm-y := pcm.o
++snd-soc-i2s-y := i2s.o
  
- obj-$(CONFIG_SND_SOC_ROCKCHIP_I2S) += snd-soc-rockchip-i2s.o
- obj-$(CONFIG_SND_SOC_ROCKCHIP_PDM) += snd-soc-rockchip-pdm.o
- obj-$(CONFIG_SND_SOC_ROCKCHIP_SPDIF) += snd-soc-rockchip-spdif.o
- obj-$(CONFIG_SND_SOC_ROCKCHIP_I2S_TDM) += snd-soc-rockchip-i2s-tdm.o
+ obj-$(CONFIG_SND_SOC_SAMSUNG) += snd-soc-s3c-dma.o
+ obj-$(CONFIG_SND_SAMSUNG_SPDIF) += snd-soc-samsung-spdif.o
+@@ -13,20 +13,20 @@ obj-$(CONFIG_SND_SAMSUNG_I2S) += snd-soc-i2s.o
+ obj-$(CONFIG_SND_SAMSUNG_I2S) += snd-soc-idma.o
  
--snd-soc-rockchip-max98090-objs := rockchip_max98090.o
--snd-soc-rockchip-rt5645-objs := rockchip_rt5645.o
--snd-soc-rk3288-hdmi-analog-objs := rk3288_hdmi_analog.o
--snd-soc-rk3399-gru-sound-objs := rk3399_gru_sound.o
-+snd-soc-rockchip-max98090-y := rockchip_max98090.o
-+snd-soc-rockchip-rt5645-y := rockchip_rt5645.o
-+snd-soc-rk3288-hdmi-analog-y := rk3288_hdmi_analog.o
-+snd-soc-rk3399-gru-sound-y := rk3399_gru_sound.o
+ # S3C24XX Machine Support
+-snd-soc-smdk-wm8994-objs := smdk_wm8994.o
+-snd-soc-snow-objs := snow.o
+-snd-soc-smdk-spdif-objs := smdk_spdif.o
+-snd-soc-smdk-wm8994pcm-objs := smdk_wm8994pcm.o
+-snd-soc-speyside-objs := speyside.o
+-snd-soc-tobermory-objs := tobermory.o
+-snd-soc-lowland-objs := lowland.o
+-snd-soc-littlemill-objs := littlemill.o
+-snd-soc-bells-objs := bells.o
+-snd-soc-odroid-objs := odroid.o
+-snd-soc-arndale-objs := arndale.o
+-snd-soc-tm2-wm5110-objs := tm2_wm5110.o
+-snd-soc-aries-wm8994-objs := aries_wm8994.o
+-snd-soc-midas-wm1811-objs := midas_wm1811.o
++snd-soc-smdk-wm8994-y := smdk_wm8994.o
++snd-soc-snow-y := snow.o
++snd-soc-smdk-spdif-y := smdk_spdif.o
++snd-soc-smdk-wm8994pcm-y := smdk_wm8994pcm.o
++snd-soc-speyside-y := speyside.o
++snd-soc-tobermory-y := tobermory.o
++snd-soc-lowland-y := lowland.o
++snd-soc-littlemill-y := littlemill.o
++snd-soc-bells-y := bells.o
++snd-soc-odroid-y := odroid.o
++snd-soc-arndale-y := arndale.o
++snd-soc-tm2-wm5110-y := tm2_wm5110.o
++snd-soc-aries-wm8994-y := aries_wm8994.o
++snd-soc-midas-wm1811-y := midas_wm1811.o
  
- obj-$(CONFIG_SND_SOC_ROCKCHIP_MAX98090) += snd-soc-rockchip-max98090.o
- obj-$(CONFIG_SND_SOC_ROCKCHIP_RT5645) += snd-soc-rockchip-rt5645.o
+ obj-$(CONFIG_SND_SOC_SAMSUNG_SMDK_WM8994) += snd-soc-smdk-wm8994.o
+ obj-$(CONFIG_SND_SOC_SNOW) += snd-soc-snow.o
 -- 
 2.43.0
 
