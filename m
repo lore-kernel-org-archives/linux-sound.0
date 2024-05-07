@@ -1,77 +1,88 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2013F16DEB5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2306016DEB7
 	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097335; cv=none; b=P6hCKk3JOVJAwJAO0qOnPdBZfyyfAyeIBqvU+syh0msZ9pOIlCptlXrtygOVn+tvvVwCvBp9kUw4H84kG+MVTrU4SmqBqZAw+bwSqi0kGdqDTukrYKltf7pkxKjVasTjuL5VyF835a+JlQV5bfLf7qO0gikp6ChMJIBzM2618/M=
+	t=1715097335; cv=none; b=JnwbNVSEvzv10mEpiI2LpAKuGbkFDfFX8/fyeOoSUDsAItVVKBDVTFrNJabGgPrVdL8FYdcAf5jFGQFKa6Q9oTCbINg+bRu/vjpKiMBiVvn/CIUS9wzJxKIYvSUt9/d2YLl5n5L9RCFbrzf/BYBjeynXrHjBWc1/2yoV658mlGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715097335; c=relaxed/simple;
-	bh=NHgPTVgXY7rL2W3WvzysFZUv8DlPDHd5XvaB2WTcDoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ujIP4o7SWtwu12vjatSi/ZUGVh72dNVqup8ZygiqNi51e7TKgVN5I4/8RuxuAupaLfxYbYOKO1lvMspPcGCtVG6pRPE2iuikXohnSSxqtQ23x0zHT0MaOfMig4xkLxRjDgsQ4UrergRIfDWZY/CJopgvIeV6YF9uRK+nkrTKveQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2WhubKAO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhAHz28r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2WhubKAO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhAHz28r; arc=none smtp.client-ip=195.135.223.130
+	bh=1Tpy5wthdeEIP98j79dXbFWQf8w3OAq5mBPdkDfHkGY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SEtbP+SH0hDz0zCgASFtjwkDesIyF9vpQSi3SrsuV8mp99y7mX4MNxRQRVnf6TsiA5E5Pw+rVJ5Hg8SOfcJyJjlpW7l21mxbVS0bujfUPjz0QaoXhQjk4rp0RA1fm7eDr2CP5lQ11la7XX0WxHv/YUOgygjlTr5ZZL3s0BGn2V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rIwKV3TL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oSr7lf0o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rIwKV3TL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oSr7lf0o; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2WhubKAO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhAHz28r";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2WhubKAO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhAHz28r"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rIwKV3TL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oSr7lf0o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rIwKV3TL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oSr7lf0o"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 625D221CB2;
-	Tue,  7 May 2024 15:55:30 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0D26221CE8;
+	Tue,  7 May 2024 15:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1KPsJhuWZG19ju3QDk9TovcIynqyR4u6bykfKu7NCXg=;
-	b=2WhubKAOBxzKgn6hnZDDWOfClEMwnLfYdFs1mECfTR0MXUDWpbWjVmC7U6zD8TPY0PuCnk
-	5vtQvFpEe8k+EopVIPKiPEATkMKnl9P/TVgrTNGf9JsOSKzOOq/VT7Kt4nvSQxgr5EtfUh
-	NWQDIClHA7WqfNHjNJrUpoYpQ8CbNZc=
+	t=1715097331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x108V8adf2alhKfRBJ+7Aw9Su5fdq/xAkCUp9NstYb8=;
+	b=rIwKV3TL3WpxnovpGNiIo+glA5/JoFdsKjgyDrpVWk15OqiB4ptGlPff665zH2leTiWFQh
+	6Q3u7wI9PY1vxddecojPpn8fsLh2f2N0NlpQnJCzGNSWOjddl5QROAvBner86PWeFTXkjH
+	Ub7F7DwxG90QqukgpyQgHKRbQSEa/F4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097330;
+	s=susede2_ed25519; t=1715097331;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1KPsJhuWZG19ju3QDk9TovcIynqyR4u6bykfKu7NCXg=;
-	b=zhAHz28rd+//uCgpK61nx6UoMKQ5Wsnejq33iiQRwc0yhUlisYUOYVD2cR7kkKJ3fqD4x+
-	Mqblddd1oM5msXDg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x108V8adf2alhKfRBJ+7Aw9Su5fdq/xAkCUp9NstYb8=;
+	b=oSr7lf0oztETVU51wXGcpexe3peCKxLGuoWk5EtHDd9QZQsVU3gLpT+NTYw9dimPvS+g3k
+	MrJnlHE1wmT25wAQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1KPsJhuWZG19ju3QDk9TovcIynqyR4u6bykfKu7NCXg=;
-	b=2WhubKAOBxzKgn6hnZDDWOfClEMwnLfYdFs1mECfTR0MXUDWpbWjVmC7U6zD8TPY0PuCnk
-	5vtQvFpEe8k+EopVIPKiPEATkMKnl9P/TVgrTNGf9JsOSKzOOq/VT7Kt4nvSQxgr5EtfUh
-	NWQDIClHA7WqfNHjNJrUpoYpQ8CbNZc=
+	t=1715097331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x108V8adf2alhKfRBJ+7Aw9Su5fdq/xAkCUp9NstYb8=;
+	b=rIwKV3TL3WpxnovpGNiIo+glA5/JoFdsKjgyDrpVWk15OqiB4ptGlPff665zH2leTiWFQh
+	6Q3u7wI9PY1vxddecojPpn8fsLh2f2N0NlpQnJCzGNSWOjddl5QROAvBner86PWeFTXkjH
+	Ub7F7DwxG90QqukgpyQgHKRbQSEa/F4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097330;
+	s=susede2_ed25519; t=1715097331;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=1KPsJhuWZG19ju3QDk9TovcIynqyR4u6bykfKu7NCXg=;
-	b=zhAHz28rd+//uCgpK61nx6UoMKQ5Wsnejq33iiQRwc0yhUlisYUOYVD2cR7kkKJ3fqD4x+
-	Mqblddd1oM5msXDg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x108V8adf2alhKfRBJ+7Aw9Su5fdq/xAkCUp9NstYb8=;
+	b=oSr7lf0oztETVU51wXGcpexe3peCKxLGuoWk5EtHDd9QZQsVU3gLpT+NTYw9dimPvS+g3k
+	MrJnlHE1wmT25wAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4353E13A2D;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3F0B13A3C;
 	Tue,  7 May 2024 15:55:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3ttvDvJOOmaNXQAAD6G6ig
+	id sBBjNvJOOmaNXQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:30 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 00/34] ASoC: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 17:55:04 +0200
-Message-ID: <20240507155540.24815-1-tiwai@suse.de>
+Subject: [PATCH 04/34] ASoC: amd: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:08 +0200
+Message-ID: <20240507155540.24815-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
+References: <20240507155540.24815-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,10 +90,9 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-6.80 / 50.00];
+	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
@@ -98,133 +108,188 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.80
+X-Spam-Flag: NO
 
-Hi,
+*-objs suffix is reserved rather for (user-space) host programs while
+usually *-y suffix is used for kernel drivers (although *-objs works
+for that purpose for now).
 
-this is a series of trivial cleanup patches for ASoC to correct
-the *-objs suffix in Makefile.  The other ALSA code has been covered
-by a previous patch set
-  https://lore.kernel.org/r/20240507135513.14919-1-tiwai@suse.de
+Let's correct the old usages of *-objs in Makefiles.
 
-As was suggested in a patch review, *-objs suffix in Makefile is
-basically a wrong use nowadays for kernel driver modules.
-They should be replaced with *-y suffix instead.
-This is a result of systematic conversions, separated per directory.
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/soc/amd/Makefile         | 12 ++++++------
+ sound/soc/amd/acp/Makefile     | 26 +++++++++++++-------------
+ sound/soc/amd/ps/Makefile      |  8 ++++----
+ sound/soc/amd/raven/Makefile   |  6 +++---
+ sound/soc/amd/renoir/Makefile  |  6 +++---
+ sound/soc/amd/rpl/Makefile     |  2 +-
+ sound/soc/amd/vangogh/Makefile |  8 ++++----
+ sound/soc/amd/yc/Makefile      |  6 +++---
+ 8 files changed, 37 insertions(+), 37 deletions(-)
 
-Only lightly compile-tested.
-
-
-Takashi
-
-===
-
-Takashi Iwai (34):
-  ASoC: core: Use *-y instead of *-objs in Makefile
-  ASoC: codecs: Use *-y instead of *-objs in Makefile
-  ASoC: adi: Use *-y instead of *-objs in Makefile
-  ASoC: amd: Use *-y instead of *-objs in Makefile
-  ASoC: apple: Use *-y instead of *-objs in Makefile
-  ASoC: atmel: Use *-y instead of *-objs in Makefile
-  ASoC: au1x: Use *-y instead of *-objs Makefile
-  ASoC: bcm: Use *-y instead of *-objs in Makefile
-  ASoC: cirrus: Use *-y instead of *-objs in Makefile
-  ASoC: fsl: Use *-y instead of *-objs in Makefile
-  ASoC: generic: Use *-y instead of *-objs in Makefile
-  ASoC: intel: Use *-y instead of *-objs in Makefile
-  ASoC: jz4740: Use *-y instead of *-objs in Makefile
-  ASoC: kirkwood: Use *-y instead of *-objs in Makefile
-  ASoC: loongson: Use *-y instead of *-objs in Makefile
-  ASoC: mediatek: Use *-y instead of *-objs in Makefile
-  ASoC: meson: Use *-y instead of *-objs in Makefile
-  ASoC: mxs: Use *-y instead of *-objs in Makefile
-  ASoC: pxa: Use *-y instead of *-objs in Makefile
-  ASoC: qcom: Use *-y instead of *-objs in Makefile
-  ASoC: rockchip: Use *-y instead of *-objs in Makefile
-  ASoC: samsung: Use *-y instead of *-objs in Makefile
-  ASoC: sh: Use *-y instead of *-objs in Makefile
-  ASoC: SOF: Use *-y instead of *-objs in Makefile
-  ASoC: spear: Use *-y instead of *-objs in Makefile
-  ASoC: sprd: Use *-y instead of *-objs in Makefile
-  ASoC: sti: Use *-y instead of *-objs in Makefile
-  ASoC: stm: Use *-y instead of *-objs in Makefile
-  ASoC: tegra: Use *-y instead of *-objs in Makefile
-  ASoC: ti: Use *-y instead of *-objs in Makefile
-  ASoC: uniphier: Use *-y instead of *-objs in Makefile
-  ASoC: ux500: Use *-y instead of *-objs in Makefile
-  ASoC: xilinx: Use *-y instead of *-objs in Makefile
-  ASoC: xtensa: Use *-y instead of *-objs in Makefile
-
- sound/soc/Makefile                     |  16 +-
- sound/soc/adi/Makefile                 |   4 +-
- sound/soc/amd/Makefile                 |  12 +-
- sound/soc/amd/acp/Makefile             |  26 +-
- sound/soc/amd/ps/Makefile              |   8 +-
- sound/soc/amd/raven/Makefile           |   6 +-
- sound/soc/amd/renoir/Makefile          |   6 +-
- sound/soc/amd/rpl/Makefile             |   2 +-
- sound/soc/amd/vangogh/Makefile         |   8 +-
- sound/soc/amd/yc/Makefile              |   6 +-
- sound/soc/apple/Makefile               |   2 +-
- sound/soc/atmel/Makefile               |  30 +-
- sound/soc/au1x/Makefile                |  16 +-
- sound/soc/bcm/Makefile                 |   6 +-
- sound/soc/cirrus/Makefile              |   6 +-
- sound/soc/codecs/Makefile              | 784 ++++++++++++-------------
- sound/soc/fsl/Makefile                 |  52 +-
- sound/soc/generic/Makefile             |  12 +-
- sound/soc/intel/atom/Makefile          |   2 +-
- sound/soc/intel/atom/sst/Makefile      |   6 +-
- sound/soc/intel/avs/Makefile           |  10 +-
- sound/soc/intel/avs/boards/Makefile    |  34 +-
- sound/soc/intel/boards/Makefile        |  84 +--
- sound/soc/intel/catpt/Makefile         |   2 +-
- sound/soc/intel/common/Makefile        |   8 +-
- sound/soc/intel/keembay/Makefile       |   2 +-
- sound/soc/intel/skylake/Makefile       |   6 +-
- sound/soc/jz4740/Makefile              |   2 +-
- sound/soc/kirkwood/Makefile            |   4 +-
- sound/soc/loongson/Makefile            |   4 +-
- sound/soc/mediatek/common/Makefile     |   4 +-
- sound/soc/mediatek/mt2701/Makefile     |   2 +-
- sound/soc/mediatek/mt6797/Makefile     |   2 +-
- sound/soc/mediatek/mt7986/Makefile     |   2 +-
- sound/soc/mediatek/mt8183/Makefile     |   2 +-
- sound/soc/mediatek/mt8186/Makefile     |   2 +-
- sound/soc/mediatek/mt8188/Makefile     |   2 +-
- sound/soc/mediatek/mt8192/Makefile     |   2 +-
- sound/soc/mediatek/mt8195/Makefile     |   2 +-
- sound/soc/meson/Makefile               |  50 +-
- sound/soc/mxs/Makefile                 |   6 +-
- sound/soc/pxa/Makefile                 |  12 +-
- sound/soc/qcom/Makefile                |  38 +-
- sound/soc/qcom/qdsp6/Makefile          |   4 +-
- sound/soc/rockchip/Makefile            |  16 +-
- sound/soc/samsung/Makefile             |  38 +-
- sound/soc/sh/Makefile                  |  16 +-
- sound/soc/sh/rcar/Makefile             |   2 +-
- sound/soc/sof/Makefile                 |  30 +-
- sound/soc/sof/amd/Makefile             |  10 +-
- sound/soc/sof/imx/Makefile             |   8 +-
- sound/soc/sof/intel/Makefile           |  30 +-
- sound/soc/sof/mediatek/mt8186/Makefile |   2 +-
- sound/soc/sof/mediatek/mt8195/Makefile |   2 +-
- sound/soc/sof/xtensa/Makefile          |   2 +-
- sound/soc/spear/Makefile               |   6 +-
- sound/soc/sprd/Makefile                |   2 +-
- sound/soc/sti/Makefile                 |   2 +-
- sound/soc/stm/Makefile                 |   8 +-
- sound/soc/tegra/Makefile               |  46 +-
- sound/soc/ti/Makefile                  |  36 +-
- sound/soc/uniphier/Makefile            |   8 +-
- sound/soc/ux500/Makefile               |   6 +-
- sound/soc/xilinx/Makefile              |   6 +-
- sound/soc/xtensa/Makefile              |   2 +-
- 65 files changed, 787 insertions(+), 787 deletions(-)
-
+diff --git a/sound/soc/amd/Makefile b/sound/soc/amd/Makefile
+index ebbe49c2bbff..4f89d962cce2 100644
+--- a/sound/soc/amd/Makefile
++++ b/sound/soc/amd/Makefile
+@@ -1,10 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-acp_audio_dma-objs := acp-pcm-dma.o
+-snd-soc-acp-da7219mx98357-mach-objs := acp-da7219-max98357a.o
+-snd-soc-acp-rt5645-mach-objs := acp-rt5645.o
+-snd-soc-acp-es8336-mach-objs := acp-es8336.o
+-snd-soc-acp-rt5682-mach-objs := acp3x-rt5682-max9836.o
+-snd-acp-config-objs := acp-config.o
++acp_audio_dma-y := acp-pcm-dma.o
++snd-soc-acp-da7219mx98357-mach-y := acp-da7219-max98357a.o
++snd-soc-acp-rt5645-mach-y := acp-rt5645.o
++snd-soc-acp-es8336-mach-y := acp-es8336.o
++snd-soc-acp-rt5682-mach-y := acp3x-rt5682-max9836.o
++snd-acp-config-y := acp-config.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_ACP) += acp_audio_dma.o
+ obj-$(CONFIG_SND_SOC_AMD_CZ_DA7219MX98357_MACH) += snd-soc-acp-da7219mx98357-mach.o
+diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
+index 1fd581a2aa33..b068bf1f920e 100644
+--- a/sound/soc/amd/acp/Makefile
++++ b/sound/soc/amd/acp/Makefile
+@@ -5,23 +5,23 @@
+ # Copyright(c) 2021 Advanced Micro Devices, Inc. All rights reserved.
+ 
+ #common acp driver
+-snd-acp-pcm-objs     := acp-platform.o
+-snd-acp-i2s-objs     := acp-i2s.o
+-snd-acp-pdm-objs     := acp-pdm.o
+-snd-acp-legacy-common-objs   := acp-legacy-common.o
+-snd-acp-pci-objs     := acp-pci.o
+-snd-amd-sdw-acpi-objs := amd-sdw-acpi.o
++snd-acp-pcm-y     := acp-platform.o
++snd-acp-i2s-y     := acp-i2s.o
++snd-acp-pdm-y     := acp-pdm.o
++snd-acp-legacy-common-y   := acp-legacy-common.o
++snd-acp-pci-y     := acp-pci.o
++snd-amd-sdw-acpi-y := amd-sdw-acpi.o
+ 
+ #platform specific driver
+-snd-acp-renoir-objs     := acp-renoir.o
+-snd-acp-rembrandt-objs  := acp-rembrandt.o
+-snd-acp63-objs := acp63.o
+-snd-acp70-objs := acp70.o
++snd-acp-renoir-y     := acp-renoir.o
++snd-acp-rembrandt-y  := acp-rembrandt.o
++snd-acp63-y := acp63.o
++snd-acp70-y := acp70.o
+ 
+ #machine specific driver
+-snd-acp-mach-objs     := acp-mach-common.o
+-snd-acp-legacy-mach-objs     := acp-legacy-mach.o acp3x-es83xx/acp3x-es83xx.o
+-snd-acp-sof-mach-objs     := acp-sof-mach.o
++snd-acp-mach-y     := acp-mach-common.o
++snd-acp-legacy-mach-y     := acp-legacy-mach.o acp3x-es83xx/acp3x-es83xx.o
++snd-acp-sof-mach-y     := acp-sof-mach.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_ACP_PCM) += snd-acp-pcm.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP_I2S) += snd-acp-i2s.o
+diff --git a/sound/soc/amd/ps/Makefile b/sound/soc/amd/ps/Makefile
+index b3c254886fd9..b5efb1c5382c 100644
+--- a/sound/soc/amd/ps/Makefile
++++ b/sound/soc/amd/ps/Makefile
+@@ -1,9 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ # Pink Sardine platform Support
+-snd-pci-ps-objs := pci-ps.o
+-snd-ps-pdm-dma-objs := ps-pdm-dma.o
+-snd-soc-ps-mach-objs := ps-mach.o
+-snd-ps-sdw-dma-objs := ps-sdw-dma.o
++snd-pci-ps-y := pci-ps.o
++snd-ps-pdm-dma-y := ps-pdm-dma.o
++snd-soc-ps-mach-y := ps-mach.o
++snd-ps-sdw-dma-y := ps-sdw-dma.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_PS) += snd-pci-ps.o
+ obj-$(CONFIG_SND_SOC_AMD_PS) += snd-ps-pdm-dma.o
+diff --git a/sound/soc/amd/raven/Makefile b/sound/soc/amd/raven/Makefile
+index 62c22b6ed95a..b2ea030cbf25 100644
+--- a/sound/soc/amd/raven/Makefile
++++ b/sound/soc/amd/raven/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ # Raven Ridge platform Support
+-snd-pci-acp3x-objs	:= pci-acp3x.o
+-snd-acp3x-pcm-dma-objs	:= acp3x-pcm-dma.o
+-snd-acp3x-i2s-objs	:= acp3x-i2s.o
++snd-pci-acp3x-y		:= pci-acp3x.o
++snd-acp3x-pcm-dma-y	:= acp3x-pcm-dma.o
++snd-acp3x-i2s-y		:= acp3x-i2s.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP3x)	 += snd-pci-acp3x.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP3x)	 += snd-acp3x-pcm-dma.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP3x)	 += snd-acp3x-i2s.o
+diff --git a/sound/soc/amd/renoir/Makefile b/sound/soc/amd/renoir/Makefile
+index 4a82690aec16..76b4a9c3e24f 100644
+--- a/sound/soc/amd/renoir/Makefile
++++ b/sound/soc/amd/renoir/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ # Renoir platform Support
+-snd-rn-pci-acp3x-objs	:= rn-pci-acp3x.o
+-snd-acp3x-pdm-dma-objs	:= acp3x-pdm-dma.o
+-snd-acp3x-rn-objs	:= acp3x-rn.o
++snd-rn-pci-acp3x-y	:= rn-pci-acp3x.o
++snd-acp3x-pdm-dma-y	:= acp3x-pdm-dma.o
++snd-acp3x-rn-y		:= acp3x-rn.o
+ obj-$(CONFIG_SND_SOC_AMD_RENOIR)	+= snd-rn-pci-acp3x.o
+ obj-$(CONFIG_SND_SOC_AMD_RENOIR)	+= snd-acp3x-pdm-dma.o
+ obj-$(CONFIG_SND_SOC_AMD_RENOIR_MACH)	+= snd-acp3x-rn.o
+diff --git a/sound/soc/amd/rpl/Makefile b/sound/soc/amd/rpl/Makefile
+index 11a33a05e94b..a3825c5be4e7 100644
+--- a/sound/soc/amd/rpl/Makefile
++++ b/sound/soc/amd/rpl/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ # RPL platform Support
+-snd-rpl-pci-acp6x-objs	:= rpl-pci-acp6x.o
++snd-rpl-pci-acp6x-y	:= rpl-pci-acp6x.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_RPL_ACP6x) += snd-rpl-pci-acp6x.o
+diff --git a/sound/soc/amd/vangogh/Makefile b/sound/soc/amd/vangogh/Makefile
+index c9e53e04e247..7eae82faa392 100644
+--- a/sound/soc/amd/vangogh/Makefile
++++ b/sound/soc/amd/vangogh/Makefile
+@@ -1,9 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ # Vangogh platform Support
+-snd-pci-acp5x-objs	:= pci-acp5x.o
+-snd-acp5x-i2s-objs	:= acp5x-i2s.o
+-snd-acp5x-pcm-dma-objs	:= acp5x-pcm-dma.o
+-snd-soc-acp5x-mach-objs := acp5x-mach.o
++snd-pci-acp5x-y		:= pci-acp5x.o
++snd-acp5x-i2s-y		:= acp5x-i2s.o
++snd-acp5x-pcm-dma-y	:= acp5x-pcm-dma.o
++snd-soc-acp5x-mach-y	:= acp5x-mach.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_ACP5x) += snd-pci-acp5x.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP5x)	+= snd-acp5x-i2s.o
+diff --git a/sound/soc/amd/yc/Makefile b/sound/soc/amd/yc/Makefile
+index dc2974440388..7a0a3a410b2d 100644
+--- a/sound/soc/amd/yc/Makefile
++++ b/sound/soc/amd/yc/Makefile
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ # Yellow Carp platform Support
+-snd-pci-acp6x-objs	:= pci-acp6x.o
+-snd-acp6x-pdm-dma-objs	:= acp6x-pdm-dma.o
+-snd-soc-acp6x-mach-objs := acp6x-mach.o
++snd-pci-acp6x-y		:= pci-acp6x.o
++snd-acp6x-pdm-dma-y	:= acp6x-pdm-dma.o
++snd-soc-acp6x-mach-y	:= acp6x-mach.o
+ 
+ obj-$(CONFIG_SND_SOC_AMD_ACP6x) += snd-pci-acp6x.o
+ obj-$(CONFIG_SND_SOC_AMD_ACP6x) += snd-acp6x-pdm-dma.o
 -- 
 2.43.0
 
