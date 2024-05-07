@@ -1,146 +1,149 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1613B153821;
-	Tue,  7 May 2024 11:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4670E158D6D;
+	Tue,  7 May 2024 12:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715082060; cv=none; b=J25TwQBeFU8WjHANX2A3BV/rmcbNFUUVoYeHaaSDKLbFT4aw0LCj4cVzIsikoo9eChH47qEOMAHyDTPC/d0KV4b5gt88mixoH5eMde3S0GfMJr31/8+AqnkL/RI6Xsv3loysIiYwaynnP3IvUQwZGH9XNMscovidRgFGoi67OK4=
+	t=1715084607; cv=none; b=uNlh/R8oaPxnatvXDzmervj/MfTPeV0BroCSivkPFdLpWKLlBbb92OA/vJDiiPtXaU6WzioDHFO65s7sg9ONj0umhKZWa5z8060qj4talYs8HUB7QUToQrrzo3yeY8FiMbxm0z4I5788+ImgYal8em/7duLxJLT9lsTTvYHEQr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715082060; c=relaxed/simple;
-	bh=PWpBOpNDr/xlcI419TA4O+00/LhO4PVJAa2tV399Fak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RSE7sFCKnsGFyV0xRakgQhkoXdh+7Q/kBicrKZzN0aomNgDbn4Foxbvv3QMHf8OPnQ5ioeurBMr2/LyeeIpPXCIqCWOphk5EdtGlyPz0Uzs0sI4Ao6V7OoTTUJ+Newzh3plH4lJRcHtPJueTNWe1FLPgtz5NYDWK48Lqofcde+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TuQ3fNX1; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1715084607; c=relaxed/simple;
+	bh=2jFVexOgDEd4e1eXCSwvP7UB75DW2FjYVEgTn+wjHEA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mFQ+fFP+IG3xzLHJxYpAYcgwM7GKvpIqYj/K9ajS2Eq6Qgui5bp7NOnodvSCkHpWXyMS/y0GGvoY968EFNHyzNME/WupB/WFvZvZGtvf6hIXDk7JfVwaQJl/HY6BhAVCkV44Ejif6BXiNi32TYZpgkQZ+mTvARyA8snXU1+pEwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHGf+pT/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VbbVc2ek; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nHGf+pT/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VbbVc2ek; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TuQ3fNX1"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4477As4c021346;
-	Tue, 7 May 2024 11:40:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=vAW2kebA5xILfVJjv5PmFuP/px2n8NNHksYQ7E6Ix3M=; b=Tu
-	Q3fNX1UNjyigHTf80l/GM20us+RTLBZFYV0KGWa91lNytIuJmm8JGtv2EWgtMH16
-	zwU3G6gvahZDS0qOcbioDf1yjaRp4MM5G032z55Jr7z77+8BFcXcbWhzDC+UPyo1
-	Am0tRA2eUi26wF1aY2bfmCcc31AzouILAjL/CGbzxCH1YHNmNY66foI4kuLXPphX
-	CVi1i15j4X91jLsZK1YZvpea8ajlu6irmMp984htotNHfhNGcZ/jahbWR1yTtHc5
-	IFc/9rE+JHcvDFcFJ3AY1suKWtvsuhKjo67HOeMuQHBiTh73IXcG/Bcfd9VwJAxO
-	irddtMqMAFnXQT9P466w==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xyfhv0jdd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 May 2024 11:40:41 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447BeIe0009444
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 7 May 2024 11:40:18 GMT
-Received: from [10.216.54.232] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
- 04:40:13 -0700
-Message-ID: <ed691f73-d56e-a653-d4bf-229a3ec561f1@quicinc.com>
-Date: Tue, 7 May 2024 17:10:10 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHGf+pT/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VbbVc2ek";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nHGf+pT/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VbbVc2ek"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5229833E6C;
+	Tue,  7 May 2024 12:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715084604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
+	b=nHGf+pT/d5ghnLrHlEuONJ0yTuxo1fkZwdGtC9BBcEhKSV/KoGxK+EilrO6Sv5E9limwDc
+	MwicSK3aU0roKNWJX0CC6s3iF3/GZ6ZFPqjy6yoArWF3YCSrKJ5aJLPjgkuJXLCMAcS36/
+	3IiX2g+jcudNWYaMrQMLcsk212eh0pU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715084604;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
+	b=VbbVc2ek/x0uJe85ay27tmyFBIJVoL2NSakUAExZgt8VGh3ccqeoJPcqFbzFgKTw7dLpPU
+	Hw7HI3/k1S+6cgBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715084604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
+	b=nHGf+pT/d5ghnLrHlEuONJ0yTuxo1fkZwdGtC9BBcEhKSV/KoGxK+EilrO6Sv5E9limwDc
+	MwicSK3aU0roKNWJX0CC6s3iF3/GZ6ZFPqjy6yoArWF3YCSrKJ5aJLPjgkuJXLCMAcS36/
+	3IiX2g+jcudNWYaMrQMLcsk212eh0pU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715084604;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HB9vSZXCYjKZxq7x1waJdJomxVN3F/dasGNZHwiylVo=;
+	b=VbbVc2ek/x0uJe85ay27tmyFBIJVoL2NSakUAExZgt8VGh3ccqeoJPcqFbzFgKTw7dLpPU
+	Hw7HI3/k1S+6cgBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3748A13A2D;
+	Tue,  7 May 2024 12:23:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hYjLDDwdOmYpEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 12:23:24 +0000
+Date: Tue, 07 May 2024 14:23:38 +0200
+Message-ID: <87o79herp1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Junhao Pei <ArcticLampyrid@outlook.com>
+Cc: tiwai@suse.de,
+	sbinding@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	rf@opensource.cirrus.com
+Subject: Re: [PATCH v4 0/1] ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
+In-Reply-To: <TYCP286MB2535E8C7B2F9E7EDD75C4382C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+References: <TYCP286MB2535E8C7B2F9E7EDD75C4382C41C2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 2/7] ASoC: codecs: wcd937x: add wcd937x codec driver
-Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        "Srinivas
- Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <quic_pkumpatl@quicinc.com>
-References: <20240425091857.2161088-1-quic_mohs@quicinc.com>
- <20240425091857.2161088-3-quic_mohs@quicinc.com>
- <59f78ca7-ea09-41d7-9e6e-b0ce1af484e4@linux.intel.com>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <59f78ca7-ea09-41d7-9e6e-b0ce1af484e4@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EDpNuAaSPbn_8MGd_rOpdrn-bePJnojS
-X-Proofpoint-ORIG-GUID: EDpNuAaSPbn_8MGd_rOpdrn-bePJnojS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-07_05,2024-05-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=940
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405070081
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.26 / 50.00];
+	BAYES_HAM(-2.96)[99.81%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[outlook.com];
+	FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -3.26
+X-Spam-Flag: NO
 
-On 4/25/2024 7:13 PM, Pierre-Louis Bossart wrote:
+On Mon, 06 May 2024 10:09:27 +0200,
+Junhao Pei wrote:
 > 
->> +struct wcd937x_priv {
->> +	struct sdw_slave *tx_sdw_dev;
->> +	struct sdw_slave *rx_sdw_dev;
-
+> This fixes the sound not working from internal speakers on
+> Lenovo Legion Y9000X 2022 IAH7 models.
 > 
-> Does this mean that the codec has 2 SoundWire interfaces?
-
-Yes, Similar to WCD938x 
-(https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/sound/soc/codecs/wcd938x.c?h=next-20240507), 
-it has two soundwire interfaces.
-
-All read/write operations associated with WCD937x goes over tx_sdw.
-
-rx_sdw_dev is unused in this driver. I will remove it.
-
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218744
 > 
-> If yes, aren't there merits in splitting the implementation in two
-> separate drivers, one for each interface and probing on the relevant partID?
+> This patch depends on [PATCH v1 1/2] ALSA: hda: cs35l41: Ignore errors when configuring IRQs (by Stefan Binding)
+> See also <https://lore.kernel.org/lkml/20240429154853.9393-2-sbinding@opensource.cirrus.com/>
 > 
-> This is how the RT713 was handled. The mic function was exposed as the
-> RT1713.
+> Change from v3 <https://lore.kernel.org/lkml/TYCP286MB25357A4599E935F26A8AAB24C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
+> - Remove the patch for cs35l41 to obey the trigger type from DSDT, for it is rarely used, and
+>   the existing samples (Y9000X 2022 IAH7) has wrong trigger type in DSDT, which makes this change
+>   useless.
+> - Instead, ignore errors when configuring interrupts to allow laptops with bad ACPI to play audio.
+>   (via a patch from Stefan Binding)
 > 
-> By representing the device as a single entity, things could be fun
-> because the two interfaces are really independent. things like clock
-> stop are handled at the interface level.
+> Change from v2 <https://lore.kernel.org/lkml/TYCP286MB253523D85F6E0ECAA3E03D58C40E2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
+> - Correct spkid gpio index.
 > 
-> The code in this driver is difficult to review, for example in the probe
-> you wait for the TX part to complete the enumeration/initialization, but
-> there's nothing mentioned or stated on the RX part, and there's really
-> nothing related to the detection of this device. I don't actually see a
-> sdw_driver at all, it's a platform driver.
->
-wcd937x waits for TX part to complete as it is needed for register 
-read/write operations.
-
-Please refer patch 3/7 for slave driver.
-
-> Would you mind adding a paragraph on how the SoundWire interfaces are
-> handled and how the SoundWire bus is involved if there's no sdw_driver?
+> Change from v1 <https://lore.kernel.org/lkml/TYCP286MB25352F3E995FED9CCE90F1F6C40B2@TYCP286MB2535.JPNP286.PROD.OUTLOOK.COM/T/>:
+> - Add a patch for cs35l41 to obey the trigger type from DSDT.
+> - Avoid disabling interupts for second amps.
 > 
-> Thanks!
+> Junhao Pei (1):
+>   ALSA: hda/realtek: Fix internal speakers for Legion Y9000X 2022 IAH7
 
-Sure, will add details in the commit message.
+Applied to for-next branch now.  Thanks.
 
-Soundwire master driver is already upstreamed and is available at
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/soundwire/qcom.c?h=next-20240507
 
-Thanks & Regards,
-Rafi.
-
+Takashi
