@@ -1,117 +1,138 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2185154BFC
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 14:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03170154BFC;
+	Tue,  7 May 2024 14:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715092497; cv=none; b=TgpHbG5si+sk7PEXxfXbaMCW7C/N/qXhjx2Wg2W8M2HCBoyDShnn88d29wXOsPefrvnljaHHbKJvTQOVt+j4NBFrbr0S68q5bV97fuo4H8roYNiFyPGk9UJIWmkY9ZqSg4AsJtIRtF3rDpYK2iBgMQA/n1loej2u8OGMoAGZ4J0=
+	t=1715092503; cv=none; b=A1pZZX+PduMimOklglXLEpz1FRfHXePpEdRBgXUOMQ4utjG7hJn7hi6Qcm37sVwEiaWa1HXuypugSunKLN3ne0c1e7R/QcS1ZTb7URx+41d1/P47hyulrxjJwPDCrGWUMZtNHm5Xc8PP/yQaELaqxToK+iGcauZgv5GMA7A4kIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715092497; c=relaxed/simple;
-	bh=aMVULJAOdFdlMENqaN3fmLp1ZEAh5RsTsiEWpWG8iLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZXTMZQWlO66fM01m1EXcxa4invAmmxdOvRhX0PPfJ1t7NqYTbLTetzxZkkSX68efBRlpu55uEZf4+T2O/ZKjUgwlN9wxlp1docFO0RMUbo+W8ZCIMmYDF+hNx0Q5+nHOdh8RtqJ/hT9CVniBdLfyN5TDCN0o5DpxrBtaluSnA/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=AVrX0doj; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1715092503; c=relaxed/simple;
+	bh=y6WKrVLOQiWpSilDvghHWU2H2C7Bg6g2vDY3+N3fXQ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JS5F2yhufBoNmq+GPCtWYF4iJDnYlF42vwV+f1NNRW9NAhdc6VpUj+IMPfsFKf4RDn908vNjfdIOJGoEU4QdaZgALZTHCSXzu8ScyoEE/Jxn8Cj/ydQSriWtytd0FURBPb4beu4QLfiHw5MjXnq9hf73CFYjFq3SWyWT0A/ZBs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsh4qTC5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="AVrX0doj"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 81FBD1DBB;
-	Tue,  7 May 2024 16:34:49 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 81FBD1DBB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1715092489; bh=nluMaDxZr8hurgTao64sNP6P+u8Xvfp5bPGM+F56R70=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AVrX0dojmdf6YZMtur5VIlq1rTUqVDOEDDpyCGncCq8+R2LpSB1hATMAWFXd3Ap0r
-	 rsIm75jcKtOAwiCjje9DpQP4hKlfXRoZm0uSusKodam0E5dxluFGDOJwuzwtZY1Bpt
-	 ZD7BSksvxgRweVESb6S2/PeLCWHahXSOQYDwNV9c=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue,  7 May 2024 16:34:46 +0200 (CEST)
-Message-ID: <174befc7-b47b-4df9-b306-036492c41b70@perex.cz>
-Date: Tue, 7 May 2024 16:34:45 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsh4qTC5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16855C2BBFC;
+	Tue,  7 May 2024 14:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715092502;
+	bh=y6WKrVLOQiWpSilDvghHWU2H2C7Bg6g2vDY3+N3fXQ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jsh4qTC5gVZ7sYBPuy5NlWFptghPLLD48L0GvjH4JiS3kx7qOWhxE7m21fp7sfw5c
+	 OZfXdkbVtD4CmIf0rWQc/ADEFT+DencCfMXoMCOMYluT7CnDXVqh+Po/Z45ToGLJ4N
+	 q/GfiRzpjYDI+kuA54dDD4j/cOQ6T81YZvpCLOiTrXY8Rsqbr2u3Pt4dWloOqnbdmK
+	 dEF17UfmRG74qkmmf4YzoCKy1/QtSvaWf3ESfV5psZBtE0MmNvwqoDLyERgaX9ZgtU
+	 ZOs30E1pnraWOyvvVNTqrFU7qisbhaGsGF5Z+19N7FUZM8OUy3ExYFzba4k3X0v+0X
+	 dOQVG31vmlkFA==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Ban Tao <fengzheng923@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev
+In-Reply-To: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
+References: <20240430-asoc-snd-substream-clean-v1-0-6f8a8902b479@linaro.org>
+Subject: Re: [PATCH 00/13] ASoC: Use snd_soc_substream_to_rtd() for
+ accessing private_data
+Message-Id: <171509249287.1985791.3932273255744591305.b4-ty@kernel.org>
+Date: Tue, 07 May 2024 23:34:52 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20240507135513.14919-1-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240507135513.14919-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On 07. 05. 24 15:55, Takashi Iwai wrote:
-> Hi,
+On Tue, 30 Apr 2024 16:02:09 +0200, Krzysztof Kozlowski wrote:
+> Do not open-code snd_soc_substream_to_rtd() when accessing
+> snd_pcm_substream->private_data.  This makes code more consistent with
+> rest of ASoC and allows in the future to move the field to any other
+> place or add additional checks in snd_soc_substream_to_rtd().
 > 
-> this is a series of trivial cleanup patches for Makefile in sound/*
-> (modulo ASoC -- which will be submitted later in a separate series).
+> Best regards,
+> Krzysztof
 > 
-> As Andy suggested in a patch review, *-objs suffix in Makefile is
-> basically a mis-use nowadays for kernel driver modules.  They should
-> be replaced with *-y suffix instead.  This is a result of systematic
-> conversions, separated per directory.
+> [...]
 
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Applied to
 
-			Thanks,
-				Jaroslav
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Thanks!
+
+[01/13] ASoC: qcom: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 77678a25d1ecf70dc1d7ea2c0ab7609af15b83d3
+[02/13] ASoC: tegra: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 3beb985abbf29e660edd1708f8a120ae9bbbddc3
+[03/13] ASoC: ti: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 72a666f47f958a57db16b6bdd9ed385674069693
+[04/13] ASoC: arm: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: a80f2f8443a4ae10c568566f57fe704ea52c5bdb
+[05/13] ASoC: amd: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: a84d84077512fc64cf1fc2292a3638690a026737
+[06/13] ASoC: fsl: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: b695d8be5bba9897ee670ec102ca608ecaf625c4
+[07/13] ASoC: img: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 3b62178720594e08bdf8a87515ccca0328fe41fe
+[08/13] ASoC: kirkwood: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: fe42c3b75b93dee9a4010e2297f1783e48684af7
+[09/13] ASoC: loongson: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: ffad75cebb865fef6f8e40f921c08c79a8faf7e3
+[10/13] ASoC: mediatek: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 410a45140fb76709cf2bbad84bc8a731acf632c8
+[11/13] ASoC: meson: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 22f5680a9cbc7388f97e5386c15c325d6961b958
+[12/13] ASoC: samsung: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 3e726593107d134221f666b4f2be612b278c3ddb
+[13/13] ASoC: sunxi: Use snd_soc_substream_to_rtd() for accessing private_data
+        commit: 47aa51677c975a5f66bc93d1c527e8878cf34d6c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
