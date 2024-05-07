@@ -1,163 +1,117 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8368F14D2B6
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 08:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD8114D6EB
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 10:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715072004; cv=none; b=udwZ5KqGG5vLEQb6y1LIIDDMV5LrAtRxrg9TcFrvv+Y2esBt6kmavY1cO/EPkFSD6GrmEoz0S/vENwG6aaWu2vZGFcuB7QkVn2fLfe/ji4Ee8IG9sh4ma8vldMWSJAGSjIoq8oxKHjVquOGWlPQcvhqSjvLQ2P3DAGy9juGGeT0=
+	t=1715076138; cv=none; b=Mqw+Q7PS4fBAbhXbUwflel/aZ6ZnWmpemQZ+YxVRie0x3mObGHp3WUMiEq4W+eH0NwNTRd4MmAZTmRAFhYxD03SMLhMZ5hjyO3hl6SrzNArJspv7Gn5rjb0aROYYulteJh+pf8taaeolahyV24o4Mi1UUH71LnGVw2nfN+cVkyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715072004; c=relaxed/simple;
-	bh=U8OQatDW4FjtbvC5rTx+PuIOqv56NEu7e4PvA5d1ACs=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=OqhCuufiMvEso/N9jp3Bji5JM6PIq0Y/qZM+0zBiFgM0znHSf4VfExuxo7HBc5hSuoLT9in1MZaxPOL6cZu5NNHcHaAvalHeuoxm7AJ3lw8YC1z25NsQbz2pH/jqbhhFABABWSVplC6KfV13Pe/ntIst0MqsIv+ZOobhy0vsi0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I7y8VNSd; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1715076138; c=relaxed/simple;
+	bh=jxrbP51ApwB+nB6k7droxBtoZKEplqH7fzVFkVtvoqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZYFzn8Sob4nIaNBkm/5dEvSlq0Mt2UzoFlQ2rt8wR8FfITwo+ejROKSZsQiJdd3T+9qNtw05e6+NJIvsX6MeJhjBfTa2Dc3c17oNvHH/MQQ1kZ64njLSvNnMN5eAP9pG6VyHvxXKaX172NE9PvbJ7A2KjHGrSM9q/z3lnnAHlSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P+9WF2m6; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I7y8VNSd"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51f2ebbd8a7so3395612e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 01:53:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P+9WF2m6"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a59a64db066so725045266b.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 03:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715072000; x=1715676800; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=xCxOzDLdEh75jB6y9qUsYnk1sa4ucuKaEHLhrAj+2nA=;
-        b=I7y8VNSdnwTnVtWftc8vZKkb56WWpt4WMj10bSIJlpcs+ajO8rleyMIytXyJ4sL9te
-         wvrBhmodZNpbFU5a5i55cISLo8A/8RascHZOkGUFXBQiVxgmZWWhL32iduE+qEPG1JiI
-         rqYWTkYdISKUhEBmK68hrHutUm5FwLspkKrhh7o35x3LJXrvY3Wc9i6W2y2NeAHzFNae
-         46BM5RrQs4Jtz/aM0djL9Tv2Ic4FDKd/VMC2ipJgGkJLJWs6n0NVkKMQVLpyZnyso+J9
-         ngX/1JnYxqa2RPGfZ0/mSt4Vb0rxeBj5Lon81o5AInsVRWBj4V6gJA7HrvcCZ/7chEm2
-         31/Q==
+        d=linaro.org; s=google; t=1715076133; x=1715680933; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xh7EFY8Q7bV9bAL/jh9gBCI67O6P18pHtiY/L20Df14=;
+        b=P+9WF2m6Emwn3JDxXyLaM8QqaHtR/Q3qWaG9wtr8+XBpY6F2Nyf/vFAZra2GRg9zwN
+         j381UFzEGFY/E6nqKVEMm55v6rBH6s6BM2TK9R2LT5TtbdE38jVonK4sAUtscUnlHcQx
+         xANP19lb8T8eIduQv6PS56zyuSyPJXMGwmhJEQaHq9aLFECScs3UYPUnAeep+pkFTJO/
+         TPN3A92qIwS7ChNl1QWciW3H4JwTmzpGfKBMUIZYUttQJbv0kcgV9v/K3DFTG8bk6T2A
+         5HJuqxJQxahHcfLg2awFxMwjoCZ9gmpy4Ysic9c/tvRbsYUNmmYbu/ZeY1mV9jtbf63S
+         rI5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715072000; x=1715676800;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xCxOzDLdEh75jB6y9qUsYnk1sa4ucuKaEHLhrAj+2nA=;
-        b=iGeqhwA7Z1BiAOE98uTFJ8+gJI023UZdCg/6nrInMAADkZa654+eZOlwfunPi/si21
-         vxC0U7o5fJTWB8aKoonnRwdpK3Nk1HK2QXzYEzMBqebI2Q2oCuPba6u2lfbp6ivQqrK8
-         ahG7gk7A9pY+4O5jR9BUu5PZeyzkM3JoZX2wZnFQRSFKLR/GLX8WK1Upz1krN/9RhQBq
-         IOrTZJ1kBmX7L1odCQJXZMEjyJFYTEAw5OhOkqD94C28l7cHibrflsP86nrtFuoedFS8
-         nrcc33J8C6Q7SsO7teQlVzotWCMPGYzC0EikxPWUNPA1BevBkev3vuXDx2mbmGCXRlg3
-         UOiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNeg57kHEgg6nJLKZD6tHqfrwgxajsOqXqLsol7Ya/4VuMZk7QTlQOoOUWys0ojRD62LMM3IIXH9GwmtJQQdRIGiHIAoFXMk493Mk=
-X-Gm-Message-State: AOJu0YweNzzene/FBQgDdZq3GeGCkcXF5jAna8UVnmRah19b3c96mmau
-	sFXR8ZFiX5jfclv2WwuVxtymEg2hGYxk8sCz6dBnbJFq+P232Fyn+HcmwEPl3a0=
-X-Google-Smtp-Source: AGHT+IHowCcLFFaLyyT16y8DxcMAyDiK7IAn6wJm9zlWi1Dnoyl03rPbptGdEMLcTqFhlY4mJAuSmg==
-X-Received: by 2002:ac2:58fb:0:b0:519:2d60:d71b with SMTP id v27-20020ac258fb000000b005192d60d71bmr7323830lfo.22.1715072000389;
-        Tue, 07 May 2024 01:53:20 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:970:8464:9c54:e891])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05600c4ec900b0041c542636bcsm22453098wmq.44.2024.05.07.01.53.19
+        d=1e100.net; s=20230601; t=1715076133; x=1715680933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xh7EFY8Q7bV9bAL/jh9gBCI67O6P18pHtiY/L20Df14=;
+        b=JiKMZaOu66/7QS4ZBbbfuUOdD5amOGoMiDNVd9lE64Iihkp/fP52tXQUwSJp3KHN1Z
+         7SBaySKffmGuUJC+H5/XR90uqax05/R1adG/lxRXCfbDL0PzDZjHnyzz+cK3+vHPmrX5
+         X8DbSVkQgxW/VrGMI6q9T+sk7obHmFLEIZAoQ/w9HVFlJZ00s+c8PZzZSllRI236yiKQ
+         1gsXnz/n3yV20DLL53h8AkwZFVGHWGD4YLBqECqnk488gZupTLRSGRfWeUEFcSUU7ov3
+         aGnDOvdu8XmF/KXox6zArmPafatjtSly3S6+0jwJJc+sE8tFCcOh13gWCIoTHp4ott+S
+         j+KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxDpHpSGtKl3bfDy/fvWLQM6FwmDIPHrR8J406SfvDl2jytufgEfFWGzBIXo/piOtkanE44EBOF+x8zRRPJqw6mmN4qT/IJrPsH1I=
+X-Gm-Message-State: AOJu0YyZIErUKXz0y4fma2QoUq82H0Lk1TQuoOq1ckpbnBLUXwRqmRRY
+	Qhe9QDJQpWkxt0HejGhF7OWlfrcwat9UyGfpKsmYl7uSVDo7nIyHR7iXEhht4Ho=
+X-Google-Smtp-Source: AGHT+IGdTeYrrvQuiHJ267AFGQGOr/InjQ1hSYK78u1GMZuzU7Nd8dK+zAN8gjqU0ku58bn2t42Wow==
+X-Received: by 2002:a17:907:1b06:b0:a59:9a68:7283 with SMTP id mp6-20020a1709071b0600b00a599a687283mr9092604ejc.12.1715076133185;
+        Tue, 07 May 2024 03:02:13 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.206.169])
+        by smtp.gmail.com with ESMTPSA id qy29-20020a170907689d00b00a59adb12790sm3792651ejc.27.2024.05.07.03.02.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 01:53:19 -0700 (PDT)
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Banajit Goswami
- <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
-  Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
- Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
- Jonathan  Corbet <corbet@lwn.net>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Kevin Hilman <khilman@baylibre.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Maso
- Huang <maso.huang@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
- <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-Date: Tue, 07 May 2024 10:47:22 +0200
-In-reply-to: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-Message-ID: <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+        Tue, 07 May 2024 03:02:12 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: audioreach: Correct mapping of back speakers
+Date: Tue,  7 May 2024 12:02:09 +0200
+Message-ID: <20240507100209.610436-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
+Qualcomm DSP, according to downstream sources, expects back speakers to
+be mapped as "back", not "surround".  The surround is used only for 8+
+speakers configuration.
 
-On Tue 07 May 2024 at 04:32, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+Reported-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Fixes: 3c5fcb20e07e ("ASoC: qcom: audioreach: Add 4 channel support")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ sound/soc/qcom/qdsp6/audioreach.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> Hi Mark, Pierre-Louis
-> Cc each ASoC driver maintainer
->
-> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
-> so we remove it. But we have been using it for 10 years, some driver might
-> get damage. The most likely case is that the device/driver can use both
-> playback/capture, but have only one flag, and not using xxx_only flag.
-> [1/3] patch indicates warning in such case.
->
-> And because of its history, DPCM has been checking CPU side only. But it should
-> check Codec side too same as non-DPCM. Some device/driver has been bypassed
-> this check. It should be error. [2/3] patch indicates warning in such case.
->
-> Because dpcm_xxx flag is no longer used by [1/3] patch, 
-> snd_soc_dai_link_set_capabilities() is no longer needed. [3/3] patch remove it.
->
-> These adds grace time for DPCM cleanup.
-> I'm not sure when dpcm_xxx will be removed, and Codec check bypass will be error,
-> but maybe v6.11 or v6.12 ?
-> Please check each driver by that time.
-
-Hi Kuninori-san,
-
-I have tested this series on an Amlogic device (vim3l)
-This brings warnings for cases which are perfectly fine.
-
-For example, one of the DPCM backends is the TDM interface. This
-interface is capable of both playback and capture. It can be associated
-with any i2s/TDM codec.
-
-The codec may do playback and capture too, but it
-may also do a single direction. Then usual example is the hdmi codec
-which does playback only.
-
-In this case I get:
- axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
-
-I don't think this is right.
-
->
-> [1] https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
->
-> Kuninori Morimoto (3):
->   ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
->   ASoC: soc-pcm: Indicate warning if CPU / Codec availability mismatch
->   ASoC: remove snd_soc_dai_link_set_capabilities()
->
->  include/sound/soc-dai.h               |  1 -
->  include/sound/soc.h                   |  1 +
->  sound/soc/fsl/imx-card.c              |  3 -
->  sound/soc/generic/audio-graph-card.c  |  2 -
->  sound/soc/generic/audio-graph-card2.c |  2 -
->  sound/soc/generic/simple-card.c       |  2 -
->  sound/soc/meson/axg-card.c            |  1 -
->  sound/soc/meson/gx-card.c             |  1 -
->  sound/soc/qcom/common.c               |  1 -
->  sound/soc/soc-dai.c                   | 38 -----------
->  sound/soc/soc-pcm.c                   | 96 ++++++++++++++++++---------
->  11 files changed, 67 insertions(+), 81 deletions(-)
-
-
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index 5291deac0a0b..c655f0213723 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -277,8 +277,8 @@ static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
+ 	} else if (num_channels == 4) {
+ 		ch_map[0] =  PCM_CHANNEL_FL;
+ 		ch_map[1] =  PCM_CHANNEL_FR;
+-		ch_map[2] =  PCM_CHANNEL_LS;
+-		ch_map[3] =  PCM_CHANNEL_RS;
++		ch_map[2] =  PCM_CHANNEL_LB;
++		ch_map[3] =  PCM_CHANNEL_RB;
+ 	}
+ }
+ 
+@@ -851,8 +851,8 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
+ 	} else if (num_channels == 4) {
+ 		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
+ 		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
+-		media_format->channel_mapping[2] = PCM_CHANNEL_LS;
+-		media_format->channel_mapping[3] = PCM_CHANNEL_RS;
++		media_format->channel_mapping[2] = PCM_CHANNEL_LB;
++		media_format->channel_mapping[3] = PCM_CHANNEL_RB;
+ 	}
+ 
+ 	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
 -- 
-Jerome
+2.43.0
+
