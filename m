@@ -1,54 +1,54 @@
 Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156BE441D
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 03:04:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6536441D
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 03:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715051062; cv=none; b=ZZtRmKEk/0S8/45q0Iegt9Azj9kMDZuxFoLA9GF8jU8tLvWo7etKfcW2ZAI87xNL4EdTcw1y8yzzfm5DiXwtcpuaAmaCFzJv4L8S92OGuFyMvqnnAfsSJ5RfWlGAS2qY+Bd9Z3SJiBfSTM5/gj3agA/F01E3yP9CE1JU3gdwyvo=
+	t=1715051075; cv=none; b=JzEeTFEBjFv9bO7cRvYAaEk7oBm3q+AhOToZ7d1ALX9wY1ncU0E2QMEtk6sLvvtlFSWeJOTg7Vt9iUsz0Rz1kdnpN/7q0xuDwVmp2tImBNWREf5YenRHSDnMFDrmwZ7cQ3oLAff5DcsuUijXpMnG9jwwPE1PcQo83R2PuvFwUPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715051062; c=relaxed/simple;
-	bh=oqWEXhVfXt5buYMYQziDaF80vsRKtriRD6OuDRozaRs=;
+	s=arc-20240116; t=1715051075; c=relaxed/simple;
+	bh=RFrIbXHq78oyh3pXdp49G8MnDiK15gBxJJ+s7kJe088=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q046HgHE1fqo199r8pZUxl81BQkJA8nXhJHyMcBkhzDwKqK14zOPaJRUj/DoAPHgqF2Ietf/CVWSPn8jT2PZDLiBq2zmvtxlsH7gIKd5AO9gE54RRo3SfNIul0qsZgdkRC8RTV5uI0wVnZ4GCdFVjDOeBr3Wfj6/xGh+yaYsxUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=WZs1ci3G; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PEIjhlU9; arc=none smtp.client-ip=64.147.123.149
+	 Content-Type:Content-Disposition:In-Reply-To; b=EvEGftsJ+pht6T9nxW6eEqB8UXy1Zr4Zq5vM6OLd2d528jxrwGVl0F4Ql7mf3qdAfYXCAHAkDt8ho2n9pLZUwmlwzrlryntEJSXp9BeJAEmiWmyDrnEfmk7kJDyqfz9EyASgRwYEZK6yDPRYTNPMTGNqvJLs0nG+FHTRAMZfZ5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=gGuuElUN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Lph5vYAx; arc=none smtp.client-ip=64.147.123.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="WZs1ci3G";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PEIjhlU9"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.west.internal (Postfix) with ESMTP id 0BA3B1C001A0;
-	Mon,  6 May 2024 23:04:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 06 May 2024 23:04:19 -0400
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="gGuuElUN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Lph5vYAx"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id B151A1C001AA;
+	Mon,  6 May 2024 23:04:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 06 May 2024 23:04:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1715051058; x=
-	1715137458; bh=M/5zwNK4WEhAJnewb3QZAK3Gc2ETs/z/htiVKvOIMKo=; b=W
-	Zs1ci3Giyqj+/3B/pDXa3ATooJMrgdLz89eXnWjcUpOgKGk0n8K2hvIVUpJmFTOk
-	WApjFDlnLOh2k1u7ldowEC+9IkN1CF8saWURdzSzXw0bf+9hn2b3shiLSF5J0wkj
-	//utE2gWGIWC78PTrPsMF0mOZIN7o7Kd7ejzKgzbk+B1rL+RWsW/4dTwNX89XmRF
-	7He7wX22nSbOOxAqVEqZhurKCdYX8FFib145ndwVLjaydjVINBTEJo1yNbb7WmjV
-	upI5xNTZw3Ai2jS29waV/8mkUiJHTXFDUz6Jq40f5tzD95Z9BLHtGaBrH2DONz96
-	wXZ5CYBKt0GFv2rDI96fQ==
+	:reply-to:subject:subject:to:to; s=fm3; t=1715051072; x=
+	1715137472; bh=rtPkYa7xKhzg0ueGgAUuCSlIC42vx+gX3srzBNu9NlA=; b=g
+	GuuElUNFGu5pW1vLqKt4u3aeTyuJxkAMCIfvDF19oyQYpTYLJQ3L6AVKUF6bLdl4
+	JyBXUg3XLNj32kBB5BhKHVHzH5cEKMEz80fo6XIzQqDwJwx1DXECzHo4pwrU1uB8
+	zTo7qCoTAfi5/vgoNbEwK1sMXKEcjwac7jmoPzefB07m2KLpr2bw3Zo8Wu3JaXxQ
+	zkKW0PSU/gF4cKDQBZKoZPhTMHOpUHrxz7pv6dm8Gs++TjtrcE+ol+9ROfVvprww
+	h5UsEoCPfTLY8pV/VSd4eqE6wEO8AEHuHzBWMcD29A5fzGCIPcRzTz76AMLzMrJL
+	QycJbYyQOnGqAyoV9IDbg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1715051058; x=1715137458; bh=M/5zwNK4WEhAJnewb3QZAK3Gc2ET
-	s/z/htiVKvOIMKo=; b=PEIjhlU9XNlk48nE3qp1IdZ0bb7n/80CoDdR1T1hiEql
-	m/NyAPZ/1rqqWuL7P72OJeBsGbS3X+WEpicBD0wZWkjbgcD02gFvwPgybZwTGZ8A
-	De9RQc0bRfa1STMdLPSjhs7usM7lU/ZHWowmfyufzm6D7r8N4thNHL2atR9EuYhJ
-	9aKhPOfQTnV9XTmcmap8jKy8YBw4bb5K2auoxnLAqkIDjhihQ95vXjtzLyirr/9l
-	IRLAPb4oXn1IQ8RPhIWdwME6cxZ16e5IWjaaW6SMduQ411UVCZRh/ZsF6c0BUeue
-	gUUGITrWRE2GDbUZjLT/LK4CYcyUNOYQK7W49y/uJQ==
-X-ME-Sender: <xms:Mpo5Zk0yN4gnrSFZf3Z743MpV4EnRspqiry1Dm36MoxeaROo08fAjg>
-    <xme:Mpo5ZvG0owOsd-ypVSd7fKFLU9wnwLut25CjvKKIgxe5oHmDxUn_y-fVHpWz8FnQm
-    qeGStJkWZGCZYR7Pn4>
-X-ME-Received: <xmr:Mpo5Zs7o0GQLFHwaFpKEoueavRts1N6M1XNLqma1LIgaYSJtfphUKrSBuGoxVpSFdt9t53x8dzp35gqtnlGb52aBYetIVRZO5A>
+	fm3; t=1715051072; x=1715137472; bh=rtPkYa7xKhzg0ueGgAUuCSlIC42v
+	x+gX3srzBNu9NlA=; b=Lph5vYAxSuJIhvbEddCIn7ZIC88KiYq4mfuPpypd1AxF
+	DO3FIVqcBfia2u7+wyE/pC00l3+pFt/JhRzCrHmwUoIE9r9jv1yG2Y+M2gV5OGcz
+	kSolzzWSyUJ66omXsWlTEx8pqTp/zFwjDTDsC3+6HeABTI0VN2evtDlDohPBW5AM
+	2zCmd5EaVON5QBxFLd0boYpp443bx4tOckcvopqNA6SSCFcmdIT9BT11MvI+qliO
+	05etYBsb9iaolOfou8QBzQ3i/n79DdWzv3TkEK9BqQzvERtCBZrxKOAHL2tvyelR
+	JVdVTuVwEJ5e4WfT5T42kKzDo+GMbwGSAUhMkc7dMQ==
+X-ME-Sender: <xms:QJo5Zlajjxc7ON1pv26_vTmW5Hlm2xxr95Eo_S6nJhbvKFTNl5YzQw>
+    <xme:QJo5ZsbrJYSiU29IHQIzTRrPPQhBy5O7gw53WFgZKsHLYvUbwRq1OyBI9irTQ28IB
+    RlUw1ZZMk-BcLss2A0>
+X-ME-Received: <xmr:QJo5Zn-f4Vv1DAkmygO3sYlgMVFTdpTtv1j5MUkViXawXFc7-si2-gD-1XbgZoLtpfm4dQZJXGaPodkY7iAaiRVdnqriw73m0A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvjedgieeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,22 +57,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvddvjedgieeiucetufdoteggod
     hjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeei
     ieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
     hmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-X-ME-Proxy: <xmx:Mpo5Zt2f5yS04II7S0K-NaC1iUXY2-a_MJmyKF4isESjLNzlusY37A>
-    <xmx:Mpo5ZnFjPxIxP6jDZOUaDqqn3gaZGT2Eeg16wGZ0foh7BwEcmFrFTA>
-    <xmx:Mpo5Zm95Z-MZjmR3cl8iCUDwcoqiHOtk7K-YqzkILay2SfcKtWHPEQ>
-    <xmx:Mpo5Zsn_GXHo_EyqaKIE9l1BoDDAHqsm0nDrGsHTamyGf44FV68uSg>
-    <xmx:Mpo5ZvD9dfipN7ac-cS3CunH7JiMFt7rUa2kDaWGxts73qvcJvV-W_4r>
+X-ME-Proxy: <xmx:QJo5ZjpvVERUqQ-hL5DZPg2HwqWxfpOs8OtCAoWHeRD4C8AnLERGnw>
+    <xmx:QJo5Zgo8nQWWcrffH4oPSYAMH6fBpwhN50QTHAfzVPbM1iBCJeBNVg>
+    <xmx:QJo5ZpQoAi5yb2gSuzS8qRlu0viq-mwFHPKMB_9jKrgfTeoUKj4GEQ>
+    <xmx:QJo5ZorQbbpJvhqOGW0YZYXTH5gtvESsbU0imnCumdARtQiYfVoa2A>
+    <xmx:QJo5ZrWMh_Sic6OnxrTDhMKBYMCT_C4pxLhCjq8rluk4AahbFvEXXCTA>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 May 2024 23:04:16 -0400 (EDT)
-Date: Tue, 7 May 2024 12:04:14 +0900
+ 6 May 2024 23:04:31 -0400 (EDT)
+Date: Tue, 7 May 2024 12:04:29 +0900
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 To: Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH 1/2] ALSA: pcm: reinvent the stream synchronization ID API
-Message-ID: <20240507030414.GA413281@workstation.local>
+Subject: Re: [PATCH 2/2] ALSA: pcm: optimize and clarify stream
+ sychronization ID API
+Message-ID: <20240507030429.GB413281@workstation.local>
 References: <20240506151218.377580-1-perex@perex.cz>
- <20240506151218.377580-2-perex@perex.cz>
+ <20240506151218.377580-3-perex@perex.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,210 +82,166 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240506151218.377580-2-perex@perex.cz>
+In-Reply-To: <20240506151218.377580-3-perex@perex.cz>
 
-On Mon, May 06, 2024 at 05:11:49PM +0200, Jaroslav Kysela wrote:
-> Until the commit e11f0f90a626 ("ALSA: pcm: remove SNDRV_PCM_IOCTL1_INFO
-> internal command"), there was a possibility to pass information
-> about the synchronized streams to the user space. The mentioned
-> commit removed blindly the appropriate code with an irrelevant comment.
+On Mon, May 06, 2024 at 05:11:50PM +0200, Jaroslav Kysela wrote:
+> Optimize the memory usage in struct snd_pcm_runtime - use boolean
+> value for the standard sync ID scheme.
 > 
-> The revert may be appropriate, but since this API was lost for several
-> years without any complains, it's time to improve it. The hardware
-> parameters may change the used stream clock source (e.g. USB hardware)
-> so move this synchronization ID to hw_params as read-only field.
+> Introduce snd_pcm_set_sync_per_card function to build synchronization
+> IDs.
 > 
-> It seems that pipewire can benefit from this API (disable adaptive
-> resampling for perfectly synchronized PCM streams) now.
-> 
-> Cc: Takashi Sakamoto <takaswie@kernel.org>
 > Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 > ---
->  include/sound/pcm.h         | 11 ++++++++++-
->  include/uapi/sound/asound.h | 13 ++++---------
->  sound/core/pcm_lib.c        | 18 ++++++++++++++----
->  sound/core/pcm_native.c     |  6 ++++++
->  sound/pci/emu10k1/p16v.c    |  7 +++----
->  5 files changed, 37 insertions(+), 18 deletions(-)
+>  include/sound/pcm.h      |  9 +++++++--
+>  sound/core/pcm_lib.c     | 28 +++++++++++++++++-----------
+>  sound/pci/emu10k1/p16v.c | 16 ++++++++++++----
+>  3 files changed, 36 insertions(+), 17 deletions(-)
 > 
 > diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-> index 210096f124ee..dae41b100517 100644
+> index dae41b100517..71c80ad8d4d3 100644
 > --- a/include/sound/pcm.h
 > +++ b/include/sound/pcm.h
-> @@ -93,6 +93,7 @@ struct snd_pcm_ops {
->  #define SNDRV_PCM_IOCTL1_CHANNEL_INFO	2
->  /* 3 is absent slot. */
->  #define SNDRV_PCM_IOCTL1_FIFO_SIZE	4
-> +#define SNDRV_PCM_IOCTL1_SYNC_ID	5
->  
->  #define SNDRV_PCM_TRIGGER_STOP		0
->  #define SNDRV_PCM_TRIGGER_START		1
-> @@ -396,7 +397,7 @@ struct snd_pcm_runtime {
+> @@ -397,7 +397,7 @@ struct snd_pcm_runtime {
 >  	snd_pcm_uframes_t silence_start; /* starting pointer to silence area */
 >  	snd_pcm_uframes_t silence_filled; /* already filled part of silence area */
 >  
-> -	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-> +	unsigned char sync[16];		/* hardware synchronization ID */
+> -	unsigned char sync[16];		/* hardware synchronization ID */
+> +	bool sync_flag;			/* hardware synchronization - standard per card ID */
 >  
 >  	/* -- mmap -- */
 >  	struct snd_pcm_mmap_status *status;
-> @@ -1565,6 +1566,14 @@ static inline u64 pcm_format_to_bits(snd_pcm_format_t pcm_format)
->  	     (__force int)(f) <= (__force int)SNDRV_PCM_FORMAT_LAST;	\
->  	     (f) = (__force snd_pcm_format_t)((__force int)(f) + 1))
+> @@ -1151,7 +1151,12 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *buf, unsigned int
 >  
-> +/**
-> + * is sync id (clock id) empty?
-> + */
-> +static inline bool pcm_sync_empty(const unsigned char *sync)
+>  void snd_pcm_set_ops(struct snd_pcm * pcm, int direction,
+>  		     const struct snd_pcm_ops *ops);
+> -void snd_pcm_set_sync(struct snd_pcm_substream *substream);
+> +void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream, struct snd_pcm_hw_params *params,
+> +			       const unsigned char *id, unsigned int len);
+> +static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
 > +{
-> +	return strnlen((const char *)sync, 16) == 0;
+> +	substream->runtime->sync_flag = true;
 > +}
-> +
-
-For the sound card indexed by 0, it is problematic, since in the later
-change, the first element of array has 0.
-
->  /* printk helpers */
->  #define pcm_err(pcm, fmt, args...) \
->  	dev_err((pcm)->card->dev, fmt, ##args)
-> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> index 628d46a0da92..c458172b32d5 100644
-> --- a/include/uapi/sound/asound.h
-> +++ b/include/uapi/sound/asound.h
-> @@ -142,7 +142,7 @@ struct snd_hwdep_dsp_image {
->   *                                                                           *
->   *****************************************************************************/
->  
-> -#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 17)
-> +#define SNDRV_PCM_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 18)
->  
->  typedef unsigned long snd_pcm_uframes_t;
->  typedef signed long snd_pcm_sframes_t;
-> @@ -330,12 +330,6 @@ enum {
->  #endif
->  };
->  
-> -union snd_pcm_sync_id {
-> -	unsigned char id[16];
-> -	unsigned short id16[8];
-> -	unsigned int id32[4];
-> -};
-> -
->  struct snd_pcm_info {
->  	unsigned int device;		/* RO/WR (control): device number */
->  	unsigned int subdevice;		/* RO/WR (control): subdevice number */
-> @@ -348,7 +342,7 @@ struct snd_pcm_info {
->  	int dev_subclass;		/* SNDRV_PCM_SUBCLASS_* */
->  	unsigned int subdevices_count;
->  	unsigned int subdevices_avail;
-> -	union snd_pcm_sync_id sync;	/* hardware synchronization ID */
-> +	unsigned char pad1[16];		/* was: hardware synchronization ID */
->  	unsigned char reserved[64];	/* reserved for future... */
->  };
->  
-> @@ -420,7 +414,8 @@ struct snd_pcm_hw_params {
->  	unsigned int rate_num;		/* R: rate numerator */
->  	unsigned int rate_den;		/* R: rate denominator */
->  	snd_pcm_uframes_t fifo_size;	/* R: chip FIFO size in frames */
-> -	unsigned char reserved[64];	/* reserved for future */
-> +	unsigned char sync[16];		/* R: synchronization ID (perfect sync - one clock source) */
-> +	unsigned char reserved[48];	/* reserved for future */
->  };
->  
->  enum {
-
-As long as I checked, the above change are safe for
-backward-compatibility and compat ioctl. They keep the same size of
-structure and the same offset of member in each of i386/ILP32/LP64 data
-models,
-
+>  int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+>  		      unsigned int cmd, void *arg);                      
+>  void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
 > diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-> index 6f73b3c2c205..84b948db3393 100644
+> index 84b948db3393..82452c2e4887 100644
 > --- a/sound/core/pcm_lib.c
 > +++ b/sound/core/pcm_lib.c
-> @@ -525,10 +525,8 @@ void snd_pcm_set_sync(struct snd_pcm_substream *substream)
->  {
->  	struct snd_pcm_runtime *runtime = substream->runtime;
->  	
-> -	runtime->sync.id32[0] = substream->pcm->card->number;
-> -	runtime->sync.id32[1] = -1;
-> -	runtime->sync.id32[2] = -1;
-> -	runtime->sync.id32[3] = -1;
-> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-> +	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
->  }
->  EXPORT_SYMBOL(snd_pcm_set_sync);
-
-I mentioned about the issue in the above.
-
-> @@ -1810,6 +1808,16 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
->  	return 0;
->  }
+> @@ -516,19 +516,23 @@ void snd_pcm_set_ops(struct snd_pcm *pcm, int direction,
+>  EXPORT_SYMBOL(snd_pcm_set_ops);
 >  
-> +static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
-> +				     void *arg)
-> +{
-> +	struct snd_pcm_hw_params *params = arg;
-> +
-> +	if (pcm_sync_empty(params->sync))
-> +		memcpy(params->sync, &substream->runtime->sync, sizeof(params->sync));
-> +	return 0;
-> +}
-> +
-
-I mentioned about the issue in the above.
-
 >  /**
->   * snd_pcm_lib_ioctl - a generic PCM ioctl callback
->   * @substream: the pcm substream instance
-> @@ -1831,6 +1839,8 @@ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
->  		return snd_pcm_lib_ioctl_channel_info(substream, arg);
->  	case SNDRV_PCM_IOCTL1_FIFO_SIZE:
->  		return snd_pcm_lib_ioctl_fifo_size(substream, arg);
-> +	case SNDRV_PCM_IOCTL1_SYNC_ID:
-> +		return snd_pcm_lib_ioctl_sync_id(substream, arg);
->  	}
->  	return -ENXIO;
+> - * snd_pcm_set_sync - set the PCM sync id
+> + * snd_pcm_set_sync_per_card - set the PCM sync id with card number
+>   * @substream: the pcm substream
+> + * @params: modified hardware parameters
+> + * @id: identifier (max 12 bytes)
+> + * @len: identifier length (max 12 bytes)
+>   *
+> - * Sets the PCM sync identifier for the card.
+> + * Sets the PCM sync identifier for the card with zero padding.
+>   */
+> -void snd_pcm_set_sync(struct snd_pcm_substream *substream)
+> +void snd_pcm_set_sync_per_card(struct snd_pcm_substream *substream,
+> +			       struct snd_pcm_hw_params *params,
+> +			       const unsigned char *id, unsigned int len)
+>  {
+> -	struct snd_pcm_runtime *runtime = substream->runtime;
+> -	
+> -	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
+> -	memset(runtime->sync + 4, 0xff, sizeof(runtime->sync) - 4);
+> +	*(__u32 *)params->sync = cpu_to_le32(substream->pcm->card->number);
+> +	len = max(12, len);
+> +	strncpy(params->sync + 4, id, len);
+> +	memset(params->sync + 4 + len, 0, 12 - len);
 >  }
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 0b76e76823d2..63fcb08ee93d 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -533,6 +533,12 @@ static int fixup_unreferenced_params(struct snd_pcm_substream *substream,
->  					  SNDRV_PCM_INFO_MMAP_VALID);
->  	}
+> -EXPORT_SYMBOL(snd_pcm_set_sync);
+  
+As I mentioned to the previous patch, the value of zero in the first
+element of array is problematic, since it is not distinguishable from
+the card indexed by zero.
+
+Additionally, I'm worried the second, third, and fourth element of array
+is kept as zero, against 0xff in the original serialization code.
+
+I think the series of '0x00 0x00 0x00 numeric-card-id' in the first four
+elements is more preferable, however I wonder why the data is typed as
+character array instead of integer array.
+
+If the intension of API is not the kind of 'forcing-policy', the byte data
+passed from drivers to user space application is reasonable. However,
+in the call of above kernel API results in the breakage of policy. I think
+more sophisticated way should be investigated, instead of the change in
+this patch, in a view of programming interface for device driver developers
+and user space application developers.
+
+>  /*
+>   *  Standard ioctl routine
+> @@ -1811,10 +1815,12 @@ static int snd_pcm_lib_ioctl_fifo_size(struct snd_pcm_substream *substream,
+>  static int snd_pcm_lib_ioctl_sync_id(struct snd_pcm_substream *substream,
+>  				     void *arg)
+>  {
+> -	struct snd_pcm_hw_params *params = arg;
+> +	static unsigned char id[12] = { 0xff, 0xff, 0xff, 0xff,
+> +					0xff, 0xff, 0xff, 0xff,
+> +					0xff, 0xff, 0xff, 0xff };
 >  
-> +	err = snd_pcm_ops_ioctl(substream,
-> +				SNDRV_PCM_IOCTL1_SYNC_ID,
-> +				params);
-> +	if (err < 0)
-> +		return err;
-> +
+> -	if (pcm_sync_empty(params->sync))
+> -		memcpy(params->sync, &substream->runtime->sync, sizeof(params->sync));
+> +	if (substream->runtime->sync_flag)
+> +		snd_pcm_set_sync_per_card(substream, arg, id, sizeof(id));
 >  	return 0;
 >  }
 >  
 > diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
-> index e7f097cae574..773725dbdfbd 100644
+> index 773725dbdfbd..36b8a4ce2081 100644
 > --- a/sound/pci/emu10k1/p16v.c
 > +++ b/sound/pci/emu10k1/p16v.c
-> @@ -174,10 +174,9 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
+> @@ -174,10 +174,6 @@ static int snd_p16v_pcm_open_playback_channel(struct snd_pcm_substream *substrea
 >  	if (err < 0)
 >                  return err;
 >  
-> -	runtime->sync.id32[0] = substream->pcm->card->number;
-> -	runtime->sync.id32[1] = 'P';
-> -	runtime->sync.id32[2] = 16;
-> -	runtime->sync.id32[3] = 'V';
-> +	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
-> +	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
-> +	strncpy(runtime->sync + 4, "P16V", 4);
-  
-The serialization would not keep the same data before the change, since
-the third, fourth, and fifth elements are 0x31, 0x36, and 0x56, instead
-of 0x10, 0x56, and 0x00.
-
+> -	*(__u32 *)runtime->sync = cpu_to_le32(substream->pcm->card->number);
+> -	memset(runtime->sync + 4, 0, sizeof(runtime->sync) - 4);
+> -	strncpy(runtime->sync + 4, "P16V", 4);
+> -
 >  	return 0;
 >  }
+>  
+> @@ -225,6 +221,17 @@ static int snd_p16v_pcm_open_capture(struct snd_pcm_substream *substream)
+>  	return snd_p16v_pcm_open_capture_channel(substream, 0);
+>  }
+>  
+> +static int snd_p16v_pcm_ioctl_playback(struct snd_pcm_substream *substream,
+> +				       unsigned int cmd, void *arg)
+> +{
+> +	if (cmd == SNDRV_PCM_IOCTL1_SYNC_ID) {
+> +		static unsigned char id[4] = { 'P', '1', '6', 'V' };
+> +		snd_pcm_set_sync_per_card(substream, arg, id, 4);
+> +		return 0;
+> +	}
+> +	return snd_pcm_lib_ioctl(substream, cmd, arg);
+> +}
+> +
+
+'static const unsigned char id[4]' is preferable, since the data is
+immutable during the lifetime of kernel module.
+
+Anyway, as I mentioned to the previous patch, the serialization is not
+compatible.
+
+>  /* prepare playback callback */
+>  static int snd_p16v_pcm_prepare_playback(struct snd_pcm_substream *substream)
+>  {
+> @@ -530,6 +537,7 @@ snd_p16v_pcm_pointer_capture(struct snd_pcm_substream *substream)
+>  static const struct snd_pcm_ops snd_p16v_playback_front_ops = {
+>  	.open =        snd_p16v_pcm_open_playback_front,
+>  	.close =       snd_p16v_pcm_close_playback,
+> +	.ioctl =       snd_p16v_pcm_ioctl_playback,
+>  	.prepare =     snd_p16v_pcm_prepare_playback,
+>  	.trigger =     snd_p16v_pcm_trigger_playback,
+>  	.pointer =     snd_p16v_pcm_pointer_playback,
 > -- 
 > 2.43.0
-> 
