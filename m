@@ -1,104 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E46279CF
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 20:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BD4187326;
+	Tue,  7 May 2024 20:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715115232; cv=none; b=QxY9DmceiS6J4tPTVieW9JHNtS/SNk9nMm6C9KStjCCt9m+h5v7ql/1LDj5lkSvrEkZg7ReQdIJm5dgpddVBNMX9SRbC+UhR9khzoFe45tr7X8ndyA6xU1XDUsAxIfZZIw8vPHb5Iv9xInlY+28G/RoF23JT8qb80Os9FH9h2Ts=
+	t=1715115428; cv=none; b=kFU+DLcri4dc3Zh78HxFdPJlHUfxtdMm+ze+kBpRv2v37T4gSNKS+kbkaqcMuUKAWVwUXsWB8jzJoi7yXb2guJDTM5PXSnQYFkgJDeE7SPApe15D5fmNZPgkXqyQYG7XgbhayCBh3DlAAvbig8++Qm/V6GVnELWMgzFZI/ygFDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715115232; c=relaxed/simple;
-	bh=zcQsc0UnPtgxRXAzYk6DMoKDePWWzPwSHIYvQ9R6PH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A2OAoi+j0i0gvwJUAQ20ExxqQjaSRdH9Zc2BTJJXAq5/CYmc61z5jN4Gn5rrkU4xdS12k5akuCPiGPM7xBNQvemoSRi1AwvRX9BOIJU1LqfHJEF/tpAcgduKyJCilVKJYi8zbD/yTNiXbKfQ6Ic5Q5x5xkcZZpN/yvgOaTYRj8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWv/1b43; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1715115428; c=relaxed/simple;
+	bh=l9R6ZctW1GwYtMEchDn8Z2hexXc1AAVmZaGYJc7SQHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W/YLPfZyaW8G65zPfPAJP1B+A5wQ8kxrYA7vwNm0FA6QUALxzK0LRwGsPhKW0iX65hqtl6U4EG9ju4qDVabk5zhrHUk8Zh1ctOVqZDiMoahKxzAAfvRBiertoUZ7+zCklJ0ezbTYA48/LG8rD97KTX25iI5970wtrxlqjoa2C5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcbsOcVM; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWv/1b43"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcbsOcVM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715115230; x=1746651230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zcQsc0UnPtgxRXAzYk6DMoKDePWWzPwSHIYvQ9R6PH8=;
-  b=FWv/1b43MJ1buW8JmtV2Xlu2z3/xSiTxRKPPiaZVo17vVfb8eMbxVkF8
-   NwdQ6rSmwGdj5ssEAnhA2RfzrFE/3jxVTYwVlzlrLaTZcz/CfxDxuHLq1
-   Kk7vdpEk0ln4oZepsLqHFMwxaW66JWfh2v6V7jbFjHQ0ORByPl20sWTSg
-   u8EUVIZqjGeuFkRkIvWBS3T+2hHUMvc7sQiSbr+hdRsrI0y76QJxC9iql
-   UDGPZ/eXDn2pivkNbBTQbYLR+dZqaYXgjIrw4Lpoz3A3I2NAb57n9aSI3
-   HTPRVWxvRzC7o4ABnuO8kWLoK8pHDQ65/YJsYUUhHzJrJMUPf+NSSBoou
-   A==;
-X-CSE-ConnectionGUID: gvbHMbhyQ5qlx+WD4eSJfQ==
-X-CSE-MsgGUID: 7dG74yGeTAKZHoNzzCFhGg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10809553"
+  t=1715115428; x=1746651428;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=l9R6ZctW1GwYtMEchDn8Z2hexXc1AAVmZaGYJc7SQHA=;
+  b=QcbsOcVMYPcuHQLW6nGmrwswOtXh0utBFmJEkX81lkVXwMup/wuTJJ+d
+   /YnvulV19ITOlB0wJd4rpnNnWjTPy3h10X2ovvlhE2LPLs7SAmkjxv1YA
+   V4t88BtunSqYLO+pDukSHEMoEXApPv3HHkpzO2nINMGwm+wMpnyqaU3iT
+   E8wQfRWaUKfNKOUTye9vTV0R/uf7Jo1wIOYS7+FPLqo55/W2SlwnXgFJ5
+   rYWbv5tBUvTe276/a9b++nudPXzFo4zTT4WAx3j0DoP0iNy/Fnaorj7Io
+   3YsIFZa/H3BdraDXJmoydcKIVzxSXTTy9XdWbZdTuKNtOoTmuEznldNNm
+   Q==;
+X-CSE-ConnectionGUID: cBPZ0XR1R2C0WQ3yUajVcQ==
+X-CSE-MsgGUID: PiC2zz8ERnyPOSH86NoJRA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10810407"
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="10809553"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 13:53:50 -0700
-X-CSE-ConnectionGUID: 6CndkeQBQT+vwNmeRCbHqw==
-X-CSE-MsgGUID: A7fGgvubTV6Gb+rSer7t3Q==
+   d="scan'208";a="10810407"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 13:57:07 -0700
+X-CSE-ConnectionGUID: vpB2YEaKQAGcaiAM27ZIHQ==
+X-CSE-MsgGUID: L3kkAFj9RkCNx6BaeGvQCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="29205516"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 13:53:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s4Roo-00000005Cul-18Zq;
-	Tue, 07 May 2024 23:53:46 +0300
-Date: Tue, 7 May 2024 23:53:46 +0300
+   d="scan'208";a="28636016"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 07 May 2024 13:57:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 3D4FD12A; Tue, 07 May 2024 23:57:02 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
-Message-ID: <ZjqU2rAoHHcrTaVH@smile.fi.intel.com>
-References: <20240507135513.14919-1-tiwai@suse.de>
- <ZjpQm-hxLQtpgkUx@smile.fi.intel.com>
+To: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Peter Rosin <peda@axentia.se>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] ASoC: atmel: tse850-pcm5142: Remove unused of_gpio.h
+Date: Tue,  7 May 2024 23:56:59 +0300
+Message-ID: <20240507205659.690270-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZjpQm-hxLQtpgkUx@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 07, 2024 at 07:02:35PM +0300, Andy Shevchenko wrote:
-> On Tue, May 07, 2024 at 03:55:00PM +0200, Takashi Iwai wrote:
-> > Hi,
-> > 
-> > this is a series of trivial cleanup patches for Makefile in sound/*
-> > (modulo ASoC -- which will be submitted later in a separate series).
-> > 
-> > As Andy suggested in a patch review, *-objs suffix in Makefile is
-> > basically a mis-use nowadays for kernel driver modules.  They should
-> > be replaced with *-y suffix instead.  This is a result of systematic
-> > conversions, separated per directory.
-> 
-> I briefly looked at this and since it's a mechanical conversion I don't see
-> any issues, so
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+of_gpio.h is deprecated and subject to remove.
+The driver doesn't use it, simply remove the unused header.
 
-Btw, make W=1 nowadays enables modpost checks, which complain about absence of
-MODULE_DESCRIPTION().
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ sound/soc/atmel/tse850-pcm5142.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Example:
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-
-I'm not sure what the case now for ALSA, just FYI.
-
+diff --git a/sound/soc/atmel/tse850-pcm5142.c b/sound/soc/atmel/tse850-pcm5142.c
+index 611da23325d3..5d208e0b4b90 100644
+--- a/sound/soc/atmel/tse850-pcm5142.c
++++ b/sound/soc/atmel/tse850-pcm5142.c
+@@ -35,10 +35,9 @@
+ // of the (filtered) output from the PCM5142 codec.
+ 
+ #include <linux/clk.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regulator/consumer.h>
+ 
+ #include <sound/soc.h>
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0.rc1.1336.g36b5255a03ac
 
