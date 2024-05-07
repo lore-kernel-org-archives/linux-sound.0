@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57CE210189;
-	Tue,  7 May 2024 23:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997433DABF2;
+	Tue,  7 May 2024 23:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123623; cv=none; b=KOB/N9yfqKK2HChyFMLEEh5w/vdp31xRRFLTVvrOLLo4ZcBaCpUjtDOz8/C+Me4frfUHvAfgpsCexpMhr6Xbi2VNcuPZd5sKs7YYSefxUNRureQgahNPvvYvmCpHe0cfML7QZdF7ounOga/ij7duT6eSwKtdxtGoB+h3bqxp7LA=
+	t=1715123630; cv=none; b=dDZ0sVtUypIt4r9uElS8p83BR+HlizVKkTFtHVNrbrtM6lJqa3wma0Pdqwm9UCpcb4dYoCEYvdXkIB/v4iJeo5vlqFU27KlvToBqIEQ9q2MUmzDBQekkbaCaZBNFTKckY6vQE7MWhx7dKQkXTDFDJZw7Jrq7Ax46op1/1w8Ktag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123623; c=relaxed/simple;
-	bh=rn7UcmnI++JbqNyYfnzjkMyqhtS2zkMHokclIOfOATY=;
+	s=arc-20240116; t=1715123630; c=relaxed/simple;
+	bh=4Y7M1xTEGQHbVyYlH9eP0GGf9X/mGQlRD9Mm9W1YTxw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GH9gwD4f+FByOLRuohY95dV7idd88m4iuof8FAl5aWfMrznK14uVpbAQzroN6fkKBZiGigDoW3FPaZ3gTsWdjaqSCEOxq1fXOqOJtaZ22WjknomiQhHa40BSEpYgvCokS6Fsdez5fQz6AnsD2hcmTeEpEfN2cc+k3av5SbBSxlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjEzO3wk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AAvqFhP2J6yOPnSMEQ/th+ytfd1ZETblJl/AloysKmNtDK/wvHNp00FYWcB28ghajjp4XhqSL9tDD61cEnTMSTH45eSInMpwImh/vuCjYcIyKR5wJbr1bh6h+3iSl+UfwuK5elv0xxvhgR0BQuY0crrpCggzo0YZ2oQR3aIXg3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLBV3IZC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjEzO3wk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3694DC4AF63;
-	Tue,  7 May 2024 23:13:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLBV3IZC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 600AAC4AF63;
+	Tue,  7 May 2024 23:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123623;
-	bh=rn7UcmnI++JbqNyYfnzjkMyqhtS2zkMHokclIOfOATY=;
+	s=k20201202; t=1715123630;
+	bh=4Y7M1xTEGQHbVyYlH9eP0GGf9X/mGQlRD9Mm9W1YTxw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YjEzO3wk/TJrU2QY5DH2o/KkhGU6LVI1oZZSWW8sdNuaO0UCMBbdzBciLKYQxfdsF
-	 4tSvBKU9AVEPzPsf/rQGIg/dpux9mc93CVR8aj/RFYQgcnCX8PzjZIaC76rabuY8v3
-	 p6Oz5+Tgm+nXuenRzf3BpAUdCOFxg6zlBPQNN/ubJrqo70AUEO1UnTxqavPlGD8L/X
-	 1+neErgY0Bclauzm0bJuHmuzdlLlR/VXBzshDn+5VsJsd5zpWCVWePEY4A/9gS786M
-	 reqxhej5G69QlgRS8yp0MYwufGiBkH3QKLg1exqSNshIaYd4PRZmD+uNQ2HYTzo7WR
-	 V4fN9qk2tmq7g==
+	b=nLBV3IZCpykgXAJ8CDMpBuU20dynOoha2nMGLTbSuTb0ZMuju8bsRc8nRAIaDBc6d
+	 raUtMKs0P3j4TOkPb50QkI9IzpvD+7loRCCyXdB40+XYLItr0niweqx96+5cfzoEYH
+	 5MGgopTbg91pb+ta+txW3L/MUj1OkbEa60el6u7lnZnDdvfpk799JM6K5gBxX9JAt0
+	 tFJoxZqyWD4zz7oTTGXDa+GH/T1MKnnkiqfJLrOP1u4EBIfv0MTdGsxegU23yOSFt0
+	 bmUYMTvhh6y7CjUpIgeMgdtF30JZb/EbbRqy/RH9M968qA1v/D3q0HKlqROhLefUAd
+	 cvJuCKhnbBGog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jack Yu <jack.yu@realtek.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
+	support.opensource@diasemi.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 06/15] ASoC: rt715-sdca: volume step modification
-Date: Tue,  7 May 2024 19:13:15 -0400
-Message-ID: <20240507231333.394765-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/15] ASoC: da7219-aad: fix usage of device_get_named_child_node()
+Date: Tue,  7 May 2024 19:13:19 -0400
+Message-ID: <20240507231333.394765-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231333.394765-1-sashal@kernel.org>
 References: <20240507231333.394765-1-sashal@kernel.org>
@@ -54,59 +54,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.158
 Content-Transfer-Encoding: 8bit
 
-From: Jack Yu <jack.yu@realtek.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit bda16500dd0b05e2e047093b36cbe0873c95aeae ]
+[ Upstream commit e8a6a5ad73acbafd98e8fd3f0cbf6e379771bb76 ]
 
-Volume step (dB/step) modification to fix format error
-which shown in amixer control.
+The documentation for device_get_named_child_node() mentions this
+important point:
 
-Signed-off-by: Jack Yu <jack.yu@realtek.com>
-Link: https://lore.kernel.org/r/b1f546ad16dc4c7abb7daa7396e8345c@realtek.com
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
+
+Add fwnode_handle_put() to avoid a leaked reference.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20240426153033.38500-1-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt715-sdca.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/codecs/da7219-aad.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/rt715-sdca.c b/sound/soc/codecs/rt715-sdca.c
-index bfa536bd71960..7c8d6a012f610 100644
---- a/sound/soc/codecs/rt715-sdca.c
-+++ b/sound/soc/codecs/rt715-sdca.c
-@@ -315,7 +315,7 @@ static int rt715_sdca_set_amp_gain_8ch_get(struct snd_kcontrol *kcontrol,
- 	return 0;
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index 4dc6eed6c18aa..99676c426f781 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -629,8 +629,10 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct device *dev)
+ 		return NULL;
+ 
+ 	aad_pdata = devm_kzalloc(dev, sizeof(*aad_pdata), GFP_KERNEL);
+-	if (!aad_pdata)
++	if (!aad_pdata) {
++		fwnode_handle_put(aad_np);
+ 		return NULL;
++	}
+ 
+ 	aad_pdata->irq = i2c->irq;
+ 
+@@ -705,6 +707,8 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct device *dev)
+ 	else
+ 		aad_pdata->adc_1bit_rpt = DA7219_AAD_ADC_1BIT_RPT_1;
+ 
++	fwnode_handle_put(aad_np);
++
+ 	return aad_pdata;
  }
  
--static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -17625, 375, 0);
-+static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1725, 75, 0);
- static const DECLARE_TLV_DB_SCALE(mic_vol_tlv, 0, 1000, 0);
- 
- static int rt715_sdca_get_volsw(struct snd_kcontrol *kcontrol,
-@@ -476,7 +476,7 @@ static const struct snd_kcontrol_new rt715_sdca_snd_controls[] = {
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_ADC7_27_VOL,
- 			RT715_SDCA_FU_VOL_CTRL, CH_02),
--			0x2f, 0x7f, 0,
-+			0x2f, 0x3f, 0,
- 		rt715_sdca_set_amp_gain_get, rt715_sdca_set_amp_gain_put,
- 		in_vol_tlv),
- 	RT715_SDCA_EXT_TLV("FU02 Capture Volume",
-@@ -484,13 +484,13 @@ static const struct snd_kcontrol_new rt715_sdca_snd_controls[] = {
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		rt715_sdca_set_amp_gain_4ch_get,
- 		rt715_sdca_set_amp_gain_4ch_put,
--		in_vol_tlv, 4, 0x7f),
-+		in_vol_tlv, 4, 0x3f),
- 	RT715_SDCA_EXT_TLV("FU06 Capture Volume",
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_ADC10_11_VOL,
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		rt715_sdca_set_amp_gain_4ch_get,
- 		rt715_sdca_set_amp_gain_4ch_put,
--		in_vol_tlv, 4, 0x7f),
-+		in_vol_tlv, 4, 0x3f),
- 	/* MIC Boost Control */
- 	RT715_SDCA_BOOST_EXT_TLV("FU0E Boost",
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_DMIC_GAIN_EN,
 -- 
 2.43.0
 
