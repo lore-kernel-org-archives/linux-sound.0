@@ -1,117 +1,152 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD8114D6EB
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 10:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8038A14E2DE
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 10:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715076138; cv=none; b=Mqw+Q7PS4fBAbhXbUwflel/aZ6ZnWmpemQZ+YxVRie0x3mObGHp3WUMiEq4W+eH0NwNTRd4MmAZTmRAFhYxD03SMLhMZ5hjyO3hl6SrzNArJspv7Gn5rjb0aROYYulteJh+pf8taaeolahyV24o4Mi1UUH71LnGVw2nfN+cVkyY=
+	t=1715077667; cv=none; b=Xh1EF5SOKoTK4BoPdiw9yuP7J8E0pKQA7TPdOMDdI3WiTsQgwVSnvvsLpRhkCH29bQg/ygLhA3oqA28VIHdK7rMufVhJFTTT5bV36t899kdjUtDljoq4X6QJdLylZ0mP1rP/IBEQYIeEST9MDGh0M4bkr1LH/DuGjPIS78NDapM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715076138; c=relaxed/simple;
-	bh=jxrbP51ApwB+nB6k7droxBtoZKEplqH7fzVFkVtvoqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZYFzn8Sob4nIaNBkm/5dEvSlq0Mt2UzoFlQ2rt8wR8FfITwo+ejROKSZsQiJdd3T+9qNtw05e6+NJIvsX6MeJhjBfTa2Dc3c17oNvHH/MQQ1kZ64njLSvNnMN5eAP9pG6VyHvxXKaX172NE9PvbJ7A2KjHGrSM9q/z3lnnAHlSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P+9WF2m6; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1715077667; c=relaxed/simple;
+	bh=UA3F40A7r6F4bjPkfKJpAKLHE1h9mHy8CdOamekYs/0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WQSKKskFYt49F40abTjLGZkrnsJxYwIBZcR2Btt/auWdIxx9rEU34ihjPyRNS1udI4wbqGD8eb85qk9IXz6MBMOprfMVzyS0eDObe92GGPCJoEi3wcugaj/6Ln8XJ8qHQBK/qxMaLyl44FHphQyUCIjWNZKIOHRolRmFoI61M98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ApJpkcCu; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P+9WF2m6"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a59a64db066so725045266b.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 03:02:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ApJpkcCu"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a59c448b44aso539964166b.2
+        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 03:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715076133; x=1715680933; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xh7EFY8Q7bV9bAL/jh9gBCI67O6P18pHtiY/L20Df14=;
-        b=P+9WF2m6Emwn3JDxXyLaM8QqaHtR/Q3qWaG9wtr8+XBpY6F2Nyf/vFAZra2GRg9zwN
-         j381UFzEGFY/E6nqKVEMm55v6rBH6s6BM2TK9R2LT5TtbdE38jVonK4sAUtscUnlHcQx
-         xANP19lb8T8eIduQv6PS56zyuSyPJXMGwmhJEQaHq9aLFECScs3UYPUnAeep+pkFTJO/
-         TPN3A92qIwS7ChNl1QWciW3H4JwTmzpGfKBMUIZYUttQJbv0kcgV9v/K3DFTG8bk6T2A
-         5HJuqxJQxahHcfLg2awFxMwjoCZ9gmpy4Ysic9c/tvRbsYUNmmYbu/ZeY1mV9jtbf63S
-         rI5A==
+        d=linaro.org; s=google; t=1715077663; x=1715682463; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFiLG2QOTgMREMZMtW7unZxhYPzyuGBw42NHTzIrjEg=;
+        b=ApJpkcCuvAzwMcmep+s4Ks0+8uF0N5fODwHEPL0HJ5tbLufuq+nYlT9+KHKy8RLERp
+         i8dy4UVBSO9wyuqlREwPliPt2m4/TY9usUJw1wJNnMVlGBXNEyV7RBVq/Jv62QfGT7rp
+         TiLWcdO3tjNicOlHDm7Ivt/hxfcUKfoFbk9oZbPBhMCPiCvj32vgQ7caFcCVouTiCwUa
+         JOOSLe99IPmGIPdVXfm8BrXMREvQdSnFly8iCJd+ijE3IbsElVMhvzU2W8buLcS5EgEM
+         w3XWnf775EAJs1ALOz+iWkaxW3StA5n0ksIOXsLA3wUpLUqQVcEvv9T7f0gy9m2JeZF+
+         /5lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715076133; x=1715680933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1715077663; x=1715682463;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xh7EFY8Q7bV9bAL/jh9gBCI67O6P18pHtiY/L20Df14=;
-        b=JiKMZaOu66/7QS4ZBbbfuUOdD5amOGoMiDNVd9lE64Iihkp/fP52tXQUwSJp3KHN1Z
-         7SBaySKffmGuUJC+H5/XR90uqax05/R1adG/lxRXCfbDL0PzDZjHnyzz+cK3+vHPmrX5
-         X8DbSVkQgxW/VrGMI6q9T+sk7obHmFLEIZAoQ/w9HVFlJZ00s+c8PZzZSllRI236yiKQ
-         1gsXnz/n3yV20DLL53h8AkwZFVGHWGD4YLBqECqnk488gZupTLRSGRfWeUEFcSUU7ov3
-         aGnDOvdu8XmF/KXox6zArmPafatjtSly3S6+0jwJJc+sE8tFCcOh13gWCIoTHp4ott+S
-         j+KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxDpHpSGtKl3bfDy/fvWLQM6FwmDIPHrR8J406SfvDl2jytufgEfFWGzBIXo/piOtkanE44EBOF+x8zRRPJqw6mmN4qT/IJrPsH1I=
-X-Gm-Message-State: AOJu0YyZIErUKXz0y4fma2QoUq82H0Lk1TQuoOq1ckpbnBLUXwRqmRRY
-	Qhe9QDJQpWkxt0HejGhF7OWlfrcwat9UyGfpKsmYl7uSVDo7nIyHR7iXEhht4Ho=
-X-Google-Smtp-Source: AGHT+IGdTeYrrvQuiHJ267AFGQGOr/InjQ1hSYK78u1GMZuzU7Nd8dK+zAN8gjqU0ku58bn2t42Wow==
-X-Received: by 2002:a17:907:1b06:b0:a59:9a68:7283 with SMTP id mp6-20020a1709071b0600b00a599a687283mr9092604ejc.12.1715076133185;
-        Tue, 07 May 2024 03:02:13 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id qy29-20020a170907689d00b00a59adb12790sm3792651ejc.27.2024.05.07.03.02.11
+        bh=IFiLG2QOTgMREMZMtW7unZxhYPzyuGBw42NHTzIrjEg=;
+        b=dve5Lffc45xLk/CnmZ8pkrTdiYxUjpVyFMOtuF6UhP287vEJYKNmGKTI/RUiy7iger
+         AWFrbd7tEGSUvK92Y09vjJYveCuGFPgZV8Bgvuhba90Q5eOTyKtM+ezr6p+eRqlo3MCx
+         etIztbQ5Qp7zIZthuZCRFfDoS6XqfeKLA+rucwhWjlJbx2bYj7Xqr5jeHoTyzFlekT/H
+         qf6s1c4HOUQuQ552tEzUvukgrQzu4RJS33ikT/20jWQyZogBgw/qgrOUHUOX01cwErYQ
+         rfZ3MsouJpF1hCKAgv1lWOzm1+7VcP8Q1W6MEH5XOFkXuItjgC+L8ymhfcBCbpMa1ZB9
+         KXow==
+X-Forwarded-Encrypted: i=1; AJvYcCVoPxchUnU3yw8npenDyMINya1Vqkc1R5SLwImjilX1sf2kdMfU6YZq/9hz/+r5mykdAzuFfxplisqHujx8dJReZP6wh1O1ebm71yk=
+X-Gm-Message-State: AOJu0YypXvWjZ8EN6VQNqXQbMIIFFOjE4aITl4ewHdC3VlqewG9drPOM
+	wlygew+z/yO2q3fbLGGW0n6pwDGfSB0P2Uuq4lvGBmpq4Cdr1AmrbCXfNAHCC4jZxp3HPok0Kz/
+	O
+X-Google-Smtp-Source: AGHT+IGiGDBt5yxrFViI2K6OwEdG5BxYWaB5AQ6x9sPDuZmTlizY4kXoke2k+cqZtkEZS82lyV2hMg==
+X-Received: by 2002:a17:906:f595:b0:a59:affe:b9f with SMTP id cm21-20020a170906f59500b00a59affe0b9fmr6075822ejd.6.1715077663076;
+        Tue, 07 May 2024 03:27:43 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.206.169])
+        by smtp.gmail.com with ESMTPSA id bo15-20020a170906d04f00b00a59b87dd0bbsm3370093ejb.161.2024.05.07.03.27.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 03:02:12 -0700 (PDT)
+        Tue, 07 May 2024 03:27:42 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: audioreach: Correct mapping of back speakers
-Date: Tue,  7 May 2024 12:02:09 +0200
-Message-ID: <20240507100209.610436-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH 0/4] ASoC: qcom: x1e80100: Correct channel mapping
+Date: Tue, 07 May 2024 12:27:29 +0200
+Message-Id: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABECOmYC/x2NwQqDMBAFf0X23IVNiNX2V0oPUZ92QWNIQATx3
+ xs9DgwzB2UkRaZ3dVDCplnXUMA8Kup/PkxgHQqTFeukloZ9XnveDVoxIuz4sgJmXnyMGiaGr0e
+ x3QvPpqVSiQmj7vfh8z3PP1coU5NxAAAA
+To: James Schulman <james.schulman@cirrus.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2066;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=UA3F40A7r6F4bjPkfKJpAKLHE1h9mHy8CdOamekYs/0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmOgIZDiepsVWvVzHlozJIF74v2e8BDRMWdJ9yg
+ tul3Qy5IlSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjoCGQAKCRDBN2bmhouD
+ 106XD/492uoI9DGw7QfAgKxvhjg/WFIaXDR7JoFHNQBWWpD6g8oM/uOyKXhus/RrfCk7ZXcD+H9
+ 1bhDN+FFWC9W43rhUMYNBsJlql7J5BH5PXmEuB2YdsEmIgEHw9fuzNtXCeN/hj4DVtmcpuVlZ62
+ 8lpWMKS3FSpH9BYVlMKzN7C1V1RvxktZl2h/bXs4eHVMCGnUBNkyzOTzkFwdIPdRy33RBidEjBP
+ AVPtgRJMSg2SENodHxrjpvdM9gzNZD7Ag4h1S1AIUm14eD1fdnNeaZoDwrinJ0U+G4NOIScL2NS
+ VxDR8P437XoyX5dsE/1kviIFmp7ZvB3jhXf/gqJm0HYq6sbnx3GXWcuGrxSiVnHuIpMhCu9VQhn
+ DVFU2IcSCJlXZpd/PteAxMbE12AOQUrKCac3CnJHl38KiceuRIyF4iasoquQmtsEL2WEA94z+ie
+ BA8IP+TPVkABmK5jhnLs8gULj5/mshiB+jPdqGCMuXRSt/iwBkuV83XFk5y42RYy6dr286bz3r5
+ JK2Xpj6KCLkpD6/mpHknjMk2Eb2NJzoAMjsU4qaGgjNI/07WAT/GLCnV3eswbEl2Jet58KdMA3+
+ TEzMjoO7nZ8GsatHKT/TLgKrV90MCRwXw4aloqAZdjAz60ocAoZi9meM0T77FLj0KstAFiq1iQX
+ hGestPGsZPrgzaw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Qualcomm DSP, according to downstream sources, expects back speakers to
-be mapped as "back", not "surround".  The surround is used only for 8+
-speakers configuration.
+Hi,
 
-Reported-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Fixes: 3c5fcb20e07e ("ASoC: qcom: audioreach: Add 4 channel support")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+First patch is a build dependency.
+
+Description
+===========
+X1E80100 CRD is the first board, which comes with four speakers, so we
+still keep fixing and adding missing pieces.
+
+The board has speaker arranged as left front+back and then right
+front+back.  Using default channel mapping causes front right speaker to
+play left back stream.
+
+Adjust the channel maps for frontend DAIs to fix stereo and four-channel
+playback.
+
+Best regards,
+Krzysztof
+
 ---
- sound/soc/qcom/qdsp6/audioreach.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Krzysztof Kozlowski (4):
+      ASoC: Constify channel mapping array arguments in set_channel_map()
+      ASoC: qcom: q6dsp: Implement proper channel mapping in Audioreach
+      ASoC: qcom: q6dsp: Set channel mapping instead of fixed defaults
+      ASoC: qcom: x1e80100: Correct channel mapping
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index 5291deac0a0b..c655f0213723 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -277,8 +277,8 @@ static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
- 	} else if (num_channels == 4) {
- 		ch_map[0] =  PCM_CHANNEL_FL;
- 		ch_map[1] =  PCM_CHANNEL_FR;
--		ch_map[2] =  PCM_CHANNEL_LS;
--		ch_map[3] =  PCM_CHANNEL_RS;
-+		ch_map[2] =  PCM_CHANNEL_LB;
-+		ch_map[3] =  PCM_CHANNEL_RB;
- 	}
- }
- 
-@@ -851,8 +851,8 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	} else if (num_channels == 4) {
- 		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
- 		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
--		media_format->channel_mapping[2] = PCM_CHANNEL_LS;
--		media_format->channel_mapping[3] = PCM_CHANNEL_RS;
-+		media_format->channel_mapping[2] = PCM_CHANNEL_LB;
-+		media_format->channel_mapping[3] = PCM_CHANNEL_RB;
- 	}
- 
- 	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ include/sound/cs35l41.h                 |  4 ++--
+ include/sound/soc-dai.h                 |  8 +++----
+ sound/soc/codecs/adau7118.c             |  6 ++++--
+ sound/soc/codecs/cs35l41-lib.c          |  4 ++--
+ sound/soc/codecs/cs35l41.c              |  3 ++-
+ sound/soc/codecs/max98504.c             |  6 ++++--
+ sound/soc/codecs/wcd9335.c              |  6 ++++--
+ sound/soc/codecs/wcd934x.c              |  6 ++++--
+ sound/soc/qcom/qdsp6/audioreach.c       | 14 +++++--------
+ sound/soc/qcom/qdsp6/audioreach.h       |  1 +
+ sound/soc/qcom/qdsp6/q6afe-dai.c        | 16 ++++++++------
+ sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 +++++++++++
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c |  6 ++++--
+ sound/soc/qcom/qdsp6/q6apm.c            | 28 ++++++++++++++++++++++++-
+ sound/soc/qcom/qdsp6/q6apm.h            |  8 +++++++
+ sound/soc/qcom/qdsp6/topology.c         | 12 +++++++++++
+ sound/soc/qcom/x1e80100.c               | 37 +++++++++++++++++++++++++++++++--
+ sound/soc/soc-dai.c                     |  4 ++--
+ 18 files changed, 142 insertions(+), 39 deletions(-)
+---
+base-commit: c5e512ffe106f751c61e5a036560f522e58eadcd
+change-id: 20240507-asoc-x1e80100-4-channel-mapping-ea5f02b9e678
+
+Best regards,
 -- 
-2.43.0
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
