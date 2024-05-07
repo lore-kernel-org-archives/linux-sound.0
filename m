@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58801A1A6B;
-	Tue,  7 May 2024 23:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8941A1A55;
+	Tue,  7 May 2024 23:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123682; cv=none; b=uQs+goO6B1hXn41J4UwL75ARpOCMLZvUGKzRFeGNS+8j8zPGiTzZq+wAjrLo2TWSy8rLWM7r36NoGpTa50q1iXylb6pZV9cPrFZZLWoOf0eLrvxMgZAIpwWWBUn023YWeL98CA2VqwQGPtnLPcRlMVV7n0SansHK6fnheHkKBJU=
+	t=1715123684; cv=none; b=iUlzQ1O+x402VkBjOmos4E8M6YaGGufDoSZG9y3w2yNOKTprCKzrnIN0WU+m+nZ8u39ttT4rnbSXvjsi3DAcGsdUFimloJ3x4+RDO5j4ohV7L5pyYMaHScWYv3EfGh7uevGJtYc3RsGdeBFdx1zAGACp5eCiZ8kKW0RxqlOJd7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123682; c=relaxed/simple;
-	bh=DLyN2r9encUr8sDr7IL9hDMF/WiK1le1ynlyYCtHKX4=;
+	s=arc-20240116; t=1715123684; c=relaxed/simple;
+	bh=O7QeIx8IfjjR0rfzi6cLm3Gwg7F1iSnuL1pU/5yQQv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UENzs6DU1FX1M7MHMBW18Mc4tXJTwSs5eLQ44nb+yyTAl2CXQrWvB5RPO+gn8hjIDB1Pglk6Hc7FpwHyNOU+zrz3fxJXVMDnaMGWQeY5OgzqZQv8Q65SFmxsFdlivpCK09X4vMIc79+BxLpzHl3dKGARnOHKbt84eQDHh/PaVJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/S2XvUi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NFz2VUkTe58TLkTVYWe0fzFcqt5cZfrWcKsWSq3PYWhafriB6Ui86vcW4z5v9ZFjJmUnbmInhjeTAXUJGUTkMfkgx6/sjJTKzN6afXOUmp7/7kbR4wHPSZbRZcW9JICk7VL03m3mObjBgoVwv/uujkJ7E34zmUHzsJT5Uo3a2i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HI0nzPmW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/S2XvUi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F49DC2BBFC;
-	Tue,  7 May 2024 23:14:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HI0nzPmW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B10FC4AF63;
+	Tue,  7 May 2024 23:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123680;
-	bh=DLyN2r9encUr8sDr7IL9hDMF/WiK1le1ynlyYCtHKX4=;
+	s=k20201202; t=1715123684;
+	bh=O7QeIx8IfjjR0rfzi6cLm3Gwg7F1iSnuL1pU/5yQQv0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y/S2XvUiXZRGqerf52Cx2Tu1sEVaI3Z1TponUbRGu2Vh2TdihZXzAc8xrYs6DEoWr
-	 QRYglVyr01ImRWHlgv0a2XvPk5/81IHlrbaLTB1dD7cgskW4hGS3Eh9q5O7fBjatlM
-	 716OSumw8NffAevtlGXdBtEeZtXS/j2hs8UQgbb/nh4zgUwKd0zoS46+kX/3LgvAZ5
-	 eIGC2oK7pyh2So1w2ERz0Sr1rnBbxEBuFb5FqPGvtfN64sh8t2oNYIqouCKeNue/IE
-	 wA6NUp9CkOB6wHLFjYh/oXXTFx5cUNLe7MzN6dHSsiarYoPvlTJ/CqjbRnkQReLK9r
-	 sHAd684E5P8yQ==
+	b=HI0nzPmWjj39YL3crlDWeg4Y+uXaHC6vnTiHka5kRvAjzOU2WgZnBxTx5KgUHU1tK
+	 scUgzuWChSvv4e/lK/PstBxbv31XSBhEcYrULLj2teQEOTwTpBbbIg+5cQ++6KFlE3
+	 fR6S1iVxz3JcBnXtIGrsNGSDSAMXrhG/j0La2Lf2ulFr0559pJB+l/npXuP3XsqCvI
+	 JrcxlVTl/0eFnpWf2jQepNiiVnh6Ef4gF8eEaR4RuGgfeUwZC2niJWQezHHlM0DXOk
+	 YIKLN/CTAjVjxBN/AQbY5u2anZbmNRkkJPzGOgPFHTWmIWJ4gquxbznpgQ60oGgqLP
+	 lQX9TiItn764g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Derek Fang <derek.fang@realtek.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	support.opensource@diasemi.com,
 	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/4] ASoC: dt-bindings: rt5645: add cbj sleeve gpio property
-Date: Tue,  7 May 2024 19:14:33 -0400
-Message-ID: <20240507231436.395448-2-sashal@kernel.org>
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 4/4] ASoC: da7219-aad: fix usage of device_get_named_child_node()
+Date: Tue,  7 May 2024 19:14:35 -0400
+Message-ID: <20240507231436.395448-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231436.395448-1-sashal@kernel.org>
 References: <20240507231436.395448-1-sashal@kernel.org>
@@ -55,46 +54,53 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.19.313
 Content-Transfer-Encoding: 8bit
 
-From: Derek Fang <derek.fang@realtek.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit 306b38e3fa727d22454a148a364123709e356600 ]
+[ Upstream commit e8a6a5ad73acbafd98e8fd3f0cbf6e379771bb76 ]
 
-Add an optional gpio property to control external CBJ circuits
-to avoid some electric noise caused by sleeve/ring2 contacts floating.
+The documentation for device_get_named_child_node() mentions this
+important point:
 
-Signed-off-by: Derek Fang <derek.fang@realtek.com>
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
 
-Link: https://msgid.link/r/20240408091057.14165-2-derek.fang@realtek.com
+Add fwnode_handle_put() to avoid a leaked reference.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20240426153033.38500-1-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/devicetree/bindings/sound/rt5645.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/soc/codecs/da7219-aad.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/rt5645.txt b/Documentation/devicetree/bindings/sound/rt5645.txt
-index a03f9a872a716..bfb2217a9a658 100644
---- a/Documentation/devicetree/bindings/sound/rt5645.txt
-+++ b/Documentation/devicetree/bindings/sound/rt5645.txt
-@@ -16,6 +16,11 @@ Optional properties:
-   a GPIO spec for the external headphone detect pin. If jd-mode = 0,
-   we will get the JD status by getting the value of hp-detect-gpios.
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index e3515ac8b223f..c7c800f8133b6 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -634,8 +634,10 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct snd_soc_component
+ 		return NULL;
  
-+- cbj-sleeve-gpios:
-+  a GPIO spec to control the external combo jack circuit to tie the sleeve/ring2
-+  contacts to the ground or floating. It could avoid some electric noise from the
-+  active speaker jacks.
+ 	aad_pdata = devm_kzalloc(dev, sizeof(*aad_pdata), GFP_KERNEL);
+-	if (!aad_pdata)
++	if (!aad_pdata) {
++		fwnode_handle_put(aad_np);
+ 		return NULL;
++	}
+ 
+ 	aad_pdata->irq = i2c->irq;
+ 
+@@ -710,6 +712,8 @@ static struct da7219_aad_pdata *da7219_aad_fw_to_pdata(struct snd_soc_component
+ 	else
+ 		aad_pdata->adc_1bit_rpt = DA7219_AAD_ADC_1BIT_RPT_1;
+ 
++	fwnode_handle_put(aad_np);
 +
- - realtek,in2-differential
-   Boolean. Indicate MIC2 input are differential, rather than single-ended.
+ 	return aad_pdata;
+ }
  
-@@ -64,6 +69,7 @@ codec: rt5650@1a {
- 	compatible = "realtek,rt5650";
- 	reg = <0x1a>;
- 	hp-detect-gpios = <&gpio 19 0>;
-+	cbj-sleeve-gpios = <&gpio 20 0>;
- 	interrupt-parent = <&gpio>;
- 	interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
- 	realtek,dmic-en = "true";
 -- 
 2.43.0
 
