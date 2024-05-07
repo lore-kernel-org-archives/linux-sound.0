@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958D615FCF6;
-	Tue,  7 May 2024 14:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D5816078C
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 14:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715092505; cv=none; b=MyeCcAEXkYzovtVSVp1K+Mph0Xa3bdf6UZqIU/01fQGgGVBumbjkE8PmLu+v7gwIAuHXRdI/NtIIX3FQhF2+upftDVoxaXWvldjy8BUJYDZz9YD5pKkCyH8idJNxea/+ZyHV7ztEhQ4uH15oSEOqXQeR5Hi2S4fO24Z068BO3Uw=
+	t=1715092507; cv=none; b=VF9MK0DEauaQOUYxf1Kfr+NoIPFVK0nqe6DbpXAQumXREgFs6O1Ax3oxYfV1YEJrXsdpa++V90mEAeNfKHrJoigTwsImWY69J45iut83PIQW16OIwGca0jemLLsnmTXQfpFmmRWldWKQZ93TAgm2yBphLFDWvmuELD70/7LlQb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715092505; c=relaxed/simple;
-	bh=N0nCKnQCByT3IK3m7wyeGknqiLgIC3cuB/Cu7ARwNXk=;
+	s=arc-20240116; t=1715092507; c=relaxed/simple;
+	bh=rh9ZHphu6xhB7OxL8asZBjORtt/B3YfKbGwrlZBc6cc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jJ3JR07A05PNrLUCHiF58jib12QSKCKE4AJ8FxtkRj6FC/gwVBwhRPZ5BnBLemXmiFLnBZJtJ5LEj2NafM9O+zUA0pqhdWWO+tFN4V7lffCuazdkwAePzlsGlr9A/bHupiiIDMUFfJ6ipoTZib8gZzy8oYqDsakUYzKDYZzumGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPqSizRO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Jc3l7dqsRH2oQUB5nb9SdmEWGojFWtQJq1BMX+FwI6Px2CAB+8kVFb1rvu9wHjx5wdlcHXolMpzAf/ELCaxeCobtte4f3hDZq2lo5OLOO/UOa8rTo1jODN83tCaYY3Mtau9ir645T6NEnmdO2nFCJgSeqT/9yS2w2/YgYVOIpfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBu4+3nW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPqSizRO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C8DC4DDE2;
-	Tue,  7 May 2024 14:35:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBu4+3nW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7556C4DDE3;
+	Tue,  7 May 2024 14:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715092505;
-	bh=N0nCKnQCByT3IK3m7wyeGknqiLgIC3cuB/Cu7ARwNXk=;
+	s=k20201202; t=1715092507;
+	bh=rh9ZHphu6xhB7OxL8asZBjORtt/B3YfKbGwrlZBc6cc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aPqSizROc6nkC1M30JjjYa4TqcuN2LVFmDCEX1yiBaD4A67donhVsuOX9Ts5WoG3v
-	 W7M1GDOTWsOl0Bufm3yPAxx/uyA+mDq9vY5n37fGNLecNUa6gaXx4VBEN7YCBbahCG
-	 Njp9f9QREQYHjfJmdBJw16zMIroiBGhcw7e8bg8ysTCzgsgqnILvLaAi9LnOvR6e+x
-	 5aC0qnj4STAmYHg+/nHDJKCeOfrAvZNJCIfBluGe6zFo1PqLTpQliUBvK3T308ncrg
-	 wqERY3tSpi/Q5NktzUyTtltwJYK8JrQac3n8CNEbTXAtzWS9nd7i9Q3jVJxFImCOyL
-	 7QpsuHopMIsDw==
+	b=UBu4+3nWgiamZFHlRcnS2ATFNkDtDSETJcVAzEKOqIElti2qiwitwR8zvQEstP4Fw
+	 DNPyQYbn+3m8DsBVBGGwCI06hLccmeCOhAUPQp+GdN/c60ctVDpHg54fVloDzVP3b9
+	 O3wvE3KwR18gti9jOzw8ekjIrYoumbsXZbhAruI3BNFJkHMpLGW/rVbvG4QMIJAKLU
+	 6C715L9YLPpBy5g+3dRM3RvldQ8pZYld9AdD9i4UWfqAkWeaKQ7BPKAOj408OV90kp
+	 D82JKoThpkkeS7WwA0DTh9hirQrPfWVSTfLMIZKDvh6l36/4q5H0CqtJb86oUBoruU
+	 CMFaNDr1ZzegQ==
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
-References: <20240430115438.29134-1-wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 0/4] ASoC: use 'time_left' instead of 'timeout' with
- wait_for_*() functions
-Message-Id: <171509250290.1985791.3642675927789530835.b4-ty@kernel.org>
-Date: Tue, 07 May 2024 23:35:02 +0900
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ =?utf-8?q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+In-Reply-To: <20240506121106.3792340-1-amadeuszx.slawinski@linux.intel.com>
+References: <20240506121106.3792340-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH v2] ASoC: Intel: avs: boards: Properly name input
+ device
+Message-Id: <171509250547.1985791.9610168876081651324.b4-ty@kernel.org>
+Date: Tue, 07 May 2024 23:35:05 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +45,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.14-dev
 
-On Tue, 30 Apr 2024 13:54:33 +0200, Wolfram Sang wrote:
-> There is a confusing pattern in the kernel to use a variable named 'timeout' to
-> store the result of wait_for_*() functions causing patterns like:
+On Mon, 06 May 2024 14:11:06 +0200, Amadeusz Sławiński wrote:
+> Machine boards expose input device for use with userspace. Current name
+> in some cases is incorrect, fix it.
 > 
->         timeout = wait_for_completion_timeout(...)
->         if (!timeout) return -ETIMEDOUT;
 > 
-> with all kinds of permutations. Use 'time_left' as a variable to make the code
-> obvious and self explaining.
-> 
-> [...]
 
 Applied to
 
@@ -66,14 +60,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: codecs: wm8962: use 'time_left' variable with wait_for_completion_timeout()
-      commit: cfcd957e63506273dc54f34b320172c8709244c7
-[2/4] ASoC: codecs: wm8993: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 0800660d8c59539b628f5a6646bb63091d58152f
-[3/4] ASoC: codecs: wm8994: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 19c70b4668306632d3cbbecdf5fea98b528e873e
-[4/4] ASoC: codecs: wm8996: use 'time_left' variable with wait_for_completion_timeout()
-      commit: 4e1f953a4a447b5e001655b453505c4c15904c61
+[1/1] ASoC: Intel: avs: boards: Properly name input device
+      commit: 6490bec6d5bf1001032c5efea94bdf5b5104bce9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
