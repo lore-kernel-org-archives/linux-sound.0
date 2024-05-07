@@ -1,85 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E3916E891
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0270A16E888
+	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 15:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715097339; cv=none; b=BL/VNiL7alNiWYa3DnTgHRr/9Tww4rnKwAeBFqIdQujKkdP+Hxwd+RWt/8EOLrklbmP3CSyWAMsvjxHJ+hHg+9E8d68pMTqJ+CpVa/Bvfqif+pKqNYceBS0W6zyGyjf3BmFAYW7zGde8hykoEtW8tFncwjYMo3xPTLmO+sYbF8I=
+	t=1715097339; cv=none; b=GU9xW+X6Ufz65AEa8XghPNyre+n716i2XOsKJ7JaoyPkRjzdBjqAs2HK+aBjKuCILXsuEpnNBdbbmdlkZuydhnHxhD3Et2h0Zvqsw4E/8Snbq9/bNRvnaDvac3NvJrUyjJD4DUPbmZEL+Ccf94uDwQRu9vnAzOoAUEZu0qkcBhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715097339; c=relaxed/simple;
-	bh=h6owL6fEGgYSzDEEJYGjSRQyeyu4TeovxIrHbZkBG60=;
+	bh=Cbxlg6TSLkl6e1SAEv9rcQP6OWBFdo94+zV9kfxH4a4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MFlt2MaIfpGK6YX0SUopXPNOvZYN4UsgoUCuECv9nr6m3Jep8cV2Jko8BmBqUiqnrep0Ch30CPE3DoN2K9AcMeUYtOpb8XRl5cEPdtOKwrH1LHgDccqjkPpWBCVmnXE4ohfkobr5YtFBKv5hWCjKH7oAM/Fg8m86P07W9m9IpOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hc/m2iX7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=872HPMuq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hc/m2iX7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=872HPMuq; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=UHqAoFGGGtxaGng97YF+2wOdgPCPl9rhn162NTFEfj0vRb7PvMIr29qzq4/rtWjUZ/w9oFTXxjd2CObG18Sc5hTBwjcfp/NsOODubORT4/NDmlx4ANpjXmJc8rPyNVBerKb5acmrhTUlK8gh5RV/rTZmwcKcAlKm657rHwqk+OI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kVWmCHG2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OvyaIvMY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kVWmCHG2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OvyaIvMY; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hc/m2iX7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="872HPMuq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hc/m2iX7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="872HPMuq"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kVWmCHG2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OvyaIvMY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kVWmCHG2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OvyaIvMY"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1805C20C9A;
-	Tue,  7 May 2024 15:55:35 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4FB842209D;
+	Tue,  7 May 2024 15:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1715097333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VgzBMsLa5eUfzU4FoELOvU82WBbIw7DQ2m9YR0kp7n0=;
-	b=Hc/m2iX73rh5k7sVkg6lTDC4+FP7nv5zDXpwWHGe1+ngvWxRnXYqANY4adyI4JwHodDnRn
-	nj4edRuDciM46BX65oSKxLpR2i80AQ7iWYq6f1S/MQOHjLfBTQHd/IlLadYsGoQhf/zgp4
-	dQFEfbq5OPE2EDFS417iC0aVWU3PT0o=
+	bh=wJntn7+6FWMCDXzLYgkIOf8t6Ja7h7SkcdnTRQLY4s8=;
+	b=kVWmCHG2u0Jg/9bASu1P6+o7/8wixNv3bPbz6hLqcLgFVoxzgF6Ez8Kk0c8NpmmOfJ3JjF
+	ikzLdRTAhS7ilPI0CzuPNcZWMk0BFKV0D0iuLlWGIYZJ9OXkh6KFQZkZWQoTCGjWvn9iyp
+	+6dty6Gg0QlrtMX4CcA6ShG0mJwa0dg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097335;
+	s=susede2_ed25519; t=1715097333;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VgzBMsLa5eUfzU4FoELOvU82WBbIw7DQ2m9YR0kp7n0=;
-	b=872HPMuq7AMmyIpS7exY7fuhmYoELbVxzRPRf9pL87eIXr8jBW2blMMKks6Ssc47qGpNMo
-	eIhamz8JBr4y9qCA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=wJntn7+6FWMCDXzLYgkIOf8t6Ja7h7SkcdnTRQLY4s8=;
+	b=OvyaIvMY+YWH9RxpL8Ss6QEo/S6XI6sMMJ1YhPaI/bDgd2wPq2bhlkC+dl6lFlf5uTYx2N
+	jPRc1bcPSEbNAqDQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715097335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1715097333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VgzBMsLa5eUfzU4FoELOvU82WBbIw7DQ2m9YR0kp7n0=;
-	b=Hc/m2iX73rh5k7sVkg6lTDC4+FP7nv5zDXpwWHGe1+ngvWxRnXYqANY4adyI4JwHodDnRn
-	nj4edRuDciM46BX65oSKxLpR2i80AQ7iWYq6f1S/MQOHjLfBTQHd/IlLadYsGoQhf/zgp4
-	dQFEfbq5OPE2EDFS417iC0aVWU3PT0o=
+	bh=wJntn7+6FWMCDXzLYgkIOf8t6Ja7h7SkcdnTRQLY4s8=;
+	b=kVWmCHG2u0Jg/9bASu1P6+o7/8wixNv3bPbz6hLqcLgFVoxzgF6Ez8Kk0c8NpmmOfJ3JjF
+	ikzLdRTAhS7ilPI0CzuPNcZWMk0BFKV0D0iuLlWGIYZJ9OXkh6KFQZkZWQoTCGjWvn9iyp
+	+6dty6Gg0QlrtMX4CcA6ShG0mJwa0dg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715097335;
+	s=susede2_ed25519; t=1715097333;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VgzBMsLa5eUfzU4FoELOvU82WBbIw7DQ2m9YR0kp7n0=;
-	b=872HPMuq7AMmyIpS7exY7fuhmYoELbVxzRPRf9pL87eIXr8jBW2blMMKks6Ssc47qGpNMo
-	eIhamz8JBr4y9qCA==
+	bh=wJntn7+6FWMCDXzLYgkIOf8t6Ja7h7SkcdnTRQLY4s8=;
+	b=OvyaIvMY+YWH9RxpL8Ss6QEo/S6XI6sMMJ1YhPaI/bDgd2wPq2bhlkC+dl6lFlf5uTYx2N
+	jPRc1bcPSEbNAqDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF0F113A2D;
-	Tue,  7 May 2024 15:55:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F5AA13A3A;
+	Tue,  7 May 2024 15:55:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aLX5OPZOOmaNXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:34 +0000
+	id IFo/CvVOOmaNXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 15:55:33 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 28/34] ASoC: stm: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 17:55:32 +0200
-Message-ID: <20240507155540.24815-29-tiwai@suse.de>
+Subject: [PATCH 17/34] ASoC: meson: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 17:55:21 +0200
+Message-ID: <20240507155540.24815-18-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
 References: <20240507155540.24815-1-tiwai@suse.de>
@@ -90,8 +90,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
 X-Spam-Level: 
 X-Spamd-Result: default: False [-6.80 / 50.00];
 	REPLY(-4.00)[];
@@ -110,10 +108,12 @@ X-Spamd-Result: default: False [-6.80 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -6.80
+X-Spam-Flag: NO
 
 *-objs suffix is reserved rather for (user-space) host programs while
 usually *-y suffix is used for kernel drivers (although *-objs works
@@ -123,35 +123,69 @@ Let's correct the old usages of *-objs in Makefiles.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/stm/Makefile | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/meson/Makefile | 50 ++++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/sound/soc/stm/Makefile b/sound/soc/stm/Makefile
-index 3143c0b47042..3372432faa09 100644
---- a/sound/soc/stm/Makefile
-+++ b/sound/soc/stm/Makefile
-@@ -1,17 +1,17 @@
- # SPDX-License-Identifier: GPL-2.0
- # SAI
--snd-soc-stm32-sai-sub-objs := stm32_sai_sub.o
-+snd-soc-stm32-sai-sub-y := stm32_sai_sub.o
- obj-$(CONFIG_SND_SOC_STM32_SAI) += snd-soc-stm32-sai-sub.o
+diff --git a/sound/soc/meson/Makefile b/sound/soc/meson/Makefile
+index e446bc980481..24078e4396b0 100644
+--- a/sound/soc/meson/Makefile
++++ b/sound/soc/meson/Makefile
+@@ -1,30 +1,30 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR MIT)
  
--snd-soc-stm32-sai-objs := stm32_sai.o
-+snd-soc-stm32-sai-y := stm32_sai.o
- obj-$(CONFIG_SND_SOC_STM32_SAI) += snd-soc-stm32-sai.o
+-snd-soc-meson-aiu-objs := aiu.o
+-snd-soc-meson-aiu-objs += aiu-acodec-ctrl.o
+-snd-soc-meson-aiu-objs += aiu-codec-ctrl.o
+-snd-soc-meson-aiu-objs += aiu-encoder-i2s.o
+-snd-soc-meson-aiu-objs += aiu-encoder-spdif.o
+-snd-soc-meson-aiu-objs += aiu-fifo.o
+-snd-soc-meson-aiu-objs += aiu-fifo-i2s.o
+-snd-soc-meson-aiu-objs += aiu-fifo-spdif.o
+-snd-soc-meson-axg-fifo-objs := axg-fifo.o
+-snd-soc-meson-axg-frddr-objs := axg-frddr.o
+-snd-soc-meson-axg-toddr-objs := axg-toddr.o
+-snd-soc-meson-axg-tdm-formatter-objs := axg-tdm-formatter.o
+-snd-soc-meson-axg-tdm-interface-objs := axg-tdm-interface.o
+-snd-soc-meson-axg-tdmin-objs := axg-tdmin.o
+-snd-soc-meson-axg-tdmout-objs := axg-tdmout.o
+-snd-soc-meson-axg-sound-card-objs := axg-card.o
+-snd-soc-meson-axg-spdifin-objs := axg-spdifin.o
+-snd-soc-meson-axg-spdifout-objs := axg-spdifout.o
+-snd-soc-meson-axg-pdm-objs := axg-pdm.o
+-snd-soc-meson-card-utils-objs := meson-card-utils.o
+-snd-soc-meson-codec-glue-objs := meson-codec-glue.o
+-snd-soc-meson-gx-sound-card-objs := gx-card.o
+-snd-soc-meson-g12a-toacodec-objs := g12a-toacodec.o
+-snd-soc-meson-g12a-tohdmitx-objs := g12a-tohdmitx.o
+-snd-soc-meson-t9015-objs := t9015.o
++snd-soc-meson-aiu-y := aiu.o
++snd-soc-meson-aiu-y += aiu-acodec-ctrl.o
++snd-soc-meson-aiu-y += aiu-codec-ctrl.o
++snd-soc-meson-aiu-y += aiu-encoder-i2s.o
++snd-soc-meson-aiu-y += aiu-encoder-spdif.o
++snd-soc-meson-aiu-y += aiu-fifo.o
++snd-soc-meson-aiu-y += aiu-fifo-i2s.o
++snd-soc-meson-aiu-y += aiu-fifo-spdif.o
++snd-soc-meson-axg-fifo-y := axg-fifo.o
++snd-soc-meson-axg-frddr-y := axg-frddr.o
++snd-soc-meson-axg-toddr-y := axg-toddr.o
++snd-soc-meson-axg-tdm-formatter-y := axg-tdm-formatter.o
++snd-soc-meson-axg-tdm-interface-y := axg-tdm-interface.o
++snd-soc-meson-axg-tdmin-y := axg-tdmin.o
++snd-soc-meson-axg-tdmout-y := axg-tdmout.o
++snd-soc-meson-axg-sound-card-y := axg-card.o
++snd-soc-meson-axg-spdifin-y := axg-spdifin.o
++snd-soc-meson-axg-spdifout-y := axg-spdifout.o
++snd-soc-meson-axg-pdm-y := axg-pdm.o
++snd-soc-meson-card-utils-y := meson-card-utils.o
++snd-soc-meson-codec-glue-y := meson-codec-glue.o
++snd-soc-meson-gx-sound-card-y := gx-card.o
++snd-soc-meson-g12a-toacodec-y := g12a-toacodec.o
++snd-soc-meson-g12a-tohdmitx-y := g12a-tohdmitx.o
++snd-soc-meson-t9015-y := t9015.o
  
- # I2S
--snd-soc-stm32-i2s-objs := stm32_i2s.o
-+snd-soc-stm32-i2s-y := stm32_i2s.o
- obj-$(CONFIG_SND_SOC_STM32_I2S) += snd-soc-stm32-i2s.o
- 
- # SPDIFRX
--snd-soc-stm32-spdifrx-objs := stm32_spdifrx.o
-+snd-soc-stm32-spdifrx-y := stm32_spdifrx.o
- obj-$(CONFIG_SND_SOC_STM32_SPDIFRX) += snd-soc-stm32-spdifrx.o
- 
- #DFSDM
+ obj-$(CONFIG_SND_MESON_AIU) += snd-soc-meson-aiu.o
+ obj-$(CONFIG_SND_MESON_AXG_FIFO) += snd-soc-meson-axg-fifo.o
 -- 
 2.43.0
 
