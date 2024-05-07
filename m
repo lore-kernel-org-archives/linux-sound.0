@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765E314A0A7;
-	Tue,  7 May 2024 23:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C7214B946;
+	Tue,  7 May 2024 23:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715123459; cv=none; b=MSK4qF82SRMAGpYgKSvI+NfK3mSFRTtrrKy3rTrJ43HV/fS4z7IbEzy6QdGt5lpMAyiyd1EkLDakAuO0WxvpbGzSIq+ziAP2cR4BWP2W38JCoMVmMa9wy0Fs/OE9h17tv7mNo3CdHfpo/wXf9WVETCJsH5yj27lPFa0IB5KA71c=
+	t=1715123470; cv=none; b=IRjtqzPdgqPxcseEdyLFZmpEqBu8yFMNFmoxrnZ45GeN+BmlEQtbJrdCK7+AP/9jVSfOY4gM1t/i/I6zdOtuSpSAWhyq6j+zaopev8x8/4OtfYvtVP1BtEBrq//nOUcEgppWqi7PNjPP0tZflZRWBm8MluDu1T+pZdDzgPKc7vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715123459; c=relaxed/simple;
-	bh=WLG9byGvgiCN8PrBzGxPQQ0QWNfge3aSyrmJQsr1glw=;
+	s=arc-20240116; t=1715123470; c=relaxed/simple;
+	bh=Hh/1C4AKF94JLe48CVZQ/4GOW6QNUCJrBJ9s/sd1IQE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DsLEGVPsizvu3xeNykV6frCQ3C5Q4Yv7Wl0Egvo+74nqO3tg/HKvlzGbNIAL8VhgfJm2f/LAQgo8rA+pnV0Vb0EYswQz9ZEd6cOqPBw07LtW2wioWViPfJzK4Dw+7+o9qYHpwSO2eaQvRNRUVKIsGb83QujyOzI08+SfPSCeN48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg1Y9OPX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ldO1tG3zp6qUPM9xtUrcLi9LlDpqvgLXZT04uiU9OnBbReb6+MnXIc+F+Df1J736a0U3sKDYjXTJVs4UKXc2zYUiJrNX1vXK8/p0cjqoA3NveZ/IB8sfgqAnrIW4/bgnGSGwFF+3c8TNS06nb33fkbeHK7TrdkoQMjAyBAQxVu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQnOdft7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg1Y9OPX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A51C4AF63;
-	Tue,  7 May 2024 23:10:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQnOdft7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5A9C2BBFC;
+	Tue,  7 May 2024 23:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715123459;
-	bh=WLG9byGvgiCN8PrBzGxPQQ0QWNfge3aSyrmJQsr1glw=;
+	s=k20201202; t=1715123470;
+	bh=Hh/1C4AKF94JLe48CVZQ/4GOW6QNUCJrBJ9s/sd1IQE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sg1Y9OPXroaSJY4RqxO9nGDmmiovfrlelQfVYwl4n0tNFuFEE+sYWzpLI6DO0uGxq
-	 2sgY5JACsVSIUQniiba76g1yEnI/A2/sAXgLbEBqOAmHyoRCGLoWkYcTDhiSdJQiJn
-	 sHJAwvjYDOnrkw7v+IG7W8dex13cyBQuRIB2nC5tNFqwnTbH6K+zA3n1J0v/xJ8kmT
-	 btorCYbo19TvKKE0noQAxSbf+RlYkL9TNOHoXnpJ7/p2TidMCsw5j/zIgXLETewdBV
-	 RuWnfVX9duQ2tNByQJzD1u+zjDEIhohlrlVevwxFU4pLW/aM6+R+ps/G1oEb1azgEZ
-	 JVkv/+BgUnVXQ==
+	b=VQnOdft7vqg6gY+xGXTmNSSeMx5Bxok9ctpBQuA1GFqZcpCXe5WWVmbti0M6ahMCL
+	 UQOsQbJe5flB0imLhufjiHMtlsiyWq19s7s8MtB19VE1l4iGBn/1IWbS7yKyAmqvk+
+	 QLA9sPC02AWPNOPnKe6nuF7Qntoo1wTCuFN770ZqV/c0XoSIcsKtx76SnlNUvA2xtX
+	 W+nu0TxlUiUtWH3UM7iNKwqNED3DaAFZUmZX4X4T24My3yCcaC7Fmx7kcHe6+jKWj3
+	 9Jf7neATvOpNHlWqurKcX1H9NQXpwBh+2TxRv9WhX5SPPsRv5IlatTsRJo7d1jsGMo
+	 jS3x98jpU918g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jack Yu <jack.yu@realtek.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 14/43] ASoC: rt715-sdca: volume step modification
-Date: Tue,  7 May 2024 19:09:35 -0400
-Message-ID: <20240507231033.393285-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 19/43] ALSA: emu10k1: factor out snd_emu1010_load_dock_firmware()
+Date: Tue,  7 May 2024 19:09:40 -0400
+Message-ID: <20240507231033.393285-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507231033.393285-1-sashal@kernel.org>
 References: <20240507231033.393285-1-sashal@kernel.org>
@@ -54,59 +52,124 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.30
 Content-Transfer-Encoding: 8bit
 
-From: Jack Yu <jack.yu@realtek.com>
+From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
 
-[ Upstream commit bda16500dd0b05e2e047093b36cbe0873c95aeae ]
+[ Upstream commit 28deafd0fbdc45cc9c63bd7dd4efc35137958862 ]
 
-Volume step (dB/step) modification to fix format error
-which shown in amixer control.
+Pulled out of the next patch to improve its legibility.
 
-Signed-off-by: Jack Yu <jack.yu@realtek.com>
-Link: https://lore.kernel.org/r/b1f546ad16dc4c7abb7daa7396e8345c@realtek.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+As the function is now available, call it directly from
+snd_emu10k1_emu1010_init(), thus making the MicroDock firmware loading
+synchronous - there isn't really a reason not to. Note that this does
+not affect the AudioDocks of rev1 cards, as these have no independent
+power supplies, and thus come up only a while after the main card is
+initialized.
+
+As a drive-by, adjust the priorities of two messages to better reflect
+their impact.
+
+Signed-off-by: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Message-ID: <20240428093716.3198666-3-oswald.buddenhagen@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt715-sdca.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/emu10k1/emu10k1_main.c | 66 +++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 30 deletions(-)
 
-diff --git a/sound/soc/codecs/rt715-sdca.c b/sound/soc/codecs/rt715-sdca.c
-index 9fa96fd83d4aa..84f1dc453e971 100644
---- a/sound/soc/codecs/rt715-sdca.c
-+++ b/sound/soc/codecs/rt715-sdca.c
-@@ -316,7 +316,7 @@ static int rt715_sdca_set_amp_gain_8ch_get(struct snd_kcontrol *kcontrol,
- 	return 0;
+diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_main.c
+index de5c41e578e1f..a6b91597ea544 100644
+--- a/sound/pci/emu10k1/emu10k1_main.c
++++ b/sound/pci/emu10k1/emu10k1_main.c
+@@ -732,11 +732,43 @@ static int snd_emu1010_load_firmware(struct snd_emu10k1 *emu, int dock,
+ 	return snd_emu1010_load_firmware_entry(emu, *fw);
  }
  
--static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -17625, 375, 0);
-+static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1725, 75, 0);
- static const DECLARE_TLV_DB_SCALE(mic_vol_tlv, 0, 1000, 0);
++static void snd_emu1010_load_dock_firmware(struct snd_emu10k1 *emu)
++{
++	u32 tmp, tmp2;
++	int err;
++
++	dev_info(emu->card->dev, "emu1010: Loading Audio Dock Firmware\n");
++	/* Return to Audio Dock programming mode */
++	snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG,
++			       EMU_HANA_FPGA_CONFIG_AUDIODOCK);
++	err = snd_emu1010_load_firmware(emu, 1, &emu->dock_fw);
++	if (err < 0)
++		return;
++	snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG, 0);
++
++	snd_emu1010_fpga_read(emu, EMU_HANA_ID, &tmp);
++	dev_dbg(emu->card->dev, "emu1010: EMU_HANA+DOCK_ID = 0x%x\n", tmp);
++	if ((tmp & 0x1f) != 0x15) {
++		/* FPGA failed to be programmed */
++		dev_err(emu->card->dev,
++			"emu1010: Loading Audio Dock Firmware failed, reg = 0x%x\n",
++			tmp);
++		return;
++	}
++	dev_info(emu->card->dev, "emu1010: Audio Dock Firmware loaded\n");
++
++	snd_emu1010_fpga_read(emu, EMU_DOCK_MAJOR_REV, &tmp);
++	snd_emu1010_fpga_read(emu, EMU_DOCK_MINOR_REV, &tmp2);
++	dev_info(emu->card->dev, "Audio Dock ver: %u.%u\n", tmp, tmp2);
++
++	/* Allow DLL to settle, to sync clocking between 1010 and Dock */
++	msleep(10);
++}
++
+ static void emu1010_firmware_work(struct work_struct *work)
+ {
+ 	struct snd_emu10k1 *emu;
+-	u32 tmp, tmp2, reg;
+-	int err;
++	u32 reg;
  
- static int rt715_sdca_get_volsw(struct snd_kcontrol *kcontrol,
-@@ -477,7 +477,7 @@ static const struct snd_kcontrol_new rt715_sdca_snd_controls[] = {
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_ADC7_27_VOL,
- 			RT715_SDCA_FU_VOL_CTRL, CH_02),
--			0x2f, 0x7f, 0,
-+			0x2f, 0x3f, 0,
- 		rt715_sdca_set_amp_gain_get, rt715_sdca_set_amp_gain_put,
- 		in_vol_tlv),
- 	RT715_SDCA_EXT_TLV("FU02 Capture Volume",
-@@ -485,13 +485,13 @@ static const struct snd_kcontrol_new rt715_sdca_snd_controls[] = {
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		rt715_sdca_set_amp_gain_4ch_get,
- 		rt715_sdca_set_amp_gain_4ch_put,
--		in_vol_tlv, 4, 0x7f),
-+		in_vol_tlv, 4, 0x3f),
- 	RT715_SDCA_EXT_TLV("FU06 Capture Volume",
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_ADC10_11_VOL,
- 			RT715_SDCA_FU_VOL_CTRL, CH_01),
- 		rt715_sdca_set_amp_gain_4ch_get,
- 		rt715_sdca_set_amp_gain_4ch_put,
--		in_vol_tlv, 4, 0x7f),
-+		in_vol_tlv, 4, 0x3f),
- 	/* MIC Boost Control */
- 	RT715_SDCA_BOOST_EXT_TLV("FU0E Boost",
- 		SDW_SDCA_CTL(FUN_MIC_ARRAY, RT715_SDCA_FU_DMIC_GAIN_EN,
+ 	emu = container_of(work, struct snd_emu10k1,
+ 			   emu1010.firmware_work);
+@@ -749,33 +781,7 @@ static void emu1010_firmware_work(struct work_struct *work)
+ 	snd_emu1010_fpga_read(emu, EMU_HANA_OPTION_CARDS, &reg); /* OPTIONS: Which cards are attached to the EMU */
+ 	if (reg & EMU_HANA_OPTION_DOCK_OFFLINE) {
+ 		/* Audio Dock attached */
+-		/* Return to Audio Dock programming mode */
+-		dev_info(emu->card->dev,
+-			 "emu1010: Loading Audio Dock Firmware\n");
+-		snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG,
+-				       EMU_HANA_FPGA_CONFIG_AUDIODOCK);
+-		err = snd_emu1010_load_firmware(emu, 1, &emu->dock_fw);
+-		if (err < 0)
+-			return;
+-		snd_emu1010_fpga_write(emu, EMU_HANA_FPGA_CONFIG, 0);
+-		snd_emu1010_fpga_read(emu, EMU_HANA_ID, &tmp);
+-		dev_info(emu->card->dev,
+-			 "emu1010: EMU_HANA+DOCK_ID = 0x%x\n", tmp);
+-		if ((tmp & 0x1f) != 0x15) {
+-			/* FPGA failed to be programmed */
+-			dev_info(emu->card->dev,
+-				 "emu1010: Loading Audio Dock Firmware file failed, reg = 0x%x\n",
+-				 tmp);
+-			return;
+-		}
+-		dev_info(emu->card->dev,
+-			 "emu1010: Audio Dock Firmware loaded\n");
+-		snd_emu1010_fpga_read(emu, EMU_DOCK_MAJOR_REV, &tmp);
+-		snd_emu1010_fpga_read(emu, EMU_DOCK_MINOR_REV, &tmp2);
+-		dev_info(emu->card->dev, "Audio Dock ver: %u.%u\n", tmp, tmp2);
+-		/* Sync clocking between 1010 and Dock */
+-		/* Allow DLL to settle */
+-		msleep(10);
++		snd_emu1010_load_dock_firmware(emu);
+ 		/* Unmute all. Default is muted after a firmware load */
+ 		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
+ 	}
+@@ -889,7 +895,7 @@ static int snd_emu10k1_emu1010_init(struct snd_emu10k1 *emu)
+ 	snd_emu1010_fpga_read(emu, EMU_HANA_OPTION_CARDS, &reg);
+ 	dev_info(emu->card->dev, "emu1010: Card options = 0x%x\n", reg);
+ 	if (reg & EMU_HANA_OPTION_DOCK_OFFLINE)
+-		schedule_work(&emu->emu1010.firmware_work);
++		snd_emu1010_load_dock_firmware(emu);
+ 	if (emu->card_capabilities->no_adat) {
+ 		emu->emu1010.optical_in = 0; /* IN_SPDIF */
+ 		emu->emu1010.optical_out = 0; /* OUT_SPDIF */
 -- 
 2.43.0
 
