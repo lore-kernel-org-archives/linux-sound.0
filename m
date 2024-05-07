@@ -1,197 +1,146 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1511514EE
-	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 10:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1613B153821;
+	Tue,  7 May 2024 11:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715077672; cv=none; b=lZjbEarKzrLhf1Fi4VAfLWrljMB8Zwba6kpSRWunVCjvQo6AwwinMXxc6uZpXH+q+Hwr5RzXWjTg4uc1ACYFqqba4JqDdzbGJ59ymdtnTNSiDAwoiLt3+tX5k6ZQmDGidNwGtYytCRNE8hdkL62beVuENbWVnw692tXYlWno7Sc=
+	t=1715082060; cv=none; b=J25TwQBeFU8WjHANX2A3BV/rmcbNFUUVoYeHaaSDKLbFT4aw0LCj4cVzIsikoo9eChH47qEOMAHyDTPC/d0KV4b5gt88mixoH5eMde3S0GfMJr31/8+AqnkL/RI6Xsv3loysIiYwaynnP3IvUQwZGH9XNMscovidRgFGoi67OK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715077672; c=relaxed/simple;
-	bh=ncE3FH0TY58sFGa9Rl6y2ExmL1TBCQDazEEcf1SbmOY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q+49bibiWDOafECDCSeAuKYTemy6Ol3SO5vqLP3rDjSo5rqicxjcAtRXfrpw2L1M27qHlKvV5N1v4uzw+SRf0Cj+J0KRoDwU8S2YccD5ese1VR3ZrqqNeDdVOl8D/vis76L+eVQfV+kOes8/nVUCyZ4s1zIK1pfgnJVov9JNKN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bTqboszw; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715082060; c=relaxed/simple;
+	bh=PWpBOpNDr/xlcI419TA4O+00/LhO4PVJAa2tV399Fak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=RSE7sFCKnsGFyV0xRakgQhkoXdh+7Q/kBicrKZzN0aomNgDbn4Foxbvv3QMHf8OPnQ5ioeurBMr2/LyeeIpPXCIqCWOphk5EdtGlyPz0Uzs0sI4Ao6V7OoTTUJ+Newzh3plH4lJRcHtPJueTNWe1FLPgtz5NYDWK48Lqofcde+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TuQ3fNX1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bTqboszw"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59ce1e8609so309693366b.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 May 2024 03:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715077669; x=1715682469; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4nKzFo7oe//9kG74WVhks4ZLuw4EcTS+WpLRtZjt0GY=;
-        b=bTqboszwrQ4aUsNQ4cwbqXwqnXgXwUR9tNkxITgpR1n2X4hAiCOXDr8wPemJpKK48a
-         TiVDbDcWTHE6Qb8FFYouZJzkTPgN9nB9D5bqhgfbx8rxS5Y30upEQNr5d9B08ckfde8N
-         w/86sj4hDO6uQprJrCCGQtccFK9ckR3JBAHVWqE7KShnyUTvwcuJxasS95Nqm7Dnp6rP
-         xUAx8Wy2/j/nOM7QbJaq26x3Fjtyde/RzxwsKcoEFK8jkQVWbio4b0ZgWBu5R4g2MgEY
-         BbBn/JV9grFEdlbAfktwt7bu5JWYO+SNeU27n/SrtbcYmx2rNAc0b7Mn0k7vuOV0rIBM
-         n09w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715077669; x=1715682469;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4nKzFo7oe//9kG74WVhks4ZLuw4EcTS+WpLRtZjt0GY=;
-        b=nFBuCLA8kMFBvAjSNAv7NQCKWK3qvbUiEfG0rKvnKTjrKQeUDqSnqDgKyDz57e9eEo
-         pCc1BFmI/z0SoNNymk/49Sa9t97VpyB1eFeKifBSDGGGZgFqswF1Oj4SdoK6/KR8AKgg
-         tE9mwPsUkGSq1QBEYimiMmWaM5t0LcUSb16qCrfdJBzQAENwpvFt4vUiwzmtnkAvlF9U
-         jLncvdBJO0rqJyJ3q8/+HaduVANmkA12ec9zZAn1R+doUTRtyqNctTRFHutVthr72S5L
-         2inCp4xTUa0y2dwwXCzRF0AAC/S08mtdAyhkkeasnPBp9Qf6W/OYwme6NHmoIro5p5fj
-         gp8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWjYBrFZDU7doBc+YyskmOszR7CNnwO/79z4sbd2GRFOK0X7zNw2MuvoCVcLwUeSvrycpBbPglsmS+QJBrUqculEwDNSdrprewB4MQ=
-X-Gm-Message-State: AOJu0Yx79Y0dPNO+Q1cHVT/4jWENkLUJ3TzVwpoNkm588ctc3JkfXPI8
-	DIMmHSTKj4HXtxNzCO7TpuDvZfa1Wa4HoPlIZJSJkLYwB84ypug5Nd8rQa/7vIEOMFGTuciA4cs
-	j
-X-Google-Smtp-Source: AGHT+IHxr+kpeiafMqoxHfKgf5yt6IB9ScYZU6jaD6rdvbS50GCRRhzNcEFrQXFWvrvB3EXyV7WKoA==
-X-Received: by 2002:a17:906:71c9:b0:a55:aded:200d with SMTP id i9-20020a17090671c900b00a55aded200dmr1705986ejk.12.1715077668923;
-        Tue, 07 May 2024 03:27:48 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id bo15-20020a170906d04f00b00a59b87dd0bbsm3370093ejb.161.2024.05.07.03.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 03:27:48 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 07 May 2024 12:27:33 +0200
-Subject: [PATCH 4/4] ASoC: qcom: x1e80100: Correct channel mapping
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TuQ3fNX1"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4477As4c021346;
+	Tue, 7 May 2024 11:40:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=vAW2kebA5xILfVJjv5PmFuP/px2n8NNHksYQ7E6Ix3M=; b=Tu
+	Q3fNX1UNjyigHTf80l/GM20us+RTLBZFYV0KGWa91lNytIuJmm8JGtv2EWgtMH16
+	zwU3G6gvahZDS0qOcbioDf1yjaRp4MM5G032z55Jr7z77+8BFcXcbWhzDC+UPyo1
+	Am0tRA2eUi26wF1aY2bfmCcc31AzouILAjL/CGbzxCH1YHNmNY66foI4kuLXPphX
+	CVi1i15j4X91jLsZK1YZvpea8ajlu6irmMp984htotNHfhNGcZ/jahbWR1yTtHc5
+	IFc/9rE+JHcvDFcFJ3AY1suKWtvsuhKjo67HOeMuQHBiTh73IXcG/Bcfd9VwJAxO
+	irddtMqMAFnXQT9P466w==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xyfhv0jdd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 May 2024 11:40:41 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 447BeIe0009444
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 7 May 2024 11:40:18 GMT
+Received: from [10.216.54.232] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 May 2024
+ 04:40:13 -0700
+Message-ID: <ed691f73-d56e-a653-d4bf-229a3ec561f1@quicinc.com>
+Date: Tue, 7 May 2024 17:10:10 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 2/7] ASoC: codecs: wcd937x: add wcd937x codec driver
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        "Srinivas
+ Kandagatla" <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami
+	<bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+CC: <linux-arm-msm@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
+        <quic_pkumpatl@quicinc.com>
+References: <20240425091857.2161088-1-quic_mohs@quicinc.com>
+ <20240425091857.2161088-3-quic_mohs@quicinc.com>
+ <59f78ca7-ea09-41d7-9e6e-b0ce1af484e4@linux.intel.com>
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+In-Reply-To: <59f78ca7-ea09-41d7-9e6e-b0ce1af484e4@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240507-asoc-x1e80100-4-channel-mapping-v1-4-b12c13e0a55d@linaro.org>
-References: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
-In-Reply-To: <20240507-asoc-x1e80100-4-channel-mapping-v1-0-b12c13e0a55d@linaro.org>
-To: James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3113;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=ncE3FH0TY58sFGa9Rl6y2ExmL1TBCQDazEEcf1SbmOY=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmOgIcJ8C4pKpQ2s1uPew1mzWN5b8egwDGkdXHd
- q6kDAPoZn6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjoCHAAKCRDBN2bmhouD
- 14RHD/97iqUCmd+/m5xbNrWdeCNRTnpiBM/7B858xCTJ9NZ21Z+511GhAjTfglasiURr7dVtlEY
- DX2TAk/WsCkE+LiRRLwpSa61DvhwbUPUPzS8ACCMsuP9ol0hFdJeGBrqLiLFfcpxG2fNxJDEE7k
- aMyuiQOveIQGqtl25oREsxDO/tSzrYnrkKsv9w4y1D1qTTnttcJ1kj2S21B1J5i/s4+urXfFWNH
- vEEWa8+HQO0lZ3gG0AmsF/KyIf3S4bMr9BnIOjfVCAdOM0AZ+V0r06+JwtWLM7IQtttq5j1yRgR
- hcq5iN8bKo4uiQ+YZEozR9/7hlxkxrxMaFUMG+QR3PqAfDuB4Ra+uKY253yukq/UFjA2SN2J7jH
- Nuq1ZqtsVmeHP5WpAUAtsWvEudUHSn5EBM9lfmJ5v4NtMTkbAkorOB4c2EBWR5T6spWKef9zNPF
- mugo2RADZpNz7rloQpQkgktnSGHCAO9DnIyd/jk1iZgEeCXS/ymruAZ8Ave7zDhQbRvHho3xgDg
- rDy/wf/ztDUnYstNhQEgeaKoFQiRej8HVlUVKyWoCbL6p/kpbhr05aaxS/sNImzgAZKVF/za7Tk
- xA5dKkU8x0uhU75l34zhUh3uj8ePWn6GPltw30TgCTuzTE+qAswufzAzGNAayAeB9VuclLAtYNx
- UQ6b4+9KKmjCqnQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EDpNuAaSPbn_8MGd_rOpdrn-bePJnojS
+X-Proofpoint-ORIG-GUID: EDpNuAaSPbn_8MGd_rOpdrn-bePJnojS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-07_05,2024-05-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 mlxlogscore=940
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405070081
 
-X1E80100 CRD board comes with four speakers arranged as left front+back
-and then right front+back.  Using default channel mapping causes front
-right speaker to play left back stream.
+On 4/25/2024 7:13 PM, Pierre-Louis Bossart wrote:
+> 
+>> +struct wcd937x_priv {
+>> +	struct sdw_slave *tx_sdw_dev;
+>> +	struct sdw_slave *rx_sdw_dev;
 
-Adjust the channel maps for frontend DAIs to fix stereo and four-channel
-playback.
+> 
+> Does this mean that the codec has 2 SoundWire interfaces?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/qcom/x1e80100.c | 37 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+Yes, Similar to WCD938x 
+(https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/sound/soc/codecs/wcd938x.c?h=next-20240507), 
+it has two soundwire interfaces.
 
-diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-index c3c8bf7ffb5b..e90c68815b5c 100644
---- a/sound/soc/qcom/x1e80100.c
-+++ b/sound/soc/qcom/x1e80100.c
-@@ -12,6 +12,7 @@
- 
- #include "common.h"
- #include "qdsp6/q6afe.h"
-+#include "qdsp6/q6dsp-common.h"
- #include "sdw.h"
- 
- struct x1e80100_snd_data {
-@@ -74,7 +75,7 @@ static int x1e80100_snd_hw_params(struct snd_pcm_substream *substream,
- 	return qcom_snd_sdw_hw_params(substream, params, &data->sruntime[cpu_dai->id]);
- }
- 
--static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
-+static int x1e80100_snd_be_prepare(struct snd_pcm_substream *substream)
- {
- 	struct snd_soc_pcm_runtime *rtd = substream->private_data;
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-@@ -96,12 +97,34 @@ static int x1e80100_snd_hw_free(struct snd_pcm_substream *substream)
- 				    &data->stream_prepared[cpu_dai->id]);
- }
- 
-+static int x1e80100_snd_fe_prepare(struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		const unsigned int rx_slot[4] = { PCM_CHANNEL_FL,
-+						  PCM_CHANNEL_LB,
-+						  PCM_CHANNEL_FR,
-+						  PCM_CHANNEL_RB };
-+
-+		snd_soc_dai_set_channel_map(cpu_dai, 0, NULL, ARRAY_SIZE(rx_slot),
-+					    rx_slot);
-+	}
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_ops x1e80100_be_ops = {
- 	.startup = qcom_snd_sdw_startup,
- 	.shutdown = x1e80100_snd_shutdown,
- 	.hw_params = x1e80100_snd_hw_params,
- 	.hw_free = x1e80100_snd_hw_free,
--	.prepare = x1e80100_snd_prepare,
-+	.prepare = x1e80100_snd_be_prepare,
-+};
-+
-+static const struct snd_soc_ops x1e80100_fe_ops = {
-+	.prepare = x1e80100_snd_fe_prepare,
- };
- 
- static void x1e80100_add_be_ops(struct snd_soc_card *card)
-@@ -118,6 +141,15 @@ static void x1e80100_add_be_ops(struct snd_soc_card *card)
- 	}
- }
- 
-+static int x1e80100_add_dai_link(struct snd_soc_card *card, struct snd_soc_dai_link *link)
-+{
-+	/* Add ops for Frontend DAIs coming from Topology */
-+	if (link->dynamic && !link->no_pcm && !link->ops)
-+		link->ops = &x1e80100_fe_ops;
-+
-+	return 0;
-+}
-+
- static int x1e80100_platform_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card;
-@@ -135,6 +167,7 @@ static int x1e80100_platform_probe(struct platform_device *pdev)
- 
- 	card->owner = THIS_MODULE;
- 	card->dev = dev;
-+	card->add_dai_link = x1e80100_add_dai_link;
- 	dev_set_drvdata(dev, card);
- 	snd_soc_card_set_drvdata(card, data);
- 
+All read/write operations associated with WCD937x goes over tx_sdw.
 
--- 
-2.43.0
+rx_sdw_dev is unused in this driver. I will remove it.
+
+> 
+> If yes, aren't there merits in splitting the implementation in two
+> separate drivers, one for each interface and probing on the relevant partID?
+> 
+> This is how the RT713 was handled. The mic function was exposed as the
+> RT1713.
+> 
+> By representing the device as a single entity, things could be fun
+> because the two interfaces are really independent. things like clock
+> stop are handled at the interface level.
+> 
+> The code in this driver is difficult to review, for example in the probe
+> you wait for the TX part to complete the enumeration/initialization, but
+> there's nothing mentioned or stated on the RX part, and there's really
+> nothing related to the detection of this device. I don't actually see a
+> sdw_driver at all, it's a platform driver.
+>
+wcd937x waits for TX part to complete as it is needed for register 
+read/write operations.
+
+Please refer patch 3/7 for slave driver.
+
+> Would you mind adding a paragraph on how the SoundWire interfaces are
+> handled and how the SoundWire bus is involved if there's no sdw_driver?
+> 
+> Thanks!
+
+Sure, will add details in the commit message.
+
+Soundwire master driver is already upstreamed and is available at
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/soundwire/qcom.c?h=next-20240507
+
+Thanks & Regards,
+Rafi.
 
