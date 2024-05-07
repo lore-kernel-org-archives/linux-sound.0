@@ -1,85 +1,44 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861C215ECE6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8917515F41D
 	for <linux-sound@vger.kernel.org>; Tue,  7 May 2024 13:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715090117; cv=none; b=tL6+cqPC/93r3tn4Y3yjLkdlOvRWkqG0xI40zCV+q70yu9k49T9lBfVc8JaIVtvbhQGkEwE0yIkqd22tcqnZaVXUsm1Z7yDElb5VgxNSFM/CXXVj9d01Z9No+d0so1u/2s9K+mGMQ/E7gtDlGgrHCRsWsjyB8i43D/RaIgIuYLE=
+	t=1715090118; cv=none; b=RfJkepzszOEsTEqg4zMpWsEWloqSQW3mjHrkzZ1yUQuC5H0161xL6CDZdu5KkiMDAhh6dapeoAR5JStZafQykmmizFxBIuZNnbv++8qlWC2RPCtNWYEjKTJnbPFpAZE7VwpjBzBrhHnIFHo3yfSHvsrmuuhL1vgtaewesO9OzQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715090117; c=relaxed/simple;
-	bh=YOZ6/M07op27qYCSvFJDz6GDBIQ6o1K8SDN7fsK7OlM=;
+	s=arc-20240116; t=1715090118; c=relaxed/simple;
+	bh=PCz84+haG4Oo9MwAQVT54EeWIrGZS+CFYwtKc6VfThY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=caoDOwA3eLg0mwXZoMfgALBJSRflRNi+yFi3OSZSiYkZ/3q1o7VaISB4GS3xWDCxGkwNB2UxaFiC9yFZm8zg8fCmEV8kOs0AUCGy1oc6hxjogym6hoRFuv8MZnNn5K6IhM0nGJ5OT4VEtItPzLShlGqGP+qYNebqfZWnaEM1Nkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tdYaqz8e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aVK55FyD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tdYaqz8e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aVK55FyD; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=SC+O3OLucjWHlt/mAEFXST/5j0LMmPsFMMLwL8J+aaWDEHMOnlRCSrqCs0Toz5IdHErt7q/dMW2Suw1l3q1vjgyRtM4vWA3A7elu1gbORB+yJlFemwPxDfj93CEA3of/1WKS6AjLGIniAgjKspuyfuhcbtcBUcju4nwdwBi/ads=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tdYaqz8e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aVK55FyD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tdYaqz8e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aVK55FyD"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A756C20AE3;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B733020AE4;
 	Tue,  7 May 2024 13:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715090108; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YyE6Fh/CIzqexpfAKmbDgay3rUIIn5bx+GuMi9zx4Ck=;
-	b=tdYaqz8e3DUGE7fW9Wr6J8BNd32IGSwu3kcUFLxnUCwfRhM+SunXBbieTUKLcC6A5merWo
-	rriVHiZL+6qj3X7JBQ5gSwYSgmeWZ561bDWXsfFBG0+y5D2u827XZy2GH9gI8Lk0BurD3c
-	LuFGAdmE6Cx7ASHXtywl6+d5QQgPRc4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715090108;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YyE6Fh/CIzqexpfAKmbDgay3rUIIn5bx+GuMi9zx4Ck=;
-	b=aVK55FyD/xvP+j1mP7ek6b+yfVjH0oC10AiDyeFFJHT27YsKo7XTvhpF1wJzvX1llu/xae
-	xg7mj1GNocOh00Dw==
 Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715090108; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YyE6Fh/CIzqexpfAKmbDgay3rUIIn5bx+GuMi9zx4Ck=;
-	b=tdYaqz8e3DUGE7fW9Wr6J8BNd32IGSwu3kcUFLxnUCwfRhM+SunXBbieTUKLcC6A5merWo
-	rriVHiZL+6qj3X7JBQ5gSwYSgmeWZ561bDWXsfFBG0+y5D2u827XZy2GH9gI8Lk0BurD3c
-	LuFGAdmE6Cx7ASHXtywl6+d5QQgPRc4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715090108;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YyE6Fh/CIzqexpfAKmbDgay3rUIIn5bx+GuMi9zx4Ck=;
-	b=aVK55FyD/xvP+j1mP7ek6b+yfVjH0oC10AiDyeFFJHT27YsKo7XTvhpF1wJzvX1llu/xae
-	xg7mj1GNocOh00Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8535D13A3C;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A82D113A3D;
 	Tue,  7 May 2024 13:55:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ANMCILwyOmagMgAAD6G6ig
+	id +BVMKLwyOmagMgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 07 May 2024 13:55:08 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 2/9] ALSA: pci: Use *-y instead of *-objs in Makefile
-Date: Tue,  7 May 2024 15:55:02 +0200
-Message-ID: <20240507135513.14919-3-tiwai@suse.de>
+Subject: [PATCH 4/9] ALSA: isa: Use *-y instead of *-objs in Makefile
+Date: Tue,  7 May 2024 15:55:04 +0200
+Message-ID: <20240507135513.14919-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240507135513.14919-1-tiwai@suse.de>
 References: <20240507135513.14919-1-tiwai@suse.de>
@@ -90,30 +49,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -6.80
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: B733020AE4
 
 *-objs suffix is reserved rather for (user-space) host programs while
 usually *-y suffix is used for kernel drivers (although *-objs works
@@ -123,444 +72,239 @@ Let's correct the old usages of *-objs in Makefiles.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/Makefile           | 48 ++++++++++++++++-----------------
- sound/pci/ali5451/Makefile   |  2 +-
- sound/pci/asihpi/Makefile    |  2 +-
- sound/pci/au88x0/Makefile    |  6 ++---
- sound/pci/aw2/Makefile       |  2 +-
- sound/pci/ca0106/Makefile    |  2 +-
- sound/pci/ctxfi/Makefile     |  2 +-
- sound/pci/echoaudio/Makefile | 28 +++++++++----------
- sound/pci/emu10k1/Makefile   |  6 ++---
- sound/pci/hda/Makefile       | 52 ++++++++++++++++++------------------
- sound/pci/ice1712/Makefile   |  6 ++---
- sound/pci/korg1212/Makefile  |  2 +-
- sound/pci/lx6464es/Makefile  |  2 +-
- sound/pci/mixart/Makefile    |  2 +-
- sound/pci/nm256/Makefile     |  2 +-
- sound/pci/oxygen/Makefile    |  8 +++---
- sound/pci/pcxhr/Makefile     |  2 +-
- sound/pci/riptide/Makefile   |  2 +-
- sound/pci/rme9652/Makefile   |  6 ++---
- sound/pci/trident/Makefile   |  2 +-
- sound/pci/vx222/Makefile     |  2 +-
- sound/pci/ymfpci/Makefile    |  2 +-
- 22 files changed, 94 insertions(+), 94 deletions(-)
+ sound/isa/Makefile           | 18 +++++++++---------
+ sound/isa/ad1816a/Makefile   |  2 +-
+ sound/isa/ad1848/Makefile    |  2 +-
+ sound/isa/cs423x/Makefile    |  4 ++--
+ sound/isa/es1688/Makefile    |  4 ++--
+ sound/isa/galaxy/Makefile    |  4 ++--
+ sound/isa/gus/Makefile       | 12 ++++++------
+ sound/isa/msnd/Makefile      |  6 +++---
+ sound/isa/opti9xx/Makefile   |  8 ++++----
+ sound/isa/sb/Makefile        | 18 +++++++++---------
+ sound/isa/wavefront/Makefile |  2 +-
+ sound/isa/wss/Makefile       |  2 +-
+ 12 files changed, 41 insertions(+), 41 deletions(-)
 
-diff --git a/sound/pci/Makefile b/sound/pci/Makefile
-index 04cac7469139..18b673018dfd 100644
---- a/sound/pci/Makefile
-+++ b/sound/pci/Makefile
-@@ -4,30 +4,30 @@
+diff --git a/sound/isa/Makefile b/sound/isa/Makefile
+index 5eaddbf4a712..2135d68a15ac 100644
+--- a/sound/isa/Makefile
++++ b/sound/isa/Makefile
+@@ -4,15 +4,15 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-ad1889-objs := ad1889.o
--snd-als300-objs := als300.o
--snd-als4000-objs := als4000.o
--snd-atiixp-objs := atiixp.o
--snd-atiixp-modem-objs := atiixp_modem.o
--snd-azt3328-objs := azt3328.o
--snd-bt87x-objs := bt87x.o
--snd-cmipci-objs := cmipci.o
--snd-cs4281-objs := cs4281.o
--snd-cs5530-objs := cs5530.o
--snd-ens1370-objs := ens1370.o ak4531_codec.o
--snd-ens1371-objs := ens1371.o
--snd-es1938-objs := es1938.o
--snd-es1968-objs := es1968.o
--snd-fm801-objs := fm801.o
--snd-intel8x0-objs := intel8x0.o
--snd-intel8x0m-objs := intel8x0m.o
--snd-maestro3-objs := maestro3.o
--snd-rme32-objs := rme32.o
--snd-rme96-objs := rme96.o
--snd-sis7019-objs := sis7019.o
--snd-sonicvibes-objs := sonicvibes.o
--snd-via82xx-objs := via82xx.o
--snd-via82xx-modem-objs := via82xx_modem.o
-+snd-ad1889-y := ad1889.o
-+snd-als300-y := als300.o
-+snd-als4000-y := als4000.o
-+snd-atiixp-y := atiixp.o
-+snd-atiixp-modem-y := atiixp_modem.o
-+snd-azt3328-y := azt3328.o
-+snd-bt87x-y := bt87x.o
-+snd-cmipci-y := cmipci.o
-+snd-cs4281-y := cs4281.o
-+snd-cs5530-y := cs5530.o
-+snd-ens1370-y := ens1370.o ak4531_codec.o
-+snd-ens1371-y := ens1371.o
-+snd-es1938-y := es1938.o
-+snd-es1968-y := es1968.o
-+snd-fm801-y := fm801.o
-+snd-intel8x0-y := intel8x0.o
-+snd-intel8x0m-y := intel8x0m.o
-+snd-maestro3-y := maestro3.o
-+snd-rme32-y := rme32.o
-+snd-rme96-y := rme96.o
-+snd-sis7019-y := sis7019.o
-+snd-sonicvibes-y := sonicvibes.o
-+snd-via82xx-y := via82xx.o
-+snd-via82xx-modem-y := via82xx_modem.o
+-snd-adlib-objs := adlib.o
+-snd-als100-objs := als100.o
+-snd-azt2320-objs := azt2320.o
+-snd-cmi8328-objs := cmi8328.o
+-snd-cmi8330-objs := cmi8330.o
+-snd-es18xx-objs := es18xx.o
+-snd-opl3sa2-objs := opl3sa2.o
+-snd-sc6000-objs := sc6000.o
+-snd-sscape-objs := sscape.o
++snd-adlib-y := adlib.o
++snd-als100-y := als100.o
++snd-azt2320-y := azt2320.o
++snd-cmi8328-y := cmi8328.o
++snd-cmi8330-y := cmi8330.o
++snd-es18xx-y := es18xx.o
++snd-opl3sa2-y := opl3sa2.o
++snd-sc6000-y := sc6000.o
++snd-sscape-y := sscape.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_AD1889) += snd-ad1889.o
-diff --git a/sound/pci/ali5451/Makefile b/sound/pci/ali5451/Makefile
-index 8156198fbaeb..e319a4c1d6b2 100644
---- a/sound/pci/ali5451/Makefile
-+++ b/sound/pci/ali5451/Makefile
+ obj-$(CONFIG_SND_ADLIB) += snd-adlib.o
+diff --git a/sound/isa/ad1816a/Makefile b/sound/isa/ad1816a/Makefile
+index 93def7f16933..573325228534 100644
+--- a/sound/isa/ad1816a/Makefile
++++ b/sound/isa/ad1816a/Makefile
 @@ -4,7 +4,7 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-ali5451-objs := ali5451.o
-+snd-ali5451-y := ali5451.o
+-snd-ad1816a-objs := ad1816a.o ad1816a_lib.o
++snd-ad1816a-y := ad1816a.o ad1816a_lib.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_ALI5451) += snd-ali5451.o
-diff --git a/sound/pci/asihpi/Makefile b/sound/pci/asihpi/Makefile
-index 8351f8f5b523..d558a974fa7e 100644
---- a/sound/pci/asihpi/Makefile
-+++ b/sound/pci/asihpi/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-asihpi-objs := asihpi.o hpioctl.o hpimsginit.o\
-+snd-asihpi-y := asihpi.o hpioctl.o hpimsginit.o\
- 	hpicmn.o hpifunc.o hpidebug.o hpidspcd.o\
- 	hpios.o hpi6000.o hpi6205.o hpimsgx.o
- 
-diff --git a/sound/pci/au88x0/Makefile b/sound/pci/au88x0/Makefile
-index 78ab11562f4d..5ec5abdee28d 100644
---- a/sound/pci/au88x0/Makefile
-+++ b/sound/pci/au88x0/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
--snd-au8810-objs := au8810.o
--snd-au8820-objs := au8820.o
--snd-au8830-objs := au8830.o
-+snd-au8810-y := au8810.o
-+snd-au8820-y := au8820.o
-+snd-au8830-y := au8830.o
- 
- obj-$(CONFIG_SND_AU8810) += snd-au8810.o
- obj-$(CONFIG_SND_AU8820) += snd-au8820.o
-diff --git a/sound/pci/aw2/Makefile b/sound/pci/aw2/Makefile
-index f9045afb4cda..c246f7c7f2bf 100644
---- a/sound/pci/aw2/Makefile
-+++ b/sound/pci/aw2/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-aw2-objs := aw2-alsa.o aw2-saa7146.o
-+snd-aw2-y := aw2-alsa.o aw2-saa7146.o
- 
- obj-$(CONFIG_SND_AW2) += snd-aw2.o
-diff --git a/sound/pci/ca0106/Makefile b/sound/pci/ca0106/Makefile
-index 9e51d3df3ee8..693dc4d80925 100644
---- a/sound/pci/ca0106/Makefile
-+++ b/sound/pci/ca0106/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-ca0106-objs := ca0106_main.o ca0106_mixer.o ca_midi.o
-+snd-ca0106-y := ca0106_main.o ca0106_mixer.o ca_midi.o
- snd-ca0106-$(CONFIG_SND_PROC_FS) += ca0106_proc.o
- 
- obj-$(CONFIG_SND_CA0106) += snd-ca0106.o
-diff --git a/sound/pci/ctxfi/Makefile b/sound/pci/ctxfi/Makefile
-index 70888706a0af..ff2b1cba3a3c 100644
---- a/sound/pci/ctxfi/Makefile
-+++ b/sound/pci/ctxfi/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-ctxfi-objs := xfi.o ctatc.o ctvmem.o ctpcm.o ctmixer.o ctresource.o \
-+snd-ctxfi-y := xfi.o ctatc.o ctvmem.o ctpcm.o ctmixer.o ctresource.o \
- 	ctsrc.o ctamixer.o ctdaio.o ctimap.o cthardware.o cttimer.o \
- 	cthw20k2.o cthw20k1.o
- 
-diff --git a/sound/pci/echoaudio/Makefile b/sound/pci/echoaudio/Makefile
-index 4865b8fe7434..96667641c7cf 100644
---- a/sound/pci/echoaudio/Makefile
-+++ b/sound/pci/echoaudio/Makefile
-@@ -4,20 +4,20 @@
- # Copyright (c) 2003 by Giuliano Pochini <pochini@shiny.it>
- #
- 
--snd-darla20-objs := darla20.o
--snd-gina20-objs := gina20.o
--snd-layla20-objs := layla20.o
--snd-darla24-objs := darla24.o
--snd-gina24-objs := gina24.o
--snd-layla24-objs := layla24.o
--snd-mona-objs := mona.o
--snd-mia-objs := mia.o
--snd-echo3g-objs := echo3g.o
--snd-indigo-objs := indigo.o
--snd-indigoio-objs := indigoio.o
--snd-indigodj-objs := indigodj.o
--snd-indigoiox-objs := indigoiox.o
--snd-indigodjx-objs := indigodjx.o
-+snd-darla20-y := darla20.o
-+snd-gina20-y := gina20.o
-+snd-layla20-y := layla20.o
-+snd-darla24-y := darla24.o
-+snd-gina24-y := gina24.o
-+snd-layla24-y := layla24.o
-+snd-mona-y := mona.o
-+snd-mia-y := mia.o
-+snd-echo3g-y := echo3g.o
-+snd-indigo-y := indigo.o
-+snd-indigoio-y := indigoio.o
-+snd-indigodj-y := indigodj.o
-+snd-indigoiox-y := indigoiox.o
-+snd-indigodjx-y := indigodjx.o
- 
- obj-$(CONFIG_SND_DARLA20) += snd-darla20.o
- obj-$(CONFIG_SND_GINA20) += snd-gina20.o
-diff --git a/sound/pci/emu10k1/Makefile b/sound/pci/emu10k1/Makefile
-index 17d5527be319..1f325abcb3ef 100644
---- a/sound/pci/emu10k1/Makefile
-+++ b/sound/pci/emu10k1/Makefile
-@@ -4,12 +4,12 @@
- # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
- #
- 
--snd-emu10k1-objs := emu10k1.o emu10k1_main.o \
-+snd-emu10k1-y := emu10k1.o emu10k1_main.o \
- 		    irq.o memory.o voice.o emumpu401.o emupcm.o io.o \
- 		    emumixer.o emufx.o timer.o p16v.o
- snd-emu10k1-$(CONFIG_SND_PROC_FS) += emuproc.o
--snd-emu10k1-synth-objs := emu10k1_synth.o emu10k1_callback.o emu10k1_patch.o
--snd-emu10k1x-objs := emu10k1x.o
-+snd-emu10k1-synth-y := emu10k1_synth.o emu10k1_callback.o emu10k1_patch.o
-+snd-emu10k1x-y := emu10k1x.o
- 
- # Toplevel Module Dependency
- obj-$(CONFIG_SND_EMU10K1) += snd-emu10k1.o
-diff --git a/sound/pci/hda/Makefile b/sound/pci/hda/Makefile
-index 13e04e1f65de..058ca0a289e4 100644
---- a/sound/pci/hda/Makefile
-+++ b/sound/pci/hda/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
--snd-hda-intel-objs := hda_intel.o
--snd-hda-tegra-objs := hda_tegra.o
-+snd-hda-intel-y := hda_intel.o
-+snd-hda-tegra-y := hda_tegra.o
- 
- snd-hda-codec-y := hda_bind.o hda_codec.o hda_jack.o hda_auto_parser.o hda_sysfs.o
- snd-hda-codec-y += hda_controller.o
-@@ -13,32 +13,32 @@ snd-hda-codec-$(CONFIG_SND_HDA_INPUT_BEEP) += hda_beep.o
- CFLAGS_hda_controller.o := -I$(src)
- CFLAGS_hda_intel.o := -I$(src)
- 
--snd-hda-codec-generic-objs :=	hda_generic.o
--snd-hda-codec-realtek-objs :=	patch_realtek.o
--snd-hda-codec-cmedia-objs :=	patch_cmedia.o
--snd-hda-codec-analog-objs :=	patch_analog.o
--snd-hda-codec-idt-objs :=	patch_sigmatel.o
--snd-hda-codec-si3054-objs :=	patch_si3054.o
--snd-hda-codec-cirrus-objs :=	patch_cirrus.o
--snd-hda-codec-cs8409-objs :=	patch_cs8409.o patch_cs8409-tables.o
--snd-hda-codec-ca0110-objs :=	patch_ca0110.o
--snd-hda-codec-ca0132-objs :=	patch_ca0132.o
--snd-hda-codec-conexant-objs :=	patch_conexant.o
--snd-hda-codec-via-objs :=	patch_via.o
--snd-hda-codec-hdmi-objs :=	patch_hdmi.o hda_eld.o
-+snd-hda-codec-generic-y :=	hda_generic.o
-+snd-hda-codec-realtek-y :=	patch_realtek.o
-+snd-hda-codec-cmedia-y :=	patch_cmedia.o
-+snd-hda-codec-analog-y :=	patch_analog.o
-+snd-hda-codec-idt-y :=		patch_sigmatel.o
-+snd-hda-codec-si3054-y :=	patch_si3054.o
-+snd-hda-codec-cirrus-y :=	patch_cirrus.o
-+snd-hda-codec-cs8409-y :=	patch_cs8409.o patch_cs8409-tables.o
-+snd-hda-codec-ca0110-y :=	patch_ca0110.o
-+snd-hda-codec-ca0132-y :=	patch_ca0132.o
-+snd-hda-codec-conexant-y :=	patch_conexant.o
-+snd-hda-codec-via-y :=		patch_via.o
-+snd-hda-codec-hdmi-y :=		patch_hdmi.o hda_eld.o
- 
- # side codecs
--snd-hda-cirrus-scodec-objs :=		cirrus_scodec.o
--snd-hda-cirrus-scodec-test-objs :=	cirrus_scodec_test.o
--snd-hda-scodec-cs35l41-objs :=		cs35l41_hda.o cs35l41_hda_property.o
--snd-hda-scodec-cs35l41-i2c-objs :=	cs35l41_hda_i2c.o
--snd-hda-scodec-cs35l41-spi-objs :=	cs35l41_hda_spi.o
--snd-hda-scodec-cs35l56-objs :=		cs35l56_hda.o
--snd-hda-scodec-cs35l56-i2c-objs :=	cs35l56_hda_i2c.o
--snd-hda-scodec-cs35l56-spi-objs :=	cs35l56_hda_spi.o
--snd-hda-cs-dsp-ctls-objs :=		hda_cs_dsp_ctl.o
--snd-hda-scodec-component-objs :=	hda_component.o
--snd-hda-scodec-tas2781-i2c-objs :=	tas2781_hda_i2c.o
-+snd-hda-cirrus-scodec-y :=	cirrus_scodec.o
-+snd-hda-cirrus-scodec-test-y :=	cirrus_scodec_test.o
-+snd-hda-scodec-cs35l41-y :=	cs35l41_hda.o cs35l41_hda_property.o
-+snd-hda-scodec-cs35l41-i2c-y :=	cs35l41_hda_i2c.o
-+snd-hda-scodec-cs35l41-spi-y :=	cs35l41_hda_spi.o
-+snd-hda-scodec-cs35l56-y :=	cs35l56_hda.o
-+snd-hda-scodec-cs35l56-i2c-y :=	cs35l56_hda_i2c.o
-+snd-hda-scodec-cs35l56-spi-y :=	cs35l56_hda_spi.o
-+snd-hda-cs-dsp-ctls-y :=	hda_cs_dsp_ctl.o
-+snd-hda-scodec-component-y :=	hda_component.o
-+snd-hda-scodec-tas2781-i2c-y :=	tas2781_hda_i2c.o
- 
- # common driver
- obj-$(CONFIG_SND_HDA) := snd-hda-codec.o
-diff --git a/sound/pci/ice1712/Makefile b/sound/pci/ice1712/Makefile
-index 1196f22a9b45..f406a048374c 100644
---- a/sound/pci/ice1712/Makefile
-+++ b/sound/pci/ice1712/Makefile
-@@ -4,9 +4,9 @@
- # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
- #
- 
--snd-ice17xx-ak4xxx-objs := ak4xxx.o
--snd-ice1712-objs := ice1712.o delta.o hoontech.o ews.o
--snd-ice1724-objs := ice1724.o amp.o revo.o aureon.o vt1720_mobo.o pontis.o prodigy192.o prodigy_hifi.o juli.o phase.o wtm.o se.o maya44.o quartet.o psc724.o wm8766.o wm8776.o
-+snd-ice17xx-ak4xxx-y := ak4xxx.o
-+snd-ice1712-y := ice1712.o delta.o hoontech.o ews.o
-+snd-ice1724-y := ice1724.o amp.o revo.o aureon.o vt1720_mobo.o pontis.o prodigy192.o prodigy_hifi.o juli.o phase.o wtm.o se.o maya44.o quartet.o psc724.o wm8766.o wm8776.o
- 
- # Toplevel Module Dependency
- obj-$(CONFIG_SND_ICE1712) += snd-ice1712.o snd-ice17xx-ak4xxx.o
-diff --git a/sound/pci/korg1212/Makefile b/sound/pci/korg1212/Makefile
-index 42eb287c77af..ab0186ffbd58 100644
---- a/sound/pci/korg1212/Makefile
-+++ b/sound/pci/korg1212/Makefile
+ obj-$(CONFIG_SND_AD1816A) += snd-ad1816a.o
+diff --git a/sound/isa/ad1848/Makefile b/sound/isa/ad1848/Makefile
+index 4eab89bbc845..5fdfc1c9f059 100644
+--- a/sound/isa/ad1848/Makefile
++++ b/sound/isa/ad1848/Makefile
 @@ -4,7 +4,7 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-korg1212-objs := korg1212.o
-+snd-korg1212-y := korg1212.o
+-snd-ad1848-objs := ad1848.o
++snd-ad1848-y := ad1848.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_KORG1212) += snd-korg1212.o
-diff --git a/sound/pci/lx6464es/Makefile b/sound/pci/lx6464es/Makefile
-index c295f68bac68..2b3047c7a388 100644
---- a/sound/pci/lx6464es/Makefile
-+++ b/sound/pci/lx6464es/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-lx6464es-objs := lx6464es.o lx_core.o
-+snd-lx6464es-y := lx6464es.o lx_core.o
- obj-$(CONFIG_SND_LX6464ES) += snd-lx6464es.o
-diff --git a/sound/pci/mixart/Makefile b/sound/pci/mixart/Makefile
-index 16cfeb78a0b6..b803e5e72791 100644
---- a/sound/pci/mixart/Makefile
-+++ b/sound/pci/mixart/Makefile
-@@ -4,6 +4,6 @@
+ obj-$(CONFIG_SND_AD1848) += snd-ad1848.o
+diff --git a/sound/isa/cs423x/Makefile b/sound/isa/cs423x/Makefile
+index 91c6b8d64424..013a777d23fa 100644
+--- a/sound/isa/cs423x/Makefile
++++ b/sound/isa/cs423x/Makefile
+@@ -4,8 +4,8 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-mixart-objs := mixart.o mixart_core.o mixart_hwdep.o mixart_mixer.o
-+snd-mixart-y := mixart.o mixart_core.o mixart_hwdep.o mixart_mixer.o
+-snd-cs4231-objs := cs4231.o
+-snd-cs4236-objs := cs4236.o cs4236_lib.o
++snd-cs4231-y := cs4231.o
++snd-cs4236-y := cs4236.o cs4236_lib.o
  
- obj-$(CONFIG_SND_MIXART) += snd-mixart.o
-diff --git a/sound/pci/nm256/Makefile b/sound/pci/nm256/Makefile
-index 3063766ac56b..7d55fe774d20 100644
---- a/sound/pci/nm256/Makefile
-+++ b/sound/pci/nm256/Makefile
-@@ -4,7 +4,7 @@
+ # Toplevel Module Dependency
+ obj-$(CONFIG_SND_CS4231) += snd-cs4231.o
+diff --git a/sound/isa/es1688/Makefile b/sound/isa/es1688/Makefile
+index c683ac36c50e..7d6c44a8eaad 100644
+--- a/sound/isa/es1688/Makefile
++++ b/sound/isa/es1688/Makefile
+@@ -4,8 +4,8 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-nm256-objs := nm256.o
-+snd-nm256-y := nm256.o
+-snd-es1688-lib-objs := es1688_lib.o
+-snd-es1688-objs := es1688.o
++snd-es1688-lib-y := es1688_lib.o
++snd-es1688-y := es1688.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_NM256) += snd-nm256.o
-diff --git a/sound/pci/oxygen/Makefile b/sound/pci/oxygen/Makefile
-index 0dfc4f840992..cc0c24694750 100644
---- a/sound/pci/oxygen/Makefile
-+++ b/sound/pci/oxygen/Makefile
+ obj-$(CONFIG_SND_ES1688) += snd-es1688.o snd-es1688-lib.o
+diff --git a/sound/isa/galaxy/Makefile b/sound/isa/galaxy/Makefile
+index ff861f238093..2dbd519860a6 100644
+--- a/sound/isa/galaxy/Makefile
++++ b/sound/isa/galaxy/Makefile
+@@ -4,8 +4,8 @@
+ # Copyright (c) 2001 by Jaroslav Kysela <perex@suse.cz>
+ #
+ 
+-snd-azt1605-objs := azt1605.o
+-snd-azt2316-objs := azt2316.o
++snd-azt1605-y := azt1605.o
++snd-azt2316-y := azt2316.o
+ 
+ obj-$(CONFIG_SND_AZT1605) += snd-azt1605.o
+ obj-$(CONFIG_SND_AZT2316) += snd-azt2316.o
+diff --git a/sound/isa/gus/Makefile b/sound/isa/gus/Makefile
+index c6f32ffd3420..4924c1904fa4 100644
+--- a/sound/isa/gus/Makefile
++++ b/sound/isa/gus/Makefile
+@@ -4,18 +4,18 @@
+ # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
+ #
+ 
+-snd-gus-lib-objs := gus_main.o \
++snd-gus-lib-y := gus_main.o \
+ 		    gus_io.o gus_irq.o gus_timer.o \
+ 		    gus_mem.o gus_mem_proc.o gus_dram.o gus_dma.o gus_volume.o \
+ 		    gus_pcm.o gus_mixer.o \
+ 		    gus_uart.o \
+ 		    gus_reset.o
+ 
+-snd-gusclassic-objs := gusclassic.o
+-snd-gusextreme-objs := gusextreme.o
+-snd-gusmax-objs := gusmax.o
+-snd-interwave-objs := interwave.o
+-snd-interwave-stb-objs := interwave-stb.o
++snd-gusclassic-y := gusclassic.o
++snd-gusextreme-y := gusextreme.o
++snd-gusmax-y := gusmax.o
++snd-interwave-y := interwave.o
++snd-interwave-stb-y := interwave-stb.o
+ 
+ # Toplevel Module Dependency
+ obj-$(CONFIG_SND_GUSCLASSIC) += snd-gusclassic.o snd-gus-lib.o
+diff --git a/sound/isa/msnd/Makefile b/sound/isa/msnd/Makefile
+index ec231a7b1d5e..5f8d6b472722 100644
+--- a/sound/isa/msnd/Makefile
++++ b/sound/isa/msnd/Makefile
 @@ -1,8 +1,8 @@
  # SPDX-License-Identifier: GPL-2.0
--snd-oxygen-lib-objs := oxygen_io.o oxygen_lib.o oxygen_mixer.o oxygen_pcm.o
--snd-oxygen-objs := oxygen.o xonar_dg_mixer.o xonar_dg.o
--snd-se6x-objs := se6x.o
--snd-virtuoso-objs := virtuoso.o xonar_lib.o \
-+snd-oxygen-lib-y := oxygen_io.o oxygen_lib.o oxygen_mixer.o oxygen_pcm.o
-+snd-oxygen-y := oxygen.o xonar_dg_mixer.o xonar_dg.o
-+snd-se6x-y := se6x.o
-+snd-virtuoso-y := virtuoso.o xonar_lib.o \
- 	xonar_pcm179x.o xonar_cs43xx.o xonar_wm87x6.o xonar_hdmi.o
  
- obj-$(CONFIG_SND_OXYGEN_LIB) += snd-oxygen-lib.o
-diff --git a/sound/pci/pcxhr/Makefile b/sound/pci/pcxhr/Makefile
-index 5993d86cfb5d..0ea1e5ccb56f 100644
---- a/sound/pci/pcxhr/Makefile
-+++ b/sound/pci/pcxhr/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-pcxhr-objs := pcxhr.o pcxhr_hwdep.o pcxhr_mixer.o pcxhr_core.o pcxhr_mix22.o
-+snd-pcxhr-y := pcxhr.o pcxhr_hwdep.o pcxhr_mixer.o pcxhr_core.o pcxhr_mix22.o
- obj-$(CONFIG_SND_PCXHR) += snd-pcxhr.o
-diff --git a/sound/pci/riptide/Makefile b/sound/pci/riptide/Makefile
-index 9a505bae243e..9b4e9595859a 100644
---- a/sound/pci/riptide/Makefile
-+++ b/sound/pci/riptide/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-riptide-objs := riptide.o
-+snd-riptide-y := riptide.o
+-snd-msnd-lib-objs := msnd.o msnd_midi.o msnd_pinnacle_mixer.o
+-snd-msnd-pinnacle-objs := msnd_pinnacle.o
+-snd-msnd-classic-objs := msnd_classic.o
++snd-msnd-lib-y := msnd.o msnd_midi.o msnd_pinnacle_mixer.o
++snd-msnd-pinnacle-y := msnd_pinnacle.o
++snd-msnd-classic-y := msnd_classic.o
  
- obj-$(CONFIG_SND_RIPTIDE) += snd-riptide.o
-diff --git a/sound/pci/rme9652/Makefile b/sound/pci/rme9652/Makefile
-index a3351447ddc0..cc99ae892211 100644
---- a/sound/pci/rme9652/Makefile
-+++ b/sound/pci/rme9652/Makefile
-@@ -4,9 +4,9 @@
+ # Toplevel Module Dependency
+ obj-$(CONFIG_SND_MSND_PINNACLE) += snd-msnd-pinnacle.o snd-msnd-lib.o
+diff --git a/sound/isa/opti9xx/Makefile b/sound/isa/opti9xx/Makefile
+index a9dcdeb502bd..44a2fb220456 100644
+--- a/sound/isa/opti9xx/Makefile
++++ b/sound/isa/opti9xx/Makefile
+@@ -4,10 +4,10 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-rme9652-objs := rme9652.o
--snd-hdsp-objs := hdsp.o
--snd-hdspm-objs := hdspm.o
-+snd-rme9652-y := rme9652.o
-+snd-hdsp-y := hdsp.o
-+snd-hdspm-y := hdspm.o
+-snd-opti92x-ad1848-objs := opti92x-ad1848.o
+-snd-opti92x-cs4231-objs := opti92x-cs4231.o
+-snd-opti93x-objs := opti93x.o
+-snd-miro-objs := miro.o
++snd-opti92x-ad1848-y := opti92x-ad1848.o
++snd-opti92x-cs4231-y := opti92x-cs4231.o
++snd-opti93x-y := opti93x.o
++snd-miro-y := miro.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_RME9652) += snd-rme9652.o
-diff --git a/sound/pci/trident/Makefile b/sound/pci/trident/Makefile
-index e8975bc37fcb..476d16abcfc9 100644
---- a/sound/pci/trident/Makefile
-+++ b/sound/pci/trident/Makefile
+ obj-$(CONFIG_SND_OPTI92X_AD1848) += snd-opti92x-ad1848.o
+diff --git a/sound/isa/sb/Makefile b/sound/isa/sb/Makefile
+index f174a5b3c8e4..96a926feb17a 100644
+--- a/sound/isa/sb/Makefile
++++ b/sound/isa/sb/Makefile
+@@ -4,15 +4,15 @@
+ # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
+ #
+ 
+-snd-sb-common-objs := sb_common.o sb_mixer.o
+-snd-sb8-dsp-objs := sb8_main.o sb8_midi.o
+-snd-sb16-dsp-objs := sb16_main.o
+-snd-sb16-csp-objs := sb16_csp.o
+-snd-sb8-objs := sb8.o
+-snd-sb16-objs := sb16.o
+-snd-sbawe-objs := sbawe.o emu8000.o
+-snd-emu8000-synth-objs := emu8000_synth.o emu8000_callback.o emu8000_patch.o emu8000_pcm.o
+-snd-jazz16-objs := jazz16.o
++snd-sb-common-y := sb_common.o sb_mixer.o
++snd-sb8-dsp-y := sb8_main.o sb8_midi.o
++snd-sb16-dsp-y := sb16_main.o
++snd-sb16-csp-y := sb16_csp.o
++snd-sb8-y := sb8.o
++snd-sb16-y := sb16.o
++snd-sbawe-y := sbawe.o emu8000.o
++snd-emu8000-synth-y := emu8000_synth.o emu8000_callback.o emu8000_patch.o emu8000_pcm.o
++snd-jazz16-y := jazz16.o
+ 
+ # Toplevel Module Dependency
+ obj-$(CONFIG_SND_SB_COMMON) += snd-sb-common.o
+diff --git a/sound/isa/wavefront/Makefile b/sound/isa/wavefront/Makefile
+index b8406dce81f5..3ba85fb2e6cd 100644
+--- a/sound/isa/wavefront/Makefile
++++ b/sound/isa/wavefront/Makefile
 @@ -4,7 +4,7 @@
  # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-trident-objs := trident.o trident_main.o trident_memory.o
-+snd-trident-y := trident.o trident_main.o trident_memory.o
+-snd-wavefront-objs := wavefront.o wavefront_fx.o wavefront_synth.o wavefront_midi.o
++snd-wavefront-y := wavefront.o wavefront_fx.o wavefront_synth.o wavefront_midi.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_TRIDENT) += snd-trident.o
-diff --git a/sound/pci/vx222/Makefile b/sound/pci/vx222/Makefile
-index dda900e45385..6889137eb438 100644
---- a/sound/pci/vx222/Makefile
-+++ b/sound/pci/vx222/Makefile
-@@ -4,6 +4,6 @@
- # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
- #
- 
--snd-vx222-objs := vx222.o vx222_ops.o
-+snd-vx222-y := vx222.o vx222_ops.o
- 
- obj-$(CONFIG_SND_VX222) += snd-vx222.o
-diff --git a/sound/pci/ymfpci/Makefile b/sound/pci/ymfpci/Makefile
-index 40a1d83e1a9e..2d7856403371 100644
---- a/sound/pci/ymfpci/Makefile
-+++ b/sound/pci/ymfpci/Makefile
+ obj-$(CONFIG_SND_WAVEFRONT) += snd-wavefront.o
+diff --git a/sound/isa/wss/Makefile b/sound/isa/wss/Makefile
+index 34d0636b3dc3..f23e71d0d5d4 100644
+--- a/sound/isa/wss/Makefile
++++ b/sound/isa/wss/Makefile
 @@ -4,7 +4,7 @@
- # Copyright (c) 2001 by Jaroslav Kysela <perex@perex.cz>
+ # Copyright (c) 2008 by Jaroslav Kysela <perex@perex.cz>
  #
  
--snd-ymfpci-objs := ymfpci.o ymfpci_main.o
-+snd-ymfpci-y := ymfpci.o ymfpci_main.o
+-snd-wss-lib-objs := wss_lib.o
++snd-wss-lib-y := wss_lib.o
  
  # Toplevel Module Dependency
- obj-$(CONFIG_SND_YMFPCI) += snd-ymfpci.o
+ obj-$(CONFIG_SND_WSS_LIB) += snd-wss-lib.o
 -- 
 2.43.0
 
