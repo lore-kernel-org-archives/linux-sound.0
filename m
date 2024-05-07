@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC0855E40
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 13:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AB26A33F;
+	Wed,  8 May 2024 13:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715173230; cv=none; b=qWp0icQzVGtP/6WIG3vaglX/V40vhgJDfDFk6mk1erkC4jb8SWdLdW3Kho2KCXgI6WN0hg5kVzuG9jzZyqKqSLOlDLUvaszqNrDnSuLsgXlHL94hPZbPqu4Yygp251ddxo+Ud0OiF5vQ7CfRvc1hTql5Qt+amdiwgPw6P1ysOfQ=
+	t=1715174170; cv=none; b=Y/VpYZ7i1zKmrg3gripfe06tOZ9VuWx5b+NSSpAL42pF9GrdVj7s4iLoH1j5KboCpwVRmvmdz7n5ACHcaOzwB6OXJ/6aKYWHs3GVTp1XnGJgX84nTMtzD+ruRuV6cu8ikHxzkOnJHq7Mlns0SjkhIxvXfQkj0Rd2AZMGnVklIMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715173230; c=relaxed/simple;
-	bh=p3b9HAuy48AB59lYfQxTeNKlyZOQS1GtQaTy6rE/uYs=;
+	s=arc-20240116; t=1715174170; c=relaxed/simple;
+	bh=vVrb2QffCoJ3vhXc+JFVlfmhicKV2+XhcCMK/mhmbNc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=btU9xQ0LUEqZStXzUmQsQmOOmQxjUjUIUaCAEJp3lkoNafHnJcPc7fepvUosELal+O0xilOBlchcfuZL0DGk7sLKoVt9v1oJDfJ8/gXaVw6AjaoMfkrDGdsSmyGIASRSO1zflhHzvvKyfFe4slNAG3MwxMlO51gNFsRXnEupdP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0g/sxJW; arc=none smtp.client-ip=192.198.163.11
+	 In-Reply-To:Content-Type; b=UJa7+DbwdE6CHw/VwuucrNHT6PI1DL+L+5AyDetAXlvZUd3cOHKi4YDHafGoshaLSuaTf7HXL1+jnBMXNEv7BWZgo7TwYPUHrYlrIQJRQ/PGqBDI+8N0+AHVZzAp1XABlEz0Db9bdqVe06LDHWABDu8C2Rp2wf1tJ8ZhkjkWmeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Snqz4nCB; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0g/sxJW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Snqz4nCB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715173230; x=1746709230;
+  t=1715174168; x=1746710168;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=p3b9HAuy48AB59lYfQxTeNKlyZOQS1GtQaTy6rE/uYs=;
-  b=R0g/sxJWTpcqf0mHAGsxbs/tjZ7AYgAVRwhkOU2UgqUd3t6s8WTL9iO7
-   UAtfcSFMZUEEcZshzd5VFpZZ2LKQh4NiFru2KR4O/KdMLUHAgKTtRKIo4
-   LHr2/odcKOVmV3AQkkOMrH3x5H8+cZs/ygp8MJYv+qROatUffVoKRvFwe
-   EuB88vWFrQxQB1Z+McYVomUfv00M9phEXoI/sMA4HdgAeq3nH/ys0jDBk
-   baOQnFMfYJe/h4tCgs2XFrRhTi35N9drCchCfnNs5ryla4QY7gUeNZLE6
-   kL18JO5a8KIWBo8S03df8LNKvxA+4zVfA8pvm7goE+WhOuSj+youjjnxX
-   A==;
-X-CSE-ConnectionGUID: 2kBt/0SCTROpBuS4uIQCFQ==
-X-CSE-MsgGUID: 0FNOxBkTTOmNaQScb8FkkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="21629283"
+  bh=vVrb2QffCoJ3vhXc+JFVlfmhicKV2+XhcCMK/mhmbNc=;
+  b=Snqz4nCB8bREZwe+XqCynXqVpf2db5X6L4Yqtd9LRhZQgqtdV4jCs6Ll
+   rS111QyDPpZsai5Y7BJePg1TnSTFIEdc+vY9OXChX1onfCJVNJ5IO1n6I
+   qyPVnB0lbiTSG66lELyfpiqqHKd2ptfQlw91C1XVLq1fGELfNoZgFIFE/
+   62hXfBnedVJusCHVnY+aRE3/6Y/fPAywAYlbqfXyrfqknKRmQVd1dIa7l
+   EPtrLk5JdaE810U/fHu6wNjGORZ/MiWBma++LDuENGqkgHDK42bRSB74g
+   lxiaDZrTaigJ306Qtfs0ULSHiGcMteQhO34fqAnyV3u++D8wHkOBaZrbL
+   Q==;
+X-CSE-ConnectionGUID: KfOaZ/86QECGr9FRsuc50A==
+X-CSE-MsgGUID: DlQ2WfdTRoyylDlUKW0kbg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="36413194"
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="21629283"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:00:29 -0700
-X-CSE-ConnectionGUID: 32+dlIDRRv6drbrM8tnx/w==
-X-CSE-MsgGUID: EqSH+knsRQquaBXGyaQmdg==
+   d="scan'208";a="36413194"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:16:07 -0700
+X-CSE-ConnectionGUID: BG53EO0uQn2K/bzllqF7BQ==
+X-CSE-MsgGUID: 2orAWzXGQXSUs+sTMvostg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="28846425"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:00:27 -0700
-Message-ID: <5107f281-20c7-4088-84c8-4ec04f3d3c9a@linux.intel.com>
-Date: Wed, 8 May 2024 15:00:24 +0200
+   d="scan'208";a="33356733"
+Received: from sskolar-mobl.amr.corp.intel.com (HELO [10.212.67.115]) ([10.212.67.115])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:16:06 -0700
+Message-ID: <507953f7-c4da-499b-bcd7-76be0e04b766@linux.intel.com>
+Date: Tue, 7 May 2024 15:26:10 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,35 +52,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/34] ASoC: intel: Use *-y instead of *-objs in Makefile
+Subject: Re: [PATCH v21 07/39] ASoC: Add SOC USB APIs for adding an USB
+ backend
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzk+dt@kernel.org, gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+ broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+ bagasdotme@gmail.com, robh@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
+ <20240507195116.9464-8-quic_wcheng@quicinc.com>
 Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-References: <20240507155540.24815-1-tiwai@suse.de>
- <20240507155540.24815-13-tiwai@suse.de>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240507155540.24815-13-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240507195116.9464-8-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 5/7/2024 5:55 PM, Takashi Iwai wrote:
-> *-objs suffix is reserved rather for (user-space) host programs while
-> usually *-y suffix is used for kernel drivers (although *-objs works
-> for that purpose for now).
-> 
-> Let's correct the old usages of *-objs in Makefiles.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
 
-Nit: there seems to be preference to capitalize Intel in commit title ;)
+> +const char *snd_soc_usb_get_components_tag(bool playback)
+> +{
+> +	if (playback)
+> +		return "usbplaybackoffload: 1";
+> +	else
+> +		return "usbcaptureoffload : 1";
 
-$ git log --oneline sound/soc/intel/ | grep -c "ASoC: Intel:"
-2712
-$ git log --oneline sound/soc/intel/ | grep -c "ASoC: intel:"
-212
+why are there different spaces and do we need spaces in the first place?
 
-Otherwise
-Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> +int snd_soc_usb_add_port(struct snd_soc_usb *usb)
+> +{
+> +	mutex_lock(&ctx_mutex);
+> +	list_add_tail(&usb->list, &usb_ctx_list);
+> +	mutex_unlock(&ctx_mutex);
+> +
+> +	return 0;
+
+make the function return void?
+
+> +int snd_soc_usb_remove_port(struct snd_soc_usb *usb)
+> +{
+> +	struct snd_soc_usb *ctx, *tmp;
+> +
+> +	mutex_lock(&ctx_mutex);
+> +	list_for_each_entry_safe(ctx, tmp, &usb_ctx_list, list) {
+> +		if (ctx == usb) {
+> +			list_del(&ctx->list);
+> +			break;
+> +		}
+> +	}
+> +	mutex_unlock(&ctx_mutex);
+> +
+> +	return 0;
+
+make this return void?
+
 
