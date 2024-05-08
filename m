@@ -1,89 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7F9127B51;
-	Wed,  8 May 2024 13:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4618484DFE
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 13:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715174186; cv=none; b=phkBPIkMemMHFD6QmORlV9V2RK98wcCakW7t3OKtCwdqCi1OgdJs5ZG4p7PeyUzFsdm5gEVQZ6UPGG7Grb+BqG0p3shVL49aBuTGmGiVlb1aeoawfp6o2kN0BaGN3aWHE8n4UMM5fnMgPg3qAtj5ZTJH+hnnLZQYHsjTgIyxPfc=
+	t=1715176027; cv=none; b=HqvoeA5/ofaTIt2o7jDmb/hNZ7itrpwjcPYe2dGjP8Vx7NhD/WA6kfbfE7IG/YcZBnBixpJFRd/3ym+XflBJmLthIlVP6q4D19fgFYDyWkTB2ggKhQu/P0EuqrkTy5o7J8TGg9WnyBvA+TIk3bHLX/VDhgAp3XCezvHn+43KpD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715174186; c=relaxed/simple;
-	bh=lifN/agSpUEsjctyCIsr+TXeYS3JFwPNhUXnrldJp2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XggsCwjNsxDMjkAhDi4BOu6+wpQF6vkA24/cNKXesw8+M30Vu80X0SA+UxwF50igkdc0j9pvs0C9xp+duhvQ9QTwHF/mB2/6FVGICAEsHYB2BFaww0PsIFa0ztDP/Y1dnsBI6V8wxenWDPik8T3ryUR7hKHJqZzrGt3VeSN1gWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jlph6Sg7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715176027; c=relaxed/simple;
+	bh=u6EyzHXd27fFGrN9Et656hCo/08PPyT+hT+CjlkxkTU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ilLRk3tfjWXSZ785bdz7ERh0jzlT32LyB3dEWbS5a5NG/D7UmJMyufz4ZlCm9CZDsgbdYTaXE+Xc1J6xeRbkfFTo6oEQ6F2IJ7YyYCF76NpK6On75+k4W7ahv+iiew2RsLKiMFXdKt4nfAs3zAkQfNbDzKlpYQs/g50tY8gdbVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bPR2FNMY; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlph6Sg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715174185; x=1746710185;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lifN/agSpUEsjctyCIsr+TXeYS3JFwPNhUXnrldJp2g=;
-  b=jlph6Sg7wvCAWnkRk6GZs/GsDRfn/bt6yYSVKyWihpQ6D0feTNAuyAE1
-   WtLdQZKYX74EjkMV+YsyDzQzY6JZSF/O6l4iWKec5jNDlZ5N+nZBIzdmE
-   WKzDc6e5c8G55Xob3mgi2kyHYMMV7rOfPHuOrEHo2D3aKn4Oa/W9SVB01
-   x4ncDVOStr+GwZD4SLdwfO9qXcRuvsUG4fl2ZGbFtIqhfcwC9JyCivj9g
-   7myWpMA9icScj1UMmCmSCBKr7cHqDiiiN6U/ApSh4Jz5GJHof7KFAyJAl
-   fXYQ4mz9qQ8seg3MO8S8UQ+ye6ZC6dWjr6hTuLb7mWZerrLqEEbwAdNXo
-   A==;
-X-CSE-ConnectionGUID: /s6aE+taTAGQDby/i+SzLQ==
-X-CSE-MsgGUID: EwnX3h3fSjGIrOyAOtODBQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="36413329"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="36413329"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:16:25 -0700
-X-CSE-ConnectionGUID: bsu1eEYFR6+cMJK2ATzrUg==
-X-CSE-MsgGUID: w3/raNdzSdGFMemhzhWL4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="33356862"
-Received: from sskolar-mobl.amr.corp.intel.com (HELO [10.212.67.115]) ([10.212.67.115])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:16:23 -0700
-Message-ID: <cb864ea4-95e3-4e99-920d-341188006291@linux.intel.com>
-Date: Tue, 7 May 2024 16:40:42 -0500
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bPR2FNMY"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2a49440f7b5so3643579a91.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 06:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715176025; x=1715780825; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
+        b=bPR2FNMYRrL08LQZsHzX4L6KUGDoby1D7kq9CdVilnTl6CW9lrBNQYoFJsegU0aGHp
+         4Rvak8c4UmtoXc6S3fFjOZBo01YZflQzqFYbXxLIMfFX6eOvhYD8CtmBrq+Mb4rYJAd4
+         2TsYLBRRZ5lpklLD11TRJUBP059D2HhrmxyI4sMyN7bd6vthUJHtxs4RdEeGguR3wo9D
+         30qJITdawJLGFg0swiui7xrCU72XGr5q34hiCJUVBCjHrubNk4EFfWZpBaPVUzsm1Ifx
+         +T4FgDSpNbi6t6XMJh7DSzyQHM216u9cGZYXYgPB8SaOhyO6WycTJJETY3cK0TX2A9N0
+         gIog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715176025; x=1715780825;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Cy96MEbs4JLv+XlnJDrNT2CJ2qEQRDaH5Qu53Pf8ZU=;
+        b=AEBx3oM4xF0rki3YwNAN443wqPOCvfPSBxhnujfsz8kmmCB3enFPjuyGpBpLL6j4TA
+         sDq6iuqV9fV+RJNCvc8wfLVk1MvDJhf1NKnTfaTjjW5TDXAuBPf1wjHfoeqf9lklOX0K
+         tqVozNEbxmQBb1qGhrnIQYkRBaxamIea2x+Fzc6jzqaBOY7XQJEZzAn6ZAMJQRUfQxRa
+         7O1+5d91Vpa/2cKfJN+rseJMAhFoJxPxnC4MYG8HMG1EClLbnFoPyw/GI1sLqXGRLLhP
+         acdB8V261jaBTA/ZNEFGIm6aDdujuHdsQRMHBk3dzMxkm2vksGy1kstLUw4dckXpmjSa
+         vGSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLE4hmbH4L1uq5EaxTr17Yil9IkObAWZ+sfBjuOdPlAeXGdqo6hGiS/717TuFWGhDUM3zuv/zTyS7BL+80UnZBCvSMNnTGaVCKXTg=
+X-Gm-Message-State: AOJu0YxlhYL0qC8XfH9PaLTE+8l/aO6Q//qRAMhq65ncOlofcnrhq4aN
+	9jzTHHtJm+VqwV9FRHkhFzWAww0g1flgxnkpB4jRsPcdzQcvcNUvUHhwgUt7TKt4ZZXgZbgRJeE
+	stA==
+X-Google-Smtp-Source: AGHT+IGkEzt3rrLCYEAc2MIkDJ4rSudkNPJV/ZI7YDr6FjDNwR59XbPWzyPuXmQfxq7n/1Jp45z9S3futCA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90b:128d:b0:2b4:32ae:483e with SMTP id
+ 98e67ed59e1d1-2b61638c780mr8658a91.2.1715176024465; Wed, 08 May 2024 06:47:04
+ -0700 (PDT)
+Date: Wed, 8 May 2024 06:47:03 -0700
+In-Reply-To: <20240507214254.2787305-1-edliaw@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 38/39] ASoC: qcom: Populate SoC components string
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
- krzk+dt@kernel.org, gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
- broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
- bagasdotme@gmail.com, robh@kernel.org, konrad.dybcio@linaro.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
- <20240507195116.9464-39-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240507195116.9464-39-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240507214254.2787305-1-edliaw@google.com>
+Message-ID: <ZjuA3aY_iHkjP7bQ@google.com>
+Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+From: Sean Christopherson <seanjc@google.com>
+To: Edward Liaw <edliaw@google.com>
+Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, "=?utf-8?B?QW5kcsOp?= Almeida" <andrealmeid@igalia.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
+	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	David Hildenbrand <david@redhat.com>, "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Seth Forshee <sforshee@kernel.org>, 
+	Bongsu Jeon <bongsu.jeon@samsung.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"Andreas =?utf-8?Q?F=C3=A4rber?=" <afaerber@suse.de>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+	Geliang Tang <geliang@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Fenghua Yu <fenghua.yu@intel.com>, Reinette Chatre <reinette.chatre@intel.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
+On Tue, May 07, 2024, Edward Liaw wrote:
+> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> asprintf into kselftest_harness.h, which is a GNU extension and needs
+> _GNU_SOURCE to either be defined prior to including headers or with the
+> -D_GNU_SOURCE flag passed to the compiler.
+> 
+> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-edliaw@google.com/
+> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
+> location.  Remove #define _GNU_SOURCE from source code to resolve
+> redefinition warnings.
+> 
+> Edward Liaw (5):
+>   selftests: Compile kselftest headers with -D_GNU_SOURCE
+>   selftests/sgx: Include KHDR_INCLUDES in Makefile
+>   selftests: Include KHDR_INCLUDES in Makefile
+>   selftests: Drop define _GNU_SOURCE
+>   selftests: Drop duplicate -D_GNU_SOURCE
 
+Can you rebase this on top of linux-next?  I have a conflicting fix[*] for the
+KVM selftests queued for 6.10, and I would prefer not to drop that commit at
+this stage as it would require a rebase of a pile of other commits.
 
-On 5/7/24 14:51, Wesley Cheng wrote:
-> For userspace to know about certain capabilities of the current platform
-> card, add tags to the components string that it can use to enable support
-> for that audio path.  In case of USB offloading, the "usboffldplybk: 1" tag
+And I doubt KVM is the only subsystem that has a targeted fix for the _GNU_SOURCE
+mess.
 
-usboffloadplayback?
+If we want/need to get a fix into 6.9, then IMO we should just revert 809216233555
+("selftests/harness: remove use of LINE_MAX"), as that came in quite late in the
+6.9 cycle, and I don't think it's feasible to be 100% confident that globally
+defining _GNU_SOURCE works for all selftests, i.e. we really should have a full
+cycle for folks to test.
 
-same question as before, do we need spaces?
-
-And if we have controls, why do we need component strings? The component
-string is not dynamic to the best of my knowledge, this could be
-problematic if the card is no longer capable of supporting this stream,
-while a control can be updated at will.
-
+[*] https://github.com/kvm-x86/linux/commit/730cfa45b5f4
