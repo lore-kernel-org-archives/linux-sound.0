@@ -1,121 +1,173 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2102.outbound.protection.partner.outlook.cn [139.219.17.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF48C1A269
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 05:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715147082; cv=none; b=eCYoF9M+kJOC3ERRRjFD3PshGPtSOtMXN0pCLxFRiptahE4CBakiWrKQPf9pCXZRv2Os6yB/ULxbw69bBJrKK2aMTO1ezcBE6v7WAlDjkpJLb6LfjRCMbY8wU82ZHGON7z2tXrUjfgJcMYuv6YPMx0x+rVHjJcbd0E3MDkm+6Fc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715147082; c=relaxed/simple;
-	bh=0gu9nUe1kEb8UKNEIGrp2O+y/7dOVY6An7jLDvXvU+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=flOuCBepmPP8XUrAJ7ePYdQIlr5K8O1TdoXPWMYgndcsZE0rNQ2jJv8MW+007wY/IBLJXi3Nd9k9/PLmFhNZa66j4LrykgV0x4+5MpGhyxWp+rl5JTtZ7fgO4URZAwnlfzTw92+sQep6Ezn1c2MLKpIBO7NZItXjb142lTl3n2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=d1EhkmjG; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="d1EhkmjG"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 5F3143CEC;
-	Wed,  8 May 2024 07:44:35 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 5F3143CEC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1715147075; bh=MzApmZ5at41Ub8dgebKpimYybNuCmtn5ga7jDIACbG4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=d1EhkmjGKwmyMoOfqLeFnDOwHX+YTQ8zpasUkACLu0XAYtmvzXULM9t0L1WqYCxwO
-	 mirJklavDHFJVCkxiDwJvn/V+MZN5/f6AS32DfSmDtFZZ3XQg7yu1SCirTSGObYzBR
-	 T+mg4na2Vb8WY/ZYAqcpNNoY3x7UtlAqd+R6PVHE=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed,  8 May 2024 07:44:32 +0200 (CEST)
-Message-ID: <8ee4aa15-a981-4275-a226-0c167ec1ce14@perex.cz>
-Date: Wed, 8 May 2024 07:44:31 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D9126291;
+	Wed,  8 May 2024 07:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715152825; cv=fail; b=P3BkcdzmwkxtFs39yC39wA2hQD+4LbUVkcLmKVviFbCX+O6aQr013yCUlsQIALM9Nhs5E03Ex44T06bMnIvXAn3Md60I9KmmyfQvZRLfIHlvZH2/Y9yuNOTXV16mwpYWerGsMa9DapcBfPNPVbP56p2bcd+0/LMATUClsqE1PmE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715152825; c=relaxed/simple;
+	bh=HJvIUgUd9BUIe/soRVflVqY4v3qfdJyFFZPAdzMhiF4=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=O7hAYM5JQDkzG50iR5fv37BFY05rydEQJsA3iWO+tUZ0VaJpeI4YdZyXNI0CPn0UcGem/pLkVajPSAOFKXNJ6RvEMRAD3BzpMmLVdrlA5R1yW3SddPHlI8Cw3s0dvxgfcJvq9ZI3sljT7uAZ0UilfqmA17D31msIOtYVSZdKMfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XEiZJDBbBRmCH1bZ4JQCX0mS1vpGHeET8k2l6rCbbXWr24aCnkszN09GQdkS1b3ylX6FrMNM66To+6UqmYC6TLrdsK5WQTRQGM77iii13fwI5YnTx5G4MpDOWMKmbfvpJJywA+nQLxqVuKYhuM5/HPD2HZVeMLpODxQOyOv8VhbwR/cWh0v7k2Mn42F55DwVbLfS25pNibwMfP/g5ZUEBiI+iOZFKD3czxlHf1IEWqjaeoETOSmHb1O7iu1x1Z81SEuVI/q619MkyYBf+UhtPX8ggmUVRHnhMtiZsIGrHRQuN6oc+Mo7u3XUdymZCGuNgndFkMnUOBYd6H1h7qigZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dt4ZLihArQkU8P3Z4dQamKHuAPsmwOivzAebXuv2eCg=;
+ b=f3YJGsYL9QfZNn4/NKB2fbx5Q+lZoDuYi18+Vu/ICJK3d0HF+HKHraHv37nsNIim1ZbJkaoUy/7DTL1o7DyodHj5shiRH9VJSeFJJJHERaUz1UVDhOR01lw7J3qJVPJ5A37czY7WRVgfnB3sAMFxENriXscliz2HeEnT5+hugTcjCeq2DqGsZZoQAKXh3+sQ1NWnoN2dB1VmeeLASWJo2hU2Okye0w3MXTuMb04v16hIKVbW/qv0mEFSlAoHJvm/pGDrMj4tU+b62vkilNpPsjZie0s0mNOVKtQJUGZKAxCIwtvGKTbWbax6o9xyTdD7YpNVQUu+6HAg8/m/E2mmyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:8::10) by NTZPR01MB1050.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:1::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.43; Wed, 8 May
+ 2024 07:04:14 +0000
+Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ ([fe80::e903:99a6:10b7:304d]) by
+ NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn ([fe80::e903:99a6:10b7:304d%6])
+ with mapi id 15.20.7472.044; Wed, 8 May 2024 07:04:14 +0000
+From: Xingyu Wu <xingyu.wu@starfivetech.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Claudiu Beznea <Claudiu.Beznea@microchip.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>
+Cc: Xingyu Wu <xingyu.wu@starfivetech.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v3 0/2] Add Cadence I2S-MC controller driver
+Date: Wed,  8 May 2024 15:04:04 +0800
+Message-Id: <20240508070406.286159-1-xingyu.wu@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BJSPR01CA0003.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c211:c::15) To NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:8::10)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/34] ASoC: Use *-y instead of *-objs in Makefile
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-References: <20240507155540.24815-1-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: NTZPR01MB0956:EE_|NTZPR01MB1050:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4cd88dfc-b97b-4555-b2f9-08dc6f2d1184
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	wHX/Ar0b39I7jKCJmreU35WEh8+Tw/6CxBMsWBWHWIrRpJEvkmwb2yIj2F1sEywT7Zw/R+v4a0QD7IzKxxqIRpLcDtGr06o6i/UR+Qw7TfxB0ZRtzh41SOuHDq/VN2XMLu/5G7vN5Fhr76UFwKdlkUdHcfLsGhC+4JbyrebeVuWMlESp1eNvHO1+2zqqmem21l1QhoejjDyuOsqDh4iCufPi9CEXGbcKUJKYE7mNRh9YmDk0eL8uO4Mui6VuykJ3w4o2JiVnKK/DzrgzcKLo+jGMEBIv1TgT/3U+P1WROpGQjivlPvK8IblJJsZxsb1oCV8J8GcEdJGKVRDpgYquHIyCJGOUdmql+b/DYUeySZQzQFmt5UlfYLr1+bYGwE+8V6ujNxcxEqExO4hvK+aqfzjgs380EciNkK7mTa3gvugxOtwCElizsgfpA007kPZiRbrxawKx1HEzNjgR4xEort8rmgg16kJ+K5fiXjY7enowPsSVUlUZNfucwqhMhmkaop4ylfzInxKffCKL6gw8DcbAPGE6io25hDpuBaXwZxneCn62Jd4+uUXQtOg5FMdvz0N9GKjHMcaWxlex/BavPFGINgK+jdg0eBjTOoo9d54fk7kRw8ohwGXrguVmxHg5
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(52116005)(41320700004)(366007)(7416005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?BYRzGTpzG3OXVftv+nE7zA46n/grrmg6cF0l0BX9tZy6prcx3ic+9rH3tByY?=
+ =?us-ascii?Q?fZccBkPlvN8rwtOHRx+JIUf556oZ2PAb2tpOwULDxhACWg5hfUbyNgWzxq1F?=
+ =?us-ascii?Q?Vi21IfksOBAxeMFDU3em3eIrD440pVQ9XcLBpKtjSZsD9mgvtmvmA//xQLWW?=
+ =?us-ascii?Q?Bmm3bfQiRR0qBE1gEkyFKW263oKafwiwyhq1GGNMRL7F3nJ/UCYEtBxSF1Tx?=
+ =?us-ascii?Q?hblqL62nrTNJ5Ku9py1PcIrRgMq024/JkDxY9ajcHiPDRMi8Dtrxnbirfw0z?=
+ =?us-ascii?Q?wAG739UCu+PofJlRdBBm3+7PP47SVfjflEjaMYF5dyiCaef7rs4mAw6iAv0b?=
+ =?us-ascii?Q?2pyJIcYgS1UaWyelIHRWsnQZ0J/NZ7J/zP+1KTzjGXYOQW7G75L9jF7xY8Dp?=
+ =?us-ascii?Q?wkHglLriAeLtpGTMSiT6Cb3tQA0O2nU5v14/69rr6kXeHKQkJG+U8OfXLB/f?=
+ =?us-ascii?Q?/r7/ZmtV232lsHzmEw9qTnU15a0MLifxcLjh0l6hBb5GOr5T7Kfd4OCG2C8/?=
+ =?us-ascii?Q?PhBbwKL6ncqvy7q6f33PsEnvUoQJ7pFETC2h6KBCa4sLkzg6nFhkaWA4Ccmz?=
+ =?us-ascii?Q?ycVFOLiInT/9YO6xyDHbF99BZDVLhIIyB4uqWlH0+YAZebpMQBmkyDkaKRn/?=
+ =?us-ascii?Q?bgQxoPLLxBhaqHHnY5Sqv+3vkNQHuCrQC2VjRwaesiWUPKJOUCGINzdf70FF?=
+ =?us-ascii?Q?nnX3Tg4q9ZQRh2Fqnn9f6yyjEKSuEZ9fji73ZMFYDTt5dCNXQQxzgWClXdGx?=
+ =?us-ascii?Q?ZdHYFsZvwJNQVg1HFw2vGRgIyEj9lPBMf8i/NkghztrJZSFytkg8m0a2xddJ?=
+ =?us-ascii?Q?bs23rFHKh8axOF+mCj7y2N+4CTQUwZYPU9JoRjsl3jHuvv1whqDhXni/7PT5?=
+ =?us-ascii?Q?8V0z5PsTSBIHmH/KkhLB+6eykttq9QlLA1dH0emEm2K57/IyE5CxRJEOC0/V?=
+ =?us-ascii?Q?hrUNKRuIs5IAOtLZT9KmFJi5r/zAiBr9NQd/NKfbQ4vr30MWZz9TIBxFAGn3?=
+ =?us-ascii?Q?EuDtY+WPqHpPIkwee8RdpUsb7LkHeJFyicQgoa98QGDMZsWBNKa7nvNw6CBo?=
+ =?us-ascii?Q?c/6f7ca/i78jcSm4sps0oj5/h9lTEsUzF6nZALQYQLIxawvKsQ8LfXI0916c?=
+ =?us-ascii?Q?3tsKIvyju8lzPf6m+VLRFo8hsva4YTAs4GOZSwFms1yzGFVM3pdEG/lo86sK?=
+ =?us-ascii?Q?4lpTAPFRai1fXdvGu/d1x7ADcME3k9U9eiHf0+25eMlq3WkveZKUwp2AI2Bt?=
+ =?us-ascii?Q?ccpSYs6GH1zlD9OkgNAeBBHwFnPq6OqOPUMmIQTZExPBwEuAnytvhimeqX5G?=
+ =?us-ascii?Q?ULU6ri1omNjzKPk5jcXVeZ3znI3V2FXuwGD6u8harlmxwiXFQ2aAKH4Y1gJK?=
+ =?us-ascii?Q?Xy5Ywj96sSMdGU4oKDGe5izp9nrZZOyPyieOCwj8LmBrlHjg0N9obK2qAkHc?=
+ =?us-ascii?Q?ESvGFEyMkVLVV/LV6Ua6GgYzikmDZbv6ATqW/trnf3tSMaPdscf9jK0L0Rq0?=
+ =?us-ascii?Q?KckslgrnPRAXutB22kxvyf/r9/9sYFkQ/mkSGf4Zqj2F68fAKrU9wEPMWakh?=
+ =?us-ascii?Q?2Is/sAxBLtlQ9ZvzAEyNUvQElT8N1V9OLMQcOZ+Nq22PJXHlc2voEz+XktWc?=
+ =?us-ascii?Q?YA=3D=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cd88dfc-b97b-4555-b2f9-08dc6f2d1184
+X-MS-Exchange-CrossTenant-AuthSource: NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 07:04:13.9376
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jrAlNbgLL+u8q2D4gxRAQBwMuKtQs1LxKk/w05Xrr1iqtJMCtUKyrjJL+lW3vlKbz+8wrO1OY7GZLJ2HVsInriCc33dV4zhSHjxgMNNlIRc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: NTZPR01MB1050
 
-On 07. 05. 24 17:55, Takashi Iwai wrote:
-> Hi,
-> 
-> this is a series of trivial cleanup patches for ASoC to correct
-> the *-objs suffix in Makefile.  The other ALSA code has been covered
-> by a previous patch set
->    https://lore.kernel.org/r/20240507135513.14919-1-tiwai@suse.de
-> 
-> As was suggested in a patch review, *-objs suffix in Makefile is
-> basically a wrong use nowadays for kernel driver modules.
-> They should be replaced with *-y suffix instead.
-> This is a result of systematic conversions, separated per directory.
-> 
-> Only lightly compile-tested.
+The Cadence Multi-channel I2S (I2S-MC) Controller implements a function of
+the multi-channel (up to 8-channel) bus. Each stereo channel combines
+functions of a transmitter and a receiver, and can switch freely between
+them. Each channel has independent gating, clock and interruption control.
+It also support some of these channels are used as playback and others can 
+also be used as record in the same time.
 
-Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+Four I2S controllers are used on the StarFive JH8100 SoC. Two of the I2S 
+controllers use two stereo channels, one of them use four channels, and 
+one use eight. It had tested on the fpga with WM8960 and PDM.
 
-			Thanks,
-				Jaroslav
+Changes since v2:
+- Dropped the description of interrupts in bindings.
+- Modified the properties like 'compatible' and 'required'.
+- Defined the special property in top-level and made it false in other
+  case in the bindings.
+- Added the test of other format in the driver.
+- Changed the return values and switch the TX and RX channels for
+  convenience.
+- Modified the macros about 'SND_SOC_DAIFMT_CBM_CFM'.
+- Added pm_runtime_set_active() to fix the state of pm_runtime.
+
+v2: https://lore.kernel.org/all/20240320090239.168743-1-xingyu.wu@starfivetech.com/
+
+Changes since v1: 
+- Added new compatible for StarFive JH8100 SoC and a special property to
+  be got as the max channels number in the bindings.
+- Dropped the useless '|' in the bindings.
+- Moved the drivers to a new folder named 'cdns' and modified the name
+  of functions.
+
+v1: https://lore.kernel.org/all/20231221033223.73201-1-xingyu.wu@starfivetech.com/
+
+Xingyu Wu (2):
+  ASoC: dt-bindings: Add bindings for Cadence I2S-MC controller
+  ASoC: cdns: Add drivers of Cadence Multi-Channel I2S Controller
+
+ .../bindings/sound/cdns,i2s-mc.yaml           | 109 +++
+ MAINTAINERS                                   |   6 +
+ sound/soc/Kconfig                             |   1 +
+ sound/soc/Makefile                            |   1 +
+ sound/soc/cdns/Kconfig                        |  18 +
+ sound/soc/cdns/Makefile                       |   3 +
+ sound/soc/cdns/cdns-i2s-mc-pcm.c              | 285 +++++++
+ sound/soc/cdns/cdns-i2s-mc.c                  | 704 ++++++++++++++++++
+ sound/soc/cdns/cdns-i2s-mc.h                  | 151 ++++
+ 9 files changed, 1278 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cdns,i2s-mc.yaml
+ create mode 100644 sound/soc/cdns/Kconfig
+ create mode 100644 sound/soc/cdns/Makefile
+ create mode 100644 sound/soc/cdns/cdns-i2s-mc-pcm.c
+ create mode 100644 sound/soc/cdns/cdns-i2s-mc.c
+ create mode 100644 sound/soc/cdns/cdns-i2s-mc.h
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.25.1
 
