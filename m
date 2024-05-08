@@ -1,92 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80D112B175
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 17:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0764612B148
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 17:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715190348; cv=none; b=mHsXB7vOqlkP2jVC/4jkAIr1ApTbqU3mtKEAjExwsqPnB91MkAlvPWz8GTc72+Z4i7wqJzXn2S4qkic0+aeVoSUqeN9SWYLPVbFIvSkDpTYQH/psx1IXVtpq3M/zTz+UxuG4yh1Jj07Wlk/cUwDcm2tgc1enYNmrSY4Q4yVNzxw=
+	t=1715191097; cv=none; b=svm7lwlh2OFMUzjPLqg4y+yfD6Wr313g5SOp+AnsXtZXVM3P4z7vrSln8zoGltTjhsmF2xQFMxkGG2uqDXxpcB9h/gO77GHXia7+ZvQRG0d6C5kGGH/24BIf0ekYVtnmwD8YCmkNeqKVkM4D7YKarhFQLfaYBtsynDWMmacIzzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715190348; c=relaxed/simple;
-	bh=5gj1fExbks9Fy978Yk/hHFZBNq8ScZxLpX0KhrmI1Z4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/W0uKTkbp/7ri0DBcK1udtMRTNrDsbJjt/UThxeWLhBKzyGA73Lqg15XGhYLxVEd3ywNHzn2c/7XNNjiuI8gwR4QAuMjQRcOnflG4QM+dnZ/dIWkUUiQGKYNrU/tNnFSGGOCXddGLGH179Pc8QrNs8vquoe7NdC/jGyrKD8lHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkQob59o; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715191097; c=relaxed/simple;
+	bh=oAnkyw2u1tuMRwEGqoFF3kYVfQ2VW+JexMoHwifcZPY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E183ItDctMio0jYlObRiNR7u0Ygw6wSe9W1CXX8r5xttTW7sgldRiJeJvQbeiOdEOqFb7yYEeMnyMas//fJwI1rJXMb75FSj1Ul2T2gQCvJUpW9UwIF4YgypBaw+rRIQ1nQj9wIgSsNG3/Pj0/P141BPcdoYLfXelw2ddVsfBCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RnI+CcNR; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkQob59o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715190346; x=1746726346;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5gj1fExbks9Fy978Yk/hHFZBNq8ScZxLpX0KhrmI1Z4=;
-  b=RkQob59oqgqAiYtp+gA8dQFhHlq6Sgkk8QtDSMl4u5q7m54WeQnKTEym
-   sgX8rzerwaCLYa2P7cnALDZcEKhogb16W7dttpMYhbMn0oJAVzAHl8+Q5
-   jMHVFtGZpUeMZKB3w3EkgxyAOsBKrgyRAbs45/zSMNqSGepLtT7cAbry5
-   ICrwenXrNa8FioQ6fBgDhSqyHem6aRMBAuf4dXDA5AmT5KYBubNp6Bytj
-   WVKD51jL50ftwTnt+2J15xfghoNSGbbY8MZQYYqDYAGUGGPL4oMSIabLA
-   yucgztf2Ypx0J1HTVlpC9FWbuWKoBZnNx84vWG6hthN4WrmXnoyJoGvoJ
-   Q==;
-X-CSE-ConnectionGUID: 8JF1fvcCSHyuN8XVkZRjjA==
-X-CSE-MsgGUID: czH3FzPfR5GvUxWQxZ4loQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="22474955"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="22474955"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 10:45:46 -0700
-X-CSE-ConnectionGUID: BZTeAkJ6RQGqd2mt7vtl/w==
-X-CSE-MsgGUID: NjoaYhNYR2+e3xEs0feFtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="66401174"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 10:45:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1s4lMM-00000005WiA-3ylR;
-	Wed, 08 May 2024 20:45:42 +0300
-Date: Wed, 8 May 2024 20:45:42 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/12] ALSA: hda: intel: Reduce CONFIG_PM dependencies
-Message-ID: <Zju6Rvh4Qlg9F0bJ@smile.fi.intel.com>
-References: <20240506161359.6960-1-tiwai@suse.de>
- <20240506161359.6960-2-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RnI+CcNR"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41e79ec20a6so10675e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 10:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715191094; x=1715795894; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tP92gBeKM0g50NbvJEhINxvEskd9JEwX7VJMOuk1fdM=;
+        b=RnI+CcNR3EeBdqeQT9+euerupYSipUgIBJSpUeLuBruhqkxqJw5NvIpZCPSvjibO6X
+         PaRL0X93vsuOUxZ1+gzjwtbFssTLWS/z2kloBrCYGcy3Gba+Hhg2c++X1Hp0oCUcN+Ln
+         Q5DPmkXW3kOk5RLqKVbY+ZG/eeHQUdB4rE9ziy6ISyqf/RFZb2NM427Z0omGOAMoGf2V
+         Xl0glvlcASemYufSNIoQGEJwBhHlSK0iXVt07vz58zCGufrJ9Wi/ZWNSFBg9RrW5xGjX
+         Or6KMMXQqFqXK0LemyoosCkwp6QYJCPYFDD6JS95j73C0YCTxEqwi6fUwXhMpEd+Ftbj
+         969g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715191094; x=1715795894;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tP92gBeKM0g50NbvJEhINxvEskd9JEwX7VJMOuk1fdM=;
+        b=KdZiruokf4ccGq9NErjexkK6ZieHalgnX/oQrZPgaJOS8K1osPj6VsydGhA+BeAzUm
+         Wbpg2DUPtg1iDUbmFjf4Mg7TIG8XWzSwADQNSBwxUrBD4LV8tZCIJUL9JbCEwVqMaJ9Y
+         OtAreT9rzOW9AOkoYYxZnQ3NzvQuPU/4vaWIFwz1SMHMiXSdO/GNAMFRa+RrRormLNdb
+         QA2oOQrwETKMxWruf8/szV7gGb30MXgbEjFlMGi9Cu+GsG30i+Tzn6nLkIbZPUf2VWiV
+         HHy4LaYqiVtZiOAAv9pVY9iTISkf9+xk5BnmJM9V71SVAS581AYWKT4WN/7MJ63fn+RH
+         u6og==
+X-Forwarded-Encrypted: i=1; AJvYcCWGISP69S+l2POygfBSMcszm7wAcfgisxQB31esFAm8vTk3WKS/K/wmerW+umSzh5sEuKpAzgMSUNArygEiTAIQik5I5XFmu6VzYxY=
+X-Gm-Message-State: AOJu0YxNdZ/SDInbassl/RuRBkZA2ZMplx7sDwjgy2zvX643dGMEKf/M
+	bmITezQz43gQwDi3ckDT8VL+kPrktUFj0J9+ZeI65PNPLNYsbjrVqSc48sOKSPXr3UnIoHL53Xh
+	JLusWQ4N59Z9mfwTtj/sem51GB9HYBRst3BK8
+X-Google-Smtp-Source: AGHT+IFjj1yUgxdvjtSgv3LgyXpcI3FLi4pwx211hiAyqt7zaZ3U1fvnHgUlzN4XkjFuzQVfOZTRgr50QjxapUmY190=
+X-Received: by 2002:a7b:ce98:0:b0:41c:a1b:2476 with SMTP id
+ 5b1f17b1804b1-41fc38608b1mr95865e9.6.1715191094177; Wed, 08 May 2024 10:58:14
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240506161359.6960-2-tiwai@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240507063534.4191447-1-tao1.su@linux.intel.com>
+ <20240507100651.8faca09c7af34de28f830f03@linux-foundation.org>
+ <ZjrpieLKXFhklVwR@linux.bj.intel.com> <20240508070003.2acdf9b4@kernel.org>
+In-Reply-To: <20240508070003.2acdf9b4@kernel.org>
+From: Edward Liaw <edliaw@google.com>
+Date: Wed, 8 May 2024 10:57:47 -0700
+Message-ID: <CAG4es9Xdo8fBEpZLWGFHodi7=+ZYLvrE-kQYt=YfCeEHWYxaXg@mail.gmail.com>
+Subject: Re: [PATCH] selftests: Add _GNU_SOURCE definition when including kselftest_harness.h
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tao Su <tao1.su@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	ivan.orlov0322@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	shuah@kernel.org, seanjc@google.com, pbonzini@redhat.com, 
+	bongsu.jeon@samsung.com, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, alexandre.belloni@bootlin.com, jarkko@kernel.org, 
+	dave.hansen@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 06, 2024 at 06:13:44PM +0200, Takashi Iwai wrote:
-> snd-hda-intel contains lots of CONFIG_PM dependent code although
-> CONFIG_PM is almost mandatory nowadays, and it makes the code
-> unnecessarily complex.
-> 
-> Let's reduce the dependencies of CONFIG_PM in snd-hda-intel driver
-> code.  I left a few module options to be dependent on CONFIG_PM (which
-> are visible to users), but other places are either enabled or
-> optimized by compiler automatically.
+On Wed, May 8, 2024 at 7:00=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Wed, 8 May 2024 10:55:05 +0800 Tao Su wrote:
+> > Back to commit 38c957f07038, I don't see any advantage in using LINE_MA=
+X.
+> > Can we use a fixed value instead of LINE_MAX? E.g., 1024, 2048. Then we
+> > just need to revert commit 809216233555.
+>
+> SGTM, FWIW. The print is printing a test summary line, printing more
+> than 1k seems rather unreasonable. Other facilities, like TH_LOG(),
+> should be used for displaying longer info.
 
-...
+I also submitted some patches to fix the _GNU_SOURCE issues here:
+https://lore.kernel.org/linux-kselftest/20240507214254.2787305-1-edliaw@goo=
+gle.com/
 
-> +static int __maybe_unused azx_resume(struct device *dev)
-
-__maybe)unused is discouraged nowadays.
-We have new PM macros (w/o SET_ prefix) along with pm_ptr() / pm_sleep_ptr()
-macros. They are preferred. In complicated cases the PTR_IF() can be used
-directly.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I'm fine with this approach.  It's aligned to what Sean suggested
+there, since it's causing a lot of troubles for the release cycle.
