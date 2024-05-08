@@ -1,87 +1,100 @@
-Received: from relay2-q.mailbaby.net (relay2-q.mailbaby.net [68.168.211.172])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A33ED530
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 22:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=68.168.211.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715205761; cv=pass; b=aFnPPwMDnwKNbd4RdA9GiZl0iwBFe6CwUmCZwBWQ0+KcgiYb8RH6jmWEDu459uDN+3VBNV5uOgDtPJzL9yR3KJ+lIu/7FQPPTkc2+/0O8mJ8UWlA2XdWjRNlIG6lAU/65ABcWUNAiqVBQ+B9iz2ORVM3bMjzsDlOs4NyUQHdp1w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715205761; c=relaxed/simple;
-	bh=rkH+Na276qd0ErypwPeGqpGWaeBkpBw1Or6Ob87anOU=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=T+FFL0ndfdpB/23lEW22d9fEZCVqr/QFjMW//G3cajR97KxAGe01CAxZPZQHZNSHl5YvZrL/idu22G0Jfs1dhX0K5xn42RbNmhVz3BjJCjr7FTZDPb35GC/DoliafVxDBALuIOwGRa0/iMzHypI+6wduG8usyDMgDSnQ4ExJ5MY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carsoncitylug.org; spf=pass smtp.mailfrom=carsoncitylug.org; dkim=pass (2048-bit key) header.d=carsoncitylug.org header.i=@carsoncitylug.org header.b=qTpUklla; arc=pass smtp.client-ip=68.168.211.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=carsoncitylug.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=carsoncitylug.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B0F131725
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 22:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715207371; cv=none; b=uqQRHmJ5vUY2NlzMrp6mgWVBUoIAfF+tjpd52cxKKczXux52Thybj8hAwojkxxvV9cTwGZy2KXQ8JJo8WhQI59M7jfa/VuKKoed6il08tlWgXOP/6Xqo+CXRD5l7HK1MYy2h4tk3SkxchO8/B3pXi9j5UKcxc1Vx3Hi28kCpSyc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715207371; c=relaxed/simple;
+	bh=8B9U/Jq1YW4M/1V/dd2FLPL91hKSUgdh2KH3CarfTVM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pZkoZhvrlR2SaEJ0cFfDn15HOl/5A0kOqQ467w5qvUfzP2n5MF3xvL8EaaqAR4tUBkJoPrVACYO7Id9jpjnoQg+XlUy2tDmPkYor+zKdTKZPjrlmJbttzwk5UDqLCJPkb9pU2d0bV9oZyqN+nsyUGg5FSaGkBbNmVXoBcGulF0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IoptlRlN; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=carsoncitylug.org header.i=@carsoncitylug.org header.b="qTpUklla"
-Received: from ny.private-rack.com ([104.243.32.45] ny.private-rack.com)
- (Authenticated sender: mb22038)
- by relay2-q.mailbaby.net (InterServerMTA) with ESMTPSA id 18f5a3617ba000aaa3.001
- for <linux-sound@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 08 May 2024 21:57:25 +0000
-X-Zone-Loop: 760dc79c3d153aede4cfe9428e6f01e8f4d871e75975
-ARC-Authentication-Results: i=1;	rspamd5.mailbaby.net;	auth=pass
- smtp.auth=mb22038 smtp.mailfrom=glenn@carsoncitylug.org
-ARC-Seal: i=1; s=detka; d=mailbaby.net; t=1715205445; a=rsa-sha256;
-	cv=none;
-	b=yl1l8UrBixfB8SUgBqivXzHr5SakvBnJEH0bRKnNBgskMxAXjaUH7L/0oQ4ZLe99RR0qUu
-	+nxiPTr8CmXwMpY2cbeo+rrWNG0e2wQL2e4CY8rqbkiVwn066QIpIrZB4B1+RkkHvhoY+6
-	Qv8qyevyQVEqN69QPXtUpehKsMMwLg22f9bWYU5GL83CG/IztPV6EB5xnRT2GcW3qPL9mP
-	ElawxhcIyqmNpVlu95gtn9KHGhQbWCnxmKvaL4/C4usEaefUuy8TglEUljncvHWuDq65Dg
-	dq1u6Se6McaJFT90rEAWbQBLxD8+M80mYwqJu/z+p+rAguaxpFlDssthvNSmyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailbaby.net;	s=detka; t=1715205445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=v+CzTPbQCnTpNJERjEZyRArLPV3YdUvVNerlGtyH0UU=;
-	b=bFs1cxVxXU537dKv/ZuOh2XONOKyzQattqr5p406lz+edZQqnu8LrrTKERo4p6FOcwkduo
-	O61MW9bIY14OfS7lqQSCd2udm6jEFDhPsy2DMgMSHUZDP2qigw4PkIxKc0mbv+h4qkc1mJ
-	nCsgn0K6rPPhsEKTMCLj7bic4GoDtdRwzJ1lnVAgKdr5/zS4phOrFIMUgZTLXP1AmqqzfJ
-	ZUSItkpiMTai5kg7R/GQg+XL8Lql9ESXmFE6+eUpq1YorbGGpj+lvZLkqGftciwLgYqvJY
-	fY89hWJhcsKRVHzsWFaPHUnsontzeFfyJidqWUjJL1JWHBdU+1S9ywUDVKKcWw==
-X-SPF: pass
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=carsoncitylug.org; s=default; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=v+CzTPbQCnTpNJERjEZyRArLPV3YdUvVNerlGtyH0UU=; b=qTpUkllaIcVFQBN8fwjVJgnKiB
-	mW1BEOfj1YTX6+PNaxw0++fifrrIYkT7WiqBwNTjQmvR/WMwQQxqWzJKysSzsjCxmU1tsOM9NUWFc
-	s1iAGI1M2Y5kLtvekNurIBfUI/jhmYyGrU8En7SdtV5SeghSR5iJoKWnpDWNDT/roCOBeed8U5lGN
-	tzCOtBLfX8wHvlo5ZnyT/o+fyZMkdgDHY2RGbBJnvlEEKd/Sm993ShM6RZJGgcuCzX7PfppWH6txU
-	WMntVC6cr8NEFsFAw3CVvwUCEwLvo/FKYl35iMeMfqit9v3xk5iNugbTlu09bPZyx3Oad+FTGWM0P
-	u2fKaq9g==;
-Received: from syn-071-094-009-225.res.spectrum.com ([71.94.9.225]:56980 helo=LinuxBox.nv.charter.com)
-	by ny.private-rack.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <glenn@carsoncitylug.org>)
-	id 1s4pHy-000000026uL-2hNL
-	for linux-sound@vger.kernel.org;
-	Wed, 08 May 2024 17:57:25 -0400
-Message-ID: <65e852df4a1897d6f05a9b712c3ebb7ed227fd4b.camel@carsoncitylug.org>
-Subject: kernel bug?
-From: glenn <glenn@carsoncitylug.org>
-To: linux-sound@vger.kernel.org
-Date: Wed, 08 May 2024 14:57:23 -0700
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3-1+b3 
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IoptlRlN"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4349685c845so1451911cf.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 15:29:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715207368; x=1715812168; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FtYXFaRMkuNbSKWGsrMMLWmq/9Bm3mRH0FfZ3hEbB6k=;
+        b=IoptlRlNNYHLQMbi8gvoIjgfcIdgtLHNUFx64Wmy8q6Hj8AtLqoZBNcLVOyxPVipXr
+         +SnxNKNwJObHuKMsaagRrNVFxrhUY/pz2oga5Ow8KvhDpIYMrEkEoyjH4LaNEZhwUPVd
+         mP5W7unquv0MCfWgJ7kpuE8sMrrNiGxoL2ctA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715207368; x=1715812168;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FtYXFaRMkuNbSKWGsrMMLWmq/9Bm3mRH0FfZ3hEbB6k=;
+        b=opQbmEWpJUWjv6e0vwKhvZ8x1Y1qz2ddk6C/knaZS27pULPGu/8qZ0YAMzfa02z9V6
+         S6Q8dvUgNU27r0rJ7CKWPRe90zC+A1O5vUNR1mrVOr1YoVO+KsYwDFGXwaZoM0t+ub+K
+         4oOq97SmTbmJ3gN+C0Ye4ibkSoHA0LgAJ6Xp1Yjf/jbsG6jUtShzZ3baexQOIr2UjAOu
+         CpY6KBw2CVo1JhRUj/mBbCcXzmxH8/G8u2oWV+mKd0g7/UYVcOAN/0tve1RqnGImfgVT
+         EfzAc2+bufYKRsgWz9FJ5j9h+ysN7/T5Pz9iBFIJ9+FtzVsVNav6G9OvB8/jQWo4BxLH
+         NOhg==
+X-Gm-Message-State: AOJu0YyVczaKLSqa0CJFOTDzhAHZp1m8lK7ksrg2thmVgdHZBlGVDRDj
+	m4y5Df+JXoFevvoncljmjXzFNe2SCMWSMl6Oy8c7k2S9vnSlVm09a+5bh5kenA==
+X-Google-Smtp-Source: AGHT+IF522O8v28imST8TxoifwAGm3r3WEAHh5gz2AFejF7YlVXd5l2jd/arFQNSy/japXHab8qAfg==
+X-Received: by 2002:a05:622a:199e:b0:43a:89c1:6b76 with SMTP id d75a77b69052e-43dbf754902mr31637171cf.65.1715207367851;
+        Wed, 08 May 2024 15:29:27 -0700 (PDT)
+Received: from wilburliny.c.googlers.com (200.234.86.34.bc.googleusercontent.com. [34.86.234.200])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43df54b58b5sm272411cf.7.2024.05.08.15.29.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 15:29:27 -0700 (PDT)
+From: Steven 'Steve' Kendall <skend@chromium.org>
+Date: Wed, 08 May 2024 22:29:25 +0000
+Subject: [PATCH] ALSA: usb-audio: Add name for HP Engage Go dock
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-AuthUser: glenn@carsoncitylug.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240508-usb-audio-hp-engage-go-dock-v1-1-9e2984d49e63@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAMT8O2YC/x3MQQqAIBBA0avErBuYxKK6SrTQnGwINJQiiO6et
+ Hzw+Q9kTsIZxuqBxJdkiaGgqStYNhM8o7hiUKQ0tdTjmS2a00nE7UAO3pTER3Rx2bEl26lB92Q
+ GC+VwJF7l/u/T/L4fLFhvam0AAAA=
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Steven 'Steve' Kendall <skend@chromium.org>
+X-Mailer: b4 0.12.4
 
-Greetings,
+This dock previously presented as 'generic USB Audio'.
+UCM may now be applied specific to this dock.
 
-Is it possible that I am suffering a kernel bug?  My  AMD
-ACP/ACP3X/ACP6x sound card does not work and I have tried everything.
+Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+---
+ sound/usb/card.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks,
---glenn
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1b2edc0fd2e9..bdb04fa37a71 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -425,6 +425,10 @@ static const struct usb_audio_device_name usb_audio_names[] = {
+ 
+ 	DEVICE_NAME(0x0fd9, 0x0008, "Hauppauge", "HVR-950Q"),
+ 
++	/* Dock/Stand for HP Engage Go */
++	PROFILE_NAME(0x103c, 0x830a, "HP", "HP Engage Go Dock",
++		     "HP-Engage-Go-Dock"),
++
+ 	/* Stanton/N2IT Final Scratch v1 device ('Scratchamp') */
+ 	DEVICE_NAME(0x103d, 0x0100, "Stanton", "ScratchAmp"),
+ 	DEVICE_NAME(0x103d, 0x0101, "Stanton", "ScratchAmp"),
+
+---
+base-commit: dd5a440a31fae6e459c0d6271dddd62825505361
+change-id: 20240508-usb-audio-hp-engage-go-dock-50b629480a9b
+
+Best regards,
+-- 
+Steven 'Steve' Kendall <skend@chromium.org>
+
