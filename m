@@ -1,153 +1,146 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5772A52F86
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 08:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6CF2BB11
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 08:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715156209; cv=none; b=QfAXw/GWbanlLZXRr45tNiIg7bk+DgEI0kc5lyqpzG+7AEDhMHAuIgeFA4wscb+HvNzCPx6x0Rss/6SkPIhD0T9HGL/9GSFOZEcKZOXEqsdgEpEJ4OUAu7pLi8NjlRSErYip4GS3W5bkblSa72qonFPqVDtOrpwIrw9m8HUM5rs=
+	t=1715156739; cv=none; b=f0I1UiOp04Y8i8Kl9ot27tVbtpQjFL4fWq7tLC+jiR+W88LPbssoXUxHdDO0XkT/VLbiqex0ZehI0stb2hxXeUejcuwXb+QhkLznOa5TpXX5eo/9c7BkM8V+6Vh2NVfAF0NHOhuPsTUJIv2IDhP1RIA4YQgtBvvsUqDMU+ES2Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715156209; c=relaxed/simple;
-	bh=RVNDo+PUPNeV1sa0OC/s/rwZqNAdhw3yPx+40/ruZ0I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GrCiNvfxua0ZZnnoqUv/Jq7ENf9l/WmaGUFAgl4+w1jDpSEqeocKzq3CMDCLplwHErH1XemhHmy5t/rZJKpwpX9O1Eh4wkDYQ8w91D0XUjF1CMSp1sSn6L+khJBFA7UeWqJakzqw1mLoZLUMR2iRqorRNqKJtQsfiTrYFXIKIdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SyctnA4x; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1715156739; c=relaxed/simple;
+	bh=yR3XoFNf5Y4X3lhAQdk0Tm3X5mQiV+Ctsnm7TSM1xM0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bL+075n9lmRq5p7/FURvhXBqDm/0Wv5bny0IOqPtrWKZgt2KMvrFQyV2IpQDQrzxaiR5KWCHgxHj8nK4secxyTBwOh9oPI8H3KjTbk20s980W4ViQhROGTdqzoptt8j6XUdBbgNfLCEwosWGMet50f4TEhrCiwU7RFpD1VEl/v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YVmlE9ma; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SyctnA4x"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a59ab4f60a6so877662266b.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 01:16:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YVmlE9ma"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a59d0810f59so633318966b.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 01:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715156204; x=1715761004; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sm/iyvA/oRf8IDDwCG6199y51shfGYvzaBKbXuvmT5Q=;
-        b=SyctnA4xYaVsB2PPGVfs+voYP5cw3cQhuWXRyCUAs6+naaiTT1v4+V0CCIJeatEQh6
-         mJqOzkukGLxu0IcYF9JxVjNSooAsuvfHC/PWaZPpAyuPjHcE0sdBvSVcRMA24wAa1x6G
-         Ih7++DwW++DPUqlHr0rU/w9Uyo7st10AywkFAJWYTtW5tzFeOFbpio6enpG8FpAeKck9
-         nNbiN00ErA08hpn3oDnK/pAqgwVOtmIKTxFzqgkVD8j+3YuXyp9bpY1EywrTn22aOpBq
-         dk0zoUEG+7rNLIUy622kKBTBLpAqPp1WuRPCRfpE37Vad3Gtsn1c/t8fJMDOoHkkl5ON
-         Oq1A==
+        d=linaro.org; s=google; t=1715156736; x=1715761536; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdH49O0cAgoNSOuWczucbNczC7ApQHsjG59jww0LLZo=;
+        b=YVmlE9mazTTz3qYoJTUBK6cBrWayKSPqgcE29/MgOxuiOFHiCqBvHPpSHdXA1HAZPX
+         i9wuriAb11EHGJ6e1z40egeaiFCIc6nxG1tESwcPnb0UIVJ0swgkP+KvgcZ2OZP/Bgp0
+         zbherUl6U+qlPbaJJznq0AiVn7eCPEWFC+n17aelWygvuzZeeJlnEuvMcjFdCTpGW0zy
+         xoSGNNP67ojVkrfAdxwEgGySLjrDQSNXCcCJoY9RM7dFCX+xDxF++js5hz6CF/wxnAwo
+         6+NC8U4I6foNxlT+G5zTd5qyg7aQE6+RtT/P5RMRIHY5xLKvZS2P2lSVdgSLErYfHXxF
+         3grA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715156204; x=1715761004;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sm/iyvA/oRf8IDDwCG6199y51shfGYvzaBKbXuvmT5Q=;
-        b=R1fG86EtnihhkYpDJc214lNwcHRp6vwt+KQS62QFwjg9lrPsPUm2gP7Zztlb4JD4oL
-         GK1gEQbKI//4CYXAI3BawfDfoGr5t35Bf3r5sD133C9HPZSHgSin5xDxJ6A3nYKUDSg0
-         bd/DImXNJT8qf/tK8p6DfSMXG/fTliXF4HK4SVbc6dIcqrauTfLKCSNnVl1aua6HJeAt
-         PxPMSdboj7gD7XizAcGic+KFGF+J/oRVZpTI4lXwGoQkuWrQvNjo8RFj4hlMmSVirPcr
-         zJ38qmF6+FLa5s1tKCxQJZmLIqwr7O8I0MulX31jrA4GEZuJwgBKnBPtddfQmGDJvrSj
-         6mWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXnPUcABQvHH2uXo1ut3E/zYc40AB5QHvq/RiC81psJ+/uLYnuGxbp9uJDv2Twnx7xNac73wQDW+C+Pi1QNp3cTQRKiBjMzCcuQUek=
-X-Gm-Message-State: AOJu0YzYHXUfXfd9fQWZMVw33s/dYQ9y+nEN4bbFk0xRcBdvTFhnlftm
-	Xs0hpjTqhAeG54tXRKavjSb8SUiSN6qHlHDs7Fmq8n2Ng9EFxIz2uD8m4vN4Rrs=
-X-Google-Smtp-Source: AGHT+IEcO03sXS25ca8HNMd80x92ztrXnHCfFufNC3oFOema6hx6ZWP/GUScP9uFCp2eEtc5nFXxgw==
-X-Received: by 2002:a17:906:c2d9:b0:a59:c23d:85ce with SMTP id a640c23a62f3a-a59fb9c6b24mr143408066b.51.1715156204516;
-        Wed, 08 May 2024 01:16:44 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id va28-20020a17090711dc00b00a59b87dd0d7sm4564734ejb.147.2024.05.08.01.16.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 01:16:44 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 08 May 2024 10:16:30 +0200
-Subject: [PATCH v2 4/4] ASoC: qcom: x1e80100: Correct channel mapping
+        d=1e100.net; s=20230601; t=1715156736; x=1715761536;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KdH49O0cAgoNSOuWczucbNczC7ApQHsjG59jww0LLZo=;
+        b=BtAW/cMsol/MkUxlMbtqxKIf47UoZndwr/7hyIicBMonDFdijHRC1ExDU2LBSrxhRY
+         CKJ0Sfh/s24WIuFj968WepSoAG6b3UHaZsl0TKzNZLzmCzyHaC+TzGjhHJuin+ZhewUo
+         lHYJRIRSaph903s2aKOTOB586nnUyBnQuwp+s1PyCr+I1XP8CuGWxY3T1C3bWNg/5AC8
+         5S0EWbIm1GQSh72MYsoTbyAsl3HCX1dHG0aD8J94tXslghzY8Do3yJnjshcI7/MBOiwP
+         eDPmDocOLyAn7X7XdHyqXkCqxdESCCw8v+bdtxUajKPfzJDQZxrLbmk+epmXzHyijBnY
+         peEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrbUswUKIRgkah35VyRn2x9R/XAknZyhLfgoFx8yfmGWmvpPb7LRfYzOTDWUmWT24hAcl2bEiIQAN6cX6ymO1VV34glcJ60zYvBOE=
+X-Gm-Message-State: AOJu0Yz85f1Gc/CFCihJCxiB4O7bC0CBJ/pxxRw74gFDxwn/yGdbr2YB
+	pMzK7sb5Yb/zgPfZsjrpaChgcbV8iXulmdjsFP6SOfprlC+YRTn303f7sbgdN2w=
+X-Google-Smtp-Source: AGHT+IEvfk2wq2f269sa9OQJkm0NGudvKkDF5KyeUGASVeWwBNkWKvwOoCvA5YQ846oBdBrzIb66Gg==
+X-Received: by 2002:a17:906:791:b0:a59:cfab:504 with SMTP id a640c23a62f3a-a59fb9b8620mr105914966b.48.1715156736514;
+        Wed, 08 May 2024 01:25:36 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.206.169])
+        by smtp.gmail.com with ESMTPSA id h8-20020a17090634c800b00a59b8e16ac7sm4518734ejb.36.2024.05.08.01.25.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 01:25:35 -0700 (PDT)
+Message-ID: <9530cd0a-a10d-49be-a415-e9d2351c0cbc@linaro.org>
+Date: Wed, 8 May 2024 10:25:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240508-asoc-x1e80100-4-channel-mapping-v2-4-ccef9a66a572@linaro.org>
-References: <20240508-asoc-x1e80100-4-channel-mapping-v2-0-ccef9a66a572@linaro.org>
-In-Reply-To: <20240508-asoc-x1e80100-4-channel-mapping-v2-0-ccef9a66a572@linaro.org>
-To: James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] ASoC: Constify channel mapping array arguments in
+ set_channel_map()
+To: James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1580;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=RVNDo+PUPNeV1sa0OC/s/rwZqNAdhw3yPx+40/ruZ0I=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmOzTkOvfRHwYugcz1kWoAcP3RrYYVLFgYomUkd
- wIXaQGCsqWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZjs05AAKCRDBN2bmhouD
- 17MfD/9ppYgawBoat2rd8pJ2G9oUl2iFD/zoJ64d4jFm5+wgcwXzMQiTRfSf7oFG8U+a9tEP9Lz
- KIEJluX00tJicgT3dxM0fC1NxHgTQKdyRhCTgsyoYlIdMsM5ffGkaPXZpKUnbZLpvoKC5TS9l45
- XuZnc1CaiutElSV2WeOBZN055cBzSup7HUYMjrpjYw1ZjJodQmROFvIp6DC8ck09Eaivs1Faz4A
- pRgweZoMHmEmVlESPoHB574JtwtKaYnL3naL9Q9PxmReTPmIyHYXlQvao76rKgdsVaHcjuveRWM
- Se7RGCOp0csNhKv9bvu/U9+OUUUizlnwE1OktST9U9nZxrmM0kTURDj6kz7+84uVwf/dN3AUiq/
- akm0Zt99Wo5Jc3m2WwBRizlSMx7SIx6tM8tjNL6NDW296+M4Z4wlKD5o/Vm509RE5V/LSula/Qa
- G1OvZI53EqPpwlgGtESAYdfmmQl4pnz+mAIbhyevVgEjrpgLmVfUaPb6g9jc45jR8XBkkH+hs8A
- Pjg++CEL6W05MMiNzBediwzt5EYd8dvKeQB1Bj2P/Y3kfuPKUnW2tJ8b2bevnmE4DJwlHzyCVDT
- 8sxPzgstpttuV5NNVaJjbbnJr1HFnS3lhLY61Y6JW/kmIRUoEj59SdrGb/tqhXXsz7lQPgYiRhl
- /HjRVehRnvlOnwg==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240508-asoc-x1e80100-4-channel-mapping-v2-0-ccef9a66a572@linaro.org>
+ <20240508-asoc-x1e80100-4-channel-mapping-v2-1-ccef9a66a572@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240508-asoc-x1e80100-4-channel-mapping-v2-1-ccef9a66a572@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-X1E80100 CRD board comes with four speakers arranged as left front+back
-and then right front+back.  Using default channel mapping causes front
-right speaker to play left back stream.
+On 08/05/2024 10:16, Krzysztof Kozlowski wrote:
+> There is no need for implementations of DAI set_channel_map() to modify
+> contents of passed arrays with actual channel mapping.  Additionally,
+> the caller keeps full ownership of the array.
+> 
+> Constify these pointer arguments so the code will be safer and easier to
+> read (documenting the caller's ownership).
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Oh, crap, I forgot Ack from Charles. I'll wait till tomorrow and send a
+new version with the tag included (unless some review comes).
 
----
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Changes in v2:
-1. Rework significantly, because only backend DAIs is now affected.
----
- sound/soc/qcom/x1e80100.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-index c3c8bf7ffb5b..27f34c0873ab 100644
---- a/sound/soc/qcom/x1e80100.c
-+++ b/sound/soc/qcom/x1e80100.c
-@@ -12,6 +12,7 @@
- 
- #include "common.h"
- #include "qdsp6/q6afe.h"
-+#include "qdsp6/q6dsp-common.h"
- #include "sdw.h"
- 
- struct x1e80100_snd_data {
-@@ -80,6 +81,23 @@ static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
- 	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-+	const unsigned int rx_slot[4] = { PCM_CHANNEL_FL,
-+					  PCM_CHANNEL_LB,
-+					  PCM_CHANNEL_FR,
-+					  PCM_CHANNEL_RB };
-+	int ret;
-+
-+	switch (cpu_dai->id) {
-+	case WSA_CODEC_DMA_RX_0:
-+	case WSA_CODEC_DMA_RX_1:
-+		ret = snd_soc_dai_set_channel_map(cpu_dai, 0, NULL,
-+						  ARRAY_SIZE(rx_slot), rx_slot);
-+		if (ret)
-+			return ret;
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	return qcom_snd_sdw_prepare(substream, sruntime,
- 				    &data->stream_prepared[cpu_dai->id]);
-
--- 
-2.43.0
+Best regards,
+Krzysztof
 
