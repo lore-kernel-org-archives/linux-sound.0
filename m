@@ -1,98 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CCB14003;
-	Wed,  8 May 2024 02:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF48C1A269
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 05:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715137078; cv=none; b=S5BBO08m6oydZ1ELyQvOnQJy4y/UgidHh0XrKqgm7b80cDsHIH4SdBqpjnHIAJKBE9Ef6yQhpq9tyfrftqF2iSwPWjNTglFvTLigSjxUVPLDFaBV/6nGVZ0yc4N3l2AKjH2/EiGj5KE3zUpWD4GO40TyUY5pgzlCGP2kCIyboOY=
+	t=1715147082; cv=none; b=eCYoF9M+kJOC3ERRRjFD3PshGPtSOtMXN0pCLxFRiptahE4CBakiWrKQPf9pCXZRv2Os6yB/ULxbw69bBJrKK2aMTO1ezcBE6v7WAlDjkpJLb6LfjRCMbY8wU82ZHGON7z2tXrUjfgJcMYuv6YPMx0x+rVHjJcbd0E3MDkm+6Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715137078; c=relaxed/simple;
-	bh=7Fb40uljgKsFnE1FzE9EeCrT6mqgfdQY5bkG3RtT+n0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rSXIDtOLhexXPSqwZujs3PHMQxocgCsL616EcqYRIN87mVnm3g/JkGNuBLVkY95j1fLW3j/zK36wTsldQ1Pp4phtru4lMTwewf/DHl6xcUOhyaL4YQiV6srLoOX1zZ2asywyCCGi/yib03E2mGxCwstiHXvR098TjlE8KkLonWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fK6K0Qbc; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715147082; c=relaxed/simple;
+	bh=0gu9nUe1kEb8UKNEIGrp2O+y/7dOVY6An7jLDvXvU+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=flOuCBepmPP8XUrAJ7ePYdQIlr5K8O1TdoXPWMYgndcsZE0rNQ2jJv8MW+007wY/IBLJXi3Nd9k9/PLmFhNZa66j4LrykgV0x4+5MpGhyxWp+rl5JTtZ7fgO4URZAwnlfzTw92+sQep6Ezn1c2MLKpIBO7NZItXjb142lTl3n2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=d1EhkmjG; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fK6K0Qbc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715137077; x=1746673077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7Fb40uljgKsFnE1FzE9EeCrT6mqgfdQY5bkG3RtT+n0=;
-  b=fK6K0Qbc4uz0oW5sTJlmm4SmZVTrgSJP+E90a5X45dzSwXnF/WeFtDBU
-   S5mVFCVc8pMLtywTsqvgNSzZ4RmDTmTBmpi9u4t7x3uPSxCw/MXRXGoZ5
-   Tg3gN/Y4zh8+zx31/viPwKG7P6osqAoAKu30ILUuFW2DtYXEFTcc/S/Lp
-   zSc3IBrNsF08ljT3+CkRfM5vYH/MM2m0hwj1ckJhbsO7vyeL17CrkOZDP
-   m+RLRyb5aAK+yzQ4EMrUJkvOXIZyrHyThqk3EsjzvvO6VceqmhDxA7LKW
-   wY/SPpNdBwR3PH093OkFiuw9IMEXaAQRaHFIXeaWDgyru81SE4qVEaKil
-   g==;
-X-CSE-ConnectionGUID: tuIqC/l+RV2/JCk90SpOTQ==
-X-CSE-MsgGUID: CMd0MxKaTP+9d9m4HDkS1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="21533526"
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="21533526"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 19:57:56 -0700
-X-CSE-ConnectionGUID: anmJjyLiR6S4ei743rWx4w==
-X-CSE-MsgGUID: SLR/iHPIS5Wre20AGIkdTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="33291964"
-Received: from linux.bj.intel.com ([10.238.157.71])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 19:57:50 -0700
-Date: Wed, 8 May 2024 10:55:05 +0800
-From: Tao Su <tao1.su@linux.intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, kvm@vger.kernel.org,
-	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-sgx@vger.kernel.org, edliaw@google.com,
-	ivan.orlov0322@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, shuah@kernel.org, seanjc@google.com,
-	pbonzini@redhat.com, bongsu.jeon@samsung.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alexandre.belloni@bootlin.com, jarkko@kernel.org,
-	dave.hansen@linux.intel.com
-Subject: Re: [PATCH] selftests: Add _GNU_SOURCE definition when including
- kselftest_harness.h
-Message-ID: <ZjrpieLKXFhklVwR@linux.bj.intel.com>
-References: <20240507063534.4191447-1-tao1.su@linux.intel.com>
- <20240507100651.8faca09c7af34de28f830f03@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="d1EhkmjG"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 5F3143CEC;
+	Wed,  8 May 2024 07:44:35 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 5F3143CEC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1715147075; bh=MzApmZ5at41Ub8dgebKpimYybNuCmtn5ga7jDIACbG4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d1EhkmjGKwmyMoOfqLeFnDOwHX+YTQ8zpasUkACLu0XAYtmvzXULM9t0L1WqYCxwO
+	 mirJklavDHFJVCkxiDwJvn/V+MZN5/f6AS32DfSmDtFZZ3XQg7yu1SCirTSGObYzBR
+	 T+mg4na2Vb8WY/ZYAqcpNNoY3x7UtlAqd+R6PVHE=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed,  8 May 2024 07:44:32 +0200 (CEST)
+Message-ID: <8ee4aa15-a981-4275-a226-0c167ec1ce14@perex.cz>
+Date: Wed, 8 May 2024 07:44:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240507100651.8faca09c7af34de28f830f03@linux-foundation.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/34] ASoC: Use *-y instead of *-objs in Makefile
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+References: <20240507155540.24815-1-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 07, 2024 at 10:06:51AM -0700, Andrew Morton wrote:
-> On Tue,  7 May 2024 14:35:34 +0800 Tao Su <tao1.su@linux.intel.com> wrote:
+On 07. 05. 24 17:55, Takashi Iwai wrote:
+> Hi,
 > 
-> > asprintf() is declared in stdio.h when defining _GNU_SOURCE, but stdio.h
-> > is so common that many files don’t define _GNU_SOURCE before including
-> > stdio.h, and defining _GNU_SOURCE after including stdio.h will no longer
-> > take effect.
-> > 
-> > Since kselftest_harness.h introduces asprintf(), it is necessary to add
-> > _GNU_SOURCE definition in all selftests including kselftest_harness.h,
-> > otherwise, there will be warnings or even errors during compilation.
-> > There are already many selftests that define _GNU_SOURCE or put the
-> > include of kselftest_harness.h at the very beginning of the .c file, just
-> > add the _GNU_SOURCE definition in the tests that have compilation warnings.
+> this is a series of trivial cleanup patches for ASoC to correct
+> the *-objs suffix in Makefile.  The other ALSA code has been covered
+> by a previous patch set
+>    https://lore.kernel.org/r/20240507135513.14919-1-tiwai@suse.de
 > 
-> That asprintf() continues to cause problems.  How about we just remove
-> it? Do the malloc(snprintf(str, 0, ...)) separately?
+> As was suggested in a patch review, *-objs suffix in Makefile is
+> basically a wrong use nowadays for kernel driver modules.
+> They should be replaced with *-y suffix instead.
+> This is a result of systematic conversions, separated per directory.
+> 
+> Only lightly compile-tested.
 
-Removing asprintf() is indeed an good option, but using snprintf(str, 0, ...)
-to get string size may go against the original intention of commit 38c957f07038.
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
 
-Back to commit 38c957f07038, I don't see any advantage in using LINE_MAX.
-Can we use a fixed value instead of LINE_MAX? E.g., 1024, 2048. Then we
-just need to revert commit 809216233555.
+			Thanks,
+				Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
