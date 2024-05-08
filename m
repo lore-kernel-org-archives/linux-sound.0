@@ -1,161 +1,137 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4268E12BF34
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 18:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAA6225D9;
+	Wed,  8 May 2024 19:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715191421; cv=none; b=SOamhaAkkCKnKHKKBkd9X4I1hrMYBkc2dXsOvowfRqqWe8XBEHKptwhbMP3HNc3jcse9Rir4bxNkNcYLRla4Zm9lU+a7v4KR8tTvl473ycJybzZz8J2MvwDu4p/5vooP2lvgwX/IAibIfmYctjeagI2/pcBPQoDftldLY9rQrCM=
+	t=1715197300; cv=none; b=qKOdra07+aAJIsWRbdtQLAU4aj3OiDEsFNO3OF/9cIVEaOA1n80kqZAaXKCpuHuGMRJYS4P0jNtzxPMQdveDHqqFo8lo9qtL6Re8pSZGbX5JrpAI3DVRMrDkceQppKgowK6evWJK647T4SgwaN+YDZOpMy24sV6uf75K3/cC3BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715191421; c=relaxed/simple;
-	bh=QnIGcOGbV4cqrx4Nx/huveAV3Zfk93aDR5GKJzn4mog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KmCKqt78tvFD/eQgKE+Ql+GV+fGXYC9jXvzh6T7rDJD7LczEeqmYzn/Zissx9Pet7LfA2NK44FXtLQwClHJqXj0R5AMqRNg/Ivz/rcna0jTppeAJHcFUJpbL+ya1PGYRtMvkRdHVe1mWaxUmeDJAMV2wbz882gp+QZ6gLrNDYQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MDO9ZEE/; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1715197300; c=relaxed/simple;
+	bh=HapdOvbkq3cPe7mrnwPRJWY/JCHXpUP5zWlGDoia4vU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OAwtl4+3AguKmAXEPLfGf5tOhCYmDbWY0NctqbopvbSvABIuIE4vfFrGTl849D1l4jNKkfdBxW14vK5+eQC4s1ltobvjawPOOkBYh1dMX282gugqxzsKsVzXnoAIRoGbZqceqEEpIdkfcHVqMAfKcEvfg6h6bTPmSpg6DkDGz6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eO8Qobbh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MDO9ZEE/"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-572a1b3d6baso1750a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 11:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715191417; x=1715796217; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NKy0w8SAVZYo27FpU6ZBovVv7b8KWTwyUtyfvoxHua4=;
-        b=MDO9ZEE/likR2ckWoxMuwmX5XuJpo/MliTsQTLkYJvbAeHL7DxxsuckjkF+BmCoheE
-         nI4TPXOaddA+VAPpry4jgJ9TZFm+fGpdlUFbCe2Hi5OVLXB26jgay0ATo1UKiat4DSXc
-         7bNIY1d42xd0bQ1Hmuaa19nXyq1uclJVNa+e8jY55trNWJ1W5XuERkT+FNKxQuUMd/HB
-         EbWcEX0XqZKEAlBapGeXFyJFxLvpGmMutsDTLwezfrn9SEcHRVMhSc27h2ibw+GEGdSO
-         4AedWVLB7yZgKERzgE2wVJhpiAZv8prVhJ7E9w/BlZQyf71jLfj8hbSJSUqzrxBgTrRL
-         d+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715191417; x=1715796217;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NKy0w8SAVZYo27FpU6ZBovVv7b8KWTwyUtyfvoxHua4=;
-        b=RVCW0TUknOILt8nk8bKD6mRRmUjwOfRnS6yp4m5g4pnUAWagtn3HkVOzcZYxGSzEfN
-         WX3sHek95YE/zvYZNIUOeaDVj9ET4M0o3ekNvD13WYVKaiXzdHM2ec2kucAaZPw8Yz0T
-         Q8cWKuUjoFJhXzzv0bqxMrYNR/T8s74HAa49zcVQ9JmaApmoNNZMnbGRFy7aC6lc8D2A
-         +21grfctyyc4wFDxlZBLsSJFAqMJ1vPS5C/+klQ8J0sdw/xBPPKm4KP2Hnd4fDx4R2FT
-         mFLE+slCQjV0mZT/iTFud+AnOqn3TWa8yPsDuTBLKor2en6SuljnP56I65MtEwMKAmD9
-         1lxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkuWTEOT4yQn+3hmvZgEMQqHWujRE+BlbNCusCtLNht0JPWxfmm97PN1T4bluBDSVeC/wa9n1G0EAgoKYuu0kN9zivo9BYO3JO/fM=
-X-Gm-Message-State: AOJu0YwHM+PtUusr7meIyF6oar5TMFxOHCjPpDF9w8+Oml3xi9qv0YjT
-	+zeM0d8Eu6sqkFH0pwahSsjXlVwQGQ+4z2F/o/38KZ4HHoenUjW45NZvoqa2g042DUBHRiLgOYq
-	2bwU3FHL11A+ivAXnMlZk71igRK1ayETG1pLW
-X-Google-Smtp-Source: AGHT+IFdyxKHKBA5RxjNJeg0nvw+PuOv0TpVA43qYYBbq4FC0UUJLuiCzYnH7rV9IAgiFwYJSHM5Q/yPLhYa7GrUbHY=
-X-Received: by 2002:a05:6402:1763:b0:572:554b:ec66 with SMTP id
- 4fb4d7f45d1cf-57334b922acmr1088a12.3.1715191416289; Wed, 08 May 2024 11:03:36
- -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eO8Qobbh"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 448C4OBB027127;
+	Wed, 8 May 2024 19:41:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=//8eQG+4DJgnx0oufJSB0Ib+8mNORV/5apGuxCNbiww=; b=eO
+	8QobbhfFGKKMOMN0MklkBu/IIMkRiTUFvOXG2N0U+uncWf4fVgG9GtPXMgeIdubH
+	J50HYgA+5bxk/nOeBJHHbq2HKS4j5zMZ/Q3kDh7dq/kv/49NO56vh1ECoLNr55EU
+	DA3rlZra/g4d45My0ErWb2TBFfwn/+mWfuAVHYx8MVCGNaBlQNyJoTWp2Em/Bdsv
+	noRyvN6Bi5XEkIJot+es0BoE4Pi6E91c9c8TnRmI35MoU3j788jIDFeUcUiWTXna
+	4DXKNHqvzTUGvxIJnfOVGtLo+GEUrt52unFv9Gy1fHU9pzb2hr+0C0xfzEerqppB
+	zzlAl1GT3Pp2WutiX/ug==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y0930s2f2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 May 2024 19:41:17 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 448JfGU3007751
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 May 2024 19:41:16 GMT
+Received: from [10.110.126.205] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 May 2024
+ 12:41:15 -0700
+Message-ID: <a602e121-28e0-3255-87bb-c75355926125@quicinc.com>
+Date: Wed, 8 May 2024 12:41:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507214254.2787305-1-edliaw@google.com> <ZjuA3aY_iHkjP7bQ@google.com>
-In-Reply-To: <ZjuA3aY_iHkjP7bQ@google.com>
-From: Edward Liaw <edliaw@google.com>
-Date: Wed, 8 May 2024 11:03:07 -0700
-Message-ID: <CAG4es9V1578h2EgpztcoEv3CPGftbgA+HNfhgaPxBqOxP6-CrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
-To: Sean Christopherson <seanjc@google.com>
-Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
-	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	David Hildenbrand <david@redhat.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Seth Forshee <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>, 
-	Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v21 34/39] ALSA: usb-audio: Add USB offloading capable
+ kcontrol
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>, <krzk+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <bagasdotme@gmail.com>, <robh@kernel.org>, <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
+ <20240507195116.9464-35-quic_wcheng@quicinc.com>
+ <4ce8ee3b-21d3-4aa3-8fd5-7dcccc2b8abe@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <4ce8ee3b-21d3-4aa3-8fd5-7dcccc2b8abe@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _92PkR2WXZJ-AELmvZ21blO6NJUTRqKm
+X-Proofpoint-ORIG-GUID: _92PkR2WXZJ-AELmvZ21blO6NJUTRqKm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-08_09,2024-05-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 mlxlogscore=999 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
+ definitions=main-2405080144
 
-On Wed, May 8, 2024 at 6:47=E2=80=AFAM Sean Christopherson <seanjc@google.c=
-om> wrote:
->
-> On Tue, May 07, 2024, Edward Liaw wrote:
-> > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> > asprintf into kselftest_harness.h, which is a GNU extension and needs
-> > _GNU_SOURCE to either be defined prior to including headers or with the
-> > -D_GNU_SOURCE flag passed to the compiler.
-> >
-> > v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-ed=
-liaw@google.com/
-> > v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
-> > location.  Remove #define _GNU_SOURCE from source code to resolve
-> > redefinition warnings.
-> >
-> > Edward Liaw (5):
-> >   selftests: Compile kselftest headers with -D_GNU_SOURCE
-> >   selftests/sgx: Include KHDR_INCLUDES in Makefile
-> >   selftests: Include KHDR_INCLUDES in Makefile
-> >   selftests: Drop define _GNU_SOURCE
-> >   selftests: Drop duplicate -D_GNU_SOURCE
->
-> Can you rebase this on top of linux-next?  I have a conflicting fix[*] fo=
-r the
-> KVM selftests queued for 6.10, and I would prefer not to drop that commit=
- at
-> this stage as it would require a rebase of a pile of other commits.
+Hi Pierre,
 
-Ok, I'll do that.
+On 5/7/2024 2:37 PM, Pierre-Louis Bossart wrote:
+> 
+> 
+> On 5/7/24 14:51, Wesley Cheng wrote:
+>> In order to allow userspace/applications know about USB offloading status,
+>> expose a sound kcontrol that fetches information about which sound card
+>> index is associated with the ASoC platform card supporting offloading.  In
+>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+>> responsible for registering to the SOC USB layer.  SOC USB will expose more
+>> details about the current offloading status, which includes the USB sound
+>> card and USB PCM device indexes currently being used.
+>>
+>> It is expected for the USB offloading driver to add the kcontrol to the
+>> sound card associated with the USB audio device.  An example output would
+>> look like:
+>>
+>> tinymix -D 1 get 'USB Offload Playback Capable Card'
+>> 0 (range -1->32)
+> 
+> You already gave the following examples in patch 29:
+> 
+> "
+> USB offloading idle:
+> tinymix -D 0 get 'USB Offload Playback Route Status'
+> -->-1, -1 (range -1->32)
+> 
+> USB offloading active(USB card#1 pcm#0):
+> tinymix -D 0 get 'USB Offload Playback Route Status'
+> -->1, 0 (range -1->32)
+> "
+> 
+> Can you clarify how many controls there would be in the end?
 
->
-> And I doubt KVM is the only subsystem that has a targeted fix for the _GN=
-U_SOURCE
-> mess.
->
-> If we want/need to get a fix into 6.9, then IMO we should just revert 809=
-216233555
-> ("selftests/harness: remove use of LINE_MAX"), as that came in quite late=
- in the
-> 6.9 cycle, and I don't think it's feasible to be 100% confident that glob=
-ally
-> defining _GNU_SOURCE works for all selftests, i.e. we really should have =
-a full
-> cycle for folks to test.
+For USB offload situations, there will be a set of controls for playback 
+status and playback select.  The offload jack will also be there to tell 
+us if there is an offload path available for the platform ASoC sound card.
 
-That sounds reasonable to me.  In this thread Tao suggested reverting
-back to 809216233555 and using a fixed value in place of LINE_MAX to
-fix 38c957f07038
-https://lore.kernel.org/linux-kselftest/20240508070003.2acdf9b4@kernel.org/
+> Also isn't tinymix -D N going to give you the controls for card N?
+> 
 
->
-> [*] https://github.com/kvm-x86/linux/commit/730cfa45b5f4
+Yes, since the offload portion is handled as a DPCM DAI link to the 
+platform ASoC card, it will be included as a kcontrol for that.
+
+Thanks
+Wesley Cheng
+
