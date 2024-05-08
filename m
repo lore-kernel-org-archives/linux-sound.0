@@ -1,85 +1,85 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D8173183
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 09:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8006147F41
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 09:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715160142; cv=none; b=E9SOObrKo/hjvD5wmnf1GI1Qd9HLZor1oR1Iab4gm8Kl7G73SeAfWUiWxOLSYsfNwJaKaRGnUxHbFlhWsBN/z02WfcefPmM6Ix+M0RwVbO8htwHfOU6arktEQkLx8Hc6YF/5ywZ1Ne2GL0MGfViT+8uAtfAGz6OIAPa3jcuOdcc=
+	t=1715160990; cv=none; b=sW1eMJ0m6ify12uBUn3xAzJP/Pn59kCvpaXFwgD16W+WtVNsMebPLLga/k0tglnQxlnDMrMrWtEhIKStfGod9uQUVpISL3CtX2YE7NO4IdZzQQPoneEorS7+wpxapw3WVWWlmZmmszLs4FF/7Z+334XJJrot47qGknEo0hv4qIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715160142; c=relaxed/simple;
-	bh=sH79F0RuQ//HzIYaGFHaCrPhL3TDdae+O2jUomdL18Q=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=t7jyANrN9T+r/21LVHprmVe2fnhQqMGCkOiqmuI0Mn/Vq3sr2QP1llt5l1z8vzCiEBWowauvwXvmI5YsuSU/iMIr4eNFU3AcJKsr0NUarH5ZP2OgBTYMXKjf35SXHx8778dXHpep8cp6AbVe6BpRWI/EBv0nBgMKc9WSu8PhHYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=KYGGNtCq; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1715160990; c=relaxed/simple;
+	bh=uKsmLQG1UOzafQ3PD9waQrJ1WeN4JOW9UlivEijiZPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jIVJauGCUVPDgU5egPqEpbZ4ikBcRmI27z8elnqfRxHT0pJs9Qrgn3L4h1WIBoDxNRsfTWxzKeom+MIiSoiWyX/bgUO031p0Z6rjF3upmugVK4Xiy73XUkRoHg+DdzDJfqbX3cEeLygl8C1ochRY7AMOXK9Y5NquHM6c7YPtvAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVH7eOhn; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="KYGGNtCq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVH7eOhn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715160989; x=1746696989;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uKsmLQG1UOzafQ3PD9waQrJ1WeN4JOW9UlivEijiZPw=;
+  b=PVH7eOhngg+txnc8UOQJ7BIrASd0v20Zy3dzE6EvuCdgUcwDKwPSAFBy
+   x61GqGecsttW8qoddxo+7r+LwzcMwECQMarxK4uzPzBtb6nyrbQbxE8tQ
+   yE6YrHet77jnbyb3EcSNrbF+Oqjp8TBP8u5k0jA3HxtACs/T2xQ3zaUe7
+   NfJY0R8auSStty94eY/PDvnza3OUV/RTW7vng5KYLcwbn0yQQQWpJvkLZ
+   g4AWH0oK/9A9svto0HvH1dnzxsHDbx6DknD6dVhldbeQ0numEprFLGu+8
+   ct4QgAFOGBaxn0myu41Vt2AZCZhB60DMqAqyRKOpRSwxClSgWuTTtUkzf
+   w==;
+X-CSE-ConnectionGUID: tLgAvhsTSXKdf+Mu18E6zg==
+X-CSE-MsgGUID: kGJmvNdCS+G521YHu/8SWw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22415904"
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
+   d="scan'208";a="22415904"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 02:36:29 -0700
+X-CSE-ConnectionGUID: hN+rIm9bQAqM7PuzF9gQ5Q==
+X-CSE-MsgGUID: zrrL6t3XQISy0HNso3QUTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
+   d="scan'208";a="33352599"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 02:36:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s4dic-00000005NX8-2lsu;
+	Wed, 08 May 2024 12:36:10 +0300
+Date: Wed, 8 May 2024 12:36:10 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/7] ALSA: Add missing module description
+Message-ID: <ZjtHiq52po1kfZp2@smile.fi.intel.com>
+References: <20240508091128.25274-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1715160137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q26GzFC34vSonfrXi9DC7pdfahs4v04MqdWJsbYXTL0=;
-	b=KYGGNtCq9s75oi/EfH3NRmvvMMvEubzUqHPB2nHNWuVdaU8XHqFg+Pir1QADenIzxmh7wH
-	a6TTlnCjHRoyxYwMwFDc0UnCb2kE9QiWJMCpgzYGFDkltAavBmpKxoswcWtsI6RojWbb9F
-	maT4kIcq58p3lbUH2Jct3lPZHWcVKFemf6egsQB4NjfgfDuep7aiRfMmpf8FRM1x5EoRLp
-	pB1rLpxKA3sZ5IQfYWXJ51AJpJQ8eNTe8JDjM+6RM/P7MxLKrhFWtcMIuS25d1YNh0XJ8h
-	HNLO0U0fr/4vajB+iZqXYnkzkaZZJlivPSKZR4Q+JqUDhpdQy1V6ULYEy8qVTQ==
-Date: Wed, 08 May 2024 11:22:17 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/7] ASoC: Add missing module descriptions
-In-Reply-To: <20240508091909.27062-1-tiwai@suse.de>
-References: <20240508091909.27062-1-tiwai@suse.de>
-Message-ID: <4d19f9665b32507f4da08d886dab3898@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508091128.25274-1-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 2024-05-08 11:18, Takashi Iwai wrote:
-> here is a trivial patch series to add the missing module descriptions
-> to ASoC drivers, as make W=1 starts complaining the lack of
-> MODULE_DESCRIPTION() since recently.
+On Wed, May 08, 2024 at 11:11:19AM +0200, Takashi Iwai wrote:
+> Hi,
 > 
-> The whole sound/soc/sof/* are untouched as there are too many files
-> involved, and I left SOF people to address them.
-
-The changes are looking good to me.  Thus, please add for the
-entire series:
-
-Reviewed-by: Dragan Simic <dsimic@manjaro.org>
-
-> ===
+> here is a trivial patch series for adding the missing
+> MODULE_DESCRIPTION() to the code that can be built as modules
+> where make W=1 starts complaining the lack of MODULE_DESCRIPTION()
+> since recently.
 > 
-> Takashi Iwai (7):
->   ASoC: ab8500: Add missing module description
->   ASoC: sigmadsp: Add missing module description
->   ASoC: qcom: Add missing module descriptions
->   ASoC: dmaengine: Add missing module description
->   ASoC: topology-test: Add missing module description
->   ASoC: ux500: Add missing module description
->   ASoC: xilinx: Add missing module descriptions
-> 
->  sound/soc/codecs/ab8500-codec.c       | 1 +
->  sound/soc/codecs/sigmadsp.c           | 1 +
->  sound/soc/qcom/common.c               | 2 ++
->  sound/soc/qcom/qdsp6/q6dsp-common.c   | 2 ++
->  sound/soc/soc-generic-dmaengine-pcm.c | 1 +
->  sound/soc/soc-topology-test.c         | 1 +
->  sound/soc/ux500/ux500_msp_dai.c       | 1 +
->  sound/soc/xilinx/xlnx_formatter_pcm.c | 2 ++
->  sound/soc/xilinx/xlnx_i2s.c           | 1 +
->  9 files changed, 12 insertions(+)
+> Fixes for ASoC follow later.
+
+Probably Reported-by: fits better, but I'm fine with either.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
