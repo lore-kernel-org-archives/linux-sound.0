@@ -1,128 +1,145 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187CE8063C;
-	Wed,  8 May 2024 10:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA15D81729;
+	Wed,  8 May 2024 11:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715162901; cv=none; b=XLpfuuMN9NXugaEb1yMifITtXzStIG/YOKuSLIlmcK8rB6onHe4yaEYjF+aW9z0ehcSzO354saj24d1TmM8VQVwMP7zzXdOvVuGvnMX0ZP1SRNrBnjAE4G0bA/gsSbLybDp82fkxbmL9W8WK2LEWSQi7DtNBd1/lotdHBmCMqtA=
+	t=1715166083; cv=none; b=WA5JSc/ZoXyG8dg3t5lDMnvDECn6W1Gs/C29ouN/81USVvlG3r2m/LJoP3tEK6LajPLIdv3CFk/z6NElaEmSiEYzqQLoSM5NOHD+ffzb7FY7N/TH2HSFAN5bOBHXmpjl81FxIY9H3TRzqgkIIdVROzJbIypN2p1D+rDTA0UkUqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715162901; c=relaxed/simple;
-	bh=TPptcfmWefb6Dwpc7wioI/LAUBpw0qGUXV0LNVjXWEM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hDf0fM5Q+fBdOW3AMk3JHTr31WJyJzd1NmX7lM2A15krSEerU1mu9PjuC62T5Xz/1CNfFONdUB/05tOEKwrzsRc4V1VPJNAK75Rbk2SY7BwPwyitqqxy2SXu/EADN29beUzOAUxOlMd9mpXzw7WK1nNjZaZW3opx330NOQiYz4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=KPtJyn8K; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1715166083; c=relaxed/simple;
+	bh=r5VX4FkZssbN7CluXLWuH6JvBu0lDlmJiHnKY2yOe2I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bmBRWEZ2sl3yvAp55n3FZ/sbub15tiadcsFt0uQ1Q/tKus4ghyHijl0M6b78RA9cfOMa0xqnu6bgIpPqACGzlTqJVfCSH4NN69+1tgZzeODlLJimCYWI/UBT1J6u01wnQy2U8qTBrxEG0c1lBb+kY2a9/l9ytL+PSO4Rjz4uM9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiZrZiHc; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="KPtJyn8K"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44870QlG029375;
-	Wed, 8 May 2024 05:08:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PODMain02222019; bh=N
-	J7EXhSoGpVKvEWs1UdcCOfYFkLfSO0USCWaoNX8CHA=; b=KPtJyn8KFqYdCPlvZ
-	1SYaEXdrErwCc3x1yxlFtMHcrTAsf8ZD/24p+Mx+uVkmtqmfhXjwcOAsBCMbvcFN
-	QtSxF+ovD2auZtD89uYft7HO57N25L4NpogRDpMhV0VmJ1y97Iq25fcifiug2IB6
-	IvYiZ0LUX/ljzDK71M10Oc8hGCHtgWK245b/YHT8FjWwuWN9RIDfnFGYp1FWkH8m
-	L9hbyqhHslqKhdplza8g2Hww8pGj4b3Gwru0Sazm5+vAUfEeoR4S8H5O+CMxb2kw
-	BUkrV5zmj34qM/B1xBYDUZI58/ALEfhf9vKaBxPH1U7dk+Xmfr7ujU1U8WGI0Fys
-	+VPTg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3xysherp5x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 May 2024 05:08:14 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 May 2024
- 11:08:12 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9
- via Frontend Transport; Wed, 8 May 2024 11:08:12 +0100
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E47BF820244;
-	Wed,  8 May 2024 10:08:11 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH] ALSA: hda: cs35l56: Fix lifetime of cs_dsp instance
-Date: Wed, 8 May 2024 11:08:11 +0100
-Message-ID: <20240508100811.49514-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiZrZiHc"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a599a298990so1136409466b.2;
+        Wed, 08 May 2024 04:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715166078; x=1715770878; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nLUfxm5MoMUpMeCDhK5Bz2fJOiPFk2NnRkp477QVdeE=;
+        b=DiZrZiHcDaQMtrjjTnQfcgA1simWtdWIpeVRb5uC5N/iwhKmxyuevj6OuTacdaou2Z
+         Vfeo4Apu6V+CZATp0kPDGuY6kZYp6kPULNH7rR8bxR4OSMp+OJ62+MCnXear690zV0Bm
+         jPWLcm8S9yyZ9fgoqQuzESa9jsqwkA3/LUhvVb3geosY5TI+ZSkp53o4wKo9i/EsysgK
+         bNXw2P+gwtmTvH0s/0V3X2wjUcKmP05DFTHS+I9Iq6H1phFEJzj7jMPWgdS8sA3DMs3l
+         lJCmX6NfUQoL6odH8kJjx5GdIsOg3mww49+goSHmDOMoXCQ67mx3IZ1Zhx2+y7MxoRWu
+         hxTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715166078; x=1715770878;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nLUfxm5MoMUpMeCDhK5Bz2fJOiPFk2NnRkp477QVdeE=;
+        b=FAkqUZQBQjRCGWsE/h4qiI9VqoC/z7UfSoriicx/iF7BBHw7rRRlsN+3k5I9qln7tt
+         SBjAYAgEk3r4Aqf2y6mOSmyUc151pLlW2NGT6ljadAAqakzF2l2ntJ8sT8QnxeuHsLYH
+         k85RningKtxhPb4+pn2QABbehej1pu7h0z6RC9K/KP/Ginoz9aG3Smr/AjBeaszPP0SM
+         Wd6hzG0pDPSWLTQzVPZgplfDoaAOvA3RiVHtqnnQs8sF3G3PQdA7IQupmxdDdSSeH+7j
+         5Rri/LEgkfhFTIWzT7WBWsQZP/tLxHbCo/abzif9LKlwU093eNMdclXbk/KDu4mYm1PL
+         XWcg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8c7gbZh1ZO7799J1L/wGPvM0Ixu3gz5ucxrV/R1P4LyoBD/oZCg2ebYyXiC1d+vh8KjzZOGcSr2A0aBM3wXxA+Fec1PSBA3EZFw/Cq4+f72lYDo9cHmY1RgWPGl+8aIalPVoL4mn9vmztW0D8j2idKAgn5VX+5FQudPmriHeykd5vqXbFf09ydzimcmEO9dLytRYJHSYoTwqCtdqt5MaYW7FXjloL+Po=
+X-Gm-Message-State: AOJu0Yz4Kt0eIfkRR9rtrkBk4pS0H9e5dfCxdqxp4ZhiSOtGHiNZWanZ
+	1deSrXH+b9yNBAG6hiF3PpkvdT+FcOcmC2rXYDzKCrwahjcNPqKE99H4ng==
+X-Google-Smtp-Source: AGHT+IE8hv2zDJ3LkL3ncFxb3Ha6bL6EU12va4uVfT4eJ+Rn37xQs/HDgl9eOJT08amMnIDxyvOygA==
+X-Received: by 2002:a50:d5da:0:b0:572:32e4:daca with SMTP id 4fb4d7f45d1cf-5731d9f1f1emr1431811a12.25.1715166077915;
+        Wed, 08 May 2024 04:01:17 -0700 (PDT)
+Received: from hex.my.domain (83.8.126.253.ipv4.supernova.orange.pl. [83.8.126.253])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056402510600b005726b58a436sm7455793edd.30.2024.05.08.04.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 04:01:17 -0700 (PDT)
+From: Artur Weber <aweber.kernel@gmail.com>
+Subject: [PATCH v2 0/7] ASoC: samsung: midas-audio: Add GPIO-based headset
+ jack detection
+Date: Wed, 08 May 2024 12:58:48 +0200
+Message-Id: <20240508-midas-wm1811-gpio-jack-v2-0-b4d36cd02c6e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: ClisYTMZ6HFqvrv3HKI_oxKb6ovp3v7g
-X-Proofpoint-ORIG-GUID: ClisYTMZ6HFqvrv3HKI_oxKb6ovp3v7g
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOhaO2YC/3WNQQ6CMBBFr0K6dkynKhBX3MOwaKcFRi0lrUEN4
+ e5WEpcu30v++4tILrJL4lwsIrqZE4cxg9oVggY99g7YZhZKqqM8SQWerU7w9FgjQj9xgKumGxi
+ USpUGK0ck8niKruPXFr60mQdOjxDf28+MX/tLHv4lZwQJriZrjS0rMl3Te833PQUv2nVdPxCQI
+ ZG8AAAA
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Artur Weber <aweber.kernel@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715166076; l=2757;
+ i=aweber.kernel@gmail.com; s=20231030; h=from:subject:message-id;
+ bh=r5VX4FkZssbN7CluXLWuH6JvBu0lDlmJiHnKY2yOe2I=;
+ b=efwB+kVCs/L/SZZaODuzZbKPTctk3zichDAOp2lR+DvHFC7GKEvMKy77JrMEeOY/zvUyB2G1z
+ 5nECFtfNyNpAk5lJ8jrkQdC6RykE44TaxW2X4Fe0ZihcEigyUe8jgwR
+X-Developer-Key: i=aweber.kernel@gmail.com; a=ed25519;
+ pk=RhDBfWbJEHqDibXbhNEBAnc9FMkyznGxX/hwfhL8bv8=
 
-The cs_dsp instance is initialized in the driver probe() so it
-should be freed in the driver remove(). Also fix a missing call
-to cs_dsp_remove() in the error path of cs35l56_hda_common_probe().
+Many of Samsung's Exynos 4 devices share the same midas-audio driver
+to handle the codec setup. While most of these devices, including the
+Midas itself, use the jack detection provided by the WM8994 driver,
+other devices such as the Samsung Galaxy Tab 3 8.0 (lt01) use two GPIOs
+and an ADC channel to determine jack insertion, the jack's type, and
+button presses (for headsets with volume up/down/play buttons).
 
-The call to cs_dsp_remove() was being done in the component unbind
-callback cs35l56_hda_unbind(). This meant that if the driver was
-unbound and then re-bound it would be using an uninitialized cs_dsp
-instance.
+In the downstream kernel, this behavior is implemented in the sec-jack
+driver[1], and the per-device settings are configured in *-jack.c files
+in the mach folder (see e.g. the Tab 3's implementation[2]).
 
-It is best to initialize the cs_dsp instance in probe() so that it
-can return an error if it fails. The component binding API doesn't
-have any error handling so there's no way to handle a failure if
-cs_dsp was initialized in the bind.
+This patchset implements this mechanism in the midas_wm1811.c driver,
+and adds new DTS options to allow for its configuration. It also
+enables jack detection for the Samsung Galaxy Tab 3 8.0.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
+A very similar mechanism was already present in the aries_wm8994.c
+driver[3]; this implementation heavily borrows from it, though there
+are a few extra cleanups as well.
+
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+
+[1] https://github.com/gr8nole/android_kernel_samsung_smdk4x12/blob/lineage-14.1/drivers/misc/sec_jack.c
+[2] https://github.com/gr8nole/android_kernel_samsung_smdk4x12/blob/lineage-14.1/arch/arm/mach-exynos/tab3-jack.c
+[3] https://github.com/torvalds/linux/blob/master/sound/soc/samsung/aries_wm8994.c
+
 ---
- sound/pci/hda/cs35l56_hda.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Changes in v2:
+- Added vendor prefix to threshold properties
+- Added separate headset mic bias regulator
+- Changed some cases of dev_err + return with return dev_err_probe
+- Added an extra patch to replace some previous dev_err + return cases
+  with dev_err_probe
+- Moved tab3 DTS wm1811 codec config changes to separate commit
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 558c1f38fe97..11b0570ff56d 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -732,8 +732,6 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
- 	if (cs35l56->base.fw_patched)
- 		cs_dsp_power_down(&cs35l56->cs_dsp);
- 
--	cs_dsp_remove(&cs35l56->cs_dsp);
--
- 	if (comps[cs35l56->index].dev == dev)
- 		memset(&comps[cs35l56->index], 0, sizeof(*comps));
- 
-@@ -1035,7 +1033,7 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
- 			       ARRAY_SIZE(cs35l56_hda_dai_config));
- 	ret = cs35l56_force_sync_asp1_registers_from_cache(&cs35l56->base);
- 	if (ret)
--		goto err;
-+		goto dsp_err;
- 
- 	/*
- 	 * By default only enable one ASP1TXn, where n=amplifier index,
-@@ -1061,6 +1059,8 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
- 
- pm_err:
- 	pm_runtime_disable(cs35l56->base.dev);
-+dsp_err:
-+	cs_dsp_remove(&cs35l56->cs_dsp);
- err:
- 	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
- 
-@@ -1078,6 +1078,8 @@ void cs35l56_hda_remove(struct device *dev)
- 
- 	component_del(cs35l56->base.dev, &cs35l56_hda_comp_ops);
- 
-+	cs_dsp_remove(&cs35l56->cs_dsp);
-+
- 	kfree(cs35l56->system_name);
- 	pm_runtime_put_noidle(cs35l56->base.dev);
- 
+---
+Artur Weber (7):
+      ASoC: dt-bindings: samsung,midas-audio: Add headset mic bias supply
+      ASoC: dt-bindings: samsung,midas-audio: Add GPIO-based headset jack detection
+      ASoC: samsung: midas_wm1811: Add headset mic bias supply support
+      ASoC: samsung: midas_wm1811: Add GPIO-based headset jack detection
+      ASoC: samsung: midas_wm1811: Use dev_err_probe where appropriate
+      ARM: dts: samsung: exynos4212-tab3: Fix headset mic, add jack detection
+      ARM: dts: samsung: exynos4212-tab3: Fix up wm1811 codec config
+
+ .../bindings/sound/samsung,midas-audio.yaml        |  33 ++
+ arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi     |  31 +-
+ sound/soc/samsung/Kconfig                          |   2 +-
+ sound/soc/samsung/midas_wm1811.c                   | 343 +++++++++++++++++++--
+ 4 files changed, 379 insertions(+), 30 deletions(-)
+---
+base-commit: e67572cd2204894179d89bd7b984072f19313b03
+change-id: 20240502-midas-wm1811-gpio-jack-b10226b17ecc
+
+Best regards,
 -- 
-2.39.2
+Artur Weber <aweber.kernel@gmail.com>
 
