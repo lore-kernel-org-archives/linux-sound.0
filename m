@@ -1,117 +1,152 @@
-Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F6ABA27
-	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 09:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC4178269;
+	Wed,  8 May 2024 10:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715162359; cv=none; b=ADBdeM+d+7u1yXOQ02v4i3dlI2dkHnZ80HvcSdn1KQsE2PTuOd0pZCjyowbnH56AGGW8F2ZE2HBV/kHEv12P5jupAUuzT4MSzAR87W2CDLq9Ar+y5auZw2YkGCQDWjfOZm9polq98IRMiDhTTvnWnq+L4QuS5nPLn35VeZAweJw=
+	t=1715162641; cv=none; b=gac8cloxuUFkDlAv59qf8mBK4gkfRS4AcgkgY0lJwkfq0B9QtWVi0Yki8ETWxmnjMapL1owg9gsldiYNPAae5/m4NUxUQWlBLjYH+smKl1pAB6SAGficp1jLgN2EFNYkvsKWSJ/MOHARLkfgEg/QY8JmnNglSxnM+r6pLsG8Dcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715162359; c=relaxed/simple;
-	bh=OPAVBXbgJLVckgSSxKVtg3HQwXyIPaK5XYjD+Y9k0KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rYkCh3QebfjJcwQwMAK7poSlD9wg1xUTevgkNbyVKqpAhcaGlSdUbs1l6ywetgT7GefDktPeC8Ap2aaKOKl+rPXOyfIWjdck4VBcnTk1kNne9hExOV6itJBVzaDQvsap32O4Fl5rV1Khwo2iTd7Ibr3ZtoJYSXFFz7fiynCRry0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=E80690qM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GDraaw9R; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1715162641; c=relaxed/simple;
+	bh=b7sv7tVc8GVentelu6AtwkhZfHrMX0YDbML4Ak2DqzI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DSDClFMZmR2AHZqdstnki9AGuLk6wXPRv3uzQNLMe8OCRVducLZMEAQA4trfoxcnQqvOWS+JKxTaQWEKiSUVlk6PC1wdx/kNnQsyiRozAlIsmynx//2Qq4rz4PLAMKWxY4cMPVrmI8A7MwvcOZMq0Hp8e2FNhcZzUxQd+XmzZl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Lg8aAL17; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="E80690qM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GDraaw9R"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 94D8C11402AE;
-	Wed,  8 May 2024 05:59:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 08 May 2024 05:59:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1715162356; x=
-	1715248756; bh=Uq9D6T9cN1YrnEEOgIrmAWA3DEtkUz/N4GnLLqfeCfE=; b=E
-	80690qMDAxL/immv5TYUV1ze73rXotleXQy7VnogZ5AIMDX7D42zZ07omOsWmblb
-	dPIMgfFrmR9g7C5LCnVf3HMzs5IHfo+XN7/dZOG/kCs1Jg7RMD5fjps3xyqIToaj
-	cKVMpKPPOCt0pLzKt1iOZbPmVVXR1P7E5clkqx9Xt/yz2ym9bMdVEvsVCtIop0Dd
-	NTu0vQvuRxbQG2iXK4lPsEP9XrdfkENnhSdeEbfbA/HWaNhGf0WWYHREB+KKO1F5
-	3BErxpj58Dd8Rdh3GRGnH/u7nkO5RJX7Vq3MZxSH1fx7Szbkngo1Vw5wNvDf0Cla
-	CCf+o7cnECwLnrD60CmWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1715162356; x=1715248756; bh=Uq9D6T9cN1YrnEEOgIrmAWA3DEtk
-	Uz/N4GnLLqfeCfE=; b=GDraaw9RAsdezuFc8qczcCyJnxOUU5nm3RpZ3iG4mAmq
-	eqfcuKP8T95Yr24q6IftDHjKhpCe+Gssnv5an+ky040WZ42q1eCZb9wc5GArXCCv
-	1q0icbDBxg+tDPDXKS/9m88vAAT1vmum2BImLQPUyqRsnGzSdJhtQXs7du0hz7li
-	j58gZv4A5L6OO7Ou8gL1TQkaTHx4j6jjzsXJH6C7yTHPkONdeZeuaU4ItsNlM0VN
-	ZSDYT4WzsLvUaPm38tE0QaW6/FSONJCjhVVZbA5cyom+NKNJeBkcVhZwzr8C3IgW
-	sfG0XnDr7mQkfhZ+JP2Y2hdeiqJVtWDtY8mYz6Ka1g==
-X-ME-Sender: <xms:9Ew7ZsC-Nxg_dshvZMJoRCeVzI75yu8m3ny153_jKkadyWl4QPXGGQ>
-    <xme:9Ew7ZujTEgYvLnCDUGBiH1XdEBd51d8qKToN7U_agH44-6OTpGEn3cZ5Laq8J2OYK
-    jakFMfgeoaZbrfrWF8>
-X-ME-Received: <xmr:9Ew7ZvkBpwEqEd16TrJETxB9kJfaZipI22ByRD9DZ_kSuRXkBaFfbngfh5-DAA91Hb9351CarUzr4HdGWwSQxF34LBaQSon98U4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeftddgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
-    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
-    hjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeei
-    ieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-X-ME-Proxy: <xmx:9Ew7Ziz5UMRefuz7XpZFj0v5dMH0AMFKshavBNwoq0KER-Wgk3w0_Q>
-    <xmx:9Ew7ZhRkK2-uX0SzQNa19e3yoskRbggDFLXA75dors-_09hB0NUNCA>
-    <xmx:9Ew7ZtYwumz3TH7FaTutKSu-bfk3mTBSo9ZzTcc3-vHlMS1SANXuEQ>
-    <xmx:9Ew7ZqSgDJ-DJOMnxFpSRqMNIqG5yOdiT6d3Q-bLIAvkWEnsLiR7_g>
-    <xmx:9Ew7Zjeb64aC97JVRqH9wdJ6PhW4mE3HaYX4BkiQT2lKzZwOPSKkk69A>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 May 2024 05:59:14 -0400 (EDT)
-Date: Wed, 8 May 2024 18:59:13 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 7/9] ALSA: firewire: Use *-y instead of *-objs in Makefile
-Message-ID: <20240508095913.GA436898@workstation.local>
-References: <20240507135513.14919-1-tiwai@suse.de>
- <20240507135513.14919-8-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Lg8aAL17"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 448404vq027897;
+	Wed, 8 May 2024 05:03:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PODMain02222019; bh=G
+	Kvhtom7tk2GKHXRZkGd6yzHNjsW5iQAf5Fk9EOWuHk=; b=Lg8aAL17SJwmfrPmH
+	OVTEP/yTdcjfDJHyXFT2+w0APxjBk84+MmVU8kKG32Mcy20G2cchZ6AKjfvCyciE
+	VddkIIUxHuPD2EHujQBzz5bUe0+NKIfC7LNiNPp2v2aj0h0ODK86J9DKgcTV0A9D
+	MkToJWKrzAT7rf7XjrTt7T8lMVgm/DkaJd/aGMlACLuxwHcRo6GkJDHsxUjRbsCW
+	P/GAkPIU+Dl/zGQnDfcqnLNHuSd4Ro0FKbmtSHhWCANBJzaxEt7xpX7nuCePMLji
+	BsMMdu6TZINFdFYLQPtOdJ5iix0HpZRv0XPUZ75/gvNaGzsjsZ0QD+4X3O8spEFv
+	z8Thw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3xysf00pgd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 May 2024 05:03:48 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 May 2024
+ 11:03:47 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 8 May 2024 11:03:47 +0100
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 44793820244;
+	Wed,  8 May 2024 10:03:47 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
+Subject: [PATCH] ALSA: hda: hda_component: Initialize shared data during bind callback
+Date: Wed, 8 May 2024 11:03:47 +0100
+Message-ID: <20240508100347.47283-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240507135513.14919-8-tiwai@suse.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: rHX2odkGpVa8TkGwbw7Vw7w1FvVFvt0t
+X-Proofpoint-ORIG-GUID: rHX2odkGpVa8TkGwbw7Vw7w1FvVFvt0t
+X-Proofpoint-Spam-Reason: safe
 
-Hi,
+Move the initialization of the shared struct hda_component array into
+hda_component_manager_bind().
 
-On Tue, May 07, 2024 at 03:55:07PM +0200, Takashi Iwai wrote:
-> *-objs suffix is reserved rather for (user-space) host programs while
-> usually *-y suffix is used for kernel drivers (although *-objs works
-> for that purpose for now).
-> 
-> Let's correct the old usages of *-objs in Makefiles.
-> 
-> Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/firewire/Makefile           | 4 ++--
->  sound/firewire/bebob/Makefile     | 2 +-
->  sound/firewire/dice/Makefile      | 2 +-
->  sound/firewire/digi00x/Makefile   | 2 +-
->  sound/firewire/fireface/Makefile  | 2 +-
->  sound/firewire/fireworks/Makefile | 2 +-
->  sound/firewire/motu/Makefile      | 2 +-
->  sound/firewire/oxfw/Makefile      | 2 +-
->  sound/firewire/tascam/Makefile    | 2 +-
->  9 files changed, 10 insertions(+), 10 deletions(-)
+The purpose of the manager bind() callback is to allow it to perform
+initialization before binding in the component drivers. This is the
+correct place to initialize the shared data.
 
-Good catch.
+The original implementation initialized the shared data in
+hda_component_manager_init(). This is only done once during probe()
+of the manager driver. So if the component binding was unbound and
+then rebound, the shared data would not be re-initialized.
 
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: fd895a74dc1d ("ALSA: hda: realtek: Move hda_component implementation to module")
+---
+ sound/pci/hda/hda_component.c | 16 +++++++++++++++-
+ sound/pci/hda/hda_component.h |  7 ++-----
+ sound/pci/hda/patch_realtek.c |  2 +-
+ 3 files changed, 18 insertions(+), 7 deletions(-)
 
+diff --git a/sound/pci/hda/hda_component.c b/sound/pci/hda/hda_component.c
+index cd299d7d84ba..d02589014a3f 100644
+--- a/sound/pci/hda/hda_component.c
++++ b/sound/pci/hda/hda_component.c
+@@ -123,6 +123,21 @@ static int hda_comp_match_dev_name(struct device *dev, void *data)
+ 	return !strcmp(d + n, tmp);
+ }
+ 
++int hda_component_manager_bind(struct hda_codec *cdc,
++			       struct hda_component *comps, int count)
++{
++	int i;
++
++	/* Init shared data */
++	for (i = 0; i < count; ++i) {
++		memset(&comps[i], 0, sizeof(comps[i]));
++		comps[i].codec = cdc;
++	}
++
++	return component_bind_all(hda_codec_dev(cdc), comps);
++}
++EXPORT_SYMBOL_NS_GPL(hda_component_manager_bind, SND_HDA_SCODEC_COMPONENT);
++
+ int hda_component_manager_init(struct hda_codec *cdc,
+ 			       struct hda_component *comps, int count,
+ 			       const char *bus, const char *hid,
+@@ -143,7 +158,6 @@ int hda_component_manager_init(struct hda_codec *cdc,
+ 		sm->hid = hid;
+ 		sm->match_str = match_str;
+ 		sm->index = i;
+-		comps[i].codec = cdc;
+ 		component_match_add(dev, &match, hda_comp_match_dev_name, sm);
+ 	}
+ 
+diff --git a/sound/pci/hda/hda_component.h b/sound/pci/hda/hda_component.h
+index c80a66691b5d..c70b3de68ab2 100644
+--- a/sound/pci/hda/hda_component.h
++++ b/sound/pci/hda/hda_component.h
+@@ -75,11 +75,8 @@ int hda_component_manager_init(struct hda_codec *cdc,
+ void hda_component_manager_free(struct hda_codec *cdc,
+ 				const struct component_master_ops *ops);
+ 
+-static inline int hda_component_manager_bind(struct hda_codec *cdc,
+-					     struct hda_component *comps)
+-{
+-	return component_bind_all(hda_codec_dev(cdc), comps);
+-}
++int hda_component_manager_bind(struct hda_codec *cdc,
++			       struct hda_component *comps, int count);
+ 
+ static inline void hda_component_manager_unbind(struct hda_codec *cdc,
+ 					       struct hda_component *comps)
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 8c157158f1cb..8c39bbdc6c5e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6785,7 +6785,7 @@ static int comp_bind(struct device *dev)
+ 	struct alc_spec *spec = cdc->spec;
+ 	int ret;
+ 
+-	ret = hda_component_manager_bind(cdc, spec->comps);
++	ret = hda_component_manager_bind(cdc, spec->comps, ARRAY_SIZE(spec->comps));
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.39.2
 
-Thanks
-
-Takashi Sakamoto
