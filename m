@@ -1,106 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF5222071;
-	Wed,  8 May 2024 12:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC0855E40
+	for <linux-sound@vger.kernel.org>; Wed,  8 May 2024 13:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715172737; cv=none; b=bGQXyb20QIEO2wd1nJE4KXbtEFWj3WpdbCZvFleSdiqbtDSsDC9PPdZRfvU9Vgi4k3uIE7LDE5hZ5Em1cs3+sjO+2JuhKKjwNVPbscKbbkTQwJDXAYXdXATx5pZGV2w6aUgGVrUG6GZim7dnRhUl+G3s+PGga659A9yZowg1Ej0=
+	t=1715173230; cv=none; b=qWp0icQzVGtP/6WIG3vaglX/V40vhgJDfDFk6mk1erkC4jb8SWdLdW3Kho2KCXgI6WN0hg5kVzuG9jzZyqKqSLOlDLUvaszqNrDnSuLsgXlHL94hPZbPqu4Yygp251ddxo+Ud0OiF5vQ7CfRvc1hTql5Qt+amdiwgPw6P1ysOfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715172737; c=relaxed/simple;
-	bh=gKVeUXfF3Ho2Ed/J5T0T6Hm5ka9z6vCma7xttwCG1nk=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=PBDsW1JafR0jaCv7jR/dQjLNx/0gX91x73WWWrKLxjgUPuR8FfgJWDMuYTBsrKYciImkzqlnKkuivn9df/e3KOuJb57oq+1H53g1va8jZYKpw6B0qQrMXKpA0zfK5vW3zxmNAYl5S+1JdNsKpyg6Sz+U4kin8Jh4aKrWFIxG0wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrLk9kfT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715173230; c=relaxed/simple;
+	bh=p3b9HAuy48AB59lYfQxTeNKlyZOQS1GtQaTy6rE/uYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=btU9xQ0LUEqZStXzUmQsQmOOmQxjUjUIUaCAEJp3lkoNafHnJcPc7fepvUosELal+O0xilOBlchcfuZL0DGk7sLKoVt9v1oJDfJ8/gXaVw6AjaoMfkrDGdsSmyGIASRSO1zflhHzvvKyfFe4slNAG3MwxMlO51gNFsRXnEupdP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0g/sxJW; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrLk9kfT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F67CC113CC;
-	Wed,  8 May 2024 12:52:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715172736;
-	bh=gKVeUXfF3Ho2Ed/J5T0T6Hm5ka9z6vCma7xttwCG1nk=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=ZrLk9kfTvdSk83ynbdqCIsg3st29lqtv/1sbYd9zMlbJIpR4kz4maM4bvCc7bhE6o
-	 yeicwe6Lpe564y7ZeTXYSLQ51IQiSSW6S58nizMsqt4fhTcbYbrz9oSh5jnQnsLR98
-	 y931YLg6R1Ue4LfhfurZjJByaIrDXAfJ1nNHI25RxtqX10yYg+hyCmxTQ044mJ95cQ
-	 BJscpF/cQ2kK6GpAtC24TBHrXSBgMEXPptoXeyuP87wtgDwxMyEr5SPdO51/hPMPW3
-	 IbFXQNFkPg2LMoFzyVXpN3PW2HKrAafh5ByHt/Rm86AsDKEYJWCokE7W0PqxVp3L/Q
-	 iq/BrU0R0khYg==
-Date: Wed, 08 May 2024 07:52:10 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0g/sxJW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715173230; x=1746709230;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=p3b9HAuy48AB59lYfQxTeNKlyZOQS1GtQaTy6rE/uYs=;
+  b=R0g/sxJWTpcqf0mHAGsxbs/tjZ7AYgAVRwhkOU2UgqUd3t6s8WTL9iO7
+   UAtfcSFMZUEEcZshzd5VFpZZ2LKQh4NiFru2KR4O/KdMLUHAgKTtRKIo4
+   LHr2/odcKOVmV3AQkkOMrH3x5H8+cZs/ygp8MJYv+qROatUffVoKRvFwe
+   EuB88vWFrQxQB1Z+McYVomUfv00M9phEXoI/sMA4HdgAeq3nH/ys0jDBk
+   baOQnFMfYJe/h4tCgs2XFrRhTi35N9drCchCfnNs5ryla4QY7gUeNZLE6
+   kL18JO5a8KIWBo8S03df8LNKvxA+4zVfA8pvm7goE+WhOuSj+youjjnxX
+   A==;
+X-CSE-ConnectionGUID: 2kBt/0SCTROpBuS4uIQCFQ==
+X-CSE-MsgGUID: 0FNOxBkTTOmNaQScb8FkkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="21629283"
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
+   d="scan'208";a="21629283"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:00:29 -0700
+X-CSE-ConnectionGUID: 32+dlIDRRv6drbrM8tnx/w==
+X-CSE-MsgGUID: EqSH+knsRQquaBXGyaQmdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
+   d="scan'208";a="28846425"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 06:00:27 -0700
+Message-ID: <5107f281-20c7-4088-84c8-4ec04f3d3c9a@linux.intel.com>
+Date: Wed, 8 May 2024 15:00:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Artur Weber <aweber.kernel@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-samsung-soc@vger.kernel.org, 
- Jaroslav Kysela <perex@perex.cz>, Alim Akhtar <alim.akhtar@samsung.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Takashi Iwai <tiwai@suse.com>, ~postmarketos/upstreaming@lists.sr.ht, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Liam Girdwood <lgirdwood@gmail.com>, 
- alsa-devel@alsa-project.org, Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20240508-midas-wm1811-gpio-jack-v2-2-b4d36cd02c6e@gmail.com>
-References: <20240508-midas-wm1811-gpio-jack-v2-0-b4d36cd02c6e@gmail.com>
- <20240508-midas-wm1811-gpio-jack-v2-2-b4d36cd02c6e@gmail.com>
-Message-Id: <171517273028.1398305.2447515495565580200.robh@kernel.org>
-Subject: Re: [PATCH v2 2/7] ASoC: dt-bindings: samsung,midas-audio: Add
- GPIO-based headset jack detection
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/34] ASoC: intel: Use *-y instead of *-objs in Makefile
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+References: <20240507155540.24815-1-tiwai@suse.de>
+ <20240507155540.24815-13-tiwai@suse.de>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240507155540.24815-13-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-On Wed, 08 May 2024 12:58:50 +0200, Artur Weber wrote:
-> Some Samsung devices that share the midas-audio driver use a GPIO-based
-> approach to headset jack detection, as opposed to using the built-in
-> jack detection provided by the wm8994 driver. This setup uses two GPIOs
-> (one for jack detection and another for key detection) and an ADC
-> channel for determining the jack type or button pressed.
+On 5/7/2024 5:55 PM, Takashi Iwai wrote:
+> *-objs suffix is reserved rather for (user-space) host programs while
+> usually *-y suffix is used for kernel drivers (although *-objs works
+> for that purpose for now).
 > 
-> Add DT configuration values that allow for describing these setups.
+> Let's correct the old usages of *-objs in Makefiles.
 > 
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > ---
-> Changes in v2:
-> - Added vendor prefix to threshold properties
-> - Dropped pipe (|) character from description: field
-> ---
->  .../bindings/sound/samsung,midas-audio.yaml        | 30 ++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Nit: there seems to be preference to capitalize Intel in commit title ;)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml:95:26: [error] syntax error: mapping values are not allowed here (syntax)
+$ git log --oneline sound/soc/intel/ | grep -c "ASoC: Intel:"
+2712
+$ git log --oneline sound/soc/intel/ | grep -c "ASoC: intel:"
+212
 
-dtschema/dtc warnings/errors:
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/sound/samsung,midas-audio.example.dts'
-Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml:95:26: mapping values are not allowed in this context
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/sound/samsung,midas-audio.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml:95:26: mapping values are not allowed in this context
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/samsung,midas-audio.yaml: ignoring, error parsing file
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1430: dt_binding_check] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240508-midas-wm1811-gpio-jack-v2-2-b4d36cd02c6e@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Otherwise
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
