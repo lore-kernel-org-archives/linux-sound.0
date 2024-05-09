@@ -1,40 +1,60 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42CD26ACD;
-	Thu,  9 May 2024 11:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69F812FB3F
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 11:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715253658; cv=none; b=uoVJwhQ8gTx88FfmdItfS2/7t6cgkmQkKO8YoCEv8YZKA+soq3I8j3avMIvYpMSxVAXgq7r3HO6BU8NE6Jo8y60dr+bPdeIhf2hgeJgMH8DI2UBik0mWJ0yXfzdgmgAZmpOLu+k8uaRu4/ppbZ66p+e//dxITGBozySRWjmaXSs=
+	t=1715255007; cv=none; b=mfw+xYyQB/8nGJdvU6sBQXnli7Bzo/Mdzt1MVcQuFJZUhQd8x54YYM4MoOky0HQn6KMakOyAEAuc6FWURVj7elHgrCgpmOK6XBAXEnQR4d4LGEiYKk49ab54KCRLgunWcf6dywhh2OX1Qohyxh+KGB8abR9LgzIUO8vjL9ohkCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715253658; c=relaxed/simple;
-	bh=nJepUBKdqtXh+AERGHrrucGPCF4sP/ptsazG602fYcI=;
+	s=arc-20240116; t=1715255007; c=relaxed/simple;
+	bh=6XWYnkdFEBRgr4Uvci/np65/qXyvHuEamHU0e+LhQAU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D6P6mEjXAJf/rDO5c21geKpFchzWR79Befr27vhAP5LSa8XOYUVL85XsYjBj4Wo3mraMNidU07tNFsbKfwBq0KS4SnEP3oScSXeGYh0YbfMikAc0QmUR27Zml6iEyHTz14J7sxhaoP6hBO5h2Tw2toiRlnFcgczYBBHf3+j7PIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=a6UMtv44; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	 In-Reply-To:Content-Type; b=EkIRyyg14tEpC6A53dGkOPTrl6zja+udBzq+pC8qOaQZ/npjF55rjNI9QbOyiCNMGjnTfkEc3BRmuvGl1NHBeIzYW9aV2S8b+9iwDLbcfjvFwXHKwvAR2cFoH0f+PVOr4Vl+iv/MoyMzhXO0jycjkdJ8S305jDF7Z5ArPBCWvYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VIyTcFs4; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="a6UMtv44"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 44BFC3CE9;
-	Thu,  9 May 2024 13:20:53 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 44BFC3CE9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1715253653; bh=Q7NnsX6aKbfE9XxEbR5ylwgNbom0t/bBb6GtxmnY1Ag=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a6UMtv44EgLl1AlkVr6EFNxYN+wq1Ri1LMckW9zqyqgfQJUF43t69ujBNIbmabCEx
-	 sVQlTBmeNlbhvyF5Ty9QsRqXQNSfHaNfIuDBp4dsmGy5XsAZ4WWpKE8q4A16MhNhx1
-	 qGQhiWRya1PTRJKsMzYWvs8aHq//ZsLZXJmkADEw=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu,  9 May 2024 13:20:48 +0200 (CEST)
-Message-ID: <8cbd2364-c7b0-48b4-854d-a03cb65ddc5d@perex.cz>
-Date: Thu, 9 May 2024 13:20:46 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VIyTcFs4"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a59ce1e8609so330358766b.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 04:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715255003; x=1715859803; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vq2mjCOsl6Marf6zjWHcGKLeoXAkUCwpfDkn/dtXyOo=;
+        b=VIyTcFs4mz7qjz4U5I0AW5YqukWoXYX730YVDrfNyJqY87SchHQoTziFgcYfVIzEPd
+         aFSr/++OwE2a7z3kgzmki8ZGIso9xmUy5HLz0M+zZyf+MkWaO/IRzl9cqztD0mOj1MQS
+         kHmkTADmLGs8kqE4fyStpGcQ5Jn5itjdT92ixQPFV0GWeMqwHC7ZbKZM7imTm6C/BZcs
+         th835n04XwUHN3m2SK8hRSRS1EbagkYQ3YyciOVRbLgSxiUB8Bc/f12qFgKIRmYXV8vj
+         Oz/BXOlOD9pXZCwG8xo1nte5JMtlAITrasLXSZ+0nuEg9oRHzK4eccJQtuVLDPZ/edSI
+         3zpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715255003; x=1715859803;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vq2mjCOsl6Marf6zjWHcGKLeoXAkUCwpfDkn/dtXyOo=;
+        b=Bzj5xC+pKj4BucmaLNFrdHjOAlYXpZqyPJLm/QD/xfsT7F6xgQ+6t2exn8GQtvtbMR
+         ZEoK5eWcdBIEdZYAfIG7wngZvoS3tZUIMiqwy98Ao/BiCObSiWq5lHWNnHqqlw8HG5Ol
+         WVKSbcffdQdM/9CGYj5J6RQlgHOPknaknLQgTbNdeT0+1ANRNhFOpamoKPmyQnJFl9XL
+         Y+aGmzwKXayekDuOWRLPuPiYXyveBFOZ2708NiLtOgQ03A5oXE6AdeoC95EtAFf3EvTM
+         Og5EPqM236XxGm2NwPx0qDRIvqXx22ctwhqmkYDtXux0oeVEaIhG+W9D1WWZwzShordh
+         uZHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUprtfWZyZJPUoksSVx6lLofQApwoovvq9bXgvRWty6aFazIYev24G2kR+DOg9bIn3e8/6hvSBYQoIlDF3m3MSNyUb/cnnDfVraRww=
+X-Gm-Message-State: AOJu0Yw+VkE4uVI2mSKmD88gkkAdtVTiL3RFZfsCGsDWc8VK/pww8lAL
+	RNTb6gDZEHNBOKaWGIq8z76t64g9oqwADZCBBbEkjq18xei2NMrkEsH+l9uoyqk=
+X-Google-Smtp-Source: AGHT+IFY6unMbN4p9pYJIT2AycmXTiYpLv9QQKRaBCdUcVvoOF6h0h+PYyclhHWQzoIYzRw6ncZl4A==
+X-Received: by 2002:a17:906:6a10:b0:a59:9636:f3e with SMTP id a640c23a62f3a-a5a118c520bmr221662566b.33.1715255003249;
+        Thu, 09 May 2024 04:43:23 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.206.169])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d1fcsm64999066b.35.2024.05.09.04.43.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 04:43:22 -0700 (PDT)
+Message-ID: <aa8509c9-7475-40b3-82cb-9bfc1e33b202@linaro.org>
+Date: Thu, 9 May 2024 13:43:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,79 +62,99 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: usb-audio: Add name for HP Engage Go dock
+Subject: Re: [PATCH v3 3/4] ASoC: qcom: qdsp6: Set channel mapping instead of
+ fixed defaults
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Banajit Goswami <bgoswami@quicinc.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240509-asoc-x1e80100-4-channel-mapping-v3-0-6f874552d7b2@linaro.org>
+ <20240509-asoc-x1e80100-4-channel-mapping-v3-3-6f874552d7b2@linaro.org>
+ <d3c78e43-44a9-4ef2-8e64-00f39b32172c@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Steven 'Steve' Kendall <skend@chromium.org>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240508-usb-audio-hp-engage-go-dock-v1-1-9e2984d49e63@chromium.org>
- <877cg3bdwr.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <877cg3bdwr.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <d3c78e43-44a9-4ef2-8e64-00f39b32172c@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09. 05. 24 10:14, Takashi Iwai wrote:
-> On Thu, 09 May 2024 00:29:25 +0200,
-> Steven 'Steve' Kendall wrote:
->>
->> This dock previously presented as 'generic USB Audio'.
->> UCM may now be applied specific to this dock.
->>
->> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+On 09/05/2024 11:17, Srinivas Kandagatla wrote:
+>> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+>> index eb9306280988..208b74e50445 100644
+>> --- a/sound/soc/qcom/qdsp6/audioreach.h
+>> +++ b/sound/soc/qcom/qdsp6/audioreach.h
+>> @@ -766,6 +766,7 @@ struct audioreach_module_config {
+>>   /* Packet Allocation routines */
+>>   void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t
+>>   				    token);
+>> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels);
+>>   void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
+>>   			       uint32_t token, uint32_t src_port,
+>>   			       uint32_t dest_port);
+>> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+>> index 00bbd291be5c..8ab55869e8a2 100644
+>> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
+>> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+>> @@ -243,6 +243,7 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
+>>   	cfg.num_channels = runtime->channels;
+>>   	cfg.bit_width = prtd->bits_per_sample;
+>>   	cfg.fmt = SND_AUDIOCODEC_PCM;
+>> +	audioreach_set_channel_mapping(cfg.channel_map, runtime->channels);
+>>   
 > 
-> Thanks, applied now to for-next branch.
+> Prepare can be called multiple times.. so we have channels overwritten here.
 
-The upstream UCM v2 does not use those indentifiers any more for several years 
-(the USB ID identifier from the mixer components string is used). I would not 
-accept such patches further. Thank you.
+Which is expected - just like we overwrite number of channels.
 
-					Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Best regards,
+Krzysztof
 
