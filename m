@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8034A1E
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFE14A2D
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715272470; cv=none; b=SsPXRn0h0IB5KVClBN/Hi4aWHY4Ivr/N7RN/35gGWF8iJhIMlI6aI/fHRvfu1eelySEBrg3rK+Bo5YxTPJgmJPvg5Mwv9R0O8QDb6Mfkkijz9Bp/q8mldPXBzzgii3AUHWRIZQ5/pO1+rrYkFK3Psct1jmxtXLGG2hpQ3uZRNdk=
+	t=1715272470; cv=none; b=LmnXabGuWwjpC7yivwTTsK9dZ6ESFoE6kIijYWW+ugVEW9vvvAESQ7fJx6J8Xi8Oxa3a/DpiNFSerITHQgnyGlTksBDnA7d1g4ue8nai3ib4T5b5EfSa9zBsLeoBVbsZANBw2KRIydnH1bWlGab/8Aur3HCLHpe5A5P0nYwDxuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715272470; c=relaxed/simple;
-	bh=2X1+p3nPIqEpE7NVJ9g7nnodLkLO3UoeD6NRAMiKBlw=;
+	bh=GqULhJRi1unMt5mH+4JgxuoIxqMP1UxS9DsIZ2rk91M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yo3WZ+NtlwM7VpyZfLuST4MkXpuCYTZvliysIsch1BNMSguM5x6MR8NStoRY1CyFoMfozy3g8VavAqjAPuL4o6y3T7U9/b10OaDbdkqrKJNtfEf6WC10pIl3PxgQqyMjLvrwnZxDwtABVlDoZOvRD2D5s/N3dolsGzLLQNDGVVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LuC+x76F; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version; b=pk0gfjU9GubdikuEWUir3Ab2ag+AnAmvSe9tDu/t1fRP5kpZtPGxJm6SPxL9LaTTVt8rt1Nkkx0ExQVcmqg1yxcxE1xe2he7RvSkGepySBoBJ4XPFECux+gbgbtUkjTEQPdIfrX4IwESCeWkQKSG9UhYLerZrR4v72Yoxe1qEwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrRhy+F5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LuC+x76F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrRhy+F5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1715272469; x=1746808469;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2X1+p3nPIqEpE7NVJ9g7nnodLkLO3UoeD6NRAMiKBlw=;
-  b=LuC+x76FJar7gm3xaKRkW99fQARE+665+Puv1zGg8f0tprbFol7j+qSx
-   Qsvx/b80WfvWpX+fGAE/Yydf73L6HqT+PkrJWr1zsVpXLVNX1RChvmYTc
-   bSex+CZJpxzJh9fqi7YSJYf7p/NlwZO8i/K8/dgxI1xFB47iXgv++Ct3p
-   DgEcbKFKVcs0+1OUjB6NYsH1NHIGNmVmfAOvSU5bEoC9pu2rI05dpLJhD
-   DWDptokCIfGJQvtyHihlzIRUFZOMHTty/O+rDGjDWCKuZFbOGjXmdxB9y
-   VRboB9sdbP44zyzubLAYqPHy5FULdJqsiKlXCjy3J7su3HEF1aKZpMFfZ
+  bh=GqULhJRi1unMt5mH+4JgxuoIxqMP1UxS9DsIZ2rk91M=;
+  b=hrRhy+F5iAy/7BPCWti2POdf4EDbQwO+yqpqxkADXktkMv9tZIEVKqR+
+   jXuNwnY6IxLz6SnuL7Eq2DbJsvo/AA+80OZu5KXaIGMfQjLnCgeHw1TgZ
+   3YKMmMJ9la3kM914HbBjdwV+9IeTCPiG9s5dR05qUh1OW2iQudbLC5sWh
+   o3wS65p0PheRKUJRzwZge1ik8lvPVRccosTRRyTdMfg15fNAxIy9BUcyl
+   RoRYWvZQUM1HBpQiCrnCHIcsYaQ5Ak+4E5FtUXVUS8aUVQHLe6p9I6Sji
+   xM43uW679r79W6rPsBtR72DUHIGuCQKVmgkEii3lqLght69YW7hJ8i+cR
    Q==;
-X-CSE-ConnectionGUID: TQs9fleJSECMr4SN1IHCzw==
-X-CSE-MsgGUID: oyrb2wMoSh6CM81waWuNug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15017524"
+X-CSE-ConnectionGUID: PDhMwn9tQ0eKyPdH3zVMEg==
+X-CSE-MsgGUID: WfYOnD36S5eDc75ZJdsdeQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15017533"
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="15017524"
+   d="scan'208";a="15017533"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:27 -0700
-X-CSE-ConnectionGUID: BYIl/HQ2QoCnmYWkuJ0Qxw==
-X-CSE-MsgGUID: HmB3W08MQdScw/S4/zTSKQ==
+X-CSE-ConnectionGUID: 5s2dpUBkQ/egIWSiOrwKyA==
+X-CSE-MsgGUID: ScSCAIlPQRG6yiuiIKRPTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="33760982"
+   d="scan'208";a="33760990"
 Received: from ajunnare-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.213.181.85])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:26 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:27 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	Brent Lu <brent.lu@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 03/18] ASoC: Intel: sof_rt5682: board id cleanup for mtl boards
-Date: Thu,  9 May 2024 11:34:03 -0500
-Message-Id: <20240509163418.67746-4-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 04/18] ASoC: Intel: realtek-common: remove 2-spk rt1015p config
+Date: Thu,  9 May 2024 11:34:04 -0500
+Message-Id: <20240509163418.67746-5-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240509163418.67746-1-pierre-louis.bossart@linux.intel.com>
 References: <20240509163418.67746-1-pierre-louis.bossart@linux.intel.com>
@@ -67,94 +67,132 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Since mtl chromebook is using DMI quirk for board config, changing the
-SSP port config of mtl_rt5682_def to RVP to simplify mtl board id and
-enumeration table.
+The original code for rt1015p could support 1 or 2 rt1015p device
+instances in ACPI. However, all designs implement only 1 instance in
+ACPI table so we remove the code segment which is for 2 instances.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_rt5682.c           | 20 +++-------------
- .../intel/common/soc-acpi-intel-mtl-match.c   | 24 -------------------
- 2 files changed, 3 insertions(+), 41 deletions(-)
+ sound/soc/intel/boards/sof_realtek_common.c | 57 ++-------------------
+ sound/soc/intel/boards/sof_realtek_common.h |  1 -
+ 2 files changed, 5 insertions(+), 53 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 5a189c165e2d..3dc373855a58 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -865,26 +865,12 @@ static const struct platform_device_id board_ids[] = {
- 					/* SSP 0 and SSP 2 are used for HDMI IN */
- 					SOF_SSP_MASK_HDMI_CAPTURE(0x5)),
- 	},
--	{
--		.name = "mtl_mx98357_rt5682",
--		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_SSP_PORT_CODEC(0) |
--					SOF_SSP_PORT_AMP(1) |
--					SOF_SSP_PORT_BT_OFFLOAD(2) |
--					SOF_BT_OFFLOAD_PRESENT),
--	},
--	{
--		.name = "mtl_mx98360_rt5682",
--		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_SSP_PORT_CODEC(0) |
--					SOF_SSP_PORT_AMP(1)),
--	},
- 	{
- 		.name = "mtl_rt5682_def",
- 		.driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
--					SOF_SSP_PORT_CODEC(2) |
--					SOF_SSP_PORT_AMP(0) |
--					SOF_SSP_PORT_BT_OFFLOAD(1) |
-+					SOF_SSP_PORT_CODEC(0) |
-+					SOF_SSP_PORT_AMP(1) |
-+					SOF_SSP_PORT_BT_OFFLOAD(2) |
- 					SOF_BT_OFFLOAD_PRESENT),
- 	},
- 	{ }
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 4eeec0bc92dc..0bff91317768 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -11,16 +11,6 @@
- #include <sound/soc-acpi-intel-ssp-common.h>
- #include "soc-acpi-intel-sdw-mockup-match.h"
- 
--static const struct snd_soc_acpi_codecs mtl_max98357a_amp = {
--	.num_codecs = 1,
--	.codecs = {"MX98357A"}
--};
--
--static const struct snd_soc_acpi_codecs mtl_max98360a_amp = {
--	.num_codecs = 1,
--	.codecs = {"MX98360A"}
--};
--
- static const struct snd_soc_acpi_codecs mtl_rt5682_rt5682s_hp = {
- 	.num_codecs = 2,
- 	.codecs = {RT5682_ACPI_HID, RT5682S_ACPI_HID},
-@@ -37,20 +27,6 @@ static const struct snd_soc_acpi_codecs mtl_lt6911_hdmi = {
+diff --git a/sound/soc/intel/boards/sof_realtek_common.c b/sound/soc/intel/boards/sof_realtek_common.c
+index 6915ff8b8716..dda346e0f737 100644
+--- a/sound/soc/intel/boards/sof_realtek_common.c
++++ b/sound/soc/intel/boards/sof_realtek_common.c
+@@ -314,59 +314,21 @@ EXPORT_SYMBOL_NS(sof_rt1011_codec_conf, SND_SOC_INTEL_SOF_REALTEK_COMMON);
+  *
+  * For stereo output, there are always two amplifiers on the board.
+  * However, the ACPI implements only one device instance (UID=0) if they
+- * are sharing the same enable pin. The code will detect the number of
+- * device instance and use corresponding DAPM structures for
+- * initialization.
++ * are sharing the same enable pin. This is the case of rt1015p.
+  */
+-static const struct snd_soc_dapm_route rt1015p_1dev_dapm_routes[] = {
++static const struct snd_soc_dapm_route rt1015p_dapm_routes[] = {
+ 	/* speaker */
+ 	{ "Left Spk", NULL, "Speaker" },
+ 	{ "Right Spk", NULL, "Speaker" },
  };
  
- struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_machines[] = {
+-static const struct snd_soc_dapm_route rt1015p_2dev_dapm_routes[] = {
+-	/* speaker */
+-	{ "Left Spk", NULL, "Left Speaker" },
+-	{ "Right Spk", NULL, "Right Speaker" },
+-};
+-
+-static struct snd_soc_codec_conf rt1015p_codec_confs[] = {
 -	{
--		.comp_ids = &mtl_rt5682_rt5682s_hp,
--		.drv_name = "mtl_mx98357_rt5682",
--		.machine_quirk = snd_soc_acpi_codec_list,
--		.quirk_data = &mtl_max98357a_amp,
--		.sof_tplg_filename = "sof-mtl-max98357a-rt5682.tplg",
+-		.dlc = COMP_CODEC_CONF(RT1015P_DEV0_NAME),
+-		.name_prefix = "Left",
 -	},
 -	{
--		.comp_ids = &mtl_rt5682_rt5682s_hp,
--		.drv_name = "mtl_mx98360_rt5682",
--		.machine_quirk = snd_soc_acpi_codec_list,
--		.quirk_data = &mtl_max98360a_amp,
--		.sof_tplg_filename = "sof-mtl-max98360a-rt5682.tplg",
+-		.dlc = COMP_CODEC_CONF(RT1015P_DEV1_NAME),
+-		.name_prefix = "Right",
 -	},
+-};
+-
+ static struct snd_soc_dai_link_component rt1015p_dai_link_components[] = {
  	{
- 		.comp_ids = &mtl_essx_83x6,
- 		.drv_name = "mtl_es83x6_c1_h02",
+ 		.name = RT1015P_DEV0_NAME,
+ 		.dai_name = RT1015P_CODEC_DAI,
+ 	},
+-	{
+-		.name = RT1015P_DEV1_NAME,
+-		.dai_name = RT1015P_CODEC_DAI,
+-	},
+ };
+ 
+-static int rt1015p_get_num_codecs(void)
+-{
+-	static int dev_num;
+-
+-	if (dev_num)
+-		return dev_num;
+-
+-	if (!acpi_dev_present("RTL1015", "1", -1))
+-		dev_num = 1;
+-	else
+-		dev_num = 2;
+-
+-	return dev_num;
+-}
+-
+ static int rt1015p_hw_params(struct snd_pcm_substream *substream,
+ 			     struct snd_pcm_hw_params *params)
+ {
+@@ -398,12 +360,8 @@ static int rt1015p_init(struct snd_soc_pcm_runtime *rtd)
+ 		return ret;
+ 	}
+ 
+-	if (rt1015p_get_num_codecs() == 1)
+-		ret = snd_soc_dapm_add_routes(&card->dapm, rt1015p_1dev_dapm_routes,
+-					      ARRAY_SIZE(rt1015p_1dev_dapm_routes));
+-	else
+-		ret = snd_soc_dapm_add_routes(&card->dapm, rt1015p_2dev_dapm_routes,
+-					      ARRAY_SIZE(rt1015p_2dev_dapm_routes));
++	ret = snd_soc_dapm_add_routes(&card->dapm, rt1015p_dapm_routes,
++				      ARRAY_SIZE(rt1015p_dapm_routes));
+ 	if (ret)
+ 		dev_err(rtd->dev, "Speaker map addition failed: %d\n", ret);
+ 	return ret;
+@@ -412,7 +370,7 @@ static int rt1015p_init(struct snd_soc_pcm_runtime *rtd)
+ void sof_rt1015p_dai_link(struct snd_soc_dai_link *link)
+ {
+ 	link->codecs = rt1015p_dai_link_components;
+-	link->num_codecs = rt1015p_get_num_codecs();
++	link->num_codecs = ARRAY_SIZE(rt1015p_dai_link_components);
+ 	link->init = rt1015p_init;
+ 	link->ops = &rt1015p_ops;
+ }
+@@ -420,11 +378,6 @@ EXPORT_SYMBOL_NS(sof_rt1015p_dai_link, SND_SOC_INTEL_SOF_REALTEK_COMMON);
+ 
+ void sof_rt1015p_codec_conf(struct snd_soc_card *card)
+ {
+-	if (rt1015p_get_num_codecs() == 1)
+-		return;
+-
+-	card->codec_conf = rt1015p_codec_confs;
+-	card->num_configs = ARRAY_SIZE(rt1015p_codec_confs);
+ }
+ EXPORT_SYMBOL_NS(sof_rt1015p_codec_conf, SND_SOC_INTEL_SOF_REALTEK_COMMON);
+ 
+diff --git a/sound/soc/intel/boards/sof_realtek_common.h b/sound/soc/intel/boards/sof_realtek_common.h
+index d0e331530b39..876290555c22 100644
+--- a/sound/soc/intel/boards/sof_realtek_common.h
++++ b/sound/soc/intel/boards/sof_realtek_common.h
+@@ -31,7 +31,6 @@ void sof_rt1011_codec_conf(struct device *dev, struct snd_soc_card *card);
+  */
+ #define RT1015P_CODEC_DAI	"HiFi"
+ #define RT1015P_DEV0_NAME	RT1015P_ACPI_HID ":00"
+-#define RT1015P_DEV1_NAME	RT1015P_ACPI_HID ":01"
+ 
+ void sof_rt1015p_dai_link(struct snd_soc_dai_link *link);
+ void sof_rt1015p_codec_conf(struct snd_soc_card *card);
 -- 
 2.40.1
 
