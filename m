@@ -1,277 +1,242 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE61C14A62B
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 09:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC15614A4F7
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 09:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715246246; cv=none; b=q/G4kBpG8KUzBXv5Zb2D+ZwZAlqelUwpvi7w6UMtgfaxtU4xGoqzJRXsIjOJ4Qrs29KzOONczlqUMgcwFWtlOeh2sXWTZubbxX6TAkKbQ+3rvZ6K35Wg/Sfoj0usQHZT6ffw+R1PIcRWcYblwSS57KaiZ3jodK4+JApgeX2eefY=
+	t=1715246343; cv=none; b=il/I9e6LH6jA49lLlYFoQg7nxLpPT5DIFeax+NRlos5m6NabDQn6ODWBSIYjkv9wYpOkwu+wQbQiiX8u3NjbV/HSRTdUdjZRttYPFPwN96/HbHkgL/spnpR3wb4knZX9wx+DCoM5oltYt9AaqUQ6SMsRmCd7aYSX1Bjs2I2K5yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715246246; c=relaxed/simple;
-	bh=MTiRf6y9CwK5s4EGi1w9HicVt5K4p9IXFySP3nBcgY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XNnoN3O8gTPCh4VI0LfxlYFAHlu+IYkSVhTWP9KhbT6s4k98s5noZl2W3RiJLRESKmmvnkOsnV0fuwGLZ4MIveKuRKMUsqrr6S9RRt1SWIKqEaE6MFVxVPewVqVy9XXIWB1ncRpA3AJDRiNybR+NHPNQHMh4IZ1r+sAKRPWMWBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rrn6OczZ; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715246343; c=relaxed/simple;
+	bh=lcCQnxRMRJTW7GYII3BN87nmQecfBijYHLC7JbXBtcU=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=L7Ftm3MNDN9HoY48uZYUlXeIOfK0Jl3+wHofDbZ4mMlAGZJLWYKatHbhbBT4wGUUgqGl2711AlMBbejFJo5CkA8KRzv6vvfJyFlk4NM4uBj1Zb5+pgC17vw8Tc73RSEWFak30qdpjPn1K0DVQoWvR0pqYZG+pFyMfi/hAaOOjqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yHkILyna; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rrn6OczZ"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-41fc5645bb1so5096035e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 02:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yHkILyna"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34db6a29a1eso511213f8f.1
+        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 02:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715246243; x=1715851043; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5bO70t2wwFBE6k9WTC5h87uZcklzatJMH5IRVgedzqQ=;
-        b=rrn6OczZQHlDuww1pPk0Qk5rZ8RBIpjzG8Geumj50a10SrGhOpSmnt1b5qVNgzxpNz
-         l1yapl6vNiOrBxspbUeOfTql8mGh+PP4MEYpC2fcmaQzT4Yrb89xAFppmSvhQR9xk2fW
-         Az9/dWysSDaIOy+KlQAyFYi2YyI4cyMvxm1o1CkU1nh5LWVz9Q/dMw/hxsTdiFtqibhi
-         NyoMEElfPSWSkbe7LSZ8iem1WtkcDgJ7EhoaerBqqwK3KlHdl2cirxtziq90p0+xjNTu
-         RrLgP6ebEccnY4Imq+3jgR5xZt5znTMWi/mSQ6H8l8nQcFD3f0kaWyGjieHy4jjXdUlj
-         pW5Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715246339; x=1715851139; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=bLpM7TJDjRcXRO0i4lYjo6OZAM3sE3CuEsmwQ0zb4mw=;
+        b=yHkILynaKr8Pwrn6OaZWyfkuuJDLtJzVnWXc3oLupaJtFtGmJngLhsxr0B9nLzjCRB
+         P/okConF6wbJrsn2lBAez1bTRwmTjbiXh8SyBX43oauvMpAegO9uiO/DJKAmnawT1Jmt
+         SKtk8d72I6DRW4LjlvDpCwK3+Yxlm6nA2SS28UwOqsNkegJ5CBaVGBgijodzLbBvOyoU
+         AErfvpJdY/VQO8cUTL87yfrcSWIX3CwVNaROADrs6zOIBkE8Jn6WbOTZJd9MFwWBEyAL
+         D3F8VcbbW7J3qTFAt9WsrpWY6t9VH7Kk6qsR8DMuNToNIqlDUj32gSFw0Hgc8CnfAIue
+         rKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715246243; x=1715851043;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5bO70t2wwFBE6k9WTC5h87uZcklzatJMH5IRVgedzqQ=;
-        b=CO/GUuleXb9NeOZW6Rtbg9Al69oxqGt1cV2ePr+syPjA/xgbNA96iYWWNr+tLDQZF+
-         ++2sn4BiTbPG33z+RHvkyfrq7rCG/i9gFbFoJExVZXVEgNHv6tuEfnNKI07ogofku6Y4
-         HXhwn+pLcFiCVKtqVapyNtbafaYPn9WsOsr10v28d22cSQBBWHz7UfQA0j1HD+BIRL0i
-         8CjFRhOQeWFZOD5Q0ib0GJhggl5T9sSQ5G1xpPJE0nzJkpdafeylV9j7fPbwbQO2Y5FB
-         c5PNkDAe94t4gIl2iUGO/YB6h9kkRE1525lM7ZySDMnz+n1MCdzHxT2ICM1yN1MWZddO
-         mvYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTyE2NskQh8S7dg+vDAHbdqkdPgxm3og6e2qPTP30oya3DpMH8w3uDZ4+1q/mxkdFwpSsiUCCXOmf27IjodIu96cAe8+w5P0jMFbM=
-X-Gm-Message-State: AOJu0YzY0qAzxVCk1CfJ8kMsuAO3J5kpVDdMffuwB+q6LqdXkSUCWynT
-	SsY1VC4zDUV6YEkn5tOt2m2kvxe6m1Z87M0VL96u6pnw06T/PoE3W0s+LI1eYNY=
-X-Google-Smtp-Source: AGHT+IGCauFH2yLFsnMMUE8CDtmkKT6iBzwdkH3n4+XpqeBKPgbCvrAfI3+5i8uo1Z4Oxn8hR675dg==
-X-Received: by 2002:a05:600c:1c12:b0:41b:f359:2b53 with SMTP id 5b1f17b1804b1-41f723a2496mr43405305e9.37.1715246242638;
-        Thu, 09 May 2024 02:17:22 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-41f87c24f8fsm53550235e9.15.2024.05.09.02.17.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 May 2024 02:17:22 -0700 (PDT)
-Message-ID: <d3c78e43-44a9-4ef2-8e64-00f39b32172c@linaro.org>
-Date: Thu, 9 May 2024 10:17:21 +0100
+        d=1e100.net; s=20230601; t=1715246339; x=1715851139;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bLpM7TJDjRcXRO0i4lYjo6OZAM3sE3CuEsmwQ0zb4mw=;
+        b=WP3NWUHB1/EnjYX7qG5G9wsl6zSavfKbIhYrfiJTNWsd/byc1OWOwpVJS8hwzwoitK
+         iRR9E1RQZob+pRgWqxjjUOIW417+urjowd3Lnhsr+lKpL/IY5YSG9uPKWj4uzqo343kA
+         12oQpEVdVK0KFduzTPCep8uKpld1UjHQ5UVPiduwjHIGW9rMooSpBG4dyQm4npkebHx7
+         Ql3qNohfSn/1j2y2NgMhecnUcwt1C6FsBnfqJNI6wcrjI0Nbw/AhizwZqy4SE+58KMXL
+         77KDGs+whbZq/3VBdFfB9jxdTeKq/Lzgwh7dU4e4bBIBXeVAoJUarHOlyhujPWBcU424
+         bwBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2jtGKDG2mryVfno9A0Es7owMj80yTjV81hH8yX1ZoHLVEjQw+W5jIbt0bL+bppNIu97xbYB0q78tQ4DT8310uzadeHYu/7FQwsYQ=
+X-Gm-Message-State: AOJu0YzY/7vmnyF9jymQ4N2iisvr71IADE5vBO0h9BVCadgjwJq/2hZj
+	dE+Eiv99ELqLxEZgwpM1wRWOQdVVfp7pq6pAIiSJgJnqEICpOeAGBXPKCzbEWFg=
+X-Google-Smtp-Source: AGHT+IFsB5wyyg9+udb49eD6La4FDSf5anjooXUEPEJOhb5hbaV1MWw6t5Anw3NkxndfSAwplOMP8A==
+X-Received: by 2002:adf:ca90:0:b0:34d:ef22:70d9 with SMTP id ffacd0b85a97d-34fca23f9ecmr3576359f8f.15.1715246338692;
+        Thu, 09 May 2024 02:18:58 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:87e6:73a1:526b:a411])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b79bd40sm1179386f8f.4.2024.05.09.02.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 May 2024 02:18:58 -0700 (PDT)
+References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
+ <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+ <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
+ <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
+ =?utf-8?B?a2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+   Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jiawei Wang <me@jwang.link>, Jonathan  Corbet <corbet@lwn.net>, Kai
+  Vehmanen <kai.vehmanen@linux.intel.com>, Kevin Hilman
+ <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>, Matthias
+  Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
+Date: Thu, 09 May 2024 10:51:59 +0200
+In-reply-to: <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] ASoC: qcom: qdsp6: Set channel mapping instead of
- fixed defaults
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240509-asoc-x1e80100-4-channel-mapping-v3-0-6f874552d7b2@linaro.org>
- <20240509-asoc-x1e80100-4-channel-mapping-v3-3-6f874552d7b2@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240509-asoc-x1e80100-4-channel-mapping-v3-3-6f874552d7b2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Thanks Krzysztof for the patch.
+Content-Type: text/plain
 
 
-On 09/05/2024 07:51, Krzysztof Kozlowski wrote:
-> When constructing packets to DSP, the Audioreach code uses 'struct
-> audioreach_module_config' to configure parameters like number of
-> channels, bitrate, sample rate etc, but uses defaults for the channel
-> mapping.
-> 
-> Rework this code to copy the channel mapping from 'struct
-> audioreach_module_config', instead of using the default.  This requires
-> all callers to fill that structure: add missing initialization of
-> channel mapping.
-Adding this new function call is logically fine but its going to 
-introducing some sequencing issues.
+On Thu 09 May 2024 at 05:50, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-set_channel_map might be overwritten by this if not done correctly.
+> Hi Jerome
+>
+> I need your help
+>
+>> > I have tested this series on an Amlogic device (vim3l)
+>> > This brings warnings for cases which are perfectly fine.
+>> > 
+>> > For example, one of the DPCM backends is the TDM interface. This
+>> > interface is capable of both playback and capture. It can be associated
+>> > with any i2s/TDM codec.
+>> > 
+>> > The codec may do playback and capture too, but it
+>> > may also do a single direction. Then usual example is the hdmi codec
+>> > which does playback only.
+>> > 
+>> > In this case I get:
+>> >  axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
+>> > 
+>> > I don't think this is right.
+>> 
+>> Hmm..., I'm confusing
+>> Does it mean you want to use "playback only" on it ?
+>> If so, did you get below warning too ?
+>> 	 "both playback/capture are available, but not using playback_only flag (%s)\n",
+>>
 
-One such instance is in this patch..
+I've checked. No such trace, no.
 
-> 
-> Entire patch makes code more logical and easier to follow:
-> 1. q6apm-dai and q6apm-lpass-dais code which allocates 'struct
->     audioreach_module_config' initializes it fully, so fills both
->     the number of channels and the channel mapping.
-> 2. Audioreach code, which uses 'struct audioreach_module_config' when
->     constructing packets, copies entire contents of passed config, not
->     only pieces of it.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+>> If not, can you please fill below ?
+>> 
+>> Card
+>> 	dpcm_playback = (0 or 1)
+>> 	dpcm_capture  = (0 or 1)
+>> 	playback_only = (0 or 1)
+>> 	capture_only  = (0 or 1)
+>> BE.CPU
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
+>> BE.Codec
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
+>> Expect
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
+
+I'm not too sure I undestand this. I'll try to illustrate the case
+raising the warning as precisely as possible bellow
+
+>
+> I need feedback from you, it is still not clear for me.
+
+Sorry. There are some national holidays in France. I'm not spending much
+time near the keyboard ATM
+
+> But I noticed that we want to update below. I'm happy if it can solve your
+> issue.
+>
+> -	if (has_playback && !has_playback_both)
+> +	if (has_playback && !has_playback_both && !dai_link->capture_only)
+> 		dev_warn(rtd->card->dev, ...)
+>
+> -	if (has_capture && !has_capture_both)
+> +	if (has_capture && !has_capture_both && !dai_link->playback_only)
+> 		dev_warn(rtd->card->dev, ...)
+>
+
+Honestly I'm a bit lost in all these flag :/
+
+Some for BE error reported here is the full picture
+
+     PCM
+ =====|=====
+      V
+    --------
+    |CPU FE| This CPU (FIFO) does Playback only. 
+    --------
+      |  Because of the CPU, link a playback only one
+      V
+    ----------
+    |Codec FE| Using Dummy here
+    ----------
+      |
+      V
+    ~~~~~~~~~~
+    |Routing |
+    ~~~~~~~~~~
+      ^
+      |
+      V
+    --------
+    |CPU BE|  This is the TDM interface. Capable of both Playback and
+    --------  Capture. Through routing it can be connected to Playback
+      ^       and/or Capture FE CPUs.
+      |
+      |
+      V
+    -------------
+    |BE Codec(s)| Possibly N codecs, supporting both direction, or a
+    ------------- Single one, or one direction each. In this particular case
+      |           it is Playback only C2C.
+      |
+ ---- V ------------------ From Here, it is specific to HDMI -------------
+    ~~~~~~~~~~~~~
+    |C2C Routing| SoC has routing has mux between the different TDM
+    ~~~~~~~~~~~~~ interfaces and the HDMI controller
+      |
+      |
+      V
+    ---------
+    |C2C CPU|     This is a playback only CPU for HDMI
+    ---------
+      |
+      V
+    -----------
+    |HDMI Codec|  The usual HDMI codec, playback only
+    -----------
+
+Better picture are available in the SoC doc.
+There is publicly available datasheet here [1]
+
+Audio paths are displayed in Section 9, page 807, Figure 9-1.
+A TDM interface in this figure is combination of a TDMOUT and a TDMIN
+(axg-tdm-formatter.c). The axg-tdm-interface.c joins them because they
+use the same pads and clocks.
+
+[1]: https://dl.khadas.com/products/vim3l/datasheet/s905d3_datasheet_0.2_wesion.pdf
+
+>
+>
+> Thank you for your help !!
+>
+> Best regards
 > ---
-> 
-> Changes in v2:
-> 1. Extend commit msg, rationale.
-> 2. Rework to new approach, but most of the code stays.
-> 3. Export audioreach_set_channel_mapping() (needed by Q6APM DAIS and
->     LPASS DAIS)
-> 4. Correct channel mapping also in audioreach_mfc_set_media_format(),
->     because MFC DAI is now part of backend.
-> 5. Do not adjust dynamic DAIs (drop audioreach_dai_load()).
-> ---
->   sound/soc/qcom/qdsp6/audioreach.c       | 30 +++++++-----------------------
->   sound/soc/qcom/qdsp6/audioreach.h       |  1 +
->   sound/soc/qcom/qdsp6/q6apm-dai.c        |  2 ++
->   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c |  5 ++++-
->   4 files changed, 14 insertions(+), 24 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-> index 5291deac0a0b..750b8ba64211 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.c
-> +++ b/sound/soc/qcom/qdsp6/audioreach.c
-> @@ -267,7 +267,7 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
->   }
->   EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
->   
-> -static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
-> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
->   {
->   	if (num_channels == 1) {
->   		ch_map[0] =  PCM_CHANNEL_FL;
-> @@ -281,6 +281,7 @@ static void audioreach_set_channel_mapping(u8 *ch_map, int num_channels)
->   		ch_map[3] =  PCM_CHANNEL_RS;
->   	}
->   }
-> +EXPORT_SYMBOL_GPL(audioreach_set_channel_mapping);
->   
->   static void apm_populate_container_config(struct apm_container_obj *cfg,
->   					  struct audioreach_container *cont)
-> @@ -819,7 +820,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
->   	uint32_t num_channels = cfg->num_channels;
->   	int payload_size;
->   	struct gpr_pkt *pkt;
-> -	int rc;
-> +	int rc, i;
->   	void *p;
->   
->   	payload_size = APM_MFC_CFG_PSIZE(media_format, num_channels) +
-> @@ -842,18 +843,8 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
->   	media_format->sample_rate = cfg->sample_rate;
->   	media_format->bit_width = cfg->bit_width;
->   	media_format->num_channels = cfg->num_channels;
-> -
-> -	if (num_channels == 1) {
-> -		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
-> -	} else if (num_channels == 2) {
-> -		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
-> -		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
-> -	} else if (num_channels == 4) {
-> -		media_format->channel_mapping[0] = PCM_CHANNEL_FL;
-> -		media_format->channel_mapping[1] = PCM_CHANNEL_FR;
-> -		media_format->channel_mapping[2] = PCM_CHANNEL_LS;
-> -		media_format->channel_mapping[3] = PCM_CHANNEL_RS;
-> -	}
-> +	for (i = 0; i < num_channels; i++)
-> +		media_format->channel_mapping[i] = cfg->channel_map[i];
->   
->   	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
->   
-> @@ -883,9 +874,6 @@ static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
->   		mp3_cfg->q_factor = mcfg->bit_width - 1;
->   		mp3_cfg->endianness = PCM_LITTLE_ENDIAN;
->   		mp3_cfg->num_channels = mcfg->num_channels;
-> -
-> -		audioreach_set_channel_mapping(mp3_cfg->channel_mapping,
-> -					       mcfg->num_channels);
->   		break;
->   	case SND_AUDIOCODEC_AAC:
->   		media_fmt_hdr->data_format = DATA_FORMAT_RAW_COMPRESSED;
-> @@ -1104,9 +1092,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
->   	media_cfg->num_channels = mcfg->num_channels;
->   	media_cfg->q_factor = mcfg->bit_width - 1;
->   	media_cfg->bits_per_sample = mcfg->bit_width;
-> -
-> -	audioreach_set_channel_mapping(media_cfg->channel_mapping,
-> -				       num_channels);
-> +	memcpy(media_cfg->channel_mapping, mcfg->channel_map, mcfg->num_channels);
->   
->   	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
->   
-> @@ -1163,9 +1149,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
->   		cfg->q_factor = mcfg->bit_width - 1;
->   		cfg->endianness = PCM_LITTLE_ENDIAN;
->   		cfg->num_channels = mcfg->num_channels;
-> -
-> -		audioreach_set_channel_mapping(cfg->channel_mapping,
-> -					       num_channels);
-> +		memcpy(cfg->channel_mapping, mcfg->channel_map, mcfg->num_channels);
->   	} else {
->   		rc = audioreach_set_compr_media_format(header, p, mcfg);
->   		if (rc) {
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-> index eb9306280988..208b74e50445 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.h
-> +++ b/sound/soc/qcom/qdsp6/audioreach.h
-> @@ -766,6 +766,7 @@ struct audioreach_module_config {
->   /* Packet Allocation routines */
->   void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t
->   				    token);
-> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels);
->   void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
->   			       uint32_t token, uint32_t src_port,
->   			       uint32_t dest_port);
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> index 00bbd291be5c..8ab55869e8a2 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> @@ -243,6 +243,7 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
->   	cfg.num_channels = runtime->channels;
->   	cfg.bit_width = prtd->bits_per_sample;
->   	cfg.fmt = SND_AUDIOCODEC_PCM;
-> +	audioreach_set_channel_mapping(cfg.channel_map, runtime->channels);
->   
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
 
-Prepare can be called multiple times.. so we have channels overwritten here.
 
---srini
->   	if (prtd->state) {
->   		/* clear the previous setup if any  */
-> @@ -669,6 +670,7 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
->   		cfg.num_channels = 2;
->   		cfg.bit_width = prtd->bits_per_sample;
->   		cfg.fmt = codec->id;
-> +		audioreach_set_channel_mapping(cfg.channel_map, cfg.num_channels);
->   		memcpy(&cfg.codec, codec, sizeof(*codec));
->   
->   		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> index a4ad1d0e6abd..8340e4fb78f4 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> @@ -106,6 +106,7 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
->   	cfg->bit_width = params_width(params);
->   	cfg->sample_rate = params_rate(params);
->   	cfg->num_channels = channels;
-> +	audioreach_set_channel_mapping(cfg->channel_map, channels);
->   
->   	switch (dai->id) {
->   	case DISPLAY_PORT_RX_0:
-> @@ -130,10 +131,12 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
->   {
->   	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
->   	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
-> +	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
->   
->   	cfg->bit_width = params_width(params);
->   	cfg->sample_rate = params_rate(params);
-> -	cfg->num_channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
-> +	cfg->num_channels = channels;
-> +	audioreach_set_channel_mapping(cfg->channel_map, channels);
->   
->   	return 0;
->   }
-> 
+-- 
+Jerome
