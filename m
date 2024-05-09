@@ -1,125 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B94DDBE;
-	Thu,  9 May 2024 17:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B5A770E7
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 17:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715274878; cv=none; b=ehiqA8xysjaRKQ/fgF+ZggYQrwwSjkkMR4FJXEB9CMbkOEiQBnw6e1xG2B0RUo/X/w73IYbumXDdK+bM5O1ZaZIdXRnOGpy2ZyLMTmWKyT4fXTYvIdcYYYU2e2pU1j3ii6ETGKER0hNGJiOdhQyKdqP2WyZmuDY3/06kj+bt6As=
+	t=1715276764; cv=none; b=STs30Lzofvjy0mfFWck4fV3DsZqPwGVgmKMi0ZJEvx2weLRji3Um2VGez8DrGYen63A+75+aHC8d43O2/Pp7P+G5ZRHHgeqpbgU/Rk9sWwEgtzgaECBYP8DiN6OG5FuKD33KTHLRi/+edcUJ6dY7engPJyyePG3d82tl1zZWfLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715274878; c=relaxed/simple;
-	bh=YwUKTYOpoxA/NOjHV7A/q7cg5e41+QOvCr4wGh3um4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXEor1R62bhk6ZZ8f5fRRYZO7t2n1g2zvFHZYYKK7xlLw0FI3APf/pcbgVKMTOqKK/zd9fYSOrGGsiIgkVZBVUEu1T4/mkAVBxhwvEB0VW3q+lr46beQD9b7he2roco/G8FaCOhbLYNph6HyTrzwmP3yFFPvp5oXN2zzFQKK6CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qNltURwB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715276764; c=relaxed/simple;
+	bh=/oSWOWjkap8fv/UuIsI6Isx0EXquObmcwzLznfIJKkQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aI1nlxo/o5J0Q32LKobmVJoU6o+RlYci27Q3XdeTYX+Bc1shsMHgUBeFw/fWu61OyRIoNQ3ygCbBzBBFEp6aXV8AWIiLqCjXttkgNn/w1EUYjz2U6+E8jLkA9qRyQhykAkrQTvLMI2umn2grNNQ6F29eWJu3FAOq4k+CvbBrM0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fxjG3anD; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qNltURwB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D799FC116B1;
-	Thu,  9 May 2024 17:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715274878;
-	bh=YwUKTYOpoxA/NOjHV7A/q7cg5e41+QOvCr4wGh3um4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qNltURwBHZ0ugcWbLrUYJc6RkDUcNQgiYSfZKjEwL9+mHhuhW146bkl+HHiyqOY7D
-	 wNNuItMLZg9XcI1JEb6/M6vYSge5p3d/Jqj/OmYtbmVYnvKDIu/qETs5sRmCps6IOQ
-	 4LZSSh8xcEqDzkYGMQlizUe3dBHJGeJ27fyMc2GPvTmQUB2fR1FDljGOCifTUgm44z
-	 tODVfJsI9WuQ5oCQ1S/mdwWcfvfMNNaHEiYnNaps8KLZaGtfuR9Xjg2wUSON1ihOC1
-	 qDjHDw8Jt0BWhP/UqDK3LVzv0+Cy99DGUte0fmFAja8ZXPpS+oNlfndpyWeqf3uBUo
-	 7ppc6G/TeWG3A==
-Date: Thu, 9 May 2024 18:14:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: fsl,xcvr: Add two PLL clock
- sources
-Message-ID: <20240509-repurpose-dumping-156b57c25960@spud>
-References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
- <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fxjG3anD"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-572a1b3d6baso1203a12.1
+        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 10:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715276760; x=1715881560; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R9dUf6h0ZONDc1o4IvKX4JCSR1LfcFcW4NQit96LWug=;
+        b=fxjG3anD83hFoJAGJtRblIDGAlzmSLRG8ntKPrhQt+HieXxnkLfNrfeXZDA4DRCfMe
+         sREmIk4QaB74Bb5+DiGkytekIaBjk/rvNTyhi/v/+B08R+Q8xkpAkxzNLVstuVDGDd25
+         GEmOAe0DeZO+QlgQrqL3aR3rKTQi9U4Emep9ofkbHs2DXyOlZ4NdO4/806fVK2YkNxcS
+         68XAqfV/h5ZcRctT01utJ8bJz8tN/N7w4zhbOHBNLRylB0WWfQX5euwEKpNKnO8tR0BU
+         G2FjQBn80cFSqwU79je9zjjKho3HbMYZc8xJ1oeIamcwBM68P2fSXUSvRXeo5wFqsQOv
+         z1BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715276760; x=1715881560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R9dUf6h0ZONDc1o4IvKX4JCSR1LfcFcW4NQit96LWug=;
+        b=Q4n/RwWaO1eHuhJqMESJMBNa+QFGktHHMbVsjR+Iq379wsCP26JIF0H3iHaYPjpIS7
+         UVKTVaqKz9myujLp84KY6fSOG21Ltf/QO0YPTsH1+Tki93UDDI07M6hy+vaYX5kZUi2O
+         yUkCRH+5fBw/XevOIUTXFKPZTjolv89jlgSal4CBUB0iy3EvZFX+Dp6c5nxLl2zJOVgd
+         8yPbS2Cp3nsQLHHhX1H3ot/jg5/MPOHiOr7M4bnOpc1p8q8rxPp5PuKu/fVgV1wrivlp
+         k6UZLWxn1jnPhxJGuWRRWbcoBIc+ynf+FiD4gQzRDopJQX8ZB9vsmBjNaxyyhmZt2/A5
+         NEuA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5jCBKceMcK4NNWTYwacOMXcTqTCPaK4w3fKff6LJmE+YoD8NnEcAA11TQUmDTRhMMP8Ta7279FlKVTEXmEaHlVh/2mlYL8G0g9po=
+X-Gm-Message-State: AOJu0Yxikafiger+f1NFOZkBcJfQZL5qEQk4e+iFjk/OPOGylrOiVBMj
+	ElkqOpEAmZL27J/9cN4wdy3F2AEFqjbZCzpK1nh9PGIC+Ufod23xDmwKimAlDcczGSKbQolntmE
+	9OZvvGuC9uuuylkHYEH/H0MAjyvw7jyN7YOXh
+X-Google-Smtp-Source: AGHT+IFG+qZVP+GdGsJ0bfuXNwufKAJIRBglqYr60vsLU06TQKxk62S9P+fDwyd1v4jS3rVgg+dEQp+BJ2xOYW96LJk=
+X-Received: by 2002:a50:cac7:0:b0:572:988f:2f38 with SMTP id
+ 4fb4d7f45d1cf-5734f8fe9f6mr3018a12.6.1715276759326; Thu, 09 May 2024 10:45:59
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="9OB7iJL8uyGYmSbm"
-Content-Disposition: inline
-In-Reply-To: <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
-
-
---9OB7iJL8uyGYmSbm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240507214254.2787305-1-edliaw@google.com> <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
+ <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com> <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
+In-Reply-To: <946ae22f-a4af-448a-92e1-60afb6ed9261@linuxfoundation.org>
+From: Edward Liaw <edliaw@google.com>
+Date: Thu, 9 May 2024 10:45:31 -0700
+Message-ID: <CAG4es9V2CcBJr0josSoGNsD+ZPQ6vasVXh_Hc_j88oeSqn__yQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
+	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Seth Forshee <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>, 
+	Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 09, 2024 at 10:57:38AM +0800, Shengjiu Wang wrote:
-> Add two PLL clock sources, they are the parent clocks of the root clock
-> one is for 8kHz series rates, named as 'pll8k', another one is for
-> 11kHz series rates, named as 'pll11k'. They are optional clocks,
-> if there are such clocks, then the driver can switch between them to
-> support more accurate sample rates.
->=20
-> As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4' for
-> clocks and clock-names properties.
+On Thu, May 9, 2024 at 7:37=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.or=
+g> wrote:
+>
+> On 5/9/24 00:13, Edward Liaw wrote:
+> > On Wed, May 8, 2024 at 4:10=E2=80=AFPM Shuah Khan <skhan@linuxfoundatio=
+n.org> wrote:
+> >>
+> >> On 5/7/24 15:38, Edward Liaw wrote:
+> >>> 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> >>> asprintf into kselftest_harness.h, which is a GNU extension and needs
+> >>> _GNU_SOURCE to either be defined prior to including headers or with t=
+he
+> >>> -D_GNU_SOURCE flag passed to the compiler.
+> >>>
+> >>> v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-=
+edliaw@google.com/
+> >>> v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
+> >>> location.  Remove #define _GNU_SOURCE from source code to resolve
+> >>> redefinition warnings.
+> >>>
+> >>> Edward Liaw (5):
+> >>>     selftests: Compile kselftest headers with -D_GNU_SOURCE
+> >>>     selftests/sgx: Include KHDR_INCLUDES in Makefile
+> >>
+> >> I appled patches 1/5 and 2.5 - The rest need to be split up.
+> >>
+> >>>     selftests: Include KHDR_INCLUDES in Makefile
+> >>>     selftests: Drop define _GNU_SOURCE
+> >>>     selftests: Drop duplicate -D_GNU_SOURCE
+> >>>
+> >>
+> >> Please split these patches pwe test directory. Otherwise it will
+> >> cause merge conflicts which can be hard to resolve.
+> >
+> > Hi Shuah,
+> > Sean asked that I rebase the patches on linux-next, and I will need to
+> > remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
+> > be reviewed, then split it afterwards?  I'm concerned that it will be
+> > difficult to review with ~70 patches once split.
+>
+> Please send them split - it will be easier to review and apply. You
+> might as well wait until the merge window is done. I don't think
+> anybody would have time to review now since merge window starts
+> next week.
 
-Despite the detail given here in the commit message, the series this is
-appearing in and one of the driver patches makes me a bit "suspicious"
-of this patch. Are these newly added clocks available on all devices, or
-just on the imx95, or?
+Sorry, I have them split already; is it ok if I send them now?  I will
+be on leave soon and may not be able to get back to it in a while.
 
 Thanks,
-Conor.
+Edward
 
->=20
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  Documentation/devicetree/bindings/sound/fsl,xcvr.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Docu=
-mentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> index 1c74a32def09..c4660faed404 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> @@ -50,6 +50,9 @@ properties:
->        - description: PHY clock
->        - description: SPBA clock
->        - description: PLL clock
-> +      - description: PLL clock source for 8kHz series
-> +      - description: PLL clock source for 11kHz series
-> +    minItems: 4
-> =20
->    clock-names:
->      items:
-> @@ -57,6 +60,9 @@ properties:
->        - const: phy
->        - const: spba
->        - const: pll_ipg
-> +      - const: pll8k
-> +      - const: pll11k
-> +    minItems: 4
-> =20
->    dmas:
->      items:
-> --=20
-> 2.34.1
->=20
-
---9OB7iJL8uyGYmSbm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0EeAAKCRB4tDGHoIJi
-0kPzAP43Zn5AesCX1kKOSIjtrW5Vpt8hIHrIlOUZhE9kMqS8CgD+MljoXShCv6Tw
-G/iLAeB3RppsSsV+7vuOr03Tr0FXKAw=
-=oPv2
------END PGP SIGNATURE-----
-
---9OB7iJL8uyGYmSbm--
+>
+>
+> thanks,
+> -- Shuah
