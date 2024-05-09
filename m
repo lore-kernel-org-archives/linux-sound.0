@@ -1,118 +1,68 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4248113C8F8
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 08:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69ED1BE68;
+	Thu,  9 May 2024 09:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715245113; cv=none; b=auq42E3sESRtE85qCfqkLsdLgYI7zZ61mAPgsc0WaDX931mYsjwDPMZMExNF8b6ndPeatixbb4wivdCWozzgWoqTfLBeLEEUC8ETOLNPkBKDgxTdO2imdwCkpfWvZiyVGPiOEk4RvX2TaxnduSP6RuGouXqoLvDofX/2WGHU53I=
+	t=1715246008; cv=none; b=iozlwACnv+LMmN4ywOej83swLOg4srH0u4CGPJ9pNtU+XUGgKnP1Iw0s9Sj3ROhF1T8wUxIq0cxN5/HhkLKZ3jhWttiK7V4exbnmMZiF9zvPySC0ABqK+B8yT/rkgNSAB7KO2c4XhwygujiqWMmLEa5+sYOjNYzzW5armsU+XiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715245113; c=relaxed/simple;
-	bh=97XaKPKk8jzzUIcm5De7fw/1qqOPyK9C7NjAdmsO8Gw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KUFkNqsTJ7NXptpGvnDqgM/GEQ4yFpdR5UBgD/G5Xn4+pWou9FTvDRu9tW+7ocelKsIvmfVHVw6IHpL0gtAlk4b4GCoSl3BQ4KQ7RgdjLctqcXm6dbgTGQZA882v45FLX8D9JY7WuT+2NezTRJ6uwcRJIxJmb5UP2OrdT5wLbiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IfA2w+S6; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1715246008; c=relaxed/simple;
+	bh=NKeC3HSPrcO8YGQah7jVicYXn1UrXm0HIq2+GZU4qb8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bl2KB0EGrkC9ZjVFBzr125nT2EZ0meuhQze3+eKIx6GAf4Pg+GnuLxVxskyl9eP6a5GmeMJxjfDSmxh8j6t8REEnos5L966oC9iCxz5OrGILncZPRB8IyfQ20lgtCd3b3f6NzMGptxXiDPDye3n0ly7Fc7z4Tsg6z9gTGW20j0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aRvGTQiF; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IfA2w+S6"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2e44d32a480so7838401fa.0
-        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 01:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715245110; x=1715849910; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Wiz5MoTmXNXCF7A/NdDpUQr0zJjTgt8byvzglF4DEc=;
-        b=IfA2w+S6HCDmvwOLjwXXQBAT1CcGA4UuB/B1r3j8NrX92oeME0u5hIws7qlDYgecde
-         JmFAHvoo/Zj+E/iR48ZA3j7XNoI6qaJbWSswvDd7e1rWfunx6UHpe6NQgZMp9Vl4YGRa
-         hPFeSplKOsUS2RvIGswPCauFdlPiDuLiyrDWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715245110; x=1715849910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Wiz5MoTmXNXCF7A/NdDpUQr0zJjTgt8byvzglF4DEc=;
-        b=MCHcpdaqG95QM0y0Qne6y7tPxJEodp2PPfYzIz4tPwIuCRPDuFpVshB4BJ3LyahlGE
-         ClPfOE0S06QPS5hDsJoY+bUTQ+uTfu0UpO6HhRPsKc+0csjmxRCkfEWwP8STvE40rzKe
-         jkgnOnLw4x7XB2SyfpWQWPVPr22rEBrXwvTAWax/VNlveJeqWF5gz1zTOrbwhiYkkDti
-         nyv4tIQzlj687y7KFzO6mgFS/cgD0dxHTiflP7kcq1NOODIV3FHr/3AzgFaXNrXM0kj+
-         ky1B3FqA4HCWmmQLCtxXY23NcU/lO74EoClXjVtP2elr+f4q5oYBQc7AU0hBWuBy5gxk
-         NXJA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvf1jvO94K/QL6IjeeOuF1qEyFlENBpxvnDckO8QnNEgcyVl5AcNuMqUmU6tLbuDtZm1MIapuWFxDurLejZWHjGfGtPiEemb4BaqU=
-X-Gm-Message-State: AOJu0YxzO74Y6Uhh+LcbvziyIFF678dKSUlFL7TKVEH/MMKWcvHz5AVn
-	DjGZFDt8LL8i4ZxFot5kJMXUJ4aQx2VQOS1o6sx3kShdhnfJZBYUtqNrNAIjpiyqTER/rNxL7R4
-	v37th9KikjvgzFdcfnyUdtZcIvAhIM5SyrrTZcjCEk+gyqgw=
-X-Google-Smtp-Source: AGHT+IH9ObFL6J8WFDRyP8J9A5dWQL9UrJwiJ65mOUZ6bLzWBgApqNI6WPFqJ6HGRFDelg160CI2ttiR8RE+Eg7y928=
-X-Received: by 2002:a2e:99d4:0:b0:2de:c6b5:2888 with SMTP id
- 38308e7fff4ca-2e447194771mr32704081fa.3.1715245110374; Thu, 09 May 2024
- 01:58:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aRvGTQiF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1715245999;
+	bh=NKeC3HSPrcO8YGQah7jVicYXn1UrXm0HIq2+GZU4qb8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aRvGTQiF85dxBDSN9fPkXOnIxpElVdaX7KpVKTj40xDidst6eL2eqnswdPhgJUiFi
+	 PNHR0gTmZBcx31tDijXxnLOSw7ShYMkm9O3lueWNdiBa42INll3QIiVMVa+pbslzcj
+	 lp3jANfu7BxQkq9jikVQu/8ihHTpPRRmK7Knk5vdP+dwkgS+OdCYp4QMbvK4F37N1M
+	 YCuQXPG8fYfibrlQv8v+Xd436g7BncoUBCmFLit4wT+dp+AyFxs+rxkagPyXKblmn8
+	 /aRagpfQ1G41xvOQF7+IRZMhna8WD2FqCG0y1kozJb/mMKjCwgHcVAAI6J41g7HV6J
+	 Cd51XjsIAPtKA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B0C33780894;
+	Thu,  9 May 2024 09:13:19 +0000 (UTC)
+Message-ID: <f0548f88-fe81-4c07-9583-ef1a1c5ae519@collabora.com>
+Date: Thu, 9 May 2024 11:13:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: mediatek: mt8192: fix register configuration for
+ tdm
+To: Hsin-Te Yuan <yuanhsinte@chromium.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 References: <20240509-8192-tdm-v1-1-530b54645763@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
 In-Reply-To: <20240509-8192-tdm-v1-1-530b54645763@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 9 May 2024 16:58:19 +0800
-Message-ID: <CAGXv+5HYsKFpHWXE45N+4K1LbKA1Lan8rDHm6=+YvsY0CXKoMg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8192: fix register configuration for tdm
-To: Hsin-Te Yuan <yuanhsinte@chromium.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 9, 2024 at 3:31=E2=80=AFPM Hsin-Te Yuan <yuanhsinte@chromium.or=
-g> wrote:
->
+Il 09/05/24 09:31, Hsin-Te Yuan ha scritto:
 > For DSP_A, data is a BCK cycle behind LRCK trigger edge. For DSP_B, this
 > delay doesn't exist. Fix the delay configuration to match the standard.
->
-> Fixes: 52fcd65414abfc ("ASoC: mediatek: mt8192: support tdm in platform d=
-river")
+> 
+> Fixes: 52fcd65414abfc ("ASoC: mediatek: mt8192: support tdm in platform driver")
 > Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> ---
->  sound/soc/mediatek/mt8192/mt8192-dai-tdm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c b/sound/soc/media=
-tek/mt8192/mt8192-dai-tdm.c
-> index 9ce06821c7d0f..49440db370af0 100644
-> --- a/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c
-> +++ b/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c
-> @@ -566,10 +566,10 @@ static int mtk_dai_tdm_hw_params(struct snd_pcm_sub=
-stream *substream,
->                 tdm_con |=3D 1 << DELAY_DATA_SFT;
->                 tdm_con |=3D get_tdm_lrck_width(format) << LRCK_TDM_WIDTH=
-_SFT;
->         } else if (tdm_priv->tdm_out_mode =3D=3D TDM_OUT_DSP_A) {
-> -               tdm_con |=3D 0 << DELAY_DATA_SFT;
-> +               tdm_con |=3D 1 << DELAY_DATA_SFT;
->                 tdm_con |=3D 0 << LRCK_TDM_WIDTH_SFT;
->         } else if (tdm_priv->tdm_out_mode =3D=3D TDM_OUT_DSP_B) {
-> -               tdm_con |=3D 1 << DELAY_DATA_SFT;
-> +               tdm_con |=3D 0 << DELAY_DATA_SFT;
->                 tdm_con |=3D 0 << LRCK_TDM_WIDTH_SFT;
->         }
->
->
-> ---
-> base-commit: 45db3ab70092637967967bfd8e6144017638563c
-> change-id: 20240509-8192-tdm-cbf2a73c9dd3
->
-> Best regards,
-> --
-> Hsin-Te Yuan <yuanhsinte@chromium.org>
->
->
