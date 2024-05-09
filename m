@@ -1,176 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4417D401
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 18:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212A52907;
+	Thu,  9 May 2024 19:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715279307; cv=none; b=odNjExkusPwBub0TBpIYaXh90YDV7baZStW/tpxPe9VmPEjnEDq/pfmHd+eypREDn946+DshJlIYCb9XVfqCDIXIg31ZgF+AFz7RTEsKwGIp6lYlIyrFUMNJRkhOcn4PQ8UtmcUB0K6cX8sd7OqJxoHkcsCNHfHUCZyto8bdm3g=
+	t=1715284577; cv=none; b=nN+6RkMekzLDNvkasmXcQPmWWOAXXPwBsoAFLg38esneDeJ9mF/mMb73byiRa1K90/iq6viydeHGEou+g7fNF25ZCHpbh5wwZbGtJ2FdVA1fXlkIqagXSvcnteGGfBGOyn0s7SLgQNalxL+PLNRUjCIwCdh+bAwqR8FuvV+gYEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715279307; c=relaxed/simple;
-	bh=jIQ6maw1siwcAKIAVoT7tUYMciD3mcFYgrMogy3aHQc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MuP5RYIviSxvt/301S+aCx0gaHjeLwYZk7nGiY4oh1QagwssIXMsVwSwxo/mUML8zLJAj6jKiqWXJdsLwrgHDQIE/k1zVbZgXidWfvxCgsLynkSfutH4GqO4Fwl9GeoUMBvq+9/NbSzVBtqw6nhe8EPwdM2LUjj60YnDW+gThrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k8LSG0hY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gB22M/8r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k8LSG0hY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gB22M/8r; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715284577; c=relaxed/simple;
+	bh=yggsdWvGecv9KlZXR7Gn5ZXJpoT8aeY02OM9eHlbgFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZpcYm13Fdk4Nb9rlZ1LuYGyyuGLmzHEB6A7bItvyo+11icOn6kzIcArUxNYaMppjeqAhGowO20u8kww+ZHeGsrAsgXRDT+tJLTbGL7u8Z1hsGTfLTz+Q1PK54jb1qlkXGLSqp3ngdMaXBYvXFEpI/xHZ5CWt/GS1ouoHjzXWNnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RTagBD7Q; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k8LSG0hY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gB22M/8r";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k8LSG0hY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gB22M/8r"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 14AE738B2A;
-	Thu,  9 May 2024 18:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715279298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
-	b=k8LSG0hYWp+ZnPUFR5Vu+46JtgymWXOTl2ssQyHZ1sJqveDOhImiMcjpJW6Cn0DlBZEn1X
-	FTe90Mjkxy6aS96P48xJykZ+FUgP9RhRUlvopZegHVs8Rz3gJAa/okt5DtmYtkjxUpOB64
-	32j0cu4M3T8qYGkOT2R4MIndfUfJSH8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715279298;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
-	b=gB22M/8rGgipt2aujZjqQdoH+eaCFBbBVrsOx5ZVZ9eZYdeRa7S/z0LwkvmX9JVif3PRHD
-	dsQoNguVUjzkfMAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715279298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
-	b=k8LSG0hYWp+ZnPUFR5Vu+46JtgymWXOTl2ssQyHZ1sJqveDOhImiMcjpJW6Cn0DlBZEn1X
-	FTe90Mjkxy6aS96P48xJykZ+FUgP9RhRUlvopZegHVs8Rz3gJAa/okt5DtmYtkjxUpOB64
-	32j0cu4M3T8qYGkOT2R4MIndfUfJSH8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715279298;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
-	b=gB22M/8rGgipt2aujZjqQdoH+eaCFBbBVrsOx5ZVZ9eZYdeRa7S/z0LwkvmX9JVif3PRHD
-	dsQoNguVUjzkfMAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C229113941;
-	Thu,  9 May 2024 18:28:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dVgILsEVPWahRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 May 2024 18:28:17 +0000
-Date: Thu, 09 May 2024 20:28:32 +0200
-Message-ID: <87o79ealgv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
-In-Reply-To: <dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
-References: <20240507135513.14919-1-tiwai@suse.de>
-	<ZjpQm-hxLQtpgkUx@smile.fi.intel.com>
-	<ZjqU2rAoHHcrTaVH@smile.fi.intel.com>
-	<87ikzod6bt.wl-tiwai@suse.de>
-	<dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RTagBD7Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715284576; x=1746820576;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=yggsdWvGecv9KlZXR7Gn5ZXJpoT8aeY02OM9eHlbgFI=;
+  b=RTagBD7QGomYEp9Rqj9nG72Ua8Vy5vv2/DsR9AbD09Ee4hJSD0/Vj3Gs
+   XE4JwQT6IKzbCd6jeI/5E4dIYuAWCIJ07g15SF7B0FdiOTVd9Ou8QU1zn
+   C5s72CV9ZF2LQp2oHa4fQao9nlQEIbKQS0KkhEYZsg2UHA7guBjGIAkpJ
+   kRXBM5UEZeLdTAwJXu6qZdhBPhA8axOCAxtr1udmyh2pH80fuy9do3oAe
+   99RtbaBYIwhoYJ52lTfrnz3JQ2wW9xFdYDodMYQp2Ur9yabwrcGTFmz22
+   PLjfNntBiYZ2qfMB6TjRJ3YdRBiz4GJ1QMAQ9JuK0ETnYXhV1EUWZ9z3S
+   w==;
+X-CSE-ConnectionGUID: OVYOC/UESkmsBEEk0xgBww==
+X-CSE-MsgGUID: UxKGoLOVTd+VGyMPEGcUdA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11454245"
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
+   d="scan'208";a="11454245"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:14 -0700
+X-CSE-ConnectionGUID: 0hSRX4lDS5GfwWSqiwJzxQ==
+X-CSE-MsgGUID: Ld9aKcU1TYSOY0PDBQNl8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
+   d="scan'208";a="34213064"
+Received: from ajunnare-mobl.amr.corp.intel.com (HELO [10.213.181.85]) ([10.213.181.85])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:11 -0700
+Message-ID: <726e7006-30b4-4525-84c8-4fb2ef380994@linux.intel.com>
+Date: Thu, 9 May 2024 07:54:47 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,linux.intel.com,vger.kernel.org,gmail.com,nxp.com,alsa-project.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-
-On Thu, 09 May 2024 18:10:39 +0200,
-Pierre-Louis Bossart wrote:
-> 
-> 
-> 
-> On 5/8/24 04:02, Takashi Iwai wrote:
-> > On Tue, 07 May 2024 22:53:46 +0200,
-> > Andy Shevchenko wrote:
-> >>
-> >> On Tue, May 07, 2024 at 07:02:35PM +0300, Andy Shevchenko wrote:
-> >>> On Tue, May 07, 2024 at 03:55:00PM +0200, Takashi Iwai wrote:
-> >>>> Hi,
-> >>>>
-> >>>> this is a series of trivial cleanup patches for Makefile in sound/*
-> >>>> (modulo ASoC -- which will be submitted later in a separate series).
-> >>>>
-> >>>> As Andy suggested in a patch review, *-objs suffix in Makefile is
-> >>>> basically a mis-use nowadays for kernel driver modules.  They should
-> >>>> be replaced with *-y suffix instead.  This is a result of systematic
-> >>>> conversions, separated per directory.
-> >>>
-> >>> I briefly looked at this and since it's a mechanical conversion I don't see
-> >>> any issues, so
-> >>>
-> >>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >>
-> >> Btw, make W=1 nowadays enables modpost checks, which complain about absence of
-> >> MODULE_DESCRIPTION().
-> >>
-> >> Example:
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
-> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-> >>
-> >> I'm not sure what the case now for ALSA, just FYI.
-> > 
-> > Indeed there are lots of code that miss MODULE_DESCRIPTION().
-> ...
-> > There are too many stuff in sound/soc/sof/* and I leave them to SOF
-> > people (Cc'ed), while I'm going to submit the fix patches for the
-> > rest.
-> 
-> ok, I'll take care of it. I wasn't aware this was a requirement.
-
-It wasn't, but now became so :)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v21 09/39] ASoC: qcom: qdsp6: Introduce USB AFE port to
+ q6dsp
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzk+dt@kernel.org, gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+ broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+ bagasdotme@gmail.com, robh@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
+ <20240507195116.9464-10-quic_wcheng@quicinc.com>
+ <9bd1ec72-71ea-4a1c-b795-af6e7687ca07@linux.intel.com>
+ <0a4d7c2b-ac7d-7bd4-f97e-db60944a1d39@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <0a4d7c2b-ac7d-7bd4-f97e-db60944a1d39@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-Takashi
+
+
+>> Wait, is this saying you will have exactly one PCM device/FE DAI
+>> connected to the USB BE DAI exposed in patch 11?
+>>
+>>> +    SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
+>>> +               usb_mixer_controls,
+>>> +               ARRAY_SIZE(usb_mixer_controls)),
+>>> +
+>>
+>> And then what is the role of the USB mixer if you only have one input?
+>>
+>> I must be missing something.
+>>
+> 
+> Not sure if this is a QCOM specific implementation, but the way the DT
+> is defined for the USB offload path is as follows:
+> 
+>     usb-dai-link {
+>         link-name = "USB Playback";
+> 
+>         cpu {
+>             sound-dai = <&q6afedai USB_RX>;
+>         };
+> 
+>         codec {
+>             sound-dai = <&usbdai USB_RX>;
+>         };
+> 
+>         platform {
+>             sound-dai = <&q6routing>;
+>         };
+>     };
+> 
+> Based on our DT parser helper API (qcom_snd_parse_of()) this isn't going
+> to create a PCM device.  The PCM devices are created for nodes that
+> don't have a codec and platform defined:
+> 
+>     mm1-dai-link {
+>         link-name = "MultiMedia1";
+>         cpu {
+>             sound-dai = <&q6asmdai      MSM_FRONTEND_DAI_MULTIMEDIA1>;
+>         };
+>     };
+> 
+> The ASM path is the entity that defines the number of PCM devices that
+> is created for the QC ASoC platform card, and is where the actual PCM
+> data is sent over to the DSP.  So there could be several PCM devices
+> that can use the USB BE DAI.
+
+ok, but then how would this work with the ALSA controls reporting which
+PCM device can be used? I didn't see a mechanism allowing for more than
+one offloaded device, IIRC the control reported just ONE PCM device number.
