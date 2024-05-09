@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D763916F84A
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:00:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB81383BD
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:10:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715270410; cv=none; b=ZknCCl9S2gmXhxeVx7NzrromohApQvHabTgtbKxSDY/elUpd+nyc5Zi9864miHIVled8V1gRIt7MGkGGBhjMQMuzSwWkDKysLXcHK8JOOZwKidHDlMKWhT8ZndJl9xTFtOVbOipPjEPNJAW3Kkpga9lfsqN6vpyqTHJDiyr2qbs=
+	t=1715271044; cv=none; b=kx22wiwOMsiQcyN9UTa7FRuelIe9a9PQWgRxhVTwFne8KT9B97DqmCR3AyYh5Dco63h+fdxGW6o2cVf//0W79XZLLeOnU+Fg71YxQoEUGH6/CN8qSGjCDQ80GVaqT8e4/VL3dD1JoTRi1lI3WqmgaZqWz/k2Yuo9tZeqiC8TcuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715270410; c=relaxed/simple;
-	bh=YVoMDkd4Kyucg+FhSD9dLimMf7BJOn7zW4Zw9u62Cw4=;
+	s=arc-20240116; t=1715271044; c=relaxed/simple;
+	bh=WHlfvHEJ+CNdeAX6LHChxwwTI5WHSfz6FJqxc2EqGLQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ETbXcgX1RcNyYs0uKWG71Tbdhb01GYq+c/4uxDECDxQ0ksI7E64V+g9RuhswRwb2jaywiXysD4SjYufEAl/YmXqb7KVFDaTSHCXWKSEoL8c//mdfM+/DEtwQbW52GMoreRxVnrBJmi2M0Lbej1nrWucNfvebuK2H29gsNntCwdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbnF0IZ8; arc=none smtp.client-ip=192.198.163.18
+	 In-Reply-To:Content-Type; b=JiXTWyJ2qtF4jFT27kOYt0BLd3aULkdKWflzrVFFxbtJ8JDIsWBCfoAXHwwhBYGWIkYekRnFtCxZ19NyUn5O0n9smrx7hMliUJctSJsZWzc4o7Tzl+qyEWVGL054umJkHqRit4OErtfm41FDquaJRCMuMzHIrvOnY9kjW1OJT3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niqUIdQM; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbnF0IZ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niqUIdQM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715270409; x=1746806409;
+  t=1715271043; x=1746807043;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=YVoMDkd4Kyucg+FhSD9dLimMf7BJOn7zW4Zw9u62Cw4=;
-  b=mbnF0IZ8HdGU6Viv05JLr92Ze2Rt5RENVbZ9sw/3CCLQug5DKTnffyeS
-   oDptNhqCrzLigHULMyaz75OP/8FSnYEyiSY+M/QEwUYhu49Atda+bir1d
-   IvfNU4jDV+nMosh0P1ER1rIDouaYVC65q8IZjkbpc5JIq9FY3lSqvUq5o
-   xjiyT8asq6lrVaySOeTFbNE16AUPRIMWwVxCU3+k9aqMz+CEblGQNgdT4
-   ehDx/kmGnBtUC9xmzN8KKPMpQsJmeswIa6dQ/1vH44Jocv40KWGfl+whw
-   +EiUjjYdeSBupWeaq+F9lK4nQSJbuvBp7k4aQlBiLbolJ0muUVgAj37y/
-   g==;
-X-CSE-ConnectionGUID: iugfitRwTc2r4WwaWDPInA==
-X-CSE-MsgGUID: ZPgcwowWQgCeqMKJbeTGLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11036826"
+  bh=WHlfvHEJ+CNdeAX6LHChxwwTI5WHSfz6FJqxc2EqGLQ=;
+  b=niqUIdQMVLhYNIERSw5QGgtUiuyeSX6qtzteiE3Ffw7cgY74gRYLOoTO
+   hKfPEtlkrCTKBDaQRhBMtt+XA0UgWJebNzKYqBf+v9Eu6qtTIdY50cJap
+   4pWDyPbE05za1g0iY8z/Agdez6UDn6B36ItsPovhVZwk3BWq/kQbSkcSG
+   lka6oqMLKfzY7Avcokw1uxCEjVh/H4baKA7zntjmI7mwBLFS5bXKDF5kD
+   /8EHtQgggujo2VeFntpVyks0hd49XyTo7b7iPiYjCv4erCSDYg1i6EqNL
+   lD/4hy/Vm9WKN7bSlJQ5Bsf2/blCe/U/uDGeN7jOQWoOPAn3fE5qTSKdW
+   A==;
+X-CSE-ConnectionGUID: EkvNX2GiRLCF6y6OJWX+wQ==
+X-CSE-MsgGUID: t5SueYqOT/GkrxicQG0N/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11038880"
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="11036826"
+   d="scan'208";a="11038880"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:00:08 -0700
-X-CSE-ConnectionGUID: IyhFeXbdRo2wrZ+1do91DQ==
-X-CSE-MsgGUID: 06muV9D8Qee/MMuWvpt0Qw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:10:41 -0700
+X-CSE-ConnectionGUID: qyQ24vBCTw2gQO2EnRfM6g==
+X-CSE-MsgGUID: 7PbqfrG8R5GkY9l72lkMYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="29390582"
+   d="scan'208";a="29395572"
 Received: from ajunnare-mobl.amr.corp.intel.com (HELO [10.213.181.85]) ([10.213.181.85])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:00:08 -0700
-Message-ID: <5630c56e-6639-47f6-81a9-6b52f8b540de@linux.intel.com>
-Date: Thu, 9 May 2024 11:00:06 -0500
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:10:41 -0700
+Message-ID: <dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
+Date: Thu, 9 May 2024 11:10:39 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,42 +52,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] ALSA/ASoC: Intel: clarify Copyright information
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de, broonie@kernel.org
-References: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
+To: Takashi Iwai <tiwai@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, sound-open-firmware@alsa-project.org
+References: <20240507135513.14919-1-tiwai@suse.de>
+ <ZjpQm-hxLQtpgkUx@smile.fi.intel.com> <ZjqU2rAoHHcrTaVH@smile.fi.intel.com>
+ <87ikzod6bt.wl-tiwai@suse.de>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20240503140359.259762-1-pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <87ikzod6bt.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/3/24 09:03, Pierre-Louis Bossart wrote:
-> This patchset does not change any functionality. It only clarifies the
-> Copyright information in ASoC/HDAudio contributions, where an "All
-> rights reserved" notice was mistakenly added in a number of files over
-> the years, likely due to copy/paste. The Intel template never included
-> this statement.
+On 5/8/24 04:02, Takashi Iwai wrote:
+> On Tue, 07 May 2024 22:53:46 +0200,
+> Andy Shevchenko wrote:
+>>
+>> On Tue, May 07, 2024 at 07:02:35PM +0300, Andy Shevchenko wrote:
+>>> On Tue, May 07, 2024 at 03:55:00PM +0200, Takashi Iwai wrote:
+>>>> Hi,
+>>>>
+>>>> this is a series of trivial cleanup patches for Makefile in sound/*
+>>>> (modulo ASoC -- which will be submitted later in a separate series).
+>>>>
+>>>> As Andy suggested in a patch review, *-objs suffix in Makefile is
+>>>> basically a mis-use nowadays for kernel driver modules.  They should
+>>>> be replaced with *-y suffix instead.  This is a result of systematic
+>>>> conversions, separated per directory.
+>>>
+>>> I briefly looked at this and since it's a mechanical conversion I don't see
+>>> any issues, so
+>>>
+>>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>
+>> Btw, make W=1 nowadays enables modpost checks, which complain about absence of
+>> MODULE_DESCRIPTION().
+>>
+>> Example:
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+>>
+>> I'm not sure what the case now for ALSA, just FYI.
 > 
-> I chose to group all these patches together, they could be merged with
-> either of the ALSA or the ASoC tree.
-> 
-> Pierre-Louis Bossart (9):
->   ASoC: SOF: Intel: clarify Copyright information
->   ASoC: Intel: boards: clarify Copyright information
->   ASoC: Intel: common: clarify Copyright information
->   ASoC: codecs: Intel: clarify Copyright information
->   ASoC: Intel: catpt: clarify Copyright information
->   ASoC: Intel: avs: clarify Copyright information
->   ASoC: soc-topology-test: clarify Copyright information
+> Indeed there are lots of code that miss MODULE_DESCRIPTION().
+...
+> There are too many stuff in sound/soc/sof/* and I leave them to SOF
+> people (Cc'ed), while I'm going to submit the fix patches for the
+> rest.
 
-The first 7 patches were merged by Mark
-
->   ALSA: hda: clarify Copyright information
->   ALSA/ASoC: include: clarify Copyright information
-
-But these last two weren't. Should I resend them? Or can Takashi pick
-them? It's just a minor clarification, this can also wait for the next
-cycle.
+ok, I'll take care of it. I wasn't aware this was a requirement.
