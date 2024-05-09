@@ -1,291 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20DF148301;
-	Thu,  9 May 2024 04:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715229540; cv=fail; b=MjxTRum/tWIJF8poSmzkkZk5z/Q53PU5DwJoqeTEdZwfzUPaK5aXr2+s4qXoT+q4jVnzfaa2NhuWy3DoeuZN7fr8aqF1gQXNLvKoe/LADz4cAOzeoaAnwXYg5vif6h9vFTUFUBK/KeLCu7UcQCVvQJxhch1sFTW3up10TLiz8s4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715229540; c=relaxed/simple;
-	bh=eM+h29OqTVTSFU9E4FteFSRowfbBGSLpvU7MlgTLEkQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZyokW6fsTozP1SEtiVVboVm83f36auF11mf+J1cpgsY+jikcauthXGw/TW3j97yu/r90s6G6cRZ7VE7pX7xXfwkm/ZonN9veBymmFKrxTL9SaYG5b+IKci7uUkKwvy+doW+McdJQkfGa+iAd3VO2R4P/XtxQhwOEhJ4OwbKEc00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmaLANUh; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF9F10E5
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 04:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715230434; cv=none; b=hSc2HCsO4wasaQvFxGAvJlMzxs2FIHw0jrhjI793SDTbbDDOCG6uiw6oit0NV3hf10Yz3cUz6Xr1c0norXTFK3ZayRkO60FbwsTg7oqJG9roZxlttf3LuiNqLPCUSCR3gYpWz0Yyc6EWwPSwdm2gVPLs7SUjpBZIgO5AvoOmDck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715230434; c=relaxed/simple;
+	bh=FYK8o7agHkWB8dqb5Brb1yBs7Vs11FMp6xgHqrbWLwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gLt+LcLme3zsi5MvL7nH8r6l0zR59zqUDYz3jxWDHPC2KUrXSbTJb1fv35PhpwjMztQS4xcp2l3VfWrUuUgqh/amSDcdIppVB177Vz2Wd3djILUxhpltbupVYjgiFra06vljn7RyvtqbN3u+Ryz56FK218eZFDA1MkmqJ/35oro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U1A9S6zn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmaLANUh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715229536; x=1746765536;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=eM+h29OqTVTSFU9E4FteFSRowfbBGSLpvU7MlgTLEkQ=;
-  b=lmaLANUhQHsjP3mZa/rDBWPWWr42kZPThylu+VOZWUZBA9j+PzeYKAiL
-   BuySJ6spFmbHUooMMwZJV4umt8iiv3ezjONP8K5jRgSTIp5PdM0/9k0V8
-   6LAVHtQ1NzUCjvYnurV6vXKp+nepSpxHH0qslmZeUgPs+qkCnjxVhwqM4
-   Dr8JLRrWbxKa+cmthAIb0GH54bDQdNymkEnVYW1ZcLeB8/TrB0NvMfnh4
-   z8qv4YZIlEdeo24fSNoFVGTyO1VlwjcDKRU2Xt5UMANVaCXLZ/fmmBdAd
-   JvhTFMwtT+JBBycLHZaFbCoOFM17dBTkVbhTsCIwNEA01mIBrQlalAlW4
-   w==;
-X-CSE-ConnectionGUID: CUuyRdcpSmmc+Q17D2rL/Q==
-X-CSE-MsgGUID: muBLJxWJQYK0KLULHI+sPw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="14076209"
-X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="14076209"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 21:38:54 -0700
-X-CSE-ConnectionGUID: BVTg3hqeQRytIeJVHJg2mQ==
-X-CSE-MsgGUID: WKihyDIGSjSB36iNkHhM8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
-   d="scan'208";a="52312406"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 May 2024 21:38:53 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 8 May 2024 21:38:52 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 8 May 2024 21:38:52 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 8 May 2024 21:38:52 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 8 May 2024 21:38:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NrjYJFQ1rFjAzWTioHH8YkxycRQR10zQJie53uFguociHj9865+KZ7/SCWcQvOUI2rBeV529xL9kL4iS0oSdV4Ed2mQgO0PHD/MGxMTBoL9WeSvS68CSNs4mL1zQvxtm4Voyr3EmaBBr0RYTa38BCWp3/2ENCSE8PIiKAP+zkIPozFaDhXPXfPGHjKKsjGfJ+bBenV9Ym1rdOj4K1lBGYAufOHIS02J07DS0z+FcBAQrr8WHT/+V7FiDkVdTwB4dKo6Jxhsa3Xg+o1AChGpdqHLTZeWAZDzOsufY+6CJRuIdQa5iBFgwTMq2XYgjJjVYPEkAq0v6tihzO1ozq/Nx0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4+l2mH5NHWOivlv3fQrC6pqkCdwsm/cYabokYUgWnxQ=;
- b=jwYanViBrsFcq3SWn8p4jD8/zD/+OxJLLceKTN8LUFZLNneGIUyvkUu7GDiZ8FwhJARWGtIDKYZGxNcrhBhPTsFcrHDVV0yZJMk1km2AOZ+XRoJDapOU7nx1yT2cnCo5w/Rmjc2cZeeHF9f19lIv17cEyoU+7HbWnKKxGDv39r7fens3IX9Ja9zT9r5VtrWvjrAHxzi863lV5fYuOLPPtFBRCyjCACCnYeU2oTGabqtsbFVsFgS4uwZCOWAcjhXzkZthIkH3v1PXcW75Ph84GphS1BiN4SR1HlDK0iZ++ucG8q1OZhMHGQC6dbClFZs6/BrNNSJn6UmD7p7S0qs9og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com (2603:10b6:930:87::14)
- by CY5PR11MB6464.namprd11.prod.outlook.com (2603:10b6:930:30::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.45; Thu, 9 May
- 2024 04:38:50 +0000
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::1fe:535e:7c0e:1d67]) by CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::1fe:535e:7c0e:1d67%3]) with mapi id 15.20.7544.041; Thu, 9 May 2024
- 04:38:50 +0000
-From: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: "tglx@linutronix.de" <tglx@linutronix.de>, "jstultz@google.com"
-	<jstultz@google.com>, "giometti@enneenne.com" <giometti@enneenne.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "Dong,
- Eddie" <eddie.dong@intel.com>, "Hall, Christopher S"
-	<christopher.s.hall@intel.com>, "Brandeburg, Jesse"
-	<jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
-	<mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Nguyen, Anthony
- L" <anthony.l.nguyen@intel.com>, "peter.hilber@opensynergy.com"
-	<peter.hilber@opensynergy.com>, "N, Pandith" <pandith.n@intel.com>, "Mohan,
- Subramanian" <subramanian.mohan@intel.com>, "T R, Thejesh Reddy"
-	<thejesh.reddy.t.r@intel.com>
-Subject: RE: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driver
-Thread-Topic: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driver
-Thread-Index: AQHamtvuWPGql+HhbUCDICIaxX/xKbGA1coAgA2JO2A=
-Date: Thu, 9 May 2024 04:38:49 +0000
-Message-ID: <CY8PR11MB7364F43C08D75878205599A5C4E62@CY8PR11MB7364.namprd11.prod.outlook.com>
-References: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
- <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
- <ZjD3ztepVkb5RlVE@smile.fi.intel.com>
-In-Reply-To: <ZjD3ztepVkb5RlVE@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7364:EE_|CY5PR11MB6464:EE_
-x-ms-office365-filtering-correlation-id: ebdea49b-efe6-474c-0510-08dc6fe1ec22
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|38070700009;
-x-microsoft-antispam-message-info: =?us-ascii?Q?OnrlLS2prDfYqnRVHaZUGsqkVNo/owTF8dhDAVMIF5OLLrnAP3WSVF8Kh1n4?=
- =?us-ascii?Q?PsMWmI/txV8Q7Q39LTz5xjWTmXSsdXuojBWuZ94x70NEKA+Vu5mz/eP4L8WI?=
- =?us-ascii?Q?jqy6tY5bzC7O8litEZI6PqGpznih0h45TsB7TdL6QAoV6/RApZXkU7RACYYc?=
- =?us-ascii?Q?Vy46T11B7KNUxlAyK5si6M2RQ9hCKLmapoKrg6hnwMvpeJEq/u4kY9NrMDYB?=
- =?us-ascii?Q?+RydcguFvkTG5l5vEoOULWC9g6JnrLs93LE9ZtnFygSq17wP4lqjFYj7fudR?=
- =?us-ascii?Q?doz7D/id0c5PZkxb2AFcR+0zZZGnFkPRYg1ZGnWCMmn1MKKE4AvnhNa64cE2?=
- =?us-ascii?Q?Jv1dnCWTT+E8zYq830hESYkQJM0S5ksGRZIy0VSIz9o+lu6OAsG3dE/9YeCQ?=
- =?us-ascii?Q?UniZA1LpV7EfDB16lr7rfmcqQdIEufX/FYMTifjvxmDY0WZDcLRNZtmEAMOb?=
- =?us-ascii?Q?twk3yDdWI3Ol+Q8+H+5rjEYVjAv5gOwrX35DP1zNa1QvI6MV//40IBxk3Cfi?=
- =?us-ascii?Q?Lxft0Z6er2V8lMK9ftiYsOC0OyRjOsB7XXGwt1qP5CjIoWoGNyI5DA78mv7o?=
- =?us-ascii?Q?8THDXqMYQslY/msFwtwGxEifuCDQzPVwWn3fliXZfScwwCcIfiV26aKDeK8J?=
- =?us-ascii?Q?8pc76fvYYLVY4gX81Y8TCEYDpIjPY/lxO3UNb1FI6q1fwzCPBBKzw3pad8nS?=
- =?us-ascii?Q?7sCbBqE/nMqZY6z5zTrKs+ftCFVyGpxcJo72IlTfX4EBp1pDWzCVFrgh4e4h?=
- =?us-ascii?Q?qKt4L1D6eDMVs7nd/5hwoUvcOfZComyiVp+oiIqoOa0gxxARizg2vrAZ9kHQ?=
- =?us-ascii?Q?M0mrQoHLdM3+YHGDNn4Z4GBMO+wbxWaXkJxZ0j7R5c1XG5kLWxG+oaa1xwC2?=
- =?us-ascii?Q?XHkdh0cdNbAMYy9mZGIdOh9ME32rVwiFLVVkhTDDUProKEAZp08HzjAk3dV3?=
- =?us-ascii?Q?EBgCsIrnxDC6Asf7h62C2soQrYo6czi8Kwc505t7fd/MpcoM8y/LdLMhakK+?=
- =?us-ascii?Q?BgLflWYPx9i1iIyWDj/OUwykzis3UzSGJPAkoMcyElGDiNGhgX6UDxrhIJ3X?=
- =?us-ascii?Q?5J4b66tDTVa5+1VeWIQUCZJTi4i/xp0hNhFpv9PnVl8/P2iFvroCesnBbP0n?=
- =?us-ascii?Q?mubtH1g4PChrbaFsZKkwpeTwxPvX283rklcW3A/cIzy4u5m3KADS2ZLBslEf?=
- =?us-ascii?Q?F4lMGM+gB4xMFdtyO+Sa258iMN6anV0DK4IYkxdB63IcZws5xHBMmRrgQVNh?=
- =?us-ascii?Q?Oum3t9xpMhNp8x3tHT5c2UhUCLLMAB8RyT3LHR4fRcnmEJJOtSFhIZMLE5qX?=
- =?us-ascii?Q?bECLLAz6QJAkR6omtHWcgsd+fVdrgGrIBmojyVadfie9jQ=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7364.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Kf0eEUTH6Ggxhn16s6NARGNj0+ZyvpQvyM+AAez2ce7LI3jsGQ8nXe67MPDm?=
- =?us-ascii?Q?ZTq/uN2D/wtqJIrqEHOKAdGkQjkFfmuia3Y3rGYN2vzNi0Mox5sx13R2S6YC?=
- =?us-ascii?Q?v5nnNHjt/0+rdQeTlnOE7y3NhMBKXcD+blhfY77endEgcTMSDBN1Ix92G5hC?=
- =?us-ascii?Q?bsTQvGkvt3HMY5qE0e0zEvLskkbYTR9MVDt1aE5URF1apdCkMcOzdPvxifFB?=
- =?us-ascii?Q?acIYr6bjg05Uw/K56zfE4i8kJzG/ztRein9JjaRy+qBeMRy9rDPcU7znZ3xI?=
- =?us-ascii?Q?eYfxloZSoTPeJ3/UliEnKRAwSo0Y7FidKN2fAq6/GKfCoKdcEPHxZIBkoqKB?=
- =?us-ascii?Q?yBpLmVQfHc1SitUVqJk+JebiYlT1jaBNIEOlchNA1w2zrL3LreeNvK/ipW/l?=
- =?us-ascii?Q?l2ki2dSB34JXt+TaWUODDH4cjyIpztDM6q9s20OwVA/fw5H4pA5ON2kECHm+?=
- =?us-ascii?Q?59q5qasz+RxjUMMDFFt/98zuCWZKasX33zD8dh3Cif/BKQ9iribkaPRHanEP?=
- =?us-ascii?Q?FpAi6jCV7SruBSrXaFkflAVlvDuMIsgxji3vTjDFTkWRUTrifb5lxAlOnafT?=
- =?us-ascii?Q?fqe7PKK3+vF/DRjLpJp89Fq02ZW3hz0YcK18YBJXVY4jnH9L2j5hpp9bZXJ1?=
- =?us-ascii?Q?cSRCtn3AM0C/ki5LymRSCvYDtuGZy/u6htnys1hwM/VBe24DtrSgdOzlk/Dw?=
- =?us-ascii?Q?mvH42Mmy0NmJoe+/725PiJfvJebaPjl5IKcXycOjc8FcZBFULi+x3nZsh5Yt?=
- =?us-ascii?Q?O1vssBK8USzuWzw2JN+WMNvkRlRdW4bKzgj6tlxINrHxcYr3jnLTZxE6p1Ff?=
- =?us-ascii?Q?f9vWFpyq3fvyQl63HuhePIxlMUbaxQVYZY9R/9Ujv0ac4QuorKOfQYDK3Owm?=
- =?us-ascii?Q?G3yoNr4F96KkdP6S75Or8CO4S0+XlM3pRVlVUfd/fa1LMUxnY7BBUbY0Mo7z?=
- =?us-ascii?Q?CEt11CKQNdx+apQSoUaMGakAuy0Cz2Zg1tSmKLAqGT8ZBbBW58vjWeaNhY4f?=
- =?us-ascii?Q?IECfBCiiBjwSpQ7VItwGo2Ng7xMYPGKunsDfV4GHMGUIumr4qW6q/00QiMHz?=
- =?us-ascii?Q?F+kDavdmR9wUNFWkJN8uHkxORxA/sgJIMyKKfpK9COSWp9eA5ZpU+0rNEVeK?=
- =?us-ascii?Q?2teeblkO6wZMXQSM785VIteIra8iCqU5UOaGFzbnX7F7Ax/3ohTgRC9W11A+?=
- =?us-ascii?Q?Vv0azbQ8XoXT/ZJ2B1Ihj78CHGdetFrF5G9SpcpW2Z0dKVA2J0sPxccSq4Fk?=
- =?us-ascii?Q?vKFxfh4EeUFmrP5OAc8mNOCVxQB+SlGAs2ChyyQ6PicN/eGFuF0DCHiPesdG?=
- =?us-ascii?Q?2V0cMWZvA3ygN+sMfTZEK46HDDo9tmUiG/2ppWb0p3YLV9I5EVuzIbpPQd81?=
- =?us-ascii?Q?2cP4ufTfbAPQJ2CvNA8VcvIG6I5w1ELAVVOYvfDjoUEsZN/F2aa8HPteTsyQ?=
- =?us-ascii?Q?yIn5xpTs8ZGTea6ViuszZcFa4FSMDwG337TyxyhYEtNHIPh3kuleDFTYRJV1?=
- =?us-ascii?Q?zK80JQxqHZ1ocPoYi8WpgDTIl18s+wNeexSCEFUYwpP4N1Ia/2MNvY6NH4dg?=
- =?us-ascii?Q?ZdyMtFIYn3mr57X+kXIyYbIHs4wAWqvs8MvKNFnte2zsWN144P5bkjLXHAB3?=
- =?us-ascii?Q?pw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U1A9S6zn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8FC0C116B1;
+	Thu,  9 May 2024 04:53:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715230434;
+	bh=FYK8o7agHkWB8dqb5Brb1yBs7Vs11FMp6xgHqrbWLwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=U1A9S6znfuy2ERRFcJfADxwCdJCbF2FfXsJWP2HLPUz9HTZpJLbGL6Vj4Rw1lfn4Y
+	 qtajnKL5RDW1XVDs2MWaRQpiP5i/wqcRhd2hczIQJ2Ki7QSgCIL/KeImhsudcOAm0k
+	 /5J2We+2jnd4ug0xZn+hQeQ97iUbGpgK926N9L0dpcAy0P9SPzlYcEsDRkUXgPPugW
+	 RSz25M6CpYsqyetiBekLIf4ISmgne0cOpgZBdkvQ/9+tfGj4mG5WHBcL8X2gp6jHP4
+	 ZRfdrB9hFWlfcHYzG98BYb21+ZkCqVDL0E8Ig5aJO/6eDZ2C+S8CQKOCBbVwYXPOBz
+	 89C70b4daF9Sw==
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20240507155540.24815-1-tiwai@suse.de>
+References: <20240507155540.24815-1-tiwai@suse.de>
+Subject: Re: [PATCH 00/34] ASoC: Use *-y instead of *-objs in Makefile
+Message-Id: <171523043369.2017141.17422657545742601502.b4-ty@kernel.org>
+Date: Thu, 09 May 2024 06:53:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7364.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebdea49b-efe6-474c-0510-08dc6fe1ec22
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2024 04:38:49.9309
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VgZj0CW/Zk1oqXrI7+A9850DszDTJP3xjW/SHbPh9YND3cKS4B9ci8VKQj0azjpX+fRcj26bK+Pnuw+CXQPMM87Z4FFCNUQ0Mfz1Truf2gI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6464
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
+On Tue, 07 May 2024 17:55:04 +0200, Takashi Iwai wrote:
+> this is a series of trivial cleanup patches for ASoC to correct
+> the *-objs suffix in Makefile.  The other ALSA code has been covered
+> by a previous patch set
+>   https://lore.kernel.org/r/20240507135513.14919-1-tiwai@suse.de
+> 
+> As was suggested in a patch review, *-objs suffix in Makefile is
+> basically a wrong use nowadays for kernel driver modules.
+> They should be replaced with *-y suffix instead.
+> This is a result of systematic conversions, separated per directory.
+> 
+> [...]
 
+Applied to
 
-> -----Original Message-----
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Sent: Tuesday, April 30, 2024 7:23 PM
-> To: D, Lakshmi Sowjanya <lakshmi.sowjanya.d@intel.com>
-> Cc: tglx@linutronix.de; jstultz@google.com; giometti@enneenne.com;
-> corbet@lwn.net; linux-kernel@vger.kernel.org; x86@kernel.org;
-> netdev@vger.kernel.org; linux-doc@vger.kernel.org; intel-wired-
-> lan@lists.osuosl.org; Dong, Eddie <eddie.dong@intel.com>; Hall, Christoph=
-er
-> S <christopher.s.hall@intel.com>; Brandeburg, Jesse
-> <jesse.brandeburg@intel.com>; davem@davemloft.net;
-> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
-> mcoquelin.stm32@gmail.com; perex@perex.cz; linux-
-> sound@vger.kernel.org; Nguyen, Anthony L <anthony.l.nguyen@intel.com>;
-> peter.hilber@opensynergy.com; N, Pandith <pandith.n@intel.com>; Mohan,
-> Subramanian <subramanian.mohan@intel.com>; T R, Thejesh Reddy
-> <thejesh.reddy.t.r@intel.com>
-> Subject: Re: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driv=
-er
->=20
-> On Tue, Apr 30, 2024 at 02:22:23PM +0530, lakshmi.sowjanya.d@intel.com
-> wrote:
-> > From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> >
-> > The Intel Timed IO PPS generator driver outputs a PPS signal using
-> > dedicated hardware that is more accurate than software actuated PPS.
-> > The Timed IO hardware generates output events using the ART timer.
-> > The ART timer period varies based on platform type, but is less than
-> > 100 nanoseconds for all current platforms. Timed IO output accuracy is
-> > within 1 ART period.
-> >
-> > PPS output is enabled by writing '1' the 'enable' sysfs attribute. The
-> > driver uses hrtimers to schedule a wake-up 10 ms before each event
-> > (edge) target time. At wakeup, the driver converts the target time in
-> > terms of CLOCK_REALTIME to ART trigger time and writes this to the
-> > Timed IO hardware. The Timed IO hardware generates an event precisely
-> > at the requested system time without software involvement.
->=20
-> ...
->=20
-> > +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer) {
-> > +	struct pps_tio *tio =3D container_of(timer, struct pps_tio, timer);
-> > +	ktime_t expires, now;
-> > +	u32 event_count;
-> > +
-> > +	guard(spinlock)(&tio->lock);
-> > +
-> > +	/* Check if any event is missed. If an event is missed, TIO will be
-> disabled*/
-> > +	event_count =3D pps_tio_read(tio, TIOEC);
-> > +	if (tio->prev_count && tio->prev_count =3D=3D event_count)
-> > +		goto err;
-> > +	tio->prev_count =3D event_count;
-> > +	expires =3D hrtimer_get_expires(timer);
-> > +	now =3D ktime_get_real();
->=20
-> > +	if (now - expires < SAFE_TIME_NS) {
-> > +		if (!pps_generate_next_pulse(tio, expires +
-> SAFE_TIME_NS))
-> > +			return HRTIMER_NORESTART;
-> > +	} else {
->=20
-> Redundant.
->=20
-> > +		goto err;
-> > +	}
->=20
-> 	if (now - expires >=3D SAFE_TIME_NS)
-> 		goto err;
->=20
-> 	if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
-> 		return HRTIMER_NORESTART;
->=20
->=20
-> > +	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
-> > +	return HRTIMER_RESTART;
-> > +err:
-> > +	dev_err(tio->dev, "Event missed, Disabling Timed I/O");
-> > +	pps_tio_disable(tio);
-> > +	return HRTIMER_NORESTART;
-> > +}
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
->=20
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks Andy,
+Thanks!
 
-Will update as suggested.
+[01/34] ASoC: core: Use *-y instead of *-objs in Makefile
+        commit: fd25e1c1328f40c6eb0bfa5ebee757e0e1dfb308
+[02/34] ASoC: codecs: Use *-y instead of *-objs in Makefile
+        commit: 1c3fa6662832f1498b78817317796bc37df7da40
+[03/34] ASoC: adi: Use *-y instead of *-objs in Makefile
+        commit: 01e8f66b434f3cca0690f839c417324d7471aa9b
+[04/34] ASoC: amd: Use *-y instead of *-objs in Makefile
+        commit: 07214013578b156d0fda288a0311d353ea149674
+[05/34] ASoC: apple: Use *-y instead of *-objs in Makefile
+        commit: fa8e54828efee5002b5aed0e315097f7ca4171d8
+[06/34] ASoC: atmel: Use *-y instead of *-objs in Makefile
+        commit: 907cb79d41a7bb54d2d69bbbdd6ebb159a1d1718
+[07/34] ASoC: au1x: Use *-y instead of *-objs Makefile
+        commit: ef993723af434eb91923b39dcef1623bcfa89606
+[08/34] ASoC: bcm: Use *-y instead of *-objs in Makefile
+        commit: 37f8d0d000b55038938e90d21aa987a6db1dd31a
+[09/34] ASoC: cirrus: Use *-y instead of *-objs in Makefile
+        commit: 591002b84a335f538879b44dff64568875da89b3
+[10/34] ASoC: fsl: Use *-y instead of *-objs in Makefile
+        commit: fe756e1e54c62ee691a3778b3e758808d0a41ab5
+[11/34] ASoC: generic: Use *-y instead of *-objs in Makefile
+        commit: 76560b808b41267cd08a538d2ad536f557c510f3
+[12/34] ASoC: intel: Use *-y instead of *-objs in Makefile
+        commit: 590d82e6e6284eba3e99d15264779c4369709291
+[13/34] ASoC: jz4740: Use *-y instead of *-objs in Makefile
+        commit: f7d09b7d4d709b34ccb0ca8fd626a499fa672a6d
+[14/34] ASoC: kirkwood: Use *-y instead of *-objs in Makefile
+        commit: 7ca27af84fc3cef3a8769bbef278e460d794c603
+[15/34] ASoC: loongson: Use *-y instead of *-objs in Makefile
+        commit: 3299aa652dee0d9e61cf7223a5e0bf131faec63f
+[16/34] ASoC: mediatek: Use *-y instead of *-objs in Makefile
+        commit: 9d819c244a478099828f76a92be4b71360073207
+[17/34] ASoC: meson: Use *-y instead of *-objs in Makefile
+        commit: bfc05938ebab6429543fcf1df1279b24953f1a7b
+[18/34] ASoC: mxs: Use *-y instead of *-objs in Makefile
+        commit: 62c6137ab2d0598603115f5bacff38c440a7d8c0
+[19/34] ASoC: pxa: Use *-y instead of *-objs in Makefile
+        commit: 8a72584d0d7601699f7945ac84899e8a3c7cf617
+[20/34] ASoC: qcom: Use *-y instead of *-objs in Makefile
+        commit: 078f57bd555b092e85c02510a2cf8bd30773cc3b
+[21/34] ASoC: rockchip: Use *-y instead of *-objs in Makefile
+        commit: 18db1c48515ed358a1c29e5dbda3e39a822b1864
+[22/34] ASoC: samsung: Use *-y instead of *-objs in Makefile
+        commit: e93c3b9606d17344a17e061c51dc4ec0538b3345
+[23/34] ASoC: sh: Use *-y instead of *-objs in Makefile
+        commit: 8c26836f5bade6d8aef415bdbe8d290b8bb8a5d9
+[24/34] ASoC: SOF: Use *-y instead of *-objs in Makefile
+        commit: 9c2f5b6eb8b7da05e13cde60c32e0a8b1f5873b0
+[25/34] ASoC: spear: Use *-y instead of *-objs in Makefile
+        commit: 50537c3fae4114dc71cf8b32c71881ca57fd3ad1
+[26/34] ASoC: sprd: Use *-y instead of *-objs in Makefile
+        commit: c4e93fd13235fdc339d087d4b1f491311f9e6a1d
+[27/34] ASoC: sti: Use *-y instead of *-objs in Makefile
+        commit: aa4a610309028d38b041cca899b772023178d112
+[28/34] ASoC: stm: Use *-y instead of *-objs in Makefile
+        commit: f827d7a34bbc1922c36aae80ff30c9ef9fb3647d
+[29/34] ASoC: tegra: Use *-y instead of *-objs in Makefile
+        commit: 51a50d6ad72702dd8de352c5882a18001638dc30
+[30/34] ASoC: ti: Use *-y instead of *-objs in Makefile
+        commit: 72b28ec6de0a4dd27dfd89525c3e1efd75ad327b
+[31/34] ASoC: uniphier: Use *-y instead of *-objs in Makefile
+        commit: d5c337c5e3d54a98a1458942a4c1eb7a307b180c
+[32/34] ASoC: ux500: Use *-y instead of *-objs in Makefile
+        commit: c4850e856f9db799be4e5a211dc85bdfabbe210b
+[33/34] ASoC: xilinx: Use *-y instead of *-objs in Makefile
+        commit: a9732bf75785d5baa3259a59ed4cac80da138ed4
+[34/34] ASoC: xtensa: Use *-y instead of *-objs in Makefile
+        commit: 476d0a22bcc4d305080e3fc2d759010db23ccec1
 
-Regards,
-Sowjanya
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
