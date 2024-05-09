@@ -1,104 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C8BE5D
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE365539A;
+	Thu,  9 May 2024 17:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715272635; cv=none; b=FnXIxbUhYORqI6Y2oudJTI8YR097NTkPHgbUE0prRO5Id9Lzy+crFMbBWnT8yQo6aW5G4RZaUSzxfC5hiohMU1XmJZfsq6TJjvOKVVPlA1Xe+NhQ7hCpx8pC8A6WMKAIK9OYHmSw8Yeyro3XJqqopDbL27HZdAcmgWbHkGz6Z6Q=
+	t=1715274679; cv=none; b=A0qDlkfqWhBp17tWUblfXZRcx5veBby/PomAkQcDnmUPLvLiR5lhOR57epuwFP4O5ukPWP0nzFBO4z4K8iv7dHES+vDk1BB0kzQupCBzTHpppDU5/cMwpMuyKZFdgAgaWfguYuVVWdJ+3NA+JDfqhQMVEncyxsSbjbGNQTmyvIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715272635; c=relaxed/simple;
-	bh=SCXYAb7vitxLxtkFLM0yIYJIUoO70iWPghwmtNzSrLY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dl2IqBySvQi93QQpFvhXgKT64siEYH3MT+jdMn5NPAuRTSriCCIhoFmk8PGwyUjGXgVqesWpr0lidofyqRFA/fMMbmkx5aEdVn3zsqVGzHhApanxEm+zFAquMZJ95q/vJxIpN/XYiKEB8JUOOLC+ZSMhNwuU8YACXLuC6ryFsuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLF9DDmA; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715274679; c=relaxed/simple;
+	bh=YA/u5mUcOxyTQK4E6Daw3gCqDJqZ+z0mf7v0UCWoLp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LB/86MWlL63FwoNVunh5LR6IyCgiop/nhllUJzDD44fZEliQfvfTY+Zh/6N3CKpFma5CuTMqpGHzlYk2FYFS3Q6m0sqReSbodxtNKkA/75j0b1Pu/mCwShigq3QiuOu4rWkPPreVCi9pU8ywQmQuiAy3GKlootrh9DT3g8gkthQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTGvIKV3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLF9DDmA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715272634; x=1746808634;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=SCXYAb7vitxLxtkFLM0yIYJIUoO70iWPghwmtNzSrLY=;
-  b=FLF9DDmAB4bpVSw90+nY6m3ki0H0KxgtEBJbk0uKpV1G+Rt2cHEQlBlV
-   zaeOkeDc3vNNnRmib3dFqBvvpovVHNCC1m8YK0zMuXaAhnMqYFJXCyTqY
-   QeNyIVb6BunWuQ+gNLjQY4SNrnapWFUBXEI7hMJuaL5t4hU2ta+S9rl8j
-   1GWu+FZ4Y7ewYAPswqIWCukUGI+3tJKT+Sb72ES9nNJgqOB4tblmaRQCj
-   Q8heKH/vrbyRZ6J5LRRiMArrBc25WdzK2ry/ZXjd3/F7goS1KdQHvjs9q
-   bYBj7qZKSAEAK1j71mgUysIrlQtVmhHFm/s4jnYN6D6hoO/fEc4pgbHB9
-   A==;
-X-CSE-ConnectionGUID: 8i10jhS4TeykxqVPVVKuzA==
-X-CSE-MsgGUID: Z/JIANdKR3evvnANAysjVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11362563"
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="11362563"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:37:13 -0700
-X-CSE-ConnectionGUID: yMhnPOwlQvOsdP6pTnYPsw==
-X-CSE-MsgGUID: J9lXMQAnTt6SeDyVPBZGxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="29344989"
-Received: from ajunnare-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.213.181.85])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:37:12 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Shuming Fan <shumingf@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Bard liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH] ASoC: rt715-sdca-sdw: Fix wrong complete waiting in rt715_dev_resume()
-Date: Thu,  9 May 2024 11:36:58 -0500
-Message-Id: <20240509163658.68062-1-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTGvIKV3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C539C116B1;
+	Thu,  9 May 2024 17:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715274678;
+	bh=YA/u5mUcOxyTQK4E6Daw3gCqDJqZ+z0mf7v0UCWoLp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VTGvIKV3Q1U4y5xPkrsYLHkZEVfxKI5NSpA/MjGFH9qYIXb8ISw4VmwSYbRo3Wbpt
+	 AUc17UJ2ENNqqBx/mzOFCwj4TDG9E5t499JPnvS2tgX6zKQzzyhspPT8OquDgx5LGL
+	 ze8dMWHERjQ+aLj+EhFYiM5W0kjPL1KXaK50LQ09aUM1BSrKZIdnS5DfBX7E3jaeSH
+	 iZykHvXUCEsYdzCQgK3pG2gzcqvnMmxVb/aWTx2n2kAtKvMQ7UiZ1JHwbt4xnA78Xl
+	 f5DLkuB36V41YqYYP9cm4BriMD1pSpZN6rnhWZH7O9ldn3RRwdUsWH2x2dlVJA+Au2
+	 ecUhVXGcZxHnA==
+Date: Thu, 9 May 2024 18:11:13 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 1/4] ASoC: dt-bindings: fsl,xcvr: Add compatible string
+ for i.MX95
+Message-ID: <20240509-phonics-wound-58d3435165f0@spud>
+References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
+ <1715223460-32662-2-git-send-email-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="o/G3P2Zf+UnkTwok"
+Content-Disposition: inline
+In-Reply-To: <1715223460-32662-2-git-send-email-shengjiu.wang@nxp.com>
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-enumeration_complete will be completed when a peripheral is attached.
-And initialization_complete will be completed when a peripheral is
-initialized. rt715_dev_resume() should wait for initialization_complete
-instead of enumeration_complete.
+--o/G3P2Zf+UnkTwok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-the issue exists since commit 20d17057f0a8 ("ASoC: rt715-sdca: Add RT715
-sdca vendor-specific driver"), but the commit can only apply to
-commit f892e66fcabc ("ASoC: rt-sdw*: add __func__ to all error logs").
+On Thu, May 09, 2024 at 10:57:37AM +0800, Shengjiu Wang wrote:
+> Add compatible string "fsl,imx95-xcvr" for i.MX95 platform.
 
-Fixes: f892e66fcabc ("ASoC: rt-sdw*: add __func__ to all error logs")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/codecs/rt715-sdca-sdw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's apparent from the diff. Why is it not compatible with existing
+devices?
 
-diff --git a/sound/soc/codecs/rt715-sdca-sdw.c b/sound/soc/codecs/rt715-sdca-sdw.c
-index d3fb02e8f31a..c8dabb9b16b5 100644
---- a/sound/soc/codecs/rt715-sdca-sdw.c
-+++ b/sound/soc/codecs/rt715-sdca-sdw.c
-@@ -234,10 +234,10 @@ static int __maybe_unused rt715_dev_resume(struct device *dev)
- 	if (!slave->unattach_request)
- 		goto regmap_sync;
- 
--	time = wait_for_completion_timeout(&slave->enumeration_complete,
-+	time = wait_for_completion_timeout(&slave->initialization_complete,
- 					   msecs_to_jiffies(RT715_PROBE_TIMEOUT));
- 	if (!time) {
--		dev_err(&slave->dev, "%s: Enumeration not complete, timed out\n", __func__);
-+		dev_err(&slave->dev, "%s: Initialization not complete, timed out\n", __func__);
- 		sdw_show_ping_status(slave->bus, true);
- 
- 		return -ETIMEDOUT;
--- 
-2.40.1
+Cheers,
+Conor.
 
+>=20
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/sound/fsl,xcvr.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Docu=
+mentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> index 0eb0c1ba8710..1c74a32def09 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> @@ -22,6 +22,7 @@ properties:
+>      enum:
+>        - fsl,imx8mp-xcvr
+>        - fsl,imx93-xcvr
+> +      - fsl,imx95-xcvr
+> =20
+>    reg:
+>      items:
+> --=20
+> 2.34.1
+>=20
+
+--o/G3P2Zf+UnkTwok
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0DsQAKCRB4tDGHoIJi
+0imKAQCYoCen/pDUqt0eydvNAg6kYtqxHG4j0dkiPPhCBQDTugD9ETg2kVQ8oDL8
+pD2YGMysprBxoLeYVTWRCjCN8LvUCwU=
+=iBRc
+-----END PGP SIGNATURE-----
+
+--o/G3P2Zf+UnkTwok--
