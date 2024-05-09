@@ -1,125 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87727149C6D;
-	Thu,  9 May 2024 08:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11C013D289
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 08:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715242442; cv=none; b=eJdoLslLo1t7y8mANMy8FwBTc7XUhAl07ZRLkz2oDkAY4hSsTI8U774howqXqtmnGuHdvLKMOQ3TPDQ5k7haNpVjCAwe7NycDksoeuQlRSJcq8P+ID1dKFApcx800PWFFaBQXlV8/1SUaO4CqTBlM9a5sCkiNwIXgCcJNTo0Sf8=
+	t=1715244977; cv=none; b=lXx/g45zWpfKdmrmwAu0nhDZNDl5tlFAhZIngwNBsxA9W/GhnaQ21ilf2ugYQwfTH6v5otYUxsHYGJk/9wuscsJJTl714OZUtxsCGLD9Z354saGfgfbsssyYSpOM2fmdRA2uvhXSZrmA9VB/8txbK89GEwjyBAu9CwlgIXcUD/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715242442; c=relaxed/simple;
-	bh=C1+cC2PmS3JnHtCEEjDWYLV1Z0/biU7APqqmr/1IrIE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eOYUVZXtP9QQIqoNmc8MZ/4IMqJOpncnh/tiQU0L+8vFpZnXEsjS7ivl2qhzjR+8pEx/MVOPZ8lqOQ50teZwlH2sZltvAseoEAN5lyGJxN8ydivfVv+LFQQDcqTLH4nuV8zBQV58vM9Swgsdzk9gIpg/U24eOgb3zE6x1xAhrr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Bb/8n/y1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ui0kQ/Gs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kEF1Qade; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3MeOmRFc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715244977; c=relaxed/simple;
+	bh=9r9aRPIA1iUn5FuzJXS3c8MvmE/isInCkahcUkIdeDQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jWZBb9dv22EQMr1ll44yfTf7egaja2fYAV4piWjsOErdMVvxwOOJbHnJFOLNP9oEFanRZCvn95ufsHLGV9WhaHcrVNXyP81zzLGaL+HmiXovOhzY/9aWa7trCXoRn2L5mBpwP2yTxy+2vYfd9dRernoC+YaD/qEu3fg8mqdQq4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nbDmYc9Q; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bb/8n/y1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ui0kQ/Gs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kEF1Qade";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3MeOmRFc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 51FDA5FA72;
-	Thu,  9 May 2024 08:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715242438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1Wu7N6byPVboE3rdUC7zL9Eq6yvwdKjLQ5dDI/khmk=;
-	b=Bb/8n/y19pz+BlZP9keaWv0I0MKuotzdlQ75FhZcop6w34fGAYcMUeR7nVR1uPJzvz5JTb
-	ljt+xXTFM42MRv8k6ZObNPjLAyGeQnBJhtibFs+kXX6te9sBsYkINPDcUN7ZYsrQOPAXcD
-	KoTkOm11YMoBB6QhaeFRlddsVqwYFuE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715242438;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1Wu7N6byPVboE3rdUC7zL9Eq6yvwdKjLQ5dDI/khmk=;
-	b=ui0kQ/Gslkq0wssH4iiB/zeULPKhAGOHCyYMeXHtl6bewkUHtFzgCTw5T3jVqo7a8lybIw
-	p3vpi5uomoLAOHDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715242437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1Wu7N6byPVboE3rdUC7zL9Eq6yvwdKjLQ5dDI/khmk=;
-	b=kEF1QadeyYYTa5HsIR0q6rtROnea4eBJayIQhjk7qkcPezJgJF5as6P2FMr3xLc8Xq76mU
-	m+xOjUkdT86vmij56s6YyX+g57i3Fxmsh4bMdAFdcPu3NwbL65CeslB76doawH+AaNVEfi
-	cwdsso2d9C5CX06VydfIwUKnqu5ak5A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715242437;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y1Wu7N6byPVboE3rdUC7zL9Eq6yvwdKjLQ5dDI/khmk=;
-	b=3MeOmRFcBCb7UOtaivsoCQ9qZMgTrplIS08icmxYK6uM6s9uRCmSbNwPrQDKDsCKdyJBGW
-	G9bgr+GdzjWUzJBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 293FA13941;
-	Thu,  9 May 2024 08:13:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /OTQCMWFPGYtGgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 May 2024 08:13:57 +0000
-Date: Thu, 09 May 2024 10:14:12 +0200
-Message-ID: <877cg3bdwr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Steven 'Steve' Kendall <skend@chromium.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add name for HP Engage Go dock
-In-Reply-To: <20240508-usb-audio-hp-engage-go-dock-v1-1-9e2984d49e63@chromium.org>
-References: <20240508-usb-audio-hp-engage-go-dock-v1-1-9e2984d49e63@chromium.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbDmYc9Q"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34de22deac9so36665f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 01:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715244974; x=1715849774; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JkVApnHnFJeyRYA+9uvoXILH0SyZb42FlpVdJsQIvzk=;
+        b=nbDmYc9QCCOmWW9RREByJuCDrFPif3JeLadsDr8vG1TZLXmY/bJc4Xz6Frg4t8US2Q
+         vGO8dOT2i/fEPAEOFr8DJ9Vjqvw9ox15QorNv1sx0klzncdT78bGHWtqrGcHMHW97v3s
+         GOLsIKwvwWMxqoWEzWj3BR6+JdebcCRp4iBt+iyrjmJEJhWK5SlulOCi/i+mnGltjcEN
+         1CUobGo4cL3mTeDjtSY9aiNOLmIRWW/Hi7th4o0lc9hsYnR1FMCd3GFZVJNnKoC+iI5m
+         rqYeV+RLNlF8somWnhYagoCQsGE2h2jjHvGe0e+8FVPhons8dX3jkIz0/8TYK2pYqdGj
+         9JLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715244974; x=1715849774;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JkVApnHnFJeyRYA+9uvoXILH0SyZb42FlpVdJsQIvzk=;
+        b=dHoBIdTSuRsU4m5sEySYf9diNk/Lu0JGSQxZ6L6MOYdyxK7VIZn+8t9X9/49KYG7RX
+         CGka0z6BzsinJRknZf4JzuW3Al3+GwL1XU5UrO9ec1RpOHgQjI0L7TbZ7JjJxHAw3kaX
+         GXShK5/cNQ5dfet+zVBwo4uABDaSLr9k7POYpwaeOkdbYC0i+l/T19jqsYWsl+GpIbmr
+         Qnuz+GkvZkNeuLj2oMg4TPI0dzkWYT/Z4VMOL9jhcu1KJ/2M0Xuse3iwk9pJp/s7F4gy
+         cusKzQQJiS5smYEE/SKa86P9/IqlqaJaeECiK36Mcx7mBhu5yvVp4qf+vHi4EsJ8D2YA
+         3yww==
+X-Forwarded-Encrypted: i=1; AJvYcCXFRFMNjDbRCxM9inbDAVVMl+I4XaDd2DakRr7qCtJ9Qz8fQKzlZcUMygoby1yFHlupCgYyZFT2sH+wD6o7LJV9nMfipw33tpnHQYg=
+X-Gm-Message-State: AOJu0Yxz6CyW1skxVXxYm2JzghKTAx1GDVlGYiQ7aoRgfqw0fNGBiCGL
+	0/2JNbwTV6QPuLj11gS0wYrD8nHhJ+fYIkQY5aZSuSg5cT76ySff
+X-Google-Smtp-Source: AGHT+IGsor45MFYW7KvnK1x6nJ3danBqtsnKoHtqsMWY1zoGwOX98YmBNejpBAZsd/C4TeJSBqE+LA==
+X-Received: by 2002:a05:600c:4f49:b0:41b:e58c:e007 with SMTP id 5b1f17b1804b1-41f71cbf49dmr36510955e9.4.1715244973901;
+        Thu, 09 May 2024 01:56:13 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:d20e:7300:e3bb:8444:4138:914c? ([2a01:4b00:d20e:7300:e3bb:8444:4138:914c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baacfffsm1114319f8f.75.2024.05.09.01.56.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 01:56:13 -0700 (PDT)
+Message-ID: <74b12ff3-ad65-4db8-881f-98dc9369e2d4@gmail.com>
+Date: Thu, 9 May 2024 09:56:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.22 / 50.00];
-	BAYES_HAM(-2.92)[99.67%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,chromium.org:email]
-X-Spam-Score: -3.22
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] ALSA: pcmtest: Add missing module descriptions
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20240508091128.25274-1-tiwai@suse.de>
+ <20240508091128.25274-6-tiwai@suse.de>
+Content-Language: en-US
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <20240508091128.25274-6-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 09 May 2024 00:29:25 +0200,
-Steven 'Steve' Kendall wrote:
+On 5/8/24 10:11, Takashi Iwai wrote:
+> Now that make W=1 starts complaining the lack of MODULE_DESCRIPTION(),
+> let's add the missing information.
 > 
-> This dock previously presented as 'generic USB Audio'.
-> UCM may now be applied specific to this dock.
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Link: https://lore.kernel.org/r/ZjpQm-hxLQtpgkUx@smile.fi.intel.com
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>   sound/drivers/pcmtest.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+> diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+> index b8bff5522bce..21cefaf5419a 100644
+> --- a/sound/drivers/pcmtest.c
+> +++ b/sound/drivers/pcmtest.c
+> @@ -772,6 +772,7 @@ static void __exit mod_exit(void)
+>   	platform_device_unregister(&pcmtst_pdev);
+>   }
+>   
+> +MODULE_DESCRIPTION("Virtual ALSA driver for PCM testing/fuzzing");
+>   MODULE_LICENSE("GPL");
+>   MODULE_AUTHOR("Ivan Orlov");
+>   module_init(mod_init);
 
-Thanks, applied now to for-next branch.
+Hi Takashi,
 
+Thank you for doing this.
 
-Takashi
+Acked-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+
+-- 
+Kind regards,
+Ivan Orlov
+
