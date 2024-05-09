@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5A11A2C0A
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220BC79DE
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 16:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715272474; cv=none; b=eFmKAVLBSmzAjfgLldBLNZVSmD0dthLxdS5rxLKcEcS+E7r27zbpHqR7fff7LEmFyqdG2es5fenmiXIwOJOT2X8Qwy2Z83Rezrso4xNdB0jQNq9yR1WMKmF0IB9Wk1YPLw3RUvkpAf7Pu/WP9PDQZOfIgYAzTNRx47Xh6bJakRU=
+	t=1715272474; cv=none; b=bt+GWMGW3mwvm200z+FCRcSUyF/gG0AU+lqbjTvOTtxEWE+299JWzk4Ka3jDzwE8sDCIyLwQsFK6h9wfBN3UcrPX8ZarLOxT/t2d5tF+lfNA49Gl2mKouanMcuQIG4MRmkSmLA92Yrjz0+IsuZjaOCBgUuo2KztQscUpkUQFutY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715272474; c=relaxed/simple;
-	bh=9BGjR6mSCozIHEiQeWRFjvpsgcKmMfBOW4mFQ/mtoe4=;
+	bh=5p/ULIDJcgG6EicAZJS+bv/Iz0bKhiKlJfRY4VecTMk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XKGCTqRWExHyW8SKb0DRM82RgvUS5bvn8MNMGiD9/HZ9Z7pD3qjWAM5SR87Wo81gOQ2k1wtCT/4x9honU3Q4vDZwawFErH3aUMgQQWf2mBh6hcowdPXdXz2NyZG1wgBLhMJxfSNS6sL9tgCRJM4Vua2gyfGldktusRrVxQ2jaC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iBjcBZsI; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version; b=jeKqhrR2cXkO7hA7TTKfJQrMEYZUYkniU9RDk2aly4Q2DshAmioKewyb5Njx5F9jDKkxDV9McmH+e/FqvumWsezdldODc5+y1+J7m82ggTAkf77M9fjZnIQbJcpOvuNey4RLwBmb0sFdxs5lb+hotKna81+W1cM0OsStdDHDgkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lf0zjQcO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBjcBZsI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lf0zjQcO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1715272473; x=1746808473;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9BGjR6mSCozIHEiQeWRFjvpsgcKmMfBOW4mFQ/mtoe4=;
-  b=iBjcBZsI5W18rEX1llC0NKkk9hiSUYR5NL1Axb0rRUe+SxKpaIAF4arg
-   ygcfBC3yHVl4v9N3BHF8jro9PrPWGGRsSuT7kMmFuwrvLAAMok7GyyHwB
-   pKjEkGM4vDWpV+dZUVOJwmi4Sgm53TsNCipTRlhM/LXmkaMJb+sZdrPDd
-   mtCwNceIg4iPM4xTWjZ5YcKq4LYJgIIbivi7lA3DcbbGhkOhgMnQF5Zd+
-   6Ism1JeqT7UTMJE+6691IemWYVpwi9zKyiHXspFIlmQutxWgN5jFenYNI
-   oJwpWvQH4Qnk55MpiI4Qh1DLVHoSiVCZOI5xVd/VjEtl08h4AjBrm8t7w
-   w==;
-X-CSE-ConnectionGUID: jF28/BzES7Ki3XD8D+1sUw==
-X-CSE-MsgGUID: R20UHwwxRoatgA+AJ0sQ5Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15017577"
+  bh=5p/ULIDJcgG6EicAZJS+bv/Iz0bKhiKlJfRY4VecTMk=;
+  b=lf0zjQcO1qIAnPrgekoiVXMSMK86cXuSklx9O16TKSXesOGLPencHOAs
+   8num0OF/G9SJ69gjHXM+tPZd9wSapMSZIXsUgy4swqGt0FuUF/+HVh72I
+   SrFXdsp47Lq5jkL2tf33JyUE7R1a9kz96nK0H/e7afuTrO0Ch3RwFf7yb
+   jfYNvxp64/QEYEq/LvnEsjjRcuOYZfvlNU726jtF7JIFGxHXbiDATO42w
+   W7Bd9KlgTm0G0/gti8Glve5ups9xhnJJI24WD54d6JgXgxnFRNAswmqtW
+   xYsSxJQbRmhuLTLwAmkfv7Fkt8PkSpjE8gaGxdVNCvYKWvah3JOm3OkBJ
+   g==;
+X-CSE-ConnectionGUID: 9q4MztgISNKKoGC/wFEPEw==
+X-CSE-MsgGUID: UCYU2h+8RFGg6pO96yLDPw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15017583"
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="15017577"
+   d="scan'208";a="15017583"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:31 -0700
-X-CSE-ConnectionGUID: /uBmyZ/zRC+gq+0QVJrJyQ==
-X-CSE-MsgGUID: E+vMIiFFRyyi0iHKXxb4QQ==
+X-CSE-ConnectionGUID: KdXl9t/DSvejQT5YJUi0bQ==
+X-CSE-MsgGUID: yMK/7CQ6TiiSPnADrvEMUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="33761027"
+   d="scan'208";a="33761030"
 Received: from ajunnare-mobl.amr.corp.intel.com (HELO pbossart-mobl6.intel.com) ([10.213.181.85])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:30 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:34:31 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	Brent Lu <brent.lu@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 10/18] ASoC: Intel: sof_rt5682: use max_98373_dai_link function
-Date: Thu,  9 May 2024 11:34:10 -0500
-Message-Id: <20240509163418.67746-11-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 11/18] ASoC: Intel: sof_sdw: add max98373 dapm routes
+Date: Thu,  9 May 2024 11:34:11 -0500
+Message-Id: <20240509163418.67746-12-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240509163418.67746-1-pierre-louis.bossart@linux.intel.com>
 References: <20240509163418.67746-1-pierre-louis.bossart@linux.intel.com>
@@ -67,32 +67,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Brent Lu <brent.lu@intel.com>
 
-Use max_98373_dai_link() function to initialize dai link of maxim
-max98373 speaker amplifier. No functional change.
+Add dapm routes of max98373 to sdw driver and remove dependency of
+maxim-common module.
 
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_rt5682.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ sound/soc/intel/boards/Kconfig         | 1 -
+ sound/soc/intel/boards/sof_sdw.c       | 1 -
+ sound/soc/intel/boards/sof_sdw_maxim.c | 6 +++++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 3dc373855a58..6fc6eb0c5172 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -591,10 +591,7 @@ sof_card_dai_links_create(struct device *dev, struct snd_soc_card *card,
- 		max_98360a_dai_link(ctx->amp_link);
- 		break;
- 	case CODEC_MAX98373:
--		ctx->amp_link->codecs = max_98373_components;
--		ctx->amp_link->num_codecs = ARRAY_SIZE(max_98373_components);
--		ctx->amp_link->init = max_98373_spk_codec_init;
--		ctx->amp_link->ops = &max_98373_ops;
-+		max_98373_dai_link(dev, ctx->amp_link);
- 		break;
- 	case CODEC_MAX98390:
- 		max_98390_dai_link(dev, ctx->amp_link);
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 17bd0f883b9e..3ed81ab649c5 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -681,7 +681,6 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select SND_SOC_CS35L56_SDW
+ 	select SND_SOC_DMIC
+ 	select SND_SOC_INTEL_HDA_DSP_COMMON
+-	select SND_SOC_INTEL_SOF_MAXIM_COMMON
+ 	imply SND_SOC_SDW_MOCKUP
+ 	help
+ 	  Add support for Intel SoundWire-based platforms connected to
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index b1595fdb500d..2b97972f85ef 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -2067,4 +2067,3 @@ MODULE_AUTHOR("Rander Wang <rander.wang@linux.intel.com>");
+ MODULE_AUTHOR("Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>");
+ MODULE_LICENSE("GPL v2");
+ MODULE_IMPORT_NS(SND_SOC_INTEL_HDA_DSP_COMMON);
+-MODULE_IMPORT_NS(SND_SOC_INTEL_SOF_MAXIM_COMMON);
+diff --git a/sound/soc/intel/boards/sof_sdw_maxim.c b/sound/soc/intel/boards/sof_sdw_maxim.c
+index 432e5112415a..57c1a5fb17a9 100644
+--- a/sound/soc/intel/boards/sof_sdw_maxim.c
++++ b/sound/soc/intel/boards/sof_sdw_maxim.c
+@@ -11,7 +11,6 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-dapm.h>
+ #include "sof_sdw_common.h"
+-#include "sof_maxim_common.h"
+ 
+ static int maxim_part_id;
+ #define SOF_SDW_PART_ID_MAX98363 0x8363
+@@ -27,6 +26,11 @@ static const struct snd_kcontrol_new maxim_controls[] = {
+ 	SOC_DAPM_PIN_SWITCH("Right Spk"),
+ };
+ 
++static const struct snd_soc_dapm_route max_98373_dapm_routes[] = {
++	{ "Left Spk", NULL, "Left BE_OUT" },
++	{ "Right Spk", NULL, "Right BE_OUT" },
++};
++
+ int maxim_spk_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct snd_soc_card *card = rtd->card;
 -- 
 2.40.1
 
