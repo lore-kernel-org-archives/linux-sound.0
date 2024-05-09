@@ -1,144 +1,123 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E006E1494CA
-	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 06:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866C82CA9
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 06:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715235263; cv=none; b=enIXwkjZCdY25L+BcCgzKR3FrzCEufer2k8mdK40tE6KT5LEXCxz45gw2tU5BB/Vj7IrjfOgoAAliQ/emJIzospz+lgyYOXQxBWJVsaMf98nsvfMW7ss2f2swzJ5UBL7+72g7tzRvD2DCEhVDsvLwTAlJHwRf0wi4lWdWCrn1C0=
+	t=1715237375; cv=none; b=mglr8pkOS3eEnQv6kgVqcaaU0hTRIT4W1t0KT0AAQSQcIiw1CNqZrME71tNjH0H/G8rAvr3pY1UL4emeouuOX7zoQwAHHhfkecUQk5GcILjPZSepPICvMgs6jgDUfyOD2MKHVeJw8FYobD3RW0RqAyFHjRxXhumUbh7HnwJVz3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715235263; c=relaxed/simple;
-	bh=EL59YAvQ+NejbE+MgsQ0pGcYE6qA6HsEuHDusaEk0N4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g80+BH94R5mKdOLBVH5hhHhMrWybYyKKti6DonXp06A3y+9/2pvraPmxyuADvmsOX2FKmmso2WF9T7+o6qntwzMxTpNf/8BXJJs39YHu2q+FiLfIQiYJLegkpX+1LMnD9uNLYcBTEtsjgEanFxsQ6veIc+0xSxjJEDKx14tT290=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WEm/VoPd; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1715237375; c=relaxed/simple;
+	bh=2WIXqxROMD1i6HuRnSZOBBxkvEoo48qKJWNTnW1+yoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MnwyzXXze4IlKqB3Ul+QOdVGfVCkQkrE93qze0zHoIXSkCQo+ESe7pgvIAG3hPD0I0nQJJoMNmx7JAPpXD6Opkp+q/6jz7cB+zNwcsh23fOS3IipmCPnnsShjUFsQY32elBQJCUHve0hDmyZYuHqDpr+xdQFOTOtxkOGOkPg/Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p38HccNy; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WEm/VoPd"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5724736770cso4835a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 23:14:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p38HccNy"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a59a934ad50so114120666b.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 23:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715235259; x=1715840059; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=72bWBwjQodIuSi8MsUtQvKNvKwdUWjXGREUei480Xwo=;
-        b=WEm/VoPdoWkj0T759QWiuYvMX4pHXbQGtGV6B8BdS6/Cq0VFDkresAaaMIYb++Xv07
-         NGG+jf4a1dEnvAy0YaC/s7lcBHZYg4XfdFyn0UE/NSSxuV4NI+ONOzRkSN7wuCtF7G6m
-         GTOO87BGuQVGfzWL5T65/lgJj6fjNzyMISuP7RyGnMi7ZT8v5eJ20/bJPOff/6tMEzYf
-         htFF4m10x/m7ACoxg+H+qSKb1axBk/xf7pNTnIFlBhJxau06TJtioZB85NLY3yGUoNGf
-         qsBS4tNQxQMxJEtkUampvrB3zly877wqooUCzxdQkmiqESGQ2AKpeP3mEO/CMSG07Le0
-         wmxw==
+        d=linaro.org; s=google; t=1715237372; x=1715842172; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BJpdZmZ+ySeGSH0CahNCodLUJ4ekgJ6/7BYEBiPJZsQ=;
+        b=p38HccNywagFjGCB6eLh8PpAZh+Rd+8n5sJGWG3e6qyN9fRcdJiMsdaWqbA9DEMco8
+         mO+QfNU2hqSJf8CBoxnAA/bK7YWSNdfGqheMWmi3TebRc3xnI2shy5hPU92dTd2m9MLN
+         EtSSNCb9eFuIWeQQ4rAH2Fj9SIa8eVu3pmCxYbF9BNP1TlQ5vX/2qHxdnOwep8Alz/Xe
+         VxSkyTTjZeFCw6f+7iSNDKteDqmx2f592cqSRRx16gQwcTkusl477dqUrNm4Rl3GwEiR
+         YVFDJZSUuD1YxSrfSFhQwC8l4gqNlRNBFmjkUTIAMqyl3XQ7ZTnrvJJk2Qd2wFX8xvEQ
+         aINA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715235259; x=1715840059;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=72bWBwjQodIuSi8MsUtQvKNvKwdUWjXGREUei480Xwo=;
-        b=A36Gnbfr18BWWlR3IIIV7tv9jq0HsGrkZqk8yUb3A2Iy+cHTUFdjLOiPjCrOJSekXM
-         kCTYj2szFKDrKnk03PmxeRM9/XMO5kyWpTfKOlhUvCPU+01A+mQp4wxfTYJLRC+C4wxO
-         3A4bPvL/x5CjCFM0h1w7MULooE/oBww5XoL1UVxqMJXTBmW2ex+zQkBaR1uzw81hWKXH
-         rzehnVUoNncPyVpvJVLnzgd/n2iePsPe/K71u7w5IFzIBsA4bjhFSRLhq9VVwUwQpwu2
-         oiUt0crWgFBZ8vW0BOPXi9pmbTR1oYPg3Nokw39PkLtC4JikDg6JcvXiBGtL+MiW2KIZ
-         XIXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWKVKYqlWAkINoDyFZ8P0sviRt4jB2H6W1DnmpjLlOz0JR0PL8MNL44cUXsYXFeO2elVIpws7rNvWVz1ezUH68ZZKveSxh/Sz+19KQ=
-X-Gm-Message-State: AOJu0YxN/FsFxK5d/cIMP6xgXe6HoFLX4x9kXOnUD2pandwv35Nmsvej
-	V9K1rG6wpzoEvETU0eeRcrF8J2kf5T8lK2kyKFdqBQWWlHkVoKcR2k1NFqFxiXX+ThwKPfQedR+
-	c46WnJhvEUNL97XGt1gjWThbzGOIoQ0mdBOxu
-X-Google-Smtp-Source: AGHT+IHsPAG0LEeM4cJXnAxgH06RrdZlxemOxK5bdPXtb66jyshH3jVsPNC7i5pX8kAB1x6smMgaq3eKTmHMEonCtFw=
-X-Received: by 2002:a05:6402:5206:b0:572:a23b:1d81 with SMTP id
- 4fb4d7f45d1cf-5733b9d3b3emr79412a12.5.1715235258767; Wed, 08 May 2024
- 23:14:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715237372; x=1715842172;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BJpdZmZ+ySeGSH0CahNCodLUJ4ekgJ6/7BYEBiPJZsQ=;
+        b=nOyr3Z6ImqM0YavMRfSmqbYMAvGan8lUv4mlP+d01vpLRdpeEHplmOd9CcSkCjT9Rt
+         aYifiJIer+d9urGDVf2SSmh0X/gyIMzEIAldurmktXLrtD7UqN8quAtUydGaD09wORQB
+         NraYexvwGj4dqpqwBU48vzlskLb2OuhY///ZV91ZIB7RiOK8ockF7ixjbcyBiX9jbVFo
+         6Lg0TG78rdI+eCG83M1PyRfR0gX6IzRh86atNrz9vMTQ231F05UGoXjlcg9C+VNLDOg3
+         ndpWKOY58CDJ+pWctE/6ZyudDQfOpvtV+eknrkz8t7ajXLIfgGC+pCsJtAujNnPDyvJn
+         T5eg==
+X-Gm-Message-State: AOJu0YzUv5kCvleYmYFDLneURX3GfGQoKBo7AEWsmkOxtppw04eqWn4F
+	IeqeH10WFn50exca9RCQydGiJDkRWKEQChFYOnd59MFboX1Y4wLekUy+r0xkKOI=
+X-Google-Smtp-Source: AGHT+IHDy1rfXFBEfjAvk3OuD8SJm7UiExA4aCWbisSV3z/dusXf8HnNSTdF2MgX5lswhwNwSQSJVw==
+X-Received: by 2002:a17:906:f298:b0:a52:2486:299f with SMTP id a640c23a62f3a-a59fb9e9959mr298261066b.71.1715237371786;
+        Wed, 08 May 2024 23:49:31 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a179263d9sm40490766b.95.2024.05.08.23.49.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 23:49:31 -0700 (PDT)
+Date: Thu, 9 May 2024 09:49:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [bug report] ASoC: audio-graph-card2: add Codec2Codec support
+Message-ID: <241354da-20c4-4ef0-90f7-68d6c4ee13d4@moroto.mountain>
+References: <f930862e-9d30-4ea3-b3e7-b4b4f411f6d1@moroto.mountain>
+ <87le4jall6.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240507214254.2787305-1-edliaw@google.com> <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
-In-Reply-To: <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
-From: Edward Liaw <edliaw@google.com>
-Date: Wed, 8 May 2024 23:13:51 -0700
-Message-ID: <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
-	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Seth Forshee <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>, 
-	Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
-	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87le4jall6.wl-kuninori.morimoto.gx@renesas.com>
 
-On Wed, May 8, 2024 at 4:10=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.or=
-g> wrote:
->
-> On 5/7/24 15:38, Edward Liaw wrote:
-> > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
-> > asprintf into kselftest_harness.h, which is a GNU extension and needs
-> > _GNU_SOURCE to either be defined prior to including headers or with the
-> > -D_GNU_SOURCE flag passed to the compiler.
-> >
-> > v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-ed=
-liaw@google.com/
-> > v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
-> > location.  Remove #define _GNU_SOURCE from source code to resolve
-> > redefinition warnings.
-> >
-> > Edward Liaw (5):
-> >    selftests: Compile kselftest headers with -D_GNU_SOURCE
-> >    selftests/sgx: Include KHDR_INCLUDES in Makefile
->
-> I appled patches 1/5 and 2.5 - The rest need to be split up.
->
-> >    selftests: Include KHDR_INCLUDES in Makefile
-> >    selftests: Drop define _GNU_SOURCE
-> >    selftests: Drop duplicate -D_GNU_SOURCE
-> >
->
-> Please split these patches pwe test directory. Otherwise it will
-> cause merge conflicts which can be hard to resolve.
+On Thu, May 09, 2024 at 12:13:41AM +0000, Kuninori Morimoto wrote:
+> 
+> Hi Dan
+> 
+> > Hello Kuninori Morimoto,
+> > 
+> > Commit c3a15c92a67b ("ASoC: audio-graph-card2: add Codec2Codec
+> > support") from Oct 12, 2021 (linux-next), leads to the following
+> > Smatch static checker warning:
+> > 
+> > 	sound/soc/generic/audio-graph-card2.c:1206 graph_count_c2c()
+> > 	warn: already decremented on line 1206 'lnk->kobj.kref.refcount.refs.counter'
+> > 
+> > sound/soc/generic/audio-graph-card2.c
+> >     1194 static int graph_count_c2c(struct simple_util_priv *priv,
+> >     1195                            struct device_node *lnk,
+> >     1196                            struct link_info *li)
+> >     1197 {
+> >     1198         struct device_node *ports = of_get_parent(lnk);
+> >     1199         struct device_node *port0 = lnk;
+> >     1200         struct device_node *port1 = of_get_next_child(ports, lnk);
+> >                                                                       ^^^
+> > 
+> > This calls of_node_put() on lnk.
+> > 
+> >     1201         struct device_node *ep0 = port_to_endpoint(port0);
+> >     1202         struct device_node *ep1 = port_to_endpoint(port1);
+> >     1203         struct device_node *codec0 = of_graph_get_remote_port(ep0);
+> >     1204         struct device_node *codec1 = of_graph_get_remote_port(ep1);
+> >     1205 
+> > --> 1206         of_node_get(lnk);
+> > 
+> > So this of_node_get() undoes the put.  But if the reference count
+> > dropped to zero then this would be a use afer free.
+> 
+> Thank you for pointing it.
+> 
+> This "lnk" is used as "port0", and of_node_get(lnk) was for it,
+> but this function doesn't call of_node_put(port0).
+> So yes, indeed this of_node_get() is not needed.
+> Let's remove it. 
 
-Hi Shuah,
-Sean asked that I rebase the patches on linux-next, and I will need to
-remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
-be reviewed, then split it afterwards?  I'm concerned that it will be
-difficult to review with ~70 patches once split.
+No no... of_get_next_child() will drop the reference.  It is needed.
+The point is we should take the reference first before calling
+of_get_next_child().
+
+Maybe something like this:
+
+	struct device_node *port1 = of_get_next_child(ports, of_node_get(lnk));
+
+regards,
+dan carpenter
+
