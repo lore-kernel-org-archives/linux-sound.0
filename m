@@ -1,123 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABE580055;
-	Thu,  9 May 2024 19:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D7385C5E;
+	Thu,  9 May 2024 21:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715284593; cv=none; b=A+lWI+DRORlB+mG1mcNnaC5uvesGMKKxonLOmPBn/bdGPfXHcAZvN+SnHQbj+5O4Vns3bOfsqJy+uvr5YskN4T3I/uGUfptP+/37a9DYP6OOATAHbBxLB5zJ8aSmT5NwyDoncUD8ymo5DyntA6/tuuI1m8Al3cHhSGPjCSDobtk=
+	t=1715290473; cv=none; b=SZ6Mb/ttoZ/zOvt4iralrrWEYq5+KgJKph0cDRcVKwGUziD1tSmeFTVuJKCWbZ8QIoI7cz/ucnk4xnWJarPaOycyTTeUl43/hoHpOpFvIlcwAnYlH7pxUQKs6vFi8G8+C5WhaWKdLQl9shsLzg+RLYv7RvzABymzBN7c6M7/DrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715284593; c=relaxed/simple;
-	bh=+Xg6sg0lsspm+oGIl2gKYWFJ9L1HRkPP8JWiP000C8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ctXkHb4dgUoe+gXGI7qJvqBVqACriUkUfi4y3254CwCy1zWlNRThlA0KsyEqR3+iSQAqNGTgJaHkdtcXFZl8iJE7CaSVGC4iDHCgfHmqX7UwTb3VDISh7uzm29sg1rLUY1+2OBARzcXnTIoBHj7ReO6Avrve4HN9sA4HIf+cxRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SepNGnx2; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715290473; c=relaxed/simple;
+	bh=DMClA2EG4om7tUuZOout4+5pUV7yCTXmqNhHE4600xM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=csa6fCgUv9fF8ZEjNxY/qcefXwrQnJ4KZlrBrqDh5GI6doF+u+ULFrEPDoexDfaX/K4lbBSMairkAwBvtYJAO9CyCiBeivwzsja4YvWRGKl6N9hFxE39I3Pk1QRexoPpMYmc2rIL7NoCrxgdaJ/vRwNBPzCnYaepsPFgMMMJDOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LI9r2ZDo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SepNGnx2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715284592; x=1746820592;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=+Xg6sg0lsspm+oGIl2gKYWFJ9L1HRkPP8JWiP000C8Y=;
-  b=SepNGnx2IJcaxT8JIsgqVPN/ggX/nMrhL31NmSKCAZXNPOpCvbozrK0/
-   xy9sy+LTGx/Eth2dOBVHkGqifhBXpSI7xqHBuBsA7xHdmJFFBlD/OrM1w
-   sK/wTvCe7iXt/ClFo7oFVQEvalqA6dKIf8OcLqot26BOYsis+HQdmsvg7
-   JXipXuIXdw5axHo6TR4d6N7pbhKSqsuEB1ZJtL3QVIsWF/6DkOEODOyf0
-   GlRBk54v/0FpzVAM87GAf6SQbvniJN+f5KnxiO7HPNlekYT4QMrrTQfOc
-   yMV3vYMaB7tD2uOrANQAPMluk/2Dde77xtuax1Pq/MN7L/renMAEWEERP
-   w==;
-X-CSE-ConnectionGUID: SbFtlId8TlKzai7seHk4qw==
-X-CSE-MsgGUID: Gd1X/7AfS9+Ajo6SxFC6Bw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11454299"
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="11454299"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:32 -0700
-X-CSE-ConnectionGUID: 1ox1AHb5TkOlj5+tCcFZIQ==
-X-CSE-MsgGUID: qXDyMCKMR7Opd+vqjTIr4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="34213141"
-Received: from ajunnare-mobl.amr.corp.intel.com (HELO [10.213.181.85]) ([10.213.181.85])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:28 -0700
-Message-ID: <92abca40-5eda-49d0-bc9d-eeb1a76e3461@linux.intel.com>
-Date: Thu, 9 May 2024 08:17:39 -0500
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LI9r2ZDo"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 449KtB8X012405;
+	Thu, 9 May 2024 21:34:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=cIukUmTAz21I3U9U4WGeVwO7Ge0VeW/gUAEvuX3Cztc=; b=LI
+	9r2ZDod4f1CfRw0lzzeck32b+xIyPiWNzUzL70jaE0GWi79OrRqe7hiTMCQnshjR
+	M+YlIEWTxolltwsRLJ54IH3eQAVAfx6gcOgoYnTbqddSIGXfr4qbfsg6nT68hFqO
+	QD+/f7xVKlSdtjj19rpQSd71bm2wPqoPodM2bvcyFL0IrobV0qXFffIAnj3Ryx4J
+	JkuENjg/HdYm0UBiz4/P7WlHIMudK0ofQWhMMPONf+EumzP5KCSW7HoT6VWYJtZN
+	zWuTKpTSAZ6kshg6Mmp5jHEUYmxIwgY55lQPpGltrPb6wjXOMB58KgHKcBKe7MS2
+	WRXOLrTOkp1Gwm7T7XUw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y09f5unjr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 May 2024 21:34:07 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 449LY6PO000667
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 9 May 2024 21:34:06 GMT
+Received: from [10.71.112.114] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 May 2024
+ 14:34:05 -0700
+Message-ID: <d0c1e6a8-3caa-3530-d49a-a8b820d19cf1@quicinc.com>
+Date: Thu, 9 May 2024 14:34:01 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 38/39] ASoC: qcom: Populate SoC components string
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
- krzk+dt@kernel.org, gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
- broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
- bagasdotme@gmail.com, robh@kernel.org, konrad.dybcio@linaro.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v21 09/39] ASoC: qcom: qdsp6: Introduce USB AFE port to
+ q6dsp
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>, <krzk+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <bagasdotme@gmail.com>, <robh@kernel.org>, <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
 References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
- <20240507195116.9464-39-quic_wcheng@quicinc.com>
- <cb864ea4-95e3-4e99-920d-341188006291@linux.intel.com>
- <cdee0eb7-7fb7-f267-8203-7dfb0ea2d31d@quicinc.com>
+ <20240507195116.9464-10-quic_wcheng@quicinc.com>
+ <9bd1ec72-71ea-4a1c-b795-af6e7687ca07@linux.intel.com>
+ <0a4d7c2b-ac7d-7bd4-f97e-db60944a1d39@quicinc.com>
+ <726e7006-30b4-4525-84c8-4fb2ef380994@linux.intel.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <cdee0eb7-7fb7-f267-8203-7dfb0ea2d31d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <726e7006-30b4-4525-84c8-4fb2ef380994@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ElA1DleWGwoZYGAQNwZNxyKuF9wVF_HB
+X-Proofpoint-ORIG-GUID: ElA1DleWGwoZYGAQNwZNxyKuF9wVF_HB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-09_12,2024-05-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=576 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405090152
 
+Hi Pierre,
 
+On 5/9/2024 5:54 AM, Pierre-Louis Bossart wrote:
+> 
+> 
+> 
+>>> Wait, is this saying you will have exactly one PCM device/FE DAI
+>>> connected to the USB BE DAI exposed in patch 11?
+>>>
+>>>> +    SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
+>>>> +               usb_mixer_controls,
+>>>> +               ARRAY_SIZE(usb_mixer_controls)),
+>>>> +
+>>>
+>>> And then what is the role of the USB mixer if you only have one input?
+>>>
+>>> I must be missing something.
+>>>
+>>
+>> Not sure if this is a QCOM specific implementation, but the way the DT
+>> is defined for the USB offload path is as follows:
+>>
+>>      usb-dai-link {
+>>          link-name = "USB Playback";
+>>
+>>          cpu {
+>>              sound-dai = <&q6afedai USB_RX>;
+>>          };
+>>
+>>          codec {
+>>              sound-dai = <&usbdai USB_RX>;
+>>          };
+>>
+>>          platform {
+>>              sound-dai = <&q6routing>;
+>>          };
+>>      };
+>>
+>> Based on our DT parser helper API (qcom_snd_parse_of()) this isn't going
+>> to create a PCM device.  The PCM devices are created for nodes that
+>> don't have a codec and platform defined:
+>>
+>>      mm1-dai-link {
+>>          link-name = "MultiMedia1";
+>>          cpu {
+>>              sound-dai = <&q6asmdai      MSM_FRONTEND_DAI_MULTIMEDIA1>;
+>>          };
+>>      };
+>>
+>> The ASM path is the entity that defines the number of PCM devices that
+>> is created for the QC ASoC platform card, and is where the actual PCM
+>> data is sent over to the DSP.  So there could be several PCM devices
+>> that can use the USB BE DAI.
+> 
+> ok, but then how would this work with the ALSA controls reporting which
+> PCM device can be used? I didn't see a mechanism allowing for more than
+> one offloaded device, IIRC the control reported just ONE PCM device number.
 
-On 5/8/24 15:06, Wesley Cheng wrote:
-> Hi Pierre,
-> 
-> On 5/7/2024 2:40 PM, Pierre-Louis Bossart wrote:
->>
->>
->> On 5/7/24 14:51, Wesley Cheng wrote:
->>> For userspace to know about certain capabilities of the current platform
->>> card, add tags to the components string that it can use to enable
->>> support
->>> for that audio path.  In case of USB offloading, the "usboffldplybk:
->>> 1" tag
->>
->> usboffloadplayback?
->>
->> same question as before, do we need spaces?
->>
-> 
-> I think spaces are currently used as a delimiter, so I'll remove the
-> spaces.
-> 
->> And if we have controls, why do we need component strings? The component
->> string is not dynamic to the best of my knowledge, this could be
->> problematic if the card is no longer capable of supporting this stream,
->> while a control can be updated at will.
->>
-> 
-> Maybe I misunderstood your comment here:
-> 
-> https://lore.kernel.org/linux-usb/925d7c03-c288-49a4-8bcd-395b32810d75@linux.intel.com/
-> 
-> At the time, I didn't include the kcontrols on the USB SND portion of
-> it, which was added after this series.  My interpretation was that there
-> were userspace entities that could query for general information about
-> what the card supports based on the components string, or sound card
-> name.  I treated this as an independent identifier, since the change to
-> add the offload capable jack was present.
+With respects to the PCM devices exposed by the ASoC card, the USB Mixer 
+controls which "Multimedia" (ASM) path can be routed to the USB BE DAI.
 
-My comment at the time stands: it's very hard to figure out that a
-random card supports USB and is connected to a given endpoint.
+The kcontrols you are mentioning are controlling which USB card and USB 
+PCM device to execute the offloading on.  As of now, at least for the 
+QCOM implementation, we support only offloading on one path/USB 
+interface.  I can't comment on how other offloading solutions look like, 
+but we pass the USB PCM and card index as part of our AFE port open 
+command (done from USB BE DAI).  This will result in a USB QMI message 
+back (from ADSP) to our USB SND offload driver, which carries all the 
+information about the selected card and PCM index to execute offloading on.
 
-It'd be much easier as you wrote in the comments on patch 34 to have a
-control in the "regular" USB card to point to the 'better' offloaded
-path exposed by another card. Applications wouldn't need to know what
-this other card is, they would then use the card:device information
-directly.
+One thing I can do is to actually make the kcontrols for selecting the 
+PCM and card devices to look at the num_supported_streams.  This would 
+at least allow for vendors that have support for more potential 
+offloading streams to select more than one.
+
+Thanks
+Wesley Cheng
