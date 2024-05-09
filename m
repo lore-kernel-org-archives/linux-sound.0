@@ -1,115 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8023C1A2C37;
-	Thu,  9 May 2024 07:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABDC13C9D8
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 07:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715238803; cv=none; b=d95epzVowpUi+DXOwxmwbmT/8jadbg4Rv8B1m8R6EcqPEsk0oNspBa0e78q29hm462/2MD0aMl66ENYzPuN/t1zXL7Sfqy01Sp5iXDJexgS1mUjXAEJEv8OtxyTHG+RLzqZiHjEqTLKpDfwqSHACx3l6ThGIPIdQHwNJFpBnx3g=
+	t=1715239897; cv=none; b=iyemk0yGa4DV1SG6tQrfExcaaY9OcNK+mrEGpCNUrPEMG4UpYBBrY/gH/dk0byJP0//ZTpTrFjxziLLlGxGPTZuO4t1oxDLQUb1qfgl7ideh6lnbv+v44j9nFd66U1m79bnsiCZWjbJI4dHQnkN5Q1V/QgJGhx++51DloigK0aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715238803; c=relaxed/simple;
-	bh=pidKHhusQQ0AYUCl/FAVAM9C38pY7QS0bIULk6B0a/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cvc44SBjxFB+Cy1VbaWm+RtiDmA8Pw182ETETOJxI89EAuHvuaZNTNo95NZMxcxG4yyMpNlTSUk2+swW6Z6dTjWQ3Bo0XjQlN4LGF8EZPYJJHXE1fJFHPg64ew6FTNGznbfDHUYnN4AqC8O4jlvWle0MTbW7rzbZe4MuIgG0qCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bl9ThYEI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715239897; c=relaxed/simple;
+	bh=hKlzg7n2M91QHuHzIH/i/jIkyPsZmX7wBR+g4EMToUY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BxFHS3tZ5luKk3P4o8cKkgxwBL30Z44C52dgdBiXlb6PhYp7KdFah9G7wKvtHxbkModmEIZLAUJobxDAcSsx62TXDNKFu3oy5aCcJu0o2OIwWqfSf7W4SXhyUTP2QuZfdnALACoSrvABgEYgk9U/HOSaVM+3cISigkVXhDZZyzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Lr/LXdoM; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bl9ThYEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B32AFC116B1;
-	Thu,  9 May 2024 07:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715238803;
-	bh=pidKHhusQQ0AYUCl/FAVAM9C38pY7QS0bIULk6B0a/8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bl9ThYEIpRLI/LBnDIwpNDXpHD12nBOehOJrUF3IxM8ox3Egy7CIdtVJbyZigeUB7
-	 FFHwDwIydedlwcIUDgyGimY6kp2hMP7SxU64Lo0z8FaJHiwnXcjLU6i14lVSadorbh
-	 azshMqYPjW3522/DHv1M7tc1WuMt5hx4Wk/AncpA/0iZyHCYg9kLSWiFAmOiLbZBjs
-	 iRbqVvnGpDXaViLEprUun2VTXL00amOcMOE1QcqGfCKdQrCJn/Bj4qzWRnpyNvLQqK
-	 pUUFqFEx0LcIm/oorZBnfadHbMQtfIU1He+/gSo8Np8IiVFr9YFYai4y/CUcepHo2I
-	 zzM3ffdA4ZMNA==
-Message-ID: <b8c82b1a-db57-4e89-9beb-63992744afe6@kernel.org>
-Date: Thu, 9 May 2024 09:13:15 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Lr/LXdoM"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5b203c9933dso289565eaf.3
+        for <linux-sound@vger.kernel.org>; Thu, 09 May 2024 00:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715239895; x=1715844695; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yFIJqrgUYRufZO44ifi0BeHH43Pj5mRVkX8VaE4POmU=;
+        b=Lr/LXdoMbExDeLTbSKvH0ycJjU5V9bM7H0nFJRN5U0jfbF8CvKMGkociBxhie2YERj
+         yOvmCYLeI3vRMQ7CUU13LEA6Nt0kknsMkdeHvpjtpeCJ0bHz0ioyopVD4dePZpCptJ5w
+         tYaT0UsBg/NnC13AwQTy+N4vZ3sgb58gauj40=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715239895; x=1715844695;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yFIJqrgUYRufZO44ifi0BeHH43Pj5mRVkX8VaE4POmU=;
+        b=pAdQdffC0b52ykIeFRJsyp9joCJPnGXNwqZpL1TnZRa+lh7zJsfObB4uJ30m3aN7hK
+         kOCN0NU3IxImaoyRXb0mqlpbp2ujcunrKwyGm9Mj0RlFG1n6voCqSyb5HIvKXBSaBCw5
+         hUJZuB9AmEZqLlIbMCM0NTXgf+T7s41fuccIqkBmHLgUhmcWIatD+VmyVH/tjwPMDSVj
+         Y6ubCdqFJVld74oOjjXaGpcg7IUyLfM2ZI140M9TZICc+A6zovq1/+lZDWFlhYeHwVaa
+         1fVjwELnDGba0SWd/+csydEPtCOeMYOoD0tUTB8QNlm3iGMkkknPKhbw5mShFlRV2Q7H
+         7SpQ==
+X-Gm-Message-State: AOJu0YxKuZN0t+qLrmyJTgV7zIR9eRIVbst6GoSVovN5RX6Zfq8Y5Mbs
+	Kh9r9+KbnnYrH7/v68EnWvcssTdBW0/pnAaaAdvBk5LEYL8DaKeSPv0oyAdgjA==
+X-Google-Smtp-Source: AGHT+IFxCbiVVPSFIyPcWAzqs1t5rme6BYl/0xBEXZ775m3VFUNpwbdtD+YpUNB1N0N06kSsvGevfg==
+X-Received: by 2002:a05:6358:54a2:b0:18e:a0ce:a35c with SMTP id e5c5f4694b2df-192d2c2b383mr578760355d.14.1715239895370;
+        Thu, 09 May 2024 00:31:35 -0700 (PDT)
+Received: from yuanhsinte1.c.googlers.com (150.221.124.34.bc.googleusercontent.com. [34.124.221.150])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-63411346d46sm586459a12.79.2024.05.09.00.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 May 2024 00:31:34 -0700 (PDT)
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Date: Thu, 09 May 2024 07:31:29 +0000
+Subject: [PATCH] ASoC: mediatek: mt8192: fix register configuration for tdm
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] ARM: dts: samsung: exynos4212-tab3: Fix up wm1811
- codec config
-To: Artur Weber <aweber.kernel@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20240508-midas-wm1811-gpio-jack-v2-0-b4d36cd02c6e@gmail.com>
- <20240508-midas-wm1811-gpio-jack-v2-7-b4d36cd02c6e@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240508-midas-wm1811-gpio-jack-v2-7-b4d36cd02c6e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240509-8192-tdm-v1-1-530b54645763@chromium.org>
+X-B4-Tracking: v=1; b=H4sIANB7PGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwNLXQtDSyPdkpRc3eSkNKNEc+Nky5QUYyWg8oKi1LTMCrBR0bG1tQD
+ PHd/7WgAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jiaxin Yu <jiaxin.yu@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>
+X-Mailer: b4 0.12.4
 
-On 08/05/2024 12:58, Artur Weber wrote:
-> Drop incorrect interrupt parent and add MCLK2 clock.
+For DSP_A, data is a BCK cycle behind LRCK trigger edge. For DSP_B, this
+delay doesn't exist. Fix the delay configuration to match the standard.
 
-1. Separate patches.
-2. Missing explanation why. "Incorrect" says a bit, but not too much.
-Also, imprecise - you remove all interrupts, not just incorrect parent.
+Fixes: 52fcd65414abfc ("ASoC: mediatek: mt8192: support tdm in platform driver")
+Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
+---
+ sound/soc/mediatek/mt8192/mt8192-dai-tdm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please provide proper rationale, why this is not correct and information
-that bluetooth 32 kHz clock feeds both bluetooth module and audio codec.
+diff --git a/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c b/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c
+index 9ce06821c7d0f..49440db370af0 100644
+--- a/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c
++++ b/sound/soc/mediatek/mt8192/mt8192-dai-tdm.c
+@@ -566,10 +566,10 @@ static int mtk_dai_tdm_hw_params(struct snd_pcm_substream *substream,
+ 		tdm_con |= 1 << DELAY_DATA_SFT;
+ 		tdm_con |= get_tdm_lrck_width(format) << LRCK_TDM_WIDTH_SFT;
+ 	} else if (tdm_priv->tdm_out_mode == TDM_OUT_DSP_A) {
+-		tdm_con |= 0 << DELAY_DATA_SFT;
++		tdm_con |= 1 << DELAY_DATA_SFT;
+ 		tdm_con |= 0 << LRCK_TDM_WIDTH_SFT;
+ 	} else if (tdm_priv->tdm_out_mode == TDM_OUT_DSP_B) {
+-		tdm_con |= 1 << DELAY_DATA_SFT;
++		tdm_con |= 0 << DELAY_DATA_SFT;
+ 		tdm_con |= 0 << LRCK_TDM_WIDTH_SFT;
+ 	}
+ 
 
-> 
+---
+base-commit: 45db3ab70092637967967bfd8e6144017638563c
+change-id: 20240509-8192-tdm-cbf2a73c9dd3
 
 Best regards,
-Krzysztof
+-- 
+Hsin-Te Yuan <yuanhsinte@chromium.org>
 
