@@ -1,229 +1,144 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11011008.outbound.protection.outlook.com [52.101.229.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C8E1A2C2A;
-	Thu,  9 May 2024 05:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715233851; cv=fail; b=PI3zRvU3We89254kr62V1a0rSjaFGpELrh9/YeY9GTJKaqpdIQW/bfeiZOY1aDCcDdj+AkiveGVd1yim4bQ10EGHLU27x4si8lpYaNgqN7blwU621AaX8cs9jqleQgcxkq1+JBXS2TA6gI5BnHkwHuTE/TjmaHx9HtlMiALd0Rg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715233851; c=relaxed/simple;
-	bh=Abn6ku78wy/1oamhGsfOpuJ+/CKZci0liEj7ItXib6Q=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=aDiC4X2MEUTU/n9a/vj7mxZitlFvS+n3a+SjhZwPzVmcg4VIaBvPs66rjB/gqnDnmZB/c9pmGdc+UJpkc6GfgwXxCLLeIpKgoOWlVTmmaTQ7EQGBB+KeP/ulHvHSFVf8UOJ1HOkvGt8pnfwW6TRScFa4AX3dl5QmLe1s7PYXo2o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mGTn6HUC; arc=fail smtp.client-ip=52.101.229.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E006E1494CA
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 06:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715235263; cv=none; b=enIXwkjZCdY25L+BcCgzKR3FrzCEufer2k8mdK40tE6KT5LEXCxz45gw2tU5BB/Vj7IrjfOgoAAliQ/emJIzospz+lgyYOXQxBWJVsaMf98nsvfMW7ss2f2swzJ5UBL7+72g7tzRvD2DCEhVDsvLwTAlJHwRf0wi4lWdWCrn1C0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715235263; c=relaxed/simple;
+	bh=EL59YAvQ+NejbE+MgsQ0pGcYE6qA6HsEuHDusaEk0N4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g80+BH94R5mKdOLBVH5hhHhMrWybYyKKti6DonXp06A3y+9/2pvraPmxyuADvmsOX2FKmmso2WF9T7+o6qntwzMxTpNf/8BXJJs39YHu2q+FiLfIQiYJLegkpX+1LMnD9uNLYcBTEtsjgEanFxsQ6veIc+0xSxjJEDKx14tT290=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WEm/VoPd; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mGTn6HUC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZkpXgTW8UW3nFL3gntniE5xwA8nIPif12hZUnXwM7/a1l6zA4vgNg3xFtA/7b/+EFV3CiEk08jMJxJDd84YEFryxPzsg5IeHSPYlWG4t+er8seX/0CUEenZgUQA09Hwa66y40FMdCAcRKQPeHaFMUnUVoWEfst2dt5goqf6Mt09mro8D0p4V/lNnlVBu2P99Fw4DmHMcXlzt98y/Bc/dhm7s4fbQa6c37K7o6P029+Xq9Ga3tkQFdzHlT7qNZomxR9K9Ev/4ADGxFZ6FZD48qus7LWAy9ZUaDKey/ddvaXfXdOha4H8Rz9WuXAOKCz2PtvqmnNN3kSPrjnVtDRhzXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aOca45vba7htqxKgkw2r5bdAFLt5wRXjXXCoEBJ5quI=;
- b=O4kZcZqebAUN7untLuYpAmELcz/g9cSPMRfTzXdtDp6BRWhVClbR6wrZVSLUN1QI5MTMfP8v05E3bEEUPuaVVwg7/cRC16uu7DuRwmkvQtD2cWa6BcCCQD48kUdhLEELv9kaXHU6iDB3auSgXdiG5pXNc5vyGXxRm0ZFeZkIS7oYMj3Vo2RNzakZbZvKUdLvVKmgv9onyBbPDnETid/PYzVzIJB1KyricJ+W9HoAlkuBItz3GAeoqDnxWSp+muZ0H+k5nZUdPjqmkp5JF1TBZNhH3BDTpHsx70q2XzJtI/gwHfE6LKA7CDQxzoCk0gqIsjCs39DEE6xb1EldsJiv5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aOca45vba7htqxKgkw2r5bdAFLt5wRXjXXCoEBJ5quI=;
- b=mGTn6HUCpFYGXTPEeyGCQcHM+nY/YMyjaDJ/DqWVWP+2VWIKcAsGNVL/6r0N2/f901NPFIZW85412Gyd2PWtmFoZ9JeM0F+sL4bMmQ8WLz7c3uemVZwFHQzaszKBk8ePiTWEgJwG2j0IRcBxzp32G0JHPCuPIMyPs7BH4q9kU9o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14) by TYCPR01MB11419.jpnprd01.prod.outlook.com
- (2603:1096:400:37e::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.47; Thu, 9 May
- 2024 05:50:46 +0000
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8]) by TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8%4]) with mapi id 15.20.7544.046; Thu, 9 May 2024
- 05:50:46 +0000
-Message-ID: <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent 
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jiawei Wang <me@jwang.link>,	Jonathan  Corbet <corbet@lwn.net>,	Kai
- Vehmanen <kai.vehmanen@linux.intel.com>,	Kevin Hilman
- <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown
- <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,	Matthias
- Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-In-Reply-To: <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-	<1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
-	<87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 9 May 2024 05:50:45 +0000
-X-ClientProxiedBy: TYCP286CA0115.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::19) To TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WEm/VoPd"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5724736770cso4835a12.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 May 2024 23:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715235259; x=1715840059; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=72bWBwjQodIuSi8MsUtQvKNvKwdUWjXGREUei480Xwo=;
+        b=WEm/VoPdoWkj0T759QWiuYvMX4pHXbQGtGV6B8BdS6/Cq0VFDkresAaaMIYb++Xv07
+         NGG+jf4a1dEnvAy0YaC/s7lcBHZYg4XfdFyn0UE/NSSxuV4NI+ONOzRkSN7wuCtF7G6m
+         GTOO87BGuQVGfzWL5T65/lgJj6fjNzyMISuP7RyGnMi7ZT8v5eJ20/bJPOff/6tMEzYf
+         htFF4m10x/m7ACoxg+H+qSKb1axBk/xf7pNTnIFlBhJxau06TJtioZB85NLY3yGUoNGf
+         qsBS4tNQxQMxJEtkUampvrB3zly877wqooUCzxdQkmiqESGQ2AKpeP3mEO/CMSG07Le0
+         wmxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715235259; x=1715840059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=72bWBwjQodIuSi8MsUtQvKNvKwdUWjXGREUei480Xwo=;
+        b=A36Gnbfr18BWWlR3IIIV7tv9jq0HsGrkZqk8yUb3A2Iy+cHTUFdjLOiPjCrOJSekXM
+         kCTYj2szFKDrKnk03PmxeRM9/XMO5kyWpTfKOlhUvCPU+01A+mQp4wxfTYJLRC+C4wxO
+         3A4bPvL/x5CjCFM0h1w7MULooE/oBww5XoL1UVxqMJXTBmW2ex+zQkBaR1uzw81hWKXH
+         rzehnVUoNncPyVpvJVLnzgd/n2iePsPe/K71u7w5IFzIBsA4bjhFSRLhq9VVwUwQpwu2
+         oiUt0crWgFBZ8vW0BOPXi9pmbTR1oYPg3Nokw39PkLtC4JikDg6JcvXiBGtL+MiW2KIZ
+         XIXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKVKYqlWAkINoDyFZ8P0sviRt4jB2H6W1DnmpjLlOz0JR0PL8MNL44cUXsYXFeO2elVIpws7rNvWVz1ezUH68ZZKveSxh/Sz+19KQ=
+X-Gm-Message-State: AOJu0YxN/FsFxK5d/cIMP6xgXe6HoFLX4x9kXOnUD2pandwv35Nmsvej
+	V9K1rG6wpzoEvETU0eeRcrF8J2kf5T8lK2kyKFdqBQWWlHkVoKcR2k1NFqFxiXX+ThwKPfQedR+
+	c46WnJhvEUNL97XGt1gjWThbzGOIoQ0mdBOxu
+X-Google-Smtp-Source: AGHT+IHsPAG0LEeM4cJXnAxgH06RrdZlxemOxK5bdPXtb66jyshH3jVsPNC7i5pX8kAB1x6smMgaq3eKTmHMEonCtFw=
+X-Received: by 2002:a05:6402:5206:b0:572:a23b:1d81 with SMTP id
+ 4fb4d7f45d1cf-5733b9d3b3emr79412a12.5.1715235258767; Wed, 08 May 2024
+ 23:14:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB10906:EE_|TYCPR01MB11419:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fc305a6-40fe-49ea-0ba7-08dc6febf8d9
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|376005|366007|52116005|1800799015|7416005|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FLmOiMzY6VWWLIAnYjLBfCWRHv1gx1THGpyp132L4Q5AvUoneS1D5zZckm0Y?=
- =?us-ascii?Q?5hcgL6adJcXtWWfMQFSbYIIogr2tOdEWczNl+Hl3jiKYnZbcwPwYNvSwJjWy?=
- =?us-ascii?Q?dy/GGL8kL8H3H2ka8GKiDZWxJQx7TfUCQa1oCOSoC7Y8PoW72fSlb1dRIWTg?=
- =?us-ascii?Q?wuAJ7sNAfzzNaVoJikzmKzMGg8qvxvNGCzg0L8H7CvRDk/GAdKxl2CADv1dX?=
- =?us-ascii?Q?mXmg1gcnpot3Gq7f1ORcqYcvsQ4kzXdUmqC8FmwVR4y2XqgNfEqOekUM5cmq?=
- =?us-ascii?Q?YHTvlvezvF+eeXAS9n3Z7i1ydOJa83uHCxo17p5IkQnqd+FeANoTKCi0WLyB?=
- =?us-ascii?Q?clp+DNL57nmLcHm7cpJsfjnf13bUTEKek949jqtTvzHolV6bqosV61MF9qqh?=
- =?us-ascii?Q?nq4sDBcPIlpkZmUntiup08a7IUkqYP5b9NXpn6S0no10DjfUexD8CmJ9HPwL?=
- =?us-ascii?Q?/LiM6AIlZeNdH+tK5JvYJNfG4wlqb2zdsglo/xTL8aJznE8oQSAdS0YYo8k/?=
- =?us-ascii?Q?rDW4DPty3NU6rbvp8B+I2C7feYEbG2BJk9AloMleN45S6zTxZn1jBfijxOfG?=
- =?us-ascii?Q?oMwecyKkzAkslx/XuU7kNRHG1+uFivTmsd0CQAlzrtDUvNDB33rNVbIJ1km/?=
- =?us-ascii?Q?Y6xkuv81TMFccuIK1m02XvfOnf9svYfNj2r+zJsigdhZYoy0etUju0rMnXc+?=
- =?us-ascii?Q?DKtgCdAUVp8xspuFyqSFoP2CNU0u8fD8GSHTS+rlBy4NDsmr2Ljis3xxS02q?=
- =?us-ascii?Q?cNKPqeRwFfd8hZXlRxn03SVZaGM7Kt/QvdNo+1bZi7+279M3otni9jwiclcs?=
- =?us-ascii?Q?SKTtsI8eX1/bzRTAWsiC+Vf5LdM32/3hJJ+cPBl5LcN7hAW89UfoSkX9/3Wh?=
- =?us-ascii?Q?7xrpBD5Eb1ri5A5k4fDfSGGnhCtRgxg4YGbx+YOexcW+tKGEsAb/oV9Bymov?=
- =?us-ascii?Q?+6kpj/izUqitQSjoXqZ8txN1NE0wKzStopnbnOTdygOtvj4iubGHgu2Z2/Ho?=
- =?us-ascii?Q?7Dmo4E94zl9jnV8FQlDgo3It1smQCP2UjnoSVEuLWFD1bhlybOlEAMMaeErg?=
- =?us-ascii?Q?VSWQ3Y+PwyXYOqcvyF2rv4au6wMvvo7ERKygy2w7AT+yZ9ORFF8ODwvRMc7Z?=
- =?us-ascii?Q?RS/JCIyNLEkd524hpCffVM1HwLrv5ehx/yJD8lmy/qGHn82fikoZhL+ohmzW?=
- =?us-ascii?Q?kdrHXWLjgywV6w17oYe6bGj2104oiMdx6rDOVaJYnaAi8wxSpdY9GuONH4JK?=
- =?us-ascii?Q?kTjXYoE/shHNr9D3Ab3KlcmJISsp4ysV129vq1f6QukamhImr7pmpiUa9Ppc?=
- =?us-ascii?Q?Wdr5E2RNio8Ib2GhMivhRuLagqfySu4MjWL0hJQ7bQETmg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10906.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(52116005)(1800799015)(7416005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KQ1HOzqn3Iar8sB3DTreUoqarOKDaIN134FgcDJa1Ax5S2DC0sCUGsL5SuY6?=
- =?us-ascii?Q?EUpCCM40hZRnlt4s6qg3ANoTlXL2cdfJX6yaiEcp3/5NeQu6jsT81+/8TVK5?=
- =?us-ascii?Q?C7PclZiP1HlGzweuQrPevaBFAoWYKg7xMndeAFcNgCD47KY12oIItaixULhV?=
- =?us-ascii?Q?J2qmV2dlwCByF6LylNB9UBBaJST/+u9/34JQaSw0H72rm+sWqmMAZ3p5vfbd?=
- =?us-ascii?Q?iPB8iAW8+R0bCLmOdDlWc+6ma3MKRkTxeOcskcA9u8r9Wgzf/9EWdzMvOeCM?=
- =?us-ascii?Q?4Ym63zwOPhcMdBR3d5bSNexIi6zAkiJfXyxsnLwCofwoPKMk4qoHvMguHYWH?=
- =?us-ascii?Q?MG5gZzzaARI9g52ji+jGhAr/vqCSizpZcVE1H6+/NJC/4evzsidQlYCQgleu?=
- =?us-ascii?Q?uEjlJ3FxzfViYMFygAToDIjtZuweR1gkPR5dz2vHGWnuckO7jIyeAva8Oqpe?=
- =?us-ascii?Q?gMejc+Dr5Od1jMAedX5iEBg2nQ+cxe8NWHNolTP378HSA4RYA9alRCPVWl13?=
- =?us-ascii?Q?gccVywKkly3+9Ce2lsvnCTVux+egTFWcs2yM8H/ddkbTKzdsHK1D4Uu3Wcup?=
- =?us-ascii?Q?InTERsN/ugdI/+MmsBB3coY7+Art+QVeVvZ5GaxwjsovMdAHTKXnVz4ZYIsl?=
- =?us-ascii?Q?YWEb9g1vK/d1qsXrdsw+tjhCiSMOve7EF4CUU5mKzbErln2PWiML2bxR4wlc?=
- =?us-ascii?Q?BSrvhRTdv1kCBBe5LJ79HSFjNaG8hER3bk5LSUYKKZmIAftdqUYl2aqjqeED?=
- =?us-ascii?Q?TeIZAPpvaUxhNS39gSAEw53jyaw/KQ0FOQyO3OO6M5ZpssI4ZYHzRTnkr0Kk?=
- =?us-ascii?Q?dkvPpdoiuutD+1x71r+03bT0jIuV/xiL0DzW9CLBPbNg0XLEMYAIbM8aQLH6?=
- =?us-ascii?Q?ImXMvkiorkmFssRKUvM51Ayb2RI4G94pkPdcXOgthmi8iD1XU6y7BhEQhe5K?=
- =?us-ascii?Q?k1r/IXX6/EiB/iwUy2pbnwD/zlP19XdSyjBUlBl9+BAWn/SMk06Eohj+2EO/?=
- =?us-ascii?Q?2pWC/actHJ2U6jTnrOF5dnJzq7TIng7F1J0Job6TxD3zY13HQn8DSWmxDPqK?=
- =?us-ascii?Q?oj5DC6HBIs9UeSCCx7XxK/JXbMXRWvL+lCD91VlNbz8HKXDINLCw3FUgwWdK?=
- =?us-ascii?Q?ADGNyJs+ru2KFGa9WAKC5t4QTOpY+6/S5xj0ceTHiT/QM8d8cJuA7oRMFJn7?=
- =?us-ascii?Q?FE0mqwXJXRKItcI5GyTsWv4cvzJnaZfIcVbJeRxzErXOg7iFLW/+fozUSc3y?=
- =?us-ascii?Q?B462/wgIK7W4gU1eBHRSi97MVfLj6zLO9h8whB5iQybuVjIBBLwl6/pPUrkL?=
- =?us-ascii?Q?3GBUkAhuE0Bca9YBDP/Ma/upnQUJ7vzwBHp1KHjVb+HZwqjS0K+CxR1XV1th?=
- =?us-ascii?Q?+C6j8hQbTIKtcQhi7e2lnBC77GQzA/c4Yp0Kno7+1ogY5hrF07+LdRWNjCZ4?=
- =?us-ascii?Q?GB7mn/kZGgTUOlSb9qXWizBs+ml9btuvID+TZFzKTyNbUh/llVGii5IHDzUJ?=
- =?us-ascii?Q?xfsLEazQRJBPIalYxYrrxiDG//5xRoZhPpE0eb8KiLe7cJqeJRXEnaHI88pA?=
- =?us-ascii?Q?hUYkky7XQL2zd964VT3c3OS5xfurgrAQo1yzJVRUcdRedYDsNcHtjB8+CTuI?=
- =?us-ascii?Q?Pmi03NV7pfqMAPirPk5cpQ0=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fc305a6-40fe-49ea-0ba7-08dc6febf8d9
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10906.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2024 05:50:46.4005
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2m0QDG0j926/ypjO99NbRU3BaqDaRyIiOgvwYE5WKJoiFRR8JTBlLSWst6a22uo5Wmx8m3dYmsMl6S82owK2ygOK7BR/hNuTPsJC2HgoTqiNjjlAv61qn5ebjMPJnHJO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11419
+References: <20240507214254.2787305-1-edliaw@google.com> <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
+In-Reply-To: <f4e45604-86b0-4be6-9bea-36edf301df33@linuxfoundation.org>
+From: Edward Liaw <edliaw@google.com>
+Date: Wed, 8 May 2024 23:13:51 -0700
+Message-ID: <CAG4es9XE2D94BNboRSf607NbJVW7OW4xkVq4jZ8pDZ_AZsb3nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] Define _GNU_SOURCE for sources using
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: shuah@kernel.org, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Christian Brauner <brauner@kernel.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Kees Cook <keescook@chromium.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Andy Lutomirski <luto@amacapital.net>, 
+	Will Drewry <wad@chromium.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Seth Forshee <sforshee@kernel.org>, Bongsu Jeon <bongsu.jeon@samsung.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Matthieu Baerts <matttbe@kernel.org>, 
+	Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@android.com, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org, linux-input@vger.kernel.org, iommu@lists.linux.dev, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-actions@lists.infradead.org, mptcp@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 8, 2024 at 4:10=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.or=
+g> wrote:
+>
+> On 5/7/24 15:38, Edward Liaw wrote:
+> > 809216233555 ("selftests/harness: remove use of LINE_MAX") introduced
+> > asprintf into kselftest_harness.h, which is a GNU extension and needs
+> > _GNU_SOURCE to either be defined prior to including headers or with the
+> > -D_GNU_SOURCE flag passed to the compiler.
+> >
+> > v1: https://lore.kernel.org/linux-kselftest/20240430235057.1351993-1-ed=
+liaw@google.com/
+> > v2: add -D_GNU_SOURCE to KHDR_INCLUDES so that it is in a single
+> > location.  Remove #define _GNU_SOURCE from source code to resolve
+> > redefinition warnings.
+> >
+> > Edward Liaw (5):
+> >    selftests: Compile kselftest headers with -D_GNU_SOURCE
+> >    selftests/sgx: Include KHDR_INCLUDES in Makefile
+>
+> I appled patches 1/5 and 2.5 - The rest need to be split up.
+>
+> >    selftests: Include KHDR_INCLUDES in Makefile
+> >    selftests: Drop define _GNU_SOURCE
+> >    selftests: Drop duplicate -D_GNU_SOURCE
+> >
+>
+> Please split these patches pwe test directory. Otherwise it will
+> cause merge conflicts which can be hard to resolve.
 
-Hi Jerome
-
-I need your help
-
-> > I have tested this series on an Amlogic device (vim3l)
-> > This brings warnings for cases which are perfectly fine.
-> > 
-> > For example, one of the DPCM backends is the TDM interface. This
-> > interface is capable of both playback and capture. It can be associated
-> > with any i2s/TDM codec.
-> > 
-> > The codec may do playback and capture too, but it
-> > may also do a single direction. Then usual example is the hdmi codec
-> > which does playback only.
-> > 
-> > In this case I get:
-> >  axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
-> > 
-> > I don't think this is right.
-> 
-> Hmm..., I'm confusing
-> Does it mean you want to use "playback only" on it ?
-> If so, did you get below warning too ?
-> 	 "both playback/capture are available, but not using playback_only flag (%s)\n",
-> 
-> If not, can you please fill below ?
-> 
-> Card
-> 	dpcm_playback = (0 or 1)
-> 	dpcm_capture  = (0 or 1)
-> 	playback_only = (0 or 1)
-> 	capture_only  = (0 or 1)
-> BE.CPU
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
-> BE.Codec
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
-> Expect
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
-
-I need feedback from you, it is still not clear for me.
-But I noticed that we want to update below. I'm happy if it can solve your
-issue.
-
--	if (has_playback && !has_playback_both)
-+	if (has_playback && !has_playback_both && !dai_link->capture_only)
-		dev_warn(rtd->card->dev, ...)
-
--	if (has_capture && !has_capture_both)
-+	if (has_capture && !has_capture_both && !dai_link->playback_only)
-		dev_warn(rtd->card->dev, ...)
-
-
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+Hi Shuah,
+Sean asked that I rebase the patches on linux-next, and I will need to
+remove additional _GNU_SOURCE defines.  Should I send an unsplit v3 to
+be reviewed, then split it afterwards?  I'm concerned that it will be
+difficult to review with ~70 patches once split.
