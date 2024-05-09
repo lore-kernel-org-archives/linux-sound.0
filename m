@@ -1,66 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAA07EEED;
-	Thu,  9 May 2024 18:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4417D401
+	for <linux-sound@vger.kernel.org>; Thu,  9 May 2024 18:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715279252; cv=none; b=HmupC87WgJytB5j4jfAOIBoZCGqrQCQOH3TOe5gimlYw7n5zPn1mJOk6VROccgxE3BTtpKKxrzw69qp+J4pihV7X3xoAmzbUuXaFjuhrmGhuTtD4dDEhSa/bgbshdJQN8yxvqvvZKomHAvKXj0hS6e6ywJswRj9Afi4fFSK+dHk=
+	t=1715279307; cv=none; b=odNjExkusPwBub0TBpIYaXh90YDV7baZStW/tpxPe9VmPEjnEDq/pfmHd+eypREDn946+DshJlIYCb9XVfqCDIXIg31ZgF+AFz7RTEsKwGIp6lYlIyrFUMNJRkhOcn4PQ8UtmcUB0K6cX8sd7OqJxoHkcsCNHfHUCZyto8bdm3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715279252; c=relaxed/simple;
-	bh=oOtrruVuIXcJ/Qhu15JDv9pl+fkbhxBHX+8JLsyNYeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kv9xaD4nl/GZk4BSffh/uhWMZjyF+g00tww5cBPEgGWRD9H3l17VX4xgSyro9pM0gL7xEwxCij9bvfbb0u1qXwH2gKu4YH3rsCNpiqybT0VIQuZ6JXzkjDoTDw5pKxSZzF9uoEeTY7AKSJtZg7/IS+xRAjvupvJ7boVj5yPSzGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/YeDd6q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715279307; c=relaxed/simple;
+	bh=jIQ6maw1siwcAKIAVoT7tUYMciD3mcFYgrMogy3aHQc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MuP5RYIviSxvt/301S+aCx0gaHjeLwYZk7nGiY4oh1QagwssIXMsVwSwxo/mUML8zLJAj6jKiqWXJdsLwrgHDQIE/k1zVbZgXidWfvxCgsLynkSfutH4GqO4Fwl9GeoUMBvq+9/NbSzVBtqw6nhe8EPwdM2LUjj60YnDW+gThrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k8LSG0hY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gB22M/8r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k8LSG0hY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gB22M/8r; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/YeDd6q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D729FC116B1;
-	Thu,  9 May 2024 18:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715279250;
-	bh=oOtrruVuIXcJ/Qhu15JDv9pl+fkbhxBHX+8JLsyNYeE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K/YeDd6qOXMJ4qXJfmOVCfJMPzi1ZWLXBg8BXRkuvFhONEv8XBlw5PFHfTBqum1o6
-	 torWu9raTXp6XhTmrZQop3fBha9TYKqTqhANzVSXlWx/T6p5qG4pAfVud403XpvSMb
-	 xJ/42HEwa1pDEe2HbeAjitZLpMQ/U/eQiuMxzPG1N4JqZEbiTc1TfX+F238jdIlFjD
-	 h0gdDWmrR9vtfdq8N6OUXbIg3CURyQPuYQXX4lJ+4F8ilrlHlHSY68WidQNZQmjmQY
-	 Jbi9NLRzI732tcRAuqUvO0SuwW+fwq662ISOtfpV+5r6GiPZ0ZwmNPjgoqmHi+ifBM
-	 KUPad+ANGXyOw==
-Date: Thu, 9 May 2024 11:27:28 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tao Su <tao1.su@linux.intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, kvm@vger.kernel.org, netdev@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-sgx@vger.kernel.org, edliaw@google.com,
- ivan.orlov0322@gmail.com, broonie@kernel.org, perex@perex.cz,
- tiwai@suse.com, shuah@kernel.org, seanjc@google.com, pbonzini@redhat.com,
- bongsu.jeon@samsung.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, alexandre.belloni@bootlin.com, jarkko@kernel.org,
- dave.hansen@linux.intel.com
-Subject: Re: [PATCH] selftests: Add _GNU_SOURCE definition when including
- kselftest_harness.h
-Message-ID: <20240509112728.6670264c@kernel.org>
-In-Reply-To: <ZjxaVEKv7bEuHJ8c@linux.bj.intel.com>
-References: <20240507063534.4191447-1-tao1.su@linux.intel.com>
-	<20240507100651.8faca09c7af34de28f830f03@linux-foundation.org>
-	<ZjrpieLKXFhklVwR@linux.bj.intel.com>
-	<20240508070003.2acdf9b4@kernel.org>
-	<ZjxaVEKv7bEuHJ8c@linux.bj.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k8LSG0hY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gB22M/8r";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k8LSG0hY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gB22M/8r"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 14AE738B2A;
+	Thu,  9 May 2024 18:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715279298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
+	b=k8LSG0hYWp+ZnPUFR5Vu+46JtgymWXOTl2ssQyHZ1sJqveDOhImiMcjpJW6Cn0DlBZEn1X
+	FTe90Mjkxy6aS96P48xJykZ+FUgP9RhRUlvopZegHVs8Rz3gJAa/okt5DtmYtkjxUpOB64
+	32j0cu4M3T8qYGkOT2R4MIndfUfJSH8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715279298;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
+	b=gB22M/8rGgipt2aujZjqQdoH+eaCFBbBVrsOx5ZVZ9eZYdeRa7S/z0LwkvmX9JVif3PRHD
+	dsQoNguVUjzkfMAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715279298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
+	b=k8LSG0hYWp+ZnPUFR5Vu+46JtgymWXOTl2ssQyHZ1sJqveDOhImiMcjpJW6Cn0DlBZEn1X
+	FTe90Mjkxy6aS96P48xJykZ+FUgP9RhRUlvopZegHVs8Rz3gJAa/okt5DtmYtkjxUpOB64
+	32j0cu4M3T8qYGkOT2R4MIndfUfJSH8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715279298;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HzuP0u0i5vbLGm/2VG8/MjATB6NQLCS7dPvkndn8/KA=;
+	b=gB22M/8rGgipt2aujZjqQdoH+eaCFBbBVrsOx5ZVZ9eZYdeRa7S/z0LwkvmX9JVif3PRHD
+	dsQoNguVUjzkfMAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C229113941;
+	Thu,  9 May 2024 18:28:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dVgILsEVPWahRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 May 2024 18:28:17 +0000
+Date: Thu, 09 May 2024 20:28:32 +0200
+Message-ID: <87o79ealgv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
+In-Reply-To: <dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
+References: <20240507135513.14919-1-tiwai@suse.de>
+	<ZjpQm-hxLQtpgkUx@smile.fi.intel.com>
+	<ZjqU2rAoHHcrTaVH@smile.fi.intel.com>
+	<87ikzod6bt.wl-tiwai@suse.de>
+	<dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,linux.intel.com,vger.kernel.org,gmail.com,nxp.com,alsa-project.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Thu, 9 May 2024 13:08:36 +0800 Tao Su wrote:
-> > SGTM, FWIW. The print is printing a test summary line, printing more
-> > than 1k seems rather unreasonable. Other facilities, like TH_LOG(),
-> > should be used for displaying longer info.  
+On Thu, 09 May 2024 18:10:39 +0200,
+Pierre-Louis Bossart wrote:
 > 
-> Thanks, do you think 1k is enough for test_name?
+> 
+> 
+> On 5/8/24 04:02, Takashi Iwai wrote:
+> > On Tue, 07 May 2024 22:53:46 +0200,
+> > Andy Shevchenko wrote:
+> >>
+> >> On Tue, May 07, 2024 at 07:02:35PM +0300, Andy Shevchenko wrote:
+> >>> On Tue, May 07, 2024 at 03:55:00PM +0200, Takashi Iwai wrote:
+> >>>> Hi,
+> >>>>
+> >>>> this is a series of trivial cleanup patches for Makefile in sound/*
+> >>>> (modulo ASoC -- which will be submitted later in a separate series).
+> >>>>
+> >>>> As Andy suggested in a patch review, *-objs suffix in Makefile is
+> >>>> basically a mis-use nowadays for kernel driver modules.  They should
+> >>>> be replaced with *-y suffix instead.  This is a result of systematic
+> >>>> conversions, separated per directory.
+> >>>
+> >>> I briefly looked at this and since it's a mechanical conversion I don't see
+> >>> any issues, so
+> >>>
+> >>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >>
+> >> Btw, make W=1 nowadays enables modpost checks, which complain about absence of
+> >> MODULE_DESCRIPTION().
+> >>
+> >> Example:
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+> >> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+> >>
+> >> I'm not sure what the case now for ALSA, just FYI.
+> > 
+> > Indeed there are lots of code that miss MODULE_DESCRIPTION().
+> ...
+> > There are too many stuff in sound/soc/sof/* and I leave them to SOF
+> > people (Cc'ed), while I'm going to submit the fix patches for the
+> > rest.
+> 
+> ok, I'll take care of it. I wasn't aware this was a requirement.
 
-Definitely.
+It wasn't, but now became so :)
+
+
+Takashi
