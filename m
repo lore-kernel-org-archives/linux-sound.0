@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE365539A;
-	Thu,  9 May 2024 17:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B94DDBE;
+	Thu,  9 May 2024 17:14:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715274679; cv=none; b=A0qDlkfqWhBp17tWUblfXZRcx5veBby/PomAkQcDnmUPLvLiR5lhOR57epuwFP4O5ukPWP0nzFBO4z4K8iv7dHES+vDk1BB0kzQupCBzTHpppDU5/cMwpMuyKZFdgAgaWfguYuVVWdJ+3NA+JDfqhQMVEncyxsSbjbGNQTmyvIY=
+	t=1715274878; cv=none; b=ehiqA8xysjaRKQ/fgF+ZggYQrwwSjkkMR4FJXEB9CMbkOEiQBnw6e1xG2B0RUo/X/w73IYbumXDdK+bM5O1ZaZIdXRnOGpy2ZyLMTmWKyT4fXTYvIdcYYYU2e2pU1j3ii6ETGKER0hNGJiOdhQyKdqP2WyZmuDY3/06kj+bt6As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715274679; c=relaxed/simple;
-	bh=YA/u5mUcOxyTQK4E6Daw3gCqDJqZ+z0mf7v0UCWoLp0=;
+	s=arc-20240116; t=1715274878; c=relaxed/simple;
+	bh=YwUKTYOpoxA/NOjHV7A/q7cg5e41+QOvCr4wGh3um4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LB/86MWlL63FwoNVunh5LR6IyCgiop/nhllUJzDD44fZEliQfvfTY+Zh/6N3CKpFma5CuTMqpGHzlYk2FYFS3Q6m0sqReSbodxtNKkA/75j0b1Pu/mCwShigq3QiuOu4rWkPPreVCi9pU8ywQmQuiAy3GKlootrh9DT3g8gkthQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTGvIKV3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXEor1R62bhk6ZZ8f5fRRYZO7t2n1g2zvFHZYYKK7xlLw0FI3APf/pcbgVKMTOqKK/zd9fYSOrGGsiIgkVZBVUEu1T4/mkAVBxhwvEB0VW3q+lr46beQD9b7he2roco/G8FaCOhbLYNph6HyTrzwmP3yFFPvp5oXN2zzFQKK6CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qNltURwB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTGvIKV3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C539C116B1;
-	Thu,  9 May 2024 17:11:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qNltURwB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D799FC116B1;
+	Thu,  9 May 2024 17:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715274678;
-	bh=YA/u5mUcOxyTQK4E6Daw3gCqDJqZ+z0mf7v0UCWoLp0=;
+	s=k20201202; t=1715274878;
+	bh=YwUKTYOpoxA/NOjHV7A/q7cg5e41+QOvCr4wGh3um4g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VTGvIKV3Q1U4y5xPkrsYLHkZEVfxKI5NSpA/MjGFH9qYIXb8ISw4VmwSYbRo3Wbpt
-	 AUc17UJ2ENNqqBx/mzOFCwj4TDG9E5t499JPnvS2tgX6zKQzzyhspPT8OquDgx5LGL
-	 ze8dMWHERjQ+aLj+EhFYiM5W0kjPL1KXaK50LQ09aUM1BSrKZIdnS5DfBX7E3jaeSH
-	 iZykHvXUCEsYdzCQgK3pG2gzcqvnMmxVb/aWTx2n2kAtKvMQ7UiZ1JHwbt4xnA78Xl
-	 f5DLkuB36V41YqYYP9cm4BriMD1pSpZN6rnhWZH7O9ldn3RRwdUsWH2x2dlVJA+Au2
-	 ecUhVXGcZxHnA==
-Date: Thu, 9 May 2024 18:11:13 +0100
+	b=qNltURwBHZ0ugcWbLrUYJc6RkDUcNQgiYSfZKjEwL9+mHhuhW146bkl+HHiyqOY7D
+	 wNNuItMLZg9XcI1JEb6/M6vYSge5p3d/Jqj/OmYtbmVYnvKDIu/qETs5sRmCps6IOQ
+	 4LZSSh8xcEqDzkYGMQlizUe3dBHJGeJ27fyMc2GPvTmQUB2fR1FDljGOCifTUgm44z
+	 tODVfJsI9WuQ5oCQ1S/mdwWcfvfMNNaHEiYnNaps8KLZaGtfuR9Xjg2wUSON1ihOC1
+	 qDjHDw8Jt0BWhP/UqDK3LVzv0+Cy99DGUte0fmFAja8ZXPpS+oNlfndpyWeqf3uBUo
+	 7ppc6G/TeWG3A==
+Date: Thu, 9 May 2024 18:14:32 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Shengjiu Wang <shengjiu.wang@nxp.com>
 Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
@@ -36,11 +36,11 @@ Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
 	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
 	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: fsl,xcvr: Add compatible string
- for i.MX95
-Message-ID: <20240509-phonics-wound-58d3435165f0@spud>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: fsl,xcvr: Add two PLL clock
+ sources
+Message-ID: <20240509-repurpose-dumping-156b57c25960@spud>
 References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
- <1715223460-32662-2-git-send-email-shengjiu.wang@nxp.com>
+ <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,57 +48,78 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="o/G3P2Zf+UnkTwok"
+	protocol="application/pgp-signature"; boundary="9OB7iJL8uyGYmSbm"
 Content-Disposition: inline
-In-Reply-To: <1715223460-32662-2-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
 
 
---o/G3P2Zf+UnkTwok
+--9OB7iJL8uyGYmSbm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 09, 2024 at 10:57:37AM +0800, Shengjiu Wang wrote:
-> Add compatible string "fsl,imx95-xcvr" for i.MX95 platform.
+On Thu, May 09, 2024 at 10:57:38AM +0800, Shengjiu Wang wrote:
+> Add two PLL clock sources, they are the parent clocks of the root clock
+> one is for 8kHz series rates, named as 'pll8k', another one is for
+> 11kHz series rates, named as 'pll11k'. They are optional clocks,
+> if there are such clocks, then the driver can switch between them to
+> support more accurate sample rates.
+>=20
+> As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4' for
+> clocks and clock-names properties.
 
-That's apparent from the diff. Why is it not compatible with existing
-devices?
+Despite the detail given here in the commit message, the series this is
+appearing in and one of the driver patches makes me a bit "suspicious"
+of this patch. Are these newly added clocks available on all devices, or
+just on the imx95, or?
 
-Cheers,
+Thanks,
 Conor.
 
 >=20
 > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  Documentation/devicetree/bindings/sound/fsl,xcvr.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/sound/fsl,xcvr.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >=20
 > diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Docu=
 mentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> index 0eb0c1ba8710..1c74a32def09 100644
+> index 1c74a32def09..c4660faed404 100644
 > --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
 > +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> @@ -22,6 +22,7 @@ properties:
->      enum:
->        - fsl,imx8mp-xcvr
->        - fsl,imx93-xcvr
-> +      - fsl,imx95-xcvr
+> @@ -50,6 +50,9 @@ properties:
+>        - description: PHY clock
+>        - description: SPBA clock
+>        - description: PLL clock
+> +      - description: PLL clock source for 8kHz series
+> +      - description: PLL clock source for 11kHz series
+> +    minItems: 4
 > =20
->    reg:
+>    clock-names:
+>      items:
+> @@ -57,6 +60,9 @@ properties:
+>        - const: phy
+>        - const: spba
+>        - const: pll_ipg
+> +      - const: pll8k
+> +      - const: pll11k
+> +    minItems: 4
+> =20
+>    dmas:
 >      items:
 > --=20
 > 2.34.1
 >=20
 
---o/G3P2Zf+UnkTwok
+--9OB7iJL8uyGYmSbm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0DsQAKCRB4tDGHoIJi
-0imKAQCYoCen/pDUqt0eydvNAg6kYtqxHG4j0dkiPPhCBQDTugD9ETg2kVQ8oDL8
-pD2YGMysprBxoLeYVTWRCjCN8LvUCwU=
-=iBRc
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj0EeAAKCRB4tDGHoIJi
+0kPzAP43Zn5AesCX1kKOSIjtrW5Vpt8hIHrIlOUZhE9kMqS8CgD+MljoXShCv6Tw
+G/iLAeB3RppsSsV+7vuOr03Tr0FXKAw=
+=oPv2
 -----END PGP SIGNATURE-----
 
---o/G3P2Zf+UnkTwok--
+--9OB7iJL8uyGYmSbm--
