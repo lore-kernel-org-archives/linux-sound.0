@@ -1,362 +1,293 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3841148828;
-	Thu,  9 May 2024 03:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715224727; cv=none; b=XMPJclCLdYP3dmw9HP8/vMUcQ1imQzZHRl5GdtbviGeIMo1oyBVxoP24YXFhNgBptmTpWrhAxLTZJm8t8Q5Cm7Fe4rEi6DO6JKlYO956t3TXpoCQs5ERAPZFU1w3ErO1hkli47Gu620nMdejSzySc2LeCDeN/8e3Wg/Aneb2MIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715224727; c=relaxed/simple;
-	bh=zkn2U5Dn/Ax3O7GpVyBbtoa+H+obFnYJJlCCzDb7A1I=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=Wq2zCuPYnS9la6yzDFP8+wXTs+Ti3014SUBUzH+3xKviOgp64anUDBrlq8f9ibthfFdnoXKoUkfpySQIOhwT5R0yfzZbWiQ/XJ+Ed4jI6rRto3N3FRdDKe2dkrxkyEhE+LBsCaZtf1wvRQ1/DZMMFF/R2IP8OvZC4N95JUJVRk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 383F72007D5;
-	Thu,  9 May 2024 05:18:44 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id A54E6200AB5;
-	Thu,  9 May 2024 05:18:43 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 8BB97180222F;
-	Thu,  9 May 2024 11:18:41 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shengjiu.wang@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 4/4] ASoC: fsl_xcvr: Add support for i.MX95 platform
-Date: Thu,  9 May 2024 10:57:40 +0800
-Message-Id: <1715223460-32662-5-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41612433B0;
+	Thu,  9 May 2024 04:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715229525; cv=fail; b=shw51bMw0gGG+80XSEAmoljgMNbk/bqf57vZjlpmGZn2m3g0gUG4I+MV3GG+b15b2Rtulca91n4b6362B4NXcUf0MrxGpM1w82A7H4nSi5hyMbVAbUO2GPQvTdrshqsabTFj2fG7OlcFFVoZUH/Lws/dRK2y2knOnIXfdhUuIMA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715229525; c=relaxed/simple;
+	bh=r7vZ3CmuwRK2nSnspoBc7+KxbdZNr7bL9i09Im26+nY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XkiN2iJesvkFrY2O4N7mm4aDaQ11ePF+mivx5qDR9awN+MVAnripG3ge6c66wYcLoDNSEOrjZj0J0PaTfM9bzR+sXDpn/flX0MvGzvSruj5t5Pr5D6KWAB0BMHJBxvAWzGmZADUGUmOUfmxa7g5oQN3t2/baQPHPgdLnK3/squk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CUB7WvD+; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CUB7WvD+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715229523; x=1746765523;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=r7vZ3CmuwRK2nSnspoBc7+KxbdZNr7bL9i09Im26+nY=;
+  b=CUB7WvD+JZoJwn63Z8dasTLFcWOM1dab/hGCkAjmMMPJyhUwr3Buvv+z
+   yqUSDEK7AI2Dx+mJMYeWMCTvToRjgo8KTjm3UNqZ/KKPYrn3TjIpQ46Sa
+   qFs++ClJd9yLE3nBzlqUVIZ4rxvd208mTPp8zHXsLkf98v9357LPILmWT
+   DcEzKQnVOlH8GBbQageec103Leqhb0C/M60N63+pIMJp2VxVrmePxbtqn
+   Z3a+GeWD7OmMSMxyPdgDrJZEZqTCJgOr/Q7BB8hlk8l+qacp9KalSoFok
+   1lh1WkcPovwRLxqus8T9ru3PjGeiGXnYq1dbFiYe8VshqifUCenzNe79r
+   g==;
+X-CSE-ConnectionGUID: DUx5eM2KSlOsQ+WjQVXB2g==
+X-CSE-MsgGUID: ppNQg2K+Qzy8b3P6b6Ygdg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="33636313"
+X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
+   d="scan'208";a="33636313"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 21:38:41 -0700
+X-CSE-ConnectionGUID: lL113rAtQemBd6lG/RzUTw==
+X-CSE-MsgGUID: MmQo5elWQVCKAKI5WVbC/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,146,1712646000"; 
+   d="scan'208";a="33588804"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 May 2024 21:38:41 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 8 May 2024 21:38:40 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 8 May 2024 21:38:40 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 8 May 2024 21:38:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y+tYkXIpndlLjTWKAMLYH/9rRfR1I7UvNOH8fNcpJaEnf6mDu//v5MJujIS+OV3vhHPOCYLTb+Dwn0hi/IPCGBLWlzI5qjJjt9QjUBA0fkTMiAqBqUuL+Qy5LN8LyDBEufyvufQRsaHWVVpxS/jXPDsmHzOhHuVqSSWbieJHCUhHzzCoDDro79b1n+E59NNo2K3IZ6i3qLrOoxHo1DPJT0LEm04a4Ta4xfffLjgsfmsYRJXOPNiGzCxOWIirjbWuRG2vfxcmVvuhUB0Ga22XmzqU4nOgcC6JXZ+tPFZZP+2TqHgxb2JLtHW3uZBfG2sZi/ClEymfLDUnEOBqUd/bnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r7vZ3CmuwRK2nSnspoBc7+KxbdZNr7bL9i09Im26+nY=;
+ b=JevqoSzncdWC6Z1UV8C5pGIPqS8+Pp32A3fj/FmmTCIP/GJPJtFFT/tHfYfjxDSv+DSVIlbjMDcRFTPZ2cdORXdkR8keCvZKooWrpsD0Y44GIvOZwAfZVd0+jVf+mLuLMi3XcGIu9XBdsNsO6xgCmMHFUyjyZDJy1UXZKO0AX95LWddvsTHhsmkyBrN6E7DeYOKdf2xYn3DleW3tZzMvLcAjRYndkmjX+3GBxMbh8ydqXWVqwZGWj6aj07Po/VMo5LyFoVRk0oMRPipv4pDSrb1xYJgKf3InxUvjExDiLe8aPBXmoqhkAvP0w3kKQiaWzR0jGbb9E68T9xQMSJE/kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY8PR11MB7364.namprd11.prod.outlook.com (2603:10b6:930:87::14)
+ by CY5PR11MB6464.namprd11.prod.outlook.com (2603:10b6:930:30::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.45; Thu, 9 May
+ 2024 04:38:33 +0000
+Received: from CY8PR11MB7364.namprd11.prod.outlook.com
+ ([fe80::1fe:535e:7c0e:1d67]) by CY8PR11MB7364.namprd11.prod.outlook.com
+ ([fe80::1fe:535e:7c0e:1d67%3]) with mapi id 15.20.7544.041; Thu, 9 May 2024
+ 04:38:33 +0000
+From: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
+To: Peter Hilber <peter.hilber@opensynergy.com>, "tglx@linutronix.de"
+	<tglx@linutronix.de>, "jstultz@google.com" <jstultz@google.com>,
+	"giometti@enneenne.com" <giometti@enneenne.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: "x86@kernel.org" <x86@kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>, "Dong, Eddie" <eddie.dong@intel.com>,
+	"Hall, Christopher S" <christopher.s.hall@intel.com>, "Brandeburg, Jesse"
+	<jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
+	<mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Nguyen, Anthony
+ L" <anthony.l.nguyen@intel.com>, "N, Pandith" <pandith.n@intel.com>, "Mohan,
+ Subramanian" <subramanian.mohan@intel.com>, "T R, Thejesh Reddy"
+	<thejesh.reddy.t.r@intel.com>
+Subject: RE: [PATCH v7 01/12] timekeeping: Add base clock properties in
+ clocksource structure
+Thread-Topic: [PATCH v7 01/12] timekeeping: Add base clock properties in
+ clocksource structure
+Thread-Index: AQHamtvFydYcyNjirUCN6XkDckMdUrGA34mAgA1+ekA=
+Date: Thu, 9 May 2024 04:38:33 +0000
+Message-ID: <CY8PR11MB7364F0AF837AC8621E7CB4EDC4E62@CY8PR11MB7364.namprd11.prod.outlook.com>
+References: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
+ <20240430085225.18086-2-lakshmi.sowjanya.d@intel.com>
+ <ace1be8b-d66d-4326-b5de-0f4164df88e6@opensynergy.com>
+In-Reply-To: <ace1be8b-d66d-4326-b5de-0f4164df88e6@opensynergy.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR11MB7364:EE_|CY5PR11MB6464:EE_
+x-ms-office365-filtering-correlation-id: bea83ef7-a816-4b21-bcbb-08dc6fe1e223
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?K29qcXVjUTNFNW8rTHY4S0piYk1HUU56MkVlZ2V0aTNZZ3EvZys3WlA1c0VM?=
+ =?utf-8?B?R2tEaWNrRDYvbWo4OWJRb242ckM0SHRNaThBbzFNR1l2cVpiM0FRVlk2QzZq?=
+ =?utf-8?B?N1JjemZBeXdZbUd2VDM3Q1k4SE9FNXRwbWJVYS9lOUN4N1lZcXRQclhyS3A0?=
+ =?utf-8?B?ckVMQ3RBMnNWZ2d6eUZnbVZTdUNsdUJyNjJDL3pjVGRxVFBwS283d290RExm?=
+ =?utf-8?B?MDkxMG45V0ZnVkNZcjQxcEVKQTFVamZja0I2TTl3dFN1NHUzN0xUSUVBam1I?=
+ =?utf-8?B?Y3NmMTdVejJIcUhLRk05S1dvVlVkNlk3cWo0RE9kSzhsdEdrbm5NRkp6aW5X?=
+ =?utf-8?B?cGhkVjVtMm9WWnNCdlVlbnZIL0VZV2R3NUlLbFJudmRUWjJTUG5ERVdKS0tk?=
+ =?utf-8?B?d1o3aTNaci9kKzFzOTYxL3pVZi9oZlY1ajhsYWFJY0xjcDlwRnBkTHpNamY4?=
+ =?utf-8?B?TERVU0d4S3cyWlJmRTZYTjdrU2hUOWUrRTdtY05rZTdJcTd0UXJydlM1TkVi?=
+ =?utf-8?B?QThURTZqZ3NOejg2a2xleVhna3pwMlRCSzdoWVc3YnB3cVNkcy9IenFLOElH?=
+ =?utf-8?B?aVpRUjZYRDJsekpZUnVxQXVmSVd6bVMrWk43Qmw5RUFvTU1ndyt5d3VRUlV3?=
+ =?utf-8?B?OFpHV1B0c08wNE1ncmtGS0F0VXZicG05aXB3a3I4Ry9rQnFMdW9Hb1JWTTN1?=
+ =?utf-8?B?VnRlZzhWd0tFUjBnRTU5YVExNmhmV3FHRWN3T3J2czAzUGFlS29WendvbGsy?=
+ =?utf-8?B?Q0Rrd1lhb1FuTU5SYlc3UXRPRjBvTWo3UklqMlE0ck9xYUk0ekc0dStVR3lN?=
+ =?utf-8?B?TDRQMXRoR3NoNE8rekw5UC9sZm0vOFNhRXZ6RHA4MExXL3Z5WDVtajNycmY4?=
+ =?utf-8?B?U0JWeGw5dEVqMHpnckN0SU50UGpSNDJMZW5kL1k2clpvRlpGTE1sUkpuQ1NO?=
+ =?utf-8?B?RHFSNVR5L1gxR2txU0xHTFN2WHdBckwrWWxmRDJyNTlVUmxqREtwNkp6a3Fs?=
+ =?utf-8?B?Wlh1YmNkdjdKajlMYzIxeW90VXB6VVl6cVVlak83WWZkZEJRZUlGNXhWUnFY?=
+ =?utf-8?B?dXFNU1NzS1VDME0vbTRCckJXa05jejZhVTUzcXR2TkxHTk50cjJCZXowcG1u?=
+ =?utf-8?B?NisrR3dYSUQ0N3pZdzlVUldFSFErQ1ZzdzZhK3BQSk1uZTlFOGZDZXRKaitu?=
+ =?utf-8?B?RjVjVnkrM091Vk9NVHVKU0hGSXY0bHBBWkxPZTd6OXE3YU9sSXVaV21mQkVr?=
+ =?utf-8?B?QmNkRnNkTnNmaXhCS1p3QjlVd0NWQXg1TEtrWG8xUVh5YUlzLy9jbDRUL3Bp?=
+ =?utf-8?B?empqeWMxUlJkdVlLVWpoVmlDSXhBSmNqK2c4MHRMMFFCZjNlS3lMb0VMb3l4?=
+ =?utf-8?B?QW1KT1ZScWlmcCtoSjZ0NVpWU1BESjIrMWZvZTJDQXRIdFowWHh2eXFIMGw1?=
+ =?utf-8?B?emphWDlORzhUekhNZmlmYWxPOGxJV2VOdDR5TnhQd2FBYTEwVVl6UHdUeUpz?=
+ =?utf-8?B?UVovd2ZTN2JyeG1rU2VQRUdWUHZRWXJFQVhFaGtlOCs1TVRZVkYvYm1DcWZl?=
+ =?utf-8?B?UE5id05iT0ZVRzR0N0xQdmhCamhsR2Q4TFFxWDdubXNLdGdGdXkydzhKNEhB?=
+ =?utf-8?B?QlpTNGZyYjdHQnIyejFiUHRoYWhsVjJUL1RHRGFscGpmM0pnMldrN21KZGZO?=
+ =?utf-8?B?VUU2VEJ2ZkI0NEtOTXFldmZFVlRCU3ZVMU1WSnJNWU9hTW9TVFpOL2VjcldD?=
+ =?utf-8?B?d09mZTE0dm10SnM0SEhDNkY1ZTI1WVpuVXc4b0RTL2dYcGlMWDhoT05oeG1Q?=
+ =?utf-8?B?VVp5ZmJqTnl0OXpSb1NGQT09?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7364.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VWVUQ1hHMy80aXdhTjQ2c2hlSUZvTk5pdUVkN25yd3RpSUtIN0dZTVR3aWVi?=
+ =?utf-8?B?TklvVTUrRXFCcWZVcXVsekVpN3VqbDYvNXFDckg4TEJscC9lVnhpUE13RHAz?=
+ =?utf-8?B?QU54WjEvR3Z1R0VQZ1Y5Tnp2SThFaUswNDlwOEFWQ240MElvc3N2Z09NZ25M?=
+ =?utf-8?B?Qk1HRm01MlVCWk00clJPanBSZHZ4R1kzR2FWVVFzaGx1OXNNa1poNFc0Z1ox?=
+ =?utf-8?B?UUtLdkdJRWNaeVo2OTVaNlByeG4xYzlNZ3JaMzUvWlBJOHVOYVdFZmpTTDZw?=
+ =?utf-8?B?OWMyU3Bna1VFUndNZm1EYXBGOC92Y3dKaFVEdUppeVFqWVNUMXR5Si9CSXJB?=
+ =?utf-8?B?aVltUmFOWUo1OFYwc012bjhCbTdLcGI1YmZraHFRdDRQYXM5eDg3bzVkazhw?=
+ =?utf-8?B?b3MwWDJuSXB1SEd4Z0tNWnZ4U0d6N25id1c1NUNHeU54NFBKcGh1RjJFNXhy?=
+ =?utf-8?B?SGFuUlBhK1JicE94c3c0WEIxMUZqYlN0VFdESU41QjhBMjk1YlpMYmgxOXZ4?=
+ =?utf-8?B?R3AyLzcvQVJZQzRuVjBHYVd6NGtrSmhQd2RsQXNKaFBHUU1IUnJINXJsd3dC?=
+ =?utf-8?B?S3h3QnZBaTFlRzVyd3FNMEFiWmJBTW51bWQ1Wno5NUQwSWEwMnBFdElvQUVv?=
+ =?utf-8?B?QktiREhPRDlselJrOHVBZGhLSTUvRFNsOTBBRGo5RXNsTmRGYjVrV25wWDBK?=
+ =?utf-8?B?NmNwTVVBbXNDajQ5bW01Ti9HY00rZUhYQW1MYlJja01LbVhEN200dXp0MUVQ?=
+ =?utf-8?B?U0hWbzJSZkMrREcyTHdVWEx5UmNSdnJJOHg4U0hxRHhKTGVqSnNxN2NnbWVi?=
+ =?utf-8?B?OGNvZVdVRUx4THpVbk4xMHlXMnhHeVNZUzBFdGxpRjM2NW5Bd3hKNzcvRXBl?=
+ =?utf-8?B?c29DMkNtRkkzM1ZISUJLaDV2OTlBYXRCOCt1TGhDVTZBc1MyUXJDK2k1QnlK?=
+ =?utf-8?B?VlZXYmpUS1FXZWdvdEZWYU1CTkIwWEh3SWcrTm5Xd3BSRmhJVDhuNzhkamJD?=
+ =?utf-8?B?aUsyNDRrTmJ2M252NGwyaXRNbnlCalZ2b3NwVU9MU0FRd0RFU2dlL2M3Qklr?=
+ =?utf-8?B?c3R4N3kxclJRTVZEa05ZVm4xSzN1MGtNSFcvWVZ1S254cUhEQ00zV3BGSFNt?=
+ =?utf-8?B?NWlQNStCMkRZWEZJb1hUL1g3Yzl2ZkFiZnpxR2FKdFlGZmRjSkhsaFZoSmsx?=
+ =?utf-8?B?OWdQSFBVS3YwMWVKNzRGc2ZtL1d0bjdTbDM5VVNiR3lVd0R1eVVrZGdTU2pQ?=
+ =?utf-8?B?blM3Q1Q4ZURZekhRTHBsYWhvaE1McFZqL203ZDRtNVBJY1E5a1ZYWnZVelZJ?=
+ =?utf-8?B?eUJISWpISXhsd2hya0F0WTluNk5TaWx0UDBOR1krK0F3QU9VOFVDYjFhZXhE?=
+ =?utf-8?B?T0FmbW5nYkVIUjkzbVBseCtJbzJKZ1hhTElRQUtCWC9kVk5Uc0FoZTVWL2Ja?=
+ =?utf-8?B?UlFiQkdUeGZUTC9GR1J2YU81WXBkOEkxekovZHFPS2NreEhtN0N2MnJZK1Ay?=
+ =?utf-8?B?TVlwMGZjYUhHeWtZRkk2UTBHWUpZVVdIZkpkbXVjMytKZUJ6TXRPVWtadW84?=
+ =?utf-8?B?Qkc4OXZ1U1BuMkxtcnhmOWwybUsyMWYwdmNFU3pkdUhCZmt2OWQ0UWtaSjlo?=
+ =?utf-8?B?RVV1MTEzQmlHMTBjeUNWWGF5OXhmbnVxeGlPLy96TUl1WkF5dUQrR0ozNnNT?=
+ =?utf-8?B?a0lnMzRhNkhpbFhOdU0yTGVJQ3BrbENvQTU1b3kwZGNJZ2pEeUxqaDFzK2lv?=
+ =?utf-8?B?VUxMUVA3U1FlM1E0UmRsa2JxUWRhbUY0dmdMaFh6bmpZbEZvVlBXUjFXKzhl?=
+ =?utf-8?B?M3U4U2xoQzRSZUpwNlhFTFF1MWs5VU4xU2tNUGR3dGQ1L3hCamJHa0FaQ0hk?=
+ =?utf-8?B?dXpBNHo5WEZrSmJNSjZramtuTWk3VW5RWkhzakp2MmNxMDdZOStETE1WYzZn?=
+ =?utf-8?B?SHpXUGpIME1GbmJhSHl1c0NLcVpqMVBYeUNCem8xcCsvSWlFMG5UYzM0VUJq?=
+ =?utf-8?B?MUlWZkdTNXFOSFJHdjBWWGVEU2owcFhwWDBGQ09MY0RhSzBxZFpwU1R5aTJF?=
+ =?utf-8?B?cDhrYlFlb2p1N20wdHF3Qm1tVnBMRGhKa3hIVUJrbmtySVlScERhaGJQcEFD?=
+ =?utf-8?B?bFJpNUdFdG9LbzI4ai8rZjBCTGxSMGk4VXFJeTdnaWVZZUxJTlAwbmg5blh1?=
+ =?utf-8?B?Tmc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7364.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bea83ef7-a816-4b21-bcbb-08dc6fe1e223
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2024 04:38:33.2033
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ix3RSUCi87k0hxqH14X+k7FfPM2J4QyyKdAwJeJOZ6tpTMVbP+wOi5pfMBwBYUVVrt2AnDhKA/ri5TcSZUIxe+GNOM0Fyxd4FHUDF27dDyM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6464
+X-OriginatorOrg: intel.com
 
-On i.MX95, the XCVR uses a new PLL in the PHY, which is
-General Purpose (GP) PLL. Add GP PLL configuration support
-in the driver and add the 'pll_ver' flag to distinguish
-different PLL on different platforms.
-
-The XCVR also use PHY but limited for SPDIF only case
-Add 'use_phy' flag to distinguish these platforms.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/fsl_xcvr.c | 120 +++++++++++++++++++++++++--------------
- sound/soc/fsl/fsl_xcvr.h |  91 +++++++++++++++++++++++++++++
- 2 files changed, 168 insertions(+), 43 deletions(-)
-
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index 0ffa10e924ef..6b1715ac67c5 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -20,10 +20,17 @@
- 
- #define FSL_XCVR_CAPDS_SIZE	256
- 
-+enum fsl_xcvr_pll_verison {
-+	PLL_MX8MP,
-+	PLL_MX95,
-+};
-+
- struct fsl_xcvr_soc_data {
- 	const char *fw_name;
- 	bool spdif_only;
- 	bool use_edma;
-+	bool use_phy;
-+	enum fsl_xcvr_pll_verison pll_ver;
- };
- 
- struct fsl_xcvr {
-@@ -265,10 +272,10 @@ static int fsl_xcvr_ai_write(struct fsl_xcvr *xcvr, u8 reg, u32 data, bool phy)
- static int fsl_xcvr_en_phy_pll(struct fsl_xcvr *xcvr, u32 freq, bool tx)
- {
- 	struct device *dev = &xcvr->pdev->dev;
--	u32 i, div = 0, log2;
-+	u32 i, div = 0, log2, val;
- 	int ret;
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		return 0;
- 
- 	for (i = 0; i < ARRAY_SIZE(fsl_xcvr_pll_cfg); i++) {
-@@ -291,45 +298,62 @@ static int fsl_xcvr_en_phy_pll(struct fsl_xcvr *xcvr, u32 freq, bool tx)
- 		return ret;
- 	}
- 
--	/* PLL: BANDGAP_SET: EN_VBG (enable bandgap) */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_BANDGAP_SET,
--			  FSL_XCVR_PLL_BANDGAP_EN_VBG, 0);
--
--	/* PLL: CTRL0: DIV_INTEGER */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0, fsl_xcvr_pll_cfg[i].mfi, 0);
--	/* PLL: NUMERATOR: MFN */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_NUM, fsl_xcvr_pll_cfg[i].mfn, 0);
--	/* PLL: DENOMINATOR: MFD */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_DEN, fsl_xcvr_pll_cfg[i].mfd, 0);
--	/* PLL: CTRL0_SET: HOLD_RING_OFF, POWER_UP */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--			  FSL_XCVR_PLL_CTRL0_HROFF | FSL_XCVR_PLL_CTRL0_PWP, 0);
--	udelay(25);
--	/* PLL: CTRL0: Clear Hold Ring Off */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_CLR,
--			  FSL_XCVR_PLL_CTRL0_HROFF, 0);
--	udelay(100);
--	if (tx) { /* TX is enabled for SPDIF only */
--		/* PLL: POSTDIV: PDIV0 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 0), 0);
--		/* PLL: CTRL_SET: CLKMUX0_EN */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM0_EN, 0);
--	} else if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC RX */
--		/* PLL: POSTDIV: PDIV1 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 1), 0);
--		/* PLL: CTRL_SET: CLKMUX1_EN */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM1_EN, 0);
--	} else { /* SPDIF / ARC RX */
--		/* PLL: POSTDIV: PDIV2 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 2), 0);
--		/* PLL: CTRL_SET: CLKMUX2_EN */
-+	switch (xcvr->soc_data->pll_ver) {
-+	case PLL_MX8MP:
-+		/* PLL: BANDGAP_SET: EN_VBG (enable bandgap) */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_BANDGAP_SET,
-+				  FSL_XCVR_PLL_BANDGAP_EN_VBG, 0);
-+
-+		/* PLL: CTRL0: DIV_INTEGER */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0, fsl_xcvr_pll_cfg[i].mfi, 0);
-+		/* PLL: NUMERATOR: MFN */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_NUM, fsl_xcvr_pll_cfg[i].mfn, 0);
-+		/* PLL: DENOMINATOR: MFD */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_DEN, fsl_xcvr_pll_cfg[i].mfd, 0);
-+		/* PLL: CTRL0_SET: HOLD_RING_OFF, POWER_UP */
- 		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM2_EN, 0);
-+				  FSL_XCVR_PLL_CTRL0_HROFF | FSL_XCVR_PLL_CTRL0_PWP, 0);
-+		udelay(25);
-+		/* PLL: CTRL0: Clear Hold Ring Off */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_CLR,
-+				  FSL_XCVR_PLL_CTRL0_HROFF, 0);
-+		udelay(100);
-+		if (tx) { /* TX is enabled for SPDIF only */
-+			/* PLL: POSTDIV: PDIV0 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 0), 0);
-+			/* PLL: CTRL_SET: CLKMUX0_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM0_EN, 0);
-+		} else if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC RX */
-+			/* PLL: POSTDIV: PDIV1 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 1), 0);
-+			/* PLL: CTRL_SET: CLKMUX1_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM1_EN, 0);
-+		} else { /* SPDIF / ARC RX */
-+			/* PLL: POSTDIV: PDIV2 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 2), 0);
-+			/* PLL: CTRL_SET: CLKMUX2_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM2_EN, 0);
-+		}
-+		break;
-+	case PLL_MX95:
-+		val = fsl_xcvr_pll_cfg[i].mfi << FSL_XCVR_GP_PLL_DIV_MFI_SHIFT | div;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_DIV, val, 0);
-+		val = fsl_xcvr_pll_cfg[i].mfn << FSL_XCVR_GP_PLL_NUMERATOR_MFN_SHIFT;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_NUMERATOR, val, 0);
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_DENOMINATOR,
-+				  fsl_xcvr_pll_cfg[i].mfd, 0);
-+		val = FSL_XCVR_GP_PLL_CTRL_POWERUP | FSL_XCVR_GP_PLL_CTRL_CLKMUX_EN;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_CTRL, val, 0);
-+		break;
-+	default:
-+		dev_err(dev, "Error for PLL version %d\n", xcvr->soc_data->pll_ver);
-+		return -EINVAL;
- 	}
- 
- 	if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC mode */
-@@ -378,7 +402,7 @@ static int fsl_xcvr_en_aud_pll(struct fsl_xcvr *xcvr, u32 freq)
- 		return ret;
- 	}
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		return 0;
- 	/* Release AI interface from reset */
- 	ret = regmap_write(xcvr->regmap, FSL_XCVR_PHY_AI_CTRL_SET,
-@@ -1022,7 +1046,7 @@ static bool fsl_xcvr_readable_reg(struct device *dev, unsigned int reg)
- {
- 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		if ((reg >= FSL_XCVR_IER && reg <= FSL_XCVR_PHY_AI_RDATA) ||
- 		    reg > FSL_XCVR_TX_DPTH_BCRR)
- 			return false;
-@@ -1095,7 +1119,7 @@ static bool fsl_xcvr_writeable_reg(struct device *dev, unsigned int reg)
- {
- 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		if (reg >= FSL_XCVR_IER && reg <= FSL_XCVR_PHY_AI_RDATA)
- 			return false;
- 	switch (reg) {
-@@ -1239,6 +1263,8 @@ static irqreturn_t irq0_isr(int irq, void *devid)
- 
- static const struct fsl_xcvr_soc_data fsl_xcvr_imx8mp_data = {
- 	.fw_name = "imx/xcvr/xcvr-imx8mp.bin",
-+	.use_phy = true,
-+	.pll_ver = PLL_MX8MP,
- };
- 
- static const struct fsl_xcvr_soc_data fsl_xcvr_imx93_data = {
-@@ -1246,9 +1272,17 @@ static const struct fsl_xcvr_soc_data fsl_xcvr_imx93_data = {
- 	.use_edma = true,
- };
- 
-+static const struct fsl_xcvr_soc_data fsl_xcvr_imx95_data = {
-+	.spdif_only = true,
-+	.use_phy = true,
-+	.use_edma = true,
-+	.pll_ver = PLL_MX95,
-+};
-+
- static const struct of_device_id fsl_xcvr_dt_ids[] = {
- 	{ .compatible = "fsl,imx8mp-xcvr", .data = &fsl_xcvr_imx8mp_data },
- 	{ .compatible = "fsl,imx93-xcvr", .data = &fsl_xcvr_imx93_data},
-+	{ .compatible = "fsl,imx95-xcvr", .data = &fsl_xcvr_imx95_data},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, fsl_xcvr_dt_ids);
-diff --git a/sound/soc/fsl/fsl_xcvr.h b/sound/soc/fsl/fsl_xcvr.h
-index 044058fc6aa2..882428592e1a 100644
---- a/sound/soc/fsl/fsl_xcvr.h
-+++ b/sound/soc/fsl/fsl_xcvr.h
-@@ -291,4 +291,95 @@
- #define FSL_XCVR_RX_CS_BUFF_1		0xA0 /* Second RX CS buffer */
- #define FSL_XCVR_CAP_DATA_STR		0x300 /* Capabilities data structure */
- 
-+/* GP PLL Registers */
-+#define FSL_XCVR_GP_PLL_CTRL			0x00
-+#define FSL_XCVR_GP_PLL_CTRL_SET		0x04
-+#define FSL_XCVR_GP_PLL_CTRL_CLR		0x08
-+#define FSL_XCVR_GP_PLL_CTRL_TOG		0x0C
-+#define FSL_XCVR_GP_PLL_ANA_PRG			0x10
-+#define FSL_XCVR_GP_PLL_ANA_PRG_SET		0x14
-+#define FSL_XCVR_GP_PLL_ANA_PRG_CLR		0x18
-+#define FSL_XCVR_GP_PLL_ANA_PRG_TOG		0x1C
-+#define FSL_XCVR_GP_PLL_TEST			0x20
-+#define FSL_XCVR_GP_PLL_TEST_SET		0x24
-+#define FSL_XCVR_GP_PLL_TEST_CLR		0x28
-+#define FSL_XCVR_GP_PLL_TEST_TOG		0x2C
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM		0x30
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_SET	0x34
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_CLR	0x38
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_TOG	0x3C
-+#define FSL_XCVR_GP_PLL_NUMERATOR		0x40
-+#define FSL_XCVR_GP_PLL_NUMERATOR_SET		0x44
-+#define FSL_XCVR_GP_PLL_NUMERATOR_CLR		0x48
-+#define FSL_XCVR_GP_PLL_NUMERATOR_TOG		0x4C
-+#define FSL_XCVR_GP_PLL_DENOMINATOR		0x50
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_SET		0x54
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_CLR		0x58
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_TOG		0x5C
-+#define FSL_XCVR_GP_PLL_DIV			0x60
-+#define FSL_XCVR_GP_PLL_DIV_SET			0x64
-+#define FSL_XCVR_GP_PLL_DIV_CLR			0x68
-+#define FSL_XCVR_GP_PLL_DIV_TOG			0x6C
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0		0x70
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_SET		0x74
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_CLR		0x78
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_TOG		0x7C
-+#define FSL_XCVR_GP_PLL_DFS_DIV0		0x80
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_SET		0x84
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_CLR		0x88
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_TOG		0x8C
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1		0x90
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_SET		0x94
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_CLR		0x98
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_TOG		0x9C
-+#define FSL_XCVR_GP_PLL_DFS_DIV1		0xA0
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_SET		0xA4
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_CLR		0xA8
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_TOG		0xAC
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2		0xB0
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_SET		0xB4
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_CLR		0xB8
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_TOG		0xBC
-+#define FSL_XCVR_GP_PLL_DFS_DIV2		0xC0
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_SET		0xC4
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_CLR		0xC8
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_TOG		0xCC
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3		0xD0
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_SET		0xD4
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_CLR		0xD8
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_TOG		0xDC
-+#define FSL_XCVR_GP_PLL_DFS_DIV3		0xE0
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_SET		0xE4
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_CLR		0xE8
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_TOG		0xEC
-+#define FSL_XCVR_GP_PLL_STATUS			0xF0
-+#define FSL_XCVR_GP_PLL_STATUS_SET		0xF4
-+#define FSL_XCVR_GP_PLL_STATUS_CLR		0xF8
-+#define FSL_XCVR_GP_PLL_STATUS_TOG		0xFC
-+
-+/* GP PLL Control Register */
-+#define FSL_XCVR_GP_PLL_CTRL_LBYPASS		BIT(31)
-+#define FSL_XCVR_GP_PLL_CTRL_HCS		BIT(16)
-+#define FSL_XCVR_GP_PLL_CTRL_MSD		BIT(12)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN3		BIT(11)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN2		BIT(10)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN1		BIT(9)
-+#define FSL_XCVR_GP_PLL_CTRL_SPREADCTL		BIT(8)
-+#define FSL_XCVR_GP_PLL_CTRL_CLKMUX_BYPASS	BIT(2)
-+#define FSL_XCVR_GP_PLL_CTRL_CLKMUX_EN		BIT(1)
-+#define FSL_XCVR_GP_PLL_CTRL_POWERUP		BIT(0)
-+
-+/* GP PLL Numerator Register */
-+#define FSL_XCVR_GP_PLL_NUMERATOR_MFN_SHIFT	2
-+#define FSL_XCVR_GP_PLL_NUMERATOR_MFN		GENMASK(31, 2)
-+
-+/* GP PLL Denominator Register */
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_MFD		GENMASK(29, 0)
-+
-+/* GP PLL Dividers Register */
-+#define FSL_XCVR_GP_PLL_DIV_MFI_SHIFT		16
-+#define FSL_XCVR_GP_PLL_DIV_MFI			GENMASK(24, 16)
-+#define FSL_XCVR_GP_PLL_DIV_RDIV		GENMASK(15, 13)
-+#define FSL_XCVR_GP_PLL_DIV_ODIV		GENMASK(7, 0)
-+
- #endif /* __FSL_XCVR_H */
--- 
-2.34.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgSGlsYmVyIDxw
+ZXRlci5oaWxiZXJAb3BlbnN5bmVyZ3kuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBBcHJpbCAzMCwg
+MjAyNCA3OjU4IFBNDQo+IFRvOiBELCBMYWtzaG1pIFNvd2phbnlhIDxsYWtzaG1pLnNvd2phbnlh
+LmRAaW50ZWwuY29tPjsNCj4gdGdseEBsaW51dHJvbml4LmRlOyBqc3R1bHR6QGdvb2dsZS5jb207
+IGdpb21ldHRpQGVubmVlbm5lLmNvbTsNCj4gY29yYmV0QGx3bi5uZXQ7IGxpbnV4LWtlcm5lbEB2
+Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IHg4NkBrZXJuZWwub3JnOyBuZXRkZXZAdmdlci5rZXJuZWwu
+b3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOw0KPiBpbnRlbC13aXJlZC1sYW5AbGlzdHMu
+b3N1b3NsLm9yZzsgYW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tOyBEb25nLA0KPiBF
+ZGRpZSA8ZWRkaWUuZG9uZ0BpbnRlbC5jb20+OyBIYWxsLCBDaHJpc3RvcGhlciBTDQo+IDxjaHJp
+c3RvcGhlci5zLmhhbGxAaW50ZWwuY29tPjsgQnJhbmRlYnVyZywgSmVzc2UNCj4gPGplc3NlLmJy
+YW5kZWJ1cmdAaW50ZWwuY29tPjsgZGF2ZW1AZGF2ZW1sb2Z0Lm5ldDsNCj4gYWxleGFuZHJlLnRv
+cmd1ZUBmb3NzLnN0LmNvbTsgam9hYnJldUBzeW5vcHN5cy5jb207DQo+IG1jb3F1ZWxpbi5zdG0z
+MkBnbWFpbC5jb207IHBlcmV4QHBlcmV4LmN6OyBsaW51eC0NCj4gc291bmRAdmdlci5rZXJuZWwu
+b3JnOyBOZ3V5ZW4sIEFudGhvbnkgTCA8YW50aG9ueS5sLm5ndXllbkBpbnRlbC5jb20+Ow0KPiBO
+LCBQYW5kaXRoIDxwYW5kaXRoLm5AaW50ZWwuY29tPjsgTW9oYW4sIFN1YnJhbWFuaWFuDQo+IDxz
+dWJyYW1hbmlhbi5tb2hhbkBpbnRlbC5jb20+OyBUIFIsIFRoZWplc2ggUmVkZHkNCj4gPHRoZWpl
+c2gucmVkZHkudC5yQGludGVsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NyAwMS8xMl0g
+dGltZWtlZXBpbmc6IEFkZCBiYXNlIGNsb2NrIHByb3BlcnRpZXMgaW4NCj4gY2xvY2tzb3VyY2Ug
+c3RydWN0dXJlDQo+IA0KPiBPbiAzMC4wNC4yNCAxMDo1MiwgbGFrc2htaS5zb3dqYW55YS5kQGlu
+dGVsLmNvbSB3cm90ZToNCj4gPiBGcm9tOiBMYWtzaG1pIFNvd2phbnlhIEQgPGxha3NobWkuc293
+amFueWEuZEBpbnRlbC5jb20+DQo+ID4NCj4gPiBBZGQgYmFzZSBjbG9jayBoYXJkd2FyZSBhYnN0
+cmFjdGlvbiBpbiBjbG9ja3NvdXJjZSBzdHJ1Y3R1cmUuDQo+ID4NCj4gPiBQcm92aWRlIGdlbmVy
+aWMgZnVuY3Rpb25hbGl0eSBpbiBjb252ZXJ0X2Jhc2VfdG9fY3MoKSB0byBjb252ZXJ0IGJhc2UN
+Cj4gPiBjbG9jayB0aW1lc3RhbXBzIHRvIHN5c3RlbSBjbG9ja3NvdXJjZSB3aXRob3V0IHJlcXVp
+cmluZyBhcmNoaXRlY3R1cmUNCj4gPiBzcGVjaWZpYyBwYXJhbWV0ZXJzLg0KPiA+DQo+ID4gVGhp
+cyBpcyBpbnRlbmRlZCB0byByZXBsYWNlIGNvbnZlcnRfYXJ0X3RvX3RzYygpIGFuZA0KPiA+IGNv
+bnZlcnRfYXJ0X25zX3RvX3RzYygpIGZ1bmN0aW9ucyB3aGljaCBhcmUgc3BlY2lmaWMgdG8gY29u
+dmVydCBBUlQNCj4gPiAoQWx3YXlzIFJ1bm5pbmcgVGltZXIpIHRpbWUgdG8gdGhlIGNvcnJlc3Bv
+bmRpbmcgVFNDIHZhbHVlLg0KPiA+DQo+ID4gQWRkIHRoZSBpbmZyYXN0cnVjdHVyZSBpbiBnZXRf
+ZGV2aWNlX3N5c3RlbV9jcm9zc3RzdGFtcCgpLg0KPiA+DQo+ID4gQ28tZGV2ZWxvcGVkLWJ5OiBU
+aG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBU
+aG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4NCj4gPiBDby1kZXZlbG9wZWQtYnk6
+IENocmlzdG9waGVyIFMuIEhhbGwgPGNocmlzdG9waGVyLnMuaGFsbEBpbnRlbC5jb20+DQo+ID4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoZXIgUy4gSGFsbCA8Y2hyaXN0b3BoZXIucy5oYWxsQGlu
+dGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBMYWtzaG1pIFNvd2phbnlhIEQgPGxha3NobWku
+c293amFueWEuZEBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gIGluY2x1ZGUvbGludXgvY2xvY2tz
+b3VyY2UuaCB8IDI3ICsrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiBpbmNsdWRlL2xpbnV4
+L3RpbWVrZWVwaW5nLmggfCAgMiArKw0KPiA+ICBrZXJuZWwvdGltZS90aW1la2VlcGluZy5jICAg
+fCAzOQ0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ID4gIDMgZmls
+ZXMgY2hhbmdlZCwgNjYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPg0KPiBbLi4u
+XQ0KPiA+IGRpZmYgLS1naXQgYS9rZXJuZWwvdGltZS90aW1la2VlcGluZy5jIGIva2VybmVsL3Rp
+bWUvdGltZWtlZXBpbmcuYw0KPiA+IGluZGV4IGI1OGRmZmM1OGE4Zi4uNGU1ZTkzMWU3NjZhIDEw
+MDY0NA0KPiA+IC0tLSBhL2tlcm5lbC90aW1lL3RpbWVrZWVwaW5nLmMNCj4gPiArKysgYi9rZXJu
+ZWwvdGltZS90aW1la2VlcGluZy5jDQo+ID4gQEAgLTExOTMsNiArMTE5Myw0MiBAQCBzdGF0aWMg
+Ym9vbCB0aW1lc3RhbXBfaW5faW50ZXJ2YWwodTY0IHN0YXJ0LCB1NjQNCj4gZW5kLCB1NjQgdHMp
+DQo+ID4gIAlyZXR1cm4gZmFsc2U7DQo+ID4gIH0NCj4gPg0KPiA+ICtzdGF0aWMgYm9vbCBjb252
+ZXJ0X2Nsb2NrKHU2NCAqdmFsLCB1MzIgbnVtZXJhdG9yLCB1MzIgZGVub21pbmF0b3IpIHsNCj4g
+PiArCXU2NCByZW0sIHJlczsNCj4gPiArDQo+ID4gKwlpZiAoIW51bWVyYXRvciB8fCAhZGVub21p
+bmF0b3IpDQo+ID4gKwkJcmV0dXJuIGZhbHNlOw0KPiA+ICsNCj4gPiArCXJlcyA9IGRpdjY0X3U2
+NF9yZW0oKnZhbCwgZGVub21pbmF0b3IsICZyZW0pICogbnVtZXJhdG9yOw0KPiA+ICsJKnZhbCA9
+IHJlcyArIGRpdl91NjQocmVtICogbnVtZXJhdG9yLCBkZW5vbWluYXRvcik7DQo+ID4gKwlyZXR1
+cm4gdHJ1ZTsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGJvb2wgY29udmVydF9iYXNlX3Rv
+X2NzKHN0cnVjdCBzeXN0ZW1fY291bnRlcnZhbF90ICpzY3YpIHsNCj4gPiArCXN0cnVjdCBjbG9j
+a3NvdXJjZSAqY3MgPSB0a19jb3JlLnRpbWVrZWVwZXIudGtyX21vbm8uY2xvY2s7DQo+ID4gKwlz
+dHJ1Y3QgY2xvY2tzb3VyY2VfYmFzZSAqYmFzZSA9IGNzLT5iYXNlOw0KPiA+ICsJdTMyIG51bSwg
+ZGVuOw0KPiA+ICsNCj4gPiArCS8qIFRoZSB0aW1lc3RhbXAgd2FzIHRha2VuIGZyb20gdGhlIHRp
+bWUga2VlcGVyIGNsb2NrIHNvdXJjZSAqLw0KPiA+ICsJaWYgKGNzLT5pZCA9PSBzY3YtPmNzX2lk
+KQ0KPiA+ICsJCXJldHVybiB0cnVlOw0KPiA+ICsNCj4gPiArCS8qIENoZWNrIHdoZXRoZXIgY3Nf
+aWQgbWF0Y2hlcyB0aGUgYmFzZSBjbG9jayAqLw0KPiA+ICsJaWYgKCFiYXNlIHx8IGJhc2UtPmlk
+ICE9IHNjdi0+Y3NfaWQpDQo+ID4gKwkJcmV0dXJuIGZhbHNlOw0KPiA+ICsNCj4gPiArCW51bSA9
+IHNjdi0+dXNlX25zZWNzID8gY3MtPmZyZXFfa2h6IDogYmFzZS0+bnVtZXJhdG9yOw0KPiA+ICsJ
+ZGVuID0gc2N2LT51c2VfbnNlY3MgPyBVU0VDX1BFUl9TRUMgOiBiYXNlLT5kZW5vbWluYXRvcjsN
+Cj4gPiArDQo+ID4gKwlpZiAoIWNvbnZlcnRfY2xvY2soJnNjdi0+Y3ljbGVzLCBudW0sIGRlbikp
+DQo+ID4gKwkJcmV0dXJuIGZhbHNlOw0KPiA+ICsNCj4gPiArCXNjdi0+Y3ljbGVzICs9IGJhc2Ut
+Pm9mZnNldDsNCj4gPiArCXJldHVybiB0cnVlOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICAvKioNCj4g
+PiAgICogZ2V0X2RldmljZV9zeXN0ZW1fY3Jvc3N0c3RhbXAgLSBTeW5jaHJvbm91c2x5IGNhcHR1
+cmUNCj4gc3lzdGVtL2RldmljZSB0aW1lc3RhbXANCj4gPiAgICogQGdldF90aW1lX2ZuOglDYWxs
+YmFjayB0byBnZXQgc2ltdWx0YW5lb3VzIGRldmljZSB0aW1lIGFuZA0KPiA+IEBAIC0xMjM4LDgg
+KzEyNzQsNyBAQCBpbnQgZ2V0X2RldmljZV9zeXN0ZW1fY3Jvc3N0c3RhbXAoaW50DQo+ICgqZ2V0
+X3RpbWVfZm4pDQo+ID4gIAkJICogc3lzdGVtIGNvdW50ZXIgdmFsdWUgaXMgdGhlIHNhbWUgYXMg
+Zm9yIHRoZSBjdXJyZW50bHkNCj4gPiAgCQkgKiBpbnN0YWxsZWQgdGltZWtlZXBlciBjbG9ja3Nv
+dXJjZQ0KPiA+ICAJCSAqLw0KPiA+IC0JCWlmIChzeXN0ZW1fY291bnRlcnZhbC5jc19pZCA9PSBD
+U0lEX0dFTkVSSUMgfHwNCj4gPiAtCQkgICAgdGstPnRrcl9tb25vLmNsb2NrLT5pZCAhPSBzeXN0
+ZW1fY291bnRlcnZhbC5jc19pZCkNCj4gPiArCQlpZiAoIWNvbnZlcnRfYmFzZV90b19jcygmc3lz
+dGVtX2NvdW50ZXJ2YWwpKQ0KPiA+ICAJCQlyZXR1cm4gLUVOT0RFVjsNCj4gDQo+IEFGQUlVIHRo
+ZSBlcnJvciBjb25kaXRpb24NCj4gDQo+IAlzeXN0ZW1fY291bnRlcnZhbC5jc19pZCA9PSBDU0lE
+X0dFTkVSSUMNCj4gDQo+IGlzIHNpbGVudGx5IGRyb3BwZWQgYnkgdGhpcyBwYXRjaCwgYnV0IHNo
+b3VsZG4ndCBiZS4NCj4gDQo+IGdldF9kZXZpY2Vfc3lzdGVtX2Nyb3NzdHN0YW1wKCkgY2FuIG9u
+bHkgY2hlY2sgdGhlIGlkZW50aXR5IG9mIGENCj4gY2xvY2tzb3VyY2UgKGJhc2UpIGZvciBub24t
+Z2VuZXJpYyBpZHMuDQo+IA0KPiBSZWdhcmRzLA0KPiANCj4gUGV0ZXINCg0KVGhhbmtzIFBldGVy
+LA0KTm90ZWQuIFRoZSBjaGVjayB3aWxsIGJlIGFkZGVkIGFzIGJlbG93Og0KDQppZiAoc3lzdGVt
+X2NvdW50ZXJ2YWwuY3NfaWQgPT0gQ1NJRF9HRU5FUklDIHx8DQogICAgICAgICAgICAgICAgICAg
+ICAgICAgIWNvbnZlcnRfYmFzZV90b19jcygmc3lzdGVtX2NvdW50ZXJ2YWwpKQ0KDQpSZWdhcmRz
+LA0KU293amFueWENCg0K
