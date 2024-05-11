@@ -1,55 +1,55 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FFF2137F;
-	Sat, 11 May 2024 21:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD16F225CE;
+	Sat, 11 May 2024 21:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715464010; cv=none; b=hl1H2/BXNsl20JZdkkCp8gpLjGiB89Bb7BV8b8FgX+8nXRfi2UhComxl5vbX2g/6xSvNLZN9YsHDuPFVhQ9kDKepAOv7pWnIF3W7R8Bvu5a/UCDkoh+jUJxVhMPrvdIh7PX6etFUMCMbFzeaj8KJzhdtz1JJtkI2BWAX3c4tPQQ=
+	t=1715464046; cv=none; b=koDJ6hvyk6PGP/2h/Yleoy9qfShAppGca1D9RBW8hY5v9Yqq63Y6OACtmUivQSnsaefWQ4BuGTnhq64qZ9KRVsVq2QACRHkPH0EXzbEBOdQnhlZx8src+0wBdsgLaIEsei4xCDaG0VyZBVKiZeTUhjirWWBUFDgn/wAm4enxJE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715464010; c=relaxed/simple;
-	bh=08uIG1/bwHmwBLe7pL7bLSc0GiqPtuTS6M4lMExW6GQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OF9GYx7KhLDrvgZNog6QkeOxu7/3CWbdVIvG0QKrAJHDnCMs7PBPJAFzz4EyTgAjsqixMedKNsdYSm6xlJ9m4tnwfiLHYDDiRWvuHWb7utOby81KRJmpwOBs7ckw8zcGOAaELA66xWgTQmAlRpandUtrYnUJksQHu37EeX7pcHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQc5uu62; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1715464046; c=relaxed/simple;
+	bh=pwwGiDR6/6VloAGj9MqJRjrK7X6GFmmGiiTPyj7C0oc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y7VvagkDUXIcJVNI+Ru/41Z6715HWYe0Ph+jjYmIRyet4RqNbE4pCQ+1ose68J0VLsO5k2KFlInnL3BxRZ7KW/gvbbitxFJ0NbPGg6SYx40nk5CZMznTIlyY4IwOrCt9i8Ir1TWrxbbu8KM7kiW1QUSTFi7OaRFIOStC80PMP/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0N/IgyD; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQc5uu62"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1ed96772f92so27280915ad.0;
-        Sat, 11 May 2024 14:46:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0N/IgyD"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso2473104a12.3;
+        Sat, 11 May 2024 14:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715464008; x=1716068808; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1715464043; x=1716068843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eCVJMzFVoc+BRHoT08G8Xmn5JdPV6LQjStyH9q97kgs=;
-        b=WQc5uu62OYjqzWK1XV6OcOvOeRRcAXnuynBQ0soHmilQYQ6g4x3kEUcsULabddIlvI
-         auC6apFKlQRTresRb+ZieA1JbuutDN2OmCuTZG9419zOKULJ8uVMjOhi5ZO88GD6FmEk
-         rTYyicc2duQjKf6CR/NuiF6Mgp8TDI/My1wn3bAVIs7h2XGCXWFI9L7iI5sB7bqrqrRD
-         KiMI+TdBganx9KBCg9N2mC7pwzEpXFcd34UJKsScKrHmFNkDPWZ+uZvGCzenOXeBTBYV
-         PfAnofXtFH9zwqsc469qfhMv9b+yj5wGRmBb4jdGV6ZxmpAq7c+XVBiKRfVV2XToyf9W
-         cqVA==
+        bh=ckRTRb7gsmLhpFldMqxsVmDmO+RRFrvrEnCpKsYFMyU=;
+        b=h0N/IgyDmRffeiTNvmT6043zkYwBQSqFN+AD+pJt+t/EU/KQL62Oyn2zE8qKx0EJty
+         CxXYxwswaaOnb1wlJbw0quT/uRIWjjsx3p6r9rIjmKOzmGDEMPXDl182ALzoFp1bh7Xz
+         6w05JXkE7y70c2r/c2eEDoYCSY5Gz8I4WiCxS1K69MVQwLdbHnNSFjBBG2ddX9HHKuBM
+         Th46gpXBIbakQdeGodKUV4Lh7t/HeLNx5u8N1xu6eAO98Qs4i6D/sJC9ZBiVOjPpBuA0
+         IHjtDWTVhSvy3csua0uvhwLGjK5oZaKrGE44OPg+3yWZ1qMwT6Ixl4t0lDqlkpfn9opG
+         zFUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715464008; x=1716068808;
+        d=1e100.net; s=20230601; t=1715464043; x=1716068843;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eCVJMzFVoc+BRHoT08G8Xmn5JdPV6LQjStyH9q97kgs=;
-        b=EierQwn7nYxvTMMLbPvNDLkxR6CFgbQ4ep+4sT54MacIFhA68dJfj5wg/JG6tBTDXC
-         fU7vd/fwrd7eYUofrG5I/nfdBvG81AmpaanUi0b+yMzR2Of+t8HzS1o5MeAGkrCWO0U9
-         4dbUBmENfkWrvpemclf/zPO+jWXUtVVC7CVYdgnIS5DhcRXYxOENRc2qRCqHlF7Ex3Yv
-         GuMQ17vmQpnUFC78Npi+k5BiXikOZ+oh0yGfhWq2xLUCjTNDHkmQuz3XTqDdFHRd2Fsk
-         GZjGVDm+0Yzzr8gdrLXuyNqhH3uVcNoX7qoVjvE0A371qm9PBSGXsDoFL+0Sdy8ITZdL
-         n2Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgXCqhOg5JWCJOvVfIRR6MNds60dI+qQF9LkSnZM8DNeyVDp1LW4reCaJzWlhM5fQUBb4TuT3ItDTEgWMDDfWumDnJbroJ8krN0hsB1UBoRXcbUx7JGj3kFS0PGOsudyRWyRlaRtuyu5g=
-X-Gm-Message-State: AOJu0YxBaPEnu/cIK/IlHxO2eVujAweGpOtZzalRPRi+jicDEeUGMCRV
-	Ao9HefyITvOzKKdqcp7Jgtrw+Goh56X+3VQfzT/kzaFDXhaZo9jhspBgHfd5OZ8=
-X-Google-Smtp-Source: AGHT+IHY0s6Kbuqn2GTExvPKTmIO9p64Dem87wOTwxfXJZrpnCk9XO8x508ZhLwCTRapY6MUpIW4XQ==
-X-Received: by 2002:a17:903:246:b0:1e2:bc3c:bef6 with SMTP id d9443c01a7336-1ef43e2797cmr70728535ad.37.1715464008240;
-        Sat, 11 May 2024 14:46:48 -0700 (PDT)
+        bh=ckRTRb7gsmLhpFldMqxsVmDmO+RRFrvrEnCpKsYFMyU=;
+        b=RXcurry9Y+MDeTSQHL+JHGIArP8PwOYDc+7BJw6kcb8C3tQYxuQsBx+kgdezpNT6SC
+         9kdG9bD/xz22VgyWHzsmcVdVUbSVgDTXT0LqLI8suqRyYiD4G6etzj59wksUj6OTNQj/
+         TpmMAphyn4LzXdjO3CfhUt1ypPBAjuy+slLpVEAShJMhxDH4niBxiHq1Go+0V9Xll911
+         bih7WhjSDR0ZgWP5svgbIgCXdzWRbOrIshDwofVOE+7z/dKvMbETUyfj8Bql+UzUW7+0
+         93Jcuwq6adveSr5DQb8q9Lzid6xAV+F321wOjXVFEdnxRuRnuSukbnf/mvvIKptoiLRg
+         ZShA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSClnsGcBej7dQaeYrVi6sUUPo6P6+o8EM6Z72sGstFg07HeNjR0TjzHVL1Oqn5euUYUeubGzWCv726Unzi9OmlykdWShZfICv71QI7YbCXXvgRUe9UJV9VkQFKxvwJViSFeHcLJQluDI=
+X-Gm-Message-State: AOJu0Yxd6h+n/+VtQsgzEBq6tBA8n0IKIUI6x4LRa+Ih71r+hQQBi6by
+	f8BTzWS2oTVxVaknXR19Tm76o8Tvq7+PM0Y8nziIuRb3BkQVixiO3lcU/ajvxIc=
+X-Google-Smtp-Source: AGHT+IFaSubAKFSREviWlTYK5ISN17xeJT1vi5B16LzPtTVpCOfiOBTus2xXniP0KtHWES1O68XMMw==
+X-Received: by 2002:a17:902:f54d:b0:1ec:6b87:e125 with SMTP id d9443c01a7336-1ef43f51f9bmr87511545ad.50.1715464042911;
+        Sat, 11 May 2024 14:47:22 -0700 (PDT)
 Received: from xiaxiShen-ThinkPad.dhcp4.washington.edu ([205.175.106.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c038679sm52913235ad.208.2024.05.11.14.46.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf30b22sm53095435ad.180.2024.05.11.14.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 May 2024 14:46:47 -0700 (PDT)
+        Sat, 11 May 2024 14:47:22 -0700 (PDT)
 From: Xiaxi Shen <shenxiaxi26@gmail.com>
 To: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -62,9 +62,9 @@ Cc: shenxiaxi26@gmail.com,
 	conor+dt@kernel.org,
 	javier.carrasco.cruz@gmail.com,
 	skhan@linuxfoundation.org
-Subject: [PATCH] ASoC: dt-bindings: ak4118: convert to dt schema
-Date: Sat, 11 May 2024 14:46:24 -0700
-Message-Id: <20240511214624.242579-1-shenxiaxi26@gmail.com>
+Subject: [PATCH] ASoC: dt-bindings: ssm2305: convert to dt schema
+Date: Sat, 11 May 2024 14:47:16 -0700
+Message-Id: <20240511214716.242807-1-shenxiaxi26@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,63 +74,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert ak4118 binding to DT schema
+Convert adi,ssm2305 binding to DT schema
 
 It passed dt_binding_check and dtbs_check. Let me know
 if you think it should include something else
 
 Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
 ---
- .../devicetree/bindings/sound/ak4118.txt      | 22 -------
- .../bindings/sound/asahi-kasei,ak4118.yaml    | 58 +++++++++++++++++++
- 2 files changed, 58 insertions(+), 22 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/ak4118.txt
- create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
+ .../devicetree/bindings/sound/adi,ssm2305.txt | 14 --------
+ .../bindings/sound/adi,ssm2305.yaml           | 35 +++++++++++++++++++
+ 2 files changed, 35 insertions(+), 14 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
 
-diff --git a/Documentation/devicetree/bindings/sound/ak4118.txt b/Documentation/devicetree/bindings/sound/ak4118.txt
+diff --git a/Documentation/devicetree/bindings/sound/adi,ssm2305.txt b/Documentation/devicetree/bindings/sound/adi,ssm2305.txt
 deleted file mode 100644
-index 6e11a2f7404c..000000000000
---- a/Documentation/devicetree/bindings/sound/ak4118.txt
+index a9c9d83c8a30..000000000000
+--- a/Documentation/devicetree/bindings/sound/adi,ssm2305.txt
 +++ /dev/null
-@@ -1,22 +0,0 @@
--AK4118 S/PDIF transceiver
--
--This device supports I2C mode.
+@@ -1,14 +0,0 @@
+-Analog Devices SSM2305 Speaker Amplifier
+-========================================
 -
 -Required properties:
--
--- compatible : "asahi-kasei,ak4118"
--- reg : The I2C address of the device for I2C
--- reset-gpios: A GPIO specifier for the reset pin
--- irq-gpios: A GPIO specifier for the IRQ pin
+-  - compatible : "adi,ssm2305"
+-  - shutdown-gpios : The gpio connected to the shutdown pin.
+-                     The gpio signal is ACTIVE_LOW.
 -
 -Example:
 -
--&i2c {
--	ak4118: ak4118@13 {
--		#sound-dai-cells = <0>;
--		compatible = "asahi-kasei,ak4118";
--		reg = <0x13>;
--		reset-gpios = <&gpio 0 GPIO_ACTIVE_LOW>
--		irq-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
--	};
+-ssm2305: analog-amplifier {
+-	compatible = "adi,ssm2305";
+-	shutdown-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
 -};
-diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
+diff --git a/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml b/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
 new file mode 100644
-index 000000000000..abbce999eb30
+index 000000000000..8335d763bcd5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
-@@ -0,0 +1,58 @@
++++ b/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
+@@ -0,0 +1,35 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/sound/asahi-kasei,ak4118.yaml#
++$id: http://devicetree.org/schemas/sound/adi,ssm2305.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: AK4118 S/PDIF transceiver
-+
-+allOf:
-+  - $ref: dai-common.yaml#
++title: Analog Devices SSM2305 Speaker Amplifier
 +
 +maintainers:
 +  - Liam Girdwood <lgirdwood@gmail.com>
@@ -141,43 +130,23 @@ index 000000000000..abbce999eb30
 +
 +properties:
 +  compatible:
-+    const: asahi-kasei,ak4118
++    const: adi,ssm2305
 +
-+  reg:
-+    description: The I2C address of the device for I2C
++  shutdown-gpios:
 +    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0    
-+
-+  reset-gpios:
-+    description: A GPIO specifier for the reset pin
-+    maxItems: 1
-+
-+  irq-gpios:
-+    description: A GPIO specifier for the IRQ pin
-+    maxItems: 1
++    description: The gpio connected to the shutdown pin. The gpio signal is ACTIVE_LOW.
 +
 +required:
 +  - compatible
-+  - reg
-+  - reset-gpios
-+  - irq-gpios
++  - shutdown-gpios
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+   i2c {
-+     #address-cells = <1>;
-+     #size-cells = <0>;
-+     ak4118@13 {
-+       #sound-dai-cells = <0>;
-+       compatible = "asahi-kasei,ak4118";
-+       reg = <0x13>;
-+       reset-gpios = <&gpio 0 0>;
-+       irq-gpios = <&gpio 1 1>;
-+     };
++   analog-amplifier {
++     compatible = "adi,ssm2305";
++     shutdown-gpios = <&gpio3 20 0>;
 +   };
 -- 
 2.34.1
