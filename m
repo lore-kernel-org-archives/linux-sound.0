@@ -1,113 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FBB17C8;
-	Sat, 11 May 2024 12:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFBC7F
+	for <linux-sound@vger.kernel.org>; Sat, 11 May 2024 16:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715431683; cv=none; b=shbPVdxMAFVv7X+vckKlczlSNegq0+k0iuixhEhJinfrzqqS+BiiYi7ihSV0fbMHhjCiavLXgHaeP+FjWtHWbjq+UK1vY/RjkSqSoLVKs9t5nWa8JhTqmXFD8l9soFxG5UjTGixtCzqbKDduoth2NoKTgJJHkXB9V4GL03cgBXk=
+	t=1715445870; cv=none; b=M/ATTZs8V7EE7cxbpPekrHpMiS2J0uYCHyzpuBdH5p6Ur+fkEAIAxJQVB7TcQEN/Qiy5mHlGBQx0YFzVW4gI5AQR6fhTR/g6gQrU89ISb0A1gjVt6JvvoeZbLie/sfXCn/z3b69bT0muIGIZndmaenNmgt83DfzgAnqj2fGlZYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715431683; c=relaxed/simple;
-	bh=L6GEnWbRFIUnTLp5ZBj1nZe8npzW7+LcYnKnNImrCg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JE9ix+TcJKwqOxEjkdp7z6g+77xZiLLXCsQzOdBJUugdu91PHMCNnkayWjDY1ElZ+FggQPqEw0ASKTLUxjc3pb9svSEwBdtdXVYK8zOw3eyu3UM56QC+auAGq1Lqs2/Da50zZW1HI/gkq6Ralv96ipcWh+Aodd0IH7BivlqlyH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vzmo7KOP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715445870; c=relaxed/simple;
+	bh=RNY+20kElI3e0ixT1T0F9spgouz/9oDO53voT1bssPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TloyDjnSUXdj1fdhOdttrI3v94HXW7qsynApEAKWV3rhEU2wvn4TL6SSmWBXXPXt9ZLkFzpFZ7ooT1yz+9wqLXNLlS0m5mS82HDPOZ51CIclS5nlFsXeoxKxI/X4aDolmqw17slCOSDKXfYch4GYnHGRPOmaPm8Dzhp4jfm7fjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=hgeGLwqV; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vzmo7KOP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F7CC2BBFC;
-	Sat, 11 May 2024 12:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715431682;
-	bh=L6GEnWbRFIUnTLp5ZBj1nZe8npzW7+LcYnKnNImrCg8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vzmo7KOP8imYYP9EUREB9SqsQ0mVwP4UlBMEmp4UUI9JrhCFszuETUr+sobW5mIqI
-	 cNOFhl6Jr0CCjYfCZ36yW53o4k7WeW3ndW5DxN0JJe+cuW+MKWrBEZu4iVj2wec7Eb
-	 Vd3ENik62UjGkZ7q1vX4C/iwqHwMdyW3QeV3PtKHHBtAddUzcU3BBTcO82g6H5GP1O
-	 2yjAkBV8ME6uOst13YEmtCMTSrwvl2RCLxCyYq4SYjp02uqr6cFGhpsCzCp1lOvHhx
-	 sFTXvHK90OM0SsClnWIOnKbefDJC2G1pIVeNCrriMYfitCiDZX/Iqe0yJUg7JJe601
-	 sTr+bFiqVJKMw==
-Date: Sat, 11 May 2024 13:47:57 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com,
-	festevam@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
-	tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: fsl,xcvr: Add two PLL clock
- sources
-Message-ID: <20240511-catwalk-ipod-98f3e636360e@spud>
-References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
- <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
- <20240509-repurpose-dumping-156b57c25960@spud>
- <CAA+D8AOkDbj_QsF9VescuAfFjKcB8FnOXqwjXVrrBM1Ck4ut4Q@mail.gmail.com>
- <CAA+D8AOQtwHTLsQcqh_LCvVP5CWXqiHc3-at8jv3B-kA8ORR_w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="hgeGLwqV"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id BD974604B9CB; Sun, 12 May 2024 02:14:17 +0930 (ACST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu BD974604B9CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1715445857; bh=jsBrWf1xMmYojpDYuK8XanwE9vskiC1wWoIIvT7R7lk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=hgeGLwqVie2crIPYWfsLHflcwylPAE3b2pWhwt7FBZfbMmtrsgeQmO/G/BJ/abEME
+	 wFSXPePzMn5diZEzFahE9Ix18n+4EqQM10iaOwGB+mPIx1Q8O+KB0U6g0WYBmmWW6+
+	 hUtoqZvIn8LaURXjsKvfIe7LJCRpPyyzNFRbLVpk+2o7MYEjkNrYAC8S/rWPCnWkxz
+	 5XI/Rm20hSM7/B7TEj0CcL8uAXPdrNjrxi7ITs6mdVWk8bUfivI/awUuqlTMzJ/GoC
+	 uBpd1e6YtkvdIaK3AHTEOG/Xr1UCpjq/q8wU+CB3be1ml4RABhzNh85NWtLK9MCBYP
+	 8/YsTH4vzB6mA==
+Date: Sun, 12 May 2024 02:14:17 +0930
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: scarlett2: Increase mixer range to +12dB
+Message-ID: <Zj+gYT4F2XeKTD93@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BhobfpOXM1U4v7Qe"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA+D8AOQtwHTLsQcqh_LCvVP5CWXqiHc3-at8jv3B-kA8ORR_w@mail.gmail.com>
 
+The values loaded into the mixer are 16-bit values, with 8192
+representing 0dB, going up to a current maximum of 16345 (+6dB). All
+supported interfaces have no problem going up to 32612 (+12dB), so
+update SCARLETT2_MIXER_MAX_DB and scarlett2_mixer_values[] to allow
+for this.
 
---BhobfpOXM1U4v7Qe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested with:
+- Scarlett 2nd Gen 6i6, 18i8, 18i20
+- Scarlett 3rd Gen 4i4, 8i6, 18i8, 18i20
+- Scarlett 4th Gen Solo, 2i2, 4i4
+- Clarett+ 2Pre, 4Pre, 8Pre
+- Vocaster One and Two
 
-On Fri, May 10, 2024 at 10:38:30AM +0800, Shengjiu Wang wrote:
-> On Fri, May 10, 2024 at 10:27=E2=80=AFAM Shengjiu Wang <shengjiu.wang@gma=
-il.com> wrote:
-> >
-> > On Fri, May 10, 2024 at 1:14=E2=80=AFAM Conor Dooley <conor@kernel.org>=
- wrote:
-> > >
-> > > On Thu, May 09, 2024 at 10:57:38AM +0800, Shengjiu Wang wrote:
-> > > > Add two PLL clock sources, they are the parent clocks of the root c=
-lock
-> > > > one is for 8kHz series rates, named as 'pll8k', another one is for
-> > > > 11kHz series rates, named as 'pll11k'. They are optional clocks,
-> > > > if there are such clocks, then the driver can switch between them to
-> > > > support more accurate sample rates.
-> > > >
-> > > > As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4' for
-> > > > clocks and clock-names properties.
-> > >
-> > > Despite the detail given here in the commit message, the series this =
-is
-> > > appearing in and one of the driver patches makes me a bit "suspicious"
-> > > of this patch. Are these newly added clocks available on all devices,=
- or
-> > > just on the imx95, or?
-> >
-> > These newly added clocks are only available for the imx95 XCVR.
-> >
->=20
-> Looks like I should merge patch1 & 2 together, patch 3 & 3 together. righ=
-t?
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ sound/usb/mixer_scarlett2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Please, and also add constraints so that the newly added clocks are only
-allowed on the imx95.
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 2dd03b46964e..1150cf104985 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -184,16 +184,16 @@
+ /* maximum Bluetooth volume value */
+ #define SCARLETT2_MAX_BLUETOOTH_VOLUME 30
+ 
+-/* mixer range from -80dB to +6dB in 0.5dB steps */
++/* mixer range from -80dB to +12dB in 0.5dB steps */
+ #define SCARLETT2_MIXER_MIN_DB -80
+ #define SCARLETT2_MIXER_BIAS (-SCARLETT2_MIXER_MIN_DB * 2)
+-#define SCARLETT2_MIXER_MAX_DB 6
++#define SCARLETT2_MIXER_MAX_DB 12
+ #define SCARLETT2_MIXER_MAX_VALUE \
+ 	((SCARLETT2_MIXER_MAX_DB - SCARLETT2_MIXER_MIN_DB) * 2)
+ #define SCARLETT2_MIXER_VALUE_COUNT (SCARLETT2_MIXER_MAX_VALUE + 1)
+ 
+ /* map from (dB + 80) * 2 to mixer value
+- * for dB in 0 .. 172: int(8192 * pow(10, ((dB - 160) / 2 / 20)))
++ * for dB in 0 .. 184: int(8192 * pow(10, ((dB - 160) / 2 / 20)))
+  */
+ static const u16 scarlett2_mixer_values[SCARLETT2_MIXER_VALUE_COUNT] = {
+ 	0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+@@ -209,7 +209,8 @@ static const u16 scarlett2_mixer_values[SCARLETT2_MIXER_VALUE_COUNT] = {
+ 	3078, 3261, 3454, 3659, 3876, 4105, 4349, 4606, 4879, 5168,
+ 	5475, 5799, 6143, 6507, 6892, 7301, 7733, 8192, 8677, 9191,
+ 	9736, 10313, 10924, 11571, 12257, 12983, 13752, 14567, 15430,
+-	16345
++	16345, 17313, 18339, 19426, 20577, 21796, 23088, 24456, 25905,
++	27440, 29066, 30788, 32612
+ };
+ 
+ /* Maximum number of analogue outputs */
+-- 
+2.44.0
 
-Thanks,
-Conor.
-
---BhobfpOXM1U4v7Qe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj9o/QAKCRB4tDGHoIJi
-0hihAQCXLcY+nll7YEK6/Ko2DGZ15ldjwMy8rI2F7y5rjxW/cwD9G3UV60KNhoRE
-ivzxxabhzsz8cc1NzjnzrR0RpqNhCgw=
-=I79W
------END PGP SIGNATURE-----
-
---BhobfpOXM1U4v7Qe--
