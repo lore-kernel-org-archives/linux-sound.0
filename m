@@ -1,129 +1,174 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D65BA41
-	for <linux-sound@vger.kernel.org>; Fri, 10 May 2024 15:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBB747A4C;
+	Sat, 11 May 2024 04:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715355563; cv=none; b=mU/te6dXl/nSf0nfHYkbgQKKhxD1ACvpZ06sFTWEWJlpLG4uDGp7SYQqsYvXqIPydcsNAWBqCvWgRiRm3ysFjJHalSAiqK+w0sgr0BvlIxxSIm5Fdvs4gY2/ZTA8GOq9dKQRZagnKEJsmd/47mOmyUI3XhquBP1FLC6a3u2yzcY=
+	t=1715402563; cv=none; b=Me1xAmacq0QQzNyNcILfxgsFOMWkUr+cfBpSbUU5PJWwx+B1kxVT+DAl7trIZyrfARxAad+X7m1K20vliCYHAl3jReu0vtxCGHuhuGYnqvnQ45Eb0wysbqvsdww0RUs7gOY+HZbfBxnHaUk900GyFkSH1MrbgPTzL03hhLxl49A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715355563; c=relaxed/simple;
-	bh=ACx1uvyWtWuXvtWHFMekx8GERUUvgaoNeVkzE29kgyE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MVrdJ8NMmmZjfU475T5nO9H/dexKGCbJ41uu7ZNZa2mKnWewL5KatjGWNZD/KghBWXRytCaLFk8Cg2hnBMfjYqE53cnPs86p/MAqIKLIjsV136NIkapts4oRWqMUDRzsJx1GB+K0sbRmNcwMJAzADR43AwanXfYqng+2Sw+Avk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ggzEC1lF; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715402563; c=relaxed/simple;
+	bh=WPQTnFx4IHDSM1p8MbRIEMmnd6Js3m0S6fsdKO7d6iA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bGrQzEIPa3YiUai/L5TMAgGinTIvaGvR95CHpZEcnrnVroXZNJ8sYaoABMKB7e+XGIJJ/nbeFHezBD8jA4HU4QK0AnyLWk+HFFbZHE5OThOi0qRmzFYpeiRVOBYjjx+cqnnLPJyG4dMKXMD/FN2m1Eh0DHA5habNe8vw+O2yA/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqU86ciu; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ggzEC1lF"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2e538a264e0so13818371fa.1
-        for <linux-sound@vger.kernel.org>; Fri, 10 May 2024 08:39:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqU86ciu"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6f45020ac2cso2246300b3a.0;
+        Fri, 10 May 2024 21:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715355560; x=1715960360; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1715402560; x=1716007360; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=zCGimXM0s95/gK/0gBrT6bfMmBtbTT9QqvxRV5ToZt8=;
-        b=ggzEC1lFO7oPa94W+0cVHn7tgW3mRDiur8F72FPcjxPmqg28x/638W250ZHHOIoR7r
-         FRQ3IiRrOQTUUj1WnUVE4acLXLAtlaMfM3/d6IDSSdAqRLhK6i4CmWEPqxjzOwtQQp5v
-         2CJa/9Zgcf8TyQyj+dwp2y7OwE1l/5CaZc+NWYUTgSUC14HZAnUyNUfzMZKK6kc1itFt
-         eayiH73qkrfqwfPTdwUTEcvlOfIWL4wpcYGi+e9qz/3GVn3TohdtoCjfqnhMFxlqUwUP
-         UbGawxLDmOGdGFPlTwrf5G5XlINQoSQXIu7pZxjh8H6BEUQjbmqr0/vnwjAB0stt3VCT
-         Ktfw==
+        bh=aSyZLcJE9KK8ZnIuIgfVwNv3Op1D7Z6QDEYK0ydcmS4=;
+        b=XqU86ciuvv5UyKFsfzhCGwsu87zZAU8LeQGCi2MTEMioCjou9ZsFqNhEaFOZaxn/wG
+         pBGaZEPVvBRM2cO1xvkngkQ1Ll4rdJYMN58UiuhrAN/Cunc1OM3P+fPWAFpk16LWeBfq
+         GpEQaJVMvBDNi13qweADCQMeyVl3JtWtudS0worC6A/4RNr8YcPjMb6YXexFx5/GTb1K
+         dRVYIsjyYmV83YGq/U1ng47Hh1YeM71O+y/URo9cfqNyVdSzk/g1+5e8MNctvOowwYvQ
+         7DVyjeSdNCYX/0AdrdcNO1NOGN/016HG0IPnNcx/xYf1797m/LTXO+Z4lQKsFgaHMVRE
+         4sZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715355560; x=1715960360;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1715402560; x=1716007360;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCGimXM0s95/gK/0gBrT6bfMmBtbTT9QqvxRV5ToZt8=;
-        b=bxrkahmu9To77KSY639Z6iOMAkZk7Zw+LfXUEyT+4oGsSijh6ASn371kVKtEwuBHPd
-         IZqU7zUrePBwPPg85PCQhh0tvemgVNohFctnMkIjnk+lDxLtrBBx9HpDUGcmsmOhsxo5
-         MSV+U4of1rh76kijpHmPAglz0ugDbuesWqW1OuhnFhMNCk4gU2U/l5VJlxPC+4CWEiRc
-         4O/qB0ilZY1U+nOX817OFGUIRFeGID/DNxUjoF86g4/9wzm/HwyjIrw8ze79Hp4e6xmF
-         vw9h0BPelXw9JXmQj+O6730TzRk9uiVvu8GLnhPd0ztYdLEJC01uwn4e80FVPZiYEbt8
-         Qh8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU2l2de7U4uSTcHasLoS0p3OhPor9TXjdJ1uOYtnbTe/LcNb3lgkOtkDMf+tTcQQxClcXRA5VJuL/0bm0uNvvDStdVP81PKEpYYlwU=
-X-Gm-Message-State: AOJu0YyKOgQTNMGr09zjP4h4l8KAMHWzWXV8iwv+UeeMmkvf0VbpWcoJ
-	8xUBvtX+LOmRBByzdnUoem1Z/MhoOJoosnM7CZ6tpV/ZUiOMdVIAVIOCq4ztzlo=
-X-Google-Smtp-Source: AGHT+IF7TN741mMkhPYgttssExz8B4IDN3HPogI6xNSBiOv89abZm4bMmHO6ARPMs21agKthCxa3lw==
-X-Received: by 2002:a2e:7d09:0:b0:2e2:1647:f671 with SMTP id 38308e7fff4ca-2e5205c817emr25268691fa.47.1715355559934;
-        Fri, 10 May 2024 08:39:19 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-41ff7a840d2sm27051475e9.39.2024.05.10.08.39.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 May 2024 08:39:19 -0700 (PDT)
-Message-ID: <adde3972-f055-464b-83ac-8d8a2d874e29@linaro.org>
-Date: Fri, 10 May 2024 16:39:18 +0100
+        bh=aSyZLcJE9KK8ZnIuIgfVwNv3Op1D7Z6QDEYK0ydcmS4=;
+        b=MeangRxAeD3kO8cDG+FcMx4qVmMfruhAedkHXn42/Q5tCJiYa71zNOY22uiKVKFcJF
+         sxmWLWKgk5tf4bO/Z0Mx/muQHVG+iobLj1wkZ4MPlLL6/rZiTZQ8sUD8SzT1RgZYuYTJ
+         c55QgdZvZ0PNG4XSXDmrVluduFJj+Aax6bDvP7AlhGSgwew1CtLbiW0Sx9Mvv5sp07mC
+         cMmQD1Y+/0nDApEJ/7XpE6NzUEwgjNE/p80YNPBIDsQJa31yIqRZratjn0UPybtT8fxJ
+         Cyrk5ELo51HPOyOeoOKvjR78Hia+I4/+Gc3EhkSUfnl7VzZXWCpesspEf95C1dj96VjD
+         Ebqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzQdzLwxUV39n9aaZPoQReoDBHVCutlLX2jLdStKS8yfA0LT8S2FIHKJxlzcLvNFxFXO3Jk0jf7IOUQggOYUmuoxIxsyuBRjapkfXHAXNNApbbdRlYNYZE6hRt/+rTM4DEy18OSmj3nw==
+X-Gm-Message-State: AOJu0Yzdn1hh280jpIhHjyC9maJsMwlQdEzkCBzeCItpDdfIFAuZ7RVL
+	TzBUqkWJEx/6IDnCzcj+eHMdr9ntgmS7GQb8SwSAlNOGc6TfGcJwPw9Atjdo
+X-Google-Smtp-Source: AGHT+IGIU9YUzzt4L5YVBwXqaHR+qjWpl9nkrHdKYdZgHx5c9HbVadWk5KHj5Sr47W0quDEc5CbyEQ==
+X-Received: by 2002:a05:6a00:3c91:b0:6f4:74b5:f536 with SMTP id d2e1a72fcca58-6f4e03e7fabmr5229271b3a.34.1715402559853;
+        Fri, 10 May 2024 21:42:39 -0700 (PDT)
+Received: from localhost ([115.96.146.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2ba4sm3708928b3a.168.2024.05.10.21.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 May 2024 21:42:39 -0700 (PDT)
+Date: Sat, 11 May 2024 10:11:24 +0530
+From: Aryabhatta Dey <aryabhattadey35@gmail.com>
+To: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, javier.carrasco.cruz@gmail.com, 
+	skhan@linuxfoundation.org
+Subject: [RFC PATCH] ASoC: dt-bindings: alc5623: convert to dt schema
+Message-ID: <j2f5m3lydlkipt3vnyikeoq5bx6tsf6z22ljpspcgtnohy65on@htyjjd3ojkde>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] ASoC: qcom: qdsp6: Set channel mapping instead of
- fixed defaults
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240509-asoc-x1e80100-4-channel-mapping-v3-0-6f874552d7b2@linaro.org>
- <20240509-asoc-x1e80100-4-channel-mapping-v3-3-6f874552d7b2@linaro.org>
- <d3c78e43-44a9-4ef2-8e64-00f39b32172c@linaro.org>
- <aa8509c9-7475-40b3-82cb-9bfc1e33b202@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <aa8509c9-7475-40b3-82cb-9bfc1e33b202@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Convert Documentation/bindings/devicetree/alc5623.txt to yaml.
 
+First attempt at a dt schema conversion patch.
+Checked the yaml file with make dt_binding_check and make CHECK_DTBS=y.
+Only warning being produced is
+Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
+Not sure how I should handle this.
 
-On 09/05/2024 12:43, Krzysztof Kozlowski wrote:
-> On 09/05/2024 11:17, Srinivas Kandagatla wrote:
->>> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
->>> index eb9306280988..208b74e50445 100644
->>> --- a/sound/soc/qcom/qdsp6/audioreach.h
->>> +++ b/sound/soc/qcom/qdsp6/audioreach.h
->>> @@ -766,6 +766,7 @@ struct audioreach_module_config {
->>>    /* Packet Allocation routines */
->>>    void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t
->>>    				    token);
->>> +void audioreach_set_channel_mapping(u8 *ch_map, int num_channels);
->>>    void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
->>>    			       uint32_t token, uint32_t src_port,
->>>    			       uint32_t dest_port);
->>> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
->>> index 00bbd291be5c..8ab55869e8a2 100644
->>> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
->>> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
->>> @@ -243,6 +243,7 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
->>>    	cfg.num_channels = runtime->channels;
->>>    	cfg.bit_width = prtd->bits_per_sample;
->>>    	cfg.fmt = SND_AUDIOCODEC_PCM;
->>> +	audioreach_set_channel_mapping(cfg.channel_map, runtime->channels);
->>>    
->>
->> Prepare can be called multiple times.. so we have channels overwritten here.
-> 
-> Which is expected - just like we overwrite number of channels.
-This will work in q6apm-dai.c case as there is no set_channel_map callback.
+Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+---
+ .../devicetree/bindings/sound/alc5623.txt     | 25 ----------
+ .../bindings/sound/realtek,alc5623.yaml       | 48 +++++++++++++++++++
+ 2 files changed, 48 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/alc5623.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
 
-lgtm.
+diff --git a/Documentation/devicetree/bindings/sound/alc5623.txt b/Documentation/devicetree/bindings/sound/alc5623.txt
+deleted file mode 100644
+index 26c86c98d671..000000000000
+--- a/Documentation/devicetree/bindings/sound/alc5623.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-ALC5621/ALC5622/ALC5623 audio Codec
+-
+-Required properties:
+-
+- - compatible:	"realtek,alc5623"
+- - reg:		the I2C address of the device.
+-
+-Optional properties:
+-
+- - add-ctrl:	  Default register value for Reg-40h, Additional Control
+-		  Register. If absent or has the value of 0, the
+-		  register is untouched.
+-
+- - jack-det-ctrl: Default register value for Reg-5Ah, Jack Detect
+-		  Control Register. If absent or has value 0, the
+-		  register is untouched.
+-
+-Example:
+-
+-	alc5621: alc5621@1a {
+-		compatible = "alc5621";
+-		reg = <0x1a>;
+-		add-ctrl = <0x3700>;
+-		jack-det-ctrl = <0x4810>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+new file mode 100644
+index 000000000000..207386e6d437
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,alc5623.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ALC5621/ALC5622/ALC5623 audio Codec
++
++maintainers:
++  - Aryabhatta Dey <aryabhattadey35@gmail.com>
++
++properties:
++  compatible:
++    const: realtek,alc5623
++
++  reg:
++    maxItems: 1
++
++  add-ctrl:
++    description:
++      Default register value for Reg-40h, Additional Control Register. If absent
++      or has the value of 0, the register is untouched.
++    type: object
++
++  jack-det-ctrl:
++    description:
++      Default register value for Reg-5Ah, Jack Detect Control Register. If absent
++      or has value 0, the register is untouched.
++    type: object
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        codec@1a {
++            compatible = "realtek,alc5632";
++            reg = <0x1a>;
++            add-ctrl = <0x3700>;
++            jack-det-ctrl = <0x4810>;
++        };
++    };
+-- 
+2.45.0
 
-Can you rename audioreach_set_channel_mapping to 
-audioreach_set_default_channel_mapping which makes it more obvious that 
-we are setting a default channel mappings.
-
-
---srini
-> 
-> Best regards,
-> Krzysztof
-> 
