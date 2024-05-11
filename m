@@ -1,350 +1,113 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41277524B8
-	for <linux-sound@vger.kernel.org>; Sat, 11 May 2024 08:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FBB17C8;
+	Sat, 11 May 2024 12:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715417874; cv=none; b=Ab3FFkZ6ekjNX05s6LQWyGjTP6mybuyrCPypKleKzuT0uMZcFLj2zRUUrxUKbUfn3PNlXhcItbw9HcVXWSzBev4FaEHS1RHtAIfsn42vJoqFGcnItIMtcmy5lSlygMZbtdPlqMeJqgdxIj0+oDOs9l0eV7r3yJjFgcnBQYY9/Bs=
+	t=1715431683; cv=none; b=shbPVdxMAFVv7X+vckKlczlSNegq0+k0iuixhEhJinfrzqqS+BiiYi7ihSV0fbMHhjCiavLXgHaeP+FjWtHWbjq+UK1vY/RjkSqSoLVKs9t5nWa8JhTqmXFD8l9soFxG5UjTGixtCzqbKDduoth2NoKTgJJHkXB9V4GL03cgBXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715417874; c=relaxed/simple;
-	bh=K3Ec2XRwwiP9b+Lkk1EgIN434oPpg0DkWVim/uA+ihk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qCRzWR2JF4AlaWThRP/9xh+q3zz1XgoQ8CccPO94WZT5jpCpv32pEHtwNiPPSWnm/yq3XuW72XhZlA8NQ02aCXdNSBBRCJfPCx3Fobh9PaBo5Inwby/Fqc7sv6rN+Jzbt4Bma54sn7V2J3i7ENCtza+Z6OQY3qTp3L9EbLttLFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=FArYYXtP; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1715431683; c=relaxed/simple;
+	bh=L6GEnWbRFIUnTLp5ZBj1nZe8npzW7+LcYnKnNImrCg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JE9ix+TcJKwqOxEjkdp7z6g+77xZiLLXCsQzOdBJUugdu91PHMCNnkayWjDY1ElZ+FggQPqEw0ASKTLUxjc3pb9svSEwBdtdXVYK8zOw3eyu3UM56QC+auAGq1Lqs2/Da50zZW1HI/gkq6Ralv96ipcWh+Aodd0IH7BivlqlyH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vzmo7KOP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="FArYYXtP"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 03298604B9CB; Sat, 11 May 2024 18:27:45 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 03298604B9CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1715417866; bh=tup50UjBihNqJADS5bYjuq/cSF/Vyak+krKTq9Pbux0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=FArYYXtPbamJkr3zLBxw8xu1icHZZQ3iMac63pERJH1buPRWjKVIJmPeVzgxzn7Ax
-	 NzOTDgR/J7R+YXtscBLAy7LtcRuQUeTgWDsQqeyCCkOUl2fSydma00nwTVxNlHuBro
-	 GQU0TXJo/oRieVZfb6jgOPWb7n5XJ0MGB+kEPikAJ4juygN6hFk7NTmjjrrvqNcB0g
-	 5RS9sfYmKMaczqNVMoM4XqgpToQ909qHBBCP0UOCYTDmdlVzkBhZZWW6jv/nZdK1By
-	 gc2E44ojOjp8RuOJ8xilwpsvGzG6VN7Zf3YmRWoH4IAfuFeAoZopQ8su4wdTAChF8U
-	 E/2/kFL2kawqQ==
-Date: Sat, 11 May 2024 18:27:45 +0930
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH v2] ALSA: scarlett2: Add S/PDIF source selection controls
-Message-ID: <Zj8zCTjzPsTDENN+@m.b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vzmo7KOP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F7CC2BBFC;
+	Sat, 11 May 2024 12:47:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715431682;
+	bh=L6GEnWbRFIUnTLp5ZBj1nZe8npzW7+LcYnKnNImrCg8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vzmo7KOP8imYYP9EUREB9SqsQ0mVwP4UlBMEmp4UUI9JrhCFszuETUr+sobW5mIqI
+	 cNOFhl6Jr0CCjYfCZ36yW53o4k7WeW3ndW5DxN0JJe+cuW+MKWrBEZu4iVj2wec7Eb
+	 Vd3ENik62UjGkZ7q1vX4C/iwqHwMdyW3QeV3PtKHHBtAddUzcU3BBTcO82g6H5GP1O
+	 2yjAkBV8ME6uOst13YEmtCMTSrwvl2RCLxCyYq4SYjp02uqr6cFGhpsCzCp1lOvHhx
+	 sFTXvHK90OM0SsClnWIOnKbefDJC2G1pIVeNCrriMYfitCiDZX/Iqe0yJUg7JJe601
+	 sTr+bFiqVJKMw==
+Date: Sat, 11 May 2024 13:47:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com,
+	broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com,
+	festevam@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
+	tiwai@suse.com, alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: fsl,xcvr: Add two PLL clock
+ sources
+Message-ID: <20240511-catwalk-ipod-98f3e636360e@spud>
+References: <1715223460-32662-1-git-send-email-shengjiu.wang@nxp.com>
+ <1715223460-32662-3-git-send-email-shengjiu.wang@nxp.com>
+ <20240509-repurpose-dumping-156b57c25960@spud>
+ <CAA+D8AOkDbj_QsF9VescuAfFjKcB8FnOXqwjXVrrBM1Ck4ut4Q@mail.gmail.com>
+ <CAA+D8AOQtwHTLsQcqh_LCvVP5CWXqiHc3-at8jv3B-kA8ORR_w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BhobfpOXM1U4v7Qe"
 Content-Disposition: inline
+In-Reply-To: <CAA+D8AOQtwHTLsQcqh_LCvVP5CWXqiHc3-at8jv3B-kA8ORR_w@mail.gmail.com>
 
-Add S/PDIF Source/Digital I/O Mode selection controls for the Scarlett
-3rd Gen 18i8/18i20 and Clarett 4Pre/8Pre interfaces. These models have
-both coax S/PDIF and optical inputs, and the optical inputs are
-switchable between being used as S/PDIF and ADAT inputs. The Scarlett
-3rd Gen 18i20 also has a "Dual ADAT" mode for 8-channel audio at
-88.2/96kHz.
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
+--BhobfpOXM1U4v7Qe
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Notes:
-    v2: Replaced u8 -1 with u8 0xff
+On Fri, May 10, 2024 at 10:38:30AM +0800, Shengjiu Wang wrote:
+> On Fri, May 10, 2024 at 10:27=E2=80=AFAM Shengjiu Wang <shengjiu.wang@gma=
+il.com> wrote:
+> >
+> > On Fri, May 10, 2024 at 1:14=E2=80=AFAM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > >
+> > > On Thu, May 09, 2024 at 10:57:38AM +0800, Shengjiu Wang wrote:
+> > > > Add two PLL clock sources, they are the parent clocks of the root c=
+lock
+> > > > one is for 8kHz series rates, named as 'pll8k', another one is for
+> > > > 11kHz series rates, named as 'pll11k'. They are optional clocks,
+> > > > if there are such clocks, then the driver can switch between them to
+> > > > support more accurate sample rates.
+> > > >
+> > > > As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4' for
+> > > > clocks and clock-names properties.
+> > >
+> > > Despite the detail given here in the commit message, the series this =
+is
+> > > appearing in and one of the driver patches makes me a bit "suspicious"
+> > > of this patch. Are these newly added clocks available on all devices,=
+ or
+> > > just on the imx95, or?
+> >
+> > These newly added clocks are only available for the imx95 XCVR.
+> >
+>=20
+> Looks like I should merge patch1 & 2 together, patch 3 & 3 together. righ=
+t?
 
- sound/usb/mixer_scarlett2.c | 179 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 179 insertions(+)
+Please, and also add constraints so that the newly added clocks are only
+allowed on the imx95.
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index b251d25f2a85..2dd03b46964e 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -541,6 +541,7 @@ enum {
- 	SCARLETT2_CONFIG_PCM_INPUT_SWITCH,
- 	SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
- 	SCARLETT2_CONFIG_BLUETOOTH_VOLUME,
-+	SCARLETT2_CONFIG_SPDIF_MODE,
- 	SCARLETT2_CONFIG_COUNT
- };
- 
-@@ -754,6 +755,9 @@ static const struct scarlett2_config_set scarlett2_config_set_gen3c = {
- 
- 		[SCARLETT2_CONFIG_TALKBACK_MAP] = {
- 			.offset = 0xb0, .size = 16, .activate = 10 },
-+
-+		[SCARLETT2_CONFIG_SPDIF_MODE] = {
-+			.offset = 0x94, .size = 8, .activate = 6 },
- 	}
- };
- 
-@@ -977,6 +981,9 @@ static const struct scarlett2_config_set scarlett2_config_set_clarett = {
- 
- 		[SCARLETT2_CONFIG_STANDALONE_SWITCH] = {
- 			.offset = 0x8d, .size = 8, .activate = 6 },
-+
-+		[SCARLETT2_CONFIG_SPDIF_MODE] = {
-+			.offset = 0x9e, .size = 8, .activate = 4 },
- 	}
- };
- 
-@@ -1147,6 +1154,11 @@ struct scarlett2_device_info {
- 	/* has a Bluetooth module with volume control */
- 	u8 has_bluetooth;
- 
-+	/* S/PDIF Source/Digital I/O mode control */
-+	const char * const spdif_mode_control_name;
-+	const u8 *spdif_mode_values;
-+	const char * const *spdif_mode_texts;
-+
- 	/* remap analogue outputs; 18i8 Gen 3 has "line 3/4" connected
- 	 * internally to the analogue 7/8 outputs
- 	 */
-@@ -1255,6 +1267,7 @@ struct scarlett2_data {
- 	u8 standalone_switch;
- 	u8 power_status;
- 	u8 bluetooth_volume;
-+	u8 spdif_mode;
- 	u8 meter_level_map[SCARLETT2_MAX_METERS];
- 	struct snd_kcontrol *sync_ctl;
- 	struct snd_kcontrol *master_vol_ctl;
-@@ -1582,6 +1595,14 @@ static const struct scarlett2_device_info s8i6_gen3_info = {
- 	}
- };
- 
-+static const u8 scarlett2_spdif_s18i8_gen3_values[] = { 0, 2, 0xff };
-+
-+static const char * const scarlett2_spdif_s18i8_gen3_texts[] = {
-+	"RCA",
-+	"Optical",
-+	NULL
-+};
-+
- static const struct scarlett2_device_info s18i8_gen3_info = {
- 	.config_set = &scarlett2_config_set_gen3c,
- 	.has_speaker_switching = 1,
-@@ -1591,6 +1612,10 @@ static const struct scarlett2_device_info s18i8_gen3_info = {
- 	.phantom_count = 2,
- 	.inputs_per_phantom = 2,
- 
-+	.spdif_mode_control_name = "S/PDIF Mode Capture Enum",
-+	.spdif_mode_values = scarlett2_spdif_s18i8_gen3_values,
-+	.spdif_mode_texts = scarlett2_spdif_s18i8_gen3_texts,
-+
- 	.line_out_remap_enable = 1,
- 	.line_out_remap = { 0, 1, 6, 7, 2, 3, 4, 5 },
- 	.line_out_unmap = { 0, 1, 4, 5, 6, 7, 2, 3 },
-@@ -1661,6 +1686,15 @@ static const struct scarlett2_device_info s18i8_gen3_info = {
- 	}
- };
- 
-+static const u8 scarlett2_spdif_s18i20_gen3_values[] = { 0, 6, 1, 0xff };
-+
-+static const char * const scarlett2_spdif_s18i20_gen3_texts[] = {
-+	"S/PDIF RCA",
-+	"S/PDIF Optical",
-+	"Dual ADAT",
-+	NULL
-+};
-+
- static const struct scarlett2_device_info s18i20_gen3_info = {
- 	.config_set = &scarlett2_config_set_gen3c,
- 	.has_speaker_switching = 1,
-@@ -1671,6 +1705,10 @@ static const struct scarlett2_device_info s18i20_gen3_info = {
- 	.phantom_count = 2,
- 	.inputs_per_phantom = 4,
- 
-+	.spdif_mode_control_name = "Digital I/O Mode Capture Enum",
-+	.spdif_mode_values = scarlett2_spdif_s18i20_gen3_values,
-+	.spdif_mode_texts = scarlett2_spdif_s18i20_gen3_texts,
-+
- 	.line_out_descrs = {
- 		"Monitor 1 L",
- 		"Monitor 1 R",
-@@ -2019,11 +2057,24 @@ static const struct scarlett2_device_info clarett_2pre_info = {
- 	}
- };
- 
-+static const u8 scarlett2_spdif_clarett_values[] = { 0, 1, 2, 0xff };
-+
-+static const char * const scarlett2_spdif_clarett_texts[] = {
-+	"None",
-+	"Optical",
-+	"RCA",
-+	NULL
-+};
-+
- static const struct scarlett2_device_info clarett_4pre_info = {
- 	.config_set = &scarlett2_config_set_clarett,
- 	.level_input_count = 2,
- 	.air_input_count = 4,
- 
-+	.spdif_mode_control_name = "S/PDIF Source Capture Enum",
-+	.spdif_mode_values = scarlett2_spdif_clarett_values,
-+	.spdif_mode_texts = scarlett2_spdif_clarett_texts,
-+
- 	.line_out_descrs = {
- 		"Monitor L",
- 		"Monitor R",
-@@ -2076,6 +2127,10 @@ static const struct scarlett2_device_info clarett_8pre_info = {
- 	.level_input_count = 2,
- 	.air_input_count = 8,
- 
-+	.spdif_mode_control_name = "S/PDIF Source Capture Enum",
-+	.spdif_mode_values = scarlett2_spdif_clarett_values,
-+	.spdif_mode_texts = scarlett2_spdif_clarett_texts,
-+
- 	.line_out_descrs = {
- 		"Monitor L",
- 		"Monitor R",
-@@ -7885,6 +7940,121 @@ static int scarlett2_add_bluetooth_volume_ctl(
- 				     &private->bluetooth_volume_ctl);
- }
- 
-+/*** S/PDIF Mode Controls ***/
-+
-+static int scarlett2_update_spdif_mode(struct usb_mixer_interface *mixer)
-+{
-+	struct scarlett2_data *private = mixer->private_data;
-+	int err, i;
-+	u8 mode;
-+	const u8 *mode_values = private->info->spdif_mode_values;
-+
-+	if (!private->info->spdif_mode_control_name)
-+		return 0;
-+
-+	err = scarlett2_usb_get_config(mixer, SCARLETT2_CONFIG_SPDIF_MODE,
-+				       1, &mode);
-+	if (err < 0)
-+		return err;
-+
-+	private->spdif_mode = 0;
-+
-+	for (i = 0; *mode_values != 0xff; i++, mode_values++)
-+		if (*mode_values == mode) {
-+			private->spdif_mode = i;
-+			break;
-+		}
-+
-+	return 0;
-+}
-+
-+static int scarlett2_spdif_mode_ctl_info(struct snd_kcontrol *kctl,
-+					   struct snd_ctl_elem_info *uinfo)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct scarlett2_data *private = elem->head.mixer->private_data;
-+	const char * const *mode_texts = private->info->spdif_mode_texts;
-+	int count = 0;
-+
-+	while (*mode_texts++)
-+		count++;
-+
-+	return snd_ctl_enum_info(uinfo, 1, count,
-+				 private->info->spdif_mode_texts);
-+}
-+
-+static int scarlett2_spdif_mode_ctl_get(struct snd_kcontrol *kctl,
-+					  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct scarlett2_data *private = elem->head.mixer->private_data;
-+
-+	ucontrol->value.enumerated.item[0] = private->spdif_mode;
-+	return 0;
-+}
-+
-+static int scarlett2_spdif_mode_ctl_put(struct snd_kcontrol *kctl,
-+					  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct usb_mixer_interface *mixer = elem->head.mixer;
-+	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err = 0;
-+	int i;
-+
-+	mutex_lock(&private->data_mutex);
-+
-+	oval = private->spdif_mode;
-+	val = ucontrol->value.enumerated.item[0];
-+
-+	if (val < 0) {
-+		err = -EINVAL;
-+		goto unlock;
-+	}
-+
-+	for (i = 0; i <= val; i++)
-+		if (private->info->spdif_mode_values[i] == 0xff) {
-+			err = -EINVAL;
-+			goto unlock;
-+		}
-+
-+	if (oval == val)
-+		goto unlock;
-+
-+	private->spdif_mode = val;
-+
-+	err = scarlett2_usb_set_config(
-+		mixer, SCARLETT2_CONFIG_SPDIF_MODE, 0,
-+		private->info->spdif_mode_values[val]);
-+	if (!err)
-+		err = 1;
-+
-+unlock:
-+	mutex_unlock(&private->data_mutex);
-+	return err;
-+}
-+
-+static const struct snd_kcontrol_new scarlett2_spdif_mode_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.name = "",
-+	.info = scarlett2_spdif_mode_ctl_info,
-+	.get  = scarlett2_spdif_mode_ctl_get,
-+	.put  = scarlett2_spdif_mode_ctl_put,
-+};
-+
-+static int scarlett2_add_spdif_mode_ctl(struct usb_mixer_interface *mixer)
-+{
-+	struct scarlett2_data *private = mixer->private_data;
-+
-+	if (!private->info->spdif_mode_control_name)
-+		return 0;
-+
-+	return scarlett2_add_new_ctl(mixer, &scarlett2_spdif_mode_ctl,
-+				     0, 1,
-+				     private->info->spdif_mode_control_name,
-+				     NULL);
-+}
-+
- /*** Notification Handlers ***/
- 
- /* Notify on sync change */
-@@ -8797,6 +8967,10 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 	if (err < 0)
- 		return err;
- 
-+	err = scarlett2_update_spdif_mode(mixer);
-+	if (err < 0)
-+		return err;
-+
- 	err = scarlett2_update_mix(mixer);
- 	if (err < 0)
- 		return err;
-@@ -8929,6 +9103,11 @@ static int snd_scarlett2_controls_create(
- 	if (err < 0)
- 		return err;
- 
-+	/* Create the S/PDIF mode control */
-+	err = scarlett2_add_spdif_mode_ctl(mixer);
-+	if (err < 0)
-+		return err;
-+
- 	/* Set the access mode of controls disabled during
- 	 * autogain/phantom power switching.
- 	 */
--- 
-2.44.0
+Thanks,
+Conor.
 
+--BhobfpOXM1U4v7Qe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj9o/QAKCRB4tDGHoIJi
+0hihAQCXLcY+nll7YEK6/Ko2DGZ15ldjwMy8rI2F7y5rjxW/cwD9G3UV60KNhoRE
+ivzxxabhzsz8cc1NzjnzrR0RpqNhCgw=
+=I79W
+-----END PGP SIGNATURE-----
+
+--BhobfpOXM1U4v7Qe--
