@@ -1,162 +1,212 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B29352F9E
-	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 10:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD4114C591;
+	Mon, 13 May 2024 11:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715597349; cv=none; b=Hq6KvBy0Qrn7p+c5Z98WUqLmET2FkwrMaoCR+OwsKjTT9POoUeCGbfIsV+wYZoXK3GaYZcy07qbonz11QkSA1W23zaQ63FSgMnn/SZ6NFcD9y8tlFhZieZvevbEkH1en9UGjEXsln1D5xOhCJODOt4ePnpE0fg6rWm2NFQ4rAyY=
+	t=1715599141; cv=none; b=thsBUszX8D02joM94qRGZSS7s1t47PaGqBIbh6pYeagCDmx1He1QrrVXBIZ5Zb0BthgcSHfN4l5u1ZFF0V/LUOImZO7lgW1zQGDQIlRw92bvPhnm3+eyI1SWSqsyzuy5PSvBIeHLC2t2r3s27C8Gy+FUWKf2EI/GiqBAnFa0MPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715597349; c=relaxed/simple;
-	bh=ArdBfAV6CgILSl6tt8i6nruTXgHcYVpNc89v4Lydmpk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QIowyGvL7kPNKmrwmbwnwLwQF7cuBjpHGC6RRA5kehGZAV06fVjibTjTS7NBH9h1hn0Rm7qcDgT2rTJ/Z/+jFzLPBeWgU5HRH1FRNAMuzC32yonjMReju7lxW/AF0NfKqPPA2Bs0kCAaE9v4H0Tyxy7ENfyD5fHX+U5KNynXmlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cFExLWlP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lcs6G0vm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cFExLWlP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lcs6G0vm; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715599141; c=relaxed/simple;
+	bh=Hq107+KzbP8LLfL/8/jiKEoxV4uQvEu20/9t6yULhgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rpFssj9aaXuKAnHi16PV8OtPHf6FM/lD90jaui4Ywc+Z0WFXK9SkUq54Ca/ruwgjLX1hovdri9oMC242/tLJq7CN6uk5c4l1aRy8wSoyCcG7BwEAfrcu+4bqJYhI0b+c4+Hz/8B8dm8VaMhttWB6rdKbgDtyZSD5qoxA35pit+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXIz1x4z; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cFExLWlP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lcs6G0vm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cFExLWlP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lcs6G0vm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 55BD8343F4;
-	Mon, 13 May 2024 10:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715597340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
-	b=cFExLWlPpipTXwDvHKqi1FMXicypw2sqVioLCOh+l/lYICXW9DiCzctsxRGFBuYguMsQrA
-	B3Q0Q1hm1hwFYYMtHsvVC+I6bWusCYmsVwoN8393GH3lBNoIL+7aQN+qw/Hl7UwKdlYbwo
-	HnFOKFLVtTMhPBI7EwVSamXgwWRMvmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715597340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
-	b=Lcs6G0vmawDxxZpcB8fBDBnDMeCv74wqotqYh3xXyFaHJ3auWl7wOVsen1QJdvPHAtVJBI
-	j9gChcNgkvg7e/Ag==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cFExLWlP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lcs6G0vm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715597340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
-	b=cFExLWlPpipTXwDvHKqi1FMXicypw2sqVioLCOh+l/lYICXW9DiCzctsxRGFBuYguMsQrA
-	B3Q0Q1hm1hwFYYMtHsvVC+I6bWusCYmsVwoN8393GH3lBNoIL+7aQN+qw/Hl7UwKdlYbwo
-	HnFOKFLVtTMhPBI7EwVSamXgwWRMvmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715597340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
-	b=Lcs6G0vmawDxxZpcB8fBDBnDMeCv74wqotqYh3xXyFaHJ3auWl7wOVsen1QJdvPHAtVJBI
-	j9gChcNgkvg7e/Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36A2F13A52;
-	Mon, 13 May 2024 10:49:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eyomDBzwQWYFWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 May 2024 10:49:00 +0000
-Date: Mon, 13 May 2024 12:49:15 +0200
-Message-ID: <878r0egf6c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] ASoC: SOF: amd: Fix build error with built-in config
-In-Reply-To: <20240510073656.23491-1-tiwai@suse.de>
-References: <20240510073656.23491-1-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXIz1x4z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715599139; x=1747135139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Hq107+KzbP8LLfL/8/jiKEoxV4uQvEu20/9t6yULhgY=;
+  b=VXIz1x4zN7CGf108Oit/tDx6Ijfe5sFzd+w61hHKxRIV4S6fP0+YD+Sk
+   znr7WG2l1a9pZ2Ptr7AG+sOBXXvKvkVo29EKqxbU1QU5ktATAP0LTx5G+
+   Us+1fFuIfi6n0UBfQL+trogIwFfeyGfm5D+osC78wO9b4sE8N7GExDWJK
+   pQpAhfFnQQWF12EQiAPszWXoTBdgVtUyU65UP1RjAlZhdEySEwC9LE7nT
+   E/T9pb0mpRx1fjQUJUgyRw5HWFD+PDjNDEi/WQCRDsPzI6pteDLmZEwKO
+   q/05b6cKB28/mc3zbJqdmnZaFMjSs5PNpRVu9xKK8cKomEsnlf906pd/1
+   w==;
+X-CSE-ConnectionGUID: yrb9+5eXTO66xLQJviy6qw==
+X-CSE-MsgGUID: kBlGDfLdTtOA7uI8/s1QbQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11349939"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="11349939"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 04:18:58 -0700
+X-CSE-ConnectionGUID: Em0EdL3kS+ebItk6iQqS3Q==
+X-CSE-MsgGUID: 2h063URmRbasVo6zRP4CkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="61123834"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 04:18:53 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s6Thh-000000076l1-1gxQ;
+	Mon, 13 May 2024 14:18:49 +0300
+Date: Mon, 13 May 2024 14:18:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
+	davem@davemloft.net, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com, pandith.n@intel.com,
+	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v8 10/12] pps: generators: Add PPS Generator TIO Driver
+Message-ID: <ZkH3GP2b9WTz9W3W@smile.fi.intel.com>
+References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
+ <20240513103813.5666-11-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 55BD8343F4
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240513103813.5666-11-lakshmi.sowjanya.d@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, 10 May 2024 09:36:54 +0200,
-Takashi Iwai wrote:
+On Mon, May 13, 2024 at 04:08:11PM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > 
-> Makefile in AMD ACP driver has a line substitution with "=" instead of
-> "+="; this overrides the preexisting item, hence it broke the build
-> after the recent change to replace *-objs with *-y.
+> The Intel Timed IO PPS generator driver outputs a PPS signal using
+> dedicated hardware that is more accurate than software actuated PPS.
+> The Timed IO hardware generates output events using the ART timer.
+> The ART timer period varies based on platform type, but is less than 100
+> nanoseconds for all current platforms. Timed IO output accuracy is
+> within 1 ART period.
 > 
-> This patch corrects the line.
-> 
-> Fixes: 1a74b21ce59f ("ASoC: SOF: amd: Add Probe functionality support for amd platforms.")
-> Fixes: 9c2f5b6eb8b7 ("ASoC: SOF: Use *-y instead of *-objs in Makefile")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/r/20240510170305.03b67d9f@canb.auug.org.au
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> PPS output is enabled by writing '1' the 'enable' sysfs attribute. The
+> driver uses hrtimers to schedule a wake-up 10 ms before each event
+> (edge) target time. At wakeup, the driver converts the target time in
+> terms of CLOCK_REALTIME to ART trigger time and writes this to the Timed
+> IO hardware. The Timed IO hardware generates an event precisely at the
+> requested system time without software involvement.
 
-This seems overlooked, and since the latest ASoC code reached to my
-tree, I applied this fix now on my tree.
+...
+
+> +static ssize_t enable_store(struct device *dev, struct device_attribute *attr, const char *buf,
+> +			    size_t count)
+> +{
+> +	struct pps_tio *tio = dev_get_drvdata(dev);
+> +	bool enable;
+> +	int err;
+
+(1)
+
+> +	err = kstrtobool(buf, &enable);
+> +	if (err)
+> +		return err;
+> +
+> +	guard(spinlock_irqsave)(&tio->lock);
+> +	if (enable && !tio->enabled) {
+
+> +		if (!timekeeping_clocksource_has_base(CSID_X86_ART)) {
+> +			dev_err(tio->dev, "PPS cannot be started as clock is not related to ART");
+
+Why not simply dev_err(dev, ...)?
+
+> +			return -EPERM;
+> +		}
+
+I'm wondering if we can move this check to (1) above.
+Because currently it's a good question if we are able to stop PPS which was run
+by somebody else without this check done.
+
+I.o.w. this sounds too weird to me and reading the code doesn't give any hint
+if it's even possible. And if it is, are we supposed to touch that since it was
+definitely *not* us who ran it.
+
+> +		pps_tio_direction_output(tio);
+> +		hrtimer_start(&tio->timer, first_event(tio), HRTIMER_MODE_ABS);
+> +		tio->enabled = true;
+> +	} else if (!enable && tio->enabled) {
+> +		hrtimer_cancel(&tio->timer);
+> +		pps_tio_disable(tio);
+> +		tio->enabled = false;
+> +	}
+> +	return count;
+> +}
+
+...
+
+> +static int pps_tio_probe(struct platform_device *pdev)
+> +{
+
+	struct device *dev = &pdev->dev;
+
+> +	struct pps_tio *tio;
+> +
+> +	if (!(cpu_feature_enabled(X86_FEATURE_TSC_KNOWN_FREQ) &&
+> +	      cpu_feature_enabled(X86_FEATURE_ART))) {
+> +		dev_warn(&pdev->dev, "TSC/ART is not enabled");
+
+		dev_warn(dev, "TSC/ART is not enabled");
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	tio = devm_kzalloc(&pdev->dev, sizeof(*tio), GFP_KERNEL);
+
+	tio = devm_kzalloc(dev, sizeof(*tio), GFP_KERNEL);
 
 
-Takashi
+> +	if (!tio)
+> +		return -ENOMEM;
+> +
+> +	tio->dev = &pdev->dev;
 
-> ---
->  sound/soc/sof/amd/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sof/amd/Makefile b/sound/soc/sof/amd/Makefile
-> index 380a9769c321..d1424c09172d 100644
-> --- a/sound/soc/sof/amd/Makefile
-> +++ b/sound/soc/sof/amd/Makefile
-> @@ -5,7 +5,7 @@
->  # Copyright(c) 2021, 2023 Advanced Micro Devices, Inc. All rights reserved.
->  
->  snd-sof-amd-acp-y := acp.o acp-loader.o acp-ipc.o acp-pcm.o acp-stream.o acp-trace.o acp-common.o
-> -snd-sof-amd-acp-$(CONFIG_SND_SOC_SOF_ACP_PROBES) = acp-probes.o
-> +snd-sof-amd-acp-$(CONFIG_SND_SOC_SOF_ACP_PROBES) += acp-probes.o
->  snd-sof-amd-renoir-y := pci-rn.o renoir.o
->  snd-sof-amd-rembrandt-y := pci-rmb.o rembrandt.o
->  snd-sof-amd-vangogh-y := pci-vangogh.o vangogh.o
-> -- 
-> 2.43.0
-> 
+	tio->dev = dev;
+
+> +	tio->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(tio->base))
+> +		return PTR_ERR(tio->base);
+
+> +	pps_tio_disable(tio);
+
+This...
+
+> +	hrtimer_init(&tio->timer, CLOCK_REALTIME, HRTIMER_MODE_ABS);
+> +	tio->timer.function = hrtimer_callback;
+> +	spin_lock_init(&tio->lock);
+
+> +	tio->enabled = false;
+
+...and this should go together, which makes me look at the enabled flag over
+the code and it seems there are a few places where you missed to sync it with
+the reality.
+
+I would think of something like this:
+
+	pps_tio_direction_output() ==> true
+	pps_tio_disable(tio) ==> false
+
+where "==> X" means assignment of enabled flag.
+
+And perhaps this:
+
+	tio->enabled = pps_generate_next_pulse(tio, expires + SAFE_TIME_NS);
+	if (!tio->enabled)
+		...
+
+But the above is just thinking out loudly, you may find the better approach(es).
+
+> +	platform_set_drvdata(pdev, tio);
+> +
+> +	return 0;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
