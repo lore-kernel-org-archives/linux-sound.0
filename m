@@ -1,131 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EB42E827
-	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 06:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1D168DA
+	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 07:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715582402; cv=none; b=HiSFJj/vGYKd8Qj0rxEqrZgAcxw970IjSaRtMZvIkX4RxY7MhusbejytYyCobdlvYyGxEUDxJ+hzNgNO4aiGyHOkOF82qqWSpmnFbpY0D5xrVDrYlnW6iljiabTHHuSATaMvabRPD+A9dPohfRzAz+XwfokGMyqXorskmMDE9+8=
+	t=1715586054; cv=none; b=oWCX+vflu0LLrpFpql+fmhrckaR8x14evtGTw77VbSNtGzj3MnkZ5bWeMeDzNqY+DtuWi8eSDcNCwPy5VWRVjqn7HpnnQiv2mjCoJVr4uH0Vq4qoGF/pSuKv1uduN8tq2ScIbxivpsGUwfu6FOQdoASEK6GkefFEBiEloyAm74U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715582402; c=relaxed/simple;
-	bh=M2sph715jyASjPA83XomoOxuHz7ozA/xPs2Z5v2dDBA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ERvykjmJ5vYTOXsLK6XZeXEpIlHHFSVs7xFjghk+uP2W75ENM1RhENZca1ZxUxOKgMrOailmv0krA/V/tSC8sPBci4Y1je6eywgkhCD3AR4k1yHiKYGaUy65etNoEhSlPKkWSZHmrkeTlRTXfm0dQBCcdezbt3rJ6gnG+a36QxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFEtdBG0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wNLAnlpV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFEtdBG0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wNLAnlpV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715586054; c=relaxed/simple;
+	bh=bqeLw0EURFczvr0ROK0JvPzdR2l1fwgPdWTPSS0ztK0=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=tvTucu/EuQSVgXd2eRUbXlodwR+6NzIh25kPFX6UFlNp+jmB3BesLfWxIb7kVw6thDD23JB00rRmJiGaBCBg4nwtumIcJgWSPlifFBJJfmImqHqMnyP0Cgf0Y8aOChumWuqUHYxuYdfQvnPxCZnmh3yQaL5sXTX41kWmDiqVizM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=df+sE8f4; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFEtdBG0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wNLAnlpV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFEtdBG0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wNLAnlpV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A3FF3E71D;
-	Mon, 13 May 2024 06:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715582399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rxEDdooV+tA/dzcD8dfkOroVz4KvT51q+yrRvsh4Wgw=;
-	b=fFEtdBG02RiNnhn79mo/3dZR8mzoTSJAO97larjsM53R5gxu4JbKXXHT7NZPwY5K2a55Wx
-	wdE6Pmxge187kbbk4Xxj/N/QAWMWNyzVaOrtd6CMQ2opEgA+DkDeYFnN3g2QdZD1uWFB8X
-	dN0m2tkK+iEEZJ8NeWQA4OXpcuE4cNQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715582399;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rxEDdooV+tA/dzcD8dfkOroVz4KvT51q+yrRvsh4Wgw=;
-	b=wNLAnlpVizVc2Zqx+7guGIIJjXa7zMQpcmkoHx1JGM1PTQhegWBFJrxLG+Ef3JA4//R3Id
-	/GnPd6tS4eYUoPCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715582399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rxEDdooV+tA/dzcD8dfkOroVz4KvT51q+yrRvsh4Wgw=;
-	b=fFEtdBG02RiNnhn79mo/3dZR8mzoTSJAO97larjsM53R5gxu4JbKXXHT7NZPwY5K2a55Wx
-	wdE6Pmxge187kbbk4Xxj/N/QAWMWNyzVaOrtd6CMQ2opEgA+DkDeYFnN3g2QdZD1uWFB8X
-	dN0m2tkK+iEEZJ8NeWQA4OXpcuE4cNQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715582399;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rxEDdooV+tA/dzcD8dfkOroVz4KvT51q+yrRvsh4Wgw=;
-	b=wNLAnlpVizVc2Zqx+7guGIIJjXa7zMQpcmkoHx1JGM1PTQhegWBFJrxLG+Ef3JA4//R3Id
-	/GnPd6tS4eYUoPCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6732E13A52;
-	Mon, 13 May 2024 06:39:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AVeIF7+1QWYNDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 May 2024 06:39:59 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda/realtek: Drop doubly quirk entry for 103c:8a2e
-Date: Mon, 13 May 2024 08:40:08 +0200
-Message-ID: <20240513064010.17546-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="df+sE8f4"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42011507a54so7406215e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 00:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715586050; x=1716190850; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=jxDvLqtM5HD3XxV36Sf1rEr7tbwcAskZhewDbNVJWu8=;
+        b=df+sE8f4H0zdKhOa9DvqspDLFplsdMmS826rczi2xEfYB7uFg+kGG4j/7udfLmMvZ8
+         tg+pqCoy2dFIUpPR/XP3d8plUC/VQVzVcuAN37axy0wIc6vkyph1zejFEllr6epzOMTr
+         Rb0f073NYFh4UGrdbPIrMmwKRh+qw6huPc3UpxKyJlPVmkUYnxqbZIH3KqmbN1AOxTQh
+         lawfozNLqJWX/HwOF6oyEQlxLZcO7tWk/A3/TywnXyxXMLA8QMNmzWujuoTYUfB8NlbR
+         uht16O/e1wv/hkzdRZklTN017eerA6aWL2Sthlfrmx1Mjd1U6oanmexN+QyXcQI1uhX0
+         DTNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715586050; x=1716190850;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jxDvLqtM5HD3XxV36Sf1rEr7tbwcAskZhewDbNVJWu8=;
+        b=AGsPXhF9FVBH/Vl5YS5taSOV7nvOYHGljSXx2l8LJDlbytJFVgmgSATGA9WvL5WW09
+         eGqKhv698udlwKDulGUnXRvKLyYI5RZvVdwzIPiNPhvlh6jYLxFgCuIkQDXcjBxeqUcB
+         P57fzRw5S5QMwFjBApeyeSudYaXVD4eEf/qh/4b40ljRQDJEBpDstRNek/WUToc3J/EF
+         zF6bH5jpkvGlKyCttkoZrQ2rHmT1WdwRXL6WHMz1YongYr86J6f0dnr+Au661pJT26nw
+         GENULmLOVUSndx+qnzqZE9iTAfy/M99VLETa6EZy+CU/TDpMoQ1c+mdwYz6V3KK9FYpG
+         UKEA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgVT3pXqt34tNMxfuuM/pyMqtPSPj8zjA77eFbPX5B8HobAeKtBK813RM+SEavwKDPHP5QYsL30M/X2u+sPkuf7ch96ueKPggGZRI=
+X-Gm-Message-State: AOJu0YzdvgEFU5VOH+RVva7CG5AaP1NCJKAsLDkT/yih19RsUcDN658Y
+	Npf0/ACRagYaZFOrxNkILLrnxoaqydtpoL9zHMUeijDeFI4POE44aUMKv/XmybQ=
+X-Google-Smtp-Source: AGHT+IGyShzaHstWPtHJJ6LRI/e/nWyJHEwUq6cM85MqUwzsSvsHegJxxu5ykS/QCDfvcEJlaBd6rQ==
+X-Received: by 2002:a05:600c:3112:b0:41b:e55c:8dc1 with SMTP id 5b1f17b1804b1-41fbd1b2e40mr93356095e9.20.1715586050311;
+        Mon, 13 May 2024 00:40:50 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:5b77:3e5a:a808:339a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b896a1dsm10367679f8f.32.2024.05.13.00.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 May 2024 00:40:49 -0700 (PDT)
+References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
+ <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+ <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
+ <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+ <1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
+ <878r0ir1qw.wl-kuninori.morimoto.gx@renesas.com>
+ <1jwmnzz5k3.fsf@starbuckisacylon.baylibre.com>
+ <87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
+ =?utf-8?B?a2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+     Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jiawei Wang <me@jwang.link>, Jonathan  Corbet <corbet@lwn.net>, Kai
+    Vehmanen <kai.vehmanen@linux.intel.com>, Kevin Hilman
+ <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>, Matthias
+    Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
+Date: Mon, 13 May 2024 09:36:03 +0200
+In-reply-to: <87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1jseymyxa6.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.66 / 50.00];
-	BAYES_HAM(-2.86)[99.42%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.66
-X-Spam-Flag: NO
+Content-Type: text/plain
 
-There are two quirk entries for SSID 103c:8a2e.  Drop the latter one
-that isn't applied in anyway.
 
-As both point to the same quirk action, there is no actual behavior
-change.
+On Mon 13 May 2024 at 00:11, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Fixes: aa8e3ef4fe53 ("ALSA: hda/realtek: Add quirks for various HP ENVY models")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/patch_realtek.c | 1 -
- 1 file changed, 1 deletion(-)
+> Hi Jerome
+>
+> Thank you for your feedback and analysis !
+>
+>>  - 1st problem: I see that following your removal of
+>>    snd_soc_dai_link_set_capabilities(), the dpcm_playback/capture flags
+>>    are no longer properly initialised in the amlogic card drivers.
+>>    That will need fixing.
+> (snip)
+>> This codec is not meant to have capture channels.
+>> I think DT description and the card driver settings (before the removal of
+>> snd_soc_dai_link_set_capabilities()) are correct.
+>
+> OK, I see. Thank you for your analysis.
+>
+> The problem was my patch checks CPU direction vs Codec direction only,
+> thus, it will indicates unexpected warnings, like this case.
+>
+> Thank you for finding it, I hope v2 patch should be OK for you.
+>
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index b29739bd330b..807634acbdc0 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10103,7 +10103,6 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8a2c, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a2d, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a2e, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
--	SND_PCI_QUIRK(0x103c, 0x8a2e, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a30, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a31, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41_I2C_4),
+I'll check
+
+>> IMO, those check become too restrictive. We are adding a lot of code I'm
+>> not sure I understand what we stand by going so far in the
+>> consistency checks.
+>> 
+>> Initially those dpcm_playback/capture flag could be used to just
+>> forcefully disable a link direction, regardless of the CPUs or codecs present
+>> on the link. It was just another setting and it was not required to be consistent
+>> with anything. It just declared whether the direction was allowed on the
+>> link, or not.
+>> 
+>> It changed this commit, and the flags suddenly needed to be consistent
+>> with whatever was on link:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc?h=v6.9-rc7&id=b73287f0b074
+>> 
+>> I complained back then and I still don't think this change was good.
+>> 
+>> If the flags needs to consistent with what is on the link, and we have
+>> the ability to check it, why let card drivers set it and then complain
+>> about it in ASoC checks ? Why not deal with it in the framework directly ?
+>> 
+>> I think the simplest solution would to just go back to the initial
+>> meaning of these flags which was just the card driver declaring the
+>> direction allowed/disallowed on a link. Then ASoC can mix that
+>> information with whatever it finds with DAI drivers and figure out what
+>> is actually possible.
+>> 
+>> It would give a clear and separate semantic meaning to those flags
+>> instead something redundant with the DAI driver info.
+>> 
+>> What we have currently is not straight forward to set and check.
+>> It makes the code unnecessarily complicated and difficult to maintain. I
+>> think the difficulties with this patchset are a good illustration of
+>> that, unfortunately.
+>
+> By this patch-set, it will be handled automatically via CPU and Codec
+> driver settings, Card driver will no longer need to consider about
+> direction (like non-DPCM), and I hope people (including you) will be
+> happy about that.
+>
+
+If it makes things simpler, I am happy for sure :)
+
+However, I'm a bit confused. If it is handled automatically by the CPUs
+and Codecs settings, does it mean dpcm_playback/capture flags are
+no-ops from now on ?
+
+Should I update my card drivers to ditch those flags completely ?
+
+May I still disable a direction on a link from the card driver, like in
+the case I described above, when a TDM link has no slots for a direction ?
+
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
+
+
 -- 
-2.43.0
-
+Jerome
