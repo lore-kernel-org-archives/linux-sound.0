@@ -1,364 +1,104 @@
-Received: from msa.smtpout.orange.fr (smtp-75.smtpout.orange.fr [80.12.242.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93B32869B;
-	Mon, 13 May 2024 17:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0283BBC9;
+	Mon, 13 May 2024 18:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715623141; cv=none; b=j4AbavniDM29lERfTGlLwlTeuN+LtrEr1IVR07BitZ1tY7sh5IolSHXEMRgB9qRb9vaYUTrk9UE69J5QsB6DUCQRUkzgWlbFOiSUXV55vB8AGE80Oazt1vLpWFVJnCFxm0MFoIlxYrj6t9ea7tOkDPKFqmDjTnCU8KEGu3YqFSM=
+	t=1715625847; cv=none; b=cqXhn9bzjNfXC1TLHLx8VBicyaXZxDoABgq/tWW21RRtUc3SfXc5rTjlOqC67a9HaZllZ8tCGYGF4TaaAVzDKt3ymYMfeLqQeQxymOAvVRfPM6/E0vKzz6CTomAOwiWlYtpXTV5Nbr3kJd+rmkCEl5ptItEreLpLgXFevBD64oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715623141; c=relaxed/simple;
-	bh=q5hww5GhsmvprzpLbR7HV5qQNhwkrG68qlcXdkPRdSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bP4ay2zlPzO3N8NKbAcl7S/tyiUFIpk+KfBq+dS/5CNNrRStwvaB1zUCPJSoneDWCNaQxbQ7A2tzFSv96ydq1Dq+dd//i/NEdKFZlkxdynYwPo4wUeQC2OceeS+Y7CT++v+mD6YiwpiZap9onJ6wNFkJK0YMe1PAlDsR+URPelY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=qzusDY5I; arc=none smtp.client-ip=80.12.242.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1715625847; c=relaxed/simple;
+	bh=WcXjsnsTDPkhfmYPfLYLMxFC0JdNHdWOZt2KFyWC9kk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pH75wlvAhrlkbbF6TSenMg9Zt4i34dfXrd4IYy7WM9LW2L2/p43xb3K93/0z0ocwUJS8rodUbCy2+4neEmZoRyuyurbTgWA0dL2FoHkKYo7CxFRUV3ndpYyPVBuI/YXWxrXr7bPJK2XAmJjmvsC2mcV0O5lMYL/0dEqEpEDvAMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YA8zQk03; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="qzusDY5I"
-Received: from localhost.localdomain ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id 6Zvis3hD1gkzm6ZvisNB8K; Mon, 13 May 2024 19:57:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1715623065;
-	bh=DujcM4/ChoVA1TrvQtQJ3CaTI31ZfozwSJAECf1f7VA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=qzusDY5IrHGWyoK7tsg2ddHhTCX+UfzFWRX7OvRtx+1iCltUXIqgEuMUlox6xfdvC
-	 Eb6M4WBA51EFlrF02fZLUVLTIt9x3lvSkqcLEGVheOoNQOyTX4PKREbfXlTmKRprie
-	 VlnZOESaLZVwxph0hfeYc51QPDXyZrqlVwqaIHkesmLeM8ndWLhFi4L0r/B3c+7nO+
-	 xRNhbIndXqTGHsHThgHZGxMO2HZryDo2rhin8AGFQe5iqoH2y+0XNkOIpBjGr0DcuS
-	 LDfDwTKY67+kTJh/CWXmJ68qQ9zKPwp7WgX9JURKIlbXjmRw7vBkCLrjioR4Oc4ZPR
-	 pw6tnpOgcp3vQ==
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 13 May 2024 19:57:45 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2] ASoC: intel: Constify struct snd_soc_ops
-Date: Mon, 13 May 2024 19:57:16 +0200
-Message-ID: <2f0613bf4c6018569cdaac876d0589e49cf38a80.1715622793.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YA8zQk03"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48BBDC113CC;
+	Mon, 13 May 2024 18:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715625846;
+	bh=WcXjsnsTDPkhfmYPfLYLMxFC0JdNHdWOZt2KFyWC9kk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YA8zQk031Al6OQfS2Vq+vf/7SorSXU5LMglbd6lzj7zW/7dwN45Hc7NaKzGjeT5wB
+	 P4cdgbH9iQjsC+yfepXVqRkcBE8EZjw/aYBek/nDzgI6FlPfXqcpSxMshtVGn4c/ot
+	 bK1yLYMzxLfbfoYIJnA3t7gpg7imlEVPHUe29O024Afi4WkrRpnffyilbhIDwQp1lq
+	 RJSr6zKPk1JEEUo3lXeyKxIZ6uKi7h+a6PAimWRUhVjcrt1xL8bCoPMmEhwBuYQg18
+	 t7uz+APoMQrtBTt2FengjvGp/TQ6gi2c1U3zDfFkVQ6ewmSg/qQagFoaScFJROJB9C
+	 OICCOjZhgiUsg==
+Date: Mon, 13 May 2024 13:44:04 -0500
+From: Rob Herring <robh@kernel.org>
+To: matteomartelli3@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: es8311: dt-bindings: add everest es8311 codec
+Message-ID: <20240513184404.GA2805391-robh@kernel.org>
+References: <20240510131238.1319333-1-matteomartelli3@gmail.com>
+ <20240510131238.1319333-2-matteomartelli3@gmail.com>
+ <91fa1c1f-22ea-4f4a-9d87-a919ddf118cd@kernel.org>
+ <4072123.0gxhY3eTYf@njaxe>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4072123.0gxhY3eTYf@njaxe>
 
-Constifying "struct snd_soc_ops" moves some data to a read-only section, so
-increase overall security.
+On Mon, May 13, 2024 at 05:38:16PM +0200, matteomartelli3@gmail.com wrote:
+> On Monday, 13 May 2024 10.53.57 CEST Krzysztof Kozlowski wrote:
+> > On 10/05/2024 15:00, Matteo Martelli wrote:
+> > > Add DT bindings documentation for the Everest-semi ES8311 codec.
+> > > 
+> > > Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
+> > > interface and I2C control.
+> > > 
+> > > Signed-off-by: Matteo Martelli <matteomartelli3@gmail.com>
+> > > ---
+> > >  .../bindings/sound/everest,es8311.yaml        | 52 +++++++++++++++++++
+> > >  1 file changed, 52 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/sound/everest,es8311.yaml b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > new file mode 100644
+> > > index 000000000000..54fb58b9ab58
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > @@ -0,0 +1,52 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/sound/everest,es8311.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Everest ES8311 audio CODEC
+> > 
+> > This looks exactly like es8316, except of later added port. Are you sure
+> > you are not planning to add port later, which would make both schemas
+> > identical?
+> 
+> I did not pay enough attention to audio-graph-port property which is in
+> fact supported and could be added as well. Thus the es8311.yaml would be
+> identical to es8316.yaml. My guess is that I should just add the
+> "everest,es8311" compatible string to the existing es8316.yaml even if the
+> two drivers are separate (like for instance mediatek,mt8186-clock.yaml). Is
+> this correct?
 
-This structure is also part of scripts/const_structs.checkpatch.
+Yes.
 
-As an example, on a x86_64, with allmodconfig:
-Before:
-   text	   data	    bss	    dec	    hex	filename
-   6315	   3696	      0	  10011	   271b	sound/soc/intel/boards/ehl_rt5660.o
+> If that's the case:
+> * should the evereset,es8316.yaml file be renamed to evereset,es831x.yaml?
 
-After:
-   text	   data	    bss	    dec	    hex	filename
-   6379	   3648	      0	  10027	   272b	sound/soc/intel/boards/ehl_rt5660.o
+No.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
+> * should I also add myself to the maintainers list of that schema?
 
-I hope that it can be applied with this single patch because all files are
-in sound/soc/intel/boards/
+That's up to you. Do you want to be CCed on future changes to it?
 
-Changes in v2:
-  - Remove changes in sound/soc/intel/boards/sof_maxim_common.[ch].
-    An even better solution has been applied in commit 2bb765f05391
-    ("ASoC: Intel: maxim-common: change max98373 data to static")
-  - synch with -next-20240513
-
-v1: https://lore.kernel.org/all/242aef53b5b9533ae4cca78148622f5fe752b7ee.1715452901.git.christophe.jaillet@wanadoo.fr/
----
- sound/soc/intel/boards/bdw-rt5650.c                 | 2 +-
- sound/soc/intel/boards/ehl_rt5660.c                 | 2 +-
- sound/soc/intel/boards/kbl_da7219_max98357a.c       | 4 ++--
- sound/soc/intel/boards/kbl_da7219_max98927.c        | 6 +++---
- sound/soc/intel/boards/kbl_rt5660.c                 | 2 +-
- sound/soc/intel/boards/kbl_rt5663_max98927.c        | 8 ++++----
- sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c | 6 +++---
- sound/soc/intel/boards/sof_es8336.c                 | 2 +-
- sound/soc/intel/boards/sof_nau8825.c                | 2 +-
- sound/soc/intel/boards/sof_realtek_common.c         | 2 +-
- sound/soc/intel/boards/sof_rt5682.c                 | 2 +-
- sound/soc/intel/boards/sof_sdw_common.h             | 2 +-
- sound/soc/intel/boards/sof_sdw_rt_amp.c             | 2 +-
- sound/soc/intel/boards/sof_wm8804.c                 | 2 +-
- 14 files changed, 22 insertions(+), 22 deletions(-)
-
-diff --git a/sound/soc/intel/boards/bdw-rt5650.c b/sound/soc/intel/boards/bdw-rt5650.c
-index 3ae26f21458f..3c7cee03a02e 100644
---- a/sound/soc/intel/boards/bdw-rt5650.c
-+++ b/sound/soc/intel/boards/bdw-rt5650.c
-@@ -131,7 +131,7 @@ static int bdw_rt5650_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops bdw_rt5650_ops = {
-+static const struct snd_soc_ops bdw_rt5650_ops = {
- 	.hw_params = bdw_rt5650_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/ehl_rt5660.c b/sound/soc/intel/boards/ehl_rt5660.c
-index 686e60321224..26289e8fdd87 100644
---- a/sound/soc/intel/boards/ehl_rt5660.c
-+++ b/sound/soc/intel/boards/ehl_rt5660.c
-@@ -132,7 +132,7 @@ static int rt5660_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops rt5660_ops = {
-+static const struct snd_soc_ops rt5660_ops = {
- 	.hw_params = rt5660_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/kbl_da7219_max98357a.c b/sound/soc/intel/boards/kbl_da7219_max98357a.c
-index 9dbc15f9d1c9..154f6a74ed15 100644
---- a/sound/soc/intel/boards/kbl_da7219_max98357a.c
-+++ b/sound/soc/intel/boards/kbl_da7219_max98357a.c
-@@ -354,7 +354,7 @@ static int kabylake_dmic_startup(struct snd_pcm_substream *substream)
- 			SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
- }
- 
--static struct snd_soc_ops kabylake_dmic_ops = {
-+static const struct snd_soc_ops kabylake_dmic_ops = {
- 	.startup = kabylake_dmic_startup,
- };
- 
-@@ -388,7 +388,7 @@ static int kabylake_refcap_startup(struct snd_pcm_substream *substream)
- 					&constraints_16000);
- }
- 
--static struct snd_soc_ops skylake_refcap_ops = {
-+static const struct snd_soc_ops skylake_refcap_ops = {
- 	.startup = kabylake_refcap_startup,
- };
- 
-diff --git a/sound/soc/intel/boards/kbl_da7219_max98927.c b/sound/soc/intel/boards/kbl_da7219_max98927.c
-index e662da5af83b..02ed77a07e23 100644
---- a/sound/soc/intel/boards/kbl_da7219_max98927.c
-+++ b/sound/soc/intel/boards/kbl_da7219_max98927.c
-@@ -288,7 +288,7 @@ static int kabylake_ssp0_trigger(struct snd_pcm_substream *substream, int cmd)
- 	return 0;
- }
- 
--static struct snd_soc_ops kabylake_ssp0_ops = {
-+static const struct snd_soc_ops kabylake_ssp0_ops = {
- 	.hw_params = kabylake_ssp0_hw_params,
- 	.trigger = kabylake_ssp0_trigger,
- };
-@@ -535,7 +535,7 @@ static int kabylake_dmic_startup(struct snd_pcm_substream *substream)
- 			SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
- }
- 
--static struct snd_soc_ops kabylake_dmic_ops = {
-+static const struct snd_soc_ops kabylake_dmic_ops = {
- 	.startup = kabylake_dmic_startup,
- };
- 
-@@ -569,7 +569,7 @@ static int kabylake_refcap_startup(struct snd_pcm_substream *substream)
- }
- 
- 
--static struct snd_soc_ops skylake_refcap_ops = {
-+static const struct snd_soc_ops skylake_refcap_ops = {
- 	.startup = kabylake_refcap_startup,
- };
- 
-diff --git a/sound/soc/intel/boards/kbl_rt5660.c b/sound/soc/intel/boards/kbl_rt5660.c
-index 894d127c482a..66885cb36f24 100644
---- a/sound/soc/intel/boards/kbl_rt5660.c
-+++ b/sound/soc/intel/boards/kbl_rt5660.c
-@@ -277,7 +277,7 @@ static int kabylake_rt5660_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops kabylake_rt5660_ops = {
-+static const struct snd_soc_ops kabylake_rt5660_ops = {
- 	.hw_params = kabylake_rt5660_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/kbl_rt5663_max98927.c b/sound/soc/intel/boards/kbl_rt5663_max98927.c
-index e16c42e81eca..9da89436a917 100644
---- a/sound/soc/intel/boards/kbl_rt5663_max98927.c
-+++ b/sound/soc/intel/boards/kbl_rt5663_max98927.c
-@@ -489,7 +489,7 @@ static int kabylake_rt5663_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops kabylake_rt5663_ops = {
-+static const struct snd_soc_ops kabylake_rt5663_ops = {
- 	.hw_params = kabylake_rt5663_hw_params,
- };
- 
-@@ -539,7 +539,7 @@ static int kabylake_ssp0_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops kabylake_ssp0_ops = {
-+static const struct snd_soc_ops kabylake_ssp0_ops = {
- 	.hw_params = kabylake_ssp0_hw_params,
- };
- 
-@@ -575,7 +575,7 @@ static int kabylake_dmic_startup(struct snd_pcm_substream *substream)
- 			SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
- }
- 
--static struct snd_soc_ops kabylake_dmic_ops = {
-+static const struct snd_soc_ops kabylake_dmic_ops = {
- 	.startup = kabylake_dmic_startup,
- };
- 
-@@ -609,7 +609,7 @@ static int kabylake_refcap_startup(struct snd_pcm_substream *substream)
- 				&constraints_16000);
- }
- 
--static struct snd_soc_ops skylake_refcap_ops = {
-+static const struct snd_soc_ops skylake_refcap_ops = {
- 	.startup = kabylake_refcap_startup,
- };
- 
-diff --git a/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c b/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-index a9501cd106ff..a32ce8f972f3 100644
---- a/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-+++ b/sound/soc/intel/boards/kbl_rt5663_rt5514_max98927.c
-@@ -424,7 +424,7 @@ static int kabylake_rt5663_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops kabylake_rt5663_ops = {
-+static const struct snd_soc_ops kabylake_rt5663_ops = {
- 	.hw_params = kabylake_rt5663_hw_params,
- };
- 
-@@ -469,7 +469,7 @@ static int kabylake_ssp0_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops kabylake_ssp0_ops = {
-+static const struct snd_soc_ops kabylake_ssp0_ops = {
- 	.hw_params = kabylake_ssp0_hw_params,
- };
- 
-@@ -508,7 +508,7 @@ static int kabylake_dmic_startup(struct snd_pcm_substream *substream)
- 			SNDRV_PCM_HW_PARAM_RATE, &constraints_rates);
- }
- 
--static struct snd_soc_ops kabylake_dmic_ops = {
-+static const struct snd_soc_ops kabylake_dmic_ops = {
- 	.startup = kabylake_dmic_startup,
- };
- 
-diff --git a/sound/soc/intel/boards/sof_es8336.c b/sound/soc/intel/boards/sof_es8336.c
-index c1fcc156a575..2a88efaa6d26 100644
---- a/sound/soc/intel/boards/sof_es8336.c
-+++ b/sound/soc/intel/boards/sof_es8336.c
-@@ -371,7 +371,7 @@ static int sof_es8336_hw_params(struct snd_pcm_substream *substream,
- }
- 
- /* machine stream operations */
--static struct snd_soc_ops sof_es8336_ops = {
-+static const struct snd_soc_ops sof_es8336_ops = {
- 	.hw_params = sof_es8336_hw_params,
- 	.trigger = sof_8336_trigger,
- };
-diff --git a/sound/soc/intel/boards/sof_nau8825.c b/sound/soc/intel/boards/sof_nau8825.c
-index c08b4eef0bcb..bfe17acbc161 100644
---- a/sound/soc/intel/boards/sof_nau8825.c
-+++ b/sound/soc/intel/boards/sof_nau8825.c
-@@ -115,7 +115,7 @@ static int sof_nau8825_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops sof_nau8825_ops = {
-+static const struct snd_soc_ops sof_nau8825_ops = {
- 	.hw_params = sof_nau8825_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/sof_realtek_common.c b/sound/soc/intel/boards/sof_realtek_common.c
-index dda346e0f737..f52e25083905 100644
---- a/sound/soc/intel/boards/sof_realtek_common.c
-+++ b/sound/soc/intel/boards/sof_realtek_common.c
-@@ -452,7 +452,7 @@ static int rt1015_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops rt1015_ops = {
-+static const struct snd_soc_ops rt1015_ops = {
- 	.hw_params = rt1015_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/sof_rt5682.c b/sound/soc/intel/boards/sof_rt5682.c
-index 6fc6eb0c5172..23a40b913290 100644
---- a/sound/soc/intel/boards/sof_rt5682.c
-+++ b/sound/soc/intel/boards/sof_rt5682.c
-@@ -397,7 +397,7 @@ static int sof_rt5682_hw_params(struct snd_pcm_substream *substream,
- 	return ret;
- }
- 
--static struct snd_soc_ops sof_rt5682_ops = {
-+static const struct snd_soc_ops sof_rt5682_ops = {
- 	.hw_params = sof_rt5682_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
-index 3dfba6f6b95d..7dedac918065 100644
---- a/sound/soc/intel/boards/sof_sdw_common.h
-+++ b/sound/soc/intel/boards/sof_sdw_common.h
-@@ -169,7 +169,7 @@ int sof_sdw_rt_sdca_jack_init(struct snd_soc_card *card,
- int sof_sdw_rt_sdca_jack_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
- 
- /* RT1308 I2S support */
--extern struct snd_soc_ops sof_sdw_rt1308_i2s_ops;
-+extern const struct snd_soc_ops sof_sdw_rt1308_i2s_ops;
- 
- /* generic amp support */
- int sof_sdw_rt_amp_init(struct snd_soc_card *card,
-diff --git a/sound/soc/intel/boards/sof_sdw_rt_amp.c b/sound/soc/intel/boards/sof_sdw_rt_amp.c
-index 797ea9ffa77a..d1c0f91ce589 100644
---- a/sound/soc/intel/boards/sof_sdw_rt_amp.c
-+++ b/sound/soc/intel/boards/sof_sdw_rt_amp.c
-@@ -233,7 +233,7 @@ static int rt1308_i2s_hw_params(struct snd_pcm_substream *substream,
- }
- 
- /* machine stream operations */
--struct snd_soc_ops sof_sdw_rt1308_i2s_ops = {
-+const struct snd_soc_ops sof_sdw_rt1308_i2s_ops = {
- 	.hw_params = rt1308_i2s_hw_params,
- };
- 
-diff --git a/sound/soc/intel/boards/sof_wm8804.c b/sound/soc/intel/boards/sof_wm8804.c
-index 4cb0d463bf40..b2d02cc92a6a 100644
---- a/sound/soc/intel/boards/sof_wm8804.c
-+++ b/sound/soc/intel/boards/sof_wm8804.c
-@@ -148,7 +148,7 @@ static int sof_wm8804_hw_params(struct snd_pcm_substream *substream,
- }
- 
- /* machine stream operations */
--static struct snd_soc_ops sof_wm8804_ops = {
-+static const struct snd_soc_ops sof_wm8804_ops = {
- 	.hw_params = sof_wm8804_hw_params,
- };
- 
--- 
-2.45.0
-
+Rob
