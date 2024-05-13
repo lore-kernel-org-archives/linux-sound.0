@@ -1,124 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF5E14EC6A;
-	Mon, 13 May 2024 10:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B29352F9E
+	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 10:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715596781; cv=none; b=Q0ngCZDfexc3tf1+9LW/E1mrsuMaFbPGusp0sMHAZfYVHu+/bb08ntByRz1m+E8+Q+1/NrCcF70O7rZqpzwHyEO5i1lcuAGGrnc5TVGwYCuXsbDa3cH2yrrMls0PGMm4g0u9VdPBKp41V8L3Qt2vPnKrKqpA6e1R7JlRR5wfAAU=
+	t=1715597349; cv=none; b=Hq6KvBy0Qrn7p+c5Z98WUqLmET2FkwrMaoCR+OwsKjTT9POoUeCGbfIsV+wYZoXK3GaYZcy07qbonz11QkSA1W23zaQ63FSgMnn/SZ6NFcD9y8tlFhZieZvevbEkH1en9UGjEXsln1D5xOhCJODOt4ePnpE0fg6rWm2NFQ4rAyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715596781; c=relaxed/simple;
-	bh=LnDI8ECmyOwaPF9450szty9CSHo1Xk8N8ohrNbKrGTw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g6gY9fMKmxqC5+gK5fskp67xsU8GXesw1kNRb2SAJXEPj5v5sCZXDmw+6WnJUgOwzNcKpbXOmBDI5l3auuHWDFgn0NYnVWRvZhpAdXJZGZ2a5Yw11cp0WC9MYeTUqwMqmla0/XTghqxw38LAXmo0l3KwlwdoWpsfbSOm24i05j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NEgZvw4g; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715597349; c=relaxed/simple;
+	bh=ArdBfAV6CgILSl6tt8i6nruTXgHcYVpNc89v4Lydmpk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QIowyGvL7kPNKmrwmbwnwLwQF7cuBjpHGC6RRA5kehGZAV06fVjibTjTS7NBH9h1hn0Rm7qcDgT2rTJ/Z/+jFzLPBeWgU5HRH1FRNAMuzC32yonjMReju7lxW/AF0NfKqPPA2Bs0kCAaE9v4H0Tyxy7ENfyD5fHX+U5KNynXmlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cFExLWlP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lcs6G0vm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cFExLWlP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lcs6G0vm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NEgZvw4g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715596779; x=1747132779;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LnDI8ECmyOwaPF9450szty9CSHo1Xk8N8ohrNbKrGTw=;
-  b=NEgZvw4gCQAh4eCcRXH9/l+B1EkbDAjHcaH2qdIRF8inAqIH+5eeE4y0
-   IE1R190kJ2Vf8Du+c3lOb9vcLAHjxO/I8GL2QE8/fgPxPhr/+h7zvG09L
-   t6/OFaisnugRMduL6ZRWKBlpIRGMMEZ2M0QyUOHIeMC4uk1PvdPZPb2R5
-   5sU5c/TKF2yROyG5cexSRoQIrKzqT3Q5YfFruq22YVUTsnub6h0zL0L+4
-   sXveZkfC14p5RE3Uuh4Pj0GK+7eGaY7XDZWAY490Mfn8bFvfBcb1Gmqog
-   SVutE/1VvfSWVmqlFpogJiYt/Nv+Xr2RDdWZLKgsKwU3SMfQxc6hKHKex
-   A==;
-X-CSE-ConnectionGUID: Uw3MlEPRQsWTXYpLM9wBGw==
-X-CSE-MsgGUID: ydrJShp0RFCoIXuPAFbArw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="29039186"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="29039186"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 03:39:38 -0700
-X-CSE-ConnectionGUID: UtjDBr70QbO/cGb0j/aMFQ==
-X-CSE-MsgGUID: 5/3nhQKxSMuXqRjPARFSpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="61481885"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa001.fm.intel.com with ESMTP; 13 May 2024 03:39:32 -0700
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com,
-	pandith.n@intel.com,
-	subramanian.mohan@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v8 12/12] ABI: pps: Add ABI documentation for Intel TIO
-Date: Mon, 13 May 2024 16:08:13 +0530
-Message-Id: <20240513103813.5666-13-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
-References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cFExLWlP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lcs6G0vm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cFExLWlP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lcs6G0vm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 55BD8343F4;
+	Mon, 13 May 2024 10:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715597340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
+	b=cFExLWlPpipTXwDvHKqi1FMXicypw2sqVioLCOh+l/lYICXW9DiCzctsxRGFBuYguMsQrA
+	B3Q0Q1hm1hwFYYMtHsvVC+I6bWusCYmsVwoN8393GH3lBNoIL+7aQN+qw/Hl7UwKdlYbwo
+	HnFOKFLVtTMhPBI7EwVSamXgwWRMvmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715597340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
+	b=Lcs6G0vmawDxxZpcB8fBDBnDMeCv74wqotqYh3xXyFaHJ3auWl7wOVsen1QJdvPHAtVJBI
+	j9gChcNgkvg7e/Ag==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cFExLWlP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lcs6G0vm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715597340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
+	b=cFExLWlPpipTXwDvHKqi1FMXicypw2sqVioLCOh+l/lYICXW9DiCzctsxRGFBuYguMsQrA
+	B3Q0Q1hm1hwFYYMtHsvVC+I6bWusCYmsVwoN8393GH3lBNoIL+7aQN+qw/Hl7UwKdlYbwo
+	HnFOKFLVtTMhPBI7EwVSamXgwWRMvmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715597340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9t/POZMpbtR0TG6mysI+MKGacuZosegXg3wr2034aE=;
+	b=Lcs6G0vmawDxxZpcB8fBDBnDMeCv74wqotqYh3xXyFaHJ3auWl7wOVsen1QJdvPHAtVJBI
+	j9gChcNgkvg7e/Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36A2F13A52;
+	Mon, 13 May 2024 10:49:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eyomDBzwQWYFWwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 13 May 2024 10:49:00 +0000
+Date: Mon, 13 May 2024 12:49:15 +0200
+Message-ID: <878r0egf6c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] ASoC: SOF: amd: Fix build error with built-in config
+In-Reply-To: <20240510073656.23491-1-tiwai@suse.de>
+References: <20240510073656.23491-1-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 55BD8343F4
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Fri, 10 May 2024 09:36:54 +0200,
+Takashi Iwai wrote:
+> 
+> Makefile in AMD ACP driver has a line substitution with "=" instead of
+> "+="; this overrides the preexisting item, hence it broke the build
+> after the recent change to replace *-objs with *-y.
+> 
+> This patch corrects the line.
+> 
+> Fixes: 1a74b21ce59f ("ASoC: SOF: amd: Add Probe functionality support for amd platforms.")
+> Fixes: 9c2f5b6eb8b7 ("ASoC: SOF: Use *-y instead of *-objs in Makefile")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/r/20240510170305.03b67d9f@canb.auug.org.au
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+This seems overlooked, and since the latest ASoC code reached to my
+tree, I applied this fix now on my tree.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- MAINTAINERS                                      | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..74f3244b55dc
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		June 2024
-+KernelVersion:	6.11
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 28e20975c26f..97606c072e3f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17670,6 +17670,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
- L:	linuxpps@ml.enneenne.com (subscribers-only)
- S:	Maintained
- W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
-+F:	Documentation/ABI/testing/sysfs-platform-pps-tio
- F:	Documentation/ABI/testing/sysfs-pps
- F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
- F:	Documentation/driver-api/pps.rst
--- 
-2.35.3
+Takashi
 
+> ---
+>  sound/soc/sof/amd/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sof/amd/Makefile b/sound/soc/sof/amd/Makefile
+> index 380a9769c321..d1424c09172d 100644
+> --- a/sound/soc/sof/amd/Makefile
+> +++ b/sound/soc/sof/amd/Makefile
+> @@ -5,7 +5,7 @@
+>  # Copyright(c) 2021, 2023 Advanced Micro Devices, Inc. All rights reserved.
+>  
+>  snd-sof-amd-acp-y := acp.o acp-loader.o acp-ipc.o acp-pcm.o acp-stream.o acp-trace.o acp-common.o
+> -snd-sof-amd-acp-$(CONFIG_SND_SOC_SOF_ACP_PROBES) = acp-probes.o
+> +snd-sof-amd-acp-$(CONFIG_SND_SOC_SOF_ACP_PROBES) += acp-probes.o
+>  snd-sof-amd-renoir-y := pci-rn.o renoir.o
+>  snd-sof-amd-rembrandt-y := pci-rmb.o rembrandt.o
+>  snd-sof-amd-vangogh-y := pci-vangogh.o vangogh.o
+> -- 
+> 2.43.0
+> 
