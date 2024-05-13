@@ -1,191 +1,150 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1D168DA
-	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 07:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54913146D51;
+	Mon, 13 May 2024 08:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715586054; cv=none; b=oWCX+vflu0LLrpFpql+fmhrckaR8x14evtGTw77VbSNtGzj3MnkZ5bWeMeDzNqY+DtuWi8eSDcNCwPy5VWRVjqn7HpnnQiv2mjCoJVr4uH0Vq4qoGF/pSuKv1uduN8tq2ScIbxivpsGUwfu6FOQdoASEK6GkefFEBiEloyAm74U=
+	t=1715587687; cv=none; b=K5aI5Be6Aj9UPX2uayaGIVMvnviZDeE2mlZ77EOzFcY8zHYYfCqDbsIg086APDs9PPWhBClmXh/RajEbM/Ms74WQyjq7xJwIEMwY3NOFsOOi4Ap3L60oYgyKwZPvfyr05Ul0CxRE93dom9/vE7GH/505HDVKzVlGEk2yPLbc6E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715586054; c=relaxed/simple;
-	bh=bqeLw0EURFczvr0ROK0JvPzdR2l1fwgPdWTPSS0ztK0=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=tvTucu/EuQSVgXd2eRUbXlodwR+6NzIh25kPFX6UFlNp+jmB3BesLfWxIb7kVw6thDD23JB00rRmJiGaBCBg4nwtumIcJgWSPlifFBJJfmImqHqMnyP0Cgf0Y8aOChumWuqUHYxuYdfQvnPxCZnmh3yQaL5sXTX41kWmDiqVizM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=df+sE8f4; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1715587687; c=relaxed/simple;
+	bh=Xn16BsD6Y1EZP5PWKG9VaDuAa6DEy5hYkxpQIqRBs/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g3e/h3sAo4FTFVN3gT00QHHf0pkdyzAspvIxqdHveepfh2oeiB7mDc6X9VAM/KqHiMbSMQeYWRIOT4XAKmC0RP35mOI8u2kvmrkQ4XxPL8HbCMe3YA9IUbtMCZGEd914A2TrxgTeny2AvDI2A4wGi+0H4gQm3nrrrR3CTRzQtBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnKN0h5K; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="df+sE8f4"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42011507a54so7406215e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 00:40:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnKN0h5K"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f44390e328so3820542b3a.2;
+        Mon, 13 May 2024 01:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715586050; x=1716190850; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxDvLqtM5HD3XxV36Sf1rEr7tbwcAskZhewDbNVJWu8=;
-        b=df+sE8f4H0zdKhOa9DvqspDLFplsdMmS826rczi2xEfYB7uFg+kGG4j/7udfLmMvZ8
-         tg+pqCoy2dFIUpPR/XP3d8plUC/VQVzVcuAN37axy0wIc6vkyph1zejFEllr6epzOMTr
-         Rb0f073NYFh4UGrdbPIrMmwKRh+qw6huPc3UpxKyJlPVmkUYnxqbZIH3KqmbN1AOxTQh
-         lawfozNLqJWX/HwOF6oyEQlxLZcO7tWk/A3/TywnXyxXMLA8QMNmzWujuoTYUfB8NlbR
-         uht16O/e1wv/hkzdRZklTN017eerA6aWL2Sthlfrmx1Mjd1U6oanmexN+QyXcQI1uhX0
-         DTNA==
+        d=gmail.com; s=20230601; t=1715587685; x=1716192485; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oYA+EdDKS7MiEavbl+qcIdKZoLUzS6M2HzJbOxe6W2A=;
+        b=lnKN0h5KToDaxhwHfjaJUDNBuvL5jKy84+8lughda9b86Lv0Oo4lu33j7VMiQF/QXL
+         WN/iY6Q1rz5AWBUspkyjxKc7FH0UqdkK9d6Gfk7Kb2jHj/3R7PSKotxTHtSkZnlKuxY7
+         O1Hyt6T2s1ngHjEboVlo8h/dJBM6FhYuOlalK5lIPjGP8s77Co54qXmv74+6fcZDLZcF
+         fRekj+wD+l3TLzEg0jPg2afXnZY4VV8dqGyxu24nKvsX0zZea7O99ScFnAKmTr89oxY7
+         wOPzAH4KWnrHdR76bbGwLQkCcrgOhzXR/NlqNWh3yQ3SEPBlwAVyWKTd1ZpZO9AeOD3Y
+         +WGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715586050; x=1716190850;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxDvLqtM5HD3XxV36Sf1rEr7tbwcAskZhewDbNVJWu8=;
-        b=AGsPXhF9FVBH/Vl5YS5taSOV7nvOYHGljSXx2l8LJDlbytJFVgmgSATGA9WvL5WW09
-         eGqKhv698udlwKDulGUnXRvKLyYI5RZvVdwzIPiNPhvlh6jYLxFgCuIkQDXcjBxeqUcB
-         P57fzRw5S5QMwFjBApeyeSudYaXVD4eEf/qh/4b40ljRQDJEBpDstRNek/WUToc3J/EF
-         zF6bH5jpkvGlKyCttkoZrQ2rHmT1WdwRXL6WHMz1YongYr86J6f0dnr+Au661pJT26nw
-         GENULmLOVUSndx+qnzqZE9iTAfy/M99VLETa6EZy+CU/TDpMoQ1c+mdwYz6V3KK9FYpG
-         UKEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgVT3pXqt34tNMxfuuM/pyMqtPSPj8zjA77eFbPX5B8HobAeKtBK813RM+SEavwKDPHP5QYsL30M/X2u+sPkuf7ch96ueKPggGZRI=
-X-Gm-Message-State: AOJu0YzdvgEFU5VOH+RVva7CG5AaP1NCJKAsLDkT/yih19RsUcDN658Y
-	Npf0/ACRagYaZFOrxNkILLrnxoaqydtpoL9zHMUeijDeFI4POE44aUMKv/XmybQ=
-X-Google-Smtp-Source: AGHT+IGyShzaHstWPtHJJ6LRI/e/nWyJHEwUq6cM85MqUwzsSvsHegJxxu5ykS/QCDfvcEJlaBd6rQ==
-X-Received: by 2002:a05:600c:3112:b0:41b:e55c:8dc1 with SMTP id 5b1f17b1804b1-41fbd1b2e40mr93356095e9.20.1715586050311;
-        Mon, 13 May 2024 00:40:50 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:5b77:3e5a:a808:339a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b896a1dsm10367679f8f.32.2024.05.13.00.40.49
+        d=1e100.net; s=20230601; t=1715587685; x=1716192485;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oYA+EdDKS7MiEavbl+qcIdKZoLUzS6M2HzJbOxe6W2A=;
+        b=YN5B8wTMBXh2SypFCSOFMSc+JO+rMRso1yrQpsfRIfpKnM0+SRdcc8zW+Tf8uJep24
+         3eLwzuLAkoncqixmobh010OrgWfcogn2/zIogSYgTPkhDyvyVDzeK4EmLDnc37Ete/4u
+         sJ6wztwC4wu2S1o7/xSHGF9VD/Y8KVlG1k7z7rJiFzd3mZcg606LJ1IS21rvlU22DeCU
+         F3thbhXIaYiDCH4GQ6hfrr5n304UWK9hkZgKNS8lHkwqwYuQwuiBDicd9GF+RM1sUffr
+         h8511Aiy6L4J8O+iWssW6uVUf5UYSTMWzcfxi4tWiI0RA5uMivvQW8Bby+4Umhwa/DI7
+         5PHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxlZFZbNk6AR9bajFNF2pzVWy4sYGpBqM5n0/BMdFVSr5fOptgFr7zTgMBDoS8WAiPh7TSkqqZcMWe9F+c6lA1OAJSBSjFAE9WTpY=
+X-Gm-Message-State: AOJu0Yz5ER0CmYtsDpLDv66FxMmWrTBmgshMpGzQein7lw8EltTpZg+N
+	468BrpLv7Pic6A0EnGhM35XwVdvl8mBA49xfVZHCMnrk3wBlPpQv
+X-Google-Smtp-Source: AGHT+IGm/ZCF7QOgaS2UkgqBbnLTnbvnPKP4mgl/j5xFDi65vgFgpXq6hphS4oyOzrmf/APRYhnL7g==
+X-Received: by 2002:a05:6a21:398a:b0:1af:fb2c:fac9 with SMTP id adf61e73a8af0-1affb2cfbe9mr1528307637.20.1715587685524;
+        Mon, 13 May 2024 01:08:05 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a665a6sm6817168b3a.2.2024.05.13.01.08.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 00:40:49 -0700 (PDT)
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
- <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
- <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
- <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
- <1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
- <878r0ir1qw.wl-kuninori.morimoto.gx@renesas.com>
- <1jwmnzz5k3.fsf@starbuckisacylon.baylibre.com>
- <87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
- =?utf-8?B?a2k=?=
- <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Banajit Goswami
- <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
-     Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
- Jiawei Wang <me@jwang.link>, Jonathan  Corbet <corbet@lwn.net>, Kai
-    Vehmanen <kai.vehmanen@linux.intel.com>, Kevin Hilman
- <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>, Matthias
-    Brugger <matthias.bgg@gmail.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
- <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-Date: Mon, 13 May 2024 09:36:03 +0200
-In-reply-to: <87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
-Message-ID: <1jseymyxa6.fsf@starbuckisacylon.baylibre.com>
+        Mon, 13 May 2024 01:08:05 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 14E10184885CF; Mon, 13 May 2024 15:08:03 +0700 (WIB)
+Date: Mon, 13 May 2024 15:08:02 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	sound-open-firmware@alsa-project.org
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mete <yurnerolinux@yandex.com>
+Subject: Fwd: Garbled sound at start of a playback after some inactivity on
+ said channel with DP/HDMI on RDNA devices
+Message-ID: <ZkHKYocpP-abFwLB@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1ZjYnqrlC4VYcUrU"
+Content-Disposition: inline
 
 
-On Mon 13 May 2024 at 00:11, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+--1ZjYnqrlC4VYcUrU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Jerome
->
-> Thank you for your feedback and analysis !
->
->>  - 1st problem: I see that following your removal of
->>    snd_soc_dai_link_set_capabilities(), the dpcm_playback/capture flags
->>    are no longer properly initialised in the amlogic card drivers.
->>    That will need fixing.
-> (snip)
->> This codec is not meant to have capture channels.
->> I think DT description and the card driver settings (before the removal of
->> snd_soc_dai_link_set_capabilities()) are correct.
->
-> OK, I see. Thank you for your analysis.
->
-> The problem was my patch checks CPU direction vs Codec direction only,
-> thus, it will indicates unexpected warnings, like this case.
->
-> Thank you for finding it, I hope v2 patch should be OK for you.
->
+Hi,
 
-I'll check
+Mete <yurnerolinux@yandex.com> reported on Bugzilla
+(https://bugzilla.kernel.org/show_bug.cgi?id=3D218823) garbled sound on AMD
+Rembrandt devices. He wrote:
 
->> IMO, those check become too restrictive. We are adding a lot of code I'm
->> not sure I understand what we stand by going so far in the
->> consistency checks.
->> 
->> Initially those dpcm_playback/capture flag could be used to just
->> forcefully disable a link direction, regardless of the CPUs or codecs present
->> on the link. It was just another setting and it was not required to be consistent
->> with anything. It just declared whether the direction was allowed on the
->> link, or not.
->> 
->> It changed this commit, and the flags suddenly needed to be consistent
->> with whatever was on link:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/sound/soc?h=v6.9-rc7&id=b73287f0b074
->> 
->> I complained back then and I still don't think this change was good.
->> 
->> If the flags needs to consistent with what is on the link, and we have
->> the ability to check it, why let card drivers set it and then complain
->> about it in ASoC checks ? Why not deal with it in the framework directly ?
->> 
->> I think the simplest solution would to just go back to the initial
->> meaning of these flags which was just the card driver declaring the
->> direction allowed/disallowed on a link. Then ASoC can mix that
->> information with whatever it finds with DAI drivers and figure out what
->> is actually possible.
->> 
->> It would give a clear and separate semantic meaning to those flags
->> instead something redundant with the DAI driver info.
->> 
->> What we have currently is not straight forward to set and check.
->> It makes the code unnecessarily complicated and difficult to maintain. I
->> think the difficulties with this patchset are a good illustration of
->> that, unfortunately.
->
-> By this patch-set, it will be handled automatically via CPU and Codec
-> driver settings, Card driver will no longer need to consider about
-> direction (like non-DPCM), and I hope people (including you) will be
-> happy about that.
->
+> As it is written like there, when said channels wakes up from a suspend s=
+tate (inactivity) issue occurs as described. While i've applied noted worka=
+round in there as a temp solution now, Nvidia gpus doesn't seem to suffer f=
+rom it so that makes it a hw specific issue.
+>=20
+>=20
+> https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3953
+>=20
+> Basic system info:
+>=20
+>=20
+>   Device-1: AMD Navi 31 [Radeon RX 7900 XT/7900 XTX/7900M]
+>     vendor: Sapphire PULSE driver: amdgpu v: kernel arch: RDNA-3 bus-ID: =
+03:00.0
+>   Device-2: AMD Raphael vendor: Gigabyte driver: amdgpu v: kernel
+>     arch: RDNA-2 bus-ID: 12:00.0 temp: 39.0 C
+>   Display: wayland server: X.org v: 1.21.1.13 with: Xwayland v: 23.2.6
+>     compositor: kwin_wayland driver: X: loaded: amdgpu
+>     unloaded: modesetting,radeon dri: radeonsi gpu: amdgpu,amdgpu
+>     resolution: 2560x1440
+>   API: EGL v: 1.5 drivers: radeonsi,swrast platforms:
+>     active: gbm,wayland,x11,surfaceless,device inactive: N/A
+>   API: OpenGL v: 4.6 compat-v: 4.5 vendor: amd mesa v: 24.0.6-arch1.2
+>     glx-v: 1.4 direct-render: yes renderer: AMD Radeon RX 7900 XTX (radeo=
+nsi
+>     navi31 LLVM 17.0.6 DRM 3.57 6.8.9-arch1-2)
+>   API: Vulkan v: 1.3.279 drivers: radv surfaces: xcb,xlib,wayland devices=
+: 2
+> Audio:
+>   Device-1: AMD Navi 31 HDMI/DP Audio driver: snd_hda_intel v: kernel
+>     bus-ID: 03:00.1
+>   Device-2: AMD Rembrandt Radeon High Definition Audio driver: snd_hda_in=
+tel
+>     v: kernel bus-ID: 12:00.1
+>   Device-3: AMD Family 17h/19h HD Audio vendor: Gigabyte
+>     driver: snd_hda_intel v: kernel bus-ID: 12:00.6
+>   API: ALSA v: k6.8.9-arch1-2 status: kernel-api
+>   Server-1: PipeWire v: 1.0.5 status: active
+>=20
 
-If it makes things simpler, I am happy for sure :)
+Thanks.
 
-However, I'm a bit confused. If it is handled automatically by the CPUs
-and Codecs settings, does it mean dpcm_playback/capture flags are
-no-ops from now on ?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Should I update my card drivers to ditch those flags completely ?
+--1ZjYnqrlC4VYcUrU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-May I still disable a direction on a link from the card driver, like in
-the case I described above, when a TDM link has no slots for a direction ?
+-----BEGIN PGP SIGNATURE-----
 
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Renesas Electronics
-> Ph.D. Kuninori Morimoto
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkHKXgAKCRD2uYlJVVFO
+o35PAQDSrCz6kVUuWtodtSItFVvfxvBw8OPisRLj3O/PQXaYxQEA4KC49psV96Wy
+eC7rjpSJ/sNnLEkCtOje1AYkI2vOrwY=
+=u0zA
+-----END PGP SIGNATURE-----
 
-
--- 
-Jerome
+--1ZjYnqrlC4VYcUrU--
