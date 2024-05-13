@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F6777F13;
-	Mon, 13 May 2024 19:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412AD75813;
+	Mon, 13 May 2024 19:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715629106; cv=none; b=kw0lWqftToYYmcqliusNiOG2EeZAruB72E7qfP+K8Ej67dxMfCbWkEiqFNWw2T7o+wbGiV+jBfrNjJILuX7Adz+q9AdeVgepNDTOH8LLMCjzg1xVXQ/FXubhgIkf4sCM4yAY/bY7q2sgpmOVbezUqzsawpvVAwA7rl0foKkJeMI=
+	t=1715629348; cv=none; b=AlTkZFWbXfPIMPGjQ2j0vJV0+sUi2eueyvwtuao0PDJTQwnXT3Ax7rL5Do1X7ok+xS70I691SVItbP3I1X1mO5EdfMkdhsr1cBppdVU4yuEKG65HdV7ml8gjm2YyIkedbrQp+/0qO9Un9NgqnSFbHuZSo0BArg1xdbVLJAgaBwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715629106; c=relaxed/simple;
-	bh=FDhzjixi9qj4qYYv/pF0kkgOWecQpxha+5i6/ywXIAo=;
+	s=arc-20240116; t=1715629348; c=relaxed/simple;
+	bh=PnA/t7uQTF+vxgn2P2JaqIe1cePISWFAFvcOkdI6CcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cs/Bvxs9KVsDLYdcox3ZNQa6uZaGFHzrwBYSpcmfOc4lFLHkn49RlYz70dtxpPbXM/+OOslk2cmcQCKvhndAoI3wrlsnrqy+J4voUdauAA6cL76gBt+uOTx0/0bUiUSJ7/86NOkN1IgbCN9cLsAZubrCW6wbI27fiJ7rEGlR+K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/RwX359; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KC4ANTRCA//iieT+MEszDcGwf8vPdor6d+QAioYqQjdBCZpHz4lkSV+wOSHe+j+XY2oKFXsEhNGqGhmpm4C6V4SSL08wMTeP1k1EICzbVM34i7LDfQggTKpqJDf2ELKcDdwSjBH5srzhwbj24XefxN4r7tTMNo7t1x7S0vXrJr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLXdgBgr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/RwX359"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B62C113CC;
-	Mon, 13 May 2024 19:38:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLXdgBgr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F21C113CC;
+	Mon, 13 May 2024 19:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715629105;
-	bh=FDhzjixi9qj4qYYv/pF0kkgOWecQpxha+5i6/ywXIAo=;
+	s=k20201202; t=1715629348;
+	bh=PnA/t7uQTF+vxgn2P2JaqIe1cePISWFAFvcOkdI6CcI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n/RwX3595HOJ8PBr6qaPAAsTXAIOVM9woIeVmAwgKv7oyt9UYae1QPTgGEk0Kr/Jc
-	 l76XD5FXCghLL3c+yZOUhsnDB0gXh+S5K0r40ujM+vMEYxnVB44zXVJvRhEOAwq/i2
-	 TFK/DtQ2dRjjZ8OxHknblkB/vpcBYN9zguPlL+K6KJtMK9SNH+ZQaoD+25i9bO2yY3
-	 uRvyaFk1mtLNpKODWs6D6ugnPf0Evx+V0gtlpJeanUZHA3tVusrw/mDB0omJeB0pi3
-	 wdXKBhM9BeAp9qWaDkjf73JTHYZ4YQSwFNnq8CAZORfl6/Vj2CjGEJlGCqVsefk1iS
-	 Bku1bukNMpe4g==
-Date: Mon, 13 May 2024 14:38:23 -0500
+	b=XLXdgBgry7YDf50oinDrReMP6MZJ7P+a8NaQQSQEqQoRIbWITK3Y+5uLU5OlMhzwn
+	 WJruObfiD7IgVgKDEqbU8rN/kI/pC5zDc7P8R+LlG4l+qOGu8Y8PPQugG8WG5fWTWb
+	 ngguETxU4vJH+MgGiHMBXMipJsKOGDlFcFMUo1Q898ENgROTbPxS2YlkpnlAsuHimb
+	 3iXLtK1DHTzDN4Eiwdr0PBkM1kp40RKgEwtKrD6nJmnGtEmkFEAasAesaekxN55bC6
+	 +os1o9OSgY96LF+LS2SsUXJhx00Dw06TQsKbSkYJWs2iev0AZzpaf87O78ViDfgOJj
+	 kx+TtPa5WEX2Q==
+Date: Mon, 13 May 2024 14:42:25 -0500
 From: Rob Herring <robh@kernel.org>
 To: Xiaxi Shen <shenxiaxi26@gmail.com>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org, lgirdwood@gmail.com,
 	broonie@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
 	javier.carrasco.cruz@gmail.com, skhan@linuxfoundation.org
-Subject: Re: [PATCH] ASoC: dt-bindings: ak4118: convert to dt schema
-Message-ID: <20240513193823.GA3006391-robh@kernel.org>
-References: <20240511214624.242579-1-shenxiaxi26@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: ssm2602: convert to dt schema
+Message-ID: <20240513194225.GA3013979-robh@kernel.org>
+References: <20240512002456.267057-1-shenxiaxi26@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,69 +44,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240511214624.242579-1-shenxiaxi26@gmail.com>
+In-Reply-To: <20240512002456.267057-1-shenxiaxi26@gmail.com>
 
-On Sat, May 11, 2024 at 02:46:24PM -0700, Xiaxi Shen wrote:
-> Convert ak4118 binding to DT schema
+On Sat, May 11, 2024 at 05:24:56PM -0700, Xiaxi Shen wrote:
+> Convert adi,ssm2602 binding to DT schema
 > 
-> It passed dt_binding_check and dtbs_check. Let me know
-> if you think it should include something else
-
-This doesn't belong in the commit message.
-
+> The original adi,ssm2602.txt contains bindings for 3 devices
+> SSM2602, SSM2603 and SSM2604. Since they share something
+> in common. So I created one single yaml and name it 260x instead.
+> Let me know if you think it should be done in another way.
+> 
+> It passed dt_binding_check and dtbs_check.
 > 
 > Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
 > ---
->  .../devicetree/bindings/sound/ak4118.txt      | 22 -------
->  .../bindings/sound/asahi-kasei,ak4118.yaml    | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 22 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/ak4118.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
+> Changes in v2:
+>  - Change '2602' to '260x' in the variable $id and
+>  it passed dt_binding_check and dtbs_check now.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/ak4118.txt b/Documentation/devicetree/bindings/sound/ak4118.txt
+>  .../devicetree/bindings/sound/adi,ssm2602.txt | 19 -------
+>  .../bindings/sound/adi,ssm260x.yaml           | 50 +++++++++++++++++++
+>  2 files changed, 50 insertions(+), 19 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2602.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/adi,ssm260x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/adi,ssm2602.txt b/Documentation/devicetree/bindings/sound/adi,ssm2602.txt
 > deleted file mode 100644
-> index 6e11a2f7404c..000000000000
-> --- a/Documentation/devicetree/bindings/sound/ak4118.txt
+> index 3b3302fe399b..000000000000
+> --- a/Documentation/devicetree/bindings/sound/adi,ssm2602.txt
 > +++ /dev/null
-> @@ -1,22 +0,0 @@
-> -AK4118 S/PDIF transceiver
+> @@ -1,19 +0,0 @@
+> -Analog Devices SSM2602, SSM2603 and SSM2604 I2S audio CODEC devices
 > -
-> -This device supports I2C mode.
+> -SSM2602 support both I2C and SPI as the configuration interface,
+> -the selection is made by the MODE strap-in pin.
+> -SSM2603 and SSM2604 only support I2C as the configuration interface.
 > -
 > -Required properties:
 > -
-> -- compatible : "asahi-kasei,ak4118"
-> -- reg : The I2C address of the device for I2C
-> -- reset-gpios: A GPIO specifier for the reset pin
-> -- irq-gpios: A GPIO specifier for the IRQ pin
+> -  - compatible : One of "adi,ssm2602", "adi,ssm2603" or "adi,ssm2604"
 > -
-> -Example:
+> -  - reg : the I2C address of the device for I2C, the chip select
+> -          number for SPI.
 > -
-> -&i2c {
-> -	ak4118: ak4118@13 {
-> -		#sound-dai-cells = <0>;
-> -		compatible = "asahi-kasei,ak4118";
-> -		reg = <0x13>;
-> -		reset-gpios = <&gpio 0 GPIO_ACTIVE_LOW>
-> -		irq-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+> - Example:
+> -
+> -	ssm2602: ssm2602@1a {
+> -		compatible = "adi,ssm2602";
+> -		reg = <0x1a>;
 > -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
+> diff --git a/Documentation/devicetree/bindings/sound/adi,ssm260x.yaml b/Documentation/devicetree/bindings/sound/adi,ssm260x.yaml
 > new file mode 100644
-> index 000000000000..abbce999eb30
+> index 000000000000..f465f9168a0a
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
-> @@ -0,0 +1,58 @@
+> +++ b/Documentation/devicetree/bindings/sound/adi,ssm260x.yaml
+> @@ -0,0 +1,50 @@
 > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/sound/asahi-kasei,ak4118.yaml#
+> +$id: http://devicetree.org/schemas/sound/adi,ssm260x.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: AK4118 S/PDIF transceiver
+> +title: Analog Devices SSM2602, SSM2603 and SSM2604 I2S audio CODEC devices
 > +
-> +allOf:
-> +  - $ref: dai-common.yaml#
+> +description:
+> +  SSM2602 support both I2C and SPI as the configuration interface,
+> +  
+
+Why the blank line?
+
+> +  the selection is made by the MODE strap-in pin.
+> +
+> +  SSM2603 and SSM2604 only support I2C as the configuration interface.
 > +
 > +maintainers:
 > +  - Liam Girdwood <lgirdwood@gmail.com>
@@ -114,38 +123,25 @@ This doesn't belong in the commit message.
 > +  - Rob Herring <robh@kernel.org>
 > +  - Krzysztof Kozlowski <krzk+dt@kernel.org>
 > +  - Conor Dooley <conor+dt@kernel.org>
-
-Again, should be someone with the h/w or that cares about it.
-
-(If you are new to bindings (or anything else), it would be best to send 
-1 patch out and wait for comments before sending more and repeating the 
-same problems on multiple ones.
-
 > +
 > +properties:
 > +  compatible:
-> +    const: asahi-kasei,ak4118
+> +    description: One of "adi,ssm2602", "adi,ssm2603" or "adi,ssm2604"
+
+Drop this. You say that with the schema below:
+
+> +    enum:
+> +      - adi,ssm2602
+> +      - adi,ssm2603
+> +      - adi,ssm2604
 > +
 > +  reg:
-> +    description: The I2C address of the device for I2C
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0    
-> +
-> +  reset-gpios:
-> +    description: A GPIO specifier for the reset pin
-> +    maxItems: 1
-> +
-> +  irq-gpios:
-> +    description: A GPIO specifier for the IRQ pin
+> +    description: the I2C address of the device for I2C, the chip select number for SPI.
 > +    maxItems: 1
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - reset-gpios
-> +  - irq-gpios
 > +
 > +additionalProperties: false
 > +
@@ -154,17 +150,9 @@ same problems on multiple ones.
 > +   i2c {
 > +     #address-cells = <1>;
 > +     #size-cells = <0>;
-> +     ak4118@13 {
-
-Node names should be generic:
-
-spdif@13
-
-> +       #sound-dai-cells = <0>;
-> +       compatible = "asahi-kasei,ak4118";
-> +       reg = <0x13>;
-> +       reset-gpios = <&gpio 0 0>;
-> +       irq-gpios = <&gpio 1 1>;
+> +     ssm2602@1a {
+> +       compatible = "adi,ssm2602";
+> +       reg = <0x1a>;
 > +     };
 > +   };
 > -- 
