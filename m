@@ -1,108 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C21153576;
-	Mon, 13 May 2024 13:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB42550279
+	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 14:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715607718; cv=none; b=Gd8rmEKF6hcz5Tw+Mkdq8Ln4ntjHORQkfIHiA80hh5pE2WKR12mLJ1Cv2ob6t8GQwHRVFJv0lDYUjSqO7ZVetbP5LATdoIJD640JdzDC2aKTNMbmwqNLQzFtauwblDAfc2KbxePzDiuJMzo3KrX8OsXnA2vUm/Br0egOxKfhwSU=
+	t=1715609240; cv=none; b=kWc1aBewDDaS74RXpHxJKrv6UMYyy78aGqYadI6hgNrLEHLgk1+e9qaY3dQ/q7/6Pfg5UhnmxklI42udSTQ61dgv2e0C1Av6p0dSgzqcRzO1Wx4IaGJpLp6dFaHmd9vDPrQqbR9x7UuDonjyQRHwlfubyyVgPAbLbPJTKvgbrfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715607718; c=relaxed/simple;
-	bh=NHGPLgtCUqCEfcn2vaIa5U959E4/fnbBgnnTfKGDUhM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PHFbDKrsCF3me2mVHlZLD2Y9nFljpywXqdFqSulWuO1RPJ1B+2NTGwqRrKUaZb3SPMet3/yOh0FVhSE8pY2q0qs3wxStSvbOSA5Jl6fZvfW+c2w9MbCwWqmNSdrmM/XvC4z+8jo/5SwdsqnfsJ9BDSwufg0dqo5nghkFkbJakfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7n7ktId; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1715609240; c=relaxed/simple;
+	bh=3triDBjcN8cbygxSw7hUo01USZCeCqc6/i2EsF913Ns=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VMXry7ZLmDuGUg9mX1O9D/kV4u55qqbvQ5rMEu3V24GaWDXpVLOBhXJ29zvyqcWoPB+8wgXMXJaq2kFhp8vKSVG+Hrf/RZZsd7/Rj2EQe9kiQfxouKsLhI8sNao+Nn35uImSY0OQlr2BNH3egivLIuWOkn2pO1PydIzwrZYt/P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNIxA5Rv; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7n7ktId"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNIxA5Rv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715607717; x=1747143717;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=NHGPLgtCUqCEfcn2vaIa5U959E4/fnbBgnnTfKGDUhM=;
-  b=F7n7ktIds1fessChL6a9WvgGOS0WmeC15lJ92clTX8C9NjDm8aF6Zn/m
-   i9yNOI+pWHQLCa1Efp1hufnhQyh+39Bxa0ff5NXPLpaA6QpxeDtscZVTJ
-   BzJeh91P3wXWJDRY/iFLIbVE/4WVHPPBxLQ55jdW9qoVzF6S+KUa00VM3
-   itmG5vTC0iqMgNItCWzXQOacQpjtqQpR9VdD0cqZQ+bstYYbHnBBh0uJ8
-   FZJXgYTIM3HVC3jWto17io9uJG9VLIn+oHD8QtwLTVPeV7OcIsypEIpNN
-   w+zsoGiQmnHsdkGqLil9brY4HPFO37zMz+6WYg4XIAtN5k/9zFeVQOgz9
+  t=1715609239; x=1747145239;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3triDBjcN8cbygxSw7hUo01USZCeCqc6/i2EsF913Ns=;
+  b=MNIxA5RvcQYpO6qwCg+aULifha8Zit5RwWSqw0nVYm7Aks+T4cmorabi
+   zFdS3Scn2BBmQrUFEry7aWqiJcQzjrtSEMgpGpyKu2f851nojw7QEzuA6
+   O478NaX51A0a5R/PUja9PDzITeHRgEfCZRxGZ9k58SQpAyAD/KymvaovU
+   qBaETSrvqCLzVUZCUnI23ZKMVoLNEUR/gqXMSEadGohmQXz7rkfJCDHye
+   AMJTgtfBWZhgPJRfH6EF+4PvRnBRt6vVhjVCb1IM0B/jr0JqJ5FuGmzYg
+   FLoxZhBCJOLnlvF2C8n0ugeZdZyVYSIuFBgDx4dORW9ij6Mxe34mt7bQg
    w==;
-X-CSE-ConnectionGUID: nYxQqSqXT3WXr+bt45KwGw==
-X-CSE-MsgGUID: 5uFUxJ+uQ2iXowJ/hTdB3w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="34055952"
+X-CSE-ConnectionGUID: MNHdilj7Tc+B1LCEJsS8KA==
+X-CSE-MsgGUID: rRCbecbhQwuvH5K/HsWfhA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11677373"
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="34055952"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 06:41:57 -0700
-X-CSE-ConnectionGUID: IDlEf8a7Qt6kUtLIFkGQJw==
-X-CSE-MsgGUID: kcqS9LquTyiO6UeF+3ehCA==
+   d="scan'208";a="11677373"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 07:07:19 -0700
+X-CSE-ConnectionGUID: FwhoacINTrqdxwlwo/Lt2A==
+X-CSE-MsgGUID: 7jcrMqhrRtiun8l9k+nCkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="30323298"
-Received: from sgoshi-mobl1.amr.corp.intel.com (HELO [10.212.69.71]) ([10.212.69.71])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 06:41:56 -0700
-Message-ID: <88e6bbe3-94a2-4b50-b462-eb27376698c4@linux.intel.com>
-Date: Mon, 13 May 2024 08:41:55 -0500
+   d="scan'208";a="30918096"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.18])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 07:07:17 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com
+Subject: [PATCH] ASoC: Intel: sof_sdw_rt_sdca_jack_common: Use name_prefix for `-sdca` detection
+Date: Mon, 13 May 2024 17:07:30 +0300
+Message-ID: <20240513140730.27048-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: intel: Constify struct snd_soc_ops
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <242aef53b5b9533ae4cca78148622f5fe752b7ee.1715452901.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <242aef53b5b9533ae4cca78148622f5fe752b7ee.1715452901.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Match against the correct string to decide to add the '-sdca' postfix:
+instead of codec_dai->name the correct one is component->name_prefix.
 
+The component->name_prefix is added previously to the card->components as
+hs.
 
-On 5/11/24 13:42, Christophe JAILLET wrote:
-> Constifying "struct snd_soc_ops" moves some data to a read-only section, so
-> increase overall security.
-> 
-> This structure is also part of scripts/const_structs.checkpatch.
-> 
-> As an example, on a x86_64, with allmodconfig:
-> Before:
->    text	   data	    bss	    dec	    hex	filename
->    6315	   3696	      0	  10011	   271b	sound/soc/intel/boards/ehl_rt5660.o
-> 
-> After:
->    text	   data	    bss	    dec	    hex	filename
->    6379	   3648	      0	  10027	   272b	sound/soc/intel/boards/ehl_rt5660.o
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Compile tested only.
-> 
-> I hope that it can be applied with this single patch because all files are
-> in sound/soc/intel/boards/
+Fixes: 9a9d31b149f3 ("ASoC: Intel: sof_sdw_rt_sdca_jack_common: remove -sdca for new codecs")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Doesn't apply for me, can you rebase and resend?
+diff --git a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
+index 701b0372f59e..012195c50519 100644
+--- a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
++++ b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
+@@ -109,7 +109,7 @@ int rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *d
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(need_sdca_suffix); i++) {
+-		if (strstr(codec_dai->name, need_sdca_suffix[i])) {
++		if (strstr(component->name_prefix, need_sdca_suffix[i])) {
+ 			/* Add -sdca suffix for existing UCMs */
+ 			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+ 							  "%s-sdca", card->components);
+-- 
+2.45.0
 
-CONFLICT (content): Merge conflict in
-sound/soc/intel/boards/sof_maxim_common.h
-Auto-merging sound/soc/intel/boards/sof_maxim_common.c
-CONFLICT (content): Merge conflict in
-sound/soc/intel/boards/sof_maxim_common.c
-error: Failed to merge in the changes.
-
-Probably a result of all the changes in this directory...
-Thanks!
