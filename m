@@ -1,94 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB42550279
-	for <linux-sound@vger.kernel.org>; Mon, 13 May 2024 14:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917E8153BEE;
+	Mon, 13 May 2024 15:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715609240; cv=none; b=kWc1aBewDDaS74RXpHxJKrv6UMYyy78aGqYadI6hgNrLEHLgk1+e9qaY3dQ/q7/6Pfg5UhnmxklI42udSTQ61dgv2e0C1Av6p0dSgzqcRzO1Wx4IaGJpLp6dFaHmd9vDPrQqbR9x7UuDonjyQRHwlfubyyVgPAbLbPJTKvgbrfk=
+	t=1715614701; cv=none; b=VVQ6Eoew9VX/+Xtv/x/YonDiAkoVCRgt5qkGjaECz3kaU7BGRKiS3qBHpx7WuXkI1ydIulmagbl3y3BmANcUT3MXQaE+COPIow8q4axrscEs2cffTTaldDG3I3E39jGriB7hNZE35qPFxuwwZRY+RFNtGEINWKxd5ClOaeqUyjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715609240; c=relaxed/simple;
-	bh=3triDBjcN8cbygxSw7hUo01USZCeCqc6/i2EsF913Ns=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VMXry7ZLmDuGUg9mX1O9D/kV4u55qqbvQ5rMEu3V24GaWDXpVLOBhXJ29zvyqcWoPB+8wgXMXJaq2kFhp8vKSVG+Hrf/RZZsd7/Rj2EQe9kiQfxouKsLhI8sNao+Nn35uImSY0OQlr2BNH3egivLIuWOkn2pO1PydIzwrZYt/P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNIxA5Rv; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715614701; c=relaxed/simple;
+	bh=D4Jesxp0goxfo4+RkqtmVUcnjRYiUHslXFAvBn18PIg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X9eKqG+2uxg0TzQevDzo3shjBXv2Sg7S6BSWTsxNdD883jjV3aaeXrV4CRWjW7edxJKblyUouFD7CvIWqBchgsqbT0MwAlwzAv52qwDb5xpJMpPy+HcMFNy0ugx9ym+bWQoZ8rIUpkAigjlcC/lbOnev2v5NVYJh0qq9mQ1UtY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=US5XeI47; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNIxA5Rv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715609239; x=1747145239;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3triDBjcN8cbygxSw7hUo01USZCeCqc6/i2EsF913Ns=;
-  b=MNIxA5RvcQYpO6qwCg+aULifha8Zit5RwWSqw0nVYm7Aks+T4cmorabi
-   zFdS3Scn2BBmQrUFEry7aWqiJcQzjrtSEMgpGpyKu2f851nojw7QEzuA6
-   O478NaX51A0a5R/PUja9PDzITeHRgEfCZRxGZ9k58SQpAyAD/KymvaovU
-   qBaETSrvqCLzVUZCUnI23ZKMVoLNEUR/gqXMSEadGohmQXz7rkfJCDHye
-   AMJTgtfBWZhgPJRfH6EF+4PvRnBRt6vVhjVCb1IM0B/jr0JqJ5FuGmzYg
-   FLoxZhBCJOLnlvF2C8n0ugeZdZyVYSIuFBgDx4dORW9ij6Mxe34mt7bQg
-   w==;
-X-CSE-ConnectionGUID: MNHdilj7Tc+B1LCEJsS8KA==
-X-CSE-MsgGUID: rRCbecbhQwuvH5K/HsWfhA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11677373"
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="11677373"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 07:07:19 -0700
-X-CSE-ConnectionGUID: FwhoacINTrqdxwlwo/Lt2A==
-X-CSE-MsgGUID: 7jcrMqhrRtiun8l9k+nCkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
-   d="scan'208";a="30918096"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.18])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 07:07:17 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com
-Subject: [PATCH] ASoC: Intel: sof_sdw_rt_sdca_jack_common: Use name_prefix for `-sdca` detection
-Date: Mon, 13 May 2024 17:07:30 +0300
-Message-ID: <20240513140730.27048-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="US5XeI47"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a59e4136010so1161281166b.3;
+        Mon, 13 May 2024 08:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715614698; x=1716219498; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cwyN+SM57vzeVl611qrZpQ9hXHag66qCgwB27/VmmyA=;
+        b=US5XeI47bp0EIzSEF6RCjXLmzqxl5eNlpkErlK7jziudh1+E0URZ9eKz6GtjMWNEfH
+         tCQyk9B4MeNkayR8w8ndV9HGDDYOCGsbfJ+2POD+HvdUE7WqHN0341LmqVqP5parXF49
+         GFI1uQLJJs8QMBllfFK33t+rgCqOfwsSPUYB865IqQRY4E9Trv7sXrZZRA/Ah3An9lOW
+         RC1kKzhOzDdR2ot8j9+CnPCxTzcTk59mNY8VD9FtsV2o6bThRsqAwTuR+Rjh/sTZa/QN
+         RuiBMQInuwUO//FuDPT1Enw8c/Z3KlnBxguPTIKAlz2jIlOWi5SLDPVovT/0G1qfBtoj
+         verw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715614698; x=1716219498;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cwyN+SM57vzeVl611qrZpQ9hXHag66qCgwB27/VmmyA=;
+        b=D50aWMqG62leXs1Hl4thl5rG0F23U1q8G0H/BjKNqO/4lCv+gJQq2Y2BGk2yJ4Htua
+         40j2lWNKyluja4l58LKtxrIbLh0XMTIj7U2gEBuGIKqauqPaJvVdfT5VRnW0tcaLlZ3n
+         7pg2F/lmpZ9mjSUt4h8IWEsuSw4Rj3nWT92jMyFn8fYxMntbmUNOmBgjKKtJuUcIcvgG
+         +lBpLvMa2zzdSh6u1/O4yg2QGdcQIBr7DLv6hAWf9/nEpplRnVyUe1q2jUiCHfs4vauo
+         e5b5Bv1WSnEHiFpC5vt/M1o2YwanzD/0FPkHDFnGlZU2BbbocN0rzux056/UattXG+a3
+         HXdw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6cvPSO67d065hLFaOIhUvvXwsvcA2cAr8HLZ5+vsI8HGxHnH9Yse1o89o6hT1LtbGpuGV0lCDptgu70VvFLJgbu4iflY4ndHl9ZAnW5HtCMI07Wu0lIVwjX/g6AXzYt8Eqx8AhoU1dg==
+X-Gm-Message-State: AOJu0YyYZjKjLPasoyJQ/4gkeZfL9rSTExSDOnrhGLKv8FxlW9+ilyzo
+	CkeByeeinyWLYMH0qmsBJ+3bLuB9arLjey6rMChOG4U071I8D/jk2H+FA4Mf
+X-Google-Smtp-Source: AGHT+IGTNJtlgQGQD4ibnubprYy9/aebeejMr1qpEPPXsn/mM3SWgJQhe7VU8Jgr2xjufacdWnm8yg==
+X-Received: by 2002:a50:c010:0:b0:572:7e9f:c124 with SMTP id 4fb4d7f45d1cf-5734d59040bmr7010860a12.9.1715614697660;
+        Mon, 13 May 2024 08:38:17 -0700 (PDT)
+Received: from njaxe.localnet (host-79-55-54-147.retail.telecomitalia.it. [79.55.54.147])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733c322c06sm6459548a12.85.2024.05.13.08.38.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 May 2024 08:38:17 -0700 (PDT)
+From: matteomartelli3@gmail.com
+To: Matteo Martelli <matteomartelli3@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: es8311: dt-bindings: add everest es8311 codec
+Date: Mon, 13 May 2024 17:38:16 +0200
+Message-ID: <4072123.0gxhY3eTYf@njaxe>
+In-Reply-To: <91fa1c1f-22ea-4f4a-9d87-a919ddf118cd@kernel.org>
+References:
+ <20240510131238.1319333-1-matteomartelli3@gmail.com>
+ <20240510131238.1319333-2-matteomartelli3@gmail.com>
+ <91fa1c1f-22ea-4f4a-9d87-a919ddf118cd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Match against the correct string to decide to add the '-sdca' postfix:
-instead of codec_dai->name the correct one is component->name_prefix.
+On Monday, 13 May 2024 10.53.57 CEST Krzysztof Kozlowski wrote:
+> On 10/05/2024 15:00, Matteo Martelli wrote:
+> > Add DT bindings documentation for the Everest-semi ES8311 codec.
+> > 
+> > Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
+> > interface and I2C control.
+> > 
+> > Signed-off-by: Matteo Martelli <matteomartelli3@gmail.com>
+> > ---
+> >  .../bindings/sound/everest,es8311.yaml        | 52 +++++++++++++++++++
+> >  1 file changed, 52 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/sound/everest,es8311.yaml b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > new file mode 100644
+> > index 000000000000..54fb58b9ab58
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > @@ -0,0 +1,52 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/everest,es8311.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Everest ES8311 audio CODEC
+> 
+> This looks exactly like es8316, except of later added port. Are you sure
+> you are not planning to add port later, which would make both schemas
+> identical?
 
-The component->name_prefix is added previously to the card->components as
-hs.
+I did not pay enough attention to audio-graph-port property which is in
+fact supported and could be added as well. Thus the es8311.yaml would be
+identical to es8316.yaml. My guess is that I should just add the
+"everest,es8311" compatible string to the existing es8316.yaml even if the
+two drivers are separate (like for instance mediatek,mt8186-clock.yaml). Is
+this correct?
+If that's the case:
+* should the evereset,es8316.yaml file be renamed to evereset,es831x.yaml?
+* should I also add myself to the maintainers list of that schema?
 
-Fixes: 9a9d31b149f3 ("ASoC: Intel: sof_sdw_rt_sdca_jack_common: remove -sdca for new codecs")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Best regards,
+> Krzysztof
+> 
+> 
 
-diff --git a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-index 701b0372f59e..012195c50519 100644
---- a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-+++ b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-@@ -109,7 +109,7 @@ int rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *d
- 		return -ENOMEM;
- 
- 	for (i = 0; i < ARRAY_SIZE(need_sdca_suffix); i++) {
--		if (strstr(codec_dai->name, need_sdca_suffix[i])) {
-+		if (strstr(component->name_prefix, need_sdca_suffix[i])) {
- 			/* Add -sdca suffix for existing UCMs */
- 			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
- 							  "%s-sdca", card->components);
--- 
-2.45.0
+Thanks for your support,
+Matteo Martelli
+
+
 
