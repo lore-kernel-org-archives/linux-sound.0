@@ -1,85 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98CA53E30;
-	Tue, 14 May 2024 10:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D62320F;
+	Tue, 14 May 2024 10:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715682105; cv=none; b=PwaspXj4Wvqaodc4u+VmcBALOKPlSI9+7nuLfXxLp7044W+gc0A+UfNzAMuYaOlUTLyDQvgX4U0wKEzIN6z3DBOxC562Sn1z5mzqRXZZrwLnRxjtoX0guZt9Xtq91fA1qu4dbU2Lm49D9Op3TP0lt+8HIoihfrfTjE6tG8LYM+8=
+	t=1715682891; cv=none; b=Hn6lWKgDJocCeF4u5/b/y3ll/bbfNXnI0PORFtz4pQu1JGdFlMlsOW71eylwRaTXTNmftezgKgKNL7ywxL6LHUz+Zs+gPcsy8SuOS3ho/lA6QTOUGXF9G68pArbUi0Fc1kA5q+QmX2p3H/lxPE/2Eqa9Q0vB4f0kbTmoMkeQQdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715682105; c=relaxed/simple;
-	bh=MlD37PhYaCYGWNXB+XjgAOliaEbuIjPec0duTTv9ngc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlDAY2drVMJIKPebXpIu/UUFglfhUO2YO2DgiYvfp5w+xa+H7/dM3JCHlW74ewxLwNLFFK3lXnxySt9rATj5sD4FvaZ0NakmRVmMk8Z1p9jsfYKWNhQtHp6R5qeeYPgMvcGks3qzKxASmTagacgsWKCZmihInd+tUYNapuFbdto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gfFlObsN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715682891; c=relaxed/simple;
+	bh=TWwiNmIgzodg4vjdt4GkKt1IUIQV7RRqeSjjxHf7908=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LBnBrLk6EcunEnyvyYySHVj+nDlPk04FDd2JeVNPgDSM6b9VOehL6NOzXSE+vDNtJQeMU+G2xDohi1fFnzWO7jrCo4OyryGKtPAjvG+mtD0auewNUfs/kpHiUtGbPDcKfv/qu+6kFGPj2OXBbI5pRwH8fadZPU+vnHAMTGhaLsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TA28sTl8; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gfFlObsN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5998C32782;
-	Tue, 14 May 2024 10:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715682105;
-	bh=MlD37PhYaCYGWNXB+XjgAOliaEbuIjPec0duTTv9ngc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gfFlObsNwvICy6Ottyc7oE+Hl8pJyYYXj3h9E3FrxQSo5bRF+KfXayxwDEdKEj7EJ
-	 v6DglZeI553eFwOaDRycJC7dXPFIHnLdVZWgDBaRqPsX321Pgc22fpT8+F7xXWnaR/
-	 JlG/x6nArF+zpHXEDn9PCZ4WopblfDI6Rtn0G3DmAcKGUch//Bojsm+YYI+D47s3qp
-	 H1RHjKC86EtXDkoD9jn2xONn3sYw8dG7u5KEIEhjZchwwZ25j+yr2WHYl4YN3aqL3j
-	 NzEOxI9eojQmA8AmCmUBshYnso5aRa504XkUAnCcwVPVYFGSZJtY5YjCHU5Bp7b88m
-	 a2XQqlTTNwQHw==
-Date: Tue, 14 May 2024 11:21:38 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	srinivas.kandagatla@linaro.org, bgoswami@quicinc.com,
-	daniel.baluta@nxp.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, sound-open-firmware@alsa-project.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 1/6] ASoC: topology: Constify an argument of
- snd_soc_tplg_component_load()
-Message-ID: <1fb69d24-03af-4742-9f44-5a93704f5cfb@sirena.org.uk>
-References: <f2f983e791d7f941a95556bb147f426a345d84d4.1715526069.git.christophe.jaillet@wanadoo.fr>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TA28sTl8"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a59e4136010so1395306566b.3;
+        Tue, 14 May 2024 03:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715682888; x=1716287688; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R7trD0rDL4U7JA4p6IKLVIIlna4fm1L1zpyVjzxwMlo=;
+        b=TA28sTl8F1V/h+L2Zg6gakOXLVbi2P7H/XW+Qgytke1xiovSnSm/LNsjT94QFe3N92
+         zCgWEsjxXPKSZbBIWafAPtC08l0B2m4dDzDC469SMhaZ/WsqBderR1Il9v6reUK2Vxfo
+         686OP1gqA65sS2iCS5ZgA6FF+OIH/oCndwykbti8Z8PaOmFluEIvWhXedsTpPeintn91
+         nm4ks9xbaroMu1ugOc3FdCxSqDLqVsr1LvcqpSgHNilTzU8NuxT/i+HLqcIMkLkZI6je
+         iBhAbqSjXekbYlwG5aNLRV8IdGcwGgypG2kYZ4vsyRIehUtbYq6OCKLSq1YuE55+UPpR
+         jqOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715682888; x=1716287688;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R7trD0rDL4U7JA4p6IKLVIIlna4fm1L1zpyVjzxwMlo=;
+        b=MIA75hC8LodTakVwwL99uYX4Dls0gJghI8wavuuJNEKebzvMejrWvEnM+f+mFAbJ+7
+         vjF6Jz70cS2fSo7lzbgSqYLB2lgm9av6FN1/QhcTOyBOofIiPT0xlSNunCDerBGz4pcy
+         mnRdZTHxMAcTvMpsPUOLTUi5XhWvokumcXmjH4xdx+NwhAltl5JB7OreLCW2YCdLMKjr
+         GGD3WGbnfzvNS9K+Wb1iC7xOqMQOk75QcaCMr+QU8N73uUjQvOHx8yP5rM6sCoYzAUe/
+         qABmZa65dBz0o2IhoYrJsbK2SIdOKsIxRKSo/VGqd4ONNDjGz2qBOR7gLjtY0iBgJbZQ
+         QKgA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9iidAlrzmO8wOzGRLxVeOhzNCpGVKbSqmQEyLsZ/gbff011RvpbNIEsV0/VFWy9yOHpQO5Rie6jUTcB2f07nVDkusITEB9pSMQuurfYLVfY7CKU16OxihN9OkCKZtuA9+kh96mFB2j8ahlHdkIjFKEcKSp355gsPNgxpIK2FNVHIvlv4f
+X-Gm-Message-State: AOJu0Ywt3mA15TrHBDi66C9MccwhqDNfbg4//1UElnarxwCpJo0AKlbL
+	WH6BMxGAVD93hQqRofTMlqAGF1ch4XZjCbfSNTl7MLsfsob1dyD65tWUsYf3
+X-Google-Smtp-Source: AGHT+IF2/0DyNnYwDYAigKCEdRXmn4XP3gsRHlGPpr2+mdv/bs9kDusp8Vw8UqBhX/D9pnrRYpYSqQ==
+X-Received: by 2002:a17:907:bb83:b0:a59:b68d:4604 with SMTP id a640c23a62f3a-a5a2d65f36amr744967066b.59.1715682888350;
+        Tue, 14 May 2024 03:34:48 -0700 (PDT)
+Received: from njaxe.localnet (host-79-55-54-147.retail.telecomitalia.it. [79.55.54.147])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a178a9d9csm704053766b.74.2024.05.14.03.34.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 03:34:48 -0700 (PDT)
+From: matteomartelli3@gmail.com
+To: matteomartelli3@gmail.com, Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: es8311: dt-bindings: add everest es8311 codec
+Date: Tue, 14 May 2024 12:34:47 +0200
+Message-ID: <4196680.zEN4bpRDmC@njaxe>
+In-Reply-To: <20240513184404.GA2805391-robh@kernel.org>
+References:
+ <20240510131238.1319333-1-matteomartelli3@gmail.com>
+ <4072123.0gxhY3eTYf@njaxe> <20240513184404.GA2805391-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/yzFNmYb1iOOUdKX"
-Content-Disposition: inline
-In-Reply-To: <f2f983e791d7f941a95556bb147f426a345d84d4.1715526069.git.christophe.jaillet@wanadoo.fr>
-X-Cookie: In the war of wits, he's unarmed.
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+
+On Monday, 13 May 2024 20.44.04 CEST Rob Herring wrote:
+> On Mon, May 13, 2024 at 05:38:16PM +0200, matteomartelli3@gmail.com wrote:
+> > On Monday, 13 May 2024 10.53.57 CEST Krzysztof Kozlowski wrote:
+> > > On 10/05/2024 15:00, Matteo Martelli wrote:
+> > > > Add DT bindings documentation for the Everest-semi ES8311 codec.
+> > > > 
+> > > > Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
+> > > > interface and I2C control.
+> > > > 
+> > > > Signed-off-by: Matteo Martelli <matteomartelli3@gmail.com>
+> > > > ---
+> > > >  .../bindings/sound/everest,es8311.yaml        | 52 +++++++++++++++++++
+> > > >  1 file changed, 52 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/sound/everest,es8311.yaml b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..54fb58b9ab58
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/sound/everest,es8311.yaml
+> > > > @@ -0,0 +1,52 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/sound/everest,es8311.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Everest ES8311 audio CODEC
+> > > 
+> > > This looks exactly like es8316, except of later added port. Are you sure
+> > > you are not planning to add port later, which would make both schemas
+> > > identical?
+> > 
+> > I did not pay enough attention to audio-graph-port property which is in
+> > fact supported and could be added as well. Thus the es8311.yaml would be
+> > identical to es8316.yaml. My guess is that I should just add the
+> > "everest,es8311" compatible string to the existing es8316.yaml even if the
+> > two drivers are separate (like for instance mediatek,mt8186-clock.yaml). Is
+> > this correct?
+> 
+> Yes.
+> 
+> > If that's the case:
+> > * should the evereset,es8316.yaml file be renamed to evereset,es831x.yaml?
+> 
+> No.
+> 
+> > * should I also add myself to the maintainers list of that schema?
+> 
+> That's up to you. Do you want to be CCed on future changes to it?
+
+Yes.
+
+> Rob
+> 
+
+Thanks for your feedbacks, I will fix it in patch version 2 as discussed.
+
+Matteo Martelli
 
 
---/yzFNmYb1iOOUdKX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, May 13, 2024 at 07:37:20PM +0200, Christophe JAILLET wrote:
-> snd_soc_tplg_component_load() does not modify its "*ops" argument. It
-> only read some values and stores it in "soc_tplg.ops".
-
-As mentioned in submitting-patches.rst when submitting a patch series
-you should supply a cover letter for that patch series which describes
-the overall content of the series.  This helps people understand what
-they are looking at and how things fit together.
-
---/yzFNmYb1iOOUdKX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZDOzIACgkQJNaLcl1U
-h9D6KAf8D7XMQi5rJoTwxI9Bu02nKcGaXYmMbfHTt9hAM5CY6TONJDV9QVBsu5dj
-VaeRt4XMiNUQE5eZMwuVqyEuT6ZOjuZs+A5mZUQ4OZx7GpAW8p4VnkxBVqOoHPCV
-Iub0jsw4DBINsrpvtpds6+65rmg6IzZwaZLyc5I4yF7gqJiNRL4II1Wo6mgAGmkX
-XmDUP3ViiX5WqbZQNDUYCD/NOHCjTDRqiv+PnRB11iYOiGyThOiEqr8V3mt3o0/H
-dZQB82eb+i8O5jnXK222WHcezw9OgJFiEzVmpU0EEooUFmIIh5MZJhqqIdc+w9JB
-cqXOrlguU7cXitcrwir2QCzFWKY3Lw==
-=Z+z6
------END PGP SIGNATURE-----
-
---/yzFNmYb1iOOUdKX--
