@@ -1,412 +1,181 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5AB17C8B;
-	Tue, 14 May 2024 03:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA9911720;
+	Tue, 14 May 2024 07:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715657506; cv=none; b=JBQM9K8MQbCZWMfnYI3vuvqAHBve4B4OANpArcpsmco2yL5C4Zc5n69zISBxINGqpQJhiJ63afvM/LZkJ5fPuOzxoiJ5WuKZGdTexCIK+P1vnAlO5eIYeHloKblLhR4R5xv5aMj1AbjMbJ/MxB3LbnWaUxlpZ5zNPYi5n9dZK8I=
+	t=1715670722; cv=none; b=HWp0dsMdz4O87DIbTs1imLZv5KBD+Tg4C74i1n9oGmnPyg0mOpGPDhU4PVnv0fdPoeX2a2OFDb7CB875ChOkJ9jiPu3zO1xOVqImM9FOY1SzTyRnsVtwJrGYf8wXbHN6bDnp1tfXL3MUPxChX3CU3/aqxKOp7iy4PI5tMqRCUl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715657506; c=relaxed/simple;
-	bh=m5gVHJCz8ARoll5W80xSc+DZhtkAm8AjJV6jl1vQSpo=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=U9aA2JM5Ule/YeAVdbunfhllO0oBupsMQeUiI4d9GA1QMnb5EkTyOZd0a/PdfI+I9FetnaWRKshypT1fvtXQTe3KBIWSV6bSVJw7YxhmtXXfvntVt77QiIx2u16DQAGdLmlPsjdkL/XQVGIXqWkNFaBSssXqIle1cacRzmj5LRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 1EB202017E7;
-	Tue, 14 May 2024 05:31:43 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 867942017D0;
-	Tue, 14 May 2024 05:31:42 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 6972A180222C;
-	Tue, 14 May 2024 11:31:40 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	shengjiu.wang@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1715670722; c=relaxed/simple;
+	bh=pcnYluDag238mmBsUKSC6PbYsfe7QbcseXtCxzyXERY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c0nFESfzhso/+8X7nd3TNJLsuSVHqAATxB8SKuk3lPGY06jaM2VD06+1+E5BxrzckM0wYpF8yMQ00ZaXo3HDC6Oa8BbSEJ+HSkV7JxvCAK4bJVLfr+FlTcqiV/4IU0MJtzOKn/Rlo424EtxpDQWvNDiSAxxSsYDxm3i+XjxR5fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGakXGiG; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGakXGiG"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so30134385ad.1;
+        Tue, 14 May 2024 00:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715670720; x=1716275520; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3uYIr3Ml2AVWzJhE/ggK+DKrQxQADQHuE7nOd7CrufI=;
+        b=FGakXGiGzuOcD3YDjVKFt/g02EXOOvakW/eoyuq3X3Jcrdn7i3mc4SHWiHP2Q/vphq
+         Tp5Bg0WrmXYkHpSKPPBxXUgB2EUJErmUgHLGXCMJJG7mhtmkpL7YGSv+u80JRzsbJyOO
+         M8lgnB4dq23USqxIChVoKF8cYw2xIXcVhHRR+FMi6IIQ/Qs74QUcNpaiLQOnaHuCtTTe
+         tqYDf9grdVK5V+tk59AmNvYI9YZyjiqzMTKrdv4opfqAldV8AsJouPCV0sz16clZ58FP
+         LPooSgH1l7fckNTSzRrtSZBnt20Ak50QPvf/dqWInNLh1qBl2uE6iO6e8JV6kQCyk0t8
+         Q30A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715670720; x=1716275520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3uYIr3Ml2AVWzJhE/ggK+DKrQxQADQHuE7nOd7CrufI=;
+        b=Y6aGIIkE9sxQvPqm4eBF+FDU6+wjtCGNsg8YnnstooF/bLRM90B325W3TUCW8Q79JO
+         trf6rpM5z4mfxnN2LoPONFT+yUnoNHw2pd3wu5vbXhvErbBjTM9cS/WwsC5dXiS8sq2J
+         AVgPOjXPvmK7g8gkeVXemnLH0ZwxMpBQz9fLu2xk0DffWExo7ZaqGyFSnFmLfwPNIsCS
+         R+mxNurgCVcugF0GiiRQ/8sPDMyou7RVPTSZEgltYAQItO3cDO2YrnAMIeX6SmtkEg/l
+         1AGwpQAiWdClsJX/Q1N6R03qJCg0EbZn6hH4GrNMdzCvXeylDM9b7pHMi2rHh7d1jmjQ
+         PMlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJu61vjky6YVEBlhC/vV9jyT5EJKMVffHJ2Z1o+sKSXgk1uVrJRA38zzlwQPwOCRmbgjf2Drnul30Uj8LY1pwEeBwvII4d2DyPrzQS5ozLc8w3aR+ml5lJYYPOTg1xD5pjBMwa+Y11gyg=
+X-Gm-Message-State: AOJu0Yz3pHBx14Wu+6mEuoZkUmQKhUsli0yCWV7xVFcI4Z6nciDqEZTz
+	Zv/x9Fciq5LrKbQOU9E3LnFoZTYm7IYBXE8hOruDfHz19QPuvVFBIrKKMIxaeow=
+X-Google-Smtp-Source: AGHT+IHjy9RplyYNtkpgjstWh8etxT8+rKaKrPSFQtNG4FdFsK/ntTcQAtLDJAMGDRMI748GfeeLDw==
+X-Received: by 2002:a17:903:2d2:b0:1eb:1008:2dca with SMTP id d9443c01a7336-1ef43f4cf0cmr138053615ad.49.1715670719911;
+        Tue, 14 May 2024 00:11:59 -0700 (PDT)
+Received: from xiaxiShen-ThinkPad.gigstreem.net ([66.160.179.28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf32f51sm93073275ad.154.2024.05.14.00.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 00:11:59 -0700 (PDT)
+From: Xiaxi Shen <shenxiaxi26@gmail.com>
+To: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v2 2/2] ASoC: fsl_xcvr: Add support for i.MX95 platform
-Date: Tue, 14 May 2024 11:12:09 +0800
-Message-Id: <1715656329-8061-3-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1715656329-8061-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1715656329-8061-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	linux-sound@vger.kernel.org
+Cc: shenxiaxi26@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	javier.carrasco.cruz@gmail.com,
+	skhan@linuxfoundation.org
+Subject: [PATCH v2] ASoC: dt-bindings: ak4104: convert to dt schema
+Date: Tue, 14 May 2024 00:11:43 -0700
+Message-Id: <20240514071143.438748-1-shenxiaxi26@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On i.MX95, the XCVR uses a new PLL in the PHY, which is
-General Purpose (GP) PLL. Add GP PLL configuration support
-in the driver and add the 'pll_ver' flag to distinguish
-different PLL on different platforms.
+Convert ak4104 binding to DT schema
 
-The XCVR also use PHY but limited for SPDIF only case
-Add 'use_phy' flag to distinguish these platforms.
-
-When there are 'pll8k' and 'pll11k' clock existing, the clock
-source of 'phy_clk' can be changed for different sample rate
-requirement.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Chancel Liu <chancel.liu@nxp.com>
+Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
 ---
- sound/soc/fsl/Kconfig    |   1 +
- sound/soc/fsl/fsl_xcvr.c | 128 ++++++++++++++++++++++++++-------------
- sound/soc/fsl/fsl_xcvr.h |  91 ++++++++++++++++++++++++++++
- 3 files changed, 177 insertions(+), 43 deletions(-)
+Changes in v2:
+ - Remove subsystem maintainers
+ - Wrap lines at <80
 
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index 270726c134b3..9a371d4496c2 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -103,6 +103,7 @@ config SND_SOC_FSL_XCVR
- 	select REGMAP_MMIO
- 	select SND_SOC_IMX_PCM_DMA if SND_IMX_SOC != n
- 	select SND_SOC_GENERIC_DMAENGINE_PCM
-+	select SND_SOC_FSL_UTILS
- 	help
- 	  Say Y if you want to add Audio Transceiver (XCVR) support for NXP
- 	  iMX CPUs. XCVR is a digital module that supports HDMI2.1 eARC,
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index c46f64557a7f..6b1715ac67c5 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -15,14 +15,22 @@
- #include <sound/pcm_params.h>
- 
- #include "fsl_xcvr.h"
-+#include "fsl_utils.h"
- #include "imx-pcm.h"
- 
- #define FSL_XCVR_CAPDS_SIZE	256
- 
-+enum fsl_xcvr_pll_verison {
-+	PLL_MX8MP,
-+	PLL_MX95,
-+};
-+
- struct fsl_xcvr_soc_data {
- 	const char *fw_name;
- 	bool spdif_only;
- 	bool use_edma;
-+	bool use_phy;
-+	enum fsl_xcvr_pll_verison pll_ver;
- };
- 
- struct fsl_xcvr {
-@@ -33,6 +41,8 @@ struct fsl_xcvr {
- 	struct clk *pll_ipg_clk;
- 	struct clk *phy_clk;
- 	struct clk *spba_clk;
-+	struct clk *pll8k_clk;
-+	struct clk *pll11k_clk;
- 	struct reset_control *reset;
- 	u8 streams;
- 	u32 mode;
-@@ -262,10 +272,10 @@ static int fsl_xcvr_ai_write(struct fsl_xcvr *xcvr, u8 reg, u32 data, bool phy)
- static int fsl_xcvr_en_phy_pll(struct fsl_xcvr *xcvr, u32 freq, bool tx)
- {
- 	struct device *dev = &xcvr->pdev->dev;
--	u32 i, div = 0, log2;
-+	u32 i, div = 0, log2, val;
- 	int ret;
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		return 0;
- 
- 	for (i = 0; i < ARRAY_SIZE(fsl_xcvr_pll_cfg); i++) {
-@@ -288,45 +298,62 @@ static int fsl_xcvr_en_phy_pll(struct fsl_xcvr *xcvr, u32 freq, bool tx)
- 		return ret;
- 	}
- 
--	/* PLL: BANDGAP_SET: EN_VBG (enable bandgap) */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_BANDGAP_SET,
--			  FSL_XCVR_PLL_BANDGAP_EN_VBG, 0);
+Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
+---
+ .../devicetree/bindings/sound/ak4104.txt      | 25 ----------
+ .../bindings/sound/asahi-kasei,ak4104.yaml    | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/ak4104.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/ak4104.txt b/Documentation/devicetree/bindings/sound/ak4104.txt
+deleted file mode 100644
+index ae5f7f057dc3..000000000000
+--- a/Documentation/devicetree/bindings/sound/ak4104.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-AK4104 S/PDIF transmitter
 -
--	/* PLL: CTRL0: DIV_INTEGER */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0, fsl_xcvr_pll_cfg[i].mfi, 0);
--	/* PLL: NUMERATOR: MFN */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_NUM, fsl_xcvr_pll_cfg[i].mfn, 0);
--	/* PLL: DENOMINATOR: MFD */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_DEN, fsl_xcvr_pll_cfg[i].mfd, 0);
--	/* PLL: CTRL0_SET: HOLD_RING_OFF, POWER_UP */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--			  FSL_XCVR_PLL_CTRL0_HROFF | FSL_XCVR_PLL_CTRL0_PWP, 0);
--	udelay(25);
--	/* PLL: CTRL0: Clear Hold Ring Off */
--	fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_CLR,
--			  FSL_XCVR_PLL_CTRL0_HROFF, 0);
--	udelay(100);
--	if (tx) { /* TX is enabled for SPDIF only */
--		/* PLL: POSTDIV: PDIV0 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 0), 0);
--		/* PLL: CTRL_SET: CLKMUX0_EN */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM0_EN, 0);
--	} else if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC RX */
--		/* PLL: POSTDIV: PDIV1 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 1), 0);
--		/* PLL: CTRL_SET: CLKMUX1_EN */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM1_EN, 0);
--	} else { /* SPDIF / ARC RX */
--		/* PLL: POSTDIV: PDIV2 */
--		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
--				  FSL_XCVR_PLL_PDIVx(log2, 2), 0);
--		/* PLL: CTRL_SET: CLKMUX2_EN */
-+	switch (xcvr->soc_data->pll_ver) {
-+	case PLL_MX8MP:
-+		/* PLL: BANDGAP_SET: EN_VBG (enable bandgap) */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_BANDGAP_SET,
-+				  FSL_XCVR_PLL_BANDGAP_EN_VBG, 0);
+-This device supports SPI mode only.
+-
+-Required properties:
+-
+-  - compatible : "asahi-kasei,ak4104"
+-
+-  - reg : The chip select number on the SPI bus
+-
+-  - vdd-supply : A regulator node, providing 2.7V - 3.6V
+-
+-Optional properties:
+-
+-  - reset-gpios : a GPIO spec for the reset pin. If specified, it will be
+-		  deasserted before communication to the device starts.
+-
+-Example:
+-
+-spdif: ak4104@0 {
+-	compatible = "asahi-kasei,ak4104";
+-	reg = <0>;
+-	spi-max-frequency = <5000000>;
+-	vdd-supply = <&vdd_3v3_reg>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+new file mode 100644
+index 000000000000..91b3a6817a85
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/asahi-kasei,ak4104.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+		/* PLL: CTRL0: DIV_INTEGER */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0, fsl_xcvr_pll_cfg[i].mfi, 0);
-+		/* PLL: NUMERATOR: MFN */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_NUM, fsl_xcvr_pll_cfg[i].mfn, 0);
-+		/* PLL: DENOMINATOR: MFD */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_DEN, fsl_xcvr_pll_cfg[i].mfd, 0);
-+		/* PLL: CTRL0_SET: HOLD_RING_OFF, POWER_UP */
- 		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
--				  FSL_XCVR_PLL_CTRL0_CM2_EN, 0);
-+				  FSL_XCVR_PLL_CTRL0_HROFF | FSL_XCVR_PLL_CTRL0_PWP, 0);
-+		udelay(25);
-+		/* PLL: CTRL0: Clear Hold Ring Off */
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_CLR,
-+				  FSL_XCVR_PLL_CTRL0_HROFF, 0);
-+		udelay(100);
-+		if (tx) { /* TX is enabled for SPDIF only */
-+			/* PLL: POSTDIV: PDIV0 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 0), 0);
-+			/* PLL: CTRL_SET: CLKMUX0_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM0_EN, 0);
-+		} else if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC RX */
-+			/* PLL: POSTDIV: PDIV1 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 1), 0);
-+			/* PLL: CTRL_SET: CLKMUX1_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM1_EN, 0);
-+		} else { /* SPDIF / ARC RX */
-+			/* PLL: POSTDIV: PDIV2 */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_PDIV,
-+					  FSL_XCVR_PLL_PDIVx(log2, 2), 0);
-+			/* PLL: CTRL_SET: CLKMUX2_EN */
-+			fsl_xcvr_ai_write(xcvr, FSL_XCVR_PLL_CTRL0_SET,
-+					  FSL_XCVR_PLL_CTRL0_CM2_EN, 0);
-+		}
-+		break;
-+	case PLL_MX95:
-+		val = fsl_xcvr_pll_cfg[i].mfi << FSL_XCVR_GP_PLL_DIV_MFI_SHIFT | div;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_DIV, val, 0);
-+		val = fsl_xcvr_pll_cfg[i].mfn << FSL_XCVR_GP_PLL_NUMERATOR_MFN_SHIFT;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_NUMERATOR, val, 0);
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_DENOMINATOR,
-+				  fsl_xcvr_pll_cfg[i].mfd, 0);
-+		val = FSL_XCVR_GP_PLL_CTRL_POWERUP | FSL_XCVR_GP_PLL_CTRL_CLKMUX_EN;
-+		fsl_xcvr_ai_write(xcvr, FSL_XCVR_GP_PLL_CTRL, val, 0);
-+		break;
-+	default:
-+		dev_err(dev, "Error for PLL version %d\n", xcvr->soc_data->pll_ver);
-+		return -EINVAL;
- 	}
- 
- 	if (xcvr->mode == FSL_XCVR_MODE_EARC) { /* eARC mode */
-@@ -362,6 +389,8 @@ static int fsl_xcvr_en_aud_pll(struct fsl_xcvr *xcvr, u32 freq)
- 
- 	freq = xcvr->soc_data->spdif_only ? freq / 5 : freq;
- 	clk_disable_unprepare(xcvr->phy_clk);
-+	fsl_asoc_reparent_pll_clocks(dev, xcvr->phy_clk,
-+				     xcvr->pll8k_clk, xcvr->pll11k_clk, freq);
- 	ret = clk_set_rate(xcvr->phy_clk, freq);
- 	if (ret < 0) {
- 		dev_err(dev, "Error while setting AUD PLL rate: %d\n", ret);
-@@ -373,7 +402,7 @@ static int fsl_xcvr_en_aud_pll(struct fsl_xcvr *xcvr, u32 freq)
- 		return ret;
- 	}
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		return 0;
- 	/* Release AI interface from reset */
- 	ret = regmap_write(xcvr->regmap, FSL_XCVR_PHY_AI_CTRL_SET,
-@@ -1017,7 +1046,7 @@ static bool fsl_xcvr_readable_reg(struct device *dev, unsigned int reg)
- {
- 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		if ((reg >= FSL_XCVR_IER && reg <= FSL_XCVR_PHY_AI_RDATA) ||
- 		    reg > FSL_XCVR_TX_DPTH_BCRR)
- 			return false;
-@@ -1090,7 +1119,7 @@ static bool fsl_xcvr_writeable_reg(struct device *dev, unsigned int reg)
- {
- 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
- 
--	if (xcvr->soc_data->spdif_only)
-+	if (!xcvr->soc_data->use_phy)
- 		if (reg >= FSL_XCVR_IER && reg <= FSL_XCVR_PHY_AI_RDATA)
- 			return false;
- 	switch (reg) {
-@@ -1234,6 +1263,8 @@ static irqreturn_t irq0_isr(int irq, void *devid)
- 
- static const struct fsl_xcvr_soc_data fsl_xcvr_imx8mp_data = {
- 	.fw_name = "imx/xcvr/xcvr-imx8mp.bin",
-+	.use_phy = true,
-+	.pll_ver = PLL_MX8MP,
- };
- 
- static const struct fsl_xcvr_soc_data fsl_xcvr_imx93_data = {
-@@ -1241,9 +1272,17 @@ static const struct fsl_xcvr_soc_data fsl_xcvr_imx93_data = {
- 	.use_edma = true,
- };
- 
-+static const struct fsl_xcvr_soc_data fsl_xcvr_imx95_data = {
-+	.spdif_only = true,
-+	.use_phy = true,
-+	.use_edma = true,
-+	.pll_ver = PLL_MX95,
-+};
++title: AK4104 S/PDIF transmitter
 +
- static const struct of_device_id fsl_xcvr_dt_ids[] = {
- 	{ .compatible = "fsl,imx8mp-xcvr", .data = &fsl_xcvr_imx8mp_data },
- 	{ .compatible = "fsl,imx93-xcvr", .data = &fsl_xcvr_imx93_data},
-+	{ .compatible = "fsl,imx95-xcvr", .data = &fsl_xcvr_imx95_data},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, fsl_xcvr_dt_ids);
-@@ -1287,6 +1326,9 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
- 		return PTR_ERR(xcvr->pll_ipg_clk);
- 	}
- 
-+	fsl_asoc_get_pll_clocks(dev, &xcvr->pll8k_clk,
-+				&xcvr->pll11k_clk);
++allOf:
++  - $ref: dai-common.yaml#
 +
- 	xcvr->ram_addr = devm_platform_ioremap_resource_byname(pdev, "ram");
- 	if (IS_ERR(xcvr->ram_addr))
- 		return PTR_ERR(xcvr->ram_addr);
-diff --git a/sound/soc/fsl/fsl_xcvr.h b/sound/soc/fsl/fsl_xcvr.h
-index 044058fc6aa2..882428592e1a 100644
---- a/sound/soc/fsl/fsl_xcvr.h
-+++ b/sound/soc/fsl/fsl_xcvr.h
-@@ -291,4 +291,95 @@
- #define FSL_XCVR_RX_CS_BUFF_1		0xA0 /* Second RX CS buffer */
- #define FSL_XCVR_CAP_DATA_STR		0x300 /* Capabilities data structure */
- 
-+/* GP PLL Registers */
-+#define FSL_XCVR_GP_PLL_CTRL			0x00
-+#define FSL_XCVR_GP_PLL_CTRL_SET		0x04
-+#define FSL_XCVR_GP_PLL_CTRL_CLR		0x08
-+#define FSL_XCVR_GP_PLL_CTRL_TOG		0x0C
-+#define FSL_XCVR_GP_PLL_ANA_PRG			0x10
-+#define FSL_XCVR_GP_PLL_ANA_PRG_SET		0x14
-+#define FSL_XCVR_GP_PLL_ANA_PRG_CLR		0x18
-+#define FSL_XCVR_GP_PLL_ANA_PRG_TOG		0x1C
-+#define FSL_XCVR_GP_PLL_TEST			0x20
-+#define FSL_XCVR_GP_PLL_TEST_SET		0x24
-+#define FSL_XCVR_GP_PLL_TEST_CLR		0x28
-+#define FSL_XCVR_GP_PLL_TEST_TOG		0x2C
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM		0x30
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_SET	0x34
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_CLR	0x38
-+#define FSL_XCVR_GP_PLL_SPREAD_SPECTRUM_TOG	0x3C
-+#define FSL_XCVR_GP_PLL_NUMERATOR		0x40
-+#define FSL_XCVR_GP_PLL_NUMERATOR_SET		0x44
-+#define FSL_XCVR_GP_PLL_NUMERATOR_CLR		0x48
-+#define FSL_XCVR_GP_PLL_NUMERATOR_TOG		0x4C
-+#define FSL_XCVR_GP_PLL_DENOMINATOR		0x50
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_SET		0x54
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_CLR		0x58
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_TOG		0x5C
-+#define FSL_XCVR_GP_PLL_DIV			0x60
-+#define FSL_XCVR_GP_PLL_DIV_SET			0x64
-+#define FSL_XCVR_GP_PLL_DIV_CLR			0x68
-+#define FSL_XCVR_GP_PLL_DIV_TOG			0x6C
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0		0x70
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_SET		0x74
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_CLR		0x78
-+#define FSL_XCVR_GP_PLL_DFS_CTRL0_TOG		0x7C
-+#define FSL_XCVR_GP_PLL_DFS_DIV0		0x80
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_SET		0x84
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_CLR		0x88
-+#define FSL_XCVR_GP_PLL_DFS_DIV0_TOG		0x8C
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1		0x90
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_SET		0x94
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_CLR		0x98
-+#define FSL_XCVR_GP_PLL_DFS_CTRL1_TOG		0x9C
-+#define FSL_XCVR_GP_PLL_DFS_DIV1		0xA0
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_SET		0xA4
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_CLR		0xA8
-+#define FSL_XCVR_GP_PLL_DFS_DIV1_TOG		0xAC
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2		0xB0
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_SET		0xB4
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_CLR		0xB8
-+#define FSL_XCVR_GP_PLL_DFS_CTRL2_TOG		0xBC
-+#define FSL_XCVR_GP_PLL_DFS_DIV2		0xC0
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_SET		0xC4
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_CLR		0xC8
-+#define FSL_XCVR_GP_PLL_DFS_DIV2_TOG		0xCC
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3		0xD0
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_SET		0xD4
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_CLR		0xD8
-+#define FSL_XCVR_GP_PLL_DFS_CTRL3_TOG		0xDC
-+#define FSL_XCVR_GP_PLL_DFS_DIV3		0xE0
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_SET		0xE4
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_CLR		0xE8
-+#define FSL_XCVR_GP_PLL_DFS_DIV3_TOG		0xEC
-+#define FSL_XCVR_GP_PLL_STATUS			0xF0
-+#define FSL_XCVR_GP_PLL_STATUS_SET		0xF4
-+#define FSL_XCVR_GP_PLL_STATUS_CLR		0xF8
-+#define FSL_XCVR_GP_PLL_STATUS_TOG		0xFC
++maintainers:
++  - Daniel Mack <github@zonque.org>
++  - Xiaxi Shen <shenxiaxi26@gmail.com>
 +
-+/* GP PLL Control Register */
-+#define FSL_XCVR_GP_PLL_CTRL_LBYPASS		BIT(31)
-+#define FSL_XCVR_GP_PLL_CTRL_HCS		BIT(16)
-+#define FSL_XCVR_GP_PLL_CTRL_MSD		BIT(12)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN3		BIT(11)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN2		BIT(10)
-+#define FSL_XCVR_GP_PLL_CTRL_DITHER_EN1		BIT(9)
-+#define FSL_XCVR_GP_PLL_CTRL_SPREADCTL		BIT(8)
-+#define FSL_XCVR_GP_PLL_CTRL_CLKMUX_BYPASS	BIT(2)
-+#define FSL_XCVR_GP_PLL_CTRL_CLKMUX_EN		BIT(1)
-+#define FSL_XCVR_GP_PLL_CTRL_POWERUP		BIT(0)
++properties:
++  compatible:
++    const: asahi-kasei,ak4104
 +
-+/* GP PLL Numerator Register */
-+#define FSL_XCVR_GP_PLL_NUMERATOR_MFN_SHIFT	2
-+#define FSL_XCVR_GP_PLL_NUMERATOR_MFN		GENMASK(31, 2)
++  reg:
++    description: Chip select number on the SPI bus 
++    maxItems: 1
 +
-+/* GP PLL Denominator Register */
-+#define FSL_XCVR_GP_PLL_DENOMINATOR_MFD		GENMASK(29, 0)
++  vdd-supply:
++    description: A regulator node providing between 2.7V and 3.6V.
 +
-+/* GP PLL Dividers Register */
-+#define FSL_XCVR_GP_PLL_DIV_MFI_SHIFT		16
-+#define FSL_XCVR_GP_PLL_DIV_MFI			GENMASK(24, 16)
-+#define FSL_XCVR_GP_PLL_DIV_RDIV		GENMASK(15, 13)
-+#define FSL_XCVR_GP_PLL_DIV_ODIV		GENMASK(7, 0)
++  reset-gpios:
++    maxItems: 1
++    description: Optional GPIO spec for the reset pin, deasserted 
++                  before communication starts.
++    
++required:
++  - compatible
++  - reg
++  - vdd-supply
 +
- #endif /* __FSL_XCVR_H */
++additionalProperties: false
++
++examples:
++  - |
++   i2c {
++     #address-cells = <1>;
++     #size-cells = <0>;
++     codec@0 {
++       compatible = "asahi-kasei,ak4104";
++       reg = <0>;
++       vdd-supply = <&vdd_3v3_reg>;
++     };
++   };
 -- 
 2.34.1
 
