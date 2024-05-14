@@ -1,181 +1,124 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA9911720;
-	Tue, 14 May 2024 07:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564FF11717;
+	Tue, 14 May 2024 07:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715670722; cv=none; b=HWp0dsMdz4O87DIbTs1imLZv5KBD+Tg4C74i1n9oGmnPyg0mOpGPDhU4PVnv0fdPoeX2a2OFDb7CB875ChOkJ9jiPu3zO1xOVqImM9FOY1SzTyRnsVtwJrGYf8wXbHN6bDnp1tfXL3MUPxChX3CU3/aqxKOp7iy4PI5tMqRCUl8=
+	t=1715671451; cv=none; b=o6yT6aHOrX5Eoc7Cl6DKurT3p76A5bSdHk+73TrJSgIufZco8hJiI1d0pfbCQpU+B0fWbpxznBC9wJAb7dYYRLPCbHIAVIrvDJw9r1vt1+2pdceo4fOxEwPG/RocmK6fMNjKyEaJiTAtDOVphHYGWSaSluSLr+gT0dQry1KLVFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715670722; c=relaxed/simple;
-	bh=pcnYluDag238mmBsUKSC6PbYsfe7QbcseXtCxzyXERY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c0nFESfzhso/+8X7nd3TNJLsuSVHqAATxB8SKuk3lPGY06jaM2VD06+1+E5BxrzckM0wYpF8yMQ00ZaXo3HDC6Oa8BbSEJ+HSkV7JxvCAK4bJVLfr+FlTcqiV/4IU0MJtzOKn/Rlo424EtxpDQWvNDiSAxxSsYDxm3i+XjxR5fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGakXGiG; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715671451; c=relaxed/simple;
+	bh=BOZXDlQW/ALMT/v+vXYr+gzuWqxOzMY84psbe2mKH9g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dKocnQoVtSgkmaxAMra+sBQupohmvo0/hNd6WuXANPyozpERcH+5qWuopVahj7IyxoJsggxlj93MH+23zJ7fttE8piFOY3Sitzv3Q5fepPsbM2y2i4NvHk2t8ZMLKurCMc+wnx+gvQCrwE+HO72h/o/xhZC1RumecWRhSi4CvkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLzPCiiC; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGakXGiG"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so30134385ad.1;
-        Tue, 14 May 2024 00:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715670720; x=1716275520; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3uYIr3Ml2AVWzJhE/ggK+DKrQxQADQHuE7nOd7CrufI=;
-        b=FGakXGiGzuOcD3YDjVKFt/g02EXOOvakW/eoyuq3X3Jcrdn7i3mc4SHWiHP2Q/vphq
-         Tp5Bg0WrmXYkHpSKPPBxXUgB2EUJErmUgHLGXCMJJG7mhtmkpL7YGSv+u80JRzsbJyOO
-         M8lgnB4dq23USqxIChVoKF8cYw2xIXcVhHRR+FMi6IIQ/Qs74QUcNpaiLQOnaHuCtTTe
-         tqYDf9grdVK5V+tk59AmNvYI9YZyjiqzMTKrdv4opfqAldV8AsJouPCV0sz16clZ58FP
-         LPooSgH1l7fckNTSzRrtSZBnt20Ak50QPvf/dqWInNLh1qBl2uE6iO6e8JV6kQCyk0t8
-         Q30A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715670720; x=1716275520;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3uYIr3Ml2AVWzJhE/ggK+DKrQxQADQHuE7nOd7CrufI=;
-        b=Y6aGIIkE9sxQvPqm4eBF+FDU6+wjtCGNsg8YnnstooF/bLRM90B325W3TUCW8Q79JO
-         trf6rpM5z4mfxnN2LoPONFT+yUnoNHw2pd3wu5vbXhvErbBjTM9cS/WwsC5dXiS8sq2J
-         AVgPOjXPvmK7g8gkeVXemnLH0ZwxMpBQz9fLu2xk0DffWExo7ZaqGyFSnFmLfwPNIsCS
-         R+mxNurgCVcugF0GiiRQ/8sPDMyou7RVPTSZEgltYAQItO3cDO2YrnAMIeX6SmtkEg/l
-         1AGwpQAiWdClsJX/Q1N6R03qJCg0EbZn6hH4GrNMdzCvXeylDM9b7pHMi2rHh7d1jmjQ
-         PMlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJu61vjky6YVEBlhC/vV9jyT5EJKMVffHJ2Z1o+sKSXgk1uVrJRA38zzlwQPwOCRmbgjf2Drnul30Uj8LY1pwEeBwvII4d2DyPrzQS5ozLc8w3aR+ml5lJYYPOTg1xD5pjBMwa+Y11gyg=
-X-Gm-Message-State: AOJu0Yz3pHBx14Wu+6mEuoZkUmQKhUsli0yCWV7xVFcI4Z6nciDqEZTz
-	Zv/x9Fciq5LrKbQOU9E3LnFoZTYm7IYBXE8hOruDfHz19QPuvVFBIrKKMIxaeow=
-X-Google-Smtp-Source: AGHT+IHjy9RplyYNtkpgjstWh8etxT8+rKaKrPSFQtNG4FdFsK/ntTcQAtLDJAMGDRMI748GfeeLDw==
-X-Received: by 2002:a17:903:2d2:b0:1eb:1008:2dca with SMTP id d9443c01a7336-1ef43f4cf0cmr138053615ad.49.1715670719911;
-        Tue, 14 May 2024 00:11:59 -0700 (PDT)
-Received: from xiaxiShen-ThinkPad.gigstreem.net ([66.160.179.28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf32f51sm93073275ad.154.2024.05.14.00.11.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 00:11:59 -0700 (PDT)
-From: Xiaxi Shen <shenxiaxi26@gmail.com>
-To: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: shenxiaxi26@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	javier.carrasco.cruz@gmail.com,
-	skhan@linuxfoundation.org
-Subject: [PATCH v2] ASoC: dt-bindings: ak4104: convert to dt schema
-Date: Tue, 14 May 2024 00:11:43 -0700
-Message-Id: <20240514071143.438748-1-shenxiaxi26@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLzPCiiC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715671450; x=1747207450;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BOZXDlQW/ALMT/v+vXYr+gzuWqxOzMY84psbe2mKH9g=;
+  b=eLzPCiiC6YZVrc4Mn2MGeHGgEG12yflyIa2VbrB7fRNy6HR7YRLgZY1D
+   x3lAGlZ/yq9dLkmj5gQ/erzw7avB2GQKDivMgqfYIMgHhh7zuge0wpu2V
+   2eN8CQutZlY8BxhQ2Zos30m8v60YRswSUQBzd+92ZHcvunvdCxOu1ayto
+   +fp5OYLmgMEuHSWdoXWk8Sks66ddyyetjhDq1RBvR8FJuq2E96n1GK5P9
+   0yF4aTUhZq+Q3inTG+t8MsbPETofbD2vonJ/W5aRSKBnFI4QB3a+CgJ28
+   7uS851VOooRnvVLhyN0y38mUgBHudmVs36oPE+HRytgsoQd3HAogkOz+s
+   w==;
+X-CSE-ConnectionGUID: SeUZwr38Tv2f98s2vMWRPg==
+X-CSE-MsgGUID: j0XPceK8S22UlZCrDQfdbw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11488953"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="11488953"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 00:24:04 -0700
+X-CSE-ConnectionGUID: TKg2A2hNQSW6FXkQNLQQpA==
+X-CSE-MsgGUID: NEldkTQUSX6In4azeNWRZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="30638103"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.32.104]) ([10.94.32.104])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 00:23:58 -0700
+Message-ID: <9a34ea33-1294-4356-b9c4-295709a86cd2@linux.intel.com>
+Date: Tue, 14 May 2024 09:23:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] ASoC: topology: Constify an argument of
+ snd_soc_tplg_component_load()
+Content-Language: en-US
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+ srinivas.kandagatla@linaro.org, bgoswami@quicinc.com, daniel.baluta@nxp.com
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+ sound-open-firmware@alsa-project.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <f2f983e791d7f941a95556bb147f426a345d84d4.1715526069.git.christophe.jaillet@wanadoo.fr>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <f2f983e791d7f941a95556bb147f426a345d84d4.1715526069.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Convert ak4104 binding to DT schema
+On 5/13/2024 7:37 PM, Christophe JAILLET wrote:
+> snd_soc_tplg_component_load() does not modify its "*ops" argument. It
+> only read some values and stores it in "soc_tplg.ops".
+> 
+> This argument and the ops field in "struct soc_tplg" can be made const.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>   include/sound/soc-topology.h | 2 +-
+>   sound/soc/soc-topology.c     | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/sound/soc-topology.h b/include/sound/soc-topology.h
+> index f055c6917f6c..1eedd203ac29 100644
+> --- a/include/sound/soc-topology.h
+> +++ b/include/sound/soc-topology.h
+> @@ -178,7 +178,7 @@ static inline const void *snd_soc_tplg_get_data(struct snd_soc_tplg_hdr *hdr)
+>   
+>   /* Dynamic Object loading and removal for component drivers */
+>   int snd_soc_tplg_component_load(struct snd_soc_component *comp,
+> -	struct snd_soc_tplg_ops *ops, const struct firmware *fw);
+> +	const struct snd_soc_tplg_ops *ops, const struct firmware *fw);
+>   int snd_soc_tplg_component_remove(struct snd_soc_component *comp);
+>   
+>   /* Binds event handlers to dynamic widgets */
+> diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+> index 90ca37e008b3..b00ec01361c2 100644
+> --- a/sound/soc/soc-topology.c
+> +++ b/sound/soc/soc-topology.c
+> @@ -73,7 +73,7 @@ struct soc_tplg {
+>   	int bytes_ext_ops_count;
+>   
+>   	/* optional fw loading callbacks to component drivers */
+> -	struct snd_soc_tplg_ops *ops;
+> +	const struct snd_soc_tplg_ops *ops;
+>   };
+>   
+>   /* check we dont overflow the data for this control chunk */
+> @@ -2334,7 +2334,7 @@ static int soc_tplg_load(struct soc_tplg *tplg)
+>   
+>   /* load audio component topology from "firmware" file */
+>   int snd_soc_tplg_component_load(struct snd_soc_component *comp,
+> -	struct snd_soc_tplg_ops *ops, const struct firmware *fw)
+> +	const struct snd_soc_tplg_ops *ops, const struct firmware *fw)
+>   {
+>   	struct soc_tplg tplg;
+>   	int ret;
 
-Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
----
-Changes in v2:
- - Remove subsystem maintainers
- - Wrap lines at <80
+Yes, makes sense to me.
 
-Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
----
- .../devicetree/bindings/sound/ak4104.txt      | 25 ----------
- .../bindings/sound/asahi-kasei,ak4104.yaml    | 49 +++++++++++++++++++
- 2 files changed, 49 insertions(+), 25 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/ak4104.txt
- create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/ak4104.txt b/Documentation/devicetree/bindings/sound/ak4104.txt
-deleted file mode 100644
-index ae5f7f057dc3..000000000000
---- a/Documentation/devicetree/bindings/sound/ak4104.txt
-+++ /dev/null
-@@ -1,25 +0,0 @@
--AK4104 S/PDIF transmitter
--
--This device supports SPI mode only.
--
--Required properties:
--
--  - compatible : "asahi-kasei,ak4104"
--
--  - reg : The chip select number on the SPI bus
--
--  - vdd-supply : A regulator node, providing 2.7V - 3.6V
--
--Optional properties:
--
--  - reset-gpios : a GPIO spec for the reset pin. If specified, it will be
--		  deasserted before communication to the device starts.
--
--Example:
--
--spdif: ak4104@0 {
--	compatible = "asahi-kasei,ak4104";
--	reg = <0>;
--	spi-max-frequency = <5000000>;
--	vdd-supply = <&vdd_3v3_reg>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
-new file mode 100644
-index 000000000000..91b3a6817a85
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/asahi-kasei,ak4104.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: AK4104 S/PDIF transmitter
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+maintainers:
-+  - Daniel Mack <github@zonque.org>
-+  - Xiaxi Shen <shenxiaxi26@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: asahi-kasei,ak4104
-+
-+  reg:
-+    description: Chip select number on the SPI bus 
-+    maxItems: 1
-+
-+  vdd-supply:
-+    description: A regulator node providing between 2.7V and 3.6V.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: Optional GPIO spec for the reset pin, deasserted 
-+                  before communication starts.
-+    
-+required:
-+  - compatible
-+  - reg
-+  - vdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+   i2c {
-+     #address-cells = <1>;
-+     #size-cells = <0>;
-+     codec@0 {
-+       compatible = "asahi-kasei,ak4104";
-+       reg = <0>;
-+       vdd-supply = <&vdd_3v3_reg>;
-+     };
-+   };
--- 
-2.34.1
-
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
