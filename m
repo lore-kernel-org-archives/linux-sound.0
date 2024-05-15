@@ -1,167 +1,183 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0584C23D7;
-	Wed, 15 May 2024 04:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD7A3EA9B;
+	Wed, 15 May 2024 06:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715747068; cv=none; b=Jm66mM3V9M38SkwHPiA5jZWg+xz8OztMG09JHCxBT3oanERDiS2gKzt8AiwVOeWwc7jwR30YnspEg9bI+zbUMohHI/cRgywg7UgA0hpy2WoTioHDdI9JhSUotZhaMMfbD+L/agtf4czlrOh+VeR9xELefbrEb72/BKnUsZ6EnU8=
+	t=1715755318; cv=none; b=Wn6NxzcQir0TRKRvO2F2zpOr5hhhau6fpRHhS+7p2NpA5+nW0a/ILD1lZGMaAc+TQGNwW0CDKUUz9fkcXltldkm6eBsoJ6gqoxr3kNMyAsTp+IPx5utiVYKLt22Saw2HGXxIFlDRv7HfBAC+lBOvbne+QOsJK29ZvUZT/ixJLwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715747068; c=relaxed/simple;
-	bh=n0/8MoO3v1R9tapgIO+J09N9yNjTcc9+zZ5gLC+8UOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stYYWb5IdxZf0QilV4VSrC5/BL9XIVdNXsEIyWd8JfW5qlAw67vzl7AQWM1Tbw/rwtP02zUTkOtGpQfUJRvF9gMpoCiXwG8m3peU2y11dZvWxiR5nbPy+at+A6Oje4kivFlLt9n5AWZ8RDpSw2nua6V1uFMyYSQVYg1yfG1qSjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gijaTxiH; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1715755318; c=relaxed/simple;
+	bh=GJ6J9YyFmj5g0mLE7msIu5MKiPfm2okuFb6jCKJOrlM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IjhhOHYHg4Dv7NPPfuOFAC5jeZhSQZlZG5H/QlM5VkuT4dulHGFe7S8NLUkzqWFifL7V8+EXfUqnWXhl/mY/WsIIP8RBMkfGf9qZ04ohmJGS1hgo5SLzmxghqKlRaCVDM2jl+TqVirpQw29/U8xXIMoRyX2xX09t+vWaThBnfhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kurWJ3MS; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gijaTxiH"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5f80aa2d4a3so4992259a12.0;
-        Tue, 14 May 2024 21:24:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kurWJ3MS"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ecddf96313so55199835ad.2;
+        Tue, 14 May 2024 23:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715747066; x=1716351866; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2rsm1NJsgZPzAH8gk3mncdDifRxN4sJYMQ3cyC9C7A=;
-        b=gijaTxiHJPBAINl6Y4ZPnaOowUqLsNbB8oJoXvs/UL+qnvVGMW8PKt/IHTCk2kK9zU
-         IGD64l1dWALfCfpQFmm+UIHkE1RHKgBuiM3u1F5DJcd+zFgw5tahMYOCWxnElwmHrsZx
-         oPq1U1DHiB6+AoXbs6FyWJr9v8Vydui5Gq4YUR67ohsQW7rtlxrneGRttY8r/8TSUjl8
-         2NBZyP+TOvXNCdoBWYRi44tfalg0pRx/sx+684H9p3zwrNXd/SJ4cRGbCZnI9XNLKmWA
-         XFSQDeEa1L1czwHwMx/LtA6xktF576NgtwZMnyTJ3AhWXPcnhkDUUq2R0zaglxfdz9R8
-         GEQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715747066; x=1716351866;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1715755315; x=1716360115; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q2rsm1NJsgZPzAH8gk3mncdDifRxN4sJYMQ3cyC9C7A=;
-        b=Kloa2695ZfWRz3MwN4+1c3XCzciqpdWDRB7OVrhpabCrmD0ctbEyNewAl2X3fkwfNl
-         u3B0p4u1oBud1MpQCi8YmNmQtPTIh7uMOzXcwVfQTyKv7yskZKasepchu7jr76PofTdt
-         VgdvMR/nuXiZFlQkMzD1KZq3gOP3QjrO6El3nsKvuOvOxaH3R2m6s0Ltp+mnQU1lGOP5
-         L1bbCzDpuTOJvExI6Tzj/n0gGsfD562B/6jzrHqquUih2p7ZaSofs/gIJaEpJ56gpeWK
-         8n2rdGs+FSvWqs9RlrXiWdSGf7Yt98UGPaJg3H/hGRijQSfUv8TGfMB/VV5naq44b5hV
-         6NqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJFoNAmiNjH7hzQ72z7mclAVl6/W/AiAnbO1e6hGfBqjd/NznbbWZuqlbHNKEOkflBV9WRHGr0b5LmntKjAHIkd2L/RkcKYrZ0VxK7MtMLgYj7ffZhVAof0ZovugtddoHR7M4Pk3dL
-X-Gm-Message-State: AOJu0YwZjdayDkOsNFaab9QS5ucwEqUcOht8PsKxqurPwlwedFKPsPF7
-	1ZDg606Gr/zh4P0RpcyS6TV7bOHqYxRJ1qK2dBdYDcI69GymGQ76ouZKkfbMDdA=
-X-Google-Smtp-Source: AGHT+IHaEyZ9+wxWtBqCL0f0IDmOcJkLZAPTaM/9b/QIJTDWinjbIv+IjeDs28khRlNDhltJwVWekA==
-X-Received: by 2002:a05:6a20:9717:b0:1af:ac6c:367f with SMTP id adf61e73a8af0-1afde19799emr12581952637.44.1715747065864;
-        Tue, 14 May 2024 21:24:25 -0700 (PDT)
-Received: from server (S0106f85e42401d5e.cg.shawcable.net. [174.0.240.170])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31420sm107061315ad.172.2024.05.14.21.24.24
+        bh=2vbAesE2cgL0USUqqC14KPMjK7GiW9OFjlcB1Mo1yRY=;
+        b=kurWJ3MS3zNIzyBVKFOT4KL9L3YcSiej077cQKz3QzSq8MzpgZxUSVVv9GL42SRofy
+         kM3SITdGtgo/uGBM+SSQ0sYNXdj1u63NSpcc4sGASDdv1xDd4NMSlVIbK+0SP0e63bs3
+         7Y1WxHQ9W8xiads3Bi3r4iMFQVXuhWpBfpL5BsF8oDYUrUPW7EdM6o3+fNAkHXWmfNjF
+         /iGOY6doQTsAKE97nLqKqqNG0upwn3jFR2ME3Mb4gt32obhNUckZYf3Fs71I5j616NQt
+         wyE5XMfesv0EPYtsVPE0rgtAza0U28KL7GpNoSxvCgDvyEGC24H0Ia/s0Xlsqf7qx8Yn
+         bLPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715755315; x=1716360115;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2vbAesE2cgL0USUqqC14KPMjK7GiW9OFjlcB1Mo1yRY=;
+        b=ivLDYqf8uK7+Yr4TgUxQTiepF/bJQei5a4FWzFRjLBJLk/fDkYRRfTF/pxXoqOhV/e
+         to93dgyKhBLBBcDyd3O8tByoSsAiwxp9YLFibtQhCuw1ruCB637V2mMDFYJEptDBbhpz
+         TBdKMLBNkP8VVsaRwfpoW9+Q34/dlYDueTjM5CQgef69rCUqXEbhqsK7J09rzc/gA1Ir
+         2kuzf4OVdju3BSTDCuN62VgyMByBr8oFNRmIXLi7+hzgGtkocoN93LWDrSiAT7pR06ub
+         PIqgKRt24bS15VVdLkvOMOV0qwy0x/cnuwEsCOP98EuMNC/zTS4bfJkG07xOHEq7uqXN
+         2odQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVoMbv+GXzH/oLx4KSM7ViII0jzD3YMm0bpVX94zLQWJnk0QGz3B8nbalob2aqZ8BaW8TRFCDZYrBnfJB4I745JU25lA3ZMjhhqTr8tGkgBR7jYGmT96eEu4pluB7d+lSG1E2xCuBdXlZY=
+X-Gm-Message-State: AOJu0YxQzDvmyzXzSRteWGy4fFsGE5auWcQcB+IxFiR3LJc7Q4ee5YOI
+	4QTuUAqD/mr8U0qABoTnUUb6vm9lAIwtIHhnGH2120S01qglsSs3zze9Xkc9KeM=
+X-Google-Smtp-Source: AGHT+IE+WGr6yPwajwKZrvVsEuPpSp4fcpQ4EjJnE9CHFCSlun+DnehwrGK/Fql+9T0Sui9S+jpm/w==
+X-Received: by 2002:a17:902:ccc6:b0:1e9:470:87e3 with SMTP id d9443c01a7336-1ef43f4e323mr254736905ad.45.1715755315224;
+        Tue, 14 May 2024 23:41:55 -0700 (PDT)
+Received: from xiaxiShen-ThinkPad.gigstreem.net ([66.160.179.28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f08c5f0294sm17177315ad.208.2024.05.14.23.41.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 21:24:25 -0700 (PDT)
-Date: Wed, 15 May 2024 04:24:23 +0000
-From: Abhinav Saxena <xandfury@gmail.com>
-To: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] Documentation: sound: Fix trailing whitespaces
-Message-ID: <ZkQ496Y1SWSr4dDi@server>
-References: <20240515034103.1010269-1-xandfury@gmail.com>
+        Tue, 14 May 2024 23:41:54 -0700 (PDT)
+From: Xiaxi Shen <shenxiaxi26@gmail.com>
+To: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: shenxiaxi26@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	javier.carrasco.cruz@gmail.com,
+	skhan@linuxfoundation.org
+Subject: [PATCH v3] ASoC: dt-bindings: ak4104: convert to dt schema
+Date: Tue, 14 May 2024 23:41:39 -0700
+Message-Id: <20240515064139.456735-1-shenxiaxi26@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ab4186fa-5a2f-4f97-9aa7-75a6c55bc142@kernel.org>
+References: <ab4186fa-5a2f-4f97-9aa7-75a6c55bc142@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515034103.1010269-1-xandfury@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Adding Shuah Khan<skhan@linuxfoundation.org> to cc.
+Convert ak4104 binding to DT schema
 
--Abhinav.
+Changes in v3:
+ - Use unevaluatedProperties instead
+ - Fix indentations in the example
 
-On Wed, May 15, 2024 at 03:41:03AM +0000, Abhinav Saxena wrote:
-> Remove trailing whitespace from sound/hd-audio/notes as reported by
-> checkpatch. Removing trailing spaces improves consistency, and
-> prevents Preventing potential merge conflicts due to whitespace
-> differences. maintain a cleaner and more professional codebase.
-> 
-> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
-> ---
->  Documentation/sound/hd-audio/notes.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-> index a9e35b1f87bd..ef6a4513cce7 100644
-> --- a/Documentation/sound/hd-audio/notes.rst
-> +++ b/Documentation/sound/hd-audio/notes.rst
-> @@ -15,7 +15,7 @@ problem is broken BIOS, and the rest is the driver implementation.
->  This document explains the brief trouble-shooting and debugging
->  methods for the	HD-audio hardware.
->  
-> -The HD-audio component consists of two parts: the controller chip and 
-> +The HD-audio component consists of two parts: the controller chip and
->  the codec chips on the HD-audio bus.  Linux provides a single driver
->  for all controllers, snd-hda-intel.  Although the driver name contains
->  a word of a well-known hardware vendor, it's not specific to it but for
-> @@ -81,7 +81,7 @@ the wake-up timing.  It wakes up a few samples before actually
->  processing the data on the buffer.  This caused a lot of problems, for
->  example, with ALSA dmix or JACK.  Since 2.6.27 kernel, the driver puts
->  an artificial delay to the wake up timing.  This delay is controlled
-> -via ``bdl_pos_adj`` option. 
-> +via ``bdl_pos_adj`` option.
->  
->  When ``bdl_pos_adj`` is a negative value (as default), it's assigned to
->  an appropriate value depending on the controller chip.  For Intel
-> @@ -144,7 +144,7 @@ see a regression wrt the sound quality (stuttering, etc) or a lock-up
->  in the recent kernel, try to pass ``enable_msi=0`` option to disable
->  MSI.  If it works, you can add the known bad device to the blacklist
->  defined in hda_intel.c.  In such a case, please report and give the
-> -patch back to the upstream developer. 
-> +patch back to the upstream developer.
->  
->  
->  HD-Audio Codec
-> @@ -375,7 +375,7 @@ HD-Audio Reconfiguration
->  ------------------------
->  This is an experimental feature to allow you re-configure the HD-audio
->  codec dynamically without reloading the driver.  The following sysfs
-> -files are available under each codec-hwdep device directory (e.g. 
-> +files are available under each codec-hwdep device directory (e.g.
->  /sys/class/sound/hwC0D0):
->  
->  vendor_id
-> @@ -433,7 +433,7 @@ re-configure based on that state, run like below:
->  ::
->  
->      # echo 0x14 0x9993013f > /sys/class/sound/hwC0D0/user_pin_configs
-> -    # echo 1 > /sys/class/sound/hwC0D0/reconfig  
-> +    # echo 1 > /sys/class/sound/hwC0D0/reconfig
->  
->  
->  Hint Strings
-> @@ -494,7 +494,7 @@ indep_hp (bool)
->      mixer control, if available
->  add_stereo_mix_input (bool)
->      add the stereo mix (analog-loopback mix) to the input mux if
-> -    available 
-> +    available
->  add_jack_modes (bool)
->      add "xxx Jack Mode" enum controls to each I/O jack for allowing to
->      change the headphone amp and mic bias VREF capabilities
-> @@ -504,7 +504,7 @@ power_save_node (bool)
->      stream states
->  power_down_unused (bool)
->      power down the unused widgets, a subset of power_save_node, and
-> -    will be dropped in future 
-> +    will be dropped in future
->  add_hp_mic (bool)
->      add the headphone to capture source if possible
->  hp_mic_detect (bool)
-> @@ -603,7 +603,7 @@ present.
->  
->  The patch module option is specific to each card instance, and you
->  need to give one file name for each instance, separated by commas.
-> -For example, if you have two cards, one for an on-board analog and one 
-> +For example, if you have two cards, one for an on-board analog and one
->  for an HDMI video board, you may pass patch option like below:
->  ::
->  
-> -- 
-> 2.34.1
-> 
+Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
+---
+ .../devicetree/bindings/sound/ak4104.txt      | 25 ----------
+ .../bindings/sound/asahi-kasei,ak4104.yaml    | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/ak4104.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/ak4104.txt b/Documentation/devicetree/bindings/sound/ak4104.txt
+deleted file mode 100644
+index ae5f7f057dc3..000000000000
+--- a/Documentation/devicetree/bindings/sound/ak4104.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-AK4104 S/PDIF transmitter
+-
+-This device supports SPI mode only.
+-
+-Required properties:
+-
+-  - compatible : "asahi-kasei,ak4104"
+-
+-  - reg : The chip select number on the SPI bus
+-
+-  - vdd-supply : A regulator node, providing 2.7V - 3.6V
+-
+-Optional properties:
+-
+-  - reset-gpios : a GPIO spec for the reset pin. If specified, it will be
+-		  deasserted before communication to the device starts.
+-
+-Example:
+-
+-spdif: ak4104@0 {
+-	compatible = "asahi-kasei,ak4104";
+-	reg = <0>;
+-	spi-max-frequency = <5000000>;
+-	vdd-supply = <&vdd_3v3_reg>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+new file mode 100644
+index 000000000000..86f6061d3c50
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4104.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/asahi-kasei,ak4104.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: AK4104 S/PDIF transmitter
++
++allOf:
++  - $ref: dai-common.yaml#
++
++maintainers:
++  - Daniel Mack <github@zonque.org>
++  - Xiaxi Shen <shenxiaxi26@gmail.com>
++
++properties:
++  compatible:
++    const: asahi-kasei,ak4104
++
++  reg:
++    description: Chip select number on the SPI bus 
++    maxItems: 1
++
++  vdd-supply:
++    description: A regulator node providing between 2.7V and 3.6V.
++
++  reset-gpios:
++    maxItems: 1
++    description: Optional GPIO spec for the reset pin, deasserted 
++                  before communication starts.
++    
++required:
++  - compatible
++  - reg
++  - vdd-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        codec@0 {
++            compatible = "asahi-kasei,ak4104";
++            reg = <0>;
++            vdd-supply = <&vdd_3v3_reg>;
++        };
++    };
+-- 
+2.34.1
+
