@@ -1,121 +1,168 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ADB58AC3;
-	Wed, 15 May 2024 11:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D15112F372;
+	Wed, 15 May 2024 13:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715771789; cv=none; b=myiuu3JWcPnFOpCuML72UpVGtbhUoV8q6gQcFTCNiG025IbkTFcXneSLcBNrsoyxEyKi3NBmhhzm9vBDQpHxbBsYk81Jo7oQZz/QN86diprmgOM5xZ0Kyc9V4gGZ9QiX71vGWv6zq5d3wQWTiDW24Ko+tIjoFOuigLRs/r+6WDM=
+	t=1715781272; cv=none; b=YU8KuJV6+w3qaqSwHiVghkm+keJCScH4DGSoBngqAb1j0lQpYsGQxzA/p4FhYCK7/6GZt2dQbSyV6x79Zqc675fgTFeoQmJ/9SUOovfqVK+FsRcchg8TOhx/N+bVLDfrTE/irRHPke3rUolGFgxQNM549JxUoWQ6q1WlMFs50lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715771789; c=relaxed/simple;
-	bh=La7shS+zS3wTP17U3gfvOwPX7PwmzI+3Y3Ke6tCzPrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T1foD8RaqEemO+VjJ3BGNuyismovPdv3JlboynJJESbN0prmbmcfjBmHQgE3tCgxjRrqauFoIE+v+LmeluveOJwbju6pWmFFqJE1G0CzY6UGnjy6IXKrk3doFcEw1s4isHWzIahdrvIxTh69Pgti2kVo/SPoO0cRKSRNONpOJ+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUBaprDa; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715781272; c=relaxed/simple;
+	bh=jfV/GT/gJI+RMAoSXE4yT0V7uZQi4slW0BMHFHokoAs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=l0GUlMGIBIByjGQC4U45IXUrLFAvoxf27NQtPDY45EruT/NPFS1gvNK0yCIHwxOFsR1WegLonuOLMpnGkbdJnKwrpbWVZEezegJ9+X0Z9KwBmK+PaUZbvOXlo7qorlx/vrD3LoMnyv6u7Vvu39t5fpuQVmN7HhKnY2QI6VPl+dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=vl0xUnXs; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUBaprDa"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6f0f87f9545so2308215a34.2;
-        Wed, 15 May 2024 04:16:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="vl0xUnXs"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 33B529C5902;
+	Wed, 15 May 2024 09:54:29 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id oLQzmlB7ssmx; Wed, 15 May 2024 09:54:28 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3607B9C5901;
+	Wed, 15 May 2024 09:54:28 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 3607B9C5901
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715771787; x=1716376587; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=La7shS+zS3wTP17U3gfvOwPX7PwmzI+3Y3Ke6tCzPrM=;
-        b=WUBaprDaanCCsJL5MQRF4aFxJBWIjQ6Lp/KOs/w7api8H8OIqQxmzH96319ELH3VBs
-         nHQ4AilUHjkdX44iLlQwLTKW9guB8sYR0dywAlGr2yYAhaiUsvwplBrp3yAnp5loG5ky
-         EaVebwmcj4vVXIWpc8L+pLmy/UMLxXxq5astYMyvEk3PwSVHzp7Y9X9D3KtgF4hH2+vn
-         ATVpKd9Ww2n7kdLah7h6pPkDEZM+r2A4LanmZ6OuomI/dASiqNapbOqYU6RuITptc0gb
-         PkMP1za4vAgaKk0GSPhtGGU+yV89OdMiC7bqKJGgktNtkIpxa2AvYPGZinn2qRymUdRh
-         OiVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715771787; x=1716376587;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=La7shS+zS3wTP17U3gfvOwPX7PwmzI+3Y3Ke6tCzPrM=;
-        b=mlQ6Ar9W/YLx2Frgx3hsXgnsoNqTFyhPQezCkTBgwhwQrSAX7QKwNIqVcNochtdcCI
-         iDNxEyR1A40OnW8ge12/ekaj9fHWEuUDWUktycnJzx3qBuKNMPJK31uftmqZtZZTMPsz
-         AmUPqwiFuey8UfrCfB8Yf1RQZbV/a4KowDeQLCAQj27XoudOYjXH+ErDq4D8XbBqIqfa
-         puFClgtmJThCzy14Z3PY34hMLfVpnFzZY4NBQB8B4a1bVhX9mH8yelHeVH0e60gGCc29
-         ma6w5FzXfENA7TewhgoHl7wv9hFIufUhofy7CUrPDbpnKFdA7XpIUpRCN6xXalTBf9RV
-         zbpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdrdczBU6228GrLaH5KmZ1yASpyOrVQJp4iBI7nnbEtggV87m7oe7JGvCIX/g2KgmDdntTXPf4pN3ebKG/JMD/n9ciZh2qbIFNcoFgT5zokegmfLOXvfWT7I3W+5zhvXOwKr/8vfqK3Rt+XUuDPM1hNSspAsjigoqAfSyNRkDfBTGGiMbrAqSKGBNT3EfE2ZqdHLgGurIKyX7KFfw=
-X-Gm-Message-State: AOJu0Yyb/k4GjBZouKvr/tz6ik2cuY5KI2Rs/LTap4Csxcv7WFxSi0Ll
-	VpMDx3udl+nA+KcBbx1NjImjjaG8FUCTzNUxmFqffpGVVwTbOiQQ
-X-Google-Smtp-Source: AGHT+IEko0JSqQuagK5nJLQhpzLNI4UBWf1hkGCMsz0mbLd4XAPdp/+V3f92NeCVpS+QrlY3oDwjRw==
-X-Received: by 2002:a05:6871:813:b0:23c:9f74:f6d4 with SMTP id 586e51a60fabf-24172f617ccmr18241288fac.52.1715771786922;
-        Wed, 15 May 2024 04:16:26 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2b060f9sm10807819b3a.182.2024.05.15.04.16.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 04:16:26 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E407019B4FD45; Wed, 15 May 2024 18:16:21 +0700 (WIB)
-Date: Wed, 15 May 2024 18:16:21 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, jstultz@google.com,
-	giometti@enneenne.com, corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com, christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com, davem@davemloft.net,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com, pandith.n@intel.com,
-	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-Subject: Re: [PATCH v8 11/12] Documentation: driver-api: pps: Add Intel Timed
- I/O PPS generator
-Message-ID: <ZkSZhVz6vyyUt3ot@archie.me>
-References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
- <20240513103813.5666-12-lakshmi.sowjanya.d@intel.com>
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1715781268; bh=GpzR/17iMA4EadC53BL4NxQUIlEZs6QmMHR5Cm26pOc=;
+	h=From:To:Date:Message-Id:MIME-Version;
+	b=vl0xUnXs7mucGwqzmCP+MNBzyr2Jb2/nqr2VjDOuYnWtx7jTAJ4VYP8JFa6m6EdM+
+	 /ZoQzHHA7r4vZUXX0UPzUkQwldIWsUG4JTjOkI6AVVLFGBKfnhZuLGH3adNIPLv27T
+	 ZAf3yuVbia7eNLCTGVhwVocSytJWsGToJTLgTHO/uzJ7OAQff+i/mVYGg2ImU8gH1x
+	 WHqB7yja6jPuxMVVETkpSyaav86Njhh9gaAxDFnE51jc/nuqSe+trOREmcapXLSwfT
+	 6/pQshTaoP6CyldZO/bG9ffHm4UJLvwQS8J/Hp5mNJpdaa3lw0vCZT90qIA6nQXAk8
+	 4+IjC/yC/9TtQ==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id 9M6HJKIjOg_U; Wed, 15 May 2024 09:54:28 -0400 (EDT)
+Received: from gerard.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 3ED219C58F8;
+	Wed, 15 May 2024 09:54:26 -0400 (EDT)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Subject: [PATCHv4 4/9] ASoC: fsl-asoc-card: add new compatible for a generic codec use case
+Date: Wed, 15 May 2024 15:54:06 +0200
+Message-Id: <20240515135411.343333-5-elinor.montmasson@savoirfairelinux.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com>
+References: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xeKKm072pVbJUx/X"
-Content-Disposition: inline
-In-Reply-To: <20240513103813.5666-12-lakshmi.sowjanya.d@intel.com>
-
-
---xeKKm072pVbJUx/X
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2024 at 04:08:12PM +0530, lakshmi.sowjanya.d@intel.com wrot=
-e:
-> +Timed I/O and system time are both driven by same hardware clock. The si=
-gnal
-> +is generated with a precision of ~20 nanoseconds. The generated PPS sign=
-al
-> +is used to synchronize an external device with system clock. For example,
-> +share your clock with a device that receives PPS signal, generated by
-"... it can be used to share your clock ..."
-> +Timed I/O device. There are dedicated Timed I/O pins to deliver the PPS =
-signal
-> +to an external device.
-> +
+Add the new compatible "fsl,imx-audio-generic" for a generic codec
+use case. It allows using the fsl-asoc-card driver with the
+spdif_receiver and spdif_transmitter codec drivers used as dummy codecs.
+It can be used for cases where there is no real codec or codecs which do
+not require declaring controls.
 
-That's it.
+Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+Co-authored-by: Philip-Dylan Gleonec <philip-dylan.gleonec@savoirfairelinux=
+.com>
+---
+ sound/soc/fsl/fsl-asoc-card.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
+diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.c
+index 620a25eb068a..a4ecc9093558 100644
+--- a/sound/soc/fsl/fsl-asoc-card.c
++++ b/sound/soc/fsl/fsl-asoc-card.c
+@@ -567,6 +567,7 @@ static int fsl_asoc_card_probe(struct platform_device *=
+pdev)
+ 	struct platform_device *cpu_pdev;
+ 	struct fsl_asoc_card_priv *priv;
+ 	struct device *codec_dev[2] =3D { NULL, NULL };
++	const char *generic_codec_dai_names[2];
+ 	const char *codec_dai_name;
+ 	const char *codec_dev_name[2];
+ 	u32 asrc_fmt =3D 0;
+@@ -744,6 +745,11 @@ static int fsl_asoc_card_probe(struct platform_device =
+*pdev)
+ 		priv->codec_priv[0].fll_id =3D WM8904_CLK_FLL;
+ 		priv->codec_priv[0].pll_id =3D WM8904_FLL_MCLK;
+ 		priv->dai_fmt |=3D SND_SOC_DAIFMT_CBP_CFP;
++	} else if (of_device_is_compatible(np, "fsl,imx-audio-generic")) {
++		generic_codec_dai_names[0] =3D "dit-hifi";
++		generic_codec_dai_names[1] =3D "dir-hifi";
++		priv->dai_link[0].num_codecs =3D 2;
++		priv->dai_link[2].num_codecs =3D 2;
+ 	} else {
+ 		dev_err(&pdev->dev, "unknown Device Tree compatible\n");
+ 		ret =3D -EINVAL;
+@@ -798,6 +804,12 @@ static int fsl_asoc_card_probe(struct platform_device =
+*pdev)
+ 		ret =3D -EPROBE_DEFER;
+ 		goto asrc_fail;
+ 	}
++	if (of_device_is_compatible(np, "fsl,imx-audio-generic")
++	  && !codec_dev[1]) {
++		dev_dbg(&pdev->dev, "failed to find second codec device\n");
++		ret =3D -EPROBE_DEFER;
++		goto asrc_fail;
++	}
+=20
+ 	/* Common settings for corresponding Freescale CPU DAI driver */
+ 	if (of_node_name_eq(cpu_np, "ssi")) {
+@@ -855,11 +867,21 @@ static int fsl_asoc_card_probe(struct platform_device=
+ *pdev)
+=20
+ 	/* Normal DAI Link */
+ 	priv->dai_link[0].cpus->of_node =3D cpu_np;
+-	priv->dai_link[0].codecs[0].dai_name =3D codec_dai_name;
+=20
+-	if (!fsl_asoc_card_is_ac97(priv))
++	if (of_device_is_compatible(np, "fsl,imx-audio-generic")) {
++		priv->dai_link[0].codecs[0].dai_name =3D
++			generic_codec_dai_names[0];
++		priv->dai_link[0].codecs[1].dai_name =3D
++			generic_codec_dai_names[1];
++	} else {
++		priv->dai_link[0].codecs[0].dai_name =3D codec_dai_name;
++	}
++
++	if (!fsl_asoc_card_is_ac97(priv)) {
+ 		priv->dai_link[0].codecs[0].of_node =3D codec_np[0];
+-	else {
++		if (of_device_is_compatible(np, "fsl,imx-audio-generic"))
++			priv->dai_link[0].codecs[1].of_node =3D codec_np[1];
++	} else {
+ 		u32 idx;
+=20
+ 		ret =3D of_property_read_u32(cpu_np, "cell-index", &idx);
+@@ -990,6 +1012,7 @@ static const struct of_device_id fsl_asoc_card_dt_ids[=
+] =3D {
+ 	{ .compatible =3D "fsl,imx-audio-wm8958", },
+ 	{ .compatible =3D "fsl,imx-audio-nau8822", },
+ 	{ .compatible =3D "fsl,imx-audio-wm8904", },
++	{ .compatible =3D "fsl,imx-audio-generic", },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, fsl_asoc_card_dt_ids);
 --=20
-An old man doll... just what I always wanted! - Clara
+2.34.1
 
---xeKKm072pVbJUx/X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkSZgAAKCRD2uYlJVVFO
-o/6oAP9w3HhiHmrFlOlNQ8EunlgWag4y2WHPIAlhy2UNCHLgUgEAmmZbh7KrfLCK
-neKfTlKuPupWFFMWIJvouCJXmLae8wI=
-=GWg5
------END PGP SIGNATURE-----
-
---xeKKm072pVbJUx/X--
