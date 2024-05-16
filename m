@@ -1,146 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B7282EF
-	for <linux-sound@vger.kernel.org>; Thu, 16 May 2024 07:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFEE1459E2;
+	Thu, 16 May 2024 11:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715846160; cv=none; b=kJ3l5a5uxNOTYUV9Qe6iz/PR3GXTX/GWLf9BaNxrX7MwAXpX80ZYRQRxlkA4qW5HMTGi5LLcnBqcVAyML1SNvAy9h13aYB0XH6VCzMTsDH1n2c7ZGSnSph/uo6Q0hnVt8XcKcJL3gqVceC8Ur93xjnMfIvhePlvparg6tFMpdQw=
+	t=1715860027; cv=none; b=WOT6hwKBtAfpl5ErCS2vL4Q4lJZ4VUzjXBMW2WG3ZowIFMIACDNQZuUbhhMCJ8grb0g6r+PTk4Tmmk+qoUJZRkb0fEM146xmSq4uQdI+mrvXunYGRMAxKvye4SM3xrIRmHQXlMr15sv3UgUaXJWq5HrXmIBK52rqXNIcKLJEgTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715846160; c=relaxed/simple;
-	bh=KpmlUqMSuHFp/IyUGYmf9Vs+v1qHAr6n2TW78ikV75Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MboIXs3Aq4O5VLorY88lSRLMWt+SxPKyBkrC3TqlVb5WjYzP2y8vqo01ncptUtEFmAa6AZUol9FUMYcioKKY7XVgQkySfLJfvNystJ1EzFiSrTpZX6yHTIkaFeiEe+9kCZnHUYge2jpsifpL4PWErMg7/oO7FRm3il20yvAhG6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3LlY4sN; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715860027; c=relaxed/simple;
+	bh=wu41wYwUT3ZQ/LMwpK4vTqW07C2TaCMbGkW8wWLqctM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dom6qXzgUq5l0jyqZYh/97lh4U1q7wmfQTp28irbWD53kWkForKfOBDqvvmStsXAb3qqIsXn7i1zwW6tTwJJV14uV5tHlU7cxsrbIIC1d2x2t/T2bVACvNgANgL08YabrPMdTAcb1DJCo8CvFFZVz1QGeTnzfAkZTWn897o78uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QcnJO5Gz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3LlY4sN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715846159; x=1747382159;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KpmlUqMSuHFp/IyUGYmf9Vs+v1qHAr6n2TW78ikV75Q=;
-  b=l3LlY4sN20RmdYMS1raTAxJSkw7l7Omffg1KCjPLLzeIHSUmulaSCH5D
-   ZBWXGt9AwdaBnuNO377C0bFFyCLydG3qmURHeJobonpTomFyt57jcKAOz
-   LybvBudP0shdgJgGe1iRHJk6JKiNpCFiNnooHA7yY7YVgDNdXaan42Y3e
-   w2JoyupqPlkz21EIHER5dnVAhf9fU9bv1/oLpIXq33FUNpm9V5gRr3XZb
-   mRUj8ahI0TK7At2CO1lavDpniDUJSgy2X0HzQYTk2hWh/Vat9ZjlwG7Nu
-   3vrg3AKIxuNctt+FZ9c19yrmP6fHAS9grOotM/shblvMjZ3x5ywrcP8GW
-   A==;
-X-CSE-ConnectionGUID: vMwjWVDhSNyCkSqmvDFANw==
-X-CSE-MsgGUID: G2seUZWBQjqdbmo/Hi/xRQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34453487"
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="34453487"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 00:55:59 -0700
-X-CSE-ConnectionGUID: cskwf4MjRfyMAznPsjOpPQ==
-X-CSE-MsgGUID: GYy1gwj+Tr6K72xQ/IPyUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
-   d="scan'208";a="35901334"
-Received: from unknown (HELO pujfalus-desk.intel.com) ([10.245.245.249])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 00:55:56 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH] ASoC: SOF: ipc4-topology: Add support for NHLT with 16-bit only DMIC blob
-Date: Thu, 16 May 2024 10:56:11 +0300
-Message-ID: <20240516075611.18018-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QcnJO5Gz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E24EC113CC;
+	Thu, 16 May 2024 11:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715860026;
+	bh=wu41wYwUT3ZQ/LMwpK4vTqW07C2TaCMbGkW8wWLqctM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QcnJO5Gze6rEySLsD5MoX2CcuqLtdZ8oTEU6W7LJ4ME+mJm6XdQUy3uUAlk37Oyuj
+	 Wpqb9DkM7lhXwG5H1qnM9RPO4tLeD8Y4FzzKOzUC8WS7Ob4h96Ymg+MPoz4wUu1Q2I
+	 AXK4zi2mL5jPQ3jAbhbV/p+TUgB5a5UjcnomXQjHy/XDgBZxNvGGunD620k/qwsitZ
+	 yzbPLR17N5pzcEhv+iOG5vDg4AJm00f+KY6Cs3b0AKxr5QimIQgj9fl2JRKS3mYC+k
+	 jycmvVl9DdjnVr9NqVI9N0TVL68NjRqrsgrKgZnYZBidC8sLf6EJFSIrPEEG3WQsVF
+	 zUk6nkFH8Wikw==
+Date: Thu, 16 May 2024 12:47:00 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
+	quic_pkumpatl@quicinc.com
+Subject: Re: [PATCH v4 2/7] ASoC: codecs: wcd937x-sdw: add SoundWire driver
+Message-ID: <91f581ef-58ea-4b98-80e2-dd9b14a61c60@sirena.org.uk>
+References: <20240516044801.1061838-1-quic_mohs@quicinc.com>
+ <20240516044801.1061838-3-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6TMXXQ4QPf3seqeB"
+Content-Disposition: inline
+In-Reply-To: <20240516044801.1061838-3-quic_mohs@quicinc.com>
+X-Cookie: I'm having a MID-WEEK CRISIS!
 
-The ACPI NHLT table always had 32-bit DMIC blob even if 16-bit was also
-present and taken as a 'rule' which obviously got broken and there is at
-least one device on the market which ships with only 16-bit DMIC
-configuration blob.
-This corner case has never been supported and it is going to need topology
-updates for DMIC copier to support multiple formats.
 
-As for the kernel side: if the copier supports multiple formats and the
-preferred 32-bit DMIC blob is not found then we will try to get a 16-bit
-DMIC configuration and look for a 16-bit copier config.
+--6TMXXQ4QPf3seqeB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: f9209644ae76 ("ASoC: SOF: ipc4-topology: Correct DAI copier config and NHLT blob request")
-Link: https://github.com/thesofproject/linux/issues/4973
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-topology.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+On Thu, May 16, 2024 at 10:17:56AM +0530, Mohammad Rafi Shaik wrote:
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index beff10989324..521b4dcba601 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -1483,6 +1483,8 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
- 					   dir, dev_type);
- 
- 	if (!cfg) {
-+		bool get_new_blob = false;
-+
- 		if (format_change) {
- 			/*
- 			 * The 32-bit blob was not found in NHLT table, try to
-@@ -1490,7 +1492,20 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
- 			 */
- 			bit_depth = params_width(params);
- 			format_change = false;
-+			get_new_blob = true;
-+		} else if (linktype == SOF_DAI_INTEL_DMIC && !single_format) {
-+			/*
-+			 * The requested 32-bit blob (no format change for the
-+			 * blob request) was not found in NHLT table, try to
-+			 * look for 16-bit blob if the copier supports multiple
-+			 * formats
-+			 */
-+			bit_depth = 16;
-+			format_change = true;
-+			get_new_blob = true;
-+		}
- 
-+		if (get_new_blob) {
- 			cfg = intel_nhlt_get_endpoint_blob(sdev->dev, ipc4_data->nhlt,
- 							   dai_index, nhlt_type,
- 							   bit_depth, bit_depth,
-@@ -1513,8 +1528,8 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
- 
- 	if (format_change) {
- 		/*
--		 * Update the params to reflect that we have loaded 32-bit blob
--		 * instead of the 16-bit.
-+		 * Update the params to reflect that different blob was loaded
-+		 * instead of the requested bit depth (16 -> 32 or 32 -> 16).
- 		 * This information is going to be used by the caller to find
- 		 * matching copier format on the dai side.
- 		 */
-@@ -1522,7 +1537,11 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
- 
- 		m = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
- 		snd_mask_none(m);
--		snd_mask_set_format(m, SNDRV_PCM_FORMAT_S32_LE);
-+		if (bit_depth == 16)
-+			snd_mask_set_format(m, SNDRV_PCM_FORMAT_S16_LE);
-+		else
-+			snd_mask_set_format(m, SNDRV_PCM_FORMAT_S32_LE);
-+
- 	}
- 
- 	return 0;
--- 
-2.45.1
+> +static const struct reg_default wcd937x_defaults[] = {
 
+> +	{ WCD937X_DIGITAL_EFUSE_REG_0,				0x00 },
+> +	{ WCD937X_DIGITAL_EFUSE_REG_1,				0xff },
+> +	{ WCD937X_DIGITAL_EFUSE_REG_2,				0xff },
+> +	{ WCD937X_DIGITAL_EFUSE_REG_3,				0xff },
+
+Given the name I'd expect these to vary per device so not have default
+values.  In general ID, status or volatile registers probably shouldn't
+have defaults since they should be read from the device.
+
+> +static bool wcd937x_readonly_register(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+
+> +	case WCD937X_DIGITAL_CHIP_ID0:
+> +	case WCD937X_DIGITAL_CHIP_ID1:
+> +	case WCD937X_DIGITAL_CHIP_ID2:
+> +	case WCD937X_DIGITAL_CHIP_ID3:
+
+> +	case WCD937X_DIGITAL_EFUSE_REG_0:
+> +	case WCD937X_DIGITAL_EFUSE_REG_1:
+> +	case WCD937X_DIGITAL_EFUSE_REG_2:
+
+> +	.readable_reg = wcd937x_readable_register,
+> +	.writeable_reg = wcd937x_rdwr_register,
+> +	.volatile_reg = wcd937x_readonly_register,
+
+It's not a bug per se since things will work but you should probably
+have separate volatile and read only checks, things like the ID and
+efuse registers are read only but they shouldn't vary at runtime so
+could be cached and not volatile.
+
+--6TMXXQ4QPf3seqeB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZF8jMACgkQJNaLcl1U
+h9C/Agf/dxl2QvSF6O91HT9LEA+eXsV+RD+If0rb6NqB7TD6GqF4NT8biCZgRABj
++5j0XCauKqigxtMYyzxxdJE80SL5L9z93e7OLemzzOfxpspvFbNcnktzgCN2zPTc
+HNDtykLiV7SvrRm8e2J7aU3aqhSBBp1d2e970CmaOnVuyvfbyZVoPjsvicMgHZP9
+3CB0Pa1C1+By8DrFR7vI6yembohfU4wFeB/66qzYovFSCI/hOuMYo2usgNhsaT8d
+hUjon+Xz5e9/yaNPVIRjWuOsEa2yL1lo21HwR9drPjRtZNeTlxxhKrXoDd3goJLS
+EdleAlXH/IcsXx7gjcdXQDal8syQPg==
+=W/m3
+-----END PGP SIGNATURE-----
+
+--6TMXXQ4QPf3seqeB--
