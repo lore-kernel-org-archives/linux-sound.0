@@ -1,69 +1,59 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE4538384;
-	Thu, 16 May 2024 04:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B7282EF
+	for <linux-sound@vger.kernel.org>; Thu, 16 May 2024 07:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715834978; cv=none; b=st7URk68SWWMNh4mRFte0FGrp42r4T3Gev/CVO/1aJ6oCMSBnCShjf6FuJgq2pRENZYUVE8dIu/ujJVWsYmVWYZBiwWBVPqoip8Mwrk4NnGwariYuguBatARJ7gDPrV/Wbq1v2d+EEDgFm6MsnPYUTnmmooijLKCz/xhyy6QQMU=
+	t=1715846160; cv=none; b=kJ3l5a5uxNOTYUV9Qe6iz/PR3GXTX/GWLf9BaNxrX7MwAXpX80ZYRQRxlkA4qW5HMTGi5LLcnBqcVAyML1SNvAy9h13aYB0XH6VCzMTsDH1n2c7ZGSnSph/uo6Q0hnVt8XcKcJL3gqVceC8Ur93xjnMfIvhePlvparg6tFMpdQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715834978; c=relaxed/simple;
-	bh=VMjJj0Be+7TEr0geYh7ZdsmWbgMaI90gQNafB7XzoLw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qjb9wqlhCVBMdEwSuDOu/8UbYiCOhaI1RNRABtb8lw0wCcr6upA0BwH/b/0SdGQijXrNtXE8fcR0DEcaH/Ey3OLssw2K6ChsCNEHO3yQ1evpMo0uhUzOiD04EaKidugqaVxc+5hv2xk7kJU7aC9k2LrNyA/0efAUZvJJf1uLLIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bPEd3LcR; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1715846160; c=relaxed/simple;
+	bh=KpmlUqMSuHFp/IyUGYmf9Vs+v1qHAr6n2TW78ikV75Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MboIXs3Aq4O5VLorY88lSRLMWt+SxPKyBkrC3TqlVb5WjYzP2y8vqo01ncptUtEFmAa6AZUol9FUMYcioKKY7XVgQkySfLJfvNystJ1EzFiSrTpZX6yHTIkaFeiEe+9kCZnHUYge2jpsifpL4PWErMg7/oO7FRm3il20yvAhG6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3LlY4sN; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bPEd3LcR"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44FKX6av029039;
-	Thu, 16 May 2024 04:49:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=tuH9n/8YNzsmWU4R3zOQ/wp2UdMlXMsd6v139bsDTZA=; b=bP
-	Ed3LcRUwhevjzAuNXCBlb9Yai5uXElyPcrsPo8rpoVhMEKlm2axAKJuDBgvcJrgY
-	aujawaEDvVyxWn5aj13BIPVnFZoqjiOu9V21AQ7BbP+MkdqZzGbkau+LRFUL1A3j
-	EVyVGkk356onsFrTfJdtFJK+IiaQvFsMkfs/h3QG1tfOzVqfAx+8P1pGHts6ttG2
-	zPI/t0la0F8x2ZdC8u78fqUoldnDu9npmLbwoLBmeiTWqFAcMshWp/fG7S5rAwYJ
-	akmZweZ4aCRFrDRzXZv5G8aQGrj43WMC+PtTLy7ZINsxHgkRNW3eMjdQume8qEOe
-	/DYHDlijDCWQ3eXHKYcg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y21edjhgk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 May 2024 04:49:17 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44G4nG2D023904
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 May 2024 04:49:16 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 15 May 2024 21:49:11 -0700
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <quic_pkumpatl@quicinc.com>,
-        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [PATCH v4 6/7] ASoC: codecs: wcd937x: add capture dapm widgets
-Date: Thu, 16 May 2024 10:18:00 +0530
-Message-ID: <20240516044801.1061838-7-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240516044801.1061838-1-quic_mohs@quicinc.com>
-References: <20240516044801.1061838-1-quic_mohs@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3LlY4sN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715846159; x=1747382159;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KpmlUqMSuHFp/IyUGYmf9Vs+v1qHAr6n2TW78ikV75Q=;
+  b=l3LlY4sN20RmdYMS1raTAxJSkw7l7Omffg1KCjPLLzeIHSUmulaSCH5D
+   ZBWXGt9AwdaBnuNO377C0bFFyCLydG3qmURHeJobonpTomFyt57jcKAOz
+   LybvBudP0shdgJgGe1iRHJk6JKiNpCFiNnooHA7yY7YVgDNdXaan42Y3e
+   w2JoyupqPlkz21EIHER5dnVAhf9fU9bv1/oLpIXq33FUNpm9V5gRr3XZb
+   mRUj8ahI0TK7At2CO1lavDpniDUJSgy2X0HzQYTk2hWh/Vat9ZjlwG7Nu
+   3vrg3AKIxuNctt+FZ9c19yrmP6fHAS9grOotM/shblvMjZ3x5ywrcP8GW
+   A==;
+X-CSE-ConnectionGUID: vMwjWVDhSNyCkSqmvDFANw==
+X-CSE-MsgGUID: G2seUZWBQjqdbmo/Hi/xRQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="34453487"
+X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
+   d="scan'208";a="34453487"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 00:55:59 -0700
+X-CSE-ConnectionGUID: cskwf4MjRfyMAznPsjOpPQ==
+X-CSE-MsgGUID: GYy1gwj+Tr6K72xQ/IPyUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,163,1712646000"; 
+   d="scan'208";a="35901334"
+Received: from unknown (HELO pujfalus-desk.intel.com) ([10.245.245.249])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 00:55:56 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Add support for NHLT with 16-bit only DMIC blob
+Date: Thu, 16 May 2024 10:56:11 +0300
+Message-ID: <20240516075611.18018-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,504 +61,86 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: KMk9CKstCu3lphORqNOkpV09bZIbAMy1
-X-Proofpoint-ORIG-GUID: KMk9CKstCu3lphORqNOkpV09bZIbAMy1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-16_01,2024-05-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405160031
 
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+The ACPI NHLT table always had 32-bit DMIC blob even if 16-bit was also
+present and taken as a 'rule' which obviously got broken and there is at
+least one device on the market which ships with only 16-bit DMIC
+configuration blob.
+This corner case has never been supported and it is going to need topology
+updates for DMIC copier to support multiple formats.
 
-This patch adds required dapm widgets for capture path.
+As for the kernel side: if the copier supports multiple formats and the
+preferred 32-bit DMIC blob is not found then we will try to get a 16-bit
+DMIC configuration and look for a 16-bit copier config.
 
-Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Fixes: f9209644ae76 ("ASoC: SOF: ipc4-topology: Correct DAI copier config and NHLT blob request")
+Link: https://github.com/thesofproject/linux/issues/4973
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/codecs/wcd937x.c | 404 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 404 insertions(+)
+ sound/soc/sof/ipc4-topology.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index cccb1fcb0741..8c1c0d7a0fa0 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -914,6 +914,145 @@ static int wcd937x_get_micb_vout_ctl_val(u32 micb_mv)
- 	return (micb_mv - 1000) / 50;
- }
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index beff10989324..521b4dcba601 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1483,6 +1483,8 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
+ 					   dir, dev_type);
  
-+static int wcd937x_tx_swr_ctrl(struct snd_soc_dapm_widget *w,
-+			       struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
-+	bool use_amic3 = snd_soc_component_read(component, WCD937X_TX_NEW_TX_CH2_SEL) & BIT(7);
+ 	if (!cfg) {
++		bool get_new_blob = false;
 +
-+	/* Enable BCS for Headset mic */
-+	if (event == SND_SOC_DAPM_PRE_PMU && strnstr(w->name, "ADC", sizeof("ADC")))
-+		if (w->shift == 1 && !use_amic3)
-+			set_bit(AMIC2_BCS_ENABLE, &wcd937x->status_mask);
-+
-+	return 0;
-+}
-+
-+static int wcd937x_codec_enable_adc(struct snd_soc_dapm_widget *w,
-+				    struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		atomic_inc(&wcd937x->ana_clk_count);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_DIG_CLK_CTL, BIT(7), BIT(7));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_ANA_CLK_CTL, BIT(3), BIT(3));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_ANA_CLK_CTL, BIT(4), BIT(4));
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		if (w->shift == 1 && test_bit(AMIC2_BCS_ENABLE, &wcd937x->status_mask))
-+			clear_bit(AMIC2_BCS_ENABLE, &wcd937x->status_mask);
-+
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_ANA_CLK_CTL, BIT(3), 0x00);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int wcd937x_enable_req(struct snd_soc_dapm_widget *w,
-+			      struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_REQ_CTL, BIT(1), BIT(1));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_REQ_CTL, BIT(0), 0x00);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH2, BIT(6), BIT(6));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH3_HPF, BIT(6), BIT(6));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_DIG_CLK_CTL, 0x70, 0x70);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH1, BIT(7), BIT(7));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH2, BIT(6), 0x00);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH2, BIT(7), BIT(7));
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH3, BIT(7), BIT(7));
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH1, BIT(7), 0x00);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH2, BIT(7), 0x00);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_ANA_TX_CH3, BIT(7), 0x00);
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_DIG_CLK_CTL, BIT(4), 0x00);
-+
-+		atomic_dec(&wcd937x->ana_clk_count);
-+		if (atomic_read(&wcd937x->ana_clk_count) <= 0) {
-+			snd_soc_component_update_bits(component,
-+						      WCD937X_DIGITAL_CDC_ANA_CLK_CTL,
-+						      BIT(4), 0x00);
-+			atomic_set(&wcd937x->ana_clk_count, 0);
+ 		if (format_change) {
+ 			/*
+ 			 * The 32-bit blob was not found in NHLT table, try to
+@@ -1490,7 +1492,20 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
+ 			 */
+ 			bit_depth = params_width(params);
+ 			format_change = false;
++			get_new_blob = true;
++		} else if (linktype == SOF_DAI_INTEL_DMIC && !single_format) {
++			/*
++			 * The requested 32-bit blob (no format change for the
++			 * blob request) was not found in NHLT table, try to
++			 * look for 16-bit blob if the copier supports multiple
++			 * formats
++			 */
++			bit_depth = 16;
++			format_change = true;
++			get_new_blob = true;
 +		}
+ 
++		if (get_new_blob) {
+ 			cfg = intel_nhlt_get_endpoint_blob(sdev->dev, ipc4_data->nhlt,
+ 							   dai_index, nhlt_type,
+ 							   bit_depth, bit_depth,
+@@ -1513,8 +1528,8 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
+ 
+ 	if (format_change) {
+ 		/*
+-		 * Update the params to reflect that we have loaded 32-bit blob
+-		 * instead of the 16-bit.
++		 * Update the params to reflect that different blob was loaded
++		 * instead of the requested bit depth (16 -> 32 or 32 -> 16).
+ 		 * This information is going to be used by the caller to find
+ 		 * matching copier format on the dai side.
+ 		 */
+@@ -1522,7 +1537,11 @@ snd_sof_get_nhlt_endpoint_data(struct snd_sof_dev *sdev, struct snd_sof_dai *dai
+ 
+ 		m = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+ 		snd_mask_none(m);
+-		snd_mask_set_format(m, SNDRV_PCM_FORMAT_S32_LE);
++		if (bit_depth == 16)
++			snd_mask_set_format(m, SNDRV_PCM_FORMAT_S16_LE);
++		else
++			snd_mask_set_format(m, SNDRV_PCM_FORMAT_S32_LE);
 +
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_DIG_CLK_CTL,
-+					      BIT(7), 0x00);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int wcd937x_codec_enable_dmic(struct snd_soc_dapm_widget *w,
-+				     struct snd_kcontrol *kcontrol,
-+				     int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	u16 dmic_clk_reg;
-+
-+	switch (w->shift) {
-+	case 0:
-+	case 1:
-+		dmic_clk_reg = WCD937X_DIGITAL_CDC_DMIC1_CTL;
-+		break;
-+	case 2:
-+	case 3:
-+		dmic_clk_reg = WCD937X_DIGITAL_CDC_DMIC2_CTL;
-+		break;
-+	case 4:
-+	case 5:
-+		dmic_clk_reg = WCD937X_DIGITAL_CDC_DMIC3_CTL;
-+		break;
-+	default:
-+		dev_err(component->dev, "Invalid DMIC Selection\n");
-+		return -EINVAL;
-+	}
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		snd_soc_component_update_bits(component,
-+					      WCD937X_DIGITAL_CDC_DIG_CLK_CTL,
-+					      BIT(7), BIT(7));
-+		snd_soc_component_update_bits(component,
-+					      dmic_clk_reg, 0x07, BIT(1));
-+		snd_soc_component_update_bits(component,
-+					      dmic_clk_reg, BIT(3), BIT(3));
-+		snd_soc_component_update_bits(component,
-+					      dmic_clk_reg, 0x70, BIT(5));
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static int wcd937x_micbias_control(struct snd_soc_component *component,
- 				   int micb_num, int req, bool is_dapm)
- {
-@@ -1025,6 +1164,82 @@ static int wcd937x_micbias_control(struct snd_soc_component *component,
+ 	}
+ 
  	return 0;
- }
- 
-+static int __wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
-+					  int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	int micb_num;
-+
-+	if (strnstr(w->name, "MIC BIAS1", sizeof("MIC BIAS1")))
-+		micb_num = MIC_BIAS_1;
-+	else if (strnstr(w->name, "MIC BIAS2", sizeof("MIC BIAS2")))
-+		micb_num = MIC_BIAS_2;
-+	else if (strnstr(w->name, "MIC BIAS3", sizeof("MIC BIAS3")))
-+		micb_num = MIC_BIAS_3;
-+	else
-+		return -EINVAL;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		wcd937x_micbias_control(component, micb_num,
-+					MICB_ENABLE, true);
-+		break;
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(1000, 1100);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		wcd937x_micbias_control(component, micb_num,
-+					MICB_DISABLE, true);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
-+					struct snd_kcontrol *kcontrol,
-+					int event)
-+{
-+	return __wcd937x_codec_enable_micbias(w, event);
-+}
-+
-+static int __wcd937x_codec_enable_micbias_pullup(struct snd_soc_dapm_widget *w,
-+						 int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	int micb_num;
-+
-+	if (strnstr(w->name, "VA MIC BIAS1", sizeof("VA MIC BIAS1")))
-+		micb_num = MIC_BIAS_1;
-+	else if (strnstr(w->name, "VA MIC BIAS2", sizeof("VA MIC BIAS2")))
-+		micb_num = MIC_BIAS_2;
-+	else if (strnstr(w->name, "VA MIC BIAS3", sizeof("VA MIC BIAS3")))
-+		micb_num = MIC_BIAS_3;
-+	else
-+		return -EINVAL;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_ENABLE, true);
-+		break;
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(1000, 1100);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_DISABLE, true);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int wcd937x_codec_enable_micbias_pullup(struct snd_soc_dapm_widget *w,
-+					       struct snd_kcontrol *kcontrol,
-+					       int event)
-+{
-+	return __wcd937x_codec_enable_micbias_pullup(w, event);
-+}
-+
- static int wcd937x_connect_port(struct wcd937x_sdw_priv *wcd, u8 port_idx, u8 ch_id, bool enable)
- {
- 	struct sdw_port_config *port_config = &wcd->port_config[port_idx - 1];
-@@ -1923,6 +2138,42 @@ static const struct snd_kcontrol_new wcd937x_snd_controls[] = {
- 		       wcd937x_get_swr_port, wcd937x_set_swr_port),
- };
- 
-+static const struct snd_kcontrol_new adc1_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new adc2_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new adc3_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic1_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic2_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic3_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic4_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic5_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
-+static const struct snd_kcontrol_new dmic6_switch[] = {
-+	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
-+};
-+
- static const struct snd_kcontrol_new ear_rdac_switch[] = {
- 	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
- };
-@@ -1939,22 +2190,76 @@ static const struct snd_kcontrol_new hphr_rdac_switch[] = {
- 	SOC_DAPM_SINGLE("Switch", SND_SOC_NOPM, 0, 1, 0)
- };
- 
-+static const char * const adc2_mux_text[] = {
-+	"INP2", "INP3"
-+};
-+
- static const char * const rdac3_mux_text[] = {
- 	"RX1", "RX3"
- };
- 
-+static const struct soc_enum adc2_enum =
-+	SOC_ENUM_SINGLE(WCD937X_TX_NEW_TX_CH2_SEL, 7,
-+			ARRAY_SIZE(adc2_mux_text), adc2_mux_text);
-+
- static const struct soc_enum rdac3_enum =
- 	SOC_ENUM_SINGLE(WCD937X_DIGITAL_CDC_EAR_PATH_CTL, 0,
- 			ARRAY_SIZE(rdac3_mux_text), rdac3_mux_text);
- 
-+static const struct snd_kcontrol_new tx_adc2_mux = SOC_DAPM_ENUM("ADC2 MUX Mux", adc2_enum);
-+
- static const struct snd_kcontrol_new rx_rdac3_mux = SOC_DAPM_ENUM("RDAC3_MUX Mux", rdac3_enum);
- 
- static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
- 	/* Input widgets */
-+	SND_SOC_DAPM_INPUT("AMIC1"),
-+	SND_SOC_DAPM_INPUT("AMIC2"),
-+	SND_SOC_DAPM_INPUT("AMIC3"),
- 	SND_SOC_DAPM_INPUT("IN1_HPHL"),
- 	SND_SOC_DAPM_INPUT("IN2_HPHR"),
- 	SND_SOC_DAPM_INPUT("IN3_AUX"),
- 
-+	/* TX widgets */
-+	SND_SOC_DAPM_ADC_E("ADC1", NULL, SND_SOC_NOPM, 0, 0,
-+			   wcd937x_codec_enable_adc,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("ADC2", NULL, SND_SOC_NOPM, 1, 0,
-+			   wcd937x_codec_enable_adc,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	SND_SOC_DAPM_MIXER_E("ADC1 REQ", SND_SOC_NOPM, 0, 0,
-+			     NULL, 0, wcd937x_enable_req,
-+			     SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("ADC2 REQ", SND_SOC_NOPM, 0, 0,
-+			     NULL, 0, wcd937x_enable_req,
-+			     SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	SND_SOC_DAPM_MUX("ADC2 MUX", SND_SOC_NOPM, 0, 0, &tx_adc2_mux),
-+
-+	/* TX mixers */
-+	SND_SOC_DAPM_MIXER_E("ADC1_MIXER", SND_SOC_NOPM, 0, 0,
-+			     adc1_switch, ARRAY_SIZE(adc1_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("ADC2_MIXER", SND_SOC_NOPM, 1, 0,
-+			     adc2_switch, ARRAY_SIZE(adc2_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+
-+	/* MIC_BIAS widgets */
-+	SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_SUPPLY("MIC BIAS3", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+
- 	SND_SOC_DAPM_SUPPLY("VDD_BUCK", SND_SOC_NOPM, 0, 0,
- 			    wcd937x_codec_enable_vdd_buck,
- 			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-@@ -2018,11 +2323,101 @@ static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
- 	SND_SOC_DAPM_MIXER("HPHR_RDAC", SND_SOC_NOPM, 0, 0,
- 			   hphr_rdac_switch, ARRAY_SIZE(hphr_rdac_switch)),
- 
-+	/* TX output widgets */
-+	SND_SOC_DAPM_OUTPUT("ADC1_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("ADC2_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("ADC3_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("WCD_TX_OUTPUT"),
-+
- 	/* RX output widgets */
- 	SND_SOC_DAPM_OUTPUT("EAR"),
- 	SND_SOC_DAPM_OUTPUT("AUX"),
- 	SND_SOC_DAPM_OUTPUT("HPHL"),
- 	SND_SOC_DAPM_OUTPUT("HPHR"),
-+
-+	/* MIC_BIAS pull up widgets */
-+	SND_SOC_DAPM_SUPPLY("VA MIC BIAS1", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias_pullup,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_SUPPLY("VA MIC BIAS2", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias_pullup,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_SUPPLY("VA MIC BIAS3", SND_SOC_NOPM, 0, 0,
-+			    wcd937x_codec_enable_micbias_pullup,
-+			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-+			    SND_SOC_DAPM_POST_PMD),
-+};
-+
-+static const struct snd_soc_dapm_widget wcd9375_dapm_widgets[] = {
-+	/* Input widgets */
-+	SND_SOC_DAPM_INPUT("AMIC4"),
-+
-+	/* TX widgets */
-+	SND_SOC_DAPM_ADC_E("ADC3", NULL, SND_SOC_NOPM, 2, 0,
-+			   wcd937x_codec_enable_adc,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	SND_SOC_DAPM_MIXER_E("ADC3 REQ", SND_SOC_NOPM, 0, 0,
-+			     NULL, 0, wcd937x_enable_req,
-+			     SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	SND_SOC_DAPM_ADC_E("DMIC1", NULL, SND_SOC_NOPM, 0, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("DMIC2", NULL, SND_SOC_NOPM, 1, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("DMIC3", NULL, SND_SOC_NOPM, 2, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("DMIC4", NULL, SND_SOC_NOPM, 3, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("DMIC5", NULL, SND_SOC_NOPM, 4, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_ADC_E("DMIC6", NULL, SND_SOC_NOPM, 5, 0,
-+			   wcd937x_codec_enable_dmic,
-+			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	/* TX mixer widgets */
-+	SND_SOC_DAPM_MIXER_E("DMIC1_MIXER", SND_SOC_NOPM, 0,
-+			     0, dmic1_switch, ARRAY_SIZE(dmic1_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("DMIC2_MIXER", SND_SOC_NOPM, 1,
-+			     0, dmic2_switch, ARRAY_SIZE(dmic2_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("DMIC3_MIXER", SND_SOC_NOPM, 2,
-+			     0, dmic3_switch, ARRAY_SIZE(dmic3_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("DMIC4_MIXER", SND_SOC_NOPM, 3,
-+			     0, dmic4_switch, ARRAY_SIZE(dmic4_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("DMIC5_MIXER", SND_SOC_NOPM, 4,
-+			     0, dmic5_switch, ARRAY_SIZE(dmic5_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("DMIC6_MIXER", SND_SOC_NOPM, 5,
-+			     0, dmic6_switch, ARRAY_SIZE(dmic6_switch),
-+			     wcd937x_tx_swr_ctrl, SND_SOC_DAPM_PRE_PMU |
-+			     SND_SOC_DAPM_POST_PMD),
-+	SND_SOC_DAPM_MIXER_E("ADC3_MIXER", SND_SOC_NOPM, 2, 0, adc3_switch,
-+			     ARRAY_SIZE(adc3_switch), wcd937x_tx_swr_ctrl,
-+			     SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-+
-+	/* Output widgets */
-+	SND_SOC_DAPM_OUTPUT("DMIC1_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("DMIC2_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("DMIC3_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("DMIC4_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("DMIC5_OUTPUT"),
-+	SND_SOC_DAPM_OUTPUT("DMIC6_OUTPUT"),
- };
- 
- static int wcd937x_set_micbias_data(struct wcd937x_priv *wcd937x)
-@@ -2154,6 +2549,15 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 	disable_irq_nosync(wcd937x->hphl_pdm_wd_int);
- 	disable_irq_nosync(wcd937x->aux_pdm_wd_int);
- 
-+	if (wcd937x->chipid == CHIPID_WCD9375) {
-+		ret = snd_soc_dapm_new_controls(dapm, wcd9375_dapm_widgets,
-+						ARRAY_SIZE(wcd9375_dapm_widgets));
-+		if (ret < 0) {
-+			dev_err(component->dev, "Failed to add snd_ctls\n");
-+			return ret;
-+		}
-+	}
-+
- 	ret = wcd937x_mbhc_init(component);
- 	if (ret)
- 		dev_err(component->dev,  "mbhc initialization failed\n");
 -- 
-2.25.1
+2.45.1
 
