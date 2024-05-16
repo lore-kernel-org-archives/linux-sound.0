@@ -1,143 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B528A146D51;
-	Thu, 16 May 2024 14:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48C414D43B;
+	Thu, 16 May 2024 15:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715868151; cv=none; b=kRR8mLPuf/0BO8gmprOW3iD0IjExWcskCSilverOcq87YSEbzQdU7cluDqjaZUUfwyKovyzeOyPDu6lE2+P3p+yCalISqQOfPAuuXF58Jp1Pzu33VLswcEAVeaDW6VUlKLFBPrddffU+tSRKAaLQIcQcru1g49azu3Gd48Zn5qc=
+	t=1715873282; cv=none; b=tzVtF7STrC3TgSqbbVFQLyZiW/O7I83g/fj8ENFEE3b/g6G6IJK9thMB6z7C0V2bZ+uBRZkyYzoPIaNrHXU07mWr6sEOwKBcomTau0Zj/wa4Xe8peS2iqOcezns6ifTtpIjkbUMwMoV+mEFX5aJ9QktV1dwzsgPao+z8mn/PnBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715868151; c=relaxed/simple;
-	bh=V/NH146L7hIj0JHJ81pb0dj3R2FIvS7eqv0S8By9H3M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W0NJye2ma/vgxaBsAR0UHAJeBlKRm4q+ouojF0weCbFol5dZGlRVBDo8FARrL/5rB/6Dv9giZ2buEN/dffcDyEFKmQNuyzz5lmOtj60JZzqOgXIJNxCP0BMNv9dIJBotXTMXqbvio6m8m5UgZbLNp1eazhR/rzp6VuPfWwgWcE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yvkGjKI+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yEL3sR0H; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yvkGjKI+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yEL3sR0H; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1715873282; c=relaxed/simple;
+	bh=SXE6O+oHIddD6pG7s3b7eDz3xjBZ6UcMXN9xDAZYMyU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GqXDTX36PjTyIU1aK4PzzhYoBEAHg296bXQyD52BzBfwpq02kIgpuFtJRhf1GAeu7BeviuIQr76hdMDQ1Cel9WYO8UbUjumcmBU0i3g7WM9XLnPIBkgL6ylCPorQUzKFin05dAHgiK8lBtbSqGfr+LGw8Lpjrzs7m5AcSenQS0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6rXecEI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yvkGjKI+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yEL3sR0H";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yvkGjKI+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yEL3sR0H"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D114E34A44;
-	Thu, 16 May 2024 14:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715868147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eS8dHN/8uJit7KYQ/wbXUaaaUK7rLV870M0qQi40wRk=;
-	b=yvkGjKI+HlU66ZeEIDPc5u1ZN2WdFvqMcB9L2qwKmGMlUB95vzaZUWtRWe6SGky1NB+yi8
-	YA5x0lc2LBVM6AaRHly4m8Wc1aOEKemxsCAWslvafYd9UwcOqTUgwWIk0Ws3wX1PIVBzqH
-	A2YUsI1gbqsGFFDBeIE7kjqsj1p1hrI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715868147;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eS8dHN/8uJit7KYQ/wbXUaaaUK7rLV870M0qQi40wRk=;
-	b=yEL3sR0HvJfrS+9bZ3N+OJ2/2Wmkd4V+1TX90j+VjtH5+iC/14dwnkUEXzNKVHZUmYS3DS
-	fMe1AsRljprqdmAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yvkGjKI+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yEL3sR0H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715868147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eS8dHN/8uJit7KYQ/wbXUaaaUK7rLV870M0qQi40wRk=;
-	b=yvkGjKI+HlU66ZeEIDPc5u1ZN2WdFvqMcB9L2qwKmGMlUB95vzaZUWtRWe6SGky1NB+yi8
-	YA5x0lc2LBVM6AaRHly4m8Wc1aOEKemxsCAWslvafYd9UwcOqTUgwWIk0Ws3wX1PIVBzqH
-	A2YUsI1gbqsGFFDBeIE7kjqsj1p1hrI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715868147;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eS8dHN/8uJit7KYQ/wbXUaaaUK7rLV870M0qQi40wRk=;
-	b=yEL3sR0HvJfrS+9bZ3N+OJ2/2Wmkd4V+1TX90j+VjtH5+iC/14dwnkUEXzNKVHZUmYS3DS
-	fMe1AsRljprqdmAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8449713991;
-	Thu, 16 May 2024 14:02:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ijkOH/MRRmZbaAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 May 2024 14:02:27 +0000
-Date: Thu, 16 May 2024 16:02:43 +0200
-Message-ID: <87h6ex3ldo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Manuel Barrio Linares <mbarriolinares@gmail.com>
-Cc: alsa-devel@alsa-project.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jeremie Knuesel <knuesel@gmail.com>,
-	Lukasz Tyl <ltyl@hem-e.com>,
-	Christos Skevis <xristos.thes@gmail.com>,
-	Jussi Laako <jussi@sonarnerd.net>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Fix for sampling rates support for Mbox3
-In-Reply-To: <20240516134003.39104-1-mbarriolinares@gmail.com>
-References: <87ikze486g.wl-tiwai@suse.de>
-	<20240516134003.39104-1-mbarriolinares@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6rXecEI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C3EC113CC;
+	Thu, 16 May 2024 15:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715873282;
+	bh=SXE6O+oHIddD6pG7s3b7eDz3xjBZ6UcMXN9xDAZYMyU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=L6rXecEITy/6+ODRXq7YXTjKfZqb9y9NjOWWrM1qpxCvYl6gvrxs0gIG9sUlTUvHU
+	 N68n9ScuhH8yBcZMEDSp3zduI7DTnxSShV9zOCorrDXZYe2Z3aDD7oQBJezvzJv0Hr
+	 iTyupgohmzGtjgua9NY4rAtQCLT3IluJjxq6jtqlGPjAmdB+1PILjl9hWY8ZOowTnE
+	 I4JK7efU9zBof6Yp3pPU9ivPoKgiDwTR6bT8mgkzYYfg72OXhcD3amdqUVoB7S70zn
+	 Z4fB0zCNpBtQpiIW+OahBSeEy+TvQ4c+ZBXAkThMkxtXW1SZZ5P2Zil46AgMBD1zBE
+	 nlccvkr4pIhww==
+From: Mark Brown <broonie@kernel.org>
+Date: Thu, 16 May 2024 16:27:33 +0100
+Subject: [PATCH] kselftest/alsa: Ensure _GNU_SOURCE is defined
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[alsa-project.org,perex.cz,suse.com,gmail.com,hem-e.com,sonarnerd.net,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D114E34A44
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240516-kselftest-fix-gnu-source-v1-1-e482ca6bfff7@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAOUlRmYC/x2MSQqAMAwAvyI5G0jFpfgV8VBs1KBUaVQE8e8Wj
+ wMz84ByFFZoswciX6KyhQQmz2CYXZgYxSeGgoqSKlPjoryOB+uBo9w4hRN1O+PAaI33nsg25Cy
+ kfI+cjH/d9e/7Adth6olqAAAA
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Muhammad Usama Anjum <usama.anjum@collabora.com>, 
+ Edward Liaw <edliaw@google.com>, John Hubbard <jhubbard@nvidia.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-sound@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.14-dev-f3d47
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=SXE6O+oHIddD6pG7s3b7eDz3xjBZ6UcMXN9xDAZYMyU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmRiX/9x1tdwjJ+WIougt2pxJwJRNDHaY3WKX7ZVta
+ tzaafrCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZkYl/wAKCRAk1otyXVSH0Ag/B/
+ wMrz08LCQDCftmtnukIUc0v2DAGIqoW8APGwN2DsWqfxdhNbQamdvCc9YxkhcWo1AGQMMyLxrgukpf
+ //9bkf9MaNYjjaCrV2V4wf0LyWJB9JmTMpWjUA1AGT3mFNnI+nmpTrdX70BxNDXHZYSISJsjbUbzRG
+ pC0KZ89D4tZVoOB28+dPGib8/na/8X5nuPbF1Exf4bXdCWeSsz1+B+PEhm5wp4P9mHlRalrNfHxfZY
+ 1oDo6kw8FsI+E7r4RfSRycplAWMYV0pY17seq//hck0C9Kn+aDdqA67tBu33wjFTQv+r0xJQAKHsbd
+ R1rDLME3Tx6FtNorKInZaIB9YfWAEe
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 16 May 2024 15:40:02 +0200,
-Manuel Barrio Linares wrote:
-> 
-> Fixed wrong use of usb_sndctrlpipe to usb_rcvctrlpipe
-> 
-> Signed-off-by: Manuel Barrio Linares <mbarriolinares@gmail.com>
+The pcmtest driver tests use the kselftest harness which requires that
+_GNU_SOURCE is defined but nothing causes it to be defined.  Since the
+KHDR_INCLUDES Makefile variable has had the required define added let's
+use that, this should provide some futureproofing.
 
-Thanks, applied now with Fixes tag.
+Fixes: daef47b89efd ("selftests: Compile kselftest headers with -D_GNU_SOURCE")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ tools/testing/selftests/alsa/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
+index 5af9ba8a4645..c1ce39874e2b 100644
+--- a/tools/testing/selftests/alsa/Makefile
++++ b/tools/testing/selftests/alsa/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ 
+-CFLAGS += $(shell pkg-config --cflags alsa)
++CFLAGS += $(shell pkg-config --cflags alsa) $(KHDR_INCLUDES)
+ LDLIBS += $(shell pkg-config --libs alsa)
+ ifeq ($(LDLIBS),)
+ LDLIBS += -lasound
 
-Takashi
+---
+base-commit: 3c999d1ae3c75991902a1a7dad0cb62c2a3008b4
+change-id: 20240516-kselftest-fix-gnu-source-81ddd00870a8
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
