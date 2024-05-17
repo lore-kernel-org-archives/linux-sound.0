@@ -1,128 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0225D3D9E;
-	Fri, 17 May 2024 16:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D8C13D8B8;
+	Fri, 17 May 2024 17:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715962994; cv=none; b=JbzhVl9QqOrGn5aI3Lp2QNl3nFNFVGz2U9XaYDDV5FovgM5gKKZAXRXy1/SmO9pdi7wgxYf4Ybf2RQI7LH29HkUaLiMIMdWi2pliMj4nIRJ4+c9q0QjMzoq0sWfXOJpcHg7fErYP1NBGlj//ZNX4xSSk6r7glY0UKNAc0GOIo/w=
+	t=1715965850; cv=none; b=LWWqpZwCuHDmYE/3xS3Dcsq22ybF4th4nY9q95DPCJL7C1Pct95ugIC6TiLC06HtBSWqcorxGe/G8ndXCx/DzcYiOqpcvNw3cAuGQFpuzXJvsbJwtD3G6HqSAmdvqkKKQlUGw8eg0yMDOot47PUqO4weWejMIySKBke8iUqCQLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715962994; c=relaxed/simple;
-	bh=uNwlZVn0k6bBYrUn2NOTbtyZjAe9hAwPUWGNLiaSzKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MlIAnJvXoclx91HzV3KHgMAmzFsWWX7APIuqQKg6D8rdDfiO2lBWN8hNUnta8MkPvLMjbRrCzno9d+ey7uKWaxOu5yWMAIKuIS4yXd50yO6+ba4Jn3R+4XC21rSS0pTUnL9jV4xzW+y5gexohMQGsr+7nf1x4bn2gL2/M+fleQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F8J6rGhR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715965850; c=relaxed/simple;
+	bh=OkDC481zFr3zxzpw+em2PUv7vlhq7LknWjI47ro8VnY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TiFSQMezRvpFE+utRVF9juOFVaRYNnUwga25Qe75vML4hBYOdQIv5KOV9zKpljTN8dGcvkCcVC0IN/6OuBZLRy1fBX48W/LXlpJo5DTTsIVP/g8GjPwvb87XAgV5oj+r27QBIjrbkMmFNjsxTJjJAZbL47XEZ/rJp/UwJN2JEJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KrFkxNyy; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F8J6rGhR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70342C2BD10;
-	Fri, 17 May 2024 16:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715962993;
-	bh=uNwlZVn0k6bBYrUn2NOTbtyZjAe9hAwPUWGNLiaSzKs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F8J6rGhR6abMw+H3e0sNsBE3c0HR9drUMq7zelYKMTQHa0vv/MIG2W8+/hD/7XTI+
-	 9VkRoCKMyZzVY3LjQAv7zTKPKrfWjp+PaYpWL+HZIXKwJ9PpfHkWCOm8/AnprKJTiS
-	 x71fH3FEiRuBcJ7Snaffb4mCRWAYWAV32gCoEeO44TUBKDap7ZLHPJJXjD0QMTmCNO
-	 ZUj+MK/eDva4zMj4VegTwZ0y/H/lyuO2Nk/KqN8YnLbubwD8YFqugReL9OgeiAJUxc
-	 u0pTJlCPPo4/7T1+KTMYWfO14b9TwwHb+K7KeD4YmO6RNA3DpP+PsNxwbeXmOHuVhd
-	 +qE7xoo2PLRTA==
-Date: Fri, 17 May 2024 09:23:12 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Linux trace kernel <linux-trace-kernel@vger.kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
-	linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
-	iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
-	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
-	linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
-	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-edac@vger.kernel.org, selinux@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
-	dev@openvswitch.org, linux-s390@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net,
-	Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-Message-ID: <20240517162312.GZ360919@frogsfrogsfrogs>
-References: <20240516133454.681ba6a0@rorschach.local.home>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KrFkxNyy"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-60585faa69fso1054595a12.1;
+        Fri, 17 May 2024 10:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715965848; x=1716570648; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
+        b=KrFkxNyyqA8x0RzMZ2kttotWxG9c8Yo72oiDbriBsqo3FgfuWjjRXrNc7iJgNKJY7x
+         hmy7JXNsgM21JRUNabRSK5qXkiAmgzZa7kW3gXD7Kr16+BrZmJz+Erlr0V/cNab4zgP2
+         nwaRqxEdnY8pTxcY3U0EdJvqZas5i0fSpYjzlogKFjMtpk2Puoxe9nolvEkYXCV6rkjF
+         rvG0TCztyLivDB4twQydSFVf3pxvBkgwc2U0N3RZVcM+qtculf+0h/OkwhYGbtT65v1e
+         4m2FSsmu9QgIlelcODnBUzXkalOq6QMBDqPjvLcoh35gjb5w+CxDlWFCU1h3XLjYn8uk
+         E56w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715965848; x=1716570648;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
+        b=S755/ZTNKiD2uRtqsIi5qIdPE6d7JEPAFQ11w8157FtZGRZLyRGJClBaWgeiZAz3MF
+         47b+LKrtR7r0sekKYEbObf+EpknIOM4tjHqlmjGI02xcAYoooTH/ijeMNi2K4x7CJ9Fh
+         ek+mcU6VNyapjtN45IM9EM7xzIdazznS9gQfqpm7GmT+niFB4NbmLBxQ42RFafoxRW6D
+         i9znte8tA5J7lI30zRrVBZg2cRJGpRuOmLIEEF921r7/bb0UMBlGZNe1MzNgsvVVFA2q
+         OwQJCm3ZqKo0yOddqS2Y17HMNApADqVTJZX9vvoLW3kVHenjy/68v0Cqc/7wB+v/25aZ
+         KtHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVnSaIpj4/dP6FGC4sUz6UQXsljsY2oSWyAkEiosONe/YoWkmxWHpodMxVeeIVN8Jlp5Kt3PVtTqtqB1bNNbnXdDjrNZ3j6byaKNPruVSHUrfmjRKG5qtifXiO6lbmhhf0TvVr1pWHSMXA=
+X-Gm-Message-State: AOJu0Yw5ozNlUJuL83Idqd63a8yc1TUKUZ35CDgEiR0FY/6CB123J2Cz
+	MYR52wvy50gDS6EGvNDfWJSaCLwmdNM3VU5ayVOVeNdOpdNhNeuO0hP101eY1R0=
+X-Google-Smtp-Source: AGHT+IHf7EzDobBuG28rhBGM/jrbz7z2TmfK7/0FLrxUx9ilsRJHlu782DHm4IF+5lQiJWvjS7MVjA==
+X-Received: by 2002:a17:902:d4d0:b0:1ea:691b:3692 with SMTP id d9443c01a7336-1eefa139e6fmr376856575ad.17.1715965848337;
+        Fri, 17 May 2024 10:10:48 -0700 (PDT)
+Received: from [192.168.50.95] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31000sm159213325ad.145.2024.05.17.10.10.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 May 2024 10:10:47 -0700 (PDT)
+Message-ID: <a258b613-3697-4f21-a8fd-20b276f63132@gmail.com>
+Date: Sat, 18 May 2024 02:10:44 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] line6: add midibuf init failure handling in
+ line6_init_midi()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, skhan@linuxfoundation.org,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240516174737.415912-1-yskelg@gmail.com>
+ <8734qg260i.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Yunseong Kim <yskelg@gmail.com>
+In-Reply-To: <8734qg260i.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 16, 2024 at 01:34:54PM -0400, Steven Rostedt wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+On 5/17/24 5:32 오후, Takashi Iwai wrote:
+> The allocated object is already freed by snd_line6_midi_free() that is
+> called via rawmidi private_free at its destruction.  So your change
+> would lead to a double-free.
 > 
-> [
->    This is a treewide change. I will likely re-create this patch again in
->    the second week of the merge window of v6.10 and submit it then. Hoping
->    to keep the conflicts that it will cause to a minimum.
-> ]
 > 
-> With the rework of how the __string() handles dynamic strings where it
-> saves off the source string in field in the helper structure[1], the
-> assignment of that value to the trace event field is stored in the helper
-> value and does not need to be passed in again.
+> thanks,
 > 
-> This means that with:
-> 
->   __string(field, mystring)
-> 
-> Which use to be assigned with __assign_str(field, mystring), no longer
-> needs the second parameter and it is unused. With this, __assign_str()
-> will now only get a single parameter.
-> 
-> There's over 700 users of __assign_str() and because coccinelle does not
-> handle the TRACE_EVENT() macro I ended up using the following sed script:
-> 
->   git grep -l __assign_str | while read a ; do
->       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
->       mv /tmp/test-file $a;
->   done
-> 
-> I then searched for __assign_str() that did not end with ';' as those
-> were multi line assignments that the sed script above would fail to catch.
-> 
-> Note, the same updates will need to be done for:
-> 
->   __assign_str_len()
->   __assign_rel_str()
->   __assign_rel_str_len()
-> 
-> I tested this with both an allmodconfig and an allyesconfig (build only for both).
-> 
-> [1] https://lore.kernel.org/linux-trace-kernel/20240222211442.634192653@goodmis.org/
-> 
-> Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Julia Lawall <Julia.Lawall@inria.fr>
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Takashi
 
-/me finds this pretty magical, but such is the way of macros.
-Thanks for being much smarter about them than me. :)
+Thanks for the review Takashi.
 
-Acked-by: Darrick J. Wong <djwong@kernel.org>	# xfs
+I have one question:
 
---D
+line6_midibuf_destroy() have no NULL check for the memory to free.
+
+If line6midi->midibuf_in is in this->buf = NULL from
+line6_midibuf_init() with memory allocation failed,
+won't the free(NULL) when accessed by snd_line6_midi_free() to
+line6_midibuf_destroy()?
+
+In the first patch, I was making a misunderstanding
+Now that you mention it, I can see where it's freeing!
+It helped me a lot in analyzing the driver code.
+
+Please let me know if I've misunderstood anything.
+
+Warm Regards,
+Yunseong Kim
+
+>> ---
+>>  sound/usb/line6/midi.c | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
+>> index 0838632c788e..abcf58f46673 100644
+>> --- a/sound/usb/line6/midi.c
+>> +++ b/sound/usb/line6/midi.c
+>> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
+>>  
+>>  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
+>>  	if (err < 0)
+>> -		return err;
+>> +		goto error;
+>>  
+>>  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
+>>  	if (err < 0)
+>> -		return err;
+>> +		goto error;
+>>  
+>>  	line6->line6midi = line6midi;
+>>  	return 0;
+>> +
+>> +error:
+>> +	kfree(line6midi);
+>> +	return err;
+>> +
+>>  }
+>>  EXPORT_SYMBOL_GPL(line6_init_midi);
+>> -- 
+>> 2.34.1
+>>
