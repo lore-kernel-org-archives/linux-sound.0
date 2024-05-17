@@ -1,141 +1,150 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D8C13D8B8;
-	Fri, 17 May 2024 17:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B50213E028;
+	Fri, 17 May 2024 17:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715965850; cv=none; b=LWWqpZwCuHDmYE/3xS3Dcsq22ybF4th4nY9q95DPCJL7C1Pct95ugIC6TiLC06HtBSWqcorxGe/G8ndXCx/DzcYiOqpcvNw3cAuGQFpuzXJvsbJwtD3G6HqSAmdvqkKKQlUGw8eg0yMDOot47PUqO4weWejMIySKBke8iUqCQLs=
+	t=1715967401; cv=none; b=VGD+W1XxUso2VlvuOvz4lxOKEOG1+CgMdYH21RRFwrGzncpE6uX2rvfoTeeEHPH29OY+v7d//yMlX7Zpm1LmdWg/0Q0Ow6NTNHQM5w2kDcyPbB/vgn1f05c54oSM9ndNq8DwMOIyRgbeC12qwPOBes4JNFpurb5I1nclEbQAOg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715965850; c=relaxed/simple;
-	bh=OkDC481zFr3zxzpw+em2PUv7vlhq7LknWjI47ro8VnY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TiFSQMezRvpFE+utRVF9juOFVaRYNnUwga25Qe75vML4hBYOdQIv5KOV9zKpljTN8dGcvkCcVC0IN/6OuBZLRy1fBX48W/LXlpJo5DTTsIVP/g8GjPwvb87XAgV5oj+r27QBIjrbkMmFNjsxTJjJAZbL47XEZ/rJp/UwJN2JEJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KrFkxNyy; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1715967401; c=relaxed/simple;
+	bh=l7K75G8hEZf6Nf3Gd+zb5LouEwarRLauIdJPMoFivlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHDU2a+DAWtPRcmt4C6PNdPbseXKcMelAX2wzvQMYCRqxHPakEdRVvQff3WPguwpodBLpV7fPbdCvZ94NfW0WSvQDuc0Gmbi/M37I2hQcmH6pFp7wlAmn5n+co7hQSDkGkpVMKwa0McBxDQvO/xYNevxFiLG7sf4OWnflrwmeZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=emn3CkST; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KrFkxNyy"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-60585faa69fso1054595a12.1;
-        Fri, 17 May 2024 10:10:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="emn3CkST"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ee954e0aa6so16680785ad.3;
+        Fri, 17 May 2024 10:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715965848; x=1716570648; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
-        b=KrFkxNyyqA8x0RzMZ2kttotWxG9c8Yo72oiDbriBsqo3FgfuWjjRXrNc7iJgNKJY7x
-         hmy7JXNsgM21JRUNabRSK5qXkiAmgzZa7kW3gXD7Kr16+BrZmJz+Erlr0V/cNab4zgP2
-         nwaRqxEdnY8pTxcY3U0EdJvqZas5i0fSpYjzlogKFjMtpk2Puoxe9nolvEkYXCV6rkjF
-         rvG0TCztyLivDB4twQydSFVf3pxvBkgwc2U0N3RZVcM+qtculf+0h/OkwhYGbtT65v1e
-         4m2FSsmu9QgIlelcODnBUzXkalOq6QMBDqPjvLcoh35gjb5w+CxDlWFCU1h3XLjYn8uk
-         E56w==
+        d=gmail.com; s=20230601; t=1715967399; x=1716572199; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rzMfxbAB8QJEcJdIySGROcUOqAKXWq8nqUdcExbi1Zk=;
+        b=emn3CkSTmGwb7Ev6REZ9Z3U3XD4Y+jPjdTTKRrd1xunPWgI+cGM6iP3TELOI5V8ATa
+         VbiGe+xcAirEDS5iorMu2B+VEBPivgYYBJAFyyk/dtcE+BdDAEcBR/OSDeMAia+M02aV
+         JtJr53ZjOlMBaf51DPBBJSXIlVEj8/ta7pTQaBfTGVSwemtnu9tMYnJUuHNl2FkBsWa2
+         RY29x4C0oql3h5xd/BScqyiM9KMAjCxcwhA5cszmGMdkeAyAQyWwOl4SEGtmK+Cfk17e
+         ZUmUwjzXpEuOreMImVvNFBtQTMD0YnZzxGLGWYMvA88gK3n/MpOcCwIl6WzZ4yooz3JS
+         JzXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715965848; x=1716570648;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
-        b=S755/ZTNKiD2uRtqsIi5qIdPE6d7JEPAFQ11w8157FtZGRZLyRGJClBaWgeiZAz3MF
-         47b+LKrtR7r0sekKYEbObf+EpknIOM4tjHqlmjGI02xcAYoooTH/ijeMNi2K4x7CJ9Fh
-         ek+mcU6VNyapjtN45IM9EM7xzIdazznS9gQfqpm7GmT+niFB4NbmLBxQ42RFafoxRW6D
-         i9znte8tA5J7lI30zRrVBZg2cRJGpRuOmLIEEF921r7/bb0UMBlGZNe1MzNgsvVVFA2q
-         OwQJCm3ZqKo0yOddqS2Y17HMNApADqVTJZX9vvoLW3kVHenjy/68v0Cqc/7wB+v/25aZ
-         KtHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVnSaIpj4/dP6FGC4sUz6UQXsljsY2oSWyAkEiosONe/YoWkmxWHpodMxVeeIVN8Jlp5Kt3PVtTqtqB1bNNbnXdDjrNZ3j6byaKNPruVSHUrfmjRKG5qtifXiO6lbmhhf0TvVr1pWHSMXA=
-X-Gm-Message-State: AOJu0Yw5ozNlUJuL83Idqd63a8yc1TUKUZ35CDgEiR0FY/6CB123J2Cz
-	MYR52wvy50gDS6EGvNDfWJSaCLwmdNM3VU5ayVOVeNdOpdNhNeuO0hP101eY1R0=
-X-Google-Smtp-Source: AGHT+IHf7EzDobBuG28rhBGM/jrbz7z2TmfK7/0FLrxUx9ilsRJHlu782DHm4IF+5lQiJWvjS7MVjA==
-X-Received: by 2002:a17:902:d4d0:b0:1ea:691b:3692 with SMTP id d9443c01a7336-1eefa139e6fmr376856575ad.17.1715965848337;
-        Fri, 17 May 2024 10:10:48 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31000sm159213325ad.145.2024.05.17.10.10.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 10:10:47 -0700 (PDT)
-Message-ID: <a258b613-3697-4f21-a8fd-20b276f63132@gmail.com>
-Date: Sat, 18 May 2024 02:10:44 +0900
+        d=1e100.net; s=20230601; t=1715967399; x=1716572199;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rzMfxbAB8QJEcJdIySGROcUOqAKXWq8nqUdcExbi1Zk=;
+        b=tRaBInC5CBZVJiTyNhPeAMF0Mv8ZyhDngT/Ke4lsBz6dnWLTVbrxiYmDGKR3474tHa
+         Jw0S2Pd1w9vB5TttyIKUZ3vkElFqN8D82iwb6kL7vCXbWz+ZO+kOgSp2q2lMeYG13wJ3
+         Pd4jLhwNb/5j//D5V0kA6eEHTeRPM+KlHNN2ZXDOKj2sqnyMigDYM3Yyxzog0n99DW50
+         DbdwYUgj+mBGDnl1Wi3MfB/KObA9dlYM5hJ0VYDOGEqfhhsM9xkE6J3r09MMgCufkcSJ
+         MFPDLIL9Qyg8pNl52R6ymP0RQyefKT1UiQ+E7Y0jutAqKo/SZ6YeNcoI1ileC9aAa4W0
+         uyJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUeikZ+5A7mGmqeVlRxUOHe3Z4BVx7A6SdRIJ9KlcdOS9QSNvCDsre7aHGEDTt/hTkAM3qO0uM2xeP+jtEHZh5JsSeK9A/+tFrYQA1Gt+sOL3ewNO6LlYK9y7DD7mpAtqpfD7DjXB75ufvKHVU6kM3a/elOuYDfutBUvo4a9bI4BCb2VDcyzEXzDexUc9t0in/T8C2XOhPKn7wWpdtpjhPEZSUvfBbj5JIuV5SOt4ozapoAEBa6p9eoNzUqVSV+FTR0IAeRERSnOL6XqGk495fk7J/QsGArESB7IkyWGLl2UfJVr+STIxS8eHdJJiLcNAzso4UUQBPch6E8dfNENIPvXxQAsave+ZjX9aqXjIT96Hz/aHminfcbngd99gozkR8JcHcG37i5SZidszxbbVcf9ugBd6iBJBSvP3YPM6hIvwhrKlXpceN2VyhqUDGta0Y2tQ8Y92YBThBW9tUwaEcwpwLLtnkcoENUdMSzNo1PisKVaRS0s0oNoAWHaeTm033idWAzW8Z6AMcGqpdUZef30iZpnny7DOCCRdx6bdPIPfc8m8lwMbo6DXkdKIQnaqlplZsK6CLKNgppIYSJ7U793bTJTH44UOdcWLKNUTDeK1XJMU+un4iEAjTM4sbk5xfiplNYftumz3+FD+ZUcLZWXKJBMvMx7eT5NA18jT46CIW4oBwdkZsngjutYGEYxbL/3oE5mRVrHB1dgdQB0YljgIrh2vfVWMnSdGUfmhbsUn3exZybXMRR9PJNk7TMh60ZKjaGM3YyEgvEgQVWpZ4sxK1fHIUzkaJHi56sH9Vb1HRQuX6pNOHreK/nEi3g6aW7gIA7T1ww4N6bLeNtZRSJMBfQ7RJIfpa4nB66EJI9p+xXnabbY1FucmTW2fAhf83tzqzRTLEML3+RBqx6xPn5uR2l/K2m0V/YFHhfHKN5kNYIOcc0Y+KpHUPL2A==
+X-Gm-Message-State: AOJu0YyVJKJDHI54++5KLrCtRmLug9WO1yHYT9xtbae1yHeJBFY7OAOO
+	4meyTffhXTst2nI7rjVckVaPWZ7pOCdtS8zLnwvw9MCn/zh6jfsS
+X-Google-Smtp-Source: AGHT+IHJ9PZtASiLb9HJkYrHy1DRhdQlVEuKbRr0NYIRv4Tx+av91BIA0wx1gBcIQQlm9sd2COIQnQ==
+X-Received: by 2002:a17:90a:9606:b0:2b9:a299:928e with SMTP id 98e67ed59e1d1-2b9a29994c9mr10436893a91.24.1715967398710;
+        Fri, 17 May 2024 10:36:38 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67105666csm15749258a91.8.2024.05.17.10.36.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 May 2024 10:36:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 17 May 2024 10:36:37 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Linux trace kernel <linux-trace-kernel@vger.kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
+	iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
+	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+	linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-edac@vger.kernel.org, selinux@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
+	dev@openvswitch.org, linux-s390@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <5080f4c5-e0b3-4c2e-9732-f673d7e6ca66@roeck-us.net>
+References: <20240516133454.681ba6a0@rorschach.local.home>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] line6: add midibuf init failure handling in
- line6_init_midi()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, skhan@linuxfoundation.org,
- Bjorn Helgaas <helgaas@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240516174737.415912-1-yskelg@gmail.com>
- <8734qg260i.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <8734qg260i.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
 
-On 5/17/24 5:32 오후, Takashi Iwai wrote:
-> The allocated object is already freed by snd_line6_midi_free() that is
-> called via rawmidi private_free at its destruction.  So your change
-> would lead to a double-free.
+On Thu, May 16, 2024 at 01:34:54PM -0400, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 > 
+> [
+>    This is a treewide change. I will likely re-create this patch again in
+>    the second week of the merge window of v6.10 and submit it then. Hoping
+>    to keep the conflicts that it will cause to a minimum.
+> ]
 > 
-> thanks,
+> With the rework of how the __string() handles dynamic strings where it
+> saves off the source string in field in the helper structure[1], the
+> assignment of that value to the trace event field is stored in the helper
+> value and does not need to be passed in again.
 > 
-> Takashi
+> This means that with:
+> 
+>   __string(field, mystring)
+> 
+> Which use to be assigned with __assign_str(field, mystring), no longer
+> needs the second parameter and it is unused. With this, __assign_str()
+> will now only get a single parameter.
+> 
+> There's over 700 users of __assign_str() and because coccinelle does not
+> handle the TRACE_EVENT() macro I ended up using the following sed script:
+> 
+>   git grep -l __assign_str | while read a ; do
+>       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
+>       mv /tmp/test-file $a;
+>   done
+> 
+> I then searched for __assign_str() that did not end with ';' as those
+> were multi line assignments that the sed script above would fail to catch.
+> 
 
-Thanks for the review Takashi.
+Building csky:allmodconfig (and others) ... failed
+--------------
+Error log:
+In file included from include/trace/trace_events.h:419,
+                 from include/trace/define_trace.h:102,
+                 from drivers/cxl/core/trace.h:737,
+                 from drivers/cxl/core/trace.c:8:
+drivers/cxl/core/./trace.h:383:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
 
-I have one question:
+This is with the patch applied on top of v6.9-8410-gff2632d7d08e.
+So far that seems to be the only build failure.
+Introduced with commit 6aec00139d3a8 ("cxl/core: Add region info to
+cxl_general_media and cxl_dram events"). Guess we'll see more of those
+towards the end of the commit window.
 
-line6_midibuf_destroy() have no NULL check for the memory to free.
-
-If line6midi->midibuf_in is in this->buf = NULL from
-line6_midibuf_init() with memory allocation failed,
-won't the free(NULL) when accessed by snd_line6_midi_free() to
-line6_midibuf_destroy()?
-
-In the first patch, I was making a misunderstanding
-Now that you mention it, I can see where it's freeing!
-It helped me a lot in analyzing the driver code.
-
-Please let me know if I've misunderstood anything.
-
-Warm Regards,
-Yunseong Kim
-
->> ---
->>  sound/usb/line6/midi.c | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
->> index 0838632c788e..abcf58f46673 100644
->> --- a/sound/usb/line6/midi.c
->> +++ b/sound/usb/line6/midi.c
->> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
->>  
->>  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
->>  	if (err < 0)
->> -		return err;
->> +		goto error;
->>  
->>  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
->>  	if (err < 0)
->> -		return err;
->> +		goto error;
->>  
->>  	line6->line6midi = line6midi;
->>  	return 0;
->> +
->> +error:
->> +	kfree(line6midi);
->> +	return err;
->> +
->>  }
->>  EXPORT_SYMBOL_GPL(line6_init_midi);
->> -- 
->> 2.34.1
->>
+Guenter
