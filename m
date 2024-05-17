@@ -1,109 +1,107 @@
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE14E1EB25;
-	Fri, 17 May 2024 09:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA97288A4;
+	Fri, 17 May 2024 09:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715936750; cv=none; b=iWCCiWXmp8kluvH86n/61Atio3LE4Rx1jQ4XtXDXm7WC/Zldqv2FePwng75CKG3a06XaPHcvV6aZ/pfwyqKUfjaXmj0v8JfQTzyD0hz1J9YUc4WqBhuZmJdeNBIzzgGUDlzk8DhKa9shKuZyySKXzOXDLJbXp2T1i1bExrWCTr8=
+	t=1715937846; cv=none; b=WtERtnJRTBtfYw+eH7AoNWBEtpAu9mc9qNrJdOhQg0SabFs9F13NPh7QnxkbhIr8Xc/1xNNWs3GcKZv3Vh0PDOOaRnvBMVI36/JsLvSwLH6ytBa00fGcXHer1SDJ1ArRqRoR7xUz3lWiA6KHBo8tHQAcPY2yE7hshv1RSZUf1+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715936750; c=relaxed/simple;
-	bh=TlQMwSG+/gBY7QDcpZ58FdFlwzxX6d2C5yctN9arRp4=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=fg5/gAEYt85ydWXJAjdLqdBeG5qu0d6m9wUprTL3pFr14hWDJcFFqcAOLWqILyw3/uzHwKVJ3hX692I6sC0PZYmT4RNJAsqCnXMacGmzjsik9k0kaQ8UHO/ozyjJshens2ztRTgOLZ1QxT+qsLenEoJR150jFqtz/F7R7hp2xlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=oG1T2vdH; arc=none smtp.client-ip=208.88.110.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
+	s=arc-20240116; t=1715937846; c=relaxed/simple;
+	bh=xGw3hcqvQocrPtmT5TUi1j5xDED+1T1ee3PN48GUQEs=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=bZGn+Yp/nhfrv8SSIuaA1ilNuomcrfVUsrepwr3p5Wbmbja4Fe/hAep7ZLrziZp8WMhCIsnLQJcxMneEDXnHyKY2wc6aG9V9+CT8NtY/Le7rkF9fdOmlPAXgvJYUTNriaGQqb/JH2PjVIDg5U0HC14PLLEGj2xb1Mhwh9TiXbHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyxVw8NN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="oG1T2vdH"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8B8DB9C58EA;
-	Fri, 17 May 2024 05:05:42 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id ycSku0e4je0q; Fri, 17 May 2024 05:05:41 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id E1D8D9C591F;
-	Fri, 17 May 2024 05:05:41 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com E1D8D9C591F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1715936741; bh=cx6CQV5YfxghVjmPjejucL2olCe90bCSbFqa4g71+0M=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=oG1T2vdHJ7olkf/IEQ4rw1h56wPiTy9nafFlLPsGCZwsqEJt/hBQwoXKYfPbmqn2h
-	 qZu2NlE4sQ8A4gbFeK5DUxGaN4+8TNLmbIKDfM5+i/QQN7IS+ya2Uh+JmKsmsSkqf5
-	 MBGTtuIp7xLTlE+3yW/sFKWA4LY7drC0AoeY8TdAT7jSKPSGqa4jIqgy8pHLsrqkyh
-	 yAcrOiTjeSJLLtXbpZhHcSON6ooFo3JQVIidV1+HLSXl00uXRf6t6r0H3XspC0vWKO
-	 wEcQ2mrCYmQ0xuC6DEzFord8S+Lfc/I7cQ++SWegOi5kEYBQ0bQ2PDnlLdkJZIuoH9
-	 7VWRve/a3Uxng==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id UkPCSXxrdA7W; Fri, 17 May 2024 05:05:41 -0400 (EDT)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id ABB829C58EA;
-	Fri, 17 May 2024 05:05:41 -0400 (EDT)
-Date: Fri, 17 May 2024 05:05:41 -0400 (EDT)
-From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, 
-	shengjiu wang <shengjiu.wang@gmail.com>, 
-	Xiubo Lee <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound <linux-sound@vger.kernel.org>, 
-	devicetree <devicetree@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	alsa-devel <alsa-devel@alsa-project.org>, 
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Message-ID: <599489232.349333.1715936741672.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <ce9a87c6-4a5c-4f0a-a8df-1fdce8c1f5df@sirena.org.uk>
-References: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com> <20240515135411.343333-10-elinor.montmasson@savoirfairelinux.com> <ce9a87c6-4a5c-4f0a-a8df-1fdce8c1f5df@sirena.org.uk>
-Subject: Re: [PATCHv4 9/9] ASoC: dt-bindings: fsl-asoc-card: add compatible
- for generic codec
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyxVw8NN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40D2C2BD10;
+	Fri, 17 May 2024 09:24:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715937846;
+	bh=xGw3hcqvQocrPtmT5TUi1j5xDED+1T1ee3PN48GUQEs=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=RyxVw8NNt5Z9Urq6VLHDet3i1YsA6suJDNIsPxRlWlgvAmQYowBnoz/+0tcrvGGLx
+	 2uHP9axO3z8oATbJiD/Lx8lVRgT044Z+XfZ8hoFkDz7WCeXjaA2Te6PCf7WvSlU6fN
+	 /b8BQgdou+IOatGDjeCAVAEgYTHZmMYCn0SvViRD9dU4MgO3l2K/qtp0wCsNOM4rgF
+	 5zmm76TYu2GyaB4jq1nFA5yzUfE9qjZl56m+7r3gG10Bhf5ksifuSkv03NRuie82Tk
+	 cyoXjicup6HNbboIjU/Q6IBAoC48xdtMjDEhKc4gxh5nUMMkUaK42V6B+qxwDco4YU
+	 AlIa02z9VHF0A==
+Date: Fri, 17 May 2024 04:24:04 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 8.8.15_GA_4581 (ZimbraWebClient - GC112 (Linux)/8.8.15_GA_4581)
-Thread-Topic: ASoC: dt-bindings: fsl-asoc-card: add compatible for generic codec
-Thread-Index: 5nXwooIVrjUMUfEG3TeQl8yJKNJb9Q==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Mighty <bavishimithil@gmail.com>
+Cc: linux-sound@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Lopez Cruz <misael.lopez@ti.com>, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Mark Brown <broonie@kernel.org>
+In-Reply-To: <20240517083644.3920-1-bavishimithil@gmail.com>
+References: <20240517083644.3920-1-bavishimithil@gmail.com>
+Message-Id: <171593784468.974781.7311451940963803133.robh@kernel.org>
+Subject: Re: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
 
-From: "Mark Brown" <broonie@kernel.org>
-Sent: Thursday, 16 May, 2024 14:11:11
-> On Wed, May 15, 2024 at 03:54:11PM +0200, Elinor Montmasson wrote:
-> 
->> Add documentation about new dts bindings following new support
->> for compatible "fsl,imx-audio-generic".
-> 
->>    audio-codec:
->> -    $ref: /schemas/types.yaml#/definitions/phandle
->> -    description: The phandle of an audio codec
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    description: |
->> +      The phandle of an audio codec.
->> +      If using the "fsl,imx-audio-generic" compatible, give instead a pair of
->> +      phandles with the spdif_transmitter first (driver SPDIF DIT) and the
->> +      spdif_receiver second (driver SPDIF DIR).
->> +    items:
->> +      maxItems: 1
-> 
-> This description (and the code) don't feel like they're actually generic
-> - they're clearly specific to the bidrectional S/PDIF case.  I'd expect
-> something called -generic to cope with single CODECs as well as double,
-> and not to have any constraints on what those are.
 
-I proposed, in an reply of the v3 patch series to Krzysztof Kozlowski,
-the compatible "fsl,imx-audio-no-codec" instead of "generic".
-Krzysztof thought it was too generic, but it would convey more clearly
-that it is for cases without codec driver.
-Would this other compatible string be more appropriate ?
+On Fri, 17 May 2024 14:06:44 +0530, Mighty wrote:
+> From: Mithil Bavishi <bavishimithil@gmail.com>
+> 
+> Convert the OMAP4+ McPDM bindings to DT schema.
+> 
+> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+> ---
+> Changelog v4:
+> - Changed maintainer name
+> - Use $ref and enum in ti-hwmods property
+> - Make clocks property only have maxItems, no description
+> - Add items to clock-names
+> - Fix address of node in example
+> - Remove extra line
+> 
+>  .../devicetree/bindings/sound/omap-mcpdm.txt  | 30 ----------
+>  .../bindings/sound/ti,omap4-mcpdm.yaml        | 59 +++++++++++++++++++
+>  2 files changed, 59 insertions(+), 30 deletions(-)
+>  delete mode 100644
+> Documentation/devicetree/bindings/sound/omap-mcpdm.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
+> 
 
-Best regards,
-Elinor Montmasson
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml: properties:ti,hwmods: 'anyOf' conditional failed, one must be fixed:
+	'description' is a dependency of '$ref'
+	'/schemas/types.yaml#/definitions/string' does not match '^#/(definitions|\\$defs)/'
+		hint: A vendor property can have a $ref to a a $defs schema
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+Error: Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.example.dts:28.25-26 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:427: Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1430: dt_binding_check] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240517083644.3920-1-bavishimithil@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
