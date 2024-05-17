@@ -1,201 +1,113 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCF41DDC9;
-	Fri, 17 May 2024 08:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0291F1AAA5;
+	Fri, 17 May 2024 09:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.88.110.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715935019; cv=none; b=qRVnpeTUiXeGwzM84bSNsTXiT5Z7Fbs917Y3B9Rg8ha7FtMwRzk4tA3/xIS5gj49S7GhX8RmX5+fmhsdN8pXOyOrf+bqEdROW7gNBJMb1gs06EM+K7Igh7x+pABIWNvqz8ZRZVff5Mb7poYz30HNdL0ezU94RhjnunEqgRsgFiE=
+	t=1715936747; cv=none; b=I5C4OFYxtRjkF8rBb0sSXM9iH1UimlSEXV0c+yuzBApxvB3ng2PC2tl7/b95wh8x24h983keDKW2lolSAsc5ecEUOF6HyyEFgnKcOTVewNht4FyQ1du+uQS13XThgjh8Mtri3i8MnvF32TfUPbGP9Nw/JokcIq76ni42RJssS7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715935019; c=relaxed/simple;
-	bh=/jxaQ8vLqvY8UNZjqUOZ0SnrmjfJMgE4oN2iNYTKwWM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dw0y570jXOTee8FWSmqir4fBtz1APQtdCLo+2M1opJ4FLMMmCO/sqT1O0mmsYsqE4ZA1B82eXvVEpxDdO6lCRfxSe2t2B700wnYxRBsvXwzyHLd8fwTnGpMSJZTJiSr3NMerdvT1WL9J/CujPNXQ0Ot70B+lcdhmV4Ctfu7i1JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eZv+grV+; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715936747; c=relaxed/simple;
+	bh=Cg9MTPT9tWRh/8PAEQ/0bLqgcKcVgIar/eyWrNXcBzY=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=pEchBRsDV5kjm1sEYVtRIkgErr1ZNkPQP88S8hnVLaX6oMEyCWYSSqEOJOOsS5z2QJF8kp6oQkjCqxJk7dLuvRNy/k6Vq1C/agrP/6q0vyUgWskdAUdnuY+P/f61ec93EMTa0DHoYvsBIskx2ZOyrOGQlj8qV3j/cGs3/gIplUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com; spf=pass smtp.mailfrom=savoirfairelinux.com; dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b=yJbKu2bb; arc=none smtp.client-ip=208.88.110.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=savoirfairelinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=savoirfairelinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eZv+grV+"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6f4178aec15so1045457b3a.0;
-        Fri, 17 May 2024 01:36:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=savoirfairelinux.com header.i=@savoirfairelinux.com header.b="yJbKu2bb"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id BE8889C585F;
+	Fri, 17 May 2024 05:05:36 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id OzTJfta_rJ3O; Fri, 17 May 2024 05:05:36 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 157C59C591E;
+	Fri, 17 May 2024 05:05:36 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 157C59C591E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715935016; x=1716539816; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WMzhjD0vszw7czUjF6cG9OPyULjgr/IpXRMnsfCQ3do=;
-        b=eZv+grV+ap3KPKy5mmmYm/8WcKOLy8IhM97APEE7YLGlcRqctU6PtMUKYezBWGmNIa
-         2hPyM55OyHkwJpqtvfHMZqeKJmcIoDpGfJwX/iWAFbWdinWo/1bAdT4N6OkuVzwcpNF+
-         Fwe8xrHm08mH98gL23NCJup2xj+LNf2B0crqCJ7GPLQxWJGtZpDfuxT6Wpzi90VoOuvL
-         TwtOrj7UOo7h0gBk5zbnb21VH2A1OBC2qhgzHOgWEo9JqhoEbnS/rUXQ26+18sErO7FD
-         tdz+WZOP138YEEF33mFaNYTwZHq5pDwmJsVwi95h7B0v/vjuCYnBbNJzFN2Ndju4j2cY
-         GVSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715935016; x=1716539816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WMzhjD0vszw7czUjF6cG9OPyULjgr/IpXRMnsfCQ3do=;
-        b=E9OS9gqqLwCayOxxIYf1mMgUa9gnAMwqir3fyahLnR+clgxiHoj+PDboZIAt9T3xm9
-         TIj+EKAfbsZnAn4fx2JXgiZGlU3H1XBCoiNwMk/jOStW4P6yNakrxh5nMseUqUCHP/Xz
-         XrZJAe6q/ZciD9bUcDZUKk65DuE7JNRQMqHYTkOo+jNG2qsvYk/aV/bkD3WzN46gowRq
-         bwqLwhilKjF4vtc/78AERS9eAmHKyzxPxAdbi5rzFaZdubdd6ogzqMG90M6wM82jDcTG
-         hLFsF4ZoLVjDNWr6UE5+FPyWfFDgsXcioi+sAXos/raazlGuLWkmIiEzm9nLVz/9Jo9o
-         h8Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/fsb5g7NYQuOOd5PaquGBWdwCCLhzOB1sZ1VzivjivSFzZqcDHOqPOTEwvaiTnPP8ucz1lclSltcmoGSQygwUEgbQQaMMI3B4bPPLzskF+DqXnctVlPW6umTlM26T4VQsitmS2U+8YoExz2FY77poc87Gi9yBeq/CYGj6xdYyvuY0z8cF
-X-Gm-Message-State: AOJu0YyBwg+JOxibvVb6jK8Xtl4WoeboBvGzxC0UameTURbgosfmdlYW
-	xF5mot4ZZG2odmOqkA0pWxpgHVgsTwZY2a9Y3Q5wtVT1KyrxUNYy
-X-Google-Smtp-Source: AGHT+IFpjSBvT/CF+oyFxdYCYRHFBWlKSN7PvOdZrINbkRp3zvEQ4SUctsA1n/96IQp2lStiw8clfw==
-X-Received: by 2002:a05:6a20:1581:b0:1af:cb7c:cc98 with SMTP id adf61e73a8af0-1afde1fb700mr23111165637.55.1715935016404;
-        Fri, 17 May 2024 01:36:56 -0700 (PDT)
-Received: from localhost.localdomain ([45.64.12.212])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c035dc3sm151234005ad.197.2024.05.17.01.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 01:36:55 -0700 (PDT)
-From: Mighty <bavishimithil@gmail.com>
-To: 
-Cc: Mithil Bavishi <bavishimithil@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lopez Cruz <misael.lopez@ti.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-Date: Fri, 17 May 2024 14:06:44 +0530
-Message-Id: <20240517083644.3920-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1715936736; bh=eDu4DXcZYZmRMzTsE23CtiqrrOlfxWxDABDYJj8qWVA=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=yJbKu2bbAaZIR1lR4fB9rs8ae78l/ej/Pp4GgndaChfrPjM47VvPNd7mTV47IFukQ
+	 X//+44ZJ4DRw9DkSHZQf+v4uy4/XKYtuUAaLvLFOebJCl7icu265xkvxy38LLcQmS7
+	 Uyg52oLkXf5YOc/GhiY3eH6K1tqG//Rc45iBqqEkBeuftfDcDzCCis0t5jONcc0Oyu
+	 HuRL8xxkCfNNH2TA3XiBbsjIWxvlyZmJi19c0PW2BlDRhMuiH8f3EfoiH8ednXXhWm
+	 KV3s2SR/VuND91x4ULBGel4DWWFLJ+utgH1gix+qQFlQ/twAETDwd9o1xrq4N0stDE
+	 CWzLmI6/TPfag==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id 8CeRVN1p2hdp; Fri, 17 May 2024 05:05:35 -0400 (EDT)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B02AA9C585F;
+	Fri, 17 May 2024 05:05:35 -0400 (EDT)
+Date: Fri, 17 May 2024 05:05:35 -0400 (EDT)
+From: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, 
+	shengjiu wang <shengjiu.wang@gmail.com>, 
+	Xiubo Lee <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	alsa-devel <alsa-devel@alsa-project.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Message-ID: <822567441.349330.1715936735603.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <ffb3624f-2170-4642-aaa5-fb6736a75d59@sirena.org.uk>
+References: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com> <20240515135411.343333-8-elinor.montmasson@savoirfairelinux.com> <ffb3624f-2170-4642-aaa5-fb6736a75d59@sirena.org.uk>
+Subject: Re: [PATCHv4 7/9] ASoC: fsl-asoc-card: add DT clock "cpu_sysclk"
+ with generic codec
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.15_GA_4581 (ZimbraWebClient - GC112 (Linux)/8.8.15_GA_4581)
+Thread-Topic: ASoC: fsl-asoc-card: add DT clock "cpu_sysclk" with generic codec
+Thread-Index: iBqosQBSuRfSSp+1CUZcAzEUlctHMQ==
 
-From: Mithil Bavishi <bavishimithil@gmail.com>
+From: "Mark Brown" <broonie@kernel.org>
+Sent: Thursday, 16 May, 2024 14:13:19
+> On Wed, May 15, 2024 at 03:54:09PM +0200, Elinor Montmasson wrote:
+> 
+>> Add an optional DT clock "cpu_sysclk" to get the CPU DAI system-clock
+>> frequency when using the generic codec.
+>> It is set for both Tx and Rx.
+>> The way the frequency value is used is up to the CPU DAI driver
+>> implementation.
+> 
+>> +		struct clk *cpu_sysclk = clk_get(&pdev->dev, "cpu_sysclk");
+>> +		if (!IS_ERR(cpu_sysclk)) {
+>> +			priv->cpu_priv.sysclk_freq[TX] = clk_get_rate(cpu_sysclk);
+>> +			priv->cpu_priv.sysclk_freq[RX] = priv->cpu_priv.sysclk_freq[TX];
+>> +			clk_put(cpu_sysclk);
+>> +		}
+> 
+> I don't really understand the goal here - this is just reading whatever
+> frequency happens to be set in the hardware when the driver starts up
+> which if nothing else seems rather fragile?
 
-Convert the OMAP4+ McPDM bindings to DT schema.
+The driver allow to set the sysclk frequency
+of the CPU DAI through `priv->cpu_priv.sysclk_freq` when calling
+`fsl_asoc_card_hw_params()`.
+Currently it is hard-coded per use-case in the driver.
 
-Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
----
-Changelog v4:
-- Changed maintainer name
-- Use $ref and enum in ti-hwmods property
-- Make clocks property only have maxItems, no description
-- Add items to clock-names
-- Fix address of node in example
-- Remove extra line
+My reasoning was that with a generic codec/compatible, there might
+be use-cases needing to use this parameter, so I exposed it here via DT.
 
- .../devicetree/bindings/sound/omap-mcpdm.txt  | 30 ----------
- .../bindings/sound/ti,omap4-mcpdm.yaml        | 59 +++++++++++++++++++
- 2 files changed, 59 insertions(+), 30 deletions(-)
- delete mode 100644
-Documentation/devicetree/bindings/sound/omap-mcpdm.txt
- create mode 100644 Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
+Is it a bad idea to expose this parameter ? This is not a requirement for the
+driver to work, most of the current compatibles do not use this parameter.
+It is currently used only for `fsl,imx-audio-cs42888`.
+In that case I can remove this commit.
 
-diff --git a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt b/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-deleted file mode 100644
-index ff98a0cb5..000000000
---- a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-+++ /dev/null
-@@ -1,30 +0,0 @@
--* Texas Instruments OMAP4+ McPDM
--
--Required properties:
--- compatible: "ti,omap4-mcpdm"
--- reg: Register location and size as an array:
--       <MPU access base address, size>,
--       <L3 interconnect address, size>;
--- interrupts: Interrupt number for McPDM
--- ti,hwmods: Name of the hwmod associated to the McPDM
--- clocks:  phandle for the pdmclk provider, likely <&twl6040>
--- clock-names: Must be "pdmclk"
--
--Example:
--
--mcpdm: mcpdm@40132000 {
--	compatible = "ti,omap4-mcpdm";
--	reg = <0x40132000 0x7f>, /* MPU private access */
--	      <0x49032000 0x7f>; /* L3 Interconnect */
--	interrupts = <0 112 0x4>;
--	interrupt-parent = <&gic>;
--	ti,hwmods = "mcpdm";
--};
--
--In board DTS file the pdmclk needs to be added:
--
--&mcpdm {
--	clocks = <&twl6040>;
--	clock-names = "pdmclk";
--	status = "okay";
--};
-diff --git a/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-new file mode 100644
-index 000000000..23e0e9567
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,omap4-mcpdm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OMAP McPDM
-+
-+maintainers:
-+  - Misael Lopez Cruz <misael.lopez@ti.com>
-+
-+description:
-+  OMAP ALSA SoC DAI driver using McPDM port used by TWL6040
-+
-+properties:
-+  compatible:
-+    const: ti,omap4-mcpdm
-+
-+  reg:
-+    items:
-+      - description: MPU access base address
-+      - description: L3 interconnect address
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  ti,hwmods:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum: [mcpdm]
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: pdmclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - ti,hwmods
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    pdm@40132000 {
-+      compatible = "ti,omap4-mcpdm";
-+      reg = <0x40132000 0x7f>, /* MPU private access */
-+            <0x49032000 0x7f>; /* L3 Interconnect */
-+      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-parent = <&gic>;
-+      ti,hwmods = "mcpdm";
-+      clocks = <&twl6040>;
-+      clock-names = "pdmclk";
-+    };
--- 
-2.34.1
-
+Best regards,
+Elinor Montmasson
