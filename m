@@ -1,109 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5FD13DDCD;
-	Fri, 17 May 2024 17:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8F113E40B;
+	Fri, 17 May 2024 17:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715967869; cv=none; b=WCADOXv7sQFxzIImRGbkwb3YfkT+EyGRLl9FeBsHwiSohPTC6kAVxCGUKO6L5zlwJE+PfVDNP9/ZOConlh8YaaadN4Q5jT99jguenMLpFe6y0e4FCg123gLav4OPqVbOusTEQG0UmeP0kBbcGFHV4T80Ut/IMDPPcAHJAoN6ZJM=
+	t=1715968094; cv=none; b=lFnKrgookhOgcn8vA4fQ/6Swm8jZydG2RzUdYhAqQcUnHKNOflsCQ3CJxyAEs2JU11qHOM+zxRO0bGVwUhWuAFepAzvB+hgmGsS2pMca59lL1RJL9zUG27FYOYdnwn+YidGMftMaO7Yz1pDdQ0jVSCFXSqFpR1JUNf09y1MhEj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715967869; c=relaxed/simple;
-	bh=Nm+T58qBk59wXpsTupEzyucDfvFB86ewSPCmThFAah8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=cmdAFNiTDxKynyzA4mYpvLJOKHWDhXpLwXSJijLJ/Kum5rJKeL0qGDLmCuTEAZMrx57edJsqmaFNkc7+CJoisy/cvFoA8ekt44I5qBRrOtKEg0evZOI4WniKHn5C0YTyHPiackOgsgtLIGhoQ0FBZCOzITfrxaow+t+gRBrtluw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azC3BY/A; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azC3BY/A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCFECC2BD10;
-	Fri, 17 May 2024 17:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715967869;
-	bh=Nm+T58qBk59wXpsTupEzyucDfvFB86ewSPCmThFAah8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=azC3BY/ASdaD7ZoBeeOgbrcgSvb3Rv0u7mwIQCIdoWds8KpPU2CuJYW7tjwjBnNcR
-	 +fKze3Ck8JVYLPTffyd4qAN3/qN/UKl+O26D8Bd5fXuTwvZCfpxrRnvKaex2VYhPTb
-	 F7DAbRTBQmKzD3KOwrFuNbHUHV7/bQDEHiNpV/VKsChMEv3zKHSLDIMzv0AoqTpIus
-	 Sfun2vIremc5OU92byD4KTGZeQQmMdq7tkw53207gvxPOq3DfGSKsA9/81p0eUZ6Cn
-	 VNsv1U4rs24nhjE/uyEG+ECcSjdu72WfuLrUJzkK/Hgj3HUBOfIiB0ofURNhkLHtyf
-	 gnRQKYvetcyNw==
-Date: Fri, 17 May 2024 12:44:26 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: yskelg@gmail.com, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] line6: add midibuf init failure handling in
- line6_init_midi()
-Message-ID: <20240517174426.GA2285947@bhelgaas>
+	s=arc-20240116; t=1715968094; c=relaxed/simple;
+	bh=gAAJJFKRq7ZuXBKuhjvNoKHrIa1D3KibBfY1qYrv3Ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YaX6YbjwexKJK35JXhMSWL4SGWOba3YpVqmK90Aprk9dIxmcCy2FA0yhv11mnkhbqAKT0UaGg9FSteQIA6eVq8tHil5EHi2L5fTYnXKlWTjEmqG5rLjnSR3h8R2uTiDVYJB/U1YRBVK2UV4mVh+OGo9EyCAeuc7V75VKBeP6XcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 424EAC2BD10;
+	Fri, 17 May 2024 17:48:06 +0000 (UTC)
+Date: Fri, 17 May 2024 13:48:34 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-tegra@vger.kernel.org, netdev@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, ath10k@lists.infradead.org,
+ linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-usb@vger.kernel.org,
+ linux-bcachefs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, linux-cifs@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-edac@vger.kernel.org,
+ selinux@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-hwmon@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-wpan@vger.kernel.org, dev@openvswitch.org,
+ linux-s390@vger.kernel.org, tipc-discussion@lists.sourceforge.net, Julia
+ Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <20240517134834.43e726dd@gandalf.local.home>
+In-Reply-To: <5080f4c5-e0b3-4c2e-9732-f673d7e6ca66@roeck-us.net>
+References: <20240516133454.681ba6a0@rorschach.local.home>
+	<5080f4c5-e0b3-4c2e-9732-f673d7e6ca66@roeck-us.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8734qg260i.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 17, 2024 at 10:32:13AM +0200, Takashi Iwai wrote:
-> On Thu, 16 May 2024 19:47:38 +0200,
-> yskelg@gmail.com wrote:
-> > 
-> > From: Yunseong Kim <yskelg@gmail.com>
-> > 
-> > This patch fixes potential memory allocation failures in the
-> > line6_midibuf_init(). If either midibuf_in, midibuf_out allocation
-> > line6_midibuf_init call failed, the allocated memory for line6midi
-> > might have been leaked.
-> > 
-> > This patch introduces an error handling label and uses goto to jump there
-> > in case of allocation failures. A kfree call is added to release any
-> > partially allocated memory before returning the error code.
-> > 
-> > Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+On Fri, 17 May 2024 10:36:37 -0700
+Guenter Roeck <linux@roeck-us.net> wrote:
+
+> Building csky:allmodconfig (and others) ... failed
+> --------------
+> Error log:
+> In file included from include/trace/trace_events.h:419,
+>                  from include/trace/define_trace.h:102,
+>                  from drivers/cxl/core/trace.h:737,
+>                  from drivers/cxl/core/trace.c:8:
+> drivers/cxl/core/./trace.h:383:1: error: macro "__assign_str" passed 2 arguments, but takes just 1
 > 
-> The allocated object is already freed by snd_line6_midi_free() that is
-> called via rawmidi private_free at its destruction.  So your change
-> would lead to a double-free.
+> This is with the patch applied on top of v6.9-8410-gff2632d7d08e.
+> So far that seems to be the only build failure.
+> Introduced with commit 6aec00139d3a8 ("cxl/core: Add region info to
+> cxl_general_media and cxl_dram events"). Guess we'll see more of those
+> towards the end of the commit window.
 
-I stand corrected, sorry that I missed that!
+Looks like I made this patch just before this commit was pulled into
+Linus's tree.
 
-That said, it seems unreasonably hard to verify this path to
-snd_line6_midi_free().
+Which is why I'll apply and rerun the above again probably on Tuesday of
+next week against Linus's latest.
 
-Sorry for misleading you, Yunseong.
+This patch made it through both an allyesconfig and an allmodconfig, but on
+the commit I had applied it to, which was:
 
-> > ---
-> >  sound/usb/line6/midi.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
-> > index 0838632c788e..abcf58f46673 100644
-> > --- a/sound/usb/line6/midi.c
-> > +++ b/sound/usb/line6/midi.c
-> > @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
-> >  
-> >  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
-> >  	if (err < 0)
-> > -		return err;
-> > +		goto error;
-> >  
-> >  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
-> >  	if (err < 0)
-> > -		return err;
-> > +		goto error;
-> >  
-> >  	line6->line6midi = line6midi;
-> >  	return 0;
-> > +
-> > +error:
-> > +	kfree(line6midi);
-> > +	return err;
-> > +
-> >  }
-> >  EXPORT_SYMBOL_GPL(line6_init_midi);
-> > -- 
-> > 2.34.1
-> > 
+  1b294a1f3561 ("Merge tag 'net-next-6.10' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next")
+
+I'll be compiling those two builds after I update it then.
+
+-- Steve
