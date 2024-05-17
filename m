@@ -1,134 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B93D14533D;
-	Thu, 16 May 2024 18:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7912CDDB2;
+	Fri, 17 May 2024 04:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715885933; cv=none; b=lBgvsso1vAqUzV/yI1FNra0cR20hb53BVj8Oc1z8Oo3lVEOo484wmYEr8o/2FoB+ObNMz66zLFr9N9E0bdJd0hs67bWBFyuYW88SVuQBjYjjx1sYYz3YQxDd6m2rueSpjIpoGJFOP3AwDFq2fxySc/P1z3gL5NU5CFf+Hk4l+eE=
+	t=1715921933; cv=none; b=hpYkULM7zHqDA7gJvn60u0iLmhkEsKyKrPll9XSwedoOshPxQUdYAHY6RYTXbXQDrdwulkgx6pP5tL6AzUJvM71kRZ+8GmRaEwJehH+mm4Mh3v+QCZfvmE0wL7jRTwoUOMu1+sZ5E+MYJETF+6H7rwoPp/HAiq9DAeYUFvQs9+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715885933; c=relaxed/simple;
-	bh=mOGgssVkuZq/po829G7Wr9XNkIdjf3cEtZbegpQCjCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=r1TCCBTfzftaTCN3mWxuLmpTz9JiBOgMJl9w5dXsW3cDuYBW8jLwjTyVwgt6D/jp2BBMaBxRI8wxUmuSZx1vmx6K50vffz8ONVS9Uc+1kJIzMSHgpd2iaBVcOWGgFdJq++QwiPk03hrYlkz84MIvwxK/U1FVJN45C+2+wsolm8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNDnHCQD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715921933; c=relaxed/simple;
+	bh=zD4lWmp3wEmNB1u//FuurUIsViWz6cyW2T5QY6kRnaY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PmVufR549XIJnMQ9U6EBrJZfv9p+PT+qILVONg+zO1b7c4pIxh9ve2IV2UUSWvr7/s1a7oGQVAdtbzC82dMTZb2+OXbrBK0jt0yjTSjXubbS2F7odu2RmzGPxDEO+jVPmsdqUvSjVcVFk3CVtD+3OWEtNPS0v4tTIwuK4mnpCP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bIYzXmak; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNDnHCQD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0771DC113CC;
-	Thu, 16 May 2024 18:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715885933;
-	bh=mOGgssVkuZq/po829G7Wr9XNkIdjf3cEtZbegpQCjCI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=sNDnHCQDHtn6VUVbtC4knTUasTlSWgGTTXhz+vPAuhHnNHR2Twuu460lFMvKSLQ2z
-	 dizffqpdI12XJNR8VF8HA6+Q5M2WC9syCT8GBLomHredlphqXMk3+l3Hle13cY2BWX
-	 sUdX1DIckVf0+3g42d4ONynolQwqRwcsPCOBFBY+Zg56+6mMysdfT6BNpalGJUJDdC
-	 Ns4XWyAkc8yrFE7lbTZpkHsl3uKt9ytsCsKxG4RBbCVuA1g+JU9JicD2w5m9EL3WzQ
-	 sLt8vXZ2S9lPk0OIzr+9EI2SHrFP3O0WajerAN7Mt0GSpZkkOUsd0P/fFt5qTAuZ9F
-	 XvlPhWRrHVbqw==
-Date: Thu, 16 May 2024 13:58:51 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: yskelg@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] line6: add midibuf init failure handling in
- line6_init_midi()
-Message-ID: <20240516185851.GA2246377@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bIYzXmak"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6f4178aec15so921816b3a.0;
+        Thu, 16 May 2024 21:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715921932; x=1716526732; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zD4lWmp3wEmNB1u//FuurUIsViWz6cyW2T5QY6kRnaY=;
+        b=bIYzXmak1ZTOeqNggHit5mWiX6p16HIa3P/9/UsfmXSAweVo7bXNWAMk6O09se8ywl
+         aA/jiDZTJHMywUQyJ46mLQCzjf7lm1UK5nPEAIN5iiwAeBF3Y7gQo/L9GgH+MCX6JPHE
+         xymcOzuYkQfECtYsonWzSmB2IjtG/3QFMCSjL806Qw20P71nUXjcQzh2shrUH4XGJ+Qm
+         GzjdUmIyAalBfUp4I2iOOkTLSkw0v1skj0IMQRAvdkl//XGatYQdgozh0VjseByRBvnh
+         djgLS81VRkp8qA+BRB5TJZjU0iujk2pkPrPZviPE3F8YyWsQ+bJNdejbTFknHvaV8dD/
+         k88Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715921932; x=1716526732;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zD4lWmp3wEmNB1u//FuurUIsViWz6cyW2T5QY6kRnaY=;
+        b=c0YM/gtl4gBxRyyf+FD+vqg7eCHLL05bT/A10FusRlHM/238s4WQ3akd0azjhNgvfc
+         i2RrG1f4Zn3/PqhE+ISu6T7BeeDZIkKkR6p39wWzAROmQnU5XbmnxEE7vvYEkJEOUnEO
+         28137lIGWCvK9sPcQOk1P8f2vw+5Mr/TXqxz8ARlRbQvDD2+Z4jybt3FFQtIO0vpM53V
+         Oyx8NfaF90EBoUhgcFdgNOTfA/3c5UtUmpcoHmuXLit6T92W1llHoD5t8KQvTThNYGYU
+         GiSi/TKSCvy9GTzcGSouDDsMGGPZdrg/rA+gG7VuGuDdMs5DIoJ+6FzAHv2AfZHf6Q9k
+         uSeA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0/DLMJovTocWQC1WGJs4wBZU7XeIRLlxOjrWPjn/SZ4z8F4infn8QTT+xfPr/zgE0Q0Z+EtLvdHkV67YbUz5O4XVxKndvtK2vly1TS8ZIOyZ1OKIQq6pLTToBQ87jIzInt6MrXLWh5FOAnOh3Xk64u16p82zo1/LVDeP7DXZ0e1fRxZjT
+X-Gm-Message-State: AOJu0YxqnBZNXnUTNB3a1GFrcBPoBz+0Q9fhc8hYPRTdXDQIqAogI63/
+	fbuPIudQzWN7xW+UTLCEaDJwSZSMrBX1ngqJEPYfJWGZgEy9JFRq
+X-Google-Smtp-Source: AGHT+IGNjAE1LtfsrOxQVZB5wYX0vjh0z7hg7ne2W52SgHNMNs5KV8V7UlyNJC4JaNo9Xt6rJoE0BQ==
+X-Received: by 2002:a05:6a00:3d07:b0:6ea:d740:62a4 with SMTP id d2e1a72fcca58-6f4e03466d2mr24573444b3a.25.1715921931668;
+        Thu, 16 May 2024 21:58:51 -0700 (PDT)
+Received: from xiaxiShen-ThinkPad.dhcp4.washington.edu ([205.175.106.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2977sm13917629b3a.153.2024.05.16.21.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 May 2024 21:58:51 -0700 (PDT)
+From: Xiaxi Shen <shenxiaxi26@gmail.com>
+To: krzk@kernel.org
+Cc: broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	javier.carrasco.cruz@gmail.com,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	robh@kernel.org,
+	shenxiaxi26@gmail.com,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v3] ASoC: dt-bindings: ak4104: convert to dt schema
+Date: Thu, 16 May 2024 21:58:50 -0700
+Message-Id: <20240517045850.463906-1-shenxiaxi26@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ee193525-ea10-4006-a86e-977e2f0352ea@kernel.org>
+References: <ee193525-ea10-4006-a86e-977e2f0352ea@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240516174737.415912-1-yskelg@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 17, 2024 at 02:47:38AM +0900, yskelg@gmail.com wrote:
-> From: Yunseong Kim <yskelg@gmail.com>
-> 
-> This patch fixes potential memory allocation failures in the
-> line6_midibuf_init(). If either midibuf_in, midibuf_out allocation
-> line6_midibuf_init call failed, the allocated memory for line6midi
-> might have been leaked.
-> 
-> This patch introduces an error handling label and uses goto to jump there
-> in case of allocation failures. A kfree call is added to release any
-> partially allocated memory before returning the error code.
-> 
-> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+Hi Krzysztof,
 
-Hi Yunseong,
+Thanks for your advices, I am gradually adapting to using b4 as my new tool for submitting patches.
 
-I don't maintain this area, but since you asked for feedback on IRC:
-
-For the subject line, run "git log --oneline sound/usb/line6/midi.c"
-and match the style, i.e., in this case it should be:
-
-  ALSA: line6: <Capitalized verb> ...
-
-"Add init failure handling" is not very specific; I think it's worth
-including the key word "leak" in the subject line.  
-
-Remove text like "this patch".  We already know which patch the commit
-log refers to.
-
-Use imperative mood in the commit log, not "introduces", "uses", "is
-added", etc.  Details:
-https://chris.beams.io/posts/git-commit/
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?id=v6.9#n94
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/maintainer-tip.rst?id=v6.9#n134
-
-The second paragraph ("... introduces an error handling label ...")
-basically translates the patch from C to English.  No need for that
-since we can read the C.  The commit log can be higher level to
-explain why the patch should be merged.
-
-In this case, the error paths leak the snd_line6_midi allocation (not
-"might"; it's definitely a leak).  
-
-This case is so simple that you don't need much of a commit log.
-Adding too much detail almost obscures the point.  Something like this
-would probably be sufficient:
-
-  Free line6midi in error paths to avoid leaking the allocation.
-
-Nice work, good luck!
-
-Bjorn
-
-> ---
->  sound/usb/line6/midi.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
-> index 0838632c788e..abcf58f46673 100644
-> --- a/sound/usb/line6/midi.c
-> +++ b/sound/usb/line6/midi.c
-> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
->  
->  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
->  	if (err < 0)
-> -		return err;
-> +		goto error;
->  
->  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
->  	if (err < 0)
-> -		return err;
-> +		goto error;
->  
->  	line6->line6midi = line6midi;
->  	return 0;
-> +
-> +error:
-> +	kfree(line6midi);
-> +	return err;
-> +
->  }
->  EXPORT_SYMBOL_GPL(line6_init_midi);
-> -- 
-> 2.34.1
-> 
+Best regards,
+Xiaxi
