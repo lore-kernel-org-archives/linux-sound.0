@@ -1,194 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3C837149;
-	Fri, 17 May 2024 15:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0225D3D9E;
+	Fri, 17 May 2024 16:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715958238; cv=none; b=iq2ym5I8oDxxNj7RLTr3BEBy1qMwb3wCLP9rPaYDoozZUjUpK9OgdgQ7krwDFN0kTPEWL6PPLNO2F/RAX11jlT07GbcURGYvLDC6ybvQiovWUGsGx/Fdi2xAmnMGTgZgV6+wahE0tnLsEtzhqbCFnDY2dpDhxQ2owXx+7ZhYzAs=
+	t=1715962994; cv=none; b=JbzhVl9QqOrGn5aI3Lp2QNl3nFNFVGz2U9XaYDDV5FovgM5gKKZAXRXy1/SmO9pdi7wgxYf4Ybf2RQI7LH29HkUaLiMIMdWi2pliMj4nIRJ4+c9q0QjMzoq0sWfXOJpcHg7fErYP1NBGlj//ZNX4xSSk6r7glY0UKNAc0GOIo/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715958238; c=relaxed/simple;
-	bh=ows2zNDPZTSEXPPVIIdIEYEbYQxQQ5Em7kepFx0r25E=;
+	s=arc-20240116; t=1715962994; c=relaxed/simple;
+	bh=uNwlZVn0k6bBYrUn2NOTbtyZjAe9hAwPUWGNLiaSzKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XR5OjhJCAdpu/Lb/qZoh/og8UeTo1j5DgWSxqzJwFGWmC4uYyidr9jWbl3NrFzSz8rSyr+roHVxKg4XSGMCJWjItJGCFoCV61X69ftPlXpNZ7mjs5LR0+BlSuP9k8Mebuolw4tk77MTBY7FYgq/qsfacpfkE1ITI5d0tps5j+aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NNF4CVWG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MlIAnJvXoclx91HzV3KHgMAmzFsWWX7APIuqQKg6D8rdDfiO2lBWN8hNUnta8MkPvLMjbRrCzno9d+ey7uKWaxOu5yWMAIKuIS4yXd50yO6+ba4Jn3R+4XC21rSS0pTUnL9jV4xzW+y5gexohMQGsr+7nf1x4bn2gL2/M+fleQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F8J6rGhR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NNF4CVWG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A19C2BD10;
-	Fri, 17 May 2024 15:03:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F8J6rGhR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70342C2BD10;
+	Fri, 17 May 2024 16:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715958238;
-	bh=ows2zNDPZTSEXPPVIIdIEYEbYQxQQ5Em7kepFx0r25E=;
+	s=k20201202; t=1715962993;
+	bh=uNwlZVn0k6bBYrUn2NOTbtyZjAe9hAwPUWGNLiaSzKs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NNF4CVWGtKc6iIOYp3g1LWKKBE1c2KJenyE9HXOHCRjKtXOeY+OzwO9VeYLzxM2Lh
-	 wK9/ar0Au/ImNeJigUkICKaXfl8oFOxRNfVY7NofT4C9tPu6+z6EDGVctbjClhs8XF
-	 U3aANBZrX8VBqW/GXcKvcv3w/l0Fi5DeaPRPdN1EwTP5X/gR6K18WQTe9EW0Jb4k4e
-	 kgN8ntW2UiiBi/D5Gd7DFkBW3eAADgys4DbMVqcE/3kFUkKY9xOPM1qED6o6/mLMcA
-	 2f8CI+oJsQdy0hzims9EATeSxIqmLFpvXoXcOf1JcIa13JXK/CK1wVTRHDVYHto4OD
-	 gO0lhNytwliAw==
-Date: Fri, 17 May 2024 16:03:50 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Emil Svendsen <emas@bang-olufsen.dk>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
-Subject: Re: [PATCH 07/13] ASoC: codecs: add AD24xx codec driver
-Message-ID: <e5782aef-d64d-46f3-ab5c-dc01285e08c2@sirena.org.uk>
-References: <20240517-a2b-v1-0-b8647554c67b@bang-olufsen.dk>
- <20240517-a2b-v1-7-b8647554c67b@bang-olufsen.dk>
+	b=F8J6rGhR6abMw+H3e0sNsBE3c0HR9drUMq7zelYKMTQHa0vv/MIG2W8+/hD/7XTI+
+	 9VkRoCKMyZzVY3LjQAv7zTKPKrfWjp+PaYpWL+HZIXKwJ9PpfHkWCOm8/AnprKJTiS
+	 x71fH3FEiRuBcJ7Snaffb4mCRWAYWAV32gCoEeO44TUBKDap7ZLHPJJXjD0QMTmCNO
+	 ZUj+MK/eDva4zMj4VegTwZ0y/H/lyuO2Nk/KqN8YnLbubwD8YFqugReL9OgeiAJUxc
+	 u0pTJlCPPo4/7T1+KTMYWfO14b9TwwHb+K7KeD4YmO6RNA3DpP+PsNxwbeXmOHuVhd
+	 +qE7xoo2PLRTA==
+Date: Fri, 17 May 2024 09:23:12 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Linux trace kernel <linux-trace-kernel@vger.kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org, linux-pm@vger.kernel.org,
+	iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
+	netdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+	linux-usb@vger.kernel.org, linux-bcachefs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+	linux-cifs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-edac@vger.kernel.org, selinux@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-hwmon@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org, linux-wpan@vger.kernel.org,
+	dev@openvswitch.org, linux-s390@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] tracing/treewide: Remove second parameter of
+ __assign_str()
+Message-ID: <20240517162312.GZ360919@frogsfrogsfrogs>
+References: <20240516133454.681ba6a0@rorschach.local.home>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="skuonK/bS9x9MsEH"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240517-a2b-v1-7-b8647554c67b@bang-olufsen.dk>
-X-Cookie: Function reject.
+In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
 
+On Thu, May 16, 2024 at 01:34:54PM -0400, Steven Rostedt wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> [
+>    This is a treewide change. I will likely re-create this patch again in
+>    the second week of the merge window of v6.10 and submit it then. Hoping
+>    to keep the conflicts that it will cause to a minimum.
+> ]
+> 
+> With the rework of how the __string() handles dynamic strings where it
+> saves off the source string in field in the helper structure[1], the
+> assignment of that value to the trace event field is stored in the helper
+> value and does not need to be passed in again.
+> 
+> This means that with:
+> 
+>   __string(field, mystring)
+> 
+> Which use to be assigned with __assign_str(field, mystring), no longer
+> needs the second parameter and it is unused. With this, __assign_str()
+> will now only get a single parameter.
+> 
+> There's over 700 users of __assign_str() and because coccinelle does not
+> handle the TRACE_EVENT() macro I ended up using the following sed script:
+> 
+>   git grep -l __assign_str | while read a ; do
+>       sed -e 's/\(__assign_str([^,]*[^ ,]\) *,[^;]*/\1)/' $a > /tmp/test-file;
+>       mv /tmp/test-file $a;
+>   done
+> 
+> I then searched for __assign_str() that did not end with ';' as those
+> were multi line assignments that the sed script above would fail to catch.
+> 
+> Note, the same updates will need to be done for:
+> 
+>   __assign_str_len()
+>   __assign_rel_str()
+>   __assign_rel_str_len()
+> 
+> I tested this with both an allmodconfig and an allyesconfig (build only for both).
+> 
+> [1] https://lore.kernel.org/linux-trace-kernel/20240222211442.634192653@goodmis.org/
+> 
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Julia Lawall <Julia.Lawall@inria.fr>
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
---skuonK/bS9x9MsEH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+/me finds this pretty magical, but such is the way of macros.
+Thanks for being much smarter about them than me. :)
 
-On Fri, May 17, 2024 at 02:58:05PM +0200, Alvin =C5=A0ipraga wrote:
+Acked-by: Darrick J. Wong <djwong@kernel.org>	# xfs
 
-> +++ b/sound/soc/codecs/ad24xx-codec.c
-> @@ -0,0 +1,665 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * AD24xx codec driver
-
-Please make the whole comment a C++ comment.
-
-> +static const char *const ad24xx_codec_slot_size_text[] =3D {
-> +	"8 bits",  "12 bits", "16 bits", "20 bits",
-> +	"24 bits", "28 bits", "32 bits",
-> +};
-
-Why is this configured by the user rather than via set_tdm_slot(), and
-how would one usefully use this at runtime?
-
-> +static int ad24xx_codec_slot_config_put(struct snd_kcontrol *kcontrol,
-> +					struct snd_ctl_elem_value *ucontrol)
-> +{
-
-> +	} else if (priv =3D=3D &ad24xx_codec_up_slot_format_enum ||
-> +		   priv =3D=3D &ad24xx_codec_dn_slot_format_enum) {
-> +		if (val >=3D ARRAY_SIZE(ad24xx_codec_slot_format_text))
-> +			return -EINVAL;
-> +		slot_config->format[direction] =3D val;
-> +	} else
-> +		return -ENOENT;
-
-If one side has {} both sides should, see coding-style.rst.
-
-> +
-> +	return 0;
-> +}
-
-This won't flag changes by returning 1 which will mean no events are
-generated and break some UIs.  Please show the output of the mixer-test
-selftest on new submissions, it will check for this and other issues.
-
-> +	/* Main node must be BCLK/FSYNC consumer, subordinate node provider */
-> +	if ((fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) !=3D
-> +	    (is_a2b_main(adc->node) ? SND_SOC_DAIFMT_CBC_CFC :
-> +				      SND_SOC_DAIFMT_CBP_CFP))
-> +		return -EINVAL;
-
-Please don't use the ternery operator like this, it just makes things
-harder to read.
-
-> +	val =3D bclk_invert ? A2B_I2SCFG_RXBCLKINV_MASK :
-> +			    A2B_I2SCFG_TXBCLKINV_MASK;
-
-Similarly, please use normal conditional statements.
-
-> +static int ad24xx_codec_hw_params(struct snd_pcm_substream *substream,
-> +				  struct snd_pcm_hw_params *params,
-> +				  struct snd_soc_dai *dai)
-
-> +
-> +	/* Finally, request slots */
-> +	ret =3D a2b_node_request_slots(adc->node, &slot_req);
-> +	if (ret)
-> +		return ret;
-
-Note that hw_params() can be called multiple times before starting the
-audio stream, will this leak?
-
-> +				struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component =3D dai->component;
-> +	struct ad24xx_codec *adc =3D snd_soc_component_get_drvdata(component);
-> +	int ret;
-> +
-> +	ret =3D a2b_node_free_slots(adc->node);
-> +	if (ret)
-> +		return ret;
-
-What if we close without having called hw_params()?
-
-> +static const struct snd_soc_dai_driver ad24xx_codec_dai_drv[] =3D {
-> +	[AD24XX_DAI_I2S] =3D {
-> +		.name =3D "ad24xx-i2s",
-> +		.playback =3D {
-> +			.stream_name =3D "I2S Playback",
-> +			.channels_min =3D 1,
-> +			.channels_max =3D 32,
-> +		},
-> +		.capture =3D {
-> +			.stream_name =3D "I2S Capture",
-> +			.channels_min =3D 1,
-> +			.channels_max =3D 32,
-> +		},
-> +		.ops =3D &ad24xx_codec_dai_ops,
-> +		.symmetric_rate =3D 1,
-> +	},
-> +};
-
-Why is this an array?
-
-> +static const struct regmap_config ad24xx_codec_regmap_config =3D {
-> +	.reg_bits =3D 8,
-> +	.val_bits =3D 8,
-> +	.cache_type =3D REGCACHE_RBTREE,
-> +};
-
-New code should use _MAPLE unless there's a strong reason to use
-something else.
-
---skuonK/bS9x9MsEH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZHcdUACgkQJNaLcl1U
-h9ABtwf9HncflXNFY8QIXgA4cSV8pllWbpngmZChE9+u+sfBWesth1fTKTC9ejk+
-lvIb3qtIDq9BorlQlfdfX8/arFQYpgrXcEhDIpGccNO2OrNZXHSNxnbz90q70XNX
-MEil8c3aa9ciM2+g8z3855vKmv+pRCB+GZNbfW/zlmr4pTyumWRIjWI+RWCa5CeV
-7w5xGqfedug4xGxlplhyM8Yyu9YDbY5C9GELhAlz0zPBJ+W8yCclZJSsJNYI+jcs
-pPPel76R4NsKy7UGqOLoDgFDUFs1Ps5N0wxkeXg3lTUpsLHdu0JH0uifkz8evQ9L
-u9RBNxjmWhezCSsPkWCgUbwzjSdCTQ==
-=QFB6
------END PGP SIGNATURE-----
-
---skuonK/bS9x9MsEH--
+--D
