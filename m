@@ -1,156 +1,175 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1005228;
-	Sat, 18 May 2024 06:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D069E8479;
+	Sat, 18 May 2024 08:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716012046; cv=none; b=iIg2boWPnmcGZkjzLcRVRYhZ0US/yHAwCz3vteM8S6khNlEtmsqewR1PAC/K96mtD6N5uEzdkhtSpl79uFmVPTseQoyxGSbi645FhIeyFH5VB2vwQ404qXK7w8wNEYMZt6KOqpCN9xqHl54mL+ARwxu1b6sd+6H6KlPy47rEdk4=
+	t=1716020226; cv=none; b=rlzajCW5Zo4afy+8aURFl8TGqeAUdHaI5y2yWkJe+IaoU3Lo+vaEJv4RD0Um0U6CUz3oPbA93OcX+RcZ7KMFCvDRKn/SpxkVThZ9ovJEpG09nKMXt3mDRZxC3EXkWFtZiD6vab8Lz8F00OrI4OxJ2JU0j6HcpPYkg0n5wGuT+jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716012046; c=relaxed/simple;
-	bh=iPVwY+FLQJN/2C/In5skBXJrWKGZ7CLLiR6TcZqpUcs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MMJWliqVHjXqkrDWwOFGGMXJzMB06FfXKZCP7vPC09shYJaEcISo52YgJ+WBU71qUKNeMLScdTwqSyfrFBwxebY+JAQND+Z3G5bcROiSSN5eRLigwVzTy5ajUUr4J2zMwU+4GEj/lXKZgqMSUKCeNeLF9jVkQor+BqyQFxNA0CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DgiT0S2y; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1716020226; c=relaxed/simple;
+	bh=b/By+qlaoHXuYxguwQzmC0rOTdsZjjVfrK/a8IvLpTw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I2MHJtuAJAHmSnevGip6UuiBBYoqryWvGS1BEjclYE/+hRgijD89UqWHL+8dN8b8UgtOyirm4KnFOQC7jUqbQHeYtoA3rOvEOk9iN0bxGL4jouIQVLKrfo7LncdBaGq5enIOgHMazs709WlaSWV+Vx4Ye4LZnXptYqGoJFpPnKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLs4UKQj; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DgiT0S2y"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e3c3aa8938so28730445ad.1;
-        Fri, 17 May 2024 23:00:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLs4UKQj"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1ee38966529so9326515ad.1;
+        Sat, 18 May 2024 01:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716012045; x=1716616845; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S2UEI9fgxAaUwQb09cLy2ONzt7BSkEaSUgAIAN/09lw=;
-        b=DgiT0S2yccUDXBXB+LDR5k3KJH1lc7g9AeABGFcuzYSjeIDhzEIWAvQE/h2NOGNzKc
-         Mh/W88ioNbRaD26ei/z53xSdMsMBekyc0N3DXSmd9GySlHsFZDOq1rwSVhPM8Pkonppa
-         GB/2PsO11f1ssmLNBd3mJ+zIh+RMQHfb3fUbeUp5tAg3PsQgJP4aZpXypyb0eSnlA6d5
-         mFk8SoyMGTfPSecjPVGu4fkJeSQJhT2qSRNMwhfbnURlRurXH1h8DTAnFYZYu5rhoj7s
-         GC3PADa5nvYIuJHVh8Xqkmo4QW+G2H5H0AD1tPiUBDeQWPNLBY/pUhn+AzcAG8IxxqDL
-         Po5w==
+        d=gmail.com; s=20230601; t=1716020224; x=1716625024; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEo3Oc4cs0XxLO515UB83B0dN8f7TDFENOMb1E+m+II=;
+        b=DLs4UKQja5WEFcHUNA1McVVmzRXq5PIA3nnjYIQhKURxklVnqfYxecF6Ke2J+dIOYz
+         fGOyCrtlSp49KowFP3lgb2/z+Bo3MSqOXLtoLxeGRXYjD8gyrXqAKJhukle/3AdGbn1H
+         fg0lgfLPkXqoJnLAMYD0M8qNcdcozDPXEMcPZ3cNmUSjBOVTAqPTPkQdRFoNBmOMbZQh
+         xXzCs6yZBHLI+hvtvkjpQmkF5NLQEN4Kt7uz2xJ4qmpBQcYIEt7ozRuRxQaof2RWLElT
+         /QVwD0mDFMmbXZhHoo49i9dLYPLiTTQUyb8HoIr7HOBUvrxvNAxxx5sY2Jz8O99X9T2h
+         r7Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716012045; x=1716616845;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S2UEI9fgxAaUwQb09cLy2ONzt7BSkEaSUgAIAN/09lw=;
-        b=B60vTpR13SJjmirLoo1IB0JKoEjorI3coIWFZC7PCYjfMwEvopgTPJvcNXPgDXMq94
-         ike0HcNmFAtuyZ+SDpqiLi0MfDvpn3YzPobGkjpL7ZEaCG86fqCASnWHQPl9RoYZKirN
-         S9ZFX42r4Mn1b9A6iYNYSfyrvWrZZI6WAUch2wR8DwOF7kkr16oZTy3IfSGb8de0DZWs
-         MpRhR9SbQRxAerDw9+vcJBFnkIRcB8LYTMWO7aVwd4PiwHQpTR15QHuuVpZWJovKfYWO
-         CL9niB2eO/6zak6X9eRpA6+wnxV/s4U/sE23BOWfJ4vAAA7zk5Cj1Cy0WJaga41h6U5s
-         W6/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWePG8ZmdzEXLJ+PNC13WwWCS9xGFWwnouSrIR9lCunQzhf4ms0c9fidrlHkrrEkEvB/WhZp5duxyXTXYWMjFgxkRl6tJPgzl7ugtSdAdgeQb5pw+Ukn8LVGaC2TeaMxmnsGDb9D2rROQY=
-X-Gm-Message-State: AOJu0YzI9Lrhtwi7meT5tcdVM7DNXOiBFJxUfocRPBH4/72zAoO0CgVQ
-	ywt/+XXRUVhQVNty8ScdrhIOZjbpYhjm+ikQTHTU9F6/DVDEe16u
-X-Google-Smtp-Source: AGHT+IHGQXL2vAX8CQ2cBc+7aBoKlt4Ku42AcF7oUx9sqTlVMsGFxj6YPilu4ncfGFmuHtEizpkYvQ==
-X-Received: by 2002:a17:903:24d:b0:1de:f91:3cf3 with SMTP id d9443c01a7336-1ef43f4d284mr244213975ad.55.1716012044866;
-        Fri, 17 May 2024 23:00:44 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c136838sm167030095ad.232.2024.05.17.23.00.42
+        d=1e100.net; s=20230601; t=1716020224; x=1716625024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eEo3Oc4cs0XxLO515UB83B0dN8f7TDFENOMb1E+m+II=;
+        b=rpBVyZSltPJ47Nl94ikhNIMXpAcDpfuMmdZgW0KCfMlIKLvqk5RzO6JBsP9ObDZ1Nf
+         ZryhJWm7AYBbt+xX5JH5hZdZGP6StiMIXLyZmVk+9Jp+578vnuM7jXBMlIi5I6WSv5qO
+         Gkj0KR25gdldPGxUGjDRFWok8Nw6vrilOaQRl6b+r7SecVposrl70/W1oDXqZ7CVU1IM
+         duP+y08+UrtBqYo0PouIG1ypHPZkN+iuDQB6A0LqMlRSsV7aa4LgSc7coeJ2e9IC0JUr
+         DadhDdJicZVBBCNOU56KQzMXCDiymCiK0B5+w3TCaUu0us8RYmV3hy6jjaKpRnSuVRFW
+         1i3g==
+X-Forwarded-Encrypted: i=1; AJvYcCV7g2uEG40FHRQMelRqbWWB0H855oIvqwEsaWgLDt1CUl6ax7wSbpiJl4y6kKCIXiUCWEWOrC6xI9E2JDCuRDjzVkS/hW4T6h+uXtwLM+B+v3JYQ4qAEwh382EVPOrDGJ8idor6U/s2n6iq4Acuu9erMqfeTay+arBqMAcb97sVi53CvyaY
+X-Gm-Message-State: AOJu0Ywbcn18zaN/FSVi7c9yKAcOx/2Qd2kwpin1gfDMdN7ufXYQKFqw
+	vqFd6A1gOyv178UsAC0csVloNxnNuyayyBgS8OLzD5LFQmcwyBuTd3u56IAxlrc=
+X-Google-Smtp-Source: AGHT+IEYClpcc2JB0wkn40mXXwzYlNasuTlZSZlGFYWxAd2QzUJBsoDR4nrPV/Qk0HVeQiS8uVPOSg==
+X-Received: by 2002:a17:90a:e616:b0:2b6:214a:71ac with SMTP id 98e67ed59e1d1-2bd60353110mr1829100a91.3.1716020223591;
+        Sat, 18 May 2024 01:17:03 -0700 (PDT)
+Received: from localhost ([103.139.191.219])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2b67158c36dsm16543849a91.38.2024.05.18.01.16.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 23:00:44 -0700 (PDT)
-Message-ID: <b2537aa6-4c00-4c47-862a-0e706ebbf305@gmail.com>
-Date: Sat, 18 May 2024 15:00:41 +0900
+        Sat, 18 May 2024 01:17:03 -0700 (PDT)
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: Kartik Agarwala <agarwala.kartik@gmail.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: dt-bindings: mt6358: Convert to dtschema
+Date: Sat, 18 May 2024 13:46:22 +0530
+Message-Id: <20240518081621.63386-1-agarwala.kartik@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] line6: add midibuf init failure handling in
- line6_init_midi()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, skhan@linuxfoundation.org,
- Bjorn Helgaas <helgaas@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240516174737.415912-1-yskelg@gmail.com>
- <8734qg260i.wl-tiwai@suse.de>
- <a258b613-3697-4f21-a8fd-20b276f63132@gmail.com>
- <871q608gz7.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <871q608gz7.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Convert Mediatek MT6358 Audio Codec bindings from text to dtschema.
 
+Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+---
+ .../bindings/sound/mediatek,mt6358.yaml       | 47 +++++++++++++++++++
+ .../devicetree/bindings/sound/mt6358.txt      | 26 ----------
+ 2 files changed, 47 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
 
-On 5/18/24 2:51 오전, Takashi Iwai wrote:
-> On Fri, 17 May 2024 19:10:44 +0200,
-> Yunseong Kim wrote:
->>
->> On 5/17/24 5:32 오후, Takashi Iwai wrote:
->>> The allocated object is already freed by snd_line6_midi_free() that is
->>> called via rawmidi private_free at its destruction.  So your change
->>> would lead to a double-free.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
->>
->> Thanks for the review Takashi.
->>
->> I have one question:
->>
->> line6_midibuf_destroy() have no NULL check for the memory to free.
->>
->> If line6midi->midibuf_in is in this->buf = NULL from
->> line6_midibuf_init() with memory allocation failed,
->> won't the free(NULL) when accessed by snd_line6_midi_free() to
->> line6_midibuf_destroy()?
-> 
-> free(NULL) is fine, it's defined to be noop.
-> Many codes just call free() unconditionally for that, as it reduces
-> the code size.
-> 
-> 
-> thanks,
-> 
-> Takashi
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+new file mode 100644
+index 000000000..f57ef2aa5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek MT6358 Audio Codec
++
++maintainers:
++  - Kartik Agarwala <agarwala.kartik@gmail.com>
++
++description: |
++  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
++  For more detail, please visit Mediatek PMIC wrapper documentation.
++  Must be a child node of PMIC wrapper.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt6358-sound
++      - mediatek,mt6366-sound
++
++  Avdd-supply:
++    description: power source of AVDD
++
++  mediatek,dmic-mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      Indicates how many data pins are used to transmit two channels of PDM
++      signal. 0 means two wires, 1 means one wire. Default value is 0.
++    enum:
++      - 0 # one wire
++      - 1 # two wires
++
++required:
++  - compatible
++  - Avdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    mt6358_snd {
++        compatible = "mediatek,mt6358-sound";
++        Avdd-supply = <&mt6358_vaud28_reg>;
++        mediatek,dmic-mode = <0>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/mt6358.txt b/Documentation/devicetree/bindings/sound/mt6358.txt
+deleted file mode 100644
+index fbe9e55c6..000000000
+--- a/Documentation/devicetree/bindings/sound/mt6358.txt
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Mediatek MT6358 Audio Codec
+-
+-The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+-For more detail, please visit Mediatek PMIC wrapper documentation.
+-
+-Must be a child node of PMIC wrapper.
+-
+-Required properties:
+-
+-- compatible - "string" - One of:
+-    "mediatek,mt6358-sound"
+-    "mediatek,mt6366-sound"
+-- Avdd-supply : power source of AVDD
+-
+-Optional properties:
+-- mediatek,dmic-mode : Indicates how many data pins are used to transmit two
+-	channels of PDM signal. 0 means two wires, 1 means one wire. Default
+-	value is 0.
+-
+-Example:
+-
+-mt6358_snd {
+-	compatible = "mediatek,mt6358-sound";
+-	Avdd-supply = <&mt6358_vaud28_reg>;
+-	mediatek,dmic-mode = <0>;
+-};
+-- 
+2.34.1
 
-Thak you Takashi, I've been studying the kfree behavior in detail since
-you mentioned it, so thanks for advicing the details.
-
-Warm Regards,
-Yunseong Kim
-
->>
->>>> ---
->>>>  sound/usb/line6/midi.c | 9 +++++++--
->>>>  1 file changed, 7 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
->>>> index 0838632c788e..abcf58f46673 100644
->>>> --- a/sound/usb/line6/midi.c
->>>> +++ b/sound/usb/line6/midi.c
->>>> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
->>>>  
->>>>  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
->>>>  	if (err < 0)
->>>> -		return err;
->>>> +		goto error;
->>>>  
->>>>  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
->>>>  	if (err < 0)
->>>> -		return err;
->>>> +		goto error;
->>>>  
->>>>  	line6->line6midi = line6midi;
->>>>  	return 0;
->>>> +
->>>> +error:
->>>> +	kfree(line6midi);
->>>> +	return err;
->>>> +
->>>>  }
->>>>  EXPORT_SYMBOL_GPL(line6_init_midi);
->>>> -- 
->>>> 2.34.1
->>>>
