@@ -1,110 +1,154 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61497168DC;
-	Sun, 19 May 2024 07:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431D31BDC8;
+	Sun, 19 May 2024 08:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716104010; cv=none; b=kbUAF3X61rxZ1FT0K7g5zLJPtSD7RMg+f/fPCVQgVNO/A3wwGx4zZa3aCqTq5/SGvBzudVABz509kfiJte7pgLmstyhuacXQgdo31RP08hRXFmNiBRIf9PIqWZSxRcnfxGyMzdWAkCB8GOXCihA6oXt1VWQ8xD9CVsim9/0vC4U=
+	t=1716106691; cv=none; b=EQpxvtDdC0vG14zwjJshyIzo9Qe+BQrXUOgpqCDToYiRqN6y/2BI/YbIyknRlqh4RhA+YwWJqkMldxteMq78lXLegcThOeEV0PpnYIdpXCycjuFRhKfphSJrDq71WpCcLnFh2c3JCq76VXr+bgtHOoTOnTFBF4xBW1S1iTzIbNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716104010; c=relaxed/simple;
-	bh=xzuyhU/C3Sgs8JAj/uu65583uObYWqEmKO2M6mcchQ8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=q1OItuWpcSwnqBU3aRQGXSUV+MuO+YInK6Q1t7u3DgYRmAyYukkK8hEjlPp+hAEAQPeMTIQexggiVa20wWQYRQ2AErn5TbvyoR3x4SnCsi2bqA9j8l+TlM54SzJZtl2GpcMxtIyW6raTXsQTOh0AEpZD7hwqNOOBda1rqkWCSQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=aCfhLd9t; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1716106691; c=relaxed/simple;
+	bh=vOmrQBJAdvlGhlh3IQuJFC5nzf12tuwIUaUkDgVZRHA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qWUG3PC4g55XsLjiaYky/Ad0Qp8iRi43IsO+7cQQY1quIlPVZ7eAsBgcOI8ropeuM7s5WMOaRoTJyr4Znwo7A9QM3lLRkOK3X6gsv48FO6ZUe/RBQAqPMbAYmzB9AKKRhE2S06rveovgCuBVXJmlD96I2RdSU7X29VSSK58K6yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZPBDQltB; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="aCfhLd9t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716103991; x=1716708791; i=markus.elfring@web.de;
-	bh=Vc/DskwTkMLimCdzc1KNw8QmtDiL/132/HZiZz6WkFY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=aCfhLd9tDYLgNa2qsXvmkiLbpArbAYDjI7YmR1xaNLZaDBvq11qaTZnG6ywIxReK
-	 SuQJeiEZLm5HGzkMyPEokOS/NQAzjuuMbX+9PGLKk+PQdbaadUdxBwk62GNRuaggp
-	 F+C16FSZDOyYrHNnqkHxZ+p2/P/opXKIQ0NEH3zNRU+Y7Cr1kiNgxAUiTk0tc7oKc
-	 rZdxoLjzEzv4x+xY+4k8fzZSDpzxxU6pVBI8ri125Xn+n9fP7zOyAYvyRRaA9ZNWW
-	 HABnOk3PRRXjABWiYNvilNvhtJohRp+4CKCzQEkd4hbh6i7CtFz/E73sH7CfVuK2Z
-	 4ugDdCnYLVCjILW7RQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MwR4R-1sQxIw1eXl-014UAw; Sun, 19
- May 2024 09:33:11 +0200
-Message-ID: <e2dc9857-d3ad-4060-8363-f8ea0cc37919@web.de>
-Date: Sun, 19 May 2024 09:33:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZPBDQltB"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-572baf393ddso8767985a12.1;
+        Sun, 19 May 2024 01:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716106688; x=1716711488; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vw+eqC8qYyRv3MIYCjMkS6Jwy9w22sYSmCr6FUkRoZQ=;
+        b=ZPBDQltBxIlhFAuXEborYx8tjZQnNV+IG5GuoTqdXPn7p9DLzgxRQnNQOhi/vEVe2b
+         Un5SNc3xowkp6ZZkLuiOZ95eaE5RO2ROPR1RK0t5PAusJ++OET6NKLkORvfFT8LXS2be
+         n2mi+LfH0vA4AlL80LbXtzfN0bB62RYL2qtUNwW1Wi+l9qPTQ19/BZT1voiVM/O5h2kA
+         sE+KRy/+gf2F9y2rgTHdWIRJTFaoH5Tr+0dUHrtoj+Spx3Z5sbqfW3dHfYu6zpuCEQpZ
+         1Fa+yHTXN9gh4RxkvmOxaa/XhcmH60L/MuxJsuIo/9gEmFgpcxFg26i/Ye3xXUJUKHzd
+         RywQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716106688; x=1716711488;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vw+eqC8qYyRv3MIYCjMkS6Jwy9w22sYSmCr6FUkRoZQ=;
+        b=njhxOUwIYjO7uIvBz7DhPIczcaseFtBJBWgItbnZ9CKaQqndsA+tKPX+FTTXot5fFC
+         WLZubhcV8Wpaz+mn2gDfy4hsEIxThxfb29XklXGYWpOp9iBjaf8q24iMok0xyyNJtDTm
+         iXFbyJeEhYHLOWxO3oWykF6lF5rlX5xxrCn8nDYgNVMs6U7qn/9A8Y9v54WNxM9eKG+S
+         cTZh6qDPUBORkeXPZa6dmhA/59zRC0BbjIic8VDL+Pp7Uqj3ia/miC/QKNAY0UI6Wa2t
+         ZCI0hLF9vzv3MnIXXDodw6q7vCJxTF+jlGK7jMkgfNyOSdaeOXRkJ/JINO5do+2T760L
+         wtJA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8HAK35xCuQxkYURspk1at4aWS1zeip28tXCDxmT9CW9JQxqVTrS33vDbjUvZA2L9M6xh7ijERmxidYoTv/k/CQ7u4ucISFYKThLeeQYAdVro0w8arl2QZRBqAaFR4sJVXnLVaIAbaZfV2amNNVwCVs2yU1lrFqr6kFIColdrAj0VkvG444cPPLAm62fKHO0pKLTfpmNUcyRZS0sp8da9rlxS/bpN1L3o=
+X-Gm-Message-State: AOJu0YzIMLUa/qtLRZwoOSCofYytD1vETiMgNtqTyybAf52uvysTbdxN
+	toZED/20lmWamIbhf9CcpBSwxRbn9lgdRfIAps+plYckLZCw9aJG
+X-Google-Smtp-Source: AGHT+IFTKZlj4vaDpbFg3ISEA24rKauu3cUeaZy4+4egT5W58uNnkMk5KIUOqtmg4LEoq7V+gTWqYA==
+X-Received: by 2002:a05:6402:2695:b0:575:2c30:fe60 with SMTP id 4fb4d7f45d1cf-5752c30ffa6mr2896233a12.10.1716106688326;
+        Sun, 19 May 2024 01:18:08 -0700 (PDT)
+Received: from hex.my.domain (83.8.125.62.ipv4.supernova.orange.pl. [83.8.125.62])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733c34e5ccsm13698518a12.95.2024.05.19.01.18.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 May 2024 01:18:07 -0700 (PDT)
+From: Artur Weber <aweber.kernel@gmail.com>
+Subject: [PATCH v3 0/8] ASoC: samsung: midas-audio: Add GPIO-based headset
+ jack detection
+Date: Sun, 19 May 2024 10:17:46 +0200
+Message-Id: <20240519-midas-wm1811-gpio-jack-v3-0-0c1736144c0e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-clk@vger.kernel.org, kernel-janitors@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, =?UTF-8?Q?Alvin_=C5=A0ipraga?=
- <alvin@pqrs.dk>, Emil Svendsen <emas@bang-olufsen.dk>,
- Andi Shyti <andi.shyti@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>, Stephen Boyd <sboyd@kernel.org>,
- Takashi Iwai <tiwai@suse.com>
-References: <20240517-a2b-v1-1-b8647554c67b@bang-olufsen.dk>
-Subject: Re: [PATCH 01/13] a2b: add A2B driver core
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240517-a2b-v1-1-b8647554c67b@bang-olufsen.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+l3+NQO2VssluOBJJXXnKAg3DDtBKfwnya4Yj2/k/UC2D+zw5+4
- 5wfQkxlfmnAAtNNFCCjQ+BU0F7rn+cGTYPS2zZnk+WCR4g0TyFXpYDB1leaJU2S0HV30pfs
- xU2auRNo2LPMSNPMOXHZuo5BcD3XSpP433Rqp/0V76PL2HviR15aWHqMYeyyjkj6kZzl9Bb
- N4XePPuYdCvEFIlb24vmA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZKr4EqZbUiQ=;9LA7nsO9L3QH/khKeG9YCNPasJ1
- qie9orih1hOiq5F82MekSv77InOTDe00MK5trWdRlRJ0xQCVYDZA9s7gOejT4ieFq4fHtnmin
- IU1HY8qmp7qeMN5CjQeGz0T6B1b17UILq25Gh3tdKq2n094AQok3E7oxh1z2egS0IV0wTa+/c
- kQ9u1zbKQhpBTEgsXY26job3L83t4GM4NJ07KZcQx8IiV4YOVbzvUwQUuFKcUanK6IijdHBZ3
- VRbGUywRb+9y+4klqJEfayWmXG66m3YtfV32q8BmLqhiycF9YvjXpJsFZnAOYfUKltjHmO6+8
- xCpxBxbZ2ksWU23HXfX3zaP0SoaPSHxGsQBJDBD+o30VMzMSAbq4zqFPN5WZJeFM3lf86svly
- mQbPcAqkQmtEC1vclRtCvA7goyWsePWyYhgqWIRQTTRqcUUEa1HQjN1L+4us+PPRX6riYHdHs
- dekVKdSuzzSdeU3QsjLeA9dQCnah4/QHJaiTMu/Acinx53NwNeCkMW93hV6C2kcYOglGVkok6
- q6x14ug6svM5aYFj+Iu/NPM1X1y1DLkIOUccxgRA57jhN/1Zu8NzIfXRURXkMAmtGUbIkgV4Z
- PPhPamHt0qluIGUstK3Ll0qRhaac/nM416/FsRYdu9gdUw146+gJzcnW3CBUrxh5z1/svLiZG
- pRela0v+jfl/vCW2lj+nbh5nmQq7Rvbmrpt2UQ/NJfhFrOX0IEcJWQjGV5ie7Kus4lzd3XAwd
- zu1PxieCX8rrGxgFFTCKSsSbhQw0lKXyLQNMfIsjs+aa5XMGKjX+p+U9ncjeqLkkR9hslh+Lx
- +a0pr9P9D7UOF/P363jhsz3xPD9nQFSkkvV0DhcRY9O8E=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKq1SWYC/3XN0Q6CIBTG8VdxXEcDNHRd9R6tCzigngpx0Kjmf
+ PfQrc0bL//fdn5nItEGtJGci4kEmzCiH3KUh4JAr4bOUjS5iWCiYicmqEOjIn073nBOuxE9vSt
+ 4UM2ZEFLz2gKQfDwG2+Jnha+33D3Glw/f9U/iy/onyz0yccqobcAYbWQNur10TuHzCN6RhUxiy
+ zS7jMiMrkwpwTAB0m6ZeZ5/MwkqeAMBAAA=
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ Artur Weber <aweber.kernel@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716106686; l=3238;
+ i=aweber.kernel@gmail.com; s=20231030; h=from:subject:message-id;
+ bh=vOmrQBJAdvlGhlh3IQuJFC5nzf12tuwIUaUkDgVZRHA=;
+ b=8XirlovSgTFuyZInY7Ney+LFvrii3NLSjBFIG6JDVzAN3bhN/OId1rINWfUWRG1PFIHDFLUdO
+ lmlBKecojj/BNO4y0F+SmsaVzGnzByslst8HeezuK6mh6DPNsON2UNI
+X-Developer-Key: i=aweber.kernel@gmail.com; a=ed25519;
+ pk=RhDBfWbJEHqDibXbhNEBAnc9FMkyznGxX/hwfhL8bv8=
 
-=E2=80=A6
-> +++ b/drivers/a2b/a2b.c
-> @@ -0,0 +1,1252 @@
-=E2=80=A6
-> +unsigned long a2b_bus_status(struct a2b_bus *bus)
-> +{
-> +	unsigned long status;
-> +
-> +	mutex_lock(&bus->mutex);
-> +	status =3D bus->status;
-> +	mutex_unlock(&bus->mutex);
-> +
-> +	return status;
-> +}
-=E2=80=A6
+Many of Samsung's Exynos 4 devices share the same midas-audio driver
+to handle the codec setup. While most of these devices, including the
+Midas itself, use the jack detection provided by the WM8994 driver,
+other devices such as the Samsung Galaxy Tab 3 8.0 (lt01) use two GPIOs
+and an ADC channel to determine jack insertion, the jack's type, and
+button presses (for headsets with volume up/down/play buttons).
 
-How do you think about to increase the application of scope-base resource =
-management
-also for such software components?
-https://elixir.bootlin.com/linux/v6.9.1/source/include/linux/cleanup.h#L12=
-4
+In the downstream kernel, this behavior is implemented in the sec-jack
+driver[1], and the per-device settings are configured in *-jack.c files
+in the mach folder (see e.g. the Tab 3's implementation[2]).
 
-Regards,
-Markus
+This patchset implements this mechanism in the midas_wm1811.c driver,
+and adds new DTS options to allow for its configuration. It also
+enables jack detection for the Samsung Galaxy Tab 3 8.0.
+
+A very similar mechanism was already present in the aries_wm8994.c
+driver[3]; this implementation heavily borrows from it, though there
+are a few extra cleanups as well.
+
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+
+[1] https://github.com/gr8nole/android_kernel_samsung_smdk4x12/blob/lineage-14.1/drivers/misc/sec_jack.c
+[2] https://github.com/gr8nole/android_kernel_samsung_smdk4x12/blob/lineage-14.1/arch/arm/mach-exynos/tab3-jack.c
+[3] https://github.com/torvalds/linux/blob/master/sound/soc/samsung/aries_wm8994.c
+
+---
+Changes in v3:
+- Re-added pipe (|) character to samsung,headset-button-threshold-microvolt
+  description to prevent it from being parsed as a mapping (fixes syntax
+  error)
+- Split out "ASoC: dt-bindings: samsung,midas-audio: Add GPIO-based headset
+  jack detection" into two patches
+- Link to v2: https://lore.kernel.org/r/20240508-midas-wm1811-gpio-jack-v2-0-b4d36cd02c6e@gmail.com
+
+Changes in v2:
+- Added vendor prefix to threshold properties
+- Added separate headset mic bias regulator
+- Changed some cases of dev_err + return with return dev_err_probe
+- Added an extra patch to replace some previous dev_err + return cases
+  with dev_err_probe
+- Moved tab3 DTS wm1811 codec config changes to separate commit
+
+---
+Artur Weber (8):
+      ASoC: dt-bindings: samsung,midas-audio: Add headset mic bias supply
+      ASoC: dt-bindings: samsung,midas-audio: Add GPIO-based headset jack detection
+      ASoC: samsung: midas_wm1811: Add headset mic bias supply support
+      ASoC: samsung: midas_wm1811: Add GPIO-based headset jack detection
+      ASoC: samsung: midas_wm1811: Use dev_err_probe where appropriate
+      ARM: dts: samsung: exynos4212-tab3: Fix headset mic, add jack detection
+      ARM: dts: samsung: exynos4212-tab3: Add MCLK2 clock to WM1811 codec config
+      ARM: dts: samsung: exynos4212-tab3: Drop interrupt from WM1811 codec
+
+ .../bindings/sound/samsung,midas-audio.yaml        |  33 ++
+ arch/arm/boot/dts/samsung/exynos4212-tab3.dtsi     |  31 +-
+ sound/soc/samsung/Kconfig                          |   2 +-
+ sound/soc/samsung/midas_wm1811.c                   | 343 +++++++++++++++++++--
+ 4 files changed, 379 insertions(+), 30 deletions(-)
+---
+base-commit: e67572cd2204894179d89bd7b984072f19313b03
+change-id: 20240502-midas-wm1811-gpio-jack-b10226b17ecc
+
+Best regards,
+-- 
+Artur Weber <aweber.kernel@gmail.com>
+
