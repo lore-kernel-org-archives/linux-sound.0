@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2004AEDF;
-	Sun, 19 May 2024 17:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC751F5FD;
+	Sun, 19 May 2024 17:45:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716140403; cv=none; b=L6w7CfPrgOZbDXt5q5zqaE1QTWIxxId0gFvMHW5ppllSn0V+Cp8n2UCJgcdt67XNQg+sXrYut9ivDqZlQlGEmTQmXRu0ZZ8e6wxatwRH0HjA8YbhQI9NFEJvGdpG/pqlFFDVfK216CoBtlEQu+gJA+GQENa/A4mp4lOef4ETRz0=
+	t=1716140723; cv=none; b=fnlIQaDLIbkHWhbRI0ai6/NY4dbH0i/9HFQunCkKGaip79VnCNORYOQCrUYJqa6nA307SBYy03Ofck1GXEo1flhPsUsv1kmjlU1bS/0BZl9z+s+iis+kfFgq9sase77nfb/JZcuRirkQvqXsJgr73IRdXszwAWSP2nMVP8H7Xrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716140403; c=relaxed/simple;
-	bh=DtDF4BfH7f8WtXZbUbk5E/jSfDNx6JvY4w0FzFHEgLQ=;
+	s=arc-20240116; t=1716140723; c=relaxed/simple;
+	bh=+WMwLhn5B4maoQDp6xUju+eNi1rS3Byy5p5mIlXfcBA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fFEWsfE5aaHVXkoyN1ZJxVwcf9cYAuyekqOIYI2mRDf0wRTNCgX8hwIKPi+8ABlCWvfONWBArnhOdXhAPdRXxydfVwXoFwAaTo0UVc6UZFUzPlxzfpL8D38PugWIGds/aRBkF71F69cKP9K962M9af0k5vWXQneaSd4pP0sFY80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJWGIwPc; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=G0sIL6J+h/V4hhKDMpiSDtz+g/D4V4dhB3zKKZvEYnYlKfw0yzVagtNWkY6nZqShZFmc+E5HBwUMBc2WgxDl7yCdix2wzEaIWhoPq2xJ7BMnyuye69gIChApHzM+ErvZYdeulyzQLUj5fN65GWmvzuDVmahLOLxPIRGFIvtwbEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwhkppOD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJWGIwPc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E347C32781;
-	Sun, 19 May 2024 17:39:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwhkppOD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB6D1C32781;
+	Sun, 19 May 2024 17:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716140402;
-	bh=DtDF4BfH7f8WtXZbUbk5E/jSfDNx6JvY4w0FzFHEgLQ=;
+	s=k20201202; t=1716140723;
+	bh=+WMwLhn5B4maoQDp6xUju+eNi1rS3Byy5p5mIlXfcBA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QJWGIwPcrFpFHhMU6Alp3kpHRVLNB8PEouerEYa4JoMGaAo3WYIDXbBbyCNhZDgmu
-	 naFTr+OwKK6et+AapQPFDZYJqdWRLvik1dqN+DGfa/xypaNfaqLB3OtIsruFHFuKJn
-	 fRYTyZM55jPr85P3gHaRlhj1XbUw9/2RdD4wNNj7+dsj1VrIeh3+50EJ7yo2RliUL3
-	 muoGPcpnZbUbtOIpt9iDXKirRLfooN5e5suHrF8YZXwYkqzSox8av5VsEnV6BVexKx
-	 VEOhlxJgnE0RoH8DQrZ1uzc7O1l0zPXAmrvOcPdukf3QAP+7lY1/+AX5BKD7LrSqvd
-	 1KKBbIEQEtYsw==
-Message-ID: <274b4544-ae6f-4dfe-9952-7b88faffd96a@kernel.org>
-Date: Sun, 19 May 2024 19:39:57 +0200
+	b=OwhkppOD0wMHVHwTHsixrqWuGga8H/AtzOvSTD6bpX3fzZQyuqIJOVWP2eW8ZqPvM
+	 osqlDz0rv2SNiisg6Rfzr0B6fZ5HmiSWAfEtwPdxMOOty9epn13gyoft1WRChKeymh
+	 kV6iYC6Ad1kHpKAg9LvUVa3Fe7oHE3ePBVN0bXeuaCReK/QgTivxz39l5EhgmzJ+aJ
+	 weDdZu+5jAuesiQXLo3dcM8ZvTQqAJM8L+1zuld07o5rE0vUaw3Yqw3Ak7nU+O2pID
+	 knqLx8EcqfTYQIEeX/Vj6q41+HwnsegrwIBW9yyrrAwWG6aqe6nsif97tJJF+/v4qB
+	 /axyUPyG2Fwsw==
+Message-ID: <ca5eb5be-0bcf-4b06-b476-509f6c5faf40@kernel.org>
+Date: Sun, 19 May 2024 19:45:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,17 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] ASoC: dt-bindings: ak4104: convert to dt schema
-To: Xiaxi Shen <shenxiaxi26@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, javier.carrasco.cruz@gmail.com,
- skhan@linuxfoundation.org
-References: <20240517051317.466764-1-shenxiaxi26@gmail.com>
+Subject: Re: [PATCH v2 1/2] ASoC: es8311: dt-bindings: add everest es8311
+ codec
+To: Matteo Martelli <matteomartelli3@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240516154800.125284-1-matteomartelli3@gmail.com>
+ <20240516154800.125284-2-matteomartelli3@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,15 +91,17 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240517051317.466764-1-shenxiaxi26@gmail.com>
+In-Reply-To: <20240516154800.125284-2-matteomartelli3@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/05/2024 07:13, Xiaxi Shen wrote:
-> Convert ak4104 binding to DT schema
+On 16/05/2024 17:43, Matteo Martelli wrote:
+> Add DT bindings documentation for the Everest-semi ES8311 codec.
 > 
-> Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
-
+> Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
+> interface and I2C control.
+> 
+> Signed-off-by: Matteo Martelli <matteomartelli3@gmail.com>
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
