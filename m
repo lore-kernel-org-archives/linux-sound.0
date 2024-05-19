@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835431401B;
-	Sun, 19 May 2024 11:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2004AEDF;
+	Sun, 19 May 2024 17:40:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716119050; cv=none; b=ahY+bke/kWDfO4UcC6uDtmJcT0eRpTlNyP/T9S+SOIiX9ZzuuwX+5fqzl7KOmhD8s7pRUWNzCuZbrNfOJwQz9s7FkVUpdrxYN5JYCHj04+xZuoSKyWcLoYGc9KZJJb+abbde0lKsaEGquv52QSG27NU/vg5UzZgofLbXpUKM534=
+	t=1716140403; cv=none; b=L6w7CfPrgOZbDXt5q5zqaE1QTWIxxId0gFvMHW5ppllSn0V+Cp8n2UCJgcdt67XNQg+sXrYut9ivDqZlQlGEmTQmXRu0ZZ8e6wxatwRH0HjA8YbhQI9NFEJvGdpG/pqlFFDVfK216CoBtlEQu+gJA+GQENa/A4mp4lOef4ETRz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716119050; c=relaxed/simple;
-	bh=pLG4xOOSd/VdrFGicflX0jEABc52gpetmo53inC26Nk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=E4ABkJnKKSvYtwKKA3qYMRygZMPZxS6deVWXtJOsO6LyDlSD+a+MGQPM6CWZ2QdyRQ03t5dJHea5546z10mwKMVNQtYlF5cdw/D3TVzdDPXtR3ydFojZkjb5HLEWGK+m7XHusOgfm5YH7vDSNsNm/5hbkpqyg4+utV/79tGRKyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htABLW6c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716140403; c=relaxed/simple;
+	bh=DtDF4BfH7f8WtXZbUbk5E/jSfDNx6JvY4w0FzFHEgLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fFEWsfE5aaHVXkoyN1ZJxVwcf9cYAuyekqOIYI2mRDf0wRTNCgX8hwIKPi+8ABlCWvfONWBArnhOdXhAPdRXxydfVwXoFwAaTo0UVc6UZFUzPlxzfpL8D38PugWIGds/aRBkF71F69cKP9K962M9af0k5vWXQneaSd4pP0sFY80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJWGIwPc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htABLW6c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB301C32781;
-	Sun, 19 May 2024 11:44:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJWGIwPc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E347C32781;
+	Sun, 19 May 2024 17:39:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716119049;
-	bh=pLG4xOOSd/VdrFGicflX0jEABc52gpetmo53inC26Nk=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=htABLW6cCkXMfHDoiA96KGV8rtUh2F3lGjQ8Oig0JbqABwZaYNF2WXISpx/UV9SsX
-	 dmTmDoqa41WCAsQjXCA1AAfV5Wvp1+atQ6cKI9KxHTwQtTYedew22w4/seFPAIe9EN
-	 EXNa/nf+xeQMtvBX+75GgBfRhnSuYQZG9r8d2EprIVvVR07mxodGUVuglxla0e5Veo
-	 61vGelUGVRRvgAiXdpXlJHYjqFp+f+O35f9HBm9YbNlBKvxuN7adxh6/0l2l3/DoKj
-	 H0kf39f2D19QZCXPO0PAFPW81eQZgAtLa2TMUXxvbZyqVQitiLOA5LklE8xTyg0GJU
-	 U1qmX/gY5zjMg==
-Message-ID: <d4e5d11d-9b71-4caa-a55b-f3accd7185ce@kernel.org>
-Date: Sun, 19 May 2024 13:44:02 +0200
+	s=k20201202; t=1716140402;
+	bh=DtDF4BfH7f8WtXZbUbk5E/jSfDNx6JvY4w0FzFHEgLQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QJWGIwPcrFpFHhMU6Alp3kpHRVLNB8PEouerEYa4JoMGaAo3WYIDXbBbyCNhZDgmu
+	 naFTr+OwKK6et+AapQPFDZYJqdWRLvik1dqN+DGfa/xypaNfaqLB3OtIsruFHFuKJn
+	 fRYTyZM55jPr85P3gHaRlhj1XbUw9/2RdD4wNNj7+dsj1VrIeh3+50EJ7yo2RliUL3
+	 muoGPcpnZbUbtOIpt9iDXKirRLfooN5e5suHrF8YZXwYkqzSox8av5VsEnV6BVexKx
+	 VEOhlxJgnE0RoH8DQrZ1uzc7O1l0zPXAmrvOcPdukf3QAP+7lY1/+AX5BKD7LrSqvd
+	 1KKBbIEQEtYsw==
+Message-ID: <274b4544-ae6f-4dfe-9952-7b88faffd96a@kernel.org>
+Date: Sun, 19 May 2024 19:39:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,27 +35,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/13] dt-bindings: a2b: Analog Devices AD24xx devices
+Subject: Re: [PATCH v4] ASoC: dt-bindings: ak4104: convert to dt schema
+To: Xiaxi Shen <shenxiaxi26@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, javier.carrasco.cruz@gmail.com,
+ skhan@linuxfoundation.org
+References: <20240517051317.466764-1-shenxiaxi26@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>,
- Mark Brown <broonie@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Saravana Kannan <saravanak@google.com>
-Cc: Emil Svendsen <emas@bang-olufsen.dk>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, =?UTF-8?Q?Alvin_=C5=A0ipraga?=
- <alsi@bang-olufsen.dk>
-References: <20240517-a2b-v1-0-b8647554c67b@bang-olufsen.dk>
- <20240517-a2b-v1-3-b8647554c67b@bang-olufsen.dk>
- <f1605873-c36c-4e61-8076-13a7094dc13b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -100,29 +87,34 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <f1605873-c36c-4e61-8076-13a7094dc13b@kernel.org>
+In-Reply-To: <20240517051317.466764-1-shenxiaxi26@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 19/05/2024 13:40, Krzysztof Kozlowski wrote:
-> On 17/05/2024 14:58, Alvin Šipraga wrote:
->> From: Alvin Šipraga <alsi@bang-olufsen.dk>
->>
->> Add device tree bindings for the AD24xx series A2B transceiver chips,
->> including their functional blocks.
->>
->> Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
->> ---
->>  .../devicetree/bindings/a2b/adi,ad24xx-clk.yaml    |  53 +++++
+On 17/05/2024 07:13, Xiaxi Shen wrote:
+> Convert ak4104 binding to DT schema
 > 
-> What is a2b and why clock bindings are not in clock?
+> Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
 
-Just in case you reply "but I have cover letter", so no, it does not
-matter really. This is the patch describing hardware, so here you
-describe hardware. Not in cover letter which often is ignored. Many
-people, including myself, skip cover letters.
 
-Provide *hardware* description here.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+---
+
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
 Best regards,
 Krzysztof
