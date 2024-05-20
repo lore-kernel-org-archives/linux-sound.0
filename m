@@ -1,240 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999FA1F176;
-	Mon, 20 May 2024 18:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B99155E43;
+	Mon, 20 May 2024 21:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716229910; cv=none; b=mo5+konLzQAdtqMvw960DgvMhKBuEzNxPR6BjqismmFA0dj0Wv3Qt8Uj2tia30JwcB1ZaFgzWwIdmZ3UWwq7Q3geVp7kIq/XLomxlKUUnfBQyjQPjREl2r7yu02+VtTmlk+gUtXQdCzgjjsty8MtNCD/UhfAU9F830G0pdb8DA4=
+	t=1716240803; cv=none; b=Orc25bBncQ5WLjt/3P4tYcCiasQ8cWatIycAP+mcDGOq2qvWc9s32vlQ/ZEEUIgaKuVzRFsP6XO7M24jVSt2AYUkN5BVD2gUfzWEuEtroz2XkY56W44V/LaStvDVFwZgGCMMcvjvVxWtmDxDIzcpEZ/enNb2NyH8AiEHDz7khVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716229910; c=relaxed/simple;
-	bh=ISFqQFg2dWPpWxVMb6R1UO5fAM7F17S5PwtQ+ZCbKVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mu0g0K67GBzMgD1ZyVo9itP7GMCAZlAO6WWkpIudRvO4WFWV08fZEC8qfPHoIAPCT90DrUTvP0CHgREbjubiZ91ZJvMzbH+WtPxOuA2U3zBqhkzeUXdAp5WKvn7VwaJStWiRMFvOeOfezfv/2IqNKtzjAUt2HWBuMgR7s2eMQFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhcXFtDo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716240803; c=relaxed/simple;
+	bh=WrZ5Vf7Jh3/G3dGoiHMd/08geH9pMlfqTaIaOal5dMk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nj+kq1WT9bcxXdX9+rErM2Pq5ShIPkKf2Lugsu/X58C8F9ybl6aqCaJtW2gxd40td0zFHu8c/FYk3wKtYsJgtL/UwVm4cVmHIIBwRHkgjZwDZVedeNWK4w5tjD3NaPoXlzL6lrGD65TaAw/uFILcCGZDm7pWSfYy+nSGZETboQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5Wzp9Gt; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhcXFtDo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2C3C2BD10;
-	Mon, 20 May 2024 18:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716229910;
-	bh=ISFqQFg2dWPpWxVMb6R1UO5fAM7F17S5PwtQ+ZCbKVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FhcXFtDoIzsT0MCGbOkZZoR/pC7oFA/BDxaYVi169NbMM292SKzU9n5C8O9bzokoG
-	 CnBWf0vMg4qTSGromsK0gkdRbSomu1l5Z669wDLWPpYsgsrwQ0mHa0LM2SP4COLt4Q
-	 dtELS5dPU8SzjLP6trn33G5xKWEu6+BRv81oqdqnOgprnIZ2sPRANlm7sJG032py+C
-	 LMVhmPSBsX8s11fmE4Yq7MfiursM0RK6hWyp63/FLBg7HlLTl8ka7RSkDT80/pkemT
-	 MlNwOZBWDw5BL8MXxPBGaVQI6u+oRFAZs8QpPkKmVEEUKUUhbYdvXypVErXXQE80Tg
-	 cgQftxWzLDtfw==
-Date: Mon, 20 May 2024 13:31:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCHv4 9/9] ASoC: dt-bindings: fsl-asoc-card: add compatible
- for generic codec
-Message-ID: <20240520183148.GA1250699-robh@kernel.org>
-References: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com>
- <20240515135411.343333-10-elinor.montmasson@savoirfairelinux.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5Wzp9Gt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716240801; x=1747776801;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WrZ5Vf7Jh3/G3dGoiHMd/08geH9pMlfqTaIaOal5dMk=;
+  b=V5Wzp9GtkDD2fl2Lm++oOkRByBXm96g35566eB9y/WYYt/cXSDz012j/
+   YbKZIgrF8aMtPwAuqEz3UWXFtL6Z8aXSFV4Tg60nW7h46OzVeN+jmDjrV
+   g/BE9LkO2cwQFH6vp4DkMY4i65Xi7fFVCumNZNTkSXU+6Ure3rs2byWO+
+   TFEyxCwlNe/54JpD9ibahN5YAWaaEwxGYhXWlr7qLwrhKXd0cEdhW7G5Z
+   4UkukPGYcK909lmSzHrQoDo9pkqQAtJdx5RXYO2Zrp+kztGSEDjxb4RMs
+   TK9IySuP37LcSxGg/TNQgTon5PTJkgoGFWpQ0+O5m13NHpr45cdZ3w8dd
+   w==;
+X-CSE-ConnectionGUID: yMwj0lMERqiEp9aimUQ61Q==
+X-CSE-MsgGUID: mKCjX4ZAQSeGK6Coh4EJmg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="29922096"
+X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
+   d="scan'208";a="29922096"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 14:33:19 -0700
+X-CSE-ConnectionGUID: u4AE7DrRRte9dwLdiod1Kg==
+X-CSE-MsgGUID: K2cU40uRQLSWHZ62riEPiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
+   d="scan'208";a="32552694"
+Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.125.109.51]) ([10.125.109.51])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 14:33:19 -0700
+Message-ID: <4884ef78-2b86-4dcd-bec4-d6e111fa5455@linux.intel.com>
+Date: Mon, 20 May 2024 16:33:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515135411.343333-10-elinor.montmasson@savoirfairelinux.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: intel: Constify struct snd_soc_ops
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <2f0613bf4c6018569cdaac876d0589e49cf38a80.1715622793.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <2f0613bf4c6018569cdaac876d0589e49cf38a80.1715622793.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 15, 2024 at 03:54:11PM +0200, Elinor Montmasson wrote:
-> Add documentation about new dts bindings following new support
-> for compatible "fsl,imx-audio-generic".
+
+
+On 5/13/24 12:57, Christophe JAILLET wrote:
+> Constifying "struct snd_soc_ops" moves some data to a read-only section, so
+> increase overall security.
 > 
-> Some CPU DAI don't require a real audio codec. The new compatible
-> "fsl,imx-audio-generic" allows using the driver with codec drivers
-> SPDIF DIT and SPDIF DIR as dummy codecs.
-> It also allows using not pre-configured audio codecs which
-> don't require specific control through a codec driver.
+> This structure is also part of scripts/const_structs.checkpatch.
 > 
-> The new dts properties give the possibility to set some parameters
-> about the CPU DAI usually set through the codec configuration.
+> As an example, on a x86_64, with allmodconfig:
+> Before:
+>    text	   data	    bss	    dec	    hex	filename
+>    6315	   3696	      0	  10011	   271b	sound/soc/intel/boards/ehl_rt5660.o
 > 
-> Signed-off-by: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
+> After:
+>    text	   data	    bss	    dec	    hex	filename
+>    6379	   3648	      0	  10027	   272b	sound/soc/intel/boards/ehl_rt5660.o
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->  .../bindings/sound/fsl-asoc-card.yaml         | 96 ++++++++++++++++++-
->  1 file changed, 92 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml b/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-> index 9922664d5ccc..332d8bf96e06 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl-asoc-card.yaml
-> @@ -23,6 +23,16 @@ description:
->    and PCM DAI formats. However, it'll be also possible to support those non
->    AC'97/I2S/PCM type sound cards, such as S/PDIF audio and HDMI audio, as
->    long as the driver has been properly upgraded.
-> +  To use CPU DAIs that do not require a codec such as an S/PDIF controller,
-> +  or to use a DAI to output or capture raw I2S/TDM data, you can
-> +  use the compatible "fsl,imx-audio-generic".
-> +
-> +definitions:
-> +  imx-audio-generic-dependency:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          const: fsl,imx-audio-generic
->  
->  maintainers:
->    - Shengjiu Wang <shengjiu.wang@nxp.com>
-> @@ -81,6 +91,7 @@ properties:
->                - fsl,imx-audio-wm8960
->                - fsl,imx-audio-wm8962
->                - fsl,imx-audio-wm8958
-> +              - fsl,imx-audio-generic
->  
->    model:
->      $ref: /schemas/types.yaml#/definitions/string
-> @@ -93,8 +104,14 @@ properties:
->        need to add ASRC support via DPCM.
->  
->    audio-codec:
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> -    description: The phandle of an audio codec
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: |
-> +      The phandle of an audio codec.
-> +      If using the "fsl,imx-audio-generic" compatible, give instead a pair of
-> +      phandles with the spdif_transmitter first (driver SPDIF DIT) and the
-> +      spdif_receiver second (driver SPDIF DIR).
+> Compile tested only.
 
-       minItems: 1
-       maxItems: 2
+We don't test all the boards in CI but I don't see any issues with
+https://github.com/thesofproject/linux/pull/4993, so
 
-> +    items:
-> +      maxItems: 1
->  
->    audio-cpu:
->      $ref: /schemas/types.yaml#/definitions/phandle
-> @@ -150,8 +167,8 @@ properties:
->      description: dai-link uses bit clock inversion.
->  
->    mclk-id:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
-> -    description: main clock id, specific for each card configuration.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: Main clock id for each codec, specific for each card configuration.
-
-       minItems: 1
-       maxItems: 2
->  
->    mux-int-port:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> @@ -167,10 +184,68 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description: The phandle of an CPU DAI controller
->  
-> +  # Properties relevant only with "fsl,imx-audio-generic" compatible
-> +  dai-tdm-slot-width:
-> +    description: See tdm-slot.txt.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  dai-tdm-slot-num:
-> +    description: See tdm-slot.txt.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  clocks:
-> +    description: |
-> +      The CPU DAI system clock, used to retrieve
-> +      the CPU DAI system clock frequency with the generic codec.
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: cpu_sysclk
-> +
-> +  cpu-system-clock-direction-out:
-> +    description: |
-> +      Specifies cpu system clock direction as 'out' on initialization.
-> +      If not set, direction is 'in'.
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +
-> +dependencies:
-> +  dai-tdm-slot-width:
-> +    $ref: "#/definitions/imx-audio-generic-dependency"
-> +  dai-tdm-slot-num:
-> +    $ref: "#/definitions/imx-audio-generic-dependency"
-> +  clocks:
-> +    $ref: "#/definitions/imx-audio-generic-dependency"
-> +  cpu-system-clock-direction-out:
-> +    $ref: "#/definitions/imx-audio-generic-dependency"
-
-This works, but is an unusual pattern...
-
-> +
->  required:
->    - compatible
->    - model
->  
-> +allOf:
-> +  - if:
-> +      $ref: "#/definitions/imx-audio-generic-dependency"
-> +    then:
-> +      properties:
-> +        audio-codec:
-> +          items:
-> +            - description: SPDIF DIT phandle
-> +            - description: SPDIF DIR phandle
-> +        mclk-id:
-> +          maxItems: 1
-> +          items:
-> +            minItems: 1
-> +            maxItems: 2
-> +    else:
-> +      properties:
-> +        audio-codec:
-> +          maxItems: 1
-> +        mclk-id:
-> +          maxItems: 1
-> +          items:
-> +            maxItems: 1
-
-
-You can handle the dependency like this instead:
-
-           dai-tdm-slot-width: false
-           dai-tdm-slot-num: false
-
-
-And then you don't need the definitions.
-
-> +
->  unevaluatedProperties: false
->  
->  examples:
-> @@ -195,3 +270,16 @@ examples:
->               "AIN2L", "Line In Jack",
->               "AIN2R", "Line In Jack";
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/clock/imx8mn-clock.h>
-> +    sound-spdif-asrc {
-> +      compatible = "fsl,imx-audio-generic";
-> +      model = "spdif-asrc-audio";
-> +      audio-cpu = <&spdif>;
-> +      audio-asrc = <&easrc>;
-> +      audio-codec = <&spdifdit>, <&spdifdir>;
-> +      clocks = <&clk IMX8MN_CLK_SAI5_ROOT>;
-> +      clock-names = "cpu_sysclk";
-> +      cpu-system-clock-direction-out;
-> +    };
-> -- 
-> 2.34.1
-> 
+Tested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
