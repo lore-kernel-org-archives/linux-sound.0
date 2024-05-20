@@ -1,153 +1,102 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70552136E11
-	for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 14:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F9813664D
+	for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 14:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716214817; cv=none; b=HhU5lFrRqlKoPdfmaehghXxHCh0p5uGCKf5aZMJvo316vqxFVOYaxxNu0uzHY+RP2UFezNYZmww2MJ9rk3i6b0R2MUhseKVATW7QQuM2Y5BsXGVxQHKONz9RvW5sdAj7h13VtOAJEjKnml9ZiJ3/sJ0z1QokvaB/+k6JgH5+z0o=
+	t=1716215041; cv=none; b=IJCSYd7Jm8Nn/PPIrlxzbiavqVDvtz4x1/Jz8QY0TNLO2Qd+p6jPlfcn9o8Tb5Q3bZnFPh0Wll1Gwh1JXZ9gaFxr9nS64FV8SyqPX2EJIC0VxdF/IteN+Z3N/zorVkbU6bJ6SjZ7z6S07TQPu3IUKS0aqsSqSA2iwkhIaAarMAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716214817; c=relaxed/simple;
-	bh=RVNDo+PUPNeV1sa0OC/s/rwZqNAdhw3yPx+40/ruZ0I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tploeV29hunJeIj0g97BjZDqqVGVhQywR4BRaLU95lSv+gbANJLhrTCNeiff40nauuCesYrLOcCUCv1PVy30dnj/GPeNTEwCFz7Dq3X152CTt2r7z4E1fxyVsfy964sjrwZ0GvCg7HxLYb5VAVUqJr09nu4EUr5EKPYi6QjFp1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EsHX3Cxh; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716215041; c=relaxed/simple;
+	bh=Kxud4rInQ/uIzpvwj6zKqD7cVG/YMxBM6hnwJWDO3Ls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VgvxC6RS3WYG9hph+H3uCFTPFg75KI4PyZP9kmNY1vpvXzJC5WK2Pch212DOfVEzpxTXJaA82HP1BHXMHz2CHYnvD87SJT1ijK3psSoXHfEQaaVqve792WDB77zMk4VbvXq3GGoX8H77NSQYXpQn2VSkePrs4n4r6a767MVlY4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g9NkebL4; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EsHX3Cxh"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4202dd90dcfso19038635e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 07:20:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g9NkebL4"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7e1df3c0663so14639439f.3
+        for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 07:23:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716214814; x=1716819614; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sm/iyvA/oRf8IDDwCG6199y51shfGYvzaBKbXuvmT5Q=;
-        b=EsHX3Cxhe++t2nkzT8qK5R6KEmp7KAf24jEZUzy5E8TUMrAr7A3cjnxTeBA/ZkRn/7
-         qJ63r4H/u69p6h0hST2UZ+3oEtDqWDifIXes1LLQX+OvQBrH0YhvuOl+48VYaa4NwO0n
-         lC54mhsZcOtEfq2h3LNBHLJGRcRHi2A2GgQwdO7EKiL6TggSOiCRIPr9xs/NdZnElr7R
-         P0WoVOuqe6kcnwvVR2Xe6ZAujknMqTW34lKSUH/NhNTEcyu7DgP6XTrsHJhhjcKLORDt
-         kAg6qKUn7ngexImvq+MFRqdVhaJFvdLeY+QXqU3g98VQwjYfCsHsItQhQDfRvdneaLD1
-         D3qw==
+        d=linuxfoundation.org; s=google; t=1716215039; x=1716819839; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NBQNQ9FZZZqvjteJBWF+UbSAu8Fn4cYlBjQ/AkQ61gQ=;
+        b=g9NkebL42r+8TquAQvVximMh2Xju3TT4znDAtnS3KoUJY554PkwakpV0I9st2rshqm
+         xEWeQMD8WRc6AGMFwgUzuImuF2tnCu+GUB5LcKgtib1DQyjYFBOW5/fbaScTdrkY3tyz
+         5hQ0aNrlF6KPwIvmd6JgNZ97XZ9MYxTgbjitw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716214814; x=1716819614;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sm/iyvA/oRf8IDDwCG6199y51shfGYvzaBKbXuvmT5Q=;
-        b=g2SEMRrXqX3qoGR62ASkUUwcOR6PaqmfP9/2G+y2XDaYiJuvZSKIU6o8mYj50CoNiY
-         FDI6vQlpHMwf9Gxt9lnyxNTtJ4IVEC9kjsvulu50fPxMTuDKG1UxA44M9TBcjW+TsNOv
-         0Y9Qf6VIWvVBkypJNkCuZ3phzrtIpDL6RwxPlIsrWt1MVCWBWKnbettf1TQGySkZ5n9g
-         k7nGtGklltkjtHmZ3vI3vlD31A2hC6ftvlvXms/j7QXdBqx0ErQs2vESjpjmI3HAWEVe
-         4zkc63cDglWptvCc2rbGYtbCHMmatJwyiIU3w5geLDIMjZxmpYhMOmy5m8NKWDRw3its
-         ZtKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWW8kkGvVhZ35+3z2ys0oOKsT7DffnVuby7Tp4E2tTv8yPkP8OLp973OPcm4Eh0zPWcULkaHZhumudSwZVc6FaZr5w9ZsQTRScxSR0=
-X-Gm-Message-State: AOJu0YzsWsReoF150WZdrqLT/WRjB/+h+QcFXSotQzOtJZ+DF5EKStqp
-	tUIhA8s8/DGcc93Y5WWClrEZRKVLKCVeLwNmvoPfRs1czCJDQiGnO7r/waQ1AA8=
-X-Google-Smtp-Source: AGHT+IGVRyJJ7aHIZMec1RRFI1lujPx2Dl5vOFi8D3htETVzjOwcHTweLhfI2iYBMlx8IuAnYEGitQ==
-X-Received: by 2002:a05:600c:ac1:b0:416:3f85:d49 with SMTP id 5b1f17b1804b1-41feaa42cd6mr250592485e9.18.1716214813838;
-        Mon, 20 May 2024 07:20:13 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccee962esm421612625e9.31.2024.05.20.07.20.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 07:20:13 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 20 May 2024 16:19:59 +0200
-Subject: [PATCH v4 4/4] ASoC: qcom: x1e80100: Correct channel mapping
+        d=1e100.net; s=20230601; t=1716215039; x=1716819839;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NBQNQ9FZZZqvjteJBWF+UbSAu8Fn4cYlBjQ/AkQ61gQ=;
+        b=RGM/V0WWuHm/21FmgOUHdIgmNbY7g493QpQOgtsJLbpPxgEzoc8rNSJrpRxqkHHyVt
+         RfX36+G4gajeD68iwLxb2hlRpKlM8RqZFY7LKtwuvkK0QPJCwQR1lh9lPvG1GGiVujFS
+         6zFcfi8jOIm14D394R0z1pBJ/bW2WQZnKxXhOtLv0e1ogXaaAc8ZBHgtJd0h4rKwok6T
+         Sh1fS1KhrniocRcxsmo0Jo/EJCWRZMYvl5I3aAblC77SMbmEPhs+OpwUUh14sNwrA/Jg
+         bEucC9doM1Hu5G8c246lbgMYz2Ko9XfqhV0HAzDcjoc+RjtxQCpNzjUlYToqr44gjM/Q
+         lTyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIRr5ym7RkQrJ8Coq5mm/ncXBRQPzyRJEQ7OJuGS6dPQhyq5/IjkFtekLpUFEDREMQH+GBgnABAxOj8NPD08IpyqttMucJP1KZpT0=
+X-Gm-Message-State: AOJu0YzJy0HQ+UgKhSJJfbkAhriJ9qfCMfHqgP8e98ZTehe/H75rRqOo
+	uaIgLv0xK0jwQNNCxUKbIFwiUIDqhHZxXtNU6caAG3QfmISdzRup0B0rIoHpfQASupRsntCvJPH
+	FGHg=
+X-Google-Smtp-Source: AGHT+IHOExpjLNN+4G5/kjDmKREPcV4+VDUq67A82eppucYtUYxOE/4nd3SHNqSCoiAcFlRE57sYAw==
+X-Received: by 2002:a5e:c748:0:b0:7e1:d865:e700 with SMTP id ca18e2360f4ac-7e1d865e82emr2632162039f.2.1716215038950;
+        Mon, 20 May 2024 07:23:58 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4893700e444sm6409930173.28.2024.05.20.07.23.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 May 2024 07:23:58 -0700 (PDT)
+Message-ID: <6b2a93f0-8521-4915-b63d-d28d1d243481@linuxfoundation.org>
+Date: Mon, 20 May 2024 08:23:57 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kselftest/alsa: Ensure _GNU_SOURCE is defined
+To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Edward Liaw <edliaw@google.com>, John Hubbard <jhubbard@nvidia.com>,
+ linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240516-kselftest-fix-gnu-source-v1-1-e482ca6bfff7@kernel.org>
+ <871q6025ut.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <871q6025ut.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240520-asoc-x1e80100-4-channel-mapping-v4-4-f657159b4aad@linaro.org>
-References: <20240520-asoc-x1e80100-4-channel-mapping-v4-0-f657159b4aad@linaro.org>
-In-Reply-To: <20240520-asoc-x1e80100-4-channel-mapping-v4-0-f657159b4aad@linaro.org>
-To: James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Banajit Goswami <bgoswami@quicinc.com>
-Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1580;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=RVNDo+PUPNeV1sa0OC/s/rwZqNAdhw3yPx+40/ruZ0I=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmS1wVxsw/p+VXN2eP9N2OLCdsAbVUC+7yjp30j
- BFHMQJTguOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZktcFQAKCRDBN2bmhouD
- 11RZD/9MxHl6NYGke5RtglSMF7GhedR5atNcAnGjmHO7nesbXV3GMuToOk7k49VmQaxlg5ly6IH
- Oy/wFsxxZrSJzd4ce+sjQXd32sRXnGipksKiB0wvIhFvY3973MiUP7xxLaMu4WxouANJiRp5FFD
- YxkuzSLXrekOrO5foULPEM1L38vcjOqveybopaNm5+vJWgKFqD/EF7WfXWgEJpErXbmP2oCTO5d
- 2rxWiiHdabrrpD4yuMIjmm2P/HivHBx2LUra4m4HkRB0Wp/TAL7vKvtmgCJcY5pTgwm5IRyOoEV
- qz3kkoAKC90nAnRYvPdMRrDyRmorQvy5dK25BbUCnU+HO3fZT6VvNXMnwqu6+cHOs9h9tqXwrpl
- Qj72RqmdHOTEeoSCMbkqrhL/5z2C70E1wT31yLDDF3w2GfcGeVcQIDrPs2B1DdEvobRYezY0LGX
- 46Mtxhuz/FJZHQC/uNQcJezBniMAa6HS29M9eJRqtbyVetJhH3qFhRyCuS+GR1jDXXJbA+uXm92
- PLAJwp0uW43HJKhO1gu1gobTm1ciyxwb8KawtkuolAxewb2CZFFz3PqGie23cgyAsLLPZmPLRl/
- iyCSH587Do9m4PT0jtp1RoT3AI9Kni5RNKgPAOY1Rp12Kt0gi2gWleqA5NYxMC7B9fiUhaiun9T
- Lgf6MaPNLe76WRQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-X1E80100 CRD board comes with four speakers arranged as left front+back
-and then right front+back.  Using default channel mapping causes front
-right speaker to play left back stream.
+On 5/17/24 02:35, Takashi Iwai wrote:
+> On Thu, 16 May 2024 17:27:33 +0200,
+> Mark Brown wrote:
+>>
+>> The pcmtest driver tests use the kselftest harness which requires that
+>> _GNU_SOURCE is defined but nothing causes it to be defined.  Since the
+>> KHDR_INCLUDES Makefile variable has had the required define added let's
+>> use that, this should provide some futureproofing.
+>>
+>> Fixes: daef47b89efd ("selftests: Compile kselftest headers with -D_GNU_SOURCE")
+>> Signed-off-by: Mark Brown <broonie@kernel.org>
+> 
+> The commit isn't yet in the Linus upstream tree but only in
+> linux-next.  I guess it's better to put the fix in the tree (Shuah's?)
+> that introduced this change.  So feel free to take my ack:
+> 
+> Acked-by: Takashi Iwai <tiwai@suse.de>
+> 
+> 
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thank you. I will take this through my tree.
 
----
-
-Changes in v2:
-1. Rework significantly, because only backend DAIs is now affected.
----
- sound/soc/qcom/x1e80100.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-index c3c8bf7ffb5b..27f34c0873ab 100644
---- a/sound/soc/qcom/x1e80100.c
-+++ b/sound/soc/qcom/x1e80100.c
-@@ -12,6 +12,7 @@
- 
- #include "common.h"
- #include "qdsp6/q6afe.h"
-+#include "qdsp6/q6dsp-common.h"
- #include "sdw.h"
- 
- struct x1e80100_snd_data {
-@@ -80,6 +81,23 @@ static int x1e80100_snd_prepare(struct snd_pcm_substream *substream)
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
- 	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
-+	const unsigned int rx_slot[4] = { PCM_CHANNEL_FL,
-+					  PCM_CHANNEL_LB,
-+					  PCM_CHANNEL_FR,
-+					  PCM_CHANNEL_RB };
-+	int ret;
-+
-+	switch (cpu_dai->id) {
-+	case WSA_CODEC_DMA_RX_0:
-+	case WSA_CODEC_DMA_RX_1:
-+		ret = snd_soc_dai_set_channel_map(cpu_dai, 0, NULL,
-+						  ARRAY_SIZE(rx_slot), rx_slot);
-+		if (ret)
-+			return ret;
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	return qcom_snd_sdw_prepare(substream, sruntime,
- 				    &data->stream_prepared[cpu_dai->id]);
-
--- 
-2.43.0
+thanks,
+-- Shuah
 
