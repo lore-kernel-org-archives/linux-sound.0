@@ -1,206 +1,212 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2088.outbound.protection.outlook.com [40.107.6.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9610C17591
-	for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 07:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716188950; cv=none; b=pRecfIE5wr4SjuzXrEQVK+ayfNfP8FeLtMdiHyQPIGLm8ldPSdIrJMOCEIeeEJIAOHWkmm+B7U/kHKG+6Cklk+DnRzNiXprZ8F2j1sl+VN8cXVes02D6FwxnW5Bd5NXc8w2bhB9Xtwt2UvUFwsbjpfYcsP/6xJDmBcFxSK9PXlk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716188950; c=relaxed/simple;
-	bh=0xb9rGqPLMCZSoyt+zr1CoKXYGv7ul1gL18MO6t3qVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qIactd/ftADIwo4yIyI7qJHzlmlnIaYmkGRqymzY1Ru9BvIXdLIST6X9ldu8a8I7iX1COQqjwoe1pLJBSSUfYvLiZ8hO1Fp+cwFfIyxngG1nZpFGGMGyNF+MRRvp/dBfOFPcFocz0u3l0j1YG8UBT+DSH+lbqLYMWhws89fP6vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fpS9T45R; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75631CD39
+	for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 08:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.6.88
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716195343; cv=fail; b=uqERzK0dnyTfX1cnzBl/ME3eCKHb3ti7wHE1No1tK4pPOge3SSgDTczSS4/FWN+kP1cDFpRvI2FuNedaSSddbOsgyipyxQuCcNjXL6E4mKjh/CvQvCZqrj99vfURlSdsDLdkUcDIaw/cQ4CEc8xb9I7F3EO2fy/aWVcpkfA0MV4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716195343; c=relaxed/simple;
+	bh=FGb15c5m30Vxs4SJ9wfy6ye0IbYovtLHI6qkWCYYuOs=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jD1Wax8BLV9atD3iv/cqYuhf6wjRqg3v9BCIB9krB7IgcKixSulyigLjBxHT4Db7X5ydGbgP1TIBZ8w5eB4r/2VZ4FpXQ90zuTKJvlMNspHWKZ6Xm15RIPNdGngGYuRBXsTl9OMkjgTBS572Nji+Zj7Vy8NLRS7oWsxJamvYh0k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=oVC4QtNu; arc=fail smtp.client-ip=40.107.6.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fpS9T45R"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-523b017a5c6so5846946e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 00:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716188947; x=1716793747; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=kiyrjpf20boahfYODaVgUoaaasy74zM8DfkCEcceeFU=;
-        b=fpS9T45RsGkFNwxXH6m8FARFrPAAULZ8H6gxTeU4E6/JzC3S6ljS07WextxEWJ5PNK
-         3dU523IDEhbDGV9mIhHE2tCy/HCWND2R2DdMmozKXsChac60DiEkSsDPWncejD6sUfms
-         UJ9+KVktVUdPjDyNuWJAj4NwCCSiXkzdK7pNFdS0riowdlvxATlHzNjGMI44y9ZdudCg
-         HY8hrTVD8yeQiS611q5cdP//pFCZruR4wEbaiaxXUrv7SnqyGSBVNzge0fT22iQUfbQC
-         UmlRMI5y7g3A6rudpOT7ib9d+fcrg5H4u6CeVN6/Q+Iqom9ZKNRQPQNtkV2XOMceTlsP
-         dlUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716188947; x=1716793747;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kiyrjpf20boahfYODaVgUoaaasy74zM8DfkCEcceeFU=;
-        b=EpofCYK31SM3WP5ZbXcy8V81iMIopkxqEL8wCxXX+jRWns4tJHRhS2mB2Q3gB7uPRm
-         gHWRp1qvWf/uts/Zv2IBspnrlg+FsM3agcLQdOeoPiEFE5HSmYafYWVGlTfTvWeFnn12
-         t+H0Uu7DHxmYMQ/Z1ZlwtCV2xk0bi+pWPp5iywpg4SoYVkbLVnQ8x61h+3sIRG+1/Jy6
-         hsBVGGCnF02GPLluGpW7PWJGShcPY0BlDB7Sl7x763SExVoMJL+Ig6+ldA8Y1ahYPUOa
-         UGEGiIlG2+rEXsjLBeJl1FAvUHAh12T0Fbjv2y9plfzlicxtIfW6Vv+ZAYJBO4PnzcOp
-         0LNg==
-X-Gm-Message-State: AOJu0YzDvesQbK+D/gq/v8+iW3icBGoUNR4jGURBwSLq1v/mnGyv+Aq8
-	wVL+A5Lj6xTYpbmb8pOR66k08kFyMpW1sBxMwqM1UbrosqQc+j502W8rZuF81o0=
-X-Google-Smtp-Source: AGHT+IG9x+WQxBXG1YbU6a8p0uWmG6wF2P3iHkbOXX4aiVI1y2Kcd8p8Av8hc4p+8nJRchqXusKteg==
-X-Received: by 2002:a05:6512:4003:b0:522:221:d19d with SMTP id 2adb3069b0e04-5220fd7bfccmr26640844e87.15.1716188946600;
-        Mon, 20 May 2024 00:09:06 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d6bfsm1419329466b.31.2024.05.20.00.09.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 May 2024 00:09:06 -0700 (PDT)
-Message-ID: <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
-Date: Mon, 20 May 2024 09:09:04 +0200
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="oVC4QtNu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jf1mGEp5YStthCqq69smzDvsCrVMViZDOJi2zhlDJx1SVP5VFVd7amV3JFY36y4o5e9o8/4PRs0lxdQD6D0zkhTFdDsSaqo4Kr3SJBMu92J2VAZdkwYNvXUjsXwACyvTRKiZViEVhTn5eY4XMYRwig38YUQeUDZr7Kw/Ki2vhGTfTguY4UXS8sm946pZ92zmqePgpIEQ1FkM3FJsWwGWvEW/NCyd1T1qVcHmuC+BGxn840iNyX3HCTlgH/L1bQhIx0feVMt5+gReJkP8TT5BzpEUOgxVSNuwm7hKvBcfOJ0l5LPXzFRYJe7mhSKVUGuE3cWQirgN84upoT4AyHpW7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dDTBbgpO+wbOTV0yzye33Vzc1h58uZ/+lQT6ih8zxBg=;
+ b=n08zocFhk0gTTcgH4hn5dyeNvEdCkezRARq9802T6BXI4ONELpbGn7hV27k0CYgAknRrH8EE+RcCVIasJg8OviqxLqI/gzH1XMMieckO9Xij8rzSNZCwWXAGz9JS93ylosA7kBxSodShNBTKGq2Z6rJyz5u2pu7cKwcFQdTJrPLDgRyDLNSxEVAEQ2mz7fRf2SVOzkYL8Ibx5wc8et51yHSuLvrD91SRW4IefGJqdVfNCvJgAo0xgwCGemI8pZy0a2lXCi1yUM//VIsjxfLjlMeZyyfHKcxZU8Xm94om3ynLg9po7pI9aH0kwJkwDPvyrAplODbbKkyDlFw5x1vaeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dDTBbgpO+wbOTV0yzye33Vzc1h58uZ/+lQT6ih8zxBg=;
+ b=oVC4QtNuxg23mRm8vD3XOtDpwFl/wvF3DyoKgtfnn04AzSkBLNSw16IqJA7ALppEaDlV8CHChkXmq0682i0Bt/pbtvqNpPIMR3NqQW57ekYWNv0gwfeDGlr99WQ8qhgydo/+BIGFS549HMVrO/FaBPwFOwgPnEnRmLFYl3e5g+s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by VI1PR04MB7038.eurprd04.prod.outlook.com (2603:10a6:800:12d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Mon, 20 May
+ 2024 08:55:36 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::8d2f:ac7e:966a:2f5f]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::8d2f:ac7e:966a:2f5f%6]) with mapi id 15.20.7587.030; Mon, 20 May 2024
+ 08:55:36 +0000
+From: Xu Yang <xu.yang_2@nxp.com>
+To: frank.li@nxp.com,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: [PATCH] ALSA: usb-audio: fix potential use after free issue when remove module snd-usb-audio
+Date: Tue, 21 May 2024 01:03:49 +0800
+Message-Id: <20240520170349.2417900-1-xu.yang_2@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR06CA0233.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::17) To DU2PR04MB8822.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: mt6358: Convert to dtschema
-To: Kartik Agarwala <agarwala.kartik@gmail.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20240518081621.63386-1-agarwala.kartik@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240518081621.63386-1-agarwala.kartik@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|VI1PR04MB7038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60406dae-446d-4625-c891-08dc78aa9d8f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|366007|376005|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0+gQEjXTXNZS8vEa/k/mAa3GBsmefdek3GFx4ZrSrfmg6Jc8m9XO6oVIjCNE?=
+ =?us-ascii?Q?4Wmg3YC1oTevcFD5UAT/NHKIaKwtpq72ee8I5cb1nxVTYKggU97xW+XPx1uP?=
+ =?us-ascii?Q?FGz5gzSu8XSlTvWlg/trFLXSKV8cNR/s/bagT5rMgJ6yqPEImoRMT88Xuvs/?=
+ =?us-ascii?Q?0Se3UpLNrSgyv9qMIuYkozKuXNly1TdEhSlRA85xL1UtIQOF8VWtrWAckHWP?=
+ =?us-ascii?Q?yimVEsTwWj+dMM61yD7r67XxKoPLNupYLHXGDzQ6hKObLuJ7CIV5KxrXtBEj?=
+ =?us-ascii?Q?jL05YznCZdRlqQNuTAI15MUnEDnS1EEmEkBc8P1XavKO58MkUivXxeiTh9cl?=
+ =?us-ascii?Q?LLQllJU1nvKiQ9fVvOF2Py7cG6pMvnPrnBDGp37yeypRiWsyzsXEFKzXlCu/?=
+ =?us-ascii?Q?SuCLMCsvWsIMRAEixWoygmZOgU7lJzi2oecFmv8aQ0a78fP+Px5ZUTr65QHJ?=
+ =?us-ascii?Q?8dl3WfpzoQmH9qf0j7kpR5fbgHgdrsRhDtVssunmQdTqsQ3MmK+Tz5lBM93D?=
+ =?us-ascii?Q?QLkjtAwtpB1jJdFoYNKOfExDCLTxwB56bDGK7dMKrikFEOI/pydkwWPwqlsx?=
+ =?us-ascii?Q?Y7ywqvORI3ylXq9nXb5JxVpn23rrSGx2x7MeI6Enw74RgC1KHUj9k0IXc2mA?=
+ =?us-ascii?Q?OzAEYBhygfMelp8GPl/cQGheMhX9Pe5BmGrLyfj9xMw7bJkmfDFj0TlvD9Au?=
+ =?us-ascii?Q?vxzBjAbyb840QQtotVAcTAI5gA53ehEXVEYjU+eW9G7P3YaHcvV/dCFRHQ9V?=
+ =?us-ascii?Q?wShjgRcy4UKPbbi81J84GtUHcToDyJk8bXcTQJfYBf61+Xcxmv5O7t24dCIY?=
+ =?us-ascii?Q?bUUPXJrfetSWJS8hI+EeKiSLgpZLYOOykH30W8C/Egh+PCHqTl4q7CZy2mkA?=
+ =?us-ascii?Q?TDVqtEQ3dEddnwUTcZZMT1yawBr3CAPL5AnokLDLAkJbci2n+VnkVIoMHckI?=
+ =?us-ascii?Q?6RLKVb/aJT/sQ3/PitP4b6J2coOy4H73Go693X+eA8GbbGaiXNnllWct10H5?=
+ =?us-ascii?Q?aJOhdcLwKtevH0qvZ6W+cmpLsRNiyWwMYFqeGBIynajMUrXj5oX4Wpx/nSWD?=
+ =?us-ascii?Q?K6YBYt2qSEBKZYls+uAX2qU9kRRtlHee+0lSuT2BWO98fkftVEAfKPZbRtoA?=
+ =?us-ascii?Q?S8Fxv8ecLHsihCCACB+rhvzTGFVuC+UMYIW0mx1y4I+FNLbwTEDDBW5n3kV2?=
+ =?us-ascii?Q?XcDt8kcVafWzWf94w0jiTh6w4ZWQ9y0nHW83VYCVQhJkBE+grbimyQRzGx3T?=
+ =?us-ascii?Q?7AHffn5TUHjmZ6vHqwPltVdMT4s+q/7J2/NYP1dkGc6v1kWmlCylv2Wn0AH8?=
+ =?us-ascii?Q?wCwlfxnF/lQhj2gy2gYnAFgUTbso1yx23vj9ztkxrVUzAA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VPeFpEjuq98zA5VTCs1S1EFjxy+O5sz4w69pCsaomirW3aBciOC43JkK9Uhm?=
+ =?us-ascii?Q?lPmLJGV4YS+zbuIL36NYFu6iGS2xh6jVzxrhAOKSDVwd//HEqtc87Qv/w8xW?=
+ =?us-ascii?Q?hs8v7YMFKvE1MUdPdLm3SyhMnSIo3Td8zB/361yaktrmldwqAAI6vmiz2enQ?=
+ =?us-ascii?Q?L8EXk5FuCeVoiFgVRSVc3s7T6fH79kOq1nqXLw/dyh88GA7mjKZyi0xEnOMo?=
+ =?us-ascii?Q?SXDReRsz39pd6/n+WMQB/Uc8oNnk3rHcN+EFerjr0lok4Kvb99GPlyxGO19Y?=
+ =?us-ascii?Q?/YagLkmcNiNgFKe7OumEaft/qxrHfsIjZAe0ulIr2SdNIaoPmbG00/gE09jP?=
+ =?us-ascii?Q?tVkOECRRyAC8yIEp2Y+Z+NJSao4Z04JWI4mNLfBn9098MaJelp6/R0kMyfVG?=
+ =?us-ascii?Q?8kW7VCtTT4Fi3VttV1p6NU+iF0OckhwDHvqQPphMnRpQ56qutYuDCCPA8vsv?=
+ =?us-ascii?Q?tAD2Vny+8soItudiJ2c3HG6SZw7cc1QHg++yoQ1BpupPr9WGIw/NKqsEP7+6?=
+ =?us-ascii?Q?2ePFNJV/PjCBhF27YWlAxEAkKhPU327BMQt0mcXN3Or2IOVL0BxyrNK8a5Ak?=
+ =?us-ascii?Q?vtCnysMAXwrqWDr+WmStB4wwcg9eSudvp/VtTwpbIIhtYc0koS8g/3Ls2fcd?=
+ =?us-ascii?Q?lobjgaIPnq8kOSxqPLG1epyE2IoCIUBT9acZp0p4uyXHhh6baFUEcBsHbFwl?=
+ =?us-ascii?Q?R0QLpyH/aoCRO2YhgWi4b7EqXcn5ACd/rLphPxg12QqEutd+/rRvC01v82HE?=
+ =?us-ascii?Q?YkqVlX74kREpezXCuirNhU1ushdtLk4ieZzM1v5vfXx0HcNajVazCW45wfJz?=
+ =?us-ascii?Q?9JZ0BXyhIo6WBrJSq58ztnjOliTnU8cEMbuxVrIgSCQg3js4Jn9pE60DGVRE?=
+ =?us-ascii?Q?7ajC2/6QyzE79jKrxaVKegDKTfT0XyCKulFYshpHlbcjjksiTqui36fIag6L?=
+ =?us-ascii?Q?WS3shGldnI+5c/iko3EIy6Ewo23lJ6HzfYsGUoUvWaTJliYS427UjSNG6Ckh?=
+ =?us-ascii?Q?LX9DR2f41OCRkE+EuIFWN/Zir5WQfCDS5htM8mfEwOd6w74AEQWAuFHAhLgV?=
+ =?us-ascii?Q?ZySBIp7IKDjweWrnO772noPjWISUP5l0D+fY5fIrhZkKUJJvnjWmac+dh/8R?=
+ =?us-ascii?Q?P/WpQYxsD4WwJRsEE05QQOir4iuWKwHPNX5mW6+01vVtp9foZD9apmM0C2ge?=
+ =?us-ascii?Q?kjvmfcvU6595Lw5kzDeiMgPuG1umO6h/UUO8xPM9gUESX6R0FSr20mYWsPkO?=
+ =?us-ascii?Q?dsCV2JfPgkD3An8ep16JNVeC/EC529Kw7zKDSWYqxmPWhovsvwKMKkcAtUA0?=
+ =?us-ascii?Q?cEGQvRGyNtyJbwfVQ1JXU2cP+KQisBAq8ydhNmZL5T9z/eNmGjicWRGakvHH?=
+ =?us-ascii?Q?VcWzcPr3UwYijK5Ew+0FPxU/a9Z1eiIT8bULdJNWHjQq8uk6OWtmETnMulYe?=
+ =?us-ascii?Q?o2dao8ESeeTGMrJi2HI43W0zK0+MbGOIKa4Qgi0qmOR2ezkO9tPOW+tpbf45?=
+ =?us-ascii?Q?5npqr7rHdMAUf3VDimFt7KQ14Xg5jONwjTenYLAQEysvIImSLZYx4rHYJVlB?=
+ =?us-ascii?Q?5kneCocBceL9iRTKQj65PYjZbot1//XjTNTgWICO?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60406dae-446d-4625-c891-08dc78aa9d8f
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2024 08:55:36.5798
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jT5b+KxUYCSBG9jmUQMOg+gEfjS7cfNMCUULBb5ZmbYOCN/YF6pTQvrNTkUy0e2sxplej8OH1mjcbmZf5KOjGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7038
 
-On 18/05/2024 10:16, Kartik Agarwala wrote:
-> Convert Mediatek MT6358 Audio Codec bindings from text to dtschema.
-> 
-> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
-> ---
->  .../bindings/sound/mediatek,mt6358.yaml       | 47 +++++++++++++++++++
->  .../devicetree/bindings/sound/mt6358.txt      | 26 ----------
->  2 files changed, 47 insertions(+), 26 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
-> new file mode 100644
-> index 000000000..f57ef2aa5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
-> @@ -0,0 +1,47 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6358 Audio Codec
-> +
-> +maintainers:
-> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
-> +
-> +description: |
+When remove module snd-usb-audio, snd_card_free_when_closed() will not
+release the card resource if the card_dev refcount > 0 and
+usb_audio_disconnect() will return directly, finally kernel will release
+the module resource. Then if the userspace continue to cleanup sound card
+resources, such as close controlC0, the closing path will touch this
+modules' code, unfortunately it just got released and the kernel will
+dump below error:
 
-Do not need '|' unless you need to preserve formatting.
+[  183.450073] Internal error: Oops: 0000000086000007 [#1] PREEMPT SMP
+[  183.456345] Modules linked in: snd_usbmidi_lib snd_hwdep [last unloaded: snd_usb_audio]
+[  183.464373] CPU: 0 PID: 537 Comm: wireplumber Not tainted 6.6.23-06215-gc5317d88b3ec #708
+[  183.472552] Hardware name: NXP i.MX93 11X11 EVK board (DT)
+[  183.478039] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  183.485004] pc : 0xffff80007c19a3b0
+[  183.488507] lr : snd_pcm_dev_free+0x3c/0x70
+[  183.492708] sp : ffff800085c77af0
+[  183.496030] x29: ffff800085c77af0 x28: dead000000000122 x27: ffff0000079f8090
+[  183.503188] x26: ffff0000079f8090 x25: ffff00000e78c270 x24: ffff00000e78c000
+[  183.510336] x23: ffff00000e78c1a8 x22: ffff00000e78c000 x21: ffff00000b6a2718
+[  183.517486] x20: ffff800082608180 x19: ffff00000d2d7400 x18: 0000000000000000
+[  183.524635] x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffffa0000b90
+[  183.531786] x14: 0000000000000000 x13: 0000000000000000 x12: ffff700010b8ef49
+[  183.538939] x11: 1ffff00010b8ef48 x10: ffff700010b8ef48 x9 : 0000000000000000
+[  183.546086] x8 : ffff800085c77a50 x7 : ffff00006ccd77b0 x6 : 0000000000000003
+[  183.553236] x5 : 00000000000000c0 x4 : ffff00000ea57000 x3 : dfff800000000000
+[  183.560386] x2 : 0000000000000007 x1 : ffff80007c19a3b0 x0 : ffff00000d2d7400
+[  183.567539] Call trace:
+[  183.569992]  0xffff80007c19a3b0
+[  183.573134]  __snd_device_free+0x94/0x16c
+[  183.577156]  snd_device_free_all+0x70/0xe8
+[  183.581258]  release_card_device+0x30/0xc0
+[  183.585363]  device_release+0x50/0x10c
+[  183.589124]  kobject_put+0xe0/0x184
+[  183.592634]  put_device+0x14/0x24
+[  183.595954]  snd_card_file_remove+0x158/0x22c
+[  183.600322]  snd_ctl_release+0x174/0x194
+[  183.604256]  snd_disconnect_release+0x128/0x178
+[  183.608798]  __fput+0x160/0x3d0
+[  183.611955]  __fput_sync+0x74/0x84
+[  183.615370]  __arm64_sys_close+0x4c/0x8c
+[  183.619302]  invoke_syscall+0x60/0x184
+[  183.623072]  el0_svc_common.constprop.0+0x114/0x13c
+[  183.627960]  do_el0_svc+0x30/0x40
+[  183.631288]  el0_svc+0x38/0x70
+[  183.634356]  el0t_64_sync_handler+0x120/0x12c
+[  183.638724]  el0t_64_sync+0x190/0x194
+[  183.642403] Code: ???????? ???????? ???????? ???????? (????????)
+[  183.648497] ---[ end trace 0000000000000000 ]---
 
-> +  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
-> +  For more detail, please visit Mediatek PMIC wrapper documentation.
-> +  Must be a child node of PMIC wrapper.
+To fix the issue, use snd_card_free() to release all resources (including
+all files attached to the card_dev) instead snd_card_free_when_closed().
+Then, even the userspace trying to cleanup the resources, kernel will not
+touch the released code memory.
 
-Did you update the PMIC wrapper binding with ref to this?
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+---
+ sound/usb/card.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt6358-sound
-> +      - mediatek,mt6366-sound
-
-You did not test the DTS.
-
-I think I raised the issue already: please make necessary fixes to the
-binding (with explanation) or to the DTS, when converting the binding.
-
-> +
-> +  Avdd-supply:
-> +    description: power source of AVDD
-> +
-> +  mediatek,dmic-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +      Indicates how many data pins are used to transmit two channels of PDM
-> +      signal. 0 means two wires, 1 means one wire. Default value is 0.
-> +    enum:
-> +      - 0 # one wire
-> +      - 1 # two wires
-> +
-> +required:
-> +  - compatible
-> +  - Avdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    mt6358_snd {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-Definitely no underscores. Probably this is "codec" or "audio-codec".
-
-Best regards,
-Krzysztof
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 1b2edc0fd2e9..5e799f147eb5 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -992,7 +992,7 @@ static void usb_audio_disconnect(struct usb_interface *intf)
+ 	if (chip->num_interfaces <= 0) {
+ 		usb_chip[chip->index] = NULL;
+ 		mutex_unlock(&register_mutex);
+-		snd_card_free_when_closed(card);
++		snd_card_free(card);
+ 	} else {
+ 		mutex_unlock(&register_mutex);
+ 	}
+-- 
+2.34.1
 
