@@ -1,72 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4BA1F176;
-	Mon, 20 May 2024 14:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F10F182DF;
+	Mon, 20 May 2024 14:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716215458; cv=none; b=NdoUIOCbbmLmpzvj7ieCtUFaaxfQv2TPJdfMBuQEIM8u1r3Z/aXgQ3lEAWrOQW/NNeMPhs3Da534gULY4fIUFPFRxpY8BNSx+L8DHH4lIee0Y+wxuE/WlmglZ1javrScUU/yjiC7WacMSfTRl7IxeVrQ8NzFWuAdwPtmaux7B+c=
+	t=1716215745; cv=none; b=suSQuaczdiOP14Y/n6swZL2rYIww+t21734B5cY5trFy264/1c/Lgz0eQWz3ZRfa7+yVY2ORpGbmJZHKmk9julSgDyGgqLCdVkHLQtiNxCT80OldAS70ufT6ehHdObVjpiYNkfsbml9U0pUzf7slMHo2kkg0A1Qgy8c7P/mmb6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716215458; c=relaxed/simple;
-	bh=SA50Fidzaz+mQH+bd4BSpNCTlc4jQcQBqvPT1vMijp4=;
+	s=arc-20240116; t=1716215745; c=relaxed/simple;
+	bh=uSKePMg68VHTXgwYY757U7QjRjNo5hrsfRcyRwpLxfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rvbYrqZjVSqz+Q7ipG7djgZK5UI9VhCI5Ut5qXOrtoXSkH8Q2Suc1YlqVDVn3SD/4s2OgIBgAcHNCGWUnXwsxZKu3eVhevUzzGGSAJTf4lM8yyuwxv14wGAFe81yNqmeQUMynq14MGtamwv4zvLg+H3Es4zaY/dodtGCj8VlEYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fo3XfVq+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=T0HWKLmYd+KQbY5qmxVjBelUdghqQzJDKZNsL0TwmNZBsbCxIiIXD/4kwjF2FUk5JlBA9YMPLiAHMvDwQljRCX1jGnBgE+AyxtdcAlnSiayvzJBwNVfQY34cyFC+3xEMJ2MQlvnWi6EHA4kjzNGe1UjhHwwhs9SRRJCt8RZS1Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FyTqSGz/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fo3XfVq+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56422C2BD10;
-	Mon, 20 May 2024 14:30:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FyTqSGz/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D43DAC2BD10;
+	Mon, 20 May 2024 14:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716215457;
-	bh=SA50Fidzaz+mQH+bd4BSpNCTlc4jQcQBqvPT1vMijp4=;
+	s=k20201202; t=1716215745;
+	bh=uSKePMg68VHTXgwYY757U7QjRjNo5hrsfRcyRwpLxfY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fo3XfVq+o7CD87oXYLqm9K+VV720K+jMHJXMdVFVb/dscRtHBFfgzLA2W3r/5Bwev
-	 eUJyoTIydmqZPJNXNnr1Hi5EdMyiTs82P9BbIutCWzKt6okW7n6Jg15hFwzJ58CCIu
-	 9loBZGTMh3ksvs6U98dsUMnBuHPlnIbnvuivRuzroBTPl3TN9q/HDMYX5IDmxJna6v
-	 U7xhOuaEbhE0sGEYeKDbqO9sS7GN8dyd4oyp+JmDi2oNgCtVaTIApuvPmfI3npgJKG
-	 reFcJoEBpvP7F9pffC69yjZa5fOZEZmokxVJv65n5g/jJ+odqHZSD4KVgO155TYqVN
-	 OmeSSriog0vKg==
-Date: Mon, 20 May 2024 15:30:47 +0100
+	b=FyTqSGz/Is1DZZJFNqP/b4Jk32a1bzHgOfe3VALEG1QyaujqN4mnQoNIGEf3E8DFV
+	 t6U4XsM8T9SCiuud31ZqmvDSwHC70rcdUmh6y1DkKXaeMyKUcfUmIOHWI3/FXWcRo2
+	 Zj/QIQM8Fv9KJI4M+4Ca6uMTjElqkhWNe2MOOdyYQlkQRuiuzAIEZIJp3XQlB6FGvc
+	 ooaBUiLxH/coetBrCjC1ZU+gpEGmBtAOaidl+g5sw0vAW32yAEy61aHjX4f78gZoaG
+	 RadZ3is985KiHJbZYfdbMyqcXY/+4/cDcgcES93ulI3RnalcfaGLXuF0rVBRu81wR7
+	 ++ajJ7TE2BqAQ==
+Date: Mon, 20 May 2024 15:35:38 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?B?IkFtYWRldXN6IFPFgmF3acWEc2tpIg==?= <amadeuszx.slawinski@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Brent Lu <brent.lu@intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
-	imx@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] ASoC: grace time for DPCM cleanup
-Message-ID: <c2ba9a4a-0e01-43f5-8490-10aea6de72c5@sirena.org.uk>
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
+To: Artur Weber <aweber.kernel@gmail.com>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v3 3/8] ASoC: samsung: midas_wm1811: Add headset mic bias
+ supply support
+Message-ID: <1aed24a7-ab2a-4c2b-a3bc-2b907e091624@sirena.org.uk>
+References: <20240519-midas-wm1811-gpio-jack-v3-0-0c1736144c0e@gmail.com>
+ <20240519-midas-wm1811-gpio-jack-v3-3-0c1736144c0e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,38 +51,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mdhF2muS7x2E9waK"
+	protocol="application/pgp-signature"; boundary="pxaZ0LKbE08JUaU/"
 Content-Disposition: inline
-In-Reply-To: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240519-midas-wm1811-gpio-jack-v3-3-0c1736144c0e@gmail.com>
 X-Cookie: We are what we are.
 
 
---mdhF2muS7x2E9waK
+--pxaZ0LKbE08JUaU/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, May 19, 2024 at 11:30:44PM +0000, Kuninori Morimoto wrote:
+On Sun, May 19, 2024 at 10:17:49AM +0200, Artur Weber wrote:
 
-> v2 -> v3
-> 	- tidyup typo (reuqsts -> requests)
-> 	- add Tested-by on git-log
+> +static int midas_headset_mic_bias(struct snd_soc_dapm_widget *w,
+> +			     struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_card *card = w->dapm->card;
+> +	struct midas_priv *priv = snd_soc_card_get_drvdata(card);
+> +
+> +	if (!priv->reg_headset_mic_bias)
+> +		return 0;
+> +
+> +	switch (event) {
+> +	case SND_SOC_DAPM_PRE_PMU:
+> +		return regulator_enable(priv->reg_headset_mic_bias);
+> +	case SND_SOC_DAPM_POST_PMD:
+> +		return regulator_disable(priv->reg_headset_mic_bias);
+> +	}
 
-I was kind of expecting Jerome's patch to get integrated into the
-series?
+We have SND_SOC_DAPM_REGULATOR_SUPPLY?
 
---mdhF2muS7x2E9waK
+--pxaZ0LKbE08JUaU/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZLXpYACgkQJNaLcl1U
-h9CfQgf+LcB+1TKTBBA4hHpYhXN55tgh5Tu/21cm4fdCMW3GjrjcSq4zBWcQEI71
-fgrl9ssXbVBDhI4FVPBaPgrwXl7cbf9CfDjnWrXhja7OiLrQjILTZI+lz17mg82b
-9bBgi7vrB5m23qpjzRf+UwT7ykNyTCUMI/OMSSOsIsRXNmBD87QPPvwaWESi9Xhp
-AjUgzqMDOJ7/mjU/LL2ecau88tEoBNRSB5D1XKlCh/EFqnElQGiaYRtJLEjHVE85
-/4Jl0B0qL571d4qhJRaR42NBKO4v5tPb10baDaCu4d6qnN0kb6kT8WqeFkUHpY+U
-gtCaVVyxvsVNnoCkyMEauISRQmD5VQ==
-=/+yS
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZLX7oACgkQJNaLcl1U
+h9B+pQf/bj3bL8onTU8c2fQX8+h6MTpaxgO+m8QtLrABywDZfmRF/bCC0d/FGzGT
+2dAn3CMy8ZhJo65ELhLPkBHKRypcILUsxzjTOL6ddyek3cwtaomzLKt/5BPO6zDn
+XCygGXgK3NXCDSM4ldhW+N7x5n/i3j6ZCZfAxmYtrxpbEeTxRUbBBYfh20/cSEsa
+hhd0GxkGdUdG3ylpnA5n/hi+eMWlGHHB+OxXVJfv/iDrXF8hjOHUbaf82ZR9xwrJ
+2wP4BQNUowOuMBQ84h8zzBYOKtvtWUlig2y4ppzeMFeFw4MhYeeQzp/fz5COeKO+
+7+EiuORd1ry9xIRankV9nGs7JgiAHQ==
+=JVQ0
 -----END PGP SIGNATURE-----
 
---mdhF2muS7x2E9waK--
+--pxaZ0LKbE08JUaU/--
