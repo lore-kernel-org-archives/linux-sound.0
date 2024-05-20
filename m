@@ -1,338 +1,128 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2051.outbound.protection.outlook.com [40.107.113.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A794335C7;
-	Sun, 19 May 2024 23:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716161498; cv=fail; b=uFTm6ifntgDnl9avuuQgMUtosl95dLBv8QewD9aPFLyw54ILp0MluUaYH5+R9iWHh8eTUCNtVPqgx+Ya7lTafjGsqNtIJ75sB3DF+z6NMn0Rwrx63rVnB/m6rTf8YsQGbi3D/PY6sR05WQNRZlnvEQilBgcxhEA5vr9jPNszTw4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716161498; c=relaxed/simple;
-	bh=7Nh/wrV3XQQgh00CKl7TAyPgEp7mylvlQL9DIJCMcGc=;
-	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ajDqpHnGwEQwJOgm/YjkN7txoDubmPjZ/dVzHm+REYAP3qP7sN4uik8C+VjCPr6fQMeu1HihOkNj8NSU4xVwwpePb8WJ6P1PrRZzhlEDAkxl8ehuYnYyYy/UsVNbb7wZuvjwC+bBCxqzc0toHYEPk95BH3cURjka3spPTb2AfhM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PIII86tf; arc=fail smtp.client-ip=40.107.113.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67DB12E5B
+	for <linux-sound@vger.kernel.org>; Mon, 20 May 2024 05:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716184542; cv=none; b=FYbcfhVogfJsEgUY03+QTdP6MclF1rChNfdoiaKk0+wxzEQKBUUUPBrN3NRG6Ei2D0wvpT2L6cn364FTWQdG6YjkVwhLktzEAmjLXTa+mB+iom0l7ZkFLIcky+/wL/ph58xNLRiDrb6RQ9wF3ymf+x6A6J0+hcDbwPjCuAM6Wms=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716184542; c=relaxed/simple;
+	bh=D3hBfBWFAkOkXE7XZHVApE+oFgVIye9G/XBbO66INHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZerTfTEXQudTbiJyEDfYDwMiPX1q9lQl4KG+GlOa1ZmhCFA9+zbGZAVtNByo9lvgwt45lUWGXvYBCEV5RwKAGfWqq9N8/eyvIoD3LEsCasydO0gWYvpTs/hmhChQvF8dBR/p5R5m2yTtuhMwWeCBXHeuhOtZOFEWoY0/O7BZfJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endlessos.org; spf=pass smtp.mailfrom=endlessos.org; dkim=pass (2048-bit key) header.d=endlessos.org header.i=@endlessos.org header.b=pMNJ79Pb; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endlessos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endlessos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PIII86tf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nowdTQqOVCGmqVlm+lrjQ1sTSG8k0w+/mQzB+GPi3FtxbwaYBPYVx51/pqOaWAyoNHRbfqqd5u6ja2Egrbt34CsqGYFPaUw6Fcj6mR8oUNEsra4bhacm2hUbTYMyEOYnCc1jxeVWf8By1Ws2QtBjZB+5ud4wNJ9tE58oyWlYhZmNXChCrzmXyK1GFrY+/EWVv8inhgLf0wJ6WvAzKTMOKXLm471JneSv6FNYvq5zyyZLSe7z9Wm0pjjcjTeg6gwa4ETXjeALNylLUhf3bkVqxg9AhDRXciD9rzH+f4qG8FkaqtZAVbAeKflERHmHf38CmlYPmMQ9gTAuG+9DJMz7kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GuTY/2mGZUKiPIGdpfwbZQeD+M1Z/e0ZSUcdiLfdP2c=;
- b=nWqoDncgejZZnyXnTd63gCs0E/blhgvSRbqRF8E4H06KLy8azzxW8Y3G17IsZdBAlYHJQgn5VgSHIL95bSV032pp5Tn7FSJuLegQwAd2p6qriGRkK3yEpDnOAfaCbhJ3SH9D7WB4BQTZXCQTY6lQGmm32Nwc+e0tPTDP+NEhJ1E1gpH0mQrxbBXt7157Y5tbmlBb2U09XclmECCPLZnyR3GGNSMWFmCIVTd5ow/Sgi0Wh8evNB19WlfaUJuE1x3fqxEDal/AAEb3SoLVhXolC3UGIJV+bTUI/KycpvfkvE2QUU6eLQthp5SRu4QDq0WTrn1b+bPun6vBaR1/8xnzqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GuTY/2mGZUKiPIGdpfwbZQeD+M1Z/e0ZSUcdiLfdP2c=;
- b=PIII86tf1QhfYGEdAQBIr6IWwupVK4jhoZvfSgkb/IzbFqaWAowO+ovhdudWErJga09Qtu1oaDTxArrVbKACoZhDR5kDI1dhtb1noLI26SFUW+/IjlGW3PBhdyIus+NtXcpwLMtWTiAyGiRokwjta7arnxI/2lRNqQP3CUzmdeM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB6913.jpnprd01.prod.outlook.com
- (2603:1096:400:b8::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Sun, 19 May
- 2024 23:31:30 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76%7]) with mapi id 15.20.7587.030; Sun, 19 May 2024
- 23:31:30 +0000
-Message-ID: <87ikz9e5v1.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3 3/3] ASoC: remove snd_soc_dai_link_set_capabilities()
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-In-Reply-To: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Sun, 19 May 2024 23:31:30 +0000
-X-ClientProxiedBy: TYCP286CA0072.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31a::20) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=endlessos.org header.i=@endlessos.org header.b="pMNJ79Pb"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f082d92864so63057165ad.1
+        for <linux-sound@vger.kernel.org>; Sun, 19 May 2024 22:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessos.org; s=google; t=1716184539; x=1716789339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=36PWmDpbq81T7RKlLsRFp+nZgDNN5IQn5Hg/VxCttB0=;
+        b=pMNJ79PbSjNWFnMJkG2yp0wr/FXIowZ6ogJKLjI2eY/nlHjAm6cbBpYND73/hD2rd5
+         lpMVOWBrRRzoeTPiZ3kUUWBW5IsER6kEThnSpp/bjWHW4954T8MDTQ9Z9ddPoEwdIQcQ
+         I33Lql84La5dXdAa20CjhlwU9tlFyBo3dHJAPkLYltY9N3S+2e0Db5em419f3ACEL82V
+         OMU86IFi8dQb6cHMbpztSvssu1q3ifIfVz+cnnuMdGEAtnna7EhUuRFVRpRx25U25mW+
+         e0LO5E42hh+E9bD9NUnYuGPE/JAnT8m+CIbsmXyGZI2jIMZ6UC8TkPJ4titjFlduX/mg
+         s2LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716184539; x=1716789339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=36PWmDpbq81T7RKlLsRFp+nZgDNN5IQn5Hg/VxCttB0=;
+        b=H1QMa9Cux/nC8ZEIJz+gsvMvmQqrWTDINpOC+Nmys4SNbw8xJlboDa6dvVjz9i6LCK
+         dj4fiLX0HFr1WNckvm31vRTXHDKRVJZGWoZL8RSlX42BXEqYO2bziMAha0aSlmhc/SG6
+         RxFhutum2Ezj/Y77eDw6oWeV6ZiZjMJIkQ/cjr6bxBocAkLfHhz4ltYuOCXAmxNdGXHF
+         JxDht8VWmciPGqrk1cfOvJ3Rpngzl2X48z+6whvvCEAWwHExE4l42Mzd5w6YA12E3PX7
+         HdKPJKLsQn015t4/4481tR6ENqxoO9KUNTrLwQS7sUCy5ZzlBdYIpjtxcgjk7RbavJ60
+         0zSQ==
+X-Gm-Message-State: AOJu0YzamkzvrlN31AR9bESHNMl37MGR8LKpmsHQQaKsK8iv17StXqta
+	W1q2lD5WJIsITtKfsMAlrZ5dIVC9EjCMMYG5nZc5kk2fPAQnfq/0FeUH6jbtmj4=
+X-Google-Smtp-Source: AGHT+IEJKrvBdhOshQJ3scI0Ow5iFoydXWZ+yIcn5HATjeL7uab3SAeN2LBfD9afFNy3vrvVrzi12w==
+X-Received: by 2002:a17:90a:bd8d:b0:2b9:a299:918f with SMTP id 98e67ed59e1d1-2b9a29992dcmr14764641a91.6.1716184539031;
+        Sun, 19 May 2024 22:55:39 -0700 (PDT)
+Received: from localhost.localdomain ([123.51.167.56])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2bd5f7e6ce8sm2053507a91.0.2024.05.19.22.55.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 May 2024 22:55:38 -0700 (PDT)
+From: Jian-Hong Pan <jhp@endlessos.org>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@endlessos.org,
+	Jian-Hong Pan <jhp@endlessos.org>
+Subject: [PATCH] ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
+Date: Mon, 20 May 2024 13:50:09 +0800
+Message-ID: <20240520055008.7083-2-jhp@endlessos.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB6913:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23d5706b-029d-43d1-877c-08dc785bd006
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|366007|7416005|1800799015|52116005|376005|38350700005|921011;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wUP2AplxvdwCG3oImKpXnDq4xeGRZaivgGxIRKxYoXHwrwkPMGGU5FJnFL6H?=
- =?us-ascii?Q?2WLgXBxqO5R+TmWwegG4SPrrUbPAog0PVCK+yzzDAqRYjQI8k7CDAmGP8aOe?=
- =?us-ascii?Q?u0W6/S+eQM2cyununAZbiL/rUBxq2kp1HVhiMBi7szDlFsZwTxf49fY89YEf?=
- =?us-ascii?Q?WcViICMg1aMXOyarND3HUrpD8/HZgrdbnrsYeG/bZ8YuUa3cjO7DuI6Nmolb?=
- =?us-ascii?Q?PZ048lYyhhfHYhJoALoatsDdxrLLqMMwy5BJhZj1p61ZRFlQHLnuHoLgNoq5?=
- =?us-ascii?Q?d8DJEjOJv3FpMCHJjvxfIuD2JE7q9ZWd+H9eNEEQD5DZeHf3kmSTHUh+/nZ8?=
- =?us-ascii?Q?pGhGw0aGmFjJS9/S8tuEOMsaM7rld8u6tre54h/73B7iGjYbDTnYFbVig9ML?=
- =?us-ascii?Q?GVjWgzVUDutW+weDjeC9bjZF45vSH1m5NFPKfiJo1EcmCW4DjAuIaGJF+oBv?=
- =?us-ascii?Q?eeLoTFvwo+xsqlhuyU5/og5gRWJ1WN2cXAv07qK4RKB7hISCAQHwcSyFqZsk?=
- =?us-ascii?Q?yLljpcjlAu/6SibGEncN0OILTh01fySdCw8ekCvGL4n90W1RZNILQKwfty5Q?=
- =?us-ascii?Q?z1tA/Wpv3u+7ZsAuKYTRV4VJZd8WLxx9WSESYHe5I83izHy0xEpLSiyYvs90?=
- =?us-ascii?Q?RdLNr1d+UiO57GgZb7gN2EqAn517smuaHNOweEToH/55VE893jbXPv/qHWHe?=
- =?us-ascii?Q?3Z+cOsPXsotU0gY2MZ4Qc6f/HN/MbVs5nVfeW3B52SGlVT3WF87xgiRVGNST?=
- =?us-ascii?Q?Q49N74ShZGOKXS4s1ahDTtNQhKJqd7Fv45DfswhKxVILTDprZUzh+FX1dZqp?=
- =?us-ascii?Q?a3vRK9W3StA5vAWsfiOyYkyROK6X2bcDi01vPFHM9h7HyULzMSvfM0E86gqb?=
- =?us-ascii?Q?3qv2e+NuzV8tK1sfSui7/pMoUPE4QFKXFMkU4ZLHvkSeMdhS4bvjFFdOG2aA?=
- =?us-ascii?Q?jx4TI1UUHASopM5toC8KYZGjWsroZn7fC50rZm9ZpJJE5Wx6lj15Js0UkgKE?=
- =?us-ascii?Q?z7Tj5KWv3BpV2JdNiniv4MwEM5mWxX6H657dVuDH76ho1bn3tQVwqQ980BlU?=
- =?us-ascii?Q?I//P6NkkPJJSd5EAip279Ds+Kz4LVz9DIRiybwcAvERvihBfUwzeArAokTM7?=
- =?us-ascii?Q?8IlGIfNIHt86GCPCeO/gg1OOfWyjZRMU4NO+6yBGh4XQeO2IbxvOqcNcgdRx?=
- =?us-ascii?Q?N4iHzm1s1JtiTY2QAQ0mMGZd7j7wlSdj/NZZinOdcc6nW6z1N5GA6pqeVW0z?=
- =?us-ascii?Q?IZf0rsQkVxE/PSQ6xit3I+VFIgUd4kAKnUXwvGXpRG1J5EW+rmkoS56/PKLK?=
- =?us-ascii?Q?jB3GcR+zIVHEiNefJ0MmwN4NZhIaRxDJNuwmnSXT16SfIfc21vrY4/IbUa9g?=
- =?us-ascii?Q?e76Doxg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(1800799015)(52116005)(376005)(38350700005)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VJ7JXB2DG+533Nh0CQX/IHX76qynWfLHOlzqxkAbybi9blV1/WLeq7WvT6Ql?=
- =?us-ascii?Q?SwylIAyX32q7CgUmy0klE+Qweg/Z0Axg819dZEL5h4Hox9IMxdB1plFBxcDp?=
- =?us-ascii?Q?7Rn1rXTPTHiT3QJvgfzW+7ogl7i9fRA1v9wgU+nrXcDKk4whc45ziK1QffNw?=
- =?us-ascii?Q?AMIuO+akg2ddJFbbtJaUaoNSpnICbgqK1IV2Y1lDY+w7Tj0gFTU8W5WkHuN+?=
- =?us-ascii?Q?kK6tXE4T7agcxkn3F4JGyY2eqn9a+xkALMbe67Ps6KIEUpKw+MWurxQRY28l?=
- =?us-ascii?Q?pxtJnmZH5jUVsIffw/Yh2ZZ76LU6CYKFShS+1RSbO5ppKe++KNfBilNemp42?=
- =?us-ascii?Q?esbB8f31y8ZQmVlMJE++e3g9Rp7zWdc/xsoqNLQyOgnNYzgS2WbjThr+K+uD?=
- =?us-ascii?Q?BNmwCWPxSaSW93eUmntd8rVIZWTQTOFDH0Lm1H3ee6kIzBbmC7kZoWweau9o?=
- =?us-ascii?Q?Xsd3msqZxmgQLvGwMb2Z9TX/DDRIXdCIIhZTS4fHzF6lfrBNy74XqL0kIyoT?=
- =?us-ascii?Q?BQ8Ms4Nj9AnEvQjD4qahUgT2NyN73tQxrD7pilxFkYQ3NOyj+5wCJ0CoWggK?=
- =?us-ascii?Q?NW90iJM3K3Kc0sBzr2z6R2uKA1bvjtayMpOn9/FwS7iXaU70KoFo/PBR8rtu?=
- =?us-ascii?Q?l0V1WpY7RZcAnfRGokp2k6swW8qRtl3/QT0BuAFAfAao3OSTr505Jn/Wpc8m?=
- =?us-ascii?Q?ypJ6AhdJ++RsFQeg+VD1djZ92op0q6tOpNV8xWHellyaxFvp3mrHxiiSGten?=
- =?us-ascii?Q?nvMywH5/emVo73NFxsGxOsm1qD9pqhaBA7Ia8rG9w0qI5VjWEfk83u7MESGN?=
- =?us-ascii?Q?eBbHlnUHKUZ95dekpCnMOl0GIYJkJU0PJqUBnG5ha4lHadAxfDaq1LSyc4Au?=
- =?us-ascii?Q?+pVc93bq9Hzla4wCYaieQ3gOHz1yNXttDb4LQnw6WgQr6hDbR21Z2jncy1pK?=
- =?us-ascii?Q?iWZJ3ZXpnax8j5z5Xvh977mGmjnTkr0Z1oLQ/80Ns9a+Oe+57rWQYMrIkkqr?=
- =?us-ascii?Q?V7JRie1fIn2Hx6f3EB7CG+62tQyhdf12RfH+mzv7fLeAwwQyvsTE1dHDlMNO?=
- =?us-ascii?Q?4XXvkBmhbD6a8iyhq61n3jjtUbAPkLyyfFKaLTs/xqpF9h5VlPmSYyEQ9B4q?=
- =?us-ascii?Q?XGGkjroAZVqI89RrVFOdmlu5zicy9P9FQE6F3zO4IXoUqoERuIZTLw8pQu4v?=
- =?us-ascii?Q?VTzr1UvQHLVW6VRFt87OY/HGDSRWT5INMR6DRd/0AX0CCdd3P0XIEww90I6T?=
- =?us-ascii?Q?ahqK/mlKTtBETbzLj2twtCOcOIla/ScCfVZRaZXgRzwL01R3u/haT4XMYZDi?=
- =?us-ascii?Q?1z+ZDEAeR5V+A0Bk0KeOlIFtJM2GIA7g/w847iB5gPxbL93tgFEG+kyUWKjn?=
- =?us-ascii?Q?1W3XZCzD9o0fWUkNgc77HLWMWP9rZzoQiFUDErkzfvSeodfr8Yqn6rBII6wr?=
- =?us-ascii?Q?1VN7CjtqkQBMDfxvelueTzrPyWnX40saJa6GDJmykBGUDKyAm/tynmXmVPfE?=
- =?us-ascii?Q?qkf9O3LanBz9jmU0QmK4bcL7diX8TRmfuvv1WDGodV+kId/FNHSeYucWdZwn?=
- =?us-ascii?Q?Z1CABYIqrOF8ZgqQJ30NL43kNWhjjPPUXTBykwvAdzGnGfNT+Y+f8IgHKp0Y?=
- =?us-ascii?Q?7nL+8pU+iR1yLFdJaRC/5hA=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23d5706b-029d-43d1-877c-08dc785bd006
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2024 23:31:30.8011
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DvZAqLtR37U9WUbceq76qpboJwBUvgSiOzAlHkkbPj1OM95xQpZ2t82pB1AeQDHiHqixvIKKCavZn5VSXcsD/wUTzHIDXknmF1lri6gBwFDOFJv5o21qKh1sbb2NUD5C
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6913
+Content-Transfer-Encoding: 8bit
 
-dpcm_xxx flags are no longer needed.
+JP-IK LEAP W502 laptop's headset mic is not enabled until
+ALC897_FIXUP_HEADSET_MIC_PIN3 quirk is applied.
 
-We need to use xxx_only flags instead if needed, but
-snd_soc_dai_link_set_capabilities() user adds dpcm_xxx if playback/catpure
-were available. Thus converting dpcm_xxx to xxx_only is not needed.
-Just remove it.
+Here is the original pin node values:
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+0x11 0x40000000
+0x12 0xb7a60130
+0x14 0x90170110
+0x15 0x411111f0
+0x16 0x411111f0
+0x17 0x411111f0
+0x18 0x411111f0
+0x19 0x411111f0
+0x1a 0x411111f0
+0x1b 0x03211020
+0x1c 0x411111f0
+0x1d 0x4026892d
+0x1e 0x411111f0
+0x1f 0x411111f0
+
+Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
 ---
- include/sound/soc-dai.h               |  1 -
- sound/soc/fsl/imx-card.c              |  3 ---
- sound/soc/generic/audio-graph-card.c  |  2 --
- sound/soc/generic/audio-graph-card2.c |  2 --
- sound/soc/generic/simple-card.c       |  2 --
- sound/soc/meson/axg-card.c            |  1 -
- sound/soc/meson/gx-card.c             |  1 -
- sound/soc/qcom/common.c               |  1 -
- sound/soc/soc-dai.c                   | 38 ---------------------------
- 9 files changed, 51 deletions(-)
+ sound/pci/hda/patch_realtek.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
-index adcd8719d3435..69ba1a628eabc 100644
---- a/include/sound/soc-dai.h
-+++ b/include/sound/soc-dai.h
-@@ -219,7 +219,6 @@ void snd_soc_dai_resume(struct snd_soc_dai *dai);
- int snd_soc_dai_compress_new(struct snd_soc_dai *dai,
- 			     struct snd_soc_pcm_runtime *rtd, int num);
- bool snd_soc_dai_stream_valid(struct snd_soc_dai *dai, int stream);
--void snd_soc_dai_link_set_capabilities(struct snd_soc_dai_link *dai_link);
- void snd_soc_dai_action(struct snd_soc_dai *dai,
- 			int stream, int action);
- static inline void snd_soc_dai_activate(struct snd_soc_dai *dai,
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index 0e18ccabe28c3..98b37dd2b9013 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -650,9 +650,6 @@ static int imx_card_parse_of(struct imx_card_data *data)
- 			link->ops = &imx_aif_ops;
- 		}
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a696943aec0d..c3a8e601614a 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -12028,6 +12028,7 @@ enum {
+ 	ALC897_FIXUP_LENOVO_HEADSET_MODE,
+ 	ALC897_FIXUP_HEADSET_MIC_PIN2,
+ 	ALC897_FIXUP_UNIS_H3C_X500S,
++	ALC897_FIXUP_HEADSET_MIC_PIN3,
+ };
  
--		if (link->no_pcm || link->dynamic)
--			snd_soc_dai_link_set_capabilities(link);
--
- 		/* Get dai fmt */
- 		ret = simple_util_parse_daifmt(dev, np, codec,
- 					       NULL, &link->dai_fmt);
-diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
-index 83e3ba773fbd6..714ce1f4a061b 100644
---- a/sound/soc/generic/audio-graph-card.c
-+++ b/sound/soc/generic/audio-graph-card.c
-@@ -246,8 +246,6 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
+ static const struct hda_fixup alc662_fixups[] = {
+@@ -12474,10 +12475,18 @@ static const struct hda_fixup alc662_fixups[] = {
+ 			{}
+ 		},
+ 	},
++	[ALC897_FIXUP_HEADSET_MIC_PIN3] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a11050 }, /* use as headset mic */
++			{ }
++		},
++	},
+ };
  
- 	graph_parse_convert(dev, ep, &dai_props->adata);
- 
--	snd_soc_dai_link_set_capabilities(dai_link);
--
- 	ret = graph_link_init(priv, cpu_ep, codec_ep, li, dai_name);
- 
- 	li->link++;
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 81e84095107ed..6aeb578891f68 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -925,8 +925,6 @@ int audio_graph2_link_dpcm(struct simple_util_priv *priv,
- 	graph_parse_convert(ep,  dai_props); /* at node of <dpcm> */
- 	graph_parse_convert(rep, dai_props); /* at node of <CPU/Codec> */
- 
--	snd_soc_dai_link_set_capabilities(dai_link);
--
- 	graph_link_init(priv, rport, li, is_cpu);
- err:
- 	of_node_put(ep);
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index 9c79ff6a568f0..5e66812ffadfe 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -276,8 +276,6 @@ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
- 
- 	simple_parse_convert(dev, np, &dai_props->adata);
- 
--	snd_soc_dai_link_set_capabilities(dai_link);
--
- 	ret = simple_link_init(priv, node, codec, li, prefix, dai_name);
- 
- out_put_node:
-diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
-index 8c5605c1e34e8..09aa36e94c85b 100644
---- a/sound/soc/meson/axg-card.c
-+++ b/sound/soc/meson/axg-card.c
-@@ -339,7 +339,6 @@ static int axg_card_add_link(struct snd_soc_card *card, struct device_node *np,
- 		dai_link->num_c2c_params = 1;
- 	} else {
- 		dai_link->no_pcm = 1;
--		snd_soc_dai_link_set_capabilities(dai_link);
- 		if (axg_card_cpu_is_tdm_iface(dai_link->cpus->of_node))
- 			ret = axg_card_parse_tdm(card, np, index);
- 	}
-diff --git a/sound/soc/meson/gx-card.c b/sound/soc/meson/gx-card.c
-index f1539e542638d..7edca3e49c8f0 100644
---- a/sound/soc/meson/gx-card.c
-+++ b/sound/soc/meson/gx-card.c
-@@ -107,7 +107,6 @@ static int gx_card_add_link(struct snd_soc_card *card, struct device_node *np,
- 		dai_link->num_c2c_params = 1;
- 	} else {
- 		dai_link->no_pcm = 1;
--		snd_soc_dai_link_set_capabilities(dai_link);
- 		/* Check if the cpu is the i2s encoder and parse i2s data */
- 		if (gx_card_cpu_identify(dai_link->cpus, "I2S Encoder"))
- 			ret = gx_card_parse_i2s(card, np, index);
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index 3d02aa3844f29..11cbcb588336c 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -145,7 +145,6 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
- 
- 		if (platform || !codec) {
- 			/* DPCM */
--			snd_soc_dai_link_set_capabilities(link);
- 			link->ignore_suspend = 1;
- 			link->nonatomic = 1;
- 		}
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index fefe394dce72d..f8e46bec6f807 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -479,44 +479,6 @@ bool snd_soc_dai_stream_valid(struct snd_soc_dai *dai, int dir)
- 	return stream->channels_min;
- }
- 
--/*
-- * snd_soc_dai_link_set_capabilities() - set dai_link properties based on its DAIs
-- */
--void snd_soc_dai_link_set_capabilities(struct snd_soc_dai_link *dai_link)
--{
--	bool supported[SNDRV_PCM_STREAM_LAST + 1];
--	int direction;
--
--	for_each_pcm_streams(direction) {
--		struct snd_soc_dai_link_component *cpu;
--		struct snd_soc_dai_link_component *codec;
--		struct snd_soc_dai *dai;
--		bool supported_cpu = false;
--		bool supported_codec = false;
--		int i;
--
--		for_each_link_cpus(dai_link, i, cpu) {
--			dai = snd_soc_find_dai_with_mutex(cpu);
--			if (dai && snd_soc_dai_stream_valid(dai, direction)) {
--				supported_cpu = true;
--				break;
--			}
--		}
--		for_each_link_codecs(dai_link, i, codec) {
--			dai = snd_soc_find_dai_with_mutex(codec);
--			if (dai && snd_soc_dai_stream_valid(dai, direction)) {
--				supported_codec = true;
--				break;
--			}
--		}
--		supported[direction] = supported_cpu && supported_codec;
--	}
--
--	dai_link->dpcm_playback = supported[SNDRV_PCM_STREAM_PLAYBACK];
--	dai_link->dpcm_capture  = supported[SNDRV_PCM_STREAM_CAPTURE];
--}
--EXPORT_SYMBOL_GPL(snd_soc_dai_link_set_capabilities);
--
- void snd_soc_dai_action(struct snd_soc_dai *dai,
- 			int stream, int action)
- {
+ static const struct snd_pci_quirk alc662_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1019, 0x9087, "ECS", ALC662_FIXUP_ASUS_MODE2),
++	SND_PCI_QUIRK(0x1019, 0x9859, "JP-IK LEAP W502", ALC897_FIXUP_HEADSET_MIC_PIN3),
+ 	SND_PCI_QUIRK(0x1025, 0x022f, "Acer Aspire One", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0241, "Packard Bell DOTS", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0308, "Acer Aspire 8942G", ALC662_FIXUP_ASPIRE),
 -- 
-2.25.1
+2.45.1
 
