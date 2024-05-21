@@ -1,133 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65AF1482E7;
-	Tue, 21 May 2024 19:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A1B6BFD5;
+	Tue, 21 May 2024 23:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716321389; cv=none; b=No/9Gcz6unCVeyhA6DPqzxUG4FNDf834k01Lawp8IjowLrVMDVgA5sD+Q9qpJRghKpM4vw80wXbCYz4xz9GDuQSJNqkAuSR+sT7r9Qf4bpi6yl9w0aVvnDUmQwEkmR0Ia7JIrVPAhqF025WP/6cU3UOWDdzk/E3osuHC4dsF9p8=
+	t=1716333001; cv=none; b=KCqxDP7QarhTHQSy+SHw/BjQLoxXn0U1TeI83Z2/MpKVi5BgV1AckqokJfsFM92hAXbs3lWr0dxWaqJXK1TCoCSPPPyOU5ZVaKdZGN5XVYm3DpZetDucI5vfzIFWTziIT429QB4pgPmsYN9PxVOF71DwgsQYsRfP+LqHWepv1z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716321389; c=relaxed/simple;
-	bh=BhR7n9A/hSqg4/BjNXMPwn9gJKzWQmPCd5l+efcQRkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LVjqgGSLzSuPnuLtjfG8zoxTJEv7HlBqLx5EoEh7mGZZG6OmbfXn+VjiWtT+BrVsljIxv9QVWEHZareGOEz+U+IDj3Zo9waPCwc6tzSqRAq52EYm5il9Js9Bf9Q9PbrkdDORzqFxEHrEglZFfArSgwpqS9XaF8OhOllad21vq1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NUmO8bdx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716333001; c=relaxed/simple;
+	bh=+C7gsf8/DDUlWKuGaYzLxwz3xDgCyKhla7uqE1E7D8A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OUE90lNWrlXPBK89EPzwLZ/I+ckvPPHfdw1V/R+u3LSCpQgVqsI38PbLTflzajxI7ujAnP51k2w8C/F3Mi1HTnkDpiCC4cZN14lq0EmyXfREjqc3c/QAq9Q/nOiUFfZM1YgI/Pf+qamS+CabuyvYMhx9YQKShWaHvVvREgIcihE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ghEbiT1C; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NUmO8bdx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF613C2BD11;
-	Tue, 21 May 2024 19:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716321389;
-	bh=BhR7n9A/hSqg4/BjNXMPwn9gJKzWQmPCd5l+efcQRkw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NUmO8bdxgcWu4thN41iyc7eSn2Nl1fuII0/mdbLdlOGmQQriQsunnpYTXKjbCYNFV
-	 IjrQMqOW/AROaYsjg5T+sx4wCif3Y1UzeH4oGRRX5mb9CyVmw1NwFcqy7lpZinO6yW
-	 unhi+iwOO/X+ebWKfpGEaljuKq2zWzDNzFA7+VNxSoHIVr58tGTI5Wsx9RodFvr0dt
-	 vPDBPoWJqQ8v0pbnLXfW2pxNrEBaeORv8e243hc+KCymNU8mY1EjkBqO5hxUwzhUoF
-	 j5j0HL8ahnLqxZNaZqgcMf3mfbjS1GrV154ExctmcnECUhAi7DrQ7foulQVXhWAQYG
-	 Zldui32xVgovQ==
-Date: Tue, 21 May 2024 20:56:18 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Brent Lu <brent.lu@intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
-	imx@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-Message-ID: <37341c4c-3a99-4f71-99b3-efda2d2008e8@sirena.org.uk>
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
- <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
- <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
- <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
- <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
- <875xv8c6dn.wl-kuninori.morimoto.gx@renesas.com>
- <3e67d62d-fe08-4f55-ab5b-ece8a57154f9@linux.intel.com>
- <1f8e6e3c-a116-48d8-991f-4184d1eebc79@sirena.org.uk>
- <ec063ea9-3d72-457a-9c73-46c5f5b1f6e4@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ghEbiT1C"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1eecc71311eso5850125ad.3;
+        Tue, 21 May 2024 16:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716332999; x=1716937799; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WVlapK7IICqNZRk9AkY2koCiGjAfMcvjxFmJh5c+ZKA=;
+        b=ghEbiT1CZedTHrP9WS1xxYepuO7+3UUlf3L/Kn/pBb5Hza5JQn7bTmMSvHJh/lq10F
+         O0vlojDiwwAgeeO33Zg3uSAwMVkR73D4vjgeUFGQUTyozVXqc+3AG3BZpBBN33/D1wdp
+         tkBXn8x47lxyNm2ZVbNPxqg967PWVwzsBvwlPdy791KQ8+evxmAgeIwvW3D1osjBBEWN
+         bCNCjihH2NNb4vwPLktjCuOo5VsobDmqLq9bT3YSeW1f8IuV0TN2ckv1GXj5R2T72wHo
+         MJh23bCWYpVUpL/DzD3yg46twxTDfRoD0uCEEH3NNmfXVqwdbzNWr3zK6vhx1LBaXAXt
+         WfrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716332999; x=1716937799;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WVlapK7IICqNZRk9AkY2koCiGjAfMcvjxFmJh5c+ZKA=;
+        b=F4f3e8cf5lxMd8IqlhciIG/piZFSeZtr5YjfM50Tx0DUpjTQhJd9kES0nUYwbWUrnk
+         5ZVssvwyntO9iSxOjohQhNCYkbqak+qiYR9nl9NDh3bMv9rBZwFTfwfBHbqpYL/+zzEJ
+         XjW65IsbcOiwYZ+oAgn62p7dalZZ8BM0U0B6/Zq6zO9i5Gbl1HbAop6jAXA34U0b6Ubx
+         tyBXtfNA6jqo2rHTOoiAd9/zSdcQ6DVRE9Ku2sWwbCDJXyGdB+//8kois7EXk73yWe7y
+         ZdJd9i7bocKNb/wTBR/xeFcKqgvRwokpT8IvGH3Iss5/4EXmjuJM1ruZlUBfd39BgNnE
+         64qg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvMqWEth87is1PRvDEHs0zlKYHOdXsClgL0WJvh8P+fwkf42xr8Lvz2tvN/YZL2w0+vGQrEk8CpTT/S4vTs2F69OwzqvYAGCaWc9Y=
+X-Gm-Message-State: AOJu0Yx3CaL4+b9UbxE0N1NxOXOQmyXdh8qtB3KHzniFidL1KNIrSHva
+	Re22Br5ntsePNAO/94wmkwYz1JMnZzazUNwA9VZTnzhVgB+4ggWC
+X-Google-Smtp-Source: AGHT+IEUSJRxNrS6yUKVErdzlXWzg1sH39tRKWgKSQHqMOwe8nC/k5w4dzEH8hp/XPLGR9/bKnntHA==
+X-Received: by 2002:a17:902:7d82:b0:1e3:e1d5:c680 with SMTP id d9443c01a7336-1f31c9f8a37mr4576725ad.63.1716332999363;
+        Tue, 21 May 2024 16:09:59 -0700 (PDT)
+Received: from [192.168.0.107] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f679902e57sm10876926b3a.110.2024.05.21.16.09.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 May 2024 16:09:58 -0700 (PDT)
+Message-ID: <32775b1a-7bc3-491f-bcab-af48d2d82d79@gmail.com>
+Date: Wed, 22 May 2024 06:09:49 +0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="COqvHqSoIZIRRzxC"
-Content-Disposition: inline
-In-Reply-To: <ec063ea9-3d72-457a-9c73-46c5f5b1f6e4@linux.intel.com>
-X-Cookie: Eloquence is logic on fire.
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: Garbled sound at start of a playback after some inactivity
+ on said channel with DP/HDMI on RDNA devices
+To: Mark Brown <broonie@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Sound System <linux-sound@vger.kernel.org>,
+ sound-open-firmware@alsa-project.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Mete <yurnerolinux@yandex.com>
+References: <ZkHKYocpP-abFwLB@archie.me>
+ <03d0fd01-278d-40ff-afcb-7107394b89eb@sirena.org.uk>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <03d0fd01-278d-40ff-afcb-7107394b89eb@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 5/22/24 01:36, Mark Brown wrote:
+> On Mon, May 13, 2024 at 03:08:02PM +0700, Bagas Sanjaya wrote:
+> 
+>>>   Device-1: AMD Navi 31 [Radeon RX 7900 XT/7900 XTX/7900M]
+>>>     vendor: Sapphire PULSE driver: amdgpu v: kernel arch: RDNA-3 bus-ID: 03:00.0
+>>>   Device-2: AMD Raphael vendor: Gigabyte driver: amdgpu v: kernel
+>>>     arch: RDNA-2 bus-ID: 12:00.0 temp: 39.0 C
+> 
+> You've CCed a bunch of Intel and NXP people for some reason but whatever
+> this is it seems to be an AMD issue?
 
---COqvHqSoIZIRRzxC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yep, I found these addresses by `scripts/get_maintainer.pl 
+sound/soc/sof/amd/rembrandt.c` since I thought it was rembrandt
+driver issue.
 
-On Tue, May 21, 2024 at 11:03:41AM -0500, Pierre-Louis Bossart wrote:
-> On 5/21/24 10:12, Mark Brown wrote:
-> > On Tue, May 21, 2024 at 08:43:09AM -0500, Pierre-Louis Bossart wrote:
+Thanks.
 
-> > This is something we could do properly if we had full digital routing
-> > rather than bolting things on the side of the CPU<->CODEC model - having
-> > these things where we have to take a CODEC into account even though
-> > we're not actually using it is one of the big issues with DPCM.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-> No disagreement here, these echo references and loopbacks are ugly to
-> support with the dependency between playback and capture directions that
-> isn't well handled, e.g. if someone starts to capture before playback
-> started.
-
-> For now we're kind of stuck, what I would suggest is just to remove the
-> extra check that both CPU and codec dai can support a direction, and
-> move on with the other cleanups suggested by Morimoto-san.
-
-Oh, I agree - my point is that as things stand the framework really
-can't cope with what needs expressing so we need these things that don't
-look quite right.
-
---COqvHqSoIZIRRzxC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZM/GEACgkQJNaLcl1U
-h9CbEwf+MX3lQGK6hBcVLpF+lVcF5S6m6ku4LP0SgqRtocRWZXyW/66qCKgj8Bs3
-k7c6uA/iYDef1tOTreWMVfWahBd3K+Gd8NXeRJRoDH3/xl/ga9F2FIkLLv6L3FxD
-UeP57BQYJbH5gcbMMS833UEKIIzwvyc5zzeYnt/zHq8i3QhwH2/FFwFrY9WuAREY
-hiv9ZN3NnLKO3P9AHvmzt0tPwcQcyH3bIWMKTWC+PYNIJIVCprvfXMW5yM2hgyAm
-H9b3NE5JE1bpQ6aiTALtNpGWrbpdxR9h++OatHCJX/tSIW4Us2DtMbz8QmSmZ3to
-pi8H/vVGJfoJqKn77s/eP4L4D2Lz/A==
-=GKWS
------END PGP SIGNATURE-----
-
---COqvHqSoIZIRRzxC--
