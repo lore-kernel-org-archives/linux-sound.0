@@ -1,41 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6DD2B9A7;
-	Tue, 21 May 2024 18:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40E81487C0;
+	Tue, 21 May 2024 18:36:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716316384; cv=none; b=KRi8c1m7qXGyX+yGuT4wy948QoFLNT5gsxZEDyg3c2fHFvGeUb6Pn+qH+u7x3oXwflQeRd2oCrNgmfI8uXv1xvYPO9PU3NTks1oWjSpJrd00bbjfdaigVLhCxhC0paMTlN0lF645luNp50f5/t/36Mp6bPTuWAwrcV5sXd9i5FE=
+	t=1716316588; cv=none; b=l/umpAsJdtlssCz4Dt/tZwlqMAxl863vqxonikHRtQ5VIoqN8Qn8snUY6kcdIkV/8Dr7kzpulekqhc89DugtF0goRp790xXmRennB57WrdtMiOFU8BXPp1dZcpbpZ6YtoJT+EuQaI/Eb0yQd8yvZMTKkTXwt4cjAqeYcOkbnFtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716316384; c=relaxed/simple;
-	bh=9oN1+Qiu3ZjosqghZMHoJO8Wg1Ja4YbCGeqa01ozJAg=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXJlkARTELFzaE6TS4qch71mTa7L3zhHMs5PQLGX1rk1rDBI/trZrF2lUuQ55M3C+98YhSdNxTPSVprOtAf8LWx515Jvlk8cVI6o/BqdkUeJJ9I8S6V5mTe4RYUEHQMXIDHRpu0DBMRTmSMLdqMUEXURVCe4V61P3Ukb0giCdwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSNDHaLt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716316588; c=relaxed/simple;
+	bh=Qif+DrNGwZw6ld87IATmKiKJraQRzZ2B2ke5q3Vf1kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PvpwqcbxTvg6V0PPGJT1J6GxZZK9nFTeoMe8oKjWeDSJUgF/k6B5IxF/LzjWXJ55w38uHm5aXkeVZBDKFvSJb3JZV82YBkx+lc5LOH0PXCZHsnLLoSNUMLRmmDlP/931eBePs5BSjlrDNtNBM9vjG6TZxczCk89BBlSEtPpAR9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xw31hlnj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSNDHaLt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61784C2BD11;
-	Tue, 21 May 2024 18:33:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xw31hlnj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F1AC32786;
+	Tue, 21 May 2024 18:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716316384;
-	bh=9oN1+Qiu3ZjosqghZMHoJO8Wg1Ja4YbCGeqa01ozJAg=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=uSNDHaLtNjHp2bjf1f3dSmtpezQrkutqJSil0Qx1MnHaq9gR0MBDVINkZ4iOz+En/
-	 BA35lwYMXxMvSg/Q/f8amERGWFDhPiKVcWoyAwEd5PRk/a3QiTt13iOBJRu06J3D4g
-	 YUxma3QKyESdLVXxaaJUcnNVuKQQuZvsvO4UsuzQAVlJycrFC9ZJsLgoN3n8aSGIIk
-	 8n+1kDQQxXTEoJ2E//iK82okve78UL/AIZUAyKm3NP/fvk8W9BzV0T3rnALo2sUtxz
-	 huX6UnzXbzV+YhlvxX+fAfWpuysU5m2Q3D3e30eI/95ULOdCsATVaDhY5uW/6lEozx
-	 J78PA6sv6sDmA==
-Date: Tue, 21 May 2024 19:32:59 +0100
+	s=k20201202; t=1716316588;
+	bh=Qif+DrNGwZw6ld87IATmKiKJraQRzZ2B2ke5q3Vf1kg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xw31hlnjmdxoiYu1/ESkfQc7CLKhglUtdXdIzzgpQQ90NRMCoM6yLMMbwjKCL49I6
+	 7oF82dHen9MBjEVBaFuMyb/oD+of4pKvn+CRgEKQgnvBnQMqWi5qJRg1Y0SDI7MeDI
+	 Hm9Do2fludPafkyxRogReGjWToAskQEqhU9luCcSIYQ/cEfx53kYlhJ0LWZnw+854t
+	 xCBPZgV8K3gQGxdWWxhaLf773tnO9hKbkT6yV4wbeeRwHsmkXqvXWuagmKa9Re1h78
+	 dxn3BvYVkUjTMHkwcIcKCp893p7MwfLbTKz0TlugXiVrxfkV9O66TKbFcb92ENC5d7
+	 IySKLBfpikgvQ==
+Date: Tue, 21 May 2024 19:36:22 +0100
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, dmaengine@vger.kernel.org,
-	alsa-devel@alsa-project.org, miquel.raynal@bootlin.com,
-	perex@perex.cz, tiwai@suse.com, lars@metafoo.de,
-	lgirdwood@gmail.com
-Subject: Re: DMA Transfer Synchronization Issue in Out-of-Tree Sound Card
- Driver
-Message-ID: <6e01c13f-2bc1-4e08-b50e-9f1307bda92d@sirena.org.uk>
-References: <Zkxb0FTzW6wlnYYO@localhost.localdomain>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	sound-open-firmware@alsa-project.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mete <yurnerolinux@yandex.com>
+Subject: Re: Fwd: Garbled sound at start of a playback after some inactivity
+ on said channel with DP/HDMI on RDNA devices
+Message-ID: <03d0fd01-278d-40ff-afcb-7107394b89eb@sirena.org.uk>
+References: <ZkHKYocpP-abFwLB@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,67 +52,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xueZ6/gZSHePXE0a"
+	protocol="application/pgp-signature"; boundary="L6sjAcF/gQbrXx+k"
 Content-Disposition: inline
-In-Reply-To: <Zkxb0FTzW6wlnYYO@localhost.localdomain>
+In-Reply-To: <ZkHKYocpP-abFwLB@archie.me>
 X-Cookie: Eloquence is logic on fire.
 
 
---xueZ6/gZSHePXE0a
+--L6sjAcF/gQbrXx+k
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 21, 2024 at 10:31:12AM +0200, Louis Chauvet wrote:
+On Mon, May 13, 2024 at 03:08:02PM +0700, Bagas Sanjaya wrote:
 
-> To address this DMA issue, I have created a patch [1] that guarantees the=
-=20
-> completion of the DMA transfer upon the return of xdma_synchronize. This=
-=20
-> means xdma_synchronize now sleeps, but looking at other drivers around it=
-=20
-> appears expected to be able to do so.
+> >   Device-1: AMD Navi 31 [Radeon RX 7900 XT/7900 XTX/7900M]
+> >     vendor: Sapphire PULSE driver: amdgpu v: kernel arch: RDNA-3 bus-ID: 03:00.0
+> >   Device-2: AMD Raphael vendor: Gigabyte driver: amdgpu v: kernel
+> >     arch: RDNA-2 bus-ID: 12:00.0 temp: 39.0 C
 
-You need to set the nonatomic flag for the PCM to allow this, the
-default is that triggers run in atomic context.
+You've CCed a bunch of Intel and NXP people for some reason but whatever
+this is it seems to be an AMD issue?
 
->=20
-> 		switch (command) {
-> 		case SNDRV_PCM_TRIGGER_START:
-> 			/* Synchronize on start, because the trigger stop is called from an IR=
-Q	context	*/
-> 			if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
-> 				dmaengine_synchronize(my_dev->playback_dma_chan);
-
-If any dmaengine work is needed put it in the generic dmaengine code and
-allow it to be configured there (ideally through discovery through the
-API).
-
-> The problem might be related to the sound driver. Should I avoid manually=
-=20
-> using dmaengine_synchronize? How to achieve the same effect in this case?=
-=20
-> Perhaps there is a more traditional way to properly clean the stream in=
-=20
-> the sound subsystem which I overlooked?
-
-If there's no way of resetting things without blocking then I'm not sure
-you can do much better though I might be forgetting something, it does
-seem like disappointing hardware design and application behaviour.
-
---xueZ6/gZSHePXE0a
+--L6sjAcF/gQbrXx+k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZM6NoACgkQJNaLcl1U
-h9CQJgf/SoGgK5fxlN1tBFGIN5h4MwbX7Y5VNEDDebRPlp4d9xf84kvYAyqY83vL
-PJ0Ta78vJLPUxM8CeHXkn5duaLzUAsAtJsn5gtSCBdUy3rhlvMt4v2JkNYE2nZ16
-HilFrOejdfXGebjpHoPP4KocrUTQTSEuiHvOViuql2h4kqbt9PYaz9SATZii7QXT
-cbaLKt7YlY2M8X4FCvy3O782rx7CJRTpK9QMm9SYJ0BMhviRCom084r+dQkuqFn3
-V3MRZukP9UEMr7E8HrTU8NMOeQVoogf7ppb4h5xiQ/tZCAUfvoP4U6j/LZInc0NN
-bNEb/K9hJvM14U9yp/rsw5ub2jhcxQ==
-=Su6g
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZM6aUACgkQJNaLcl1U
+h9Bh8Qf/TD463H97TlPpFR7DeBL7xGVV4ZBbaV2EuT0tQkaH840iSaXSmATQDLy5
+o9eB2MF2QZI3GdTlwuRhmmGxzyXF62lfNdbYQ+NMfmM/Dm3H/HaXqF2xG0Qxxaid
+lPdQz5w/Spz69WVPCn74rJtwjP03NNvJ18UDs5rihSCEh2AJ/UfCfQYtkoeCZzL6
+UVvzxC64m8l2VJhRmeSEG6eIAznpLdj0VUdkqMvrBp7H2Yp7Gmh3wycDW03iXy6B
+avSgOoEEubmixFymQEt12HGRB0Lj2lTfsVvDmYqpz9ogPh2WyT7+K5/NldJLxZA7
+5/Pk7Ba5K4YwVn7+6xnblFvKrjGqcQ==
+=lmKP
 -----END PGP SIGNATURE-----
 
---xueZ6/gZSHePXE0a--
+--L6sjAcF/gQbrXx+k--
