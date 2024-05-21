@@ -1,214 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6839F45BE4;
-	Tue, 21 May 2024 10:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4682471B3D;
+	Tue, 21 May 2024 10:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716288383; cv=none; b=i81m0pEl/0GIEii7JQOeu4bWPiRHuPF4aBnJ3COR3xFWSGM5sbZNXjdwR9tsew3PqOdTkXAdoPTzbuJmTCqhyXyIotsE964f2T8HuUx0BrxJIUswkdNdoLn4vOQ1SkWRhOOw/rkFBZGz0sNbS4Bo7iG5a0+zxqX6rfLWVjdECDE=
+	t=1716288570; cv=none; b=na+uFEtBXvCGz3qLzHQFwkAdXLG2/i7Lrus5DITJQ2vCtKuxMYsfCz1V6hQSbgsxR1JWVw/nqI2RN1B+mTWQfrgP+Q5y8jXv7OVW91ndsx+Tk7CDzAOpm4D+QQG6nKoefWofRLvCGGzyH49Rn2v6NYPe3nTzPsUjSYPFSF9YcQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716288383; c=relaxed/simple;
-	bh=bDGTQIbNuU6qDiiUTtPdQm0ymaZxO0OTHbB+zw8NqVs=;
+	s=arc-20240116; t=1716288570; c=relaxed/simple;
+	bh=6KPrfDvxePiYqQ+U86QGOtRIQhJqkZNmdPViVsnR34A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bZm1aKjz19FHSYms5SMiyxX5oL9fwPZR/qRePPzeFxc7H0ocSyT4Agbjf0Yg0780kj1fglAWMSCq80pCMpW9HxmS3WjOdRd33Czx56vm7tFr8s34Plb+cACzs8ZGw45pQ+2jVS5VLfc1yolo2nPDfTT9mKCNZDp+8pUjnH0i32k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNic/U2b; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+qe6KnFRARArbjdPJq6cwsPu4NKgl3CAjQWdcMIFU9CGY+8XHaqZNO8pgt/gXlkYq15nQeZhwpCe/TSsA8GurPiUHaNTpUI9y6sxvgnTjj6ku3g5QW6l+I0yHS6qBjeYoJf3HPXRT1cOOS4NkPiZaG7UBt06s6JdqiUOhI4J8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkCGxQgO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNic/U2b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716288381; x=1747824381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bDGTQIbNuU6qDiiUTtPdQm0ymaZxO0OTHbB+zw8NqVs=;
-  b=lNic/U2bIh3W1BGq3Sbo63J2h64vOHEzmz0fsSz55IUYps7pYI7tFBKW
-   01CB0PxL44f3h+Oe5Zga3rJILd6F7mfWkKxEi25BiWG7kI0dLxDGizEeS
-   6ouOw03icNM9Ae2cNPzZMOgTDvnRTSa+g3L1HtQiQqVX8ljUdUzFYisd9
-   V71dVuP0YBxNPCp8uaKXz4B03I0B2cAQI91YjugjGavXsZGzyzGDk9eGf
-   LlB3zrjFRFZpnL5w+BFxrL6lWQkiD+1GCSBS/HNBKaIYj039qqkAHy3LE
-   JN3GclAnvHu1hi5eXZTBZJcFSRvyUDSlxis0oj+HnN46gDmffwOnm4Tm6
-   Q==;
-X-CSE-ConnectionGUID: 5tnv7gY8R2KkH73jmozXrQ==
-X-CSE-MsgGUID: HsMjbi/JT2iO20DId9ItEA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="11629505"
-X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; 
-   d="scan'208";a="11629505"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 03:46:21 -0700
-X-CSE-ConnectionGUID: Ec61e1E7SDOnvg/9Ah+dqA==
-X-CSE-MsgGUID: mj2BKImBTxWfm+JEvhDBOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,177,1712646000"; 
-   d="scan'208";a="32991818"
-Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 21 May 2024 03:46:18 -0700
-Received: from kbuild by 108735ec233b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s9N0Z-0006I4-2d;
-	Tue, 21 May 2024 10:46:15 +0000
-Date: Tue, 21 May 2024 18:45:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sameer Pujar <spujar@nvidia.com>, broonie@kernel.org,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
-	thierry.reding@gmail.com, jonathanh@nvidia.com, mkumard@nvidia.com,
-	spujar@nvidia.com
-Subject: Re: [PATCH 2/2] ASoC: tegra: I2S client convert formats handling
-Message-ID: <202405211805.UMAdiH0d-lkp@intel.com>
-References: <20240520114902.1663695-3-spujar@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkCGxQgO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9034EC32789;
+	Tue, 21 May 2024 10:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716288570;
+	bh=6KPrfDvxePiYqQ+U86QGOtRIQhJqkZNmdPViVsnR34A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QkCGxQgOHgBFCqFIlV4VgKAH9/B6+1F+Do1GmLFKqPl1Igib7uV61Ae3Xkqy7JuLn
+	 3cbFhuqfwf58ScdoX0J9/J8vTCOeD5Kip4AIehMr9L2lnevQxOZmoxk2fSjrTxU0Sa
+	 tZI+VSdqYEFh9l2Sj7pD5AjLcDfoMHzG+2qKUMaW/PT39BqCr39gGKwjCcqVt49d8n
+	 SC/7q0VHuRPRf3/c19Sbj1hHOrIZcEscJEN5EHv30PXm/YrePix9wM+ykthsAxBJcx
+	 RF/IsckJu+5LM+j2eELP6rptO7nE223xSnwXI0IxvSPS7oVyMucBQHmH7pks1gSWcC
+	 tCtE0o/rXxVtA==
+Date: Tue, 21 May 2024 11:49:21 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Alvin =?utf-8?Q?=C5=A0ipraga?= <ALSI@bang-olufsen.dk>
+Cc: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Emil Abildgaard Svendsen <EMAS@bang-olufsen.dk>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: Re: [PATCH 07/13] ASoC: codecs: add AD24xx codec driver
+Message-ID: <e2ab39b8-55a3-4afe-9832-b1a780b93831@sirena.org.uk>
+References: <20240517-a2b-v1-0-b8647554c67b@bang-olufsen.dk>
+ <20240517-a2b-v1-7-b8647554c67b@bang-olufsen.dk>
+ <e5782aef-d64d-46f3-ab5c-dc01285e08c2@sirena.org.uk>
+ <edv5aqfnb5gdxfmrh5nywnzg3tzfdq27kfvpkhg2t2q2jwf7ej@vjqgiw3ssv3b>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IfNqVr8A6eo57Tqb"
 Content-Disposition: inline
-In-Reply-To: <20240520114902.1663695-3-spujar@nvidia.com>
+In-Reply-To: <edv5aqfnb5gdxfmrh5nywnzg3tzfdq27kfvpkhg2t2q2jwf7ej@vjqgiw3ssv3b>
+X-Cookie: Eloquence is logic on fire.
 
-Hi Sameer,
 
-kernel test robot noticed the following build warnings:
+--IfNqVr8A6eo57Tqb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tegra/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.9 next-20240521]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, May 21, 2024 at 06:46:21AM +0000, Alvin =C5=A0ipraga wrote:
+> On Fri, May 17, 2024 at 04:03:50PM GMT, Mark Brown wrote:
+> > On Fri, May 17, 2024 at 02:58:05PM +0200, Alvin =C5=A0ipraga wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sameer-Pujar/ASoC-simple-card-utils-Split-simple_fixup_sample_fmt-func/20240520-195311
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240520114902.1663695-3-spujar%40nvidia.com
-patch subject: [PATCH 2/2] ASoC: tegra: I2S client convert formats handling
-config: arm-randconfig-r122-20240521 (https://download.01.org/0day-ci/archive/20240521/202405211805.UMAdiH0d-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20240521/202405211805.UMAdiH0d-lkp@intel.com/reproduce)
+> > > +static const char *const ad24xx_codec_slot_size_text[] =3D {
+> > > +	"8 bits",  "12 bits", "16 bits", "20 bits",
+> > > +	"24 bits", "28 bits", "32 bits",
+> > > +};
+> >=20
+> > Why is this configured by the user rather than via set_tdm_slot(), and
+> > how would one usefully use this at runtime?
+>=20
+> This configures the slot size of A2B data slots, not the slot size on
+> the TDM interface. Typically one would expect it to be the same, so your
+> question is valid. But it is not a strict requirement as far as the A2B
+> bus and hardware is concerned.
+>=20
+> To give a concrete example, the TDM interface might run with a TDM slot
+> size of 32 bits, but the PCM data is in reality 24 bits padded to 32
+> bits. In this case, A2B bus bandwidth can be saved by configuring the
+> "{Up,Down}stream Slot Size" kcontrol to "24 bits".
+>=20
+> More detailed information can be found in the manual in [1] section 3-22
+> "I2S/TDM Port Programming Concepts", where an analogous example is
+> given.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405211805.UMAdiH0d-lkp@intel.com/
+That still doesn't sound like something that should be configured
+dynamically by the user.  Based on that description it sounds like it's
+just the sample size so should cope from hw_params.
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/tegra/tegra210_i2s.c:640:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int sample_format @@     got restricted snd_pcm_format_t @@
-   sound/soc/tegra/tegra210_i2s.c:640:23: sparse:     expected unsigned int sample_format
-   sound/soc/tegra/tegra210_i2s.c:640:23: sparse:     got restricted snd_pcm_format_t
->> sound/soc/tegra/tegra210_i2s.c:649:14: sparse: sparse: restricted snd_pcm_format_t degrades to integer
-   sound/soc/tegra/tegra210_i2s.c:654:14: sparse: sparse: restricted snd_pcm_format_t degrades to integer
-   sound/soc/tegra/tegra210_i2s.c:659:14: sparse: sparse: restricted snd_pcm_format_t degrades to integer
+--IfNqVr8A6eo57Tqb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-vim +640 sound/soc/tegra/tegra210_i2s.c
+-----BEGIN PGP SIGNATURE-----
 
-   599	
-   600	static int tegra210_i2s_hw_params(struct snd_pcm_substream *substream,
-   601					  struct snd_pcm_hw_params *params,
-   602					  struct snd_soc_dai *dai)
-   603	{
-   604		struct device *dev = dai->dev;
-   605		struct tegra210_i2s *i2s = snd_soc_dai_get_drvdata(dai);
-   606		unsigned int sample_size, channels, srate, val, reg, path;
-   607		struct tegra_cif_conf cif_conf;
-   608		unsigned int sample_format;
-   609	
-   610		memset(&cif_conf, 0, sizeof(struct tegra_cif_conf));
-   611	
-   612		channels = params_channels(params);
-   613		if (channels < 1) {
-   614			dev_err(dev, "invalid I2S %d channel configuration\n",
-   615				channels);
-   616			return -EINVAL;
-   617		}
-   618	
-   619		cif_conf.audio_ch = channels;
-   620		cif_conf.client_ch = channels;
-   621		if (i2s->client_channels)
-   622			cif_conf.client_ch = i2s->client_channels;
-   623	
-   624		/* AHUB CIF Audio bits configs */
-   625		switch (params_format(params)) {
-   626		case SNDRV_PCM_FORMAT_S8:
-   627			cif_conf.audio_bits = TEGRA_ACIF_BITS_8;
-   628			break;
-   629		case SNDRV_PCM_FORMAT_S16_LE:
-   630			cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
-   631			break;
-   632		case SNDRV_PCM_FORMAT_S32_LE:
-   633			cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
-   634			break;
-   635		default:
-   636			dev_err(dev, "unsupported params audio bit format!\n");
-   637			return -EOPNOTSUPP;
-   638		}
-   639	
- > 640		sample_format = params_format(params);
-   641		if (i2s->client_sample_format >= 0)
-   642			sample_format = i2s->client_sample_format;
-   643	
-   644		/*
-   645		 * Format of the I2S for sending/receiving the audio
-   646		 * to/from external device.
-   647		 */
-   648		switch (sample_format) {
- > 649		case SNDRV_PCM_FORMAT_S8:
-   650			val = I2S_BITS_8;
-   651			sample_size = 8;
-   652			cif_conf.client_bits = TEGRA_ACIF_BITS_8;
-   653			break;
-   654		case SNDRV_PCM_FORMAT_S16_LE:
-   655			val = I2S_BITS_16;
-   656			sample_size = 16;
-   657			cif_conf.client_bits = TEGRA_ACIF_BITS_16;
-   658			break;
-   659		case SNDRV_PCM_FORMAT_S32_LE:
-   660			val = I2S_BITS_32;
-   661			sample_size = 32;
-   662			cif_conf.client_bits = TEGRA_ACIF_BITS_32;
-   663			break;
-   664		default:
-   665			dev_err(dev, "unsupported client bit format!\n");
-   666			return -EOPNOTSUPP;
-   667		}
-   668	
-   669		/* Program sample size */
-   670		regmap_update_bits(i2s->regmap, TEGRA210_I2S_CTRL,
-   671				   I2S_CTRL_BIT_SIZE_MASK, val);
-   672	
-   673		srate = params_rate(params);
-   674	
-   675		/* For playback I2S RX-CIF and for capture TX-CIF is used */
-   676		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-   677			path = I2S_RX_PATH;
-   678		else
-   679			path = I2S_TX_PATH;
-   680	
-   681		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-   682			unsigned int max_th;
-   683	
-   684			/* FIFO threshold in terms of frames */
-   685			max_th = (I2S_RX_FIFO_DEPTH / cif_conf.audio_ch) - 1;
-   686	
-   687			if (i2s->rx_fifo_th > max_th)
-   688				i2s->rx_fifo_th = max_th;
-   689	
-   690			cif_conf.threshold = i2s->rx_fifo_th;
-   691	
-   692			reg = TEGRA210_I2S_RX_CIF_CTRL;
-   693		} else {
-   694			reg = TEGRA210_I2S_TX_CIF_CTRL;
-   695		}
-   696	
-   697		cif_conf.mono_conv = i2s->mono_to_stereo[path];
-   698		cif_conf.stereo_conv = i2s->stereo_to_mono[path];
-   699	
-   700		tegra_set_cif(i2s->regmap, reg, &cif_conf);
-   701	
-   702		return tegra210_i2s_set_timing_params(dev, sample_size, srate,
-   703						      cif_conf.client_ch);
-   704	}
-   705	
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZMfDAACgkQJNaLcl1U
+h9ACLgf9F/4Hlcaz6ms2pQ1jUz65htj1EgnNuZtgs/G5QOQR/dSlJToXp1Fsk0+B
+LX+uL2Bi+Va82Rv/PoN/GXymodv97hPrbFvwmyNHUaDncUXdlZSBVzo0h/3uk9Hf
+P2yvFxZLGkFVMrCxAaA+/C75nwRoftdmd/DbxGCtmcfy9VCO95LVf9jP6pHmAWk6
+JGJ+VUBmwqZZ3NDyFqRvujjpE1uFgWrvgracm1PAujirj0hcYbhXwVpOTxh8HWBL
+1WhXTof/JrHLwVWAWFEE2nuh2ZziHMiq1sWYA6tCxhdtQZSc4z2EJnI+qXJfrd2b
+ZHe0aWB3mYxQ+jN2cq3QGaG2KR7PUA==
+=Woy1
+-----END PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--IfNqVr8A6eo57Tqb--
