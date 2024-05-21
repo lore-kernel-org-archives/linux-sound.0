@@ -1,199 +1,210 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2076.outbound.protection.outlook.com [40.107.114.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8306623B1;
-	Tue, 21 May 2024 01:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716254142; cv=fail; b=fU1MRzMnIad++2z/VnAdc7G8fsqWxten5698TyO99d4le7AS0BwSK7na3ak5WLNx6h2pBCWIIoBtDo0zsSF8puVScdwi2d8nZaGuxWfeaYBXJDCcWAO+A+x75IO/zgyH1bJq67/8NRTLMgLOBcgJCbH/9EfP+S7cCgI9n866LGY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716254142; c=relaxed/simple;
-	bh=N+YHWGEoT5+93gukTrdNllg/e0yt3IT9rBgI37TtJhs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=o9L7DdTAaUDsxJBM60z16eznFoVV8QtQrpfGg47RPxB6FaKLT55m6WeIhk3QWIMxh/HhUgZ5TJGRfKkK1OIgScUMqQFUzYXxwM04eDxSwoG7UmA9bo+ppQpLKE/dGicKi2e4L842t5C+mcgAQemQnJ+bjia6H0B4mXk3Ne5dF1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=HmnUKTsc; arc=fail smtp.client-ip=40.107.114.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07BD1F959;
+	Tue, 21 May 2024 03:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716263106; cv=none; b=AFKlRTGVGh86bQ+a0wgseWMP5c1yf6F33UNb5H6HdZidUxo6W8XUJEO5jkUSoO8yNpDKAJcIVokkxOpNsB2ADgUQQ7zEP/Ne/WEd/y2ANgWDM6EUym5DWuXRo+tRqOAv6HnQQ4u+/rC6E/+8HGu/sV0wKE1uOqbKLci8KP13P4M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716263106; c=relaxed/simple;
+	bh=nT/UcWakmvnOxHqHJxkCVjPajiuq5sgmjr6Gdx1E7do=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XzIDVfJXSwJBfKyqhCF5T1mWf/aHUjsro8y8YwXkq7i3sTzX0j1BgYk+ILR2+jZMtisNt/qWrFLwX2EtzXbasNR94TVe++rxnYVkXnoZwVNv+6dDdaSOdjPsIa/bwNkvwv1vJLzo69q2yY29YJZcPRvjNw84f4B/Vk1oTzS9DZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a01OiOFJ; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="HmnUKTsc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B5x42fvYd0S6xe5ef8nhnDKw9NcG872kdocjsJD00PCJNkDsZrwbSde2T/CJt4+lvat2LVaQ9ZhpfC2B583sjNlC4zpk5C0sLeaJ2i1v3TN/R6U8D6+dV/afz7xRBuldrTf+imxiVP5pkPeIjUNXoqydWdsBQxLFUAMU3+33Q9uuIrbyvP8PQcIDCCeba4EtH613V6znttd+d4j/x+aW/xPaRIdZvnA9ytAYjYnfsIu6qAAAfZFCUia2w/mg/2gUYUggbzlDDeXAjHi1mF67dlRGUweYk+Cd4O7Hb/mvg4meNPTRQ65uAdY/BOUf5XXTg47DSQJxoky5hZpQoqD/ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N+YHWGEoT5+93gukTrdNllg/e0yt3IT9rBgI37TtJhs=;
- b=oBIMz0nc9ldAYtxu6O9kqMyTKpcLrkEQWJ5XOm10SDdMi3Xt59aYyNZEJnhFaKF+1wDZIzFqAXtQFMvOwfgd4TrS0nzLq8NGrK1LvhUaJCGq7amLdKkKlxSeQhyS1B1KIxnLjWK4nUbui3crpXKArQd7TdHdRV+ic5S5PNhCUfPrjz6KR4qvmYXQTyHYDKczfmUUwarocMqa21A41/1NSdqgzW2i7GlQQxZtyIfuWqLDIDortVGXFSXdgcbo7JFuoQZ8MDFW1XykmHY27eGaVaSWEDG8AeaDEi4p4Em7bTFHe/HyC29Uw87+JGQMBRN95UDmN49wuQwv4aRkWuLsSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N+YHWGEoT5+93gukTrdNllg/e0yt3IT9rBgI37TtJhs=;
- b=HmnUKTscVZg9P/q4JnJmfWZDHuJ6S5nczED00uqsrwLjl0Ut9iHYkCRKzHIYmyVTw3IxfAsl3BWs9qBwLQzW+aci3eXb3n8WNNKHxAGYNYxmlmT6Kn8qIcXeS4gSxPbaKlLsREBKJ2+8wtIbiTSQ/bQjRsJrL3+MJTuPDlVbqCU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYYPR01MB7901.jpnprd01.prod.outlook.com
- (2603:1096:400:114::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.36; Tue, 21 May
- 2024 01:15:33 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76%7]) with mapi id 15.20.7587.035; Tue, 21 May 2024
- 01:15:33 +0000
-Message-ID: <875xv8c6dn.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec availability mismatch
-In-Reply-To: <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
-	<87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
-	<77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
-	<87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
-	<7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 21 May 2024 01:15:33 +0000
-X-ClientProxiedBy: TYAPR01CA0065.jpnprd01.prod.outlook.com
- (2603:1096:404:2b::29) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a01OiOFJ"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-36c7bd2586eso15692495ab.0;
+        Mon, 20 May 2024 20:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716263104; x=1716867904; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=92eG1R1+dxxcxoqnquEsD3l0yRmXMuTseq3SVxvuVCU=;
+        b=a01OiOFJ9gwaAmH8yggz5HpfbI0RwovXKZf5gn+31dT0RBEYFCJ1eFfWtAxaOGRaah
+         2kOfWXECFxBPBToAPhLG2snWA78k57Snc3TI7WAiZkV66a4Zb8t/J5tGt3DGYtgto6fK
+         PqyvaO4AzCTNPRoyvQZeRn+dl0aIlzd+EoEYmZ5+zDOie1GUZ6qbInB1Q8j/+j1gPQt8
+         sFXAl/kzOATR1X9wyf4dg6W4zExMWE0T8BpMcoz2pR1Chtuy/5Q717iX/OFHY2qohMrB
+         YQfTPEU9nfosb560QNybgvyfDcBVRRX4bcr6oOTF69Uumi26U/rcN+6ReHYqO9PJkxhn
+         jGnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716263104; x=1716867904;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=92eG1R1+dxxcxoqnquEsD3l0yRmXMuTseq3SVxvuVCU=;
+        b=gcM2QZS+YlCMbSnzlREwIkQAiWZoXp4zwnp0qgk8I2YQ7V5h3FgvR/+e5AXDamlAfT
+         +S3frHDlaOXFrP9biF3yEQPqnGlSem9GW1C0R2rAhXcoREllCeHrXBQ8lBrGylUvd/zu
+         jtZYxZ6Omwo/x9/Po9e3t3p3yzI8Q0zIw9A/4UQbCfz8v73JutbTPWxXbZdaYJXPAZ/n
+         j5WVTI8iYlFdwrCRby0VrI1PIrieIMNtw9KLeqPJiO0d20BjmCJeHKjnXBbi72OSTZjb
+         Xl0R3MeYm0Es+M2Su1dfRcTywaYb+9+Uf3sSa3u9ynR8Y0uYT+e8akenX1H2LXb4chU0
+         +IFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVfGUX31sQ6IFLXgAwIs9LuEGzEjWwm5iYnY3YI1LYt6eXqsEwt+cvNPCYXTVbSNhVFBgEDZcyHoYvoH9HjMX8uRSLjWE5jGmImSOuLuLS7eKMG/yPYYTLAiEsDEJ5uBx7GCiI8YuDy/8ti7U3rsLEmCAX05t0mXzBF8piH/npc5eJv24tL
+X-Gm-Message-State: AOJu0YwJtg8J5kRuOhrDkKUV/79fBoD8RZKs3l7OFQtB6GMAbMIsmV5F
+	V2KZ9XocxqlqN+4bIJIN0ARJquuQG/8wrZXNpAy9YqkK1YYLlV6YS6sIvwLPiTI5jI6cGqyPCIb
+	FNpkfw/XU/9lS4i6KbbguDfWzp1nRyCWc
+X-Google-Smtp-Source: AGHT+IGUqihHFeb7eWpabPg1q5Sh/AS8XKoMLly/pnZf7TI+p69vXi5+CsRbyhaNcvW9G0mXy1rLErzVIJjrmezSMvA=
+X-Received: by 2002:a05:6e02:1caf:b0:36a:1f1a:f797 with SMTP id
+ e9e14a558f8ab-36cc1501d23mr336656205ab.32.1716263103909; Mon, 20 May 2024
+ 20:45:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB7901:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21bc746d-f7ca-4847-636b-08dc79338377
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|366007|7416005|376005|52116005|1800799015|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?K7paMHC91DXLkkEuN5TRgl6dhu9lHdWJ7ydq52B3qcyQyN9fb23cUElVyK34?=
- =?us-ascii?Q?d0x/gCrDDUO1zHsFZVQIqaO/0tfhvzRhSrT8t/EDNTASFJDRT3Kw6bCnIFkB?=
- =?us-ascii?Q?aJbPfseGp0iSMVDitxw6tAa6oybqG7xF3XYQORVLmoDdQO3OMjr/6a6TRL12?=
- =?us-ascii?Q?taMs60PEbbLP6hNWhDX5nj3har1PsahlMIpP2b07skxIaHARRQKs30CFfHxD?=
- =?us-ascii?Q?6qCqnv8k6673xsjirAthNWapNhUlFNyeU2HjEIkB6qFFG1CKHC54xMAxrf2r?=
- =?us-ascii?Q?PZDhe2rBRDj0/aex2w5TTUQewTuYGl4B7jFOLO52gbrNUx+nAh0PaZEfggRz?=
- =?us-ascii?Q?vEnT9AxO1wb8U7pGKs0jrsHQNQqDnQ43MGyGNgdHKKmtVj0yTtRdV+TvL4L2?=
- =?us-ascii?Q?UiJUBuOvawC3B6p2pLRxvXKV6nAJHHi+2rHEdV/Zd4kxBou5T1pICEl4v4sK?=
- =?us-ascii?Q?1HbCBI30R/1YN2DJVEZ6q7v055KRtPl5y+zd+nJoPGiRUCod1M29RYWrcOSU?=
- =?us-ascii?Q?cHont816+4mmRl0LxIeD0UG0EJR9FZ0qWUkadwzbQcboEU1dcttc4l/OXTaT?=
- =?us-ascii?Q?/zNtvxa5ZAh8aeFZVu3WsF9SQnM8+x+h1aIZsBL8qhTvljsuE+Gc5O9tLH8i?=
- =?us-ascii?Q?qjgQTuc3FhGZM5elSEbN+rexTFVqZYhGBqNd93oELzDTxB4iiBdGgFBptHoT?=
- =?us-ascii?Q?8+ToleYgH+SQJjRIun+5W2nLqy8axKFP1FPeF84lHRpY92M+XAxbUcf3g5Rn?=
- =?us-ascii?Q?+DzKflYhaDOzHFIjksX6rD0GrV5FiR6KrS40cOxf1n0QHVvWQNDzjRTIeO+H?=
- =?us-ascii?Q?UnHVWp+KHDCJHb4A5u+kpWPQotyFZkiepbBJA5I5BcTBSJz8Qk4+zrn0w5zk?=
- =?us-ascii?Q?r+UyXfwVF/P0yS4oieQHQ2d2AvuvrwTLnNJWfjO6+p5u5WkWvuGvVtDGQ5uz?=
- =?us-ascii?Q?G2nlIbm0D4gZSZApdUC8DRNJC9WXZHly6Zk/9rr/s7mSvP8wP+8OyYQK4OcW?=
- =?us-ascii?Q?3xwtiQtid4ljGdoO1xFBSeY+w5ufBTBJ+WQe5wzyzRQ1VS6ZyWCs1RtVEEDS?=
- =?us-ascii?Q?jQy5f4ZYhHqWQinJD4hByXz5RjbX5lpdQ6F7aZ40cDxJvxTe/HKpecBqpGRo?=
- =?us-ascii?Q?dkeObHz6U+858UpwL/DFdwuNyFGpXUHNNfg4gr8c3/CTV4oUzAXfC0coU8my?=
- =?us-ascii?Q?uJKlOrQtAT5W3Vm3sCi9/iLax6+y6LCsZS3W/eVwLbsTqUb4DQpv6S1VUnXS?=
- =?us-ascii?Q?8J4iXBy/WHoJWuZ4FzuTT5/8L68BYqtMMfV75UMIhJRztw5K49sSF6KKO+Uw?=
- =?us-ascii?Q?s179SW2hK/k9/VjNL2BlOO3CdrpTus6r/XmdPam5EwD92A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MtaaSQrkL7dr7A/YALnkKoi2fjXLW3bt3Pv9Rv2RH4ATbb4M3gTBflkk56hE?=
- =?us-ascii?Q?PswkzJ2+YAprFQnpwyT7KtPRRwMnRAhlPlL0Ig/abFg/fRV2mMDIJG5xcnG2?=
- =?us-ascii?Q?Z2y4U3ySyVMCLTea1gOcWE5lfPZIVGz7qo0WNnLyihDkAFNZEGz77c0mwdBg?=
- =?us-ascii?Q?sS7FOACHuUH+waV5D+jVOsPDsLbTyBoMx1eSn48RMxueu271BXdIQ7KPXfhu?=
- =?us-ascii?Q?gKUQC+XE/8weibk8hxjLk4lfoChnWcVK6s/6DrpVxwPkcrCvW1/J6BmaTnC6?=
- =?us-ascii?Q?qPowLFBOa6NLsG4PiGV8q9N8uPFmJ8NHK1+i3LC+Fkt8hjuN5MQy6YBv+LPy?=
- =?us-ascii?Q?Eoyj6O+a28VqBney3Caj8UpUA+iYot1ejxsNYxFDmVKgn0EM9Q0uR8ROB1+W?=
- =?us-ascii?Q?SXeZctQMJ5cIbP2LYocf3WXIRwpGEqNAScbYyD6W38ADGJgZPIqevV2Z8BAz?=
- =?us-ascii?Q?t9HTFBxht21uGuuUeiRCo9EJaYsfdPjwyTPinJpFFAtJaNDky59D/XZk44cb?=
- =?us-ascii?Q?vdPAO6oW6gST/laSjFqRcLnhClFf2z4KfJUhpz2+HZvoTvAHa65tHmtFXuhS?=
- =?us-ascii?Q?0SZfqEzvIcX7TfZuzx0E+vQRwEps/C0bPPUymEXT6AYuDN2MoxdHr7S7AKcC?=
- =?us-ascii?Q?2QqfcBMNovCdLrHDdMWHiTLVWdQEXAN+oq2zuxA2VKtOQlswvQvqRBJffecI?=
- =?us-ascii?Q?01w4VGTAnVOo/hUSQ01Qkzgu3malFKvgSHOZLKAbi5/KD2k7xfH0w5aDGBjv?=
- =?us-ascii?Q?7z+62PjzqJVUMGyZoK6TSGoxTyM+RG7R4/MdJhigzPSNFLgD8Jrfxez7bVL1?=
- =?us-ascii?Q?XPgdEKx8/DdIbgt5R1CteCjlfiiENno3cze5uFC9AvfHRoJJ9452KHPJSjsm?=
- =?us-ascii?Q?ccG4px+AXN4ZEs3hLZ4ZYuU+l+sigwp5SVtUvOBxjaqwjMCWYYB8AD4pNW1n?=
- =?us-ascii?Q?AbcLiPR5RkM92/hnJClX7+mt7wwaZTYao62cu51kerIhTG9qK0PSO1/9mXav?=
- =?us-ascii?Q?Ezc75ivTSA/RmiauSdpywkK2eqYUhYE16/vVr3oQ4M72beD6Gf6mIOBuaUT/?=
- =?us-ascii?Q?A7hfhRakQByixiYU2KxPUeQshUSdB6mUaZSa5nIQ9g6hxmNZRldSkZ5kNWYo?=
- =?us-ascii?Q?b/2uz5A3IxYkO2thpLc4SLUlpMfL8pxbmU4QJLcKRkHOI2HjWYY9KD7P19Rf?=
- =?us-ascii?Q?sIyqnyryni0O/l8pfOjWDcOKnlHcD2UmG/So6vAM2bguyfdhDFdyBfqx5KDQ?=
- =?us-ascii?Q?B26jKQJtf/tWyw3NjKXYR0ssjc6bEAquycIZ+hcFqzjJDMUgcKZ0dnUHLTgV?=
- =?us-ascii?Q?IO/ijgHLFd06zBLkGUpJ6UEKL9HbxozvciroFQnmyrvCHxruyTiWC95bHU5+?=
- =?us-ascii?Q?DWUwxCR1k9svkHXd8dgdVR8O7qdaedJTx2twOzdgPuaBwd8i+8UsaX2InN+o?=
- =?us-ascii?Q?gSV2Lws+K19Hvv+iwyh70Nj0Et+fqWZqEVYb0ZXXdWr35smYc0dKtxrZd3dS?=
- =?us-ascii?Q?5YOvXaQ4QchTOMGtVRDQqoirlaler1SqZGxvJRlZSYKtf7nzO25uXVgiiPuw?=
- =?us-ascii?Q?EKVr9dzQkv2oXnU7NUwnDZqegwZxtMxDClpnjdaTuN7S1/GOUMh/yfKcAxFd?=
- =?us-ascii?Q?1eY2vKX6G2P0wulyfuUlLIc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21bc746d-f7ca-4847-636b-08dc79338377
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2024 01:15:33.6609
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +xXraBfC3+KFRAW3zXCGXonZQ9XprnfcQH1acGnai2T0+i1JvIhfyiEQuVXUHxhxlYbxu2TGgCqyN/CMawMK/4xwc5ZXrK/jNqm0yYloBeddSLqufq6ktFyq9IaLjYIn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7901
+References: <1715656329-8061-1-git-send-email-shengjiu.wang@nxp.com>
+ <1715656329-8061-2-git-send-email-shengjiu.wang@nxp.com> <20240520161602.GA733483-robh@kernel.org>
+In-Reply-To: <20240520161602.GA733483-robh@kernel.org>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 21 May 2024 11:44:53 +0800
+Message-ID: <CAA+D8AOvuCKN0cU_TAHsz6h41qVXHbV0LfkFq9dSRujt2Lc2bw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: fsl,xcvr: Add compatible string
+ for i.MX95
+To: Rob Herring <robh@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, May 21, 2024 at 12:16=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Tue, May 14, 2024 at 11:12:08AM +0800, Shengjiu Wang wrote:
+> > Add compatible string "fsl,imx95-xcvr" for i.MX95 platform.
+> >
+> > The difference between each platform is in below table.
+> >
+> > +---------+--------+----------+--------+
+> > |  SOC          |  PHY   | eARC/ARC | SPDIF  |
+> > +---------+--------+----------+--------+
+> > | i.MX8MP |  V1    |  Yes     |  Yes   |
+> > +---------+--------+----------+--------+
+> > | i.MX93  |  N/A   |  N/A     |  Yes   |
+> > +---------+--------+----------+--------+
+> > | i.MX95  |  V2    |  N/A     |  Yes   |
+> > +---------+--------+----------+--------+
+> >
+> > On i.MX95, there are two PLL clock sources, they are the parent
+> > clocks of the XCVR root clock. one is for 8kHz series rates, named
+> > as 'pll8k', another one is for 11kHz series rates, named as 'pll11k'.
+> > They are optional clocks, if there are such clocks, then the driver
+> > can switch between them to support more accurate sample rates.
+> >
+> > As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4'
+> > for clocks and clock-names properties.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  .../devicetree/bindings/sound/fsl,xcvr.yaml   | 55 +++++++++++++++----
+> >  1 file changed, 45 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Do=
+cumentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> > index 0eb0c1ba8710..70bcde33e986 100644
+> > --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
+> > @@ -22,6 +22,7 @@ properties:
+> >      enum:
+> >        - fsl,imx8mp-xcvr
+> >        - fsl,imx93-xcvr
+> > +      - fsl,imx95-xcvr
+> >
+> >    reg:
+> >      items:
+> > @@ -44,18 +45,12 @@ properties:
+> >      minItems: 1
+> >
+> >    clocks:
+> > -    items:
+> > -      - description: Peripheral clock
+> > -      - description: PHY clock
+> > -      - description: SPBA clock
+> > -      - description: PLL clock
+>
+> Leave these here and add pll8k and pll11k.
+>
+> > +    minItems: 4
+>
+> Keep this.
+>
+> > +    maxItems: 6
+> >
+> >    clock-names:
+> > -    items:
+> > -      - const: ipg
+> > -      - const: phy
+> > -      - const: spba
+> > -      - const: pll_ipg
+> > +    minItems: 4
+> > +    maxItems: 6
+>
+> Same here.
+>
+> >
+> >    dmas:
+> >      items:
+> > @@ -97,6 +92,46 @@ allOf:
+> >        properties:
+> >          interrupts:
+> >            maxItems: 1
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - fsl,imx95-xcvr
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          items:
+> > +            - description: Peripheral clock
+> > +            - description: PHY clock
+> > +            - description: SPBA clock
+> > +            - description: PLL clock
+> > +            - description: PLL clock source for 8kHz series
+> > +            - description: PLL clock source for 11kHz series
+> > +          minItems: 4
+> > +        clock-names:
+> > +          items:
+> > +            - const: ipg
+> > +            - const: phy
+> > +            - const: spba
+> > +            - const: pll_ipg
+> > +            - const: pll8k
+> > +            - const: pll11k
+> > +          minItems: 4
+>
+> Drop all this.
+>
+> > +    else:
+> > +      properties:
+> > +        clocks:
+> > +          items:
+> > +            - description: Peripheral clock
+> > +            - description: PHY clock
+> > +            - description: SPBA clock
+> > +            - description: PLL clock
+> > +        clock-names:
+> > +          items:
+> > +            - const: ipg
+> > +            - const: phy
+> > +            - const: spba
+> > +            - const: pll_ipg
+>
+> And for this case, you just need 'maxItems: 4'.
+>
 
-Hi Pierre-Louis, Mark
+Thanks for the comments.
 
-> We cannot change the Maxim amplifier driver, it's used in a variety of
-> usages and platforms, and there's no reason to create a fake capture dai
-> just to reflect the use of a capture stream on the CPU side on some
-> Chromebooks.
-
-Why cannot ??
-There is no effect to user if Maxim driver has full channel setting same as
-dammy DAI. It will be handled together with CPU, and system gets CPU
-channels as-is.
-
-> I don't disagree that the unconditional use of dpcm_capture isn't very
-> elegant, but it is what it is. This platform has been around since 2019
-> and still has about 6 or 7 years of support, so we can't break it with
-> stricter criteria.
-
-My opinion is that working without channels settings is wrong.
-I can understand that it was working in long years, but it is working with
-wrong settings. So justify a wrong-settings is not good idea for me.
-And I don't think it is stricter criteria, it becomes *sane* criteria, IMO.
-
-Because it was working with wrong-settings, we need to makes it sane.
-This is the reason why it has grace time.
-
-Thank you for your help !!
+I will address them in the next version.
 
 Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+Shengjiu Wang
