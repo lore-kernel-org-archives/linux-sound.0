@@ -1,151 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E738A36AFE;
-	Mon, 20 May 2024 23:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72ADB7F;
+	Tue, 21 May 2024 01:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716248576; cv=none; b=BIKEKI+koBulGLGk/QRaocG5TH8bcfuSrQLHMUCNsIh4fAqObmlX6d+5Kg13IY5n+JwOQ0d3dKvaPxTbrzPqWjSKeLm01KS8nQIdz2g1GjH5LRGm1KjCcTkKrMUy5p+/3XOJK+Ju5LFFE3mmo3wXLgXix4AqKaV3xz4XwEBVOTY=
+	t=1716253962; cv=none; b=RRTN+rxopU2IXBX/WwEL7UqiCNEeWK+XDeiMlGNZa6bQhPClNKKnLvYgox6H/LTcMH0lKj6oHOvBtoqoLOW3X2efXjEH0zw27ydfMTbgcDFUV83FZgdK0rvUMTYESji1oVuXhhmPJeeEq/eWetjOHmfwUjnVovaRLYY/18AZfeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716248576; c=relaxed/simple;
-	bh=LvhNE47HwRc9IiFLm1WRvgRimgtExT7XKlEYXYcZPSw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=huTkjKVZMpnpldGA15bJ8zwLKJH+5tBkhotjCV4bONIeYFx66GPNERabo4UVDnAqcHQs1OJevv+g2ZSxWTuYG+Q6dfRW3ye7JfIFGrKDxzeKGIQZcCYEP7RuokpsdCsvVRKEocdTbGLTTWmkdaQqeRgTFtLaFc3ialTAHKE++wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWlyz+zM; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWlyz+zM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716248575; x=1747784575;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LvhNE47HwRc9IiFLm1WRvgRimgtExT7XKlEYXYcZPSw=;
-  b=HWlyz+zMEk5rJl92lP3TcRAAjveJ+FhS7nUZ3zA0TyGDkZ2ktocU4BL9
-   cUrhGJvcvgTTBAE68oF+lXNtHrvxlo8yjk8rVLSRKRXgRUDElbniE24/5
-   NX+U7ePN7B6IDQW8cJPXMdA5GwV/lYxjukCHHN83sc6dM7wI72mVsTYgc
-   45XqvYp8rEYwprWb2pX6xJk4lIvZOFVQmnGtFm7aYhHJrHqU78v7gObqS
-   tFUPYzAvSMXXkmqu+DGdxQNo+dfH7/fKwp1rWVSm86h8yczK1Q4BhHwd4
-   c2uETG4ZwmvzS3T1zmwenpOdhWv2Ap5Vsp07q0B1rMJUd68Aii8vo1qGg
-   A==;
-X-CSE-ConnectionGUID: YoGsVdb7R/aIq8qev4eRNQ==
-X-CSE-MsgGUID: S9d5D0WRRbSxCXu9YwDzKQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23550043"
-X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="23550043"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 16:42:55 -0700
-X-CSE-ConnectionGUID: b0vyrOh3RVCjrDoQ8W4qOg==
-X-CSE-MsgGUID: kStHjqW3TkGraF/ISJU4lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="55952024"
-Received: from ldmartin-desk2.corp.intel.com (HELO [10.125.109.115]) ([10.125.109.115])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 16:42:51 -0700
-Message-ID: <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
-Date: Mon, 20 May 2024 18:42:49 -0500
+	s=arc-20240116; t=1716253962; c=relaxed/simple;
+	bh=mUJ68N6msczBB9C/8LlQHDYjFu+UJe5YHP1HFLKiZyg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nC0p42FF/Qn2BqcTqaevU33RmSku0DjBi5mXkbVqrg3hk4Ly/0F3v7AJ4w+35Sc7M5qHU8XbLYV9xyGwil96Se6rSbaQrOEb+/DxTpHdtXapxd4lgicMexJh3ZTEflNnGhZbLg28enErC95Qe5fgI1TMC3DXiHiDFmvHghryqiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-01 (Coremail) with SMTP id qwCowABXXhoe80tmEMlyBg--.49483S2;
+	Tue, 21 May 2024 09:04:30 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: g@b4.vu,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ALSA: scarlett2: Prevent leaking urb
+Date: Tue, 21 May 2024 09:03:52 +0800
+Message-Id: <20240521010352.1082164-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
- <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
- <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
- <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABXXhoe80tmEMlyBg--.49483S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZr43XryUAw4UCw45Ar45GFg_yoWfXwc_Wa
+	yI9w1DAF1DWrnIkry5CrWSvF40kwnrAF18uFsI9397tF9Fq34rtw1Iqrn8CF1xZFs5JF4D
+	Xrn7Z343try29jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb2xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVWkMxAI
+	w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUFVyIUUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
+In scarlett2_init_notify() if kmalloc() fails the allocated urb should
+be released.
 
->> I mentioned in my previous feedback that this isn't quite right. There
->> are cases where the CPU dai reports capabilities that the codec DAI does
->> not support - e.g. when the AEC reference is generated in firmware on
->> the host DSP.
-> 
-> Hmm... I thought all issue was solved...
-> 
->> For those systems, trying to match CPU and codec dais is not going to
->> work. Either we skip this verification or we have an escape mechanism to
->> avoid triggering errors.
-> 
-> Sorry, but I'm not 100% understand about your situation.
-> Why Codec can't have channels_min ?
-> If the Codec can flexibly adjust to paired CPU, Codec can have full channels
-> support, like dummy DAI ? This means verification is based on CPU only.
-> Is it not enough ?  and/or Can you show me the driver ?
-> 
-> 	static struct snd_soc_dai_driver dummy_dai = {
-> 		...
-> 		.playback = {
-> =>			.channels_min	= 1,
-> =>			.channels_max	= 384,
-> 			...
-> 		},
-> 		.capture = {
-> 			...
-> =>			.channels_min	= 1,
-> =>			.channels_max	= 384,
-> 			...
-> 		 },
-> 		...
-> 	};
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/usb/mixer_scarlett2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-We cannot change the Maxim amplifier driver, it's used in a variety of
-usages and platforms, and there's no reason to create a fake capture dai
-just to reflect the use of a capture stream on the CPU side on some
-Chromebooks.
-
-The dailinks used for amplifiers in
-sound/soc/intel/boards/sof_boards_helpers.c set dpcm_capture always
-
-	link->dpcm_capture = 1; /* feedback stream or firmware-generated echo
-reference */
-
-which means that this test will fail:
-
-if ((dai_link->dpcm_capture || dai_link->capture_only) &&
-		     !has_capture_both)
-
-I don't disagree that the unconditional use of dpcm_capture isn't very
-elegant, but it is what it is. This platform has been around since 2019
-and still has about 6 or 7 years of support, so we can't break it with
-stricter criteria.
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 1150cf104985..4cad6b2a0292 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -8637,9 +8637,10 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 		return -ENOMEM;
+ 
+ 	transfer_buffer = kmalloc(private->wMaxPacketSize, GFP_KERNEL);
+-	if (!transfer_buffer)
++	if (!transfer_buffer) {
++		usb_free_urb(mixer->urb);
+ 		return -ENOMEM;
+-
++	}
+ 	usb_fill_int_urb(mixer->urb, dev, pipe,
+ 			 transfer_buffer, private->wMaxPacketSize,
+ 			 scarlett2_notify, mixer, private->bInterval);
+-- 
+2.25.1
 
