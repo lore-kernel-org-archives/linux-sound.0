@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734921DA24;
-	Wed, 22 May 2024 14:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CA81411EB;
+	Wed, 22 May 2024 14:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716387350; cv=none; b=hkFZpZzp9BG6vdmZUjGmG1PePvl6Q2gmlC5ku3vwJhhObD0LczVuJEwbH8dP4nddT0GSUdcx9CrP38N6ztDDDcbw9Z2bd/xCi2aaStX5gql2Mme/HHeqK2EqOaoYUYUpb48XMPXQGnF4vLcboyYDiMopT/CYlSA3bA3ANGOB7xQ=
+	t=1716387417; cv=none; b=mP12B55l5WGcUKRmatotficUMu/BgWuYNBf7Ce4NTkXpFOgNeFL5X/c1RYJLf48cJZseG8pdJrS17Bw0YDfgvh8lXyXm9ZKPw5+Pueg7SEtAl8QDqHoWLoKyRHirHfCXJXW4Lr1TPfWI8ZgA1+Wg0OK3ZwWta444MmJy85ubgVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716387350; c=relaxed/simple;
-	bh=U/NjJb0xHLp/B0jItwl/jBx9LMFb6nr8u3NBLdLHYr4=;
+	s=arc-20240116; t=1716387417; c=relaxed/simple;
+	bh=RSAXkko1c9u6TELmDINaGCBfMIhMLmGXz9yU4gV4KMI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dMTTMFE4SIxdNkTs7iS9HcCxb4pPm1RxfhGfiWVxRsCP9UDFoyndgMdvE+/4Mj4c7pBJfVJ1/rO/YQgiFAVL4r21TH5szobwAAPuz7zvGpx1Cf2kEwL0qXoaYcgO05mHcqZFIOH834S7/Dbu9C1/Fh7EY2f3huM0UD4fe2w+/YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7uQkqK6; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=jG/yvatVF4OwRMoHGTZlGryv35nsj+ok+70XQpUtJZvlASrsckfEyrE8abQDYIf55yod8NKJDRIl3XYKR7e4/GPz4x97YTt5ryZ9iU+xgVcllBnRcaHGvIjrHlYiQSIqlI2A9XpRKczVCcTtvgRhwfN0Xeu24T6lOgpjWJ1VjdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Az/gRs4i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7uQkqK6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C12FEC2BBFC;
-	Wed, 22 May 2024 14:15:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Az/gRs4i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A6EC2BBFC;
+	Wed, 22 May 2024 14:16:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716387350;
-	bh=U/NjJb0xHLp/B0jItwl/jBx9LMFb6nr8u3NBLdLHYr4=;
+	s=k20201202; t=1716387416;
+	bh=RSAXkko1c9u6TELmDINaGCBfMIhMLmGXz9yU4gV4KMI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m7uQkqK6c6mNvuylUP7zsSjrW5HysjxEwdhSLZgYIs2bRVySPQBSrdVNkQQLeCeeq
-	 U1Iff6G0L5rqgmZeLY173WtyQhKDPtkwxhocqLlQ+krQoVIa2OJwW4TWqbRTBquqdh
-	 /Np9yYi3FrzY53GLDsbXPsI5o1+Z4XRbQ1QpkKFq9x7G87jaoNMho4pYdsvyKaX1gt
-	 KRnqqaZNaO+zwcpV9L3ZXt6t7KPvamhyB22d+BQvo2PKexS++E+tfDNA+X7szO5hOA
-	 EoUxwIwMztkvRpfG4uj7HBia+e26W7Ka52BPry740lsxiJ/DsMi+xyyenbs9UcEZGH
-	 HcrREyWl2W5nA==
-Message-ID: <760012df-5b16-4cc6-b2e5-0a05294f6000@kernel.org>
-Date: Wed, 22 May 2024 16:15:44 +0200
+	b=Az/gRs4ikmQaiO5IlqDDr9sDcoBF8L0yqhyquvJxaqG8XNKcODuPMHYUU8NzCLAON
+	 LeiPxTEcvrL9Xsex/m572P95db1u5icg2mSFhIoy54ExmQV1noUU1t8abLfSwCOkUC
+	 yXXa5Ezr847Lti2/d1pcxUo4Fi9DbM/sdo3jrnZZbmRGuuwgBCMn2zyP3bE6fsiYI7
+	 BUo0chOBxCddmUiV9LeYFDMICke20gu1wtAjN/Y4dgWoWHBedtLr+x88z9chsqiuLV
+	 iyRNEIEXoGISinQ61yf+CLItW1lsCSo2wnxXa/s/UuoOI6XJ+73cXxnHLSIAYeT1JJ
+	 UTGgNuGi51sLg==
+Message-ID: <4f722e53-011f-4176-b6af-080522165007@kernel.org>
+Date: Wed, 22 May 2024 16:16:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,15 +36,15 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Mithil <bavishimithil@gmail.com>
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Mighty <bavishimithil@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240522075245.388-1-bavishimithil@gmail.com>
- <bcc9999d-b912-417a-8ae8-f4e252d1bd8b@kernel.org>
- <CAGzNGRkc5NJbJpZuUir7dv-C3A=6p_kxp56zrVp6N8+DviPkig@mail.gmail.com>
+ <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,38 +90,54 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CAGzNGRkc5NJbJpZuUir7dv-C3A=6p_kxp56zrVp6N8+DviPkig@mail.gmail.com>
+In-Reply-To: <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/05/2024 15:46, Mithil wrote:
->> You are not making it easier for us to review:
->> ====
->> b4 diff '<20240522075245.388-1-bavishimithil@gmail.com>'
->> Grabbing thread from
->> lore.kernel.org/all/20240522075245.388-1-bavishimithil@gmail.com/t.mbox.gz
->> Checking for older revisions
->> Grabbing search results from lore.kernel.org
->>   Added from v4: 2 patches
->> ---
->> Analyzing 15 messages in the thread
->> WARNING: duplicate messages found at index 1
->>    Subject 1: ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
->>    Subject 2: ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
->>   2 is not a reply... assume additional patch
->> Preparing fake-am for v4: ASoC: dt-bindings: omap-mcpdm: Convert to DT
->> schema
->> ERROR: Could not fake-am version v4
->> ---
->> Could not create fake-am range for lower series v4
->>
->> ====
->>
-> Hey, sorry about it, its my first time with lkml, could you explain
-> what seems to be the issue here?
+On 22/05/2024 15:56, Péter Ujfalusi wrote:
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - ti,hwmods
+>> +  - clocks
+>> +  - clock-names
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    pdm@40132000 {
+> 
+> The original label and name is preferred to be used.
 
-You sent multiple same versions, I think more than one v4. You can try
-by yourself - does b4 work on this patchset?
+Label is not used here.
+
+About node name, not:
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> 
+>> +      compatible = "ti,omap4-mcpdm";
+>> +      reg = <0x40132000 0x7f>, /* MPU private access */
+>> +            <0x49032000 0x7f>; /* L3 Interconnect */
+>> +      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
+>> +      interrupt-parent = <&gic>;
+>> +      ti,hwmods = "mcpdm";
+>> +      clocks = <&twl6040>;
+>> +      clock-names = "pdmclk";
+> 
+> The clocks cannot be added at the time when the node is defined, it is
+> board specific. This way you imply that it is OK to have it in main dtsi
+> file. It is not.
+
+Wait, what? That's example and pretty standard. Example should be
+complete. This is not an exceptional binding.
 
 Best regards,
 Krzysztof
