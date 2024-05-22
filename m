@@ -1,157 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A1D6AD7;
-	Wed, 22 May 2024 16:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B531420D1;
+	Wed, 22 May 2024 16:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716396167; cv=none; b=r0W5E9qrs9gxTUWMjf3SkxuUvR4SXBNKAdnhG11H5R5Tjtj5xolZt8eUMRA5HcTRopQsyYmkY4Tfjp8Yvn1gJz0KIpv3dutU75vpKjTGTGacezskBxAc3kvvnQontI1ReoX4oZ10eXiLn2MdjbeRQxMM/E82GhjVdGn3nyiol9Y=
+	t=1716396512; cv=none; b=IdF5xRT+HHrJKI1+INmiB5g6kIKwceC9wpagicGXHexiD/AagHT5bJSPN4bf/viwGbVGx8D6X/kChGuv9I+8E4VR4ejlsY4xkqyiZNpa6uzV3JsEcoc0aabV69mqZi4xyutRwb7Fh/GEnhqIxD/j5GfURpb2PjNALDzcbudc0cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716396167; c=relaxed/simple;
-	bh=0yTpr4XDAR+wPp22gH1CKiRI5rw+V152ACV8HzNj8bs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tKn5R/HYn38Q5RfHRzsKrKQH9XPa0l2VEf2tH11wNidPndEAJ9HXjFEahKT+aT7uQONgxGmNdScYn/WjrvlIQ7Xa2XApqrzzU3R1eOjrs/bXYqNLGU4ECRepjbaHbNcECUo79A6drrtyqoDiO7AUpDCqudi9lJuol9CUimYQg3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jw+7RvXa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716396512; c=relaxed/simple;
+	bh=jqaMzYloGJC1p36Hu/Ki1EJd/LTPfFtj7hWey5jm20M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RORXfuHLhNEcDYCi7V/rbVDazxcaZE2Wsb7FjkQx4524MMOz6MchOaOIV9xWXVoDLaxFJHyXVwJuxSA0rVDw3BAiyVky2X50qDVcmHxllnXiQTa6NYdvTM4yxJRArcCCmzcuFQXrP+58wIg4Lzw86Ox1FxlWw+Fsr5qvhs5Sb+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JguZ4ulF; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jw+7RvXa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B214C2BBFC;
-	Wed, 22 May 2024 16:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716396167;
-	bh=0yTpr4XDAR+wPp22gH1CKiRI5rw+V152ACV8HzNj8bs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jw+7RvXae583rBN8jVMBx/fkbAVVn6VuInBNSh5++U1yqwYNKIL3VqIOO2jjFKvFE
-	 IegEAvgXh0MYQLSwauE24hPSHO2HIY8zwHU6GNCIClfWAwVMUN9c+5XTn80tgI0zqm
-	 C5Pxe2Lh69z3DkBZLNa1OyMIowSuLrvUtqrpbGXzsvdASRmyZULHvJQu+Bir8GUwq7
-	 S55/PMk1yRJ/ale27JCD3TPIfKeKjIDdnxk/rYx5Vd65nZeevLKCCjz6X4CvNz0WPg
-	 m3sISpN5rAr1Q/oQJls7LiYZVxJ/JTWD5AmUqyNWu5SbMLkkjHLCn9TLMiIm2TnBAR
-	 22Nc52RgQ7s6A==
-Message-ID: <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org>
-Date: Wed, 22 May 2024 18:42:40 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JguZ4ulF"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51f174e316eso6268497e87.0;
+        Wed, 22 May 2024 09:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716396509; x=1717001309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8C8W8zCXK+dAO5cwNPCwrKE66eqW6f105qpnTPFwu8o=;
+        b=JguZ4ulFhPw7UmEF58iMc6TlUB19JroegETA+/d40PhtvuV3+rlHnvR8DhrftQrkQg
+         MX+tG/qzD6ImIEnT9hvZBFxVhZX7QGn+JwpabqntuzeQ9+Li3GK8hV7dvYiwEXwunoxy
+         mFb1vrB5YW22ViU6p0eyemYeNUJXd/HyzGEC16KWSYOLR80GZ8lZkR1bJTaTYALsW3o9
+         /3WaDYnD6xDYGImLgkhCs4ebLzfinID2w8btukf4Ngsfc2BhZYUGcdcJdOxzVk2G68zl
+         euhgU7G3QJTdKfyriK43cu0omyamVMX1sOmeLuuhVonP6V0XO3yuzVY2btURaLH38DAd
+         JOrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716396509; x=1717001309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8C8W8zCXK+dAO5cwNPCwrKE66eqW6f105qpnTPFwu8o=;
+        b=I0/DKqIelNHq3Yj2z4Za1/F38AhOeiAyjHgH/jhXGcGuG8/HamLnbAok+xqC73c4M7
+         bE7MMDo++w9rymbo+ND37SWsEaS4xQgYc+oOsE498sl4khP0AYb1Uqv2zDf3sg9/ANa9
+         /Ezf6KKN0NGloQjGRhK8F30zIpaCiSx1f1WFSxmTFy1QzUavHjwJ/pKHIbTvNzoJUDxW
+         n3mFGt4ONxiTHFYoD880QsKAlmCiYMXZJmWLET5O8f2LH/ss/oIi1GliotS4MwVoc/kg
+         tTS0afJxvH55Tw1MApJd0ejn4TI9Mv+tv+mc6P1Q8YObphpUvg5uI1xurb4b6LeQq5cy
+         xeKg==
+X-Forwarded-Encrypted: i=1; AJvYcCW70GvwVjXWeWXnotI8ERZzip0ceMnr5eJQ6aw6FyctOtxl2v+RX04qnQ7kNhn6ICbbTDi9N15470Emw9yYya6FnOOvHZiF9swDd57CAga1ZKE23qSkBz6E+JFCDohfyZ8OBM7EryanGw==
+X-Gm-Message-State: AOJu0Yw7iRX+0a+O5kDOhJegHwzE/2/lh1a23Fzi4E29nr+ICWaZxUIa
+	i6mtLCidjaf/sCg0MdAXe5w3OzHsyMkv0Gf2NJ3pje+FVvztZLeL
+X-Google-Smtp-Source: AGHT+IGFLQQAPPpvRXfa9xhEU5F9dI5rhT/wm4s1J9CSmmHq4iONdEXYR41VSlkn5CpM3n/278Iu8w==
+X-Received: by 2002:ac2:5986:0:b0:51a:c8bb:fcf7 with SMTP id 2adb3069b0e04-526bebb4cefmr1600047e87.3.1716396508382;
+        Wed, 22 May 2024 09:48:28 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b17733sm1797951766b.195.2024.05.22.09.48.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 09:48:28 -0700 (PDT)
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Drake <drake@endlessm.com>,
+	Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+	Matteo Martelli <matteomartelli3@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] ASoC: codecs: add support for everest-semi es8311 codec
+Date: Wed, 22 May 2024 18:46:54 +0200
+Message-ID: <20240522164722.954656-1-matteomartelli3@gmail.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Mighty <bavishimithil@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240522075245.388-1-bavishimithil@gmail.com>
- <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
- <4f722e53-011f-4176-b6af-080522165007@kernel.org>
- <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
- <3c6c5be1-fb8e-4bf0-9f58-cfb09672e8c1@kernel.org>
- <d999bc26-9bb1-44a8-92a3-bcbe14c5a1c3@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d999bc26-9bb1-44a8-92a3-bcbe14c5a1c3@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 22/05/2024 18:01, Péter Ujfalusi wrote:
-> 
-> 
-> On 22/05/2024 18:22, Krzysztof Kozlowski wrote:
->> On 22/05/2024 16:43, Péter Ujfalusi wrote:
->>>>>
->>>>>> +      compatible = "ti,omap4-mcpdm";
->>>>>> +      reg = <0x40132000 0x7f>, /* MPU private access */
->>>>>> +            <0x49032000 0x7f>; /* L3 Interconnect */
->>>>>> +      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
->>>>>> +      interrupt-parent = <&gic>;
->>>>>> +      ti,hwmods = "mcpdm";
->>>>>> +      clocks = <&twl6040>;
->>>>>> +      clock-names = "pdmclk";
->>>>>
->>>>> The clocks cannot be added at the time when the node is defined, it is
->>>>> board specific. This way you imply that it is OK to have it in main dtsi
->>>>> file. It is not.
->>>>
->>>> Wait, what? That's example and pretty standard. Example should be
->>>> complete. This is not an exceptional binding.
->>>
->>> The fclk for the McPDM is coming from external source, and the McPDM is
->>> designed in pair with twl6040/6041, there were plan for other codecs to
->>> support the McPDM protocol and in those cases the clock would come from
->>> the connected codec.
->>>
->>> The example (as the original binding was bit rot) is missing reg-names,
->>> dmas and dma-names to be complete.
->>
->> None of these properties are allowed by the binding and during these
->> five/six revisions of the patchset no one raised missing properties.
-> 
-> I just by accident spotted this patch, I was not in Cc.
-> 
-> The reg-names must be set to 'mpu' and 'dma'
-> The dma-names should be 'up_link' and 'dn_link'
-> 
-> These names go back for a long time (~2012) and have been mandatory ever
-> since.
-> 
-> Yes, the binding document was neglected pretty badly but when converting
-> to yaml it has to be correct since that will have ripple effect on
-> existing dts/dtsi files.
+This patch set adds support for the Everest-semi ES8311 codec.
 
-Yep. And testing DTS should clearly show that conversion leads to
-incomplete binding.
+Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
+interface and I2C control.
 
-> 
->> I assume the DTS was validated with the binding. Isn't the case here?
+Implemented and tested most of the codec features, with few limitations
+listed in the driver commit message. The test setup was composed of a
+ESP32-LyraT-Mini board, which embeds the codec, connected via I2C and
+I2S to a Raspberry Pi Zero W host board. Some tests were also performed
+on a Pine64 A64 host board (e.g. to test the suspend/resume not
+supported by the rpi). The codec driver was bound with the simple-card
+driver running on kernel v6.9-rc7.
+---
+Changes in v3:
+- Rebased on for-next of broonie/sound.git
+- Link to v2: https://lore.kernel.org/all/20240516154800.125284-1-matteomartelli3@gmail.com/
+Changes in v2:
+- dt-bindings: removed wrong es8311 schema file
+- dt-bindings: added es8311 into existing es8316 schema file
+- Link to v1: https://lore.kernel.org/all/20240510131238.1319333-1-matteomartelli3@gmail.com/
+---
+Matteo Martelli (2):
+  ASoC: es8311: dt-bindings: add everest es8311 codec
+  ASoC: codecs: es8311: add everest es8311 codec support
 
-Mithil Bavishi,
-Are you sure you tested the DTS?
-
-Best regards,
-Krzysztof
-
+ .../bindings/sound/everest,es8316.yaml        |   7 +-
+ sound/soc/codecs/Kconfig                      |   4 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/es8311.c                     | 970 ++++++++++++++++++
+ sound/soc/codecs/es8311.h                     | 162 +++
+ 5 files changed, 1143 insertions(+), 2 deletions(-)
+ create mode 100644 sound/soc/codecs/es8311.c
+ create mode 100644 sound/soc/codecs/es8311.h
+---
+base-commit: 47d09270d7776e46858a161f94b735640b2fb056
+-- 
