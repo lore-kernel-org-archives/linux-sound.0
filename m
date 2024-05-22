@@ -1,99 +1,210 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71D17FE;
-	Wed, 22 May 2024 13:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717FD142621;
+	Wed, 22 May 2024 13:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716385593; cv=none; b=YpvgpPDdB5atIAqhkFECyWInZ30vR4dmX6EkeJMzbYN4DTe/V+lrhroDrC/PnpRvvFPXEdALkwYO2K1t4uaeRO8QXb6xlLRe687UwyEMqVJ+Ij1mafrf7RyHZv3IBrPT27LPQNS6FCa9bq3v5CwaJQBZcZMswJg03+IWBx6xdf0=
+	t=1716386130; cv=none; b=hto83nu22Ut/I4LImq9vndOEu7pDpExhB9g+F9UWLMxw6dAoMYSiTOzw9rL2GLT23ijQp1ebZPt1Q7zMP4cST7XSKk13LohjH64h6TzyQ9U5rqf+WqUVczPceP/y5+AtocFSQqm2uMxjSzPtjdsf7dSBOmpz89w0+a3ZPsxUTks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716385593; c=relaxed/simple;
-	bh=KW3QPfT+M+XDHqovS5XZajSpndhxlzoh3ai0wU2VZKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LHAcsvpP9a0hVME+Zm/4UYw5wvFmZNSoOJqfRduHIXmcVxQYlc6X34gJM+SeBLicKa3ONNO2vFbIh/g0glP/gJ1doUunvj27izDOActwWRT4J4rqBXUB0ZK5JQg4zXYN26/2GIOAdGDwzVpack707kdWcxBirkcNIaTl31v3J/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mgGc5zFS; arc=none smtp.client-ip=209.85.167.52
+	s=arc-20240116; t=1716386130; c=relaxed/simple;
+	bh=yWtD7LU9AB3Gr4Ry22fCWQp4b/WwuVx7H2lTfntgmkA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PjNGNNjKYtWp73MmVramXWlVIEAbaXALIfPW6WUy8YangQA/kADvPrfNoOyXtiZ+jL2Cy+lcy3YVdMmaxkn9QJcQg2Tb44o58dDaphWF8VL84ANA0lkB9u1qa/7dJdZML1eJxLYxsXu9xP2dN8QOKCawOZXPzsSk5H2cy6pGieo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1kGclyo; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgGc5zFS"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-51f72a29f13so6860095e87.3;
-        Wed, 22 May 2024 06:46:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1kGclyo"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52232d0e5ceso6722028e87.0;
+        Wed, 22 May 2024 06:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716385590; x=1716990390; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D9C9NNXV0hMStFuJ4aZTCnVgpwlU5ODPSnfkybc4i+0=;
-        b=mgGc5zFSs8OlijborUBznbb+YqbuW6RKUg/koDl+MCb4rx1NFqDcni6UC3K6G+YNBZ
-         T/7W04cHkqqpMywoJr72sImk/hsTX5u0beeBH/Hz9BoidMgvc3+dZDj6jQGz1RruAqwq
-         wkmVFVzn9iTOctwJ4oaYjfwpKzNnMjXhOVcP0o7oS+IM6JDk03s2RxP2gI+H3of6f27C
-         Gp9ta7zaeADYiYRbxFJgLsPS4NRQM8hC+1PtJYRT+hj8Cq5YacyVQcKyPAWceHz0Dib6
-         9xmpZHW7DhvtKB5U49fFP1s9qDWpJOyrYM4DfNh0laCe5Asd1NIBDKWoSV/QzYKwJeGu
-         rLzg==
+        d=gmail.com; s=20230601; t=1716386126; x=1716990926; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8YaBKPvnOJzmUbDriM6HGEGAHRgnlTqVjaXWE1TlkEM=;
+        b=L1kGclyob/dqB3opxGY/z1vIqZW8HfW6IdSeFzoFoCrhhUjrB5+qUNj4VkDkB3HVd7
+         b6cp39DSg1K61CXm+AAzMVKHAZmYJfeL9DY/9AEt2Y54N7SssJ7XreKOzmwYTyyaFk4e
+         vKLMRs/WSKsDyDj09FnbBmvPKXNHYoFePp0QJEIjpGUMsjj6S7TxsIY7u+GeC8Ej51C5
+         YGLmHlHRCrcEeOHJTD0ABkkppNRQAWr4OFtMoK+9dLC55jksNGbECFnG4nNId+0OAmIU
+         I5djIVu/kGBlNj1pmPbODvN0gdvs8TUJ+j2xwFDe4SNacn5h9UKmdfUpwr4HdijzedKO
+         Kk3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716385590; x=1716990390;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D9C9NNXV0hMStFuJ4aZTCnVgpwlU5ODPSnfkybc4i+0=;
-        b=K4gpRSN9WenL1bqDY9m/CKz6pi3km/R2uJuPnoUtlXearHU7kyuTuV/NnZt2QjNtvf
-         4MsnW94DjGI/z4Bx0mnRWeuUV8huRRdkRESq7/eAoGNDGBEybdXIhqIM8AnoH0Lg5Z3d
-         HTNPsa74p1dsjZk9JrqCaC7QayrC8ndis78Gi2ALriik6bD2f26z9T4st9s0LMoiAHSL
-         0f+e5gzlRNFmElUEsvE7upnbMlEkhnCXxkmQcUwyBIj7Je7WYTPVA4yL6na/Fv3axphR
-         yBhs+ncyTmcmA+NGy72PLwOvxUi1keGCBTibzYopa3LpyuW21xgbWideW49O+8UaYyyY
-         eR9A==
-X-Forwarded-Encrypted: i=1; AJvYcCW8E4pZNJ1Qimjy3EPkLH4eO3YaUz9Yopsbe+dDNUjqF1jAgfTUlriCwkFFVDuRc1Av6tk9HMze/oQ4OxGjrTVSyHM7n38+WWDyd3CpKu27JWj4HGeC68TqTDkGiXk937H/vk/P2dht0Yt+3+1cD6Arssy3v1Rx96b+r1K4nwSgSdXOsxOs
-X-Gm-Message-State: AOJu0YxCcwNdVhRnGbz5MYQr3iFb9xYrbCywYwjIPrypV21S5sDsnOTx
-	CMmt/7VBYOIiqRSAy7pnb0iDpMnFQAxIc8IOBpPTJ63F8dpri7y7WTJOnVoHlMRch2fDt7iEfmS
-	JUfljpfnia2PlOCxvFKoZdwE6YNk=
-X-Google-Smtp-Source: AGHT+IFT8wdjiOr1ByviMTeNutSbBh2TWjvOqDLA+wRm0Yd+/UX1gIx+CIQ7K81c2njy28EbqgM2iXZIF1Q3//SVIcY=
-X-Received: by 2002:ac2:520a:0:b0:51c:1cdb:566f with SMTP id
- 2adb3069b0e04-526bd0d1b79mr1551550e87.11.1716385590122; Wed, 22 May 2024
- 06:46:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716386126; x=1716990926;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8YaBKPvnOJzmUbDriM6HGEGAHRgnlTqVjaXWE1TlkEM=;
+        b=KiVbd4NKji/Z6qEXqLXdfl+zg1Y58I385MhWtGvRCxqGr3Rd7vhylpxCe/9KCz7MFs
+         w31Lx8ErIUQilfA0d7KMq6Yf07nGnX23jQ9XlESD3vFryN4cduYhJiICYCfewnsrOoQA
+         GMHJXuIjM/JTuKHwRH+/IdX+rvEWTc837dxvrx5F5nyhGsXbAP/L+yqkkNbRlFo8v981
+         +2AgLamIWFFeED6tAcPhwbW1EoYR78tDdq3ozNZzXTfiSY9Fe+n/sQO+mbkgCKZPxyQO
+         DPBKqigZvcVhdaP2jDLqKgBIGLugiYELR5M79WhsB3c+lQe+8HqwnPHi7i3o12qTIszc
+         /XLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9NfRKcezEAeO/wVWowGBB7bnzybdQHUFe5PJuYnesGJVWAdo1piIqgxCdjBs5DuSy6cWI7XCVEf/iOn/ze7IHm2X45p8o0by2PShzwwreTaK+6cUqtABgBFwJo2/4IEWkOjFdYRYX+iLU//7TWCF4NstKzOhpeypT8j9uK1sU3GdcO9jY
+X-Gm-Message-State: AOJu0Yy5ntEMddQ2P12YF1WWD/Eb7xDvnB+DvP6xdPqJxCb30vYUfpxE
+	t4ZULPmuMj5qjKdWANy+c3JdoXqEmS3Pi/sf7YEazumbA2F9RHf+
+X-Google-Smtp-Source: AGHT+IFYqdG84I5n5HcpYSBsCPuvwJ923qQSxWRG46QsFjunGCiBYTTXJVQLt9pT91rp3cKva6gh8Q==
+X-Received: by 2002:a05:6512:3f19:b0:518:c057:6ab1 with SMTP id 2adb3069b0e04-526c130bba8mr1350705e87.66.1716386126290;
+        Wed, 22 May 2024 06:55:26 -0700 (PDT)
+Received: from [10.0.0.100] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f39d2f1dsm4967366e87.264.2024.05.22.06.55.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 May 2024 06:55:25 -0700 (PDT)
+Message-ID: <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
+Date: Wed, 22 May 2024 16:56:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240522075245.388-1-bavishimithil@gmail.com> <bcc9999d-b912-417a-8ae8-f4e252d1bd8b@kernel.org>
-In-Reply-To: <bcc9999d-b912-417a-8ae8-f4e252d1bd8b@kernel.org>
-From: Mithil <bavishimithil@gmail.com>
-Date: Wed, 22 May 2024 19:16:17 +0530
-Message-ID: <CAGzNGRkc5NJbJpZuUir7dv-C3A=6p_kxp56zrVp6N8+DviPkig@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Lopez Cruz <misael.lopez@ti.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Mighty <bavishimithil@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240522075245.388-1-bavishimithil@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+In-Reply-To: <20240522075245.388-1-bavishimithil@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> You are not making it easier for us to review:
-> ====
-> b4 diff '<20240522075245.388-1-bavishimithil@gmail.com>'
-> Grabbing thread from
-> lore.kernel.org/all/20240522075245.388-1-bavishimithil@gmail.com/t.mbox.gz
-> Checking for older revisions
-> Grabbing search results from lore.kernel.org
->   Added from v4: 2 patches
-> ---
-> Analyzing 15 messages in the thread
-> WARNING: duplicate messages found at index 1
->    Subject 1: ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
->    Subject 2: ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
->   2 is not a reply... assume additional patch
-> Preparing fake-am for v4: ASoC: dt-bindings: omap-mcpdm: Convert to DT
-> schema
-> ERROR: Could not fake-am version v4
-> ---
-> Could not create fake-am range for lower series v4
->
-> ====
->
-Hey, sorry about it, its my first time with lkml, could you explain
-what seems to be the issue here?
+Hi,
 
+On 22/05/2024 10:52, Mighty wrote:
+> From: Mithil Bavishi <bavishimithil@gmail.com>
+> 
+> Convert the OMAP4+ McPDM bindings to DT schema.
+> 
+> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+> ---
+> Changelog v5:
+> - Add imports for constants
+> - Add desc to ti,hwmods
+> 
+>  .../devicetree/bindings/sound/omap-mcpdm.txt  | 30 ---------
+>  .../bindings/sound/ti,omap4-mcpdm.yaml        | 61 +++++++++++++++++++
+>  2 files changed, 61 insertions(+), 30 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/omap-mcpdm.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt b/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
+> deleted file mode 100644
+> index ff98a0cb5..000000000
+> --- a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -* Texas Instruments OMAP4+ McPDM
+> -
+> -Required properties:
+> -- compatible: "ti,omap4-mcpdm"
+> -- reg: Register location and size as an array:
+> -       <MPU access base address, size>,
+> -       <L3 interconnect address, size>;
+> -- interrupts: Interrupt number for McPDM
+> -- ti,hwmods: Name of the hwmod associated to the McPDM
+> -- clocks:  phandle for the pdmclk provider, likely <&twl6040>
+> -- clock-names: Must be "pdmclk"
+> -
+> -Example:
+> -
+> -mcpdm: mcpdm@40132000 {
+> -	compatible = "ti,omap4-mcpdm";
+> -	reg = <0x40132000 0x7f>, /* MPU private access */
+> -	      <0x49032000 0x7f>; /* L3 Interconnect */
+> -	interrupts = <0 112 0x4>;
+> -	interrupt-parent = <&gic>;
+> -	ti,hwmods = "mcpdm";
+> -};
+> -
+> -In board DTS file the pdmclk needs to be added:
+> -
+> -&mcpdm {
+> -	clocks = <&twl6040>;
+> -	clock-names = "pdmclk";
+> -	status = "okay";
+> -};
+> diff --git a/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
+> new file mode 100644
+> index 000000000..966406078
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/ti,omap4-mcpdm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: OMAP McPDM
+> +
+> +maintainers:
+> +  - Misael Lopez Cruz <misael.lopez@ti.com>
+> +
+> +description:
+> +  OMAP ALSA SoC DAI driver using McPDM port used by TWL6040
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,omap4-mcpdm
+> +
+> +  reg:
+> +    items:
+> +      - description: MPU access base address
+> +      - description: L3 interconnect address
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  ti,hwmods:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    enum: [mcpdm]
+> +    description: Name of the hwmod associated to the McPDM, likely "mcpdm"
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pdmclk
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - ti,hwmods
+> +  - clocks
+> +  - clock-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    pdm@40132000 {
+
+The original label and name is preferred to be used.
+
+> +      compatible = "ti,omap4-mcpdm";
+> +      reg = <0x40132000 0x7f>, /* MPU private access */
+> +            <0x49032000 0x7f>; /* L3 Interconnect */
+> +      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
+> +      interrupt-parent = <&gic>;
+> +      ti,hwmods = "mcpdm";
+> +      clocks = <&twl6040>;
+> +      clock-names = "pdmclk";
+
+The clocks cannot be added at the time when the node is defined, it is
+board specific. This way you imply that it is OK to have it in main dtsi
+file. It is not.
+
+> +    };
 
 -- 
-Best Regards,
-Mithil
+Péter
