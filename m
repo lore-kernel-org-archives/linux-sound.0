@@ -1,54 +1,54 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E3E7483;
-	Wed, 22 May 2024 17:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DCD1F17B;
+	Wed, 22 May 2024 17:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716397353; cv=none; b=kxqlU1s/t9lm2lQjIK4UeLStWAeQg/75mDh9mxIJuq46j2qSOjn8PFGjv5OvyEQdRAMM4m9Csu9/unOrnyq0DmN5aLzPWouNueVRX2IX/dcCUBLi/p0gdPCZ1gKhSd4OngIy9QfQPyIUb4zcUWPXA4s8YGAI6qmbYYY5BfZhs4o=
+	t=1716397654; cv=none; b=UpaYD/YkWlet3pMh+oOEMPCD7mVBrDJlDb4Sav3RtJTX1tFYDCxbrqkI/pNK6JTIhQ/cU4xhWy+l9XoweEMM6KhIwcCwS1W0zCSJfjvrqNlsQHlHkrBzwmyr/Ogj1/xgL4PkbrZ3kPt1M5ZtDeyHPTfRrTL4GFPbHuk32iXAI4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716397353; c=relaxed/simple;
-	bh=Puptrl6ccH8U6wynXeeoHT2VTC4tYfIonHb+nEl+Eu4=;
+	s=arc-20240116; t=1716397654; c=relaxed/simple;
+	bh=jJg6M8vnkkRviy8VdHkN3OP9YxMIJ2Pi8/sx2dPnwlE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oIOq1ssxAUucAlP6MYEjOwQjPpp8XR45DFnINjZ45JpC2+cPvRgq/koOHiXeXWpCP+p5ssfy68kw4Ca5ajVdX4Zcl3WttTGRmF2zpiOiXUHCJEGT4jRKBIBePlpPN31k5fKiBCDKVGZlHs5Ljm3C/S+ytwUbXltMna3ds704Qq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpo1AtU9; arc=none smtp.client-ip=209.85.167.49
+	 To:Cc:Content-Type; b=crF6PeQVFXxXuEde0KCHERGyNtIz0+u9MgsfyL1bn1BC9PMaflMZVCVRv79I/7pvkKijqNzHbvcuzFxbSq8Vsm7QoOtEZ8Rdg3gd1GXjrkxIEYGGdOonCywBwEA3melhsxkkkKCVO9wfbXIMGPHHwjHM9s+1fdM8zWPZTW/dRy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gRk8tYwg; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpo1AtU9"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51f40b5e059so7421889e87.0;
-        Wed, 22 May 2024 10:02:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gRk8tYwg"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5238fe0cfc9so1199019e87.0;
+        Wed, 22 May 2024 10:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716397350; x=1717002150; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716397650; x=1717002450; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=biTX1lY3rxhlPuo7g+HDANOFhfS90Bjl+wxh8tPkfvs=;
-        b=gpo1AtU9m/fNY+doUpibPBalQc7HDe4C5Sl/01FV7CqHZrOGQz+ty9zaZhHevfxyNZ
-         7MByAEyQSqJnBwmVPCdJYNYdEaPMQ7YQSjMqURC3SlsDy2Yl5lCAr4ofx+Mdi7+nEXba
-         1EOppYPhvEGjHop8dppFmcGGr4qKHdHkYEE1V1Oz3gq4Rwhk3s09E8Azu8AkPnsXOprX
-         AuyTouTW0MBsHJ36e4FgO8krGaK7pHd+cfM5Nd6XpuSLlSgTfqU36DSOidP7RvD5vyWL
-         MTeu+5yqUJdOm71saeb8BH7BOTUdarCuRdrtmV+fkVhDoFY3p3AePadLNjwz8QSB+3m3
-         P/tA==
+        bh=S9aUWuoj4YVy4L3kVpwH36ZaspoRMfIbWdd8Qbs4xFE=;
+        b=gRk8tYwgwErSUB3yjT1wPes1LIIBTkJVZkKCWakaVB4an1APPe9QzGdnviX1cYi3KA
+         fUJGOPIBORWKi8eM+ZblP3GqLZYpVcFg9GsJQiy/js7Y9jTojWjuUGjrkc3F73K5oKP/
+         e5e3R2/YWwarvtthjki9MO4VaK5e0iAQJdUCIdAZ8Irep6xhSnffaYz2qeoGbe0Znm0E
+         dK5rpCdeiewkeZKGZQS1VTrdTG75hyCskpAF6aqxtgCOzxgsx2aehGWcA+gVSnoQIh5Q
+         jH+NPtGrQesLPKOL26WqzRGHTYDTsZLc3qT41L/qvZzCmcXqPwXLHpRMQB+6rIO5xRX6
+         G1AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716397350; x=1717002150;
+        d=1e100.net; s=20230601; t=1716397650; x=1717002450;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=biTX1lY3rxhlPuo7g+HDANOFhfS90Bjl+wxh8tPkfvs=;
-        b=Y3eWZ/5ijgXMyAW72niV9lsrMCkEqp3WFuwFvRK+EsOixPGZiW4AKD30p2FFFEvxLm
-         ng+pQNGTOknqlkiTNyWR+4TrJrBxzkG5asxEFAqOB4Ln/gQiP+TJvt61cHiB9BIf0shX
-         aoikwYHdY2m47RfPEr4aMHaxvJ76o7k+mS33u3j9egxXPdLU8YjV3//FMTFoVXP7oAGQ
-         qLFajbi3bAgMFiILROcvSVpK2k5Ehz9AIliS0tY/tW0X8ewdsTQXhG3WbxkyY1HRPc7H
-         jnXHCVYmeC6DY0MiL5SwPmgkG/nTj08M0rWFtJRHOd/GjkQZKKrMosMvlcz0UZDA1syU
-         FoPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUyFz0HF5hbWbcq8551hLzyVSzRn4gwQx4jav5RXZRCwt1gvZqttRXV30HUoEK9p38umsm/6uxbiQPFc9qg5WTzW1ZPkn2S7Cu5WtPV1S6cnFHx/IlQ5/LNYJ4ur41Phs99NtsrbUsUcKgEKu3jcXEKx7gTV0Ho/Wmcw+2OnVjVyYTyOlI2
-X-Gm-Message-State: AOJu0YyE3hZpWgEa6R2ywv+1xPFdHa9sAXTeQX79ORR5pgOwV284bArJ
-	ofNDfWmmDVpAPQ7Wy0VQwb2RjKHyWoQAc4OMVp8QGh4vTWB2/t9fQA0olX4DDHT3hj1/P3ZYbKd
-	p/8ahZnVDGRHi6rvasE52sYzprjI=
-X-Google-Smtp-Source: AGHT+IHF3Yq3TjZtrSQrPgIrirlnVEfMDqqdVjHff1M5C3nO3oZg+FeFBxiAHZzl3MVNMOQnkGuSOVltS2iGOIYEM+c=
-X-Received: by 2002:a05:6512:2351:b0:522:2c9b:63bb with SMTP id
- 2adb3069b0e04-526bf642daamr1655834e87.52.1716397349438; Wed, 22 May 2024
- 10:02:29 -0700 (PDT)
+        bh=S9aUWuoj4YVy4L3kVpwH36ZaspoRMfIbWdd8Qbs4xFE=;
+        b=GPoOqfqsVKCPR/V3WdYkJnvcC/rAYaf+E6ZmZTUV+c7y5HWUKXLC6iBctKV/rToUCZ
+         VBpka6B8NcrUZhS/E+78E5FRdJz0zyGqMoG75mtf3RrT/5GtNEIg4KpbNnVEjx+7mOU9
+         mvBjxGNWrPBZ9ygmvT5JPIeBoQw1sc/YBijrw0/2DkUkp0OpCjqS3dw5eviN64+7YGBw
+         vpDnGj+WlU4/hKXMcm9ja1wJS1dqLL/J+YcCu31l6HzR6MfnVm+wAj+QDAWFeVCKCJ6m
+         sQMBNWXHgLtjxOmCnLbzpr4X8ivUw1qF/xs+3SMIM/h2LzX/HMOenR12luM04e/MfRUP
+         hTRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVjmCx2qkx8FtsNNyVB+0AzffE3HejkHVSAihHBAhTW5Vacki8cJW9wHeAyTgR0oFtuNntLvfroi3bIkzMwbr0qIJfgyw2gVeBhIhkRvt8LP+87GPaUGOzbn3E6FbkGUjiWaEOFNcauHlqW3xOddl04t6tN1vowNhdxvxG/2UCuhuja0TEc
+X-Gm-Message-State: AOJu0Yx0wBzsjTbAZNeCesTvvpqBohH0r1/vLfXIwt7mPboDrECnjWEB
+	T4FAQnYjJ5wckqSsMUg19rGgOrdAzbtemRwm9sbmaNsP5FRv1Zhlnwrndd0VcsDZltieBtQmByJ
+	0wnorwgcYWk/xM1TMNILdrsyV5IbApu8eis/4wA==
+X-Google-Smtp-Source: AGHT+IHJtY2P3oJxRC0ryXLWUKx5drw3pPINF21ew+vjLBwgO/mAJe8fhU6lyJ3KfHeHcoaraTybHLIiAC8QR8aVmSY=
+X-Received: by 2002:a05:6512:3991:b0:521:7b99:8d20 with SMTP id
+ 2adb3069b0e04-5269cdd056dmr935303e87.23.1716397650274; Wed, 22 May 2024
+ 10:07:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,11 +58,11 @@ MIME-Version: 1.0
 References: <20240522075245.388-1-bavishimithil@gmail.com> <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
  <4f722e53-011f-4176-b6af-080522165007@kernel.org> <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
  <3c6c5be1-fb8e-4bf0-9f58-cfb09672e8c1@kernel.org> <d999bc26-9bb1-44a8-92a3-bcbe14c5a1c3@gmail.com>
- <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org>
-In-Reply-To: <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org>
+ <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org> <CAGzNGRm5i8zvnXiPzMg5=+tr9oyBcRA8LFvnmgGzE=MzSNTXug@mail.gmail.com>
+In-Reply-To: <CAGzNGRm5i8zvnXiPzMg5=+tr9oyBcRA8LFvnmgGzE=MzSNTXug@mail.gmail.com>
 From: Mithil <bavishimithil@gmail.com>
-Date: Wed, 22 May 2024 22:32:16 +0530
-Message-ID: <CAGzNGRm5i8zvnXiPzMg5=+tr9oyBcRA8LFvnmgGzE=MzSNTXug@mail.gmail.com>
+Date: Wed, 22 May 2024 22:37:18 +0530
+Message-ID: <CAGzNGRmiNvNvzkxeyhoC30_QY=MK8pgxdVf_E9Toa7Z66dmwmQ@mail.gmail.com>
 Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
@@ -72,20 +72,24 @@ Cc: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-> Yep. And testing DTS should clearly show that conversion leads to
-> incomplete binding.
->
-> >
-> >> I assume the DTS was validated with the binding. Isn't the case here?
->
-> Mithil Bavishi,
-> Are you sure you tested the DTS?
+Something along the lines of,
+mcpdm: mcpdm@0 {
+    compatible = "ti,omap4-mcpdm";
+    reg = <0x0 0x7f>, /* MPU private access */
+            <0x49032000 0x7f>; /* L3 Interconnect */
+    reg-names = "mpu", "dma";
+    interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
+    dmas = <&sdma 65>,
+                <&sdma 66>;
+     dma-names = "up_link", "dn_link";
+};
 
-dt_binding_check did not give me any errors. Yeah the example is
-different from how it is implemented in the kernel ie board specific
-(omap4, omap5 etc). Should the example be changed according to that
-dtsi then?
+Might also need to add clocks?
+    clocks = <&twl6040>;
+    clock-names = "pdmclk";
+But those are usually defined in board specific files.
 
+And add reg-names, dmas, dma-names information to the docs?
 
 -- 
 Best Regards,
