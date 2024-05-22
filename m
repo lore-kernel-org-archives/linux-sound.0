@@ -1,60 +1,60 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3F27C097
-	for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 07:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BD22CCB7
+	for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 07:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716362982; cv=none; b=sXp3cUYHneVhyvPkG5n7hBvcFqnQXQV0HgxNGCgCWoCAQMDa4YbHZDgM4xZ/mhObbgtH3nChcW81a3Vt5Si7Pi5wXptlCPbbEcpBekPLWxeRk78jv+XSoDPu2rIwE6Skw+Ol5Xoa0cbk6rrFF+Ci998ExFLGT6t9raPlalQORiY=
+	t=1716363027; cv=none; b=TYO2CgZKGtHTvEM7MVx2K1Irby+LDJLuceuizD7kO7JVx3v4eUWMu4C8baVt9qoxD0uJMRICQFyVA0GiZy2znVq1KjmSsbTE1Q+RQCEhCXAJCTRyzATWkcQ1nbvqJSWX3NHKJ5l3tt+4ThQ8M3tQxtJEltderf0mXKGLHr5BTRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716362982; c=relaxed/simple;
-	bh=ujtplpDHHre57IF59IvqEB2Kw8dcbdxqOMgfH/r499o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fwcteateue5cWtwxi0mG24xZH7t8TuxNE1B50TUJRoESmBxuCdKF2ttwsPxNRci75uEFWyGFMzNYuUZwX3mOsH+tfqFf3mCHrOymUrOs4xeRpWpJ30lynuJQCrWlualej3acgttdZ63VcwusyNrzM/HwkAdXyMtjRSTsWpHSf3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mQ7pASic; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1716363027; c=relaxed/simple;
+	bh=oFnQJmkxU6zrXZGMN96C8wGpspBAUkA02uGJ/ASV8ys=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=pvESRmCbjh+oFL+QrIb0ztc7li2cKPUZe/GDZoKUy0/oeX1cwQPFATRiNQ1vQyvsVyx6FF9op3lglJxDAgUraIe0mLr6wZisl7l2mbAcFewIADzkT7CCrz5zwzE4n+rjxWWI6RdfZzKWxG2yBX1fEWzjtELhBu9mZxHhtqiAryM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zgG7MjSN; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mQ7pASic"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-420180b59b7so4267095e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 00:29:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zgG7MjSN"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e73359b900so25603701fa.2
+        for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 00:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716362979; x=1716967779; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716363024; x=1716967824; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=2U3y/E4W+g6WHZWhWDHN2owdKPMa1Ox2KTg8IP+L8r4=;
-        b=mQ7pASicJcXadKRRc+LF532GzGA6FhKeq4Gjhs/CRwiZUUw5uGxsjUG1h/no63soGA
-         zn/nNgbZUhobK91o/j5f4Sci29ldSL/7FsWREAIRY+jK19uSy0xHszuuXyRNVB9orm6C
-         VsA6hPxiXrCpsHgTEDxSJerhIzYSIJXMDhygMLkgr7M+3/4NNQqlN4Z/vaxygi39NOIG
-         fJp82CdcceZqc127fEnFNOfweiLrH+Ddb3/tisC3OmM+J9pD+4KXpQIZmiSUirt6gXoJ
-         56IbT8aJXMt32RYAxFf6gCviHK2jf4MjYIS/YVJsRIJ7UqOu6aRanmY3KC6P5D9mE5Q8
-         y2Gw==
+        bh=tkJXObuZ8bzKgibWqMu1hFns0+SNQYqR2IAV8YRh+qw=;
+        b=zgG7MjSNuJtht/nGTUyN/zXn3NWPUBq9Lz2EdQSAnTSQIPWxLItln49DVH7KZ5VVZf
+         2QkeqhHVael4hWnDlSr0g61wT/Gb/h/g9XT0pcx/ZzTq73m1gX3ar2QdNooqx9B0sk8d
+         2GNFNJRl6C4akS2Czq7fJcXiz6Sfw+mVMiYUupjjiG/cPxgMCRA4o53ZJ7tXlgA/fYzc
+         SsrQwUaCJonKI/txPRo1vT2AJ/zVJDVWcnWjAXUqyt429T7TpOEPGT/DuJmImOI+bEg4
+         jR0oo4TbEf57iddVULd7E85j51ifFaUGXZ9wrWNuDNQl1/MYcnZs0RWYGXvgDRdA2x44
+         XUYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716362979; x=1716967779;
+        d=1e100.net; s=20230601; t=1716363024; x=1716967824;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2U3y/E4W+g6WHZWhWDHN2owdKPMa1Ox2KTg8IP+L8r4=;
-        b=o4nc8LI6nQ9Nfmobq6J99EYjZkiSm3b1nMofq7a1+Q3obYFf4Hcy/Ft6xS1B+f6JGK
-         NvcZFHYrC0Aimbpb7OUyN9U6LB0O5p6cWnINN/VL1ce1b6kDoEVPWtWEq47ixFfZWQWK
-         SOdC3h5dKjsuE4TnXg/LfAAbZY+0r0ap5MtVLSN2tgEoxJLUNXHSBvoOMBY/rF38WkEW
-         KkaYTgfSNGFbL5P8g9o7+bEK05xQlcAr4a/etZu79qmQdo1amN6PCkjLolye56sQkkui
-         QdRmQz5FRBocjslPtNj83CWEoa1om4IbTUStaygHppK6mEkDDzgO8kdUm7vzfQj05DEn
-         O96Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWTlBo/pEfgkptDDsthX0pboo+7BHYAa/dTJt0mgdQ2Prn9PJtwSo8bnQIZn8cja/54OFN+2ba3/Qd/wwHad/UdvUZdoRl2En+rLeE=
-X-Gm-Message-State: AOJu0Yw+wIy4ySFtyhJzsrdaHhltYKGe8rpq59QGWxK6S/AWzBpGSEgK
-	D7dQk2tePrQoej4GHPYyRx3qzWdZE/lfM4fqSS4YfiqpgvtzglSAhYmuKaZPuAE=
-X-Google-Smtp-Source: AGHT+IHZr6SGdmsYq7oNUSaghJWy+96UkRVzcYcM6OS/e/jllLwc1HzE5OHDTuC/E4zIrh+PfTxRWw==
-X-Received: by 2002:a05:600c:5613:b0:420:1853:68c3 with SMTP id 5b1f17b1804b1-420fd3282ddmr6928015e9.20.1716362979042;
-        Wed, 22 May 2024 00:29:39 -0700 (PDT)
+        bh=tkJXObuZ8bzKgibWqMu1hFns0+SNQYqR2IAV8YRh+qw=;
+        b=rRcwW98wju8Jm//Yp6JLYzWMiBxHakLi/nbn1wDuevcd5db3McAEdqUcgfhnRSInEy
+         4lvnP1BnqFzE8Lxi+OC4S3836Aw2fYROMqMz3vzfsBXwSwGk5tusXk7JRBrXEFX7PKc8
+         suQAXRqLRF6hChHyUo9wnDLWuGNrGjnuA2PE0yF0uIPmIe1eQAUALExnszFQbHhvNHwQ
+         bdJJyaZxmA6LwTk0w3L2fcqCJaZMtD8IrtPJXf9XCLwGLJrmJtEjm+HXZcJbuVaZuL1R
+         7gU0H1oklLkztBroje2eOHFwIeID6jZ00iOzsIj9CAoKfMNag6f0P6JrUGe7N63ehb2X
+         zYmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXgMJadWSnRC9S5INW8G9WGXeT0XtM4mXHZ5pQVvUFfTZMi1wN/avqfMVfK2BIUXs4q1VX7UXcCayBk+JCIpoS6lir/Zq2dt7V4Jg=
+X-Gm-Message-State: AOJu0YygROOC0QBh245rFteANnPm6ZIUx8yP7Oj//h7DaJwy0q+2C0Er
+	KMwPvM+hvZdwckqOXcXlDaVD688RTViuYsDtl0GShVoe94rXYUKLR3p2GPY5x+g=
+X-Google-Smtp-Source: AGHT+IEReon7mu9xNEVqRMovOLZvHsE91aYxCpyK1LIlKQyVpM36zPsDzSEdKkDkYxk3XU1KDKKERg==
+X-Received: by 2002:a2e:9858:0:b0:2e9:4c17:9c8e with SMTP id 38308e7fff4ca-2e94c17a021mr3286451fa.44.1716363023678;
+        Wed, 22 May 2024 00:30:23 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe8fa6sm489538445e9.2.2024.05.22.00.29.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce25d5sm491678985e9.14.2024.05.22.00.30.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 00:29:38 -0700 (PDT)
-Message-ID: <262fa428-70e9-48d8-b89a-65225c0c7d15@linaro.org>
-Date: Wed, 22 May 2024 09:29:36 +0200
+        Wed, 22 May 2024 00:30:23 -0700 (PDT)
+Message-ID: <af72c0c1-144d-4f04-86ba-d85e5125d261@linaro.org>
+Date: Wed, 22 May 2024 09:30:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,23 +62,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] ASoC: cdns: Add drivers of Cadence Multi-Channel
- I2S Controller
-To: Xingyu Wu <xingyu.wu@starfivetech.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: Add bindings for Cadence I2S-MC
+ controller
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Xingyu Wu <xingyu.wu@starfivetech.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Claudiu Beznea <Claudiu.Beznea@microchip.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor.dooley@microchip.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 References: <20240508070406.286159-1-xingyu.wu@starfivetech.com>
- <20240508070406.286159-3-xingyu.wu@starfivetech.com>
- <NTZPR01MB0956937A2D3D8B97DB1C8E079FEB2@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <20240508070406.286159-2-xingyu.wu@starfivetech.com>
+ <0e7496c4-7dfc-404d-944c-a1869389722b@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -124,52 +122,63 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <NTZPR01MB0956937A2D3D8B97DB1C8E079FEB2@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <0e7496c4-7dfc-404d-944c-a1869389722b@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/05/2024 04:33, Xingyu Wu wrote:
->> Subject: [PATCH v3 2/2] ASoC: cdns: Add drivers of Cadence Multi-Channel I2S
->> Controller
+On 08/05/2024 10:03, Krzysztof Kozlowski wrote:
+> On 08/05/2024 09:04, Xingyu Wu wrote:
+>> Add bindings for the Multi-Channel I2S controller of Cadence.
 >>
->> Add the drivers of Cadence Multi-Channel I2S Controller.
->>
->> The Cadence I2S Controller implements a function of the multi-channel (up to 8-
->> channel) bus. Each stereo channel combines functions of a transmitter and a
->> receiver. Each channel has independent and internal gating, clock and
->> interruption control. It alos support some of these channels are used as playback
->> and others can also be used as record in the same time.
->>
->> The I2S-MC is used on the StarFive JH8100 SoC and add the compatible for this.
+>> The Multi-Channel I2S (I2S-MC) implements a function of the
+>> 8-channel I2S bus interfasce. Each channel can become receiver
+>> or transmitter. Four I2S instances are used on the StarFive
+>> JH8100 SoC. One instance of them is limited to 2 channels, two
+>> instance are limited to 4 channels, and the other one can use
+>> most 8 channels. Add a unique property about
+>> 'starfive,i2s-max-channels' to distinguish each instance.
 >>
 >> Signed-off-by: Xingyu Wu <xingyu.wu@starfivetech.com>
->> ---
->>  MAINTAINERS                      |   6 +
->>  sound/soc/Kconfig                |   1 +
->>  sound/soc/Makefile               |   1 +
->>  sound/soc/cdns/Kconfig           |  18 +
->>  sound/soc/cdns/Makefile          |   3 +
->>  sound/soc/cdns/cdns-i2s-mc-pcm.c | 285 +++++++++++++
->>  sound/soc/cdns/cdns-i2s-mc.c     | 704 +++++++++++++++++++++++++++++++
->>  sound/soc/cdns/cdns-i2s-mc.h     | 151 +++++++
->>  8 files changed, 1169 insertions(+)
->>  create mode 100644 sound/soc/cdns/Kconfig  create mode 100644
->> sound/soc/cdns/Makefile  create mode 100644 sound/soc/cdns/cdns-i2s-mc-
->> pcm.c  create mode 100644 sound/soc/cdns/cdns-i2s-mc.c  create mode 100644
->> sound/soc/cdns/cdns-i2s-mc.h
->>
 > 
-> Hi Mark,
 > 
-> Could you please help to review and give your comment about this I2S driver?
-> Thank you very much!
+>> +
+>> +  starfive,i2s-max-channels:
+>> +    description:
+>> +      Number of I2S max stereo channels supported on the StarFive
+>> +      JH8100 SoC.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [2, 4, 8]
+>> +
+>> +allOf:
+>> +  - $ref: dai-common.yaml#
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: starfive,jh8100-i2s
+>> +    then:
+>> +      required:
+>> +        - starfive,i2s-max-channels
+>> +    else:
+>> +      properties:
+>> +        starfive,i2s-max-channels: false
+>> +
+>> +required:
 > 
+> I asked to put it after properties: block, not after allOf:. See
+> example-schema for preferred order. Why? Because we are used to it and
+> it makes reading the schema easier for us.
+> 
+> Rest looks good, so with the re-order:
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-So you are not going to implement my feedback? Then Review tag does not
-stand.
+Since you do not plan to fix it and already started pinging mark, I
+retract my review.
 
-Also, please avoid pings for non-fixes during merge window. It's
-pointless now.
+Unreviewed-by.
+
+Implement the feedback I already asked you BEFORE.
 
 Best regards,
 Krzysztof
