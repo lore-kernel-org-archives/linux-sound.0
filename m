@@ -1,90 +1,91 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D426BB33;
-	Wed, 22 May 2024 05:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED9375813
+	for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 05:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716357121; cv=none; b=n5bEvFct/NNgsmGMWHa3KEPgMqBNH7zaEMViBT3f64FVudZjSWJy3qRhZ7Qe4ktdKj5/uhIB/NROMxZ+EFX64TcX+n7BavCoo6Zlw1Ya/agNW+68HQHXHjZmmXo0Axm9sMczquuLZLwvUW6TAy/XFbBzhBtvhIdAFmTiVHHNk74=
+	t=1716357429; cv=none; b=O67U3JtI0JNKqK7eCQTSQjoqPhINlDgz7YQ0CjPXxU6zxw3Ztxo/1S8fzAt9l9htJdontcR+3UyZcJ06oOmGY63wghPo21ppUnxn+keh7APkCvMD2uDwK77ZG2+mMMMZgrGUkOgtlu4FQV+YO9wdj47s4yy4FmQuMf5jb8T7sqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716357121; c=relaxed/simple;
-	bh=7rl3MJ2xqObrtTFVmEhG93ja5bgZEDf/8t5zN6tTAgw=;
+	s=arc-20240116; t=1716357429; c=relaxed/simple;
+	bh=3T6lyad26+fMsliWno3Jgpj1U1TCf9MajbTUKXRlmYk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ABPcGzKfo9nik+p3y37NceF9INzKhKOVVrvPUg9JPRpnFg9wIOyUF2eNfVb4HCpJdHUTlUx4kQcZXSgmTdOcMaaVhg+iYGBgN9kcIwJPzkfMDmAg37hhcwFrPxsOcoVCjGkQlYqiyJ6ydHlkj7CjWN+hQ+MK1ePIjhDVn5Ky414=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A8KY6B1s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=stvDvwBv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xLO+hbK7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zlx6hSj+; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=T9ON7DDBDuBh+0JEFwzo/ur1UDnNldodDnIkFw426MFeOrd2vUWFOSqZYQm//y5z4pvsixa9phCqae9rWBsrM5PbPc0T0RbEE+HfoJzTqUZUiOcgnshjQ5xwwyQGhfHiQQMVTe5cJJ1xVZMwWv1Zj5AsRw3klXyFTB8EB7n3k8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mK+/8SFu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oMXGH2Vi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mK+/8SFu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oMXGH2Vi; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A8KY6B1s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="stvDvwBv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xLO+hbK7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zlx6hSj+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mK+/8SFu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oMXGH2Vi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mK+/8SFu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oMXGH2Vi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F13A834B78;
-	Wed, 22 May 2024 05:51:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B62434B53;
+	Wed, 22 May 2024 05:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716357117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716357426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SO7Vj16TE+7ELY0AackoqSl5lpmUjxZgU0xxRG1lc04=;
-	b=A8KY6B1sAPCgaCksqyKludilYHioqAYWa2RNPJf007qew8hG91ZVa7ooPOvsiKxd6tgwdM
-	2AEqC0CTUlXvYvstZBuJla5TK6cJrqQrpriOqSVasCwd4+wFmEtpKL+K06I9Li8d4s7T7w
-	5jxmN/sZU8dHNDKL2eQcviq0ce38HLA=
+	bh=v92lNIoyHuqIlUbUMvmEwIBOVb+vu+U8J57Mp6Y9Ohs=;
+	b=mK+/8SFuBcXesxwF+jVgsAu1jyd0tSXgMHjlZ/rYBghe86HJl69NELpwE8SccwJLXxvkFG
+	/Shiwldocpij6WJxv0tAdzskukZJMC772SXZNFntT7FIK0vWtsHwNLogynitXDadJ3Ho/j
+	CFuFZTigSlK8Y7NhNqHsEz9EC3YkYio=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716357117;
+	s=susede2_ed25519; t=1716357426;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SO7Vj16TE+7ELY0AackoqSl5lpmUjxZgU0xxRG1lc04=;
-	b=stvDvwBvRE4ShEgkU7CTrGLzoC5mXWO/Uuir21S2sZc4kURkmDbcsZBLcvEcYJdjn1ig5g
-	FX10NvNzDSU0OvAw==
+	bh=v92lNIoyHuqIlUbUMvmEwIBOVb+vu+U8J57Mp6Y9Ohs=;
+	b=oMXGH2Vic8KscgyS6tfI/0qml4qMTwg+eDIa5v+hrApSLTocifTzWB2Sb+LE22I/z2/pRZ
+	ATDa25Q8i95eX+Aw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="mK+/8SFu";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oMXGH2Vi
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716357115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1716357426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SO7Vj16TE+7ELY0AackoqSl5lpmUjxZgU0xxRG1lc04=;
-	b=xLO+hbK7dXzUGVm4DInedFvrzXOZ41IVO1nUhE7z2mPzGUZ0PhZdJlT4r1vEBHWG671JFA
-	0lvA+nr+s3nwchZupX9CBgW7FdTZNp8SFSLigzRTddSGKvvTCSkhf99XXQumJK5AgnXuXM
-	oDFkiZHFSbNZ+pZPRkMdNzeWYgaaMvk=
+	bh=v92lNIoyHuqIlUbUMvmEwIBOVb+vu+U8J57Mp6Y9Ohs=;
+	b=mK+/8SFuBcXesxwF+jVgsAu1jyd0tSXgMHjlZ/rYBghe86HJl69NELpwE8SccwJLXxvkFG
+	/Shiwldocpij6WJxv0tAdzskukZJMC772SXZNFntT7FIK0vWtsHwNLogynitXDadJ3Ho/j
+	CFuFZTigSlK8Y7NhNqHsEz9EC3YkYio=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716357115;
+	s=susede2_ed25519; t=1716357426;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SO7Vj16TE+7ELY0AackoqSl5lpmUjxZgU0xxRG1lc04=;
-	b=Zlx6hSj+1bLyXRLdMnrc7n85ecuPiumwWHZLGvT4BOtIJHK2ojqGYLNcXTCPRWo6lHJnfJ
-	KwKZR1pYpOygowBg==
+	bh=v92lNIoyHuqIlUbUMvmEwIBOVb+vu+U8J57Mp6Y9Ohs=;
+	b=oMXGH2Vic8KscgyS6tfI/0qml4qMTwg+eDIa5v+hrApSLTocifTzWB2Sb+LE22I/z2/pRZ
+	ATDa25Q8i95eX+Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99761139CB;
-	Wed, 22 May 2024 05:51:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D9A1613A6B;
+	Wed, 22 May 2024 05:57:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dXOqI/uHTWYZQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 22 May 2024 05:51:55 +0000
-Date: Wed, 22 May 2024 07:52:14 +0200
-Message-ID: <87msoiz94h.wl-tiwai@suse.de>
+	id WCFGMzGJTWZZIgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 22 May 2024 05:57:05 +0000
+Date: Wed, 22 May 2024 07:57:24 +0200
+Message-ID: <87jzjmz8vv.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	miquel.raynal@bootlin.com,
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	lars@metafoo.de,
-	lgirdwood@gmail.com
-Subject: Re: DMA Transfer Synchronization Issue in Out-of-Tree Sound Card Driver
-In-Reply-To: <6e01c13f-2bc1-4e08-b50e-9f1307bda92d@sirena.org.uk>
-References: <Zkxb0FTzW6wlnYYO@localhost.localdomain>
-	<6e01c13f-2bc1-4e08-b50e-9f1307bda92d@sirena.org.uk>
+	linux-sound@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH] ALSA: usb-audio: fix potential use after free issue when remove module snd-usb-audioy
+In-Reply-To: <20240522033425.yztpigsv3uhdl5zv@hippo>
+References: <20240520170349.2417900-1-xu.yang_2@nxp.com>
+	<87bk503hfo.wl-tiwai@suse.de>
+	<20240521105605.xcnji3d2wcihekhb@hippo>
+	<87le431ju2.wl-tiwai@suse.de>
+	<20240522033425.yztpigsv3uhdl5zv@hippo>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,53 +95,118 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.24 / 50.00];
-	BAYES_HAM(-2.94)[99.75%];
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,alsa-project.org,bootlin.com,perex.cz,suse.com,metafoo.de,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.24
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1B62434B53
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Score: -5.51
 
-On Tue, 21 May 2024 20:32:59 +0200,
-Mark Brown wrote:
+On Wed, 22 May 2024 05:34:25 +0200,
+Xu Yang wrote:
 > 
-> On Tue, May 21, 2024 at 10:31:12AM +0200, Louis Chauvet wrote:
+> On Tue, May 21, 2024 at 01:32:37PM +0200, Takashi Iwai wrote:
+> > On Tue, 21 May 2024 12:56:05 +0200,
+> > Xu Yang wrote:
+> > > 
+> > > On Mon, May 20, 2024 at 12:29:15PM +0200, Takashi Iwai wrote:
+> > > > On Mon, 20 May 2024 19:03:49 +0200,
+> > > > Xu Yang wrote:
+> > > > > 
+> > > > > When remove module snd-usb-audio, snd_card_free_when_closed() will not
+> > > > > release the card resource if the card_dev refcount > 0 and
+> > > 
+> > > [...]
+> > > 
+> > > > > Then, even the userspace trying to cleanup the resources, kernel will not
+> > > > > touch the released code memory.
+> > > > 
+> > > > Hm, it's an interesting report.  Could you verify whether it's really
+> > > > hitting a module unload race?  The module refcount should have been
+> > > > non-zero when the device is still in use, and it should have prevented
+> > > > the module unloading.
+> > > 
+> > > Yes, the race does exist. I enable trace and got below output:
+> > > It seems that snd_usb_audio module refcnt is 0 after insmod completed. So
+> > > it can continue to be removed even it's still in use.
+> > 
+> > If no device is opened, it's not really "used", and the driver module
+> > can be unloaded at any time.  That's the intended behavior.
 > 
-> > To address this DMA issue, I have created a patch [1] that guarantees the 
-> > completion of the DMA transfer upon the return of xdma_synchronize. This 
-> > means xdma_synchronize now sleeps, but looking at other drivers around it 
-> > appears expected to be able to do so.
-> 
-> You need to set the nonatomic flag for the PCM to allow this, the
-> default is that triggers run in atomic context.
+> Hh, I see wireplumber did open the card_dev when it scan card devices.
+> But wireplumber didn't close the card_dev when the scan process completed.
 
-Right, that's a most straightforward solution.  It implies that the
-period updates must be in non-atomic, i.e. use a threaded irq handler
-in most cases.
+Then rmmod shouldn't have been allowed, it's a consequence of the NULL
+module pointer, I suppose.
 
-If the synchronization is needed for assuring the hardware stop, there
-is an alternative with PCM sync_stop callback, too.  The callback is
-called at each time after a stream gets stopped before the next action
-(that is, either prepare, hw_params or close).  It's only for
-stopping, and there is no similar way for sync of a stream start,
-though.
+> > (snip)
+> > > Then I take some time to check why snd_usb_audio module refcnt is 0
+> > > even though the card_dev is in use. Finally I got below finding:
+> > > 
+> > > I build kernel and module with below configuration:
+> > > 
+> > > CONFIG_SOUND=y
+> > > CONFIG_SND=y
+> > > CONFIG_SND_USB=y
+> > > CONFIG_SND_USB_AUDIO=m
+> > > 
+> > > Then GCC will add -DMODULE when build snd-usb-audio as module, but will
+> > > not add -DMODULE when build sound/core/*.c.
+> > > 
+> > > When insmod snd-usb-audio.ko, it will create a snd card device and call:
+> > > 
+> > > snd_card_init()  // sound/core/init.c
+> > > 
+> > >   #ifdef MODULE
+> > >     WARN_ON(!module);
+> > >     card->module = module;
+> > >   #endif
+> > > 
+> > > However, MODULE is not defined for sound/core/init.c, then card->module
+> > > will keep NULL pointer. With this results, snd-usb-audio module refcnt
+> > > will not be a non-zero value.
+> > 
+> > Ah, it's a good finding!  That explains.
+> > 
+> > > > Practically seen, replacing snd_card_free_when_closed() with
+> > > > snd_card_free() shouldn't be a big problem, and it'll work in most
+> > > > cases.  But there are always some corner cases that might lead to
+> > > > unexpected behavior.  So, let's try to analyze more exactly what's
+> > > > happening there at first.
+> > > 
+> > > With above finding, we needn't to replace snd_card_free_when_closed()
+> > > with snd_card_free(). We need to find a way to correctly handle module
+> > > refcnt since this should be a normal usecase.
+> > 
+> > Right, I guess a simple fix below to replace '#ifdef MODULE' with
+> > '#ifdef CONFIG_MODULES' should work instead?
+> 
+> Yeah, it works for me.
+> Will you send a fix for the issue or suggest me send it? ^_^
+
+I'm going to submit a proper fix patch later.
 
 
 thanks,
