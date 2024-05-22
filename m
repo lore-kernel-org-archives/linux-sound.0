@@ -1,59 +1,59 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF9823CB;
-	Wed, 22 May 2024 18:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A741420BC;
+	Wed, 22 May 2024 21:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716403739; cv=none; b=gbO1UXI+nr18CSZemGhjhTPa2D+X7lEsrOOuEDj5ecFgC28sTTGoIrsjULBpwirk4haIvaf+HCkHToMdnhgLSYpV4LuvA9Jz3HN1GvzOx/4OEo9XxUKixRbxa582XLZGW4Ahsy9av01UcjfYp8z9q7ZlLG3hMD/uAgMEbAJPYlA=
+	t=1716411870; cv=none; b=NJKpHNI8MWl1bCPGzUEOyxuPvfSZappXHlaDHbxzK+f8JqjzCMbMEEotGS/w8BfUNyQRfZM+/4pBTkJbTwNUJI2VY07tf2X7V0JkRkH8g6qET1oP6ZeGtUaUzbduimagG6inWGbjLmE1QY0RMQYZS/qxgMAiv5po6rwVQmzq9SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716403739; c=relaxed/simple;
-	bh=oDR35NfNsRBH2fJ/xX+R+OSAGEUDe+MKHboG8nW8crg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jo71Rr5WgAmazweCjqAsEfqC6qj5I4pq6wFwN9+B5Tsm4MbPSr+wgldjJ32sWf7Bz4i+JQqiVYTq6zT7d/obq4MJjWkWRTIXApQdK3b4NXr63jzYvmKS5K/0VclCTNtRxwnimkeR4eC93+XiSPbwBtlnq8vUZv2HGCyW0DSQkRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEy4071S; arc=none smtp.client-ip=209.85.208.182
+	s=arc-20240116; t=1716411870; c=relaxed/simple;
+	bh=qHjnq+q1rDFyIJsTYH3KxBmEa98h8Xrh2Lzj6tZlWpo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=S+nQU8uft48bRQe2DKqWI46e23xAcyI1dcNNI0RF9k566jjQEPn7mdu0ec5YIU1IkC+L5AgSV/Op/lUlWunVrDyg40B6UYednJj4C9Egcv3ONwNAD2wRTEzs5mvkUPKUxSDt4GDSljN42WZK1YKh8JNX/tu67XUvol1GiayZrTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ba5Q/g+/; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEy4071S"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2e6792ea67fso84164881fa.1;
-        Wed, 22 May 2024 11:48:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ba5Q/g+/"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f449ea8e37so1755307b3a.3;
+        Wed, 22 May 2024 14:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716403736; x=1717008536; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DTzDmERoVHEg6js4vRxidK21RXEZ4WiJHQmiaHh1F4s=;
-        b=MEy4071SPVz7gVoH1xigDk2BN9ZW2hu4JXnzkFA9Rp+7SYKqkMuJmdKUTtLPwEe8Jz
-         bu0YP9cntN8VM04v3viZLIqkf3dXNXhl5WOF2PtxYdUAfuzgDm03mzws+bm4ouOIS/2u
-         m2123+axOf5aNEkbnqwTAZTbxUvgZTed90WUHlNsc7pza0L0GN1RFWcqIJFu6mst2fIx
-         O+gNc5jLnE9p2BO2F8CbL6t0qMMv4D/kp0xMoKW7vgKHnes361UJ8mi3uBv81PAQuf9+
-         dMpglePw+TOLkxNCtVvlV2bH3M4BDJlGQzwXtw0/1TPEHqOS+GQhHU4g+g4qbISfzOFf
-         2TUw==
+        d=gmail.com; s=20230601; t=1716411868; x=1717016668; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iT1AOadXKdkeYb8c0TgcpuQB1WGmLOhZwg6j5OThiw8=;
+        b=ba5Q/g+/VGcbHQj5RHIRgCFg/V/Z+umH2dMrpBpxor2PyJplJkTcHkPMuX/DDg56kD
+         92E5tRPpQif0C8PomHZDT0VZrHiJlqSEvqfH/8LQGabPYWphmMv3OUbFphbzhamf81XT
+         oj59rq+qwkXmDaCc2fB398uP5107r9ds7DFOjuxmM0BkLxJSvF1+e0NVh8z7GVBK8en5
+         6GgENAU76+0x2wusWSkhDDF8pe0E91GOwdz6JuO6KsY5Qh/Eo+lOBgwMI3c+7Qnhr3D8
+         N48ftcOfwzsx1jXgXA00UTQ8IKFb2lYsbKCqHmNSKbMLmO/aaQoLLS1LasqmwMMmChdh
+         /+iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716403736; x=1717008536;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1716411868; x=1717016668;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DTzDmERoVHEg6js4vRxidK21RXEZ4WiJHQmiaHh1F4s=;
-        b=m3cKCTMZZDl8bvqiA/mTKU+TiuR7zq/0cdavU8dzCcCpC4J6SfFyM4eD0txiIdycOo
-         O6gHJVY9nmNcX7pHFs62p3myoMke+Q4x7DV3CKB+SKd8/gC1kz7KrrV9EX+WootzccsY
-         0b8BsrE179DRv8GNt5FRujrJDLtKvdVloSEg7LpfGXevc6GLkYDM6c7+5o8dW4+OXhav
-         9GFu+NZW3uL5QRh5d9VvAGdsaEiXdfJ+8KaH3MnzpIXy3YOtkwzqVrTeJD899A/LAuj/
-         Z4fbN9NmHBLk9JfKFO2UNEoAYo1LJdLCn1n71rHvIvU5Qnsm1ZiRo+DfH4eL7DX/x0Np
-         w3/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVzRhyMMGHYewzBcQoPOY3I3rlQNWdjJ3/AcpkoA/vgCLPLOe1RJVX/8SgO7TgM7q5QFLteSvDPgObnObN0iK52c6wMnQD/OMU1uyk6ZCvB5ZrkxKneWx9RVUXUAIl4CIC5Xa5vEHMHqfIX8al+ISlU7HGXFdJjqER94s8/cUuf0zesfimi
-X-Gm-Message-State: AOJu0YzctEWg163dlGRuLodpg7dmY5aGlUjD+lvG+jtIO/kRILJINdEt
-	1ijrYnlbo7fRVyI7ACMFsx06fWf5FfCktdQTu31oV420rdoMN1b2
-X-Google-Smtp-Source: AGHT+IHVOa4KArOmWO1iKvBvgvxFQ+i+ezI4L0bfGrkS09VtQN+XR7jRD5LAMkItjfmSkvlNNtymIQ==
-X-Received: by 2002:a2e:be06:0:b0:2e5:87c1:e845 with SMTP id 38308e7fff4ca-2e949650e42mr19384361fa.48.1716403735959;
-        Wed, 22 May 2024 11:48:55 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e4d18344f4sm40455991fa.136.2024.05.22.11.48.55
+        bh=iT1AOadXKdkeYb8c0TgcpuQB1WGmLOhZwg6j5OThiw8=;
+        b=XWYP6iim4E6o1/tgnigu1RZWniLkG+bUGZ7lgnMfTD7WxP/MRY5Rjlvq2zLB7NGZ/7
+         HVPkeLT4LjJR7cOcprUu7fy8QwPiECFqOUVoDBPcAeqLjPWTZYBohtpjjDbGzfP6cyq1
+         Zq0gquqOFCOl47mDPc8CvXdgya4lAA3pOrsqBYwpCI6GRRn2fVQFhTS7b7eN6TdM4L2w
+         1g88WYpNBY9gkoPyGomHOgryXGRjTE+beJUDgrviTSS8XorV9HNYMaAZMP0Zjh0M5+vL
+         DoOskuRuVgK4tbaDYB64sYJR2V5eFGRMTt1vduaxsBmUZaCuBFwzHTM+lBFtvsXOTfwT
+         K1ww==
+X-Forwarded-Encrypted: i=1; AJvYcCU96BmA24a60u7KDBoc9qRhMRU9mpATR9ioW65GqeDIfBG0GWBlcjdcihTeQ82/39ggUsmY0TSLaB998DXtb4vINCjvToXgCLGiHd6nu8jNEp2NZ9Zb+UM/7FwTTxEXZPqG3o3htsSPgw==
+X-Gm-Message-State: AOJu0Ywe9xdoZWjQcetWaSKovy/h4lvb0TU3cP4S27yRPI798r7NKdt9
+	90ggCC5cfnlU/TcbLTzislWPiDzqIF2Rv/kMAZMjl6rN7pRbPhf7
+X-Google-Smtp-Source: AGHT+IHyvIyJqabzGn2pk+6jufjKdtxxS7JXm8ZDJHA57VzobiooDn0JOUAk0HMf2Nxvd5Pxfsf4dg==
+X-Received: by 2002:a05:6a21:3483:b0:1af:cfca:e515 with SMTP id adf61e73a8af0-1b1f87386a9mr4758616637.12.1716411868131;
+        Wed, 22 May 2024 14:04:28 -0700 (PDT)
+Received: from [10.5.5.43] ([103.139.191.219])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a663bbsm23606465b3a.17.2024.05.22.14.04.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 11:48:55 -0700 (PDT)
-Message-ID: <bcbe109d-5974-428d-b74e-c29bec9f68b0@gmail.com>
-Date: Wed, 22 May 2024 21:49:41 +0300
+        Wed, 22 May 2024 14:04:27 -0700 (PDT)
+Message-ID: <dc8a05ee-ed84-4517-baad-a220d8702f07@gmail.com>
+Date: Thu, 23 May 2024 02:34:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,77 +61,129 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Mithil <bavishimithil@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240522075245.388-1-bavishimithil@gmail.com>
- <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
- <4f722e53-011f-4176-b6af-080522165007@kernel.org>
- <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
- <3c6c5be1-fb8e-4bf0-9f58-cfb09672e8c1@kernel.org>
- <d999bc26-9bb1-44a8-92a3-bcbe14c5a1c3@gmail.com>
- <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org>
- <CAGzNGRm5i8zvnXiPzMg5=+tr9oyBcRA8LFvnmgGzE=MzSNTXug@mail.gmail.com>
- <e384272a-4dfe-4653-8983-6426f8803c84@kernel.org>
- <CAGzNGRnsmRWzimUX5tEC2-Y44aa4i9Lbdp8YJ+oneV4ujs4qBA@mail.gmail.com>
- <CAGzNGRmTR_nK0SoWG8uqDfRzDShs7sR+Mc+44__SBi0CR5LKEg@mail.gmail.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAGzNGRmTR_nK0SoWG8uqDfRzDShs7sR+Mc+44__SBi0CR5LKEg@mail.gmail.com>
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: mt6358: Convert to dtschema
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240518081621.63386-1-agarwala.kartik@gmail.com>
+ <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
+Content-Language: en-US, ar-LB
+In-Reply-To: <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 22/05/2024 20:47, Mithil wrote:
-> My apologies, misunderstood the error.
-> Proposed changes for the next version,
-> Add dma, dma-names, reg-names properties, and do the changes in
-> example (rename node to mcpdm since it is different from generic pdm).
->   reg-names:
->     items:
->       - const: mpu
->       - const: dma
+On 5/20/24 12:39 PM, Krzysztof Kozlowski wrote:
+> On 18/05/2024 10:16, Kartik Agarwala wrote:
+>> Convert Mediatek MT6358 Audio Codec bindings from text to dtschema.
+>>
+>> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+>> ---
+>>  .../bindings/sound/mediatek,mt6358.yaml       | 47 +++++++++++++++++++
+>>  .../devicetree/bindings/sound/mt6358.txt      | 26 ----------
+>>  2 files changed, 47 insertions(+), 26 deletions(-)
+>>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>>  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>> new file mode 100644
+>> index 000000000..f57ef2aa5
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>> @@ -0,0 +1,47 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Mediatek MT6358 Audio Codec
+>> +
+>> +maintainers:
+>> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
+>> +
+>> +description: |
 > 
->   dmas:
->     maxItems: 2
-> 
->   dma-names:
->     items:
->       - const: up_link
->       - const: dn_link
-> 
-> examples:
->     - |
->     #include <dt-bindings/interrupt-controller/arm-gic.h>
->     mcpdm@0 {
->       compatible = "ti,omap4-mcpdm";
->       reg = <0x0 0x7f>, /* MPU private access */
->             <0x49032000 0x7f>; /* L3 Interconnect */
->       reg-names = "mpu", "dma";
->       interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
->       interrupt-parent = <&gic>;
->       dmas = <&sdma 65>,
->              <&sdma 66>;
-These can be in one line to make it nice and tidy
+> Do not need '|' unless you need to preserve formatting.
 
->       dma-names = "up_link", "dn_link";
->       ti,hwmods = "mcpdm";
+Noted
 
-The ti,hwmods no longer needed since the sysc conversion
-
->       clocks = <&twl6040>;
->       clock-names = "pdmclk";
->     };
 > 
-> Remove ti.hwmods from required since some dts like
-> omap4-duovero-parlor, omap4-panda etc do not use it which causes
-> dtbs_check to not pass.
+>> +  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+>> +  For more detail, please visit Mediatek PMIC wrapper documentation.
+>> +  Must be a child node of PMIC wrapper.
+> 
+> Did you update the PMIC wrapper binding with ref to this?
+
+I am sorry but if I understand this comment, you are asking me to update this
+file [1], correct?
+
+1. https://www.kernel.org/doc/Documentation/devicetree/bindings/soc/mediatek/pwrap.txt
+
+> 
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - mediatek,mt6358-sound
+>> +      - mediatek,mt6366-sound
+> 
+> You did not test the DTS.
+> 
+> I think I raised the issue already: please make necessary fixes to the
+> binding (with explanation) or to the DTS, when converting the binding.
+>
+
+Apologies again. Just to be sure, am I correct to assume that you want 
+me to fix the dts file [1] as it has both these compatibles 
+mentioned instead of only one and I should fix that by dropping one of 
+the two compatibles?
+
+[1] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi#L1246
+
+>> +
+>> +  Avdd-supply:
+>> +    description: power source of AVDD
+>> +
+>> +  mediatek,dmic-mode:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description: |
+> 
+> Do not need '|' unless you need to preserve formatting.
+> 
+>> +      Indicates how many data pins are used to transmit two channels of PDM
+>> +      signal. 0 means two wires, 1 means one wire. Default value is 0.
+>> +    enum:
+>> +      - 0 # one wire
+>> +      - 1 # two wires
+>> +
+>> +required:
+>> +  - compatible
+>> +  - Avdd-supply
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    mt6358_snd {
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> 
+> Definitely no underscores. Probably this is "codec" or "audio-codec".
+
+Noted
+
+> 
+> Best regards,
+> Krzysztof
 > 
 
--- 
-Péter
+Thanks for the review!
+
+Regards,
+Kartik Agarwala
