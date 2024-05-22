@@ -1,59 +1,33 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE3C1864C;
-	Wed, 22 May 2024 14:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55EB1864C;
+	Wed, 22 May 2024 15:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716388993; cv=none; b=AG3mbeh68rsF7MmmKiaAoJY3lVLehjzRV1eXKn7mOW9AuUpDt0jRsLnk+iiO3xFhu2SaRFBVgMUwAl2L0MQiljIpCM2/3perUi3MkPp7kCx/9MI3y+20DIpVEAX4FpccnxCtGxtvoO5De4nEIRgmguQB+oiXVuNWtKM2d9GlwkM=
+	t=1716391368; cv=none; b=TcMOqvTy79WWwLKB/IVzP2hiXKeW/kJaEH4jPAPryA0sWGayeSLjbGIDGGaTsz91X8oDE2mW/1pfURPgPlFbw88qxZyIWZzS7FW7rrHkLcwQVYfCDkUgkSesUPLj89NTxmm1Oq8lXCSkC8ZYqCgBH5tr5XKGVXSQpk3ROlS56L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716388993; c=relaxed/simple;
-	bh=cU0VfFRghGglmx3GPYhyRadXAJpo3i6tBsjliiSd/5g=;
+	s=arc-20240116; t=1716391368; c=relaxed/simple;
+	bh=rP9yXekDWC5P67J6CUJmjz67STAAypXpb7mLVY/dtdw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=feIL77WB5s0jFtahqq7wjBQLtqd3cx6FdpnHF2mvf03A2kb+ulCDZo+1+2n8X76wcxVHVv+4h+rwLzZeLTt6zelMEfPKJ+fpRwrNNiQHoRVhvewLcgIKbDx9QZkh7W5MSS5KHzlUBu4vEBd5TvnWzFvquDmxX4HNkRiavv5M46E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FOiJwRsh; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=o4ocOZugZfNVtEcopxGbHg19xRWpKOl+T4ZuxHzAz9Nn1g2gvTTmaJpRJBz4UMaz2aQ1OmnPVRq9KPdXpAq66lYb7JESYNzA/Sr2qrXUZr503fkAMXOa5sBdypkOBLWt62jdT/xVLYVsfZCYHvV1TqR2NxW9+jWpPKVYg8626yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cd0TUJdH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FOiJwRsh"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-520f9d559f6so7937741e87.3;
-        Wed, 22 May 2024 07:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716388990; x=1716993790; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xKGz5EzGEJV05Hj0JhuGrkXsXmjzWO6dC3DmXo4LzKE=;
-        b=FOiJwRshJQ9jaNEKzOhV/UVNGIvOKytkCpc+DSshQCnXIdNVuz5/EWNGrTgEZyHjnv
-         5gv9sxRvGUGsBwS17R3QzaJpQQrPHqU5gIwEBMFAC8CEf9oTiZVRXZiHW2gxN/gCrBwP
-         R1xzS9iQZbpsmkLCKhgModDegMntPWSMrY16nnznc7ngygTsd1GsJI1qSC43VpecLTLK
-         tWtK0cHMvpYT5NSTsKfqc63uDrWohV16beQLrJU/oS5j+mlDUCjBEtc6RdwAmsIrSG4t
-         g8uC46dMQgWmRfMokY5cI4fzoebFyo4dXx1O6ftwwZwJqpMH2cgvtRCAna+if0lY1z7V
-         mPTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716388990; x=1716993790;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xKGz5EzGEJV05Hj0JhuGrkXsXmjzWO6dC3DmXo4LzKE=;
-        b=cbRxCpEWegTdD9EBv5Z9XcRdjArmXycOvhG3c3PEPoizp3ybsHlXYOLKG8Iwmb1p7j
-         yXs1FEZZz45aIxd3Wxi+KcONWrzxdGDKH80ye8gd72TJ7ZwvqHuHxCU3y/Luu74ZNjd2
-         kPAad+585HMUX5AFCthBSPu+IAS8KBR7nQ5+te4KnecMEeHMKfOXGBL7QOD1aI3CMmXH
-         6HV9Y1l4JuUtl6IhYh2p3uqbs9xM8IamBF2cpNvV+uDELHQEkvpLIe0ySqA3AB8A9LBD
-         LzXU/lvLzShd9vievj2UnrvtwbxlpMu78dxlqFj5lffxeMp/uxYSHOrtBgDO2vHIAuKs
-         MRQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGasCA8yuB3Ytuyu7iCMulhg4raMaufde3TU2fj4X0Wcqof+EbGP8xkb9QfsT4gKVNO+LdtbGrN3tRaGviiyHf5QtEG+D8iIyvf8l29PKrV/7VUWAmGsQ/eis/IYRbdnwob6gilYh6H4P8jCNyfHOJokTirNJq+CVHlx7dXo55mfZALZfE
-X-Gm-Message-State: AOJu0YxH/RJMSIrGssgA/AdKZLJMD7ppwVZSWFucfqmzH2IJOoVMINnq
-	olt5Nwib3LDPHPtCqp3uWpzrQv8YpPSuPlkigLQaIAIFgiu2dHm5
-X-Google-Smtp-Source: AGHT+IG4fUvdOa89iMSUKAiQ1AAmrXW4cgIx9Qlz27fd1jVvMkQLth48Htq0VZuMOnG63nSQyDH2yw==
-X-Received: by 2002:ac2:59c6:0:b0:523:9747:4920 with SMTP id 2adb3069b0e04-526be316495mr1617301e87.36.1716388990067;
-        Wed, 22 May 2024 07:43:10 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52733b3e732sm126213e87.184.2024.05.22.07.43.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 07:43:09 -0700 (PDT)
-Message-ID: <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
-Date: Wed, 22 May 2024 17:43:55 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cd0TUJdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FC9C2BBFC;
+	Wed, 22 May 2024 15:22:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716391368;
+	bh=rP9yXekDWC5P67J6CUJmjz67STAAypXpb7mLVY/dtdw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cd0TUJdHq5AnFoPGfER5uchXJaudkf1tqDHjylw7adju8Awd0XwwuaRob/cnrZ2IR
+	 CIPTvOqgZ+zIRyuRePkaAxdae2h5Uj69q4P7Uk+02Eyz/oftHTZQn5kHdefKaEhN5o
+	 U+pAtFOkMN+rIx41Gmit1jW1W9Dc2RIpsuD3mLauy5u/FO9b4MvGimDyT2cyQW6+He
+	 mOaTE6EMG+qqw56NxhV6ERtRxW5vfxXotHNqeIsZuFLIDeVz2HuF+B+3XKjSusoHgq
+	 iRwsYY/5DXc3h49sKt9/ogRrLeLaWYPwY7TOv5d1k3nG41KC36uQ9F3N4FmmaUqukY
+	 e+b3D0eSD/5SA==
+Message-ID: <3c6c5be1-fb8e-4bf0-9f58-cfb09672e8c1@kernel.org>
+Date: Wed, 22 May 2024 17:22:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,7 +36,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>, Mighty <bavishimithil@gmail.com>
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Mighty <bavishimithil@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
@@ -71,72 +46,87 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 References: <20240522075245.388-1-bavishimithil@gmail.com>
  <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
  <4f722e53-011f-4176-b6af-080522165007@kernel.org>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+ <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <4f722e53-011f-4176-b6af-080522165007@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-
-On 22/05/2024 17:16, Krzysztof Kozlowski wrote:
-> On 22/05/2024 15:56, Péter Ujfalusi wrote:
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - ti,hwmods
->>> +  - clocks
->>> +  - clock-names
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    pdm@40132000 {
+On 22/05/2024 16:43, Péter Ujfalusi wrote:
+>>>
+>>>> +      compatible = "ti,omap4-mcpdm";
+>>>> +      reg = <0x40132000 0x7f>, /* MPU private access */
+>>>> +            <0x49032000 0x7f>; /* L3 Interconnect */
+>>>> +      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
+>>>> +      interrupt-parent = <&gic>;
+>>>> +      ti,hwmods = "mcpdm";
+>>>> +      clocks = <&twl6040>;
+>>>> +      clock-names = "pdmclk";
+>>>
+>>> The clocks cannot be added at the time when the node is defined, it is
+>>> board specific. This way you imply that it is OK to have it in main dtsi
+>>> file. It is not.
 >>
->> The original label and name is preferred to be used.
+>> Wait, what? That's example and pretty standard. Example should be
+>> complete. This is not an exceptional binding.
 > 
-> Label is not used here.
+> The fclk for the McPDM is coming from external source, and the McPDM is
+> designed in pair with twl6040/6041, there were plan for other codecs to
+> support the McPDM protocol and in those cases the clock would come from
+> the connected codec.
 > 
-> About node name, not:
-> 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-> 
-> 
->>
->>> +      compatible = "ti,omap4-mcpdm";
->>> +      reg = <0x40132000 0x7f>, /* MPU private access */
->>> +            <0x49032000 0x7f>; /* L3 Interconnect */
->>> +      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
->>> +      interrupt-parent = <&gic>;
->>> +      ti,hwmods = "mcpdm";
->>> +      clocks = <&twl6040>;
->>> +      clock-names = "pdmclk";
->>
->> The clocks cannot be added at the time when the node is defined, it is
->> board specific. This way you imply that it is OK to have it in main dtsi
->> file. It is not.
-> 
-> Wait, what? That's example and pretty standard. Example should be
-> complete. This is not an exceptional binding.
+> The example (as the original binding was bit rot) is missing reg-names,
+> dmas and dma-names to be complete.
 
-The fclk for the McPDM is coming from external source, and the McPDM is
-designed in pair with twl6040/6041, there were plan for other codecs to
-support the McPDM protocol and in those cases the clock would come from
-the connected codec.
+None of these properties are allowed by the binding and during these
+five/six revisions of the patchset no one raised missing properties.
 
-The example (as the original binding was bit rot) is missing reg-names,
-dmas and dma-names to be complete.
+I assume the DTS was validated with the binding. Isn't the case here?
 
-> 
-> Best regards,
-> Krzysztof
-> 
+Best regards,
+Krzysztof
 
--- 
-Péter
