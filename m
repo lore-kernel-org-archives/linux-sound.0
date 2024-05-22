@@ -1,190 +1,173 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2136.outbound.protection.partner.outlook.cn [139.219.146.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFBB13D630;
-	Wed, 22 May 2024 12:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716379738; cv=fail; b=l1O+SytGh8irQ9IEoKScNb217080hpp1PTJ2kYg7eBahuqkr1TRMvFj1PYrPGSkO2Y/BBSbmW/XC7Nzi48Axwwtgf2H8qfZGqGp3DIs6xU/26t22DGQEOzslCLjHi0FklGQ4e46GeZMufJylDTs4n5NjJbJBLmwg+BJ83IVZRMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716379738; c=relaxed/simple;
-	bh=u8Y2t/fzExmFNvlrgdeNTl7P8rqsddM67SxLbPGephA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WoIylesYidSZumAoGdqaam5gk0f+eXVPKdajb7ZAxl/3OoT7mgwTnes0L2044+Lpe/TjfyTfDFFzdhrkYmwtyArg3jjZWplIzOtB0xY5Lqidm2n12C02K8212MhzgoFzIXIcnVOGZasuySXUgte5J6QUdDyOVc4Cmrtxw1Y8zv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=noA7rxB4Xkr/hiKYhtbyOYE8VXMRyz7j2hnrPKlRfC+ZFza5QUkI2f/NgnwJVfu36DV7cTS1zAipSB56ExafNP/zenw9r/IVbuJUKgjC+fLcPcFl6RCOIi4GkZyccEuWRtRzeDeDcU7xz9cTRCAZcOOjltTw28UOs3oMFjrDnkN/FraMu4n8fFALKQa/rzPFN9ORf1Kifg7/a7YB1naZNOgRhIaSgOWYn6WRcu5gDqHaH9byLsdvkG0uhH6wZjTv5hn6YXHhwtJUhfE/+BAedFQpqnRJeSpAwNwuUSKWNTUFykwZ6CtQCH4iXvmFiasc6dAMoBXpDJjdKEAzwIm2Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u8Y2t/fzExmFNvlrgdeNTl7P8rqsddM67SxLbPGephA=;
- b=WARZXu2nUYCpr+Mc5oAGgEGCemj7a3xLcx1DIGNfImXPDNyBgnT9Th1EBh/HmgrQhHWgUd7QP9fD4KEIDMaRKcSbTvejjMds6VqAL8jaDsnTtUUJCz/5BOE4Ar+dXglRg8uLBzulBpipc+0rPe3nRuZRAo5bAPggZTF3cHFKX92yWgCmM4I2iSFV/A/ZYlxABCZDMihPQB3UVBjfG0CVjl8+Bs2Tox9UbMH7advDnzS8tfl+sHTVQXaeqtWpwW1Bg8MbL/9KJskoWdLj8WPNpyIeKbJpG5wv3OxJ2HOkSYIY0BzeR4w5mGgjPXbs5rZHdnK1BhO5fMpgwHLUDmULcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510:8::10) by NTZPR01MB1049.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c510:a::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.37; Wed, 22 May
- 2024 08:35:25 +0000
-Received: from NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
- ([fe80::e903:99a6:10b7:304d]) by
- NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn ([fe80::e903:99a6:10b7:304d%6])
- with mapi id 15.20.7472.044; Wed, 22 May 2024 08:35:25 +0000
-From: Xingyu Wu <xingyu.wu@starfivetech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai
-	<tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor.dooley@microchip.com>
-CC: Walker Chen <walker.chen@starfivetech.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] ASoC: dt-bindings: Add PDM controller for the
- StarFive JH8100 SoC
-Thread-Topic: [PATCH v2 1/2] ASoC: dt-bindings: Add PDM controller for the
- StarFive JH8100 SoC
-Thread-Index: AQHalVkH07xuCGa5y0qrTe+ETpKiv7F1nF4AgC17FaCAAAGkAA==
-Date: Wed, 22 May 2024 08:35:25 +0000
-Message-ID:
- <NTZPR01MB0956170B9324DBA549B6BF679FEB2@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
-References: <20240423083405.263912-1-xingyu.wu@starfivetech.com>
- <20240423083405.263912-2-xingyu.wu@starfivetech.com>
- <a5f8746f-14f8-4e56-9ac7-30c7ba6fad30@linaro.org>
- <NTZPR01MB09568BEFB1ACE78D2F5347099FEB2@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
-In-Reply-To:
- <NTZPR01MB09568BEFB1ACE78D2F5347099FEB2@NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: NTZPR01MB0956:EE_|NTZPR01MB1049:EE_
-x-ms-office365-filtering-correlation-id: 184fc621-ffe0-41f8-adef-08dc7a3a208b
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230031|7416005|1800799015|366007|41320700004|38070700009;
-x-microsoft-antispam-message-info:
- ILR0TJgw+FrDj36YBRbnfZeX9PEs6wFSHniXAxD+o4Ap9DuiHZcwtrf5cg7nMcuKrvXXbBw0j6jEFafGnqLZ373gorRfydJZ9FcKloKMs1PgWPy37fSvZasbyrvOantU79xaHBt0zK6fkzzdego3K2EpwXPxQjm0lO64Q4ohbiQvTyTzrdMXwsrabym8uEKI4WwLR4jDpJa625+yNNHZFgovWMHTWD6EtzzZD4od0zbEzAcBK9KKuh3ePZ+kSqcrvmXs7wR6bPeUAdbx6ukXw/BzeTT2gFCMsnm5yBfmEcvQfkXFxTfSsslQ9fRnxvALcHwd9brjbhvKgwC/UqFuiAj4uZuKK1cDjiHICRq/ufBs6lbVK/qh9SCQOrjD9OuHysrBweNbbnrqNbbo828Vw5PAE4M6CqHlgcK/QNyPqhmlEltucyQg9Cgg+SiW3ZQURrVYLaoALCd9avuRj1Ilq4ktnN6gPr8yJNSYgGINUwaTlEVS49R3H6gk9kvoKM+JZcGih2KOmq42UkmF4effYOIzpLqucCHKV2FFfCmuzvmeaiel8k/v2bcDaXBN/Mr2mQmsUwq3ynEhkeGcfMgEt5kbuk9Z2eJC36lCPMU6ehDThyxHAV7j7CSg9nxF/0yW
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(366007)(41320700004)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?SXJxWVZkU2tscVNwek9CdEFnZ0QzTDlpQ25uNWdWcE84M0c0N2t3RFllSG5Z?=
- =?utf-8?B?Y1orUWFvYzJqVXpGRWlXM1dyVmswam5hNElRTXlwbjZrNWpQc0Y4OFo0bERa?=
- =?utf-8?B?Vnh3Z0V4L2dsR0t4Q3RpeklDSWFPc0FHUU5vUmViZ09nQTY3VkFnNWVvck9s?=
- =?utf-8?B?S3d1c3BnRll3RmFiQU9RUlNFdUR2RjFQWEtUM3N0cStkWHc0dmd6cllkbHJC?=
- =?utf-8?B?S0RobDFzT3hJdkxRbVdLZGMrODNXTm5HSWovd2JTTXJOSEIxTkNhc2s2TmNV?=
- =?utf-8?B?dEk1bWJ5TlRqM0RITjZQSXM3Z1RsNFhNYzNyclBuejhydzJPdXRFTUJQdURR?=
- =?utf-8?B?d2JlckVuZU9jTTdMcFJER2VkbGdTeUxEV3I1OW5tMnVUMk1iR0t1VmMvTTQr?=
- =?utf-8?B?T2xxZzFOUXc4RzJhcTdVYS9PRGhDbGU2RjlLMHZEaUZnQnVqVTF4Mk92UTBq?=
- =?utf-8?B?V0F6d0t3WW5tMHBnMkdNQ1duMXk0WU9WQUhUdmJNYUNJQi9TVlNPbHNCL05r?=
- =?utf-8?B?R0dMa2IxNWlzZzEwUmE0ZHF0SE4xL0ZDNExEdFpWYTNSSk9YTVh6NHhUcFhC?=
- =?utf-8?B?SXErcWZ3aDAxWjE2Q0tQSDVSRU5YWGJ1ckxvRkhUb0EwdktDcG1oUGxJWkdo?=
- =?utf-8?B?K3Y3Uk5QVEhDRzA2QlByU0FpUTFFY2NKY1lCdlUveVU4Q2JsaWxxVHdwbEdZ?=
- =?utf-8?B?SnhuSDk5c1dxWjhLRkVyVVJ6UU5hUWpRZk5ad1FTY3NGWmJHTG5OcEdsWDZG?=
- =?utf-8?B?TEFJMlozMEp5dFk2UWZ3Z3N4YVZMY3hxNlJaRVlFaURGdFlSVWNwcE5HRlY1?=
- =?utf-8?B?QWp0QmkwYUU3b2QvVWdwWWpPcmgvQ0xmM2E5V3ZzaGdKL2V6bHNVcnFGTU9I?=
- =?utf-8?B?dXdXQW9DTFArZmdEYWcwdzBLVzByTDJXdk9CV0JOVTU5TlNSNWs2UnQrWUI5?=
- =?utf-8?B?aFZvL3MyWitxNmdzaXduUFk4OUliQWdCZW9WTEQ3Z1QyYjdBVmFRRkR1eGpv?=
- =?utf-8?B?MDVQRVptYU8rVmlZb0V4WHczNVlod3ExVFZoeVhwb1FYRXpxQ0RaaE5WbkNQ?=
- =?utf-8?B?QnR4MlAyTi81NWhuek82WDFFeWw4REx1Z1QxUGM1Zk9sRHkyVTAyWHdFcG1Z?=
- =?utf-8?B?MnFLUkhqczZPRWREVWNWWElWN2xKU2hvTHZnMC83T0JlK2d0Z2hJdExpS1BT?=
- =?utf-8?B?Q3pMRmE4NFRvTUJQYXRjVnJtS0VBOFdja21wK1RQT0EyRmVWcTlyaHdoU0ZJ?=
- =?utf-8?B?Z2NxQ1ZlYklXK3V2Q1M5NzVaaEV4TEZvaS9kOWtHM21tRlhBM1B1bTdLZndK?=
- =?utf-8?B?OGJGT3FUZ2dpWVVnckszUlN3b25VcFM1UmdmZ1hJZERRb0o0Z21hd3FYTHFt?=
- =?utf-8?B?SVRPZGo0Kys4WERkb3pINGhzUk9CR0hQdFd2b2sra3Z0T3hISTJUSU4yeEc1?=
- =?utf-8?B?Mzl5bUNOdXhEQ01nQjJQOTBlQThKSGRvVmczamtEZGZyL3AwR1FaVGRSLzNj?=
- =?utf-8?B?YWRUVkswTkQyOGlRdWhpaFdqbUhlYnBlTFJkMjliVGY5c2dNUUUvaEh0N3RY?=
- =?utf-8?B?azc2UGhXYVpJUHNkbGF6ME5tL3E1MWtMdktHMThFOVJscE5TNXByZktZRm1i?=
- =?utf-8?B?Y2V4U00wQS9RaW5ZdDlSalZORFE0SVBVaW45ODlpMlRBVGJjdk80eE9WdXNy?=
- =?utf-8?B?VmovSmZpZmF2NU1iZHB6UmhSUDFka2VsSEdLTjZ2K1ZKNUw2T1p5NC9VWkQy?=
- =?utf-8?B?aE5Yb1hyUzhHaENZdG5tMkQvYnRHSTZINFZuYVNnWVhEdzJ1NkZjRFRGUGtJ?=
- =?utf-8?B?QkRuVG1zeFJLMTN6b3VHU3A0eTVZdGNTTVQ5bnZBcGxJRXFlYldGMGxJRzhp?=
- =?utf-8?B?SG4wZ1hnNzVPVVlxZi8yNXRaYkgzTTMvWGxDdEZzeXJ0VEF5UmJ3MXh5NWNr?=
- =?utf-8?B?MU1wazIxZ3p5NGpkUFpXbDdBR0Z3bHc3K3JDSTNEa1BkRmFyaTNUT1RscWJ2?=
- =?utf-8?B?enhxalo5dXdmaHBIVVI4RkEwZGNHTDZIVGtjajRHMVBXSmExVW1UWC9FZ1NZ?=
- =?utf-8?B?WWtWenpZTndyT1g3c1pENXZQTU4zRlVuZmZxeUVMOTBXdjdWV2FabHZqV1Q1?=
- =?utf-8?Q?BEg84mQy06c9um8UCGI8Dkm3E?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26918757FD;
+	Wed, 22 May 2024 13:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716383264; cv=none; b=bVodY4ZSy9iX1I6OKB+enpXgbgCDah8njXIPg86YvEeHZyg+9c61YQyylnL0xcoFO/VTI7GC+/ncb6IhT7q31TVQkKFKw+ggFONGMmrYw8tNMqZXSohd7Skc2380kxzn/KQApBsLv7xCbIIm5hVpfLaisWZtb3DbT3Y5L2m0Fao=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716383264; c=relaxed/simple;
+	bh=DR7CbPhtoXxljRXwMNH+G47S0+2kRKotroU41iH/CqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X0z8gQQYprgqTtLz73XIsq7gi6XgA26Jb71qrb9nfq1Qn/8RMOJEot6kK7pxxFLS7q85nhMP5dxI2KAncYVB+GAPAREHaWGJZT40SZspqT05lnkPN68FBmcOOhH8JJxk6qBleiNUieNZAoqx6IOWKeAQ02ALza1NcexbO+oAi6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=wziilpdP; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="wziilpdP"
+Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 816731F92B;
+	Wed, 22 May 2024 15:07:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1716383251;
+	bh=DVpLbXbSXLDR2E52fL0MUlD1s9DgA0AHMZxzZOEhZJI=; h=From:To:Subject;
+	b=wziilpdPKArGBsfWTEBbbmnsuxxPES2PnWUvbENF/Y3GZDBtkC/EYoBB68r+8GgSN
+	 eHXg9oZR8cQxoZG7dp4vFE1TkXXfcJxB/Su8c5wesQFMR/SaselD48MgWCUeipjLZw
+	 rO/Aq8feLg/J0JdUKLCShK55vs0TWEESH0Ua09Tv6mTQQ73kP2aVlCk79CXzKqv8I1
+	 xF4RgDGhBC6NYUCgEh+VF0Lz8rlYY/bhFMOO06g9vHVtFtqfeRrh6N3RALZBVsrGxZ
+	 0uRnM9mp0TRw0dvmw/nauuJs9CODeWPetdetsqiKjtCKMRbYEvyd8fZdgCcZ5S2HLH
+	 0w/oAHz0gN0WA==
+Date: Wed, 22 May 2024 15:07:27 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Andrejs Cainikovs <andrejs.cainikovs@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
+Subject: Re: [PATCH v1 2/2] ASoC: nau8822: add MCLK support
+Message-ID: <20240522130727.GA30641@francesco-nb>
+References: <20240409121719.337709-1-andrejs.cainikovs@gmail.com>
+ <20240409121719.337709-3-andrejs.cainikovs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: NTZPR01MB0956.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: 184fc621-ffe0-41f8-adef-08dc7a3a208b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2024 08:35:25.2351
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GehnmGjAgXMxSLtBbodTBoItGDets6hTFKor0GeyiAKDQzQFUkMWXvFGus1l3nzBU17KEXNs7s1s65TPofC5haYGtsQm9CAxgmBar07dRyg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: NTZPR01MB1049
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240409121719.337709-3-andrejs.cainikovs@gmail.com>
 
-PiANCj4gT24gMjMvMDQvMjAyNCAxMDozNCwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToNCj4g
-Pg0KPiA+IE9uIDIzLzA0LzIwMjQgMTA6MzQsIFhpbmd5dSBXdSB3cm90ZToNCj4gPiA+IEFkZCBi
-aW5kaW5ncyBhYm91dCB0aGUgUERNIGNvbnRyb2xsZXIgZm9yIHRoZSBTdGFyRml2ZSBKSDgxMDAg
-U29DLg0KPiA+ID4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFhpbmd5dSBXdSA8eGluZ3l1Lnd1QHN0
-YXJmaXZldGVjaC5jb20+DQo+ID4NCj4gPiBJZiB0aGVyZSBpcyBnb2luZyB0byBiZSByZXNlbmQv
-bmV3IHZlcnNpb24sIHRocmVlIG5pdHMuIEFueXdheToNCj4gPg0KPiA+IFJldmlld2VkLWJ5OiBL
-cnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+DQo+ID4N
-Cj4gDQo+IEkgd2lsbCBmaXggaXQgaW4gbmV4dCB2ZXJzaW9uLiBUaGFua3MuDQo+IA0KPiA+IC4u
-Lg0KPiA+DQo+ID4gPiArDQo+ID4gPiArdGl0bGU6IFN0YXJGaXZlIEpIODEwMCBQRE0gY29udHJv
-bGxlcg0KPiA+ID4gKw0KPiA+ID4gK2Rlc2NyaXB0aW9uOiB8DQo+ID4NCj4gPiBEbyBub3QgbmVl
-ZCAnfCcgdW5sZXNzIHlvdSBuZWVkIHRvIHByZXNlcnZlIGZvcm1hdHRpbmcuDQo+IA0KPiBXaWxs
-IGRyb3AuDQo+IA0KPiA+DQo+ID4gPiArICBUaGUgUHVsc2UgRGVuc2l0eSBNb2R1bGF0aW9uIChQ
-RE0pIGNvbnRyb2xsZXIgaXMgYSBkaWdpdGFsIFBETQ0KPiA+ID4gKyBvdXQgbWljcm9waG9uZSBp
-bnRlcmZhY2UgY29udHJvbGxlciBhbmQgZGVjb2RlciB0aGF0IHN1cHBvcnRzIGJvdGgNCj4gPiA+
-ICsgdXAgdG8NCj4gPiA+ICsgNCAgY2hhbm5lbHMsIGFuZCBhbiBJbnRlci1JQyBTb3VuZCAoSTJT
-KSB0cmFuc21pdHRlciB0aGF0IG91dHB1dHMNCj4gPiA+ICsgc3RhbmRhcmQgIHN0ZXJlbyBhdWRp
-byBkYXRhIHRvIGFub3RoZXIgZGV2aWNlLiBUaGUgSTJTIHRyYW5zbWl0dGVyDQo+ID4gPiArIGNh
-biBiZSAgY29uZmlndXJlZCB0byBvcGVyYXRlIGVpdGhlciBhIG1hc3RlciBvciBhIHNsYXZlIChk
-ZWZhdWx0DQo+ID4gPiArIG1vZGUpLiBUaGUgUERNICBjb250cm9sbGVyIGluY2x1ZGVzIHR3byBQ
-RE0gYmxvY2tzLCBlYWNoIFBETSBibG9jaw0KPiA+ID4gKyBjYW4gZHJpdmUgb25lICBiaXRzdHJl
-YW0gc2FtcGxpbmcgY2xvY2sgYW5kIHR3byBiaXRzdHJlYW0gY29taW5nDQo+ID4gPiArIGRhdGEg
-KG1vbm8vc3RlcmVvKSAgd2l0aCBzYW1wbGluZyBjbG9jayByaXNpbmcgYW5kIGZhbGxpbmcgZWRn
-ZS4NCj4gPiA+ICsNCj4gPiA+ICttYWludGFpbmVyczoNCj4gPiA+ICsgIC0gWGluZ3l1IFd1IDx4
-aW5neXUud3VAc3RhcmZpdmV0ZWNoLmNvbT4NCj4gPiA+ICsgIC0gV2Fsa2VyIENoZW4gPHdhbGtl
-ci5jaGVuQHN0YXJmaXZldGVjaC5jb20+DQo+ID4gPiArDQo+ID4gPiArYWxsT2Y6DQo+ID4gPiAr
-ICAtICRyZWY6IGRhaS1jb21tb24ueWFtbCMNCj4gPiA+ICsNCj4gPiA+ICtwcm9wZXJ0aWVzOg0K
-PiA+ID4gKyAgY29tcGF0aWJsZToNCj4gPiA+ICsgICAgY29uc3Q6IHN0YXJmaXZlLGpoODEwMC1w
-ZG0NCj4gPiA+ICsNCj4gPiA+ICsgIHJlZzoNCj4gPiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiA+
-ICsNCj4gPiA+ICsgIGNsb2NrczoNCj4gPiA+ICsgICAgaXRlbXM6DQo+ID4gPiArICAgICAgLSBk
-ZXNjcmlwdGlvbjogRE1JQyBvdXRwdXQgY2xvY2sNCj4gPiA+ICsgICAgICAtIGRlc2NyaXB0aW9u
-OiBNYWluIElDRyBjbG9jaw0KPiA+ID4gKw0KPiA+ID4gKyAgY2xvY2stbmFtZXM6DQo+ID4gPiAr
-ICAgIGl0ZW1zOg0KPiA+ID4gKyAgICAgIC0gY29uc3Q6IGRtaWMNCj4gPiA+ICsgICAgICAtIGNv
-bnN0OiBpY2cNCj4gPiA+ICsNCj4gPiA+ICsgIHJlc2V0czoNCj4gPiA+ICsgICAgbWF4SXRlbXM6
-IDENCj4gPiA+ICsNCj4gPiA+ICsgICIjc291bmQtZGFpLWNlbGxzIjoNCj4gPiA+ICsgICAgY29u
-c3Q6IDANCj4gPiA+ICsNCj4gPiA+ICsgIHN0YXJmaXZlLHN5c2NvbjoNCj4gPiA+ICsgICAgJHJl
-ZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvcGhhbmRsZS1hcnJheQ0KPiA+ID4g
-KyAgICBpdGVtczoNCj4gPiA+ICsgICAgICAtIGl0ZW1zOg0KPiA+ID4gKyAgICAgICAgICAtIGRl
-c2NyaXB0aW9uOiBwaGFuZGxlIHRvIFN5c3RlbSBSZWdpc3RlciBDb250cm9sbGVyIHN5c19zeXNj
-b25fbmUNCj4gbm9kZS4NCj4gPiA+ICsgICAgICAgICAgLSBkZXNjcmlwdGlvbjogUERNIHNvdXJj
-ZSBlbmFibGVkIGNvbnRyb2wgb2Zmc2V0IG9mDQo+ID4gPiArIFNZU19TWVNDT05fTkUNCj4gPiBy
-ZWdpc3Rlci4NCj4gPiA+ICsgICAgICAgICAgLSBkZXNjcmlwdGlvbjogUERNIHNvdXJjZSBlbmFi
-bGVkIGNvbnRyb2wgbWFzaw0KPiA+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiA+ICsgICAgICBU
-aGUgcGhhbmRsZSB0byBTeXN0ZW0gUmVnaXN0ZXIgQ29udHJvbGxlciBzeXNjb24gbm9kZSBhbmQg
-dGhlDQo+ID4gPiArIFBETQ0KPiA+IHNvdXJjZQ0KPiA+ID4gKyAgICAgIGZyb20gSTJTIGVuYWJs
-ZWQgY29udHJvbCBvZmZzZXQgYW5kIG1hc2sgb2YgU1lTX1NZU0NPTl9ORSByZWdpc3Rlci4NCj4g
-Pg0KPiA+IFRoaXMgZGVzY3JpcHRpb24gZHVwbGljYXRlcyBpdGVtcy4gRHJvcCByZWR1bmRhbnQg
-cGFydHMgKHRoZXJlIGlzDQo+ID4gcmVhbGx5IG5ldmVyIGEgbmVlZCB0byBzYXkgcGhhbmRsZSBp
-cyBhIHBoYW5kbGUgYmVjYXVzZSBpdCBjYW5ub3QgYmUNCj4gPiBhbnl0aGluZyBlbHNlKS4gSW5z
-dGVhZCBzYXkgd2hhdCBpcyBpdCB1c2VkIGZvci4NCj4gDQo+IFdpbGwgZml4Lg0KPiANCj4gPg0K
-PiA+DQo+ID4gPiArDQo+ID4gPiArcmVxdWlyZWQ6DQo+ID4gPiArICAtIGNvbXBhdGlibGUNCj4g
-PiA+ICsgIC0gcmVnDQo+ID4gPiArICAtIGNsb2Nrcw0KPiA+ID4gKyAgLSBjbG9jay1uYW1lcw0K
-PiA+ID4gKyAgLSByZXNldHMNCj4gPiA+ICsgIC0gJyNzb3VuZC1kYWktY2VsbHMnDQo+ID4NCj4g
-PiBVc2UgY29uc2lzdGVudCBxdW90ZXMsIGVpdGhlciAnIG9yICINCj4gPg0KPiANCj4gV2lsbCBm
-aXguDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IFhpbmd5dSBXdQ0KDQpTb3JyeSwgaXQgd2FzIHJl
-c2VudC4gRm9yZ2V0IHRoYXQuDQoNClRoYW5rcywNClhpbmd5dSBXdQ0K
+Hello,
+
+On Tue, Apr 09, 2024 at 02:17:19PM +0200, Andrejs Cainikovs wrote:
+> From: Andrejs Cainikovs <andrejs.cainikovs@toradex.com>
+> 
+> This change adds MCLK clock handling directly within driver.
+> When used in combination with simple-audio-card, and mclk-fs is set,
+> simple-audio-card will change MCLK frequency before configuring PLL.
+> In some cases, however, MCLK reference clock should be static (see [1]),
+> which means it needs to be moved away from simple-audio-card.
+> 
+> [1]: https://lore.kernel.org/all/ZfBdxrzX3EnPuGOn@ediswmail9.ad.cirrus.com/
+
+
+This seems buggy, it introduces the following error:
+
+[ 8490.005519] ------------[ cut here ]------------
+[ 8490.005527] audio_refclk:clk:157:10 already disabled
+[ 8490.005585] WARNING: CPU: 0 PID: 858 at drivers/clk/clk.c:1038 clk_core_disable+0xb0/0xb8
+[ 8490.005623] Modules linked in: 8021q garp stp mrp llc rfcomm af_alg usb_f_ncm u_ether ti_k3_r5_remoteproc virtio_rpmsg_bus btnxpuart rpmsg_ns rtc_ti_k3 ti_k3_m4_remoteproc ti_k3_common mwifiex_sdio mwifiex cfg80211 bluetooth ecdh_generic ecc tidss snd_soc_davinci_mcasp rfkill snd_soc_ti_udma snd_soc_ti_edma sa2ul drm_dma_helper snd_soc_ti_sdma mcrc ina2xx lontium_lt8916
+[ 8490.005857] CPU: 0 PID: 858 Comm: rtcwake Tainted: G        W          6.1.80-15754-g2d31b2cc742b-dirty #38
+[ 8490.005868] Hardware name: Toradex Verdin AM62 WB on Verdin Development Board (DT)
+[ 8490.005876] pstate: 400000c5 (nZcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 8490.005886] pc : clk_core_disable+0xb0/0xb8
+[ 8490.005897] lr : clk_core_disable+0xb0/0xb8
+[ 8490.005907] sp : ffff80000a5a3960
+[ 8490.005911] x29: ffff80000a5a3960 x28: ffff800009246000 x27: ffff800008df4690
+[ 8490.005926] x26: ffff8000091dbcc0 x25: ffff800008df4000 x24: ffff8000091dbc18
+[ 8490.005941] x23: ffff000002de5080 x22: 0000000000000000 x21: ffff000002f5fc80
+[ 8490.005955] x20: ffff00000118df00 x19: ffff00000118df00 x18: ffff800000d15000
+[ 8490.005970] x17: 0000000000000000 x16: 0000000000000000 x15: ffff00000605aac0
+[ 8490.005984] x14: fffffffffffca828 x13: 0a64656c62617369 x12: 642079646165726c
+[ 8490.005997] x11: 656820747563205b x10: 2d2d2d2d2d2d2d2d x9 : 00000000fffffffe
+[ 8490.006012] x8 : ffff8000090c1260 x7 : ffff80000a5a3760 x6 : 00000000fffff267
+[ 8490.006026] x5 : ffff00001da1ab60 x4 : 0000000000000000 x3 : 0000000000000027
+[ 8490.006039] x2 : ffff00001da1ab68 x1 : ae3ede0e49d60900 x0 : 0000000000000000
+[ 8490.006055] Call trace:
+[ 8490.006060]  clk_core_disable+0xb0/0xb8
+[ 8490.006072]  clk_core_disable_lock+0x24/0x40
+[ 8490.006082]  clk_disable+0x20/0x30
+[ 8490.006093]  nau8822_set_bias_level+0x68/0x1a0 [snd_soc_nau8822]
+[ 8490.006123]  snd_soc_component_set_bias_level+0x28/0x78
+[ 8490.006136]  snd_soc_dapm_force_bias_level+0x24/0x40
+[ 8490.006149]  nau8822_suspend+0x28/0x48 [snd_soc_nau8822]
+[ 8490.006167]  snd_soc_component_suspend+0x24/0x40
+[ 8490.006176]  snd_soc_suspend+0x1bc/0x218
+[ 8490.006185]  platform_pm_suspend+0x2c/0x78
+[ 8490.006198]  dpm_run_callback+0x3c/0x88
+[ 8490.006209]  __device_suspend+0x110/0x3b0
+[ 8490.006219]  dpm_suspend+0x100/0x200
+[ 8490.006228]  dpm_suspend_start+0x80/0xa0
+[ 8490.006238]  suspend_devices_and_enter+0xc8/0x4e8
+[ 8490.006252]  pm_suspend+0x1f8/0x268
+[ 8490.006261]  state_store+0x8c/0x118
+[ 8490.006270]  kobj_attr_store+0x18/0x30
+[ 8490.006287]  sysfs_kf_write+0x44/0x58
+[ 8490.006297]  kernfs_fop_write_iter+0x118/0x1a8
+[ 8490.006310]  vfs_write+0x33c/0x438
+[ 8490.006320]  ksys_write+0x6c/0xf8
+[ 8490.006327]  __arm64_sys_write+0x1c/0x28
+[ 8490.006335]  invoke_syscall+0x44/0x108
+[ 8490.006348]  el0_svc_common.constprop.0+0xcc/0xf0
+[ 8490.006358]  do_el0_svc+0x1c/0x28
+[ 8490.006367]  el0_svc+0x28/0x98
+[ 8490.006377]  el0t_64_sync_handler+0xb8/0xc0
+[ 8490.006386]  el0t_64_sync+0x18c/0x190
+[ 8490.006397] ---[ end trace 0000000000000000 ]---
+[ 8490.006407] ------------[ cut here ]------------
+[ 8490.006410] audio_refclk:clk:157:10 already unprepared
+[ 8490.006447] WARNING: CPU: 0 PID: 858 at drivers/clk/clk.c:897 clk_core_unprepare+0xf0/0x110
+[ 8490.006463] Modules linked in: 8021q garp stp mrp llc rfcomm af_alg usb_f_ncm u_ether ti_k3_r5_remoteproc virtio_rpmsg_bus btnxpuart rpmsg_ns rtc_ti_k3 ti_k3_m4_remoteproc ti_k3_common mwifiex_sdio mwifiex cfg80211 bluetooth ecdh_generic ecc tidss snd_soc_davinci_mcasp rfkill snd_soc_ti_udma snd_soc_ti_edma sa2ul drm_dma_helper snd_soc_ti_sdma mcrc ina2xx lontium_lt8916
+[ 8490.006644] CPU: 0 PID: 858 Comm: rtcwake Tainted: G        W          6.1.80-15754-g2d31b2cc742b-dirty #38
+[ 8490.006653] Hardware name: Toradex Verdin AM62 WB on Verdin Development Board (DT)
+[ 8490.006658] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 8490.006667] pc : clk_core_unprepare+0xf0/0x110
+[ 8490.006678] lr : clk_core_unprepare+0xf0/0x110
+[ 8490.006688] sp : ffff80000a5a3970
+[ 8490.006691] x29: ffff80000a5a3970 x28: ffff800009246000 x27: ffff800008df4690
+[ 8490.006706] x26: ffff8000091dbcc0 x25: ffff800008df4000 x24: ffff8000091dbc18
+[ 8490.006720] x23: ffff000002de5080 x22: 0000000000000000 x21: ffff000002f5fc80
+[ 8490.006735] x20: 0000000000000000 x19: ffff00000118df00 x18: ffff800000d15000
+[ 8490.006749] x17: 0000000000000000 x16: 0000000000000000 x15: ffff00000605aac0
+[ 8490.006763] x14: fffffffffffcb568 x13: 0a64657261706572 x12: 706e752079646165
+[ 8490.006777] x11: 656820747563205b x10: 2d2d2d2d2d2d2d2d x9 : 00000000fffffffe
+[ 8490.006791] x8 : ffff8000090c1260 x7 : ffff80000a5a3770 x6 : 00000000fffff29a
+[ 8490.006805] x5 : ffff00001da1ab60 x4 : 0000000000000000 x3 : 0000000000000027
+[ 8490.006819] x2 : ffff00001da1ab68 x1 : ae3ede0e49d60900 x0 : 0000000000000000
+[ 8490.006833] Call trace:
+[ 8490.006836]  clk_core_unprepare+0xf0/0x110
+[ 8490.006847]  clk_unprepare+0x2c/0x48
+[ 8490.006855]  nau8822_set_bias_level+0x70/0x1a0 [snd_soc_nau8822]
+[ 8490.006874]  snd_soc_component_set_bias_level+0x28/0x78
+[ 8490.006883]  snd_soc_dapm_force_bias_level+0x24/0x40
+[ 8490.006893]  nau8822_suspend+0x28/0x48 [snd_soc_nau8822]
+[ 8490.006913]  snd_soc_component_suspend+0x24/0x40
+[ 8490.006921]  snd_soc_suspend+0x1bc/0x218
+[ 8490.006929]  platform_pm_suspend+0x2c/0x78
+[ 8490.006939]  dpm_run_callback+0x3c/0x88
+[ 8490.006948]  __device_suspend+0x110/0x3b0
+[ 8490.006957]  dpm_suspend+0x100/0x200
+[ 8490.006967]  dpm_suspend_start+0x80/0xa0
+[ 8490.006976]  suspend_devices_and_enter+0xc8/0x4e8
+[ 8490.006986]  pm_suspend+0x1f8/0x268
+[ 8490.006994]  state_store+0x8c/0x118
+[ 8490.007003]  kobj_attr_store+0x18/0x30
+[ 8490.007014]  sysfs_kf_write+0x44/0x58
+[ 8490.007022]  kernfs_fop_write_iter+0x118/0x1a8
+[ 8490.007033]  vfs_write+0x33c/0x438
+[ 8490.007041]  ksys_write+0x6c/0xf8
+[ 8490.007047]  __arm64_sys_write+0x1c/0x28
+[ 8490.007055]  invoke_syscall+0x44/0x108
+[ 8490.007064]  el0_svc_common.constprop.0+0xcc/0xf0
+[ 8490.007074]  do_el0_svc+0x1c/0x28
+[ 8490.007083]  el0_svc+0x28/0x98
+[ 8490.007091]  el0t_64_sync_handler+0xb8/0xc0
+[ 8490.007100]  el0t_64_sync+0x18c/0x190
+[ 8490.007108] ---[ end trace 0000000000000000 ]---
+
+
+Francesco
+
