@@ -1,76 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2935C7BAFF
-	for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 07:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37E6757E3
+	for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 07:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716361473; cv=none; b=QZwj1nl3HZiTx9sOFbzausSQ8w8uhFoT45TYNaxTQALdOglDeNR1JW3rbs6ivtP3l/Q4MqEd7nPPSnhVi8BVPUI+9zY/xo7ubyr1xnF22uaF6kCswubU4/I1bowtQ55ehO5KCK70Lt8WtirTxiqKGp5oRyHGaHqKFzbBj9lMeRs=
+	t=1716361478; cv=none; b=XLFvWayZJtrMmnjDERG0SgBcMUv2XEsbDTPrT/txiiWq0JpBcX0jDhkrazmrLOc8eWHPERgPKQLDATVTQdrRopbiMNfkR10mPdzaHS/BwkHw0J2BAwnNaywJ4JlSdRIUpopVDHVl2hnJxWt/CiqdS+4+rlZZa4Fgr+lEU1iYmnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716361473; c=relaxed/simple;
-	bh=yGDQFHicqXL+8Sqj0IPSxxnbweB6sq9s3vL6ESdPLwU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CJGwtxUch00zOTXmHSpdmREx4W4zvjXuvf+VfYEoIojeakOd/5z/tj1h4Ku/VTPAywtnSK11k+WwUkT4+h2O+WNir4co6dhEOfotzFDUwgCxDpxURumcF/Tn0uLHmKiSY9f7e6JM3InXfcx2CdE0oo71fEpaidax9tW+fELI3PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TOIVEtan; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SYzJ62T0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C+ShgW47; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nXRoQQ5R; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1716361478; c=relaxed/simple;
+	bh=cpmZ08w3lPhIDQx2Hp5LG2DgBN6jL1wuwQU/ira7uMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nJak4Gl0kd6J6JlorVHfGk8qTMTHpsN+e4jAzci546yhJfUy2eAVQFZ9sCQhIRDSApXXuIrwRnUyQZr+SKqXDZzMnP8cVS6dHE5hMvCP2dJs6wJ0hscPe9gNwf5pNq4J03InWJoY08Ev3F+kH10tj+4K17ZdsQhE8/GZoRqs/84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qe1sGf8x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vrp10BRd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qe1sGf8x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vrp10BRd; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TOIVEtan";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SYzJ62T0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C+ShgW47";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nXRoQQ5R"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qe1sGf8x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vrp10BRd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qe1sGf8x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vrp10BRd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A8F734BC6;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 49CD65C6AA;
 	Wed, 22 May 2024 07:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716361470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ciBsmAmVfdIfqxOZmwf0E0wS4Uq6o8a7C0wgDJuG2dM=;
-	b=TOIVEtaneuIUwOo/FAPPahGfzM9yOpJKOdcjIubPPvjB5EcLYB3Z3tZz9ZKm+7cW57/q42
-	Jvlfr3ZtGXtMkSZAErJ5O2Rh3fzg9v76fo6J74fVWCy+Ryl8GQuDb6Zqp/qN7KSONJfto0
-	BuiVoK6v9/MpoDQKp0mSFlG5wsalYx4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716361470;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ciBsmAmVfdIfqxOZmwf0E0wS4Uq6o8a7C0wgDJuG2dM=;
-	b=SYzJ62T0qR440dGoSHulWOEsdFcIvDrpqCVGsxxrGPj37OCUQ5Fro87r6jfvCatXYqlMWw
-	UBcw3dV8lQLPOEBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1716361469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ciBsmAmVfdIfqxOZmwf0E0wS4Uq6o8a7C0wgDJuG2dM=;
-	b=C+ShgW47Tp4rqew8yYlEL+LFgtXtxAKftsA9+pe0gecUgnopOjKKNuNpbo28ZmAzgowgdL
-	K+dZo9zfd5Y2G95s42WbcRaY3FZu7WUPQMCeKrOTC7Vj4GZeCOeTg1IqFZcYptXpjjcm7a
-	e1xAA9bjdIDTiWo1/rJOqHTfJeCERCY=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fFIo3eLfelVzOKd9qGFONAMBfGVZEOxl2rSPEdWnNlk=;
+	b=qe1sGf8xq7qrc3fytp1J/pTk3u61TghvYeLC+wk5VJKTFSyuKl72bT1KsT3SgaPYDxAokh
+	Ef6YayryJvtxYwH2THYTE4Ttp91Zhhd6hjeuXpx3hmyLdwD4CpEGR+zvh2/x6bt9bfub0H
+	Od4+q4yGblSuVLBcAZssnhVXIbS2Z9g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1716361469;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ciBsmAmVfdIfqxOZmwf0E0wS4Uq6o8a7C0wgDJuG2dM=;
-	b=nXRoQQ5R02ShSbqNJQfoud6BJQS9VOYlWXgv29e9frilB5ZNkQ3pRE/rhJSZSozJde8acU
-	CUt67jJqLmO7N7Dw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fFIo3eLfelVzOKd9qGFONAMBfGVZEOxl2rSPEdWnNlk=;
+	b=Vrp10BRdSDZxeLIPTqrs0Ey/s1JP7hYR9q+GGTE6aICDVQdUb7ibl17baXjdbTNzf9bIsV
+	RAJq/PykUWe69XDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qe1sGf8x;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Vrp10BRd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716361469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fFIo3eLfelVzOKd9qGFONAMBfGVZEOxl2rSPEdWnNlk=;
+	b=qe1sGf8xq7qrc3fytp1J/pTk3u61TghvYeLC+wk5VJKTFSyuKl72bT1KsT3SgaPYDxAokh
+	Ef6YayryJvtxYwH2THYTE4Ttp91Zhhd6hjeuXpx3hmyLdwD4CpEGR+zvh2/x6bt9bfub0H
+	Od4+q4yGblSuVLBcAZssnhVXIbS2Z9g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716361469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fFIo3eLfelVzOKd9qGFONAMBfGVZEOxl2rSPEdWnNlk=;
+	b=Vrp10BRdSDZxeLIPTqrs0Ey/s1JP7hYR9q+GGTE6aICDVQdUb7ibl17baXjdbTNzf9bIsV
+	RAJq/PykUWe69XDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0A5E13A1E;
-	Wed, 22 May 2024 07:04:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 128EE13A7A;
+	Wed, 22 May 2024 07:04:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jI6fNfyYTWZOGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 22 May 2024 07:04:28 +0000
+	id AOwaA/2YTWZOGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 22 May 2024 07:04:29 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Xu Yang <xu.yang_2@nxp.com>
-Subject: [PATCH 1/2] ALSA: core: Fix NULL module pointer assignment at card init
-Date: Wed, 22 May 2024 09:04:39 +0200
-Message-ID: <20240522070442.17786-1-tiwai@suse.de>
+Subject: [PATCH 2/2] ALSA: core: Enable proc module when CONFIG_MODULES=y
+Date: Wed, 22 May 2024 09:04:40 +0200
+Message-ID: <20240522070442.17786-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240522070442.17786-1-tiwai@suse.de>
+References: <20240522070442.17786-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,76 +90,115 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 49CD65C6AA
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,nxp.com:email];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email]
 
-The commit 81033c6b584b ("ALSA: core: Warn on empty module")
-introduced a WARN_ON() for a NULL module pointer passed at snd_card
-object creation, and it also wraps the code around it with '#ifdef
-MODULE'.  This works in most cases, but the devils are always in
-details.  "MODULE" is defined when the target code (i.e. the sound
-core) is built as a module; but this doesn't mean that the caller is
-also built-in or not.  Namely, when only the sound core is built-in
-(CONFIG_SND=y) while the driver is a module (CONFIG_SND_USB_AUDIO=m),
-the passed module pointer is ignored even if it's non-NULL, and
-card->module remains as NULL.  This would result in the missing module
-reference up/down at the device open/close, leading to a race with the
-code execution after the module removal.
+We used '#ifdef MODULE' for judging whether the system supports the
+sound module or not, and /proc/asound/modules is created only when
+'#ifdef MODULE' is true.  The check is not really appropriate, though,
+because the flag means only for the sound core and the drivers are
+still allowed to be built as modules even if 'MODULE' is not set in
+sound/core/init.c.
 
-For addressing the bug, move the assignment of card->module again out
-of ifdef.  The WARN_ON() is still wrapped with ifdef because the
-module can be really NULL when all sound drivers are built-in.
+For fixing the inconsistency, replace those ifdefs with 'ifdef
+CONFIG_MODULES'.  One place for a NULL module check is rewritten with
+IS_MODULE(CONFIG_SND) to be more intuitive.  It can't be changed to
+CONFIG_MODULES; otherwise it would hit a WARN_ON() incorrectly.
 
-Note that we keep 'ifdef MODULE' for WARN_ON(), otherwise it would
-lead to a false-positive NULL module check.  Admittedly it won't catch
-perfectly, i.e. no check is performed when CONFIG_SND=y.  But, it's no
-real problem as it's only for debugging, and the condition is pretty
-rare.
+This is a slight behavior change; the modules proc entry appears now
+no matter whether the sound core is built-in or not as long as modules
+are enabled on the kernel in general.  This can't be avoided due to
+the nature of kernel builds.
 
-Fixes: 81033c6b584b ("ALSA: core: Warn on empty module")
-Reported-by: Xu Yang <xu.yang_2@nxp.com>
-Closes: https://lore.kernel.org/r/20240520170349.2417900-1-xu.yang_2@nxp.com
-Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/r/20240520170349.2417900-1-xu.yang_2@nxp.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/init.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/core/init.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/sound/core/init.c b/sound/core/init.c
-index 6b127864a1a3..ac072614d1ea 100644
+index ac072614d1ea..4e52bbe32786 100644
 --- a/sound/core/init.c
 +++ b/sound/core/init.c
-@@ -313,8 +313,8 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+@@ -50,7 +50,7 @@ MODULE_PARM_DESC(slots, "Module names assigned to the slots.");
+ static int module_slot_match(struct module *module, int idx)
+ {
+ 	int match = 1;
+-#ifdef MODULE
++#ifdef CONFIG_MODULES
+ 	const char *s1, *s2;
+ 
+ 	if (!module || !*module->name || !slots[idx])
+@@ -77,7 +77,7 @@ static int module_slot_match(struct module *module, int idx)
+ 		if (!c1)
+ 			break;
+ 	}
+-#endif /* MODULE */
++#endif /* CONFIG_MODULES */
+ 	return match;
+ }
+ 
+@@ -311,9 +311,7 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 	}
+ 	card->dev = parent;
  	card->number = idx;
- #ifdef MODULE
- 	WARN_ON(!module);
--	card->module = module;
- #endif
-+	card->module = module;
+-#ifdef MODULE
+-	WARN_ON(!module);
+-#endif
++	WARN_ON(IS_MODULE(CONFIG_SND) && !module);
+ 	card->module = module;
  	INIT_LIST_HEAD(&card->devices);
  	init_rwsem(&card->controls_rwsem);
- 	rwlock_init(&card->ctl_files_rwlock);
+@@ -969,7 +967,7 @@ void snd_card_info_read_oss(struct snd_info_buffer *buffer)
+ 
+ #endif
+ 
+-#ifdef MODULE
++#ifdef CONFIG_MODULES
+ static void snd_card_module_info_read(struct snd_info_entry *entry,
+ 				      struct snd_info_buffer *buffer)
+ {
+@@ -997,7 +995,7 @@ int __init snd_card_info_init(void)
+ 	if (snd_info_register(entry) < 0)
+ 		return -ENOMEM; /* freed in error path */
+ 
+-#ifdef MODULE
++#ifdef CONFIG_MODULES
+ 	entry = snd_info_create_module_entry(THIS_MODULE, "modules", NULL);
+ 	if (!entry)
+ 		return -ENOMEM;
 -- 
 2.43.0
 
