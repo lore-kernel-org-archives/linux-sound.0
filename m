@@ -1,57 +1,57 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260C61442F7
-	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 10:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98AE14430A
+	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 10:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716460966; cv=none; b=YqRQMxy+iVcSUkyKy1IlQHUhFwfQ69fy0MnPCZxY26AlR6e9WSpKeyr62Lf/jSfdaGmshcVHQgt6yFCaI6hZ9pwPwtFLWqcQQShrwRkbYHyRQTUql9bR3pFnTWxUtU5/rpgxYKmxyDqgVOze5D7aI3wigdW1KV7yxMDh/F8SEr0=
+	t=1716460967; cv=none; b=JS+R3G184ovmbqtaZe8CWy1rVnTX609m5dG4NXqYXXVmgrsiRJhXUsLKyWxXSPJ7vNBc2UzSMRhnEds7MSjclU004GvzvvpKlWpP45mwvWughS9effaD6zNbc8rvV55KmB8pVHf60SgwzczuD1PE9Xg6WaDY1F8v9jOzJlpC2f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716460966; c=relaxed/simple;
-	bh=2oeHyYR9v90+iBQz9Ebiv8CZ8HLPnPTYjSQzvb+HCP4=;
+	s=arc-20240116; t=1716460967; c=relaxed/simple;
+	bh=BIp8V+DKGlfhtyH5F/wbHKFDgs2uvsnHX+CSz9AjqZs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pa9PnpSXEdIjDNHK28PaKDRiwkyug197eA5jfXRcAl19lE4cMHTRxoibSkDeSlr9jWrUx5WGkiLUBc4FzaggVg4HnaAN6dCJSV/XLKI1FuTOc9PmJ6BP15TP2wPgBaH+jdVlLzPvFsW46Qqv7s2CGl+sI7G0MU/57+6Z7yLTDPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xn1RwFbE; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version; b=C/jS197ePpTIaXIxFwg0QuvrJr03d2/d4CothrAVms4wWatWJih/aB6Z/hesZB4zhI3BSwzPglNNedK10wW6aLfq7S97JPvXJjkCLbjS7JybBgNr2fsGVmO++UuW0yEigPvaOXAtsPGcfRfa8kCpzA8uu5V5LGwCe49e7Ayvivk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eWOyTJTi; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xn1RwFbE"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354f69934feso447206f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 03:42:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eWOyTJTi"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42100fa9dd6so4133085e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 03:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716460963; x=1717065763; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716460964; x=1717065764; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TpVQFN+BauqpwsNKgiz172MdYBJ81HnYTR7ZZctyeBQ=;
-        b=Xn1RwFbEuM4/Vd+7xVJgJTFx2aDSF2qyMJXRLMq8fCdDpfZEZ95EEbRK189+bpv+a7
-         ++CMpVXvfY3B8ORsdHjah7VsiTCI7TCDdlbSE0NpjeRxueeWMKaxAd6m90aNaFn+NZ1t
-         fGY1GdPpaEuc46ymbrGcFU6EjHca7rBXYnjtHNpK9E7gwfgC1n5gfvn8S3xVwtRzuLt8
-         RgKnOYCTpLaXewIGUDQmUKG+Z0RsR7meNJSrgdBmCXrFbDFS5EzbksfSFRR8UUNo/BFq
-         IpK+F3eWJGoEh6mQw/amQyW0j+LfmVq0tz8hvfS8lF8fvTOKX5LxSFiiQGXaeCiSviIE
-         bpfg==
+        bh=2KDdQKxWJ35TnwQ2Y115y1B8VQNH6wqcjHGIJjckbyM=;
+        b=eWOyTJTiTk/rghDXhEZjj1Vx+T5cf/G/izCVUfkMUI3b6BBYRRRoHOhqi+wRhfIhd8
+         JmH2UjBdU9kI4utsKjCHEXZLC2ZdhX87lU3T8Co6O0UshJRoOcfe6ToZVDAWIdIQEB3W
+         HB8TgKeYTv2vD4XckNhCP9o4s4sMKwBvCZlvhiNoPknLfxje0etcV8MWr53n+Gv+nsjU
+         sKkLKyM+E2aH8TftD5+Y8nloN9pgmaJoYHGjSZJsCVmqr0NYWInokjF1GSop79cbXdey
+         hG4CipFIyxtS1jfJ4waOoqcZu/auylQL32bcu7qfJSYHQv1TDtYRZN/7CQxMeHU2Pj3D
+         uT6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716460963; x=1717065763;
+        d=1e100.net; s=20230601; t=1716460964; x=1717065764;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TpVQFN+BauqpwsNKgiz172MdYBJ81HnYTR7ZZctyeBQ=;
-        b=nkqHDH1yUrclhtuoObjSjYv1BGO/yfjNgS6rlA6geHESGx4BYf0IBp5tg+JXqYEihX
-         NzkGTFngT7/UcaO2ZAjlT4iyNbZlv8gVJQA83g6QhUY+dTBS/jKS1IAbLZazu6eIHU9p
-         dsIaP8NqeA1/j9mlIKhwGtcFKO935CV4eyTJaDFhgMio5DPXAAq9Ew61/Djrij94rT2M
-         mOICTf1wfWq4muYUrn9sUEA5nrtkIG1flG8UbVSJGchNJhHFE1aTMyb/JTHPdsar+A7j
-         EcK8mbYYwr4KiZoHoQ2UskCiMf9JiQFJvjfbdvrk01ocP/RS+0sHk18aKRN2j1piJJ/a
-         f9Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCViwVsWZWtbNyvPZO56Bj7+rQ7SkEMqBQaIGLdWUjUfq8Gu0EirqOw4IillItGI6vDsCeuuft22EVV7mpv7joKqkSVOGn0HLTbD3RA=
-X-Gm-Message-State: AOJu0Yxn+I5dT6jUdz2Szsa0thcWLtGi6teKe1mCIDOOOA7FmP+JoBHm
-	NEt9gTrEL5rFlEbfTkRYY4NtFFt7fL4al3RVS/ybaf0MC0hHLTv6nep1Pb7ohNQ=
-X-Google-Smtp-Source: AGHT+IEGhqXTCuuEl1IZ/J0KTGPFO2rbCFqJ3Xn3JEQ5sDgnAR1bTRIqT9eBTZx/wace1+D+5qRNDw==
-X-Received: by 2002:adf:9bc2:0:b0:34c:e0d6:bea6 with SMTP id ffacd0b85a97d-354f7549609mr1518352f8f.29.1716460961989;
-        Thu, 23 May 2024 03:42:41 -0700 (PDT)
+        bh=2KDdQKxWJ35TnwQ2Y115y1B8VQNH6wqcjHGIJjckbyM=;
+        b=FH2r0ny7UWvEldVALBXxqv6y2OJ35DN67vH35NJwOtVlExHiFrW+qzr60MMhsyKKev
+         ZagkLgPNloOWeEihjVH0zaK/VeC4+3h0bsQsqXZqPxnD6ZCtpNkWi1bC5iVakuGRks1t
+         l2qd+BiSVSXGZmt6+rCkpHmlxZ2k/FyYJ8xPlo8H7hucNZb508RUirFci57ujFiuk+Ye
+         38cznXQ8/CMp1n+evLBTAH3GAHezuTLgqo48eeC9gsR5LlV1vEUiEF3VUN4nhSnoz0Iq
+         PGQb0ab6x2BaxaHDA5SCrnfSHvJP+GfP9QTRAe/uh9ErOd61OvYUEQ/6RRru1X5wnZtf
+         xZ8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXl9iJz5Qi1m++TU2riT7JlUi1Y+SeoH8B3/PJ2IPEeHFQ3kjexMPrk8Rz5pGvnkL7Lggc1RTKjk0JnFvG0WHvEjXLEhy80/T3wKIg=
+X-Gm-Message-State: AOJu0YxyOXMhtHjsYkHDVoiPEt8AbOpnVll8kWjwKnCJHY/DC/sF/1mh
+	E2ggumxvDrBNgvTrpS4tQ+n43m9wVf7lIDrtg6AEiMZ7Y3tC05EuxDe9BVFBRyY=
+X-Google-Smtp-Source: AGHT+IFCxOVGjni/Qou98ipUA8+WBVhug9nclkRA+OWW1zR++81o5emL3+a0SUxs0Okbnlo5TbFriA==
+X-Received: by 2002:a5d:5142:0:b0:34c:f87b:f9fb with SMTP id ffacd0b85a97d-354f757d9c3mr1637122f8f.25.1716460964230;
+        Thu, 23 May 2024 03:42:44 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35501491c40sm516038f8f.28.2024.05.23.03.42.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35501491c40sm516038f8f.28.2024.05.23.03.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 03:42:41 -0700 (PDT)
+        Thu, 23 May 2024 03:42:43 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -60,9 +60,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/4] ASoC: codecs: wcd938x: Unify define used for MIC2 bias register
-Date: Thu, 23 May 2024 12:42:26 +0200
-Message-ID: <20240523104228.36263-2-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 4/4] ASoC: codecs: wcd939x: Minor white-space and define cleanup
+Date: Thu, 23 May 2024 12:42:28 +0200
+Message-ID: <20240523104228.36263-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
 References: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
@@ -74,44 +74,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a define for MIC bias registers enable mask called
-WCD938X_MICB_EN_MASK, which is already used to handle all four MIC1-4
-biases in wcd938x_mbhc_micb_adjust_voltage().
-
-Use the same define also in wcd938x_mbhc_micb_en_status() for MIC2 to
-have unified, simpler approach.
+Correct white-space issues and drop unused
+WCD939X_MBHC_IS_SECOND_RAMP_REQUIRED() define.  No functional impact.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/wcd938x.c | 2 +-
- sound/soc/codecs/wcd938x.h | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/wcd939x.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index 6021aa5a5689..9e2070356b84 100644
---- a/sound/soc/codecs/wcd938x.c
-+++ b/sound/soc/codecs/wcd938x.c
-@@ -1982,7 +1982,7 @@ static bool wcd938x_mbhc_micb_en_status(struct snd_soc_component *component, int
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index 201592c728c3..770bc2f35ba7 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -85,7 +85,6 @@ enum {
+ #define WCD939X_MBHC_GET_X1(x)		((x) & 0x3FFF)
+ 
+ /* Z value compared in milliOhm */
+-#define WCD939X_MBHC_IS_SECOND_RAMP_REQUIRED(z) false
+ #define WCD939X_ANA_MBHC_ZDET_CONST	(1018 * 1024)
+ 
+ enum {
+@@ -525,7 +524,7 @@ static int wcd939x_codec_hphl_dac_event(struct snd_soc_dapm_widget *w,
+ 						      WCD939X_DIGITAL_CDC_COMP_CTL_0,
+ 						      WCD939X_CDC_COMP_CTL_0_HPHL_COMP_EN,
+ 						      true);
+-			 /* 5msec compander delay as per HW requirement */
++			/* 5msec compander delay as per HW requirement */
+ 			if (!wcd939x->comp2_enable ||
+ 			    snd_soc_component_read_field(component,
+ 							 WCD939X_DIGITAL_CDC_COMP_CTL_0,
+@@ -1869,7 +1868,6 @@ static void wcd939x_mbhc_program_btn_thr(struct snd_soc_component *component,
+ 
+ static bool wcd939x_mbhc_micb_en_status(struct snd_soc_component *component, int micb_num)
+ {
+-
  	if (micb_num == MIC_BIAS_2) {
- 		val = snd_soc_component_read_field(component,
- 						   WCD938X_ANA_MICB2,
--						   WCD938X_ANA_MICB2_ENABLE_MASK);
-+						   WCD938X_MICB_EN_MASK);
- 		if (val == WCD938X_MICB_ENABLE)
- 			return true;
- 	}
-diff --git a/sound/soc/codecs/wcd938x.h b/sound/soc/codecs/wcd938x.h
-index df07e92d9d97..0d332cb555ac 100644
---- a/sound/soc/codecs/wcd938x.h
-+++ b/sound/soc/codecs/wcd938x.h
-@@ -75,7 +75,6 @@
- #define WCD938X_MICB_PULL_UP			2
- #define WCD938X_MICB_PULL_DOWN			3
- #define WCD938X_ANA_MICB2                       (0x3023)
--#define WCD938X_ANA_MICB2_ENABLE_MASK		GENMASK(7, 6)
- #define WCD938X_ANA_MICB2_RAMP                  (0x3024)
- #define WCD938X_RAMP_EN_MASK			BIT(7)
- #define WCD938X_RAMP_SHIFT_CTRL_MASK		GENMASK(4, 2)
+ 		u8 val;
+ 
 -- 
 2.43.0
 
