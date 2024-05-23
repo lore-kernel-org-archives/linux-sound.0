@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657713B7BC;
-	Thu, 23 May 2024 13:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A970127E06
+	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 21:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716469413; cv=none; b=qdmCYJobz8o7vWVmgx9JlnKhutO1P6SUaSZAm9xqvah8f6+R6rffAGdrPpJjjsenepBL9/3TYQWsoIQtyDwyLrAdxLHpEfr45WSXZNTJB3mrQOUc6MWUOSnrIFOo0R35YUX8kg0WSRgKTb4YBVtQ+VJ0+OAZrl1l+6zns2WIhHg=
+	t=1716498065; cv=none; b=bZukeBTnNzrZrOVZgDzCNyZCT4aK43Gh3oUvIz/Y1bH++IoXZKdbgYSgRlHGpQ2o05oQhvxkLotC/mPaBRdAqLl1h+8WQzLRaQSFQbLQ5s9zKdCpDTYOhjK/CUjdiAm3OlA1M2XzxV6VajQ2fRl6uut9qqe44qC4xhiC/yh26uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716469413; c=relaxed/simple;
-	bh=jw4sR51kSbW7rHYB3afXhuNhtkpAyEH1zeZVnVImweU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nDzPzQ2ZCYKkkd2uejk1SC9QrOMp2joASQbomVZD43VyrWuT6BNJupUOAnAHGmabeYy9U3+0mrKPyLsfVA8bTVp0JHFt1OjyLEU/QNC11wD7AlfCF4BSC0jNNPqc58q5cqjfN+2aLKbUY2XxX4RtbvkbMPNzAaZNEiOL78EyfeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGPGWWSc; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1716498065; c=relaxed/simple;
+	bh=MLRoC0thQOuzEHIlv6stzYrhKJ9GQ18Xlt/1K6ccX7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ik9e2unEnIxif2exXUI3H4r2PJ2FPDk60ptmmKhBRnFtZ/PYfygoIsA+2wlAG60Hiv9/RwLAFL/bgDwSDOvPyXTtJooFyrfCAA6s6Aqtbv/kFPUuoq4Ayf2Jyg/Iqg0AbU6EnK5sR0PHYUhpL9pXpYrgwi8pn4oc2iOY+wmkbeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZzHedyHg; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGPGWWSc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716469413; x=1748005413;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jw4sR51kSbW7rHYB3afXhuNhtkpAyEH1zeZVnVImweU=;
-  b=fGPGWWSccPwk7eVse1GXrTNb7pqV7AcE2m834Y2ieLNB234e+EAO7/Ti
-   t8Y/mfbRq5pC4ouH8X7IBxjqdw1xwyx2z9Z0WNFKUc+wbtgbjFgdFwCfn
-   JIDPhB5YQ6faWW/K6i2bKJiTyjXM8uy4AltpptrTbXYCKxXHgF7fItTld
-   BYQkzkVHrZ6rGm49Z9JeAdIMEhqM2uQlrFgjqm8jqCsTFJrJUzm3NwTd1
-   ObKf6jbH8roHL0Emh2ZEn3yHtsDjcD0Im/zn5oKQrb//QdbM/WL6K+5F5
-   O3wlwaLwhtafgY/9pL7t0csnitcgcaavr/dKLB80TUenFJmh3TnWDmWn+
-   g==;
-X-CSE-ConnectionGUID: j0cotqBmRhqC9hh3x7CP8g==
-X-CSE-MsgGUID: 49mkvzMiRqKfRpyV5+MrQw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="12632709"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="12632709"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 06:03:32 -0700
-X-CSE-ConnectionGUID: c61xu0+GRl2iSbzHX4p83g==
-X-CSE-MsgGUID: E1Ph9vJrQzqtcOJwbDdmDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="33550436"
-Received: from unknown (HELO [10.125.110.41]) ([10.125.110.41])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 06:03:29 -0700
-Message-ID: <37615d72-762e-4ec7-b625-e275a96b2780@linux.intel.com>
-Date: Wed, 22 May 2024 08:35:31 -0500
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZzHedyHg"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44NHVWVg027296;
+	Thu, 23 May 2024 21:00:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IQnsBVnaYXpG7L5MGqppgBDc1E9zJ9v50nE5+jRwhK0=; b=ZzHedyHgwVpMVCb5
+	TRQNfqjj0Y7Ve3gzpwIsWyZLf9uC/zzXc22jAJTVmj0UGdyNM73hDvL4BmXbj0o/
+	sATH9x37pq7QK0hwCj1kswQzD8Xq3Afa5FMSRvOuqFmbGXLIjwDf/ARevggIYUC9
+	c6Mcws5BS5HoS7TgGZUvAnFNMTnbKG/2T3Q9HqZzvtbfs2YwnvFjaSnB5PJnBi4r
+	Bd2EgCUbIh8zKj+wgYNXRyMzdCv5bNqkdCfiKsttjmvMsuiaOcVrl/l+3elV1i7g
+	VlaP0hPuw0d8kN4063Yd4eTlCsiOOy/oaibPxmwV+wDHgmH3Ne1PokTeK0nDD0P6
+	a9KmDQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yaa97rdef-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 May 2024 21:00:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44NL0lAa020949
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 May 2024 21:00:47 GMT
+Received: from [10.81.24.74] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 23 May
+ 2024 14:00:46 -0700
+Message-ID: <a27cfec6-8d01-4ecf-8931-86cf514adb80@quicinc.com>
+Date: Thu, 23 May 2024 14:00:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,100 +50,96 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
- <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
- <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
- <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
- <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
- <875xv8c6dn.wl-kuninori.morimoto.gx@renesas.com>
- <3e67d62d-fe08-4f55-ab5b-ece8a57154f9@linux.intel.com>
- <1f8e6e3c-a116-48d8-991f-4184d1eebc79@sirena.org.uk>
- <ec063ea9-3d72-457a-9c73-46c5f5b1f6e4@linux.intel.com>
- <37341c4c-3a99-4f71-99b3-efda2d2008e8@sirena.org.uk>
- <878r023epy.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/9] ALSA: Use *-y instead of *-objs in Makefile
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Takashi Iwai
+	<tiwai@suse.de>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <linux-sound@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Peter
+ Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        <sound-open-firmware@alsa-project.org>
+References: <20240507135513.14919-1-tiwai@suse.de>
+ <ZjpQm-hxLQtpgkUx@smile.fi.intel.com> <ZjqU2rAoHHcrTaVH@smile.fi.intel.com>
+ <87ikzod6bt.wl-tiwai@suse.de>
+ <dbee6345-1513-4b55-8f8f-d579d577a6d6@linux.intel.com>
+ <87o79ealgv.wl-tiwai@suse.de> <Zj4sDtKBNq7yJmk-@smile.fi.intel.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <878r023epy.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <Zj4sDtKBNq7yJmk-@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: TLD7ev2BiB6RhRnfIpD7lpYObf2u9Vp3
+X-Proofpoint-ORIG-GUID: TLD7ev2BiB6RhRnfIpD7lpYObf2u9Vp3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-23_12,2024-05-23_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1011 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2405170001 definitions=main-2405230144
+
+On 5/10/24 07:15, Andy Shevchenko wrote:
+> On Thu, May 09, 2024 at 08:28:32PM +0200, Takashi Iwai wrote:
+>> On Thu, 09 May 2024 18:10:39 +0200,
+>> Pierre-Louis Bossart wrote:
+>>> On 5/8/24 04:02, Takashi Iwai wrote:
+>>>> On Tue, 07 May 2024 22:53:46 +0200,
+>>>> Andy Shevchenko wrote:
+>>>>> On Tue, May 07, 2024 at 07:02:35PM +0300, Andy Shevchenko wrote:
+>>>>>> On Tue, May 07, 2024 at 03:55:00PM +0200, Takashi Iwai wrote:
+> 
+>>>>>>> this is a series of trivial cleanup patches for Makefile in sound/*
+>>>>>>> (modulo ASoC -- which will be submitted later in a separate series).
+>>>>>>>
+>>>>>>> As Andy suggested in a patch review, *-objs suffix in Makefile is
+>>>>>>> basically a mis-use nowadays for kernel driver modules.  They should
+>>>>>>> be replaced with *-y suffix instead.  This is a result of systematic
+>>>>>>> conversions, separated per directory.
+>>>>>>
+>>>>>> I briefly looked at this and since it's a mechanical conversion I don't see
+>>>>>> any issues, so
+>>>>>>
+>>>>>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>>>>
+>>>>> Btw, make W=1 nowadays enables modpost checks, which complain about absence of
+>>>>> MODULE_DESCRIPTION().
+>>>>>
+>>>>> Example:
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-byt.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+>>>>> WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+>>>>>
+>>>>> I'm not sure what the case now for ALSA, just FYI.
+>>>>
+>>>> Indeed there are lots of code that miss MODULE_DESCRIPTION().
+>>> ...
+>>>> There are too many stuff in sound/soc/sof/* and I leave them to SOF
+>>>> people (Cc'ed), while I'm going to submit the fix patches for the
+>>>> rest.
+>>>
+>>> ok, I'll take care of it. I wasn't aware this was a requirement.
+>>
+>> It wasn't, but now became so :)
+> 
+> Seems this is the result of fixing... the 2008 bug:
+> https://bugzilla.kernel.org/show_bug.cgi?id=10770
+
+I've been slowly cleaning these tree-wide.
+Will now remove sound/... from my "hit list" :)
 
 
-> In case of ignoring Codec check on DPCM, it allows unexpected direction,
-> I think. For example if it is not using dummy DAI, and in case of CPU can
-> playback/capture, Codec can playback, and user expect playback only,
-> in this case unexpected "capture" will be available. He need to add
-> playback_only flag, but it is not good for me.
-> 
-> Can we avoid validation check if DAI has some kind of new flag, like
-> ignore_pair ?
-> 
-> pseudo code is like this
-> 
-> 	if (valid(cpu, PLAYBACK))
-> 		has_cpu_playback = 1;
-> 
-> 	if (valid(cpu, CAPTURE))
-> 		has_cpu_capture = 1;
-> 
-> 	if (valid(codec, PLAYBACK))
-> 		has_codec_playback = 1;
-> 
-> 	if (valid(codec, CAPTURE))
-> 		has_codec_capture = 1;
-> 
-> 	if (cpu->ignore_pair) {
-> 		has_codec_playback = 1;
-> 		has_codec_capture  = 1;
-> 	}
-> 
-> 	if (codec->ignore_pair) {
-> 		has_cpu_playback = 1;
-> 		has_cpu_capture  = 1;
-> 	}
-> 
-> Or more detail ignore_pair_playback, ignore_pair_capture
-
-There are two options
-a) we don't even try to test the codec-cpu match in terms of
-capabilities. That means the same behavior as today.
-b) we add a chicken bit for platforms to disable the codec-cpu match if
-it breaks specific platforms.
-
-The problem with b) is that we don't know what platforms will break. I
-reported one example that was caught by our CI, but there could be
-additional Chromebooks impacted, who knows.
-
-My vote is a).
