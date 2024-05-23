@@ -1,116 +1,132 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98AE14430A
-	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 10:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBE613B5B0;
+	Thu, 23 May 2024 12:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716460967; cv=none; b=JS+R3G184ovmbqtaZe8CWy1rVnTX609m5dG4NXqYXXVmgrsiRJhXUsLKyWxXSPJ7vNBc2UzSMRhnEds7MSjclU004GvzvvpKlWpP45mwvWughS9effaD6zNbc8rvV55KmB8pVHf60SgwzczuD1PE9Xg6WaDY1F8v9jOzJlpC2f4=
+	t=1716465778; cv=none; b=A0x4zUo/tHpSoUNkdDM4K5EnLfNeq5ojFMEYVU2ZGaKBOJLmhlioULVplLymhrSdMxNmvQaJ6YZU32BliYtbdk7B8CHgmekxuXr8+jCbnSE3Cqz9U5D6P/YAumcYf6M7BMU64obgxaI58xjWIo7qOChiPi2T4+GWCfMulka4oSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716460967; c=relaxed/simple;
-	bh=BIp8V+DKGlfhtyH5F/wbHKFDgs2uvsnHX+CSz9AjqZs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C/jS197ePpTIaXIxFwg0QuvrJr03d2/d4CothrAVms4wWatWJih/aB6Z/hesZB4zhI3BSwzPglNNedK10wW6aLfq7S97JPvXJjkCLbjS7JybBgNr2fsGVmO++UuW0yEigPvaOXAtsPGcfRfa8kCpzA8uu5V5LGwCe49e7Ayvivk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eWOyTJTi; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716465778; c=relaxed/simple;
+	bh=nYZprggjxE4CUUa9PfBQ45lBhEUGET+BjzQKIVfwyGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nYmGpWoD/NtqG7QgBsaYeQXV3XF/dnz4c5IMjMQW1jN4YwBgApwx9P0LDQdWMxyqzfwqNPSk8cjEegYY4jN22n51CuvBR3UqPWSAihllbMU9h5wUz9VzF+uRExb/PMwTnKlXAWyQTFXWAA5u80vIpZwCiSbGR6pkmFrX7Slb7I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=3H2BMva0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PWrVn0wG; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eWOyTJTi"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42100fa9dd6so4133085e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 03:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716460964; x=1717065764; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2KDdQKxWJ35TnwQ2Y115y1B8VQNH6wqcjHGIJjckbyM=;
-        b=eWOyTJTiTk/rghDXhEZjj1Vx+T5cf/G/izCVUfkMUI3b6BBYRRRoHOhqi+wRhfIhd8
-         JmH2UjBdU9kI4utsKjCHEXZLC2ZdhX87lU3T8Co6O0UshJRoOcfe6ToZVDAWIdIQEB3W
-         HB8TgKeYTv2vD4XckNhCP9o4s4sMKwBvCZlvhiNoPknLfxje0etcV8MWr53n+Gv+nsjU
-         sKkLKyM+E2aH8TftD5+Y8nloN9pgmaJoYHGjSZJsCVmqr0NYWInokjF1GSop79cbXdey
-         hG4CipFIyxtS1jfJ4waOoqcZu/auylQL32bcu7qfJSYHQv1TDtYRZN/7CQxMeHU2Pj3D
-         uT6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716460964; x=1717065764;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2KDdQKxWJ35TnwQ2Y115y1B8VQNH6wqcjHGIJjckbyM=;
-        b=FH2r0ny7UWvEldVALBXxqv6y2OJ35DN67vH35NJwOtVlExHiFrW+qzr60MMhsyKKev
-         ZagkLgPNloOWeEihjVH0zaK/VeC4+3h0bsQsqXZqPxnD6ZCtpNkWi1bC5iVakuGRks1t
-         l2qd+BiSVSXGZmt6+rCkpHmlxZ2k/FyYJ8xPlo8H7hucNZb508RUirFci57ujFiuk+Ye
-         38cznXQ8/CMp1n+evLBTAH3GAHezuTLgqo48eeC9gsR5LlV1vEUiEF3VUN4nhSnoz0Iq
-         PGQb0ab6x2BaxaHDA5SCrnfSHvJP+GfP9QTRAe/uh9ErOd61OvYUEQ/6RRru1X5wnZtf
-         xZ8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXl9iJz5Qi1m++TU2riT7JlUi1Y+SeoH8B3/PJ2IPEeHFQ3kjexMPrk8Rz5pGvnkL7Lggc1RTKjk0JnFvG0WHvEjXLEhy80/T3wKIg=
-X-Gm-Message-State: AOJu0YxyOXMhtHjsYkHDVoiPEt8AbOpnVll8kWjwKnCJHY/DC/sF/1mh
-	E2ggumxvDrBNgvTrpS4tQ+n43m9wVf7lIDrtg6AEiMZ7Y3tC05EuxDe9BVFBRyY=
-X-Google-Smtp-Source: AGHT+IFCxOVGjni/Qou98ipUA8+WBVhug9nclkRA+OWW1zR++81o5emL3+a0SUxs0Okbnlo5TbFriA==
-X-Received: by 2002:a5d:5142:0:b0:34c:f87b:f9fb with SMTP id ffacd0b85a97d-354f757d9c3mr1637122f8f.25.1716460964230;
-        Thu, 23 May 2024 03:42:44 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35501491c40sm516038f8f.28.2024.05.23.03.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 03:42:43 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 4/4] ASoC: codecs: wcd939x: Minor white-space and define cleanup
-Date: Thu, 23 May 2024 12:42:28 +0200
-Message-ID: <20240523104228.36263-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
-References: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="3H2BMva0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PWrVn0wG"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 250C21380093;
+	Thu, 23 May 2024 08:02:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 23 May 2024 08:02:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1716465776;
+	 x=1716552176; bh=qKyuOLiauclZKSvY0U0cBP+tApBNI1A9K/xKic2gjA8=; b=
+	3H2BMva08qhi1up0zP2r6QKEn9KrGPUaD08hwnpkzbe9qd9iJn29PGr/+dX7QJyw
+	uq24holSdCMGymWYKvP8EVaV4tjjDxACrLqOm0i4xFoYcl6ayJG6whjmQ9Fsupiv
+	quGop3/6oqJRcGLUXPUH346ECIC8W3VpsWuI13H0rMVHNhHVlrMPFiHkfbmNEmJD
+	nl+qgVuvq41GxYBdbD39uzNxUG/2VqCo9EXyB9TVyddltZFqnq7x6A0CuiSzSsQm
+	M+TkSOKdinBo0S7QRbAd8lMchsRy005FXELjUsARCb4qq1Q9fbryu8SfKW+oeBFf
+	1sQXwuUnJX/ugbBY4POUNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716465776; x=
+	1716552176; bh=qKyuOLiauclZKSvY0U0cBP+tApBNI1A9K/xKic2gjA8=; b=P
+	WrVn0wGkBpSYXfYYVoNjbkZHxocYVCoDutMPCHkrnTp338BK00J+yEc013nFLWlL
+	cHFUCBcKK4y/hrmFixSSdlz+qQC0HncwjBg9A8CsgRhTMi2E0MkCq9+TE4NTnL4M
+	8ZPiR+vxWMDaYc0kqN+A2yBCNxOM03+eRjX1CUED+qxWlzHbk5tuMw20rc66AlDq
+	f2+GrPqANnRSF7NTBtSkaUg6vOM8zGha7nOUtmVke5SfRJtf3sXtLPf5V2uAMq+S
+	pr4t1KkTmBqr2K6iGV5sf1iifl2S0B5sJMHa7gfO077BQR3eN5ysKDvyhiNacMVO
+	Gj747wqBIIv72C0G/7xhg==
+X-ME-Sender: <xms:bzBPZmWJ2Xf1zkP3DzNXdrR8OBxLEqqtrjzbpKzJ3LDaMlAqXBn_AQ>
+    <xme:bzBPZilaIgB-8TaC_3EOM0wMqkeL99zE-8HVcgrmaFVgu_wqrh-2Cz5l-jhjCVuIM
+    G64gr8Datpm0g>
+X-ME-Received: <xmr:bzBPZqaRzY6YyLGllswpIwxFHpOFJl3y5gjyxyMjQIgfwAfQuQ-xynLQGRDGsMb5Q_ylhv-QrxWUXHS2PWOrxJrlAmaoEY60qoZH5w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeiiedggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefirhgv
+    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpefgud
+    efuddtuedvvedutdefhfekffduffdvleffteekffdtkedtvdfhhffhgfekudenucffohhm
+    rghinhepmhhsghhiugdrlhhinhhkpdhgihhthhhusgdrtghomhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
+    mh
+X-ME-Proxy: <xmx:bzBPZtWTTfxN_-oU7d3VredH6mNcQunPy3xgS7Y5fLcak3ssNRh6Fg>
+    <xmx:bzBPZgkUeVpDbuua1S3sI0yGB-onH4x0RfVzHERAI4QOTUq8M2dpMg>
+    <xmx:bzBPZic6wBQ8qEvEDy1DCKfd3wzU6mzVOjmZEpV6Yj5_orFuxl9gFA>
+    <xmx:bzBPZiFeqWpxleHrjjM18QcNzyKr8bVdUVJ6ItPL6Jm8xs6IYvzikw>
+    <xmx:cDBPZvfH8xDULpACbiF64ZImLtWayQYvBuHeVKCLdtmePTP6nUkoAed1>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 May 2024 08:02:55 -0400 (EDT)
+Date: Thu, 23 May 2024 14:02:53 +0200
+From: Greg KH <greg@kroah.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, stable@vger.kernel.org,
+	yung-chuan.liao@linux.intel.com
+Subject: Re: [PATCH stable-6.9.y] ASoC: Intel: sof_sdw: use generic rtd_init
+ function for Realtek SDW DMICs
+Message-ID: <2024052345-manhood-overrate-6b7d@gregkh>
+References: <20240521072451.5488-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240521072451.5488-1-peter.ujfalusi@linux.intel.com>
 
-Correct white-space issues and drop unused
-WCD939X_MBHC_IS_SECOND_RAMP_REQUIRED() define.  No functional impact.
+On Tue, May 21, 2024 at 10:24:51AM +0300, Peter Ujfalusi wrote:
+> From: Bard Liao <yung-chuan.liao@linux.intel.com>
+> 
+> commit bee2fe44679f1e6a5332d7f78587ccca4109919f upstream.
+> 
+> The only thing that the rt_xxx_rtd_init() functions do is to set
+> card->components. And we can set card->components with name_prefix
+> as rt712_sdca_dmic_rtd_init() does.
+> And sof_sdw_rtd_init() will always select the first dai with the
+> given dai->name from codec_info_list[]. Unfortunately, we have
+> different codecs with the same dai name. For example, dai name of
+> rt715 and rt715-sdca are both "rt715-aif2". Using a generic rtd_init
+> allow sof_sdw_rtd_init() run the rtd_init() callback from a similar
+> codec dai.
+> 
+> Fixes: 8266c73126b7 ("ASoC: Intel: sof_sdw: add common sdw dai link init")
+> Reviewed-by: Chao Song <chao.song@linux.intel.com>
+> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Link: https://msgid.link/r/20240326160429.13560-25-pierre-louis.bossart@linux.intel.com
+> Link: https://github.com/thesofproject/linux/issues/4999 # 6.9.y stable report
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Cc: stable@vger.kernel.org # 6.9
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
+> Hi,
+> 
+> Regression reported in 6.9 by a user:
+> https://github.com/thesofproject/linux/issues/4999
+> 
+> The fix for the issue somehow dodged the 6.9 cycle and only landed mainline
+> for 6.10, before -rc1 tag.
+> 
+> Our trust in machines shaken a bit, so just to make sure that this patch is
+> picked for stable 6.9, I have cherry-picked it and tested on a device that
+> it is working without any side-effect.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wcd939x.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Now queued up, thanks.
 
-diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
-index 201592c728c3..770bc2f35ba7 100644
---- a/sound/soc/codecs/wcd939x.c
-+++ b/sound/soc/codecs/wcd939x.c
-@@ -85,7 +85,6 @@ enum {
- #define WCD939X_MBHC_GET_X1(x)		((x) & 0x3FFF)
- 
- /* Z value compared in milliOhm */
--#define WCD939X_MBHC_IS_SECOND_RAMP_REQUIRED(z) false
- #define WCD939X_ANA_MBHC_ZDET_CONST	(1018 * 1024)
- 
- enum {
-@@ -525,7 +524,7 @@ static int wcd939x_codec_hphl_dac_event(struct snd_soc_dapm_widget *w,
- 						      WCD939X_DIGITAL_CDC_COMP_CTL_0,
- 						      WCD939X_CDC_COMP_CTL_0_HPHL_COMP_EN,
- 						      true);
--			 /* 5msec compander delay as per HW requirement */
-+			/* 5msec compander delay as per HW requirement */
- 			if (!wcd939x->comp2_enable ||
- 			    snd_soc_component_read_field(component,
- 							 WCD939X_DIGITAL_CDC_COMP_CTL_0,
-@@ -1869,7 +1868,6 @@ static void wcd939x_mbhc_program_btn_thr(struct snd_soc_component *component,
- 
- static bool wcd939x_mbhc_micb_en_status(struct snd_soc_component *component, int micb_num)
- {
--
- 	if (micb_num == MIC_BIAS_2) {
- 		u8 val;
- 
--- 
-2.43.0
-
+greg k-h
