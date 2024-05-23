@@ -1,55 +1,57 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647C513CFAF
-	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 10:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EA8142E66
+	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 10:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716460964; cv=none; b=opUf5O6EdTe94p7ZI2hT71OAPBUlPN3fcRMUzDb61sN3IPsbNxLTDBVG8FtkI7jMgvlFQL3x5u1PN6PN//nc1aaKCY+2PFKzEp7Qqb+BFMyp0zjrvZkq6ak256UJ1kAxFsd2qDxsRTyJDyDq+aztM10KEUUakhpwDXTgBDNFv9g=
+	t=1716460966; cv=none; b=OFs5+Ss+CdzHLTlqQ72LTM/ZbmRhEU4jJVP7vj7rykojODm5PvX/fnYyVuTeWxKI7hjJncOmtfJ1dp5ClQxztpkmN1lZQgq+tkE2kfmnlpI13IsO5ZHE4+kYEvdfVbj73cFLGd409CeYAM0hPrsYJWUT+hTGRYsQT394cacDjow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716460964; c=relaxed/simple;
-	bh=pPD2rS1ZgskYhKHjT7ris9b/z5/qXBC9txcXhZDWUvc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fs7pen1nXzwtF9WTQGL9CVUvKA2XE29Kx8YbA0PUyH/UtxJic2I3lVR3zRSpwGXEFHTwe//hCElnycqN6XeHUAS5Sv0X5to3VotpUwtH7en1iB4mH8GRRtve2F94YtUbMJT4+QX4Z3L8mPDFHIBS9vLscOS5WYBID4UpeL9cyX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qLqvAqAx; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1716460966; c=relaxed/simple;
+	bh=UBeuVMZQYYhKbOOdHR3ji3rEEx2lEwD6H/stYiw6k2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fd3wkYPhaOe6tg6NHVbobwmLSyEx66LUxbR1DqFyvJMavy1OJPUSmXY5/eG0qzoUGMT9ktQ0zQThPuTX6r1lrN4clVSAcL9B0Iu/lNiNgTXWEiTKadirbOVIq23zE/FSeiFqxpzx602PlvmspW6acX94B2xJTidOudSnFNiLPLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UQtSelnk; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qLqvAqAx"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-354f69934feso447180f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 03:42:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UQtSelnk"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34f0e55787aso4921159f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 03:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716460961; x=1717065761; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DaH0WUaVpR/8gbZR869sa1sk2qXADEzmLsvjAUS36EU=;
-        b=qLqvAqAxBAmV2dcEbWWmJ2aN44v2W4mx1zSiv5TYDy8H6inMDeblmMXB1B7H5XtuoS
-         rZCrCYXqYQBSCtipj3oPsxwIUN9kGhG+U60C/YMEWXV0IUn1Vz+6Ac0Jifpja2d/aqAx
-         2yyKG7Hf1DgodQNQ0ANpGw60WECI8Wlbc/uRSuIo0Jz4iywv2fw+pWvY1msm/0XEZI03
-         m4FBDiPVD8gEvWITFjmDqCgqSaFed1DfqRZ+qYnfYCja9lCFGWCfWSQvo/jFaRTFhpL3
-         A8hyHVpdy9y1vjyvoTof7YRK9DE9cUhooZeiUoCwWyUIiJJupYVbVd8CsNV1znGfQIGu
-         Myyg==
+        d=linaro.org; s=google; t=1716460963; x=1717065763; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6eeiO4mrF2NxAeMZaGpIfzMOBeas/sv1NyjRZNd0RGU=;
+        b=UQtSelnk8HfCNf+J+eXm/yR7bTOiDE6cGLbBmmF/WJAieJwZ5PsJhcnxx9yrN8FpTk
+         TNQYm+wQn5jdM3NApK3RJVXodDwKfV0rlrCRXaHLBnikE82VYL/spaV/6jDEupuxj6DS
+         2xxpzc2EKeDEoG8s+D9Azkr8zCXkwSQhREXTzoBEMK0XAm0pZ9FQ5ayz2SbC5Lqrb/0v
+         AtgZTwtDKSVuwr5+8bcDB01ExwaHhLmNReGjf8HJUHHRmW60m73yv07sBFUv1LuRRCba
+         1dDmLIrAFZgCi1ZxSakqgKUB2dhAVYabmMkmyD5yWTaX4Js3rzboSmutHsV2vr3vaLSM
+         qheQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716460961; x=1717065761;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DaH0WUaVpR/8gbZR869sa1sk2qXADEzmLsvjAUS36EU=;
-        b=M1p5acA2QLLkcnIj3ZGwSr9i4GA004LDeNRXHJ+1F3a/TB6XnWZWY5gCb/lYMfItSD
-         rD1tzyXqckPa5dChIEW9Gyqj1zbjDl+ruCKwflv+nh4AFGabuww38+ftAdzmjhENhnMT
-         csSiD3qQngm47xV6+nAsvD703Lszv3dY7EKUDNxz9/uK0sWOha7c3XkAw/U7K4Yqi+M2
-         lLBuUAQTK4740ZeFDMrXFIUSUmwILgITOt9cUHGZ2EMKo5naD9pGm1DDhbbicP9E6udL
-         jboA5saIbNdt9jL3wdjv3NCpEquCe5aipm+YNqH7JVJ1h0f78mjiVOvFM5dE/4Ed5Zed
-         Cf6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ4y5TQmyJOHD2aiDLSolTbVA1qWOH6wO3r0pvjVc1DQ1ZVHkBg0/NcQWqPlcGqhy6aRTK0OmpKM4bMNmXJDNtzC7P8qo279mLoZc=
-X-Gm-Message-State: AOJu0YypMrIuh38OTo0VyFhxuO52gh0frv2wCpesRT2a0AohLJNtuhrT
-	pPf4ZpMFJoasBdvLW0gDzJRrWclCMfsD2E9PRslV81YqdPyLTM+Vg8w9iuKonqk=
-X-Google-Smtp-Source: AGHT+IH/fm458wBPdlXEb1gtuOzqmAIVNW1EA1Cak44UuBRZM5nh6/eqhRkhg2PYFkM2VvDBrDPuFA==
-X-Received: by 2002:a5d:456f:0:b0:348:7e75:4d75 with SMTP id ffacd0b85a97d-354f753b77emr1706027f8f.22.1716460960667;
-        Thu, 23 May 2024 03:42:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716460963; x=1717065763;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6eeiO4mrF2NxAeMZaGpIfzMOBeas/sv1NyjRZNd0RGU=;
+        b=SLzgOmf4HwULRmRR7pqUNUWwf7gxhmtPqRlxzoJ8VtulxT7xxYkDlBZWNmMZsQDAlW
+         6rz0oVwWmTqFME7Rv/iINZ23pzBlpp/DnTfdg3CBBkn81Nrt9yLoJbs+YB+Jmy9UIYmV
+         gCYCnJG8vZGeoG22hgELAGub/qfA1oAh8pWPPYCZQmmLBobsYi9CIZwpMf8fpiLOgdjF
+         iP65asvOVo05HaG+46SkaKN7u081F3JTUApTyGm+7hsr6a/V1tpP2JzWC0ms5gdrE5rt
+         u+Dz6vl8qw2hjvsxQ1iarm0zTskq4DpM6O+4MZXuXvUcJxGnxCq0jAO2/XRRL5dVUFXc
+         ntbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzPqp7tOHPo3Ip2s5O+GlPhCmeoV20LdY93upV6ABQgdXQLnYGRHuUv6x/4EHnF2EL+ra8mg4dsSqurwumuOlYyMh/veoQRGxMK6w=
+X-Gm-Message-State: AOJu0YzxqCNWaXEhQtDqh1sj5fS70om6iOv9henU0/SP+Q64/HQoLUwf
+	S6B0uIp6qaKIfZ2YZSwqtmB6XHsYK3dpcdQ9Cz2Cf2Lt8kvrAPmY49L8HgDM86c=
+X-Google-Smtp-Source: AGHT+IHauVnydROWiyfWJYVQbHgk2jJlm5kHJRz5F5WwNcqbjHQHSgkJaViOe+FqQo/zxtZgHkV5TA==
+X-Received: by 2002:a5d:668a:0:b0:354:f5f2:198b with SMTP id ffacd0b85a97d-354f5f21a02mr1882007f8f.46.1716460963119;
+        Thu, 23 May 2024 03:42:43 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35501491c40sm516038f8f.28.2024.05.23.03.42.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35501491c40sm516038f8f.28.2024.05.23.03.42.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 03:42:40 -0700 (PDT)
+        Thu, 23 May 2024 03:42:42 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -58,10 +60,12 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 1/4] ASoC: codecs: wcd938x: Drop unused duplicated MIC2 bias register defines
-Date: Thu, 23 May 2024 12:42:25 +0200
-Message-ID: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 3/4] ASoC: codecs: wcd939x: Unify define used for MIC bias registers
+Date: Thu, 23 May 2024 12:42:27 +0200
+Message-ID: <20240523104228.36263-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
+References: <20240523104228.36263-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,29 +74,196 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All MIC1-4 bias registers are the same and the header already defines
-register fields for them.  Drop unused, duplicated defines for MIC2
-bias enable register.
+All four microphone bias registers have similar layout: enable mask is
+exactly the same.  Use one define, just like older driver wcd938x is
+doing, to make the code a bit simpler.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wcd938x.h | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd938x.h b/sound/soc/codecs/wcd938x.h
-index 74b1498fec38..df07e92d9d97 100644
---- a/sound/soc/codecs/wcd938x.h
-+++ b/sound/soc/codecs/wcd938x.h
-@@ -75,9 +75,7 @@
- #define WCD938X_MICB_PULL_UP			2
- #define WCD938X_MICB_PULL_DOWN			3
- #define WCD938X_ANA_MICB2                       (0x3023)
--#define WCD938X_ANA_MICB2_ENABLE		BIT(6)
- #define WCD938X_ANA_MICB2_ENABLE_MASK		GENMASK(7, 6)
--#define WCD938X_ANA_MICB2_VOUT_MASK		GENMASK(5, 0)
- #define WCD938X_ANA_MICB2_RAMP                  (0x3024)
- #define WCD938X_RAMP_EN_MASK			BIT(7)
- #define WCD938X_RAMP_SHIFT_CTRL_MASK		GENMASK(4, 2)
+---
+
+Not tested on hardware, but functionally code should be the same.
+---
+ sound/soc/codecs/wcd939x.c | 36 +++++++++++++++++-------------------
+ sound/soc/codecs/wcd939x.h |  5 +----
+ 2 files changed, 18 insertions(+), 23 deletions(-)
+
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index c49894aad8a5..201592c728c3 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -1268,25 +1268,20 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ {
+ 	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
+ 	int micb_index = micb_num - 1;
+-	u16 micb_field;
+ 	u16 micb_reg;
+ 
+ 	switch (micb_num) {
+ 	case MIC_BIAS_1:
+ 		micb_reg = WCD939X_ANA_MICB1;
+-		micb_field = WCD939X_MICB1_ENABLE;
+ 		break;
+ 	case MIC_BIAS_2:
+ 		micb_reg = WCD939X_ANA_MICB2;
+-		micb_field = WCD939X_MICB2_ENABLE;
+ 		break;
+ 	case MIC_BIAS_3:
+ 		micb_reg = WCD939X_ANA_MICB3;
+-		micb_field = WCD939X_MICB3_ENABLE;
+ 		break;
+ 	case MIC_BIAS_4:
+ 		micb_reg = WCD939X_ANA_MICB4;
+-		micb_field = WCD939X_MICB4_ENABLE;
+ 		break;
+ 	default:
+ 		dev_err(component->dev, "%s: Invalid micbias number: %d\n",
+@@ -1300,7 +1295,8 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ 		if (wcd939x->pullup_ref[micb_index] == 1 &&
+ 		    wcd939x->micb_ref[micb_index] == 0)
+ 			snd_soc_component_write_field(component, micb_reg,
+-						      micb_field, MICB_BIAS_PULL_UP);
++						      WCD939X_MICB_ENABLE,
++						      MICB_BIAS_PULL_UP);
+ 		break;
+ 	case MICB_PULLUP_DISABLE:
+ 		if (wcd939x->pullup_ref[micb_index] > 0)
+@@ -1308,7 +1304,8 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ 		if (wcd939x->pullup_ref[micb_index] == 0 &&
+ 		    wcd939x->micb_ref[micb_index] == 0)
+ 			snd_soc_component_write_field(component, micb_reg,
+-						      micb_field, MICB_BIAS_DISABLE);
++						      WCD939X_MICB_ENABLE,
++						      MICB_BIAS_DISABLE);
+ 		break;
+ 	case MICB_ENABLE:
+ 		wcd939x->micb_ref[micb_index]++;
+@@ -1345,7 +1342,8 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ 			snd_soc_component_write_field(component,
+ 						WCD939X_MICB4_TEST_CTL_2,
+ 						WCD939X_TEST_CTL_2_IBIAS_LDO_DRIVER, true);
+-			snd_soc_component_write_field(component, micb_reg, micb_field,
++			snd_soc_component_write_field(component, micb_reg,
++						      WCD939X_MICB_ENABLE,
+ 						      MICB_BIAS_ENABLE);
+ 			if (micb_num == MIC_BIAS_2)
+ 				wcd_mbhc_event_notify(wcd939x->wcd_mbhc,
+@@ -1362,7 +1360,8 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ 		if (wcd939x->micb_ref[micb_index] == 0 &&
+ 		    wcd939x->pullup_ref[micb_index] > 0)
+ 			snd_soc_component_write_field(component, micb_reg,
+-						      micb_field, MICB_BIAS_PULL_UP);
++						      WCD939X_MICB_ENABLE,
++						      MICB_BIAS_PULL_UP);
+ 		else if (wcd939x->micb_ref[micb_index] == 0 &&
+ 			 wcd939x->pullup_ref[micb_index] == 0) {
+ 			if (micb_num  == MIC_BIAS_2)
+@@ -1370,7 +1369,8 @@ static int wcd939x_micbias_control(struct snd_soc_component *component,
+ 						      WCD_EVENT_PRE_MICBIAS_2_OFF);
+ 
+ 			snd_soc_component_write_field(component, micb_reg,
+-						      micb_field, MICB_BIAS_DISABLE);
++						      WCD939X_MICB_ENABLE,
++						      MICB_BIAS_DISABLE);
+ 			if (micb_num  == MIC_BIAS_2)
+ 				wcd_mbhc_event_notify(wcd939x->wcd_mbhc,
+ 						      WCD_EVENT_POST_MICBIAS_2_OFF);
+@@ -1873,7 +1873,7 @@ static bool wcd939x_mbhc_micb_en_status(struct snd_soc_component *component, int
+ 	if (micb_num == MIC_BIAS_2) {
+ 		u8 val;
+ 
+-		val = FIELD_GET(WCD939X_MICB2_ENABLE,
++		val = FIELD_GET(WCD939X_MICB_ENABLE,
+ 				snd_soc_component_read(component, WCD939X_ANA_MICB2));
+ 		if (val == MICB_BIAS_ENABLE)
+ 			return true;
+@@ -1935,7 +1935,7 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 					    int req_volt, int micb_num)
+ {
+ 	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
+-	unsigned int micb_en_field, micb_vout_ctl_field;
++	unsigned int micb_vout_ctl_field;
+ 	unsigned int micb_reg, cur_vout_ctl, micb_en;
+ 	int req_vout_ctl;
+ 	int ret = 0;
+@@ -1943,22 +1943,18 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 	switch (micb_num) {
+ 	case MIC_BIAS_1:
+ 		micb_reg = WCD939X_ANA_MICB1;
+-		micb_en_field = WCD939X_MICB1_ENABLE;
+ 		micb_vout_ctl_field = WCD939X_MICB1_VOUT_CTL;
+ 		break;
+ 	case MIC_BIAS_2:
+ 		micb_reg = WCD939X_ANA_MICB2;
+-		micb_en_field = WCD939X_MICB2_ENABLE;
+ 		micb_vout_ctl_field = WCD939X_MICB2_VOUT_CTL;
+ 		break;
+ 	case MIC_BIAS_3:
+ 		micb_reg = WCD939X_ANA_MICB3;
+-		micb_en_field = WCD939X_MICB3_ENABLE;
+ 		micb_vout_ctl_field = WCD939X_MICB1_VOUT_CTL;
+ 		break;
+ 	case MIC_BIAS_4:
+ 		micb_reg = WCD939X_ANA_MICB4;
+-		micb_en_field = WCD939X_MICB4_ENABLE;
+ 		micb_vout_ctl_field = WCD939X_MICB2_VOUT_CTL;
+ 		break;
+ 	default:
+@@ -1975,7 +1971,7 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 	 * micbias.
+ 	 */
+ 	micb_en = snd_soc_component_read_field(component, micb_reg,
+-					       micb_en_field);
++					       WCD939X_MICB_ENABLE);
+ 	cur_vout_ctl = snd_soc_component_read_field(component, micb_reg,
+ 						    micb_vout_ctl_field);
+ 
+@@ -1996,14 +1992,16 @@ static int wcd939x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 
+ 	if (micb_en == MICB_BIAS_ENABLE)
+ 		snd_soc_component_write_field(component, micb_reg,
+-					      micb_en_field, MICB_BIAS_PULL_DOWN);
++					      WCD939X_MICB_ENABLE,
++					      MICB_BIAS_PULL_DOWN);
+ 
+ 	snd_soc_component_write_field(component, micb_reg,
+ 				      micb_vout_ctl_field, req_vout_ctl);
+ 
+ 	if (micb_en == MICB_BIAS_ENABLE) {
+ 		snd_soc_component_write_field(component, micb_reg,
+-					      micb_en_field, MICB_BIAS_ENABLE);
++					      WCD939X_MICB_ENABLE,
++					      MICB_BIAS_ENABLE);
+ 		/*
+ 		 * Add 2ms delay as per HW requirement after enabling
+ 		 * micbias
+diff --git a/sound/soc/codecs/wcd939x.h b/sound/soc/codecs/wcd939x.h
+index 807cf3113d20..383a79316439 100644
+--- a/sound/soc/codecs/wcd939x.h
++++ b/sound/soc/codecs/wcd939x.h
+@@ -91,10 +91,9 @@
+ #define WCD939X_ANA_MBHC_BTN7				   (0x3021)
+ #define WCD939X_MBHC_BTN7_VTH	GENMASK(7, 2)
+ #define WCD939X_ANA_MICB1				   (0x3022)
+-#define WCD939X_MICB1_ENABLE	GENMASK(7, 6)
++#define WCD939X_MICB_ENABLE	GENMASK(7, 6)
+ #define WCD939X_MICB1_VOUT_CTL	GENMASK(5, 0)
+ #define WCD939X_ANA_MICB2				   (0x3023)
+-#define WCD939X_MICB2_ENABLE	GENMASK(7, 6)
+ #define WCD939X_MICB2_VOUT_CTL	GENMASK(5, 0)
+ #define WCD939X_ANA_MICB2_RAMP				   (0x3024)
+ #define WCD939X_MICB2_RAMP_RAMP_ENABLE	BIT(7)
+@@ -103,10 +102,8 @@
+ #define WCD939X_MICB2_RAMP_SHIFT_CTL	GENMASK(4, 2)
+ #define WCD939X_MICB2_RAMP_USB_MGDET_MICB2_RAMP	GENMASK(1, 0)
+ #define WCD939X_ANA_MICB3				   (0x3025)
+-#define WCD939X_MICB3_ENABLE	GENMASK(7, 6)
+ #define WCD939X_MICB3_VOUT_CTL	GENMASK(5, 0)
+ #define WCD939X_ANA_MICB4				   (0x3026)
+-#define WCD939X_MICB4_ENABLE	GENMASK(7, 6)
+ #define WCD939X_MICB4_VOUT_CTL	GENMASK(5, 0)
+ #define WCD939X_BIAS_CTL				   (0x3028)
+ #define WCD939X_BIAS_VBG_FINE_ADJ			   (0x3029)
 -- 
 2.43.0
 
