@@ -1,132 +1,95 @@
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBE613B5B0;
-	Thu, 23 May 2024 12:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246E013D274;
+	Thu, 23 May 2024 12:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716465778; cv=none; b=A0x4zUo/tHpSoUNkdDM4K5EnLfNeq5ojFMEYVU2ZGaKBOJLmhlioULVplLymhrSdMxNmvQaJ6YZU32BliYtbdk7B8CHgmekxuXr8+jCbnSE3Cqz9U5D6P/YAumcYf6M7BMU64obgxaI58xjWIo7qOChiPi2T4+GWCfMulka4oSw=
+	t=1716466206; cv=none; b=KLjBDVEC1vXBiiDdj8WPp3o2swzLagfNTH31LowSf5n+tIf9oGcEwbUiuq7w3DAu7Ufq+7N5InaqpCGBDtNGVbWKCvJUdYOQ0G/2ffmx6UpFeXWpj6EMeIxF4RZ2g9zgnV6NrXebWRZQBgxHgYm8SDtrOPaOjD8foRGOZMOBVmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716465778; c=relaxed/simple;
-	bh=nYZprggjxE4CUUa9PfBQ45lBhEUGET+BjzQKIVfwyGU=;
+	s=arc-20240116; t=1716466206; c=relaxed/simple;
+	bh=dV3gYhQ/CCKnsQ1isxyygcfcGCTLC98tQVo44ro3qlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nYmGpWoD/NtqG7QgBsaYeQXV3XF/dnz4c5IMjMQW1jN4YwBgApwx9P0LDQdWMxyqzfwqNPSk8cjEegYY4jN22n51CuvBR3UqPWSAihllbMU9h5wUz9VzF+uRExb/PMwTnKlXAWyQTFXWAA5u80vIpZwCiSbGR6pkmFrX7Slb7I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=3H2BMva0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PWrVn0wG; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GbU0If1/B8VpOaaxAa9Tk3DJh7lyMXD9m1wr1FWfUJM7bvOQ1KN/P/dm9KNY13ACaOTJONTOBsjIM5Vy0P3VdpG9VPabWDbxzGJcfYUOWdUtoAPP2nesJEto6dFrswragFeG8kNcuNcrR8kq/Li1YbtRCLJRy0r6BMDNf91PJVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nnb1r+TH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="3H2BMva0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PWrVn0wG"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 250C21380093;
-	Thu, 23 May 2024 08:02:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 23 May 2024 08:02:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1716465776;
-	 x=1716552176; bh=qKyuOLiauclZKSvY0U0cBP+tApBNI1A9K/xKic2gjA8=; b=
-	3H2BMva08qhi1up0zP2r6QKEn9KrGPUaD08hwnpkzbe9qd9iJn29PGr/+dX7QJyw
-	uq24holSdCMGymWYKvP8EVaV4tjjDxACrLqOm0i4xFoYcl6ayJG6whjmQ9Fsupiv
-	quGop3/6oqJRcGLUXPUH346ECIC8W3VpsWuI13H0rMVHNhHVlrMPFiHkfbmNEmJD
-	nl+qgVuvq41GxYBdbD39uzNxUG/2VqCo9EXyB9TVyddltZFqnq7x6A0CuiSzSsQm
-	M+TkSOKdinBo0S7QRbAd8lMchsRy005FXELjUsARCb4qq1Q9fbryu8SfKW+oeBFf
-	1sQXwuUnJX/ugbBY4POUNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716465776; x=
-	1716552176; bh=qKyuOLiauclZKSvY0U0cBP+tApBNI1A9K/xKic2gjA8=; b=P
-	WrVn0wGkBpSYXfYYVoNjbkZHxocYVCoDutMPCHkrnTp338BK00J+yEc013nFLWlL
-	cHFUCBcKK4y/hrmFixSSdlz+qQC0HncwjBg9A8CsgRhTMi2E0MkCq9+TE4NTnL4M
-	8ZPiR+vxWMDaYc0kqN+A2yBCNxOM03+eRjX1CUED+qxWlzHbk5tuMw20rc66AlDq
-	f2+GrPqANnRSF7NTBtSkaUg6vOM8zGha7nOUtmVke5SfRJtf3sXtLPf5V2uAMq+S
-	pr4t1KkTmBqr2K6iGV5sf1iifl2S0B5sJMHa7gfO077BQR3eN5ysKDvyhiNacMVO
-	Gj747wqBIIv72C0G/7xhg==
-X-ME-Sender: <xms:bzBPZmWJ2Xf1zkP3DzNXdrR8OBxLEqqtrjzbpKzJ3LDaMlAqXBn_AQ>
-    <xme:bzBPZilaIgB-8TaC_3EOM0wMqkeL99zE-8HVcgrmaFVgu_wqrh-2Cz5l-jhjCVuIM
-    G64gr8Datpm0g>
-X-ME-Received: <xmr:bzBPZqaRzY6YyLGllswpIwxFHpOFJl3y5gjyxyMjQIgfwAfQuQ-xynLQGRDGsMb5Q_ylhv-QrxWUXHS2PWOrxJrlAmaoEY60qoZH5w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeiiedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefirhgv
-    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpefgud
-    efuddtuedvvedutdefhfekffduffdvleffteekffdtkedtvdfhhffhgfekudenucffohhm
-    rghinhepmhhsghhiugdrlhhinhhkpdhgihhthhhusgdrtghomhenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
-    mh
-X-ME-Proxy: <xmx:bzBPZtWTTfxN_-oU7d3VredH6mNcQunPy3xgS7Y5fLcak3ssNRh6Fg>
-    <xmx:bzBPZgkUeVpDbuua1S3sI0yGB-onH4x0RfVzHERAI4QOTUq8M2dpMg>
-    <xmx:bzBPZic6wBQ8qEvEDy1DCKfd3wzU6mzVOjmZEpV6Yj5_orFuxl9gFA>
-    <xmx:bzBPZiFeqWpxleHrjjM18QcNzyKr8bVdUVJ6ItPL6Jm8xs6IYvzikw>
-    <xmx:cDBPZvfH8xDULpACbiF64ZImLtWayQYvBuHeVKCLdtmePTP6nUkoAed1>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 May 2024 08:02:55 -0400 (EDT)
-Date: Thu, 23 May 2024 14:02:53 +0200
-From: Greg KH <greg@kroah.com>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, stable@vger.kernel.org,
-	yung-chuan.liao@linux.intel.com
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nnb1r+TH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A14BC32782;
+	Thu, 23 May 2024 12:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716466206;
+	bh=dV3gYhQ/CCKnsQ1isxyygcfcGCTLC98tQVo44ro3qlY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nnb1r+THjTZct8yaqV6VR7y0U0NbSh9ncvJe1MSO/hbQGyZgJx0JSK9xgeYulzbrU
+	 KfcMH8TNKdZUADcCTwZJE1fikT7vuqCi3ZEgksn8xi7yI/r2tN902568Wue9VIB9bN
+	 pM026ERB0RjIHpSzCMEUs2YkgTZyNFQQ5hJuHNnjK/HZMKIrFAJardonZ4Ah+ad/gD
+	 HWGlP8gR9K83PjTHP+X6FHCaievhqgWlxbPl+DfC28oHjuH2bKgHQMqA3GyGU9e/Xu
+	 rfJqEoLRpXCrl6e3SbpxX6MeCXD7HGKPl8fL6Z+qjhTFizk77PjYbT2P0xCh4No5gI
+	 uw0VWgt3BJdCQ==
+Date: Thu, 23 May 2024 13:10:01 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Greg KH <greg@kroah.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	stable@vger.kernel.org, yung-chuan.liao@linux.intel.com
 Subject: Re: [PATCH stable-6.9.y] ASoC: Intel: sof_sdw: use generic rtd_init
  function for Realtek SDW DMICs
-Message-ID: <2024052345-manhood-overrate-6b7d@gregkh>
+Message-ID: <a46744fc-541c-42f7-99c9-cc2f1236f960@sirena.org.uk>
 References: <20240521072451.5488-1-peter.ujfalusi@linux.intel.com>
+ <2024052345-manhood-overrate-6b7d@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MgIJRqG73D2t8Nbi"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240521072451.5488-1-peter.ujfalusi@linux.intel.com>
+In-Reply-To: <2024052345-manhood-overrate-6b7d@gregkh>
+X-Cookie: You auto buy now.
 
-On Tue, May 21, 2024 at 10:24:51AM +0300, Peter Ujfalusi wrote:
-> From: Bard Liao <yung-chuan.liao@linux.intel.com>
-> 
-> commit bee2fe44679f1e6a5332d7f78587ccca4109919f upstream.
-> 
-> The only thing that the rt_xxx_rtd_init() functions do is to set
-> card->components. And we can set card->components with name_prefix
-> as rt712_sdca_dmic_rtd_init() does.
-> And sof_sdw_rtd_init() will always select the first dai with the
-> given dai->name from codec_info_list[]. Unfortunately, we have
-> different codecs with the same dai name. For example, dai name of
-> rt715 and rt715-sdca are both "rt715-aif2". Using a generic rtd_init
-> allow sof_sdw_rtd_init() run the rtd_init() callback from a similar
-> codec dai.
-> 
-> Fixes: 8266c73126b7 ("ASoC: Intel: sof_sdw: add common sdw dai link init")
-> Reviewed-by: Chao Song <chao.song@linux.intel.com>
-> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Link: https://msgid.link/r/20240326160429.13560-25-pierre-louis.bossart@linux.intel.com
-> Link: https://github.com/thesofproject/linux/issues/4999 # 6.9.y stable report
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Cc: stable@vger.kernel.org # 6.9
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> ---
-> Hi,
-> 
-> Regression reported in 6.9 by a user:
-> https://github.com/thesofproject/linux/issues/4999
-> 
-> The fix for the issue somehow dodged the 6.9 cycle and only landed mainline
-> for 6.10, before -rc1 tag.
-> 
-> Our trust in machines shaken a bit, so just to make sure that this patch is
-> picked for stable 6.9, I have cherry-picked it and tested on a device that
-> it is working without any side-effect.
 
-Now queued up, thanks.
+--MgIJRqG73D2t8Nbi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-greg k-h
+On Thu, May 23, 2024 at 02:02:53PM +0200, Greg KH wrote:
+> On Tue, May 21, 2024 at 10:24:51AM +0300, Peter Ujfalusi wrote:
+
+> > The only thing that the rt_xxx_rtd_init() functions do is to set
+> > card->components. And we can set card->components with name_prefix
+> > as rt712_sdca_dmic_rtd_init() does.
+> > And sof_sdw_rtd_init() will always select the first dai with the
+> > given dai->name from codec_info_list[]. Unfortunately, we have
+> > different codecs with the same dai name. For example, dai name of
+> > rt715 and rt715-sdca are both "rt715-aif2". Using a generic rtd_init
+> > allow sof_sdw_rtd_init() run the rtd_init() callback from a similar
+> > codec dai.
+
+> > The fix for the issue somehow dodged the 6.9 cycle and only landed mainline
+> > for 6.10, before -rc1 tag.
+
+FWIW it's quite buried in the changelog that this is a fix (I tend to
+just zone out the presence of a Fixes tag because people just put them
+in for no reason) - the subject line makes it look like a cleanup, and
+it's not clear from even the second paragraph that we're actually seeing
+issues in practice as opposed to this being a theoretical thing.
+
+--MgIJRqG73D2t8Nbi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZPMhgACgkQJNaLcl1U
+h9AgwAf/QpHcGL7yBUm0uVwUOHr91W1tCeE6vcLlRWp6TuWF1zwyvMX2J8oechw5
+WfKuq7pYOKixLENeyW8Xo0pzHQzd/9SkJu2SiPCTp+7sbkiDTguhczQW7N6So8tF
+20sTTf2sxayiFx8SUp7PeO30oX9go2FVSOoebGhbG2VJ6XHmtjwLbu8y9qlMeD6f
+tTsoghBGqbKvO5pi7AQxahU5ipJQUxNQ5XWb8W1Kibg8JiEWfvwNYP+rH3r3+R0F
+oHRYTijkKNauvenTNHyCTM1p3eUSLAvBZWkCn9+c2ipHkpsI1spTzfwl5YGVcQCF
+ADKT0cnWiFO75DK8kL7GtquRGCJ5Jw==
+=5WNu
+-----END PGP SIGNATURE-----
+
+--MgIJRqG73D2t8Nbi--
