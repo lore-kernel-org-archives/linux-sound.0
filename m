@@ -1,40 +1,79 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EC2187F;
-	Thu, 23 May 2024 06:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761833B29D;
+	Thu, 23 May 2024 07:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716445320; cv=none; b=KzVwSdwKeCUSLh4rKRGheD79DC4jHkUVuCLggR35JY75pelu2Z0vZP0af+OTjvYOnCXwsYU3SyF1WlRouDNK0DVLj3lHSVY62U45yK53hs0FuE8fyO8OwZyELYphJU3thrbA8KnwZzTOxl/Ft83Ba+pHhMpA9vX1NdCaZ+CaQIg=
+	t=1716448698; cv=none; b=mP6c5CYr1DXCX2dgkCWVAxrqYZpcflCQ6WLNoepPTYg0b3oUpA9CHNK84QoTv6mmdJesFbVblGmv5KL63eQTBbq1DGLsjvnWbeD/F6tDTao72ZfMEnLxqRa8OhwEwiIWqWMwSLwKhUg/HQj+UwXsR8RzQRGPeS9hPWE7eFM+JWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716445320; c=relaxed/simple;
-	bh=cLEznAhfLLAB/aoG9qdtgoKaGt7Ec+GpYMpavnD9G5w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ctXkn/fSsgArPZrI3qYNMMG5MgLEtY8mEtalvdkLcmHhuGcgrSYhmmw6pPvUQfQzOfhO53h8lKb4S90BVInweITJrYTBWEIYlYP4VDXqCxXhybclGQYmL2KZOSgrqUhQA8Nli2Md2ABAeZLwBcopEMnVH6vZUyUPoYqhTjEm6fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=m5zimAs7; arc=none smtp.client-ip=185.125.188.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1716448698; c=relaxed/simple;
+	bh=eW1g5x920VyrEE3W8JHEFUtHNlejKcpRIqrD03GNb6c=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lqVO+a32NIXGrwT7/QpXSFp09Pmc1DDgOVHZCTxxwjQh9uJCjMAbdPj3jvaZDp7hHqhYNk4W6Md/aiUxU2nqPBkJnuKWS45+uxxOvjnuvjgcKiPKs+9EWWMUmCrNxN/wZTnaKnjEoewN3DoEQxKRjRE5UZge4yTuFtq33bPbyrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ncz3E3Jf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4XjMnnbI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ncz3E3Jf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4XjMnnbI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="m5zimAs7"
-Received: from localhost.localdomain (unknown [10.101.197.31])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ncz3E3Jf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4XjMnnbI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ncz3E3Jf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4XjMnnbI"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id C44133FE7A;
-	Thu, 23 May 2024 06:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1716445310;
-	bh=KVqvA5zzJYaLf3ZEHk5+nPKJy+DbfC3op288GzM3ZLw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=m5zimAs7rgRPaA/HEiHRucGmjulHkcWOkOIDgzvyfnOfchYA49iUUjtkcL1jv7jKp
-	 paHxcSJhU5eKssu4FRMMLm2aIJJhRUAw/MZDHeyQmfvdbAK9V0sV5ytZh2P0/oN20/
-	 LvS7hq9ap7ovD7snHi8Ciab5Hl3LTEFA4yDZy1qoc9RiO3VVw/t1Sj4kR04t4sid9W
-	 /CDAUGt9aBcrNxHuZp5Pd8FRTOgUUWpeDgDvSpUWimsit42+KmPvyK5HJ97JSNn5vR
-	 DqCHrqjMwPRWARYhOCKasUgb0X8fIyJMvrWCnotb8zOhRdLRqtNz3jBOzO/lhV2iOw
-	 +dRS779Cp2+kQ==
-From: Andy Chi <andy.chi@canonical.com>
-To: 
-Cc: andy.chi@canonical.com,
-	Jaroslav Kysela <perex@perex.cz>,
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 836901FF90;
+	Thu, 23 May 2024 07:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716448695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9C3+Zvv/jEllbJWgFoIJayK9mlGR5eL5wYtye4uFvQ8=;
+	b=ncz3E3JfVgGAcXOzveAm0cGuOibd6lBaPRZ+Kva3ZvZXwJs6LVcb1MVJeKckDQbMwxeV6V
+	4twBxYc8Q1GIxsGQsPQEOCOdPtD5V6j3VWYFsY87kUx4ZYobzFeL0/QbPxO7Fn0La+EK1i
+	QqHZ8BdTwrjTzvrTJFFXgvYA5nBHENw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716448695;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9C3+Zvv/jEllbJWgFoIJayK9mlGR5eL5wYtye4uFvQ8=;
+	b=4XjMnnbI7kg30XV7dOTF4zgD+0fibaWaJ+8tAC2zDHvBoYaFvhNRsKOTZ7i6rXR6X/WNux
+	f/q47ptfyrcMciAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716448695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9C3+Zvv/jEllbJWgFoIJayK9mlGR5eL5wYtye4uFvQ8=;
+	b=ncz3E3JfVgGAcXOzveAm0cGuOibd6lBaPRZ+Kva3ZvZXwJs6LVcb1MVJeKckDQbMwxeV6V
+	4twBxYc8Q1GIxsGQsPQEOCOdPtD5V6j3VWYFsY87kUx4ZYobzFeL0/QbPxO7Fn0La+EK1i
+	QqHZ8BdTwrjTzvrTJFFXgvYA5nBHENw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716448695;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9C3+Zvv/jEllbJWgFoIJayK9mlGR5eL5wYtye4uFvQ8=;
+	b=4XjMnnbI7kg30XV7dOTF4zgD+0fibaWaJ+8tAC2zDHvBoYaFvhNRsKOTZ7i6rXR6X/WNux
+	f/q47ptfyrcMciAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E4E113A6C;
+	Thu, 23 May 2024 07:18:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fEYPCrftTmaKVQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 23 May 2024 07:18:15 +0000
+Date: Thu, 23 May 2024 09:18:35 +0200
+Message-ID: <87msohatdg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andy Chi <andy.chi@canonical.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	Stefan Binding <sbinding@opensource.cirrus.com>,
 	Kailang Yang <kailang@realtek.com>,
@@ -45,42 +84,49 @@ Cc: andy.chi@canonical.com,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org (open list:SOUND),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 440/460 G11.
-Date: Thu, 23 May 2024 14:18:31 +0800
-Message-Id: <20240523061832.607500-1-andy.chi@canonical.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 440/460 G11.
+In-Reply-To: <20240523061832.607500-1-andy.chi@canonical.com>
+References: <20240523061832.607500-1-andy.chi@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.23 / 50.00];
+	BAYES_HAM(-2.93)[99.68%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.23
+X-Spam-Flag: NO
 
-HP ProBook 440/460 G11 needs ALC236_FIXUP_HP_GPIO_LED quirk to
-make mic-mute/audio-mute working.
+On Thu, 23 May 2024 08:18:31 +0200,
+Andy Chi wrote:
+> 
+> HP ProBook 440/460 G11 needs ALC236_FIXUP_HP_GPIO_LED quirk to
+> make mic-mute/audio-mute working.
+> 
+> Signed-off-by: Andy Chi <andy.chi@canonical.com>
 
-Signed-off-by: Andy Chi <andy.chi@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks, applied.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c3a8e601614a..e3c0b9d5552d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10194,8 +10194,11 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c89, "HP ProBook 460 G11", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c8a, "HP EliteBook 630", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c8c, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c8d, "HP ProBook 440 G11", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8c8e, "HP ProBook 460 G11", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c90, "HP EliteBook 640", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c91, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
--- 
-2.34.1
 
+Takashi
