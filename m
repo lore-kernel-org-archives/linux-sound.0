@@ -1,59 +1,33 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5032A22EE5
-	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 06:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2331BDD0;
+	Thu, 23 May 2024 06:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716444258; cv=none; b=u+OsI+XVzyH6T0XEXiY/hI5LHqIK5YA5eHaQF/qeUbG5wzS7YUuaMkZ7rPeKrCYyiMcD/arlA/JDQXGsg+fb9cZGX1bZMT6BmN4KXrd2C4XgWb08VJay459oitM7+yrWwM5MQ7gkA43Wxajc0cebc6HMgruo+kFRdL0ybf1GUaY=
+	t=1716444491; cv=none; b=GLL/zqwyxQoh873Sp6Kkv8tGkVoZ0eUErH1golO1melbIAf16YB4D0ogtrIUUo7uF3tt9SLGf0CVsNyrhth6lGXxM7m2SMjI83i0Kt3gGa7/Osuhno/Ph6xfIgybD375va0LG+DG1nr0H7Xbp4ZhdgCw6C5QY2T6GdEcNz8D7Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716444258; c=relaxed/simple;
-	bh=hYQUWqhl5uPTPNh8C7/UgZ8wfXvUfoa7XdL7RCMYTs0=;
+	s=arc-20240116; t=1716444491; c=relaxed/simple;
+	bh=pLbZiax0te31MLzLpkRxYePvLwC2+90oQEflwUwlJdM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BS5PysZerDcSnG8tdANAcaKTz/S+nz1cMPXSnqmfErnrGwB97HS09jHwOGdYTrzD42EPGXdnvHszsLYEJhbOeXfQtqqxaL196j+bdFFw3HwuFInEHKc+YuvaH1bMxBFrfjYguVWZM8sAPcxyKRj33jgoBMYGZ4yDLCHEMZ+O8VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cQjB89iE; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=tFrRsmvMxRkepc5TujmdUoZYeZp/INQgBjZlEr2/IY//mPL3hpvk9HG9UajIHS+HV/ylxzmdwkvWc+xlKs2VjOixsld46S1glz+OIiJULOFSehwH490roYCOOU4S22AfykhTEvQk9IuYcjNwK66b7GzB5NCSuOmwJvgSmOD92vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DcOZITD5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cQjB89iE"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-351d309bbecso4793906f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 22 May 2024 23:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716444255; x=1717049055; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=i6dbk9a+uth7yFh6CNI3vvuN+SA1MsPZmlUVqAH6eR8=;
-        b=cQjB89iEpbFKLouBjAseI7NSSITbi8PAff8Kfz5VkmJDlNIFI6ihu4C2qKn5DWyQmL
-         oImc7s3rpY0H7/5KubfjrgPbZScbIAbcHubdfuQDj0eoNSlRKCc2NAltFZNjWMHIgmR4
-         s2OQsqXHec+fXaS+sNsiOg9VBTFap4eKP/F8Vh6Wep/7xhClI8p5JVHte7f+npEOlvpn
-         Gh/uiWTdA+9L1Gc3XizTAMSe+v2U6cOoZoFNvvw4iRM8U2UvI9/mg7rm4cp+050aIelF
-         BybjSRg4igYagbQbWQZouwWpjD5D5IuA2CsCoSvSbtzpDMUHVxcTsaM3NqONjP+5XprJ
-         aJkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716444255; x=1717049055;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i6dbk9a+uth7yFh6CNI3vvuN+SA1MsPZmlUVqAH6eR8=;
-        b=rB9wF5qCAqnpoidpxrH4kGpmQdZ4HhdRPw0LkgoP+QwgE5oapZZTgU8mqYzT3FEScW
-         IjPgwbL5d1Xm/tL7DHTIoYOxfNfYpsZA2qrtknk7glbRuITs/QHe49HDMlbS6fTU11w7
-         jXUuV2NGO3MC2SP9Jd3c1YG+wDbySJWFJxL1qBBofd5M3wRmaxN01tX3s9LpiUekjGmB
-         L/4At639DassWwut7VS2b5i91tpW3g5pAB/FzpXVpslWlINzdGz0nVSQgpLUYIvNXpl3
-         EiNcmSP5jMCZGEB1jnmGddJAdL9wK6zmTjTmcY/t/UQmJUYDfLmGb6tMKoWlwQnN4c1q
-         AENg==
-X-Gm-Message-State: AOJu0YwXbizGbzAA4hjJqnLMwkPL1GTP2ezHMB+ZqISZuupj23/JXn8c
-	bnh7Ey/kyDjY7bDOTEaMZ7jKRxk8rH5hMO1UEVqq+DMO+5Rv6APG+581KWYK808=
-X-Google-Smtp-Source: AGHT+IGxh5Tk8DFPD8rFp7ALYpXsYOIlALKHags95KPmf6Hf+jMmQIvoRHGyEUGwvmQTTwMbFR4/2g==
-X-Received: by 2002:a5d:457b:0:b0:34a:4227:e9e8 with SMTP id ffacd0b85a97d-354d8d8de10mr4617489f8f.47.1716444254670;
-        Wed, 22 May 2024 23:04:14 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354e736c71bsm2618353f8f.5.2024.05.22.23.04.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 23:04:14 -0700 (PDT)
-Message-ID: <dc50ee9a-1fd3-429c-9b4c-5a8b8824ae1b@linaro.org>
-Date: Thu, 23 May 2024 08:04:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DcOZITD5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 270C1C2BD10;
+	Thu, 23 May 2024 06:08:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716444491;
+	bh=pLbZiax0te31MLzLpkRxYePvLwC2+90oQEflwUwlJdM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DcOZITD5EvWCGITJvjyzY8LGOdFeRXszMN7bMtqtbYIyDPYMYqQaHsB/g0X54C9Lf
+	 mmBRQqIHCViQyr09eiQkrYdJmpKSTiEZKoyXIxjSoztew7Qhh4e2XXx01ao8rZme4O
+	 MQ0Z9nDj63bWW/fbuR40QyGdOe5+ie5HfkHPgtg6Uq3U6M1E7zc7Pd2i8AEYlkfGXe
+	 1CJD+50Wno2kXe/By9GN9ooV6UxUxWazmzJyw6QvVrjw2ZqVEj5sfJstzeQiXMa1oh
+	 2/o/QcYeccXjg04Sh9t6ASrqxLvrFlich9ghGmKXvCmqTCmUIamc6i0lgBQrVN9/1I
+	 jqQ8bbWbudcQg==
+Message-ID: <ecbd6950-25d1-4f5a-9311-1c3e1bb335d7@kernel.org>
+Date: Thu, 23 May 2024 08:08:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,19 +35,27 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: mt6358: Convert to dtschema
-To: Kartik Agarwala <agarwala.kartik@gmail.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20240518081621.63386-1-agarwala.kartik@gmail.com>
- <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
- <dc8a05ee-ed84-4517-baad-a220d8702f07@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v5] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Mithil <bavishimithil@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240522075245.388-1-bavishimithil@gmail.com>
+ <0594944d-c158-4840-8724-b3f2edaab1ca@gmail.com>
+ <4f722e53-011f-4176-b6af-080522165007@kernel.org>
+ <bb44d588-9316-4509-b545-9bbaa2d240cb@gmail.com>
+ <3c6c5be1-fb8e-4bf0-9f58-cfb09672e8c1@kernel.org>
+ <d999bc26-9bb1-44a8-92a3-bcbe14c5a1c3@gmail.com>
+ <58ada5ce-5c02-4ff5-8bdd-d6556c9d141f@kernel.org>
+ <CAGzNGRm5i8zvnXiPzMg5=+tr9oyBcRA8LFvnmgGzE=MzSNTXug@mail.gmail.com>
+ <e384272a-4dfe-4653-8983-6426f8803c84@kernel.org>
+ <2d2b0047-ae08-4a76-bada-6bc92f443544@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -83,118 +65,80 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <dc8a05ee-ed84-4517-baad-a220d8702f07@gmail.com>
+ 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 fv0=
+In-Reply-To: <2d2b0047-ae08-4a76-bada-6bc92f443544@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/05/2024 23:04, Kartik Agarwala wrote:
-> On 5/20/24 12:39 PM, Krzysztof Kozlowski wrote:
->> On 18/05/2024 10:16, Kartik Agarwala wrote:
->>> Convert Mediatek MT6358 Audio Codec bindings from text to dtschema.
+On 22/05/2024 20:39, Péter Ujfalusi wrote:
+> 
+> 
+> On 22/05/2024 20:07, Krzysztof Kozlowski wrote:
+>> On 22/05/2024 19:02, Mithil wrote:
+>>>> Yep. And testing DTS should clearly show that conversion leads to
+>>>> incomplete binding.
+>>>>
+>>>>>
+>>>>>> I assume the DTS was validated with the binding. Isn't the case here?
+>>>>
+>>>> Mithil Bavishi,
+>>>> Are you sure you tested the DTS?
 >>>
->>> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
->>> ---
->>>  .../bindings/sound/mediatek,mt6358.yaml       | 47 +++++++++++++++++++
->>>  .../devicetree/bindings/sound/mt6358.txt      | 26 ----------
->>>  2 files changed, 47 insertions(+), 26 deletions(-)
->>>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
->>>  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
->>>
->>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
->>> new file mode 100644
->>> index 000000000..f57ef2aa5
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
->>> @@ -0,0 +1,47 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Mediatek MT6358 Audio Codec
->>> +
->>> +maintainers:
->>> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
->>> +
->>> +description: |
+>>> dt_binding_check did not give me any errors. Yeah the example is
+>>> different from how it is implemented in the kernel ie board specific
+>>> (omap4, omap5 etc). Should the example be changed according to that
+>>> dtsi then?
 >>
->> Do not need '|' unless you need to preserve formatting.
+>> Binding needs to be adapted to match DTS or DTS has to be fixed to match
+>> binding, depending which one is correct.
 > 
-> Noted
+> Normally the DTS is written based on the binding document and the driver
+> is written also to follow the binding document.
+> However in this case we have a broken/inaccurate binding document and
+> the existing DTS files and binaries in wild have deviated (there are
+> boards out there using qnx or BSD and use this binding), or to be
+> precise the binding document was not updated.
 > 
->>
->>> +  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
->>> +  For more detail, please visit Mediatek PMIC wrapper documentation.
->>> +  Must be a child node of PMIC wrapper.
->>
->> Did you update the PMIC wrapper binding with ref to this?
+> The existing DTS files are the ABI, so we cannot deviate from them,
+> unfortunately.
 > 
-> I am sorry but if I understand this comment, you are asking me to update this
-> file [1], correct?
-> 
-> 1. https://www.kernel.org/doc/Documentation/devicetree/bindings/soc/mediatek/pwrap.txt
-> 
->>
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - mediatek,mt6358-sound
->>> +      - mediatek,mt6366-sound
->>
->> You did not test the DTS.
->>
->> I think I raised the issue already: please make necessary fixes to the
->> binding (with explanation) or to the DTS, when converting the binding.
->>
-> 
-> Apologies again. Just to be sure, am I correct to assume that you want 
-> me to fix the dts file [1] as it has both these compatibles 
-> mentioned instead of only one and I should fix that by dropping one of 
-> the two compatibles?
-> 
-> [1] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi#L1246
+> In this case the DTS / driver needs to be reverse engineered to create a
+> binding document.
 
-No. I want these to be in sync and correct. dtbs_check must pass, which
-requires either changing binding or DTS, whichever is the correct action
-to do.
-
-https://social.kernel.org/notice/Ai9hYRUKo8suzX3zNY
+Ah, yes, the third option - ABI should not be broken and sometimes
+binding and DTS needs fixes.
 
 Best regards,
 Krzysztof
