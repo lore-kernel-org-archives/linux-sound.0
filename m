@@ -1,95 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246E013D274;
-	Thu, 23 May 2024 12:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0845113F453
+	for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 12:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716466206; cv=none; b=KLjBDVEC1vXBiiDdj8WPp3o2swzLagfNTH31LowSf5n+tIf9oGcEwbUiuq7w3DAu7Ufq+7N5InaqpCGBDtNGVbWKCvJUdYOQ0G/2ffmx6UpFeXWpj6EMeIxF4RZ2g9zgnV6NrXebWRZQBgxHgYm8SDtrOPaOjD8foRGOZMOBVmI=
+	t=1716468496; cv=none; b=TIaYL1SfHw8imZtDBNFSLyH4ZN9PG7YorlYO92wMcslRwTnmEjsncHtCNWlS9UDB9srkQPHknxF/KZWqKg+7AcNjLtw3qTPHnHAvyWvrrHIj5U7n6BSQtTVJxJd/dj2L+TMGypcCxUy9+YxmE2aC6MzaGeMG/UglM6UDVVsV6j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716466206; c=relaxed/simple;
-	bh=dV3gYhQ/CCKnsQ1isxyygcfcGCTLC98tQVo44ro3qlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GbU0If1/B8VpOaaxAa9Tk3DJh7lyMXD9m1wr1FWfUJM7bvOQ1KN/P/dm9KNY13ACaOTJONTOBsjIM5Vy0P3VdpG9VPabWDbxzGJcfYUOWdUtoAPP2nesJEto6dFrswragFeG8kNcuNcrR8kq/Li1YbtRCLJRy0r6BMDNf91PJVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nnb1r+TH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716468496; c=relaxed/simple;
+	bh=7H+i1fptu+/6Y+LOC9QHsTZy3fxGXIz/oEFy/KEXe1g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FcruGt2MGzI/3mHxd6RG8MV1zILjneLM7ZIBXnHcoDiWAOhnZVLFWwQr5GePuSJvvxy3zoix2FAyIIqzDYHC6a/VHpJnmqAKCT422OpSHOpNUKRCFT8EAvnr/YUgHxSCfD1oy9lOfmcA49egwuz2nVYzhXfxHkOxO0dWYN7D4Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tSl1ITqO; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nnb1r+TH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A14BC32782;
-	Thu, 23 May 2024 12:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716466206;
-	bh=dV3gYhQ/CCKnsQ1isxyygcfcGCTLC98tQVo44ro3qlY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nnb1r+THjTZct8yaqV6VR7y0U0NbSh9ncvJe1MSO/hbQGyZgJx0JSK9xgeYulzbrU
-	 KfcMH8TNKdZUADcCTwZJE1fikT7vuqCi3ZEgksn8xi7yI/r2tN902568Wue9VIB9bN
-	 pM026ERB0RjIHpSzCMEUs2YkgTZyNFQQ5hJuHNnjK/HZMKIrFAJardonZ4Ah+ad/gD
-	 HWGlP8gR9K83PjTHP+X6FHCaievhqgWlxbPl+DfC28oHjuH2bKgHQMqA3GyGU9e/Xu
-	 rfJqEoLRpXCrl6e3SbpxX6MeCXD7HGKPl8fL6Z+qjhTFizk77PjYbT2P0xCh4No5gI
-	 uw0VWgt3BJdCQ==
-Date: Thu, 23 May 2024 13:10:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Greg KH <greg@kroah.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	stable@vger.kernel.org, yung-chuan.liao@linux.intel.com
-Subject: Re: [PATCH stable-6.9.y] ASoC: Intel: sof_sdw: use generic rtd_init
- function for Realtek SDW DMICs
-Message-ID: <a46744fc-541c-42f7-99c9-cc2f1236f960@sirena.org.uk>
-References: <20240521072451.5488-1-peter.ujfalusi@linux.intel.com>
- <2024052345-manhood-overrate-6b7d@gregkh>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tSl1ITqO"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2e52181c228so74744771fa.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 May 2024 05:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716468493; x=1717073293; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q9x7Vo9vvu6p2oA0ahpRMi8dtMiJqaBytkcFXFhGqro=;
+        b=tSl1ITqOeIxlXeUt6P5UHsVxcjkXYlpQlLqeeLH7uR2VoGiIvSylVlfuFZ8h++Lzw5
+         swieuFVWzzBOdU2pjxCH9kOW3cZsjxaIPI9EDmsDm5V+i8kwyAig0FDkhn8NG3vsx3wc
+         XVIGSoTsR93wjgEVTnlqAfoNmGrKRpqAB/8HFgqSEaxH/8foEzVOOzG1gQkauXNugoJA
+         5x42g8tpoUMwF0NyeMty2Qu0fAeHuNb8KjSij7jWFAOM75SOgNUX4ppWtovCZzbWFLAn
+         cG0B/OdvsILjp4scEd+9awy17v5zekTSp8Dy8q7eHWUdxnE65muR4dzhtMVD29ZmqV0q
+         iImg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716468493; x=1717073293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q9x7Vo9vvu6p2oA0ahpRMi8dtMiJqaBytkcFXFhGqro=;
+        b=IR4LZ08iZ8mGTSqEJGSo3XfuozMTK22Kur0UFHzgkW8Tvoab92OZUm/hzWwojbWJh3
+         j9pSVKOBPl4SSQzqzDUVoxMfhShzJ/6uGs4rrzdteye5TMmERkTznXBcCio2o3Xoasf2
+         uwUuCIZgw64dbYLOhonZijhgXcrjR/8cvNXKpomDLrtiEqMEoAk05vQgTY9VoAvXDCQR
+         V+IjRe/0O2EGBNQ/j5L3RX1WGnJ3BfeVOsZtAeFONDNWJo8k5eY8XNcmVFr7aUofS0fQ
+         qha538+khMAfMciZoQGeu+su1vHbcZA6DoQWfsr8Uo7dGlCLdpEIi0wRlvjzBxYPPHAu
+         AGCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXo+9jea4QWGQuzFAVB+kw1TVHxWZ7ZdQdwuVSQVxE8URltzgxz2cMJBrCseEx6LAMSNoxwEeyfmyxDfayCuYM2xSKQooygP8PXqKs=
+X-Gm-Message-State: AOJu0YzfXEC9qHnb7W4qZyy7gNAHa0pa9KudyFG8dGU5yUCHYWS9vtDb
+	ydbuGkydLKta0ESE5HsQ+1JKs19JO870IFjOELP8talyOQFlUoEeP8g95iiNjbc=
+X-Google-Smtp-Source: AGHT+IHVrcU5GJOVwh3WzZ4bOBvGIcYyS9n60HryD8j0shddZfNZ79T+iSUvTkXyJ5Fbh3kQEMvcdg==
+X-Received: by 2002:a2e:2e0e:0:b0:2e5:61f8:db58 with SMTP id 38308e7fff4ca-2e949465c21mr31089701fa.11.1716468493033;
+        Thu, 23 May 2024 05:48:13 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.206.169])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e706ee0a65sm19730031fa.112.2024.05.23.05.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 05:48:12 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ASoC: codecs: wcd938x: Drop no-op ADC2_BCS Disable Switch
+Date: Thu, 23 May 2024 14:48:08 +0200
+Message-ID: <20240523124808.42923-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MgIJRqG73D2t8Nbi"
-Content-Disposition: inline
-In-Reply-To: <2024052345-manhood-overrate-6b7d@gregkh>
-X-Cookie: You auto buy now.
+Content-Transfer-Encoding: 8bit
 
+The "ADC2_BCS Disable Switch" control does basically nothing: sets field
+in driver's private data structure which is never read again to
+configure hardware.  Drop the control as it has no effect.
 
---MgIJRqG73D2t8Nbi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ sound/soc/codecs/wcd938x.c | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
 
-On Thu, May 23, 2024 at 02:02:53PM +0200, Greg KH wrote:
-> On Tue, May 21, 2024 at 10:24:51AM +0300, Peter Ujfalusi wrote:
+diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+index 9e2070356b84..73387152ce02 100644
+--- a/sound/soc/codecs/wcd938x.c
++++ b/sound/soc/codecs/wcd938x.c
+@@ -206,7 +206,6 @@ struct wcd938x_priv {
+ 	bool comp1_enable;
+ 	bool comp2_enable;
+ 	bool ldoh;
+-	bool bcs_dis;
+ };
+ 
+ static const SNDRV_CTL_TLVD_DECLARE_DB_MINMAX(ear_pa_gain, 600, -1800);
+@@ -1650,31 +1649,6 @@ static int wcd938x_ldoh_put(struct snd_kcontrol *kcontrol,
+ 	return 1;
+ }
+ 
+-static int wcd938x_bcs_get(struct snd_kcontrol *kcontrol,
+-			   struct snd_ctl_elem_value *ucontrol)
+-{
+-	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
+-	struct wcd938x_priv *wcd938x = snd_soc_component_get_drvdata(component);
+-
+-	ucontrol->value.integer.value[0] = wcd938x->bcs_dis;
+-
+-	return 0;
+-}
+-
+-static int wcd938x_bcs_put(struct snd_kcontrol *kcontrol,
+-			   struct snd_ctl_elem_value *ucontrol)
+-{
+-	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
+-	struct wcd938x_priv *wcd938x = snd_soc_component_get_drvdata(component);
+-
+-	if (wcd938x->bcs_dis == ucontrol->value.integer.value[0])
+-		return 0;
+-
+-	wcd938x->bcs_dis = ucontrol->value.integer.value[0];
+-
+-	return 1;
+-}
+-
+ static const char * const tx_mode_mux_text_wcd9380[] = {
+ 	"ADC_INVALID", "ADC_HIFI", "ADC_LO_HIF", "ADC_NORMAL", "ADC_LP",
+ };
+@@ -2695,8 +2669,6 @@ static const struct snd_kcontrol_new wcd938x_snd_controls[] = {
+ 		       wcd938x_get_swr_port, wcd938x_set_swr_port),
+ 	SOC_SINGLE_EXT("LDOH Enable Switch", SND_SOC_NOPM, 0, 1, 0,
+ 		       wcd938x_ldoh_get, wcd938x_ldoh_put),
+-	SOC_SINGLE_EXT("ADC2_BCS Disable Switch", SND_SOC_NOPM, 0, 1, 0,
+-		       wcd938x_bcs_get, wcd938x_bcs_put),
+ 
+ 	SOC_SINGLE_TLV("ADC1 Volume", WCD938X_ANA_TX_CH1, 0, 20, 0, analog_gain),
+ 	SOC_SINGLE_TLV("ADC2 Volume", WCD938X_ANA_TX_CH2, 0, 20, 0, analog_gain),
+-- 
+2.43.0
 
-> > The only thing that the rt_xxx_rtd_init() functions do is to set
-> > card->components. And we can set card->components with name_prefix
-> > as rt712_sdca_dmic_rtd_init() does.
-> > And sof_sdw_rtd_init() will always select the first dai with the
-> > given dai->name from codec_info_list[]. Unfortunately, we have
-> > different codecs with the same dai name. For example, dai name of
-> > rt715 and rt715-sdca are both "rt715-aif2". Using a generic rtd_init
-> > allow sof_sdw_rtd_init() run the rtd_init() callback from a similar
-> > codec dai.
-
-> > The fix for the issue somehow dodged the 6.9 cycle and only landed mainline
-> > for 6.10, before -rc1 tag.
-
-FWIW it's quite buried in the changelog that this is a fix (I tend to
-just zone out the presence of a Fixes tag because people just put them
-in for no reason) - the subject line makes it look like a cleanup, and
-it's not clear from even the second paragraph that we're actually seeing
-issues in practice as opposed to this being a theoretical thing.
-
---MgIJRqG73D2t8Nbi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZPMhgACgkQJNaLcl1U
-h9AgwAf/QpHcGL7yBUm0uVwUOHr91W1tCeE6vcLlRWp6TuWF1zwyvMX2J8oechw5
-WfKuq7pYOKixLENeyW8Xo0pzHQzd/9SkJu2SiPCTp+7sbkiDTguhczQW7N6So8tF
-20sTTf2sxayiFx8SUp7PeO30oX9go2FVSOoebGhbG2VJ6XHmtjwLbu8y9qlMeD6f
-tTsoghBGqbKvO5pi7AQxahU5ipJQUxNQ5XWb8W1Kibg8JiEWfvwNYP+rH3r3+R0F
-oHRYTijkKNauvenTNHyCTM1p3eUSLAvBZWkCn9+c2ipHkpsI1spTzfwl5YGVcQCF
-ADKT0cnWiFO75DK8kL7GtquRGCJ5Jw==
-=5WNu
------END PGP SIGNATURE-----
-
---MgIJRqG73D2t8Nbi--
