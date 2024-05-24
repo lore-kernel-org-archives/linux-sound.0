@@ -1,174 +1,108 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941A312836A;
-	Fri, 24 May 2024 08:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6929D84E19
+	for <linux-sound@vger.kernel.org>; Fri, 24 May 2024 09:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716538401; cv=none; b=WdSYko07C6vqjpcZrH6mp4Y/br3b+1kaidyQdfQGcw3tPGUW0ohgWF8WjbPtXcoZaRxo4VOTYby5lLruvYZ58d4gIjHn0KBn41c5L5KmJRcdVfa94i+ccAMlybtmj5vPnVpPZnkCnYIShIVoMyW9pn/sDrXQazUTbWlItkEgCs0=
+	t=1716542371; cv=none; b=DkWLYWdkRkKO7NgnaGRwzUCO/11zniPMmDEdSmwZmYlVwGrv7/6BsZJdRzEif81l9yRwDJgrhKFW+/oEYH3NfLh/gxWKBj0PKUvmTjUGGjwbBQygUym5vFWhbkTmnkFiBa2QtfZjU8e8ynu7uSnOC2y+TmsoM1KQ0ag1nRvtYvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716538401; c=relaxed/simple;
-	bh=7VuJP8Vnly84R+bMoIjVxkdqLh/xmIQnHlsqmO1Rn9k=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=by2B8Q6d4LYZ/yuiYQNlHctEoKJyC+Qu6nduQvlfzH7ItWQ+iRIv5q6E5/HFlkMuy5B+QKep+GSLuWHj59YgIpQ8lnM86wTEROLxYX1218wqoxQNg43U8Y0M7u4J8JpxT4NxjxFIU+dRmlPPALEkQwbjgDup37K0IgEGkZahGpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RoY1zH+l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MP5bm/dU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RoY1zH+l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MP5bm/dU; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1716542371; c=relaxed/simple;
+	bh=S5WIHfo/GVVFuV2a8N3J3V/bskkP4vgyxo9cxv7VQAU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZHi22atNYCwrMhGK+JFV9aLz16qhFParr3xTmcMc78TZeWDqVHLb6823MOQqK2p+aNfJzLLz2eTGnf6wCP1MIGbpqig2Jl/M4SdXuEvRiPmMxnBC28kczDYlJTgAxy/vfVscSl1JF6g2KgASjKwrCaD2ol63rSAiniCugi2Sz3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AasbsFK8; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RoY1zH+l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MP5bm/dU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RoY1zH+l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MP5bm/dU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CACEC2207B;
-	Fri, 24 May 2024 08:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716538397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wixCJesKzOkqepAOjyWPxCieNSE0jMDIePVeY+eukyk=;
-	b=RoY1zH+lU57gVBbfvHDVhH6prk52oSuDgnhENF3zoUjcQ8G1LkLpAbmg1nrZkm43ssj3My
-	LpzUWyG8h81O/FBqpY/SiWwTFueRRw5VeP2iFybjD+4DSBD0kIAWX4GQwBGMawWbuWfZwf
-	gqwdamlz8BfHh0scVUdOKLBKwXA3whI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716538397;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wixCJesKzOkqepAOjyWPxCieNSE0jMDIePVeY+eukyk=;
-	b=MP5bm/dUbNY5TfWhtrdCJ33T6Se/StF8l1YSRNmDVARAUBOHf97qLnONhtM/X9QoOrWs0C
-	sJQ2HMV0JUerLDAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716538397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wixCJesKzOkqepAOjyWPxCieNSE0jMDIePVeY+eukyk=;
-	b=RoY1zH+lU57gVBbfvHDVhH6prk52oSuDgnhENF3zoUjcQ8G1LkLpAbmg1nrZkm43ssj3My
-	LpzUWyG8h81O/FBqpY/SiWwTFueRRw5VeP2iFybjD+4DSBD0kIAWX4GQwBGMawWbuWfZwf
-	gqwdamlz8BfHh0scVUdOKLBKwXA3whI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716538397;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=wixCJesKzOkqepAOjyWPxCieNSE0jMDIePVeY+eukyk=;
-	b=MP5bm/dUbNY5TfWhtrdCJ33T6Se/StF8l1YSRNmDVARAUBOHf97qLnONhtM/X9QoOrWs0C
-	sJQ2HMV0JUerLDAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B25813A6B;
-	Fri, 24 May 2024 08:13:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id u5VMJB1MUGb/MAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 24 May 2024 08:13:17 +0000
-Date: Fri, 24 May 2024 10:13:36 +0200
-Message-ID: <87ttin39vz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.10-rc1
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AasbsFK8"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-df771959b5bso776678276.1
+        for <linux-sound@vger.kernel.org>; Fri, 24 May 2024 02:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716542369; x=1717147169; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFC/Wq6r2ZnocxgGVbxbRurbvlwJyoIDrYIsqw3lJqc=;
+        b=AasbsFK8Mt/PBkyaFq4wDhGGCDNTzpxMQ1Mwa29niqtT3epguk2PVIEfb9sc3EadZP
+         FklJq+xk0xVWrT4Oc7bdebK+3oHdLd0476OGs+6I9Tl6C+tslihGZZjAA8jurcuO7S0E
+         WPvda+m4XLP+XP4E9CGlLt2qTM6nthiWNjd8k4HVi/EnK7Ouf4dywmuElXhqbyHKgqgs
+         BUb67NX40RL9ApGWYisP4HvOAocfawqNpguvbSGYvgJerlevu1vlxKAUyD8qsV7wkU0E
+         jyrJoiGUNr/PyPc0Dqu6L/MXrvX11cdH3cpGY6Iigvu8GwMDeViM8r3Xf9bF9E8uIvGv
+         e7Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716542369; x=1717147169;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BFC/Wq6r2ZnocxgGVbxbRurbvlwJyoIDrYIsqw3lJqc=;
+        b=sAmHRVCjD/Zd1AZO7QnycOsEsGDjBfOyDd63pcBZ07tklPGJXummNrmRb40aOEtAW9
+         E1XCuW3pLDWZKfCw9ExgmT1iWWJc6/glRwuFdsRJv4f1UC/bS08AUYX2JXar7Wnei57m
+         sgKIA2aIO1KAczetlcnUtT9YKnKsRGwgYVs6/kfZi+MejL+F4TNBezvFDNJa2TZrvIAn
+         Ror3PpIcndcEOtH69Ei2tcbaAq2k+/ERAeG9/KUsSQJyV2Gp5BkXMDetZhXYZ6wR5uSg
+         pWQjZEJCXNwXAUK2FE1VOtJh0EsCHDUkQm1+VPQULlbJKxj6M2T5iutNnZ8xY/9Guuox
+         WnnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwdlEeRatBmsp/x4lSFpVfj3LcX6ZF/ZgrVBX5SIOdgkUL4nNd+vgKXZFK3RQ59+v24rTWmv75BTX1sv985OMH4lYqhtLCSyS8cSQ=
+X-Gm-Message-State: AOJu0Ywv+JOVhD9759YJO4wzi25zi/q597GmM1s3Uu8Nby5u7uG2qaXI
+	2mLImYztU2hHA67Xh5e0hIN1LCpHkwFxvQIXIZGFb4OF1xNiVUxHvytJoj4dBdN9JcoPoG93Xo5
+	37Y7S4Tg65Ae8xnbMkxAgzaGQbKMJmr2kvEwmpA==
+X-Google-Smtp-Source: AGHT+IHQOGkX6tTv+H0dG9M4HcslJIDthMVJK/fTaxTSoTTh7UEYLllN3SvzcSDRZhpNnspLGW/VvYGgTEt21HlMSwo=
+X-Received: by 2002:a25:adc2:0:b0:df7:695a:1cee with SMTP id
+ 3f1490d57ef6-df77221c3b5mr1532190276.50.1716542369346; Fri, 24 May 2024
+ 02:19:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20240524035350.3118981-1-quic_mohs@quicinc.com> <865adb41-fd27-d303-5f0f-a68a814f41ab@quicinc.com>
+In-Reply-To: <865adb41-fd27-d303-5f0f-a68a814f41ab@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 24 May 2024 12:19:18 +0300
+Message-ID: <CAA8EJprDb0fk0G1wrzB99EG=HAm5tw1Mz=mSd5mDMptDOoUb2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add support for QCM6490 and QCS6490
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	quic_rohkumar@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-Linus,
+On Fri, 24 May 2024 at 07:06, Mohammad Rafi Shaik <quic_mohs@quicinc.com> wrote:
+>
+> On 5/24/2024 9:23 AM, Mohammad Rafi Shaik wrote:
+> > This patchset adds support for sound card on Qualcomm QCM6490 IDP and
+> > QCS6490 RB3Gen2 boards.
+>
+> Please ignore this abounded patch series. No need for review.
 
-please pull sound fixes for v6.10-rc1 from:
+In future please use a logical prefix for the cover letter too. This
+helps other developers to understand whether they are interested or
+not.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.10-rc1
+>
+> Thanks,
+> Rafi.
+> >
+> > Changes since v1:
+> >       - Use existing sc8280xp machine driver instead of separate driver.
+> >       - Modify qcs6490 compatible name as qcs6490-rb3gen2.
+> >
+> > Mohammad Rafi Shaik (2):
+> >    ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd QCS6490 sound card
+> >    ASoC: qcom: sc8280xp: Add support for QCM6490 and QCS6490
+> >
+> >   Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
+> >   sound/soc/qcom/sc8280xp.c                                | 2 ++
+> >   2 files changed, 4 insertions(+)
+> >
+>
+>
 
-The topmost commit is d001e978c1c45b25d823489171151d13fd28ef4e
 
-----------------------------------------------------------------
-
-sound fixes for 6.10-rc1
-
-A collection of small fixes for 6.10-rc1.  Most of changes are
-various device-specific fixes and quirks, while there are a few small
-changes in ALSA core timer and module / built-in fixes.
-
-----------------------------------------------------------------
-
-Abhinav Saxena (1):
-      Documentation: sound: Fix trailing whitespaces
-
-Andy Chi (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 440/460 G11.
-
-Jack Yu (1):
-      ASoC: rt5645: mic-in detection threshold modification
-
-Jian-Hong Pan (1):
-      ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
-
-Manuel Barrio Linares (1):
-      ALSA: usb-audio: Fix for sampling rates support for Mbox3
-
-Peter Ujfalusi (1):
-      ASoC: Intel: sof_sdw_rt_sdca_jack_common: Use name_prefix for `-sdca` detection
-
-Rob Herring (Arm) (1):
-      ASoC: dt-bindings: stm32: Ensure compatible pattern matches whole string
-
-Shenghao Ding (2):
-      ASoC: tas2552: Add TX path for capturing AUDIO-OUT data
-      ASoC: tas2781: Fix wrong loading calibrated data sequence
-
-Takashi Iwai (3):
-      ALSA: timer: Set lower bound of start tick time
-      ALSA: core: Fix NULL module pointer assignment at card init
-      ALSA: core: Enable proc module when CONFIG_MODULES=y
-
-Zhang Yi (1):
-      ASoC: codecs: ES8326: solve hp and button detect issue
-
----
- .../devicetree/bindings/sound/st,stm32-sai.yaml    |   2 +-
- Documentation/sound/hd-audio/notes.rst             |  16 ++--
- include/sound/tas2781-dsp.h                        |   7 +-
- sound/core/init.c                                  |  12 +--
- sound/core/timer.c                                 |   8 ++
- sound/pci/hda/patch_realtek.c                      |  12 +++
- sound/soc/codecs/es8326.c                          |   6 +-
- sound/soc/codecs/rt5645.c                          |   1 +
- sound/soc/codecs/tas2552.c                         |  15 ++-
- sound/soc/codecs/tas2781-fmwlib.c                  | 103 ++++++---------------
- sound/soc/codecs/tas2781-i2c.c                     |   4 +-
- .../soc/intel/boards/sof_sdw_rt_sdca_jack_common.c |   2 +-
- sound/usb/quirks.c                                 |   4 +-
- 13 files changed, 86 insertions(+), 106 deletions(-)
-
+-- 
+With best wishes
+Dmitry
