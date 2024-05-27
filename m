@@ -1,325 +1,230 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9F715EFA4;
-	Mon, 27 May 2024 12:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716814601; cv=fail; b=oChkniaHDCh9weoA/AQveNSCk7wQPtVpHEGinGNS+gEbmZ3+raLx9T+edOyXGAtXg/bCH6dSsG3CyhfMEqfWBm5SCqrkKZjqjxjdQFhXabIfD0SqqtqMYzOHo4FTGQo9ePc6x7tNRbdoVtjNjn7LkNIKShAPczj3I4WdMLkYc3M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716814601; c=relaxed/simple;
-	bh=RAkzFFqQu34Q3YXgcLIlTC9WfEiCFD7e+tKEsOSe6Ao=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hTlcO3T3z6z1QZqZcWTFnd0Qy2bTdtAN6n3k2E/PqroktL9Q16ybmFcKd1JE08mw7FsnC8zECKvO6KbJirvE9nPplxZbn9GyLNeQU0jNvoNbTrS76VzSTCzEjw3l1NaJ+TzRhuoL7SK6CayNzGhjcocpdzmD6DWFBVk2quDVfYk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f6+a9bvx; arc=fail smtp.client-ip=40.107.93.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CEE15A868
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 14:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716819550; cv=none; b=Js4tRM0NL3Nt/M9L7Mkj5LLYNPG/BhnaA93Yd8DjTmbvxBfUQwOArUd9UDXtArPyNdZkIWa5/P3GUPxZW1CZQ82wpRSFlqY7FZtVWBgAagj7jHBMcXTdYkHYQNyf813b+9lp2tdaW0XQUdloRc04MyeVuuowQp7pTOirL76fft4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716819550; c=relaxed/simple;
+	bh=fxkfZNX2wld96NXgRDVbj+xOoo3Did+R/Sn3fmuGUIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fAurUgf2f8jCPDG2H36hGipC0zb0bEMBBSyDKCprxZFKXb8q/Bdyuc3UZrdGXLc2et32gpUL0TFrsnAQ3AEZW0bMLS4DSgtCXgSUsPr9hQNLWRhjG0+topTriICuS2+6mJnonIU67sKvZDv6eoRajTkaO0mlJ4rlhHSHH6foRnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGzpsMIq; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f6+a9bvx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gdiAznLc+tXYdXeUaNv+aOFDVuaU+HUxfEoVRDfkrJVOHCFhIvP1+b/0bS31KelfVTU8dlQ8haJNGEV2SU9+SqgNrt5dTm5X4QbFKHPzt+2P5IXNZau24Haf37K+bAPthI5AZBoitF7NFV+fkp4C0xnfotUhMX2N2GYxsyxRu21+N/3h6WhCwOyQdgYLMJzCFaj5fP7Wq4r+yf8UgRY8xLiEAgNAqnJWSJ8KuDWrTLV1TOHDrttjedbA+bnV4d2VnZc+P8sjVEG1SxM9YSkudLy5+aO0AzShEgah29dC5TcwsKJqhsouSJeN104VBEv04+GCh9ARiE9qICEvGPWAxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wnkj4wBXchlVFTLDqqNEicEPhlk1BjsiuyZF+MT6G1M=;
- b=GCrR1nR3uHGO+h4fovFUPsx8Edg7klALNStqKgFFebzsEOCM6cdvnw1tObvrw0JrG8dbK2N0jm+W6d2kQlsXIoz752fz6PkIX4Q3xyLLVlDtY4KRV3mF8AUsan5geJVdYcbVETnBUVThCriqiTRBLuQ8wasS+B8rXZ17zDouDIJ42Tg8XnJiSQngInAP/8Oqw0H/5rJwZq7Nic4b1PgXzsD8vrTWG3gNmOsOEM6+b5oQ8sWDz64giTaTrQXslTAxto+vSU8Qdpf2GAdYU3lUHf+0D6Xe5X8bb8Gifr0OEgY8FRWrhIHQfCVxcY2dMls5EeqUwsEzCyRMmSzNTGEyGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wnkj4wBXchlVFTLDqqNEicEPhlk1BjsiuyZF+MT6G1M=;
- b=f6+a9bvxym/4CFTbQ5LxYo2T/X7X6mjPJ7Swf4t1iZSQbld4KlgRfhq3mHt8xOSOR6lkqt1HXnTBJRMKShFQfMb75taRfN/WeKNLAnCodmfGNN2zJxBrMTdueNP5npN1YRvSZXM9YLjDD1dkddposnA0if0mpQJ/BApw3S0HdEbixTGH7zT1YdF/lDDJdS8AXmJmyVjRVtZQG/xCPuiyNDNpGs5Z+YQh6uxnTRQBUat3h/IqPCsdcDdcRZN2gYqD9qtSrzHpy65ZS/4HN7kGAYOZLjUcx2ZtayvMnR/oNsZFUfpQ2kXVOb1CJ7iBqqHXwAt6FhSl1E5LkhbmVcAtkg==
-Received: from BN0PR02CA0014.namprd02.prod.outlook.com (2603:10b6:408:e4::19)
- by DM6PR12MB4434.namprd12.prod.outlook.com (2603:10b6:5:2ad::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Mon, 27 May
- 2024 12:56:37 +0000
-Received: from BL6PEPF0002256E.namprd02.prod.outlook.com
- (2603:10b6:408:e4:cafe::7e) by BN0PR02CA0014.outlook.office365.com
- (2603:10b6:408:e4::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30 via Frontend
- Transport; Mon, 27 May 2024 12:56:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BL6PEPF0002256E.mail.protection.outlook.com (10.167.249.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.15 via Frontend Transport; Mon, 27 May 2024 12:56:37 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 27 May
- 2024 05:56:20 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 27 May
- 2024 05:56:20 -0700
-Received: from build-spujar-20240506T080629452.internal (10.127.8.9) by
- mail.nvidia.com (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.4 via
- Frontend Transport; Mon, 27 May 2024 05:56:20 -0700
-From: Sameer Pujar <spujar@nvidia.com>
-To: <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-CC: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lgirdwood@gmail.com>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<mkumard@nvidia.com>, <spujar@nvidia.com>
-Subject: [PATCH v2 2/2] ASoC: tegra: I2S client convert formats handling
-Date: Mon, 27 May 2024 12:56:07 +0000
-Message-ID: <20240527125608.2461300-3-spujar@nvidia.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240527125608.2461300-1-spujar@nvidia.com>
-References: <20240527125608.2461300-1-spujar@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGzpsMIq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716819548; x=1748355548;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=fxkfZNX2wld96NXgRDVbj+xOoo3Did+R/Sn3fmuGUIc=;
+  b=RGzpsMIqdb+mqehAWYvmMIX7nsX8LuXua8nZPBjsJVayqcxfvd2cgFFG
+   jv7qVNhFdh7Wf/ichAsnxxiIkHCGT4Dyj9x3zn73/GhGXH5EYOQjVPn5Z
+   Jz7oXjCLgBzb9IrqYQHzfX61dzhSM1LOgsaHUAWYa4t6C7J/QWPvLBVl4
+   vah5JZf+fMnBVIOJnRMmMZtz3e23LKnjIwJeM3XWPQQL9gEMe6UpCf51r
+   35fR/pDcNTIIncmghQjlcQ2JErh8HPCZYRpII6PJiMDie6TlMWMPDsSt9
+   OeUJZus7CUw7b8mX6UNKQL24x3piSouqR/cYbICShjqiY74D4IYNIOsn6
+   Q==;
+X-CSE-ConnectionGUID: diiIvsS5TbOXC3Or5FzKdg==
+X-CSE-MsgGUID: HgCoW321TbqrkOWmcFQpqg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="23807704"
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="23807704"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 07:19:07 -0700
+X-CSE-ConnectionGUID: T0HesbyUQueJ2MwlLh8huA==
+X-CSE-MsgGUID: O+pJ5m75SDew/A8BAL5qQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="39321206"
+Received: from kinlongk-mobl1.amr.corp.intel.com (HELO [10.125.110.211]) ([10.125.110.211])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 07:19:07 -0700
+Message-ID: <a0db818d-8661-4ed1-b8dc-b221bb4ef9b8@linux.intel.com>
+Date: Mon, 27 May 2024 09:17:52 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256E:EE_|DM6PR12MB4434:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62a4e48c-34ad-44e0-9dfc-08dc7e4c71e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|36860700004|82310400017|1800799015|376005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?myW5sSYvg1PfbI3ZUSWI8TkZs25ApcXgZxwypHeMa3qxuXPm1Pwh5oIC6fzY?=
- =?us-ascii?Q?z47p/CWg+iSYMqp9V5v3U4JBY03vc7YzakgLpSIUKAHF+6u8CkLwcr8ONK5L?=
- =?us-ascii?Q?W4OPdEMd+l1jDdJBRfssJ/5DEOuZuHoDqVaFko0Yo94rRM+Z6Az38HMyJHbh?=
- =?us-ascii?Q?Z0MP4bbADbZ/WpAEkuMsWw/kyEHqLdebQlYnlYn3VD2oYMTmva1Db8oA+NTL?=
- =?us-ascii?Q?aNvwv4pndtBGBleTpqReMEaBx6c/jcqyPzWwtK4ir8izLnVwKhfsGjYdfTFY?=
- =?us-ascii?Q?uSLPP+cPdRlOtM5srqh236w28lrX72RyJNMYNtHh3b5PFyChxjfq87/l4GAd?=
- =?us-ascii?Q?MrG5Cv7bczGH/U+//lqCBdpZqLoJrS+DCAMCmpqANqVwmXWiRpe1lsaB6yac?=
- =?us-ascii?Q?dOx7tWqvyF9g7qhZRgRo+QFkTbr4b1+Ubqvs9EG4ODR6s22RGcZ9illq1iMi?=
- =?us-ascii?Q?zoY/gMxNcEMWOmbQ3vv8OqoMkOcQNQjmlD1F38f0AGlxAPIhUs0mQ/7vZn+y?=
- =?us-ascii?Q?Wq598nyG4Cl5CWjD+TMlua2IRjNUVZ2KWmBGf+IN2lHeM1uy5mahMNQ/le9S?=
- =?us-ascii?Q?msZDzNEnQ8hc1Exuo773DL6p+JuyfWLOq8/JIwGcNEr85CSts9+gwNqoQlJr?=
- =?us-ascii?Q?JP9hEX5QXlrXbPgFdQhaOy/lWKO+lFmtQf3w8r7qGso4BBis9qQJeDtTRYOs?=
- =?us-ascii?Q?cmUY+mTQhzbGbcdstKdLLxsFmU/0WstRDTWlT8QqCIP6fdwPfDOvoGoiOBv7?=
- =?us-ascii?Q?C395ehb076VVY0juoYqYEtF9hcVND5ACmoagQowRFnCuqtKuNBsf5c9eRn3B?=
- =?us-ascii?Q?t9VqGZAkmwBkhOgOp4CjKbjNSiWOLouT78Aro5LZfEtheKrTTSuc+IDZNtJW?=
- =?us-ascii?Q?G4vetUViYni/xQZLQ3XxbzXq25qkkBwoEmo3StoIB/Lq/rGIdkDB9Lau2MxX?=
- =?us-ascii?Q?m4lKKVpWPkbHi+b9QQ/p0Dgkaft+2gnBtCdzRf9pRuW/7FbYtCmZ1mwE13cc?=
- =?us-ascii?Q?I9fyv/l0y/8qUxCjlFqsCrGHwbbPCzn9EqzamKnOPuo8p9vWZjqaWHqtnE4M?=
- =?us-ascii?Q?2LxPjfZ4e+PwzQMXHYtoO3osBxj2Yr73wHm03nFk6gk59Bmn3LNRipdpx1zM?=
- =?us-ascii?Q?hpiyRBipEleOPUL7661MdYqt8w5L5mg+8Pkw0l6Y2Vc3QAKtNsBPochlldH/?=
- =?us-ascii?Q?gnOrQsv3PbcHTiW7AjXUzHt0w/ZlXOsAjZpeNbVm5I4KTZpXtx/nGmENYve1?=
- =?us-ascii?Q?bdXsLWe272FgmgsV1kRVliJ5q+eUarFy0yojwwMtD5re85nszO8adm6LlPak?=
- =?us-ascii?Q?+G+22Tg+mrJN438blxVABPOKWngAtgPFFCijO+WyqBnPxotjSgZ+w/EQG5Vp?=
- =?us-ascii?Q?KqzJLXQKBGBXvr5BTGko0d6qq1FK?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(36860700004)(82310400017)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2024 12:56:37.1002
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62a4e48c-34ad-44e0-9dfc-08dc7e4c71e4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0002256E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4434
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] ALSA: compress_offload: introduce passthrough
+ operation mode
+To: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Vinod Koul <vkoul@kernel.org>
+References: <20240527071133.223066-1-perex@perex.cz>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240527071133.223066-1-perex@perex.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Mohan Kumar <mkumard@nvidia.com>
+Thanks Jaroslav, this is very interesting indeed.
+I added a set of comments to clarify the design.
 
-The AHUB HW modules are interconnected with CIF which are capable of
-supporting Channel and Sample bit format conversion. Due to this, the
-I2S Client can have different Channel and Sample bit from the hw_params()
-and this config is passed from CIF port of I2S DT node which can help to
-perform this conversion.
+> +There is a requirement to expose the audio hardware that accelerates various
+> +tasks for user space such as sample rate converters, compressed
+> +stream decoders, etc.
 
-For e.g. HFP usecase consists of BT SCO with 1ch and 8k audio data
-which needs to be converted and mixed with external codec playback and
-capture path which is of 2ch and 48k format.
+"passthrough" usually means 'no change to data, filter coefficients not
+applied' in the audio world.
+> +This is description for the API extension for the compress ALSA API which
+> +is able to handle "tasks" that are not bound to real-time operations
+> +and allows for the serialization of operations.
 
-For HFP Playback:
-  The path includes mono to stereo and 8k to 48k conversion
-    _ _ _ _       _ _ _          _ _ _        _ _ _ _ _       _ _ _ _ _ _
-   |       |1ch  |      | 1ch   |     |2ch   | SFC     | 2ch |           |
-   |BT SCO |---->| I2Sx |------>| CIF |----->| 8k->48k |---->| Codec I2Sy|
-   |_ _ _ _|     |_ _ __|client |_ _ _|audio |_ _ _ _ _|     |_ _ _ _ _ _|
+not sure what "not bound to real-time operations" means. sample-rate
+conversion is probably the most dependent on accurate timing :-)
 
-For HFP Capture:
-  The path includes stereo to mono and 48k to 8k conversion
-    _ _ _ _ _ _       _ _ _ _ _        _ _ _         _ _ _ _       _ _ _ _
-   |           | 2ch | SFC     | 2ch  |     | 1ch   |       | 1ch |       |
-   | codec I2Sy|---->| 48k->8k |----->| CIF |------>| I2Sx  |---->| BT SCO|
-   |_ _ _ _ _ _|     |_ _ _ _ _| audio|_ _ _|client |_ _ _ _|     |_ _ _ _|
+> +Requirements
+> +============
+> +
+> +The main requirements are:
+> +
+> +- serialization of multiple tasks for user space to allow multiple
+> +  operations without user space intervention
+> +
+> +- separate buffers (input + output) for each operation
+> +
+> +- expose buffers using mmap to user space
 
-For above two path, I2S client channel uses existing DT binding to pass
-channels and format conversion in I2Sx CIF Port.
+If every buffer is mmap'ed to userspace, what prevents userspace from
+interfering?
 
-Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
-Signed-off-by: Sameer Pujar <spujar@nvidia.com>
----
- sound/soc/tegra/tegra210_i2s.c | 71 ++++++++++++++++++++++++++++++++--
- sound/soc/tegra/tegra210_i2s.h |  2 +
- 2 files changed, 69 insertions(+), 4 deletions(-)
+I think userspace would only be involved at the source and sink of the
+processing chain, no?
 
-diff --git a/sound/soc/tegra/tegra210_i2s.c b/sound/soc/tegra/tegra210_i2s.c
-index ba7fdd7405ac..fe4fde844d86 100644
---- a/sound/soc/tegra/tegra210_i2s.c
-+++ b/sound/soc/tegra/tegra210_i2s.c
-@@ -8,11 +8,13 @@
- #include <linux/device.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-+#include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <sound/core.h>
- #include <sound/pcm_params.h>
-+#include <sound/simple_card_utils.h>
- #include <sound/soc.h>
- #include "tegra210_i2s.h"
- #include "tegra_cif.h"
-@@ -603,6 +605,7 @@ static int tegra210_i2s_hw_params(struct snd_pcm_substream *substream,
- 	struct tegra210_i2s *i2s = snd_soc_dai_get_drvdata(dai);
- 	unsigned int sample_size, channels, srate, val, reg, path;
- 	struct tegra_cif_conf cif_conf;
-+	snd_pcm_format_t sample_format;
- 
- 	memset(&cif_conf, 0, sizeof(struct tegra_cif_conf));
- 
-@@ -615,28 +618,51 @@ static int tegra210_i2s_hw_params(struct snd_pcm_substream *substream,
- 
- 	cif_conf.audio_ch = channels;
- 	cif_conf.client_ch = channels;
-+	if (i2s->client_channels)
-+		cif_conf.client_ch = i2s->client_channels;
- 
-+	/* AHUB CIF Audio bits configs */
- 	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_S8:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_8;
-+		break;
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
-+		break;
-+	default:
-+		dev_err(dev, "unsupported params audio bit format!\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	sample_format = params_format(params);
-+	if (i2s->client_sample_format >= 0)
-+		sample_format = (snd_pcm_format_t)i2s->client_sample_format;
-+
-+	/*
-+	 * Format of the I2S for sending/receiving the audio
-+	 * to/from external device.
-+	 */
-+	switch (sample_format) {
- 	case SNDRV_PCM_FORMAT_S8:
- 		val = I2S_BITS_8;
- 		sample_size = 8;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_8;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_8;
- 		break;
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		val = I2S_BITS_16;
- 		sample_size = 16;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_16;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_16;
- 		break;
- 	case SNDRV_PCM_FORMAT_S32_LE:
- 		val = I2S_BITS_32;
- 		sample_size = 32;
--		cif_conf.audio_bits = TEGRA_ACIF_BITS_32;
- 		cif_conf.client_bits = TEGRA_ACIF_BITS_32;
- 		break;
- 	default:
--		dev_err(dev, "unsupported format!\n");
-+		dev_err(dev, "unsupported client bit format!\n");
- 		return -EOPNOTSUPP;
- 	}
- 
-@@ -872,6 +898,40 @@ static const struct regmap_config tegra210_i2s_regmap_config = {
- 	.cache_type		= REGCACHE_FLAT,
- };
- 
-+/*
-+ * The AHUB HW modules are interconnected with CIF which are capable of
-+ * supporting Channel and Sample bit format conversion. This needs different
-+ * CIF Audio and client configuration. As one of the config comes from
-+ * params_channels() or params_format(), the extra configuration is passed from
-+ * CIF Port of DT I2S node which can help to perform this conversion.
-+ *
-+ *    4ch          audio = 4ch      client = 2ch       2ch
-+ *   -----> ADMAIF -----------> CIF -------------> I2S ---->
-+ */
-+static void tegra210_parse_client_convert(struct device *dev)
-+{
-+	struct tegra210_i2s *i2s = dev_get_drvdata(dev);
-+	struct device_node *ports, *ep;
-+	struct simple_util_data data = {};
-+	int cif_port = 0;
-+
-+	ports = of_get_child_by_name(dev->of_node, "ports");
-+	if (ports) {
-+		ep = of_graph_get_endpoint_by_regs(ports, cif_port, -1);
-+		if (ep) {
-+			simple_util_parse_convert(ep, NULL, &data);
-+			of_node_put(ep);
-+		}
-+		of_node_put(ports);
-+	}
-+
-+	if (data.convert_channels)
-+		i2s->client_channels = data.convert_channels;
-+
-+	if (data.convert_sample_format)
-+		i2s->client_sample_format = simple_util_get_sample_fmt(&data);
-+}
-+
- static int tegra210_i2s_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -887,6 +947,7 @@ static int tegra210_i2s_probe(struct platform_device *pdev)
- 	i2s->tx_mask = DEFAULT_I2S_SLOT_MASK;
- 	i2s->rx_mask = DEFAULT_I2S_SLOT_MASK;
- 	i2s->loopback = false;
-+	i2s->client_sample_format = -EINVAL;
- 
- 	dev_set_drvdata(dev, i2s);
- 
-@@ -916,6 +977,8 @@ static int tegra210_i2s_probe(struct platform_device *pdev)
- 		return PTR_ERR(i2s->regmap);
- 	}
- 
-+	tegra210_parse_client_convert(dev);
-+
- 	regcache_cache_only(i2s->regmap, true);
- 
- 	err = devm_snd_soc_register_component(dev, &tegra210_i2s_cmpnt,
-diff --git a/sound/soc/tegra/tegra210_i2s.h b/sound/soc/tegra/tegra210_i2s.h
-index 030d70c45e18..fe478f3d8435 100644
---- a/sound/soc/tegra/tegra210_i2s.h
-+++ b/sound/soc/tegra/tegra210_i2s.h
-@@ -112,6 +112,8 @@ struct tegra210_i2s {
- 	struct clk *clk_i2s;
- 	struct clk *clk_sync_input;
- 	struct regmap *regmap;
-+	int client_sample_format;
-+	unsigned int client_channels;
- 	unsigned int stereo_to_mono[I2S_PATHS];
- 	unsigned int mono_to_stereo[I2S_PATHS];
- 	unsigned int dai_fmt;
--- 
-2.45.1
+> +- signal user space when the task is finished (standard poll mechanism)
+> +
+> +Design
+> +======
+> +
+> +A new direction SND_COMPRESS_PASSTHROUGH is introduced to identify
+> +the passthrough API.
+
+not sure what you meant by 'direction', is this a new concept in
+addition to PLAYBACK and CAPTURE?
+
+edit: this is indeed what the code does, probably the documentation can
+be clarified to explain why this is needed.
+
+> +The API extension shares device enumeration and parameters handling from
+> +the main compressed API. All other realtime streaming ioctls are deactivated
+> +and a new set of task related ioctls are introduced. The standard
+> +read/write/mmap I/O operations are not supported in the passtrough device.
+
+The compress API was geared to encoders/decoders. I am not sure how we
+would e.g. expose parameters for transcoders (decode-reencode) or even SRCs?
+
+> +Device ("stream") state handling is reduced to OPEN/SETUP. All other
+> +states are not available for the passthrough mode.
+> +
+> +Data I/O mechanism is using standard dma-buf interface with all advantages
+> +like mmap, standard I/O, buffer sharing etc. One buffer is used for the
+> +input data and second (separate) buffer is used for the ouput data. Each task
+> +have separate I/O buffers.
+> +
+> +For the buffering parameters, the fragments means a limit of allocated tasks
+> +for given device. The fragment_size limits the input buffer size for the given
+> +device. The output buffer size is determined by the driver (may be different
+> +from the input buffer size).
+> +
+> +State Machine
+> +=============
+> +
+> +The passtrough audio stream state machine is described below :
+> +
+> +                                       +----------+
+> +                                       |          |
+> +                                       |   OPEN   |
+> +                                       |          |
+> +                                       +----------+
+> +                                             |
+> +                                             |
+> +                                             | compr_set_params()
+> +                                             |
+> +                                             v
+> +         all passthrough task ops      +----------+
+> +  +------------------------------------|          |
+> +  |                                    |   SETUP  |
+> +  |                                    |
+> +  |                                    +----------+
+> +  |                                          |
+> +  +------------------------------------------+
+> +
+> +
+> +Passthrough operations (ioctls)
+> +===============================
+> +
+> +CREATE
+> +------
+> +Creates a set of input/output buffers. The input buffer size is
+> +fragment_size. Allocates unique seqno.
+> +
+> +The hardware drivers allocate internal 'struct dma_buf' for both input and
+
+for each input and output buffers?
+
+> +output buffers (using 'dma_buf_export()' function). The anonymous
+> +file descriptors for those buffers are passed to user space.
+> +
+> +FREE
+> +----
+> +Free a set of input/output buffers. If an task is active, the stop
+> +operation is executed before. If seqno is zero, operation is executed for all
+> +tasks.
+> +
+> +START
+> +-----
+> +Starts (queues) a task. There are two cases of the task start - right after
+> +the task is created. In this case, origin_seqno must be zero.
+> +The second case is for reusing of already finished task. The origin_seqno
+> +must identify the task to be reused. In both cases, a new seqno value
+> +is allocated and returned to user space.
+> +
+> +The prerequisite is that application filled input dma buffer with
+> +new source data and set input_size to pass the real data size to the driver.
+> +
+> +The order of data processing is preserved (first started job must be
+> +finished at first).
+> +
+> +STOP
+> +----
+> +Stop (dequeues) a task. If seqno is zero, operation is executed for all
+> +tasks.
+
+Don't you need a DRAIN?
+
+for a co-processor API, you would want all the input data to be consumed
+and the stop happens when all the resulting data is provided in output
+buffers.
+
+And presumably when the input task is stopped, the state changes are
+propagated to the next task by the framework? Or is userspace supposed
+to track each and every task and change their state?
+
+I also wonder if the state for a task should reflect that it's waiting
+on data on its input, or conversely is blocked because the output
+buffers were not consumed? Dealing with SRC, encoders or decoders mean
+that the buffers are going to be used at vastly different rates on input
+and outputs.
+
+> +STATUS
+> +------
+> +Obtain the task status (active, finished). Also, the driver will set
+> +the real output data size (valid area in the output buffer).
+
+Is this assuming that the entire input buffer has valid data?
+There could be cases where the buffers are made of variable-length
+'frames', it would be interesting to send such partial buffers to
+hardware. That's always been a problem with the existing compressed API,
+we couldn't deal with buffers that were partially filled.
+
 
