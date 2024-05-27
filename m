@@ -1,138 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9D41F5FA;
-	Mon, 27 May 2024 07:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBE313A3EE;
+	Mon, 27 May 2024 09:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716795026; cv=none; b=QkF8UeFALuMGgxPZ/CiQocRoQFfhJkTELzaW5cnYxx0RD2VZlnyEUzojC4v07IxemYwTrDM+FPBUvM9ZWPEOqmPlf3MGyDBwBmpA3PHkJf7hSqo+ViUggR6J7H0I12+M9AQNAWgT5S5QrRzrBjSlq5Yp9490xW+t4NZPcneelu4=
+	t=1716803449; cv=none; b=Rq0slFNBZCN2QjWnYCfgx++5uQ7Mp+diiqxBcSoJxqdr5DIyWLGN747h1W82QRpNOMmD+4eKyl+LVAcIPW2MFe9F5y+jYbqibzRLLZOGKQrtw07L8EnRDrdDqvlJTi22pebVNp+1rDoBTHOoInMm02A9zUrOk1iHAdztex/7cGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716795026; c=relaxed/simple;
-	bh=kZOAFVEGf8BGOvGQnLyNxKGobzZ9MZiX4ytpEF7UloE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d4RAkpFQAjtSlTD8lG4ZBg/hn1fNNPzM8J4bwW0PLnt7VwA64piWoi2C1X9gWniDBU3S0ODBPzwv19NlObJkf7ljiIPdDW1dSnXQFCb+9n4aT/kS0DNJAP/Ea6MXbQOunc6z/bOrxQGnMVEQozQivVGfsTQEes8E9q2SL+PgQ1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fa7czT0B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p3lf1QEG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fa7czT0B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p3lf1QEG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1716803449; c=relaxed/simple;
+	bh=siXMFcd/YZJ/krD1ElQNCMZYcM6Cs/xuMd+BVeICYQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JHBtWjhWlXzvCIWfvomTi/bBcJrPTwW1WZ2RT25kCXAbtD7J2oiE/Faw6IvS7VaWMJzPNyYkiCviNG+/5LrL2grdFwQolilUsG87MuIQgf/StBFonpya1qBYSM0p3Xq0Bd0W7Sh3XsEjaktSWwywzv+P2s5Bv46s2HYc4RZSdxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNH9o6s+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fa7czT0B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p3lf1QEG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fa7czT0B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p3lf1QEG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B849F1FB80;
-	Mon, 27 May 2024 07:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716795022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gH7RK4lg/aTfFcwih3pLH5lRA1fX13MGIKzh6pvjK6w=;
-	b=Fa7czT0BAXh3r5Vm0tHOnLyysm7sQYi2ZGW2/vMPswE8TzjWFSDKBcm9LZcEYM3+I4uIKD
-	C0b406VQJ4hiiYXRrq9/7tuGj9k3QA80n+f0+vGFkjBHLJ5WgZ7CfqhFg/nyoPj9RNCcN6
-	6cpnGp4e0psmlOc3vMfHyrPXApfimu0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716795022;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gH7RK4lg/aTfFcwih3pLH5lRA1fX13MGIKzh6pvjK6w=;
-	b=p3lf1QEGztjeEbe44P9J5mT3ecv2ZF/DlrNx6rbLuU4z1jWHv/4QLIPGycZ/tM9PAOROfB
-	Z8QHUkM3ATDdHADg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Fa7czT0B;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p3lf1QEG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716795022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gH7RK4lg/aTfFcwih3pLH5lRA1fX13MGIKzh6pvjK6w=;
-	b=Fa7czT0BAXh3r5Vm0tHOnLyysm7sQYi2ZGW2/vMPswE8TzjWFSDKBcm9LZcEYM3+I4uIKD
-	C0b406VQJ4hiiYXRrq9/7tuGj9k3QA80n+f0+vGFkjBHLJ5WgZ7CfqhFg/nyoPj9RNCcN6
-	6cpnGp4e0psmlOc3vMfHyrPXApfimu0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716795022;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gH7RK4lg/aTfFcwih3pLH5lRA1fX13MGIKzh6pvjK6w=;
-	b=p3lf1QEGztjeEbe44P9J5mT3ecv2ZF/DlrNx6rbLuU4z1jWHv/4QLIPGycZ/tM9PAOROfB
-	Z8QHUkM3ATDdHADg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E58413A6B;
-	Mon, 27 May 2024 07:30:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +WY1F442VGYiMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 May 2024 07:30:22 +0000
-Date: Mon, 27 May 2024 09:30:43 +0200
-Message-ID: <87ikyzlnj0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Luke D. Jones" <luke@ljones.dev>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Adjust G814JZR to use SPI init for amp
-In-Reply-To: <20240526091032.114545-1-luke@ljones.dev>
-References: <20240526091032.114545-1-luke@ljones.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNH9o6s+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6674C2BBFC;
+	Mon, 27 May 2024 09:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716803449;
+	bh=siXMFcd/YZJ/krD1ElQNCMZYcM6Cs/xuMd+BVeICYQw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sNH9o6s+Q1kmd8WNsDNbk5w8UiLJ7Y5W4l9dTvGR/YJawYoFhQevC5EN46i5dkEba
+	 UjlXSOdtAPoMP3Emf/japi6wch2CYakoaRRURmEdMF2Y48Xoogw5jaiEmThfmlz3j8
+	 exROQHgp/rRTl78+H4bCTEZsJ7i/p4AhrmS1kW2cp1rwezfP10W9ubQb8aPLawk6wX
+	 qV0FJK5rYaHNaI5d+R8kn1pnK11BckEeMrbGWtqclxIES03fReerX6LHDKQr/El57v
+	 xxKMYt4Rbk5TRP2q5g/nqYDwpJ0uiKbRMpkCg3qnrNLkmcD9Wmpew35+jLcPL1v1of
+	 3YBfiSrLiuX0g==
+Date: Mon, 27 May 2024 10:50:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
+	quic_pkumpatl@quicinc.com
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd
+ QCS6490 sound card
+Message-ID: <091aa382-32fe-4f5c-8ebb-440afaf37827@sirena.org.uk>
+References: <20240524035350.3118981-1-quic_mohs@quicinc.com>
+ <20240524035350.3118981-2-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.42 / 50.00];
-	BAYES_HAM(-2.91)[99.60%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: B849F1FB80
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.42
-
-On Sun, 26 May 2024 11:10:32 +0200,
-Luke D. Jones wrote:
-> 
-> The 2024 ASUS ROG G814J model is much the same as the 2023 model
-> and the 2023 16" version. We can use the same Cirrus Amp quirk.
-> 
-> Signed-off-by: Luke D. Jones <luke@ljones.dev>
-
-Thanks, applied.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QlFvzjBH2dX8pMN1"
+Content-Disposition: inline
+In-Reply-To: <20240524035350.3118981-2-quic_mohs@quicinc.com>
+X-Cookie: Teutonic:
 
 
-Takashi
+--QlFvzjBH2dX8pMN1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, May 24, 2024 at 09:23:49AM +0530, Mohammad Rafi Shaik wrote:
+> Document the bindings for the Qualcomm QCM6490 IDP and QCS6490 RB3Gen2
+> soc platforms sound card.
+
+This doesn't apply against current code, please check and resend.
+
+--QlFvzjBH2dX8pMN1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZUV3IACgkQJNaLcl1U
+h9Bv5Qf/RC/79S61kz29d+HPO0dv1aYHxWJa9jdbC6za/XxQjXzCqxwmH9Iwl5qp
+u9a60OfG9lV2kVFsr38Eo0Gzp60n3ILfLQ2noRN4QtWDeM4Z3iVA9aYeXvxzGD+T
+YKNQZZAiEaSPL0/yu9rjpZNukGumbB1ZrIkziy2JtxdrYF871n3XM5yJPJxo6AwZ
+ECxwvmPt6QE9jwGhnuUK4dApotHFSC14GG3cuotymq5GKv+5tKpxGYvcbW5ukI3Y
+wEuWMtDErIr8X6Xstk4U8F8smKh4Tw3KjLTL6M4NKZO5hSReesnOe5dZipPjpA5j
+V5vlHp5uPs3a4sXBwXYVlWbM2ICK1g==
+=b4rM
+-----END PGP SIGNATURE-----
+
+--QlFvzjBH2dX8pMN1--
