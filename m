@@ -1,163 +1,157 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80431249FF
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 11:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D4E13BC2B;
+	Mon, 27 May 2024 11:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716808228; cv=none; b=NHFf9jT23VnQZfbb2+XxESkB5cjlCi2LCXDAzZo1xXcV7QcIvl7tfU/EfVlFrQk+xm673Eu9h7/PX/mE6ZcocdmmFRlsD8ncDnr4gmRUAkdlJydevpF99TlpUWE3YoEvwbMCn4gGFTYpBeejWjJ0pModfWr/SF5tsapbR+rqur4=
+	t=1716808841; cv=none; b=WdnazdJZ21qWiNeQtgh+/YM7ZHv4ZnY1+HlIJkRofBt8kypKGfw26iyRq63LJDqb3r8AaN6143NiPv1ldJF5lbRGszEN6kmzBXg+HEqJf2ELNrl48pQsW6PxZUzYlOZbOGcY8TKUl9mJUq3A7hYyTA0QfHIH4KtHIWo3EBFBRWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716808228; c=relaxed/simple;
-	bh=wtpeaW55fV0OLlpEZiF9PDVIefmmwDlwziBwOGCYm/w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j03YmOqz4gWJbUS/QRuu9fKgyOxYkx9Tj+Wg12odLFWB0W9RQEE1rqC7hDW8BzPeJEcOZGDQAQB5LkdU1+WngimgZdz02mRx/yler1m3xewevSP3SZOgJyCSyLoUV6zpjJO0h9mnpJZCJiKzqFVbb+eCG8uLN/ShTLk5MkK3bDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zxl//wC0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UmvTve5Z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zxl//wC0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UmvTve5Z; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1716808841; c=relaxed/simple;
+	bh=x3PCC0y6uaaeDTE8kkDcP+KwrqIGNwLnAeqUptXq5tk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RlGoxlbngcMDXjVPm+jUlzcfjmxXR0cM6Y2cMAUgK6fD8Wn5+aIP2Yg0KTq0Ww2r+9wCHnER/H2p+aSVvEy6Q74ogOMJjfLNi66RYICF3/SQ+ayjEmoMcDuw4oLB1bmZelKorJFAhDdwraJUk/KuPP6U0CQRYpnDvK7yvwIxU3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=niLM22zF; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zxl//wC0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UmvTve5Z";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zxl//wC0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UmvTve5Z"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7611D1FD6D;
-	Mon, 27 May 2024 11:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716808225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D8JMVQLtuMAcXmvHa5OsCuhX/Qmw5MGQXTxfSpDGCPk=;
-	b=zxl//wC0uPKpInZFmiAremqJiFI2rO9ONRArn1QHTsC9Wy7nbQGMpiS9y1OFxOp4HzM+22
-	Vy9DSBwzy2dC3+kJ9uHU1hG6qdNzY40THDRzNLMD5sgZ0baqhe2OBIndfPBl9r05XKbUId
-	3r8sPywrxI1mxfGvrATci4fpcWpBBZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716808225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D8JMVQLtuMAcXmvHa5OsCuhX/Qmw5MGQXTxfSpDGCPk=;
-	b=UmvTve5ZUb/d5MTVZVFwztWK8gKFLpeY52spoWOfRRW8HZep2s0MTSD291R7f+mmY4xT9G
-	KDmxb1x6xXFV0MDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="zxl//wC0";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UmvTve5Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716808225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D8JMVQLtuMAcXmvHa5OsCuhX/Qmw5MGQXTxfSpDGCPk=;
-	b=zxl//wC0uPKpInZFmiAremqJiFI2rO9ONRArn1QHTsC9Wy7nbQGMpiS9y1OFxOp4HzM+22
-	Vy9DSBwzy2dC3+kJ9uHU1hG6qdNzY40THDRzNLMD5sgZ0baqhe2OBIndfPBl9r05XKbUId
-	3r8sPywrxI1mxfGvrATci4fpcWpBBZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716808225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D8JMVQLtuMAcXmvHa5OsCuhX/Qmw5MGQXTxfSpDGCPk=;
-	b=UmvTve5ZUb/d5MTVZVFwztWK8gKFLpeY52spoWOfRRW8HZep2s0MTSD291R7f+mmY4xT9G
-	KDmxb1x6xXFV0MDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A5A513A6B;
-	Mon, 27 May 2024 11:10:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xhoCCSFqVGZwZgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 May 2024 11:10:25 +0000
-Date: Mon, 27 May 2024 13:10:46 +0200
-Message-ID: <87ed9na4sp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [RFC PATCH] ALSA: compress_offload: introduce passthrough operation mode
-In-Reply-To: <e5300791-e702-4868-a442-94162f2e1a97@linux.intel.com>
-References: <20240527071133.223066-1-perex@perex.cz>
-	<e5300791-e702-4868-a442-94162f2e1a97@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="niLM22zF"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44RB5gDB010181;
+	Mon, 27 May 2024 11:20:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=/1ZklVoOrwSkd4lzSC4Lbu
+	JU2W9DLkXEvjmiVexwaWA=; b=niLM22zFp8Oj13S/66UYFITWTVfq/Gy693KsJH
+	8+TC+ijVNoeuw+Exh6CdBsL+c/v5RP2iefx5cZqJQtS+DuvngTGlAgOY4JaBoJed
+	vjh8p9U97lxfooPBx15zEEYvHM+hE48072NwdPHI3Pt7QkbkGXa4xK89p9ARLOqY
+	wNkbmzMe1z51GX+8zXwihRrG9pGT3M2CI73eXGcmIWrdFHSnCn/btNV6QXDGYlMi
+	lkTC04W0YCr39LiurqEAbKwGmUawxhj/LTXISHBgHNeGjfxKABVcr1Lcz6imd9UA
+	MHFEPw3ptq4c1T2nkiTw+DOh+hS+ANX3Qnv90tZKZ1szhIXQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0pkjp3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 11:20:17 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44RBKGX5030159
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 11:20:16 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 27 May 2024 04:20:11 -0700
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Banajit Goswami
+	<bgoswami@quicinc.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
+        <quic_pkumpatl@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [RESEND v5 0/7] ASoC: codecs: wcd937x: add wcd937x audio codec support
+Date: Mon, 27 May 2024 16:49:49 +0530
+Message-ID: <20240527111956.444425-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.56 / 50.00];
-	BAYES_HAM(-2.55)[97.98%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7611D1FD6D
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.56
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fc-T6zG3bIrWgESAa0gINxkXbYu-Hsz3
+X-Proofpoint-GUID: fc-T6zG3bIrWgESAa0gINxkXbYu-Hsz3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-27_01,2024-05-24_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=558 bulkscore=3
+ suspectscore=0 clxscore=1015 lowpriorityscore=3 priorityscore=1501
+ mlxscore=0 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405270093
 
-On Mon, 27 May 2024 12:13:30 +0200,
-Amadeusz S³awiñski wrote:
-> 
-> > +static int snd_compr_task_status(struct snd_compr_stream *stream,
-> > +					struct snd_compr_task_status *status)
-> > +{
-> > +	struct snd_compr_task_runtime *task;
-> > +
-> > +	task = snd_compr_find_task(stream, status->seqno);
-> > +	if (task == NULL)
-> > +		return -EINVAL;
-> > +	status->output_size = task->output_size;
-> > +	status->active = task->active ? 1 : 0;
-> > +	status->finished = task->finished ? 1 : 0;
-> 
-> Not sure, but access to ->active and ->finished, feels to me like
-> something that may require locking.
+This patchset adds support for Qualcomm WCD9370/WCD9375 codec.
 
-Or better to make it a single state field?
+Qualcomm WCD9370/WCD9375 Codec is a standalone Hi-Fi audio codec IC
+connected over SoundWire. This device has two SoundWire devices, RX and
+TX respectively supporting 3 x ADCs, ClassH, Ear, Aux PA, 2xHPH,
+6 DMICs and MBHC.
+
+For codec driver to be functional it would need both tx and rx Soundwire devices
+to be up and this is taken care by using device component framework and device-links
+are used to ensure proper pm dependencies. Ex tx does not enter suspend
+before rx or codec is suspended.
+
+This patchset along with other SoundWire patches on the list
+have been tested on QCM6490 IDP device.
+
+Changes since v4:
+ - Removed volatile/read-only registers from defaults list
+ - Added wcd939x_volatile_register() with only volatile registers
+ - Added a wcd939x_readable_register() with read-only and read-write registers, so cache does it's job
+ - Fixed Spurious events for mixer controls and validated with mixer selftest tool
+ - Used TLV instead of enum for ear_pa_gain mixer control
+ - Used enum constraints instead of OneOf in dt-binding patch
+ - Added vdd-px supply property as non optional in dt-binding patch
+ - Reworked and done driver cleanup
+ 
+Changes since v3:
+ - Fixed dt binding check errors.
+ - Added constraints on values in v4-0001 binding patch as suggested by Krzysztof
+ - Change the patch sequence soundwire driver first then codec driver
+ - Added missing .remove soundwire driver function
+ - Reworked and done driver cleanup
+
+Changes since v2:
+ - Used common qcom,wcd93xx-common.yaml. removed duplicate properties.
+ - Merged bindings patches "v2-0001" and "v2-0003" in single patch for easy review.
+ - Fixed dt binding check errors.
+ - Added missing "qcom,wcd9375-codec" in v3-0001 dt binding patch.
+ - Added constraints on values in v3-0001 binding patch as suggested by Krzysztof
+ - Fix the typo mistake in v2 cover letter
+ 
+Changes since v1:
+ - Split the patch per driver for easier review as suggested by Krzysztof
+ - Used devm_gpiod_get api to get reset gpio as suggested by Krzysztof
+
+Prasad Kumpatla (7):
+  ASoC: dt-bindings: document wcd937x Audio Codec
+  ASoC: codecs: wcd937x-sdw: add SoundWire driver
+  ASoC: codecs: wcd937x: add wcd937x codec driver
+  ASoC: codecs: wcd937x: add basic controls
+  ASoC: codecs: wcd937x: add playback dapm widgets
+  ASoC: codecs: wcd937x: add capture dapm widgets
+  ASoC: codecs: wcd937x: add audio routing and Kconfig
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      |   91 +
+ .../bindings/sound/qcom,wcd937x.yaml          |   82 +
+ sound/soc/codecs/Kconfig                      |   20 +
+ sound/soc/codecs/Makefile                     |    7 +
+ sound/soc/codecs/wcd937x-sdw.c                | 1139 +++++++
+ sound/soc/codecs/wcd937x.c                    | 3029 +++++++++++++++++
+ sound/soc/codecs/wcd937x.h                    |  653 ++++
+ 7 files changed, 5021 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+ create mode 100644 sound/soc/codecs/wcd937x-sdw.c
+ create mode 100644 sound/soc/codecs/wcd937x.c
+ create mode 100644 sound/soc/codecs/wcd937x.h
 
 
-thanks,
+base-commit: 3689b0ef08b70e4e03b82ebd37730a03a672853a
+-- 
+2.25.1
 
-Takashi
