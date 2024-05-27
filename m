@@ -1,51 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9BE155CB0;
-	Mon, 27 May 2024 15:57:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9EB15F30B;
+	Mon, 27 May 2024 15:57:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825449; cv=none; b=qlodP+uYZaZgHkZZqyzhsUZ1Az6v0dlbZZQAUTrEFBvWrwpnklyFDlb6DVgAcKKzpvSwzlUhbLrg4F8UYebIyXQIcycPU5IZ4fuQADDWTAri3PcGG5BkGnUxvupDxXraFI0jXUEPKriJ/ozlUY/PA7TN9jA38JXNphQbbnA7agE=
+	t=1716825458; cv=none; b=XVEQX5XsK7I8uTFoTv5Nl/mlzDrDfDTzxpg92TYXe8kg6jLtWH2B+TLmqREQ1t2phf+206gMozatkMfZxoVfWA/IPNTB8nRDBCIZXXKyjPj9/nVYUvLQPcA/FfjYHTNsQOLyXMInZJRkc8wWKV7rHwqt/zpPRRHI9Qvdfu5a5uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825449; c=relaxed/simple;
-	bh=XMDDtD9CY5O1r9b/PQHfX3zF0XI8LAMXOvvPTvkTzoI=;
+	s=arc-20240116; t=1716825458; c=relaxed/simple;
+	bh=4oVg1/Nu8RNb/3cMAUNF5l/nUCMGVH9Ix6xpXCVryVc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tjAiVxFHpSjbjR4OhibiRPSji2pqA67f/Mmoju2N4I7Gs/npC6DE0Tq5cuZJbvxae0ph2P2zrwQXI6WOeql1ojHBdpBs4ZZV76xgv9k7CrzNhwYvtqGF4CZehvdyj96Rf6u8qd5Y+LTh13fDaHzRsMM/3YOaRxxAZhLSn3eG/hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NJ9AR18Z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=OX6IsNWsoqVcO8qY5FALzOlHywNAYnYKVkbmOj3iOTd+v+WliTdwczlYLFniKbxqJK0WJkQU3brU2/Pij+op8q4y0W171TohiWk0Ikn847yME38FJzC1LhsPF/HnNhOOYtNTkDuXezlH3aiTZfEiAjsZCoLFrPaRoOAfMDC3n8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tF94oen7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJ9AR18Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D84A4C2BBFC;
-	Mon, 27 May 2024 15:57:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tF94oen7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97A2C32781;
+	Mon, 27 May 2024 15:57:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825449;
-	bh=XMDDtD9CY5O1r9b/PQHfX3zF0XI8LAMXOvvPTvkTzoI=;
+	s=k20201202; t=1716825457;
+	bh=4oVg1/Nu8RNb/3cMAUNF5l/nUCMGVH9Ix6xpXCVryVc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NJ9AR18Z9Nxv9j+KP3BCTPAV3y1yOuAQ7ENb6e7K2Ye0wyAdbNCoSMZsJ3YJif3JB
-	 SGU5TP8w7YUY2XxTTIYd1bJVqz2ikS+XXyMGssKw/8OuUlf5GTCkOtYvOZxjfceEv6
-	 w+O1sTzdp7Z5ApizjD7y6Af57mFL3DNNKmiGFxEDlnujbfTcHEDX61lLV8ypYpXJef
-	 tsBChYgA1d+xSFM0Vv0WN2roZ8zB2tV47/ZqAwfHIekdrWyNZs8V+JWtx0RjCPCqPt
-	 ORY0qq3pMcQGSOiS2wC7MShUwQ/w8ywMFuQei65mPR8xqesuSJ1ZeYjk/fzk/NYXTY
-	 8rXMOpTz6XRQQ==
+	b=tF94oen73MIwzk5v3TebDOjc/bb6kd8vA7CCPunmSrTSgp4U5pV4Du0FtF4AENj0w
+	 JERPvgp28vrMEX65aZMwDZR1U4vZiX0fb9/7lUl/XEoAwHp5qUEBJMeh1p0kC+gt+R
+	 nTTI5GI1uiENDbV7t10AmU7evbFuyWkdoledvNi3Jf/V3PybvIl8SrpCBNVUwJrJ5y
+	 0+pbQFOsSbqHjk6DPbBhQCfGI4zViI9ULg39gcvdxevmFhwY1SMBav7cGWH6TUUK1v
+	 oXFsDoiEUkGaFInd+PiADK+mwMa7BTQgFKaMeRyNGVX+2nzm9Ba82mPaoSBZr7n75t
+	 Tg23GWJfBUxEw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 03/11] ASoC: Intel: sof_sdw: add JD2 quirk for HP Omen 14
-Date: Mon, 27 May 2024 11:56:40 -0400
-Message-ID: <20240527155710.3865826-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 06/11] ALSA: hda/realtek: Add quirks for Lenovo 13X
+Date: Mon, 27 May 2024 11:56:43 -0400
+Message-ID: <20240527155710.3865826-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155710.3865826-1-sashal@kernel.org>
 References: <20240527155710.3865826-1-sashal@kernel.org>
@@ -60,40 +58,35 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.92
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
 
-[ Upstream commit 4fee07fbf47d2a5f1065d985459e5ce7bf7969f0 ]
+[ Upstream commit 25f46354dca912c84f1f79468fd636a94b8d287a ]
 
-The default JD1 does not seem to work, use JD2 instead.
+Add laptop using CS35L41 HDA.
+This laptop does not have _DSD, so require entries in property
+configuration table for cs35l41_hda driver.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://lore.kernel.org/r/20240411220347.131267-4-pierre-louis.bossart@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Message-ID: <20240423162303.638211-3-sbinding@opensource.cirrus.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/pci/hda/patch_realtek.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index d1e6e4208c376..d03de37e3578c 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -413,6 +413,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 					SOF_BT_OFFLOAD_SSP(1) |
- 					SOF_SSP_BT_OFFLOAD_PRESENT),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "OMEN Transcend Gaming Laptop"),
-+		},
-+		.driver_data = (void *)(RT711_JD2),
-+	},
-+
- 	/* LunarLake devices */
- 	{
- 		.callback = sof_sdw_quirk_cb,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index f0b939862a2a6..37b92f2bb2075 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10076,6 +10076,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3852, "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
++	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
 -- 
 2.43.0
 
