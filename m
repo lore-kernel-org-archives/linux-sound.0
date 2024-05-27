@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C711607B7
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E1E15FA9F
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:36:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716838575; cv=none; b=Hhvgjic5L1XziRuVtlAn542EH05VeyQ/Htu+PZrNboKP0iGzWviBLbO/KqxIBVgPAS/sR9InbbdxcFFJr0UPohjSvocTebBCENytIocKWTR/odyfRuUaZKP01C7nhMrValvc4v3EqNXAEqU/emIQdFEg7dBJW9SoqP9EhCGoZBU=
+	t=1716838576; cv=none; b=AHhHEyAgdea5IsPC+TCSFWPjtm5FWEMUJWaAly2mR4akoojtiDDGkn5GIAFs7GynZlIaGwLLGbfg//9ESP5W8XjGntVcCevJW9OZIqbzfwCpWpMRGbrxB2V/XBAw5zJztI7KC/FhbtkA77N2aF9ehUO2rNvjuLa+7jHtjd8dCqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716838575; c=relaxed/simple;
-	bh=YUZRQX2mKZ5gfIkh+Vr07Pz1IYqZFFFZgqwYlxYqv4I=;
+	s=arc-20240116; t=1716838576; c=relaxed/simple;
+	bh=Axobvno4BTD+B4nQOHHdbjjD+fECyO9OmJP/teh7esw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gxDJzvx55IxIJIxLpQCcvfvKbfW3PJ6rEnotdz4IZO9p/+SDodmFIHOa+UVggJ1jtmTehzIv9M/wzFYsvzK0wsggQueyDqs5f2Qe9dJs/0RXb1C408YNATlrIC+USd4ojYDTIZCs6Vzf9fxxoLfwCNHOs4YjT6qFDzhBtAbmuGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IjtpGtdN; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version:Content-Type; b=hHPZoe2RcxV+ZdP4kPZWXPVa3cIOIEURicqj+PBaNsgo2i9XjhUPOUYNbvjufTf3Gt6SH8eTkUgEv3QHFo6sDogqZuGts/i7hj79zdyfCVWzCxPlWAbBR4Hp4pbZguceILjIYx74S85e6vlRpkdCxHKc1/95rcmkszXAXQ6p8o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZ9kBMIY; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjtpGtdN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZ9kBMIY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716838574; x=1748374574;
+  t=1716838575; x=1748374575;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YUZRQX2mKZ5gfIkh+Vr07Pz1IYqZFFFZgqwYlxYqv4I=;
-  b=IjtpGtdN1ibATbb8gcLp/eaQ76t2KRnDumc4MZJWloCeSshKN4TZVYhC
-   QElJC16bxkICb4tHBczSciCQpJfF5h28CvAZM1x8kMDbbTtmXILRj1/DI
-   F4vMRedVs7SP1vZLIpLu9zKxvDPtFadwz/BgoR17pClvmIY4Ry2k3i+xY
-   qFuyJ3wHgLSnDw9LT2UIE1X/I0OlIBl9BVwY8HGy4AnTSVc8fSx7IzbWB
-   FvHhONFEz1jYFlvrNYg1iW/CcIsSObLPHvmmby8WtDCSv2kT+XXQ6XXLb
-   Cg6otmDDN4aX9prM0MsPWlYGIycqPYBX4XEaw3/k+dhuB5PSjeyhFR/EY
-   w==;
-X-CSE-ConnectionGUID: QG1KCO9fT6mnzQQ68CTc+Q==
-X-CSE-MsgGUID: cTTOar4kTxyDEsI5ueOJ2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13339337"
+  bh=Axobvno4BTD+B4nQOHHdbjjD+fECyO9OmJP/teh7esw=;
+  b=MZ9kBMIYGU3i2SHEChRRT3TNsw5PNZdneaD+aN8/K6dk0N3HfPDBLPnL
+   cyu3EuzHF8/wQEFSk2G9u4Lq+NVUjChN2ijPl6OftTKh+Zr22bvWWSzIw
+   b7iQLMGB1ZL3Rojc7cH0Gx21UfbyAlnNzuWF3Yu7+ctViX0ZB9W0lPt+G
+   uWgNYLf+GNgO5tJbLvIQcJwVHFf5B6HyL57G0LI48C9636Gty+MC0zIJV
+   YLp3+pPnonO5RtkNu49jHJNNYPueXjRkowZxF24hW+4Ut3QJkiZH+C7VX
+   clPNYWo0ZfOBidyRx4CA/uaLlpgMGttKgqR8t3N3NoJP0m5r6hYkphzuZ
+   Q==;
+X-CSE-ConnectionGUID: QurAw+mpSvmWq6HA6V1LnQ==
+X-CSE-MsgGUID: wmQZrXoVSWS1XTzRQVSNcA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13339342"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13339337"
+   d="scan'208";a="13339342"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:13 -0700
-X-CSE-ConnectionGUID: KixdqEyuTE+4jttLsMiIPA==
-X-CSE-MsgGUID: dfQbgSOwRL+qeAcre3UfFw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:14 -0700
+X-CSE-ConnectionGUID: Xi4Y4G8QQb29T7kYrDfaUw==
+X-CSE-MsgGUID: mfMnBCuJS0SH6BcIovSiYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="58029762"
+   d="scan'208";a="58029763"
 Received: from unknown (HELO pbossart-mobl6.lan) ([10.125.110.221])
   by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:13 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 06/18] ASoC: Intel: sof_sdw_rt_sdca_jack_common: use dai parameter
-Date: Mon, 27 May 2024 14:35:40 -0500
-Message-ID: <20240527193552.165567-7-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 07/18] ASoC: Intel: sof_sdw: remove get_codec_dai_by_name
+Date: Mon, 27 May 2024 14:35:41 -0500
+Message-ID: <20240527193552.165567-8-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527193552.165567-1-pierre-louis.bossart@linux.intel.com>
 References: <20240527193552.165567-1-pierre-louis.bossart@linux.intel.com>
@@ -68,50 +68,60 @@ Content-Transfer-Encoding: 8bit
 
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-The dai is passed from the parameter. We don't need to find the dai
-by name.
+get_codec_dai_by_name() is not used anymore. Remove it.
 
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c        | 18 ------------------
+ sound/soc/intel/boards/sof_sdw_common.h |  4 ----
+ 2 files changed, 22 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-index 012195c50519..4254e30ee4c3 100644
---- a/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-+++ b/sound/soc/intel/boards/sof_sdw_rt_sdca_jack_common.c
-@@ -74,10 +74,6 @@ static struct snd_soc_jack_pin rt_sdca_jack_pins[] = {
- 	},
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index e41b0d95e0ff..9dc50a6d5301 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -559,24 +559,6 @@ static const struct snd_kcontrol_new rt700_controls[] = {
+ 	SOC_DAPM_PIN_SWITCH("Speaker"),
  };
  
--static const char * const jack_codecs[] = {
--	"rt711", "rt712", "rt713", "rt722"
--};
+-struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
+-					  const char * const dai_name[],
+-					  int num_dais)
+-{
+-	struct snd_soc_dai *dai;
+-	int index;
+-	int i;
 -
- /*
-  * The sdca suffix is required for rt711 since there are two generations of the same chip.
-  * RT713 is an SDCA device but the sdca suffix is required for backwards-compatibility with
-@@ -91,17 +87,12 @@ int rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *d
+-	for (index = 0; index < num_dais; index++)
+-		for_each_rtd_codec_dais(rtd, i, dai)
+-			if (strstr(dai->name, dai_name[index])) {
+-				dev_dbg(rtd->card->dev, "get dai %s\n", dai->name);
+-				return dai;
+-			}
+-
+-	return NULL;
+-}
+-
+ /* these wrappers are only needed to avoid typecast compilation errors */
+ int sdw_startup(struct snd_pcm_substream *substream)
  {
- 	struct snd_soc_card *card = rtd->card;
- 	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
--	struct snd_soc_dai *codec_dai;
- 	struct snd_soc_component *component;
- 	struct snd_soc_jack *jack;
- 	int ret;
- 	int i;
+diff --git a/sound/soc/intel/boards/sof_sdw_common.h b/sound/soc/intel/boards/sof_sdw_common.h
+index 3dfba6f6b95d..4e92ff65b537 100644
+--- a/sound/soc/intel/boards/sof_sdw_common.h
++++ b/sound/soc/intel/boards/sof_sdw_common.h
+@@ -134,10 +134,6 @@ struct mc_private {
  
--	codec_dai = get_codec_dai_by_name(rtd, jack_codecs, ARRAY_SIZE(jack_codecs));
--	if (!codec_dai)
--		return -EINVAL;
+ extern unsigned long sof_sdw_quirk;
+ 
+-struct snd_soc_dai *get_codec_dai_by_name(struct snd_soc_pcm_runtime *rtd,
+-					  const char * const dai_name[],
+-					  int num_dais);
 -
--	component = codec_dai->component;
-+	component = dai->component;
- 	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
- 					  "%s hs:%s",
- 					  card->components, component->name_prefix);
+ int sdw_startup(struct snd_pcm_substream *substream);
+ int sdw_prepare(struct snd_pcm_substream *substream);
+ int sdw_trigger(struct snd_pcm_substream *substream, int cmd);
 -- 
 2.43.0
 
