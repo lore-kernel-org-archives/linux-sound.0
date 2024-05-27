@@ -1,243 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50A313AA31;
-	Mon, 27 May 2024 11:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716810793; cv=fail; b=TPN2fd6TVZ9fB8bKp4Vgw0SccLiLDfYMa7iWo/EQ2YP6mw956TtLTP3Ir+LxF1yoHY4uWLo2OcfhfNwTfPh+BG7HHtly3jwu1xIa2zhBxKJYY7MPfmd6sQfSe9YylV1ugOuewgzsDcQNmlbT24O3xOoSj8JXPDekoXi9Ct7DP40=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716810793; c=relaxed/simple;
-	bh=/JR7+Bx7jnsTLYeBfg6vaHNLxWn2Pl8OKwugs7wK7o0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZHWF4+bzpyz2cKYihNxje5ZxhQrcc0HVZio2jpwPPt/tS0Zz8CYgIH+jZjxJzCZvCh3BI+Uei1NHF19eOHf7uscEcwZK86M8ggTehonxbeLwS58hM85EsoLcYJ3I1lJj0KkKSl7aGClUg/W+9KxLeL9YndkeQon/d0tQ81t4ed4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdQf5QqL; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB8515DBD8
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 12:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716812466; cv=none; b=Aro18eDTo2JDtYF6KIJEvP8JOaH7vQfZIMTF+48c9F6IWvXN9Ay/ZejX7LFqyVrWxopeUZy0yXQYUjUiWpNVqC52utYY810pPh3B5Dux4qTLhX054b5R4YRY3nubFvBg/mPumr97qCQ5b1cyM6qBEeL37pT93gXOttf77Kr+ag8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716812466; c=relaxed/simple;
+	bh=DGdZksjTVp/liQYPYk++7GpAosy2ZTwN5psFbdYPY7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k/mC73qy6mROK1lxMskqVQgk9DvPTy9XDGylUMqxr3awNi1fo6MbS6xHe1w7s2RMCWF47Jmt+Rv8Y6YoeSgHyhjWTIcNeDISNBRKQccrOJyH80fLBiwy/Iokee7I/F06s3F09nXm2joVzjqZ3wZp5Bj2noQeZerje7AuaOTg5LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=KeOr4lAK; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdQf5QqL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716810791; x=1748346791;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/JR7+Bx7jnsTLYeBfg6vaHNLxWn2Pl8OKwugs7wK7o0=;
-  b=WdQf5QqL2gEg2juzl3CY63jm9Q/kjqs27s38iQUOBn2hivWKPsJxEBLv
-   0Z21FVLfZqPzvtjk0AugOiPrc1G0m5yj7Oblmo+VeBuTqeVhXGko4xydj
-   sEtZWq5/wwf6G7gzdE1PHWE3B/IE1kb8cUZWz1DW3y1a7Zjk+w478cONE
-   pbrsomumbN3xPj1hQHLc+usxKxKELlDoePTIOkZGVbSWI+qfcrC7HE6yf
-   Vwj8fhfMSu0vrVAMUv9o6AT60xqW31/K+7o0Ye9xxj6jyyPlRSYCdT4QA
-   jRTAreW0P6Zf5KeEcVRabZXL61iM38NgLiwvbIwXt0qCgRPTu9FdG6Xfu
-   g==;
-X-CSE-ConnectionGUID: GTEzVP4qRMukpikpcaexrA==
-X-CSE-MsgGUID: ERecs7btQsiDVq/XNnXkOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="23790148"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="23790148"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 04:53:10 -0700
-X-CSE-ConnectionGUID: X4MbWd6FQfy5Txs1QwZk4w==
-X-CSE-MsgGUID: PRFFZEkeTsiKEFVtxrzpoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="35236403"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 May 2024 04:53:11 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 27 May 2024 04:53:10 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 27 May 2024 04:53:10 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 27 May 2024 04:53:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F9/2K0HFtRInlm01Yy0Xq1Nm7sWYIh/K6Spu+3AyaYbknQUDHvUwmFQELvCEU5D5RJP4AMBF0h/iBoog8tS5mgvko5nIZ+pfEeGxlvsAMF6TTFtkwpAGtc7wQVjNFCERNWwzeTNWcrQWTnCAur+8+kT71O3YvISFf/Dz6uMiwMobu8ppVsiLDk/C39KtcUMN/mBEwagDQz0TD6TOhHFC1m919R6dmsIJE33/5fKNDxZai8DpHRDqJtk3WtocAD++8SaBIl1JXIQP7tKXnsEBddphmpP4BoWre0APPDGr1RMM8nBQhf+ZgQBNC2aXpw24pnns+3V+YJOPuWrF7HTK/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oNKC5k4sCi+wFsctrTQC8s/HvJnTo90rbLdN6jUIqBw=;
- b=N4wm91GcJzz6rplTWZlGfoP+rh1NnyCCrBBeoSfSQFjS3yBFtP4T8+D3rDBu8Sdj95Fh6q53PRJanPSs/5ZfrHndD+Jd3ZtoB8EBKFJaKcB4C/0mPGWRXI6+WzhlX3UrUf/YJNCYc4qlDzsg9BMNIBbDsHLgWzUbhzwq633xZptVuM6u6H7EPV8KRgPaZMBD3nx+1xg+90QUB2u/qh6aSmEsjsZ/W9L7v2/tXeIQKFTV06gBDnrN97FZozqDWkXQJ+RqLBVtAFoRkIkwq1RXgkg/JdjTc3GX+7qkNpRZKZTq0rm3i6uS3fgwGdvOF9MrBkxVYUgd7HOcOdCbEScnLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com (2603:10b6:930:87::14)
- by DS0PR11MB6471.namprd11.prod.outlook.com (2603:10b6:8:c1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Mon, 27 May
- 2024 11:53:07 +0000
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::1fe:535e:7c0e:1d67]) by CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::1fe:535e:7c0e:1d67%3]) with mapi id 15.20.7587.035; Mon, 27 May 2024
- 11:53:07 +0000
-From: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: "tglx@linutronix.de" <tglx@linutronix.de>, "jstultz@google.com"
-	<jstultz@google.com>, "giometti@enneenne.com" <giometti@enneenne.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "Dong,
- Eddie" <eddie.dong@intel.com>, "Hall, Christopher S"
-	<christopher.s.hall@intel.com>, "Brandeburg, Jesse"
-	<jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
-	<mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Nguyen, Anthony
- L" <anthony.l.nguyen@intel.com>, "peter.hilber@opensynergy.com"
-	<peter.hilber@opensynergy.com>, "N, Pandith" <pandith.n@intel.com>, "Mohan,
- Subramanian" <subramanian.mohan@intel.com>, "T R, Thejesh Reddy"
-	<thejesh.reddy.t.r@intel.com>
-Subject: RE: [PATCH v8 12/12] ABI: pps: Add ABI documentation for Intel TIO
-Thread-Topic: [PATCH v8 12/12] ABI: pps: Add ABI documentation for Intel TIO
-Thread-Index: AQHapSHftciQrHJMUU6CnGvp27mHHbGVBWCAgBYIJWA=
-Date: Mon, 27 May 2024 11:53:07 +0000
-Message-ID: <CY8PR11MB7364A367739AA57107DBBE6AC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
-References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
- <20240513103813.5666-13-lakshmi.sowjanya.d@intel.com>
- <ZkH37Sc9LU4zmcGB@smile.fi.intel.com>
-In-Reply-To: <ZkH37Sc9LU4zmcGB@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7364:EE_|DS0PR11MB6471:EE_
-x-ms-office365-filtering-correlation-id: 2fef775e-9fa3-44de-c5dd-08dc7e439319
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|38070700009;
-x-microsoft-antispam-message-info: =?us-ascii?Q?QUdS4hDCtgBepvqr73DuVYW1Re8Mp0PHPW4BEWH+YQIex3woY3cj50/Efy7M?=
- =?us-ascii?Q?jtzmHmzVs66YAv83bcxbM2M5hep39qTvgy4Z6jXMwIsEuF9fhktDIPVcJE7U?=
- =?us-ascii?Q?kFtJmwAVngiHS3OVVrsvSZVQUq6KVuzEHSwueglzpVp/MMt3JzsIJffw5Cd3?=
- =?us-ascii?Q?7N6Fr+Bgp9iabcPobMQKsiC3GkLub/UKzyLQoLO6SY8WojdMLGjwnVMOa78r?=
- =?us-ascii?Q?ih5n8IbR85d7SDk6EF2XXWrVUyHRqgRLP4KPC6gfUmFI0bg7Bp6HYnrBhvGZ?=
- =?us-ascii?Q?qSWd+X//v+LLgxcgewq1igA+/KF9YGH3mGvRX6YlaPWsg5BDtwuN/4xExoQ9?=
- =?us-ascii?Q?4r9rATJBurwYrSGkC4C3m3NWeb4G/22xnFfcKIvONx+uiR+eRu+sthCI0XpR?=
- =?us-ascii?Q?bvAbgCsSafVW6DLWGsJnAHmHx9fvrFGsb5ddk+VUt746ZbHpkt8tbONMSpeW?=
- =?us-ascii?Q?KNqqKAl4W0neIP9nhyEeWIjSnkY8XGqHauWZLfRgCUKOLurCg0pR1YJdrJHB?=
- =?us-ascii?Q?tTUBRD00rNT8GymnHkIYU4lEgKn+cj6L/8RMyA6noAWiTENskMzCH5kc5/xi?=
- =?us-ascii?Q?hTgLWQA7pTPT4vyMmlj/yGTKFLHP0A31tDqRbg/r6VxSX5qSkxR/SvIQfJJD?=
- =?us-ascii?Q?dlClffhtVngdrZtZFDCPNq8XVIt2ouZtew02EZTnoAcuuBs5ieC0fppG6S0H?=
- =?us-ascii?Q?mEukDAa3SFl3THmRpq4nFEmYT3xIJTraeVmgp/Hzd6T6+JcBbw+vJ5l89rw2?=
- =?us-ascii?Q?ePcXbte2QuUecKP06nX4vzZFi1woueL2e7OiEL83xoNmRWPZesYub/kjtErZ?=
- =?us-ascii?Q?83POZ6qixwi3V0i8KjQBcVdpA/3os4Jywj8UZuCzzDEJN1Rrv4eVJE7xzx54?=
- =?us-ascii?Q?uzhCm7yasrAYNa8D4xoEvNzo8vnb9ABvTFowailpzDguFUlGmznwutw71qvG?=
- =?us-ascii?Q?iNSMuv8mEfYxmgqDf/tv9wyBK7zsRfPQsEIrsxnc3W8SC2IuOvQqQl7ZVGD2?=
- =?us-ascii?Q?GOCTKj4D8FSsgx3KzUbApsTi8H273nR1/0HkM7zbevpcJBMFYhckbZ/Ef80U?=
- =?us-ascii?Q?2Ps2MR3YrzX4MZ8hJ2OoMhkUlWnfzNPYEpVomGOQ6+d9QYW4W5Wo624uVjAu?=
- =?us-ascii?Q?xgChpfBQg6foheXiMqzYG9mOW9Aih6v6BnydaFpxL5LBo8ILuBvP1HwSg6ah?=
- =?us-ascii?Q?zj0juEzQKDPgtjpob/Hz2vy/hT2IAu7H2zBT9GQHh+kVqECmldQ9gFfB9wSY?=
- =?us-ascii?Q?BwTd2oAYel9nu7cNzc3nrHK/bseChH9M6eJQfQUSOWu561ZoJSXT5imKWe0Q?=
- =?us-ascii?Q?9NtmcsawUTw/qvysOv0sPrKVCyZ2TyDJjF8AE3/jlpRnEw=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7364.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?acPSxxeoM0ZrnCBeCOrxhRNvW90FmWTSc27iHNmhuvZc2Te/c0Aj47UhTsEJ?=
- =?us-ascii?Q?8taGkDjJWphiNWCWoTltXH8EhIk6JNiKOYgOQbQlOeoQVW1C0hv6aXclZvk4?=
- =?us-ascii?Q?g3cqmEuXzqo9GYyFvuRclmupO2+iGOXBM+58P9MPyZcMnXrPSkofNFmwJ0ZQ?=
- =?us-ascii?Q?o+X/1ayxh+rKdeaS9cSQSRgrApd3QyCExLIat+i/R01p3q9Qj86lQuW/BbLF?=
- =?us-ascii?Q?n5nW9PB/snVp0w2iCdihQ7xmguOQR5r84U5YNoJRZg3GRwRDQtkzM+OfkY58?=
- =?us-ascii?Q?XbVRfCIIufgHmsekZNo4/1p/Tb8Fl60BN4E2bgB7v5qOvomQm0IagwRQV7Wb?=
- =?us-ascii?Q?EgH3jWjRw6gR+soKW7IbJVilAe8RYGsFwfAVCSvm4LFrSJ1iINS+MBzz4yfn?=
- =?us-ascii?Q?RqZteeeLfcTm+ZXZhPubsfUoIu9U5iUGpEtoYNpqAowXaAxJFKFXAOwm06Dv?=
- =?us-ascii?Q?d1Yw9ffmNnMhJAeZ3GW9OKRcleMxHOIAc4ZuVEQTEIFc3gtW1sfeTPPcXnMj?=
- =?us-ascii?Q?i+lqySzJfH0v93t0jf/Vt5j6OF6Lv+R+yp/U/rTeyC2Uw5pxpZL9dAqlbik3?=
- =?us-ascii?Q?9+vgIGwRSpQgdHV2qF+N92pPttYP96X8NMYA7tIw8TeFQpuDau/RBkH1T7Sx?=
- =?us-ascii?Q?wrpMibsMSTezT2Ied5ajERlyAe0FNDlae7y7oVU6zr0SG1eFXwiRzoeSaCDy?=
- =?us-ascii?Q?EgjM1qSWa42dzcQt2ylD2T7JCSgX+udRLZfMarq46X1Sj2Du68l88vqT+qJS?=
- =?us-ascii?Q?HIWLkFMl/6oNsk2ki8Bi8g0zY2ec4a+6kNykSndGfGTldxgVdB88fhblwAfq?=
- =?us-ascii?Q?XNWQng6gWP03Yg9f/qA13nta0DqFK+hHYEC35AiccEbWmxrMTWVOUzN+3i3v?=
- =?us-ascii?Q?W89KZdhWhN3ira9aENquliiCzcRRW4seT7B7cVQmcKpxn+AwZ8RdsiPo6eDP?=
- =?us-ascii?Q?RaNSqVs4GhLIFljJqUwOvjpQUXw1FOBeBBzVbXCuU+ZnIsuzx87LPY3TtjVj?=
- =?us-ascii?Q?0qEgZddfuprK1ndedHFBt/pfB+HDBP4x6EF9rg1+imFSYvqpilZ77ASsjykz?=
- =?us-ascii?Q?jbXw+8KtkGPgRCKtvG5a796L3aOyYqRXenyP9ZdUd8aH7x5PvQM8/7MdUizx?=
- =?us-ascii?Q?Cfo6sZvOXRB75/Jp2h4yN7VEiG5hS+lN1g8NmgzFMGlRuCKRCypnFX2ikncC?=
- =?us-ascii?Q?FNCJMmWX7dJP8CAemL2RR3ziD8TqyZx1jmUTkdoV5UkneHiRHX0vtAyyjzK5?=
- =?us-ascii?Q?15n+/qL61nikHJ/CvLk36xc5wr29/P2HNGmgsRtlGvW5WkgIbJcFJ8F42CKn?=
- =?us-ascii?Q?Is54YMPZ1VrXLmSDpfuFJ/cS23XyVBOQOYh0VHJQIUVSVZVf7NxVZc9wIxk0?=
- =?us-ascii?Q?JqA4pPyfbyaXPzrWU0EcXjfKIjYXm7KU/VMJIzhQ9j8BolKgI2MAZAJYggFf?=
- =?us-ascii?Q?9U1Pqt4wLUfiEE4ksKbtEdJtOaM8/fcog/XThutCRf7GJLWipGXdhy4jQmdf?=
- =?us-ascii?Q?qSyD4xvCc6WBQ7ui82uLn86J2a2NlRXtd7ufbCWRwthdkWVw9IjhI3NJaxvO?=
- =?us-ascii?Q?emkItLsGEbzolhqnhibQ3GpUaIIPWpTMPyR1i0eZq3C9PQ6MtDH+QcWssk6z?=
- =?us-ascii?Q?zQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="KeOr4lAK"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 4A48C4B9A;
+	Mon, 27 May 2024 14:20:57 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 4A48C4B9A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1716812457; bh=TGHkcplMCHXASyE5PCQaAIOAXNcW4R6D3fsyIieScr4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KeOr4lAKxNL0g/vYpVBRGE+2BPuvpCN6MyMHe7FwTeg6SwM5iMNmFndQiRrjj0K7Z
+	 uOwP6ajamUzT4FVrHnjSQxdnWoJqhQ51ngKjxyTVAefIbfRWWkHDlrwC+FtFIxF0uh
+	 +HSQjryg+/z/qSX5xAwjhdHf5NALkcIzmTEyulqM=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon, 27 May 2024 14:20:49 +0200 (CEST)
+Message-ID: <adba58a7-ef6b-466b-a933-b8b78ed5ba2c@perex.cz>
+Date: Mon, 27 May 2024 14:20:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7364.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fef775e-9fa3-44de-c5dd-08dc7e439319
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2024 11:53:07.5258
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xB3XCznU2JCsMMojnumYEDHCCo2uG7yd5cscuT0wfkFHZtwtUfljPLJsuvNr6MpyK66SFmI4FD0m1mYmJ13xfkIMR7sLCaEbrDkqMBU+gAM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6471
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] ALSA: compress_offload: introduce passthrough
+ operation mode
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Vinod Koul <vkoul@kernel.org>
+References: <20240527071133.223066-1-perex@perex.cz>
+ <87cyp7a46x.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87cyp7a46x.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 27. 05. 24 13:23, Takashi Iwai wrote:
+> On Mon, 27 May 2024 09:11:33 +0200,
+> Jaroslav Kysela wrote:
+>>
+>> There is a requirement to expose the audio hardware that accelerates various
+>> tasks for user space such as sample rate converters, compressed
+>> stream decoders, etc.
+>>
+>> This is description for the API extension for the compress ALSA API which
+>> is able to handle "tasks" that are not bound to real-time operations
+>> and allows for the serialization of operations.
+>>
+>> For details, refer to "compress-passthrough.rst" document.
+>>
+>> Note: This code is RFC (not tested, just to clearify the API requirements).
+>> My goal is to add a test (loopback) driver and add a support to tinycompress
+>> library in the next step.
+>>
+>> Cc: Mark Brown <broonie@kernel.org>
+>> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+>> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+>> Cc: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>> Cc: Vinod Koul <vkoul@kernel.org>
+>> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+>> ---
+> (snip)
+> 
+> Through a quick glance, the general idea looks simple enough and
+> straightforward.  If this satisfies the needs, we can go in this way.
+> 
+> A few subtle things:
+> 
+> - We might want to have a safe limit for the task creations.
+>    An evil user-space can fill up too easily.
 
+The limit was proposed in snd_compress_check_input() but not used later 
+(TASK_CREATE ioctl). I will send v2 shortly.
 
-> -----Original Message-----
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Sent: Monday, May 13, 2024 4:52 PM
-> To: D, Lakshmi Sowjanya <lakshmi.sowjanya.d@intel.com>
-> Cc: tglx@linutronix.de; jstultz@google.com; giometti@enneenne.com;
-> corbet@lwn.net; linux-kernel@vger.kernel.org; x86@kernel.org;
-> netdev@vger.kernel.org; linux-doc@vger.kernel.org; intel-wired-
-> lan@lists.osuosl.org; Dong, Eddie <eddie.dong@intel.com>; Hall, Christoph=
-er
-> S <christopher.s.hall@intel.com>; Brandeburg, Jesse
-> <jesse.brandeburg@intel.com>; davem@davemloft.net;
-> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
-> mcoquelin.stm32@gmail.com; perex@perex.cz; linux-
-> sound@vger.kernel.org; Nguyen, Anthony L <anthony.l.nguyen@intel.com>;
-> peter.hilber@opensynergy.com; N, Pandith <pandith.n@intel.com>; Mohan,
-> Subramanian <subramanian.mohan@intel.com>; T R, Thejesh Reddy
-> <thejesh.reddy.t.r@intel.com>
-> Subject: Re: [PATCH v8 12/12] ABI: pps: Add ABI documentation for Intel T=
-IO
->=20
-> On Mon, May 13, 2024 at 04:08:13PM +0530, lakshmi.sowjanya.d@intel.com
-> wrote:
-> > From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> >
-> > Document sysfs interface for Intel Timed I/O PPS driver.
->=20
-> ...
->=20
-> > +Date:		June 2024
->=20
-> Is this checked by phb?
->=20
-> "the v6.11 kernel predictions: merge window closes on Sunday, 2024-08-04
-> and  release on Sunday, 2024-09-29"
+> - The error checks of memdup_user() are missing.
+>    A caveat is that memdup_user() returns ERR_PTR() instead of NULL.
+>    So with the automatic cleanup, you'd need to fiddle with
+>    PTR_ERR(no_free_ptr(p)).
 
-I have taken from phb but my understanding is that any probable month befor=
-e merge window should be added.
-=20
-I want to know if it should be the month when the merge window closes? (i.e=
- in this case August)?
+Thanks.
 
->=20
-> > +KernelVersion:	6.11
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
->=20
+> - The use of __u64 is rather for uapi headers.  The kernel internals
+>    can be with straight u64.
 
-Regards,
-Lakshmi Sowjanya
+Yes, thanks.
+
+> - The task list add/removal might need some locks.  It looks racy.
+>    Also the task runtime returned from snd_compr_find_task() might be
+>    freed.  Need for some locking or refcounting?
+
+All task operations are covered using stream->driver->lock unless I overlooked 
+something.
+
+> - A linear lookup is OK from performance POV?  Maybe enough for small
+>    number of tasks.
+
+We can improve this later, but I would not expect too many queued tasks. I set 
+the limit to 64 for the first implementation.
+
+> - Better to have a protocol version check and accept the R/W mode only
+>    with the newer version.
+
+There is no R/W mode for passthrough direction. An error should be returned. 
+The direction is returned from the driver using SNDRV_COMPRESS_GET_CAPS and 
+also open mode must be O_RDWR so things seem to be separated enough.
+
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
