@@ -1,142 +1,114 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CE017E90F
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 15:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBACE17E8EC;
+	Mon, 27 May 2024 15:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716823123; cv=none; b=SDVTuiQ6jN2MKbqZssFT3Ptb8VFW1ojaUN2hAzBuMo7EJtH70Q2NYK0UPB/rgNFrztUMqDJqc104LLvKPzvBZJwgYtEltVgzeyIBNiYinW9T/fCH0gfnz3Lr684uMtS06Qqc8jtLc+Pei0j3qtkY+4xjeHxHJW6y6/7QvrPZ+jw=
+	t=1716825107; cv=none; b=ufbOOyvsQNeYYg0gLzo78nwtZ4ChNLCh+Jubf2F0Yq0qCujT41bU+vaPQMLRmp4YY5OwJuYTWU0m2gC5rDl0jo347qrDI9KNBEQM7cy0hGgIeAJO0w/NEQjMGc+CSI58APYSKJ7KsyznM6uKwjLaXIqrIftPxPLfPnuWxWRw2lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716823123; c=relaxed/simple;
-	bh=kNtbNHRpEjBThcLJCFmDLjBqNoZXVuUTcW9NDXn/Bns=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g/ZIxGXfoIW+jPFyDbsXPa93s44R4WrbmL4xJTPGVOi89ywkDmSmIBinBLphI4SF8BNlxppKn3+TQwYNkEtcUPoVkWmYTE2oBoIBd+dAG80yFEaA8LHpPbhDrdsGrWKfrNUmvQRhInN0/LmxCQ3MV0EtpKtV50KMLYiTdeH3TMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tjFard3L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nYtC7VDD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tjFard3L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nYtC7VDD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1716825107; c=relaxed/simple;
+	bh=mX5Apq4HueNKh2Lka3LyHKzCw9/ATmUlhhIHaGKdgUs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bawEdpXduF8ZhvwsKcBmuUHh+lx1oEeFlgX1mTnA9WAiQ6QXddyLXB8oxO8YizyrJ5FZpVG5kwbkwNM8Tlb2gAxsH6upMzzA8cwTlg8vrJh8mh7bW0JioG1b1IuEIVlWGb5qG5bJV4t+jeN8DbVqTFTdHkgJkuYgxHu93exCug4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zuol8982; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tjFard3L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nYtC7VDD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tjFard3L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nYtC7VDD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 697D81FDFB;
-	Mon, 27 May 2024 15:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716823119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2uLzNl/q27aN8GmiDX1jUv+biTtLzlPlZYSbsxwLSvE=;
-	b=tjFard3LCbqGYqM4cBXYPFjBx03OkFJSwJyxHOWnZTp/UPWTMKmATOtSp2+Q6NRbE2JGJT
-	lVoQUoBYFsiZJRkdNYjdEJNqecNKipOIT7ncLO5rejRL5A5HGm3w4iMLjEWmEhZw+W/rLj
-	5D8kGuqcXQnVXHzSemg77DxPkkYV0dk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716823119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2uLzNl/q27aN8GmiDX1jUv+biTtLzlPlZYSbsxwLSvE=;
-	b=nYtC7VDDXENYSM6nBRW5Pv/ixgoxaZGJLP1vDgKnvZdZKpuaLcPj389wgsoEO/rGh1pGOL
-	PYfOZybiDaLTmUCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716823119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2uLzNl/q27aN8GmiDX1jUv+biTtLzlPlZYSbsxwLSvE=;
-	b=tjFard3LCbqGYqM4cBXYPFjBx03OkFJSwJyxHOWnZTp/UPWTMKmATOtSp2+Q6NRbE2JGJT
-	lVoQUoBYFsiZJRkdNYjdEJNqecNKipOIT7ncLO5rejRL5A5HGm3w4iMLjEWmEhZw+W/rLj
-	5D8kGuqcXQnVXHzSemg77DxPkkYV0dk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716823119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2uLzNl/q27aN8GmiDX1jUv+biTtLzlPlZYSbsxwLSvE=;
-	b=nYtC7VDDXENYSM6nBRW5Pv/ixgoxaZGJLP1vDgKnvZdZKpuaLcPj389wgsoEO/rGh1pGOL
-	PYfOZybiDaLTmUCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F7B313A87;
-	Mon, 27 May 2024 15:18:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KJ+pEU+kVGZWPwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 May 2024 15:18:39 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: seq: Don't clear bank selection at event -> UMP MIDI2 conversion
-Date: Mon, 27 May 2024 17:18:50 +0200
-Message-ID: <20240527151852.29036-2-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zuol8982"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8486C32781;
+	Mon, 27 May 2024 15:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716825106;
+	bh=mX5Apq4HueNKh2Lka3LyHKzCw9/ATmUlhhIHaGKdgUs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Zuol8982ekg+5COYR6QoZYsZPIxTKDI4Ur9tyAd8PbKFNCBWGRPlNCUHb3kitTRZ/
+	 YP7I00HNLq+k/ZurEW1Oo5y9q1z9Wfwr+IzBbUQYacRHAieSf//7ywj7GqOWgDzfcs
+	 +i9Ms+glxo1efTnTz+/ABYfpIhdslXyrqVD1Xz9dCuceCAmBTb+oR5ZlexmCKINS3B
+	 fuak5PBEEZw9T8aQUbYZbEDm9EggSgOWdRPpdW9KmO7k7VuuWL8+YANg63oNYHjrrF
+	 Y1jeR7L9G0Lss5leF0yrXmZ2tW13Rqx0yerQ9Bbo+XlTm9Wf22pm5bxWYhCUbtwDuV
+	 dsY49MdVMnAaw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Brent Lu <brent.lu@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kuninori.morimoto.gx@renesas.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.9 03/23] ASoC: Intel: sof_cs42l42: rename BT offload quirk
+Date: Mon, 27 May 2024 11:50:04 -0400
+Message-ID: <20240527155123.3863983-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240527151852.29036-1-tiwai@suse.de>
-References: <20240527151852.29036-1-tiwai@suse.de>
+In-Reply-To: <20240527155123.3863983-1-sashal@kernel.org>
+References: <20240527155123.3863983-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.2
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
 
-The current code to convert from a legacy sequencer event to UMP MIDI2
-clears the bank selection at each time the program change is
-submitted.  This is confusing and may lead to incorrect bank values
-tranmitted to the destination in the end.
+From: Brent Lu <brent.lu@intel.com>
 
-Drop the line to clear the bank info and keep the provided values.
+[ Upstream commit 109896246a5311aa05692ecf38c0d71e1837fe23 ]
 
-Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Rename the quirk in preparation for future changes: common quriks will
+be defined and handled in board helper module.
+
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Brent Lu <brent.lu@intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://msgid.link/r/20240325221059.206042-7-pierre-louis.bossart@linux.intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/core/seq/seq_ump_convert.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/intel/boards/sof_cs42l42.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index c21be87f5da9..f5d22dd00842 100644
---- a/sound/core/seq/seq_ump_convert.c
-+++ b/sound/core/seq/seq_ump_convert.c
-@@ -892,7 +892,6 @@ static int pgm_ev_to_ump_midi2(const struct snd_seq_event *event,
- 		data->pg.bank_msb = cc->cc_bank_msb;
- 		data->pg.bank_lsb = cc->cc_bank_lsb;
- 		cc->bank_set = 0;
--		cc->cc_bank_msb = cc->cc_bank_lsb = 0;
- 	}
- 	return 1;
- }
+diff --git a/sound/soc/intel/boards/sof_cs42l42.c b/sound/soc/intel/boards/sof_cs42l42.c
+index 323b86c42ef95..330d596b2eb6d 100644
+--- a/sound/soc/intel/boards/sof_cs42l42.c
++++ b/sound/soc/intel/boards/sof_cs42l42.c
+@@ -34,7 +34,7 @@
+ #define SOF_CS42L42_NUM_HDMIDEV_MASK		(GENMASK(9, 7))
+ #define SOF_CS42L42_NUM_HDMIDEV(quirk)	\
+ 	(((quirk) << SOF_CS42L42_NUM_HDMIDEV_SHIFT) & SOF_CS42L42_NUM_HDMIDEV_MASK)
+-#define SOF_BT_OFFLOAD_PRESENT			BIT(25)
++#define SOF_CS42L42_BT_OFFLOAD_PRESENT		BIT(25)
+ #define SOF_CS42L42_SSP_BT_SHIFT		26
+ #define SOF_CS42L42_SSP_BT_MASK			(GENMASK(28, 26))
+ #define SOF_CS42L42_SSP_BT(quirk)	\
+@@ -268,7 +268,7 @@ static int sof_audio_probe(struct platform_device *pdev)
+ 
+ 	ctx->ssp_codec = sof_cs42l42_quirk & SOF_CS42L42_SSP_CODEC_MASK;
+ 
+-	if (sof_cs42l42_quirk & SOF_BT_OFFLOAD_PRESENT)
++	if (sof_cs42l42_quirk & SOF_CS42L42_BT_OFFLOAD_PRESENT)
+ 		ctx->bt_offload_present = true;
+ 
+ 	/* update dai_link */
+@@ -306,7 +306,7 @@ static const struct platform_device_id board_ids[] = {
+ 		.driver_data = (kernel_ulong_t)(SOF_CS42L42_SSP_CODEC(0) |
+ 				SOF_CS42L42_SSP_AMP(1) |
+ 				SOF_CS42L42_NUM_HDMIDEV(4) |
+-				SOF_BT_OFFLOAD_PRESENT |
++				SOF_CS42L42_BT_OFFLOAD_PRESENT |
+ 				SOF_CS42L42_SSP_BT(2)),
+ 	},
+ 	{ }
 -- 
 2.43.0
 
