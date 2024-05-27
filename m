@@ -1,51 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E961717E8E2;
-	Mon, 27 May 2024 15:52:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C7C16078C;
+	Mon, 27 May 2024 15:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825132; cv=none; b=M/CuggOCcbaSdUfkNc2itHWGijw4PwJnfIzpin3YvqoT83BJuqeFSpO4bEqnCKy4fajqtvTSCYMv2tfN01hZg8fQFLsOZ9U7lLZ1WoNXrzjYf7Sg7D+hOtHF6fLCz2HAvNOTvOFFFw2v27CMxldvVVcys58AjfganZ+figd2Ck4=
+	t=1716825144; cv=none; b=K5OYpyiJlCriHjtwKYaobCuEgBpk45uc5sE5HyOuCCwee7BkAgWQRW3mQj9OrmrghzJ8ILqrEyUQKGEC1ZeLQ1+bBCJz6g9hjA6Xl/PNNwZTWMEN9YSccusehhn13m+0ogHhfiqK5Irjo7scX+0pG3ovZO7J12TttiiFlkXBBaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825132; c=relaxed/simple;
-	bh=Wls7pWzHp29cJlP1fBzxbPRrtJUxPMYNrWPeMV/p5hM=;
+	s=arc-20240116; t=1716825144; c=relaxed/simple;
+	bh=Uw/jG0+a9tEHJL9dTJcMFEL3Q4gIgVpYsUkUrZO5OCE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZWv9qqdSnoQtTGOvrMWIqSV/BHF0HiKZ7v7AJoTEkggGSdPzDxHfEgrovFKRhYNkxDTG06OYm6SqBUQgRkdcgX9i5g9UTD87e3fLU8Royb0nolCLm9EF9tXcYu+b3Oc/qAtj5NMBFPXle8YLU8hNW7F25IzinE84t1fdfIDeFGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENJ1YXr1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=tpN41i87u1Kqau/5oQwZ93+4H+sLql1xTvdKe/88TBDYVzaw3UJ2SBKdNq1QGnWpeFHGQx+g/QrJThYj6AAUr9pokQ322Pr/PgKuTtn+vUSSLYhN+5b1i+EtsKIT0AHUBZPi488AyEPEMbvfgXfbit+v5XO1NoOE31L42PS+Z5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tOA9a2bH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENJ1YXr1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12409C32781;
-	Mon, 27 May 2024 15:52:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tOA9a2bH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DFDC32781;
+	Mon, 27 May 2024 15:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825131;
-	bh=Wls7pWzHp29cJlP1fBzxbPRrtJUxPMYNrWPeMV/p5hM=;
+	s=k20201202; t=1716825144;
+	bh=Uw/jG0+a9tEHJL9dTJcMFEL3Q4gIgVpYsUkUrZO5OCE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ENJ1YXr1HsXDHpguh/9ljWFsbR+NpsEcr7sjmhaEzWJ+7Al6MzdGP5tBDN81laaoJ
-	 Fxix3QptCZxygdnHaPOrWxFtE5gXKEg8JAU3qiv5QlEWAi8GzTjOvtYhJX46uGr7mf
-	 OOGtR2A1xudEAMiqoIulg64hLc1GJ1xCBmYue9qdURPUcNedTMiKPTMFdgip28lkqx
-	 7srbmYb3W3076JS6jNs1ollL1Qo5ObLHi3uGxDA7v6Ao1o6oauaxLsY4/4xXhOy8tl
-	 nB9OkNU3KV6FWozF8N4bstndP0/8DoZCPgbtTpbMt/TA8n6p4PWDm/jOrJb3FaZ1F5
-	 oYnppy4ljm96g==
+	b=tOA9a2bHNed94ooQDVy3JVg9WuQvC6y/bXD4yqzREipMhVPRsR0duNKgkcPMaVqvd
+	 Mk0dNyebjn6C4mpzaTrlef30dCOlwZF64CQit2ErGhH/oQw77yAM7JAFMwOTgrJTVM
+	 8PeUROIEVyl+YBzAPuEDscyJ4FS8mEVRd0N/a6pdAzH7rjT+OcpP1pxFVRO1bYuPQ3
+	 wwIseC/8zbvlQSQRXntPmtB2vm5Eas1tXPPoVlgEun0JJWBjOTJ6dnGPj9R2G3THDq
+	 pT7GQ0ECwLFLMRuBBx1csPymQZzYAk+EnfceaGBd1lvOT03m6PLOQ1OeaZTfIYGH+S
+	 ARN1OncVkbnRQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	alsa-devel@alsa-project.org,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 09/23] ASoC: Intel: sof_sdw: add quirk for Dell SKU 0C0F
-Date: Mon, 27 May 2024 11:50:10 -0400
-Message-ID: <20240527155123.3863983-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 15/23] ALSA: hda/realtek: Add quirks for HP Omen models using CS35L41
+Date: Mon, 27 May 2024 11:50:16 -0400
+Message-ID: <20240527155123.3863983-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155123.3863983-1-sashal@kernel.org>
 References: <20240527155123.3863983-1-sashal@kernel.org>
@@ -60,44 +58,44 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.9.2
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
 
-[ Upstream commit b10cb955c6c0b8dbd9a768166d71cc12680b7fdf ]
+[ Upstream commit 875e0cd59758a3d636ce94936287787514305095 ]
 
-The JD1 jack detection doesn't seem to work, use JD2.
-Also use the 4 speaker configuration.
+Add 4 laptops using CS35L41 HDA.
+None of these laptops have _DSD, so require entries in property
+configuration table for cs35l41_hda driver.
 
-Link: https://github.com/thesofproject/linux/issues/4900
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://lore.kernel.org/r/20240411220347.131267-5-pierre-louis.bossart@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Message-ID: <20240411110813.330483-4-sbinding@opensource.cirrus.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/pci/hda/patch_realtek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index f4f08e9031506..76ed72716b3ca 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -429,6 +429,16 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 					RT711_JD2 |
- 					SOF_SDW_FOUR_SPK),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0C0F")
-+		},
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
-+					RT711_JD2 |
-+					SOF_SDW_FOUR_SPK),
-+	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index b29739bd330b1..cee387aa458f4 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10148,6 +10148,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8b92, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8b96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bdd, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bde, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bdf, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+@@ -10168,6 +10170,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c49, "HP Elite x360 830 2-in-1 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8c4d, "HP Omen", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8c4e, "HP Omen", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8c4f, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8c50, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8c51, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
 2.43.0
 
