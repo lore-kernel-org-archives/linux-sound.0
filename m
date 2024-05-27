@@ -1,276 +1,180 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB3213DDDF;
-	Mon, 27 May 2024 11:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F420413541E
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 11:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716808907; cv=none; b=UsKjFAym6yyIpZy5ksQZSZJP7utu0hIkU6DKXsAMRFp2h0lIC1TQ/SLh/zAQw9O+/v6L6LXqrtPkjS3F2tdEfoy0ZxGUHr4NRK311esOJbCL1mUL07gh3Fm9eao4PYourc0YCmAsBCpdwVMojMPTLSffHer6ByyQCmuRSWj4mvY=
+	t=1716809014; cv=none; b=pCAzZSYfBOTEUCitFQzCraWY/yoP+9C7HbkEKGHC1c3pS/5HcXESdS9zKSYam0cl5qmTBIy5evcpHSWgqvZTiHrvkiVazf8MxkRzbjE3/70nNA6o5A1RsnyzOxgRBZg5fJTDh1jOL6EqlURfyFOeqMylxWjgfESpFOHMfv77p68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716808907; c=relaxed/simple;
-	bh=OS5MSzcbBQ7ZMcHYY64PkaLDe5X8hNrcrVRe1HmwDaE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bM4n7aZRswXh443b4HvUSGoUkoRsQ8AX9hnRX80hGkUAf9qFVRMarQjYFER+cmCT1TE1yArV1zQS8xNUEDWkbpFdhZOdtrmXn8r6uCPMcJi4icJLm38zqCaMQTCNHgViKnQa/l1qYC0pUrCXC1lOuWjQCsrNM5O8rw4LY/dJ44Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n1AdncgO; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1716809014; c=relaxed/simple;
+	bh=gnWFGOdHgyKkqJGoUkB+8S+j6TZz9R+ggeq3opk4o+w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=motkxPF9UCWwVLu0UCKuehC9o7/Krv37AwD9AjwpSeUSdUna4KYrQBUZ2Kv2KyI2UuYEqyU9Cpp9r284vZ7CmA3eYG3hxvATEBIzm7TnVcZj+4356S3FP4YYCsRzM3Jp8lKO4/sEIC6/dp1IIePOA8KHMY2SvzHk7KfS3jfqWms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JZWQuoaz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m2w93lFt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MdXH9X9D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZjW0NyX6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n1AdncgO"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44RAq7pY020041;
-	Mon, 27 May 2024 11:21:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SKImBEUAhMXEL4iLiIXWuWHCFP8rOWfIpyIny+N1N9U=; b=n1AdncgOnfMVwc4X
-	eWwlNAnnt3uTdmOKuGpkuLd7ARzSeDv0D0pLO9xHj4+fr9RKdbaUBfcuXbHdVC0y
-	3IjabaDt8u3s0MDZWatvYIrM9gPxrbYJwB9+k40uMF8GsIlTeiQN12KdWgWBuB5l
-	6bbgkVuhC9XDXf7eu+yPQ1JUEKA8iOsPOhKgiFnWa1Yo754vKmA9CyqMx6yD3Zpu
-	GWi22fIeFvLsetwYa6pIGZmiLYZj7zdmlVaIozKB8Cy0i+jbPrlyvqp2eMR3t7PW
-	NJdJKN/WMw/2eHg48RdoxoJATvbHE9x7QcLOI7joSxRtogVeqLoT1ECsBPFhA07a
-	wZITbg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba2h3mpd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 May 2024 11:21:33 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44RBLWUP014916
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 May 2024 11:21:32 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 27 May 2024 04:21:27 -0700
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Banajit Goswami
-	<bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-CC: <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <quic_pkumpatl@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [RESEND v5 7/7] ASoC: codecs: wcd937x: add audio routing and Kconfig
-Date: Mon, 27 May 2024 16:49:56 +0530
-Message-ID: <20240527111956.444425-8-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240527111956.444425-1-quic_mohs@quicinc.com>
-References: <20240527111956.444425-1-quic_mohs@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JZWQuoaz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m2w93lFt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MdXH9X9D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZjW0NyX6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EC3DC21D64;
+	Mon, 27 May 2024 11:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716809011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkgHNu7OrNaEO5zFmuTVjgy6rwlinh6di2u1yHXqBw8=;
+	b=JZWQuoazaKkUt50Ws5GnLV24nhbYtpA8OIeoCHs4FwFMDyf1cBUmDNxH9St/r1K4qi1Z74
+	UQYbwUXQU5srXAfYBfqKNCpCBd69zy7l2eHmui+6sLy8AteRb5U3XTQTFmpTmfXyk5Jmsa
+	NEMw00NW8heq0VXYWv9rkBTKdhuJT5Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716809011;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkgHNu7OrNaEO5zFmuTVjgy6rwlinh6di2u1yHXqBw8=;
+	b=m2w93lFtCIO9T/4nRFg5enB9knkGDiHZCIji1D9ErzENItImizimeAhfnqpDz8lDcs2vEF
+	EPucVzjhsBfYhZCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716809009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkgHNu7OrNaEO5zFmuTVjgy6rwlinh6di2u1yHXqBw8=;
+	b=MdXH9X9DT6ofnZ6mHUI9MVBYl0XBLqFdL0Z9gGn5J4+PAm+cOksqygMGpoEhIEs9YBquq8
+	H1m/0FbWx+SA7SDsGpWcQnUaaiyoLXxUlmGWYXRFxcQCIJzqq4LR2lCJle6FlUy1reWE51
+	hOt+DMvtyQuzDa2hJ1RposeQRJj83Uo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716809009;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkgHNu7OrNaEO5zFmuTVjgy6rwlinh6di2u1yHXqBw8=;
+	b=ZjW0NyX6jfvrR9GMfT20YTSH+FcEmOUaxk+HtM2q9pMUnBK/ovWpp7v0UoISHgzFl3Aq8H
+	OmPERGTtIEI/I/AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5B4713A6B;
+	Mon, 27 May 2024 11:23:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JkxQJzFtVGbzWwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 May 2024 11:23:29 +0000
+Date: Mon, 27 May 2024 13:23:50 +0200
+Message-ID: <87cyp7a46x.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc:<linux-sound@vger.kernel.org>,	Takashi Iwai <tiwai@suse.de>,	Mark Brown
+ <broonie@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,	Nicolas
+ Dufresne <nicolas@ndufresne.ca>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>,	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [RFC PATCH] ALSA: compress_offload: introduce passthrough operation mode
+In-Reply-To: <20240527071133.223066-1-perex@perex.cz>
+References: <20240527071133.223066-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: WuRzhBrqvxJYyAj8ivRUnEsHGDSUXSHZ
-X-Proofpoint-ORIG-GUID: WuRzhBrqvxJYyAj8ivRUnEsHGDSUXSHZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-27_01,2024-05-24_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- spamscore=0 malwarescore=0 bulkscore=0 mlxscore=0 impostorscore=0
- priorityscore=1501 suspectscore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405270093
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,ndufresne.ca:email,imap1.dmz-prg2.suse.org:helo,perex.cz:email]
 
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+On Mon, 27 May 2024 09:11:33 +0200,
+Jaroslav Kysela wrote:
+> 
+> There is a requirement to expose the audio hardware that accelerates various
+> tasks for user space such as sample rate converters, compressed
+> stream decoders, etc.
+> 
+> This is description for the API extension for the compress ALSA API which
+> is able to handle "tasks" that are not bound to real-time operations
+> and allows for the serialization of operations.
+> 
+> For details, refer to "compress-passthrough.rst" document.
+> 
+> Note: This code is RFC (not tested, just to clearify the API requirements).
+> My goal is to add a test (loopback) driver and add a support to tinycompress
+> library in the next step.
+> 
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> Cc: Amadeusz S³awiñski <amadeuszx.slawinski@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> ---
+(snip)
 
-This patch adds audio routing for both playback and capture and
-Makefile and Kconfigs changes for wcd937x.
+Through a quick glance, the general idea looks simple enough and
+straightforward.  If this satisfies the needs, we can go in this way.
 
-Co-developed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
----
- sound/soc/codecs/Kconfig   | 20 ++++++++++
- sound/soc/codecs/Makefile  |  7 ++++
- sound/soc/codecs/wcd937x.c | 80 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 107 insertions(+)
+A few subtle things:
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 4afc43d3f71f..a6bb5716632d 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -278,6 +278,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_UDA1380
- 	imply SND_SOC_WCD9335
- 	imply SND_SOC_WCD934X
-+	imply SND_SOC_WCD937X_SDW
- 	imply SND_SOC_WCD938X_SDW
- 	imply SND_SOC_WCD939X_SDW
- 	imply SND_SOC_LPASS_MACRO_COMMON
-@@ -2100,6 +2101,25 @@ config SND_SOC_WCD934X
- 	  The WCD9340/9341 is a audio codec IC Integrated in
- 	  Qualcomm SoCs like SDM845.
- 
-+config SND_SOC_WCD937X
-+	depends on SND_SOC_WCD937X_SDW
-+	tristate
-+	depends on SOUNDWIRE || !SOUNDWIRE
-+	select SND_SOC_WCD_CLASSH
-+
-+config SND_SOC_WCD937X_SDW
-+	tristate "WCD9370/WCD9375 Codec - SDW"
-+	select SND_SOC_WCD937X
-+	select SND_SOC_WCD_MBHC
-+	select REGMAP_IRQ
-+	depends on SOUNDWIRE
-+	select REGMAP_SOUNDWIRE
-+	help
-+	  The WCD9370/9375 is an audio codec IC used with SoCs
-+	  like SC7280 or QCM6490 chipsets, and it connected
-+	  via soundwire.
-+	  To compile this codec driver say Y or m.
-+
- config SND_SOC_WCD938X
- 	depends on SND_SOC_WCD938X_SDW
- 	tristate
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index b4df22186e25..c6f0cd5815f2 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -316,6 +316,8 @@ snd-soc-wcd-classh-y := wcd-clsh-v2.o
- snd-soc-wcd-mbhc-y := wcd-mbhc-v2.o
- snd-soc-wcd9335-y := wcd9335.o
- snd-soc-wcd934x-y := wcd934x.o
-+snd-soc-wcd937x-objs := wcd937x.o
-+snd-soc-wcd937x-sdw-objs := wcd937x-sdw.o
- snd-soc-wcd938x-y := wcd938x.o
- snd-soc-wcd938x-sdw-y := wcd938x-sdw.o
- snd-soc-wcd939x-y := wcd939x.o
-@@ -710,6 +712,11 @@ obj-$(CONFIG_SND_SOC_WCD_CLASSH)	+= snd-soc-wcd-classh.o
- obj-$(CONFIG_SND_SOC_WCD_MBHC)	+= snd-soc-wcd-mbhc.o
- obj-$(CONFIG_SND_SOC_WCD9335)	+= snd-soc-wcd9335.o
- obj-$(CONFIG_SND_SOC_WCD934X)	+= snd-soc-wcd934x.o
-+obj-$(CONFIG_SND_SOC_WCD937X)	+= snd-soc-wcd937x.o
-+ifdef CONFIG_SND_SOC_WCD937X_SDW
-+# avoid link failure by forcing sdw code built-in when needed
-+obj-$(CONFIG_SND_SOC_WCD937X) += snd-soc-wcd937x-sdw.o
-+endif
- obj-$(CONFIG_SND_SOC_WCD938X)	+= snd-soc-wcd938x.o
- ifdef CONFIG_SND_SOC_WCD938X_SDW
- # avoid link failure by forcing sdw code built-in when needed
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index f8b57f47ad55..ef649ed77fb2 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -2409,6 +2409,77 @@ static const struct snd_soc_dapm_widget wcd9375_dapm_widgets[] = {
- 	SND_SOC_DAPM_OUTPUT("DMIC6_OUTPUT"),
- };
- 
-+static const struct snd_soc_dapm_route wcd937x_audio_map[] = {
-+	{ "ADC1_OUTPUT", NULL, "ADC1_MIXER" },
-+	{ "ADC1_MIXER", "Switch", "ADC1 REQ" },
-+	{ "ADC1 REQ", NULL, "ADC1" },
-+	{ "ADC1", NULL, "AMIC1" },
-+
-+	{ "ADC2_OUTPUT", NULL, "ADC2_MIXER" },
-+	{ "ADC2_MIXER", "Switch", "ADC2 REQ" },
-+	{ "ADC2 REQ", NULL, "ADC2" },
-+	{ "ADC2", NULL, "ADC2 MUX" },
-+	{ "ADC2 MUX", "INP3", "AMIC3" },
-+	{ "ADC2 MUX", "INP2", "AMIC2" },
-+
-+	{ "IN1_HPHL", NULL, "VDD_BUCK" },
-+	{ "IN1_HPHL", NULL, "CLS_H_PORT" },
-+	{ "RX1", NULL, "IN1_HPHL" },
-+	{ "RDAC1", NULL, "RX1" },
-+	{ "HPHL_RDAC", "Switch", "RDAC1" },
-+	{ "HPHL PGA", NULL, "HPHL_RDAC" },
-+	{ "HPHL", NULL, "HPHL PGA" },
-+
-+	{ "IN2_HPHR", NULL, "VDD_BUCK" },
-+	{ "IN2_HPHR", NULL, "CLS_H_PORT" },
-+	{ "RX2", NULL, "IN2_HPHR" },
-+	{ "RDAC2", NULL, "RX2" },
-+	{ "HPHR_RDAC", "Switch", "RDAC2" },
-+	{ "HPHR PGA", NULL, "HPHR_RDAC" },
-+	{ "HPHR", NULL, "HPHR PGA" },
-+
-+	{ "IN3_AUX", NULL, "VDD_BUCK" },
-+	{ "IN3_AUX", NULL, "CLS_H_PORT" },
-+	{ "RX3", NULL, "IN3_AUX" },
-+	{ "RDAC4", NULL, "RX3" },
-+	{ "AUX_RDAC", "Switch", "RDAC4" },
-+	{ "AUX PGA", NULL, "AUX_RDAC" },
-+	{ "AUX", NULL, "AUX PGA" },
-+
-+	{ "RDAC3_MUX", "RX3", "RX3" },
-+	{ "RDAC3_MUX", "RX1", "RX1" },
-+	{ "RDAC3", NULL, "RDAC3_MUX" },
-+	{ "EAR_RDAC", "Switch", "RDAC3" },
-+	{ "EAR PGA", NULL, "EAR_RDAC" },
-+	{ "EAR", NULL, "EAR PGA" },
-+};
-+
-+static const struct snd_soc_dapm_route wcd9375_audio_map[] = {
-+	{ "ADC3_OUTPUT", NULL, "ADC3_MIXER" },
-+	{ "ADC3_OUTPUT", NULL, "ADC3_MIXER" },
-+	{ "ADC3_MIXER", "Switch", "ADC3 REQ" },
-+	{ "ADC3 REQ", NULL, "ADC3" },
-+	{ "ADC3", NULL, "AMIC4" },
-+
-+	{ "DMIC1_OUTPUT", NULL, "DMIC1_MIXER" },
-+	{ "DMIC1_MIXER", "Switch", "DMIC1" },
-+
-+	{ "DMIC2_OUTPUT", NULL, "DMIC2_MIXER" },
-+	{ "DMIC2_MIXER", "Switch", "DMIC2" },
-+
-+	{ "DMIC3_OUTPUT", NULL, "DMIC3_MIXER" },
-+	{ "DMIC3_MIXER", "Switch", "DMIC3" },
-+
-+	{ "DMIC4_OUTPUT", NULL, "DMIC4_MIXER" },
-+	{ "DMIC4_MIXER", "Switch", "DMIC4" },
-+
-+	{ "DMIC5_OUTPUT", NULL, "DMIC5_MIXER" },
-+	{ "DMIC5_MIXER", "Switch", "DMIC5" },
-+
-+	{ "DMIC6_OUTPUT", NULL, "DMIC6_MIXER" },
-+	{ "DMIC6_MIXER", "Switch", "DMIC6" },
-+};
-+
- static int wcd937x_set_micbias_data(struct wcd937x_priv *wcd937x)
- {
- 	int vout_ctl[3];
-@@ -2545,6 +2616,13 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 			dev_err(component->dev, "Failed to add snd_ctls\n");
- 			return ret;
- 		}
-+
-+		ret = snd_soc_dapm_add_routes(dapm, wcd9375_audio_map,
-+					      ARRAY_SIZE(wcd9375_audio_map));
-+		if (ret < 0) {
-+			dev_err(component->dev, "Failed to add routes\n");
-+			return ret;
-+		}
- 	}
- 
- 	ret = wcd937x_mbhc_init(component);
-@@ -2588,6 +2666,8 @@ static const struct snd_soc_component_driver soc_codec_dev_wcd937x = {
- 	.num_controls = ARRAY_SIZE(wcd937x_snd_controls),
- 	.dapm_widgets = wcd937x_dapm_widgets,
- 	.num_dapm_widgets = ARRAY_SIZE(wcd937x_dapm_widgets),
-+	.dapm_routes = wcd937x_audio_map,
-+	.num_dapm_routes = ARRAY_SIZE(wcd937x_audio_map),
- 	.set_jack = wcd937x_codec_set_jack,
- 	.endianness = 1,
- };
--- 
-2.25.1
+- We might want to have a safe limit for the task creations.
+  An evil user-space can fill up too easily.
 
+- The error checks of memdup_user() are missing. 
+  A caveat is that memdup_user() returns ERR_PTR() instead of NULL.
+  So with the automatic cleanup, you'd need to fiddle with
+  PTR_ERR(no_free_ptr(p)).
+
+- The use of __u64 is rather for uapi headers.  The kernel internals
+  can be with straight u64.
+
+- The task list add/removal might need some locks.  It looks racy.
+  Also the task runtime returned from snd_compr_find_task() might be
+  freed.  Need for some locking or refcounting?
+
+- A linear lookup is OK from performance POV?  Maybe enough for small
+  number of tasks.
+
+- Better to have a protocol version check and accept the R/W mode only
+  with the newer version.
+
+
+thanks,
+
+Takashi
