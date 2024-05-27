@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7592A1C280
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88411E888
 	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716839106; cv=none; b=b6rbI6ZcZ5GRRm/VURg1dhRFPQIIU/nbMS8qfc+9tGd64WRwNAfHY6FMxqcGQXb26HotuSNuHbfJRSFWw08Qj7Iu53AtQtBqQEif661qQmO9eKBY/XZ92Sm57fAKqC6XZ3px+uxdUDkBZUKy8BCGj7oYp6DledjsvKGU7p0nJ3g=
+	t=1716839107; cv=none; b=IcoH3BeLeZwNTbOWiSHMC7f+G4eSocs/ACKtxMqrjtOfe8cSLYXroKv9yy6bmnApWkwcWeaaodv60pQ93H1HDLvxfBlxWonJCGXvwnaZxNLEhDnw+meVzC0RXpM/dVfv1yjBmSFfpGF6XNUcP0GY6AwrCWwaS8ALLRCXm+lescw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716839106; c=relaxed/simple;
-	bh=xm85HU+bJyfDh+V6EKJbC59iQosjDzquy/pZg3QMON0=;
+	s=arc-20240116; t=1716839107; c=relaxed/simple;
+	bh=Q2qiCg1xR3gvi8RN+ihU4uf5mBY0RVaHivpdoQhAdOM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qjtF8I/4tWv9RR5Gcgr/F5hHhChCrfwz6LO7C5QbKxRZDyjLVS+WyDzsYiEZ5q8xJWtYYyD9ZSdX/aV9XKLZRY9r9r27EDCKURsGt+9svvXB8ZS3rebBahtocVf/My5dDAt4ISkWup/ruEAkVsmNPSpsLnDC7tgGuiCAspnVlrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvThRoc+; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version:Content-Type; b=sht7mrsacUP3LjdBgArJVsfqCtCGZfV3/4wI9z8LnjUVq25D+La0keQrYeQVZUWE3uaWCWe/It/4ONXP5+H7XSsOQYSp64oHWNu5fKNLuGhGfyY63pRTEHyI6uoJSUlcjWZ0d+noyTDMR9cFx8N3TnFk+SF6Hwbw8VuH0VJZxc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVSxUzp/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvThRoc+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVSxUzp/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1716839105; x=1748375105;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xm85HU+bJyfDh+V6EKJbC59iQosjDzquy/pZg3QMON0=;
-  b=QvThRoc+ywPbVrt6SQbYagbJvVSu0mNEwVwsXZoMp4jYHelFckZ5PkbM
-   ifZKMCHNzuu41loveVeDatKk02lIiZRyili43Ii2zDmvYDzGAtY5o8Udx
-   4Ov8WwMlXKucsxvwb/PS2cTHJaMAQUDdPbjJzUXdnii2sD2RRD7Hy12Od
-   3vQ4rS0+IVdewUQ9mgNktdjJns9jtMrKJb7GYdPcnuAMIFQsWbdzNL/Nb
-   TvdF2FII5or9dwfXCwTRihz98QGt+4EEd61+YmtSPgbK5pPo/evvBJI4A
-   YXPhoMGcbKEQIjk7AwYbfDzlGl3SYKg0d7hzwxrxs5/QTE4FumsbTVhma
-   Q==;
-X-CSE-ConnectionGUID: IiiKfloRT9yxyhhpgYEY/g==
-X-CSE-MsgGUID: HANxSkL6TTmW7NqAd/LpWw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30679490"
+  bh=Q2qiCg1xR3gvi8RN+ihU4uf5mBY0RVaHivpdoQhAdOM=;
+  b=hVSxUzp/kCIy5g0Kyq5JkTaJfCiC9RmFQSJjFFgDxArxbzpVxkfrtQi0
+   tYC3up8ZO8hYh0hnztxUTL252ouOlrxNc1qrrV0hQf4h9O2of3M4rFLBu
+   1u9eqReejVNrQN/fmRBbNeS7di/v4i5HSYF+S7LIXP+s5AB7jUd4Y7wYd
+   EkGb7rLOfWr2yJt5ZAgWQylLxt6oRJEf4Pldlm5ksIetFKS+z/leeKHWs
+   UsGP+UmF4eqY4Q/dUN82Yd1jB4EGMwi6OjnJXGM2LWRQDY8saeDcuFFiu
+   BhcmCcU/1spz7JCwlB1TulbIWxsWCNi/8oWpN58iHg+Ct8bxIUZWZECCO
+   g==;
+X-CSE-ConnectionGUID: Us6irN7oRFaRFUrzRJg/mQ==
+X-CSE-MsgGUID: AiiV/1JNTem1lfpgIbQ5XQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30679495"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="30679490"
+   d="scan'208";a="30679495"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:04 -0700
-X-CSE-ConnectionGUID: QjZKROK0T9ycnmSnLeTsUQ==
-X-CSE-MsgGUID: NoCHX2IFRUWYZyXfMSrsEg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:05 -0700
+X-CSE-ConnectionGUID: MNFDxKlPSQWLX1DiuibRFQ==
+X-CSE-MsgGUID: N15fKTIORCWWgz6+fQ5srA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="39280547"
+   d="scan'208";a="39280549"
 Received: from unknown (HELO pbossart-mobl6.lan) ([10.125.110.221])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:04 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:05 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
 	tiwai@suse.de,
 	broonie@kernel.org,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Daniel Baluta <daniel.baluta@nxp.com>,
 	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH 3/4] ASoC: SOF: reorder MODULE_ definitions
-Date: Mon, 27 May 2024 14:44:13 -0500
-Message-ID: <20240527194414.166156-4-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 4/4] ASoC: SOF: add missing MODULE_DESCRIPTION()
+Date: Mon, 27 May 2024 14:44:14 -0500
+Message-ID: <20240527194414.166156-5-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
 References: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
@@ -67,141 +68,330 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Follow the arbitrary Intel convention order to allow for easier grep.
+MODULE_DESCRIPTION() was optional until it became mandatory and
+flagged as an error by 'make W=1'.
 
-MODULE_LICENSE
-MODULE_DESCRIPTION
-MODULE_IMPORT
-
+Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/amd/acp-common.c                 | 4 ++--
- sound/soc/sof/amd/acp.c                        | 2 +-
- sound/soc/sof/core.c                           | 2 +-
- sound/soc/sof/nocodec.c                        | 2 +-
- sound/soc/sof/sof-client-ipc-flood-test.c      | 2 +-
- sound/soc/sof/sof-client-ipc-kernel-injector.c | 2 +-
- sound/soc/sof/sof-client-ipc-msg-injector.c    | 2 +-
- sound/soc/sof/sof-client-probes.c              | 2 +-
- sound/soc/sof/xtensa/core.c                    | 2 +-
- 9 files changed, 10 insertions(+), 10 deletions(-)
+ sound/soc/sof/imx/imx-common.c           | 1 +
+ sound/soc/sof/imx/imx8.c                 | 3 ++-
+ sound/soc/sof/imx/imx8m.c                | 3 ++-
+ sound/soc/sof/imx/imx8ulp.c              | 3 ++-
+ sound/soc/sof/intel/atom.c               | 1 +
+ sound/soc/sof/intel/bdw.c                | 1 +
+ sound/soc/sof/intel/byt.c                | 1 +
+ sound/soc/sof/intel/hda-codec.c          | 1 +
+ sound/soc/sof/intel/hda-ctrl.c           | 1 +
+ sound/soc/sof/intel/hda-mlink.c          | 1 +
+ sound/soc/sof/intel/hda.c                | 1 +
+ sound/soc/sof/intel/pci-apl.c            | 1 +
+ sound/soc/sof/intel/pci-cnl.c            | 1 +
+ sound/soc/sof/intel/pci-icl.c            | 1 +
+ sound/soc/sof/intel/pci-lnl.c            | 1 +
+ sound/soc/sof/intel/pci-mtl.c            | 1 +
+ sound/soc/sof/intel/pci-skl.c            | 1 +
+ sound/soc/sof/intel/pci-tgl.c            | 1 +
+ sound/soc/sof/intel/pci-tng.c            | 1 +
+ sound/soc/sof/mediatek/mt8186/mt8186.c   | 3 ++-
+ sound/soc/sof/mediatek/mt8195/mt8195.c   | 3 ++-
+ sound/soc/sof/mediatek/mtk-adsp-common.c | 1 +
+ sound/soc/sof/sof-acpi-dev.c             | 1 +
+ sound/soc/sof/sof-of-dev.c               | 1 +
+ sound/soc/sof/sof-pci-dev.c              | 1 +
+ sound/soc/sof/sof-utils.c                | 1 +
+ 26 files changed, 31 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/sof/amd/acp-common.c b/sound/soc/sof/amd/acp-common.c
-index b26fa471b431..81bb93e98358 100644
---- a/sound/soc/sof/amd/acp-common.c
-+++ b/sound/soc/sof/amd/acp-common.c
-@@ -258,8 +258,8 @@ const struct snd_sof_dsp_ops sof_acp_common_ops = {
- };
- EXPORT_SYMBOL_NS(sof_acp_common_ops, SND_SOC_SOF_AMD_COMMON);
+diff --git a/sound/soc/sof/imx/imx-common.c b/sound/soc/sof/imx/imx-common.c
+index 2981aea123d9..fce6d9cf6a6b 100644
+--- a/sound/soc/sof/imx/imx-common.c
++++ b/sound/soc/sof/imx/imx-common.c
+@@ -75,3 +75,4 @@ void imx8_dump(struct snd_sof_dev *sdev, u32 flags)
+ EXPORT_SYMBOL(imx8_dump);
  
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("ACP SOF COMMON Driver");
- MODULE_IMPORT_NS(SND_SOC_SOF_AMD_COMMON);
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF helpers for IMX platforms");
+diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
+index 3021dc87ab5a..9f24e3c283dd 100644
+--- a/sound/soc/sof/imx/imx8.c
++++ b/sound/soc/sof/imx/imx8.c
+@@ -667,5 +667,6 @@ static struct platform_driver snd_sof_of_imx8_driver = {
+ };
+ module_platform_driver(snd_sof_of_imx8_driver);
+ 
+-MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for IMX8 platforms");
++MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+diff --git a/sound/soc/sof/imx/imx8m.c b/sound/soc/sof/imx/imx8m.c
+index 3c3eeef0e282..2a7ad67a3ef3 100644
+--- a/sound/soc/sof/imx/imx8m.c
++++ b/sound/soc/sof/imx/imx8m.c
+@@ -558,5 +558,6 @@ static struct platform_driver snd_sof_of_imx8m_driver = {
+ };
+ module_platform_driver(snd_sof_of_imx8m_driver);
+ 
+-MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for IMX8M platforms");
++MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+diff --git a/sound/soc/sof/imx/imx8ulp.c b/sound/soc/sof/imx/imx8ulp.c
+index 8adfdd00413a..2585b1beef23 100644
+--- a/sound/soc/sof/imx/imx8ulp.c
++++ b/sound/soc/sof/imx/imx8ulp.c
+@@ -516,5 +516,6 @@ static struct platform_driver snd_sof_of_imx8ulp_driver = {
+ };
+ module_platform_driver(snd_sof_of_imx8ulp_driver);
+ 
+-MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for IMX8ULP platforms");
++MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+diff --git a/sound/soc/sof/intel/atom.c b/sound/soc/sof/intel/atom.c
+index 86af4e9a716e..3505ac3a1b14 100644
+--- a/sound/soc/sof/intel/atom.c
++++ b/sound/soc/sof/intel/atom.c
+@@ -418,3 +418,4 @@ void atom_set_mach_params(struct snd_soc_acpi_mach *mach,
+ EXPORT_SYMBOL_NS(atom_set_mach_params, SND_SOC_SOF_INTEL_ATOM_HIFI_EP);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for Atom platforms");
+diff --git a/sound/soc/sof/intel/bdw.c b/sound/soc/sof/intel/bdw.c
+index 3262286a9a9d..7f18080e4e19 100644
+--- a/sound/soc/sof/intel/bdw.c
++++ b/sound/soc/sof/intel/bdw.c
+@@ -694,6 +694,7 @@ static struct platform_driver snd_sof_acpi_intel_bdw_driver = {
+ module_platform_driver(snd_sof_acpi_intel_bdw_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for Broadwell platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
  MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SOUNDWIRE_AMD_INIT);
--MODULE_DESCRIPTION("ACP SOF COMMON Driver");
--MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-index c12c7f820529..74fd5f2b148b 100644
---- a/sound/soc/sof/amd/acp.c
-+++ b/sound/soc/sof/amd/acp.c
-@@ -801,7 +801,7 @@ void amd_sof_acp_remove(struct snd_sof_dev *sdev)
+ MODULE_IMPORT_NS(SND_SOC_SOF_ACPI_DEV);
+diff --git a/sound/soc/sof/intel/byt.c b/sound/soc/sof/intel/byt.c
+index d78d11d4cfbf..7a57e162fb1c 100644
+--- a/sound/soc/sof/intel/byt.c
++++ b/sound/soc/sof/intel/byt.c
+@@ -475,6 +475,7 @@ static struct platform_driver snd_sof_acpi_intel_byt_driver = {
+ module_platform_driver(snd_sof_acpi_intel_byt_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for Baytrail/Cherrytrail");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_IMPORT_NS(SND_SOC_SOF_ACPI_DEV);
+diff --git a/sound/soc/sof/intel/hda-codec.c b/sound/soc/sof/intel/hda-codec.c
+index da3db3ed379e..dc46888faa0d 100644
+--- a/sound/soc/sof/intel/hda-codec.c
++++ b/sound/soc/sof/intel/hda-codec.c
+@@ -457,3 +457,4 @@ EXPORT_SYMBOL_NS_GPL(hda_codec_i915_exit, SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
+ #endif
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for HDaudio codecs");
+diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
+index 262b482dc0a8..b9a02750ce61 100644
+--- a/sound/soc/sof/intel/hda-ctrl.c
++++ b/sound/soc/sof/intel/hda-ctrl.c
+@@ -328,6 +328,7 @@ void hda_dsp_ctrl_stop_chip(struct snd_sof_dev *sdev)
  }
- EXPORT_SYMBOL_NS(amd_sof_acp_remove, SND_SOC_SOF_AMD_COMMON);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF helpers for HDaudio platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_MLINK);
+ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
+diff --git a/sound/soc/sof/intel/hda-mlink.c b/sound/soc/sof/intel/hda-mlink.c
+index 04bbc5c9904c..9a3559c78b62 100644
+--- a/sound/soc/sof/intel/hda-mlink.c
++++ b/sound/soc/sof/intel/hda-mlink.c
+@@ -972,3 +972,4 @@ EXPORT_SYMBOL_NS(hdac_bus_eml_enable_offload, SND_SOC_SOF_HDA_MLINK);
+ #endif
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for HDaudio multi-link");
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 541c6052d4ed..daf364f773dd 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -1522,6 +1522,7 @@ void hda_unregister_clients(struct snd_sof_dev *sdev)
+ }
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for HDaudio platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
+diff --git a/sound/soc/sof/intel/pci-apl.c b/sound/soc/sof/intel/pci-apl.c
+index df6d897da290..f006dcf5458a 100644
+--- a/sound/soc/sof/intel/pci-apl.c
++++ b/sound/soc/sof/intel/pci-apl.c
+@@ -105,6 +105,7 @@ static struct pci_driver snd_sof_pci_intel_apl_driver = {
+ module_pci_driver(snd_sof_pci_intel_apl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for ApolloLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+diff --git a/sound/soc/sof/intel/pci-cnl.c b/sound/soc/sof/intel/pci-cnl.c
+index a39fa3657d55..a8406342f08b 100644
+--- a/sound/soc/sof/intel/pci-cnl.c
++++ b/sound/soc/sof/intel/pci-cnl.c
+@@ -143,6 +143,7 @@ static struct pci_driver snd_sof_pci_intel_cnl_driver = {
+ module_pci_driver(snd_sof_pci_intel_cnl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for CannonLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+diff --git a/sound/soc/sof/intel/pci-icl.c b/sound/soc/sof/intel/pci-icl.c
+index 9f1fe47475fb..25effca50d9f 100644
+--- a/sound/soc/sof/intel/pci-icl.c
++++ b/sound/soc/sof/intel/pci-icl.c
+@@ -108,6 +108,7 @@ static struct pci_driver snd_sof_pci_intel_icl_driver = {
+ module_pci_driver(snd_sof_pci_intel_icl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for IceLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_CNL);
+diff --git a/sound/soc/sof/intel/pci-lnl.c b/sound/soc/sof/intel/pci-lnl.c
+index 68e5c90151b2..602c574064eb 100644
+--- a/sound/soc/sof/intel/pci-lnl.c
++++ b/sound/soc/sof/intel/pci-lnl.c
+@@ -70,6 +70,7 @@ static struct pci_driver snd_sof_pci_intel_lnl_driver = {
+ module_pci_driver(snd_sof_pci_intel_lnl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for LunarLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_MTL);
+diff --git a/sound/soc/sof/intel/pci-mtl.c b/sound/soc/sof/intel/pci-mtl.c
+index c685cb8d6171..8cb0333c033e 100644
+--- a/sound/soc/sof/intel/pci-mtl.c
++++ b/sound/soc/sof/intel/pci-mtl.c
+@@ -133,6 +133,7 @@ static struct pci_driver snd_sof_pci_intel_mtl_driver = {
+ module_pci_driver(snd_sof_pci_intel_mtl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for MeteorLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+diff --git a/sound/soc/sof/intel/pci-skl.c b/sound/soc/sof/intel/pci-skl.c
+index 862da8009543..8ca0231d7e4f 100644
+--- a/sound/soc/sof/intel/pci-skl.c
++++ b/sound/soc/sof/intel/pci-skl.c
+@@ -89,6 +89,7 @@ static struct pci_driver snd_sof_pci_intel_skl_driver = {
+ module_pci_driver(snd_sof_pci_intel_skl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for SkyLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+diff --git a/sound/soc/sof/intel/pci-tgl.c b/sound/soc/sof/intel/pci-tgl.c
+index f73bb47cd79e..ebe1a7d16689 100644
+--- a/sound/soc/sof/intel/pci-tgl.c
++++ b/sound/soc/sof/intel/pci-tgl.c
+@@ -317,6 +317,7 @@ static struct pci_driver snd_sof_pci_intel_tgl_driver = {
+ module_pci_driver(snd_sof_pci_intel_tgl_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for TigerLake platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_CNL);
+diff --git a/sound/soc/sof/intel/pci-tng.c b/sound/soc/sof/intel/pci-tng.c
+index 5c3069588bb7..1375c393827e 100644
+--- a/sound/soc/sof/intel/pci-tng.c
++++ b/sound/soc/sof/intel/pci-tng.c
+@@ -244,6 +244,7 @@ static struct pci_driver snd_sof_pci_intel_tng_driver = {
+ module_pci_driver(snd_sof_pci_intel_tng_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for Tangier platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
+ MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
+diff --git a/sound/soc/sof/mediatek/mt8186/mt8186.c b/sound/soc/sof/mediatek/mt8186/mt8186.c
+index c63e0d2f4b96..bea1b9d9ca28 100644
+--- a/sound/soc/sof/mediatek/mt8186/mt8186.c
++++ b/sound/soc/sof/mediatek/mt8186/mt8186.c
+@@ -666,6 +666,7 @@ static struct platform_driver snd_sof_of_mt8186_driver = {
+ };
+ module_platform_driver(snd_sof_of_mt8186_driver);
  
 +MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("AMD ACP sof driver");
- MODULE_IMPORT_NS(SOUNDWIRE_AMD_INIT);
- MODULE_IMPORT_NS(SND_AMD_SOUNDWIRE_ACPI);
++MODULE_DESCRIPTION("SOF support for MT8186/MT8188 platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_IMPORT_NS(SND_SOC_SOF_MTK_COMMON);
 -MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
-index 0a4917136ff9..83fe0401baf8 100644
---- a/sound/soc/sof/core.c
-+++ b/sound/soc/sof/core.c
-@@ -769,7 +769,7 @@ void sof_machine_unregister(struct snd_sof_dev *sdev, void *pdata)
- EXPORT_SYMBOL(sof_machine_unregister);
- 
- MODULE_AUTHOR("Liam Girdwood");
--MODULE_DESCRIPTION("Sound Open Firmware (SOF) Core");
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("Sound Open Firmware (SOF) Core");
- MODULE_ALIAS("platform:sof-audio");
- MODULE_IMPORT_NS(SND_SOC_SOF_CLIENT);
-diff --git a/sound/soc/sof/nocodec.c b/sound/soc/sof/nocodec.c
-index fdcbe33d3dcf..b12b3d865ae3 100644
---- a/sound/soc/sof/nocodec.c
-+++ b/sound/soc/sof/nocodec.c
-@@ -110,7 +110,7 @@ static struct platform_driver sof_nocodec_audio = {
+diff --git a/sound/soc/sof/mediatek/mt8195/mt8195.c b/sound/soc/sof/mediatek/mt8195/mt8195.c
+index fc1c016104ae..31dc98d1b1d8 100644
+--- a/sound/soc/sof/mediatek/mt8195/mt8195.c
++++ b/sound/soc/sof/mediatek/mt8195/mt8195.c
+@@ -619,6 +619,7 @@ static struct platform_driver snd_sof_of_mt8195_driver = {
  };
- module_platform_driver(sof_nocodec_audio)
+ module_platform_driver(snd_sof_of_mt8195_driver);
  
 +MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("ASoC sof nocodec");
- MODULE_AUTHOR("Liam Girdwood");
++MODULE_DESCRIPTION("SOF support for MTL 8195 platforms");
+ MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
+ MODULE_IMPORT_NS(SND_SOC_SOF_MTK_COMMON);
 -MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS("platform:sof-nocodec");
-diff --git a/sound/soc/sof/sof-client-ipc-flood-test.c b/sound/soc/sof/sof-client-ipc-flood-test.c
-index 435614926092..e7d2001140e8 100644
---- a/sound/soc/sof/sof-client-ipc-flood-test.c
-+++ b/sound/soc/sof/sof-client-ipc-flood-test.c
-@@ -394,6 +394,6 @@ static struct auxiliary_driver sof_ipc_flood_client_drv = {
+diff --git a/sound/soc/sof/mediatek/mtk-adsp-common.c b/sound/soc/sof/mediatek/mtk-adsp-common.c
+index de8dbe27cd0d..20bcf5590eb8 100644
+--- a/sound/soc/sof/mediatek/mtk-adsp-common.c
++++ b/sound/soc/sof/mediatek/mtk-adsp-common.c
+@@ -82,3 +82,4 @@ void mtk_adsp_dump(struct snd_sof_dev *sdev, u32 flags)
+ EXPORT_SYMBOL(mtk_adsp_dump);
  
- module_auxiliary_driver(sof_ipc_flood_client_drv);
- 
--MODULE_DESCRIPTION("SOF IPC Flood Test Client Driver");
- MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("SOF IPC Flood Test Client Driver");
- MODULE_IMPORT_NS(SND_SOC_SOF_CLIENT);
-diff --git a/sound/soc/sof/sof-client-ipc-kernel-injector.c b/sound/soc/sof/sof-client-ipc-kernel-injector.c
-index 6973b6690df4..d3f541069b24 100644
---- a/sound/soc/sof/sof-client-ipc-kernel-injector.c
-+++ b/sound/soc/sof/sof-client-ipc-kernel-injector.c
-@@ -157,6 +157,6 @@ static struct auxiliary_driver sof_msg_inject_client_drv = {
- 
- module_auxiliary_driver(sof_msg_inject_client_drv);
- 
--MODULE_DESCRIPTION("SOF IPC Kernel Injector Client Driver");
- MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("SOF IPC Kernel Injector Client Driver");
- MODULE_IMPORT_NS(SND_SOC_SOF_CLIENT);
-diff --git a/sound/soc/sof/sof-client-ipc-msg-injector.c b/sound/soc/sof/sof-client-ipc-msg-injector.c
-index af22e6421029..d0f8beb9d000 100644
---- a/sound/soc/sof/sof-client-ipc-msg-injector.c
-+++ b/sound/soc/sof/sof-client-ipc-msg-injector.c
-@@ -335,6 +335,6 @@ static struct auxiliary_driver sof_msg_inject_client_drv = {
- 
- module_auxiliary_driver(sof_msg_inject_client_drv);
- 
--MODULE_DESCRIPTION("SOF IPC Message Injector Client Driver");
- MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("SOF IPC Message Injector Client Driver");
- MODULE_IMPORT_NS(SND_SOC_SOF_CLIENT);
-diff --git a/sound/soc/sof/sof-client-probes.c b/sound/soc/sof/sof-client-probes.c
-index b8f297307565..ccc7d38ddc38 100644
---- a/sound/soc/sof/sof-client-probes.c
-+++ b/sound/soc/sof/sof-client-probes.c
-@@ -540,6 +540,6 @@ static struct auxiliary_driver sof_probes_client_drv = {
- 
- module_auxiliary_driver(sof_probes_client_drv);
- 
--MODULE_DESCRIPTION("SOF Probes Client Driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("SOF Probes Client Driver");
- MODULE_IMPORT_NS(SND_SOC_SOF_CLIENT);
-diff --git a/sound/soc/sof/xtensa/core.c b/sound/soc/sof/xtensa/core.c
-index ccbc3fcdadd5..3cf8c84beff9 100644
---- a/sound/soc/sof/xtensa/core.c
-+++ b/sound/soc/sof/xtensa/core.c
-@@ -151,5 +151,5 @@ const struct dsp_arch_ops sof_xtensa_arch_ops = {
- };
- EXPORT_SYMBOL_NS(sof_xtensa_arch_ops, SND_SOC_SOF_XTENSA);
- 
--MODULE_DESCRIPTION("SOF Xtensa DSP support");
  MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF Xtensa DSP support");
++MODULE_DESCRIPTION("SOF helpers for MTK ADSP platforms");
+diff --git a/sound/soc/sof/sof-acpi-dev.c b/sound/soc/sof/sof-acpi-dev.c
+index 2d96d00f1c44..b196b2b74c26 100644
+--- a/sound/soc/sof/sof-acpi-dev.c
++++ b/sound/soc/sof/sof-acpi-dev.c
+@@ -100,3 +100,4 @@ void sof_acpi_remove(struct platform_device *pdev)
+ EXPORT_SYMBOL_NS(sof_acpi_remove, SND_SOC_SOF_ACPI_DEV);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for ACPI platforms");
+diff --git a/sound/soc/sof/sof-of-dev.c b/sound/soc/sof/sof-of-dev.c
+index b9a499e92b9a..71f7153cf79c 100644
+--- a/sound/soc/sof/sof-of-dev.c
++++ b/sound/soc/sof/sof-of-dev.c
+@@ -93,3 +93,4 @@ void sof_of_shutdown(struct platform_device *pdev)
+ EXPORT_SYMBOL(sof_of_shutdown);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for OF/DT platforms");
+diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
+index 4365405783e6..38f2187da5de 100644
+--- a/sound/soc/sof/sof-pci-dev.c
++++ b/sound/soc/sof/sof-pci-dev.c
+@@ -304,3 +304,4 @@ void sof_pci_shutdown(struct pci_dev *pci)
+ EXPORT_SYMBOL_NS(sof_pci_shutdown, SND_SOC_SOF_PCI_DEV);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF support for PCI platforms");
+diff --git a/sound/soc/sof/sof-utils.c b/sound/soc/sof/sof-utils.c
+index cad041bf56cc..44608682e9f8 100644
+--- a/sound/soc/sof/sof-utils.c
++++ b/sound/soc/sof/sof-utils.c
+@@ -73,3 +73,4 @@ int snd_sof_create_page_table(struct device *dev,
+ EXPORT_SYMBOL(snd_sof_create_page_table);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
++MODULE_DESCRIPTION("SOF utils");
 -- 
 2.43.0
 
