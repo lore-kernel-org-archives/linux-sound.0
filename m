@@ -1,52 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBACE17E8EC;
-	Mon, 27 May 2024 15:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C26717E8E2;
+	Mon, 27 May 2024 15:52:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825107; cv=none; b=ufbOOyvsQNeYYg0gLzo78nwtZ4ChNLCh+Jubf2F0Yq0qCujT41bU+vaPQMLRmp4YY5OwJuYTWU0m2gC5rDl0jo347qrDI9KNBEQM7cy0hGgIeAJO0w/NEQjMGc+CSI58APYSKJ7KsyznM6uKwjLaXIqrIftPxPLfPnuWxWRw2lk=
+	t=1716825128; cv=none; b=e++SzzwoBF6+DphlWelzk865AGu5VF22445b3rQilySgHkU7Grpk+5vsVKbrYzjXE+9MgvWDWqGkbSFbfvIiLJDJIs+2+O+oLSZfaHmtKhQpThp7GuDfj8aqdDHf0Pel77X2TacF6lxR4rvNSggxBprz99wLozaGhmPy9lGhDKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825107; c=relaxed/simple;
-	bh=mX5Apq4HueNKh2Lka3LyHKzCw9/ATmUlhhIHaGKdgUs=;
+	s=arc-20240116; t=1716825128; c=relaxed/simple;
+	bh=2cLx1RTnLIZnsam3m/uMcFJB/9IKs3dw7YoYr5Yf46k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bawEdpXduF8ZhvwsKcBmuUHh+lx1oEeFlgX1mTnA9WAiQ6QXddyLXB8oxO8YizyrJ5FZpVG5kwbkwNM8Tlb2gAxsH6upMzzA8cwTlg8vrJh8mh7bW0JioG1b1IuEIVlWGb5qG5bJV4t+jeN8DbVqTFTdHkgJkuYgxHu93exCug4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zuol8982; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=JTP1FLEKGkQprj0riHOUi+r4lD/OZTPFNeo0U8Jn/YumPbwMFaikdPDkW7N1EPq+lizhryBXMQ8I0UCoYee9kOy/MgpnqQjYeOlR7gDFUsXGfe1gZQ++Vqd1ap0puJsVam6dpsyo9QXLUSd71o++kEAoCWRQmN0UXU5FXnd+PJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XQhTrfRs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zuol8982"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8486C32781;
-	Mon, 27 May 2024 15:51:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XQhTrfRs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6584FC4AF08;
+	Mon, 27 May 2024 15:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825106;
-	bh=mX5Apq4HueNKh2Lka3LyHKzCw9/ATmUlhhIHaGKdgUs=;
+	s=k20201202; t=1716825128;
+	bh=2cLx1RTnLIZnsam3m/uMcFJB/9IKs3dw7YoYr5Yf46k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zuol8982ekg+5COYR6QoZYsZPIxTKDI4Ur9tyAd8PbKFNCBWGRPlNCUHb3kitTRZ/
-	 YP7I00HNLq+k/ZurEW1Oo5y9q1z9Wfwr+IzBbUQYacRHAieSf//7ywj7GqOWgDzfcs
-	 +i9Ms+glxo1efTnTz+/ABYfpIhdslXyrqVD1Xz9dCuceCAmBTb+oR5ZlexmCKINS3B
-	 fuak5PBEEZw9T8aQUbYZbEDm9EggSgOWdRPpdW9KmO7k7VuuWL8+YANg63oNYHjrrF
-	 Y1jeR7L9G0Lss5leF0yrXmZ2tW13Rqx0yerQ9Bbo+XlTm9Wf22pm5bxWYhCUbtwDuV
-	 dsY49MdVMnAaw==
+	b=XQhTrfRslkJjPbNnEn1XmIuo9RlCJqoRqp71BSlUALfNy33GryknV+/cojNKVUGU2
+	 yQX5pm9zsiC0Z7GbgeziIsx7MEH3ODSdOXgu4Wb2m03lz3E/WveDrz1iD83JaL03j+
+	 otiPOm8zSgYemkVYkhTow3RTBsrh9W29uTQEwqhGtERH2xZqt8tSNqdC2Ye1TaqcPC
+	 fbYj44OsRFCHF4YJuG+XvydVwC/GC1KYd9HMarKwbiku50xToC7fuKAi5GlEz7Z4RA
+	 XYq4Uaib5q5LoQvaV5RLSa0g219fj6IzK5YLMgeh/5JcQUzsz4CUrHuFaFwgW8lv87
+	 3v2InRlsKFoyg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Brent Lu <brent.lu@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	cezary.rojewski@intel.com,
 	liam.r.girdwood@linux.intel.com,
 	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
+	ckeepax@opensource.cirrus.com,
 	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 03/23] ASoC: Intel: sof_cs42l42: rename BT offload quirk
-Date: Mon, 27 May 2024 11:50:04 -0400
-Message-ID: <20240527155123.3863983-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 08/23] ASoC: Intel: sof_sdw: add JD2 quirk for HP Omen 14
+Date: Mon, 27 May 2024 11:50:09 -0400
+Message-ID: <20240527155123.3863983-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155123.3863983-1-sashal@kernel.org>
 References: <20240527155123.3863983-1-sashal@kernel.org>
@@ -61,54 +60,40 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.9.2
 Content-Transfer-Encoding: 8bit
 
-From: Brent Lu <brent.lu@intel.com>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-[ Upstream commit 109896246a5311aa05692ecf38c0d71e1837fe23 ]
+[ Upstream commit 4fee07fbf47d2a5f1065d985459e5ce7bf7969f0 ]
 
-Rename the quirk in preparation for future changes: common quriks will
-be defined and handled in board helper module.
+The default JD1 does not seem to work, use JD2 instead.
 
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Brent Lu <brent.lu@intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Link: https://msgid.link/r/20240325221059.206042-7-pierre-louis.bossart@linux.intel.com
+Link: https://lore.kernel.org/r/20240411220347.131267-4-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_cs42l42.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_cs42l42.c b/sound/soc/intel/boards/sof_cs42l42.c
-index 323b86c42ef95..330d596b2eb6d 100644
---- a/sound/soc/intel/boards/sof_cs42l42.c
-+++ b/sound/soc/intel/boards/sof_cs42l42.c
-@@ -34,7 +34,7 @@
- #define SOF_CS42L42_NUM_HDMIDEV_MASK		(GENMASK(9, 7))
- #define SOF_CS42L42_NUM_HDMIDEV(quirk)	\
- 	(((quirk) << SOF_CS42L42_NUM_HDMIDEV_SHIFT) & SOF_CS42L42_NUM_HDMIDEV_MASK)
--#define SOF_BT_OFFLOAD_PRESENT			BIT(25)
-+#define SOF_CS42L42_BT_OFFLOAD_PRESENT		BIT(25)
- #define SOF_CS42L42_SSP_BT_SHIFT		26
- #define SOF_CS42L42_SSP_BT_MASK			(GENMASK(28, 26))
- #define SOF_CS42L42_SSP_BT(quirk)	\
-@@ -268,7 +268,7 @@ static int sof_audio_probe(struct platform_device *pdev)
- 
- 	ctx->ssp_codec = sof_cs42l42_quirk & SOF_CS42L42_SSP_CODEC_MASK;
- 
--	if (sof_cs42l42_quirk & SOF_BT_OFFLOAD_PRESENT)
-+	if (sof_cs42l42_quirk & SOF_CS42L42_BT_OFFLOAD_PRESENT)
- 		ctx->bt_offload_present = true;
- 
- 	/* update dai_link */
-@@ -306,7 +306,7 @@ static const struct platform_device_id board_ids[] = {
- 		.driver_data = (kernel_ulong_t)(SOF_CS42L42_SSP_CODEC(0) |
- 				SOF_CS42L42_SSP_AMP(1) |
- 				SOF_CS42L42_NUM_HDMIDEV(4) |
--				SOF_BT_OFFLOAD_PRESENT |
-+				SOF_CS42L42_BT_OFFLOAD_PRESENT |
- 				SOF_CS42L42_SSP_BT(2)),
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 08f330ed5c2ea..f4f08e9031506 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -495,6 +495,15 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 					SOF_BT_OFFLOAD_SSP(1) |
+ 					SOF_SSP_BT_OFFLOAD_PRESENT),
  	},
- 	{ }
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "OMEN Transcend Gaming Laptop"),
++		},
++		.driver_data = (void *)(RT711_JD2),
++	},
++
+ 	/* LunarLake devices */
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
 -- 
 2.43.0
 
