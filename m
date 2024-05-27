@@ -1,85 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBE313A3EE;
-	Mon, 27 May 2024 09:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FB28830
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 10:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716803449; cv=none; b=Rq0slFNBZCN2QjWnYCfgx++5uQ7Mp+diiqxBcSoJxqdr5DIyWLGN747h1W82QRpNOMmD+4eKyl+LVAcIPW2MFe9F5y+jYbqibzRLLZOGKQrtw07L8EnRDrdDqvlJTi22pebVNp+1rDoBTHOoInMm02A9zUrOk1iHAdztex/7cGQ=
+	t=1716804541; cv=none; b=iV605QOmwmiop3eE3wqjiKYNb1iu6O47pi7wRMylFbQUxRaUPFSPHunMqrYhk5EXTEXKN5nzvAUr+n/WngrnhRgh82+0O6TipOSTVCsFD37D510GUnBEaGORktrFT/NPxRbMt2iqPV+nuXfCKVQtwIBmmL6XReCC6w3ZamBspMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716803449; c=relaxed/simple;
-	bh=siXMFcd/YZJ/krD1ElQNCMZYcM6Cs/xuMd+BVeICYQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHBtWjhWlXzvCIWfvomTi/bBcJrPTwW1WZ2RT25kCXAbtD7J2oiE/Faw6IvS7VaWMJzPNyYkiCviNG+/5LrL2grdFwQolilUsG87MuIQgf/StBFonpya1qBYSM0p3Xq0Bd0W7Sh3XsEjaktSWwywzv+P2s5Bv46s2HYc4RZSdxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNH9o6s+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716804541; c=relaxed/simple;
+	bh=GN1xGDlaIKf138qaAXKw0qf5bfYLDdi77Bh4r77NL58=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OtZi384tZLvHm7oTAys/k39MI/GRoS7rl1+pqY6mc8ticy7uYGnA0LHhncw1sypK5wS5TWD1ttPad3EfZniOsZz47ZusrkptN5vU4nZO2Gh3xzXbz6GL2nwVvJkTAK8FRZbEf5TgF581lnt6IqwfcAQe3p4xMz/plz202zlACUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=SiqSTh/t; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNH9o6s+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6674C2BBFC;
-	Mon, 27 May 2024 09:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716803449;
-	bh=siXMFcd/YZJ/krD1ElQNCMZYcM6Cs/xuMd+BVeICYQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sNH9o6s+Q1kmd8WNsDNbk5w8UiLJ7Y5W4l9dTvGR/YJawYoFhQevC5EN46i5dkEba
-	 UjlXSOdtAPoMP3Emf/japi6wch2CYakoaRRURmEdMF2Y48Xoogw5jaiEmThfmlz3j8
-	 exROQHgp/rRTl78+H4bCTEZsJ7i/p4AhrmS1kW2cp1rwezfP10W9ubQb8aPLawk6wX
-	 qV0FJK5rYaHNaI5d+R8kn1pnK11BckEeMrbGWtqclxIES03fReerX6LHDKQr/El57v
-	 xxKMYt4Rbk5TRP2q5g/nqYDwpJ0uiKbRMpkCg3qnrNLkmcD9Wmpew35+jLcPL1v1of
-	 3YBfiSrLiuX0g==
-Date: Mon, 27 May 2024 10:50:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
-	quic_pkumpatl@quicinc.com
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,sm8250: Add QCM6490 snd
- QCS6490 sound card
-Message-ID: <091aa382-32fe-4f5c-8ebb-440afaf37827@sirena.org.uk>
-References: <20240524035350.3118981-1-quic_mohs@quicinc.com>
- <20240524035350.3118981-2-quic_mohs@quicinc.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="SiqSTh/t"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44R6Ouvf000670;
+	Mon, 27 May 2024 05:08:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=G/NXgIHGDFX/etXI
+	D8vHdB162jVSuswDPQAKduYMJJA=; b=SiqSTh/tA+ZBql0S/asoVeLV88Vg9tNE
+	fe8PHPzQ5TE0lQPtAPBf4O9kIcdY40iqxGQa6GMkEvH++M/enEvLFxrXRs5inF13
+	apdDxpjrUCrrDJbIFEwvUZh3se1zTCbkXnN2v6I0B5fghyWsnU3leafVxflOMmLQ
+	bc/vRZ8NegHuZ2Sbvxq9Yu22ZqLJDJ6KyNMNg1m/mov436JAFifMU4XI9ZlICZFy
+	f5Iu1Sqjh+Unv+RUrS6Ni/XWEbXCDZ9D4R9fTU0tlY9JDehfPyYMtwQ9sTxLzmrg
+	JzMWeYmvy0KEHi6PLSg/JxAyKNkhujFNhN2sgXKmJKTk/msdupIS0Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ybcdh9a4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 May 2024 05:08:42 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 27 May
+ 2024 11:08:40 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 27 May 2024 11:08:40 +0100
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B4E54820270;
+	Mon, 27 May 2024 10:08:40 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: cs42l43: Only restrict 44.1kHz for the ASP
+Date: Mon, 27 May 2024 11:08:40 +0100
+Message-ID: <20240527100840.439832-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QlFvzjBH2dX8pMN1"
-Content-Disposition: inline
-In-Reply-To: <20240524035350.3118981-2-quic_mohs@quicinc.com>
-X-Cookie: Teutonic:
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: EXRy9CASsGB7cK70_JRHiUKkbFbA9YCw
+X-Proofpoint-ORIG-GUID: EXRy9CASsGB7cK70_JRHiUKkbFbA9YCw
+X-Proofpoint-Spam-Reason: safe
 
+The SoundWire interface can always support 44.1kHz using flow controlled
+mode, and whether the ASP is in master mode should obviously only affect
+the ASP. Update cs42l43_startup() to only restrict the rates for the ASP
+DAI.
 
---QlFvzjBH2dX8pMN1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fixes: fc918cbe874e ("ASoC: cs42l43: Add support for the cs42l43")
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs42l43.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On Fri, May 24, 2024 at 09:23:49AM +0530, Mohammad Rafi Shaik wrote:
-> Document the bindings for the Qualcomm QCM6490 IDP and QCS6490 RB3Gen2
-> soc platforms sound card.
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 94685449f0f4..92674314227c 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -310,8 +310,9 @@ static int cs42l43_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ 	struct snd_soc_component *component = dai->component;
+ 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
+ 	struct cs42l43 *cs42l43 = priv->core;
+-	int provider = !!regmap_test_bits(cs42l43->regmap, CS42L43_ASP_CLK_CONFIG2,
+-					  CS42L43_ASP_MASTER_MODE_MASK);
++	int provider = !dai->id || !!regmap_test_bits(cs42l43->regmap,
++						      CS42L43_ASP_CLK_CONFIG2,
++						      CS42L43_ASP_MASTER_MODE_MASK);
+ 
+ 	if (provider)
+ 		priv->constraint.mask = CS42L43_PROVIDER_RATE_MASK;
+-- 
+2.39.2
 
-This doesn't apply against current code, please check and resend.
-
---QlFvzjBH2dX8pMN1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZUV3IACgkQJNaLcl1U
-h9Bv5Qf/RC/79S61kz29d+HPO0dv1aYHxWJa9jdbC6za/XxQjXzCqxwmH9Iwl5qp
-u9a60OfG9lV2kVFsr38Eo0Gzp60n3ILfLQ2noRN4QtWDeM4Z3iVA9aYeXvxzGD+T
-YKNQZZAiEaSPL0/yu9rjpZNukGumbB1ZrIkziy2JtxdrYF871n3XM5yJPJxo6AwZ
-ECxwvmPt6QE9jwGhnuUK4dApotHFSC14GG3cuotymq5GKv+5tKpxGYvcbW5ukI3Y
-wEuWMtDErIr8X6Xstk4U8F8smKh4Tw3KjLTL6M4NKZO5hSReesnOe5dZipPjpA5j
-V5vlHp5uPs3a4sXBwXYVlWbM2ICK1g==
-=b4rM
------END PGP SIGNATURE-----
-
---QlFvzjBH2dX8pMN1--
