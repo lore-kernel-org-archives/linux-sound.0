@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0397F17727
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13F11EEF7
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:36:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716838573; cv=none; b=T9lqJ/jTEf5/liSi77Nxhdsr51DLZC+Akb65g10YKAYfM86O8AqvaoiemWvq2+hhqdvPsuQP27LryFtihypOO137+3sJ8IcxaVdCNI7CEpaoSzBuYosewpqS/omE4yYaBBSqQf0gzr/TUuxoe/tkhVOPJ2+yRY3dK9qjrzJV7dA=
+	t=1716838573; cv=none; b=S1Bq5Fxgaw87NW78kCqO3j9wVNlping0K2K7sWvc8lGGiXbM8E6GLJPQBwQhJwOYcm40nkR500C2hqgDeh7DYwLivOJ0OpnzFl9tXYkVomgJ8aZkluKw95gUxfYQQ2OnpVU3jmR+HK0zkQ28T1evOnb/eH+28CcViKF4ybVuB24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716838573; c=relaxed/simple;
-	bh=MgEHNB9167o7HxV9OUTCTOGMriG+s33CZ/6nsWsUPlU=;
+	bh=ih6BwwZkBO8p6XkXeac4kg6IsIuNg8xO76PcQYXBbiM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hPx+YqFqI+8p3jaIlqJwyFXW5WavbtFmOOJ1UnOZvTUmH2Lckru8x+DItlJEnN8XVcH69YbyfBkzOE+FvOQKmTfZb8tjasyD8snXPmuSc9JtVnZL/itqeEpUmvMeh3E16NSZxFTV/NbMrvqG74DkYaR9Gn1xcBej/TqUriVgkZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XqgwLeZH; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version:Content-Type; b=ACdhNv0PAbNEJre7fxYE330J27a+eF/QYAjQTjVcG4lT0I6zLN2ALyecuz7O+vgn0PgUASa4vp2ehEkIOIUuXwCjBds/2NLMfYsHVQ7XJ7e0fbeMGpAKvaLVEh98AJkGX3NJjpz7xFiSKc+gI1So3myjxO2j05//o/Cvshc1K70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOzBcbQB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XqgwLeZH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOzBcbQB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716838572; x=1748374572;
+  t=1716838571; x=1748374571;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MgEHNB9167o7HxV9OUTCTOGMriG+s33CZ/6nsWsUPlU=;
-  b=XqgwLeZHF9vdym+kOKCm3AhwkDBjlCVQxyxaM8Fu6GFDB0Ri9qfETx5+
-   Cieh50MdFM7FL8D0uSXVNLIXk9Q8VlX/NwYLXgTyhkeIRPkmEuFVAoE/5
-   9oum7G3zYgX9Z0FbHJrRm5/bEEGq1zXxO51QcYzEkQNodFpS4OAUsSJEn
-   ncGsq9fV9Zu1FWaK3zWhltZ2Z/v11NPGer9RLTEpjVtigSNiNB46gBPxd
-   vtDtp2kMKL00/InDsbkFOB5clIMM7CPsAScFGJJCpyV3ZMTa7dEEWp2nu
-   06xfjPqlXfb+klp8kcaYbB+cynaNbZAnJGBAANgd6hG7GFMtgl+gU443C
-   A==;
-X-CSE-ConnectionGUID: MbtZ4ja9TLyOEkz6cLOaGw==
-X-CSE-MsgGUID: pG/PZS9dR52vyiWuE5oIvQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13339323"
+  bh=ih6BwwZkBO8p6XkXeac4kg6IsIuNg8xO76PcQYXBbiM=;
+  b=UOzBcbQBcdAnL9NUA3C6wYkR0c4H82IxnRUkTL4kmphcRv55mfYnBRiE
+   ycwPJF8+vwV+7SQma+3Mfy7uJEu62PbNCZHvEeZgm5H0q75mWvMQM4H4h
+   cJ8OUDWaWgrHMiVrmbZeSvspjVt6e/Tz0AIY0DOeQrqW4GWO4e9AUtDwx
+   ax6UmTNGfTsmg5ODPnGuoUnXuOmZUV1WNFPSlDJ7AGCZwJJFERsledhXz
+   eWRRKP4LLgfl6Q9BdPti1lrCOz1qPKcleU/K+kXM4fgDZtyz+IKJipMaS
+   XbMS/BAdZCqK4XaHX3Xcxy9d4t/TKEX6piq8aSlXM2kBXXWt2FSNXR4zg
+   Q==;
+X-CSE-ConnectionGUID: CVd/P3/ZQgWSOAdBQUmUNQ==
+X-CSE-MsgGUID: QHMq/Q7STWSEtRDtvgQSGA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13339314"
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13339323"
+   d="scan'208";a="13339314"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:11 -0700
-X-CSE-ConnectionGUID: 737jNDigQuq3fEkVVgv1Ww==
-X-CSE-MsgGUID: +TA6kQULRxyIigljJ+VYbw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:09 -0700
+X-CSE-ConnectionGUID: jcxOIgDSTH6Bp95YNKwlpQ==
+X-CSE-MsgGUID: gJYznnWgS3mQERdT56hDTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="58029758"
+   d="scan'208";a="58029753"
 Received: from unknown (HELO pbossart-mobl6.lan) ([10.125.110.221])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:10 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:36:08 -0700
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 To: linux-sound@vger.kernel.org
 Cc: alsa-devel@alsa-project.org,
@@ -51,9 +51,9 @@ Cc: alsa-devel@alsa-project.org,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [PATCH 03/18] ASoC: Intel: sof_sdw_rt5682: use dai parameter
-Date: Mon, 27 May 2024 14:35:37 -0500
-Message-ID: <20240527193552.165567-4-pierre-louis.bossart@linux.intel.com>
+Subject: [PATCH 01/18] ASoC: Intel: sof_sdw_cs42l42: use dai parameter
+Date: Mon, 27 May 2024 14:35:35 -0500
+Message-ID: <20240527193552.165567-2-pierre-louis.bossart@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527193552.165567-1-pierre-louis.bossart@linux.intel.com>
 References: <20240527193552.165567-1-pierre-louis.bossart@linux.intel.com>
@@ -75,22 +75,22 @@ Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw_rt5682.c | 11 +----------
+ sound/soc/intel/boards/sof_sdw_cs42l42.c | 11 +----------
  1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw_rt5682.c b/sound/soc/intel/boards/sof_sdw_rt5682.c
-index 96f193798540..67737815d016 100644
---- a/sound/soc/intel/boards/sof_sdw_rt5682.c
-+++ b/sound/soc/intel/boards/sof_sdw_rt5682.c
-@@ -35,24 +35,15 @@ static struct snd_soc_jack_pin rt5682_jack_pins[] = {
+diff --git a/sound/soc/intel/boards/sof_sdw_cs42l42.c b/sound/soc/intel/boards/sof_sdw_cs42l42.c
+index fdb75fc71c26..fc18e4aa3dbe 100644
+--- a/sound/soc/intel/boards/sof_sdw_cs42l42.c
++++ b/sound/soc/intel/boards/sof_sdw_cs42l42.c
+@@ -36,24 +36,15 @@ static struct snd_soc_jack_pin cs42l42_jack_pins[] = {
  	},
  };
  
 -static const char * const jack_codecs[] = {
--	"rt5682"
+-	"cs42l42"
 -};
 -
- int rt5682_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+ int cs42l42_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
  {
  	struct snd_soc_card *card = rtd->card;
  	struct mc_private *ctx = snd_soc_card_get_drvdata(card);
@@ -106,7 +106,7 @@ index 96f193798540..67737815d016 100644
 -	component = codec_dai->component;
 +	component = dai->component;
  	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
- 					  "%s hs:rt5682",
+ 					  "%s hs:cs42l42",
  					  card->components);
 -- 
 2.43.0
