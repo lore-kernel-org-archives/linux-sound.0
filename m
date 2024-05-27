@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823CF131E41
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 11:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEB413AD28
+	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 11:41:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716809711; cv=none; b=YwruJ3ThIVm3wTfXLXmRNmtBMZVipUsGO3OVWEqMB+cj5RVh3hV8rm4Iymv5fI7KsGa/EsLskOs9wYxb8JAXfB490y0pgqVDM5sYT+g2qvFRyB4ERA2H9tRRWPRsV0NAl/hSNsE32Oo4NNMZxGDzjLtsBKMcnLNXM8AJSMCF6g8=
+	t=1716810111; cv=none; b=snnejG9meICB2KyAfkykfY7sQOePa7n/gWbNhAcRIL+NeDD9yKv4jgQysMU+bfohaXPcqKs3CumL6LraS42/FyM91RTfcqwSHKe3eID7O94bEyHvAwqHwpL0nyVTgqPQ43x+7EPEE17Tbud7ttQB2DIR9f5yVyqA2xnr2ckWokE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716809711; c=relaxed/simple;
-	bh=GQgPhdynxj+Tz0V0jBWnIvxtIif9FrvCvirQN97X6eg=;
+	s=arc-20240116; t=1716810111; c=relaxed/simple;
+	bh=54OiiMiFMq20H/MZRerzPN/ORf9+YctiOSFVHnUJ/+A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q2AVakPgWAc3bQOWTbONWXsSR5I9v9l4hHT4DqgP1YPOEhVxMowX3hVQED2Ne8uzr1rLLYjv/gvS0O1oHMDsMrZhDDg5yggC0yoyB53LU6L1pKcRiMmmfQedeVw2mKhvk8TaS4xT7c/seG+/Vfp9boCSLd7dE3clo6bux3wyD2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=5jT7AMlL; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=O4x6t7FRezZbZDVjv4RWR6Hj2lCOWlZ6sf9C8C/lmJw1reG/aDkLEzJAsmBv6+CPuQI15qyelcmgnxlsF5Uvevyq2aa21634gFKiLrWMPTcczZ9hsGxBjg0AfU5UP1gFae4K4MnST3hDYamasdCDpNZULv6A4Z5CHSOUsUMqmt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=T7AhNK4y; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="5jT7AMlL"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="T7AhNK4y"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 22E924B9A;
-	Mon, 27 May 2024 13:35:05 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 22E924B9A
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 6EAB44B93;
+	Mon, 27 May 2024 13:41:46 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 6EAB44B93
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1716809705; bh=30AHcSIhTPkDX16XAl5QvTFQTosLXCsL/bkdtsFZHxM=;
+	t=1716810106; bh=/cDbhqBcGPqHci0wf6IvLM9y48mVc+0aS/Ezu7d2t2U=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=5jT7AMlLzHeT+0HFzrwiYWa9bJVhprexZdRNch+hrl1ovad2cbmeQK8Rn2j6dK4YN
-	 1hEzQfrbSRjsctoYjK0Pmh73Y85TdgV5oQpbc/1q8/9hwB5ihfrsfU6um9VcXc4CJK
-	 eKi5eP8pahrMaYL7DmOjCzzs+Mu9X9OEWpaX0930=
+	b=T7AhNK4yvSpE3k8cTF+RMPlGtiCFCmA1NbXMT7UU2TDauV82G8ioziGRbSyG00jue
+	 SmFXu/sDAKELwA9dvVrayunFerNeyBZQwNOHAiLxmSlxmpbpxKGbm95LW6LW11wgmd
+	 EFGvQOMl+J1rtaL3EXA/gcgASy1wzR+D7YWQxVaQ=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 27 May 2024 13:34:57 +0200 (CEST)
-Message-ID: <23b38684-62e7-4fdf-8eeb-36cdb6d102a9@perex.cz>
-Date: Mon, 27 May 2024 13:34:56 +0200
+	Mon, 27 May 2024 13:41:38 +0200 (CEST)
+Message-ID: <8eb02627-415f-4b3d-a53d-df1d620725ac@perex.cz>
+Date: Mon, 27 May 2024 13:41:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,19 +44,17 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH] ALSA: compress_offload: introduce passthrough
  operation mode
-To: Takashi Iwai <tiwai@suse.de>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
  Shengjiu Wang <shengjiu.wang@gmail.com>,
  Nicolas Dufresne <nicolas@ndufresne.ca>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
  Vinod Koul <vkoul@kernel.org>
 References: <20240527071133.223066-1-perex@perex.cz>
  <e5300791-e702-4868-a442-94162f2e1a97@linux.intel.com>
- <87ed9na4sp.wl-tiwai@suse.de>
-Content-Language: en-US
 From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
 Autocrypt: addr=perex@perex.cz; keydata=
  xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
  ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
@@ -100,36 +98,30 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <87ed9na4sp.wl-tiwai@suse.de>
+In-Reply-To: <e5300791-e702-4868-a442-94162f2e1a97@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 27. 05. 24 13:10, Takashi Iwai wrote:
-> On Mon, 27 May 2024 12:13:30 +0200,
-> Amadeusz Sławiński wrote:
->>
->>> +static int snd_compr_task_status(struct snd_compr_stream *stream,
->>> +					struct snd_compr_task_status *status)
->>> +{
->>> +	struct snd_compr_task_runtime *task;
->>> +
->>> +	task = snd_compr_find_task(stream, status->seqno);
->>> +	if (task == NULL)
->>> +		return -EINVAL;
->>> +	status->output_size = task->output_size;
->>> +	status->active = task->active ? 1 : 0;
->>> +	status->finished = task->finished ? 1 : 0;
->>
->> Not sure, but access to ->active and ->finished, feels to me like
->> something that may require locking.
+On 27. 05. 24 12:13, Amadeusz Sławiński wrote:
+
+>> +The API extension shares device enumeration and parameters handling from
+>> +the main compressed API. All other realtime streaming ioctls are deactivated
+>> +and a new set of task related ioctls are introduced. The standard
+>> +read/write/mmap I/O operations are not supported in the passtrough device.
 > 
-> Or better to make it a single state field?
+> passthrough
 
-Yes, it's an option. Those states cannot be used simultaneously. Note that the 
-access to the runtime task fields is protected by the stream->device->lock 
-mutex. Unless I overlooked something.
+Thank you. I fixed those typos in my tree.
 
-					Jaroslav
+>> +	retval = stream->ops->task_start(stream, task);
+> 
+> Should probably check somewhere that ops are set properly, or is it this
+> way because they all considered mandatory?
+
+Yes, all four callbacks are mandatory for the passthrough mode.
+
+			Thank you for your comments,
+						Jaroslav
 
 -- 
 Jaroslav Kysela <perex@perex.cz>
