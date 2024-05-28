@@ -1,397 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88411E888
-	for <linux-sound@vger.kernel.org>; Mon, 27 May 2024 19:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFDC22067;
+	Tue, 28 May 2024 06:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716839107; cv=none; b=IcoH3BeLeZwNTbOWiSHMC7f+G4eSocs/ACKtxMqrjtOfe8cSLYXroKv9yy6bmnApWkwcWeaaodv60pQ93H1HDLvxfBlxWonJCGXvwnaZxNLEhDnw+meVzC0RXpM/dVfv1yjBmSFfpGF6XNUcP0GY6AwrCWwaS8ALLRCXm+lescw=
+	t=1716878021; cv=none; b=hkJmYjUA9QkzuNELrD/beU6OtOp88laWpLM71N7Ac+gYM2Bb02cY7D0HXhmGChEVdaaZI8pgnlZL8ATT9TU9zNcIG5eY6ww2crldEvS4BKv/DHCYeWdJm73Zi6IdrHpN3jgNab4cTZIp5wgU+wRpkoJIMBGj4xlKsq3PihlYzIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716839107; c=relaxed/simple;
-	bh=Q2qiCg1xR3gvi8RN+ihU4uf5mBY0RVaHivpdoQhAdOM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sht7mrsacUP3LjdBgArJVsfqCtCGZfV3/4wI9z8LnjUVq25D+La0keQrYeQVZUWE3uaWCWe/It/4ONXP5+H7XSsOQYSp64oHWNu5fKNLuGhGfyY63pRTEHyI6uoJSUlcjWZ0d+noyTDMR9cFx8N3TnFk+SF6Hwbw8VuH0VJZxc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVSxUzp/; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVSxUzp/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716839105; x=1748375105;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Q2qiCg1xR3gvi8RN+ihU4uf5mBY0RVaHivpdoQhAdOM=;
-  b=hVSxUzp/kCIy5g0Kyq5JkTaJfCiC9RmFQSJjFFgDxArxbzpVxkfrtQi0
-   tYC3up8ZO8hYh0hnztxUTL252ouOlrxNc1qrrV0hQf4h9O2of3M4rFLBu
-   1u9eqReejVNrQN/fmRBbNeS7di/v4i5HSYF+S7LIXP+s5AB7jUd4Y7wYd
-   EkGb7rLOfWr2yJt5ZAgWQylLxt6oRJEf4Pldlm5ksIetFKS+z/leeKHWs
-   UsGP+UmF4eqY4Q/dUN82Yd1jB4EGMwi6OjnJXGM2LWRQDY8saeDcuFFiu
-   BhcmCcU/1spz7JCwlB1TulbIWxsWCNi/8oWpN58iHg+Ct8bxIUZWZECCO
-   g==;
-X-CSE-ConnectionGUID: Us6irN7oRFaRFUrzRJg/mQ==
-X-CSE-MsgGUID: AiiV/1JNTem1lfpgIbQ5XQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30679495"
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="30679495"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:05 -0700
-X-CSE-ConnectionGUID: MNFDxKlPSQWLX1DiuibRFQ==
-X-CSE-MsgGUID: N15fKTIORCWWgz6+fQ5srA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="39280549"
-Received: from unknown (HELO pbossart-mobl6.lan) ([10.125.110.221])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 12:45:05 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH 4/4] ASoC: SOF: add missing MODULE_DESCRIPTION()
-Date: Mon, 27 May 2024 14:44:14 -0500
-Message-ID: <20240527194414.166156-5-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
-References: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
+	s=arc-20240116; t=1716878021; c=relaxed/simple;
+	bh=ldjbI0S/6R2kqmtohSnLqSpSiUjP7PyHc2GT7iFo/70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7kY6VR0OnHy4UzdtzdRjJxtgIauAy/dj1jNaw2TTt51fw3eLPim4WXZw2o/C+0TP2r0+plRdWyfwXDscHaklgoSf191csT6xr+hR9VfcxjrbDpe3je3VdrWthFBewp5P8hSpYfPPiRc89B0cdmE3BJ74uWXJgdjPK1b9y4QJSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id ED81868BEB; Tue, 28 May 2024 08:33:32 +0200 (CEST)
+Date: Tue, 28 May 2024 08:33:32 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Mark Brown <broonie@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
+	iommu@lists.linux.dev, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/18] dma-direct: take dma-ranges/offsets into account
+ in resource mapping
+Message-ID: <20240528063332.GA30051@lst.de>
+References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com> <20240524182702.1317935-2-dave.stevenson@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240524182702.1317935-2-dave.stevenson@raspberrypi.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-MODULE_DESCRIPTION() was optional until it became mandatory and
-flagged as an error by 'make W=1'.
+On Fri, May 24, 2024 at 07:26:45PM +0100, Dave Stevenson wrote:
+> From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> 
+> A basic device-specific linear memory mapping was introduced back in
+> commit ("dma: Take into account dma_pfn_offset") as a single-valued offset
+> preserved in the device.dma_pfn_offset field, which was initialized for
+> instance by means of the "dma-ranges" DT property. Afterwards the
+> functionality was extended to support more than one device-specific region
+> defined in the device.dma_range_map list of maps. But all of these
+> improvements concerned a single pointer, page or sg DMA-mapping methods,
+> while the system resource mapping function turned to miss the
+> corresponding modification. Thus the dma_direct_map_resource() method now
+> just casts the CPU physical address to the device DMA address with no
+> dma-ranges-based mapping taking into account, which is obviously wrong.
+> Let's fix it by using the phys_to_dma_direct() method to get the
+> device-specific bus address from the passed memory resource for the case
+> of the directly mapped DMA.
 
-Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/imx/imx-common.c           | 1 +
- sound/soc/sof/imx/imx8.c                 | 3 ++-
- sound/soc/sof/imx/imx8m.c                | 3 ++-
- sound/soc/sof/imx/imx8ulp.c              | 3 ++-
- sound/soc/sof/intel/atom.c               | 1 +
- sound/soc/sof/intel/bdw.c                | 1 +
- sound/soc/sof/intel/byt.c                | 1 +
- sound/soc/sof/intel/hda-codec.c          | 1 +
- sound/soc/sof/intel/hda-ctrl.c           | 1 +
- sound/soc/sof/intel/hda-mlink.c          | 1 +
- sound/soc/sof/intel/hda.c                | 1 +
- sound/soc/sof/intel/pci-apl.c            | 1 +
- sound/soc/sof/intel/pci-cnl.c            | 1 +
- sound/soc/sof/intel/pci-icl.c            | 1 +
- sound/soc/sof/intel/pci-lnl.c            | 1 +
- sound/soc/sof/intel/pci-mtl.c            | 1 +
- sound/soc/sof/intel/pci-skl.c            | 1 +
- sound/soc/sof/intel/pci-tgl.c            | 1 +
- sound/soc/sof/intel/pci-tng.c            | 1 +
- sound/soc/sof/mediatek/mt8186/mt8186.c   | 3 ++-
- sound/soc/sof/mediatek/mt8195/mt8195.c   | 3 ++-
- sound/soc/sof/mediatek/mtk-adsp-common.c | 1 +
- sound/soc/sof/sof-acpi-dev.c             | 1 +
- sound/soc/sof/sof-of-dev.c               | 1 +
- sound/soc/sof/sof-pci-dev.c              | 1 +
- sound/soc/sof/sof-utils.c                | 1 +
- 26 files changed, 31 insertions(+), 5 deletions(-)
+My memory is getting a little bad, but as dma_direct_map_resource is
+mostly used for (non-PCIe) peer to peer transfers, any kind of mapping
+from the host address should be excluded.
 
-diff --git a/sound/soc/sof/imx/imx-common.c b/sound/soc/sof/imx/imx-common.c
-index 2981aea123d9..fce6d9cf6a6b 100644
---- a/sound/soc/sof/imx/imx-common.c
-+++ b/sound/soc/sof/imx/imx-common.c
-@@ -75,3 +75,4 @@ void imx8_dump(struct snd_sof_dev *sdev, u32 flags)
- EXPORT_SYMBOL(imx8_dump);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF helpers for IMX platforms");
-diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 3021dc87ab5a..9f24e3c283dd 100644
---- a/sound/soc/sof/imx/imx8.c
-+++ b/sound/soc/sof/imx/imx8.c
-@@ -667,5 +667,6 @@ static struct platform_driver snd_sof_of_imx8_driver = {
- };
- module_platform_driver(snd_sof_of_imx8_driver);
- 
--MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for IMX8 platforms");
-+MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
-diff --git a/sound/soc/sof/imx/imx8m.c b/sound/soc/sof/imx/imx8m.c
-index 3c3eeef0e282..2a7ad67a3ef3 100644
---- a/sound/soc/sof/imx/imx8m.c
-+++ b/sound/soc/sof/imx/imx8m.c
-@@ -558,5 +558,6 @@ static struct platform_driver snd_sof_of_imx8m_driver = {
- };
- module_platform_driver(snd_sof_of_imx8m_driver);
- 
--MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for IMX8M platforms");
-+MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
-diff --git a/sound/soc/sof/imx/imx8ulp.c b/sound/soc/sof/imx/imx8ulp.c
-index 8adfdd00413a..2585b1beef23 100644
---- a/sound/soc/sof/imx/imx8ulp.c
-+++ b/sound/soc/sof/imx/imx8ulp.c
-@@ -516,5 +516,6 @@ static struct platform_driver snd_sof_of_imx8ulp_driver = {
- };
- module_platform_driver(snd_sof_of_imx8ulp_driver);
- 
--MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for IMX8ULP platforms");
-+MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
-diff --git a/sound/soc/sof/intel/atom.c b/sound/soc/sof/intel/atom.c
-index 86af4e9a716e..3505ac3a1b14 100644
---- a/sound/soc/sof/intel/atom.c
-+++ b/sound/soc/sof/intel/atom.c
-@@ -418,3 +418,4 @@ void atom_set_mach_params(struct snd_soc_acpi_mach *mach,
- EXPORT_SYMBOL_NS(atom_set_mach_params, SND_SOC_SOF_INTEL_ATOM_HIFI_EP);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for Atom platforms");
-diff --git a/sound/soc/sof/intel/bdw.c b/sound/soc/sof/intel/bdw.c
-index 3262286a9a9d..7f18080e4e19 100644
---- a/sound/soc/sof/intel/bdw.c
-+++ b/sound/soc/sof/intel/bdw.c
-@@ -694,6 +694,7 @@ static struct platform_driver snd_sof_acpi_intel_bdw_driver = {
- module_platform_driver(snd_sof_acpi_intel_bdw_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for Broadwell platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
- MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SND_SOC_SOF_ACPI_DEV);
-diff --git a/sound/soc/sof/intel/byt.c b/sound/soc/sof/intel/byt.c
-index d78d11d4cfbf..7a57e162fb1c 100644
---- a/sound/soc/sof/intel/byt.c
-+++ b/sound/soc/sof/intel/byt.c
-@@ -475,6 +475,7 @@ static struct platform_driver snd_sof_acpi_intel_byt_driver = {
- module_platform_driver(snd_sof_acpi_intel_byt_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for Baytrail/Cherrytrail");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
- MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SND_SOC_SOF_ACPI_DEV);
-diff --git a/sound/soc/sof/intel/hda-codec.c b/sound/soc/sof/intel/hda-codec.c
-index da3db3ed379e..dc46888faa0d 100644
---- a/sound/soc/sof/intel/hda-codec.c
-+++ b/sound/soc/sof/intel/hda-codec.c
-@@ -457,3 +457,4 @@ EXPORT_SYMBOL_NS_GPL(hda_codec_i915_exit, SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
- #endif
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for HDaudio codecs");
-diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
-index 262b482dc0a8..b9a02750ce61 100644
---- a/sound/soc/sof/intel/hda-ctrl.c
-+++ b/sound/soc/sof/intel/hda-ctrl.c
-@@ -328,6 +328,7 @@ void hda_dsp_ctrl_stop_chip(struct snd_sof_dev *sdev)
- }
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF helpers for HDaudio platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_HDA_MLINK);
- MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
- MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
-diff --git a/sound/soc/sof/intel/hda-mlink.c b/sound/soc/sof/intel/hda-mlink.c
-index 04bbc5c9904c..9a3559c78b62 100644
---- a/sound/soc/sof/intel/hda-mlink.c
-+++ b/sound/soc/sof/intel/hda-mlink.c
-@@ -972,3 +972,4 @@ EXPORT_SYMBOL_NS(hdac_bus_eml_enable_offload, SND_SOC_SOF_HDA_MLINK);
- #endif
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for HDaudio multi-link");
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 541c6052d4ed..daf364f773dd 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1522,6 +1522,7 @@ void hda_unregister_clients(struct snd_sof_dev *sdev)
- }
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for HDaudio platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
- MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC);
- MODULE_IMPORT_NS(SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
-diff --git a/sound/soc/sof/intel/pci-apl.c b/sound/soc/sof/intel/pci-apl.c
-index df6d897da290..f006dcf5458a 100644
---- a/sound/soc/sof/intel/pci-apl.c
-+++ b/sound/soc/sof/intel/pci-apl.c
-@@ -105,6 +105,7 @@ static struct pci_driver snd_sof_pci_intel_apl_driver = {
- module_pci_driver(snd_sof_pci_intel_apl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for ApolloLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
-diff --git a/sound/soc/sof/intel/pci-cnl.c b/sound/soc/sof/intel/pci-cnl.c
-index a39fa3657d55..a8406342f08b 100644
---- a/sound/soc/sof/intel/pci-cnl.c
-+++ b/sound/soc/sof/intel/pci-cnl.c
-@@ -143,6 +143,7 @@ static struct pci_driver snd_sof_pci_intel_cnl_driver = {
- module_pci_driver(snd_sof_pci_intel_cnl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for CannonLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
-diff --git a/sound/soc/sof/intel/pci-icl.c b/sound/soc/sof/intel/pci-icl.c
-index 9f1fe47475fb..25effca50d9f 100644
---- a/sound/soc/sof/intel/pci-icl.c
-+++ b/sound/soc/sof/intel/pci-icl.c
-@@ -108,6 +108,7 @@ static struct pci_driver snd_sof_pci_intel_icl_driver = {
- module_pci_driver(snd_sof_pci_intel_icl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for IceLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_CNL);
-diff --git a/sound/soc/sof/intel/pci-lnl.c b/sound/soc/sof/intel/pci-lnl.c
-index 68e5c90151b2..602c574064eb 100644
---- a/sound/soc/sof/intel/pci-lnl.c
-+++ b/sound/soc/sof/intel/pci-lnl.c
-@@ -70,6 +70,7 @@ static struct pci_driver snd_sof_pci_intel_lnl_driver = {
- module_pci_driver(snd_sof_pci_intel_lnl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for LunarLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_MTL);
-diff --git a/sound/soc/sof/intel/pci-mtl.c b/sound/soc/sof/intel/pci-mtl.c
-index c685cb8d6171..8cb0333c033e 100644
---- a/sound/soc/sof/intel/pci-mtl.c
-+++ b/sound/soc/sof/intel/pci-mtl.c
-@@ -133,6 +133,7 @@ static struct pci_driver snd_sof_pci_intel_mtl_driver = {
- module_pci_driver(snd_sof_pci_intel_mtl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for MeteorLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
-diff --git a/sound/soc/sof/intel/pci-skl.c b/sound/soc/sof/intel/pci-skl.c
-index 862da8009543..8ca0231d7e4f 100644
---- a/sound/soc/sof/intel/pci-skl.c
-+++ b/sound/soc/sof/intel/pci-skl.c
-@@ -89,6 +89,7 @@ static struct pci_driver snd_sof_pci_intel_skl_driver = {
- module_pci_driver(snd_sof_pci_intel_skl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for SkyLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
-diff --git a/sound/soc/sof/intel/pci-tgl.c b/sound/soc/sof/intel/pci-tgl.c
-index f73bb47cd79e..ebe1a7d16689 100644
---- a/sound/soc/sof/intel/pci-tgl.c
-+++ b/sound/soc/sof/intel/pci-tgl.c
-@@ -317,6 +317,7 @@ static struct pci_driver snd_sof_pci_intel_tgl_driver = {
- module_pci_driver(snd_sof_pci_intel_tgl_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for TigerLake platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_GENERIC);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HDA_COMMON);
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_CNL);
-diff --git a/sound/soc/sof/intel/pci-tng.c b/sound/soc/sof/intel/pci-tng.c
-index 5c3069588bb7..1375c393827e 100644
---- a/sound/soc/sof/intel/pci-tng.c
-+++ b/sound/soc/sof/intel/pci-tng.c
-@@ -244,6 +244,7 @@ static struct pci_driver snd_sof_pci_intel_tng_driver = {
- module_pci_driver(snd_sof_pci_intel_tng_driver);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for Tangier platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_INTEL_HIFI_EP_IPC);
- MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SND_SOC_SOF_PCI_DEV);
-diff --git a/sound/soc/sof/mediatek/mt8186/mt8186.c b/sound/soc/sof/mediatek/mt8186/mt8186.c
-index c63e0d2f4b96..bea1b9d9ca28 100644
---- a/sound/soc/sof/mediatek/mt8186/mt8186.c
-+++ b/sound/soc/sof/mediatek/mt8186/mt8186.c
-@@ -666,6 +666,7 @@ static struct platform_driver snd_sof_of_mt8186_driver = {
- };
- module_platform_driver(snd_sof_of_mt8186_driver);
- 
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for MT8186/MT8188 platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SND_SOC_SOF_MTK_COMMON);
--MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/sof/mediatek/mt8195/mt8195.c b/sound/soc/sof/mediatek/mt8195/mt8195.c
-index fc1c016104ae..31dc98d1b1d8 100644
---- a/sound/soc/sof/mediatek/mt8195/mt8195.c
-+++ b/sound/soc/sof/mediatek/mt8195/mt8195.c
-@@ -619,6 +619,7 @@ static struct platform_driver snd_sof_of_mt8195_driver = {
- };
- module_platform_driver(snd_sof_of_mt8195_driver);
- 
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for MTL 8195 platforms");
- MODULE_IMPORT_NS(SND_SOC_SOF_XTENSA);
- MODULE_IMPORT_NS(SND_SOC_SOF_MTK_COMMON);
--MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/sof/mediatek/mtk-adsp-common.c b/sound/soc/sof/mediatek/mtk-adsp-common.c
-index de8dbe27cd0d..20bcf5590eb8 100644
---- a/sound/soc/sof/mediatek/mtk-adsp-common.c
-+++ b/sound/soc/sof/mediatek/mtk-adsp-common.c
-@@ -82,3 +82,4 @@ void mtk_adsp_dump(struct snd_sof_dev *sdev, u32 flags)
- EXPORT_SYMBOL(mtk_adsp_dump);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF helpers for MTK ADSP platforms");
-diff --git a/sound/soc/sof/sof-acpi-dev.c b/sound/soc/sof/sof-acpi-dev.c
-index 2d96d00f1c44..b196b2b74c26 100644
---- a/sound/soc/sof/sof-acpi-dev.c
-+++ b/sound/soc/sof/sof-acpi-dev.c
-@@ -100,3 +100,4 @@ void sof_acpi_remove(struct platform_device *pdev)
- EXPORT_SYMBOL_NS(sof_acpi_remove, SND_SOC_SOF_ACPI_DEV);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for ACPI platforms");
-diff --git a/sound/soc/sof/sof-of-dev.c b/sound/soc/sof/sof-of-dev.c
-index b9a499e92b9a..71f7153cf79c 100644
---- a/sound/soc/sof/sof-of-dev.c
-+++ b/sound/soc/sof/sof-of-dev.c
-@@ -93,3 +93,4 @@ void sof_of_shutdown(struct platform_device *pdev)
- EXPORT_SYMBOL(sof_of_shutdown);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for OF/DT platforms");
-diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
-index 4365405783e6..38f2187da5de 100644
---- a/sound/soc/sof/sof-pci-dev.c
-+++ b/sound/soc/sof/sof-pci-dev.c
-@@ -304,3 +304,4 @@ void sof_pci_shutdown(struct pci_dev *pci)
- EXPORT_SYMBOL_NS(sof_pci_shutdown, SND_SOC_SOF_PCI_DEV);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF support for PCI platforms");
-diff --git a/sound/soc/sof/sof-utils.c b/sound/soc/sof/sof-utils.c
-index cad041bf56cc..44608682e9f8 100644
---- a/sound/soc/sof/sof-utils.c
-+++ b/sound/soc/sof/sof-utils.c
-@@ -73,3 +73,4 @@ int snd_sof_create_page_table(struct device *dev,
- EXPORT_SYMBOL(snd_sof_create_page_table);
- 
- MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SOF utils");
--- 
-2.43.0
+(dma_direct_map_resource in general is a horrible interface and I'd
+prefer everyone to switch to the map_sg based P2P support, but we
+have plenty of users for it unfortunately)
 
