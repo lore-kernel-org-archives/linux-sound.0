@@ -1,106 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84D8172BD1;
-	Tue, 28 May 2024 19:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C21175567
+	for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 20:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716924598; cv=none; b=drEgmvdtARLv+NX7oKjF3Njl/HBibLix4yszpalF2d1anr6c/ekcUcr22xH8s9Ln0xZcZtWPjlAjP33DH25z3GNdSPWSJ4FJlhaelSB5fWMfbr2wpO9w3AmzNdmfGEHShypT/OE7ctd4DBl5K8ehj0L6OhCOlJix3BxwQ8K6l4c=
+	t=1716926565; cv=none; b=YG0eCJxg/rE92rYcDN+zmc6zuAQdBiYxXAo6WkSGMrns5ybgGQI6iWNoJf2r/Mk5IOHDZIBpvBmCL8/t/wTNS/Lt5Sg5xBpzx6WSmQYNsrAgHNfzbEm2Bdve4ecgFZnSQF+P13QYjySgJx0wCxO4QnCYvrDwnfecjgsfDbiuTp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716924598; c=relaxed/simple;
-	bh=yrLkMNL0vjGtPcpJMxCjfDCJZd9eHDtZHTZMrLNb4lI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y8SDJxEYF1D1v3dnySZM/kIysBn12rx6Zni1vGKVDuyj9n0g1Ydcw3YfnZzuGMVTFbwfq/a8Jb5S82q1kPQViQGIWa7/xWZ1bUPA+gpb7bnmr7sVkYpih5WTGW2+1ByR1i4hMskYfStugD8+Z3ESIb0Qvf/JY/B9qH/uQVlSyq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbw2Fatb; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbw2Fatb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716924597; x=1748460597;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yrLkMNL0vjGtPcpJMxCjfDCJZd9eHDtZHTZMrLNb4lI=;
-  b=nbw2FatbU/qrW/MAO6WpvSE6M6yQiVCCLuyxaCVQpTYV205BnEqDqL1Y
-   n9FlVfrfU4CZKJDiqUc8M2xkMVqzggarJQBYsEB2RGsV8VHDG1IubT4Fw
-   H2V4u3vaUvUafy60IfDRHvNY6TcQOzYitM0aGhQZQZ07AZXmI6ppvmy4J
-   0P3n7wjUjjljlDRnIHJ/zM5neTphcFDQU0331WB5HdzntYV0NEeNzKymn
-   zmP6MFS3mt7t0Y/G+cbtYRRjf5JGOD6qe8oBxy1OVgu4osnKPyGRZPE/S
-   jlD/OjmIo0LfnXAoRitfdGGjjhsX8xrRDans61utGkt3wwrh2DroUqKMz
-   g==;
-X-CSE-ConnectionGUID: SIT48geFRYiCEC2GoPFejA==
-X-CSE-MsgGUID: /pe+cS9SREOGvc0QbVpPBw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24711846"
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="24711846"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 12:29:56 -0700
-X-CSE-ConnectionGUID: oPjQrdN/TZOsComV4T9Q5g==
-X-CSE-MsgGUID: dw+3EAeBTcyrDD4eXkFDRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,196,1712646000"; 
-   d="scan'208";a="35246723"
-Received: from unknown (HELO pbossart-mobl6.lan) ([10.125.110.237])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 12:29:55 -0700
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org,
-	tiwai@suse.de,
-	broonie@kernel.org,
-	rafael@kernel.org,
-	vkoul@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Rander Wang <rander.wang@intel.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 3/3] ALSA: hda: intel-sdw-acpi: use acpi_get_local_u64_address()
-Date: Tue, 28 May 2024 14:29:35 -0500
-Message-ID: <20240528192936.16180-4-pierre-louis.bossart@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
-References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+	s=arc-20240116; t=1716926565; c=relaxed/simple;
+	bh=pTf2qUi734ES9Al085wTXfYC8mQU+J7CT38EpK7LQlk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ncZ/ucebWaclToqAjNDTJiJ9yeONmJljV83KQAc6oO5uf2OfwVv2D7HsOdJyvxFinY0Rk/nWeAV52MaIFs/E6LUzz+ena3q/KtOqDTSQhaGFkqyjY9vc2uqQYzudztBZoLhb9REBkA46DpEOenvBuo1N1MMftLbzYt/LZgKFapU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
+	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+	id 3cab8281-1d2d-11ef-aaf5-005056bdd08f;
+	Tue, 28 May 2024 23:02:41 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 28 May 2024 23:02:39 +0300
+To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
+Cc: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Emil Svendsen <emas@bang-olufsen.dk>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+Subject: Re: [PATCH 06/13] gpio: add AD24xx GPIO driver
+Message-ID: <ZlY4X2P1VpF0aqjM@surfacebook.localdomain>
+References: <20240517-a2b-v1-0-b8647554c67b@bang-olufsen.dk>
+ <20240517-a2b-v1-6-b8647554c67b@bang-olufsen.dk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240517-a2b-v1-6-b8647554c67b@bang-olufsen.dk>
 
-Now we have a helper so there's no need to open-code.
+Fri, May 17, 2024 at 02:58:04PM +0200, Alvin Šipraga kirjoitti:
+> From: Alvin Šipraga <alsi@bang-olufsen.dk>
+> 
+> This driver adds GPIO function support for AD24xx A2B transceiver chips.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/hda/intel-sdw-acpi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+"Add GPIO..."
 
-diff --git a/sound/hda/intel-sdw-acpi.c b/sound/hda/intel-sdw-acpi.c
-index d7417a40392b..f3b2a610df23 100644
---- a/sound/hda/intel-sdw-acpi.c
-+++ b/sound/hda/intel-sdw-acpi.c
-@@ -125,11 +125,11 @@ static acpi_status sdw_intel_acpi_cb(acpi_handle handle, u32 level,
- 				     void *cdata, void **return_value)
- {
- 	struct sdw_intel_acpi_info *info = cdata;
--	acpi_status status;
- 	u64 adr;
-+	int ret;
- 
--	status = acpi_evaluate_integer(handle, METHOD_NAME__ADR, NULL, &adr);
--	if (ACPI_FAILURE(status))
-+	ret = acpi_get_local_u64_address(handle, &adr);
-+	if (ret < 0)
- 		return AE_OK; /* keep going */
- 
- 	if (!acpi_fetch_acpi_dev(handle)) {
+> When a GPIO is requested, the relevant pin is automatically muxed to
+> GPIO mode. The device tree property gpio-reserved-ranges can be used to
+> protect certain pins which are reserved for other functionality such as
+> I2S/TDM data.
+
+Why this doesn't use gpio-regmap?
+
+...
+
+> +config GPIO_AD24XX
+> +	tristate "Analog Devies Inc. AD24xx GPIO support"
+> +	depends on A2B_AD24XX_NODE
+> +	help
+> +	  Say Y here to enable GPIO support for AD24xx A2B transceivers.
+
+checkpatch probably complain about too short help text. You may extend it by
+explaining how module will be called.
+
+...
+
+> +#include <linux/a2b/a2b.h>
+> +#include <linux/a2b/ad24xx.h>
+
+This seems to me not so generic as below...
+
++ bits.h
++ device.h
++ err.h
+
+> +#include <linux/gpio/driver.h>
+
+> +#include <linux/interrupt.h>
+
++ mod_devicetable.h
+
+> +#include <linux/module.h>
+
++ mutex.h
+
+> +#include <linux/of_irq.h>
+
+Please, can we avoid OF in a new code?
+
+> +#include <linux/regmap.h>
+
+...hence move that group here and put a blank line before.
+
+...
+
+> +struct ad24xx_gpio {
+> +	struct device *dev;
+> +	struct a2b_func *func;
+> +	struct a2b_node *node;
+> +	struct regmap *regmap;
+> +	int irqs[AD24XX_MAX_GPIOS];
+
+> +	struct gpio_chip gpio_chip;
+
+If you move this to be the first member, you might get less code being
+generated at compile time.
+
+> +	struct irq_chip irq_chip;
+
+Should not be here, but static.
+
+> +	struct mutex mutex;
+> +	unsigned int irq_invert : AD24XX_MAX_GPIOS;
+> +	unsigned int irq_enable : AD24XX_MAX_GPIOS;
+> +};
+
+...
+
+> +	if (ret)
+> +		dev_err(adg->dev,
+> +			"failed to update interrupt configuration: %d\n", ret);
+
+Why and how is this useful?
+
+...
+
+> +	struct fwnode_handle *fwnode = of_node_to_fwnode(dev->of_node);
+
+First of all it uses a wrong API (custom to IRQ core), second why do you need
+this?
+
+...
+
+> +	struct device_node *np;
+
+> +	np = of_irq_find_parent(dev->of_node);
+> +	if (!np)
+> +		return -ENOENT;
+> +
+> +	parent_domain = irq_find_host(np);
+> +	of_node_put(np);
+> +	if (!parent_domain)
+> +		return -ENOENT;
+
+Why is this magic needed?
+
+...
+
+> +	ret = devm_gpiochip_add_data(dev, gpio_chip, adg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+
+	return devm_gpiochip_add_data(...);
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
