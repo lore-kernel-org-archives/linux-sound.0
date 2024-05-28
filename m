@@ -1,85 +1,193 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2045.outbound.protection.outlook.com [40.107.21.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E81E867;
-	Tue, 28 May 2024 15:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716909586; cv=none; b=H27ckT/2alLNqEy/1PiZvzQ3nPAf9zuaZUNe+aKlZx64nQCbuOZuYCycN3Pyj/g1V4ArWqbDpwi1CJLbXtBFkTqKpuYSwpLsDLbUDO4vlStW9S40SLD0toUb4wMjKKU5HgVqlxeHAIUo9sEj0pG7bW4uGwldMVXWG8tgui2yNqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716909586; c=relaxed/simple;
-	bh=Y3hJrkKqkQX3Ls3M4zvv1kb9DoYBZ9ECkpeTzTE2Sbg=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=acgNgmD/4AK9h62IDiuew6eKdjIBXV76hIQaryLnEMCmw2RmhaYFR1Uvt5iWDu5PtQoDAO0/60UXevGn0lvewj4kzNpvxUb+WU8FbC6KnBd3dhtYtCVwZGGhaTl2OsFkDYYzj0M796EVyCFNf9visRX47pwOvFY90ubwzB3CPK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=R5KdY2NU; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2B4171063;
+	Tue, 28 May 2024 15:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716910828; cv=fail; b=a/hxy0V9gZjezhA1BEfacJp5zKPFCetRFPNSxe/fE0AFo8DxHSTebXNpogzoJhpKVXTvtyeZYO/HtGDeGF1FVxd7l2E6hLI/M7ftf4nf4nzHOARTXzqat4xhVAVswyG2ENHC7HKn8kjR9/5/eF8lZHIEHVkDFYiKbu+YUU7y0Ak=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716910828; c=relaxed/simple;
+	bh=q+32/m8o/QUaEDfJR7fhVeeFTKR1DQgc0+kDighUkQg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=IHGPV83XRDgs0nc+No/IoCgQizmGkvnAyNjIr6UYbtUaCiD3bFIo/g0TJntWhrpGpNrWVV5kjc26SxJXyqLt8jdGGkwZRe290tmYHxUEcwFsp0GdSsoCyPAicFJl2pdtoLe39umhST1TScoINkNOqkRQZI4x6JAJMqFPt6I04tg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=sBDzV5eS; arc=fail smtp.client-ip=40.107.21.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="R5KdY2NU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716909563; x=1717514363; i=markus.elfring@web.de;
-	bh=Y3hJrkKqkQX3Ls3M4zvv1kb9DoYBZ9ECkpeTzTE2Sbg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=R5KdY2NU3al30H4QRt8D3lOTCZxRITPw8yl9ZHFDXW4mBBRTYM727mGt72mJ0FMW
-	 LDSQz3nBj1i69+hGPzZkiofVL5hDvx69pFh0IFnfG9xgHqWfio+1SIF/lRbypilkG
-	 D8WPpBfe2AoUXqRGiQXdeCuLJ5lOe1dEo8CvS62PNRYE1Hnmcl/PpNBuNRCKP1R+0
-	 SegDgCNJB/NS7h8Ccp6gYRVSfom4u2H/EQH4gdAhqiBb00RTznGBk6+bYWAWnGuM0
-	 oDvNu8ns/Lm0bVYyKhlV+WcEVh+QwSDupqqGp2o+9sL43Irh/o3Q1DihCfpvPnMpK
-	 e5OOxALD5zt9j658NA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M8kEP-1s7Hdi0MqX-00F8jK; Tue, 28
- May 2024 17:19:23 +0200
-Message-ID: <0080bd18-58e1-4e82-96e0-e64d2fa978c9@web.de>
-Date: Tue, 28 May 2024 17:19:21 +0200
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="sBDzV5eS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AiG9uduLD2tELkCfmjNqWDk/3jIzRREBPnc54lao0WA8ToiC3MCb1EsXjVNcDIkiGnjyKIIUtBBM1vo5suwoltmq6Ct8EOjGb5lENr1TCWeJTI2mf0Sv+54qIFzjeTkVH9tPPHpOO0foFWAEKQC+4oAOFJbYxv+sHzS4Jmu4MWJ2dG0jJkN4SynbQSdn28h496eSRNITvZhMUVrC8bQ8EQV+P915H9M8Z9GBfM2070/3t28BZpnCAwsUltaKcdbTsJFtb/7Q8PlGy2q91cCZ/Ouzj0PfC5UPcjnTSdICdIm8wIBEf7xHn2BgIYnLCbaIHV2Qk70DHcj7IyHB/ZqWmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pdBF0ZSysBFDqAr0TDWAYa2141cBiFA205YfnWGMPtk=;
+ b=Vk2HVP4wR5nb0Mvsts1PLu3tBzZkUzt/x8YixioRp+roisoTeyyGCBLYmJU4+Gg2vMAlynPNjJTTjxKk+cW6ZNAtKhjORraDTqMUNVnOEQ2bKRDZHJHFrY2RBdK1xV3ZeEuMNE/gSwR6TQ8oVRjzuompUczJWw4eY5Oyr6kHE6huPMQhKPdoAzIoCGmPzwDuVwxRLjX+rbTSL0Mow2NK7kYdwtdXcqaKF0GCccVZooil24gfSmNg4ErJUuIouix76hyhgfUbKx6TRtnZbNDzsmkcYEoJiKsigk6I06VIcmd/6367MPm781+JAd2zybgFURHPU++hIFnVVYAp8xe3ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=alsa-project.org smtp.mailfrom=axis.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pdBF0ZSysBFDqAr0TDWAYa2141cBiFA205YfnWGMPtk=;
+ b=sBDzV5eSTbojK7Q2Zpv1vjyK5FW8DsYYTeVf54QxvetHvnnhrotsXDYVgsyjqPQstaK33A/sPMZyDqsvovTObDFu+AROgPK/MhVPFuzsOJTwNt/aG5atw3ZtkxnaStiefu2JorMxtAKj2UtqsH3mZJ1vnvpbhseoQ9CIiAiqPK4=
+Received: from DB9PR06CA0012.eurprd06.prod.outlook.com (2603:10a6:10:1db::17)
+ by DB9PR02MB6617.eurprd02.prod.outlook.com (2603:10a6:10:212::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.27; Tue, 28 May
+ 2024 15:40:23 +0000
+Received: from DB1PEPF000509FF.eurprd03.prod.outlook.com
+ (2603:10a6:10:1db:cafe::7b) by DB9PR06CA0012.outlook.office365.com
+ (2603:10a6:10:1db::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29 via Frontend
+ Transport; Tue, 28 May 2024 15:40:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509FF.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7611.14 via Frontend Transport; Tue, 28 May 2024 15:40:22 +0000
+Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 28 May
+ 2024 17:40:12 +0200
+Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAILARCH01W.axis.com
+ (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 28 May
+ 2024 17:40:12 +0200
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Tue, 28 May 2024 17:40:12 +0200
+Received: from pc49102-2217.se.axis.com (pc49102-2217.se.axis.com [10.88.7.5])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 4A685A15;
+	Tue, 28 May 2024 17:40:12 +0200 (CEST)
+Received: by pc49102-2217.se.axis.com (Postfix, from userid 9470)
+	id 45453666EA08; Tue, 28 May 2024 17:40:12 +0200 (CEST)
+From: Ricard Wanderlof <ricard.wanderlof@axis.com>
+Date: Tue, 28 May 2024 17:40:04 +0200
+Subject: [PATCH] dt-bindings: sound: tlv320adc3xxx: Fix incorrect GPIO
+ description
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Bard Liao <bard.liao@intel.com>,
- Vinod Koul <vinod.koul@linaro.org>
-References: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH RESEND] soundwire: fix usages of
- device_get_named_child_node()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:jbRx2sCDCPzqXpGNlf8SZ5seobfH1ZH4nHR0WRaxJmPCl4QrUJL
- 9EWcb7BgfDjYh0ZwOEObhaUQ1sLD8MaURgwMy3soWt40sTlKY7mzJfjvpILx8L/seMawblz
- gqdmblbM4KeEOyEHL94og3HyIlxyOwzFFjg8AIV3+Y8e/uDSaCFrYNjVs9jJ2JZYbBzhBbr
- yAshy5oEBZVUk0XEs2sEw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YsxEA9qA9Oo=;9EDX73XTQwS9zgO/5HsrY5WZCVu
- FOm+PlZ/bgHKNXGeOU172XV/sH6npcqsfYhzNJhI0K88jOX958OKK3pL0wuiPx/b66gwkQs6L
- BzUfbMKhdkVe4SM6OvELvsGQszHmG7RnOyiNjgS5F5DfVSdazmiXlhqp3ZaOGRpkWSAnNMgJA
- zQSXQ17k0tadD4ejwsjdOLMgXQyqX8EoRCamQmLhQehjO0gQkovwsBuW2OA4vBwjwPPmU5QGr
- toeZLDbxSqT6VK67bVy8JB/THFDBnSobDF34/svKGx1G/DZuc3ygd958lG5/dAnnb8jO7Sjp6
- 2m1TWpSZs+5M/8Ni7zhyy+6W5K5QP7TIHHqquIUzCxwRq/q1ZV4ctHDdOsR038ukXsDsCEVJk
- JfutFSFbOyHRb6GLdKUB/ysMFvjgVDd+K/mTMbszT8Xn/yufJc9u09kg65A0a998EWMC9q1qd
- Xn9CCWjOZJxoItuK8aSal7rx70E0g/RbQATbxGTxt/e6zJ3Or88BSB1ijLQbC2EXwzDjWHyYG
- sGTmmcLWBCTj4U1caDBDg3JVOIaN8fK3JpGY5NVx0gfvJbW1oCQSUkQuqGvw2VQemrtS3iSof
- LlXXhvn7+WIL2Q0CzRoajEIQa7A2GCW/tF7uUrZtzlPKZEA4/0ObRoAxGyybl39G4Rbic8BZ/
- PvybX5pMj1SvUUB0ueykyXNffjpDxOE4uNUVzbRyz90BPwJsoC8AZabE+gS74Zh0RkSXHorL1
- d471OKjnzU/ZWSFnUj0ShkihGHtOuhxTSIuEyjHYC0Iai43JA6HR2G/cilfXGckPCg1OjwKku
- fNXaHiYaIBkVXrHU6fJE97U1LO+D4CvsnilOciF4f3zCQ=
+Message-ID: <20240528-tlv320adc3xxx-dt-gpio-fix-v1-1-209fb2c2f86f@axis.com>
+X-B4-Tracking: v=1; b=H4sIANP6VWYC/x2MQQqAIBAAvxJ7bkFdA+kr0UFyq4Uo0QhB+nvSc
+ QZmKmROwhnGrkLiR7JcZwPdd7Ds/twYJTQGo4xVg3F4Hw8Z5cNCpRQMN25RLlyloCdyli0N2jp
+ ofUzc9P+e5vf9AKE2L3lrAAAA
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, "Baojun
+ Xu" <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<kernel@axis.com>, Ricard Wanderlof <ricard.wanderlof@axis.com>
+X-Mailer: b4 0.13.0
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FF:EE_|DB9PR02MB6617:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04b25538-6cf9-42b1-9253-08dc7f2c7ca0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|7416005|376005|1800799015|82310400017|36860700004;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?V1BKUHFaTFRFQmRTV1BXalN5cUs2SGZvSm44MmRsQlozR2Q4ckZuR01CWTNj?=
+ =?utf-8?B?enM0YUhQaUNFRUtoVXQ5SnRxRG9EZG9iWjRxOHBNay8zd29XLzFlYzByd09s?=
+ =?utf-8?B?L2tLd1BYSGFOUXZ4Tk5CNDFNUFJrMlVqWUU1TFZuODJTVjJEemczVDRPUHhC?=
+ =?utf-8?B?QU1vTlgrRldWTDlXbkE4WDd4OXNGOFBQV1RhREk2WWZlazFBazEwOGZRSitZ?=
+ =?utf-8?B?dmw1SUllSytUUm8rbStzYXBMOVZZZElXQXBWelJZSHRzNkN4QStRZkdWckI4?=
+ =?utf-8?B?ckFncHNLQlZCOGhkclVGdFhSWjh2U0lwdjdvMWkvRG4wYXhmRExQL3M0aXc0?=
+ =?utf-8?B?bmI5K0ZCUGsxNG1DNm1VVWFoQmZ1QTlmRnExcEZEWEZ4YnowVzhiczArYitj?=
+ =?utf-8?B?MmpaZW9FY1Vhb2RrMFlpeFhmNUxMREdWT1ZvZnNxRStITEsyNVpzRXMvbWht?=
+ =?utf-8?B?NmkyeURKL2lTV25MMnphOUhickRGM000TVJnNG85M1FsMTVXTFE5VHMzY2Rn?=
+ =?utf-8?B?MkNTaGZQOXFhTlFBalN3dTR4YkdOL0pRMC9tVWVJT3ZXRitnRlRaQ0FxTEFT?=
+ =?utf-8?B?alNaME40K0tlaTljeUNNNDlZaW9La2VkUkxVUXViOU1IWVkvb0Nndjg5STlw?=
+ =?utf-8?B?ZzNmdDQyZWxRMW9lY2JHeFJPbWEzaVEvNGVjckJkUHBYRUs4TW9qanBYRjF2?=
+ =?utf-8?B?Q2Y1OVA3TW5NSWh6bjJ0TEl2UEtiaVV4QzFJTG9uOThxS3NxMUt4UXZYK1BQ?=
+ =?utf-8?B?SzhEaW5aSDBRYlA3T3FybUZVRi9VVEc1WlNvL05BYW96VWRBNDI5bFFUUzdS?=
+ =?utf-8?B?VmNzQ00xQlM1R2tLVTlzU25FRU5HVDN4ZVM0T21abzhLYkdmS2dGZ0dFYUsz?=
+ =?utf-8?B?RGxPZXN0eVJDby9OK2xDcTcxZzE2SWVFNDlwNGNxZ2VkalNQZGZlNlk3QXY3?=
+ =?utf-8?B?N0hMSVFBV1liU0s5bnM4aVl2aEtoVlNNT0lkSFlUVHBER2NiR0FBMUdTaWVQ?=
+ =?utf-8?B?VC9yTkdJYWNuL2lTdUJ0S0loRENkdGlRd1QzRUNWanZBMGhlbW9iaUhtQzlV?=
+ =?utf-8?B?Syt4UGNYQ2VXSC9hc0JCeUZHWWNJbnRKa2dpeGVOSHJwTk5seUZKVnNrUVZC?=
+ =?utf-8?B?QkdtcHp1c2ZxVmlLNW15ZDhvem4xekFHRHRoaG4rSGdabE9USVZ5OFdQZzhJ?=
+ =?utf-8?B?dmR6bTdUVUMrSXhhSHNBenlMaHlzd3gwRGowcFJJb0ZTVU9WMnlORkRyOWU0?=
+ =?utf-8?B?eklydGU0dEEyWkluaW12V0VxOGMwWXA3ZFRuVWl2cTZ0aWFKcEZvdm9CaEIv?=
+ =?utf-8?B?RFdwczJmS01ocXhQelJUMWo3MjIvZW42ZHJ3V3V1YUV1QXp0Q3ZGV2dxUUpX?=
+ =?utf-8?B?SzZxWUkrQVhtNHd0RnpESnVscmdtaXhNaExVK3p0NFBzQ3JuakJRdWJGN093?=
+ =?utf-8?B?Nzh2S1pYVDR5R1cyNW9Sc3ZUczJnVFRsaHdpMldtSk1qdHFrZEtyZVhQN1lT?=
+ =?utf-8?B?dEtPWWJ4WTBuOGlTMllJWEdHNUFnRWJqU1VGTFljbks2WnkxOFZtUjNNK1VU?=
+ =?utf-8?B?NGhySzVkOVRjZzFBcHpTNS90Zk5rdGEwcmIrd0V2ak1mTE1jNmI5WGxNM2Na?=
+ =?utf-8?B?a1R3bEE5OTJQb1N6MForM21HZVVaYlJaeDY1M25mWHJIcFhXNnR6K0hGbDJv?=
+ =?utf-8?B?N3EwclVZakNaNHdBQ0krRDhDQWRmUXdSN0RkV2FwVExIUWtwanVhclQxc0Ft?=
+ =?utf-8?Q?h/wmxsdwcEFJa5vfPTinrOx7bKAoqhsweGM5Z0R?=
+X-Forefront-Antispam-Report:
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(82310400017)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2024 15:40:22.5173
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04b25538-6cf9-42b1-9253-08dc7f2c7ca0
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509FF.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB6617
 
-> Add fwnode_handle_put() to avoid leaked references.
+Fix the description for the ti,dmdin-gpio1 and ti,dmclk-gpio2
+properties to correctly describe that when configured as general
+purpose outputs (ADC3XXX_GPIO_GPO), the pins are available via
+the GPIO framework.
 
-Are you going to respond also to my previous patch review
-in more constructive ways?
-https://lore.kernel.org/lkml/eb15ab0a-e416-4ae9-98bb-610fdc04492c@web.de/
-https://lkml.org/lkml/2024/4/29/493
+Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
+---
+ Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Regards,
-Markus
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
+index ede14ca2c07a..8ac741f4cd56 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
+@@ -58,8 +58,8 @@ properties:
+     description: |
+       Configuration for DMDIN/GPIO1 pin.
+ 
+-      When ADC3XXX_GPIO_GPO is configured, this causes corresponding the
+-      ALSA control "GPIOx Output" to appear, as a switch control.
++      When ADC3XXX_GPIO_GPO is selected, the pin may be controlled via the
++      GPIO framework, as pin number 0 on the device.
+ 
+   ti,dmclk-gpio2:
+     $ref: /schemas/types.yaml#/definitions/uint32
+@@ -76,8 +76,8 @@ properties:
+     description: |
+       Configuration for DMCLK/GPIO2 pin.
+ 
+-      When ADC3XXX_GPIO_GPO is configured, this causes corresponding the
+-      ALSA control "GPIOx Output" to appear, as a switch control.
++      When ADC3XXX_GPIO_GPO is selected, the pin may be controlled via the
++      GPIO framework, as pin number 1 on the device.
+ 
+       Note that there is currently no support for reading the GPIO pins as
+       inputs.
+
+---
+base-commit: 47d09270d7776e46858a161f94b735640b2fb056
+change-id: 20240528-tlv320adc3xxx-dt-gpio-fix-a3384e435148
+
+Best regards,
+-- 
+-- 
+Ricard Wolf Wanderlof                           ricardw(at)axis.com
+Axis Communications AB, Lund, Sweden            www.axis.com
+Phone +46 46 272 2016                           Fax +46 46 13 61 30
+
