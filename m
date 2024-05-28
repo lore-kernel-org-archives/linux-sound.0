@@ -1,100 +1,74 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D24C173320;
-	Tue, 28 May 2024 16:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8633E482DD;
+	Tue, 28 May 2024 19:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716915351; cv=none; b=TZWnI7BAOEY3crnaM3L1HyfR7gO6QIGMKz7ic0Q1yYhdjyi7zsBJpAYsha32w/o2iX1sMu/KqYxFi2iH1Yd3KKYvqw9fHBThCTWzKIbGXGco9xzz0vs5sDpixD1PaVfOBaJYYabeWWBI3Ub0zAIqfp0UJYMDHM2w4qmt/932b9Y=
+	t=1716923948; cv=none; b=Tp5E3CW6R+zCFf4G2SLNPt6gDSoaehUXo1N7Zohn5Wg0RUt32ref4WukIH84KD9TSbudfr4cVltTIoJRYwadshToQhhIi/Eu1dfC191ebI4CVUHyyBaqpay17JPgQKqNHK1dB3nqfyRN7URzjDzGYiVIfdjWKCZESkNvOYffh+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716915351; c=relaxed/simple;
-	bh=SLA6eZHc2BvDClBaKtUk96/I9vW/SG2jv7T2+rM/9UM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=opYei56lz/GT2Nkt50DZseA18wx3cW1+8GAtpCMNk0VdJ75zNkB01Y3KRwNAoFtaUHr+2p8j0ZP+bPtkIISe34xND29210dlGyW6YgGspbiyp8XwoxKbBrPqHx/80y/TnSnTr7XffsJNFbVJ8Xe6tVr1F0iFSJdCHWhTKAoa7wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=M3zXF7sY; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1716923948; c=relaxed/simple;
+	bh=jdHI0J7SDTYW4bGzdvb5uNGzETKeBQAsx3uwmPZfoxI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u2mGWQoIUUzzx8waf1w+Ss3EutYTb17jKzhOe3COJdktvUZsOBwOjeVdbxkMIrAaphV/DgdgV8zX49fkxi+5HGuuBNKXz7+50X6e9Pl5V+jxHFbi5y1umVpSYC5HqhvnLHchKcuXo1whqEFTT+nNqjPtHlBcmdNPT9Ki8VhAqCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TD56Zu0F; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="M3zXF7sY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716915336; x=1717520136; i=markus.elfring@web.de;
-	bh=SLA6eZHc2BvDClBaKtUk96/I9vW/SG2jv7T2+rM/9UM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=M3zXF7sYSMvz/FIr/X99rNiBzhaNdX5l85aTETvdtocFHVVprpEfNBSUbjX14aJq
-	 oml54UH37UeG2BZ/P895FAzCUW2IeF0A2K2fQ0j+pszPLjaSCp19VjLg+ngM0ialZ
-	 1vTs20qWzLnRZoPauP2vRffM/NrAZDWXR8UigFjU7BC6dOPopScQNYSHuey+ysI69
-	 eeXWN+QxZfwkJE23LVUVK+ZicqNK2vxEHGchObdzPCPeISSfysTqaYt3DfeCdUDFI
-	 IhXOquKSGcrRdLSCJUZwxKocEfBG1lUROp/JFSNnjXz+iuOMK93L1Np5+qn+ariK5
-	 uxqMbSstUIQMu8usuw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MtPvm-1sULRO0Htu-00ukS7; Tue, 28
- May 2024 18:55:36 +0200
-Message-ID: <f47d2cce-d955-4e2a-af5c-d6d9a73f85b3@web.de>
-Date: Tue, 28 May 2024 18:55:33 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TD56Zu0F"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2C596C0006;
+	Tue, 28 May 2024 19:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1716923938;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g9Wqr9AGlIlDl+BctXsjSkjtKA+9GIH3O1SeIFRmn7k=;
+	b=TD56Zu0Fm2kj+PUL1K8bxigRiYbZ+fA7NkQ/TYde4y/0u4RPBqpcNTlgeHJ7omy+r9wXGc
+	XDYb7ZgDfnqy0BrGXqu6Ze2ea2u7135U2LSGl78646GAF+RWCaRQJJRTxADjxeaViqVJNS
+	OYeTGn6TwA1iFI4yPdCyZOwMEuVoQMZqDiypw1xEdFFkQ/3iSqAZQwMrpGhUsJzeyFgmfs
+	s5iKP44bXmcejDdnMMkam1igcHvBUx4QeJTfzHXHwWW3BaRpIUz7ML6Q0q+ShymsAvpRaf
+	dhmPVOYdrQL1OAVeHBJ+RJyxx4VcFw7QJn1qTWFNk6Z2pj0+tv3SAvNjXe0WzQ==
+From: alexandre.belloni@bootlin.com
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: fix typo in comment
+Date: Tue, 28 May 2024 21:18:50 +0200
+Message-ID: <20240528191850.63314-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: soundwire: fix usages of device_get_named_child_node()
-To: Vinod Koul <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Bard Liao <bard.liao@intel.com>
-References: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
- <0080bd18-58e1-4e82-96e0-e64d2fa978c9@web.de>
- <9d5f2625-f3e7-4212-8c9a-c22f137f39d9@linux.intel.com>
- <a2036c46-0527-4ac3-a40b-c9c2cd3e185e@web.de> <ZlYKVtymA3zNe7VQ@matsya>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <ZlYKVtymA3zNe7VQ@matsya>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vjbGgrgEO17m1KpRt/7p7h7JOKdIpmpH2ThC2hYA3V98P8mS0Iy
- M0+eEQR7Arl3USdjIJ1VHSYjEqf8184pgj02+3NySBhsxln140mm9lenTnZgAHtWUk0Q6gJ
- opBFhiH6StReB7hui3lCvO5lMIj4V3hCk0APCKT8hbLPFfea5WmUB9UfMA0lN/yo647bByq
- 2CfkdvqURX/yq0P6bzFDw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Xb6ziLytc6M=;9oKgqGAL5OTGMkyxV4qJ57TE1OJ
- VggpzxFsAQOhxFMwZNJF8R1XM23cIlcXxxRsbjfk90eKWOSPmKyqkHsy58cgPZrjBOlfh5wc4
- xHP+buP1BZBsJd96uyYBtGCScT4nC2LpOpD/Sw75lGs0atJsYekrFDWShx+EENw+3mJywLN2u
- OOLCQ9N4FE6zYwGPCTnFHjMYxz7JlC0DxXMQLrA3WgAW/MX9eDi6G6YYhY6hXbHg1DUq0GJcw
- cb/zVCStVi5URLs3fnka2dJ5ViVAhDx8Sk/RfUYZCBGiHv8Mx6bSFXJBR/5kzVZ/NWWWD5CM1
- n81lB/F412qjmdbemh3kbhe/XJBOmGUNA+Zk9CuGRSz/RP0LDPsppSdxxMlaVbkzs0udfZWJP
- WnygWXKfPn13ve2TRin0tsc/XM3/BqdoyTB7NphcvE3A9VY24FTiDATQSHcWmSjQDfpMoGZlh
- D8dKTv7psXCANUuZaSjGvhF7QlzOvngMuDeJK9xYo6RouVZhyCKZgy4HDrJQ8E7xRBGfUPoGi
- jGMYLhxJNY9kPdV5G/pjPP3HOpbYW8yZjf770fqw/v+K5ud1K5d1lKhZBOoJ9MwiJIwP03D+7
- 9JBdtPQxazIfR7SPrU17No/dyOK6o5vW5lguC2X4y7/GnhlhI8orJQzyU/O42BUV+cqeJPrd+
- Z4ogBhxQ8f4CKfl9hwv4HRl04g8k0RxV+X0nscksY2AxHv8OBC4ovJlqJiRJCUY7aYZDYfly/
- UUa9ARnZ256Rj+qrXwzS2zAhizePD6D5ioObo5DSoa4ceQMn8nadzrM7GwYQnChmTyuqI3xic
- wX2gYGQmjNMfF/i6qESXXKjWtcmkkxQ9jQ+KvOO3drBUc=
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
->>>>> Add fwnode_handle_put() to avoid leaked references.
->>>>
->>>> Are you going to respond also to my previous patch review
->>>> in more constructive ways?
->>>> https://lore.kernel.org/lkml/eb15ab0a-e416-4ae9-98bb-610fdc04492c@web=
-.de/
->>>> https://lkml.org/lkml/2024/4/29/493
->>>
->>> Sorry about that, both Bard and I missed your comments.
->>
->> How could this happen?
->
-> Becuase your emails go to dev/null for most of people!
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-I am aware of some communication challenges.
+Fix the typo in the comment for SNDRV_PCM_RATE_KNOT
 
-Is it interesting that my enquiry for this =E2=80=9CPATCH RESEND=E2=80=9D =
-triggered
-a constructive response finally?
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ include/sound/pcm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Markus
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 61c6054618c8..3edd7a7346da 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -124,7 +124,7 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_RATE_768000		(1U<<16)	/* 768000Hz */
+ 
+ #define SNDRV_PCM_RATE_CONTINUOUS	(1U<<30)	/* continuous range */
+-#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuos rates */
++#define SNDRV_PCM_RATE_KNOT		(1U<<31)	/* supports more non-continuous rates */
+ 
+ #define SNDRV_PCM_RATE_8000_44100	(SNDRV_PCM_RATE_8000|SNDRV_PCM_RATE_11025|\
+ 					 SNDRV_PCM_RATE_16000|SNDRV_PCM_RATE_22050|\
+-- 
+2.45.1
+
