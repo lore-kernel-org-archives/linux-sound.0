@@ -1,179 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4154B16F8E0;
-	Tue, 28 May 2024 15:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E81E867;
+	Tue, 28 May 2024 15:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716909338; cv=none; b=HXdCEzHXxhXa3CMmuSH79SlUqlO5DMaNlZ7YTNaM5sJ6o/hM08XSdmTFxm7L5MwHsnj72W1TglUs7K9xDLj2A3xxaIj7GaO/waEys+VMKuXmhr+4k/rnjkTvHJupgvcvZ0xMPEJveelmO1HaTkUVmnTOKJMUuko9AlCx/4kL10k=
+	t=1716909586; cv=none; b=H27ckT/2alLNqEy/1PiZvzQ3nPAf9zuaZUNe+aKlZx64nQCbuOZuYCycN3Pyj/g1V4ArWqbDpwi1CJLbXtBFkTqKpuYSwpLsDLbUDO4vlStW9S40SLD0toUb4wMjKKU5HgVqlxeHAIUo9sEj0pG7bW4uGwldMVXWG8tgui2yNqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716909338; c=relaxed/simple;
-	bh=xpk0Yqw/VN8ddEnECwmM/UpM6KoNoPvI14IHu2eBrJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OIyBRhm3TmB621C25NPIypzskWUl7To6lqIXaWZ/s87vG/A9MVxJbSJsO0lR1f4heFd8gmmy06uwmgifOwq7BTws7zX9znVQ0YvmXS7t3MhAlIeGwF2sXxE4wx/R44aM9Z3pNYg+FNlnfqQJgX1SlmLXyYQG6uetpuO+UELKpnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUCcJuLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716909586; c=relaxed/simple;
+	bh=Y3hJrkKqkQX3Ls3M4zvv1kb9DoYBZ9ECkpeTzTE2Sbg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=acgNgmD/4AK9h62IDiuew6eKdjIBXV76hIQaryLnEMCmw2RmhaYFR1Uvt5iWDu5PtQoDAO0/60UXevGn0lvewj4kzNpvxUb+WU8FbC6KnBd3dhtYtCVwZGGhaTl2OsFkDYYzj0M796EVyCFNf9visRX47pwOvFY90ubwzB3CPK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=R5KdY2NU; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUCcJuLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942F9C3277B;
-	Tue, 28 May 2024 15:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716909337;
-	bh=xpk0Yqw/VN8ddEnECwmM/UpM6KoNoPvI14IHu2eBrJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cUCcJuLjneqe7FsY8PDzBO8l6FMtnMWAfv87RASRNOn7ANCjpyTOCQZHUK1hT0ig2
-	 6B8fVVMjnGid5Z1MERtu5+/uuCMrqzvGKzWVgyuK7/U7zOtQH5qc+wywSAG3cokDKX
-	 yv20Iz5vrXsx1n19nf9LXAx1T/uoIJA9hWwBrHU19WulFHEsUnTLyUZ1CABB+XaZzC
-	 2d/GYyyoaPLkTIkHMFf6WVDQ5y0ScYlfjJbkGlTNXzAJ1+ZnT2F0F+lj2jZ+BYIV8E
-	 gBq03xNbxHelWp5K2URHJuTM6b/mG6uRgHfrEUhHnOlx2fS1p1a3sY/0AY5GiTNnjJ
-	 wlbxl/nHstHPg==
-Date: Tue, 28 May 2024 10:15:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shengjiu.wang@gmail.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: fsl,xcvr: Add compatible
- string for i.MX95
-Message-ID: <20240528151536.GA275498-robh@kernel.org>
-References: <1716286416-17621-1-git-send-email-shengjiu.wang@nxp.com>
- <1716286416-17621-2-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="R5KdY2NU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1716909563; x=1717514363; i=markus.elfring@web.de;
+	bh=Y3hJrkKqkQX3Ls3M4zvv1kb9DoYBZ9ECkpeTzTE2Sbg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=R5KdY2NU3al30H4QRt8D3lOTCZxRITPw8yl9ZHFDXW4mBBRTYM727mGt72mJ0FMW
+	 LDSQz3nBj1i69+hGPzZkiofVL5hDvx69pFh0IFnfG9xgHqWfio+1SIF/lRbypilkG
+	 D8WPpBfe2AoUXqRGiQXdeCuLJ5lOe1dEo8CvS62PNRYE1Hnmcl/PpNBuNRCKP1R+0
+	 SegDgCNJB/NS7h8Ccp6gYRVSfom4u2H/EQH4gdAhqiBb00RTznGBk6+bYWAWnGuM0
+	 oDvNu8ns/Lm0bVYyKhlV+WcEVh+QwSDupqqGp2o+9sL43Irh/o3Q1DihCfpvPnMpK
+	 e5OOxALD5zt9j658NA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M8kEP-1s7Hdi0MqX-00F8jK; Tue, 28
+ May 2024 17:19:23 +0200
+Message-ID: <0080bd18-58e1-4e82-96e0-e64d2fa978c9@web.de>
+Date: Tue, 28 May 2024 17:19:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1716286416-17621-2-git-send-email-shengjiu.wang@nxp.com>
+User-Agent: Mozilla Thunderbird
+To: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Bard Liao <bard.liao@intel.com>,
+ Vinod Koul <vinod.koul@linaro.org>
+References: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH RESEND] soundwire: fix usages of
+ device_get_named_child_node()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:jbRx2sCDCPzqXpGNlf8SZ5seobfH1ZH4nHR0WRaxJmPCl4QrUJL
+ 9EWcb7BgfDjYh0ZwOEObhaUQ1sLD8MaURgwMy3soWt40sTlKY7mzJfjvpILx8L/seMawblz
+ gqdmblbM4KeEOyEHL94og3HyIlxyOwzFFjg8AIV3+Y8e/uDSaCFrYNjVs9jJ2JZYbBzhBbr
+ yAshy5oEBZVUk0XEs2sEw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:YsxEA9qA9Oo=;9EDX73XTQwS9zgO/5HsrY5WZCVu
+ FOm+PlZ/bgHKNXGeOU172XV/sH6npcqsfYhzNJhI0K88jOX958OKK3pL0wuiPx/b66gwkQs6L
+ BzUfbMKhdkVe4SM6OvELvsGQszHmG7RnOyiNjgS5F5DfVSdazmiXlhqp3ZaOGRpkWSAnNMgJA
+ zQSXQ17k0tadD4ejwsjdOLMgXQyqX8EoRCamQmLhQehjO0gQkovwsBuW2OA4vBwjwPPmU5QGr
+ toeZLDbxSqT6VK67bVy8JB/THFDBnSobDF34/svKGx1G/DZuc3ygd958lG5/dAnnb8jO7Sjp6
+ 2m1TWpSZs+5M/8Ni7zhyy+6W5K5QP7TIHHqquIUzCxwRq/q1ZV4ctHDdOsR038ukXsDsCEVJk
+ JfutFSFbOyHRb6GLdKUB/ysMFvjgVDd+K/mTMbszT8Xn/yufJc9u09kg65A0a998EWMC9q1qd
+ Xn9CCWjOZJxoItuK8aSal7rx70E0g/RbQATbxGTxt/e6zJ3Or88BSB1ijLQbC2EXwzDjWHyYG
+ sGTmmcLWBCTj4U1caDBDg3JVOIaN8fK3JpGY5NVx0gfvJbW1oCQSUkQuqGvw2VQemrtS3iSof
+ LlXXhvn7+WIL2Q0CzRoajEIQa7A2GCW/tF7uUrZtzlPKZEA4/0ObRoAxGyybl39G4Rbic8BZ/
+ PvybX5pMj1SvUUB0ueykyXNffjpDxOE4uNUVzbRyz90BPwJsoC8AZabE+gS74Zh0RkSXHorL1
+ d471OKjnzU/ZWSFnUj0ShkihGHtOuhxTSIuEyjHYC0Iai43JA6HR2G/cilfXGckPCg1OjwKku
+ fNXaHiYaIBkVXrHU6fJE97U1LO+D4CvsnilOciF4f3zCQ=
 
-On Tue, May 21, 2024 at 06:13:35PM +0800, Shengjiu Wang wrote:
-> Add compatible string "fsl,imx95-xcvr" for i.MX95 platform.
-> 
-> The difference between each platform is in below table.
-> 
-> +---------+--------+----------+--------+
-> |  SOC	  |  PHY   | eARC/ARC | SPDIF  |
-> +---------+--------+----------+--------+
-> | i.MX8MP |  V1    |  Yes     |  Yes   |
-> +---------+--------+----------+--------+
-> | i.MX93  |  N/A   |  N/A     |  Yes   |
-> +---------+--------+----------+--------+
-> | i.MX95  |  V2    |  N/A     |  Yes   |
-> +---------+--------+----------+--------+
-> 
-> On i.MX95, there are two PLL clock sources, they are the parent
-> clocks of the XCVR root clock. one is for 8kHz series rates, named
-> as 'pll8k', another one is for 11kHz series rates, named as 'pll11k'.
-> They are optional clocks, if there are such clocks, then the driver
-> can switch between them to support more accurate sample rates.
-> 
-> As 'pll8k' and 'pll11k' are optional, then add 'minItems: 4' for
-> clocks and clock-names properties.
-> 
-> On i.MX95, the 'interrupts' configuration has the same constraint
-> as i.MX93.
-> 
-> Only on i.MX8MP, the 'resets' is required, but for i.MX95 and i.MX93
-> there is no such hardware setting.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../devicetree/bindings/sound/fsl,xcvr.yaml   | 37 ++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> index 0eb0c1ba8710..d1dcc27655eb 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,xcvr.yaml
-> @@ -22,6 +22,7 @@ properties:
->      enum:
->        - fsl,imx8mp-xcvr
->        - fsl,imx93-xcvr
-> +      - fsl,imx95-xcvr
->  
->    reg:
->      items:
-> @@ -49,6 +50,9 @@ properties:
->        - description: PHY clock
->        - description: SPBA clock
->        - description: PLL clock
-> +      - description: PLL clock source for 8kHz series
-> +      - description: PLL clock source for 11kHz series
-> +    minItems: 4
->  
->    clock-names:
->      items:
-> @@ -56,6 +60,9 @@ properties:
->        - const: phy
->        - const: spba
->        - const: pll_ipg
-> +      - const: pll8k
-> +      - const: pll11k
-> +    minItems: 4
->  
->    dmas:
->      items:
-> @@ -79,15 +86,24 @@ required:
->    - clock-names
->    - dmas
->    - dma-names
-> -  - resets
->  
->  allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx8mp-xcvr
-> +    then:
-> +      required:
-> +        - resets
-> +
->    - if:
->        properties:
->          compatible:
->            contains:
->              enum:
->                - fsl,imx93-xcvr
-> +              - fsl,imx95-xcvr
->      then:
->        properties:
->          interrupts:
-> @@ -98,6 +114,25 @@ allOf:
->          interrupts:
->            maxItems: 1
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx95-xcvr
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 6
-> +        clock-names:
-> +          maxItems: 6
+> Add fwnode_handle_put() to avoid leaked references.
 
-6 is already the max. Drop these and add a 'not' into the if schema (or 
-list out the other compatibles).
+Are you going to respond also to my previous patch review
+in more constructive ways?
+https://lore.kernel.org/lkml/eb15ab0a-e416-4ae9-98bb-610fdc04492c@web.de/
+https://lkml.org/lkml/2024/4/29/493
 
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 4
-> +        clock-names:
-> +          maxItems: 4
-> +
->  additionalProperties: false
->  
->  examples:
-> -- 
-> 2.34.1
-> 
+Regards,
+Markus
