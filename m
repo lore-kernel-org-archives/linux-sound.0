@@ -1,86 +1,223 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFDC22067;
-	Tue, 28 May 2024 06:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74C243AA0;
+	Tue, 28 May 2024 06:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716878021; cv=none; b=hkJmYjUA9QkzuNELrD/beU6OtOp88laWpLM71N7Ac+gYM2Bb02cY7D0HXhmGChEVdaaZI8pgnlZL8ATT9TU9zNcIG5eY6ww2crldEvS4BKv/DHCYeWdJm73Zi6IdrHpN3jgNab4cTZIp5wgU+wRpkoJIMBGj4xlKsq3PihlYzIM=
+	t=1716878197; cv=none; b=oeuq31fjrAnSbCQCn5lZ1675DJJ3of3WyU06uvlBB4qE3JCIrdcKam2DhTmhhssntOjjTEN/23Mm4y3mOZ1OVbXuHPgiifQwFLhlSl6/a0PK2moAwIZXh6Vqjn5y0n5B8vNwLmQo+OZG7C3lJnxYMwlw7dgvLx2ZOTqEjosdPko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716878021; c=relaxed/simple;
-	bh=ldjbI0S/6R2kqmtohSnLqSpSiUjP7PyHc2GT7iFo/70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7kY6VR0OnHy4UzdtzdRjJxtgIauAy/dj1jNaw2TTt51fw3eLPim4WXZw2o/C+0TP2r0+plRdWyfwXDscHaklgoSf191csT6xr+hR9VfcxjrbDpe3je3VdrWthFBewp5P8hSpYfPPiRc89B0cdmE3BJ74uWXJgdjPK1b9y4QJSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id ED81868BEB; Tue, 28 May 2024 08:33:32 +0200 (CEST)
-Date: Tue, 28 May 2024 08:33:32 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mark Brown <broonie@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
-	iommu@lists.linux.dev, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/18] dma-direct: take dma-ranges/offsets into account
- in resource mapping
-Message-ID: <20240528063332.GA30051@lst.de>
-References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com> <20240524182702.1317935-2-dave.stevenson@raspberrypi.com>
+	s=arc-20240116; t=1716878197; c=relaxed/simple;
+	bh=Sg+IcNNEjBjx+fva33u11Pc6mvukNwmfXvMaetmyd5o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S2zAntbvRqhNHF9nwA3nKtecCKaeH0UBN+NLr6WFxLi3pRjIwuKg0REoArvff7yKmngYk4bCFKrQbV7tAfOvsn7IJ7CWCLO0XTbhA3/u/y69tAMwgWIbbfBO7QiIVVByQyeL0wRqnJi2ZImmz/8XJDfr+Cy+ZGkwm92OLA/NW7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ne0vD+UC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ne0vD+UC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716878192; x=1748414192;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Sg+IcNNEjBjx+fva33u11Pc6mvukNwmfXvMaetmyd5o=;
+  b=Ne0vD+UC928izlhBxU8ueKufz0MYNOvLWUrqonXDPVpVnw9dZoCgWzcG
+   Ene695TMJ7TyLi270tbgpkKkrO0XAWY/fu8nhNHWcnntOtM/yY7XpC98m
+   V5DV2PXIhTMFW4+OjjNDOT2CiXXwVWOWYbDQ4sygQ4VF8wufT5/3qGzm9
+   Z0l9rRvSVlkUMpmWykP3tqjttxUJkxYRMQvQ+DPQCw8eUteLfJYcAtPFx
+   M9AaE2Vv6PhiiQ2ZMwX9KsUXDPOCRaeRd1tGDXc74W9p+u7VeX4H3kRho
+   ATxj0yisW6wNguEm9Mn9svaG1I3SmhJMK5O6E6fluakA7zg3Cc7ZrDwCV
+   A==;
+X-CSE-ConnectionGUID: f6CHiFheTYGtvV5iq+d1zg==
+X-CSE-MsgGUID: yQyk7HEPSBSI74YwgfvZCQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="16992793"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="16992793"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 23:35:47 -0700
+X-CSE-ConnectionGUID: ewdttm7NRViisvzAi3k7Lg==
+X-CSE-MsgGUID: 2kCWKMdGRHumPrZb9qiT+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="39402253"
+Received: from bvivekan-mobl2.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.83])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 23:35:42 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH RESEND] soundwire: fix usages of device_get_named_child_node()
+Date: Tue, 28 May 2024 14:35:33 +0800
+Message-Id: <20240528063533.26723-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524182702.1317935-2-dave.stevenson@raspberrypi.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 24, 2024 at 07:26:45PM +0100, Dave Stevenson wrote:
-> From: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> 
-> A basic device-specific linear memory mapping was introduced back in
-> commit ("dma: Take into account dma_pfn_offset") as a single-valued offset
-> preserved in the device.dma_pfn_offset field, which was initialized for
-> instance by means of the "dma-ranges" DT property. Afterwards the
-> functionality was extended to support more than one device-specific region
-> defined in the device.dma_range_map list of maps. But all of these
-> improvements concerned a single pointer, page or sg DMA-mapping methods,
-> while the system resource mapping function turned to miss the
-> corresponding modification. Thus the dma_direct_map_resource() method now
-> just casts the CPU physical address to the device DMA address with no
-> dma-ranges-based mapping taking into account, which is obviously wrong.
-> Let's fix it by using the phys_to_dma_direct() method to get the
-> device-specific bus address from the passed memory resource for the case
-> of the directly mapped DMA.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-My memory is getting a little bad, but as dma_direct_map_resource is
-mostly used for (non-PCIe) peer to peer transfers, any kind of mapping
-from the host address should be excluded.
+The documentation for device_get_named_child_node() mentions this
+important point:
 
-(dma_direct_map_resource in general is a horrible interface and I'd
-prefer everyone to switch to the map_sg based P2P support, but we
-have plenty of users for it unfortunately)
+"
+The caller is responsible for calling fwnode_handle_put() on the
+returned fwnode pointer.
+"
+
+Add fwnode_handle_put() to avoid leaked references.
+
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ drivers/soundwire/amd_manager.c     |  3 +++
+ drivers/soundwire/intel_auxdevice.c |  6 +++++-
+ drivers/soundwire/mipi_disco.c      | 30 +++++++++++++++++++++++------
+ 3 files changed, 32 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 20d94bcfc9b4..795e223f7e5c 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -571,6 +571,9 @@ static int sdw_master_read_amd_prop(struct sdw_bus *bus)
+ 	amd_manager->wake_en_mask = wake_en_mask;
+ 	fwnode_property_read_u32(link, "amd-sdw-power-mode", &power_mode_mask);
+ 	amd_manager->power_mode_mask = power_mode_mask;
++
++	fwnode_handle_put(link);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
+index 17cf27e6ea73..18517121cc89 100644
+--- a/drivers/soundwire/intel_auxdevice.c
++++ b/drivers/soundwire/intel_auxdevice.c
+@@ -155,8 +155,10 @@ static int sdw_master_read_intel_prop(struct sdw_bus *bus)
+ 		SDW_MASTER_QUIRKS_CLEAR_INITIAL_PARITY;
+ 
+ 	intel_prop = devm_kzalloc(bus->dev, sizeof(*intel_prop), GFP_KERNEL);
+-	if (!intel_prop)
++	if (!intel_prop) {
++		fwnode_handle_put(link);
+ 		return -ENOMEM;
++	}
+ 
+ 	/* initialize with hardware defaults, in case the properties are not found */
+ 	intel_prop->doaise = 0x1;
+@@ -184,6 +186,8 @@ static int sdw_master_read_intel_prop(struct sdw_bus *bus)
+ 		intel_prop->dodse,
+ 		intel_prop->dods);
+ 
++	fwnode_handle_put(link);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/soundwire/mipi_disco.c b/drivers/soundwire/mipi_disco.c
+index 55a9c51c84c1..e5d9df26d4dc 100644
+--- a/drivers/soundwire/mipi_disco.c
++++ b/drivers/soundwire/mipi_disco.c
+@@ -66,8 +66,10 @@ int sdw_master_read_prop(struct sdw_bus *bus)
+ 		prop->clk_freq = devm_kcalloc(bus->dev, prop->num_clk_freq,
+ 					      sizeof(*prop->clk_freq),
+ 					      GFP_KERNEL);
+-		if (!prop->clk_freq)
++		if (!prop->clk_freq) {
++			fwnode_handle_put(link);
+ 			return -ENOMEM;
++		}
+ 
+ 		fwnode_property_read_u32_array(link,
+ 				"mipi-sdw-clock-frequencies-supported",
+@@ -92,8 +94,10 @@ int sdw_master_read_prop(struct sdw_bus *bus)
+ 		prop->clk_gears = devm_kcalloc(bus->dev, prop->num_clk_gears,
+ 					       sizeof(*prop->clk_gears),
+ 					       GFP_KERNEL);
+-		if (!prop->clk_gears)
++		if (!prop->clk_gears) {
++			fwnode_handle_put(link);
+ 			return -ENOMEM;
++		}
+ 
+ 		fwnode_property_read_u32_array(link,
+ 					       "mipi-sdw-supported-clock-gears",
+@@ -116,6 +120,8 @@ int sdw_master_read_prop(struct sdw_bus *bus)
+ 	fwnode_property_read_u32(link, "mipi-sdw-command-error-threshold",
+ 				 &prop->err_threshold);
+ 
++	fwnode_handle_put(link);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL(sdw_master_read_prop);
+@@ -197,8 +203,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
+ 						    dpn[i].num_words,
+ 						    sizeof(*dpn[i].words),
+ 						    GFP_KERNEL);
+-			if (!dpn[i].words)
++			if (!dpn[i].words) {
++				fwnode_handle_put(node);
+ 				return -ENOMEM;
++			}
+ 
+ 			fwnode_property_read_u32_array(node,
+ 					"mipi-sdw-port-wordlength-configs",
+@@ -236,8 +244,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
+ 						       dpn[i].num_channels,
+ 						       sizeof(*dpn[i].channels),
+ 						 GFP_KERNEL);
+-			if (!dpn[i].channels)
++			if (!dpn[i].channels) {
++				fwnode_handle_put(node);
+ 				return -ENOMEM;
++			}
+ 
+ 			fwnode_property_read_u32_array(node,
+ 					"mipi-sdw-channel-number-list",
+@@ -251,8 +261,10 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
+ 					dpn[i].num_ch_combinations,
+ 					sizeof(*dpn[i].ch_combinations),
+ 					GFP_KERNEL);
+-			if (!dpn[i].ch_combinations)
++			if (!dpn[i].ch_combinations) {
++				fwnode_handle_put(node);
+ 				return -ENOMEM;
++			}
+ 
+ 			fwnode_property_read_u32_array(node,
+ 					"mipi-sdw-channel-combination-list",
+@@ -274,6 +286,8 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
+ 
+ 		/* TODO: Read audio mode */
+ 
++		fwnode_handle_put(node);
++
+ 		i++;
+ 	}
+ 
+@@ -348,10 +362,14 @@ int sdw_slave_read_prop(struct sdw_slave *slave)
+ 		prop->dp0_prop = devm_kzalloc(&slave->dev,
+ 					      sizeof(*prop->dp0_prop),
+ 					      GFP_KERNEL);
+-		if (!prop->dp0_prop)
++		if (!prop->dp0_prop) {
++			fwnode_handle_put(port);
+ 			return -ENOMEM;
++		}
+ 
+ 		sdw_slave_read_dp0(slave, port, prop->dp0_prop);
++
++		fwnode_handle_put(port);
+ 	}
+ 
+ 	/*
+-- 
+2.40.1
 
