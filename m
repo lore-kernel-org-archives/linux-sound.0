@@ -1,139 +1,190 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2057.outbound.protection.outlook.com [40.107.103.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE53F1591F8
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 14:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716993158; cv=none; b=eCv7qogIiM5R6UJYIxuhTjGl42PNccXt3gnj7JNfFcWP4+EYkCX55oVQ16U+Em68I7lQD0WxGdhWBCvrntWgQZnlqCl2YG2l7Wb96kfTmZPel4na4WkhJZWlgIU1PiVp4BgdahWRNPvwQKTjz+BTp6KGPHaKC6ZkuCPAipmI5sw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716993158; c=relaxed/simple;
-	bh=D/JzpsPyWrwIPHjmMRoXwD1E32CNeYH+Dw6gnvEHSCI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rxAj6JlLZ5zrqz1rxfNdZmYI1RcTMHB6S9T4vBFjxsBcH22oiwumB/0H+kGUdolIivevm7j9g7C6lf3yFl4TJ3ImB7sn7EgXxs2OpYsVFjZ90i/tA+cr87/1eDvbrDx/u3oGvqM6Mu7kv4tJ2MG2Q1goQ7l8QOH7tXg5fFXm6aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jjKj2PbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4/nOokGV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RaGT+9OT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oq54kbCB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB0218411B;
+	Wed, 29 May 2024 16:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717000442; cv=fail; b=adsg+f/3sTuAGz+DmeLkkfjlgTCyuZvY422hdkTdE/I8oWapyElqERcf100vk5TAPgQvPc6qKmxbRm5E1v/JHbCp/gp1m+qaeI1ssryNzbtYFIyF/spiBAL4+d7lP9AShoMr5cnlTr2YMefhKva+z+FKOPdAJtnTjpJmPSPY+Xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717000442; c=relaxed/simple;
+	bh=GBxKsVElGjIdAM/pQUWKp/DM+kCSr1OxPCFMtbZuqls=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=BNefm4j39q5z6o9IJQqsoGHMnWf9VdtGB8GysRAf7MDcEkvp5iFC6E1wP1rho8AP9pLevROm8r/Qcyh4vVbp8sgOHliHPp8tRThCHrV2A5uOBqqyjzP9H59qda36zYtFBGKPL0INJSfIR1IYBAgXgAm+PjJ4e6kVo0dJOCXjAPI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com; spf=pass smtp.mailfrom=axis.com; dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b=KMQ6rfsB; arc=fail smtp.client-ip=40.107.103.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jjKj2PbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/nOokGV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RaGT+9OT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oq54kbCB"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CFDCF20577;
-	Wed, 29 May 2024 14:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716993154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
-	b=jjKj2PbOnwHHa34pWqJFAvHVfGkBGuH9Wc2WADyUUA4rQ7m3qu1nQSBi4pNWR2lw7xOS07
-	1LjMfNk7Xt4RMCrfnmJoh/glL1IyVGmZa2gIFvv+PzeDRHHuT636K+y9vzj5ldSBIVps+0
-	L6FTkAjwGXQD4rfzf7jyBbgbLCbJhps=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716993154;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
-	b=4/nOokGVt/T/B+YciXOJNJbSDbS+lXSuvUJc9Yj2Nxbzhj7/NP1L99LwcnutzToW9TRiJB
-	i4vAUvGkTXJ2ZaAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1716993153; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
-	b=RaGT+9OTE5a3eXYMwxiMsbDqBQ3m6vdx70wnjAulhY4P6LpTCsleZK9IQGqCylNL3MlZ7H
-	iZacUenRMWnMVemLjSah+MU3s7g/ci9ueisBsj8p7TgbzWryzrz0Sgb5Macl6ekvZ6Nno8
-	XLdBUdhEbnbFV1AQDpqudjmtA0lNfTI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1716993153;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
-	b=Oq54kbCBi9N90D1BHPVfluamU2BuO6UmVDu+xTvTKgZd9sCijzKzru1A2jP5KTPaCdkfi+
-	a4Tymi8BtfSSYuAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99F4A1372E;
-	Wed, 29 May 2024 14:32:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oO5LJIE8V2Y3YQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 May 2024 14:32:33 +0000
-Date: Wed, 29 May 2024 16:32:54 +0200
-Message-ID: <87fru04rjd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	broonie@kernel.org,
-	rafael@kernel.org,
-	vkoul@kernel.org,
-	andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH 0/3] ACPI/ALSA/soundwire: add acpi_get_local_u64_address() helper
-In-Reply-To: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
-References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=axis.com header.i=@axis.com header.b="KMQ6rfsB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IH19/LzH8Rb3rMIzaSZafHTmMOLCp3J8n2b4GnCih02yZbwRXAzHPwLyI+qDMaC1f0vs9NcAxLcvE435eg83882w917TEJqePVacQVSMv1AI0z6bGeVrZ4dlyeZHnAfPx729/PJHEvNkaMw9zJfG5H0vkG75KG7enwOyVrExxzhgodyWFC/fbyJsDHRSQz2UrCxCCFGzKCHwX0CKG0zzWqraK1/N4Anpk4bFyAKfz2kuDyTVK6If5bdhzpJ/rSJV4hdJlo+kGPuTsmmlOIX7tS68tYRrnUiaRWJPzJWHWFAn5t/S+PuuZ+RU8vbdFtMHAw7Ab3JbIpF6gaSLhD6k5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N0fdbr191pHjPPV9YhE1aBTVerz1WTywQr9eAwRwNRw=;
+ b=UrczC8LKt+NfthHyWMwPh7X4Rtw9qVyKyyYJy9vFzw8pC5kotCbRU5kE89nfpmwE86FyywV7C2jhMY8YC7PYOAuASqoFvUE1T+YpH95SB/OED9GKITnAlYpU9JAquJprwwLD2muYHG5AK+8tX07XfxNakNt0PmqPpGMQUgtOUzZI4jGFgQh8JVa57iO6KG8R4K3Tr0kTSQM/u5aNQgQy/7OEJqVujFLMqvmkV6ktx3VgnmyN5ylL9j3kj/PhbrBF6lgRa6aQgUal6HEKlQJEP4Nfk3mlAsV404zyjPBS5qUC5BkSBJXMGBD7MP9Kn9yztxa7RWWdUoGPoZZusSZROg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=alsa-project.org smtp.mailfrom=axis.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N0fdbr191pHjPPV9YhE1aBTVerz1WTywQr9eAwRwNRw=;
+ b=KMQ6rfsBDlfznvObfM0dMi8DBbDhv8rVioJ5ZIYirHy4Odj0rDxIbZzgk6XxlRTP2Ifi8lS6BhY9OHaQrHXDhRGkdAXPcaIxa3pQuPBl04lS2OONOjw32idoy3ExMMBUyC9enqeAxrJaXW/UB8IgVmNPp4Vs27dtKAVhkegP1Sk=
+Received: from AM0PR04CA0004.eurprd04.prod.outlook.com (2603:10a6:208:122::17)
+ by PAVPR02MB9039.eurprd02.prod.outlook.com (2603:10a6:102:2fe::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.19; Wed, 29 May
+ 2024 16:33:57 +0000
+Received: from AM1PEPF000252E0.eurprd07.prod.outlook.com
+ (2603:10a6:208:122:cafe::90) by AM0PR04CA0004.outlook.office365.com
+ (2603:10a6:208:122::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30 via Frontend
+ Transport; Wed, 29 May 2024 16:33:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ AM1PEPF000252E0.mail.protection.outlook.com (10.167.16.58) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Wed, 29 May 2024 16:33:56 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 29 May
+ 2024 18:33:56 +0200
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 29 May 2024 18:33:56 +0200
+Received: from pc49102-2217.se.axis.com (pc49102-2217.se.axis.com [10.88.7.5])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 375E02313;
+	Wed, 29 May 2024 18:33:56 +0200 (CEST)
+Received: by pc49102-2217.se.axis.com (Postfix, from userid 9470)
+	id 32FD365EA245; Wed, 29 May 2024 18:33:56 +0200 (CEST)
+From: Ricard Wanderlof <ricard.wanderlof@axis.com>
+Date: Wed, 29 May 2024 18:33:44 +0200
+Subject: [PATCH 1/2] ASoC: dt-bindings: tlv320adc3xxx: Add MICBIAS-as-GPO
+ properties
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.98%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240529-tlv320adc3xxx-micbias-gpo-v1-1-300d39cecc55@axis.com>
+References: <20240529-tlv320adc3xxx-micbias-gpo-v1-0-300d39cecc55@axis.com>
+In-Reply-To: <20240529-tlv320adc3xxx-micbias-gpo-v1-0-300d39cecc55@axis.com>
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
+	<baojun.xu@ti.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Ricard Wanderlof
+	<ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>
+CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Ricard
+ Wanderlof" <ricard.wanderlof@axis.com>, <kernel@axis.com>
+X-Mailer: b4 0.13.0
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM1PEPF000252E0:EE_|PAVPR02MB9039:EE_
+X-MS-Office365-Filtering-Correlation-Id: c03cb0d0-57fa-439c-025c-08dc7ffd22cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|82310400017|7416005|376005|1800799015|36860700004|921011;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NnJIYkFJLzNPcVJ5eXJMUXV0NFk2QlBaWSs2Y2UzUFl1cFFXYms1dnF1VGI2?=
+ =?utf-8?B?WS8wYVNrVzdDWGZJSk5yTGF6YURHekZOaWtUSSt5Wk5iMUQrYTRjVFk1bmZq?=
+ =?utf-8?B?UkhhaWhGMnVQeCttSksxUUFacUdaMlg2Rmo5NjNMTFI4eFdQTFFvdHJPd25N?=
+ =?utf-8?B?WjY4eTlZeThFZWlJbCt3QXJFT002ekNhZmRHWEdkamdXQ3NrcDBmdHU0TjR3?=
+ =?utf-8?B?SUoybWVaQjBlWWRIVEtOeSsvbFR5YVVRSElLWU1iUXFYNkpRaDRSN2d2eFlJ?=
+ =?utf-8?B?ajh5dHhiSUdwaUlQWXR0VUFxN0taMGRLVGZrb1VMVnVWdjlSZlBRSHVvRXBP?=
+ =?utf-8?B?V2pQYjcycG1SVDMvV3IxYUVMS2FCZ1ArTW9WRDhnMTd6YkkwUm1oL04yeDNR?=
+ =?utf-8?B?MlNNVEZkbWVlV1FvOFhnM2JZendlbnRLSjdhc3ZuUllBTHNXZXU0YVpnM1pJ?=
+ =?utf-8?B?ZkpWYklValNOZ2NVSWRmWjBNd0tBaHI4TktzT2t6ckI0TXVKWlNOaFBUN1hu?=
+ =?utf-8?B?dkp0VWRJRjBNK2JKNkJBQmJoR2kvdUtsZTJMUUVlOHhkeWRkSW5tOHN5cWRH?=
+ =?utf-8?B?V2w2eDlJMmRxNFZNMzFjR1JVZGl5TnpXMGM4VXpxdEJnbFdIbTczS1Ixc082?=
+ =?utf-8?B?SUVXaWhuZ2o0N3hqTDg0YXJGUEdJcGY2NjRYNCtYWEM0cVN1MW9IS0V2VG85?=
+ =?utf-8?B?b2hCUjRZa3RYaHNlLzJNZmlScVBFWk1oZE8yUUY4OTJWSVpiV3NOcGUwNEdK?=
+ =?utf-8?B?ZmY4VEcyUXlBMWZwTENValhwbERtejVsY3VoaHg4UzBqTXloU0hqUFptNk4y?=
+ =?utf-8?B?b0Q2aUlrbFlyU3ZacnZSVDdnQUt0aUdmbFBibWI5Z05HTFlUeGhtZEVLRXJN?=
+ =?utf-8?B?S1hXYWYyMCtadzF5ZEJoTVlWQ1ZlQ3FlRXZYT0VNMDZFeFFaY1FUeCs5VUJ0?=
+ =?utf-8?B?b0FCK1k0MVhCNG9UYklZVFBidEVEREhiWTZHOVQ0THZFK0xQcGFpSXAyaUlK?=
+ =?utf-8?B?M01La2Rnb3U1WUJYK0VTa0czdDVpejVYOFpISzkvc3ZzZW4xU1p6TnZCcm1a?=
+ =?utf-8?B?eG9jR2hnOWdwbFlvQ3RSRW10WDdlOEZCMkZQNkxBaGMzeUZvbk1mVmx2Rzdp?=
+ =?utf-8?B?OWtNRnB1dS9xekVaTzhEY1VHSGx2ZVpkRVhRMFJDTjhRbms2bG1hcThMeVI4?=
+ =?utf-8?B?VkZxbXRvOXFWVkpIM08zUHYyeDFsa1VwWDUrUEhIUCtZTm9nU3NmWVRIcVFD?=
+ =?utf-8?B?YkYrRzFIcVNaK3VFZzF2dzhPUEFWQVBlcTQ3NmFtT0t6WG10NEVZTU14RjRI?=
+ =?utf-8?B?dHNpQmNWb2lyWmk0cFpkV0h1SkNEYlFHcmxLZWQ4YjU5am1rVkZNckk2VVlR?=
+ =?utf-8?B?VnR5N01NQk1CVEI0cHA3NGp6UDZ5R2ZsNFJTaGlobmx4MEtYanhZQXhsOU92?=
+ =?utf-8?B?NCtIWFVqRnBPMmpKYW1tTU1YUjU2RDJoQytaUEwvWjJ0R09lRm1iWFpsUEJB?=
+ =?utf-8?B?OXNwMWQ1d2JTZm5hMUFMM2xJdWMyR2J6ZFhUVllNbklrM25SSVo5K0ZVdndH?=
+ =?utf-8?B?ZndUSk1vcUhwNkFiSW1uNHc0K1d3YmxIOUNoY2pSVHRFbCtoUnhEcm9Ua3E5?=
+ =?utf-8?B?Q2l4VTM4OW1jZUM2aXJuSm5zVEF4UE1sRHBGckJSQnlPbFFlaU42NDlLWFZZ?=
+ =?utf-8?B?eDhSZENPN0QzQmF5QUhudGxUcGg3RHVPYlJoa0Yrb0kzcTd5amZ3WmNsVXZC?=
+ =?utf-8?B?ZW9IU05HWjRrRU1ZUlYvTXhEQlluN0tuVFJicWdRRmNlb3kraTM2VEF2bTZ0?=
+ =?utf-8?B?SURSY0R5OVdMejYwaEltWC9aUHQra2RKWVV3QUp3MSs0amtheUo5cW5nTkVj?=
+ =?utf-8?Q?fQ03jhn0CM4xB?=
+X-Forefront-Antispam-Report:
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(82310400017)(7416005)(376005)(1800799015)(36860700004)(921011);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 16:33:56.6900
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c03cb0d0-57fa-439c-025c-08dc7ffd22cf
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM1PEPF000252E0.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9039
 
-On Tue, 28 May 2024 21:29:32 +0200,
-Pierre-Louis Bossart wrote:
-> 
-> The acpi_get_local_address() helper assumes a 32-bit ADR is used. If
-> we want to use this helper for SoundWire/SDCA ASoC codecs, we need an
-> extension where the native 64-bits are used. This patchset suggests a
-> new helper, acpi_get_local_address() may be renamed if desired in a
-> folow-up patch.
-> 
-> The path of least resistance would be to merge this patchset in the
-> ASoC tree, since I have additional changes for ASoC/SDCA (SoundWire
-> Device Class) that depend on the new helper.
-> 
-> Pierre-Louis Bossart (3):
->   ACPI: utils: introduce acpi_get_local_u64_address()
->   soundwire: slave: simplify code with acpi_get_local_u64_address()
->   ALSA: hda: intel-sdw-acpi: use acpi_get_local_u64_address()
+Add properties for configuring the MICBIAS pins as general purpose
+outputs, with some limitations: The voltage on the pin when activated
+may be set using another property to 2.0 V, 2.5 V or AVDD.
+When deactivated the pin will float.
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
+---
+ .../devicetree/bindings/sound/ti,tlv320adc3xxx.yaml  | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
+index ede14ca2c07a..4172aced1386 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
+@@ -82,6 +82,26 @@ properties:
+       Note that there is currently no support for reading the GPIO pins as
+       inputs.
+ 
++  ti,micbias1-gpo:
++    type: boolean
++    description: |
++      When set, the MICBIAS1 pin may be controlled via the GPIO framework,
++      as pin number 3 on the device.
++
++      In this mode, when the pin is activated, it will be set to the voltage
++      specified by the ti,micbias1-vg property. When deactivated, the pin will
++      float.
++
++  ti,micbias2-gpo:
++    type: boolean
++    description: |
++      When set, the MICBIAS2 pin may be controlled via the GPIO framework,
++      as pin number 4 on the device.
++
++      In this mode, when the pin is activated, it will be set to the voltage
++      specified by the ti,micbias1-vg property. When deactivated, the pin will
++      float.
++
+   ti,micbias1-vg:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum:
 
-thanks,
+-- 
+2.30.2
 
-Takashi
