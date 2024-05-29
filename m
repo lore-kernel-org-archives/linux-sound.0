@@ -1,64 +1,68 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC0ED2FE
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 01:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BCD2B9A9
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 01:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716945301; cv=none; b=jWsJ0TQuGqFVy9rmCLSk4qNs84vCJULBxGG55TPc/Wwd4MpBmQfFONhOgK/f+uyfFFqH64AstLBiGY6FsqFfSLdx7wnnTJ7kPk64vDTRb5GN7kNhAAsO6SvU8iZ5ak5Pj960ieJP704Kr6TsaiaQ3aaU/+G5I2zpDzuHcwjMgA8=
+	t=1716945304; cv=none; b=cdgLe79ddGo9rMEYN69bBvF09e0+Qou4f21gDp7N8sMyWUSstk1XXKk0ZDe9yKIGNdcTnvHAJ7ZlgfKUpFSgACeXtmdrHlB5BghwMBdpfVCnE0s3oXAp8dGUNMuEvuOPIn7Oq401m1A5ZlV/wZqXNNqpf2N5HiiS+jF9JPBQPnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716945301; c=relaxed/simple;
-	bh=ee2u0oiouae9mOBZxrxDH+Kp+aXP9/ibtSVGe+jjl3E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HcrJXFGxZencwTuvKu6sytPpdyJ1r0rJmnHrkXhSkt20Nexw83I3vRdMwlJR050/qaG0P7VZbUGCBOoXEZmvgfjkii3QTsHIiccT7OYIBpEMkCjlXC4MXFDfLjfH5/nCBGXjV4RKUU3dMnjdg4CENW60lXkI/1dNxKZVAZGsat8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPegw93/; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1716945304; c=relaxed/simple;
+	bh=+Qsjco8mzogGjPHsQpxrxienekhbLpRvY1W41Ce+fUU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HAm/3wkTs779EuHbggenuAgded9jtsR6JSISyGC6V2ALmgfoDldVL/fQdXrOZrHWZm+VGyrs3MRUHD03pXMjkq4FySm+ATKRy4lJijT9s1Q5+GtQrG48GzgBW3MO/YKHa/HCMsrYRvQEmLNI6oW9tqbfNYVrDtsO1TZ32iUujmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTGXOos9; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPegw93/"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2bdf439c664so283123a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 18:14:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTGXOos9"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3d1d134f6c9so144170b6e.0
+        for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 18:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716945299; x=1717550099; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N4kmMP6gOzpVtv/P5RcqxhyYrbX+J5ShYaWHdV4ipo0=;
-        b=OPegw93/v9TgMLt6F2Pvyii/fMpBB2mlO6NHUPFPHdgiE7pgGGas4yAgDQLcgzuS0N
-         wZ5WLAduVSEaw8MZ02IR78yxu71AVjUm07muNH1X/vt+fiilkTW8oONyTbP2UTymWFq9
-         hcX1pkUAY0908VhcNloA/2ht79at8kgPzC+URb1CbWe4T5cbwxKQKEDuB1OUPSL3MjqJ
-         ZgE/9orpb39cceqkX8PtDUMiweJ+VX8FsRH73xVPnIJcgalv97KGD9OG1Fn88Ro2dttH
-         wU2dGVDuYp8nz/YVcGlNDKEmjVb2FFtx1Ef9+IgWy7wjy62X/1XE+O64/8t34jgQZGo7
-         N5Dg==
+        d=gmail.com; s=20230601; t=1716945301; x=1717550101; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tIgxIWxoyeej6fijgWSOIvBp3gx1sP9DeVeu8osJFH8=;
+        b=fTGXOos91BNGuUlOP0i+Q8vwpZStnYYVKWEHjqxmHL7Eurbls+IU6geMJkJbY0c8aY
+         bpFbP6q1fviilbv7MZBncsUsklgqEBfVA1Ps1kzgjQPdtnWKir2hlwe78vN0vD0cA81y
+         RRlRx6B2J7llFBBqxk4yUU8YIq8coPFLGcL+4qjIzSTVjpqAEYMFZKVwbhKDqNlS0IT7
+         jwTFIBQFz9v698NguxusVog76d+enRrIMTIRQn58mWvp3SdyjRV57+5+IUEgdRCF37+6
+         rTUzRsyu5r3U9Z9Wj0N4Evtg3GKiVnPwOCMHW8MQFvYwaOuMdYbJUN4Ebu5tPNIP9ucr
+         PVog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716945299; x=1717550099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N4kmMP6gOzpVtv/P5RcqxhyYrbX+J5ShYaWHdV4ipo0=;
-        b=OHyhB0W6GYIhxPqLmrK2b2S9ZZ/M9VzGHwyL7il36qlAGdJxdi9bi5t7iUkAlSACfM
-         gHadRdQjyeLsXjMhMw6YX1Z8AbgjtYOqOM8PQkq5SGBw3MmwTfw7BRiFdMwIJ4wPX80u
-         j7ibpj+HovV1ZnnyCNc4Uc4RqLzhQiLdaZNsLAZNWsLm/OxS2Edm5GicuivSRIXDh348
-         Zh0N/x9zN9htX+ClSDaY5FK7uiMFTFPs+S3Qo6nxMz9/bAn+AN8u2jbWwUvWDouuzht7
-         IzHWtmSjzKJY5T1EfbZmBJEmgf486nV9QgocLucn2HGFzM5ReJQZ2aGAXGU7qS/r+Wcj
-         cLDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWncmpP3secFW/DFi00qCWTRNEcp4JuBz/V+5THFrKCALQr5ABJtSz0JVOZMYn3jtO8DgDPUJiTS40nn6dk20Hadv2/c8p3/Fac8aI=
-X-Gm-Message-State: AOJu0Yzuy1EsuLphqE69Tk0ofJQ/83h29WnobQxMrjcRxzd7nYlN978h
-	Ybh8nWDGKdAYSNt6pAo4KT2D+nRAVXQ8fz110YtAdoNz4Z2YwG7x
-X-Google-Smtp-Source: AGHT+IGmWqVFoTLEVGsdqrjtX6eof92T7u9+x1jvTKuE6tuMraJN/kcMeJvFRlsZU9KgJvSq9pPTFw==
-X-Received: by 2002:a05:6a20:1585:b0:1ae:42c8:4f69 with SMTP id adf61e73a8af0-1b212b7cebamr17070128637.0.1716945299304;
-        Tue, 28 May 2024 18:14:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716945301; x=1717550101;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tIgxIWxoyeej6fijgWSOIvBp3gx1sP9DeVeu8osJFH8=;
+        b=wKYG35YQU1glG1L74lZUs7HaQHT6pertbEvsBZgdcNneTD86S5ig6XgVbxIQFVxrSI
+         tTgJmrJYytcj6v77Ldh/IxPdK7FBRCEdkK5cNbL0HAjX0DRPPEzPqwnsX4xvt0Vg6j+8
+         t2s3wLQfR6X0BozwsjR5QGnwaGDJ0eE77iqKVM4K9MEBE+mmXuL5VZoNCLolHjYtxms/
+         0SX+G+u/RItuoaGEq3CtO9lJQl5XMrrmr4M6QvpMn2VMiKCEgNbFfPzqlEVfxdfCPyY3
+         UgM7kIfN91V/oSRZHjd0RFvZevAu1lmqn0wZzPzXXYD6mkXS/asTIGkIaUSBaU3bowVH
+         cfcw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPNsRcBjVWUlI9IWlVT/EQ6R3zgOm4N4Obhgc/8i9ZdLVBnR0ljMboGd1KreshY4V0WWKu+Eg5DrfV/NNOFdxMpY98lhjYXn0Zt94=
+X-Gm-Message-State: AOJu0YzOgHNs/bhD/XXEPn6Pj92j3+VBfsyfaqnunRGutgXb+K2Wrm07
+	bRc/whnGHC8/QRBHLC7lKwL6UdUDubob06aABbjppJ5eTtvIh1jH
+X-Google-Smtp-Source: AGHT+IHvchjWI41AxUR2jMbxPd1j9QcK7/SkYPCCllvDv46JKURUgiDP3HLBL3VBn5gw4u5KokWjfA==
+X-Received: by 2002:a05:6870:f708:b0:24c:67b8:2cb8 with SMTP id 586e51a60fabf-24ca0d87c0amr16153257fac.0.1716945301389;
+        Tue, 28 May 2024 18:15:01 -0700 (PDT)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:dfd9:2d9b:ff9d:4f57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3ebdasm7029015b3a.44.2024.05.28.18.14.57
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3ebdasm7029015b3a.44.2024.05.28.18.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 18:14:58 -0700 (PDT)
+        Tue, 28 May 2024 18:15:00 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: broonie@kernel.org
 Cc: shengjiu.wang@gmail.com,
 	linux-sound@vger.kernel.org,
 	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2 1/3] ASoC: fsl: fsl_aud2htx: Switch to RUNTIME_PM_OPS()
-Date: Tue, 28 May 2024 22:14:43 -0300
-Message-Id: <20240529011445.1436596-1-festevam@gmail.com>
+Subject: [PATCH v2 2/3] ASoC: fsl: fsl_easrc: Switch to RUNTIME_PM_OPS()
+Date: Tue, 28 May 2024 22:14:44 -0300
+Message-Id: <20240529011445.1436596-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240529011445.1436596-1-festevam@gmail.com>
+References: <20240529011445.1436596-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,7 +80,7 @@ compiler to evaluate if the runtime suspend/resume() functions are used
 at build time or are simply dead code.
 
 This allows removing the __maybe_unused notation from the runtime
-suspend/resume() functions. 
+suspend/resume() functions.
 
 Signed-off-by: Fabio Estevam <festevam@denx.de>
 Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
@@ -84,50 +88,49 @@ Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 Changes since v1:
 - Only colleted Shengjiu's Ack.
 
- sound/soc/fsl/fsl_aud2htx.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ sound/soc/fsl/fsl_easrc.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_aud2htx.c b/sound/soc/fsl/fsl_aud2htx.c
-index ee2f6ad1f800..a6cbaa6364c7 100644
---- a/sound/soc/fsl/fsl_aud2htx.c
-+++ b/sound/soc/fsl/fsl_aud2htx.c
-@@ -261,7 +261,7 @@ static void fsl_aud2htx_remove(struct platform_device *pdev)
+diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
+index ec53bda46a46..962f30912091 100644
+--- a/sound/soc/fsl/fsl_easrc.c
++++ b/sound/soc/fsl/fsl_easrc.c
+@@ -1988,7 +1988,7 @@ static void fsl_easrc_remove(struct platform_device *pdev)
  	pm_runtime_disable(&pdev->dev);
  }
  
--static int __maybe_unused fsl_aud2htx_runtime_suspend(struct device *dev)
-+static int fsl_aud2htx_runtime_suspend(struct device *dev)
+-static __maybe_unused int fsl_easrc_runtime_suspend(struct device *dev)
++static int fsl_easrc_runtime_suspend(struct device *dev)
  {
- 	struct fsl_aud2htx *aud2htx = dev_get_drvdata(dev);
- 
-@@ -271,7 +271,7 @@ static int __maybe_unused fsl_aud2htx_runtime_suspend(struct device *dev)
+ 	struct fsl_asrc *easrc = dev_get_drvdata(dev);
+ 	struct fsl_easrc_priv *easrc_priv = easrc->private;
+@@ -2005,7 +2005,7 @@ static __maybe_unused int fsl_easrc_runtime_suspend(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused fsl_aud2htx_runtime_resume(struct device *dev)
-+static int fsl_aud2htx_runtime_resume(struct device *dev)
+-static __maybe_unused int fsl_easrc_runtime_resume(struct device *dev)
++static int fsl_easrc_runtime_resume(struct device *dev)
  {
- 	struct fsl_aud2htx *aud2htx = dev_get_drvdata(dev);
- 	int ret;
-@@ -288,9 +288,8 @@ static int __maybe_unused fsl_aud2htx_runtime_resume(struct device *dev)
+ 	struct fsl_asrc *easrc = dev_get_drvdata(dev);
+ 	struct fsl_easrc_priv *easrc_priv = easrc->private;
+@@ -2086,9 +2086,7 @@ static __maybe_unused int fsl_easrc_runtime_resume(struct device *dev)
  }
  
- static const struct dev_pm_ops fsl_aud2htx_pm_ops = {
--	SET_RUNTIME_PM_OPS(fsl_aud2htx_runtime_suspend,
--			   fsl_aud2htx_runtime_resume,
+ static const struct dev_pm_ops fsl_easrc_pm_ops = {
+-	SET_RUNTIME_PM_OPS(fsl_easrc_runtime_suspend,
+-			   fsl_easrc_runtime_resume,
 -			   NULL)
-+	RUNTIME_PM_OPS(fsl_aud2htx_runtime_suspend, fsl_aud2htx_runtime_resume,
-+		       NULL)
++	RUNTIME_PM_OPS(fsl_easrc_runtime_suspend, fsl_easrc_runtime_resume, NULL)
  	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
  				pm_runtime_force_resume)
  };
-@@ -300,7 +299,7 @@ static struct platform_driver fsl_aud2htx_driver = {
- 	.remove_new = fsl_aud2htx_remove,
+@@ -2098,7 +2096,7 @@ static struct platform_driver fsl_easrc_driver = {
+ 	.remove_new = fsl_easrc_remove,
  	.driver = {
- 		.name = "fsl-aud2htx",
--		.pm = &fsl_aud2htx_pm_ops,
-+		.pm = pm_ptr(&fsl_aud2htx_pm_ops),
- 		.of_match_table = fsl_aud2htx_dt_ids,
+ 		.name = "fsl-easrc",
+-		.pm = &fsl_easrc_pm_ops,
++		.pm = pm_ptr(&fsl_easrc_pm_ops),
+ 		.of_match_table = fsl_easrc_dt_ids,
  	},
  };
 -- 
