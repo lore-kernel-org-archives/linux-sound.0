@@ -1,96 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDFE14B973
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 11:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E0D169385;
+	Wed, 29 May 2024 12:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716983804; cv=none; b=kwStkB2vyaje++C9UrANpPipgzp/PuFDhSydSeKW+8U8S9c6UN0SQL7/rJt+6X22Eo2grlgmc8P6fPIXXmGAQIqSJGuDWLI3hvO3M1TGNCzdwrCvdfuKZUxEbTzpI1VuhxUw3JqQ8QgMTpCbGNcXNhn42uF5rWEXpGT7rG+0pHI=
+	t=1716984703; cv=none; b=k0btgIDrqRoB4YyPck1xwJh78Bwk4kLzvFQg4TMybbXRPCd3UU1AQRIDxu0bUYSeE6vODn+DxhS0U7fikk/QJA7D3vebP7iKEDewHkT5S51ZAZBhgKwte3KC8GycOZmN9W3EUj5eW27XI4gdw16c6zG6GaHe4QwWkA0B6PrAQGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716983804; c=relaxed/simple;
-	bh=k3aKNBO4zspmrB+iQ3hfg/Lnw5Gl6O2eTIOuGCxluuo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kd3yIFh9VCzOITWWcUQi3NbggT51fGycjA5+eMdlIx6IQfqU5Kju7Uk5j+4Pnz6GzUYnl5UyU6Q04vzT383TActBJv67Qj0rOfhiusN3eJKuC3e1264n0EvtrnOGTcuaHyo/8n5xXxJXNAvo6TAiXQX6iK/crEm5YLOcKkxbtQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBF3eYoh; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1716984703; c=relaxed/simple;
+	bh=ErrfYOqG+NJyBffD6qDn0EX4RY43mbv5qX7CHzkGS8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XsryJx5RUlDoEEnLK0bgGG9zzGWXsL+4clBiWGwTwZKYmDftcr8zCytj7FruB5QE89iRQgV7lWUAo08rqrqnpxYTT9+EksGNSA0wrSp6C+1uS0CKj69M+qAwz1vDivau8MMwuZkp9kfS6oVJxAaLNgRnMISnwgriQxPZIO14xJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkmH0nMx; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBF3eYoh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkmH0nMx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716983802; x=1748519802;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k3aKNBO4zspmrB+iQ3hfg/Lnw5Gl6O2eTIOuGCxluuo=;
-  b=mBF3eYohLotHVMk6Nn7fDjUjVl4RnAPIpCDFr/2ZtiKUNdtXvZp9BkxA
-   ThcZVfYuYB1gQxXpR5dIjjEOQ7Hp7lwLysWyA8anR40mLxS0mGUKJHucH
-   VTlq8akyE4eVq8T6t2k3wq4rJSgscCpyVW539EQzVPivIZGc6Ycoz1KlJ
-   YXJVX+GiA5lCcSkZddlo9XxqfG6it8LvZ8m4PBXlcEHiWl1GRyslaj0hH
-   rZSOislYArrSHtfAhHScJ5z8/ODNjFzsNNisDkO0JsMZd+S1L/wPT8Zq/
-   KeqXZmrb8RGHaUErqow7sT7u9L/+ZWUciOGyysaFm/CrTV/yKSjmJeJar
-   g==;
-X-CSE-ConnectionGUID: ukQRA4MNR++e6RZRQ6yjgw==
-X-CSE-MsgGUID: p6wDmJZbRdWTgLZ54MNhMA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24034773"
+  t=1716984701; x=1748520701;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ErrfYOqG+NJyBffD6qDn0EX4RY43mbv5qX7CHzkGS8Q=;
+  b=EkmH0nMxTUkD4PNHrb8zoEuul9x7n5kPM1BZV81sJoC5ta66atmuSTUX
+   8E2ptCqJLST3i4BVZmfF1dHVUx9l9OJAukk3ghLTLRlcNhqoNb8DZJvhe
+   8P+WwWG6cwsukTYfAabOv7jBE83VpW3In/FyRgdpTvmP8l1dqj3xgipGX
+   tkHZ11dYe9Qn7nhbQsfU27+I2BM2mQs2u9sXMF+4xbd4l4YAotiOYB/do
+   SLbsc6CtN1wBu8pF98kwq769udnA8yNoLlk0G7YifF7HMEVpDQMdtzrUk
+   NxFC9ljy2NSS0Bf1oeRnABESFnPNmiWzX7VCJ+AYdSXxEWNmWcBrYflkL
+   A==;
+X-CSE-ConnectionGUID: sEL8c8nVTCmCbTtbuRlFoQ==
+X-CSE-MsgGUID: yaCye+iPSZaQdHAwTjlS1Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="13510679"
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="24034773"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 04:56:41 -0700
-X-CSE-ConnectionGUID: 123Sv1kOSVus/ryPy1pk8g==
-X-CSE-MsgGUID: tpLHy7iAQDyhWoPaa5uJrA==
+   d="scan'208";a="13510679"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 05:11:41 -0700
+X-CSE-ConnectionGUID: 5tKlkf8LQguRC4dV1mPB6Q==
+X-CSE-MsgGUID: 7NKXdOQXRnWAMaZsxzaS/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="35496958"
-Received: from unknown (HELO [10.124.223.77]) ([10.124.223.77])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 04:56:40 -0700
-Message-ID: <53897d0f-1796-4823-9090-a51320c655a4@linux.intel.com>
-Date: Wed, 29 May 2024 14:57:02 +0300
+   d="scan'208";a="40266900"
+Received: from unknown (HELO pujfalus-desk.intel.com) ([10.124.223.77])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 05:11:39 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	stable@vger.kernel.org,
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH 6.10] ASoC: SOF: ipc4-topology: Fix input format query of process modules without base extension
+Date: Wed, 29 May 2024 15:12:01 +0300
+Message-ID: <20240529121201.14687-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Add support for NHLT with
- 16-bit only DMIC blob
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, seppo.ingalsuo@linux.intel.com
-References: <20240516075611.18018-1-peter.ujfalusi@linux.intel.com>
- <d4c5e7a3-710b-4ff1-95a3-395dd780fed3@linux.intel.com>
- <3a7fa9d4-dd14-4b29-b977-3ba9c5b4ade7@sirena.org.uk>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <3a7fa9d4-dd14-4b29-b977-3ba9c5b4ade7@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+If a process module does not have base config extension then the same
+format applies to all of it's inputs and the process->base_config_ext is
+NULL, causing NULL dereference when specifically crafted topology and
+sequences used.
 
+Fixes: 648fea128476 ("ASoC: SOF: ipc4-topology: set copier output format for process module")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: stable@vger.kernel.org
+---
+Hi Mark,
 
-On 29/05/2024 14:48, Mark Brown wrote:
-> On Wed, May 29, 2024 at 02:19:37PM +0300, Péter Ujfalusi wrote:
->> On 16/05/2024 10:56, Peter Ujfalusi wrote:
-> 
->>> The ACPI NHLT table always had 32-bit DMIC blob even if 16-bit was also
->>> present and taken as a 'rule' which obviously got broken and there is at
->>> least one device on the market which ships with only 16-bit DMIC
->>> configuration blob.
->>> This corner case has never been supported and it is going to need topology
->>> updates for DMIC copier to support multiple formats.
-> 
->> Please ignore this patch, I will send it again along with few more patch
->> building on this to close the gaps with the logic of selecting the NHLT
->> blob.
-> 
-> Sorry, it's already been applied and published with more stuff in CI now
-> based on it.
+Can you please pick this patch for 6.10 as it can fix a potential NULL
+pointer dereference bug.
 
-Right, I don't see it in for-next, for-6.10 or for-linus. This patch
-should be sent for 6.10 and I can prepare and send the rest (4 more
-patches) to close the remaining holes regarding to NHLT blob selection
-logic.
+Thank you,
+Peter
 
+ sound/soc/sof/ipc4-topology.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index beff10989324..33e8c5f7d9ca 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -217,6 +217,14 @@ sof_ipc4_get_input_pin_audio_fmt(struct snd_sof_widget *swidget, int pin_index)
+ 	}
+ 
+ 	process = swidget->private;
++
++	/*
++	 * For process modules without base config extension, base module config
++	 * format is used for all input pins
++	 */
++	if (process->init_config != SOF_IPC4_MODULE_INIT_CONFIG_TYPE_BASE_CFG_WITH_EXT)
++		return &process->base_config.audio_fmt;
++
+ 	base_cfg_ext = process->base_config_ext;
+ 
+ 	/*
 -- 
-Péter
+2.45.1
+
