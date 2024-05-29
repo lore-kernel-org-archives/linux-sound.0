@@ -1,75 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B69225AE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26341C6A0
 	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 16:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717001229; cv=none; b=nZz/DblTBRtogA4kln1/G6d5cLzPCXaJr19YDFMIeq6GB/Mu/GA896KHTZiCvXnu/BF+krRij+LNx1ckHl176GANDvojUoLp9K7WmzPM6cWAS4PlzEZv1YVl1ppkSuk3OhUB8lKB6c88WdqX7dpqiRkqK9XDpd0FTvsrhxksIXc=
+	t=1717001230; cv=none; b=io91+Pr7wszKBjJjvI/sM0uw2qf+tlqwlx1qGs93zGY3iYrHLc+9awtkM1mdbOOFefay2X+BVi3byOdh1zvY+llPYlYCHRU7SVewnCOX1I3hqKQBYREqyzSTv/AnWDZSsNGapaNImsj6MwLQwAEswab3jciJ6coN2DeDcjjHtrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717001229; c=relaxed/simple;
-	bh=2oPyGU7MmETJ97qX39Mbq7f4qy59GsaQAxZKNirJcVw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ScuBWhYSLNcxTwaTR/f3mHWZ4CgoBQ8hfiAk7LoDQPO3160Filuhk9U8rY5w4pZbH8V0XToZWPXc1O2Z+5CViWViLT87MKcl94vkPgCIdIqSjsqIWv+IbeE1JmNOJ3haKLhC/KGPI2pA+D4jJyx7r+a0WnjKFrTkxGtqxRwbleI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tr0+Esxl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CbqS763e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MyNmtyky; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pjwfFPD9; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1717001230; c=relaxed/simple;
+	bh=afgjzX5FW3bh2IvjlJ17REZkZrs1WYEZVS+dsfd85L4=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gbYsFU/R8IzD9cAi2pNLQYFUF9CKG6PNJyjZsUwdn0+WUQb6M3a60Os/0web1KnjrMSuRWJGA2z8po/I0GyrO25TWcp1z9oC0lXD7InWoGD4eyoowm5mBFlIer4ngEttzPLWr8RdPG531vLaBZVmm/CLZnLX20lg8T7wiFyNyso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Us8Ld9po; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zsxop7Al; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zoE8gf/4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BQimbaZS; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tr0+Esxl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CbqS763e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MyNmtyky";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pjwfFPD9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Us8Ld9po";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zsxop7Al";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zoE8gf/4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BQimbaZS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C5C45205BE;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E81C6336E8;
 	Wed, 29 May 2024 16:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1717001226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dvJ7Ddwjh9tWQb6Tsb4IqunQ0Llr9mIm6SRfZGcsSz4=;
-	b=tr0+Esxl80YrkJVAhP8d+SM5+6g33F2TilFmO5LL5BSczkakzBnRN8m7XsuwhX4EIw36bh
-	jVockYwcjsT7zll/iRATtORW4tOfUGcJA/9dnwB3+vnkYfdLKVRv/FljSKm3cGFa4ExsRZ
-	HkPWEoinqvK68LgDUTbXJuJMBXCkrjk=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dgi+QaiwgHuMCh03q17gaqOz64VZW0OMdGlgf1WPg8s=;
+	b=Us8Ld9poS48CEaO8ECSV44a5Eowj+3PLGvHKbhVtIe621o2aeAp60+Q7h44dmxv978TW7H
+	oceonHs5AwtvTtMwY2XKoIiD9K97ZqZy8Q4zzwRODA25oY2mTNq317lKCvqrxsiV0kmfAv
+	Os0Zw1c+xquoxfkCgMaedEHnu6yqXis=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1717001226;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dvJ7Ddwjh9tWQb6Tsb4IqunQ0Llr9mIm6SRfZGcsSz4=;
-	b=CbqS763ecAiuFsxzCaPAJy3I8ZaefHPyiL9Kh2lmBgeYspnKy2Q4PhYF0rdzJNd5IsHTBj
-	nQrq7rMv1OM/YsDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dgi+QaiwgHuMCh03q17gaqOz64VZW0OMdGlgf1WPg8s=;
+	b=Zsxop7Al3uaG2wxlpegQJ9hsTLdrIJsTQyN5SasRpkxFNs85U9dnJBybjwCd/+oGfvPntN
+	fk/jf1DxFt8skXAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="zoE8gf/4";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BQimbaZS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1717001224; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dvJ7Ddwjh9tWQb6Tsb4IqunQ0Llr9mIm6SRfZGcsSz4=;
-	b=MyNmtykygpBr4y2nWfgI2z3z/q99vOAq/EFmkV/LeKEdTdolhd8B7+RVc930q1v6sr3Smb
-	uG4SS7J6c1t7Yg3K0eAnjNd/oKGXI81BfdqQX83RY1GdV9w6EIg6ak0MJ73PF7QTz6u8MD
-	P7oxcW+OhgSPptejK2eZ9gHf4EQbLkU=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dgi+QaiwgHuMCh03q17gaqOz64VZW0OMdGlgf1WPg8s=;
+	b=zoE8gf/4zZG1pht8kOfAMzo1RYhWOJbf1LI0xM0+ENXGZL1Xxx9yob0bnc2FK3yZXOIzKP
+	iCBiHBKYDjrnddtWGZrxqO4lUxYNaaN/01QsdOj25LytZ5sQUs1f0RNE9GAtZan3mvbixt
+	0UGKbKwjSAWtjF2Oy3Sqtu9KwmrTruI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1717001224;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=dvJ7Ddwjh9tWQb6Tsb4IqunQ0Llr9mIm6SRfZGcsSz4=;
-	b=pjwfFPD9l+4Chz3eRkWVFxB2ZAtJ1fqN9m8aS7V66A6NLdKCtSI82U41LbQnhZdpm5Gjqy
-	OAPXr8hjdVGGiFDw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dgi+QaiwgHuMCh03q17gaqOz64VZW0OMdGlgf1WPg8s=;
+	b=BQimbaZSMOVuuvME+KIR+kVhClZP9+nJli2rQ0Gx7ptLRpAGy1QbhmAcMJC6i81DlAkFBp
+	s9gHp1TuHN5rZFAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA0D71372E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB36213A87;
 	Wed, 29 May 2024 16:47:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P0VGKAhcV2bUDQAAD6G6ig
+	id qIN7MAhcV2bUDQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 29 May 2024 16:47:04 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 1/2] ALSA: ump: Don't accept an invalid UMP protocol number
-Date: Wed, 29 May 2024 18:47:16 +0200
-Message-ID: <20240529164723.18309-1-tiwai@suse.de>
+Subject: [PATCH v2 2/2] ALSA: ump: Set default protocol when not given explicitly
+Date: Wed, 29 May 2024 18:47:17 +0200
+Message-ID: <20240529164723.18309-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240529164723.18309-1-tiwai@suse.de>
+References: <20240529164723.18309-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,66 +89,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.88
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E81C6336E8
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.77 / 50.00];
-	BAYES_HAM(-2.97)[99.88%];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.88 / 50.00];
+	BAYES_HAM(-2.87)[99.44%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
+	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.77
-X-Spam-Flag: NO
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-When a UMP Stream Configuration message is received, the driver tries
-to switch the protocol, but there was no sanity check of the protocol,
-hence it can pass an invalid value.  Add the check and bail out if a
-wrong value is passed.
+When an inquiry of the current protocol via UMP Stream Configuration
+message fails by some reason, we may leave the current protocol
+undefined, which may lead to unexpected behavior.  Better to assume a
+valid protocol found in the protocol capability bits instead.
 
-Fixes: a79807683781 ("ALSA: ump: Add helper to change MIDI protocol")
-Cc: <stable@vger.kernel.org>
+For a device that doesn't support the UMP v1.2 feature, it won't reach
+to this code path, and USB MIDI GTB descriptor would be used for
+determining the protocol, instead.
+
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-v1->v2: Fix the line dropped mistakenly in v1 patch
+v1->v2: no change
 
- sound/core/ump.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/core/ump.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/sound/core/ump.c b/sound/core/ump.c
-index fd6a68a54278..117c7ecc4856 100644
+index 117c7ecc4856..3f61220c23b4 100644
 --- a/sound/core/ump.c
 +++ b/sound/core/ump.c
-@@ -685,10 +685,17 @@ static void seq_notify_protocol(struct snd_ump_endpoint *ump)
-  */
- int snd_ump_switch_protocol(struct snd_ump_endpoint *ump, unsigned int protocol)
- {
-+	unsigned int type;
-+
- 	protocol &= ump->info.protocol_caps;
- 	if (protocol == ump->info.protocol)
- 		return 0;
+@@ -967,6 +967,14 @@ int snd_ump_parse_endpoint(struct snd_ump_endpoint *ump)
+ 	if (err < 0)
+ 		ump_dbg(ump, "Unable to get UMP EP stream config\n");
  
-+	type = protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI_MASK;
-+	if (type != SNDRV_UMP_EP_INFO_PROTO_MIDI1 &&
-+	    type != SNDRV_UMP_EP_INFO_PROTO_MIDI2)
-+		return 0;
++	/* If no protocol is set by some reason, assume the valid one */
++	if (!(ump->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI_MASK)) {
++		if (ump->info.protocol_caps & SNDRV_UMP_EP_INFO_PROTO_MIDI2)
++			ump->info.protocol |= SNDRV_UMP_EP_INFO_PROTO_MIDI2;
++		else if (ump->info.protocol_caps & SNDRV_UMP_EP_INFO_PROTO_MIDI1)
++			ump->info.protocol |= SNDRV_UMP_EP_INFO_PROTO_MIDI1;
++	}
 +
- 	ump->info.protocol = protocol;
- 	ump_dbg(ump, "New protocol = %x (caps = %x)\n",
- 		protocol, ump->info.protocol_caps);
+ 	/* Query and create blocks from Function Blocks */
+ 	for (blk = 0; blk < ump->info.num_blocks; blk++) {
+ 		err = create_block_from_fb_info(ump, blk);
 -- 
 2.43.0
 
