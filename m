@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D43E1B810
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 17:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096DF181BB4;
+	Wed, 29 May 2024 17:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717002685; cv=none; b=PA9mQdjlo6Z/IjXtmkL6brjSRJXaz+CSezdE/Yi6V8+TjqhbJ58SBwga3ccvlZ/i/engV3ktZciL4XwZfEXwVRzuYCCuOHjWqDOr63MpyvlfdXwTxLk7P46wixKCWfdseA7clOXB6mgOeGyMFrsHxj6Q/qMPlb5MDyg6pcGPCTg=
+	t=1717002687; cv=none; b=ZMCrJbggsocdkGgTdlRh7ChPnsU75Qyp4TwT5gAjvnDSnOA/SIat/53LKJUoCKt36OGRKJZ4HyN9346MG8EH42/tHbEQzltRo+mItNZvCBnG+CRZbxRafW3n9ebxIjaMq2LleQ6heU+QuMNuirG8P+FMlQniNTa839vNGzMnBa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717002685; c=relaxed/simple;
-	bh=9UpR3hGU/5+3bUNpfdSES1Ui6yAXcd8PftieunFAs7w=;
+	s=arc-20240116; t=1717002687; c=relaxed/simple;
+	bh=7isaBuAxV7kUjazVZawbQgNd83XiAdfBiq+YrhTcl04=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JZxYpM7Bf0bxmKiqvilJNpUnzGhuKn0XIKNbW0ud4ExK1AbOanPqxqmz2oJvmhTQJSfj5addgkNDnzAPfzIhgyeu+1XJjQwoHB4e4OYs9K8x4AGmaenXAT0n4sGG4/fhakpZdMapxLdO9+/F8i+iQk7rbvnAqkgw/nTjYdQqutM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hyaBnfEC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UoPvAwD2QksZi36mTHgYSGhgoO3/1iG242p2lCOE0OiU1O267FVfhEUdBT+XEbNmzHLS6YATXSvG7C+2lQ9GmTIabnuBpHXtpOjngOM/BPwJFjJUeSXh0j9ZDDtnchhWaGX4ZoldeKHjR99+80XaKewTwbRoEHjo/G4cRwz0eMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oXG/W3up; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hyaBnfEC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C078CC113CC;
-	Wed, 29 May 2024 17:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oXG/W3up"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23189C116B1;
+	Wed, 29 May 2024 17:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717002684;
-	bh=9UpR3hGU/5+3bUNpfdSES1Ui6yAXcd8PftieunFAs7w=;
+	s=k20201202; t=1717002686;
+	bh=7isaBuAxV7kUjazVZawbQgNd83XiAdfBiq+YrhTcl04=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hyaBnfECVPHlH84ACfb81Qj4jMkCnvaRlTS4D1dCP7Sptb8I916D5XPQI5W4y0lhu
-	 1SJK6WYF+Dcpa98zfNGv5ZCAAA/he5RFUCf9DZqN4gH2xMRJK/hS+J43uAAV7ZO+wB
-	 dD9U4hYOQxlPT5rYcwyzNwDBHDGh/B92H20Cvewi5YbDo/RQyVp0wv+idMBh65nFXA
-	 V9VAIUEfWERowJYhSdUX3yDKYOenCu1DDR2Qt93tvkFj/CcoQcwG8ifLKW0d9OnNsv
-	 72OuITvVODc+fG35isNk9t2JNpoayvYY7Ed0TRfq4NeFzjwyrt6eO5bRMpUNgbkU0c
-	 nR/eNzp60w6oQ==
+	b=oXG/W3uphnUzJR/npNKI/KFM+PcE3KPW0fg0mxJiEnyXOC/41Hs6cdyy0ueyGdvSB
+	 qb+UfQQ+FFthCmEhaxHVUc5rG8a0eKATTTslDvl3nZD964n81/IpsFu/n/lucgP3j7
+	 qgn/0TM2PhUSBXoksqg8pSqK4pIIo4kgFsqaXJiCyxIKMpLS1EYstWwFGTm+Il7ajd
+	 jr/vogHgoFdYzpMrTuQfUFGQBIBcwcpVI2lAkgv8aWInuFZhautaD1A15g/99xN5cM
+	 JD/cNvl8i2KGUgTVaK7gSIxnR4wSnAyFV+AsopP2jt/cVWO6rNgp8dnR4Z6G9NXvHG
+	 gDEI5N5MHWh2A==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: alsa-devel@alsa-project.org, tiwai@suse.de
-In-Reply-To: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
-References: <20240527194414.166156-1-pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: SOF: add missing MODULE_DESCRIPTION
-Message-Id: <171700268349.145451.11791404311765995337.b4-ty@kernel.org>
-Date: Wed, 29 May 2024 18:11:23 +0100
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ stable@vger.kernel.org, seppo.ingalsuo@linux.intel.com
+In-Reply-To: <20240529121201.14687-1-peter.ujfalusi@linux.intel.com>
+References: <20240529121201.14687-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 6.10] ASoC: SOF: ipc4-topology: Fix input format query
+ of process modules without base extension
+Message-Id: <171700268486.145451.15009563711946814816.b4-ty@kernel.org>
+Date: Wed, 29 May 2024 18:11:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,18 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-2ee9f
 
-On Mon, 27 May 2024 14:44:10 -0500, Pierre-Louis Bossart wrote:
-> 'make W=1' now reports missing MODULE_DESCRIPTION lines. This patchset
-> cleans-up all the module definitions and adds MODULE_DESCRIPTION lines
-> as needed.
+On Wed, 29 May 2024 15:12:01 +0300, Peter Ujfalusi wrote:
+> If a process module does not have base config extension then the same
+> format applies to all of it's inputs and the process->base_config_ext is
+> NULL, causing NULL dereference when specifically crafted topology and
+> sequences used.
 > 
-> Pierre-Louis Bossart (4):
->   ASoC: SOF: stream-ipc: remove unnecessary MODULE_LICENSE
->   ASoC: SOF: AMD: group all module related information
->   ASoC: SOF: reorder MODULE_ definitions
->   ASoC: SOF: add missing MODULE_DESCRIPTION()
 > 
-> [...]
 
 Applied to
 
@@ -64,14 +61,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: SOF: stream-ipc: remove unnecessary MODULE_LICENSE
-      commit: e30a942861b540e056425a8e31ba801de1ed4f25
-[2/4] ASoC: SOF: AMD: group all module related information
-      commit: b88056df4fcb7b5930d6ee3fef494e8729dcf2b2
-[3/4] ASoC: SOF: reorder MODULE_ definitions
-      commit: 06a2315da0b02db4f2115bc9253daa270571e389
-[4/4] ASoC: SOF: add missing MODULE_DESCRIPTION()
-      commit: 3ff78451b8e446e9a548b98a0d4dd8d24dc5780b
+[1/1] ASoC: SOF: ipc4-topology: Fix input format query of process modules without base extension
+      commit: ffa077b2f6ad124ec3d23fbddc5e4b0ff2647af8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
