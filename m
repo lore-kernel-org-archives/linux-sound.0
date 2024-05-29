@@ -1,85 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122ED157A7D;
-	Wed, 29 May 2024 14:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE53F1591F8
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 14:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716992593; cv=none; b=Bco76btzh/ZmuMgnCxFOBRzQa2ymIqf+PqaOQEh7X/WiGhzMvkBJlWotfZel1rmI//K7AbYrOqL4Ikojqj6WuW1B6OdeA3KUl5lDgW9yDWmBO6vZWxPw+Rb05QbtY3Kg8yR1cL9cgKaqV0ZoZeZHNrRpkrXclXK3I0vhQeEBsh0=
+	t=1716993158; cv=none; b=eCv7qogIiM5R6UJYIxuhTjGl42PNccXt3gnj7JNfFcWP4+EYkCX55oVQ16U+Em68I7lQD0WxGdhWBCvrntWgQZnlqCl2YG2l7Wb96kfTmZPel4na4WkhJZWlgIU1PiVp4BgdahWRNPvwQKTjz+BTp6KGPHaKC6ZkuCPAipmI5sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716992593; c=relaxed/simple;
-	bh=bhCG4kplqmrZggYyow0NngpMzA6V+smGjmtFA4lsZrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iofI8FvuaiQ+KcBpGGYFbBMBmeoN8dS2+nkscXn3FuTRTrWKLvAvFriYnLWlOa7tLwVCDzQEqlBZQCocISI4XgkzW8p6sXAc25lmh+YhF2hKmKjU4b+3HyF+wqH6FreOzNJpYi8noK4JJodlj45t7xBZ1ccL2FwmBrm6PyhcHaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pAT4Mtv8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716993158; c=relaxed/simple;
+	bh=D/JzpsPyWrwIPHjmMRoXwD1E32CNeYH+Dw6gnvEHSCI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rxAj6JlLZ5zrqz1rxfNdZmYI1RcTMHB6S9T4vBFjxsBcH22oiwumB/0H+kGUdolIivevm7j9g7C6lf3yFl4TJ3ImB7sn7EgXxs2OpYsVFjZ90i/tA+cr87/1eDvbrDx/u3oGvqM6Mu7kv4tJ2MG2Q1goQ7l8QOH7tXg5fFXm6aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jjKj2PbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4/nOokGV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RaGT+9OT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oq54kbCB; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pAT4Mtv8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E66C113CC;
-	Wed, 29 May 2024 14:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716992592;
-	bh=bhCG4kplqmrZggYyow0NngpMzA6V+smGjmtFA4lsZrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pAT4Mtv8GPIvyCcYfK1Aalw8Cb/DS3AIFrZzn1djhuXr8tqy97h50w2f+Yi9ecorg
-	 FHLDesY7g+kk782SCHj6dMYBMxFOMlRHYIs6PB/MXH66FKZOEQzyHni48Wjomaku4O
-	 OAhyK9KBHbFleyVnYGWVfeKSatYucXF+PraPUSVaAtaQE1IzfZvkZ9rJjcQoXDCbiK
-	 MmBwzNlyMtkpdfJN94S3XjI/sAzwKYRh+y6Y3YMWbVsWrW0AUsuQggO8Ebl0wq5r22
-	 WsWbW5Yai37XptWeqB/wuNhNTlSipZF+eAH9b2Ap8Cv5veDihpfK6w+mkZOREx4FdC
-	 ZuWwFwnIUyDCw==
-Date: Wed, 29 May 2024 15:23:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Marcus Cooper <codekipper@gmail.com>,
-	=?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <d02e981b-da33-45c4-9d9e-f47a890e0e79@sirena.org.uk>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <a003dac1-de47-4a15-8959-25f7d5f1c129@sirena.org.uk>
- <665739895996a_26e4f3704a@njaxe.notmuch>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jjKj2PbO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/nOokGV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RaGT+9OT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oq54kbCB"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CFDCF20577;
+	Wed, 29 May 2024 14:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716993154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
+	b=jjKj2PbOnwHHa34pWqJFAvHVfGkBGuH9Wc2WADyUUA4rQ7m3qu1nQSBi4pNWR2lw7xOS07
+	1LjMfNk7Xt4RMCrfnmJoh/glL1IyVGmZa2gIFvv+PzeDRHHuT636K+y9vzj5ldSBIVps+0
+	L6FTkAjwGXQD4rfzf7jyBbgbLCbJhps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716993154;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
+	b=4/nOokGVt/T/B+YciXOJNJbSDbS+lXSuvUJc9Yj2Nxbzhj7/NP1L99LwcnutzToW9TRiJB
+	i4vAUvGkTXJ2ZaAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716993153; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
+	b=RaGT+9OTE5a3eXYMwxiMsbDqBQ3m6vdx70wnjAulhY4P6LpTCsleZK9IQGqCylNL3MlZ7H
+	iZacUenRMWnMVemLjSah+MU3s7g/ci9ueisBsj8p7TgbzWryzrz0Sgb5Macl6ekvZ6Nno8
+	XLdBUdhEbnbFV1AQDpqudjmtA0lNfTI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716993153;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RTMBQbMQ8Jc5+Ha6V50GQlTXA5Q8hKBenzKHHIlh9tE=;
+	b=Oq54kbCBi9N90D1BHPVfluamU2BuO6UmVDu+xTvTKgZd9sCijzKzru1A2jP5KTPaCdkfi+
+	a4Tymi8BtfSSYuAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99F4A1372E;
+	Wed, 29 May 2024 14:32:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oO5LJIE8V2Y3YQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 29 May 2024 14:32:33 +0000
+Date: Wed, 29 May 2024 16:32:54 +0200
+Message-ID: <87fru04rjd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	broonie@kernel.org,
+	rafael@kernel.org,
+	vkoul@kernel.org,
+	andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH 0/3] ACPI/ALSA/soundwire: add acpi_get_local_u64_address() helper
+In-Reply-To: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Q0vjnQJ659h0qWMK"
-Content-Disposition: inline
-In-Reply-To: <665739895996a_26e4f3704a@njaxe.notmuch>
-X-Cookie: Everybody gets free BORSCHT!
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.98%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+
+On Tue, 28 May 2024 21:29:32 +0200,
+Pierre-Louis Bossart wrote:
+> 
+> The acpi_get_local_address() helper assumes a 32-bit ADR is used. If
+> we want to use this helper for SoundWire/SDCA ASoC codecs, we need an
+> extension where the native 64-bits are used. This patchset suggests a
+> new helper, acpi_get_local_address() may be renamed if desired in a
+> folow-up patch.
+> 
+> The path of least resistance would be to merge this patchset in the
+> ASoC tree, since I have additional changes for ASoC/SDCA (SoundWire
+> Device Class) that depend on the new helper.
+> 
+> Pierre-Louis Bossart (3):
+>   ACPI: utils: introduce acpi_get_local_u64_address()
+>   soundwire: slave: simplify code with acpi_get_local_u64_address()
+>   ALSA: hda: intel-sdw-acpi: use acpi_get_local_u64_address()
+
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
 
---Q0vjnQJ659h0qWMK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+thanks,
 
-On Wed, May 29, 2024 at 04:19:53PM +0200, Matteo Martelli wrote:
-
-> All right, sorry for that. Should I resend this patch without cover letter?
-
-No.
-
---Q0vjnQJ659h0qWMK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZXOkoACgkQJNaLcl1U
-h9AGhgf8Db0kv+/TVscfXv8n4MsdBaq44VCh1YU+cMMdVJoaaDIvm5/0mIXc1it7
-kHp+1xm35g38cgoFTP8VTcHdeBpb7BNtSCDAkSodtnHrI/fUvxbjnbFue3EEAN2+
-Ni+tJ3X/j2EuXIBuLdj6bacgJ5WajhmEHIeHjFudYSSJr9ZBM9mTS8pzVrbiqOkK
-pXr+ckX+pgH55DZVyQaiREWUN+ajiRJdbZyOtzgxYntJQI4sI2KbjihclEJ+0BYj
-Rq5DAvwlhGRevlPih81PsoB+Z88E5VYQExJrNpEQKaEc6xZshI1N8v/qwm0/OImM
-wu7ZWqoof/PEuEx3TEGdjzzbRsIVIQ==
-=CFCV
------END PGP SIGNATURE-----
-
---Q0vjnQJ659h0qWMK--
+Takashi
