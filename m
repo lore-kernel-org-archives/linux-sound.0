@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34989179970;
-	Wed, 29 May 2024 10:07:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210F716D9B4
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 10:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716977238; cv=none; b=Wi7ups7K7IeNE4d9/LZPEUnOHanMsl8nXV3iLfUdfqa6EhXeMP92jPgn3PdfcO4V+Kvs9nj4iejaKN2wIIITgdppfopKvOY72mOJCgbg49C3ZjnIUbEcJLpWS0jbDo4Sz0QXji7MVTh2uIQ6TEH0jDU705C4c/ssrYEgAXWu8+4=
+	t=1716977243; cv=none; b=jpUxtbUMog0BzacBJ+RO56Y7DcZL3HoJqtQHAADCbKpaqqP5OlO5CMD9HBXF2F/awiGdIanOBpPoVtOVS441IjowL8xu3OwG6+toJY0jY8qoWp6zeF3OaaQtfQcZZCU9lMwsJ9EBm8DbmV3OfxbA2kywAyiV0wvNhH3uvfrg3Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716977238; c=relaxed/simple;
-	bh=jU0NjnEWLZP7qMvgt67CMX8Qo17uw3DQgTOfVNjliyg=;
+	s=arc-20240116; t=1716977243; c=relaxed/simple;
+	bh=BeZT1y1D0NaRWPFP1/L/72f0lhkbdJtiLP2bSL3EjQA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dcVZmeqVeDYUb1qx/XLKHkeiADuZHB0Jx7kNQ69qPZTeo4n4BDUzChoBIbqJy3+jdIwnnlxaLNZcNueVOvtHwI+ODUxcWZUvcSe5we4WvVSd95BD24tXsXA2uUwX1L5ZqrBY6FiKeAx4h2QC0sAQ/br0WrQb98PaoRMNmUp3L/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1wqL0Xd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mxMYiH1kNDAeRa3I026WJ41dJcBzYnfQNuSbhwFlTTO+8X3EyJnRJdZqOrgOW1vLMgaVvSa8IrPFGzp3oAqqR6kbVDK+bUwz4GtgLyVyDdObqvcrL2gL+xK0TrHZAXkwCQ+c73hwJtNM9ddll9jCUZ6mvuqIKupb5aXABS5AWB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4NG8EwE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1wqL0Xd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E7B5C32781;
-	Wed, 29 May 2024 10:07:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4NG8EwE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B66C32781;
+	Wed, 29 May 2024 10:07:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716977238;
-	bh=jU0NjnEWLZP7qMvgt67CMX8Qo17uw3DQgTOfVNjliyg=;
+	s=k20201202; t=1716977243;
+	bh=BeZT1y1D0NaRWPFP1/L/72f0lhkbdJtiLP2bSL3EjQA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=A1wqL0XdX9wMCS4dsyySs/MmlTc8LI7t28AKGgVfnjqyPYxeQZUnZfo1iv75TUihk
-	 Q7cwplSpI/GTrmX/IvZUbOZydfdu0wEi3yGdAnr8TtkL6FGvMbmgv6s47t2v/aYXo/
-	 YZzCxR7Zz0E2zu208LfNQ36vxtpquue8S1E15kI68DeWPxFTGONQ/+JOArTV6P3zip
-	 zPudOozPxuUDOFN3DEEaeiZxpNgJAEs1+IVRu7iZd8HhzBJ2TFAyyECdZh7sXfm0U3
-	 jZRYwHt5P5VVnt/NoJxPbpjSGDO4pge66uWb94Y/OOpVWb5twItFtzbiQTfs0DsOHI
-	 on9WnEwc6NW7A==
+	b=S4NG8EwEFon5y2qHe42QDhmslO6IkZjww0FKyT0q+pUwPIBw/Y5kyR/kd0M2iNfow
+	 DHOKlJZ98WhNhlkKt4j2KiLsl1Cgp1cXEE+WqV+0gQfinbU5a3PubpxveBQkHXPP8x
+	 LeR6DxxdvWtTAKZwrJ2O1jShhck4cbIYDq8uNXtVneN6Cad0n+pN4dNoEs7infv/Rj
+	 PZ6BC/VTEckAp21K9nFBFkRMawcU6jPLK7Fisomp1Mb+ftLeByYiQZbGi6fPth5tgy
+	 wM7Es8GxeC+c3A1rO75fi8SP/qa9RvOeta62Cq4Ju6vAJY/R4Kj2cRb3Q3X3VBKofQ
+	 MCgATLLno9R/w==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20240527101326.440345-1-ckeepax@opensource.cirrus.com>
-References: <20240527101326.440345-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove James Schulman from Cirrus audio
- maintainers
-Message-Id: <171697723476.23184.7362558841511719141.b4-ty@kernel.org>
-Date: Wed, 29 May 2024 11:07:14 +0100
+ patches@opensource.cirrus.com
+In-Reply-To: <20240527100840.439832-1-ckeepax@opensource.cirrus.com>
+References: <20240527100840.439832-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs42l43: Only restrict 44.1kHz for the ASP
+Message-Id: <171697723826.23184.9578882362103619222.b4-ty@kernel.org>
+Date: Wed, 29 May 2024 11:07:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,9 +45,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-2ee9f
 
-On Mon, 27 May 2024 11:13:26 +0100, Charles Keepax wrote:
-> James no longer works for Cirrus Logic, remove him from the list of
-> maintainers for the Cirrus audio CODEC drivers.
+On Mon, 27 May 2024 11:08:40 +0100, Charles Keepax wrote:
+> The SoundWire interface can always support 44.1kHz using flow controlled
+> mode, and whether the ASP is in master mode should obviously only affect
+> the ASP. Update cs42l43_startup() to only restrict the rates for the ASP
+> DAI.
 > 
 > 
 
@@ -58,8 +59,8 @@ Applied to
 
 Thanks!
 
-[1/1] MAINTAINERS: Remove James Schulman from Cirrus audio maintainers
-      commit: d5d2a5dacbc8ea4386071ce243c43ea0dac23cb8
+[1/1] ASoC: cs42l43: Only restrict 44.1kHz for the ASP
+      commit: 797c525e85d1e44cf0e6f338890e8e0c661f524a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
