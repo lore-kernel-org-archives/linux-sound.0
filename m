@@ -1,178 +1,135 @@
-Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C21175567
-	for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 20:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC0ED2FE
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 01:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716926565; cv=none; b=YG0eCJxg/rE92rYcDN+zmc6zuAQdBiYxXAo6WkSGMrns5ybgGQI6iWNoJf2r/Mk5IOHDZIBpvBmCL8/t/wTNS/Lt5Sg5xBpzx6WSmQYNsrAgHNfzbEm2Bdve4ecgFZnSQF+P13QYjySgJx0wCxO4QnCYvrDwnfecjgsfDbiuTp0=
+	t=1716945301; cv=none; b=jWsJ0TQuGqFVy9rmCLSk4qNs84vCJULBxGG55TPc/Wwd4MpBmQfFONhOgK/f+uyfFFqH64AstLBiGY6FsqFfSLdx7wnnTJ7kPk64vDTRb5GN7kNhAAsO6SvU8iZ5ak5Pj960ieJP704Kr6TsaiaQ3aaU/+G5I2zpDzuHcwjMgA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716926565; c=relaxed/simple;
-	bh=pTf2qUi734ES9Al085wTXfYC8mQU+J7CT38EpK7LQlk=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ncZ/ucebWaclToqAjNDTJiJ9yeONmJljV83KQAc6oO5uf2OfwVv2D7HsOdJyvxFinY0Rk/nWeAV52MaIFs/E6LUzz+ena3q/KtOqDTSQhaGFkqyjY9vc2uqQYzudztBZoLhb9REBkA46DpEOenvBuo1N1MMftLbzYt/LZgKFapU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
-	by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-	id 3cab8281-1d2d-11ef-aaf5-005056bdd08f;
-	Tue, 28 May 2024 23:02:41 +0300 (EEST)
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 28 May 2024 23:02:39 +0300
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
-Cc: Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Emil Svendsen <emas@bang-olufsen.dk>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>
-Subject: Re: [PATCH 06/13] gpio: add AD24xx GPIO driver
-Message-ID: <ZlY4X2P1VpF0aqjM@surfacebook.localdomain>
-References: <20240517-a2b-v1-0-b8647554c67b@bang-olufsen.dk>
- <20240517-a2b-v1-6-b8647554c67b@bang-olufsen.dk>
+	s=arc-20240116; t=1716945301; c=relaxed/simple;
+	bh=ee2u0oiouae9mOBZxrxDH+Kp+aXP9/ibtSVGe+jjl3E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HcrJXFGxZencwTuvKu6sytPpdyJ1r0rJmnHrkXhSkt20Nexw83I3vRdMwlJR050/qaG0P7VZbUGCBOoXEZmvgfjkii3QTsHIiccT7OYIBpEMkCjlXC4MXFDfLjfH5/nCBGXjV4RKUU3dMnjdg4CENW60lXkI/1dNxKZVAZGsat8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPegw93/; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPegw93/"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2bdf439c664so283123a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 18:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716945299; x=1717550099; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N4kmMP6gOzpVtv/P5RcqxhyYrbX+J5ShYaWHdV4ipo0=;
+        b=OPegw93/v9TgMLt6F2Pvyii/fMpBB2mlO6NHUPFPHdgiE7pgGGas4yAgDQLcgzuS0N
+         wZ5WLAduVSEaw8MZ02IR78yxu71AVjUm07muNH1X/vt+fiilkTW8oONyTbP2UTymWFq9
+         hcX1pkUAY0908VhcNloA/2ht79at8kgPzC+URb1CbWe4T5cbwxKQKEDuB1OUPSL3MjqJ
+         ZgE/9orpb39cceqkX8PtDUMiweJ+VX8FsRH73xVPnIJcgalv97KGD9OG1Fn88Ro2dttH
+         wU2dGVDuYp8nz/YVcGlNDKEmjVb2FFtx1Ef9+IgWy7wjy62X/1XE+O64/8t34jgQZGo7
+         N5Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716945299; x=1717550099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N4kmMP6gOzpVtv/P5RcqxhyYrbX+J5ShYaWHdV4ipo0=;
+        b=OHyhB0W6GYIhxPqLmrK2b2S9ZZ/M9VzGHwyL7il36qlAGdJxdi9bi5t7iUkAlSACfM
+         gHadRdQjyeLsXjMhMw6YX1Z8AbgjtYOqOM8PQkq5SGBw3MmwTfw7BRiFdMwIJ4wPX80u
+         j7ibpj+HovV1ZnnyCNc4Uc4RqLzhQiLdaZNsLAZNWsLm/OxS2Edm5GicuivSRIXDh348
+         Zh0N/x9zN9htX+ClSDaY5FK7uiMFTFPs+S3Qo6nxMz9/bAn+AN8u2jbWwUvWDouuzht7
+         IzHWtmSjzKJY5T1EfbZmBJEmgf486nV9QgocLucn2HGFzM5ReJQZ2aGAXGU7qS/r+Wcj
+         cLDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWncmpP3secFW/DFi00qCWTRNEcp4JuBz/V+5THFrKCALQr5ABJtSz0JVOZMYn3jtO8DgDPUJiTS40nn6dk20Hadv2/c8p3/Fac8aI=
+X-Gm-Message-State: AOJu0Yzuy1EsuLphqE69Tk0ofJQ/83h29WnobQxMrjcRxzd7nYlN978h
+	Ybh8nWDGKdAYSNt6pAo4KT2D+nRAVXQ8fz110YtAdoNz4Z2YwG7x
+X-Google-Smtp-Source: AGHT+IGmWqVFoTLEVGsdqrjtX6eof92T7u9+x1jvTKuE6tuMraJN/kcMeJvFRlsZU9KgJvSq9pPTFw==
+X-Received: by 2002:a05:6a20:1585:b0:1ae:42c8:4f69 with SMTP id adf61e73a8af0-1b212b7cebamr17070128637.0.1716945299304;
+        Tue, 28 May 2024 18:14:59 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:dfd9:2d9b:ff9d:4f57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3ebdasm7029015b3a.44.2024.05.28.18.14.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 18:14:58 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: broonie@kernel.org
+Cc: shengjiu.wang@gmail.com,
+	linux-sound@vger.kernel.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v2 1/3] ASoC: fsl: fsl_aud2htx: Switch to RUNTIME_PM_OPS()
+Date: Tue, 28 May 2024 22:14:43 -0300
+Message-Id: <20240529011445.1436596-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240517-a2b-v1-6-b8647554c67b@bang-olufsen.dk>
 
-Fri, May 17, 2024 at 02:58:04PM +0200, Alvin Šipraga kirjoitti:
-> From: Alvin Šipraga <alsi@bang-olufsen.dk>
-> 
-> This driver adds GPIO function support for AD24xx A2B transceiver chips.
+From: Fabio Estevam <festevam@denx.de>
 
-"Add GPIO..."
+Replace SET_RUNTIME_PM_OPS() with its modern alternative RUNTIME_PM_OPS().
 
-> When a GPIO is requested, the relevant pin is automatically muxed to
-> GPIO mode. The device tree property gpio-reserved-ranges can be used to
-> protect certain pins which are reserved for other functionality such as
-> I2S/TDM data.
+The combined usage of pm_ptr() and RUNTIME_PM_OPS() allows the
+compiler to evaluate if the runtime suspend/resume() functions are used
+at build time or are simply dead code.
 
-Why this doesn't use gpio-regmap?
+This allows removing the __maybe_unused notation from the runtime
+suspend/resume() functions. 
 
-...
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+---
+Changes since v1:
+- Only colleted Shengjiu's Ack.
 
-> +config GPIO_AD24XX
-> +	tristate "Analog Devies Inc. AD24xx GPIO support"
-> +	depends on A2B_AD24XX_NODE
-> +	help
-> +	  Say Y here to enable GPIO support for AD24xx A2B transceivers.
+ sound/soc/fsl/fsl_aud2htx.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-checkpatch probably complain about too short help text. You may extend it by
-explaining how module will be called.
-
-...
-
-> +#include <linux/a2b/a2b.h>
-> +#include <linux/a2b/ad24xx.h>
-
-This seems to me not so generic as below...
-
-+ bits.h
-+ device.h
-+ err.h
-
-> +#include <linux/gpio/driver.h>
-
-> +#include <linux/interrupt.h>
-
-+ mod_devicetable.h
-
-> +#include <linux/module.h>
-
-+ mutex.h
-
-> +#include <linux/of_irq.h>
-
-Please, can we avoid OF in a new code?
-
-> +#include <linux/regmap.h>
-
-...hence move that group here and put a blank line before.
-
-...
-
-> +struct ad24xx_gpio {
-> +	struct device *dev;
-> +	struct a2b_func *func;
-> +	struct a2b_node *node;
-> +	struct regmap *regmap;
-> +	int irqs[AD24XX_MAX_GPIOS];
-
-> +	struct gpio_chip gpio_chip;
-
-If you move this to be the first member, you might get less code being
-generated at compile time.
-
-> +	struct irq_chip irq_chip;
-
-Should not be here, but static.
-
-> +	struct mutex mutex;
-> +	unsigned int irq_invert : AD24XX_MAX_GPIOS;
-> +	unsigned int irq_enable : AD24XX_MAX_GPIOS;
-> +};
-
-...
-
-> +	if (ret)
-> +		dev_err(adg->dev,
-> +			"failed to update interrupt configuration: %d\n", ret);
-
-Why and how is this useful?
-
-...
-
-> +	struct fwnode_handle *fwnode = of_node_to_fwnode(dev->of_node);
-
-First of all it uses a wrong API (custom to IRQ core), second why do you need
-this?
-
-...
-
-> +	struct device_node *np;
-
-> +	np = of_irq_find_parent(dev->of_node);
-> +	if (!np)
-> +		return -ENOENT;
-> +
-> +	parent_domain = irq_find_host(np);
-> +	of_node_put(np);
-> +	if (!parent_domain)
-> +		return -ENOENT;
-
-Why is this magic needed?
-
-...
-
-> +	ret = devm_gpiochip_add_data(dev, gpio_chip, adg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-
-	return devm_gpiochip_add_data(...);
-
+diff --git a/sound/soc/fsl/fsl_aud2htx.c b/sound/soc/fsl/fsl_aud2htx.c
+index ee2f6ad1f800..a6cbaa6364c7 100644
+--- a/sound/soc/fsl/fsl_aud2htx.c
++++ b/sound/soc/fsl/fsl_aud2htx.c
+@@ -261,7 +261,7 @@ static void fsl_aud2htx_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused fsl_aud2htx_runtime_suspend(struct device *dev)
++static int fsl_aud2htx_runtime_suspend(struct device *dev)
+ {
+ 	struct fsl_aud2htx *aud2htx = dev_get_drvdata(dev);
+ 
+@@ -271,7 +271,7 @@ static int __maybe_unused fsl_aud2htx_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused fsl_aud2htx_runtime_resume(struct device *dev)
++static int fsl_aud2htx_runtime_resume(struct device *dev)
+ {
+ 	struct fsl_aud2htx *aud2htx = dev_get_drvdata(dev);
+ 	int ret;
+@@ -288,9 +288,8 @@ static int __maybe_unused fsl_aud2htx_runtime_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops fsl_aud2htx_pm_ops = {
+-	SET_RUNTIME_PM_OPS(fsl_aud2htx_runtime_suspend,
+-			   fsl_aud2htx_runtime_resume,
+-			   NULL)
++	RUNTIME_PM_OPS(fsl_aud2htx_runtime_suspend, fsl_aud2htx_runtime_resume,
++		       NULL)
+ 	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+ 				pm_runtime_force_resume)
+ };
+@@ -300,7 +299,7 @@ static struct platform_driver fsl_aud2htx_driver = {
+ 	.remove_new = fsl_aud2htx_remove,
+ 	.driver = {
+ 		.name = "fsl-aud2htx",
+-		.pm = &fsl_aud2htx_pm_ops,
++		.pm = pm_ptr(&fsl_aud2htx_pm_ops),
+ 		.of_match_table = fsl_aud2htx_dt_ids,
+ 	},
+ };
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
