@@ -1,108 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F977363
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 12:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDA613F45C
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 12:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716985926; cv=none; b=LM99ZLZmQVGYHtlktBHSkNf2zkfedRP756Dy/LAYJECWjZ4ayXYJLL9VNAKCx+1QGDioHhDzVnk4gi5YSr7yO4hybHqXOjPSFDDfcXfKOa9tX8QwZL38q6IebBtF1O4DwUVtlylDDcDKDUOx6YTgNfas0JAn//SsG3KKDqaa6bY=
+	t=1716986074; cv=none; b=MqlwOUPwKqyWCgvz6IAnLdnqf8dXnDM6mBE9i01p7OV+Od7Eqvl8uM+UxFEqzNdhtBYhIFXOylF2lu6IvaHkZuzRilthTHHiBJm5U/dgH7uqDVKIYfdF0Nc8zCL0DMMuZKALMangyO77KgOa2FZ9YRYVn90KPtL+u3kCR9ioU80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716985926; c=relaxed/simple;
-	bh=+H9RsBxTW4f9KMCRYy3ry+s0HP13yngDfWBqsNGJDoI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aKc3VbWR1SlD8YOVJuO3BI+gs4FtEh0v8Wcey/b4nEFq/mcSIrCYryjQrO6wdH0BNJBsZ23OB+/68A8gcOeVxE1cvSf1Gsvzo1fgcww8x0MAlW1bBiQZC+lXKTZqBZyNDbhNwBFQa2ngaFAchZrKbZy1lHErB+0h8hNMzFBHYW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWPlTtVP; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1716986074; c=relaxed/simple;
+	bh=LscZBrrk5tWprbX4pRMgccv36rp4xOvloWSZpk5k6Yc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tRoVpOXngR8w0/gfPGZIRxxUFCPX5ohm6OJnimUu2kWbvIEJ3dnp08v42JiF8fm5doTme9h0ViAz2jfw+76zJKCApoj58ztkAghZlGk9lmQlWRVQLYKa3kOPApdIgr1gGfJSSiJgY/hAtsB1NPjnf5P0qkoDfPIXqYUeFBtq9Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9rsZ4+y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWPlTtVP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716985925; x=1748521925;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=+H9RsBxTW4f9KMCRYy3ry+s0HP13yngDfWBqsNGJDoI=;
-  b=IWPlTtVPh+Qh7N5kHgF6Jp6r3NhG7b0sWaVyOAJFOT2bjzsL0p3u7ncH
-   aCcQtXD4D2J5zpD9u6OuAWybzKAi3lzXmIYOMPOR29PC4QuSjZEJpGN4h
-   +Y0jHrKYMJTabq4c0qbjxcAirCt+TustUEkxv91doCtKW7QFBJ07vqyMj
-   xZL46Chx21jAZflcuwHv+KWcIBu7+Bk8S8TAk0lg0GLOZqXRqDiYtlsOc
-   0pBbVb6S+s14XRgzdtiyWKj0ekVHdgosga0dsh5mTOTEuzqkSCoDyOG0W
-   rmE3wxGfyLiPcKJcAUUk5czrtxXpC1nPON5HiakrUabUyzGWzrTsbDNK4
-   Q==;
-X-CSE-ConnectionGUID: wVxBypzIQpCQZLthDU4xYQ==
-X-CSE-MsgGUID: BQopufZnRlOwBpR5RuyQ3Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="38769967"
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="38769967"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 05:32:04 -0700
-X-CSE-ConnectionGUID: vsFfa547TOyxCm/hoU8aKg==
-X-CSE-MsgGUID: brEedwesTPSX4nXq0gqMnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
-   d="scan'208";a="40419471"
-Received: from unknown (HELO [10.124.223.77]) ([10.124.223.77])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 05:32:02 -0700
-Message-ID: <80498cd3-609b-4ec0-aedc-3ef6d4bde408@linux.intel.com>
-Date: Wed, 29 May 2024 15:32:24 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9rsZ4+y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CEBAC2BD10;
+	Wed, 29 May 2024 12:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716986074;
+	bh=LscZBrrk5tWprbX4pRMgccv36rp4xOvloWSZpk5k6Yc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=S9rsZ4+yqoaDaiVzwph4xGaa4FpPfyFaviyTheIk4M5qU+i48QNV5WhGnqbgNniZF
+	 IInl6Pu3QO6ErDCfzGdxrnWCVsn1XTpNxVWiUzOFQTj3wdieXVbl6yt2sMxo932o9b
+	 qRsz6RwVJs/kCcvkBEHKCXBeeI14Br2znGA1STgCqAFIbu/VWvdMk/VLhtfgkwlc+b
+	 slRHkSW98tGXNm5ZYfGE7+hcMATwZE64n0EifYwrCQRxF3FjWfbn6P5vvAWX8nS5jd
+	 IWEUKKRJotwq3f8Kqcf2o0UeOZF0L16zDUmLJAv3cTf0g+Oj8KwjRsH5aKRe14mTA7
+	 zJ8CzxUILk41g==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: alsa-devel@alsa-project.org, tiwai@suse.de, 
+ kernel test robot <lkp@intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20240527191940.30107-1-pierre-louis.bossart@linux.intel.com>
+References: <20240527191940.30107-1-pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof-sdw: fix missing SPI_MASTER
+ dependency
+Message-Id: <171698607277.66190.15891871680506088286.b4-ty@kernel.org>
+Date: Wed, 29 May 2024 13:34:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Add support for NHLT with
- 16-bit only DMIC blob
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- pierre-louis.bossart@linux.intel.com, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, seppo.ingalsuo@linux.intel.com
-References: <20240516075611.18018-1-peter.ujfalusi@linux.intel.com>
- <d4c5e7a3-710b-4ff1-95a3-395dd780fed3@linux.intel.com>
- <3a7fa9d4-dd14-4b29-b977-3ba9c5b4ade7@sirena.org.uk>
- <53897d0f-1796-4823-9090-a51320c655a4@linux.intel.com>
- <cc7fc8b7-d470-4330-8cb5-6ba85065c74d@sirena.org.uk>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <cc7fc8b7-d470-4330-8cb5-6ba85065c74d@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-2ee9f
 
-
-
-On 29/05/2024 15:17, Mark Brown wrote:
-> On Wed, May 29, 2024 at 02:57:02PM +0300, Péter Ujfalusi wrote:
->> On 29/05/2024 14:48, Mark Brown wrote:
+On Mon, 27 May 2024 14:19:40 -0500, Pierre-Louis Bossart wrote:
+> The addition of the Cirrus Logic 'sidecar' amps adds a dependency on SPI_MASTER.
 > 
->>> Sorry, it's already been applied and published with more stuff in CI now
->>> based on it.
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for SND_SOC_CS35L56_SPI
+>    Depends on [n]:
+>      SOUND [=y] && SND [=y] && SND_SOC [=y] && SPI_MASTER [=n] &&
+>      (SOUNDWIRE [=y] || !SOUNDWIRE [=y])
+>    Selected by [y]:
+>     - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=y] && SOUND [=y] && SND [=y]
+>       && SND_SOC [=y] && SND_SOC_INTEL_MACH [=y] &&
+>       SND_SOC_SOF_INTEL_SOUNDWIRE [=y] && I2C [=y] && ACPI [=y] &&
+>       (MFD_INTEL_LPSS [=y] || COMPILE_TEST [=n]) &&
+>       (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES [=y] || COMPILE_TEST
+>       [=n]) && SOUNDWIRE [=y]
 > 
->> Right, I don't see it in for-next, for-6.10 or for-linus. This patch
->> should be sent for 6.10 and I can prepare and send the rest (4 more
->> patches) to close the remaining holes regarding to NHLT blob selection
->> logic.
-> 
-> If something is a bug fix it shouldn't have a subject saying "Add
-> support", that is very obvioulsy a new feature.  Have these systems ever
-> worked?
+> [...]
 
-Well, it is adding support for something which has never been consider
-as a valid configuration (16bit only DMIC blob in NHLT table of a laptop
-[1]).
-I have added to fixes tag to carry this patch along with the patch that
-implemented support for preferring 32bit configuration in firmware (the
-[1] would never worked, so that is unrelated).
+Applied to
 
-The mentioned additional patches would future proof this whole DMIC blob
-lookup by extending it beyond the bytes per sample.
-These are future proofing and a would be nice fixes for the -rc, but if
-not than 6.11 is OK.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-In short, yes it worked well but we were presented with  unimaginable
-vendor creativity.
+Thanks!
 
-[1] https://github.com/thesofproject/linux/issues/4973
+[1/1] ASoC: Intel: sof-sdw: fix missing SPI_MASTER dependency
+      commit: b062938fd9afec844c50571fddd8d81623a60ee1
 
--- 
-Péter
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
