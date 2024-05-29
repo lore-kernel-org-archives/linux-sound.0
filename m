@@ -1,65 +1,65 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BCD2B9A9
-	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 01:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6015E632
+	for <linux-sound@vger.kernel.org>; Wed, 29 May 2024 01:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716945304; cv=none; b=cdgLe79ddGo9rMEYN69bBvF09e0+Qou4f21gDp7N8sMyWUSstk1XXKk0ZDe9yKIGNdcTnvHAJ7ZlgfKUpFSgACeXtmdrHlB5BghwMBdpfVCnE0s3oXAp8dGUNMuEvuOPIn7Oq401m1A5ZlV/wZqXNNqpf2N5HiiS+jF9JPBQPnw=
+	t=1716945305; cv=none; b=ssmZzuyLuU3ECSu701/ULJREG8Kr5RLqeGv+ImrPOugiSjaq+hOV8Vhg6fBknPS/unJjRT+vGK6O1tx76NVIUOJrL+6P/tSok2OJkFCLFjEGXyaUB+MzBwVWlvmWVwzgMcll6YhLD3WHJa/w3jhcYyhsklHZSFg6vrcXXb9JBpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716945304; c=relaxed/simple;
-	bh=+Qsjco8mzogGjPHsQpxrxienekhbLpRvY1W41Ce+fUU=;
+	s=arc-20240116; t=1716945305; c=relaxed/simple;
+	bh=fT1IWBYuYBuKHGXS7Z/rrSyJHdgjGzCuAqkQqs+T8sc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HAm/3wkTs779EuHbggenuAgded9jtsR6JSISyGC6V2ALmgfoDldVL/fQdXrOZrHWZm+VGyrs3MRUHD03pXMjkq4FySm+ATKRy4lJijT9s1Q5+GtQrG48GzgBW3MO/YKHa/HCMsrYRvQEmLNI6oW9tqbfNYVrDtsO1TZ32iUujmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTGXOos9; arc=none smtp.client-ip=209.85.167.181
+	 MIME-Version; b=HJ155IaTso0NvWT/nVY4l1yTOIz5ukTURPAB94BnajCVeu1pzNWh1198U4bAWI/P/14MCM31KRvzNadGgb6oe5rCk2AHwbp04/HSC5D2e3jmgSLuXERhwyDpMqrn0d48oD92ef9U3Vlb1EWtdLNz65x7+1zqjTzLW3A5dV+Xm3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFKmepAu; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTGXOos9"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3d1d134f6c9so144170b6e.0
-        for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 18:15:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFKmepAu"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-681a3e5d376so24886a12.2
+        for <linux-sound@vger.kernel.org>; Tue, 28 May 2024 18:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716945301; x=1717550101; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716945304; x=1717550104; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tIgxIWxoyeej6fijgWSOIvBp3gx1sP9DeVeu8osJFH8=;
-        b=fTGXOos91BNGuUlOP0i+Q8vwpZStnYYVKWEHjqxmHL7Eurbls+IU6geMJkJbY0c8aY
-         bpFbP6q1fviilbv7MZBncsUsklgqEBfVA1Ps1kzgjQPdtnWKir2hlwe78vN0vD0cA81y
-         RRlRx6B2J7llFBBqxk4yUU8YIq8coPFLGcL+4qjIzSTVjpqAEYMFZKVwbhKDqNlS0IT7
-         jwTFIBQFz9v698NguxusVog76d+enRrIMTIRQn58mWvp3SdyjRV57+5+IUEgdRCF37+6
-         rTUzRsyu5r3U9Z9Wj0N4Evtg3GKiVnPwOCMHW8MQFvYwaOuMdYbJUN4Ebu5tPNIP9ucr
-         PVog==
+        bh=HDUt9ZVXQ8at5tso8T9Oo/6PbFR3R7WI2pW+tMTFBqg=;
+        b=iFKmepAuRJbQSdE5bFdtR4W65yODqz1jYCKUFvG6PPs5TzadkmL9/KTHOqMrxoKee/
+         V/epcueIKtmoxbDmsp4pR9+Ww9HvDzsa+IPfOlzu/fz3NviNzAF/G58qjqmaiMRhc400
+         aGExkTxuYEgJCAuHoDpb/0RA77aotWpKJIPseJe2fKMsG2xE5oFDGlcchO3OdZpbeopu
+         RSV1rCPn0CJOB0CNFNMLqknQC9Qakhx+xJp+umj6fgpg3EYbZkOsUGzT8i4FGmF0CU8p
+         yGcQcD7/ID8tcJuVeeKqE3unPLMmfLyQ1GBR6FTwT9frCsKmcNNWJ5jO0X7da6LJRcMN
+         s0jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716945301; x=1717550101;
+        d=1e100.net; s=20230601; t=1716945304; x=1717550104;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tIgxIWxoyeej6fijgWSOIvBp3gx1sP9DeVeu8osJFH8=;
-        b=wKYG35YQU1glG1L74lZUs7HaQHT6pertbEvsBZgdcNneTD86S5ig6XgVbxIQFVxrSI
-         tTgJmrJYytcj6v77Ldh/IxPdK7FBRCEdkK5cNbL0HAjX0DRPPEzPqwnsX4xvt0Vg6j+8
-         t2s3wLQfR6X0BozwsjR5QGnwaGDJ0eE77iqKVM4K9MEBE+mmXuL5VZoNCLolHjYtxms/
-         0SX+G+u/RItuoaGEq3CtO9lJQl5XMrrmr4M6QvpMn2VMiKCEgNbFfPzqlEVfxdfCPyY3
-         UgM7kIfN91V/oSRZHjd0RFvZevAu1lmqn0wZzPzXXYD6mkXS/asTIGkIaUSBaU3bowVH
-         cfcw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPNsRcBjVWUlI9IWlVT/EQ6R3zgOm4N4Obhgc/8i9ZdLVBnR0ljMboGd1KreshY4V0WWKu+Eg5DrfV/NNOFdxMpY98lhjYXn0Zt94=
-X-Gm-Message-State: AOJu0YzOgHNs/bhD/XXEPn6Pj92j3+VBfsyfaqnunRGutgXb+K2Wrm07
-	bRc/whnGHC8/QRBHLC7lKwL6UdUDubob06aABbjppJ5eTtvIh1jH
-X-Google-Smtp-Source: AGHT+IHvchjWI41AxUR2jMbxPd1j9QcK7/SkYPCCllvDv46JKURUgiDP3HLBL3VBn5gw4u5KokWjfA==
-X-Received: by 2002:a05:6870:f708:b0:24c:67b8:2cb8 with SMTP id 586e51a60fabf-24ca0d87c0amr16153257fac.0.1716945301389;
-        Tue, 28 May 2024 18:15:01 -0700 (PDT)
+        bh=HDUt9ZVXQ8at5tso8T9Oo/6PbFR3R7WI2pW+tMTFBqg=;
+        b=dj2xOleSOyfmpajBkBlM3gr/cRVc+GWhjbfsgA4JTTxwf8t0DXcEfEWVOXGDsSpBgO
+         nJB+pk5R236/72XRLrtUFztCq+ONOZUTh229XzBh0lB/hJ+Xlx+0Si2bMR8OqMUFm+Ic
+         stJf+KqiaW6ZGSbRF3NNjmRPWCCBIx7rbWSYaBfT7Ie97eZ0K0+OnBmpI/Tfng9ORamN
+         VjIIqCgquuLcj6x3bl0YfljH21F8QWFiRQ0YCxikBITRgkqzmnWELBlZx9T2u3xqkT9L
+         jLn6cOAKhxpFN4EJdV6eZWC8iWufkboqDaZNFOjtwTjhFtRcJgsqBY1hZKHmfiDiMvh2
+         aJuw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8RRXK3XY6OMRr9a434BZpz44maPurA4nvY5c3xktRwTr31N2Pz3UA6TQ3J0QowyJnV466UDiplw4q2YJrQuEiA5QwiBdkw67e9o4=
+X-Gm-Message-State: AOJu0YzW9HB864zAqi8YkgvDafeRo+HejQyxAyvEMTi+MMkJfxcHufrS
+	0dEJXeIrR5f7Swi2d0gr/3cSbdjB2RZsTkp37ASlmgNRkHDVSJfT
+X-Google-Smtp-Source: AGHT+IHZ04Y+C/NNxjzAUtl6L1dv2gBTfwktqKEtUA5ifjYnYLjD8e3iMJIigl3SNczFKrpwXmuMJA==
+X-Received: by 2002:a05:6a00:11d3:b0:6f4:c946:5584 with SMTP id d2e1a72fcca58-6f8f3a231afmr14572003b3a.2.1716945303581;
+        Tue, 28 May 2024 18:15:03 -0700 (PDT)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:dfd9:2d9b:ff9d:4f57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3ebdasm7029015b3a.44.2024.05.28.18.14.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fbd3ebdasm7029015b3a.44.2024.05.28.18.15.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 18:15:00 -0700 (PDT)
+        Tue, 28 May 2024 18:15:03 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: broonie@kernel.org
 Cc: shengjiu.wang@gmail.com,
 	linux-sound@vger.kernel.org,
 	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2 2/3] ASoC: fsl: fsl_easrc: Switch to RUNTIME_PM_OPS()
-Date: Tue, 28 May 2024 22:14:44 -0300
-Message-Id: <20240529011445.1436596-2-festevam@gmail.com>
+Subject: [PATCH v2 3/3] ASoC: fsl: fsl_xcvr: Switch to RUNTIME_PM_OPS()
+Date: Tue, 28 May 2024 22:14:45 -0300
+Message-Id: <20240529011445.1436596-3-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529011445.1436596-1-festevam@gmail.com>
 References: <20240529011445.1436596-1-festevam@gmail.com>
@@ -88,51 +88,51 @@ Acked-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 Changes since v1:
 - Only colleted Shengjiu's Ack.
 
- sound/soc/fsl/fsl_easrc.c | 10 ++++------
+ sound/soc/fsl/fsl_xcvr.c | 10 ++++------
  1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index ec53bda46a46..962f30912091 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -1988,7 +1988,7 @@ static void fsl_easrc_remove(struct platform_device *pdev)
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index c46f64557a7f..5472ace23d82 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -1364,7 +1364,7 @@ static void fsl_xcvr_remove(struct platform_device *pdev)
  	pm_runtime_disable(&pdev->dev);
  }
  
--static __maybe_unused int fsl_easrc_runtime_suspend(struct device *dev)
-+static int fsl_easrc_runtime_suspend(struct device *dev)
+-static __maybe_unused int fsl_xcvr_runtime_suspend(struct device *dev)
++static int fsl_xcvr_runtime_suspend(struct device *dev)
  {
- 	struct fsl_asrc *easrc = dev_get_drvdata(dev);
- 	struct fsl_easrc_priv *easrc_priv = easrc->private;
-@@ -2005,7 +2005,7 @@ static __maybe_unused int fsl_easrc_runtime_suspend(struct device *dev)
+ 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
+ 	int ret;
+@@ -1398,7 +1398,7 @@ static __maybe_unused int fsl_xcvr_runtime_suspend(struct device *dev)
  	return 0;
  }
  
--static __maybe_unused int fsl_easrc_runtime_resume(struct device *dev)
-+static int fsl_easrc_runtime_resume(struct device *dev)
+-static __maybe_unused int fsl_xcvr_runtime_resume(struct device *dev)
++static int fsl_xcvr_runtime_resume(struct device *dev)
  {
- 	struct fsl_asrc *easrc = dev_get_drvdata(dev);
- 	struct fsl_easrc_priv *easrc_priv = easrc->private;
-@@ -2086,9 +2086,7 @@ static __maybe_unused int fsl_easrc_runtime_resume(struct device *dev)
+ 	struct fsl_xcvr *xcvr = dev_get_drvdata(dev);
+ 	int ret;
+@@ -1483,9 +1483,7 @@ static __maybe_unused int fsl_xcvr_runtime_resume(struct device *dev)
  }
  
- static const struct dev_pm_ops fsl_easrc_pm_ops = {
--	SET_RUNTIME_PM_OPS(fsl_easrc_runtime_suspend,
--			   fsl_easrc_runtime_resume,
+ static const struct dev_pm_ops fsl_xcvr_pm_ops = {
+-	SET_RUNTIME_PM_OPS(fsl_xcvr_runtime_suspend,
+-			   fsl_xcvr_runtime_resume,
 -			   NULL)
-+	RUNTIME_PM_OPS(fsl_easrc_runtime_suspend, fsl_easrc_runtime_resume, NULL)
++	RUNTIME_PM_OPS(fsl_xcvr_runtime_suspend, fsl_xcvr_runtime_resume, NULL)
  	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
  				pm_runtime_force_resume)
  };
-@@ -2098,7 +2096,7 @@ static struct platform_driver fsl_easrc_driver = {
- 	.remove_new = fsl_easrc_remove,
+@@ -1494,7 +1492,7 @@ static struct platform_driver fsl_xcvr_driver = {
+ 	.probe = fsl_xcvr_probe,
  	.driver = {
- 		.name = "fsl-easrc",
--		.pm = &fsl_easrc_pm_ops,
-+		.pm = pm_ptr(&fsl_easrc_pm_ops),
- 		.of_match_table = fsl_easrc_dt_ids,
+ 		.name = "fsl,imx8mp-audio-xcvr",
+-		.pm = &fsl_xcvr_pm_ops,
++		.pm = pm_ptr(&fsl_xcvr_pm_ops),
+ 		.of_match_table = fsl_xcvr_dt_ids,
  	},
- };
+ 	.remove_new = fsl_xcvr_remove,
 -- 
 2.34.1
 
