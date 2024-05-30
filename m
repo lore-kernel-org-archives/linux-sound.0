@@ -1,115 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB7118399A;
-	Thu, 30 May 2024 10:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB1317C7A3
+	for <linux-sound@vger.kernel.org>; Thu, 30 May 2024 10:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717063560; cv=none; b=kIpPK2mjHXm0I2ObbHnXgzLDsiWt/i1k6lSRsCPnKUC5OSHCl4ZFqZTza6SAeYYzVS+pteUUJxr8jYuSHjr9tiSQ++nbKvJ6n/0+0wPwhbpDKseEcGGvPGH2bP1erAxTeIhEU/4DhZgZuC93vKWSZwh7J2v2++hynq/SBB4XyqM=
+	t=1717063834; cv=none; b=PISS6CdDrzboXHMUSYmySiFdk5Cv0x6lX+UnfNv+32kQtnfYhd4EhEWHE+NSrLn/QDgkOOnVFxC7T+kX56sis3vXfS4qhvZ6+k86S9dQGUZdVi0zYeqEGXMf37IkIiMrwA561fg0EDVvgg3vguxS11GFmu615AKBY1iOSrBBfmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717063560; c=relaxed/simple;
-	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjGNcmEFWlhpa8/GttWRJI1ami+7nDlZ9yztnweBtXT0BFXrFmNwSnGJyZgkZFhMsvrMwg4rYGU1yxJYqp/VkBE60R52YxiipAoB0Hxooj9elhuLhIbhzKTC0NfZFRnv408PR456S0aJfXXcmdBvjbhqLcN827AiCt8HG5pYESw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V83AqyIs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717063834; c=relaxed/simple;
+	bh=JlugjECUQxG9bzzXXAB8WqifZRkFhRjYjHKHc964g94=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=IJE2VCuc59Aq54CLnyaH7bUkkvQO3lmdT68YOTi+Qy2SSayZ+QjMXsG/ZC2nex5K7JeaBjxaQDzflLG/JYSLZ4gvFiqJRP1R+y5LbNbhKoMsBj4g1AXa9DKE7vcBwiUUJLMYQpCd/rlM6rBjBpiw4AZOK/Kp/NI/bG/Zk3Y6gfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Du3bZrtN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lmb71N7w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Du3bZrtN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lmb71N7w; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V83AqyIs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7848EC2BBFC;
-	Thu, 30 May 2024 10:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717063560;
-	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V83AqyIsEU4RQhpQCNN89inqjoKbRLjNJd0VI0b+j2hILtvzCDsNTZ/Yfxp6DwIIc
-	 l3GxkKnia2EWPrDf5tMF52ke5xLj8N5DCeUDBT9rtJX6jqTUCKOiG5jEVFh4LW8njv
-	 smnM3FasCayduxxtVsxQHb0Wxu50Utv1OCBL8NuvYaIifn6P4OBwc1D2w8RGyYFpi7
-	 3NqqDKTyjB4VoKsqv4eO1PIFxfDUhqe5HxUB0b4IQZJT1BVUfjhgNuITiOcWh4L8Hd
-	 7PNxTJNL4lHViSaEBm8e2KQ2L+B66y14nMrxOenmPCl2P0uTlAp1katPOOAOZqJBFX
-	 0O3GZHh/kPhrg==
-Date: Thu, 30 May 2024 11:05:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: James Ogletree <James.Ogletree@cirrus.com>
-Cc: James Ogletree <jogletre@opensource.cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jeff LaBundy <jeff@labundy.com>,
-	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	David Rhodes <drhodes@opensource.cirrus.com>
-Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
- CS40L50
-Message-ID: <f39508da-4241-46b2-a9e9-0e8b782ebf3f@sirena.org.uk>
-References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
- <20240408153214.42368-6-jogletre@opensource.cirrus.com>
- <425AC5F6-6324-41F8-993F-E8B91DDEFC23@cirrus.com>
- <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Du3bZrtN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lmb71N7w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Du3bZrtN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lmb71N7w"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 44ABA20779;
+	Thu, 30 May 2024 10:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717063825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WZIA0jSxXlglI7OfKB6a0cdKNJH74KgwDDAe90x5KNE=;
+	b=Du3bZrtNg2+fQD0uyDf/zgjHXyV5l4xNXs7Al715017T7SnujXgOK6Va8OiVAeRj3BDQrE
+	+1Bq4E+2piCZb+V6K60PS7+O/IuR5/FlTV9b7lB+MmIa3SupfifK6j3l2HGANHwCL7N81Q
+	B7NS06S+PjxHwG9ywzr+Q2YMxao6UB0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717063825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WZIA0jSxXlglI7OfKB6a0cdKNJH74KgwDDAe90x5KNE=;
+	b=lmb71N7wTAE2PYnl7eS94c0xK+S0kId/pzczKqAnfsG++dd77yEWOoFkMTHSal3FNm9KsD
+	XOQ6doEsVO91iABw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717063825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WZIA0jSxXlglI7OfKB6a0cdKNJH74KgwDDAe90x5KNE=;
+	b=Du3bZrtNg2+fQD0uyDf/zgjHXyV5l4xNXs7Al715017T7SnujXgOK6Va8OiVAeRj3BDQrE
+	+1Bq4E+2piCZb+V6K60PS7+O/IuR5/FlTV9b7lB+MmIa3SupfifK6j3l2HGANHwCL7N81Q
+	B7NS06S+PjxHwG9ywzr+Q2YMxao6UB0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717063825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WZIA0jSxXlglI7OfKB6a0cdKNJH74KgwDDAe90x5KNE=;
+	b=lmb71N7wTAE2PYnl7eS94c0xK+S0kId/pzczKqAnfsG++dd77yEWOoFkMTHSal3FNm9KsD
+	XOQ6doEsVO91iABw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A13013A83;
+	Thu, 30 May 2024 10:10:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XoQACZFQWGYiJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 May 2024 10:10:25 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: seq: Fix yet another spot for system message conversion
+Date: Thu, 30 May 2024 12:10:43 +0200
+Message-ID: <20240530101044.17524-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+vduDYRBK43jhePc"
-Content-Disposition: inline
-In-Reply-To: <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
-X-Cookie: To err is human, to moo bovine.
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 
+We fixed the incorrect UMP type for system messages in the recent
+commit, but it missed one place in system_ev_to_ump_midi1().
+Fix it now.
 
---+vduDYRBK43jhePc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
+Fixes: c2bb79613fed ("ALSA: seq: Fix incorrect UMP type for system messages")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/seq/seq_ump_convert.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Wed, May 29, 2024 at 10:03:00PM +0000, James Ogletree wrote:
+diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
+index add70b4c2885..f0f332017e66 100644
+--- a/sound/core/seq/seq_ump_convert.c
++++ b/sound/core/seq/seq_ump_convert.c
+@@ -729,6 +729,7 @@ static int system_ev_to_ump_midi1(const struct snd_seq_event *event,
+ 				  union snd_ump_midi1_msg *data,
+ 				  unsigned char status)
+ {
++	data->system.type = UMP_MSG_TYPE_SYSTEM; // override
+ 	data->system.status = status;
+ 	return 1;
+ }
+-- 
+2.43.0
 
-> This file has not had any feedback yet for this version. For the sake of =
-efficiency, I
-> would appreciate your review. That way I can make any needed changes
-> in the already-planned v11.
-
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
-
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
-Please don't ignore review comments, people are generally making them
-for a reason and are likely to have the same concerns if issues remain
-unaddressed.  Having to repeat the same comments can get repetitive and
-make people question the value of time spent reviewing.  If you disagree
-with the review comments that's fine but you need to reply and discuss
-your concerns so that the reviewer can understand your decisions.
-
---+vduDYRBK43jhePc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZYT4EACgkQJNaLcl1U
-h9CrSAf+K9K/JlGRMOmpo/y/ORRpLSd23L7FQ2MpuVUIgxwCW85kWhvJ3G8xFTtJ
-uLrD0qGmAindSOFHI3OsSWvH1nh2w9V+0rFJMY0ilTnWSjUwQ15AQx7KEWAjmA09
-TUDEP3lAteNkvI09aimVAaiZKcu+KeB9e4E5mPFv7FbHE4qnvw6HArMCjP8EwkE9
-zhEJUzUrPHUDhzcRtsXp0GOMi3aQPTGJ1EDUCRF2Pydo78t6jnQLZ8cEBFodWUIa
-8Mo1K5zVfSItzqgfMlgtMuTbQ0NNGX7c//jOmLuu3QMmhzP02+zwYTuo95bJZJNy
-js/Z5HoEhHYYxcwXniK8XJI4ayEDtA==
-=Sw18
------END PGP SIGNATURE-----
-
---+vduDYRBK43jhePc--
