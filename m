@@ -1,201 +1,115 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C3E176185;
-	Thu, 30 May 2024 08:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB7118399A;
+	Thu, 30 May 2024 10:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717058360; cv=none; b=NDNZXnJU2k6lFUlI2svnBVNcN67ud0Gv/8bWkvrwKEgI+QCiBGtF4GBtAekocX98a4QPGpJpHqafXqN1l+Bj3IU/65lb2u3sqcrd0zCqIoVeGS0LpKR4rAR2/HV2rNAAtt3Y9v6+3n2Tk/LzkGzFwkm2eBH8xrzwLDBcTKwVHoQ=
+	t=1717063560; cv=none; b=kIpPK2mjHXm0I2ObbHnXgzLDsiWt/i1k6lSRsCPnKUC5OSHCl4ZFqZTza6SAeYYzVS+pteUUJxr8jYuSHjr9tiSQ++nbKvJ6n/0+0wPwhbpDKseEcGGvPGH2bP1erAxTeIhEU/4DhZgZuC93vKWSZwh7J2v2++hynq/SBB4XyqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717058360; c=relaxed/simple;
-	bh=oBD7vg86GXe+oDTvDJhgKE8cSH7YYaTNNz6p30fZnDY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=klitUiQMJxZW7Fr6DjIUjpjmh61NXZzq6UhQvXwMYFZ1PETVIVU3I0FsTvgt2RzwW/aORtiiDIuiKq7RtKzW+EnFnUamjlWHZzwSdz4yKUmFO+AyakNApWVXIQk2v1VqPDrNYcsdRTeHw9w5nqz/SIhzlktFJjl5PxwEeSvlLM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HW5CL7ur; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717063560; c=relaxed/simple;
+	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FjGNcmEFWlhpa8/GttWRJI1ami+7nDlZ9yztnweBtXT0BFXrFmNwSnGJyZgkZFhMsvrMwg4rYGU1yxJYqp/VkBE60R52YxiipAoB0Hxooj9elhuLhIbhzKTC0NfZFRnv408PR456S0aJfXXcmdBvjbhqLcN827AiCt8HG5pYESw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V83AqyIs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HW5CL7ur"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57a1fe63947so254558a12.1;
-        Thu, 30 May 2024 01:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717058357; x=1717663157; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tMJb+X5rFOm/8h5g2VHIevAuWgAsNBn0K9qQmDWI2IA=;
-        b=HW5CL7ur+OFLdF6MgA6e+kzYSqDL6fC7bySQZggl9hSqc/fC7GnKM4qsVyhxr7A0ym
-         iPSjK9pOTWGUiGXxuS1vPw2ycjNJw4ehJIrkSkAILKxELx5sgOqN1esJj3FuL0UppOLu
-         2Aj6lxkBRVHp97RxaMi53M+cxRy7pAB/pmoELlseq3M1YyFEpxFeNCfLRTYCMGNlN7dL
-         XhbUGwTtHO4MDoR0ZoIcGTnWHMqJK5w7vuxUaPlu+XdpY14cryT20Kc+XRh21sWXs/Qn
-         mvKoZmY6UK1O7/nADpxlMcKBxnnc/afPiOlwapJiQpqqpi5WbgMcREABAqX6KEW/+ZQ4
-         QY7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717058357; x=1717663157;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tMJb+X5rFOm/8h5g2VHIevAuWgAsNBn0K9qQmDWI2IA=;
-        b=J21yle/ozTiSXhmhboQ9iTYx21UxTG/EX02ZqbONUglOsrVD5zciWYh2ncqZiFd0G7
-         URcpwfPPfkSbaUBxTtZR4/LBdheDfRe1Gx7dOTQOJ5A4onKtFYX9CmBMeNFrV8rfRlN2
-         8tMzmZs7UUWJrN4We++O2OuR163iRpXeW5aGRMJtiDhiBR/5Sm2EOA0e0bZ79lMAXWNA
-         aG/pKYap5yQQDtvEkBAckRcTHnSR1qZPprnfn/IPnh9sV8WhO5tQKGi5S4ux5NwM77yC
-         Ckl1TlYewLTYaIkafKpWbbq0v884hDlS9So1RDsrhr3NNcS2ZlEcV3dwYM0gyTQQOcgh
-         7nrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdCsMHbuah7ddHHKbK+f1q04cUgrFMuFy/fC2ckaSviALYVMq31BuK3TeromHlyWH1rEo1pkAQpjtZQ++vqm+6WfuEsDoHyjcpuH+cb/eHDkq3CjNGb5oGdQXgiLmqiKphVLDYskFweNXwgxsPxNYkNK4IIi1hnbtSjnPEdYDxTk6DRBox0xAoFSLkHDw74qjGcW/GK2bGZ/EF10I=
-X-Gm-Message-State: AOJu0YyPAz+yzx7O3fTAaLWPe3qGhMJO5S0FZcnkeVdWkaCeUKBAmX8x
-	YmPJV+DjglSmAaEIJDQvQR94N2f6Dy/a0/MWAQ+bCjYWMxUBetkPLdmdE82tQ8HZyIC9HqHAw8n
-	h7jFy3Yx9lzS2BP1h4Km1mpdcjEU=
-X-Google-Smtp-Source: AGHT+IG7yOFBPDUV2NHqb1k6mZUOqdzgdMdSZX6ZWJyyabNzowuy9EYpTY9T3kf064PGg0Fz4wHjKlI8QOZpr/4OWWU=
-X-Received: by 2002:a17:907:11cf:b0:a59:c28a:7ec2 with SMTP id
- a640c23a62f3a-a65e8f6f43bmr92418466b.41.1717058357020; Thu, 30 May 2024
- 01:39:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V83AqyIs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7848EC2BBFC;
+	Thu, 30 May 2024 10:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717063560;
+	bh=2y5PSLV2MHgdFHU8JMTljUTmWYwZQZo5bjFpDf1ewGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V83AqyIsEU4RQhpQCNN89inqjoKbRLjNJd0VI0b+j2hILtvzCDsNTZ/Yfxp6DwIIc
+	 l3GxkKnia2EWPrDf5tMF52ke5xLj8N5DCeUDBT9rtJX6jqTUCKOiG5jEVFh4LW8njv
+	 smnM3FasCayduxxtVsxQHb0Wxu50Utv1OCBL8NuvYaIifn6P4OBwc1D2w8RGyYFpi7
+	 3NqqDKTyjB4VoKsqv4eO1PIFxfDUhqe5HxUB0b4IQZJT1BVUfjhgNuITiOcWh4L8Hd
+	 7PNxTJNL4lHViSaEBm8e2KQ2L+B66y14nMrxOenmPCl2P0uTlAp1katPOOAOZqJBFX
+	 0O3GZHh/kPhrg==
+Date: Thu, 30 May 2024 11:05:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: James Ogletree <James.Ogletree@cirrus.com>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Jeff LaBundy <jeff@labundy.com>,
+	"open list:CIRRUS LOGIC HAPTIC DRIVERS" <patches@opensource.cirrus.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	David Rhodes <drhodes@opensource.cirrus.com>
+Subject: Re: [PATCH RESEND v10 5/5] ASoC: cs40l50: Support I2S streaming to
+ CS40L50
+Message-ID: <f39508da-4241-46b2-a9e9-0e8b782ebf3f@sirena.org.uk>
+References: <20240408153214.42368-1-jogletre@opensource.cirrus.com>
+ <20240408153214.42368-6-jogletre@opensource.cirrus.com>
+ <425AC5F6-6324-41F8-993F-E8B91DDEFC23@cirrus.com>
+ <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
- <20240513103813.5666-11-lakshmi.sowjanya.d@intel.com> <ZkH3GP2b9WTz9W3W@smile.fi.intel.com>
- <CY8PR11MB7364D1C85099E4337408EBAFC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
- <ZlSZ63ST-Pj9CwCh@surfacebook.localdomain> <CY8PR11MB7364118081A77973A9504C4CC4F32@CY8PR11MB7364.namprd11.prod.outlook.com>
-In-Reply-To: <CY8PR11MB7364118081A77973A9504C4CC4F32@CY8PR11MB7364.namprd11.prod.outlook.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 30 May 2024 11:38:40 +0300
-Message-ID: <CAHp75Vevif+oX8Lq9D90ekTSixC6Q2Mfr38HrgVhzq0ab-COyQ@mail.gmail.com>
-Subject: Re: [PATCH v8 10/12] pps: generators: Add PPS Generator TIO Driver
-To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "jstultz@google.com" <jstultz@google.com>, 
-	"giometti@enneenne.com" <giometti@enneenne.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "Dong, Eddie" <eddie.dong@intel.com>, 
-	"Hall, Christopher S" <christopher.s.hall@intel.com>, 
-	"Brandeburg, Jesse" <jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>, 
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>, 
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, 
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, 
-	"peter.hilber@opensynergy.com" <peter.hilber@opensynergy.com>, "N, Pandith" <pandith.n@intel.com>, 
-	"Mohan, Subramanian" <subramanian.mohan@intel.com>, 
-	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+vduDYRBK43jhePc"
+Content-Disposition: inline
+In-Reply-To: <61971924-D827-4F35-813A-5807466CBA14@cirrus.com>
+X-Cookie: To err is human, to moo bovine.
+
+
+--+vduDYRBK43jhePc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 30, 2024 at 8:52=E2=80=AFAM D, Lakshmi Sowjanya
-<lakshmi.sowjanya.d@intel.com> wrote:
-> > -----Original Message-----
-> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Sent: Monday, May 27, 2024 8:04 PM
-> > Mon, May 27, 2024 at 11:48:54AM +0000, D, Lakshmi Sowjanya kirjoitti:
-> > > > -----Original Message-----
-> > > > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > Sent: Monday, May 13, 2024 4:49 PM
-> > > > On Mon, May 13, 2024 at 04:08:11PM +0530,
-> > > > lakshmi.sowjanya.d@intel.com
-> > > > wrote:
+On Wed, May 29, 2024 at 10:03:00PM +0000, James Ogletree wrote:
 
-...
+> This file has not had any feedback yet for this version. For the sake of =
+efficiency, I
+> would appreciate your review. That way I can make any needed changes
+> in the already-planned v11.
 
-> > > > > +static ssize_t enable_store(struct device *dev, struct
-> > > > > +device_attribute
-> > > > *attr, const char *buf,
-> > > > > +                           size_t count)
-> > > > > +{
-> > > > > +       struct pps_tio *tio =3D dev_get_drvdata(dev);
-> > > > > +       bool enable;
-> > > > > +       int err;
-> > > >
-> > > > (1)
-> > > >
-> > > > > +       err =3D kstrtobool(buf, &enable);
-> > > > > +       if (err)
-> > > > > +               return err;
-> > > > > +
-> > > > > +       guard(spinlock_irqsave)(&tio->lock);
-> > > > > +       if (enable && !tio->enabled) {
-> > > >
-> > > > > +               if (!timekeeping_clocksource_has_base(CSID_X86_AR=
-T)) {
-> > > > > +                       dev_err(tio->dev, "PPS cannot be started =
-as clock is
-> > > > not related
-> > > > > +to ART");
-> > > >
-> > > > Why not simply dev_err(dev, ...)?
-> > > >
-> > > > > +                       return -EPERM;
-> > > > > +               }
-> > > >
-> > > > I'm wondering if we can move this check to (1) above.
-> > > > Because currently it's a good question if we are able to stop PPS
-> > > > which was run by somebody else without this check done.
-> > >
-> > > Do you mean can someone stop the signal without this check?
-> > > Yes, this check is not required to stop.  So, I feel it need not be m=
-oved to (1).
-> > >
-> > > Please, correct me if my understanding is wrong.
-> >
-> > So, there is a possibility to have a PPS being run (by somebody else) e=
-ven if there
-> > is no ART provided?
-> >
-> > If "yes", your check is wrong to begin with. If "no", my suggestion is =
-correct, i.e.
-> > there is no need to stop something that can't be started at all.
->
-> It is a "no", PPS doesn't start without ART.
->
-> We can move the check to (1), but it would always be checking for ART eve=
-n in case of disable.
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
-Please do,
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
 
-> Code readability is better with this approach.
->
->         struct pps_tio *tio =3D dev_get_drvdata(dev);
->         bool enable;
->         int err;
->
->         if (!timekeeping_clocksource_has_base(CSID_X86_ART)) {
->                 dev_err(dev, "PPS cannot be started as clock is not relat=
-ed to ART");
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-started --> used
+Please don't ignore review comments, people are generally making them
+for a reason and are likely to have the same concerns if issues remain
+unaddressed.  Having to repeat the same comments can get repetitive and
+make people question the value of time spent reviewing.  If you disagree
+with the review comments that's fine but you need to reply and discuss
+your concerns so that the reviewer can understand your decisions.
 
->                 return -EPERM;
->         }
->
->         err =3D kstrtobool(buf, &enable);
->         if (err)
->                 return err;
->
-> > > > I.o.w. this sounds too weird to me and reading the code doesn't giv=
-e
-> > > > any hint if it's even possible. And if it is, are we supposed to
-> > > > touch that since it was definitely *not* us who ran it.
-> > >
-> > > Yes, we are not restricting on who can stop/start the signal.
-> >
-> > See above. It's not about this kind of restriction.
-> >
-> > > > > +               pps_tio_direction_output(tio);
-> > > > > +               hrtimer_start(&tio->timer, first_event(tio),
-> > > > HRTIMER_MODE_ABS);
-> > > > > +               tio->enabled =3D true;
-> > > > > +       } else if (!enable && tio->enabled) {
-> > > > > +               hrtimer_cancel(&tio->timer);
-> > > > > +               pps_tio_disable(tio);
-> > > > > +               tio->enabled =3D false;
-> > > > > +       }
-> > > > > +       return count;
-> > > > > +}
+--+vduDYRBK43jhePc
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-With Best Regards,
-Andy Shevchenko
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZYT4EACgkQJNaLcl1U
+h9CrSAf+K9K/JlGRMOmpo/y/ORRpLSd23L7FQ2MpuVUIgxwCW85kWhvJ3G8xFTtJ
+uLrD0qGmAindSOFHI3OsSWvH1nh2w9V+0rFJMY0ilTnWSjUwQ15AQx7KEWAjmA09
+TUDEP3lAteNkvI09aimVAaiZKcu+KeB9e4E5mPFv7FbHE4qnvw6HArMCjP8EwkE9
+zhEJUzUrPHUDhzcRtsXp0GOMi3aQPTGJ1EDUCRF2Pydo78t6jnQLZ8cEBFodWUIa
+8Mo1K5zVfSItzqgfMlgtMuTbQ0NNGX7c//jOmLuu3QMmhzP02+zwYTuo95bJZJNy
+js/Z5HoEhHYYxcwXniK8XJI4ayEDtA==
+=Sw18
+-----END PGP SIGNATURE-----
+
+--+vduDYRBK43jhePc--
