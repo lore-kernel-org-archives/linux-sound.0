@@ -1,202 +1,326 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9533617E455
-	for <linux-sound@vger.kernel.org>; Thu, 30 May 2024 11:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E61517E463;
+	Thu, 30 May 2024 11:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717067950; cv=none; b=TYxT+bHQJfynehISH8MftJoIaDqaWWRDE6TtZybqtik7iEPZymnvzKZlOzXo9v6UgWf2N6tlLW6GgKB6s4aFjuOk8KWSsGXjK3mjOafKUmg9x9xxzX+x2ZwA9ZaU87ETCNrv3zRvp+jlN0ymEKhEH1DnYfHlYtjEFVwZYSuGQw0=
+	t=1717070091; cv=none; b=M46Bd8+jD+s4Q2rRc9lRQwcwTl5ZwBt6ie4JSUinALQ/+eVKAxjlfUoES6YAA4NUJfn79N7rVSZ86fY+2vpw+GaI/ZHljf9rHlLwI3KBgC0YMDb4Mubjbx7ud0bBDyYSEoniUoq1l7Yvzd46vt0uo8XLUyvNia4/LOrLiZtC9Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717067950; c=relaxed/simple;
-	bh=w7cNiEjYow2fTnfJiZ8Vh2HdK1bq76ofNQices4Fmzc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YY8UvRQI5lA32CQ4scuN/+pLjriOSE7O/fIOJKqHgwnfIB87Mjkj+laAsxF3QXOlXdrdiBSHrym76ZM+mh/av8E+lbpHEmjFIh1DWhRBmjon86hTYUi2BDE3gXALyyjralp6U4CC26d7XmVEU5iw6prJpoAhGB/75SgznV2NKyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcD6665t; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717070091; c=relaxed/simple;
+	bh=X18EbHHf01kjlc7qyYc/AnhLH3W6o/0twwLLtCjgCeE=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=GdVRVhVKBY9odQxh5Ql3yCsNYKY6xo1Sq1+MMXAJ3HIaqA6AHOztzddAJnUZJKRXmRuNPPmFbdF7rnwPHpIjaYJav3gH2Pk/RJPTQHEZ4XHssx8zjNfSbeOHA7eFNL8uir0XK/UVAzRBqxAyDzFnw0Ya3DPNntO8jpJaunB9MfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JEUabcCe; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcD6665t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717067949; x=1748603949;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=w7cNiEjYow2fTnfJiZ8Vh2HdK1bq76ofNQices4Fmzc=;
-  b=lcD6665tikywXU13lzpWO91IYX6X6mzJgE3t2fJxpQzYMD6dHImCExWG
-   iMa+qgz5r320pEqTabPep59rbpkqGG9P1X4RHJ8TkDENlrsCJHIjZXqDo
-   AbAyW3eKM4V864eQfdrASO51gt9j0rd5ickm420StIhW36xrSle9j3JQ9
-   eV8HX3u0qvf07eysmoBQfQrS0YafQrDcr8sREHoOEEd3ATowfScW1Zei2
-   7k3eQ5Ja4MbHvSbz70PFhPC7VPEAIFxbIsq7WTML3EdnIwV4FjnUNCN9K
-   EZTXcmVs/+YOnZTqbHIj/B5YHuNHihId9gQrBWcF9+NwAy3MyZ/pF7Z1a
-   Q==;
-X-CSE-ConnectionGUID: Cjm8wwmySWKEFjNrEPnQSA==
-X-CSE-MsgGUID: 1rQ+61p3QNWhWo3SHKcChA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="31065327"
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="31065327"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 04:19:09 -0700
-X-CSE-ConnectionGUID: ol1MzZB7TNizz4cGdEJfAA==
-X-CSE-MsgGUID: dJ8vPtUcTimLrfouL7c3LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="73258840"
-Received: from unknown (HELO pujfalus-desk.intel.com) ([10.124.223.207])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 04:19:06 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	seppo.ingalsuo@linux.intel.com,
-	yung-chuan.liao@linux.intel.com
-Subject: [PATCH 6.10 5/5] ASoC: SOF: ipc4-topology: Adjust the params based on DAI formats
-Date: Thu, 30 May 2024 14:19:18 +0300
-Message-ID: <20240530111918.21974-6-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240530111918.21974-1-peter.ujfalusi@linux.intel.com>
-References: <20240530111918.21974-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JEUabcCe"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a5dcb5a0db4so73200366b.2;
+        Thu, 30 May 2024 04:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717070088; x=1717674888; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wOSm7v/LmRipwiItJ5QpPAXjkVuAMgnSrFrvzC6A97U=;
+        b=JEUabcCev1G3BoheJq6XWSJ9JbQESavLQ1kUER2qh+4PF0hm+XaqN+ctvlUEEfeeUX
+         QVotGJ+VMt7gHg9yhthXKpMkyaVsF59XjSH7pkXRUb7qrSKgIlOiknKkw5lVCOb0ykDX
+         8C+GZr4C0OUJdGs6gxkZlqB95CEqU8xZcJoLhSe6NnhTmQengdTlzJO9xYjhOXJXzhdp
+         3cL6Am98CFHJKp72qgPgsIcsV/dNUXz8HgcWqEofWiF/NzcOmRlbILGM6RPmGNB63zpQ
+         Shmv0ktyUFQAEuvNbkTTKvGkU2bA+jFlVNuEQaGDIIA/IFOfGZShERBJq0aPq49+IuWt
+         WMuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717070088; x=1717674888;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wOSm7v/LmRipwiItJ5QpPAXjkVuAMgnSrFrvzC6A97U=;
+        b=YNfIWKcbFvW9NueJv/6TU5fueiKCnn4E9UgWngsAEYv4AmoTBaVGJ7HrVtJHV49hBu
+         ALSh89YEvpSxM+ouyNjPPlPg0Qu3cVS2iLGrKQmIXbM7iQvWc8Jw8i3/SLMy4ghuZXKR
+         gtOsw+vB5yKvLvp12/Y08PSWkcV/V3Eosqf74hhxfpz1ase6wb1A+VnlIEAK4GDC0A1G
+         fzLjGaZC8NWNmJtpVw23I2wqxq3w/igRhclrNxIpCIlTCktIiKdMdi/FCyeGwBZjFgUG
+         8HPO1zF01xhidGlYLX2G9ONEmQ6QHsKRsR+AlYESoXAmA0pqlGnfEGiSAG9f/kQFL3JQ
+         xrHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXkSWKpv337JOBsMnWF9KbKgb5kPLeOsr531hC/LbDbiPG2kmA0fMDP4xNR62fGzwBIhTtvCMV62fQXau2LutdHEV9y0+fjr7qnjPCwkK65jplZIqZB9DRdvF38TvlxO0eThY5c40mpsQE=
+X-Gm-Message-State: AOJu0YyJOTtcLhqQgBAbMT/pqD7K+7fo306df5R4MThOUqjYis3Y7rsM
+	yunP+eM8gBppESUnutu/5i7e8I04+37K23dPDSUVdOZlGfcn0s4K
+X-Google-Smtp-Source: AGHT+IEbtpn+V9rpWu/ZtIFAxLT/8ryUslfmVBQGHX473y0Ey2SRaClvHeiz+zNE53rxTl+D29q8AQ==
+X-Received: by 2002:a17:906:a00e:b0:a5c:d67a:e8ef with SMTP id a640c23a62f3a-a65e8e5110cmr110199966b.31.1717070087430;
+        Thu, 30 May 2024 04:54:47 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc4f465sm807799366b.120.2024.05.30.04.54.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 May 2024 04:54:46 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=c36ba65ae5685a90b9c402ee13e51faac5cd8adb9819317905f87ee770dc;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Date: Thu, 30 May 2024 13:54:46 +0200
+Message-Id: <D1MYJNZF5IKE.38D65NZ0PJS4A@gmail.com>
+Cc: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <lgirdwood@gmail.com>, <jonathanh@nvidia.com>, <mkumard@nvidia.com>
+Subject: Re: [PATCH v2 2/2] ASoC: tegra: I2S client convert formats handling
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Sameer Pujar" <spujar@nvidia.com>, <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240527125608.2461300-1-spujar@nvidia.com>
+ <20240527125608.2461300-3-spujar@nvidia.com>
+In-Reply-To: <20240527125608.2461300-3-spujar@nvidia.com>
 
-Currently we only check the bit depth value among to DAI formats, but other
-parameters might be constant, like number of channels and/or rate.
+--c36ba65ae5685a90b9c402ee13e51faac5cd8adb9819317905f87ee770dc
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-In capture we use the fe params as a reference to find the format and blob
-which should be used, but in the path we can have components which can
-handle expanding/narrowing number of channels or do a resample.
+On Mon May 27, 2024 at 2:56 PM CEST, Sameer Pujar wrote:
+> From: Mohan Kumar <mkumard@nvidia.com>
+>
+> The AHUB HW modules are interconnected with CIF which are capable of
+> supporting Channel and Sample bit format conversion. Due to this, the
+> I2S Client can have different Channel and Sample bit from the hw_params()
+> and this config is passed from CIF port of I2S DT node which can help to
+> perform this conversion.
+>
+> For e.g. HFP usecase consists of BT SCO with 1ch and 8k audio data
+> which needs to be converted and mixed with external codec playback and
+> capture path which is of 2ch and 48k format.
+>
+> For HFP Playback:
+>   The path includes mono to stereo and 8k to 48k conversion
+>     _ _ _ _       _ _ _          _ _ _        _ _ _ _ _       _ _ _ _ _ _
+>    |       |1ch  |      | 1ch   |     |2ch   | SFC     | 2ch |           =
+|
+>    |BT SCO |---->| I2Sx |------>| CIF |----->| 8k->48k |---->| Codec I2Sy=
+|
+>    |_ _ _ _|     |_ _ __|client |_ _ _|audio |_ _ _ _ _|     |_ _ _ _ _ _=
+|
+>
+> For HFP Capture:
+>   The path includes stereo to mono and 48k to 8k conversion
+>     _ _ _ _ _ _       _ _ _ _ _        _ _ _         _ _ _ _       _ _ _ =
+_
+>    |           | 2ch | SFC     | 2ch  |     | 1ch   |       | 1ch |      =
+ |
+>    | codec I2Sy|---->| 48k->8k |----->| CIF |------>| I2Sx  |---->| BT SC=
+O|
+>    |_ _ _ _ _ _|     |_ _ _ _ _| audio|_ _ _|client |_ _ _ _|     |_ _ _ =
+_|
+>
+> For above two path, I2S client channel uses existing DT binding to pass
+> channels and format conversion in I2Sx CIF Port.
+>
+> Signed-off-by: Mohan Kumar <mkumard@nvidia.com>
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> ---
+>  sound/soc/tegra/tegra210_i2s.c | 71 ++++++++++++++++++++++++++++++++--
+>  sound/soc/tegra/tegra210_i2s.h |  2 +
+>  2 files changed, 69 insertions(+), 4 deletions(-)
+>
+> diff --git a/sound/soc/tegra/tegra210_i2s.c b/sound/soc/tegra/tegra210_i2=
+s.c
+> index ba7fdd7405ac..fe4fde844d86 100644
+> --- a/sound/soc/tegra/tegra210_i2s.c
+> +++ b/sound/soc/tegra/tegra210_i2s.c
+> @@ -8,11 +8,13 @@
+>  #include <linux/device.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <sound/core.h>
+>  #include <sound/pcm_params.h>
+> +#include <sound/simple_card_utils.h>
+>  #include <sound/soc.h>
+>  #include "tegra210_i2s.h"
+>  #include "tegra_cif.h"
+> @@ -603,6 +605,7 @@ static int tegra210_i2s_hw_params(struct snd_pcm_subs=
+tream *substream,
+>  	struct tegra210_i2s *i2s =3D snd_soc_dai_get_drvdata(dai);
+>  	unsigned int sample_size, channels, srate, val, reg, path;
+>  	struct tegra_cif_conf cif_conf;
+> +	snd_pcm_format_t sample_format;
+> =20
+>  	memset(&cif_conf, 0, sizeof(struct tegra_cif_conf));
+> =20
+> @@ -615,28 +618,51 @@ static int tegra210_i2s_hw_params(struct snd_pcm_su=
+bstream *substream,
+> =20
+>  	cif_conf.audio_ch =3D channels;
+>  	cif_conf.client_ch =3D channels;
+> +	if (i2s->client_channels)
+> +		cif_conf.client_ch =3D i2s->client_channels;
+> =20
+> +	/* AHUB CIF Audio bits configs */
+>  	switch (params_format(params)) {
+> +	case SNDRV_PCM_FORMAT_S8:
+> +		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_8;
+> +		break;
+> +	case SNDRV_PCM_FORMAT_S16_LE:
+> +		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_16;
+> +		break;
+> +	case SNDRV_PCM_FORMAT_S32_LE:
+> +		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_32;
+> +		break;
+> +	default:
+> +		dev_err(dev, "unsupported params audio bit format!\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	sample_format =3D params_format(params);
 
-In these cases the topology is expected to have 'fixed' parameter for
-channels/rates/bit depth and the conversion to the fe format is going to
-be done within the path.
+Maybe you can move this before the switch and then reuse sample_format
+in the switch?
 
-In practice this patch fixes issues like:
-All DMIC formats are fixed four channels
-We have a component which converts the four channel to stereo
-FE is opened with 2 channel
+> +	if (i2s->client_sample_format >=3D 0)
+> +		sample_format =3D (snd_pcm_format_t)i2s->client_sample_format;
+> +
+> +	/*
+> +	 * Format of the I2S for sending/receiving the audio
+> +	 * to/from external device.
+> +	 */
+> +	switch (sample_format) {
+>  	case SNDRV_PCM_FORMAT_S8:
+>  		val =3D I2S_BITS_8;
+>  		sample_size =3D 8;
+> -		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_8;
+>  		cif_conf.client_bits =3D TEGRA_ACIF_BITS_8;
+>  		break;
+>  	case SNDRV_PCM_FORMAT_S16_LE:
+>  		val =3D I2S_BITS_16;
+>  		sample_size =3D 16;
+> -		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_16;
+>  		cif_conf.client_bits =3D TEGRA_ACIF_BITS_16;
+>  		break;
+>  	case SNDRV_PCM_FORMAT_S32_LE:
+>  		val =3D I2S_BITS_32;
+>  		sample_size =3D 32;
+> -		cif_conf.audio_bits =3D TEGRA_ACIF_BITS_32;
+>  		cif_conf.client_bits =3D TEGRA_ACIF_BITS_32;
+>  		break;
+>  	default:
+> -		dev_err(dev, "unsupported format!\n");
+> +		dev_err(dev, "unsupported client bit format!\n");
+>  		return -EOPNOTSUPP;
+>  	}
+> =20
+> @@ -872,6 +898,40 @@ static const struct regmap_config tegra210_i2s_regma=
+p_config =3D {
+>  	.cache_type		=3D REGCACHE_FLAT,
+>  };
+> =20
+> +/*
+> + * The AHUB HW modules are interconnected with CIF which are capable of
+> + * supporting Channel and Sample bit format conversion. This needs diffe=
+rent
+> + * CIF Audio and client configuration. As one of the config comes from
+> + * params_channels() or params_format(), the extra configuration is pass=
+ed from
+> + * CIF Port of DT I2S node which can help to perform this conversion.
+> + *
+> + *    4ch          audio =3D 4ch      client =3D 2ch       2ch
+> + *   -----> ADMAIF -----------> CIF -------------> I2S ---->
+> + */
+> +static void tegra210_parse_client_convert(struct device *dev)
+> +{
+> +	struct tegra210_i2s *i2s =3D dev_get_drvdata(dev);
+> +	struct device_node *ports, *ep;
+> +	struct simple_util_data data =3D {};
+> +	int cif_port =3D 0;
+> +
+> +	ports =3D of_get_child_by_name(dev->of_node, "ports");
+> +	if (ports) {
+> +		ep =3D of_graph_get_endpoint_by_regs(ports, cif_port, -1);
+> +		if (ep) {
+> +			simple_util_parse_convert(ep, NULL, &data);
+> +			of_node_put(ep);
+> +		}
+> +		of_node_put(ports);
 
-Even if we have the correct bit depth format and blob (for four channel) we
-will still be looking for stereo configurations, which will fail.
+You could maybe try to use the "new" __free() anotation here to have
+this cleaned up automatically. It'd look something like this:
 
-Note: the adjustment of params have switched order with the checking of
-single bit depth (needed for the NHLT blob fallback support). This change
-is non function, just that if the sof_ipc4_narrow_params_to_format() would
-fail, there is no point of checking the single bit depth.
+	struct device_node *ports __free(device_node), *ep __free(device_node);
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-topology.c | 71 ++++++++++++++++++++++++++++-------
- 1 file changed, 57 insertions(+), 14 deletions(-)
+And then you should be able to omit both of those of_node_put() calls.
+It may not be worth doing in this case because the declaration becomes
+unwieldy and there aren't a lot of these calls.
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 4c455d1bfd89..00987039c972 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -1591,6 +1591,55 @@ bool sof_ipc4_copier_is_single_bitdepth(struct snd_sof_dev *sdev,
- 	return true;
- }
- 
-+static int
-+sof_ipc4_adjust_params_to_dai_format(struct snd_sof_dev *sdev,
-+				     struct snd_pcm_hw_params *params,
-+				     struct sof_ipc4_pin_format *pin_fmts,
-+				     u32 pin_fmts_size)
-+{
-+	u32 params_mask = BIT(SNDRV_PCM_HW_PARAM_RATE) |
-+			  BIT(SNDRV_PCM_HW_PARAM_CHANNELS) |
-+			  BIT(SNDRV_PCM_HW_PARAM_FORMAT);
-+	struct sof_ipc4_audio_format *fmt;
-+	u32 rate, channels, valid_bits;
-+	int i;
-+
-+	fmt = &pin_fmts[0].audio_fmt;
-+	rate = fmt->sampling_frequency;
-+	channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
-+	valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+
-+	/* check if parameters in topology defined formats are the same */
-+	for (i = 1; i < pin_fmts_size; i++) {
-+		u32 val;
-+
-+		fmt = &pin_fmts[i].audio_fmt;
-+
-+		if (params_mask & BIT(SNDRV_PCM_HW_PARAM_RATE)) {
-+			val = fmt->sampling_frequency;
-+			if (val != rate)
-+				params_mask &= ~BIT(SNDRV_PCM_HW_PARAM_RATE);
-+		}
-+		if (params_mask & BIT(SNDRV_PCM_HW_PARAM_CHANNELS)) {
-+			val = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
-+			if (val != channels)
-+				params_mask &= ~BIT(SNDRV_PCM_HW_PARAM_CHANNELS);
-+		}
-+		if (params_mask & BIT(SNDRV_PCM_HW_PARAM_FORMAT)) {
-+			val = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+			if (val != valid_bits)
-+				params_mask &= ~BIT(SNDRV_PCM_HW_PARAM_FORMAT);
-+		}
-+	}
-+
-+	if (params_mask)
-+		return sof_ipc4_update_hw_params(sdev, params,
-+						 &pin_fmts[0].audio_fmt,
-+						 params_mask);
-+
-+	return 0;
-+}
-+
- static int
- sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
- 			    struct snd_pcm_hw_params *params, int dir)
-@@ -1609,10 +1658,9 @@ sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
- 	available_fmt = &ipc4_copier->available_fmt;
- 
- 	/*
--	 * If the copier on the DAI side supports only single bit depth then
--	 * this depth (format) should be used to look for the NHLT blob (if
--	 * needed) and in case of capture this should be used for the input
--	 * format lookup
-+	 * Fixup the params based on the format parameters of the DAI. If any
-+	 * of the RATE, CHANNELS, bit depth is static among the formats then
-+	 * narrow the params to only allow that specific parameter value.
- 	 */
- 	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
- 		pin_fmts = available_fmt->output_pin_fmts;
-@@ -1622,18 +1670,13 @@ sof_ipc4_prepare_dai_copier(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
- 		num_pin_fmts = available_fmt->num_input_formats;
- 	}
- 
-+	ret = sof_ipc4_adjust_params_to_dai_format(sdev, &dai_params, pin_fmts,
-+						   num_pin_fmts);
-+	if (ret)
-+		return ret;
-+
- 	single_bitdepth = sof_ipc4_copier_is_single_bitdepth(sdev, pin_fmts,
- 							     num_pin_fmts);
--
--	/* Update the dai_params with the only supported format */
--	if (single_bitdepth) {
--		ret = sof_ipc4_update_hw_params(sdev, &dai_params,
--						&pin_fmts[0].audio_fmt,
--						BIT(SNDRV_PCM_HW_PARAM_FORMAT));
--		if (ret)
--			return ret;
--	}
--
- 	ret = snd_sof_get_nhlt_endpoint_data(sdev, dai, single_bitdepth,
- 					     &dai_params,
- 					     ipc4_copier->dai_index,
--- 
-2.45.1
+> +	}
+> +
+> +	if (data.convert_channels)
+> +		i2s->client_channels =3D data.convert_channels;
+> +
+> +	if (data.convert_sample_format)
+> +		i2s->client_sample_format =3D simple_util_get_sample_fmt(&data);
+> +}
+> +
+>  static int tegra210_i2s_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+> @@ -887,6 +947,7 @@ static int tegra210_i2s_probe(struct platform_device =
+*pdev)
+>  	i2s->tx_mask =3D DEFAULT_I2S_SLOT_MASK;
+>  	i2s->rx_mask =3D DEFAULT_I2S_SLOT_MASK;
+>  	i2s->loopback =3D false;
+> +	i2s->client_sample_format =3D -EINVAL;
+> =20
+>  	dev_set_drvdata(dev, i2s);
+> =20
+> @@ -916,6 +977,8 @@ static int tegra210_i2s_probe(struct platform_device =
+*pdev)
+>  		return PTR_ERR(i2s->regmap);
+>  	}
+> =20
+> +	tegra210_parse_client_convert(dev);
+> +
+>  	regcache_cache_only(i2s->regmap, true);
+> =20
+>  	err =3D devm_snd_soc_register_component(dev, &tegra210_i2s_cmpnt,
+> diff --git a/sound/soc/tegra/tegra210_i2s.h b/sound/soc/tegra/tegra210_i2=
+s.h
+> index 030d70c45e18..fe478f3d8435 100644
+> --- a/sound/soc/tegra/tegra210_i2s.h
+> +++ b/sound/soc/tegra/tegra210_i2s.h
+> @@ -112,6 +112,8 @@ struct tegra210_i2s {
+>  	struct clk *clk_i2s;
+>  	struct clk *clk_sync_input;
+>  	struct regmap *regmap;
+> +	int client_sample_format;
 
+Given that snd_pcm_format_t is defined to be int, can you store that in
+here directly? That way you only need to cast when getting the sample
+format.
+
+Anyway, very small nitpicks, so either way:
+
+Reviewed-by: Thierry Reding <treding@nvidia.com>
+
+--c36ba65ae5685a90b9c402ee13e51faac5cd8adb9819317905f87ee770dc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYaQYACgkQ3SOs138+
+s6EaQQ/+OQJdi6IxMnw7oyVPO/wFKn2rjdft8JvcS5vN8NiB3mmBn1hSVSRzsZIo
+rh6hi3plMrExw7CUhOilBfynE/xqJ2cUm8Pa83pyOEXVpXuXEWha/dYnNS5xMleO
+qYxHkj+Qi7aTCu48OwhJ6usYpBs6DNYU/SFnQSdt3/rRng7DqgiJ0JTe+jKf2nz9
+rg7wD5UUGOnKSaG+Yga+xQNcfmtTxCXxnbzpUwLW01bmFPyPp8WgJCgsRs2AZP6v
+SgMnqrN9P+QfXLBNNpP1OMoKTgiy6ESqObW1T6hJkDOaRSu1xX4hjIsXyC4zUoeG
+ePgvbxYO0LTlf1E33SBJmD1JD0XtzHfd2pz2hmo+GbRHMMW5zCxyIqvIOjdULucS
+m1E4X2kdEq2KEpGZEq+Z71/bOcUOfixBce3w8+409fZhnZ46FzR3NHYQGs+StIoB
+e9gdippmKRjxoMt5ZkQdCwVRbbWbAb8J4sItjRG6fBWYGbxmmiosP+mGnxmNQkEF
+kvRp1Z6//7Ot+SKO1AcCyHIOAKZAZgc7xkuS+AiGCVHUZGttCL5sEnJfCxQN3Zo5
+QWioOTeda3jp14uFw75eoVai3cLN8Jd8phUIDE5LoWLigVIHKSOZPkoh0v28knXu
+RJEKkSgNEEo5U1yFFkstyWxqOqpL7eKIf+5DDFjBORQc3XwzRAE=
+=4R5E
+-----END PGP SIGNATURE-----
+
+--c36ba65ae5685a90b9c402ee13e51faac5cd8adb9819317905f87ee770dc--
