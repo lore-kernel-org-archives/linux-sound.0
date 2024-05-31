@@ -1,128 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36FE39FF3;
-	Fri, 31 May 2024 15:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F87F57CA7;
+	Fri, 31 May 2024 16:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717169467; cv=none; b=Pn0d8EET1JQSnLSdZy5EBFbHO9wLHTo9/TUuTBOaZ07ZNDZroRCk4bJgAZudQE60by94DNotHJodcyXb9Vup/qimyHC2ZlBtNA0Cmfbiy6VVx0jA5f6met/DVJD7j67bqr4CTKJ5Cd0JyZ51699JtY6KV4ejud6LOhGtapl6RhE=
+	t=1717171437; cv=none; b=b8m//3xzHZSSRdIIAUKSrAFDfxVrYAn6hq3tUr3nlsWZWvNW+dQVrGfz6Jn49mziCT0r4BF8B0jB+7ijy9gVrnxZ5z4FP9chZgXhJNb+4HBobdBWHZcWJTJWar8UOAdbgkkf/JAxm3a7EM1LDCA6+I7OENHdqELG1Jan7gId408=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717169467; c=relaxed/simple;
-	bh=sA6qI//FTL7pgyGldUMsd1jU+l556RY52OWXWgjHnto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gwDg8oJVX2FSrUb1/OiSRPSQtgjGDIHwxRUy8WAabaA5RY/Y7DKuIbvCzVIbeXU7SUGs/SsxLgy7UU+IQ7PF1Q6VBIgwYk3MG64DJvOO1b3Ad82zFQahoCcMBc0HMj7nkz7Sy2TEdp+v3n49/OKnoeTKeCq21B7seeOSVs0qhR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSF45pq1; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717171437; c=relaxed/simple;
+	bh=mmdoU1qVhQtqdD4ii+PbVIJT2Sg+supVPQjHAGQV3GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOOfgH7pr7hUNNIHEPITJtUSHPT8E7NFfqOEZ60fh+WTpshHqyNNOsp8EYE4h7s0pbbs4vV47NK86mwHDogy1DDoCryPU/6rt7ajhba2EpgIGoJRLVcg7kSiX1FFhsE/f3YADqamBNnblzFzyvgxbveb2DJZDo3MFFkPk4FNpX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlGQi4Y9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSF45pq1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717169466; x=1748705466;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sA6qI//FTL7pgyGldUMsd1jU+l556RY52OWXWgjHnto=;
-  b=eSF45pq1QjAZ3zPZDNQXqcHDSX9NpgUjnTq8VClVx0Wid/ml9emR9Dhr
-   I2MOa3as0O/Zn7ndrbUc5OeMlBTH5T0duXVLns4JhLpsYF1K9kdflc8qx
-   hBe4UdscvxNIG52K63EEaEJIRE/jUaCoGSajII6WiPVPurD+ETq+VANF9
-   8hDTBIvsaNAIR1Hu3s62Z3/p6Ig0r5afZYjthKuR4K4UDagHDzWhCwQ54
-   A02sFtzXWqm45EDls1u0wtAHYWrGdXlMywDxyKJDvfDPq8LCmy6BSMNbp
-   ubGLsPWrqpaW8wUFggNClQjMGJDzetP5Y1XFKrIZvVkP0PNGkZqPMk6sU
-   w==;
-X-CSE-ConnectionGUID: UfMCBpMKTMe41atVcb5+UA==
-X-CSE-MsgGUID: wC63gSXVTzeNItIReGjgdg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13839673"
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="13839673"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 08:30:57 -0700
-X-CSE-ConnectionGUID: hHqXtMjBQrmkR3of3UKpuQ==
-X-CSE-MsgGUID: 7H/Fjvj9SyuUz1KNLZXrwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="40627351"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa003.fm.intel.com with ESMTP; 31 May 2024 08:30:49 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 04665692; Fri, 31 May 2024 18:30:39 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Rob Herring <robh@kernel.org>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	Chancel Liu <chancel.liu@nxp.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: [PATCH v2 6/6] ASoC: samsung: Replace of_gpio.h by proper one
-Date: Fri, 31 May 2024 18:29:33 +0300
-Message-ID: <20240531153038.1590171-7-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20240531153038.1590171-1-andriy.shevchenko@linux.intel.com>
-References: <20240531153038.1590171-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlGQi4Y9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D25AC116B1;
+	Fri, 31 May 2024 16:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717171436;
+	bh=mmdoU1qVhQtqdD4ii+PbVIJT2Sg+supVPQjHAGQV3GA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mlGQi4Y9G9zIoL3xuOxdmczwOGbYFxnURjA2JDIEGA6KwUtu+c4TSRrl7n2fcPlLp
+	 hXE6qGif1xMPji2fWyRhxYNbo2dsFkuJNxJFeg8lHo7LPD0f7qP8uRYB33XbSOqakV
+	 XLJO5MnmcAz6Ae+yl8LhlbDCTcOnjiLY4OPT2QznavIl0qFJ0rHwSj2sfXj8RoaLjd
+	 DsrQnV2Ur84OdWdLC2gDUYxjODwm+bTjkSYt8YvVP0GkPvggik88tVFmjFEBSXUi0w
+	 vL+aE44eJYYZcmVaqwMcaLqD1q508KQ66vWc8+Pm0rsKL3/gnqIa4dlCFw0dB8Ls42
+	 fWvtXQ/wVNx5w==
+Date: Fri, 31 May 2024 17:03:52 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13
+ 9360
+Message-ID: <21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
+References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
+ <87cyp280yw.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jLxaXCXOci4dLgUt"
+Content-Disposition: inline
+In-Reply-To: <87cyp280yw.wl-tiwai@suse.de>
+X-Cookie: Serving suggestion.
 
-of_gpio.h is deprecated and subject to remove.
-The driver doesn't use it directly, replace it
-with what is really being used.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/samsung/aries_wm8994.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--jLxaXCXOci4dLgUt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/samsung/aries_wm8994.c b/sound/soc/samsung/aries_wm8994.c
-index a548ac33dd94..01716df0c842 100644
---- a/sound/soc/samsung/aries_wm8994.c
-+++ b/sound/soc/samsung/aries_wm8994.c
-@@ -1,11 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0+
- #include <linux/extcon.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/iio/consumer.h>
- #include <linux/input-event-codes.h>
- #include <linux/mfd/wm8994/registers.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regulator/consumer.h>
- #include <sound/jack.h>
- #include <sound/pcm_params.h>
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+On Fri, May 31, 2024 at 05:17:43PM +0200, Takashi Iwai wrote:
+> On Fri, 31 May 2024 07:50:33 +0200,
 
+> >     not ok 5 write_invalid.0.40
+> >     not ok 201 write_invalid.0.12
+> >     not ok 208 write_invalid.0.11
+> >     not ok 264 write_invalid.0.3
+> >     not ok 271 write_invalid.0.2
+> >     not ok 278 write_invalid.0.1
+> >     not ok 285 write_invalid.0.0
+
+> Through a quick look, those are no real "failures".  It'd be more
+> preferable if the driver returns an error for invalid values, but
+> currently it's up to drivers how to deal with them, and some accept as
+> is but with correction of the values internally.  They are shown as
+> "skips" in the summary above you showed, after all.
+
+I would say these are all bugs, they show the driver not correcting the
+value and allowing users to read back out of range values that were
+written.  Even if the driver is accepting out of range values I'd expect
+it to transform them somehow when storing, the program will accept a
+mismatched read when testing this case but it will complain if the read
+value is not valid according to the control's info.
+
+--jLxaXCXOci4dLgUt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZZ9OcACgkQJNaLcl1U
+h9BPOwf8CK99y4J2OESAMIAnKoTjj7aT9gisEHT9YPaqLHRfamBxvQAAA82KM1im
+i7Db99K5p6+dVe06uCjER7QwX5nte6GWBptskKcEc5zCmSILDbxdaLLzMu+qKqj8
+qKtx2ibYH4QH93vlPadQAtclILxrL/LiMs/+5ywMnwNqYqIjAfhC3BS+uh6snj7z
+txV45Mso7Y5XdiSYiDywDvM6m9Ynj3dYX35w7NWBQ+9u3f7WhEZCgGoGItmrfKhN
+rB8T1JvfSWgHJ3j1ShyCDmlUQvHhsb+2MNI4BJHr6U9POYaeKy7t4iXt17+NvOF1
+xhacPn9zAzkqQUz7J1wY6raO+OgzNw==
+=vfA/
+-----END PGP SIGNATURE-----
+
+--jLxaXCXOci4dLgUt--
