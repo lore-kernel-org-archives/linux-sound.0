@@ -1,136 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C089224E8;
-	Fri, 31 May 2024 08:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670BA15099E;
+	Fri, 31 May 2024 10:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717145914; cv=none; b=uUzSnyK9JxKz6cK6uIbeAfl9EB3w3ZcYONMz4GBSeQ9yp5ZfqFKkYQ8iEpE0oyrUp7ebX7ZtX9NabmefHN27zaAmBuyYl9cUkD8LUJ375nJ/aLpSmNhSI6VuF0YKy0qfVVqdvk2lka4/9+hAq3ri9Axe2gcj0LBv5dFy62Fg9AI=
+	t=1717152571; cv=none; b=CyL4aSxfbXOeALJS6TUMoFYu0OEcTFcA0pGopBueAw3i1s/5MuO7BU/kR16lvQn/uEPO8neps4QrkkEZXodlxPNhXzwgTYbOx5u6mX2FmQucGaWTZcrGLuEXPnmLSiVNw1gX8wRvbIBCs/wPiQro9uTrb3i3kY21CsxpOZO1cGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717145914; c=relaxed/simple;
-	bh=e6NBTqHgSmIb0zVlvTQjhTndBEZojNhEaQQzpcViO5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YYryVgbagKGI+PE3HG9BPFwanKLAKR4jvCTTAHzgjx9+HuszfTVz5LGx37si4aitFDJ2Dx2d9QxPVjmwhcH8WO+WvMajqi/UoqJ19s0tmvy/zvqUyxogIM1fxnTZXbJ65OBDz8miGCWMRsZkoBQAlKVspe4Fjsaecayt/qHeLkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIDRtLGm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717152571; c=relaxed/simple;
+	bh=pblZuT61VCx5vsKlZZtH1uamW5g6Zzz2eXnPbUTy4hg=;
+	h=Date:From:To:Cc:Message-ID:Subject:Mime-Version:Content-Type; b=bCbhJFTHEAGioxGZzM0Y8O4ETXVAad/7krbhFx9XnXj3T0taTdxRptu60YbAEwg/3SDZJxHjGCyOYz6UQxHBmymCw31qvBpQ4ctyn/3tOkeTgT7I0cu4AjMYV0fm9MTEb6GVFtAWhbOikHipn1444ekrL5LEUzSnukIRm2bIEPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBX0sVX4; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIDRtLGm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E139C116B1;
-	Fri, 31 May 2024 08:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717145913;
-	bh=e6NBTqHgSmIb0zVlvTQjhTndBEZojNhEaQQzpcViO5Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZIDRtLGmyywyrafWrsDWFkhQvMHZnlC82TLOzdpe46dYG4wS9T+RmVq7Etov0D4YM
-	 u4cz7EWyE+uGTd51uAQS1qxSa+RG+UXYB5pn9okK2eHMNYKOYJoBNmbP8l+S2K9gwy
-	 tCzJpBZKItpZImDMoOey7JaClP//JRYxOh49vm2NJlSyymda/xiNT9HIQhZFBCfpZt
-	 lS9P4F8GyV2OaWPvL9kHMfhIg9ByvbvU4Zi7ditRMV/BOl5HOQNt+hilm2UGwfzzY6
-	 +mRpmlTcwqIFSDruhSI9idLQOTN5DvekE3BtVTYubiiOz8l1elNatoI1C+g7Jw68Tb
-	 4hDLFbTzFdb3A==
-Message-ID: <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org>
-Date: Fri, 31 May 2024 10:58:29 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBX0sVX4"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52b0d25b54eso2780144e87.3;
+        Fri, 31 May 2024 03:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717152569; x=1717757369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:message-id:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tRfMYuc2oZrIFwHAbgozaR/RAHSemeaE5sWTQ1UXSXk=;
+        b=SBX0sVX4xA2gJBZcUOjUHkIxSEYj/AZ3aLjzDZJXLuilEtf+8ZawrPdWIki40z21vQ
+         WeNphP7CCqv14I1uqxEqgrIDBs85Vjp5WpOyZ92Fidg8IA34zgktXuWc3UT+bAAB7myP
+         mrx+mz6C1EjDBgIhbYbgJ+fRStBAiggrUoGmYdqgJJWY7ySidO3/kpU6LYcN0I38H7pt
+         TIwknOTdSSW1MlYWAkHAqv0l5Nlr8DrKBVsCi1gLwBXhy7PUU6lehQeNuT5Vkdfk1za8
+         +AJGQ6A3tbeHIW7HVlgr7sKilzPgqbjPcC+8xH3CSupnw4HRfNse1OBP9UaeEj7N/I0o
+         T5iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717152569; x=1717757369;
+        h=content-transfer-encoding:mime-version:subject:message-id:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tRfMYuc2oZrIFwHAbgozaR/RAHSemeaE5sWTQ1UXSXk=;
+        b=CFnur3ca/skwlEng68OSyN5tmIBwgf+dfJNZQT37Bckldc5DWBCvarbPflfqOjPE0j
+         iuY+2hDWnOlGfrjBbXmb0pxUMhi92n4FBFRNpOUajXZH95JNIGBuOzbUG2G5vytSk5rX
+         rDZ4IWPzMayrSSVWb2GPgK1jF3WJiInS+cxumW5c1pKRv/QA6b2vKHtVeK6LKsoT2wGy
+         PYgj+n4Yu5UJ461h3L8xOgOMhEPpc+Pzi5UecKHaq/nFX52Vqfe3DHZ11RHdAgwiBHU8
+         OuQu3K+56YemYv5tE6QdVGAaXEGlMAVr41W0qCGrfVzntohiVumQRxcFw4wKFrs1GydD
+         dtmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrUlCmWuohPR0tSPwv62VEaflH1/p737krTTwec7fkfadw5ByVVyDHiofilA82PQCr6J5+NPMiwFS08zm/rfb6be80ap1CNZYY290o
+X-Gm-Message-State: AOJu0YzzsICka88/guvWbS81rZ0B9crY8vPJAJRsuSvBlmf/7HCosZHy
+	bdsgOlMH9JR4W9Hsn6Qdh9YEHZCVhTIdo2mL7APTm8oaZSo7K5U/
+X-Google-Smtp-Source: AGHT+IH93ydQNYGhnusbE4nE+VVAoM3R8/l5TcLUYmIfPgPd/wizUfk0JMXCv81VEGeZWU1NyPKOdQ==
+X-Received: by 2002:ac2:48aa:0:b0:523:af1f:89d9 with SMTP id 2adb3069b0e04-52b896afe18mr1248601e87.58.1717152567964;
+        Fri, 31 May 2024 03:49:27 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a67e2f5494dsm74207766b.0.2024.05.31.03.49.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 May 2024 03:49:27 -0700 (PDT)
+Date: Fri, 31 May 2024 12:49:25 +0200
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Message-ID: <6659ab35e4545_ad3bd3707a@njaxe.notmuch>
+Subject: ASoC: sunxi: sun4i-i2s: swapped channels from second capture
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Mighty <bavishimithil@gmail.com>
-Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240530111205.1764-1-bavishimithil@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240530111205.1764-1-bavishimithil@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 30/05/2024 13:12, Mighty wrote:
-> From: Mithil Bavishi <bavishimithil@gmail.com>
-> 
-> Convert the OMAP4+ McPDM bindings to DT schema.
-> 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+Hello everyone,
+I am experiencing an issue with the Pine64 A64 i2s controller, which is
+compatible with sun8i-h3-i2s. The Pine64 board is paired with an external codec
+(ES8311), which can capture from a mono MIC. MIC data can be sent to both
+channels or to only one selected channel. During the first capture everything
+works fine, but since the second capture the channels are swapped: e.g. if MIC
+data should be recorded on the left channel, it is recorded on the right
+channel.
 
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,omap4-mcpdm
-> +
-> +  reg:
-> +    items:
-> +      - description: MPU access base address
-> +      - description: L3 interconnect address
-> +
-> +  reg-names:
-> +    items:
-> +      - const: mpu
-> +      - const: dma
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    maxItems: 2
-> +
-> +  dma-names:
-> +    items:
-> +      - const: up_link
-> +      - const: dn_link
+It seems it has nothing to do with the LRCLK which looks correct under the
+logic state analyzer, also consider that playback does not show this issue.
 
-Please mention in the commit msg all changes (and explain why!) done
-during conversion (comparing to original binding). I am pretty sure I
-gave this feedback already.
+It looks like the issue is due the RX FIFO: even after flushing the RX FIFO,
+the first read sample is the last sample from previous capture. This likely
+causes the channel swapping: the first read sample from the RX FIFO is
+attributed to the left channel but it's an old sample, then the second read
+sample from the RX FIFO which is the actual first sample from left channel gets
+attributed to the right channel, and so on.
 
+By adding an additional sample read operation after the RX FIFO flush the
+channels get no longer swapped:
+---
+diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+index 5f8d979585b6..a720daff3be9 100644
+--- a/sound/soc/sunxi/sun4i-i2s.c
++++ b/sound/soc/sunxi/sun4i-i2s.c
+@@ -961,10 +961,15 @@ static void sun4i_i2s_start_capture(struct sun4i_i2s *i2s)
+        /* Flush RX FIFO */
+        regmap_update_bits(i2s->regmap, SUN4I_I2S_FIFO_CTRL_REG,
+                           SUN4I_I2S_FIFO_CTRL_FLUSH_RX,
+                           SUN4I_I2S_FIFO_CTRL_FLUSH_RX);
+
++       /* XXX: Additional dummy read otherwise first read is the last from
++        * previous capture, despite flush of the RX FIFO */
++       unsigned int sample;
++       regmap_read(i2s->regmap, SUN4I_I2S_FIFO_RX_REG, &sample);
++
+        /* Clear RX counter */
+        regmap_write(i2s->regmap, SUN4I_I2S_RX_CNT_REG, 0);
+
+        /* Enable RX Block */
+        regmap_update_bits(i2s->regmap, SUN4I_I2S_CTRL_REG,
+---
+
+I haven't found any reason for this in the User Manual and by debugging the
+registers they look as expected, but maybe I am missing something.
+Can this issue be reproduced by anyone else?
+
+Running on linux asoc/for-next branch, commit:
+47d09270d777 ("Merge remote-tracking branch 'asoc/for-6.9' into asoc-linus")
 
 Best regards,
-Krzysztof
-
+Matteo Martelli
