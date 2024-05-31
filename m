@@ -1,115 +1,141 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E104200DE
-	for <linux-sound@vger.kernel.org>; Fri, 31 May 2024 06:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1045C7441F
+	for <linux-sound@vger.kernel.org>; Fri, 31 May 2024 07:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717137989; cv=none; b=R8QfQtFIhZPSXfZm7R9SHb7HYa3dWPQhKqMAbpDtXFDElOJOCNpCz8Iq3ImyQIn3SnfGGpoCii1fQ2HI3UCBJ50Me+RaAGpjkvWtdtjXHktPUuzEJNJXb5Z2pBjFSFGqLk49icbvlot/cgKs0omDorCQiqLv0SjYD4ojMAokV7o=
+	t=1717141854; cv=none; b=c0oe7r8XWRBWEg+hNKOJUwha9uLSIr/OBJzB770ReLpz+p0Ew5guN+F/f2xb1D7BzLIHp0RrWIZiqiGWYFICUsGvNWzWJyoA0oBfH3o0Pk2iOprhZQkgAKlLlQLJWbMyJiwodF1CEpX2f8DJiF2yu1/lhM9fnL1q6q9HeJjYZKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717137989; c=relaxed/simple;
-	bh=0Re9j0u00pdevZ2KlKx4RRRmTiC+zHWbqBp/+GYrG6k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IzRNNljdvMUMFa1bBgx7DEsv03Do+qZB9wwUStqDleptliu4dnxS+yFI23tqMqypIdaEDQgGiiuYplBIvjTL1+5zoqCWMcN7USR+/O+0qLomDZt/1fz8zJ81+YeWYp3DbUsDbikiKsDVR2hfMgIGg9e6mXDrV22DV9axaI7+zcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sPlJ9kcd; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1717141854; c=relaxed/simple;
+	bh=xK/hkqJZXqj5CLHlCyE34K+f02JFmWFkhgFwHAWaH6k=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=UZ20FgpUwM7lt33aF5ZeAAVM00rqV+6nq7uDsS+f/IAziyOLLTfMbtRYEDXBvWUOKF2tOZOnOF+I6YVtx7X6aUC5NHxuFSbwAqBL36inRgk2+aCh6BqOyV/hxnzi62BBRzdDK5ZoLms0rbO8zErcQr8YsQxhMddxlZzddKHFhkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pwkiDBfI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGO68tDq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pwkiDBfI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGO68tDq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sPlJ9kcd"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42101a2ac2cso7480135e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 30 May 2024 23:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717137986; x=1717742786; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uUSOp8UvNapxCeX003T5UKHkufeJYkJ0l1crerbsGyM=;
-        b=sPlJ9kcdHjdSGTgG+KnxBb7Bzxk82WV9Yy1Su+GY306/qoh8FzZgGts1HNobQJy+xZ
-         0C6SsyC6FC7l0sW9S0wNKqD/AqzJREO3i2rr04LoUDHV9BRQSS3S+a+iMIjiOo1cJ4Wy
-         rwrVm+nmgeg00bccyULfzP/458TEfbMAT/iji6KvJWXeaqymt91Uuq/mMj6FW75RPbVv
-         f+BBnBaY+XEFCCvcgnmkcYIIusVlvZO70tkcqmocflG5nr5IN7YkOMHfkGywLs173Bky
-         G1Sd2fMBTW7IsSTtV9nCrFWdhwrz7zy5TTltXkxmiNEmnHsKmCovVBGNh/cgs/B3CRK+
-         Bmww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717137986; x=1717742786;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uUSOp8UvNapxCeX003T5UKHkufeJYkJ0l1crerbsGyM=;
-        b=q0maKwoBaHY/8PHqY0NMtyQhHBspj8lxKSVDOxOH2fNY4J8wSdG8pywDtALkq3Sbvm
-         LktXbw6O9+/2vBk2AgT10jcf7ciWJyC+MWjuI+PNjN5QfFT4UP0MTFeZO1Xeh6pH1Z+d
-         /+HY0wHVyQYxknDkYhT5EWH8Nhz6lX45J8VHOO5feDiXHrFEX+qpvJK2pir6RauccCSb
-         oK9NfW3n6mE5hqlpuUIV1CnYkTVR8N4NoY5nz7TbT7lvu83IpHb8nE/8FGwC6mUvOXeo
-         hC9IbZ6eVnceovekz2ro7urxZ3bOEpEcAUFOM/Ij4wKdLydr1QDMRmJHcWwG5Ip31R8W
-         r0xA==
-X-Forwarded-Encrypted: i=1; AJvYcCWzNuYqPn6sLqMT79xasTJAYoVn5ni/6Dtqm4DT2rZK1VRZ1HhPJAK1R1TPhblDXzrMB5ilIZLoBssQ5vQZbpbwH7f1CRL5yD41NB4=
-X-Gm-Message-State: AOJu0Ywq2qrpjdSE+k4qcVDi9XMMI3J6Zl+3zGid/3Me4ecjaadRVxsu
-	3AgS08haSuXUrg+sgv6mmD8EkjBWCerMEXjdb9y1ZZFyNWbPnlPg8EAbbCtYsTE=
-X-Google-Smtp-Source: AGHT+IHQ+qTokXrRqmkS/nR6JkLNEDogtK9W4N+4B+JhENUzvVWkWuxBKMJtkvaf7Hrz2xIF3TDMfw==
-X-Received: by 2002:a05:600c:3c98:b0:41f:3ee0:a302 with SMTP id 5b1f17b1804b1-4212e0ae746mr8522225e9.30.1717137985717;
-        Thu, 30 May 2024 23:46:25 -0700 (PDT)
-Received: from [192.168.86.191] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4212b84aceasm15051355e9.15.2024.05.30.23.46.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 23:46:25 -0700 (PDT)
-Message-ID: <cf25c61c-6e2a-4f07-be5f-f9b5bfa35307@linaro.org>
-Date: Fri, 31 May 2024 07:46:23 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pwkiDBfI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGO68tDq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pwkiDBfI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGO68tDq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 610B721AB0;
+	Fri, 31 May 2024 07:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717141850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
+	b=pwkiDBfIU/ENDuGyqf9isoAyDrbC85j+aOGODynp4ZAUr7JBAdi8PTDHzamzxgIfl2aydV
+	R2gr1QJOaINMgvYJvfey/le7E3495atMWFqAeXB+QrlgpNqIaajwjksmO+1y5nAfvOOL2o
+	VYGmspLqb71rGNYACvFPLMew9dSSM7Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717141850;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
+	b=mGO68tDqi0yHxc3ovyoMl9WjdNZLT7+A6fJXbBCIvc7OAvqFTUb7x1Vxl02ykCggSL08TA
+	+go4cISjCHOM9mDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1717141850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
+	b=pwkiDBfIU/ENDuGyqf9isoAyDrbC85j+aOGODynp4ZAUr7JBAdi8PTDHzamzxgIfl2aydV
+	R2gr1QJOaINMgvYJvfey/le7E3495atMWFqAeXB+QrlgpNqIaajwjksmO+1y5nAfvOOL2o
+	VYGmspLqb71rGNYACvFPLMew9dSSM7Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1717141850;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
+	b=mGO68tDqi0yHxc3ovyoMl9WjdNZLT7+A6fJXbBCIvc7OAvqFTUb7x1Vxl02ykCggSL08TA
+	+go4cISjCHOM9mDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43B16132C2;
+	Fri, 31 May 2024 07:50:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CWAzD1qBWWbjewAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 31 May 2024 07:50:50 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: seq: ump: Fix swapped song position pointer data
+Date: Fri, 31 May 2024 09:51:07 +0200
+Message-ID: <20240531075110.3250-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: copy linux-arm-msm for sound/qcom changes
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240531-asoc-qcom-cc-lamsm-v1-1-f026ad618496@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20240531-asoc-qcom-cc-lamsm-v1-1-f026ad618496@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.77
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.77 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.17)[-0.850];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 
+At converting between the legacy event and UMP, the parameters for
+MIDI Song Position Pointer are incorrectly stored.  It should have
+been LSB -> MSB order while it stored in MSB -> LSB order.
+This patch corrects the ordering.
 
+Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/seq/seq_ump_convert.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 30/05/2024 23:30, Dmitry Baryshkov wrote:
-> Not having linux-arm-msm@ in cc for audio-related changes for Qualcomm
-> platforms means that interested parties can easily miss the patches. Add
-> corresponding L: entry so that linux-arm-msm ML gets CC'ed for audio
-> patches too.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
+index f0f332017e66..171fb75267af 100644
+--- a/sound/core/seq/seq_ump_convert.c
++++ b/sound/core/seq/seq_ump_convert.c
+@@ -157,7 +157,7 @@ static void ump_system_to_one_param_ev(const union snd_ump_midi1_msg *val,
+ static void ump_system_to_songpos_ev(const union snd_ump_midi1_msg *val,
+ 				     struct snd_seq_event *ev)
+ {
+-	ev->data.control.value = (val->system.parm1 << 7) | val->system.parm2;
++	ev->data.control.value = (val->system.parm2 << 7) | val->system.parm1;
+ }
+ 
+ /* Encoders for 0xf0 - 0xff */
+@@ -754,8 +754,8 @@ static int system_2p_ev_to_ump_midi1(const struct snd_seq_event *event,
+ {
+ 	data->system.type = UMP_MSG_TYPE_SYSTEM; // override
+ 	data->system.status = status;
+-	data->system.parm1 = (event->data.control.value >> 7) & 0x7f;
+-	data->system.parm2 = event->data.control.value & 0x7f;
++	data->system.parm1 = event->data.control.value & 0x7f;
++	data->system.parm2 = (event->data.control.value >> 7) & 0x7f;
+ 	return 1;
+ }
+ 
+-- 
+2.43.0
 
-thanks Dmitry..
-
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
-
---srini
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 523d84b2d613..b9bdd1f08005 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18227,6 +18227,7 @@ QCOM AUDIO (ASoC) DRIVERS
->   M:	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->   M:	Banajit Goswami <bgoswami@quicinc.com>
->   L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
-> +L:	linux-arm-msm@vger.kernel.org
->   S:	Supported
->   F:	Documentation/devicetree/bindings/soc/qcom/qcom,apr*
->   F:	Documentation/devicetree/bindings/sound/qcom,*
-> 
-> ---
-> base-commit: 9d99040b1bc8dbf385a8aa535e9efcdf94466e19
-> change-id: 20240531-asoc-qcom-cc-lamsm-be80e19f8cd8
-> 
-> Best regards,
