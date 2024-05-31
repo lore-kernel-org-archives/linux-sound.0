@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E62232C8C;
-	Fri, 31 May 2024 16:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFEA176181;
+	Fri, 31 May 2024 16:55:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717171597; cv=none; b=s0l7n/q935QjI9Pu5Fv03+247kMsIaQD14f+gKMB16opIFZFkhIw3XESNJDDWHCR54RXbMB5Kq28yjyqTudRLWSCDwJAB97JDZUYno8PvoP0c0ynr/Yd41GRkID54mmDYaI3m2cj0lWh1TgNtNHJGeFnfieyDeTywfaqgMDFB/o=
+	t=1717174534; cv=none; b=QHwMoUJzTTcE995XL40a9wGQvAs1C7rYO0rjEVoHGmMP75PXRs6IMZT7JEDX9JyCrfsmhEVMqbBDlJx8M4nRRGMJ9u4GtHZkn+YUpnm8c17AVUiUwuAJ0tGUXsTiK8MRE7IENElypB6BqwYoRFh7Nxxfl2yG2RAF6d/HErJzMmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717171597; c=relaxed/simple;
-	bh=xEdqlVv+yc6xxPC8F436pV7MA4qGjyS+19cc5fL/qdE=;
+	s=arc-20240116; t=1717174534; c=relaxed/simple;
+	bh=RH77djBrTwFxe/ywwViYLxao4C1lTcLNgr3/+jlMw7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dP40/Gp94eTPs433eKhW9aPDIQybEPTj1en8F4PrXoRNda2yvOkGbGtq07K0RejYS0Y4DrETw/xora7HnzXxC3NjvgSZyRASBo6txzn9poKn2/DOFR9l+oAsIwRLU/y+L3+QnCYrgPnoVztkn9ecqlGyG2M0ZYhvj1IXvLEmHPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oNn7ecS+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jpCMKXUnKUwR1v8bNALmyNg/5n+MsFylwQrU1Rd/zb+WpH6eF0wOI/q29Xw/6mYH76FTl4gzLvupL8MuM+TncWHfHa8zlJTyjIGwACgYpL8ZaYerDMwotznTf6Nl/+LwNDksAscPNdkwSUaWoqLwhRWVzwD2w7fe+uYfUQG5pRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwJWdVwE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oNn7ecS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60699C116B1;
-	Fri, 31 May 2024 16:06:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwJWdVwE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B972C32786;
+	Fri, 31 May 2024 16:55:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717171596;
-	bh=xEdqlVv+yc6xxPC8F436pV7MA4qGjyS+19cc5fL/qdE=;
+	s=k20201202; t=1717174533;
+	bh=RH77djBrTwFxe/ywwViYLxao4C1lTcLNgr3/+jlMw7E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oNn7ecS+B1fnRsmy8+fl1HimszXdSyd42J3hvvDH6VHJHwaci4o+Ez3/vR/y4flHT
-	 8aUVVrsXUEvmDdPEU3VsuOQAI6pib0urxj+kBakXS48rdyvD121L3v4+MlurlMs8q/
-	 wkWU6mJcQCzyHSjOteiZcxQrXIAZU/nkb4DxRUGwSq0hBuUUZH37mkrkgT7NKDkGT9
-	 AfgSO6wzjvces+aADq3LHoZdBoVTd/yqSQI2pvLq2lHLyb2BuiFxO2Gvq/I10XY++m
-	 JzSw1s/zlo+7ZCXH99HZfZkwnpPe7283pyOHoxgiKzxImKdYesyl0n9HteStQ6EIyV
-	 xjGVLgjyF8uXw==
-Date: Fri, 31 May 2024 17:06:30 +0100
+	b=TwJWdVwEKQxLLuT2zhjCTU4ofNhZhMJQVWLYsNllbzmiMq4g+3q/az/Usq4y43LMF
+	 hOqKdVWc9tUeRo8JlaOG3viw8wq3006D8Rxih/RtMd6tIkX+7jcI9m3QUyEupqHLb7
+	 9/fXTCFvzSKzAnFIyyoQAJl7Sc79Wz2apuktg47kb417rVbeqJUxup0/AHvwrj5R0k
+	 JdicKCg+5jWkfBM+/gO/px8hBHvP4bnvaDIlNnSzVr32iJbIuPwq+Htln1qwJS55Uf
+	 rQuxZg0TrapwSzjUPs22HW6dEGALSrMySthcq4Y8XGU5ySw0hTiTJdviQTZcsl5hif
+	 EoZ1rzO7n4e0w==
+Date: Fri, 31 May 2024 17:55:27 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -41,17 +41,17 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	linux-kernel <linux-kernel@vger.kernel.org>,
 	alsa-devel <alsa-devel@alsa-project.org>,
 	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCHv4 9/9] ASoC: dt-bindings: fsl-asoc-card: add compatible
- for generic codec
-Message-ID: <47a7a618-31d5-4dfc-9b6b-9426c6409e80@sirena.org.uk>
+Subject: Re: [PATCHv4 7/9] ASoC: fsl-asoc-card: add DT clock "cpu_sysclk"
+ with generic codec
+Message-ID: <5d98d8b0-dd48-48dc-9552-b2906e31ce05@sirena.org.uk>
 References: <20240515135411.343333-1-elinor.montmasson@savoirfairelinux.com>
- <20240515135411.343333-10-elinor.montmasson@savoirfairelinux.com>
- <ce9a87c6-4a5c-4f0a-a8df-1fdce8c1f5df@sirena.org.uk>
- <599489232.349333.1715936741672.JavaMail.zimbra@savoirfairelinux.com>
- <500db9de-6113-4e73-ba92-6e52ea292b32@sirena.org.uk>
- <1598202415.701258.1717159684103.JavaMail.zimbra@savoirfairelinux.com>
- <291daed8-a2e1-44d4-9a71-5bca2c585720@sirena.org.uk>
- <1220272166.706254.1717166894551.JavaMail.zimbra@savoirfairelinux.com>
+ <20240515135411.343333-8-elinor.montmasson@savoirfairelinux.com>
+ <ffb3624f-2170-4642-aaa5-fb6736a75d59@sirena.org.uk>
+ <822567441.349330.1715936735603.JavaMail.zimbra@savoirfairelinux.com>
+ <da74d276-b028-448b-bb28-295de49dbcda@sirena.org.uk>
+ <1660761484.701255.1717159615755.JavaMail.zimbra@savoirfairelinux.com>
+ <826f6c22-d1f1-42ce-a8d1-2d5cb894a970@sirena.org.uk>
+ <1200863744.706237.1717166892907.JavaMail.zimbra@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,41 +59,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yZnX6EMpaBNVB9zA"
+	protocol="application/pgp-signature"; boundary="O3x7E8WE+Xf+WtR6"
 Content-Disposition: inline
-In-Reply-To: <1220272166.706254.1717166894551.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <1200863744.706237.1717166892907.JavaMail.zimbra@savoirfairelinux.com>
 X-Cookie: Serving suggestion.
 
 
---yZnX6EMpaBNVB9zA
+--O3x7E8WE+Xf+WtR6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, May 31, 2024 at 10:48:14AM -0400, Elinor Montmasson wrote:
+On Fri, May 31, 2024 at 10:48:12AM -0400, Elinor Montmasson wrote:
 > From: "Mark Brown" <broonie@kernel.org>
 
-> > Why not just use the existing compatible - why would someone not want to
-> > be able to use the ASRC if it's available in their system?
+> > So you're trying to use this as the audio clock?  There's no code that
+> > enables the clock which seems worrying, and I'd expect that if the
+> > device is using it's own clock the device would be querying it directly
+> > via the clock API rather than this.  This all seems really confused.
 
-> That's true but it will be a problem if both `fsl-asoc-card.c` and
-> `imx-spdif.c` drivers have the same compatible, and they don't
-> have the same DT properties.
+> It's not specifically the audio clock, I am merely using this
+> in the machine driver to let the user the possibility
+> to configure the CPU DAI sysclock frequency.
+> The CPU DAI and codec drivers already manage their
+> own clocks.
 
-So merge the two then?
+I would expect that if the clocks used by the devices are configured via
+the clock API then the drivers for those devices will configure
+themselves via the clock API.  I still don't understand what this change
+is intended to accomplish.
 
---yZnX6EMpaBNVB9zA
+--O3x7E8WE+Xf+WtR6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZZ9YUACgkQJNaLcl1U
-h9Ah0wf9F6py9uWrUIg1Rnm8ihwTDC9bWMpewQrTH27b7Ps5H2TxzLO6KV2GCTHH
-bAcv+oyDym09iXKcPq3vvTrenJ0iPIaZWSOOwYS38JtGL5dAMnv07C3R6iWJJd98
-z94n+vvDb3EL3UBU2+atXg0gUN5e4ekRdLRf7MmkjlGRszzVTuUafLdHUue4uPRw
-gKDNcu2v2gC2e3OaZnA5jQh5ypP74fLrnWxyktzZg8acu482DkDBA7h13lSFCF7H
-sZb+MsvHM7euPdKQ9nwfFk7bVErS0yb3PEPvNrd0ZJNvEE2aClUiFgNlKfNUY1hu
-PvxfhbZEbZGiNyV8WXYwqtqGyzHB9w==
-=o/G2
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZaAP4ACgkQJNaLcl1U
+h9C7Dwf/VLPq1S4H7OOi5cno1DA8yYITCEnfB9hv+QK0u+IGgQEVBH3ZIHElkzjs
+Vqj1WunQBboYBEZjSS67nJ4jCvB6G9AWz8D+yWfWP+YDOs08fCFLNG4pTtc+ooME
+lkLEVgJedtSHdOscDTWWlntBQJEXcWtEKccBh4BOPdqlb2zV/fJywO/shUPPksfA
+ZW7bi8SFI5chXBl+xgKcYaBXfI306bBmQK3ImFZk5o/6j2izLhL703EZXBRFi0yX
+2wjSn+Kxq9sMVe7igXvkQ53pQjVLz+tKaqS0YIEKGVs+nKMs/aihz0ie3wk3yexM
+dDL8RGtQmKuDLwU9/pZho2FiLBkLfg==
+=xMcC
 -----END PGP SIGNATURE-----
 
---yZnX6EMpaBNVB9zA--
+--O3x7E8WE+Xf+WtR6--
