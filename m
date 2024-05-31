@@ -1,171 +1,63 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8C92E63B;
-	Fri, 31 May 2024 18:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9452B9C2;
+	Fri, 31 May 2024 19:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717178757; cv=none; b=TGSMIYtJHlqMxwe3pts+joSo+UtW+UXTiXbgUwR3a7vWOvEQi7tFoMWZP8dedn6eEDCBmQmAn89iutf7PDbQWPgCKQS3ha293hG/E9Q9vekhSnA0oMaf23yv4hz+0R3lpzAj8ufAQTiFko5VyczI3cwp0sLzzytJakkW32q3HZA=
+	t=1717183208; cv=none; b=DkKWIU6ukv+Urv+XH7HQdg8fD4R7b4A80hUu042NKK798UaKRoqScslhWuJu7y+jQkOfF3qRjHBswvvXFjLuhuNMLRKebrQ2obBbMrUlm4xeiX/ocROMC2CygfhpoNdoTXfNQcxeE8z7kWDuAItNr+JsYUTuVUEpQLTLDmbBNVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717178757; c=relaxed/simple;
-	bh=Jnh7QyNKun8BwM4RB9OQGdu5Wf0BrMYpllXHlrDsZWQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z1BF/doLSg/WzCff1j1ryKijQ+xSNDsCDWa/a8aZemkj8qVjrJQW7QIJwAObFf4H6nqXi9BfBDIUbVXsYvRARJPbcyEqlRp8zCMMRrTHxxPrqVGWL9XZOa/z4g4AJNX/2/Aulk7VLlu/Khx3Fae31QQxBaSIJHLVrFYGOQxbJ0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0b0H4uHV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zWw66wax; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0b0H4uHV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zWw66wax; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1717183208; c=relaxed/simple;
+	bh=rBr/FVNGqwJ2ScCPtU/jpwG67hE9JLr3aLNyHkFCW/Y=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=txiAJVQWJa/3jKbvD0H5kzhbDr0f0NLeqlzGg8ghrz7J8ZDVU7UHdJmfkauiA3qZ9+ODgx/Lva5hicKYSW9vYNkF1OUl3JI8X2UKivwrXA7xHwYg07XsUw43PemY3AwKZXVQTUKA+fp8c4apeKwvj6CjGJzX6xN8ZOgncPcgAjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgZs8/rt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0b0H4uHV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zWw66wax";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0b0H4uHV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zWw66wax"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6535721CDF;
-	Fri, 31 May 2024 18:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717178752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rdPRT5mE0rdQjCqwKaiwjzTSyrTE2NNeScJ+vvQaCOA=;
-	b=0b0H4uHVlmn4PYaYPZ2RiJcGTLn0RThbzuWEnvlyiYM0RALGOFfxWm6m/kWMar0OrwsEgm
-	knB4hmP8xlzt6OfHsTj9JITggfgoFD/sqK/U9ROxUtyg/iO0+IEF59vF1GgCorl7wTfAbC
-	wihc2e2HbrukqIVvJsE26TzdBaou8sw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717178752;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rdPRT5mE0rdQjCqwKaiwjzTSyrTE2NNeScJ+vvQaCOA=;
-	b=zWw66waxNWCeJZGDYERyNFm4OpdmMPOhfUgvP2orQF5Af9CP9smNMVsDbI7yenSZl/+137
-	qVDvUlt8Wgrw+nBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0b0H4uHV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zWw66wax
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717178752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rdPRT5mE0rdQjCqwKaiwjzTSyrTE2NNeScJ+vvQaCOA=;
-	b=0b0H4uHVlmn4PYaYPZ2RiJcGTLn0RThbzuWEnvlyiYM0RALGOFfxWm6m/kWMar0OrwsEgm
-	knB4hmP8xlzt6OfHsTj9JITggfgoFD/sqK/U9ROxUtyg/iO0+IEF59vF1GgCorl7wTfAbC
-	wihc2e2HbrukqIVvJsE26TzdBaou8sw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717178752;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rdPRT5mE0rdQjCqwKaiwjzTSyrTE2NNeScJ+vvQaCOA=;
-	b=zWw66waxNWCeJZGDYERyNFm4OpdmMPOhfUgvP2orQF5Af9CP9smNMVsDbI7yenSZl/+137
-	qVDvUlt8Wgrw+nBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A1F6132C2;
-	Fri, 31 May 2024 18:05:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lAaiCIARWmaqOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 31 May 2024 18:05:52 +0000
-Date: Fri, 31 May 2024 20:06:14 +0200
-Message-ID: <878qzp97qh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13 9360
-In-Reply-To: <21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
-References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
-	<87cyp280yw.wl-tiwai@suse.de>
-	<21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgZs8/rt"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D8CD5C4AF0B;
+	Fri, 31 May 2024 19:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717183207;
+	bh=rBr/FVNGqwJ2ScCPtU/jpwG67hE9JLr3aLNyHkFCW/Y=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=DgZs8/rtBSH+ijAdTuC/JiPd9JwcW1oorztGSMJxqTD3jcVpMMIFfsE7Hx+/whvSg
+	 XJv9GNjuf69BxG2wyfnW8zDWYuQKVZVFtlX4hD4pXlD5M6+bVgnz6V/gvff9dMhGsF
+	 3dLraoFjNXQsoClh72LLo+Bjt0pa2VvxKRDqClH6Dt1MTf9rXC1/dzVqreIqQ1jLwW
+	 ASdeeZJIwe2Tw94F2dw9aOuBIQuMkpAfODbePGR3Q+UcYFTFxceoF4pckU5OzHULUO
+	 pQx03GYVdKyH+w3/F/wVXzw+KfzAPU83ziPC+/deMa1wnzywj6Rwtg2oMU44EnqqnB
+	 1h8bbBhOMI1TQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CBD69DEA714;
+	Fri, 31 May 2024 19:20:07 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.10-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <877cfa40td.wl-tiwai@suse.de>
+References: <877cfa40td.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <877cfa40td.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc2
+X-PR-Tracked-Commit-Id: 310fa3ec2859f1c094e6e9b5d2e1ca51738c409a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 7d88cc8ecc4cf74ef5e4e4f6c9ae4f13d9b969c9
+Message-Id: <171718320782.20247.7547119061633511947.pr-tracker-bot@kernel.org>
+Date: Fri, 31 May 2024 19:20:07 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6535721CDF
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
 
-On Fri, 31 May 2024 18:03:52 +0200,
-Mark Brown wrote:
-> 
-> On Fri, May 31, 2024 at 05:17:43PM +0200, Takashi Iwai wrote:
-> > On Fri, 31 May 2024 07:50:33 +0200,
-> 
-> > >     not ok 5 write_invalid.0.40
-> > >     not ok 201 write_invalid.0.12
-> > >     not ok 208 write_invalid.0.11
-> > >     not ok 264 write_invalid.0.3
-> > >     not ok 271 write_invalid.0.2
-> > >     not ok 278 write_invalid.0.1
-> > >     not ok 285 write_invalid.0.0
-> 
-> > Through a quick look, those are no real "failures".  It'd be more
-> > preferable if the driver returns an error for invalid values, but
-> > currently it's up to drivers how to deal with them, and some accept as
-> > is but with correction of the values internally.  They are shown as
-> > "skips" in the summary above you showed, after all.
-> 
-> I would say these are all bugs, they show the driver not correcting the
-> value and allowing users to read back out of range values that were
-> written.  Even if the driver is accepting out of range values I'd expect
-> it to transform them somehow when storing, the program will accept a
-> mismatched read when testing this case but it will complain if the read
-> value is not valid according to the control's info.
+The pull request you sent on Fri, 31 May 2024 14:34:38 +0200:
 
-Ideally, yeah.  But it's a whack-a-mole game, and my gut feeling is
-that it'd be better to enable the input validation globally, something
-like below.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.10-rc2
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/7d88cc8ecc4cf74ef5e4e4f6c9ae4f13d9b969c9
 
-Takashi
+Thank you!
 
---- a/sound/core/Kconfig
-+++ b/sound/core/Kconfig
-@@ -219,7 +219,8 @@ config SND_PCM_XRUN_DEBUG
- 	  the process or driver which causes the scheduling gaps.
- 
- config SND_CTL_INPUT_VALIDATION
--	bool "Validate input data to control API"
-+	bool "Validate input data to control API" if EXPERT
-+	default y
- 	help
- 	  Say Y to enable the additional validation for the input data to
- 	  each control element, including the value range checks.
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
