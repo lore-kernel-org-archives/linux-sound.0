@@ -1,141 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1045C7441F
-	for <linux-sound@vger.kernel.org>; Fri, 31 May 2024 07:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E3214F9EF
+	for <linux-sound@vger.kernel.org>; Fri, 31 May 2024 08:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717141854; cv=none; b=c0oe7r8XWRBWEg+hNKOJUwha9uLSIr/OBJzB770ReLpz+p0Ew5guN+F/f2xb1D7BzLIHp0RrWIZiqiGWYFICUsGvNWzWJyoA0oBfH3o0Pk2iOprhZQkgAKlLlQLJWbMyJiwodF1CEpX2f8DJiF2yu1/lhM9fnL1q6q9HeJjYZKI=
+	t=1717144681; cv=none; b=iqywv5EtmvZqPixQtmj2oHgG9eDUtQOgUnixZU8YZYFlASFm6DeFeUw7rh8SyVsABlX3iRx7V2encmBYsu3aYL1toHXaI/kj8U9A2LZpmZgHIkHo0u5cW3UnfYI/QS17wHZwh+bI9iz7y0KoQr4A8ZfpuSEjT94XzxyFhDwff9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717141854; c=relaxed/simple;
-	bh=xK/hkqJZXqj5CLHlCyE34K+f02JFmWFkhgFwHAWaH6k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=UZ20FgpUwM7lt33aF5ZeAAVM00rqV+6nq7uDsS+f/IAziyOLLTfMbtRYEDXBvWUOKF2tOZOnOF+I6YVtx7X6aUC5NHxuFSbwAqBL36inRgk2+aCh6BqOyV/hxnzi62BBRzdDK5ZoLms0rbO8zErcQr8YsQxhMddxlZzddKHFhkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pwkiDBfI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGO68tDq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pwkiDBfI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mGO68tDq; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1717144681; c=relaxed/simple;
+	bh=0ybdQoPao3Fs+wvAdUgSdweM9qNoDU9X/xhgb/ynYt8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dPT4hzSieisSDmJwuWx0gNbkFy5yOiJy9XhiX7V4NGsYkdRK+DYntypgZEK7k+8qA12cJLp2bBY6YYTTtsGGv3FPgd+7XgrjrWrdHWEoW171PCgkGX/QrW4nt3Ye3lFK+sSrFhvmu3X42CDWo1f4oXT/JGxMGaxEjTPSCo9TAyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XBMuAXpC; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pwkiDBfI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGO68tDq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pwkiDBfI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mGO68tDq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 610B721AB0;
-	Fri, 31 May 2024 07:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717141850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
-	b=pwkiDBfIU/ENDuGyqf9isoAyDrbC85j+aOGODynp4ZAUr7JBAdi8PTDHzamzxgIfl2aydV
-	R2gr1QJOaINMgvYJvfey/le7E3495atMWFqAeXB+QrlgpNqIaajwjksmO+1y5nAfvOOL2o
-	VYGmspLqb71rGNYACvFPLMew9dSSM7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717141850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
-	b=mGO68tDqi0yHxc3ovyoMl9WjdNZLT7+A6fJXbBCIvc7OAvqFTUb7x1Vxl02ykCggSL08TA
-	+go4cISjCHOM9mDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717141850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
-	b=pwkiDBfIU/ENDuGyqf9isoAyDrbC85j+aOGODynp4ZAUr7JBAdi8PTDHzamzxgIfl2aydV
-	R2gr1QJOaINMgvYJvfey/le7E3495atMWFqAeXB+QrlgpNqIaajwjksmO+1y5nAfvOOL2o
-	VYGmspLqb71rGNYACvFPLMew9dSSM7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717141850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=7Wq0PIzhIAqe5Va3AlQZhsvJR81mxQigRXPXrd8s6Gc=;
-	b=mGO68tDqi0yHxc3ovyoMl9WjdNZLT7+A6fJXbBCIvc7OAvqFTUb7x1Vxl02ykCggSL08TA
-	+go4cISjCHOM9mDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43B16132C2;
-	Fri, 31 May 2024 07:50:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CWAzD1qBWWbjewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 31 May 2024 07:50:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: seq: ump: Fix swapped song position pointer data
-Date: Fri, 31 May 2024 09:51:07 +0200
-Message-ID: <20240531075110.3250-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XBMuAXpC"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f62fae8c3cso8080295ad.3
+        for <linux-sound@vger.kernel.org>; Fri, 31 May 2024 01:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717144679; x=1717749479; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BMwLestZgmk4mqZillFQkfuSiKmx8+iHR4IW4Az53nU=;
+        b=XBMuAXpC07qZWmmpti+DDduNj8rJ0DpJGdTkvDW/2vmKrr/tDqfcWwTrjipZE8bqzS
+         2OfGuyyQTN68DW0DGnwFDaO4sdAAThXPZ/XLn0ad8pnMLFRg4b2db5rF0mcIsRfeFkRZ
+         Ro8E4yWgi64lCoL18KZXqnPNys0Rx9NcGo8cY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717144679; x=1717749479;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BMwLestZgmk4mqZillFQkfuSiKmx8+iHR4IW4Az53nU=;
+        b=aZRqj6zl9T2bacWDjxesExUTZKIp7paoYvqL4m13ZaIPctWwr33GdO1fvtp7ObSSwJ
+         9zA3ydIQ9LvFR++Gv5G3p2KEiKwHHNktPdNz9p715i5yWE7Y35IqGBNEO2FPqeZ4M/FM
+         OaUI3LmZ8BB7QRVROO/etficLah91GGL9up+3y5mTXMxvIA8SriRBoNwNAKGkddvndRw
+         vnqnN5olVcymQsvs1VK+wmHInAyMo+Uc0S5jqN/+iQiYpG/pCGGTxhtjf+P+O8RWcdtU
+         DgudgWm0lDOoFuxqv8T0GsL2gfEsg43Q7PNj5mL1y/q8Ew3D3us5QsXTnjtQe7CTtuPU
+         btwA==
+X-Gm-Message-State: AOJu0YzAdebxUQY8cUIrDE3fTqxMtqgRTkAIT7U+7LJicsbmuQr3RlY4
+	tSFECRZoxPH8wXQU+yvaJfTYTku/LLbfx1BPtElBjgdpsXkrJmghC4q5AZT+Qg==
+X-Google-Smtp-Source: AGHT+IHVF/CjYv1gYu9lVMBUNy41C2j/6h4MXrfx+yak3WHwDeUdVuFOe+Oz/lM84SJ3D8ebAql2BQ==
+X-Received: by 2002:a17:902:c403:b0:1f4:ac56:3d15 with SMTP id d9443c01a7336-1f636fedfbcmr13329195ad.15.1717144679140;
+        Fri, 31 May 2024 01:37:59 -0700 (PDT)
+Received: from yuanhsinte.c.googlers.com (198.180.199.104.bc.googleusercontent.com. [104.199.180.198])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63240379fsm11057545ad.252.2024.05.31.01.37.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 May 2024 01:37:58 -0700 (PDT)
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Date: Fri, 31 May 2024 08:37:54 +0000
+Subject: [PATCH RFT] ASoC: mediatek: mt8183-da7219-max98357: Fix kcontrol
+ name collision
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.77
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.77 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.17)[-0.850];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240531-da7219-v1-1-ac3343f3ae6a@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAGGMWWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDU2ND3ZREcyNDS10jIwtDAwtTC2OLRFMloOKCotS0zAqwQdFKQW4hSrG
+ 1tQABn+CFXQAAAA==
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hsin-Te Yuan <yuanhsinte@chromium.org>
+X-Mailer: b4 0.12.4
 
-At converting between the legacy event and UMP, the parameters for
-MIDI Song Position Pointer are incorrectly stored.  It should have
-been LSB -> MSB order while it stored in MSB -> LSB order.
-This patch corrects the ordering.
+Since "Headphone Switch" kcontrol name has already been used by da7219,
+rename the control name from "Headphone" to "Headphones" to prevent the
+colision. Also, this change makes kcontrol name align with the one in
+mt8186-mt6366-da7219-max98357.c.
 
-Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Fixes: 9c7388baa2053 ("ASoC: mediatek: mt8183-da7219-max98357: Map missing jack kcontrols")
+Change-Id: I9ae69a4673cd04786b247cc514fdd20f878ef009
+Signed-off-by: Hsin-Te Yuan <yuanhsinte@chromium.org>
 ---
- sound/core/seq/seq_ump_convert.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch fix the kcontrol name collision in mt8183-da7219-max98357.c.
+Originally, the "Headphone" kcontrol is added to meet PulseAudio's and
+PipeWire's needs, but that patch was untested. Since I don't have
+either setup, I wonder if someone can test this patch.
+---
+ sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index f0f332017e66..171fb75267af 100644
---- a/sound/core/seq/seq_ump_convert.c
-+++ b/sound/core/seq/seq_ump_convert.c
-@@ -157,7 +157,7 @@ static void ump_system_to_one_param_ev(const union snd_ump_midi1_msg *val,
- static void ump_system_to_songpos_ev(const union snd_ump_midi1_msg *val,
- 				     struct snd_seq_event *ev)
- {
--	ev->data.control.value = (val->system.parm1 << 7) | val->system.parm2;
-+	ev->data.control.value = (val->system.parm2 << 7) | val->system.parm1;
- }
+diff --git a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
+index acaf81fd6c9b..f848e14b091a 100644
+--- a/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
++++ b/sound/soc/mediatek/mt8183/mt8183-da7219-max98357.c
+@@ -31,7 +31,7 @@ struct mt8183_da7219_max98357_priv {
  
- /* Encoders for 0xf0 - 0xff */
-@@ -754,8 +754,8 @@ static int system_2p_ev_to_ump_midi1(const struct snd_seq_event *event,
- {
- 	data->system.type = UMP_MSG_TYPE_SYSTEM; // override
- 	data->system.status = status;
--	data->system.parm1 = (event->data.control.value >> 7) & 0x7f;
--	data->system.parm2 = event->data.control.value & 0x7f;
-+	data->system.parm1 = event->data.control.value & 0x7f;
-+	data->system.parm2 = (event->data.control.value >> 7) & 0x7f;
- 	return 1;
- }
+ static struct snd_soc_jack_pin mt8183_da7219_max98357_jack_pins[] = {
+ 	{
+-		.pin	= "Headphone",
++		.pin	= "Headphones",
+ 		.mask	= SND_JACK_HEADPHONE,
+ 	},
+ 	{
+@@ -626,7 +626,7 @@ static struct snd_soc_codec_conf mt6358_codec_conf[] = {
+ };
  
+ static const struct snd_kcontrol_new mt8183_da7219_max98357_snd_controls[] = {
+-	SOC_DAPM_PIN_SWITCH("Headphone"),
++	SOC_DAPM_PIN_SWITCH("Headphones"),
+ 	SOC_DAPM_PIN_SWITCH("Headset Mic"),
+ 	SOC_DAPM_PIN_SWITCH("Speakers"),
+ 	SOC_DAPM_PIN_SWITCH("Line Out"),
+@@ -634,7 +634,7 @@ static const struct snd_kcontrol_new mt8183_da7219_max98357_snd_controls[] = {
+ 
+ static const
+ struct snd_soc_dapm_widget mt8183_da7219_max98357_dapm_widgets[] = {
+-	SND_SOC_DAPM_HP("Headphone", NULL),
++	SND_SOC_DAPM_HP("Headphones", NULL),
+ 	SND_SOC_DAPM_MIC("Headset Mic", NULL),
+ 	SND_SOC_DAPM_SPK("Speakers", NULL),
+ 	SND_SOC_DAPM_SPK("Line Out", NULL),
+@@ -680,7 +680,7 @@ static struct snd_soc_codec_conf mt8183_da7219_rt1015_codec_conf[] = {
+ };
+ 
+ static const struct snd_kcontrol_new mt8183_da7219_rt1015_snd_controls[] = {
+-	SOC_DAPM_PIN_SWITCH("Headphone"),
++	SOC_DAPM_PIN_SWITCH("Headphones"),
+ 	SOC_DAPM_PIN_SWITCH("Headset Mic"),
+ 	SOC_DAPM_PIN_SWITCH("Left Spk"),
+ 	SOC_DAPM_PIN_SWITCH("Right Spk"),
+@@ -689,7 +689,7 @@ static const struct snd_kcontrol_new mt8183_da7219_rt1015_snd_controls[] = {
+ 
+ static const
+ struct snd_soc_dapm_widget mt8183_da7219_rt1015_dapm_widgets[] = {
+-	SND_SOC_DAPM_HP("Headphone", NULL),
++	SND_SOC_DAPM_HP("Headphones", NULL),
+ 	SND_SOC_DAPM_MIC("Headset Mic", NULL),
+ 	SND_SOC_DAPM_SPK("Left Spk", NULL),
+ 	SND_SOC_DAPM_SPK("Right Spk", NULL),
+
+---
+base-commit: 4a4be1ad3a6efea16c56615f31117590fd881358
+change-id: 20240531-da7219-2281085838a5
+
+Best regards,
 -- 
-2.43.0
+Hsin-Te Yuan <yuanhsinte@chromium.org>
 
