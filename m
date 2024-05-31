@@ -1,55 +1,55 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F24745E7;
-	Fri, 31 May 2024 11:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17EE29A0;
+	Fri, 31 May 2024 12:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717154850; cv=none; b=mNiXF3ug3NZ/Wetvfvaw8Q0X/9EgXlcZdaoP/ZAXckZ044ZREQvhHa6/36BcEy7AEtJqijjWdYLRfsZBJYegIZYKJzBCVtna72OMbd5Cazm3gY96T+XIv8azdD5ZeL/salDp8N+YlFFK4h/OXqS+XyCF2RM45BXWpbNU1dNyYSY=
+	t=1717157314; cv=none; b=TDVFxyn5xS3yLTUiYjnH6pWVr+6+Nl5gLbde8JdkYWyerUJKcQqvL/Ua4uAduGF8+l7OGVFMZA2DdVyRwOcYcN5PejZ880/sm7BEBufRXc/B4746nakuQP4pvwuLhOw2vN5M5PtQkVkv9V0l2NV1Zxl2tCNyLBSSos1QwuROhPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717154850; c=relaxed/simple;
-	bh=ir4kvqus4+b9A6TsrDobyBFHj6/X6jwrEM/lRyMJYGE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=edu7GlaqKdblKZ8MyEWb6Qrzderp4O/ld5421Pn0eqJLvFCllFYWmvkwXFjgC9YbKIblCOjYBMVRHWG/+20WWCbomI8ejpw2oh+3l0aZh2u4PZXNfIzLmt2WDAURCxnZoEmOAInv81miXlukt8x8But42OLTxxcXXENSyZAXntA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fYSedm1/; arc=none smtp.client-ip=67.231.149.25
+	s=arc-20240116; t=1717157314; c=relaxed/simple;
+	bh=1k9t6jehRo7chIdZq9uoVU5h/rfm2SsMzqY7xyvvVbc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kiwyIHTQudoV4/haLqtHJ0GYJ8+DKPbCD6N8GpxxgB/eNBJECoprpOjgnQwRXN6jUT1Lzvkct4uMyy6OjlwFbpnBr2IY4dUO2BWlS7rTizUMfHjZp9KjAc9kIdTGRCOterFdATTGhTVnwuxv9HcWhIWLHf6v1Ib+bdPqwqrkoaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WTtiUWul; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fYSedm1/"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WTtiUWul"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V6vAHn004232;
-	Fri, 31 May 2024 06:27:21 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44V9Swja003313;
+	Fri, 31 May 2024 07:08:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=uqUvYOPYn4wZFfXt
-	U6r/PgcMGfsmSJF3lS2+gb15emQ=; b=fYSedm1/p2UvZjvMBhJ6DMJb07bq0Ork
-	iTixbRh21i5VmEyYK5GzLhMwrx+caF+pbf7BO2YMZUb5jx1SNMMvUnvAJfnjEt1s
-	d2cvvTiZ+I4C8KG01CSdkHfPMC0BRf9OJPHRKogNQTDcDs/Hpx1enA1nVZGoE6TQ
-	qaO5K7/H0uIi94UYzsPIw6wrUzbLjXsf96j10hm7I3k+EJxkitZjV2ZPYTTH/5qB
-	9dUz54SMG4SuKR9BIOi5HRyd/+0joIQELHwblsny2rk+eHEfMATn5Ea8uWON4oJ2
-	EmDGCgIX89lZtW0NeE+KpINf2Cq21nbFDLzjE+ERHa0tiZhuUJH/Rg==
+	:mime-version:subject:to; s=PODMain02222019; bh=jojeGL9NyCQPAKin
+	3J/C+KRxMKRG2M3M0NSuFuoQxSM=; b=WTtiUWul1jMchiPb35GkiMk6reG9QZuI
+	48PSnH7FRwqA+ufeElYJFPPyAttpKcGEgJLi7YJy5Sx4Bm3dQCDkHkj6BjxebA23
+	LvpHU6rrdtntXesH7YLoxoVTnJaUbPFe7wEfBjz9x7niJc2Yxaq/4p4FHd8Ava3Y
+	qsEEuxDnQug6fRSZ7po6MhMwny4XNWqBtHgZET1NUhkjyFoe6Z5qrsjg5/vI4b7J
+	xnftqLmiUCfAGXmQ/y//2xgH/MfbVrABHyVn0/7KRU4wrRN+GodFF5/G/yIS6mcJ
+	xg0Pnl36qQboKIfahQkTgY4mxr9FDX8H2Sq4MByJg3+sxj+r+1gIMQ==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ybdcwwqa6-1
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ybdcwwr9x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 May 2024 06:27:21 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+	Fri, 31 May 2024 07:08:26 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 May
- 2024 12:27:19 +0100
+ 2024 13:08:23 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Fri, 31 May 2024 12:27:19 +0100
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Fri, 31 May 2024 13:08:23 +0100
 Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.65.72])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C5B9B820249;
-	Fri, 31 May 2024 11:27:18 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8B538820249;
+	Fri, 31 May 2024 12:08:23 +0000 (UTC)
 From: Simon Trimmer <simont@opensource.cirrus.com>
 To: <tiwai@suse.com>
 CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         "Simon
  Trimmer" <simont@opensource.cirrus.com>
-Subject: [PATCH] ALSA: hda: cs35l56: Fix lifecycle of codec pointer
-Date: Fri, 31 May 2024 12:27:16 +0100
-Message-ID: <20240531112716.25323-1-simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l41: Possible null pointer dereference in cs35l41_hda_unbind()
+Date: Fri, 31 May 2024 13:08:20 +0100
+Message-ID: <20240531120820.35367-1-simont@opensource.cirrus.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,42 +59,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 8-xrWWee19RIF5fSr4rUExGKLCpecmYY
-X-Proofpoint-ORIG-GUID: 8-xrWWee19RIF5fSr4rUExGKLCpecmYY
+X-Proofpoint-GUID: kwle0reXsEGM8-ag8K8DUTPDf-O3TQxB
+X-Proofpoint-ORIG-GUID: kwle0reXsEGM8-ag8K8DUTPDf-O3TQxB
 X-Proofpoint-Spam-Reason: safe
 
-The codec should be cleared when the amp driver is unbound and when
-resuming it should be tested to prevent loading firmware into the device
-and ALSA in a partially configured system state.
+The cs35l41_hda_unbind() function clears the hda_component entry
+matching it's index and then dereferences the codec pointer held in the
+first element of the hda_component array, this is an issue when the
+device index was 0.
 
+Instead use the codec pointer stashed in the cs35l41_hda structure as it
+will still be valid.
+
+Fixes: 7cf5ce66dfda ("ALSA: hda: cs35l41: Add device_link between HDA and cs35l41_hda")
 Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 ---
- sound/pci/hda/cs35l56_hda.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ sound/pci/hda/cs35l41_hda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 11b0570ff56d..0923e2589f5f 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -735,6 +735,8 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
- 	if (comps[cs35l56->index].dev == dev)
- 		memset(&comps[cs35l56->index], 0, sizeof(*comps));
- 
-+	cs35l56->codec = NULL;
-+
- 	dev_dbg(cs35l56->base.dev, "Unbound\n");
+diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
+index 6c49e5c6cd20..d54d4d60b03e 100644
+--- a/sound/pci/hda/cs35l41_hda.c
++++ b/sound/pci/hda/cs35l41_hda.c
+@@ -1495,7 +1495,7 @@ static void cs35l41_hda_unbind(struct device *dev, struct device *master, void *
+ 	if (comps[cs35l41->index].dev == dev) {
+ 		memset(&comps[cs35l41->index], 0, sizeof(*comps));
+ 		sleep_flags = lock_system_sleep();
+-		device_link_remove(&comps->codec->core.dev, cs35l41->dev);
++		device_link_remove(&cs35l41->codec->core.dev, cs35l41->dev);
+ 		unlock_system_sleep(sleep_flags);
+ 	}
  }
- 
-@@ -840,6 +842,9 @@ static int cs35l56_hda_system_resume(struct device *dev)
- 
- 	cs35l56->suspended = false;
- 
-+	if (!cs35l56->codec)
-+		return 0;
-+
- 	ret = cs35l56_is_fw_reload_needed(&cs35l56->base);
- 	dev_dbg(cs35l56->base.dev, "fw_reload_needed: %d\n", ret);
- 	if (ret > 0) {
 -- 
 2.34.1
 
