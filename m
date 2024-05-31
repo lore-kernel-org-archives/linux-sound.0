@@ -1,93 +1,319 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99941612EB;
-	Fri, 31 May 2024 15:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071BF74414;
+	Fri, 31 May 2024 15:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717169173; cv=none; b=V1AQDgUo0YYgPmkPXJPGQHFBGic6XuxMuDp61MtNOrPxjitbv5+d0P4N5ySBS2pg89C04sBe4FT3EZ855Ej5/qOYtqRWOIjaEfmy5JF4ZauCyYtSZvrdGiVGGRwvHd60Dj/suHsf7bxYfnErnxtMsQ2qANFtsSyhV6mGeCtHssA=
+	t=1717169451; cv=none; b=gOQ54mpqJB1CN6WAgZIrBHs9A6UpnJPZ6efvyajAA/Tg9sh9G3/LlEGqvYWbb3L+0EE7HsQrXr14QJeVga/J6ThdcB3AfbS7v2j4XyqBfKuiB7uUpSOByxzdvKYAyDM73Ex/YQtV5F92iYh9Bnaklg/U3jssJYt9OBtNvFwE7yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717169173; c=relaxed/simple;
-	bh=BIUy3OU4Yr8ghwL4539bzD9yt6/hC9ctf51iLpzRrKQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgfAFqQY2BDlFTFHhi2tlUhS1FokH6o4CeyTciHXnnL9AkBQl+wHEpHk7u8RuN61PYs7yPI+sBJluC6qQolDz56IM/J63gap3aws8xCAW0h/E+KVLXn7Q1s/sZXnmOVU8Y+ogfu1a/EVUoAn60Forq5KQ3vPu9MPv/efHLklyU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [141.14.13.3] (g258.RadioFreeInternet.molgen.mpg.de [141.14.13.3])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 12F0661E5FE01;
-	Fri, 31 May 2024 17:25:47 +0200 (CEST)
-Message-ID: <cc00000d-302c-441e-9d65-9e75463db443@molgen.mpg.de>
-Date: Fri, 31 May 2024 17:25:46 +0200
+	s=arc-20240116; t=1717169451; c=relaxed/simple;
+	bh=3V5pXNYUIe5amzJ/wlWv+uZ+rQkwQ0AbOeOsiYESyYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AP6IJp8Z8Ru+A7cSVGL5oDTwuE/wFxgQ8B4UjHScwuAVO37+q1u7Bli8mVZkNmlj4le99l2zv9RcEIvXrMH8z0PpF+oO2JlGI/VUMGiGbY/hSmZTWOSti8YHNiqEjuNrO2G4IXqd9kN7fY5qJRGVwPKKHARxWVBBLY5FKgNd4vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wpb5/ncD; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wpb5/ncD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717169450; x=1748705450;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3V5pXNYUIe5amzJ/wlWv+uZ+rQkwQ0AbOeOsiYESyYs=;
+  b=Wpb5/ncDcnV90L/EZsKgk14b+JAEd9o6OD4YoimujIFGmeLPk09jsB6t
+   PmyZrIWXzDEV10WrmtApM+u8divDOfXOXgKX2cSCF0TyAO2K42D7yj2Eo
+   9vTdDaxN+PsLvjlYPUO0hnjvx0xxJxxqSePbw4ZoqtnSzuaTSKDSyDKFl
+   5EL5YU9oPRPN2xX1yA3dLFbOFCjOYjHlxTDxbiekKevBHXCsACaw2ja7g
+   c3NuuZkyySMiWOh/T9EQFQxJv/5zCngFmXwbJphs5yISTIqBny7+J//gk
+   KiC+m56BFvBBrYpCdaNQvOI4I6f0mvtyYyzNIfsWNjwjYF+AnPWSc6OVA
+   g==;
+X-CSE-ConnectionGUID: +4gobGKsS7WCrgbCs54swA==
+X-CSE-MsgGUID: 5Xao876NRsK95zIhRR4u/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24348121"
+X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
+   d="scan'208";a="24348121"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 08:30:48 -0700
+X-CSE-ConnectionGUID: iuHuXjxdS6Wb+7hA5s84Sw==
+X-CSE-MsgGUID: 1IHu24H0TXCyEXpf1AgGQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
+   d="scan'208";a="73678756"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa001.jf.intel.com with ESMTP; 31 May 2024 08:30:41 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id A7B34136; Fri, 31 May 2024 18:30:39 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Rob Herring <robh@kernel.org>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	Chancel Liu <chancel.liu@nxp.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: [PATCH v2 1/6] ASoC: codecs: Remove unused of_gpio.h
+Date: Fri, 31 May 2024 18:29:28 +0300
+Message-ID: <20240531153038.1590171-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+In-Reply-To: <20240531153038.1590171-1-andriy.shevchenko@linux.intel.com>
+References: <20240531153038.1590171-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13
- 9360
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
- <87cyp280yw.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <87cyp280yw.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Dear Takashi,
+of_gpio.h is deprecated and subject to remove. The drivers in question
+don't use it, simply remove the unused header.
 
+Reviewed-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ sound/soc/codecs/ak4118.c        | 1 -
+ sound/soc/codecs/ak4458.c        | 1 -
+ sound/soc/codecs/aw88399.c       | 1 -
+ sound/soc/codecs/cs53l30.c       | 1 -
+ sound/soc/codecs/max98390.c      | 1 -
+ sound/soc/codecs/pcm3168a.c      | 1 -
+ sound/soc/codecs/rk817_codec.c   | 1 -
+ sound/soc/codecs/tas2552.c       | 1 -
+ sound/soc/codecs/tas2764.c       | 1 -
+ sound/soc/codecs/tas2770.c       | 1 -
+ sound/soc/codecs/tas2780.c       | 1 -
+ sound/soc/codecs/tlv320adc3xxx.c | 1 -
+ sound/soc/codecs/tlv320adcx140.c | 1 -
+ sound/soc/codecs/tlv320aic31xx.c | 1 -
+ sound/soc/codecs/ts3a227e.c      | 1 -
+ sound/soc/codecs/wsa883x.c       | 1 -
+ 16 files changed, 16 deletions(-)
 
-Thank you very much for your reply.
+diff --git a/sound/soc/codecs/ak4118.c b/sound/soc/codecs/ak4118.c
+index 9a43235e6a11..23e868e4e3fb 100644
+--- a/sound/soc/codecs/ak4118.c
++++ b/sound/soc/codecs/ak4118.c
+@@ -9,7 +9,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+diff --git a/sound/soc/codecs/ak4458.c b/sound/soc/codecs/ak4458.c
+index 73cf482f104f..32cb802ad635 100644
+--- a/sound/soc/codecs/ak4458.c
++++ b/sound/soc/codecs/ak4458.c
+@@ -10,7 +10,6 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/reset.h>
+diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
+index 9fcb805bf971..23e50d73b4c4 100644
+--- a/sound/soc/codecs/aw88399.c
++++ b/sound/soc/codecs/aw88399.c
+@@ -10,7 +10,6 @@
+ #include <linux/crc32.h>
+ #include <linux/i2c.h>
+ #include <linux/firmware.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regmap.h>
+ #include <sound/soc.h>
+ #include "aw88399.h"
+diff --git a/sound/soc/codecs/cs53l30.c b/sound/soc/codecs/cs53l30.c
+index c0893146423b..2ee13d885fdc 100644
+--- a/sound/soc/codecs/cs53l30.c
++++ b/sound/soc/codecs/cs53l30.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <sound/pcm_params.h>
+diff --git a/sound/soc/codecs/max98390.c b/sound/soc/codecs/max98390.c
+index 57fa2db1e148..1bae253618fd 100644
+--- a/sound/soc/codecs/max98390.c
++++ b/sound/soc/codecs/max98390.c
+@@ -13,7 +13,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ #include <linux/time.h>
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index 9d6431338fb7..3c0e0fdbfc5c 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -11,7 +11,6 @@
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
+diff --git a/sound/soc/codecs/rk817_codec.c b/sound/soc/codecs/rk817_codec.c
+index d4da98469f8b..5fea600bc3a4 100644
+--- a/sound/soc/codecs/rk817_codec.c
++++ b/sound/soc/codecs/rk817_codec.c
+@@ -10,7 +10,6 @@
+ #include <linux/mfd/rk808.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <sound/core.h>
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+index a7ed59ec49a6..9e68afc09897 100644
+--- a/sound/soc/codecs/tas2552.c
++++ b/sound/soc/codecs/tas2552.c
+@@ -13,7 +13,6 @@
+ #include <linux/device.h>
+ #include <linux/i2c.h>
+ #include <linux/gpio.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 1dc719d726ab..5eaddf07aadc 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -15,7 +15,6 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/slab.h>
+ #include <sound/soc.h>
+ #include <sound/pcm.h>
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 67bc1c8b0131..5601fba17c96 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -20,7 +20,6 @@
+ #include <linux/firmware.h>
+ #include <linux/regmap.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/slab.h>
+ #include <sound/soc.h>
+ #include <sound/pcm.h>
+diff --git a/sound/soc/codecs/tas2780.c b/sound/soc/codecs/tas2780.c
+index a18ccf5fb7ad..6902bfef185b 100644
+--- a/sound/soc/codecs/tas2780.c
++++ b/sound/soc/codecs/tas2780.c
+@@ -11,7 +11,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <sound/soc.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+diff --git a/sound/soc/codecs/tlv320adc3xxx.c b/sound/soc/codecs/tlv320adc3xxx.c
+index e100cc9f5c19..eb180df9a72a 100644
+--- a/sound/soc/codecs/tlv320adc3xxx.c
++++ b/sound/soc/codecs/tlv320adc3xxx.c
+@@ -25,7 +25,6 @@
+ #include <linux/i2c.h>
+ #include <linux/platform_device.h>
+ #include <linux/cdev.h>
+-#include <linux/of_gpio.h>
+ #include <linux/slab.h>
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index 41342b340680..d594bf166c0e 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -12,7 +12,6 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/acpi.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/slab.h>
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+diff --git a/sound/soc/codecs/tlv320aic31xx.c b/sound/soc/codecs/tlv320aic31xx.c
+index 4d7c5a80c6ed..2f94cfda0e33 100644
+--- a/sound/soc/codecs/tlv320aic31xx.c
++++ b/sound/soc/codecs/tlv320aic31xx.c
+@@ -23,7 +23,6 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/acpi.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/slab.h>
+ #include <sound/core.h>
+ #include <sound/jack.h>
+diff --git a/sound/soc/codecs/ts3a227e.c b/sound/soc/codecs/ts3a227e.c
+index dbf448dd8864..b9eb59e3bfa0 100644
+--- a/sound/soc/codecs/ts3a227e.c
++++ b/sound/soc/codecs/ts3a227e.c
+@@ -10,7 +10,6 @@
+ #include <linux/init.h>
+ #include <linux/input.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regmap.h>
+ #include <linux/acpi.h>
+ 
+diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
+index a2e86ef7d18f..8abce2160d65 100644
+--- a/sound/soc/codecs/wsa883x.c
++++ b/sound/soc/codecs/wsa883x.c
+@@ -9,7 +9,6 @@
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/printk.h>
+ #include <linux/regmap.h>
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
-Am 31.05.24 um 17:17 schrieb Takashi Iwai:
-> On Fri, 31 May 2024 07:50:33 +0200, Paul Menzel wrote:
-
->> Running the ALSA kselftests with Linux 6.10-rc1, `mixer-test` shows
->> ten failures:
->>
->>      # Totals: pass:24 fail:0 xfail:0 xpass:0 skip:11 error:0
->>
->> These are:
->>
->>      not ok 5 write_invalid.0.40
->>      not ok 11 write_valid.0.39
->>      not ok 18 write_valid.0.38
->>      not ok 25 write_valid.0.37
->>      not ok 201 write_invalid.0.12
->>      not ok 208 write_invalid.0.11
->>      not ok 264 write_invalid.0.3
->>      not ok 271 write_invalid.0.2
->>      not ok 278 write_invalid.0.1
->>      not ok 285 write_invalid.0.0
-> 
-> Through a quick look, those are no real "failures".  It'd be more
-> preferable if the driver returns an error for invalid values, but
-> currently it's up to drivers how to deal with them, and some accept as
-> is but with correction of the values internally.  They are shown as
-> "skips" in the summary above you showed, after all.
-
-Sorry, somehow I copied the wrong line. The attachment actually contains:
-
-     # Totals: pass:217 fail:10 xfail:0 xpass:0 skip:60 error:0
-
-So it seems to be shown as failure.
-
-> A more strict check can be enabled by a kconfig option
-> CONFIG_SND_CTL_INPUT_VALIDATION=y generically.
-
-Thank you. I am going to test that out.
-
-
-Kind regards,
-
-Paul
