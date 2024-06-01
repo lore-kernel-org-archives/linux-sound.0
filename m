@@ -1,87 +1,75 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF3EAD55;
-	Sat,  1 Jun 2024 17:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FF3B657;
+	Sat,  1 Jun 2024 22:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717263362; cv=none; b=i/Xfx79RzTG7IF7eNg7O2UsR6j/ezVBzpQ8n4zl/B6VwPtKMZL+mWCAbJRvi2bdCZ3YgjGtSYO7xATVgFybzA8NVs15u2MBqeWLt2TfAG+FPgUpTgT0RBTRLjETmoyVsMUjeRCVkhnATAL53wilRufYOl8OqiLbRo8QEY30Qg/Q=
+	t=1717282504; cv=none; b=tBy2O08St9C+oBQuaFK1IvuGz/lFDeSTlv/rXzi9mWjTO7dWKe3UGn4xZHoFqnDya0T4w786ZwRFtIsjLWr8623/JIZYaNCInTHpyFWDcXZNKG+KJ2F0FDOdpkeFg9BovVtMPML9yLFMREPcrIFwE2xA8KOcOV6iidOXTJ129Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717263362; c=relaxed/simple;
-	bh=XJyl4l5t/k3rLnQ72/yn2HQW5issWPa/CHD5pRVJm74=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i1Uhkl08jzeNvwKxmYw2iLoz3BAXJdCEtZuHXJkdV/FQEe9p7cPoILlXgd1iGXrh/x+b5pwAaybO72i4y34A25Ef/iiY0iRTvX/QYzCKNS54dqSCmD3GvhiOVSqZqnOilFWh957EKc4k7SVPO/o7dbn343wnPiC+htyhtwcQPzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+P5UhoT; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717282504; c=relaxed/simple;
+	bh=Bz4DX+gNxH9XlW8R/tgQrIV6zNdeI1eX040W7bTSUjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iPGt8e0xkiQYKlDRhYCD/R7MjA3jticMdrxgBmjLbgsyrBoo36Yh82WyyZk4uBRMD0dcV+vyZFwwk/Wt5t3JWge50nHVpb0vS0g/cjc+mXcHfVh7OfueYsgj+5RqCaiu1Myq+pryjRizod1wEjdFkM7qtQw6SUwMYzPhskDmzKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Ef6ValLR; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+P5UhoT"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52b919d214cso492455e87.2;
-        Sat, 01 Jun 2024 10:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717263359; x=1717868159; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XJyl4l5t/k3rLnQ72/yn2HQW5issWPa/CHD5pRVJm74=;
-        b=P+P5UhoTWRIfMPiEvbqujuEn5q2u7mWJLopu/PT66y/21ttz2XaN1eq7bjAuDTNhJR
-         dLPoSpOH4OZK30oFI4pa5VH7VtybAuGWfBpgeN0zDe2Q+qK86Lb9/7Frgxd4lWvqs3lP
-         XHdVg1Z3P4O5z/x0fMQQhfeTh9cW17HoZqHZ4fEEPsAsmriPSxf0I+fflgHAsDhjDUsp
-         jCGmvGhpoeFMhGtxBC4UMCsvcs3X09kc7if+qeYYn68U6UfLYXCf/+6ATjuyIfkyKoX0
-         krJiPYbCABUPhFyXcMLCHB/0x3f7zun/fW873lfjZOkcnTlXh3Uz7FTJwCi6QAiWTEtY
-         PAyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717263359; x=1717868159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XJyl4l5t/k3rLnQ72/yn2HQW5issWPa/CHD5pRVJm74=;
-        b=HbCfH97ueqevRdbAjgZLDoO1jAQNow69rNtGtdWvgOxs4a9mAVMC9G1fAKErAUYziR
-         XXauYw9KTVBXCUDyovC/d6AR+t7VPLtj5ZzBSbBIy0BWSKqOn4KKXpF67Dlo3gn6zqsd
-         5VPd3T9GUwz4770Upc8uNA2tKK9k6mQY92LDadf27+L8JWDZHZyht3KNPOQwOcwo7Xi7
-         uUSIvyy2dF/w6AYyDv4Qptbyy3y7VEjGsOOApkqrQQqr0/14cx/0emX1sEDfVPy3rK1s
-         RqaNodmmRFrgV5thgqobVwHL8nHk2Sxw3OhknmWhpEGB3BFJQTOL3XwtsoiCwJ9hjXXx
-         YxAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXbmPj7sCDfO0ll0c5mDzFzTHZ3YmXDrhqp5rw0wbjTa8tz56WZtKyxPbHzy96JQPbYy5+wcUax9NS17ExcZ5OclCEwkWOosvX5jeLlv+pi656dWnQVTjwBQCePD/GbgXGTU/nY8M0wS8UgkS05T5z5zG3TPw0Q+b5Nb1fBDLBpsEkKrRdz
-X-Gm-Message-State: AOJu0Yx7F+EXexeMcIwF0EUSYom25T6VpIZmGICsuWxptS8MWCGdfsMq
-	KSziZsg2t7iY3Fhh4oTiZzzB5G14kTcv3RNoOcO34ZHzCnlWHOkxyKmHX9376J1wwcxC8bY2FnG
-	+MEl94knl4R9ARSvfhnCwGvW5er0=
-X-Google-Smtp-Source: AGHT+IH04S1mTC1pbRmToifVqj/OK9AubBcLxbTT/9mdn/0C3Y2HQnsY37NvyikE6lfjaJ8pSWX+rxyxcA2IjZ4SRQY=
-X-Received: by 2002:a05:6512:3ca3:b0:521:e065:c6c5 with SMTP id
- 2adb3069b0e04-52b8955c4bemr4195236e87.11.1717263358375; Sat, 01 Jun 2024
- 10:35:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Ef6ValLR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=PzOOP33dT+Tz2TGiINq9Jf04QvLUVzbMQN3na04iTuQ=; b=Ef6ValLRSROMFZsr
+	aVRVRN4gECdP8JLY+tAO14n0P7xtbzcD5Fx2fcERpw+qYD9gXxXn2w/+VWE9Glj3Ijl+oNI4qT6+T
+	MIXBHnpesU98tBe0AqgtX1AOA9snvGW5PA9I/1GEoiuDnzWlu+sgucIfLxmgMspXjAwUJXyexBifW
+	VjPAwpWwyO/adNVfLoxujLXMhMt+lW1svR91Id/LKgW3YCxrdVggTv6uVLonYtMxPBYAPHFsPCtBH
+	zyXrgAxxaLeLsJKNY4f1VkEMzTRkmpOErR/INzVGOIz/t7XQmOaz/DL0T7jUhQGbEAJT72OXhlsxI
+	oCs2xHD5BlERZn29nA==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1sDXce-003lZO-2p;
+	Sat, 01 Jun 2024 22:54:49 +0000
+From: linux@treblig.org
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	srinivas.kandagatla@linaro.org
+Cc: alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH 0/3] Dead structs in sound/soc/codecs
+Date: Sat,  1 Jun 2024 23:54:43 +0100
+Message-ID: <20240601225446.183505-1-linux@treblig.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240530111205.1764-1-bavishimithil@gmail.com>
- <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org> <CAGzNGRn=e46yYrK3o8JhUmod4pGFFdEK31kUWUU4jn+JTgZjQg@mail.gmail.com>
- <c89d4290-1f24-4a30-9d94-f6d0dde21e80@kernel.org>
-In-Reply-To: <c89d4290-1f24-4a30-9d94-f6d0dde21e80@kernel.org>
-From: Mithil <bavishimithil@gmail.com>
-Date: Sat, 1 Jun 2024 23:05:45 +0530
-Message-ID: <CAGzNGRk8OtxY-K+3FF1UJ_mUS6Ras-FA7Es_KuLnva9jfqEPHA@mail.gmail.com>
-Subject: Re: [PATCH v6] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Lopez Cruz <misael.lopez@ti.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 1, 2024 at 8:44=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
-> I think you are now mixing different things. changelog and differences
-> comparing to pure 1-to-1 conversion.
-Oh my apologies, the commit message being more descriptive? Should it
-also include the changelogs, or just a general description about mcpdm
-and it being used in omap4/omap5 platforms?
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+
+Clean out a bunch of old structs in sound/soc/codecs.
+Build tested only.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
 
---=20
-Best Regards,
-Mithil
+Dr. David Alan Gilbert (3):
+  ASoC: codecs: lpass-rx-macro: remove unused struct
+    'rx_macro_reg_mask_val'
+  ASoC: codecs: wm0010: remove unused struct 'wm0010_spi_msg'
+  ASoC: codecs: cx2072x: remove unused struct 'cx2072x_eq_ctrl'
+
+ sound/soc/codecs/cx2072x.c        | 5 -----
+ sound/soc/codecs/lpass-rx-macro.c | 6 ------
+ sound/soc/codecs/wm0010.c         | 8 --------
+ 3 files changed, 19 deletions(-)
+
+-- 
+2.45.1
+
