@@ -1,123 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A026FC7;
-	Sat,  1 Jun 2024 03:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BABF12E55;
+	Sat,  1 Jun 2024 06:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717211683; cv=none; b=Evq2+La3zxFWozBEuc7jp4OmfBk6ET1MBbJ6KFviAHJuBLVN/DLU1qvBSQvoecLwzwGJLHkx143Ae6sXA/RJUtCbkwKXNMOHzs0wCe5u4dT9hRUfBvFhWPVbaKgoPSR46l9JYP4iiA8gkU4MxZCZ9HYLitc9EraracTSQFKxhzg=
+	t=1717222591; cv=none; b=Sy1LtxjOkAUbGECxRM9HE1nn3olZ8Y0LaNlMUs+kDl7hQ9abLhH9MqvLZD+OKC5YJN04mkngWqjE+Ixvm8xvnV1H3bUP98ZCke34hR4HGVkwzHRtPuzUc/fxOiEja7O9M5kVWoyvTg372uYOXlciXzfZExyu7PCq9rv4CG5cKgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717211683; c=relaxed/simple;
-	bh=c7E6ywWcouETEOz7X+m9V6ffY9O9cI6IapgRWonAuyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k0sfjYD79LcdOwRGiFFVDFH6azIL7K9xsAQXj8XIT6/sUJNZghoXSOQNcDshJUhiaiw1qvMNVMMVLGZ9hQT5JM0F8bZ5x3IHhja+c+D6yK9TohLCHDZCG/rQaOR7b/qPyGdkMTsNvfgU5WBhxssiNa+mDHcMHsFu2Az+Z+FM3LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cg93CBS7; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717222591; c=relaxed/simple;
+	bh=rt2wx6NZb2NHXMBjUJJczmHoHOGfO0XkMtjoi+/dM58=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VhL9r70jDofinnEFSVJ01vBLt0gb93PTjCXYG4zfio2tnorncnmy2/46qKSVcq4oQibltkNdBspprLA9YLU8IRbgbNuOm7QT2+D2IyKmbsYu/tGP9TbUo8nmCgLLm8vwffC4wtfclVG4439s06N7+v6XXs3AN8stXLSyao5BxWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MogCg1sy; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cg93CBS7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717211683; x=1748747683;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c7E6ywWcouETEOz7X+m9V6ffY9O9cI6IapgRWonAuyw=;
-  b=Cg93CBS7Knh5ciDwIwAOyGsoT/qg0/IW7TBy39bd8o4PAXypToyQXQwM
-   hWx2gdFW5Vu5pj4hAHFQ9VFE6ifGjK368SJw16GrfDE7/qeACivht8zQY
-   2/NDIPJrxKC0bUK645lhiez0ZGVf1yTEPvCwSEzxLj5wf1xE9rCH8t+zF
-   ZPNhxyS7ZfeEOG9WW8jDstisoAXYOBEj2flgm87azHDaCFKETFCRnw1UN
-   +WYoZrzD/9SgVFIaf3fGsaPAyO2oy86KeO0tj4j7MivzZIMYeZD3zS8TU
-   iIybq4GVVHoLpPQ2WdacCyuSeIkpyP2PqCAOCidWqTyQ3h+X/2PPtgsYT
-   w==;
-X-CSE-ConnectionGUID: y5VKK6VYTuGN6acFqQJARw==
-X-CSE-MsgGUID: IddRGVkvTv6c7AV/zB6X6w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24431270"
-X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="24431270"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 20:14:42 -0700
-X-CSE-ConnectionGUID: l2xz+gaVQ1Sp7xFZjbApEA==
-X-CSE-MsgGUID: n7Eg6RluRgSRmWmZVdk4kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,206,1712646000"; 
-   d="scan'208";a="73824285"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 31 May 2024 20:14:38 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sDFCV-000IGn-2o;
-	Sat, 01 Jun 2024 03:14:35 +0000
-Date: Sat, 1 Jun 2024 11:02:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simon Trimmer <simont@opensource.cirrus.com>, tiwai@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, soyer@irl.hu, shenghao-ding@ti.com,
-	kevin-lu@ti.com, baojun.xu@ti.com, kailang@realtek.com,
-	Simon Trimmer <simont@opensource.cirrus.com>
-Subject: Re: [PATCH 4/7] ALSA: hda: hda_component: Introduce component parent
- structure
-Message-ID: <202406011025.mzDXJJjz-lkp@intel.com>
-References: <20240531151409.80284-5-simont@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MogCg1sy"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e3efa18e6aso23465551fa.0;
+        Fri, 31 May 2024 23:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717222587; x=1717827387; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Z+zOfc3+Z4hyAcfzxNHQDfSITf3TFsblhocGpkJa60=;
+        b=MogCg1syB2kZLCMBoFFqH6035Sm6AI0D7mQCvv47S9XHKRzPZ+GvYJ4pj4wR/3rmNn
+         XscrrBVfo2q1r0vcYKxkRgylY4Cygu7SE98nNo4L/uzTc7zcKvKlM+SnujTSya1RBzpl
+         THZBhB0RSZhr6TbFJDP5ZqdZXe1FtkGbb4dKu5abqgM91eRKelp0DLXccouZDI9tjmwO
+         c0w1OxTL+KYjSRloespRB8ROeQRv/cNu62Tddl9qIeRPnlOOO15XcOZEJPQ8wQQ/hz6s
+         vtndwMQ6Sj+gTYzWDFaagYlO0Fb46vicBi3oMgg8OXxgbqwTtaiLIfRo4D7ZOFqxjXUi
+         AA0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717222587; x=1717827387;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4Z+zOfc3+Z4hyAcfzxNHQDfSITf3TFsblhocGpkJa60=;
+        b=SjnYUnEte0Kfymb8kv2LxiNB09onsDB70AIdQIaUsxpPpEVYuvsw2yQh91vCum0ehF
+         xLxOcFTVniei0rbpZvtqCnlZvMlVC+UZMtRhSst44MeRcy9S763faN+qp/J4/VEJTM3p
+         zpup99QjRH5qFVlQ54Y9gm7qqC00s37Bl5jvjanPIM2GEoQTpLdipC8FGx+6tqQ60sPY
+         pdWZm6knHZNR4Qn0xQn4cvG38g2yEmdjd31oVJirlelr1Pg+1fPrXOBsxlD+XC65ulm3
+         dSEQ6v41lSAFEpTk1wm60o4Wx4iBohR/4c/K7l54/IAbWyRmGyWD0zOx1Y9pOUnc2mdJ
+         1ZKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWsjosljrAwLr7COOBlvEcY1H+fBiWUmuhGwaIwnIkPBnDUdRETQgLvp0RVFB5bPk5yO/iXGJdc1uN59zmQcb3n37XbvjCbuf/7Jy4PRDmkhYNVwdchqh/mcRJdLKk3Cj2O4C7MgD9DF0cF1pscS0Sepsf9BOMafpoc5ZVkBD6U/4NbGDQJ
+X-Gm-Message-State: AOJu0YyBfxJl6Cn1bSHM0wp17xQrGFVQxNY7LynGhACCZAgwuQIKopKW
+	TqNPrRmnuUMLaS26LEzV9vEYF7Qn83DQvatAEHm7Xuaq8TRqDmp8J5UnFY6IuNJgyLYlAHVk1Ar
+	8OSkufouO13ZloGoSrBKL5+8GUhA=
+X-Google-Smtp-Source: AGHT+IHOk1mf1VFwpZSehjIBp3kE7bAhPh2O3oBk51nvzzMPb1RydE/V7nfJvxkHBEblll7CKgRRVH3DtO8HgCgHDcI=
+X-Received: by 2002:a2e:93d7:0:b0:2ea:a382:67c9 with SMTP id
+ 38308e7fff4ca-2eaa3826e00mr1118361fa.15.1717222587067; Fri, 31 May 2024
+ 23:16:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240531151409.80284-5-simont@opensource.cirrus.com>
+References: <20240530111205.1764-1-bavishimithil@gmail.com> <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org>
+In-Reply-To: <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org>
+From: Mithil <bavishimithil@gmail.com>
+Date: Sat, 1 Jun 2024 11:46:14 +0530
+Message-ID: <CAGzNGRn=e46yYrK3o8JhUmod4pGFFdEK31kUWUU4jn+JTgZjQg@mail.gmail.com>
+Subject: Re: [PATCH v6] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Lopez Cruz <misael.lopez@ti.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Simon,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.10-rc1 next-20240531]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Trimmer/ALSA-hda-cs35l56-Component-should-be-unbound-before-deconstruction/20240531-231828
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20240531151409.80284-5-simont%40opensource.cirrus.com
-patch subject: [PATCH 4/7] ALSA: hda: hda_component: Introduce component parent structure
-config: arm64-randconfig-001-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011025.mzDXJJjz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011025.mzDXJJjz-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406011025.mzDXJJjz-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   sound/pci/hda/hda_component.c: In function 'hda_component_manager_bind':
->> sound/pci/hda/hda_component.c:140:33: warning: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
-     140 |         memset(parent, 0, sizeof(parent));
-         |                                 ^
-
-
-vim +140 sound/pci/hda/hda_component.c
-
-   133	
-   134	int hda_component_manager_bind(struct hda_codec *cdc,
-   135				       struct hda_component_parent *parent)
-   136	{
-   137		int i;
-   138	
-   139		/* Init shared and component specific data */
- > 140		memset(parent, 0, sizeof(parent));
-   141		for (i = 0; i < ARRAY_SIZE(parent->comps); i++)
-   142			parent->comps[i].codec = cdc;
-   143	
-   144		return component_bind_all(hda_codec_dev(cdc), &parent->comps);
-   145	}
-   146	EXPORT_SYMBOL_NS_GPL(hda_component_manager_bind, SND_HDA_SCODEC_COMPONENT);
-   147	
+> Please mention in the commit msg all changes (and explain why!) done
+> during conversion (comparing to original binding). I am pretty sure I
+> gave this feedback already.
+I read that i'm supposed to add the changelog below the --- line, my
+bad. I'll mention the changes in the commit message itself and that
+too from v2 right?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Mithil
