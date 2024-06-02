@@ -1,82 +1,60 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277FA14A96;
-	Sat,  1 Jun 2024 23:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9C7219E7;
+	Sun,  2 Jun 2024 14:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717284374; cv=none; b=txmcufeXL5pSB7haxQKqkfOWXtEU7NKxvkFOqosQbJMJ+uy/ThbJMutvQKtguVVvQUDwmhuSoyOSXULztGSrRc1bSp8cdnhKty0u7wWAxBvAtRahwPLhMnQaed0SP3Xdtj6yjONZLDSi7LiNhZA5gSE0vVFcEcSVQ9cfIs5DtzQ=
+	t=1717339785; cv=none; b=jkvBK3AlhNe3YHzpXkbsivLBmw5YVpRJ2Mca+9+bOl68yZ/DMjFv4+Nshyr1Utqz/tS4SB6yGY9i5Oe1fCXoWajFTqDrU6jaAkpB0ax1LT9OtK0O/fS5/Bp2tt+I3+t40mm7rJ3SZylEpXXrxzHC0jTfyF3etd0e9V96zI5x8hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717284374; c=relaxed/simple;
-	bh=QPUlfK6GFJ0fHyLlwqfDeRFIf41n+RJclyTaY7KVufE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TC4G5LfMa2ifVXGOawEPqLHj0jJvggZHdnvRNICNPcBIfkP363dU67b+PHee3o6XwspdZ32stYojGBiF3LE0RMsHEevGGw/Td+ugPF2xqEtxxQKB+foQtRxjk4Dc9VlEu/LiM87EvN9dAxfppUd+XLSGz31ReRU+Igma2HpCx2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Y2zUpNiB; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1717339785; c=relaxed/simple;
+	bh=qqpqDZSrYTMw/+DH41TIxGx0oYZrcIkZ38JENHmMPBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHx5+76x9mLa8RPe1VCCAXjopLZETTnUuON4CLT5gyWSWU0YxkgUTxINvbLqZGxFbmxif0YTyci9d0p6hU6QUSsZNl3wjGp0Sl2Y1B0v+W7foQdvR1113Fgb+jziwmc53u5BMZ6K/4DeC/l/VcsngXpkvndS7lAAL/2UYBMzEDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJyg7vR7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Y2zUpNiB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=y3toXmjpE9FC/9nFEs8AsST4kK6tsu5EB+9tVoO4zzI=; b=Y2zUpNiB/hULCH7b
-	PXwi63YHwj1Acizrz4gbxnX5hrKfgMbb8s4PFq+HSb8ewOzVTPwYwIo0t/XILqn8m+qA6dG3WNMis
-	AeuSTyYsJbMXeMy9OA3whhJUgCtC7bwRtlBbQePV/k/eUjZDyn60ftXbTGoMsEeIg6XW3bOZUJuiv
-	u4ejGw/Cb/2V3xoYjYUcD0blOwmNR4Sth7N6JFkfwOMeQocujlODvEzNbkd0APlz9q7vwvdd8gXDL
-	nfuj0jZmnD/HO/aY4QY/h4ST+cvZFCJWt3DeYlW671WqjjLiKLpBDrd2sLcZ/QuMszUjQ49rCy902
-	ZssT6wp4lyFN/gEjsg==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1sDY6v-003lo2-2B;
-	Sat, 01 Jun 2024 23:26:06 +0000
-From: linux@treblig.org
-To: oleksandr_andrushchenko@epam.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: xen-devel@lists.xenproject.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ALSA: xen-front: remove unused struct 'alsa_sndif_hw_param'
-Date: Sun,  2 Jun 2024 00:26:04 +0100
-Message-ID: <20240601232604.198662-1-linux@treblig.org>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJyg7vR7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F8FC2BBFC;
+	Sun,  2 Jun 2024 14:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717339785;
+	bh=qqpqDZSrYTMw/+DH41TIxGx0oYZrcIkZ38JENHmMPBc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iJyg7vR70GoaKryNgXpEIw0bOarjnZ/mKREJ/MOVm2FtiinHu2v4otRv06gM4NHRf
+	 DvYR1BQ0dfsLVjIGOzncbYbDwBGi1rDLIBeeFMOhYeJpkvnqSzcjyE1BHq9NiWmjFL
+	 OUk2SeQEXkqqLyKs3fC+lGgU7jyhG2TUeuPLk0AqpbS+PUVes2MS0+648YfHh01E91
+	 DPgjCIrRQPp9G4N5uXUCVyMPhfiD+wqUbmq9jCDBp/UW1DXdCuDimMYgfsfIf0WMBa
+	 FGpEoINOsqJWrd/5x87AB/wJ6hL6AX7/s47wGSpxfxYOcuHLxRjTxOoyFjhQxmpuEQ
+	 Dc/05BvAjbCnA==
+Date: Sun, 2 Jun 2024 20:19:40 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, tiwai@suse.de,
+	broonie@kernel.org, rafael@kernel.org,
+	andriy.shevchenko@linux.intel.com,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] soundwire: slave: simplify code with
+ acpi_get_local_u64_address()
+Message-ID: <ZlyGhHNkcgrojyqs@matsya>
+References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+ <20240528192936.16180-3-pierre-louis.bossart@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528192936.16180-3-pierre-louis.bossart@linux.intel.com>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On 28-05-24, 14:29, Pierre-Louis Bossart wrote:
+> Now we have a helper so there's no need to open-code.
 
-'alsa_sndif_hw_param' has been unused since the original
-commit 1cee559351a7 ("ALSA: xen-front: Implement ALSA virtual sound
-driver").
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-Remove it.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- sound/xen/xen_snd_front_alsa.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/sound/xen/xen_snd_front_alsa.c b/sound/xen/xen_snd_front_alsa.c
-index 31b5dc0f34d2..b229eb6f7057 100644
---- a/sound/xen/xen_snd_front_alsa.c
-+++ b/sound/xen/xen_snd_front_alsa.c
-@@ -69,11 +69,6 @@ struct alsa_sndif_sample_format {
- 	snd_pcm_format_t alsa;
- };
- 
--struct alsa_sndif_hw_param {
--	u8 sndif;
--	snd_pcm_hw_param_t alsa;
--};
--
- static const struct alsa_sndif_sample_format ALSA_SNDIF_FORMATS[] = {
- 	{
- 		.sndif = XENSND_PCM_FORMAT_U8,
 -- 
-2.45.1
-
+~Vinod
