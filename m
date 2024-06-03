@@ -1,47 +1,41 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94634482FA;
-	Sun,  2 Jun 2024 17:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6D9374C3;
+	Mon,  3 Jun 2024 06:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717347673; cv=none; b=iqdZhFIUGUpJE6qP+jcuxASg22DkE3sVOjD0z8ZsDmYBj3zVy2pkyRc9m/NSlr9z2QSg9CrcCvnj/N87nI+ZJfjbgstKyXbqkJe+FpQt3icHGg03TYnw+1N9vuxZ5kDhEkVD/II5O5ZYZU59RpGsDUVxPUxyIdvnbtAUiG3x49Y=
+	t=1717395107; cv=none; b=AiA+3Vc7I+4JwlKjUyHrYB0ywgnKPNLSgAFgi7VG/fF5x/v5FoWUkbEdoLCGIiEMoWvfNw5h8j2+82dIReyEr8XDgAGqd5zrGCkstweGgu5OVYaAW7LT/n5HLbLT8GISVbXelVvHglvbYQIMjGN5wUd0VYo8rUwEZFxdr0GlFPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717347673; c=relaxed/simple;
-	bh=k5EYfPHC/Lo/TNWeBjdx9+fS7FRH2k0S/Jzl9BF0st4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=ONFX9XW2cJzMS9QCZ8GVAAZBRlNMP1cOndkLirfiEdXd8Mpa3smFfQhi0308Iw0rmuc5jURBNASfdivn1hrQNeCKq032p797wQpvoj5EQaUDtlRAuCZ08IsU1ggxN0y4nbE2yUj0Ud+GxSBHeUhga5oe/a2f2AQ/m792IVdFN3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JuocYykB; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1717395107; c=relaxed/simple;
+	bh=uuBWVXHe03mkIiLXfqEB1wHYxIW6X+fBhN1iDdRQl1I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nk0vrgd7Rz//upRVxNKHr+6IVQCp6olSRicuqc9rqHPEekCt71/fIggL/o5O5Hup1tRWRzaBxbjlmXbUp+hQ+eP9KzF26NkZZaHZpZbKV52HEMqeUOCePGfXbtIp6QLiJqyoIVIaUvmTA+WM3z/xpMPOd0k3E3XvlxkMIInnB+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azgHYuGb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JuocYykB"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 452GQRj5030510;
-	Sun, 2 Jun 2024 17:00:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=3V/muIh5raFrmw+q30bwPk
-	XMh8vWT0odM2JbwBWGe8Q=; b=JuocYykB3bFoOcOQf0lz39Ejc8pUKcQnWe4OgU
-	isXDFaYqKlPzo3Nyqf1/FCUngph7/hF1XQY7JeiwwkmdFajGEEyWqXyCoBpQHaBw
-	Srpp0NC9ZN1+PHeWLAgN/zaYGNCjsT8G3vSCL5CfdKHaUk66+L9iD3Ozql3evJ5/
-	Iyl5c4YQvvz+JqAWTLzv4FyRYv27tBfGO3MVh5YHemU3QSoHljxUvSHEffCE4ZKY
-	ad3kRQOq/cNnxXCrEc6kULd1ywmQXtvxk1kuesI3Je/CKkRco0m4spMd6vX0Xb1m
-	20c7Jr86RVfO3gFcLYEpQ9pef7JqkVTQYxOA6q7nqsJzUkUw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yfw7dj9k0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 02 Jun 2024 17:00:35 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 452H0SE5011802
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 2 Jun 2024 17:00:28 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 2 Jun 2024
- 10:00:28 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Sun, 2 Jun 2024 10:00:27 -0700
-Subject: [PATCH] ASoC: fsl: add missing MODULE_DESCRIPTION() macro
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azgHYuGb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AD2C2BD10;
+	Mon,  3 Jun 2024 06:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717395107;
+	bh=uuBWVXHe03mkIiLXfqEB1wHYxIW6X+fBhN1iDdRQl1I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=azgHYuGbNKcNDVsDBelLAEKWb6dE6PsnYmbI/9ivhIsRK5QnvTmAxKZG0Ec+xRPb/
+	 sIlVq6+iAW2/965QpdtlAFVvpqfuo6Ac8eQgMwy0TfNCs/qw4V8YzzxF/NZtbv7gfc
+	 Pyfvi/SF25HRii4c1cx08SXkA2dFpUPrMk23SqF3Nbo0Ha/Nt5edDBsHZSZ9qfvfeG
+	 CiavIkummp7SyzVxTA0ZkpczVYW4BBXjpvADxCTqNwMZ7e/QSz6CV0Ll7oZZp7+duQ
+	 3NROJm9k63+bNNLTJTb9uYsT6NxGZiatviwlmfDWQ2vyZMsE7CB0Yqmd/Efgl5Ji9Q
+	 YtrsXULsI2xoQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: bard.liao@intel.com, pierre-louis.bossart@linux.intel.com, 
+ linux-kernel@vger.kernel.org, vinod.koul@linaro.org
+In-Reply-To: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
+References: <20240429004935.2400191-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] soundwire: fix usages of device_get_named_child_node()
+Message-Id: <171739510483.479714.7469467441579202201.b4-ty@kernel.org>
+Date: Mon, 03 Jun 2024 11:41:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,63 +44,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240602-md-snd-fsl-imx-pcm-dma-v1-1-e7efc33c6bf3@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIACqlXGYC/x3MwQqDMAyA4VeRnBeopXrYq4wdahNnwHaSbFIQ3
- 32dx+/w/wcYq7DBvTtAeReTd2nobx2kJZYXo1AzeOeDG53HTGiFcLYVJVfcUkbKEd3ofUiDo0A
- 9tHhTnqVe48ezeYrGOGksafnvVinfijnahxXO8wdUKIBhhwAAAA==
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shawn Guo
-	<shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Pengutronix
- Kernel Team" <kernel@pengutronix.de>
-CC: <alsa-devel@alsa-project.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-sound@vger.kernel.org>, <imx@lists.linux.dev>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
 X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6DUnu3tC95JK_a5FNoxTYQqixlWUhI41
-X-Proofpoint-GUID: 6DUnu3tC95JK_a5FNoxTYQqixlWUhI41
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-02_11,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 malwarescore=0 phishscore=0 adultscore=0
- clxscore=1011 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406020147
 
-make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+On Mon, 29 Apr 2024 00:49:35 +0000, Bard Liao wrote:
+> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> 
+> The documentation for device_get_named_child_node() mentions this
+> important point:
+> 
+> "
+> The caller is responsible for calling fwnode_handle_put() on the
+> returned fwnode pointer.
+> "
+> 
+> [...]
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- sound/soc/fsl/imx-pcm-dma.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied, thanks!
 
-diff --git a/sound/soc/fsl/imx-pcm-dma.c b/sound/soc/fsl/imx-pcm-dma.c
-index 14e94270911c..4fa208d6a032 100644
---- a/sound/soc/fsl/imx-pcm-dma.c
-+++ b/sound/soc/fsl/imx-pcm-dma.c
-@@ -50,4 +50,5 @@ int imx_pcm_dma_init(struct platform_device *pdev)
- }
- EXPORT_SYMBOL_GPL(imx_pcm_dma_init);
- 
-+MODULE_DESCRIPTION("Freescale i.MX PCM DMA interface");
- MODULE_LICENSE("GPL");
+[1/1] soundwire: fix usages of device_get_named_child_node()
+      commit: 55953994903c3b6ef7b520b8f0632245fb718692
 
----
-base-commit: 83814698cf48ce3aadc5d88a3f577f04482ff92a
-change-id: 20240602-md-snd-fsl-imx-pcm-dma-06224c50d4d1
+Best regards,
+-- 
+Vinod Koul <vkoul@kernel.org>
 
