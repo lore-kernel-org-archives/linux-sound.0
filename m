@@ -1,94 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C442124A08;
-	Mon,  3 Jun 2024 11:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5207C8665A;
+	Mon,  3 Jun 2024 12:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717414704; cv=none; b=MSdZ1Oz0VyMyCuJ8TVdc+F6rQrOLOOcHHRmZhFjYsagZgfgP6YoXk3O0+rtudaIIVJ4AlpCTBvi6BJ4q3NBFiBbHkBN9vTRjjbsAUf9GI3+QjKkQ8tve7WVpeOeQPfzmf0b3lTct34d5iJEiBVz63INmqq1Senv5gOW2nJ6L0BA=
+	t=1717416681; cv=none; b=ng28KSm8XGAPPxnJw1o1p75s7r27Yxlh6a41421kZxs09D01E+TktCoXwvpIge9/X0ElXiMLx/IEPQHsS2we4d7sB1XES8QGrUrx1sxHYaM/RgYvL+QY2hhHSZON/dr4qaMrarntV8UowO8cUqPYHjCRzosLS4PQZP/mbg7lD9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717414704; c=relaxed/simple;
-	bh=TWRC08F1B8xoRvMQiF3zg64H2B0opUb04uKXgiUGxC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oVzok/+Dct0wrd0nRtyod0SzS0xem8D7Y9I9BW0/4hs3wGhc7St90o15GaIapz9XCj6VPF/8is1VCutbcpIVQbL8exC3rfEZvKvXbhmarBT0RLsbm0AAgaX5lFSPE1Ccf9qn9hMSK4e1xOC6baycrR2ZL+c9u21SaeW2ipFDYuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSABx7Iw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717416681; c=relaxed/simple;
+	bh=lwXfUIxWMJe9RXmv+TjDhCZ/l7pIOBcTR+FEij0bPLU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=c/hab1znKb3t82/WzJTdmt0VGTjyS3fiBFgiAvpgKzDTjAjrDshdUOZt7bkYDhejL1hb72u2TQjJ5qWVYZKQzHWSQhgntH1vtcIx1krUgImqpOXkRXTzGvob8FXCmrW+Q7/hdYPA6FKD8ArjFWfA3+pbEJGNED2Q5PuhFM3U2jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPYbTcsK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSABx7Iw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 058F9C2BD10;
-	Mon,  3 Jun 2024 11:38:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPYbTcsK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F5AAC2BD10;
+	Mon,  3 Jun 2024 12:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717414704;
-	bh=TWRC08F1B8xoRvMQiF3zg64H2B0opUb04uKXgiUGxC4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nSABx7Iw5P+O610S16NKTpohZgAsHIuHtjj7woP3hUNge8+QvuiMEPHlAXr8AyXQv
-	 QIAoqzJELkr8K5rA0en1jTy/WW1a2nov2gXyYn3hs+aCY8gzABYptJWKAbAGnpnFBp
-	 jKVTO4+GapEp1R5V2DbwDBXCC4ZXlyffPub0zhCfGAve5NfKAGeqeRhBsGC3EW0rk6
-	 p167mLa4ILVlgWc+iSQ+qCwu0bQr4ubxZn0F/AeE8HY9cGX/+m1KNiy6SEzqRjhYjY
-	 +ngrsn0pv/ydS944D0t8cYSCszW5icbuL5dBiBqHycPFoMAUY6t3chFDOinvAtjtQs
-	 oOdblXYCiVYCA==
-Date: Mon, 3 Jun 2024 12:38:18 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13
- 9360
-Message-ID: <c9707ade-bd43-419b-8959-0b45d572facd@sirena.org.uk>
-References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
- <87cyp280yw.wl-tiwai@suse.de>
- <21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
- <878qzp97qh.wl-tiwai@suse.de>
+	s=k20201202; t=1717416681;
+	bh=lwXfUIxWMJe9RXmv+TjDhCZ/l7pIOBcTR+FEij0bPLU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OPYbTcsKnbf60GJbHzK3/e/HwV42HgGtSegoP8sUi3/9O5VlDspxe4A7vFrkf5q4d
+	 PIf7RlksvQZgnXY44JTGA8zGQQidLT1qwOVZjlDFvGT88AYxK9WeA5qDbScWm/YfID
+	 WSClflZA4KsXqkdZmu2jncUp2btgzYVUKzxVPIFXQB6ZtzNmTFnZovReQRaMSs0pI3
+	 bd/mJgtSwpGdWeR+rkDIIt7PlC/GcNNXFLWsnItSEfDewCQ9b5aVpjuaauUvhwpT+M
+	 OC0UlFBtrRH6Woec1jSF6epbmiOKMq0Zf9jD0rOLiG8xJPgkPuB4t/xxyQJIZf2ZYe
+	 BLWQ6B/u9ba4A==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.intel.com, bard.liao@intel.com
+In-Reply-To: <20240603065841.4860-1-yung-chuan.liao@linux.intel.com>
+References: <20240603065841.4860-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH RESEND 1/2] soundwire: debugfs: add interface to
+ read/write commands
+Message-Id: <171741667913.28073.818443345292581461.b4-ty@kernel.org>
+Date: Mon, 03 Jun 2024 17:41:19 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="R3eNN6pTu5AITEFG"
-Content-Disposition: inline
-In-Reply-To: <878qzp97qh.wl-tiwai@suse.de>
-X-Cookie: Don't let your status become too quo!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
 
---R3eNN6pTu5AITEFG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, 03 Jun 2024 14:58:40 +0800, Bard Liao wrote:
+> We have an existing debugfs files to read standard registers
+> (DP0/SCP/DPn).
+> 
+> This patch provides a more generic interface to ANY set of read/write
+> contiguous registers in a peripheral device. In follow-up patches,
+> this interface will be extended to use BRA transfers.
+> 
+> [...]
 
-On Fri, May 31, 2024 at 08:06:14PM +0200, Takashi Iwai wrote:
-> Mark Brown wrote:
-> > On Fri, May 31, 2024 at 05:17:43PM +0200, Takashi Iwai wrote:
-> > > On Fri, 31 May 2024 07:50:33 +0200,
+Applied, thanks!
 
-> > I would say these are all bugs, they show the driver not correcting the
-> > value and allowing users to read back out of range values that were
-> > written.  Even if the driver is accepting out of range values I'd expect
-> > it to transform them somehow when storing, the program will accept a
-> > mismatched read when testing this case but it will complain if the read
-> > value is not valid according to the control's info.
+[1/2] soundwire: debugfs: add interface to read/write commands
+      commit: fe46d2a4301de1299fb32c0317ec316706ceaad6
+[2/2] soundwire: bus: add stream refcount
+      commit: a5b7365f28c191df6b93f60942d2b9a9fe71746c
 
-> Ideally, yeah.  But it's a whack-a-mole game, and my gut feeling is
-> that it'd be better to enable the input validation globally, something
-> like below.
+Best regards,
+-- 
+Vinod Koul <vkoul@kernel.org>
 
-Yeah, I mean I tend to think the whole accepting invalid values thing is
-questionable to start off with so I do think that's a good idea.  That
-said we probably should still be fixing the drivers as well.
-
---R3eNN6pTu5AITEFG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZdqykACgkQJNaLcl1U
-h9Db1Qf/XNB3of8vi+itY+/Z8PKnPMk+cGR3J16JdHzuc/1XgNdh6tq48POjILKq
-BvcnLxqooWZylbzROrB8oJIA7Ffiv5bD7b8IberGiZyqj6WKZROFVUy27Z2I4ekV
-6aBcsjFvlnjIKUj+6xKYyaTe1PdBv3IyWlrW2xNT7Zwy4uN66FcYeP58EMWLfZKr
-QVHImNY9Vt2cnbVdHbb10qOqi+1fUI5iFqyE2t/ETxFQiioydWyxIDpG4vRDO/bt
-C3ZfqFkXLXOmdym3RoFCEVCKj2OchtgdgraE/VlKsqJOabXPEp6bYqnrF+bUGcjV
-goKrFZJ+W/YfnlIJjn1t37Z86ANYaQ==
-=iMu2
------END PGP SIGNATURE-----
-
---R3eNN6pTu5AITEFG--
