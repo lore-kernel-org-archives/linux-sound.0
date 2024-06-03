@@ -1,100 +1,94 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C003C82C6B;
-	Mon,  3 Jun 2024 10:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C442124A08;
+	Mon,  3 Jun 2024 11:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717410951; cv=none; b=kT+HML8bC+x6+uuz4eYNcdOMnYeLhbeft67KAE2bNodoCsTkP5eZCdzz6AowSImibky1oNbWvtJ+4yfG6AKzbfdZH9RfZk1rpRTaJbF5udWblUUuXU9n6LwoR5deM0WPeBTGriYpOhRp1G18L3a3RHgGdxj5PDWchhbJMlGwEWg=
+	t=1717414704; cv=none; b=MSdZ1Oz0VyMyCuJ8TVdc+F6rQrOLOOcHHRmZhFjYsagZgfgP6YoXk3O0+rtudaIIVJ4AlpCTBvi6BJ4q3NBFiBbHkBN9vTRjjbsAUf9GI3+QjKkQ8tve7WVpeOeQPfzmf0b3lTct34d5iJEiBVz63INmqq1Senv5gOW2nJ6L0BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717410951; c=relaxed/simple;
-	bh=L7mPsWE59fLvt2m/9tRf4t9eVGbAAWQn7bYALXOm/6w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N+fNQWxU4aYu0NTDgF9siaXS2r7Hx1tS5PoLfJkf5z4lBi5ktdLM+cSq88i2iX0h+YibzwwMoDe7CZ6AA6/umxu/BCRzo+3smFtKOsYM551DZJdUSSGFKblYhKw5A83MfjUnRg4dOOHMi5QWFolGsfdrXak3HPmEQE0AMS13zhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FfxWepnR; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1717414704; c=relaxed/simple;
+	bh=TWRC08F1B8xoRvMQiF3zg64H2B0opUb04uKXgiUGxC4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oVzok/+Dct0wrd0nRtyod0SzS0xem8D7Y9I9BW0/4hs3wGhc7St90o15GaIapz9XCj6VPF/8is1VCutbcpIVQbL8exC3rfEZvKvXbhmarBT0RLsbm0AAgaX5lFSPE1Ccf9qn9hMSK4e1xOC6baycrR2ZL+c9u21SaeW2ipFDYuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSABx7Iw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FfxWepnR"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4535l7pb018316;
-	Mon, 3 Jun 2024 05:35:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=VxH3GmQdzZ7kvCvsSqTihyPEgS2wEiWRURtVFqWL3f8=; b=
-	FfxWepnRYN8xgX7v/vrigGIb+xuDHa+B4dTc1PX45i5IJ3AZ3GSSlF8wfjTRsSWD
-	Bbcbxj7kZcSMmRgauqwsK/dtWllGuuEL83GxHppWISvVRfYAI8+3J8flbOUAGsKh
-	Tqtk4mQIIKfxnqfvHYI2sDP8YqNpuqsSPn8aPXDOowfIKAaAKsoZPjgdZ8DN6XKt
-	PQdB26YD+rljvuttOeJJ8PPaR8A3eZVK08mkQ5Ir9Tjkj6KZ2i8bxc8DXdDaro59
-	ViYouuarIPoDyvatN1YkHdxc+tThYFVSKM7mzRfnIb2ZVRh+invHNqf+D4z8RsYu
-	GtaM3SYRz4pvmGhHs5CLTg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3yg11xscbq-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 05:35:30 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
- 11:35:27 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 3 Jun 2024 11:35:27 +0100
-Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.166])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 496AF82024A;
-	Mon,  3 Jun 2024 10:35:27 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <soyer@irl.hu>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
-        <baojun.xu@ti.com>, <kailang@realtek.com>,
-        Simon Trimmer
-	<simont@opensource.cirrus.com>
-Subject: [PATCH 3/7] ALSA: hda/tas2781: Component should be unbound before deconstruction
-Date: Mon, 3 Jun 2024 11:35:20 +0100
-Message-ID: <20240603103524.32442-4-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240603103524.32442-1-simont@opensource.cirrus.com>
-References: <20240603103524.32442-1-simont@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSABx7Iw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 058F9C2BD10;
+	Mon,  3 Jun 2024 11:38:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717414704;
+	bh=TWRC08F1B8xoRvMQiF3zg64H2B0opUb04uKXgiUGxC4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nSABx7Iw5P+O610S16NKTpohZgAsHIuHtjj7woP3hUNge8+QvuiMEPHlAXr8AyXQv
+	 QIAoqzJELkr8K5rA0en1jTy/WW1a2nov2gXyYn3hs+aCY8gzABYptJWKAbAGnpnFBp
+	 jKVTO4+GapEp1R5V2DbwDBXCC4ZXlyffPub0zhCfGAve5NfKAGeqeRhBsGC3EW0rk6
+	 p167mLa4ILVlgWc+iSQ+qCwu0bQr4ubxZn0F/AeE8HY9cGX/+m1KNiy6SEzqRjhYjY
+	 +ngrsn0pv/ydS944D0t8cYSCszW5icbuL5dBiBqHycPFoMAUY6t3chFDOinvAtjtQs
+	 oOdblXYCiVYCA==
+Date: Mon, 3 Jun 2024 12:38:18 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: testing/selftests/alsa/mixer-test: 10 failures on Dell XPS 13
+ 9360
+Message-ID: <c9707ade-bd43-419b-8959-0b45d572facd@sirena.org.uk>
+References: <1d44be36-9bb9-4d82-8953-5ae2a4f09405@molgen.mpg.de>
+ <87cyp280yw.wl-tiwai@suse.de>
+ <21f73368-5db6-49a1-b8b7-9b06e698327a@sirena.org.uk>
+ <878qzp97qh.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 2_eWtm-DasY4CugLiLYehl-6UxDlDY-J
-X-Proofpoint-ORIG-GUID: 2_eWtm-DasY4CugLiLYehl-6UxDlDY-J
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="R3eNN6pTu5AITEFG"
+Content-Disposition: inline
+In-Reply-To: <878qzp97qh.wl-tiwai@suse.de>
+X-Cookie: Don't let your status become too quo!
 
-The interface associated with the hda_component should be deactivated
-before the driver is deconstructed during removal.
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
----
- sound/pci/hda/tas2781_hda_i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--R3eNN6pTu5AITEFG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 75f7674c66ee..fdee6592c502 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -777,11 +777,11 @@ static void tas2781_hda_remove(struct device *dev)
- {
- 	struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
- 
-+	component_del(tas_hda->dev, &tas2781_hda_comp_ops);
-+
- 	pm_runtime_get_sync(tas_hda->dev);
- 	pm_runtime_disable(tas_hda->dev);
- 
--	component_del(tas_hda->dev, &tas2781_hda_comp_ops);
--
- 	pm_runtime_put_noidle(tas_hda->dev);
- 
- 	tasdevice_remove(tas_hda->priv);
--- 
-2.34.1
+On Fri, May 31, 2024 at 08:06:14PM +0200, Takashi Iwai wrote:
+> Mark Brown wrote:
+> > On Fri, May 31, 2024 at 05:17:43PM +0200, Takashi Iwai wrote:
+> > > On Fri, 31 May 2024 07:50:33 +0200,
 
+> > I would say these are all bugs, they show the driver not correcting the
+> > value and allowing users to read back out of range values that were
+> > written.  Even if the driver is accepting out of range values I'd expect
+> > it to transform them somehow when storing, the program will accept a
+> > mismatched read when testing this case but it will complain if the read
+> > value is not valid according to the control's info.
+
+> Ideally, yeah.  But it's a whack-a-mole game, and my gut feeling is
+> that it'd be better to enable the input validation globally, something
+> like below.
+
+Yeah, I mean I tend to think the whole accepting invalid values thing is
+questionable to start off with so I do think that's a good idea.  That
+said we probably should still be fixing the drivers as well.
+
+--R3eNN6pTu5AITEFG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZdqykACgkQJNaLcl1U
+h9Db1Qf/XNB3of8vi+itY+/Z8PKnPMk+cGR3J16JdHzuc/1XgNdh6tq48POjILKq
+BvcnLxqooWZylbzROrB8oJIA7Ffiv5bD7b8IberGiZyqj6WKZROFVUy27Z2I4ekV
+6aBcsjFvlnjIKUj+6xKYyaTe1PdBv3IyWlrW2xNT7Zwy4uN66FcYeP58EMWLfZKr
+QVHImNY9Vt2cnbVdHbb10qOqi+1fUI5iFqyE2t/ETxFQiioydWyxIDpG4vRDO/bt
+C3ZfqFkXLXOmdym3RoFCEVCKj2OchtgdgraE/VlKsqJOabXPEp6bYqnrF+bUGcjV
+goKrFZJ+W/YfnlIJjn1t37Z86ANYaQ==
+=iMu2
+-----END PGP SIGNATURE-----
+
+--R3eNN6pTu5AITEFG--
