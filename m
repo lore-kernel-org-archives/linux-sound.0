@@ -1,48 +1,48 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00B783CBE;
-	Mon,  3 Jun 2024 10:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752B683CDA;
+	Mon,  3 Jun 2024 10:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717410949; cv=none; b=tZzJubcve9wBz22GdTBrB7pSfcycrFiW8rRkypmlNp3thCAEsivH2RkvagObacwS8R1P6yCPb9Mx9udAXvl1Zd/X67W7WNLP777PTzgSC4y5vLCqiDr3KGaK28geMtRTYtIhajYOlDZBq4QpmD2ATMIIJSujG7xvDysI1MfVI4Q=
+	t=1717410950; cv=none; b=sXdxQWF8OUK1JECXegCdkP5gq+spQT/UExJ1NuimsdU4C2vAx7ZI549aeMJ8USDb85+DEDRtHeDXgHMSZy9TNaufvPyP7kqP2LsZ5ZxxgKpWxqMjvA5jcqdL30jJ3taLPuCYjYisJGRIldkYKjqw0COinZhmUsNuOKcrDlLTPxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717410949; c=relaxed/simple;
-	bh=e+bL2RoRUJlaWlprGpWktgCZQsKmm2hk0ARDnnJF7nM=;
+	s=arc-20240116; t=1717410950; c=relaxed/simple;
+	bh=tyHcTilPJBf1ZtldFADW7DKJj5yP1ToJmKxXcIXtfGI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KCvJ54VgNePK5VEuTIT7pW4eUpTvNv43sA6EXbgI/wL3OSMygR8eKzlyx7Tj75w05FubqlA0Rmm5Db7BZTBbDdbft1Zu92d/CxEWCMzAMOMMyOe1iSluiTMrXCilqCx37uJOlLym+J0g5FHyj/SE8t4izh+l52Gds5bMzYv9tlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mqp/8NIM; arc=none smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=Pyp7Of7odbOASUFgoMl50PnHXzAHKzaSyh+Ny8hkMKGlLzAWSfkzxn3oeo/U6IbXqdTCMSU6RB0eSu3+tymSzbaAaggl9mB1waMQPx3DQrdcdzNfGjEG4TSHl4+zfA1M9uhrl2IrWH5ivlu6n4pVs4j8Ra0CWV6FgvufmuaaTtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HqjbIreP; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mqp/8NIM"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HqjbIreP"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4535l7pZ018316;
-	Mon, 3 Jun 2024 05:35:29 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4535SpqV028069;
+	Mon, 3 Jun 2024 05:35:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=qUsSAY8N7AKSenNGLa8xZV3wN1+8yO51gSj1XEWRIaQ=; b=
-	mqp/8NIMfMXUEB1p+3SScrbswFbIZikggZm7YjPUVXzfqdG1lxLMebI278cgzOhu
-	GnWmYeFaTPCf1oTTT/Ycnmy9YVgmwp0Ni75ymInN3d1CrK3y13YiWJBlR2KVYCNJ
-	eaZD3QQ2MGsajIfGw4JmWYPtFkKwXwO8y17TDMlHLFSSxm9frp+1u17rG15bIe7a
-	zDEv0C2ss+nkzJcVXzV82+YQxLtFQdPY7i+StcxtFK5NDOhe0ymX7ZqUSCzAmtpv
-	cHnAr6tIDaOe9uXY0R0onTdNy/6MDgfL5eL+k4K15KvsnV2gfyjUFOg1+PHbH/ro
-	CsfRupQ6MtqGsy/zigLu+Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3yg11xscbq-1
+	PODMain02222019; bh=+0kLEE8LRxxWUa9qJB+cByKX7sWs5TP2HYGpu4CAWoU=; b=
+	HqjbIrePigF45RLHqnlnRFfAo4N1yaSqaJNKtfIrC+6fR0NaFXnOoUac00Q3M2Zd
+	NGAp7gWv6cTAwN80EwoPyW+kOqKEsEakKtclvVBP63MgBwG0CwoNYkeh4WZgIiQE
+	OVpZ7++CJyQG+phhQHVm0bR8RHkkqEg9+ijQTvtmDefiDJ5pXo2csp8ArYGuEGkL
+	BCIQgf1xN8hVkVLQJluGcgSGazAcCmepMl2LlVRLegqGvsPV+X8n/jzmv1wg/Yo+
+	8CWFUNGQG/au7xVh+557ntOOBP5Mhcr6Iz1TZuH1aqYhYwCmwGyEhxuSXDxYXhIF
+	Yuihb1i0Rb3MziqxL439cg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3yg11xscbs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 05:35:29 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 03 Jun 2024 05:35:31 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Jun 2024
- 11:35:26 +0100
+ 11:35:29 +0100
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 3 Jun 2024 11:35:26 +0100
+ 15.2.1544.9 via Frontend Transport; Mon, 3 Jun 2024 11:35:29 +0100
 Received: from EDIN6ZZ2FY3.ad.cirrus.com (EDIN6ZZ2FY3.ad.cirrus.com [198.61.64.166])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 4FF3F82024A;
-	Mon,  3 Jun 2024 10:35:26 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id DBD1982024A;
+	Mon,  3 Jun 2024 10:35:28 +0000 (UTC)
 From: Simon Trimmer <simont@opensource.cirrus.com>
 To: <tiwai@suse.com>
 CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
@@ -51,9 +51,9 @@ CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         <baojun.xu@ti.com>, <kailang@realtek.com>,
         Simon Trimmer
 	<simont@opensource.cirrus.com>
-Subject: [PATCH 1/7] ALSA: hda: cs35l56: Component should be unbound before deconstruction
-Date: Mon, 3 Jun 2024 11:35:18 +0100
-Message-ID: <20240603103524.32442-2-simont@opensource.cirrus.com>
+Subject: [PATCH 7/7] ALSA: hda: hda_component: Protect shared data with a mutex
+Date: Mon, 3 Jun 2024 11:35:24 +0100
+Message-ID: <20240603103524.32442-8-simont@opensource.cirrus.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240603103524.32442-1-simont@opensource.cirrus.com>
 References: <20240603103524.32442-1-simont@opensource.cirrus.com>
@@ -65,37 +65,104 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: TTkyztoDiUDSkeFZwReoU0LNOof7MjL_
-X-Proofpoint-ORIG-GUID: TTkyztoDiUDSkeFZwReoU0LNOof7MjL_
+X-Proofpoint-GUID: 0nwIrSmRf_IfMTA0X0QcMZBbFF3xBT3x
+X-Proofpoint-ORIG-GUID: 0nwIrSmRf_IfMTA0X0QcMZBbFF3xBT3x
 X-Proofpoint-Spam-Reason: safe
 
-The interface associated with the hda_component should be deactivated
-before the driver is deconstructed during removal.
+The hda_component contains information shared from the amp drivers to
+the codec that can be altered (for example as the driver unloads). Guard
+the update and use of these to prevent use of stale data.
 
 Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 ---
- sound/pci/hda/cs35l56_hda.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/pci/hda/hda_component.c | 13 ++++++++++++-
+ sound/pci/hda/hda_component.h |  4 ++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 0923e2589f5f..e134ede6c5aa 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -1077,12 +1077,12 @@ void cs35l56_hda_remove(struct device *dev)
+diff --git a/sound/pci/hda/hda_component.c b/sound/pci/hda/hda_component.c
+index 1a9950b76866..7b19cb38b4e0 100644
+--- a/sound/pci/hda/hda_component.c
++++ b/sound/pci/hda/hda_component.c
+@@ -21,11 +21,13 @@ void hda_component_acpi_device_notify(struct hda_component_parent *parent,
+ 	struct hda_component *comp;
+ 	int i;
+ 
++	mutex_lock(&parent->mutex);
+ 	for (i = 0; i < ARRAY_SIZE(parent->comps); i++) {
+ 		comp = hda_component_from_index(parent, i);
+ 		if (comp->dev && comp->acpi_notify)
+ 			comp->acpi_notify(acpi_device_handle(comp->adev), event, comp->dev);
+ 	}
++	mutex_unlock(&parent->mutex);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_acpi_device_notify, SND_HDA_SCODEC_COMPONENT);
+ 
+@@ -87,6 +89,7 @@ void hda_component_manager_playback_hook(struct hda_component_parent *parent, in
+ 	struct hda_component *comp;
+ 	int i;
+ 
++	mutex_lock(&parent->mutex);
+ 	for (i = 0; i < ARRAY_SIZE(parent->comps); i++) {
+ 		comp = hda_component_from_index(parent, i);
+ 		if (comp->dev && comp->pre_playback_hook)
+@@ -102,6 +105,7 @@ void hda_component_manager_playback_hook(struct hda_component_parent *parent, in
+ 		if (comp->dev && comp->post_playback_hook)
+ 			comp->post_playback_hook(comp->dev, action);
+ 	}
++	mutex_unlock(&parent->mutex);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_manager_playback_hook, SND_HDA_SCODEC_COMPONENT);
+ 
+@@ -134,11 +138,18 @@ static int hda_comp_match_dev_name(struct device *dev, void *data)
+ int hda_component_manager_bind(struct hda_codec *cdc,
+ 			       struct hda_component_parent *parent)
  {
- 	struct cs35l56_hda *cs35l56 = dev_get_drvdata(dev);
- 
-+	component_del(cs35l56->base.dev, &cs35l56_hda_comp_ops);
++	int ret;
 +
- 	pm_runtime_dont_use_autosuspend(cs35l56->base.dev);
- 	pm_runtime_get_sync(cs35l56->base.dev);
- 	pm_runtime_disable(cs35l56->base.dev);
+ 	/* Init shared and component specific data */
+ 	memset(parent, 0, sizeof(*parent));
++	mutex_init(&parent->mutex);
+ 	parent->codec = cdc;
  
--	component_del(cs35l56->base.dev, &cs35l56_hda_comp_ops);
--
- 	cs_dsp_remove(&cs35l56->cs_dsp);
+-	return component_bind_all(hda_codec_dev(cdc), parent);
++	mutex_lock(&parent->mutex);
++	ret = component_bind_all(hda_codec_dev(cdc), parent);
++	mutex_unlock(&parent->mutex);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_component_manager_bind, SND_HDA_SCODEC_COMPONENT);
  
- 	kfree(cs35l56->system_name);
+diff --git a/sound/pci/hda/hda_component.h b/sound/pci/hda/hda_component.h
+index dd4dabeae9ee..9f786608144c 100644
+--- a/sound/pci/hda/hda_component.h
++++ b/sound/pci/hda/hda_component.h
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/acpi.h>
+ #include <linux/component.h>
++#include <linux/mutex.h>
+ #include <sound/hda_codec.h>
+ 
+ #define HDA_MAX_COMPONENTS	4
+@@ -28,6 +29,7 @@ struct hda_component {
+ };
+ 
+ struct hda_component_parent {
++	struct mutex mutex;
+ 	struct hda_codec *codec;
+ 	struct hda_component comps[HDA_MAX_COMPONENTS];
+ };
+@@ -93,7 +95,9 @@ static inline struct hda_component *hda_component_from_index(struct hda_componen
+ static inline void hda_component_manager_unbind(struct hda_codec *cdc,
+ 						struct hda_component_parent *parent)
+ {
++	mutex_lock(&parent->mutex);
+ 	component_unbind_all(hda_codec_dev(cdc), parent);
++	mutex_unlock(&parent->mutex);
+ }
+ 
+ #endif /* ifndef __HDA_COMPONENT_H__ */
 -- 
 2.34.1
 
