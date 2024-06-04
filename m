@@ -1,127 +1,168 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2DE1442F7
-	for <linux-sound@vger.kernel.org>; Tue,  4 Jun 2024 09:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0585E38B;
+	Tue,  4 Jun 2024 10:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717494404; cv=none; b=T+gGxQ6cweEFPF1iyv7y5y2cE9ENs8u9GYs77JRzGnvHsO7uL2MLOE/08RkGKgtObJu4Lz7qOb843lyWB66i007aYXVTiJtUiKh2Q0mqPjJo/z5QutEF3wHA1MZL7bCkeoy3caxPA+jGg4DTjbKNkgtnRtn02HQDimKiki+MGw0=
+	t=1717495459; cv=none; b=AWPoD/GLthtDtSmdp8HcXvOwo75nypgiI3iQwE09Ec/MWfeM/RObqgRBNRnsgHy2Dwm2F7XF66cqgOwOWYOHYcWH/CFMztLi/PJQo4mEIsFpJO1WagR0UwrkMENOp0AYuJiWfWWc/HS1Lbax+nOAwytXZiildqVJmnYIKxphgx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717494404; c=relaxed/simple;
-	bh=7iOI2gyIz09ZExE7MThuktVMvBjq3HebuNyhlEujrSo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iW6HXP61Wq+68Rtd2qz98kvZ9nZahIxibsNL+g+u5tpBPnOCVGwzeuKKhL0mQO+cN4a5y5sHRq4RRXKrtqqcQNlj7RWDNC127xQGsxiq0NIlDn4HAXJaMx9yop9/i+NqrZg7LHib1z/vtljuEm0su3G1KATOXNkllT90n88k3KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=thGn6ET+; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1717495459; c=relaxed/simple;
+	bh=Lp+scTaXNWTPUO0ppKiFayLUI/w7Lod4/XYkk1TOgYk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=o6kfVnXov5YOG1Yg8pjrFGy8bSxp/Ex4CteoB9eq90EFxdrVw16nPLJ80lrsou8Jkiki64J00aCArjb8fyVX83k54EVdZK1hThQC8R2zxI6oCWDG3ZlTE3i8+H66IJA8yjaCzOY5oYx8VYgprKsbTXSWc7eqRW+lbi2+KsFTVEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=IB3PJij0; arc=none smtp.client-ip=198.47.23.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="thGn6ET+"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52b9dda4906so1966672e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 04 Jun 2024 02:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717494401; x=1718099201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8w3PHphluD8h1jsOJr+esaBLa0WpV3tSQ0DXHRhrVg=;
-        b=thGn6ET++oTRwFg7vwsIG2IXKFmWdbIbN8iWtbVd2O4Vc2bI+PMCLlBdUe+NWvfiNm
-         G+48HEBwugK4RY0z28c8HMt4XdsPZor6G/qHgBhJIiXXVJvXJ0kzbYjkXO0+2zPpR6t2
-         6DG9wIBB8MIBFSY2a+SjVogihuua1jVW44BFAUQ1+kvzFfnoyzkI2O0HSO1SH9cOZmei
-         avbqsRMwNk4RmYeKwFzjrjVPSLcyJ+QhwAQ7IfZHq5dM0e0Tj/VBfsNc6wKIcvX4Y3qH
-         gbj8uBwsbkD/utaf6ugJzE6wZmdpn5iYbWk5dZeDq33vNHp/aHXadA2UiFjeIVeXt7I1
-         /3VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717494401; x=1718099201;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h8w3PHphluD8h1jsOJr+esaBLa0WpV3tSQ0DXHRhrVg=;
-        b=iQKQ56gZJHyhg96dnjjiSHn1BYT9JPEN/b1o44rTTaj3hcOHyf8qtaUzW9CjTDuVTv
-         mPq7UQ/8vsnm5atE4Z/UEimhWuf3wA8Xud+hUsYrTaKM+f+ZDEEERn2f6P9XMZDYql0p
-         v0CyOBtGcgH+DH6HOn5X/cFMIbTelPufxN4JUI8UT9OOfjFm14wL+oHP/gTEW83P2Adz
-         y+k1LdaMm3GMp1VSCJqNMN639j9Rv313NF3+T6FB8BBbNXJyntjqW15+NGUhSsi0eOgE
-         JPw6HrzU0wItbt2u/StdAUHH55K+SEOaqbCSXMHjhkgPQfcT7CJFlM7MfyC83XR2enNA
-         AZgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCWEkcf4/auNXIfXXGFoFkx5I4KGhBTWn2tWGLHDxLpXJEbn9JMlIe1rFMueEJWIWGRDrXZfbqwtOcCqzVSrQCpJWO7uI5+IQnSoE=
-X-Gm-Message-State: AOJu0YyKJeHVgJPZh/UySC4UlYcgImJXOcRmNfLv5KE0dTCtu7vVS49o
-	8F8+Sk00zxgup/zcmMlNk01NpPfMvgjx50UOKY03RJYymsKyVMCkmkt8sFqAjMs=
-X-Google-Smtp-Source: AGHT+IHmnuqj5RmW/dGeIKGHajzkpP8hr3o/H52znLirAojQLFtRIWcisscJHUffN4MHWiqHDEGJUw==
-X-Received: by 2002:ac2:58d8:0:b0:52b:82d5:b361 with SMTP id 2adb3069b0e04-52b8959629amr8278360e87.37.1717494401183;
-        Tue, 04 Jun 2024 02:46:41 -0700 (PDT)
-Received: from krzk-bin.. ([110.93.11.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd0649fb5sm10903837f8f.94.2024.06.04.02.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:46:40 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: qcom: x1e80100: Add USB DisplayPort plug support
-Date: Tue,  4 Jun 2024 11:46:38 +0200
-Message-ID: <20240604094638.97780-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="IB3PJij0"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 454A2Eqt119443;
+	Tue, 4 Jun 2024 05:02:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717495334;
+	bh=lfjn9I1R/062IS1FRzQ4jeA8Nt7VVXqJ001gnIjP820=;
+	h=From:Date:Subject:References:In-Reply-To:To:CC;
+	b=IB3PJij0syg7D8TMfkGVBc+WxszFobhT9YL4/mCHGdK8Pwd+nvixYuB8+ynHgBger
+	 w5Ag+LUYHCZVZ4VFpMoBkaseaU1UzxFOtYFzunDIgIsiFRcamXm7uIvVp/irkDXnhc
+	 gUQdod2teL379xV5jEGGCW61CtBOfA8cuyJJZrzE=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 454A2Eas007025
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 4 Jun 2024 05:02:14 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 4
+ Jun 2024 05:02:14 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 4 Jun 2024 05:02:14 -0500
+Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 454A2DUp130419;
+	Tue, 4 Jun 2024 05:02:13 -0500
+From: Jai Luthra <j-luthra@ti.com>
+Date: Tue, 4 Jun 2024 15:31:50 +0530
+Subject: [PATCH 1/2] ALSA: dmaengine: Synchronize dma channel in prepare()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240604-asoc_next-v1-1-e895c88e744d@ti.com>
+References: <20240604-asoc_next-v1-0-e895c88e744d@ti.com>
+In-Reply-To: <20240604-asoc_next-v1-0-e895c88e744d@ti.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark
+ Brown <broonie@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, Jai Luthra <j-luthra@ti.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3301; i=j-luthra@ti.com;
+ h=from:subject:message-id; bh=Lp+scTaXNWTPUO0ppKiFayLUI/w7Lod4/XYkk1TOgYk=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmXuYh9yZyRFY1oPeChZAutrbwaZau4OIiTYsWG
+ pV9DiYd19yJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZl7mIQAKCRBD3pH5JJpx
+ RS2/D/41LHb4Icv0t+Lr/32mgIHhUKYtv2gO0KaylT2Q4MuMNr8MCN5WYT5tvAfjffSWaKjuJJw
+ h16AQbN/tvOyixRyIpvROT/gslnNbrcgl4hTkEGpqZfzOxHqrupF1vf8vBrugqj1/nZ+4HwU3d/
+ j4PCQCR23mkm/HEqA5liaAP6E0y74ffddxyODC83zzOYmYqMDffEelGHNsA1Lb5VpiHWpG9KGTn
+ SAYp3M4J7D2M2Ve08MjPGtWysIL0HObBslzq/1SU8W9+xXxdCNcTcvOJwPMrmjBnzsRzVHnTL6l
+ Oh2WiClkZJwtgS0y7+XtpukbI4zU+OAhdAY5JOxpMDAC9stfMXEFqtd+GGpeSQDQCHbqXE+F7pO
+ 6UeKyz+uCfTuY3OdB61OamgOl+oAoRsRtyDocZctceqL1JKqHkgAQC3a2A3ciZfonj8WGd5teTI
+ iUfbsQVnbYdwI4NowAxHX7BD2bZks+HP5CPA8zU9hZ4PPG2T2kuiLJqGkZM+FA+pEVsa7I13Z7N
+ xneZa/NLYjl8V+pXti1RZBmKMBSbBCYaWs56I6wCGX040JTRouzM8X8NP6ltC9z6wuznZkzMOVq
+ Dsh5/0i8ix7YkpEBcSBfgEQQkaW9WS0Y3tneXNAMLH9ZeYOtc8jjzT+U2y9+TW2trR12CvGSp9j
+ AC6e1lbZ3Y97v9w==
+X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add support for handling jack events of USB (DisplayPort).
+Sometimes the stream may be stopped due to XRUN events, in which case
+the userspace can call snd_pcm_drop() and snd_pcm_prepare() to stop and
+start the stream again.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In these cases, we must wait for the DMA channel to synchronize before
+marking the stream as prepared for playback, as the DMA channel gets
+stopped by snd_pcm_drop() without any synchronization.
 
+Signed-off-by: Jai Luthra <j-luthra@ti.com>
 ---
+ include/sound/dmaengine_pcm.h         |  1 +
+ sound/core/pcm_dmaengine.c            | 10 ++++++++++
+ sound/soc/soc-generic-dmaengine-pcm.c |  8 ++++++++
+ 3 files changed, 19 insertions(+)
 
-Depends on:
-https://lore.kernel.org/all/20240422134354.89291-1-srinivas.kandagatla@linaro.org/
----
- sound/soc/qcom/x1e80100.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/sound/soc/qcom/x1e80100.c b/sound/soc/qcom/x1e80100.c
-index d7e0bd03dffd..bc00722b7fdd 100644
---- a/sound/soc/qcom/x1e80100.c
-+++ b/sound/soc/qcom/x1e80100.c
-@@ -20,12 +20,32 @@ struct x1e80100_snd_data {
- 	struct snd_soc_card *card;
- 	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
- 	struct snd_soc_jack jack;
-+	struct snd_soc_jack hdmi_jack[8];
- 	bool jack_setup;
+diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
+index c11aaf8079fb..9c5800e5659f 100644
+--- a/include/sound/dmaengine_pcm.h
++++ b/include/sound/dmaengine_pcm.h
+@@ -36,6 +36,7 @@ snd_pcm_uframes_t snd_dmaengine_pcm_pointer_no_residue(struct snd_pcm_substream
+ int snd_dmaengine_pcm_open(struct snd_pcm_substream *substream,
+ 	struct dma_chan *chan);
+ int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream);
++int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream);
+ 
+ int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
+ 	dma_filter_fn filter_fn, void *filter_data);
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index 12aa1cef11a1..dbf5c6136d68 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -349,6 +349,16 @@ int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
+ }
+ EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
+ 
++int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream)
++{
++	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
++
++	dmaengine_synchronize(prtd->dma_chan);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_prepare);
++
+ /**
+  * snd_dmaengine_pcm_close - Close a dmaengine based PCM substream
+  * @substream: PCM substream
+diff --git a/sound/soc/soc-generic-dmaengine-pcm.c b/sound/soc/soc-generic-dmaengine-pcm.c
+index ea3bc9318412..af439486d33a 100644
+--- a/sound/soc/soc-generic-dmaengine-pcm.c
++++ b/sound/soc/soc-generic-dmaengine-pcm.c
+@@ -318,6 +318,12 @@ static int dmaengine_copy(struct snd_soc_component *component,
+ 	return 0;
+ }
+ 
++int dmaengine_pcm_prepare(struct snd_soc_component *component,
++			  struct snd_pcm_substream *substream)
++{
++	return snd_dmaengine_pcm_prepare(substream);
++}
++
+ static const struct snd_soc_component_driver dmaengine_pcm_component = {
+ 	.name		= SND_DMAENGINE_PCM_DRV_NAME,
+ 	.probe_order	= SND_SOC_COMP_ORDER_LATE,
+@@ -327,6 +333,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component = {
+ 	.trigger	= dmaengine_pcm_trigger,
+ 	.pointer	= dmaengine_pcm_pointer,
+ 	.pcm_construct	= dmaengine_pcm_new,
++	.prepare	= dmaengine_pcm_prepare,
  };
  
- static int x1e80100_snd_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_jack *hdmi_jack = NULL;
-+	int hdmi_pcm_id = 0;
-+
-+	switch (cpu_dai->id) {
-+	case DISPLAY_PORT_RX_0:
-+		hdmi_pcm_id = 0;
-+		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
-+		break;
-+	case DISPLAY_PORT_RX_1 ... DISPLAY_PORT_RX_7:
-+		hdmi_pcm_id = cpu_dai->id - DISPLAY_PORT_RX_1 + 1;
-+		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	if (hdmi_jack)
-+		return qcom_snd_dp_jack_setup(rtd, hdmi_jack, hdmi_pcm_id);
+ static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
+@@ -339,6 +346,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
+ 	.pointer	= dmaengine_pcm_pointer,
+ 	.copy		= dmaengine_copy,
+ 	.pcm_construct	= dmaengine_pcm_new,
++	.prepare	= dmaengine_pcm_prepare,
+ };
  
- 	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
- }
+ static const char * const dmaengine_pcm_dma_channel_names[] = {
+
 -- 
 2.43.0
 
