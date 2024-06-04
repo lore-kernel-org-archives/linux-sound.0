@@ -1,130 +1,103 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526D0143C7B;
-	Tue,  4 Jun 2024 10:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903CB145333;
+	Tue,  4 Jun 2024 10:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717495899; cv=none; b=nBaZYB+h0Tqj1GjG+WieQgBzBmOZ1cvwNkyd52dydCWZCCF6DORVXIw61YcrGEvuZn+a5sdYRl4OeBEXRUQzfrq2h4TG1ogSiqeck3wW0ceocOJD1jPHdFByKuqQWa4fPc6IZPT90PZXUoUdfgK2E/fFpy5wgnHhDUoPCQKEQXE=
+	t=1717497828; cv=none; b=R3YypN20uPiyAu+S6qtteXoRV6E0k2oCab6nxCW5HMJOQN43pXaT/75Dxbikmf40ajYxfB4NE6mHKyjYQPuADzU4WAa3u5YImn5L2DI7r82u4fa/Q88tpkUJcQi8+9ZFPk3VE4sXqQqgLcw1jb0ibsJF3z7xVEOlRRpTqZjyfwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717495899; c=relaxed/simple;
-	bh=C9QZlpACMYy1Zfnu2NImSG8I/J6FWYhPgPQBtPiN+aM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NIvKm2GOmUg34V61BNa6gqXWwMrsVQLcgO81xICclx11PGK/aJBNc8DvY8EZbkDqsh/R7n+GyjwfGXOYwKTP6dlOq4LIVJP/XbL5b3YLxY3He09+1jnbxMqBuBDilamxVhLYd7WbXybZAyPE6zfqlBKXlmiNiV4ah2ptBK5sFtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=E+DvwRIS; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1717497828; c=relaxed/simple;
+	bh=yGknayW3QQ0rwaJndYaKwkPne6V5zBr5l3Gf/k6pWH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PsW43EvU7J5KtGA1+xakBun5M1/CD1qROQtlaDt2p1JV+l5FW6IDgdMN+6N0VEpQZhXgaYbsrEYD5U/8dGtF5IorNohZDpChdr8PvDx8WFvD+9GDUjn99b/2oPDNeqSIjYBdu3aaWf4tO5+Gwfb4bggkyBbOxgHzreCCh0al3So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFndo4/b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="E+DvwRIS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1717495898; x=1749031898;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=C9QZlpACMYy1Zfnu2NImSG8I/J6FWYhPgPQBtPiN+aM=;
-  b=E+DvwRISWsIp+FV/u1kORVbvpHp2sBvN7oIIjGDxK+46ugBXY7bNHKSC
-   3OK5wYRj9WMWmb55fBFjc2JLq3Ic9PoIN4fhu4sLAzIp5wJJz778SLIMM
-   BIfwPYIfYQdHd57TptjkCwCIvTfhKYbBML10zW9EphJjmcu6oYz1IulfU
-   7jAYmgrdgatau5DUvjlcBAEkV8a/XzPfqiUmFA1JSzDfUkCFIrCl13aM8
-   3hcUj0+JimlYaC00p/s0TIaPDxhjyCwcSoaVOip9SRomyAFJ9ff3qshWD
-   mhT6LpS/XluSbdbvQYOFuC1QNNF71/yZ+6s0c496IHE6ZmKLPzzozVCx1
-   w==;
-X-CSE-ConnectionGUID: wEzRrHHTQXqTSqyPNngmpw==
-X-CSE-MsgGUID: VmTWgr6UT6GmI5MeZ9Sbbw==
-X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="257789211"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Jun 2024 03:11:30 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 4 Jun 2024 03:10:49 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 4 Jun 2024 03:10:47 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-	<perex@perex.cz>, <tiwai@suse.com>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <kuninori.morimoto.gx@renesas.com>
-CC: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Andrei Simion <andrei.simion@microchip.com>
-Subject: [PATCH] ASoC: atmel: atmel-classd: Re-add dai_link->platform to fix card init
-Date: Tue, 4 Jun 2024 13:10:30 +0300
-Message-ID: <20240604101030.237792-1-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFndo4/b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18541C32782;
+	Tue,  4 Jun 2024 10:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717497828;
+	bh=yGknayW3QQ0rwaJndYaKwkPne6V5zBr5l3Gf/k6pWH0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cFndo4/bAX4UD1RYY7WGPu4LBwxL7SZEADNtg0GzaMhGV0lJiTDwKfdBS1E9kIinn
+	 v3LUDzudl59ZMNzECxCkaKlVdBMjmpJD2UmYY9fMBxBZ+V44GeCF/x6bxVi8lfNwNN
+	 lvzWoXSYIK2WYzb6gpf1q2KvDfhdS5fnAbYVkjTMCssTD306r9ggTC6YlVIl7t5D+G
+	 FVkCrf1+xyKMBnWyfMp1eWLXMPwnmApXIrh4A0gmpPE8/J1Dga28KgU2f4TB6IFADM
+	 lU1dua6PHtWUu2Ok4rU3wOqOB1r7LzhyzfY/ao7Z+URv2we1ke/y0TBq/qoI0OlkrJ
+	 lHAGnLmUIzAzA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sERdq-000000002mT-3A19;
+	Tue, 04 Jun 2024 12:43:46 +0200
+Date: Tue, 4 Jun 2024 12:43:46 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: qcom: x1e80100: Add USB DisplayPort plug support
+Message-ID: <Zl7v4hezEYcuCORC@hovoldconsulting.com>
+References: <20240604094638.97780-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240604094638.97780-1-krzysztof.kozlowski@linaro.org>
 
-The removed dai_link->platform component cause a fail which
-is exposed at runtime. (ex: when a sound tool is used)
-This patch re-adds the dai_link->platform component to have
-a full card registered.
+On Tue, Jun 04, 2024 at 11:46:38AM +0200, Krzysztof Kozlowski wrote:
+> Add support for handling jack events of USB (DisplayPort).
 
-Before this patch:
-:~$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 0: CLASSD [CLASSD], device 0: CLASSD PCM snd-soc-dummy-dai-0 []
-    Subdevices: 1/1
-    Subdevice #0: subdevice #0
+> Depends on:
+> https://lore.kernel.org/all/20240422134354.89291-1-srinivas.kandagatla@linaro.org/
+> ---
 
-:~$ speaker-test -t sine
-speaker-test 1.2.6
-Playback device is default
-Stream parameters are 48000Hz, S16_LE, 1 channels
-Sine wave rate is 440.0000Hz
-Playback open error: -22,Invalid argument
+> @@ -20,12 +20,32 @@ struct x1e80100_snd_data {
+>  	struct snd_soc_card *card;
+>  	struct sdw_stream_runtime *sruntime[AFE_PORT_MAX];
+>  	struct snd_soc_jack jack;
+> +	struct snd_soc_jack hdmi_jack[8];
 
-After this patch which restores the platform component:
-:~$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 0: CLASSD [CLASSD], device 0: CLASSD PCM snd-soc-dummy-dai-0
-						[CLASSD PCM snd-soc-dummy-dai-0]
-    Subdevices: 1/1
-    Subdevice #0: subdevice #0
--> Resolve the playback error.
+As I asked Srini, please rename this dp_jack.
 
-Fixes: 2f650f87c03c ("ASoC: atmel: remove unnecessary dai_link->platform")
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
----
- sound/soc/atmel/atmel-classd.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+>  	bool jack_setup;
+>  };
+>  
+>  static int x1e80100_snd_init(struct snd_soc_pcm_runtime *rtd)
+>  {
+>  	struct x1e80100_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
 
-diff --git a/sound/soc/atmel/atmel-classd.c b/sound/soc/atmel/atmel-classd.c
-index 6aed1ee443b4..ba314b279919 100644
---- a/sound/soc/atmel/atmel-classd.c
-+++ b/sound/soc/atmel/atmel-classd.c
-@@ -473,19 +473,22 @@ static int atmel_classd_asoc_card_init(struct device *dev,
- 	if (!dai_link)
- 		return -ENOMEM;
- 
--	comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
-+	comp = devm_kzalloc(dev, 2 * sizeof(*comp), GFP_KERNEL);
- 	if (!comp)
- 		return -ENOMEM;
- 
--	dai_link->cpus		= comp;
-+	dai_link->cpus		= &comp[0];
- 	dai_link->codecs	= &snd_soc_dummy_dlc;
-+	dai_link->platforms	= &comp[1];
- 
- 	dai_link->num_cpus	= 1;
- 	dai_link->num_codecs	= 1;
-+	dai_link->num_platforms = 1;
- 
- 	dai_link->name			= "CLASSD";
- 	dai_link->stream_name		= "CLASSD PCM";
- 	dai_link->cpus->dai_name	= dev_name(dev);
-+	dai_link->platforms->name	= dev_name(dev);
- 
- 	card->dai_link	= dai_link;
- 	card->num_links	= 1;
--- 
-2.34.1
+> +	struct snd_soc_jack *hdmi_jack = NULL;
+> +	int hdmi_pcm_id = 0;
 
+And use dp_ prefixes here too.
+
+> +
+> +	switch (cpu_dai->id) {
+> +	case DISPLAY_PORT_RX_0:
+> +		hdmi_pcm_id = 0;
+> +		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
+> +		break;
+> +	case DISPLAY_PORT_RX_1 ... DISPLAY_PORT_RX_7:
+> +		hdmi_pcm_id = cpu_dai->id - DISPLAY_PORT_RX_1 + 1;
+> +		hdmi_jack = &data->hdmi_jack[hdmi_pcm_id];
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	if (hdmi_jack)
+> +		return qcom_snd_dp_jack_setup(rtd, hdmi_jack, hdmi_pcm_id);
+>  
+>  	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+>  }
+
+Johan
