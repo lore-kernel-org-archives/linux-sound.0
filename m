@@ -1,70 +1,84 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E66A801;
-	Tue,  4 Jun 2024 19:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C535914BFBC;
+	Tue,  4 Jun 2024 21:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717528854; cv=none; b=aszBDxTXjL3qqfrvT7LI3IKXRyQWeX63pcbmZWFcC1P6yXbCYNo75UgP9LrEIPpQ1WqBfihmH7CFj8gkhPEmuLw/U4/eSIOQ5DKLHuwCK9jz1dxtw8oWuAfuuYr3u2V/nkaj6mtjZQ98Yx3p78TQWQjvj0pI0hBgjKAPCkex4Fw=
+	t=1717534803; cv=none; b=PSJGGohfuyxxyRHGS95Z5QLBrg6emQhJzGXp0Hhuct6+R/epWFfc+ItrFPcSmrVwK0gB63ye5hE1lQ8cvHa7KazRP+SAXv9cZhh+oPITNKmQWK2xC8DAnS8Bm0enOu0AvRyaMQb+NudA23uhlfgLbaHXQC300xIKmNEDEcgW8YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717528854; c=relaxed/simple;
-	bh=iEIJ1ODrXLu8gKKalSPXoQUGalwH+oelgUDRq8s7R8A=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=o3+3p95wia/C7gfBDwGIu6MODH1i/y1/DsasUqdCUukU/TBvUweUD7/4+D2/GfrRBeqmVnE0jIPvoODE+TWAka1JzUcZZyIVST9HGdcNjisR43MT/ci+qset4/qM3nfRo3xEZCFXhjslJMAwJNqktl9ro+InDx0StudNTsWu7fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=Ba5ZIYTy; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1717534803; c=relaxed/simple;
+	bh=L/mgQJMftiW2D6Mtz++/7s/z/IY5FtyLQtyHNLV0Bfs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RIGgZ4Hf3t028RJCrnZmjU3cyyVx11QWSQKNGvfDWnjxlbcpOE80qPxNiEPWKNz9VXBxtsyj/t8okURHPafA4ZMih7F06rofUb96j8F0uA6OcBSTNd2Y4KVP6u7MRr4mhiE7DkX1tr8A7hylMTtks3GzapArp5zoyLZiS0kKcpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NrGssVz3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="Ba5ZIYTy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrGssVz3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137E2C3277B;
+	Tue,  4 Jun 2024 21:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717534803;
+	bh=L/mgQJMftiW2D6Mtz++/7s/z/IY5FtyLQtyHNLV0Bfs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=NrGssVz3b2HOSCVY1xcjaLRfjFRlZuKbeoZ85bRNRoqr2QEOXGZoKJywZ10nEngy+
+	 4Qm9C/TjWLbGJKK5/OTGeGUBfkfkCHP8NYNeqbWB1KOQHm5My6eSUJxG5+WTRXHLU8
+	 rHzc1ljX3W1aJiqvY7Qm5xLI1CCznXF29AqXQlz+iPaZtcitlDxV9GG1Re3z/7Rbsk
+	 p24KDy4bL/IxT4EjplwEbxiGWqT5wIhAs9Aq3QLppPbEdsLbAKdGWo4RXSNx8WvifD
+	 4sRDC+FKtM88GUqamA37Cil1mIe6RkeM53wqDTg1zUkBIMZk9IDiMz4mOfTNmtipEt
+	 SNr08PqbqeUEQ==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20240604132843.3309114-1-ckeepax@opensource.cirrus.com>
+References: <20240604132843.3309114-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs42l43: Increase default type detect time and
+ button delay
+Message-Id: <171753480179.301205.11382815004369484420.b4-ty@kernel.org>
+Date: Tue, 04 Jun 2024 22:00:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1717528850;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=db/Sl9j482azBoAdhWtuIMKD0VB/oszgMwHPRWC6tXQ=;
-	b=Ba5ZIYTySI0OuLOX2S8DKaSXYQyd9j7j3JkCIjtrrWomudObV6fdgaMIVW/Ns9dK+vDT7b
-	IKCV09hJ1biUgpqpNTVRzilYMdTv5exJkRMPy3EC2SfxsQRFPSZgPhyLeYJ9psFPkg8eh8
-	46FtGa+a4vrRYq8AFVi1Q2um/uVQGKkSy9kLziYw+RMOD8zVJb85fZM1sb5KJThJoTmkV4
-	uPv5okFYbxu7f+Tozmna+NzaOZwz5xpmKzQCAXIJihfPNZrt1hyKIs6zVAFEoOFgnzV9el
-	e17uEA/bczRWhCZifAiIlo671TRGXWpJJdHLebQsxct8qrb3wBDzlQxB2p4yiA==
-Date: Tue, 04 Jun 2024 21:20:49 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, kernel@quicinc.com
-Subject: Re: [PATCH] ASoC: qcom: add missing MODULE_DESCRIPTION() macro
-In-Reply-To: <0bd0a518-4d85-4251-9bf9-d056dc3d7b08@sirena.org.uk>
-References: <20240603-md-snd-soc-qcom-sdw-v1-1-101ea8bcdd38@quicinc.com>
- <0bd0a518-4d85-4251-9bf9-d056dc3d7b08@sirena.org.uk>
-Message-ID: <04bfcdd0088f521e4418a77e528652e3@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+X-Mailer: b4 0.14-dev-d4707
 
-On 2024-06-04 13:56, Mark Brown wrote:
-> On Mon, Jun 03, 2024 at 05:16:07PM -0700, Jeff Johnson wrote:
->> make allmodconfig && make W=1 C=1 reports:
->> WARNING: modpost: missing MODULE_DESCRIPTION() in 
->> sound/soc/qcom/snd-soc-qcom-sdw.o
+On Tue, 04 Jun 2024 14:28:43 +0100, Charles Keepax wrote:
+> Some problematic headsets have been discovered, to help with correctly
+> identifying these, the detect time must be increased. Also improve the
+> reliability of the impedance value from the button detect by slightly
+> increasing the button detect delay.
 > 
-> Is anyone getting any value from these MODULE_DESCRIPTION()s?  This all
-> just seems like a huge amount of noise and I'm having trouble thinking
-> of a use case.
+> 
 
-FWIW, I find module descriptions useful.  Of course, there are
-some of them that don't provide much value, but the well-written
-ones are good.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: cs42l43: Increase default type detect time and button delay
+      commit: afe377286ad49e0b69071d2a767e2c6553f4094b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
