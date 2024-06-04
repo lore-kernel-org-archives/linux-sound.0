@@ -1,87 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D13A13CABB
-	for <linux-sound@vger.kernel.org>; Tue,  4 Jun 2024 21:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0EC14D296;
+	Tue,  4 Jun 2024 23:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717537984; cv=none; b=NzOHxqLV9iQfxLsQserx5NguGWKTB5FmE2fY0xD7zLNekxSl5+iscxH/eJiCZ0uQH6JY2MPgPB+HQmnk101fB0rNcpuQDpIa08vfWDA5yjnkqfTDzeeRW+oqmhMlRHSEWY7ScWdW2hWSGqlFZ66YtvgYatWkyR2CTsS5MS/MFLQ=
+	t=1717542494; cv=none; b=k8GK46ydBfrOAIVUX0ru1Snzc7I7bPauhu9hD76ttXcpd6+0inmMEZMvYPjGI5iPFaQYM94uIpuwZOjgydruie2jeM1FZjOpCWIj6crarD8M0ZT7hlTBRmFX164Y2OP/Bffq/JvfveVfvkAouNz1sE9VevQ8FiG/Xw62pSOq91U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717537984; c=relaxed/simple;
-	bh=bpspmCcC0dliw2h8w3NumD//Qj0YSSS6bsH/z/o5rEQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qsG/zscqEohLcHACS8snjyaqjxx33LbaWjyXR00CX2tBZHlIWw2uU8W5ZyfDW+NkTauvjwL3emPqzic8guUDBXc6Pbf+gmLBtikTaR6egIuTGGKnR3keiMJUrbLB21SXyYDCZIUA005g4nbKWjUmzYVtm1RbS0/afOq6k0VbNe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cr5atBTN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717542494; c=relaxed/simple;
+	bh=Rlz96sMG/kOG1NkbypRbXtCzD5LzoBOpjZ03kKZSVZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KfGeFqo3+Yz9EaHrekejVAQmjSbOCQTwhvlUZiuA2oofWkM5CgNRqxewQ2WvlebdDfBrCOLFZb3sYfjpQXNsdbD5v/8/XbDwlXrviCTKzGmnb9Xx3muaxiAz+9NykxnUYsCn4W/ScBBbO/FDXt69QVLUJ0hUehFViXM96XQhpl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Sh07SUgr; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cr5atBTN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1100C2BBFC;
-	Tue,  4 Jun 2024 21:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717537984;
-	bh=bpspmCcC0dliw2h8w3NumD//Qj0YSSS6bsH/z/o5rEQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cr5atBTNws2/XqMIInBiJoXbyPDF1i4Ote0xyLuTITtwrYm2Z00kzgWY9Y3EKXC8w
-	 SlCkVA9ba8Q9wdsYa/shbC8FsswogifUBBWcvXMl60YJf5TVu3qmgSsCcfG/BAZcGd
-	 x/X+/ZARpKzvWH6nvysqUnh9rHRdqSayvevUxn7iUvLm4WCl+PW8DO8HmY11PpbU/J
-	 BqlQUBNgsSfj01ZSnzhMS8e/BHHLpXoOuC2sr1LSswiAIq/QQrT9+ElV+TOsJaH0o0
-	 qqTBZeIvPM8uUzgGvfKLyqHFCYOOhy8VOnNId38kAOnAKlY2Ua7oIOB9NmW0XATcKK
-	 NDi2TRuaNxB7w==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- yung-chuan.liao@linux.intel.com
-In-Reply-To: <20240603073224.14726-1-peter.ujfalusi@linux.intel.com>
-References: <20240603073224.14726-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: SOF: Intel: hda-dai: skip tlv configuration
- for DSPless mode
-Message-Id: <171753798236.310373.6377521365725248262.b4-ty@kernel.org>
-Date: Tue, 04 Jun 2024 22:53:02 +0100
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Sh07SUgr"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 454HSp4U006214;
+	Tue, 4 Jun 2024 23:07:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Rlz96sMG/kOG1NkbypRbXtCzD5LzoBOpjZ03kKZSVZU=; b=Sh07SUgrhjImHfdH
+	8SF5gPwkwFVEDWC9F2gQeDqxysGKGJPr/2jsqi4pVZDjYbDd0CTK6X9gFRCGoBmk
+	OitrJsxIZIleOjunqKg+LtJMVf4L9jeXQ0r/F2sMtEl7xyaZ8x/sd4Msj7Xe7irj
+	+FFCrxMEBlLFeMJOS9cPWWwuD7t8C+12N/pbjSOksp+JjD1Q5a7PSQ+nk7ljVedB
+	NnZNPRntRdACwGyvkyIu1VyTtmcCDKJJ/QvEi2jYkD+9TBiyY7mJElBrnvchVHSL
+	CeWB663RCxYRf/TckWRXkkvkR05Weo4p17EEf+VRjVPCubqYjl8cXY+a3vmtWVpO
+	VG9wqg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yj7brrmjb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Jun 2024 23:07:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 454N7lP2012541
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 4 Jun 2024 23:07:47 GMT
+Received: from [10.48.241.109] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Jun 2024
+ 16:07:46 -0700
+Message-ID: <ed29f097-eb5d-4133-a3f0-4fb0e8933cb8@quicinc.com>
+Date: Tue, 4 Jun 2024 16:07:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v22 32/38] ASoC: qcom: qdsp6: Add headphone jack for
+ offload connection status
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240524001043.10141-1-quic_wcheng@quicinc.com>
+ <20240524001043.10141-33-quic_wcheng@quicinc.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <20240524001043.10141-33-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev-d4707
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: pZc8JSSJvyCdzyxMTEuTXq3F2dtNbF2a
+X-Proofpoint-GUID: pZc8JSSJvyCdzyxMTEuTXq3F2dtNbF2a
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=847 clxscore=1011 phishscore=0
+ priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2405170001 definitions=main-2406040187
 
-On Mon, 03 Jun 2024 10:32:22 +0300, Peter Ujfalusi wrote:
-> Thesof_ipc4_dma_config_tlv() call makes no sense in case of DSPless mode since
-> it is a configuration for the firmware.
-> 
-> Regards,
-> Peter
-> 
+On 5/23/2024 5:10 PM, Wesley Cheng wrote:
+[...]
+> +EXPORT_SYMBOL_GPL(qcom_snd_usb_offload_jack_remove);
+> +MODULE_LICENSE("GPL");
 
-Applied to
+please add missing MODULE_DESCRIPTION()
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: SOF: Intel: hda-dai: skip tlv for dspless mode
-      commit: e0e8e4bce61cac674fdabd85d070e7bab1634a8b
-[2/2] ASoC: SOF: Intel: hda-dai: remove skip_tlv label
-      commit: 3b06e137089fc0beb5ffa6a869de9a93df984072
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
