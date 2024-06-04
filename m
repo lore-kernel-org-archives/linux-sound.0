@@ -1,190 +1,120 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEB113F425
-	for <linux-sound@vger.kernel.org>; Tue,  4 Jun 2024 18:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046614A4FC;
+	Tue,  4 Jun 2024 18:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717526905; cv=none; b=KaJsXMWotxrifaFSnJYg0OyHSrw3nLCSo6lWVqbrMGqS+yK7r8RByvl4DgwG2VpdbM4C3hyu1anu6xSxZrNXADo8Y561GCcC+CB3/SPnAMrokRD7o5VfUnpkEbhmiGJ8R9mUUXU9cfnRnoOTmazCyBfwnKiMYYVUVP3LHAJlTdU=
+	t=1717526923; cv=none; b=t4WiKuPB14HkF20Mfasdzoq2uoC122fMLvAKisq3N9BcW8ONpzMeFA5EDF45soaMntWyX+IU6YlLc5uipmEjbLR5EhxqcHq1iLIb0dxMh9fQmvxArObUrJPN/YnaH9xJyvAqbdtASnE5kNF2kt8DD+CayNSs+m5RS3JW69qJayU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717526905; c=relaxed/simple;
-	bh=grQASJp14Bt7fZYtPF/BOiWWydFpPjbo/cl/eIyN7Yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DpFU2mTyIVogLQ83sJQthpxWF/qgp/pI2IxosZOkuHHnA+oUxqtoB4Jgc70+OcIu+rsNNceJV7SdNw+DMkFby6jBy3AfkANWWOcIJgxXNqKsczU0Czgmy8NONPMR21eVt3Cz2JmHQ3nCDo3P/Kg2NSM7t0RbVc0GAqlLCBVKvGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bHFiOYAu; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1717526923; c=relaxed/simple;
+	bh=rb1t3bO33sJM24NYQ16VoUzU0MNaG6KSdzSrX+GNr8E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnWI+rllQFkh9YNqstmq4l+5fG9VnXXFc1NQcSfNbmfEhwrp67kKod9Yy7XqmXH+sWD0GEwzMan4erRxYXC9dok490Qgv8f7D1EKtanYao+w+a+bMHGIgoYExYuNAtWzZNkM7Dh1vhTVYIW7O9oOt2F2Bf1ZPWVxQImszUjaSLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYDl6NND; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bHFiOYAu"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5751bcb3139so7265349a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Jun 2024 11:48:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYDl6NND"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52b8b638437so1609282e87.3;
+        Tue, 04 Jun 2024 11:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1717526901; x=1718131701; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Iay1wNfKZ5p2yKYQUB8UE9csohQVR6x64V5CAu9ZDo=;
-        b=bHFiOYAupJPHezIu5EMRLitSaLS450j1gNytIBfnf9DASCQ2LezUHhCQgXJ74KCdmT
-         d5wqXYHYuvVrj9fG1Tow1dBI3oiRQdnSG2XgF6ic1+NaeJsyEK9pu0nyxLPHU7QIyzSa
-         AUhDUIsA0/jO3igdL9svlZg3/0e5gdSZNF0Ac=
+        d=gmail.com; s=20230601; t=1717526920; x=1718131720; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YhU1SbvM7znKVct1eWXWAILOVj0SRCPHV7V811HpayA=;
+        b=lYDl6NNDQ0JGEhY5hGpra3rdHpSjFgdvs1SGgwcXvvzWv7Nym44bpSOfQqg1LNP3up
+         irunm1w+LESoQdfZGrK+eKSSc7aqE8Lae34FD6o9kYyjTiH+zKcwSQwwPCs83toA/5kO
+         PeCdiG1uLc5CoLLnyoNAAOwr7ZNUgeWSdrhRF1CKwEQroFHtDm6kYUotlr9Z2HVFLL1M
+         /vlLibC63aoPliCQD5dFKn7+JnHNjTkh1ipib1HX9k3OzG02gpw+YGa3FTd6Fd/X2oL1
+         Vpj2HiALiH9e1DZsgDSzqvlJqeHnD+aYoUDfgEZ/+vD0wnxVYxXbI+EOwrgKmbEslIcW
+         Lh8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717526901; x=1718131701;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1717526920; x=1718131720;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Iay1wNfKZ5p2yKYQUB8UE9csohQVR6x64V5CAu9ZDo=;
-        b=cR4CQ6pj88o381+4pYWLgAVE6LPpB6QjyifjUV51DYVd0iQ6ypEQ+IZZ0V55XiLoAZ
-         ia+mdsXPtyXQUXS8bc6jrVYOwW40zgFiEY0tfSYCRyVwlgl8XEtmfM9sBiPFuyl0Z32R
-         cPnP14BRuQC43YC3h4ZBzJmV9tM66PeX/hskYvZ871t539nFBSPacEWvXq3EQuiNvN1V
-         NAl7Z0+yXguC8bOGn9YueInA4ikZo9hrm9PPTOJ/vBO10Rp+CnbujTG/8AF0gHwebRhR
-         g1Ij0il8nZgRbeX4opIf0OEa4p37UCRKdldDOIRHqhvALipB8gBM5o00zc5PNgT/pBgr
-         BN2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWFe1Mb6kJe7yytOUkM8C2rSbBkUfCYZivcz1HWnYgM8EoG0OLCpqox6t071V507mv7vaK9Ik7L5ijUzA7/TEDkio+nasyqSqSvBiQ=
-X-Gm-Message-State: AOJu0Yy5aVNYF/NLAbIoShIo4qED7EO1MzVLQm2k+62rHAUgg/60WN8+
-	3/Q7P/Fg0a6W7spy7po/P0DJo5578k6HYU7YMcBQ6JNkXKnIZqlHYWU0RZ/PchVrUI3cHz1DPPv
-	Uw5WSRmrG
-X-Google-Smtp-Source: AGHT+IES8mKwx3RcTxZRgtwwp/o10qwQA2/olZgtZVqNNVfxF7c7VX5PUkV5gxT4FR9vNEXFxCFRMQ==
-X-Received: by 2002:a50:d7ca:0:b0:57a:4af6:319d with SMTP id 4fb4d7f45d1cf-57a8b676fffmr298577a12.9.1717526901373;
-        Tue, 04 Jun 2024 11:48:21 -0700 (PDT)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31b9958fsm7815501a12.2.2024.06.04.11.48.21
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 11:48:21 -0700 (PDT)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35a264cb831so5404172f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 04 Jun 2024 11:48:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWLFMp3brfKIH3m8J2s+1TyzD8qwvNWY5LDsKchOEXvtMI4SoW/ouTKcCsZpMm3bInyy1+c0dwrTojlL2ncAOFe8TNUf0DLAtp1uPU=
-X-Received: by 2002:a17:906:54b:b0:a62:2cae:c02 with SMTP id
- a640c23a62f3a-a69a024ce40mr20818866b.61.1717526574326; Tue, 04 Jun 2024
- 11:42:54 -0700 (PDT)
+        bh=YhU1SbvM7znKVct1eWXWAILOVj0SRCPHV7V811HpayA=;
+        b=Xzow538ohuy+ijx2wYFwh3R9KJ2g1m6wZjIlfVk7Q3cHalEo2JhmFj1de3jEWL0u2/
+         SYKHQaCyrFcWg9TqldIT6U/S0NeP384DqkpMZzr9B+//rKW88Xs1nVNqRfomNuxaRuvG
+         YvMVUT3EOnup2KL9y2ypJj4FVfclRt5NQy+J9BGTnPlbtTc+hYibHfVJAC37VTo9UgAw
+         aYePhFYvJCQKx001fNtNWr2/dS1ujShGXOCPU1BTzGg+4/CxTo+r+LYsA6qyHuyBib59
+         Lw9u9OW3g+D3v1zZwv0Rj9fFlD3e0D3jtKw7XrlJR1zrgLdFRjPNY/WHxX6G0L8jV64i
+         /E2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWn/6kqxUGQX4cH+XAs/geXQp9UlhH9DQFdhtYvE4TJMpZWPQgj7HRWHsquP78XLA4bGwkpxMQcjpfBjATCAKsrszOLUniz1AsXTSFsH49zAfJQwyTTETJ3u6Haa8pjpYpjFWwbRdse9qM=
+X-Gm-Message-State: AOJu0YzVGgHgi+03gOS6KcdYWphaIVlq56wB0pSKY/cq71fFhXEisLxl
+	E8Bha4N9qZZTAODXSyYE1lAj8iUjuu1rx9F6oGhUfqfdXUuZrJ6R
+X-Google-Smtp-Source: AGHT+IFEJ8hqG5xCrTQKvzSoryOtPIc1PkC8aaNWtW7orx0ghMl5wbgtdEJ/5xVPTPWB8vdw9HCNQw==
+X-Received: by 2002:ac2:4e89:0:b0:52a:fbcc:b358 with SMTP id 2adb3069b0e04-52bab4cbd6amr226548e87.13.1717526919443;
+        Tue, 04 Jun 2024 11:48:39 -0700 (PDT)
+Received: from U19.ag.local (static.187.76.181.135.clients.your-server.de. [135.181.76.187])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b9ea5271fsm452903e87.252.2024.06.04.11.48.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 11:48:38 -0700 (PDT)
+From: Alibek Omarov <a1ba.omarov@gmail.com>
+To: luca.ceresoli@bootlin.com,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: Alibek Omarov <a1ba.omarov@gmail.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: rockchip: i2s-tdm: Fix trcm mode by setting clock on right mclk
+Date: Tue,  4 Jun 2024 21:47:52 +0300
+Message-Id: <20240604184752.697313-1-a1ba.omarov@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com> <Zl9b_Wh_Lx7Aln1q@intel.com>
-In-Reply-To: <Zl9b_Wh_Lx7Aln1q@intel.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 4 Jun 2024 11:42:36 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whAnzrovfD8MtpRwfbkVxi-W61CqKxYdX+94r_uJeCT7w@mail.gmail.com>
-Message-ID: <CAHk-=whAnzrovfD8MtpRwfbkVxi-W61CqKxYdX+94r_uJeCT7w@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with sysfs_match_string()
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Corey Minyard <minyard@acm.org>, 
-	Allen Pais <apais@linux.microsoft.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, Perry Yuan <perry.yuan@amd.com>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Nuno Sa <nuno.sa@analog.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Elad Nachman <enachman@marvell.com>, 
-	Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Johannes Berg <johannes.berg@intel.com>, 
-	Gregory Greenman <gregory.greenman@intel.com>, Benjamin Berg <benjamin.berg@intel.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Robert Richter <rrichter@amd.com>, Vinod Koul <vkoul@kernel.org>, 
-	Chunfeng Yun <chunfeng.yun@mediatek.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Nikita Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	Stanley Chang <stanley_chang@realtek.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Abdel Alkuor <abdelalkuor@geotab.com>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Eric Biggers <ebiggers@google.com>, 
-	Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>, 
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>, Daniel Bristot de Oliveira <bristot@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
-	Abel Wu <wuyun.abel@bytedance.com>, John Johansen <john.johansen@canonical.com>, 
-	Mimi Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
-	Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
-	linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, qat-linux@intel.com, 
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, David Howells <dhowells@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Sergey Shtylyov <s.shtylyov@omp.ru>, Damien Le Moal <dlemoal@kernel.org>, 
-	Niklas Cassel <cassel@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@redhat.com>, Jean Delvare <jdelvare@suse.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Pavel Machek <pavel@ucw.cz>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Tony Lindgren <tony@atomide.com>, Adrian Hunter <adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Potnuri Bharat Teja <bharat@chelsio.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, 
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>, "Oliver O'Halloran" <oohall@gmail.com>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, JC Kuo <jckuo@nvidia.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sebastian Reichel <sre@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Helge Deller <deller@gmx.de>, Brian Foster <bfoster@redhat.com>, 
-	Zhihao Cheng <chengzhihao1@huawei.com>, Tejun Heo <tj@kernel.org>, 
-	Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 4 Jun 2024 at 11:25, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
->
-> (I believe that the new _match_string(str1, size, str2) deserves a better name,
-> but since I'm bad with naming stuff, I don't have any good suggestion)
+When TRCM mode is enabled, I2S RX and TX clocks are synchronized through
+selected clock source. Without this fix BCLK and LRCK might get parented
+to an uninitialized MCLK and the DAI will receive data at wrong pace.
 
-I hated the enormous cc list, so I didn't reply to all. But clearly
-everybody else is just doing so.
+However, unlike in original i2s-tdm driver, there is no need to manually
+synchronize mclk_rx and mclk_tx, as only one gets used anyway.
 
-Anyway, here's my NAK for this patch with explanation:
+Tested on a board with RK3568 SoC and Silergy SY24145S codec with enabled and
+disabled TRCM mode.
 
-    https://lore.kernel.org/all/CAHk-=wg5F99-GZPETsasJd0JB0JGcdmmPeHRxCtT4_i83h8avg@mail.gmail.com/
+Fixes: 9e2ab4b18ebd ("ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates")
+Signed-off-by: Alibek Omarov <a1ba.omarov@gmail.com>
+---
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-and part of it was the naming, but there were other oddities there too.
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index 9fa020ef7eab..ee517d7b5b7b 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -655,8 +655,17 @@ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
+ 	int err;
+ 
+ 	if (i2s_tdm->is_master_mode) {
+-		struct clk *mclk = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
+-			i2s_tdm->mclk_tx : i2s_tdm->mclk_rx;
++		struct clk *mclk;
++
++		if (i2s_tdm->clk_trcm == TRCM_TX) {
++			mclk = i2s_tdm->mclk_tx;
++		} else if (i2s_tdm->clk_trcm == TRCM_RX) {
++			mclk = i2s_tdm->mclk_rx;
++		} else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++			mclk = i2s_tdm->mclk_tx;
++		} else {
++			mclk = i2s_tdm->mclk_rx;
++		}
+ 
+ 		err = clk_set_rate(mclk, DEFAULT_MCLK_FS * params_rate(params));
+ 		if (err)
+-- 
+2.34.1
 
-           Linus
