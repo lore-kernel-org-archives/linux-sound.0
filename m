@@ -1,120 +1,70 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046614A4FC;
-	Tue,  4 Jun 2024 18:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E66A801;
+	Tue,  4 Jun 2024 19:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717526923; cv=none; b=t4WiKuPB14HkF20Mfasdzoq2uoC122fMLvAKisq3N9BcW8ONpzMeFA5EDF45soaMntWyX+IU6YlLc5uipmEjbLR5EhxqcHq1iLIb0dxMh9fQmvxArObUrJPN/YnaH9xJyvAqbdtASnE5kNF2kt8DD+CayNSs+m5RS3JW69qJayU=
+	t=1717528854; cv=none; b=aszBDxTXjL3qqfrvT7LI3IKXRyQWeX63pcbmZWFcC1P6yXbCYNo75UgP9LrEIPpQ1WqBfihmH7CFj8gkhPEmuLw/U4/eSIOQ5DKLHuwCK9jz1dxtw8oWuAfuuYr3u2V/nkaj6mtjZQ98Yx3p78TQWQjvj0pI0hBgjKAPCkex4Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717526923; c=relaxed/simple;
-	bh=rb1t3bO33sJM24NYQ16VoUzU0MNaG6KSdzSrX+GNr8E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnWI+rllQFkh9YNqstmq4l+5fG9VnXXFc1NQcSfNbmfEhwrp67kKod9Yy7XqmXH+sWD0GEwzMan4erRxYXC9dok490Qgv8f7D1EKtanYao+w+a+bMHGIgoYExYuNAtWzZNkM7Dh1vhTVYIW7O9oOt2F2Bf1ZPWVxQImszUjaSLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYDl6NND; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717528854; c=relaxed/simple;
+	bh=iEIJ1ODrXLu8gKKalSPXoQUGalwH+oelgUDRq8s7R8A=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=o3+3p95wia/C7gfBDwGIu6MODH1i/y1/DsasUqdCUukU/TBvUweUD7/4+D2/GfrRBeqmVnE0jIPvoODE+TWAka1JzUcZZyIVST9HGdcNjisR43MT/ci+qset4/qM3nfRo3xEZCFXhjslJMAwJNqktl9ro+InDx0StudNTsWu7fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=Ba5ZIYTy; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYDl6NND"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52b8b638437so1609282e87.3;
-        Tue, 04 Jun 2024 11:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717526920; x=1718131720; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YhU1SbvM7znKVct1eWXWAILOVj0SRCPHV7V811HpayA=;
-        b=lYDl6NNDQ0JGEhY5hGpra3rdHpSjFgdvs1SGgwcXvvzWv7Nym44bpSOfQqg1LNP3up
-         irunm1w+LESoQdfZGrK+eKSSc7aqE8Lae34FD6o9kYyjTiH+zKcwSQwwPCs83toA/5kO
-         PeCdiG1uLc5CoLLnyoNAAOwr7ZNUgeWSdrhRF1CKwEQroFHtDm6kYUotlr9Z2HVFLL1M
-         /vlLibC63aoPliCQD5dFKn7+JnHNjTkh1ipib1HX9k3OzG02gpw+YGa3FTd6Fd/X2oL1
-         Vpj2HiALiH9e1DZsgDSzqvlJqeHnD+aYoUDfgEZ/+vD0wnxVYxXbI+EOwrgKmbEslIcW
-         Lh8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717526920; x=1718131720;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YhU1SbvM7znKVct1eWXWAILOVj0SRCPHV7V811HpayA=;
-        b=Xzow538ohuy+ijx2wYFwh3R9KJ2g1m6wZjIlfVk7Q3cHalEo2JhmFj1de3jEWL0u2/
-         SYKHQaCyrFcWg9TqldIT6U/S0NeP384DqkpMZzr9B+//rKW88Xs1nVNqRfomNuxaRuvG
-         YvMVUT3EOnup2KL9y2ypJj4FVfclRt5NQy+J9BGTnPlbtTc+hYibHfVJAC37VTo9UgAw
-         aYePhFYvJCQKx001fNtNWr2/dS1ujShGXOCPU1BTzGg+4/CxTo+r+LYsA6qyHuyBib59
-         Lw9u9OW3g+D3v1zZwv0Rj9fFlD3e0D3jtKw7XrlJR1zrgLdFRjPNY/WHxX6G0L8jV64i
-         /E2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWn/6kqxUGQX4cH+XAs/geXQp9UlhH9DQFdhtYvE4TJMpZWPQgj7HRWHsquP78XLA4bGwkpxMQcjpfBjATCAKsrszOLUniz1AsXTSFsH49zAfJQwyTTETJ3u6Haa8pjpYpjFWwbRdse9qM=
-X-Gm-Message-State: AOJu0YzVGgHgi+03gOS6KcdYWphaIVlq56wB0pSKY/cq71fFhXEisLxl
-	E8Bha4N9qZZTAODXSyYE1lAj8iUjuu1rx9F6oGhUfqfdXUuZrJ6R
-X-Google-Smtp-Source: AGHT+IFEJ8hqG5xCrTQKvzSoryOtPIc1PkC8aaNWtW7orx0ghMl5wbgtdEJ/5xVPTPWB8vdw9HCNQw==
-X-Received: by 2002:ac2:4e89:0:b0:52a:fbcc:b358 with SMTP id 2adb3069b0e04-52bab4cbd6amr226548e87.13.1717526919443;
-        Tue, 04 Jun 2024 11:48:39 -0700 (PDT)
-Received: from U19.ag.local (static.187.76.181.135.clients.your-server.de. [135.181.76.187])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52b9ea5271fsm452903e87.252.2024.06.04.11.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 11:48:38 -0700 (PDT)
-From: Alibek Omarov <a1ba.omarov@gmail.com>
-To: luca.ceresoli@bootlin.com,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Alibek Omarov <a1ba.omarov@gmail.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rockchip: i2s-tdm: Fix trcm mode by setting clock on right mclk
-Date: Tue,  4 Jun 2024 21:47:52 +0300
-Message-Id: <20240604184752.697313-1-a1ba.omarov@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="Ba5ZIYTy"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1717528850;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=db/Sl9j482azBoAdhWtuIMKD0VB/oszgMwHPRWC6tXQ=;
+	b=Ba5ZIYTySI0OuLOX2S8DKaSXYQyd9j7j3JkCIjtrrWomudObV6fdgaMIVW/Ns9dK+vDT7b
+	IKCV09hJ1biUgpqpNTVRzilYMdTv5exJkRMPy3EC2SfxsQRFPSZgPhyLeYJ9psFPkg8eh8
+	46FtGa+a4vrRYq8AFVi1Q2um/uVQGKkSy9kLziYw+RMOD8zVJb85fZM1sb5KJThJoTmkV4
+	uPv5okFYbxu7f+Tozmna+NzaOZwz5xpmKzQCAXIJihfPNZrt1hyKIs6zVAFEoOFgnzV9el
+	e17uEA/bczRWhCZifAiIlo671TRGXWpJJdHLebQsxct8qrb3wBDzlQxB2p4yiA==
+Date: Tue, 04 Jun 2024 21:20:49 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jeff Johnson <quic_jjohnson@quicinc.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, kernel@quicinc.com
+Subject: Re: [PATCH] ASoC: qcom: add missing MODULE_DESCRIPTION() macro
+In-Reply-To: <0bd0a518-4d85-4251-9bf9-d056dc3d7b08@sirena.org.uk>
+References: <20240603-md-snd-soc-qcom-sdw-v1-1-101ea8bcdd38@quicinc.com>
+ <0bd0a518-4d85-4251-9bf9-d056dc3d7b08@sirena.org.uk>
+Message-ID: <04bfcdd0088f521e4418a77e528652e3@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-When TRCM mode is enabled, I2S RX and TX clocks are synchronized through
-selected clock source. Without this fix BCLK and LRCK might get parented
-to an uninitialized MCLK and the DAI will receive data at wrong pace.
+On 2024-06-04 13:56, Mark Brown wrote:
+> On Mon, Jun 03, 2024 at 05:16:07PM -0700, Jeff Johnson wrote:
+>> make allmodconfig && make W=1 C=1 reports:
+>> WARNING: modpost: missing MODULE_DESCRIPTION() in 
+>> sound/soc/qcom/snd-soc-qcom-sdw.o
+> 
+> Is anyone getting any value from these MODULE_DESCRIPTION()s?  This all
+> just seems like a huge amount of noise and I'm having trouble thinking
+> of a use case.
 
-However, unlike in original i2s-tdm driver, there is no need to manually
-synchronize mclk_rx and mclk_tx, as only one gets used anyway.
-
-Tested on a board with RK3568 SoC and Silergy SY24145S codec with enabled and
-disabled TRCM mode.
-
-Fixes: 9e2ab4b18ebd ("ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates")
-Signed-off-by: Alibek Omarov <a1ba.omarov@gmail.com>
----
- sound/soc/rockchip/rockchip_i2s_tdm.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-index 9fa020ef7eab..ee517d7b5b7b 100644
---- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-+++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -655,8 +655,17 @@ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
- 	int err;
- 
- 	if (i2s_tdm->is_master_mode) {
--		struct clk *mclk = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
--			i2s_tdm->mclk_tx : i2s_tdm->mclk_rx;
-+		struct clk *mclk;
-+
-+		if (i2s_tdm->clk_trcm == TRCM_TX) {
-+			mclk = i2s_tdm->mclk_tx;
-+		} else if (i2s_tdm->clk_trcm == TRCM_RX) {
-+			mclk = i2s_tdm->mclk_rx;
-+		} else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			mclk = i2s_tdm->mclk_tx;
-+		} else {
-+			mclk = i2s_tdm->mclk_rx;
-+		}
- 
- 		err = clk_set_rate(mclk, DEFAULT_MCLK_FS * params_rate(params));
- 		if (err)
--- 
-2.34.1
-
+FWIW, I find module descriptions useful.  Of course, there are
+some of them that don't provide much value, but the well-written
+ones are good.
