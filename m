@@ -1,219 +1,193 @@
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2041.outbound.protection.outlook.com [40.107.249.41])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9DA5228;
-	Wed,  5 Jun 2024 18:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717612137; cv=fail; b=oTOcopNrtpb8VkLVDRZn3Y/9JxeblAQVih5NZBxn6ElW69mUqsz7314PIY0qfe0tEUdQxaNyg+QuORekVU9qfSiYujqVXe3P/rmYw8eqs4v2VR9jOmiOw36t2g9MFPoGAJwdBZYuTFwhYGCgfu2i+cgrrHP3iYpX47n5Zb/vcrI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717612137; c=relaxed/simple;
-	bh=exsVi7RISMNaMclnM6P4PO0kMFwSwF1InvjwHGNh3+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=aQtrpFHfyiT9Tygtixhmd9JQg5Dw2sMZiBWiY8VsnVs/kyRutYS8ka0+o9jIRcKBoOnUG5ZPe6zC7/J22/aCrHrw2GWkETq1RsIQU34086UoQ3aUPTFObhCd3CJLJUd7i8OYs+3o4ANT7Eq8DA61sKnUYecGAWXEBBNmKa9Wdn8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=VekqrrT7; arc=fail smtp.client-ip=40.107.249.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA93313D262;
+	Wed,  5 Jun 2024 20:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717619679; cv=none; b=bMjHrFuiNQwXxyxukTAha0fTEIWtesg58BofBDrHJBXsh/S6gXpq/WyPJELX/Zg0DXDcPwTG3k1417aNd0J4D/9BoOnAtot88sSxBm9SNi6bWHXVj8yYBmzqqUgTC2f0wrxtbx7vA/jRlX+f17+U26ybjRi9esUHBma8q2qt/V8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717619679; c=relaxed/simple;
+	bh=uKobMdssiBNVRXYbdWAN28ycziehwxzkQTvSknhr/oQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Fllq04NI5YQlxYO8H4QwbNc+3FZwLCt3UZZFI2NfGwChwf0/DBW5gP5R1oW2Upxk31Plds1L3LUCsswNgeKnlqwEZEVT//hMWA5EffjX0oXzv+dWHLnj23zMmgra1BmhCrONy/XQNYrRI7xbcfoMY9GdzVLsHggRm0xm/MIcxlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=XBWdSVki; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="VekqrrT7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T2Q+Dfp/oF9f2LOsh5n+AC5CdXj2B5kkRSOyvZ+uBnulvEhPll79uCH+vQjn9Qcsm8o17KrsxdoQMael4/AoT0aEKU4esmlOVQuYbyTUFn/1Qce8Vw66Y4YnhdnjgjdP1NKN1WQa2wRSv/L2u7ddYQVPSdXVjGB4jKsJ+fJSWqP4KEO4I+2GhzfMAtD+JM+V4xXHMkS+5ND2xOdIEIok7eX7B/VDVMCsFH/VU/JmQU19blkZaYbXrl+Jzh23d8hga7Ji0X7br2edfWg71exeoS+09eBbX4B9uMGnScbZ1alezsUiHvZFb+xdYXuKTSwXWAvRRepr0kPanfyJeswkMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BMBBYpg3mi7aWqlP2BbsF8b+pD8UEkhOSYYQQhsKTVU=;
- b=Ix/n4dd5JmLBCHuQmb8xvxulV4+BnmEJvSV5oQdkAetVQ1X+/9qzQPSwtZ/Fhm3qNJT/weAdxS/Bu6LaK3wnyMndrAitMAnsEGtifP2Ey2t1S4FBH7eYy6my4eUw3mr8DvC6UJcbdUGilK3JYiUgtdEc4nERahJnLECHh4EBCnQSDdfeYCvjX01N0tGlhvuKpdMoMbKv7U3ahIcThAr/u3eRYPozD4YjUMeWX7IVxAAcb65RGi16LjwOQlxXULCgyxsjoQFihxA5Y5TQpoXsRUHN9rXodh0EvXeEcl6xfCCnB+T1tUKcyLgp8VFZz62FiaOARr8HBSgToc6DIh4/9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BMBBYpg3mi7aWqlP2BbsF8b+pD8UEkhOSYYQQhsKTVU=;
- b=VekqrrT7brUAPpgN2f7JgNhHSkxvTL3ypMsEZUQy1eVIgQgo+tE3M2hdZaYfp9oD5it96TSRxE1N8LTfJynMNjKjtNfmXvPURhTMw/bJtNxypJJWPkQqZ0+2JEXpPKBg1mXk2uQElNt7vWiibccD0UoKjF5EoWoetLzqpHhJgTw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AM8PR04MB7906.eurprd04.prod.outlook.com (2603:10a6:20b:24e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.27; Wed, 5 Jun
- 2024 18:28:52 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.7633.021; Wed, 5 Jun 2024
- 18:28:51 +0000
-Date: Wed, 5 Jun 2024 14:28:38 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mark Brown <broonie@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mmc@vger.kernel.org, linux-spi@vger.kernel.org,
-	iommu@lists.linux.dev, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 16/18] drm/vc4: Use phys addresses for slave DMA config
-Message-ID: <ZmCuVtXrwDxbkqAR@lizhi-Precision-Tower-5810>
-References: <20240524182702.1317935-1-dave.stevenson@raspberrypi.com>
- <20240524182702.1317935-17-dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524182702.1317935-17-dave.stevenson@raspberrypi.com>
-X-ClientProxiedBy: BY5PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::36) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="XBWdSVki"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1717619674; x=1718224474; i=markus.elfring@web.de;
+	bh=K4LgTxaCEsSwrK2DaS4xTbm0mo17tA8sa1rtdFZaZSA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
+	 Subject:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=XBWdSVkiAoYN9XG88XnQ0//cxLVvH4hNEIOSI7Y2jlOhIXWYLxA0U52cFzsm4R5U
+	 wqlymDVQIyFbxMbXMrrye3/kgkR+/hqCJOY5TGn2jwpX1p9bOXf9ZQeTfSRSF8maI
+	 9QEITUqVaN8LZvYr/oVeKtdmqMRkWMPdzuWZ4o7c1qakpHL3kEdFrRkRKcm9wEwrh
+	 vL++17BU5PFf9hMvYta16wctaY0OhZn4XiI0atfPWiS70hZ5qt5mm0gZdZS1hKKO3
+	 gaVnan8DrRAYcECB9JP06jpMV2TDrfooWMcO5/h/u643gMLznHlgxPRoB7yTmA0tR
+	 /9I6fzDNyppxCc+w/A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mv3US-1sWLTa1tWi-011U9e; Wed, 05
+ Jun 2024 22:20:14 +0200
+Message-ID: <f2912116-93f2-437d-bb15-9b7d41ccda19@web.de>
+Date: Wed, 5 Jun 2024 22:20:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AM8PR04MB7906:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef87de64-a382-48ab-ceb0-08dc858d594d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|376005|1800799015|366007|7416005|52116005|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6QKKJq3vF58VtTVeJV0e7TZMecz8CKSYxf9pT0wCspCG3tG8+M6OM8lAy86E?=
- =?us-ascii?Q?LEFjzhbxXXWQXOPRxJtoWpdq6yNqoDD6DiXxdW+599bz7iGdehYlOyzeTGmC?=
- =?us-ascii?Q?Zp+2xeVVZNOgqy9HMrPuoF1aTXL5nFNfwmnD7KMR3FbBoPhrxyUnfUMzBczU?=
- =?us-ascii?Q?ynHYFIm+x1/uNrLlGz4BrJRki4IC0+HhTVZxWDeI3dybGtqx+kKtNyQYR7D6?=
- =?us-ascii?Q?oio6MDb7CgliQ/5vf9q717vfTA+7nlKJiuDgvHV1pDrfYAY1p7Q4YAChqPz5?=
- =?us-ascii?Q?m250EVLrbqKl9WoWXi+aFB5WxBn4J1D+yVvUTcD3LbiX7ujL/v2D5ToiM0R2?=
- =?us-ascii?Q?rSsiqfImstoXXOxafq/2V3TXNDIB7nICWqSCvUU3rbX7ArUUWySrwgZ6e++q?=
- =?us-ascii?Q?EXSpZVVPEeyW1pzWzu99ire6+fBStDkKWSMtvI+Rk6n6TOXqeVGVR020USN2?=
- =?us-ascii?Q?s8O8F5nIdFTKfKnNw4zoFlhiH/lhAm2AIAs5f0i8R7ufQGfQM4zwPksK4VTi?=
- =?us-ascii?Q?sHYwCkfUzYMXbw+PEHROsbfygLqzQXplLbaGnuFJ3RVUIznwbMx6FhHkd3fn?=
- =?us-ascii?Q?w0IfZIQL3c3Te6dp1KfMIkze1Sv0/XowCt3S4/nqYkGQfQCzxmKq/WaPtBEG?=
- =?us-ascii?Q?io3Fv7UIyM3nyWq+gldTcym6VtbYRoeZi8veAu4s+y48nJph6M+p04EtDwsV?=
- =?us-ascii?Q?XRIUM9Y54j5rBzST8Ef4zAWMTWwBNJeEZqkZcDJHJ6T7drVbHHlAv3J2UWd4?=
- =?us-ascii?Q?frGjsfVwRkZcbc6GHsBgM7fEvFpsc7CxrLDE9TEOprIXZOn9J4zi0QcOnEkd?=
- =?us-ascii?Q?Xekw2PJysEyIbnHE0iq8Gi9KM2vs+ZW6ig6nmuTc7M8/d2Esdlm0Z5y44v5T?=
- =?us-ascii?Q?MeC0FJVMHiSIPEhzZUnhFfTncP6+fsalQbon3DLxKSUzv5udcfXYbfELuUQm?=
- =?us-ascii?Q?hqBNPtrqcSGSDFt+YVwwFNaiLO6qzr6nnmppj8WsPKWeRXiQfHklnWxiVrz5?=
- =?us-ascii?Q?5iYWUkPdu2AOnD8/e2dLQ4XvAX2FJH2m3wD+wLzDVqSS0R59m5QKSUS/RqMq?=
- =?us-ascii?Q?thTriX9+DMelQmXyZm+DE2hF7H2KMukBEXI2rqfPYdVbOfx+lrZaApcytJSm?=
- =?us-ascii?Q?V61PcHlBIWQf4DinF7eShK789mexxuTElauzeIwOF91qbM8drv73BL2/6Ypz?=
- =?us-ascii?Q?df9Ay6P9kIZrz0n6JeW7QTi/7Urh1rTsryjk1cfLZBeo4Nu2v1SryI6nSot+?=
- =?us-ascii?Q?ACvAa+prH+jbp6jzgvokCJMVJpBkTk7jA79bCJgl3vaSCzPKkfAKWlyYjdm2?=
- =?us-ascii?Q?EYf/6mwmvwBxRHwiPJ3x/3RehAHv6zLeQrwSICdOhbOl+w=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(7416005)(52116005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?f4JppEpsVHNRidpszQ7pTvwzJRWL10VYJD2WmA8+GmMvyvWj2nn24Y4AB7QT?=
- =?us-ascii?Q?8rcHZU5p/St5todaDrdw6+afB/edd2RX0H++qhMWIOyytRNLp3GIOMqIZ66I?=
- =?us-ascii?Q?5eKwJbQOKR0+8ZRrEEEJFGQFL4vZzuts/m3zkhnoOWz+N47k1XwGpzAQfDA5?=
- =?us-ascii?Q?GgFCaXB4XvfhtbfnINrDjemoWIe6ZY3IFYelVNyodUvWFe7LS6ETmkO643Wn?=
- =?us-ascii?Q?v1PXF9OS6antgU9DJELqZJ1VuN6YwC6+Zs2LNIligCH+f+WbCLSBb0l4/v52?=
- =?us-ascii?Q?Qm2gkZzKnaE0izOU2jml5nUI+Whg2ajr7az87rp+xZZzvl54oULRonSJ1PLn?=
- =?us-ascii?Q?itEX1BDpqWNByR27s/4RnrP6DELosWA9JoaxYeeiW4+pgjQP6iYGxbtn0ouH?=
- =?us-ascii?Q?O0oKzQUGJeV8vw03o0hdJYKaZmTbJz2qIfzAT7RCfwNw1W5ULJ16jXKO2KZf?=
- =?us-ascii?Q?2RaLkr6bgFwfnx9Glz0sP+XTkVnUS58mVtizJzDWeY/Z92w5MEXnvtne0knH?=
- =?us-ascii?Q?h1UekqZvxBXz16gIpYxEkHJePFcOqQxBxiHeEASTUXv5on+MwsyKMrwbF+ud?=
- =?us-ascii?Q?lcNWmrDYkluh+wexotmY3ywOf0QRZOf3t+38Fv3KR3TSGxEOu7m0cJBYMOek?=
- =?us-ascii?Q?F3oKwAPV+vYcPyEEbJL1voA0R8FWmomm8xafFljnPMiMyUyA+GN6muU77upp?=
- =?us-ascii?Q?YCdKd2GXayj+5W5+YFcz7DFCdLEgW8XOVS5VUfjwyWogL1F9pOuBXjSNGKG4?=
- =?us-ascii?Q?5JXxqDiWMPGyU5bQpk3nQqo5SVBWPMjGRUAgwr0J8uvG6BuK5DMfVbCxy1DP?=
- =?us-ascii?Q?pSy767LctEB3+tGNQxrVEX1XA9NdZJPZLozSxmAKKhCl23BoIUBurCQeALGz?=
- =?us-ascii?Q?68wUPfaktJMQ1Ru9C0eJAUc0Mpd9PtE3R3cNZUpw3OtGHYpbit3zYN31WO3H?=
- =?us-ascii?Q?MgAQBWElE3Lqm2fhGPuZHxknxVvQFBsJ3d0aKlhPUmaXPavyH4iBdOnV9OFi?=
- =?us-ascii?Q?qXqKsdF2DJDxXtu77MCYDML/NtAY32+jluLvJR9U4pBuML7UIiBc2XjobN90?=
- =?us-ascii?Q?42yxq+hVEbVVNQhOyeFjvMXEqd5NXCcxixVKj+XUuDIvx1tNrnssWiTi2M8j?=
- =?us-ascii?Q?tqTMKd8ZYOc2m3+j7ty2qcu3aCmeik9dq6g8Y4XcK0egzEzWx7/AmIajmBpQ?=
- =?us-ascii?Q?tKg8TC0twXwyd+dYmBdpeUWL92DYpG8abdTALLBRXBsnDKX0HcXImzfPsZWh?=
- =?us-ascii?Q?vIswlZcXDyWz5WPAfzx6oTly1xVbLb3JKta/a1i5hEiN+IKspfLihvDv7Fym?=
- =?us-ascii?Q?N1LOCQywlr//dZka/CIAZOiarWp1JZrHswaGyWir2oow+heQaj9+BSa8jEMg?=
- =?us-ascii?Q?BBesC2gTljxtAs/m3jgS7nOGk//L9w65Hw7DiyJ0KkRYW7zMaRnOW6BjPGGh?=
- =?us-ascii?Q?ryoBDBYT1Phk8VQQdmGUH/l8quk0NjYNUqsryIcgaLf6QHTsmok0emXNxYMr?=
- =?us-ascii?Q?LVBzoK+0Vhh6NfXuGEM2qgncaOvBXmAnqs0LOoHJcrY0jValEfgp0JgeOXNS?=
- =?us-ascii?Q?hX0h0O73OPfcmvUlzf6BO8Y4HjDUudjOlw5pte4G?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef87de64-a382-48ab-ceb0-08dc858d594d
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 18:28:51.5877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jlDT/6XeYhA/R7WmhgCKJWO6H4F69joibEF5AOMLo+zd2LlAwdpoO+OCOYspKBL4D+mFbD55Ir0jy9zc10IWJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7906
+User-Agent: Mozilla Thunderbird
+To: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ David Rhodes <david.rhodes@cirrus.com>, Jaroslav Kysela <perex@perex.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Takashi Iwai <tiwai@suse.com>
+Content-Language: en-GB
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: [PATCH] ASoC: cs35l56: Use scope-based resource management in
+ cs35l56_try_get_broken_sdca_spkid_gpio()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:iiMvF75SG/hLXKOCRnOGm3xQbDMpR7dtnFbnQ9Xj6PHqB2eQQvy
+ /VTBEhRwXj4Ql8Bkp1zH6MhJTVhN8IKwREbf2wYTCoxGKpxCn5tHQWeJC0UxJW0APqbyUWh
+ 74QaReiEVNE0OBgn8QtlmCnnsmk9+/9OLLMayfGcwdUNLjI9YCVriOzULAXL8NwQAIKWmh/
+ 3WoJ8iSyJ4ormopJEgkrA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ur7g/hgP2Do=;E1jXlsG/dQA7JfHKHDxENaK1I+p
+ MTbsn7g8AHoArGwlMIqI/VI2sMCq+T3V4NxwfFrXQZkx3SQJlkHnKlFqpmv69QmDFDWTiZ1f2
+ WO3uQn0D5yVbZrZH7AD+ynEeCT43IKRAuD/J/fF8gywrQqMldSSdw1YaAwIYXA11F5SPG+RNN
+ qPcQM2odmviSzjazAfUvGkW48jUdQ+CEHHE+m4Y3gl/a9egVoHvdOpbHWX9tuMeNj1K/8Mh98
+ cOcr4u2HUGiyuYkHYv/fBY4hMesyUkilvuA41iK5DhDQBYSi+TYrUR5/Ha5fGLkUUjOV52yal
+ woBOOZPAK+eg9503Z7DWMdD5r7xqz7xpr4gAWSSsfnuH3SsqaJxmr3ZpAshQCyJhQweKA6eOo
+ GwpUCYroSbMaRE7+jbUcRQwRKwb2R0K3wLczRIyZmZgr0wHb54dvi2xMeadufNj1pfu7IApA+
+ jQ/mTrVJegf7/QUGXFcnMliZDgybTdtKPyVTuL0IQQCfMwZDnvASDVXqwtcRqM79DPVRX0wbe
+ 8KYxaK45CPQ0DLQV5ByqVlPImNX7sJ7L5HAOCQydzVXJmUC7ddrfV52Z3YfX+HXdC2Ti7mnP8
+ Yo/gPrZCZChHteC7zHm2KOmU4RVmqMk0WJcj8tuYYYd76lLQi68rbGeDcs6/WV89O49oKMELu
+ TxkejgfXld9wLshMMJAaNqWTyQlPbyFnpfPnFB8AwGlAk9IgmuZ+kqQ0HRopxpaQ2uhkMq7lC
+ OOh7iG6jk7oxDhjhxJs1byjemMc8QkLHG/2ER+iCjVwkwJNWgiDMHpzNhYaAXojG0U0e/QmXM
+ /+s+HWpIZW5rwIXb3r4qTmoHZzS+8omK56lh8Xd/bS7MY=
 
-On Fri, May 24, 2024 at 07:27:00PM +0100, Dave Stevenson wrote:
-> From: Phil Elwell <phil@raspberrypi.com>
-> 
-> Slave addresses for DMA are meant to be supplied as physical addresses
-> (contrary to what struct snd_dmaengine_dai_dma_data does).
+From: Markus Elfring <elfring@users.sourceforge.net>
+Date: Wed, 5 Jun 2024 22:02:09 +0200
 
-Can you use the same content for patch 14-17?
+Scope-based resource management became supported also for another
+programming interface by contributions of Jonathan Cameron on 2024-02-17.
+See also the commit 59ed5e2d505bf5f9b4af64d0021cd0c96aec1f7c ("device
+property: Add cleanup.h based fwnode_handle_put() scope based cleanup.").
 
-Frank
+* Thus use the attribute =E2=80=9C__free(fwnode_handle)=E2=80=9D.
 
-> 
-> Signed-off-by: Phil Elwell <phil@raspberrypi.com>
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index d30f8e8e8967..c2afd72bd96e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -2696,7 +2696,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  	struct snd_soc_card *card = &vc4_hdmi->audio.card;
->  	struct device *dev = &vc4_hdmi->pdev->dev;
->  	struct platform_device *codec_pdev;
-> -	const __be32 *addr;
-> +	struct resource *iomem;
->  	int index, len;
->  	int ret;
->  
-> @@ -2732,22 +2732,15 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  	}
->  
->  	/*
-> -	 * Get the physical address of VC4_HD_MAI_DATA. We need to retrieve
-> -	 * the bus address specified in the DT, because the physical address
-> -	 * (the one returned by platform_get_resource()) is not appropriate
-> -	 * for DMA transfers.
-> -	 * This VC/MMU should probably be exposed to avoid this kind of hacks.
-> +	 * Get the physical address of VC4_HD_MAI_DATA.
->  	 */
->  	index = of_property_match_string(dev->of_node, "reg-names", "hd");
->  	/* Before BCM2711, we don't have a named register range */
->  	if (index < 0)
->  		index = 1;
-> +	iomem = platform_get_resource(vc4_hdmi->pdev, IORESOURCE_MEM, index);
->  
-> -	addr = of_get_address(dev->of_node, index, NULL, NULL);
-> -	if (!addr)
-> -		return -EINVAL;
-> -
-> -	vc4_hdmi->audio.dma_data.addr = be32_to_cpup(addr) + mai_data->offset;
-> +	vc4_hdmi->audio.dma_data.addr = iomem->start + mai_data->offset;
->  	vc4_hdmi->audio.dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->  	vc4_hdmi->audio.dma_data.maxburst = 2;
->  
-> -- 
-> 2.34.1
-> 
+* Reduce the scope for the local variable =E2=80=9Caf01_fwnode=E2=80=9D.
+
+* Omit explicit fwnode_handle_put() calls accordingly.
+
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+
+See also the commit fbd741f0993203d07b2b6562d68d1e5e4745b59b ("ASoC: cs35l=
+56:
+fix usages of device_get_named_child_node()").
+
+
+ sound/soc/codecs/cs35l56.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
+
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 758dfdf9d3ea..db41fc42dcac 100644
+=2D-- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -1345,13 +1345,13 @@ static void cs35l56_acpi_dev_release_driver_gpios(=
+void *adev)
+
+ static int cs35l56_try_get_broken_sdca_spkid_gpio(struct cs35l56_private =
+*cs35l56)
+ {
+-	struct fwnode_handle *af01_fwnode;
+ 	const union acpi_object *obj;
+ 	struct gpio_desc *desc;
+ 	int ret;
+
+ 	/* Find the SDCA node containing the GpioIo */
+-	af01_fwnode =3D device_get_named_child_node(cs35l56->base.dev, "AF01");
++	struct fwnode_handle *af01_fwnode __free(fwnode_handle)
++					  =3D device_get_named_child_node(cs35l56->base.dev, "AF01");
+ 	if (!af01_fwnode) {
+ 		dev_dbg(cs35l56->base.dev, "No AF01 node\n");
+ 		return -ENOENT;
+@@ -1361,7 +1361,6 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(st=
+ruct cs35l56_private *cs35l5
+ 				    "spk-id-gpios", ACPI_TYPE_PACKAGE, &obj);
+ 	if (ret) {
+ 		dev_dbg(cs35l56->base.dev, "Could not get spk-id-gpios package: %d\n", =
+ret);
+-		fwnode_handle_put(af01_fwnode);
+ 		return -ENOENT;
+ 	}
+
+@@ -1369,7 +1368,6 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(st=
+ruct cs35l56_private *cs35l5
+ 	if (obj->package.count !=3D 4) {
+ 		dev_warn(cs35l56->base.dev, "Unexpected spk-id element count %d\n",
+ 			 obj->package.count);
+-		fwnode_handle_put(af01_fwnode);
+ 		return -ENOENT;
+ 	}
+
+@@ -1383,26 +1381,21 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(=
+struct cs35l56_private *cs35l5
+ 		 * ACPI_COMPANION().
+ 		 */
+ 		ret =3D acpi_dev_add_driver_gpios(adev, cs35l56_af01_spkid_gpios_mappin=
+g);
+-		if (ret) {
+-			fwnode_handle_put(af01_fwnode);
++		if (ret)
+ 			return dev_err_probe(cs35l56->base.dev, ret,
+ 					     "Failed to add gpio mapping to AF01\n");
+-		}
+
+ 		ret =3D devm_add_action_or_reset(cs35l56->base.dev,
+ 					       cs35l56_acpi_dev_release_driver_gpios,
+ 					       adev);
+-		if (ret) {
+-			fwnode_handle_put(af01_fwnode);
++		if (ret)
+ 			return ret;
+-		}
+
+ 		dev_dbg(cs35l56->base.dev, "Added spk-id-gpios mapping to AF01\n");
+ 	}
+
+ 	desc =3D fwnode_gpiod_get_index(af01_fwnode, "spk-id", 0, GPIOD_IN, NULL=
+);
+ 	if (IS_ERR(desc)) {
+-		fwnode_handle_put(af01_fwnode);
+ 		ret =3D PTR_ERR(desc);
+ 		return dev_err_probe(cs35l56->base.dev, ret, "Get GPIO from AF01 failed=
+\n");
+ 	}
+@@ -1411,13 +1404,10 @@ static int cs35l56_try_get_broken_sdca_spkid_gpio(=
+struct cs35l56_private *cs35l5
+ 	gpiod_put(desc);
+
+ 	if (ret < 0) {
+-		fwnode_handle_put(af01_fwnode);
+ 		dev_err_probe(cs35l56->base.dev, ret, "Error reading spk-id GPIO\n");
+ 		return ret;
+ 	}
+
+-	fwnode_handle_put(af01_fwnode);
+-
+ 	dev_info(cs35l56->base.dev, "Got spk-id from AF01\n");
+
+ 	return ret;
+=2D-
+2.45.1
+
