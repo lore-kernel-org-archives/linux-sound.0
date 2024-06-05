@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1431A1863;
-	Wed,  5 Jun 2024 12:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0139A1C5380;
+	Wed,  5 Jun 2024 12:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717588973; cv=none; b=r+aSQwHY+wMjTEQMmo0jUDeBB61LCg29KGNZMkBwO/+RVaeJB7ntiEF0X+7IXeIkFu1E+eRZfg1eELLTP/b5oPQPQNDzu/IUXn/eo5tq+o4dlRp+C2sx7+hwOMQ0f6ClsEcQ16PDp9YhAgsnY5O4ToX2PtuFtY5bjzErG2GDH3g=
+	t=1717589024; cv=none; b=PDZwVvgV6JVVNuYEJijEUGCejFLk+2wCU4YFxvkMMas81rZVh/9jvQfpAC7n/0O11cB5uXHnGHSwoxGcmukvzt5pHfKw4evqrpANQmBpwx7DDPsRh6yKIbzIlnWotf2bOmsk3S+VpJ+sUgAU8tSXsHHQeLqpDyUp1ke3suZqtYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717588973; c=relaxed/simple;
-	bh=CJPoi8rZApWycbxEPaCbZfRjCL3ty4r2D+EZncVONVk=;
+	s=arc-20240116; t=1717589024; c=relaxed/simple;
+	bh=qsLzNN4PkdBpxXGX3dj2iINcyEeFq3uwDLAkA5pLkGc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bnKgqHt6cpKU2kXysxKvXpGTFb47CYBAr2cKmWaz0ZOoIZbiF4cyIoLfXfDjBg41Ax9SlZZ2Pa6sKwNlOU9AG229y7UYauKZs53rAGKF2Pwk6B5wSD9bAVBMAao6H5YhX9GMcIE8UwUsjfqqZEA4qpO4Qv31f3tIAnabFJKc+n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbhnoG26; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=fj2cxSR3041QrzNjBIXV4cpIwcKF1MV0PAjF9b7CeuppicflwKRodBb7Qa8YXxOpD7YTzdjWoF9yCksKDDO98BqoQ6UOvQVu9WfVnRVzf3LfFTmmFHiPHUkxnPOrPzJpus3X04tkpWdrYfugRYJZPOmSwEYAcHCBLOqSFBl+Tmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQd5zlLv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbhnoG26"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243C3C32781;
-	Wed,  5 Jun 2024 12:02:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQd5zlLv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7881C32786;
+	Wed,  5 Jun 2024 12:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717588973;
-	bh=CJPoi8rZApWycbxEPaCbZfRjCL3ty4r2D+EZncVONVk=;
+	s=k20201202; t=1717589023;
+	bh=qsLzNN4PkdBpxXGX3dj2iINcyEeFq3uwDLAkA5pLkGc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KbhnoG26xu6D1kpmzIqjkFwXwyp5jOQvJ9uMvbaLc6Kg2GDiuOJUPvPyF3tcxVjws
-	 XFwjAUHEdRPXUrQ5TI7L34Wpy+pWtspP+teD4SQ+pI5dxSibo7O6ct/AlI6kMNmn6Z
-	 vXu5CLn2BXFE3O0wdcnFgpHzjHn+zwauYtuUzAEbr64XeoSUps3V8+fzEuvACEt7jc
-	 kYDTf95uPfp8rvjkaY+/lTcX2Dg5GHRIwR8wiPcN8za2YrcUqODjwUNYzKu35XSmJh
-	 ZTLxs1ijWi7TT0BJcFNihr7aApgaoqXLGNFRrb3MfJknWUEO7L1xZNFYRT1ht0Yp2s
-	 s+M0dvFgQ0N0Q==
+	b=jQd5zlLvWs6MLDL/B1w/bheT8zeYyAv6R/C4yWJ5T/r2Nj9O1xMquI4K9lbEVJvxm
+	 /aimk6i05ze2dxh6zHZFzvxsYK/IrHHFyfHvBxvHKSaX7dWFD9vxOqGVebGf7Yf7YN
+	 DwnYDYHwfbd88Yv3WV4jgzNVWI4EePGQSb9odXpc8DdnL8LBcVlazSdCQEMzgYdVPl
+	 8WX0+mbR45WIg6Cz03/DKS+g3iH8TiAJiAVVjoFiwjd8ka4kzNpkm+L8wWq6BEtQN3
+	 WIiPyAUMXf20xcDNuaO/cRWytbEzSI1595q+6LtUVYx02uAXUGXrErYHD3ICBVvye7
+	 M9ZrA56+STBQg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,12 +35,12 @@ Cc: Takashi Iwai <tiwai@suse.de>,
 	tiwai@suse.com,
 	cujomalainey@chromium.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.9 18/23] ALSA: ump: Set default protocol when not given explicitly
-Date: Wed,  5 Jun 2024 08:02:01 -0400
-Message-ID: <20240605120220.2966127-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 14/18] ALSA: ump: Set default protocol when not given explicitly
+Date: Wed,  5 Jun 2024 08:03:04 -0400
+Message-ID: <20240605120319.2966627-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605120220.2966127-1-sashal@kernel.org>
-References: <20240605120220.2966127-1-sashal@kernel.org>
+In-Reply-To: <20240605120319.2966627-1-sashal@kernel.org>
+References: <20240605120319.2966627-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.9.3
+X-stable-base: Linux 6.8.12
 Content-Transfer-Encoding: 8bit
 
 From: Takashi Iwai <tiwai@suse.de>
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/sound/core/ump.c b/sound/core/ump.c
-index fd6a68a542788..65980a2f4982f 100644
+index fe7911498cc43..284d7b73fefd2 100644
 --- a/sound/core/ump.c
 +++ b/sound/core/ump.c
 @@ -960,6 +960,14 @@ int snd_ump_parse_endpoint(struct snd_ump_endpoint *ump)
