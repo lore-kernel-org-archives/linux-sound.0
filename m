@@ -1,79 +1,100 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1485349634;
-	Wed,  5 Jun 2024 08:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D4418C33F;
+	Wed,  5 Jun 2024 09:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717575476; cv=none; b=ftawZmBADdiBOi0QjBSdm3UBIWvhquVk5XvnjzdAkfKFjsmnyzWxtUduJWdcRR2uVDqCZ4hCuVifQdE8x0s5HQd8vjH45fJ9Fia3Jl9+jOUjahXIjPOWEw5qUXt8c/waFG4nA8eX8dGkbHjF+9eHuFAI19VEcbJixps4W94p3Co=
+	t=1717578180; cv=none; b=uaOsNbKMqlDU6Jj+cOo2XAPJlXEltEAd1IDsQJ57QMatnZ1ne4N+5ktVkMZr/EREkFoB0KeFDP8pxlyEiFeB6y1bOP4Oq15ucQ/aob+cFacVKQpqoRGW0SRKqiX5xVn7x9ewHrdscezb9z7wEVANYhFDEYxC3OQxhzybJ7Axk2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717575476; c=relaxed/simple;
-	bh=1wdjcsi5xleRe7XanjwsWQ4TJLqfHy+eOuRnTIm772k=;
+	s=arc-20240116; t=1717578180; c=relaxed/simple;
+	bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MTWAXJHEUw1cJge6JvJBWzhLbZUEc2f5wfVRFueo18XVcKpTTzFRtt8WgySpqyBQNMTX0K57G/JZ27Ecw7LAiKSe2KzuHNbJfaIBYJYKC72Q+MlpHHTQTI4UoZYmpwMbjj/qbVmXmJ6M3WDlUn49PQPk13fjX1I9OdjAqD9fCDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bS4hrRpu; arc=none smtp.client-ip=209.85.216.54
+	 To:Cc:Content-Type; b=GhEGZq+EZKTprsKtxbqESYsdjbp4NkDY+d8rMKtFSpj5yZxRJPYCTU9c0UGlJsDsmHJSybAuaRQSh/AmzAmCqHtBK+XeEG4JzZ6XsKWeHsWdv9T9gUvNO/1Z8fHEh4iSS/5IgGLzth1YvHPCSYpvbbyjMH9kE3vityifOuYi1T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+rynhMH; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bS4hrRpu"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2c1a4192d55so1535099a91.2;
-        Wed, 05 Jun 2024 01:17:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+rynhMH"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e6f33150bcso67456481fa.2;
+        Wed, 05 Jun 2024 02:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717575474; x=1718180274; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1wdjcsi5xleRe7XanjwsWQ4TJLqfHy+eOuRnTIm772k=;
-        b=bS4hrRpuGAxAEw55xc4AmlOjSfjjpYdFeqpZ28b2NqM5WEPhuqArPU2Eyop0y/8oGI
-         ILFthvtZgXM78/m3jBg/daXIeeI3w7J71uBj0TcVJouj9LEyRj8AuLTf/ZwgSTm8CV7r
-         +ylNXufQnECZQsQ2C/v1p1++rSFsp+/TuL7D9HV7pKXTVHSNH860ZTOMrPRmNk4aTXo7
-         9TQPwFe95U8GR1+JPwH6Ezb5wuRGJTAtXlliZOdIqDPuonr+zuURgshhcMkoSKZ9MGvk
-         59iGkTWfuPuqaXZLZhaAwtMbZzz00DeEi/dy7b1B28ctnx6Uh4UcicDc1oLoESgodm6/
-         GrHA==
+        d=gmail.com; s=20230601; t=1717578177; x=1718182977; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
+        b=e+rynhMHH7UozbswB/Gheb2ArJIfEuzAMM9xeGPwHw/TVDkBbuh2k+1OjW3n2GoojN
+         p0vS1Fmx43enP4blIpuKtkO6SiL6BsampSwmooe36WFe9H37KHixZskKK5kubLmkxsKN
+         Dxr7TQQxsz9Wc4ITH4R13KAV6MxMDCVFvSrUEBgKW2FxQjlHX6N4okwtT0npsDE6K6Bj
+         V8ATi15HWdq9kzuxyL3ugzQ5gB/dnkTHrGvL246Zp93bD4CzMh1sxbrNavrK8eGI/F0u
+         ho5hcltoAzi2EY1qoZIPPLVVpAjfFq1xGcUCZO1Jtuu61xYye84fAc5rXbYIX0Lo5o9L
+         O05g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717575474; x=1718180274;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1wdjcsi5xleRe7XanjwsWQ4TJLqfHy+eOuRnTIm772k=;
-        b=hyowaw/3Uk/xhr00aUP3RKS4FN9PFsa6oE00+rACpbSg6kNa3tASoE77smOmZCXNX2
-         XwkQtJtBQHIq5gjz3LDiSyQvMSLudhmGDccZ/1tUaov9vj5qKe6eYH7lDNbbPkZcNJtS
-         q8CpO4y7u+CgQZ8MyOcBGCP748fewu9algpGMHDtwji0VHiwNPctlMKXrkcQlscMqTEC
-         z0DNvlxBlpAeoi1MewhsO0LXWw+hPWZpkTJ0DPR6XFsgb5t5BRgktGYVa7GMbwZ18JM0
-         CNGOsj1RhR1BZ4U+saLgDN8Y8Q9bOOiQnE/sgvzw+TWVTxYn9Gs/8RNDyguVvnb+LJFp
-         Vq0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXHaWHvA+LCbCkRVhoidQmgnTQABlW2eaDq2C223p1MBjdQikJNj5LDrdRUmWWtJ3cnV++oM5IPxbLJmdbSAbhN3e6lGPaCD+bWG6BK7mGwIcHSh1RhoJFA3Ktn98QeRVCIclYz3KrBRNM=
-X-Gm-Message-State: AOJu0Yy2s/H/BeNWF+Q9m0MPegS2KK13+lafT95AmL0feQYgFL5JGeiM
-	i1bjUIoFjyJfTS1wzPyfHKICXumgba04vVaKh9hw55c+FWdrS46KUOf5zLW/KDBXXG+sr3+av++
-	gbpWoopBnmwYdJH3qYpTwbn7eiII=
-X-Google-Smtp-Source: AGHT+IF5rnwycoV3ChyFzp5X8uVGQNRRATu+t23uSYtVBEuKZlPG9wBAsfpHV+Aq+lH+0feC0OG1t1qZ7ZXypMaKk7Y=
-X-Received: by 2002:a17:90a:c085:b0:2b8:f5f1:10d9 with SMTP id
- 98e67ed59e1d1-2c27da22604mr2277848a91.0.1717575474188; Wed, 05 Jun 2024
- 01:17:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717578177; x=1718182977;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
+        b=kYXfxCU0qPd7Z83bj+Z25fVbj+J1BthUL+8m+wUvDlahQG787A6tM2s74Ie04JhGtK
+         7JUjqVHzT9FvwuqqwzFT+dLcfJMTnZscfnF4hDtFjGnE6D260khObi02eutRYmIFVM5r
+         WYCxuGb4iyyIaA0R6EwrDN1bxtlK8o6PVM2Y6yugb68V3wwgYgU1Ammi8HdYSTZnSr6/
+         4M+21ww0CwphHtqfir6ppiirMf+wKSl04H5kEvYiuG9U5BDw8yOcgRVEf4Tj2ZGsESZW
+         ynvxLn3sLtP25NfF5Y3Z3uslbsi9pH+sR8SPTe3f2fZEqtLgh3DM4ubGrco4Mp2jFEfU
+         6H3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWTX7Yrhez/k67PZM/SyuwvsPGppK16Yb6hwXshzEXmk+h3SCfbyPAsUlJ6vZv+rcr2lmwNAdFX919Rs4QA5qaN4WhWDQEhFc0FnxPw/k9iRAo3FkSPRO4dZ4T+XEg+rIua82KZn3iA+JB1KXUGbKE19+4EXk/lMKGsUbbq2a6Lz76rsZJ/
+X-Gm-Message-State: AOJu0YyWTi7ePZYXBG58xkMccPx/0e/dVBMu/OIaPG6liCJnF13t63wS
+	bZP1SQN4Yi8/A9xAb1bsN0LjaMXLBvR9L6vqJ7TtaFRrJUJbPTpJfxRTpYHDXRXp/WQyiEInBs+
+	kRLRo6cXy+MZ7vwuKUfElObyZBsE=
+X-Google-Smtp-Source: AGHT+IHN2AaAVLuIQp2KMpJW4wj0q4+lo/QPRGkv+6938AiGZHczF1I3ZCYJIuWJApinHAoUBYl8JtVX9orN7UhkuUA=
+X-Received: by 2002:a2e:90d6:0:b0:2e9:881b:5f02 with SMTP id
+ 38308e7fff4ca-2eac7aa4f5bmr9743891fa.53.1717578176545; Wed, 05 Jun 2024
+ 02:02:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240604184752.697313-1-a1ba.omarov@gmail.com> <20240605101323.60d7abbc@booty>
-In-Reply-To: <20240605101323.60d7abbc@booty>
-From: Alibek Omarov <a1ba.omarov@gmail.com>
-Date: Wed, 5 Jun 2024 11:17:42 +0300
-Message-ID: <CAKyg=SV9HhMAU0cVDxvZjMx-KBc=2BTqgr1J4Wyx7z77vRTRhw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rockchip: i2s-tdm: Fix trcm mode by setting clock
- on right mclk
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+References: <20240530111205.1764-1-bavishimithil@gmail.com>
+ <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org> <CAGzNGRn=e46yYrK3o8JhUmod4pGFFdEK31kUWUU4jn+JTgZjQg@mail.gmail.com>
+ <6af56d35-1874-431b-9e6b-97214940b89e@kernel.org>
+In-Reply-To: <6af56d35-1874-431b-9e6b-97214940b89e@kernel.org>
+From: Mithil <bavishimithil@gmail.com>
+Date: Wed, 5 Jun 2024 14:32:44 +0530
+Message-ID: <CAGzNGRkuMqXn+XP79bGMFgNQ4vzcVFvit3DjUn+YZ_sr1cZo5A@mail.gmail.com>
+Subject: Re: [PATCH v6] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Lopez Cruz <misael.lopez@ti.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Jun 2, 2024 at 8:49=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
 >
-> I cannot test right now, but it definitely looks correct.
+> https://lore.kernel.org/all/20240528164227.1988357-1-andreas@kemnade.info=
+/
 >
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> https://lore.kernel.org/all/20240530211654.7946-1-ansuelsmth@gmail.com/
 >
+> https://lore.kernel.org/all/20240522151616.27397-1-pratik.farkase@wsiswed=
+en.com/
+Understood, thanks a lot!
+So something along the lines of
+Convert the OMAP4+ McPDM bindings from txt to yaml (dtschema).
+Drop ti.hwmods property as it is not needed since the sysc conversion.
+Add dma, dma-names, reg-names properties to match the DTS so as to not
+break the already existing ABI.
+Update example to match the existing node.
 
-Thank you very much!
+Also update the changelog from the start noting all changes.
+
+This much for v7 correct?
+
+--=20
+Best Regards,
+Mithil
