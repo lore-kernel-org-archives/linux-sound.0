@@ -1,50 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577EC1BF90D;
-	Wed,  5 Jun 2024 11:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1431A1863;
+	Wed,  5 Jun 2024 12:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717588624; cv=none; b=V5z0HprLtFEe4wuO/OfhImf/OJY4hYv/X02URB7K5XocY1DWzhd/heZc3pINzqgjxCxnsRmXNw+sLy6nyYIKHYlgQnJ+CtmXJR0JIge7HgF6bwf6BLF8ErYj1nGSjzu/VAJNbWdCMmydvFQib5W2ad4SMRNMwGI5TlGbUqLM8g8=
+	t=1717588973; cv=none; b=r+aSQwHY+wMjTEQMmo0jUDeBB61LCg29KGNZMkBwO/+RVaeJB7ntiEF0X+7IXeIkFu1E+eRZfg1eELLTP/b5oPQPQNDzu/IUXn/eo5tq+o4dlRp+C2sx7+hwOMQ0f6ClsEcQ16PDp9YhAgsnY5O4ToX2PtuFtY5bjzErG2GDH3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717588624; c=relaxed/simple;
-	bh=vMDKIc6lLj1EO9UYlCbUb/5oXBZKBAl4dXREvt/KAd4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SGSt2GoB/M4YwWeKyioRPX198BrCUd26dAnf1CBj8JXSk6ROdOEySH8qrckBaJN/2rZ2fGsceZ4BmQxHijhFYbVtuRXU51AwISK2Tjo1lY9tLN2YYkJU+HeBPjtPwOKvTufvhrAnTG3Fg1lIyRCqXbUrS0jGqTidwhr/FCMDEH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qu7DhHYG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717588973; c=relaxed/simple;
+	bh=CJPoi8rZApWycbxEPaCbZfRjCL3ty4r2D+EZncVONVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bnKgqHt6cpKU2kXysxKvXpGTFb47CYBAr2cKmWaz0ZOoIZbiF4cyIoLfXfDjBg41Ax9SlZZ2Pa6sKwNlOU9AG229y7UYauKZs53rAGKF2Pwk6B5wSD9bAVBMAao6H5YhX9GMcIE8UwUsjfqqZEA4qpO4Qv31f3tIAnabFJKc+n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbhnoG26; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qu7DhHYG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0665C3277B;
-	Wed,  5 Jun 2024 11:57:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbhnoG26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243C3C32781;
+	Wed,  5 Jun 2024 12:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717588624;
-	bh=vMDKIc6lLj1EO9UYlCbUb/5oXBZKBAl4dXREvt/KAd4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=qu7DhHYG628qEo6baKNOhR9F3PGPT9kyb2QoDYSDUqe62+Hz2QoXZeLodkVGrQqc6
-	 HK2x3izib4BqXmf3bb2Ed+AB8RQWgNE8JHeTUp8NGaAElffLfuHeAblRDQvqXDEoOp
-	 oEABpWpp9QRopiJM+Qo5nn47D/5fmLw10daD7lD7jJDnirOdbksg5Py2A7ildSSRoY
-	 /xs2EYqilIXZ1sWBkhdqwQnDFSJziKDu/L9cSXpl16kw/uUYLuBp4d+dvRmZLTu96a
-	 Kr9628FrOQmaDtlE7yB8pEWIMXJsuI9KYonOAqcRyRZOt81MsgXLf0xbozXPSLLJxG
-	 6HF4bpE85C3lw==
+	s=k20201202; t=1717588973;
+	bh=CJPoi8rZApWycbxEPaCbZfRjCL3ty4r2D+EZncVONVk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KbhnoG26xu6D1kpmzIqjkFwXwyp5jOQvJ9uMvbaLc6Kg2GDiuOJUPvPyF3tcxVjws
+	 XFwjAUHEdRPXUrQ5TI7L34Wpy+pWtspP+teD4SQ+pI5dxSibo7O6ct/AlI6kMNmn6Z
+	 vXu5CLn2BXFE3O0wdcnFgpHzjHn+zwauYtuUzAEbr64XeoSUps3V8+fzEuvACEt7jc
+	 kYDTf95uPfp8rvjkaY+/lTcX2Dg5GHRIwR8wiPcN8za2YrcUqODjwUNYzKu35XSmJh
+	 ZTLxs1ijWi7TT0BJcFNihr7aApgaoqXLGNFRrb3MfJknWUEO7L1xZNFYRT1ht0Yp2s
+	 s+M0dvFgQ0N0Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jian-Hong Pan <jhp@endlessos.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	luke@ljones.dev,
-	shenghao-ding@ti.com,
-	simont@opensource.cirrus.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
+	cujomalainey@chromium.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4] ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
-Date: Wed,  5 Jun 2024 07:56:56 -0400
-Message-ID: <20240605115701.2965523-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.9 18/23] ALSA: ump: Set default protocol when not given explicitly
+Date: Wed,  5 Jun 2024 08:02:01 -0400
+Message-ID: <20240605120220.2966127-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240605120220.2966127-1-sashal@kernel.org>
+References: <20240605120220.2966127-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,72 +49,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.277
+X-stable-base: Linux 6.9.3
 Content-Transfer-Encoding: 8bit
 
-From: Jian-Hong Pan <jhp@endlessos.org>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 45e37f9ce28d248470bab4376df2687a215d1b22 ]
+[ Upstream commit bc42ca002d5d211f9c57334b9b4c25ddb0b4ec35 ]
 
-JP-IK LEAP W502 laptop's headset mic is not enabled until
-ALC897_FIXUP_HEADSET_MIC_PIN3 quirk is applied.
+When an inquiry of the current protocol via UMP Stream Configuration
+message fails by some reason, we may leave the current protocol
+undefined, which may lead to unexpected behavior.  Better to assume a
+valid protocol found in the protocol capability bits instead.
 
-Here is the original pin node values:
+For a device that doesn't support the UMP v1.2 feature, it won't reach
+to this code path, and USB MIDI GTB descriptor would be used for
+determining the protocol, instead.
 
-0x11 0x40000000
-0x12 0xb7a60130
-0x14 0x90170110
-0x15 0x411111f0
-0x16 0x411111f0
-0x17 0x411111f0
-0x18 0x411111f0
-0x19 0x411111f0
-0x1a 0x411111f0
-0x1b 0x03211020
-0x1c 0x411111f0
-0x1d 0x4026892d
-0x1e 0x411111f0
-0x1f 0x411111f0
-
-Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
-Link: https://lore.kernel.org/r/20240520055008.7083-2-jhp@endlessos.org
+Link: https://lore.kernel.org/r/20240529164723.18309-2-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/core/ump.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index bf9a4d5f8555d..2c0bfdfcf6410 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9909,6 +9909,7 @@ enum {
- 	ALC897_FIXUP_LENOVO_HEADSET_MODE,
- 	ALC897_FIXUP_HEADSET_MIC_PIN2,
- 	ALC897_FIXUP_UNIS_H3C_X500S,
-+	ALC897_FIXUP_HEADSET_MIC_PIN3,
- };
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index fd6a68a542788..65980a2f4982f 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -960,6 +960,14 @@ int snd_ump_parse_endpoint(struct snd_ump_endpoint *ump)
+ 	if (err < 0)
+ 		ump_dbg(ump, "Unable to get UMP EP stream config\n");
  
- static const struct hda_fixup alc662_fixups[] = {
-@@ -10355,10 +10356,18 @@ static const struct hda_fixup alc662_fixups[] = {
- 			{}
- 		},
- 	},
-+	[ALC897_FIXUP_HEADSET_MIC_PIN3] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x03a11050 }, /* use as headset mic */
-+			{ }
-+		},
-+	},
- };
- 
- static const struct snd_pci_quirk alc662_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1019, 0x9087, "ECS", ALC662_FIXUP_ASUS_MODE2),
-+	SND_PCI_QUIRK(0x1019, 0x9859, "JP-IK LEAP W502", ALC897_FIXUP_HEADSET_MIC_PIN3),
- 	SND_PCI_QUIRK(0x1025, 0x022f, "Acer Aspire One", ALC662_FIXUP_INV_DMIC),
- 	SND_PCI_QUIRK(0x1025, 0x0241, "Packard Bell DOTS", ALC662_FIXUP_INV_DMIC),
- 	SND_PCI_QUIRK(0x1025, 0x0308, "Acer Aspire 8942G", ALC662_FIXUP_ASPIRE),
++	/* If no protocol is set by some reason, assume the valid one */
++	if (!(ump->info.protocol & SNDRV_UMP_EP_INFO_PROTO_MIDI_MASK)) {
++		if (ump->info.protocol_caps & SNDRV_UMP_EP_INFO_PROTO_MIDI2)
++			ump->info.protocol |= SNDRV_UMP_EP_INFO_PROTO_MIDI2;
++		else if (ump->info.protocol_caps & SNDRV_UMP_EP_INFO_PROTO_MIDI1)
++			ump->info.protocol |= SNDRV_UMP_EP_INFO_PROTO_MIDI1;
++	}
++
+ 	/* Query and create blocks from Function Blocks */
+ 	for (blk = 0; blk < ump->info.num_blocks; blk++) {
+ 		err = create_block_from_fb_info(ump, blk);
 -- 
 2.43.0
 
