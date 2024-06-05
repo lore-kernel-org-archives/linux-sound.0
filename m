@@ -1,129 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5607516B720;
-	Wed,  5 Jun 2024 22:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F7B29AF;
+	Wed,  5 Jun 2024 22:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717625709; cv=none; b=sbpahveuMQCOBne9gn9i5DcrjtBgnXfoZvVnMdaZviS/fOiL8uYadxcznorg4MUYMkdFgNSgjRWFXSD4yxwVRc8uDx1gRaJxzVIzf52TKt7DWe6FcVQWWD+nYRa4NdlIEM/aw+qnRCqA2/NAGNcN834qRFyNHzLt2giHTKrNyvM=
+	t=1717628302; cv=none; b=B7lJ1P8Qt7eZBbY9C6+xODPJ3+M31R+gxW6V28LNR63XXbXi3gv5UPY7VNDPK2JKGShzAsjWVAiyWuXIvvNElEm9k56r/YIW6CivKAZwUmLUUOO5ZC6pAW0PperRT4W+rSDK04OcYBnlZ1LkXOqR2UW5wDyVMQsOuTNhHDws5e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717625709; c=relaxed/simple;
-	bh=sA6qI//FTL7pgyGldUMsd1jU+l556RY52OWXWgjHnto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KzEYOODEkAhYqgRzJXVeob4aGgjpJIb7vNlxxLU/UeSyMVSHqBRyYKEf8Er5DjZXPKK4J7/XlLrw6rM/t5yTJGgvYjKHR2AhlYqaLG0XkSD549t5S6EldYfuVdtTeLL70N8fc2VynSCg8qtvJRiLtRC1MIdwVTjRHWvEwq4bCkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jscS64Wx; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717628302; c=relaxed/simple;
+	bh=Hs1MEQpf1rk+mSspqcsPE/1Nm1zqDlSxEmhtqQI11BE=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=tO3s3Qnjt95f7jFmidAWCdAFhBiul9vWqygg1Y8jDTsILt+/wxuNQOJ/9kriDPlY/p8t1s5ihVSMgBwEmV2aLIuqjJ1b/B7sSUkYbuaX86NqleIWN7ZUWmrTrjNEasSauiqrM026pVPi5FxFP35eWl/ALuNGZcU+yXfsWx7BFHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPOWm3OX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jscS64Wx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717625708; x=1749161708;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sA6qI//FTL7pgyGldUMsd1jU+l556RY52OWXWgjHnto=;
-  b=jscS64Wx/ocOynlgC/GE4sJBWqT14QNny/XV+8+2l8B3p7M1yTRWejXm
-   JnWbIOsnDp+BKAuf0fs3bIaux3CUsjbkUDlAdN2d0f92MyrPEVakl8Sx1
-   zDEHf6EIYrN3ZwzuP94Ne75LNvfMKfQYwAl+VSJgSox2rk+oqTap7RQGk
-   U83Fq4LDX9rooYNr9faqEopO9zIVY98wDL5XUk+9oOpBcn53tpOBTQYN6
-   gJHK3nk7D876OA1DRLXnv4HVe8D3SjZKZNqmgXd0ejhR7EqajT8AA1lZS
-   s+jeu9tjuMy4t+uecTVRIw1K/xKdqtVYC399HGdzg1hIxu92iU2GJD97E
-   g==;
-X-CSE-ConnectionGUID: PeCTqWiWSmqd4scLHXRM1Q==
-X-CSE-MsgGUID: scqshtsCSbOC2SQOj49NZA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="24895533"
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="24895533"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 15:15:06 -0700
-X-CSE-ConnectionGUID: CjAg4+gWRbypiKqJjeHDUQ==
-X-CSE-MsgGUID: piyqwJk4TFeL6djtFhzbCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="38168626"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 05 Jun 2024 15:14:57 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 00374801; Thu, 06 Jun 2024 01:14:47 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Rob Herring <robh@kernel.org>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
-	Chancel Liu <chancel.liu@nxp.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com,
-	linux-arm-msm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: [PATCH v2 6/6] ASoC: samsung: Replace of_gpio.h by proper one
-Date: Thu,  6 Jun 2024 00:27:29 +0300
-Message-ID: <20240605221446.2624964-7-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
-In-Reply-To: <20240605221446.2624964-1-andriy.shevchenko@linux.intel.com>
-References: <20240605221446.2624964-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPOWm3OX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9947CC2BD11;
+	Wed,  5 Jun 2024 22:58:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717628301;
+	bh=Hs1MEQpf1rk+mSspqcsPE/1Nm1zqDlSxEmhtqQI11BE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=YPOWm3OXAg5ZX0BI3fLJuv4yQGyd5UFwAUqQJIbHHuDNdrUd7kyGPAaJ+FTv7lkIf
+	 TIOANYcJb7vDNPT9Azd2ipT7yE+ZMRDj2N6t/MEVntuqazBBLpO+9z9+CfSAdI83jw
+	 bQJTlkZPZrJsUXlv/q6NrAlqW/BZCMXC7Q+Tw9svJ+1a1yXOMiEtfuFKyen/9D1/u0
+	 T6lSt542IipP9ILYYFRtqA8sBNYXEacLzQweUIzPwfegoZhqlnZtu21gPRYhh9pcq8
+	 NYpcNSr1BGaCXULfIeqECITa1kePKuHHPTOUs3MHHtvvd1fQglL88qcHIpnoU2WQxN
+	 0Ibls33o7gHgA==
+Date: Wed, 05 Jun 2024 16:58:19 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20240605-topic-amlogic-upstream-bindings-convert-spdif-receiver-v1-1-262465adbac2@linaro.org>
+References: <20240605-topic-amlogic-upstream-bindings-convert-spdif-receiver-v1-1-262465adbac2@linaro.org>
+Message-Id: <171762829930.3284644.11774334058249262191.robh@kernel.org>
+Subject: Re: [PATCH] ASoC: dt-binding: convert spdif-receiver.txt to
+ dt-schema
 
-of_gpio.h is deprecated and subject to remove.
-The driver doesn't use it directly, replace it
-with what is really being used.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/samsung/aries_wm8994.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 05 Jun 2024 18:20:50 +0200, Neil Armstrong wrote:
+> Convert text bindings to dt-schema format for the Dummy SPDIF receiver
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../devicetree/bindings/sound/linux,spdif-dir.yaml | 37 ++++++++++++++++++++++
+>  .../devicetree/bindings/sound/spdif-receiver.txt   | 10 ------
+>  2 files changed, 37 insertions(+), 10 deletions(-)
+> 
 
-diff --git a/sound/soc/samsung/aries_wm8994.c b/sound/soc/samsung/aries_wm8994.c
-index a548ac33dd94..01716df0c842 100644
---- a/sound/soc/samsung/aries_wm8994.c
-+++ b/sound/soc/samsung/aries_wm8994.c
-@@ -1,11 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0+
- #include <linux/extcon.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/iio/consumer.h>
- #include <linux/input-event-codes.h>
- #include <linux/mfd/wm8994/registers.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regulator/consumer.h>
- #include <sound/jack.h>
- #include <sound/pcm_params.h>
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml: 'addirionalProperties' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml: 'oneOf' conditional failed, one must be fixed:
+	'unevaluatedProperties' is a required property
+	'additionalProperties' is a required property
+	hint: Either unevaluatedProperties or additionalProperties must be present
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240605-topic-amlogic-upstream-bindings-convert-spdif-receiver-v1-1-262465adbac2@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
