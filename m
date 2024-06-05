@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988251607B5
-	for <linux-sound@vger.kernel.org>; Wed,  5 Jun 2024 21:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD3615FA73;
+	Wed,  5 Jun 2024 21:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717623501; cv=none; b=DbiW06orrRkmHX0lLKoaDTz3b6eAxxNaBmCrqszzsWGXYo+GSxeZBiB8pZjbyDInSU7QbQKe44MNxU1AHsS9qGxKhVqZwsbuQ9T1Ts8DkSgxwZyUmnzlZf7DNfE2YJcGjmIr0wN7u2juPnw9nxiWfjGlRELz8qBuKDqzvFMN6bk=
+	t=1717623504; cv=none; b=lKfZel16scWN4wdQD7VLXA69HIQWzNHEi/gI9AsshQxa830qVVIFNCVHLEeaCAhpSrIga2t3tPlNfC+wFytZmou8Tx6KVWXOVIJ9PzIz2pLVqOf+kDT4uxMJjhPR4Y57yS5JEnzdhkxYvFbx+cN+Z4qOmn4ofmppdbDIS/XD48c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717623501; c=relaxed/simple;
-	bh=oqvQR4sWIalJUxwdWmfXyKhOgxcmf7fGnTTdAM36bQU=;
+	s=arc-20240116; t=1717623504; c=relaxed/simple;
+	bh=3MQrdpD7iV1KDjW3kAGXieRxnfAenZ67QSUIaKCrQHg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gZDXbF7RRqTTd3/afnisq6h700xT17aW3DJIgZ0h2SxeP8cvAE9BAXQX6YCw7Sd6ZWyXEdBbjIDkuqOqqqyHZzkGLOoKHnNdmJPjA62EBJLhJFY4dL+rewNnn25N6d0on+e/XyP+sZRy7+QM3eYlZpUCHMKgVtlvHgURRCndjyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhHJEzgL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ECrFRnF6iyWw4QuNgVgF1sApdmaCdXv5fj0bNggxRHIhGIuAWaGL2tfJlpW+kAGyBO2KE0pfdPUcmSSUuzsMFCKkzkQSYt8TXCduHM6OqTIp7I5OT8FpMERe0tjl5tdDW0XWrj80XIqzxfmUq66y4aaRw/H6VnNHktRyrhRfSDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+7S62m6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhHJEzgL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA494C2BD11;
-	Wed,  5 Jun 2024 21:38:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+7S62m6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DC8C32786;
+	Wed,  5 Jun 2024 21:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717623501;
-	bh=oqvQR4sWIalJUxwdWmfXyKhOgxcmf7fGnTTdAM36bQU=;
+	s=k20201202; t=1717623503;
+	bh=3MQrdpD7iV1KDjW3kAGXieRxnfAenZ67QSUIaKCrQHg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UhHJEzgLSwatEYWrAMtDeR8p+2khQ+aMBsbn91CAWwssE81sRvpGnhkXwruIpmc8N
-	 ryelAFRJixdCyopnC8CX81tZrCnjYUyGn6R21XCAcNfO5fNFS+UXvZgrxTQ1mUn98o
-	 JqbJ0hxNzNlmKsSF//HIKaZory5JzC9WiUy1yEcDiD9o9qB9vr8FV54P5Rn0R1tIh8
-	 IWnUb5JLKviSYGRXdFGDEy/he5EhJ4vMQbWCzJO8TNYBLgLWQlTAZqmrvfH55SYO0y
-	 NVpy6l9wml0F8FBrXwAHObv+eu26lNwkMX35hTT769smwUTBySrEUPoNzEtdDNA96i
-	 Yo62RJrLprIMQ==
+	b=E+7S62m6lA8IdAbQgaEptCdtxVdC1fz9DQH2aTPGIFeEJTbQx/pNcxI5iqcoLw1El
+	 YEFDW1VXwUvj+dVKegDaRqjkYtKhtbftfgO3dfS4G9rDsFP7llqWjwGFXqcVIUFiRC
+	 gWq44QH6CvrGkCwbsmWPu8ZMHhR2BMNIZtwINpfyuOM9vUZ1i0YQGuet6KSlB7mWdc
+	 kciNgB6nSVZUdQtn2MS8cWJT5mw77HRG9j7zvK+rxF9if7WWjORnQb3r9nazZSOG95
+	 0Yu7R1Khusw3p/6QP+iXQxNT95xbn5yWGXnwDeO4HFPAepVGoUYTwac0arLL5vkdq5
+	 4mWb551VaDEtQ==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- yung-chuan.liao@linux.intel.com
-In-Reply-To: <20240603072544.5215-1-peter.ujfalusi@linux.intel.com>
-References: <20240603072544.5215-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: pci-tgl: Align ADL-N sof_dev_desc
- struct name to convention
-Message-Id: <171762349962.565712.7589749713938858229.b4-ty@kernel.org>
-Date: Wed, 05 Jun 2024 22:38:19 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ srinivas.kandagatla@linaro.org, linux@treblig.org
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240601225446.183505-1-linux@treblig.org>
+References: <20240601225446.183505-1-linux@treblig.org>
+Subject: Re: [PATCH 0/3] Dead structs in sound/soc/codecs
+Message-Id: <171762350145.565712.5432496930272405498.b4-ty@kernel.org>
+Date: Wed, 05 Jun 2024 22:38:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,11 +46,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Mon, 03 Jun 2024 10:25:44 +0300, Peter Ujfalusi wrote:
-> Follow the convention already in use by other platforms on naming the
-> sof_dev_desc struct by dropping the underscore between adl and n
+On Sat, 01 Jun 2024 23:54:43 +0100, linux@treblig.org wrote:
+> Clean out a bunch of old structs in sound/soc/codecs.
+> Build tested only.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > 
 > 
+> Dr. David Alan Gilbert (3):
+>   ASoC: codecs: lpass-rx-macro: remove unused struct
+>     'rx_macro_reg_mask_val'
+>   ASoC: codecs: wm0010: remove unused struct 'wm0010_spi_msg'
+>   ASoC: codecs: cx2072x: remove unused struct 'cx2072x_eq_ctrl'
+> 
+> [...]
 
 Applied to
 
@@ -59,8 +67,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: pci-tgl: Align ADL-N sof_dev_desc struct name to convention
-      commit: ccdc13ab26ca248fdc53179a0c7f588ab2e1c8d8
+[1/3] ASoC: codecs: lpass-rx-macro: remove unused struct 'rx_macro_reg_mask_val'
+      commit: 44e55f9de9950dba091401898a931fc1a3a99146
+[2/3] ASoC: codecs: wm0010: remove unused struct 'wm0010_spi_msg'
+      commit: 62ccbe8cbe2a1b6911ec47bea8b1510dc1f82dd5
+[3/3] ASoC: codecs: cx2072x: remove unused struct 'cx2072x_eq_ctrl'
+      commit: 8080dde80a2d3657529c2172471c06cfcd9a228e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
