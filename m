@@ -1,86 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB4E194A48
-	for <linux-sound@vger.kernel.org>; Wed,  5 Jun 2024 11:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59E219A298;
+	Wed,  5 Jun 2024 11:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717587604; cv=none; b=RB0ZFaE5U14SAVrIAmwcGbjTrqLVwOo0iEK4SgNYoAi19ZxE4kNismClkUyRCPjm4hYt4uazzKt4oWyADj7z/qHqIXc2X5O02KkdBdYVYcUTZgb76nzCaHyNdNKmAIlc/uVL0sBiPGs44710d0LqKa+qJAaTOhfkXqDwbkihBl0=
+	t=1717588556; cv=none; b=p1DpjLs8l7hHGS+GahyRQrZfIAj1i8esZVnpVNhlXoi6Qt0sZARMwX/3hsvQ0RxJ0LX8+XY7do5cmIsYyd4axA8B5AWhkMQaFW/w3d0Q8rm/SMSuV0JPuHmnWJxhdRwwweit0FebjDhWOiG1A0yiX4JHMZ+V7Kt00/JUtippLfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717587604; c=relaxed/simple;
-	bh=uWT+p/ddwsESNhnUWvz8Z+QaXmplVc8IRom0w/kIqZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s1kj0fwp4Pmxnwi6SLhrof9X7w00xQL2mMDWKATrnn2zdBksOviArjlRhh1Xt+yI4OAXGR1+WMpxwa9AmdnEQfqqg6gwcW+GJfpXvP2fc4LlPChdLNyrclsOxRPMqmArLNP65HJh/4YLTjNN+U8SjEpOnnolv9rNuVe5S3Pg6pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hc2e/zkp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717588556; c=relaxed/simple;
+	bh=zbTJHocCvoBjx9tqS0o9JPLudaYJMj27DQNL55qJzxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LdpS2kEyRDdZ+iCslu3knDjEcBXNkreb6B2pqd5j76X6a6shEuZi0MlFkiZtBVFgUl41wmItBAflpoU08Fofec/5ehrpWURto4AHfeEASDRwLaId+jBKKRHJE6quqI5kOpqxEdBQofV4E0mPB+STF1fmjRK9gqRuSt/5lWpYX2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YTqvJ8mg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hc2e/zkp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5920FC4AF07;
-	Wed,  5 Jun 2024 11:40:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YTqvJ8mg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2945C3277B;
+	Wed,  5 Jun 2024 11:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717587603;
-	bh=uWT+p/ddwsESNhnUWvz8Z+QaXmplVc8IRom0w/kIqZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hc2e/zkpZ35NT0TncvDDhiPNikDdBYn8S73W4as5O4DkPGLp9qZQnU2tlf5ykwaa4
-	 VUbosOlQC563BicsM5WLp86VvzdAr0hdVh52R4KLUft93/ZBH2r0I71CTjYYCBA2gq
-	 tfgRf8ZMQ94CWZcj3ZD1cgt4NGvfjXa+Mb6GBW95jKEML4n0KjtPmql7ClaYRpY1N4
-	 ISKILX8q/AHdIRE21Unu+Zbt6y8Oq5NseijVN7H15gmg73p7LSntu19jysJGELixmQ
-	 z0nQYptU4QjucQOXXud9a4mCnh2pWfOBZoWxLlCwZn0bFcbtrZUPAexyuBDVKCSn/N
-	 LyzXjGXZDaBKw==
-Date: Wed, 5 Jun 2024 12:39:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: About snd_soc_dai_set_fmt()
-Message-ID: <1f5a24da-547a-4faf-b1a2-34982f1f7cf0@sirena.org.uk>
-References: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
+	s=k20201202; t=1717588556;
+	bh=zbTJHocCvoBjx9tqS0o9JPLudaYJMj27DQNL55qJzxo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YTqvJ8mgx+NLX3tKe5/NwcVtkJJjTLBssw/Z97jDfHZoqwXPkKBZUsJUNnHhg4Dxk
+	 0B0ulWuDKZDrSFi6aE4Uu19BKPBb7zNxT/gdANxb9htLUAWuXHV/rsAnSfieQOMEU6
+	 Crq4G5Y1TDtg/fL3WpDFRw7rAnEAKrC1GbkKY8uBB68JtTn7PsLJIdnBjTVY3NSYDi
+	 bhtu9IHwvNYtX19gSbxkRITxC62Cvt8Babi+vIH8RTb4VVfbLQaJa8yH8FiGajs49h
+	 yG1RXNlupJ1RZIk12QCIeeyTWHV0aAeDETSPWbmQW0eSGVZTtym5/S2hLkwSVh6DQM
+	 yryv2Axj9EDWA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Jian-Hong Pan <jhp@endlessos.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	luke@ljones.dev,
+	shenghao-ding@ti.com,
+	simont@opensource.cirrus.com,
+	foss@athaariq.my.id,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.9 5/6] ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
+Date: Wed,  5 Jun 2024 07:55:40 -0400
+Message-ID: <20240605115545.2964850-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240605115545.2964850-1-sashal@kernel.org>
+References: <20240605115545.2964850-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Bah4s+twWFzc8mZH"
-Content-Disposition: inline
-In-Reply-To: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
-X-Cookie: Simulated picture.
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.3
+Content-Transfer-Encoding: 8bit
 
+From: Jian-Hong Pan <jhp@endlessos.org>
 
---Bah4s+twWFzc8mZH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+[ Upstream commit 45e37f9ce28d248470bab4376df2687a215d1b22 ]
 
-On Wed, Jun 05, 2024 at 06:17:34PM +0800, Shengjiu Wang wrote:
+JP-IK LEAP W502 laptop's headset mic is not enabled until
+ALC897_FIXUP_HEADSET_MIC_PIN3 quirk is applied.
 
->    Some use cases require that the format of transmitter and receiver
-> are different.
->    Shall we define a new .set_fmt_xxx() function to support setting
-> fmt for transmitter and receiver separately?
+Here is the original pin node values:
 
->    For example:
->    int snd_soc_dai_set_fmt_xxx(struct snd_soc_dai *dai, unsigned int
-> tx_fmt, unsigned int rx_fmt);
+0x11 0x40000000
+0x12 0xb7a60130
+0x14 0x90170110
+0x15 0x411111f0
+0x16 0x411111f0
+0x17 0x411111f0
+0x18 0x411111f0
+0x19 0x411111f0
+0x1a 0x411111f0
+0x1b 0x03211020
+0x1c 0x411111f0
+0x1d 0x4026892d
+0x1e 0x411111f0
+0x1f 0x411111f0
 
-Do you have an example of such a use case?  If you can do that it feels
-more like one end has two single direction DAIs (ISTR some of the
-Freescale platforms were built like that?) and it might be better to do
-that and make it easier to combine two DAIs.  That would also work for
-things like combining dedicated DACs and ADCs.
+Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
+Link: https://lore.kernel.org/r/20240520055008.7083-2-jhp@endlessos.org
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/pci/hda/patch_realtek.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
---Bah4s+twWFzc8mZH
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index b29739bd330b1..abc664c8c496b 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -12013,6 +12013,7 @@ enum {
+ 	ALC897_FIXUP_LENOVO_HEADSET_MODE,
+ 	ALC897_FIXUP_HEADSET_MIC_PIN2,
+ 	ALC897_FIXUP_UNIS_H3C_X500S,
++	ALC897_FIXUP_HEADSET_MIC_PIN3,
+ };
+ 
+ static const struct hda_fixup alc662_fixups[] = {
+@@ -12459,10 +12460,18 @@ static const struct hda_fixup alc662_fixups[] = {
+ 			{}
+ 		},
+ 	},
++	[ALC897_FIXUP_HEADSET_MIC_PIN3] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a11050 }, /* use as headset mic */
++			{ }
++		},
++	},
+ };
+ 
+ static const struct snd_pci_quirk alc662_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1019, 0x9087, "ECS", ALC662_FIXUP_ASUS_MODE2),
++	SND_PCI_QUIRK(0x1019, 0x9859, "JP-IK LEAP W502", ALC897_FIXUP_HEADSET_MIC_PIN3),
+ 	SND_PCI_QUIRK(0x1025, 0x022f, "Acer Aspire One", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0241, "Packard Bell DOTS", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0308, "Acer Aspire 8942G", ALC662_FIXUP_ASPIRE),
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZgTo4ACgkQJNaLcl1U
-h9DlTgf9FLN+NG8wgrwgaYIy2RVkm4UTeyHIKLm98YaNUV2zaQcPtDsTMFifukXc
-47ejb0O+FVISdOzVCzSbSlPs9gyOfBgX3qWWGLM/NXIEGhdPeEhdX1evoHy8PP7K
-XoWSIvC/SqQBLTJXrogqvhz9/ZP1kjbG3cRSTbAtmrWwIs+4sAMblrbhVLxNxK6x
-lEpULdN6uHoHB2Hj2idu7v+Y25uk99erRkCz1d5GCqUtkezeDGRobh/O7RogIyuV
-025N7pbXV2NhORs0zkgHOx7yjFSd8QccJP6Bdp0rCriLZORzb747BkgtUaoDvjB0
-Ucb8Qu83wGBGIrrQStwd1XIqUYhJfQ==
-=CXS0
------END PGP SIGNATURE-----
-
---Bah4s+twWFzc8mZH--
