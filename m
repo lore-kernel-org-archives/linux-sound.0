@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2C11BE86A;
-	Wed,  5 Jun 2024 11:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46A319B3C4;
+	Wed,  5 Jun 2024 11:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717588599; cv=none; b=BoXaBFqyfk8zSB5B9dQXaF5PEkdaemvI5qqH7c7+cg4fuSqM0h/+PL1PjxiGB8WpY1k8k9W3Fz1I/IrS1cBkIGHRU0fC/iAFXBFFCuKV5IYzxtyZ/v5PTb6ICV4QESw0KW5Z/F4n6HfkKl8TatwGJY0eg5uC9RIqB9uJxtc9XXE=
+	t=1717588608; cv=none; b=kP3L94nxZWIS0/rp/nNJaUr3R0IAEC/gNvnOvkAyV49NC1cschiN5B4wczkVGrx4xUQx9QKz78E5+wm/m+7nVKES9qMDC1mJf5hXhAuLYXZEfNgldKV+l6qDj7Tj2EuB1DjlsJpoFepalNx1SngmyaLBu+A/wI5gYy5ajwSU7BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717588599; c=relaxed/simple;
-	bh=WPk+01WCkCPMooexxajLDgY/Gwx107t3RuQvxITOIwk=;
+	s=arc-20240116; t=1717588608; c=relaxed/simple;
+	bh=vY/VDyD9ZJAzb0I7xG0RpTMyply3Rz45XolFBmIWH2E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ssZfypn8loVfHVDk2VzeF13JHDDIj5+cHTv3vzZ6HByPcpDn4qkH0/I4iwxxVPj+DJUfvyLOijjDJoPCr3a8TtfONA8F9QojfDZaDC1r2LxwHy9aqrcHTkrFWAlaf+BjQA1Wk8zHtKouhXCS/bRBpi9p3pn91MnkFiTZZ0HhNHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=go9uEd80; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=IVcixZzEt2NlNTVk0Q41LcjbG4z5qfRp6/WgxmkF9uj3k424n/J+8JS47zycrTlDozUoNzMBRs3/uCvwRTc78evxBO6LKgXrPa5RNJ0X2HHoGDPNRUXRE5xbD9JBAIJgSlLVNs3laNG++02fdZUWRExnFovDId192lCBcbFINt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U79Xo6AG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="go9uEd80"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D68C32781;
-	Wed,  5 Jun 2024 11:56:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U79Xo6AG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CECC8C3277B;
+	Wed,  5 Jun 2024 11:56:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717588599;
-	bh=WPk+01WCkCPMooexxajLDgY/Gwx107t3RuQvxITOIwk=;
+	s=k20201202; t=1717588608;
+	bh=vY/VDyD9ZJAzb0I7xG0RpTMyply3Rz45XolFBmIWH2E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=go9uEd80PdmVdKF2rMKoXn4367YCSeIAgpRepqv1kn64KXl/hxbFGEICtgAWrQyL/
-	 nTSdWtOKvVIhqWVCbs801IF4UafIK1c9nMJM3S/S9CjCg2BHJfM0mcIRzMI/F1TKSv
-	 tZv2PYeeytNdB86bjs7uaMbedmNYAA7Ad/gsASaeZrICS1OoBdV0/dhM4Vf2L/No+A
-	 AUvZHprICELaGR0aPT8a8J/b2lgtXbWcn0eXSwEktlGCOEb0alXK1TKBD3a40Sl3Gl
-	 MufARp0m8LC6ajVNL8oYiHvBgiRbjIG2M9bU2FwgmeoJpYaaGTcwv/JxXt1zpWhPEu
-	 Okpwj9VnCFrBw==
+	b=U79Xo6AGwA4mWx4F5nZ7k8ILje6zDmcbQvi03oYcvL+2oS2n70cwuRmlEaKFaPqg9
+	 erOLs9HZcMUCV9Bo4+Ntiy7o3apk3hCQGhEMUdYOZcCH628sChkQ6Kl/4isqVTdCo0
+	 OcIeEiHXomrz+jTMK9cstKjbFF+cfc0+L7qi+99VkyQIxu9vpYZcWVMsxP4t2R7SzU
+	 zhjQLqXelUhDoy+4cSOV5vJAQKT2BJOpqDgneOXaJMIMcnt7m9yMKAcbn2ZrvihI+u
+	 mFcXTa+un96mv4O4RWI+sx2cTnvJXZzn0ToKsckYd8qqvA6yjFGvm5u0dlHxe69kUi
+	 F9Im8kyr5rq0Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -42,12 +42,12 @@ Cc: Jian-Hong Pan <jhp@endlessos.org>,
 	foss@athaariq.my.id,
 	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 3/3] ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
-Date: Wed,  5 Jun 2024 07:56:28 -0400
-Message-ID: <20240605115631.2965331-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 2/2] ALSA: hda/realtek: Enable headset mic of JP-IK LEAP W502 with ALC897
+Date: Wed,  5 Jun 2024 07:56:39 -0400
+Message-ID: <20240605115642.2965408-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605115631.2965331-1-sashal@kernel.org>
-References: <20240605115631.2965331-1-sashal@kernel.org>
+In-Reply-To: <20240605115642.2965408-1-sashal@kernel.org>
+References: <20240605115642.2965408-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.92
+X-stable-base: Linux 5.15.160
 Content-Transfer-Encoding: 8bit
 
 From: Jian-Hong Pan <jhp@endlessos.org>
@@ -92,10 +92,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index f0b939862a2a6..f0a743155f2c0 100644
+index c7529aa13f944..a336ed0c3e67b 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -11561,6 +11561,7 @@ enum {
+@@ -10897,6 +10897,7 @@ enum {
  	ALC897_FIXUP_LENOVO_HEADSET_MODE,
  	ALC897_FIXUP_HEADSET_MIC_PIN2,
  	ALC897_FIXUP_UNIS_H3C_X500S,
@@ -103,7 +103,7 @@ index f0b939862a2a6..f0a743155f2c0 100644
  };
  
  static const struct hda_fixup alc662_fixups[] = {
-@@ -12007,10 +12008,18 @@ static const struct hda_fixup alc662_fixups[] = {
+@@ -11343,10 +11344,18 @@ static const struct hda_fixup alc662_fixups[] = {
  			{}
  		},
  	},
