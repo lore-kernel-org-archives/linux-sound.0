@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84338160883;
-	Wed,  5 Jun 2024 21:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988251607B5
+	for <linux-sound@vger.kernel.org>; Wed,  5 Jun 2024 21:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717623499; cv=none; b=kYSZd3dXpHzCiFcqJ7zU/IWD1lfBzBmqzxFIqxlXEhb3xmi6HgfVICeo1Yna70EQSNoo7SPx0GGM7cVE0xpbi4POK1QWrdddqVaklXx6Dp9r20IXgzMMrIIGgMLnAowkI25T0XK9prinwfxl/ho0I/kf4us9AMNUb+KL7O0fpTA=
+	t=1717623501; cv=none; b=DbiW06orrRkmHX0lLKoaDTz3b6eAxxNaBmCrqszzsWGXYo+GSxeZBiB8pZjbyDInSU7QbQKe44MNxU1AHsS9qGxKhVqZwsbuQ9T1Ts8DkSgxwZyUmnzlZf7DNfE2YJcGjmIr0wN7u2juPnw9nxiWfjGlRELz8qBuKDqzvFMN6bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717623499; c=relaxed/simple;
-	bh=6EtJlD2KFxTZ/ahx6VRWByT+skUN2MITzRKsNiXaj6A=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E0i/t0lN8i1JQyHV+/uYZscmBr83XHufM4VcKDQ8Kpp+bkD/ekQmvOj8E0QIOBKnTXBkDqrGEM6i7hWiX8sDZlQxPmxPBC5hQ6W20hLM9kztBzvu2Eth4+nQOx1sTP6Y82vpyRCCjQ2/6ban4aZ6QBtKd6rz5yXKeD8vZE4ItOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLThFzzW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717623501; c=relaxed/simple;
+	bh=oqvQR4sWIalJUxwdWmfXyKhOgxcmf7fGnTTdAM36bQU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gZDXbF7RRqTTd3/afnisq6h700xT17aW3DJIgZ0h2SxeP8cvAE9BAXQX6YCw7Sd6ZWyXEdBbjIDkuqOqqqyHZzkGLOoKHnNdmJPjA62EBJLhJFY4dL+rewNnn25N6d0on+e/XyP+sZRy7+QM3eYlZpUCHMKgVtlvHgURRCndjyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhHJEzgL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLThFzzW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3641CC4AF09;
-	Wed,  5 Jun 2024 21:38:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhHJEzgL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA494C2BD11;
+	Wed,  5 Jun 2024 21:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717623499;
-	bh=6EtJlD2KFxTZ/ahx6VRWByT+skUN2MITzRKsNiXaj6A=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=JLThFzzWyq8t43bRPKGaLQs+0ueojh4Semt2G+SqOWmD4DwPlwGgLJo9t3uceWEj/
-	 WjhApBLH7xmqg7eThPt8JjD1ZGN3OdksC7w8uZ1W/iTXFfZ+kJcQczlylid+blib8N
-	 W32rQkwUMZeu3EZWz4SFJtn4MakKW3bGV6Jq4TPCdSJmsfyWe2ZkHYVvtR2GBs5qRX
-	 3jLlZJSVQ4tK1N1asAWL7P2MFGDt5UWz0tQi2O0Zn1ol/4f0ZSf3bVOInX1PBSfLms
-	 hf6lorM/RFApS8/zmKSykdyxdGxk898nsm9D37SiZw99wpvQhjiHQrGNjOZf7sxfGw
-	 /4juYCTVEaNZQ==
+	s=k20201202; t=1717623501;
+	bh=oqvQR4sWIalJUxwdWmfXyKhOgxcmf7fGnTTdAM36bQU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=UhHJEzgLSwatEYWrAMtDeR8p+2khQ+aMBsbn91CAWwssE81sRvpGnhkXwruIpmc8N
+	 ryelAFRJixdCyopnC8CX81tZrCnjYUyGn6R21XCAcNfO5fNFS+UXvZgrxTQ1mUn98o
+	 JqbJ0hxNzNlmKsSF//HIKaZory5JzC9WiUy1yEcDiD9o9qB9vr8FV54P5Rn0R1tIh8
+	 IWnUb5JLKviSYGRXdFGDEy/he5EhJ4vMQbWCzJO8TNYBLgLWQlTAZqmrvfH55SYO0y
+	 NVpy6l9wml0F8FBrXwAHObv+eu26lNwkMX35hTT769smwUTBySrEUPoNzEtdDNA96i
+	 Yo62RJrLprIMQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240523125049.43713-1-krzysztof.kozlowski@linaro.org>
-References: <20240523125049.43713-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: codecs: wcd939x: Unify define used for MIC bias
- VOUT registers
-Message-Id: <171762349795.565712.10860965207499324247.b4-ty@kernel.org>
-Date: Wed, 05 Jun 2024 22:38:17 +0100
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com
+In-Reply-To: <20240603072544.5215-1-peter.ujfalusi@linux.intel.com>
+References: <20240603072544.5215-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: pci-tgl: Align ADL-N sof_dev_desc
+ struct name to convention
+Message-Id: <171762349962.565712.7589749713938858229.b4-ty@kernel.org>
+Date: Wed, 05 Jun 2024 22:38:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,10 +47,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Thu, 23 May 2024 14:50:49 +0200, Krzysztof Kozlowski wrote:
-> All four microphone bias registers have similar layout: VOUT control
-> mask is exactly the same.  Use one define, just like older driver
-> wcd938x is doing, to make the code a bit simpler.
+On Mon, 03 Jun 2024 10:25:44 +0300, Peter Ujfalusi wrote:
+> Follow the convention already in use by other platforms on naming the
+> sof_dev_desc struct by dropping the underscore between adl and n
 > 
 > 
 
@@ -60,8 +59,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: wcd939x: Unify define used for MIC bias VOUT registers
-      commit: fe243a546bcbc405abb7cc5cf26852609cf4e2cc
+[1/1] ASoC: SOF: Intel: pci-tgl: Align ADL-N sof_dev_desc struct name to convention
+      commit: ccdc13ab26ca248fdc53179a0c7f588ab2e1c8d8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
