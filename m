@@ -1,100 +1,85 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D4418C33F;
-	Wed,  5 Jun 2024 09:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E6314B969;
+	Wed,  5 Jun 2024 09:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717578180; cv=none; b=uaOsNbKMqlDU6Jj+cOo2XAPJlXEltEAd1IDsQJ57QMatnZ1ne4N+5ktVkMZr/EREkFoB0KeFDP8pxlyEiFeB6y1bOP4Oq15ucQ/aob+cFacVKQpqoRGW0SRKqiX5xVn7x9ewHrdscezb9z7wEVANYhFDEYxC3OQxhzybJ7Axk2I=
+	t=1717579397; cv=none; b=UV4Rfmc8/fw17jmLje+rtgj5cyS81XVrCTawuGQjtAWFQ0ZuZGj39v7q5Sw0EROyAflS65dInAry/p48YmbVSP+XEiyU/MOFQEN0e7tHwyoZeRUUGlY0gTsjW0A5aMNAEZa86JDW/4//ijb3wY7BsRDphunM68E+ivFRMDSqAzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717578180; c=relaxed/simple;
-	bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GhEGZq+EZKTprsKtxbqESYsdjbp4NkDY+d8rMKtFSpj5yZxRJPYCTU9c0UGlJsDsmHJSybAuaRQSh/AmzAmCqHtBK+XeEG4JzZ6XsKWeHsWdv9T9gUvNO/1Z8fHEh4iSS/5IgGLzth1YvHPCSYpvbbyjMH9kE3vityifOuYi1T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+rynhMH; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717579397; c=relaxed/simple;
+	bh=gYRpS6AJVn0saE/j2zAxZAxiQL6Pvv593DFWC+x/8wQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MPY2+v/VGo40JKuHsYEd591rF5TQRMy2lb5qGz6KeCbMcj/nmexv9rFeIt7lM1NMi6rmJ+qjpVZOHl9bqYkaHLBY15Fn0qNOOpQZY/Hw3dH1z74LpvXDUJS31r/nNtXy2ls9r4kyLrKINTVTyDuUOHgPavdKECXqW5GIZXL/U8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=qUBfzewL; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+rynhMH"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e6f33150bcso67456481fa.2;
-        Wed, 05 Jun 2024 02:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717578177; x=1718182977; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
-        b=e+rynhMHH7UozbswB/Gheb2ArJIfEuzAMM9xeGPwHw/TVDkBbuh2k+1OjW3n2GoojN
-         p0vS1Fmx43enP4blIpuKtkO6SiL6BsampSwmooe36WFe9H37KHixZskKK5kubLmkxsKN
-         Dxr7TQQxsz9Wc4ITH4R13KAV6MxMDCVFvSrUEBgKW2FxQjlHX6N4okwtT0npsDE6K6Bj
-         V8ATi15HWdq9kzuxyL3ugzQ5gB/dnkTHrGvL246Zp93bD4CzMh1sxbrNavrK8eGI/F0u
-         ho5hcltoAzi2EY1qoZIPPLVVpAjfFq1xGcUCZO1Jtuu61xYye84fAc5rXbYIX0Lo5o9L
-         O05g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717578177; x=1718182977;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zmwcNvVtzUsW3WtiypS18tlVDvhRnlBrSP64622/u4s=;
-        b=kYXfxCU0qPd7Z83bj+Z25fVbj+J1BthUL+8m+wUvDlahQG787A6tM2s74Ie04JhGtK
-         7JUjqVHzT9FvwuqqwzFT+dLcfJMTnZscfnF4hDtFjGnE6D260khObi02eutRYmIFVM5r
-         WYCxuGb4iyyIaA0R6EwrDN1bxtlK8o6PVM2Y6yugb68V3wwgYgU1Ammi8HdYSTZnSr6/
-         4M+21ww0CwphHtqfir6ppiirMf+wKSl04H5kEvYiuG9U5BDw8yOcgRVEf4Tj2ZGsESZW
-         ynvxLn3sLtP25NfF5Y3Z3uslbsi9pH+sR8SPTe3f2fZEqtLgh3DM4ubGrco4Mp2jFEfU
-         6H3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWTX7Yrhez/k67PZM/SyuwvsPGppK16Yb6hwXshzEXmk+h3SCfbyPAsUlJ6vZv+rcr2lmwNAdFX919Rs4QA5qaN4WhWDQEhFc0FnxPw/k9iRAo3FkSPRO4dZ4T+XEg+rIua82KZn3iA+JB1KXUGbKE19+4EXk/lMKGsUbbq2a6Lz76rsZJ/
-X-Gm-Message-State: AOJu0YyWTi7ePZYXBG58xkMccPx/0e/dVBMu/OIaPG6liCJnF13t63wS
-	bZP1SQN4Yi8/A9xAb1bsN0LjaMXLBvR9L6vqJ7TtaFRrJUJbPTpJfxRTpYHDXRXp/WQyiEInBs+
-	kRLRo6cXy+MZ7vwuKUfElObyZBsE=
-X-Google-Smtp-Source: AGHT+IHN2AaAVLuIQp2KMpJW4wj0q4+lo/QPRGkv+6938AiGZHczF1I3ZCYJIuWJApinHAoUBYl8JtVX9orN7UhkuUA=
-X-Received: by 2002:a2e:90d6:0:b0:2e9:881b:5f02 with SMTP id
- 38308e7fff4ca-2eac7aa4f5bmr9743891fa.53.1717578176545; Wed, 05 Jun 2024
- 02:02:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="qUBfzewL"
+Received: from localhost.localdomain (unknown [10.101.197.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id A68F83F2E7;
+	Wed,  5 Jun 2024 09:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1717579390;
+	bh=KJPLcT8mgLC51ILSluTI+5lWS48z3CE5xZ0HbgAA4gE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=qUBfzewLNI8OuPaLrya6uhyGODdvNv0/ub/0x7m8KwO84i8v3f0p5BS/BB85XXGaA
+	 ith9OgvK29EwmF1VRtJ9Au05JKE2URp1eDMfnlhJGMPLe5Thkr5obWUHnu2KO+AoQe
+	 yTU1UFU2iIA6M5uYVrAMaBiSrvkljUZIfvS/pVXVFoXcruteL8cSi0fiOFvUznZWQD
+	 LkvyfKXlC17PoPkcYU3IWoZ/Lrd32p5cD4/mwWBLtZCdgmuuB6jTtJRj9E6d2hWhXn
+	 6Ikf30a9VwIE/Ilk0lv8aV0cb+qCeoDUV29B1e/fldKFGIK0SlGLRzIJEKByK9G3wC
+	 WiiEKshmGRZDg==
+From: Andy Chi <andy.chi@canonical.com>
+To: 
+Cc: andy.chi@canonical.com,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Athaariq Ardhiansyah <foss@athaariq.my.id>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for ProBook 445/465 G11.
+Date: Wed,  5 Jun 2024 17:22:41 +0800
+Message-Id: <20240605092243.41963-1-andy.chi@canonical.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240530111205.1764-1-bavishimithil@gmail.com>
- <7845bb1c-47d5-41f6-bf08-bd7b357df02c@kernel.org> <CAGzNGRn=e46yYrK3o8JhUmod4pGFFdEK31kUWUU4jn+JTgZjQg@mail.gmail.com>
- <6af56d35-1874-431b-9e6b-97214940b89e@kernel.org>
-In-Reply-To: <6af56d35-1874-431b-9e6b-97214940b89e@kernel.org>
-From: Mithil <bavishimithil@gmail.com>
-Date: Wed, 5 Jun 2024 14:32:44 +0530
-Message-ID: <CAGzNGRkuMqXn+XP79bGMFgNQ4vzcVFvit3DjUn+YZ_sr1cZo5A@mail.gmail.com>
-Subject: Re: [PATCH v6] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Lopez Cruz <misael.lopez@ti.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 2, 2024 at 8:49=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
->
-> https://lore.kernel.org/all/20240528164227.1988357-1-andreas@kemnade.info=
-/
->
-> https://lore.kernel.org/all/20240530211654.7946-1-ansuelsmth@gmail.com/
->
-> https://lore.kernel.org/all/20240522151616.27397-1-pratik.farkase@wsiswed=
-en.com/
-Understood, thanks a lot!
-So something along the lines of
-Convert the OMAP4+ McPDM bindings from txt to yaml (dtschema).
-Drop ti.hwmods property as it is not needed since the sysc conversion.
-Add dma, dma-names, reg-names properties to match the DTS so as to not
-break the already existing ABI.
-Update example to match the existing node.
+HP ProBook 445/465 G11 needs ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to
+make mic-mute/audio-mute working.
 
-Also update the changelog from the start noting all changes.
+Signed-off-by: Andy Chi <andy.chi@canonical.com>
+---
+ sound/pci/hda/patch_realtek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-This much for v7 correct?
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index aa76d1c88589..54a52c148070 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10194,6 +10194,10 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c70, "HP EliteBook 835 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c71, "HP EliteBook 845 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c72, "HP EliteBook 865 G11", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8c7b, "HP ProBook 445 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x8c7c, "HP ProBook 445 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x8c7d, "HP ProBook 465 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x8c7e, "HP ProBook 465 G11", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8c89, "HP ProBook 460 G11", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c8a, "HP EliteBook 630", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c8c, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.34.1
 
---=20
-Best Regards,
-Mithil
