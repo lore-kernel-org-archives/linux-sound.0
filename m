@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4CF15F418;
-	Wed,  5 Jun 2024 21:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD6B15FA8F;
+	Wed,  5 Jun 2024 21:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717621535; cv=none; b=Zlzmb4WrUlSR0W+9mcqAG9CnlDOGypVR+oGzsvIAyyYgiHvNqwBgny0qgknFCRSisx6bdluswsXmZauxOLGlkiqUCHDCuIYmwJ67Y82pU8dw3JYKriDGx7lYrRVZ6n9X+knndy8HIZF1LvtGaJ2yRbqxrdC/2nszqBi8KsI4hrs=
+	t=1717623495; cv=none; b=GaTKPlg5z5weyip7tCpsEu74cxkUoVruvqnuPvKFpSJosT5uwNmcAk/t5C8QKvc3NlawSfyEnpb9vEt1qB9CezKt8Vdm3iw7eAGLvQ248bQ9btDRHHYYADN9T5nqrklxPcGxx7M9Mzd18LUSYTbj+oT2PTWQV+vl4YouBrK0AnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717621535; c=relaxed/simple;
-	bh=HX2FOEXY8UflXmGqEAtTtfooLXB6TYloRO4ddELc9EI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WEZ8+6ELgb5PPlCu2kZ5iEXT45MVcrTgM3lns4Xv71XMtKi7rQ7jIgCWG4znBHs837rs3UKHqYxJlueMEY4xzO7bOevY9KCrFLLhdrGCWPYM/PtVz6WsnRVhyXsBG4zltXdqFsMFCPJtAX61O9VK7DKC1jGaYAM9r6Pl9hg6Bt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IotqZlJh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717623495; c=relaxed/simple;
+	bh=D+XNwiT5oc5Dm3t9kYZHsZnZ+hfVu8uRIo4dcxzvk7c=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ne8B6f4D/YJX4iOaXotCOjfbp1cz9NLcGr1VPDTSOW0M0gGUzkxA72yZkGP4l/G5727ZQ+NgI+ZGmt/kYQfqFOfdrkiIdyY5zKe5hMXTHls8h9spTajiLkEsWRETXdUFMI7MtNWXgB9kphaaQHiwOB3btntUhXZ9XsS9VpFkNbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vLRhpOph; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IotqZlJh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEBFFC32782;
-	Wed,  5 Jun 2024 21:05:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vLRhpOph"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34EC6C4AF1B;
+	Wed,  5 Jun 2024 21:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717621535;
-	bh=HX2FOEXY8UflXmGqEAtTtfooLXB6TYloRO4ddELc9EI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IotqZlJhbhOy1/VcjrFfU9iEv72PAg2bPladFlnP4BoBgvaeqES5SgqaWt9HzHWOt
-	 YUhdH8CWnoLBKRmYu3e7DuPDqeV2dDE90kKVFFx1mOr+170mvT9FqXR8xEVCApXYZD
-	 ZEalX9aDgV+/oqNlQbCO0YxeLbDF/hTQp/elWc5Wiyx35JgTuVjedn6Z2pq+V7h2oq
-	 KqiKecpswSFCXCeJ5Kc6Mmrp6vNoBzlR2IE3VPQGAM8EQjML3Fe4OffEaRzemgqD+L
-	 ttguZbJ0oGhJWZuwiGEDCdbWjzfMQwVM8FPoEFIYddoMH1WQK6YVyNVuwGJqKyknw7
-	 5NMtjUWVCWxrQ==
+	s=k20201202; t=1717623495;
+	bh=D+XNwiT5oc5Dm3t9kYZHsZnZ+hfVu8uRIo4dcxzvk7c=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=vLRhpOphNGmBaQmxfLFjNesmRJ8CdhImZQC71upgsbQ9PPymnKlCzrlqFjLGIkzxY
+	 FIV7raA/XCMVmU5o+l3I5StSQvgAOUajlN6bNfywQwvMrirXHu609WSmlsKD4wM/BT
+	 MMxuQifeVDY7YfTfT0t28C7KmuTc3dUblWm+pkhhAiYha2eipBYX4fP1gE+E7wLHHn
+	 24ed61T32aZ9YM92xUTb6Xs5bFpJb8Onne/DVujNek8MEgDREqJtKyKFKnDcTuUDoX
+	 fm9vUtzVjbH0I2hRysdQTdmMrwMCnIUZgzEyk4o8mxNZyxqi55LcyecAw2wXk+2mIn
+	 7k2nMmp+sQIaA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20240531-da7219-v1-1-ac3343f3ae6a@chromium.org>
-References: <20240531-da7219-v1-1-ac3343f3ae6a@chromium.org>
-Subject: Re: [PATCH RFT] ASoC: mediatek: mt8183-da7219-max98357: Fix
- kcontrol name collision
-Message-Id: <171762153256.557520.12011428649748199502.b4-ty@kernel.org>
-Date: Wed, 05 Jun 2024 22:05:32 +0100
+To: lgirdwood@gmail.com, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+ shengjiu.wang@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+ perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+ linuxppc-dev@lists.ozlabs.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1715656329-8061-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1715656329-8061-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2 0/2] ASoC: fsl_xcvr: Support i.MX95 platform
+Message-Id: <171762349194.565712.7362032139063923896.b4-ty@kernel.org>
+Date: Wed, 05 Jun 2024 22:38:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,13 +49,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14-dev-d4707
 
-On Fri, 31 May 2024 08:37:54 +0000, Hsin-Te Yuan wrote:
-> Since "Headphone Switch" kcontrol name has already been used by da7219,
-> rename the control name from "Headphone" to "Headphones" to prevent the
-> colision. Also, this change makes kcontrol name align with the one in
-> mt8186-mt6366-da7219-max98357.c.
+On Tue, 14 May 2024 11:12:07 +0800, Shengjiu Wang wrote:
+> On i.MX95 wakeup domain, there is one instance of Audio XCVR
+> supporting SPDIF mode with a connection to the Audio XCVR physical
+> interface.
 > 
+> changes in v2:
+> - Merge patch 1&2, 3&4 from v1 together.
+> - Add more comments in commit message
+> - Add constaint for clocks used on i.mx95
+> - Add 'select SND_SOC_FSL_UTILS' for compiling issue.
 > 
+> [...]
 
 Applied to
 
@@ -64,8 +68,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8183-da7219-max98357: Fix kcontrol name collision
-      commit: 97d8613679eb53bd0c07d0fbd3d8471e46ba46c1
+[1/2] ASoC: dt-bindings: fsl,xcvr: Add compatible string for i.MX95
+      commit: fc1277335ffa0d180c76ddccf5fe27fc75674e67
+[2/2] ASoC: fsl_xcvr: Add support for i.MX95 platform
+      commit: f13b349e3c70320ef5a86edfc888a6feb612abb0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
