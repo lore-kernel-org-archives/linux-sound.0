@@ -1,197 +1,244 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59F113BC3A
-	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 07:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE4113AA31
+	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 08:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717660746; cv=none; b=D9oYHrttGsLXcIa9i9nzfxlNjaywrOV8kqQaW+0zWY1zps2gsAzPSt5JqbgbBY1LwJa2Hst1FuVq8vmf0ThipjVlUQH6eqMh1hzJYxP5sMy4C/DISv5pGgBsJiiLnG+tXq/LxpLJAO58r6L3oG3VJzNllpAUHGd0Vfn+tScnw2k=
+	t=1717661223; cv=none; b=NqrKHaB1UHSRmo8ENpdMhBA9VtrqzCSGCt7RH8XKlqHrDpyecduhEmh+JcZ449IJhtYK12MN4ZAoH4EDWcamgbF7jUEIj0IWX31h4Lqa9cNWSxRhtNlFBFPzXXkHKuKMnJckqSZFktTcaGGettkdPdklRjmkE6dAUGByrnMm3nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717660746; c=relaxed/simple;
-	bh=M4YbMnyA7wPbzKBrsOBsBA0mojZytlGPqCREAmq0jgY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=q+ecyKkwplOTS129HywqP79ZLebvEF86ElSzT37T4xeKpfT7f12fxAi9U+E9gWjotrmGaIBrvYO+MsD7LSBhsbmM/B5BBJ+FCwo7xI+HJrwdUzjZGFhyE2zUxhuKYLf70ik16SO5oEMtaaLnX2+MrLUBrIhPZiGljUeznX1e02E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e7LrNNN5; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1717661223; c=relaxed/simple;
+	bh=1y0aJBMNzzU/0LQjfOvpee00DXAiGgdtWGL31QFkJrc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dSqhM+1Vr5xV/nFMODWngrX7k85iUWXVj7Gd/E4bmQoBc3uQK5i1zm1d/vIcFR6Wg8EPVqe1Hi3Zhb+AWONuAjJR17cBQ9SEkJazWcp7GtPrQCq9Nj5mGWrX3i+nDmmQMEJXEdph3oMdWGh+nZHRtx1aGyKuGhcglwmiTSEgvak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pDk1KCcs; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e7LrNNN5"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52b912198f1so940454e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 06 Jun 2024 00:59:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pDk1KCcs"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-35e5c6600f0so565914f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 06 Jun 2024 01:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717660743; x=1718265543; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gnS+4Nw3mmnCgHlcq3mDgyzxrHoTkQuygatDQQZy8y8=;
-        b=e7LrNNN5FqvAHQAQ4eO7wMXPNkBO66H/Ox1bvKiyMO2Usa4QjQn4/iPnWNy0Zpb1/N
-         zNr7pJ8S5KNxGKW/ysgZgOOt5q92nkeuE2XTbh0fLfIq2q9Z+kVt08HK56GJDmTC1FGw
-         ZOx+R+FirwnzaUD1eyQkxg9sqc82Sqh9ftmUAyLK58KCDUJOHF/nsj5ETYDS46ELAAnP
-         tId5Yt6qgEhdbgwwMqBEj9JJrHWsi27NGxZLJdt0eq+zZMKmfk8/Nak1C5XaRS1uY6IH
-         x5QxiiJFlj5In0lAx0rgOCR83VZl0Mu8cANIAtAcE4fm72K19ZA+Hb+0hFYhLDR2Jq+h
-         dbFw==
+        d=linaro.org; s=google; t=1717661220; x=1718266020; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u7hiYkj91RUaU+iS0uljhHNfGcki3QtOOpKSiUyUuf4=;
+        b=pDk1KCcsP/McW6vPw7NqyTjT9DoN6i6yvp3+qaX+CapLyrocL05dnR5iDGj4PN5orA
+         CyM3tl/TbHEOUOMz7sPofnAjtJdlUOlAKOK8aYR9Dw8wvVCz+NzuDrNxFAuAlSLGu/ci
+         sNkm8ruZaOZd6TmBwpzk9gNnRHZSsZ3mT2ynQgZpQex+a2Gj9qEdOkpyXOYJPP2pXz5J
+         zysdAo+R05JqGT9L5P2R/JMw+ivQwNzSDbgDIv5yjMhf4i0gKnIUrFXnwIq4kCuY35/D
+         CI+0ksfV169CLq3KnVmjZ7Zt/ETEXPKH8LAYIyT8ttLO+teHTMMGelVujXcabYPwIZc1
+         qlTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717660743; x=1718265543;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gnS+4Nw3mmnCgHlcq3mDgyzxrHoTkQuygatDQQZy8y8=;
-        b=O76w07QEK3iAJNtRtQVntiwt7ngeiGvXl7rxlLHB8tyb3i2Ubnh6IbgKZLaj8Vd2XM
-         UoMAhHYf7momsbPtolcV/Q10ZQachSBVGmNloDGRhB5QvH9xFmovxZ2kJ0swULvkIC/6
-         Qb7FCC4N3HwTE2YLdOyCTCAbb4b9Y6+LRfj7yRtEU55X3SPZiOk7+TfOKaJKGZlpM+/d
-         wIXhBVLXQEjUKFX9tXPhkJ5YK6pRxBJc1+nHKQp19RXEmyORmHFM/Nz95aHYd4+5KX9j
-         niK/wSQ2BZsY3So+VOO6qeUujA/nCXyRFx15NqU1wb82dSPCFBHjSqp21DePD3yViEv+
-         tH1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWYKOXesvuQEaVrvadUglet2Qgo+1kok3GWBsmj6ELB5nokKFzBRJzRAePJeXy8AVRY0s5uyB6fnFYGmSbbhEB2M5aK1KGaIdUJMo0=
-X-Gm-Message-State: AOJu0Yz8udCEycgCvMgSpS49rFzxOZJpsu7jN/2FuRzV+VIFrkd3q1ez
-	QVXE4ZKFDKrB7rGq7iStT1elKWjn6EZ2DuRNEn0OfKeU2TwwFxGyzihtvSTortA=
-X-Google-Smtp-Source: AGHT+IHYwQVGy5dggvj+xREw0PMv6gW7XtD9G6UpJEyN+UKn9U1OFTscrpuHK+PvsB0Onhm5ujkKAA==
-X-Received: by 2002:a05:6512:114a:b0:52b:9f37:3ec2 with SMTP id 2adb3069b0e04-52bab4c93e5mr2874304e87.11.1717660742962;
-        Thu, 06 Jun 2024 00:59:02 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:22fd:4ae6:287f:17f2? ([2a01:e0a:982:cbb0:22fd:4ae6:287f:17f2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215810242fsm45618635e9.12.2024.06.06.00.59.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 00:59:02 -0700 (PDT)
-Message-ID: <92f96ac7-d36b-4c3c-862e-90e939c367a4@linaro.org>
-Date: Thu, 6 Jun 2024 09:59:01 +0200
+        d=1e100.net; s=20230601; t=1717661220; x=1718266020;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u7hiYkj91RUaU+iS0uljhHNfGcki3QtOOpKSiUyUuf4=;
+        b=MEZCZ0QkHOw9JMXORaPXGdYj1dqnwTGbm8fJawGEVHidipNRAYbE9vAFTRCkmW+LY8
+         GNp0YnLYNR/Rk1OIMSbXsEl4lc+NXDGcm57vWQZFaZJ9E8LQi7tOXGWwOd7cvVy4V7PG
+         W7G7MRTt/VRBeE/P+5dnyvTJOhW2Eh/y9+T6ulyZL1XwgbHv6f+kN/rE+cdAbDimsqwb
+         mhv1xvc9VbMch1344TPktqta/aK7LvfhtjZm/4pMOoj/dlExwz3IJrZiJikdgTATS6Rm
+         dJottj7SbJKo5oselm6ClXCMZW/lWy8DrJnMn3hX+cOnAI1Pamf4aAAZ9bSqtFY2S6tv
+         4ASg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJS/6e7tcjYJ/j6SPrvOnsfK0l1nKIJFQenuqdUgoo9wEAIo9iHkzkWsf/3BjkOANljjxqwAvbYJ1PjvTjjM4Zxu3v0J2mP3thkPo=
+X-Gm-Message-State: AOJu0YwxIIIP7WWWyrA+KoJazYYNIAGy1ut3THFLVo1bYGvfcKHDNN+D
+	DbgmZnOCzzTZU+5u4qBK00S8W9YJUKWWboAaSBR2S6niR9yVXlZwyzjsZRQFV14=
+X-Google-Smtp-Source: AGHT+IEZYO9oq1GhQAcOgxg+qi6W3zUjN5wlcTNOdZBAx1Esog+GP3ZmqjC+yd5zkil3a/PtA/bsPA==
+X-Received: by 2002:adf:f00c:0:b0:355:39d:f82 with SMTP id ffacd0b85a97d-35e8ef5f8efmr3724702f8f.53.1717661219564;
+        Thu, 06 Jun 2024 01:06:59 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5e989besm861205f8f.76.2024.06.06.01.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jun 2024 01:06:59 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Thu, 06 Jun 2024 10:06:58 +0200
+Subject: [PATCH v2] ASoC: dt-bindings: convert amlogic,g12a-tohdmitx to
+ dt-schema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] ASoC: dt-binding: convert amlogic,g12a-tohdmitx to
- dt-schema
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240605-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v1-1-b851c195e241@linaro.org>
- <05454339-9f83-4101-ac55-0dc7b5a8d45e@kernel.org>
- <4d9d7cff-1a00-459d-8ccf-d30ec2cdcaad@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <4d9d7cff-1a00-459d-8ccf-d30ec2cdcaad@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240606-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v2-1-70d44fa30790@linaro.org>
+X-B4-Tracking: v=1; b=H4sIACFuYWYC/6WOQQrDIBREr1Jc95coMZiueo+ShdFf8yHRoFZSQ
+ u5emyt0NbxhmJmdJYyEid0vO4tYKFHwFcT1wsykvUMgW5mJRrRN10jIYSUDepmDq/peU46oFxj
+ JW/IugQm+YMzguNA1PNmF8gZWyaaXquNWKVa714gv2s7d51B5opRD/Jw3Cv+5/y4WDhxGJbnhv
+ UTR8sdMXsdwC9Gx4TiOL3m2HqD7AAAA
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3894;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=1y0aJBMNzzU/0LQjfOvpee00DXAiGgdtWGL31QFkJrc=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmYW4h9Jzln7/TviHyxOE5x5rMDExs9dXnNCJXaGS3
+ u6lM2XiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmFuIQAKCRB33NvayMhJ0ZD/EA
+ CU3evx4cxhODhk+lefwnpVuu5JQUFqdnm0RFajEvCjdkk6pyM4dAtAS7LwQiZQlWqsFHImZN7sFKLh
+ RpA+AHshG8+uektkvJdA5EXvjBF5iaRmv2KtXZHyd5a++PBpgdXRfUuS/rvSxvSGcG7rjswT3newSt
+ nxPqDqKpwIpcG/8oBgctbunISD4hNChY0JqbIgtm97dK9MOac7jh9QGLQ2PUh6ctjHecQLFAuv+hiA
+ WGcRo+2C0llKaFGnqk6uktleLuZKPAxDp/VRK0lVhFv/FS2PmmT1r3d/itr4LM4OSl3IWnn2ydl25Y
+ 9mSbQEj0X0hGAtki6jOfdkHpQA1iCGq5WZvjpY4sJbEEf2XfDvQXbxbPaUFrQM6H+ghtUK6sSnDkBu
+ KKvzjdH8LPULBtWd4bncC/vUhVUGR+9+cqvvs3ZwpySSEnNueQyDxWUQjBsPkdeK3uXDSsxn3b1rPB
+ 6MZR3sJca4ihf9LtAQREuESburCE2IFoo4SMmm5T0px4pGDzt2KCn8lx1CGHB7eH+CsvUtoGt0eaDH
+ w87hjqRMO4FXc0uXQsSqG5oHikVJdUhrWpfd59HMa4H0KtWY3L/HUmnRuCl0bojZxQdEGb39eAZFqy
+ yFtPk0WEeP+eKFjFQxH1bxco7TD+e2FgGyestVNvpsdwBadPfjJ4dBS/FibA==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 06/06/2024 09:45, Krzysztof Kozlowski wrote:
-> On 06/06/2024 09:45, Krzysztof Kozlowski wrote:
->> On 05/06/2024 18:23, Neil Armstrong wrote:
->>> Convert text bindings to dt-schema format for the Amlogic TX HDMI
->>> control glue.
->>>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>
->> subject: dt-bindings (missing 's')
->>
->>> ---
->>>   .../bindings/sound/amlogic,g12a-tohdmitx.txt       | 58 ----------------------
->>>   .../bindings/sound/amlogic,g12a-tohdmitx.yaml      | 56 +++++++++++++++++++++
->>>   2 files changed, 56 insertions(+), 58 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
->>> deleted file mode 100644
->>> index 4e8cd7eb7cec..000000000000
->>> --- a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
->>> +++ /dev/null
->>> @@ -1,58 +0,0 @@
->>> -* Amlogic HDMI Tx control glue
->>> -
->>
->>> +
->>> +title: Amlogic G12a HDMI TX Control Glue
->>> +
->>> +maintainers:
->>> +  - Jerome Brunet <jbrunet@baylibre.com>
->>> +
->>> +allOf:
->>> +  - $ref: dai-common.yaml#
->>> +
->>> +properties:
->>> +  $nodename:
->>> +    pattern: "^audio-controller@.*"
->>> +
->>> +  "#sound-dai-cells":
->>> +    const: 1
->>> +
->>> +  compatible:
->>> +    oneOf:
->>> +      - items:
->>> +          - const: amlogic,g12a-tohdmitx
->>> +      - items:
->>> +          - enum:
->>> +              - amlogic,sm1-tohdmitx
->>> +          - const: amlogic,g12a-tohdmitx
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  resets:
->>> +    maxItems: 1
->>> +
->>> +  sound-name-prefix: true
->>
->> Drop
->>
->>> +
->>> +required:
->>> +  - "#sound-dai-cells"
->>> +  - compatible
->>> +  - reg
->>> +  - resets
->>
->> Please keep the same order as in "properties:" block.
->>
->>> +
->>> +additionalProperties: false
->>
->> and here instead:
->> unevaluatedProperties: false
->>
-> 
-> and with above changes:
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Convert text bindings to dt-schema format for the Amlogic TX HDMI
+control glue.
 
-Ack,
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- re-order properties and required
+- switch to unevaluatedProperties and drop sound-name-prefix
+- Add review tag
+- Link to v1: https://lore.kernel.org/r/20240605-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v1-1-b851c195e241@linaro.org
+---
+ .../bindings/sound/amlogic,g12a-tohdmitx.txt       | 58 ----------------------
+ .../bindings/sound/amlogic,g12a-tohdmitx.yaml      | 54 ++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 58 deletions(-)
 
-Thanks,
-Neil
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
+deleted file mode 100644
+index 4e8cd7eb7cec..000000000000
+--- a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
++++ /dev/null
+@@ -1,58 +0,0 @@
+-* Amlogic HDMI Tx control glue
+-
+-Required properties:
+-- compatible: "amlogic,g12a-tohdmitx" or
+-	      "amlogic,sm1-tohdmitx"
+-- reg: physical base address of the controller and length of memory
+-       mapped region.
+-- #sound-dai-cells: should be 1.
+-- resets: phandle to the dedicated reset line of the hdmitx glue.
+-
+-Example on the S905X2 SoC:
+-
+-tohdmitx: audio-controller@744 {
+-	compatible = "amlogic,g12a-tohdmitx";
+-	reg = <0x0 0x744 0x0 0x4>;
+-	#sound-dai-cells = <1>;
+-	resets = <&clkc_audio AUD_RESET_TOHDMITX>;
+-};
+-
+-Example of an 'amlogic,axg-sound-card':
+-
+-sound {
+-	compatible = "amlogic,axg-sound-card";
+-
+-[...]
+-
+-	dai-link-x {
+-		sound-dai = <&tdmif_a>;
+-		dai-format = "i2s";
+-		dai-tdm-slot-tx-mask-0 = <1 1>;
+-
+-		codec-0 {
+-			sound-dai = <&tohdmitx TOHDMITX_I2S_IN_A>;
+-		};
+-
+-		codec-1 {
+-			sound-dai = <&external_dac>;
+-		};
+-	};
+-
+-	dai-link-y {
+-		sound-dai = <&tdmif_c>;
+-		dai-format = "i2s";
+-		dai-tdm-slot-tx-mask-0 = <1 1>;
+-
+-		codec {
+-			sound-dai = <&tohdmitx TOHDMITX_I2S_IN_C>;
+-		};
+-	};
+-
+-	dai-link-z {
+-		sound-dai = <&tohdmitx TOHDMITX_I2S_OUT>;
+-
+-		codec {
+-			sound-dai = <&hdmi_tx>;
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml
+new file mode 100644
+index 000000000000..b4b78475c5b8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/amlogic,g12a-tohdmitx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Amlogic G12a HDMI TX Control Glue
++
++maintainers:
++  - Jerome Brunet <jbrunet@baylibre.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  $nodename:
++    pattern: "^audio-controller@.*"
++
++  compatible:
++    oneOf:
++      - items:
++          - const: amlogic,g12a-tohdmitx
++      - items:
++          - enum:
++              - amlogic,sm1-tohdmitx
++          - const: amlogic,g12a-tohdmitx
++
++  reg:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - resets
++  - "#sound-dai-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/reset/amlogic,meson-g12a-audio-reset.h>
++
++    tohdmitx: audio-controller@744 {
++        compatible = "amlogic,g12a-tohdmitx";
++        reg = <0x744 0x4>;
++        resets = <&clkc_audio AUD_RESET_TOHDMITX>;
++        #sound-dai-cells = <1>;
++    };
 
-> 
-> Best regards,
-> Krzysztof
-> 
+---
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+change-id: 20240605-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-d85095861d88
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
