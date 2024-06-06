@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2001C2E;
-	Thu,  6 Jun 2024 00:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3124683;
+	Thu,  6 Jun 2024 00:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717634324; cv=none; b=jhOvM9xvZRtiFFf+xEtoyvVMBO4dtZb4B1EMQY14VZJNbBM73eod7/tkJtI0xEQPV8vOFGOR5XVjSuoMzxe7P0DWyeFezU7zcihus8z82g3NS50/NWCDDlYuZtrwMNqVc/CqVNSzhERfBvwoA4cH81qYZi55FHEsXLhyu4VkTZY=
+	t=1717635214; cv=none; b=M9n32LXnhhYFikr/X0bLKCbOEls/DjVnb2z3FopH0Y0oCvF0pj51QDwhQviKKJBfruUkMKedM8+EAP5yQL+y9zrE818SVP02QueH50O0larLxUhnBt9iSBvHqiRoDLotphVPwPR8irrhoLw4GWAso9lzfc05G1CGnVZOuiqZ39Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717634324; c=relaxed/simple;
-	bh=yA8JXQglBvejFF7jK/DqobhKHQBVwv7RECc+KLN/htY=;
+	s=arc-20240116; t=1717635214; c=relaxed/simple;
+	bh=y3NLehE4z6xgfNaULf7oIlI/u+h4fC3sVYtsfAAbbT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dVC6PZeqYPTZUgxkksk11M0udEAOEri/ioztzFn6zNZYYTfmeCn7C1mzSl7pt+3t+2b1SfZjG+bPzYhexauRafI1D7FWud1vWDPYmKp6k5NMhW/e/Yaca6+JMNmwowd5/zZ7l4L/JmjAMlxrZlByOh98Ka611HQqzPeO69LddEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Of9q0GTy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=PphS0MFHsCVioPqCNn+LMrXcG2opz0sTI4XcO6/dLTnEsMIulF5McfynBAj/+pMbjFnmTBGRoo55oEw1TAwvYcjHgKCaWYFc3tvFa3/kTQrP/punfwi7hFRbBVtYgMKFWQAGSoaNldX4BMVu11fE5nMq1IWey2PIlSM4gjHNZAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cYI26IzM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Of9q0GTy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BCDC2BD11;
-	Thu,  6 Jun 2024 00:38:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cYI26IzM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21764C2BD11;
+	Thu,  6 Jun 2024 00:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717634323;
-	bh=yA8JXQglBvejFF7jK/DqobhKHQBVwv7RECc+KLN/htY=;
+	s=k20201202; t=1717635214;
+	bh=y3NLehE4z6xgfNaULf7oIlI/u+h4fC3sVYtsfAAbbT4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Of9q0GTyzdfSeB7VBeSq4FxJgjsiwPFN9APFFe2lVDkOufkqJG/Pwp3SG6zAuCsnn
-	 SqT6ADFmfH+ufRELcCX4QFFQhnDj2SHuZEAyq8mTrcl2D/URsJlxUqpLiO1Hxs8eUC
-	 V9QTFu+mvQNqd8BFCYWlpGR9bE/AZTxkqw+fBmUV8Az2DooU6bX0dKktdz0+GOIbvw
-	 ENMfY37oK+2A8XISbu18OrNZ+95TR5lgLPBPhk/3uCHl0WHo6N7MW7yGJAESPL7NP5
-	 Zqe2YAkCEfZChWVwOzKTn0FemSzNc5IIt0U8fQZXwouvuOaxvHnqr+hOiLQ1G031Dw
-	 TOSFVur1ig6Ng==
-Date: Wed, 5 Jun 2024 18:38:40 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	b=cYI26IzMt/8KkfHDg8gdx/oyJXPQYS9VldQ9gvsjayQb1+0iERrg8miy2PjUuWOqE
+	 PzUuiaAARz69Xol8Nn69nMUOez8uoOqPy0FOjZH89M5UYzSOvRfqRVEekqExYORjY8
+	 XtsbcRZVR5iT1IjMRR0lBrdne9myBjkXrOA8daUU3IxgejRCQc+lakybMyi12eKhtZ
+	 ZRrfyEORegzbDpRB2cwOJVxk1gP9VeXfhFMOQmdY9kYR0zzpziTqUwDj3Yexci6FLq
+	 9dsS2k6IGCmf/Xi/dYGBhkJtOL8xBXdX0S3VMwTUQv2TGAZRPS9XKOAes4KfBR16q1
+	 0NQ77odt9NyRQ==
+Date: Wed, 5 Jun 2024 18:53:32 -0600
+From: Rob Herring <robh@kernel.org>
+To: Animesh Agarwal <animeshagarwal28@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, alsa-devel@alsa-project.org,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: amlogic,gx-sound-card: drop minItems
- for audio-widgets
-Message-ID: <171763431818.3524953.6773726954560624360.robh@kernel.org>
-References: <20240605-topic-amlogic-upstream-bindings-fixes-audio-widgets-v1-1-65bd7cc2e09b@linaro.org>
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: linux,spdif-dir: Convert to dtschema
+Message-ID: <20240606005332.GA3526959-robh@kernel.org>
+References: <20240605112301.8171-1-animeshagarwal28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,21 +47,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605-topic-amlogic-upstream-bindings-fixes-audio-widgets-v1-1-65bd7cc2e09b@linaro.org>
+In-Reply-To: <20240605112301.8171-1-animeshagarwal28@gmail.com>
 
+On Wed, Jun 05, 2024 at 04:52:55PM +0530, Animesh Agarwal wrote:
+> Convert the dummy SPDIF receiver bindings to DT schema. Make bindings
+> complete by adding property "#sound-dai-cells"
 
-On Wed, 05 Jun 2024 11:40:51 +0200, Neil Armstrong wrote:
-> Like "audio-routing" drop the minItems: 2 from the "audio-widgets", because
-> any limit here - lower or upper- is rather meaningless.
+2 conversions of the same thing in one day:
+
+https://lore.kernel.org/all/20240605-topic-amlogic-upstream-bindings-convert-spdif-receiver-v1-1-262465adbac2@linaro.org/
+
+As I said there, I would just add the compatible to 
+linux,spdif-dit.yaml. But this is fine too.
+
 > 
-> This will also fix `dtbs_check` warnings like:
-> sound: audio-widgets: ['Speaker', '7J4-14 LEFT', 'Speaker', '7J4-11 RIGHT'] is too long
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
 > ---
->  Documentation/devicetree/bindings/sound/amlogic,gx-sound-card.yaml | 1 -
->  1 file changed, 1 deletion(-)
+>  .../bindings/sound/linux,spdif-dir.yaml       | 34 +++++++++++++++++++
+>  .../bindings/sound/spdif-receiver.txt         | 10 ------
+>  2 files changed, 34 insertions(+), 10 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
 > 
+> diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml b/Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml
+> new file mode 100644
+> index 000000000000..61767873200f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/linux,spdif-dir.yaml
+> @@ -0,0 +1,34 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/linux,spdif-dir.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dummy SPDIF receiver
+> +
+> +maintainers:
+> +  - Liam Girdwood <lgirdwood@gmail.com>
+> +  - Mark Brown <broonie@kernel.org>
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: linux,spdif-dir
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+It wasn't in the txt binding, but users also use 'sound-name-prefix' 
+property, so that should be added here.
 
+Rob
