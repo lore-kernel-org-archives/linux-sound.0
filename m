@@ -1,244 +1,402 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m118219.qiye.163.com (mail-m118219.qiye.163.com [115.236.118.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE4113AA31
-	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 08:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171C119067A;
+	Thu,  6 Jun 2024 10:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717661223; cv=none; b=NqrKHaB1UHSRmo8ENpdMhBA9VtrqzCSGCt7RH8XKlqHrDpyecduhEmh+JcZ449IJhtYK12MN4ZAoH4EDWcamgbF7jUEIj0IWX31h4Lqa9cNWSxRhtNlFBFPzXXkHKuKMnJckqSZFktTcaGGettkdPdklRjmkE6dAUGByrnMm3nU=
+	t=1717668796; cv=none; b=TnWRHjBA9YiJoDvfRNTRqddUwfci2FBN5kd9PmnhDpE2Yj0XUHj5ocS9imvFhhL6DW/vOeK7dwNlfg4+ZDLw5NhhQ448+Nw1nqZSeFro03nKP2ebhg6tT5LWhJOblFp47slpPBL6K/mwk9lEN6VtsYCnAlRGMv+2lyqjowPAu6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717661223; c=relaxed/simple;
-	bh=1y0aJBMNzzU/0LQjfOvpee00DXAiGgdtWGL31QFkJrc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dSqhM+1Vr5xV/nFMODWngrX7k85iUWXVj7Gd/E4bmQoBc3uQK5i1zm1d/vIcFR6Wg8EPVqe1Hi3Zhb+AWONuAjJR17cBQ9SEkJazWcp7GtPrQCq9Nj5mGWrX3i+nDmmQMEJXEdph3oMdWGh+nZHRtx1aGyKuGhcglwmiTSEgvak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pDk1KCcs; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pDk1KCcs"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-35e5c6600f0so565914f8f.3
-        for <linux-sound@vger.kernel.org>; Thu, 06 Jun 2024 01:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717661220; x=1718266020; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7hiYkj91RUaU+iS0uljhHNfGcki3QtOOpKSiUyUuf4=;
-        b=pDk1KCcsP/McW6vPw7NqyTjT9DoN6i6yvp3+qaX+CapLyrocL05dnR5iDGj4PN5orA
-         CyM3tl/TbHEOUOMz7sPofnAjtJdlUOlAKOK8aYR9Dw8wvVCz+NzuDrNxFAuAlSLGu/ci
-         sNkm8ruZaOZd6TmBwpzk9gNnRHZSsZ3mT2ynQgZpQex+a2Gj9qEdOkpyXOYJPP2pXz5J
-         zysdAo+R05JqGT9L5P2R/JMw+ivQwNzSDbgDIv5yjMhf4i0gKnIUrFXnwIq4kCuY35/D
-         CI+0ksfV169CLq3KnVmjZ7Zt/ETEXPKH8LAYIyT8ttLO+teHTMMGelVujXcabYPwIZc1
-         qlTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717661220; x=1718266020;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u7hiYkj91RUaU+iS0uljhHNfGcki3QtOOpKSiUyUuf4=;
-        b=MEZCZ0QkHOw9JMXORaPXGdYj1dqnwTGbm8fJawGEVHidipNRAYbE9vAFTRCkmW+LY8
-         GNp0YnLYNR/Rk1OIMSbXsEl4lc+NXDGcm57vWQZFaZJ9E8LQi7tOXGWwOd7cvVy4V7PG
-         W7G7MRTt/VRBeE/P+5dnyvTJOhW2Eh/y9+T6ulyZL1XwgbHv6f+kN/rE+cdAbDimsqwb
-         mhv1xvc9VbMch1344TPktqta/aK7LvfhtjZm/4pMOoj/dlExwz3IJrZiJikdgTATS6Rm
-         dJottj7SbJKo5oselm6ClXCMZW/lWy8DrJnMn3hX+cOnAI1Pamf4aAAZ9bSqtFY2S6tv
-         4ASg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJS/6e7tcjYJ/j6SPrvOnsfK0l1nKIJFQenuqdUgoo9wEAIo9iHkzkWsf/3BjkOANljjxqwAvbYJ1PjvTjjM4Zxu3v0J2mP3thkPo=
-X-Gm-Message-State: AOJu0YwxIIIP7WWWyrA+KoJazYYNIAGy1ut3THFLVo1bYGvfcKHDNN+D
-	DbgmZnOCzzTZU+5u4qBK00S8W9YJUKWWboAaSBR2S6niR9yVXlZwyzjsZRQFV14=
-X-Google-Smtp-Source: AGHT+IEZYO9oq1GhQAcOgxg+qi6W3zUjN5wlcTNOdZBAx1Esog+GP3ZmqjC+yd5zkil3a/PtA/bsPA==
-X-Received: by 2002:adf:f00c:0:b0:355:39d:f82 with SMTP id ffacd0b85a97d-35e8ef5f8efmr3724702f8f.53.1717661219564;
-        Thu, 06 Jun 2024 01:06:59 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5e989besm861205f8f.76.2024.06.06.01.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 01:06:59 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 06 Jun 2024 10:06:58 +0200
-Subject: [PATCH v2] ASoC: dt-bindings: convert amlogic,g12a-tohdmitx to
- dt-schema
+	s=arc-20240116; t=1717668796; c=relaxed/simple;
+	bh=0DDqsYhBPzGeozRsqU7tZ+r1G0qVV0Sq113VIerWAPU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j9uDY9AUILp/i6a4NXroBuZUMuCx9dJJize/a5z2+MM7WwPhBUZRNUUYU6jPx9nzMhI0Kc4/9RUcexSbiSTyG6oLSSnNW6ZU4yB3hUgcg4oGg3Drtpmjq0DI6CsX9GrM4dOOqEwbshkLaQKDIupXAZ6UhWJWb5BaZVz3qk45+TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=115.236.118.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 47D81900380;
+	Thu,  6 Jun 2024 09:57:07 +0800 (CST)
+From: bo liu <bo.liu@senarytech.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH V2] ALSA: hda/senarytech: add senarytech codec support
+Date: Thu,  6 Jun 2024 09:57:03 +0800
+Message-Id: <20240606015703.37118-1-bo.liu@senarytech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240606-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v2-1-70d44fa30790@linaro.org>
-X-B4-Tracking: v=1; b=H4sIACFuYWYC/6WOQQrDIBREr1Jc95coMZiueo+ShdFf8yHRoFZSQ
- u5emyt0NbxhmJmdJYyEid0vO4tYKFHwFcT1wsykvUMgW5mJRrRN10jIYSUDepmDq/peU46oFxj
- JW/IugQm+YMzguNA1PNmF8gZWyaaXquNWKVa714gv2s7d51B5opRD/Jw3Cv+5/y4WDhxGJbnhv
- UTR8sdMXsdwC9Gx4TiOL3m2HqD7AAAA
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3894;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=1y0aJBMNzzU/0LQjfOvpee00DXAiGgdtWGL31QFkJrc=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmYW4h9Jzln7/TviHyxOE5x5rMDExs9dXnNCJXaGS3
- u6lM2XiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmFuIQAKCRB33NvayMhJ0ZD/EA
- CU3evx4cxhODhk+lefwnpVuu5JQUFqdnm0RFajEvCjdkk6pyM4dAtAS7LwQiZQlWqsFHImZN7sFKLh
- RpA+AHshG8+uektkvJdA5EXvjBF5iaRmv2KtXZHyd5a++PBpgdXRfUuS/rvSxvSGcG7rjswT3newSt
- nxPqDqKpwIpcG/8oBgctbunISD4hNChY0JqbIgtm97dK9MOac7jh9QGLQ2PUh6ctjHecQLFAuv+hiA
- WGcRo+2C0llKaFGnqk6uktleLuZKPAxDp/VRK0lVhFv/FS2PmmT1r3d/itr4LM4OSl3IWnn2ydl25Y
- 9mSbQEj0X0hGAtki6jOfdkHpQA1iCGq5WZvjpY4sJbEEf2XfDvQXbxbPaUFrQM6H+ghtUK6sSnDkBu
- KKvzjdH8LPULBtWd4bncC/vUhVUGR+9+cqvvs3ZwpySSEnNueQyDxWUQjBsPkdeK3uXDSsxn3b1rPB
- 6MZR3sJca4ihf9LtAQREuESburCE2IFoo4SMmm5T0px4pGDzt2KCn8lx1CGHB7eH+CsvUtoGt0eaDH
- w87hjqRMO4FXc0uXQsSqG5oHikVJdUhrWpfd59HMa4H0KtWY3L/HUmnRuCl0bojZxQdEGb39eAZFqy
- yFtPk0WEeP+eKFjFQxH1bxco7TD+e2FgGyestVNvpsdwBadPfjJ4dBS/FibA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQh5CVh5DGRkYHUsaTUJNT1UTARMWGhIXJBQOD1
+	lXWRgSC1lBWU1KVUpDSFVKT0hVTENZV1kWGg8SFR0UWUFZT0tIVUpNQ0xMT1VKS0tVSkJLS1kG
+X-HM-Tid: 0a8feb439abd03a9kunm47d81900380
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pww6Dyo5DzNLPDcUThhPMyk4
+	DCkKFDxVSlVKTEpMTUhCS0lMQktIVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
+	WU1KVUpDSFVKT0hVTENZV1kIAVlBSkpOTUo3Bg++
 
-Convert text bindings to dt-schema format for the Amlogic TX HDMI
-control glue.
+Add initial Senarytech codec support for SN6186. Note that this hda
+patch relies on the configuration default registers to be set correctly
+(normally by BIOS/firmware) in order for it to set up pin widgets
+properly.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: bo liu <bo.liu@senarytech.com>
 ---
-Changes in v2:
-- re-order properties and required
-- switch to unevaluatedProperties and drop sound-name-prefix
-- Add review tag
-- Link to v1: https://lore.kernel.org/r/20240605-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v1-1-b851c195e241@linaro.org
----
- .../bindings/sound/amlogic,g12a-tohdmitx.txt       | 58 ----------------------
- .../bindings/sound/amlogic,g12a-tohdmitx.yaml      | 54 ++++++++++++++++++++
- 2 files changed, 54 insertions(+), 58 deletions(-)
+ MAINTAINERS                      |   6 +
+ sound/hda/hdac_device.c          |   1 +
+ sound/pci/hda/Kconfig            |  11 ++
+ sound/pci/hda/Makefile           |   2 +
+ sound/pci/hda/patch_senarytech.c | 263 +++++++++++++++++++++++++++++++
+ 5 files changed, 283 insertions(+)
+ create mode 100644 sound/pci/hda/patch_senarytech.c
 
-diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
-deleted file mode 100644
-index 4e8cd7eb7cec..000000000000
---- a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.txt
-+++ /dev/null
-@@ -1,58 +0,0 @@
--* Amlogic HDMI Tx control glue
--
--Required properties:
--- compatible: "amlogic,g12a-tohdmitx" or
--	      "amlogic,sm1-tohdmitx"
--- reg: physical base address of the controller and length of memory
--       mapped region.
--- #sound-dai-cells: should be 1.
--- resets: phandle to the dedicated reset line of the hdmitx glue.
--
--Example on the S905X2 SoC:
--
--tohdmitx: audio-controller@744 {
--	compatible = "amlogic,g12a-tohdmitx";
--	reg = <0x0 0x744 0x0 0x4>;
--	#sound-dai-cells = <1>;
--	resets = <&clkc_audio AUD_RESET_TOHDMITX>;
--};
--
--Example of an 'amlogic,axg-sound-card':
--
--sound {
--	compatible = "amlogic,axg-sound-card";
--
--[...]
--
--	dai-link-x {
--		sound-dai = <&tdmif_a>;
--		dai-format = "i2s";
--		dai-tdm-slot-tx-mask-0 = <1 1>;
--
--		codec-0 {
--			sound-dai = <&tohdmitx TOHDMITX_I2S_IN_A>;
--		};
--
--		codec-1 {
--			sound-dai = <&external_dac>;
--		};
--	};
--
--	dai-link-y {
--		sound-dai = <&tdmif_c>;
--		dai-format = "i2s";
--		dai-tdm-slot-tx-mask-0 = <1 1>;
--
--		codec {
--			sound-dai = <&tohdmitx TOHDMITX_I2S_IN_C>;
--		};
--	};
--
--	dai-link-z {
--		sound-dai = <&tohdmitx TOHDMITX_I2S_OUT>;
--
--		codec {
--			sound-dai = <&hdmi_tx>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a6a011792167..82ea8c8f74c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24949,6 +24949,12 @@ F:	mm/zpool.c
+ F:	mm/zswap.c
+ F:	tools/testing/selftests/cgroup/test_zswap.c
+ 
++SENARYTECH AUDIO CODEC DRIVER
++M:	bo liu <bo.liu@senarytech.com>
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
++F:	sound/pci/hda/patch_senarytech.c
++
+ THE REST
+ M:	Linus Torvalds <torvalds@linux-foundation.org>
+ L:	linux-kernel@vger.kernel.org
+diff --git a/sound/hda/hdac_device.c b/sound/hda/hdac_device.c
+index 068c16e52dff..3fbb9793dcfc 100644
+--- a/sound/hda/hdac_device.c
++++ b/sound/hda/hdac_device.c
+@@ -665,6 +665,7 @@ static const struct hda_vendor_id hda_vendor_ids[] = {
+ 	{ 0x19e5, "Huawei" },
+ 	{ 0x1aec, "Wolfson Microelectronics" },
+ 	{ 0x1af4, "QEMU" },
++	{ 0x1fa8, "Senarytech" },
+ 	{ 0x434d, "C-Media" },
+ 	{ 0x8086, "Intel" },
+ 	{ 0x8384, "SigmaTel" },
+diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+index 0da625533afc..1252632f0ffa 100644
+--- a/sound/pci/hda/Kconfig
++++ b/sound/pci/hda/Kconfig
+@@ -292,6 +292,17 @@ config SND_HDA_CODEC_CONEXANT
+ comment "Set to Y if you want auto-loading the codec driver"
+ 	depends on SND_HDA=y && SND_HDA_CODEC_CONEXANT=m
+ 
++config SND_HDA_CODEC_SENARYTECH
++	tristate "Build Senarytech HD-audio codec support"
++	select SND_HDA_GENERIC
++	select SND_HDA_GENERIC_LEDS
++	help
++	  Say Y or M here to include Senarytech HD-audio codec support in
++	  snd-hda-intel driver, such as SN6186.
++
++comment "Set to Y if you want auto-loading the codec driver"
++	depends on SND_HDA=y && SND_HDA_CODEC_SENARYTECH=m
++
+ config SND_HDA_CODEC_CA0110
+ 	tristate "Build Creative CA0110-IBG codec support"
+ 	select SND_HDA_GENERIC
+diff --git a/sound/pci/hda/Makefile b/sound/pci/hda/Makefile
+index 058ca0a289e4..7ac2105c2e00 100644
+--- a/sound/pci/hda/Makefile
++++ b/sound/pci/hda/Makefile
+@@ -24,6 +24,7 @@ snd-hda-codec-cs8409-y :=	patch_cs8409.o patch_cs8409-tables.o
+ snd-hda-codec-ca0110-y :=	patch_ca0110.o
+ snd-hda-codec-ca0132-y :=	patch_ca0132.o
+ snd-hda-codec-conexant-y :=	patch_conexant.o
++snd-hda-codec-senarytech-objs :=patch_senarytech.o
+ snd-hda-codec-via-y :=		patch_via.o
+ snd-hda-codec-hdmi-y :=		patch_hdmi.o hda_eld.o
+ 
+@@ -55,6 +56,7 @@ obj-$(CONFIG_SND_HDA_CODEC_CS8409) += snd-hda-codec-cs8409.o
+ obj-$(CONFIG_SND_HDA_CODEC_CA0110) += snd-hda-codec-ca0110.o
+ obj-$(CONFIG_SND_HDA_CODEC_CA0132) += snd-hda-codec-ca0132.o
+ obj-$(CONFIG_SND_HDA_CODEC_CONEXANT) += snd-hda-codec-conexant.o
++obj-$(CONFIG_SND_HDA_CODEC_SENARYTECH) += snd-hda-codec-senarytech.o
+ obj-$(CONFIG_SND_HDA_CODEC_VIA) += snd-hda-codec-via.o
+ obj-$(CONFIG_SND_HDA_CODEC_HDMI) += snd-hda-codec-hdmi.o
+ 
+diff --git a/sound/pci/hda/patch_senarytech.c b/sound/pci/hda/patch_senarytech.c
 new file mode 100644
-index 000000000000..b4b78475c5b8
+index 000000000000..465846ff5eb3
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-tohdmitx.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/amlogic,g12a-tohdmitx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/pci/hda/patch_senarytech.c
+@@ -0,0 +1,263 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * HD audio interface patch for Senary HDA audio codec
++ *
++ * Initially based on sound/pci/hda/patch_conexant.c
++ */
 +
-+title: Amlogic G12a HDMI TX Control Glue
++#include <linux/init.h>
++#include <linux/delay.h>
++#include <linux/slab.h>
++#include <linux/module.h>
++#include <sound/core.h>
++#include <sound/jack.h>
 +
-+maintainers:
-+  - Jerome Brunet <jbrunet@baylibre.com>
++#include <sound/hda_codec.h>
++#include "hda_local.h"
++#include "hda_auto_parser.h"
++#include "hda_beep.h"
++#include "hda_jack.h"
++#include "hda_generic.h"
 +
-+allOf:
-+  - $ref: dai-common.yaml#
++struct senary_spec {
++	struct hda_gen_spec gen;
 +
-+properties:
-+  $nodename:
-+    pattern: "^audio-controller@.*"
++	/* extra EAPD pins */
++	unsigned int num_eapds;
++	hda_nid_t eapds[4];
++	bool dynamic_eapd;
++	hda_nid_t mute_led_eapd;
 +
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: amlogic,g12a-tohdmitx
-+      - items:
-+          - enum:
-+              - amlogic,sm1-tohdmitx
-+          - const: amlogic,g12a-tohdmitx
++	unsigned int parse_flags; /* flag for snd_hda_parse_pin_defcfg() */
 +
-+  reg:
-+    maxItems: 1
++	int mute_led_polarity;
++	unsigned int gpio_led;
++	unsigned int gpio_mute_led_mask;
++	unsigned int gpio_mic_led_mask;
++};
 +
-+  resets:
-+    maxItems: 1
++#ifdef CONFIG_SND_HDA_INPUT_BEEP
++/* additional beep mixers; private_value will be overwritten */
++static const struct snd_kcontrol_new senary_beep_mixer[] = {
++	HDA_CODEC_VOLUME_MONO("Beep Playback Volume", 0, 1, 0, HDA_OUTPUT),
++	HDA_CODEC_MUTE_BEEP_MONO("Beep Playback Switch", 0, 1, 0, HDA_OUTPUT),
++};
 +
-+  "#sound-dai-cells":
-+    const: 1
++static int set_beep_amp(struct senary_spec *spec, hda_nid_t nid,
++			int idx, int dir)
++{
++	struct snd_kcontrol_new *knew;
++	unsigned int beep_amp = HDA_COMPOSE_AMP_VAL(nid, 1, idx, dir);
++	int i;
 +
-+required:
-+  - compatible
-+  - reg
-+  - resets
-+  - "#sound-dai-cells"
++	spec->gen.beep_nid = nid;
++	for (i = 0; i < ARRAY_SIZE(senary_beep_mixer); i++) {
++		knew = snd_hda_gen_add_kctl(&spec->gen, NULL,
++					    &senary_beep_mixer[i]);
++		if (!knew)
++			return -ENOMEM;
++		knew->private_value = beep_amp;
++	}
++	return 0;
++}
 +
-+unevaluatedProperties: false
++static int senary_auto_parse_beep(struct hda_codec *codec)
++{
++	struct senary_spec *spec = codec->spec;
++	hda_nid_t nid;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/reset/amlogic,meson-g12a-audio-reset.h>
++	for_each_hda_codec_node(nid, codec)
++		if ((get_wcaps_type(get_wcaps(codec, nid)) == AC_WID_BEEP) &&
++			(get_wcaps(codec, nid) & (AC_WCAP_OUT_AMP | AC_WCAP_AMP_OVRD)))
++			return set_beep_amp(spec, nid, 0, HDA_OUTPUT);
++	return 0;
++}
++#else
++#define senary_auto_parse_beep(codec)	0
++#endif
 +
-+    tohdmitx: audio-controller@744 {
-+        compatible = "amlogic,g12a-tohdmitx";
-+        reg = <0x744 0x4>;
-+        resets = <&clkc_audio AUD_RESET_TOHDMITX>;
-+        #sound-dai-cells = <1>;
-+    };
-
----
-base-commit: c3f38fa61af77b49866b006939479069cd451173
-change-id: 20240605-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-d85095861d88
-
-Best regards,
++/* parse EAPDs */
++static void senary_auto_parse_eapd(struct hda_codec *codec)
++{
++	struct senary_spec *spec = codec->spec;
++	hda_nid_t nid;
++
++	for_each_hda_codec_node(nid, codec) {
++		if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
++			continue;
++		if (!(snd_hda_query_pin_caps(codec, nid) & AC_PINCAP_EAPD))
++			continue;
++		spec->eapds[spec->num_eapds++] = nid;
++		if (spec->num_eapds >= ARRAY_SIZE(spec->eapds))
++			break;
++	}
++
++	/* NOTE: below is a wild guess; if we have more than two EAPDs,
++	 * it's a new chip, where EAPDs are supposed to be associated to
++	 * pins, and we can control EAPD per pin.
++	 * OTOH, if only one or two EAPDs are found, it's an old chip,
++	 * thus it might control over all pins.
++	 */
++	if (spec->num_eapds > 2)
++		spec->dynamic_eapd = 1;
++}
++
++static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
++			      const hda_nid_t *pins, bool on)
++{
++	int i;
++
++	for (i = 0; i < num_pins; i++) {
++		if (snd_hda_query_pin_caps(codec, pins[i]) & AC_PINCAP_EAPD)
++			snd_hda_codec_write(codec, pins[i], 0,
++					    AC_VERB_SET_EAPD_BTLENABLE,
++					    on ? 0x02 : 0);
++	}
++}
++
++/* turn on/off EAPD according to Master switch */
++static void senary_auto_vmaster_hook(void *private_data, int enabled)
++{
++	struct hda_codec *codec = private_data;
++	struct senary_spec *spec = codec->spec;
++
++	senary_auto_turn_eapd(codec, spec->num_eapds, spec->eapds, enabled);
++}
++
++static void senary_init_gpio_led(struct hda_codec *codec)
++{
++	struct senary_spec *spec = codec->spec;
++	unsigned int mask = spec->gpio_mute_led_mask | spec->gpio_mic_led_mask;
++
++	if (mask) {
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK,
++				    mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION,
++				    mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA,
++				    spec->gpio_led);
++	}
++}
++
++static int senary_auto_init(struct hda_codec *codec)
++{
++	struct senary_spec *spec = codec->spec;
++
++	snd_hda_gen_init(codec);
++	if (!spec->dynamic_eapd)
++		senary_auto_turn_eapd(codec, spec->num_eapds, spec->eapds, true);
++
++	senary_init_gpio_led(codec);
++	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
++
++	return 0;
++}
++
++static void senary_auto_shutdown(struct hda_codec *codec)
++{
++	struct senary_spec *spec = codec->spec;
++
++	/* Turn the problematic codec into D3 to avoid spurious noises
++	 * from the internal speaker during (and after) reboot
++	 */
++	senary_auto_turn_eapd(codec, spec->num_eapds, spec->eapds, false);
++}
++
++static void senary_auto_free(struct hda_codec *codec)
++{
++	senary_auto_shutdown(codec);
++	snd_hda_gen_free(codec);
++}
++
++#ifdef CONFIG_PM
++static int senary_auto_suspend(struct hda_codec *codec)
++{
++	senary_auto_shutdown(codec);
++	return 0;
++}
++#endif
++
++static const struct hda_codec_ops senary_auto_patch_ops = {
++	.build_controls = snd_hda_gen_build_controls,
++	.build_pcms = snd_hda_gen_build_pcms,
++	.init = senary_auto_init,
++	.free = senary_auto_free,
++	.unsol_event = snd_hda_jack_unsol_event,
++#ifdef CONFIG_PM
++	.suspend = senary_auto_suspend,
++	.check_power_status = snd_hda_gen_check_power_status,
++#endif
++};
++
++static int patch_senary_auto(struct hda_codec *codec)
++{
++	struct senary_spec *spec;
++	int err;
++
++	codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
++
++	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
++	if (!spec)
++		return -ENOMEM;
++	snd_hda_gen_spec_init(&spec->gen);
++	codec->spec = spec;
++	codec->patch_ops = senary_auto_patch_ops;
++
++	senary_auto_parse_eapd(codec);
++	spec->gen.own_eapd_ctl = 1;
++
++	if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
++		spec->gen.vmaster_mute.hook = senary_auto_vmaster_hook;
++
++	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
++
++	err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
++				       spec->parse_flags);
++	if (err < 0)
++		goto error;
++
++	err = senary_auto_parse_beep(codec);
++	if (err < 0)
++		goto error;
++
++	err = snd_hda_gen_parse_auto_config(codec, &spec->gen.autocfg);
++	if (err < 0)
++		goto error;
++
++	/* Some laptops with Senary chips show stalls in S3 resume,
++	 * which falls into the single-cmd mode.
++	 * Better to make reset, then.
++	 */
++	if (!codec->bus->core.sync_write) {
++		codec_info(codec,
++			   "Enable sync_write for stable communication\n");
++		codec->bus->core.sync_write = 1;
++		codec->bus->allow_bus_reset = 1;
++	}
++
++	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
++
++	return 0;
++
++ error:
++	senary_auto_free(codec);
++	return err;
++}
++
++/*
++ */
++
++static const struct hda_device_id snd_hda_id_senary[] = {
++	HDA_CODEC_ENTRY(0x1fa86186, "SN6186", patch_senary_auto),
++	{} /* terminator */
++};
++MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_senary);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Senarytech HD-audio codec");
++
++static struct hda_codec_driver senary_driver = {
++	.id = snd_hda_id_senary,
++};
++
++module_hda_codec_driver(senary_driver);
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
 
