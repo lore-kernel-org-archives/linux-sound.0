@@ -1,59 +1,59 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB6224D1;
-	Thu,  6 Jun 2024 17:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E888E38FB9;
+	Thu,  6 Jun 2024 17:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717693826; cv=none; b=QzAFBabIdUnpMa9uBE0aaPxNwhnnBnIPSRqZ7x7mM7VLIvASBcI7EgbLzjmxqKeDelznWBJ76MqynSOEv9/BzeM9QA0gUfAG3z8DVQV7Dz55ynj1uubkghMSeBdr4GiySDsNDvLtBTPBE8moowdBkQFHQ8zyrkd8o5RvN0nk9RE=
+	t=1717694670; cv=none; b=aIPqAWZ8ULL4q5MluhQMOiQIwHA9cFWuR3DnYSL467bGE8EYB3fXgmfGDTjQK+1ZX06OZA2rBQJCCjySIChUTbtgmKUvaVC0LbuRvaZNHfA9QPJSrIt11UFE7RZ0njYdASSUjqXr8wNwVuaeAp0mDxJCbSDp6PD5xfaVrYQ/eOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717693826; c=relaxed/simple;
-	bh=M70tp6532oErosXvST9jh7Vo9666z4tcB3oOndDwuWo=;
+	s=arc-20240116; t=1717694670; c=relaxed/simple;
+	bh=dTxC9S5XIMg5ioG+Q/uZwME7wTTzhbUrfZPA4xxlN5g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aiDu3bUys2KrKvot9jGaqVjx5UY/uZ84oDjqYAT9z1x1xxB7aq7SD1z/yuSkr7lZmTXfesfk8XTbEWoCGw6x3+U7BO2m+A6v8CcnBT+TIzC1rjclIhdmcbihZnWNutKPsAkcUTgI1bH2xKdJ+10J4obYuH84LY9g4gqYAWEj9yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwLPMfxO; arc=none smtp.client-ip=209.85.167.42
+	 In-Reply-To:Content-Type; b=C3COvBK9ZyALezqJYvl7z1OaTYtGbwfsgELPSMFic93fUIt+u7/AxIq3zsEPXHBhRF1Ty4NpjPolJYKzjikeNHHlIuhfCXmh+MmWxqbQjh8n4yQwEC9djtAGNuXOipU3Wy+hR3z9Zp7UxpwA6vol855//hyoaEPVJj1JYOu+Iys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdF2lzmG; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwLPMfxO"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52b94ad88cbso1882106e87.0;
-        Thu, 06 Jun 2024 10:10:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdF2lzmG"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52b992fd796so1296020e87.0;
+        Thu, 06 Jun 2024 10:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717693823; x=1718298623; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717694667; x=1718299467; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vfcPheLV0NZCmf87grsxqRgL031WLMyzJrb0w/6enLU=;
-        b=FwLPMfxOY2UivHsEBqPZJSUYsTJ2gFu9CCyLYNTISJh9QqTx2uYLsxqsURO8Ffw0eK
-         VUC2vozC6NnqwZl4yn0V1yCajm/GzIIExF0KSafQEVYNmX4XAyj9+mE/4VXTj3vvvzmU
-         0oZPusyxzTLjBAEMteDVtHpq/5rqyLPVGJIEC+NXR/Kv4qCpphb2fy/BoiDBMcZ6gU9u
-         QQux5JzIW/Tpa8cLoWgt6K0afncWT7ozOhT9o3WzR+uEWVD8cHTy57YDH/ZPEv6PLWgI
-         59puwfdbabzuOcwairzvGVCXpgQ2ZRgTeTSEkZfVb0oz3EpzWGOPTUF4hFFZzS/zZ4HK
-         rd3w==
+        bh=I4LNbr7VfEe6izakn3pwLNIw70DykAuM2PJO0ynb8N4=;
+        b=XdF2lzmGv3IToifvd3sNb0kDc7JxmflBItKCg12cIrTXc/wiG/KVqkx580tGcOMH/u
+         HOXi6AVjMyuUcEkbpj9r1IL4/L5pwFKKpl4+nlXqjuVVnPgL59S1JyM371FiFmW/Ntpw
+         U+AQJn3blWFT8yiOt5j956XEWtgKTTVCCDtg2aiZH1lRj6jYozLOv/1vJ6FH7IpGcbAK
+         O/qBMFHv8UVz0eU6tWyLk7/zJvynY3Cudi72hrYql0J0othhBrM6Ajry38zwWF+ODxD5
+         rspQM9enjP2N0gN2e0hXSOzddXlGcqq/t/G/CvQZQK6cQ2lk4R6I+FHxSpbES2HJmRAI
+         nXKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717693823; x=1718298623;
+        d=1e100.net; s=20230601; t=1717694667; x=1718299467;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vfcPheLV0NZCmf87grsxqRgL031WLMyzJrb0w/6enLU=;
-        b=pEU2hzL6XX8s+P4ELdiqVNzK+YnZP0jRZwsI9hYa0dO8OKTOd9XyhZNDQbRlsJgr4O
-         T3YqIx44F+JjEOGon7akoyNQ+incqc3OfTC5aylSH6i0oX/yllQ1ovZ7uOy3jnI02D6U
-         X3LjT+G37vfgFGageMZo51zicXZ7sIMDUPSi34sUhg+/7XNzZWhFydKwxTUZrVLCz0ca
-         ovzNpy9aZAkBYjpdhKq/Y3j+2BF7xzkbp4oszFUrAjg5e7g8lffksQsHGHm4tv84l1Qq
-         wttaqD0iVXLtOURHWcpIvmWxyfkcpGqyCfQGyF7TG09sBgaFFKrNkd1LxcAnXrs69VhH
-         uk3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWy+GvOMYSJLZg03U9nkga4yhj8sbckBDMxAp57PYrUXrpHEHHTntqvcWamaFF8AH2DJa3bmEPmOmAxdqsD18kYm6G0tkaBkATLeWY+
-X-Gm-Message-State: AOJu0YyeGvYovP0QC86AT+6n1059wmksY8zn36AtQfTTq7mpVc/yqwab
-	5hWcJFGxf4nX1TrCyDC/6teO4sE49l9xUw1cXy1xUn8n468xTtw0
-X-Google-Smtp-Source: AGHT+IHjAV1sRFdp+OWciQrMCzE/Ou7KGCZoDPrUBVN8JEZkK68c3eqRAB4TI9M5ylBpowsDZcF8Qg==
-X-Received: by 2002:a05:6512:3f09:b0:51f:3e0c:ace3 with SMTP id 2adb3069b0e04-52bb9f785d9mr227002e87.16.1717693822817;
-        Thu, 06 Jun 2024 10:10:22 -0700 (PDT)
+        bh=I4LNbr7VfEe6izakn3pwLNIw70DykAuM2PJO0ynb8N4=;
+        b=XqcNMg9u3bduLpShWeN0iQYcQfav8BCk174yOKkvc4uLhrHdHmLXWjBes3KFSKo4RG
+         9fbcjTEf4JDBx0mJX630tw5/jXWV23nr/0jCH4wst1WRpzwrVstYR3rUlauWJvd/HfZh
+         VfzFkt+ud0PUXXLXANliaB69nruBofjzY1Ucyo0v/9vWnkhS6EiQBz6nU5SyXWncKA1U
+         JuTue7xk/zVVYB8M4MIRL6RS8zGA8stHo5SPKds9Pn1ZbIeFQ3wLGbM6hnFWztSjAnqF
+         MQ466BumAJpJjqXaycogGGJU+MpqRSYCVDpYkJSZg+GiL8x+hjrBscDyPmVBg3NlVfSD
+         JGww==
+X-Forwarded-Encrypted: i=1; AJvYcCU5cBcTwXgj+NUZWGoyAVuLvGavJlhlxuX1U2gTPTphvPr8EKR+PbOCZORq63fZIecZ/qnTVVflTEFzXqQENlbenqmfgjhIquu8srd5
+X-Gm-Message-State: AOJu0YxX3ChwB03R5zoZrZcDqArsGhtLU+D6QGLkkw/dmWG+B7n9pkhP
+	41RYFOJfri6LmP/uQXvLpdCq0i867e84KTXqbDKXO6A9kzDmSXps
+X-Google-Smtp-Source: AGHT+IFOjYFmBcUyHgIetl0AFa3Qy+ZmzXrs7sFeq0xkgOyXErd6aZfbK+diwqdTip7ERQeoicunDg==
+X-Received: by 2002:a19:2d50:0:b0:52b:b89a:cec7 with SMTP id 2adb3069b0e04-52bb9fd150dmr170915e87.60.1717694666798;
+        Thu, 06 Jun 2024 10:24:26 -0700 (PDT)
 Received: from [10.0.0.42] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb423cf28sm246062e87.194.2024.06.06.10.10.22
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb41e1c29sm251177e87.5.2024.06.06.10.24.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 10:10:22 -0700 (PDT)
-Message-ID: <6a88c1b3-b3d0-48d0-a620-b17464cb559e@gmail.com>
-Date: Thu, 6 Jun 2024 20:13:55 +0300
+        Thu, 06 Jun 2024 10:24:26 -0700 (PDT)
+Message-ID: <43418c73-b240-461f-af4e-49735304eaa5@gmail.com>
+Date: Thu, 6 Jun 2024 20:28:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,94 +61,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: ti: davinci-mcasp: Set min period size using
- FIFO config
+Subject: Re: [PATCH 1/2] ALSA: dmaengine: Synchronize dma channel in prepare()
 To: Jai Luthra <j-luthra@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  alsa-devel@alsa-project.org
 References: <20240604-asoc_next-v1-0-e895c88e744d@ti.com>
- <20240604-asoc_next-v1-2-e895c88e744d@ti.com>
+ <20240604-asoc_next-v1-1-e895c88e744d@ti.com>
 Content-Language: en-US
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20240604-asoc_next-v1-2-e895c88e744d@ti.com>
+In-Reply-To: <20240604-asoc_next-v1-1-e895c88e744d@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+
 
 On 6/4/24 1:01 PM, Jai Luthra wrote:
-> The minimum period size was enforced to 64 as older devices integrating
-> McASP with EDMA used an internal FIFO of 64 samples.
+> Sometimes the stream may be stopped due to XRUN events, in which case
+> the userspace can call snd_pcm_drop() and snd_pcm_prepare() to stop and
+> start the stream again.
 > 
-> With UDMA based platforms this internal McASP FIFO is optional, as the
-> DMA engine internally does some buffering which is already accounted for
-> when registering the platform. So we should read the actual FIFO
-> configuration (txnumevt/rxnumevt) instead of hardcoding frames.min to
-> 64.
-> 
+> In these cases, we must wait for the DMA channel to synchronize before
+> marking the stream as prepared for playback, as the DMA channel gets
+> stopped by snd_pcm_drop() without any synchronization.
+
+Right, this is a plausible scenario, the xrun is pointing to unhealthy
+system, but before re-using the channel we indeed need to make sure that
+it is finished with the stop.
+
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+
 > Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > ---
->  sound/soc/ti/davinci-mcasp.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  include/sound/dmaengine_pcm.h         |  1 +
+>  sound/core/pcm_dmaengine.c            | 10 ++++++++++
+>  sound/soc/soc-generic-dmaengine-pcm.c |  8 ++++++++
+>  3 files changed, 19 insertions(+)
 > 
-> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-> index 1e760c315521..2a53fb7e72eb 100644
-> --- a/sound/soc/ti/davinci-mcasp.c
-> +++ b/sound/soc/ti/davinci-mcasp.c
-> @@ -70,6 +70,7 @@ struct davinci_mcasp_context {
->  struct davinci_mcasp_ruledata {
->  	struct davinci_mcasp *mcasp;
->  	int serializers;
-> +	u8 numevt;
+> diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
+> index c11aaf8079fb..9c5800e5659f 100644
+> --- a/include/sound/dmaengine_pcm.h
+> +++ b/include/sound/dmaengine_pcm.h
+> @@ -36,6 +36,7 @@ snd_pcm_uframes_t snd_dmaengine_pcm_pointer_no_residue(struct snd_pcm_substream
+>  int snd_dmaengine_pcm_open(struct snd_pcm_substream *substream,
+>  	struct dma_chan *chan);
+>  int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream);
+> +int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream);
+>  
+>  int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
+>  	dma_filter_fn filter_fn, void *filter_data);
+> diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+> index 12aa1cef11a1..dbf5c6136d68 100644
+> --- a/sound/core/pcm_dmaengine.c
+> +++ b/sound/core/pcm_dmaengine.c
+> @@ -349,6 +349,16 @@ int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
+>  }
+>  EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
+>  
+> +int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream)
+> +{
+> +	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
+> +
+> +	dmaengine_synchronize(prtd->dma_chan);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_prepare);
+> +
+>  /**
+>   * snd_dmaengine_pcm_close - Close a dmaengine based PCM substream
+>   * @substream: PCM substream
+> diff --git a/sound/soc/soc-generic-dmaengine-pcm.c b/sound/soc/soc-generic-dmaengine-pcm.c
+> index ea3bc9318412..af439486d33a 100644
+> --- a/sound/soc/soc-generic-dmaengine-pcm.c
+> +++ b/sound/soc/soc-generic-dmaengine-pcm.c
+> @@ -318,6 +318,12 @@ static int dmaengine_copy(struct snd_soc_component *component,
+>  	return 0;
+>  }
+>  
+> +int dmaengine_pcm_prepare(struct snd_soc_component *component,
+> +			  struct snd_pcm_substream *substream)
+> +{
+> +	return snd_dmaengine_pcm_prepare(substream);
+> +}
+> +
+>  static const struct snd_soc_component_driver dmaengine_pcm_component = {
+>  	.name		= SND_DMAENGINE_PCM_DRV_NAME,
+>  	.probe_order	= SND_SOC_COMP_ORDER_LATE,
+> @@ -327,6 +333,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component = {
+>  	.trigger	= dmaengine_pcm_trigger,
+>  	.pointer	= dmaengine_pcm_pointer,
+>  	.pcm_construct	= dmaengine_pcm_new,
+> +	.prepare	= dmaengine_pcm_prepare,
 >  };
 >  
->  struct davinci_mcasp {
-> @@ -1470,12 +1471,13 @@ static int davinci_mcasp_hw_rule_format(struct snd_pcm_hw_params *params,
->  static int davinci_mcasp_hw_rule_min_periodsize(
->  		struct snd_pcm_hw_params *params, struct snd_pcm_hw_rule *rule)
->  {
-> +	struct davinci_mcasp_ruledata *rd = rule->private;
->  	struct snd_interval *period_size = hw_param_interval(params,
->  						SNDRV_PCM_HW_PARAM_PERIOD_SIZE);
->  	struct snd_interval frames;
+>  static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
+> @@ -339,6 +346,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
+>  	.pointer	= dmaengine_pcm_pointer,
+>  	.copy		= dmaengine_copy,
+>  	.pcm_construct	= dmaengine_pcm_new,
+> +	.prepare	= dmaengine_pcm_prepare,
+>  };
 >  
->  	snd_interval_any(&frames);
-> -	frames.min = 64;
-> +	frames.min = rd->numevt;
-
-64 was a nice number ;)
-
->  	frames.integer = 1;
->  
->  	return snd_interval_refine(period_size, &frames);
-> @@ -1516,6 +1518,9 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
->  		if (mcasp->serial_dir[i] == dir)
->  			max_channels++;
->  	}
-> +	ruledata->numevt = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
-> +				   mcasp->txnumevt :
-> +				   mcasp->rxnumevt;
-
-Do this at the same location where the rest of the ruledata members are
-initialized, or
-
->  	ruledata->serializers = max_channels;
->  	ruledata->mcasp = mcasp;
->  	max_channels *= tdm_slots;
-> @@ -1591,7 +1596,7 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
->  
->  	snd_pcm_hw_rule_add(substream->runtime, 0,
->  			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
-> -			    davinci_mcasp_hw_rule_min_periodsize, NULL,
-> +			    davinci_mcasp_hw_rule_min_periodsize, ruledata,
-
-You could just pass a pointer to txnumevt/rxnumevt directly...
-
->  			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE, -1);
->  
->  	return 0;
+>  static const char * const dmaengine_pcm_dma_channel_names[] = {
 > 
 
 -- 
