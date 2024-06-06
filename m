@@ -1,143 +1,188 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2052.outbound.protection.outlook.com [40.107.113.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DC92114;
-	Thu,  6 Jun 2024 04:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717647155; cv=none; b=VPVkBqfdrS/O6OaHJcmhR9hqU9J9Sc5wuo2KNmd6gq2zamjsS5QSeOZ4OrF4XlhnbHfs0gIcyelXg8I96m/JP6CpEVhADlsvhyev7ahxmKuV5LYNzr6KKuTgRXMbD+ehwAUTIKl9BI+cERj3P7LynOQTP/MIO6ZusjlMsxAkMo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717647155; c=relaxed/simple;
-	bh=NB6cPiw9QlP2ojVCT09yRXI9z2MUnWRnPHxnNyRD9HQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UVgMG0A6WtYHCKHpTKFF1l+G8Z80gtIX54AZN1/05JtBJxUUTFoCX9UdFrjUE5cLP8qfp5+X0Sjx9lKHOXvQXkHZ6XD+I1JRpar1cYAZ236GvDplya+uz8Sz1sH3YPXoTgimr71ZOot8CV+VoH3ELuaIwCTyoh0I/MvuODmyxwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mE6xNVQ0; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B02623BF
+	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 04:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717647428; cv=fail; b=UZ1ff8nO7G66Wc7aPMuwabBK+Aum0NKXTqVfdqP3DIKug2MdnbExU/TgOp2MYXQp3wAtvHyZsCc/NzEGqTbZOUbRZPTy9/36D0sLz6JqpqNFpwKzOpsK4qc++8Uo4lMtk7QBIhqQf1w7abRkXXMoRJNsS6T/ezE82P7Digqb6hw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717647428; c=relaxed/simple;
+	bh=tHRlyIlHHkpgNbAMubwkbdjmvwbylfan164LyiLIQz8=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=cK0Um4FiOtH4tS9DH/9jx51DgPtIIwaMYxPvQk5KO1AUL+895NjKAyIV3HMZVz927YIo5hOjVM3Av3c4AbThmxrIfLfSsum1oUv7QmwUMaymtawanPIPji+GyxaGk+sj8lMJj9+PBuwP3uHyFoS2OVVxzxOpkvES0NvyKWVDMfQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CCsSBIC4; arc=fail smtp.client-ip=40.107.113.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mE6xNVQ0"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f64ecb1766so4671295ad.1;
-        Wed, 05 Jun 2024 21:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717647154; x=1718251954; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EyTDFfYIkacZajwzGy5k7LzB0jww/Lew61Qql3uF2Lg=;
-        b=mE6xNVQ0zkRfn8aG8XILUgtkdJYhI4Qe6YoMWK0haHAz/7RCJHsem/Z4LLY4cDGm6Z
-         sPoZQn9MOYPtQU9ryrv4JWhjwrv8C26AJ53D5tZDJtqc+ndvbKSZgi2xKnhapku1IjGn
-         nKidYeCa924cSL8/wmJE1+fGKE3yxDU+HC9ElyvlooYiQ4PwuTFvK60ouqZmGqYoSc0E
-         G9RCtKdYYAsSsP3OmXQP/d4oJDNsP4Ng94I4vNzj91/QPMi6f5pkIbLumGqTFNh+p5BS
-         EVNRYk/bRMuQxHOqDNHPbKIaQyt6cnSrXhkgO9eA6fHd720zQjevQn0zLlV9x9EWT9mi
-         9lMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717647154; x=1718251954;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EyTDFfYIkacZajwzGy5k7LzB0jww/Lew61Qql3uF2Lg=;
-        b=eyzIYRkl+k/L5hhfbZO9xl9Z/lRdxPlAJEIoMED/dfaKfwDVRkHv0KFgFONSE9WOYX
-         CJwqzp7qQL3lJbIGp75SkOiCRnN1Wfe6N7F15+oka/oagce1lBUB8LZ7UboIsD2c3iu4
-         lBpMzQf0OFdJRXy0Muoxan5UmNAOIoIpYoPUvqGcAlQuxQTe0wJLDyE7NFGZppgCd8H2
-         D2GUpIQ8bVMkfvC1eFdS9eTd+RlvNRRZpU+yu/6IFTyjNoGVZ1brM3g774aiSpGz2TXi
-         IfxTbC9oDg5m3m//ejPC95UhhIwAaevsd4Zcv5OFE+rTFz8qtiUC55Y/XvfU1IC8g8tK
-         PNlg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQpFgu6WN0YqI7xctslsN6O9r8L4mLayWb4pARtQOlORDLJ9YCoRdadflHJzoSdntyeGUvLckROhSV56USTCdThGG7DifsO5eNSfOHQU/WtoXE+5FJFfVPLKdhLCnCVIlRYd5IDhXW0rYOjVR9zUKuioFEtcCVpGz9pL5wxNLbArNfaNoi
-X-Gm-Message-State: AOJu0Ywnzaus4k5OksVjwF4NUWu6pOUiH/+mHRaQMANbIj28tWxDXmcx
-	Vu4elIfoZwVdzuIhqoZXVRlRbMUPZSzHa8S6iK/ieqUzpVB2f7V/
-X-Google-Smtp-Source: AGHT+IFjhgLWKGemUun+RuvBiwWwF+aM1HrUn2VP9ZH6D0o14oF/urTXICoS2jKwPrvQo4918tGSnQ==
-X-Received: by 2002:a17:902:f681:b0:1f6:1ef5:8841 with SMTP id d9443c01a7336-1f6a5a26d60mr53131865ad.34.1717647153551;
-        Wed, 05 Jun 2024 21:12:33 -0700 (PDT)
-Received: from fedora.one.one.one.one ([2405:201:6013:c0b2:ea4b:30e0:4e3a:ab56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd7e063csm3548085ad.190.2024.06.05.21.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 21:12:33 -0700 (PDT)
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-To: 
-Cc: animeshagarwal28@gmail.com,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CCsSBIC4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jZAWk2OOGZDXREQ+ZldHgeFBTqAj3i+im8aT1aAl07j1Z3t0ski1MsWMJUf/JJK8OUcaFKTmZiHXp5hR/PgMkQG/FLVmRVE1hvZFLNhJIXDxatkaIkECTYpIicYJkeCs+clhB0t6OX017qYt+U0s4ofhQ2SIWKFhofPuh1iLnZEFf6lGYN5CFr5FvOUR7dC7GVsYwynMr1MZwfJgldkMNV5O88b7DVD2+ga5G6c6K8ZGLrCAqzQIMp1he8ftodtLnUYPQmVQn9DLW4MDqGWrsJWBgF5PrxMe1IvV9IkFN7vvE0CKhJF0KNQcrwWK9E2nyw2xgYqxKO/xGgFxsJW0HA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Oy/qzehGX7IpM6obv6Jrd3aHc9EjC0ha4Tseehxes3A=;
+ b=Cn5+HIH8d0j3rnVtNhekoKUumD3myFUbYT1gpNTod4dDSSUn8+1GajwZFYEt2zKd/SI8Z1Xuf/8wU4TM4u18RhSApgLmWbbHpeVr6ZFMvJSYwgML2o5W8K6spjWIrTcRM30pj4XyBdAz9ZwAvWZQBKMAX4Nqyur4CXZdR3iMkFrygVf/bwb6jVY3MBN+TpmMu3J2P+iN3rho2UgPJLM5aab8r92LlLjuE81Rhapwb33ASCpPgFFQNXZ1qlTxOfAUM2wIPvtA70A+tiRNZS4ilkIj49E/CbxEy/jq3RRbZSVRzTQorE6yFEjKTiD/HFL6ypQN2DtZeSf+dVrUTk/2Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Oy/qzehGX7IpM6obv6Jrd3aHc9EjC0ha4Tseehxes3A=;
+ b=CCsSBIC4di6vOfvpDMexnPvodMn/Cr59dByZFdyHyXSjMjyzGbLGWluG8QKff1QGNB6TnNHBbOmLxBKEq/dhIvwTjsAepLDmyzsKcAVUzPUgLmLySZrVmA6JF2/jlOYG1OIsLtngqlRihPAWf77roYsSZTTjENmqnoj4SQwzaUw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYAPR01MB5611.jpnprd01.prod.outlook.com
+ (2603:1096:404:8052::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.33; Thu, 6 Jun
+ 2024 04:17:02 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7633.033; Thu, 6 Jun 2024
+ 04:17:02 +0000
+Message-ID: <87bk4ehfia.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: dt-bindings: linux,spdif: Convert spdif-reciever.txt to dtschema
-Date: Thu,  6 Jun 2024 09:42:00 +0530
-Message-ID: <20240606041212.78428-1-animeshagarwal28@gmail.com>
-X-Mailer: git-send-email 2.45.1
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: About snd_soc_dai_set_fmt()
+In-Reply-To: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
+References: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 6 Jun 2024 04:17:01 +0000
+X-ClientProxiedBy: TY2PR02CA0006.apcprd02.prod.outlook.com
+ (2603:1096:404:56::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYAPR01MB5611:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88fc8b98-db3e-4107-bc5f-08dc85df83fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|366007|376005|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?yy/ffqCz6qorLs/u6htX8aGyUa53yqxagenNQ3siPwqaZE81lSW0v+/ptrXm?=
+ =?us-ascii?Q?UQz4LgsGbcX4YU7UBSePyNyai8ETtemXyMSKeHrzgMX/rZqT9DETr4ExBmoL?=
+ =?us-ascii?Q?Fa+YJ/ROzJl9qm59EPIY9ebuhK5pius8ksSxIQ9sSJYV3tVP+eYoFawt5HXr?=
+ =?us-ascii?Q?YRrH+340xoqjh0Z7J6opu7RWGx1yV1CaNHLgyFa02bCnQf3dBva6vot9IfGx?=
+ =?us-ascii?Q?c5zoXVBOJdk4Wh/0DYMIq0tZRmQfAcORww3nNCPbvCMhfqhPM+TNHMqd8oMp?=
+ =?us-ascii?Q?Po63WGazgkeqPOjf+/faXPQGHpMcNG9EiKvSN5dAkhdM8BWdW+s2Tw3xPnAB?=
+ =?us-ascii?Q?USuz2K1Y9JifDkGMWrSXbRr62cVFq3u1sdZTU7zhuB6XYj1qfIBDErrdEADB?=
+ =?us-ascii?Q?GbrEFtJrf3JTu9n79w/dLi0kQP7JOHpEDQ/ohfsME4cZajAV41MNoF7gZo+V?=
+ =?us-ascii?Q?GkiTu+O4RNcxbU8wA9RopWR5bJ+UfVVVa+y6hzB/yjuGQDL9alJVMu3TzQNT?=
+ =?us-ascii?Q?mQzBoe/XayFRpVEG+vSVvmu/XftogloGmOdbcVmDOzjrJx98pvtAFu9HM+RX?=
+ =?us-ascii?Q?mygrSU5xkwdORgDTZJpFzFxZyF92etgTNM+2npFbIRCfFmiOadBhuBZZbk0y?=
+ =?us-ascii?Q?LrJshaRd0XasCA7oEYHxp+Nn2FFK/MFbVACENt32LBEoOg+DW2ORn1CujQwi?=
+ =?us-ascii?Q?PiJE+RykU6yQ/gQqWsWXwBnQydw1k3l9JlGTFp4JN261XvZv9WeGDnjn23op?=
+ =?us-ascii?Q?wZ/u5D1LBTWq32szkUWK3b/d1ZotlF61vNyriqT3pwWfPLdb1NSgWKARbr5e?=
+ =?us-ascii?Q?U0oYBHMW6D6Cuo1tYlz4p1zZGu1c0/cYfteeS2vJGVfqNHCLyjgUIGwYxeo3?=
+ =?us-ascii?Q?Z7C3r3Vteo1C0u11P+lm1V1qI3c6iWkaGAryr6ZUk5DM9Lz4KuQX5o4z5SFr?=
+ =?us-ascii?Q?sE1OVwtCaWwG3QIbYJ6MmmgOxr9sQxN0fQSr1hZaUWJBjT/ldzQYtVx2Sd92?=
+ =?us-ascii?Q?Uw/j1ezV/GqNmrQ9icisgFZlQpPJJGGBl2ySAqlhvIyFafHDSAlHr7GTKiI7?=
+ =?us-ascii?Q?nSizAWqu/spqWmwMFRtcIjfAKlP5FObiZzz7rfcRY0L9d/vaKPe7mWuQITng?=
+ =?us-ascii?Q?C8yZ5V4VdT07VpFbx70+cJpQjuAHuuDNjhNoXYj/vndqzdmRsSl0isDfgy0w?=
+ =?us-ascii?Q?ATwm3upYbN/IhDjGmMirzSGAx1Z7Zp/I0sDtX7Bv2cMSCgR/mAuXI0ZUifAN?=
+ =?us-ascii?Q?BWT94WlXOwBIpRfoNwzZGHUnG5iOo1GsXIb0CTEX+3nS/mBcLzLuydY59pWD?=
+ =?us-ascii?Q?J95QoiPhDJLDUGwgymTHAT/p+MycxPe5R2O1O+Fwn4QvGS3gXQUcaUCGguKt?=
+ =?us-ascii?Q?AEtr8yU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?kywsH9tup/zHkeE3nsuKHDH+VRob2NuZ/sVH8wrscwQ9GUzBUnafFhE3lgP1?=
+ =?us-ascii?Q?H+jp5glbBhj0YGlL4Z+18KMyXAK7LFo2cprQuKhwJXWRULI6HdVPf8FxijDH?=
+ =?us-ascii?Q?DKS/EPCAgjoKSFR1Xx6Cfxkp5bM9HzAQdD4/OPSDEqRVsLbQ15RYjRGsCmfc?=
+ =?us-ascii?Q?aKJ0HWQWePEJmnDQTqV2L/LzCQGCvVEkdVlBpiElZBWkOxzxP1xGk42AitkL?=
+ =?us-ascii?Q?PMQH/ZuqUCNVaIgHLJxrbgRusdTsytNtW4gWx6FLtqX8Dr5tBChuK9Kb4vl7?=
+ =?us-ascii?Q?VoA1Iz1RcP86SrnP/iBwCYIl9YTkfJKRuqZSxR4Ek9advcF7FuUQ4Wz0zJRC?=
+ =?us-ascii?Q?fki7te59yereiYvOybz8r3s1mVGJ8emfDfoxzmTdoODiA3fPqJ4U+zKxZ2bL?=
+ =?us-ascii?Q?lw31J0Z2f5NtR25PE2LTqY9BvhsKZ6UHTuL+JnBqWHEI6onau0DDEMjF5sXw?=
+ =?us-ascii?Q?LpQNMsOxj4rzeOsgBHVir9gOhQHLvAPFo1WLDWreRxMjrP6nMtlWVAkE+W7G?=
+ =?us-ascii?Q?z/7w6W5ADyJjQ1bFmq4/hmleKUvq8sjXQ9KMS7ajw0c/v4GyI0e31y4DHWKB?=
+ =?us-ascii?Q?f0DPwRh4NOLRHSYC7awQmiSppfHKkXpU+wVcL+nACibWVZ7IF3K2OSn9IB10?=
+ =?us-ascii?Q?82GF53s3xxmhtHd+ZQtI0Qr2GoFeWzajEadTZD5VqThtMCNDnyFw55UpPkst?=
+ =?us-ascii?Q?5tbWIgkukDGavBx0SZOq2a6cuBGlb1JTH6CiAYjJ8/47fVii8WNk1ZE25XmU?=
+ =?us-ascii?Q?VKHFvkArWmJR0VqObXvZijl4HnEwwiCSRvyQu1hWxbDODc26R+2yGsU52e+o?=
+ =?us-ascii?Q?X12xg6I8x2V7dBRY3fTbPwRdIB4N0ZSHWvEjlRtJ+xCDBokkGspCBcpnNszN?=
+ =?us-ascii?Q?5ciu+mrWtQYQMbqU8T9cWukmllY/D5enOVs/ivI/4plgGHWRvTdgRaK4RnRS?=
+ =?us-ascii?Q?IDCgNerrtVY6YzHOG3T9AnnASixVURrU77s5tDdecjCM/sIrP6obWrIRCY3+?=
+ =?us-ascii?Q?xZO9wUqFmxh1OE9W9O8uXYZU1TrEnLYUEBgIIj5F4GIZVcvrl9uNkkYiSauM?=
+ =?us-ascii?Q?g7ixpUfQTfnFwBlm7db9JqdcZwHFqLIe1sHHek1R2CTvJoe1uH3BGPc8K8wY?=
+ =?us-ascii?Q?qOu16lHPBiD9WHuKK0OjsoY5xTEhH0LZzK6KsOtf3RmAkR+F6r/n/d9ICVvE?=
+ =?us-ascii?Q?pIQ/241eQjpao9Ed/zAtMfIWqAmQvRpZZ2s2GltqUj78lsgUiqWPJuH+WxAm?=
+ =?us-ascii?Q?/dke/rb38vf72bXqU7dqJTTHWDmomACOZ/xMaViJqLu9Lh3S43HmoI7DmmR9?=
+ =?us-ascii?Q?3R5FfrLCQER+aiD+Phn6zXu2vKwSWdYFiLpBhZGNZQm1nG/iUb+4A8DPvswd?=
+ =?us-ascii?Q?JtI+i/yKtuyjxJU2JyXjyt7Re33JBsXQXi3UkTqllRtQp1V6A08DZY6PptjH?=
+ =?us-ascii?Q?Dam7e1TkHjUxoaTm85ZNZ5TOcXWHNZ/9Ba2oOfp5fputb3JiwjtvJNW3oO2D?=
+ =?us-ascii?Q?62H/pf8MTOn5Zz5YOyWS93OMKYnAG4addESRD7hsv72sAzm3WL4E2/afpj26?=
+ =?us-ascii?Q?bAECk1cNUgPCWgkEK/xCUmTMFAIogYk20ryZffX5tk/ok78B3FvKrKQI0/as?=
+ =?us-ascii?Q?V1juUq+4jTYf4oboCMndW8M=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88fc8b98-db3e-4107-bc5f-08dc85df83fb
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2024 04:17:01.9364
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ar78fXpqTqe4Oz+ebg9xmiPoKJ8LxH3ISYtiTpxnzX7nFDtKPDPF9MXPHpTRvlBYMszled8kG4X0/xT8ah+6hRXgLBtGFUZlYfkfQV4jzgIqsw1uDSEnhiWgAj+ngXUc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5611
 
-Convert the dummy SPDIF receiver bindings to DT schema.
 
-Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
+Hi
 
+> Some use cases require that the format of transmitter and receiver
+> are different. Shall we define a new .set_fmt_xxx() function to support
+> setting fmt for transmitter and receiver separately?
+
+Not for format, but we already have the DAI that Playback/Capture are not
+sync. In such case, we can have 2 DAIs, 1 is for Playback, and 1 is for Capture.
+
+So, maybe you use similar idea, like below ?
+Playback/Capture have different .set_fmt function.
+
+	struct snd_soc_dai_ops dac_ops = {
+		.set_fmt = dac_set_dai_fmt,
+		...
+	};
+
+	struct snd_soc_dai_ops adc_ops = {
+		.set_fmt = adc_set_dai_fmt,
+	};
+
+	static struct snd_soc_dai_driver my_dais[] = {
+	{
+		.name = "my DAC",
+		.playback = {
+			...
+			.formats = DAC_FORMAT,
+		},
+		.ops = &dac_ops
+	},
+	{
+		.name = "my ADC",
+		.capture = {
+			...
+			.formats = ADC_FORMAT
+		},
+		.ops = &adc_ops
+	}};
+
+
+Thank you for your help !!
+Best regards
 ---
-Changes	in v2:
-- Add linux,spdif-dir compatible in existing linux,spdif-dit.yaml
-instead of creating new yaml file specifically for dummy SPDIF receiver.
-- Change file name to support both transmitter and receiver bindings.
----
- .../sound/{linux,spdif-dit.yaml => linux,spdif.yaml}   |  8 +++++---
- .../devicetree/bindings/sound/spdif-receiver.txt       | 10 ----------
- 2 files changed, 5 insertions(+), 13 deletions(-)
- rename Documentation/devicetree/bindings/sound/{linux,spdif-dit.yaml => linux,spdif.yaml} (75%)
- delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
-
-diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-similarity index 75%
-rename from Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-rename to Documentation/devicetree/bindings/sound/linux,spdif.yaml
-index fe5f0756af2f..0f4893e11ec4 100644
---- a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-+++ b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-+$id: http://devicetree.org/schemas/sound/linux,spdif.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Dummy SPDIF Transmitter
-+title: Dummy SPDIF Transmitter/Receiver
- 
- maintainers:
-   - Mark Brown <broonie@kernel.org>
-@@ -14,7 +14,9 @@ allOf:
- 
- properties:
-   compatible:
--    const: linux,spdif-dit
-+    enum:
-+      - linux,spdif-dit
-+      - linux,spdif-dir
- 
-   "#sound-dai-cells":
-     const: 0
-diff --git a/Documentation/devicetree/bindings/sound/spdif-receiver.txt b/Documentation/devicetree/bindings/sound/spdif-receiver.txt
-deleted file mode 100644
-index 80f807bf8a1d..000000000000
---- a/Documentation/devicetree/bindings/sound/spdif-receiver.txt
-+++ /dev/null
-@@ -1,10 +0,0 @@
--Device-Tree bindings for dummy spdif receiver
--
--Required properties:
--	- compatible: should be "linux,spdif-dir".
--
--Example node:
--
--	codec: spdif-receiver {
--		compatible = "linux,spdif-dir";
--	};
--- 
-2.45.1
-
+Kuninori Morimoto
