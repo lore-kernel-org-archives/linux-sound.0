@@ -1,136 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D5819AA57;
-	Thu,  6 Jun 2024 16:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB6224D1;
+	Thu,  6 Jun 2024 17:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717690271; cv=none; b=g8f8JV0Mi4p3GZwpYZG0Lag5t7yYOq+VUUcpiBY3ZZXagdCzt/9VEQjIiD0aXDSkZSQCvJhjawrQhAXvQZYTQcA5dxbOzBjNNXI+7t+80y6sTKnx9hzHnV1t2PhxwuYKS9OiplQ0/n647dW08+ALduLTTLp788MOTBBeCpm/uPI=
+	t=1717693826; cv=none; b=QzAFBabIdUnpMa9uBE0aaPxNwhnnBnIPSRqZ7x7mM7VLIvASBcI7EgbLzjmxqKeDelznWBJ76MqynSOEv9/BzeM9QA0gUfAG3z8DVQV7Dz55ynj1uubkghMSeBdr4GiySDsNDvLtBTPBE8moowdBkQFHQ8zyrkd8o5RvN0nk9RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717690271; c=relaxed/simple;
-	bh=LMioPdhm8GU+5HKM5CEWwiaydEuPaHLYUpKUi8mNzW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CYJqbCH+g52/IMJrFwSTwQGG5duWMYkPj+b5/7q5PVej4t1slF5KXgqFmoaJ/gzTJYDx5TSYB0buIjOP3XQ3YoRmNjo69LrYxrto2TBci9FSmMbsUNyoSr4VCWr5Q0DNWWYsUz4f/hxvJFOi5JmpqW8Wd16nzS9EaKEZQoLevys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y4U0ezGW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717693826; c=relaxed/simple;
+	bh=M70tp6532oErosXvST9jh7Vo9666z4tcB3oOndDwuWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aiDu3bUys2KrKvot9jGaqVjx5UY/uZ84oDjqYAT9z1x1xxB7aq7SD1z/yuSkr7lZmTXfesfk8XTbEWoCGw6x3+U7BO2m+A6v8CcnBT+TIzC1rjclIhdmcbihZnWNutKPsAkcUTgI1bH2xKdJ+10J4obYuH84LY9g4gqYAWEj9yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwLPMfxO; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y4U0ezGW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BF3C4AF08;
-	Thu,  6 Jun 2024 16:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717690270;
-	bh=LMioPdhm8GU+5HKM5CEWwiaydEuPaHLYUpKUi8mNzW8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y4U0ezGWvlsN3sFRlxF1uzRpu3fxzalM3dAkAuL5UTBiu3Za9g36J/uHbipeI6Oa0
-	 WPbnGuJuFifKg5VoPTaqYjFiceSXkWf+ML9oNU+wReJnI3rFZ0E0rM6hsAtDASHptA
-	 lDuc9pu2Ki7KKQsw1EU/Fvi48Mhlfgl27L8TjGDDPgTWhZi035gDkN34CWjweKzWg4
-	 kV6D2hj2VvTc6yVH/1P8EL/ktTcDN2qjn3K19SoAiPlIbZqsqBBWt4h5YpYDpN9ktH
-	 1pD6QUFPKWn5mSUfQzAJW1tviZmQ20nhgv1EjrS+8D8PJnO/U6rf5moU59dDRJ+V4o
-	 XctgqxlrcAtWQ==
-Date: Thu, 6 Jun 2024 18:11:08 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Matteo Martelli <matteomartelli3@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Marcus Cooper <codekipper@gmail.com>, =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
- mode
-Message-ID: <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
-References: <20240529140658.180966-2-matteomartelli3@gmail.com>
- <20240529140658.180966-3-matteomartelli3@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwLPMfxO"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52b94ad88cbso1882106e87.0;
+        Thu, 06 Jun 2024 10:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717693823; x=1718298623; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vfcPheLV0NZCmf87grsxqRgL031WLMyzJrb0w/6enLU=;
+        b=FwLPMfxOY2UivHsEBqPZJSUYsTJ2gFu9CCyLYNTISJh9QqTx2uYLsxqsURO8Ffw0eK
+         VUC2vozC6NnqwZl4yn0V1yCajm/GzIIExF0KSafQEVYNmX4XAyj9+mE/4VXTj3vvvzmU
+         0oZPusyxzTLjBAEMteDVtHpq/5rqyLPVGJIEC+NXR/Kv4qCpphb2fy/BoiDBMcZ6gU9u
+         QQux5JzIW/Tpa8cLoWgt6K0afncWT7ozOhT9o3WzR+uEWVD8cHTy57YDH/ZPEv6PLWgI
+         59puwfdbabzuOcwairzvGVCXpgQ2ZRgTeTSEkZfVb0oz3EpzWGOPTUF4hFFZzS/zZ4HK
+         rd3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717693823; x=1718298623;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vfcPheLV0NZCmf87grsxqRgL031WLMyzJrb0w/6enLU=;
+        b=pEU2hzL6XX8s+P4ELdiqVNzK+YnZP0jRZwsI9hYa0dO8OKTOd9XyhZNDQbRlsJgr4O
+         T3YqIx44F+JjEOGon7akoyNQ+incqc3OfTC5aylSH6i0oX/yllQ1ovZ7uOy3jnI02D6U
+         X3LjT+G37vfgFGageMZo51zicXZ7sIMDUPSi34sUhg+/7XNzZWhFydKwxTUZrVLCz0ca
+         ovzNpy9aZAkBYjpdhKq/Y3j+2BF7xzkbp4oszFUrAjg5e7g8lffksQsHGHm4tv84l1Qq
+         wttaqD0iVXLtOURHWcpIvmWxyfkcpGqyCfQGyF7TG09sBgaFFKrNkd1LxcAnXrs69VhH
+         uk3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWy+GvOMYSJLZg03U9nkga4yhj8sbckBDMxAp57PYrUXrpHEHHTntqvcWamaFF8AH2DJa3bmEPmOmAxdqsD18kYm6G0tkaBkATLeWY+
+X-Gm-Message-State: AOJu0YyeGvYovP0QC86AT+6n1059wmksY8zn36AtQfTTq7mpVc/yqwab
+	5hWcJFGxf4nX1TrCyDC/6teO4sE49l9xUw1cXy1xUn8n468xTtw0
+X-Google-Smtp-Source: AGHT+IHjAV1sRFdp+OWciQrMCzE/Ou7KGCZoDPrUBVN8JEZkK68c3eqRAB4TI9M5ylBpowsDZcF8Qg==
+X-Received: by 2002:a05:6512:3f09:b0:51f:3e0c:ace3 with SMTP id 2adb3069b0e04-52bb9f785d9mr227002e87.16.1717693822817;
+        Thu, 06 Jun 2024 10:10:22 -0700 (PDT)
+Received: from [10.0.0.42] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb423cf28sm246062e87.194.2024.06.06.10.10.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jun 2024 10:10:22 -0700 (PDT)
+Message-ID: <6a88c1b3-b3d0-48d0-a620-b17464cb559e@gmail.com>
+Date: Thu, 6 Jun 2024 20:13:55 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="4nk5dehwshah5pj6"
-Content-Disposition: inline
-In-Reply-To: <20240529140658.180966-3-matteomartelli3@gmail.com>
-
-
---4nk5dehwshah5pj6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: ti: davinci-mcasp: Set min period size using
+ FIFO config
+To: Jai Luthra <j-luthra@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240604-asoc_next-v1-0-e895c88e744d@ti.com>
+ <20240604-asoc_next-v1-2-e895c88e744d@ti.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+In-Reply-To: <20240604-asoc_next-v1-2-e895c88e744d@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On Wed, May 29, 2024 at 04:00:15PM GMT, Matteo Martelli wrote:
-> This fixes the LRCLK polarity for sun8i-h3 and sun50i-h6 in i2s mode
-> which was wrongly inverted.
->=20
-> The LRCLK was being set in reversed logic compared to the DAI format:
-> inverted LRCLK for SND_SOC_DAIFMT_IB_NF and SND_SOC_DAIFMT_NB_NF; normal
-> LRCLK for SND_SOC_DAIFMT_IB_IF and SND_SOC_DAIFMT_NB_IF. Such reversed
-> logic applies properly for DSP_A, DSP_B, LEFT_J and RIGHT_J modes but
-> not for I2S mode, for which the LRCLK signal results reversed to what
-> expected on the bus. The issue is due to a misinterpretation of the
-> LRCLK polarity bit of the H3 and H6 i2s controllers. Such bit in this
-> case does not mean "0 =3D> normal" or "1 =3D> inverted" according to the
-> expected bus operation, but it means "0 =3D> frame starts on low edge" and
-> "1 =3D> frame starts on high edge" (from the User Manuals).
->=20
-> This commit fixes the LRCLK polarity by setting the LRCLK polarity bit
-> according to the selected bus mode and renames the LRCLK polarity bit
-> definition to avoid further confusion.
->=20
-> Fixes: dd657eae8164 ("ASoC: sun4i-i2s: Fix the LRCK polarity")
-> Fixes: 73adf87b7a58 ("ASoC: sun4i-i2s: Add support for H6 I2S")
-> Signed-off-by: Matteo Martelli <matteomartelli3@gmail.com>
+On 6/4/24 1:01 PM, Jai Luthra wrote:
+> The minimum period size was enforced to 64 as older devices integrating
+> McASP with EDMA used an internal FIFO of 64 samples.
+> 
+> With UDMA based platforms this internal McASP FIFO is optional, as the
+> DMA engine internally does some buffering which is already accounted for
+> when registering the platform. So we should read the actual FIFO
+> configuration (txnumevt/rxnumevt) instead of hardcoding frames.min to
+> 64.
+> 
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > ---
->  sound/soc/sunxi/sun4i-i2s.c | 143 ++++++++++++++++++------------------
->  1 file changed, 73 insertions(+), 70 deletions(-)
->=20
-> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
-> index 5f8d979585b6..a200ba41679a 100644
-> --- a/sound/soc/sunxi/sun4i-i2s.c
-> +++ b/sound/soc/sunxi/sun4i-i2s.c
-> @@ -100,8 +100,8 @@
->  #define SUN8I_I2S_CTRL_MODE_PCM			(0 << 4)
-> =20
->  #define SUN8I_I2S_FMT0_LRCLK_POLARITY_MASK	BIT(19)
-> -#define SUN8I_I2S_FMT0_LRCLK_POLARITY_INVERTED		(1 << 19)
-> -#define SUN8I_I2S_FMT0_LRCLK_POLARITY_NORMAL		(0 << 19)
-> +#define SUN8I_I2S_FMT0_LRCLK_POLARITY_START_HIGH	(1 << 19)
-> +#define SUN8I_I2S_FMT0_LRCLK_POLARITY_START_LOW		(0 << 19)
->  #define SUN8I_I2S_FMT0_LRCK_PERIOD_MASK		GENMASK(17, 8)
->  #define SUN8I_I2S_FMT0_LRCK_PERIOD(period)	((period - 1) << 8)
->  #define SUN8I_I2S_FMT0_BCLK_POLARITY_MASK	BIT(7)
-> @@ -729,65 +729,37 @@ static int sun4i_i2s_set_soc_fmt(const struct sun4i=
-_i2s *i2s,
->  static int sun8i_i2s_set_soc_fmt(const struct sun4i_i2s *i2s,
->  				 unsigned int fmt)
+>  sound/soc/ti/davinci-mcasp.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
+> index 1e760c315521..2a53fb7e72eb 100644
+> --- a/sound/soc/ti/davinci-mcasp.c
+> +++ b/sound/soc/ti/davinci-mcasp.c
+> @@ -70,6 +70,7 @@ struct davinci_mcasp_context {
+>  struct davinci_mcasp_ruledata {
+>  	struct davinci_mcasp *mcasp;
+>  	int serializers;
+> +	u8 numevt;
+>  };
+>  
+>  struct davinci_mcasp {
+> @@ -1470,12 +1471,13 @@ static int davinci_mcasp_hw_rule_format(struct snd_pcm_hw_params *params,
+>  static int davinci_mcasp_hw_rule_min_periodsize(
+>  		struct snd_pcm_hw_params *params, struct snd_pcm_hw_rule *rule)
 >  {
-> -	u32 mode, val;
-> +	u32 mode, lrclk_pol, bclk_pol, val;
->  	u8 offset;
-> =20
-> -	/*
-> -	 * DAI clock polarity
-> -	 *
-> -	 * The setup for LRCK contradicts the datasheet, but under a
-> -	 * scope it's clear that the LRCK polarity is reversed
-> -	 * compared to the expected polarity on the bus.
-> -	 */
+> +	struct davinci_mcasp_ruledata *rd = rule->private;
+>  	struct snd_interval *period_size = hw_param_interval(params,
+>  						SNDRV_PCM_HW_PARAM_PERIOD_SIZE);
+>  	struct snd_interval frames;
+>  
+>  	snd_interval_any(&frames);
+> -	frames.min = 64;
+> +	frames.min = rd->numevt;
 
-I think we should keep that comment somewhere.
+64 was a nice number ;)
 
-Maxime
+>  	frames.integer = 1;
+>  
+>  	return snd_interval_refine(period_size, &frames);
+> @@ -1516,6 +1518,9 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
+>  		if (mcasp->serial_dir[i] == dir)
+>  			max_channels++;
+>  	}
+> +	ruledata->numevt = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
+> +				   mcasp->txnumevt :
+> +				   mcasp->rxnumevt;
 
---4nk5dehwshah5pj6
-Content-Type: application/pgp-signature; name="signature.asc"
+Do this at the same location where the rest of the ruledata members are
+initialized, or
 
------BEGIN PGP SIGNATURE-----
+>  	ruledata->serializers = max_channels;
+>  	ruledata->mcasp = mcasp;
+>  	max_channels *= tdm_slots;
+> @@ -1591,7 +1596,7 @@ static int davinci_mcasp_startup(struct snd_pcm_substream *substream,
+>  
+>  	snd_pcm_hw_rule_add(substream->runtime, 0,
+>  			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
+> -			    davinci_mcasp_hw_rule_min_periodsize, NULL,
+> +			    davinci_mcasp_hw_rule_min_periodsize, ruledata,
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZmHflAAKCRAnX84Zoj2+
-dkp4AYDD2C89et3GX+eTXxMU3fw2ApYremNJgsBVdE7CDulWRzcHlpW2kUP83Bfd
-pT1zxkcBfR2hOGFtRyy3sMoLOytPZezcLRdE7sh1OTYn1SAPA/T5otrsqk1PkCp0
-t7BzSI8rzw==
-=ri98
------END PGP SIGNATURE-----
+You could just pass a pointer to txnumevt/rxnumevt directly...
 
---4nk5dehwshah5pj6--
+>  			    SNDRV_PCM_HW_PARAM_PERIOD_SIZE, -1);
+>  
+>  	return 0;
+> 
+
+-- 
+Péter
