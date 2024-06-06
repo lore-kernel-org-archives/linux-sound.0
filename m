@@ -1,59 +1,59 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E888E38FB9;
-	Thu,  6 Jun 2024 17:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6A538DD4;
+	Thu,  6 Jun 2024 17:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717694670; cv=none; b=aIPqAWZ8ULL4q5MluhQMOiQIwHA9cFWuR3DnYSL467bGE8EYB3fXgmfGDTjQK+1ZX06OZA2rBQJCCjySIChUTbtgmKUvaVC0LbuRvaZNHfA9QPJSrIt11UFE7RZ0njYdASSUjqXr8wNwVuaeAp0mDxJCbSDp6PD5xfaVrYQ/eOA=
+	t=1717696638; cv=none; b=JuhjPA3W3+7hiM8agupBEH8f935eo33fCwsPTwIV8/f35S/I/BMPEEOTwDXQ9ENZCUUGrIaLgipy+ik0AfTnprmiGw/6GI4oht4nlKq0FEoFaWK9tidMGvAHaovyZ5mu+dZOJHui5pXQCJd0oZIDT+3DyywYTKe49FhCwUtGmmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717694670; c=relaxed/simple;
-	bh=dTxC9S5XIMg5ioG+Q/uZwME7wTTzhbUrfZPA4xxlN5g=;
+	s=arc-20240116; t=1717696638; c=relaxed/simple;
+	bh=gkCUgE7P7NzShBjfKiNhvn1MyEbe7axgv1vrcTnyD4w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C3COvBK9ZyALezqJYvl7z1OaTYtGbwfsgELPSMFic93fUIt+u7/AxIq3zsEPXHBhRF1Ty4NpjPolJYKzjikeNHHlIuhfCXmh+MmWxqbQjh8n4yQwEC9djtAGNuXOipU3Wy+hR3z9Zp7UxpwA6vol855//hyoaEPVJj1JYOu+Iys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdF2lzmG; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:Content-Type; b=CNlZjbZStwaugOAWWm+AtbUra+A99/mn6Eux2gmsMMMAy75ypXYUIT+U2cM7VsmWWRouDUQxszzkQUhMA3yvTJ4Sp4imgOGi+QKgyaVjuC9Kwo4BPm+XSBMH/4XEy4Q7iF4GwhZ5wX2JLMZTNDmybt45nBb7ZrgkZHShPqDOKEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kiArbu5z; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdF2lzmG"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52b992fd796so1296020e87.0;
-        Thu, 06 Jun 2024 10:24:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kiArbu5z"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52b94ad88cbso1952161e87.0;
+        Thu, 06 Jun 2024 10:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717694667; x=1718299467; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1717696635; x=1718301435; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=I4LNbr7VfEe6izakn3pwLNIw70DykAuM2PJO0ynb8N4=;
-        b=XdF2lzmGv3IToifvd3sNb0kDc7JxmflBItKCg12cIrTXc/wiG/KVqkx580tGcOMH/u
-         HOXi6AVjMyuUcEkbpj9r1IL4/L5pwFKKpl4+nlXqjuVVnPgL59S1JyM371FiFmW/Ntpw
-         U+AQJn3blWFT8yiOt5j956XEWtgKTTVCCDtg2aiZH1lRj6jYozLOv/1vJ6FH7IpGcbAK
-         O/qBMFHv8UVz0eU6tWyLk7/zJvynY3Cudi72hrYql0J0othhBrM6Ajry38zwWF+ODxD5
-         rspQM9enjP2N0gN2e0hXSOzddXlGcqq/t/G/CvQZQK6cQ2lk4R6I+FHxSpbES2HJmRAI
-         nXKg==
+        bh=Bzgl98bn7gL5PMnWW0uBPTQqYfyzdwW025Pm9JSfbr4=;
+        b=kiArbu5zpuqIRhfIF0CWwpTYZ064glSRwvBmT/0gVv7vkzhWAZcV+lXDRsHd/DZkRS
+         GjXwmMAp+DnsQU4a1AS/fVbCh4Aku9yAqf4S/vJyHMoOBUxMs7VhkSelE4ttV7ND8Fu4
+         9Xmiqh+JXyoXvjTiQ5XuYrf0PpjTMjQx8mz36nh+DgxvPXSwsvb5V8BVuVVUK9xOo+om
+         FkZpUNYMAO2Vu7li1KpY2ypiIf++AZygvZDoLy1naux6u1WJ67kAJbdXw6SP2TgxXd7F
+         M3vBW8OM2w8rgZaY7YLD/ZP2qQctoO6tYr9Q33XQq7l9g22dlCJDguWTYH8D3fB+YpPy
+         dA4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717694667; x=1718299467;
+        d=1e100.net; s=20230601; t=1717696635; x=1718301435;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I4LNbr7VfEe6izakn3pwLNIw70DykAuM2PJO0ynb8N4=;
-        b=XqcNMg9u3bduLpShWeN0iQYcQfav8BCk174yOKkvc4uLhrHdHmLXWjBes3KFSKo4RG
-         9fbcjTEf4JDBx0mJX630tw5/jXWV23nr/0jCH4wst1WRpzwrVstYR3rUlauWJvd/HfZh
-         VfzFkt+ud0PUXXLXANliaB69nruBofjzY1Ucyo0v/9vWnkhS6EiQBz6nU5SyXWncKA1U
-         JuTue7xk/zVVYB8M4MIRL6RS8zGA8stHo5SPKds9Pn1ZbIeFQ3wLGbM6hnFWztSjAnqF
-         MQ466BumAJpJjqXaycogGGJU+MpqRSYCVDpYkJSZg+GiL8x+hjrBscDyPmVBg3NlVfSD
-         JGww==
-X-Forwarded-Encrypted: i=1; AJvYcCU5cBcTwXgj+NUZWGoyAVuLvGavJlhlxuX1U2gTPTphvPr8EKR+PbOCZORq63fZIecZ/qnTVVflTEFzXqQENlbenqmfgjhIquu8srd5
-X-Gm-Message-State: AOJu0YxX3ChwB03R5zoZrZcDqArsGhtLU+D6QGLkkw/dmWG+B7n9pkhP
-	41RYFOJfri6LmP/uQXvLpdCq0i867e84KTXqbDKXO6A9kzDmSXps
-X-Google-Smtp-Source: AGHT+IFOjYFmBcUyHgIetl0AFa3Qy+ZmzXrs7sFeq0xkgOyXErd6aZfbK+diwqdTip7ERQeoicunDg==
-X-Received: by 2002:a19:2d50:0:b0:52b:b89a:cec7 with SMTP id 2adb3069b0e04-52bb9fd150dmr170915e87.60.1717694666798;
-        Thu, 06 Jun 2024 10:24:26 -0700 (PDT)
+        bh=Bzgl98bn7gL5PMnWW0uBPTQqYfyzdwW025Pm9JSfbr4=;
+        b=KFIdFCGM1tToRSU4SerFF9z9mNQfClRcQwyxb0wtTFoMjpoH80GTIm8NADC3tAf11K
+         dPr0BChXsZGe/cOIPUqaX5LOAB2WVec4Yp8Ekx1Gzuw8EOAq7WEkb9//qvHFau8n83n4
+         CogqvS9khHF/OX0Xp1XmLxnfUvghszH70ZS7BoIdxe6TgcLYxZVbqoCQAp/GFh8mfTEd
+         LUQTHq8JHDXoKPnN5Y3ZHFYcGOUOAg4GPKpY7XP89s2OJG5IJnMP/y4tfMD72cf7RWrP
+         pSBI0EBAwgWsQPIq7z1BfX22umCe1Ux64+7WDXy/Ce0mJe8aRq/RwRBw7pzfaPuUr6oa
+         kxxg==
+X-Forwarded-Encrypted: i=1; AJvYcCX7BSGNj9pWnpbKBp9V8vnS+mEeDn4BeZNGOc4DPETDbN8fkkhL5AxUG8OWaHxX2TkawB371GnphjxnSasFahheXZH1u7FynXihQ5LVe2vabOBf+ybo33eAeYsUn2AtCzI5OdFENPMs7a8CDGrZ2mej2CDh/mM88ClzAcMPAsa1i3+AKWPj
+X-Gm-Message-State: AOJu0YzmYavh6zjQovDmmqL5Ba23qhoNTd8YmtTSvbPz+/e8Qum4NbLi
+	MIaVE6u0GU8wRSMgkmYnxTGJSzt8aD8c5hxupRMfSghhNtOuotSO
+X-Google-Smtp-Source: AGHT+IHfsZTaWw8cyEJODnWTHek4v/td5BgR07Fxe0Qt5gqajahKNvtk8vdCRCB90tggvG/AdMdglw==
+X-Received: by 2002:ac2:4472:0:b0:52b:872f:228e with SMTP id 2adb3069b0e04-52bb9f8a542mr317359e87.41.1717696634711;
+        Thu, 06 Jun 2024 10:57:14 -0700 (PDT)
 Received: from [10.0.0.42] (host-85-29-124-88.kaisa-laajakaista.fi. [85.29.124.88])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb41e1c29sm251177e87.5.2024.06.06.10.24.26
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb423d528sm258759e87.191.2024.06.06.10.57.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 10:24:26 -0700 (PDT)
-Message-ID: <43418c73-b240-461f-af4e-49735304eaa5@gmail.com>
-Date: Thu, 6 Jun 2024 20:28:00 +0300
+        Thu, 06 Jun 2024 10:57:14 -0700 (PDT)
+Message-ID: <dac7fba4-c7e3-4be9-8072-625d723e6cf5@gmail.com>
+Date: Thu, 6 Jun 2024 21:00:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,111 +61,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ALSA: dmaengine: Synchronize dma channel in prepare()
-To: Jai Luthra <j-luthra@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
+Subject: Re: [PATCH] ASoC: ti: omap-hdmi: Fix too long driver name
+To: Primoz Fiser <primoz.fiser@norik.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240604-asoc_next-v1-0-e895c88e744d@ti.com>
- <20240604-asoc_next-v1-1-e895c88e744d@ti.com>
+ alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: upstream@lists.phytec.de
+References: <20240606070645.3519459-1-primoz.fiser@norik.com>
 Content-Language: en-US
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20240604-asoc_next-v1-1-e895c88e744d@ti.com>
+In-Reply-To: <20240606070645.3519459-1-primoz.fiser@norik.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 6/4/24 1:01 PM, Jai Luthra wrote:
-> Sometimes the stream may be stopped due to XRUN events, in which case
-> the userspace can call snd_pcm_drop() and snd_pcm_prepare() to stop and
-> start the stream again.
+On 6/6/24 10:06 AM, Primoz Fiser wrote:
+> Set driver name to DRV_NAME. This simplifies the code and gets rid of
+> the following error messages:
 > 
-> In these cases, we must wait for the DMA channel to synchronize before
-> marking the stream as prepared for playback, as the DMA channel gets
-> stopped by snd_pcm_drop() without any synchronization.
-
-Right, this is a plausible scenario, the xrun is pointing to unhealthy
-system, but before re-using the channel we indeed need to make sure that
-it is finished with the stop.
-
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>   ASoC: driver name too long 'HDMI 58040000.encoder' -> 'HDMI_58040000_e'
+> 
+> Signed-off-by: Primoz Fiser <primoz.fiser@norik.com>
 > ---
->  include/sound/dmaengine_pcm.h         |  1 +
->  sound/core/pcm_dmaengine.c            | 10 ++++++++++
->  sound/soc/soc-generic-dmaengine-pcm.c |  8 ++++++++
->  3 files changed, 19 insertions(+)
+>  sound/soc/ti/omap-hdmi.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
-> diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
-> index c11aaf8079fb..9c5800e5659f 100644
-> --- a/include/sound/dmaengine_pcm.h
-> +++ b/include/sound/dmaengine_pcm.h
-> @@ -36,6 +36,7 @@ snd_pcm_uframes_t snd_dmaengine_pcm_pointer_no_residue(struct snd_pcm_substream
->  int snd_dmaengine_pcm_open(struct snd_pcm_substream *substream,
->  	struct dma_chan *chan);
->  int snd_dmaengine_pcm_close(struct snd_pcm_substream *substream);
-> +int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream);
+> diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
+> index 639bc83f4263..3f35eedeea41 100644
+> --- a/sound/soc/ti/omap-hdmi.c
+> +++ b/sound/soc/ti/omap-hdmi.c
+> @@ -354,11 +354,7 @@ static int omap_hdmi_audio_probe(struct platform_device *pdev)
+>  	if (!card)
+>  		return -ENOMEM;
 >  
->  int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
->  	dma_filter_fn filter_fn, void *filter_data);
-> diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
-> index 12aa1cef11a1..dbf5c6136d68 100644
-> --- a/sound/core/pcm_dmaengine.c
-> +++ b/sound/core/pcm_dmaengine.c
-> @@ -349,6 +349,16 @@ int snd_dmaengine_pcm_open_request_chan(struct snd_pcm_substream *substream,
->  }
->  EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_open_request_chan);
->  
-> +int snd_dmaengine_pcm_prepare(struct snd_pcm_substream *substream)
-> +{
-> +	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
-> +
-> +	dmaengine_synchronize(prtd->dma_chan);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_prepare);
-> +
->  /**
->   * snd_dmaengine_pcm_close - Close a dmaengine based PCM substream
->   * @substream: PCM substream
-> diff --git a/sound/soc/soc-generic-dmaengine-pcm.c b/sound/soc/soc-generic-dmaengine-pcm.c
-> index ea3bc9318412..af439486d33a 100644
-> --- a/sound/soc/soc-generic-dmaengine-pcm.c
-> +++ b/sound/soc/soc-generic-dmaengine-pcm.c
-> @@ -318,6 +318,12 @@ static int dmaengine_copy(struct snd_soc_component *component,
->  	return 0;
->  }
->  
-> +int dmaengine_pcm_prepare(struct snd_soc_component *component,
-> +			  struct snd_pcm_substream *substream)
-> +{
-> +	return snd_dmaengine_pcm_prepare(substream);
-> +}
-> +
->  static const struct snd_soc_component_driver dmaengine_pcm_component = {
->  	.name		= SND_DMAENGINE_PCM_DRV_NAME,
->  	.probe_order	= SND_SOC_COMP_ORDER_LATE,
-> @@ -327,6 +333,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component = {
->  	.trigger	= dmaengine_pcm_trigger,
->  	.pointer	= dmaengine_pcm_pointer,
->  	.pcm_construct	= dmaengine_pcm_new,
-> +	.prepare	= dmaengine_pcm_prepare,
->  };
->  
->  static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
-> @@ -339,6 +346,7 @@ static const struct snd_soc_component_driver dmaengine_pcm_component_process = {
->  	.pointer	= dmaengine_pcm_pointer,
->  	.copy		= dmaengine_copy,
->  	.pcm_construct	= dmaengine_pcm_new,
-> +	.prepare	= dmaengine_pcm_prepare,
->  };
->  
->  static const char * const dmaengine_pcm_dma_channel_names[] = {
-> 
+> -	card->name = devm_kasprintf(dev, GFP_KERNEL,
+> -				    "HDMI %s", dev_name(ad->dssdev));
+> -	if (!card->name)
+> -		return -ENOMEM;
+> -
+> +	card->name = DRV_NAME;
+
+I think it would be better to name is simply "HDMI" instead
+
+>  	card->owner = THIS_MODULE;
+>  	card->dai_link =
+>  		devm_kzalloc(dev, sizeof(*(card->dai_link)), GFP_KERNEL);
 
 -- 
 Péter
