@@ -1,88 +1,94 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD0A196DB4;
-	Thu,  6 Jun 2024 14:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A417168C10;
+	Thu,  6 Jun 2024 14:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717684267; cv=none; b=QjrIVJaNNxgTs6xf/R4zOYH+JP8nEkETwGmXWdzjqaxMNGy/6YVhi56HGe/aJAPne8ZvzFdEwexim1WcAcsRAVIqR2yah923nci+pbJ7nwF702/8zTjACVBXlthjVOyt3+4VFK/iRPBcd9lKv/uD4/YAwBvIDLN7PPY//uiLodU=
+	t=1717685345; cv=none; b=rFJXbxM9Ydbuq4yc3CfI3co/waYTPjPmgk4IbLoMznRx4iJuHWcEZ3yp+KuHjS7STn+AlGgqGo9LzRI82q4bdPRkQVUDFf+yE79oAv80LQfbqCOiihNLILBBsNhFnKYfla5Dgpm7i4MyiHxF4Jr2LZfKA/+4eCnItYd3ow6WhR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717684267; c=relaxed/simple;
-	bh=n7eQAgqFrklHoWNTTtvx0HdmZAKgyA0Rg4NkkBXt0uI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=VGv7Plq1HSfYMclh9BBXKxYbrfJciYLTEHKoX1Vh0i6U4Uq3Wjib3um75j6BgZLkbtXuevd58ngfLqBesKI0XQAuqyB6P4omPTs18lu5TZ2YyO4CGx+wV8G5arK2tf1Dzn9Jjpc9/dcYjShkKaFmTxxQvMfbiCf3lajrVYdDGog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YaOFHSwm; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717685345; c=relaxed/simple;
+	bh=oIsOBi3YR+xt6MMQIParPVbOIkxTmT9b93g53VHm6E8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HEJfluSmTxa3e6ckxta8NEe3/JHS1wtPPhslXVXY+SCOfToH2kTgiY/OR5RbkGErAvBjAQ5jQ369OrHiaDheEm2FTtgadYI5L4/rqECYC90dW08TZTibxptUYU7FHwwh+8x+wBgHtptUtXSjN85eCO3tA4T7qEmbsDZ2jxa+69o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JszW8j6N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YaOFHSwm"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a68f1017170so130213566b.0;
-        Thu, 06 Jun 2024 07:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717684264; x=1718289064; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Irbw4hNhnmRrLA4d4rMlZj8kSK2cUPNwpibn9I3pIY=;
-        b=YaOFHSwmA6dBC3pCWi1acRohMvjBr/EFYQdleB2uu2tdU6UYLmQFiroauWRvVVCYDB
-         OdvriS2vVTQbH638D6KA1lUwhJlJLhlhfV88AXA+jbtlPwggbL9vq+VFzZMnMaWfbEKg
-         zoTYKIGA+20CpVhAwqcat3u5d75WkPQEV5l7nnejHCCifMfTs0SX29AkcDtPAjkaa4C5
-         8sovRoPJdZSWmVzfvOgoKtnPifs18JHcHkk2ZS3XmeQOilm0GLgf+Jz5IEJTapY6+YLF
-         aMsGXXzdnJ6+bvrtM7gDBDppdThuvoVjPp6YaHlA/X3ZrJuSqzKyKmSmEEueVs1ioJYu
-         GkmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717684264; x=1718289064;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5Irbw4hNhnmRrLA4d4rMlZj8kSK2cUPNwpibn9I3pIY=;
-        b=K7M1MZqUPl8njSBpM93tROnsDUSAiyzsRUcEwD+bfc1dcmWukr/gRFG4v9NunZIQCR
-         63KencVE+r0oessuTF+zOK3kdcp+7PdrukmDG4dWuu4IgTscuI6A7omvD0aHPhnbtFaW
-         Md9ppXlRcZvOBwTlyfKy+VzKpgdwuV1JYErCC4Wtsvj71JS/gtdFGyHXh8WqnZr1QQiR
-         5yx43MzyGt0Rloul004sXdc0GOaAmVO47p865l/+HCmYKwonVbLhSWIr3Ia7BTs934lJ
-         bOoauJm0+GxI0jrw757VLiHyvTp0IiRRSJADr+46u9wcLn/pW1sbNnOJ6JxdJfKnbfaJ
-         PvUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZrAsz6up5+wfh8qp/ohtjFErFxJg2xDkYIAEQGqs8DOY6dSt+wh+FDLoudV0ZdUc/kMhRrrox/syT5ZHxn9MRqK3IbxKiP1YDYVyS33m7Lk7Vdc34TDWjHT5xfZTXXlB8ZqfMR8hISA==
-X-Gm-Message-State: AOJu0YyJFwqNFms12bL7KJcJFIdkn0D7377+lMkye91vcEJ7W7dE5e9Z
-	O/2Y0RaHWNgGS/3ybNSz53Er24uN+LXi12IydFxENB0cHMftexwgqdde5w==
-X-Google-Smtp-Source: AGHT+IH8sHZgu1d55sXBe9fnboQhZHmHydOtUhaKeJwLSfjMQslJIkURobVglQD6mtMz46eurQaOcg==
-X-Received: by 2002:a17:906:ca10:b0:a69:12f8:8998 with SMTP id a640c23a62f3a-a699f776748mr392150166b.46.1717684263773;
-        Thu, 06 Jun 2024 07:31:03 -0700 (PDT)
-Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c8b718eeesm14268666b.218.2024.06.06.07.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 07:31:03 -0700 (PDT)
-Date: Thu, 06 Jun 2024 16:31:02 +0200
-From: Matteo Martelli <matteomartelli3@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Message-ID: <6661c82633d84_2f517370e3@njaxe.notmuch>
-In-Reply-To: <20240522164722.954656-1-matteomartelli3@gmail.com>
-References: <20240522164722.954656-1-matteomartelli3@gmail.com>
-Subject: Re: [PATCH v3 0/2] ASoC: codecs: add support for everest-semi es8311
- codec
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JszW8j6N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71569C2BD10;
+	Thu,  6 Jun 2024 14:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717685345;
+	bh=oIsOBi3YR+xt6MMQIParPVbOIkxTmT9b93g53VHm6E8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JszW8j6N+zTB16PXUB8fTcXyXCnTYis0sjPAsRu2jibrMA4xFXHdWj+hkW+EV6NW+
+	 +r799vIpjVSgNJ47hO3z7Frnf13eety5sF/rNJZF5KX4FbSnhfiLQKUPpSn1Ircl5w
+	 1gIgDPT8A7nsVszi09+EraAK2ElIujyVrLwPXI760R1iCe1aNjHAz+1zhRE1jKI7+Y
+	 4Fbda/oGDCej5GlSJOs0pEylDlnisoP7pf0ryTPI6GsFDwsMW8muXaNyJUkpeGy2BO
+	 bQ6XIxkTC9olQ9y9dKYANo6AI1uTZ/ynvMAgC7EUw4PH0JfR+qqP/fosZTV363w/v8
+	 OpDRbMCMNcUuQ==
+From: Mark Brown <broonie@kernel.org>
+To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ kuninori.morimoto.gx@renesas.com, 
+ Andrei Simion <andrei.simion@microchip.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240604101030.237792-1-andrei.simion@microchip.com>
+References: <20240604101030.237792-1-andrei.simion@microchip.com>
+Subject: Re: [PATCH] ASoC: atmel: atmel-classd: Re-add dai_link->platform
+ to fix card init
+Message-Id: <171768534216.1578869.5370523933497005788.b4-ty@kernel.org>
+Date: Thu, 06 Jun 2024 15:49:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
-Matteo Martelli wrote:
-> This patch set adds support for the Everest-semi ES8311 codec.
+On Tue, 04 Jun 2024 13:10:30 +0300, Andrei Simion wrote:
+> The removed dai_link->platform component cause a fail which
+> is exposed at runtime. (ex: when a sound tool is used)
+> This patch re-adds the dai_link->platform component to have
+> a full card registered.
 > 
-> Everest-semi ES8311 codec is a low-power mono audio codec with I2S audio
-> interface and I2C control.
+> Before this patch:
+> :~$ aplay -l
+> **** List of PLAYBACK Hardware Devices ****
+> card 0: CLASSD [CLASSD], device 0: CLASSD PCM snd-soc-dummy-dai-0 []
+>     Subdevices: 1/1
+>     Subdevice #0: subdevice #0
+> 
+> [...]
 
-Hello Mark,
-I've just noticed that this patch series has been applied to asoc/for-next and
-linux-next/master but I hadn't receive any "applied" reply mail. Is this
-expected? Just wondering if I missed anything in the process.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: atmel: atmel-classd: Re-add dai_link->platform to fix card init
+      commit: 2ed22161b19b11239aa742804549f63edd7c91e3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Matteo Martelli
+Mark
+
