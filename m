@@ -1,125 +1,129 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1421993A0
-	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 14:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73401C0DC2;
+	Thu,  6 Jun 2024 14:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717683006; cv=none; b=foTfBhNEkfx9sCzkIHeb3WeWWsO5HUwCmgZtMqxMZrnhVcxA1IF1Urn+pyzFeYgQVmOUXUSA9bi0prD9e9XkP1jUswkRJtggxFb1wPuYNQzgc87i/Osy65DYNfrwDr3JyWYtWsb0F6b22UsXURwSaHaB26AHcAr8KT1bvLWpLUU=
+	t=1717683560; cv=none; b=WqYZoaHGrhpuCq2yQ2Wqjpo6g9Qagb/ytAnBS1Zo9wCg1EoOq/8J2F5E6ma8MKOQs6FTqlVw56dyrRhFkapftIqEYtF086SrFEtQU0HqC5xJnArgQfdNj/8QlCW14VMKE9gvQa/T7xb54xMbeJsoCGVxfzo8f7gOzycaDB4byD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717683006; c=relaxed/simple;
-	bh=4ntcc6Z15d61GnycnYiER4KMrpMXZ5XNrPEAClMFN/Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sMAHum8U+TZg7HVa8VwQW7DPKPDKQIB5tJ+aES4inAY3G8raWWxvV+7/f89fHFvcNA/CLbI9NxAfdexZJXoT/YWDOnV+97/xRxtfHcsGFT6QOi4FNoPJfHmVutzzkbMKFXOypBaOcEjx7SteDQ7eYaHdN7dZxoIwrb4EP1srw3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WgjJgD+8; arc=none smtp.client-ip=209.85.166.177
+	s=arc-20240116; t=1717683560; c=relaxed/simple;
+	bh=EIN+KuUQmKGM4LQhb84pnUKc3j3RvgGFbJhMtBtv63I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MfwrcOKQxX0TvmT2PtCFhPx8ZTHdhHm0iZ0fkldO3eyvcZ7YgAX+Jyg2tn6bin9Nzo7kqVhoIWoU9+AnFeBDpCkssKUvCl6zyjFfsW46EF5UrH84H1i/nc+UiVbZMgGIkxCfU9E3eS1ssssmejzl2TctqS8KcVIfj0RBL4+Z2zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OIhqFYC4; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WgjJgD+8"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3738690172eso4137685ab.1
-        for <linux-sound@vger.kernel.org>; Thu, 06 Jun 2024 07:10:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OIhqFYC4"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-701b0b0be38so1006440b3a.0;
+        Thu, 06 Jun 2024 07:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717683004; x=1718287804; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dw0tvxNBxWIBAkwEOzBxwd1l7mKn5X+O1aLdJXqiTPg=;
-        b=WgjJgD+8TkUUxxzHnTGPmF5p9JUdRF5YPchJe4UDeEgpNACH7xb9E9ZeyRMAex4XyJ
-         K1DLgvzVyPq9Hxl9z2tWwQV4/ZBGcNYvT/OQ8Q9SZn00kNPbKzOSGn5eqp2IvUmzQZK9
-         bdFN16Yw1JPF2Peu9Ju/DHcwz6w1gtgqvTcmM+YpICnFu7BaLRXJgNbCWd7RTJ5Wz0Ix
-         3zrBFCPUhk2BlRP78ksWs+V+k4r/ASEjdhJcF78nIV+Zmof62cFBn2UZPDC1MRgXem1d
-         gl4K+F59Oa3vYZqddfv9BQ/mtuNVAq4su6tAoXWzyGKkF5TWtQ3TstiGeCuqQSH4HFCD
-         rh7A==
+        d=gmail.com; s=20230601; t=1717683558; x=1718288358; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dcbWossHxFAPWhaCt0jaKVByCwga+fTczv+uXxjTlu0=;
+        b=OIhqFYC4jGwWY+9iFJSrz/vhxDx8jIXoIT/qW/m1VY34nyuoL4hlkA1ZfnjTW1+fyN
+         v7urIQrG8yXSi7Ty3GNa8v7rlDNLf5bTzraPNvXq6uIYzKWwhxNuB5qSM7lTKx6y+ou1
+         324wCln80TlRfv+Hz5yaC5aKAsKBzkG17vdyp6nqb28VsKoeZNWtWgHT5zNFm03we9Jy
+         tkaYH3r1K+X0FFg95ksDFzvbuiazswobVFxHnJlKmPWBUYl3oVKCRQoUFdkqPrj0B/QO
+         lyX9DT7+pB+HZJ4hSTDulIxM+aHiLRM6srpXf8kZrSXMKw86sBMi6i6wT+9zUclPwm/c
+         /D6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717683004; x=1718287804;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dw0tvxNBxWIBAkwEOzBxwd1l7mKn5X+O1aLdJXqiTPg=;
-        b=LaTQ0sh7TGrJf1CR0quasFbMU0haB3jzcKbB2fkPJCI3jmHtI/OFxy0yqZRJ+jx66i
-         SfpYgyrbBG/+9Zi/KT14zK1SxQzwjTFLmLxf4VvyOD2nGI/mL1nnrqF55XChxQfTafg8
-         SUEv3SPaJLvhUOPzaFdiRS1iTOdIBRCO/+vL9uGGgqR8zEPH/LukXNY5JNtX4kivrVWG
-         msIxWMNBZhQS3wV+I4kD6Q9HzbHQx0s6SBnfeUgaVFTVLC8nacKTA8fHcNGacoeH62Ih
-         55ikIVAdL9clcjl0oC5U0+bWq7Uz5IPrIo2u1s8JJCl9nXYjT5JMgl4XQ1NtHPIq63LV
-         /lhg==
-X-Forwarded-Encrypted: i=1; AJvYcCVMyOpqWDaDprjS3svuNaz3NrOc8FZLLypR3RK/PY+VJWYPFK7FUPryOh0Ooy53cEYAqvVWXhbDYzeAnCQfaiUQ9JDcg0+0MQ5BxGo=
-X-Gm-Message-State: AOJu0YxU50jt2nDGc08x9A/GDhXW5+vbZy1rBm+YPSWh4PhUCkAakGj2
-	1rd8mWlhfzhtMW3eIKV9vPwTf+ek3tnp/JNlPwfVy4waV3zwqC9MaKAJOLigA9LsBTFc5ltq6ny
-	4TsazOv8YtrkVEYN773QHpwpJqEc=
-X-Google-Smtp-Source: AGHT+IEQxUm0fYRkQu3ElaNI5Eiy3W68YFaS+YgBieBS3P+3J36MmrCzmenuf6dcRwgSs3U2QTYFBOh7GtIhDveMmA0=
-X-Received: by 2002:a05:6e02:1a88:b0:374:b07f:6dbf with SMTP id
- e9e14a558f8ab-374b1ee3e57mr63545995ab.1.1717683003826; Thu, 06 Jun 2024
- 07:10:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717683558; x=1718288358;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dcbWossHxFAPWhaCt0jaKVByCwga+fTczv+uXxjTlu0=;
+        b=gvskTnY/cW+UZE4/MV3Ynj1hpzpNkUjSP/qPHJUiH3vai8PLsXZ8qHZ4TgCm/2GoP/
+         +6LpukE/N+IumBeLcfscCmNIW6b7vPntdxvSnuryy4NxfQth+WkkfcIbi4B70jouUMa+
+         DRgGPL8hfHlkG7cBXL83s4d5jGtqUuavsE3KwJM5APONYPL2NYyQwNj+Bn6UlHvWBasU
+         1ia+ExNeiFRqQZJVvqLGxJA64bctKh6D/vjdtjP1BwbpegY/W7q3Hlkc52SZ8yIMGPf2
+         u+8wT2aa9bAsBtD9JaYKYsmZv6CejBdnI85iHiTdHl3HWBNKaEDdh7ljU8bkJ8Rz7VHq
+         G8Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3cTgCH0NBpHhCAfTuoS474/hlK/b8Sh3fBYLO5eXxoyUUak+cLmBHvENQtd4ubjKHpNvYFo18AHYwREI7ewZ0f37DWpNQwqggKRQIWsbu5WGla2cAhf+fN2Txqi/UeyvBLh38ArozwA==
+X-Gm-Message-State: AOJu0YyXr37PVh1TLzHtIIyMihQrEHwbRbMys9YFc/Puql/8/jI6Oqg+
+	GawFAsHERzbxFr4sTFSfKDoFHtbPMJCHATKixJQHJ+9vCIqK2Lrc
+X-Google-Smtp-Source: AGHT+IGW51mR4NTliKKpbb6mL8Di0ngne/w1f8Ev53XXXVhQjFI9ZzWUelNFBR3sa/34xvYKydHeSA==
+X-Received: by 2002:a05:6a20:3c8d:b0:1af:9edd:9cb3 with SMTP id adf61e73a8af0-1b2b7414232mr7369811637.17.1717683557519;
+        Thu, 06 Jun 2024 07:19:17 -0700 (PDT)
+Received: from [10.7.27.90] ([103.170.1.54])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703fd495062sm1146384b3a.119.2024.06.06.07.19.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jun 2024 07:19:17 -0700 (PDT)
+Message-ID: <c32b902e-0338-436b-85e1-827c48e0ee2b@gmail.com>
+Date: Thu, 6 Jun 2024 19:49:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
- <1f5a24da-547a-4faf-b1a2-34982f1f7cf0@sirena.org.uk> <CAA+D8APemxqMXdDsS5JVbWXfZPRPF8=eobw33WEhchF418TLPw@mail.gmail.com>
- <a9b8ba84-3f10-42e2-83e4-2c8549bb43d3@sirena.org.uk>
-In-Reply-To: <a9b8ba84-3f10-42e2-83e4-2c8549bb43d3@sirena.org.uk>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 6 Jun 2024 22:09:52 +0800
-Message-ID: <CAA+D8AMckXsESj=+vZqRqr_FkkEMsN3NDKqt9AgnNgXSin5RZQ@mail.gmail.com>
-Subject: Re: About snd_soc_dai_set_fmt()
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: dt-bindings: mt6358: Convert to dtschema
+Content-Language: en-US, ar-LB
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240518081621.63386-1-agarwala.kartik@gmail.com>
+ <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
+From: Kartik Agarwala <agarwala.kartik@gmail.com>
+In-Reply-To: <c05f91f5-a878-4f36-b325-0ac8e038a7e5@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 6, 2024 at 7:09=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Thu, Jun 06, 2024 at 06:55:29PM +0800, Shengjiu Wang wrote:
-> > On Wed, Jun 5, 2024 at 7:40=E2=80=AFPM Mark Brown <broonie@kernel.org> =
-wrote:
->
-> > > Do you have an example of such a use case?  If you can do that it fee=
-ls
-> > > more like one end has two single direction DAIs (ISTR some of the
-> > > Freescale platforms were built like that?) and it might be better to =
-do
-> > > that and make it easier to combine two DAIs.  That would also work fo=
-r
-> > > things like combining dedicated DACs and ADCs.
->
-> > one of case is:
-> >
-> > +-------+                +-----------------+
-> > | SAI1  |   --TX-->  |                     |
-> > |           |   <--RX-- |                     |
-> > +-------+                |                     |
-> >                              | AUDIOMIX  |
-> > +-------+                |                     |
-> > | SAI2  |   --TX-->  |                    |
-> > +-------+                +----------------+
->
-> > AUDIOMIX mixes the output of SAI1 and SAI2,  AUDIOMIX's output
-> > is sent to SAI1.
->
-> So that's a DPCM case but hitting the DPCM scaling limits.  One of these
-> days someone will actually have a use case that generates enough pull to
-> get digital routing done...
->
-> > Use multi-DAI may be an option,  but for fsl_sai driver, in some cases =
-it
-> > is used as single DAI.  So how to support single DAI and multi-DAI in o=
-ne
-> > driver?  Should we define a new dts property to distinguish these two c=
-ases
-> > in order to register different component + dai driver?
->
-> Some drivers have bodged it by adding 3 DAIs, one bidirectional and the
-> other two unidirectional and relying on users to DTRT.  Nothing is super
-> great there.
+On 5/20/24 12:39 PM, Krzysztof Kozlowski wrote:
+> On 18/05/2024 10:16, Kartik Agarwala wrote:
+>> Convert Mediatek MT6358 Audio Codec bindings from text to dtschema.
+>>
+>> Signed-off-by: Kartik Agarwala <agarwala.kartik@gmail.com>
+>> ---
+>>  .../bindings/sound/mediatek,mt6358.yaml       | 47 +++++++++++++++++++
+>>  .../devicetree/bindings/sound/mt6358.txt      | 26 ----------
+>>  2 files changed, 47 insertions(+), 26 deletions(-)
+>>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>>  delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>> new file mode 100644
+>> index 000000000..f57ef2aa5
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6358.yaml
+>> @@ -0,0 +1,47 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/sound/mediatek,mt6358.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Mediatek MT6358 Audio Codec
+>> +
+>> +maintainers:
+>> +  - Kartik Agarwala <agarwala.kartik@gmail.com>
+>> +
+>> +description: |
+> 
+> Do not need '|' unless you need to preserve formatting.
+> 
+>> +  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+>> +  For more detail, please visit Mediatek PMIC wrapper documentation.
+>> +  Must be a child node of PMIC wrapper.
+> 
+> Did you update the PMIC wrapper binding with ref to this?
+> 
 
-With multi-DAI,  there will be three devices,  hw:0,0 for SAI1 TX,  hw:0,1
-for SAI2 TX,  hw:0,2 for SAI1 RX. Which means the SAI1 TX and SAI1 RX
-are in different devices.  Can we let SAI1 TX and SAI RX in the same hw
-device?
+Hi Krzysztof, 
 
-best regards
-Shengjiu Wang
+I apologize incase this is something obvious but I am still not sure
+if I understand what you expect here. Could you please explain this
+a bit more? I thought that you wanted me to convert the Mediatek PMIC 
+wrapper but it already seems to be in DT-Schema format.[1]
+
+[1]: https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/soc/mediatek/mediatek%2Cpwrap.yaml
+
+Thanks and Regards,
+Kartik Agarwala
