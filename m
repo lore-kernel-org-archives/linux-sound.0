@@ -1,110 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847D717E443
-	for <linux-sound@vger.kernel.org>; Thu,  6 Jun 2024 11:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E861D696;
+	Thu,  6 Jun 2024 13:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717672175; cv=none; b=fGIAIVpnrX+CAy8L046yAaJICnHPnru/nYuQzIZT7QexmTAA9OXzocOcqqwbJ72xSOX2rv/kG7GUoHl7vop3ZF70yGrDK1DxWbnK5SYvWMXialniMgsonD9s8o/34RVKfMYTclfjYtGO/wesBJAK7RKQySMkEQP7yRYSWK8BJoU=
+	t=1717679033; cv=none; b=O9VyWYKApEBqM/pzOTPxwIibuN+cRSq33f8/p+bOSgfCS+PU5ylRmdMkPyle2Jd/AsSpYshqL2DleTk4aHaf1dfXECcOcm4Pr1C4V5/rqyE4BhpMEVhE+rmfHK4mxTcLGxint/WyPJ6oJcaBhiRAEZPsvEnPrDzFRm46SRP/0pU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717672175; c=relaxed/simple;
-	bh=//og06QxQGR3thdssDwa2YdAd3ko+6WtkRiWT8D2KxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kc/SH30QpSGAbcTvRwNpQ54cpDdmCUsM9Vbx3jd+5le/TD2k4d9Fp02gXbl8c55N6koqpiUjf+OZHg6Lvh+Oh8Mn41MImufrI9pfEbnYDDQTVAtBYQtUQKHPPDLShwvH3OAqG5qFIU2Y5nGZG+J1m47mi2vbjD5AC8Q0XlzFFP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ck5WfC01; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717679033; c=relaxed/simple;
+	bh=7j2qQVuSNB+C9zogsWp3FupLtbD+FHkF7koYC+sia4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pUauQQ8Os+IiGKR3aCLrR0FugLHmoQlUyxdjqSrMR9PeqBWD+AKlgpHYyHsjb4USDH7gjM26qAytRE79eCdFZyZSgORNcDrb2JMdmAQag57FbHzHFwj9Q8yAblXqm7T1rVnGWtaNPpFoG5i/h89LYtHzjrj7xBiRfqViDfwSOnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dmBjBFWJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ck5WfC01"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB24C2BD10;
-	Thu,  6 Jun 2024 11:09:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dmBjBFWJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9C1EC2BD10;
+	Thu,  6 Jun 2024 13:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717672175;
-	bh=//og06QxQGR3thdssDwa2YdAd3ko+6WtkRiWT8D2KxE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ck5WfC01C/H6b0csJpelUMGmDIoIsiZYOV/TJ7yGDkqM+qzjU3t2x0Pz0l6mscWjI
-	 FDyPu1jgFw9v5RywxsEg9rSBzXWGEzJ7gi8bKGf9L94E+XiRdVZfsXaPjWMjvtaDkh
-	 Fdq/fDuCM6JKwBWMXr41xx7zlfJ+ij2Q0vrRmpGLGYjrC1F1fNyf4+9SosC8LJi5HV
-	 qIHE4qDmm3sYzTrS7ZA1yVbNxptnyWtFuyKr/IP7FIYOKBkuy4wVC0b11tHRFVrLrs
-	 Sd+EECYFBTCqDu8AON579jGy+GGtfTqDLa+j2wHUt8hVzcu+00xiQt7eik0oef8ovX
-	 cZ6x0/hT14PoA==
-Date: Thu, 6 Jun 2024 12:09:30 +0100
+	s=k20201202; t=1717679032;
+	bh=7j2qQVuSNB+C9zogsWp3FupLtbD+FHkF7koYC+sia4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dmBjBFWJ/xv8UjRs7CxI6Gw+fljoJfgF29Lj/OiHSK1rq6Vp98Zvg9rMzM97iFv9e
+	 ko3XSsOC2PQCJyq1L05+RoVwvZvlYO3Ud1WPqiUjFEd4Ew3wymKPmdptI0yFGMB2Gw
+	 hRppoj2oROTTSN60Sije1INt2BXxYeXdgObrvBigABam8xkOYEv61iIU98PNrdOOzs
+	 16u7U3mingg89AfCuFu9goSwGoiFVVUfsrzUhrUz9w2eGpCGhLrK86Jct5ffgxE8VG
+	 Ns6SU8IHdn65sIBerEl4q7JIvgYHoSvqVdJbHIOubT4n3e7Ogy6mlTFjNvj+5oq6na
+	 jNZZEvOHVpYIQ==
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: About snd_soc_dai_set_fmt()
-Message-ID: <a9b8ba84-3f10-42e2-83e4-2c8549bb43d3@sirena.org.uk>
-References: <CAA+D8AMoZ-DEBN0=5AjP8WRT95ztJDg_peoYFyZ_eTk1o0XxOg@mail.gmail.com>
- <1f5a24da-547a-4faf-b1a2-34982f1f7cf0@sirena.org.uk>
- <CAA+D8APemxqMXdDsS5JVbWXfZPRPF8=eobw33WEhchF418TLPw@mail.gmail.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240606-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v2-1-70d44fa30790@linaro.org>
+References: <20240606-topic-amlogic-upstream-bindings-convert-g12a-tohdmitx-v2-1-70d44fa30790@linaro.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: convert amlogic,g12a-tohdmitx to
+ dt-schema
+Message-Id: <171767903036.1300004.2234947523747840276.b4-ty@kernel.org>
+Date: Thu, 06 Jun 2024 14:03:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fotxi4mGlpkxYHiq"
-Content-Disposition: inline
-In-Reply-To: <CAA+D8APemxqMXdDsS5JVbWXfZPRPF8=eobw33WEhchF418TLPw@mail.gmail.com>
-X-Cookie: Simulated picture.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev-d4707
 
+On Thu, 06 Jun 2024 10:06:58 +0200, Neil Armstrong wrote:
+> Convert text bindings to dt-schema format for the Amlogic TX HDMI
+> control glue.
+> 
+> 
 
---fotxi4mGlpkxYHiq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Thu, Jun 06, 2024 at 06:55:29PM +0800, Shengjiu Wang wrote:
-> On Wed, Jun 5, 2024 at 7:40=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > Do you have an example of such a use case?  If you can do that it feels
-> > more like one end has two single direction DAIs (ISTR some of the
-> > Freescale platforms were built like that?) and it might be better to do
-> > that and make it easier to combine two DAIs.  That would also work for
-> > things like combining dedicated DACs and ADCs.
+Thanks!
 
-> one of case is:
->=20
-> +-------+                +-----------------+
-> | SAI1  |   --TX-->  |                     |
-> |           |   <--RX-- |                     |
-> +-------+                |                     |
->                              | AUDIOMIX  |
-> +-------+                |                     |
-> | SAI2  |   --TX-->  |                    |
-> +-------+                +----------------+
+[1/1] ASoC: dt-bindings: convert amlogic,g12a-tohdmitx to dt-schema
+      commit: a1708fda9388c83215f0be82ad47df10be6e1975
 
-> AUDIOMIX mixes the output of SAI1 and SAI2,  AUDIOMIX's output
-> is sent to SAI1.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-So that's a DPCM case but hitting the DPCM scaling limits.  One of these
-days someone will actually have a use case that generates enough pull to
-get digital routing done...
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> Use multi-DAI may be an option,  but for fsl_sai driver, in some cases it
-> is used as single DAI.  So how to support single DAI and multi-DAI in one
-> driver?  Should we define a new dts property to distinguish these two cas=
-es
-> in order to register different component + dai driver?
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Some drivers have bodged it by adding 3 DAIs, one bidirectional and the
-other two unidirectional and relying on users to DTRT.  Nothing is super
-great there.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---fotxi4mGlpkxYHiq
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Mark
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZhmOoACgkQJNaLcl1U
-h9BA7gf/Q+g21CJfRvV0hDxUqNiGq9OcHoGERPc6k2nxV47n7NO79zo3wbudopHv
-lX4vhSiaPxdfWFtZ6TJrVTPGzVcCLzJ/GpWQPI6rvObBcOyDC5FNUkUVoLiUFi/4
-LVgZZn9WaU4scT/QZA8wIV7ye304+vsFQ9cOPUCTRRJ5hoXpUm/VTE9BcSSwdxrk
-BMsmrqkEPCNRpLzD+VvUu3M4RQRfOHKgwQ91tXTGnJp/eEwmdC7rCZrvVdb18v4z
-Wf0X4iyz+eT0eMWUTBwzOEeK1plxcSX4nppqMSjCQDsNnjXCRjEfHbaf0gr/OgXY
-y/6xQOTY0WGYOwCdGRN0I5ZMrYPFkg==
-=92Ba
------END PGP SIGNATURE-----
-
---fotxi4mGlpkxYHiq--
