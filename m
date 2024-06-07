@@ -1,83 +1,88 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E768F15445E;
-	Fri,  7 Jun 2024 05:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43E215278C
+	for <linux-sound@vger.kernel.org>; Fri,  7 Jun 2024 05:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717739986; cv=none; b=RECfUqsx6FhhW5nv4K5sBYM+h9H/EC1aPAWpyCy4Bc0ESXFpDDQCkgyeH35qmlQdMxoxjB9MkCE0Vzdr9zYbQmhY5Ioutd0ycHOd3jc1740TEhO525mVVdSNzVGa/SFwajWZ83RiYn+QSZWjN023WAjs/RgvHoqdjjAeJhZffJo=
+	t=1717739997; cv=none; b=AA78D4A3fgOzodhjfczTlxuNfZ50wTOsxGP2/yC3W3XYcDgUaGy2SmX5iF7R25FjCj1nDxcciXsuUtB+Hh+axWwyzVIVa0pUNpDgMN15T3nqJTiUrf1Bz+H4e9Qj4BCW69ysufpvY/Gr80+Gyk/71pOSC1UQRSu/KFPd1PECqVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717739986; c=relaxed/simple;
-	bh=xxyLTG4PairDBd95BG9wVtDRGiCBMoa8cSAmHUrk1cQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ek80SK2WVXWrlM85Aioh7yln2FmlYifkqI3MSdlBjRQvMNaW7vx7BeCKW/fQ/DPjt4/8LKqqzxySAhQKJUWDFSTIIqhhOuejqJrNjqo0kB2Z+pBMCZ1iW9P0kaWZhP4Wjqa9k56RIEwvazaPY4oK6B10LVv8vIeB8U/w7Ry2V2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4OdTJpX; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717739997; c=relaxed/simple;
+	bh=1N1jNS6oPi4+IKGQxaSb1DikVwGreTJGkQaXqfyCFGI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DmkqE2VoKEp/zXO3h1LWlgcSlBIbh16k/l4YcM7MQ9AALTeMqmVA+3/w/qPbNVa2GuyHvOf/xi1wMPutIw4KD2BVHYFi2menf4bCPzhea7Wa93uP8TYmX66rlC9UcJjJI3UQVkA2x3tSSMqSaTd3nJm/SdK0p99ULC7ia/CM6Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYEZfi79; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4OdTJpX"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5ba6214258aso884529eaf.3;
-        Thu, 06 Jun 2024 22:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717739984; x=1718344784; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xxyLTG4PairDBd95BG9wVtDRGiCBMoa8cSAmHUrk1cQ=;
-        b=b4OdTJpXTuvU52y4ver1SFo5lYF2pKsFT0z21Jsksa6nU11RgqA0UQ8UJLTgSQLVF4
-         WszYKjuPM4KMuDCaIDyUuKEZpRTtdT6xMR49KdbE8VeBACy+HtQen6NSJTqcvUrDNG91
-         yofkdF2DgM9qrktd+ycFjAJCr02/hI+ZNnmecE/7x/nVZR6ofdJPO1sZHChZKZ4e6xVB
-         NtfJG/UfdXshR9qdNEBbMDb0TLGQFbXLyhTs1Rnsqt1TNx1eJ0gYc2DCv/9L8ycCdNzH
-         eF3R/v4xqirneqnzLJhw08wrGhIsosZTgK16a0C0eh1gWymMeqL2XiOXU4Kur79mOOxN
-         SdAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717739984; x=1718344784;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xxyLTG4PairDBd95BG9wVtDRGiCBMoa8cSAmHUrk1cQ=;
-        b=h/DfEtgLbBubO9wIOpeIIniccwCplo0L9T0rTs/UJlRiSx8gsWRH44ToEMCI6qMZLa
-         Fv6pfZU2ywJmb181lKqLNnEIuQ0aPe58hwWNS+EM8sT1Zexs02EGgbGZx74YeOVWEFaT
-         tl45FLkzSNwzrseXuX8XQpdDLKSr9fDBNv1QeIWPLewO19H5gOYgmzx/IOteFqfp3+yB
-         Bx96ZqvzNTt4/mGbF16xqKeUEMOUR3MgoF/lthwzRCM4Zl5KoOnBoZztHXTHQ0f01Bkz
-         CbUpFvZ8O6crbo5iB/NHv8twOchNcB8/uwsZzhUYMuFqkvkK7e2xWBEsMZ09jd2gGVjq
-         rzHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWpAnk7pwuN9iVGFK8PRSdnDlsNTw4efGceuDYL98r37+ze5cDBuQmMdYsfcRianc9UZZDx9rQ4MmvV5MeV5UToD8YsiwkLjbHbykfRgzIDuQUWv+ylZ8NwAJ2ca02JcvsU+XFjKEG3RuZ5RwihfIQkHYg9pVHiLyNQgVDxxTVfneVbQLvp
-X-Gm-Message-State: AOJu0YzOgCyxCyjaKcLMgKSHwdXlmUVQDRls/GBxitx7iYBnPWdM1X37
-	zSBnvdx9pH+Tp689jUpnfHqfpIIbqmMZnS4FnCq+3VYiq88i7n+gCenBJ97fJF7NU65e8UM8jA6
-	Ovhyq8dNQ2qObpxthBqaFxJkOfzk=
-X-Google-Smtp-Source: AGHT+IH5W0gfVqfuq/ypqqH7aZdn4I/XEwBH/PoEos4U0JoETE3oQbpgpTeQjbKwHUafUz1XOtc9aYSxQxGWMq9p/lM=
-X-Received: by 2002:a05:6870:ae81:b0:24e:8987:6f34 with SMTP id
- 586e51a60fabf-2546444f27fmr1751733fac.3.1717739984106; Thu, 06 Jun 2024
- 22:59:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYEZfi79"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717739995; x=1749275995;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1N1jNS6oPi4+IKGQxaSb1DikVwGreTJGkQaXqfyCFGI=;
+  b=VYEZfi79/t8+TLAIMw8v/ybQd7DWqnItvTsYSCjyp38xnVPRrG9oy3/q
+   ynm2c1LX7wPO2QpVIy3Z5KZubmCk3vMRYZrkkBfk8wbHYFcvaGPB8j+ZX
+   KSph7F5HoKmFu4rFocOT+IVZQQNOl5sSrkComAep/tZ9qBiZLI5PPmZ4J
+   kYDDIGwyhT7WfPl/0qY7JvvgJKBy3WmEX5QYkK9J8gtkupPxy7YFqZG+o
+   nkB0myYm2xmMkUb/70hodZoUccT0HXyA1IyHXXO2H2Qru7pdN1DG9Tlrd
+   3NYIgSZqSp0fOGkUeanZRg+mSNCKEphYsPfaBXsqm2BkfdtvUXF+yTM58
+   Q==;
+X-CSE-ConnectionGUID: U32OP+kXQR6JclTdIuvV3Q==
+X-CSE-MsgGUID: OmQdJdNIRge8bayp8+SB6A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14625307"
+X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
+   d="scan'208";a="14625307"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 22:59:55 -0700
+X-CSE-ConnectionGUID: Hv/Tq7iNRTW9ZyXBoUTrfg==
+X-CSE-MsgGUID: y5TNTcf7SZ69nClJ0/js6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
+   d="scan'208";a="38277036"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.222])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 22:59:53 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	cezary.rojewski@intel.com,
+	broonie@kernel.org
+Subject: [PATCH] ALSA/hda: intel-dsp-config: Document AVS as dsp_driver option
+Date: Fri,  7 Jun 2024 09:00:21 +0300
+Message-ID: <20240607060021.11503-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605112301.8171-1-animeshagarwal28@gmail.com>
- <20240606005332.GA3526959-robh@kernel.org> <CAE3Oz82TsuDq5wAW4TSNeUuR0DTixAQPtJnCc3-5J7MnBYtuRw@mail.gmail.com>
- <b41a781f-33bb-434c-adcf-97f494c689e5@linaro.org>
-In-Reply-To: <b41a781f-33bb-434c-adcf-97f494c689e5@linaro.org>
-From: Animesh Agarwal <animeshagarwal28@gmail.com>
-Date: Fri, 7 Jun 2024 11:29:33 +0530
-Message-ID: <CAE3Oz811PCdX811Vxcercmc5EfaHmN1k4hacnZG6YiZVdgqsqQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: linux,spdif-dir: Convert to dtschema
-To: neil.armstrong@linaro.org
-Cc: Rob Herring <robh@kernel.org>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 6, 2024 at 1:27=E2=80=AFPM Neil Armstrong <neil.armstrong@linar=
-o.org> wrote:
-> OK but perhaps rename into dummy-spdif.yaml, no ?
->
->
-> Thanks,
-> Neil
+dsp_driver=4 will force the AVS driver stack to be used, it is better to
+docuement this.
 
-I already sent a patch renaming it to linux,spdif.yaml. Is that fine?
+Fixes: 1affc44ea5dd ("ASoC: Intel: avs: PCI driver implementation")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/hda/intel-dsp-config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/intel-dsp-config.c
+index 537863447358..478d2b50c571 100644
+--- a/sound/hda/intel-dsp-config.c
++++ b/sound/hda/intel-dsp-config.c
+@@ -18,7 +18,7 @@
+ static int dsp_driver;
+ 
+ module_param(dsp_driver, int, 0444);
+-MODULE_PARM_DESC(dsp_driver, "Force the DSP driver for Intel DSP (0=auto, 1=legacy, 2=SST, 3=SOF)");
++MODULE_PARM_DESC(dsp_driver, "Force the DSP driver for Intel DSP (0=auto, 1=legacy, 2=SST, 3=SOF, 4=AVS)");
+ 
+ #define FLAG_SST			BIT(0)
+ #define FLAG_SOF			BIT(1)
+-- 
+2.45.2
+
