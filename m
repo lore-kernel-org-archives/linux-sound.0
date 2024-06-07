@@ -1,97 +1,114 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCB750285;
-	Fri,  7 Jun 2024 07:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1FA15A872;
+	Fri,  7 Jun 2024 08:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717746146; cv=none; b=iu2JJ7vQV5REAtSx/EDtLKheC//lgCUZ6PA5LAFZDJlqxfaPrDAIIuT5+hnj1Zr7GXJzZ1wpUPdxh2dthKSBD7T8AAckThSngAUoQQ9Ej2RezgXW8Pt5WieRmtp7UHW1haxRIpy/UsDsCEhAQ7kBtqoS49wrZYlIt7LcAY2z/a8=
+	t=1717747488; cv=none; b=SWYHz7+Hf5sm16c3aP9VQzXwgOWNgz6KbpKRlRoDwJUQKvx8UcOqWeY9t38GM1je2E5RqbxKASEaiTxkVLyfo520vf4fJvmZNLwidPlLXs16UuXY4ls7xNdOyT624e/OgN4V3XoK2zssuGs2bQrQBjmWO4fCREp3ils8x2dDPQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717746146; c=relaxed/simple;
-	bh=PhiycFAZ6DUxwrLFqux1DsdRyTs30I96gw95dsbO5ZE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=McNicgtuFv9T95amBJH0FPeIkdB3D/CJE4irZdhU1b1tdBH373eFV//e5fWQLftPjB5xGouIveSeq3E9vSiqQ3Zlp/bdpa8cBIVvu4DbtoNJknid7oKJ4F1Fe0Xh6TPUvIirIAM5lGt2FofYder4WomXpn2AyaiGsOP00wNFou8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bGLtI+gn; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1717747488; c=relaxed/simple;
+	bh=iRk1YNV1eMtLeNp3Te4u3uEFiIR1fWxkiAtwTd6JHN4=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=G4bCfYXnlvLsSRWtw/S0tqpcHSsLlFq+gp+rvde8ufU6qtwoTPMCV+TBWjVt2W4JjtqEqRQKRq7tfFaXrDofYMul5aKGxAI7MrK5mhQiuGd2Hb1uHT5xGjK/uNPKjOsM8kcRjcctn8Nve4mncXYB4EOE0T+X3ojM7CP+tkauThM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TuJEPIG4; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bGLtI+gn"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 51F486000A;
-	Fri,  7 Jun 2024 07:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1717746136;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gVscAZKiR7cHF1VmeHRXuAuQ1Thqw8JJ9KJo8HLfQHg=;
-	b=bGLtI+gnU1AcvzCe7Xw8E82+QtPHHHpNxS6z/FX+nI+OjufS7pgrwTWhVPEVx/RoM8huSc
-	bjGGZjPFcEvIZ3VrsKl8XwOnQauuBQBBDlogkgoBV7vUGVX/UuCAiewCT/3zosyyOQOVOU
-	tUjPn8/miCoWbCUMVzIXsKXVPbzZl2sltZ7uut/Hm+mlr2duHwrcO5xHieCPoOe4yvIM+g
-	41NIf94mH3y1RHufj7YdrX7NT0IueQ2gOi0JBjTXLzZ5eYVn4O9qP9nbNuLkQZcng44I9W
-	dMbswMp3UN2TsdxCDyDn9cbuj9+8gPUClblF12263zZzqjDtOXrRXFFj/pDukw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 07 Jun 2024 09:41:53 +0200
-Subject: [PATCH 3/3] ASoC: dapm-graph: show path name for non-static routes
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TuJEPIG4"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6c8537bfa0so194422666b.3;
+        Fri, 07 Jun 2024 01:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717747485; x=1718352285; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vHTEB/VzVlwsDqiMfVQQnNEOGkiSg21MmPi/eavWhB0=;
+        b=TuJEPIG48RSCeddpQYxijJ0YK8sXDjZSObewldM0tCyUSxE5nUiglO138FThAsURPL
+         BxWSXqHe1qaxW7OGj4phmX2d2JS1lwyM9keWz6BucVPdIaSMgHI6i9kBtt8La+cL2Mvj
+         6EIOgcW6MI/KNwkyYrXAYMfVC7872WO7jEMnpNVTRv1ESkDU5CoOHv4GchiCiW7zbasF
+         Z4LUn2RSo1mbcHwGtF5JuuQ1DRdxGxmncprkXCMgBWqztUsTxVtmNb1zzZgn/rN8zeUw
+         aph/kGx86xgAfRthRvLfZ2qfG0cYNCUw10QTBbSCIosifbsd5RY2z2KlNBdwx5FD1YzU
+         i/Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717747485; x=1718352285;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vHTEB/VzVlwsDqiMfVQQnNEOGkiSg21MmPi/eavWhB0=;
+        b=qgdL1u7a00Vm9Dr1MNPvQib+iVNmSu4QpDPA11smAp/7dxLBlG7lSBYt0+sOwuG3M8
+         kRXD6xjOednHofsof7I1791O9YxHLfybGLDM9gDjlbJ/F1b5x54zncmRcV9SA6lmkDbG
+         6DW89fPJNaNS4a9PZMobzEKQP0NSGPIRXQTQBiA8rWRnZjE0rhXrh++EsWyKSBil1NOw
+         f4m4iySTxuHYHGqRQaa+jr97nfmRhxArIhECLvWdXDURpszBro0eSurXWpie6Mdtf383
+         9TeEMFchfsXBsw9UTZiyTKD6kYRmMrjJyBgQIkVy4U+9SsBknm2wCUzcS9egcDO6X/nI
+         379g==
+X-Forwarded-Encrypted: i=1; AJvYcCXVXqMQEjixJBayi3g3obomIekZJGmyNB6rjXfSbv28H68vYBxoeZKLaYzoirYzEcHxzp7RToI1VvD9Y3kuAtC3m7Be8Q5UU6AHx0IvBmdyIa+ShyxwWfQX55fMPqRnSn0vZgfFz6MI+g8=
+X-Gm-Message-State: AOJu0Yx+AhqXAWD/mnWo50/YmVnTEZbGY8hL26empFpe4//AC29cUKO/
+	xR55AzFqGX+ub4Wjbb7Y7+sE3GucQuE2M3AlxED1aCbi5LQOsPEn
+X-Google-Smtp-Source: AGHT+IExgnAQUcrdORoGg6TV/9qPh9JBwUAmzwB2cHbzIem0i3Xhw9fMo2vk9TjEW4CIT6IHMAkpMg==
+X-Received: by 2002:a17:907:7211:b0:a6e:a97c:fc9a with SMTP id a640c23a62f3a-a6ea97cfd20mr31412166b.8.1717747485112;
+        Fri, 07 Jun 2024 01:04:45 -0700 (PDT)
+Received: from localhost (host-95-246-50-43.retail.telecomitalia.it. [95.246.50.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c84aa8351sm183122066b.142.2024.06.07.01.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 01:04:44 -0700 (PDT)
+Date: Fri, 07 Jun 2024 10:04:43 +0200
+From: Matteo Martelli <matteomartelli3@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, 
+ Matteo Martelli <matteomartelli3@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Marcus Cooper <codekipper@gmail.com>, 
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Message-ID: <6662bf1b61bbc_2f51737023@njaxe.notmuch>
+In-Reply-To: <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+References: <20240529140658.180966-2-matteomartelli3@gmail.com>
+ <20240529140658.180966-3-matteomartelli3@gmail.com>
+ <20240606-savvy-wallaby-of-champagne-d4a50e@houat>
+Subject: Re: [PATCH 1/1] ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s
+ mode
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240607-dapm-graph-v1-3-bb302970d055@bootlin.com>
-References: <20240607-dapm-graph-v1-0-bb302970d055@bootlin.com>
-In-Reply-To: <20240607-dapm-graph-v1-0-bb302970d055@bootlin.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Many routes are just static, not modifiable at runtime. Show the route name
-for all the other routes as an edge label in the generated graph.
+Maxime Ripard wrote:
+> > -	/*
+> > -	 * DAI clock polarity
+> > -	 *
+> > -	 * The setup for LRCK contradicts the datasheet, but under a
+> > -	 * scope it's clear that the LRCK polarity is reversed
+> > -	 * compared to the expected polarity on the bus.
+> > -	 */
+> 
+> I think we should keep that comment somewhere.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- tools/sound/dapm-graph | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+I think that keeping that comment would be very misleading since the LRCLK
+setup would not contradict the datasheet anymore [1][2].
 
-diff --git a/tools/sound/dapm-graph b/tools/sound/dapm-graph
-index 4e90883912d0..f14bdfedee8f 100755
---- a/tools/sound/dapm-graph
-+++ b/tools/sound/dapm-graph
-@@ -134,11 +134,17 @@ process_dapm_widget()
- 	    # Collect any links. We could use "in" links or "out" links,
- 	    # let's use "in" links
- 	    if echo "${line}" | grep -q '^in '; then
-+		local w_route=$(echo "$line" | awk -F\" '{print $2}')
- 		local w_src=$(echo "$line" |
- 				  awk -F\" '{print $6 "_" $4}' |
- 				  sed  's/^(null)_/ROOT_/')
- 		dbg_echo "     - Input route from: ${w_src}"
--		echo "  \"${w_src}\" -> \"$w_tag\"" >> "${links_file}"
-+		dbg_echo "     - Route: ${w_route}"
-+		local w_edge_attrs=""
-+		if [ "${w_route}" != "static" ]; then
-+		    w_edge_attrs=" [label=\"${w_route}\"]"
-+		fi
-+		echo "  \"${w_src}\" -> \"$w_tag\"${w_edge_attrs}" >> "${links_file}"
- 	    fi
- 	done
- 
-@@ -220,7 +226,7 @@ process_dapm_tree()
-     echo "digraph G {" > "${dot_file}"
-     echo "  fontname=\"sans-serif\"" >> "${dot_file}"
-     echo "  node [fontname=\"sans-serif\"]" >> "${dot_file}"
--
-+    echo "  edge [fontname=\"sans-serif\"]" >> "${dot_file}"
- 
-     # Process root directory (no component)
-     process_dapm_component "${tmp_dir}" "${dapm_dir}/dapm" "ROOT"
+Also, do you recall any details about the mentioned scope test setup? Was i2s
+mode tested in that occasion? It would help clarify the situation.
 
--- 
-2.34.1
+Could anyone verify this patch against H3/H6 SoCs?
 
+[1]: https://linux-sunxi.org/images/4/4b/Allwinner_H3_Datasheet_V1.2.pdf
+section 8.6.7.2
+[2]: https://linux-sunxi.org/images/4/46/Allwinner_H6_V200_User_Manual_V1.1.pdf
+section 7.2.5.2
+
+Thanks,
+Matteo Martelli
