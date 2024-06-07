@@ -1,61 +1,33 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B3F15B967
-	for <linux-sound@vger.kernel.org>; Fri,  7 Jun 2024 09:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C031715443F;
+	Fri,  7 Jun 2024 09:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717752180; cv=none; b=VmuJJrESE+qdkE6LlKxSi4tXGVMmzZun2+RxG6tsjVNAD4JDivelq9jyIPCLRi6WWEfXV9pAh5+P0QNhlkSQMupUw0TlM4utk/H79aRNpSWJjZJ8geKV2ZumAAO4Fyjc42Mv1btmG3KCWouGG1m9CoMtqwaLbuZ+/o46fdbl7U4=
+	t=1717752449; cv=none; b=RjPHiv5QNNr3LOyQ/TDS9ySeWoTnkX9bsgp6wmwVpLHsEGO9q7LReQiK530Dz0YeY88DB5ClZN1jkEkzl9yt7i5UjCWX5/HsajFGWFUg8WmzMsIyFlH4LjQpX9ZBxxgRLjT669iWe+lk5sSK/wxDgngIr++GY70Pwwt+X5XtRJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717752180; c=relaxed/simple;
-	bh=YwoUri3ktWMFoZow1yFuIzi/afm7rRFS1XgwQ1LDl9U=;
+	s=arc-20240116; t=1717752449; c=relaxed/simple;
+	bh=pyuBB0CADdDKyEwTxePlZHAJ9a9+BuhFy7t6uYvLGL8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZPyUKZzGpEKjbrlysPk4QH74RCTp2JshNgsBOIeQ3a0NjTZbQgur4XAPSFmC3Ws2HbLTvMNt2mTnRfvQCmB1ty2r5lUNA0MEnSo7Bidjgk6DfBt/5Vkgv1Hyizj6fbwERgTX/kCPKtmw2jhGvyLagUDVgai9f9eLhmEMhkyV3Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q70QGk70; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=CsSpgQkOdVJlSorzfwrvH9IPeNrRkK1ty2aluHiOdKU+l1b5K+AVAcBvD/7aT8fomfso0qUwzXpKqgCLWsmm97Ccsx81D2D3cNVh5pqGT1mOVrTO+gcq3Yh0+ILJYuqB3pt8+qr2B/CVFp25WBk71A7KLMDU1lUmX7zeEbgOu9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2205ldK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q70QGk70"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35dcd34a69bso1640974f8f.3
-        for <linux-sound@vger.kernel.org>; Fri, 07 Jun 2024 02:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717752177; x=1718356977; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:reply-to
-         :autocrypt:from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u0T4B4BXzv7yNTZXWNQwkT6ayKsObAY6eNGwzmrTqAk=;
-        b=q70QGk70GVQHAU2c7EGhfjPd2EFcMJUqqGLi7o+6ToU4BWJ8NeNrAh9QZkq3qZGlZr
-         Uj25mXQjBN+srKogIwoo1y2v0AH5fpm2DWgmclsjN42NRF4IYSWTu8/+z7NFalsdbRbD
-         hpaMWycqGxqTWvMM3PgUP8/A0ZsjgXQDNPIIHal1eV/9yjHdtMS4qGCH1durAj8X7ubw
-         eXxHx3W/ApMWqE7+P3Y/UvWqNH08xzu/gpj4xsrY9z8p4g+Q5wFgvt2ATiI1gyRfMEwP
-         N+jrmWRYyF5FAjukZ6cliguRxsYoIek5AhGXPUb9YGhhHdRLGnkY0UAnc1ugFlYXplQc
-         K9CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717752177; x=1718356977;
-        h=content-transfer-encoding:in-reply-to:organization:reply-to
-         :autocrypt:from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=u0T4B4BXzv7yNTZXWNQwkT6ayKsObAY6eNGwzmrTqAk=;
-        b=NmhR+Sbfu2UbDq6UvJP2MnVCTrZoac3bMuQZBGphbrW1TQfQKWDmif3fh5wcq2XLEG
-         Q7PQWLQ4TpJeciD5cJXeKxc2Dc76pMzE7MFHnhAFAngZj84p3iJzLrdQ9f1J2SwTnaUh
-         Ema5x8Q44ZbheFqSW1HYkRLgpEVAfAI0+n0vDdNIKShAWgR858lyrWKR9O7sB+9k7NsT
-         nyV82WJGrLAlys5/cIBxIe/ux71EegDoNHhWJ7MwGbQUoazkFA1aHeK9i5zf1hyrU/CD
-         hNjJmfyjhzdmMhv1w8firzXFGBCJNp8B1nOQ/GuAwJ64tLqwILzt4p8RxE3I9nAWSUf9
-         pFAA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9w+CtJiW2PEoqoc5ErhqEQCr+fwddSzG4UKN9T/dNey+CpZffg227e6yhbFcThbSRSz8RBLuFO93EBkd80f4e9pNBnjrGrRieWmg=
-X-Gm-Message-State: AOJu0YyIK4J6KexZRyJTZ6FNvtZXzXi5SCRyTorRScPmPOPAvUSDqSyM
-	41H0u+CzOgg0DkDlIkiDXl4QUmwHZpl6hOQcAdADOosCHA2kE+sSHN5T91lUbV0=
-X-Google-Smtp-Source: AGHT+IHI/SRbC76tGKuWAIzzK3sqU7ca676FAKWmmkTRFEoO4cno8PeQyR6PowYlGkQDamtVdfzs9g==
-X-Received: by 2002:a5d:6c65:0:b0:354:b7f0:b09d with SMTP id ffacd0b85a97d-35efed2b454mr1715011f8f.2.1717752177192;
-        Fri, 07 Jun 2024 02:22:57 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:7e4b:b0d3:6a34:6404? ([2a01:e0a:982:cbb0:7e4b:b0d3:6a34:6404])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5fd1d7asm3585930f8f.116.2024.06.07.02.22.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jun 2024 02:22:56 -0700 (PDT)
-Message-ID: <3b46ff8b-3095-4170-ab94-3410cf841383@linaro.org>
-Date: Fri, 7 Jun 2024 11:22:55 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2205ldK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09729C2BBFC;
+	Fri,  7 Jun 2024 09:27:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717752449;
+	bh=pyuBB0CADdDKyEwTxePlZHAJ9a9+BuhFy7t6uYvLGL8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g2205ldK0x9oacWLpFBz+yXTCkKg41IFuxakyl6x5O6JaQ1uRMhj27La0Di8l03N1
+	 F9rt8FNTtQ7pC78NWC2RDy8S6nC2q0IfbRl7qvmMBfPHrLpMDThzh1o5tVo/nqGdAM
+	 k4UIxI8Vglvos1IA8hzMrL7rxJDHwf0cVZ5auxUqv6nFBCkXwuOuaDItwysldEOPvG
+	 5ZsY6HJlZrc3SDWjuckTWDurt8JFVwNeGbOenpXmx6EIswx5TD/Ux6xm7SU4KEXa5p
+	 LN8b4iMD5NFLOAW78Ddx5PRyAbmvTHT155h7kvbyk44IQ2vKqFpLlYH2eUjSrCXa33
+	 okLTxvw6P+buA==
+Message-ID: <7dc8805e-61ab-40e2-94a4-2e0e36449820@kernel.org>
+Date: Fri, 7 Jun 2024 11:27:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,111 +35,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: linux,spdif: Convert
- spdif-reciever.txt to dtschema
-To: Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+Subject: Re: [PATCH] ASoC: dt-bindings: ak4554: Convert to dtschema
+To: Daniel Baluta <daniel.baluta@gmail.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240606041212.78428-1-animeshagarwal28@gmail.com>
-Content-Language: en-US, fr
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Reply-To: neil.armstrong@linaro.org
-Organization: Linaro
-In-Reply-To: <20240606041212.78428-1-animeshagarwal28@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240607055725.38057-1-animeshagarwal28@gmail.com>
+ <87frtps29l.wl-kuninori.morimoto.gx@renesas.com>
+ <CAEnQRZCXtoXWmNaoCrLYcSCO=V=O_+yUVoVJmnPkpysUYxBQNw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAEnQRZCXtoXWmNaoCrLYcSCO=V=O_+yUVoVJmnPkpysUYxBQNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 06/06/2024 06:12, Animesh Agarwal wrote:
-> Convert the dummy SPDIF receiver bindings to DT schema.
+On 07/06/2024 10:42, Daniel Baluta wrote:
+> On Fri, Jun 7, 2024 at 9:19 AM Kuninori Morimoto
+> <kuninori.morimoto.gx@renesas.com> wrote:
+>>
+>>
+>> Hi Animesh
+>>
+>>> Convert the AK4554 sound codec bindings to DT schema.
+>>>
+>>> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
+>>> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+>>> ---
+>>
+>> Thank you for the patch.
+>> But no one is using AK4554, we can remove it instead ?
 > 
-> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
 > 
-> ---
-> Changes	in v2:
-> - Add linux,spdif-dir compatible in existing linux,spdif-dit.yaml
-> instead of creating new yaml file specifically for dummy SPDIF receiver.
-> - Change file name to support both transmitter and receiver bindings.
-> ---
->   .../sound/{linux,spdif-dit.yaml => linux,spdif.yaml}   |  8 +++++---
->   .../devicetree/bindings/sound/spdif-receiver.txt       | 10 ----------
->   2 files changed, 5 insertions(+), 13 deletions(-)
->   rename Documentation/devicetree/bindings/sound/{linux,spdif-dit.yaml => linux,spdif.yaml} (75%)
->   delete mode 100644 Documentation/devicetree/bindings/sound/spdif-receiver.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-> similarity index 75%
-> rename from Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-> rename to Documentation/devicetree/bindings/sound/linux,spdif.yaml
-> index fe5f0756af2f..0f4893e11ec4 100644
-> --- a/Documentation/devicetree/bindings/sound/linux,spdif-dit.yaml
-> +++ b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
-> @@ -1,10 +1,10 @@
->   # SPDX-License-Identifier: GPL-2.0
->   %YAML 1.2
->   ---
-> -$id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-> +$id: http://devicetree.org/schemas/sound/linux,spdif.yaml#
->   $schema: http://devicetree.org/meta-schemas/core.yaml#
->   
-> -title: Dummy SPDIF Transmitter
-> +title: Dummy SPDIF Transmitter/Receiver
->   
->   maintainers:
->     - Mark Brown <broonie@kernel.org>
-> @@ -14,7 +14,9 @@ allOf:
->   
->   properties:
->     compatible:
-> -    const: linux,spdif-dit
-> +    enum:
-> +      - linux,spdif-dit
-> +      - linux,spdif-dir
->   
->     "#sound-dai-cells":
->       const: 0
-> diff --git a/Documentation/devicetree/bindings/sound/spdif-receiver.txt b/Documentation/devicetree/bindings/sound/spdif-receiver.txt
-> deleted file mode 100644
-> index 80f807bf8a1d..000000000000
-> --- a/Documentation/devicetree/bindings/sound/spdif-receiver.txt
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -Device-Tree bindings for dummy spdif receiver
-> -
-> -Required properties:
-> -	- compatible: should be "linux,spdif-dir".
-> -
-> -Example node:
-> -
-> -	codec: spdif-receiver {
-> -		compatible = "linux,spdif-dir";
-> -	};
+> So we just remove the device tree binding file, right? And later if
+> there is anyone who will use the
+> codec he can later add the yaml file.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Remove the binding and the driver.
+
+Best regards,
+Krzysztof
+
