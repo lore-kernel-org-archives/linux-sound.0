@@ -1,92 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3992837F;
-	Fri,  7 Jun 2024 11:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8414AEC3;
+	Fri,  7 Jun 2024 12:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717760129; cv=none; b=bGj9ogAE6UAX+E0wKdRzs3JNAz9IEjsWK45X1B073wrQhSYW6ZXlbFqjsidx1tpqypNnbpb+3oMy8foTawCwM3Y/kHrbx6nVbrmhcUowxsdI/b7npjM92Nh+AhXy4l6feQpRX0SYIHapwYQJ3C6/E4wRwteVFyzY6CQlSff6gj0=
+	t=1717763716; cv=none; b=UYnp4r2hJAZs27ySkmhcc5KmLXl7M5LZlsdZOFAuned7pmbwcs0XFly3g0nDPAKO6U3feXtqzdRj2qXoXO19wf/1WVHq35RHXW2v41NfosMubNn2hGR13TvWcA6s1g6ys7AlPem9MHq4ldPNX+W5Cqb7pK1kn311IIk+SmAtcTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717760129; c=relaxed/simple;
-	bh=y7+8ojeWaklXFdnopbOqrkFJH6Oh8Z5R/PffM5vSdfg=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=V+dKywj8yaASab290sdb3Gi2kBiHlAVD4GsLCRdI3anyMjVNLPrhpejcNt35VrbVcrRZAITDQkdEtP0TIxuYV7LjS5/3t9fdYPSXXmjIlP8VRczyUoPmWieE0SSKgURV0RKO+ccrAVmh8ertfP03hRCb1CNulFWzzPiSkBlWBCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOOuwWsj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOOuwWsj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4913FC2BBFC;
-	Fri,  7 Jun 2024 11:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717760128;
-	bh=y7+8ojeWaklXFdnopbOqrkFJH6Oh8Z5R/PffM5vSdfg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=SOOuwWsj5QcciH77iaCxUtsiio48wUTC8mcnND+OlApkTD7emSSH/tZ3qCHkG1LYA
-	 Brhqf+roHNXGCQKUX9M3eGuUeOYLDdhDvg4FE1MWMxDfwXZehoMsdztnwEQNd6DTZj
-	 PVXdjLiWnXLxJzS9I2AScHWqD6FC6Jizn1rSC+2HzL0EJ970MeahFUO9S2CjzOV7wt
-	 8SHu/TH8VSVGiagQoQ9c17sT08LM3A76RWzmYsvPt6wTjJWaexzD33E/rNMwgBucaS
-	 VW1fg+ErnDwVlk2SMgvdMljfvv6nRWrmrYXz0/YBgjkKjbZRlLQUTji8bEjiEelC65
-	 DhAeuLxS94vkw==
-Date: Fri, 07 Jun 2024 05:35:27 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1717763716; c=relaxed/simple;
+	bh=/teq6pyQPk19FfBdsV/Et3PBF7/gto5X/WFNmpijboY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g1xnCGPholBwqTcOI5niHt84FsdyfnW32uhE3Zj9cP/TS5obs3lpV1BDpdO8heKOFT4xd8cK0E/2O9UCWvbDGG/MD7Nx8ER81ceE7T/WHdt2c78vAG11HrC3Nk+g1A01xvi8J/A8JbTIDoCOBFOzlJc3RarN3eL5Y9EBqbORmrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from [213.70.33.226] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sFYo5-0002tz-Hd; Fri, 07 Jun 2024 14:34:57 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Rob Herring <robh@kernel.org>, Weidong Wang <wangweidong.a@awinic.com>,
+ Mark Brown <broonie@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ Chancel Liu <chancel.liu@nxp.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+ patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH v2 3/6] ASoC: rockchip: Remove unused of_gpio.h
+Date: Fri, 07 Jun 2024 14:34:54 +0200
+Message-ID: <4347516.tdWV9SEqCh@phil>
+In-Reply-To: <20240605221446.2624964-4-andriy.shevchenko@linux.intel.com>
+References:
+ <20240605221446.2624964-1-andriy.shevchenko@linux.intel.com>
+ <20240605221446.2624964-4-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ricard Wanderlof <ricard.wanderlof@axis.com>
-Cc: Ricard Wanderlof <ricardw@axis.com>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, Baojun Xu <baojun.xu@ti.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, devicetree@vger.kernel.org, 
- kernel@axis.com, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, alsa-devel@alsa-project.org, 
- Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Kevin Lu <kevin-lu@ti.com>
-In-Reply-To: <20240607-tlv320adc3xxx-micbias-gpo-v2-1-b140a45ffffe@axis.com>
-References: <20240607-tlv320adc3xxx-micbias-gpo-v2-0-b140a45ffffe@axis.com>
- <20240607-tlv320adc3xxx-micbias-gpo-v2-1-b140a45ffffe@axis.com>
-Message-Id: <171776012736.1713547.9580962210836921996.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: tlv320adc3xxx: Add
- MICBIAS-as-GPO properties
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-
-On Fri, 07 Jun 2024 12:00:45 +0200, Ricard Wanderlof wrote:
-> Add properties for configuring the MICBIAS pins as general purpose
-> outputs, with some limitations: The voltage on the pin when activated
-> may be set using another property to 2.0 V, 2.5 V or AVDD.
-> When deactivated the pin will float.
+Am Mittwoch, 5. Juni 2024, 23:27:26 CEST schrieb Andy Shevchenko:
+> of_gpio.h is deprecated and subject to remove. The drivers in question
+> don't use it, simply remove the unused header.
 > 
-> Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
-> ---
->  .../bindings/sound/ti,tlv320adc3xxx.yaml           | 24 ++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml:128:25: [warning] too few spaces after comma (commas)
-./Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml:129:25: [warning] too few spaces after comma (commas)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240607-tlv320adc3xxx-micbias-gpo-v2-1-b140a45ffffe@axis.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
