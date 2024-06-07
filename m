@@ -1,124 +1,298 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C031715443F;
-	Fri,  7 Jun 2024 09:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DA6DDD9
+	for <linux-sound@vger.kernel.org>; Fri,  7 Jun 2024 09:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717752449; cv=none; b=RjPHiv5QNNr3LOyQ/TDS9ySeWoTnkX9bsgp6wmwVpLHsEGO9q7LReQiK530Dz0YeY88DB5ClZN1jkEkzl9yt7i5UjCWX5/HsajFGWFUg8WmzMsIyFlH4LjQpX9ZBxxgRLjT669iWe+lk5sSK/wxDgngIr++GY70Pwwt+X5XtRJc=
+	t=1717754081; cv=none; b=n3mHjSfTZ7XzWZVms5GI8Neek14m+qEsSsfy/G4KtUCRBQIxaIoaBYX8g03OyjR86e9zJxpqlv/g+MOwrR89L4faSDWQZ7O0J9Gio0WJDevVGHsXZe88c2cMbzskDpcZzcckbM4sZ1saPsb9la0FmoQkBA/G/4C4JZnhBO9jlUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717752449; c=relaxed/simple;
-	bh=pyuBB0CADdDKyEwTxePlZHAJ9a9+BuhFy7t6uYvLGL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CsSpgQkOdVJlSorzfwrvH9IPeNrRkK1ty2aluHiOdKU+l1b5K+AVAcBvD/7aT8fomfso0qUwzXpKqgCLWsmm97Ccsx81D2D3cNVh5pqGT1mOVrTO+gcq3Yh0+ILJYuqB3pt8+qr2B/CVFp25WBk71A7KLMDU1lUmX7zeEbgOu9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2205ldK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717754081; c=relaxed/simple;
+	bh=xw71Qt46ptk8d30DH8IHkvqH28EIKm1Uiz+CLu5ChCo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MJK8kvdbyIWMYThNDTAs3OFXNQYNQ85XROFD7+kGE+YmbSlEB4a6nRhxey0N/jtDdGIs10os/eYvx/VEq/xX2swhFxvSwglkjBfuwIg+x3FgbfPO7Y9KzZSPy8JYnigYNHmij7bbJ24JI2lgFIH9/KN3MyOTq9KrMCulCa9gIas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jBM00jEE; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2205ldK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09729C2BBFC;
-	Fri,  7 Jun 2024 09:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717752449;
-	bh=pyuBB0CADdDKyEwTxePlZHAJ9a9+BuhFy7t6uYvLGL8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=g2205ldK0x9oacWLpFBz+yXTCkKg41IFuxakyl6x5O6JaQ1uRMhj27La0Di8l03N1
-	 F9rt8FNTtQ7pC78NWC2RDy8S6nC2q0IfbRl7qvmMBfPHrLpMDThzh1o5tVo/nqGdAM
-	 k4UIxI8Vglvos1IA8hzMrL7rxJDHwf0cVZ5auxUqv6nFBCkXwuOuaDItwysldEOPvG
-	 5ZsY6HJlZrc3SDWjuckTWDurt8JFVwNeGbOenpXmx6EIswx5TD/Ux6xm7SU4KEXa5p
-	 LN8b4iMD5NFLOAW78Ddx5PRyAbmvTHT155h7kvbyk44IQ2vKqFpLlYH2eUjSrCXa33
-	 okLTxvw6P+buA==
-Message-ID: <7dc8805e-61ab-40e2-94a4-2e0e36449820@kernel.org>
-Date: Fri, 7 Jun 2024 11:27:25 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jBM00jEE"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4216badde75so3711525e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 07 Jun 2024 02:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717754077; x=1718358877; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n1dI7O2M357iDdx/gYesZvs+fe+BF1aCu/fNw9Fv4io=;
+        b=jBM00jEE9jzguYDmGuAIL+f78T3hq+tZS2a2ukIgiDEMJZbzCZJyZhW7v+5i7dSEMV
+         RGvk1tXemtNrToHCrE+3JwVtev128+HEneWGQYmrP4KMPSx0ibrbOVDGV1du+LXPPJBI
+         EooOs4OAsE8LYDaU6Ec9en4AioKVNgv64dAFjkiCzorvEU5QsGHLdEyuk8QTKHLqg/WJ
+         XhkVYBISHZ7EOIjTNrxdMX4igglkzM/FljYzjRKCrV4ilxMvbg2rSOASSeKExYvvaXhU
+         WwkENxOhB5kiNiQ3E8ilzIS+EwWojhBjGXRo69/iHxJKD34qyKu6Xn/ECZ6Rkp0UDSwp
+         ljMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717754077; x=1718358877;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n1dI7O2M357iDdx/gYesZvs+fe+BF1aCu/fNw9Fv4io=;
+        b=f3UOVrjsyMSiyaWX6P7pJCsjE7cS8QKTfkuBf0jCuandvCFbM+isordtlT4KFFRZiS
+         blzOMZ+sBzci8Vu/zuWQcbh6AL4FCVpRybA+ZK/V5xRySMT7znCi6fuZkI9URrMa/AW1
+         KJjhRM/ec+oUVlogd7bGyZcGhqpw+khICS4naW8Gq0zK3x8OSnvroLCBTS4zAUiG7oKt
+         fS0phii0dIKePIKhk0aT0FEZClacS9qt2LjcvwsvuV5NyzpXen3EOb7osoEp6+odkXT0
+         4XJvflY03UKLmQw31/Xmm/kN2bLCYMrExRWmOu1YDXFTJDep+ad/zOKYs8zrT8aYEMNc
+         zlYg==
+X-Gm-Message-State: AOJu0YyThks6VP/QYlgYiRhGEhhrhEO9m7GRGyFl7aoZapHtcQ30fK3w
+	nD4ecd9rdtUlS0yIb6Pejkw+LFEtl74KGWExVarUDyv5K3CZV3k8Fi/SIF96s7w=
+X-Google-Smtp-Source: AGHT+IE1uW5XvO1RIV9uLpXgbfv5bywb64KBlRBEKTjKF24y4V+1ZyDorbEWvu3B3gfeZiX+4rO/6w==
+X-Received: by 2002:adf:fc0c:0:b0:34d:9e54:11ec with SMTP id ffacd0b85a97d-35efed1b8f8mr1626240f8f.5.1717754076661;
+        Fri, 07 Jun 2024 02:54:36 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d29b05sm3635097f8f.23.2024.06.07.02.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 02:54:36 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Fri, 07 Jun 2024 11:54:35 +0200
+Subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dt-bindings: ak4554: Convert to dtschema
-To: Daniel Baluta <daniel.baluta@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Animesh Agarwal <animeshagarwal28@gmail.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240607055725.38057-1-animeshagarwal28@gmail.com>
- <87frtps29l.wl-kuninori.morimoto.gx@renesas.com>
- <CAEnQRZCXtoXWmNaoCrLYcSCO=V=O_+yUVoVJmnPkpysUYxBQNw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <CAEnQRZCXtoXWmNaoCrLYcSCO=V=O_+yUVoVJmnPkpysUYxBQNw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+X-B4-Tracking: v=1; b=H4sIANrYYmYC/x2NQQrDIBAAvxL23AUN0UC/UnrYmo1daDS4Ngghf
+ 6/0NMxl5gTlIqxwH04ofIhKTl3sbYDwphQZZekOoxkn482MNe8SkLZPjp3fXWth2vAlaZEUFUN
+ OB5eKldTNraGj1bLzE3uy0Kt74VXa//h4XtcPBWNaXIEAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5825;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=xw71Qt46ptk8d30DH8IHkvqH28EIKm1Uiz+CLu5ChCo=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBmYtjbtOnM9nsOKjv8rCVTFwpsF062BfASvHbHznYA
+ EcDI6UKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZmLY2wAKCRB33NvayMhJ0VotD/
+ 9ps4/NxGrmtc9INAkC8zjPlR/EAAs+kZOP98PAGhX9/PUPPr2K2pcXLvYNnV/JcgwCbyyxRpeDEZ1R
+ tVCq8bIr0MU9zezrCyED41a4RIK9GlYc/tTCBhzD9RVEMmt3sgqHFqZha+6GEbSW/TGxAgFSYy1GJk
+ /7s0S4+yavWL5RBGCcaj8L8vGQ5m1TjWqjMVT6l40j7rgFHWE7hcOrERYrJSF9NTfMSaZzCMY1ipgC
+ Y2TOwYtqwR/VrllzE6BylqE1YGYBEpJ2hrjFTYoBs/TvBofsUcT+BgXDjreX8uqDyR7ToTrh+RuNP5
+ /raNtL/5YXN07OegMxXiPv15maJrg3RquFBHSGqCgsFpuqA21FGHMmW6WzsD3EQvmlDHHj1Trpf67y
+ PbkaSzQU/55ruVKLFbuEddlF8jXMPPj2yBFkK8Qye8KxsRZFoKVlNcADNssKl1YA4zsvI3eRXJ1f+J
+ W5L1YitYVt870NDkzQKMTrmbBY9rmdzFd4aOcnPYDQjajxF4SJ06DWC1yhjetszZ2QiWF9zlq8u/Cg
+ 3HSUm5C5NU8y7WVBuxvJ8PfNS+o4HijLJuMXOXAQd+pfYYpZzpNSi4esBzLq/a/SYQdhaH3hcesQ2o
+ 5XLIQZ2NvbXSTWREtwTQ4zqv6bwRama0k3OgfStv0PRAyxpIdwu1I9IIeJig==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 07/06/2024 10:42, Daniel Baluta wrote:
-> On Fri, Jun 7, 2024 at 9:19 AM Kuninori Morimoto
-> <kuninori.morimoto.gx@renesas.com> wrote:
->>
->>
->> Hi Animesh
->>
->>> Convert the AK4554 sound codec bindings to DT schema.
->>>
->>> Signed-off-by: Animesh Agarwal <animeshagarwal28@gmail.com>
->>> Cc: Daniel Baluta <daniel.baluta@nxp.com>
->>> ---
->>
->> Thank you for the patch.
->> But no one is using AK4554, we can remove it instead ?
-> 
-> 
-> So we just remove the device tree binding file, right? And later if
-> there is anyone who will use the
-> codec he can later add the yaml file.
+Convert the text bindings for the Texas Instruments
+TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers to
+dt-schema.
 
-Remove the binding and the driver.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ .../devicetree/bindings/sound/tas571x.txt          |  49 --------
+ .../devicetree/bindings/sound/ti,tas57xx.yaml      | 129 +++++++++++++++++++++
+ 2 files changed, 129 insertions(+), 49 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/tas571x.txt b/Documentation/devicetree/bindings/sound/tas571x.txt
+deleted file mode 100644
+index 1addc75989d5..000000000000
+--- a/Documentation/devicetree/bindings/sound/tas571x.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Texas Instruments TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers
+-
+-The codec is controlled through an I2C interface.  It also has two other
+-signals that can be wired up to GPIOs: reset (strongly recommended), and
+-powerdown (optional).
+-
+-Required properties:
+-
+-- compatible: should be one of the following:
+-  - "ti,tas5707"
+-  - "ti,tas5711",
+-  - "ti,tas5717",
+-  - "ti,tas5719",
+-  - "ti,tas5721"
+-  - "ti,tas5733"
+-- reg: The I2C address of the device
+-- #sound-dai-cells: must be equal to 0
+-
+-Optional properties:
+-
+-- reset-gpios: GPIO specifier for the TAS571x's active low reset line
+-- pdn-gpios: GPIO specifier for the TAS571x's active low powerdown line
+-- clocks: clock phandle for the MCLK input
+-- clock-names: should be "mclk"
+-- AVDD-supply: regulator phandle for the AVDD supply (all chips)
+-- DVDD-supply: regulator phandle for the DVDD supply (all chips)
+-- HPVDD-supply: regulator phandle for the HPVDD supply (5717/5719)
+-- PVDD_AB-supply: regulator phandle for the PVDD_AB supply (5717/5719)
+-- PVDD_CD-supply: regulator phandle for the PVDD_CD supply (5717/5719)
+-- PVDD_A-supply: regulator phandle for the PVDD_A supply (5711)
+-- PVDD_B-supply: regulator phandle for the PVDD_B supply (5711)
+-- PVDD_C-supply: regulator phandle for the PVDD_C supply (5711)
+-- PVDD_D-supply: regulator phandle for the PVDD_D supply (5711)
+-- DRVDD-supply: regulator phandle for the DRVDD supply (5721)
+-- PVDD-supply: regulator phandle for the PVDD supply (5721)
+-
+-Example:
+-
+-	tas5717: audio-codec@2a {
+-		compatible = "ti,tas5717";
+-		reg = <0x2a>;
+-		#sound-dai-cells = <0>;
+-
+-		reset-gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
+-		pdn-gpios = <&gpio5 2 GPIO_ACTIVE_LOW>;
+-
+-		clocks = <&clk_core CLK_I2S>;
+-		clock-names = "mclk";
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+new file mode 100644
+index 000000000000..fa6d6c1c8535
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+@@ -0,0 +1,129 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TAS5711/TAS5717/TAS5719/TAS5721 stereo power amplifiers
++
++maintainers:
++  - Neil Armstrong <neil.armstrong@linaro.org>
++
++properties:
++  compatible:
++    enum:
++      - ti,tas5707
++      - ti,tas5711
++      - ti,tas5717
++      - ti,tas5719
++      - ti,tas5721
++      - ti,tas5733
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO for the active low reset line
++
++  pdn-gpios:
++    maxItems: 1
++    description: GPIO for the active low powerdown line
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  AVDD-supply: true
++  DVDD-supply: true
++  HPVDD-supply: true
++  PVDD_AB-supply: true
++  PVDD_CD-supply: true
++  PVDD_A-supply: true
++  PVDD_B-supply: true
++  PVDD_C-supply: true
++  PVDD_D-supply: true
++  DRVDD-supply: true
++  PVDD-supply: true
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++
++allOf:
++  - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5717
++              - ti,tas5719
++    then:
++      properties:
++        PVDD_A-supply: false
++        PVDD_B-supply: false
++        PVDD_C-supply: false
++        PVDD_D-supply: false
++        DRVDD-supply: false
++        PVDD-supply: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5711
++    then:
++      properties:
++        HPVDD-supply: false
++        PVDD_AB-supply: false
++        PVDD_CD-supply: false
++        DRVDD-supply: false
++        PVDD-supply: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5721
++    then:
++      properties:
++        HPVDD-supply: false
++        PVDD_AB-supply: false
++        PVDD_CD-supply: false
++        PVDD_A-supply: false
++        PVDD_B-supply: false
++        PVDD_C-supply: false
++        PVDD_D-supply: false
++
++unevaluatedProperties: false
++
++examples:
++  - |
++   #include <dt-bindings/gpio/gpio.h>
++   i2c {
++     #address-cells = <1>;
++     #size-cells = <0>;
++     codec: codec@2a {
++       compatible = "ti,tas5717";
++       reg = <0x2a>;
++       #sound-dai-cells = <0>;
++       reset-gpios = <&gpio1 15 0>;
++       pdn-gpios = <&gpio1 15 0>;
++       AVDD-supply = <&avdd_supply>;
++       DVDD-supply = <&dvdd_supply>;
++       HPVDD-supply = <&hpvdd_supply>;
++       PVDD_AB-supply = <&pvdd_ab_supply>;
++       PVDD_CD-supply = <&pvdd_cd_supply>;
++     };
++   };
++
++...
+
+---
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+change-id: 20240607-topic-amlogic-upstream-bindings-convert-tas57xx-5af1e564e6a1
 
 Best regards,
-Krzysztof
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
