@@ -1,245 +1,121 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAEE12BE91;
-	Sat,  8 Jun 2024 09:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F508DF4D;
+	Sat,  8 Jun 2024 11:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717840403; cv=none; b=iFx9NFGDO5cQRgFS/2LIeCyXOE8x/scYEVPwJxNiU34w160FomjjyWi1zlSLB1y4BNN3XpJrF0x+HT+muDtZltY/7qSZd83CKR6iFXIqE9LCyWEsnnTJc9k8CIu51zMFgbeYmQgCtSp03k2irTfx8ERx+8oj3JKw0w0Hoex6iKc=
+	t=1717847928; cv=none; b=Hc1DR2Wakm7tWe+qq7G+FWbZx9gmyOsCNzZkzHXopoO80y/Dbm3ebvuLTb3diw/hsCvYbLotvwJAvf42RgtDN38NT8nb2hPV8b46HMljNW/W9CohexPKiSpNPG5bLw+k17RSX+/1koFzYvpcyG6z8wvrmttMDCuBx1cqKm1ED6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717840403; c=relaxed/simple;
-	bh=ICnH9E1Vy2cQKqPrA1Ck3aDm8zat1w0IaApwCIiylXY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ayBAgxGuQxjfQFwz7qXaEjY5Or6fdiVxGAaTb2mkk6EL1V+UDnGJzswNPLVs35jaFDy7g8eEeusPT7U0IwdnFNJMhrMl7QaatDPRN4uDzxqLYdcnPR2JdbGMV0D1oqlhWntkkBGE/c5XVr+02eg4yhJTPOVOMtNK5kaBKXeVpHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3dg9TFH; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717847928; c=relaxed/simple;
+	bh=DzZItR/XD7N9LswW4+TMkpca7KLSfzsgxdoa43ZNfDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V8R8CfxNuy6pXnLqByigE7NXTCkhj3wEgSwmQnRpnPggGz3i/kUuoMdWSY0+KTuAveU7yPKXny7t9L9CO5pe7ZeUW7vONX62Op7ntkmMgqb5q9HHsoBOQyGsUlwQCpDIekfik6HfcEMvvpGdUmkW9/NOijXWH4uWUKrmMfy/UiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6GINMJk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3dg9TFH"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f692d6e990so28451665ad.3;
-        Sat, 08 Jun 2024 02:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717840401; x=1718445201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvD3ncXaEoCBCf40kRzJQGFe4ot3LxPDiKmhU0HzD1I=;
-        b=Z3dg9TFHkAe3S+quRkOcFHSGD2Y9dLKw29r23gFVU/uVKPEqZpjGwevBY5cBAC7062
-         mVdrywndwAEaUj3Lpv/yGIgEUSqaX5Gf4B00eDyV1aSsxLg0vz9nBcXh7tKvNVopcwef
-         b2iGAvHT7wyoGiGinhra/2xgq5nE86zizx8nJ8hTFUgpwHDrmTmvrzPF9KAjvqz4hMhu
-         75Z4VkYVO+pyLcVAQ1+3DWFrX/f0ok8urjiqBSXukq5mIb2YeyDHUvocIGAV2YxQ1F9H
-         kNjGLtHejNlH2lP2rpEb1x/xBeSK5I+dtpdMU06s+59RdsrfFDkzvDnb8i3HZLyQRl4y
-         R1JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717840401; x=1718445201;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cvD3ncXaEoCBCf40kRzJQGFe4ot3LxPDiKmhU0HzD1I=;
-        b=JaaUw6GDoJwLoQKjS/VnhNVtULUV4MYrKNdFU1LbgoqxGYz7slJaVXAbkhk7grNmIS
-         m+2UqNSaqsKMsXv1Y4x51YYhWBESK19I2qZEZQkfQ1G6dtaNSu4TlEPfNztILiED8ygK
-         m0m7UiBGfQtIj105vkKxSAveK2Mlk0T3U586qgQQ2EVrhVqS4JWxl49k0RKOB+blM74t
-         I3CZW7eitUAYr59m6EAF+VF3Pye5rnN+JpsF1BD2ypbqomYEAh9jGQ/laqgDvYW7V90u
-         GsjQcsrO4LK64FbgFaOcUD/ffp4kfIQRztTl19b5/KOqfZy2zy8EgqzSS1ZAJkoK5twd
-         Z4Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCWyoW+VQWKnySCPIf0Agie8qLMz8juC3Z+iCWIccm3PxIQ21UPX7wF0YmoORzrQXHawQdef6R5myDeDQwJZbzbHc9TAVBWTCA0vUEyGjMchfGqAKrYYFg0yJVbFS8JZIqgQyCfmg0DOxUNy/AfvuXJS91IrxHdc2FfnagK/0ezVVyBoHC84
-X-Gm-Message-State: AOJu0YzeqN7uChCAPC0Dh3dx6jKdYUOBel/7s+3dsZ9t0moK1otq5LSH
-	u1mMuRMr6HLtgmsaTpffOxgfOTB+tL1NPAmLTQnzo3BEKHCGToYpu4J6pNkG
-X-Google-Smtp-Source: AGHT+IFhV3NOoaW40VGlv2M13vMd5k4gK++hhzBbIbUAJ59ZDFJqeEc6+RaYccabHAi5XzkCHu6nag==
-X-Received: by 2002:a17:903:22cd:b0:1f4:9158:6b9 with SMTP id d9443c01a7336-1f6d0377274mr57753685ad.47.1717840400852;
-        Sat, 08 Jun 2024 02:53:20 -0700 (PDT)
-Received: from localhost.localdomain ([152.58.55.97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76ca92sm48075475ad.78.2024.06.08.02.53.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jun 2024 02:53:20 -0700 (PDT)
-From: Mighty <bavishimithil@gmail.com>
-To: 
-Cc: peter.ujfalusi@gmail.com,
-	Mithil Bavishi <bavishimithil@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lopez Cruz <misael.lopez@ti.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
-Date: Sat,  8 Jun 2024 15:23:02 +0530
-Message-Id: <20240608095305.2887-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6GINMJk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BDEC4AF09;
+	Sat,  8 Jun 2024 11:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717847928;
+	bh=DzZItR/XD7N9LswW4+TMkpca7KLSfzsgxdoa43ZNfDo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=U6GINMJkSlCE41KfeaZzFXTUrtZxDWSXH4JVhX9PcTRg4CT1avrA0pw1g0YxTg+fF
+	 5Lw2IPNc2TvxHCn+i8eJQ1TOt3YG0aFTLFFOIKVFqp0VA2d9XBPYKboK/U2ris6OLJ
+	 VxRnzshbIdkdGrSHwAkXMBmENZDuiPnK8np3YjX532syJvdkUznNMAUhCMVbmX6AES
+	 35YDLDksqui+QvpJqmnVTv6Hj9gwpxaIjXWc55Y6Zi3tbDvy4GUpAYQTnVx5rgTwLU
+	 2rNhqpUkDBpUX82vypdGoTqT7YYRweE5D5YagB39ysDYJRdVKazSaXEmNfFq12Fbsu
+	 femu34yk9gODA==
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5b97f09cde3so382245eaf.0;
+        Sat, 08 Jun 2024 04:58:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWQjrwNBUOfZDZ13o4LEitUBWW72G0G/owKEiOdZ9Jf/zDJloNXm6K3KNb/eGTz9VovtMwLKWShni0h/68/X5hcjZqvJ0PkYKcMmKOsuRlwFEfUuDw4DvdDg7/JoIi6vD85dmmVG985k28Pl3QuD8p42OvVxCA+Hi7GCLd4XtVPW9087fbt
+X-Gm-Message-State: AOJu0YxcQX9QopOmhaCISZqxaU/y/Fa+tRdBa9PkZZMZGU0OpdHuzcbd
+	WgOffJHsDYQpZgwpH8S0smwdP2PGG9zOGMDIc3KZvgHpRxoDiEhUfjhx3BKHhRAs9dl1QVuZFym
+	8Li9XKRIiJoo0MPtE0FYFENrcQIA=
+X-Google-Smtp-Source: AGHT+IHOgfE8EAt38vVrthEz/6qkdGWnaA9HHRM1PPC9eDL1nE44LwGfWGO+Utqm9g98PDm86I2O3dR5lHLvECcfzt4=
+X-Received: by 2002:a05:6820:d13:b0:5ba:ca86:a025 with SMTP id
+ 006d021491bc7-5baca86a2a3mr2925804eaf.0.1717847927247; Sat, 08 Jun 2024
+ 04:58:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
+ <20240528192936.16180-2-pierre-louis.bossart@linux.intel.com>
+ <CAJZ5v0g8aW5FBbceYJDvDrMHRxT6i71O_LTWKALb=qr+m1BJ7w@mail.gmail.com> <998d53cf-c22b-4706-93af-ab38802dc531@linux.intel.com>
+In-Reply-To: <998d53cf-c22b-4706-93af-ab38802dc531@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sat, 8 Jun 2024 13:58:34 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jVpLNLiQ3uHEA9+MWWHv91Yov5hC8uhTg5+z3mK08Yuw@mail.gmail.com>
+Message-ID: <CAJZ5v0jVpLNLiQ3uHEA9+MWWHv91Yov5hC8uhTg5+z3mK08Yuw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ACPI: utils: introduce acpi_get_local_u64_address()
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-sound@vger.kernel.org, 
+	alsa-devel@alsa-project.org, tiwai@suse.de, broonie@kernel.org, 
+	vkoul@kernel.org, andriy.shevchenko@linux.intel.com, 
+	=?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	"open list:ACPI" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mithil Bavishi <bavishimithil@gmail.com>
+On Fri, Jun 7, 2024 at 10:33=E2=80=AFPM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.intel.com> wrote:
+>
+>
+>
+> On 6/7/24 20:51, Rafael J. Wysocki wrote:
+> > On Tue, May 28, 2024 at 9:29=E2=80=AFPM Pierre-Louis Bossart
+> > <pierre-louis.bossart@linux.intel.com> wrote:
+> >>
+> >> The ACPI _ADR is a 64-bit value. We changed the definitions in commit
+> >> ca6f998cf9a2 ("ACPI: bus: change _ADR representation to 64 bits") but
+> >> some helpers still assume the value is a 32-bit value.
+> >>
+> >> This patch adds a new helper to extract the full 64-bits. The existing
+> >> 32-bit helper is kept for backwards-compatibility and cases where the
+> >> _ADR is known to fit in a 32-bit value.
+> >>
+> >> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.=
+com>
+> >> Reviewed-by: P=C3=A9ter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> >> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> >
+> > Do you want me to apply this or do you want me to route it along with
+> > the rest of the series?
+> >
+> > In the latter case feel free to add
+> >
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>
+> Thanks Rafael. I think it's easier if Mark Brown takes the series in
+> ASoC, I have additional ASoC patches that use the u64 helper.
+>
+> Mark?
+>
+>
+> >>
+> >> +int acpi_get_local_u64_address(acpi_handle handle, u64 *addr)
+> >> +{
+> >> +       acpi_status status;
+> >> +
+> >> +       status =3D acpi_evaluate_integer(handle, METHOD_NAME__ADR, NUL=
+L, addr);
+> >> +       if (ACPI_FAILURE(status))
+> >> +               return -ENODATA;
+> >> +       return 0;
+> >> +}
+> >> +EXPORT_SYMBOL(acpi_get_local_u64_address);
+> >
+> > I'd prefer EXPORT_SYMBOL_GPL() here unless you absolutely cannot live w=
+ith it.
+>
+> I don't mind, but the existing helper was using EXPORT_SYMBOL so I just
+> copied. It'd be odd to have two helpers that only differ by the argument
+> size use a different EXPORT_ macro, no? Not to mention that the
+> get_local address uses EXPORT_SYMBOL but would become a wrapper for an
+> EXPORT_SYMBOL_GPL. That gives me a headache...
 
-Convert the OMAP4+ McPDM bindings from txt to yaml (dtschema).
-Drop ti,hwmods property as it is not needed since the sysc conversion.
-Add dma, dma-names, reg-names properties to match the DTS so as to not
-break the already existing ABI.
-Also update example node to match the existing node in the DTS.
-
-Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
----
-Changelog v7:
-- Mention the changes in commit message
-- Add entire changelog
-
-Changelog v6:
-- Add dma property
-- Add dma-names property
-- Add reg-names property
-- Remove ti,hwmods completely (no longer needed since the sysc
-  conversion)
-- Update example to match one in DTS
-
-Changelog v5:
-- Add imports for constants
-- Add desc to ti,hwmods
-
-Changelog v4:
-- Changed maintainer name
-- Use $ref and enum in ti-hwmods property
-- Make clocks property only have maxItems, no description
-- Add items to clock-names
-- Fix address of node in example
-- Remove extra line
-
-Changelog v3:
-- Add subject prefix in commit message
-- Use correct name in Signed-off
-- Change filename to match compatible
-- Use generic node name
-
-Changelog v2:
-- Use maxItems for interrupts and ti,hwmods
-- Change example node address
-
- .../devicetree/bindings/sound/omap-mcpdm.txt  | 30 --------
- .../bindings/sound/ti,omap4-mcpdm.yaml        | 73 +++++++++++++++++++
- 2 files changed, 73 insertions(+), 30 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/omap-mcpdm.txt
- create mode 100644 Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt b/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-deleted file mode 100644
-index ff98a0cb5..000000000
---- a/Documentation/devicetree/bindings/sound/omap-mcpdm.txt
-+++ /dev/null
-@@ -1,30 +0,0 @@
--* Texas Instruments OMAP4+ McPDM
--
--Required properties:
--- compatible: "ti,omap4-mcpdm"
--- reg: Register location and size as an array:
--       <MPU access base address, size>,
--       <L3 interconnect address, size>;
--- interrupts: Interrupt number for McPDM
--- ti,hwmods: Name of the hwmod associated to the McPDM
--- clocks:  phandle for the pdmclk provider, likely <&twl6040>
--- clock-names: Must be "pdmclk"
--
--Example:
--
--mcpdm: mcpdm@40132000 {
--	compatible = "ti,omap4-mcpdm";
--	reg = <0x40132000 0x7f>, /* MPU private access */
--	      <0x49032000 0x7f>; /* L3 Interconnect */
--	interrupts = <0 112 0x4>;
--	interrupt-parent = <&gic>;
--	ti,hwmods = "mcpdm";
--};
--
--In board DTS file the pdmclk needs to be added:
--
--&mcpdm {
--	clocks = <&twl6040>;
--	clock-names = "pdmclk";
--	status = "okay";
--};
-diff --git a/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-new file mode 100644
-index 000000000..cdea0a008
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,omap4-mcpdm.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,omap4-mcpdm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OMAP McPDM
-+
-+maintainers:
-+  - Misael Lopez Cruz <misael.lopez@ti.com>
-+
-+description:
-+  OMAP ALSA SoC DAI driver using McPDM port used by TWL6040
-+
-+properties:
-+  compatible:
-+    const: ti,omap4-mcpdm
-+
-+  reg:
-+    items:
-+      - description: MPU access base address
-+      - description: L3 interconnect address
-+
-+  reg-names:
-+    items:
-+      - const: mpu
-+      - const: dma
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  dmas:
-+    maxItems: 2
-+
-+  dma-names:
-+    items:
-+      - const: up_link
-+      - const: dn_link
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: pdmclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - dmas
-+  - dma-names
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    mcpdm@0 {
-+      compatible = "ti,omap4-mcpdm";
-+      reg = <0x0 0x7f>, /* MPU private access */
-+            <0x49032000 0x7f>; /* L3 Interconnect */
-+      reg-names = "mpu", "dma";
-+      interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-parent = <&gic>;
-+      dmas = <&sdma 65>, <&sdma 66>;
-+      dma-names = "up_link", "dn_link";
-+      clocks = <&twl6040>;
-+      clock-names = "pdmclk";
-+    };
--- 
-2.34.1
-
+OK, fair enough.
