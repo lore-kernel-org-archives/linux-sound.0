@@ -1,121 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F508DF4D;
-	Sat,  8 Jun 2024 11:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D8E17BBA
+	for <linux-sound@vger.kernel.org>; Sat,  8 Jun 2024 14:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717847928; cv=none; b=Hc1DR2Wakm7tWe+qq7G+FWbZx9gmyOsCNzZkzHXopoO80y/Dbm3ebvuLTb3diw/hsCvYbLotvwJAvf42RgtDN38NT8nb2hPV8b46HMljNW/W9CohexPKiSpNPG5bLw+k17RSX+/1koFzYvpcyG6z8wvrmttMDCuBx1cqKm1ED6Y=
+	t=1717856679; cv=none; b=mqZ7ubF7J0/UbWNcOUMgwAGpLNgf9Dz5U8yqIKAYYQzXb7Ee9EnMJ81cKCR2a5658UVyh+T0vfsfUp0OMRDiLF1MsnPMvNHtkMvgwyfmZEKrvryXdWyvALn+iL5I6gkVIaQ9KbuwVHmEPTy1j0Qpkd/l7SEm68K9s467B7LSBag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717847928; c=relaxed/simple;
-	bh=DzZItR/XD7N9LswW4+TMkpca7KLSfzsgxdoa43ZNfDo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V8R8CfxNuy6pXnLqByigE7NXTCkhj3wEgSwmQnRpnPggGz3i/kUuoMdWSY0+KTuAveU7yPKXny7t9L9CO5pe7ZeUW7vONX62Op7ntkmMgqb5q9HHsoBOQyGsUlwQCpDIekfik6HfcEMvvpGdUmkW9/NOijXWH4uWUKrmMfy/UiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6GINMJk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717856679; c=relaxed/simple;
+	bh=lUHuy8Zfz9urTlm/jQeycQ6F7jtrAN9u++rvVMTwTgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=II+ILLJNSuni2ecYLsq6o8gxJMb9mxAQyWi/iZfDv4uW2LFkgr8JiZsl5f0aPVVEaSaiY7LRHXlXtLgEm3zYDfcATL0EA2iZ7bbOdu/aiASwngV1UAudnLxAHvoHWhhaM6fNbdhyBxBys07jdylqFbFoZTrLh3XmJYOew99Q6i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MkM/7s3B; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6GINMJk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BDEC4AF09;
-	Sat,  8 Jun 2024 11:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717847928;
-	bh=DzZItR/XD7N9LswW4+TMkpca7KLSfzsgxdoa43ZNfDo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=U6GINMJkSlCE41KfeaZzFXTUrtZxDWSXH4JVhX9PcTRg4CT1avrA0pw1g0YxTg+fF
-	 5Lw2IPNc2TvxHCn+i8eJQ1TOt3YG0aFTLFFOIKVFqp0VA2d9XBPYKboK/U2ris6OLJ
-	 VxRnzshbIdkdGrSHwAkXMBmENZDuiPnK8np3YjX532syJvdkUznNMAUhCMVbmX6AES
-	 35YDLDksqui+QvpJqmnVTv6Hj9gwpxaIjXWc55Y6Zi3tbDvy4GUpAYQTnVx5rgTwLU
-	 2rNhqpUkDBpUX82vypdGoTqT7YYRweE5D5YagB39ysDYJRdVKazSaXEmNfFq12Fbsu
-	 femu34yk9gODA==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5b97f09cde3so382245eaf.0;
-        Sat, 08 Jun 2024 04:58:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWQjrwNBUOfZDZ13o4LEitUBWW72G0G/owKEiOdZ9Jf/zDJloNXm6K3KNb/eGTz9VovtMwLKWShni0h/68/X5hcjZqvJ0PkYKcMmKOsuRlwFEfUuDw4DvdDg7/JoIi6vD85dmmVG985k28Pl3QuD8p42OvVxCA+Hi7GCLd4XtVPW9087fbt
-X-Gm-Message-State: AOJu0YxcQX9QopOmhaCISZqxaU/y/Fa+tRdBa9PkZZMZGU0OpdHuzcbd
-	WgOffJHsDYQpZgwpH8S0smwdP2PGG9zOGMDIc3KZvgHpRxoDiEhUfjhx3BKHhRAs9dl1QVuZFym
-	8Li9XKRIiJoo0MPtE0FYFENrcQIA=
-X-Google-Smtp-Source: AGHT+IHOgfE8EAt38vVrthEz/6qkdGWnaA9HHRM1PPC9eDL1nE44LwGfWGO+Utqm9g98PDm86I2O3dR5lHLvECcfzt4=
-X-Received: by 2002:a05:6820:d13:b0:5ba:ca86:a025 with SMTP id
- 006d021491bc7-5baca86a2a3mr2925804eaf.0.1717847927247; Sat, 08 Jun 2024
- 04:58:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MkM/7s3B"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-421757d217aso11604095e9.3
+        for <linux-sound@vger.kernel.org>; Sat, 08 Jun 2024 07:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717856675; x=1718461475; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3xUXLeXJa7g57nR3Rih0dUWygv43+3NziJlOMTLS4c=;
+        b=MkM/7s3BdonbSLtkq+3dkQOqDYsf2ynPHvl4H/pU6e2hfJv/VmwW8+FK6V3loW7pwS
+         grguLgrudIcJ1ptPAq+XV6/JiYi47CPdYk96gcd6LiPGi+NJ8JHMep/GjrkNWsSPoIu8
+         sYPKYg6oSGDQD8gKLbQluMZoYjXraG6Oza+l9p7q8XrCD+DzcUo/jEY/chsE0+YfVjIu
+         VN1l1Jv3nec2flg09SmILpdIy2Dn5PrkaupHLzjGoRVrwGfGLx8S3Z3b+TDfT7FRsduV
+         7wZ6fNKL7JDfwUC0d6E30mtdMdj9rhPdyyTFvprvz1MWDLq4EHEiIe+CMlMvl0oDRHhC
+         yVWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717856675; x=1718461475;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3xUXLeXJa7g57nR3Rih0dUWygv43+3NziJlOMTLS4c=;
+        b=U0BlmiaqG0NqQtqOBtanEVNrvSde9HKPqp9PMJoonIKzTfEdSyn/Wju0oLRPZnilCN
+         jNAs2eGb7zPljR/tgKFgtWoFEFYo6GgBe/2TD2Few88ZaElscpstiEY3oAv4Sb1Mw0i5
+         WZ6/1TCQtjF3hDKuJM+mlgpHd4pvzuN21XMTQ7MQfG3HaDjCdz+n5R3xcbeBkOSnP5kZ
+         0Z/v/doI2bcudT70hQt9iybf0+jteWffUG0uMJHiS05YmyQCS2teXcK+bx65cQRcJvbc
+         aRSfrEbIaoXxqnM6NtaUpPmpGAFzojajv+SkFXQ+UUuUYjG+i41omx458JVRXazMa35t
+         Vj7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWVmqIZm7YkcdZdujB2410sQ4rbt0qKn8iX9PrcCnzGgPkhaRhLIWe17wBlQlrRyLLCsNqihN/de518T93Yj0OpoLqrkjzhp2b9/6I=
+X-Gm-Message-State: AOJu0Yx2K5Vr9EsIax8cNyvOjbjpCgfSmpB9XURRD7meA86BowROpAEa
+	GKEldvDw9g9eNF6KelFTg4DRXFY0xj1+CfpTpSQXmorjHssg345i8v/vnToCdYc=
+X-Google-Smtp-Source: AGHT+IFmaCUQ01iQpATq/GX8GTofXo5bwpAglPLwHfhcOwikEZDRyVKEQD6qy8rV6aM+BrXdDmp4sw==
+X-Received: by 2002:a05:600c:34d5:b0:420:fed7:2903 with SMTP id 5b1f17b1804b1-421649fbfa9mr53053035e9.15.1717856675259;
+        Sat, 08 Jun 2024 07:24:35 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c2c738bsm86538485e9.32.2024.06.08.07.24.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Jun 2024 07:24:34 -0700 (PDT)
+Date: Sat, 8 Jun 2024 17:24:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Artur Weber <aweber.kernel@gmail.com>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: samsung: midas_wm1811: Fix error code in probe()
+Message-ID: <01590109-cf27-404b-88ff-b42bb73ca1c6@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528192936.16180-1-pierre-louis.bossart@linux.intel.com>
- <20240528192936.16180-2-pierre-louis.bossart@linux.intel.com>
- <CAJZ5v0g8aW5FBbceYJDvDrMHRxT6i71O_LTWKALb=qr+m1BJ7w@mail.gmail.com> <998d53cf-c22b-4706-93af-ab38802dc531@linux.intel.com>
-In-Reply-To: <998d53cf-c22b-4706-93af-ab38802dc531@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sat, 8 Jun 2024 13:58:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jVpLNLiQ3uHEA9+MWWHv91Yov5hC8uhTg5+z3mK08Yuw@mail.gmail.com>
-Message-ID: <CAJZ5v0jVpLNLiQ3uHEA9+MWWHv91Yov5hC8uhTg5+z3mK08Yuw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ACPI: utils: introduce acpi_get_local_u64_address()
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-sound@vger.kernel.org, 
-	alsa-devel@alsa-project.org, tiwai@suse.de, broonie@kernel.org, 
-	vkoul@kernel.org, andriy.shevchenko@linux.intel.com, 
-	=?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	"open list:ACPI" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On Fri, Jun 7, 2024 at 10:33=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.intel.com> wrote:
->
->
->
-> On 6/7/24 20:51, Rafael J. Wysocki wrote:
-> > On Tue, May 28, 2024 at 9:29=E2=80=AFPM Pierre-Louis Bossart
-> > <pierre-louis.bossart@linux.intel.com> wrote:
-> >>
-> >> The ACPI _ADR is a 64-bit value. We changed the definitions in commit
-> >> ca6f998cf9a2 ("ACPI: bus: change _ADR representation to 64 bits") but
-> >> some helpers still assume the value is a 32-bit value.
-> >>
-> >> This patch adds a new helper to extract the full 64-bits. The existing
-> >> 32-bit helper is kept for backwards-compatibility and cases where the
-> >> _ADR is known to fit in a 32-bit value.
-> >>
-> >> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.=
-com>
-> >> Reviewed-by: P=C3=A9ter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> >> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> >
-> > Do you want me to apply this or do you want me to route it along with
-> > the rest of the series?
-> >
-> > In the latter case feel free to add
-> >
-> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> Thanks Rafael. I think it's easier if Mark Brown takes the series in
-> ASoC, I have additional ASoC patches that use the u64 helper.
->
-> Mark?
->
->
-> >>
-> >> +int acpi_get_local_u64_address(acpi_handle handle, u64 *addr)
-> >> +{
-> >> +       acpi_status status;
-> >> +
-> >> +       status =3D acpi_evaluate_integer(handle, METHOD_NAME__ADR, NUL=
-L, addr);
-> >> +       if (ACPI_FAILURE(status))
-> >> +               return -ENODATA;
-> >> +       return 0;
-> >> +}
-> >> +EXPORT_SYMBOL(acpi_get_local_u64_address);
-> >
-> > I'd prefer EXPORT_SYMBOL_GPL() here unless you absolutely cannot live w=
-ith it.
->
-> I don't mind, but the existing helper was using EXPORT_SYMBOL so I just
-> copied. It'd be odd to have two helpers that only differ by the argument
-> size use a different EXPORT_ macro, no? Not to mention that the
-> get_local address uses EXPORT_SYMBOL but would become a wrapper for an
-> EXPORT_SYMBOL_GPL. That gives me a headache...
+This accidentally returns success instead of -EINVAL.
 
-OK, fair enough.
+Fixes: c91d0c2e198d ("ASoC: samsung: midas_wm1811: Add GPIO-based headset jack detection")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ sound/soc/samsung/midas_wm1811.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/samsung/midas_wm1811.c b/sound/soc/samsung/midas_wm1811.c
+index 3a269c7de169..bbfe5fef59af 100644
+--- a/sound/soc/samsung/midas_wm1811.c
++++ b/sound/soc/samsung/midas_wm1811.c
+@@ -623,7 +623,7 @@ static int midas_probe(struct platform_device *pdev)
+ 
+ 		if (channel_type != IIO_VOLTAGE) {
+ 			dev_err(dev, "ADC channel is not voltage\n");
+-			return ret;
++			return -EINVAL;
+ 		}
+ 
+ 		priv->gpio_headset_key = devm_gpiod_get(dev, "headset-key",
+-- 
+2.43.0
+
