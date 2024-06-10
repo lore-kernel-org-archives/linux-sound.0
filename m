@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472435227;
-	Mon, 10 Jun 2024 08:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04B57319C;
+	Mon, 10 Jun 2024 08:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718009320; cv=none; b=r+neBaCZd0Fq5vvl5qoiJx20x7DWlthWAUFSWjwC8pPM9ojqkUNaiWo9kmpAWLUXl7cOK6cfyOIxDpcP9hgEzSarS8CLQimT7n4Nl1ovF/04cEVlKoIs8b/RlPIjRGXBTcPox2QGk8AVpVKSZlbL5MEU3/0b0mMeITaHGp3RdI0=
+	t=1718009555; cv=none; b=SY0PdGD3oxPsrAfYNXt/TR5E7bnffB67ZcPFYcZZolSFT0gb17HzFyVDe4WbSHVmzFpRCmAOWlFo8Hf3OW5HFk3z6AIFPFQxJ7I2jMJj2Y/CxLHyKqq7Rmt4jQZsSW3X9GEK/LjVa/twp7sypl04AeLc9TfGaAk53ZCKpoqaVgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718009320; c=relaxed/simple;
-	bh=2O6VCowfi9+qm2XVQJcl8X4ano021tmYvbEljpzKFag=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=RJcXhsyI8h+bSWBL7QHCWHfc+fnf+USD4rTdig6wlU1L+mcaGp/4Arlxb/wODJMm/K4vrizkz74PgQ8c1jnLmK+biv9K5He2GCQaM+urXV2Zi9bh6tqUzwD+20lkRtzaVcodJB9/jlf9rgEogDF4f1IWhUlYmat1s9c1W54U6S0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOoG6IMJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718009555; c=relaxed/simple;
+	bh=GJZS6RB6gkk1hpkpI7x7W36L8J2xD7Y13wZs2GUF5LA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AP1tjXvBpI9ES2sJds5XfYVMHx7unjlt/QUdlKCPgyuAXgb4laV9WX+KilW0myyj57tkAnIVC/ABC6rzlAdRQgx4WKJdMUuS1x90s4skAEjKYVHrDjU3pyo46vQieuDh31ryf30ZFUe3U/6StkRwEqx+niL2Awle3kohQD2qSJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ur2pS+2J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOoG6IMJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 635DFC2BBFC;
-	Mon, 10 Jun 2024 08:48:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ur2pS+2J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D164C2BBFC;
+	Mon, 10 Jun 2024 08:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718009319;
-	bh=2O6VCowfi9+qm2XVQJcl8X4ano021tmYvbEljpzKFag=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=MOoG6IMJcaWsLz9Fc4OPaEa9WUROcgOdbxYnlgVsDYBRALpxb//v70soIHZfAjbgk
-	 BVFdxac6M0f9TQxg9pTdAo4f9vdvKPX4z8bVO6PLZD/I9HsRvjHeHtlqEQi77BhSAP
-	 SGVZb6oXESZRiuST80hOO3n8lVKX1AeWlCQsGBPsSG4SMpd7hmv9Ple5Pl3w16s5AN
-	 VSDNfUsTjMIowEZqZVsG/ItnvQZjBf5jrYpF2m4wLa2XrN2Tq4L7q3sGIRkxxRmmvV
-	 5ZG2tF+t3qR+1Rnn6dE2MUDdhThocvQsDozJmjHA7qL4ROiK4SRKO0+EbUL6hs5xdq
-	 YcUcQprk5s4YQ==
-Message-ID: <1ff68780-53c0-4dd3-9bd3-2b468ce8f71a@kernel.org>
-Date: Mon, 10 Jun 2024 10:48:33 +0200
+	s=k20201202; t=1718009554;
+	bh=GJZS6RB6gkk1hpkpI7x7W36L8J2xD7Y13wZs2GUF5LA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ur2pS+2J/e5VYQYsPF+xViLcxkODV9zMbQQFDL4G4nzOqw2Jc8+c7XY/9/CpxPieE
+	 A2fkvDDUBfGUau8Rp+zBHhhpGG+VHeW3GfKaxq+s9IF7FKSCftmMd2rar6hrrP1s7r
+	 F9LAxZnK4F8SFdJmR6OL14ZCnKIJeiXBMc6D5dD9Zsy088SadRUckh+OGQYuKm3FH3
+	 Gp0Mu1J964MHtudlQ+npEjMbmWo7WFjPSl7yVUOmJzu8lcoYN0AyeJ0EApayVHkjk3
+	 QSwCfuazzscPUQQUEB+E6YxCAssZwI+glqSxu8n0OUAE+O8ZUNym7ckLksgwawyuCg
+	 qEdJCRMehsJwg==
+Message-ID: <15b2981a-d505-4d68-bff4-1bb0c977fb34@kernel.org>
+Date: Mon, 10 Jun 2024 10:52:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,14 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: cirrus,cs530x: Add initial DT
- binding
-To: Paul Handrigan <paulha@opensource.cirrus.com>, broonie@kernel.org,
- lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org
-References: <20240607202708.335752-1-paulha@opensource.cirrus.com>
- <20240607202708.335752-2-paulha@opensource.cirrus.com>
+Subject: Re: [PATCH v7] ASoC: dt-bindings: omap-mcpdm: Convert to DT schema
+To: Mighty <bavishimithil@gmail.com>
+Cc: peter.ujfalusi@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lopez Cruz <misael.lopez@ti.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240608095305.2887-1-bavishimithil@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,136 +89,22 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240607202708.335752-2-paulha@opensource.cirrus.com>
+In-Reply-To: <20240608095305.2887-1-bavishimithil@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 07/06/2024 22:27, Paul Handrigan wrote:
-> Add the YAML DT bindings for the cs530x high performance
-> audio ADCs.
+On 08/06/2024 11:53, Mighty wrote:
+> From: Mithil Bavishi <bavishimithil@gmail.com>
 > 
-> Signed-off-by: Paul Handrigan <paulha@opensource.cirrus.com>
-> ---
->  .../bindings/sound/cirrus,cs530x.yaml         | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
+> Convert the OMAP4+ McPDM bindings from txt to yaml (dtschema).
+> Drop ti,hwmods property as it is not needed since the sysc conversion.
+> Add dma, dma-names, reg-names properties to match the DTS so as to not
+> break the already existing ABI.
+> Also update example node to match the existing node in the DTS.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
-> new file mode 100644
-> index 000000000000..a4e2493ff03e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs530x.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs530x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic cs530x family of audio ADCs
-> +
-> +maintainers:
-> +  - paulha@opensource.cirrus.com
+> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 
-Please provide full name here.
-
-> +  - patches@opensource.cirrus.com
-> +
-> +description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +  The CS530X devices are a family of high performance audio ADCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs5302
-> +      - cirrus,cs5304
-> +      - cirrus,cs5308
-
-Blank line
-
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#sound-dai-cells':
-> +    description:
-> +      The first cell indicating the audio interface.
-
-Drop description, it's obvious.
-
-> +    const: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  vdd-a-supply:
-> +    description: voltage regulator phandle for the vdd-a supply
-
-Drop redundant parts "voltage regulator phandle" and say what supply is
-it. Do not describe DT syntax but hardware.
-
-> +
-> +  vdd-io-supply:
-> +    description: voltage regulator phandle for the vdd-io supply
-> +
-> +  cirrus,in_hiz_pin12:
-
-No underscores in node names.
-
-> +    description:
-> +      Sets input channels one and two to high impedence.
-
-Typo
-
-> +    type: boolean
-> +
-> +  cirrus,in_hiz_pin34:
-> +    description:
-> +      Sets input channels three and four to high impedence.
-> +    type: boolean
-> +
-> +  cirrus,in_hiz_pin56:
-> +    description:
-> +      Sets input channels five and six to high impedence.
-> +    type: boolean
-> +
-> +  cirrus,in_hiz_pin78:
-> +    description:
-> +      Sets input channels seven and eight to high impedence.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#sound-dai-cells"
-> +
-
-Missing ref to dai-common
-
-
-> +additionalProperties: false
-This should be unevaluatedProperties instead
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        cs5304: adc@48 {
-> +            #sound-dai-cells = <1>;
-> +            compatible = "cirrus,cs5304";
-> +            reg = <0x48>;
-
-compatible is *always* the first property. reg is the second.
-
-
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
