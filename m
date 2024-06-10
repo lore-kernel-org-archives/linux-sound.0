@@ -1,88 +1,133 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F441E4A0;
-	Mon, 10 Jun 2024 15:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202ED5B1F8;
+	Mon, 10 Jun 2024 16:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032297; cv=none; b=HH+GptyEkAb1JqcQVvwYq5EUiNe10ZN/Au+/KsSXbfSidZkOpeLdj78cCThD5CIdmHvLWX/0b3dULN9/2mAtO5YDOJvNKE9U1CupPPOYYqqLNOdBdMLnWo9IC1iECDPNp2jPB0ZYukma8YK2Tsw52qnKy7XjdzkLbgrcWHY0F7g=
+	t=1718036871; cv=none; b=CKNLz+wBE+UvL/6eO/1MlPmJf9NEdj5vsfpAYLs36WKuiGQnfyUCl3RPVEeFrIl/GcTpZiFU8acROEHKSU3KZ7dDkcy+2vRszsjqX1YeCjnjk5rTF/uUCcZP6Q1iVDbXHQGPJZbjvG1X8Y5d9xwg70/dKzKrWxUXHXkWcFOLctk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032297; c=relaxed/simple;
-	bh=2MRFIZHEDXMO59T2YYB546qg4m19ZfuyPNpaTj4oPmE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXZ2USSKWzzm9/+k2IkKLVgkzjUORQ3mgR6ZMy3Iw5oOmpfnNSoCSzpSy7/QK/m7wqpupZ0AfWZ99PQ/ywBOuWq0oOqnQvkIV403Xa51MrGPV9pMfAOlWAWCUUZnWcr5nGzDOSBo54LLeBT+Ginoh0r18xxZSGZaERwndTLf6o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Qgnpjarw; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1718036871; c=relaxed/simple;
+	bh=DcihTn0YHBSSJZt1LVKqAtveahkzXP8JX+xsNNIgiP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=axV4cEPR3qs/DUIqqwc8dvQejS2Dcev6s8+ISEqTOfuRMBsmP4AhGcYGOp2r9h4zN43wIiDEpW7dClK1jSYFBonGkG4KpoMUA1YGGu3vblCL0OEYhl1FyVIUojQcYXRaSeLiiNv/fDoF6UdQma4aWVZXmPrCQy76lQulOPqopjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuCYTibq; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Qgnpjarw"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AEOOUb020276;
-	Mon, 10 Jun 2024 10:11:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=Aeq3fpVnqki4diYYjp
-	/uVIFurTx413cN+qB6SABonpY=; b=QgnpjarwJEnP2pQylyOrlsymbCi58E5Vqc
-	uTZD90SX6ft/6q5NHGths6YwJlMcqJLvWl9MaGYaaOJtt2IW3cJTGpqfuCW5p/5M
-	gefX7/wV5ZX/OppUCR7IBlw6GzBy1fepy2ZTBF0pabfsuCeTgRZpO5FZ9GShKvIq
-	JJj1lLMxneOxYO4blvZ7FmRIWtyOH2UztlZCPik0EypX/DuULtY5NlEaX78n8OZ+
-	Hdti3LRZjdVCyD57J9risGdGNaH84VSvtcjGnxxMD2b8uPbg3eol0RUk9ppJdSva
-	PAupBNEyaDorIfa9FntPHa8JAWDJcUBnXtYPMKrvwIwJjAC2Q+oQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3ymmq09n4w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Jun 2024 10:11:27 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
- 2024 16:11:25 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 10 Jun 2024 16:11:25 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7EA9E820249;
-	Mon, 10 Jun 2024 15:11:25 +0000 (UTC)
-Date: Mon, 10 Jun 2024 15:11:24 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>
-CC: <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <lee@kernel.org>, <broonie@kernel.org>, <jeff@labundy.com>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v11 1/5] firmware: cs_dsp: Add write sequence interface
-Message-ID: <ZmcXnL3xQ0IyJ6TF@opensource.cirrus.com>
-References: <20240605135249.361082-1-jogletre@opensource.cirrus.com>
- <20240605135249.361082-2-jogletre@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuCYTibq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718036870; x=1749572870;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DcihTn0YHBSSJZt1LVKqAtveahkzXP8JX+xsNNIgiP4=;
+  b=CuCYTibqfd6y9Ps7B+D3DlJSG+yHBHBpIHsJHQQNozXOz6yhyxir0WHl
+   RCZKjF/IxChdO9FnVT1+u72ohE5xTr3tWBoW1yI7Is51rEHtKx33uKKgf
+   A7TPfKgQmHUMxq7K+iE7Fiynxwh+bEqg2SRQ4A6+HYZVkHa6xFXD8N/5T
+   MfjhxyZEVG4I3kGB46FYuWCsL5Lz1c3jN67WSepUQlPUjvH6jpaIQHiXG
+   BP+1M/WlID1zJng1WAn+2zHYTlBqUlC8aD+a27/ZJmogIDD1K1lMozFQv
+   i41jmf3WWC7XBdde0an/OIo1w/LZq07FoWOsDSSxjmEEKbwQgej+ZFMq6
+   g==;
+X-CSE-ConnectionGUID: xbp6YpewSiKOaaqWnKM8pQ==
+X-CSE-MsgGUID: TDscMbMwQauTqRtefNSI/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="14438616"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="14438616"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 09:27:49 -0700
+X-CSE-ConnectionGUID: UcpnBwF1TuObjJxVgwGOVQ==
+X-CSE-MsgGUID: vFfDV1u3TQiu5UCs/KNtcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="70282034"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jun 2024 09:27:47 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGhs0-0002Hh-3D;
+	Mon, 10 Jun 2024 16:27:45 +0000
+Date: Tue, 11 Jun 2024 00:26:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+Message-ID: <202406110056.TzGN9DUA-lkp@intel.com>
+References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240605135249.361082-2-jogletre@opensource.cirrus.com>
-X-Proofpoint-GUID: cpT-NqtVu1njgP8mEQQqgX7w6pof0QqB
-X-Proofpoint-ORIG-GUID: cpT-NqtVu1njgP8mEQQqgX7w6pof0QqB
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
 
-On Wed, Jun 05, 2024 at 01:52:45PM +0000, James Ogletree wrote:
-> A write sequence is a sequence of register addresses
-> and values executed by some Cirrus DSPs following
-> certain power state transitions.
-> 
-> Add support for Cirrus drivers to update or add to a
-> write sequence present in firmware.
-> 
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: James Ogletree <jogletre@opensource.cirrus.com>
-> ---
+Hi Neil,
 
-I would suggest we just apply this patch, it is unlikely to
-change from review comments on the rest of the series and could
-well be useful to other parts in the meantime. It would also
-mean less traffic each time this series is sent up.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Charles
+[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
+base:   c3f38fa61af77b49866b006939479069cd451173
+patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
+patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240611/202406110056.TzGN9DUA-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.6.dev1+g833054f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240611/202406110056.TzGN9DUA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406110056.TzGN9DUA-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+--
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
