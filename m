@@ -1,133 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A39B3C0C;
-	Mon, 10 Jun 2024 03:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF91311CA1
+	for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 07:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717988979; cv=none; b=V/tj1Nb0wQMFZgJOQZaWLmyck6y/3S4C8c2e+OMzdu47QvkMYzLh+C1pW2iL4b5gqUbEDqlWvT1TWjPR9nD/m3OZh99U3/Dwq84HsNv2feQzSeDx+XUAPs2a0GBf+ocFAUKZx9xXZ/i77+J6hhGzEfXQ7TzuAjxt1KdjvvDaOvA=
+	t=1718003123; cv=none; b=No65h896OF0rK7L4QgdtSmgo8nSp1I4CcaR8iTyjLVv+n9YxYCx4S+1brHIJsRSJzsKwR4YcZXLWV4LtRdGNWVaHFg2TfJ2KO47eHSRjif+9gez4SkrarvXEGc1nwC+XlrBQTyrOzFbE0j6wNYNAUCLIcDCZ6kRDlDP26r/ETw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717988979; c=relaxed/simple;
-	bh=Wj11lGYu3WhMhBwkounnR1AUHlkuhFRRPVG9yWN6Bms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cLmwx+sw5vd07brpNAuc35+cHtluXwXir3Tctqj3Ga5VexcxskUAXbjsz2x00yTONKZlvwKgBDxBa4D3xI9IS2E3+flGh4wQQbRpP0+n32AXEzjUqy8lar6E4mm0vQIGQzCz8nwGh6WLh6hMRrBw80tB3S9kFkQPoNllLASlRiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tso34vRF; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718003123; c=relaxed/simple;
+	bh=/AvsbsUJd/zTGNO42rFXKAiiuS8ZEWlCyClzMR+cMBU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AIk2JWlJCZmErfnWBH1Puvl9ok8ElBMQsPvUyTlMkYSwJFjGsR/cAESbLcaCbPysSvIpDatIaEzZVKXuXka6XqczyKoSlQ1+KpilRvaFqlUfnQTcF6QJFf4LV57P7PHQss0AWvOdaewXUZX5i1LiJuRq+gEffvjvVUWWafvzX80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CdRZ5nnK; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tso34vRF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717988977; x=1749524977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wj11lGYu3WhMhBwkounnR1AUHlkuhFRRPVG9yWN6Bms=;
-  b=Tso34vRFDCsjnG1D7j9dczPUYkwaB09cIzsHlvk0ZcFHD0qHrmiPxTtX
-   /+fr1kpVrq9rpRCyVSY3YF+WWYF9KJhniSl6Yq6O12lXuarld4rYg2xHW
-   z2UpE+tH6r0l7PXbXqo6pYAmHnXS+asEyDP1QrPqV1xYJeCXk6mN478AZ
-   ve4uNQXElc7lBmESrbqUMj4hV6JaUn48adSSx9379Oa9jUeLb5vXCUeAc
-   UOOIe48lFuI88vjXkT6EiqvydJcy+0luYntr2ASHMiN84af0KglqcLLc4
-   cph/KO/xUnpATeu45HcIr911OIDFwjtbuXd/0xMookwvwSVvRmoTnPlg8
-   w==;
-X-CSE-ConnectionGUID: A2GS6remTDCx8lvD0WT3zg==
-X-CSE-MsgGUID: L6I7MHU0Tyqn0RrqGzNh2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14813717"
-X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="14813717"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 20:09:36 -0700
-X-CSE-ConnectionGUID: DOrcTPmaQCSduc8ZxamjnQ==
-X-CSE-MsgGUID: uO0dE4BRQO204xwXNkATKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="38844834"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Jun 2024 20:09:34 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGVPY-0001nu-0F;
-	Mon, 10 Jun 2024 03:09:32 +0000
-Date: Mon, 10 Jun 2024 11:09:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-Message-ID: <202406101035.nanF90LS-lkp@intel.com>
-References: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CdRZ5nnK"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6f1da33826so72074066b.0
+        for <linux-sound@vger.kernel.org>; Mon, 10 Jun 2024 00:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718003120; x=1718607920; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cPZSLa5VJ9ZJ5ThCXQZcFW6Ti5Z+EHbBJU7SLERjk6Q=;
+        b=CdRZ5nnK12/P3OrRhY2mW8r9y79KJ8tDxDEsbc+1YCHKhg6Mpk/48GN5tnd1dXIBz3
+         f+7bw+eRHk6TCMGV3BY91p+720Bo/sQF9LXS+Prg4ejkS/34nIDygXbYywF5yqoIuptA
+         NmVbIa9yaCctoUQW8tllBDO27ljO0DLtADcfWxRzf7zRWfU1mTkEIukoMXMACzLKGt2W
+         zlqAM2HUeJETWMMJQGdSn2ah/RlsEoWz6dgPbqaoTOZyCBvV+Tx22dOMv+iDfMnO4Kr4
+         PeB5olWdW3SM8Z4QTgOlMZKdCbceeuiSmJ6EVrEByjfkYQ6mXGbcaKJOlZGpB79Jqr3Y
+         pohw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718003120; x=1718607920;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cPZSLa5VJ9ZJ5ThCXQZcFW6Ti5Z+EHbBJU7SLERjk6Q=;
+        b=qTu4cAKFI9GSOJu4w709b9s6M+I3C4k3vzbFuOO7jLmWJfW1XCy+R811CP1ZPQms5w
+         tEwpY0FXHe30KhpappD5EjVMPGMzpQquf6poLgU1QFQceTScXNBEBNbeGtVrVpkPpxE7
+         4+a72hXB6LudKNmojF7hc2/iW6yeg+ENwCar5IE4qokGLkEXcPBWDurApiw/Y5mnKvrW
+         9oSt3vHY00J33sFVkKD4Mj2lbMXNnZJwFVZvgk7l2waokyFfv7uCkmed7maesSkG5eU4
+         qEvKHGcl0xrCNVSsHSnsovzsbqdz6dVk7P32rzKGBiWmI4wtsSXuSjT9pHG0JNGVCaCF
+         uQrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVf2nKlnoH2qd8on+M4BH8dW5QIcq4rcWHc828iKZ5VbsBdkf3dC6lNleQNVC8Kr7j/m9UtyPxGgJzW/Io5dGzK5FBBQZM9EtGbdmQ=
+X-Gm-Message-State: AOJu0YwT0lKOMflUoa1bwcAUqZ+rCc+r26SLxj0+CsrT3axLNhWPRZWH
+	Znqt5EJAF6fpw87TSWxWgwTK+6UD1HINhLRz6/8xyguBAzOumOlRp5d1P8BQGTo=
+X-Google-Smtp-Source: AGHT+IEgv3JegFvQ+6vLGmNwNKNTfnIzW5enFDnscw96CRYsquxgRG1RrvcEtuTnAeCT9o3J9KN8iQ==
+X-Received: by 2002:a17:906:4ecd:b0:a6f:7cb:6e76 with SMTP id a640c23a62f3a-a6f07cb723emr358812166b.51.1718003120208;
+        Mon, 10 Jun 2024 00:05:20 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a6f2d4138ccsm7698766b.220.2024.06.10.00.05.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jun 2024 00:05:19 -0700 (PDT)
+Message-ID: <ba911ebd-aef5-46af-ace1-84d13bee6876@linaro.org>
+Date: Mon, 10 Jun 2024 08:05:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND v5 6/7] ASoC: codecs: wcd937x: add capture dapm widgets
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com,
+ quic_pkumpatl@quicinc.com, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20240527111956.444425-1-quic_mohs@quicinc.com>
+ <20240527111956.444425-7-quic_mohs@quicinc.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20240527111956.444425-7-quic_mohs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Neil,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on c3f38fa61af77b49866b006939479069cd451173]
+On 27/05/2024 12:19, Mohammad Rafi Shaik wrote:
+> +static int __wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
+> +					  int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +	int micb_num;
+> +
+> +	if (strnstr(w->name, "MIC BIAS1", sizeof("MIC BIAS1")))
+> +		micb_num = MIC_BIAS_1;
+> +	else if (strnstr(w->name, "MIC BIAS2", sizeof("MIC BIAS2")))
+> +		micb_num = MIC_BIAS_2;
+> +	else if (strnstr(w->name, "MIC BIAS3", sizeof("MIC BIAS3")))
+> +		micb_num = MIC_BIAS_3;
+> +	else
+> +		return -EINVAL;
+> +
+See last comment..
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-convert-tas571x-txt-to-dt-schema/20240607-175726
-base:   c3f38fa61af77b49866b006939479069cd451173
-patch link:    https://lore.kernel.org/r/20240607-topic-amlogic-upstream-bindings-convert-tas57xx-v1-1-ebf1e4919bb1%40linaro.org
-patch subject: [PATCH] ASoC: dt-bindings: convert tas571x.txt to dt-schema
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20240610/202406101035.nanF90LS-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-dtschema version: 2024.6.dev1+g833054f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240610/202406101035.nanF90LS-lkp@intel.com/reproduce)
+> +	switch (event) {
+> +	case SND_SOC_DAPM_PRE_PMU:
+> +		wcd937x_micbias_control(component, micb_num,
+> +					MICB_ENABLE, true);
+> +		break;
+> +	case SND_SOC_DAPM_POST_PMU:
+> +		usleep_range(1000, 1100);
+> +		break;
+> +	case SND_SOC_DAPM_POST_PMD:
+> +		wcd937x_micbias_control(component, micb_num,
+> +					MICB_DISABLE, true);
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int wcd937x_codec_enable_micbias(struct snd_soc_dapm_widget *w,
+> +					struct snd_kcontrol *kcontrol,
+> +					int event)
+> +{
+> +	return __wcd937x_codec_enable_micbias(w, event);
+> +}
+> +
+> +static int __wcd937x_codec_enable_micbias_pullup(struct snd_soc_dapm_widget *w,
+> +						 int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +	int micb_num;
+> +
+> +	if (strnstr(w->name, "VA MIC BIAS1", sizeof("VA MIC BIAS1")))
+> +		micb_num = MIC_BIAS_1;
+> +	else if (strnstr(w->name, "VA MIC BIAS2", sizeof("VA MIC BIAS2")))
+> +		micb_num = MIC_BIAS_2;
+> +	else if (strnstr(w->name, "VA MIC BIAS3", sizeof("VA MIC BIAS3")))
+> +		micb_num = MIC_BIAS_3;
+> +	else
+> +		return -EINVAL;
+> +
+same..
+> +	switch (event) {
+> +	case SND_SOC_DAPM_PRE_PMU:
+> +		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_ENABLE, true);
+> +		break;
+> +	case SND_SOC_DAPM_POST_PMU:
+> +		usleep_range(1000, 1100);
+> +		break;
+> +	case SND_SOC_DAPM_POST_PMD:
+> +		wcd937x_micbias_control(component, micb_num, MICB_PULLUP_DISABLE, true);
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406101035.nanF90LS-lkp@intel.com/
+...
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:263.22-266.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:268.22-273.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:275.24-278.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:280.22-283.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:285.22-288.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:290.29-293.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:305.11-309.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11.dtsi:311.11-315.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: audio-codec@1d: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld11-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
---
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:396.22-399.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:401.22-406.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:408.24-411.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:413.22-416.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:418.22-421.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@7: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:423.29-426.6: Warning (unit_address_vs_reg): /soc@0/audio@56000000/port@8: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:438.11-442.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20.dtsi:444.11-448.6: Warning (unit_address_vs_reg): /soc@0/codec@57900000/port@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:71.10-75.5: Warning (unit_address_vs_reg): /spdif-out/port@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dts:82.10-86.5: Warning (unit_address_vs_reg): /comp-spdif-out/port@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: audio-codec@1b: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/ti,tas57xx.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/smpctrl@59801000: failed to match any schema with compatible: ['socionext,uniphier-smpctrl']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: /soc@0/usb@65a00000: failed to match any schema with compatible: ['socionext,uniphier-dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
-   arch/arm64/boot/dts/socionext/uniphier-ld20-global.dtb: comp-spdif-out: 'port@0' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/linux,spdif-dit.yaml#
+>   static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
+...> +	/* MIC_BIAS widgets */
+> +	SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, 0, 0,
+Please use shift here like
+         SND_SOC_DAPM_SUPPLY("MIC BIAS1", SND_SOC_NOPM, MIC_BIAS_1, 0,
+         SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, MIC_BIAS_2, 0,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+to avoid doing a string compares on wideget name.
+
+--srini
+
+> +			    wcd937x_codec_enable_micbias,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
+> +	SND_SOC_DAPM_SUPPLY("MIC BIAS2", SND_SOC_NOPM, 0, 0,
+> +			    wcd937x_codec_enable_micbias,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
+> +	SND_SOC_DAPM_SUPPLY("MIC BIAS3", SND_SOC_NOPM, 0, 0,
+> +			    wcd937x_codec_enable_micbias,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
+> +
+>   	SND_SOC_DAPM_SUPPLY("VDD_BUCK", SND_SOC_NOPM, 0, 0,
+>   			    wcd937x_codec_enable_vdd_buck,
+>   			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
+> @@ -2007,11 +2312,101 @@ static const struct snd_soc_dapm_widget wcd937x_dapm_widgets[] = {
+>   	SND_SOC_DAPM_MIXER("HPHR_RDAC", SND_SOC_NOPM, 0, 0,
+>   			   hphr_rdac_switch, ARRAY_SIZE(hphr_rdac_switch)),
+>   
+> +	/* TX output widgets */
+> +	SND_SOC_DAPM_OUTPUT("ADC1_OUTPUT"),
+> +	SND_SOC_DAPM_OUTPUT("ADC2_OUTPUT"),
+> +	SND_SOC_DAPM_OUTPUT("ADC3_OUTPUT"),
+> +	SND_SOC_DAPM_OUTPUT("WCD_TX_OUTPUT"),
+> +
+>   	/* RX output widgets */
+>   	SND_SOC_DAPM_OUTPUT("EAR"),
+>   	SND_SOC_DAPM_OUTPUT("AUX"),
+>   	SND_SOC_DAPM_OUTPUT("HPHL"),
+>   	SND_SOC_DAPM_OUTPUT("HPHR"),
+> +
+> +	/* MIC_BIAS pull up widgets */
+> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS1", SND_SOC_NOPM, 0, 0,
+> +			    wcd937x_codec_enable_micbias_pullup,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
+> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS2", SND_SOC_NOPM, 0, 0,
+> +			    wcd937x_codec_enable_micbias_pullup,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
+> +	SND_SOC_DAPM_SUPPLY("VA MIC BIAS3", SND_SOC_NOPM, 0, 0,
+> +			    wcd937x_codec_enable_micbias_pullup,
+> +			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +			    SND_SOC_DAPM_POST_PMD),
